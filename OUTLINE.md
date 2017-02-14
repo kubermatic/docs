@@ -4,6 +4,7 @@ Create and overview and architecture docu for users:
 Let's start with the following topics:
 
 * What is Kubermatic
+  * Differenciate between SaaS and Hosted
 * Architecture
 * Features
 * Usage
@@ -29,7 +30,10 @@ Coverage{
 
 }
 
-Kubermatic provides Kubernetes for your datacenter - so you don't have to worry about it.
+Kubermatic is a Service which provides Kubernetes for your infrastructure - so you don't have to worry about it. If you are interested to host Kubermatic in your own datacenter you can contact our Sales.
+
+In the following description we are mainly focusing on Kubermatic as a Service, which is publicly availabiliable under https://beta.kubermatic.io.
+
 We setup your cluster and configure your infrastructure so that you can focus on developing your product.
 Kubermatic can connect to different cloud providers such as Amazon Web Services, DigitalOcean, Google Cloud or you can host nodes on your on machines.
 
@@ -54,7 +58,7 @@ Our infrastructure consists of 3 main components, which provide maximal availabi
 Our own main cluster runs all user facing services, such as the API, or the Dashboard. All components run using Kubernetes which makes them fault tolerant and scaleable to support even high load scenarios.
 
 #### Seed Cluster
-The Seed cluster runs in a local datacenter such as an Amazon Web Services Region to provide low latency and a more reliable internet connection.
+The Seed cluster runs in a Google Cloud datacenter to provide low latency and a reliable internet connection.
 It's purpose is to deploy the final customer clusters.
 The Seed cluster itself is also managed by Kubernetes which allows it to take advantage of all its benefits.
 The master cluster communicates with a selected Seed cluster to deploy a customer cluster.
@@ -71,7 +75,6 @@ Coverage{
 * Manage nodes
   * Manage Network
   * Init cloud provider
-* Install Addons, comming soon
 
 }
 
@@ -80,15 +83,67 @@ Coverage{
 Modernize your cloud deployment workflow by using all the advanced features that Kubernetes has to offer.
 
 #### Update Kubernetes
-We provide live updates of your Kubernetes cluster without disrupting your daily buissnes.
+We provide live updates of your Kubernetes cluster without disrupting your daily business.
 Use all the new features of Kubernetes as you grow scale.
 
 #### Scale your cluster
-By analyzing your usage we can make sure that the cluster scales to support your current requirements.
+You can add and remove nodes in our easy to use Dashboard. Just specify the amount of nodes your kubernetes cluster should have and kubermatic scales the cluster up or down to your needs.
+
+
+# Feature Majority
+Coverage {
+  * Alpha
+  * Beta
+  * Public
+  * Depreciated
+
+}
+
+#### Alpha
+Alpha is an early stage product for which we cant offer any SLA's or API stability. However the workflow of the product is defined but still it is missing features.
+It is only available to a small group of customers.
+
+#### Beta
+Beta is open to every customer. We provide an API with minor changes in a few cases. All features should be ready to use. This release is mainly used to profile real world usage and performance as well as spotting the last bugs.
+
+#### Public
+This release is stable, feature complete and provides a SLA. It is publicly available and meant to be used in production.
+
+#### Deprecated
+Those products/features will be removed in a specified time. There is also to further support.
+
+
+# Roadmap
+Coverage {
+  * More Node Providers
+    * Google Cloud
+    * Need more for the roadmap
+  * Local Seeds
+  * Automatic Scaling
+  * Addons
+
+}
+
+We are constantly improving out product to bring the best to our customers, such as...
+
+#### Locality
+To provide better connectivity we would like to host our Seed clusters in a local
+datacenter such as AWS when the customer is having their nodes on AWS.
+
+#### More Provider Support
+We are constantly adding new supported cloud integrations into our product so you can
+host your kubernetes cluster on a wider range of platforms.
+Our next upcoming providers are:
+  * Google Cloud
+
+#### Automatic Scaling
+To react on fast growing loads can sometimes be a very difficult task, thats why we will offer automatic scaling of your kubernetes cluster.
+By analyzing and predicting your workload we can scale your cluster on demand so customers never have to wait for you and vice versa.
 
 #### Install addons
-With the click of a button youch can launch any application we provide to enhance your development expirience.
+With Heapster pre installed we provide an easy endpoint for installing addons into your kubernetes cluster.
 The provided addons are managed and monitored by our services so you can drink a coffee ☕️😇 and focus on your actual work.
+
 
 
 # Usage
