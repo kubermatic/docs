@@ -32,7 +32,7 @@ Coverage{
 
 Kubermatic is a Service which provides Kubernetes for your infrastructure - so you don't have to worry about it. If you are interested to host Kubermatic in your own datacenter you can contact our Sales.
 
-In the following description we are mainly focusing on Kubermatic as a Service, which is publicly availabiliable under https://beta.kubermatic.io.
+In the following description we are mainly focusing on Kubermatic as a Service, which is publicly available under https://beta.kubermatic.io.
 
 We setup your cluster and configure your infrastructure so that you can focus on developing your product.
 Kubermatic can connect to different cloud providers such as Amazon Web Services, DigitalOcean, Google Cloud or you can host nodes on your on machines.
