@@ -19,23 +19,15 @@ https://docs.docker.com/datacenter/ucp/2.0/guides/
 
 -------------
 
-# What is Kubermatic
-Coverage{
+# About Kubermatic
+Kubermatic is a Cluster-as-a-Service that provides managed Kubernetes for your infrastructure. 
 
-* Kubernetes as a service
-* No Setup
-* No Updating
-* We provide scaling
-* On every platform, gcloud, aws,do, own hardware
+With Kubermatic, you can set up Kubernetes clusters deployed at the click of button. 
+While Kubermatic makes sure that your cluster is available and up-to-date at all times, you can focus on developing your services. 
 
-}
+Kubermatic is directly integrated with leading cloud providers DigitalOcean and Amazon Web Services, as well as any provider offering Ubuntu 16.04 or greater, even in your own datacenter. 
 
-Kubermatic is a Service which provides Kubernetes for your infrastructure - so you don't have to worry about it. If you are interested to host Kubermatic in your own datacenter you can contact our Sales.
-
-In the following description we are mainly focusing on Kubermatic as a Service, which is publicly available under https://beta.kubermatic.io.
-
-We setup your cluster and configure your infrastructure so that you can focus on developing your product.
-Kubermatic can connect to different cloud providers such as Amazon Web Services, DigitalOcean, Google Cloud or you can host nodes on your on machines.
+The following description mainly refers to the beta release of Kubermatic, which is publicly available under https://beta.kubermatic.io.
 
 # Architecture
 Coverage{
@@ -53,17 +45,19 @@ Coverage{
 
 }
 
-Our infrastructure consists of 3 main components, which provide maximal availability, without compromising on flexibility.
-#### Main Cluster
-Our own main cluster runs all user facing services, such as the API, or the Dashboard. All components run using Kubernetes which makes them fault tolerant and scaleable to support even high load scenarios.
+Kubermatic's infrastructure consists of three main components that provide maximum availability without compromising on flexibility.
 
-#### Seed Cluster
-The Seed cluster runs in a Google Cloud datacenter to provide low latency and a reliable internet connection.
+#### Master cluster
+The master cluster runs all user facing services such as the API or the dashboard. 
+All components run using Kubernetes to make them fault-tolerant and scalable to support even high load scenarios.
+
+#### Seed cluster
+The seed cluster runs in a Google Cloud datacenter to provide low latency and a highly reliable internet connection. 
 It's purpose is to deploy the final customer clusters.
-The Seed cluster itself is also managed by Kubernetes which allows it to take advantage of all its benefits.
-The master cluster communicates with a selected Seed cluster to deploy a customer cluster.
+The seed cluster itself is likewise managed by Kubernetes.
+The master cluster communicates with a selected seed cluster to deploy a customer cluster.
 
-### Customer cluster.
+### Customer cluster
 The customer cluster provides all needed components to run a Kubernetes cluster such as etcd and the Kubernetes master.
 The services will be proxied to the nodes of the customer which are located in their datacenter.
 
@@ -80,14 +74,16 @@ Coverage{
 
 # With Kubermatic you can:
 #### Use Kubernetes
-Modernize your cloud deployment workflow by using all the advanced features that Kubernetes has to offer.
+By providing managed Kubernetes clusters for your infrastructure, Kubermatic makes Kubernetes as easy as it can be.
+Kubermatic empowers you to take advantage of all the advanced features that Kubernetes hast to offer and increases the speed, flexibility and scalability of your cloud deployment workflow. 
 
 #### Update Kubernetes
-We provide live updates of your Kubernetes cluster without disrupting your daily business.
-Use all the new features of Kubernetes as you grow scale.
+Kubermatic provides live updates of your Kubernetes cluster without disrupting your daily business.
+Use all new features of Kubernetes as you increase scale.
 
 #### Scale your cluster
-You can add and remove nodes in our easy to use Dashboard. Just specify the amount of nodes your kubernetes cluster should have and kubermatic scales the cluster up or down to your needs.
+You can add and remove nodes in our easy to use dashboard. 
+Just specify the amount of nodes in your Kubernetes cluster, and Kubermatic scales the cluster up or down to your needs.
 
 
 # Feature Majority
@@ -124,27 +120,14 @@ Coverage {
 
 }
 
-We are constantly improving out product to bring the best to our customers, such as...
+We are constantly developing Kubermatic to provide the best service to our customers. Some of the upcoming Kubermatic features are:
 
-#### Locality
-To provide better connectivity we would like to host our Seed clusters in a local
-datacenter such as AWS when the customer is having their nodes on AWS.
+#### More cloud providers
+We are constantly adding new cloud providers to offer customers a wide range of platforms to chose from.  
 
-#### More Provider Support
-We are constantly adding new supported cloud integrations into our product so you can
-host your kubernetes cluster on a wider range of platforms.
-Our next upcoming providers are:
-  * Google Cloud
-
-#### Automatic Scaling
-To react on fast growing loads can sometimes be a very difficult task, thats why we will offer automatic scaling of your kubernetes cluster.
-By analyzing and predicting your workload we can scale your cluster on demand so customers never have to wait for you and vice versa.
-
-#### Install addons
-With Heapster pre installed we provide an easy endpoint for installing addons into your kubernetes cluster.
-The provided addons are managed and monitored by our services so you can drink a coffee ☕️😇 and focus on your actual work.
-
-
+#### Automated Scaling
+Reacting on fast growing loads can be a difficult task. Therefore,  we will offer automated scaling of your Kubernetes cluster.
+By analyzing and predicting your workload, we scale your cluster on demand to ensure customers never have to wait for you and vice versa.
 
 # Usage
 Coverage{
@@ -153,49 +136,38 @@ Coverage{
 
 }
 ### Login:
-Navigate to the Dashboard on `https://beta.kubermatic.io`.
-And login usign your Github or Google profile.
+Navigate to the dashboard on `https://beta.kubermatic.io`and login using your Github or Google profile.
 ![](usage/login.png "")
 
 Click on the `Create Kubernets Cluster` button.
 ![](usage/startpage.png "")
 
 Type in a name for the cluster.
-In this example we use `my-cluster`.
-
-You also have to select the locality of the Seed Cluster.
-
-When you are ready click `Create Kubernets Cluster`
-This will create the Kubernetes master components for you.
+Select the locality of the seed cluster and click `Create Kubernets Cluster`.
+This will create the Kubernetes master components.
 ![](usage/create_cluster.png "")
 
-This is view of your cluster.
-Here you can monitor the running components.
-At the moment all of our components aren't started so they are blue.
+Your cluster is displayed as following:
 ![](usage/wait_cluster.png "")
+You can see that the components are not running yet, because the status icons are marked in blue. 
 
-Wait up to a few minutes until your cluster is ready.
-You see when your cluster is redy after all Components are merked green.
+After a few minutes, the status icons swich to green and your cluster is ready to go.
 ![](usage/cluster_ready.png "")
 
-Now Click `Select a cloud provider`.
-Here you can select where the actual nodes should be run.
-We will choose a DigitalOcean datacenter in Amsterdam to demonstrate the independence of the Seed cluster and the customers nodes.
+Click `Select a cloud provider`to determine where the actual nodes should run.
+In this example, we choose a DigitalOcean datacenter in Amsterdam to demonstrate the independence of the seed cluster and the customer's nodes.
 ![](usage/select_provider_1.png "")
 
-We have to provide a DigitalOcean ocean token with `Read` and `Write` access for Kubermatic to create nodes.
-We also selcet SSH keys saved in the DigitalOcean account to access them later over SSH.
+You now have to provide a DigitalOcean token with `Read` and `Write` access and select SSH keys saved in the DigitalOcean account to access them later over SSH.
 ![](usage/select_provider_2.png "")
 
-Now we can selct the amout and size of nodes to add to the cluster.
+Select the number and size of nodes to add to the cluster.
 ![](usage/create_nodes.png "")
 
-Now we have to wait a few minutes for the nodes to become ready.
-This will be indicated by showing the nodes as `Node Ready` in the dashboard.
+The dashboard will indicate `Node Ready` as soon as they are. This can take a few minutes.
 ![](usage/wait_node.png "")
 
-We can now download the kubeconfig by clicking `download kubeconfig`
-We now use the downloaded kubeconfig to connect over kubectl to our new deployed Kubernetes server.
+Download the kubeconfig by clicking `download kubeconfig` to connect to your newly deployed Kubernetes server via kubectl.
 ![](usage/terminal_nodes_list.png "")
 
 Happy Hacking!
