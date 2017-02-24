@@ -64,7 +64,7 @@ Your cluster is displayed as following:
 ![](usage/wait_cluster.png "")
 You can see that the components are not running yet, because the status icons are still marked in blue. 
 
-After a few minutes, the status icons swich to green and your cluster is ready to go.
+After a few minutes, the status icons switch to green and your cluster is ready to go.
 ![](usage/cluster_ready.png "")
 
 Click `Select a cloud provider`to determine where the actual nodes should run.
