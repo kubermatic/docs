@@ -57,7 +57,7 @@ It's purpose is to deploy the final customer clusters.
 The seed cluster itself is likewise managed by Kubernetes.
 The master cluster communicates with a selected seed cluster to deploy a customer cluster.
 
-### Customer cluster
+#### Customer cluster
 The customer cluster provides all needed components to run a Kubernetes cluster such as etcd and the Kubernetes master.
 The services will be proxied to the nodes of the customer which are located in their datacenter.
 
