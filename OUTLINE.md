@@ -52,11 +52,11 @@ By analyzing and predicting your workload, we scale your cluster on demand to en
 Navigate to the dashboard on `https://beta.kubermatic.io`and login using your Github or Google profile.
 ![](usage/login.png "")
 
-Click on the `Create Kubernets Cluster` button.
+Click on the `Create Kubernetes Cluster` button.
 ![](usage/startpage.png "")
 
 Type in a name for the cluster.
-Select the locality of the seed cluster and click `Create Kubernets Cluster`.
+Select the locality of the seed cluster and click `Create Kubernetes Cluster`.
 This will create the Kubernetes master components.
 ![](usage/create_cluster.png "")
 
