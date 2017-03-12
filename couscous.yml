@@ -32,7 +32,7 @@ menu:
             relativeUrl: architecture.html
         features:
             text: Features
-            relativeUrl: Features.html
+            relativeUrl: features.html
         roadmap:
             text: Roadmap
             relativeUrl: roadmap.html
