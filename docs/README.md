@@ -30,14 +30,14 @@ Kubermatic is directly integrated with leading cloud providers such as DigitalOc
 - [Architecture](architecture.md)
 
 ### Roadmap
-We are constantly developing Kubermatic to provide the best service to our customers. Some of the upcoming Kubermatic features are:
+We are constantly developing Kubermatic to provide the best service to you. Some of the upcoming Kubermatic features are:
 
 - #### Additional cloud providers
-  We are constantly adding new cloud providers to offer customers a wide range of platforms to chose from.  
+  We are constantly adding new cloud providers to offer you a wide range of platforms to chose from.  
 
 - #### Automated Scaling
   Reacting on dynamic loads can be a difficult task.  With Kubermatic you will soon have the option of automated scaling of your Kubernetes cluster.
-  By constantly monitoring, analyzing and predicting your workload, we scale your cluster on-demand to ensure you have the resources available for customers, and ensure that you are are only paying for what you need.
+  By constantly monitoring, analyzing and predicting your workload, we scale your cluster on-demand to ensure you have the resources available for your users, and ensure that you are are only paying for what you need.
 
 A more detailed roadmap can be found on [Trello](https://trello.com/b/8X7u8SXg/kubermatic-roadmap).
 
