@@ -1,4 +1,6 @@
-[![Kubermatic Container Engine](images/kubermatic.png "Kubermatic Container Engine")](https://cloud.kubermatic.io)  
+[![Kubermatic Container Engine](images/kubermatic.png "Kubermatic Container Engine")][1]  
+
+#### Try Kubermatic using our demo system at [cloud.kubermatic.io][1]
 
 [<img src="https://raw.githubusercontent.com/cncf/artwork/master/kubernetes/certified-kubernetes/versionless/color/certified_kubernetes_color.png" alt="CNCF Certified Kubernetes" height=80px/>](https://www.cncf.io/certification/software-conformance/)
 ## What is Kubermatic?
@@ -7,12 +9,12 @@ Kubermatic is a  Cluster-as-a-Service that provides managed [ certified complian
 With Kubermatic, you can deploy managed Kubernetes clusters at the click of button.
 Kubermatic ensures that your cluster is highly-available and up-to-date at all times, ensuring that you can focus on developing your services.
 
-Kubermatic directly hosts and manages the control plane of your Kubernetes cluster within a Kubermatic-hosted Kubernetes cluster.
+Kubermatic directly hosts and manages the control plane of your cluster within a Kubernetes cluster, leveraging the same advantages as running your applications within Kubernetes. To learn more, see our [Architecture Documentation](architecture.md)
 
-Kubermatic is directly integrated with leading cloud providers such as DigitalOcean and Amazon Web Services. You can also deploy worker nodes in your own datacenter.
+Kubermatic directly integrates with infrastructure providers, including Amazon Web Services and DigitalOcean and Openstack, supporting deployments to cloud and on-premise infrastructure.
 
 ### Features
-- #### Use Confomant Kubernetes
+- #### Use Conformant Kubernetes
   By providing managed Kubernetes clusters for your infrastructure, Kubermatic makes getting started with Kubernetes as easy as it can be.
   Kubermatic empowers you to take advantage of all the advanced features that Kubernetes has to offer and increases the speed, flexibility and scalability of your cloud deployment workflow.
 
@@ -42,4 +44,6 @@ We are constantly developing Kubermatic to provide the best service to you. Some
 A more detailed roadmap can be found on [Trello](https://trello.com/b/8X7u8SXg/kubermatic-roadmap).
 
 
-Note: _This description primarily refers to the cloud based service of Kubermatic, which is publicly available under https://cloud.kubermatic.io._
+Note: _This description primarily refers to the cloud based demo service of Kubermatic, which is publicly available at https://cloud.kubermatic.io._
+
+[1]: https://cloud.kubermatic.io
