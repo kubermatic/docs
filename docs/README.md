@@ -12,17 +12,17 @@ Kubermatic directly hosts and manages the control plane of your Kubernetes clust
 Kubermatic is directly integrated with leading cloud providers such as DigitalOcean and Amazon Web Services. You can also deploy worker nodes in your own datacenter.
 
 ### Features
-#### Use Kubernetes
-By providing managed Kubernetes clusters for your infrastructure, Kubermatic makes getting started with Kubernetes as easy as it can be.
-Kubermatic empowers you to take advantage of all the advanced features that Kubernetes has to offer and increases the speed, flexibility and scalability of your cloud deployment workflow.
+- #### Use Confomant Kubernetes
+  By providing managed Kubernetes clusters for your infrastructure, Kubermatic makes getting started with Kubernetes as easy as it can be.
+  Kubermatic empowers you to take advantage of all the advanced features that Kubernetes has to offer and increases the speed, flexibility and scalability of your cloud deployment workflow.
 
-#### Update Kubernetes
-Kubermatic provides live updates of your Kubernetes cluster without disrupting your daily business.
-Use all new features of Kubernetes as you increase scale without having to manually upgrade.
+- #### Update Kubernetes
+  Kubermatic provides live updates of your Kubernetes cluster without disrupting your daily business.
+  Use all new features of Kubernetes as you increase scale without having to manually upgrade.
 
-#### Scale your cluster
-You can eaisly add and remove worker nodes in our dashboard.
-Just specify the number of worker nodes you want your Kubernetes cluster, and Kubermatic scales the cluster up or down to your needs.
+- #### Scale your cluster
+  You can eaisly add and remove worker nodes in our dashboard.
+  Simply specify the number of worker nodes you want your Kubernetes cluster, and Kubermatic scales the cluster up or down to your needs.
 
 ### How does Kubermatic work?
 
