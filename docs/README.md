@@ -1,6 +1,6 @@
 [![Kubermatic Container Engine](images/kubermatic.png "Kubermatic Container Engine")](https://cloud.kubermatic.io)  
 
-[<img src="https://raw.githubusercontent.com/cncf/artwork/master/kubernetes/certified-kubernetes/versionless/color/certified_kubernetes_color.png" alt="CNCF Certified Kubernetes" style="height: 80px;"/>](https://www.cncf.io/certification/software-conformance/)
+[<img src="https://raw.githubusercontent.com/cncf/artwork/master/kubernetes/certified-kubernetes/versionless/color/certified_kubernetes_color.png" alt="CNCF Certified Kubernetes" height=80px/>](https://www.cncf.io/certification/software-conformance/)
 ## What is Kubermatic?
 Kubermatic is a  Cluster-as-a-Service that provides managed [ certified compliant](https://www.cncf.io/certification/software-conformance/) Kubernetes for your infrastructure.
 
