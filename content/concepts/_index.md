@@ -1,5 +1,5 @@
 +++
-title = "Getting Started"
+title = "Concepts"
 date = 2018-04-28T12:07:15+02:00
 weight = 10
 chapter = true
@@ -8,8 +8,8 @@ LastModifierDisplayName = "Christian Bargmann"
 LastModifierEmail = "christian@loodse.com"
 +++
 
-### Chapter 1
+### Chapter 2
 
-# Some Chapter title
+# Concepts
 
 Lorem Ipsum. asd
