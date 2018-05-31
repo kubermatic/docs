@@ -1,3 +1,11 @@
++++
+title = "Offline"
+date = 2018-05-31T12:07:15+02:00
+weight = 15
+chapter = true
+pre = "<b>3. </b>"
++++
+
 # Kubermatic offline mode
 
 ## Download all required images
