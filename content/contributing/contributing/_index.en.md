@@ -1,5 +1,5 @@
 +++
-title = "Contributing"
+title = "Contribute to the Docs"
 date = 2018-04-28T12:07:15+02:00
 weight = 15
 pre = "<b></b>"
@@ -25,7 +25,7 @@ hugo server -b localhost:1313 -w
 ```
 
 ## Repository organization
-The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, three folders at repository root level should be mentioned:
+The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository root level should be mentioned:
 
 ### /content
 `content`: All content for [kubermatic/docs](https://github.com/kubermatic/docs) will live inside this directory. Each top-level folder in Hugo is considered a `content section`.
@@ -79,7 +79,7 @@ weight = 5                           // Menu sorting
 Some content...
 ```
 
-To generate the static website files simpyl run the `hugo` command on the root directory. All files will be generated into the `/public` folder. For local development generate and serve the documentation at `localhost:1313`:
+To generate the static website files simply run the `hugo` command on the root directory. All files will be generated into the `/public` folder. For local development generate and serve the documentation at `localhost:1313`:
 
 ```
 hugo server -b localhost:1313 -w

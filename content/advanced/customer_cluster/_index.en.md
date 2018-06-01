@@ -1,12 +1,11 @@
 +++
-title = "Offline"
-date = 2018-05-31T12:07:15+02:00
-weight = 15
-chapter = true
-pre = "<b>3. </b>"
+title = "Kubermatic Offline Mode"
+date = 2018-04-28T12:07:15+02:00
+weight = 5
+pre = "<b></b>"
 +++
 
-# Kubermatic offline mode
+### Kubermatic offline mode
 
 ## Download all required images
 
