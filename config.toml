@@ -46,9 +46,9 @@ title = "Kubermatic Docs"
   languageName = "German"
 
 [[menu.shortcuts]]
-  name = "<i class='fa fa-github'></i> Github repo"
+  name = "<i class='fa fa-github'></i> Github"
   identifier = "ds"
-  url = "https://github.com/matcornic/hugo-theme-learn"
+  url = "https://github.com/kubermatic/docs"
   weight = 10
 
 [[menu.shortcuts]]
