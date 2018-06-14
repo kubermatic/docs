@@ -41,11 +41,9 @@ $ export KUBECONFIG=$PWD/<your-config-file>
 
 You are now able to proxy into your cluster and run your favorite `kubectl` commands!
 
-```
-╭─docs@loodse ~                                    
-╰─$ export KUBECONFIG=$(pwd)/<your-config-file>              
-╭─docs@loodse ~                                    
-╰─$ kubectl get nodes                               
+```                                 
+$ export KUBECONFIG=$(pwd)/<your-config-file>                                                
+$ kubectl get nodes                               
 NAME                          STATUS    ROLES     AGE       VERSION                                      
 kubermatic-4js24fv79x-4cqsc   Ready     <none>    1h        v1.10.3                                      
 kubermatic-4js24fv79x-r2b9r   Ready     <none>    1h        v1.10.3                                      
