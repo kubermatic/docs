@@ -6,3 +6,5 @@ pre = "<b></b>"
 +++
 
 ## Master Cluster
+
+The **Master Cluster** a Kubernetes cluster which is responsible for storing the information about clusters and SSH keys. It hosts the Kubermatic components and might also act as a seed cluster.

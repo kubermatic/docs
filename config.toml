@@ -24,7 +24,7 @@ title = "Kubermatic Docs"
   # A title for shortcuts in menu is set by default. Set this to true to disable it.
   disableShortcutsTitle = false
   # When using mulitlingual website, disable the switch language button.
-  disableLanguageSwitchingButton = false
+  disableLanguageSwitchingButton = true
   # Order sections in menu by "weight" or "title". Default to "weight"
   ordersectionsby = "weight"
   # Change default color scheme with a variant one. Can be "red", "blue", "green".
@@ -52,6 +52,16 @@ title = "Kubermatic Docs"
   weight = 10
 
 [[menu.shortcuts]]
+  name = "<i class='fa fa-bookmark'></i> Kubermatic.io"
+  url = "https://kubermatic.io"
+  weight = 15
+
+[[menu.shortcuts]]
   name = "<i class='fa fa-bullhorn'></i> Loodse.com"
-  url = "/credits"
+  url = "https://loodse.com"
   weight = 30
+
+[[menu.shortcuts]]
+  name = "<i class='fa fa-camera'></i> Imprint"
+  url = "https://www.loodse.com/imprint"
+  weight = 35
