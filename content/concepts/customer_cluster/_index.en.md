@@ -6,3 +6,5 @@ pre = "<b></b>"
 +++
 
 ## Customer Cluster
+
+The **Customer Cluster** is a Kubernetes cluster created and managed by Kubermatic
