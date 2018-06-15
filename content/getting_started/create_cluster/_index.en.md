@@ -33,7 +33,7 @@ This is the datacenter of your cloud provider. Your worker nodes will get deploy
 
 #### Step 4 - Enter your provider credentials and configure your worker nodes
 
-Enter your provider specific credentials, so that Kubermatic can configure your worker maschines and integrate them into your cluster.
+Enter your provider specific credentials, so that Kubermatic can configure your worker machines and integrate them into your cluster.
 
 {{% notice tip %}}
 This step varies depending on the selected provider! You will be asked for different provider credentials when choosing AWS or Google for example
@@ -41,7 +41,7 @@ This step varies depending on the selected provider! You will be asked for diffe
 
 ![](/img/getting_started/create_cluster/kubermatic_04.png)
 
-#### Step 5 - Review your configuration settings and confirm
+#### Step 5 - Review your configuration settings and confirm cluster creation
 
 Check wether all your configuration settings are correct and create your cluster!
 
