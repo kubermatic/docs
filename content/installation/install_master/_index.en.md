@@ -164,22 +164,61 @@ As a reference you can check out [values.yaml](values.yaml).
 ### Storage
 A storageclass with the name `kubermatic-fast` needs to exist within the cluster.
 
-### Deploy installer
-```bash
-kubectl create -f installer/namespace.yaml
-kubectl create -f installer/serviceaccount.yaml
-kubectl create -f installer/clusterrolebinding.yaml
-# values.yaml is the file you created during the step above
-kubectl -n kubermatic-installer create secret generic values --from-file=values.yaml
-#Create the docker secret - needs to have read access to kubermatic/installer
-kubectl -n kubermatic-installer create secret docker-registry dockercfg --docker-username='' --docker-password='' --docker-email=''
-kubectl -n kubermatic-installer create secret docker-registry quay --docker-username='' --docker-password='' --docker-email=''
-# Create and run the installer job
-# Replace the version in the installer job template
-cp installer/install-job.template.yaml install-job.yaml
-sed -i "s/{INSTALLER_TAG}/v2.5.15/g" install-job.yaml
-kubectl create -f install-job.yaml
+### Deploy all charts
+Install helm on you local system & install helm within the cluster:
+```bash 
+helm init
 ```
+
+To deploy all charts:
+```bash
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace cert-manager cert-manager config/cert-manager/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace default certs config/certs/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller config/nginx-ingress-controller/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth config/oauth/
+# Used for storing etcd snapshots
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace minio minio config/minio/
+
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic config/kubermatic/
+# When running on a cloud Provider like GCP, AWS or Azure with LB support also install the nodeport-proxy
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy config/nodeport-proxy/
+```
+
+### etcd backups
+We run a individual Cronjob every 20minutes for each Cluster to backup the etcd-clusters.
+Snapshots will be stored by default to an internal S3 provided by minio.
+But this can be changed by modifying the `storeContainer` & `cleanupContainer` in the values.yaml to your needs.
+
+The cronjobs will be executed in the kube-system namespace. Therefore if a container needs credentials, a secret must be created in the kube-system namespace.
+
+The workflow:
+- Init-container creates snapshot
+- Snapshot will be saved in a shared volume
+- `storeContainer` takes the snapshot & stores it somewhere
+
+#### storeContainer
+The `storeContainer` will be executed on each backup process after a snapshot has been created and stored on a shared volume accessible by the container.
+By default only the last 20 revisions will be kept. Older snapshots will be deleted.
+By default the container will store the snapshot to minio.
+
+#### cleanupContainer
+The `cleanupContainer` will delete all snapshots in S3 after a cluster has been deleted. 
+
+#### Credentials
+If the default container will be used, a secret in the kube-system namespace must be created:
+
+````yaml
+apiVersion: v1
+data:
+  ACCESS_KEY_ID: "SOME_BASE64_ENCODED_ACCESS_KEY"
+  SECRET_ACCESS_KEY: "SOME_BASE64_ENCODED_SECRET_KEY"
+kind: Secret
+metadata:
+  name: s3-credentials
+  namespace: kube-system
+type: Opaque
+
+```` 
 
 ### Create DNS entry for your domain
 The external ip for the DNS entry can be fetched by executing
@@ -193,5 +232,5 @@ $DATACENTER=us-central1
 
 The external ip for the DNS entry can be fetched by executing
 ```bash
-kubectl -n nodeport-exposer describe service nodeport-exposer | grep "LoadBalancer Ingress"
+kubectl -n nodeport-proxy describe service nodeport-lb | grep "LoadBalancer Ingress"
 ```
