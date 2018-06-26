@@ -177,7 +177,7 @@ datacenters:
         datastore: "example-datastore"
         cluster: "example-cluster"
         allow_insecure: true
-        root_path: "/foo/bar"
+        root_path: "/Datacenter/vm/foo"
 #==================================
 #============= Azure ==============
 #==================================
