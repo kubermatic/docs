@@ -81,7 +81,7 @@ datacenters:
         region: DE
       seed:
         bringyourown:
-  # The name needs to match the a context in the kubeconfig given to the controller
+  # The name needs to match the a context in the kubeconfig given to the kubermatic-api
   seed-2: #Master
     location: Datacenter 2
     country: US
@@ -151,7 +151,44 @@ datacenters:
         region: us-east-1
         # Character of the zone in the given region
         zone_character: a
-
+#==================================
+#=============Hetzner==============
+#==================================
+  hetzner-fsn1:
+    location: Falkenstein 1 DC 8
+    seed: seed-1
+    country: DE
+    provider: hetzner
+    spec:
+      hetzner:
+        datacenter: fsn1-dc8
+#==================================
+#=============vSphere==============
+#==================================
+  vsphere-hetzner:
+    location: Hetzner
+    seed: europe-west3-c
+    country: DE
+    provider: Loodse
+    spec:
+      vsphere:
+        endpoint: "https://some-vcenter.com"
+        datacenter: "Datacenter"
+        datastore: "example-datastore"
+        cluster: "example-cluster"
+        allow_insecure: true
+        root_path: "/foo/bar"
+#==================================
+#============= Azure ==============
+#==================================
+  azure-westeurope:
+    location: "Azure West europe"
+    seed: europe-west3-c
+    country: NL
+    provider: azure
+    spec:
+      azure:
+        location: "westeurope"
 ```
 
 
