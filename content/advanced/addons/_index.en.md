@@ -42,7 +42,7 @@ Following variables can be used in all addon manifests:
 * `{{.DNSClusterIP}}`: will render IP address of the dns server
 
 
-### How to add a custom addon?
+### How to add a custom addon
 
 1. All manifests and config for the default addons are stored `quay.io/kubermatic/addons:v0.0.1` image. Use this image as a base image and copy configs and manifests for all custom addons to `/addons` folder.
 
