@@ -6,8 +6,8 @@ chapter = true
 pre = "<b>3. </b>"
 +++
 
-### Chapter 2
+### Chapter 3
 
-# Installation  
+# Installation
 
 Get information on how to install and manage Kubermatic.
