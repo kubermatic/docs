@@ -11,7 +11,7 @@ To aid in setting up the seed and master clusters, we provide the
 [seed-installer](https://github.com/kubermatic/kubermatic-installer/tree/release/v2.6/kubeadm-seed-installer)
 which is a kubeadm-based solution for setting up a Highly-Available Kubernetes cluster.
 
-The cluster has to pass the conformance tests and has to interact with a cloud provider.
+The cluster has to interact with a cloud provider.
 
 ## How it works.
 This installer locally renders assets, copies them to the corresponding
