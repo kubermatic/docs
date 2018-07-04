@@ -223,7 +223,7 @@ helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nod
 # For logging stack, ensure that all charts are deployed within the logging namespace:
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging elasticsearch config/logging/elasticsearch/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging fluentd config/logging/fluentd/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging kibana config/loggingkibana/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging kibana config/logging/kibana/
 ```
 
 ### etcd backups
