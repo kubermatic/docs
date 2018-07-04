@@ -219,6 +219,11 @@ helm upgrade --install --wait --timeout 300 --values values.yaml --namespace min
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic config/kubermatic/
 # When running on a cloud Provider like GCP, AWS or Azure with LB support also install the nodeport-proxy
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy config/nodeport-proxy/
+
+# For logging stack, ensure that all charts are deployed within the logging namespace:
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging elasticsearch config/logging/elasticsearch/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging fluentd config/logging/fluentd/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging kibana config/loggingkibana/
 ```
 
 ### etcd backups
