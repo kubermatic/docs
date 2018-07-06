@@ -215,21 +215,21 @@ helm init
 
 To deploy all charts:
 ```bash
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace cert-manager cert-manager config/cert-manager/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace default certs config/certs/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller config/nginx-ingress-controller/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth config/oauth/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace cert-manager cert-manager charts/cert-manager/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace default certs charts/certs/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth charts/oauth/
 # Used for storing etcd snapshots
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace minio minio config/minio/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace minio minio charts/minio/
 
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic config/kubermatic/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic/
 # When running on a cloud Provider like GCP, AWS or Azure with LB support also install the nodeport-proxy
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy config/nodeport-proxy/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
 
 # For logging stack, ensure that all charts are deployed within the logging namespace:
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging elasticsearch config/logging/elasticsearch/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging fluentd config/logging/fluentd/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging kibana config/logging/kibana/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging elasticsearch charts/logging/elasticsearch/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging fluentd charts/logging/fluentd/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging kibana charts/logging/kibana/
 ```
 
 ### etcd backups
