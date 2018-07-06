@@ -1,21 +1,21 @@
 +++
-title = "Setup a master cluster"
+title = "Install Kubermatic"
 date = 2018-04-28T12:07:15+02:00
 weight = 5
 pre = "<b></b>"
 +++
 
-## Setup a master cluster
+## Setup Kubermatic
 
 ### Master cluster
 
 ## Terminology
 
-* **User/Customer cluster** A Kubernetes cluster created and managed by Kubermatic  
-* **Seed cluster** A Kubernetes cluster which is responsible for hosting the master components of a customer cluster  
+* **User/Customer cluster** A Kubernetes cluster created and managed by Kubermatic
+* **Seed cluster** A Kubernetes cluster which is responsible for hosting the master components of a customer cluster
 * **Master cluster** A Kubernetes cluster which is responsible for storing the information about clusters and SSH keys. It hosts the Kubermatic components and might also act as a seed cluster.
-* **Seed datacenter** A definition/reference to a seed cluster  
-* **Node datacenter** A definition/reference of a datacenter/region/zone at a cloud provider (aws=zone,digitalocean=region,openstack=zone)  
+* **Seed datacenter** A definition/reference to a seed cluster
+* **Node datacenter** A definition/reference of a datacenter/region/zone at a cloud provider (aws=zone,digitalocean=region,openstack=zone)
 
 ## Creating
 
@@ -203,7 +203,7 @@ A storageclass with the name `kubermatic-fast` needs to exist within the cluster
 
 ### Deploy all charts
 Install helm on you local system & install helm within the cluster:
-```bash 
+```bash
 helm init
 ```
 
@@ -244,7 +244,7 @@ By default only the last 20 revisions will be kept. Older snapshots will be dele
 By default the container will store the snapshot to minio.
 
 #### cleanupContainer
-The `cleanupContainer` will delete all snapshots in S3 after a cluster has been deleted. 
+The `cleanupContainer` will delete all snapshots in S3 after a cluster has been deleted.
 
 #### Credentials
 If the default container will be used, a secret in the kube-system namespace must be created:
@@ -260,7 +260,7 @@ metadata:
   namespace: kube-system
 type: Opaque
 
-```` 
+````
 
 ### Create DNS entry for your domain
 The external ip for the DNS entry can be fetched by executing
