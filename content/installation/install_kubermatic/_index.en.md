@@ -25,6 +25,8 @@ The Kubermatic api lives inside the master cluster and therefore speaks to it vi
 
 The Kubermatic cluster controller needs to have a kubeconfig which contains all contexts for each seed cluster it should manage.
 The name of the context within the kubeconfig needs to match an entry within the `datacenters.yaml`. See below.
+
+{{%expand "Sample kubeconfig"%}}
 ```yaml
 apiVersion: v1
 clusters:
@@ -56,6 +58,7 @@ users:
   user:
     token: very-secure-token
 ```
+{{%/expand%}}
 
 ### Defining the Datacenters
 There are 2 types of datacenters:
@@ -63,6 +66,8 @@ There are 2 types of datacenters:
 - Node datacenter
 
 Both are defined in a file named `datacenters.yaml`:
+
+{{%expand "Sample datacenters.yaml"%}}
 ```yaml
 datacenters:
 #==================================
@@ -190,6 +195,7 @@ datacenters:
       azure:
         location: "westeurope"
 ```
+{{%/expand%}}
 
 
 ### Creating the Master Cluster `values.yaml`
