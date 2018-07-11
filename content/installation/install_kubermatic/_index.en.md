@@ -202,7 +202,7 @@ datacenters:
 Installation of Kubermatic uses the [Kubermatic Installer][4], which is essentially a kubernetes job with [Helm][5] and the required charts to install Kubermatic and its associated resources.
 Customization of the cluster configuration is done using a cluster-specific `values.yaml`, stored as a secret within the cluster.
 
-As a reference you can check out [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.yaml).
+As a reference you can check out [values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.example.yaml).
 
 ### Storage
 A storageclass with the name `kubermatic-fast` needs to exist within the cluster.
