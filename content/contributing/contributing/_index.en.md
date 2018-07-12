@@ -26,7 +26,7 @@ hugo server -b localhost:1313 -w
 
 ## Repository organization
 
-The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository root level should be mentioned:
+The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [Hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository root level should be mentioned:
 
 ### /content
 
