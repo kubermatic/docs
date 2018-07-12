@@ -10,4 +10,4 @@ pre = "<b>7. </b>"
 
 # Contributing
 
-Learn how to contribute to Kubermatic Docs.
+Learn how to contribute to the Kubermatic documentation.
