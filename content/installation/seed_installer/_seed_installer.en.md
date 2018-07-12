@@ -58,7 +58,7 @@ And in the end the script will run `kubeadm join` on every worker node.
 * The cloud-provider-config path, check the provided `cloudconfig-<providername>.sample.conf` files for a reference
 * The cloud provider used (e.g aws).
 
-In the `config.sh` script edit the variables and run `./install.sh`
+Copy the `config-example.sh` script to `config.sh`, edit the variables and run `./install.sh`
 
 # Add workers
 
