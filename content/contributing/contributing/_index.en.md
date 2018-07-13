@@ -9,7 +9,7 @@ pre = "<b></b>"
 
 The [Kubermatic Docs](http://docs.kubermatic.io) source repository can be found on [Github](https://github.com/kubermatic/docs).
 
-To generate the documentation you will need to download and install the [hugo](https://gohugo.io/overview/installing/) static website engine.
+To generate the documentation you will need to download and install the [Hugo](https://gohugo.io/overview/installing/) static website engine.
 
 Clone the repository to your local device and create a new feature branch.
 
@@ -25,14 +25,16 @@ hugo server -b localhost:1313 -w
 ```
 
 ## Repository organization
-The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository root level should be mentioned:
+
+The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [Hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository root level should be mentioned:
 
 ### /content
+
 `content`: All content for [kubermatic/docs](https://github.com/kubermatic/docs) will live inside this directory. Each top-level folder in Hugo is considered a `content section`.
 
 ### /static
 
-`static`: Stores all the static content for [kubermatic/docs](https://github.com/kubermatic/docs) website: images, CSS, JavaScript, etc. When Hugo builds [kubermatic/docs](https://github.com/kubermatic/docs), all assets inside your static directory are copied over as-is. The `\static` folder contains the `static\media` folder for root directory content media files, inside which are subfolders with the images for each documentation article. The article image folders are named identically to the article file, minus the `.md` file extension.
+`static`: Stores all the static content for [kubermatic/docs](https://github.com/kubermatic/docs) website: images, CSS, JavaScript, etc. When Hugo builds the documentation, all assets inside your static directory are copied over as-is. The `/static` folder contains the `static/media` folder for root directory content media files, inside which are subfolders with the images for each documentation article. The article image folders are named identically to the article file, minus the `.md` file extension.
 
 ## Creating a new article for Kubermatic Docs
 
@@ -44,7 +46,6 @@ content
 │   ├── my-new-article
 │   │   └── _index.en.md
 │   ├── _index.en.md
-
 ```
 
 A folder with the title of the new section must be created below the `/content` directory. An index file named `_index.en.md` is created in this folder, which has the following structure and metadata:
@@ -55,7 +56,7 @@ title = "my-new-section"
 date =  yyyy-mm-ddThh:mm:ss+01:00     // timestamp information
 weight = 5                            // Menu sorting
 chapter = true                        // Mark this as a chapter
-pre = "<b>2. </b>"                    // Add a prefix to the menue name
+pre = "<b>2. </b>"                    // Add a prefix to the menu name
 +++
 
 ### My New Chapter
@@ -85,8 +86,9 @@ To generate the static website files simply run the `hugo` command on the root d
 hugo server -b localhost:1313 -w
 ```
 
-## How to use markdown to format your topic
-All the articles in this repository use GitHub flavored markdown. If you are not familiar with markdown, see:
+## How to use Markdown to format your topic
+
+All the articles in this repository use GitHub flavored markdown. If you are not familiar with Markdown, see:
 
 * [Markdown basics](https://help.github.com/articles/markdown-basics/)
-* [Printable markdown cheatsheet](https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf)
+* [Printable Markdown cheatsheet](https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf)
