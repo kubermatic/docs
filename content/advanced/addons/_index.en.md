@@ -19,8 +19,7 @@ Addons are specific services and tools extending functionality of Kubernetes. In
 
 Installation and configuration of these addons is done by the `addon-controller` which is part of Kubermatic. Two components are responsible for the addons management:
 
-* `kubermatic-controller-manager` is a wrapper for the `addon-controller` and provides a path to the addon manifests via flag `kubermatic-api -addons=/opt/addons`
-* `kubermatic-api` controls which of the addons should be installed via flag `kubermatic-controller-manager -addons=dns,...`
+* `kubermatic-controller-manager` is a wrapper for two addons `addon-controller` and `addon-installer-controller` and provides a path to the addon manifests via flag `-addons-path=/opt/addons` and  controls which of the addons should be installed via flag `-addons-list=dns,...`
 
 #### Configuration
 
@@ -30,8 +29,8 @@ The configuration of `kubermatic-controller-manager` and `kubermatic-api` is don
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic
 ```
 
-`kubermatic-api` controls which addons should be installed by default. `addon-manager` controls where to get the manifests for the addons and their installation process.
-
+`kubermatic-api` controls which addons should be installed by default. 
+`addon-manager` controls where to get the manifests for the addons and their installation process.  
 `kubermatic` is delivered with manifests for all default addons. Each addon is represented by manifest files in a sub-folder. All addons will be built into a Docker container called `kubermatic/addons` which the `addon-controller` uses to install addons. The Docker image is freely accessible to let customers extend & modify this image for their own purpose. The addon-controller will read all addon manifests from a specified folder. The default folder for this is `/opt/addons` and it should contain sub-folders for each addon. This folder is created as a volume during the container initialization process of `addon-manager` in the [init pod](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/) and is specified in [kubermatic-controller-manager-dep.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/charts/kubermatic/templates/kubermatic-controller-manager-dep.yaml).
 
 #### Install and run addons
