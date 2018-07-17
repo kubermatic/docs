@@ -12,7 +12,7 @@ The documentation is currently under development and is constantly being expande
 
 ### Kubermatic is a Cluster-as-a-Service that provides managed Kubernetes for your infrastructure.
 
-With Kubermatic, you can set up Kubernetes clusters deployed at the click of button. While Kubermatic makes sure that your cluster is available and up-to-date at all times, you can focus on developing your services.
+With Kubermatic, you can set up Kubernetes clusters deployed at the click of a button. While Kubermatic makes sure that your cluster is available and up-to-date at all times, you can focus on developing your services.
 
 Kubermatic is directly integrated with leading cloud providers DigitalOcean and Amazon Web Services, as well as any provider offering Ubuntu 16.04 or greater, even in your own datacenter.
 
@@ -34,8 +34,8 @@ Kubermatic provides live updates of your Kubernetes cluster without disrupting y
 
 #### Scale your cluster
 
-You can add and remove nodes in our easy to use dashboard. Just specify the amount of nodes in your Kubernetes cluster, and Kubermatic scales the cluster up or down to your needs.
+You can add and remove nodes in our easy to use dashboard. Just specify the amount of nodes in your Kubernetes cluster and Kubermatic scales the cluster up or down to your needs.
 
 ### Further information
 
-See Loodse.com
+See [Loodse.com](https://www.loodse.com/).

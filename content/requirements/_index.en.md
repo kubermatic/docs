@@ -8,6 +8,6 @@ pre = "<b>2. </b>"
 
 ### Chapter 2
 
-# Requirements  
+# Requirements
 
-Find out about the requirements for the operation of Kubermatic
+Find out about the requirements for the operation of Kubermatic.

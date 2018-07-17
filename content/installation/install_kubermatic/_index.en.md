@@ -1,30 +1,31 @@
 +++
-title = "Setup a master cluster"
+title = "Install Kubermatic"
 date = 2018-04-28T12:07:15+02:00
 weight = 5
 pre = "<b></b>"
 +++
 
-## Setup a master cluster
+## Setup Kubermatic
 
 ### Master cluster
 
 ## Terminology
 
-* **User/Customer cluster** A Kubernetes cluster created and managed by Kubermatic  
-* **Seed cluster** A Kubernetes cluster which is responsible for hosting the master components of a customer cluster  
+* **User/Customer cluster** A Kubernetes cluster created and managed by Kubermatic
+* **Seed cluster** A Kubernetes cluster which is responsible for hosting the master components of a customer cluster
 * **Master cluster** A Kubernetes cluster which is responsible for storing the information about clusters and SSH keys. It hosts the Kubermatic components and might also act as a seed cluster.
-* **Seed datacenter** A definition/reference to a seed cluster  
-* **Node datacenter** A definition/reference of a datacenter/region/zone at a cloud provider (aws=zone,digitalocean=region,openstack=zone)  
+* **Seed datacenter** A definition/reference to a seed cluster
+* **Node datacenter** A definition/reference of a datacenter/region/zone at a cloud provider (aws=zone,digitalocean=region,openstack=zone)
 
 ## Creating
 
 ### Creating the kubeconfig
 
-The Kubermatic api lives inside the master cluster and therefore speaks to it via in-cluster communication.
+The Kubermatic API lives inside the master cluster and therefore speaks to it via in-cluster communication.
 
-The Kubermatic cluster controller needs to have a kubeconfig which contains all contexts for each seed cluster it should manage.
-The name of the context within the kubeconfig needs to match an entry within the `datacenters.yaml`. See below.
+The Kubermatic cluster controller needs to have a kubeconfig which contains all contexts for each seed cluster it should manage. The name of the context within the kubeconfig needs to match an entry within the `datacenters.yaml`. See below.
+
+{{%expand "Sample kubeconfig"%}}
 ```yaml
 apiVersion: v1
 clusters:
@@ -56,13 +57,18 @@ users:
   user:
     token: very-secure-token
 ```
+{{%/expand%}}
 
 ### Defining the Datacenters
+
 There are 2 types of datacenters:
+
 - Seed datacenter
 - Node datacenter
 
 Both are defined in a file named `datacenters.yaml`:
+
+{{%expand "Sample datacenters.yaml"%}}
 ```yaml
 datacenters:
 #==================================
@@ -151,6 +157,7 @@ datacenters:
         region: us-east-1
         # Character of the zone in the given region
         zone_character: a
+
 #==================================
 #=============Hetzner==============
 #==================================
@@ -162,6 +169,7 @@ datacenters:
     spec:
       hetzner:
         datacenter: fsn1-dc8
+
 #==================================
 #=============vSphere==============
 #==================================
@@ -178,6 +186,7 @@ datacenters:
         cluster: "example-cluster"
         allow_insecure: true
         root_path: "/Datacenter/vm/foo"
+
 #==================================
 #============= Azure ==============
 #==================================
@@ -190,59 +199,74 @@ datacenters:
       azure:
         location: "westeurope"
 ```
-
+{{%/expand%}}
 
 ### Creating the Master Cluster `values.yaml`
-Installation of Kubermatic uses the [Kubermatic Installer][4], which is essentially a kubernetes job with [Helm][5] and the required charts to install Kubermatic and its associated resources.
+
+Installation of Kubermatic uses the [Kubermatic Installer](https://github.com/kubermatic/kubermatic-installer), which is essentially a Kubernetes job with [Helm](https://helm.sh/) and the required charts to install Kubermatic and its associated resources.
 Customization of the cluster configuration is done using a cluster-specific `values.yaml`, stored as a secret within the cluster.
 
-As a reference you can check out [values.yaml](values.yaml).
+As a reference you can check out [values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.example.yaml).
 
 ### Storage
+
 A storageclass with the name `kubermatic-fast` needs to exist within the cluster.
 
 ### Deploy all charts
+
 Install helm on you local system & install helm within the cluster:
-```bash 
+
+```bash
 helm init
 ```
 
 To deploy all charts:
-```bash
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace cert-manager cert-manager config/cert-manager/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace default certs config/certs/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller config/nginx-ingress-controller/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth config/oauth/
-# Used for storing etcd snapshots
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace minio minio config/minio/
 
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic config/kubermatic/
+```bash
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace cert-manager cert-manager charts/cert-manager/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace default certs charts/certs/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth charts/oauth/
+# Used for storing etcd snapshots
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace minio minio charts/minio/
+
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic/
 # When running on a cloud Provider like GCP, AWS or Azure with LB support also install the nodeport-proxy
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy config/nodeport-proxy/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
+
+# For logging stack, ensure that all charts are deployed within the logging namespace:
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging elasticsearch charts/logging/elasticsearch/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging fluentd charts/logging/fluentd/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging kibana charts/logging/kibana/
 ```
 
 ### etcd backups
-We run a individual Cronjob every 20minutes for each Cluster to backup the etcd-clusters.
-Snapshots will be stored by default to an internal S3 provided by minio.
-But this can be changed by modifying the `storeContainer` & `cleanupContainer` in the values.yaml to your needs.
 
-The cronjobs will be executed in the kube-system namespace. Therefore if a container needs credentials, a secret must be created in the kube-system namespace.
+We run an individual Cronjob every 20 minutes for each cluster to backup the etcd-clusters.
+Snapshots will be stored by default to an internal S3 provided by minio.
+But this can be changed by modifying the `storeContainer` & `cleanupContainer` in the `values.yaml` to your needs.
+
+The cronjobs will be executed in the `kube-system` namespace. Therefore if a container needs credentials, a secret must be created in the kube-system namespace.
 
 The workflow:
-- Init-container creates snapshot
-- Snapshot will be saved in a shared volume
-- `storeContainer` takes the snapshot & stores it somewhere
+
+1. Init-container creates snapshot
+2. snapshot will be saved in a shared volume
+3. `storeContainer` takes the snapshot and stores it somewhere
 
 #### storeContainer
+
 The `storeContainer` will be executed on each backup process after a snapshot has been created and stored on a shared volume accessible by the container.
 By default only the last 20 revisions will be kept. Older snapshots will be deleted.
 By default the container will store the snapshot to minio.
 
 #### cleanupContainer
-The `cleanupContainer` will delete all snapshots in S3 after a cluster has been deleted. 
+
+The `cleanupContainer` will delete all snapshots in S3 after a cluster has been deleted.
 
 #### Credentials
-If the default container will be used, a secret in the kube-system namespace must be created:
+
+If the default container will be used, a secret in the `kube-system` namespace must be created:
 
 ````yaml
 apiVersion: v1
@@ -254,20 +278,25 @@ metadata:
   name: s3-credentials
   namespace: kube-system
 type: Opaque
-
-```` 
+````
 
 ### Create DNS entry for your domain
-The external ip for the DNS entry can be fetched by executing
+
+The external IP for the DNS entry can be fetched by executing
+
 ```bash
 kubectl -n ingress-nginx describe service nginx-ingress-controller | grep "LoadBalancer Ingress"
 ```
 
-Set the dns entry for the nodeport-exposer (the service which exposes the customer cluster apiservers):
-$DATACENTER=us-central1
-- *.$DATACENTER.$DOMAIN  =  *.us-central1.dev.kubermatic.io
+Set the DNS entry for the nodeport-exposer (the service which exposes the customer cluster apiservers):
 
-The external ip for the DNS entry can be fetched by executing
+```
+$DATACENTER=us-central1
+*.$DATACENTER.$DOMAIN  =  *.us-central1.dev.kubermatic.io
+```
+
+The external IP for the DNS entry can be fetched by executing
+
 ```bash
 kubectl -n nodeport-proxy describe service nodeport-lb | grep "LoadBalancer Ingress"
 ```
