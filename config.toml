@@ -65,3 +65,14 @@ title = "Kubermatic Docs"
   name = "<i class='fa fa-camera'></i> Imprint"
   url = "https://www.loodse.com/imprint"
   weight = 35
+
+[[menu.shortcuts]]
+  name = "<i class='fa fa-twitter'></i> Kubermatic.io"
+  url = "https://twitter.com/kubermatic"
+  weight = 40
+
+[[menu.shortcuts]]
+  name = "<i class='fa fa-twitter'></i> Loodse.com"
+  url = "https://twitter.com/Loodse"
+  weight = 45
+
