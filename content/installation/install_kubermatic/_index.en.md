@@ -173,8 +173,8 @@ datacenters:
 #==================================
 #=============vSphere==============
 #==================================
-  vsphere-hetzner:
-    location: Hetzner
+  vsphere-office1:
+    location: Office
     seed: europe-west3-c
     country: DE
     provider: Loodse
@@ -186,7 +186,10 @@ datacenters:
         cluster: "example-cluster"
         allow_insecure: true
         root_path: "/Datacenter/vm/foo"
-
+        templates:
+          ubuntu: "ubuntu-template"
+          centos: "centos-template"
+          coreos: "coreos-template"
 #==================================
 #============= Azure ==============
 #==================================
@@ -268,7 +271,7 @@ The `cleanupContainer` will delete all snapshots in S3 after a cluster has been 
 
 If the default container will be used, a secret in the `kube-system` namespace must be created:
 
-````yaml
+```yaml
 apiVersion: v1
 data:
   ACCESS_KEY_ID: "SOME_BASE64_ENCODED_ACCESS_KEY"
@@ -278,25 +281,58 @@ metadata:
   name: s3-credentials
   namespace: kube-system
 type: Opaque
-````
+```
 
-### Create DNS entry for your domain
+### Create DNS entries
 
-The external IP for the DNS entry can be fetched by executing
+Kubermatic needs to have at least 2 DNS entries set.
 
+#### Dashboard, API, Dex
+
+The frontend of kubermatic needs to run once, therefore we need exactly one DNS entry to access it.
+For example, the domain could look like `kubermatic.example.com`.
+
+##### With LoadBalancer
+When running on a cloud provider which supports services of type [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer), the nginx-chart should be configured to create such a service [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.example.yaml#L134).
+The IP can then be fetched via:
 ```bash
-kubectl -n ingress-nginx describe service nginx-ingress-controller | grep "LoadBalancer Ingress"
+kubectl -n ingress-nginx get service nginx-ingress-controller -o wide
+#NAME                       TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE       SELECTOR
+#nginx-ingress-controller   LoadBalancer   10.47.242.69   35.198.146.37   80:30822/TCP,443:31412/TCP   160d      app=ingress-nginx
 ```
+The `ExternalIP` field shows the correct IP used for the DNS entry.
 
-Set the DNS entry for the nodeport-exposer (the service which exposes the customer cluster apiservers):
+##### Without LoadBalancer
 
-```
-$DATACENTER=us-central1
-*.$DATACENTER.$DOMAIN  =  *.us-central1.dev.kubermatic.io
-```
+Without a LoadBalancer nginx will run as DaemonSet & allocate 2 ports on the host (80 & 443). Configuration of nginx happens via the [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.example.yaml#L134).
+The DNS entry needs to be configured to point to one, or more of the cluster nodes. 
 
-The external IP for the DNS entry can be fetched by executing
+#### Seed cluster (user cluster apiservers)
 
+For each seed cluster (hosts the user cluster control plane) a single wildcard DNS entry must be configured.
+All apiservers of all user clusters are being exposed via either NodePorts or a single LoadBalancer.
+
+The domain will be based on the name of the seed-cluster as defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) and the domain under which the frontend is available. 
+
+For example:
+
+* Frontend domain: kubermatic.example.com
+* Seed cluster name according to [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) is `europe-west1`
+
+The seed cluster domain would be: `europe-west1.kubermatic.example.com`
+The corresponding wildcard entry would be: `*.europe-west1.kubermatic.example.com`
+
+A user cluster created in this seed cluster for example would get the domain: `pskxx28w7k.europe-west1.kubermatic.example.com` 
+
+##### With LoadBalancer
+
+Getting the IP:
 ```bash
-kubectl -n nodeport-proxy describe service nodeport-lb | grep "LoadBalancer Ingress"
+kubectl -n nodeport-proxy get service nodeport-lb
+#NAME          TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                                           AGE
+#nodeport-lb   LoadBalancer   10.47.242.236   35.198.93.90   32493:30195/TCP,31434:30739/TCP,30825:32503/TCP,30659:30324/TCP   93d
 ```
+
+##### Without LoadBalancer
+
+Take one or more of the seed cluster worker nodes IP's.
