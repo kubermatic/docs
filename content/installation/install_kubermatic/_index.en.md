@@ -322,7 +322,7 @@ For example:
 The seed cluster domain would be: `europe-west1.kubermatic.example.com`
 The corresponding wildcard entry would be: `*.europe-west1.kubermatic.example.com`
 
-A user cluster created in this seed cluster for example would get the domain: `pskxx28w7k.europe-west1.kubermatic.example.com` 
+A user cluster created in this seed cluster would get the domain: `pskxx28w7k.europe-west1.kubermatic.example.com` 
 
 ##### With LoadBalancer
 
