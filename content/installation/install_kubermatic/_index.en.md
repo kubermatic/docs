@@ -217,10 +217,36 @@ A storageclass with the name `kubermatic-fast` needs to exist within the cluster
 
 ### Deploy all charts
 
-Install helm on you local system & install helm within the cluster:
+Install helm on you local system & setup tiller within the cluster:
+
+Create a service account for tiller
 
 ```bash
-helm init
+kubectl create serviceaccount -n kube-system tiller-sa
+```
+
+Afterwards bind that service account to the `cluster-admin` role
+
+`clusterrolebinding.yaml`:
+
+```yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tiller-cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: tiller-sa
+  namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: cluster-admin
+```
+
+```bash
+kubectl apply -f clusterrolebinding.yaml
+helm init --service-account tiller-sa --tiller-namespace kube-system
 ```
 
 To deploy all charts:
