@@ -219,33 +219,16 @@ A storageclass with the name `kubermatic-fast` needs to exist within the cluster
 
 Install helm on you local system & setup tiller within the cluster:
 
-Create a service account for tiller
+Create a service account for tiller and bind it to the `cluster-admin` role
 
 ```bash
 kubectl create serviceaccount -n kube-system tiller-sa
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller-sa
 ```
 
-Afterwards bind that service account to the `cluster-admin` role
-
-`clusterrolebinding.yaml`:
-
-```yaml
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: tiller-cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: tiller-sa
-  namespace: kube-system
-roleRef:
-  kind: ClusterRole
-  apiGroup: rbac.authorization.k8s.io
-  name: cluster-admin
-```
+Afterwards install tiller with the correct set service account
 
 ```bash
-kubectl apply -f clusterrolebinding.yaml
 helm init --service-account tiller-sa --tiller-namespace kube-system
 ```
 
