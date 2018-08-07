@@ -211,6 +211,12 @@ Customization of the cluster configuration is done using a cluster-specific `val
 
 As a reference you can check out [values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.example.yaml).
 
+For the kubermatic configuration you need to add `base64` encoded configuration of `datacenter.yaml` and `kubeconfig` to the `values.yaml` file. You can do this with fallowing command:
+
+```
+base64 kubeconfig | tr -d '\n'
+```
+
 ### Storage
 
 A storageclass with the name `kubermatic-fast` needs to exist within the cluster.
@@ -314,14 +320,14 @@ The `ExternalIP` field shows the correct IP used for the DNS entry.
 ##### Without LoadBalancer
 
 Without a LoadBalancer nginx will run as DaemonSet & allocate 2 ports on the host (80 & 443). Configuration of nginx happens via the [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.example.yaml#L134).
-The DNS entry needs to be configured to point to one, or more of the cluster nodes. 
+The DNS entry needs to be configured to point to one, or more of the cluster nodes.
 
 #### Seed cluster (user cluster apiservers)
 
 For each seed cluster (hosts the user cluster control plane) a single wildcard DNS entry must be configured.
 All apiservers of all user clusters are being exposed via either NodePorts or a single LoadBalancer.
 
-The domain will be based on the name of the seed-cluster as defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) and the domain under which the frontend is available. 
+The domain will be based on the name of the seed-cluster as defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) and the domain under which the frontend is available.
 
 For example:
 
@@ -331,7 +337,7 @@ For example:
 The seed cluster domain would be: `europe-west1.kubermatic.example.com`
 The corresponding wildcard entry would be: `*.europe-west1.kubermatic.example.com`
 
-A user cluster created in this seed cluster would get the domain: `pskxx28w7k.europe-west1.kubermatic.example.com` 
+A user cluster created in this seed cluster would get the domain: `pskxx28w7k.europe-west1.kubermatic.example.com`
 
 ##### With LoadBalancer
 
