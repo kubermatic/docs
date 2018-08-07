@@ -13,3 +13,8 @@ pre = "<b>5. </b>"
 Kubermatic uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. Dashboarding is done with [Grafana](https://grafana.com).
 
 Out of the box Prometheus starts monitoring all Kubernetes components of [seed](/concepts/seed_cluster/) and [customer](/concepts/customer_cluster/) clusters.
+
+# Grafana
+
+In a default kubermatic installation we ship grafana as _readonly_ metrics dashboard.
+When working with grafana please keep in mind, that __ALL CHANGES__ done using the grafana UI (like adding datasources, etc.) __WILL NOT BE PERSISTED__. Dashboards, Graphs, Datasources, etc. will be defined using the Helm chart.
