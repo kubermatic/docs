@@ -51,15 +51,16 @@ kubectl -n cluster-xxxxxxxxxx exec -ti etcd-0 sh
 
 cd /var/run/etcd/
 # Inside the pod, restore from the snapshot
-# This command is specific to each member. 
-# Make sure to update each flag.
-# --name, --initial-advertise-peer-urls & --data-dir differ between all members 
+# This command is specific to each member.
+export MEMBER=etcd-0
+export CLUSTER_ID=xxxxxxxxxx
+ 
 etcdctl snapshot restore snapshot.db \
-  --name etcd-0 \
-  --initial-cluster etcd-0=http://etcd-0.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2380,etcd-1=http://etcd-1.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2380,etcd-2=http://etcd-2.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2380 \
-  --initial-cluster-token xxxxxxxxxx \
-  --initial-advertise-peer-urls http://etcd-0.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2380 \
-  --data-dir /var/run/etcd/pod_etcd-0/
+  --name ${MEMBER} \
+  --initial-cluster etcd-0=http://etcd-0.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2380,etcd-1=http://etcd-1.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2380,etcd-2=http://etcd-2.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2380 \
+  --initial-cluster-token ${CLUSTER_ID} \
+  --initial-advertise-peer-urls http://${MEMBER}.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2380 \
+  --data-dir /var/run/etcd/pod_${MEMBER}/
 ```
 
 #### Un-Pausing the cluster
