@@ -16,5 +16,5 @@ Out of the box Prometheus starts monitoring all Kubernetes components of [seed](
 
 # Grafana
 
-In a default kubermatic installation we ship grafana as _readonly_ metrics dashboard.
-When working with grafana please keep in mind, that __ALL CHANGES__ done using the grafana UI (like adding datasources, etc.) __WILL NOT BE PERSISTED__. Dashboards, Graphs, Datasources, etc. will be defined using the Helm chart.
+In a default Kubermatic installation we ship Grafana as _readonly_ metrics dashboard.
+When working with Grafana please keep in mind, that __ALL CHANGES__ done using the Grafana UI (like adding datasources, etc.) __WILL NOT BE PERSISTED__. Dashboards, graphs, datasources, etc. will be defined using the Helm chart.
