@@ -256,6 +256,15 @@ helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nod
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging elasticsearch charts/logging/elasticsearch/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging fluentd charts/logging/fluentd/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging kibana charts/logging/kibana/
+
+# For monitoring stack
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring prometheus-operator charts/monitoring/prometheus-operator/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring node-exporter charts/monitoring/node-exporter/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring grafana charts/monitoring/grafana/
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
+
 ```
 
 ### etcd backups
