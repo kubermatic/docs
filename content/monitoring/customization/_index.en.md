@@ -52,7 +52,7 @@ prometheus:
             message: |
               The datacenter has gone up in flames, someone should quickly find an extinguisher.
               You can reach the local emergency services by calling 0118 999 881 999 119 7253.
-          expr: absent(up{job="cpu"} == 1)
+          expr: temperature{server=~"kubernetes.+"} > 100
           for: 5m
           labels:
             severity: critical
