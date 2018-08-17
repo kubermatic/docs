@@ -221,7 +221,7 @@ base64 kubeconfig | tr -d '\n'
 
 A storageclass with the name `kubermatic-fast` needs to exist within the cluster.
 
-### Deploy all charts
+### Deploy/Update all charts
 
 Install helm on you local system & setup tiller within the cluster:
 
