@@ -28,7 +28,7 @@ kubectl -n cluster-xxxxxxxxxx exec -ti etcd-1 sh
 
 # Inside the pod
 export ETCDCTL_API=3
-export ETCD_ARGS='--cacert /etc/etcd/ca/ca.crt --cert /etc/etcd/client/apiserver-etcd-client.crt --key /etc/etcd/client/apiserver-etcd-client.key --endpoints https://localhost:2379'
+export ETCD_ARGS='--cacert /etc/etcd/pki/ca/ca.crt --cert /etc/etcd/pki/client/apiserver-etcd-client.crt --key /etc/etcd/pki/client/apiserver-etcd-client.key --endpoints https://localhost:2379'
 etcdctl ${ETCD_ARGS} member list
 #  1edc8e27256b30a9, started, etcd-2, http://etcd-2.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2380, https://10.44.36.62:2379,https://etcd-2.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2379
 #  253869731a787437, started, etcd-0, http://etcd-0.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2380, https://10.44.36.61:2379,https://etcd-0.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2379
@@ -55,7 +55,7 @@ Now add the member manually to the etcd-internal member management:
 kubectl -n cluster-xxxxxxxxxx exec -ti etcd-1 sh
 
 export ETCDCTL_API=3
-export ETCD_ARGS='--cacert /etc/etcd/ca/ca.crt --cert /etc/etcd/client/apiserver-etcd-client.crt --key /etc/etcd/client/apiserver-etcd-client.key --endpoints https://localhost:2379'
+export ETCD_ARGS='--cacert /etc/etcd/pki/ca/ca.crt --cert /etc/etcd/pki/client/apiserver-etcd-client.crt --key /etc/etcd/pki/client/apiserver-etcd-client.key --endpoints https://localhost:2379'
 etcdctl ${ETCD_ARGS} member list
 # 1edc8e27256b30a9, started, etcd-2, http://etcd-2.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2380, https://10.44.36.93:2379,https://etcd-2.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2379
 # e2ee7cf8c0f39103, started, etcd-1, http://etcd-1.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2380, https://10.44.37.101:2379,https://etcd-1.etcd.cluster-xxxxxxxxxx.svc.cluster.local:2379
