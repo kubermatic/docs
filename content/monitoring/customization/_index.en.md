@@ -64,4 +64,95 @@ TBD
 
 ## Grafana Dashboards
 
-TBD
+Customizing Grafana entails three different aspects:
+
+* Datasources (like Prometheus, InfluxDB, ...)
+* Dashboard providers (telling Grafana where to load dashboards from)
+* Dashboards themselves
+
+In all cases you have two general approaches: Either take the Grafana Helm chart and place additional files into the existing directory structure or leave the Helm chart as-is and use the `values.yaml` and your own ConfigMaps/Secrets to hold your customizations.
+
+### Datasources
+
+To create a new datasource, you can either put a new YAML file inside the `provisioning/datasources/` directory or extend your `values.yaml` like so:
+
+```yaml
+grafana:
+  provisioning:
+    datasources:
+      extra:
+      # list your new datasources here
+      - name: influxdb
+        type: influxdb
+        access: proxy
+        org_id: 1
+        url: http://influxdb.monitoring.svc.cluster.local:9090
+        version: 1
+        editable: false
+```
+
+You can also remove the default Prometheus datasource if you really want to by either deleting the `prometheus.yaml` or pointing the `source` directive inside your `values.yaml` to a different, empty directory:
+
+```yaml
+grafana:
+  provisioning:
+    datasources:
+      source: empty/
+```
+
+Note that by removing the default Prometheus datasource and not providing an alternative with the same name, the default dashboards will not work anymore.
+
+### Dashboard Providers
+
+Configuring providers works much in the same way as configuring datasources: either place new files in the `provisioning/dashboards/` directory or use the `values.yaml` accordingly:
+
+```yaml
+grafana:
+  provisioning:
+    dashboards:
+      extra:
+      # list your new datasources here
+      - folder: "Initech Resources"
+        name: "initech"
+        options:
+          path: /initech/dashboards
+        org_id: 1
+        type: file
+```
+
+Customizing the providers is especially important if you want to also add your own dashboards. You can point the `options.path` path to a new mounted volume to load dashboards from (see below).
+
+### Dashboards
+
+Just like with datasources and providers, new dashboards can be placed in the existing `dashboards/` directory. Do note though that if you create a new folder (like `dashboards/initech/`), you also must create a new dashboard provider to tell Grafana about it. Your dashboards will be loaded and included in the default ConfigMap, but without the new provider Grafana will not see them.
+
+Following the example above, if you put your dashboards in `dashboards/initech/`, you need a dashboard provider with the `options.path` set to `/grafana-dashboard-definitions/initech`, because the ConfigMap is mounted to `/grafana-dashboard-definitions`.
+
+You can also use your own ConfigMaps or Secrets and have the Grafana deployment mount them. This is useful for larger customizations with lots of dashboards that you want to manage independently. To use an external ConfigMap, create it like so:
+
+```yaml
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: initech-dashboards
+  data:
+    dashboard1.json: |
+      { ... Grafana dashboard JSON here ... }
+
+    dashboard2.json: |
+      { ... Grafana dashboard JSON here ... }
+```
+
+Make sure to create your ConfigMap in the `monitoring` namespace and then use the `volumes` directive in your `values.yaml` to tell the Grafana Helm chart about your ConfigMap:
+
+```yaml
+grafana:
+  volumes:
+  - name: initech-dashboards-volume
+    mountPath: /grafana-dashboard-definitions/initech
+    configMap: initech-dashboards
+```
+
+Using a Secret instead of a ConfigMap works identically, just specify `secretName` instead of `configMap` in the `volumes` section.
+
+Remember that you still need a custom dashboard provider to make Grafana load your new dashboards.
