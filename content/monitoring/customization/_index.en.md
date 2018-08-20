@@ -39,7 +39,11 @@ prometheus:
 
 ### Rules
 
-Rules include recording rules (for precomputing expensive queries) and alerts. You can add our own rules by adding them to the `values.yaml` like so:
+Rules include recording rules (for precomputing expensive queries) and alerts. There are three different ways of customizing them.
+
+#### values.yaml
+
+You can add our own rules by adding them to the `values.yaml` like so:
 
 ```yaml
 prometheus:
@@ -58,6 +62,35 @@ prometheus:
             severity: critical
 ```
 
+This will lead to them being written to a dedicated `_customrules.yaml` and included in Prometheus. Use this approach if you only have a few rules that you'd like to add.
+
+#### Extending the Helm Chart
+
+If you have more than a couple of rules, you can also place new YAML files inside the `rules/` directory before you deploy the Helm chart. They will be included like you would expect. To prevent maintainence headaches further down the road you should never change the existing files inside the chart. If you need to get rid of the predefined rules, see the next section on how to achieve it.
+
+#### Custom ConfigMaps/Secrets
+
+For large deployments with many independently managed rules you can make use of custom volumes to mount your configuration into Prometheus. For this to work you need to create your own ConfigMap or Secret inside the `monitoring` namespace. Then configure the Prometheus chart using the `values.yaml` to mount those appropriately like so:
+
+```yaml
+prometheus:
+  volumes:
+  - name: initech-rules-volume
+    mountPath: /initech/rules
+    configMap: initech-rules
+```
+
+After mounting the files into the pod you need to make sure that Prometheus loads them by extending the `ruleFiles` list:
+
+```yaml
+prometheus:
+  ruleFiles:
+  - '/etc/prometheus/rules/*.yaml'
+  - '/initech/rules/*.yaml'
+```
+
+Managing the `ruleFiles` is also the way to disable the predefined rules by just removing the applicable item from the list. You can also keep the list completely empty to disable any and all alerts.
+
 ## Alertmanager
 
 TBD
@@ -70,7 +103,7 @@ Customizing Grafana entails three different aspects:
 * Dashboard providers (telling Grafana where to load dashboards from)
 * Dashboards themselves
 
-In all cases you have two general approaches: Either take the Grafana Helm chart and place additional files into the existing directory structure or leave the Helm chart as-is and use the `values.yaml` and your own ConfigMaps/Secrets to hold your customizations.
+In all cases you have two general approaches: Either take the Grafana Helm chart and place additional files into the existing directory structure or leave the Helm chart as-is and use the `values.yaml` and your own ConfigMaps/Secrets to hold your customizations. This is very similar to how customizing the seed-level Prometheus works, so if you read that chapter, you will feel right at home.
 
 ### Datasources
 
