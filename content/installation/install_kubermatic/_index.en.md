@@ -205,13 +205,66 @@ datacenters:
 Installation of Kubermatic uses the [Kubermatic Installer](https://github.com/kubermatic/kubermatic-installer), which is essentially a Kubernetes job with [Helm](https://helm.sh/) and the required charts to install Kubermatic and its associated resources.
 Customization of the cluster configuration is done using a cluster-specific `values.yaml`, stored as a secret within the cluster.
 
-As a reference you can check out [values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.example.yaml).
+As a reference you can check out [values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
 
 For the kubermatic configuration you need to add `base64` encoded configuration of `datacenter.yaml` and `kubeconfig` to the `values.yaml` file. You can do this with fallowing command:
 
 ```
 base64 kubeconfig | tr -d '\n'
 ```
+
+### Kibana, grafana, prometheus, alertmanager and OIDC authentication
+
+In order to open in browser system service like
+kibana/grafana/prometheus/alertmanager oAuth static client credentials and
+callback URLs for each of them need to be configured in `dex` and then in `iap`
+section.
+
+#### Dex
+
+Static clients are confired in
+```
+dex:
+  clients:
+  - id: example # clientID
+    name: Example App
+    secret: very-secret # clientSecret
+    RedirectURIs:
+    - https://you.app.callback.url/oauth/callback # where to redirect once all good
+```
+Each service should have own credentials. See example `dex` section in
+https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml
+
+#### IAP
+
+Next configure IAP (identity aware proxy), use oauth credentials from dex's
+static clients config, for each service respectively.
+
+```
+iap:
+  deployments:
+    example_service:
+      name: example_service # will be used to create kubernetes Deployment object
+      client_id: example
+      client_secret: very-secret
+      encryption_key: very-secret_2 # used only locally
+      config: ## see https://github.com/gambol99/keycloak-proxy#configuration
+      ## example configuration allowing access only to the mygroup from
+      ## mygithuborg organization
+        scopes:
+        - "groups"
+        resources:
+        - uri: "/*"
+          groups:
+          - "mygithuborg:mygroup"
+      upstream_service: example.namespace.svc.cluster.local
+      upstream_port: 9999
+      ingress:
+        host: "hostname.kubermatic.tld" # used in Ingress object
+```
+
+See `iap` section for more information:
+https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml
 
 ### Storage
 
@@ -237,10 +290,11 @@ helm init --service-account tiller-sa --tiller-namespace kube-system
 To deploy all charts:
 
 ```bash
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace cert-manager cert-manager charts/cert-manager/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace default certs charts/certs/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth charts/oauth/
+
 # Used for storing etcd snapshots
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace minio minio charts/minio/
 
@@ -254,13 +308,15 @@ helm upgrade --install --wait --timeout 300 --values values.yaml --namespace log
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging kibana charts/logging/kibana/
 
 # For monitoring stack
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring prometheus-operator charts/monitoring/prometheus-operator/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring node-exporter charts/monitoring/node-exporter/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring grafana charts/monitoring/grafana/
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
 
+# create system ingress objects for kibana/grafana/prometheus/alertmanager
+# and configure Identity Aware Proxy for them
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace iap iap charts/iap/
 ```
 
 ### etcd backups
@@ -313,7 +369,7 @@ The frontend of kubermatic needs to run once, therefore we need exactly one DNS 
 For example, the domain could look like `kubermatic.example.com`.
 
 ##### With LoadBalancer
-When running on a cloud provider which supports services of type [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer), the nginx-chart should be configured to create such a service [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.example.yaml#L134).
+When running on a cloud provider which supports services of type [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer), the nginx-chart should be configured to create such a service [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
 The IP can then be fetched via:
 ```bash
 kubectl -n ingress-nginx get service nginx-ingress-controller -o wide
@@ -324,7 +380,7 @@ The `ExternalIP` field shows the correct IP used for the DNS entry.
 
 ##### Without LoadBalancer
 
-Without a LoadBalancer nginx will run as DaemonSet & allocate 2 ports on the host (80 & 443). Configuration of nginx happens via the [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/values.example.yaml#L134).
+Without a LoadBalancer nginx will run as DaemonSet & allocate 2 ports on the host (80 & 443). Configuration of nginx happens via the [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
 The DNS entry needs to be configured to point to one, or more of the cluster nodes.
 
 #### Seed cluster (user cluster apiservers)
