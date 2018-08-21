@@ -1,11 +1,11 @@
 +++
 title = "Using the seed installer"
 date = 2018-04-28T12:07:15+02:00
-weight = 5
+weight = 20
 pre = "<b></b>"
 +++
 
-## Using the seed installer
+## Seed-Installer
 
 To aid in setting up the seed and master clusters, we provide the [seed-installer](https://github.com/kubermatic/kubermatic-installer/tree/release/v2.6/kubeadm-seed-installer), which is a kubeadm-based solution for setting up a Highly-Available Kubernetes cluster.
 

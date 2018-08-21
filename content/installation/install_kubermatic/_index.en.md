@@ -1,13 +1,9 @@
 +++
 title = "Install Kubermatic"
 date = 2018-04-28T12:07:15+02:00
-weight = 5
+weight = 30
 pre = "<b></b>"
 +++
-
-## Setup Kubermatic
-
-### Master cluster
 
 ## Terminology
 
@@ -17,7 +13,7 @@ pre = "<b></b>"
 * **Seed datacenter** A definition/reference to a seed cluster
 * **Node datacenter** A definition/reference of a datacenter/region/zone at a cloud provider (aws=zone,digitalocean=region,openstack=zone)
 
-## Creating
+## Setup
 
 ### Creating the kubeconfig
 
