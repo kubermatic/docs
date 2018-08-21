@@ -15,11 +15,37 @@ You will want to familiarize yourself with the [basic architecture](/monitoring/
 
 ## Customer-Cluster Prometheus
 
-The basic source of metrics is the Prometheus inside each customer cluster namespace. By default it will only monitor the control plane of that cluster, but you can configure additional scraping rules to also look at the Kubernetes resources inside the actual customer cluster.
+The basic source of metrics is the Prometheus inside each customer cluster namespace. It will track the customer clusters control plane (**IMPORTANT:** it is NOT responsible for the components running in the customer clusters themselves.)
 
 This Prometheus is deployed as part of Kubermatic's cluster creation, which means you cannot directly affect its deployment.
 
-TBD
+Therefore to still allow customization of rules, Kubermatic provides the possibility to specify rules as part of the `values.yaml` which gets fed to the Kubermatic chart.
+
+Custom rules can be added beneath the `clusterNamespacePrometheus.rules` key:
+```yaml
+kubermatic:
+  clusterNamespacePrometheus:
+    disableDefaultRules: false
+    rules:
+      groups:
+      - name: my-custom-group
+        rules:
+        - alert: MyCustomAlert
+          annotations:
+            message: Something happend in {{ $labels.namespace }}
+          expr: |
+            sum(rate(machine_controller_errors_total[5m])) by (namespace) > 0.01
+          for: 10m
+          labels:
+            severity: warning
+```
+
+If you'd like to disable the default rules coming with Kubermatic itself, you can specify the `disableDefaultRules` flag:
+```yaml
+kubermatic:
+  clusterNamespacePrometheus:
+    disableDefaultRules: false
+```
 
 ## Seed-Cluster Prometheus
 
