@@ -19,10 +19,10 @@ The basic source of metrics is the Prometheus inside each customer cluster names
 
 This Prometheus is deployed as part of Kubermatic's cluster creation, which means you cannot directly affect its deployment.
 
-Therefore to still allow customization of rules, kubermatic provides the possibility to specify rules as part of the values.yaml which gets fed to the kubermatic chart.
+Therefore to still allow customization of rules, Kubermatic provides the possibility to specify rules as part of the `values.yaml` which gets fed to the Kubermatic chart.
 
-Custom rules can be added beneath the clusterNamespacePrometheus.rules key:
-```
+Custom rules can be added beneath the `clusterNamespacePrometheus.rules` key:
+```yaml
 kubermatic:
   clusterNamespacePrometheus:
     disableDefaultRules: false
@@ -40,8 +40,8 @@ kubermatic:
             severity: warning
 ```
 
-If you'd like to disable the default rules coming with kubermatic itself, you can specify the disableDefaultRules flag:
-```
+If you'd like to disable the default rules coming with Kubermatic itself, you can specify the `disableDefaultRules` flag:
+```yaml
 kubermatic:
   clusterNamespacePrometheus:
     disableDefaultRules: false
