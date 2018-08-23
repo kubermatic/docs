@@ -5,13 +5,13 @@ weight = 10
 pre = "<b></b>"
 +++
 
-Based on the number of Pods & Nodes in a cluster, the resource usage differ.
+Based on the number of Pods & Nodes in a cluster, the resource usage differs.
 Below some values we identified by testing with the [clusterloader](https://github.com/kubernetes/perf-tests/tree/master/clusterloader2) tool.  
 
 ## Storage
 
-As each user cluster contains a etcd StatefulSet with 3 pods, it requires 3 5GB volumes.   
-5GB might be for some scenarios too big, therefore the size can be configured cluster wide via the values.yaml.
+As each user cluster contains an etcd StatefulSet with 3 pods, it requires 3 5GB volumes.   
+5GB might be for some scenarios too big, therefore the size can be configured cluster-wide via the values.yaml.
 
 ## CPU & Memory
 
@@ -71,5 +71,3 @@ scheduler-76b5f555fc-qwswn            8m           37Mi
 #### Total
 - Memory: `~985Mi`
 - CPU: `~287m`
-
-## Sizing of the Seed-Cluster
