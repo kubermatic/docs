@@ -225,7 +225,7 @@ Create a service account for tiller and bind it to the `cluster-admin` role
 
 ```bash
 kubectl create serviceaccount -n kube-system tiller-sa
-kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller-sa
+kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kube-system:tiller-sa
 ```
 
 Afterwards install tiller with the correct set service account
