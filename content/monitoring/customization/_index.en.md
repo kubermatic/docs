@@ -51,7 +51,7 @@ kubermatic:
 
 ### Scraping Configs
 
-Custom scraping configs can be specified by adding the corresponding entries beneth the `clusterNamespacePrometheus.scrapingConfigs` key in the values.yaml:
+Custom scraping configs can be specified by adding the corresponding entries beneath the `clusterNamespacePrometheus.scrapingConfigs` key in the `values.yaml`:
 
 ```yaml
 clusterNamespacePrometheus:
@@ -65,7 +65,7 @@ clusterNamespacePrometheus:
       regex: true
 ```
 
-Also, the default kubermatic scraping configs can be disabled in the same way:
+Also, the default Kubermatic scraping configs can be disabled in the same way:
 ```yaml
 clusterNamespacePrometheus:
   disableDefaultScrapingConfigs: true
