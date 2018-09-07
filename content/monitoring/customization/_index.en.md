@@ -21,6 +21,8 @@ This Prometheus is deployed as part of Kubermatic's cluster creation, which mean
 
 Therefore to still allow customization of rules, Kubermatic provides the possibility to specify rules as part of the `values.yaml` which gets fed to the Kubermatic chart.
 
+### Rules
+
 Custom rules can be added beneath the `clusterNamespacePrometheus.rules` key:
 ```yaml
 kubermatic:
@@ -45,6 +47,28 @@ If you'd like to disable the default rules coming with Kubermatic itself, you ca
 kubermatic:
   clusterNamespacePrometheus:
     disableDefaultRules: false
+```
+
+### Scraping Configs
+
+Custom scraping configs can be specified by adding the corresponding entries beneath the `clusterNamespacePrometheus.scrapingConfigs` key in the `values.yaml`:
+
+```yaml
+clusterNamespacePrometheus:
+  scrapingConfigs:
+  - job_name: 'schnitzel'
+    kubernetes_sd_configs:
+    - role: pod
+    relabel_configs:
+    - source_labels: [__meta_kubernetes_pod_annotation_kubermatic_scrape]
+      action: keep
+      regex: true
+```
+
+Also, the default Kubermatic scraping configs can be disabled in the same way:
+```yaml
+clusterNamespacePrometheus:
+  disableDefaultScrapingConfigs: true
 ```
 
 ## Seed-Cluster Prometheus
