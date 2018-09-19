@@ -9,19 +9,13 @@ pre = "<b></b>"
 
 ### Install kubernetes cluster
 
-First you need to install kubernetes cluster with some additional components. You can use [installation guide](../install_kubermatic) for it.
-
-* install `tiller` on it
-* install `nodeport-proxy` when running on a cloud provider
-* install `minio` for storing etcd snapshots
-* install `kubermatic` like below
-
+First, you need to install kubernetes cluster with some additional components. You can use [seed installation guide](../seed_installer) for it.
 After the installation of kubernetes you will need  a copy of `kubeconfig` to create a configuration for the new kubermatic master/seed setup.
 
 ### Install kubermatic for seed cluster
 
-First you will need to update `values.yaml` and use this file to update `kubermatic master` using `helm`.
-Second you will need a part of master `values.yaml` e.g. `values-seed.yaml` and install `kubermatic` to the seed cluster with this values.
+First, you will need to update `values.yaml` and use this file to update `kubermatic master` using `helm`.
+Second, you will need a part of master `values.yaml` e.g. `values-seed.yaml` and install `kubermatic` in the seed cluster with this values.
 
 #### Edit existing kubeconfig of the kubermatic master
 
@@ -57,30 +51,13 @@ Add a second seed cluster to the `datacenters.yaml`. You can change some of the 
 
 #### Create a configuration for kubermatic seed
 
-Create a copy of the main `values.yaml`, name it `values-seed.yaml` and leave only this parts:
-```
-kubermatic:
-  docker:
-    secret: "..."
-  quay:
-    secret: "..."
-  auth:
-    tokenIssuer: "..."
-    clientID: "..."
-    skipTokenIssuerTLSVerify: "false"
-  datacenters: "..."
-  kubeconfig: "..."
-  domain: ""
-  controller:
-    datacenterName: "..." # the name of the second seed here
+For the seed cluster, you need a stripped version of the `values.yaml`, you can see an example [here](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.seed.example.yaml)
 
-# if needed
-minio:
-  storeSize: "100Gi"
-  credentials:
-    accessKey: "..."
-    secretKey: "..."
-```
+After the configuration file is created, you can install `kubermatic` to the cluster. You will need some additional services:
+* install `tiller` on it
+* install `nodeport-proxy` when running on a cloud provider
+* install `minio` for storing etcd snapshots
+* install `kubermatic` like below
 
 Install `kubermatic` on the new seed cluster with the new `values-seed.yaml`:
 ```
