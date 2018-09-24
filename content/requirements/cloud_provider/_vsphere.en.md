@@ -13,7 +13,8 @@ When creating worker nodes for a user cluster, the user can specify an existing 
 
 Supported operating systems
 
-* Ubuntu 16.04 [ova](https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-amd64.ova)
+* Ubuntu 16.04 (Kubermatic 2.6 or older) [ova](https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-amd64.ova)
+* Ubuntu 18.04 (Kubermatic 2.7+) [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
 * CoreOS  [ova](https://stable.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova)
 
 #### Importing the OVA:
