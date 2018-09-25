@@ -7,6 +7,10 @@ pre = "<b></b>"
 
 ## VSphere
 
+{{% notice warning %}}
+The Kubernetes vSphere driver contains a bug related to detaching volumes from offline nodes. See the [**Volume detatch bug**](#volume-detach-bug) section for more details.
+{{% /notice %}}
+
 ### VM Images
 
 When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters).
@@ -133,3 +137,11 @@ The vsphere user has to have to following permissions on the correct resources:
         * Clone virtual machine
       * Snapshot management
         * Create snapshot
+
+#### Volume detach bug
+
+After a node is powered-off, the Kubernetes vSphere driver doesn't detach disks associated with PVCs mounted on that node. This makes it impossible to reschedule pods using these PVCs until the disks are manually detached in vCenter.
+
+[Github Issue](https://github.com/kubernetes/kubernetes/issues/63577)  ---  [Open PRs with possible fix](https://github.com/kubernetes/kubernetes/pull/63413)
+
+The fix might be irrelevant in Kubernetes 1.12 because of the introduction of [shutdown taints](https://github.com/kubernetes/kubernetes/pull/63413#issuecomment-402807143).
