@@ -24,7 +24,7 @@ Supported operating systems
 #### Importing the OVA:
 
 1. Go into the VSphere WebUI, select your datacenter, right click onto it and choose "Deploy OVF Template"
-1. Fill in the "URL" field with the appropriate url 
+1. Fill in the "URL" field with the appropriate url
 1. Click through the dialog until "Select storage"
 1. Select the same storage you want to use for your machines
 1. Select the same network you want to use for your machines
@@ -38,20 +38,20 @@ govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
 #### Modifications
 
 Modifications like Network, disk size, etc. must be done in the ova template before creating a worker node from it.
-If user clusters have dedicated networks, all user clusters therefore need a custom template. 
+If user clusters have dedicated networks, all user clusters therefore need a custom template.
 
 ### VM Folder
 
-During creation of a user cluster Kubermatic creates a dedicated VM folder in the root path on the Datastore (Defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters)). 
+During creation of a user cluster Kubermatic creates a dedicated VM folder in the root path on the Datastore (Defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters)).
 That folder will contain all worker nodes of a user cluster.
 
 ### Credentials / Cloud-Config
 
 Kubernetes needs to talk to the vSphere to enable Storage inside the cluster.
-For this, kubernetes needs a config called `cloud-config`. 
+For this, kubernetes needs a config called `cloud-config`.
 This config contains all details to connect to a vCenter installation, including credentials.
 
-As this Config must also be deployed onto each worker node of a user cluster, its recommended to have individual credentials for each user cluster. 
+As this Config must also be deployed onto each worker node of a user cluster, its recommended to have individual credentials for each user cluster.
 
 ### Permissions
 
