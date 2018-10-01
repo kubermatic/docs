@@ -8,7 +8,7 @@ pre = "<b></b>"
 ## VSphere
 
 {{% notice warning %}}
-The Kubernetes vSphere driver contains a bug related to detaching volumes from offline nodes. See the [**Volume detatch bug**](#volume-detach-bug) section for more details.
+Outdated versions of Kubernetes vSphere driver contain a bug related to detaching volumes from offline nodes. See the [**Volume detach bug**](#volume-detach-bug) section for more details.
 {{% /notice %}}
 
 ### VM Images
@@ -142,6 +142,8 @@ The vsphere user has to have to following permissions on the correct resources:
 
 After a node is powered-off, the Kubernetes vSphere driver doesn't detach disks associated with PVCs mounted on that node. This makes it impossible to reschedule pods using these PVCs until the disks are manually detached in vCenter.
 
-[Github Issue](https://github.com/kubernetes/kubernetes/issues/63577)  ---  [Open PRs with possible fix](https://github.com/kubernetes/kubernetes/pull/63413)
+The problem is fixed in the following versions:
 
-The fix might be irrelevant in Kubernetes 1.12 because of the introduction of [shutdown taints](https://github.com/kubernetes/kubernetes/pull/63413#issuecomment-402807143).
+ - `v1.10.8` (and later)
+ - `v1.11.4` (and later)
+ - `v1.12`
