@@ -23,9 +23,9 @@ home = ["HTML", "JSON"]
   # Set this to true to disable this behavior (some proxies don't handle well this optimization)
   disableAssetsBusting = false
   # Set this to true to disable copy-to-clipboard button for inline code.
-  disableInlineCopyToClipBoard = false
+  disableInlineCopyToClipBoard = true
   # A title for shortcuts in menu is set by default. Set this to true to disable it.
-  disableShortcutsTitle = false
+  disableShortcutsTitle = true
   # When using mulitlingual website, disable the switch language button.
   disableLanguageSwitchingButton = true
   # Order sections in menu by "weight" or "title". Default to "weight"
@@ -35,7 +35,7 @@ home = ["HTML", "JSON"]
   # English is the default language
   defaultContentLanguage = "en"
   # Force to have /en/my-page and /fr/my-page routes, even for default language.
-  defaultContentLanguageInSubdir= true
+  defaultContentLanguageInSubdir = true
 
 [Languages]
   [Languages.en]
