@@ -101,3 +101,9 @@ a:hover {
 #sidebar hr {
     border-color: var(--MENU-SECTION-HR-color);
 }
+
+/* remove excessive whitespace */
+
+#body .padding {
+    padding: 1rem 2rem;
+}
