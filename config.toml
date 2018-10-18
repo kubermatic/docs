@@ -49,7 +49,7 @@ home = ["HTML", "JSON"]
   languageName = "German"
 
 [[menu.shortcuts]]
-  name = "<i class='fa fa-github'></i> Github"
+  name = "<i class='fab fa-github'></i> Github"
   identifier = "ds"
   url = "https://github.com/kubermatic/docs"
   weight = 10
@@ -65,17 +65,17 @@ home = ["HTML", "JSON"]
   weight = 30
 
 [[menu.shortcuts]]
-  name = "<i class='fa fa-camera'></i> Imprint"
+  name = "<i class='fa fa-gavel'></i> Imprint"
   url = "https://www.loodse.com/imprint"
   weight = 35
 
 [[menu.shortcuts]]
-  name = "<i class='fa fa-twitter'></i> Kubermatic.io"
+  name = "<i class='fab fa-twitter'></i> Kubermatic.io"
   url = "https://twitter.com/kubermatic"
   weight = 40
 
 [[menu.shortcuts]]
-  name = "<i class='fa fa-twitter'></i> Loodse.com"
+  name = "<i class='fab fa-twitter'></i> Loodse.com"
   url = "https://twitter.com/Loodse"
   weight = 45
 
