@@ -1,19 +1,17 @@
 +++
-title = "Using the seed installer"
+title = "Install HA-Kubernetes"
 date = 2018-04-28T12:07:15+02:00
-weight = 20
+weight = 10
 pre = "<b></b>"
 +++
 
-## Seed-Installer
-
-To aid in setting up the seed and master clusters, we provide the [seed-installer](https://github.com/kubermatic/kubermatic-installer/tree/release/v2.6/kubeadm-seed-installer), which is a kubeadm-based solution for setting up a Highly-Available Kubernetes cluster.
+To aid in setting up the seed and master clusters, we provide the [seed-installer](https://github.com/kubermatic/kubermatic-installer/tree/release/v2.8/kubeadm-seed-installer), which is a [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/)-based solution for setting up a Highly-Available Kubernetes cluster.
 
 The cluster has to interact with a cloud provider.
 
 ## How it works
 
-This installer locally renders assets, copies them to the corresponding machines, installs dependencies on the machines and runs scripts. For this purpose it uses SSH to connect to the machines, thus it requires passwordless sudo. (e.g ubuntu@XMachine) ubuntu needs sudo permissions.
+This installer locally renders assets, copies them to the corresponding machines, installs dependencies on the machines and runs scripts. For this purpose it uses SSH to connect to the machines and requires passwordless `sudo`.
 
 It works in two phases:
 
@@ -21,15 +19,15 @@ It works in two phases:
 
 * Render static assets (configs, systemd units, etcd static pod manifests)
 * Generate PKI on the first master
-* Copy generated assets from master to localmachine
+* Download generated assets from master to local machine
 * Distribute static contents to all master nodes
-* Initialize etcd ring (boot kubelet, providing it with our etcd static manifest).
+* Initialize etcd ring (boot kubelet, providing it with our etcd static manifest)
 
 ### Phase 2
 
 Having a working etcd ring allows us to bootstrap all other control-plane components, in HA mode.
 
-On second pass a script will run `kubeadm init --config=OUR_MASTER_CONFIG.yaml` on every master node. During that phase the kubeadm will show warning like this:
+On second pass a script will run `kubeadm init --config=OUR_MASTER_CONFIG.yaml` on every master node. During that phase kubeadm will show warning like this:
 
 ```
 [preflight] Running pre-flight checks.
@@ -53,11 +51,11 @@ And in the end the script will run `kubeadm join` on every worker node.
 * The cloud-provider-config path, check the provided `cloudconfig-<providername>.sample.conf` files for a reference
 * The cloud provider used (e.g aws).
 
-Copy the `config-example.sh` script to `config.sh`, edit the variables and run `./install.sh`
+Copy the `config-example.sh` script to `config.sh`, edit the variables and run `./install.sh`.
 
 ## Add workers
 
-To add worker nodes simply update to `config.sh` nodes and execute `install-worker.sh`
+To add worker nodes simply update to `config.sh` nodes and execute `install-worker.sh`.
 
 ## Upgrading the cluster
 
