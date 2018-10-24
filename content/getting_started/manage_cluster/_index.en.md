@@ -19,19 +19,17 @@ The dashboard provides you with all important cluster information. You can check
 
 ![Kubermatic cluster details](/img/getting_started/manage_cluster/kubermatic_01.png)
 
-![Kubermatic cluster details](/img/getting_started/manage_cluster/kubermatic_02.png)
-
 #### Adding new nodes to your cluster
 
 You can easily extend your cluster with new worker nodes. Kubermatic will automatically configure them and integrate them into your cluster.
 
-![Kubermatic form for adding new nodes](/img/getting_started/manage_cluster/kubermatic_03.png)
+![Kubermatic form for adding new nodes](/img/getting_started/manage_cluster/kubermatic_02.png)
 
 #### Connect to the cluster
 
 Kubermatic automatically creates your clusters `kubeconfig` file.
 
-![Kubermatic kubeconfig view](/img/getting_started/manage_cluster/kubermatic_04.png)
+![Kubermatic kubeconfig view](/img/getting_started/manage_cluster/kubermatic_03.png)
 
 To connect to your cluster configure `kubectl` command line tool to use your `kubeconfig` file
 
