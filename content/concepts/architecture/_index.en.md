@@ -38,7 +38,7 @@ Kubermatic has the concept of **Datacenters**, for example "AWS US-East", "Digit
 
 Instead of running the Kubermatic master and seed components in a single cluster, it is advisable for large-scale deployments to have multiple, dedicated seed clusters, as pictured below.
 
-![Kubermatic Architecture Diagram](/img/concepts/architecture/dedicated-seed.png)
+![Kubermatic Architecture Diagram](/img/concepts/architecture/dedicated-seeds.png)
 
 This setup is useful for keeping the latency between the master components of a customer cluster and the worker nodes as small as possible, improving the Kubernetes performance for customers. In this setup, the supported datacenters are assigned to a single seed, for example
 
