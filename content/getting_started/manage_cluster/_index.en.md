@@ -1,11 +1,11 @@
 +++
-title = "Manage a cluster"
+title = "Manage Clusters"
 date = 2018-04-28T12:07:15+02:00
-weight = 10
+weight = 30
 pre = "<b></b>"
 +++
 
-## Manage a cluster
+## Manage Clusters
 
 #### Cluster overview
 

@@ -1,11 +1,11 @@
 +++
-title = "Create a cluster"
+title = "Create a Cluster"
 date = 2018-04-28T12:07:15+02:00
-weight = 5
+weight = 20
 pre = "<b></b>"
 +++
 
-## Create a cluster
+## Create a Cluster
 
 {{% notice note %}}
 You can try setting up a cluster by yourself using our demo at [cloud.kubermatic.io](https://cloud.kubermatic.io)!
