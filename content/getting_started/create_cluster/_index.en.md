@@ -52,3 +52,5 @@ This step varies depending on the selected provider! You will be asked for diffe
 Check wether all your configuration settings are correct and create your cluster!
 
 ![Screenshot of Kubermatic's final cluster creation wizard page](/img/getting_started/create_cluster/kubermatic_05.png)
+
+Please note that depending on the capacities in the seed cluster and the chosen cloud provider, cluster creation can take up to a few minutes until your nodes are ready.

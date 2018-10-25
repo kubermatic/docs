@@ -9,7 +9,7 @@ Kubermatic organizes your clusters into projects. Projects allow you to share cl
 
 ### Step 1 – Create a Project
 
-After you log in to Kubermatic, you will be greeted with the list of all projects you created or have have been given access to. When first using Kubermatic, the list will be empty and you will need to create your first project.
+After you log in to Kubermatic, you will be greeted with the list of all projects you created or have been given access to. When first using Kubermatic, the list will be empty and you will need to create your first project.
 
 ![Screenshot of Kubermatic's first cluster creation wizard page](/img/getting_started/manage_projects/projects_00.png)
 
