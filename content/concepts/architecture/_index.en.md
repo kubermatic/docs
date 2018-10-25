@@ -24,7 +24,7 @@ The Kubermatic components are the
 
 The **Seed Cluster** is a Kubernetes cluster which is responsible for hosting the master components of a customer cluster.
 
-The seed cluster uses namespaces of Kubernetes to logically separate resources from each other. Kubermatic will install the master components of a Kubernetes cluster within each namespace, plus a light monitoring stack consisting of Prometheus and an OpenVPN server to allow secure communication between the master components in the seed cluster and the worker nodes.
+The seed cluster uses namespaces of Kubernetes to logically separate resources from each other. Kubermatic will install the master components of a Kubernetes cluster within each namespace, plus a light monitoring stack consisting of Prometheus and an OpenVPN server to allow secure communication between the master components in the seed cluster and the pod/service network of the worker nodes.
 
 ### Customer Cluster
 
