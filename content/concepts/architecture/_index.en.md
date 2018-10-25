@@ -11,7 +11,7 @@ Kubermatic makes full use of Kubernetes cluster to organize and scale workloads,
 
 ### Master Cluster
 
-The **Master Cluster** a Kubernetes cluster which is responsible for storing the information about users, projects, clusters and SSH keys.
+The **Master Cluster** a Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys.
 It hosts the Kubermatic components and might also act as a seed cluster.
 
 The Kubermatic components are the
