@@ -2,7 +2,7 @@
 :root{
 
     --MAIN-TEXT-color:#323232; /* Color of text by default */
-    --MAIN-TITLES-TEXT-color: #5e5e5e; /* Color of titles h2-h3-h4-h5 */
+    --MAIN-TITLES-TEXT-color: #323232; /* Color of titles h2-h3-h4-h5 */
     --MAIN-LINK-color:#1C90F3; /* Color of links */
     --MAIN-LINK-HOVER-color:#167ad0; /* Color of hovered links */
     --MAIN-ANCHOR-color: #1C90F3; /* color of anchors on titles */
@@ -16,12 +16,11 @@
 
     --MENU-SECTIONS-ACTIVE-BG-color:#fff; /* Background color of the active section and its childs */
     --MENU-SECTIONS-BG-color:#F6F6F6; /* Background color of other sections */
-    --MENU-SECTIONS-LINK-color: #5e5e5e; /* Color of links in menu */
-    --MENU-SECTIONS-LINK-HOVER-color: #1e1e1e;  /* Color of links in menu, when hovered */
-    --MENU-SECTION-ACTIVE-CATEGORY-color: #999; /* Color of active category text */
-    --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #F6F6F6; /* Color of background for the active category (only) */
+    --MENU-SECTIONS-LINK-color: #0288d1; /* Color of links in menu */
+    --MENU-SECTIONS-LINK-HOVER-color: #0f3c55;  /* Color of links in menu, when hovered */
+    --MENU-SECTION-ACTIVE-CATEGORY-color: #0f3c55; /* Color of active category text */
 
-    --MENU-VISITED-color: #33a1ff; /* Color of 'page visited' icons in menu */
+    --MENU-VISITED-color: #1C90F3; /* Color of 'page visited' icons in menu */
     --MENU-SECTION-HR-color: #1B5178; /* Color of <hr> separator in menu */
 
 }
@@ -56,48 +55,116 @@ a:hover {
 }
 
 #body a.highlight:after {
-    display: block;
-    content: "";
-    height: 1px;
-    width: 0%;
-    -webkit-transition: width 0.5s ease;
-    -moz-transition: width 0.5s ease;
-    -ms-transition: width 0.5s ease;
-    transition: width 0.5s ease;
     background-color: var(--MAIN-LINK-HOVER-color);
 }
+
 #sidebar {
 	background-color: var(--MENU-SECTIONS-BG-color);
 }
+
 #sidebar #header-wrapper {
     background: var(--MENU-HEADER-BG-color);
     color: var(--MENU-SEARCH-BOX-color);
     border-color: var(--MENU-HEADER-BORDER-color);
 }
+
 #sidebar .searchbox {
 	border-color: var(--MENU-SEARCH-BOX-color);
     background: var(--MENU-SEARCH-BG-color);
 }
-#sidebar ul.topics > li.parent, #sidebar ul.topics > li.active {
-    background: var(--MENU-SECTIONS-ACTIVE-BG-color);
-}
+
 #sidebar .searchbox * {
     color: var(--MENU-SEARCH-BOX-ICONS-color);
 }
 
-#sidebar a {
+#sidebar ul.topics > li.parent,
+#sidebar ul.topics > li.active {
+    background: var(--MENU-SECTIONS-ACTIVE-BG-color);
+}
+
+#sidebar .topics a {
     color: var(--MENU-SECTIONS-LINK-color);
 }
 
-#sidebar a:hover {
+#sidebar .topics a:hover {
     color: var(--MENU-SECTIONS-LINK-HOVER-color);
 }
 
-#sidebar ul li.active > a {
-    background: var(--MENU-SECTION-ACTIVE-CATEGORY-BG-color);
+#sidebar .topics ul li.active > a {
     color: var(--MENU-SECTION-ACTIVE-CATEGORY-color) !important;
 }
 
 #sidebar hr {
     border-color: var(--MENU-SECTION-HR-color);
+}
+
+#shortcuts a {
+    color: var(--MENU-SECTIONS-LINK-color);
+}
+
+#shortcuts a:hover {
+    color: var(--MENU-SECTIONS-LINK-HOVER-color);
+}
+
+#footer,
+#footer a {
+    color: var(--MAIN-TEXT-color);
+}
+
+#footer a:hover {
+    color: var(--MENU-SECTIONS-LINK-color);
+}
+
+/* remove excessive whitespace */
+
+#body .padding {
+    padding: 1rem;
+}
+
+#footer {
+    padding: 1rem;
+}
+
+#sidebar .highlightable {
+    padding: 0;
+}
+
+#sidebar ul.topics ul {
+    padding-bottom: 10px;
+}
+
+#chapter {
+    padding: 0;
+}
+
+#body-inner {
+    margin-bottom: 0;
+}
+
+/* fix hugo-learn's awful readability */
+
+body {
+    font-size: 1.1rem !important;
+    line-height: 1.5;
+}
+
+pre code {
+    font-size: 1rem !important;
+}
+
+#top-bar {
+    font-size: 1rem;
+}
+
+div.notices p {
+    font-size: inherit;
+}
+
+ul, ol, pre {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    margin-bottom: 1rem;
 }

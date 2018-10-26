@@ -4,7 +4,7 @@ date = 2018-08-17T12:07:15+02:00
 weight = 0
 +++
 
-This page describes the various monitoring components in a Kubermatic stack and how they work together to provide metrics to manage the Kubernetes clusters.
+Kubermatic uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. Dashboarding is done with [Grafana](https://grafana.com).
 
 ## Overview
 
@@ -23,3 +23,8 @@ The seed-level Prometheus uses Prometheus' native federation mechanism to scrape
 * all metrics labelled with `kubermatic=federate`
 
 The last of these options is used for pre-aggregated metrics, which combine highly detailed time series (like from etcd) into smaller, easier to handle metrics that can be readily used inside Grafana.
+
+## Grafana
+
+In a default Kubermatic installation we ship Grafana as _readonly_ metrics dashboard.
+When working with Grafana please keep in mind, that __ALL CHANGES__ done using the Grafana UI (like adding datasources, etc.) __WILL NOT BE PERSISTED__. Dashboards, graphs, datasources, etc. will be defined using the Helm chart.
