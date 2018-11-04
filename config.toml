@@ -49,12 +49,6 @@ weight = 2
 languageName = "German"
 
 [[menu.shortcuts]]
-name = "<i class='fab fa-github'></i> Github"
-identifier = "ds"
-url = "https://github.com/kubermatic/docs"
-weight = 10
-
-[[menu.shortcuts]]
 name = "<i class='fa fa-globe'></i> Kubermatic.io"
 url = "https://kubermatic.io"
 weight = 15
