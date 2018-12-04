@@ -7,7 +7,7 @@ pre = "<b></b>"
 
 ### Kubermatic OIDC authentication
 
-Allows for using OIDC provider for example `dex` to authenticate to kubernetes clusters. You can use this feature to share access to your clusters with other users.
+The purpose of this feature is to allow for using OIDC provider, for example `dex` to authenticate to kubernetes clusters. You can use this feature to share access to your clusters with other users.
 **Note** that this feature is experimental and not enabled by default. See [prerequisites](/advanced/oidc_auth/#prerequisites) section for instruction on how to enable it in your installation.
 
 ### How does it work
@@ -17,7 +17,7 @@ to explicitly grant permissions by creating appropriate `RBAC` roles and binding
 
 Before we start, the very first thing we need to do is to grant some permissions. We are going to utilize an existing `viewer` role and assign it to the user.
 The user name will be taken directly from the email address which will be encoded in `kubeconfig` we are going to create. 
-The following command grants read only access to the cluster to `lukasz@loodse.com`.
+The following command grants read-only access to the cluster to `lukasz@loodse.com`.
 
 ```
 kubectl create clusterrolebinding lukaszviewer --clusterrole=view --user=lukasz@loodse.com
