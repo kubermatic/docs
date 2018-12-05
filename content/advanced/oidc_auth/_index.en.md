@@ -12,12 +12,12 @@ The purpose of this feature is to allow for using OIDC provider, for example `de
 
 ### How does it work
 
-This section will demonstrate how to obtain and use `kubeconfig` to connect to a cluster. Note that the user, the one that wil generate `kubeconfig` will not have any permissions when accessing the cluster. You will have
-to explicitly grant permissions by creating appropriate `RBAC` roles and bindings.
+This section will demonstrate how to obtain and use `kubeconfig` to connect to a cluster. Note that the user, the one that wil generate `kubeconfig` will not have any permissions when accessing the cluster. 
+You will have to explicitly grant permissions by creating appropriate [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac) roles and bindings.
 
 Before we start, the very first thing we need to do is to grant some permissions. We are going to utilize an existing `viewer` role and assign it to the user.
 The user name will be taken directly from the email address which will be encoded in `kubeconfig` we are going to create. 
-The following command grants read-only access to the cluster to `lukasz@loodse.com`.
+The following command grants read-only access to the cluster to `lukasz@loodse.com`. For more details see [Using RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac) from the official Kubernetes documentation.
 
 ```
 kubectl create clusterrolebinding lukaszviewer --clusterrole=view --user=lukasz@loodse.com
