@@ -53,35 +53,37 @@ Error from server (Forbidden): pods is forbidden: User "lukasz@loodse.com" canno
 
 ### Prerequisites 
 
-In order to enable the feature the necessary flags must be passed to various applications:
+In order to enable the feature the necessary flags must be passed to various applications.
+This is best done by directly changing the entries in the corresponding `values.yaml` file. 
 
-`kubermatic-api-server` must be run with the following flags:
-```
--feature-gates=OIDCKubeCfgEndpoint=true
--oidc-issuer-redirect-uri=REDACTED
--oidc-issuer-client-id=REDACTED
--oidc-issuer-client-secret=REDACTED
--oidc-issuer-cookie-hash-key=REDACTED
-```
+`kubermatic-api-server` must be run with the following flags.
 
+```
+--feature-gates={{ .Values.kubermatic.api.featureGates }} # must contain "OIDCKubeCfgEndpoint=true"
+--oidc-issuer-redirect-uri={{ .Values.kubermatic.auth.issuerRedirectURL }}
+--oidc-issuer-client-id={{ .Values.kubermatic.auth.issuerClientID }}
+--oidc-issuer-client-secret={{ .Values.kubermatic.auth.issuerClientSecret }}
+--oidc-issuer-cookie-hash-key={{ .Values.kubermatic.auth.issuerCookieKey }}
+
+```
+ 
 `kubermatic-controll-manager` must be run with the following flags.
 Note that `oidc-ca-file` must contain OIDC provider's root CA certificates chain, 
 see [Root CA certificates chain](/advanced/oidc_auth/#root-ca-certificates-chain) section that explains how to create the file.
 
 ```
--feature-gates=OpenIDAuthPlugin=true 
--oidc-issuer-url=REDACTED
--oidc-issuer-client-id=REDACTED 
--oidc-ca-file=REDACTED
+--feature-gates={{ .Values.kubermatic.controller.featureGates }}  # must contain "OpenIDAuthPlugin=true"
+--oidc-issuer-url={{ .Values.kubermatic.auth.tokenIssuer }}
+--oidc-issuer-client-id={{ .Values.kubermatic.auth.issuerClientID }}
+--oidc-ca-file={{ .Values.kubermatic.ui.config }}
+
 ```
 
+`conifg.json` file for `kubermatic-dashboard` must contain `"share_kubeconfig":true`. 
+You can set it by changing the following entry in the `values.yaml` file.
 
-`conifg.json` file for `kubermatic-dashboard` must contain the following fields:
 ```
-{
-...
-"share_kubeconfig": true
-}
+{{ .Values.kubermatic.ui.config }}
 ```
 
 ### Root CA certificates chain
