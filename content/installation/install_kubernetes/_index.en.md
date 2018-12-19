@@ -70,7 +70,7 @@ Next edit `/etc/kubernetes/kubeadm-config.yaml` and set the Kubernetes version.
 Now you can simply initialize this node with the new Kubernetes version like:
 
 ```bash
-sudo kubeadm init --config /etc/kubernetes/kubeadm-config.yaml --ignore-preflight-errors all`
+sudo kubeadm init --config /etc/kubernetes/kubeadm-config.yaml --ignore-preflight-errors all
 ```
 
 Once that's done you should see the apiserver, node-controller and scheduler restarting. These components are now running in the new version.
