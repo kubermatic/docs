@@ -5,7 +5,7 @@ weight = 10
 pre = "<b></b>"
 +++
 
-To aid in setting up the seed and master clusters, we provide the [seed-installer](https://github.com/kubermatic/kubermatic-installer/tree/release/v2.8/kubeadm-seed-installer), which is a [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/)-based solution for setting up a Highly-Available Kubernetes cluster.
+To aid in setting up the seed and master clusters, we provide the seed-installer, which is a [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/)-based solution for setting up a Highly-Available Kubernetes cluster.
 
 The cluster has to interact with a cloud provider.
 
