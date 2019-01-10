@@ -46,7 +46,7 @@ Therefore we need to set the `--initial-cluster-state` flag to `existing`:
 ```bash
 # Look for export INITIAL_STATE="new" and update to export INITIAL_STATE="existing"
 kubectl -n cluster-xxxxxxxxxx edit statefulset etcd
-# Wait for all etcd pods to restart (the failed member will fail to start)
+# Wait until the faulty member got updated or delete the pod to enforce a update.
 ```
 
 Now add the member manually to the etcd-internal member management:
