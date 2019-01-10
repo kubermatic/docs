@@ -15,7 +15,7 @@ Scenarios though could be:
 Replacing a failed etcd member requires manual intervention.
 As the StatefulSet needs to be modified, the affected cluster needs to be disabled from the controllers management:
 ```bash
-# set cluster.spec.paused=true
+# set cluster.spec.pause=true
 kubectl edit cluster xxxxxxxxxx
 ```
 
@@ -46,7 +46,7 @@ Therefore we need to set the `--initial-cluster-state` flag to `existing`:
 ```bash
 # Look for export INITIAL_STATE="new" and update to export INITIAL_STATE="existing"
 kubectl -n cluster-xxxxxxxxxx edit statefulset etcd
-# Wait until the faulty member got updated or delete the pod to enforce a update.
+# Wait until the faulty member got updated or delete the pod to enforce an update.
 ```
 
 Now add the member manually to the etcd-internal member management:
@@ -77,8 +77,8 @@ The etcd pod (etcd-0) should now start and sync with the existing members.
 Now wait until all pods are being displayed as ready.
 
 #### Unpausing the cluster
-As the etcd is now back and all members are healthy, we can reset the `paused` flag on the cluster:
+As the etcd is now back and all members are healthy, we can reset the `pause` flag on the cluster:
 ```bash
-# set cluster.spec.paused=false
+# set cluster.spec.pause=false
 kubectl edit cluster xxxxxxxxxx
 ```
