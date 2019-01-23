@@ -16,6 +16,35 @@ The script will:
 - Remove the helm release ConfigMaps ([more information about Helm ConfigMaps](http://technosophos.com/2017/03/23/how-helm-uses-configmaps-to-store-data.html))
 - Install the new kubermatic helm chart
 
+### Enforcing floating IP's for OpenStack nodes
+
+Until Kubermatic v2.9 all OpenStack nodes got assigned a floating IP.
+With v2.9 this behaviour changes, as floating IP's are now optional by default.
+Within the "Add Node" dialog, the user can specific if a floating IP should be assigned or not.
+
+If the assignment of floating IP's is a requirement to ensure Node-> API server communication, the assignment can be enforced within the datacenters.yaml:
+```yaml
+  loodse-hamburg-1:
+    location: Hamburg
+    seed: europe-west3-c
+    country: DE
+    provider: openstack
+    spec:
+      openstack:
+        auth_url: https://some-keystone:5000/v3
+        availability_zone: hamburg-1
+        region: hamburg
+        dns_servers:
+        - "8.8.8.8"
+        - "8.8.4.4"
+        images:
+          ubuntu: "Ubuntu 18.04 LTS - 2018-08-10"
+          centos: ""
+          coreos: ""
+        # Enforce the assignment for floating IP's for nodes of this datacenter
+        enforce_floating_ip: true
+```
+
 ### Alpha features
 
 ####  VerticalPodAutoscaler
