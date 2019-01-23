@@ -16,6 +16,32 @@ The script will:
 - Remove the helm release ConfigMaps ([more information about Helm ConfigMaps](http://technosophos.com/2017/03/23/how-helm-uses-configmaps-to-store-data.html))
 - Install the new kubermatic helm chart
 
+### Updating Helm Charts
+
+#### Ark
+
+Ark 0.10 requires significant changes to the chart configuation in your `values.yaml`. Please consult the `values.yaml` inside
+the chart to learn more about the new configuration structure. For exsiting backups, Heptio provides a script to migrate them.
+Consult the [official upgrade guide](https://heptio.github.io/ark/v0.10.0/upgrading-to-v0.10) for more information.
+
+#### cert-manager
+
+When updating an existing cert-manager, make sure to manually label the `cert-manager` namespace:
+
+```bash
+kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+```
+
+Without this label, the new cert-manager will not be able to create its own PKI and the pods will crashloop because `webhook-tls`
+and `webhook-ca` secrets cannot be found.
+
+#### node-exporter
+
+The new version 0.17 has made significant changes to the metric names it provides. Consult the [official guidelines](https://github.com/prometheus/node_exporter/blob/master/docs/V0_16_UPGRADE_GUIDE.md) to learn more about the new names and adjust
+your recording and alerting rules as needed. Note that Kubermatic does not install the recording rules to keep the old metric names
+intact, so you will notice gaps in the Grafana charts after you updated.
+
+
 ### Enforcing floating IP's for OpenStack nodes
 
 Until Kubermatic v2.9 all OpenStack nodes got assigned a floating IP.
@@ -66,13 +92,13 @@ For example:
 kubectl -n cluster-xxxxxx get vpa
 ```
 
-If the VerticalPodAutoscaler notices a difference by 20% between the current usage and the specified resource request, the pod will be deleted, so it gets recreated by the controller(ReplicaSet, StatefulSet). 
+If the VerticalPodAutoscaler notices a difference by 20% between the current usage and the specified resource request, the pod will be deleted, so it gets recreated by the controller(ReplicaSet, StatefulSet).
 More details on the VerticalPodAutoscaler can be found in the official repository: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#vertical-pod-autoscaler
 
 ##### Issues
 
 **API server downtime**
-In case the VPA needs to scale up the API server and the cluster only has 1 replica, the API server won't be available for a short timeframe. 
+In case the VPA needs to scale up the API server and the cluster only has 1 replica, the API server won't be available for a short timeframe.
 
 **New pods cannot be scheduled**
 In case the VPA deletes a Pod, the new Pod might be rescheduled in case the cluster has not enough resources available for fulfil the pods resource request.
