@@ -24,7 +24,7 @@ Within the "Add Node" dialog, the user can specific if a floating IP should be a
 
 If the assignment of floating IP's is a requirement to ensure Node-> API server communication, the assignment can be enforced within the datacenters.yaml:
 ```yaml
-  syseleven-dbl1:
+  loodse-hamburg-1:
     location: Hamburg
     seed: europe-west3-c
     country: DE
