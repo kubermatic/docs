@@ -260,6 +260,12 @@ https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.exam
 
 A storageclass with the name `kubermatic-fast` needs to exist within the cluster.
 
+### Create all CustomResourceDefinitions
+
+```bash
+kubectl apply -f charts/kubermatic/crd
+```
+
 ### Deploy/Update all charts
 
 Install helm on you local system & setup tiller within the cluster:
