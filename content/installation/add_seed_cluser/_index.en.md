@@ -9,11 +9,15 @@ pre = "<b></b>"
 
 ### 1. Install Kubernetes cluster
 
-First, you need to install Kubernetes cluster with some additional components. You can use [seed installation guide](../install_kubernetes) for it. After the installation of Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic master/seed setup.
+First, you need to install Kubernetes cluster with some additional components. You can use [seed installation
+guide](../install_kubernetes) for it. After the installation of Kubernetes you will need a copy of the `kubeconfig` to
+create a configuration for the new Kubermatic master/seed setup.
 
 ### 2. Install Kubermatic on Seed Cluster
 
-First, you will need to update your `values.yaml` and use this file to update the `kubermatic` chart on the master cluster using `helm`. Afterwards, you will need a part of master `values.yaml` e.g. `values-seed.yaml` and install `Kubermatic` in the seed cluster with this values.
+First, you will need to update your `values.yaml` and use this file to update the `kubermatic` chart on the master
+cluster using `helm`. Afterwards, you will need a part of master `values.yaml` e.g. `values-seed.yaml` and install
+`Kubermatic` in the seed cluster with this values.
 
 #### Edit existing kubeconfig of the Kubermatic Master
 
@@ -46,19 +50,22 @@ Add a second `user` to the `users` section:
     token: ...
 ```
 
-{{% notice note %}}
-Make sure to provide static, long-lived credentials. Temporary credentials created by authentication providers (like on GKE or EKS) will not work.
-{{% /notice %}}
+{{% notice note %}} Make sure to provide static, long-lived credentials. Temporary credentials created by authentication
+providers (like on GKE or EKS) will not work. {{% /notice %}}
 
 #### Edit existing `datacenters.yaml` of the Kubermatic Master
 
-Add a second seed cluster to the `datacenters.yaml`. You can change some of the existing data centers to have a new seed. Now put the new base64 encoded values for `datacenters: ...` and `kubeconfig: ...` into your `values.yaml` with configuration for Kubermatic.
+Add a second seed cluster to the `datacenters.yaml`. You can change some of the existing data centers to have a new
+seed. Now put the new base64 encoded values for `datacenters: ...` and `kubeconfig: ...` into your `values.yaml` with
+configuration for Kubermatic.
 
 #### Create a Configuration for Kubermatic Seed
 
-For the seed cluster, you need a stripped version of the `values.yaml`, you can see an example [here](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.seed.example.yaml)
+For the seed cluster, you need a stripped version of the `values.yaml`, you can see an example
+[here](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.seed.example.yaml)
 
-After the configuration file is created, you can install Kubermatic to the cluster. You will need some additional services:
+After the configuration file is created, you can install Kubermatic to the cluster. You will need some additional
+services:
 
 * install `tiller` on it
 * install `nodeport-proxy` when running on a cloud provider

@@ -8,9 +8,11 @@ draft = true
 
 ## Contributing to Kubermatic Docs
 
-The [Kubermatic Docs](http://docs.kubermatic.io) source repository can be found on [Github](https://github.com/kubermatic/docs).
+The [Kubermatic Docs](http://docs.kubermatic.io) source repository can be found on
+[Github](https://github.com/kubermatic/docs).
 
-To generate the documentation you will need to download and install the [Hugo](https://gohugo.io/overview/installing/) static website engine.
+To generate the documentation you will need to download and install the [Hugo](https://gohugo.io/overview/installing/)
+static website engine.
 
 Clone the repository to your local device and create a new feature branch.
 
@@ -27,15 +29,22 @@ hugo server -b localhost:1313 -w
 
 ## Repository organization
 
-The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [Hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository root level should be mentioned:
+The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [Hugo
+directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository
+root level should be mentioned:
 
 ### /content
 
-`content`: All content for [kubermatic/docs](https://github.com/kubermatic/docs) will live inside this directory. Each top-level folder in Hugo is considered a `content section`.
+`content`: All content for [kubermatic/docs](https://github.com/kubermatic/docs) will live inside this directory. Each
+top-level folder in Hugo is considered a `content section`.
 
 ### /static
 
-`static`: Stores all the static content for [kubermatic/docs](https://github.com/kubermatic/docs) website: images, CSS, JavaScript, etc. When Hugo builds the documentation, all assets inside your static directory are copied over as-is. The `/static` folder contains the `static/media` folder for root directory content media files, inside which are subfolders with the images for each documentation article. The article image folders are named identically to the article file, minus the `.md` file extension.
+`static`: Stores all the static content for [kubermatic/docs](https://github.com/kubermatic/docs) website: images, CSS,
+JavaScript, etc. When Hugo builds the documentation, all assets inside your static directory are copied over as-is. The
+`/static` folder contains the `static/media` folder for root directory content media files, inside which are subfolders
+with the images for each documentation article. The article image folders are named identically to the article file,
+minus the `.md` file extension.
 
 ## Creating a new article for Kubermatic Docs
 
@@ -49,7 +58,8 @@ content
 │   ├── _index.en.md
 ```
 
-A folder with the title of the new section must be created below the `/content` directory. An index file named `_index.en.md` is created in this folder, which has the following structure and metadata:
+A folder with the title of the new section must be created below the `/content` directory. An index file named
+`_index.en.md` is created in this folder, which has the following structure and metadata:
 
 ```
 +++
@@ -67,7 +77,8 @@ pre = "<b>2. </b>"                    // Add a prefix to the menu name
 Some content...
 ```
 
-Within the folder with the new section, the individual chapters are created in subfolders; a file named `_index.en.md` is also stored in each subfolder.
+Within the folder with the new section, the individual chapters are created in subfolders; a file named `_index.en.md`
+is also stored in each subfolder.
 
 ```
 +++
@@ -81,7 +92,8 @@ weight = 5                           // Menu sorting
 Some content...
 ```
 
-To generate the static website files simply run the `hugo` command on the root directory. All files will be generated into the `/public` folder. For local development generate and serve the documentation at `localhost:1313`:
+To generate the static website files simply run the `hugo` command on the root directory. All files will be generated
+into the `/public` folder. For local development generate and serve the documentation at `localhost:1313`:
 
 ```
 hugo server -b localhost:1313 -w

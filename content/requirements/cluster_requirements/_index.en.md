@@ -29,7 +29,8 @@ pre = "<b></b>"
 * 2 GB or more of RAM per machine (any less will leave little room for your apps)
 * 2 CPUs or more
 * Full network connectivity between all machines in the cluster (public or private network is fine)
-* Unique hostname, MAC address, and product_uuid for every node. See [here](#verify-the-mac-address-and-product-uuid-are-unique-for-every-node) for more details.
+* Unique hostname, MAC address, and product_uuid for every node. See
+  [here](#verify-the-mac-address-and-product-uuid-are-unique-for-every-node) for more details.
 * Certain ports are open on your machines. See below for more details.
 * Swap disabled. You **MUST** disable swap in order for the kubelet to work properly.
 
@@ -38,11 +39,14 @@ pre = "<b></b>"
 * You can get the MAC address of the network interfaces using the command `ip link` or `ifconfig -a`
 * The product_uuid can be checked by using the command `sudo cat /sys/class/dmi/id/product_uuid`
 
-It is very likely that hardware devices will have unique addresses, although some virtual machines may have identical values. Kubernetes uses these values to uniquely identify the nodes in the cluster. If these values are not unique to each node, the installation process may [fail](https://github.com/kubernetes/kubeadm/issues/31).
+It is very likely that hardware devices will have unique addresses, although some virtual machines may have identical
+values. Kubernetes uses these values to uniquely identify the nodes in the cluster. If these values are not unique to
+each node, the installation process may [fail](https://github.com/kubernetes/kubeadm/issues/31).
 
 ### Check network adapters
 
-If you have more than one network adapter, and your Kubernetes components are not reachable on the default route, we recommend you add IP route(s) so Kubernetes cluster addresses go via the appropriate adapter.
+If you have more than one network adapter, and your Kubernetes components are not reachable on the default route, we
+recommend you add IP route(s) so Kubernetes cluster addresses go via the appropriate adapter.
 
 ### Check required ports
 

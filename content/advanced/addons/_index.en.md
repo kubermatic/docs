@@ -7,47 +7,75 @@ pre = "<b></b>"
 
 ### Kubermatic addons
 
-Addons are specific services and tools extending functionality of Kubernetes. In Kubermatic we have a set of default addons installed on each user-cluster. The default addons are:
+Addons are specific services and tools extending functionality of Kubernetes. In Kubermatic we have a set of default
+addons installed on each user-cluster. The default addons are:
 
 * [Canal](https://github.com/projectcalico/canal): policy based networking for cloud native applications
 * [Dashboard](https://github.com/kubernetes/dashboard): General-purpose web UI for Kubernetes clusters
 * [DNS](https://github.com/kubernetes/dns): Kubernetes DNS service
-* [heapster](https://github.com/kubernetes/heapster): Compute Resource Usage Analysis and Monitoring of Container Clusters
+* [heapster](https://github.com/kubernetes/heapster): Compute Resource Usage Analysis and Monitoring of Container
+  Clusters
 * [kube-proxy](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/): Kubernetes network proxy
-* [rbac](https://kubernetes.io/docs/reference/access-authn-authz/rbac/): Kubernetes Role-Based Access Control, needed for [TLS node bootstrapping](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/)
-* [OpenVPN client](https://openvpn.net/index.php/open-source/overview.html): virtual private network (VPN) implementation
+* [rbac](https://kubernetes.io/docs/reference/access-authn-authz/rbac/): Kubernetes Role-Based Access Control, needed
+  for [TLS node
+  bootstrapping](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/)
+* [OpenVPN client](https://openvpn.net/index.php/open-source/overview.html): virtual private network (VPN)
+  implementation
 
-Installation and configuration of these addons is done by the `addon-controller` which is part of Kubermatic. Two components are responsible for the addons management:
+Installation and configuration of these addons is done by the `addon-controller` which is part of Kubermatic. Two
+components are responsible for the addons management:
 
-* `kubermatic-controller-manager` is a wrapper for two addons `addon-controller` and `addon-installer-controller` and provides a path to the addon manifests via flag `-addons-path=/opt/addons` and  controls which of the addons should be installed via flag `-addons-list=dns,...`
+* `kubermatic-controller-manager` is a wrapper for two addons `addon-controller` and `addon-installer-controller` and
+  provides a path to the addon manifests via flag `-addons-path=/opt/addons` and controls which of the addons should be
+  installed via flag `-addons-list=dns,...`
 
 #### Configuration
 
-The configuration of `kubermatic-controller-manager` and `kubermatic-api` is done via flags. Deployment of these components is done via [helm](https://docs.helm.sh/using_helm/#using-helm). Helm charts for the components are stored in the `charts/kubermatic/templates/` folder from the `kubermatic-installer` repository. You can find kubermatic-api chart [here](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/charts/kubermatic/templates/kubermatic-api-dep.yaml) and kubermatic-controller-manager chart [here](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/charts/kubermatic/templates/kubermatic-controller-manager-dep.yaml). Configuration of the charts can be done via the `values.yaml` file and applied with `helm upgrade`:
+The configuration of `kubermatic-controller-manager` and `kubermatic-api` is done via flags. Deployment of these
+components is done via [helm](https://docs.helm.sh/using_helm/#using-helm). Helm charts for the components are stored in
+the `charts/kubermatic/templates/` folder from the `kubermatic-installer` repository. You can find kubermatic-api chart
+[here](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/charts/kubermatic/templates/kubermatic-api-dep.yaml)
+and kubermatic-controller-manager chart
+[here](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/charts/kubermatic/templates/kubermatic-controller-manager-dep.yaml).
+Configuration of the charts can be done via the `values.yaml` file and applied with `helm upgrade`:
 
 ```
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic
 ```
 
-`kubermatic-api` controls which addons should be installed by default. 
-`addon-manager` controls where to get the manifests for the addons and their installation process.  
-`kubermatic` is delivered with manifests for all default addons. Each addon is represented by manifest files in a sub-folder. All addons will be built into a Docker container called `kubermatic/addons` which the `addon-controller` uses to install addons. The Docker image is freely accessible to let customers extend & modify this image for their own purpose. The addon-controller will read all addon manifests from a specified folder. The default folder for this is `/opt/addons` and it should contain sub-folders for each addon. This folder is created as a volume during the container initialization process of `addon-manager` in the [init pod](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/) and is specified in [kubermatic-controller-manager-dep.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/charts/kubermatic/templates/kubermatic-controller-manager-dep.yaml).
+`kubermatic-api` controls which addons should be installed by default. `addon-manager` controls where to get the
+manifests for the addons and their installation process.
+`kubermatic` is delivered with manifests for all default addons. Each addon is represented by manifest files in a
+sub-folder. All addons will be built into a Docker container called `kubermatic/addons` which the `addon-controller`
+uses to install addons. The Docker image is freely accessible to let customers extend & modify this image for their own
+purpose. The addon-controller will read all addon manifests from a specified folder. The default folder for this is
+`/opt/addons` and it should contain sub-folders for each addon. This folder is created as a volume during the container
+initialization process of `addon-manager` in the [init
+pod](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/) and is specified in
+[kubermatic-controller-manager-dep.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.6/charts/kubermatic/templates/kubermatic-controller-manager-dep.yaml).
 
 #### Install and run addons
 
-The `kubermatic-api` component will add all default addons (`canal,dashboard,dns,heapster,kube-proxy,openvpn,rbac`) to the user cluster. You can override the default plugins with the command line parameter `kubermatic-api -adons="canal,dns,heapster,kube-proxy,openvpn,rbac"` if you don't want to install `dashboard` addon. Or you can change a list of addons in `.Values.kubermatic.addons.defaultAddons` in the kubermatic `values.yaml` file before the installation.
+The `kubermatic-api` component will add all default addons (`canal,dashboard,dns,heapster,kube-proxy,openvpn,rbac`) to
+the user cluster. You can override the default plugins with the command line parameter `kubermatic-api
+-adons="canal,dns,heapster,kube-proxy,openvpn,rbac"` if you don't want to install `dashboard` addon. Or you can change a
+list of addons in `.Values.kubermatic.addons.defaultAddons` in the kubermatic `values.yaml` file before the
+installation.
 
 #### Template variables
 
 All cluster object variables can be used in all addon manifests. Specific template variables used in default templates:
 
 * `{{first .Cluster.Spec.ClusterNetwork.Pods.CIDRBlocks}}`: will render an IP block of the cluster
-* `{{default "k8s.gcr.io/" .OverwriteRegistry}}`: will give you a path to the alternative Docker image registry. You can set this path with `kubermatic-controller-manager -overwrite-registry="..."` You can set this parameter in the helm chart for `kubermatic-controller-manager`.
+* `{{default "k8s.gcr.io/" .OverwriteRegistry}}`: will give you a path to the alternative Docker image registry. You can
+  set this path with `kubermatic-controller-manager -overwrite-registry="..."` You can set this parameter in the helm
+  chart for `kubermatic-controller-manager`.
 * `{{.DNSClusterIP}}`: will render the IP address of the DNS server
 
 ### How to add a custom addon
 
-1. All manifests and config files for the default addons are stored in the `quay.io/kubermatic/addons` image. Use this image as a base image and copy configs and manifests for all custom addons to `/addons` folder.
+1. All manifests and config files for the default addons are stored in the `quay.io/kubermatic/addons` image. Use this
+   image as a base image and copy configs and manifests for all custom addons to `/addons` folder.
 
     Custom addon with manifest
     ```

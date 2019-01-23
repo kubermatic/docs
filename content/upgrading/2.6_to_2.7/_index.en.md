@@ -5,10 +5,12 @@ weight = 10
 pre = "<b></b>"
 +++
 
-After modifying the `values.yaml` files according to the information below, you merely need to re-apply helm charts upgrade from the `release/2.7` branch.
+After modifying the `values.yaml` files according to the information below, you merely need to re-apply helm charts
+upgrade from the `release/2.7` branch.
 
-{{% notice warning %}}
-There is a know issue with re-applying the s3-exporter chart. If Helm reports issues with upgrading ServiceAccounts or ClusterRoles, run:
+{{% notice warning %}} There is a know issue with re-applying the s3-exporter chart. If Helm reports issues with
+upgrading ServiceAccounts or ClusterRoles, run:
+
 ```
 kubectl -n kube-system delete serviceaccount s3-exporter
 kubectl -n kube-system delete ClusterRole kubermatic:s3exporter:clusters:reader
@@ -19,13 +21,13 @@ kubectl -n kube-system delete Deployment s3-exporter
 
 ### Changes to *values.yaml*
 
-{{% notice note %}}
-An automated `values.yaml` converter for 2.6->2.7 is available in the `release/2.7` branch of the Kubermatic Installer.
-{{% /notice %}}
+{{% notice note %}} An automated `values.yaml` converter for 2.6->2.7 is available in the `release/2.7` branch of the
+Kubermatic Installer. {{% /notice %}}
 
 #### Default addons
 
-The section `kubermatic->addons->defaultAddons` is now moved to 'kubermatic->controller->addons->defaultAddons'. The `kubermatic->addons` section is gone.
+The section `kubermatic->addons->defaultAddons` is now moved to 'kubermatic->controller->addons->defaultAddons'. The
+`kubermatic->addons` section is gone.
 
 #### Image versions
 
@@ -60,7 +62,8 @@ The section `kubeStateMetrics->rbacProxy` is now gone.
 
 #### Prometheus config
 
-New options for configuring resource limits have been added. The following example section needs to be merged into existing config:
+New options for configuring resource limits have been added. The following example section needs to be merged into
+existing config:
 
 ```yaml
 prometheus:
@@ -90,14 +93,16 @@ prometheus:
 
 The `prometheusOperator` section is now gone.
 
-
 ### Changes to `datacenters.yaml`
 
-A new optional VSphere spec parameter `infra_management_user` has been added to specify a separate account with wider permissions, to be used by Kubermatic for provisioning resources. This allows to restrict permissions for the credentials passed in the UI to the cluster's cloud provider functionality of Kubernetes.
+A new optional VSphere spec parameter `infra_management_user` has been added to specify a separate account with wider
+permissions, to be used by Kubermatic for provisioning resources. This allows to restrict permissions for the
+credentials passed in the UI to the cluster's cloud provider functionality of Kubernetes.
 
 A new optional parameter `seed_dns_overwrite` allows force-changing the datacenter's name used in external DNS names.
 
 Example:
+
 ```yaml
 datacenters:
   vsphere-1:

@@ -7,9 +7,11 @@ pre = "<b></b>"
 
 ## Intro
 
-As the load on the control plane depends on the size of the cluster, it might be necessary to scale up the control plane during runtime.
+As the load on the control plane depends on the size of the cluster, it might be necessary to scale up the control plane
+during runtime.
 
 ### Defaults
+
 All control planes, managed by Kubermatic, have the following defaults:
 
 ```yaml
@@ -54,6 +56,7 @@ etcd:
 ### Setting custom overrides
 
 Custom settings can be applid by modifying the clusters `cluster.spec.componentsOverride` property:
+
 ```yaml
 apiVersion: kubermatic.k8s.io/v1
 kind: Cluster
@@ -69,7 +72,7 @@ spec:
           memory: 2Gi
         requests:
           cpu: 500m
-          memory: 1Gi    
+          memory: 1Gi
     controllerManager: {}
     etcd: {}
     scheduler: {}
@@ -77,8 +80,9 @@ spec:
 
 The above override will override the default settings for the API Server, but won't affect the other components.
 
-To note here is that, specifying the `resources` override of a component will override all default `resources`.
-For example:
+To note here is that, specifying the `resources` override of a component will override all default `resources`. For
+example:
+
 ```yaml
 apiVersion: kubermatic.k8s.io/v1
 kind: Cluster
@@ -88,11 +92,11 @@ spec:
   componentsOverride:
     apiserver:
       replicas: 3
-      resources: {}    
+      resources: {}
     controllerManager: {}
     etcd: {}
     scheduler: {}
 ```
 
-The above setting `cluster.spec.componentsOverride.apiserver.resources: {}` will lead to no resource limits/requests set on the API Server.
-It is not possible therefore to only override a single resource setting.
+The above setting `cluster.spec.componentsOverride.apiserver.resources: {}` will lead to no resource limits/requests set
+on the API Server. It is not possible therefore to only override a single resource setting.

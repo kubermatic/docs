@@ -9,7 +9,8 @@ pre = "<b></b>"
 
 The Kubermatic API lives inside the master cluster and therefore speaks to it via in-cluster communication.
 
-The Kubermatic cluster controller needs to have a kubeconfig which contains all contexts for each seed cluster it should manage. The name of the context within the kubeconfig needs to match an entry within the `datacenters.yaml`. See below.
+The Kubermatic cluster controller needs to have a kubeconfig which contains all contexts for each seed cluster it should
+manage. The name of the context within the kubeconfig needs to match an entry within the `datacenters.yaml`. See below.
 
 {{%expand "Sample kubeconfig"%}}
 ```yaml
@@ -192,12 +193,16 @@ datacenters:
 
 ### Creating the Master Cluster `values.yaml`
 
-Installation of Kubermatic uses the [Kubermatic Installer](https://github.com/kubermatic/kubermatic-installer), which is essentially a Kubernetes job with [Helm](https://helm.sh/) and the required charts to install Kubermatic and its associated resources.
-Customization of the cluster configuration is done using a cluster-specific `values.yaml`, stored as a secret within the cluster.
+Installation of Kubermatic uses the [Kubermatic Installer](https://github.com/kubermatic/kubermatic-installer), which is
+essentially a Kubernetes job with [Helm](https://helm.sh/) and the required charts to install Kubermatic and its
+associated resources. Customization of the cluster configuration is done using a cluster-specific `values.yaml`, stored
+as a secret within the cluster.
 
-As a reference you can check out [values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
+As a reference you can check out
+[values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
 
-For the kubermatic configuration you need to add `base64` encoded configuration of `datacenter.yaml` and `kubeconfig` to the `values.yaml` file. You can do this with fallowing command:
+For the kubermatic configuration you need to add `base64` encoded configuration of `datacenter.yaml` and `kubeconfig` to
+the `values.yaml` file. You can do this with fallowing command:
 
 ```
 base64 kubeconfig | tr -d '\n'
@@ -205,14 +210,13 @@ base64 kubeconfig | tr -d '\n'
 
 ### Kibana, grafana, prometheus, alertmanager and OIDC authentication
 
-In order to open in browser system service like
-kibana/grafana/prometheus/alertmanager oAuth static client credentials and
-callback URLs for each of them need to be configured in `dex` and then in `iap`
-section.
+In order to open in browser system service like kibana/grafana/prometheus/alertmanager oAuth static client credentials
+and callback URLs for each of them need to be configured in `dex` and then in `iap` section.
 
 #### Dex
 
 Static clients are confired in
+
 ```
 dex:
   clients:
@@ -222,13 +226,14 @@ dex:
     RedirectURIs:
     - https://you.app.callback.url/oauth/callback # where to redirect once all good
 ```
+
 Each service should have own credentials. See example `dex` section in
 https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml
 
 #### IAP
 
-Next configure IAP (identity aware proxy), use oauth credentials from dex's
-static clients config, for each service respectively.
+Next configure IAP (identity aware proxy), use oauth credentials from dex's static clients config, for each service
+respectively.
 
 ```
 iap:
@@ -317,11 +322,12 @@ helm upgrade --install --wait --timeout 300 --values values.yaml --namespace iap
 
 ### etcd backups
 
-We run an individual Cronjob every 20 minutes for each cluster to backup the etcd-clusters.
-Snapshots will be stored by default to an internal S3 provided by minio.
-But this can be changed by modifying the `storeContainer` & `cleanupContainer` in the `values.yaml` to your needs.
+We run an individual Cronjob every 20 minutes for each cluster to backup the etcd-clusters. Snapshots will be stored by
+default to an internal S3 provided by minio. But this can be changed by modifying the `storeContainer` &
+`cleanupContainer` in the `values.yaml` to your needs.
 
-The cronjobs will be executed in the `kube-system` namespace. Therefore if a container needs credentials, a secret must be created in the kube-system namespace.
+The cronjobs will be executed in the `kube-system` namespace. Therefore if a container needs credentials, a secret must
+be created in the kube-system namespace.
 
 The workflow:
 
@@ -331,8 +337,8 @@ The workflow:
 
 #### storeContainer
 
-The `storeContainer` will be executed on each backup process after a snapshot has been created and stored on a shared volume accessible by the container.
-By default only the last 20 revisions will be kept. Older snapshots will be deleted.
+The `storeContainer` will be executed on each backup process after a snapshot has been created and stored on a shared
+volume accessible by the container. By default only the last 20 revisions will be kept. Older snapshots will be deleted.
 By default the container will store the snapshot to minio.
 
 #### cleanupContainer
@@ -361,44 +367,56 @@ Kubermatic needs to have at least 2 DNS entries set.
 
 #### Dashboard, API, Dex
 
-The frontend of kubermatic needs to run once, therefore we need exactly one DNS entry to access it.
-For example, the domain could look like `kubermatic.example.com`.
+The frontend of kubermatic needs to run once, therefore we need exactly one DNS entry to access it. For example, the
+domain could look like `kubermatic.example.com`.
 
 ##### With LoadBalancer
-When running on a cloud provider which supports services of type [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer), the nginx-chart should be configured to create such a service [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
-The IP can then be fetched via:
+
+When running on a cloud provider which supports services of type
+[LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer), the nginx-chart should be
+configured to create such a service
+[values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml). The IP can then
+be fetched via:
+
 ```bash
 kubectl -n ingress-nginx get service nginx-ingress-controller -o wide
 #NAME                       TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE       SELECTOR
 #nginx-ingress-controller   LoadBalancer   10.47.242.69   35.198.146.37   80:30822/TCP,443:31412/TCP   160d      app=ingress-nginx
 ```
+
 The `ExternalIP` field shows the correct IP used for the DNS entry.
 
 ##### Without LoadBalancer
 
-Without a LoadBalancer nginx will run as DaemonSet & allocate 2 ports on the host (80 & 443). Configuration of nginx happens via the [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
+Without a LoadBalancer nginx will run as DaemonSet & allocate 2 ports on the host (80 & 443). Configuration of nginx
+happens via the [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
 The DNS entry needs to be configured to point to one, or more of the cluster nodes.
 
 #### Seed cluster (user cluster apiservers)
 
-For each seed cluster (hosts the user cluster control plane) a single wildcard DNS entry must be configured.
-All apiservers of all user clusters are being exposed via either NodePorts or a single LoadBalancer.
+For each seed cluster (hosts the user cluster control plane) a single wildcard DNS entry must be configured. All
+apiservers of all user clusters are being exposed via either NodePorts or a single LoadBalancer.
 
-The domain will be based on the name of the seed-cluster as defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) and the domain under which the frontend is available.
+The domain will be based on the name of the seed-cluster as defined in the
+[datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) and the domain
+under which the frontend is available.
 
 For example:
 
 * Frontend domain: kubermatic.example.com
-* Seed cluster name according to [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) is `europe-west1`
+* Seed cluster name according to
+  [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) is
+  `europe-west1`
 
-The seed cluster domain would be: `europe-west1.kubermatic.example.com`
-The corresponding wildcard entry would be: `*.europe-west1.kubermatic.example.com`
+The seed cluster domain would be: `europe-west1.kubermatic.example.com` The corresponding wildcard entry would be:
+`*.europe-west1.kubermatic.example.com`
 
 A user cluster created in this seed cluster would get the domain: `pskxx28w7k.europe-west1.kubermatic.example.com`
 
 ##### With LoadBalancer
 
 Getting the IP:
+
 ```bash
 kubectl -n nodeport-proxy get service nodeport-lb
 #NAME          TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                                           AGE

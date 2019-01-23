@@ -7,18 +7,20 @@ pre = "<b></b>"
 
 ## VSphere
 
-{{% notice warning %}}
-Outdated versions of Kubernetes vSphere driver contain a bug related to detaching volumes from offline nodes. See the [**Volume detach bug**](#volume-detach-bug) section for more details.
-{{% /notice %}}
+{{% notice warning %}} Outdated versions of Kubernetes vSphere driver contain a bug related to detaching volumes from
+offline nodes. See the [**Volume detach bug**](#volume-detach-bug) section for more details. {{% /notice %}}
 
 ### VM Images
 
-When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters).
+When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the
+[datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters).
 
 Supported operating systems
 
-* Ubuntu 16.04 (Kubermatic 2.6 or older) [ova](https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-amd64.ova)
-* Ubuntu 18.04 (Kubermatic 2.7+) [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
+* Ubuntu 16.04 (Kubermatic 2.6 or older)
+  [ova](https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-amd64.ova)
+* Ubuntu 18.04 (Kubermatic 2.7+)
+  [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
 * CoreOS  [ova](https://stable.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova)
 
 #### Importing the OVA:
@@ -30,28 +32,31 @@ Supported operating systems
 1. Select the same network you want to use for your machines
 1. Leave everyhting in the "Customize Template" and "Ready to complete" dialog as it is
 1. Wait until the VM got fully imported and the "Snapshots" => "Create Snapshot" button is not grayed out anymore
-1. The template VM must have the disk.enableUUID flag set to 1, this can be done using the [govc tool](https://github.com/vmware/govmomi/tree/master/govc) with the following command:
+1. The template VM must have the disk.enableUUID flag set to 1, this can be done using the [govc
+   tool](https://github.com/vmware/govmomi/tree/master/govc) with the following command:
+
 ```
 govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
 ```
 
 #### Modifications
 
-Modifications like Network, disk size, etc. must be done in the ova template before creating a worker node from it.
-If user clusters have dedicated networks, all user clusters therefore need a custom template.
+Modifications like Network, disk size, etc. must be done in the ova template before creating a worker node from it. If
+user clusters have dedicated networks, all user clusters therefore need a custom template.
 
 ### VM Folder
 
-During creation of a user cluster Kubermatic creates a dedicated VM folder in the root path on the Datastore (Defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters)).
-That folder will contain all worker nodes of a user cluster.
+During creation of a user cluster Kubermatic creates a dedicated VM folder in the root path on the Datastore (Defined in
+the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters)). That
+folder will contain all worker nodes of a user cluster.
 
 ### Credentials / Cloud-Config
 
-Kubernetes needs to talk to the vSphere to enable Storage inside the cluster.
-For this, kubernetes needs a config called `cloud-config`.
-This config contains all details to connect to a vCenter installation, including credentials.
+Kubernetes needs to talk to the vSphere to enable Storage inside the cluster. For this, kubernetes needs a config called
+`cloud-config`. This config contains all details to connect to a vCenter installation, including credentials.
 
-As this Config must also be deployed onto each worker node of a user cluster, its recommended to have individual credentials for each user cluster.
+As this Config must also be deployed onto each worker node of a user cluster, its recommended to have individual
+credentials for each user cluster.
 
 ### Permissions
 
@@ -140,7 +145,8 @@ The vsphere user has to have to following permissions on the correct resources:
 
 #### Volume detach bug
 
-After a node is powered-off, the Kubernetes vSphere driver doesn't detach disks associated with PVCs mounted on that node. This makes it impossible to reschedule pods using these PVCs until the disks are manually detached in vCenter.
+After a node is powered-off, the Kubernetes vSphere driver doesn't detach disks associated with PVCs mounted on that
+node. This makes it impossible to reschedule pods using these PVCs until the disks are manually detached in vCenter.
 
 The problem is fixed in the following versions:
 

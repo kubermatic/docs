@@ -5,13 +5,17 @@ weight = 10
 pre = "<b></b>"
 +++
 
-To aid in setting up the seed and master clusters, we provide the [seed-installer](https://github.com/kubermatic/kubermatic-installer/tree/release/v2.8/kubeadm-seed-installer), which is a [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/)-based solution for setting up a Highly-Available Kubernetes cluster.
+To aid in setting up the seed and master clusters, we provide the
+[seed-installer](https://github.com/kubermatic/kubermatic-installer/tree/release/v2.8/kubeadm-seed-installer), which is
+a [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/)-based solution for setting up a
+Highly-Available Kubernetes cluster.
 
 The cluster has to interact with a cloud provider.
 
 ## How it works
 
-This installer locally renders assets, copies them to the corresponding machines, installs dependencies on the machines and runs scripts. For this purpose it uses SSH to connect to the machines and requires passwordless `sudo`.
+This installer locally renders assets, copies them to the corresponding machines, installs dependencies on the machines
+and runs scripts. For this purpose it uses SSH to connect to the machines and requires passwordless `sudo`.
 
 It works in two phases:
 
@@ -27,7 +31,8 @@ It works in two phases:
 
 Having a working etcd ring allows us to bootstrap all other control-plane components, in HA mode.
 
-On second pass a script will run `kubeadm init --config=OUR_MASTER_CONFIG.yaml` on every master node. During that phase kubeadm will show warning like this:
+On second pass a script will run `kubeadm init --config=OUR_MASTER_CONFIG.yaml` on every master node. During that phase
+kubeadm will show warning like this:
 
 ```
 [preflight] Running pre-flight checks.
@@ -36,7 +41,9 @@ On second pass a script will run `kubeadm init --config=OUR_MASTER_CONFIG.yaml` 
 [WARNING FileExisting-crictl]: crictl not found in system path
 ```
 
-Which is totally normal and expected. We generated `etcd.yaml` by ourselves and boot up the kubelet before `kubeadm init` (port is in use warning). Those warnings are actually fatal errors in normal kubeadm operations, but for our use-case (kubeadm-based HA setup) they can be neglected.
+Which is totally normal and expected. We generated `etcd.yaml` by ourselves and boot up the kubelet before `kubeadm
+init` (port is in use warning). Those warnings are actually fatal errors in normal kubeadm operations, but for our
+use-case (kubeadm-based HA setup) they can be neglected.
 
 And in the end the script will run `kubeadm join` on every worker node.
 
@@ -73,7 +80,8 @@ Now you can simply initialize this node with the new Kubernetes version like:
 sudo kubeadm init --config /etc/kubernetes/kubeadm-config.yaml --ignore-preflight-errors all
 ```
 
-Once that's done you should see the apiserver, node-controller and scheduler restarting. These components are now running in the new version.
+Once that's done you should see the apiserver, node-controller and scheduler restarting. These components are now
+running in the new version.
 
 Don't forget to undrain the node again.
 
