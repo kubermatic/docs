@@ -288,6 +288,17 @@ See the `iap` section in the [example
 values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml) for more
 information.
 
+### Clone the Installer
+
+Clone the [installer repository](https://github.com/kubermatic/kubermatic-installer) to your disk and make sure to
+checkout the appropriate release branch (`release/vX.Y`). The latest stable release is already the default branch,
+so in most cases there should be no need to switch. Alternatively you can also download a ZIP version from GitHub.
+
+```bash
+git clone https://github.com/kubermatic/kubermatic-installer
+cd kubermatic-installer
+```
+
 ### Providing Storage
 
 A storage class with the name `kubermatic-fast` needs to exist within the cluster. Also, make sure to either have a
@@ -298,9 +309,16 @@ minio:
   storageClass: hdd-disk
 ```
 
+Store the above YAML snippet in a file and then apply it using `kubectl`:
+
+```bash
+kubectl apply -f storageclass.yaml
+```
+
 ### Create all CustomResourceDefinitions
 
-Before applying the Helm charts, ensure that Kubermatic's CRDs are installed in your cluster:
+Before applying the Helm charts, ensure that Kubermatic's CRDs are installed in your cluster by applying the provided
+manifests:
 
 ```bash
 kubectl apply -f charts/kubermatic/crd
