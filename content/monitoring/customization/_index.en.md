@@ -1,7 +1,7 @@
 +++
 title = "Customization"
 date = 2018-08-17T12:07:15+02:00
-weight = 0
+weight = 20
 +++
 
 When it comes to monitoring, no approach fits all usecases. It's exptected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
