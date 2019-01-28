@@ -1,0 +1,42 @@
+{{ partial "header.html" . }}
+
+{{ .Content }}
+
+{{ range .Site.Data.runbook.groups }}
+  <h3 id="group-{{ urlize .name }}">Group {{ .name }}</h3>
+  <div class="runbook-group">
+    {{ range .rules }}
+      {{ if .alert }}
+      <div class="runbook-alert">
+        <h4 id="alert-{{ urlize .alert }}"><span class="name">{{ .alert }}</span>{{ with .labels.severity }} <small class="severity-{{ . }}">{{ . }}</small>{{ end }}</h4>
+        <div class="details">
+          <pre><code>{{ .expr }}</code></pre>
+          {{ if .runbook.description }}
+          <p>{{ markdownify .runbook.description }}</p>
+          {{ else if .annotations.message }}
+          <p>{{ markdownify .annotations.message }}</p>
+          {{ end }}
+
+          {{ if .runbook.steps }}
+          <p>Remediation steps:</p>
+          <ul>
+            {{ range .runbook.steps }}
+            <li>{{ markdownify . }}</li>
+            {{ end }}
+          </ul>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+    {{ end }}
+  </div>
+{{ end }}
+
+<footer class=" footline" >
+  {{with .Params.LastModifierDisplayName}}
+    <i class='fas fa-user'></i> <a href="mailto:{{ $.Params.LastModifierEmail }}">{{ . }}</a> {{with $.Date}} <i class='fas fa-calendar'></i> {{ .Format "02/01/2006" }}{{end}}
+	 </div>
+  {{end}}
+</footer>
+
+{{ partial "footer.html" . }}

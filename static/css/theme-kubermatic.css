@@ -168,3 +168,23 @@ ul, ol, pre {
 h2 {
     margin-bottom: 1rem;
 }
+
+.runbook-group {
+    padding-left: 1rem;
+}
+
+.runbook-alert code {
+    padding: 0;
+}
+
+.runbook-alert h4 .name {
+    font-family: "Consolas", menlo, monospace;
+}
+
+.runbook-alert .severity-warning {
+    color: orange;
+}
+
+.runbook-alert .severity-critical {
+    color: red;
+}
