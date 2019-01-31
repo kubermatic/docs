@@ -7,9 +7,14 @@ pre = "<b></b>"
 
 ### Creating the kubeconfig
 
-The Kubermatic API lives inside the master cluster and therefore speaks to it via in-cluster communication.
+The Kubermatic API lives inside the master cluster and therefore speaks to it via in-cluster communication, using the
+`kubermatic` service account. Communication with the seed clusters happens by providing the API with a kubeconfig that
+has the required contexts and credentials for each seed cluster. The name of the context within the kubeconfig needs to
+match an entry within the `datacenters.yaml` (see below).
 
-The Kubermatic cluster controller needs to have a kubeconfig which contains all contexts for each seed cluster it should manage. The name of the context within the kubeconfig needs to match an entry within the `datacenters.yaml`. See below.
+Also make sure your kubeconfig contains _static_, long-lived credentials. Some cloud providers use custom authentication
+providers (like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic's usecase
+because the required tools are not installed.
 
 {{%expand "Sample kubeconfig"%}}
 ```yaml
@@ -45,62 +50,65 @@ users:
 ```
 {{%/expand%}}
 
+In the example above, we define two possible seed identifiers for the `datacenters.yml`: `seed-1` and `seed-2`.
+
 ### Defining the Datacenters
 
 There are 2 types of datacenters:
 
-- Seed datacenter
-- Node datacenter
+- **Seed datacenter**, where Kubermatic's controller-manager and the control planes for each customer cluster are
+  running.
+- **Node datacenter**, where the customer worker nodes are provisioned.
 
 Both are defined in a file named `datacenters.yaml`:
 
 {{%expand "Sample datacenters.yaml"%}}
 ```yaml
 datacenters:
-#==================================
-#============== Seed ==============
-#==================================
-  # The name needs to match the a context in the kubeconfig given to the controller
-  seed-1: #Master
-    location: Datacenter 1
-    country: DE
-    provider: Loodse
+  #==================================
+  #============== Seeds =============
+  #==================================
+
+  # The name needs to match the a context in the kubeconfig given to the API
+  seed-1:
     # Defines this datacenter as a seed
     is_seed: true
-    # Seeds are normally defined as a bringyourown style of datacenter
+    # Though not used, you must configured a provider spec even for seeds.
+    # The bringyourown provider is a good placeholder, as it requires no
+    # further configuration.
     spec:
-      bringyourown:
-        region: DE
-      seed:
-        bringyourown:
-  # The name needs to match the a context in the kubeconfig given to the kubermatic-api
-  seed-2: #Master
-    location: Datacenter 2
-    country: US
-    provider: Loodse
-    # Defines this datacenter as a seed
+      bringyourown: ~
+
+  seed-2:
     is_seed: true
-    # Seeds are normally defined as a bringyourown style of datacenter
     spec:
-      bringyourown:
-        region: US
-      seed:
-        bringyourown:
+      bringyourown: ~
 
-#==================================
-#======= Node Datacenters =========
-#==================================
+  #==================================
+  #======= Node Datacenters =========
+  #==================================
 
-#==================================
-#============OpenStack=============
-#==================================
+  #==================================
+  #=========== OpenStack ============
+  #==================================
+  # The keys for non-seeds can be freely chosen.
   openstack-zone-1:
+    # The location is shown in the Kubermatic dashboard
+    # and should be descriptive within each provider (e.g.
+    # for AWS a good location name would be "US East-1").
     location: Datacenter 2
-    # The name of the seed
-    # When someone creates a cluster with nodes in this dc, the master components will live in seed-1
-    seed: seed-1
+
+    # The country is also used by the dashboard to show
+    # the corresponding flag and make it easier to select
+    # the proper region.
     country: DE
-    provider: Loodse
+
+    # The name of the seed to use when creating clusters in
+    # this datacenter; when someone creates a cluster with
+    # nodes in this dc, the master components will live in seed-1.
+    seed: seed-1
+
+    # Configure cloud provider-specific further information.
     spec:
       openstack:
         # Authentication endpoint for Openstack, must be v3
@@ -111,59 +119,52 @@ datacenters:
         - "8.8.8.8"
         - "8.8.4.4"
 
-#==================================
-#===========Digitalocean===========
-#==================================
+  #==================================
+  #========== Digitalocean ==========
+  #==================================
   do-ams2:
     location: Amsterdam
-    # The name of the seed
-    # When someone creates a cluster with nodes in this dc, the master components will live in seed-1
-    seed: seed-1
     country: NL
+    seed: seed-1
     spec:
       digitalocean:
         # Digitalocean region for the nodes
         region: ams2
 
-#==================================
-#===============AWS================
-#==================================
+  #==================================
+  #============== AWS ===============
+  #==================================
   aws-us-east-1a:
     location: US East (N. Virginia)
-    # The name of the seed
-    # When someone creates a cluster with nodes in this dc, the master components will live in seed-1
-    seed: seed-2
     country: US
-    provider: aws
+    seed: seed-2
     spec:
       aws:
-        # Container linux ami id to be used within this region
+        # Container linux AMI ID to be used within this region
         ami: ami-ac7a68d7
         # Region to use for nodes
         region: us-east-1
         # Character of the zone in the given region
         zone_character: a
 
-#==================================
-#=============Hetzner==============
-#==================================
+  #==================================
+  #============ Hetzner =============
+  #==================================
   hetzner-fsn1:
     location: Falkenstein 1 DC 8
-    seed: seed-1
     country: DE
-    provider: hetzner
+    seed: seed-1
     spec:
       hetzner:
         datacenter: fsn1-dc8
 
-#==================================
-#=============vSphere==============
-#==================================
+  #==================================
+  #============ vSphere =============
+  #==================================
   vsphere-office1:
     location: Office
-    seed: europe-west3-c
     country: DE
-    provider: Loodse
+    seed: europe-west3-c
     spec:
       vsphere:
         endpoint: "https://some-vcenter.com"
@@ -176,14 +177,14 @@ datacenters:
           ubuntu: "ubuntu-template"
           centos: "centos-template"
           coreos: "coreos-template"
-#==================================
-#============= Azure ==============
-#==================================
+
+  #==================================
+  #============= Azure ==============
+  #==================================
   azure-westeurope:
     location: "Azure West europe"
-    seed: europe-west3-c
     country: NL
-    provider: azure
+    seed: europe-west3-c
     spec:
       azure:
         location: "westeurope"
@@ -192,147 +193,211 @@ datacenters:
 
 ### Creating the Master Cluster `values.yaml`
 
-Installation of Kubermatic uses the [Kubermatic Installer](https://github.com/kubermatic/kubermatic-installer), which is essentially a Kubernetes job with [Helm](https://helm.sh/) and the required charts to install Kubermatic and its associated resources.
-Customization of the cluster configuration is done using a cluster-specific `values.yaml`, stored as a secret within the cluster.
+Installation of Kubermatic uses the [Kubermatic Installer](https://github.com/kubermatic/kubermatic-installer), which is
+essentially a Kubernetes job with [Helm](https://helm.sh/) and the required charts to install Kubermatic and its
+associated resources. Customization of the cluster configuration is done using a cluster-specific `values.yaml`, stored
+as a secret within the cluster.
 
-As a reference you can check out [values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
+As a reference you can check out
+[values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml).
 
-For the kubermatic configuration you need to add `base64` encoded configuration of `datacenter.yaml` and `kubeconfig` to the `values.yaml` file. You can do this with fallowing command:
+For the kubermatic configuration you need to add `base64` encoded configuration of `datacenter.yaml` and `kubeconfig` to
+the `values.yaml` file. You can do this with following command:
 
-```
+```bash
 base64 kubeconfig | tr -d '\n'
 ```
 
-### Kibana, grafana, prometheus, alertmanager and OIDC authentication
+#### Kubermatic & 3rd-Party Authentication
 
-In order to open in browser system service like
-kibana/grafana/prometheus/alertmanager oAuth static client credentials and
-callback URLs for each of them need to be configured in `dex` and then in `iap`
-section.
+Access to Kibana, Grafana and all other 3rd-party services included with Kubermatic is secured by running them behind
+[Keycloak-Proxy](https://github.com/keycloak/keycloak-gatekeeper) and using [Dex](https://github.com/dexidp/dex) as the
+authentication provider. Dex can then be configured to use external authentication sources like GitHub's or Google's
+OAuth endpoint, LDAP or OpenID Connect. Kubermatic itself makes use of Dex as well, but since it supports OAuth natively
+does not make use of Keycloak-Proxy.
 
-#### Dex
+For this to work you have to configure both Dex and Keycloak-Proxy (called "IAP", Identity-Aware Proxy) in your
+`values.yaml`.
 
-Static clients are confired in
-```
+##### Dex
+
+{{% notice note %}} Please note that despite its name, Dex is part of the `oauth` Helm chart. {{% /notice %}}
+
+For each service that is supposed to use Dex as an authentication provider, configure a `client`. The callback URL is
+called after authentication has been completed and must point to `https://<domain>/oauth/callback`. Remember that this
+will point to Keycloak and is therefore independent of the actual underlying application. Generate a secure random
+secret for each client as well.
+
+A sample configuration for Prometheus could look like this:
+
+```yaml
 dex:
   clients:
-  - id: example # clientID
-    name: Example App
-    secret: very-secret # clientSecret
+  - id: prometheus # a unique identifier
+    name: Prometheus
+    secret: very-very-very-secret # clientSecret
+    # list of allowed redirect URIs
+    # (which one is used is determined by what Keycloak-Proxy decides)
     RedirectURIs:
-    - https://you.app.callback.url/oauth/callback # where to redirect once all good
+    - https://kubermatic.initech.com/oauth/callback
 ```
-Each service should have own credentials. See example `dex` section in
-https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml
 
-#### IAP
+Each service should have its own credentials. See the `dex` section in the [example
+values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml).
 
-Next configure IAP (identity aware proxy), use oauth credentials from dex's
-static clients config, for each service respectively.
+##### Keycloak-Proxy (IAP)
 
-```
+Now that you have setup your "virtual OAuth provider" in the form of Dex, you need to configure Keycloak-Proxy to sit in
+front of the 3rd-party services and use it for authentication. For each client that we configured in Dex, add a
+`deployment` to the IAP configuration. Use the client's secret as the `client_secret` and generate another random,
+secure encryption key to encrypt the client state with (which is then stored as a cookie in the user's browser).
+
+A sample deployment for Prometheus could look like this:
+
+```yaml
 iap:
   deployments:
-    example_service:
-      name: example_service # will be used to create kubernetes Deployment object
-      client_id: example
-      client_secret: very-secret
-      encryption_key: very-secret_2 # used only locally
-      config: ## see https://github.com/gambol99/keycloak-proxy#configuration
+    prometheus:
+      name: prometheus # will be used to create kubernetes Deployment object
+
+      # OAuth configuration from Dex
+      client_id: prometheus
+      client_secret: very-very-very-secret
+
+      # encryption key for cookie storage
+      encryption_key: ultra-secret-random-value
+
+      ## see https://github.com/gambol99/keycloak-proxy#configuration
       ## example configuration allowing access only to the mygroup from
       ## mygithuborg organization
+      config:
         scopes:
         - "groups"
         resources:
         - uri: "/*"
           groups:
           - "mygithuborg:mygroup"
-      upstream_service: example.namespace.svc.cluster.local
+
+      upstream_service: prometheus.monitoring.svc.cluster.local
       upstream_port: 9999
       ingress:
-        host: "hostname.kubermatic.tld" # used in Ingress object
+        host: prometheus.kubermatic.initech.com
 ```
 
-See `iap` section for more information:
-https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml
+See the `iap` section in the [example
+values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml) for more
+information.
 
-### Storage
+### Clone the Installer
 
-A storageclass with the name `kubermatic-fast` needs to exist within the cluster.
+Clone the [installer repository](https://github.com/kubermatic/kubermatic-installer) to your disk and make sure to
+checkout the appropriate release branch (`release/vX.Y`). The latest stable release is already the default branch,
+so in most cases there should be no need to switch. Alternatively you can also download a ZIP version from GitHub.
+
+```bash
+git clone https://github.com/kubermatic/kubermatic-installer
+cd kubermatic-installer
+```
+
+### Providing Storage
+
+A storage class with the name `kubermatic-fast` needs to exist within the cluster. Also, make sure to either have a
+default storage class defined or configure Minio in your `values.yaml` to use a specific one:
+
+```yaml
+minio:
+  storageClass: hdd-disk
+```
+
+Store the above YAML snippet in a file and then apply it using `kubectl`:
+
+```bash
+kubectl apply -f storageclass.yaml
+```
 
 ### Create all CustomResourceDefinitions
+
+Before applying the Helm charts, ensure that Kubermatic's CRDs are installed in your cluster by applying the provided
+manifests:
 
 ```bash
 kubectl apply -f charts/kubermatic/crd
 ```
 
-### Deploy/Update all charts
+### Deploying the Helm charts
 
-Install helm on you local system & setup tiller within the cluster:
+Install [Helm](https://www.helm.sh/) on you local system and setup Tiller within the cluster.
 
-Create a service account for tiller and bind it to the `cluster-admin` role
+1. Create a service account for Tiller and bind it to the `cluster-admin` role:
+
+    ```bash
+    kubectl create namespace kubermatic
+    kubectl create serviceaccount -n kubermatic tiller-sa
+    kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller-sa
+    ```
+
+2. Afterwards install Tiller with the correct service account:
+
+    ```bash
+    helm --service-account tiller-sa --tiller-namespace kubermatic init
+    ```
+
+Now you're ready to deploy Kubermatic and its charts. It's generally advisable to postpone installing the final `certs`
+chart until you acquired LoadBalancer IPs/hostnames and can update your DNS zone to point to your new installation. This
+ensure that the `cert-manager` can quickly acquire TLS certificates instead of running into DNS issues.
 
 ```bash
-kubectl create serviceaccount -n kube-system tiller-sa
-kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kube-system:tiller-sa
-```
-
-Afterwards install tiller with the correct set service account
-
-```bash
-helm init --service-account tiller-sa --tiller-namespace kube-system
-```
-
-To deploy all charts:
-
-```bash
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace cert-manager cert-manager charts/cert-manager/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace default certs charts/certs/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth charts/oauth/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace cert-manager cert-manager charts/cert-manager/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace oauth oauth charts/oauth/
 
 # Used for storing etcd snapshots
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace minio minio charts/minio/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace minio minio charts/minio/
 
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace iap iap charts/iap/
 # When running on a cloud Provider like GCP, AWS or Azure with LB support also install the nodeport-proxy
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
 
-# For logging stack, ensure that all charts are deployed within the logging namespace:
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging elasticsearch charts/logging/elasticsearch/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging fluentbit charts/logging/fluentbit/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace logging kibana charts/logging/kibana/
+# For logging stack, ensure that all charts are deployed within the logging namespace
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace logging elasticsearch charts/logging/elasticsearch/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace logging fluentbit charts/logging/fluentbit/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace logging kibana charts/logging/kibana/
 
 # For monitoring stack
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring node-exporter charts/monitoring/node-exporter/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring grafana charts/monitoring/grafana/
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring node-exporter charts/monitoring/node-exporter/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring grafana charts/monitoring/grafana/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
+```
 
-# create system ingress objects for kibana/grafana/prometheus/alertmanager
-# and configure Identity Aware Proxy for them
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace iap iap charts/iap/
+After all charts have been deployed, update your DNS accordingly. See the last section on this page for more details.
+Once that is done, wait a bit and then install the final Helm chart:
+
+```bash
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace default certs charts/certs/
 ```
 
 ### etcd backups
 
-We run an individual Cronjob every 20 minutes for each cluster to backup the etcd-clusters.
-Snapshots will be stored by default to an internal S3 provided by minio.
-But this can be changed by modifying the `storeContainer` & `cleanupContainer` in the `values.yaml` to your needs.
+We run an individual cronjob every 20 minutes for each customer cluster to backup the etcd-ring. Snapshots will be
+stored by default to an internal S3 bucket provided by minio, though this can be changed by modifying the
+`storeContainer` & `cleanupContainer` in the `values.yaml` to your needs.
 
-The cronjobs will be executed in the `kube-system` namespace. Therefore if a container needs credentials, a secret must be created in the kube-system namespace.
+The cronjobs will be executed in the `kube-system` namespace. Therefore if a container needs credentials, a secret must
+be created in the kube-system namespace.
 
 The workflow:
 
-1. Init-container creates snapshot
+1. init-container creates snapshot
 2. snapshot will be saved in a shared volume
 3. `storeContainer` takes the snapshot and stores it somewhere
 
 #### storeContainer
 
-The `storeContainer` will be executed on each backup process after a snapshot has been created and stored on a shared volume accessible by the container.
-By default only the last 20 revisions will be kept. Older snapshots will be deleted.
+The `storeContainer` will be executed on each backup process after a snapshot has been created and stored on a shared
+volume accessible by the container. By default only the last 20 revisions will be kept. Older snapshots will be deleted.
 By default the container will store the snapshot to minio.
 
 #### cleanupContainer
@@ -345,14 +410,14 @@ If the default container will be used, a secret in the `kube-system` namespace m
 
 ```yaml
 apiVersion: v1
-data:
-  ACCESS_KEY_ID: "SOME_BASE64_ENCODED_ACCESS_KEY"
-  SECRET_ACCESS_KEY: "SOME_BASE64_ENCODED_SECRET_KEY"
 kind: Secret
+type: Opaque
 metadata:
   name: s3-credentials
   namespace: kube-system
-type: Opaque
+data:
+  ACCESS_KEY_ID: "SOME_BASE64_ENCODED_ACCESS_KEY"
+  SECRET_ACCESS_KEY: "SOME_BASE64_ENCODED_SECRET_KEY"
 ```
 
 ### Create DNS entries
@@ -361,44 +426,52 @@ Kubermatic needs to have at least 2 DNS entries set.
 
 #### Dashboard, API, Dex
 
-The frontend of kubermatic needs to run once, therefore we need exactly one DNS entry to access it.
-For example, the domain could look like `kubermatic.example.com`.
+The frontend of Kubermatic needs a single, simple DNS entry. Let's assume it is being installed to serve
+`kubermatic.initech.com`. For the 3rd-party services like Prometheus or Grafana, you will also want to create a wildcard
+DNS record `*.kubermatic.initech.com` pointing to the same IP/hostname.
 
 ##### With LoadBalancer
-When running on a cloud provider which supports services of type [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer), the nginx-chart should be configured to create such a service [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
-The IP can then be fetched via:
+
+When running on a cloud provider which supports services of type
+[LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer), the nginx-ingress chart
+should be configured to create such a service. The load balancer's IP can then be fetched via:
+
 ```bash
-kubectl -n ingress-nginx get service nginx-ingress-controller -o wide
+kubectl -n nginx-ingress-controller get service nginx-ingress-controller -o wide
 #NAME                       TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE       SELECTOR
 #nginx-ingress-controller   LoadBalancer   10.47.242.69   35.198.146.37   80:30822/TCP,443:31412/TCP   160d      app=ingress-nginx
 ```
-The `ExternalIP` field shows the correct IP used for the DNS entry.
+
+The `EXTERNAL-IP` field shows the correct IP used for the DNS entry. Depending on your provider, this might also be a
+hostname, in which case you should set a CNAME record instead of an A record.
 
 ##### Without LoadBalancer
 
-Without a LoadBalancer nginx will run as DaemonSet & allocate 2 ports on the host (80 & 443). Configuration of nginx happens via the [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.7/values.example.yaml).
-The DNS entry needs to be configured to point to one, or more of the cluster nodes.
+Without a LoadBalancer nginx will run as DaemonSet & allocate 2 ports on the host (80 & 443). Configuration of nginx
+happens via the [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml).
+The DNS entry needs to be configured to point to one or more of the cluster nodes.
 
-#### Seed cluster (user cluster apiservers)
+#### Seed Clusters (customer-cluster apiservers)
 
-For each seed cluster (hosts the user cluster control plane) a single wildcard DNS entry must be configured.
-All apiservers of all user clusters are being exposed via either NodePorts or a single LoadBalancer.
+For each seed cluster a single wildcard DNS entry must be configured. All apiservers of all customer clusters are being
+exposed via either NodePorts or a single LoadBalancer.
 
-The domain will be based on the name of the seed-cluster as defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) and the domain under which the frontend is available.
+The domain will be based on the name of the seed-cluster as defined in the
+[datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) and the domain
+under which the frontend is available.
 
-For example:
+For example, when the base domain is `kubermatic.initech.com` and a seed cluster in your `datacenters.yaml` is called
+`europe-west1`, then
 
-* Frontend domain: kubermatic.example.com
-* Seed cluster name according to [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) is `europe-west1`
+* The seed cluster domain would be: `europe-west1.kubermatic.initech.com`
+* The corresponding wildcard entry would be: `*.europe-west1.kubermatic.initech.com`
 
-The seed cluster domain would be: `europe-west1.kubermatic.example.com`
-The corresponding wildcard entry would be: `*.europe-west1.kubermatic.example.com`
-
-A user cluster created in this seed cluster would get the domain: `pskxx28w7k.europe-west1.kubermatic.example.com`
+A customer cluster created in this seed cluster would get the domain `[cluster ID].europe-west1.kubermatic.example.com`.
 
 ##### With LoadBalancer
 
-Getting the IP:
+Get the IP from the `nodeport-lb` service:
+
 ```bash
 kubectl -n nodeport-proxy get service nodeport-lb
 #NAME          TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                                           AGE
@@ -407,4 +480,4 @@ kubectl -n nodeport-proxy get service nodeport-lb
 
 ##### Without LoadBalancer
 
-Take one or more of the seed cluster worker nodes IP's.
+Take one or more of the seed cluster worker nodes IPs.
