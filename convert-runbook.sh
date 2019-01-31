@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/config/monitoring/prometheus/rules"
+SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/config/monitoring/prometheus/rules/src"
 
 # merge all files,
 # convert to JSON,
