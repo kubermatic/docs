@@ -1,6 +1,6 @@
 +++
 title = "Increase the Service CIDR"
-date = 2018-12-2T12:07:15+02:00
+date = 2018-12-02T12:07:15+02:00
 weight = 20
 pre = "<b></b>"
 +++
@@ -56,7 +56,7 @@ The ClusterIP will always be the 10th of the network.
 Example:
 Give the service CIDR: `10.10.10.0/24`, the Service for the DNS will have the ClusterIP `10.10.10.10`.
 
-When the CIDR gets changed, the DNS service(`kube-system/kube-dns`) must be changed as well. 
+When the CIDR gets changed, the DNS service(`kube-system/kube-dns`) must be changed as well.
 As changing the ClusterIP is not possible, the Service(`kube-system/kube-dns`) must be recreated (A backup must be created):
 ```bash
 # Dump old service
