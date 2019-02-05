@@ -40,6 +40,6 @@ After selecting a project like in step 2, click on "Members" in the menu on the 
 * **Editors** have write access to your project and can manage clusters, nodes and SSH keys.
 * **Viewers** have read-only access and can only view the existing resources.
 
-You can change the role for a user or remove them alltogether at any time.
+You can change the role for a user or remove them altogether at any time.
 
 After adding a user to a project, the project will immediately show up in the user's project list.
