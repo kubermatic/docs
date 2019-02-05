@@ -1,14 +1,16 @@
 +++
-title = "Kubermatic OIDC Authentication for user clusters"
+title = "Share clusters via delegated OIDC Authentication"
 date = 2018-11-23T12:01:35+02:00
 weight = 5
 pre = "<b></b>"
 +++
 
-### Kubermatic OIDC authentication
+### Share clusters via delegated OIDC authentication
 
 The purpose of this feature is to allow using an OIDC provider like `dex` to authenticate to a Kubernetes cluster
 managed by Kubermatic. This feature can be used to share access to a cluster with other users.
+
+
 **Note:** This feature is experimental and not enabled by default. See the [prerequisites](/advanced/oidc_auth/#prerequisites)
 section for instruction on how to enable this for your installation.
 
