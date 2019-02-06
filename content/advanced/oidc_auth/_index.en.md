@@ -97,7 +97,7 @@ You can set it by changing the following entry in the `values.yaml` file.
 In order to verify OIDC provider's certificate in `kubermatic-controll-manager` when establishing TLS connection a public root CA certificate is required. Ideally the whole
 chain including all intermediary CAs certificates. Note that we expect that all certificates will be PEM encoded.
 
-For example if the certificate used by your provider was issued by Lest's Encrypt. You can visit [Let's Encrypt](https://letsencrypt.org/certificates) to download the necessary certificates
+For example if the certificate used by your provider was issued by Let's Encrypt. You can visit [Let's Encrypt](https://letsencrypt.org/certificates) to download the necessary certificates
 and use the following command to prepare the bundle.
 
 
