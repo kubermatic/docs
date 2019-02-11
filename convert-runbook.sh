@@ -8,7 +8,7 @@ SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/config/monitoring/prometh
 # filter out groups that have no rules left over,
 # dump as JSON
 yq \
-  merge -a ${SOURCE}/*.yaml | \
+  merge -a ${SOURCE}/*/*.yaml | \
   yq read -j - | \
   jq "{
     compiled: now | todateiso8601,
