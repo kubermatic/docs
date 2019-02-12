@@ -27,7 +27,7 @@ When working with Grafana please keep in mind, that __ALL CHANGES__ done using t
 
 ## Storage Requirements
 
-Depending on how userclusters are used, disk usage for Prometheus can vary greatly. As the operator you should however plan for
+Depending on how user clusters are used, disk usage for Prometheus can vary greatly. As the operator you should however plan for
 
 * 100 MiB used by the seed-level Prometheus for each user cluster
 * 50-300 MiB used by the user-level Prometheus, depending on its WAL size.
