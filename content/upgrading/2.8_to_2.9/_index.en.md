@@ -15,10 +15,13 @@ The script will:
 
 - Manually delete installed kubermatic manifests (Except CustomResourceDefinitions)
 - Remove the helm release ConfigMaps ([more information about Helm ConfigMaps](http://technosophos.com/2017/03/23/how-helm-uses-configmaps-to-store-data.html))
+- Apply the out-of-chart CRD manifests.
 - Install the new kubermatic helm chart
 
 The script is located inside the Kubermatic helm chart & must be executed before the chart upgrade:
 https://github.com/kubermatic/kubermatic-installer/blob/release/v2.9/charts/kubermatic/migrate/migrate-kubermatic-chart.sh
+
+Afterwards, the CRDs must be installed with kubectl `apply -f charts/kubermatic/crd/`.
 
 ### Updating Helm Charts
 
