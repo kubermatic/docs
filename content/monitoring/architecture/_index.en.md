@@ -16,11 +16,7 @@ Along the seed-level Prometheus, there is a single alertmanager running in the s
 
 ## Federation
 
-The seed-level Prometheus uses Prometheus' native federation mechanism to scrape the customer Prometheus instances. To prevent excessive amountf of data in the seed, it will however only scrape a few selected metrics, namely
-
-* `up`
-* `machine_controller_*`
-* all metrics labelled with `kubermatic=federate`
+The seed-level Prometheus uses Prometheus' native federation mechanism to scrape the customer Prometheus instances. To prevent excessive amountf of data in the seed, it will however only scrape a few selected metrics, namely those labelled with `kubermatic=federate`.
 
 The last of these options is used for pre-aggregated metrics, which combine highly detailed time series (like from etcd) into smaller, easier to handle metrics that can be readily used inside Grafana.
 
@@ -28,3 +24,12 @@ The last of these options is used for pre-aggregated metrics, which combine high
 
 In a default Kubermatic installation we ship Grafana as _readonly_ metrics dashboard.
 When working with Grafana please keep in mind, that __ALL CHANGES__ done using the Grafana UI (like adding datasources, etc.) __WILL NOT BE PERSISTED__. Dashboards, graphs, datasources, etc. will be defined using the Helm chart.
+
+## Storage Requirements
+
+Depending on how user clusters are used, disk usage for Prometheus can vary greatly. As the operator you should however plan for
+
+* 100 MiB used by the seed-level Prometheus for each user cluster
+* 50-300 MiB used by the user-level Prometheus, depending on its WAL size.
+
+These values can also vary if you tweak the retention periods.
