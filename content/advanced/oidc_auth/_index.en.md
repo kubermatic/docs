@@ -10,9 +10,10 @@ pre = "<b></b>"
 The purpose of this feature is to allow using an OIDC provider like `dex` to authenticate to a Kubernetes cluster
 managed by Kubermatic. This feature can be used to share access to a cluster with other users.
 
-
-**Note:** This feature is experimental and not enabled by default. See the [prerequisites](/advanced/oidc_auth/#prerequisites)
+{{% notice note %}}
+**Note:** This feature is **experimental** and not enabled by default. See the [prerequisites](/advanced/oidc_auth/#prerequisites)
 section for instruction on how to enable this for your installation.
+{{% /notice %}}
 
 ### How does it work
 
@@ -73,17 +74,22 @@ This is best done by directly changing the entries in the corresponding `values.
 
 ```
 
-`kubermatic-controll-manager` must be run with the following flags.
-Note that `oidc-ca-file` must contain OIDC provider's root CA certificates chain,
-see [Root CA certificates chain](/advanced/oidc_auth/#root-ca-certificates-chain) section that explains how to create the file.
+{{% notice note %}}
+The value for `.Values.kubermatic.auth.issuerCookieKey` can be randomly generated (e.g. `openssl rand -hex 32`) and should have 32 or 64 bytes.
+{{% /notice %}}
+
+`kubermatic-controll-manager` must be run with the following flags:
 
 ```
 --feature-gates={{ .Values.kubermatic.controller.featureGates }}  # must contain "OpenIDAuthPlugin=true"
 --oidc-issuer-url={{ .Values.kubermatic.auth.tokenIssuer }}
 --oidc-issuer-client-id={{ .Values.kubermatic.auth.issuerClientID }}
---oidc-ca-file={{ .Values.kubermatic.ui.config }}
+--oidc-ca-file={{ .Values.kubermatic.auth.caBundle }}
 
 ```
+{{% notice note %}}
+Note that `.Values.kubermatic.auth.caBundle` must contain OIDC provider's root CA certificates chain, see [Root CA certificates chain](/advanced/oidc_auth/#root-ca-certificates-chain) section that explains how to create the file.
+{{% /notice %}}
 
 `conifg.json` file for `kubermatic-dashboard` must contain `"share_kubeconfig":true`.
 You can set it by changing the following entry in the `values.yaml` file.
@@ -91,6 +97,7 @@ You can set it by changing the following entry in the `values.yaml` file.
 ```
 {{ .Values.kubermatic.ui.config }}
 ```
+Now [update Kubermatic](#update-kubermatic).
 
 ### Root CA certificates chain
 
@@ -105,3 +112,15 @@ and use the following command to prepare the bundle.
 cat isrgrootx1.pem.txt lets-encrypt-x3-cross-signed.pem.txt > caBundle.pem
 
 ```
+
+### Update Kubermatic
+
+After all values are set at the `values.yaml` the installed helm charts `kubermatic` and `oauth` need to get updated (at the master cluster):
+
+
+```bash
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth charts/kubermatic/oauth
+
+helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic/
+```
+
