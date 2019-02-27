@@ -131,7 +131,7 @@ datacenters:
         # See https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/#load-balancer
         # Defaults to true
         # Available since v2.9.2
-        manage_security_groups: false
+        manage_security_groups: true
 
   #==================================
   #========== Digitalocean ==========
