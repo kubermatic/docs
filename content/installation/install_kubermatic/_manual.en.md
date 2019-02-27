@@ -126,7 +126,7 @@ datacenters:
           coreos: "CoreOS"
         # Enforce the creation of floating IP's for new nodes
         # Available since v2.9.0
-        enforce_floating_ip: true
+        enforce_floating_ip: false
         # Gets mapped to the "manage-security-groups" setting in the cloud config.
         # See https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/#load-balancer
         # Defaults to true
