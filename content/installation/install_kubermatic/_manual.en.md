@@ -114,10 +114,24 @@ datacenters:
         # Authentication endpoint for Openstack, must be v3
         auth_url: https://our-openstack-api/v3
         availability_zone: zone-1
+        region: "region-1"
         # This DNS server will be set when Kubermatic creates a network
         dns_servers:
         - "8.8.8.8"
         - "8.8.4.4"
+        # Those are default images for nodes which will be shown in the Dashboard.
+        images:
+          ubuntu: "Ubuntu 18.04"
+          centos: "CentOS 7"
+          coreos: "CoreOS"
+        # Enforce the creation of floating IP's for new nodes
+        # Available since v2.9.0
+        enforce_floating_ip: false
+        # Gets mapped to the "manage-security-groups" setting in the cloud config.
+        # See https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/#load-balancer
+        # Defaults to true
+        # Available since v2.9.2
+        manage_security_groups: true
 
   #==================================
   #========== Digitalocean ==========
