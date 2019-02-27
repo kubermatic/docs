@@ -15,159 +15,78 @@ pre = "<b></b>"
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": "iam:ListInstanceProfiles",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >g:instance-profile/*"
+            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/*"
         },
         {
-            "Sid": "VisualEditor1",
             "Effect": "Allow",
             "Action": [
-                "iam:GetRole",
-                "iam:PassRole",
-                "iam:DetachRolePolicy",
-                "iam:ListAttachedRolePolicies",
                 "iam:DeleteRolePolicy",
-                "iam:ListRolePolicies"
+                "iam:DetachRolePolicy",
+                "iam:GetRole",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListRolePolicies",
+                "iam:PassRole"
             ],
             "Resource": [
-                "arn:aws:iam::< YOUR_ACCOUNT_ID >g:role/SpacesKubermatic",
-                "arn:aws:iam::< YOUR_ACCOUNT_ID >g:role/kubermatic-*"
+                "arn:aws:iam::YOUR_ACCOUNT_ID:role/SpacesKubermatic",
+                "arn:aws:iam::YOUR_ACCOUNT_ID:role/kubermatic-*"
             ]
         },
         {
-            "Sid": "VisualEditor2",
             "Effect": "Allow",
             "Action": [
-                "iam:CreateRole",
-                "iam:DeleteRole",
-                "iam:AttachRolePolicy"
-            ],
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >g:role/kubermatic-*"
-        },
-        {
-            "Sid": "VisualEditor3",
-            "Effect": "Allow",
-            "Action": [
+                "iam:AddRoleToInstanceProfile",
                 "iam:CreateInstanceProfile",
                 "iam:DeleteInstanceProfile",
+                "iam:DeleteRole",
                 "iam:GetInstanceProfile",
-                "iam:RemoveRoleFromInstanceProfile",
-                "iam:AddRoleToInstanceProfile"
+                "iam:RemoveRoleFromInstanceProfile"
             ],
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >g:instance-profile/kubermatic-*"
+            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/kubermatic-*"
         },
         {
-            "Sid": "VisualEditor4",
             "Effect": "Allow",
             "Action": [
+                "ec2:*",
+                "elasticloadbalancing:*",
+                "elasticloadbalancing:CreateListener",
+                "elasticloadbalancing:CreateRule",
+                "elasticloadbalancing:CreateTargetGroup",
+                "elasticloadbalancing:DeleteListener",
+                "elasticloadbalancing:DeleteRule",
+                "elasticloadbalancing:DeleteTargetGroup",
+                "elasticloadbalancing:DeregisterTargets",
+                "elasticloadbalancing:DescribeListeners",
+                "elasticloadbalancing:DescribeRules",
+                "elasticloadbalancing:DescribeTargetGroupAttributes",
+                "elasticloadbalancing:DescribeTargetGroups",
+                "elasticloadbalancing:DescribeTargetHealth",
                 "elasticloadbalancing:ModifyListener",
-                "sts:GetFederationToken",
+                "elasticloadbalancing:ModifyRule",
+                "elasticloadbalancing:ModifyTargetGroup",
+                "elasticloadbalancing:ModifyTargetGroupAttributes",
                 "elasticloadbalancing:RegisterTargets",
+                "elasticloadbalancing:RemoveListenerCertificates",
                 "elasticloadbalancing:SetIpAddressType",
                 "elasticloadbalancing:SetRulePriorities",
-                "elasticloadbalancing:RemoveListenerCertificates",
-                "elasticloadbalancing:SetWebAcl",
-                "elasticloadbalancing:CreateListener",
-                "elasticloadbalancing:DescribeListeners",
-                "elasticloadbalancing:CreateRule",
-                "elasticloadbalancing:ModifyTargetGroupAttributes",
-                "elasticloadbalancing:DeleteRule",
-                "elasticloadbalancing:CreateTargetGroup",
-                "elasticloadbalancing:*",
-                "elasticloadbalancing:DeregisterTargets",
-                "elasticloadbalancing:SetSubnets",
-                "elasticloadbalancing:DeleteTargetGroup",
-                "elasticloadbalancing:DescribeTargetGroupAttributes",
-                "elasticloadbalancing:ModifyRule",
-                "elasticloadbalancing:DescribeTargetHealth",
                 "elasticloadbalancing:SetSecurityGroups",
-                "elasticloadbalancing:DescribeTargetGroups",
-                "ec2:*",
-                "elasticloadbalancing:DescribeRules",
-                "elasticloadbalancing:ModifyTargetGroup",
-                "elasticloadbalancing:DeleteListener"
+                "elasticloadbalancing:SetSubnets",
+                "elasticloadbalancing:SetWebAcl",
+                "sts:GetFederationToken"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "VisualEditor5",
-            "Effect": "Allow",
-            "Action": "iam:CreateRole",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:role/kubermatic-*"
-        },
-        {
-            "Sid": "VisualEditor6",
-            "Effect": "Allow",
-            "Action": "iam:AttachRolePolicy",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:role/kubermatic-*"
-        },
-        {
-            "Sid": "VisualEditor7",
-            "Effect": "Allow",
-            "Action": "iam:CreateInstanceProfile",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:instance-profile/kubermatic-instance-profile-*"
-        },
-        {
-            "Sid": "VisualEditor8",
-            "Effect": "Allow",
-            "Action": "iam:AddRoleToInstanceProfile",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:instance-profile/kubermatic-instance-profile-*"
-        },
-        {
-            "Sid": "VisualEditor9",
-            "Effect": "Allow",
-            "Action": "iam:PassRole",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:role/kubermatic-role-*"
-        },
-        {
-            "Sid": "VisualEditor10",
-            "Effect": "Allow",
-            "Action": "iam:GetRole",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:role/kubermatic-role-*"
-        },
-        {
-            "Sid": "VisualEditor11",
-            "Effect": "Allow",
-            "Action": "iam:GetInstanceProfile",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:instance-profile/kubermatic-*"
-        },
-        {
-            "Sid": "VisualEditor12",
-            "Effect": "Allow",
-            "Action": "iam:RemoveRoleFromInstanceProfile",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:instance-profile/kubermatic-*"
-        },
-        {
-            "Sid": "VisualEditor13",
-            "Effect": "Allow",
-            "Action": "iam:DeleteInstanceProfile",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:instance-profile/kubermatic-*"
-        },
-        {
-            "Sid": "VisualEditor14",
-            "Effect": "Allow",
-            "Action": "iam:ListAttachedRolePolicies",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:role/kubermatic-*"
-        },
-        {
-            "Sid": "VisualEditor15",
-            "Effect": "Allow",
-            "Action": "iam:DetachRolePolicy",
-            "Resource": "arn:aws:iam::< YOUR_ACCOUNT_ID >:role/kubermatic-*"
-        },
-        {
-            "Sid": "VisualEditor16",
             "Effect": "Allow",
             "Action": [
+                "iam:AttachRolePolicy",
+                "iam:CreateRole",
                 "iam:DeleteInstanceProfile",
                 "iam:DeleteRole"
             ],
-            "Resource": [
-                "arn:aws:iam::< YOUR_ACCOUNT_ID >:instance-profile/kubermatic-*",
-                "arn:aws:iam::< YOUR_ACCOUNT_ID >:role/kubermatic-*"
-            ]
+            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/kubermatic-*"
         }
     ]
 }
