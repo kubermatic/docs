@@ -48,6 +48,15 @@ The new version 0.17 has made significant changes to the metric names it provide
 your recording and alerting rules as needed. Note that Kubermatic does not install the recording rules to keep the old metric names
 intact, so you will notice gaps in the Grafana charts after you updated.
 
+#### fluentbit
+
+Kubermatic 2.9 replaces the old fluentd chart with fluentbit in order to improve performance and reduce resource usage of the
+logging stack. When updating an existing installation, make sure to `delete --purge` the fluentd chart, so you do not end up
+with two log shippers in your cluster.
+
+```
+helm --tiller-namespace kubermatic-installer delete --purge fluentd
+```
 
 ### Enforcing floating IP's for OpenStack nodes
 
