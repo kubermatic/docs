@@ -55,7 +55,7 @@ logging stack. When updating an existing installation, make sure to `delete --pu
 with two log shippers in your cluster.
 
 ```
-helm --tiller-namespace kubermatic-installer delete --purge fluentd
+helm --tiller-namespace kubermatic delete --purge fluentd
 ```
 
 ### Enforcing floating IP's for OpenStack nodes
