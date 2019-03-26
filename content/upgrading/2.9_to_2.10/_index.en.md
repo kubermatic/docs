@@ -58,43 +58,15 @@ Now there is a subkey `openshift` or `kubernetes` after `addons`:
            pullPolicy: "IfNotPresent"
 ```
 
-## kubermatic-api-dep.yaml new parameter for domain
-A new parameter `domain` was added for kubermatic API deployment.
-By default the `localhost` is set for this parameter. This domain name is used to create unique email address for a
-service account.
-Now the list of arguments for `kubermatic-api` looks like this:
+## `values.yaml` the domain parameter for API deployment
+
+A new parameter `domain` was added for kubermatic API deployment: `-domain={{ .Values.kubermatic.domain }}`
+This domain name is used to create unique email address for a ServiceAccount objects in API.
+Depends on the kubermatic installation the `domain` should be specified:
 
 ```
-    spec:
-      serviceAccountName: kubermatic
-      containers:
-        - name: api
-          command:
-          - kubermatic-api
-          args:
-          - -address=0.0.0.0:8080
-          - -v=4
-          - -logtostderr
-          - -datacenters=/opt/datacenter/datacenters.yaml
-          - -oidc-url={{ .Values.kubermatic.auth.tokenIssuer }}
-          - -oidc-authenticator-client-id={{ .Values.kubermatic.auth.clientID }}
-          - -oidc-skip-tls-verify={{ default false .Values.kubermatic.auth.skipTokenIssuerTLSVerify }}
-          - -versions=/opt/master-files/versions.yaml
-          - -updates=/opt/master-files/updates.yaml
-          - -internal-address=0.0.0.0:8085
-          - -domain={{ .Values.kubermatic.domain }}
-          - -kubeconfig=/opt/.kube/kubeconfig
-          - -master-resources=/opt/master-files
-          # the following flags enable oidc kubeconfig feature/endpoint
-          - -feature-gates={{ .Values.kubermatic.api.featureGates }}
-          {{- if regexMatch ".*OIDCKubeCfgEndpoint=true.*" (default "" .Values.kubermatic.api.featureGates) }}
-          - -oidc-issuer-redirect-uri={{ .Values.kubermatic.auth.issuerRedirectURL }}
-          - -oidc-issuer-client-id={{ .Values.kubermatic.auth.issuerClientID }}
-          - -oidc-issuer-client-secret={{ .Values.kubermatic.auth.issuerClientSecret }}
-          - -oidc-issuer-cookie-hash-key={{ .Values.kubermatic.auth.issuerCookieKey }}
-          {{- end }}
-          {{- if .Values.kubermatic.worker_name }}
-          - -worker-name={{ .Values.kubermatic.worker_name }}
-          {{- end }}
+kubermatic:
+  # external domain for the kubermatic installation. For example 'dev.kubermatic.io'
+  domain: "example.com"
 
 ```
