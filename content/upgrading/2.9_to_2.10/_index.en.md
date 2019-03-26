@@ -57,3 +57,16 @@ Now there is a subkey `openshift` or `kubernetes` after `addons`:
            tag: "v0.3"
            pullPolicy: "IfNotPresent"
 ```
+
+## `values.yaml` the domain parameter for API deployment
+
+A new parameter `domain` was added for kubermatic API deployment: `-domain={{ .Values.kubermatic.domain }}`
+This domain name is used to create unique email address for a ServiceAccount objects in API.
+Depends on the kubermatic installation the `domain` should be specified:
+
+```
+kubermatic:
+  # external domain for the kubermatic installation. For example 'dev.kubermatic.io'
+  domain: "example.com"
+
+```
