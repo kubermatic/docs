@@ -14,41 +14,41 @@ The structure for configuring the addons has changed and now contains a subkey `
 Before it was like this:
 
 ```yaml
-addons:
-  image:
-    repository: "quay.io/kubermatic/addons"
-    tag: "v0.1.18"
-    pullPolicy: "IfNotPresent"
-  # list of Addons to install into every user-cluster. All need to exist in the addons image
-  defaultAddons:
-  - canal
-  - dashboard
-  - dns
-  - kube-proxy
-  - openvpn
-  - rbac
-  - kubelet-configmap
-  - default-storage-class
+    addons:
+      image:
+        repository: "quay.io/kubermatic/addons"
+        tag: "v0.1.18"
+        pullPolicy: "IfNotPresent"
+      # list of Addons to install into every user-cluster. All need to exist in the addons image
+      defaultAddons:
+      - canal
+      - dashboard
+      - dns
+      - kube-proxy
+      - openvpn
+      - rbac
+      - kubelet-configmap
+      - default-storage-class
 ```
 
 Now there is a subkey `kubernetes` below `addons`:
 
 ```yaml
-addons:
-  kubernetes:
-    defaultAddons:
-    - canal
-    - dashboard
-    - dns
-    - kube-proxy
-    - openvpn
-    - rbac
-    - kubelet-configmap
-    - default-storage-class
-    image:
-      repository: "quay.io/kubermatic/addons"
-      tag: "v0.1.18"
-      pullPolicy: "IfNotPresent"
+    addons:
+      kubernetes:
+        defaultAddons:
+        - canal
+        - dashboard
+        - dns
+        - kube-proxy
+        - openvpn
+        - rbac
+        - kubelet-configmap
+        - default-storage-class
+        image:
+          repository: "quay.io/kubermatic/addons"
+          tag: "v0.1.18"
+          pullPolicy: "IfNotPresent"
 ```
 
 ## Heptio Velero replaces Ark
@@ -79,7 +79,6 @@ The nginx-ingress-controller chart had its `ignoreMasterTaint` flag deprecated. 
 pods on master nodes, please make use of the new `tolerations` option and manually add the two tolerations:
 
 ```yaml
-nginx:
   tolerations:
   # this is a default toleration
   - key: only_critical
