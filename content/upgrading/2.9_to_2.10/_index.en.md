@@ -65,8 +65,6 @@ helm --tiller-namespace kubermatic delete --purge ark-config
 helm --tiller-namespace kubermatic delete --purge ark
 ```
 
-Existing backups in your backup storage location should continue to work.
-
 If you have annotated pods with Ark-specific annotations, update them to their new name, e.g.
 `pre.hook.backup.ark.heptio.com` to `pre.hook.backup.velero.io`.
 
@@ -152,8 +150,6 @@ requests and limits in order to improve cluster stability. The following changes
   * The `nginx.prometheus` settings have been removed.
   * `nginx.ignoreMasterTaint` has been deprecated. Use the new `nginx.tolerations` options to manually
     set your required tolerations.
-* nodeport-proxy
-  * The root key has been renamed from `nodePortPoxy` to `nodePortProxy`.
 
 The `migrate-values` command of the Kubermatic installer can help to automate these changes in your
 `values.yaml` file(s).
