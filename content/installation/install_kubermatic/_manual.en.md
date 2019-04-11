@@ -154,8 +154,15 @@ datacenters:
     seed: seed-2
     spec:
       aws:
-        # Container linux AMI ID to be used within this region
-        ami: ami-ac7a68d7
+        # Set default AMI ID's(HVM) for this region
+        # Available since v2.10.0
+        images:
+          # Must be Ubuntu 18.04, defaults to https://aws.amazon.com/marketplace/pp/B07CQ33QKV
+          ubuntu: "Ubuntu 18.04"
+          # Must be CentOS 7, defaults to https://aws.amazon.com/marketplace/pp/B00O7WM7QW
+          centos: "CentOS 7"
+          # CoreOS Container Linux, defaults to https://coreos.com/os/docs/latest/booting-on-ec2.html  
+          coreos: "CoreOS"
         # Region to use for nodes
         region: us-east-1
         # Character of the zone in the given region
