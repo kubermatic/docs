@@ -59,9 +59,9 @@ Now there is a subkey `openshift` or `kubernetes` after `addons`:
 ```
 
 ## `values.yaml` structure for service account tokens
-There is a new flag `service-account-signing-key` for kubermatic API. Signing key authenticates the service account's
-token value using HMAC. It is recommended to use a key with 32 bytes or longer. The value for this flag must be stored in
-`auth` section for `kubermtic`
+A new flag `service-account-signing-key` was added to the Kubermatic API. It is used to sign service account tokens via
+HMAC. It should be unique per Kubermatic installation and can be generated with the command: `base64 -w0 /dev/urandom |head -c 100`
+The value for this flag must be stored in `auth` section for `kubermatic`
 
 For example:
 ```
