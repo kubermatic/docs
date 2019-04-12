@@ -57,3 +57,15 @@ Now there is a subkey `openshift` or `kubernetes` after `addons`:
            tag: "v0.3"
            pullPolicy: "IfNotPresent"
 ```
+
+## `values.yaml` structure for service account tokens
+There is a new flag `service-account-signing-key` for kubermatic API. Signing key authenticates the service account's
+token value using HMAC. It is recommended to use a key with 32 bytes or longer. The value for this flag must be stored in
+`auth` section for `kubermtic`
+
+For example:
+```
+kubermatic:
+  auth:
+    serviceAccountKey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+```
