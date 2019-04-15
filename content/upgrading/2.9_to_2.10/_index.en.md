@@ -8,8 +8,7 @@ pre = "<b></b>"
 
 ## `values.yaml` structure for addons
 
-With the addition of Openshift as supported platform the structure for configuring the addons has
-changed to allow for a distinct configuration of Openshift and Kubernetes.
+The structure for configuring the addons has changeg and now contains a subkey `kubernetes`
 Before it was like this:
 
 ```
@@ -30,7 +29,7 @@ Before it was like this:
        - default-storage-class
 ```
 
-Now there is a subkey `openshift` or `kubernetes` after `addons`:
+Now there is a subkey `kubernetes` after `addons`:
 
 ```
      addons:
@@ -48,14 +47,6 @@ Now there is a subkey `openshift` or `kubernetes` after `addons`:
            repository: "quay.io/kubermatic/addons"
            tag: "v0.1.18"
            pullPolicy: "IfNotPresent
-       openshift:
-         defaultAddons:
-         - networking
-         - openvpn
-         image:
-           repository: "quay.io/kubermatic/openshift-addons"
-           tag: "v0.3"
-           pullPolicy: "IfNotPresent"
 ```
 
 ## `values.yaml` structure for service account tokens
