@@ -6,6 +6,8 @@ weight = 13
 pre = "<b></b>"
 +++
 
+##  The config option `Values.kubermatic.rbac` was moved to `Values.kubermatic.masterController`
+
 ## `values.yaml` structure for addons
 
 The structure for configuring the addons has changeg and now contains a subkey `kubernetes`
