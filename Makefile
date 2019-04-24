@@ -1,5 +1,5 @@
 preview:
-	hugo server -D
+	hugo server -D -F
 
 runbook:
 	./convert-runbook.sh
