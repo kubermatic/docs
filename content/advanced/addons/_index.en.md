@@ -14,7 +14,7 @@ Addons are specific services and tools extending functionality of Kubernetes. In
 * [DNS](https://github.com/coredns/coredns): Kubernetes DNS service
 * [kube-proxy](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/): Kubernetes network proxy
 * [rbac](https://kubernetes.io/docs/reference/access-authn-authz/rbac/): Kubernetes Role-Based Access Control, needed for [TLS node bootstrapping](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/)
-* [OpenVPN client](https://openvpn.net/index.php/open-source/overview.html): virtual private network (VPN)
+* [OpenVPN client](https://openvpn.net/index.php/open-source/overview.html): virtual private network (VPN). Lets the control plan access the Pod & Service network. Required for functionality like `kubectl proxy` & `kubectl port-forward`.
 * [node-exporter](https://github.com/prometheus/node_exporter): Exports metrics from the node
 * default-storage-class: A cloud provider specific StorageClass
 * kubelet-configmap: A set of ConfigMaps used by kubeadm 
