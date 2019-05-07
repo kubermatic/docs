@@ -1,7 +1,7 @@
 +++
 title = "Upgrading from 2.10 to 2.11"
 date = 2019-05-03T12:07:15+02:00
-#publishDate = 2019-07-30T00:00:00+00:00
+publishDate = 2019-07-30T00:00:00+00:00
 weight = 50
 pre = "<b></b>"
 +++
