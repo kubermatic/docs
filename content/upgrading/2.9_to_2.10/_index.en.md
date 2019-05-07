@@ -1,8 +1,8 @@
 +++
-title = "From 2.9 to 2.10"
+title = "Upgrading from 2.9 to 2.10"
 date = 2018-10-23T12:07:15+02:00
 publishDate = 2019-03-30T00:00:00+00:00
-weight = 13
+weight = 40
 pre = "<b></b>"
 +++
 
