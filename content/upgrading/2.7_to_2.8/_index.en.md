@@ -1,7 +1,7 @@
 +++
-title = "From 2.7 to 2.8"
+title = "Upgrading from 2.7 to 2.8"
 date = 2018-10-23T12:07:15+02:00
-weight = 12
+weight = 20
 pre = "<b></b>"
 +++
 
