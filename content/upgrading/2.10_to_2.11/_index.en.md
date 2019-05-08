@@ -68,6 +68,15 @@ Wait until the job's pod has completed and then deploy the charts again, this ti
 removing the `migration` configuration key from your `values.yaml`. This will remove the one-time job and instead
 deploy the new StatefulSet.
 
+Once you have verified that both applications work, you can safely remove the old PVCs:
+
+    kubectl -n monitoring delete pvc \
+      prometheus-kubermatic-db-prometheus-kubermatic-0 \
+      prometheus-kubermatic-db-prometheus-kubermatic-1 \
+      alertmanager-kubermatic-db-alertmanager-kubermatic-0 \
+      alertmanager-kubermatic-db-alertmanager-kubermatic-1 \
+      alertmanager-kubermatic-db-alertmanager-kubermatic-2
+
 #### Alertmanager 0.17
 
 Alertmanager 0.17 changed the included `amtool` to be incompatible with previous versions. This only affects you
