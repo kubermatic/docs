@@ -24,22 +24,73 @@ kubermatic:
 
 ### Elasticsearch 7.0
 
-Kubermatic 2.11 ships with Elasticsearch 7.0. Version 7 can do rolling upgrades only if the Elasticsearch cluster is already running on version 6.7 (the version shipped in Kubermatic 2.10).
+Kubermatic 2.11 ships with Elasticsearch 7.0. Version 7 can do rolling upgrades only if the Elasticsearch cluster is
+already running on version 6.7 (the version shipped in Kubermatic 2.10).
 
-If you are already running Kubermatic 2.10, you can simply deploy the updated Helm chart and the nodes will update one by one to Elasticsearch 7.
+If you are already running Kubermatic 2.10, you can simply deploy the updated Helm chart and the nodes will update one
+by one to Elasticsearch 7.
 
-If you are running an older Kubermatic release, you must either upgrade to Kubermatic 2.10 first or shutdown the entire Elasticsearch cluster before doing the upgrade (e.g. by purging the chart before installing the new chart).
+If you are running an older Kubermatic release, you must either upgrade to Kubermatic 2.10 first or shutdown the entire
+Elasticsearch cluster before doing the upgrade (e.g. by purging the chart before installing the new chart).
 
 {{% notice warning %}}
-Note that because Elasticsearch 7.0 changed its database fields, you cannot downgrade to any previous release after the upgrade.
+Note that because Elasticsearch 7.0 changed its database fields, you cannot downgrade to any previous release after
+the upgrade.
 {{% /notice %}}
 
-### Alertmanager
+### Prometheus & Alertmanager
 
-Alertmanager 0.17 changed the included `amtool` to be incompatible with previous versions. This only affects you if you ever exported silences and wanted to re-import them. Please consult the [release notes](https://github.com/prometheus/alertmanager/releases/tag/v0.17.0) for more information.
+Both charts have had their naming scheme refactored in order to seamlessly install multiple copies along each other. This
+lead to the hostnames and PersistentVolumeClaim names changing.
 
-The `alertmanager.version` field in the Chart's `values.yaml` was deprecated and replaced with the more common `alertmanager.image.tag` field. Update your Helm values if you have ever set the Alertmanager's version explicitly. The `migrate-values` command of the Kubermatic-Installer can automate this migration step for you.
+* `prometheus-kubermatic` service becomes `prometheus`.
+* `alertmanager-kubermatic` service becomes `alertmanager`, but a service with the old name is installed to give user
+  clusters time to reconcile. The fallback service will be removed in a later bugfix release.
+
+In order to migrate existing data you must deploy both charts with the `migration.enabled` flag set to `true`:
+
+```yaml
+prometheus:
+  migration:
+    enabled: true
+
+alertmanager:
+  migration:
+    enabled: true
+```
+
+This will update the resources and deploy a one-time job to copy the existing data into the new volumes.
+
+* `prometheus-kubermatic-db-prometheus-kubermatic-N` becomes `db-prometheus-N`.
+* `alertmanager-kubermatic-db-alertmanager-kubermatic-N` becomes `db-alertmanager-N`.
+
+Wait until the job's pod has completed and then deploy the charts again, this time disabling the migration again by
+removing the `migration` configuration key from your `values.yaml`. This will remove the one-time job and instead
+deploy the new StatefulSet.
+
+Once you have verified that both applications work, you can safely remove the old PVCs:
+
+    kubectl -n monitoring delete pvc \
+      prometheus-kubermatic-db-prometheus-kubermatic-0 \
+      prometheus-kubermatic-db-prometheus-kubermatic-1 \
+      alertmanager-kubermatic-db-alertmanager-kubermatic-0 \
+      alertmanager-kubermatic-db-alertmanager-kubermatic-1 \
+      alertmanager-kubermatic-db-alertmanager-kubermatic-2
+
+#### Alertmanager 0.17
+
+Alertmanager 0.17 changed the included `amtool` to be incompatible with previous versions. This only affects you
+if you ever exported silences and wanted to re-import them. Please consult the
+[release notes](https://github.com/prometheus/alertmanager/releases/tag/v0.17.0) for more information.
+
+The `alertmanager.version` field in the Chart's `values.yaml` was deprecated and replaced with the more common
+`alertmanager.image.tag` field. Update your Helm values if you have ever set the Alertmanager's version explicitly.
+The `migrate-values` command of the Kubermatic-Installer can automate this migration step for you.
+
+Likewise, the `alertmanager.resources.storage` has been renamed to `alertmanager.storageSize` and the old key has
+been deprecated. Please update your `values.yaml` if you've ever increased the volume size for Alertmanager.
 
 ### NodePort-Proxy
 
-The top-level key in the `values.yaml` has been fixed and is now called `nodePortProxy`. Please update your Helm values as the old name (`nodePortPoxy`) is now deprecated.
+The top-level key in the `values.yaml` has been fixed and is now called `nodePortProxy`. Please update your Helm
+values as the old name (`nodePortPoxy`) is now deprecated.
