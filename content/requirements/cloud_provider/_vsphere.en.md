@@ -60,7 +60,7 @@ The vsphere user has to have to following permissions on the correct resources:
 #### Seed Cluster
 
 * Role `k8c-storage-vmfolder-propagate`
-  * Granted at __VM Folder__, propagated
+  * Granted at __VM Folder__ and __Template Folder__, propagated
   * Permissions
     * VirtualMachine
       * Config
@@ -110,6 +110,11 @@ The vsphere user has to have to following permissions on the correct resources:
         * System Management
     * Resource
       * Assign virtual machine to resource pool
+
+* Role k8s-network-attach
+  * Granted for each network that should be used
+  * Permissions
+    * Network -> Attach
 
 * Role `k8c-user-datastore-propagate`
   * Granted at __datastore / datastore cluster__ level, propagated
