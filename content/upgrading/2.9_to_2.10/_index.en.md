@@ -6,7 +6,17 @@ weight = 40
 pre = "<b></b>"
 +++
 
-##  The config option `Values.kubermatic.rbac` was moved to `Values.kubermatic.masterController`
+## The secrets used to access the user cluster etcds for backups doesn't get cleaned up on cluster deletion
+
+Due to a bug, the secrets created for the backup cronjobs to access user cluster etcds didn't get cleaned
+up on cluster deletion. You can delete all of them by issuing the following command once for each of your seed
+clusters. The ones for the still-existing clusters will get re-created by our controller:
+
+```
+kubectl get secret -n kube-system|grep etcd-client-certificate |awk '{print $1}'|xargs -n 15 kubectl delete secret -n kube-system
+```
+
+## The config option `Values.kubermatic.rbac` was moved to `Values.kubermatic.masterController`
 
 ## `values.yaml` structure for addons
 
