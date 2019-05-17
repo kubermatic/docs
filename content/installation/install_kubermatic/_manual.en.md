@@ -244,9 +244,9 @@ the `values.yaml` file. You can do this with following command:
 base64 kubeconfig | tr -d '\n'
 ```
 
-#### Kubermatic & 3rd-Party Authentication
+#### Kubermatic & System Services Authentication
 
-Access to Kibana, Grafana and all other 3rd-party services included with Kubermatic is secured by running them behind
+Access to Kibana, Grafana and all other system services included with Kubermatic is secured by running them behind
 [Keycloak-Gatekeeper](https://github.com/keycloak/keycloak-gatekeeper) and using [Dex](https://github.com/dexidp/dex)
 as the authentication provider. Dex can then be configured to use external authentication sources like GitHub's or
 Google's OAuth endpoint, LDAP or OpenID Connect. Kubermatic itself makes use of Dex as well, but since it supports OAuth
@@ -256,7 +256,7 @@ For this to work you have to configure both Dex and Keycloak-Gatekeeper (called 
 `values.yaml`.
 
 {{% notice note %}}
-It is still possible to access the 3rd-party services by using `kubectl port-forward` and thereby circumventing the
+It is still possible to access the system services by using `kubectl port-forward` and thereby circumventing the
 authentication entirely.
 {{% /notice %}}
 
@@ -291,7 +291,7 @@ values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.
 ##### Keycloak-Gatekeeper (IAP)
 
 Now that you have setup your "virtual OAuth provider" in the form of Dex, you need to configure Keycloak-Gatekeeper
-to sit in front of the 3rd-party services and use it for authentication. For each client that we configured in Dex,
+to sit in front of the system services and use it for authentication. For each client that we configured in Dex,
 add a `deployment` to the IAP configuration. Use the client's secret (from Dex) as the `client_secret` and generate
 another random, secure encryption key to encrypt the client state with (which is then stored as a cookie in the user's
 browser).
@@ -405,6 +405,11 @@ Now you're ready to deploy Kubermatic and its charts. It's generally advisable t
 chart until you acquired LoadBalancer IPs/hostnames and can update your DNS zone to point to your new installation. This
 ensures that the `cert-manager` can quickly acquire TLS certificates instead of running into DNS issues.
 
+{{% notice note %}}
+On your very first installation, you must install the Kubermatic chart with `kubermatic.checks.crd.disable=true`. This
+disables a check that was put in place for upgrading older Kubermatic versions to the current one.
+{{% /notice %}}
+
 ```bash
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace cert-manager cert-manager charts/cert-manager/
@@ -416,7 +421,7 @@ helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --valu
 # if you deployed Minio in another namespace than "minio", make sure to adjust s3Exporter.endpoint in the values.yaml
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace kube-system s3-exporter charts/s3-exporter/
 
-helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace kubermatic --set kubermatic.checks.crd.disable=true kubermatic charts/kubermatic/
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace iap iap charts/iap/
 # When running on a cloud Provider like GCP, AWS or Azure with LB support also install the nodeport-proxy
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
@@ -437,7 +442,7 @@ helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --valu
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring blackbox-exporter charts/monitoring/blackbox-exporter/
 
 # cluster backups (etcd and volumes) (requires proper configuration in the chart's values.yaml)
-helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace velero alertmanager charts/backup/velero/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace velero velero charts/backup/velero/
 ```
 
 After all charts have been deployed, update your DNS accordingly. See the last section on this page for more details.
@@ -495,7 +500,7 @@ Kubermatic needs to have at least 2 DNS entries set.
 #### Dashboard, API, Dex
 
 The frontend of Kubermatic needs a single, simple DNS entry. Let's assume it is being installed to serve
-`kubermatic.initech.com`. For the 3rd-party services like Prometheus or Grafana, you will also want to create a wildcard
+`kubermatic.initech.com`. For the system services like Prometheus or Grafana, you will also want to create a wildcard
 DNS record `*.kubermatic.initech.com` pointing to the same IP/hostname.
 
 ##### With LoadBalancer
