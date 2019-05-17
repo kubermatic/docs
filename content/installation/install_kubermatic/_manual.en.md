@@ -5,16 +5,31 @@ weight = 20
 pre = "<b></b>"
 +++
 
+### Clone the Installer
+
+Clone the [installer repository](https://github.com/kubermatic/kubermatic-installer) to your disk and make sure to
+checkout the appropriate release branch (`release/vX.Y`). The latest stable release is already the default branch,
+so in most cases there should be no need to switch. Alternatively you can also download a ZIP version from GitHub.
+
+```bash
+git clone https://github.com/kubermatic/kubermatic-installer
+cd kubermatic-installer
+```
+
 ### Creating the kubeconfig
 
 The Kubermatic API lives inside the master cluster and therefore speaks to it via in-cluster communication, using the
 `kubermatic` service account. Communication with the seed clusters happens by providing the API with a kubeconfig that
 has the required contexts and credentials for each seed cluster. The name of the context within the kubeconfig needs to
-match an entry within the `datacenters.yaml` (see below).
+match an entry within the `datacenters.yaml` (see below) and needs to be a valid DNS part. Kubermatic uses DNS records
+like `*.[seed-name].[main-domain]`, so context names like `user@seed1` would not work. Make sure the seed names are
+alphanumeric.
 
 Also make sure your kubeconfig contains _static_, long-lived credentials. Some cloud providers use custom authentication
 providers (like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic's usecase
-because the required tools are not installed.
+because the required tools are not installed. You can use the `kubeconfig-serviceaccounts.sh` script from the
+`kubermatic-installer` repository to automatically create proper service accounts inside each cluster and update the
+kubeconfig file.
 
 {{%expand "Sample kubeconfig"%}}
 ```yaml
@@ -161,7 +176,7 @@ datacenters:
           ubuntu: "ami-07e101c2aebc37691"
           # Must be CentOS 7, defaults to https://aws.amazon.com/marketplace/pp/B00O7WM7QW
           centos: "ami-02eac2c0129f6376b"
-          # CoreOS Container Linux, defaults to https://coreos.com/os/docs/latest/booting-on-ec2.html  
+          # CoreOS Container Linux, defaults to https://coreos.com/os/docs/latest/booting-on-ec2.html
           coreos: "ami-08e58b93705fb503f"
         # Region to use for nodes
         region: us-east-1
@@ -229,25 +244,32 @@ the `values.yaml` file. You can do this with following command:
 base64 kubeconfig | tr -d '\n'
 ```
 
-#### Kubermatic & 3rd-Party Authentication
+#### Kubermatic & System Services Authentication
 
-Access to Kibana, Grafana and all other 3rd-party services included with Kubermatic is secured by running them behind
-[Keycloak-Proxy](https://github.com/keycloak/keycloak-gatekeeper) and using [Dex](https://github.com/dexidp/dex) as the
-authentication provider. Dex can then be configured to use external authentication sources like GitHub's or Google's
-OAuth endpoint, LDAP or OpenID Connect. Kubermatic itself makes use of Dex as well, but since it supports OAuth natively
-does not make use of Keycloak-Proxy.
+Access to Kibana, Grafana and all other system services included with Kubermatic is secured by running them behind
+[Keycloak-Gatekeeper](https://github.com/keycloak/keycloak-gatekeeper) and using [Dex](https://github.com/dexidp/dex)
+as the authentication provider. Dex can then be configured to use external authentication sources like GitHub's or
+Google's OAuth endpoint, LDAP or OpenID Connect. Kubermatic itself makes use of Dex as well, but since it supports OAuth
+natively does not make use of Keycloak-Gatekeeper.
 
-For this to work you have to configure both Dex and Keycloak-Proxy (called "IAP", Identity-Aware Proxy) in your
+For this to work you have to configure both Dex and Keycloak-Gatekeeper (called "IAP", Identity-Aware Proxy) in your
 `values.yaml`.
+
+{{% notice note %}}
+It is still possible to access the system services by using `kubectl port-forward` and thereby circumventing the
+authentication entirely.
+{{% /notice %}}
 
 ##### Dex
 
-{{% notice note %}} Please note that despite its name, Dex is part of the `oauth` Helm chart. {{% /notice %}}
+{{% notice note %}}
+Please note that despite its name, Dex is part of the `oauth` Helm chart.
+{{% /notice %}}
 
 For each service that is supposed to use Dex as an authentication provider, configure a `client`. The callback URL is
 called after authentication has been completed and must point to `https://<domain>/oauth/callback`. Remember that this
-will point to Keycloak and is therefore independent of the actual underlying application. Generate a secure random
-secret for each client as well.
+will point to Keycloak-Gatekeeper and is therefore independent of the actual underlying application. Generate a secure
+random secret for each client as well.
 
 A sample configuration for Prometheus could look like this:
 
@@ -266,12 +288,13 @@ dex:
 Each service should have its own credentials. See the `dex` section in the [example
 values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml).
 
-##### Keycloak-Proxy (IAP)
+##### Keycloak-Gatekeeper (IAP)
 
-Now that you have setup your "virtual OAuth provider" in the form of Dex, you need to configure Keycloak-Proxy to sit in
-front of the 3rd-party services and use it for authentication. For each client that we configured in Dex, add a
-`deployment` to the IAP configuration. Use the client's secret as the `client_secret` and generate another random,
-secure encryption key to encrypt the client state with (which is then stored as a cookie in the user's browser).
+Now that you have setup your "virtual OAuth provider" in the form of Dex, you need to configure Keycloak-Gatekeeper
+to sit in front of the system services and use it for authentication. For each client that we configured in Dex,
+add a `deployment` to the IAP configuration. Use the client's secret (from Dex) as the `client_secret` and generate
+another random, secure encryption key to encrypt the client state with (which is then stored as a cookie in the user's
+browser).
 
 A sample deployment for Prometheus could look like this:
 
@@ -309,17 +332,6 @@ See the `iap` section in the [example
 values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml) for more
 information.
 
-### Clone the Installer
-
-Clone the [installer repository](https://github.com/kubermatic/kubermatic-installer) to your disk and make sure to
-checkout the appropriate release branch (`release/vX.Y`). The latest stable release is already the default branch,
-so in most cases there should be no need to switch. Alternatively you can also download a ZIP version from GitHub.
-
-```bash
-git clone https://github.com/kubermatic/kubermatic-installer
-cd kubermatic-installer
-```
-
 ### Providing Storage
 
 A storage class with the name `kubermatic-fast` needs to exist within the cluster. Also, make sure to either have a
@@ -330,11 +342,26 @@ minio:
   storageClass: hdd-disk
 ```
 
+An explicit storage class to AWS using SSDs can look like this:
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: kubermatic-fast
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+```
+
 Store the above YAML snippet in a file and then apply it using `kubectl`:
 
 ```bash
-kubectl apply -f storageclass.yaml
+kubectl apply -f aws-storageclass.yaml
 ```
+
+Please consult the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters)
+for more information about the possible parameters for your storage backend.
 
 ### Create all CustomResourceDefinitions
 
@@ -345,6 +372,17 @@ manifests:
 kubectl apply -f charts/kubermatic/crd
 ```
 
+### cert-manager
+
+To properly install the cert-manager, you need to manually label its namespace or else the included webhook will not
+function correctly and your cluster will not be able to request certificates. Make sure to create your desired namespace
+and then label it like so:
+
+```bash
+kubectl create namespace cert-manager
+kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+```
+
 ### Deploying the Helm charts
 
 Install [Helm](https://www.helm.sh/) on you local system and setup Tiller within the cluster.
@@ -353,19 +391,24 @@ Install [Helm](https://www.helm.sh/) on you local system and setup Tiller within
 
     ```bash
     kubectl create namespace kubermatic
-    kubectl create serviceaccount -n kubermatic tiller-sa
-    kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller-sa
+    kubectl create serviceaccount -n kubermatic tiller
+    kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller
     ```
 
 2. Afterwards install Tiller with the correct service account:
 
     ```bash
-    helm --service-account tiller-sa --tiller-namespace kubermatic init
+    helm --service-account tiller --tiller-namespace kubermatic init
     ```
 
 Now you're ready to deploy Kubermatic and its charts. It's generally advisable to postpone installing the final `certs`
 chart until you acquired LoadBalancer IPs/hostnames and can update your DNS zone to point to your new installation. This
-ensure that the `cert-manager` can quickly acquire TLS certificates instead of running into DNS issues.
+ensures that the `cert-manager` can quickly acquire TLS certificates instead of running into DNS issues.
+
+{{% notice note %}}
+On your very first installation, you must install the Kubermatic chart with `kubermatic.checks.crd.disable=true`. This
+disables a check that was put in place for upgrading older Kubermatic versions to the current one.
+{{% /notice %}}
 
 ```bash
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
@@ -375,7 +418,10 @@ helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --valu
 # Used for storing etcd snapshots
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace minio minio charts/minio/
 
-helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic/
+# if you deployed Minio in another namespace than "minio", make sure to adjust s3Exporter.endpoint in the values.yaml
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace kube-system s3-exporter charts/s3-exporter/
+
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace kubermatic --set kubermatic.checks.crd.disable=true kubermatic charts/kubermatic/
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace iap iap charts/iap/
 # When running on a cloud Provider like GCP, AWS or Azure with LB support also install the nodeport-proxy
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
@@ -391,6 +437,12 @@ helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --valu
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring grafana charts/monitoring/grafana/
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
+
+# optional part of the monitoring stack, only used if you explicitly define scraping rules to monitoring arbitrary targets
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring blackbox-exporter charts/monitoring/blackbox-exporter/
+
+# cluster backups (etcd and volumes) (requires proper configuration in the chart's values.yaml)
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace velero velero charts/backup/velero/
 ```
 
 After all charts have been deployed, update your DNS accordingly. See the last section on this page for more details.
@@ -427,7 +479,7 @@ The `cleanupContainer` will delete all snapshots in S3 after a cluster has been 
 
 #### Credentials
 
-If the default container will be used, a secret in the `kube-system` namespace must be created:
+If the default container will be used, a secret named `s3-credentials` in the `kube-system` namespace must be created:
 
 ```yaml
 apiVersion: v1
@@ -448,7 +500,7 @@ Kubermatic needs to have at least 2 DNS entries set.
 #### Dashboard, API, Dex
 
 The frontend of Kubermatic needs a single, simple DNS entry. Let's assume it is being installed to serve
-`kubermatic.initech.com`. For the 3rd-party services like Prometheus or Grafana, you will also want to create a wildcard
+`kubermatic.initech.com`. For the system services like Prometheus or Grafana, you will also want to create a wildcard
 DNS record `*.kubermatic.initech.com` pointing to the same IP/hostname.
 
 ##### With LoadBalancer
