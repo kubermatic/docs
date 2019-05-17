@@ -38,6 +38,10 @@ Note that because Elasticsearch 7.0 changed its database fields, you cannot down
 the upgrade.
 {{% /notice %}}
 
+The backwards compatibility for the renamed configuration keys (`storageSize`, `replicas` etc.) introduced in Kubermatic
+2.10 has been removed, so make sure to update your `values.yaml` to use the new config keys as documented in the 2.10
+release notes.
+
 ### Prometheus & Alertmanager
 
 Both charts have had their naming scheme refactored in order to seamlessly install multiple copies along each other. This
