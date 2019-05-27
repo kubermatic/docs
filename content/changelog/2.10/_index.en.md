@@ -6,6 +6,30 @@ weight = 13
 pre = "<b></b>"
 +++
 
+# v2.10.1
+
+**Bugfix:**
+
+- A bug that caused errors on very big addon manifests was fixed
+- fixed kube-state-metrics in user-clusters not being scraped
+- Updated the machine-controller to fix the wrong CentOS image for AWS instances
+- vSphere VMs are cleaned up on ISO failure.
+
+
+**Misc:**
+
+- updated Prometheus to `v2.9.2`
+- Draining of nodes now times out after 2h
+- the API stops creating an initial node deployment for new cluster for KubeAdm providers.
+- More details are shown when using `kubectl get machine/machineset/machinedeployment`
+- Pod AntiAffinity and PDBs were added to the Kubermatic control plane components and the monitoring stack to spread them out if possible and reduce the chance of unavailability
+- Support for Kubernetes 1.11.10 was added
+
+
+
+
+# v2.10.0
+
 ## Features
 
 ### Kubermatic core
