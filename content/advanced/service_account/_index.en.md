@@ -1,5 +1,5 @@
 +++
-title = "Share clusters via delegated OIDC Authentication"
+title = "Kubermatic Service Accounts"
 date = 2019-06-13T12:01:35+02:00
 weight = 3
 pre = "<b></b>"
@@ -15,7 +15,7 @@ are not directly involved. A service account has JWT token which is used to auth
 by default expires after 3 years.
 
 ## Core concept
-A Service accounts are considered as project's resource. Only the owner of a project  can create a service account.
+A Service accounts are considered as project's resource. Only the owner of the project  can create a service account.
 There is no need to create a new groups for SA, we want to assign a service account to one of the already defined groups:
 `editors` or `viewers`.
 
@@ -30,10 +30,6 @@ serviceaccount-z97l228h4z                                          7d
 serviceaccount-zjl54fmlks                                          26d
 user-26xq2                                                         311d
 ```
-
-A service account is linked to the project automatically by service account binding controller. The controller creates
-`UserProjectBinding` which specifies a binding between a service account and a project. A `UserProjectBinding` uses a 
-`OwnerRef` to create connection with the project. A service account will be automatically deleted after project removal.
 
 A service account is linked to the project automatically by service account binding controller. The controller creates
 `UserProjectBinding` which specifies a binding between a service account and a project. A `UserProjectBinding` uses a 
@@ -96,7 +92,7 @@ A service account is an automatically enabled authenticator that uses signed bea
 It is possible to create multiple service accounts for the given project. The service account name must be unique for 
 project scope. The service account can have multiple tokens with unique names.
 
-The display name of a service account and token is a good way to capture additional information, such as the purpose of 
+The display name of the service account and token is a good way to capture additional information, such as the purpose of 
 the service account or token.
  
 ### Managing service accounts and tokens
