@@ -109,3 +109,10 @@ Please consult the [upgrade notes](https://docs.cert-manager.io/en/release-0.8/t
 for more information. In most cases it should be enough to simply remove the `spec.acme` field from all
 `Certificate` resources. As noted in the documentation, you can use `kubectl get certificates --all-namespaces`
 to see which are still using the pre-0.8 syntax.
+
+{{% notice warning %}}
+**Action required:** Because Helm cannot update CRDs, you must manually update the CRDs for this release by running
+`kubectl apply -f config/cert-manager/templates/crd.yaml`. Failure to do so will break certificate renewal because
+of spec validation failures. If you notice that the cert-manager is logging that orders are invalid, make sure the
+CRDs are up-to-date and you restarted the cert-manager pods.
+{{% /notice %}}
