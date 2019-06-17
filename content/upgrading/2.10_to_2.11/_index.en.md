@@ -98,3 +98,21 @@ been deprecated. Please update your `values.yaml` if you've ever increased the v
 
 The top-level key in the `values.yaml` has been fixed and is now called `nodePortProxy`. Please update your Helm
 values as the old name (`nodePortPoxy`) is now deprecated.
+
+### cert-manager 0.8
+
+Kubermatic 2.11 ships with cert-manager version 0.8, which slightly changed how certificates and issuers are
+configured. The 0.8 release is backwards compatible, but this is going to be removed until version 1.0. It's
+recommended that Kubermatic customers upgrade their certificates already to be future-proof.
+
+Please consult the [upgrade notes](https://docs.cert-manager.io/en/release-0.8/tasks/upgrading/upgrading-0.7-0.8.html)
+for more information. In most cases it should be enough to simply remove the `spec.acme` field from all
+`Certificate` resources. As noted in the documentation, you can use `kubectl get certificates --all-namespaces`
+to see which are still using the pre-0.8 syntax.
+
+{{% notice warning %}}
+**Action required:** Because Helm cannot update CRDs, you must manually update the CRDs for this release by running
+`kubectl apply -f config/cert-manager/templates/crd.yaml`. Failure to do so will break certificate renewal because
+of spec validation failures. If you notice that the cert-manager is logging that orders are invalid, make sure the
+CRDs are up-to-date and you restarted the cert-manager pods.
+{{% /notice %}}
