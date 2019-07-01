@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic Service Accounts"
+title = "Service Accounts"
 date = 2019-06-13T12:01:35+02:00
 weight = 3
 pre = "<b></b>"
@@ -7,9 +7,9 @@ pre = "<b></b>"
 
 ### Service Accounts
 
-The purpose of this feature is to allow using a long-lived token that you can use to authenticate with Kubermatic API.
+Service accounts allow using a long-lived token that you can use to authenticate with Kubermatic API.
 
-A service account is a special type of user account that belongs to the Kubermatic project, instead of to an individual
+A service account is a special type of user account that belongs to the Kubermatic project, instead of an individual
 end user. Your project resources assume the identity of the service account to call Kubermatic APIs, so that the users
 are not directly involved. A service account has JWT token which is used to authenticate to Kubermatic API. The JWT token
 by default expires after 3 years.
@@ -19,7 +19,7 @@ A Service accounts are considered as project's resource. Only the owner of the p
 There is no need to create a new groups for SA, we want to assign a service account to one of the already defined groups:
 `editors` or `viewers`.
 
-The Kubermatic User object is used as a service account. To avoid confusions about the purpose of the user the name convention
+The Kubermatic User object is used as a service account. To avoid confusion about the purpose of the user the name convention
 was introduced. Service account name starts with prefix `serviceaccount-`. The Regular user starts with name: `user-`.
 For example:
 
@@ -85,7 +85,7 @@ service account. A secret will be automatically deleted after service account re
 
 A service account is an automatically enabled authenticator that uses signed bearer tokens to verify requests. The Kubermatic API takes a flag:
  
-   - service-account-signing-key A signing key authenticates the service account's token value using HMAC. It is recommended to use a key with 32 bytes or longer.
+   - `service-account-signing-key` A signing key authenticates the service account's token value using HMAC. It is recommended to use a key with 32 bytes or longer.
    
 ### Keeping track of service accounts and tokens
 
@@ -102,13 +102,13 @@ with service account token.
 
 You can change the service account and token names when once created.
 
-The service account token is visible for the user during creation. 
+The service account token is visible to the user during creation.
 
 {{% notice note %}}
 **Note:** Make sure to save this token at a safe place on your own device. It cannot be displayed again after closing the dashboard window. 
 {{% /notice %}}
 
-The user can also regenerate token but the previous one will be revoked.
+The user can also regenerate a token but the previous one will be revoked.
 
 ### Accessing API via service account token
 
