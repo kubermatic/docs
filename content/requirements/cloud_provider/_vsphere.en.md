@@ -130,6 +130,9 @@ The vsphere user has to have to following permissions on the correct resources:
     * Folder
       * Create folder
       * Delete folder
+    * Global 
+      * Set custom attribute
+      * Create folder      
     * Virtual machine
       * Configuration
         * Add or remove device
