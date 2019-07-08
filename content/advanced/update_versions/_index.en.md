@@ -11,8 +11,8 @@ The list of selectable versions when [specifying cluster name and Kubernetes ver
 is defined in the file `versions.yaml`. You find it in your installer clone located as part of the
 Kubermatic helm chart at `${KUBERMATIC_INSTALLER}/charts/kubermatic/static/master/`. 
 
-Inside the versions file you'll find the supported releases of Kubernetes as well a flag which one
-should be taken as default.
+Inside the versions file you'll find the supported releases of Kubernetes as well as a flag which one
+should be taken as default. The file format is [YAML](https://yaml.org).
 
 ```yaml
 # Kubernetes 1.14
@@ -30,20 +30,27 @@ should be taken as default.
   default: false
 ```
 
-As you can see insecure versions are listed too. They are commented out and contain a link to the
-according issue. This way you can see why several version aren't listed in the selection dialog.
+As you can see it is a list containing the two keys `version` and `default`. Here the values of the
+`version` keys are the Kubernetes versions as string and prefixed by the letter "v". The values of 
+`default` keys are _true_ or _false_, where only one version can be marked as default. We also 
+list insecure version, but they are commented out and contain a link to the according issue. This
+way you can see why several version aren't listed in the selection dialog.
 
 {{% notice note %}}
 **Note:** Try to keep this tradition when you're adding new Kubernetes releases to the list. This
-way potential later addings don't add these releases by accident.
+way potential later addings don't add these missing releases by accident.
 {{% /notice %}}
 
-As *default version* normally the latest patch of the predecessor subversion is taken. So you manually
-still can select a newer release while Kubermatic recommends the most mature version.
+As *default version* we normally choose the latest patch of the predecessor subversion is taken. While
+you manually still can select a newer release Kubermatic will recommend this way the most mature version
+to you.
 
-After editing the list Kubermatic has to be upgraded using `helm`.
+After editing the list Kubermatic has to be upgraded by using `helm`.
 
 ```bash
 $ cd ${KUBERMATIC_INSTALLER}/charts/kubermatic
+$ vim static/master/versions.yaml
 $ helm upgrade kubermatic .
 ```
+
+Afterwards the new version settings are available.
