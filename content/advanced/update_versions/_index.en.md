@@ -20,6 +20,7 @@ Inside the versions file you'll find the supported releases of Kubernetes as wel
 should be taken as default. The file format is [YAML](https://yaml.org).
 
 ```yaml
+versions:
 # Kubernetes 1.14
 - version: "v1.14.0"
   default: false
