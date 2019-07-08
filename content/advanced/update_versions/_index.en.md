@@ -7,9 +7,14 @@ pre = "<b></b>"
 
 ### Update list of selectable Kubernetes versions
 
-The list of selectable versions when [specifying cluster name and Kubernetes version](/getting_started/create_cluster/#step-2-specify-the-cluster-name-and-kubernetes-version)
-is defined in the file `versions.yaml`. You find it in your installer clone located as part of the
-Kubermatic helm chart at `${KUBERMATIC_INSTALLER}/charts/kubermatic/static/master/`. 
+The list of selectable versions when [specifying cluster name and Kubernetes version](/getting_started/create_cluster/#step-2-specify-the-cluster-name-and-kubernetes-version) is defined in the file
+`versions.yaml`. You find it in your Kubermatic installer clone directory:
+
+```bash
+$ git clone git@github.com:kubermatic/kubermatic-installer.git
+$ cd kubermatic-installer/
+$ ls charts/kubermatic/static/master/
+```
 
 Inside the versions file you'll find the supported releases of Kubernetes as well as a flag which one
 should be taken as default. The file format is [YAML](https://yaml.org).
@@ -31,9 +36,11 @@ should be taken as default. The file format is [YAML](https://yaml.org).
 ```
 
 As you can see it is a list containing the two keys `version` and `default`. Here the values of the
-`version` keys are the Kubernetes versions as string and prefixed by the letter "v". The values of 
-`default` keys are _true_ or _false_, where only one version can be marked as default. We also 
-list insecure version, but they are commented out and contain a link to the according issue. This
+`version` keys are the Kubernetes versions as string and prefixed by the letter "v". They correspondent
+with the tags of the according versions of the Kubernetes repository. The values of the `default` keys
+are _true_ or _false_, where only one version can be marked as default.
+
+We also list insecure version, but they are commented out and contain a link to the according issue. This
 way you can see why several version aren't listed in the selection dialog.
 
 {{% notice note %}}
@@ -42,13 +49,13 @@ way potential later addings don't add these missing releases by accident.
 {{% /notice %}}
 
 As *default version* we normally choose the latest patch of the predecessor subversion is taken. While
-you manually still can select a newer release Kubermatic will recommend this way the most mature version
+you manually still can select any other release Kubermatic will recommend this way the most mature version
 to you.
 
 After editing the list Kubermatic has to be upgraded by using `helm`.
 
 ```bash
-$ cd ${KUBERMATIC_INSTALLER}/charts/kubermatic
+$ cd kubermatic-installer/charts/kubermatic
 $ vim static/master/versions.yaml
 $ helm upgrade kubermatic .
 ```
