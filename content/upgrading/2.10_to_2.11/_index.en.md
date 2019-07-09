@@ -6,6 +6,12 @@ weight = 50
 pre = "<b></b>"
 +++
 
+## Expose strategy
+
+Kubermatic 2.11 adds support to expose user clusters by creating one service of type `LoadBalancer` per user
+cluster. Check out the [Expose Strategy documentation]({{< ref "expose_strategy.en.md" >}}) for more details.
+
+
 ## Helm Charts
 
 ### Kubermatic: service account tokens structure
