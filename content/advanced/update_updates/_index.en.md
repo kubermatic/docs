@@ -17,8 +17,8 @@ $ cd kubermatic-installer/
 $ ls charts/kubermatic/static/master/
 ```
 
-Inside the updates file you'll find the supported upgrade paths for Kubernetes. The
-file format is [YAML](https://yaml.org).
+The file contains the supported upgrade paths for Kubernetes. The file format is
+[YAML](https://yaml.org).
 
 ```yaml
 updates:
@@ -58,7 +58,7 @@ updates:
 ```
 
 As you can see it is a list containing the keys `from`, `to`, and `automatic`. The fields
-`from` and `to` contain pattern descibing the Kubernetes version numbers. These can be absolut,
+`from` and `to` contain patterns descibing the Kubernetes version numbers. These can be absolut,
 contain wildcards, or be ranges. This way Kubermatic can check which updates are allowed for
 the current version.
 
