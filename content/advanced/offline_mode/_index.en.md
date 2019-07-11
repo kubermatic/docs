@@ -36,9 +36,9 @@ In situations where worker nodes will require a proxy to reach the internet, the
         - a
     node:
       # Configure the address of the proxy
-      # It will be configured on all worker nodes
+      # It will be configured on all worker nodes. It results in the HTTP_PROXY & HTTPS_PROXY environment variable being set.
       http_proxy: "http://172.20.0.2:3128"
-      # Worker nodes require access to a docker registry, in case it is only accessible using http, they must be listed here  
+      # Worker nodes require access to a docker registry, in case it is only accessible using http or it uses a self signed certificate, they must be listed here  
       insecure_registries:
         - 172.20.0.2:5000
       # The kubelet requires the pause image, if its only accessible using a private registry, the image name must be configured here
