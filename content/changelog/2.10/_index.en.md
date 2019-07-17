@@ -6,6 +6,25 @@ weight = 13
 pre = "<b></b>"
 +++
 
+# v2.10.2
+
+
+**Dashboard:**
+
+- Updated Dashboard to `v1.2.2`
+  - Missing parameters for OIDC providers have been added.
+  - `containerRuntimeVersion` and `kernelVersion` are now displayed on NodeDeployment detail page
+  - Fixed changing default OpenStack image on Operating System change
+  - The OIDC provider URL is now configurable via `oidc_provider_url` variable.
+
+
+**Misc:**
+
+- Insecure Kubernetes versions v1.13.6 and v1.14.2 have been disabled.
+
+
+
+
 # v2.10.1
 
 **Bugfix:**
