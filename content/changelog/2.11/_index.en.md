@@ -6,6 +6,39 @@ weight = 20
 pre = "<b></b>"
 +++
 
+## v2.11.2
+
+
+Supported Kubernetes versions:
+
+- `1.13.9`
+- `1.14.5`
+- `1.15.2`
+
+
+**Changes:**
+
+- Fixed an issue where deleted project owners would come back after a while
+- Kubernetes versions affected by CVE-2019-11247 and CVE-2019-11249 have been dropped
+- Kubernetes 1.11 which is end-of-life has been removed
+- Kubernetes 1.12 which is end-of-life has been removed
+
+
+
+
+## v2.11.1
+
+
+- Openstack: A bug that could result in many securtiy groups being created when the creation of security group rules failed was fixed
+- Added Kubernetes `v1.15.1`
+- Updated machine controller to `v1.5.1`
+- A bug that sometimes resulted in the creation of the initial NodeDeployment failing was fixed
+- Fixed an issue that kept clusters stuck if their creation didn't succeed and they got deleted with PV and/or LB cleanup enabled
+- Fixed joining nodes to Bring Your Own clusters running Kubernetes 1.14
+
+
+
+
 ## v2.11.0
 
 Supported Kubernetes versions:
