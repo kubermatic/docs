@@ -286,7 +286,27 @@ dex:
 ```
 
 Each service should have its own credentials. See the `dex` section in the [example
-values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml).
+values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.11/values.example.yaml).
+
+##### Alternative Authentication provider
+
+If you don't use Dex as authentication provider, see [OIDC provider Configuration](/advanced/oidc_config/) you will need to configure for every service a dedicated redirect URI:
+Each service should have its own credentials. This means that is required to create an OAuth App with redirects for every service:
+
+* kubermatic
+  - `https://kubermatic.initech.com`
+  - `https://kubermatic.initech.com/projects`
+* kubermaticIssuer
+  - `https://kubermatic.initech.com/api/v1/kubeconfig`
+* Grafana
+  - `https://grafana.kubermatic.initech.com/oauth/callback`
+* Kibana
+  - `https://kibana.kubermatic.initech.com/oauth/callback`
+- Prometheus
+  - `https://prometheus.kubermatic.initech.com/oauth/callback`
+  - `https://alertmanager.kubermatic.initech.com/oauth/callback`
+
+obviously, `kubermatic.initech.com` should be replaces with your domain name.
 
 ##### Keycloak-Gatekeeper (IAP)
 
