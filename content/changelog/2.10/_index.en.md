@@ -22,7 +22,7 @@ Supported Kubernetes versions:
 - Kubernetes 1.12 which is end-of-life has been removed.
 - Kubernetes versions affected by CVE-2019-11247 and CVE-2019-11249 have been dropped
 - Kubernetes versions affected by CVE-2019-9512 and CVE-2019-9514 have been dropped
-- updated Envoy to 1.11.1
+- Updated Envoy to 1.11.1
 
 
 
