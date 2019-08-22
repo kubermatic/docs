@@ -6,6 +6,26 @@ weight = 20
 pre = "<b></b>"
 +++
 
+## v2.11.3
+
+
+Supported Kubernetes versions:
+
+- `1.13.10`
+- `1.14.6`
+- `1.15.3`
+
+
+**Changes:**
+
+- Kubermatic Swagger API Spec is now exposed over its API server
+- Updated Envoy to 1.11.1
+- Kubernetes versions affected by CVE-2019-9512 and CVE-2019-9514 have been dropped
+- Enabling the OIDC feature flag in clusters has been fixed.
+
+
+
+
 ## v2.11.2
 
 

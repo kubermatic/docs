@@ -6,6 +6,27 @@ weight = 13
 pre = "<b></b>"
 +++
 
+
+# v2.10.3
+
+
+Supported Kubernetes versions:
+
+- `1.13.10`
+- `1.14.6`
+
+
+**Changes:**
+
+- Kubernetes 1.11 which is end-of-life has been removed.
+- Kubernetes 1.12 which is end-of-life has been removed.
+- Kubernetes versions affected by CVE-2019-11247 and CVE-2019-11249 have been dropped
+- Kubernetes versions affected by CVE-2019-9512 and CVE-2019-9514 have been dropped
+- Updated Envoy to 1.11.1
+
+
+
+
 # v2.10.2
 
 
