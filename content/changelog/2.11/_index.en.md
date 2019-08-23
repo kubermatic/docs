@@ -6,6 +6,14 @@ weight = 20
 pre = "<b></b>"
 +++
 
+## v2.11.4
+
+
+- `kubeadm join` has been fixed for v1.15 clusters
+
+
+
+
 ## v2.11.3
 
 
