@@ -1,27 +1,27 @@
 +++
 title = "Kubermatic"
-date =  2018-04-28T13:06:34+02:00
+date =  2018-08-26T13:06:34+02:00
 weight = 5
 +++
 
 # Welcome to Kubermatic Docs
 
 {{% notice note %}}
-The documentation is currently under development and is constantly being expanded. It is possible that information is missing at this time. If you have any questions that we cannot answer here, we look forward to receiving your email.
+The documentation is currently under development and is constantly being expanded. It is possible that information is missing at this time. If you have any questions that we cannot answer here, we look forward to receiving your email at [info@loodse.com](mailto:info@loodse.com) 
 {{% /notice %}}
 
-### Kubermatic is a Cluster-as-a-Service that provides managed Kubernetes for your infrastructure.
+### One Enterprise Kubernetes Management Platform For Any Infrastructure
 
-With Kubermatic, you can set up Kubernetes clusters deployed at the click of a button. While Kubermatic makes sure that your cluster is available and up-to-date at all times, you can focus on developing your services.
+Automate thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Deploy, manage and run multiple Kubernetes clusters with our production-proven platform. On your preferred infrastructure.
 
-Kubermatic is directly integrated with leading cloud providers DigitalOcean and Amazon Web Services, as well as any provider offering Ubuntu 16.04 or greater, even in your own datacenter.
+Kubermatic is directly integrated with leading cloud providers Amazon Web Services, Azure, DigitalOcean, Google Compute Engine, Hetzner, OpenStack, Packet and VMware vSphere as well as any provider offering Ubuntu 16.04 or greater, even in your own datacenter.
 
 The following description mainly refers to the beta release of Kubermatic, which is publicly available under https://cloud.kubermatic.io/.
 
 ### Features
 
 {{% notice tip %}}
-For latest updates follow us on Twitter [@Kubermatic](https://twitter.com/kubermatic)
+For latest updates follow us on Twitter [@Loodse](https://twitter.com/Loodse)
 {{% /notice %}}
 
 #### Use Kubernetes
