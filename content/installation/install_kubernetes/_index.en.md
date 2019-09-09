@@ -9,3 +9,7 @@ To aid in setting up the seed and master clusters, we provide [kubeone](https://
 
 Refer to the [kubeone readme](https://github.com/kubermatic/kubeone/) and [docs](https://github.com/kubermatic/kubeone/tree/master/docs) for details on
 how to use it.
+
+{{% notice note %}}
+Seed-Cluster Requirements: A seed cluster should have at least 2 GB RAM and 2 CPUs for Kubernetes to work correctly. 
+{{% /notice %}}
