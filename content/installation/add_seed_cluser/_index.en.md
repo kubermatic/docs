@@ -14,9 +14,7 @@ First, you need to install Kubernetes cluster with some additional components. A
 To aid in setting up the seed and master clusters, we provide [kubeone](https://github.com/kubermatic/kubeone/) which can be used to set up a highly-available Kubernetes cluster. Refer to the [kubeone readme](https://github.com/kubermatic/kubeone/) and [docs](https://github.com/kubermatic/kubeone/tree/master/docs) for details on
 how to use it.
 
-{{% notice note %}}
-Seed-Cluster Requirements: A seed cluster should have at least 2 GB RAM and 2 CPUs for Kubernetes to work correctly. 
-{{% /notice %}}
+Please take note of the [recommended hardware and networking requirements](/requirements/cluster_requirements/) before provisioning a cluster. 
 
 ### 2. Install Kubermatic on Seed Cluster
 
