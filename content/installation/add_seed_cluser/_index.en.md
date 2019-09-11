@@ -9,7 +9,12 @@ pre = "<b></b>"
 
 ### 1. Install Kubernetes cluster
 
-First, you need to install Kubernetes cluster with some additional components. You can use [seed installation guide](../install_kubernetes) for it. After the installation of Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic master/seed setup.
+First, you need to install Kubernetes cluster with some additional components. After the installation of Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic master/seed setup.
+
+To aid in setting up the seed and master clusters, we provide [kubeone](https://github.com/kubermatic/kubeone/) which can be used to set up a highly-available Kubernetes cluster. Refer to the [kubeone readme](https://github.com/kubermatic/kubeone/) and [docs](https://github.com/kubermatic/kubeone/tree/master/docs) for details on
+how to use it.
+
+Please take note of the [recommended hardware and networking requirements](/requirements/cluster_requirements/) before provisioning a cluster. 
 
 ### 2. Install Kubermatic on Seed Cluster
 
