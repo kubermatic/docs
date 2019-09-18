@@ -1,10 +1,28 @@
 +++
 title = "Changelog for Kubermatic 2.11"
-date = 2019-07-12T00:07:15+02:00
+date = 2019-09-18T00:07:15+02:00
 publishDate = 2019-07-12T00:00:00+00:00
 weight = 20
 pre = "<b></b>"
 +++
+
+## v2.11.6
+
+
+- Fixed a bug that could cause intermittent delays when using kubectl logs/exec with `exposeStrategy: LoadBalancer`
+
+
+
+
+## v2.11.5
+
+
+- Fixed a bug that caused setup on nodes with a Kernel &gt; 4.18 to fail
+- Fixed fetching the list of tenants on some OpenStack configurations with one region
+- Fixed a bug that could result in the cluster deletion sometimes getting stuck
+
+
+
 
 ## v2.11.4
 
