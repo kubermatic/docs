@@ -2,18 +2,28 @@
 
 set -euo pipefail
 
+# as all branches are deployed in a single website, we want to always
+# run a consistent build script; to achieve this we always build and
+# deploy the docs using the master branch's deploy.sh version.
+# if [ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]; then
+#   echo "Switching to the master branch for building the documentation."
+#   git checkout master
+#   ./hack/ci/deploy.sh
+#   exit 0
+# fi
+
 LATEST_VERSION=v2.11 # the current stable release
 MASTER_VERSION=v2.12 # the version that is currently inside the master branch
 TMPDIR=octodocs      # directory where all the documentations are placed
 
 cd $(dirname "$0")/../..
+source ./hack/lib.sh
 
-cleanup() {
-  rm -rf $TMPDIR
-}
-# trap "cleanup" EXIT SIGINT
-
-cleanup
+# setup Docker
+# echodate "Logging into Quay"
+# docker ps > /dev/null 2>&1 || start-docker.sh
+# retry 5 docker login -u "$QUAY_IO_USERNAME" -p "$QUAY_IO_PASSWORD" quay.io
+# echodate "Successfully logged into Quay"
 
 # collect release branch names ('v2.10', 'v2.11', 'v2.9', ...), sorted by version number
 BRANCHES=$(git branch -r | sed 's/^ *//' | grep -E '^origin/release/' | cut -d/ -f3 | sort -V)
@@ -37,11 +47,12 @@ name = "$name"
 EOF
 done <<< "$BRANCHES"
 
+rm -rf $TMPDIR
 mkdir -p $TMPDIR
 
 # build each branch sequentially and copy the result to the octodocs directory
 while read -r release; do
-  echo "Build documentation for release $release..."
+  echodate "Build documentation for release $release..."
   rm -rf public
 
   dir="$release"
@@ -53,7 +64,7 @@ while read -r release; do
     git checkout "release/$release"
   fi
 
-  hugo
+  hugo --baseURL "/$dir/"
   mkdir $TMPDIR/$dir
   mv public/* $TMPDIR/$dir
 done <<< "$BRANCHES"
@@ -64,3 +75,5 @@ done <<< "$BRANCHES"
   ln -s $LATEST_VERSION latest
   ln -s $MASTER_VERSION dev
 )
+
+echodate "Build completed."
