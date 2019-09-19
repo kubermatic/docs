@@ -2,28 +2,29 @@
 
 set -euo pipefail
 
+cd $(dirname "$0")/../..
+
 # as all branches are deployed in a single website, we want to always
 # run a consistent build script; to achieve this we always build and
 # deploy the docs using the master branch's deploy.sh version.
-# if [ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]; then
-#   echo "Switching to the master branch for building the documentation."
-#   git checkout master
-#   ./hack/ci/deploy.sh
-#   exit 0
-# fi
+if [ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]; then
+  echo "Switching to the master branch for building the documentation."
+  git checkout master
+  ./hack/ci/deploy.sh
+  exit 0
+fi
 
 LATEST_VERSION=v2.11 # the current stable release
 MASTER_VERSION=v2.12 # the version that is currently inside the master branch
 TMPDIR=octodocs      # directory where all the documentations are placed
 
-cd $(dirname "$0")/../..
 source ./hack/lib.sh
 
 # setup Docker
-# echodate "Logging into Quay"
-# docker ps > /dev/null 2>&1 || start-docker.sh
-# retry 5 docker login -u "$QUAY_IO_USERNAME" -p "$QUAY_IO_PASSWORD" quay.io
-# echodate "Successfully logged into Quay"
+echodate "Logging into Quay"
+docker ps > /dev/null 2>&1 || start-docker.sh
+retry 5 docker login -u "$QUAY_IO_USERNAME" -p "$QUAY_IO_PASSWORD" quay.io
+echodate "Successfully logged into Quay"
 
 # collect release branch names ('v2.10', 'v2.11', 'v2.9', ...), sorted by version number
 BRANCHES=$(git branch -r | sed 's/^ *//' | grep -E '^origin/release/' | cut -d/ -f3 | sort -V)
@@ -91,7 +92,7 @@ done <<< "$BRANCHES"
 )
 
 # return to the master branch to find the current Dockerfile
-git checkout octodocs
+git checkout master
 
 # create Docker image
 echodate "Creating Docker Image..."
