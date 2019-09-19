@@ -90,6 +90,9 @@ done <<< "$BRANCHES"
   ln -s $MASTER_VERSION dev
 )
 
+# return to the master branch to find the current Dockerfile
+git checkout octobox
+
 # create Docker image
 echodate "Creating Docker Image..."
 
