@@ -1,3 +1,16 @@
 <a href="{{ .Site.BaseURL }}">
   <img src="{{ .Site.BaseURL }}/img/header-logo-kubermatic.png" alt="Kubermatic">
 </a>
+
+{{ with .Site.Data.versions }}
+<div class="select-release">
+  <span><i class="fas fa-code-branch fa-fw"></i> Version </span>
+  <div class="select-style">
+    <select id="select-release" onchange="location = this.value;">
+      {{ range .versions }}
+      <option value="/{{ .release }}/"{{ if eq .release $.Site.Params.Release }}selected{{ end }}>{{ .name }}</option>
+      {{ end }}
+    </select>
+  </div>
+</div>
+{{ end }}
