@@ -50,7 +50,10 @@ done <<< "$BRANCHES"
 rm -rf $TMPDIR
 mkdir -p $TMPDIR
 
-# build each branch sequentially and copy the result to the octodocs directory
+# build each branch sequentially and copy the result to the octodocs directory;
+# at the same time collect branch heads to build a consistent, meaningful tag for
+# our octodocs
+HASHES=""
 while read -r release; do
   echodate "Build documentation for release $release..."
   rm -rf public
@@ -64,10 +67,22 @@ while read -r release; do
     git checkout "release/$release"
   fi
 
+  hash="$(git rev-parse HEAD)"
+  echodate "Release $release is on Git revision $hash"
+
+  # build site
   hugo --baseURL "/$dir/"
+
+  # collect hash and leave behind a nice version file
+  HASHES+="$hash"
+  echo "$hash" > public/version
+
+  # move site to octodocs
   mkdir $TMPDIR/$dir
   mv public/* $TMPDIR/$dir
 done <<< "$BRANCHES"
+
+echo "$HASHES"
 
 # create some handy symlinks
 (
