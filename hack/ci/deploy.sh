@@ -55,40 +55,48 @@ mkdir -p $TMPDIR
 # our octodocs
 HASHES=""
 while read -r release; do
-  echodate "Build documentation for release $release..."
-  rm -rf public
-
   dir="$release"
+  branch="$release"
 
   if [ "$release" == "master" ]; then
-    git checkout master
     dir="$MASTER_VERSION"
   else
-    git checkout "release/$release"
+    branch="release/$release"
   fi
 
-  hash="$(git rev-parse HEAD)"
-  echodate "Release $release is on Git revision $hash"
+  rev=$(git rev-parse "$branch")
+
+  echodate "Build documentation for release $release (@ $rev)..."
+  git checkout "$branch"
 
   # build site
+  rm -rf public
   hugo --baseURL "/$dir/"
 
-  # collect hash and leave behind a nice version file
-  HASHES+="$hash"
-  echo "$hash" > public/version
+  # leave behind a nice version file
+  HASHES+="$rev"
+  echo "$rev" > public/version
 
   # move site to octodocs
   mkdir $TMPDIR/$dir
   mv public/* $TMPDIR/$dir
 done <<< "$BRANCHES"
 
-echo "$HASHES"
-
-# create some handy symlinks
+# create some handy symlinks so that people can create links
+# to docs.kubermatic.io/latest/...
 (
   cd $TMPDIR
   ln -s $LATEST_VERSION latest
   ln -s $MASTER_VERSION dev
 )
 
-echodate "Build completed."
+# create Docker image
+echodate "Creating Docker Image..."
+
+TAG=$(echo "$HASHES" | sha1sum - | cut -d" " -f1)
+IMAGE="quay.io/kubermatic/documentation:$TAG"
+
+docker build -t "$IMAGE" --no-cache .
+docker push "$IMAGE"
+
+echodate "Build succeeded."
