@@ -1,6 +1,6 @@
 +++
 title = "AWS"
-date = 2018-07-04T12:07:15+02:00
+date = 2018-09-20T12:12:15+02:00
 weight = 7
 pre = "<b></b>"
 +++
@@ -16,41 +16,41 @@ pre = "<b></b>"
     "Statement": [
         {
             "Effect": "Allow",
-            "Action": "iam:ListInstanceProfiles",
+            "Action": [
+                "iam:ListInstanceProfiles",
+                "iam:GetInstanceProfile"
+            ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/*"
         },
         {
             "Effect": "Allow",
             "Action": [
-                "iam:DeleteRolePolicy",
-                "iam:DetachRolePolicy",
                 "iam:GetRole",
-                "iam:ListAttachedRolePolicies",
+                "iam:PutRolePolicy",
+                "iam:PassRole",
                 "iam:ListRolePolicies",
-                "iam:PassRole"
+                "iam:ListAttachedRolePolicies",
+                "iam:DeleteRolePolicy",
+                "iam:CreateRole",
+                "iam:DeleteRole"
             ],
-            "Resource": [
-                "arn:aws:iam::YOUR_ACCOUNT_ID:role/SpacesKubermatic",
-                "arn:aws:iam::YOUR_ACCOUNT_ID:role/kubermatic-*"
-            ]
+            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/kubernetes-*"
         },
         {
             "Effect": "Allow",
             "Action": [
                 "iam:AddRoleToInstanceProfile",
-                "iam:CreateInstanceProfile",
-                "iam:DeleteInstanceProfile",
-                "iam:DeleteRole",
+                "iam:RemoveRoleFromInstanceProfile",
                 "iam:GetInstanceProfile",
-                "iam:RemoveRoleFromInstanceProfile"
+                "iam:CreateInstanceProfile",
+                "iam:DeleteInstanceProfile"
             ],
-            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/kubermatic-*"
+            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/kubernetes-*"
         },
         {
             "Effect": "Allow",
             "Action": [
                 "ec2:*",
-                "elasticloadbalancing:*",
                 "elasticloadbalancing:CreateListener",
                 "elasticloadbalancing:CreateRule",
                 "elasticloadbalancing:CreateTargetGroup",
@@ -77,16 +77,6 @@ pre = "<b></b>"
                 "sts:GetFederationToken"
             ],
             "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "iam:AttachRolePolicy",
-                "iam:CreateRole",
-                "iam:DeleteInstanceProfile",
-                "iam:DeleteRole"
-            ],
-            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/kubermatic-*"
         }
     ]
 }
