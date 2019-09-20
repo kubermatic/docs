@@ -17,22 +17,22 @@ pre = "<b></b>"
         {
             "Effect": "Allow",
             "Action": [
-                "iam:ListInstanceProfiles",
-                "iam:GetInstanceProfile"
+                "iam:GetInstanceProfile",
+                "iam:ListInstanceProfiles"
             ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/*"
         },
         {
             "Effect": "Allow",
             "Action": [
-                "iam:GetRole",
-                "iam:PutRolePolicy",
-                "iam:PassRole",
-                "iam:ListRolePolicies",
-                "iam:ListAttachedRolePolicies",
-                "iam:DeleteRolePolicy",
                 "iam:CreateRole",
-                "iam:DeleteRole"
+                "iam:DeleteRole",
+                "iam:DeleteRolePolicy",
+                "iam:GetRole",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListRolePolicies",
+                "iam:PassRole",
+                "iam:PutRolePolicy"
             ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/kubernetes-*"
         },
@@ -40,10 +40,10 @@ pre = "<b></b>"
             "Effect": "Allow",
             "Action": [
                 "iam:AddRoleToInstanceProfile",
-                "iam:RemoveRoleFromInstanceProfile",
-                "iam:GetInstanceProfile",
                 "iam:CreateInstanceProfile",
-                "iam:DeleteInstanceProfile"
+                "iam:DeleteInstanceProfile",
+                "iam:GetInstanceProfile",
+                "iam:RemoveRoleFromInstanceProfile"
             ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/kubernetes-*"
         },
