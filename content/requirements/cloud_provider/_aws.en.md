@@ -117,6 +117,11 @@ Ensure that the user used to create clusters via Kubermatic has (atleast) the fo
         },
         {
             "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/YOUR_WORKER_INSTANCE_PROFILE_NAME"
+        },
+        {
+            "Effect": "Allow",
             "Action": [
                 "ec2:*",
                 "elasticloadbalancing:CreateListener",
@@ -150,7 +155,7 @@ Ensure that the user used to create clusters via Kubermatic has (atleast) the fo
 }
 ```
 
-The instance profile for the worker nodes must have at least the following IAM permissions:
+The instance profile for the worker (referenced above as `YOUR_WORKER_INSTANCE_PROFILE_NAME`) nodes must have at least the following IAM permissions:
 
 ```json
 {
