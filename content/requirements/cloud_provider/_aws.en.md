@@ -7,14 +7,15 @@ pre = "<b></b>"
 
 ## AWS
 
-A valid user with specific IAM permissions is required if we want to create cluster via Kubermatic. The permissions of this user can be more or less restrictive, this depends if we specify an instance profile or not for the worker nodes.
+A valid user with specific IAM permissions is required if we want to create cluster via Kubermatic.
 
-In the first case we privileges to create instance profiles in the second we don't as far as we supply an already a given instance profile name.
+As a general rule of thumb we can identify two scenarios, in the first one the specified IAM user, we are using on AWS, has enough privileges to create a new instance profile plus role and a second case where we specify an already existing instance profile and control plane role for the worker nodes.
 
-Ensure that the user used to create clusters via Kubermatic has (atleast) the following IAM permissions, depending on the case (Click to expand)
+
+Ensure that the user used to create clusters via Kubermatic has (atleast) the following IAM permissions, depending on the two uses cases (Click to expand)
 
 <details>
-<summary>**When not specifying an instance profile:** </summary>
+<summary>**Kubermatic will create an instance profile and control plane role:** </summary>
 
 ```json
 {
@@ -90,7 +91,7 @@ Ensure that the user used to create clusters via Kubermatic has (atleast) the fo
 </details>
 
 <details>
-<summary>**When specifying an instance profile:** </summary>
+<summary>**We specify an existing instance profile and control plane role (ARN):** </summary>
 
 ```json
 {
@@ -99,26 +100,12 @@ Ensure that the user used to create clusters via Kubermatic has (atleast) the fo
         {
             "Effect": "Allow",
             "Action": "iam:GetInstanceProfile",
-            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "iam:CreateRole",
-                "iam:DeleteRole",
-                "iam:DeleteRolePolicy",
-                "iam:GetRole",
-                "iam:ListAttachedRolePolicies",
-                "iam:ListRolePolicies",
-                "iam:PassRole",
-                "iam:PutRolePolicy"
-            ],
-            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/kubernetes-*"
+            "Resource": "arn:aws:iam::733553989067:instance-profile/*"
         },
         {
             "Effect": "Allow",
             "Action": "iam:PassRole",
-            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/YOUR_WORKER_INSTANCE_PROFILE_NAME"
+            "Resource": "arn:aws:iam::733553989067:role/*"
         },
         {
             "Effect": "Allow",
@@ -155,7 +142,7 @@ Ensure that the user used to create clusters via Kubermatic has (atleast) the fo
 }
 ```
 
-The instance profile for the worker (referenced above as `YOUR_WORKER_INSTANCE_PROFILE_NAME`) nodes must have at least the following IAM permissions:
+The instance profile for the worker nodes must have at least the following IAM permissions:
 
 ```json
 {
