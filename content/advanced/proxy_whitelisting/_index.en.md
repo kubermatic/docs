@@ -137,3 +137,10 @@ raw.githubusercontent.com
 # needed for coreos
 github.com 
 ```
+
+## Certificate Manager (if used)
+For creating certficates with let's encrypt we need access:
+
+```bash
+https://acme-v02.api.letsencrypt.org/directory
+```
