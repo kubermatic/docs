@@ -20,7 +20,7 @@ re-installs the CRDs):
 
 ```bash
 $ helm --tiller-namespace kubermatic-installer delete --purge cert-manager
-$ kubectl get crd | awk '{ print $1 }' | grep certmanager | xargs kubectl delete crd
+$ kubectl get crd | awk '/certmanager/ {print $1}' | xargs kubectl delete crd
 
 $ cd kubermatic-installer/charts/cert-manager
 $ helm --tiller-namespace kubermatic-installer upgrade --install --namespace cert-manager --values YOUR_VALUES_YAML_HERE cert-manager .
