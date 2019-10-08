@@ -7,7 +7,6 @@
    const email = Cypress.env('KUBERMATIC_DEX_DEV_E2E_USERNAME');
    const password = Cypress.env('KUBERMATIC_DEX_DEV_E2E_PASSWORD');
    let projectName = prefixedString('e2e-test-project');
-   const clusterName = prefixedString('e2e-test-cluster');
   
    before(() => {
      cy.clearCookies();

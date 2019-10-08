@@ -1,9 +1,6 @@
  /// <reference types="cypress" />
  import {Condition} from "../utils/condition";
- import {wait} from "../utils/wait";
- import {ClustersPage} from "./clusters.po";
  import {ProjectsPage} from "./projects.po";
- //TODO: deal with code redundancy from projects.po
  
  export class TutorialProjectsPage extends ProjectsPage {
    // main difference to projects.po: this selects the button not by id but by the text "Add Project"
