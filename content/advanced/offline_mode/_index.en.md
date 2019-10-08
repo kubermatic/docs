@@ -22,6 +22,7 @@ image-loader \
 ## Worker nodes behind a proxy
 
 In situations where worker nodes will require a proxy to reach the internet, the `datacenters.yaml` must be modified:
+
 ```yaml
 ...
   gcp-westeurope:
@@ -38,11 +39,11 @@ In situations where worker nodes will require a proxy to reach the internet, the
       # Configure the address of the proxy
       # It will be configured on all worker nodes. It results in the HTTP_PROXY & HTTPS_PROXY environment variable being set.
       http_proxy: "http://172.20.0.2:3128"
-      # Worker nodes require access to a docker registry, in case it is only accessible using http or it uses a self signed certificate, they must be listed here  
+      # Worker nodes require access to a docker registry, in case it is only accessible using http or it uses a self signed certificate, they must be listed here
       insecure_registries:
         - 172.20.0.2:5000
       # The kubelet requires the pause image, if its only accessible using a private registry, the image name must be configured here
       pause_image: "172.20.0.2:5000/kubernetes/pause:3.1"
       # ContainerLinux requires the hyperkube image, if its only accessible using a private registry, the image name must be configured here
       hyperkube_image: "172.20.0.2:5000/kubernetes/hyperkube-amd64"
-``` 
+```

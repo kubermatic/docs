@@ -11,7 +11,6 @@ pre = "<b></b>"
 Kubermatic 2.11 adds support to expose user clusters by creating one service of type `LoadBalancer` per user
 cluster. Check out the [Expose Strategy documentation]({{< ref "expose_strategy.en.md" >}}) for more details.
 
-
 ## Helm Charts
 
 ### Kubermatic: service account tokens structure
@@ -80,12 +79,14 @@ deploy the new StatefulSet.
 
 Once you have verified that both applications work, you can safely remove the old PVCs:
 
-    kubectl -n monitoring delete pvc \
-      prometheus-kubermatic-db-prometheus-kubermatic-0 \
-      prometheus-kubermatic-db-prometheus-kubermatic-1 \
-      alertmanager-kubermatic-db-alertmanager-kubermatic-0 \
-      alertmanager-kubermatic-db-alertmanager-kubermatic-1 \
-      alertmanager-kubermatic-db-alertmanager-kubermatic-2
+```bash
+kubectl -n monitoring delete pvc \
+  prometheus-kubermatic-db-prometheus-kubermatic-0 \
+  prometheus-kubermatic-db-prometheus-kubermatic-1 \
+  alertmanager-kubermatic-db-alertmanager-kubermatic-0 \
+  alertmanager-kubermatic-db-alertmanager-kubermatic-1 \
+  alertmanager-kubermatic-db-alertmanager-kubermatic-2
+```
 
 #### Alertmanager 0.17
 

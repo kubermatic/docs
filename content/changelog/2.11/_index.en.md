@@ -8,39 +8,25 @@ pre = "<b></b>"
 
 ## v2.11.6
 
-
 - Fixed a bug that could cause intermittent delays when using kubectl logs/exec with `exposeStrategy: LoadBalancer`
 
-
-
-
 ## v2.11.5
-
 
 - Fixed a bug that caused setup on nodes with a Kernel &gt; 4.18 to fail
 - Fixed fetching the list of tenants on some OpenStack configurations with one region
 - Fixed a bug that could result in the cluster deletion sometimes getting stuck
 
-
-
-
 ## v2.11.4
-
 
 - `kubeadm join` has been fixed for v1.15 clusters
 
-
-
-
 ## v2.11.3
-
 
 Supported Kubernetes versions:
 
 - `1.13.10`
 - `1.14.6`
 - `1.15.3`
-
 
 **Changes:**
 
@@ -49,18 +35,13 @@ Supported Kubernetes versions:
 - Kubernetes versions affected by CVE-2019-9512 and CVE-2019-9514 have been dropped
 - Enabling the OIDC feature flag in clusters has been fixed.
 
-
-
-
 ## v2.11.2
-
 
 Supported Kubernetes versions:
 
 - `1.13.9`
 - `1.14.5`
 - `1.15.2`
-
 
 **Changes:**
 
@@ -69,11 +50,7 @@ Supported Kubernetes versions:
 - Kubernetes 1.11 which is end-of-life has been removed
 - Kubernetes 1.12 which is end-of-life has been removed
 
-
-
-
 ## v2.11.1
-
 
 - Openstack: A bug that could result in many securtiy groups being created when the creation of security group rules failed was fixed
 - Added Kubernetes `v1.15.1`
@@ -81,9 +58,6 @@ Supported Kubernetes versions:
 - A bug that sometimes resulted in the creation of the initial NodeDeployment failing was fixed
 - Fixed an issue that kept clusters stuck if their creation didn't succeed and they got deleted with PV and/or LB cleanup enabled
 - Fixed joining nodes to Bring Your Own clusters running Kubernetes 1.14
-
-
-
 
 ## v2.11.0
 
@@ -97,7 +71,6 @@ Supported Kubernetes versions:
 - `1.14.3-4`
 - `1.15.0`
 
-
 **Cloud providers:**
 
 - It is now possible to create Kubermatic-managed clusters on Packet.
@@ -107,16 +80,14 @@ Supported Kubernetes versions:
 - vsphere: root disk size is now configurable
 - Azure: fixed failure to provision on new regions due to lower number of fault domains
 
-
 **Monitoring:**
 
-- [ACTION REQUIRED] refactored Alertmanager Helm chart for master-cluster monitoring, see documentation for migration notes 
+- [ACTION REQUIRED] refactored Alertmanager Helm chart for master-cluster monitoring, see documentation for migration notes
 - cAdvisor metrics are now being scraped for user clusters
 - fixed kube-state-metrics in user-clusters not being scraped
 - Improved debugging of resource leftovers through new etcd Object Count dashboard
 - New Grafana dashboards for monitoring Elasticsearch
 - Added optional Thanos integration to Prometheus for better long-term metrics storage
-
 
 **Misc:**
 
@@ -146,7 +117,6 @@ Supported Kubernetes versions:
 - Updated node-exporter to 0.18.1
 - Updated fluent-bit to 1.1.2
 - Updated Velero to 1.0
-
 
 **Dashboard:**
 

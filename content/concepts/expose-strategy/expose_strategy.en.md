@@ -5,7 +5,6 @@ weight = 5
 pre = "<b></b>"
 +++
 
-
 # Overview
 
 The expose strategy defines how clusters manged by Kubermatic are made available to the outside world.

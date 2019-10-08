@@ -8,6 +8,7 @@ pre = "<b></b>"
 ## Intro
 
 By default each cluster created with Kubermatic gets the following network settings:
+
 - Pod CIDR: `172.25.0.0/16`
 - Service CIDR: `10.10.10.0/24`
 - Cluster domain: `cluster.local`
@@ -21,6 +22,7 @@ When creasing the CIDR, the new CIDR must include the old one - it is not possib
 {{% /notice %}}
 
 To change the service CIDR, edit the cluster object and specify the new CIDR:
+
 ```yaml
   clusterNetwork:
     dnsDomain: cluster.local
@@ -31,7 +33,9 @@ To change the service CIDR, edit the cluster object and specify the new CIDR:
       cidrBlocks:
       - 10.10.10.0/24
 ```
+
 becomes:
+
 ```yaml
   clusterNetwork:
     dnsDomain: cluster.local
@@ -53,11 +57,11 @@ This might cause a downtime of the cluster DNS & communication to the API server
 
 Kubermatic will always create a Service with a static ClusterIP for the DNS service(`kube-system/kube-dns`).
 The ClusterIP will always be the 10th of the network.
-Example:
-Give the service CIDR: `10.10.10.0/24`, the Service for the DNS will have the ClusterIP `10.10.10.10`.
+Example: Give the service CIDR: `10.10.10.0/24`, the Service for the DNS will have the ClusterIP `10.10.10.10`.
 
 When the CIDR gets changed, the DNS service(`kube-system/kube-dns`) must be changed as well.
 As changing the ClusterIP is not possible, the Service(`kube-system/kube-dns`) must be recreated (A backup must be created):
+
 ```bash
 # Dump old service
 kubectl -n kube-system get service kube-dns -o yaml > old_service.yaml

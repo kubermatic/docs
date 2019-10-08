@@ -14,15 +14,15 @@ To generate the documentation you will need to download and install the [Hugo](h
 
 Clone the repository to your local device and create a new feature branch.
 
-```
+```bash
 git clone https://github.com/kubermatic/docs
 git checkout -b my-new-contribution
 ```
 
 Generate and serve the documentation at `localhost:1313`:
 
-```
-hugo server -b localhost:1313 -w
+```bash
+hugo server --buildDrafts --baseURL localhost:1313 --watch
 ```
 
 ## Repository organization
@@ -41,7 +41,7 @@ The content in the [kubermatic/docs](https://github.com/kubermatic/docs) reposit
 
 The basic structure for a new section in the documentation is as follows:
 
-```
+```bash
 content
 ├── my-new-topic
 │   ├── my-new-article
@@ -51,7 +51,7 @@ content
 
 A folder with the title of the new section must be created below the `/content` directory. An index file named `_index.en.md` is created in this folder, which has the following structure and metadata:
 
-```
+```markdown
 +++
 title = "my-new-section"
 date =  yyyy-mm-ddThh:mm:ss+01:00     // timestamp information
@@ -69,7 +69,7 @@ Some content...
 
 Within the folder with the new section, the individual chapters are created in subfolders; a file named `_index.en.md` is also stored in each subfolder.
 
-```
+```markdown
 +++
 title = "my-new-article"             // The display title of your section
 date =  yyyy-mm-ddThh:mm:ss+01:00    // timestamp information
@@ -83,8 +83,8 @@ Some content...
 
 To generate the static website files simply run the `hugo` command on the root directory. All files will be generated into the `/public` folder. For local development generate and serve the documentation at `localhost:1313`:
 
-```
-hugo server -b localhost:1313 -w
+```bash
+hugo server --baseURL localhost:1313 --watch
 ```
 
 ## How to use Markdown to format your topic

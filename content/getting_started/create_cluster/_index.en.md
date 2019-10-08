@@ -11,13 +11,13 @@ pre = "<b></b>"
 You can try setting up a cluster by yourself using our demo at [cloud.kubermatic.io](https://cloud.kubermatic.io)!
 {{% /notice %}}
 
-#### Step 1 – Select your Project
+### Step 1 – Select your Project
 
 Before you can manage clusters or SSH keys, select your current project by using the project list after you logged in or use the dropdown in the top left corner of the page. After choosing the project, the relevant menu items will become active.
 
 ![Screenshot of Kubermatic's first cluster creation wizard page](/img/getting_started/manage_projects/projects_02.png)
 
-#### Step 2 – Specify the cluster name and Kubernetes version
+### Step 2 – Specify the cluster name and Kubernetes version
 
 The cluster name is how you will identify your Kubernetes cluster instance. Choose a name that is easy for you to remember. You must also select your desired Kubernetes version.
 
@@ -25,19 +25,19 @@ The cluster name is how you will identify your Kubernetes cluster instance. Choo
 
 ![Screenshot of Kubermatic's first cluster creation wizard page](/img/getting_started/create_cluster/kubermatic_01.png)
 
-#### Step 3 – Choose a cloud provider for your Kubernetes nodes
+### Step 3 – Choose a cloud provider for your Kubernetes nodes
 
 Choose a cloud provider for your Kubernetes nodes to be deployed by Kubermatic. Your nodes can be placed in any cloud you like.
 
 ![Screenshot of Kubermatic's second cluster creation wizard page](/img/getting_started/create_cluster/kubermatic_02.png)
 
-#### Step 4 – Select the datacenter of your cloud provider
+### Step 4 – Select the datacenter of your cloud provider
 
 This is the datacenter of your cloud provider. Your worker nodes will get deployed there.
 
 ![Screenshot of Kubermatic's third cluster creation wizard page](/img/getting_started/create_cluster/kubermatic_03.png)
 
-#### Step 5 – Enter your provider credentials and configure your worker nodes
+### Step 5 – Enter your provider credentials and configure your worker nodes
 
 Enter your provider specific credentials so that Kubermatic can configure your worker machines and integrate them into your cluster.
 
@@ -47,7 +47,7 @@ This step varies depending on the selected provider! You will be asked for diffe
 
 ![Screenshot of Kubermatic's fourth cluster creation wizard page](/img/getting_started/create_cluster/kubermatic_04.png)
 
-#### Step 6 – Review your configuration settings and confirm cluster creation
+### Step 6 – Review your configuration settings and confirm cluster creation
 
 Check wether all your configuration settings are correct and create your cluster!
 

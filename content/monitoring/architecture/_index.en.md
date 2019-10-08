@@ -10,7 +10,7 @@ Kubermatic uses [Prometheus](https://prometheus.io) and its [Alertmanager](https
 
 There is a single Prometheus service in each seed cluster's `monitoring` namespace, which is responsible for monitoring the cluster's components (like the Kubermatic controller manager) and serves as the main datasource for the accompanying Grafana service. Besides that there is a Prometheus inside each user cluster namespace, which in turn monitors the Kubernetes control plane (apiserver, controller manager, etcd cluster etc.) of that customer cluster. The seed-level Prometheus scrapes all customer-cluster Prometheus instances and combines their metrics for creating the dashboards in Grafana.
 
-Along the seed-level Prometheus, there is a single alertmanager running in the seed, which _all_ Prometheus instances are using to relay their alerts (i.e. the Prometheus inside the customer clusters send their alerts to the seed cluster's alertmanager).
+Along the seed-level Prometheus, there is a single alertmanager running in the seed, which *all* Prometheus instances are using to relay their alerts (i.e. the Prometheus inside the customer clusters send their alerts to the seed cluster's alertmanager).
 
 ![Monitoring architecture diagram](/img/monitoring/architecture/architecture.png)
 
@@ -22,8 +22,8 @@ The last of these options is used for pre-aggregated metrics, which combine high
 
 ## Grafana
 
-In a default Kubermatic installation we ship Grafana as _readonly_ metrics dashboard.
-When working with Grafana please keep in mind, that __ALL CHANGES__ done using the Grafana UI (like adding datasources, etc.) __WILL NOT BE PERSISTED__. Dashboards, graphs, datasources, etc. will be defined using the Helm chart.
+In a default Kubermatic installation we ship Grafana as *readonly* metrics dashboard.
+When working with Grafana please keep in mind, that **ALL CHANGES** done using the Grafana UI (like adding datasources, etc.) **WILL NOT BE PERSISTED**. Dashboards, graphs, datasources, etc. will be defined using the Helm chart.
 
 ## Storage Requirements
 

@@ -24,6 +24,7 @@ Therefore to still allow customization of rules, Kubermatic provides the possibi
 ### Rules
 
 Custom rules can be added beneath the `clusterNamespacePrometheus.rules` key:
+
 ```yaml
 kubermatic:
   clusterNamespacePrometheus:
@@ -43,6 +44,7 @@ kubermatic:
 ```
 
 If you'd like to disable the default rules coming with Kubermatic itself, you can specify the `disableDefaultRules` flag:
+
 ```yaml
 kubermatic:
   clusterNamespacePrometheus:
@@ -66,6 +68,7 @@ clusterNamespacePrometheus:
 ```
 
 Also, the default Kubermatic scraping configs can be disabled in the same way:
+
 ```yaml
 clusterNamespacePrometheus:
   disableDefaultScrapingConfigs: true

@@ -15,6 +15,7 @@ are not directly involved. A service account has JWT token which is used to auth
 by default expires after 3 years.
 
 ## Core concept
+
 A Service accounts are considered as project's resource. Only the owner of the project  can create a service account.
 There is no need to create a new groups for SA, we want to assign a service account to one of the already defined groups:
 `editors` or `viewers`.
@@ -32,7 +33,7 @@ user-26xq2                                                         311d
 ```
 
 A service account is linked to the project automatically by service account binding controller. The controller creates
-`UserProjectBinding` which specifies a binding between a service account and a project. A `UserProjectBinding` uses a 
+`UserProjectBinding` which specifies a binding between a service account and a project. A `UserProjectBinding` uses a
 `OwnerRef` to create connection with the project. A service account will be automatically deleted after project removal.
 
 The `yaml` example of service account object:
@@ -53,14 +54,14 @@ spec:
   email: serviceaccount-xxxxxxxxxx@localhost
   id: 3fa771ea25b4a2065ace5f3d508b2335d450402f0d73d5e59fa84b41_KUBE
   name: test
-``` 
- 
+```
+
 Service accounts are tied to a set of credentials stored as Secrets. Because a `Secret` is namespaced resource the
 system needs predefined namespace for it: `kubermatic`.
 
 Secret label `project-id` is used to create link between secret and project. The `OwnerRef` links the secret with the
 service account. A secret will be automatically deleted after service account removal.
- 
+
 ```yaml
  apiVersion: v1
  data:
@@ -84,17 +85,17 @@ service account. A secret will be automatically deleted after service account re
 ### Prerequisites
 
 A service account is an automatically enabled authenticator that uses signed bearer tokens to verify requests. The Kubermatic API takes a flag:
- 
-   - `service-account-signing-key` A signing key authenticates the service account's token value using HMAC. It is recommended to use a key with 32 bytes or longer.
-   
+
+- `service-account-signing-key` - A signing key authenticates the service account's token value using HMAC. It is recommended to use a key with 32 bytes or longer.
+
 ### Keeping track of service accounts and tokens
 
-It is possible to create multiple service accounts for the given project. The service account name must be unique for 
+It is possible to create multiple service accounts for the given project. The service account name must be unique for
 project scope. The service account can have multiple tokens with unique names.
 
-The display name of the service account and token is a good way to capture additional information, such as the purpose of 
+The display name of the service account and token is a good way to capture additional information, such as the purpose of
 the service account or token.
- 
+
 ### Managing service accounts and tokens
 
 It is possible to delete a service account and then create a new service account with the same name. You can do the same
@@ -105,16 +106,16 @@ You can change the service account and token names when once created.
 The service account token is visible to the user during creation.
 
 {{% notice note %}}
-**Note:** Make sure to save this token at a safe place on your own device. It cannot be displayed again after closing the dashboard window. 
+**Note:** Make sure to save this token at a safe place on your own device. It cannot be displayed again after closing the dashboard window.
 {{% /notice %}}
 
 The user can also regenerate a token but the previous one will be revoked.
 
 ### Accessing API via service account token
 
-A client that wants to authenticate itself with a server can then do so by including an `Authorization` request header 
+A client that wants to authenticate itself with a server can then do so by including an `Authorization` request header
 field with the service account token:
 
-```
+```HTTP
 Authorization: Bearer aaa.bbb.ccc
-``` 
+```

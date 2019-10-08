@@ -21,7 +21,7 @@ The individual components and their purpose are:
 
 ### Check for problems with an individual user cluster
 
-1. Find the cluster-id by selecting going to the details view of your cluster in the UI. The URL looks something like this, the cluster id is the last part: `https://kubermatic/projects/project-id/dc/dc-name/clusters/cluster-id
+1. Find the cluster-id by selecting going to the details view of your cluster in the UI. The URL looks something like this, the cluster id is the last part: `https://kubermatic/projects/project-id/dc/dc-name/clusters/cluster-id`
 1. Get the `kubeconfig` for your seed cluster
 1. Check if there are any errors in the events for the cluster in question by issuing a `kubectl describe cluster cluster-id`
 1. Check if all pods for the cluster are running by executing `kubectl get pods -n cluster-$CLUSTER_ID`

@@ -9,6 +9,7 @@ This manual explains how to apply custom theme to the application. As we are usi
 the CSS during the build, there are different approaches to it that will be described in the following sections.
 
 ## Customizing the Application Sources
+
 This is the most obvious approach to customizing the application. However, it requires access to the repository as some
 of the sources need modifications. Its biggest advantage is possibility to reuse rules that are already defined.
 
@@ -26,6 +27,7 @@ imported inside the application sources.
 more important than the default application style.
 
 ### Example
+
 Let's override the default application theme and change the primary color to red and social link icons color to green.
 
 First, we need to find out what changes are needed.
@@ -63,6 +65,7 @@ The result of this example should look like this:
 ![Custom Theme](/img/advanced/custom_ui/result.png)
 
 ## Customizing the Application Sources inside Custom Container
+
 This approach is very similar to the first one, but this time application sources can be changed inside the custom
 container that was prepared specially for it. It allows to modify SCSS just like in the first approach, but files could
 be easily mounted into existing custom container, so there is no need to build another image.
@@ -71,6 +74,7 @@ Custom image is defined inside `Dockerfile.custom` and should be kept inside `qu
 repository.
 
 ## Customizing the Application Without Changing the Sources
+
 This approach is recommended for those who cannot or do not want to modify application sources. It does not require
 access to the sources, as all customizations will be applied as CSS rules written from the scratch that will be mounted
 into the application container.
@@ -79,7 +83,7 @@ Custom CSS file needs to be mounted as specified in `environment.prod.ts`, so as
 Assuming that we have application image `kubermatic/ui-v2:test` that we want to customize and CSS file named `c.css`
 we can run following command to start application and apply custom CSS rules:
 
-```
+```bash
 docker run --rm -ti -v $(pwd)/c.css:/dist/assets/custom/style.css --user=$(id -u) -p 8080:8080 kubermatic/ui-v2:test
 ```
 
@@ -89,11 +93,13 @@ docker run --rm -ti -v $(pwd)/c.css:/dist/assets/custom/style.css --user=$(id -u
 For example: `http://localhost:8080/assets/custom/style.css`.
 
 ### Example
+
 Like in the example to the first approach, let's override the default application theme and change the primary color to
 red and social link icons color to green.
 
 It is easiest to start with running the container with customizations file mounted to it:
-```
+
+```bash
 docker run --rm -ti -v $(pwd)/c.css:/dist/assets/custom/style.css --user=$(id -u) -p 8080:8080 kubermatic/ui-v2:test
 ```
 

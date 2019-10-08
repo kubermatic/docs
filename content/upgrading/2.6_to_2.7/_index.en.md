@@ -9,12 +9,14 @@ After modifying the `values.yaml` files according to the information below, you 
 
 {{% notice warning %}}
 There is a know issue with re-applying the s3-exporter chart. If Helm reports issues with upgrading ServiceAccounts or ClusterRoles, run:
-```
+
+```bash
 kubectl -n kube-system delete serviceaccount s3-exporter
 kubectl -n kube-system delete ClusterRole kubermatic:s3exporter:clusters:reader
 kubectl -n kube-system delete ClusterRoleBinding kubermatic:s3exporter:clusters:reader
 kubectl -n kube-system delete Deployment s3-exporter
 ```
+
 {{% /notice %}}
 
 ### Changes to *values.yaml*
@@ -90,7 +92,6 @@ prometheus:
 
 The `prometheusOperator` section is now gone.
 
-
 ### Changes to `datacenters.yaml`
 
 A new optional VSphere spec parameter `infra_management_user` has been added to specify a separate account with wider permissions, to be used by Kubermatic for provisioning resources. This allows to restrict permissions for the credentials passed in the UI to the cluster's cloud provider functionality of Kubernetes.
@@ -98,6 +99,7 @@ A new optional VSphere spec parameter `infra_management_user` has been added to 
 A new optional parameter `seed_dns_overwrite` allows force-changing the datacenter's name used in external DNS names.
 
 Example:
+
 ```yaml
 datacenters:
   vsphere-1:
