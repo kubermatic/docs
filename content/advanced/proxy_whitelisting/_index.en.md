@@ -23,8 +23,9 @@ https://storage.googleapis.com/kubernetes-release/release/
 # CNI plugins
 https://github.com/containernetworking/plugins/releases/
 
-# Kubermatic health-monitor
-https://raw.githubusercontent.com/kubermatic/machine-controller/8b5b66e4910a6228dfaecccaa0a3b05ec4902f8e/pkg/userdata/scripts/health-monitor.sh
+# Kubermatic health-monitor script
+# (placed at pkg/userdata/scripts/health-monitor.sh)
+https://raw.githubusercontent.com/kubermatic/machine-controller/
 ```
 
 ### kubelet - Docker images
@@ -72,8 +73,8 @@ quay.io/coreos/kube-rbac-proxy
 quay.io/coreos/container-linux-update-operator
 ```
 {{% notice note %}}
-[Kubermatic offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode):
-Image will get used from private registry instead of the public registries. A custom image registry can be specified in the `values.yaml`, see [Offline mode](https://docs.kubermatic.io/advanced/offline_mode/#download-all-required-images), which would result in the following images being pulled e.g. `172.20.0.2:5000`:
+If you use the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode):
+Image will get used from private registry instead of the public registries. This means, that some above mentioned whitelisting are maybe not required. A custom image registry can be specified in the `values.yaml`, see [Offline mode](https://docs.kubermatic.io/advanced/offline_mode/#download-all-required-images), which would result in the following images being pulled e.g. `172.20.0.2:5000` instead of the public images:
 
 ```bash
 # The kubelet requires the pause image
