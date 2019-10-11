@@ -282,7 +282,7 @@ dex:
     # list of allowed redirect URIs
     # (which one is used is determined by what Keycloak-Proxy decides)
     RedirectURIs:
-    - https://kubermatic.initech.com/oauth/callback
+    - https://kubermatic.example.company.com/oauth/callback
 ```
 
 Each service should have its own credentials. See the `dex` section in the [example
@@ -294,19 +294,19 @@ If you don't use Dex as authentication provider, see [OIDC provider Configuratio
 Each service should have its own credentials. This means that is required to create an OAuth App with redirects for every service:
 
 * kubermatic
-  - `https://kubermatic.initech.com`
-  - `https://kubermatic.initech.com/projects`
+  - `https://kubermatic.example.company.com`
+  - `https://kubermatic.example.company.com/projects`
 * kubermaticIssuer
-  - `https://kubermatic.initech.com/api/v1/kubeconfig`
+  - `https://kubermatic.example.company.com/api/v1/kubeconfig`
 * Grafana
-  - `https://grafana.kubermatic.initech.com/oauth/callback`
+  - `https://grafana.kubermatic.example.company.com/oauth/callback`
 * Kibana
-  - `https://kibana.kubermatic.initech.com/oauth/callback`
+  - `https://kibana.kubermatic.example.company.com/oauth/callback`
 - Prometheus
-  - `https://prometheus.kubermatic.initech.com/oauth/callback`
-  - `https://alertmanager.kubermatic.initech.com/oauth/callback`
+  - `https://prometheus.kubermatic.example.company.com/oauth/callback`
+  - `https://alertmanager.kubermatic.example.company.com/oauth/callback`
 
-obviously, `kubermatic.initech.com` should be replaces with your domain name.
+obviously, `kubermatic.example.company.com` should be replaces with your domain name.
 
 ##### Keycloak-Gatekeeper (IAP)
 
@@ -345,7 +345,7 @@ iap:
       upstream_service: prometheus.monitoring.svc.cluster.local
       upstream_port: 9999
       ingress:
-        host: prometheus.kubermatic.initech.com
+        host: prometheus.kubermatic.example.company.com
 ```
 
 See the `iap` section in the [example
@@ -520,8 +520,8 @@ Kubermatic needs to have at least 2 DNS entries set.
 #### Dashboard, API, Dex
 
 The frontend of Kubermatic needs a single, simple DNS entry. Let's assume it is being installed to serve
-`kubermatic.initech.com`. For the system services like Prometheus or Grafana, you will also want to create a wildcard
-DNS record `*.kubermatic.initech.com` pointing to the same IP/hostname.
+`kubermatic.example.company.com`. For the system services like Prometheus or Grafana, you will also want to create a wildcard
+DNS record `*.kubermatic.example.company.com` pointing to the same IP/hostname.
 
 ##### With LoadBalancer
 
@@ -553,11 +553,11 @@ The domain will be based on the name of the seed-cluster as defined in the
 [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters) and the domain
 under which the frontend is available.
 
-For example, when the base domain is `kubermatic.initech.com` and a seed cluster in your `datacenters.yaml` is called
+For example, when the base domain is `kubermatic.example.company.com` and a seed cluster in your `datacenters.yaml` is called
 `europe-west1`, then
 
-* The seed cluster domain would be: `europe-west1.kubermatic.initech.com`
-* The corresponding wildcard entry would be: `*.europe-west1.kubermatic.initech.com`
+* The seed cluster domain would be: `europe-west1.kubermatic.example.company.com`
+* The corresponding wildcard entry would be: `*.europe-west1.kubermatic.example.company.com`
 
 A customer cluster created in this seed cluster would get the domain `[cluster ID].europe-west1.kubermatic.example.com`.
 
