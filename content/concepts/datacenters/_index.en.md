@@ -163,6 +163,32 @@ datacenters:
     spec:
       azure:
         location: "westeurope"
+
+  #==================================
+  #============= GCP ================
+  #==================================
+  gcp-westeurope:
+    location: "Europe West (Germany)"
+    seed: europe-west3-c
+    country: DE
+    spec:
+      gcp:
+        region: europe-west3
+        zone_suffixes:
+        - c        
+
+  #==================================
+  #============= Packet =============
+  #==================================
+  packet-ams1:
+    location: "Packet AMS1 (Amsterdam)"
+    seed: europe-west3-c
+    country: NL
+    spec:
+      packet:
+        facilities:
+        - ams1
+
 ```
 {{%/expand%}}
 
