@@ -73,15 +73,9 @@ quay.io/coreos/kube-rbac-proxy
 quay.io/coreos/container-linux-update-operator
 ```
 {{% notice note %}}
-If you use the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode):
-Image will get used from private registry instead of the public registries. This means, that some above mentioned whitelisting are maybe not required. A custom image registry can be specified in the `values.yaml`, see [Offline mode](https://docs.kubermatic.io/advanced/offline_mode/#download-all-required-images), which would result in the following images being pulled e.g. `172.20.0.2:5000` instead of the public images:
-
-```bash
-# The kubelet requires the pause image
-172.20.0.2:5000/kubernetes/pause
-# ContainerLinux requires the hyperkube image
-172.20.0.2:5000/kubernetes/hyperkube-amd64
-```
+If you use the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode), images will get pulled from the defined private registry (e.g. `172.20.0.2:5000`) instead of the public registries. This means, that some above mentioned whitelistings are maybe not required. As result the following images will get pulled from the private registry:
+ <br/>- kubelet pause image:`172.20.0.2:5000/kubernetes/pause`
+ <br/>- hyperkube image: `172.20.0.2:5000/kubernetes/hyperkube-amd64`
 {{% /notice %}}
 
 ## OS resources
