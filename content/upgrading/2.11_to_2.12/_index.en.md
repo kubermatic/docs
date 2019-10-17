@@ -10,7 +10,7 @@ pre = "<b></b>"
 
 ### cert-manager
 
-Kubermatic 2.12 ships with cert-manager 0.9, which changed the api versions for its manifests. This requires
+Kubermatic 2.12 ships with cert-manager 0.10, which changed the api versions for its manifests. This requires
 manual intervention and a short time frame where no certificates can be created when upgrading. Before upgrading,
 create a backup of all cert-manager resources (certificates, issuers, ...) because their CRDs will have to be
 recreated.
