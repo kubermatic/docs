@@ -73,7 +73,6 @@ In the example above, we define two possible seed identifiers for the `datacente
 
 See: [Datacenters]({{< ref "concepts/datacenters" >}})
 
-
 ### Creating the Master Cluster `values.yaml`
 
 Installation of Kubermatic uses the [Kubermatic Installer](https://github.com/kubermatic/kubermatic-installer), which is
