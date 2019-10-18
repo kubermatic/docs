@@ -19,11 +19,11 @@ After creating the backup, delete the cert-manager chart, delete the CRDs and re
 re-installs the CRDs):
 
 ```bash
-$ helm --tiller-namespace kubermatic-installer delete --purge cert-manager
-$ kubectl get crd | awk '/certmanager/ {print $1}' | xargs kubectl delete crd
+helm --tiller-namespace kubermatic-installer delete --purge cert-manager
+kubectl get crd | awk '/certmanager/ {print $1}' | xargs kubectl delete crd
 
-$ cd kubermatic-installer/charts/cert-manager
-$ helm --tiller-namespace kubermatic-installer upgrade --install --namespace cert-manager --values YOUR_VALUES_YAML_HERE cert-manager .
+cd kubermatic-installer/charts/cert-manager
+helm --tiller-namespace kubermatic-installer upgrade --install --namespace cert-manager --values YOUR_VALUES_YAML_HERE cert-manager .
 ```
 
 ### Velero

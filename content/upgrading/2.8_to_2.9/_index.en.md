@@ -19,7 +19,7 @@ The script will:
 - Install the new kubermatic helm chart
 
 The script is located inside the Kubermatic helm chart & must be executed before the chart upgrade:
-https://github.com/kubermatic/kubermatic-installer/blob/release/v2.9/charts/kubermatic/migrate/migrate-kubermatic-chart.sh
+<https://github.com/kubermatic/kubermatic-installer/blob/release/v2.9/charts/kubermatic/migrate/migrate-kubermatic-chart.sh>
 
 Afterwards, the CRDs must be installed with kubectl `apply -f charts/kubermatic/crd/`.
 
@@ -54,7 +54,7 @@ Kubermatic 2.9 replaces the old fluentd chart with fluentbit in order to improve
 logging stack. When updating an existing installation, make sure to `delete --purge` the fluentd chart, so you do not end up
 with two log shippers in your cluster.
 
-```
+```bash
 helm --tiller-namespace kubermatic delete --purge fluentd
 ```
 
@@ -65,6 +65,7 @@ With v2.9 this behaviour changes, as floating IP's are now optional by default.
 Within the "Add Node" dialog, the user can specific if a floating IP should be assigned or not.
 
 If the assignment of floating IP's is a requirement to ensure Node-> API server communication, the assignment can be enforced within the datacenters.yaml:
+
 ```yaml
   loodse-hamburg-1:
     location: Hamburg
@@ -89,11 +90,12 @@ If the assignment of floating IP's is a requirement to ensure Node-> API server 
 
 ### Alpha features
 
-####  VerticalPodAutoscaler
+#### VerticalPodAutoscaler
 
 Disabled by default.
 Can be enabled by setting the feature flag:
-```
+
+```bash
 #Feature flag
 kubermatic.controller.featureGates="VerticalPodAutoscaler=true"
 ```
@@ -104,12 +106,13 @@ The [VerticalPodAutoscaler](https://github.com/kubernetes/autoscaler/tree/master
 
 Getting the VPA resources for a cluster:
 For example:
+
 ```bash
 kubectl -n cluster-xxxxxx get vpa
 ```
 
 If the VerticalPodAutoscaler notices a difference by 20% between the current usage and the specified resource request, the pod will be deleted, so it gets recreated by the controller(ReplicaSet, StatefulSet).
-More details on the VerticalPodAutoscaler can be found in the official repository: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#vertical-pod-autoscaler
+More details on the VerticalPodAutoscaler can be found in the official repository: <https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#vertical-pod-autoscaler>
 
 ##### Issues
 

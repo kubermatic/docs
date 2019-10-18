@@ -6,12 +6,13 @@ pre = "<b></b>"
 +++
 
 ## Presets
-With Presets you can specify default settings for new Cluster. Use Presets to reuse property settings across multiple providers.  
+
+With Presets you can specify default settings for new Cluster. Use Presets to reuse property settings across multiple providers.
 
 ### Core concept
 
 As a Kubermatic administrator with superuser access, you can define Presets type in a standard format using a YAML
-definition, allowing the assignment of new credential types to supported providers. This allows you to define a custom 
+definition, allowing the assignment of new credential types to supported providers. This allows you to define a custom
 credential type that works in ways similar to existing credential types. For example, you could create a custom credential
 type that injects access keys, passwords or network settings into Cloud object.
 
@@ -23,9 +24,9 @@ If the Preset name is used together with standard credentials the preset is take
 ### Prerequisites
 
 A presets are optional for Kubermatic API. The Kubermatic API takes a flag:
- 
-   - `presets` The optional file path for a file containing presets.
-   
+
+- `presets` The optional file path for a file containing presets.
+
 ### Example
 
 The following example shows the presets structure:
@@ -93,4 +94,4 @@ presets:
         network:
         subnetwork:
 
-``` 
+```

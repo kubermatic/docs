@@ -7,14 +7,14 @@ pre = "<b></b>"
 
 ### Update Kubernetes upgrade plan
 
-Kubermatic provides [live updates of your Kubernetes cluster](operation/control-plane/upgrading/#upgrading-the-control-plane) 
+Kubermatic provides [live updates of your Kubernetes cluster](operation/control-plane/upgrading/#upgrading-the-control-plane)
 without disrupting your daily business. The allowed updates are defined in the file
 `updates.yaml`. You find it in your Kubermatic installer clone directory:
 
 ```bash
-$ git clone git@github.com:kubermatic/kubermatic-installer.git
-$ cd kubermatic-installer/
-$ ls charts/kubermatic/static/master/
+git clone git@github.com:kubermatic/kubermatic-installer.git
+cd kubermatic-installer/
+ls charts/kubermatic/static/master/
 ```
 
 The file contains the supported upgrade paths for Kubernetes. The file format is
@@ -67,7 +67,6 @@ do it immediatelly in case of a matching version path. So in case of the example
 running in any Kubernetes version from 1.12.0 to 1.12.2 would automatically upgrade to 1.12.3.
 This way known vulnerabilities can be handled directly.
 
-
 {{% notice note %}}
 **Note:** The automatic update only updates the control plane. Kubelets on the nodes still have
 to be updated manually.
@@ -76,9 +75,9 @@ to be updated manually.
 After editing the list Kubermatic has to be upgraded by using `helm`.
 
 ```bash
-$ cd kubermatic-installer/charts/kubermatic
-$ vim static/master/updates.yaml
-$ helm upgrade kubermatic .
+cd kubermatic-installer/charts/kubermatic
+vim static/master/updates.yaml
+helm upgrade kubermatic .
 ```
 
 Afterwards the new update paths are available.

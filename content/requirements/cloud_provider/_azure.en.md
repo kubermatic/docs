@@ -7,31 +7,35 @@ pre = "<b></b>"
 
 ## Prepare Azure environment
 
-For provisioning Kubernetes clusters with the [Azure cloud provider](https://github.com/kubermatic/machine-controller/tree/master/pkg/cloudprovider/provider/azure) Kubermatic needs a service account with (at least) the the Azure role `Contributor`. Please follow the following steps to create an matching service account: 
+For provisioning Kubernetes clusters with the [Azure cloud provider](https://github.com/kubermatic/machine-controller/tree/master/pkg/cloudprovider/provider/azure) Kubermatic needs a service account with (at least) the the Azure role `Contributor`. Please follow the following steps to create an matching service account:
 
 ### Login to Azure and get basic information
 
 Login to Azure with [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) `az`.
+
 ```bash
 az login
 ```
 
 This command will open in your default browser a window where you can authenticate. After you succefull logged in get your subscription ID.
-```
+
+```bash
 az account show --query id -o json
 
 ********-****-****-****-************
 ```
 
 Get your Tenant ID
-```
+
+```bash
 az account show --query tenantId -o json
 
 ********-****-****-****-************
 ```
 
 create a new app with
-```
+
+```bash
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/********-****-****-****-************"
 
 Retrying role assignment creation: 1/36

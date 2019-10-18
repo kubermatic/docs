@@ -10,22 +10,22 @@ pre = "<b></b>"
 ### Master cluster
 
 * Six or more machines running one of:
-  - Ubuntu 16.04+
-  - Debian 9
-  - CentOS 7
-  - RHEL 7
-  - Container Linux (tested with 1576.4.0)
+  * Ubuntu 16.04+
+  * Debian 9
+  * CentOS 7
+  * RHEL 7
+  * Container Linux (tested with 1576.4.0)
 * 4 GB or more of RAM per machine (any less will leave little room for your apps)
 * 2 CPUs or more
 
 ### User cluster
 
 * One or more machines running one of:
-  - Ubuntu 16.04+
-  - Debian 9
-  - CentOS 7
-  - RHEL 7
-  - Container Linux (tested with 1576.4.0)
+  * Ubuntu 16.04+
+  * Debian 9
+  * CentOS 7
+  * RHEL 7
+  * Container Linux (tested with 1576.4.0)
 * 2 GB or more of RAM per machine (any less will leave little room for your apps)
 * 2 CPUs or more
 * Full network connectivity between all machines in the cluster (public or private network is fine)

@@ -9,6 +9,7 @@ This manual explains how to add custom links to the application. They may be use
 be displayed in the application menu. Following section describes how to configure them.
 
 ## Adding the Custom Links
+
 Custom links should be specified in the `config.json` file, that is part of the application configuration.
 Check the [Creating the Master Cluster `values.yaml`](/installation/install_kubermatic/_manual/#creating-the-master-cluster-values-yaml)
 to find out how to specify the Dashboard's config.
@@ -21,7 +22,7 @@ Definition of a single custom link consists of three fields:
 
 A configuration of a single link may look like this:
 
-```
+```json
 "custom_links": [
   {
     "label": "Some Label",
@@ -31,9 +32,10 @@ A configuration of a single link may look like this:
 ```
 
 ### Examples
+
 Let's assume that we have following configuration of the Dashboard:
 
-```
+```json
 {
   "cleanup_cluster":  false,
   "custom_links": [],
@@ -55,7 +57,7 @@ And we would like to add some links to the external services used by the team.
 
 As a first step we need to change the application config:
 
-```
+```json
 {
   "cleanup_cluster":  false,
   "custom_links": [
@@ -91,7 +93,7 @@ for matches in labels and in the URL-s of provided links.
 
 Let's change some of the icons:
 
-```
+```json
 {
   "cleanup_cluster":  false,
   "custom_links": [

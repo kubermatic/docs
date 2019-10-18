@@ -9,19 +9,23 @@ pre = "<b></b>"
 
 As the etcd gets managed by a StatefulSet with PVC's, replacing a member should mostly never needed.
 Scenarios though could be:
+
 - A PV of an etcd member got corrupted or even deleted
 
-#### Pausing the cluster
+### Pausing the cluster
+
 Replacing a failed etcd member requires manual intervention.
 As the StatefulSet needs to be modified, the affected cluster needs to be disabled from the controllers management:
+
 ```bash
 # set cluster.spec.pause=true
 kubectl edit cluster xxxxxxxxxx
 ```
 
-#### Replacing the etcd member
+### Replacing the etcd member
 
 First, the member needs to removed from the etcd-internal member management. Otherwise we risk quorum loss during the restore procedure:
+
 ```bash
 # Exec into the pod
 kubectl -n cluster-xxxxxxxxxx exec -ti etcd-1 sh
@@ -38,11 +42,12 @@ etcdctl ${ETCD_ARGS} member list
 etcdctl ${ETCD_ARGS} member remove 253869731a787437
 ```
 
-Afterwards we need to change the initial-state of the etcd cluster. 
+Afterwards we need to change the initial-state of the etcd cluster.
 The initial state is a configuration flag on the etcd. It tells the etcd member that it should start a new cluster or join an existing one (Respecting already existing data).
 As we replace a member, it will need to know that it should join an existing cluster.
 
 Therefore we need to set the `--initial-cluster-state` flag to `existing`:
+
 ```bash
 # Look for export INITIAL_STATE="new" and update to export INITIAL_STATE="existing"
 kubectl -n cluster-xxxxxxxxxx edit statefulset etcd
@@ -50,6 +55,7 @@ kubectl -n cluster-xxxxxxxxxx edit statefulset etcd
 ```
 
 Now add the member manually to the etcd-internal member management:
+
 ```bash
 # Exec into the pod
 kubectl -n cluster-xxxxxxxxxx exec -ti etcd-1 sh
@@ -65,6 +71,7 @@ etcdctl ${ETCD_ARGS} member add etcd-0 --peer-urls=http://etcd-0.etcd.cluster-xx
 ```
 
 Now we can remove the failed Pod and delete its PVC. Both will be recreated:
+
 ```bash
 # Delete the pvc (will get automatically recreated)
 kubectl -n cluster-xxxxxxxxxx delete pvc data-etcd-0
@@ -76,8 +83,10 @@ kubectl -n cluster-xxxxxxxxxx delete pod etcd-0
 The etcd pod (etcd-0) should now start and sync with the existing members.
 Now wait until all pods are being displayed as ready.
 
-#### Unpausing the cluster
+### Unpausing the cluster
+
 As the etcd is now back and all members are healthy, we can reset the `pause` flag on the cluster:
+
 ```bash
 # set cluster.spec.pause=false
 kubectl edit cluster xxxxxxxxxx

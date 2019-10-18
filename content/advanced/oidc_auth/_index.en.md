@@ -39,22 +39,23 @@ shared to as value for the `user` property.
 
 The following example command grants read-only access to the cluster to `lukasz@loodse.com`:
 
-```
+```bash
 kubectl create clusterrolebinding lukaszviewer --clusterrole=view --user=lukasz@loodse.com
 ```
 
 Now it's time to let the user the cluster was shared to use the config and list some resources for example `pods`.
 Even though there might be no `pods` running at the moment the command will not report any authorization related issues.
 
-```
+```plaintext
 kubectl get pods
 No resources found.
 ```
 
 If the `lukaszviewer` binding gets deleted or something else goes wrong, the following output is displayed instead:
 
-```
+```bash
 kubectl get pods
+
 Error from server (Forbidden): pods is forbidden: User "lukasz@loodse.com" cannot list pods in the namespace "default"
 ```
 
@@ -65,13 +66,12 @@ This is best done by directly changing the entries in the corresponding `values.
 
 `kubermatic-api-server` must be run with the following flags.
 
-```
+```plaintext
 --feature-gates={{ .Values.kubermatic.api.featureGates }} # must contain "OIDCKubeCfgEndpoint=true"
 --oidc-issuer-redirect-uri={{ .Values.kubermatic.auth.issuerRedirectURL }}
 --oidc-issuer-client-id={{ .Values.kubermatic.auth.issuerClientID }}
 --oidc-issuer-client-secret={{ .Values.kubermatic.auth.issuerClientSecret }}
 --oidc-issuer-cookie-hash-key={{ .Values.kubermatic.auth.issuerCookieKey }}
-
 ```
 
 {{% notice note %}}
@@ -80,24 +80,19 @@ The value for `.Values.kubermatic.auth.issuerCookieKey` can be randomly generate
 
 `kubermatic-controll-manager` must be run with the following flags:
 
-```
+```plaintext
 --feature-gates={{ .Values.kubermatic.controller.featureGates }}  # must contain "OpenIDAuthPlugin=true"
 --oidc-issuer-url={{ .Values.kubermatic.auth.tokenIssuer }}
 --oidc-issuer-client-id={{ .Values.kubermatic.auth.issuerClientID }}
 --oidc-ca-file={{ .Values.kubermatic.auth.caBundle }}
-
 ```
+
 {{% notice note %}}
 Note that `.Values.kubermatic.auth.caBundle` must contain OIDC provider's root CA certificates chain, see [Root CA certificates chain](/advanced/oidc_auth/#root-ca-certificates-chain) section that explains how to create the file.
 {{% /notice %}}
 
 `conifg.json` file for `kubermatic-dashboard` must contain `"share_kubeconfig":true`.
-You can set it by changing the following entry in the `values.yaml` file.
-
-```
-{{ .Values.kubermatic.ui.config }}
-```
-Now [update Kubermatic](#update-kubermatic).
+You can set it by changing the `kubermatic.ui.config` entry in the `values.yaml` file. Afterwards, [update Kubermatic](#update-kubermatic).
 
 ### Root CA certificates chain
 
@@ -107,20 +102,15 @@ chain including all intermediary CAs certificates. Note that we expect that all 
 For example if the certificate used by your provider was issued by Let's Encrypt. You can visit [Let's Encrypt](https://letsencrypt.org/certificates) to download the necessary certificates
 and use the following command to prepare the bundle.
 
-
-```
+```bash
 cat isrgrootx1.pem.txt lets-encrypt-x3-cross-signed.pem.txt > caBundle.pem
-
 ```
 
 ### Update Kubermatic
 
 After all values are set at the `values.yaml` the installed helm charts `kubermatic` and `oauth` need to get updated (at the master cluster):
 
-
 ```bash
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth charts/kubermatic/oauth
-
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic/
 ```
-

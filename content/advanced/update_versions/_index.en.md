@@ -11,9 +11,9 @@ The list of selectable versions when [specifying cluster name and Kubernetes ver
 `versions.yaml`. You'll find it in your Kubermatic installer clone directory:
 
 ```bash
-$ git clone git@github.com:kubermatic/kubermatic-installer.git
-$ cd kubermatic-installer/
-$ ls charts/kubermatic/static/master/
+git clone git@github.com:kubermatic/kubermatic-installer.git
+cd kubermatic-installer/
+ls charts/kubermatic/static/master/
 ```
 
 Inside the versions file the supported releases of Kubernetes as well as the selection of the default
@@ -39,9 +39,9 @@ versions:
 As you can see it is a list containing the two keys `version` and `default`. Here the values of
 `version` are the Kubernetes versions as string and prefixed by the letter "v". They correspondent
 with the tags of the according versions of the Kubernetes repository. The possible values of `default`
-are _true_ or _false_, where only one of the versions can be marked as default.
+are *true* or *false*, where only one of the versions can be marked as default.
 
-We also list insecure versions, but they are commented out and contain a link to the according issue. 
+We also list insecure versions, but they are commented out and contain a link to the according issue.
 So they aren't listed in the selection dialog and you can see why.
 
 {{% notice note %}}
@@ -56,9 +56,9 @@ mature version to you.
 After editing the list Kubermatic has to be upgraded by using `helm`.
 
 ```bash
-$ cd kubermatic-installer/charts/kubermatic
-$ vim static/master/versions.yaml
-$ helm upgrade kubermatic .
+cd kubermatic-installer/charts/kubermatic
+vim static/master/versions.yaml
+helm upgrade kubermatic .
 ```
 
 Afterwards the new version settings are available.

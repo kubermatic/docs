@@ -17,15 +17,17 @@ Addons are specific services and tools extending functionality of Kubernetes. In
 * [OpenVPN client](https://openvpn.net/index.php/open-source/overview.html): virtual private network (VPN). Lets the control plan access the Pod & Service network. Required for functionality like `kubectl proxy` & `kubectl port-forward`.
 * [node-exporter](https://github.com/prometheus/node_exporter): Exports metrics from the node
 * default-storage-class: A cloud provider specific StorageClass
-* kubelet-configmap: A set of ConfigMaps used by kubeadm 
+* kubelet-configmap: A set of ConfigMaps used by kubeadm
 
 Installation and configuration of these addons is done by 2 controllers which are part of the Kubermatic controller-manager:
+
 * `addon-installer-controller`: Ensures a given set of addons will be installed in all clusters
 * `addon-controller`: Templates the addons & applies the manifests in the user clusters
 
 #### Configuration
 
 To configure which addons shall be installed in all user clusters, set the following settings in the `values.yaml` for the kubermatic chart:
+
 ```yaml
 kubermatic:
   controller:
@@ -44,11 +46,12 @@ kubermatic:
         image:
           repository: "quay.io/kubermatic/addons"
           tag: "v0.2.9"
-          pullPolicy: "IfNotPresent"                
+          pullPolicy: "IfNotPresent"
 ```
 
 To deploy the changes:
-```
+
+```bash
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic
 ```
 
@@ -62,61 +65,65 @@ It will set the specified registry on all control plane components & addons.
 1. All manifests and config files for the default addons are stored in the `quay.io/kubermatic/addons` image. Use this image as a base image and copy configs and manifests for all custom addons to `/addons` folder.
 
     Custom addon with manifest
-    ```
-    .
-    ├── Dockerfile
-    └── foo
-        └── deployment.yaml
-    ```
+
+   ```plaintext
+   .
+   ├── Dockerfile
+   └── foo
+       └── deployment.yaml
+   ```
 
     Dockerfile for custom addons:
-    ```
-    FROM quay.io/kubermatic/addons:v0.0.1
 
-    ADD ./ /addons/
-    ```
+   ```dockerfile
+   FROM quay.io/kubermatic/addons:v0.0.1
+
+   ADD ./ /addons/
+   ```
 
     Release the image with custom addon
-    ```
-    export TAG=v1.0
-    docker build -t customer/addons:${TAG} .
-    docker push customer/addons:${TAG}
-    ```
 
-2. Edit `values.yaml` you are using for the installation of Kubermatic. Change the path to the addons repository
+   ```bash
+   export TAG=v1.0
+   docker build -t customer/addons:${TAG} .
+   docker push customer/addons:${TAG}
+   ```
 
-    ```
-    kubermatic:
-      controller:
-        addons:
-          kubernetes
-            image:
-              repository: "quay.io/customer/addons" # <-- add your repo here
-    ```
+1. Edit `values.yaml` you are using for the installation of Kubermatic. Change the path to the addons repository
 
-3. Add your addon to the list of default addons in `values.yaml`:
+   ```yaml
+   kubermatic:
+     controller:
+       addons:
+         kubernetes
+           image:
+             repository: "quay.io/customer/addons" # <-- add your repo here
+   ```
 
-    ```
-    kubermatic:
-      docker:
-      addons:
-        kubernetes
-          # list of addons to install into every user-cluster. All need to exist in the addons image
-          defaultAddons:
-          - foo # <-- add your addon here
-          - canal
-          - dashboard
-          - dns
-          - kube-proxy
-          - openvpn
-          - rbac
-    ```
+1. Add your addon to the list of default addons in `values.yaml`:
 
-4. Update the installation of Kubermatic
+   ```yaml
+   kubermatic:
+     docker:
+     addons:
+       kubernetes
+         # list of addons to install into every user-cluster. All need to exist in the addons image
+         defaultAddons:
+         - foo # <-- add your addon here
+         - canal
+         - dashboard
+         - dns
+         - kube-proxy
+         - openvpn
+         - rbac
+   ```
 
-    ```
-    helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic
-    ```
+1. Update the installation of Kubermatic
+
+   ```bash
+   helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic
+   ```
+
 #### Template variables
 
 All cluster object variables can be used in all addon manifests. Specific template variables and functions used in default templates:

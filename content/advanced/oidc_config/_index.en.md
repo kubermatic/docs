@@ -8,9 +8,10 @@ pre = "<b></b>"
 This manual explains how to configure OIDC providers to use them with Kubermatic.
 
 ## Default Configuration
+
 By default Kubermatic uses Dex located on the same host, using the following base URL:
 
-```text
+```plaintext
 <PROTOCOL>//<HOST>/dex/auth
 ```
 
@@ -21,7 +22,7 @@ Where:
 
 Base URL is followed by following query parameters:
 
-```text
+```plaintext
 <BASE_URL>?response_type=<RESPONSE_TYPE>&client_id=<CLIENT_ID>&redirect_uri=<REDIRECT_URI>&scope=<SCOPE>&nonce=<NONCE>
 ```
 
@@ -48,7 +49,7 @@ In the config it is allowed to specify two optional parameters:
 
 A configuration of a OIDC provider may look like this:
 
-```
+```json
 {
   "cleanup_cluster":  false,
   "custom_links": [],

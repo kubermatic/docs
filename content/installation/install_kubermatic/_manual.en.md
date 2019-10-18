@@ -25,13 +25,14 @@ match an entry within the `datacenters.yaml` (see below) and needs to be a valid
 like `*.[seed-name].[main-domain]`, so context names like `user@seed1` would not work. Make sure the seed names are
 alphanumeric.
 
-Also make sure your kubeconfig contains _static_, long-lived credentials. Some cloud providers use custom authentication
+Also make sure your kubeconfig contains *static*, long-lived credentials. Some cloud providers use custom authentication
 providers (like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic's usecase
 because the required tools are not installed. You can use the `kubeconfig-serviceaccounts.sh` script from the
 `kubermatic-installer` repository to automatically create proper service accounts inside each cluster and update the
 kubeconfig file.
 
 {{%expand "Sample kubeconfig"%}}
+
 ```yaml
 apiVersion: v1
 clusters:
@@ -63,6 +64,7 @@ users:
   user:
     token: very-secure-token
 ```
+
 {{%/expand%}}
 
 In the example above, we define two possible seed identifiers for the `datacenters.yml`: `seed-1` and `seed-2`.
@@ -70,7 +72,6 @@ In the example above, we define two possible seed identifiers for the `datacente
 ### Defining the Datacenters
 
 See: [Datacenters]({{< ref "concepts/datacenters" >}})
-
 
 ### Creating the Master Cluster `values.yaml`
 
@@ -234,17 +235,17 @@ Install [Helm](https://www.helm.sh/) on you local system and setup Tiller within
 
 1. Create a service account for Tiller and bind it to the `cluster-admin` role:
 
-    ```bash
-    kubectl create namespace kubermatic
-    kubectl create serviceaccount -n kubermatic tiller
-    kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller
-    ```
+   ```bash
+   kubectl create namespace kubermatic
+   kubectl create serviceaccount -n kubermatic tiller
+   kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller
+   ```
 
-2. Afterwards install Tiller with the correct service account:
+1. Afterwards install Tiller with the correct service account:
 
-    ```bash
-    helm --service-account tiller --tiller-namespace kubermatic init
-    ```
+   ```bash
+   helm --service-account tiller --tiller-namespace kubermatic init
+   ```
 
 Now you're ready to deploy Kubermatic and its charts. It's generally advisable to postpone installing the final `certs`
 chart until you acquired LoadBalancer IPs/hostnames and can update your DNS zone to point to your new installation. This
@@ -309,8 +310,8 @@ be created in the kube-system namespace.
 The workflow:
 
 1. init-container creates snapshot
-2. snapshot will be saved in a shared volume
-3. `storeContainer` takes the snapshot and stores it somewhere
+1. snapshot will be saved in a shared volume
+1. `storeContainer` takes the snapshot and stores it somewhere
 
 #### storeContainer
 

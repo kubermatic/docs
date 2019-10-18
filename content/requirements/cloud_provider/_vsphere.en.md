@@ -21,7 +21,7 @@ Supported operating systems
 * Ubuntu 18.04 (Kubermatic 2.7+) [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
 * CoreOS  [ova](https://stable.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova)
 
-#### Importing the OVA:
+#### Importing the OVA
 
 1. Go into the VSphere WebUI, select your datacenter, right click onto it and choose "Deploy OVF Template"
 1. Fill in the "URL" field with the appropriate url
@@ -31,7 +31,8 @@ Supported operating systems
 1. Leave everyhting in the "Customize Template" and "Ready to complete" dialog as it is
 1. Wait until the VM got fully imported and the "Snapshots" => "Create Snapshot" button is not grayed out anymore
 1. The template VM must have the disk.enableUUID flag set to 1, this can be done using the [govc tool](https://github.com/vmware/govmomi/tree/master/govc) with the following command:
-```
+
+```bash
 govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
 ```
 
@@ -60,7 +61,7 @@ The vsphere user has to have to following permissions on the correct resources:
 #### Seed Cluster
 
 * Role `k8c-storage-vmfolder-propagate`
-  * Granted at __VM Folder__ and __Template Folder__, propagated
+  * Granted at **VM Folder** and **Template Folder**, propagated
   * Permissions
     * VirtualMachine
       * Config
@@ -70,7 +71,7 @@ The vsphere user has to have to following permissions on the correct resources:
         * RemoveDisk
 
 * Role `k8c-storage-datastore-propagate`
-  * Granted at __Datastore__, propagated
+  * Granted at **Datastore**, propagated
   * Permissions
     * Datastore
       * AllocateSpace
@@ -83,7 +84,7 @@ The vsphere user has to have to following permissions on the correct resources:
 #### User Cluster
 
 * Role `k8c-user-datacenter`
-  * Granted at __datacenter__ level, **not** propagated
+  * Granted at **datacenter** level, **not** propagated
   * Needed for cloning the template VM (obviously this is not done in a folder at this time)
   * Permissions
     * Datastore
@@ -102,7 +103,7 @@ The vsphere user has to have to following permissions on the correct resources:
       * Create from existing
 
 * Role `k8c-user-cluster-propagate`
-  * Granted at __cluster__ level, propagated
+  * Granted at **cluster** level, propagated
   * Needed for upload of `cloud-init.iso`
   * Permissions
     * Host
@@ -117,22 +118,22 @@ The vsphere user has to have to following permissions on the correct resources:
     * Network -> Attach
 
 * Role `k8c-user-datastore-propagate`
-  * Granted at __datastore / datastore cluster__ level, propagated
+  * Granted at **datastore / datastore cluster** level, propagated
   * Permissions
     * Datastore
       * Allocate space
       * Browse datastore
 
 * Role `k8c-user-folder-propagate`
-  * Granted at __folder__ level, propagated
+  * Granted at **folder** level, propagated
   * Needed for managing the node VMs
   * Permissions
     * Folder
       * Create folder
       * Delete folder
-    * Global 
+    * Global
       * Set custom attribute
-      * Create folder      
+      * Create folder
     * Virtual machine
       * Configuration
         * Add or remove device
@@ -152,8 +153,8 @@ After a node is powered-off, the Kubernetes vSphere driver doesn't detach disks 
 
 Upstream Kubernetes has been working on the issue for a long time now and tracking it under the following tickets:
 
-- https://github.com/kubernetes/kubernetes/issues/63577
-- https://github.com/kubernetes/kubernetes/issues/61707
-- https://github.com/kubernetes/kubernetes/issues/67900
-- https://github.com/kubernetes/kubernetes/issues/71829
-- https://github.com/kubernetes/kubernetes/issues/75342
+* <https://github.com/kubernetes/kubernetes/issues/63577>
+* <https://github.com/kubernetes/kubernetes/issues/61707>
+* <https://github.com/kubernetes/kubernetes/issues/67900>
+* <https://github.com/kubernetes/kubernetes/issues/71829>
+* <https://github.com/kubernetes/kubernetes/issues/75342>

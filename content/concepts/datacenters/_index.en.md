@@ -5,7 +5,6 @@ weight = 10
 pre = "<b></b>"
 +++
 
-
 # Overview
 
 There are 2 types of datacenters:
@@ -17,6 +16,7 @@ There are 2 types of datacenters:
 Both are defined in a file named `datacenters.yaml`:
 
 {{%expand "Sample datacenters.yaml"%}}
+
 ```yaml
 datacenters:
   #==================================
@@ -175,7 +175,7 @@ datacenters:
       gcp:
         region: europe-west3
         zone_suffixes:
-        - c        
+        - c
 
   #==================================
   #============= Packet =============
@@ -190,6 +190,7 @@ datacenters:
         - ams1
 
 ```
+
 {{%/expand%}}
 
 The datacenter structure contains the following fields:
@@ -211,4 +212,3 @@ The datacenter structure contains the following fields:
   - `hetzner` -- Cloud-specific configuration for Hetzner DCs.
   - `vsphere` -- Cloud-specific configuration for vSphere DCs.
   - `kubevirt` -- Cloud-specific configuration for KubeVirt DCs.
-
