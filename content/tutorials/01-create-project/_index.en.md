@@ -1,6 +1,6 @@
 +++
 title = "Create a new project"
-date = 2019-10-04T12:07:16+02:00
+date = 2019-10-17T12:07:15+02:00
 weight = 20
 pre = "<b></b>"
 +++
@@ -14,6 +14,8 @@ Clusters are assigned to projects, so in order to create a cluster, you must cre
 Assign your new project a name:
 
 ![Dialog to assign a project name](01-create-project-name.png)
+
+You can assign key-label pairs to your projects. These will be inherited by the clusters and cluster nodes in this project. You can assign multiple key-label pairs to a project.
 
 After you click `Save`, the project will be created. If you click on it now, you will see options for adding clusters and SSH keys.
 
