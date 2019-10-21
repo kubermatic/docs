@@ -11,7 +11,6 @@ yq \
   merge -a ${SOURCE}/*/*.yaml | \
   yq read -j - | \
   jq "{
-    compiled: now | todateiso8601,
     groups: [
       .groups[] |
       {
