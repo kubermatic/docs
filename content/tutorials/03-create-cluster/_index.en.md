@@ -39,3 +39,4 @@ You will then be forwarded to the cluster creation page where you can view the c
 ![Cluster details in creation state](03-create-cluster-creation.png)
 
 After all of the master components are ready, your cluster will create the configured number of worker nodes. Fully created nodes will be marked with a green dot, pending ones with a yellow circle. Clicking on the download icon lets you download the kubeconfig to be able to use `kubectl` with your cluster.
+
