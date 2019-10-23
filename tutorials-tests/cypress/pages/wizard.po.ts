@@ -37,6 +37,10 @@ export class WizardPage {
     return cy.get('#km-node-count-input');
   }
 
+  static getDigitalOceanTokenInput(): Cypress.Chainable<any> {
+    return cy.get('#km-digitalocean-token-input');
+  }
+
   // Utils.
 
   static verifyUrl(): void {
