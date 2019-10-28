@@ -33,12 +33,12 @@ Supported Kubernetes versions:
 
 **Installation and updating:**
 
-- ACTION REQUIRED: the `zone_character` field must be removed from all AWS datacenters in `datacenters.yaml`
-- ACTION REQUIRED: The default number of apiserver replicas was increased to 2. You can revert to the old behavior by setting `.Kubermatic.apiserverDefaultReplicas` in the `values.yaml`
-- ACTION REQUIRED: The literal credentials on the `Cluster` object are being deprecated in favor of storing them in a secret. If you have addons that use credentials, replace `.Cluster.Spec.Cloud` with `.Credentials`.
-- ACTION REQUIRED: Kubermatic now doesn&#39;t accept unknown keys in its config files anymore and will crash if an unknown key is present
-- ACTION REQUIRED: BYO datacenters now need to be specific in the `datacenters.yaml` with a value of `{}`, e.G `bringyourown: {}`
-- ACTION REQUIRED: Velero does not backup Prometheus, Elasticsearch and Minio by default anymore.
+- **ACTION REQUIRED:** the `zone_character` field must be removed from all AWS datacenters in `datacenters.yaml`
+- **ACTION REQUIRED:** The default number of apiserver replicas was increased to 2. You can revert to the old behavior by setting `.Kubermatic.apiserverDefaultReplicas` in the `values.yaml`
+- **ACTION REQUIRED:** The literal credentials on the `Cluster` object are being deprecated in favor of storing them in a secret. If you have addons that use credentials, replace `.Cluster.Spec.Cloud` with `.Credentials`.
+- **ACTION REQUIRED:** Kubermatic now doesn&#39;t accept unknown keys in its config files anymore and will crash if an unknown key is present
+- **ACTION REQUIRED:** BYO datacenters now need to be specific in the `datacenters.yaml` with a value of `{}`, e.G `bringyourown: {}`
+- **ACTION REQUIRED:** Velero does not backup Prometheus, Elasticsearch and Minio by default anymore.
 - The deprecated nodePortPoxy key for Helm values has been removed.
 - Support setting oidc authentication settings on cluster
 - The worker-count of controller-manager and master-controller are now configurable
