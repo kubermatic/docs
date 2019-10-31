@@ -2,7 +2,6 @@
 title = "Seed Clusters"
 date = 2019-10-21T12:07:15+02:00
 weight = 10
-draft = true
 pre = "<b></b>"
 +++
 
