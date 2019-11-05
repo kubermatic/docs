@@ -6,6 +6,12 @@ weight = 20
 pre = "<b></b>"
 +++
 
+## v2.12.1
+
+- VSphere: Fixed a bug that resulted in a faulty cloud config when using a non-default port
+- Fixed master-controller failing to create project-label-synchronizer controllers.
+- Fixed broken NodePort-Proxy for user clusters with LoadBalancer expose strategy.
+
 ## v2.12.0
 
 Supported Kubernetes versions:
