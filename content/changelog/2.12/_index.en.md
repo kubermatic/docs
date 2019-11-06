@@ -50,6 +50,7 @@ Supported Kubernetes versions:
 - It is now possible to configure an http proxy on a Seed. This will result in the proxy being used for all control plane pods in that seed that talk to a cloudprovider and for all machines in that Seed, unless its overriden on Datacenter level.
 - The cert-manager Helm chart now allows configuring extra values for its controllers args and env vars.
 - A fix for CVE-2019-11253 for clusters that were created with a Kubernetes version &lt; 1.14 was deployed
+- The memory requests and limits of the Kubermatic API were increased, because the port-fowarding used for the Kubernetes Dashboard and Openshift Console is very memory-intensive
 
 **Monitoring and logging:**
 
