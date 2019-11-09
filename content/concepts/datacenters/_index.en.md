@@ -152,6 +152,9 @@ datacenters:
           ubuntu: "ubuntu-template"
           centos: "centos-template"
           coreos: "coreos-template"
+      requiredEmailDomains:
+      - "loodse.com"
+      - "example.com"
 
   #==================================
   #============= Azure ==============
