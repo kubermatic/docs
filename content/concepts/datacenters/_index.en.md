@@ -152,6 +152,9 @@ datacenters:
           ubuntu: "ubuntu-template"
           centos: "centos-template"
           coreos: "coreos-template"
+      requiredEmailDomains:
+      - "loodse.com"
+      - "example.com"
 
   #==================================
   #============= Azure ==============
@@ -201,7 +204,8 @@ The datacenter structure contains the following fields:
   - `country` -- Country code of the DC location. It's purely cosmetic and reflected by a flag shown in the UI.
   - `location` -- Name of the DC's location.
   - `provider` -- Name of the providing entity. Optional.
-  - `requiredEmailDomain` -- Optional. Limits the availability of the datacenter to users with email addresses in the given domain.
+  - `requiredEmailDomain` -- (deprecated since v2.13) Optional string. Limits the availability of the datacenter to users with email addresses in the given domain.
+  - `requiredEmailDomains` -- (since v2.13) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
   - `digitalocean` -- Cloud-specific configuration for DigitalOcean DCs.
   - `bringyourown` -- Specifies a DC that doesn't use any cloud-provider-specific features
   - `aws` -- Cloud-specific configuration for AWS DCs.
