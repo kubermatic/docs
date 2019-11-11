@@ -119,8 +119,6 @@ datacenters:
           coreos: "ami-08e58b93705fb503f"
         # Region to use for nodes
         region: us-east-1
-        # Character of the zone in the given region
-        zone_character: a
 
   #==================================
   #============ Hetzner =============
