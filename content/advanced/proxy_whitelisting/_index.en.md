@@ -8,6 +8,10 @@ pre = "<b></b>"
 
 To enable Kubermatic behind a proxy environment, the following targets need to be reachable.
 
+{{% notice note %}}
+If you use the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode), images will get pulled from the defined private registry (e.g. `172.20.0.2:5000`) instead of the public registries. For more details see the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode) section.
+{{% /notice %}}
+
 ## Kubermatic Machine Controller
 
 Resources pulled on machine controller nodes
@@ -72,11 +76,6 @@ quay.io/coreos/flannel
 quay.io/coreos/kube-rbac-proxy
 quay.io/coreos/container-linux-update-operator
 ```
-{{% notice note %}}
-If you use the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode), images will get pulled from the defined private registry (e.g. `172.20.0.2:5000`) instead of the public registries. This means, that some above mentioned whitelistings are maybe not required. As result the following images will get pulled from the private registry:
- <br/>- kubelet pause image:`172.20.0.2:5000/kubernetes/pause`
- <br/>- hyperkube image: `172.20.0.2:5000/kubernetes/hyperkube-amd64`
-{{% /notice %}}
 
 ## OS resources
 Some os specific resources get installed over cloud-init:
