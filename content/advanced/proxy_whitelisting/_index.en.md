@@ -5,7 +5,6 @@ weight = 7
 pre = "<b></b>"
 +++
 
-
 To enable Kubermatic behind a proxy environment, the following targets need to be reachable.
 
 {{% notice note %}}
@@ -16,7 +15,7 @@ If you use the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/off
 
 Resources pulled on machine controller nodes
 
-### kubelet - binary:
+### kubelet - binary
 
 The machine controller is downloading a few components to install the kubelet, see [download_binaries_script.go](https://github.com/kubermatic/machine-controller/blob/master/pkg/userdata/helper/download_binaries_script.go):
 
@@ -37,6 +36,7 @@ https://raw.githubusercontent.com/kubermatic/machine-controller/
 After kubelet starts, it needs a few more images to work in a proper way:
 
 **`gcr.io`:**
+
 ```bash
 # ContainerLinux requires the hyperkube image
 gcr.io/google_containers/hyperkube-amd64
@@ -45,13 +45,15 @@ gcr.io/google_containers/hyperkube-amd64
 gcr.io/google_containers/k8s-dns-node-cache
 ```
 
-**`k8s.gcr.io`**:
+**`k8s.gcr.io`:**
+
 ```bash
 # Every Kubelet requires the pause container: 
 k8s.gcr.io/pause
 ```
 
-**`docker.io`**:
+**`docker.io`:**
+
 ```bash
 # calico overlay
 calico/node
@@ -63,7 +65,8 @@ coredns/coredns
 fluent/fluent-bit
 ```
 
-**`quay.io`**:
+**`quay.io`:**
+
 ```bash
 # util container for debuging or custom controller
 quay.io/kubermatic/util
@@ -80,12 +83,12 @@ quay.io/coreos/container-linux-update-operator
 ## OS resources
 Some os specific resources get installed over cloud-init:
  
-### CentOS 7:
+### CentOS 7
 Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata/centos
 
 - default yum repositories
 
-### CoreOS:
+### CoreOS
 Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata/coreos
 
 - no additional targets 
@@ -96,7 +99,6 @@ Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/us
 - default apt repositories
 - docker apt repository: `download.docker.com/linux/ubuntu`
 
-
 # Kubermatic seed cluster setup 
 
 ## Cloud provider API endpoints
@@ -105,7 +107,7 @@ Kubermatic interacts with the different cloud provider directly to provision the
 ### AWS
 API Endpoint documentation: https://docs.aws.amazon.com/general/latest/gr/rande.html
 
-Kubermatic interact in serveral ways with different cloud provider, e.g.:
+Kubermatic interact in several ways with different cloud provider, e.g.:
 - creating EC2 instances
 - creating security groups
 - access instance profiles
