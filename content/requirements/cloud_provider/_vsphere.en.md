@@ -17,9 +17,9 @@ When creating worker nodes for a user cluster, the user can specify an existing 
 
 Supported operating systems
 
-* Ubuntu 16.04 (Kubermatic 2.6 or older) [ova](https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-amd64.ova)
-* Ubuntu 18.04 (Kubermatic 2.7+) [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
+* Ubuntu 18.04 [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
 * CoreOS  [ova](https://stable.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova)
+* CentOS 7 [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
 
 #### Importing the OVA
 
@@ -35,6 +35,12 @@ Supported operating systems
 ```bash
 govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
 ```
+
+#### Importing the QCOW2
+
+1. Convert it to vmdk: `qemu-img convert -f qcow2 -O vmdk CentOS-7-x86_64-GenericCloud.qcow2 CentOS-7-x86_64-GenericCloud.vmdk`
+1. Upload it to a Datastore of your vSphere installation
+1. Create a new virtual machine that uses the uploaded vmdk as rootdisk
 
 #### Modifications
 
@@ -63,25 +69,37 @@ The vsphere user has to have to following permissions on the correct resources:
 * Role `k8c-storage-vmfolder-propagate`
   * Granted at **VM Folder** and **Template Folder**, propagated
   * Permissions
-    * VirtualMachine
-      * Config
-        * AddExistingDisk
-        * AddNewDisk
-        * AddRemoveDevice
-        * RemoveDisk
+    * Virtual machine
+      * Change Configuration
+        * Add existing disk
+        * Add new disk
+        * Add or remove device
+        * Remove disk
+    * Folder
+      * Create folder
+      * Delete dolder
 
 * Role `k8c-storage-datastore-propagate`
   * Granted at **Datastore**, propagated
   * Permissions
     * Datastore
-      * AllocateSpace
-      * FileManagement (Low level file operations)
+      * Allocate space
+      * Low level file operations
 
 * Role `Read-only` (predefined)
   * Granted at ..., **not** propagated
     * Datacenter
 
 #### User Cluster
+
+* Role `k8c-user-vcenter`
+  * Granted at **vcenter** level, **not** propagated
+  * Needed to customize VM during provisioning
+  * Permissions
+    * VirtualMachine
+      * Provisioning
+        * Modify customization specification
+        * Read customization specifications
 
 * Role `k8c-user-datacenter`
   * Granted at **datacenter** level, **not** propagated
@@ -104,18 +122,26 @@ The vsphere user has to have to following permissions on the correct resources:
 
 * Role `k8c-user-cluster-propagate`
   * Granted at **cluster** level, propagated
-  * Needed for upload of `cloud-init.iso`
+  * Needed for upload of `cloud-init.iso` (Ubuntu and CentOS) or defining the Ignition config into Guestinfo (CoreOS)
   * Permissions
     * Host
       * Configuration
         * System Management
+      * Local operations
+        * Reconfigure virtual machine
     * Resource
       * Assign virtual machine to resource pool
+      * Migrate powered off virtual machine
+      * Migrate powered on virtual machine
+    * vApp
+      * vApp application configuration
+      * vApp instance configuration
 
 * Role k8s-network-attach
   * Granted for each network that should be used
   * Permissions
-    * Network -> Attach
+    * Network
+      * Assign network
 
 * Role `k8c-user-datastore-propagate`
   * Granted at **datastore / datastore cluster** level, propagated
@@ -123,9 +149,10 @@ The vsphere user has to have to following permissions on the correct resources:
     * Datastore
       * Allocate space
       * Browse datastore
+      * Low level file operations
 
 * Role `k8c-user-folder-propagate`
-  * Granted at **folder** level, propagated
+  * Granted at **VM Folder** and **Template Folder** level, propagated
   * Needed for managing the node VMs
   * Permissions
     * Folder
@@ -133,19 +160,15 @@ The vsphere user has to have to following permissions on the correct resources:
       * Delete folder
     * Global
       * Set custom attribute
-      * Create folder
     * Virtual machine
-      * Configuration
-        * Add or remove device
+      * Change Configuration
+      * Edit Inventory
+      * Guest operations
       * Interaction
-        * Power Off
-        * Power On
-      * Inventory
-        * Remove
       * Provisioning
-        * Clone virtual machine
       * Snapshot management
-        * Create snapshot
+
+The described permissions have been tested with vSphere 6.7 and might be different for other vSphere versions.
 
 #### Volume detach bug
 
