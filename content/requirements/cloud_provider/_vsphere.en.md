@@ -17,9 +17,9 @@ When creating worker nodes for a user cluster, the user can specify an existing 
 
 Supported operating systems
 
-* Ubuntu 16.04 (Kubermatic 2.6 or older) [ova](https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-amd64.ova)
-* Ubuntu 18.04 (Kubermatic 2.7+) [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
+* Ubuntu 18.04 [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
 * CoreOS  [ova](https://stable.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova)
+* CentOS 7 [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
 
 #### Importing the OVA
 
@@ -35,6 +35,12 @@ Supported operating systems
 ```bash
 govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
 ```
+
+#### Importing the QCOW2
+
+1. Convert it to vmdk: `qemu-img convert -f qcow2 -O vmdk CentOS-7-x86_64-GenericCloud.qcow2 CentOS-7-x86_64-GenericCloud.vmdk`
+1. Upload it to a Datastore of your vSphere installation
+1. Create a new virtual machine that uses the uploaded vmdk as rootdisk
 
 #### Modifications
 
