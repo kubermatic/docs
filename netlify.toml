@@ -2,7 +2,7 @@
 HUGO_VERSION = "0.58.3"
 
 [context.deploy-preview]
-command = "hugo -D -F -b $DEPLOY_PRIME_URL"
+command = "make netlify-preview"
 
 [context.deploy-preview.environment]
 HUGO_VERSION = "0.58.3"
