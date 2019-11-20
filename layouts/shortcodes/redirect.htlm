@@ -1,0 +1,4 @@
+{{ $path := print .Site.BaseURL .Site.Params.redirect }}
+
+
+<meta http-equiv="Refresh" content="0; url={{ $path }}" />
