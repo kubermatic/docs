@@ -6,6 +6,12 @@ weight = 20
 pre = "<b></b>"
 +++
 
+## v2.12.2
+
+- The robustness of vSphere machine reconciliation has been improved.
+- Fixed Seed Validation Webhook rejecting new Seeds in certain situations
+- Rolled nginx-ingress-controller back to 0.25.1 to fix SSL redirect issues.
+
 ## v2.12.1
 
 - VSphere: Fixed a bug that resulted in a faulty cloud config when using a non-default port
