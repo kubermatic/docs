@@ -13,9 +13,9 @@
     <div class="highlightable">
     <ul class="topics">
       {{ range $key, $value := $.Site.Data.version }}
-        {{ if in $.URL $key }}
+        {{ if in $.RelPermalink $key }}
           {{ range $value.versions }}
-            {{ if in $.URL .release }}
+            {{ if in $.RelPermalink .release }}
               {{ $path := print "/" $key "/" .release }}
                 {{ $docVersion := $.Site.GetPage $path}}
                   {{if eq .Site.Params.ordersectionsby "title"}}

@@ -58,18 +58,14 @@
                 {{ end }}
                 {{$toc := (and (not .Params.disableToc) (not .Params.chapter))}}
                 <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
-
-
-
                     {{ range $key, $value := $.Site.Data.version }}
-                      {{ if in $.URL $key }}
+                      {{ if in $.RelPermalink $key }}
                       <div class="select-release">
                         <span>{{ $.Site.Title }} {{ $value.name }} > </span>
-
                         <div class="select-style">
                           <select id="select-release" onchange="location = this.value;">
                         {{ range $value.versions }}
-                            <option value="/{{ $key }}/{{ .release }}/"{{ if in $.URL .release }}selected{{ end }}>{{ .name }}</option>
+                            <option value="/{{ $key }}/{{ .release }}/"{{ if in $.RelPermalink .release }}selected{{ end }}>{{ .name }}</option>
                         {{end}}
                           </select>
                         </div>
