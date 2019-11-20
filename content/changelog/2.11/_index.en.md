@@ -6,6 +6,16 @@ weight = 20
 pre = "<b></b>"
 +++
 
+## v2.11.7
+
+- Kubernetes 1.13 which is end-of-life has been removed.
+- Added Kubernetes v1.15.4
+- Added Kubernetes v1.14.7
+- A bug that prevented node Labels, Taints and Annotations from getting applied correctly was fixed.
+- Removed K8S releases affected by CVE-2019-11253
+- A fix for CVE-2019-11253 for clusters that were created with a Kubernetes version &lt; 1.14 was deployedalvaroaleman))
+- Openstack: fixed API usage for datacenters with only one region
+
 ## v2.11.6
 
 - Fixed a bug that could cause intermittent delays when using kubectl logs/exec with `exposeStrategy: LoadBalancer`
