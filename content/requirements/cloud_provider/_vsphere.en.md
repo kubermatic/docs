@@ -63,6 +63,9 @@ As this Config must also be deployed onto each worker node of a user cluster, it
 ### Permissions
 
 The vsphere user has to have to following permissions on the correct resources:
+{{% notice note %}}
+The described permissions have been tested with vSphere 6.7 and might be different for other vSphere versions.
+{{% /notice %}}
 
 #### Seed Cluster
 
@@ -167,8 +170,6 @@ The vsphere user has to have to following permissions on the correct resources:
       * Interaction
       * Provisioning
       * Snapshot management
-
-The described permissions have been tested with vSphere 6.7 and might be different for other vSphere versions.
 
 #### Volume detach bug
 
