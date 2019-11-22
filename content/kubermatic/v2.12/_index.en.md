@@ -6,10 +6,6 @@ weight = 5
 
 # Welcome to Kubermatic Docs
 
-{{% notice note %}}
-The documentation is currently under development and is constantly being expanded. It is possible that information is missing at this time. If you have any questions that we cannot answer here, we look forward to receiving your email at [info@loodse.com](mailto:info@loodse.com)
-{{% /notice %}}
-
 ## One Enterprise Kubernetes Management Platform For Any Infrastructure
 
 Automate thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Deploy, manage and run multiple Kubernetes clusters with our production-proven platform. On your preferred infrastructure.
