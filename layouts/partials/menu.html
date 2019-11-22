@@ -12,15 +12,25 @@
   </div>
     <div class="highlightable">
     <ul class="topics">
-        {{if eq .Site.Params.ordersectionsby "title"}}
-          {{range .Site.Home.Sections.ByTitle}}
-          {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
-          {{end}}
-        {{else}}
-          {{range .Site.Home.Sections.ByWeight}}
-          {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
-          {{end}}
-        {{end}}
+      {{ range $key, $value := $.Site.Data.version }}
+        {{ if in $.RelPermalink $key }}
+          {{ range $value.versions }}
+            {{ if in $.RelPermalink .release }}
+              {{ $path := print "/" $key "/" .release }}
+                {{ $docVersion := $.Site.GetPage $path}}
+                  {{if eq .Site.Params.ordersectionsby "title"}}
+                    {{range $docVersion.Sections.ByTitle}}
+                    {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
+                    {{end}}
+                  {{else}}
+                    {{range $docVersion.Sections.ByWeight}}
+                    {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
+                  {{end}}
+                {{end}}
+              {{end}}
+            {{end}}
+        {{ end }}
+      {{ end }}
     </ul>
 
     {{ $disableShortcutsTitle := .Site.Params.DisableShortcutsTitle}}
