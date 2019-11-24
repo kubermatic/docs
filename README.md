@@ -43,9 +43,9 @@ Feedback and discussion are available on [the mailing list][11].
 
 
 
-[1]: https://github.com/kubermatic/XXX/issues
-[2]: https://github.com/kubermatic/XXX/blob/master/CONTRIBUTING.md
-[4]: https://github.com/kubermatic/XXX/blob/master/CODE_OF_CONDUCT.md
+[1]: https://github.com/kubermatic/docs/issues
+[2]: https://github.com/kubermatic/docs/blob/master/CONTRIBUTING.md
+[4]: https://github.com/kubermatic/docs/blob/master/CODE_OF_CONDUCT.md
 
 [11]: https://groups.google.com/forum/#!forum/loodse-dev
-[13]: https://github.com/kubermatic/XXX/blob/master/docs/zenhub.md
+[13]: https://github.com/kubermatic/docs/blob/master/docs/zenhub.md

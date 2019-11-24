@@ -35,7 +35,7 @@ are very busy and read the mailing lists.
 
 ##  Reporting a security vulnerability
 
-Due to their public nature, GitHub and mailing lists are not appropriate places for reporting vulnerabilities. If you suspect you have found a security vulnerability in rkt, please do not file a GitHub issue, but instead email security@loodse.com with the full details, including steps to reproduce the issue.
+Due to their public nature, GitHub and mailing lists are not appropriate places for reporting vulnerabilities. If you suspect you have found a security vulnerability, please do not file a GitHub issue, but instead email security@loodse.com with the full details, including steps to reproduce the issue.
 
 
 ## Getting Started
