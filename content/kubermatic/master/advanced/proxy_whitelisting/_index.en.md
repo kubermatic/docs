@@ -121,7 +121,7 @@ ec2.eu-central-1.amazonaws.com
 
 ## Kubeone Seed cluster setup
 
-If [kubeone](https://github.com/kubermatic/kubeone) is used to setup the seed cluster, it will us in addition:
+If [kubeone](https://github.com/kubermatic/kubeone) is used to setup the seed cluster, it will use in addition:
 
 ```bash
 packages.cloud.google.com
@@ -134,8 +134,8 @@ raw.githubusercontent.com
 github.com 
 ```
 
-## Certificate Manager (if used)
-For creating certficates with let's encrypt we need access:
+## Cert-Manager (if used)
+For creating certificates with let's encrypt we need access:
 
 ```bash
 https://acme-v02.api.letsencrypt.org/directory
