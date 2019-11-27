@@ -6,6 +6,11 @@ weight = 20
 pre = "<b></b>"
 +++
 
+## v2.12.3
+
+- Fixed extended cluster options not being properly applied
+- A panic that could occur on clusters that lack both credentials and a credentialsSecret was fixed.
+
 ## v2.12.1
 
 - VSphere: Fixed a bug that resulted in a faulty cloud config when using a non-default port
@@ -43,6 +48,7 @@ Supported Kubernetes versions:
 - **ACTION REQUIRED:** Kubermatic now doesn&#39;t accept unknown keys in its config files anymore and will crash if an unknown key is present
 - **ACTION REQUIRED:** BYO datacenters now need to be specific in the `datacenters.yaml` with a value of `{}`, e.G `bringyourown: {}`
 - **ACTION REQUIRED:** Velero does not backup Prometheus, Elasticsearch and Minio by default anymore.
+- **ACTION REQUIRED:** On AWS, the nodeport-proxy will be recreated as NLB. DNS entries must be updated to point to the new LB.
 - The deprecated nodePortPoxy key for Helm values has been removed.
 - Support setting oidc authentication settings on cluster
 - The worker-count of controller-manager and master-controller are now configurable
