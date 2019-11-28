@@ -5,7 +5,7 @@ weight = 5
 pre = "<b></b>"
 +++
 
-Feature/Capability | KubeOne v0.10.0 | Kubermatic v2.12
+Feature/Capability | KubeOne | Kubermatic
 --- | --- | ---
 Provision Kubernetes Cluster | Run one cluster | Built to operate 1000x of clusters
 Support for HA (multi-node) control-planes | yes | yes
