@@ -6,6 +6,13 @@ weight = 20
 pre = "<b></b>"
 +++
 
+## v2.12.4
+
+- Fixed an issue with adding new node deployments on Openstack
+- Added migration for cluster user labels
+- Added Kubernetes `v1.14.9`, `v1.15.6` and `v1.16.3`
+- Openstack: A bug that caused cluster reconciliation to fail if the controller crashed at the wrong time was fixed
+
 ## v2.12.3
 
 - Fixed extended cluster options not being properly applied
