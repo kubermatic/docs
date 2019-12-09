@@ -59,7 +59,7 @@ helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kub
 In case you want to set a custom registry for all addons, you can specify the `-overwrideRegistry` flag on the `kubermatic-controller-manager` or via the helm setting `kubermatic.controller.overwriteRegistry`.
 It will set the specified registry on all control plane components & addons.
 
-### Accessible addons
+### Accessible Addons
 Accessible addons can be installed in each user-cluster in Kubermatic on user demand. If addon is both default
 and accessible then it will be installed in user-cluster but also visible to the user, who can manage it from the UI
 like other accessible addons. The accessible addons are:
@@ -181,7 +181,7 @@ After applying above config the UI should look like below:
    helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic
    ```
 
-#### Template variables
+#### Template Variables
 
 All cluster object variables can be used in all addon manifests. Specific template variables and functions used in default templates:
 
