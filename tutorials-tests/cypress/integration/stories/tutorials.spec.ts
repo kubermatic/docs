@@ -7,6 +7,7 @@ import {ClustersPage} from "../../pages/clusters.po";
 import {WizardPage} from "../../pages/wizard.po";
 import {wait} from "../../utils/wait";
 import {Datacenter, Provider} from "../../utils/provider";
+import {NodeDeploymentDetailsPage} from "../../pages/node-deployment-details.po";
  
 describe('Tutorials Story', () => {
   const email = Cypress.env('KUBERMATIC_DEX_DEV_E2E_USERNAME');
@@ -16,6 +17,8 @@ describe('Tutorials Story', () => {
   const sshKey = Cypress.env('SSH_RSA_KEY');
   const clusterName = prefixedString('e2e-test-cluster');
   const digitaloceanToken = Cypress.env('DO_E2E_TESTS_TOKEN');
+  const initialNodeDeploymentName = prefixedString('e2e-test-nd');
+  const initialNodeDeploymentReplicas = '1';
   
   before(() => {
     cy.clearCookies();
@@ -53,6 +56,8 @@ describe('Tutorials Story', () => {
     WizardPage.getDatacenterBtn(Datacenter.Frankfurt).click();
     WizardPage.getDigitalOceanTokenInput().type(digitaloceanToken).should(Condition.HaveValue, digitaloceanToken);
     wait('**/providers/digitalocean/sizes');
+    WizardPage.getNodeNameInput().type(initialNodeDeploymentName).should(Condition.HaveValue, initialNodeDeploymentName);
+    WizardPage.getNodeCountInput().clear().type(initialNodeDeploymentReplicas).should(Condition.HaveValue, initialNodeDeploymentReplicas);
     WizardPage.getNextBtn().click();
     WizardPage.getCreateBtn().click();
     cy.url().should(Condition.Contain, '/clusters');
@@ -61,6 +66,28 @@ describe('Tutorials Story', () => {
   it('should check if cluster was created', () => {
     ClustersPage.visit();
     ClustersPage.getTable().should(Condition.Contain, clusterName);
+  });
+
+  it('tutorials 08.1: should update node deployments', () => {
+    ClustersPage.getClusterItem(clusterName).click();
+    wait('**/nodedeployments', 'GET', 'getNodeDeployments', 900000);
+    cy.get('kubermatic-node-deployment-list', {timeout: 900000}).should(Condition.Contain, initialNodeDeploymentName);
+    ClustersPage.getTableRowNodeDeploymentNameColumn(initialNodeDeploymentName).click();
+    NodeDeploymentDetailsPage.getNodeDeploymentNameElement().should(Condition.Contain, initialNodeDeploymentName);
+    NodeDeploymentDetailsPage.getNodeDeploymentClusterNameElement().should(Condition.Contain, clusterName);
+
+  });
+
+
+  it('tutorials 08.2: should go back to cluster details page and remove initial node deployment', () => {
+    NodeDeploymentDetailsPage.getBackToClusterBtn().click();
+    cy.url().should(Condition.Contain, '/clusters');
+    cy.get('mat-card-title').should(Condition.Contain, clusterName);
+    cy.get('kubermatic-node-deployment-list').should(Condition.Contain, initialNodeDeploymentName);
+
+    ClustersPage.getNodeDeploymentRemoveBtn(initialNodeDeploymentName).click();
+    ClustersPage.getDeleteNodeDeploymentDialogBtn().click();
+    ClustersPage.getTableRowNodeDeploymentNameColumn(initialNodeDeploymentName).should(Condition.NotExist);
   });
 
   it('should delete created cluster', () => {
