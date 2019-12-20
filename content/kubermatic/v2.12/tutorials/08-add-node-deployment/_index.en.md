@@ -1,4 +1,10 @@
-## Add new node deployment
++++ 
+title = "Node deployments" 
+date = 2019-12-16T12:07:15+02:00 
+weight = 80 
++++
+
+## Add a new node deployment
 
 To add a new node deployment navigate to your cluster view and click on the `Add Node Deployment` button:
 
@@ -8,7 +14,7 @@ In the popup you can then choose the number of nodes (replicas), kubelet version
 
 ## Edit the node deployment
 
-To add or delete a worker node you can easily edit the node deployment in your cluster. Navigate to the cluster overview scroll down to `Node Deployments` and click on the edit icon next to the node deployment you want to edit:
+To add or delete a worker node you can easily edit the node deployment in your cluster. Navigate to the cluster overview, scroll down to `Node Deployments` and click on the edit icon next to the node deployment you want to edit:
 
 ![Node deployment overview with highlighted edit button](08-manage-node-deployments-edit.png)
 
