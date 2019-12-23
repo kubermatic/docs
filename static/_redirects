@@ -1,0 +1,7 @@
+# These rules will change if you change your site’s custom domains or HTTPS settings
+
+# Redirect domain aliases to primary domain
+https://docs.kubermatic.io/* https://docs.loodse.com/:splat 301!
+
+# Optional: Redirect default Netlify subdomain to primary domain
+https://cranky-newton-4e6ed2.netlify.com/* https://docs.loodse.com/:splat 301!
