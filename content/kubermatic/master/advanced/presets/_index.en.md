@@ -11,7 +11,7 @@ With Presets you can specify default settings for new Cluster. Use Presets to re
 
 ### Core concept
 
-As a Kubermatic administrator with superuser access, you can define Presets type in a standard format using static YAML
+As a Kubermatic administrator with superuser access, you can define Presets type in a standard format using a static YAML
 file or Kubernetes Custom Resource Definition (CRD) struct that represents the Preset, allowing the assignment of new
 credential types to supported providers. This allows you to define a custom credential type that works in ways similar
 to existing credential types. For example, you could create a custom credential type that injects access keys, passwords
@@ -27,10 +27,19 @@ If the Preset name is used together with standard credentials the preset is take
 
 ### Prerequisites
 
-A presets are optional for Kubermatic API. The Kubermatic API takes a flags:
+Presets are optional for the Kubermatic API. The Kubermatic API takes the flags:
 
 - `presets` The optional file path for a YAML file containing presets.
 - `dynamic-presets` The optional flag to enable dynamic presets. This parameter has a higher priority than `presets`.
+ 
+Those flags can be configured using Helm values:
+```yaml
+kubermatic:
+  # base64 encoded presets.yaml. Predefined presets for all supported providers.
+  presets: ""
+  # Whether to load the presets from CRDs dynamically during runtime
+  dynamicPresets: false
+```
  
 
 ### Examples
@@ -74,8 +83,8 @@ presets:
         kubevirt:
           kubeconfig:
 ```
-This file defines credentials for all listed providers. The accessible name for this preset is `example`. The only user
-with `example.com` domain can see this preset. Lack of the `requiredEmailDomain` field makes the preset available for everyone.
+This file defines credentials for all listed providers. The accessible name for this preset is `example`. Only users with
+`example.com` domain can see this preset. Lack of the `requiredEmailDomain` field makes the preset available for everyone.
 This file can be also extended for the new item with a different preset name.
  
 Another example shows the CRD structure:
