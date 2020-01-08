@@ -5,9 +5,10 @@ weight = 8
 pre = "<b></b>"
 +++
 
-Addons are specific services and tools extending functionality of Kubernetes.
+Addons are specific services and tools extending the functionality of Kubernetes.
 
 ### Default Addons
+
 Default addons are installed in each user-cluster in Kubermatic. The default addons are:
 
 * [Canal](https://github.com/projectcalico/canal): policy based networking for cloud native applications
@@ -60,9 +61,10 @@ In case you want to set a custom registry for all addons, you can specify the `-
 It will set the specified registry on all control plane components & addons.
 
 ### Accessible Addons
-Accessible addons can be installed in each user-cluster in Kubermatic on user demand. If addon is both default
-and accessible then it will be installed in user-cluster but also visible to the user, who can manage it from the UI
-like other accessible addons. The accessible addons are:
+
+Accessible addons can be installed in each user-cluster in Kubermatic on user demand. If an addon is both default
+and accessible, then it will be installed in the user-cluster, but also be visible to the user, who can manage it from
+the UI like the other accessible addons. The accessible addons are:
 
 * [node-exporter](https://github.com/prometheus/node_exporter): Exports metrics from the node
 
@@ -71,14 +73,14 @@ Accessible addons can be managed in the UI from the cluster details view:
 ![View](/img/advanced/addons/view.png)
 
 #### Configuration
-To configure which addons shall be accessible, set the following settings in the `values.yaml` for the kubermatic chart:
+To configure which addons shall be accessible, set the following settings in the `values.yaml` for the Kubermatic chart:
 
 ```yaml
 kubermatic:
   api:
-      # List of optional addons that can be installed into every user-cluster. All need to exist in the addons image.
-      accessibleAddons:
-      - node-exporter
+    # List of optional addons that can be installed into every user-cluster. All need to exist in the addons image.
+    accessibleAddons:
+    - node-exporter
 ```
 
 Accessible addons are configured by the `AddonConfig` custom resources with the same names as the addons that are
