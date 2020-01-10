@@ -1,10 +1,17 @@
 +++
 title = "Changelog for Kubermatic 2.12"
-date = 2019-09-18T00:07:15+02:00
+date = 2020-01-10T00:07:15+02:00
 publishDate = 2019-07-12T00:00:00+00:00
 weight = 20
 pre = "<b></b>"
 +++
+
+## v2.12.5
+
+- A bug that occasionally resulted in a `Error: no matches for kind "MachineDeployment" in version "cluster.k8s.io/v1alpha1"` visible in the UI was fixed.
+- A memory leak in the port-forwarding of the Kubernetes dashboard and Openshift console endpoints was fixed
+- Enabled edit options for kubeAdm
+
 
 ## v2.12.4
 
