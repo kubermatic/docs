@@ -1,6 +1,6 @@
 +++
 title = "Adding the Custom Links to the Dashboard"
-date = 2018-06-21T14:07:15+02:00
+date = 2020-01-12T10:45:00+02:00
 weight = 1
 pre = "<b></b>"
 +++
@@ -11,7 +11,7 @@ be displayed in the application menu. Following section describes how to configu
 ## Adding the Custom Links
 
 Custom links should be specified in the `config.json` file, that is part of the application configuration.
-Check the [Creating the Master Cluster `values.yaml`](/installation/install_kubermatic/_manual/#creating-the-master-cluster-values-yaml)
+Check the [Creating the Master Cluster `values.yaml`](/kubermatic/v2.12/installation/install_kubermatic/_manual/#creating-the-master-cluster-values-yaml)
 to find out how to specify the Dashboard's config.
 
 Definition of a single custom link consists of three fields:
