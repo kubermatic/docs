@@ -16,7 +16,7 @@ Restoring a etcd requires manual intervention.
 As the StatefulSet needs to be modified, the affected cluster needs to be removed from the controllers management:
 
 ```bash
-# set cluster.spec.paused=true
+# set cluster.spec.pause=true
 kubectl edit cluster xxxxxxxxxx
 ```
 
@@ -76,7 +76,7 @@ etcdctl snapshot restore snapshot.db \
 To let the kubermatic-controller-manager update the etcd to normal state, un-pause it.
 
 ```bash
-# set cluster.spec.paused=false
+# set cluster.spec.pause=false
 kubectl edit cluster xxxxxxxxxx
 ```
 
