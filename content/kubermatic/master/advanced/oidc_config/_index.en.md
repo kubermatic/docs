@@ -39,7 +39,7 @@ Where:
 
 The default configuration can be changed as Kubermatic supports other OIDC providers as well.
 Configuration can be found in the `config.json` file, that is part of the application
-configuration. Check the [Creating the Master Cluster `values.yaml`](/installation/install_kubermatic/_manual/#creating-the-master-cluster-values-yaml)
+configuration. Check the [Creating the Master Cluster `values.yaml`](../../installation/install_kubermatic/_manual/#creating-the-master-cluster-values-yaml)
 to find out how to specify the config.
 
 In the config it is allowed to specify two optional parameters:

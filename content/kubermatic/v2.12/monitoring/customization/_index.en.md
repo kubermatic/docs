@@ -11,7 +11,7 @@ When it comes to monitoring, no approach fits all usecases. It's exptected that 
 * alertmanager rules
 * Grafana dashboards
 
-You will want to familiarize yourself with the [basic architecture](/monitoring/architecture/) before reading any further.
+You will want to familiarize yourself with the [basic architecture](../architecture/) before reading any further.
 
 ## Customer-Cluster Prometheus
 
@@ -128,9 +128,9 @@ For large deployments with many independently managed rules you can make use of 
 ```yaml
 prometheus:
   volumes:
-  - name: initech-rules-volume
-    mountPath: /initech/rules
-    configMap: initech-rules
+  - name: example-rules-volume
+    mountPath: /example/rules
+    configMap: example-rules
 ```
 
 After mounting the files into the pod you need to make sure that Prometheus loads them by extending the `ruleFiles` list:
@@ -139,7 +139,7 @@ After mounting the files into the pod you need to make sure that Prometheus load
 prometheus:
   ruleFiles:
   - '/etc/prometheus/rules/*.yaml'
-  - '/initech/rules/*.yaml'
+  - '/example/rules/*.yaml'
 ```
 
 Managing the `ruleFiles` is also the way to disable the predefined rules by just removing the applicable item from the list. You can also keep the list completely empty to disable any and all alerts.
@@ -198,10 +198,10 @@ grafana:
     dashboards:
       extra:
       # list your new datasources here
-      - folder: "Initech Resources"
-        name: "initech"
+      - folder: "Example Resources"
+        name: "example"
         options:
-          path: /initech/dashboards
+          path: /example/dashboards
         org_id: 1
         type: file
 ```
@@ -210,9 +210,9 @@ Customizing the providers is especially important if you want to also add your o
 
 ### Dashboards
 
-Just like with datasources and providers, new dashboards can be placed in the existing `dashboards/` directory. Do note though that if you create a new folder (like `dashboards/initech/`), you also must create a new dashboard provider to tell Grafana about it. Your dashboards will be loaded and included in the default ConfigMap, but without the new provider Grafana will not see them.
+Just like with datasources and providers, new dashboards can be placed in the existing `dashboards/` directory. Do note though that if you create a new folder (like `dashboards/example/`), you also must create a new dashboard provider to tell Grafana about it. Your dashboards will be loaded and included in the default ConfigMap, but without the new provider Grafana will not see them.
 
-Following the example above, if you put your dashboards in `dashboards/initech/`, you need a dashboard provider with the `options.path` set to `/grafana-dashboard-definitions/initech`, because the ConfigMap is mounted to `/grafana-dashboard-definitions`.
+Following the example above, if you put your dashboards in `dashboards/example/`, you need a dashboard provider with the `options.path` set to `/grafana-dashboard-definitions/example`, because the ConfigMap is mounted to `/grafana-dashboard-definitions`.
 
 You can also use your own ConfigMaps or Secrets and have the Grafana deployment mount them. This is useful for larger customizations with lots of dashboards that you want to manage independently. To use an external ConfigMap, create it like so:
 
@@ -220,7 +220,7 @@ You can also use your own ConfigMaps or Secrets and have the Grafana deployment 
 - apiVersion: v1
   kind: ConfigMap
   metadata:
-    name: initech-dashboards
+    name: example-dashboards
   data:
     dashboard1.json: |
       { ... Grafana dashboard JSON here ... }
@@ -234,9 +234,9 @@ Make sure to create your ConfigMap in the `monitoring` namespace and then use th
 ```yaml
 grafana:
   volumes:
-  - name: initech-dashboards-volume
-    mountPath: /grafana-dashboard-definitions/initech
-    configMap: initech-dashboards
+  - name: example-dashboards-volume
+    mountPath: /grafana-dashboard-definitions/example
+    configMap: example-dashboards
 ```
 
 Using a Secret instead of a ConfigMap works identically, just specify `secretName` instead of `configMap` in the `volumes` section.
