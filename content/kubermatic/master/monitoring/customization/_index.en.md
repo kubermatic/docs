@@ -11,7 +11,7 @@ When it comes to monitoring, no approach fits all usecases. It's exptected that 
 * alertmanager rules
 * Grafana dashboards
 
-You will want to familiarize yourself with the [basic architecture](/monitoring/architecture/) before reading any further.
+You will want to familiarize yourself with the [basic architecture](../architecture/) before reading any further.
 
 ## Customer-Cluster Prometheus
 

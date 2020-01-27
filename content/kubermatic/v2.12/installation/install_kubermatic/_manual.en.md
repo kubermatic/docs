@@ -136,7 +136,7 @@ values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.
 
 ##### Alternative Authentication provider
 
-If you don't use Dex as authentication provider, see [OIDC provider Configuration](/advanced/oidc_config/) you will need to configure for every service a dedicated redirect URI:
+If you don't use Dex as authentication provider, see [OIDC provider Configuration](../../../advanced/oidc_config/) you will need to configure for every service a dedicated redirect URI:
 Each service should have its own credentials. This means that is required to create an OAuth App with redirects for every service:
 
 * kubermatic
