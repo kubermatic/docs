@@ -7,7 +7,7 @@ pre = "<b></b>"
 
 ### Update list of selectable Kubernetes versions
 
-The list of selectable versions when [specifying cluster name and Kubernetes version](/getting_started/create_cluster/#step-2-specify-the-cluster-name-and-kubernetes-version) is defined in the file
+The list of selectable versions when [specifying cluster name and Kubernetes version](../../getting_started/create_cluster/#step-2-specify-the-cluster-name-and-kubernetes-version) is defined in the file
 `versions.yaml`. You'll find it in your Kubermatic installer clone directory:
 
 ```bash

@@ -10,4 +10,4 @@ To aid in setting up the seed and master clusters, we provide [KubeOne](https://
 Refer to the [KubeOne readme](https://github.com/kubermatic/kubeone/) and [documentation](https://github.com/kubermatic/kubeone/tree/master/docs) for details on
 how to use it.
 
-Please take note of the [recommended hardware and networking requirements](/requirements/cluster_requirements/) before provisioning a cluster.
+Please take note of the [recommended hardware and networking requirements](../../requirements/cluster_requirements/) before provisioning a cluster.

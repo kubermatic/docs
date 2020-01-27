@@ -65,6 +65,6 @@ If you have more than one network adapter, and your Kubernetes components are no
 | TCP      | Inbound   | 10255       | Read-only Kubelet API |
 | TCP      | Inbound   | 30000-32767 | NodePort Services**   |
 
-** Default port range for [NodePort Services](/docs/concepts/services-networking/service/).
+** Default port range for [NodePort Services](https://kubernetes.io/docs/concepts/services-networking/service/).
 
 Any port numbers marked with * are overridable, so you will need to ensure any custom ports you provide are also open.

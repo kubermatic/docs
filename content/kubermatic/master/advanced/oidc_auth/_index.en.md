@@ -11,7 +11,7 @@ The purpose of this feature is to allow using an OIDC provider like `dex` to aut
 managed by Kubermatic. This feature can be used to share access to a cluster with other users.
 
 {{% notice note %}}
-**Note:** This feature is **experimental** and not enabled by default. See the [prerequisites](/advanced/oidc_auth/#prerequisites)
+**Note:** This feature is **experimental** and not enabled by default. See the [prerequisites](#prerequisites)
 section for instruction on how to enable this for your installation.
 {{% /notice %}}
 
@@ -21,7 +21,7 @@ This section will demonstrate how to obtain and use the `kubeconfig` to connect 
 Note that the user to which the `kubeconfig` is shared will not have any permissions inside that shared cluster unless explicitly granted
 by creating appropriate [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac) bindings.
 
-In order to demonstrate the feature we are going to need a working cluster. If you don't have one please check the [how to create a cluster](/getting_started/create_cluster/) section.
+In order to demonstrate the feature we are going to need a working cluster. If you don't have one please check the [how to create a cluster](../../getting_started/create_cluster/) section.
 If the feature was enabled on your installation you should see a "Share cluster" button after navigating to "Cluster details" page.
 
 ![Kubermatic cluster details share cluster button](/img/advanced/oidc_auth/share_cluster_button.png)
@@ -88,7 +88,7 @@ The value for `.Values.kubermatic.auth.issuerCookieKey` can be randomly generate
 ```
 
 {{% notice note %}}
-Note that `.Values.kubermatic.auth.caBundle` must contain OIDC provider's root CA certificates chain, see [Root CA certificates chain](/advanced/oidc_auth/#root-ca-certificates-chain) section that explains how to create the file.
+Note that `.Values.kubermatic.auth.caBundle` must contain OIDC provider's root CA certificates chain, see [Root CA certificates chain](#root-ca-certificates-chain) section that explains how to create the file.
 {{% /notice %}}
 
 `conifg.json` file for `kubermatic-dashboard` must contain `"share_kubeconfig":true`.
