@@ -6,11 +6,11 @@ approvers:
   - team-kubecarrier
   - toschneck
   - themue
-  - scheels
+  - scheeles
 
 reviewers:
   - team-lifecycle
   - team-ui
   - team-kubecarrier  
   - team-ps
-  - scheels  
+  - scheeles  
