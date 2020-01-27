@@ -1,27 +1,16 @@
+# See the OWNERS docs: https://git.k8s.io/community/contributors/guide/owners.md
+
 approvers:
-- alvaroaleman
-- kdomanski
-- nikhita
-- thz
-- kron4eg
-- xrstf
-- thetechnick
-- kgroschoff
-- maciaszczykm
-- zreigz
-- floreks
-- scheeles 
+  - team-lifecycle
+  - team-ui
+  - team-kubecarrier
+  - toschneck
+  - themue
+  - scheels
 
 reviewers:
-- alvaroaleman
-- kdomanski
-- nikhita
-- thz
-- kron4eg
-- xrstf
-- thetechnick
-- kgroschoff
-- maciaszczykm
-- zreigz
-- floreks
-- scheeles 
+  - team-lifecycle
+  - team-ui
+  - team-kubecarrier  
+  - team-ps
+  - scheels  
