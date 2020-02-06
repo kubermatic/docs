@@ -69,19 +69,6 @@ dex:
     RedirectURIs:
     - "https://<your domain here>"
     - "https://<your domain here>/projects"
-
-kubermatic:
-  # This is the base64 encoded Docker Pull Secret provided by Loodse. To create it, you can
-  # put the Docker Pull Secret (JSON) into a file and then run `base64 docker-auth.json -w0`.
-  imagePullSecretData: "<base64 encoded pull secret>"
-
-# The nodeport-proxy is required only on seed clusters.
-# For a master cluster setup this is ignored.
-nodePortProxy:
-  image:
-    # There are no tagged releases of the Operator available currently, so this should be the
-    # newest Docker image tag found on https://quay.io/repository/kubermatic/api?tab=tags
-    tag: "<sha1 hash here>"
 ```
 
 Check the [Helm charts](https://github.com/kubermatic/kubermatic-installer/tree/release/v2.12/charts)
@@ -110,18 +97,32 @@ You need to point your primary domain to the nginx-ingress-controller LoadBalanc
 
 #### Install CRDs
 
-Kubermatic ships with a number of Custom Resource Definitions (CRDs) that need to be installed:
+Kubermatic ships with a number of Custom Resource Definitions (CRDs) that need to be installed. They are available
+in the kubermatic-installer repo as well:
 
 ```bash
-kubectl apply -f kubermatic-crds.yaml
+kubectl apply -f manifests/kubermatic-crds.yaml
 ```
 
 #### Install Kubermatic Operator
 
-Now we can finally install the operator itself:
+Now we can finally install the operator itself, again with the manifest from the kubermatic-installer repository:
 
 ```bash
-kubectl apply -f kubermatic-operator.yaml
+kubectl apply -f manifests/kubermatic-operator.yaml
+```
+
+You also need to create a `dockercfg` Secret with the Docker credentials. The Secret should look like this:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dockercfg
+  namespace: kubermatic
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: <base64 encoded Docker config JSON here>
 ```
 
 Note that the operator is only installed into master clusters and will manage seed clusters from there.
