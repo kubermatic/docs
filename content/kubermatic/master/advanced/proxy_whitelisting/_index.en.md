@@ -48,7 +48,7 @@ gcr.io/google_containers/k8s-dns-node-cache
 **`k8s.gcr.io`:**
 
 ```bash
-# Every Kubelet requires the pause container: 
+# Every Kubelet requires the pause container:
 k8s.gcr.io/pause
 ```
 
@@ -82,7 +82,7 @@ quay.io/coreos/container-linux-update-operator
 
 ## OS resources
 Some os specific resources get installed over cloud-init:
- 
+
 ### CentOS 7
 Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata/centos
 
@@ -91,7 +91,7 @@ Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/us
 ### CoreOS
 Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata/coreos
 
-- no additional targets 
+- no additional targets
 
 ### Ubuntu 18.04
 Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata/ubuntu
@@ -99,7 +99,7 @@ Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/us
 - default apt repositories
 - docker apt repository: `download.docker.com/linux/ubuntu`
 
-# Kubermatic seed cluster setup 
+# Kubermatic seed cluster setup
 
 ## Cloud provider API endpoints
 Kubermatic interacts with the different cloud provider directly to provision the required infrastructure to manage Kubernetes clusters:
@@ -119,9 +119,9 @@ s3.eu-central-1.amazonaws.com
 ec2.eu-central-1.amazonaws.com
 ```
 
-## Kubeone Seed cluster setup
+## KubeOne Seed cluster setup
 
-If [kubeone](https://github.com/kubermatic/kubeone) is used to setup the seed cluster, it will use in addition:
+If [KubeOne](https://github.com/kubermatic/kubeone) is used to setup the seed cluster, it will use in addition:
 
 ```bash
 packages.cloud.google.com
@@ -131,7 +131,7 @@ storage.googleapis.com
 raw.githubusercontent.com
 
 # needed for coreos
-github.com 
+github.com
 ```
 
 ## Cert-Manager (if used)
