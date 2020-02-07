@@ -11,87 +11,117 @@ With Presets you can specify default settings for new Cluster. Use Presets to re
 
 ### Core concept
 
-As a Kubermatic administrator with superuser access, you can define Presets type in a standard format using a YAML
-definition, allowing the assignment of new credential types to supported providers. This allows you to define a custom
-credential type that works in ways similar to existing credential types. For example, you could create a custom credential
-type that injects access keys, passwords or network settings into Cloud object.
+As a Kubermatic administrator with superuser access, you can define Presets type in a standard format using a static YAML
+file or Kubernetes Custom Resource Definition (CRD) struct that represents the Preset, allowing the assignment of new
+credential types to supported providers. This allows you to define a custom credential type that works in ways similar
+to existing credential types. For example, you could create a custom credential type that injects access keys, passwords
+or network settings into Cloud object.
 
-User can specify credential list with unique names for each provider. The API allows using only credential name and never exposes the credential values.
+Users can specify a credential list with unique names for the group of providers. This credential set can be used for every
+logged in user or can be filtered out by email domain.
+ 
+The API allows using only credential names and never exposes the credential values.
 The proper credential name is used for credential injection.
 
 If the Preset name is used together with standard credentials the preset is taken as a first.
 
 ### Prerequisites
 
-A presets are optional for Kubermatic API. The Kubermatic API takes a flag:
+Presets are optional for the Kubermatic API. The Kubermatic API takes the flags:
 
-- `presets` The optional file path for a file containing presets.
+- `presets` The optional file path for a YAML file containing presets.
+- `dynamic-presets` The optional flag to enable dynamic presets. This parameter has a higher priority than `presets`.
+ 
+Those flags can be configured using Helm values:
+```yaml
+kubermatic:
+  # base64 encoded presets.yaml. Predefined presets for all supported providers.
+  presets: ""
+  # Whether to load the presets from CRDs dynamically during runtime
+  dynamicPresets: false
+```
+ 
 
-### Example
+### Examples
 
-The following example shows the presets structure:
+The following example shows the static presets structure:
 
 ```yaml
 presets:
-  digitalocean:
-    credentials:
-      - name: digitalocean
-        token:
-  azure:
-    credentials:
-      - name: azure
-        tenantId:
-        subscriptionId:
-        clientId:
-        clientSecret:
-        resourceGroup:
-        vnet:
-        subnet:
-        routeTable:
-        securityGroup:
-  aws:
-    credentials:
-      - name: aws
-        accessKeyId:
-        secretAccessKey:
-        vpcId:
-        subnetId:
-        routeTableId:
-        instanceProfileName:
-        securityGroupID:
-  openstack:
-    credentials:
-      - name: openstack
-        username:
-        password:
-        tenant:
-        domain: DEFAULT
-        network:
-        securityGroups:
-        floatingIpPool:
-        routerID:
-        subnetID:
-  hetzner:
-    credentials:
-      - name: default
-        token:
-  vsphere:
-    credentials:
-      - name: default
-        username:
-        password:
-        vmNetName:
-  packet:
-    credentials:
-      - name: default
-        apiKey:
-        projectId:
-        billingCycle:
-  gcp:
-    credentials:
-      - name: default
-        serviceAccount:
-        network:
-        subnetwork:
+  items:
+    - metadata:
+        name: example
+      spec:
+        requiredEmailDomain: "example.com"
+        aws:
+          accessKeyId: 
+          secretAccessKey: 
+          vpcId: 
+        azure:
+          tenantId: 
+          subscriptionId: 
+          clientId: 
+          clientSecret:
+        digitalocean:
+          token: 
+        gcp:
+          serviceAccount:
+        hetzner:
+          token: 
+        openstack:
+          username: 
+          password: 
+          tenant: 
+          domain: DEFAULT
+          floatingIpPool: ext-net
+        packet:
+          apiKey: 
+          projectId: 
+        vsphere:
+          username: 
+          password: 
+        kubevirt:
+          kubeconfig:
+```
+This file defines credentials for all listed providers. The accessible name for this preset is `example`. Only users with
+`example.com` domain can see this preset. Lack of the `requiredEmailDomain` field makes the preset available for everyone.
+This file can be also extended for the new item with a different preset name.
+ 
+Another example shows the CRD structure:
 
+```yaml
+apiVersion: kubermatic.k8s.io/v1
+kind: Preset
+metadata:
+  name: example
+spec:
+  aws:
+    accessKeyId: 
+    secretAccessKey: 
+    vpcId: 
+  azure:
+    tenantId: 
+    subscriptionId: 
+    clientId: 
+    clientSecret: 
+  digitalocean:
+    token: 
+  gcp:
+    serviceAccount: 
+  hetzner:
+    token: 
+  openstack:
+    username: 
+    password: 
+    tenant: 
+    domain: DEFAULT
+    floatingIpPool: ext-net
+  packet:
+    apiKey: 
+    projectId: 
+  vsphere:
+    username: 
+    password:
+  kubevirt:
+    kubeconfig:
 ```
