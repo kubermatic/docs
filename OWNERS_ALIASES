@@ -15,13 +15,13 @@ aliases:
     - floreks
     - nikhita
 
-  team-kubecarrier
+  team-kubecarrier:
     - thetechnick
     - nmiculinic
     - aborilov
-    - jiachengxu    
+    - jiachengxu
 
-  team-ps
+  team-ps:
     - chrkl
     - eqrx
     - erdii
