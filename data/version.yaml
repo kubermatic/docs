@@ -3,6 +3,8 @@ kubermatic:
   versions:
     - release: master
       name: master
+    - release: v2.13
+      name: v2.13
     - release: v2.12
       name: v2.12
 # kubeone:
