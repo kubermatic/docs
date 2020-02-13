@@ -8,8 +8,8 @@ pre = "<b></b>"
 
 ## v2.13.0
 
-
 Supported Kubernetes versions:
+
 - `1.15.5`
 - `1.15.6`
 - `1.15.7`
@@ -22,7 +22,8 @@ Supported Kubernetes versions:
 - `1.17.2`
 - Openshift `v4.1.18`
 
-**Major changes:**
+#### Major changes
+
 - End-of-Life Kubernetes v1.14 is no longer supported.
 - The `authorized_keys` files on nodes are now updated whenever the SSH keys for a cluster are changed
 - Added support for custom CA for OpenID provider in Kubermatic API.
@@ -33,7 +34,8 @@ Supported Kubernetes versions:
 - Added RedHat Enterprise Linux as an OS option (#669)
 - Added SUSE Linux Enterprise Server as an OS option (#659)
 
-**Cloud providers:**
+#### Cloud providers
+
 - Openstack: A bug that caused cluster reconciliation to fail if the controller crashed at the wrong time was fixed
 - Openstack: New Kubernetes 1.16&#43; clusters use the external Cloud Controller Manager and CSI by default
 - vSphere: Fixed a bug that resulted in a faulty cloud config when using a non-default port
@@ -43,8 +45,8 @@ Supported Kubernetes versions:
 - Azure: Node sizes are displayed in size dropdown when creating/updating a node deployment
 - GCP: Networks are fetched from API now
 
+#### Bugfixes
 
-**Bugfixes:**
 - Fixed parsing Kibana's logs in Fluent-Bit
 - Fixed master-controller failing to create project-label-synchronizer controllers.
 - Fixed broken NodePort-Proxy for user clusters with LoadBalancer expose strategy.
@@ -60,7 +62,8 @@ Supported Kubernetes versions:
 - Fixed deleting user-selectable addons from clusters.
 - Fixed node name validation while creating clusters and node deployments
 
-**UI:**
+#### UI
+
 - ACTION REQUIRED: Added logos and descriptions for the addons. In order to see the logos and descriptions addons have to be configured with AddonConfig CRDs with the same names as addons.
 - ACTION REQUIRED: Added application settings view. Some of the settings were moved from config map to the `KubermaticSettings` CRD. In order to use them in the UI it is required to manually update the CRD or do it from newly added UI.
 - Fixed label form validator.
@@ -74,14 +77,16 @@ Supported Kubernetes versions:
 - Restyled some elements in the admin panel.
 - Added separate save indicators for custom links in the admin panel.
 
-**Addons:**
+#### Addons
+
 - The dashboard addon was removed as it's now deployed in the seed and can be used via its proxy endpoint
 - Added default namespace/cluster roles for addons
 - Introduced addon configurations.
 - Fixed addon config get and list endpoints.
 - Added forms for addon variables.
 
-**Misc:**
+#### Misc
+
 - ACTION REQUIRED: Updated cert-manager to 0.12.0. This requires a full reinstall of the chart. See https://cert-manager.io/docs/installation/upgrading/upgrading-0.10-0.11/
 - Updated Alertmanager to 0.20.0
 - Update Kubernetes Dashboard to v2.0.0-rc3
