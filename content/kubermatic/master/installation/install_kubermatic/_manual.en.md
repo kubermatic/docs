@@ -238,17 +238,6 @@ manifests:
 kubectl apply -f charts/kubermatic/crd
 ```
 
-### cert-manager
-
-To properly install the cert-manager, you need to manually label its namespace or else the included webhook will not
-function correctly and your cluster will not be able to request certificates. Make sure to create your desired namespace
-and then label it like so:
-
-```bash
-kubectl create namespace cert-manager
-kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-```
-
 ### Deploying the Helm charts
 
 Install [Helm](https://www.helm.sh/) on you local system and setup Tiller within the cluster.
@@ -293,9 +282,8 @@ helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --valu
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
 
 # For logging stack, ensure that all charts are deployed within the logging namespace
-helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace logging elasticsearch charts/logging/elasticsearch/
-helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace logging fluentbit charts/logging/fluentbit/
-helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace logging kibana charts/logging/kibana/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace logging promtail charts/logging/promtail/
+helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace logging loki charts/logging/loki/
 
 # For monitoring stack
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
@@ -307,7 +295,7 @@ helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --valu
 # optional part of the monitoring stack, only used if you explicitly define scraping rules to monitoring arbitrary targets
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace monitoring blackbox-exporter charts/monitoring/blackbox-exporter/
 
-# cluster backups (etcd and volumes) (requires proper configuration in the chart's values.yaml)
+# optional cluster backups (requires proper configuration in the chart's values.yaml)
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace velero velero charts/backup/velero/
 ```
 

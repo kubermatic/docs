@@ -238,17 +238,6 @@ manifests:
 kubectl apply -f charts/kubermatic/crd
 ```
 
-### cert-manager
-
-To properly install the cert-manager, you need to manually label its namespace or else the included webhook will not
-function correctly and your cluster will not be able to request certificates. Make sure to create your desired namespace
-and then label it like so:
-
-```bash
-kubectl create namespace cert-manager
-kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-```
-
 ### Deploying the Helm charts
 
 Install [Helm](https://www.helm.sh/) on you local system and setup Tiller within the cluster.
