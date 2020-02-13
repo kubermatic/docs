@@ -2,7 +2,7 @@
 title = "Changelog for Kubermatic 2.13"
 date = 2020-01-12T00:00:00+00:00
 publishDate = 2020-01-12T00:00:00+00:00
-weight = 20
+weight = 213
 pre = "<b></b>"
 +++
 
