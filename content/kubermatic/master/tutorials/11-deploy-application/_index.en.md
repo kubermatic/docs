@@ -6,7 +6,7 @@ weight = 110
 
 This tutorial demonstrates how to deploy your application to your cluster. We will deploy a hello world application to your cluster that responds with "Hello Kubernetes!" when you curl it. 
 
-Log into Kubermatic and create a cluster. For this tutorial you will need to see the external IP, be aware that some providers like DigitalOcean do not provide external IPs.
+Log into Kubermatic and [create a cluster](../03-create-cluster/), then [connect to the cluster](../06-download-kubeconfig/). For this tutorial you will need to see the external IP, be aware that some providers like DigitalOcean do not provide external IPs.
 
 We are using a [hello-world app](https://github.com/GoogleCloudPlatform/kubernetes-engine-samples/tree/master/hello-app) whose image is available at gcr.io/google-samples/node-hello:1.0. 
 
@@ -64,5 +64,3 @@ you should get this response:
 ```
 Hello Kubernetes!
 ```
-
-
