@@ -46,3 +46,21 @@ only take a minute for the new certificates to be acquired.
 The `certs` chart can be removed entirely from the cluster. You might also want to manually remove the
 `kubermatic/kubermatic-tls-certificates` Secret, as it will soon expire. If you used the `certs` chart to manage
 non-Kubermatic/IAP certificates, please migrate accordingly as the chart will soon not be published with Kubermatic anymore.
+
+## Addon Templating
+
+Kubermatic 2.14 introduced a stable interface for templating addon manifests. Previously, the exact variables that could be
+used were not documented and could change in between releases.
+
+Please refer to the [addon documentation]({{< ref "../../advanced/addons#manifest-templating" >}}) for more information about
+the available fields. Compared to previous versions, the following are the most noticeable changes:
+
+* `.Cluster` is now a dedicated structure and not the Cluster CRD anymore. The CRD was never meant as a stable interface.
+* `.Kubeconfig` is now `.Cluster.Kubeconfig`.
+* `.MajorMinorVersion` is now `.Cluster.MajorMinorVersion`. The exact version is now also available as `.Cluster.Version`.
+* `.ClusterCIDR` is now `first .Cluster.Network.PodCIDRBlocks`.
+* `.DNSResolverIP` is now `.Cluster.Network.DNSResolverIP`.
+* `.DNSClusterIP` is now `.Cluster.Network.DNSClusterIP`.
+* `.Addon` was removed as it did not contain any relevant information.
+
+If you have custom addons, make sure to review their manifests to ensure they continue to work.
