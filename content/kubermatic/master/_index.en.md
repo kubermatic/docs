@@ -1,10 +1,8 @@
 +++
-title = "Kubermatic"
+title = "Welcome"
 date = 2019-08-26T16:06:34+02:00
 weight = 5
 +++
-
-# Welcome to Kubermatic Docs
 
 ## One Enterprise Kubernetes Management Platform For Any Infrastructure
 
