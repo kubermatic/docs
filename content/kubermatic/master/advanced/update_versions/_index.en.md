@@ -5,60 +5,68 @@ weight = 6
 pre = "<b></b>"
 +++
 
-### Update list of selectable Kubernetes versions
+The list of selectable versions when [specifying cluster name and Kubernetes version]({{< ref "../../getting_started/create_cluster/#step-2-specify-the-cluster-name-and-kubernetes-version" >}}) is defined in the `spec.versions`
+section in the [KubermaticConfiguration]({{< ref "../../concepts/kubermaticconfiguration" >}}) CRD.
 
-The list of selectable versions when [specifying cluster name and Kubernetes version](../../getting_started/create_cluster/#step-2-specify-the-cluster-name-and-kubernetes-version) is defined in the file
-`versions.yaml`. You'll find it in your Kubermatic installer clone directory:
+### Default Versions
+
+The list of default Kubernetes/OpenShift versions is shown in the CRD example linked to previously,
+but it's recommended to retrieve the actual list from the Kubermatic Operator itself.
+
+The operator comes with a `kubermatic-operator-util` tool, which can output a full default
+KubermaticConfiguration:
 
 ```bash
-git clone git@github.com:kubermatic/kubermatic-installer.git
-cd kubermatic-installer/
-ls charts/kubermatic/static/master/
+docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-operator-util defaults
+#apiVersion: operator.kubermatic.io/v1alpha1
+#kind: KubermaticConfiguration
+#metadata:
+#  name: kubermatic
+#  namespace: kubermatic
+#spec:
+#  ...
+#  versions:
+#    kubernetes: ...
+#    openshift: ...
 ```
 
-Inside the versions file the supported releases of Kubernetes as well as the selection of the default
-one are defined. The file format is [YAML](https://yaml.org).
+### Configuring Versions
+
+The structure for Kubernetes and OpenShift versions is identical. Each contains
+
+* `versions` (array) is a list of user-selectable versions. These must be concrete
+  [semantic versions](https://semver.org/), wildcards or ranges are not supported.
+* `default` (string) is the default version for this cluster orchestrator, i.e. one of the
+  items from `versions`.
+* `updates` (array) is a list of allowed upgrade paths for a cluster. Each update consists
+  of the following fields:
+
+  * `from` (string) is a version or version range a cluster must match for this update
+    to be allowed.
+  * `to` (string) is a version or version range that the cluster can be upgraded to.
+  * `automatic` (bool) controls whether an upgrade is performed immediately after applying the
+    configuration. This is useful for force upgrades in case of security patch releases.
+  * `automaticNodeUpgrade` (bool) controls whether worker nodes are updated as well. If this
+    is left to its default (false), only the controlplane will be updated. When set to true,
+    it implies `automatic`.
+
+Each element of the two orchestrators can be overwritten independently, i.e. you can only override
+the list of allowed and default Kubernetes versions, while still relying on the default value for
+the upgrade paths and all default settings for OpenShift by setting:
 
 ```yaml
-versions:
-# Kubernetes 1.14
-- version: "v1.14.0"
-  default: false
-- version: "v1.14.1"
-  default: false
-# Insecure https://github.com/kubernetes/kubernetes/issues/78308
-#- version: "v1.14.2"
-#  default: false
-- version: "v1.14.3"
-  default: true
-# Kubernetes 1.15
-- version: "v1.15.0"
-  default: false
+spec:
+  versions:
+    kubernetes:
+      versions: ['1.16.0', '1.16.2']
+      default: '1.16.2'
 ```
-
-As you can see it is a list containing the two keys `version` and `default`. Here the values of
-`version` are the Kubernetes versions as string and prefixed by the letter "v". They correspondent
-with the tags of the according versions of the Kubernetes repository. The possible values of `default`
-are *true* or *false*, where only one of the versions can be marked as default.
-
-We also list insecure versions, but they are commented out and contain a link to the according issue.
-So they aren't listed in the selection dialog and you can see why.
 
 {{% notice note %}}
-**Note:** Try to keep this tradition when you're adding new Kubernetes releases to the list. This
-way potential later addings don't add missing releases *by accident*.
+It's not possible to add or remove individual elements from the `versions` or `updates` arrays.
+You always have to specify the entire list in the `KubermaticConfiguration`.
 {{% /notice %}}
 
-As *default version* we normally choose the latest patch of the predecessor subversion. While you
-manually still can select any other supported release Kubermatic will recommend this way the most
-mature version to you.
-
-After editing the list Kubermatic has to be upgraded by using `helm`.
-
-```bash
-cd kubermatic-installer/charts/kubermatic
-vim static/master/versions.yaml
-helm upgrade kubermatic .
-```
-
-Afterwards the new version settings are available.
+Edit your KubermaticConfiguration either using `kubectl edit` or editing a local file and applying
+it with `kubectl apply`, the Kubermatic Operator will reconcile the setup and after a few moments
+the new configuration will take effect.
