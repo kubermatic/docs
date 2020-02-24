@@ -5,62 +5,105 @@ weight = 1
 pre = "<b></b>"
 +++
 
-This manual explains how to configure OIDC providers to use them with Kubermatic.
+This manual explains how to configure a custom OIDC provider to use with Kubermatic.
 
-## Default Configuration
+### Default Configuration
 
-By default Kubermatic uses Dex located on the same host, using the following base URL:
+When nothing is configured, Kubermatic uses `https://<domain>/dex` as the OIDC provider
+URL, which by default points to Dex. The domain is taken from the
+[KubermaticConfiguration]({{< ref "../../concepts/kubermaticconfiguration" >}}).
 
-```plaintext
-<PROTOCOL>//<HOST>/dex/auth
+When redirecting users to the OIDC provider for login into the Kubermatic dashboard, Kubermatic
+adds the following parameters to the base URL:
+
+- `&response_type` is set to `id_token`
+- `&client_id` is set to `kubermatic`
+- `&redirect_uri` is set to `https://<domain>/projects` which is root view of the Kubermatic dashboard
+- `&scope` is set to `openid email profile groups`
+- `&nonce` is randomly generated, 32 character string to prevent replay attacks
+
+### Custom Configuration
+
+The default configuration can be changed as Kubermatic supports other OIDC providers as well. This
+involves updating the Kubermatic dashboard and API using the `KubermaticConfiguration` CRD on the
+master cluster. The used configuration can be retrieved using `kubectl`:
+
+```bash
+kubectl -n kubermatic get kubermaticconfigurations
+#NAME         AGE
+#kubermatic   2h
+
+kubectl -n kubermatic get kubermaticconfiguration kubermatic -o yaml
+#apiVersion: operator.kubermatic.io/v1alpha1
+#kind: KubermaticConfiguration
+#metadata:
+#  finalizers:
+#  - operator.kubermatic.io/cleanup
+#  name: kubermatic
+#  namespace: kubermatic
+#spec:
+#  auth:
+#    issuerClientSecret: abcd1234
+#    issuerCookieKey: wxyz9876
+#    serviceAccountKey: 2468mnop
+#  ...
 ```
 
-Where:
+There are two sections to update.
 
-- `PROTOCOL` is currently used protocol
-- `HOST` is currently used host
+#### API Configuration
 
-Base URL is followed by following query parameters:
+The Kubermatic API validates the given token for authentication and therefore needs to be able to
+find the new token issuer. The relevant fields are under `spec.auth` and the following snippet
+demonstrates the default values:
 
-```plaintext
-<BASE_URL>?response_type=<RESPONSE_TYPE>&client_id=<CLIENT_ID>&redirect_uri=<REDIRECT_URI>&scope=<SCOPE>&nonce=<NONCE>
+```yaml
+spec:
+  auth:
+    caBundle: ""
+    clientID: kubermatic
+    issuerClientID: kubermaticIssuer
+    issuerClientSecret: ""
+    issuerCookieKey: ""
+    issuerRedirectURL: https://<domain>/api/v1/kubeconfig
+    serviceAccountKey: ""
+    skipTokenIssuerTLSVerify: false
+    tokenIssuer: https://<domain>/dex
 ```
 
-Where:
+The `tokenIssuer` needs to be updated, the rest can be left out if the default values are
+used. This gives us:
 
-- `BASE_URL` is the OIDC provider base URL
-- `RESPONSE_TYPE` is set to `id_token`
-- `CLIENT_ID` is set to `kubermatic`
-- `REDIRECT_URI` is set to `<PROTOCOL>//<HOST>/projects` which is root view of the application
-- `SCOPE` is set to `openid email profile groups`
-- `NONCE` is randomly generated, 32 character-long string
-
-## Custom Configuration
-
-The default configuration can be changed as Kubermatic supports other OIDC providers as well.
-Configuration can be found in the `config.json` file, that is part of the application
-configuration. Check the [Creating the Master Cluster `values.yaml`](../../installation/install_kubermatic/_manual/#creating-the-master-cluster-values-yaml)
-to find out how to specify the config.
-
-In the config it is allowed to specify two optional parameters:
-
-- `oidc_provider_url` that can be used to change the base URL of the OIDC provider (`BASE_URL`)
-- `oidc_provider_scope` that can be used to change the scope of the OIDC provider (`SCOPE`)
-
-A configuration of a OIDC provider may look like this:
-
-```json
-{
-  "cleanup_cluster":  false,
-  "custom_links": [],
-  "default_node_count": 3,
-  "openstack": {
-    "wizard_use_default_user": false
-  },
-  "share_kubeconfig": false,
-  "show_demo_info": false,
-  "show_terms_of_service": false,
-  "oidc_provider_url": "https://keycloak.kubermatic.test/auth/realms/test/protocol/openid-connect/auth",
-  "oidc_provider_scope": "openid email profile roles"
-}
+```yaml
+spec:
+  auth:
+    tokenIssuer: 'https://keycloak.kubermatic.test/auth/realms/test/protocol/openid-connect/auth'
 ```
+
+#### UI Configuration
+
+The Kubermatic dashboard needs to know where to redirect the user to in order to perform a
+login. This can be set by setting a `spec.ui.config` field, containing JSON. This is where
+various UI-related options can be set, among them:
+
+- `oidc_provider_url` to change the base URL of the OIDC provider
+- `oidc_provider_scope` to change the scope of the OIDC provider (the `scope` URL parameter)
+
+A configuration of a custom OIDC provider may look like this:
+
+```yaml
+spec:
+  ui:
+    config: |
+      {
+        "oidc_provider_url": "https://keycloak.kubermatic.test/auth/realms/test/protocol/openid-connect/auth",
+        "oidc_provider_scope": "openid email profile roles"
+      }
+```
+
+### Applying the Changes
+
+Edit the KubermaticConfiguration either directly via `kubectl edit` or apply it from a YAML
+file by using `kubectl apply`. The Kubermatic Operator will pick up on the changes and
+reconfigure the components accordingly. After a few seconds the new pods should be up and
+running.
