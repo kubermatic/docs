@@ -120,3 +120,20 @@ div .km-frontpage-bg {
 ```
 
 The result of this example should look exactly the same as in the example to the first approach.
+
+## Deploying
+
+Once your Docker image is ready to be used, update your
+[KubermaticConfiguration]({{< ref "../../concepts/kubermaticconfiguration" >}}) to point to the new repository.
+The `spec.ui.dockerRepository` contains the repository name (without a tag!) and defaults to
+`quay.io/kubermatic/dashboard-v2`. You can simply overide it:
+
+```yaml
+spec:
+  ui:
+    dockerRepository: docker.io/examplecorp/kubermatic-dashboard
+```
+
+Note that there must be a Docker image with a tag matching the Kubermatic version in the repository.
+The Kubermatic Operator will pick up the changed configuration and reconcile the dashboard
+deployment accordingly.
