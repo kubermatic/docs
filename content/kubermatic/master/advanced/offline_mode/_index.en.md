@@ -5,9 +5,7 @@ weight = 7
 pre = "<b></b>"
 +++
 
-### Kubermatic offline mode
-
-## Download all required images
+### Download all required images
 
 To aid in downloading all required images, Kubermatic provides the `image-loader` CLI utility. It can be used like
 this:
@@ -19,31 +17,48 @@ image-loader \
   -log-format=Console
 ```
 
-## Worker nodes behind a proxy
+### Worker nodes behind a proxy
 
-In situations where worker nodes will require a proxy to reach the internet, the `datacenters.yaml` must be modified:
+In situations where worker nodes will require a proxy to reach the internet, the datacenter specification for the
+Seed cluster must be updated. This can be found in the [Seed]({{< ref "../../concepts/seeds" >}}) CRD. Find the
+relevant seed via `kubectl`:
+
+```bash
+kubectl -n kubermatic get seeds
+#NAME        AGE
+#hamburg     143d
+#frankfurt   151d
+```
+
+You will then find the datacenter inside the `spec.datacenters` list of the right Seed. You need to set a couple
+of `node` settings:
 
 ```yaml
-...
-  gcp-westeurope:
-    location: "Europe West (Germany)"
-    seed: europe-west3-a
-    country: DE
-    provider: gcp
-    spec:
-      gcp:
-        region: europe-west3
-        zone_suffixes:
-        - a
-    node:
-      # Configure the address of the proxy
-      # It will be configured on all worker nodes. It results in the HTTP_PROXY & HTTPS_PROXY environment variable being set.
-      http_proxy: "http://172.20.0.2:3128"
-      # Worker nodes require access to a docker registry, in case it is only accessible using http or it uses a self signed certificate, they must be listed here
-      insecure_registries:
-        - 172.20.0.2:5000
-      # The kubelet requires the pause image, if its only accessible using a private registry, the image name must be configured here
-      pause_image: "172.20.0.2:5000/kubernetes/pause:3.1"
-      # ContainerLinux requires the hyperkube image, if its only accessible using a private registry, the image name must be configured here
-      hyperkube_image: "172.20.0.2:5000/kubernetes/hyperkube-amd64"
+spec:
+  datacenters:
+    example-dc:
+      location: Hamburg
+      country: DE
+      ...
+      node:
+        # Configure the address of the proxy
+        # It will be configured on all worker nodes. It results in the HTTP_PROXY & HTTPS_PROXY
+        # environment variables being set.
+        http_proxy: "http://172.20.0.2:3128"
+
+        # Worker nodes require access to a Docker registry; in case it is only accessible using
+        # plain HTTP or it uses a self-signed certificate, it must be listed here.
+        insecure_registries:
+          - "172.20.0.2:5000"
+
+        # The kubelet requires the pause image; if it's only accessible using a private registry,
+        # the image name must be configured here.
+        pause_image: "172.20.0.2:5000/kubernetes/pause:3.1"
+
+        # ContainerLinux requires the hyperkube image; if it's only accessible using a private
+        # registry, the image name must be configured here.
+        hyperkube_image: "172.20.0.2:5000/kubernetes/hyperkube-amd64"
 ```
+
+Edit your Seed either using `kubectl edit` or editing a local file and applying it with `kubectl apply`. From then
+on new nodes in the configured datacenter will use the new node settings.
