@@ -7,6 +7,11 @@ pre = "<b></b>"
 
 ## Google Cloud Platform
 
+### Compute Engine API
+
+For the access to the Compute Engine API it has to be enabled at the
+[Google APIs console](https://console.developers.google.com/apis/dashboard).
+
 ### User Roles
 
 The user for the *Google Service Account* that has to be created has to
