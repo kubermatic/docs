@@ -6,6 +6,12 @@ weight = 213
 pre = "<b></b>"
 +++
 
+## v2.13.1
+
+- Fixed swagger and API client for ssh key creation.
+- Added Kubernetes v1.15.10, v1.16.7, v1.17.3
+- AddonConfig's shortDescription field is now used in the accessible addons overview.
+
 ## v2.13.0
 
 Supported Kubernetes versions:
