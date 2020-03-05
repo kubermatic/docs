@@ -6,6 +6,12 @@ weight = 212
 pre = "<b></b>"
 +++
 
+## v2.12.6
+
+- System labels can no longer be removed by the user.
+- End-of-Life Kubernetes v1.14 is no longer supported.
+- Added Kubernetes v1.15.7, v1.15.9, v1.16.4, v1.16.6
+
 ## v2.12.5
 
 - A bug that occasionally resulted in a `Error: no matches for kind "MachineDeployment" in version "cluster.k8s.io/v1alpha1"` visible in the UI was fixed.
