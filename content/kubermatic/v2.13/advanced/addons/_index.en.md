@@ -154,7 +154,7 @@ After applying above config the UI should look like below:
    kubermatic:
      controller:
        addons:
-         kubernetes
+         kubernetes:
            image:
              repository: "quay.io/customer/addons" # <-- add your repo here
    ```
@@ -163,18 +163,18 @@ After applying above config the UI should look like below:
 
    ```yaml
    kubermatic:
-     docker:
-     addons:
-       kubernetes
-         # list of addons to install into every user-cluster. All need to exist in the addons image
-         defaultAddons:
-         - foo # <-- add your addon here
-         - canal
-         - dashboard
-         - dns
-         - kube-proxy
-         - openvpn
-         - rbac
+     controller:
+       addons:
+         kubernetes:
+           # list of addons to install into every user-cluster. All need to exist in the addons image
+           defaultAddons:
+           - foo # <-- add your addon here
+           - canal
+           - dashboard
+           - dns
+           - kube-proxy
+           - openvpn
+           - rbac
    ```
 
 1. Update the installation of Kubermatic
