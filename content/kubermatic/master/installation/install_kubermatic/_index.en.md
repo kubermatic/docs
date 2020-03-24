@@ -132,7 +132,8 @@ dex:
   # For testing purposes, we configure a single static user/password combination.
   staticPasswords:
   - email: "kubermatic@example.com"
-    # bcrypt hash of the string "password"
+    # bcrypt hash of the string "password", can be created using recent versions of htpasswd:
+    # `htpasswd -bnBC 10 "" PASSWORD_HERE | tr -d ':\n' | sed 's/$2y/$2a/'`
     hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
 
     # these are used within Kubermatic to identify the user
@@ -279,8 +280,10 @@ watch kubectl -n kubermatic get pods
 #kubermatic-ui-7fc858fb4b-s8fnn                          1/1     Running   0          24m
 ```
 
+{{% notice note %}}
 Note that because we don't yet have a TLS certificate and no DNS records configured, some of the pods will crashloop
 until this is fixed.
+{{% /notice %}}
 
 ### Create DNS Records
 

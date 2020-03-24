@@ -104,3 +104,8 @@ You always have to specify the entire list in the `KubermaticConfiguration`.
 Edit your KubermaticConfiguration either using `kubectl edit` or editing a local file and applying
 it with `kubectl apply`, the Kubermatic Operator will reconcile the setup and after a few moments
 the new configuration will take effect.
+
+{{% notice note %}}
+Note that once you start overriding default values in your KubermaticConfiguration, you need to
+keep the settings up-to-date when upgrading Kubermatic.
+{{% /notice %}}

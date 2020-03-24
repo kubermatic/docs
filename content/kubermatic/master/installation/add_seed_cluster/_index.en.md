@@ -7,6 +7,15 @@ pre = "<b></b>"
 
 This document describes how a new seed cluster can be added to an existing Kubermatic master cluster.
 
+{{% notice note %}}
+For smaller scale setups it's also possible to use the existing master cluster as a seed cluster (a "shared"
+cluster installation). In this case both master and seed components will run on the same cluster and in
+the same namespace. You can skip the first step and directly continue with installing the seed dependencies.
+{{% /notice %}}
+
+Plese refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
+about the cluster relationships.
+
 ### 1. Install Kubernetes cluster
 
 First, you need to install a Kubernetes cluster with some additional components. After the installation of
@@ -98,7 +107,8 @@ To connect the new seed cluster with the master, you need to create a kubeconfig
 **in the master cluster**.
 
 {{% notice warning %}}
-Do not install the `kubermatic-operator` chart into seed clusters.
+Do not install the `kubermatic-operator` chart into seed clusters. It's possible to run master and seed in the same
+Kubernetes cluster, but this still means only a single operator is deployed into the shared cluster.
 {{% /notice %}}
 
 Make sure the kubeconfig contains static, long-lived credentials. Some cloud providers use custom authentication providers
