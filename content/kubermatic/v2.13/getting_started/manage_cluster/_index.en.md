@@ -11,19 +11,19 @@ pre = "<b></b>"
 
 Via the menu item "Manage Cluster" you can display your active clusters.
 
-![Cluster list](/img/getting_started/manage_cluster/cluster-list.png)
+![Cluster list](/img/2.13/getting_started/manage_cluster/cluster-list.png)
 
 ### Basic cluster information
 
 The dashboard provides you with all important cluster information. You can check the status of your master components and worker nodes.
 
-![Cluster details](/img/getting_started/manage_cluster/cluster-details.png)
+![Cluster details](/img/2.13/getting_started/manage_cluster/cluster-details.png)
 
 ### Adding new nodes to your cluster
 
 You can easily extend your cluster with new worker nodes. Kubermatic will automatically configure them and integrate them into your cluster.
 
-![Add node deployment dialog](/img/getting_started/manage_cluster/cluster-add-nd.png)
+![Add node deployment dialog](/img/2.13/getting_started/manage_cluster/cluster-add-nd.png)
 
 ### Connect to the cluster
 
