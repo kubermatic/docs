@@ -1,0 +1,5 @@
++++
+title = "KubeOne Docs"
+
++++
+{{< redirectkubeone >}}

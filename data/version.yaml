@@ -7,10 +7,8 @@ kubermatic:
       name: v2.13
     - release: v2.12
       name: v2.12
-# kubeone:
-#   name: KubeOne
-#   versions:
-#     - release: master
-#       name: master
-#     - release: v0.12
-#       name: v0.12
+kubeone:
+  name: KubeOne
+  versions:
+    - release: master
+      name: master
