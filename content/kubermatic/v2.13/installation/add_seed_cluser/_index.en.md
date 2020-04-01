@@ -5,9 +5,9 @@ weight = 30
 pre = "<b></b>"
 +++
 
-## Add new Seed Cluster to Existing Master
+## Add New Seed Cluster to Existing Master
 
-### 1. Install Kubernetes cluster
+### 1. Install Kubernetes Cluster
 
 First, you need to install Kubernetes cluster with some additional components. After the installation of Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic master/seed setup.
 
@@ -20,7 +20,7 @@ Please take note of the [recommended hardware and networking requirements](../..
 
 First, you will need to update your `values.yaml` and use this file to update the `kubermatic` chart on the master cluster using `helm`. Afterwards, you will need a part of master `values.yaml` e.g. `values-seed.yaml` and install `Kubermatic` in the seed cluster with this values.
 
-#### Edit existing kubeconfig of the Kubermatic Master
+#### Edit Existing kubeconfig of the Kubermatic Master
 
 Add a second cluster to the `kubeconfig` by providing the cluster, context and user information:
 
@@ -55,7 +55,7 @@ Add a second `user` to the `users` section:
 Make sure to provide static, long-lived credentials. Temporary credentials created by authentication providers (like on GKE or EKS) will not work.
 {{% /notice %}}
 
-#### Edit existing `datacenters.yaml` of the Kubermatic Master
+#### Edit Existing `datacenters.yaml` of the Kubermatic Master
 
 Add a second seed cluster to the `datacenters.yaml`. You can change some of the existing data centers to have a new seed. Now put the new base64 encoded values for `datacenters: ...` and `kubeconfig: ...` into your `values.yaml` with configuration for Kubermatic.
 

@@ -28,7 +28,7 @@ Supported Kubernetes versions:
 - `1.17.2`
 - Openshift `v4.1.18`
 
-#### Major changes
+#### Major Changes
 
 - End-of-Life Kubernetes v1.14 is no longer supported.
 - The `authorized_keys` files on nodes are now updated whenever the SSH keys for a cluster are changed
@@ -40,7 +40,7 @@ Supported Kubernetes versions:
 - Added RedHat Enterprise Linux as an OS option (#669)
 - Added SUSE Linux Enterprise Server as an OS option (#659)
 
-#### Cloud providers
+#### Cloud Providers
 
 - Openstack: A bug that caused cluster reconciliation to fail if the controller crashed at the wrong time was fixed
 - Openstack: New Kubernetes 1.16&#43; clusters use the external Cloud Controller Manager and CSI by default
@@ -68,7 +68,7 @@ Supported Kubernetes versions:
 - Fixed deleting user-selectable addons from clusters.
 - Fixed node name validation while creating clusters and node deployments
 
-#### UI
+#### Ui
 
 - ACTION REQUIRED: Added logos and descriptions for the addons. In order to see the logos and descriptions addons have to be configured with AddonConfig CRDs with the same names as addons.
 - ACTION REQUIRED: Added application settings view. Some of the settings were moved from config map to the `KubermaticSettings` CRD. In order to use them in the UI it is required to manually update the CRD or do it from newly added UI.
@@ -98,7 +98,7 @@ Supported Kubernetes versions:
 - Update Kubernetes Dashboard to v2.0.0-rc3
 - Updated Dex to v2.12.0
 - The envoy version used by the nodeport-proxy was updated to v1.12.2
-- Etcd was upgraded to 3.4 for 1.17&#43; clusters
+- etcd was upgraded to 3.4 for 1.17&#43; clusters
 - Updated Grafana to 6.5.2
 - Updated karma to 0.52
 - Updated kube-state-metrics to 1.8.0
@@ -115,14 +115,14 @@ Supported Kubernetes versions:
 - Add fluent-bit Grafana dashboard
 - Updated Dex page styling.
 - Openshift: added metrics-server
-- For new clusters, the Kubelet port 12050 is not exposed publicly anymore
+- For new clusters, the kubelet port 12050 is not exposed publicly anymore
 - The cert-manager Helm chart now creates global ClusterIssuers for Let's Encrypt.
 - Added migration for cluster user labels
 - Fixed seed-proxy controller not working in namespaces other than `kubermatic`.
 - The docker logs on the nodes now get rotated via the new `logrotate` addon
 - Made node-exporter an optional addon.
 - Added parent cluster readable name to default worker names.
-- The QPS settings of Kubeletes can now be configured per-cluster using addon Variables
+- The QPS settings of kubeletes can now be configured per-cluster using addon Variables
 - Access to Kubernetes Dashboard can be now enabled/disabled by the global settings.
 - Added support for dynamic presets
 - Presets can now be filtered by datacenter

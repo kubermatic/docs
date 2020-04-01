@@ -57,7 +57,7 @@ Supported Kubernetes versions:
 
 ### Features
 
-#### Kubermatic core
+#### Kubermatic Core
 
 - *ACTION REQUIRED:* Change config option `Values.kubermatic.rbac` to `Values.kubermatic.masterController`
 - Add user cluster controller manager: It is deployed within the cluster namespace in the seed and takes care of reconciling all resources that are inside the user cluster
@@ -80,7 +80,7 @@ Supported Kubernetes versions:
 - Set AntiAffinity for pods to prevent situations where the API servers of all clusters got scheduled on a single node
 - Set resource requests and limits for all addons
 - Add Kubernetes v1.14.1 to the list of supported versions
-- Ensure reservation of a small amount of resources on each node for the Kubelet and system services
+- Ensure reservation of a small amount of resources on each node for the kubelet and system services
 - Update etcd to v3.3.12
 - Update the metrics-server to v0.3.2
 - Update the user cluster Prometheus to v2.9.1
@@ -106,7 +106,7 @@ Supported Kubernetes versions:
 - Remove AWS instance types t3.nano & t3.micro as they are too small to schedule any workload on them
 - Redesign the application sidebar
 
-#### Logging & Monitoring stack
+#### Logging & Monitoring Stack
 
 - Update fluent-bit to 1.0.6
 - Add elasticsearch-exporter to logging stack to improve monitoring

@@ -39,7 +39,7 @@ Kubernetes Service.
 This requires a functioning cloud provider that realizes services of type `LoadBalancer`. It is very
 cost-efficient, as only one such service is needed.
 
-## One LoadBalancer per user cluster (Kubermatic 2.11+)
+## One LoadBalancer Per User Cluster (Kubermatic 2.11+)
 
 A third option is to create one `LoadBalancer` per user cluster. This is done by setting the
 `kubermatic.exposeStrategy` key in the Helm chart to `LoadBalancer`.

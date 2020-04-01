@@ -1,5 +1,5 @@
 +++
-title = "Manage Projects"
+title = "Manage a Project"
 date = 2018-04-28T12:07:15+02:00
 weight = 10
 pre = "<b></b>"
@@ -19,7 +19,7 @@ Click on the button above the table or the link below to table to create your fi
 
 After a short moment, your project will be ready.
 
-### Step 2 – Select your Current Project
+### Step 2 – Select Your Current Project
 
 To manage clusters, you need to select in which project you would like to work. This can be achieved by either clicking the project in the project list or by using the dropdown in the top-left corner (it is visible only when you are already in one of the projects).
 

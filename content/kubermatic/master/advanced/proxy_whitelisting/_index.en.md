@@ -15,72 +15,72 @@ If you use the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/off
 
 Resources pulled on machine controller nodes
 
-### kubelet - binary
+### kubelet - Binary
 
 The machine controller is downloading a few components to install the kubelet, see [download_binaries_script.go](https://github.com/kubermatic/machine-controller/blob/master/pkg/userdata/helper/download_binaries_script.go):
 
 ```bash
-# Binaries for the Kubernetes kubelet get downloaded from:
+# Binaries for the Kubernetes kubelet Get Downloaded From:
 https://storage.googleapis.com/kubernetes-release/release/
 
-# CNI plugins
+# CNI Plugins
 https://github.com/containernetworking/plugins/releases/
 
-# Kubermatic health-monitor script
-# (placed at pkg/userdata/scripts/health-monitor.sh)
+# Kubermatic Health-Monitor Script
+# (Placed at pkg/userdata/scripts/health-monitor.sh)
 https://raw.githubusercontent.com/kubermatic/machine-controller/
 ```
 
-### kubelet - Docker images
+### kubelet - Docker Images
 
 After kubelet starts, it needs a few more images to work in a proper way:
 
 **`gcr.io`:**
 
 ```bash
-# ContainerLinux requires the hyperkube image
+# ContainerLinux Requires the Hyperkube Image
 gcr.io/google_containers/hyperkube-amd64
 
-# DNS node cache
+# DNS Node Cache
 gcr.io/google_containers/k8s-dns-node-cache
 ```
 
 **`k8s.gcr.io`:**
 
 ```bash
-# Every Kubelet requires the pause container:
+# Every kubelet Requires the Pause Container:
 k8s.gcr.io/pause
 ```
 
 **`docker.io`:**
 
 ```bash
-# calico overlay
+# Calico Overlay
 calico/node
 
-# DNS addon
+# DNS Addon
 coredns/coredns
 
-# log shipper fluent-bit
+# Log Shipper Fluent-Bit
 fluent/fluent-bit
 ```
 
 **`quay.io`:**
 
 ```bash
-# util container for debuging or custom controller
+# Util Container for Debuging or Custom Controller
 quay.io/kubermatic/util
 
-# prometheus metrics scraping
+# Prometheus Metrics Scraping
 quay.io/prometheus/node-exporter
 
-# core os container
+# Core Os Container
 quay.io/coreos/flannel
 quay.io/coreos/kube-rbac-proxy
 quay.io/coreos/container-linux-update-operator
 ```
 
-## OS resources
+## OS Resources
 Some os specific resources get installed over cloud-init:
 
 ### CentOS 7
@@ -99,9 +99,9 @@ Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/us
 - default apt repositories
 - docker apt repository: `download.docker.com/linux/ubuntu`
 
-# Kubermatic seed cluster setup
+# Kubermatic Seed Cluster Setup
 
-## Cloud provider API endpoints
+## Cloud Provider API Endpoints
 Kubermatic interacts with the different cloud provider directly to provision the required infrastructure to manage Kubernetes clusters:
 
 ### AWS
@@ -113,13 +113,13 @@ Kubermatic interact in several ways with different cloud provider, e.g.:
 - access instance profiles
 
 ```bash
-# e.g. for region eu-central-1
+# e.g. For Region Eu-Central-1
 iam.amazonaws.com
 s3.eu-central-1.amazonaws.com
 ec2.eu-central-1.amazonaws.com
 ```
 
-## KubeOne Seed cluster setup
+## KubeOne Seed Cluster Setup
 
 If [KubeOne](https://github.com/kubermatic/kubeone) is used to setup the seed cluster, it will use in addition:
 
@@ -130,11 +130,11 @@ apt.kubernetes.io
 storage.googleapis.com
 raw.githubusercontent.com
 
-# needed for coreos
+# Needed for Coreos
 github.com
 ```
 
-## Cert-Manager (if used)
+## cert-manager (If Used)
 For creating certificates with let's encrypt we need access:
 
 ```bash

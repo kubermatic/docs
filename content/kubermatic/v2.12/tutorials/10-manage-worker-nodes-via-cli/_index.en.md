@@ -1,12 +1,12 @@
 +++
-title = "Manage worker nodes via CLI"
+title = "Manage Worker Nodes via CLI"
 date = 2020-01-08T12:07:15+02:00
 weight = 100
 +++
 
 Worker nodes can be managed via the web dashboard as described [here](../08-manage-node-deployments/). Once you have installed [kubectl](../07-using-kubectl/), you can also manage them via the command line interface (CLI) in order to automate creation, deletion and upgrades of nodes.
 
-## List all available nodes
+## List All Available Nodes
 
 To get a list of all nodes execute:
 
@@ -21,7 +21,7 @@ To list all machineDeployment resources, execute:
 kubectl get machineDeployments --namespace kube-system
 ```
 
-## Manage worker nodes
+## Manage Worker Nodes
 
 If you want to change a machineDeployment, you can edit the machineDeployment resource directly:
 

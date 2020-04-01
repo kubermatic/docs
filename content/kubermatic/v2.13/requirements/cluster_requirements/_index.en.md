@@ -7,7 +7,7 @@ pre = "<b></b>"
 
 ## Requirements
 
-### Master cluster
+### Master Cluster
 
 * Six or more machines running one of:
   * Ubuntu 16.04+
@@ -18,7 +18,7 @@ pre = "<b></b>"
 * 4 GB or more of RAM per machine (any less will leave little room for your apps)
 * 2 CPUs or more
 
-### User cluster
+### User Cluster
 
 * One or more machines running one of:
   * Ubuntu 16.04+
@@ -33,36 +33,36 @@ pre = "<b></b>"
 * Certain ports are open on your machines. See below for more details.
 * Swap disabled. You **MUST** disable swap in order for the kubelet to work properly.
 
-### Verify the MAC address and product_uuid are unique for every node
+### Verify the MAC Address and `product_uuid` Are Unique for Every Node
 
 * You can get the MAC address of the network interfaces using the command `ip link` or `ifconfig -a`
 * The product_uuid can be checked by using the command `sudo cat /sys/class/dmi/id/product_uuid`
 
 It is very likely that hardware devices will have unique addresses, although some virtual machines may have identical values. Kubernetes uses these values to uniquely identify the nodes in the cluster. If these values are not unique to each node, the installation process may [fail](https://github.com/kubernetes/kubeadm/issues/31).
 
-### Check network adapters
+### Check Network Adapters
 
 If you have more than one network adapter, and your Kubernetes components are not reachable on the default route, we recommend you add IP route(s) so Kubernetes cluster addresses go via the appropriate adapter.
 
-### Check required ports
+### Check Required Ports
 
-#### Master cluster master node(s)
+#### Master Cluster Master Node(s)
 
 | Protocol | Direction | Port Range | Purpose                 |
 |----------|-----------|------------|-------------------------|
 | TCP      | Inbound   | 6443*      | Kubernetes API server   |
 | TCP      | Inbound   | 2379-2380  | etcd server client API  |
-| TCP      | Inbound   | 10250      | Kubelet API             |
+| TCP      | Inbound   | 10250      | kubelet API             |
 | TCP      | Inbound   | 10251      | kube-scheduler          |
 | TCP      | Inbound   | 10252      | kube-controller-manager |
-| TCP      | Inbound   | 10255      | Read-only Kubelet API   |
+| TCP      | Inbound   | 10255      | Read-only kubelet API   |
 
-#### Worker node(s)& User cluster worker nodes
+#### Worker Node(s)& User Cluster Worker Nodes
 
 | Protocol | Direction | Port Range  | Purpose               |
 |----------|-----------|-------------|-----------------------|
-| TCP      | Inbound   | 10250       | Kubelet API           |
-| TCP      | Inbound   | 10255       | Read-only Kubelet API |
+| TCP      | Inbound   | 10250       | kubelet API           |
+| TCP      | Inbound   | 10255       | Read-only kubelet API |
 | TCP      | Inbound   | 30000-32767 | NodePort Services**   |
 
 ** Default port range for [NodePort Services](https://kubernetes.io/docs/concepts/services-networking/service/).

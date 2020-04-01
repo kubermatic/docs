@@ -229,7 +229,7 @@ kubectl apply -f aws-storageclass.yaml
 Please consult the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters)
 for more information about the possible parameters for your storage backend.
 
-### Create all CustomResourceDefinitions
+### Create All CustomResourceDefinitions
 
 Before applying the Helm charts, ensure that Kubermatic's CRDs are installed in your cluster by applying the provided
 manifests:
@@ -249,7 +249,7 @@ kubectl create namespace cert-manager
 kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 ```
 
-### Deploying the Helm charts
+### Deploying the Helm Charts
 
 Install [Helm](https://www.helm.sh/) on you local system and setup Tiller within the cluster.
 
@@ -318,7 +318,7 @@ Once that is done, wait a bit and then install the final Helm chart:
 helm upgrade --tiller-namespace kubermatic --install --wait --timeout 300 --values values.yaml --namespace default certs charts/certs/
 ```
 
-### etcd backups
+### etcd Backups
 
 We run an individual cronjob every 20 minutes for each customer cluster to backup the etcd-ring. Snapshots will be
 stored by default to an internal S3 bucket provided by minio, though this can be changed by modifying the
@@ -359,7 +359,7 @@ data:
   SECRET_ACCESS_KEY: "SOME_BASE64_ENCODED_SECRET_KEY"
 ```
 
-### Create DNS entries
+### Create DNS Entries
 
 Kubermatic needs to have at least 2 DNS entries set.
 
@@ -390,7 +390,7 @@ Without a LoadBalancer nginx will run as DaemonSet & allocate 2 ports on the hos
 happens via the [values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml).
 The DNS entry needs to be configured to point to one or more of the cluster nodes.
 
-#### Seed Clusters (customer-cluster apiservers)
+#### Seed Clusters (Customer-Cluster Apiservers)
 
 For each seed cluster a single wildcard DNS entry must be configured. All apiservers of all customer clusters are being
 exposed via either NodePorts or a single LoadBalancer.

@@ -16,9 +16,9 @@ clusters. The ones for the still-existing clusters will get re-created by our co
 kubectl get secret -n kube-system | grep etcd-client-certificate | awk '{print $1}' | xargs -n 15 kubectl delete secret -n kube-system
 ```
 
-## The config option `Values.kubermatic.rbac` was moved to `Values.kubermatic.masterController`
+#### The config option `values.kubermatic.rbac` was moved to `values.kubermatic.masterController`
 
-## `values.yaml` structure for addons
+## `values.yaml` Structure for Addons
 
 The structure for configuring the addons has changed and now contains a subkey `kubernetes`.
 Before it was like this:
@@ -61,7 +61,7 @@ Now there is a subkey `kubernetes` below `addons`:
           pullPolicy: "IfNotPresent"
 ```
 
-## Heptio Velero replaces Ark
+## Heptio Velero Replaces Ark
 
 As Ark was [renamed to Velero](https://github.com/heptio/velero/releases/tag/v0.11.0), the Helm chart in
 `backup/ark` was replaced with a `backup/velero` chart. At the same time, the configuration for Velero
@@ -109,7 +109,7 @@ If your cluster is running on ephemaral nodes (for example, preemtible nodes on 
 advised to also provision a few stable nodes for long-running workloads like backup jobs. The new Velero
 chart tries to schedule the Velero server on nodes with a `kubermatic.io/type: stable` label.
 
-## Prometheus alerting rules
+## Prometheus Alerting Rules
 
 The alerting rules for master and seed cluster have been split up into distinct files. If you previously
 configured the chart to load `/etc/prometheus/rules/kubermatic-*.yaml`, you will load both files. If you
@@ -120,7 +120,7 @@ run multiple (seed-only) clusters, you can now include (via `prometheus.ruleFile
 
 to only load alerts fitting to your deployment.
 
-## Grafana login form
+## Grafana Login Form
 
 In case the identity aware proxy or Dex is down, access to Grafana was previously not possible. A new
 option has been added to the chart to enable the login form:
@@ -135,7 +135,7 @@ grafana:
 After setting this, you will be able to port-forward to Grafana's port (3000) and then login using the
 static credentials configured in the chart.
 
-## Explicit resource requests/limits
+## Explicit Resource Requests/Limits
 
 Similar to the node affinities/selectors mentioned above, all Helm charts now explicitly define resource
 requests and limits in order to improve cluster stability. The following changes have been made:
@@ -163,7 +163,7 @@ requests and limits in order to improve cluster stability. The following changes
 The `migrate-values` command of the Kubermatic installer can help to automate these changes in your
 `values.yaml` file(s).
 
-## Node-Exporter addon
+## node-exporter Addon
 
 A new addon for the node-exporter has been created and is now one of the default addons for Kubernetes-based
 clusters. This will allow monitoring the user cluster's resource usage in the future.

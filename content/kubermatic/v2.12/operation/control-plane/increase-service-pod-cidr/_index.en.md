@@ -15,7 +15,7 @@ By default each cluster created with Kubermatic gets the following network setti
 
 As a cluster grows over time it might become necessary to increase the above CIDR's.
 
-### Changing the service CIDR
+### Changing the Service CIDR
 
 {{% notice warning %}}
 When creasing the CIDR, the new CIDR must include the old one - it is not possible to use a different network.
@@ -49,7 +49,7 @@ becomes:
 
 After the CIDR has been changed, all new services will get an IP from the new CIDR.
 
-### Update the cluster DNS IP
+### Update the Cluster DNS IP
 
 {{% notice warning %}}
 This might cause a downtime of the cluster DNS & communication to the API server

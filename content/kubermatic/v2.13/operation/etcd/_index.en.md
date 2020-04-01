@@ -5,7 +5,7 @@ weight = 26
 chapter = false
 +++
 
-## etcd specs
+## etcd Specs
 
 - Static StatefulSet with 3 members
 - TLS for transport security

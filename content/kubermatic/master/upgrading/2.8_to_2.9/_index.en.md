@@ -58,7 +58,7 @@ with two log shippers in your cluster.
 helm --tiller-namespace kubermatic delete --purge fluentd
 ```
 
-### Enforcing floating IP's for OpenStack nodes
+### Enforcing Floating IP's for OpenStack Nodes
 
 Until Kubermatic v2.9 all OpenStack nodes got assigned a floating IP.
 With v2.9 this behaviour changes, as floating IP's are now optional by default.
@@ -88,7 +88,7 @@ If the assignment of floating IP's is a requirement to ensure Node-> API server 
         enforce_floating_ip: true
 ```
 
-### Alpha features
+### Alpha Features
 
 #### VerticalPodAutoscaler
 

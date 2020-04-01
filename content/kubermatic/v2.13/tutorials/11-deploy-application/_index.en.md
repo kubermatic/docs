@@ -1,5 +1,5 @@
 +++
-title = "Deploy your application"
+title = "Deploy Your Application"
 date = 2020-02-21T12:07:15+02:00
 weight = 110
 +++

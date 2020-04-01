@@ -5,7 +5,7 @@ weight = 40
 pre = "<b></b>"
 +++
 
-## Upgrade master components
+## Upgrade Master Components
 
 When an upgrade for the master components is available, a little dropdown arrow will be shown besides the Master Version on the cluster's page:
 

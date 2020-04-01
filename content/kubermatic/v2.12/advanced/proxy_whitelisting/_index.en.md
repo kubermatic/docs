@@ -15,7 +15,7 @@ If you use the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/off
 
 Resources pulled on machine controller nodes
 
-### kubelet - binary
+### kubelet - Binary
 
 The machine controller is downloading a few components to install the kubelet, see [download_binaries_script.go](https://github.com/kubermatic/machine-controller/blob/master/pkg/userdata/helper/download_binaries_script.go):
 
@@ -31,7 +31,7 @@ https://github.com/containernetworking/plugins/releases/
 https://raw.githubusercontent.com/kubermatic/machine-controller/
 ```
 
-### kubelet - Docker images
+### kubelet - Docker Images
 
 After kubelet starts, it needs a few more images to work in a proper way:
 
@@ -80,7 +80,7 @@ quay.io/coreos/kube-rbac-proxy
 quay.io/coreos/container-linux-update-operator
 ```
 
-## OS resources
+## OS Resources
 Some os specific resources get installed over cloud-init:
 
 ### CentOS 7
@@ -99,9 +99,9 @@ Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/us
 - default apt repositories
 - docker apt repository: `download.docker.com/linux/ubuntu`
 
-# Kubermatic seed cluster setup
+# Kubermatic Seed Cluster Setup
 
-## Cloud provider API endpoints
+## Cloud Provider API Endpoints
 Kubermatic interacts with the different cloud provider directly to provision the required infrastructure to manage Kubernetes clusters:
 
 ### AWS
@@ -119,7 +119,7 @@ s3.eu-central-1.amazonaws.com
 ec2.eu-central-1.amazonaws.com
 ```
 
-## KubeOne Seed cluster setup
+## KubeOne Seed Cluster Setup
 
 If [KubeOne](https://github.com/kubermatic/kubeone) is used to setup the seed cluster, it will use in addition:
 
@@ -134,7 +134,7 @@ raw.githubusercontent.com
 github.com
 ```
 
-## Cert-Manager (if used)
+## cert-manager (If Used)
 For creating certificates with let's encrypt we need access:
 
 ```bash

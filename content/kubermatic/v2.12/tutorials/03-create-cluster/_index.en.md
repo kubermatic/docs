@@ -1,5 +1,5 @@
 +++
-title = "Create a new cluster"
+title = "Create a New Cluster"
 date = 2019-10-23T12:07:15+02:00
 weight = 30
 pre = "<b></b>"

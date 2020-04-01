@@ -25,7 +25,7 @@ Generate and serve the documentation at `localhost:1313`:
 hugo server --buildDrafts --baseURL localhost:1313 --watch
 ```
 
-## Repository organization
+## Repository Organization
 
 The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [Hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository root level should be mentioned:
 
@@ -37,7 +37,7 @@ The content in the [kubermatic/docs](https://github.com/kubermatic/docs) reposit
 
 `static`: Stores all the static content for [kubermatic/docs](https://github.com/kubermatic/docs) website: images, CSS, JavaScript, etc. When Hugo builds the documentation, all assets inside your static directory are copied over as-is. The `/static` folder contains the `static/media` folder for root directory content media files, inside which are subfolders with the images for each documentation article. The article image folders are named identically to the article file, minus the `.md` file extension.
 
-## Creating a new article for Kubermatic Docs
+## Creating a New Article for Kubermatic Docs
 
 The basic structure for a new section in the documentation is as follows:
 
@@ -87,7 +87,7 @@ To generate the static website files simply run the `hugo` command on the root d
 hugo server --baseURL localhost:1313 --watch
 ```
 
-## How to use Markdown to format your topic
+## How to Use Markdown to Format Your Topic
 
 All the articles in this repository use GitHub flavored markdown. If you are not familiar with Markdown, see:
 
