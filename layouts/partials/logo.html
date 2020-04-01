@@ -1,3 +1,7 @@
-<a href="{{ .Site.BaseURL }}">
-  <img src="{{ .Site.BaseURL }}/img/header-logo-kubermatic.png" alt="Kubermatic">
-</a>
+{{ range $key, $value := $.Site.Data.version }}
+	{{ if in $.RelPermalink $key }}
+		<a href="{{ .Site.BaseURL }}">
+			<img src="{{ .Site.BaseURL }}/{{ $value.logo }}" alt="Kubermatic">
+		</a>
+	{{ end }}
+{{ end }}
