@@ -1,11 +1,11 @@
 +++
-title = "Update Kubernetes upgrade plan"
+title = "Update Kubernetes Upgrade Plan"
 date = 2019-07-08T11:00:00+02:00
 weight = 6
 pre = "<b></b>"
 +++
 
-### Update Kubernetes upgrade plan
+### Update Kubernetes Upgrade Plan
 
 Kubermatic provides [live updates of your Kubernetes cluster](operation/control-plane/upgrading/#upgrading-the-control-plane)
 without disrupting your daily business. The allowed updates are defined in the file
@@ -68,7 +68,7 @@ running in any Kubernetes version from 1.12.0 to 1.12.2 would automatically upgr
 This way known vulnerabilities can be handled directly.
 
 {{% notice note %}}
-**Note:** The automatic update only updates the control plane. Kubelets on the nodes still have
+**Note:** The automatic update only updates the control plane. kubelets on the nodes still have
 to be updated manually.
 {{% /notice %}}
 

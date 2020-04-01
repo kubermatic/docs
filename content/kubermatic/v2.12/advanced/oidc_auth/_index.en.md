@@ -1,11 +1,11 @@
 +++
-title = "Share clusters via delegated OIDC Authentication"
+title = "Share Clusters via Delegated OIDC Authentication"
 date = 2018-11-23T12:01:35+02:00
 weight = 5
 pre = "<b></b>"
 +++
 
-### Share clusters via delegated OIDC authentication
+### Share Clusters via Delegated OIDC Authentication
 
 The purpose of this feature is to allow using an OIDC provider like `dex` to authenticate to a Kubernetes cluster
 managed by Kubermatic. This feature can be used to share access to a cluster with other users.
@@ -15,7 +15,7 @@ managed by Kubermatic. This feature can be used to share access to a cluster wit
 section for instruction on how to enable this for your installation.
 {{% /notice %}}
 
-### How does it work
+### How Does It Work
 
 This section will demonstrate how to obtain and use the `kubeconfig` to connect to a cluster owned by a different user.
 Note that the user to which the `kubeconfig` is shared will not have any permissions inside that shared cluster unless explicitly granted
@@ -94,7 +94,7 @@ Note that `.Values.kubermatic.auth.caBundle` must contain OIDC provider's root C
 `conifg.json` file for `kubermatic-dashboard` must contain `"share_kubeconfig":true`.
 You can set it by changing the `kubermatic.ui.config` entry in the `values.yaml` file. Afterwards, [update Kubermatic](#update-kubermatic).
 
-### Root CA certificates chain
+### Root CA Certificates Chain
 
 In order to verify OIDC provider's certificate in `kubermatic-controll-manager` when establishing TLS connection a public root CA certificate is required. Ideally the whole
 chain including all intermediary CAs certificates. Note that we expect that all certificates will be PEM encoded.

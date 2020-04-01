@@ -13,7 +13,7 @@ After modifying the `values.yaml` files according to the information below, you 
 An automated `values.yaml` converter for 2.7->2.8 is available in the `release/2.8` branch of the Kubermatic Installer.
 {{% /notice %}}
 
-#### Docker registry credentials merger
+#### Docker Registry Credentials Merger
 
 The docker registry credentials for Docker Hub and Quay located at `kubermatic->docker->secret` and `kubermatic->quay->secret` respectively, have been merged into a single secret at `kubermatic->imagePullSecretData`. The base64-encoded values need to be simply decoded, the resulting JSONs merged and then base64 encoded again before storing at the new location.
 
@@ -45,11 +45,11 @@ IAP proxy has been added to control access to the monitoring stack using oauth i
 
 The section `kubeStateMetrics->externalLabels` has been removed.
 
-#### Prometheus backups
+#### Prometheus Backups
 
 A boolean config value `prometheus->backups` has been added to toggle the creation of metrics' backups.
 
-#### Minio backups
+#### Minio Backups
 
 A boolean config value `minio->backups` has been added to toggle the creation of backups.
 

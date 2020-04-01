@@ -107,7 +107,7 @@ A minimal configuration for Helm charts sets these options. The secret keys ment
 password generator or on the shell using `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 
 ```yaml
-# Dex is the OpenID provider for Kubermatic.
+# Dex Is the OpenID Provider for Kubermatic.
 dex:
   ingress:
     # configure your base domain, under which the Kubermatic dashboard shall be available

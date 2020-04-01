@@ -14,7 +14,7 @@ end user. Your project resources assume the identity of the service account to c
 are not directly involved. A service account has JWT token which is used to authenticate to Kubermatic API. The JWT token
 by default expires after 3 years.
 
-## Core concept
+## Core Concept
 
 A Service accounts are considered as project's resource. Only the owner of the project  can create a service account.
 There is no need to create a new groups for SA, we want to assign a service account to one of the already defined groups:
@@ -88,7 +88,7 @@ A service account is an automatically enabled authenticator that uses signed bea
 
 - `service-account-signing-key` - A signing key authenticates the service account's token value using HMAC. It is recommended to use a key with 32 bytes or longer.
 
-### Keeping track of service accounts and tokens
+### Keeping Track of Service Accounts and Tokens
 
 It is possible to create multiple service accounts for the given project. The service account name must be unique for
 project scope. The service account can have multiple tokens with unique names.
@@ -96,7 +96,7 @@ project scope. The service account can have multiple tokens with unique names.
 The display name of the service account and token is a good way to capture additional information, such as the purpose of
 the service account or token.
 
-### Managing service accounts and tokens
+### Managing Service Accounts and Tokens
 
 It is possible to delete a service account and then create a new service account with the same name. You can do the same
 with service account token.
@@ -111,7 +111,7 @@ The service account token is visible to the user during creation.
 
 The user can also regenerate a token but the previous one will be revoked.
 
-### Accessing API via service account token
+### Accessing API via Service Account Token
 
 A client that wants to authenticate itself with a server can then do so by including an `Authorization` request header
 field with the service account token:

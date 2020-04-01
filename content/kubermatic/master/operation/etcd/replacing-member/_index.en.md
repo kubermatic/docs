@@ -12,7 +12,7 @@ Scenarios though could be:
 
 - A PV of an etcd member got corrupted or even deleted
 
-### Pausing the cluster
+### Pausing the Cluster
 
 Replacing a failed etcd member requires manual intervention.
 As the StatefulSet needs to be modified, the affected cluster needs to be disabled from the controllers management:
@@ -22,7 +22,7 @@ As the StatefulSet needs to be modified, the affected cluster needs to be disabl
 kubectl edit cluster xxxxxxxxxx
 ```
 
-### Replacing the etcd member
+### Replacing the etcd Member
 
 First, the member needs to removed from the etcd-internal member management. Otherwise we risk quorum loss during the restore procedure:
 
@@ -83,7 +83,7 @@ kubectl -n cluster-xxxxxxxxxx delete pod etcd-0
 The etcd pod (etcd-0) should now start and sync with the existing members.
 Now wait until all pods are being displayed as ready.
 
-### Unpausing the cluster
+### Unpausing the Cluster
 
 As the etcd is now back and all members are healthy, we can reset the `pause` flag on the cluster:
 

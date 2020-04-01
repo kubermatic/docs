@@ -10,7 +10,7 @@ pre = "<b></b>"
 The etcd's of the user-clusters are being backed up on a configured interval.
 This document will lead through the process of restoring a complete etcd StatefulSet from a single snapshot.
 
-### Pausing the cluster
+### Pausing the Cluster
 
 Restoring a etcd requires manual intervention.
 As the StatefulSet needs to be modified, the affected cluster needs to be removed from the controllers management:
@@ -30,7 +30,7 @@ Therefore the etcd statefulset must be configured to just execute a `exec /bin/s
 kubectl -n cluster-xxxxxxxxxx edit statefulset etcd
 ```
 
-### Deleting all PVC's
+### Deleting All PVC's
 
 To ensure that we start on each pod with a empty disk, we delete all PVC's.
 The StatefulSet will create new ones with empty PV's automatically.
@@ -39,7 +39,7 @@ The StatefulSet will create new ones with empty PV's automatically.
 kubectl -n cluster-xxxxxxxxxx delete pvc -l app=etcd
 ```
 
-### Deleting all pods
+### Deleting All Pods
 
 To ensure all Pods start with the sleep command and with new PV's, all etcd pods must be deleted.
 
@@ -47,7 +47,7 @@ To ensure all Pods start with the sleep command and with new PV's, all etcd pods
 kubectl -n cluster-xxxxxxxxxx delete pod -l app=etcd
 ```
 
-### Restoring the etcd (Must be executed on all etcd pods)
+### Restoring the etcd (Must Be Executed on All etcd Pods)
 
 The restore command is different for each member. Make sure to update it gets executed.
 
@@ -71,7 +71,7 @@ etcdctl snapshot restore snapshot.db \
   --data-dir /var/run/etcd/pod_${MEMBER}/
 ```
 
-### Un-Pausing the cluster
+### Un-Pausing the Cluster
 
 To let the kubermatic-controller-manager update the etcd to normal state, un-pause it.
 
@@ -80,7 +80,7 @@ To let the kubermatic-controller-manager update the etcd to normal state, un-pau
 kubectl edit cluster xxxxxxxxxx
 ```
 
-### Delete etcd-pods
+### Delete etcd-Pods
 
 As the rolling-update of the etcd won't finish, all etcd pods must be manually.
 

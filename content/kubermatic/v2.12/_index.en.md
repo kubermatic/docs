@@ -6,7 +6,7 @@ weight = 5
 
 # Welcome to Kubermatic Docs
 
-## One Enterprise Kubernetes Management Platform For Any Infrastructure
+## One Enterprise Kubernetes Management Platform for Any Infrastructure
 
 Automate thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Deploy, manage and run multiple Kubernetes clusters with our production-proven platform. On your preferred infrastructure.
 
@@ -26,10 +26,10 @@ By providing managed Kubernetes clusters for your infrastructure, Kubermatic mak
 
 Kubermatic provides live updates of your Kubernetes cluster without disrupting your daily business. Use all new features of Kubernetes as you increase scale.
 
-### Scale your cluster
+### Scale Your Cluster
 
 You can add and remove nodes in our easy to use dashboard. Just specify the amount of nodes in your Kubernetes cluster and Kubermatic scales the cluster up or down to your needs.
 
-## Further information
+## Further Information
 
 See [Loodse.com](https://www.loodse.com/).

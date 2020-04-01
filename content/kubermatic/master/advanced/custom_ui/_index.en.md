@@ -64,7 +64,7 @@ The result of this example should look like this:
 
 ![Custom Theme](/img/advanced/custom_ui/result.png)
 
-## Customizing the Application Sources inside Custom Container
+## Customizing the Application Sources Inside Custom Container
 
 This approach is very similar to the first one, but this time application sources can be changed inside the custom
 container that was prepared specially for it. It allows to modify SCSS just like in the first approach, but files could

@@ -170,7 +170,7 @@ The vsphere user has to have to following permissions on the correct resources:
 
 The described permissions have been tested with vSphere 6.7 and might be different for other vSphere versions.
 
-#### Volume detach bug
+#### Volume Detach Bug
 
 After a node is powered-off, the Kubernetes vSphere driver doesn't detach disks associated with PVCs mounted on that node. This makes it impossible to reschedule pods using these PVCs until the disks are manually detached in vCenter.
 

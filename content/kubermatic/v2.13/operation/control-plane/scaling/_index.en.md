@@ -52,7 +52,7 @@ etcd:
     memory: 256Mi
 ```
 
-### Setting custom overrides
+### Setting Custom Overrides
 
 Custom settings can be applid by modifying the clusters `cluster.spec.componentsOverride` property:
 

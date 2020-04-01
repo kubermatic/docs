@@ -16,7 +16,7 @@ the same namespace. You can skip the first step and directly continue with insta
 Plese refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
 about the cluster relationships.
 
-### 1. Install Kubernetes cluster
+### 1. Install Kubernetes Cluster
 
 First, you need to install a Kubernetes cluster with some additional components. After the installation of
 Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic

@@ -5,9 +5,9 @@ weight = 7
 pre = "<b></b>"
 +++
 
-### Kubermatic offline mode
+### Kubermatic Offline Mode
 
-## Download all required images
+## Download All Required Images
 
 To aid in downloading all required images, Kubermatic provides the `image-loader` CLI utility. It can be used like
 this:
@@ -19,7 +19,7 @@ image-loader \
   -log-format=Console
 ```
 
-## Worker nodes behind a proxy
+## Worker Nodes Behind a Proxy
 
 In situations where worker nodes will require a proxy to reach the internet, the `datacenters.yaml` must be modified:
 

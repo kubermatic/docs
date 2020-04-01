@@ -5,7 +5,7 @@ weight = 8
 pre = "<b></b>"
 +++
 
-### Kubermatic addons
+### Kubermatic Addons
 
 Addons are specific services and tools extending functionality of Kubernetes. In Kubermatic we have a set of default addons installed on each user-cluster. The default addons are:
 
@@ -60,7 +60,7 @@ helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kub
 In case you want to set a custom registry for all addons, you can specify the `-overwrideRegistry` flag on the `kubermatic-controller-manager` or via the helm setting `kubermatic.controller.overwriteRegistry`.
 It will set the specified registry on all control plane components & addons.
 
-### How to add a custom addon
+### How to Add a Custom Addon
 
 1. All manifests and config files for the default addons are stored in the `quay.io/kubermatic/addons` image. Use this image as a base image and copy configs and manifests for all custom addons to `/addons` folder.
 
@@ -124,7 +124,7 @@ It will set the specified registry on all control plane components & addons.
    helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic
    ```
 
-#### Template variables
+#### Template Variables
 
 All cluster object variables can be used in all addon manifests. Specific template variables and functions used in default templates:
 

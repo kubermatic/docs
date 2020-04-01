@@ -25,11 +25,11 @@ kubectl -n kube-system delete Deployment s3-exporter
 An automated `values.yaml` converter for 2.6->2.7 is available in the `release/2.7` branch of the Kubermatic Installer.
 {{% /notice %}}
 
-#### Default addons
+#### Default Addons
 
 The section `kubermatic->addons->defaultAddons` is now moved to 'kubermatic->controller->addons->defaultAddons'. The `kubermatic->addons` section is gone.
 
-#### Image versions
+#### Image Versions
 
 The new versions of the images at the time of writing this are:
 
@@ -42,7 +42,7 @@ The new versions of the images at the time of writing this are:
  - `kubeStateMetrics->resizer->image->repository` is now `k8s.gcr.io/addon-resizer`
  - `kubeStateMetrics->resizer->image->tag` is now `1.7`
 
-#### S3 exporter section
+#### S3 Exporter Section
 
 A new section for configuring an S3 metrics exporter has been added at `kubermatic->s3_exporter`. Example data:
 
@@ -56,11 +56,11 @@ kubermatic:
     bucket: kubermatic-etcd-backups
 ```
 
-#### kube-state-metrics RBAC proxy
+#### kube-state-metrics RBAC Proxy
 
 The section `kubeStateMetrics->rbacProxy` is now gone.
 
-#### Prometheus config
+#### Prometheus Config
 
 New options for configuring resource limits have been added. The following example section needs to be merged into existing config:
 
@@ -88,7 +88,7 @@ prometheus:
           memory: 16Mi
 ```
 
-#### Prometheus operator
+#### Prometheus Operator
 
 The `prometheusOperator` section is now gone.
 

@@ -1,11 +1,11 @@
 +++
-title = "Update list of selectable Kubernetes versions"
+title = "Update List of Selectable Kubernetes Versions"
 date = 2019-07-05T10:45:00+02:00
 weight = 6
 pre = "<b></b>"
 +++
 
-### Update list of selectable Kubernetes versions
+### Update List of Selectable Kubernetes Versions
 
 The list of selectable versions when [specifying cluster name and Kubernetes version](../../getting_started/create_cluster/#step-2-specify-the-cluster-name-and-kubernetes-version) is defined in the file
 `versions.yaml`. You'll find it in your Kubermatic installer clone directory:

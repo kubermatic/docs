@@ -1,11 +1,11 @@
 +++
-title = "Create a new project"
+title = "Create a New Project"
 date = 2019-10-17T12:07:15+02:00
 weight = 10
 pre = "<b></b>"
 +++
 
-## Create a new project
+## Create a New Project
 
 Clusters are assigned to projects, so in order to create a cluster, you must create a project first. In the Kubermatic dashboard, choose `Add Project`:
 
@@ -21,7 +21,7 @@ After you click `Save`, the project will be created. If you click on it now, you
 
 ![Creating the project](01-create-project-creating.png)
 
-## Delete a project
+## Delete a Project
 
 To delete a project, move the cursor over the line with the project name and click the trash bucket icon.
 

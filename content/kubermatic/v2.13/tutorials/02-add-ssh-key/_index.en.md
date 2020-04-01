@@ -1,5 +1,5 @@
 +++
-title = "Add an SSH key to a project"
+title = "Add an SSH Key to a Project"
 date = 2019-10-16T12:07:15+02:00
 weight = 20
 pre = "<b></b>"

@@ -7,7 +7,7 @@ pre = "<b></b>"
 
 With Presets you can specify default settings for new Cluster. Use Presets to reuse property settings across multiple providers.
 
-### Core concept
+### Core Concept
 
 As a Kubermatic administrator with superuser access, you can define Preset types in a Kubernetes Custom Resource Definition (CRD),
 allowing the assignment of new credential types to supported providers. This allows you to define a custom credential type

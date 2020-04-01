@@ -6,14 +6,14 @@ weight = 50
 pre = "<b></b>"
 +++
 
-## Expose strategy
+## Expose Strategy
 
 Kubermatic 2.11 adds support to expose user clusters by creating one service of type `LoadBalancer` per user
 cluster. Check out the [Expose Strategy documentation]({{< ref "../../concepts/expose-strategy/expose_strategy.en.md" >}}) for more details.
 
 ## Helm Charts
 
-### Kubermatic: service account tokens structure
+### Kubermatic: Service Account Tokens Structure
 
 A new flag `service-account-signing-key` was added to the Kubermatic API. It is used to sign service account tokens via
 HMAC. It should be unique per Kubermatic installation and can be generated with the command: `base64 -w0 /dev/urandom | head -c 100`

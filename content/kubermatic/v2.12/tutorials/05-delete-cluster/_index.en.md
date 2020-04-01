@@ -1,5 +1,5 @@
 +++
-title = "Delete a cluster"
+title = "Delete a Cluster"
 date = 2019-11-07T12:07:15+02:00
 weight = 50
 pre = "<b></b>"

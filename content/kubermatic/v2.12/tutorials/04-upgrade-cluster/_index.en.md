@@ -1,11 +1,11 @@
 +++
-title = "Upgrade a cluster"
+title = "Upgrade a Cluster"
 date = 2019-11-06T12:07:15+02:00
 weight = 40
 pre = "<b></b>"
 +++
 
-## Upgrade master components
+## Upgrade Master Components
 
 When an upgrade for the master components is available, a little dropdown arrow will be shown besides the Master Version on the cluster's page:
 
