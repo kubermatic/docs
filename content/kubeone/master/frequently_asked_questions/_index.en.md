@@ -1,8 +1,8 @@
 +++
-title = "Frequently Asked Questions"
+title = "KubeOne FAQ"
 date = 2020-04-01T12:00:00+02:00
-weight = 9
-pre = "<b></b>"
+weight = 4
+pre = "<b>1. </b>"
 +++
 
 This document lists some commonly asked questions about KubeOne, what it does,

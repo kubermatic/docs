@@ -12,5 +12,3 @@ kubeone:
   versions:
     - release: master
       name: master
-    - release: v0.11
-      name: v0.11
