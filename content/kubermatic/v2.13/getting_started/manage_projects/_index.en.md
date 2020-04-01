@@ -25,7 +25,7 @@ To manage clusters, you need to select in which project you would like to work. 
 
 ![Project list](/img/getting_started/manage_projects/projects-list.png)
 
-After selecting the current project, the menu items for managing clusters and members become active.
+After selecting the current project, the menu items for managing clusters, members and service accounts become active.
 
 ### Step 3 – Create a Cluster
 
@@ -35,7 +35,7 @@ Refer to the [cluster documentation](../create_cluster) for more information on 
 
 After selecting a project like in step 2, click on "Members" in the menu on the left to see the list of active members. If you are the owner, you can add and remove members in your project. To add a member, just like adding a project or a cluster, use the button above the member list. Add the e-mail address *of an existing user* and define their role in the project.
 
-![Add member dialog](/img/getting_started/manage_projects/projects-members.png)
+![Add member dialog](/img/getting_started/manage_projects/projects-member.png)
 
 * **Editors** have write access to your project and can manage clusters, nodes and SSH keys.
 * **Viewers** have read-only access and can only view the existing resources.

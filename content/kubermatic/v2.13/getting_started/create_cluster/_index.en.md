@@ -17,6 +17,8 @@ Before you can manage clusters or SSH keys, select your current project by using
 
 ![Wizard cluster specification step](/img/getting_started/manage_projects/projects-list.png)
 
+Go to clusters view by clicking on "Clusters" menu entry and then click on the "Add Cluster" button in the top right corner to go to the cluster wizard.
+
 ### Step 2 – Specify the cluster name and Kubernetes version
 
 The cluster name is how you will identify your Kubernetes cluster instance. Choose a name that is easy for you to remember. You must also select your desired Kubernetes version.
@@ -40,7 +42,7 @@ This is the datacenter of your cloud provider. Your worker nodes will get deploy
 Enter your provider specific credentials so that Kubermatic can configure your worker machines and integrate them into your cluster.
 
 {{% notice tip %}}
-This step varies depending on the selected provider! You will be asked for different provider credentials when choosing AWS or Google for example
+This step varies depending on the selected provider! You will be asked for different provider credentials when choosing AWS or Google for example.
 {{% /notice %}}
 
 ![Wizard settings step](/img/getting_started/create_cluster/wizard-settings.png)
