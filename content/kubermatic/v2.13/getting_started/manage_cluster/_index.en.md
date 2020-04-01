@@ -11,25 +11,23 @@ pre = "<b></b>"
 
 Via the menu item "Manage Cluster" you can display your active clusters.
 
-![Kubermatic cluster overview](/img/getting_started/manage_cluster/kubermatic_00.png)
+![Cluster list](/img/2.13/getting_started/manage_cluster/cluster-list.png)
 
 ### Basic cluster information
 
 The dashboard provides you with all important cluster information. You can check the status of your master components and worker nodes.
 
-![Kubermatic cluster details](/img/getting_started/manage_cluster/kubermatic_01.png)
+![Cluster details](/img/2.13/getting_started/manage_cluster/cluster-details.png)
 
 ### Adding new nodes to your cluster
 
 You can easily extend your cluster with new worker nodes. Kubermatic will automatically configure them and integrate them into your cluster.
 
-![Kubermatic form for adding new nodes](/img/getting_started/manage_cluster/kubermatic_02.png)
+![Add node deployment dialog](/img/2.13/getting_started/manage_cluster/cluster-add-nd.png)
 
 ### Connect to the cluster
 
-Kubermatic automatically creates your clusters `kubeconfig` file.
-
-![Kubermatic kubeconfig view](/img/getting_started/manage_cluster/kubermatic_03.png)
+Kubermatic automatically creates your clusters `kubeconfig` file. It can be downloaded using the icon button on the left of the "Add Node Deployment" button.
 
 To connect to your cluster configure `kubectl` command line tool to use your `kubeconfig` file
 
