@@ -1,5 +1,6 @@
 kubermatic:
   name: Kubermatic
+  logo: "img/header-logo-kubermatic.png"
   versions:
     - release: master
       name: master
@@ -9,6 +10,7 @@ kubermatic:
       name: v2.12
 kubeone:
   name: KubeOne
+  logo: "img/header-logo-kubeone.png"
   versions:
     - release: master
       name: master
