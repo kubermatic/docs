@@ -71,9 +71,6 @@ spec:
           # Datacenter location, e.g. "ams3". A list of existing datacenters can be found
           # at https://www.digitalocean.com/docs/platform/availability-matrix/
           region: ""
-        # EnforceAuditLogging enforces audit logging on every cluster within the DC,
-        # ignoring cluster-specific settings.
-        enforceAuditLogging: false
         gcp:
           # Region to use, for example "europe-west3", for a full list of regions see
           # https://cloud.google.com/compute/docs/regions-zones/
@@ -127,13 +124,6 @@ spec:
           # The list of enabled facilities, for example "ams1", for a full list of available
           # facilities see https://support.packet.com/kb/articles/data-centers
           facilities: []
-        # Optional: When defined, only users with an e-mail address on the
-        # given domains can make use of this datacenter. You can define multiple
-        # domains, e.g. "example.com", one of which must match the email domain
-        # exactly (i.e. "example.com" will not match "user@test.example.com").
-        # RequiredEmailDomain is deprecated. Automatically migrated to the RequiredEmailDomains field.
-        requiredEmailDomain: ""
-        requiredEmailDomains: null
         vsphere:
           # If set to true, disables the TLS certificate check against the endpoint.
           allow_insecure: false
@@ -164,6 +154,16 @@ spec:
             rhel: ""
             sles: ""
             ubuntu: ""
+        # Optional: When defined, only users with an e-mail address on the
+        # given domains can make use of this datacenter. You can define multiple
+        # domains, e.g. "example.com", one of which must match the email domain
+        # exactly (i.e. "example.com" will not match "user@test.example.com").
+        # RequiredEmailDomain is deprecated. Automatically migrated to the RequiredEmailDomains field.
+        requiredEmailDomain: ""
+        requiredEmailDomains: null
+        # EnforceAuditLogging enforces audit logging on every cluster within the DC,
+        # ignoring cluster-specific settings.
+        enforceAuditLogging: false
   # Optional: ExposeStrategy explicitly sets the expose strategy for this seed cluster, if not set, the default provided by the master is used.
   expose_strategy: ""
   # A reference to the Kubeconfig of this cluster. The Kubeconfig must
