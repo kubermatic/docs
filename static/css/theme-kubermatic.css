@@ -188,3 +188,7 @@ h2 {
 .runbook-alert .severity-critical {
     color: red;
 }
+
+#TableOfContents {
+    font-size: 1.1rem !important;
+}

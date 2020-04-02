@@ -56,7 +56,6 @@
                   </div>
                   {{ end }}
                 {{ end }}
-                {{$toc := (and (not .Params.disableToc) (not .Params.chapter))}}
                 <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
                     {{ range $key, $value := $.Site.Data.version }}
                       {{ if in $.RelPermalink $key }}
@@ -74,9 +73,6 @@
                     {{ end }}
 
                 </div>
-                {{ if $toc }}
-                    {{ partial "toc.html" . }}
-                {{ end }}
               </div>
             </div>
             {{ end }}
@@ -95,7 +91,9 @@
               {{.Title}}
             </h1>
           {{end}}
-
+          {{ if (and (.Params.enableToc) (not .Params.chapter)) }}
+            {{ .TableOfContents }}
+          {{ end }}
         {{define "breadcrumb"}}
           {{$parent := .page.Parent }}
           {{ if $parent }}
