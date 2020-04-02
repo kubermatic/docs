@@ -122,7 +122,7 @@ Supported Kubernetes versions:
 - The docker logs on the nodes now get rotated via the new `logrotate` addon
 - Made node-exporter an optional addon.
 - Added parent cluster readable name to default worker names.
-- The QPS settings of kubeletes can now be configured per-cluster using addon Variables
+- The QPS settings of kubelets can now be configured per-cluster using addon Variables
 - Access to Kubernetes Dashboard can be now enabled/disabled by the global settings.
 - Added support for dynamic presets
 - Presets can now be filtered by datacenter
