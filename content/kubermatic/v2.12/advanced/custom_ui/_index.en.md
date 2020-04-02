@@ -62,7 +62,7 @@ Now, having all the changes prepared let's build a container image and deploy it
 
 The result of this example should look like this:
 
-![Custom Theme](/img/advanced/custom_ui/result.png)
+![Custom Theme](/img/2.12/advanced/custom-ui/result.png)
 
 ## Customizing the Application Sources Inside Custom Container
 
