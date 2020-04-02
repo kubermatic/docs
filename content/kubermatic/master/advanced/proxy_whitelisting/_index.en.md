@@ -130,7 +130,7 @@ apt.kubernetes.io
 storage.googleapis.com
 raw.githubusercontent.com
 
-# Needed for Coreos
+# Needed for CoreOS
 github.com
 ```
 
