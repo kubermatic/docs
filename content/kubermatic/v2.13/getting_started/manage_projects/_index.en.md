@@ -32,7 +32,6 @@ After selecting the current project, the menu items for managing clusters, membe
 Refer to the [cluster documentation](../create_cluster) for more information on how to create and manage clusters.
 
 ### Step 4 – Manage Project Members
-getting_started
 After selecting a project like in step 2, click on "Members" in the menu on the left to see the list of active members. If you are the owner, you can add and remove members in your project. To add a member, just like adding a project or a cluster, use the button above the member list. Add the e-mail address *of an existing user* and define their role in the project.
 
 ![Add member dialog](/img/2.13/getting_started/manage_projects/projects-member.png)
