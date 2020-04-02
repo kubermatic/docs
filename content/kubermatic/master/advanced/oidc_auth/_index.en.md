@@ -114,3 +114,29 @@ After all values are set at the `values.yaml` the installed helm charts `kuberma
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth charts/kubermatic/oauth
 helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic/
 ```
+
+### Role-Based Access Control Predefined Roles
+
+Kubermatic provides predefined roles and cluster roles to help implement granular permissions for specific resources and
+to simplify access control across the user cluster. All of the default roles and cluster roles are labeled with `component=userClusterRole`.
+
+| Default ClusterRole | Description                                                                                                                                                                                                                                       |
+|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| admin               | Allows admin access. allows read/write access to most resources in a namespace, including the ability to create roles and role bindings within the namespace. This role does not allow write access to resource quota or to the namespace itself. |
+| edit                | Allows read/write access to most objects in a namespace. This role does not allow viewing or modifying roles or role bindings. However, this role allows accessing secrets and running pods as any service account in the namespace               |
+| view                | Allows read-only access to see most objects in a namespace. It does not allow viewing roles or role bindings.                                                                                                                                     |
+
+
+| Default Role     | Description                                                                                                                                         |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| namespace-admin  | Allows admin access. Allows read/write access to most resources in a namespace.                                                                     |
+| namespace-editor | Allows read/write access to most objects in a namespace. This role allows accessing secrets and running pods as any service account in the namespace|
+| namespace-viewer | Allows read-only access to see most objects in a namespace.                                                                                         |
+
+The cluster owner is automatically connected to the `admin` cluster role.
+
+![Kubermatic cluster owner RBAC link](/img/advanced/oidc_auth/cluster_owner_rbac.png)
+
+The project user with owner and editor privileges can add and remove bindings to existing roles and cluster roles.
+
+![Kubermatic add binding RBAC link](/img/advanced/oidc_auth/add_binding_rbac.png)
