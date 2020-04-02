@@ -10,11 +10,11 @@ This manual explains how to manage Kubermatic user settings via the UI.
 ### Accessing the User Settings
 To access the user settings click the `User Settings` entry in the user menu:
 
-![User menu](/img/advanced/user_settings/menu.png)
+![User menu](/img/master/advanced/user-settings/menu.png)
 
 ### User Settings Overview
 
-![User Settings view](/img/advanced/user_settings/view.png)
+![User settings view](/img/master/advanced/user-settings/view.png)
 
 The user settings view is devided into two columns: 
 The left side contains all account details, such as the name and the email of the user, whereas the right side lists all possible settings that a user can make. 
