@@ -24,11 +24,11 @@ by creating appropriate [RBAC](https://kubernetes.io/docs/reference/access-authn
 In order to demonstrate the feature we are going to need a working cluster. If you don't have one please check the [how to create a cluster](../../getting_started/create_cluster/) section.
 If the feature was enabled on your installation you should see a "Share cluster" button after navigating to "Cluster details" page.
 
-![Kubermatic cluster details share cluster button](/img/advanced/oidc_auth/share_cluster_button.png)
+![Share cluster button](/img/master/advanced/oidc-auth/share-cluster.png)
 
 Right after clicking on the button you will see a modal window where you can copy the generated link to your clipboard.
 
-![Kubermatic share cluster link](/img/advanced/oidc_auth/share_cluster_modal.png)
+![Share cluster dialog](/img/master/advanced/oidc-auth/share-cluster-modal.png)
 
 You can now share this link with anyone that can access the Kubermatic UI. After login, that person will get a download link for a
 `kubeconfig`.
@@ -135,8 +135,8 @@ to simplify access control across the user cluster. All of the default roles and
 
 The cluster owner is automatically connected to the `admin` cluster role.
 
-![Kubermatic cluster owner RBAC link](/img/advanced/oidc_auth/cluster_owner_rbac.png)
+![Kubermatic cluster owner RBAC link](/img/master/advanced/oidc-auth/cluster-owner-rbac.png)
 
 The project user with owner and editor privileges can add and remove bindings to existing roles and cluster roles.
 
-![Kubermatic add binding RBAC link](/img/advanced/oidc_auth/add_binding_rbac.png)
+![Kubermatic add binding RBAC link](/img/master/advanced/oidc-auth/add-binding-rbac.png)
