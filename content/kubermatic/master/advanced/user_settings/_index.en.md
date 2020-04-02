@@ -1,7 +1,7 @@
 +++
 title = "Kubermatic User Settings"
 date = 2020-04-01T14:07:15+02:00
-weight = 1
+weight = 10
 pre = "<b></b>"
 +++
 

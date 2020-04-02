@@ -1,7 +1,7 @@
 +++
 title = "Kubermatic Proxy Whitelisting"
 date = 2019-09-13T12:07:15+02:00
-weight = 7
+weight = 90
 pre = "<b></b>"
 +++
 

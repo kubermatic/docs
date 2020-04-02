@@ -1,7 +1,7 @@
 +++
 title = "Versions & Update Configuration"
 date = 2019-07-05T10:45:00+02:00
-weight = 6
+weight = 80
 pre = "<b></b>"
 +++
 
