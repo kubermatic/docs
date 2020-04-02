@@ -17,7 +17,7 @@ Here are some quick links to the different chapters:
   * [Customizing the Application Without Changing the Sources]({{< ref "#customizing-the-application-without-changing-the-sources" >}})
 
 ## Modifying Available Themes
-Currently the application has two themes by default: light and dark. Each user can specify the prefered theme in the `User Settings` view which is accessible from the user menu.
+Currently the application has two themes by default: light and dark. Each user can specify the preferred theme in the `User Settings` view which is accessible from the user menu.
 
 ![User Settings](/img/master/advanced/custom-ui/view.png)
 
