@@ -1,7 +1,9 @@
 {{ range $key, $value := $.Site.Data.version }}
-	{{ if in $.RelPermalink $key }}
-		<a href="{{ .Site.BaseURL }}">
-			<img src="{{ .Site.BaseURL }}/{{ $value.logo }}" alt="Kubermatic">
-		</a>
-	{{ end }}
+    {{ with $.Site.GetPage (printf "/%s" $key) }}
+        {{ if hasPrefix $.RelPermalink .RelPermalink }}
+        <a href="{{ .RelPermalink }}">
+            <img src="/{{ $value.logo }}" alt="{{ $value.name }}">
+        </a>
+        {{ end }}
+    {{ end }}
 {{ end }}
