@@ -9,18 +9,22 @@ pre = "<b></b>"
 
 In this quick start we're going to show how to get started with KubeOne on AWS. We'll cover how to create the needed infrastructure using our example Terraform scripts and then install Kubernetes. Finally, we're going to show how to destroy the cluster along with the infrastructure.
 
-As a result, you'll get Kubernetes 1.16.1 High-Available (HA) clusters with three control plane nodes and three worker nodes.
+As a result, you'll get Kubernetes High-Available (HA) cluster with three control plane nodes and three worker nodes.
 
 ### Prerequisites
 
 To follow this quick start, you'll need:
 
-* `kubeone` v0.11.0 or newer installed, which can be done by following the `Installing KubeOne` section of [the README](https://github.com/kubermatic/kubeone/blob/master/README.md),
-* `terraform` v0.12.0 or later installed. Older releases are not compatible. The binaries for `terraform` can be found on the [Terraform website](https://www.terraform.io/downloads.html)
+* KubeOne v0.11.0 or newer installed, which can be done by following the Installing KubeOne section of [the README](https://github.com/kubermatic/kubeone/blob/master/README.md),
+* Terraform v0.12.0 or newer installed. Older releases are not compatible. The binaries for Terraform can be found on the [Terraform website](https://www.terraform.io/downloads.html)
 
 ## Setting Up Credentials
 
-In order for Terraform to successfully create the infrastructure and for KubeOne to install Kubernetes and create worker nodes you need an [IAM account](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) with the appropriate permissions.
+{{% notice warning %}}
+The provided credentials are deployed to the cluster to be used by `machine-controller` for creating worker nodes. You may want to consider providing a non-administrator credentials to increase the security.
+{{% /notice %}}
+
+In order for Terraform to successfully create the infrastructure and for machine-controller to create worker nodes you need an [IAM account](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) with the appropriate permissions.
 
 Once you have the IAM account you need to set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables:
 
@@ -29,9 +33,17 @@ export AWS_ACCESS_KEY_ID=...
 export AWS_SECRET_ACCESS_KEY=...
 ```
 
-If the environment variables are not set, KubeOne will try to read the default profile from `~/.aws/credentials`.
+KubeOne can also read the default shared credentials file (`~/.aws/credentials`). In order to use this approach,
+you need to explicitly point the `AWS_PROFILE` environment variable to the profile you want to use:
+```bash
+export AWS_PROFILE="default"
+```
 
-**Note:** The credentials are also deployed to the cluster to be used by `machine-controller` for creating worker nodes.
+{{% notice note %}}
+The `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables have the highest priority,
+so if you want to use credentials from the shared credentials file you must ensure that those two
+environment variables are unset.
+{{% /notice %}}
 
 ## Creating Infrastructure
 
@@ -39,7 +51,9 @@ KubeOne is based on the Bring-Your-Own-Infra approach, which means that you have
 
 The Terraform scripts for AWS are located in the [`./examples/terraform/aws`](https://github.com/kubermatic/kubeone/tree/master/examples/terraform/aws) directory.
 
-**Note:** KubeOne comes with Terraform integration that is capable of reading information about the infrastructure from Terraform output. If you decide not to use our Terraform scripts but want to use Terraform integration, make sure variable names in the output match variable names used by KubeOne. Alternatively, if you decide not to use Terraform, you can provide needed information about the infrastructure manually in the KubeOne configuration file.
+{{% notice note %}}
+KubeOne comes with the Terraform integration that can source information about the infrastructure directly from the Terraform output. If you decide not to use our Terraform scripts, but you still want to use the Terraform integration, you must ensure that your [Terraform output (`output.tf`)](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/output.tf) is using the same format as ours. Alternatively, if you decide not to use Terraform, you can provide needed information about the infrastructure manually in the KubeOne configuration file.
+{{% /notice %}}
 
 First, we need to switch to the directory with Terraform scripts:
 
@@ -47,13 +61,15 @@ First, we need to switch to the directory with Terraform scripts:
 cd ./examples/terraform/aws
 ```
 
-Before we can use Terraform to create the infrastructure for us, Terraform needs to download the AWS plugin and setup it's environment. This is done by running the `init` command:
+Before we can use Terraform to create the infrastructure for us, Terraform needs to download the AWS plugin. This is done by running the `init` command:
 
 ```bash
 terraform init
 ```
 
-**Note:** You need to run this command only the first time before using scripts.
+{{% notice tip %}}
+You need to run this command only the first time before using scripts.
+{{% /notice %}}
 
 You may want to configure the provisioning process by setting variables defining the cluster name, AWS region, instances size and similar. The easiest way is to create the `terraform.tfvars` file and store variables there. This file is automatically read by Terraform.
 
@@ -61,12 +77,15 @@ You may want to configure the provisioning process by setting variables defining
 nano terraform.tfvars
 ```
 
-For the list of available settings along with their names please see the [`variables.tf`](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/variables.tf) file. You should consider setting:
+For the list of available settings along with their names, please see the [`variables.tf`](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/variables.tf) file. You should consider setting:
 
-* `cluster_name` (required) - prefix for cloud resources
-* `aws_region` (default: eu-west-3)
-* `ssh_public_key_file` (default: `~/.ssh/id_rsa.pub`) - path to your SSH public key that's deployed on instances
-* `control_plane_type` (default: t3.medium) - note that you should have at least 2 GB RAM and 2 CPUs for Kubernetes to work properly
+| Variable            | Required | Default Value     | Description                                                                                                          |
+| ------------------- | -------- | ----------------- | -------------------------------------------------------------------------------------------------------------------- |
+| cluster_name        | yes      |                   | cluster name and prefix for cloud resources                                                                          |
+| aws_region          |          | eu-west-3         | aws region to use for all resources                                                                                  |
+| ssh_public_key_file |          | ~/.ssh/id_rsa.pub | path to your SSH public key that's deployed on instances                                                             |
+| control_plane_type  |          | t3.medium         | control plane instance type (note that you should have at least 2 GB RAM and 2 CPUs for Kubernetes to work properly) |
+
 
 The `terraform.tfvars` file can look like:
 
@@ -90,45 +109,51 @@ terraform apply
 
 Shortly after you'll be asked to enter `yes` to confirm your intention to provision the infrastructure.
 
-Infrastructure provisioning takes around 5 minutes.
+Infrastructure provisioning takes around 2-3 minutes.
+
+Once the provisioning is done, you need to export the Terraform output using the following command.
+This Terraform output file will be used by KubeOne to source information about the infrastructure
+and worker nodes.
+```bash
+terraform output -json > tf.json
+```
+
+{{% notice tip %}}
+The generated output is based on the [`output.tf` file](https://github.com/kubermatic/kubeone/blob/258ec7a06b39fe27d741edc24ed77796829249cd/examples/terraform/aws/output.tf). If you want to change any settings,
+such as how worker nodes are created, you can modify the `output.tf` file. Make sure to run `terraform apply`
+and `terraform output` after modifying the file.
+{{% /notice %}}
 
 ## Installing Kubernetes
 
-Now that you have infrastructure you can proceed with installing Kubernetes
-using KubeOne.
+Now that you have the infrastructure you can proceed with provisioning your Kubernetes
+cluster using KubeOne.
 
-Before you start you'll need a configuration file that defines how Kubernetes
+Before you start, you'll need a configuration file that defines how Kubernetes
 will be installed, e.g. what version will be used and what features will be
 enabled. For the configuration file reference run `kubeone config print --full`.
 
-To get started you can use the following configuration. It'll install Kubernetes 1.16.1 and create three worker nodes. KubeOne automatically populates all needed information about worker nodes from the [Terraform output](https://github.com/kubermatic/kubeone/blob/258ec7a06b39fe27d741edc24ed77796829249cd/examples/terraform/aws/output.tf#L46-L146). Alternatively, you can set those information manually. As KubeOne is using [Kubermatic `machine-controller`](https://github.com/kubermatic/machine-controller) for creating worker nodes, see [AWS example manifest](https://github.com/kubermatic/machine-controller/blob/master/examples/aws-machinedeployment.yaml) for available options.
-
-For example, to create a cluster with Kubernetes `1.16.1`, save the following to
-`config.yaml`:
-```yaml
+To get started you can use the following configuration file:
+```
 apiVersion: kubeone.io/v1alpha1
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.16.1'
+  kubernetes: '1.18.0'
 cloudProvider:
   name: 'aws'
 ```
 
-Finally, we're going to install Kubernetes by using the `install` command and providing the configuration file and the Terraform output:
+This configuration manifest instructs KubeOne to provision Kubernetes 1.18.0
+cluster on AWS. Other properties, including information about the infrastructure
+and how to create worker nodes are sourced from the [Terraform output](https://github.com/kubermatic/kubeone/blob/258ec7a06b39fe27d741edc24ed77796829249cd/examples/terraform/aws/output.tf). As KubeOne is using [Kubermatic `machine-controller`](https://github.com/kubermatic/machine-controller) for creating worker nodes, see the [AWS example manifest](https://github.com/kubermatic/machine-controller/blob/master/examples/aws-machinedeployment.yaml) for available options.
+
+Finally, we're going to install Kubernetes by running the following `install` command and providing the configuration file and the Terraform output:
 
 ```bash
 kubeone install config.yaml --tfjson <DIR-WITH-tfstate-FILE>
 ```
 
-**Note:** `--tfjson` accepts a file as well as a directory containing the
-terraform state file. To pass a file, generate the JSON output by running the
-following and use it as the value for the `--tfjson` flag:
-
-```bash
-terraform output -json > tf.json
-```
-
-Alternatively, if the terraform state file is in the current working directory
+Alternatively, if the Terraform state file is in the current working directory
  `--tfjson .` can be used as well.
 
 The installation process takes some time, usually 5-10 minutes. The output should look like the following one:
@@ -179,43 +204,41 @@ time="12:04:10 UTC" level=info msg="Skipping Ark deployment because no backup pr
 ```
 
 KubeOne automatically downloads the Kubeconfig file for the cluster. It's named
-as **\<cluster_name>-kubeconfig**, where **\<cluster_name>** is the name from
-your configuration. You can use it with kubectl such as
+as **\<cluster_name>-kubeconfig**, where **\<cluster_name>** is the name provided
+in the `terraform.tfvars` file. You can use it with kubectl such as:
 
 ```bash
 kubectl --kubeconfig=<cluster_name>-kubeconfig
 ```
 
-or export the `KUBECONFIG` variable environment variable:
+or export the `KUBECONFIG` environment variable:
 
 ```bash
 export KUBECONFIG=$PWD/<cluster_name>-kubeconfig
 ```
 
+You can check the following [document](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) to learn more about managing access to your clusters.
+
 ## Scaling Worker Nodes
 
 Worker nodes are managed by the machine-controller. It creates initially one per
 availability zone. Those can be scaled up and down (including to 0) using the Kubernetes API.
-To do so you first got to retrieve the `machinedeployments` by
+To do so you first got to retrieve the `machinedeployments` by running:
 
 ```bash
 kubectl get machinedeployments -n kube-system
 ```
 
-The names of the `machinedeployments` are generated. You can scale the workers in those via
+The names of the `machinedeployments` are generated. You can scale the workers in those using:
 
 ```bash
 kubectl --namespace kube-system scale machinedeployment/<MACHINE-DEPLOYMENT-NAME> --replicas=3
 ```
 
-**Note:** The `kubectl scale` command is not working as expected with `kubectl` 1.15,
-returning an error such as:
-
-```
-The machinedeployments "<MACHINE-DEPLOYMENT-NAME>" is invalid: metadata.resourceVersion: Invalid value: 0x0: must be specified for an update
-```
-
-For a workaround, please follow the steps described in the [issue 593][scale_issue] or upgrade to `kubectl` 1.16 or newer.
+{{% notice note %}}
+The `kubectl scale` command is not working as expected with kubectl v1.15.
+If you want to use the scale command, please upgrade to kubectl v1.16 or newer.
+{{% /notice %}}
 
 ## Deleting The Cluster
 
@@ -233,6 +256,4 @@ terraform destroy
 
 You'll be asked to enter `yes` to confirm your intention to destroy the cluster.
 
-Congratulations! You're now running Kubernetes 1.16.1 HA cluster with three control plane nodes and three worker nodes. If you want to learn more about KubeOne and its features, such as [upgrades](upgrading_cluster.md), make sure to check our [documentation](https://github.com/kubermatic/kubeone/tree/master/docs).
-
-[scale_issue]: https://github.com/kubermatic/kubeone/issues/593#issuecomment-513282468
+Congratulations! You're now running Kubernetes HA cluster with three control plane nodes and three worker nodes. If you want to learn more about KubeOne and its features, such as [upgrades](../../using_kubeone/upgrading_cluster), make sure to check our [documentation](https://docs.loodse.com/kubeone).
