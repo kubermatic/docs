@@ -1,8 +1,8 @@
 +++
 title = "KubeOne FAQ"
 date = 2020-04-01T12:00:00+02:00
-weight = 4
-pre = "<b>1. </b>"
+weight = 100
+enableToc = true
 +++
 
 This document is supposed to answer some commonly asked questions about KubeOne,
