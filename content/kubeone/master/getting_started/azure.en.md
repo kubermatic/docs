@@ -62,8 +62,9 @@ The Terraform scripts for Azure are located in the
 KubeOne comes with the Terraform integration that can source information about
 the infrastructure directly from the Terraform output. If you decide not to use
 our Terraform scripts, but you still want to use the Terraform integration, you
-must ensure that your [Terraform output (`output.tf`)][terraform-output] is
-using the same format as ours. Alternatively, if you decide not to use Terraform,
+must ensure that your
+[Terraform output (`output.tf`)](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/azure/output.tf)
+is using the same format as ours. Alternatively, if you decide not to use Terraform,
 you can provide needed information about the infrastructure manually in the
 KubeOne configuration file.
 {{% /notice %}}
@@ -147,7 +148,7 @@ terraform output -json > tf.json
 ```
 
 {{% notice tip %}}
-The generated output is based on the [`output.tf` file][terraform-output].
+The generated output is based on the [`output.tf` file](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/azure/output.tf).
 If you want to change any settings, such as how worker nodes are created,
 you can modify the `output.tf` file. Make sure to run `terraform apply`
 and `terraform output` again after modifying the file.
