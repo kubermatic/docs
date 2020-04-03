@@ -1,8 +1,6 @@
 +++
 title = "Environment Variables"
 date = 2020-04-01T12:00:00+02:00
-weight = 8
-pre = "<b></b>"
 +++
 
 This document lists all environment variables used by KubeOne and related components.

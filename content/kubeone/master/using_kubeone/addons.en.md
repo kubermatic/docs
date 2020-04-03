@@ -1,8 +1,6 @@
 +++
 title = "Addons"
 date = 2020-04-01T12:00:00+02:00
-weight = 8
-pre = "<b></b>"
 +++
 
 Addons are a mechanism used to deploy Kubernetes resources after provisioning the cluster. 
