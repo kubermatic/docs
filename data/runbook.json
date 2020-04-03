@@ -171,7 +171,7 @@
         {
           "alert": "FluentbitManyFailedRetries",
           "annotations": {
-            "message": "fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` is experiencing an elevated failed retry rate.",
+            "message": "Fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` is experiencing an elevated failed retry rate.",
             "runbook_url": "https://docs.loodse.com/kubermatic/master/monitoring/runbook/#alert-fluentbitmanyfailedretries"
           },
           "expr": "sum by (namespace, pod, node) (kube_pod_info) *\n  on (namespace, pod)\n  group_right (node)\n  rate(fluentbit_output_retries_failed_total[1m]) > 0\n",
@@ -189,7 +189,7 @@
         {
           "alert": "FluentbitManyOutputErrors",
           "annotations": {
-            "message": "fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` is experiencing an elevated output error rate.",
+            "message": "Fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` is experiencing an elevated output error rate.",
             "runbook_url": "https://docs.loodse.com/kubermatic/master/monitoring/runbook/#alert-fluentbitmanyoutputerrors"
           },
           "expr": "sum by (namespace, pod, node) (kube_pod_info) *\n  on (namespace, pod)\n  group_right (node)\n  rate(fluentbit_output_errors_total[1m]) > 0\n",
@@ -207,7 +207,7 @@
         {
           "alert": "FluentbitNotProcessingNewLogs",
           "annotations": {
-            "message": "fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` has not processed any new logs for the last 30 minutes.",
+            "message": "Fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` has not processed any new logs for the last 30 minutes.",
             "runbook_url": "https://docs.loodse.com/kubermatic/master/monitoring/runbook/#alert-fluentbitnotprocessingnewlogs"
           },
           "expr": "sum by (namespace, pod, node) (kube_pod_info) *\n  on (namespace, pod)\n  group_right (node)\n  rate(fluentbit_output_proc_records_total[1m]) == 0\n",
@@ -353,7 +353,7 @@
         {
           "alert": "KubeletDown",
           "annotations": {
-            "message": "kubelet has disappeared from Prometheus target discovery.",
+            "message": "Kubelet has disappeared from Prometheus target discovery.",
             "runbook_url": "https://docs.loodse.com/kubermatic/master/monitoring/runbook/#alert-kubeletdown"
           },
           "expr": "absent(up{job=\"kubelet\"} == 1)",
@@ -389,7 +389,7 @@
         {
           "alert": "KubeletTooManyPods",
           "annotations": {
-            "message": "kubelet {{ $labels.instance }} is running {{ $value }} pods, close to the limit of 110.",
+            "message": "Kubelet {{ $labels.instance }} is running {{ $value }} pods, close to the limit of 110.",
             "runbook_url": "https://docs.loodse.com/kubermatic/master/monitoring/runbook/#alert-kubelettoomanypods"
           },
           "expr": "kubelet_running_pod_count{job=\"kubelet\"} > 110 * 0.9",
