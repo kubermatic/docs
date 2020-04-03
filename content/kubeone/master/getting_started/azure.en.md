@@ -97,18 +97,19 @@ nano terraform.tfvars
 For the list of available settings along with their names please see the
 [`variables.tf`][terraform-variables] file. You should consider setting:
 
-| Variable            | Required | Default Value     | Description                                              |
-| ------------------- | -------- | ----------------- | -------------------------------------------------------- |
-| cluster_name        | yes      |                   | cluster name and prefix for cloud resources              |
-| location            |          | westeurope        | Azure datacenter resources                               |
-| ssh_public_key_file |          | ~/.ssh/id_rsa.pub | path to your SSH public key that's deployed on instances |
-| worker_vm_size      |          | Standard_B2s      | VM size for worker machines                              |
+| Variable              | Required | Default Value     | Description                                                                                                          |
+| --------------------- | -------- | ----------------- | -------------------------------------------------------------------------------------------------------------------- |
+| cluster_name          | yes      |                   | cluster name and prefix for cloud resources                                                                          |
+| location              |          | westeurope        | Azure datacenter resources                                                                                           |
+| ssh_public_key_file   |          | ~/.ssh/id_rsa.pub | path to your SSH public key that's deployed on instances                                                             |
+| control_plane_vm_size |          | Standard_B2s      | control plane instance size (note that you should have at least 2 GB RAM and 2 CPUs for Kubernetes to work properly) |
 
 The `terraform.tfvars` file can look like:
 
 ```
-cluster_name   = "demo"
-worker_vm_size = "Standard_D4s_v3"
+cluster_name = "demo"
+
+location = "westeurope"
 ```
 
 Now that you configured Terraform you can use the `plan` command to see what
