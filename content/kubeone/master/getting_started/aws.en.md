@@ -305,8 +305,6 @@ Congratulations! You're now running Kubernetes HA cluster with three control
 plane nodes and three worker nodes. If you want to learn more about KubeOne and
 its features, make sure to check our [documentation][docs].
 
-{{ with .Site.GetPage "/blog" }}{{ .Title }}{{ end }}
-
 [readme]: https://github.com/kubermatic/kubeone/blob/master/README.md
 [terraform]: https://www.terraform.io/downloads.html
 [aws-iam]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html
