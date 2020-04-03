@@ -13,13 +13,13 @@ to them. Affiliation of a `user` to one of the `groups` give them certain powers
 ### Kubermatic roles
 
 There are three roles: owner, editor, and viewer. These roles are concentric; that is, the owner role includes the permissions
-in the editor role, and the editor role includes the permissions in the viewer role.
+of the editor role, and the editor role includes the permissions of the viewer role.
 
-  - **viewer**: can only read
+  - **viewer**: read-only access to see project resources
   
-  - **editor**: viewer + can create, edit & delete cluster
+  - **editor**: can see the project content that the viewer can do and additionally can create, edit and delete clusters in the project
   
-  - **owner**: editor + manage permissions for a project
+  - **owner**: can do everything that the editor can do and additionally manage permissions for the project
   
 The following table summarizes the permissions:
 
