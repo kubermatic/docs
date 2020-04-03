@@ -1,8 +1,6 @@
 +++
 title = "How KubeOne uses SSH"
 date = 2020-04-01T12:00:00+02:00
-weight = 8
-pre = "<b></b>"
 +++
 
 ## As KubeOne requires ssh access to control plane nodes, somehow ssh

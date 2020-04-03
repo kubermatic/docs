@@ -1,8 +1,6 @@
 +++
 title = "Migrating to the KubeOneCluster API"
 date = 2020-04-01T12:00:00+02:00
-weight = 8
-pre = "<b></b>"
 +++
 
 We implemented a new KubeOneCluster API in v0.6.0 that replaced the old configuration API.

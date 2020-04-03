@@ -1,8 +1,6 @@
 +++
 title = "Upgrading Kubernetes Cluster Using KubeOne"
 date = 2020-04-01T12:00:00+02:00
-weight = 8
-pre = "<b></b>"
 +++
 
 The cluster is upgraded using the `kubeone upgrade` command invoked with the KubeOne configuration file and optionally Terraform state file.
