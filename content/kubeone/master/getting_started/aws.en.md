@@ -28,12 +28,12 @@ The binaries for Terraform can be found on the [Terraform website][terraform]
 
 {{% notice warning %}}
 The provided credentials are deployed to the cluster to be used by
-`machine-controller` for creating worker nodes. You may want to consider
+machine-controller for creating worker nodes. You may want to consider
 providing a non-administrator credentials to increase the security.
 {{% /notice %}}
 
 In order for Terraform to successfully create the infrastructure and for
-machine-controller to create worker nodes you need an [IAM account][aws-iam]
+machine-controller to create worker nodes, you need an [IAM account][aws-iam]
 with the appropriate permissions.
 
 Once you have the IAM account you need to set `AWS_ACCESS_KEY_ID` and
@@ -261,10 +261,10 @@ document to learn more about managing access to your clusters.
 
 ## Scaling Worker Nodes
 
-Worker nodes are managed by the machine-controller. It creates initially one per
-availability zone. Those can be scaled up and down (including to 0) using
-the Kubernetes API. To do so you first got to retrieve the
-`machinedeployments` by running:
+Worker nodes are managed by the machine-controller. It creates initially one
+MachineDeployment object per availability zone. Those can be scaled up and
+down (including to 0) using the Kubernetes API. To do so you first got to
+retrieve the `machinedeployments` by running:
 
 ```bash
 kubectl get machinedeployments -n kube-system
