@@ -28,12 +28,12 @@ The binaries for Terraform can be found on the [Terraform website][terraform]
 
 {{% notice warning %}}
 The provided credentials are deployed to the cluster to be used by
-`machine-controller` for creating worker nodes. You may want to consider
+machine-controller for creating worker nodes. You may want to consider
 providing a non-administrator credentials to increase the security.
 {{% /notice %}}
 
 In order for Terraform to successfully create the infrastructure and for
-machine-controller to create worker nodes you need an [IAM account][aws-iam]
+machine-controller to create worker nodes, you need an [IAM account][aws-iam]
 with the appropriate permissions.
 
 Once you have the IAM account you need to set `AWS_ACCESS_KEY_ID` and
@@ -72,8 +72,9 @@ The Terraform scripts for AWS are located in the
 KubeOne comes with the Terraform integration that can source information about
 the infrastructure directly from the Terraform output. If you decide not to use
 our Terraform scripts, but you still want to use the Terraform integration, you
-must ensure that your [Terraform output (`output.tf`)][terraform-output] is 
-using the same format as ours. Alternatively, if you decide not to use Terraform,
+must ensure that your
+[Terraform output (`output.tf`)](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/output.tf)
+is using the same format as ours. Alternatively, if you decide not to use Terraform,
 you can provide needed information about the infrastructure manually in the
 KubeOne configuration file.
 {{% /notice %}}
@@ -151,7 +152,7 @@ terraform output -json > tf.json
 ```
 
 {{% notice tip %}}
-The generated output is based on the [`output.tf` file][terraform-output].
+The generated output is based on the [`output.tf` file](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/output.tf).
 If you want to change any settings, such as how worker nodes are created,
 you can modify the `output.tf` file. Make sure to run `terraform apply`
 and `terraform output` again after modifying the file.
@@ -261,10 +262,10 @@ document to learn more about managing access to your clusters.
 
 ## Scaling Worker Nodes
 
-Worker nodes are managed by the machine-controller. It creates initially one per
-availability zone. Those can be scaled up and down (including to 0) using
-the Kubernetes API. To do so you first got to retrieve the
-`machinedeployments` by running:
+Worker nodes are managed by the machine-controller. It creates initially one
+MachineDeployment object per availability zone. Those can be scaled up and
+down (including to 0) using the Kubernetes API. To do so you first got to
+retrieve the `machinedeployments` by running:
 
 ```bash
 kubectl get machinedeployments -n kube-system
@@ -304,8 +305,6 @@ You'll be asked to enter `yes` to confirm your intention to destroy the cluster.
 Congratulations! You're now running Kubernetes HA cluster with three control
 plane nodes and three worker nodes. If you want to learn more about KubeOne and
 its features, make sure to check our [documentation][docs].
-
-{{ with .Site.GetPage "/blog" }}{{ .Title }}{{ end }}
 
 [readme]: https://github.com/kubermatic/kubeone/blob/master/README.md
 [terraform]: https://www.terraform.io/downloads.html
