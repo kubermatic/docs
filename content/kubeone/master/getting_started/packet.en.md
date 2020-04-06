@@ -12,20 +12,27 @@ Packet. We'll cover how to create the needed infrastructure using our
 example Terraform scripts and then install Kubernetes. Finally, we're going to
 show how to destroy the cluster along with the infrastructure.
 
-As a result, you'll get Kubernetes 1.16.1 High-Available (HA) clusters with
+As a result, you'll get Kubernetes High-Available (HA) clusters with
 three control plane nodes and one worker node (which can be easily scaled).
 
 ### Prerequisites
 
 To follow this quick start, you'll need:
 
-* `kubeone` v0.11.0 or newer installed, which can be done by following the `Installing KubeOne` section of [the README](https://github.com/kubermatic/kubeone/blob/master/README.md),
-* `terraform` v0.12.0 or later installed. Older releases are not compatible. The binaries for `terraform` can be found on the [Terraform website](https://www.terraform.io/downloads.html)
+* KubeOne v0.11.0 or newer installed, which can be done by following the 
+Installing KubeOne section of [the README][readme]
+* Terraform v0.12.0 or newer installed. Older releases are not compatible.
+The binaries for Terraform can be found on the [Terraform website][terraform]
 
 ## Setting Up Credentials
 
-In order for Terraform to successfully create the infrastructure and for KubeOne
-to install Kubernetes and create worker nodes you need an API Access Token. You
+{{% notice warning %}}
+The provided credentials are deployed to the cluster to be used by
+machine-controller for creating worker nodes.
+{{% /notice %}}
+
+In order for Terraform to successfully create the infrastructure and for
+machine-controller to create worker nodes you need an API Access Token. You
 can refer to [the official documentation][packet_support_docs] for guidelines
 for generating the token.
 
@@ -37,9 +44,6 @@ export PACKET_AUTH_TOKEN=<api key>
 export PACKET_PROJECT_ID=<project UUID>
 ```
 
-**Note:** The API access token is deployed to the cluster to be used by
-`machine-controller` for creating worker nodes.
-
 ## Creating Infrastructure
 
 KubeOne is based on the Bring-Your-Own-Infra approach, which means that you have
@@ -50,18 +54,24 @@ use your own scripts or any other preferred approach.
 The Terraform scripts for Packet are located in the
 [`./examples/terraform/packet`][packet_terraform] directory.
 
-**Note:** KubeOne comes with Terraform integration that is capable of reading
-information about the infrastructure from Terraform output. If you decide not to
-use our Terraform scripts but want to use Terraform integration, make sure
-variable names in the output match variable names used by KubeOne.
-Alternatively, if you decide not to use Terraform, you can provide needed
-information about the infrastructure manually in the KubeOne configuration file.
+{{% notice note %}}
+KubeOne comes with the Terraform integration that can source information about
+the infrastructure directly from the Terraform output. If you decide not to use
+our Terraform scripts, but you still want to use the Terraform integration, you
+must ensure that your
+[Terraform output (`output.tf`)](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/packet/output.tf)
+is using the same format as ours. Alternatively, if you decide not to use Terraform,
+you can provide needed information about the infrastructure manually in the
+KubeOne configuration file.
+{{% /notice %}}
 
-**Note:** As Packet doesn't have Load Balancers as a Service (LBaaS), the example
+{{% notice note %}}
+As Packet doesn't have Load Balancers as a Service (LBaaS), the example
 Terraform scripts will create an instance for a Load Balancer and setup it using
 [GoBetween](https://github.com/yyyar/gobetween). This setup may not be appropriate
 for the production usage, but it allows us to provide better HA experience in an
 easy to consume manner.
+{{% /notice %}}
 
 First, we need to switch to the directory with Terraform scripts:
 
@@ -70,14 +80,15 @@ cd examples/terraform/packet
 ```
 
 Before we can use Terraform to create the infrastructure for us, Terraform needs
-to download the Packet provider and setup it's environment. This is done by
-running the `init` command:
+to download the Packet plugin. This is done by running the `init` command:
 
 ```bash
 terraform init
 ```
 
-**Note:** You need to run this command only the first time before using scripts.
+{{% notice tip %}}
+You need to run this command only the first time before using scripts.
+{{% /notice %}}
 
 You may want to configure the provisioning process by setting variables defining
 the cluster name, device type, facility and similar. The easiest way is to
@@ -91,16 +102,18 @@ nano terraform.tfvars
 For the list of available settings along with their names please see the
 [`variables.tf`][packet_variables] file. You should consider setting:
 
-* `cluster_name` (required) - prefix for cloud resources
-* `project_id` (required) - packet project UUID
-* `ssh_public_key_file` (default: `~/.ssh/id_rsa.pub`) - path to your SSH public
-  key that's deployed on instances
-* `device_type` (default: t1.small.x86) — type of the instance
+| Variable            | Required | Default Value     | Description                                                                                                          |
+| ------------------- | -------- | ----------------- | -------------------------------------------------------------------------------------------------------------------- |
+| cluster_name        | yes      |                   | cluster name and prefix for cloud resources                                                                          |
+| project_id          | yes      |                   | Packet project UUID                                                                                                  |
+| ssh_public_key_file |          | ~/.ssh/id_rsa.pub | path to your SSH public key that's deployed on instances                                                             |
+| device_type         |          | t1.small.x86      | control plane instance type (note that you should have at least 2 GB RAM and 2 CPUs for Kubernetes to work properly) |
 
 The `terraform.tfvars` file can look like:
 
 ```
 cluster_name = "demo"
+
 project_id = "<PROJECT-UUID>"
 ```
 
@@ -123,34 +136,38 @@ provision the infrastructure.
 
 Infrastructure provisioning takes around 3 minutes.
 
+Once the provisioning is done, you need to export the Terraform output using the
+following command. This Terraform output file will be used by KubeOne to source
+information about the infrastructure and worker nodes.
+
+```bash
+terraform output -json > tf.json
+```
+
+{{% notice tip %}}
+The generated output is based on the [`output.tf` file](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/packet/output.tf).
+If you want to change any settings, such as how worker nodes are created,
+you can modify the `output.tf` file. Make sure to run `terraform apply`
+and `terraform output` again after modifying the file.
+{{% /notice %}}
+
 ## Installing Kubernetes
 
-Now that you have infrastructure you can proceed with installing Kubernetes
-using KubeOne.
+Now that you have the infrastructure you can proceed with provisioning
+your Kubernetes cluster using KubeOne.
 
-Before you start you'll need a configuration file that defines how Kubernetes
+Before you start, you'll need a configuration file that defines how Kubernetes
 will be installed, e.g. what version will be used and what features will be
 enabled. For the configuration file reference run `kubeone config print --full`.
 
-To get started you can use the following configuration. It'll install Kubernetes
-1.16.1, create one worker node and deploy the
-[external cloud controller manager][packet_ccm]. The external cloud controller
-manager takes care of providing correct information about nodes from the Packet
-API. KubeOne automatically populates information about the worker nodes from the
-[Terraform output][packet_tf_output].
+To get started you can use the following configuration file:
 
-Alternatively, you can set those information manually. As KubeOne is using
-Kubermatic [`machine-controller`][machine_controller] for creating worker nodes,
-see [Packet example manifest][packet_mc_example] for available options.
-
-For example, to create a cluster with Kubernetes `1.16.1`, save the following to
-`config.yaml`:
 ```yaml
 apiVersion: kubeone.io/v1alpha1
 kind: KubeOneCluster
 
 versions:
-  kubernetes: "1.16.1"
+  kubernetes: "1.18.0"
 
 cloudProvider:
   name: "packet"
@@ -161,8 +178,25 @@ clusterNetwork:
   serviceSubnet: "172.16.0.0/12"
 ```
 
-**Note:** It's important to provide custom `clusterNetwork` settings in order to
+{{% notice warning %}}
+It's important to provide custom `clusterNetwork` settings in order to
 avoid colliding with private Packet network (which is `10.0.0.0/8`).
+{{% /notice %}}
+
+This configuration manifest instructs KubeOne to provision Kubernetes 1.18.0
+cluster on Packet. Other properties, including information about the infrastructure
+and how to create worker nodes are sourced from the [Terraform output][packet_tf_output].
+As KubeOne is using [Kubermatic `machine-controller`][machine-controller]
+for creating worker nodes, see the [Packet example manifest][packet_mc_example]
+for available options.
+
+{{% notice tip %}}
+The `external: true` field instructs KubeOne to configure the Kubernetes
+components to work with the external Cloud Controller Manager and to deploy
+the [Packet CCM](https://github.com/packethost/packet-ccm).
+The Packet CCM is responsible for fetching information about nodes from
+the API.
+{{% /notice %}}
 
 Finally, we're going to install Kubernetes by using the `install` command and
 providing the configuration file and the Terraform output:
@@ -171,15 +205,8 @@ providing the configuration file and the Terraform output:
 kubeone install config.yaml --tfjson <DIR-WITH-tfstate-FILE>
 ```
 
-**Note:** `--tfjson` accepts a file as well as a directory containing the
-terraform state file. To pass a file, generate the JSON output by running the
-following and use it as the value for the `--tfjson` flag:
-```bash
-terraform output -json > tf.json
-```
-
 Alternatively, if the terraform state file is in the current working directory
- `--tfjson .` can be used as well.
+`--tfjson .` can be used as well.
 
 The installation process takes some time, usually 5-10 minutes. The output
 should look like the following one:
@@ -233,55 +260,57 @@ INFO[14:27:17 EEST] Creating worker machines…
 ```
 
 KubeOne automatically downloads the Kubeconfig file for the cluster. It's named
-as **\<cluster_name>-kubeconfig**, where **\<cluster_name>** is the name from
-your configuration. You can use it with kubectl such as
+as **\<cluster_name>-kubeconfig**, where **\<cluster_name>** is the name
+provided in the `terraform.tfvars` file. You can use it with kubectl such as:
 
 ```bash
 kubectl --kubeconfig=<cluster_name>-kubeconfig
 ```
 
-or export the `KUBECONFIG` variable environment variable:
+or export the `KUBECONFIG` environment variable:
 
 ```bash
 export KUBECONFIG=$PWD/<cluster_name>-kubeconfig
 ```
 
+You can check the [Configure Access To Multiple Clusters][access-clusters]
+document to learn more about managing access to your clusters.
+
 ## Scaling Worker Nodes
 
-Worker nodes are managed by the machine-controller. It creates initially only one and can be
-scaled up and down (including to 0) using the Kubernetes API. To do so you first got to retrieve
-the `machinedeployments` by
+Worker nodes are managed by the machine-controller. By default, it creates
+one MachineDeployment object. That object can be scaled up and down
+(including to 0) using the Kubernetes API. To do so you first got
+to retrieve the `machinedeployments` by running:
 
 ```bash
 kubectl get machinedeployments -n kube-system
 ```
 
-The names of the `machinedeployments` are generated. You can scale the workers in those via
+The names of the `machinedeployments` are generated. You can scale the workers
+in those using:
 
 ```bash
 kubectl --namespace kube-system scale machinedeployment/<MACHINE-DEPLOYMENT-NAME> --replicas=3
 ```
 
-**Note:** The `kubectl scale` command is not working as expected with `kubectl` 1.15,
-returning an error such as:
-
-```
-The machinedeployments "<MACHINE-DEPLOYMENT-NAME>" is invalid: metadata.resourceVersion: Invalid value: 0x0: must be specified for an update
-```
-
-For a workaround, please follow the steps described in the [issue 593][scale_issue] or upgrade to `kubectl` 1.16 or newer.
+{{% notice note %}}
+The `kubectl scale` command is not working as expected with kubectl v1.15.
+If you want to use the scale command, please upgrade to kubectl v1.16 or newer.
+{{% /notice %}}
 
 ## Deleting The Cluster
 
-Before deleting a cluster you should clean up all MachineDeployments, so all
-worker nodes are deleted. You can do it with the `kubeone reset` command:
+Before deleting a cluster you should clean up all MachineDeployments,
+so all worker nodes are deleted. You can do it with the `kubeone reset`
+command:
 
 ```bash
 kubeone reset config.yaml --tfjson <DIR-WITH-tfstate-FILE>
 ```
 
-This command will wait for all worker nodes to be gone. Once it's done you can
-proceed and destroy the Packet infrastructure using Terraform:
+This command will wait for all worker nodes to be gone.
+Once it's done you can proceed and destroy the Packet infrastructure using Terraform:
 
 ```bash
 terraform destroy
@@ -289,19 +318,17 @@ terraform destroy
 
 You'll be asked to enter `yes` to confirm your intention to destroy the cluster.
 
-Congratulations! You're now running Kubernetes 1.16.1 HA cluster with three
-control plane nodes and one worker node. If you want to learn more about KubeOne
-and its features, such as [upgrades](upgrading_cluster.md), make sure to check
-our [documentation][kubeone_docs].
+Congratulations! You're now running Kubernetes HA cluster with three
+control plane nodes and one worker node. If you want to learn more about KubeOne and
+its features, make sure to check our [documentation][docs].
 
-[main_readme]: https://github.com/kubermatic/kubeone/blob/master/README.md
-[terraform_website]: https://www.terraform.io/downloads.html
+[readme]: https://github.com/kubermatic/kubeone/blob/master/README.md
+[terraform]: https://www.terraform.io/downloads.html
 [packet_support_docs]: https://support.packet.com/kb/articles/api-integrations
 [packet_terraform]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform/packet
 [packet_variables]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/packet/variables.tf
 [packet_ccm]: https://github.com/packethost/packet-ccm
 [packet_tf_output]: https://github.com/kubermatic/kubeone/blob/789509f54b3a4aed7b15cd8b27b2e5bb2a4fa6c1/examples/terraform/packet/output.tf
-[machine_controller]: https://github.com/kubermatic/machine-controller
+[machine-controller]: https://github.com/kubermatic/machine-controller
 [packet_mc_example]: https://github.com/kubermatic/machine-controller/blob/master/examples/packet-machinedeployment.yaml
-[kubeone_docs]: https://github.com/kubermatic/kubeone/tree/master/docs
-[scale_issue]: https://github.com/kubermatic/kubeone/issues/593#issuecomment-513282468
+[docs]: https://docs.loodse.com/kubeone
