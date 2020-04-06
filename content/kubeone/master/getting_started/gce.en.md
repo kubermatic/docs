@@ -8,43 +8,47 @@ pre = "<b></b>"
 ## How To Install Kubernetes On GCE Cluster Using KubeOne
 
 In this quick start we're going to show how to get started with KubeOne on GCE.
-We'll cover how to create the needed infrastructure using our example terraform
-configuration and then install Kubernetes. Finally, we're going to show how to
+We'll cover how to create the needed infrastructure using our example Terraform
+scripts and then install Kubernetes. Finally, we're going to show how to
 destroy the cluster along with the infrastructure.
 
-As a result, you'll get Kubernetes 1.16.1 High-Available (HA) clusters with
-three control plane nodes and one worker node.
+As a result, you'll get Kubernetes High-Available (HA) clusters with three
+control plane nodes and one worker node.
 
 ### Prerequisites
 
 To follow this quick start, you'll need:
 
-* `kubeone` v0.11.0 or newer installed, which can be done by following the `Installing KubeOne` section of [the README](https://github.com/kubermatic/kubeone/blob/master/README.md),
-* `terraform` v0.12.0 or later installed. Older releases are not compatible. The binaries for `terraform` can be found on the [Terraform website](https://www.terraform.io/downloads.html)
+* KubeOne v0.11.0 or newer installed, which can be done by following the 
+Installing KubeOne section of [the README][readme]
+* Terraform v0.12.0 or newer installed. Older releases are not compatible.
+The binaries for Terraform can be found on the [Terraform website][terraform]
 
 ## Setting Up Credentials
 
-In order for Terraform to successfully create the infrastructure and for KubeOne
-to install Kubernetes and create worker nodes you need an [Service
-Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts)
-with the appropriate permissions. These are
+{{% notice warning %}}
+The provided credentials are deployed to the cluster to be used by
+machine-controller for creating worker nodes. You may want to consider
+providing a non-administrator credentials to increase the security.
+{{% /notice %}}
+
+In order for Terraform to successfully create the infrastructure and for
+machine-controller to create worker nodes, you need an [Service
+Account][gce-sa] with the appropriate permissions. These are:
 
 * `Compute Admin`,
 * `Service Account User`, and
 * `Viewer`.
 
-Once you have the service account you need to set `GOOGLE_CREDENTIALS`
+Once you have the Service Account, you need to set `GOOGLE_CREDENTIALS`
 environment variable:
 
 ```bash
 export GOOGLE_CREDENTIALS=$(cat path/to/your_service_account.json)
 ```
 
-Also the Compute Engine API has to be enabled for the project in the
-[Google APIs Console](https://console.developers.google.com/apis/dashboard).
-
-**Note:** The credentials are also deployed to the cluster to be used by
-`machine-controller` for creating worker nodes.
+Also, the Compute Engine API has to be enabled for the project in the
+[Google APIs Console][gce-apis].
 
 ## Creating Infrastructure
 
@@ -53,16 +57,19 @@ to provide machines and needed resources yourself. To make this task easier we
 are providing Terraform scripts that you can use to get started. You're free to
 use your own scripts or any other preferred approach.
 
-The example terraform configuration for GCE is located in the
-[`./examples/terraform/gce`](https://github.com/kubermatic/kubeone/tree/master/examples/terraform/gce)
-directory.
+The Terraform scripts for GCE are located in the
+[`./examples/terraform/gce`][terraform-gce] directory.
 
-**Note:** KubeOne comes with Terraform integration that is capable of reading
-information about the infrastructure from Terraform output. If you decide not to
-use our Terraform scripts but want to use Terraform integration, make sure
-variable names in the output match variable names used by KubeOne.
-Alternatively, if you decide not to use Terraform, you can provide needed
-information about the infrastructure manually in the KubeOne configuration file.
+{{% notice note %}}
+KubeOne comes with the Terraform integration that can source information about
+the infrastructure directly from the Terraform output. If you decide not to use
+our Terraform scripts, but you still want to use the Terraform integration, you
+must ensure that your
+[Terraform output (`output.tf`)](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/gce/output.tf)
+is using the same format as ours. Alternatively, if you decide not to use Terraform,
+you can provide needed information about the infrastructure manually in the
+KubeOne configuration file.
+{{% /notice %}}
 
 First, we need to switch to the directory with Terraform scripts:
 
@@ -71,14 +78,15 @@ cd ./examples/terraform/gce
 ```
 
 Before we can use Terraform to create the infrastructure for us, Terraform needs
-to download the GCE plugin and setup it's environment. This is done by running
-the `init` command:
+to download the GCE plugin. This is done by running the `init` command:
 
 ```bash
 terraform init
 ```
 
-**Note:** You need to run this command only the first time before using scripts.
+{{% notice tip %}}
+You need to run this command only the first time before using scripts.
+{{% /notice %}}
 
 You may want to configure the provisioning process by setting variables defining
 the cluster name, GCE region, instances size and similar. The easiest way is to
@@ -90,16 +98,15 @@ nano terraform.tfvars
 ```
 
 For the list of available settings along with their names please see the
-[`variables.tf`](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/gce/variables.tf)
-file. You should consider setting:
+[`variables.tf`][terraform-variables] file. You should consider setting:
 
-* `cluster_name` (required) - prefix for cloud resources
-* `project` (required) — GCP Project ID
-* `region` (default: europe-west3)
-* `ssh_public_key_file` (default: `~/.ssh/id_rsa.pub`) - path to your SSH public
-  key that's deployed on instances
-* `control_plane_type` (default: n1-standard-1) - note that you should have at
-  least 2 GB RAM and 2 CPUs for Kubernetes to work properly
+| Variable            | Required | Default Value     | Description                                                                                                          |
+| ------------------- | -------- | ----------------- | -------------------------------------------------------------------------------------------------------------------- |
+| cluster_name        | yes      |                   | cluster name and prefix for cloud resources                                                                          |
+| project             | yes      |                   | GCP Project ID                                                                                                       |
+| region              |          | europe-west3      | GCP region to use for all resources                                                                                  |
+| ssh_public_key_file |          | ~/.ssh/id_rsa.pub | path to your SSH public key that's deployed on instances                                                             |
+| control_plane_type  |          | n1-standard-1     | control plane instance type (note that you should have at least 2 GB RAM and 2 CPUs for Kubernetes to work properly) |
 
 The `terraform.tfvars` file can look like:
 
@@ -125,41 +132,49 @@ infrastructure:
 terraform apply -var control_plane_target_pool_members_count=1
 ```
 
+{{% notice warning %}}
 `control_plane_target_pool_members_count` is needed in order to bootstrap
-control plane. Once install is done it's recommended to include all control
-plane VMs into the LB (will be covered a bit later in this document).
+the control plane successfully. Once install is done it's recommended
+to include all control plane VMs into the LB (will be covered a bit
+later in this document).
+{{% /notice %}}
 
 Shortly after you'll be asked to enter `yes` to confirm your intention to
 provision the infrastructure.
 
 Infrastructure provisioning takes around 5 minutes.
 
+Once the provisioning is done, you need to export the Terraform output using the
+following command. This Terraform output file will be used by KubeOne to source
+information about the infrastructure and worker nodes.
+
+```bash
+terraform output -json > tf.json
+```
+
+{{% notice tip %}}
+The generated output is based on the [`output.tf` file](https://github.com/kubermatic/kubeone/blob/master/examples/terraform/gce/output.tf).
+If you want to change any settings, such as how worker nodes are created,
+you can modify the `output.tf` file. Make sure to run `terraform apply`
+and `terraform output` again after modifying the file.
+{{% /notice %}}
+
 ## Installing Kubernetes
 
-Now that you have infrastructure you can proceed with installing Kubernetes
-using KubeOne.
+Now that you have the infrastructure you can proceed with provisioning
+your Kubernetes cluster using KubeOne.
 
-Before you start you'll need a configuration file that defines how Kubernetes
+Before you start, you'll need a configuration file that defines how Kubernetes
 will be installed, e.g. what version will be used and what features will be
 enabled. For the configuration file reference run `kubeone config print --full`.
 
-To get started you can use the following configuration. It'll install Kubernetes
-1.16.1 and create one worker node. KubeOne automatically populates information
-about worker nodes from the [Terraform output](https://github.com/kubermatic/kubeone/blob/ec8bf305446ac22529e9683fd4ce3c9abf753d1e/examples/terraform/gce/output.tf#L41-L81).
-Alternatively, you can set those information manually. As KubeOne is using
-[Kubermatic
-`machine-controller`](https://github.com/kubermatic/machine-controller) for
-creating worker nodes, see [GCE example
-manifest](https://github.com/kubermatic/machine-controller/blob/master/examples/gce-machinedeployment.yaml)
-for available options.
+To get started you can use the following configuration file:
 
-For example, to create a cluster with Kubernetes `1.16.1`, save the following to
-`config.yaml`:
 ```yaml
 apiVersion: kubeone.io/v1alpha1
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.16.1'
+  kubernetes: '1.18.0'
 cloudProvider:
   name: 'gce'
   cloudConfig: |
@@ -167,25 +182,27 @@ cloudProvider:
     regional = true
 ```
 
-**Note:** If control plane nodes are created in multiple zones,
+This configuration manifest instructs KubeOne to provision Kubernetes 1.18.0
+cluster on GCE. Other properties, including information about the infrastructure
+and how to create worker nodes are sourced from the [Terraform output][terraform-output].
+As KubeOne is using [Kubermatic `machine-controller`][machine-controller]
+for creating worker nodes, see the [GCE example manifest][machine-controller-gce]
+for available options.
+
+{{% notice warning %}}
+If control plane nodes are created in multiple zones,
 you must configure `kube-controller-manager` to support regional clusters by
 setting `regional` to `true`. Otherwise, `kube-controller-manager` will
 fail to create the needed routes and other cloud resources, without which
 the cluster can't function properly. The example Terraform configuration
 creates control plane nodes in multiple zones by default.
+{{% /notice %}}
 
 Finally, we're going to install Kubernetes by using the `install` command and
 providing the configuration file and the Terraform output:
 
 ```bash
 kubeone install config.yaml --tfjson <DIR-WITH-tfstate-FILE>
-```
-
-**Note:** `--tfjson` accepts a file as well as a directory containing the
-terraform state file. To pass a file, generate the JSON output by running the
-following and use it as the value for the `--tfjson` flag:
-```bash
-terraform output -json > tf.json
 ```
 
 Alternatively, if the terraform state file is in the current working directory
@@ -243,38 +260,44 @@ terraform apply
 ```
 
 KubeOne automatically downloads the Kubeconfig file for the cluster. It's named
-as `cluster-name-kubeconfig`. You can use it with kubectl such as `kubectl
---kubeconfig cluster-name-kubeconfig` or export the `KUBECONFIG` variable
-environment variable:
+as **\<cluster_name>-kubeconfig**, where **\<cluster_name>** is the name
+provided in the `terraform.tfvars` file. You can use it with kubectl such as:
 
 ```bash
-export KUBECONFIG=$PWD/cluster-name-kubeconfig
+kubectl --kubeconfig=<cluster_name>-kubeconfig
 ```
+
+or export the `KUBECONFIG` environment variable:
+
+```bash
+export KUBECONFIG=$PWD/<cluster_name>-kubeconfig
+```
+
+You can check the [Configure Access To Multiple Clusters][access-clusters]
+document to learn more about managing access to your clusters.
 
 ## Scaling Worker Nodes
 
-Worker nodes are managed by the machine-controller. It creates initially only one and can be
-scaled up and down (including to 0) using the Kubernetes API. To do so you first got to retrieve
-the `machinedeployments` by
+Worker nodes are managed by the machine-controller. By default, it creates
+one MachineDeployment object. That object can be scaled up and down
+(including to 0) using the Kubernetes API. To do so you first got
+to retrieve the `machinedeployments` by running:
 
 ```bash
 kubectl get machinedeployments -n kube-system
 ```
 
-The names of the `machinedeployments` are generated. You can scale the workers in those via
+The names of the `machinedeployments` are generated. You can scale the workers
+in those using:
 
 ```bash
 kubectl --namespace kube-system scale machinedeployment/<MACHINE-DEPLOYMENT-NAME> --replicas=3
 ```
 
-**Note:** The `kubectl scale` command is not working as expected with `kubectl` 1.15,
-returning an error such as:
-
-```
-The machinedeployments "<MACHINE-DEPLOYMENT-NAME>" is invalid: metadata.resourceVersion: Invalid value: 0x0: must be specified for an update
-```
-
-For a workaround, please follow the steps described in the [issue 593][scale_issue] or upgrade to `kubectl` 1.16 or newer.
+{{% notice note %}}
+The `kubectl scale` command is not working as expected with kubectl v1.15.
+If you want to use the scale command, please upgrade to kubectl v1.16 or newer.
+{{% /notice %}}
 
 ## Deleting The Cluster
 
@@ -294,10 +317,18 @@ terraform destroy
 
 You'll be asked to enter `yes` to confirm your intention to destroy the cluster.
 
-Congratulations! You're now running Kubernetes 1.16.1 HA cluster with three
-control plane nodes and one worker node. If you want to learn more about
-KubeOne and its features, such as [upgrades](upgrading_cluster.md), make sure to
-check our
-[documentation](https://github.com/kubermatic/kubeone/tree/master/docs).
+Congratulations! You're now running Kubernetes HA cluster with three
+control plane nodes and one worker node. If you want to learn more about KubeOne and
+its features, make sure to check our [documentation][docs].
 
-[scale_issue]: https://github.com/kubermatic/kubeone/issues/593#issuecomment-513282468
+[readme]: https://github.com/kubermatic/kubeone/blob/master/README.md
+[terraform]: https://www.terraform.io/downloads.html
+[gce-sa]: https://cloud.google.com/iam/docs/creating-managing-service-accounts
+[gce-apis]: https://console.developers.google.com/apis/dashboard
+[terraform-gce]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform/gce
+[terraform-output]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/gce/output.tf
+[terraform-variables]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/gce/variables.tf
+[machine-controller]: https://github.com/kubermatic/machine-controller
+[machine-controller-gce]: https://github.com/kubermatic/machine-controller/blob/master/examples/gce-machinedeployment.yaml
+[access-clusters]: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+[docs]: https://docs.loodse.com/kubeone
