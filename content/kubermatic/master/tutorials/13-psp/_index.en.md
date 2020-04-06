@@ -4,11 +4,12 @@ date = 2020-04-02T12:07:15+02:00
 weight = 130
 +++
 
-[Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) is a key security feature in Kubernetes. It allows cluster administrators to set [granular controls](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#policy-reference) over security sensitive aspects of pod and container spec.
+[Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/), (PSP), is a key security feature in Kubernetes. It allows cluster administrators to set [granular controls](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#policy-reference) over security sensitive aspects of pod and container specs.
 
-PSP is implemented using an optional admission controller that's disabled by default. It's important to have an initial authorizing policy on the cluster _before_ enabling the PSP admission controller, especially on existing existing cluster is important. Without an authorizing policy, the the controller will prevent all pods from being created on the cluster.
+PSP is implemented using an optional admission controller that's disabled by default. It's important to have an initial authorizing policy on the cluster _before_ enabling the PSP admission controller.
+This is also true for existing clusters. Without an authorizing policy, the controller will prevent all pods from being created on the cluster.
 
-PSP objects are cluster-level objects. They define a set of conditions that a pod must pass to be accepted by the PSP admission controller. Most common way to apply this is using RBAC. For a pod to use a specific Pod Security Policy, the pod should run using a Service Account or a User that has `use` permission to that particular Pod Security policy.
+PSP objects are cluster-level objects. They define a set of conditions that a pod must pass to be accepted by the PSP admission controller. The most common way to apply this is using RBAC. For a pod to use a specific Pod Security Policy, the pod should run using a Service Account or a User that has `use` permission to that particular Pod Security policy.
 
 ## Kubermatic Support
 
@@ -22,7 +23,7 @@ For existing clusters, it's also possible to enable/disable PSP:
 
 
 {{% notice note %}}
-Activating Pod Security Policy will mean that a lot of Pod specifications, Operators and Helm charts will not work out of the box. Kubermatic will apply a default authorizing policy to prevent this. Additionally, all Kubermatic user-cluster are configured to work with PSP enabled with no problems. Make sure that you know the consequences of activating this feature on your workloads.
+Activating Pod Security Policy will mean that a lot of Pod specifications, Operators and Helm charts will not work out of the box. Kubermatic will apply a default authorizing policy to prevent this. Additionally, all Kubermatic user-clusters are configured to be compatible with enabled PSPs. Make sure that you know the consequences of activating this feature on your workloads.
 {{% /notice %}}
 
 
