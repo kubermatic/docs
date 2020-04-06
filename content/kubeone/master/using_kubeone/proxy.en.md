@@ -3,7 +3,8 @@ title = "Proxy support"
 date = 2020-04-01T12:00:00+02:00
 +++
 
-Annotated example config with enabled PROXY support
+Annotated example config with enabled PROXY support:
+
 ```yaml
 apiVersion: kubeone.io/v1alpha1
 kind: KubeOneCluster
