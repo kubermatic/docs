@@ -47,10 +47,4 @@ For exiting clusters, you can go to the cluster page, edit your cluster and enab
 
 Kubermatic also supports enabling Audit Logging on the datacenter level. In this case, the option is enforced on all user-clusters in the datacenter. The user-cluster level flag is ignored in this case.
 
-To enable this, you will need to edit your [datacenters.yaml]({{< ref "../../concepts/datacenters/" >}}) or your [Seed Cluster CRD]({{< ref "../../concepts/seeds/" >}}).
-
-You need to add the following flag to your datacenter spec (for a full working version, refer to [Seed Cluster CRD]({{< ref "../../concepts/seeds/" >}})):
-
-```yaml
-{{< readfile "data/audit_log.yaml" >}}
-```
+To enable this, you will need to edit your [datacenters.yaml]({{< ref "../../concepts/datacenters/" >}}) or your [Seed Cluster CRD]({{< ref "../../concepts/seeds/" >}}), and set `enforceAuditLogging` to `true` in the datacenter spec.
