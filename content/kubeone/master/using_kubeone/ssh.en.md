@@ -3,28 +3,33 @@ title = "How KubeOne uses SSH"
 date = 2020-04-01T12:00:00+02:00
 +++
 
-## As KubeOne requires ssh access to control plane nodes, somehow ssh
-public/private keys should be handled. KubeOne doesn't handle decryption of
-private SSH keys but instead rely on `ssh-agent`. In most cases we recommend
-using `ssh-agent` as the easiest way to have your SSH keys *encrypted* at rest
+As KubeOne requires SSH access to control plane nodes, SSH public/private keys
+should be handled somehow. KubeOne doesn't handle decryption of private SSH
+keys but instead rely on `ssh-agent`. In most cases, we recommend using
+`ssh-agent` as the easiest way to have your SSH keys *encrypted* at rest
 and still useful for KubeOne.
 
 ## sshd requirements
-KubeOne actively uses tunneling features of the SSH protocol, following list
-demonstrates what options of the sshd are expected on control-plane instances \/
-bastion host:
+
+KubeOne actively uses tunneling features of the SSH protocol. The following
+list demonstrates what options of the `sshd` are expected on the control plane
+instances \/ bastion host:
+
 * `AllowTcpForwarding` is either not present or set to `yes`
 * `PermitOpen` is either not present or set to `any`
 * `PermitTunnel` is either not present or set to `yes`
 
 ## ssh-agent
+
 If your operating system of choice doesn't do this for you automatically, you
 can use something like
+
 ```bash
 eval `ssh-agent`
 ```
 
 and then later
+
 ```bash
 ssh-add ~/.ssh/my_cool_custom_private_key
 ```
@@ -36,11 +41,13 @@ KubeOne is able to contact ssh-agent via socket (environment variable
 key.
 
 ## Providing SSH private keys directly, without ssh-agent
+
 In rare case when it's not possible to use `ssh-agent`, you can provide private
 key directly to KubeOne. The caveat is that private SSH key should be
 unencrypted and thus we DON'T recommend this.
 
 ### Option 1, config manifest
+
 You can point KubeOne to the unencrypted private SSH key using config API.
 
 ```yaml
@@ -50,7 +57,8 @@ hosts:
   sshPrivateKeyFile: '/home/me/.ssh/my_cleantext_private_key'
 ```
 
-### Option2, terraform output
+### Option 2, terraform output
+
 You can also provide unencrypted private SSH key using terraform integration.
 
 ```terraform
@@ -66,10 +74,12 @@ output "kubeone_hosts" {
 ```
 
 ## gpg-agent and ssh
+
 It's possible to use GnuPG agent (`gpg-agent`) in replace of `ssh-agent`. It has
 number of advantages, but it's also more complicated to setup.
 
-In your `.bash_profile`
+In your `.bash_profile`:
+
 ```bash
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent

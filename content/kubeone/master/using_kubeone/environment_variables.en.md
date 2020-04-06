@@ -3,19 +3,28 @@ title = "Environment Variables"
 date = 2020-04-01T12:00:00+02:00
 +++
 
-This document lists all environment variables used by KubeOne and related components.
+This document lists all environment variables used by KubeOne and related
+components.
 
 ## Sourcing Environment Variables
 
-In the following table you can find all configuration variables with support for sourcing using the `env:` prefix:
+In the following table you can find all configuration variables with support
+for sourcing using the `env:` prefix:
 
 | Variable                 | Type   | Default Value | Description               |
 | ------------------------ | ------ | ------------- | ------------------------- |
 | `hosts.ssh_agent_socket` | string | ""            | Socket to be used for SSH |
 
-## `machine-controller` Environment Variables
+## machine-controller Environment Variables
 
-[`machine-controller`](https://github.com/kubermatic/machine-controller) is used to create worker nodes. It needs credentials with the appropriate permissions, so it can create machines and needed infrastructure. Those credentials are deployed on the cluster.
+[machine-controller][machine-controller] is used to create worker nodes.
+It needs credentials with the appropriate permissions, so it can create
+machines and needed infrastructure.
+
+{{% notice warning %}}
+Those credentials are deployed on the cluster. You may want to consider
+providing a non-administrator credentials to increase the security if possible.
+{{% /notice %}}
 
 | Environment Variable    | Description                                                       |
 | ----------------------- | ----------------------------------------------------------------- |
@@ -47,3 +56,5 @@ In the following table you can find all configuration variables with support for
 | `ARM_CLIENT_SECRET`     | Azure Client secret                                               |
 | `ARM_TENANT_ID`         | Azure TenantID                                                    |
 | `ARM_SUBSCRIPTION_ID`   | Azure SubscriptionID                                              |
+
+[machine-controller]: https://github.com/kubermatic/machine-controller

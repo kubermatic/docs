@@ -17,10 +17,12 @@ old configuration manifests to KubeOneCluster manifests.
 
 This document shows how to use the `config migrate` command and lists changes made in the new API.
 
-:warning: **Note: Before you can use the `config migrate` command you need to make sure that your manifests
+{{% notice warning %}}
+Before you can use the `config migrate` command you need to make sure that your manifests
 are updated for KubeOne versions v0.4.0 or newer. If not, please see
 [the changelog](https://github.com/kubermatic/kubeone/blob/master/CHANGELOG.md) to see what's new and what
-are required actions to migrate.** :warning:
+are required actions to migrate.
+{{% /notice %}}
 
 ## Using the `config migrate` command
 
@@ -71,8 +73,10 @@ cloudProvider:
   name: aws
 ```
 
-**Note: The `apiVersion` and `kind` fields are not placed at the top automatically.
-If you prefer, you can move them to the top manually.**
+{{% notice note %}}
+The `apiVersion` and `kind` fields are not placed at the top automatically.
+If you prefer, you can move them to the top manually.
+{{% /notice %}}
 
 ## The API Changelog
 
