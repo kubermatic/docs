@@ -293,7 +293,7 @@ the exact templating syntax.
 Kubermatic injects an instance of the `TemplateData` struct into each template. The following
 Go snippet shows the available information:
 
-```go
+```
 {{< readfile "kubermatic/master/data/addondata.go" >}}
 ```
 
