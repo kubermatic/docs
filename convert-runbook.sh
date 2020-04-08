@@ -20,4 +20,4 @@ yq \
       select (.rules | length > 0)
     ]
   }" \
-  > data/runbook.json
+  > data/kubermatic/master/runbook.json
