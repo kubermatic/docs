@@ -20,5 +20,5 @@ managing Seed resources inside the [master cluster]({{< ref "../architecture" >}
 The following is an example Seed, showing all possible options.
 
 ```yaml
-{{< readfile "data/seed.yaml" >}}
+{{< readfile "kubermatic/v2.12/data/seed.yaml" >}}
 ```
