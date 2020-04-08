@@ -1,4 +1,4 @@
-baseURL = "https://docs.kubermatic.io/"
+baseURL = "https://docs.loodse.com/"
 theme = "hugo-theme-learn"
 languageCode = "en-us"
 title = "Kubermatic Docs"
