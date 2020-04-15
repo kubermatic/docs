@@ -3,7 +3,7 @@ title = "Using Static Workers"
 date = 2020-04-15T12:00:00+02:00
 +++
 
-Starting with version `v1.0.0`, KubeOne Added support for provisioning Kubernetes clusters with static worker nodes.
+Starting with version `v1.0.0` (currently unreleased, need to build from master) , KubeOne Added support for provisioning Kubernetes clusters with static worker nodes.
 
 This is useful in cases where the infrastructure provider is not supported by [machine-controller][1]. In this case, it's possible to disable machine-controller deployment and use the static worker nodes provided by the infrastructure provider.
 
