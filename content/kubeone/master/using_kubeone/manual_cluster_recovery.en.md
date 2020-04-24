@@ -278,12 +278,20 @@ Use `-e 'ssh -J user@bastion-ip'` in the case when bastion host is used.
 
 Once this is done, connect over SSH to the leader control plane instance.
 
-### Restore the PKI
+### Restore the etcd PKI
 
-Run the following command to restore the Kubernetes and etcd PKI:
+Run the following command to restore the etcd PKI:
 
 ```bash
-sudo rsync -av $HOME/backup/pki /etc/kubernetes/pki
+sudo rsync -av $HOME/backup/pki/etcd /etc/kubernetes/pki/
+```
+
+### Restore the Kubernetes PKI
+
+Run the following command to restore the Kubernetes PKI:
+
+```bash
+sudo rsync -av $HOME/backup/pki/kubernetes/ /etc/kubernetes/pki
 ```
 
 ### Restore the etcd backup
