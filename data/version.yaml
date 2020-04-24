@@ -14,3 +14,9 @@ kubeone:
   versions:
     - release: master
       name: master
+kubecarrier:
+  name: KubeCarrier
+  logo: "img/header-logo-kubecarrier.png"
+  versions:
+    - release: master
+      name: master
