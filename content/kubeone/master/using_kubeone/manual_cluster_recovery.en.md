@@ -294,6 +294,13 @@ Run the following command to restore the Kubernetes PKI:
 sudo rsync -av $HOME/backup/pki/kubernetes/ /etc/kubernetes/pki
 ```
 
+With PKI in the place, ensure correct ownership on the `/etc/kubernetes`
+directory:
+
+```bash
+sudo chown -R root:root /etc/kubernetes
+```
+
 ### Restore the etcd backup
 
 The easiest way to restore the etcd snapshot is to run a Docker container using
