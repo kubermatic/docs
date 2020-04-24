@@ -191,7 +191,7 @@ balancer to point to the new instances.
 terraform apply
 ```
 
-If needed, create the new Terraform output file:
+Create the new Terraform output file:
 
 ```bash
 terraform output -json > tf.json
@@ -233,7 +233,7 @@ ones.
 Unprovision the cluster by running the `reset` command such as:
 
 ```bash
-kubeone reset config.yaml -t . --destroy-workers=false
+kubeone reset config.yaml -t tf.json --destroy-workers=false
 ```
 
 After this is done, ensure that the `/etc/kubernetes` directory is empty on all
@@ -254,7 +254,7 @@ Run the following command to install the prerequisites and the Kubernetes
 binaries:
 
 ```bash
-kubeone install config.yaml -t . --no-init
+kubeone install config.yaml -t tf.json --no-init
 ```
 
 ## Step 4 — Restore The Backup
@@ -271,26 +271,19 @@ First, copy the downloaded backup to the leader control plane instance.
 On Linux and macOS systems, that can be done using `rsync`, such as:
 
 ```bash
-rsync -e 'ssh -J user@bastion-ip' -av ./backup user@leader-ip:~/
+rsync -av ./backup user@leader-ip:~/
 ```
+
+Use `-e 'ssh -J user@bastion-ip'` in the case when bastion host is used.
 
 Once this is done, connect over SSH to the leader control plane instance.
 
-### Restore the etcd PKI
+### Restore the PKI
 
-Run the following command to restore the `etcd` PKI:
-
-```bash
-sudo mkdir -p /etc/kubernetes/pki
-sudo cp -a $HOME/backup/pki/etcd /etc/kubernetes/pki
-```
-
-### Restore the Kubernetes PKI
-
-Run the following command to restore the Kubernetes PKI:
+Run the following command to restore the Kubernetes and etcd PKI:
 
 ```bash
-sudo cp -a $HOME/backup/pki/kubernetes/* /etc/kubernetes/pki
+sudo rsync -av $HOME/backup/pki /etc/kubernetes/pki
 ```
 
 ### Restore the etcd backup
@@ -321,9 +314,9 @@ sudo docker run --rm \
     etcdctl \
     snapshot restore \
     --data-dir=/var/lib/etcd \
-    --name=<<instance-hostname-fqdn>> \
-    --initial-advertise-peer-urls=https://<<leader-private-ip-address>>:2380 \
-    --initial-cluster=<<instance-hostname-fqdn>>=https://<<leader-private-ip-address>>:2380 \
+    --name=<<INSTANCE-HOSTNAME-FQDN>> \
+    --initial-advertise-peer-urls=https://<<LEADER-PRIVATE-IP-ADDRESS>>:2380 \
+    --initial-cluster=<<INSTANCE-HOSTNAME-FQDN>>=https://<<LEADER-PRIVATE-IP-ADDRESS>>:2380 \
     /backup/etcd-snapshot.db
 ```
 
