@@ -155,7 +155,7 @@ documentation. For example, the following document shows
 A cluster is created using the `kubeone install` command. It takes a KubeOne configuration file and optionally Terraform state used to source information about the infrastructure. You may also use our [Ansible roles][7] to create the configuration file.
 
 ```bash
-kubeone install config.yaml --tfjson tf.json
+kubeone install -m config.yaml --tfjson tf.json
 ```
 
 To learn more about KubeOne configuration, please run `kubeone config print --full`.
