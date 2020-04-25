@@ -217,11 +217,11 @@ terraform output -json > tfout.json
 Use new terraform outputs:
 
 ```bash
-kubeone install -v config.yaml -t tfout.json
+kubeone install -v -m config.yaml -t tfout.json
 ```
 
 #### No Terraform
 
 ```bash
-kubeone install -v config.yaml
+kubeone install -v -m config.yaml
 ```

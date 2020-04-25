@@ -75,8 +75,8 @@ addons:
 The addons path is normalized on the runtime. If you provide a relative path,
 the path is relative to the KubeOne configuration file. This means that
 `./addons` will be parsed depending on the `kubeone` command you use:
-* `kubeone install config.yaml` - `./addons`
-* `kubeone install other/dir/config.yaml` - `./other/dir/addons/config.yaml`
+* `kubeone install -m config.yaml` - `./addons`
+* `kubeone install -m other/dir/config.yaml` - `./other/dir/addons/config.yaml`
 {{% /notice %}}
 
 {{% notice note %}}

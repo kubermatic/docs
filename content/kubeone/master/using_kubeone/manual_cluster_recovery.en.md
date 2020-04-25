@@ -254,7 +254,7 @@ Run the following command to install the prerequisites and the Kubernetes
 binaries:
 
 ```bash
-kubeone install config.yaml -t tf.json --no-init
+kubeone install -m config.yaml -t tf.json --no-init
 ```
 
 ## Step 4 — Restore The Backup
@@ -346,7 +346,7 @@ proceed with provisioning the new cluster.
 On your local machine, run the `kubeone install` command:
 
 ```bash
-kubeone install config.yaml -t tf.json
+kubeone install -m config.yaml -t tf.json
 ```
 
 The provisioning process takes about 5-10 minutes. If the cluster endpoint
