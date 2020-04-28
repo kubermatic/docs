@@ -1,30 +1,27 @@
 +++
-title = "Environment Variables"
+title = "Provider Credentials"
 date = 2020-04-01T12:00:00+02:00
 +++
 
-This document lists all environment variables used by KubeOne and related
-components.
+KubeOne deploys the (cloud) provider credentials to the cluster to be used by
+components such as [cloud-controller-manager][cloud-controller-manager]
+and [machine-controller][machine-controller]. Those components communicate with
+the API in order to create worker nodes, pull node metadata and information
+from the provider, and more.
 
-## Sourcing Environment Variables
-
-In the following table you can find all configuration variables with support
-for sourcing using the `env:` prefix:
-
-| Variable                 | Type   | Default Value | Description               |
-| ------------------------ | ------ | ------------- | ------------------------- |
-| `hosts.ssh_agent_socket` | string | ""            | Socket to be used for SSH |
-
-## machine-controller Environment Variables
-
-[machine-controller][machine-controller] is used to create worker nodes.
-It needs credentials with the appropriate permissions, so it can create
-machines and needed infrastructure.
+KubeOne can grab credentials from the user's environment or the user can
+provide the needed credentials in a dedicated credentials file.
 
 {{% notice warning %}}
-Those credentials are deployed on the cluster. You may want to consider
-providing a non-administrator credentials to increase the security if possible.
+As credentials are deployed to the cluster, it's recommended to use
+dedicated, non-administrator credentials whenever it's possible.
 {{% /notice %}}
+
+## Environment Variables
+
+By default, KubeOne grabs credentials from the user's environment unless the
+credentials file is provided. In the following table, you can find environment
+variables used by KubeOne:
 
 | Environment Variable    | Description                                                       |
 | ----------------------- | ----------------------------------------------------------------- |
@@ -57,4 +54,46 @@ providing a non-administrator credentials to increase the security if possible.
 | `ARM_TENANT_ID`         | Azure TenantID                                                    |
 | `ARM_SUBSCRIPTION_ID`   | Azure SubscriptionID                                              |
 
+## Credentials File
+
+The credentials file is a key-value YAML file, where the key is the environment
+variable name from the [table]({{< ref "#environment-variables" >}}).
+
+The credentials file has the priority over the environment variables, so you
+can use the credentials file if you want to use different credentials or if
+you don't want to export credentials.
+
+Besides credentials, the credentials file can take the cloud-config file, which
+is provided using the `cloudConfig` key. This can be useful in cases when the
+cloud-config contains secrets and you want to keep secrets in a different file.
+
+The credentials file can look like the following one:
+
+```yaml
+VSPHERE_ADDRESS: "<<VSPHERE_ADDRESS>>"
+VSPHERE_USERNAME: "<<VSPHERE_USERNAME>>"
+VSPHERE_PASSWORD: "<<VSPHERE_PASSWORD>>"
+cloudConfig: |
+    <<VSPHERE_CLOUD_CONFIG>>
+```
+
+The credentials file is provided to KubeOne using the `--credentials` or `-c`
+flag, such as:
+
+```bash
+kubeone install --manifest kubeone.yaml --credentials credentials.yaml -t tf.json
+```
+
+## Environment Variables in the Configuration Manifest
+
+KubeOne can source value for supported API fields directly from the
+environment. To use this feature, the field value has to be in the format of
+`env:<<ENVIRONMENT_VARIABLE>>`. In the following table you can find all
+API fields with support for sourcing value using the `env:` prefix:
+
+| Variable                 | Type   | Default Value | Description               |
+| ------------------------ | ------ | ------------- | ------------------------- |
+| `hosts.ssh_agent_socket` | string | ""            | Socket to be used for SSH |
+
+[cloud-controller-manager]: https://kubernetes.io/docs/concepts/architecture/cloud-controller/
 [machine-controller]: https://github.com/kubermatic/machine-controller
