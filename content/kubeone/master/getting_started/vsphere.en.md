@@ -19,7 +19,7 @@ three control plane nodes and one worker node.
 
 To follow this quick start, you'll need:
 
-* KubeOne v0.11.1 or newer installed, which can be done by following the 
+* KubeOne v0.11.1 or newer installed, which can be done by following the
 Installing KubeOne section of [the README][readme]
 * Terraform v0.12.0 or newer installed. Older releases are not compatible.
 The binaries for Terraform can be found on the [Terraform website][terraform]
@@ -115,6 +115,7 @@ For the list of available settings along with their names please see the
 | network_name         |          | public            | vSphere network name                                     |
 | template_name        |          | ubuntu-18.04      | vSphere template name to clone VMs from                  |
 | ssh_public_key_file  |          | ~/.ssh/id_rsa.pub | path to your SSH public key that's deployed on instances |
+| folder_name          |          | kubeone           | vSphere VM folder                                        |
 
 The `terraform.tfvars` file can look like:
 
@@ -196,6 +197,7 @@ cloudProvider:
     datacenter = "dc-1"
     default-datastore="exsi-nas"
     resourcepool-path="kubeone"
+    folder = "kubeone"
 
     [Disk]
     scsicontrollertype = pvscsi
