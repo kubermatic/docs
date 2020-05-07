@@ -13,6 +13,8 @@ PSP objects are cluster-level objects. They define a set of conditions that a po
 
 ## Kubermatic Support
 
+### User Cluster Level Support
+
 Kubermatic provides support for enabling PSP during cluster creation using a simple switch:
 
 ![Create Cluster](01-create-cluster.png)
@@ -26,6 +28,14 @@ For existing clusters, it's also possible to enable/disable PSP:
 Activating Pod Security Policy will mean that a lot of Pod specifications, Operators and Helm charts will not work out of the box. Kubermatic will apply a default authorizing policy to prevent this. Additionally, all Kubermatic user-clusters are configured to be compatible with enabled PSPs. Make sure that you know the consequences of activating this feature on your workloads.
 {{% /notice %}}
 
+### Datacenter Level Support
+It is also possible to enforce enabling Pod Security Policies on the datacenter level. In this case, user cluster level configuration will be ignored, and PSP will be enabled for all user clusters in the datacenter.
+
+To enable this, you will need to update your [Seed Cluster CRD]({{< ref "../../concepts/seeds/" >}}), and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
+
+{{% notice note %}}
+For legacy versions of Kubermatic you will need to edit the [datacenters.yaml]({{< ref "../../concepts/datacenters/" >}}) file instead, and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
+{{% /notice %}}
 
 #### Using Pod Security Policies
 
