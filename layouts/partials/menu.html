@@ -94,7 +94,7 @@
     {{safeHTML .Params.head}}
     <li data-nav-id="{{.RelPermalink}}" title="{{.Title}}" class="dd-item
         {{if .IsAncestor $currentNode }}parent{{end}}
-        {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}}{{end}}}
+        {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}{{end}}
         {{if .Params.alwaysopen}}parent{{end}}
         ">
       <a href="{{.RelPermalink}}">
@@ -132,7 +132,7 @@
     </li>
   {{else}}
     {{ if not .Params.Hidden }}
-      <li data-nav-id="{{.RelPermalink}}" title="{{.Title}}" class="dd-item {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}}{{end}}}">
+      <li data-nav-id="{{.RelPermalink}}" title="{{.Title}}" class="dd-item {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}{{end}}">
         <a href="{{ .RelPermalink}}">
         {{safeHTML .Params.Pre}}{{or .Params.menuTitle .LinkTitle .Title}}{{safeHTML .Params.Post}}
         {{ if $showvisitedlinks}}<i class="fas fa-check read-icon"></i>{{end}}
