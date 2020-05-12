@@ -1,7 +1,11 @@
 
 :root{
 
-    --MAIN-TEXT-color:#323232; /* Color of text by default */
+    --MAIN-TEXT-color:#2b3035; /* Color of text by default */
+    --MAIN-PRIMARY-color:#1b658f; /* Color that could be used for titles, sidebar highlight links */
+    --MAIN-ACCENT-color:#0081ae; /* Color for highlighting elements */
+    --MAIN-ACCENT-HOVER-color:#00d9d2; /* Color for hovered highlighting elements */
+
     --MAIN-TITLES-TEXT-color: #323232; /* Color of titles h2-h3-h4-h5 */
     --MAIN-LINK-color:#1C90F3; /* Color of links */
     --MAIN-LINK-HOVER-color:#167ad0; /* Color of hovered links */
@@ -34,20 +38,24 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     box-shadow: none;
 }
 
-h2, h3, h4, h5 {
-    color: var(--MAIN-TITLES-TEXT-color) !important;
+h1 {
+    color: var(--MAIN-PRIMARY-color);
+}
+
+h2, h3, h4, h5, h6 {
+    color: var(--MAIN-TEXT-color);
 }
 
 a {
-    color: var(--MAIN-LINK-color);
+    color: var(--MAIN-ACCENT-color);
 }
 
 .anchor {
-    color: var(--MAIN-ANCHOR-color);
+    color: var(--MAIN-ACCENT-color);
 }
 
 a:hover {
-    color: var(--MAIN-LINK-HOVER-color);
+    color: var(--MAIN-ACCENT-HOVER-color);
 }
 
 #sidebar ul li.visited > a .read-icon {
@@ -82,8 +90,8 @@ a:hover {
     background: var(--MENU-SECTIONS-ACTIVE-BG-color);
 }
 
-#sidebar .topics a {
-    color: var(--MENU-SECTIONS-LINK-color);
+#sidebar a {
+    color: var(--MAIN-TEXT-color);
 }
 
 #sidebar .topics a:hover {

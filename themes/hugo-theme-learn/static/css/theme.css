@@ -275,7 +275,6 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     font-size: 1.1rem;
 }
 #sidebar ul.topics > li > a b {
-    opacity: 0.5;
     font-weight: normal;
 }
 #sidebar ul.topics > li > a .fa {
