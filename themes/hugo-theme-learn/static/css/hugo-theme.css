@@ -47,20 +47,6 @@ body {
     line-height: 1.1;
     display: inline-block;
 }
-#body a.highlight:after {
-    display: block;
-    content: "";
-    height: 1px;
-    width: 0%;
-    background-color: #0082a7; /*#CE3B2F*/
-    -webkit-transition: width 0.5s ease;
-    -moz-transition: width 0.5s ease;
-    -ms-transition: width 0.5s ease;
-    transition: width 0.5s ease;
-}
-#body a.highlight:hover:after, #body a.highlight:focus:after {
-    width: 100%;
-}
 .progress {
     position:absolute;
     background-color: rgba(246, 246, 246, 0.97);
@@ -162,19 +148,19 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 
 h2 {
   font-size: 2.5rem;
-  line-height: 110% !important;
+  line-height: 110%;
   margin: 2.5rem 0 1.5rem 0;
 }
 
 h3 {
   font-size: 2rem;
-  line-height: 110% !important;
+  line-height: 110%;
   margin: 2rem 0 1rem 0;
 }
 
 h4 {
   font-size: 1.5rem;
-  line-height: 110% !important;
+  line-height: 110%;
   margin: 1.5rem 0 0.75rem 0;
 }
 

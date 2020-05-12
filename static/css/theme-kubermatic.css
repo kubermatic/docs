@@ -5,6 +5,7 @@
     --MAIN-PRIMARY-color:#1b658f; /* Color that could be used for titles, sidebar highlight links */
     --MAIN-ACCENT-color:#0081ae; /* Color for highlighting elements */
     --MAIN-ACCENT-HOVER-color:#00d9d2; /* Color for hovered highlighting elements */
+    --GRAY-color:#e0e3e5;
 
     --MAIN-TITLES-TEXT-color: #323232; /* Color of titles h2-h3-h4-h5 */
     --MAIN-LINK-color:#1C90F3; /* Color of links */
@@ -12,7 +13,6 @@
     --MAIN-ANCHOR-color: #1C90F3; /* color of anchors on titles */
 
     --MENU-HEADER-BG-color:#fff; /* Background color of menu header */
-    --MENU-HEADER-BORDER-color:#0288d1; /*Color of menu header border */
 
     --MENU-SEARCH-BG-color:#FFFFFF; /* Search field background color (by default borders + icons) */
     --MENU-SEARCH-BOX-color: #33a1ff; /* Override search field border color */
@@ -43,7 +43,14 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
+    margin: 2.5rem 0 1.25rem;
     color: var(--MAIN-TEXT-color);
+    font-weight: 500;
+    letter-spacing: normal;
+}
+
+p {
+    margin: 1.25rem 0;
 }
 
 a {
@@ -62,18 +69,13 @@ a:hover {
 	color: var(--MENU-VISITED-color);
 }
 
-#body a.highlight:after {
-    background-color: var(--MAIN-LINK-HOVER-color);
-}
-
 #sidebar {
-	background-color: var(--MENU-SECTIONS-BG-color);
+	border-right: 1px solid var(--GRAY-color);
 }
 
 #sidebar #header-wrapper {
     background: var(--MENU-HEADER-BG-color);
     color: var(--MENU-SEARCH-BOX-color);
-    border-color: var(--MENU-HEADER-BORDER-color);
 }
 
 #sidebar .searchbox {
@@ -126,7 +128,7 @@ a:hover {
 /* remove excessive whitespace */
 
 #body .padding {
-    padding: 1rem;
+    padding: 2.5rem;
 }
 
 #footer {
@@ -152,8 +154,17 @@ a:hover {
 /* fix hugo-learn's awful readability */
 
 body {
-    font-size: 1.1rem !important;
+    font-size: 100%;
     line-height: 1.5;
+}
+
+code {
+    padding: 1px 5px;
+    background-color: var(--GRAY-color);
+    color: var(--MAIN-TEXT-color);
+    border: none;
+    border-radius: 0;
+    font-size: 1rem;
 }
 
 pre code {
@@ -164,8 +175,8 @@ pre code {
     font-size: 1rem;
 }
 
-div.notices p {
-    font-size: inherit;
+.notices {
+    border: 1px solid var(--GRAY-color);
 }
 
 ul, ol, pre {
@@ -174,7 +185,18 @@ ul, ol, pre {
 }
 
 h2 {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.375rem;
+    line-height: 1.5;
+}
+
+h3 {
+    font-size: 1.125rem;
+}
+
+h4, h5, h6 {
+    margin: 1.25rem 0;
+    font-size: 1rem;
 }
 
 .runbook-group {
