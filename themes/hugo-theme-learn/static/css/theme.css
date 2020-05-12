@@ -253,6 +253,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     color: white;
 }
 #sidebar ul.topics {
+    padding-left: 0.625rem;
     margin: 0 1.25rem;
 }
 #sidebar ul.topics.searched ul {
@@ -269,8 +270,8 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     display: block;
 }
 #sidebar ul.topics > li > a {
-    line-height: 2rem;
-    font-size: 1.1rem;
+    font-size: 1.125rem;
+    line-height: 2;
 }
 #sidebar ul.topics > li > a b {
     font-weight: normal;
@@ -278,20 +279,9 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 #sidebar ul.topics > li > a .fa {
     margin-top: 9px;
 }
-#sidebar ul.topics > li.parent, #sidebar ul.topics > li.active {
-    background: #251f29;
-    margin-left: -1rem;
-    margin-right: -1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
 #sidebar ul li.active > a {
     background: #fff;
-    color: #777 !important;
-    margin-left: -1rem;
-    margin-right: -1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    color: #777;
 }
 #sidebar ul li {
     padding: 0;
@@ -317,7 +307,6 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     display: inline;
 }
 #sidebar ul li li {
-    padding-left: 1rem;
     text-indent: 0.2rem;
 }
 #main {

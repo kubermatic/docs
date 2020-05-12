@@ -97,15 +97,31 @@ a:hover {
 }
 
 #sidebar .topics a:hover {
-    color: var(--MENU-SECTIONS-LINK-HOVER-color);
+    color: var(--MAIN-ACCENT-color);
 }
 
 #sidebar .topics ul li.active > a {
-    color: var(--MENU-SECTION-ACTIVE-CATEGORY-color) !important;
+    color: var(--MAIN-ACCENT-color);
 }
 
 #sidebar hr {
     border-color: var(--MENU-SECTION-HR-color);
+}
+
+#sidebar ul li li {
+    margin-left: -2px;
+}
+
+#sidebar ul li li > a {
+    padding-left: 0.75rem;
+}
+
+#sidebar ul li.active > a {
+    color: var(--MAIN-ACCENT-color);
+}
+
+#sidebar ul li li.active > a {
+    border-left: 2px solid var(--MAIN-ACCENT-color);
 }
 
 #shortcuts a {
@@ -140,7 +156,10 @@ a:hover {
 }
 
 #sidebar ul.topics ul {
-    padding-bottom: 10px;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    border-left: 2px solid var(--GRAY-color);
 }
 
 #chapter {
