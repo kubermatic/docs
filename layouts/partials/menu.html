@@ -9,6 +9,38 @@
     {{if not .Site.Params.disableSearch}}
         {{ partial "search.html" . }}
     {{end}}
+    {{if not .IsHome}}
+    <div id="top-bar">
+    {{ if and (or .IsPage .IsSection) .Site.Params.editURL }}
+      {{ $File := .File }}
+      {{ $Site := .Site }}
+      {{with $File.Path }}
+      <div id="top-github-link">
+        <a class="github-link" title='{{T "Edit-this-page"}}' href="{{ $Site.Params.editURL }}{{ replace $File.Dir "\\" "/" }}{{ $File.LogicalName }}" target="blank">
+          <i class="fas fa-code-branch"></i>
+          <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
+        </a>
+      </div>
+      {{ end }}
+    {{ end }}
+      <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        {{ range $key, $value := $.Site.Data.version }}
+          {{ if in $.RelPermalink $key }}
+          <div class="select-release">
+            <span>{{ $.Site.Title }} {{ $value.name }} > </span>
+            <div class="select-style">
+              <select id="select-release" onchange="location = this.value;">
+            {{ range $value.versions }}
+              <option value="/{{ $key }}/{{ .release }}/"{{ if in $.RelPermalink .release }}selected{{ end }}>{{ .name }}</option>
+            {{end}}
+              </select>
+            </div>
+            </div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
   </div>
     <div class="highlightable">
     <ul class="topics">
