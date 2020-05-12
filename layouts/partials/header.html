@@ -83,7 +83,7 @@
           <div id="chapter">
         {{ end }}
         <div id="body-inner">
-          {{if and (not .IsHome) (not .Params.chapter) }}
+          {{if and (not .IsHome) (not .Params.chapter) (ne (.Title | lower) (.Section | lower))}}
             <h1>
               {{ if eq .Kind "taxonomy" }}
                 {{.Kind}} ::
