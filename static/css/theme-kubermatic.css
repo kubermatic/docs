@@ -356,3 +356,8 @@ h4, h5, h6 {
 #sidebar .socials-link:hover {
     color: var(--MAIN-ACCENT-color);
 }
+
+pre .copy-to-clipboard {
+    background-image: url('/img/icons/copy-icon.svg');
+    background-color: transparent;
+}
