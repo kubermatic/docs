@@ -71,6 +71,23 @@
       </section>
     {{end}}
 
+    <div class="externals">
+      {{with .Site.Params.externals}}
+        <div class="externals-links">
+        {{range .}}
+        <a href="{{.url | relURL}}" class="externals-link">{{.title}}</a>
+        {{end}}
+        </div>
+      {{end}}
+
+      {{with .Site.Params.socials}}
+        <div class="socials">
+        {{range .}}
+        <a href="{{.url | relURL}}" class="socials-link">{{with .class}}<i class="{{.}}"></i>{{end}}{{.title}}</a>
+        {{end}}
+        </div>
+      {{end}}
+    </div>
     <section id="footer">
       {{ partial "menu-footer.html" . }}
     </section>

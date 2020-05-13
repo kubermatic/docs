@@ -188,7 +188,7 @@ a:hover {
 }
 
 #footer {
-    padding: 1rem;
+    padding: 1.25rem;
 }
 
 #sidebar .highlightable {
@@ -332,4 +332,27 @@ h4, h5, h6 {
     font-size: 12px;
     font-weight: 400;
     text-align: left;
+}
+
+.externals {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding: 1.25rem;
+    border-top: 1px solid var(--GRAY-color);
+}
+
+.socials {
+    margin-right: -10px;
+}
+
+.socials-link {
+    margin: 0 10px;
+    font-size: 1.125rem;
+}
+
+#sidebar .externals-link:hover,
+#sidebar .socials-link:hover {
+    color: var(--MAIN-ACCENT-color);
 }
