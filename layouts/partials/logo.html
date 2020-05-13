@@ -1,9 +1,10 @@
-{{ range $key, $value := $.Site.Data.products }}
-    {{ with $.Site.GetPage (printf "/%s" $key) }}
-        {{ if hasPrefix $.RelPermalink .RelPermalink }}
-        <a href="{{ .RelPermalink }}">
-            <img src="/{{ $value.logo }}" alt="{{ $value.name }}">
-        </a>
-        {{ end }}
-    {{ end }}
-{{ end }}
+{{range $key, $value := $.Site.Data.products }}
+  {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+  {{with $.Site.GetPage (printf "/%s/%s" $key $release)}}
+    {{ if in $.RelPermalink $key }}
+    <a href="{{.RelPermalink}}">
+      <img src="{{ $value.logo | relURL}}" alt="{{ $value.name}}">
+    </a>
+    {{end}}
+  {{end}}
+{{end}}
