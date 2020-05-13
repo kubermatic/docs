@@ -6,6 +6,7 @@
     --MAIN-ACCENT-color:#0081ae; /* Color for highlighting elements */
     --MAIN-ACCENT-HOVER-color:#00d9d2; /* Color for hovered highlighting elements */
     --GRAY-color:#e0e3e5;
+    --GRAY2-color:#7e868f;
 
     --MAIN-TITLES-TEXT-color: #323232; /* Color of titles h2-h3-h4-h5 */
     --MAIN-LINK-color:#1C90F3; /* Color of links */
@@ -16,7 +17,7 @@
 
     --MENU-SEARCH-BG-color:#FFFFFF; /* Search field background color (by default borders + icons) */
     --MENU-SEARCH-BOX-color: #33a1ff; /* Override search field border color */
-    --MENU-SEARCH-BOX-ICONS-color: #a1d2fd; /* Override search field icons color */
+    --MENU-SEARCH-BOX-ICONS-color:#7e868f; /* Override search field icons color */
 
     --MENU-SECTIONS-ACTIVE-BG-color:#fff; /* Background color of the active section and its childs */
     --MENU-SECTIONS-BG-color:#F6F6F6; /* Background color of other sections */
@@ -78,18 +79,57 @@ a:hover {
     color: var(--MENU-SEARCH-BOX-color);
 }
 
-#sidebar .searchbox {
-	border-color: var(--MENU-SEARCH-BOX-color);
+.searchbox {
+    margin-top: 0.875rem;
+	border-color: var(--GRAY-color);
     background: var(--MENU-SEARCH-BG-color);
-}
-
-#sidebar .searchbox * {
-    color: var(--MENU-SEARCH-BOX-ICONS-color);
 }
 
 #sidebar ul.topics > li.parent,
 #sidebar ul.topics > li.active {
     background: var(--MENU-SECTIONS-ACTIVE-BG-color);
+}
+
+.searchbox label, .searchbox span{
+    color: var(--MENU-SEARCH-BOX-ICONS-color);
+}
+
+.searchbox label {
+    top: 50%;
+    margin-top: -11px;
+    margin-bottom: 0;
+}
+
+.searchbox input {
+    height: auto;
+    padding: 15px 25px 15px 35px;
+    color: var(--MAIN-TEXT-color);
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.searchbox input::-webkit-input-placeholder {
+    color: var(--GRAY2-color);
+}
+.searchbox input::-moz-placeholder {
+    color: var(--GRAY2-color);
+}
+.searchbox input:-moz-placeholder {
+    color: var(--GRAY2-color);
+}
+.searchbox input:-ms-input-placeholder {
+    color: var(--GRAY2-color);
+}
+
+.searchbox span {
+    top: 50%;
+    margin-top: -11px;
+    opacity: 0.5;
+}
+
+.searchbox span:hover {
+    color: var(--MENU-SEARCH-BOX-ICONS-color);
+    opacity: 1;
 }
 
 #sidebar a {
