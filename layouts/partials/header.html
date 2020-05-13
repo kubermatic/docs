@@ -57,7 +57,7 @@
           {{ end }}
         {{ end }}
           <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
-            {{ range $key, $value := $.Site.Data.version }}
+            {{ range $key, $value := $.Site.Data.products }}
               {{ if in $.RelPermalink $key }}
               <div class="select-release">
                 <span>{{ $.Site.Title }} {{ $value.name }} > </span>

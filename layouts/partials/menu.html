@@ -9,7 +9,7 @@
     {{if not .Site.Params.disableSearch}}
         {{ partial "search.html" . }}
     {{end}}
-    {{with $.Site.Data.version}}
+    {{with $.Site.Data.products}}
     <div class="products-toogle">
       <div class="products-toogle-select">
         <label for="product-select" class="products-toogle-label">Product</label>
@@ -37,7 +37,7 @@
   </div>
     <div class="highlightable">
     <ul class="topics">
-      {{ range $key, $value := $.Site.Data.version }}
+      {{ range $key, $value := $.Site.Data.products }}
         {{ if in $.RelPermalink $key }}
           {{ range $value.versions }}
             {{ if in $.RelPermalink .release }}

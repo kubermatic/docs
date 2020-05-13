@@ -1,4 +1,4 @@
-{{ range $key, $value := $.Site.Data.version }}
+{{ range $key, $value := $.Site.Data.products }}
     {{ with $.Site.GetPage (printf "/%s" $key) }}
         {{ if hasPrefix $.RelPermalink .RelPermalink }}
         <a href="{{ .RelPermalink }}">
