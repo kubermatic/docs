@@ -24,6 +24,7 @@
 </head>
 <body>
   {{partial "main-header" .}}
+  {{if .Site.Data.products}}
   <section class="projects">
     <div class="projects-wrap">
       {{with .Params.projects_title}}
@@ -57,5 +58,6 @@
       {{end}}
     </div>
   </section>
+  {{end}}
 </body>
 </html>
