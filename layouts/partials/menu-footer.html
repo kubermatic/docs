@@ -1,3 +1,4 @@
+{{if or .Site.Params.externals .Site.Params.socials}}
 <div class="externals">
   {{with .Site.Params.externals}}
     <div class="externals-links">
@@ -15,3 +16,4 @@
     </div>
   {{end}}
 </div>
+{{end}}

@@ -71,7 +71,9 @@ a:hover {
 }
 
 #sidebar {
-	border-right: 1px solid var(--GRAY-color);
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--GRAY-color);
 }
 
 #sidebar #header-wrapper {
@@ -330,7 +332,6 @@ h4, h5, h6 {
 }
 
 #footer {
-    margin-top: 1rem;
     padding: 1.25rem;
     border-top: 1px solid var(--GRAY-color);
 }
