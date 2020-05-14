@@ -360,3 +360,7 @@ pre .copy-to-clipboard {
     background-image: url('/img/icons/copy-icon.svg');
     background-color: transparent;
 }
+
+#chapter h1 {
+    text-align: center;
+}
