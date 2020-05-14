@@ -188,10 +188,6 @@ a:hover {
     padding: 2.5rem;
 }
 
-#footer {
-    padding: 1.25rem;
-}
-
 #sidebar .highlightable {
     padding: 0;
 }
@@ -333,13 +329,16 @@ h4, h5, h6 {
     text-align: left;
 }
 
+#footer {
+    margin-top: 1rem;
+    padding: 1.25rem;
+    border-top: 1px solid var(--GRAY-color);
+}
+
 .externals {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
-    padding: 1.25rem;
-    border-top: 1px solid var(--GRAY-color);
 }
 
 .socials {
