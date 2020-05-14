@@ -1,6 +1,7 @@
 kubermatic:
   name: Kubermatic
   logo: "img/header-logo-kubermatic.png"
+  description: Automate multicloud, on-prem, and edge operations with a single management UI enabling you to deliver the cloud native transformation immediately.
   versions:
     - release: master
       name: master
@@ -11,12 +12,14 @@ kubermatic:
 kubeone:
   name: KubeOne
   logo: "img/header-logo-kubeone.png"
+  description: Automate operations of a single Kubernetes cluster on your chosen cloud, on-prem, or edge environment.
   versions:
     - release: master
       name: master
 kubecarrier:
   name: KubeCarrier
   logo: "img/header-logo-kubecarrier.png"
+  description: The operator of operators. Centrally manage all your services and applications across multiple clusters, clouds and regions with Kubernetes native API and tooling.
   versions:
     - release: master
       name: master
