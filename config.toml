@@ -51,6 +51,10 @@ title = "Dokumentation für "
 weight = 2
 languageName = "German"
 
+[params.mainLogo]
+src = "/img/Kubermatic.svg"
+alt = "Kubermatic logo"
+
 [[params.externals]]
 title = "Imprint"
 url = "https://www.loodse.com/imprint"

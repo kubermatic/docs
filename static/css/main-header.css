@@ -1,0 +1,23 @@
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+  height: 4.375rem;
+  background-color: var(--MAIN-HEADER-color);
+  z-index: 1;
+}
+
+.main-header-wrap {
+  padding: 0 1.25rem;
+}
+
+.main-header-logo-image {
+  display: block;
+}

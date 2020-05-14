@@ -7,6 +7,7 @@
     --MAIN-ACCENT-HOVER-color:#00d9d2; /* Color for hovered highlighting elements */
     --GRAY-color:#e0e3e5;
     --GRAY2-color:#7e868f;
+    --MAIN-HEADER-color:#001128;
 
     --MAIN-TITLES-TEXT-color: #323232; /* Color of titles h2-h3-h4-h5 */
     --MAIN-LINK-color:#1C90F3; /* Color of links */
@@ -71,6 +72,7 @@ a:hover {
 }
 
 #sidebar {
+    top: 4.375rem;
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--GRAY-color);
@@ -185,6 +187,10 @@ a:hover {
 }
 
 /* remove excessive whitespace */
+
+#body {
+    margin-top: 4.375rem;
+}
 
 #body .padding {
     padding: 2.5rem;

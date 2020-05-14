@@ -1,0 +1,9 @@
+<header class="main-header">
+  <div class="main-header-wrap">
+    <a href="{{.Site.BaseURL}}" class="main-header-logo">
+      {{with .Site.Params.mainLogo}}
+      <img src="{{.src | relURL}}" alt="{{.alt}}" class="main-header-logo-image"/>
+      {{end}}
+    </a>
+  </div>
+</header>
