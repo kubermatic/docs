@@ -140,7 +140,7 @@ a:hover {
     color: var(--MAIN-ACCENT-color);
 }
 
-#sidebar .topics ul li.active > a {
+#sidebar .topics li.active > a {
     color: var(--MAIN-ACCENT-color);
 }
 
@@ -148,19 +148,20 @@ a:hover {
     border-color: var(--MENU-SECTION-HR-color);
 }
 
-#sidebar ul li li {
-    margin-left: -2px;
+#sidebar ul.topics  ul ul {
+    margin-left: 15px;
 }
 
 #sidebar ul li li > a {
-    padding-left: 0.75rem;
+    padding: 0.375rem 0 0.375rem 0.75rem;
+    font-size: 1rem;
 }
 
-#sidebar ul li.active > a {
-    color: var(--MAIN-ACCENT-color);
+#sidebar .topics > li > ul > li > a {
+    border-left: 2px solid var(--GRAY-color);
 }
 
-#sidebar ul li li.active > a {
+#sidebar .topics > li > ul > li.active > a {
     border-left: 2px solid var(--MAIN-ACCENT-color);
 }
 
@@ -195,11 +196,9 @@ a:hover {
     padding: 0;
 }
 
-#sidebar ul.topics ul {
+#sidebar ul.topics > li > ul {
     padding-bottom: 0;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    border-left: 2px solid var(--GRAY-color);
+    margin: 0.5rem 0 1.125rem 0.625rem;
 }
 
 #chapter {
@@ -306,7 +305,7 @@ h4, h5, h6 {
 
 .products-toogle-select select {
     width: 100%;
-    padding: 16px 35px 11px 15px;
+    padding: 14px 35px 11px 15px;
     margin-bottom: 0;
     border: 1px solid var(--GRAY-color);
     border-radius: 5px;
