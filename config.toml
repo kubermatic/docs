@@ -21,7 +21,7 @@ description = "Official Kubermatic Documentation"
 # Shows a checkmark for visited pages on the menu
 showVisitedLinks = false
 # Disable search function. It will hide search bar
-disableSearch = false
+disableSearch = true
 # Javascript and CSS cache are automatically busted when new version of site is generated.
 # Set this to true to disable this behavior (some proxies don't handle well this optimization)
 disableAssetsBusting = false
@@ -51,22 +51,30 @@ title = "Dokumentation für "
 weight = 2
 languageName = "German"
 
-[[menu.shortcuts]]
-name = "<i class='fa fa-globe'></i> Kubermatic.io"
-url = "https://kubermatic.io"
-weight = 15
+[params.mainLogo]
+src = "/img/Kubermatic.svg"
+alt = "Kubermatic logo"
 
-[[menu.shortcuts]]
-name = "<i class='fa fa-globe'></i> Loodse.com"
-url = "https://loodse.com"
-weight = 30
-
-[[menu.shortcuts]]
-name = "<i class='fab fa-twitter'></i> Loodse"
-url = "https://twitter.com/Loodse"
-weight = 35
-
-[[menu.shortcuts]]
-name = "<i class='fa fa-gavel'></i> Imprint"
+[[params.externals]]
+title = "Imprint"
 url = "https://www.loodse.com/imprint"
-weight = 40
+
+[[params.socials]]
+url = "https://kubermatic.io"
+class = "fa fa-globe"
+
+[[params.socials]]
+url = "https://twitter.com/Loodse"
+class = "fab fa-twitter"
+
+[[params.socials]]
+url = "https://github.com/kubermatic/"
+class = "fab fa-github"
+
+[[params.socials]]
+url = "https://www.youtube.com/channel/UCHyOXqpOR7TRyOzS5bolcUw"
+class = "fab fa-youtube"
+
+[[params.socials]]
+url = "https://www.facebook.com/loodse/"
+class = "fab fa-facebook-f"

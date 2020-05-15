@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="{{ .Page.Language | default "en" }}" class="js csstransforms3d">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{partial "meta" .}}
+  {{partial "favicon" .}}
+  <title>{{.Title}} - {{partial "title" .}}</title>
+  {{partial "css-includes" .}}
+</head>
+<body>
+  {{partial "main-header" .}}
+  {{if .Site.Data.products}}
+  <section class="projects">
+    <div class="projects-wrap">
+      {{with .Params.projects_title}}
+      <h1 class="projects-title">{{.}}</h1>
+      {{end}}
+      {{with .Site.Data.products}}
+      <div class="projects-list">
+        {{range $key, $value := .}}
+        {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+        {{with $.Site.GetPage (printf "/%s/%s" $key $release)}}
+        <div class="projects-tile">
+          <a class="projects-tile-link" href="{{.RelPermalink}}">
+            {{with $value.logo}}
+            <div class="projects-tile-image">
+              <img src="{{. | relURL}}" alt="{{$value.name}}">
+            </div>
+            {{end}}
+            {{with $value.description}}
+            <p class="projects-tile-description">{{.}}</p>
+            {{end}}
+            {{with $value.name}}
+            <div class="projects-tile-button-wrap">
+              <span class="loodse-btn">Go to {{.}} Docs</span>
+            </div>
+            {{end}}
+          </a>
+        </div>
+        {{end}}
+        {{end}}
+      </div>
+      {{end}}
+    </div>
+  </section>
+  {{end}}
+</body>
+</html>

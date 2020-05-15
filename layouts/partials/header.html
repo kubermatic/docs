@@ -7,23 +7,9 @@
     {{ partial "meta.html" . }}
     {{ partial "favicon.html" . }}
     <title>{{ .Title }} - {{ partial "title.html" . }}</title>
-
+    {{partial "css-includes" .}}
     {{ $assetBusting := not .Site.Params.disableAssetsBusting }}
-    <link href="{{"css/nucleus.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    <link href="{{"css/fontawesome-all.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    <link href="{{"css/hybrid.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    <link href="{{"css/featherlight.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    <link href="{{"css/perfect-scrollbar.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    <link href="{{"css/auto-complete.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    <link href="{{"css/atom-one-dark-reasonable.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    <link href="{{"css/theme.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    <link href="{{"css/hugo-theme.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    {{with .Site.Params.themeVariant}}
-      <link href="{{(printf "css/theme-%s.css" .) | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
-    {{end}}
-
     <script src="{{"js/jquery-3.3.1.min.js"| relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
-
     <style>
       :root #header + #content > #left > #rlblock_left{
           display:none !important;
@@ -37,45 +23,45 @@
     {{ partial "custom-header.html" . }}
   </head>
   <body class="" data-url="{{ .RelPermalink }}">
+    {{partial "main-header" .}}
     {{ partial "menu.html" . }}
         <section id="body">
         <div id="overlay"></div>
         <div class="padding highlightable">
-              {{if not .IsHome}}
-              <div>
-                <div id="top-bar">
-                {{ if and (or .IsPage .IsSection) .Site.Params.editURL }}
-                  {{ $File := .File }}
-                  {{ $Site := .Site }}
-                  {{with $File.Path }}
-                  <div id="top-github-link">
-                    <a class="github-link" title='{{T "Edit-this-page"}}' href="{{ $Site.Params.editURL }}{{ replace $File.Dir "\\" "/" }}{{ $File.LogicalName }}" target="blank">
-                      <i class="fas fa-code-branch"></i>
-                      <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
-                    </a>
-                  </div>
-                  {{ end }}
-                {{ end }}
-                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
-                    {{ range $key, $value := $.Site.Data.version }}
-                      {{ if in $.RelPermalink $key }}
-                      <div class="select-release">
-                        <span>{{ $.Site.Title }} {{ $value.name }} > </span>
-                        <div class="select-style">
-                          <select id="select-release" onchange="location = this.value;">
-                        {{ range $value.versions }}
-                            <option value="/{{ $key }}/{{ .release }}/"{{ if in $.RelPermalink .release }}selected{{ end }}>{{ .name }}</option>
-                        {{end}}
-                          </select>
-                        </div>
-                        </div>
-                      {{ end }}
-                    {{ end }}
-
+        {{/* FIXME: hide Breadcrumbs
+        {{if not .IsHome}}
+        <div id="top-bar">
+        {{ if and (or .IsPage .IsSection) .Site.Params.editURL }}
+          {{ $File := .File }}
+          {{ $Site := .Site }}
+          {{with $File.Path }}
+          <div id="top-github-link">
+            <a class="github-link" title='{{T "Edit-this-page"}}' href="{{ $Site.Params.editURL }}{{ replace $File.Dir "\\" "/" }}{{ $File.LogicalName }}" target="blank">
+              <i class="fas fa-code-branch"></i>
+              <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
+            </a>
+          </div>
+          {{ end }}
+        {{ end }}
+          <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+            {{ range $key, $value := $.Site.Data.products }}
+              {{ if in $.RelPermalink $key }}
+              <div class="select-release">
+                <span>{{ $.Site.Title }} {{ $value.name }} > </span>
+                <div class="select-style">
+                  <select id="select-release" onchange="location = this.value;">
+                {{ range $value.versions }}
+                  <option value="/{{ $key }}/{{ .release }}/"{{ if in $.RelPermalink .release }}selected{{ end }}>{{ .name }}</option>
+                {{end}}
+                  </select>
                 </div>
-              </div>
-            </div>
+                </div>
+              {{ end }}
             {{ end }}
+          </div>
+        </div>
+        {{ end }}
+        */}}
         <div id="head-tags">
         {{ partial "tags.html" . }}
         </div>
@@ -83,7 +69,7 @@
           <div id="chapter">
         {{ end }}
         <div id="body-inner">
-          {{if and (not .IsHome) (not .Params.chapter) }}
+          {{if and (not .IsHome) (not .Params.chapter) (ne (.Title | lower) (.Section | lower))}}
             <h1>
               {{ if eq .Kind "taxonomy" }}
                 {{.Kind}} ::

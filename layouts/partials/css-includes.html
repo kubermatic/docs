@@ -1,0 +1,21 @@
+{{$cssFileNames := slice "nucleus" "fontawesome-all.min" "hybrid" "featherlight.min" "perfect-scrollbar.min" "auto-complete" "atom-one-dark-reasonable" "theme" "hugo-theme" "main-header" "projects"}}
+{{$cssAssets := slice}}
+
+{{with .Site.Params.themeVariant}}
+  {{$cssFileNames = $cssFileNames | append (printf "theme-%s" .)}}
+{{end}}
+
+{{range $cssFileNames}}
+  {{$path := printf "css/%s.css" .}}
+  {{$asset := resources.Get $path}}
+  {{if eq hugo.IsProduction false}}
+    <link href="{{$asset.RelPermalink}}" rel="stylesheet">
+  {{else}}
+    {{$cssAssets = $cssAssets | append $asset}}
+  {{end}}
+{{end}}
+
+{{if hugo.IsProduction}}
+  {{$cssBundle := $cssAssets | resources.Concat "css/app.css" | fingerprint | minify}}
+  <link href="{{$cssBundle.RelPermalink}}" rel="stylesheet">
+{{end}}

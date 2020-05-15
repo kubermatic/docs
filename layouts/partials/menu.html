@@ -9,10 +9,35 @@
     {{if not .Site.Params.disableSearch}}
         {{ partial "search.html" . }}
     {{end}}
+    {{with $.Site.Data.products}}
+    <div class="products-toogle">
+      <div class="products-toogle-select">
+        <label for="product-select" class="products-toogle-label">Product</label>
+        <select id="product-select" onchange="location = this.value;">
+        {{range $key, $value := .}}
+        {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+          <option value="{{printf "/%s/%s/" $key $release | relURL}}"{{if in $.RelPermalink $key}} selected{{end}}>{{.name}}</option>
+        {{end}}
+        </select>
+      </div>
+      <div class="products-toogle-select">
+        <label for="version-select" class="products-toogle-label">Version</label>
+        <select id="version-select" onchange="location = this.value;">
+        {{range $key, $value := .}}
+          {{if in $.RelPermalink $key}}
+          {{range .versions}}
+          <option value="{{printf "/%s/%s/" $key .release | relURL}}"{{if in $.RelPermalink .release}} selected{{end}}>{{.name}}</option>
+          {{end}}
+          {{end}}
+        {{end}}
+        </select>
+      </div>
+    </div>
+    {{end}}
   </div>
     <div class="highlightable">
     <ul class="topics">
-      {{ range $key, $value := $.Site.Data.version }}
+      {{ range $key, $value := $.Site.Data.products }}
         {{ if in $.RelPermalink $key }}
           {{ range $value.versions }}
             {{ if in $.RelPermalink .release }}
@@ -47,10 +72,10 @@
       </section>
     {{end}}
 
-    <section id="footer">
-      {{ partial "menu-footer.html" . }}
-    </section>
   </div>
+  <section id="footer">
+    {{partial "menu-footer" .}}
+  </section>
 </nav>
 
 <!-- templates -->
@@ -62,7 +87,7 @@
     {{safeHTML .Params.head}}
     <li data-nav-id="{{.RelPermalink}}" title="{{.Title}}" class="dd-item
         {{if .IsAncestor $currentNode }}parent{{end}}
-        {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}}{{end}}}
+        {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}{{end}}
         {{if .Params.alwaysopen}}parent{{end}}
         ">
       <a href="{{.RelPermalink}}">
@@ -100,7 +125,7 @@
     </li>
   {{else}}
     {{ if not .Params.Hidden }}
-      <li data-nav-id="{{.RelPermalink}}" title="{{.Title}}" class="dd-item {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}}{{end}}}">
+      <li data-nav-id="{{.RelPermalink}}" title="{{.Title}}" class="dd-item {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}{{end}}">
         <a href="{{ .RelPermalink}}">
         {{safeHTML .Params.Pre}}{{or .Params.menuTitle .LinkTitle .Title}}{{safeHTML .Params.Post}}
         {{ if $showvisitedlinks}}<i class="fas fa-check read-icon"></i>{{end}}

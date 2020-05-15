@@ -1,0 +1,373 @@
+
+:root{
+
+    --MAIN-TEXT-color:#2b3035; /* Color of text by default */
+    --MAIN-PRIMARY-color:#1b658f; /* Color that could be used for titles, sidebar highlight links */
+    --MAIN-ACCENT-color:#0081ae; /* Color for highlighting elements */
+    --MAIN-ACCENT-HOVER-color:#00d9d2; /* Color for hovered highlighting elements */
+    --GRAY-color:#e0e3e5;
+    --GRAY2-color:#7e868f;
+    --MAIN-HEADER-color:#001128;
+    --LOODSE-ACCENT-color:#00d9d2;
+
+    --MAIN-TITLES-TEXT-color: #323232; /* Color of titles h2-h3-h4-h5 */
+    --MAIN-LINK-color:#1C90F3; /* Color of links */
+    --MAIN-LINK-HOVER-color:#167ad0; /* Color of hovered links */
+    --MAIN-ANCHOR-color: #1C90F3; /* color of anchors on titles */
+
+    --MENU-HEADER-BG-color:#fff; /* Background color of menu header */
+
+    --MENU-SEARCH-BG-color:#FFFFFF; /* Search field background color (by default borders + icons) */
+    --MENU-SEARCH-BOX-color: #33a1ff; /* Override search field border color */
+    --MENU-SEARCH-BOX-ICONS-color:#7e868f; /* Override search field icons color */
+
+    --MENU-SECTIONS-ACTIVE-BG-color:#fff; /* Background color of the active section and its childs */
+    --MENU-SECTIONS-BG-color:#F6F6F6; /* Background color of other sections */
+    --MENU-SECTIONS-LINK-color: #0288d1; /* Color of links in menu */
+    --MENU-SECTIONS-LINK-HOVER-color: #0f3c55;  /* Color of links in menu, when hovered */
+    --MENU-SECTION-ACTIVE-CATEGORY-color: #0f3c55; /* Color of active category text */
+
+    --MENU-VISITED-color: #1C90F3; /* Color of 'page visited' icons in menu */
+    --MENU-SECTION-HR-color: #1B5178; /* Color of <hr> separator in menu */
+
+}
+
+body {
+    color: var(--MAIN-TEXT-color) !important;
+}
+
+textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="password"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="text"]:focus, input[type="url"]:focus, input[type="color"]:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, select[multiple=multiple]:focus {
+    border-color: none;
+    box-shadow: none;
+}
+
+h1 {
+    color: var(--MAIN-PRIMARY-color);
+}
+
+h2, h3, h4, h5, h6 {
+    margin: 2.5rem 0 1.25rem;
+    color: var(--MAIN-TEXT-color);
+    font-weight: 500;
+    letter-spacing: normal;
+}
+
+p {
+    margin: 1.25rem 0;
+}
+
+a {
+    color: var(--MAIN-ACCENT-color);
+}
+
+.anchor {
+    color: var(--MAIN-ACCENT-color);
+}
+
+a:hover {
+    color: var(--MAIN-ACCENT-HOVER-color);
+}
+
+#sidebar ul li.visited > a .read-icon {
+	color: var(--MENU-VISITED-color);
+}
+
+#sidebar {
+    top: 4.375rem;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--GRAY-color);
+}
+
+#sidebar #header-wrapper {
+    background: var(--MENU-HEADER-BG-color);
+    color: var(--MENU-SEARCH-BOX-color);
+}
+
+.searchbox {
+    margin-top: 0.875rem;
+	border-color: var(--GRAY-color);
+    background: var(--MENU-SEARCH-BG-color);
+}
+
+#sidebar ul.topics > li.parent,
+#sidebar ul.topics > li.active {
+    background: var(--MENU-SECTIONS-ACTIVE-BG-color);
+}
+
+.searchbox label, .searchbox span{
+    color: var(--MENU-SEARCH-BOX-ICONS-color);
+}
+
+.searchbox label {
+    top: 50%;
+    margin-top: -11px;
+    margin-bottom: 0;
+}
+
+.searchbox input {
+    height: auto;
+    padding: 15px 25px 15px 35px;
+    color: var(--MAIN-TEXT-color);
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.searchbox input::-webkit-input-placeholder {
+    color: var(--GRAY2-color);
+}
+.searchbox input::-moz-placeholder {
+    color: var(--GRAY2-color);
+}
+.searchbox input:-moz-placeholder {
+    color: var(--GRAY2-color);
+}
+.searchbox input:-ms-input-placeholder {
+    color: var(--GRAY2-color);
+}
+
+.searchbox span {
+    top: 50%;
+    margin-top: -11px;
+    opacity: 0.5;
+}
+
+.searchbox span:hover {
+    color: var(--MENU-SEARCH-BOX-ICONS-color);
+    opacity: 1;
+}
+
+#sidebar a {
+    color: var(--MAIN-TEXT-color);
+}
+
+#sidebar .topics a:hover {
+    color: var(--MAIN-ACCENT-color);
+}
+
+#sidebar .topics li.active > a {
+    color: var(--MAIN-ACCENT-color);
+}
+
+#sidebar hr {
+    border-color: var(--MENU-SECTION-HR-color);
+}
+
+#sidebar ul.topics  ul ul {
+    margin-left: 15px;
+}
+
+#sidebar ul li li > a {
+    padding: 0.375rem 0 0.375rem 0.75rem;
+    font-size: 1rem;
+}
+
+#sidebar .topics > li > ul > li > a {
+    border-left: 2px solid var(--GRAY-color);
+}
+
+#sidebar .topics > li > ul > li.active > a {
+    border-left: 2px solid var(--MAIN-ACCENT-color);
+}
+
+#shortcuts a {
+    color: var(--MENU-SECTIONS-LINK-color);
+}
+
+#shortcuts a:hover {
+    color: var(--MENU-SECTIONS-LINK-HOVER-color);
+}
+
+#footer,
+#footer a {
+    color: var(--MAIN-TEXT-color);
+}
+
+#footer a:hover {
+    color: var(--MENU-SECTIONS-LINK-color);
+}
+
+/* remove excessive whitespace */
+
+#body {
+    margin-top: 4.375rem;
+}
+
+#body .padding {
+    padding: 2.5rem;
+}
+
+#sidebar .highlightable {
+    padding: 0;
+}
+
+#sidebar ul.topics > li > ul {
+    padding-bottom: 0;
+    margin: 0.5rem 0 1.125rem 0.625rem;
+}
+
+#chapter {
+    padding: 0;
+}
+
+#body-inner {
+    margin-bottom: 0;
+}
+
+/* fix hugo-learn's awful readability */
+
+body {
+    font-size: 100%;
+    line-height: 1.5;
+}
+
+code {
+    padding: 1px 5px;
+    background-color: var(--GRAY-color);
+    color: var(--MAIN-TEXT-color);
+    border: none;
+    border-radius: 0;
+    font-size: 1rem;
+}
+
+pre code {
+    font-size: 1rem !important;
+}
+
+#top-bar {
+    font-size: 1rem;
+}
+
+.notices {
+    border: 1px solid var(--GRAY-color);
+}
+
+ul, ol, pre {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    margin-bottom: 1.25rem;
+    font-size: 1.375rem;
+    line-height: 1.5;
+}
+
+h3 {
+    font-size: 1.125rem;
+}
+
+h4, h5, h6 {
+    margin: 1.25rem 0;
+    font-size: 1rem;
+}
+
+.runbook-group {
+    padding-left: 1rem;
+}
+
+.runbook-alert code {
+    padding: 0;
+}
+
+.runbook-alert h4 .name {
+    font-family: "Consolas", menlo, monospace;
+}
+
+.runbook-alert .severity-warning {
+    color: orange;
+}
+
+.runbook-alert .severity-critical {
+    color: red;
+}
+
+#TableOfContents {
+    font-size: 1.1rem !important;
+}
+
+
+.products-toogle {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    margin-top: 1.25rem;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.products-toogle-select {
+    position: relative;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.products-toogle-select:first-child {
+    flex: 1;
+}
+
+.products-toogle-select select {
+    width: 100%;
+    padding: 14px 35px 11px 15px;
+    margin-bottom: 0;
+    border: 1px solid var(--GRAY-color);
+    border-radius: 5px;
+    color: var(--MAIN-TEXT-color);
+    background-image: url('/img/icons/caret.svg');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 14px 8px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+}
+
+.products-toogle-select label {
+    position: absolute;
+    top: -9px;
+    padding: 0 3px;
+    margin-left: 12px;
+    margin-bottom: 0;
+    color: var(--GRAY2-color);
+    background-color: #ffffff;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: left;
+}
+
+#footer {
+    padding: 1.25rem;
+    border-top: 1px solid var(--GRAY-color);
+}
+
+.externals {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.socials {
+    margin-right: -10px;
+}
+
+.socials-link {
+    margin: 0 10px;
+    font-size: 1.125rem;
+}
+
+#sidebar .externals-link:hover,
+#sidebar .socials-link:hover {
+    color: var(--MAIN-ACCENT-color);
+}
+
+pre .copy-to-clipboard {
+    background-image: url('/img/icons/copy-icon.svg');
+    background-color: transparent;
+}
+
+#chapter h1 {
+    text-align: center;
+}
