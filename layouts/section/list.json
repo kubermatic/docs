@@ -1,0 +1,22 @@
+{{- if .FirstSection -}}
+{{- $currentPage := .RelPermalink -}}
+{{- with .FirstSection -}}
+{{- $firstSectionUrl := .RelPermalink -}}
+{{- range .Sections -}}
+{{- $sectionUrl := .RelPermalink -}}
+{{- if eq $sectionUrl $currentPage -}}
+{{- $pages := where .Site.Pages "Section" .Section -}}
+[{{- range $index, $page := $pages -}}
+{{- if and (ne .RelPermalink $firstSectionUrl) (in .RelPermalink $sectionUrl) -}}
+{{- if gt $index 0 -}},{{- end -}}
+{
+"uri": "{{- .Permalink -}}",
+"title": "{{- htmlEscape .Title -}}",
+"content": {{- .Plain | jsonify -}}
+}
+{{- end -}}
+{{- end -}}]
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
