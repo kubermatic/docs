@@ -6,12 +6,14 @@ function endsWith(str, suffix) {
 
 // Initialize lunrjs using our generated index file
 function initLunr() {
+    var searchIndexUrl = document.querySelector("div[data-search-index]");
+
     if (!endsWith(baseurl,"/")){
         baseurl = baseurl+'/'
     };
 
     // First retrieve the index file
-    $.getJSON(baseurl +"index.json")
+    $.getJSON(baseurl + searchIndexUrl.dataset.searchIndex)
         .done(function(index) {
             pagesIndex = index;
             // Set up lunrjs by declaring the fields we use
@@ -20,9 +22,6 @@ function initLunr() {
                 this.ref("uri");
                 this.field('title', {
 		    boost: 15
-                });
-                this.field('tags', {
-		    boost: 10
                 });
                 this.field("content", {
 		    boost: 5
@@ -58,9 +57,10 @@ function search(queryTerm) {
         });
 }
 
-// Let's get started
-initLunr();
 $( document ).ready(function() {
+    // Let's get started
+    initLunr();
+
     var searchList = new autoComplete({
         /* selector for the search box element */
         selector: $("#search-by").get(0),

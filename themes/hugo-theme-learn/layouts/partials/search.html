@@ -3,6 +3,19 @@
     <input data-search-input id="search-by" type="search" placeholder="{{T "Search-placeholder"}}">
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
+{{if .FirstSection}}
+{{$currentPageUrl := .RelPermalink}}
+{{with .FirstSection}}
+{{range .Sections}}
+  {{$section := .}}
+  {{if in $currentPageUrl $section.RelPermalink}}
+    {{with .OutputFormats.Get "json"}}
+      <div data-search-index="{{.RelPermalink}}"></div>
+    {{end}}
+  {{end}}
+{{end}}
+{{end}}
+{{end}}
 {{ $assetBusting := not .Site.Params.disableAssetsBusting }}
 <script type="text/javascript" src="{{"js/lunr.min.js" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
 <script type="text/javascript" src="{{"js/auto-complete.js" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
