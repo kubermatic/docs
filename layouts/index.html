@@ -6,7 +6,7 @@
   {{partial "meta" .}}
   {{partial "favicon" .}}
   <title>{{.Title}} - {{partial "title" .}}</title>
-  {{partial "css-includes" .}}
+  {{partialCached "css-includes" .}}
 </head>
 <body>
   {{partial "main-header" .}}
