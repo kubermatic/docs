@@ -68,3 +68,15 @@
 .projects-tile-description {
   margin: 0.937rem 0 1.875rem;
 }
+
+@media screen and (max-width: 1024px) {
+  .projects-tile {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .projects-tile {
+    width: 100%;
+  }
+}
