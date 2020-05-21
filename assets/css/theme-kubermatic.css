@@ -90,6 +90,10 @@ a:hover {
     background: var(--MENU-SEARCH-BG-color);
 }
 
+.searchbox:hover {
+    border-color: var(--MAIN-ACCENT-color);
+}
+
 #sidebar ul.topics > li.parent,
 #sidebar ul.topics > li.active {
     background: var(--MENU-SECTIONS-ACTIVE-BG-color);
@@ -336,6 +340,14 @@ h4, h5, h6 {
     font-size: 12px;
     font-weight: 400;
     text-align: left;
+}
+
+.products-toogle-select:hover select {
+    border-color: var(--MAIN-ACCENT-color);
+}
+
+.products-toogle-select:hover label {
+    color: var(--MAIN-ACCENT-color);
 }
 
 #footer {
