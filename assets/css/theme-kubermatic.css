@@ -73,9 +73,10 @@ a:hover {
 }
 
 #sidebar {
-    top: 4.375rem;
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    padding-top: 4.375rem;
     border-right: 1px solid var(--GRAY-color);
 }
 
@@ -232,6 +233,7 @@ code {
     border: none;
     border-radius: 0;
     font-size: 1rem;
+    white-space: pre-wrap;
 }
 
 pre code {
@@ -320,6 +322,7 @@ h4, h5, h6 {
     border-radius: 5px;
     color: var(--MAIN-TEXT-color);
     background-image: url('/img/icons/caret.svg');
+    background-color: transparent;
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 14px 8px;
@@ -382,4 +385,39 @@ pre .copy-to-clipboard {
 
 #chapter h1 {
     text-align: center;
+}
+
+@media only all and (max-width: 59.938em) {
+    #body {
+        margin-left: 300px;
+    }
+
+    #sidebar {
+        width: 300px;
+    }
+}
+
+@media only all and (max-width: 47.938em) {
+    #body {
+        margin-left: 0;
+    }
+
+    .sidebar-hidden #body {
+        margin-left: 300px;
+    }
+
+    #sidebar {
+        left: -300px;
+    }
+
+    #sidebar-toggle-span {
+        display: inline-block;
+        margin-bottom: 1rem;
+        border: none !important;
+    }
+
+    #body .padding {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
 }

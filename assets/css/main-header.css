@@ -11,7 +11,7 @@
   align-items: center;
   height: 4.375rem;
   background-color: var(--MAIN-HEADER-color);
-  z-index: 1;
+  z-index: 15;
 }
 
 .main-header-wrap {
