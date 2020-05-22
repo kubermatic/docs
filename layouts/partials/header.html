@@ -67,6 +67,15 @@
             <i class="fas fa-bars"></i>
           </a>
         </span>
+        {{if and .Site.Params.editURL .File }}
+        {{$editLink := printf "%s%s" .Site.Params.editURL (replace .File.Path `\` `/`)}}
+        <div id="top-github-link">
+          <a class="github-link" title='{{T "Edit-this-page"}}' href="{{$editLink}}" target="blank">
+            <i class="fas fa-code-branch"></i>
+            <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
+          </a>
+        </div>
+        {{end}}
         <div id="head-tags">
         {{ partial "tags.html" . }}
         </div>
