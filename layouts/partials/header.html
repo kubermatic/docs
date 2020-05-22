@@ -7,7 +7,7 @@
     {{ partial "meta.html" . }}
     {{ partial "favicon.html" . }}
     <title>{{ .Title }} - {{ partial "title.html" . }}</title>
-    {{partial "css-includes" .}}
+    {{partialCached "css-includes" .}}
     {{ $assetBusting := not .Site.Params.disableAssetsBusting }}
     <script src="{{"js/jquery-3.3.1.min.js"| relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
     <style>
