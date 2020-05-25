@@ -9,6 +9,7 @@
     --GRAY2-color:#7e868f;
     --MAIN-HEADER-color:#001128;
     --LOODSE-ACCENT-color:#00d9d2;
+    --TAG-BG-color:#edeff0;
 
     --MAIN-TITLES-TEXT-color: #323232; /* Color of titles h2-h3-h4-h5 */
     --MAIN-LINK-color:#1C90F3; /* Color of links */
@@ -396,6 +397,28 @@ pre .copy-to-clipboard {
     margin-top: 2.5rem;
     margin-right: 2.5rem;
     transform: translate(0, 0);
+}
+
+.title-holder {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.7rem;
+}
+
+.title-holder h1 {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.title-holder-tag {
+    padding: 2px 5px;
+    margin-left: 1.25rem;
+    border-radius: 3px;
+    background-color: var(--TAG-BG-color);
 }
 
 @media only all and (max-width: 59.938em) {

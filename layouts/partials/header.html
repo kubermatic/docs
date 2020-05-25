@@ -84,12 +84,14 @@
         {{ end }}
         <div id="body-inner">
           {{if and (not .IsHome) (not .Params.chapter) (ne (.Title | lower) (.Section | lower))}}
-            <h1>
-              {{ if eq .Kind "taxonomy" }}
-                {{.Kind}} ::
-              {{ end }}
-              {{.Title}}
-            </h1>
+            <div{{with .Params.enterprise}} class="title-holder"{{end}}>
+              <h1>
+                {{ if eq .Kind "taxonomy" }}
+                  {{.Kind}} ::
+                {{ end }}
+                {{.Title}}
+              </h1>{{with .Params.enterprise}}<span class="title-holder-tag">Enterprise Edition</span>{{end}}
+            </div>
           {{end}}
           {{ if (and (.Params.enableToc) (not .Params.chapter)) }}
             {{ .TableOfContents }}
