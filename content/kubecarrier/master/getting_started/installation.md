@@ -1,7 +1,6 @@
 ---
 title: Installation
 weight: 20
-pre: <b>1. </b>
 slug: installation
 date: 2020-04-24T09:00:00+02:00
 ---

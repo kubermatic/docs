@@ -2,7 +2,6 @@
 title: External And Internal CustomResourceDefinitions
 menuTitle: CRDs
 weight: 60
-pre: <b>5. </b>
 slug: crds
 date: 2020-04-24T09:00:00+02:00
 ---

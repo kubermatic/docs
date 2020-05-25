@@ -1,12 +1,11 @@
 ---
 title: Requirements
 weight: 10
-pre: <b>0. </b>
 slug: requirements
 date: 2020-04-24T09:00:00+02:00
 ---
 
-## 0. Requirements
+## Requirements
 
 To install KubeCarrier you will need a Kubernetes Cluster with the [cert-manager](https://cert-manager.io/docs/) installed.
 
