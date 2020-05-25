@@ -2,7 +2,7 @@ presubmits:
   - name: pre-docs-verify-hugo
     always_run: true
     decorate: true
-    clone_uri: "ssh://git@github.com/loodse/docs.git"
+    clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
       - image: quay.io/kubermatic/hugo:0.68.3-0
@@ -19,7 +19,7 @@ presubmits:
     always_run: true
     decorate: true
     optional: true
-    clone_uri: "ssh://git@github.com/loodse/docs.git"
+    clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
       - image: quay.io/kubermatic/remark-lint:1.0.0
