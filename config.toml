@@ -1,4 +1,4 @@
-baseURL = "https://docs.loodse.com/"
+baseURL = "https://docs.kubermatic.com/"
 theme = "hugo-theme-learn"
 languageCode = "en-us"
 title = "Kubermatic Docs"
@@ -59,10 +59,10 @@ alt = "Kubermatic logo"
 
 [[params.externals]]
 title = "Imprint"
-url = "https://www.loodse.com/imprint"
+url = "https://www.kubermatic.com/imprint"
 
 [[params.socials]]
-url = "https://kubermatic.io"
+url = "https://www.kubermatic.com"
 class = "fa fa-globe"
 
 [[params.socials]]
