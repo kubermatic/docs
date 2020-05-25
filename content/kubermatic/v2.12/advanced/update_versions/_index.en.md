@@ -2,7 +2,7 @@
 title = "Update List of Selectable Kubernetes Versions"
 date = 2019-07-05T10:45:00+02:00
 weight = 6
-pre = "<b></b>"
+
 +++
 
 ### Update List of Selectable Kubernetes Versions

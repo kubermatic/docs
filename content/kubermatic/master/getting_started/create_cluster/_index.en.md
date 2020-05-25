@@ -2,7 +2,7 @@
 title = "Create a Cluster"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
-pre = "<b></b>"
+
 +++
 
 ## Create a Cluster

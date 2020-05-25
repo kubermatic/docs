@@ -2,7 +2,7 @@
 title = "Create a New Cluster"
 date = 2019-10-23T12:07:15+02:00
 weight = 30
-pre = "<b></b>"
+
 +++
 
 To create a new cluster, open the Kubermatic dashboard, choose a project, select the menu entry `Clusters` and click the button `Add Cluster` on the top right.

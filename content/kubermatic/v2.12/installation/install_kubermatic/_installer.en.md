@@ -2,7 +2,7 @@
 title = "Using the Installer"
 date = 2018-04-28T12:07:15+02:00
 weight = 10
-pre = "<b></b>"
+
 +++
 
 Using the installer is the recommended way of installing Kubermatic into your cluster. It provides a simple web wizard for configuration and automates the installation of all required components.

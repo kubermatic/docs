@@ -2,7 +2,7 @@
 title = "Manage a Project"
 date = 2018-04-28T12:07:15+02:00
 weight = 10
-pre = "<b></b>"
+
 +++
 
 Kubermatic organizes your clusters into projects. Projects allow you to share clusters with other users and make it easier to collaborate.

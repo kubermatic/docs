@@ -2,7 +2,7 @@
 title = "Add Seed Cluster"
 date = 2018-08-09T12:07:15+02:00
 weight = 30
-pre = "<b></b>"
+
 +++
 
 This document describes how a new seed cluster can be added to an existing Kubermatic master cluster.

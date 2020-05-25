@@ -2,7 +2,7 @@
 title = "Customizing the Dashboard Theme"
 date = 2018-06-21T14:07:15+02:00
 weight = 40
-pre = "<b></b>"
+
 +++
 
 This manual explains multiple approaches to add custom themes to the application. It also describes how to add and enable multiple themes for the ui.

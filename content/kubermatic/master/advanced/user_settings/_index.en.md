@@ -2,7 +2,7 @@
 title = "Kubermatic User Settings"
 date = 2020-04-01T14:07:15+02:00
 weight = 10
-pre = "<b></b>"
+
 +++
 
 This manual explains how to manage Kubermatic user settings via the UI.

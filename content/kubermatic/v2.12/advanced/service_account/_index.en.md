@@ -2,7 +2,7 @@
 title = "Service Accounts"
 date = 2019-06-13T12:01:35+02:00
 weight = 3
-pre = "<b></b>"
+
 +++
 
 ### Service Accounts

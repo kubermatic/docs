@@ -2,7 +2,7 @@
 title = "Customizing the Dashboard Theme"
 date = 2018-06-21T14:07:15+02:00
 weight = 2
-pre = "<b></b>"
+
 +++
 
 This manual explains how to apply custom theme to the application. As we are using SCSS that needs to be processed into

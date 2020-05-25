@@ -2,7 +2,7 @@
 title = "Upgrading the Control Plane and the kubelets"
 date = 2019-03-12T08:55:54+01:00
 weight = 0
-pre = "<b></b>"
+
 +++
 
 ## Intro

@@ -2,7 +2,7 @@
 title = "Presets"
 date = 2019-06-13T12:01:35+02:00
 weight = 50
-pre = "<b></b>"
+
 +++
 
 With Presets you can specify default settings for new Cluster. Use Presets to reuse property settings across multiple providers.

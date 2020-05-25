@@ -2,7 +2,7 @@
 title = "Comparing KubeOne with Kubermatic"
 date = 2019-11-28T14:18:30+01:00
 weight = 5
-pre = "<b></b>"
+
 +++
 
 Feature/Capability | KubeOne | Kubermatic

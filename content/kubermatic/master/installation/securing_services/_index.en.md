@@ -2,7 +2,7 @@
 title = "Securing System Services"
 date = 2018-04-28T12:07:15+02:00
 weight = 60
-pre = "<b></b>"
+
 +++
 
 Access to Prometheus, Grafana and all other system services included with Kubermatic is secured by running them behind

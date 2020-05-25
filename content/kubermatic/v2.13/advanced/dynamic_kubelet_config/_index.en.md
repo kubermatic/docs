@@ -2,7 +2,6 @@
 title = "Dynamic Kubelet configuration"
 date = 2020-04-01T12:00:00+02:00
 weight = 5
-pre = "<b></b>"
 +++
 
 Dynamic kubelet configuration allows for live reconfiguration of some or all nodes' kubelet options.

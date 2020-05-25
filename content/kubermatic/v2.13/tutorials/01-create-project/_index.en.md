@@ -2,7 +2,7 @@
 title = "Create a New Project"
 date = 2019-10-17T12:07:15+02:00
 weight = 10
-pre = "<b></b>"
+
 +++
 
 ## Create a New Project

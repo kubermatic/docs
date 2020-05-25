@@ -2,7 +2,6 @@
 title = "Contribute to the Docs"
 date = 2018-04-28T12:07:15+02:00
 weight = 15
-pre = "<b></b>"
 draft = true
 +++
 
@@ -57,7 +56,6 @@ title = "my-new-section"
 date =  yyyy-mm-ddThh:mm:ss+01:00     // timestamp information
 weight = 5                            // Menu sorting
 chapter = true                        // Mark this as a chapter
-pre = "<b>2. </b>"                    // Add a prefix to the menu name
 +++
 
 ### My New Chapter
