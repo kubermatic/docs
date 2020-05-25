@@ -298,4 +298,4 @@ its features, make sure to check our [documentation][docs].
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [machine-controller-hetzner]: https://github.com/kubermatic/machine-controller/blob/master/examples/hetzner-machinedeployment.yaml
 [access-clusters]: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
-[docs]: https://docs.loodse.com/kubeone
+[docs]: https://docs.kubermatic.com/kubeone

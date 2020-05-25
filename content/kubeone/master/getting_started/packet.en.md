@@ -331,4 +331,4 @@ its features, make sure to check our [documentation][docs].
 [packet_tf_output]: https://github.com/kubermatic/kubeone/blob/789509f54b3a4aed7b15cd8b27b2e5bb2a4fa6c1/examples/terraform/packet/output.tf
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [packet_mc_example]: https://github.com/kubermatic/machine-controller/blob/master/examples/packet-machinedeployment.yaml
-[docs]: https://docs.loodse.com/kubeone
+[docs]: https://docs.kubermatic.com/kubeone
