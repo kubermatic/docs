@@ -5,4 +5,4 @@ https://docs.loodse.com/* https://docs.kubermatic.com/:splat 301!
 https://docs.kubermatic.io/* https://docs.kubermatic.com/:splat 301!
 
 # Optional: Redirect default Netlify subdomain to primary domain
-https://cranky-newton-4e6ed2.netlify.com/* https://docs.loodse.com/:splat 301!
+https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 301!
