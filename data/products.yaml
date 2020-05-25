@@ -21,5 +21,5 @@ kubecarrier:
   logo: "img/header-logo-kubecarrier.png"
   description: The operator of operators. Centrally manage all your services and applications across multiple clusters, clouds and regions with Kubernetes native API and tooling.
   versions:
-    - release: master
-      name: master
+    - release: v0.1
+      name: v0.1
