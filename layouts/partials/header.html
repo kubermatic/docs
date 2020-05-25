@@ -3,6 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{if eq .FirstSection.RelPermalink .RelPermalink}}
+      {{$sectionName := .Section}}
+      {{$product := index .Site.Data.products $sectionName}}
+      {{with $product}}
+        {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+        {{with $.Site.GetPage (printf "/%s/%s" $sectionName $release)}}
+        <meta http-equiv="refresh" content="0; url={{.Permalink}}" />
+        {{end}}
+      {{end}}
+    {{end}}
     {{ hugo.Generator }}
     {{ partial "meta.html" . }}
     {{ partial "favicon.html" . }}
