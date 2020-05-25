@@ -1,0 +1,33 @@
+presubmits:
+  - name: pull-docs-verify-hugo
+    always_run: true
+    decorate: true
+    clone_uri: "ssh://git@github.com/loodse/docs.git"
+    spec:
+      containers:
+      - image: quay.io/kubermatic/hugo:0.68.3-0
+        command:
+        - "./hack/ci/verify-hugo.sh"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+
+  - name: pull-docs-verify-remark-lint
+    always_run: true
+    decorate: true
+    optional: true
+    clone_uri: "ssh://git@github.com/loodse/docs.git"
+    spec:
+      containers:
+      - image: quay.io/kubermatic/remark-lint:1.0.0
+        command:
+        - "./hack/ci/lint-markdown.sh"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
