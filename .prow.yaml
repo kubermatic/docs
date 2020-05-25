@@ -1,5 +1,5 @@
 presubmits:
-  - name: pull-docs-verify-hugo
+  - name: pre-docs-verify-hugo
     always_run: true
     decorate: true
     clone_uri: "ssh://git@github.com/loodse/docs.git"
@@ -15,7 +15,7 @@ presubmits:
           limits:
             memory: 512Mi
 
-  - name: pull-docs-verify-remark-lint
+  - name: pre-docs-verify-remark-lint
     always_run: true
     decorate: true
     optional: true
