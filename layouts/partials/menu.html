@@ -1,6 +1,7 @@
 <nav id="sidebar" class="{{if $.Site.Params.showVisitedLinks }}showVisitedLinks{{end}}">
 
 {{ $currentNode := . }}
+{{ $productSection := .FirstSection.Section }}
 {{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
   <div id="header-wrapper">
     <div id="header">
@@ -20,18 +21,17 @@
         {{end}}
         </select>
       </div>
+      {{$productVersions := index . $productSection}}
+      {{with $productVersions}}
       <div class="products-toogle-select">
         <label for="version-select" class="products-toogle-label">Version</label>
         <select id="version-select" onchange="location = this.value;">
-        {{range $key, $value := .}}
-          {{if in $.RelPermalink $key}}
-          {{range .versions}}
-          <option value="{{printf "/%s/%s/" $key .release | relURL}}"{{if in $.RelPermalink .release}} selected{{end}}>{{.name}}</option>
-          {{end}}
-          {{end}}
+        {{range .versions}}
+        <option value="{{printf "/%s/%s/" $productSection .release | relURL}}"{{if in $.RelPermalink .release}} selected{{end}}>{{.name}}</option>
         {{end}}
         </select>
       </div>
+      {{end}}
     </div>
     {{end}}
   </div>
