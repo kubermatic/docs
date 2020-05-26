@@ -422,15 +422,14 @@ pre .copy-to-clipboard {
     background-color: var(--TAG-BG-color);
 }
 
-.note {
+.noticebar {
     padding: 0.5rem 2.5rem;
-    border-bottom: 1px solid var(--GRAY-color);
     text-align: center;
     background-color: var(--MAIN-ACCENT-color);
     color: var(--WHITE-color);
 }
 
-.note-link {
+.noticebar-link {
     font-weight: 700;
     color: var(--WHITE-color);
 }
