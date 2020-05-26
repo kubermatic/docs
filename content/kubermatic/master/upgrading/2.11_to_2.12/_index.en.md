@@ -3,7 +3,7 @@ title = "Upgrading from 2.11 to 2.12"
 date = 2019-08-20T11:09:15+02:00
 publishDate = 2019-10-12T00:00:00+00:00
 weight = 60
-pre = "<b></b>"
+
 +++
 
 ## Helm Charts

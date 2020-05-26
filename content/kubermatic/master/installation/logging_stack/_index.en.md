@@ -2,7 +2,7 @@
 title = "Logging Stack"
 date = 2020-02-14T12:07:15+02:00
 weight = 50
-pre = "<b></b>"
+
 +++
 
 This chapter describes how to setup the Kubermatic logging stack. It's highly recommended to install this

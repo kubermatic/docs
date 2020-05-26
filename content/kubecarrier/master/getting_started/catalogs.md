@@ -1,7 +1,6 @@
 ---
 title: Catalogs
 weight: 50
-pre: <b>4. </b>
 slug: catalogs
 date: 2020-04-24T09:00:00+02:00
 ---

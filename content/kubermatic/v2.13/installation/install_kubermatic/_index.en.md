@@ -2,7 +2,7 @@
 title = "Install Kubermatic"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
-pre = "<b></b>"
+
 +++
 
 This chapter explains the automated as well as the manual installation of Kubermatic into a pre-existing Kubernetes cluster.

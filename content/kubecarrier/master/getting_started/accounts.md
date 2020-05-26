@@ -1,7 +1,6 @@
 ---
 title: Accounts
 weight: 30
-pre: <b>2. </b>
 slug: accounts
 date: 2020-04-24T09:00:00+02:00
 ---

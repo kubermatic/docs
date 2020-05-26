@@ -2,7 +2,7 @@
 title = "Hetzner"
 date = 2020-04-01T12:00:00+02:00
 weight = 8
-pre = "<b></b>"
+
 +++
 
 ## How To Install Kubernetes On Hetzner Cluster Using KubeOne

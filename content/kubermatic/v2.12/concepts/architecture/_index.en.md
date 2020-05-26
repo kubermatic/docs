@@ -2,7 +2,7 @@
 title = "Architecture"
 date = 2018-05-04T12:07:15+02:00
 weight = 5
-pre = "<b></b>"
+
 +++
 
 Kubermatic makes full use of Kubernetes cluster to organize and scale workloads, depending on your and your customer's needs. In a typical small-scale setup, pictured below, a single cluster contains Kubermatic and the master components for every customer cluster.

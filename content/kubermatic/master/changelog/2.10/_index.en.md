@@ -3,7 +3,7 @@ title = "Changelog for Kubermatic 2.10"
 date = 2018-10-23T12:07:15+02:00
 publishDate = 2019-03-30T00:00:00+00:00
 weight = 210
-pre = "<b></b>"
+
 +++
 
 ## v2.10.3

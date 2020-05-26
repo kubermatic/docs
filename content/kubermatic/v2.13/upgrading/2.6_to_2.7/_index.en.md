@@ -2,7 +2,7 @@
 title = "Upgrading from 2.6 to 2.7"
 date = 2018-07-04T12:07:15+02:00
 weight = 10
-pre = "<b></b>"
+
 +++
 
 After modifying the `values.yaml` files according to the information below, you merely need to re-apply helm charts upgrade from the `release/2.7` branch.

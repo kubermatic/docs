@@ -2,7 +2,7 @@
 title = "Example Usage"
 date = 2018-04-28T12:07:15+02:00
 weight = 10
-pre = "<b></b>"
+
 +++
 
 Based on the number of Pods & Nodes in a cluster, the resource usage differs.

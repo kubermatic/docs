@@ -2,7 +2,7 @@
 title = "Kubermatic Proxy Whitelisting"
 date = 2019-09-13T12:07:15+02:00
 weight = 7
-pre = "<b></b>"
+
 +++
 
 To enable Kubermatic behind a proxy environment, the following targets need to be reachable.

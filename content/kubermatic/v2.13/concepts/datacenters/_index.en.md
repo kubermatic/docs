@@ -2,7 +2,7 @@
 title = "Datacenters"
 date = 2019-10-10T12:07:15+02:00
 weight = 10
-pre = "<b></b>"
+
 +++
 
 # Overview

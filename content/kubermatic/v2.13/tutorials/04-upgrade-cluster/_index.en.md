@@ -2,7 +2,7 @@
 title = "Upgrade a Cluster"
 date = 2019-11-06T12:07:15+02:00
 weight = 40
-pre = "<b></b>"
+
 +++
 
 ## Upgrade Master Components

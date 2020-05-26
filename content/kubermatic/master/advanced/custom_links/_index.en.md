@@ -2,7 +2,7 @@
 title = "Kubermatic Global Settings"
 date = 2018-06-21T14:07:15+02:00
 weight = 20
-pre = "<b></b>"
+
 +++
 
 This manual explains how to manage Kubermatic global settings such as custom links, displayed distributions and others.

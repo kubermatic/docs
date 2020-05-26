@@ -2,7 +2,7 @@
 title = "Manual Installation"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
-pre = "<b></b>"
+
 +++
 
 ### Clone the Installer

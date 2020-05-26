@@ -2,7 +2,7 @@
 title = "Update Kubernetes Upgrade Plan"
 date = 2019-07-08T11:00:00+02:00
 weight = 6
-pre = "<b></b>"
+
 +++
 
 ### Update Kubernetes Upgrade Plan

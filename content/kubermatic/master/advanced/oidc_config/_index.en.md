@@ -2,7 +2,7 @@
 title = "OIDC Provider Configuration"
 date = 2018-06-21T14:07:15+02:00
 weight = 30
-pre = "<b></b>"
+
 +++
 
 This manual explains how to configure a custom OIDC provider to use with Kubermatic.

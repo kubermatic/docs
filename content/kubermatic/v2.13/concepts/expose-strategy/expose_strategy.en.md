@@ -2,7 +2,7 @@
 title = "Expose Strategy"
 date = 2018-05-04T12:07:15+02:00
 weight = 5
-pre = "<b></b>"
+
 +++
 
 # Overview
