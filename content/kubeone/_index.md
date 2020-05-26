@@ -2,4 +2,3 @@
 title = "KubeOne Docs"
 
 +++
-{{< redirectkubeone >}}
