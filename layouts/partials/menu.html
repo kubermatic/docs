@@ -1,8 +1,9 @@
 <nav id="sidebar" class="{{if $.Site.Params.showVisitedLinks }}showVisitedLinks{{end}}">
 
 {{ $currentNode := . }}
-{{ $productSection := .FirstSection.Section }}
 {{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
+{{ $productSection := .FirstSection.Section }}
+{{ $product := index $.Site.Data.products $productSection}}
   <div id="header-wrapper">
     <div id="header">
       {{ partial "logo.html" . }}
@@ -21,8 +22,7 @@
         {{end}}
         </select>
       </div>
-      {{$productVersions := index . $productSection}}
-      {{with $productVersions}}
+      {{with $product}}
       <div class="products-toogle-select">
         <label for="version-select" class="products-toogle-label">Version</label>
         <select id="version-select" onchange="location = this.value;">
@@ -37,25 +37,23 @@
   </div>
     <div class="highlightable">
     <ul class="topics">
-      {{ range $key, $value := $.Site.Data.products }}
-        {{ if in $.RelPermalink $key }}
-          {{ range $value.versions }}
-            {{ if in $.RelPermalink .release }}
-              {{ $path := print "/" $key "/" .release }}
-                {{ $docVersion := $.Site.GetPage $path}}
-                  {{if eq .Site.Params.ordersectionsby "title"}}
-                    {{range $docVersion.Sections.ByTitle}}
-                    {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
-                    {{end}}
-                  {{else}}
-                    {{range $docVersion.Sections.ByWeight}}
-                    {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
-                  {{end}}
-                {{end}}
+      {{with $product}}
+        {{range .versions}}
+          {{if in $.RelPermalink .release}}
+            {{$path := print "/" $productSection "/" .release}}
+            {{$docVersion := $.Site.GetPage $path}}
+            {{if eq .Site.Params.ordersectionsby "title"}}
+              {{range $docVersion.Sections.ByTitle}}
+                {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
+              {{end}}
+            {{else}}
+              {{range $docVersion.Sections.ByWeight}}
+                {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
               {{end}}
             {{end}}
-        {{ end }}
-      {{ end }}
+          {{end}}
+        {{end}}
+      {{end}}
     </ul>
 
     {{ $disableShortcutsTitle := .Site.Params.DisableShortcutsTitle}}
