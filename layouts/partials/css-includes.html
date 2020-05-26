@@ -1,21 +1,9 @@
-{{$cssFileNames := slice "nucleus" "fontawesome-all.min" "hybrid" "featherlight.min" "perfect-scrollbar.min" "auto-complete" "atom-one-dark-reasonable" "theme" "hugo-theme" "main-header" "projects"}}
-{{$cssAssets := slice}}
-
-{{with .Site.Params.themeVariant}}
-  {{$cssFileNames = $cssFileNames | append (printf "theme-%s" .)}}
-{{end}}
-
-{{range $cssFileNames}}
-  {{$path := printf "css/%s.css" .}}
-  {{$asset := resources.Get $path}}
-  {{if eq hugo.IsProduction false}}
-    <link href="{{$asset.RelPermalink}}" rel="stylesheet">
-  {{else}}
-    {{$cssAssets = $cssAssets | append $asset}}
-  {{end}}
-{{end}}
-
+{{$sassOptions := (dict "targetPath" "css/app.css" "enableSourceMap" true)}}
+{{$style := resources.Get "scss/app.scss"}}
 {{if hugo.IsProduction}}
-  {{$cssBundle := $cssAssets | resources.Concat "css/app.css" | fingerprint | minify}}
-  <link href="{{$cssBundle.RelPermalink}}" rel="stylesheet">
+  {{$sassOptions = merge $sassOptions (dict "enableSourceMap" false "outputStyle" "compressed")}}
+  {{$style = $style | toCSS $sassOptions | fingerprint}}
+{{else}}
+  {{$style = $style | toCSS $sassOptions}}
 {{end}}
+<link href="{{$style.RelPermalink}}" rel="stylesheet">
