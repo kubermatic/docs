@@ -1,9 +1,12 @@
-{{range $key, $value := $.Site.Data.products }}
+{{$sectionName := $.Section}}
+{{$product := index $.Site.Data.products $sectionName}}
+{{with $product}}
+  {{$pageUrl := $.RelPermalink}}
   {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
-  {{with $.Site.GetPage (printf "/%s/%s" $key $release)}}
-    {{ if in $.RelPermalink $key }}
+  {{with $.Site.GetPage (printf "/%s/%s" $sectionName $release)}}
+    {{if in $pageUrl $sectionName}}
     <a href="{{.RelPermalink}}">
-      <img src="{{ $value.logo | relURL}}" alt="{{ $value.name}}">
+      <img src="{{$product.logo | relURL}}" alt="{{$product.name}}">
     </a>
     {{end}}
   {{end}}
