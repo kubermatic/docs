@@ -1,3 +1,5 @@
+# Please note: the "master" branch should be placed as first element for every product in the "versions" list.
+
 kubermatic:
   name: Kubermatic
   logo: "img/header-logo-kubermatic.png"
