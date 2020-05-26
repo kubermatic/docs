@@ -36,6 +36,14 @@
     {{partial "main-header" .}}
     {{ partial "menu.html" . }}
         <section id="body">
+        {{if in .RelPermalink "master"}}
+          {{$versions := (index .Site.Data.products .Section).versions}}
+          {{if gt (len $versions) 1}}
+            {{with $.Site.GetPage (printf "/%s/%s" .Section (index $versions 1).release)}}
+            <div class="noticebar">This version is under construction please use <a href="{{.RelPermalink}}" class="noticebar-link">a official release</a> version</div>
+            {{end}}
+          {{end}}
+        {{end}}
         <div id="overlay"></div>
         <div class="padding highlightable">
         {{/* FIXME: hide Breadcrumbs
