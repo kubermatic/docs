@@ -10,6 +10,7 @@
     --MAIN-HEADER-color:#001128;
     --LOODSE-ACCENT-color:#00d9d2;
     --TAG-BG-color:#edeff0;
+    --WHITE-color:#fff;
 
     --MAIN-TITLES-TEXT-color: #323232; /* Color of titles h2-h3-h4-h5 */
     --MAIN-LINK-color:#1C90F3; /* Color of links */
@@ -419,6 +420,19 @@ pre .copy-to-clipboard {
     margin-left: 1.25rem;
     border-radius: 3px;
     background-color: var(--TAG-BG-color);
+}
+
+.note {
+    padding: 0.5rem 2.5rem;
+    border-bottom: 1px solid var(--GRAY-color);
+    text-align: center;
+    background-color: var(--MAIN-ACCENT-color);
+    color: var(--WHITE-color);
+}
+
+.note-link {
+    font-weight: 700;
+    color: var(--WHITE-color);
 }
 
 @media only all and (max-width: 59.938em) {
