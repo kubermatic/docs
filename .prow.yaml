@@ -5,7 +5,7 @@ presubmits:
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
-      - image: quay.io/kubermatic/hugo:0.68.3-0
+      - image: quay.io/kubermatic/hugo:0.71.1-0
         command:
         - "./hack/ci/verify-hugo.sh"
         resources:

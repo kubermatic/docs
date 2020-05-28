@@ -6,7 +6,7 @@ With Kubermatic, you can set up Kubernetes clusters deployed at the click of but
 
 ## Generate Kubermatic Docs locally
 
-To generate the documentation you will need to download and install the [hugo](https://gohugo.io/overview/installing/) static website engine.
+To generate the documentation you will need to download and install the [hugo](https://gohugo.io/overview/installing/) static website engine. **Please note:** you need to install the extended version of Hugo for building a website locally.
 
 Clone the repository to your local device and create a new feature branch.
 
