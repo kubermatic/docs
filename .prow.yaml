@@ -31,3 +31,20 @@ presubmits:
             memory: 128Mi
           limits:
             memory: 512Mi
+
+  - name: pull-docs-run-tests
+     always_run: true
+     decorate: true
+     optional: true
+     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
+     spec:
+       containers:
+       - image: quay.io/kubermatic/e2e-kind-cypress:1.1.1
+         command:
+         - "./hack/ci/e2e-tests.sh"
+         resources:
+           requests:
+             cpu: 100m
+             memory: 128Mi
+           limits:
+             memory: 512Mi
