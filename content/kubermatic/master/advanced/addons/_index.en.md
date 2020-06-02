@@ -71,6 +71,7 @@ and accessible, then it will be installed in the user-cluster, but also be visib
 it from the Kubermatic dashboard like the other accessible addons. The accessible addons are:
 
 * [node-exporter](https://github.com/prometheus/node_exporter): Exports metrics from the node
+* [Open Policy Agent Gatekeeper](https://github.com/open-policy-agent/gatekeeper): OPA Policy Controller for Kubernetes - (**beta**)
 
 Accessible addons can be managed in the UI from the cluster details view:
 
