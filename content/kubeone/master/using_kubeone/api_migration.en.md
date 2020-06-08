@@ -1,186 +1,208 @@
 +++
-title = "Migrating to the KubeOneCluster API"
+title = "Migrating to the KubeOneCluster v1beta1 API"
 date = 2020-04-01T12:00:00+02:00
+enableToc = true
 +++
 
-We implemented a new KubeOneCluster API in v0.6.0 that replaced the old configuration API.
-As the new API introduces many breaking changes, you can **not** continue using old manifests
-as of v0.6.0. To continue using KubeOne, you have to migrate old manifests to
-new KubeOneCluster manifests.
+Starting with `v1.0.0`, KubeOne comes with a new, `v1beta1` version of the
+KubeOneCluster API. The new API is similar to the v1alpha1 API, with
+a couple of improvements.
 
-The new API brings many possibilities and follows the Kubernetes API conventions. It allows us
-to improve the user experience and ensure we can provide the
-[backwards compatibility policy](./backwards_compatibility_policy.md).
+This document shows how to migrate from the v1alpha1 API to the v1beta1
+API, as well as, what has been changed between two versions.
 
-To make migration to the new API easier, we implemented the `config migrate` command that migrates
-old configuration manifests to KubeOneCluster manifests.
-
-This document shows how to use the `config migrate` command and lists changes made in the new API.
-
-{{% notice warning %}}
-Before you can use the `config migrate` command you need to make sure that your manifests
-are updated for KubeOne versions v0.4.0 or newer. If not, please see
-[the changelog](https://github.com/kubermatic/kubeone/blob/master/CHANGELOG.md) to see what's new and what
-are required actions to migrate.
-{{% /notice %}}
-
-## Using the `config migrate` command
-
-The `config migrate` can automatically migrate your old manifests to new KubeOneCluster manifests.
-The command takes path to the old configuration manifest and prints the converted manifest.
-Once the manifest is migrated, it is validated against the new API to ensure that all fields are
-correct and contain correct values.
-
-```bash
-kubeone config migrate config.yaml
-```
-
-For a `config.yaml` manifest that looks like the following one:
-
-```yaml
-name: demo
-provider:
-  name: aws
-hosts:
-  - public_address: 1.1.1.1
-    private_address: 1.1.1.2
-proxy:
-  http_proxy: 1.1.2.1
-  https_proxy: 1.1.2.2
-  no_proxy: 1.1.2.3
-features:
-  pod_security_policy:
-    enable: true
-```
-
-The `config migrate` command will print manifest such as:
-
-```yaml
-name: demo
-hosts:
-- publicAddress: 1.1.1.1
-  privateAddress: 1.1.1.2
-proxy:
-  http: 1.1.2.1
-  https: 1.1.2.2
-  noProxy: 1.1.2.3
-features:
-  podSecurityPolicy:
-    enable: true
-apiVersion: kubeone.io/v1alpha1
-kind: KubeOneCluster
-cloudProvider:
-  name: aws
-```
+It remains possible to use all KubeOne commands with the v1alpha1 manifest,
+however, it's strongly advised to migrate to the latest API version as soon
+as possible.
 
 {{% notice note %}}
-The `apiVersion` and `kind` fields are not placed at the top automatically.
-If you prefer, you can move them to the top manually.
+To migrate to the v1beta1 API, you must upgrade KubeOne to `v1.0.0` or newer.
+Since `v1.0.0` is currently unreleased, you need to build from the master
+branch or use the
+[`v1.0.0-alpha.4`](https://github.com/kubermatic/kubeone/releases/tag/v1.0.0-alpha.4)
+release or newer if you want to try the new API.
+{{% /notice %}}
+
+{{% notice warning %}}
+The `v1.0.0` release is still unreleased. The changes to v1beta1 API
+may still happen, so it's recommended to wait for the final version
+before migrating.
+{{% /notice %}}
+
+## Migrating the manifest using the `config migrate` command
+
+The `config migrate` command automatically migrates the v1alpha1 manifests to
+the new v1beta1 API. The command takes the path to the v1alpha1 manifest
+and prints the converted manifest to the standard output.
+
+Example usage:
+
+```bash
+kubeone config migrate --manifest kubeone.yaml
+```
+
+{{% notice warning %}}
+It's strongly advised to compare the old and new manifests to ensure that no
+information is missing in the new manifest. If you see anything unexpected
+and not covered by the [The API Changelog]({{< ref "#the-api-changelog" >}}) portion of this document, please
+[file a new issue on GitHub](https://github.com/kubermatic/kubeone/issues/new?labels=kind%2Fbug&template=bug-report.md).
 {{% /notice %}}
 
 ## The API Changelog
 
-The new API introduces many changes to ensure the API follows the Kubernetes API conventions
-and that we can provide as best as possible user experience.
+The API version of the new API is `v1beta1`. The kind remains `KubeOneCluster`.
 
-The most important changes include:
+### Defining providers as typed structs
 
-* The API is now versioned,
-* All fields are renamed to use the camel case notation,
-* Some fields are renamed or replaced with new ones, so it's easier to understand what each
-field is doing.
-
-### `apiVersion` and `kind` fields
-
-The `apiVersion` and `kind` fields must be added to the manifest. The `apiVersion` tells KubeOne
-what API version you are using. When we change the API in a backwards incompatible way, we introduce
-a new API version along with an automatic migration path. That ensures you can continue using the
-old API as long as it's supported. To learn more for how long the old API versions are supported,
-see the [backwards compatibility policy](./backwards_compatibility_policy.md).
+The `cloudProvider.Name` field has been removed and replaced with typed
+structs. The valid provider struct names are same as valid 
+`cloudProvider.Name` values.
 
 ```yaml
-apiVersion: kubeone.io/v1alpha1
-kind: KubeOneCluster
+# v1alpha1 API
+cloudProvider:
+  name: aws
+
+# v1beta1 API
+cloudProvider:
+  aws: {}
 ```
 
-### Changes at the root level
+#### Moving the `network.networkID` to the HetznerSpec struct
 
-The following changes are introduced at the root level:
+The `network.networkID` field, used for Hetzner clusters to configure the CCM,
+has been moved to the `.cloudProvider.Hetzner` struct.
 
-* `apiserver` is replaced with the **`apiEndpoint`** structure,
-* `provider` is renamed to **`cloudProvider`**,
-* `network` is renamed to **`clusterNetwork`**,
-* `machine_controller` is renamed to **`machineController`**.
+```yaml
+# v1alpha1 API
+cloudProvider:
+  name: hetzner
+network:
+  networkID: "1234"
 
-### `apiEndpoint` structure
+# v1beta1 API
+cloudProvider:
+  hetzner:
+    networkID: "1234"
+```
 
-The `apiserver` structure is replaced with the **`apiEndpoint`** structure which contains the following fields:
+### Defining CNI plugins as typed structs
 
-* **`host`** - address or hostname of the API endpoint (by default load balancer IP address or DNS),
-* **`port`** - port used to access the Kubernetes API (by default `6443`).
+Similar as for `.cloudProvider.Name`, the `network.cni.name` field has been
+replaced with the appropriate structs.
 
-### `hosts` structure
+```yaml
+# v1alpha1 API
+network:
+  cni:
+    name: canal
 
-All fields in the `hosts` structure are renamed to use the camel case notation:
+# v1beta1 API
+network:
+  cni:
+    canal: {}
+```
 
-* `public_address` -> **`publicAddress`**
-* `private_address` -> **`privateAddress`**
-* `ssh_port` -> **`sshPort`**
-* `ssh_username` -> **`sshUsername`**
-* `ssh_private_key_file` -> **`sshPrivateKeyFile`**
-* `ssh_agent_socket` -> **`sshAgentSocket`**
+```yaml
+# v1alpha1 API
+network:
+  cni:
+    name: weave
+    encrypted: true
 
-### `cloudProvider` structure
+# v1beta1 API
+network:
+  cni:
+    weave:
+      encrypted: true
+```
 
-The `provider` structure is renamed to **`cloudProvider`** and the `cloud_config` field is
-renamed to `cloudConfig` (camel case notation).
+#### Moving the `network.cni.encrypted` field to the WeaveNet struct
 
-### `clusterNetwork` structure
+Since only WeaveNet supports encryption, the `.network.cni.encrypted` field has
+been moved to the WeaveNet struct.
 
-The `network` structure is renamed to `clusterNetwork`. All fields are renamed to use the camel case
-notation and a new field is added:
+```yaml
+# v1alpha1 API
+network:
+  cni:
+    name: weave
+    encrypted: true
 
-* `pod_subnet` -> **`podSubnet`**
-* `service_subnet` -> **`serviceSubnet`**
-* `node_port_range` -> **`nodePortRange`**
-* [NEW] **`serviceDomainName`** (by default `cluster.local`)
+# v1beta1 API
+network:
+  cni:
+    weave:
+      encrypted: true
+```
 
-### `proxy` structure
+### Hosts-related fields are renamed
 
-Fields in the `proxy` structure are renamed:
+The hosts-related fields has been renamed to make the difference between
+different type of hosts clear.
 
-* `http_proxy` -> **`http`**
-* `https_proxy` -> **`https`**
-* `no_proxy` -> **`noProxy`**
+* `.hosts` -> `.controlPlane.Hosts`
+* `.staticWorkers` -> `.staticWorkers.Hosts`
+* `.workers` -> `.dynamicWorkers`
 
-### `features` structure
+### Changes to the `.untaint` field
 
-All fields in the `features` structure are renamed to use the camel case notation:
+The `.untaint` field in the HostConfig struct has been replaced with the
+`.taints` field. The new field takes a list of taints that will be applied on
+the node.
 
-* `pod_security_policy` -> **`podSecurityPolicy`**
-* `dynamic_audit_log` -> **`dynamicAuditLog`**
-* `metrics_server` -> **`metricsServer`**
-* `openid_connect` -> **`openidConnect`**
+If omitted from the manifest, the default value is:
 
-### `workers` structure
+* for control plane nodes: `node-role.kubernetes.io/master` with `NoSchedule` effect
+* for worker nodes: no taints
 
-The `config` field is renamed to **`providerSpec`**.
+If it's explicitly empty, no taints will be applied to the node. This behavior
+is same as if `.untaint` is `true`.
 
-### `credentials` structure
+```yaml
+# v1alpha1 API
+hosts:
+- ...
+  untaint: true
 
-We're now storing credentials for the `machine-controller` and the external CCM at the root level,
-in the **`credentials`** structure, instead of in `machineController.Credentials`.
+# v1beta1 API
+controlPlane:
+  hosts:
+  - ...
+    taints: {}
+```
 
-## The library changelog
+```yaml
+# v1alpha1 API
+hosts:
+- ...
+  untaint: false
 
-The following changes can affect using KubeOne as a Go library:
+# v1beta1 API
+controlPlane:
+  hosts:
+  - ...
+    taints:
+    - key: "node-role.kubernetes.io/master"
+      effect: "NoSchedule"
+```
 
-* Structures are renamed to use the camel case notation and some structures are changed or removed
-(see above points for more details),
-* `WorkerConfig.ProviderSpec.CloudProviderSpec` and `WorkerConfig.ProviderSpec.OperatingSystemSpec`
-are taking `json.RawMessage` instead of `map[string]interface{}`,
-* All fields in the `Features` structure are now pointers. All fields for enabling the feature are
-called `Enable` and are type of `bool` (previous pointer on `bool`),
-* `MachineController` field is now a pointer of `MachineControllerConfig`
-(previous `non-pointer MachineControllerConfig`),
-* `MachineController.Deploy` is now `bool` instead of pointer on `bool`.
+### Removal of the `.machineControllerConfig.Provider` field
+
+The `.machineControllerConfig.Provider` has been removed from the API.
+
+This field had no effect in the `v1alpha1` API and after reconsideration (see
+[#765][issue-765] for more details) it has been decided to remove this field.
+machine-controller will be configured to work for provider specified in the
+`.cloudProvider` property.
+
+### Removal of the `.credentials` field
+
+The `.credentials` field has been removed from the API.
+
+For a long time, the credentials are automatically sourced from the
+environment, with a support for specifying credentials using the credentials
+file. Considering that the `.credentials` field had no effect, it has been
+decided to remove this field.
+
+[issue-765]: https://github.com/kubermatic/kubeone/issues/765
