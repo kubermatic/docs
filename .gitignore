@@ -5,3 +5,6 @@
 # cypress tests
 tutorials-tests/node_modules
 tutorials-tests/cypress/fixtures
+
+# IDE specific files
+.idea/
