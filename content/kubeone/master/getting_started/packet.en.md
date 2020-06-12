@@ -202,7 +202,7 @@ Finally, we're going to install Kubernetes by using the `install` command and
 providing the configuration file and the Terraform output:
 
 ```bash
-kubeone install -m config.yaml --tfjson <DIR-WITH-tfstate-FILE>
+kubeone install config.yaml --tfjson <DIR-WITH-tfstate-FILE>
 ```
 
 Alternatively, if the terraform state file is in the current working directory
@@ -212,7 +212,7 @@ The installation process takes some time, usually 5-10 minutes. The output
 should look like the following one:
 
 ```
-$ kubeone install -m config.yaml -t tf.json
+$ kubeone install config.yaml -t tf.json
 INFO[14:19:46 EEST] Installing prerequisites…
 INFO[14:19:47 EEST] Determine operating system…                   node=147.75.80.241
 INFO[14:19:47 EEST] Determine hostname…                           node=147.75.80.241
