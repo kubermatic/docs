@@ -17,7 +17,7 @@ docker run --rm -p 8080:8080 quay.io/kubermatic/installer wizard
 
 and then opening [localhost:8080](http://localhost:8080) in your browser. Follow the steps and you should be up and running in no time.
 
-![Kubermatic Installer](/img/installation/wizard.png)
+![Kubermatic Installer](/img/kubermatic/v2.13/installation/wizard.png)
 
 {{% notice note %}}
 Because the installer runs inside a Docker container, it cannot access any cluster authentication providers on your host machine, like Amazon's `aws-iam-authenticator`. Make sure to provide static credentials in your `kubeconfig` or use the `kubeconfig-serviceaccounts.sh` script to automatically add static accounts to your clusters (see [credentials](#credentials) section below).

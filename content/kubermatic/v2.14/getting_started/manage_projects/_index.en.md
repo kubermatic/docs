@@ -11,11 +11,11 @@ Kubermatic organizes your clusters into projects. Projects allow you to share cl
 
 After you log in to Kubermatic, you will be greeted with the list of all projects you created or have been given access to. When first using Kubermatic, the list will be empty and you will need to create your first project.
 
-![Empty project list](/img/2.14/getting_started/manage_projects/projects-empty.png)
+![Empty project list](/img/kubermatic/v2.14/getting_started/manage_projects/projects-empty.png)
 
 Click on the button above the table or the link below to table to create your first project. Give it a descriptive name and click "Save".
 
-![Add project dialog](/img/2.14/getting_started/manage_projects/projects-add.png)
+![Add project dialog](/img/kubermatic/v2.14/getting_started/manage_projects/projects-add.png)
 
 After a short moment, your project will be ready.
 
@@ -23,7 +23,7 @@ After a short moment, your project will be ready.
 
 To manage clusters, you need to select in which project you would like to work. This can be achieved by either clicking the project in the project list or by using the dropdown in the top-left corner (it is visible only when you are already in one of the projects).
 
-![Project list](/img/2.14/getting_started/manage_projects/projects-list.png)
+![Project list](/img/kubermatic/v2.14/getting_started/manage_projects/projects-list.png)
 
 After selecting the current project, the menu items for managing clusters, members and service accounts become active.
 
@@ -34,7 +34,7 @@ Refer to the [cluster documentation](../create_cluster) for more information on 
 ### Step 4 – Manage Project Members
 After selecting a project like in step 2, click on "Members" in the menu on the left to see the list of active members. If you are the owner, you can add and remove members in your project. To add a member, just like adding a project or a cluster, use the button above the member list. Add the e-mail address *of an existing user* and define their role in the project.
 
-![Add member dialog](/img/2.14/getting_started/manage_projects/projects-member.png)
+![Add member dialog](/img/kubermatic/v2.14/getting_started/manage_projects/projects-member.png)
 
 * **Editors** have write access to your project and can manage clusters, nodes and SSH keys.
 * **Viewers** have read-only access and can only view the existing resources.
@@ -47,7 +47,7 @@ After adding a user to a project, the project will immediately show up in the us
 
 After selecting a project like in step 2, click on "Service Accounts" in the menu on the left to see the list of active service accounts. If you are the owner of the project, you can add and remove service accounts and manage tokens that belong to them as well. To add a service account, just like adding a project or a cluster, use the button above the service account list. Add the name and select the group to assign.
 
-![Add service account dialog](/img/2.14/getting_started/manage_projects/projects-sa.png)
+![Add service account dialog](/img/kubermatic/v2.14/getting_started/manage_projects/projects-sa.png)
 
 * **Editors** have write access to your project and can manage clusters, nodes and SSH keys.
 * **Viewers** have read-only access and can only view the existing resources.

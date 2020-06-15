@@ -12,7 +12,7 @@ There is a single Prometheus service in each seed cluster's `monitoring` namespa
 
 Along the seed-level Prometheus, there is a single alertmanager running in the seed, which *all* Prometheus instances are using to relay their alerts (i.e. the Prometheus inside the customer clusters send their alerts to the seed cluster's alertmanager).
 
-![Monitoring architecture diagram](/img/monitoring/architecture/architecture.png)
+![Monitoring architecture diagram](/img/kubermatic/v2.13/monitoring/architecture/architecture.png)
 
 ## Federation
 

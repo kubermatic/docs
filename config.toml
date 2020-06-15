@@ -51,7 +51,7 @@ weight = 2
 languageName = "German"
 
 [params.mainLogo]
-src = "/img/Kubermatic.svg"
+src = "/img/kubermatic.svg"
 alt = "Kubermatic logo"
 
 [[params.externals]]
