@@ -7,6 +7,34 @@ weight = 90
 
 ## Helm Charts
 
+### CRD Handling in cert-manager, Velero
+
+In previous Kubermatic releases, Helm was responsible for installing the CRDs for cert-manager and Velero. While this
+made the deployment rather simple, it lead to problems in keeping the CRDs up-to-date (as Helm never updates or deletes
+CRDs).
+
+For this reason the CRD handling in Kubermatic 2.15 was changed to require users to always manually install CRDs before
+installing/updating a Helm chart. This provides much greater control over the CRD lifecycle and eases integration with
+other deployment mechanisms.
+
+Upgrading existing Helm releases in a cluster is simple, as Helm does not delete CRDs. To update cert-manager, simply
+install the CRDs and then run Helm as usual:
+
+```bash
+kubectl apply -f charts/cert-manager/crd/
+helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_HERE --namespace cert-manager cert-manager charts/cert-manager/
+```
+
+Note that on the first `kubectl apply` you will receive warnings because now "kubectl takes control over previously
+Helm-owned resources", which can be safely ignored.
+
+Perform the same steps for Velero:
+
+```bash
+kubectl apply -f charts/backup/velero/crd/
+helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_HERE --namespace velero velero charts/backup/velero/
+```
+
 ### Promtail
 
 The labelling for the Promtail DaemonSet has changed, requiring administrators to re-install the Helm chart. As a clean
