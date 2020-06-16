@@ -154,9 +154,12 @@ kubermaticOperator:
 
 With the configuration prepared, it's now time to install the required Helm charts into the master
 cluster. Take note of where you placed your `values.yaml` and then run the following commands in your
-shell:
+shell. Note that CRDs are not managed by Helm, so you must apply them manually both when installing
+a component like cert-manager, as well as during any updates later.
 
 ```bash
+kubectl apply -f charts/cert-manager/crd/
+
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace cert-manager cert-manager charts/cert-manager/
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace oauth oauth charts/oauth/
