@@ -5,10 +5,56 @@ weight = 30
 
 +++
 
+
 This document describes how a new seed cluster can be added to an existing Kubermatic master cluster.
 
 Plese refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
 about the cluster relationships.
+
+### Install Kubermatic Dependencies
+
+#### Cluster Backups
+
+Kubermatic performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
+are stored locally inside the cluster, but they can be reconfigured to work with any S3-compatible storage.
+The in-cluster storage is provided by [Minio](https://min.io/) and the accompanying `minio` Helm chart.
+
+If your cluster has no default storage class, it's required to configure a class explicitely for Minio. You can check
+the cluster's storage classes via:
+
+```bash
+kubectl get storageclasses
+#NAME                 PROVISIONER            AGE
+#kubermatic-fast      kubernetes.io/gce-pd   195d
+#standard (default)   kubernetes.io/gce-pd   2y43d
+```
+
+{{% notice note %}}
+Minio does not use `kubermatic-fast` because it does not require SSD speeds. A larger HDD is preferred.
+{{% /notice %}}
+
+To configure the storage class and size, extend your `values.yaml` like so:
+
+```yaml
+minio:
+  storeSize: '200Gi'
+  storageClass: hdd
+```
+
+It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
+
+#### Install Charts
+
+With this you can install the chart:
+
+```bash
+cd kubermatic-installer
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace minio minio charts/minio/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace s3-exporter s3-exporter charts/s3-exporter/
+```
+
+
 
 
 ### Add the Seed Resource
