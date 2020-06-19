@@ -1,11 +1,15 @@
 +++
-title = "Install Kubermatic CE"
+title = "Install Kubermatic EE"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
-
+enterprise = true
 +++
 
 This chapter explains the installation procedure of Kubermatic into a pre-existing Kubernetes cluster.
+
+{{% notice note %}}
+At the moment you need to be invited to get access to Kubermatic's Docker registry before you can try it out. Please [contact sales](mailto:sales@loodse.com) to receive your credentials.
+{{% /notice %}}
 
 ## Terminology
 
@@ -27,10 +31,16 @@ For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) 
 To begin the installation, make sure you have a kubeconfig at hand, with a user context that grants `cluster-admin`
 permissions.
 
-### Download the Installer
+### Clone the Installer
 
-Download the [installer](https://github.com/kubermatic/kubermatic/releases/) to your disk and make sure to
-download the appropriate release (`vX.Y`). 
+Clone the [installer repository](https://github.com/kubermatic/kubermatic-installer) to your disk and make sure to
+checkout the appropriate release branch (`release/vX.Y`). The latest stable release is already the default branch,
+so in most cases there should be no need to switch. Alternatively you can also download a ZIP version from GitHub.
+
+```bash
+git clone https://github.com/kubermatic/kubermatic-installer
+cd kubermatic-installer
+```
 
 ### Create a StorageClass
 
@@ -373,9 +383,8 @@ With all this in place, you should be able to access https://kubermatic.example.
 password from the `values.yaml` or using any of your chosen connectors. All pods running inside the `kubermatic` namespace
 should now be running. If they are not, check their logs to find out what's broken.
 
-
 ### Next Steps
 
-* [Add a Seed cluster]({{< ref "../add_seed_cluster" >}}) to start creating user clusters.
+* [Add a Seed cluster]({{< ref "../add_seed_cluster_ee" >}}) to start creating user clusters.
 * Install the [monitoring stack]({{< ref "../monitoring_stack" >}}) to gain metrics and alerting.
 * Install the [logging stack]({{< ref "../logging_stack" >}}) to collect cluster-wide metrics in a central place.
