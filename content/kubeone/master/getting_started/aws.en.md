@@ -189,7 +189,7 @@ Finally, we're going to install Kubernetes by running the following `install`
 command and providing the configuration file and the Terraform output:
 
 ```bash
-kubeone install -m config.yaml --tfjson <DIR-WITH-tfstate-FILE>
+kubeone install config.yaml --tfjson <DIR-WITH-tfstate-FILE>
 ```
 
 Alternatively, if the Terraform state file is in the current working directory
