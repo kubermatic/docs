@@ -60,24 +60,11 @@ helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm
 
 To connect the new seed cluster with the master, you need to create a kubeconfig Secret and a Seed resource.
 
-You will add the **master cluster** as **seed cluster**-
+You will add the **master cluster** as the **seed cluster**
 
 Make sure the kubeconfig contains static, long-lived credentials. Some cloud providers use custom authentication providers
 (like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic’s usecase because the
-required tools are not installed inside the cluster environment. You can use the `kubeconfig-serviceaccounts.sh` script to 
-automatically create proper service accounts inside the seed cluster with static credentials:
-
-```bash
-./kubeconfig-service-accounts.sh mykubeconfig.yaml
-Cluster: example
- > context: europe
- > creating service account kubermatic-seed-account ...
- > assigning cluster role kubermatic-seed-account-cluster-role ...
- > reading auth token ...
- > adding user example-kubermatic-service-account ...
- > updating cluster context ...
- > kubeconfig updated
-```
+required tools are not installed inside the cluster environment. 
 
 The Seed resource needs to be called `kubermatic` and needs to reference the new kubeconfig Secret like so:
 
