@@ -106,6 +106,8 @@ In addition to the `values.yaml` for configuring the charts, a number of options
 A minimal configuration for Helm charts sets these options. The secret keys mentioned below can be generated using any
 password generator or on the shell using `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 
+For the purpose of this document, we only need to configure a few things in the values.yaml:
+
 ```yaml
 # Dex Is the OpenID Provider for Kubermatic.
 dex:
@@ -126,7 +128,7 @@ dex:
     - https://kubermatic.example.com/projects
 
   # Depending on your chosen login method, you need to configure either an OAuth provider like
-  # Google or GitHub, or configure a set of static passwords. Check the `charts/oauth/values.yaml`
+  # Google or GitHub, or configure a set of static passwords. Check the `config/oauth/values.yaml`
   # for an overview over all available connectors.
 
   # For testing purposes, we configure a single static user/password combination.
@@ -157,9 +159,9 @@ cluster. Take note of where you placed your `values.yaml` and then run the follo
 shell:
 
 ```bash
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace cert-manager cert-manager charts/cert-manager/
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace oauth oauth charts/oauth/
+helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace nginx-ingress-controller nginx-ingress-controller config/nginx-ingress-controller/
+helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace cert-manager cert-manager config/cert-manager/
+helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace oauth oauth config/oauth/
 ```
 
 #### Validation
@@ -191,7 +193,7 @@ You should also have a working LoadBalancer service created by nginx:
 {{% notice note %}}
 Not all cloud providers provide support for LoadBalancers. In these environments the `nginx-ingress-controller` chart can
 be configured to use a NodePort Service instead, which would open ports 80 and 443 on every node of the cluster. Refer to
-the `charts/nginx-ingress-controller/values.yaml` for more information.
+the `config/nginx-ingress-controller/values.yaml` for more information.
 {{% /notice %}}
 
 ```bash
@@ -211,13 +213,13 @@ to see what's causing the issues.
 Before installing the Kubermatic Operator, the Kubermatic CRDs need to be installed. You can install them like so:
 
 ```bash
-kubectl apply -f charts/kubermatic/crd/
+kubectl apply -f config/kubermatic/crd/
 ```
 
 After this, the operator chart can be installed like the previous Helm charts:
 
 ```bash
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic charts/kubermatic-operator/
+helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic kubermaticoperator config/kubermatic-operator/
 ```
 
 #### Validation
@@ -254,9 +256,19 @@ spec:
     # the values.yaml.
     issuerClientSecret: <dex-kubermatic-oauth-secret-here>
 
-    # these need to be randomly generated
+    # these need to be randomly generated. Those can be generated on the
+    # shell using:
+    # cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32
     issuerCookieKey: <a-random-key>
     serviceAccountKey: <another-random-key>
+
+    # this need to match the one in the values.yaml file.
+    imagePullSecret: |
+      {
+        "auths": {
+          "quay.io": {....}
+        }
+      }
 ```
 
 Save the YAML above as `kubermatic.yaml` and apply it like so:
@@ -305,7 +317,7 @@ The `EXTERNAL-IP` is what we need to put into the DNS record.
 
 #### Without Load Balancers
 
-Without a LoadBalancer, you will need to use the NodePort service (refer to the `charts/nginx-ingress-controller/values.yaml`
+Without a LoadBalancer, you will need to use the NodePort service (refer to the `config/nginx-ingress-controller/values.yaml`
 for more information) and setup the DNS records to point to one or many of your cluster's nodes. You can get a list of
 external IPs like so:
 
