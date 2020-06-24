@@ -57,6 +57,17 @@ invoke it from your terminal.
 sudo mv kubeone_<version>_<operating_system>_amd64/kubeone /usr/local/bin
 ```
 
+For a quick way to install the lastest version of KubeOne, use
+the following commands:
+
+```bash
+OS=$(uname)
+VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubeone/releases/latest -o /dev/null | sed -e 's|.*/v||')
+curl -LO "https://github.com/kubermatic/kubeone/releases/download/v${VERSION}/kubeone_${VERSION}_${OS}_amd64.zip"
+unzip kubeone_${VERSION}_${OS}_amd64.zip -d kubeone_${VERSION}_${OS}_amd64
+sudo mv kubeone_${VERSION}_${OS}_amd64/kubeone /usr/local/bin
+```
+
 ### Building KubeOne
 
 The alternative way to install KubeOne is using `go get`.
