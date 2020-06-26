@@ -24,8 +24,8 @@ The KubeCarrier Manager is the central component of KubeCarrier, that contains a
 
 ### KubeCarrier API Server
 
-The KubeCarrier API Server provides a public API with seperate authentication (OIDC, Service Accounts, Static Users) from the kube-apiserver.
-This component is designed as just a slim interface layer with the business logic, validation and authorization all beeing handled as kube-apiserver extensions.
+The KubeCarrier API Server provides a public API with separate authentication (OIDC, Service Accounts, Static Users) from the kube-apiserver.
+This component is designed as just a slim interface layer with the business logic, validation and authorization all being handled as kube-apiserver extensions.
 
 ### Ferry
 
