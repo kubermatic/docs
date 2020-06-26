@@ -59,7 +59,7 @@ Create the object with:
 
 ```bash
 $ kubectl apply -n team-a \
-  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/servicecluster.yaml
+  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.1.0/docs/manifests/servicecluster.yaml
 servicecluster.kubecarrier.io/team-a created
 
 $ kubectl get servicecluster -n team-a
