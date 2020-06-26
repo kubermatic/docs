@@ -55,7 +55,7 @@ To create these objects just run:
 
 ```bash
 $ kubectl apply \
-  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/accounts.yaml
+  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.1.0/docs/manifests/accounts.yaml
 account.catalog.kubecarrier.io/team-a created
 account.catalog.kubecarrier.io/team-b created
 ```
