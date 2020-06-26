@@ -7,7 +7,7 @@ date: 2020-06-26T09:00:00+02:00
 
 ## Intro
 
-KubeCarrier also deploys it's own API Server to allow external access and integrations to connect with KubeCarrier.
+KubeCarrier also deploys its own API Server to allow external access and integrations to connect with KubeCarrier.
 It's designed as a slim interface layer and all the heavy lifting (validation, authorization, etc.) is still done by Kubernetes Controllers, Kubernetes Admission Webhooks, and other Kubernetes mechanisms.
 
 We decided to build our own custom API Server for a few reasons:
@@ -22,10 +22,10 @@ The KubeCarrier API Server exposes a Open API Specification under `<host>/v1/ope
 
 To access the KubeCarrier API directly, you can use `kubectl port-forward` to expose the api server on localhost.
 
-First you need to get the name of the api server pod:
+First you need to get the name of the api server Pod:
 
 ```bash
-kubectl get po -n "kubecarrier-system"
+kubectl get pod -n "kubecarrier-system"
 ```
 
 ```bash
@@ -61,7 +61,7 @@ You can find more information about each authentication method below.
 
 Anonymous authentication is enabled by default and will be disabled when another auth-method (Token/Htpasswd) is configured.
 
-Every request, that cannot be authenticated by another provider, will by authenticated as `system:anonymous` with a group of `system:unauthenticated`.
+Every request that cannot be authenticated by another provider, will by authenticated as `system:anonymous` with a group of `system:unauthenticated`.
 
 To grant anonymous access to an Account, it can be added to the Accounts subjects:
 
@@ -220,11 +220,10 @@ A complete API Reference can be found on the [API Reference](../../api_reference
 By default, KubeCarrier will generate a self-signed certificate for `localhost` and `127.0.0.1` as a minimal TLS setup.
 
 You can configure your own TLS serving certificate for the KubeCarrier API Server in the `KubeCarrier` configuration object.
-Alternative you can terminate TLS via an ingress controller or any other edge load balancer.
+Alternatively you can terminate TLS via an ingress controller or any other edge load balancer.
 
 {{% notice info %}}
 TLS is a requirement the KubeCarrier API server.  
-Running without TLS is not only discouraged, but also not supported.
 {{% /notice %}}
 
 [swagger-ui-apikey]: ../../img/Swagger_apikey.png
