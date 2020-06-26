@@ -219,7 +219,7 @@ kubectl apply -f charts/kubermatic/crd/
 After this, the operator chart can be installed like the previous Helm charts:
 
 ```bash
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic kubermaticoperator charts/kubermatic-operator/
+helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic kubermatic-operator charts/kubermatic-operator/
 ```
 
 #### Validation
@@ -262,7 +262,7 @@ spec:
     issuerCookieKey: <a-random-key>
     serviceAccountKey: <another-random-key>
 
-    # this need to match the one in the values.yaml file.
+    # this needs to match the one in the values.yaml file.
     imagePullSecret: |
       {
         "auths": {
