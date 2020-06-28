@@ -21,7 +21,7 @@ have three roles:
 - *Service Account User: `roles/iam.serviceAccountUser`*
 - *Viewer: `roles/viewer`*
 
-If the [`gcloud`]() CLI is installed, a service account can be created like follow:
+If the [`gcloud`](https://cloud.google.com/sdk/install) CLI is installed, a service account can be created like follow:
 ```bash
 # create new service account
 gcloud iam service-accounts create k8c-cluster-provisioner
