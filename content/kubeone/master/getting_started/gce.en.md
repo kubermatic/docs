@@ -36,15 +36,50 @@ In order for Terraform to successfully create the infrastructure and for
 machine-controller to create worker nodes, you need an [Service
 Account][gce-sa] with the appropriate permissions. These are:
 
-* `Compute Admin`,
-* `Service Account User`, and
-* `Viewer`.
+- *Compute Admin: `roles/compute.admin`*
+- *Service Account User: `roles/iam.serviceAccountUser`*
+- *Viewer: `roles/viewer`*
 
+If the [`gcloud`](https://cloud.google.com/sdk/install) CLI is installed, a service account can be created like follow:
+```bash
+# create new service account
+gcloud iam service-accounts create k1-cluster-provisioner
+
+# get your service account id
+gcloud iam service-accounts list
+# get your project id
+gcloud projects list
+
+# create policy binding
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/compute.admin'
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/iam.serviceAccountUser' 
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/viewer'
+``` 
+A *Google Service Account* for the platform has to be created, see
+[Creating and managing service accounts](https://cloud.google.com/iam/docs/creating-managing-service-accounts).
+The result is a JSON file containing the fields
+
+- `type`
+- `project_id`
+- `private_key_id`
+- `private_key`
+- `client_email`
+- `client_id`
+- `auth_uri`
+- `token_uri`
+- `auth_provider_x509_cert_url`
+- `client_x509_cert_url`
+
+```bash
+# create a new json key for your service account
+gcloud iam service-accounts keys create --iam-account YOUR_SERVICE_ACCOUNT k1-cluster-provisioner-sa-key.json
+```
 Once you have the Service Account, you need to set `GOOGLE_CREDENTIALS`
 environment variable:
 
 ```bash
-export GOOGLE_CREDENTIALS=$(cat path/to/your_service_account.json)
+# export JSON file content of created service account json key
+export GOOGLE_CREDENTIALS=$(cat ./k1-cluster-provisioner-sa-key.json)
 ```
 
 Also, the Compute Engine API has to be enabled for the project in the
