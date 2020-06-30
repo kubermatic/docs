@@ -106,8 +106,10 @@ In addition to the `values.yaml` for configuring the charts, a number of options
 A minimal configuration for Helm charts sets these options. The secret keys mentioned below can be generated using any
 password generator or on the shell using `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 
+For the purpose of this document, we only need to configure a few things in the values.yaml:
+
 ```yaml
-# Dex Is the OpenID Provider for Kubermatic.
+# Dex is the OpenID Provider for Kubermatic.
 dex:
   ingress:
     # configure your base domain, under which the Kubermatic dashboard shall be available
@@ -220,7 +222,7 @@ kubectl apply -f charts/kubermatic/crd/
 After this, the operator chart can be installed like the previous Helm charts:
 
 ```bash
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic charts/kubermatic-operator/
+helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic kubermatic-operator charts/kubermatic-operator/
 ```
 
 #### Validation
@@ -257,9 +259,19 @@ spec:
     # the values.yaml.
     issuerClientSecret: <dex-kubermatic-oauth-secret-here>
 
-    # these need to be randomly generated
+    # these need to be randomly generated. Those can be generated on the
+    # shell using:
+    # cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32
     issuerCookieKey: <a-random-key>
     serviceAccountKey: <another-random-key>
+
+    # this needs to match the one in the values.yaml file.
+    imagePullSecret: |
+      {
+        "auths": {
+          "quay.io": {....}
+        }
+      }
 ```
 
 Save the YAML above as `kubermatic.yaml` and apply it like so:
