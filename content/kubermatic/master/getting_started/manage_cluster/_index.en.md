@@ -23,11 +23,11 @@ The dashboard provides you with all important cluster information. You can check
 
 You can easily extend your cluster with new worker nodes. Kubermatic will automatically configure them and integrate them into your cluster.
 
-![Add node deployment dialog](/img/kubermatic/master/getting_started/manage_cluster/cluster-add-nd.png)
+![Add machine deployment dialog](/img/kubermatic/master/getting_started/manage_cluster/cluster-add-nd.png)
 
 ### Connect to the Cluster
 
-Kubermatic automatically creates your clusters `kubeconfig` file. It can be downloaded using the icon button on the left of the "Add Node Deployment" button.
+Kubermatic automatically creates your clusters `kubeconfig` file. It can be downloaded using the icon button on the left of the "Add Machine Deployment" button.
 
 To connect to your cluster configure `kubectl` command line tool to use your `kubeconfig` file
 
