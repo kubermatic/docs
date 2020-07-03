@@ -265,13 +265,13 @@ spec:
     issuerCookieKey: <a-random-key>
     serviceAccountKey: <another-random-key>
 
-    # this needs to match the one in the values.yaml file.
-    imagePullSecret: |
-      {
-        "auths": {
-          "quay.io": {....}
-        }
+  # this needs to match the one in the values.yaml file.
+  imagePullSecret: |
+    {
+      "auths": {
+        "quay.io": {....}
       }
+    }
 ```
 
 Save the YAML above as `kubermatic.yaml` and apply it like so:
