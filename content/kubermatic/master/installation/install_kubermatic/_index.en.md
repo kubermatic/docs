@@ -129,15 +129,6 @@ dex:
     # these are used within Kubermatic to identify the user
     username: "admin"
     userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
-
-kubermaticOperator:
-  # insert the Docker authentication JSON provided by Loodse here
-  imagePullSecret: |
-    {
-      "auths": {
-        "quay.io": {....}
-      }
-    }
 ```
 
 ### Install Dependencies
