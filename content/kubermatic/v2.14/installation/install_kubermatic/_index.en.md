@@ -141,6 +141,9 @@ dex:
     userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
 
 kubermaticOperator:
+  image:
+    # image id for EE version
+    repository: "quay.io/kubermatic/kubermatic-ee"
   # insert the Docker authentication JSON provided by Loodse here
   imagePullSecret: |
     {
@@ -247,6 +250,10 @@ spec:
     # this domain must match what you configured as dex.ingress.host
     # in the values.yaml
     domain: kubermatic.example.com
+    # issuer of `nginx-ingress-controller` 
+    # execute: kubectl get clusterissuers
+    certificateIssuer:
+      name: letsencrypt-prod
 
   # These secret keys configure the way components commmunicate with Dex.
   auth:
