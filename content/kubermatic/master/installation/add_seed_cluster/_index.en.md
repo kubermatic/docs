@@ -40,26 +40,6 @@ kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admi
 helm --service-account tiller --tiller-namespace kubermatic init
 ```
 
-#### NodePort Proxy
-
-Kubermatic requires the NodePort Proxy to be installed in each seed cluster. The proxy is shipped as a
-[Helm](https://helm.sh) chart in the kubermatic-installer repository.
-
-As the NodePort Proxy Docker image is in a private registry, you need to configure the Docker Pull Secret for
-the Helm chart. You can re-use the `values.yaml` used during the installation or create new one and configure it like
-so:
-
-```yaml
-kubermaticOperator:
-  # insert the Docker authentication JSON provided by Loodse here
-  imagePullSecret: |
-    {
-      "auths": {
-        "quay.io": {....}
-      }
-    }
-```
-
 #### Cluster Backups
 
 Kubermatic performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
@@ -96,7 +76,6 @@ With this you can install the chart:
 
 ```bash
 cd kubermatic-installer
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace minio minio charts/minio/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace s3-exporter s3-exporter charts/s3-exporter/
 ```
