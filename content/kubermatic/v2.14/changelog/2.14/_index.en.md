@@ -6,6 +6,11 @@ weight = 214
 
 +++
 
+## v2.14.1
+
+- Added missing Flatcar Linux handling in API.
+- Fixed nodes sometimes not having the correct distribution label applied.
+- Fixed missing Kubermatic Prometheus metrics.
 
 ## v2.14.0
 
