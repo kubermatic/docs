@@ -6,6 +6,10 @@ weight = 213
 
 +++
 
+## v2.13.6
+
+- Fixed a bug preventing editing of existing cluster credential secrets
+
 ## v2.13.5
 
 - Updated machine-controller to `v1.10.4` to address issue in CNI plugins
