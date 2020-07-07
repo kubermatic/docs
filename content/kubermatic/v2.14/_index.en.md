@@ -13,7 +13,7 @@ Kubermatic is directly integrated with leading cloud providers Amazon Web Servic
 ## Features
 
 {{% notice tip %}}
-For latest updates follow us on Twitter [@Loodse](https://twitter.com/Loodse)
+For latest updates follow us on Twitter [@Kubermatic](https://twitter.com/Kubermatic) and [@Kubermatic Kubernetes Platform](https://twitter.com/kubermatic_os)
 {{% /notice %}}
 
 ### Use Kubernetes
