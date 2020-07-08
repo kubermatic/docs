@@ -73,19 +73,27 @@ the cluster's storage classes via:
 kubectl get storageclasses
 #NAME                 PROVISIONER            AGE
 #kubermatic-fast      kubernetes.io/gce-pd   195d
+#kubermatic-backup    kubernetes.io/gce-pd   195d
 #standard (default)   kubernetes.io/gce-pd   2y43d
 ```
 
 {{% notice note %}}
-Minio does not use `kubermatic-fast` because it does not require SSD speeds. A larger HDD is preferred.
+Minio does not use `kubermatic-fast` because it does not require SSD speeds. A larger HDD is preferred. It's recommended to create a separate storage class `kubermatic-backup` with a different location/security level.
 {{% /notice %}}
 
-To configure the storage class and size, extend your `values.yaml` like so:
+To configure the storage class and size, extend your `values.yaml`. For more information about the Minio options, take a look at [minio chart `values.yaml`](https://github.com/kubermatic/kubermatic/blob/master/charts/minio/values.yaml) and the [min.io documentation - S3 gateway](https://docs.min.io/docs/minio-gateway-for-s3.html):
 
 ```yaml
 minio:
   storeSize: '200Gi'
-  storageClass: hdd
+  # SC will store the etcd backup of the seed hosted user clusters
+  storageClass: kubermatic-backup
+  # access key/secret for the exposed minio S3 gateway
+  credentials:
+    # access key length should be at least 3 characters
+    accessKey: "YOUR-ACCESS-KEY"
+    # secret key length should be at least 8 characters
+    secretKey: "YOUR-SECRET-KEY"
 ```
 
 It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
