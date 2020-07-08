@@ -95,7 +95,7 @@ Kubermatic ships with a number of Helm charts that need to be installed into the
 built so they can be configured using a single, shared `values.yaml` file. The required charts are
 
 * **Master cluster:** cert-manager, nginx-ingress-controller, oauth(, iap)
-* **Seed cluster:** nodeport-proxy, minio, s3-exporter
+* **Seed cluster:** minio, s3-exporter
 
 There are additional charts for the [monitoring]({{< ref "../monitoring_stack" >}}) and [logging stack]({{< ref "../logging_stack" >}})
 which will be discussed in their dedicated chapters, as they are not strictly required for running Kubermatic.
