@@ -48,12 +48,10 @@ It's also advisable to install the `s3-exporter` Helm chart, as it provides basi
 With this you can install the chart:
 
 ```bash
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
+cd kubermatic-installer
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace minio minio charts/minio/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace s3-exporter s3-exporter charts/s3-exporter/
 ```
-
-
 
 
 ### Add the Seed Resource
@@ -119,12 +117,12 @@ on the seed.
 #### With LoadBalancers
 
 When your cloud provider supports Load Balancers, you can find the target IP / hostname by looking at the
-`nodeport-lb` Service:
+`nodeport-proxy` Service:
 
 ```bash
-kubectl -n nodeport-proxy get services
+kubectl -n kubermatic get services
 #NAME          TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
-#nodeport-lb   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
+#nodeport-proxy   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
 ```
 
 The `EXTERNAL-IP` is what we need to put into the DNS record.

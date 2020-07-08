@@ -20,7 +20,7 @@ This chapter explains the installation procedure of Kubermatic into a pre-existi
 Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "../../requirements" >}})
 and make yourself familiar with the requirements for your chosen cloud provider.
 
-For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 2 or 3) installed locally.
+For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 2) installed locally.
 
 ## Installation
 
@@ -29,8 +29,8 @@ permissions.
 
 ### Download the Installer
 
-Download the [installer](https://github.com/kubermatic/kubermatic/releases/) to your disk and make sure to
-download the appropriate release (`vX.Y`). 
+Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-X.Y.tar.gz) containing the
+Helm charts choosing the appropriate release (`vX.Y`). 
 
 ### Create a StorageClass
 
@@ -63,11 +63,7 @@ for more information about the possible parameters for your storage backend.
 
 ### Install Helm's Tiller
 
-{{% notice note %}}
-This step is only required when using Helm 2.
-{{% /notice %}}
-
-When using Helm 2, it's required to setup Tiller inside the cluster. This requires setting up a ClusterRole and
+It's required to setup Tiller inside the cluster. This requires setting up a ClusterRole and
 -Binding, before installing Tiller itself. If your cluster already has Tiller installed in another namespace, you
 can re-use it, but an installation dedicated for Kubermatic is preferred.
 
@@ -84,8 +80,8 @@ helm --service-account tiller --tiller-namespace kubermatic init
 Kubermatic ships with a number of Helm charts that need to be installed into the master or seed clusters. These are
 built so they can be configured using a single, shared `values.yaml` file. The required charts are
 
-* **Master cluster:** cert-manager, nginx-ingress-controller, oauth(, iap)
-* **Seed cluster:** nodeport-proxy, minio, s3-exporter
+* **Master cluster:** cert-manager, nginx-ingress-controller, oauth
+* **Seed cluster:** minio, s3-exporter
 
 There are additional charts for the [monitoring]({{< ref "../monitoring_stack" >}}) and [logging stack]({{< ref "../logging_stack" >}})
 which will be discussed in their dedicated chapters, as they are not strictly required for running Kubermatic.
@@ -97,7 +93,7 @@ A minimal configuration for Helm charts sets these options. The secret keys ment
 password generator or on the shell using `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 
 ```yaml
-# Dex Is the OpenID Provider for Kubermatic.
+# Dex is the OpenID Provider for Kubermatic.
 dex:
   ingress:
     # configure your base domain, under which the Kubermatic dashboard shall be available
@@ -198,7 +194,7 @@ kubectl apply -f charts/kubermatic/crd/
 After this, the operator chart can be installed like the previous Helm charts:
 
 ```bash
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic charts/kubermatic-operator/
+helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic kubermatic-operator charts/kubermatic-operator/
 ```
 
 #### Validation
@@ -235,7 +231,9 @@ spec:
     # the values.yaml.
     issuerClientSecret: <dex-kubermatic-oauth-secret-here>
 
-    # these need to be randomly generated
+    # these need to be randomly generated. Those can be generated on the
+    # shell using:
+    # cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32
     issuerCookieKey: <a-random-key>
     serviceAccountKey: <another-random-key>
 ```
