@@ -162,12 +162,12 @@ on the seed.
 #### With LoadBalancers
 
 When your cloud provider supports Load Balancers, you can find the target IP / hostname by looking at the
-`nodeport-lb` Service:
+`nodeport-proxy` Service:
 
 ```bash
-kubectl -n nodeport-proxy get services
+kubectl -n kubermatic get services
 #NAME          TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
-#nodeport-lb   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
+#nodeport-proxy   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
 ```
 
 The `EXTERNAL-IP` is what we need to put into the DNS record.
