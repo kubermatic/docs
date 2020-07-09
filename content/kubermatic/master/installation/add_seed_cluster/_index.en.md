@@ -29,16 +29,25 @@ kubectl get storageclasses
 #standard (default)   kubernetes.io/gce-pd   2y43d
 ```
 
-{{% notice note %}}
-Minio does not use `kubermatic-fast` because it does not require SSD speeds. A larger HDD is preferred.
-{{% /notice %}}
+As Minio does not require any of the SSD's advantages, we can use HDDs.
+For a cluster running on AWS, an example class could look like this:
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: minio-hdd
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: sc1
+```
 
 To configure the storage class and size, extend your `values.yaml` like so:
 
 ```yaml
 minio:
-  storeSize: '200Gi'
-  storageClass: hdd
+  storeSize: '500Gi'
+  storageClass: minio-hdd
 ```
 
 It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
@@ -48,7 +57,6 @@ It's also advisable to install the `s3-exporter` Helm chart, as it provides basi
 With this you can install the chart:
 
 ```bash
-cd kubermatic-installer
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace minio minio charts/minio/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace s3-exporter s3-exporter charts/s3-exporter/
 ```
