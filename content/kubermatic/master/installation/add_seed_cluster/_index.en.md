@@ -118,9 +118,8 @@ NodePort Proxy. By default each user cluster gets a virtual domain name like
 for the Seed from the previous step when `kubermatic.example.com` is the main domain where the
 Kubermatic dashboard/API are available.
 
-To facilitate this, a wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. As with
-the other DNS records the exact target depends on whether or not LoadBalancer services are supported
-on the seed.
+To facilitate this, a wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. The target of the
+DNS wildcard record should be the `EXTERNAL-IP` of the `nodeport-proxy` service in the `kubermatic` namespace.
 
 #### With LoadBalancers
 

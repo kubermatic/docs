@@ -30,7 +30,12 @@ permissions.
 ### Download the Installer
 
 Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-X.Y.tar.gz) containing the
-Helm charts choosing the appropriate release (`vX.Y`). 
+Helm charts choosing the appropriate release (`vX.Y`) and extract it. e.g.
+
+```bash
+wget https://github.com/kubermatic/kubermatic/releases/download/v2.14.2/kubermatic-2.14.tar.gz
+tar -xzvf kubermatic-2.14.tar.gz
+```
 
 ### Create a StorageClass
 
@@ -78,13 +83,14 @@ helm --service-account tiller --tiller-namespace kubermatic init
 ### Prepare Configuration
 
 Kubermatic ships with a number of Helm charts that need to be installed into the master or seed clusters. These are
-built so they can be configured using a single, shared `values.yaml` file. The required charts are
+built so they can be configured using a single, shared `values.yaml` file. The required charts are:
 
 * **Master cluster:** cert-manager, nginx-ingress-controller, oauth
-* **Seed cluster:** minio, s3-exporter
 
-There are additional charts for the [monitoring]({{< ref "../monitoring_stack" >}}) and [logging stack]({{< ref "../logging_stack" >}})
-which will be discussed in their dedicated chapters, as they are not strictly required for running Kubermatic.
+Optional charts are:
+
+* **Master cluster:** iap, [monitoring]({{< ref "../monitoring_stack" >}}), [logging stack]({{< ref "../logging_stack" >}})
+* **Seed cluster:** minio, s3-exporter
 
 In addition to the `values.yaml` for configuring the charts, a number of options will later be made inside a special
 `KubermaticConfiguration` resource.
