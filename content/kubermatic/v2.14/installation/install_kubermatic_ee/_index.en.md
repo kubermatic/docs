@@ -1,5 +1,5 @@
 +++
-title = "Install Kubermatic CE"
+title = "Install Kubermatic EE"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
 
