@@ -133,6 +133,18 @@ dex:
     # these are used within Kubermatic to identify the user
     username: "admin"
     userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
+
+kubermaticOperator:
+  # Insert the Docker authentication JSON provided by Loodse here
+  imagePullSecret: |
+    {
+      "auths": {
+        "quay.io": {
+          "auth": "...",
+          "email": ""
+	}
+      }
+    }
 ```
 
 ### Install Dependencies
@@ -244,13 +256,24 @@ spec:
     # cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32
     issuerCookieKey: <a-random-key>
     serviceAccountKey: <another-random-key>
+
+  # Insert the Docker authentication JSON provided by Loodse here
+  imagePullSecret: |
+    {
+      "auths": {
+        "quay.io": {
+          "auth": "...",
+          "email": ""
+        }
+      }
+    }
 ```
 
 You can find the YAML above under `examples/kubermatic.example.ce.yaml`
 Apply it like using kubectl:
 
 ```bash
-kubectl apply -f examples/kubermatic.example.ce.yaml
+kubectl apply -f examples/kubermatic.example.ee.yaml
 ```
 
 This will now cause the operator to being provisioning a master cluster for Kubermatic. You can observe the progress by
