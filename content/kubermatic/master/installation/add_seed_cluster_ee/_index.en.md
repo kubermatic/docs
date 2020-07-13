@@ -40,26 +40,6 @@ kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admi
 helm --service-account tiller --tiller-namespace kubermatic init
 ```
 
-#### NodePort Proxy
-
-Kubermatic requires the NodePort Proxy to be installed in each seed cluster. The proxy is shipped as a
-[Helm](https://helm.sh) chart in the kubermatic-installer repository.
-
-As the NodePort Proxy Docker image is in a private registry, you need to configure the Docker Pull Secret for
-the Helm chart. You can re-use the `values.yaml` used during the installation or create new one and configure it like
-so:
-
-```yaml
-kubermaticOperator:
-  # insert the Docker authentication JSON provided by Loodse here
-  imagePullSecret: |
-    {
-      "auths": {
-        "quay.io": {....}
-      }
-    }
-```
-
 #### Cluster Backups
 
 Kubermatic performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
@@ -76,16 +56,25 @@ kubectl get storageclasses
 #standard (default)   kubernetes.io/gce-pd   2y43d
 ```
 
-{{% notice note %}}
-Minio does not use `kubermatic-fast` because it does not require SSD speeds. A larger HDD is preferred.
-{{% /notice %}}
+As Minio does not require any of the SSD's advantages, we can use HDDs.
+For a cluster running on AWS, an example class could look like this:
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: minio-hdd
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: sc1
+```
 
 To configure the storage class and size, extend your `values.yaml` like so:
 
 ```yaml
 minio:
-  storeSize: '200Gi'
-  storageClass: hdd
+  storeSize: '500Gi'
+  storageClass: minio-hdd
 ```
 
 It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
@@ -95,8 +84,6 @@ It's also advisable to install the `s3-exporter` Helm chart, as it provides basi
 With this you can install the chart:
 
 ```bash
-cd kubermatic-installer
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace minio minio charts/minio/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace s3-exporter s3-exporter charts/s3-exporter/
 ```
@@ -118,7 +105,6 @@ the kubermatic-installer repository to automatically create proper service accou
 credentials:
 
 ```bash
-cd kubermatic-installer
 ./kubeconfig-service-accounts.sh mykubeconfig.yaml
 Cluster: example
  > context: europe
@@ -183,12 +169,12 @@ on the seed.
 #### With LoadBalancers
 
 When your cloud provider supports Load Balancers, you can find the target IP / hostname by looking at the
-`nodeport-lb` Service:
+`nodeport-proxy` Service:
 
 ```bash
-kubectl -n nodeport-proxy get services
+kubectl -n kubermatic get services
 #NAME          TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
-#nodeport-lb   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
+#nodeport-proxy   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
 ```
 
 The `EXTERNAL-IP` is what we need to put into the DNS record.
