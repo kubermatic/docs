@@ -27,6 +27,17 @@ on-prem or bare-metal cluster.
 
 [![KubeOne Demo asciicast](https://asciinema.org/a/244104.svg)](https://asciinema.org/a/244104)
 
+## Getting Started
+
+All user documentation is available at the [KubeOne docs website](https://docs.kubermatic.com/kubeone/master/).
+
+We have a getting started tutorial for each provider we support in the
+[Getting Started section][13]. For example, the following document shows
+[how to get started with KubeOne on AWS][8].
+
+For advanced use cases and other features, check out the
+[Using KubeOne section][14].
+
 ## Installing KubeOne
 
 ### Downloading a binary from GitHub Releases
@@ -160,20 +171,6 @@ supported. It's highly recommended to use the latest version whenever possible.
 | v0.11.0+        | +    | +    | +    | +    | -    | v0.12+    | AWS, DigitalOcean, GCE, Hetzner, Packet, OpenStack, vSphere, Azure |
 | v0.10.0+        | -    | -    | +    | +    | +    | v0.12+    | AWS, DigitalOcean, GCE, Hetzner, Packet, OpenStack, vSphere, Azure |
 
-## Getting Started
-
-We have a getting started tutorial for each cloud provider we support in our
-documentation. For example, the following document shows
-[how to get started with KubeOne on AWS][8].
-
-A cluster is created using the `kubeone install` command. It takes a KubeOne configuration file and optionally Terraform state used to source information about the infrastructure. You may also use our [Ansible roles][7] to create the configuration file.
-
-```bash
-kubeone install -m config.yaml --tfjson tf.json
-```
-
-To learn more about KubeOne configuration, please run `kubeone config print --full`.
-
 ## Getting Involved
 
 We very appreciate contributions! If you want to contribute or have an idea for
@@ -217,3 +214,5 @@ See [the list of releases][3] to find out about feature changes.
 [10]: http://slack.k8s.io/
 [11]: https://github.com/kubermatic/kubeone/blob/master/CONTRIBUTING.md#reporting-a-security-vulnerability
 [12]: https://github.com/kubermatic/kubeone/issues/471
+[13]: ./getting_started/
+[14]: ./using_kubeone/
