@@ -178,11 +178,10 @@ a new feature or improvement, please check out our [contributing guide][2].
 
 If you want to get in touch with us and discuss about improvements and new
 features, please create a new issue on GitHub or connect with us over the
-mailing list, forums, or Slack:
+forums or Slack:
 
 * [`#kubeone` channel][4] on [Kubernetes Slack][10]
-* [Kubermatic forums][15]
-* [loodse-dev mailing list][9]
+* [Kubermatic forums][9]
 
 ## Reporting Bugs
 
@@ -211,10 +210,9 @@ See [the list of releases][3] to find out about feature changes.
 [6]: https://github.com/kubermatic/machine-controller
 [7]: https://github.com/kubermatic/kubeone/tree/master/examples/ansible
 [8]: ./getting_started/aws/
-[9]: https://groups.google.com/forum/#!forum/loodse-dev
+[9]: https://forum.kubermatic.com/
 [10]: http://slack.k8s.io/
 [11]: https://github.com/kubermatic/kubeone/blob/master/CONTRIBUTING.md#reporting-a-security-vulnerability
 [12]: https://github.com/kubermatic/kubeone/issues/471
 [13]: ./getting_started/
 [14]: ./using_kubeone/
-[15]: https://forum.kubermatic.com/
