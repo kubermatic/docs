@@ -1,15 +1,11 @@
 +++
-title = "Install Kubermatic"
+title = "Install Kubermatic CE"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
 
 +++
 
 This chapter explains the installation procedure of Kubermatic into a pre-existing Kubernetes cluster.
-
-{{% notice note %}}
-At the moment you need to be invited to get access to Kubermatic's Docker registry before you can try it out. Please [contact sales](mailto:sales@loodse.com) to receive your credentials.
-{{% /notice %}}
 
 ## Terminology
 
@@ -24,22 +20,21 @@ At the moment you need to be invited to get access to Kubermatic's Docker regist
 Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "../../requirements" >}})
 and make yourself familiar with the requirements for your chosen cloud provider.
 
-For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 2 or 3) installed locally.
+For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 2) installed locally.
 
 ## Installation
 
 To begin the installation, make sure you have a kubeconfig at hand, with a user context that grants `cluster-admin`
 permissions.
 
-### Clone the Installer
+### Download the Installer
 
-Clone the [installer repository](https://github.com/kubermatic/kubermatic-installer) to your disk and make sure to
-checkout the appropriate release branch (`release/vX.Y`). The latest stable release is already the default branch,
-so in most cases there should be no need to switch. Alternatively you can also download a ZIP version from GitHub.
+Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-X.Y.tar.gz) containing the
+Helm charts choosing the appropriate release (`vX.Y`) and extract it. e.g.
 
 ```bash
-git clone https://github.com/kubermatic/kubermatic-installer
-cd kubermatic-installer
+wget https://github.com/kubermatic/kubermatic/releases/download/v2.14.2/kubermatic-2.14.tar.gz
+tar -xzvf kubermatic-2.14.tar.gz
 ```
 
 ### Create a StorageClass
@@ -73,11 +68,7 @@ for more information about the possible parameters for your storage backend.
 
 ### Install Helm's Tiller
 
-{{% notice note %}}
-This step is only required when using Helm 2.
-{{% /notice %}}
-
-When using Helm 2, it's required to setup Tiller inside the cluster. This requires setting up a ClusterRole and
+It's required to setup Tiller inside the cluster. This requires setting up a ClusterRole and
 -Binding, before installing Tiller itself. If your cluster already has Tiller installed in another namespace, you
 can re-use it, but an installation dedicated for Kubermatic is preferred.
 
@@ -92,22 +83,25 @@ helm --service-account tiller --tiller-namespace kubermatic init
 ### Prepare Configuration
 
 Kubermatic ships with a number of Helm charts that need to be installed into the master or seed clusters. These are
-built so they can be configured using a single, shared `values.yaml` file. The required charts are
+built so they can be configured using a single, shared `values.yaml` file. The required charts are:
 
-* **Master cluster:** cert-manager, nginx-ingress-controller, oauth(, iap)
-* **Seed cluster:** nodeport-proxy, minio, s3-exporter
+* **Master cluster:** cert-manager, nginx-ingress-controller, oauth
 
-There are additional charts for the [monitoring]({{< ref "../monitoring_stack" >}}) and [logging stack]({{< ref "../logging_stack" >}})
-which will be discussed in their dedicated chapters, as they are not strictly required for running Kubermatic.
+Optional charts are:
+
+* **Master cluster:** iap, [monitoring]({{< ref "../monitoring_stack" >}}), [logging stack]({{< ref "../logging_stack" >}})
+* **Seed cluster:** minio, s3-exporter
 
 In addition to the `values.yaml` for configuring the charts, a number of options will later be made inside a special
 `KubermaticConfiguration` resource.
 
-A minimal configuration for Helm charts sets these options. The secret keys mentioned below can be generated using any
-password generator or on the shell using `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
+A minimal configuration for Helm charts sets these options. You can find it in the /examples directory of the tarball.
+The secret keys mentioned below can be generated using any password generator or on the shell using 
+`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
+On MacOS, use `brew install gnu-tar` and `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`
 
 ```yaml
-# Dex Is the OpenID Provider for Kubermatic.
+# Dex is the OpenID Provider for Kubermatic.
 dex:
   ingress:
     # configure your base domain, under which the Kubermatic dashboard shall be available
@@ -139,15 +133,6 @@ dex:
     # these are used within Kubermatic to identify the user
     username: "admin"
     userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
-
-kubermaticOperator:
-  # insert the Docker authentication JSON provided by Loodse here
-  imagePullSecret: |
-    {
-      "auths": {
-        "quay.io": {....}
-      }
-    }
 ```
 
 ### Install Dependencies
@@ -217,7 +202,7 @@ kubectl apply -f charts/kubermatic/crd/
 After this, the operator chart can be installed like the previous Helm charts:
 
 ```bash
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic charts/kubermatic-operator/
+helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic kubermatic-operator charts/kubermatic-operator/
 ```
 
 #### Validation
@@ -254,7 +239,9 @@ spec:
     # the values.yaml.
     issuerClientSecret: <dex-kubermatic-oauth-secret-here>
 
-    # these need to be randomly generated
+    # these need to be randomly generated. Those can be generated on the
+    # shell using:
+    # cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32
     issuerCookieKey: <a-random-key>
     serviceAccountKey: <another-random-key>
 
@@ -267,10 +254,11 @@ spec:
     }
 ```
 
-Save the YAML above as `kubermatic.yaml` and apply it like so:
+You can find the YAML above under `examples/kubermatic.example.ce.yaml`
+Apply it like using kubectl:
 
 ```bash
-kubectl apply -f kubermatic.yaml
+kubectl apply -f examples/kubermatic.example.ce.yaml
 ```
 
 This will now cause the operator to being provisioning a master cluster for Kubermatic. You can observe the progress by
@@ -390,6 +378,7 @@ Typical faults include bad DNS records or a misconfigured KubermaticConfiguratio
 With all this in place, you should be able to access https://kubermatic.example.com/ and login either with your static
 password from the `values.yaml` or using any of your chosen connectors. All pods running inside the `kubermatic` namespace
 should now be running. If they are not, check their logs to find out what's broken.
+
 
 ### Next Steps
 

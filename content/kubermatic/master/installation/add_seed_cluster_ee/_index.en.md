@@ -1,17 +1,44 @@
 +++
-title = "Add Seed Cluster for CE"
+title = "Add Seed Cluster for EE"
 date = 2018-08-09T12:07:15+02:00
-weight = 30
-
+weight = 31
+enterprise = true
 +++
 
-
 This document describes how a new seed cluster can be added to an existing Kubermatic master cluster.
+
+{{% notice note %}}
+For smaller scale setups it's also possible to use the existing master cluster as a seed cluster (a "shared"
+cluster installation). In this case both master and seed components will run on the same cluster and in
+the same namespace. You can skip the first step and directly continue with installing the seed dependencies.
+{{% /notice %}}
 
 Plese refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
 about the cluster relationships.
 
+### Install Kubernetes Cluster
+
+First, you need to install a Kubernetes cluster with some additional components. After the installation of
+Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic
+master/seed setup.
+
+To aid in setting up the seed and master clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/),
+which can be used to set up a highly-available Kubernetes cluster. Refer to the [KubeOne readme](https://github.com/kubermatic/kubeone/)
+and [docs](https://github.com/kubermatic/kubeone/tree/master/docs) for details on how to use it.
+
+Please take note of the [recommended hardware and networking requirements](../../requirements/cluster_requirements/)
+before provisioning a cluster.
+
 ### Install Kubermatic Dependencies
+
+When using Helm 2, install Tiller into the seed cluster first:
+
+```bash
+kubectl create namespace kubermatic
+kubectl create serviceaccount -n kubermatic tiller
+kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller
+helm --service-account tiller --tiller-namespace kubermatic init
+```
 
 #### Cluster Backups
 
@@ -61,18 +88,35 @@ helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace s3-exporter s3-exporter charts/s3-exporter/
 ```
 
+### Create Seed Resource
 
-### Add the Seed Resource
+To connect the new seed cluster with the master, you need to create a kubeconfig Secret and a Seed resource
+**in the master cluster**.
 
-To connect the new seed cluster with the master, you need to create a kubeconfig Secret and a Seed resource.
-
-You will add the **master cluster** as the **seed cluster**
+{{% notice warning %}}
+Do not install the `kubermatic-operator` chart into seed clusters. It's possible to run master and seed in the same
+Kubernetes cluster, but this still means only a single operator is deployed into the shared cluster.
+{{% /notice %}}
 
 Make sure the kubeconfig contains static, long-lived credentials. Some cloud providers use custom authentication providers
 (like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic’s usecase because the
-required tools are not installed inside the cluster environment. 
+required tools are not installed inside the cluster environment. You can use the `kubeconfig-serviceaccounts.sh` script from
+the kubermatic-installer repository to automatically create proper service accounts inside the seed cluster with static
+credentials:
 
-The Seed resource needs to be called `kubermatic` and needs to reference the new kubeconfig Secret like so:
+```bash
+./kubeconfig-service-accounts.sh mykubeconfig.yaml
+Cluster: example
+ > context: europe
+ > creating service account kubermatic-seed-account ...
+ > assigning cluster role kubermatic-seed-account-cluster-role ...
+ > reading auth token ...
+ > adding user example-kubermatic-service-account ...
+ > updating cluster context ...
+ > kubeconfig updated
+```
+
+The Seed resource then needs to reference the new kubeconfig Secret like so:
 
 ```yaml
 apiVersion: v1
@@ -88,7 +132,7 @@ data:
 apiVersion: kubermatic.k8s.io/v1
 kind: Seed
 metadata:
-  name: kubermatic
+  name: europe-west1
   namespace: kubermatic
 spec:
   # these two fields are only informational
@@ -118,8 +162,9 @@ NodePort Proxy. By default each user cluster gets a virtual domain name like
 for the Seed from the previous step when `kubermatic.example.com` is the main domain where the
 Kubermatic dashboard/API are available.
 
-To facilitate this, a wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. The target of the
-DNS wildcard record should be the `EXTERNAL-IP` of the `nodeport-proxy` service in the `kubermatic` namespace.
+To facilitate this, a wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. As with
+the other DNS records the exact target depends on whether or not LoadBalancer services are supported
+on the seed.
 
 #### With LoadBalancers
 

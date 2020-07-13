@@ -1,5 +1,5 @@
 +++
-title = "Install Kubermatic CE"
+title = "Install Kubermatic EE"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
 
@@ -95,11 +95,10 @@ Optional charts are:
 In addition to the `values.yaml` for configuring the charts, a number of options will later be made inside a special
 `KubermaticConfiguration` resource.
 
-A minimal configuration for Helm charts sets these options. The secret keys mentioned below can be generated using any
-password generator or on the shell using `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
+A minimal configuration for Helm charts sets these options. You can find it in the /examples directory of the tarball.
+The secret keys mentioned below can be generated using any password generator or on the shell using 
+`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 On MacOS, use `brew install gnu-tar` and `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`
-
-For the purpose of this document, we only need to configure a few things in the values.yaml:
 
 ```yaml
 # Dex is the OpenID Provider for Kubermatic.
@@ -134,23 +133,29 @@ dex:
     # these are used within Kubermatic to identify the user
     username: "admin"
     userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
+
+kubermaticOperator:
+  # Insert the Docker authentication JSON provided by Loodse here
+  imagePullSecret: |
+    {
+      "auths": {
+        "quay.io": {
+          "auth": "...",
+          "email": ""
+	}
+      }
+    }
 ```
 
 ### Install Dependencies
 
 With the configuration prepared, it's now time to install the required Helm charts into the master
 cluster. Take note of where you placed your `values.yaml` and then run the following commands in your
-shell. Note that CRDs are not managed by Helm, so you must apply them manually both when installing
-a component like cert-manager, as well as during any updates later.
+shell:
 
 ```bash
-kubectl apply -f charts/cert-manager/crd/
-
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
-
-kubectl apply -f charts/cert-manager/crd/
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace cert-manager cert-manager charts/cert-manager/
-
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace oauth oauth charts/oauth/
 ```
 
@@ -252,19 +257,23 @@ spec:
     issuerCookieKey: <a-random-key>
     serviceAccountKey: <another-random-key>
 
-  # this needs to match the one in the values.yaml file.
+  # Insert the Docker authentication JSON provided by Loodse here
   imagePullSecret: |
     {
       "auths": {
-        "quay.io": {....}
+        "quay.io": {
+          "auth": "...",
+          "email": ""
+        }
       }
     }
 ```
 
-Save the YAML above as `kubermatic.yaml` and apply it like so:
+You can find the YAML above under `examples/kubermatic.example.ce.yaml`
+Apply it like using kubectl:
 
 ```bash
-kubectl apply -f kubermatic.yaml
+kubectl apply -f examples/kubermatic.example.ee.yaml
 ```
 
 This will now cause the operator to being provisioning a master cluster for Kubermatic. You can observe the progress by

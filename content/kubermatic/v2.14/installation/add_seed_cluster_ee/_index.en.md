@@ -1,5 +1,5 @@
 +++
-title = "Add Seed Cluster for CE"
+title = "Add Seed Cluster for EE"
 date = 2018-08-09T12:07:15+02:00
 weight = 30
 
@@ -50,8 +50,6 @@ minio:
   storageClass: minio-hdd
 ```
 
-It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
-
 #### Install Charts
 
 With this you can install the chart:
@@ -61,10 +59,17 @@ helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace s3-exporter s3-exporter charts/s3-exporter/
 ```
 
+It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
+This will need the creation of a secret named `s3-credentials` in the `s3-exporter` namespace.
+You can use the following command:
+
+```bash
+kubectl create secret -n s3-exporter generic s3-credentials --from-literal=ACCESS_KEY_ID=<aws_access_key_id> --from-literal=SECRET_ACCESS_KEY=<aws_secret_access_key>
+```
 
 ### Add the Seed Resource
 
-To connect the new seed cluster with the master, you need to create a kubeconfig Secret and a Seed resource.
+To connect the new seed cluster with the master, you need to create a Secret containing the kubeconfig and a Seed resource.
 
 You will add the **master cluster** as the **seed cluster**
 
@@ -72,7 +77,7 @@ Make sure the kubeconfig contains static, long-lived credentials. Some cloud pro
 (like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic’s usecase because the
 required tools are not installed inside the cluster environment. 
 
-The Seed resource needs to be called `kubermatic` and needs to reference the new kubeconfig Secret like so:
+You can follow the template below or use the yaml file inside the examples folder of the tarball.
 
 ```yaml
 apiVersion: v1
