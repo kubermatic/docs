@@ -64,7 +64,7 @@ This will need the creation of a secret named `s3-credentials` in the `s3-export
 You can use the following command:
 
 ```bash
-k create secret generic s3-credentials --from-literal=ACCESS_KEY_ID=<aws_access_key_id> --from-literal=SECRET_ACCESS_KEY=<aws_secret_access_key>
+kubectl create secret -n s3-exporter generic s3-credentials --from-literal=ACCESS_KEY_ID=<aws_access_key_id> --from-literal=SECRET_ACCESS_KEY=<aws_secret_access_key>
 ```
 
 ### Add the Seed Resource
@@ -77,7 +77,7 @@ Make sure the kubeconfig contains static, long-lived credentials. Some cloud pro
 (like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic’s usecase because the
 required tools are not installed inside the cluster environment. 
 
-The Seed resource needs to be called `kubermatic` and needs to reference the new kubeconfig Secret like so:
+You can follow the template below or use the yaml file inside the examples folder of the tarball.
 
 ```yaml
 apiVersion: v1
