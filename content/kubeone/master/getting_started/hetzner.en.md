@@ -145,12 +145,12 @@ To get started you can use the following configuration file:
 
 `config.yml`:
 ```yaml
-apiVersion: kubeone.io/v1alpha1
+apiVersion: kubeone.io/v1beta1
 kind: KubeOneCluster
 versions:
   kubernetes: '1.18.0'
 cloudProvider:
-  name: 'hetzner'
+  hetzner: {}
   external: true
 ```
 
@@ -173,7 +173,7 @@ Finally, we're going to install Kubernetes by using the `install` command and
 providing the configuration file:
 
 ```bash
-kubeone install -m config.yaml --tfjson <DIR-WITH-tfstate-FILE>
+kubeone install --manifest config.yaml --tfjson <DIR-WITH-tfstate-FILE>
 ```
 
 Alternatively, if the terraform state file is in the current working directory
@@ -274,7 +274,7 @@ so all worker nodes are deleted. You can do it with the `kubeone reset`
 command:
 
 ```bash
-kubeone reset config.yaml --tfjson <DIR-WITH-tfstate-FILE>
+kubeone reset --manifest config.yaml --tfjson <DIR-WITH-tfstate-FILE>
 ```
 
 This command will wait for all worker nodes to be gone.
