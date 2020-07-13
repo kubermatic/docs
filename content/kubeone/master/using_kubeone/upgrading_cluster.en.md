@@ -51,14 +51,14 @@ the next one.
 Everything you need to do is to run the `upgrade` command:
 
 ```bash
-kubeone upgrade config.yaml
+kubeone upgrade --manifest config.yaml
 ```
 
 If you want to use the Terraform state to source information about the
 infrastructure, use:
 
 ```bash
-kubeone upgrade config.yaml --tfjson tf.json
+kubeone upgrade --manifest config.yaml --tfjson tf.json
 ```
 
 KubeOne first runs the preflight checks as described in the prerequisites

@@ -57,12 +57,12 @@ To enable addons, you need to modify the KubeOne cluster configuration to add
 the `addons` config:
 
 ```yaml
-apiVersion: kubeone.io/v1alpha1
+apiVersion: kubeone.io/v1beta1
 kind: KubeOneCluster
 versions:
   kubernetes: 1.16.1
 cloudProvider:
-  name: aws
+  aws: {}
 # Addons are Kubernetes manifests to be deployed after provisioning the cluster
 addons:
   enable: true

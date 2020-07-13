@@ -51,10 +51,11 @@ unencrypted and thus we DON'T recommend this.
 You can point KubeOne to the unencrypted private SSH key using config API.
 
 ```yaml
-hosts:
-- publicAddress: '1.2.3.4'
-  ...
-  sshPrivateKeyFile: '/home/me/.ssh/my_cleantext_private_key'
+controlPlane:
+  hosts:
+  - publicAddress: '1.2.3.4'
+    ...
+    sshPrivateKeyFile: '/home/me/.ssh/my_cleantext_private_key'
 ```
 
 ### Option 2, terraform output

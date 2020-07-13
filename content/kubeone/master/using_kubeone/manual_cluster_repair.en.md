@@ -160,13 +160,14 @@ instances, effectively disrupting control-plane kubernetes components.
 
 ### What is Leader instance
 
-In KubeOne the Leader instance is the first instance from the `Hosts` in KubeOne
-config file (or `kubeone_hosts` in Terraform output) list. This instance will be
-used to "init" the cluster initially (generate PKI, start the first etcd
-instance, launch different kubernetes control-plane components).
+In KubeOne the Leader instance is the first instance from the `.controlPlane.Hosts`
+in KubeOne config file (or `kubeone_hosts` in Terraform output) list. 
+This instance will be used to "init" the cluster initially (generate PKI,
+start the first etcd instance, launch different kubernetes control-plane
+components).
 
-By default, the first `Host` instance defined in KubeOne config (or
-`kubeone_hosts` in Terraform output) will be a Leader Host.
+By default, the first `.controlPlane.Hosts` instance defined in KubeOne config
+(or `kubeone_hosts` in Terraform output) will be a Leader Host.
 
 It's possible to choose which instance will be a Leader using config or
 Terraform output. Please keep in mind, there can be only 1 Leader Host.
@@ -176,13 +177,14 @@ Terraform output. Please keep in mind, there can be only 1 Leader Host.
 Example config:
 
 ```yaml
-apiVersion: kubeone.io/v1alpha1
+apiVersion: kubeone.io/v1beta1
 kind: KubeOneCluster
 name: demo-cluster
-hosts:
-- privateAddress: '172.18.0.1'
-  ...
-  isLeader: true
+controlPlane:
+  hosts:
+  - privateAddress: '172.18.0.1'
+    ...
+    isLeader: true
 ```
 
 #### Terraform

@@ -203,21 +203,22 @@ If you are managing the infrastructure manually, you need to remove and create
 instances using your preferred method for managing infrastructure. Once the
 new instances are created, update the KubeOne configuration manifest.
 
-The information about the instances are located in the `hosts` part of the
-configuration manifest:
+The information about the instances are located in the `.controlPlane.hosts`
+part of the configuration manifest:
 
 ```yaml
-apiVersion: kubeone.io/v1alpha1
+apiVersion: kubeone.io/v1beta1
 kind: KubeOneCluster
 name: demo-cluster
-hosts:
-- privateAddress: '172.18.0.1'
-  ...
-  isLeader: true
-- privateAddress: '172.18.0.2'
-  ...
-- privateAddress: '172.18.0.3'
-  ...
+controlPlane:
+  hosts:
+  - privateAddress: '172.18.0.1'
+    ...
+    isLeader: true
+  - privateAddress: '172.18.0.2'
+    ...
+  - privateAddress: '172.18.0.3'
+    ...
 ```
 
 ### Option 2: Reset The Cluster Using KubeOne
