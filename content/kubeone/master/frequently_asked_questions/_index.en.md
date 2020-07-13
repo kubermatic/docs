@@ -8,12 +8,18 @@ enableToc = true
 This document is supposed to answer some commonly asked questions about KubeOne,
 what it does, and how it works. If you have any question not covered here,
 please create [a new GitHub issue][1], contact us on the
-[`#kubeone` channel on Kubernetes Slack][2] or on [our mailing list][3].
+[`#kubeone` channel on Kubernetes Slack][2] or on [our community forums][3].
 
 ## What is KubeOne?
 
-KubeOne is a CLI for installing, maintaining and upgrading
-Kubernetes 1.15+ clusters.
+Kubermatic KubeOne is a tool that automates cluster operations on all your
+cloud, on-prem, edge, and IoT environments.
+
+## What Kubernetes versions are supported by KubeOne?
+
+KubeOne only supports versions supported by the [upstream support policy][9].
+While older versions might work, we can't guarantee that and we strongly advise
+that you use only officially supported versions.
 
 ## What cloud providers KubeOne does support?
 
@@ -60,7 +66,7 @@ needed components.
 ## Can I deploy other controller than machine-controller or decide not to deploy and machine-controller?
 
 You can opt out of deploying machine-controller by setting
-`machine_controller.Deploy` to `false`.
+`machineController.Deploy` to `false`.
 
 ## Can I use KubeOne to provision the worker nodes?
 
@@ -85,12 +91,13 @@ SSH requirements.
 
 ## Can I deploy other CNI plugin then Canal?
 
-The operator can choose between deploying Canal and WeaveNet CNI plugins.
-Other CNI plugins can't be deployed automatically.
+KubeOne can deploy Canal and WeaveNet CNI plugins out-of-box, with support
+for allowing operators to deploy CNI plugin of their choice using the
+`external` CNI option.
 
-## Can I use KubeOne to create Kubernetes clusters older than 1.15?
-
-KubeOne only supports versions supported by the [upstream support policy][9].
+The `external` CNI option is usually combined with the [KubeOne Addons][11].
+feature. For example, you can checkout how Calico VXLAN plugin can be deploy
+using [the Calico addon][12].
 
 ## How many versions can I upgrade at the same time?
 
@@ -102,9 +109,9 @@ you'd need to upgrade to 1.14 and then to 1.15.
 
 Please check our [contributing guide][10].
 
-[1]: https://github.com/kubermatic/kubeone/issues
+[1]: https://github.com/kubermatic/kubeone/issues/new/choose
 [2]: http://slack.k8s.io/
-[3]: https://groups.google.com/forum/#!forum/loodse-dev
+[3]: https://forum.kubermatic.com/
 [4]: https://github.com/kubermatic/machine-controller
 [5]: http://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [6]: https://github.com/kubernetes/kubeadm
@@ -112,3 +119,5 @@ Please check our [contributing guide][10].
 [8]: ../using_kubeone/ssh/
 [9]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
 [10]: https://github.com/kubermatic/kubeone/blob/master/CONTRIBUTING.md
+[11]: ../using_kubeone/addons
+[12]: ../using_kubeone/calico-vxlan-addon

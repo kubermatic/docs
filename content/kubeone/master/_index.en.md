@@ -11,10 +11,10 @@ on-prem or bare-metal cluster.
 
 ## Features
 
-* Supports Kubernetes 1.15+ High-Available (HA) clusters
+* Supports all upstream-supported Kubernetes versions
 * Uses kubeadm to provision clusters
 * Comes with a straightforward and easy to use CLI
-* Choice of Linux distributions between Ubuntu, CentOS and CoreOS
+* Choice of Linux distributions between Ubuntu, CentOS/RHEL and CoreOS
 * Integrates with [Cluster-API][5] and [Kubermatic machine-controller][6] to
   manage worker nodes
 * Integrates with Terraform for sourcing data about infrastructure and control
@@ -178,10 +178,10 @@ a new feature or improvement, please check out our [contributing guide][2].
 
 If you want to get in touch with us and discuss about improvements and new
 features, please create a new issue on GitHub or connect with us over the
-mailing list or Slack:
+forums or Slack:
 
 * [`#kubeone` channel][4] on [Kubernetes Slack][10]
-* [loodse-dev mailing list][9]
+* [Kubermatic forums][9]
 
 ## Reporting Bugs
 
@@ -210,7 +210,7 @@ See [the list of releases][3] to find out about feature changes.
 [6]: https://github.com/kubermatic/machine-controller
 [7]: https://github.com/kubermatic/kubeone/tree/master/examples/ansible
 [8]: ./getting_started/aws/
-[9]: https://groups.google.com/forum/#!forum/loodse-dev
+[9]: https://forum.kubermatic.com/
 [10]: http://slack.k8s.io/
 [11]: https://github.com/kubermatic/kubeone/blob/master/CONTRIBUTING.md#reporting-a-security-vulnerability
 [12]: https://github.com/kubermatic/kubeone/issues/471

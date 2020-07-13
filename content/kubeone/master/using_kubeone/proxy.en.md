@@ -6,7 +6,7 @@ date = 2020-04-01T12:00:00+02:00
 Annotated example config with enabled PROXY support:
 
 ```yaml
-apiVersion: kubeone.io/v1alpha1
+apiVersion: kubeone.io/v1beta1
 kind: KubeOneCluster
 name: demo-cluster
 ...
