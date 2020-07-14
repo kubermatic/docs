@@ -6,6 +6,21 @@ weight = 214
 
 +++
 
+## v2.14.2
+
+#### Bugfix
+
+- Fixed Kubermatic operator not to specify unsupported &#39;dynamic-datacenter&#39; flag in CE mode.
+- Fixed Seed validation for Community Edition.
+- Fixed Subnetworks for GCP, because the network filtering was wrong.
+- Fixed label for nodeport-proxy when deployed with the operator.
+
+
+#### Misc
+
+- Change default number of replicas for seed and master controller manager to one.
+- Remove empty Docker secret for Kubermatic Operator CE Helm chart.
+
 ## v2.14.1
 
 - Added missing Flatcar Linux handling in API.
