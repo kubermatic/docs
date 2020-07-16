@@ -4,8 +4,9 @@ date = 2020-04-01T12:00:00+02:00
 +++
 
 Addons are a mechanism used to deploy Kubernetes resources after provisioning
-the cluster. Addons allow operators to use KubeOne to deploy various stacks,
-such as logging and monitoring, backups and recovery, log rotating, and more.
+the cluster. Addons allow operators to use KubeOne to deploy various components
+such as CNI and CCM, and various stacks such as logging and monitoring, backups
+and recovery, log rotating, and more.
 
 This document explains how to use addons in your workflow. If you want to learn
 more about how addons are implemented, you can check the
@@ -71,13 +72,11 @@ addons:
   path: "./addons"
 ```
 
-{{% notice note %}}
 The addons path is normalized on the runtime. If you provide a relative path,
 the path is relative to the KubeOne configuration file. This means that
 `./addons` will be parsed depending on the `kubeone` command you use:
 * `kubeone install -m config.yaml` - `./addons`
 * `kubeone install -m other/dir/config.yaml` - `./other/dir/addons/config.yaml`
-{{% /notice %}}
 
 {{% notice note %}}
 Subdirectories are not considered when applying addons. Only addons in the root
@@ -86,9 +85,10 @@ of the provided directory will be applied.
 
 ## Reconciling Addons
 
-The addons are reconciled after creating/upgrading worker nodes when running
-`kubeone install` or `kubeone upgrade`. The reconciliation is done using
-`kubectl` over SSH, using a command such as:
+The addons are reconciled after initializing and joining the control plane
+nodes nodes when running `kubeone install`, `kubeone upgrade`, or
+`kubeone apply`. The reconciliation is done using `kubectl` over SSH, using a
+command such as:
 
 ```
 kubectl apply -f addons.yaml --prune -l kubeone.io/addon
