@@ -29,12 +29,12 @@ permissions.
 
 ### Download the Installer
 
-Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-X.Y.tar.gz) containing the
+Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-ce-X.Y.tar.gz) containing the
 Helm charts choosing the appropriate release (`vX.Y`) and extract it. e.g.
 
 ```bash
-wget https://github.com/kubermatic/kubermatic/releases/download/v2.14.2/kubermatic-2.14.tar.gz
-tar -xzvf kubermatic-2.14.tar.gz
+wget https://github.com/kubermatic/kubermatic/releases/download/v2.14.2/kubermatic-ce-2.14.tar.gz
+tar -xzvf kubermatic-ce-2.14.tar.gz
 ```
 
 ### Create a StorageClass
@@ -96,7 +96,7 @@ In addition to the `values.yaml` for configuring the charts, a number of options
 `KubermaticConfiguration` resource.
 
 A minimal configuration for Helm charts sets these options. You can find it in the /examples directory of the tarball.
-The secret keys mentioned below can be generated using any password generator or on the shell using 
+The secret keys mentioned below can be generated using any password generator or on the shell using
 `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 On MacOS, use `brew install gnu-tar` and `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`
 
