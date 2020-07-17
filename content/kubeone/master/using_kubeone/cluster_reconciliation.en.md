@@ -71,8 +71,9 @@ The general reconciliation workflow is based on:
 * If the cluster **is provisioned**:
   * If there are **unhealthy control plane nodes**, try to **repair** the cluster
     and/or **instruct** the operator about the needed steps.
-  * If there are **not provisioned** or **unhealthy static worker nodes**, run
-    the installation process (`kubeone install`)
+  * If there are **not provisioned** or **unhealthy static worker nodes**, try
+    to **provision/repair** them and/or **instruct** the operator about the
+    needed steps.
   * If **all control plane and static worker nodes are healthy**:
     * If **upgrade is needed** (mismatch between expected and actual Kubernetes
     versions), run the upgrade process (`kubeone upgrade`).
@@ -95,7 +96,7 @@ a new one, and then run the apply command again.
 If Terraform is used for managing the infrastructure, the `taint` command
 can be used to mark instance for recreation. Running `terraform apply` the
 next time would recreate the instance. Make sure to update the Terraform output
-file by running `kubeone apply` again. For example:
+file by running `terraform apply` again. For example:
 
 ```bash
 terraform taint 'aws_instance.control_plane[<index-of-instance>]'
@@ -110,7 +111,7 @@ recommends which instances are safe to be deleted without affecting the quorum.
 It's strongly advised to follow the order or otherwise you're risking losing
 the quorum and all cluster data. If it's not possible to repair the cluster
 without affecting the quorum, KubeOne will fail to repair the cluster. In that
-case, [disaster recovery](../manual_cluster_recovery/) might required.
+case, [disaster recovery](../manual_cluster_recovery/) might be required.
 {{% /notice %}}
 
 ### Dynamic Workers (MachineDeployments) Reconciliation
@@ -118,7 +119,7 @@ case, [disaster recovery](../manual_cluster_recovery/) might required.
 The apply command doesn't modify or delete existing MachineDeployments.
 The MachineDeployments are created by the apply command only if there's
 another action to be taken, such as install or upgrade. Managing
-MachineDeployments should be by the operator either by using kubectl or
+MachineDeployments should be done by the operator either by using kubectl or
 the Kubernetes API directly.
 
 To make managing MachineDeployments easier, the operator can generate the
@@ -147,7 +148,5 @@ following upgrade command:
 ```bash
 kubeone upgrade --manifest config.yaml -t . --force
 ```
-
-
 
 [apply-proposal]: https://github.com/kubermatic/kubeone/blob/master/docs/proposals/20200224-apply.md
