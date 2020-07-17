@@ -20,6 +20,13 @@ More information about the technical implementation can be found in the
 
 ## Using kubeone apply
 
+Before getting started, make sure you have up-to-date Terraform output
+file if you're using the Terraform integration:
+
+```
+terraform output -json > tf.json
+```
+
 The cluster reconciliation is implemented under the `kubeone apply` command
 which has similar semantics as other KubeOne commands.
 
@@ -70,6 +77,41 @@ The general reconciliation workflow is based on:
     * If **upgrade is needed** (mismatch between expected and actual Kubernetes
     versions), run the upgrade process (`kubeone upgrade`).
       * If there are **new MachineDeployments**, **create** them.
+
+### Repairing Unhealthy Clusters
+
+The apply command has ability to detect is cluster in an unhealthy
+state. The cluster is considered unhealthy if there's at least one
+node that's unhealthy, which can happen if:
+
+* kubelet is failing or not running
+* API server is failing or unhealthy
+* etcd is failing or unhealthy
+
+In such a case, the operator needs to manually delete a broken instance,
+update the KubeOne configuration file to remove the old instance and add
+a new one, and then run the apply command again.
+
+If Terraform is used for managing the infrastructure, the `taint` command
+can be used to mark instance for recreation. Running `terraform apply` the
+next time would recreate the instance. Make sure to update the Terraform output
+file by running `kubeone apply` again. For example:
+
+```bash
+terraform taint 'aws_instance.control_plane[<index-of-instance>]'
+terraform apply
+terraform output -json > tf.json
+```
+
+{{% notice warning %}}
+If there are multiple unhealthy instances, it might be required to replace
+and repair instance by instance in order to maintain the etcd quorum. KubeOne
+recommends which instances are safe to be deleted without affecting the quorum.
+It's strongly advised to follow the order or otherwise you're risking losing
+the quorum and all cluster data. If it's not possible to repair the cluster
+without affecting the quorum, KubeOne will fail to repair the cluster. In that
+case, [disaster recovery](../manual_cluster_recovery/) might required.
+{{% /notice %}}
 
 ### Dynamic Workers (MachineDeployments) Reconciliation
 
