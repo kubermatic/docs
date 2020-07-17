@@ -37,8 +37,12 @@ Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g.
 Helm charts choosing the appropriate release (`vX.Y`) and extract it. e.g.
 
 ```bash
-wget https://github.com/kubermatic/kubermatic/releases/download/v2.14.2/kubermatic-ee-v2.14.2.tar.gz
-tar -xzvf kubermatic-ee-v2.14.2.tar.gz
+# For latest version: 
+VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||') 
+# For specific version set it explicitly: 
+# VERSION=2.14.x
+wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ee-v${VERSION}.tar.gz
+tar -xzvf kubermatic-ee-v${VERSION}.tar.gz
 ```
 
 ### Create a StorageClass
