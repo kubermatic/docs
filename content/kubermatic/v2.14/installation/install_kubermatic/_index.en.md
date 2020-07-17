@@ -33,8 +33,8 @@ Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g.
 Helm charts choosing the appropriate release (`vX.Y`) and extract it. e.g.
 
 ```bash
-wget https://github.com/kubermatic/kubermatic/releases/download/v2.14.2/kubermatic-2.14.tar.gz
-tar -xzvf kubermatic-2.14.tar.gz
+wget https://github.com/kubermatic/kubermatic/releases/download/v2.14.2/kubermatic-ce-v2.14.2.tar.gz 
+tar -xzvf kubermatic-ce-v2.14.2.tar.gz 
 ```
 
 ### Create a StorageClass
@@ -146,6 +146,8 @@ helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_P
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace cert-manager cert-manager charts/cert-manager/
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace oauth oauth charts/oauth/
 ```
+
+Please, make sure that the `cert-manager` is available, before continuing and installing `oauth`, by waiting a minute for its pods to be running (see: *Validation* section below).
 
 #### Validation
 
