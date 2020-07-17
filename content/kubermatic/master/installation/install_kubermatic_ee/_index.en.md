@@ -31,15 +31,14 @@ For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) 
 To begin the installation, make sure you have a kubeconfig at hand, with a user context that grants `cluster-admin`
 permissions.
 
-### Clone the Installer
+### Download the Installer
 
-Clone the [installer repository](https://github.com/kubermatic/kubermatic-installer) to your disk and make sure to
-checkout the appropriate release branch (`release/vX.Y`). The latest stable release is already the default branch,
-so in most cases there should be no need to switch. Alternatively you can also download a ZIP version from GitHub.
+Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-X.Y.tar.gz) containing the
+Helm charts choosing the appropriate release (`vX.Y`) and extract it. e.g.
 
 ```bash
-git clone https://github.com/kubermatic/kubermatic-installer
-cd kubermatic-installer
+wget https://github.com/kubermatic/kubermatic/releases/download/v2.14.2/kubermatic-ee-v2.14.2.tar.gz
+tar -xzvf kubermatic-ee-v2.14.2.tar.gz
 ```
 
 ### Create a StorageClass
@@ -162,6 +161,8 @@ helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_P
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace oauth oauth charts/oauth/
 ```
 
+Please, make sure that the `cert-manager` is available, before continuing and installing `oauth`, by waiting a minute for its pods to be running (see: *Validation* section below).
+
 #### Validation
 
 Before continuing, make sure the charts we just installed are functioning correctly. Check that pods inside the
@@ -259,10 +260,12 @@ spec:
     serviceAccountKey: <another-random-key>
 ```
 
+You can find the YAML above under `examples/kubermatic.example.ee.yaml`
 Save the YAML above as `kubermatic.yaml` and apply it like so:
+Apply it like using kubectl:
 
 ```bash
-kubectl apply -f kubermatic.yaml
+kubectl apply -f examples/kubermatic.example.ee.yaml
 ```
 
 This will now cause the operator to being provisioning a master cluster for Kubermatic. You can observe the progress by
