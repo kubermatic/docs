@@ -30,4 +30,4 @@ You can add and remove nodes in our easy to use dashboard. Just specify the amou
 
 ## Further Information
 
-See [Loodse.com](https://www.loodse.com/).
+See [Kubermatic.com](https://www.kubermatic.com/).
