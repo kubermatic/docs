@@ -6,6 +6,12 @@ weight = 214
 
 +++
 
+## v2.14.3
+
+- Added Kubernetes v1.16.13, and removed v1.16.2-9 in default version configuration
+- Added Kubernetes v1.17.9, and removed v1.17.0-5 in default version configuration
+- Added Kubernetes v1.18.6, and removed v1.18.2 in default version configuration
+
 ## v2.14.2
 
 #### Bugfix
