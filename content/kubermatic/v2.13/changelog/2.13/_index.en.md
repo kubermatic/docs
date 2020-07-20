@@ -6,6 +6,11 @@ weight = 213
 
 +++
 
+## v2.13.7
+
+- Added Kubernetes v1.16.13, and removed v1.16.2-7 in default version configuration
+- Added Kubernetes v1.17.9, and removed v1.17.0-3 in default version configuration
+
 ## v2.13.6
 
 - Fixed a bug preventing editing of existing cluster credential secrets
