@@ -1228,6 +1228,23 @@
           }
         },
         {
+          "alert": "KubermaticAddonTakesTooLongToReconcile",
+          "annotations": {
+            "message": "Addon {{ $labels.addon }} in cluster {{ $labels.cluster }} has no related resources created for more than 30min.",
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticaddonreconciliationtakestoolong"
+          },
+          "expr": "(time() - max by (cluster,addon) (kubermatic_addon_created{resourcesCreated=\"0\"})) > 30*60",
+          "for": "0m",
+          "labels": {
+            "severity": "warning"
+          },
+          "runbook": {
+            "steps": [
+              "Check the kubermatic controller-manager's logs via `kubectl -n kubermatic logs -l 'role=controller-manager'` for errors related to reconciliation of the addon."
+            ]
+          }
+        },
+        {
           "alert": "KubermaticControllerManagerDown",
           "annotations": {
             "message": "KubermaticControllerManager has disappeared from Prometheus target discovery.",
