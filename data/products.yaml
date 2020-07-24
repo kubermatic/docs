@@ -20,6 +20,8 @@ kubeone:
   versions:
     - release: master
       name: master
+    - release: v1.0
+      name: v1.0
 kubecarrier:
   name: KubeCarrier
   logo: "img/header-logo-kubecarrier.png"
