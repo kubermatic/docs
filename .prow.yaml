@@ -36,6 +36,8 @@ presubmits:
     always_run: true
     decorate: true
     optional: true
+    labels: 
+      preset-docker-pull: "true"
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
