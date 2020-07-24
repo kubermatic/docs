@@ -44,12 +44,14 @@ done
 
 # Load kind image
 docker load --input /kindest.tar
-
+echo "Done loading kind image"
 deploy.sh
+echo "done running deploy.sh"
 DOCKER_CONFIG=/ docker run --name controller -d -v /root/.kube/config:/inner -v /etc/kubeconfig/kubeconfig:/outer --network host --privileged ${CONTROLLER_IMAGE} --kubeconfig-inner "/inner" --kubeconfig-outer "/outer" --namespace "default" --build-id "$PROW_JOB_ID"
+echo "done with docker run"
 docker logs -f controller &
 
 expose.sh
-
+echo "done with expose.sh"
 npm run versioninfo
 npm run e2e:local
