@@ -81,7 +81,7 @@ schedule new pods or remove existing ones.
 ## Step 1 — Download and Unpack The Backup
 
 {{% notice note %}}
-In this guide, we will assume that you have used our [backups addon]({{< ref "backups-addon.md" >}})
+In this guide, we will assume that you have used our [backups addon]({{< ref "./backups-addon.md" >}})
 to create and manage backups. You can also use any other solution, but for a
 successful recovery, you will need all files mentioned in this step.
 {{% /notice %}}
@@ -355,7 +355,7 @@ The provisioning process takes about 5-10 minutes. If the cluster endpoint
 the new cluster after some time. Otherwise, the machine-controller will create
 the new worker nodes.
 
-[backups-addon]: {{< ref "backups-addon.md" >}}
-[manual-cluster-repair]: {{< ref "manual_cluster_repair.md" >}}
+[backups-addon]: {{< ref "./backups-addon.md" >}}
+[manual-cluster-repair]: {{< ref "./manual_cluster_repair.md" >}}
 [etcd-faq]: https://github.com/etcd-io/etcd/blob/master/Documentation/faq.md
 [restic]: https://restic.net/
