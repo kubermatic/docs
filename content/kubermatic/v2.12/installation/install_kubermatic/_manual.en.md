@@ -5,6 +5,11 @@ weight = 20
 
 +++
 
+{{% notice warning %}}
+With [Cleanup kubermatic-installer repo](https://github.com/kubermatic/kubermatic/issues/5026) the installer repository is no longer public available.
+This installation manual is kept for reference and those who have access to the installer repository.
+{{% /notice %}}
+
 ### Clone the Installer
 
 Clone the [installer repository](https://github.com/kubermatic/kubermatic-installer) to your disk and make sure to

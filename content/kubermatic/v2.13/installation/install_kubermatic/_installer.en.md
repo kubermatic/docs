@@ -7,6 +7,10 @@ weight = 10
 
 Using the installer is the recommended way of installing Kubermatic into your cluster. It provides a simple web wizard for configuration and automates the installation of all required components.
 
+{{% notice note %}}
+At the moment you need to be invited to get access to Kubermatic's Docker registry before you can try it out. Please [contact sales](mailto:sales@loodse.com) to receive your credentials.
+{{% /notice %}}
+
 ## Quickstart
 
 The installer is available via Docker and can be run by
