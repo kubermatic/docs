@@ -50,6 +50,18 @@ echodate() {
   echo "[$(date -Is)]" "$@"
 }
 
+retry() {
+  # Works only with bash but doesn't fail on other shells
+  start_time=$(date +%s)
+  set +e
+  actual_retry $@
+  rc=$?
+  set -e
+  elapsed_time=$(($(date +%s) - $start_time))
+  write_junit "$rc" "$elapsed_time"
+  return $rc
+}
+
 TEST_NAME="Get Vault token"
 echodate "Getting secrets from Vault"
 export VAULT_ADDR=https://vault.loodse.com/
