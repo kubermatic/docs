@@ -46,6 +46,9 @@ export CYPRESS_KUBERMATIC_DEX_DEV_E2E_PASSWORD="password"
 
 #cd "${GOPATH}/src/github.com/kubermatic/kubermatic"
 #source hack/lib.sh
+echodate() {
+  echo "[$(date -Is)]" "$@"
+}
 
 TEST_NAME="Get Vault token"
 echodate "Getting secrets from Vault"
