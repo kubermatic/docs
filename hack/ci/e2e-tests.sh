@@ -110,6 +110,26 @@ write_junit() {
 </testsuites>
 EOF
 }
+
+appendTrap() {
+  command="$1"
+  signal="$2"
+
+  # Have existing traps, must append
+  if [[ "$(trap -p|grep $signal)" ]]; then
+  existingHandlerName="$(trap -p|grep $signal|awk '{print $3}'|tr -d "'")"
+
+  newHandlerName="${command}_$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13)"
+  # Need eval to get a random func name
+  eval "$newHandlerName() { $command; $existingHandlerName; }"
+  echodate "Appending $command as trap for $signal, existing command $existingHandlerName"
+  trap $newHandlerName $signal
+  # First trap
+  else
+    echodate "Using $command as trap for $signal"
+    trap $command $signal
+  fi
+}
 echodate "Getting secrets from Vault"
 export VAULT_ADDR=https://vault.loodse.com/
 export VAULT_TOKEN=$(vault write \
