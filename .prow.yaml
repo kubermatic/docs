@@ -45,6 +45,8 @@ presubmits:
       - image: quay.io/kubermatic/e2e-kind-cypress:v1.1.1
         command:
         - "./hack/ci/e2e-tests.sh"
+        securityContext:
+          privileged: true
         resources:
           requests:
             cpu: 100m
