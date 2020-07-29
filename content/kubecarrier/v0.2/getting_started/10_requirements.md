@@ -9,10 +9,10 @@ date: 2020-04-24T09:00:00+02:00
 
 To install KubeCarrier you will need a Kubernetes Cluster with the [cert-manager](https://cert-manager.io/docs/) installed.
 
-|Component   |Version       |
-|------------|--------------|
-|Kubernetes  | v1.16, v1.17 |
-|cert-manager| v0.13.0      |
+|Component   |Version              |
+|------------|---------------------|
+|Kubernetes  | v1.16, v1.17, v1.18 |
+|cert-manager| v0.14.0             |
 
 ## Kubernetes Clusters
 
