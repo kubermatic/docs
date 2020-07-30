@@ -2,6 +2,7 @@
 title = "Getting KubeOne"
 date = 2020-07-30T12:00:00+02:00
 weight = 1
+enableToc = true
 +++
 
 ## Install KubeOne using the script
