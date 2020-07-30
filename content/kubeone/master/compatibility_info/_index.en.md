@@ -1,6 +1,6 @@
 +++
-title = "Compatibility Information"
-date = 2020-07-29T12:00:00+02:00
+title = "Compatibility"
+date = 2020-07-30T12:00:00+02:00
 weight = 2
 +++
 
@@ -42,7 +42,7 @@ Kubernetes versions:
   [issue #93194][kubernetes-issue-93194])
 * Releases **older than 1.16.11/1.17.7/1.18.4** as they are affected by
   multiple CVEs
-* On **CentOS 7** releases **other than** 1.18.6/1.17.9/1.16.13 are **not**
+* On **CentOS 7** releases **other than** 1.18.6 and 1.17.9 are **not**
   working properly due to some networking-related issues
 
 ## Supported Terraform Versions

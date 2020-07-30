@@ -49,8 +49,8 @@ upgrade, or scale your worker nodes using kubectl.
 
 ## Getting Started
 
-Check out the [Getting Started]({{< ref "./getting_started" >}}) section to
-learn how to install KubeOne and get started with it.
+Check out the Getting Started section to learn how to install KubeOne and get
+started with it.
 
 ## Getting Involved
 
