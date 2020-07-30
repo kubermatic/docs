@@ -1,6 +1,6 @@
 +++
-title = "Compatibility Information"
-date = 2020-07-29T12:00:00+02:00
+title = "Compatibility"
+date = 2020-07-30T12:00:00+02:00
 weight = 2
 +++
 
