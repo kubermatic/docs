@@ -1,7 +1,8 @@
 +++
 title = "Configuring SSH"
 date = 2020-07-29T12:00:00+02:00
-weight = 1
+weight = 2
+enableToc = true
 +++
 
 KubeOne connects to the instances over SSH in order to execute tasks, such
@@ -9,9 +10,9 @@ as install or upgrade binaries, run kubeadm, deploy manifests, and more.
 
 As SSH access to instances is required, SSH public/private keys should be
 handled somehow. KubeOne doesn't handle decryption of private SSH keys but
-instead rely on `ssh-agent`. In most cases, we recommend using `ssh-agent` as
-the easiest way to have your SSH keys *encrypted* at rest and still useful for
-KubeOne.
+instead rely on `ssh-agent`. In the most of cases, we recommend using
+`ssh-agent` as the easiest way to have your SSH keys encrypted at rest and
+still useful for KubeOne.
 
 ## Creating SSH key
 
@@ -20,22 +21,6 @@ and macOS. If you already have an SSH key, skip this step.
 
 `ssh-keygen` will ask you to provide the path where the key will be stored and
 the passphrase to encrypt the key.
-
-## Deploying SSH key on instances
-
-If you're manually provisioning instances, make sure to copy the contents of
-the public key (e.g. `id_rsa.pub`) to the `~/.ssh/authorized_keys` file on all
-instances. On the most of cloud and on-prem providers, you can specify the
-public key to be deployed on the provisioning time.
-
-If you're using the example Terraform scripts coming with KubeOne, you can
-set the `ssh_public_key_file` variable to path of the public key. The easiest
-way to set the variable is to create a file named `terraform.tfvars` along with
-other Terraform files. The file can look such as:
-
-```toml
-ssh_public_key_file = "~/.ssh/id_rsa.pub"
-```
 
 ## Configuring ssh-agent
 
