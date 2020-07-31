@@ -39,6 +39,7 @@ presubmits:
     labels: 
       preset-docker-pull: "true"
       preset-vault: "true"
+      preset-kind-volume-mounts: "true"
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
