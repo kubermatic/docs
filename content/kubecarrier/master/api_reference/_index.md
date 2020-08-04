@@ -102,7 +102,6 @@ CustomResourceDiscoverySpec describes the desired state of a CustomResourceDisco
 | ----- | ----------- | ------ | -------- |
 | crd | CRD references a CustomResourceDefinition within the ServiceCluster. | [ObjectReference.kubecarrier.io/v1alpha1](#objectreferencekubecarrieriov1alpha1) | true |
 | serviceCluster | ServiceCluster references a ServiceCluster to search the CustomResourceDefinition on. | [ObjectReference.kubecarrier.io/v1alpha1](#objectreferencekubecarrieriov1alpha1) | true |
-| kindOverride | KindOverride overrides the kind of the discovered CRD. | string | false |
 | webhookStrategy | WebhookStrategy configs the webhook of the CRD which is registered in the management cluster by this CustomResourceDiscovery. There are two possible values for this configuration {None (by default), ServiceCluster} None (by default): Webhook will only check if there is an available ServiceClusterAssignment in the current Namespace. ServiceCluster: Webhook will call webhooks of the CRD in the ServiceCluster with dry-run flag. | WebhookStrategyType.kubecarrier.io/v1alpha1 | false |
 
 [Back to Group](#core)
@@ -189,7 +188,6 @@ CustomResourceDiscoverySetSpec describes the desired state of a CustomResourceDi
 | ----- | ----------- | ------ | -------- |
 | crd | CRD references a CustomResourceDefinition within the ServiceCluster. | [ObjectReference.kubecarrier.io/v1alpha1](#objectreferencekubecarrieriov1alpha1) | true |
 | serviceClusterSelector | ServiceClusterSelector references a set of ServiceClusters to search the CustomResourceDefinition on. | [metav1.LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.14/#labelselector-v1-meta) | true |
-| kindOverride | KindOverride overrides the kind of the discovered CRD. | string | false |
 | webhookStrategy | WebhookStrategy configs the webhooks of the CRDs which are registered in the management cluster by this CustomResourceDiscoverySet. There are two possible values for this configuration {None (by default), ServiceCluster} None (by default): Webhook will only check if there is an available ServiceClusterAssignment in the current Namespace. ServiceCluster: Webhook will call webhooks of the CRD in the ServiceCluster with dry-run flag. | WebhookStrategyType.kubecarrier.io/v1alpha1 | false |
 
 [Back to Group](#core)
@@ -380,58 +378,116 @@ ObjectReference describes the link to another object in the same Namespace.
 [Back to Group](#core)
 ## Catalog
 
-The `catalog.kubecarrier.io` API group contains all objects that are used to setup service catalogs in KubeCarrier.
+The `catalog.kubecarrier.io` API group contains all objects that are used to setup service hubs in KubeCarrier.
 
-* [Account.catalog.kubecarrier.io/v1alpha1](#accountcatalogkubecarrieriov1alpha1)
-* [AccountCondition.catalog.kubecarrier.io/v1alpha1](#accountconditioncatalogkubecarrieriov1alpha1)
-* [AccountList.catalog.kubecarrier.io/v1alpha1](#accountlistcatalogkubecarrieriov1alpha1)
-* [AccountMetadata.catalog.kubecarrier.io/v1alpha1](#accountmetadatacatalogkubecarrieriov1alpha1)
-* [AccountSpec.catalog.kubecarrier.io/v1alpha1](#accountspeccatalogkubecarrieriov1alpha1)
-* [AccountStatus.catalog.kubecarrier.io/v1alpha1](#accountstatuscatalogkubecarrieriov1alpha1)
-* [Catalog.catalog.kubecarrier.io/v1alpha1](#catalogcatalogkubecarrieriov1alpha1)
-* [CatalogCondition.catalog.kubecarrier.io/v1alpha1](#catalogconditioncatalogkubecarrieriov1alpha1)
-* [CatalogList.catalog.kubecarrier.io/v1alpha1](#cataloglistcatalogkubecarrieriov1alpha1)
-* [CatalogSpec.catalog.kubecarrier.io/v1alpha1](#catalogspeccatalogkubecarrieriov1alpha1)
-* [CatalogStatus.catalog.kubecarrier.io/v1alpha1](#catalogstatuscatalogkubecarrieriov1alpha1)
-* [CatalogEntry.catalog.kubecarrier.io/v1alpha1](#catalogentrycatalogkubecarrieriov1alpha1)
-* [CatalogEntryCondition.catalog.kubecarrier.io/v1alpha1](#catalogentryconditioncatalogkubecarrieriov1alpha1)
-* [CatalogEntryList.catalog.kubecarrier.io/v1alpha1](#catalogentrylistcatalogkubecarrieriov1alpha1)
-* [CatalogEntryMetadata.catalog.kubecarrier.io/v1alpha1](#catalogentrymetadatacatalogkubecarrieriov1alpha1)
-* [CatalogEntrySpec.catalog.kubecarrier.io/v1alpha1](#catalogentryspeccatalogkubecarrieriov1alpha1)
-* [CatalogEntryStatus.catalog.kubecarrier.io/v1alpha1](#catalogentrystatuscatalogkubecarrieriov1alpha1)
-* [DerivedConfig.catalog.kubecarrier.io/v1alpha1](#derivedconfigcatalogkubecarrieriov1alpha1)
-* [CatalogEntrySet.catalog.kubecarrier.io/v1alpha1](#catalogentrysetcatalogkubecarrieriov1alpha1)
-* [CatalogEntrySetCondition.catalog.kubecarrier.io/v1alpha1](#catalogentrysetconditioncatalogkubecarrieriov1alpha1)
-* [CatalogEntrySetList.catalog.kubecarrier.io/v1alpha1](#catalogentrysetlistcatalogkubecarrieriov1alpha1)
-* [CatalogEntrySetMetadata.catalog.kubecarrier.io/v1alpha1](#catalogentrysetmetadatacatalogkubecarrieriov1alpha1)
-* [CatalogEntrySetSpec.catalog.kubecarrier.io/v1alpha1](#catalogentrysetspeccatalogkubecarrieriov1alpha1)
-* [CatalogEntrySetStatus.catalog.kubecarrier.io/v1alpha1](#catalogentrysetstatuscatalogkubecarrieriov1alpha1)
-* [CustomResourceDiscoverySetConfig.catalog.kubecarrier.io/v1alpha1](#customresourcediscoverysetconfigcatalogkubecarrieriov1alpha1)
-* [CRDInformation.catalog.kubecarrier.io/v1alpha1](#crdinformationcatalogkubecarrieriov1alpha1)
-* [CRDVersion.catalog.kubecarrier.io/v1alpha1](#crdversioncatalogkubecarrieriov1alpha1)
-* [DerivedCustomResource.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourcecatalogkubecarrieriov1alpha1)
-* [DerivedCustomResourceCondition.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourceconditioncatalogkubecarrieriov1alpha1)
-* [DerivedCustomResourceList.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourcelistcatalogkubecarrieriov1alpha1)
-* [DerivedCustomResourceSpec.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourcespeccatalogkubecarrieriov1alpha1)
-* [DerivedCustomResourceStatus.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourcestatuscatalogkubecarrieriov1alpha1)
-* [FieldPath.catalog.kubecarrier.io/v1alpha1](#fieldpathcatalogkubecarrieriov1alpha1)
-* [VersionExposeConfig.catalog.kubecarrier.io/v1alpha1](#versionexposeconfigcatalogkubecarrieriov1alpha1)
-* [Offering.catalog.kubecarrier.io/v1alpha1](#offeringcatalogkubecarrieriov1alpha1)
-* [OfferingList.catalog.kubecarrier.io/v1alpha1](#offeringlistcatalogkubecarrieriov1alpha1)
-* [OfferingMetadata.catalog.kubecarrier.io/v1alpha1](#offeringmetadatacatalogkubecarrieriov1alpha1)
-* [OfferingSpec.catalog.kubecarrier.io/v1alpha1](#offeringspeccatalogkubecarrieriov1alpha1)
-* [Provider.catalog.kubecarrier.io/v1alpha1](#providercatalogkubecarrieriov1alpha1)
-* [ProviderList.catalog.kubecarrier.io/v1alpha1](#providerlistcatalogkubecarrieriov1alpha1)
-* [ProviderSpec.catalog.kubecarrier.io/v1alpha1](#providerspeccatalogkubecarrieriov1alpha1)
-* [Region.catalog.kubecarrier.io/v1alpha1](#regioncatalogkubecarrieriov1alpha1)
-* [RegionList.catalog.kubecarrier.io/v1alpha1](#regionlistcatalogkubecarrieriov1alpha1)
-* [RegionSpec.catalog.kubecarrier.io/v1alpha1](#regionspeccatalogkubecarrieriov1alpha1)
-* [Tenant.catalog.kubecarrier.io/v1alpha1](#tenantcatalogkubecarrieriov1alpha1)
-* [TenantList.catalog.kubecarrier.io/v1alpha1](#tenantlistcatalogkubecarrieriov1alpha1)
-* [TenantSpec.catalog.kubecarrier.io/v1alpha1](#tenantspeccatalogkubecarrieriov1alpha1)
-* [CommonMetadata.catalog.kubecarrier.io/v1alpha1](#commonmetadatacatalogkubecarrieriov1alpha1)
-* [Image.catalog.kubecarrier.io/v1alpha1](#imagecatalogkubecarrieriov1alpha1)
-* [ObjectReference.catalog.kubecarrier.io/v1alpha1](#objectreferencecatalogkubecarrieriov1alpha1)
+- [Core](#core)
+  - [CustomResourceDiscovery.kubecarrier.io/v1alpha1](#customresourcediscoverykubecarrieriov1alpha1)
+  - [CustomResourceDiscoveryCondition.kubecarrier.io/v1alpha1](#customresourcediscoveryconditionkubecarrieriov1alpha1)
+  - [CustomResourceDiscoveryList.kubecarrier.io/v1alpha1](#customresourcediscoverylistkubecarrieriov1alpha1)
+  - [CustomResourceDiscoverySpec.kubecarrier.io/v1alpha1](#customresourcediscoveryspeckubecarrieriov1alpha1)
+  - [CustomResourceDiscoveryStatus.kubecarrier.io/v1alpha1](#customresourcediscoverystatuskubecarrieriov1alpha1)
+  - [CustomResourceDiscoverySet.kubecarrier.io/v1alpha1](#customresourcediscoverysetkubecarrieriov1alpha1)
+  - [CustomResourceDiscoverySetCRDReference.kubecarrier.io/v1alpha1](#customresourcediscoverysetcrdreferencekubecarrieriov1alpha1)
+  - [CustomResourceDiscoverySetCondition.kubecarrier.io/v1alpha1](#customresourcediscoverysetconditionkubecarrieriov1alpha1)
+  - [CustomResourceDiscoverySetList.kubecarrier.io/v1alpha1](#customresourcediscoverysetlistkubecarrieriov1alpha1)
+  - [CustomResourceDiscoverySetSpec.kubecarrier.io/v1alpha1](#customresourcediscoverysetspeckubecarrieriov1alpha1)
+  - [CustomResourceDiscoverySetStatus.kubecarrier.io/v1alpha1](#customresourcediscoverysetstatuskubecarrieriov1alpha1)
+  - [ServiceCluster.kubecarrier.io/v1alpha1](#serviceclusterkubecarrieriov1alpha1)
+  - [ServiceClusterCondition.kubecarrier.io/v1alpha1](#serviceclusterconditionkubecarrieriov1alpha1)
+  - [ServiceClusterList.kubecarrier.io/v1alpha1](#serviceclusterlistkubecarrieriov1alpha1)
+  - [ServiceClusterMetadata.kubecarrier.io/v1alpha1](#serviceclustermetadatakubecarrieriov1alpha1)
+  - [ServiceClusterSpec.kubecarrier.io/v1alpha1](#serviceclusterspeckubecarrieriov1alpha1)
+  - [ServiceClusterStatus.kubecarrier.io/v1alpha1](#serviceclusterstatuskubecarrieriov1alpha1)
+  - [ServiceClusterAssignment.kubecarrier.io/v1alpha1](#serviceclusterassignmentkubecarrieriov1alpha1)
+  - [ServiceClusterAssignmentCondition.kubecarrier.io/v1alpha1](#serviceclusterassignmentconditionkubecarrieriov1alpha1)
+  - [ServiceClusterAssignmentList.kubecarrier.io/v1alpha1](#serviceclusterassignmentlistkubecarrieriov1alpha1)
+  - [ServiceClusterAssignmentSpec.kubecarrier.io/v1alpha1](#serviceclusterassignmentspeckubecarrieriov1alpha1)
+  - [ServiceClusterAssignmentStatus.kubecarrier.io/v1alpha1](#serviceclusterassignmentstatuskubecarrieriov1alpha1)
+  - [ObjectReference.kubecarrier.io/v1alpha1](#objectreferencekubecarrieriov1alpha1)
+- [Catalog](#catalog)
+  - [Account.catalog.kubecarrier.io/v1alpha1](#accountcatalogkubecarrieriov1alpha1)
+  - [AccountCondition.catalog.kubecarrier.io/v1alpha1](#accountconditioncatalogkubecarrieriov1alpha1)
+  - [AccountList.catalog.kubecarrier.io/v1alpha1](#accountlistcatalogkubecarrieriov1alpha1)
+  - [AccountMetadata.catalog.kubecarrier.io/v1alpha1](#accountmetadatacatalogkubecarrieriov1alpha1)
+  - [AccountSpec.catalog.kubecarrier.io/v1alpha1](#accountspeccatalogkubecarrieriov1alpha1)
+  - [AccountStatus.catalog.kubecarrier.io/v1alpha1](#accountstatuscatalogkubecarrieriov1alpha1)
+  - [Catalog.catalog.kubecarrier.io/v1alpha1](#catalogcatalogkubecarrieriov1alpha1)
+  - [CatalogCondition.catalog.kubecarrier.io/v1alpha1](#catalogconditioncatalogkubecarrieriov1alpha1)
+  - [CatalogList.catalog.kubecarrier.io/v1alpha1](#cataloglistcatalogkubecarrieriov1alpha1)
+  - [CatalogSpec.catalog.kubecarrier.io/v1alpha1](#catalogspeccatalogkubecarrieriov1alpha1)
+  - [CatalogStatus.catalog.kubecarrier.io/v1alpha1](#catalogstatuscatalogkubecarrieriov1alpha1)
+  - [CatalogEntry.catalog.kubecarrier.io/v1alpha1](#catalogentrycatalogkubecarrieriov1alpha1)
+  - [CatalogEntryCondition.catalog.kubecarrier.io/v1alpha1](#catalogentryconditioncatalogkubecarrieriov1alpha1)
+  - [CatalogEntryList.catalog.kubecarrier.io/v1alpha1](#catalogentrylistcatalogkubecarrieriov1alpha1)
+  - [CatalogEntryMetadata.catalog.kubecarrier.io/v1alpha1](#catalogentrymetadatacatalogkubecarrieriov1alpha1)
+  - [CatalogEntrySpec.catalog.kubecarrier.io/v1alpha1](#catalogentryspeccatalogkubecarrieriov1alpha1)
+  - [CatalogEntryStatus.catalog.kubecarrier.io/v1alpha1](#catalogentrystatuscatalogkubecarrieriov1alpha1)
+  - [DerivedConfig.catalog.kubecarrier.io/v1alpha1](#derivedconfigcatalogkubecarrieriov1alpha1)
+  - [CatalogEntrySet.catalog.kubecarrier.io/v1alpha1](#catalogentrysetcatalogkubecarrieriov1alpha1)
+  - [CatalogEntrySetCondition.catalog.kubecarrier.io/v1alpha1](#catalogentrysetconditioncatalogkubecarrieriov1alpha1)
+  - [CatalogEntrySetList.catalog.kubecarrier.io/v1alpha1](#catalogentrysetlistcatalogkubecarrieriov1alpha1)
+  - [CatalogEntrySetMetadata.catalog.kubecarrier.io/v1alpha1](#catalogentrysetmetadatacatalogkubecarrieriov1alpha1)
+  - [CatalogEntrySetSpec.catalog.kubecarrier.io/v1alpha1](#catalogentrysetspeccatalogkubecarrieriov1alpha1)
+  - [CatalogEntrySetStatus.catalog.kubecarrier.io/v1alpha1](#catalogentrysetstatuscatalogkubecarrieriov1alpha1)
+  - [CustomResourceDiscoverySetConfig.catalog.kubecarrier.io/v1alpha1](#customresourcediscoverysetconfigcatalogkubecarrieriov1alpha1)
+  - [CRDInformation.catalog.kubecarrier.io/v1alpha1](#crdinformationcatalogkubecarrieriov1alpha1)
+  - [CRDVersion.catalog.kubecarrier.io/v1alpha1](#crdversioncatalogkubecarrieriov1alpha1)
+  - [DerivedCustomResource.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourcecatalogkubecarrieriov1alpha1)
+  - [DerivedCustomResourceCondition.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourceconditioncatalogkubecarrieriov1alpha1)
+  - [DerivedCustomResourceList.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourcelistcatalogkubecarrieriov1alpha1)
+  - [DerivedCustomResourceSpec.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourcespeccatalogkubecarrieriov1alpha1)
+  - [DerivedCustomResourceStatus.catalog.kubecarrier.io/v1alpha1](#derivedcustomresourcestatuscatalogkubecarrieriov1alpha1)
+  - [FieldPath.catalog.kubecarrier.io/v1alpha1](#fieldpathcatalogkubecarrieriov1alpha1)
+  - [VersionExposeConfig.catalog.kubecarrier.io/v1alpha1](#versionexposeconfigcatalogkubecarrieriov1alpha1)
+  - [Offering.catalog.kubecarrier.io/v1alpha1](#offeringcatalogkubecarrieriov1alpha1)
+  - [OfferingList.catalog.kubecarrier.io/v1alpha1](#offeringlistcatalogkubecarrieriov1alpha1)
+  - [OfferingMetadata.catalog.kubecarrier.io/v1alpha1](#offeringmetadatacatalogkubecarrieriov1alpha1)
+  - [OfferingSpec.catalog.kubecarrier.io/v1alpha1](#offeringspeccatalogkubecarrieriov1alpha1)
+  - [Provider.catalog.kubecarrier.io/v1alpha1](#providercatalogkubecarrieriov1alpha1)
+  - [ProviderList.catalog.kubecarrier.io/v1alpha1](#providerlistcatalogkubecarrieriov1alpha1)
+  - [ProviderSpec.catalog.kubecarrier.io/v1alpha1](#providerspeccatalogkubecarrieriov1alpha1)
+  - [Region.catalog.kubecarrier.io/v1alpha1](#regioncatalogkubecarrieriov1alpha1)
+  - [RegionList.catalog.kubecarrier.io/v1alpha1](#regionlistcatalogkubecarrieriov1alpha1)
+  - [RegionSpec.catalog.kubecarrier.io/v1alpha1](#regionspeccatalogkubecarrieriov1alpha1)
+  - [Tenant.catalog.kubecarrier.io/v1alpha1](#tenantcatalogkubecarrieriov1alpha1)
+  - [TenantList.catalog.kubecarrier.io/v1alpha1](#tenantlistcatalogkubecarrieriov1alpha1)
+  - [TenantSpec.catalog.kubecarrier.io/v1alpha1](#tenantspeccatalogkubecarrieriov1alpha1)
+  - [CommonMetadata.catalog.kubecarrier.io/v1alpha1](#commonmetadatacatalogkubecarrieriov1alpha1)
+  - [Image.catalog.kubecarrier.io/v1alpha1](#imagecatalogkubecarrieriov1alpha1)
+  - [ObjectReference.catalog.kubecarrier.io/v1alpha1](#objectreferencecatalogkubecarrieriov1alpha1)
+- [Operator](#operator)
+  - [APIServer.operator.kubecarrier.io/v1alpha1](#apiserveroperatorkubecarrieriov1alpha1)
+  - [APIServerCondition.operator.kubecarrier.io/v1alpha1](#apiserverconditionoperatorkubecarrieriov1alpha1)
+  - [APIServerList.operator.kubecarrier.io/v1alpha1](#apiserverlistoperatorkubecarrieriov1alpha1)
+  - [APIServerOIDCConfig.operator.kubecarrier.io/v1alpha1](#apiserveroidcconfigoperatorkubecarrieriov1alpha1)
+  - [APIServerSpec.operator.kubecarrier.io/v1alpha1](#apiserverspecoperatorkubecarrieriov1alpha1)
+  - [APIServerStatus.operator.kubecarrier.io/v1alpha1](#apiserverstatusoperatorkubecarrieriov1alpha1)
+  - [Anonymous.operator.kubecarrier.io/v1alpha1](#anonymousoperatorkubecarrieriov1alpha1)
+  - [AuthenticationConfig.operator.kubecarrier.io/v1alpha1](#authenticationconfigoperatorkubecarrieriov1alpha1)
+  - [ServiceAccount.operator.kubecarrier.io/v1alpha1](#serviceaccountoperatorkubecarrieriov1alpha1)
+  - [StaticUsers.operator.kubecarrier.io/v1alpha1](#staticusersoperatorkubecarrieriov1alpha1)
+  - [Catapult.operator.kubecarrier.io/v1alpha1](#catapultoperatorkubecarrieriov1alpha1)
+  - [CatapultCondition.operator.kubecarrier.io/v1alpha1](#catapultconditionoperatorkubecarrieriov1alpha1)
+  - [CatapultList.operator.kubecarrier.io/v1alpha1](#catapultlistoperatorkubecarrieriov1alpha1)
+  - [CatapultSpec.operator.kubecarrier.io/v1alpha1](#catapultspecoperatorkubecarrieriov1alpha1)
+  - [CatapultStatus.operator.kubecarrier.io/v1alpha1](#catapultstatusoperatorkubecarrieriov1alpha1)
+  - [Elevator.operator.kubecarrier.io/v1alpha1](#elevatoroperatorkubecarrieriov1alpha1)
+  - [ElevatorCondition.operator.kubecarrier.io/v1alpha1](#elevatorconditionoperatorkubecarrieriov1alpha1)
+  - [ElevatorList.operator.kubecarrier.io/v1alpha1](#elevatorlistoperatorkubecarrieriov1alpha1)
+  - [ElevatorSpec.operator.kubecarrier.io/v1alpha1](#elevatorspecoperatorkubecarrieriov1alpha1)
+  - [ElevatorStatus.operator.kubecarrier.io/v1alpha1](#elevatorstatusoperatorkubecarrieriov1alpha1)
+  - [Ferry.operator.kubecarrier.io/v1alpha1](#ferryoperatorkubecarrieriov1alpha1)
+  - [FerryCondition.operator.kubecarrier.io/v1alpha1](#ferryconditionoperatorkubecarrieriov1alpha1)
+  - [FerryList.operator.kubecarrier.io/v1alpha1](#ferrylistoperatorkubecarrieriov1alpha1)
+  - [FerrySpec.operator.kubecarrier.io/v1alpha1](#ferryspecoperatorkubecarrieriov1alpha1)
+  - [FerryStatus.operator.kubecarrier.io/v1alpha1](#ferrystatusoperatorkubecarrieriov1alpha1)
+  - [KubeCarrier.operator.kubecarrier.io/v1alpha1](#kubecarrieroperatorkubecarrieriov1alpha1)
+  - [KubeCarrierCondition.operator.kubecarrier.io/v1alpha1](#kubecarrierconditionoperatorkubecarrieriov1alpha1)
+  - [KubeCarrierList.operator.kubecarrier.io/v1alpha1](#kubecarrierlistoperatorkubecarrieriov1alpha1)
+  - [KubeCarrierSpec.operator.kubecarrier.io/v1alpha1](#kubecarrierspecoperatorkubecarrieriov1alpha1)
+  - [KubeCarrierStatus.operator.kubecarrier.io/v1alpha1](#kubecarrierstatusoperatorkubecarrieriov1alpha1)
+  - [CRDReference.operator.kubecarrier.io/v1alpha1](#crdreferenceoperatorkubecarrieriov1alpha1)
+  - [ObjectReference.operator.kubecarrier.io/v1alpha1](#objectreferenceoperatorkubecarrieriov1alpha1)
 
 ### Account.catalog.kubecarrier.io/v1alpha1
 
@@ -629,7 +685,6 @@ spec:
   baseCRD:
     name: couchdbs.eu-west-1.loodse
   derive:
-    kindOverride: CouchDBPublic
     expose:
     - versions:
       - v1alpha1
@@ -716,7 +771,6 @@ DerivedConfig can be used to limit fields that should be exposed to a Tenant.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| kindOverride | overrides the kind of the derived CRD. | string | false |
 | expose | controls which fields will be present in the derived CRD. | [][VersionExposeConfig.catalog.kubecarrier.io/v1alpha1](#versionexposeconfigcatalogkubecarrieriov1alpha1) | true |
 
 [Back to Group](#catalog)
@@ -816,7 +870,6 @@ CatalogEntrySetStatus defines the observed state of CatalogEntrySet.
 | ----- | ----------- | ------ | -------- |
 | crd | CRD references a CustomResourceDefinition within the ServiceCluster. | [ObjectReference.catalog.kubecarrier.io/v1alpha1](#objectreferencecatalogkubecarrieriov1alpha1) | true |
 | serviceClusterSelector | ServiceClusterSelector references a set of ServiceClusters to search the CustomResourceDefinition on. | [metav1.LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.14/#labelselector-v1-meta) | true |
-| kindOverride | KindOverride overrides resulting internal CRDs kind | string | false |
 | webhookStrategy | WebhookStrategy configs the webhook of the CRD which is registered in the management cluster by CustomResourceDiscovery object. There are two possible values for this configuration {None (by default), ServiceCluster} None (by default): Webhook will only check if there is an available ServiceClusterAssignment in the current Namespace. ServiceCluster: Webhook will call webhooks of the CRD in the ServiceCluster with dry-run flag. | corev1alpha1.WebhookStrategyType | false |
 
 [Back to Group](#catalog)
@@ -844,6 +897,7 @@ CRDVersion holds CRD version specific details.
 | ----- | ----------- | ------ | -------- |
 | name | Name of this version, for example: v1, v1alpha1, v1beta1 | string | true |
 | schema | Schema of this CRD version. | *apiextensionsv1.CustomResourceValidation | false |
+| storage | Storage indicates this version should be used when persisting custom resources to storage. There must be exactly one version with storage=true. | bool | false |
 
 [Back to Group](#catalog)
 
@@ -891,7 +945,6 @@ DerivedCustomResourceSpec defines the desired state of DerivedCustomResource.
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | baseCRD | CRD that should be used as a base to derive a new CRD from. | [ObjectReference.catalog.kubecarrier.io/v1alpha1](#objectreferencecatalogkubecarrieriov1alpha1) | true |
-| kindOverride | overrides the kind of the derived CRD. | string | false |
 | expose | controls which fields will be present in the derived CRD. | [][VersionExposeConfig.catalog.kubecarrier.io/v1alpha1](#versionexposeconfigcatalogkubecarrieriov1alpha1) | true |
 
 [Back to Group](#catalog)
@@ -1121,6 +1174,9 @@ The `operator.kubecarrier.io` API group contains objects to interact with the Ku
 * [APIServerOIDCConfig.operator.kubecarrier.io/v1alpha1](#apiserveroidcconfigoperatorkubecarrieriov1alpha1)
 * [APIServerSpec.operator.kubecarrier.io/v1alpha1](#apiserverspecoperatorkubecarrieriov1alpha1)
 * [APIServerStatus.operator.kubecarrier.io/v1alpha1](#apiserverstatusoperatorkubecarrieriov1alpha1)
+* [Anonymous.operator.kubecarrier.io/v1alpha1](#anonymousoperatorkubecarrieriov1alpha1)
+* [AuthenticationConfig.operator.kubecarrier.io/v1alpha1](#authenticationconfigoperatorkubecarrieriov1alpha1)
+* [ServiceAccount.operator.kubecarrier.io/v1alpha1](#serviceaccountoperatorkubecarrieriov1alpha1)
 * [StaticUsers.operator.kubecarrier.io/v1alpha1](#staticusersoperatorkubecarrieriov1alpha1)
 * [Catapult.operator.kubecarrier.io/v1alpha1](#catapultoperatorkubecarrieriov1alpha1)
 * [CatapultCondition.operator.kubecarrier.io/v1alpha1](#catapultconditionoperatorkubecarrieriov1alpha1)
@@ -1190,7 +1246,6 @@ APIServerList contains a list of APIServer
 | ----- | ----------- | ------ | -------- |
 | issuerURL | IssuerURL is the URL the provider signs ID Tokens as. This will be the \"iss\" field of all tokens produced by the provider and is used for configuration discovery.\n\nThe URL is usually the provider's URL without a path, for example \"https://accounts.google.com\" or \"https://login.salesforce.com\".\n\nThe provider must implement configuration discovery. See: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig | string | true |
 | clientID | ClientID the JWT must be issued for, the \"sub\" field. This plugin only trusts a single client to ensure the plugin can be used with public providers.\n\nThe plugin supports the \"authorized party\" OpenID Connect claim, which allows specialized providers to issue tokens to a client for a different client. See: https://openid.net/specs/openid-connect-core-1_0.html#IDToken | string | true |
-| apiAudiences | APIAudiences are the audiences that the API server identitifes as. The (API audiences unioned with the ClientIDs) should have a non-empty intersection with the request's target audience. This preserves the behavior of the OIDC authenticator pre-introduction of API audiences. | authenticator.Audiences | false |
 | certificateAuthority | CertificateAuthority references the secret containing issuer's CA in a PEM encoded root certificate of the provider. | [ObjectReference.operator.kubecarrier.io/v1alpha1](#objectreferenceoperatorkubecarrieriov1alpha1) | true |
 | usernameClaim | UsernameClaim is the JWT field to use as the user's username. | string | true |
 | usernamePrefix | UsernamePrefix, if specified, causes claims mapping to username to be prefix with the provided value. A value \"oidc:\" would result in usernames like \"oidc:john\". | string | false |
@@ -1208,8 +1263,8 @@ APIServerSpec defines the desired state of APIServer
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | tlsSecretRef | TLSSecretRef references the TLS certificate and private key for serving the KubeCarrier API. | *[ObjectReference.operator.kubecarrier.io/v1alpha1](#objectreferenceoperatorkubecarrieriov1alpha1) | false |
-| oidc | OIDC specifies OpenID Connect configuration for API Server authentication | *[APIServerOIDCConfig.operator.kubecarrier.io/v1alpha1](#apiserveroidcconfigoperatorkubecarrieriov1alpha1) | false |
-| staticUsers | StaticUsers specifies static users configuration for API Server authentication | *[StaticUsers.operator.kubecarrier.io/v1alpha1](#staticusersoperatorkubecarrieriov1alpha1) | false |
+| authentication | Authentication configuration | Authentication.operator.kubecarrier.io/v1alpha1 | false |
+| logLevel | LogLevel | *int.operator.kubecarrier.io/v1alpha1 | false |
 
 [Back to Group](#operator)
 
@@ -1222,6 +1277,37 @@ APIServerStatus defines the observed state of APIServer
 | observedGeneration | ObservedGeneration is the most recent generation observed for this APIServer by the controller. | int64 | false |
 | conditions | Conditions represents the latest available observations of a APIServer's current state. | [][APIServerCondition.operator.kubecarrier.io/v1alpha1](#apiserverconditionoperatorkubecarrieriov1alpha1) | false |
 | phase | DEPRECATED. Phase represents the current lifecycle state of this object. Consider this field DEPRECATED, it will be removed as soon as there is a mechanism to map conditions to strings when printing the property. This is only for display purpose, for everything else use conditions. | APIServerPhaseType.operator.kubecarrier.io/v1alpha1 | false |
+
+[Back to Group](#operator)
+
+### Anonymous.operator.kubecarrier.io/v1alpha1
+
+
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+
+[Back to Group](#operator)
+
+### AuthenticationConfig.operator.kubecarrier.io/v1alpha1
+
+
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| oidc | OIDC specifies OpenID Connect configuration for API Server authentication | *[APIServerOIDCConfig.operator.kubecarrier.io/v1alpha1](#apiserveroidcconfigoperatorkubecarrieriov1alpha1) | false |
+| staticUsers | StaticUsers specifies static users configuration for API Server authentication | *[StaticUsers.operator.kubecarrier.io/v1alpha1](#staticusersoperatorkubecarrieriov1alpha1) | false |
+| serviceAccount | ServiceAccount specifies whether service account auth provider enabled | *[ServiceAccount.operator.kubecarrier.io/v1alpha1](#serviceaccountoperatorkubecarrieriov1alpha1) | false |
+| anonymous | Anonymous specifies whether anonymous auth provider enabled | *[Anonymous.operator.kubecarrier.io/v1alpha1](#anonymousoperatorkubecarrieriov1alpha1) | false |
+
+[Back to Group](#operator)
+
+### ServiceAccount.operator.kubecarrier.io/v1alpha1
+
+
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
 
 [Back to Group](#operator)
 
@@ -1284,6 +1370,8 @@ CatapultSpec defines the desired state of Catapult.
 | serviceClusterCRD | References the CRD in the ServiceCluster. | [CRDReference.operator.kubecarrier.io/v1alpha1](#crdreferenceoperatorkubecarrieriov1alpha1) | true |
 | serviceCluster | References the ServiceCluster object that this object belongs to. | [ObjectReference.operator.kubecarrier.io/v1alpha1](#objectreferenceoperatorkubecarrieriov1alpha1) | true |
 | webhookStrategy | WebhookStrategy configs the webhook of the CRD which is registered in the management cluster by this Catapult. There are two possible values for this configuration {None (by default), ServiceCluster} None (by default): Webhook will only check if there is an available ServiceClusterAssignment in the current Namespace. ServiceCluster: Webhook will call webhooks of the CRD in the ServiceCluster with dry-run flag. | corev1alpha1.WebhookStrategyType | false |
+| paused | Paused tell controller to pause reconciliation process and assume that Catapult is ready | PausedFlagType.operator.kubecarrier.io/v1alpha1 | false |
+| logLevel | LogLevel | *int.operator.kubecarrier.io/v1alpha1 | false |
 
 [Back to Group](#operator)
 
@@ -1347,6 +1435,8 @@ ElevatorSpec defines the desired state of Elevator.
 | providerCRD | References the provider or internal CRD, that should be created in the provider namespace. | [CRDReference.operator.kubecarrier.io/v1alpha1](#crdreferenceoperatorkubecarrieriov1alpha1) | true |
 | tenantCRD | References the public CRD that will be synced into the provider namespace. | [CRDReference.operator.kubecarrier.io/v1alpha1](#crdreferenceoperatorkubecarrieriov1alpha1) | true |
 | derivedCR | References the DerivedCustomResource controlling the Tenant-side CRD. | [ObjectReference.operator.kubecarrier.io/v1alpha1](#objectreferenceoperatorkubecarrieriov1alpha1) | true |
+| paused | Paused tell controller to pause reconciliation process and assume that Catapult is ready | PausedFlagType.operator.kubecarrier.io/v1alpha1 | false |
+| logLevel | LogLevel | *int.operator.kubecarrier.io/v1alpha1 | false |
 
 [Back to Group](#operator)
 
@@ -1417,6 +1507,8 @@ FerrySpec defines the desired state of Ferry.
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | kubeconfigSecret | KubeconfigSecret specifies the Kubeconfig to use when connecting to the ServiceCluster. | [ObjectReference.operator.kubecarrier.io/v1alpha1](#objectreferenceoperatorkubecarrieriov1alpha1) | true |
+| paused | Paused tell controller to pause reconciliation process and assume that Ferry is ready | PausedFlagType.operator.kubecarrier.io/v1alpha1 | false |
+| logLevel | LogLevel | *int.operator.kubecarrier.io/v1alpha1 | false |
 
 [Back to Group](#operator)
 
@@ -1476,6 +1568,8 @@ KubeCarrierSpec defines the desired state of KubeCarrier
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | api |  | [APIServerSpec.operator.kubecarrier.io/v1alpha1](#apiserverspecoperatorkubecarrieriov1alpha1) | false |
+| paused | Paused tell controller to pause reconciliation process and assume that KubaCarrier is ready | PausedFlagType.operator.kubecarrier.io/v1alpha1 | false |
+| logLevel | LogLevel | int.operator.kubecarrier.io/v1alpha1 | false |
 
 [Back to Group](#operator)
 
