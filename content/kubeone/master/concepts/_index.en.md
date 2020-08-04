@@ -92,6 +92,24 @@ programmatically using client-go and controller-runtime libraries.
 This approach allows us to manage clusters on any infrastructure, is it
 cloud, on-prem, baremetal, Edge, or IoT.
 
+## KubeOne Configuration Manifest
+
+Clusters are defined declaratively using the KubeOne Configuration Manifest.
+The configuration manifest is a YAML file that defines properties of a cluster
+such as:
+
+* The Kubernetes version to be deployed
+* Provider-specific information if applicable
+* Cluster network configuring
+* Cluster features to enable
+
+You can grab the KubeOne Configuration Manifest reference by running the
+following command:
+
+```
+kubeone config print --full
+```
+
 ## Kubermatic machine-controller
 
 [Kubermatic machine-controller][machine-controller] is an open-source
