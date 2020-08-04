@@ -29,6 +29,8 @@ kubecarrier:
   versions:
     - release: master
       name: master
+    - release: v0.3
+      name: v0.3
     - release: v0.2
       name: v0.2
     - release: v0.1
