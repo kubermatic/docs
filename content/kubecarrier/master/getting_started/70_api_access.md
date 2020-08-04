@@ -52,14 +52,26 @@ And access the Swagger UI on [https://localhost:8443/v1/swagger/](https://localh
 
 ## Configure Authentication
 
-The KubeCarrier API Server supports multiple authentication methods. By default `kubectl kubecarrier setup` starts the KubeCarrier API Server with `Token` and `Anonymous` auth enabled.
+The KubeCarrier API Server supports multiple authentication methods. By default `kubectl kubecarrier setup` starts the KubeCarrier API Server with `ServiceAccount` and `Anonymous` auth enabled.
 
-Configuring `OIDC` or `Htpasswd` authentication will automatically disable `Anonymous` auth.
+```yaml
+apiVersion: operator.kubecarrier.io/v1alpha1
+kind: KubeCarrier
+metadata:
+  name: kubecarrier
+spec:
+  api:
+    authentication:
+    - serviceAccount: {}
+    - anonymous: {}
+```
+
+Authentication providers will be called in specified order.  
 You can find more information about each authentication method below.
 
 ### Anonymous
 
-Anonymous authentication is enabled by default and will be disabled when another auth-method (Token/Htpasswd) is configured.
+Anonymous authentication is enabled by default as the last authenticator.
 
 Every request that cannot be authenticated by another provider, will by authenticated as `system:anonymous` with a group of `system:unauthenticated`.
 
@@ -85,9 +97,9 @@ spec:
     apiGroup: rbac.authorization.k8s.io # <---
 ```
 
-### Token
+### ServiceAccount
 
-Token authentication is enabled by default and cannot be deactivated.
+ServiceAccount authentication is enabled by default.
 
 It allows the use of Kubernetes ServiceAccount tokens to access the KubeCarrier API. To use it, just create a ServiceAccount in an Account namespace and add it to the Account.
 
@@ -149,14 +161,14 @@ Prefix the token with `Bearer ` and use it in the swagger UI:
 
 ![Swagger UI - API Token][swagger-ui-apikey]
 
-### Htpasswd (Static)
+### Static Users
 
-Htpasswd uses a static htpasswd file for user authentication. 
+Static users uses a static htpasswd file for user authentication. 
 
 First, create a new file via the `htpasswd` utility. In this example, we are using `Bcrypt` as a hashing algorithm. Make sure to specify a strong algorithm, because the default `MD5` hash is insecure.
 
 ```bash
-htpasswd -B -c my-user-file nico@loodse.com
+htpasswd -B -C 12 -c my-user-file nico@loodse.com
 ```
 
 Load this file into a Kubernetes Secret into the `kubecarrier-system` namespace:
@@ -180,9 +192,10 @@ metadata:
   name: kubecarrier
 spec:
   api:
-    staticUsers:
-      htpasswdSecret:
-        name: api-users
+    authentication:
+    - staticUsers:
+        htpasswdSecret:
+          name: api-users
 ```
 
 The KubeCarrier API server will now restart and allow for authentication of users included in the file. Subsequent changes to the htpasswd file in the secret do not require a restart of the API server and will come into effect immediately.
@@ -199,18 +212,19 @@ metadata:
   name: kubecarrier
 spec:
   api:
-    oidc:
-      issuerURL: ""
-      clientID: ""
-      apiAudiences: []
-      certificateAuthority:
-        name: ""
-      usernameClaim: ""
-      usernamePrefix: ""
-      groupsClaim: ""
-      groupsPrefix: ""
-      supportedSigningAlgs: []
-      requiredClaims: {}
+    authentication:
+    - oidc:
+        issuerURL: ""
+        clientID: ""
+        apiAudiences: []
+        certificateAuthority:
+          name: ""
+        usernameClaim: ""
+        usernamePrefix: ""
+        groupsClaim: ""
+        groupsPrefix: ""
+        supportedSigningAlgs: []
+        requiredClaims: {}
 ```
 
 A complete API Reference can be found on the [API Reference](../../api_reference) page.
