@@ -30,7 +30,7 @@ couchdbs.couchdb.io   2020-03-10T10:27:51Z
 ```
 
 Now we will tell the KubeCarrier installation to work with this CRD.
-We can accomplish this, by creating a `CatalogEntrySet`. This object describes which CRD should be fetched from which ServiceCluster, metadata for the Service Catalog and it will limit which fields are available to users.
+We can accomplish this, by creating a `CatalogEntrySet`. This object describes which CRD should be fetched from which ServiceCluster, metadata for the Service Hub and it will limit which fields are available to users.
 
 **CatalogEntrySet definition**
 

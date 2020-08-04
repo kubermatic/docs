@@ -83,14 +83,25 @@ sudo mv kubeone_${VERSION}_${OS}_amd64/kubeone /usr/local/bin
 
 The alternative way to install KubeOne is using `go get`.
 
-To get latest stable release:
-```bash
-GO111MODULE=on go get github.com/kubermatic/kubeone
+To get the latest stable release:
+
+```
+GO111MODULE=on go get k8c.io/kubeone@master
 ```
 
-To get latest beta release (for example v0.11.0-beta.0 tag):
-```bash
-GO111MODULE=on go get github.com/kubermatic/kubeone@v0.11.0-beta.0
+To get other releases, such as alpha, beta, and RC releases, you can provide a
+tag to the `go get` command. Check out the [GitHub Releases][github-tags] for
+the list of available tags.
+
+```
+GO111MODULE=on go get k8c.io/kubeone@<insert-tag>
+```
+
+For releases before v1.0.0-rc.1, you have to use the following `go get`
+command.
+
+```
+GO111MODULE=on go get github.com/kubermatic/kubeone@<insert-tag>
 ```
 
 While running of the master branch is a great way to peak at and test
@@ -216,3 +227,4 @@ See [the list of releases][3] to find out about feature changes.
 [12]: https://github.com/kubermatic/kubeone/issues/471
 [13]: ./getting_started/
 [14]: ./using_kubeone/
+[github-tags]: https://github.com/kubermatic/kubeone/tags
