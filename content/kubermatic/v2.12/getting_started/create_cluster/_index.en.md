@@ -7,10 +7,6 @@ weight = 20
 
 ## Create a Cluster
 
-{{% notice note %}}
-You can try setting up a cluster by yourself using our demo at [cloud.kubermatic.io](https://cloud.kubermatic.io)!
-{{% /notice %}}
-
 ### Step 1 – Select Your Project
 
 Before you can manage clusters or SSH keys, select your current project by using the project list after you logged in or use the dropdown in the top left corner of the page. After choosing the project, the relevant menu items will become active.
