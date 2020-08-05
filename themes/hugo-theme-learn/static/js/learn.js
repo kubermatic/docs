@@ -338,6 +338,8 @@ jQuery(document).ready(function() {
             delegateAnchors: function (e) {
                 var elem = e.target;
 
+                if (elem.dataset.disableScroll) return;
+
                 if (this.scrollIfAnchor(elem.getAttribute('href'), true)) {
                     e.preventDefault();
                 }
