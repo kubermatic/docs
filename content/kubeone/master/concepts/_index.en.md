@@ -34,11 +34,12 @@ Instances for worker nodes can be managed in two ways:
 
 * using [Kubermatic machine-controller][machine-controller], which creates and
   provisions instances, and joins them a cluster, automatically
-* manually, by using the preferred tooling to create instances for worker nodes
-  and then provision them using KubeOne
+* using KubeOne Static Workers, by using the preferred tooling to create
+  instances and then provision them using KubeOne
 
 Using Kubermatic machine-controller is highly advised if your provider is
-[natively supported][supported-providers].
+[natively supported][supported-providers]. Otherwise, KubeOne Static Workers
+are recommended instead.
 
 ## Example Terraform Scripts
 
