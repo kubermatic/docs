@@ -1,6 +1,7 @@
 +++
 title = "Manual Cluster Recovery"
 date = 2020-04-24T12:00:00+02:00
+weight = 3
 +++
 
 ## Overview

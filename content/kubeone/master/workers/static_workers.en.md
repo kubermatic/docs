@@ -1,6 +1,7 @@
 +++
 title = "Using Static Workers"
 date = 2020-04-15T12:00:00+02:00
+weight = 2
 +++
 
 Starting with version `v1.0.0` (currently unreleased, need to build from master) , KubeOne Added support for provisioning Kubernetes clusters with static worker nodes.
