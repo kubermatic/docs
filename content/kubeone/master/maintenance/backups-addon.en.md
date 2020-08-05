@@ -1,6 +1,7 @@
 +++
 title = "Backups Addon"
 date =  2020-04-07T17:39:14+03:00
+weight = 1
 +++
 
 The [backups addon][backups-addon-src] can be used to backup the most important
