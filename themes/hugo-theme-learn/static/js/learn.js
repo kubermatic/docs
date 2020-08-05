@@ -276,7 +276,7 @@ jQuery(document).ready(function() {
 
         var anchorScrolls = {
             ANCHOR_REGEX: /^#[^ ]+$/,
-            OFFSET_HEIGHT_PX: 50,
+            OFFSET_HEIGHT_PX: 70,
 
             /**
              * Establish events, and fix initial scroll position if a hash is provided.

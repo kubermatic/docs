@@ -1,0 +1,126 @@
+{{- .Page.Scratch.Add "tabset-counter" 1 -}}
+{{- $tab_set_id := .Get "name" | default (printf "tabset-%s-%d" (.Page.RelPermalink) (.Page.Scratch.Get "tabset-counter") ) | anchorize -}}
+{{- $tabs := .Scratch.Get "tabs" -}}
+{{- if .Inner -}}{{- /* We don't use the inner content, but Hugo will complain if we don't reference it. */ -}}{{- end -}}
+<div id="{{ $tab_set_id }}" class="tabs">
+<ul>
+  {{- range $i, $e := $tabs -}}
+    {{- $id := printf "%s-%d" $tab_set_id $i -}}
+    <li class="tab{{if eq $i 0}} tab--active{{end}}"><a href="#{{ $id }}">{{- trim .name " " -}}</a></li>
+  {{- end -}}
+</ul>
+{{- range $i, $e := $tabs -}}
+{{- $id := printf "%s-%d" $tab_set_id $i -}}
+<div id="{{ $id }}" class="tab-panel{{if eq $i 0}} tab-panel--active{{end}}">
+  {{- with .content -}}
+    {{- . -}}
+  {{- else -}}
+    {{- if eq $.Page.BundleType "leaf" -}}
+      {{- /* find the file somewhere inside the bundle. Note the use of double asterisk */ -}}
+      {{- with $.Page.Resources.GetMatch (printf "**%s*" .include) -}}
+        {{- if ne .ResourceType "page" -}}
+        {{- /* Assume it is a file that needs code highlighting. */ -}}
+        {{- $codelang := $e.codelang | default ( path.Ext .Name | strings.TrimPrefix ".") -}}
+        {{- highlight .Content $codelang "" -}}
+        {{- else -}}
+          {{- .Content -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else -}}
+    {{- $path := path.Join $.Page.File.Dir .include -}}
+    {{- $page := site.GetPage "page" $path -}}
+    {{- with $page -}}
+      {{- .Content -}}
+    {{- else -}}
+    {{- errorf "[%s] tabs include not found for path %q" site.Language.Lang $path -}}
+    {{- end -}}
+    {{- end -}}
+  {{- end -}}
+</div>
+{{- end -}}
+</div>
+{{- $elem :=  $tab_set_id | safeJS -}}
+<style>
+  .tabs {
+    margin: 1rem 0;
+  }
+
+  .tabs > ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 0.2em 0 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .tab {
+    margin-right: 0.2em;
+    background-color: var(--GRAY-color);
+    border: 1px solid var(--GRAY-color);
+    border-bottom: none;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+
+  .tab--active {
+    margin-bottom: -1px;
+    background-color: var(--WHITE-color);
+    border-color: var(--MAIN-PRIMARY-color);
+  }
+
+  .tab a {
+    padding: .5em 1em;
+    color: var(--MAIN-TEXT-color);
+    text-decoration: none;
+  }
+
+  .tab--active a {
+    color: var(--MAIN-PRIMARY-color);
+  }
+
+  .tab-panel {
+    display: none;
+    padding: 0 1.25rem;
+  }
+
+  .tab-panel--active {
+    display: block;
+    border: 1px solid var(--MAIN-PRIMARY-color);
+  }
+</style>
+<script>
+  function pageReady(fn) {
+      if (document.readyState != "loading"){
+          fn();
+      } else {
+          document.addEventListener("DOMContentLoaded", fn);
+      }
+  };
+
+  function findAncestor (el, sel) {
+    while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,sel)));
+    return el;
+  }
+
+  pageReady(function() {
+    var tabsAnchors = document.querySelectorAll(".tab a");
+
+    tabsAnchors.forEach(function(tabAnchor) {
+      tabAnchor.addEventListener("click", function(e) {
+        e.preventDefault();
+        var tabsHolder = findAncestor(tabAnchor, ".tabs");
+        var tabId = tabAnchor.getAttribute("href");
+        var currentTab = tabAnchor.parentNode;
+        var activeTab = tabsHolder.querySelector(".tab--active");
+        var currentTabPanel = tabsHolder.querySelector(tabId);
+        var activeTabPanel = tabsHolder.querySelector(".tab-panel--active");
+
+        activeTabPanel.classList.remove("tab-panel--active");
+        currentTabPanel.classList.add("tab-panel--active");
+
+        activeTab.classList.remove("tab--active");
+        currentTab.classList.add("tab--active");
+      });
+    });
+  });
+</script>
