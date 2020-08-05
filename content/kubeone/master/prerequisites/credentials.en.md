@@ -24,7 +24,7 @@ dedicated, non-administrator credentials whenever it's possible.
 
 {{% notice note %}}
 You can skip this document if you're deploying to bare-metal or provider that's
-not natively supported.
+not [natively supported]({{< ref "../compatibility_info#supported-providers" >}}).
 {{% /notice %}}
 
 {{% notice note %}}
@@ -37,8 +37,8 @@ the Terraform documentation for other authentication options.
 ## Environment Variables
 
 By default, KubeOne grabs credentials from the user's environment unless the
-credentials file is provided. In the following table, you can find environment
-variables used by KubeOne:
+credentials file is provided. In the following tables, you can find the 
+environment variables used by KubeOne.
 
 ### AWS
 
@@ -46,7 +46,7 @@ variables used by KubeOne:
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `AWS_ACCESS_KEY_ID`     | The AWS Access Key                                                                                                                                    |
 | `AWS_SECRET_ACCESS_KEY` | The AWS Secret Access Key                                                                                            |
-| `AWS_PROFILE`           | Name of the profile defined in the `~/.aws/credentials` file. This variable is considered only if `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are unset |
+| `AWS_PROFILE`           | Name of the profile defined in the `~/.aws/credentials` file. This variable is considered only if `AWS_ACCESS_KEY_ID` or `AWS_SECRET_ACCESS_KEY` is unset |
 
 ### Azure
 
@@ -105,10 +105,9 @@ variables used by KubeOne:
 
 The credentials file is a key-value YAML file, where the key is the environment
 variable name from the [environment variables section][environemnt-variables].
-
-The credentials file has the priority over the environment variables, so you
-can use the credentials file if you want to use different credentials or if
-you don't want to export credentials.
+It has the priority over the environment variables, so you can use it if you
+want to use different credentials or if you don't want to export credentials
+as environment variables.
 
 Besides credentials, the credentials file can take the cloud-config file, which
 is provided using the `cloudConfig` key. This can be useful in cases when the

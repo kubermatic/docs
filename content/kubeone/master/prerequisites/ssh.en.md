@@ -48,7 +48,7 @@ In rare case when it's not possible to use ssh-agent, you can provide private
 key directly to KubeOne. The caveat is that private SSH key should be
 unencrypted and thus we do **NOT** recommend this.
 
-### Option 1: Config Manifest
+### Option 1: Specify Private Key in the Configuration Manifest
 
 You can point KubeOne to the unencrypted private SSH key via the configuration
 manifest.
@@ -61,7 +61,7 @@ controlPlane:
     sshPrivateKeyFile: '/home/me/.ssh/my_cleantext_private_key'
 ```
 
-### Option 2: Terraform Output
+### Option 2: Specify Private Key in the Terraform Output
 
 You can also provide unencrypted private SSH key using the Terraform
 integration.
