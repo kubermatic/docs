@@ -316,7 +316,7 @@
             "message": "A client certificate used to authenticate to the apiserver is expiring in less than 7 days.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeclientcertificateexpiration"
           },
-          "expr": "apiserver_client_certificate_expiration_seconds_count{job=\"apiserver\"} > 0\nand\nhistogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job=\"apiserver\"}[5m]))) < 604800\n",
+          "expr": "apiserver_client_certificate_expiration_seconds_count{job=\"apiserver\"} > 0\nand\nhistogram_quantile(0.01, sum by (job, instance, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job=\"apiserver\"}[5m]))) < 604800\n",
           "labels": {
             "severity": "warning"
           },
@@ -333,7 +333,7 @@
             "message": "A client certificate used to authenticate to the apiserver is expiring in less than 24 hours.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeclientcertificateexpiration"
           },
-          "expr": "apiserver_client_certificate_expiration_seconds_count{job=\"apiserver\"} > 0\nand\nhistogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job=\"apiserver\"}[5m]))) < 86400\n",
+          "expr": "apiserver_client_certificate_expiration_seconds_count{job=\"apiserver\"} > 0\nand\nhistogram_quantile(0.01, sum by (job, instance, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job=\"apiserver\"}[5m]))) < 86400\n",
           "labels": {
             "severity": "critical"
           },
