@@ -5,7 +5,7 @@ weight = 1
 +++
 
 {{% notice note %}}
-If you're using our [example Terraform scripts]({{< ref "terraform_scripts" >}}),
+If you're using our [example Terraform configs]({{< ref "terraform_configs" >}}),
 all requirements are satisfied by default.
 {{% /notice %}}
 
@@ -31,7 +31,7 @@ provision a Kubernetes cluster using KubeOne:
     available
   * If provider doesn't offer load balacners, you can create an instance and
     setup a solution such as HAProxy
-  * In our example Terraform scripts, we use [GoBetween][gobetween] when
+  * In our example Terraform configs, we use [GoBetween][gobetween] when
     provider doesn't offer load balancers. A simple GoBetween setup is a good
     way to get started, but it might **not** be suitable for the production
     environments
@@ -41,7 +41,7 @@ provision a Kubernetes cluster using KubeOne:
 Depending on the environment, you may need additional objects, such as VPCs,
 firewall rules, or images. For [natively-supported
 providers][supported-providers], we recommended checking our [example Terraform
-scripts][terraform-scripts-github] as a reference what objects you should consider
+configs][terraform-configs-github] as a reference what objects you should consider
 creating.
 
 ## Infrastructure Requirements for Worker Nodes
@@ -72,7 +72,7 @@ plane instances:
 [gobetween]: http://gobetween.io/
 [ssh]: {{< ref "../prerequisites/ssh#sshd-requirements-on-instances" >}}
 [supported-providers]: {{< ref "../compatibility_info#supported-providers" >}}
-[terraform-scripts-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [concepts]: {{< ref "../concepts#kubermatic-machine-controller" >}}
 [concepts-md]: {{< ref "../concepts#machinedeployments" >}}
