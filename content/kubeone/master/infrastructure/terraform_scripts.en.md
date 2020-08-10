@@ -1,21 +1,21 @@
 +++
-title = "Creating Infrastructure Using Example Terraform Scripts"
+title = "Creating Infrastructure Using Example Terraform Configs"
 date = 2020-04-01T12:00:00+02:00
 weight = 2
 enableToc = true
 +++
 
-KubeOne comes with example Terraform scripts that can be used to create the
+KubeOne comes with example Terraform configs that can be used to create the
 infrastructure needed for running a conformant, production-grade Kubernetes
-cluster. The example scripts are available for all natively supported
+cluster. The example configs are available for all natively supported
 providers and can be found on the 
-[GitHub under the `examples/terraform`][terraform-scripts-github]
+[GitHub under the `examples/terraform`][terraform-configs-github]
 directory. They are also coming along with the binaries when you download a
 KubeOne release from [GitHub Releases][github-releases].
 
 {{% notice warning %}}
-The example Terraform scripts are supposed to be used as a foundation for
-building your own scripts. The scripts are optimized for ease of use and
+The example Terraform configs are supposed to be used as a foundation for
+building your own configs. The configs are optimized for ease of use and
 using in E2E tests, and therefore might not be suitable for the production
 usage out of the box.
 {{% /notice %}}
@@ -23,7 +23,7 @@ usage out of the box.
 {{% notice note %}}
 Please check the
 [Production Recommendations]({{< ref "./production_recommendations" >}})
-document for more details about making the example scripts suitable for
+document for more details about making the example configs suitable for
 the production usage.
 {{% /notice %}}
 
@@ -37,7 +37,7 @@ Before getting started, make sure that you have:
   You can also check the Terraform provider's documentation for other
   authentication options.
 
-## Exploring Scripts
+## Exploring Configs
 
 If you downloaded KubeOne by using the installation script, downloading the
 release, or you've checked out the repository, navigate to the
@@ -62,7 +62,7 @@ a Service), `gobetween.sh` and `etc_gobetween.tpl` are used to configure the
 
 ## Initializing Terraform
 
-The first step you've to do before using the example scripts is to initialize
+The first step you've to do before using the example configs is to initialize
 the Terraform working directory and download the required plugins.
 This is done by running the `init` command:
 
@@ -72,7 +72,7 @@ terraform init
 
 {{% notice tip %}}
 You have to run this command only the first time you're using the example
-scripts. If you already initialized the Terraform working directory and want to
+configs. If you already initialized the Terraform working directory and want to
 upgrade plugins instead, you can run `terraform init -upgrade`.
 {{% /notice %}}
 
@@ -112,10 +112,10 @@ to be used, or operating system, ensure that you comply with requirements
 defined in the [Requirements][requirements] and [Compatibility][compatibility]
 documents.
 
-## Creating Infrastructure (applying scripts)
+## Creating Infrastructure (applying configs)
 
 With the variables configured, you're ready to create the infrastructure by
-applying the scripts.
+applying the configs.
 
 You can see what changes will be made by running the `plan` command:
 
@@ -162,7 +162,7 @@ If you modify variables and/or `output.tf` file after running
 may cause all resources to be recreated causing the **data loss**!
 {{% /notice %}}
 
-[terraform-scripts-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [github-releases]: https://github.com/kubermatic/kubeone/releases
 [getting-kubeone]: {{< ref "../getting_kubeone" >}}
 [configuring-credentials]: {{< ref "../prerequisites/credentials" >}}
