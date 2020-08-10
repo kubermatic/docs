@@ -12,7 +12,7 @@ Make sure that you have:
 * Installed KubeOne as described in the [Getting KubeOne][getting-kubeone]
   document
 * Installed Terraform v0.12+ if you want to provision the infrastructure using
-  our [example Terraform scripts][kubeone-terraform-scripts] and/or use the
+  our [example Terraform configs][kubeone-terraform-configs] and/or use the
   [KubeOne Terraform Integration][kubeone-terraform-integration]
   * You can find the installation instructions in the
     [official Terraform docs][install-terraform]
@@ -25,7 +25,7 @@ Make sure that you have:
 
 
 [getting-kubeone]: {{< ref "../getting_kubeone" >}}
-[kubeone-terraform-scripts]: {{< ref "../concepts#example-terraform-scripts" >}}
+[kubeone-terraform-configs]: {{< ref "../concepts#example-terraform-configs" >}}
 [kubeone-terraform-integration]: {{< ref "../concepts#kubeone-terraform-intergration" >}}
 [install-terraform]: https://learn.hashicorp.com/terraform/getting-started/install.html
 [compatibility]: {{< ref "../compatibility_info#supported-terraform-versions" >}}

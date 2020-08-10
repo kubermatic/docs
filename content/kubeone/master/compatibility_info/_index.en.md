@@ -49,13 +49,13 @@ Kubernetes versions:
 
 The KubeOne Terraform integration requires Terraform **v0.12.0** or newer.
 
-Additionally, the [example Terraform scripts][terraform-scripts] for some
+Additionally, the [example Terraform configs][terraform-configs] for some
 providers may require a newer Terraform version:
 
-* The example Terraform scripts for AWS require Terraform **v0.12.10** or newer
+* The example Terraform configs for AWS require Terraform **v0.12.10** or newer
 
 For more details, you can check the `versions.tf` file that comes with the
-example Terraform scripts ([example `versions.tf` file][aws-versions-tf]).
+example Terraform configs ([example `versions.tf` file][aws-versions-tf]).
 
 ## Supported Operating Systems
 
@@ -75,5 +75,5 @@ CentOS 7.
 
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
 [kubernetes-issue-93194]: https://github.com/kubernetes/kubernetes/issues/93194
-[terraform-scripts]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[terraform-configs]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [aws-versions-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/versions.tf
