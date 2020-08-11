@@ -41,8 +41,13 @@ Before getting started, make sure that you have:
 
 If you downloaded KubeOne by using the installation script, downloading the
 release, or you've checked out the repository, navigate to the
-`./examples/terraform` directory. If you used the Arch Linux package, navigate
-to the `/usr/share/doc/kubeone/examples/terraform/` directory.
+`./examples/terraform` directory.
+
+If you installed KubeOne using the Arch Linux
+package, the example configs are located in the 
+`/usr/share/doc/kubeone/examples/terraform/` directory. You should copy those
+configs to some other place, as they might be removed/overwritten when
+upgrading the package.
 
 In this directory, you can find directories for each supported provider.
 Navigate to the appropriate directory depending on the provider you want to
