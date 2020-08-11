@@ -6,5 +6,3 @@ chapter = true
 +++
 
 # API Reference
-
-TBD
