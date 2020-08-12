@@ -11,17 +11,12 @@ such as high availability (HA), self-healing, and more. In many cases, even if
 something fails, the cluster can get quickly recovered without any effect on
 the workload.
 
-In rare cases, such as when multiple VM instances fail at the same time, etcd
+In rare cases, such as when multiple instances fail at the same time, etcd
 can lose the quorum, making the cluster fail completely. When that happens
 the only possibility is to recreate the cluster and restore it from a backup.
 
 This document explains how to manually recreate a cluster and recover from
 a backup that was made previously.
-
-{{% notice note %}}
-To successfully recover the cluster by following this guide, you currently need
-to build KubeOne from the master branch.
-{{% /notice %}}
 
 ## When Should I Recover The Cluster?
 
@@ -41,10 +36,10 @@ In other cases, you should first try to repair the cluster by following the
 * _etcd quorum_: an etcd cluster needs a majority of nodes (`(n/2)+1`),
   a _quorum_, to agree on updates to the cluster state
 * _etcd ring_: a group of etcd instances forming a single etcd cluster.
-* _etcd member_: a known peer instance (running on the control-plane nodes) of
+* _etcd member_: a known peer instance (running on the control plane nodes) of
   etcd inside the etcd ring.
 * _leader instance_: a VM instance where cluster PKI gets generated and first
-  control-plane components are launched at cluster initialization time.
+  control plane components are launched at cluster initialization time.
 
 ## Goals
 
@@ -74,7 +69,7 @@ you'll be able to use the old kubeconfig files to access the cluster.
 In the case the cluster endpoint is different, the worker nodes and all
 kubeconfig files must be recreated.
 
-This is important, because even if the control-plane nodes are down, the
+This is important, because even if the control plane nodes are down, the
 workload should still be running on the worker nodes. Although, the workload
 might be inaccessible and you'll not be able to do any changes, such as
 schedule new pods or remove existing ones.
@@ -192,7 +187,7 @@ balancer to point to the new instances.
 terraform apply
 ```
 
-Create the new Terraform output file:
+Export the new Terraform state file:
 
 ```bash
 terraform output -json > tf.json
@@ -215,7 +210,6 @@ controlPlane:
   hosts:
   - privateAddress: '172.18.0.1'
     ...
-    isLeader: true
   - privateAddress: '172.18.0.2'
     ...
   - privateAddress: '172.18.0.3'
@@ -239,7 +233,7 @@ kubeone reset config.yaml -t tf.json --destroy-workers=false
 ```
 
 After this is done, ensure that the `/etc/kubernetes` directory is empty on all
-control-plane instances. You can do that by SSH-ing to each instance and 
+control plane instances. You can do that by SSH-ing to each instance and 
 running:
 
 ```bash
@@ -256,7 +250,7 @@ Run the following command to install the prerequisites and the Kubernetes
 binaries:
 
 ```bash
-kubeone install -m config.yaml -t tf.json --no-init
+kubeone install --manifest kubeone.yaml -t tf.json --no-init
 ```
 
 ## Step 4 — Restore The Backup
@@ -345,10 +339,10 @@ the data when they join the etcd cluster.
 Finally, with all the needed files in the place, along with the etcd data,
 proceed with provisioning the new cluster.
 
-On your local machine, run the `kubeone install` command:
+On your local machine, run the `kubeone apply` command:
 
 ```bash
-kubeone install -m config.yaml -t tf.json
+kubeone apply --manifest kubeone.yaml -t tf.json
 ```
 
 The provisioning process takes about 5-10 minutes. If the cluster endpoint

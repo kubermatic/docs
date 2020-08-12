@@ -148,7 +148,7 @@ From your local machine:
 terraform apply
 ```
 
-The result should be: 3 running control plane VM instances. Two existing and
+The result should be 3 running control plane VM instances. Two existing and
 currently members of the cluster, and the fresh one which will be joined to the
 cluster as replacement for failed VM.
 
@@ -170,3 +170,30 @@ Run the following `apply` command:
 ```bash
 kubeone apply --manifest kubeone.yaml -t tf.json
 ```
+
+The `apply` command will analyze the cluster, and find the instance that needs
+to be provisioned and joined the cluster. You'll be asked to confirm your
+intention to provision a new node by typing `yes`.
+
+```
+INFO[15:33:55 CEST] Determine hostname…                          
+INFO[15:33:59 CEST] Determine operating system…                  
+INFO[15:34:02 CEST] Running host probes…                         
+INFO[15:34:02 CEST] Electing cluster leader…                     
+INFO[15:34:02 CEST] Elected leader "ip-172-31-220-51.eu-west-3.compute.internal"… 
+INFO[15:34:05 CEST] Building Kubernetes clientset…               
+INFO[15:34:06 CEST] Running cluster probes…                      
+The following actions will be taken: 
+Run with --verbose flag for more information.
+	+ join control plane node "ip-172-31-221-102.eu-west-3.compute.internal" (172.31.221.102) using 1.18.6
+	+ ensure machinedeployment "marko-1-eu-west-3b" with 1 replica(s) exists
+	+ ensure machinedeployment "marko-1-eu-west-3c" with 1 replica(s) exists
+	+ ensure machinedeployment "marko-1-eu-west-3a" with 1 replica(s) exists
+
+Do you want to proceed (yes/no):
+```
+
+After confirming the intention, KubeOne will start provisioning the newly
+created instance. This can take several minutes. After the command is done,
+you can run `kubectl get nodes` to verify that all nodes are running and
+healthy.
