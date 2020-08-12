@@ -21,7 +21,7 @@ KubeOne only supports versions supported by the [upstream support policy][9].
 While older versions might work, we can't guarantee that and we strongly advise
 that you use only officially supported versions.
 
-## What cloud providers KubeOne does support?
+## What cloud providers does KubeOne support?
 
 KubeOne is supposed to work on any cloud provider, on-prem and bare-metal.
 However, to utilize all KubeOne features, such as Terraform integration and
@@ -29,13 +29,13 @@ managing worker nodes using [Kubermatic machine-controller][4] and Cluster-API,
 the provider needs to be supported by KubeOne.
 
 Currently we support AWS, DigitalOcean, Google Compute Engine (GCE), Hetzner,
-Packet, OpenStack, VMware vSphere and Azure.
+Packet, OpenStack, VMware vSphere, and Azure.
 
 ## Are on-prem and bare metal clusters supported?
 
 Yes. We officially support VMware vSphere and OpenStack.
 
-## Does KubeOne manages the infrastructure and cloud resources?
+## Does KubeOne manage the infrastructure and cloud resources?
 
 No, it's up to the operator to setup the needed infrastructure and provide the
 needed parameters to KubeOne.
@@ -51,7 +51,7 @@ There are many possible setups and officially supporting each setup isn't possib
 in most of cases. Operators are free to define infrastructure how they prefer and then
 use KubeOne to provision the cluster.
 
-## How KubeOne works?
+## How does KubeOne work?
 
 KubeOne uses [kubeadm][6] to provision and upgrade the Kubernetes clusters.
 The worker nodes are managed by the Cluster-API and [Kubermatic machine-controller][4].
@@ -63,7 +63,7 @@ Kubernetes and kubeadm. After the cluster is provisioned, KubeOne deploys
 the CNI plugin, [Kubermatic machine-controller][4], and other
 needed components.
 
-## Can I deploy other controller than machine-controller or decide not to deploy and machine-controller?
+## Can I deploy other controllers than machine-controller or decide not to deploy machine-controller?
 
 You can opt out of deploying machine-controller by setting
 `machineController.Deploy` to `false`.
@@ -74,7 +74,7 @@ Yes, KubeOne can provision and upgrade the worker nodes using kubeadm.
 The infrastructure (e.g. instances) needs to be managed by the operator.
 
 We recommend using machine-controller to manage worker nodes, however, 
-this can be useful in cases when machine-controller doesn't support the provider,
+using KubeOne to provision worker nodes can be useful in cases when machine-controller doesn't support the provider,
 for example when using bare-metal.
 
 ## How are commands executed on nodes?
@@ -86,22 +86,22 @@ library.
 
 ## KubeOne can't connect to nodes over SSH. How can I fix this?
 
-Check [the following document][8] to find out how KubeOne uses SSH and what are
-SSH requirements.
+Check [the following document][8] to find out how KubeOne uses SSH and what the
+SSH requirements are.
 
-## Can I deploy other CNI plugin then Canal?
+## Can I deploy another CNI plugin besides Canal?
 
 KubeOne can deploy Canal and WeaveNet CNI plugins out-of-box, with support
 for allowing operators to deploy CNI plugin of their choice using the
 `external` CNI option.
 
 The `external` CNI option is usually combined with the [KubeOne Addons][11].
-feature. For example, you can checkout how Calico VXLAN plugin can be deploy
+feature. For example, you can checkout how Calico VXLAN plugin can be deployed
 using [the Calico addon][12].
 
 ## How many versions can I upgrade at the same time?
 
-It is only possible to upgrade from one minor to the next minor version (n+1).
+It is only possible to upgrade from one minor version to the next minor version (n+1).
 For example, if you want to upgrade from Kubernetes 1.13 to Kubernetes 1.15,
 you'd need to upgrade to 1.14 and then to 1.15.
 
