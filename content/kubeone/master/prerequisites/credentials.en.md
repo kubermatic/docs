@@ -40,15 +40,27 @@ By default, KubeOne grabs credentials from the user's environment unless the
 credentials file is provided. In the following tables, you can find the 
 environment variables used by KubeOne.
 
-### AWS
+{{< tabs name="Environment Variables" >}}
+{{% tab name="AWS" %}}
+You need an [IAM account](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html)
+with the appropriate permissions for Terraform to create the infrastructure
+and for machine-controller to create worker nodes.
 
-| Environment Variable    | Description                                                                                                                                           |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `AWS_ACCESS_KEY_ID`     | The AWS Access Key                                                                                                                                    |
-| `AWS_SECRET_ACCESS_KEY` | The AWS Secret Access Key                                                                                            |
+| Environment Variable    | Description                                                                                                                                               |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AWS_ACCESS_KEY_ID`     | The AWS Access Key                                                                                                                                        |
+| `AWS_SECRET_ACCESS_KEY` | The AWS Secret Access Key                                                                                                                                 |
 | `AWS_PROFILE`           | Name of the profile defined in the `~/.aws/credentials` file. This variable is considered only if `AWS_ACCESS_KEY_ID` or `AWS_SECRET_ACCESS_KEY` is unset |
 
-### Azure
+#
+
+{{% /tab %}}
+{{% tab name="Azure" %}}
+The following environment variables are needed by machine-controller for
+creating worker nodes.
+
+For the Terraform reference please take a look at
+[Azure provider docs](https://www.terraform.io/docs/providers/azurerm/index.html#argument-reference).
 
 | Environment Variable  | Description          |
 | --------------------- | -------------------- |
@@ -57,25 +69,105 @@ environment variables used by KubeOne.
 | `ARM_TENANT_ID`       | Azure TenantID       |
 | `ARM_SUBSCRIPTION_ID` | Azure SubscriptionID |
 
-### DigitalOcean
+#
 
-| Environment Variable | Description                                                                                                                         |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+{{% /tab %}}
+{{% tab name="DigitalOcean" %}}
+You need an [API Access Token](https://www.digitalocean.com/docs/api/create-personal-access-token/)
+with read and write permission for Terraform to create the infrastructure,
+machine-controller to create the worker nodes, and for DigitalOcean Cloud
+Controller Manager.
+
+| Environment Variable | Description                                                   |
+| -------------------- | ------------------------------------------------------------- |
 | `DIGITALOCEAN_TOKEN` | The DigitalOcean API Access Token with read/write permissions |
 
-### Google Cloud Platform (GCP)
+#
+
+{{% /tab %}}
+{{% tab name="GCP" %}}
+You need an [Service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts)
+with the appropriate permissions for Terraform to create the infrastructure
+and for machine-controller to create worker nodes.
+
+The needed permissions are are:
+
+- *Compute Admin: `roles/compute.admin`*
+- *Service Account User: `roles/iam.serviceAccountUser`*
+- *Viewer: `roles/viewer`*
+
+If the [`gcloud`](https://cloud.google.com/sdk/install) CLI is installed,
+a service account can be created like follow:
+
+```bash
+# create new service account
+gcloud iam service-accounts create k1-cluster-provisioner
+
+# get your service account id
+gcloud iam service-accounts list
+# get your project id
+gcloud projects list
+
+# create policy binding
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/compute.admin'
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/iam.serviceAccountUser' 
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/viewer'
+``` 
+
+A *Google Service Account* for the platform has to be created, see
+[Creating and managing service accounts](https://cloud.google.com/iam/docs/creating-managing-service-accounts).
+
+The result is a JSON file containing the fields:
+
+- `type`
+- `project_id`
+- `private_key_id`
+- `private_key`
+- `client_email`
+- `client_id`
+- `auth_uri`
+- `token_uri`
+- `auth_provider_x509_cert_url`
+- `client_x509_cert_url`
+
+```bash
+# create a new json key for your service account
+gcloud iam service-accounts keys create --iam-account YOUR_SERVICE_ACCOUNT k1-cluster-provisioner-sa-key.json
+```
+
+Also, the Compute Engine API has to be enabled for the project in the
+[Google APIs Console](https://console.developers.google.com/apis/dashboard).
+
+Once you have the Service Account, you need to set `GOOGLE_CREDENTIALS`
+environment variable:
+
+```bash
+# export JSON file content of created service account json key
+export GOOGLE_CREDENTIALS=$(cat ./k1-cluster-provisioner-sa-key.json)
+```
 
 | Environment Variable | Description         |
 | -------------------- | ------------------- |
 | `GOOGLE_CREDENTIALS` | GCE Service Account |
 
-### Hetzner Cloud
+#
 
-| Environment Variable | Description                                                       |
-| -------------------- | ----------------------------------------------------------------- |
+{{% /tab %}}
+{{% tab name="Hetzner" %}}
+You need a Hetzner API Token for Terraform to create the infrastructure,
+machine-controller to create worker nodes, and for Hetzner Cloud Controller
+Manager.
+
+| Environment Variable | Description                  |
+| -------------------- | ---------------------------- |
 | `HCLOUD_TOKEN`       | The Hetzner API Access Token |
 
-### OpenStack
+#
+
+{{% /tab %}}
+{{% tab name="OpenStack" %}}
+The following environment variables are needed by Terraform for creating the
+infrastructure and for machine-controller to create the worker nodes.
 
 | Environment Variable | Description                           |
 | -------------------- | ------------------------------------- |
@@ -86,20 +178,40 @@ environment variables used by KubeOne.
 | `OS_TENANT_ID`       | The ID of the OpenStack tenant        |
 | `OS_TENANT_NAME`     | The name of the OpenStack tenant      |
 
-### Packet
+#
+
+{{% /tab %}}
+{{% tab name="Packet" %}}
+You need an [API Access Token](https://support.packet.com/kb/articles/api-integrations)
+for Terraform to create the infrastructure, machine-controller to create worker
+nodes, and for Packet Cloud Controller Manager.
 
 | Environment Variable | Description       |
 | -------------------- | ----------------- |
 | `PACKET_AUTH_TOKEN`  | Packet auth token |
 | `PACKET_PROJECT_ID`  | Packet project ID |
 
-### vSphere
+#
+
+{{% /tab %}}
+{{% tab name="vSphere" %}}
+The following environment variables are needed by machine-controller for
+creating the worker nodes.
+
+For the Terraform reference, please take a look at
+[vSphere provider docs](https://www.terraform.io/docs/providers/vsphere/index.html#argument-reference)
+
 
 | Environment Variable | Description                         |
 | -------------------- | ----------------------------------- |
 | `VSPHERE_ADDRESS`    | The address of the vSphere instance |
 | `VSPHERE_USERNAME`   | The username of the vSphere user    |
 | `VSPHERE_PASSWORD`   | The password of the vSphere user    |
+
+#
+
+{{% /tab %}}
+{{< /tabs >}}
 
 ## Credentials File
 
