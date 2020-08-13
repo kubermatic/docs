@@ -7,4 +7,3 @@ chapter = true
 
 # Managing Worker Nodes
 
-TBD
