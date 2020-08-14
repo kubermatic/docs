@@ -4,12 +4,16 @@ date = 2020-04-15T12:00:00+02:00
 weight = 2
 +++
 
-Starting with version `v1.0.0` (currently unreleased, need to build from master) , KubeOne Added support for provisioning Kubernetes clusters with static worker nodes.
+KubeOne Static Workers are worker nodes provisioned by KubeOne using kubeadm.
+Similar to the control plane nodes, it's expected that the user will create
+and maintain instances for static worker nodes.
 
-This is useful in cases where the infrastructure provider is not supported by [machine-controller][1]. In this case, KubeOne will use the static worker nodes provided in the cluster configuration.
+This is useful in cases where the infrastructure provider is not
+[natively-supported][supported-providers]. In this case, KubeOne will use the
+static worker nodes provided in the KubeOne Configuration Manifest.
 
-
-Static workers are defined similarly to the control plane hosts, but they have their own API field `staticWorkers`:
+Static Workers Nodes are defined similarly to the control plane hosts,
+but they have their own API field called `staticWorkers`:
 
 ```yaml
 # The list of nodes can be overwritten by providing Terraform output.
@@ -61,4 +65,4 @@ staticWorkers:
     #   effect: ""
 ```
 
-[1]: https://github.com/kubermatic/machine-controller
+[supported-providers]: {{< ref "../compatibility_info" >}}
