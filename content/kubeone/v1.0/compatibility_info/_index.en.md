@@ -75,5 +75,5 @@ CentOS 7.
 
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
 [kubernetes-issue-93194]: https://github.com/kubernetes/kubernetes/issues/93194
-[terraform-configs]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
-[aws-versions-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/versions.tf
+[terraform-configs]: https://github.com/kubermatic/kubeone/tree/release/v1.0/examples/terraform
+[aws-versions-tf]: https://github.com/kubermatic/kubeone/blob/release/v1.0/examples/terraform/aws/versions.tf

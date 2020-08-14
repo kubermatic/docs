@@ -144,4 +144,4 @@ following upgrade command:
 kubeone upgrade --manifest config.yaml -t . --force
 ```
 
-[apply-proposal]: https://github.com/kubermatic/kubeone/blob/master/docs/proposals/20200224-apply.md
+[apply-proposal]: https://github.com/kubermatic/kubeone/blob/release/v1.0/docs/proposals/20200224-apply.md

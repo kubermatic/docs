@@ -126,9 +126,9 @@ We provide the example addons that you can use as a template or to handle
 various tasks, such as cluster backups. You can find the example addons in
 the [`addons`][addons] directory.
 
-[design-proposal]: https://github.com/kubermatic/kubeone/blob/master/docs/proposals/20200205-addons.md
+[design-proposal]: https://github.com/kubermatic/kubeone/blob/release/v1.0/docs/proposals/20200205-addons.md
 [go-templates]: https://golang.org/pkg/text/template/
 [sprig]: https://github.com/Masterminds/sprig
 [sprig-docs]: http://masterminds.github.io/sprig/
 [sprig-b64enc]: http://masterminds.github.io/sprig/encoding.html
-[addons]: https://github.com/kubermatic/kubeone/tree/master/addons
+[addons]: https://github.com/kubermatic/kubeone/tree/release/v1.0/addons

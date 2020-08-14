@@ -154,7 +154,7 @@ kubeone document man -o /tmp/man
 ```
 
 [github-releases]: https://github.com/kubermatic/kubeone/releases
-[github-script]: https://github.com/kubermatic/kubeone/blob/master/install.sh
+[github-script]: https://github.com/kubermatic/kubeone/blob/release/v1.0/install.sh
 [github-tags]: https://github.com/kubermatic/kubeone/tags
 [package-managers-issue]: https://github.com/kubermatic/kubeone/issues/471
 [arch-linux]: https://www.archlinux.org/packages/community/x86_64/kubeone/

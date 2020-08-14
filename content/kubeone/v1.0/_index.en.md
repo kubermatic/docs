@@ -71,7 +71,7 @@ features, connect with us over the forums or Slack:
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
 [cluster-api]: https://github.com/kubernetes-sigs/cluster-api
 [machine-controller]: https://github.com/kubermatic/machine-controller
-[contributing-guide]: https://github.com/kubermatic/kubeone/blob/master/CONTRIBUTING.md
+[contributing-guide]: https://github.com/kubermatic/kubeone/blob/release/v1.0/CONTRIBUTING.md
 [slack-kubeone]: https://kubernetes.slack.com/messages/CNEV2UMT7
 [slack-k8s]: http://slack.k8s.io/
 [forums]: https://forum.kubermatic.com/

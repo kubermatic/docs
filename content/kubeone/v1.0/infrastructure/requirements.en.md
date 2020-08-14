@@ -72,7 +72,7 @@ plane instances:
 [gobetween]: http://gobetween.io/
 [ssh]: {{< ref "../prerequisites/ssh#sshd-requirements-on-instances" >}}
 [supported-providers]: {{< ref "../compatibility_info#supported-providers" >}}
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/release/v1.0/examples/terraform
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [concepts]: {{< ref "../concepts#kubermatic-machine-controller" >}}
 [concepts-md]: {{< ref "../concepts#machinedeployments" >}}
