@@ -5,7 +5,7 @@ weight = 1
 +++
 
 {{% notice note %}}
-If you're using our [example Terraform configs]({{< ref "terraform_configs" >}}),
+If you're using our [example Terraform configs]({{< ref "./terraform_configs" >}}),
 all requirements are satisfied by default.
 {{% /notice %}}
 
@@ -66,7 +66,7 @@ plane instances:
 * You must have an SSH key deployed on all control plane instances and
   SSH configured as described in the [Configuring SSH][ssh] document
 
-[production-recommendations]: {{< ref "production_recommendations" >}}
+[production-recommendations]: {{< ref "./production_recommendations" >}}
 [k8s-control-plane]: {{< ref "../concepts#control-plane" >}}
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
 [gobetween]: http://gobetween.io/

@@ -25,7 +25,7 @@ where to look for the information when generating the file.
 
 {{% notice note %}}
 The needed `output.tf` file already comes with all our
-[example Terraform configs]({{< ref "terraform_configs" >}}).
+[example Terraform configs]({{< ref "./terraform_configs" >}}).
 {{% /notice %}}
 
 This document serves as a reference for the `output.tf` file (i.e. the

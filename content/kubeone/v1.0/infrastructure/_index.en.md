@@ -28,7 +28,7 @@ Additionally, regardless of do you use our example Terraform configs or not,
 we highly advise checking the
 [Production Recommendations][production-recommendations] document.
 
-[terraform-configs]: {{< ref "terraform_configs" >}}
-[terraform-integration]: {{< ref "terraform_integration" >}}
+[terraform-configs]: {{< ref "./terraform_configs" >}}
+[terraform-integration]: {{< ref "./terraform_integration" >}}
 [requirements]: {{< ref "./requirements" >}}
-[production-recommendations]: {{< ref "production_recommendations" >}}
+[production-recommendations]: {{< ref "./production_recommendations" >}}
