@@ -49,13 +49,18 @@ Terraform scripts are available for all
 [natively supported][supported-providers] providers and can be found on
 [GitHub][terraform-scripts].
 
-<!-- TODO(xmudrii): link to the production practices once the document is ready -->
-
 {{% notice warning %}}
 The example Terraform scripts are supposed to be used as a foundation for
 building your own scripts. The scripts are optimized for ease of use and
 using in E2E tests, and therefore might not be suitable for the production
 usage out of the box.
+{{% /notice %}}
+
+{{% notice note %}}
+Please check the
+[Production Recommendations]({{< ref "../infrastructure/production_recommendations" >}})
+document for more details about making the example configs suitable for
+the production usage.
 {{% /notice %}}
 
 ## KubeOne Terraform Intergration
@@ -120,6 +125,9 @@ kubeone config print --full
 * joining worker nodes a cluster
 * reconciling worker nodes and ensuring they are healthy
 
+You can find more details about machine-controller in the
+[Managing Worker Nodes Using Kubermatic machine-controller document][using-machine-controller].
+
 ## Cluster API
 
 Cluster API is a Kubernetes sub-project focused on providing declarative APIs
@@ -164,6 +172,7 @@ MachineSets/Machines and allow advanced use cases such as rolling updates.
 [terraform-scripts]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [aws-output-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/output.tf
 [kubeadm]: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/
+[using-machine-controller]: {{< ref "../workers/machine_controller" >}}
 [cluster-api]: https://github.com/kubernetes-sigs/cluster-api
 [cluster-api-book]: https://cluster-api.sigs.k8s.io/
 [cluster-provisioning]: {{< ref "#cluster-provisioning-and-management" >}}
