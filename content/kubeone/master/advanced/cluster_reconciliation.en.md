@@ -1,13 +1,8 @@
 +++
 title = "Cluster Reconciliation (apply)"
 date =  2020-07-13T17:39:14+03:00
+weight = 1
 +++
-
-{{% notice warning %}}
-In order to use the apply command, KubeOne v1.0.0 is required. Since KubeOne
-v1.0.0 is still unreleased, the apply command might not be stable, so
-it's currently not recommended to use it in production.
-{{% /notice %}}
 
 The cluster reconciliation process determines the actual state of the cluster
 and takes actions based on the difference between actual and expected states.

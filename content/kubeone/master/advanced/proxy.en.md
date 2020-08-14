@@ -1,6 +1,7 @@
 +++
 title = "Proxy support"
 date = 2020-04-01T12:00:00+02:00
+weight = 5
 +++
 
 Annotated example config with enabled PROXY support:

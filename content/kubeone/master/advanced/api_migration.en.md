@@ -2,6 +2,7 @@
 title = "Migrating to the KubeOneCluster v1beta1 API"
 date = 2020-04-01T12:00:00+02:00
 enableToc = true
+weight = 2
 +++
 
 Starting with `v1.0.0`, KubeOne comes with a new, `v1beta1` version of the
@@ -17,16 +18,6 @@ as possible.
 
 {{% notice note %}}
 To migrate to the v1beta1 API, you must upgrade KubeOne to `v1.0.0` or newer.
-Since `v1.0.0` is currently unreleased, you need to build from the master
-branch or use the
-[`v1.0.0-alpha.4`](https://github.com/kubermatic/kubeone/releases/tag/v1.0.0-alpha.4)
-release or newer if you want to try the new API.
-{{% /notice %}}
-
-{{% notice warning %}}
-The `v1.0.0` release is still unreleased. The changes to v1beta1 API
-may still happen, so it's recommended to wait for the final version
-before migrating.
 {{% /notice %}}
 
 ## Migrating the manifest using the `config migrate` command
