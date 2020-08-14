@@ -1,6 +1,7 @@
 +++
 title = "Addons"
 date = 2020-04-01T12:00:00+02:00
+weight = 3
 +++
 
 Addons are a mechanism used to deploy Kubernetes resources after provisioning
@@ -87,7 +88,14 @@ of the provided directory will be applied.
 
 The addons are reconciled after initializing and joining the control plane
 nodes nodes when running `kubeone install`, `kubeone upgrade`, or
-`kubeone apply`. The reconciliation is done using `kubectl` over SSH, using a
+`kubeone apply`. You can also reconcile addons after the cluster is provisioned
+by using `kubeone apply`.
+
+```bash
+kubeone apply --manifest kubeone.yaml -t .
+```
+
+The reconciliation is done using `kubectl` over SSH, using a
 command such as:
 
 ```
