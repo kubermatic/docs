@@ -79,7 +79,7 @@ If you have the Go toolchain configured, you can use `go get` to obtain KubeOne.
 To get the latest stable release:
 
 ```
-GO111MODULE=on go get k8c.io/kubeone@master
+GO111MODULE=on go get k8c.io/kubeone
 ```
 
 To get other releases, such as alpha, beta, and RC releases, you can provide a
