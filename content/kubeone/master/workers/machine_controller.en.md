@@ -106,7 +106,7 @@ You can easily edit existing MachineDeployment objects using the `kubectl edit`
 command, for example:
 
 ```bash
-kubectl edit -n kube-system machinedeployment demo-eu-west-3a
+kubectl edit -n kube-system machinedeployment <machinedeployment-name>
 ```
 
 This will open a text editor, where you can edit various properties. If you
@@ -124,12 +124,12 @@ the `scale` command:
 
 ```bash
 # Scaling up
-kubectl scale -n kube-system machinedeployment demo-eu-west-3a --replicas=5
+kubectl scale -n kube-system machinedeployment <machinedeployment-name> --replicas=5
 ```
 
 ```bash
 # Scalding down
-kubectl scale -n kube-system machinedeployment demo-eu-west-3a --replicas=2
+kubectl scale -n kube-system machinedeployment <machinedeployment-name> --replicas=2
 ```
 
 Scaling down to zero is useful when you want to "temporarily" delete worker
@@ -137,7 +137,7 @@ nodes, i.e. have the ability to easily recreate them by scaling up.
 
 ```bash
 # Scalding down
-kubectl scale -n kube-system machinedeployment demo-eu-west-3a --replicas=0
+kubectl scale -n kube-system machinedeployment <machinedeployment-name> --replicas=0
 ```
 
 {{% notice warning %}}

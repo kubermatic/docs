@@ -3,6 +3,17 @@ title = "Provisioning"
 date = 2020-04-01T12:00:00+02:00
 weight = 6
 enableToc = true
+aliases = [
+    "/kubeone/master/quickstarts/",
+    "/kubeone/master/quickstarts/aws/",
+    "/kubeone/master/quickstarts/azure/",
+    "/kubeone/master/quickstarts/digitalocean/",
+    "/kubeone/master/quickstarts/gce/",
+    "/kubeone/master/quickstarts/hetzner/",
+    "/kubeone/master/quickstarts/openstack/",
+    "/kubeone/master/quickstarts/packet/",
+    "/kubeone/master/quickstarts/vsphere/",
+]
 +++
 
 This document shows how to install and provision a Kubernetes cluster using
