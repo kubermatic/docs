@@ -4,15 +4,15 @@ date = 2020-04-01T12:00:00+02:00
 weight = 6
 enableToc = true
 aliases = [
-    "/kubeone/master/quickstarts/",
-    "/kubeone/master/quickstarts/aws/",
-    "/kubeone/master/quickstarts/azure/",
-    "/kubeone/master/quickstarts/digitalocean/",
-    "/kubeone/master/quickstarts/gce/",
-    "/kubeone/master/quickstarts/hetzner/",
-    "/kubeone/master/quickstarts/openstack/",
-    "/kubeone/master/quickstarts/packet/",
-    "/kubeone/master/quickstarts/vsphere/",
+    "/kubeone/v1.0/quickstarts/",
+    "/kubeone/v1.0/quickstarts/aws/",
+    "/kubeone/v1.0/quickstarts/azure/",
+    "/kubeone/v1.0/quickstarts/digitalocean/",
+    "/kubeone/v1.0/quickstarts/gce/",
+    "/kubeone/v1.0/quickstarts/hetzner/",
+    "/kubeone/v1.0/quickstarts/openstack/",
+    "/kubeone/v1.0/quickstarts/packet/",
+    "/kubeone/v1.0/quickstarts/vsphere/",
 ]
 +++
 

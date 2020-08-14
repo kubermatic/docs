@@ -2,7 +2,7 @@
 title = "KubeOne"
 date = 2020-04-01T09:00:00+02:00
 aliases = [
-    "/kubeone/master/frequently_asked_questions/"
+    "/kubeone/v1.0/frequently_asked_questions/"
 ]
 +++
 
