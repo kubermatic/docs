@@ -52,7 +52,7 @@ spec:
   - icon: ""
     label: Twitter
     location: footer
-    url: https://www.twitter.com/loodse
+    url: https://www.twitter.com/kubermatic
   - icon: ""
     label: GitHub
     location: footer

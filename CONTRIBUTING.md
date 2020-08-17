@@ -27,7 +27,7 @@ By doing this you state that you can certify the following (from https://develop
 ## Email and Chat
 
 The Docs project currently uses the general Kubermatic email list and Slack channel:
-- Email: [loodse-dev](https://groups.google.com/forum/#!forum/loodse-dev)
+- Email: [kubermatic-dev](https://groups.google.com/forum/#!forum/kubermatic-dev)
 - Slack: #[kubermatic](http://slack.kubermatic.io/) on Slack
 
 Please avoid emailing maintainers found in the MAINTAINERS file directly. They
@@ -35,7 +35,7 @@ are very busy and read the mailing lists.
 
 ##  Reporting a security vulnerability
 
-Due to their public nature, GitHub and mailing lists are not appropriate places for reporting vulnerabilities. If you suspect you have found a security vulnerability, please do not file a GitHub issue, but instead email security@loodse.com with the full details, including steps to reproduce the issue.
+Due to their public nature, GitHub and mailing lists are not appropriate places for reporting vulnerabilities. If you suspect you have found a security vulnerability, please do not file a GitHub issue, but instead email security@kubermatic.com with the full details, including steps to reproduce the issue.
 
 
 ## Getting Started

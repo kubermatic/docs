@@ -113,7 +113,7 @@ datacenters:
         endpoint: "https://antarctica.kubermatic.io"
         datacenter: "Datacenter-foo"
         datastore: "datastore-bar"
-        cluster: "loodse-cluster"
+        cluster: "kubermatic-cluster"
         allow_insecure: false
         root_path: "/Datacenter/vm/kubermatic"
         templates:

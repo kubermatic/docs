@@ -156,7 +156,7 @@ Htpasswd uses a static htpasswd file for user authentication.
 First, create a new file via the `htpasswd` utility. In this example, we are using `Bcrypt` as a hashing algorithm. Make sure to specify a strong algorithm, because the default `MD5` hash is insecure.
 
 ```bash
-htpasswd -B -c my-user-file nico@loodse.com
+htpasswd -B -c my-user-file nico@kubermatic.com
 ```
 
 Load this file into a Kubernetes Secret into the `kubecarrier-system` namespace:

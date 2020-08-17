@@ -37,10 +37,10 @@ In order for the shared `kubeconfig` to be of any use, we must grant that other 
 point to the cluster and create a `rolebinding` or `clusterrolebinding`, using the email address of the user the `kubeconfig` was
 shared to as value for the `user` property.
 
-The following example command grants read-only access to the cluster to `lukasz@loodse.com`:
+The following example command grants read-only access to the cluster to `lukasz@kubermatic.com`:
 
 ```bash
-kubectl create clusterrolebinding lukaszviewer --clusterrole=view --user=lukasz@loodse.com
+kubectl create clusterrolebinding lukaszviewer --clusterrole=view --user=lukasz@kubermatic.com
 ```
 
 Now it's time to let the user the cluster was shared to use the config and list some resources for example `pods`.
@@ -56,7 +56,7 @@ If the `lukaszviewer` binding gets deleted or something else goes wrong, the fol
 ```bash
 kubectl get pods
 
-Error from server (Forbidden): pods is forbidden: User "lukasz@loodse.com" cannot list pods in the namespace "default"
+Error from server (Forbidden): pods is forbidden: User "lukasz@kubermatic.com" cannot list pods in the namespace "default"
 ```
 
 ### Prerequisites
