@@ -106,7 +106,7 @@ datacenters:
     location: Antarctica
     seed: europe-west3-c
     country: DE
-    provider: Loodse
+    provider: Kubermatic
     seed_dns_overwrite: internal8
     spec:
       vsphere:

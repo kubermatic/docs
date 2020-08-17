@@ -14,7 +14,7 @@ favicon = "/img/favicon.ico"
 # See the config.toml file from this documentation site to have an example.
 editURL = "https://github.com/loodse/docs/edit/master/content/"
 # Author of the site, will be used in meta information
-author = "Loodse GmbH"
+author = "Kubermatic GmbH"
 # Description of the site, will be used in meta information
 description = "Official Kubermatic Documentation"
 # Shows a checkmark for visited pages on the menu
@@ -63,7 +63,7 @@ url = "https://www.kubermatic.com"
 class = "fa fa-globe"
 
 [[params.socials]]
-url = "https://twitter.com/Loodse"
+url = "https://twitter.com/Kubermatic"
 class = "fab fa-twitter"
 
 [[params.socials]]

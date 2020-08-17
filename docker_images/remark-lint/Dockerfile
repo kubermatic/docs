@@ -1,5 +1,5 @@
 FROM node:12.11-alpine
-LABEL maintainer="Loodse <support@loodse.com>"
+LABEL maintainer="Kubermatic <support@loodse.com>"
 
 ENV PATH "$PATH:/app/node_modules/.bin/"
 ENV NODE_PATH=/app/node_modules/

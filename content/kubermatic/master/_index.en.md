@@ -13,7 +13,7 @@ Kubermatic is directly integrated with leading cloud providers Amazon Web Servic
 ## Features
 
 {{% notice tip %}}
-For latest updates follow us on Twitter [@Loodse](https://twitter.com/Loodse)
+For latest updates follow us on Twitter [@Kubermatic](https://twitter.com/Kubermatic)
 {{% /notice %}}
 
 ### Use Kubernetes
@@ -30,4 +30,4 @@ You can add and remove nodes in our easy to use dashboard. Just specify the amou
 
 ## Further Information
 
-See [Loodse.com](https://www.loodse.com/).
+See [Kubermatic.com](https://www.loodse.com/).

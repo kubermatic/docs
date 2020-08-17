@@ -144,7 +144,7 @@ dex:
     userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
 
 kubermaticOperator:
-  # insert the Docker authentication JSON provided by Loodse here
+  # insert the Docker authentication JSON provided by Kubermatic here
   imagePullSecret: |
     {
       "auths": {
