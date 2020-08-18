@@ -106,14 +106,14 @@ datacenters:
     location: Antarctica
     seed: europe-west3-c
     country: DE
-    provider: Loodse
+    provider: Kubermatic
     seed_dns_overwrite: internal8
     spec:
       vsphere:
         endpoint: "https://antarctica.kubermatic.io"
         datacenter: "Datacenter-foo"
         datastore: "datastore-bar"
-        cluster: "loodse-cluster"
+        cluster: "kubermatic-cluster"
         allow_insecure: false
         root_path: "/Datacenter/vm/kubermatic"
         templates:

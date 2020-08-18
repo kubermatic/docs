@@ -151,7 +151,7 @@ datacenters:
           centos: "centos-template"
           coreos: "coreos-template"
       requiredEmailDomains:
-      - "loodse.com"
+      - "kubermatic.com"
       - "example.com"
 
   #==================================

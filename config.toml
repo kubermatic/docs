@@ -12,9 +12,9 @@ favicon = "/img/favicon.ico"
 # Prefix URL to edit current page. Will display an "Edit this page" button on top right hand corner of every page.
 # Useful to give opportunity to people to create merge request for your doc.
 # See the config.toml file from this documentation site to have an example.
-editURL = "https://github.com/loodse/docs/edit/master/content/"
+editURL = "https://github.com/kubermatic/docs/edit/master/content/"
 # Author of the site, will be used in meta information
-author = "Loodse GmbH"
+author = "Kubermatic GmbH"
 # Description of the site, will be used in meta information
 description = "Official Kubermatic Documentation"
 # Shows a checkmark for visited pages on the menu
@@ -63,7 +63,7 @@ url = "https://www.kubermatic.com"
 class = "fa fa-globe"
 
 [[params.socials]]
-url = "https://twitter.com/Loodse"
+url = "https://twitter.com/Kubermatic"
 class = "fab fa-twitter"
 
 [[params.socials]]
@@ -75,5 +75,5 @@ url = "https://www.youtube.com/channel/UCHyOXqpOR7TRyOzS5bolcUw"
 class = "fab fa-youtube"
 
 [[params.socials]]
-url = "https://www.facebook.com/loodse/"
+url = "https://www.facebook.com/kubermatic/"
 class = "fab fa-facebook-f"

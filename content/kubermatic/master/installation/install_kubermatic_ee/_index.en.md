@@ -8,7 +8,7 @@ enterprise = true
 This chapter explains the installation procedure of Kubermatic into a pre-existing Kubernetes cluster.
 
 {{% notice note %}}
-At the moment you need to be invited to get access to Kubermatic's Docker registry before you can try it out. Please [contact sales](mailto:sales@loodse.com) to receive your credentials.
+At the moment you need to be invited to get access to Kubermatic's Docker registry before you can try it out. Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 {{% /notice %}}
 
 ## Terminology
@@ -144,7 +144,7 @@ dex:
     userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
 
 kubermaticOperator:
-  # insert the Docker authentication JSON provided by Loodse here
+  # insert the Docker authentication JSON provided by Kubermatic here
   imagePullSecret: |
     {
       "auths": {

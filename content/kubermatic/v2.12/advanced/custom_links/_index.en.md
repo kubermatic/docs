@@ -63,7 +63,7 @@ As a first step we need to change the application config:
   "custom_links": [
     {
       "label": "Twitter",
-      "url": "https://www.twitter.com/loodse"
+      "url": "https://www.twitter.com/kubermatic"
     },
     {
       "label": "GitHub",
@@ -99,7 +99,7 @@ Let's change some of the icons:
   "custom_links": [
     {
       "label": "Twitter",
-      "url": "https://www.twitter.com/loodse",
+      "url": "https://www.twitter.com/kubermatic",
       "icon": "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png"
     },
     {

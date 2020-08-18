@@ -669,7 +669,7 @@ spec:
     displayName: CouchDB
     description: The compfy database
   baseCRD:
-    name: couchdbs.eu-west-1.loodse
+    name: couchdbs.eu-west-1.kubermatic
 ```
 
 **Example with limited fields**
@@ -683,7 +683,7 @@ spec:
     displayName: CouchDB
     description: The compfy database
   baseCRD:
-    name: couchdbs.eu-west-1.loodse
+    name: couchdbs.eu-west-1.kubermatic
   derive:
     expose:
     - versions:
