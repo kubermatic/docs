@@ -7,7 +7,7 @@ enableToc = true
 
 KubeOne deploys the provider credentials to the cluster to be used by
 components such as
-[Kubernetes cloud-controller-manager][cloud-controller-manager] and
+[Kubernetes cloud-controller-manager][cloud-controller-manager] and 
 [Kubermatic machine-controller][machine-controller]. Those components
 communicate with the provider's API to the create worker nodes, pull the node
 metadata, provide advanced capabilities such as LoadBalancer Services and more.
@@ -37,7 +37,7 @@ the Terraform documentation for other authentication options.
 ## Environment Variables
 
 By default, KubeOne grabs credentials from the user's environment unless the
-credentials file is provided. In the following tables, you can find the
+credentials file is provided. In the following tables, you can find the 
 environment variables used by KubeOne.
 
 {{< tabs name="Environment Variables" >}}
@@ -110,9 +110,9 @@ gcloud projects list
 
 # create policy binding
 gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/compute.admin'
-gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/iam.serviceAccountUser'
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/iam.serviceAccountUser' 
 gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/viewer'
-```
+``` 
 
 A *Google Service Account* for the platform has to be created, see
 [Creating and managing service accounts](https://cloud.google.com/iam/docs/creating-managing-service-accounts).

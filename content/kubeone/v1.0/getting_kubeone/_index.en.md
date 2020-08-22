@@ -25,7 +25,7 @@ You can download the binary from the [GitHub Releases][github-releases].
 Find the archive for your operating system and architecture, and download it
 or grab the URL and use it with `wget` or `curl`.
 
-**Version:** version of KubeOne
+**Version:** version of KubeOne  
 **Operating system:** `linux` or `darwin` for macOS
 
 ```
@@ -79,7 +79,7 @@ If you have the Go toolchain configured, you can use `go get` to obtain KubeOne.
 To get the latest stable release:
 
 ```
-GO111MODULE=on go get k8c.io/kubeone
+GO111MODULE=on go get k8c.io/kubeone@master
 ```
 
 To get other releases, such as alpha, beta, and RC releases, you can provide a
@@ -154,7 +154,7 @@ kubeone document man -o /tmp/man
 ```
 
 [github-releases]: https://github.com/kubermatic/kubeone/releases
-[github-script]: https://github.com/kubermatic/kubeone/blob/release/v1.0/install.sh
+[github-script]: https://github.com/kubermatic/kubeone/blob/master/install.sh
 [github-tags]: https://github.com/kubermatic/kubeone/tags
 [package-managers-issue]: https://github.com/kubermatic/kubeone/issues/471
 [arch-linux]: https://www.archlinux.org/packages/community/x86_64/kubeone/

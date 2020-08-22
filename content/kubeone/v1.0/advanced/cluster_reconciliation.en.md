@@ -137,11 +137,11 @@ remove the Node object manually using kubectl.
 
 Currently, the apply command doesn't reconcile features. If you enable/disable
 any feature on already provisioned cluster, you have to run the upgrade process
-for changes to be in the effect. The upgrade process can be run using the
+for changes to be in the effect. The upgrade process can be run using the 
 following upgrade command:
 
 ```bash
 kubeone upgrade --manifest config.yaml -t . --force
 ```
 
-[apply-proposal]: https://github.com/kubermatic/kubeone/blob/release/v1.0/docs/proposals/20200224-apply.md
+[apply-proposal]: https://github.com/kubermatic/kubeone/blob/master/docs/proposals/20200224-apply.md

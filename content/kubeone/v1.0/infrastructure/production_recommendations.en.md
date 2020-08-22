@@ -29,7 +29,7 @@ data "aws_ami" "ami" {
     ...
 ```
 
-This this example AMI ID is `"ami-00f6fb16625871821"`, in your case it may be different.
+This this example AMI ID is `"ami-00f6fb16625871821"`, in your case it may be different. 
 
 In the terraform.tfvars file:
 ```terraform

@@ -46,7 +46,7 @@ The API version of the new API is `v1beta1`. The kind remains `KubeOneCluster`.
 ### Defining providers as typed structs
 
 The `cloudProvider.Name` field has been removed and replaced with typed
-structs. The valid provider struct names are same as valid
+structs. The valid provider struct names are same as valid 
 `cloudProvider.Name` values.
 
 ```yaml

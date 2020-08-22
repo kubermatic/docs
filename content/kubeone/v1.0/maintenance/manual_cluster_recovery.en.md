@@ -233,7 +233,7 @@ kubeone reset config.yaml -t tf.json --destroy-workers=false
 ```
 
 After this is done, ensure that the `/etc/kubernetes` directory is empty on all
-control plane instances. You can do that by SSH-ing to each instance and
+control plane instances. You can do that by SSH-ing to each instance and 
 running:
 
 ```bash
