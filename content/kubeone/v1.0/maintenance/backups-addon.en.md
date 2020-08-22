@@ -12,7 +12,7 @@ parts of a cluster, including:
 * Kubernetes PKI (certificates and keys used by Kubernetes and clients)
 
 The addon uses [Restic][restic-net] to upload backups, encrypt them, and handle
-backup rotation.
+backup rotation. 
 
 {{% notice warning %}}
 By default, backups are done every 30 minutes and are

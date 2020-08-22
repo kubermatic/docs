@@ -1,7 +1,7 @@
 +++
 title = "Concepts"
 date = 2020-07-30T12:00:00+02:00
-weight = 3
+weight = 4
 enableToc = true
 +++
 
@@ -137,7 +137,7 @@ the [Cluster API repository][cluster-api] and
 the [Cluster API documentation website][cluster-api-book].
 
 We use Cluster API for managing worker nodes, while control plane nodes are
-managed as described in the
+managed as described in the 
 [Cluster Provisioning and Management][cluster-provisioning] section.
 
 The Cluster API controller (e.g. Kubermatic machine-controller) is responsible
@@ -169,8 +169,8 @@ MachineSets/Machines and allow advanced use cases such as rolling updates.
 [etcd-quorum]: https://etcd.io/docs/v3.3.12/faq
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [supported-providers]: {{< ref "../compatibility_info" >}}
-[terraform-scripts]: https://github.com/kubermatic/kubeone/tree/release/v1.0/examples/terraform
-[aws-output-tf]: https://github.com/kubermatic/kubeone/blob/release/v1.0/examples/terraform/aws/output.tf
+[terraform-scripts]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[aws-output-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/output.tf
 [kubeadm]: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/
 [using-machine-controller]: {{< ref "../workers/machine_controller" >}}
 [cluster-api]: https://github.com/kubernetes-sigs/cluster-api

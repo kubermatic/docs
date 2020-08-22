@@ -1,7 +1,7 @@
 +++
 title = "Prerequisites"
 date = 2020-04-01T12:00:00+02:00
-weight = 4
+weight = 5
 +++
 
 You should take these steps before using KubeOne to ensure the smoothest

@@ -8,7 +8,7 @@ enableToc = true
 KubeOne comes with example Terraform configs that can be used to create the
 infrastructure needed for running a conformant, production-grade Kubernetes
 cluster. The example configs are available for all natively supported
-providers and can be found on the
+providers and can be found on the 
 [GitHub under the `examples/terraform`][terraform-configs-github]
 directory. They are also coming along with the binaries when you download a
 KubeOne release from [GitHub Releases][github-releases].
@@ -44,7 +44,7 @@ release, or you've checked out the repository, navigate to the
 `./examples/terraform` directory.
 
 If you installed KubeOne using the Arch Linux
-package, the example configs are located in the
+package, the example configs are located in the 
 `/usr/share/doc/kubeone/examples/terraform/` directory. You should copy those
 configs to some other place, as they might be removed/overwritten when
 upgrading the package.
@@ -167,7 +167,7 @@ If you modify variables and/or `output.tf` file after running
 may cause all resources to be recreated causing the **data loss**!
 {{% /notice %}}
 
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/release/v1.0/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [github-releases]: https://github.com/kubermatic/kubeone/releases
 [getting-kubeone]: {{< ref "../getting_kubeone" >}}
 [configuring-credentials]: {{< ref "../prerequisites/credentials" >}}

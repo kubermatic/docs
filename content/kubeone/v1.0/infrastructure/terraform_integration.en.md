@@ -191,5 +191,5 @@ output "kubeone_workers" {
 }
 ```
 
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/release/v1.0/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [concepts-mc]: {{< ref "../concepts#kubermatic-machine-controller" >}}

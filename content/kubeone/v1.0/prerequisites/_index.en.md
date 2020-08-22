@@ -1,7 +1,7 @@
 +++
 title = "Prerequisites"
 date = 2020-04-01T12:00:00+02:00
-weight = 4
+weight = 5
 +++
 
 You should take these steps before using KubeOne to ensure the smoothest
@@ -17,7 +17,7 @@ Make sure that you have:
   * You can find the installation instructions in the
     [official Terraform docs][install-terraform]
   * Check out the [Compatibility][compatibility] document
-    for more details about supported Terraform versions
+    for more details about supported Terraform versions    
 * The appropriate provider credentials to be used by KubeOne and Terraform as
   described in the [Configuring Credentials][config-credentials] document
 * An SSH key and the `ssh-agent` configured as described in the

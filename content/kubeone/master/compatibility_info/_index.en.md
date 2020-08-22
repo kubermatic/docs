@@ -1,7 +1,7 @@
 +++
 title = "Compatibility"
 date = 2020-07-30T12:00:00+02:00
-weight = 2
+weight = 3
 +++
 
 This document shows what are compatible Kubernetes, Terraform, and operating

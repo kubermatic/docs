@@ -14,7 +14,7 @@ enableToc = true
 
 Kubermatic machine-controller allows you define all worker nodes as Kubernetes
 object, more precisely, as MachineDeployments. MachineDeployments work similar
-to core Deployments. You provide information needed to create instances, while
+to core Deployments. You provide information needed to create instances, while 
 machine-controller creates underlying MachineSet and Machine objects, and
 based on that, (cloud) provider instances. The (cloud) provider instances are
 then provisioned and joined the cluster by machine-controller automatically.
@@ -28,7 +28,7 @@ using kubectl or by interacting with the Kubernetes API directly. This is a
 powerful mechanism because you can create new worker nodes, delete existing
 ones, or scale them up and down, using a single kubectl command.
 
-Kubermatic machine-controller works only with
+Kubermatic machine-controller works only with 
 [natively-supported][supported-providers] providers. If your provider is
 natively-supported, we highly recommend using machine-controller. Otherwise,
 you can use [KubeOne Static Workers][static-workers].
