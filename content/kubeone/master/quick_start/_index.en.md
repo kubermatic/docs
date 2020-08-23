@@ -1,10 +1,10 @@
 +++
-title = "Getting Started"
+title = "Quick Start"
 date = 2020-08-22T12:00:00+02:00
 weight = 2
 +++
 
-This Getting Started guide shows how you can get started with KubeOne and
+This Quick Start guide shows how you can quickly get started with KubeOne and
 create your first cluster.
 
 ## Prerequisites
