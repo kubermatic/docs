@@ -15,7 +15,7 @@ the current KubeOne version. The additional features include the KubeOne
 Terraform integration and the integration with Kubermatic machine-controller.
 
 KubeOne supports AWS, Azure, DigitalOcean, GCP, Hetzner Cloud,
-OpenStack, and VMware vSphere.
+OpenStack, Packet, and VMware vSphere.
 
 ## Supported Kubernetes Versions
 
