@@ -25,6 +25,13 @@ kubectl apply -f charts/cert-manager/crd/
 helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_HERE --namespace cert-manager cert-manager charts/cert-manager/
 ```
 
+{{% notice note %}}
+Older versions of `kubectl` can potentially have issues applying the CRD manifests. If you encounter problems, please update
+your `kubectl` to the latest stable version and refer to the
+[cert-manager documentation](https://cert-manager.io/docs/installation/upgrading/upgrading-0.15-0.16/#issue-with-older-versions-of-kubectl)
+for more information.
+{{% /notice %}}
+
 Note that on the first `kubectl apply` you will receive warnings because now "kubectl takes control over previously
 Helm-owned resources", which can be safely ignored.
 
