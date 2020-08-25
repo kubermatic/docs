@@ -76,7 +76,7 @@ The project was then renamed to [Louketo](https://github.com/louketo/louketo-pro
 [deprecated](https://github.com/louketo/louketo-proxy/issues/683) and users are encouraged to move to
 [OAuth2-Proxy](https://github.com/oauth2-proxy/oauth2-proxy).
 
-Kubermatic 2.15 therefore switches to OAuth2-Proxy, which covers most of Keycloak_s functionality but with a slightly
+Kubermatic 2.15 therefore switches to OAuth2-Proxy, which covers most of Keycloak's functionality but with a slightly
 different syntax. Please refer to the [official documentation](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/docs/configuration/configuration.md)
 for the available settings, in addition to these changes:
 
