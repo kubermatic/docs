@@ -74,3 +74,38 @@ minio:
     accessKey: # generate a random, alphanumeric 32 byte secret
     secretKey: # generate a random, alphanumeric 64 byte secret
 ```
+
+### Identity-Aware Proxy (IAP)
+
+Previous Kubermatic versions used Keycloak-Proxy for securing access to cluster services like Prometheus or Grafana.
+The project was then renamed to [Louketo](https://github.com/louketo/louketo-proxy) and then shortly thereafter
+[deprecated](https://github.com/louketo/louketo-proxy/issues/683) and users are encouraged to move to
+[OAuth2-Proxy](https://github.com/oauth2-proxy/oauth2-proxy).
+
+Kubermatic 2.15 therefore switches to OAuth2-Proxy, which covers most of Keycloak's functionality but with a slightly
+different syntax. Please refer to the [official documentation](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/docs/configuration/configuration.md)
+for the available settings, in addition to these changes:
+
+* `iap.disocvery_url` in Helm values was renamed to `iap.oidc_issuer_url`, pointing to the OIDC provider's base
+  URL (i.e. if you had this configured as `https://example.com/dex/.well-known/openid-configuration` before, this must
+  now be `https://example.com/dex`).
+* The `passthrough` option for each IAP deployment has been removed. Instead paths that are **not** supposed to be
+  secured by the proxy are now configured via `config.skip_auth_regex`.
+* The `config.scopes` option for each IAP deployment is now `config.scope`, a single string that must (for Dex)
+  be space-separated.
+* The `config.resources` mechanism for granting access based on user groups/roles has been removed. Instead the
+  required organisations/teams are now configured via explicit config variables like `config.github_org` and
+  `config.github_team`.
+* `email_domains` must be configured for each IAP deployment. In most cases it can be set to `["*"]`.
+
+A few examples can be found in the relevant [code change in Kubermatic](https://github.com/kubermatic/kubermatic/pull/5777/files).
+
+To prevent issues with Helm re-using IAP deployment config values from a previous release, it can be helpful to purge and
+reinstall the chart:
+
+```bash
+helm --tiller-namespace kubermatic delete --purge iap
+helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_HERE --namespace iap iap charts/iap/
+```
+
+Be advised that during the re-installation the secured services (Prometheus, Grafana, ...) will not be accessible.
