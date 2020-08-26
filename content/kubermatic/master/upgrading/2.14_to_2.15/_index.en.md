@@ -7,6 +7,12 @@ weight = 90
 
 ## Helm Charts
 
+### Prometheus
+
+The Prometheus version included in Kubermatic 2.15 now enables WAL compression by default; our Helm chart follows this
+recommendation. If the compression needs to stay disabled, the key `prometheus.tsdb.compressWAL` can be set to `false`
+when upgrading the Helm chart.
+
 ### CRD Handling in cert-manager, Velero
 
 In previous Kubermatic releases, Helm was responsible for installing the CRDs for cert-manager and Velero. While this
