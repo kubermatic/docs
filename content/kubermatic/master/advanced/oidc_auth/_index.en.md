@@ -24,11 +24,11 @@ by creating appropriate [RBAC](https://kubernetes.io/docs/reference/access-authn
 In order to demonstrate the feature we are going to need a working cluster. If you don't have one please check the [how to create a cluster](../../getting_started/create_cluster/) section.
 If the feature was enabled on your installation you should see a "Share cluster" button after navigating to "Cluster details" page.
 
-![Share cluster button](/img/master/advanced/oidc-auth/share-cluster.png)
+![Share cluster button](/img/kubermatic/master/advanced/oidc-auth/share-cluster.png)
 
 Right after clicking on the button you will see a modal window where you can copy the generated link to your clipboard.
 
-![Share cluster dialog](/img/master/advanced/oidc-auth/share-cluster-modal.png)
+![Share cluster dialog](/img/kubermatic/master/advanced/oidc-auth/share-cluster-modal.png)
 
 You can now share this link with anyone that can access the Kubermatic UI. After login, that person will get a download link for a
 `kubeconfig`.
@@ -37,10 +37,10 @@ In order for the shared `kubeconfig` to be of any use, we must grant that other 
 point to the cluster and create a `rolebinding` or `clusterrolebinding`, using the email address of the user the `kubeconfig` was
 shared to as value for the `user` property.
 
-The following example command grants read-only access to the cluster to `lukasz@loodse.com`:
+The following example command grants read-only access to the cluster to `lukasz@kubermatic.com`:
 
 ```bash
-kubectl create clusterrolebinding lukaszviewer --clusterrole=view --user=lukasz@loodse.com
+kubectl create clusterrolebinding lukaszviewer --clusterrole=view --user=lukasz@kubermatic.com
 ```
 
 Now it's time to let the user the cluster was shared to use the config and list some resources for example `pods`.
@@ -56,7 +56,7 @@ If the `lukaszviewer` binding gets deleted or something else goes wrong, the fol
 ```bash
 kubectl get pods
 
-Error from server (Forbidden): pods is forbidden: User "lukasz@loodse.com" cannot list pods in the namespace "default"
+Error from server (Forbidden): pods is forbidden: User "lukasz@kubermatic.com" cannot list pods in the namespace "default"
 ```
 
 ### Prerequisites
@@ -135,8 +135,8 @@ to simplify access control across the user cluster. All of the default roles and
 
 The cluster owner is automatically connected to the `admin` cluster role.
 
-![Kubermatic cluster owner RBAC link](/img/master/advanced/oidc-auth/cluster-owner-rbac.png)
+![Kubermatic cluster owner RBAC link](/img/kubermatic/master/advanced/oidc-auth/cluster-owner-rbac.png)
 
 The project user with owner and editor privileges can add and remove bindings to existing roles and cluster roles.
 
-![Kubermatic add binding RBAC link](/img/master/advanced/oidc-auth/add-binding-rbac.png)
+![Kubermatic add binding RBAC link](/img/kubermatic/master/advanced/oidc-auth/add-binding-rbac.png)

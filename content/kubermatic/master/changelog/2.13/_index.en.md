@@ -6,6 +6,32 @@ weight = 213
 
 +++
 
+## v2.13.7
+
+- Added Kubernetes v1.16.13, and removed v1.16.2-7 in default version configuration
+- Added Kubernetes v1.17.9, and removed v1.17.0-3 in default version configuration
+
+## v2.13.6
+
+- Fixed a bug preventing editing of existing cluster credential secrets
+
+## v2.13.5
+
+- Updated machine-controller to `v1.10.4` to address issue in CNI plugins
+
+## v2.13.4
+
+- ACTION REQUIRED: The most recent backup for user clusters is kept when the cluster is deleted. Adjust the cleanup-container to get the old behaviour (delete all backups) back.
+- Updated machine-controller to v1.10.3 to fix the Docker daemon/CLI version incompatibility
+
+## v2.13.3
+
+This release contains only improvement to the image build process.
+
+## v2.13.2
+
+- Openstack: we now include distributed routers in existing router search
+
 ## v2.13.1
 
 - Fixed swagger and API client for ssh key creation.

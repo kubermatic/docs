@@ -6,6 +6,19 @@ weight = 212
 
 +++
 
+## v2.12.9
+
+- Added Kubernetes v1.16.13, and removed v1.16.2-7 in default version configuration
+
+## v2.12.8
+
+- Updated machine-controller to `v1.8.4` to address issue in CNI plugins
+
+## v2.12.7
+
+- Openstack: fixed a bug preventing the usage of pre-existing subnets connected to distributed routers
+- Updated machine-controller to `v1.8.2` to fix the Docker daemon/CLI version incompatibility
+
 ## v2.12.6
 
 - System labels can no longer be removed by the user.

@@ -7,6 +7,10 @@ weight = 10
 
 Using the installer is the recommended way of installing Kubermatic into your cluster. It provides a simple web wizard for configuration and automates the installation of all required components.
 
+{{% notice note %}}
+At the moment you need to be invited to get access to Kubermatic's Docker registry before you can try it out. Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
+{{% /notice %}}
+
 ## Quickstart
 
 The installer is available via Docker and can be run by
@@ -17,7 +21,7 @@ docker run --rm -p 8080:8080 quay.io/kubermatic/installer wizard
 
 and then opening [localhost:8080](http://localhost:8080) in your browser. Follow the steps and you should be up and running in no time.
 
-![Kubermatic Installer](/img/installation/wizard.png)
+![Kubermatic Installer](/img/kubermatic/v2.13/installation/wizard.png)
 
 {{% notice note %}}
 Because the installer runs inside a Docker container, it cannot access any cluster authentication providers on your host machine, like Amazon's `aws-iam-authenticator`. Make sure to provide static credentials in your `kubeconfig` or use the `kubeconfig-serviceaccounts.sh` script to automatically add static accounts to your clusters (see [credentials](#credentials) section below).

@@ -11,6 +11,6 @@ approvers:
 reviewers:
   - team-lifecycle
   - team-ui
-  - team-kubecarrier  
+  - team-kubecarrier
   - team-ps
-  - scheeles  
+  - scheeles

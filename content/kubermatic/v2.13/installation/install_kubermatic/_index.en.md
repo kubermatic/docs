@@ -8,7 +8,7 @@ weight = 20
 This chapter explains the automated as well as the manual installation of Kubermatic into a pre-existing Kubernetes cluster.
 
 {{% notice note %}}
-At the moment you need to be invited to get access to Kubermatic's Docker registry before you can try it out. Please [contact sales](mailto:sales@loodse.com) to receive your credentials.
+At the moment you need to be invited to get access to Kubermatic's Docker registry before you can try it out. Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 {{% /notice %}}
 
 ## Terminology

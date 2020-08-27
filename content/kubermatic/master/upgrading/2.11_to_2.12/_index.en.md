@@ -38,3 +38,19 @@ kubectl apply -f schedules.yaml
 ```
 
 This change does not affect user cluster etcds, which are stilled backed up regularly.
+
+
+### CNI
+
+In v2.12, we are upgrading Flannel to v0.11.0 which lead to NetworkPolicies not working properly.
+Flannel doesn't detect some iptables rules and flush the appropriate rules.
+
+To avoid any failures on the cluster, you need to apply on each node of the
+user clusters the following two commands, assuming the Pods CIDR is 172.25.0.0/16:
+
+```bash
+iptables -t nat -D POSTROUTING -s 172.25.0.0/16 ! -d 224.0.0.0/4 -j MASQUERADE
+iptables -t nat -D POSTROUTING ! -s 172.25.0.0/16 -d 172.25.0.0/16 -j MASQUERADE 
+```
+
+For more details about this issue, please check [the following link](https://github.com/projectcalico/calico/issues/2898)

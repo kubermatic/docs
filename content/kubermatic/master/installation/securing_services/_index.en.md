@@ -6,7 +6,7 @@ weight = 60
 +++
 
 Access to Prometheus, Grafana and all other system services included with Kubermatic is secured by running them behind
-[Keycloak-Gatekeeper](https://github.com/keycloak/keycloak-gatekeeper) and using [Dex](https://github.com/dexidp/dex)
+[OAuth2-Proxy](https://github.com/oauth2-proxy/oauth2-proxy) and using [Dex](https://github.com/dexidp/dex)
 as the authentication provider.
 
 {{% notice note %}}
@@ -15,14 +15,14 @@ proxy's authentication entirely.
 {{% /notice %}}
 
 Dex can then be configured to use external authentication sources like GitHub's or Google's OAuth endpoint, LDAP or
-OpenID Connect. For this to work you have to configure both Dex (the `oauth` Helm chart) and Keycloak-Gatekeeper
+OpenID Connect. For this to work you have to configure both Dex (the `oauth` Helm chart) and OAuth2-Proxy
 (called "IAP", Identity-Aware Proxy) in your Helm `values.yaml`.
 
 ### Dex
 
 For each service that is supposed to use Dex as an authentication provider, configure a `client`. The callback URL is
 called after authentication has been completed and must point to `https://<domain>/oauth/callback`. Remember that this
-will point to Keycloak-Gatekeeper and is therefore independent of the actual underlying application (Gatekeeper will
+will point to OAuth2-Proxy and is therefore independent of the actual underlying application (Gatekeeper will
 intercept the requesta nd not forward it to the upstream service). Generate a secure random secret for each client,
 for example by doing `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 
@@ -54,7 +54,7 @@ dex:
 ```
 
 Each service should have its own credentials (i.e. a different `secret` for every client). Re-deploying the `oauth` chart
-with Helm will now prepare Dex to act as an authentication provider, but there is no Keycloak-Gatekeeper yet to make use of
+with Helm will now prepare Dex to act as an authentication provider, but there is no OAuth2-Proxy yet to make use of
 this:
 
 ```bash
@@ -62,9 +62,9 @@ cd kubermatic-installer
 helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace oauth oauth charts/oauth/
 ```
 
-### Keycloak-Gatekeeper (IAP)
+### OAuth2-Proxy (IAP)
 
-Now that you have setup Dex, you need to configure Keycloak-Gatekeeper to sit in front of the system services and use it
+Now that you have setup Dex, you need to configure OAuth2-Proxy to sit in front of the system services and use it
 for authentication. The configuration for this happens in the `iap` Helm chart. For each client that we configured in Dex,
 add a `deployment` to the IAP configuration. Use the client's secret (from Dex) as the `client_secret` and generate
 another random, secure encryption key to encrypt the client state with (which is then stored as a cookie in the user's
@@ -95,16 +95,13 @@ iap:
       # generate a fresh secret key here
       encryption_key: <generate random secret key here>
 
-      # see https://www.keycloak.org/docs/latest/securing_apps/#configuration-options
+      # see https://github.com/oauth2-proxy/oauth2-proxy/blob/master/docs/configuration/configuration.md
       # this example configures that only users belong to a special GitHub
       # organization can access the service behind the proxy (Prometheus in this case)
       config:
-        scopes:
-        - "groups"
-        resources:
-        - uri: "/*"
-          groups:
-          - "mygithuborg:mygroup"
+        scope: "groups openid email"
+        github_org: mygithuborg
+        github_team: mygroup
 
     alertmanager:
       name: alertmanager
@@ -116,12 +113,9 @@ iap:
       client_secret: <copy value from Dex>
       encryption_key: <generate another random secret key here>
       config:
-        scopes:
-        - "groups"
-        resources:
-        - uri: "/*"
-          groups:
-          - "mygithuborg:mygroup"
+        scope: "groups openid email"
+        github_org: mygithuborg
+        github_team: mygroup
 ```
 
 With all this configured, it's now time to install/upgrade the `iap` Helm chart:
@@ -156,7 +150,7 @@ what records to create.
 
 It's possible to use a different authentication provider than Dex. Please refer to the
 [OIDC provider]({{< ref "../../advanced/oidc_config" >}}) chapter for more information on how to configure
-Kubermatic and Keycloak-Proxy accordingly.
+Kubermatic and OAuth2-Proxy accordingly.
 
 ### Security Considerations
 

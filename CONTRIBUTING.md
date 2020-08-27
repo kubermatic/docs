@@ -1,6 +1,6 @@
 # How to Contribute
 
-Loodse projects are [Apache 2.0 licensed](LICENSE) and accept contributions via
+Kubermatic projects are [Apache 2.0 licensed](LICENSE) and accept contributions via
 GitHub pull requests.  This document outlines some of the conventions on
 development workflow, commit message formatting, contact points and other
 resources to make it easier to get your contribution accepted.
@@ -12,7 +12,7 @@ Origin (DCO). This document was created by the Linux Kernel community and is a
 simple statement that you, as a contributor, have the legal right to make the
 contribution. See the [DCO](DCO) file for details.
 
-Any copyright notices in this repo should specify the authors as "the Loodse Docs project contributors".
+Any copyright notices in this repo should specify the authors as "the Kubermatic Docs project contributors".
 
 To sign your work, just add a line like this at the end of your commit message:
 
@@ -26,8 +26,8 @@ By doing this you state that you can certify the following (from https://develop
 
 ## Email and Chat
 
-The Docs project currently uses the general Loodse email list and Slack channel:
-- Email: [loodse-dev](https://groups.google.com/forum/#!forum/loodse-dev)
+The Docs project currently uses the general Kubermatic email list and Slack channel:
+- Email: [kubermatic-dev](https://groups.google.com/forum/#!forum/kubermatic-dev)
 - Slack: #[kubermatic](http://slack.kubermatic.io/) on Slack
 
 Please avoid emailing maintainers found in the MAINTAINERS file directly. They
@@ -35,7 +35,7 @@ are very busy and read the mailing lists.
 
 ##  Reporting a security vulnerability
 
-Due to their public nature, GitHub and mailing lists are not appropriate places for reporting vulnerabilities. If you suspect you have found a security vulnerability, please do not file a GitHub issue, but instead email security@loodse.com with the full details, including steps to reproduce the issue.
+Due to their public nature, GitHub and mailing lists are not appropriate places for reporting vulnerabilities. If you suspect you have found a security vulnerability, please do not file a GitHub issue, but instead email security@kubermatic.com with the full details, including steps to reproduce the issue.
 
 
 ## Getting Started

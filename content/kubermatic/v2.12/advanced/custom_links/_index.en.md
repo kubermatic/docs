@@ -51,7 +51,7 @@ Let's assume that we have following configuration of the Dashboard:
 
 Application looks like this:
 
-![Clean state](/img/advanced/custom_links/clean.png)
+![Clean state](/kubermatic/master/advanced/custom_links/clean.png)
 
 And we would like to add some links to the external services used by the team.
 
@@ -63,7 +63,7 @@ As a first step we need to change the application config:
   "custom_links": [
     {
       "label": "Twitter",
-      "url": "https://www.twitter.com/loodse"
+      "url": "https://www.twitter.com/kubermatic"
     },
     {
       "label": "GitHub",
@@ -86,7 +86,7 @@ As a first step we need to change the application config:
 
 After applying the changes the application should look following:
 
-![Default icons](/img/advanced/custom_links/default_icons.png)
+![Default icons](/img/kubermatic/master/advanced/custom_links/default_icons.png)
 
 As you can see icons from the default set were used. The services were recognized by the application that is looking
 for matches in labels and in the URL-s of provided links.
@@ -99,7 +99,7 @@ Let's change some of the icons:
   "custom_links": [
     {
       "label": "Twitter",
-      "url": "https://www.twitter.com/loodse",
+      "url": "https://www.twitter.com/kubermatic",
       "icon": "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png"
     },
     {
@@ -127,4 +127,4 @@ the application container and then displayed.
 
 After applying the changes the application should look following:
 
-![Custom icons](/img/advanced/custom_links/custom_icons.png)
+![Custom icons](/img/kubermatic/master/advanced/custom_links/custom_icons.png)

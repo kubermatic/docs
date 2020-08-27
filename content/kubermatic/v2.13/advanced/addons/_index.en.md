@@ -70,7 +70,7 @@ the UI like the other accessible addons. The accessible addons are:
 
 Accessible addons can be managed in the UI from the cluster details view:
 
-![View](/img/2.13/advanced/addons/view.png)
+![View](/img/kubermatic/v2.13/advanced/addons/view.png)
 
 #### Configuration
 To configure which addons shall be accessible, set the following settings in the `values.yaml` for the Kubermatic chart:
@@ -117,7 +117,7 @@ spec:
 
 After applying above config the UI should look like below:
 
-![Form](/img/2.13/advanced/addons/form.png)
+![Form](/img/kubermatic/v2.13/advanced/addons/form.png)
 
 ### How to Add a Custom Addon?
 
