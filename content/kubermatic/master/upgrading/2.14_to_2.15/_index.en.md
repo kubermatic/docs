@@ -7,6 +7,12 @@ weight = 90
 
 ## Helm Charts
 
+### Component overrides
+
+The component override settings located at `kubermatic->apiserverDefaultReplicas`, `kubermatic->controllerManagerDefaultReplicas` and `kubermatic->schedulerDefaultReplicas` respectively, have been merged into a single configmap at `kubermatic->defaultComponentsOverrides` as `kubermatic->defaultComponentsOverrides->apiserver->replicas` and `kubermatic->defaultComponentOverrides->scheduler->replicas`.
+
+You can also configure number of component override etcd replicas at `kubermatic->defaultComponentOverrides->controllerManager->replicas`.
+
 ### Prometheus
 
 The Prometheus version included in Kubermatic 2.15 now enables WAL compression by default; our Helm chart follows this
