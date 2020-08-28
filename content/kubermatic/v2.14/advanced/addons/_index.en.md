@@ -45,7 +45,7 @@ docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-operator-ut
 #  namespace: kubermatic
 #spec:
 #  ...
-#  userClusters:
+#  userCluster:
 #    addons:
 #      kubernetes: ...
 #      openshift: ...
@@ -249,8 +249,8 @@ After applying above config the UI should look like below:
 ### Custom Addons
 
 All manifests and config files for the default addons are stored in a Docker image, whose name is configured
-in the KubermaticConfiguration at `spec.userClusters.addons.kubernetes.dockerRepository` and
-`spec.userClusters.addons.openshift.dockerRepository`. These default to `quay.io/kubermatic/addons` and
+in the KubermaticConfiguration at `spec.userCluster.addons.kubernetes.dockerRepository` and
+`spec.userCluster.addons.openshift.dockerRepository`. These default to `quay.io/kubermatic/addons` and
 `quay.io/kubermatic/openshift-addons`, respectively.
 
 #### Creating a Docker Image
@@ -318,7 +318,7 @@ for Kubernetes:
 
 ```yaml
 spec:
-  userClusters:
+  userCluster:
     addons:
       kubernetes:
         # Do not specify a tag here, as the Kubermatic Operator will always use the Kubermatic
@@ -330,7 +330,7 @@ You also need to add your new addon to the `defaultManifests`:
 
 ```yaml
 spec:
-  userClusters:
+  userCluster:
     addons:
       kubernetes:
         defaultManifests: |-
