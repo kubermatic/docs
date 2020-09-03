@@ -131,6 +131,16 @@ cloudProvider:
     [global]
     regional = true
 ```
+
+Due to how GCP LBs work, initial `terraform apply` requires variable `control_plane_target_pool_members_count` to be set
+to 1.
+
+```bash
+terraform apply -var=control_plane_target_pool_members_count=1
+```
+
+Once initial `kubeone install` or `kubeone apply` is done, the `control_plane_target_pool_members_count` should not be
+used.
 {{% /tab %}}
 {{% tab name="Hetzner" %}}
 `external: true` instructs KubeOne to deploy the
