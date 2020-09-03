@@ -128,12 +128,29 @@ You can see what changes will be made by running the `plan` command:
 terraform plan
 ```
 
+{{< tabs name="terraform-apply" >}}
+
+{{% tab name="All providers" %}}
 If you agree with the proposed changes, run the `apply` command to create
 the infrastructure. You'll be asked to type `yes` to confirm your intention.
-
 ```bash
 terraform apply
 ```
+{{% /tab %}}
+
+{{% tab name="GCE" %}}
+Due to how GCP LBs work, initial `terraform apply` requires variable
+`control_plane_target_pool_members_count` to be set to 1.
+
+```bash
+terraform apply -var=control_plane_target_pool_members_count=1
+```
+
+Once initial `kubeone install` or `kubeone apply` is done, the `control_plane_target_pool_members_count` should not be
+used.
+{{% /tab %}}
+
+{{< /tabs >}}
 
 It takes several minutes to provision the infrastructure and for instances to
 come up.
