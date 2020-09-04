@@ -7,4 +7,4 @@ chapter = true
 
 # Getting Started
 
-Learn how to get started with Kubermatic.
+Learn how to get started with Kubermatic Kubernetes Platform(KKP).

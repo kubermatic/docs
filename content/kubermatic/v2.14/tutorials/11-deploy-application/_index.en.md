@@ -4,13 +4,13 @@ date = 2020-02-21T12:07:15+02:00
 weight = 110
 +++
 
-This tutorial demonstrates how to deploy your application to your cluster. We will deploy a hello world application to your cluster that responds with "Hello Kubernetes!" when you curl it. 
+This tutorial demonstrates how to deploy your application to your cluster. We will deploy a hello world application to your cluster that responds with "Hello Kubernetes!" when you curl it.
 
-Log into Kubermatic and [create a cluster](../03-create-cluster/), then [connect to the cluster](../06-download-kubeconfig/). For this tutorial you will need to see the external IP, be aware that some providers like DigitalOcean do not provide external IPs.
+Log into Kubermatic Kubernetes Platform(KKP) and [create a cluster](../03-create-cluster/), then [connect to the cluster](../06-download-kubeconfig/). For this tutorial you will need to see the external IP, be aware that some providers like DigitalOcean do not provide external IPs.
 
-We are using a [hello-world app](https://github.com/GoogleCloudPlatform/kubernetes-engine-samples/tree/master/hello-app) whose image is available at gcr.io/google-samples/node-hello:1.0. 
+We are using a [hello-world app](https://github.com/GoogleCloudPlatform/kubernetes-engine-samples/tree/master/hello-app) whose image is available at gcr.io/google-samples/node-hello:1.0.
 
-First, create a Deployment: 
+First, create a Deployment:
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -42,7 +42,7 @@ To expose the Deployment, create a Service object of type LoadBalancer.
 ```bash
 kubectl expose deployment hello-world --type=LoadBalancer --name=my-service
 ```
-Now you need to find out the external IP of that service. 
+Now you need to find out the external IP of that service.
 
 ```bash
 kubectl get services my-service

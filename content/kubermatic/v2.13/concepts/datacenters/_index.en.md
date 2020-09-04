@@ -9,7 +9,7 @@ weight = 10
 
 There are 2 types of datacenters:
 
-- **Seed datacenter**, where Kubermatic's controller-manager and the control planes for each customer cluster are
+- **Seed datacenter**, where Kubermatic Kubernetes Platform's(KKP) controller-manager and the control planes for each customer cluster are
   running.
 - **Node datacenter**, where the customer worker nodes are provisioned.
 
@@ -47,7 +47,7 @@ datacenters:
   #==================================
   # The keys for non-seeds can be freely chosen.
   openstack-zone-1:
-    # The location is shown in the Kubermatic dashboard
+    # The location is shown in the KKP dashboard
     # and should be descriptive within each provider (e.g.
     # for AWS a good location name would be "US East-1").
     location: Datacenter 2
@@ -69,7 +69,7 @@ datacenters:
         auth_url: https://our-openstack-api/v3
         availability_zone: zone-1
         region: "region-1"
-        # This DNS server will be set when Kubermatic creates a network
+        # This DNS server will be set when KKP creates a network
         dns_servers:
         - "8.8.8.8"
         - "8.8.4.4"

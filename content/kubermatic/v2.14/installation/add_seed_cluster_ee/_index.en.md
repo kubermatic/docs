@@ -6,20 +6,20 @@ weight = 30
 +++
 
 
-This document describes how a new seed cluster can be added to an existing Kubermatic master cluster.
+This document describes how a new seed cluster can be added to an existing Kubermatic Kubernetes Platform(KKP) master cluster.
 
-Plese refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
+Please refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
 about the cluster relationships.
 
-### Install Kubermatic Dependencies
+### Install KKP Dependencies
 
 #### Cluster Backups
 
-Kubermatic performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
+KKP performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
 are stored locally inside the cluster, but they can be reconfigured to work with any S3-compatible storage.
 The in-cluster storage is provided by [Minio](https://min.io/) and the accompanying `minio` Helm chart.
 
-If your cluster has no default storage class, it's required to configure a class explicitely for Minio. You can check
+If your cluster has no default storage class, it's required to configure a class explicitly for Minio. You can check
 the cluster's storage classes via:
 
 ```bash
@@ -74,8 +74,8 @@ To connect the new seed cluster with the master, you need to create a Secret con
 You will add the **master cluster** as the **seed cluster**
 
 Make sure the kubeconfig contains static, long-lived credentials. Some cloud providers use custom authentication providers
-(like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic’s usecase because the
-required tools are not installed inside the cluster environment. 
+(like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in KKP’s usecase because the
+required tools are not installed inside the cluster environment.
 
 You can follow the template below or use the yaml file inside the examples folder of the tarball.
 
@@ -112,8 +112,8 @@ spec:
 Refer to the [Seed CRD documentation]({{< ref "../../concepts/seeds" >}}) for a complete example of the
 Seed CustomResource and all possible datacenters.
 
-Apply the manifest above in the master cluster and Kubermatic will pick up the new Seed and begin to
-reconcile it by installing the required Kubermatic components.
+Apply the manifest above in the master cluster and KKP will pick up the new Seed and begin to
+reconcile it by installing the required KKP components.
 
 ### Update DNS
 
@@ -121,7 +121,7 @@ The apiservers of all user cluster control planes running in the seed cluster ar
 NodePort Proxy. By default each user cluster gets a virtual domain name like
 `[cluster-id].[seed-name].[kubermatic-domain]`, e.g. `hdu328tr.europe-west1.kubermatic.example.com`
 for the Seed from the previous step when `kubermatic.example.com` is the main domain where the
-Kubermatic dashboard/API are available.
+KKP dashboard/API are available.
 
 To facilitate this, a wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. The target of the
 DNS wildcard record should be the `EXTERNAL-IP` of the `nodeport-proxy` service in the `kubermatic` namespace.

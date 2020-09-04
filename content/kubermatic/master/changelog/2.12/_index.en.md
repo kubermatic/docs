@@ -1,5 +1,5 @@
 +++
-title = "Changelog for Kubermatic 2.12"
+title = "Changelog for Kubermatic Kubernetes Platform(KKP) 2.12"
 date = 2020-01-10T00:07:15+02:00
 publishDate = 2019-07-12T00:00:00+00:00
 weight = 212
@@ -65,7 +65,7 @@ Supported Kubernetes versions:
 - It is now possible to also configure automatic node updates by setting `automaticNodeUpdate: true` in the `updates.yaml`. This option implies `automatic: true` as node versions must not be newer than the version of the corresponding controlplane.
 - Cloud credentials can now be configured as presets
 - Access to datacenters can now be restricted based on the user&#39;s email domain.
-- It is now possible to open the Kubernetes Dashboard from the Kubermatic UI.
+- It is now possible to open the Kubernetes Dashboard from the KKP UI.
 - An option to use AWS Route53 DNS validation was added to the `certs` chart.
 - Added possibility to add labels to projects and clusters and have these labels inherited by node objects.
 - Added support for Kubernetes audit logging
@@ -78,7 +78,7 @@ Supported Kubernetes versions:
 - **ACTION REQUIRED:** the `zone_character` field must be removed from all AWS datacenters in `datacenters.yaml`
 - **ACTION REQUIRED:** The default number of apiserver replicas was increased to 2. You can revert to the old behavior by setting `.Kubermatic.apiserverDefaultReplicas` in the `values.yaml`
 - **ACTION REQUIRED:** The literal credentials on the `Cluster` object are being deprecated in favor of storing them in a secret. If you have addons that use credentials, replace `.Cluster.Spec.Cloud` with `.Credentials`.
-- **ACTION REQUIRED:** Kubermatic now doesn&#39;t accept unknown keys in its config files anymore and will crash if an unknown key is present
+- **ACTION REQUIRED:** KKP now doesn&#39;t accept unknown keys in its config files anymore and will crash if an unknown key is present
 - **ACTION REQUIRED:** BYO datacenters now need to be specific in the `datacenters.yaml` with a value of `{}`, e.G `bringyourown: {}`
 - **ACTION REQUIRED:** Velero does not backup Prometheus, Elasticsearch and Minio by default anymore.
 - **ACTION REQUIRED:** On AWS, the nodeport-proxy will be recreated as NLB. DNS entries must be updated to point to the new LB.
@@ -89,7 +89,7 @@ Supported Kubernetes versions:
 - It is now possible to configure an http proxy on a Seed. This will result in the proxy being used for all control plane pods in that seed that talk to a cloudprovider and for all machines in that Seed, unless its overriden on Datacenter level.
 - The cert-manager Helm chart now allows configuring extra values for its controllers args and env vars.
 - A fix for CVE-2019-11253 for clusters that were created with a Kubernetes version &lt; 1.14 was deployed
-- The memory requests and limits of the Kubermatic API were increased, because the port-fowarding used for the Kubernetes Dashboard and Openshift Console is very memory-intensive
+- The memory requests and limits of the KKP API were increased, because the port-fowarding used for the Kubernetes Dashboard and Openshift Console is very memory-intensive
 
 **Monitoring and logging:**
 
@@ -144,7 +144,7 @@ Supported Kubernetes versions:
 - The kube-proxy mode (ipvs/iptables) can now be configured. If not specified, it defaults to ipvs.
 - Addons can now read the AWS region  from the `kubermatic.io/aws-region` annotation on the cluster
 - Allow disabling of apiserver endpoint reconciling.
-- Allow cluster owner to manage RBACs from Kubermatic API
+- Allow cluster owner to manage RBACs from KKP API
 - The default service CIDR for new clusters was increased and changed from 10.10.10.0/24 to 10.240.16.0/20
 - Retries of the initial node deployment creation do not create an event anymore but continue to be logged at debug level.
 - Added option to enforce cluster cleanup in UI
@@ -171,7 +171,7 @@ Supported Kubernetes versions:
 
 **Dashboard:**
 
-- Added Swagger UI for Kubermatic API
+- Added Swagger UI for KKP API
 - Redesign dialog to manage SSH keys on cluster
 - GCP zones are now fetched from API.
 - Redesign Wizard: Summary

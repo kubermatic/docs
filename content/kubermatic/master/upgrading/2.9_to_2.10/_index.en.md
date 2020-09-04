@@ -68,7 +68,7 @@ As Ark was [renamed to Velero](https://github.com/heptio/velero/releases/tag/v0.
 (previously kept in a dedicated `ark-config` chart) was merged into the main chart, making use of Helm's
 pre-install hooks to install the CRDs before setting up the backup schedules.
 
-When upgrading Kubermatic, make sure to manually remove the `ark` and `ark-config` charts:
+When upgrading Kubermatic Kubernetes Platform(KKP), make sure to manually remove the `ark` and `ark-config` charts:
 
 ```bash
 helm --tiller-namespace kubermatic delete --purge ark-config
@@ -160,7 +160,7 @@ requests and limits in order to improve cluster stability. The following changes
   * `nginx.ignoreMasterTaint` has been deprecated. Use the new `nginx.tolerations` options to manually
     set your required tolerations.
 
-The `migrate-values` command of the Kubermatic installer can help to automate these changes in your
+The `migrate-values` command of the KKP installer can help to automate these changes in your
 `values.yaml` file(s).
 
 ## node-exporter Addon

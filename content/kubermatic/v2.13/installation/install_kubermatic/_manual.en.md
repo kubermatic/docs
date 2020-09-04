@@ -6,7 +6,7 @@ weight = 20
 +++
 
 {{% notice warning %}}
-With [Cleanup kubermatic-installer repo](https://github.com/kubermatic/kubermatic/issues/5026) the installer repository is no longer public available.
+With [Cleanup Kubermatic Kubernetes Platform(KKP)-installer repo](https://github.com/kubermatic/kubermatic/issues/5026) the installer repository is no longer public available.
 This installation manual is kept for reference and those who have access to the installer repository.
 {{% /notice %}}
 
@@ -23,15 +23,15 @@ cd kubermatic-installer
 
 ### Creating the kubeconfig
 
-The Kubermatic API lives inside the master cluster and therefore speaks to it via in-cluster communication, using the
+The KKP API lives inside the master cluster and therefore speaks to it via in-cluster communication, using the
 `kubermatic` service account. Communication with the seed clusters happens by providing the API with a kubeconfig that
 has the required contexts and credentials for each seed cluster. The name of the context within the kubeconfig needs to
-match an entry within the `datacenters.yaml` (see below) and needs to be a valid DNS part. Kubermatic uses DNS records
+match an entry within the `datacenters.yaml` (see below) and needs to be a valid DNS part. KKP uses DNS records
 like `*.[seed-name].[main-domain]`, so context names like `user@seed1` would not work. Make sure the seed names are
 alphanumeric.
 
 Also make sure your kubeconfig contains *static*, long-lived credentials. Some cloud providers use custom authentication
-providers (like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic's usecase
+providers (like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in KKP's usecase
 because the required tools are not installed. You can use the `kubeconfig-serviceaccounts.sh` script from the
 `kubermatic-installer` repository to automatically create proper service accounts inside each cluster and update the
 kubeconfig file.
@@ -80,27 +80,27 @@ See: [Datacenters]({{< ref "../../concepts/datacenters" >}})
 
 ### Creating the Master Cluster `values.yaml`
 
-Installation of Kubermatic uses the [Kubermatic Installer](https://github.com/kubermatic/kubermatic-installer), which is
-essentially a Kubernetes job with [Helm](https://helm.sh/) and the required charts to install Kubermatic and its
+Installation of KKP uses the [KKP Installer](https://github.com/kubermatic/kubermatic-installer), which is
+essentially a Kubernetes job with [Helm](https://helm.sh/) and the required charts to install KKP and its
 associated resources. Customization of the cluster configuration is done using a cluster-specific `values.yaml`, stored
 as a secret within the cluster.
 
 As a reference you can check out
 [values.example.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.8/values.example.yaml).
 
-For the kubermatic configuration you need to add `base64` encoded configuration of `datacenter.yaml` and `kubeconfig` to
+For the KKP configuration you need to add `base64` encoded configuration of `datacenter.yaml` and `kubeconfig` to
 the `values.yaml` file. You can do this with following command:
 
 ```bash
 base64 kubeconfig | tr -d '\n'
 ```
 
-#### Kubermatic & System Services Authentication
+#### KKP & System Services Authentication
 
-Access to Kibana, Grafana and all other system services included with Kubermatic is secured by running them behind
+Access to Kibana, Grafana and all other system services included with KKP is secured by running them behind
 [Keycloak-Gatekeeper](https://github.com/keycloak/keycloak-gatekeeper) and using [Dex](https://github.com/dexidp/dex)
 as the authentication provider. Dex can then be configured to use external authentication sources like GitHub's or
-Google's OAuth endpoint, LDAP or OpenID Connect. Kubermatic itself makes use of Dex as well, but since it supports OAuth
+Google's OAuth endpoint, LDAP or OpenID Connect. KKP itself makes use of Dex as well, but since it supports OAuth
 natively does not make use of Keycloak-Gatekeeper.
 
 For this to work you have to configure both Dex and Keycloak-Gatekeeper (called "IAP", Identity-Aware Proxy) in your
@@ -144,7 +144,7 @@ values.yaml](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.
 If you don't use Dex as authentication provider, see [OIDC provider Configuration](../../../advanced/oidc_config/) you will need to configure for every service a dedicated redirect URI:
 Each service should have its own credentials. This means that is required to create an OAuth App with redirects for every service:
 
-* kubermatic
+* KKP
   - `https://kubermatic.example.company.com`
   - `https://kubermatic.example.company.com/projects`
 * kubermaticIssuer
@@ -236,7 +236,7 @@ for more information about the possible parameters for your storage backend.
 
 ### Create All CustomResourceDefinitions
 
-Before applying the Helm charts, ensure that Kubermatic's CRDs are installed in your cluster by applying the provided
+Before applying the Helm charts, ensure that KKP's CRDs are installed in your cluster by applying the provided
 manifests:
 
 ```bash
@@ -272,13 +272,13 @@ Install [Helm](https://www.helm.sh/) on you local system and setup Tiller within
    helm --service-account tiller --tiller-namespace kubermatic init
    ```
 
-Now you're ready to deploy Kubermatic and its charts. It's generally advisable to postpone installing the final `certs`
+Now you're ready to deploy KKP and its charts. It's generally advisable to postpone installing the final `certs`
 chart until you acquired LoadBalancer IPs/hostnames and can update your DNS zone to point to your new installation. This
 ensures that the `cert-manager` can quickly acquire TLS certificates instead of running into DNS issues.
 
 {{% notice note %}}
-On your very first installation, you must install the Kubermatic chart with `kubermatic.checks.crd.disable=true`. This
-disables a check that was put in place for upgrading older Kubermatic versions to the current one.
+On your very first installation, you must install the KKP chart with `kubermatic.checks.crd.disable=true`. This
+disables a check that was put in place for upgrading older KKP versions to the current one.
 {{% /notice %}}
 
 ```bash
@@ -366,11 +366,11 @@ data:
 
 ### Create DNS Entries
 
-Kubermatic needs to have at least 2 DNS entries set.
+KKP needs to have at least 2 DNS entries set.
 
 #### Dashboard, API, Dex
 
-The frontend of Kubermatic needs a single, simple DNS entry. Let's assume it is being installed to serve
+The frontend of KKP needs a single, simple DNS entry. Let's assume it is being installed to serve
 `kubermatic.example.company.com`. For the system services like Prometheus or Grafana, you will also want to create a wildcard
 DNS record `*.kubermatic.example.company.com` pointing to the same IP/hostname.
 

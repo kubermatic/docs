@@ -7,7 +7,7 @@ weight = 5
 
 # Overview
 
-The expose strategy defines how clusters manged by Kubermatic are made available to the outside world.
+The expose strategy defines how clusters manged by Kubermatic Kubernetes Platform(KKP) are made available to the outside world.
 
 **Note**: The expose strategy of a cluster can not be changed after its creation without rotating all
 of its nodes, as the `kubeconfig` of the `kubelet` will point to the wrong address.
@@ -39,14 +39,14 @@ Kubernetes Service.
 This requires a functioning cloud provider that realizes services of type `LoadBalancer`. It is very
 cost-efficient, as only one such service is needed.
 
-## One LoadBalancer Per User Cluster (Kubermatic 2.11+)
+## One LoadBalancer Per User Cluster (KKP 2.11+)
 
 A third option is to create one `LoadBalancer` per user cluster. This is done by setting the
 `kubermatic.exposeStrategy` key in the Helm chart to `LoadBalancer`.
 
 This will result in one service of type `LoadBalancer` per user cluster being created. The
-`NodeportProxy` will be automatically deployed by Kubermatic to use this one service for the
+`NodeportProxy` will be automatically deployed by KKP to use this one service for the
 traffic of both the OpenVPN and the apiserver.
 
 This is simple to setup, but will result in one service of type `LoadBalancer` per cluster
-Kubermatic manages. This my result in additional charges by your cloud provider.
+KKP manages. This my result in additional charges by your cloud provider.

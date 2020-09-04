@@ -8,7 +8,7 @@ weight = 5
 ### Share Clusters via Delegated OIDC Authentication
 
 The purpose of this feature is to allow using an OIDC provider like `dex` to authenticate to a Kubernetes cluster
-managed by Kubermatic. This feature can be used to share access to a cluster with other users.
+managed by Kubermatic Kubernetes Platform(KKP). This feature can be used to share access to a cluster with other users.
 
 {{% notice note %}}
 **Note:** This feature is **experimental** and not enabled by default. See the [prerequisites](#prerequisites)
@@ -30,7 +30,7 @@ Right after clicking on the button you will see a modal window where you can cop
 
 ![Share cluster dialog](/img/kubermatic/v2.12/advanced/oidc-auth/share-cluster-modal.png)
 
-You can now share this link with anyone that can access the Kubermatic UI. After login, that person will get a download link for a
+You can now share this link with anyone that can access the KKP UI. After login, that person will get a download link for a
 `kubeconfig`.
 
 In order for the shared `kubeconfig` to be of any use, we must grant that other user some permissions. To do so, configure `kubectl` to
@@ -92,7 +92,7 @@ Note that `.Values.kubermatic.auth.caBundle` must contain OIDC provider's root C
 {{% /notice %}}
 
 `conifg.json` file for `kubermatic-dashboard` must contain `"share_kubeconfig":true`.
-You can set it by changing the `kubermatic.ui.config` entry in the `values.yaml` file. Afterwards, [update Kubermatic](#update-kubermatic).
+You can set it by changing the `kubermatic.ui.config` entry in the `values.yaml` file. Afterwards, [update KKP](#update-kubermatic).
 
 ### Root CA Certificates Chain
 
@@ -106,7 +106,7 @@ and use the following command to prepare the bundle.
 cat isrgrootx1.pem.txt lets-encrypt-x3-cross-signed.pem.txt > caBundle.pem
 ```
 
-### Update Kubermatic
+### Update KKP
 
 After all values are set at the `values.yaml` the installed helm charts `kubermatic` and `oauth` need to get updated (at the master cluster):
 

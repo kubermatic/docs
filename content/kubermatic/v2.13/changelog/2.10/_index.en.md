@@ -1,5 +1,5 @@
 +++
-title = "Changelog for Kubermatic 2.10"
+title = "Changelog for Kubermatic Kubernetes Platform(KKP) 2.10"
 date = 2018-10-23T12:07:15+02:00
 publishDate = 2019-03-30T00:00:00+00:00
 weight = 210
@@ -50,19 +50,19 @@ Supported Kubernetes versions:
 - Draining of nodes now times out after 2h
 - the API stops creating an initial node deployment for new cluster for KubeAdm providers.
 - More details are shown when using `kubectl get machine/machineset/machinedeployment`
-- Pod AntiAffinity and PDBs were added to the Kubermatic control plane components and the monitoring stack to spread them out if possible and reduce the chance of unavailability
+- Pod AntiAffinity and PDBs were added to the KKP control plane components and the monitoring stack to spread them out if possible and reduce the chance of unavailability
 - Support for Kubernetes 1.11.10 was added
 
 ## v2.10.0
 
 ### Features
 
-#### Kubermatic Core
+#### KKP Core
 
 - *ACTION REQUIRED:* Change config option `Values.kubermatic.rbac` to `Values.kubermatic.masterController`
 - Add user cluster controller manager: It is deployed within the cluster namespace in the seed and takes care of reconciling all resources that are inside the user cluster
 - Add feature gate to enable etcd corruption check
-- Remove Kubernetes 1.10 as officially supported version from Kubermatic as it is EOL
+- Remove Kubernetes 1.10 as officially supported version from KKP as it is EOL
 - Add short names to the ClusterAPI CRDs to allow using `kubectl get md` for `machinedeployments`, `kubectl get ms` for `machinesets` and `kubectl get ma` to get `machines`
 - Update canal to v2.6.12, Kubernetes Dashboard to v1.10.1 and replace kube-dns with CoreDNS 1.3.1
 - Update Vertical Pod Autoscaler to v0.5

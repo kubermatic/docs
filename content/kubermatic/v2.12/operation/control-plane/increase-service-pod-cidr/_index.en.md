@@ -7,7 +7,7 @@ weight = 20
 
 ## Intro
 
-By default each cluster created with Kubermatic gets the following network settings:
+By default each cluster created with Kubermatic Kubernetes Platform(KKP) gets the following network settings:
 
 - Pod CIDR: `172.25.0.0/16`
 - Service CIDR: `10.10.10.0/24`
@@ -55,7 +55,7 @@ After the CIDR has been changed, all new services will get an IP from the new CI
 This might cause a downtime of the cluster DNS & communication to the API server
 {{% /notice %}}
 
-Kubermatic will always create a Service with a static ClusterIP for the DNS service(`kube-system/kube-dns`).
+KKP will always create a Service with a static ClusterIP for the DNS service(`kube-system/kube-dns`).
 The ClusterIP will always be the 10th of the network.
 Example: Give the service CIDR: `10.10.10.0/24`, the Service for the DNS will have the ClusterIP `10.10.10.10`.
 
@@ -67,7 +67,7 @@ As changing the ClusterIP is not possible, the Service(`kube-system/kube-dns`) m
 kubectl -n kube-system get service kube-dns -o yaml > old_service.yaml
 # Delete old service
 kubectl -n kube-system delete service kube-dns
-# Kubermatic will recreate it with the new IP
+# KKP will recreate it with the new IP
 
 # Create old service with a different name to not break existing DNS
 # For this change metadata.name inside old_service.yaml and apply it

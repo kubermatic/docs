@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic Addons"
+title = "Kubermatic Kubernetes Platform(KKP) Addons"
 date = 2018-06-21T14:07:15+02:00
 weight = 110
 
@@ -9,7 +9,7 @@ Addons are specific services and tools extending the functionality of Kubernetes
 
 ### Default Addons
 
-Default addons are installed in each user-cluster in Kubermatic. The default addons are:
+Default addons are installed in each user-cluster in KKP. The default addons are:
 
 * [Canal](https://github.com/projectcalico/canal): policy based networking for cloud native applications
 * [Dashboard](https://github.com/kubernetes/dashboard): General-purpose web UI for Kubernetes clusters
@@ -22,17 +22,17 @@ Default addons are installed in each user-cluster in Kubermatic. The default add
 * [nodelocal-dns-cache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/): Improves DNS performance inside
   the user-cluster
 * [logrotate](https://github.com/blacklabelops/logrotate): rotates logs on worker nodes
-* pod-security-policy: Policies to configure Kubermatic access when PSPs are enabled
+* pod-security-policy: Policies to configure KKP access when PSPs are enabled
 * default-storage-class: A cloud provider specific StorageClass
 * kubelet-configmap: A set of ConfigMaps used by kubeadm
 
-Installation and configuration of these addons is done by 2 controllers which are part of the Kubermatic
+Installation and configuration of these addons is done by 2 controllers which are part of the KKP
 seed-controller-manager:
 
 * `addon-installer-controller`: Ensures a given set of addons will be installed in all clusters
 * `addon-controller`: Templates the addons & applies the manifests in the user clusters
 
-The Kubermatic Operator comes with a `kubermatic-operator-util` tool, which can output a full default
+The KKP Operator comes with a `kubermatic-operator-util` tool, which can output a full default
 KubermaticConfiguration. This will also include the default configuration for addons and can serve as
 a starting point for adjustments.
 
@@ -60,15 +60,15 @@ section. For Kubernetes and OpenShift, configure a Docker image that contains th
 at the default configuration above as a starting point.
 
 To deploy any changes, edit the KubermaticConfiguration in-place using `kubectl edit` or apply it from
-a file using `kubectl apply`. The Kubermatic Operator will reconcile the installation and after a few moments
+a file using `kubectl apply`. The KKP Operator will reconcile the installation and after a few moments
 your changes will take effect.
 
 ### Accessible Addons
 
-Accessible addons can be installed in each user-cluster in Kubermatic on user demand (in contrast to
+Accessible addons can be installed in each user-cluster in KKP on user demand (in contrast to
 regular addons, which are always installed and cannot be removed by the user). If an addon is both default
 and accessible, then it will be installed in the user-cluster, but also be visible to the user, who can manage
-it from the Kubermatic dashboard like the other accessible addons. The accessible addons are:
+it from the KKP dashboard like the other accessible addons. The accessible addons are:
 
 * [node-exporter](https://github.com/prometheus/node_exporter): Exports metrics from the node
 * [Open Policy Agent Gatekeeper](https://github.com/open-policy-agent/gatekeeper): OPA Policy Controller for Kubernetes - (**beta**)
@@ -95,7 +95,7 @@ input. It's recommended to create an `AddonConfig` for each accessible addon.
 
 {{% notice note %}}
 `AddonConfig` resources are not namespaced. Make sure to not mix up addon configs if you run multiple
-Kubermatic installations in the same cluster (which is not a recommended setup).
+KKP installations in the same cluster (which is not a recommended setup).
 {{% /notice %}}
 
 The following demonstrates an AddonConfig for the node-expoter addon. It configures a description and
@@ -286,23 +286,23 @@ docker push customer/addons:${TAG}
 
 #### Manifest Templating
 
-Kubermatic treats each file in an addon directory (`/addon/<addonname>`) as a
+KKP treats each file in an addon directory (`/addon/<addonname>`) as a
 [Go template](https://golang.org/pkg/text/template/), so it is possible to inject dynamic and
 user-cluster related information into addons at runtime. Please refer to the Go documentation for
 the exact templating syntax.
 
-Kubermatic injects an instance of the `TemplateData` struct into each template. The following
+KKP injects an instance of the `TemplateData` struct into each template. The following
 Go snippet shows the available information:
 
 ```
 {{< readfile "kubermatic/v2.14/data/addondata.go" >}}
 ```
 
-Kubermatic also injects [Sprig](http://masterminds.github.io/sprig/) functions and the following
+KKP also injects [Sprig](http://masterminds.github.io/sprig/) functions and the following
 custom functions into templates:
 
 When referencing a Docker registry, it's recommended to use the `Registry(string) string` helper
-function, which takes the registry override functionality for the Kubermatic API into account.
+function, which takes the registry override functionality for the KKP API into account.
 
 ```plaintext
 {{ Registry "quay.io" }}/some-org/some-app:v1.0
@@ -310,9 +310,9 @@ function, which takes the registry override functionality for the Kubermatic API
 
 The above will return `quay.io` when no override is set, otherwise the overridden registry.
 
-#### Configure Kubermatic
+#### Configure KKP
 
-It's now time to configure Kubermatic to use your Docker image instead of its default, and to tell it
+It's now time to configure KKP to use your Docker image instead of its default, and to tell it
 about your new addon. Edit the KubermaticConfiguration and update the Docker repository for example
 for Kubernetes:
 
@@ -321,7 +321,7 @@ spec:
   userClusters:
     addons:
       kubernetes:
-        # Do not specify a tag here, as the Kubermatic Operator will always use the Kubermatic
+        # Do not specify a tag here, as the KKP Operator will always use the KKP
         # version instead.
         dockerRepository: docker.io/customer/addons
 ```

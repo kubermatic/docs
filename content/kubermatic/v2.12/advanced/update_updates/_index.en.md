@@ -7,9 +7,9 @@ weight = 6
 
 ### Update Kubernetes Upgrade Plan
 
-Kubermatic provides [live updates of your Kubernetes cluster](operation/control-plane/upgrading/#upgrading-the-control-plane)
+Kubermatic Kubernetes Platform(KKP) provides [live updates of your Kubernetes cluster](operation/control-plane/upgrading/#upgrading-the-control-plane)
 without disrupting your daily business. The allowed updates are defined in the file
-`updates.yaml`. You find it in your Kubermatic installer clone directory:
+`updates.yaml`. You find it in your KKP installer clone directory:
 
 ```bash
 git clone git@github.com:kubermatic/kubermatic-installer.git
@@ -59,7 +59,7 @@ updates:
 
 As you can see it is a list containing the keys `from`, `to`, and `automatic`. The fields
 `from` and `to` contain patterns descibing the Kubernetes version numbers. These can be absolut,
-contain wildcards, or be ranges. This way Kubermatic can check which updates are allowed for
+contain wildcards, or be ranges. This way KKP can check which updates are allowed for
 the current version.
 
 The field `automatic` determines if an update has to be initiated manually or if the system will
@@ -72,7 +72,7 @@ This way known vulnerabilities can be handled directly.
 to be updated manually.
 {{% /notice %}}
 
-After editing the list Kubermatic has to be upgraded by using `helm`.
+After editing the list KKP has to be upgraded by using `helm`.
 
 ```bash
 cd kubermatic-installer/charts/kubermatic

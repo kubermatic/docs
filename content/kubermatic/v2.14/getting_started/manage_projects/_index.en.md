@@ -5,15 +5,15 @@ weight = 10
 
 +++
 
-Kubermatic organizes your clusters into projects. Projects allow you to share clusters with other users and make it easier to collaborate.
+Kubermatic Kubernetes Platform(KKP) organizes your clusters into projects. Projects allow you to share clusters with other users and make it easier to collaborate.
 
 ### Step 1 – Create a Project
 
-After you log in to Kubermatic, you will be greeted with the list of all projects you created or have been given access to. When first using Kubermatic, the list will be empty and you will need to create your first project.
+After you log in to KKP, you will be greeted with the list of all projects you created or have been given access to. When first using KKP, the list will be empty and you will need to create your first project.
 
 ![Empty project list](/img/kubermatic/v2.14/getting_started/manage_projects/projects-empty.png)
 
-Click on the button above the table or the link below to table to create your first project. Give it a descriptive name and click "Save".
+Click on the button above the table or the link below the table to create your first project. Give it a descriptive name and click "Save".
 
 ![Add project dialog](/img/kubermatic/v2.14/getting_started/manage_projects/projects-add.png)
 

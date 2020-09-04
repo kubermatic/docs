@@ -5,7 +5,7 @@ weight = 50
 
 +++
 
-This chapter describes how to setup the Kubermatic logging stack. It's highly recommended to install this
+This chapter describes how to setup the Kubermatic Kubernetes Platform(KKP) logging stack. It's highly recommended to install this
 stack on the master and all seed clusters.
 
 The logging stack consists of Promtail and [Grafana Loki](https://grafana.com/oss/loki/). Customers with more
@@ -31,7 +31,7 @@ Grafana deployment is used to inspect the aggregated logs from Loki.
 
 ### Installation
 
-As with Kubermatic itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
+As with KKP itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
 are a few important options you might want to override for your setup:
 
 * `loki.persistence.size` (default: `10Gi`) controls the volume size for the Loki pods.

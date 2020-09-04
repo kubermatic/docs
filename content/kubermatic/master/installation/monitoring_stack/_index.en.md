@@ -5,7 +5,7 @@ weight = 40
 
 +++
 
-This chapter describes how to setup the Kubermatic monitoring stack. It's highly recommended to install this
+This chapter describes how to setup the Kubermatic Kubernetes Platform(KKP) monitoring stack. It's highly recommended to install this
 stack on the master and all seed clusters.
 
 ### Requirements
@@ -24,7 +24,7 @@ This guide assumes the following tools are available:
 
 ### Installation
 
-As with Kubermatic itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
+As with KKP itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
 are a few important options you might want to override for your setup:
 
 * `prometheus.host` is used for the external URL in Prometheus, e.g. `prometheus.kubermatic.example.com`.
@@ -50,7 +50,7 @@ prometheus:
   storageSize: '250Gi'
   tsdb:
     retentionTime: '30d'
-  # only load the kubermatic-master alerts, as this cluster is not a shared master/seed
+  # only load the KKP-master alerts, as this cluster is not a shared master/seed
   ruleFiles:
   - /etc/prometheus/rules/general-*.yaml
   - /etc/prometheus/rules/kubermatic-master-*.yaml
@@ -89,7 +89,7 @@ Likewise, when your cluster grows, you most likely want to adjust the resource r
 ### Thanos (Beta)
 
 [Thanos](https://thanos.io/) is a long-term storage solution for Prometheus metrics, backed by an S3 compatible
-object store. Kubermatic includes preliminary support for Thanos by setting `prometheus.thanos.enabled=true`. Note
+object store. KKP includes preliminary support for Thanos by setting `prometheus.thanos.enabled=true`. Note
 that this requires considerably more resources to run:
 
 * Thanos UI requires roughly 64MB memory and 50m CPU.

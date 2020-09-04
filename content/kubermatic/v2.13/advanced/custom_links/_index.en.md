@@ -1,11 +1,11 @@
 +++
-title = "Kubermatic Global Settings"
+title = "Kubermatic Kubernetes Platform(KKP) Global Settings"
 date = 2018-06-21T14:07:15+02:00
 weight = 1
 
 +++
 
-This manual explains how to manage Kubermatic global settings such as custom links, displayed distributions and others.
+This manual explains how to manage KKP global settings such as custom links, displayed distributions and others.
 It can be done from the UI and also from the command line with `kubectl`.
 
 ### Accessing the Admin Panel
@@ -75,4 +75,3 @@ $ kubectl edit kubermaticsetting globalsettings
 
 **Note:** Custom link `icon` is not required and defaults will be used if field is not specified. `icon` URL can
 point to the images inside the container as well, i.e. `/assets/images/icons/custom/github.svg`.
-

@@ -4,11 +4,11 @@ date = 2018-08-17T12:07:15+02:00
 weight = 10
 +++
 
-Kubermatic uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. Dashboarding is done with [Grafana](https://grafana.com).
+Kubermatic Kubernetes Platform(KKP) uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. Dashboarding is done with [Grafana](https://grafana.com).
 
 ## Overview
 
-There is a single Prometheus service in each seed cluster's `monitoring` namespace, which is responsible for monitoring the cluster's components (like the Kubermatic controller manager) and serves as the main datasource for the accompanying Grafana service. Besides that there is a Prometheus inside each user cluster namespace, which in turn monitors the Kubernetes control plane (apiserver, controller manager, etcd cluster etc.) of that customer cluster. The seed-level Prometheus scrapes all customer-cluster Prometheus instances and combines their metrics for creating the dashboards in Grafana.
+There is a single Prometheus service in each seed cluster's `monitoring` namespace, which is responsible for monitoring the cluster's components (like the KKP controller manager) and serves as the main datasource for the accompanying Grafana service. Besides that there is a Prometheus inside each user cluster namespace, which in turn monitors the Kubernetes control plane (apiserver, controller manager, etcd cluster etc.) of that customer cluster. The seed-level Prometheus scrapes all customer-cluster Prometheus instances and combines their metrics for creating the dashboards in Grafana.
 
 Along the seed-level Prometheus, there is a single alertmanager running in the seed, which *all* Prometheus instances are using to relay their alerts (i.e. the Prometheus inside the customer clusters send their alerts to the seed cluster's alertmanager).
 
@@ -22,7 +22,7 @@ The last of these options is used for pre-aggregated metrics, which combine high
 
 ## Grafana
 
-In a default Kubermatic installation we ship Grafana as *readonly* metrics dashboard.
+In a default KKP installation we ship Grafana as *readonly* metrics dashboard.
 When working with Grafana please keep in mind, that **ALL CHANGES** done using the Grafana UI (like adding datasources, etc.) **WILL NOT BE PERSISTED**. Dashboards, graphs, datasources, etc. will be defined using the Helm chart.
 
 ## Storage Requirements

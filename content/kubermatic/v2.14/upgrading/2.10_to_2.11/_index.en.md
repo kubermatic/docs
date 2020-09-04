@@ -8,15 +8,15 @@ weight = 50
 
 ## Expose Strategy
 
-Kubermatic 2.11 adds support to expose user clusters by creating one service of type `LoadBalancer` per user
+Kubermatic Kubernetes Platform(KKP) 2.11 adds support to expose user clusters by creating one service of type `LoadBalancer` per user
 cluster. Check out the [Expose Strategy documentation]({{< ref "../../concepts/expose-strategy/expose_strategy.en.md" >}}) for more details.
 
 ## Helm Charts
 
-### Kubermatic: Service Account Tokens Structure
+### KKP: Service Account Tokens Structure
 
-A new flag `service-account-signing-key` was added to the Kubermatic API. It is used to sign service account tokens via
-HMAC. It should be unique per Kubermatic installation and can be generated with the command: `base64 -w0 /dev/urandom | head -c 100`
+A new flag `service-account-signing-key` was added to the KKP API. It is used to sign service account tokens via
+HMAC. It should be unique per KKP installation and can be generated with the command: `base64 -w0 /dev/urandom | head -c 100`
 The value for this flag must be stored in `auth` section for `kubermatic`
 
 For example:
@@ -29,13 +29,13 @@ kubermatic:
 
 ### Elasticsearch 7.0
 
-Kubermatic 2.11 ships with Elasticsearch 7.0. Version 7 can do rolling upgrades only if the Elasticsearch cluster is
-already running on version 6.7 (the version shipped in Kubermatic 2.10).
+KKP 2.11 ships with Elasticsearch 7.0. Version 7 can do rolling upgrades only if the Elasticsearch cluster is
+already running on version 6.7 (the version shipped in KKP 2.10).
 
-If you are already running Kubermatic 2.10, you can simply deploy the updated Helm chart and the nodes will update one
+If you are already running KKP 2.10, you can simply deploy the updated Helm chart and the nodes will update one
 by one to Elasticsearch 7.
 
-If you are running an older Kubermatic release, you must either upgrade to Kubermatic 2.10 first or shutdown the entire
+If you are running an older KKP release, you must either upgrade to KKP 2.10 first or shutdown the entire
 Elasticsearch cluster before doing the upgrade (e.g. by purging the chart before installing the new chart).
 
 {{% notice warning %}}
@@ -43,7 +43,7 @@ Note that because Elasticsearch 7.0 changed its database fields, you cannot down
 the upgrade.
 {{% /notice %}}
 
-The backwards compatibility for the renamed configuration keys (`storageSize`, `replicas` etc.) introduced in Kubermatic
+The backwards compatibility for the renamed configuration keys (`storageSize`, `replicas` etc.) introduced in KKP
 2.10 has been removed, so make sure to update your `values.yaml` to use the new config keys as documented in the 2.10
 release notes.
 
@@ -108,9 +108,9 @@ values as the old name (`nodePortPoxy`) is now deprecated.
 
 ### cert-manager 0.8
 
-Kubermatic 2.11 ships with cert-manager version 0.8, which slightly changed how certificates and issuers are
+KKP 2.11 ships with cert-manager version 0.8, which slightly changed how certificates and issuers are
 configured. The 0.8 release is backwards compatible, but this is going to be removed until version 1.0. It's
-recommended that Kubermatic customers upgrade their certificates already to be future-proof.
+recommended that KKP customers upgrade their certificates already to be future-proof.
 
 Please consult the [upgrade notes](https://docs.cert-manager.io/en/release-0.8/tasks/upgrading/upgrading-0.7-0.8.html)
 for more information. In most cases it should be enough to simply remove the `spec.acme` field from all

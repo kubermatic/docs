@@ -5,7 +5,7 @@ weight = 60
 
 +++
 
-Access to Prometheus, Grafana and all other system services included with Kubermatic is secured by running them behind
+Access to Prometheus, Grafana and all other system services included with Kubermatic Kubernetes Platform(KKP) is secured by running them behind
 [Keycloak-Gatekeeper](https://github.com/keycloak/keycloak-gatekeeper) and using [Dex](https://github.com/dexidp/dex)
 as the authentication provider.
 
@@ -34,7 +34,7 @@ dex:
     host: kubermatic.example.com
 
   clients:
-   # keep the kubermatic client for the login to the Kubermatic dashboard
+   # keep the KKP client for the login to the KKP dashboard
   - id: kubermatic
     # ...
 
@@ -156,7 +156,7 @@ what records to create.
 
 It's possible to use a different authentication provider than Dex. Please refer to the
 [OIDC provider]({{< ref "../../advanced/oidc_config" >}}) chapter for more information on how to configure
-Kubermatic and Keycloak-Proxy accordingly.
+KKP and Keycloak-Proxy accordingly.
 
 ### Security Considerations
 

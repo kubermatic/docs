@@ -5,7 +5,7 @@ weight = 30
 
 +++
 
-To create a new cluster, open the Kubermatic dashboard, choose a project, select the menu entry `Clusters` and click the button `Add Cluster` on the top right.
+To create a new cluster, open the Kubermatic Kubernetes Platform(KKP) dashboard, choose a project, select the menu entry `Clusters` and click the button `Add Cluster` on the top right.
 
 ![Overview of cluster creation](03-create-cluster-start.png)
  Enter a name for your cluster and click Next. Here you can also activate [Audit Logging](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) and [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/), assign labels to your cluster, and choose a Kubernetes version.
@@ -32,7 +32,7 @@ Scroll down to choose or add an SSH key. You can choose one of the keys you alre
 
 You can assign labels to your nodes. You can also set [node taints](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) which is a property that allows your node to repel certain pods.
 
-The chosen SSH key will be used for authentication for the default user (e.g. `ubuntu` for Ubuntu images) on all worker nodes. When you click on `Next`, you will see a summary and the cluster creation will start after you confirm by clicking `Create`. 
+The chosen SSH key will be used for authentication for the default user (e.g. `ubuntu` for Ubuntu images) on all worker nodes. When you click on `Next`, you will see a summary and the cluster creation will start after you confirm by clicking `Create`.
 
 ![Cluster details in confirmation screen](03-create-cluster-confirm.png)
 

@@ -15,7 +15,7 @@ This is also where updates are configured.
 ### Default Versions
 
 The list of default versions is shown in the CRD example linked to above, but it's recommended
-to retrieve the actual list from the Kubermatic Operator itself.
+to retrieve the actual list from the Kubermatic Kubernetes Platform(KKP) Operator itself.
 
 The operator comes with a `kubermatic-operator-util` tool, which can output a full default
 KubermaticConfiguration:
@@ -102,10 +102,10 @@ You always have to specify the entire list in the `KubermaticConfiguration`.
 {{% /notice %}}
 
 Edit your KubermaticConfiguration either using `kubectl edit` or editing a local file and applying
-it with `kubectl apply`, the Kubermatic Operator will reconcile the setup and after a few moments
+it with `kubectl apply`, the KKP Operator will reconcile the setup and after a few moments
 the new configuration will take effect.
 
 {{% notice note %}}
 Note that once you start overriding default values in your KubermaticConfiguration, you need to
-keep the settings up-to-date when upgrading Kubermatic.
+keep the settings up-to-date when upgrading KKP.
 {{% /notice %}}

@@ -7,11 +7,11 @@ weight = 60
 
 ### Service Accounts
 
-Service accounts allow using a long-lived token that you can use to authenticate with Kubermatic API.
+Service accounts allow using a long-lived token that you can use to authenticate with Kubermatic Kubernetes Platform(KKP) API.
 
-A service account is a special type of user account that belongs to the Kubermatic project, instead of an individual
-end user. Your project resources assume the identity of the service account to call Kubermatic APIs, so that the users
-are not directly involved. A service account has JWT token which is used to authenticate to Kubermatic API. The JWT token
+A service account is a special type of user account that belongs to the KKP project, instead of an individual
+end user. Your project resources assume the identity of the service account to call KKP APIs, so that the users
+are not directly involved. A service account has JWT token which is used to authenticate to KKP API. The JWT token
 by default expires after 3 years.
 
 ## Core Concept
@@ -20,7 +20,7 @@ A Service accounts are considered as project's resource. Only the owner of the p
 There is no need to create a new groups for SA, we want to assign a service account to one of the already defined groups:
 `editors` or `viewers`.
 
-The Kubermatic User object is used as a service account. To avoid confusion about the purpose of the user the name convention
+The KKP User object is used as a service account. To avoid confusion about the purpose of the user the name convention
 was introduced. Service account name starts with prefix `serviceaccount-`. The Regular user starts with name: `user-`.
 For example:
 
@@ -84,7 +84,7 @@ service account. A secret will be automatically deleted after service account re
 
 ### Prerequisites
 
-A service account is an automatically enabled authenticator that uses signed bearer tokens to verify requests. The Kubermatic API takes a flag:
+A service account is an automatically enabled authenticator that uses signed bearer tokens to verify requests. The KKP API takes a flag:
 
 - `service-account-signing-key` - A signing key authenticates the service account's token value using HMAC. It is recommended to use a key with 32 bytes or longer.
 
