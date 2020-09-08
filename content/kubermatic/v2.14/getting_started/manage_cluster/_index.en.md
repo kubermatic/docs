@@ -21,7 +21,7 @@ The dashboard provides you with all important cluster information. You can check
 
 ### Adding New Nodes to Your Cluster
 
-You can easily extend your cluster with new worker nodes. Kubermatic Kubernetes Platform(KKP) will automatically configure them and integrate them into your cluster.
+You can easily extend your cluster with new worker nodes. Kubermatic Kubernetes Platform (KKP) will automatically configure them and integrate them into your cluster.
 
 ![Add node deployment dialog](/img/kubermatic/v2.14/getting_started/manage_cluster/cluster-add-nd.png)
 

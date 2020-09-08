@@ -11,7 +11,7 @@ weight = 30
 
 Via the menu item "Manage Cluster" you can display your active clusters.
 
-![Kubermatic Kubernetes Platform(KKP) cluster overview](/img/kubermatic/v2.12/getting_started/manage_cluster/kubermatic_00.png)
+![Kubermatic Kubernetes Platform (KKP) cluster overview](/img/kubermatic/v2.12/getting_started/manage_cluster/kubermatic_00.png)
 
 ### Basic Cluster Information
 

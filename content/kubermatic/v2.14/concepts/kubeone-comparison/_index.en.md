@@ -1,5 +1,5 @@
 +++
-title = "Comparing KubeOne with Kubermatic Kubernetes Platform(KKP)"
+title = "Comparing KubeOne with Kubermatic Kubernetes Platform (KKP)"
 date = 2019-11-28T14:18:30+01:00
 weight = 5
 

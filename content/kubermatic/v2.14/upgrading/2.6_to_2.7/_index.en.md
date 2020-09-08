@@ -22,7 +22,7 @@ kubectl -n kube-system delete Deployment s3-exporter
 ### Changes to *values.yaml*
 
 {{% notice note %}}
-An automated `values.yaml` converter for 2.6->2.7 is available in the `release/2.7` branch of the Kubermatic Kubernetes Platform(KKP) Installer.
+An automated `values.yaml` converter for 2.6->2.7 is available in the `release/2.7` branch of the Kubermatic Kubernetes Platform (KKP) Installer.
 {{% /notice %}}
 
 #### Default Addons

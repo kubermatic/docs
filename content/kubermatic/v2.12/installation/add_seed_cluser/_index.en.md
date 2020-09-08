@@ -9,7 +9,7 @@ weight = 30
 
 ### 1. Install Kubernetes Cluster
 
-First, you need to install Kubernetes cluster with some additional components. After the installation of Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic Kubernetes Platform(KKP) master/seed setup.
+First, you need to install Kubernetes cluster with some additional components. After the installation of Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic Kubernetes Platform (KKP) master/seed setup.
 
 To aid in setting up the seed and master clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/) which can be used to set up a highly-available Kubernetes cluster. Refer to the [KubeOne readme](https://github.com/kubermatic/kubeone/) and [docs](https://github.com/kubermatic/kubeone/tree/master/docs) for details on
 how to use it.

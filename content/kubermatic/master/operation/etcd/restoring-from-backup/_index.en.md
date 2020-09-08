@@ -73,7 +73,7 @@ etcdctl snapshot restore snapshot.db \
 
 ### Un-Pausing the Cluster
 
-To let the kubermatic-controller-manager update the etcd to normal state, un-pause it.
+To let the kubermatic Kubernetes Platform (KKP)-controller-manager update the etcd to normal state, un-pause it.
 
 ```bash
 # set cluster.spec.pause=false

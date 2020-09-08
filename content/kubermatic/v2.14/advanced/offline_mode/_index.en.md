@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic Kubernetes Platform(KKP) Offline Air Gapped Mode"
+title = "Kubermatic Kubernetes Platform (KKP) Offline Air Gapped Mode"
 date = 2018-04-28T12:07:15+02:00
 weight = 7
 

@@ -65,7 +65,7 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
   }
   ```
   **TIP:** As currently selected theme name is saved inside user settings, change it back to one of the default themes before uploading your theme to the official deployment.
-- Once your new theme is ready run `npm run build:themes`. It should create a `dist-themes` directory inside Kubermatic Kubernetes Platform(KKP) Dashboard directory with compiled `css` files of all themes
+- Once your new theme is ready run `npm run build:themes`. It should create a `dist-themes` directory inside Kubermatic Kubernetes Platform (KKP) Dashboard directory with compiled `css` files of all themes
   stored inside `src/assets/themes` directory. Now you can rename your `custom.css` theme file to some other name, i.e. `solar.css`.
 
 ![Themes dir](/img/kubermatic/v2.14/advanced/custom-ui/themes-dir.png)

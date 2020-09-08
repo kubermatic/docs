@@ -15,7 +15,7 @@ This is also where updates are configured.
 ### Default Versions
 
 The list of default versions is shown in the CRD example linked to above, but it's recommended
-to retrieve the actual list from the Kubermatic Kubernetes Platform(KKP) Operator itself.
+to retrieve the actual list from the Kubermatic Kubernetes Platform (KKP) Operator itself.
 
 The operator comes with a `kubermatic-operator-util` tool, which can output a full default
 KubermaticConfiguration:

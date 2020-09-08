@@ -5,7 +5,7 @@ weight = 30
 
 +++
 
-To create a new cluster, open the Kubermatic Kubernetes Platform(KKP) dashboard, choose a project, select the menu entry `Clusters` and click the button `Add Cluster` on the top right.
+To create a new cluster, open the Kubermatic Kubernetes Platform (KKP) dashboard, choose a project, select the menu entry `Clusters` and click the button `Add Cluster` on the top right.
 
 ![Overview of cluster creation](03-create-cluster-start.png)
  Enter a name for your cluster and click Next. Here you can also activate [Audit Logging](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) and [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/), assign labels to your cluster, and choose a Kubernetes version.

@@ -10,7 +10,7 @@ After modifying the `values.yaml` files according to the information below, you 
 ### Changes to *values.yaml*
 
 {{% notice note %}}
-An automated `values.yaml` converter for 2.7->2.8 is available in the `release/2.8` branch of the Kubermatic Kubernetes Platform(KKP) Installer.
+An automated `values.yaml` converter for 2.7->2.8 is available in the `release/2.8` branch of the Kubermatic Kubernetes Platform (KKP) Installer.
 {{% /notice %}}
 
 #### Docker Registry Credentials Merger

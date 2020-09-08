@@ -5,7 +5,7 @@ weight = 10
 
 +++
 
-Kubermatic Kubernetes Platform(KKP) organizes your clusters into projects. Projects allow you to share clusters with other users and make it easier to collaborate.
+Kubermatic Kubernetes Platform (KKP) organizes your clusters into projects. Projects allow you to share clusters with other users and make it easier to collaborate.
 
 ### Step 1 – Create a Project
 
@@ -15,7 +15,7 @@ After you log in to KKP, you will be greeted with the list of all projects you c
 
 Click on the button above the table or the link below to table to create your first project. Give it a descriptive name and click "Save".
 
-![Screenshot of Kubermatic's first cluster creation wizard page](/img/kubermatic/v2.12/getting_started/manage_projects/projects_01.png)
+![Screenshot of KKP's first cluster creation wizard page](/img/kubermatic/v2.12/getting_started/manage_projects/projects_01.png)
 
 After a short moment, your project will be ready.
 
@@ -23,7 +23,7 @@ After a short moment, your project will be ready.
 
 To manage clusters, you need to select in which project you would like to work. This can be achieved by either clicking the project in the project list or by using the dropdown in the top-left corner.
 
-![Screenshot of Kubermatic's first cluster creation wizard page](/img/kubermatic/v2.12/getting_started/manage_projects/projects_02.png)
+![Screenshot of KKP's first cluster creation wizard page](/img/kubermatic/v2.12/getting_started/manage_projects/projects_02.png)
 
 After selecting the current project, the menu items for managing clusters and members become active.
 
@@ -35,7 +35,7 @@ Refer to the [cluster documentation](../create_cluster) for more information on 
 
 After selecting a project like in step 2, click on "Members" in the menu on the left to see the list of active members. If you are the owner, you can add and remove members in your project. To add a member, just like adding a project or a cluster, use the button above or link below the member list. Add the e-mail address *of an existing user* and define their role in the project.
 
-![Screenshot of Kubermatic's first cluster creation wizard page](/img/kubermatic/v2.12/getting_started/manage_projects/projects_03.png)
+![Screenshot of KKP's first cluster creation wizard page](/img/kubermatic/v2.12/getting_started/manage_projects/projects_03.png)
 
 * **Editors** have write access to your project and can manage clusters, nodes and SSH keys.
 * **Viewers** have read-only access and can only view the existing resources.

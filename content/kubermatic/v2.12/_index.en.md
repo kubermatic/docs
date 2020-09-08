@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic Kubernetes Platform(KKP)"
+title = "Kubermatic Kubernetes Platform (KKP)"
 date = 2019-08-26T16:06:34+02:00
 weight = 5
 +++

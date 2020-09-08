@@ -1,5 +1,5 @@
 +++
-title = "Install Kubermatic Kubernetes Platform(KKP) CE"
+title = "Install Kubermatic Kubernetes Platform (KKP) CE"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
 

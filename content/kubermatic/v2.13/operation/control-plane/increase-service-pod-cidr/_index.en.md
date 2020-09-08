@@ -7,7 +7,7 @@ weight = 20
 
 ## Intro
 
-By default each cluster created with Kubermatic Kubernetes Platform(KKP) gets the following network settings:
+By default each cluster created with Kubermatic Kubernetes Platform (KKP) gets the following network settings:
 
 - Pod CIDR: `172.25.0.0/16`
 - Service CIDR: `10.10.10.0/24`

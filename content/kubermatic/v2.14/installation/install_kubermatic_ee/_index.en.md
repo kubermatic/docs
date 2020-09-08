@@ -1,11 +1,11 @@
 +++
-title = "Install Kubermatic Kubernetes Platform(KKP) EE"
+title = "Install Kubermatic Kubernetes Platform (KKP) EE"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
 
 +++
 
-This chapter explains the installation procedure of Kubermatic Kubernetes Platform(KKP) into a pre-existing Kubernetes cluster.
+This chapter explains the installation procedure of Kubermatic Kubernetes Platform (KKP) into a pre-existing Kubernetes cluster.
 
 ## Terminology
 
@@ -360,7 +360,7 @@ kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
 #### Identity Aware Proxy
 
 It's a common step to later setup an identity-aware proxy (IAP) to
-[securely access other Kubermatic components]({{< ref "../securing_services" >}}) from the logging or monitoring
+[securely access other KKP components]({{< ref "../securing_services" >}}) from the logging or monitoring
 stacks. This involves setting up either individual DNS records per IAP deployment or simply creating a single **wildcard**
 record: `*.kubermatic.example.com`.
 

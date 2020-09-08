@@ -5,7 +5,7 @@ weight = 30
 
 +++
 
-This manual explains how to configure a custom OIDC provider to use with Kubermatic Kubernetes Platform(KKP).
+This manual explains how to configure a custom OIDC provider to use with Kubermatic Kubernetes Platform (KKP).
 
 ### Default Configuration
 

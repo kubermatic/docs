@@ -8,7 +8,7 @@ weight = 50
 
 ## Expose Strategy
 
-Kubermatic Kubernetes Platform(KKP) 2.11 adds support to expose user clusters by creating one service of type `LoadBalancer` per user
+Kubermatic Kubernetes Platform (KKP) 2.11 adds support to expose user clusters by creating one service of type `LoadBalancer` per user
 cluster. Check out the [Expose Strategy documentation]({{< ref "../../concepts/expose-strategy/expose_strategy.en.md" >}}) for more details.
 
 ## Helm Charts
@@ -96,7 +96,7 @@ if you ever exported silences and wanted to re-import them. Please consult the
 
 The `alertmanager.version` field in the Chart's `values.yaml` was deprecated and replaced with the more common
 `alertmanager.image.tag` field. Update your Helm values if you have ever set the Alertmanager's version explicitly.
-The `migrate-values` command of the Kubermatic-Installer can automate this migration step for you.
+The `migrate-values` command of the KKP-Installer can automate this migration step for you.
 
 Likewise, the `alertmanager.resources.storage` has been renamed to `alertmanager.storageSize` and the old key has
 been deprecated. Please update your `values.yaml` if you've ever increased the volume size for Alertmanager.

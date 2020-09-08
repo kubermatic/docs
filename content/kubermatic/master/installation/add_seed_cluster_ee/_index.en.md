@@ -5,7 +5,7 @@ weight = 31
 enterprise = true
 +++
 
-This document describes how a new seed cluster can be added to an existing Kubermatic Kubernetes Platform(KKP) master cluster.
+This document describes how a new seed cluster can be added to an existing Kubermatic Kubernetes Platform (KKP) master cluster.
 
 {{% notice note %}}
 For smaller scale setups it's also possible to use the existing master cluster as a seed cluster (a "shared"

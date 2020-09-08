@@ -7,4 +7,4 @@ chapter = true
 
 # Installation
 
-Get information on how to install and manage Kubermatic Kubernetes Platform(KKP).
+Get information on how to install and manage Kubermatic Kubernetes Platform (KKP).

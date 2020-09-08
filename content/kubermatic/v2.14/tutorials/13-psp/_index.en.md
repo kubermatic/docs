@@ -11,7 +11,7 @@ This is also true for existing clusters. Without an authorizing policy, the cont
 
 PSP objects are cluster-level objects. They define a set of conditions that a pod must pass to be accepted by the PSP admission controller. The most common way to apply this is using RBAC. For a pod to use a specific Pod Security Policy, the pod should run using a Service Account or a User that has `use` permission to that particular Pod Security policy.
 
-## Kubermatic Kubernetes Platform(KKP) Support
+## Kubermatic Kubernetes Platform (KKP) Support
 
 ### User Cluster Level Support
 

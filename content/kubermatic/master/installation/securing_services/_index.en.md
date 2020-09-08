@@ -5,7 +5,7 @@ weight = 60
 
 +++
 
-Access to Prometheus, Grafana and all other system services included with Kubermatic Kubernetes Platform(KKP) is secured by running them behind
+Access to Prometheus, Grafana and all other system services included with Kubermatic Kubernetes Platform (KKP) is secured by running them behind
 [OAuth2-Proxy](https://github.com/oauth2-proxy/oauth2-proxy) and using [Dex](https://github.com/dexidp/dex)
 as the authentication provider.
 

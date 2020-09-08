@@ -5,7 +5,7 @@ metadata:
   namespace: kubermatic
 spec:
   # Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK.
-  # For informational purposes in the Kubermatic Kubernetes Platform(KKP) dashboard only.
+  # For informational purposes in the Kubermatic Kubernetes Platform (KKP) dashboard only.
   country: ""
   # Datacenters contains a map of the possible datacenters (DCs) in this seed.
   # Each DC must have a globally unique identifier (i.e. names must be unique

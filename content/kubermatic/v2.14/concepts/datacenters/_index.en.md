@@ -9,7 +9,7 @@ weight = 10
 
 There are 2 types of datacenters:
 
-- **Seed datacenter**, where Kubermatic kubernetes Platform's(KKP) controller-manager and the control planes for each customer cluster are
+- **Seed datacenter**, where Kubermatic kubernetes Platform's (KKP) controller-manager and the control planes for each customer cluster are
   running.
 - **Node datacenter**, where the customer worker nodes are provisioned.
 

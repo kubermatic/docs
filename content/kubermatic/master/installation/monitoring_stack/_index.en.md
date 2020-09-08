@@ -5,7 +5,7 @@ weight = 40
 
 +++
 
-This chapter describes how to setup the Kubermatic Kubernetes Platform(KKP) monitoring stack. It's highly recommended to install this
+This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) monitoring stack. It's highly recommended to install this
 stack on the master and all seed clusters.
 
 ### Requirements

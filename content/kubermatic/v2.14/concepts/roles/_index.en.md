@@ -10,7 +10,7 @@ weight = 10
 A project is an entity that holds various resources.  All resources in a project are equal in terms of the `groups` attached
 to them. Affiliation of a `user` to one of the `groups` give them certain powers they are allowed to use within a project.
 
-### Kubermatic Kubernetes Platform(KKP) roles
+### Kubermatic Kubernetes Platform (KKP) roles
 
 There are three roles: owner, editor, and viewer. These roles are concentric; that is, the owner role includes the permissions
 of the editor role, and the editor role includes the permissions of the viewer role.

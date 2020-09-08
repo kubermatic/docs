@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic Kubernetes Platform(KKP) Addons"
+title = "Kubermatic Kubernetes Platform (KKP) Addons"
 date = 2018-06-21T14:07:15+02:00
 weight = 110
 

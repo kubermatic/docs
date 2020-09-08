@@ -5,7 +5,7 @@ weight = 10
 
 +++
 
-Using the installer is the recommended way of installing Kubermatic Kubernetes Platform(KKP) into your cluster. It provides a simple web wizard for configuration and automates the installation of all required components.
+Using the installer is the recommended way of installing Kubermatic Kubernetes Platform (KKP) into your cluster. It provides a simple web wizard for configuration and automates the installation of all required components.
 
 {{% notice note %}}
 At the moment you need to be invited to get access to KKP's Docker registry before you can try it out. Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.

@@ -5,7 +5,7 @@ weight = 15
 draft = true
 +++
 
-## Contributing to Kubermatic Kubernetes Platform(KKP) Docs
+## Contributing to Kubermatic Kubernetes Platform (KKP) Docs
 
 The [KKP Docs](http://docs.kubermatic.io) source repository can be found on [Github](https://github.com/kubermatic/docs).
 

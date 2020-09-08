@@ -68,7 +68,7 @@ As Ark was [renamed to Velero](https://github.com/heptio/velero/releases/tag/v0.
 (previously kept in a dedicated `ark-config` chart) was merged into the main chart, making use of Helm's
 pre-install hooks to install the CRDs before setting up the backup schedules.
 
-When upgrading Kubermatic Kubernetes Platform(KKP), make sure to manually remove the `ark` and `ark-config` charts:
+When upgrading Kubermatic Kubernetes Platform (KKP), make sure to manually remove the `ark` and `ark-config` charts:
 
 ```bash
 helm --tiller-namespace kubermatic delete --purge ark-config

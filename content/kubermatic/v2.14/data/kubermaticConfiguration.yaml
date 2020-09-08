@@ -12,7 +12,7 @@ spec:
       - gatekeeper
     # DebugLog enables more verbose logging.
     debugLog: false
-    # DockerRepository is the repository containing the Kubermatic Kubernetes Platform(KKP) REST API image.
+    # DockerRepository is the repository containing the Kubermatic Kubernetes Platform (KKP) REST API image.
     dockerRepository: quay.io/kubermatic/kubermatic
     # PProfEndpoint controls the port the API should listen on to provide pprof
     # data. This port is never exposed from the container and only available via port-forwardings.

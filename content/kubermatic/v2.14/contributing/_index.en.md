@@ -8,4 +8,4 @@ draft = true
 
 # Contributing
 
-Learn how to contribute to the Kubermatic Kubernetes Platform(KKP) documentation.
+Learn how to contribute to the Kubermatic Kubernetes Platform (KKP) documentation.

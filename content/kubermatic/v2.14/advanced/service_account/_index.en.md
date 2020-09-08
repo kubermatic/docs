@@ -7,7 +7,7 @@ weight = 60
 
 ### Service Accounts
 
-Service accounts allow using a long-lived token that you can use to authenticate with Kubermatic Kubernetes Platform(KKP) API.
+Service accounts allow using a long-lived token that you can use to authenticate with Kubermatic Kubernetes Platform (KKP) API.
 
 A service account is a special type of user account that belongs to the KKP project, instead of an individual
 end user. Your project resources assume the identity of the service account to call KKP APIs, so that the users

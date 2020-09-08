@@ -11,7 +11,7 @@ weight = 20
 
 Before you can manage clusters or SSH keys, select your current project by using the project list after you logged in or use the dropdown in the top left corner of the page. After choosing the project, the relevant menu items will become active.
 
-![Screenshot of Kubermatic Kubernetes Platform's(KKP) first cluster creation wizard page](/img/kubermatic/v2.12/getting_started/manage_projects/projects_02.png)
+![Screenshot of Kubermatic Kubernetes Platform's (KKP) first cluster creation wizard page](/img/kubermatic/v2.12/getting_started/manage_projects/projects_02.png)
 
 ### Step 2 – Specify the Cluster Name and Kubernetes Version
 

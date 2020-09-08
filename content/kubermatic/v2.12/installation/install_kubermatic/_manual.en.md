@@ -6,7 +6,7 @@ weight = 20
 +++
 
 {{% notice warning %}}
-With [Cleanup kubermatic Kubernetes Platform(KKP)-installer repo](https://github.com/kubermatic/kubermatic/issues/5026) the installer repository is no longer public available.
+With [Cleanup kubermatic Kubernetes Platform (KKP)-installer repo](https://github.com/kubermatic/kubermatic/issues/5026) the installer repository is no longer public available.
 This installation manual is kept for reference and those who have access to the installer repository.
 {{% /notice %}}
 

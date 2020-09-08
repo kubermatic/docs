@@ -8,7 +8,7 @@ weight = 70
 ### Share Clusters via Delegated OIDC Authentication
 
 The purpose of this feature is to allow using an OIDC provider like `dex` to authenticate to a Kubernetes cluster
-managed by Kubermatic Kubernetes Platform(KKP). This feature can be used to share access to a cluster with other users.
+managed by Kubermatic Kubernetes Platform (KKP). This feature can be used to share access to a cluster with other users.
 
 {{% notice note %}}
 **Note:** This feature is **experimental** and not enabled by default. See the [prerequisites](#prerequisites)

@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic Kubernetes Platform(KKP) Proxy Whitelisting"
+title = "Kubermatic Kubernetes Platform (KKP) Proxy Whitelisting"
 date = 2019-09-13T12:07:15+02:00
 weight = 90
 

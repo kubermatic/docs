@@ -7,7 +7,7 @@ weight = 20
 
 ## Overview
 
-The KubermaticConfiguration CustomResourceDefinition is used for configuring the Kubermatic Kubernetes Platform(KKP) Operator and
+The KubermaticConfiguration CustomResourceDefinition is used for configuring the Kubermatic Kubernetes Platform (KKP) Operator and
 replaces what previously was done with the `values.yaml` for the KKP Helm chart.
 
 The following is an example configuration, showing all possible options. Note that all fields that you

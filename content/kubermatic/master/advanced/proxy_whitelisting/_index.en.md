@@ -1,17 +1,17 @@
 +++
-title = "Kubermatic Proxy Whitelisting"
+title = "Kubermatic Kubernetes Platform (KKP) Proxy Whitelisting"
 date = 2019-09-13T12:07:15+02:00
 weight = 90
 
 +++
 
-To enable Kubermatic behind a proxy environment, the following targets need to be reachable.
+To enable KKP behind a proxy environment, the following targets need to be reachable.
 
 {{% notice note %}}
-If you use the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode), images will get pulled from the defined private registry (e.g. `172.20.0.2:5000`) instead of the public registries. For more details see the [Kubermatic offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode) section.
+If you use the [KKP offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode), images will get pulled from the defined private registry (e.g. `172.20.0.2:5000`) instead of the public registries. For more details see the [KKP offline mode](https://docs.kubermatic.io/advanced/offline_mode/#kubermatic-offline-mode) section.
 {{% /notice %}}
 
-## Kubermatic Machine Controller
+## KKP Machine Controller
 
 Resources pulled on machine controller nodes
 
@@ -26,7 +26,7 @@ https://storage.googleapis.com/kubernetes-release/release/
 # CNI Plugins
 https://github.com/containernetworking/plugins/releases/
 
-# Kubermatic Health-Monitor Script
+# KKP Health-Monitor Script
 # (Placed at pkg/userdata/scripts/health-monitor.sh)
 https://raw.githubusercontent.com/kubermatic/machine-controller/
 ```
@@ -99,15 +99,15 @@ Init script: https://github.com/kubermatic/machine-controller/tree/master/pkg/us
 - default apt repositories
 - docker apt repository: `download.docker.com/linux/ubuntu`
 
-# Kubermatic Seed Cluster Setup
+# KKP Seed Cluster Setup
 
 ## Cloud Provider API Endpoints
-Kubermatic interacts with the different cloud provider directly to provision the required infrastructure to manage Kubernetes clusters:
+KKP interacts with the different cloud provider directly to provision the required infrastructure to manage Kubernetes clusters:
 
 ### AWS
 API Endpoint documentation: https://docs.aws.amazon.com/general/latest/gr/rande.html
 
-Kubermatic interact in several ways with different cloud provider, e.g.:
+KKP interact in several ways with different cloud provider, e.g.:
 - creating EC2 instances
 - creating security groups
 - access instance profiles

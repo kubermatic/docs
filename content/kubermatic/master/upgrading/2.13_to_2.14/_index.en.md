@@ -9,7 +9,7 @@ weight = 80
 
 ### Elastic Stack
 
-Kubermatic Kubernetes Platform(KKP) 2.14 deprecates the Elasticsearch-based logging stack, consisting of the `elasticsearch`, `kibana` and `fluentbit`
+Kubermatic Kubernetes Platform (KKP) 2.14 deprecates the Elasticsearch-based logging stack, consisting of the `elasticsearch`, `kibana` and `fluentbit`
 Helm charts. These components will only receive security fixes in future releases and will be removed entirely in version
 2.16.
 

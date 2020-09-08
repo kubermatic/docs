@@ -7,7 +7,7 @@ weight = 6
 
 ### Update Kubernetes Upgrade Plan
 
-Kubermatic Kubernetes Platform(KKP) provides [live updates of your Kubernetes cluster](operation/control-plane/upgrading/#upgrading-the-control-plane)
+Kubermatic Kubernetes Platform (KKP) provides [live updates of your Kubernetes cluster](operation/control-plane/upgrading/#upgrading-the-control-plane)
 without disrupting your daily business. The allowed updates are defined in the file
 `updates.yaml`. You find it in your KKP installer clone directory:
 

@@ -4,7 +4,7 @@ date = 2018-08-17T12:07:15+02:00
 weight = 10
 +++
 
-Kubermatic Kubernetes Platform(KKP) uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. Dashboarding is done with [Grafana](https://grafana.com).
+Kubermatic Kubernetes Platform (KKP) uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. Dashboarding is done with [Grafana](https://grafana.com).
 
 ## Overview
 

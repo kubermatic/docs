@@ -7,7 +7,7 @@ weight = 10
 
 ## Create a New Project
 
-Clusters are assigned to projects, so in order to create a cluster, you must create a project first. In the Kubermatic Kubernetes Platform(KKP) dashboard, choose `Add Project`:
+Clusters are assigned to projects, so in order to create a cluster, you must create a project first. In the Kubermatic Kubernetes Platform (KKP) dashboard, choose `Add Project`:
 
 ![Add Project](01-create-project-overview.png)
 

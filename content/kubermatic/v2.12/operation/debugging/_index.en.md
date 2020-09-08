@@ -7,7 +7,7 @@ chapter = false
 
 ## Debugging
 
-### Check if the Kubermatic Kubernetes Platform(KKP) Components Are Running
+### Check if the Kubermatic Kubernetes Platform (KKP) Components Are Running
 
 1. Check on the KKP-pods by issuing a `kubectl get pod -n kubermatic`
 1. If any of them is not running, execute `kubectl logs -n kubermatic $PODNAME` to find out the issue

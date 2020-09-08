@@ -7,7 +7,7 @@ weight = 30
 
 ### CRD Migration
 
-With v2.9 the Kubermatic Kubernetes Platform(KKP) chart wont contain any CustomResourceDefinitions.
+With v2.9 the Kubermatic Kubernetes Platform (KKP) chart wont contain any CustomResourceDefinitions.
 Upgrading the existing KKP installation with new charts would result in all CRD's being deleted.
 
 For this purpose we wrote a migration script.

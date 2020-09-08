@@ -5,7 +5,7 @@ weight = 50
 
 +++
 
-This chapter describes how to setup the Kubermatic Kubernetes Platform(KKP) logging stack. It's highly recommended to install this
+This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) logging stack. It's highly recommended to install this
 stack on the master and all seed clusters.
 
 The logging stack consists of Promtail and [Grafana Loki](https://grafana.com/oss/loki/). Customers with more

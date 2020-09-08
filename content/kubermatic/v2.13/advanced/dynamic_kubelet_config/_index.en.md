@@ -17,7 +17,7 @@ To enable dynamic kubelet configuration, mark the `Dynamic kubelet config` check
 
 ![View](add_node.png)
 
-Normally these configmaps for different versions are created with a set of healthy default options by Kubermatic Kubernetes Platform's(KKP) default `kubelet-configmap` addon. However, if you want to customize the settings, you can replace the default addon with your own. You can also alter the `configSource` parameter of the Machine Deployment to point the kubelet to another config map - that way you can have multiple configurations for multiple sets of nodes.
+Normally these configmaps for different versions are created with a set of healthy default options by Kubermatic Kubernetes Platform's (KKP) default `kubelet-configmap` addon. However, if you want to customize the settings, you can replace the default addon with your own. You can also alter the `configSource` parameter of the Machine Deployment to point the kubelet to another config map - that way you can have multiple configurations for multiple sets of nodes.
 
 {{% notice warning %}}
 The dynamic kubelet configuration is a beta feature in both Kubernetes and KKP. Refer to the Kubenetes documentation for more information.

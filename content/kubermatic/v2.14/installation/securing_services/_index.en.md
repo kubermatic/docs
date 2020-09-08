@@ -5,7 +5,7 @@ weight = 60
 
 +++
 
-Access to Prometheus, Grafana and all other system services included with Kubermatic Kubernetes Platform(KKP) is secured by running them behind
+Access to Prometheus, Grafana and all other system services included with Kubermatic Kubernetes Platform (KKP) is secured by running them behind
 [Keycloak-Gatekeeper](https://github.com/keycloak/keycloak-gatekeeper) and using [Dex](https://github.com/dexidp/dex)
 as the authentication provider.
 

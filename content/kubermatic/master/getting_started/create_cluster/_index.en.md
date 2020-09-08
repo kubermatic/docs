@@ -23,7 +23,7 @@ The cluster name is how you will identify your Kubernetes cluster instance. Choo
 
 ### Step 3 – Choose a Cloud Provider for Your Kubernetes Nodes
 
-Choose a cloud provider for your Kubernetes nodes to be deployed by Kubermatic Kubernetes Platform(KKP). Your nodes can be placed in any cloud you like.
+Choose a cloud provider for your Kubernetes nodes to be deployed by Kubermatic Kubernetes Platform (KKP). Your nodes can be placed in any cloud you like.
 
 ![Wizard provider step](/img/kubermatic/master/getting_started/create_cluster/wizard-provider.png)
 

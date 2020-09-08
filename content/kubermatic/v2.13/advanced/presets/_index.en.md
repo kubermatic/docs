@@ -11,7 +11,7 @@ With Presets you can specify default settings for new Cluster. Use Presets to re
 
 ### Core Concept
 
-As a Kubermatic Kubernetes Platform(KKP) administrator with superuser access, you can define Presets type in a standard format using a static YAML
+As a Kubermatic Kubernetes Platform (KKP) administrator with superuser access, you can define Presets type in a standard format using a static YAML
 file or Kubernetes Custom Resource Definition (CRD) struct that represents the Preset, allowing the assignment of new
 credential types to supported providers. This allows you to define a custom credential type that works in ways similar
 to existing credential types. For example, you could create a custom credential type that injects access keys, passwords

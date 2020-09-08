@@ -5,7 +5,7 @@ weight = 10
 
 +++
 
-Kubermatic Kubernetes Platform(KKP) organizes your clusters into projects. Projects allow you to share clusters with other users and make it easier to collaborate.
+Kubermatic Kubernetes Platform (KKP) organizes your clusters into projects. Projects allow you to share clusters with other users and make it easier to collaborate.
 
 ### Step 1 – Create a Project
 

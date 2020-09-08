@@ -6,7 +6,7 @@ weight = 30
 +++
 
 
-This document describes how a new seed cluster can be added to an existing Kubermatic Kubernetes Platform(KKP) master cluster.
+This document describes how a new seed cluster can be added to an existing Kubermatic Kubernetes Platform (KKP) master cluster.
 
 Please refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
 about the cluster relationships.

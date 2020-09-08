@@ -8,9 +8,9 @@ Audit Logging is one of key security features provided by Kubernetes. Once enabl
 
 Audit logging is also a key requirement of the [Kubernetes CIS benchmark](https://www.cisecurity.org/benchmark/kubernetes/).
 
-For more details, you can can refer to the [upstream documentation](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/).
+For more details, you can refer to the [upstream documentation](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/).
 
-### Kubermatic Kubernetes Platform(KKP) Support
+### Kubermatic Kubernetes Platform (KKP) Support
 KKP provides two levels of support for the Audit Logging:
 
 * Audit Logging on user-cluster level

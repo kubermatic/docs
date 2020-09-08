@@ -5,4 +5,4 @@ weight = 30
 type = "runbook"
 +++
 
-This page serves as a reference to the alerts that a standard Kubermatic Kubernetes Platform(KKP) monitoring setup can fire, alongside a short description and steps to debug.
+This page serves as a reference to the alerts that a standard Kubermatic Kubernetes Platform (KKP) monitoring setup can fire, alongside a short description and steps to debug.
