@@ -8,7 +8,7 @@ weight = 6
 ### Update List of Selectable Kubernetes Versions
 
 The list of selectable versions when [specifying cluster name and Kubernetes version](../../getting_started/create_cluster/#step-2-specify-the-cluster-name-and-kubernetes-version) is defined in the file
-`versions.yaml`. You'll find it in your KKP Kubernetes Platform(KKP) installer clone directory:
+`versions.yaml`. You'll find it in your Kubermatic Kubernetes Platform (KKP) installer clone directory:
 
 ```bash
 git clone git@github.com:kubermatic/kubermatic-installer.git

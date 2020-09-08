@@ -1,5 +1,5 @@
 +++
-title = "Changelog for Kubermatic Kubernetes  (KKP) 2.13"
+title = "Changelog for Kubermatic Kubernetes (KKP) 2.13"
 date = 2020-01-12T00:00:00+00:00
 publishDate = 2020-01-12T00:00:00+00:00
 weight = 213

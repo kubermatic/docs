@@ -6,4 +6,4 @@ chapter = true
 +++
 
 # Changelog
-The Kubermatic Kubernetes Platform(KKP) changelog
+The Kubermatic Kubernetes Platform (KKP) changelog
