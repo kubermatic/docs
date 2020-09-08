@@ -1,7 +1,7 @@
 +++
 title = "Add Seed Cluster for CE"
 date = 2018-08-09T12:07:15+02:00
-weight = 30
+weight = 40
 
 +++
 

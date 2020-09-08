@@ -1,7 +1,7 @@
 +++
 title = "Add Seed Cluster for EE"
 date = 2018-08-09T12:07:15+02:00
-weight = 31
+weight = 50
 enterprise = true
 +++
 

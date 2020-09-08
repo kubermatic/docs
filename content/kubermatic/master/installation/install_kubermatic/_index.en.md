@@ -20,26 +20,34 @@ This chapter explains the installation procedure of KKP into a pre-existing Kube
 Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "../../requirements" >}})
 and make yourself familiar with the requirements for your chosen cloud provider.
 
-For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 2) installed locally.
+For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 3) installed locally.
+
+{{% notice warning %}}
+This guide assumes a clean installation into an empty cluster. Please refer to the upgrade notes for more information on
+migrating existing installations to the Kubermatic Installer.
+{{% /notice %}}
 
 ## Installation
 
-To begin the installation, make sure you have a kubeconfig at hand, with a user context that grants `cluster-admin`
+To begin the installation, make sure you have a kubeconfig file at hand, with a user context that grants `cluster-admin`
 permissions.
 
 ### Download the Installer
 
-Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-X.Y.tar.gz) containing the
-Helm charts choosing the appropriate release (`vX.Y`) and extract it. e.g.
+Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-ce-X.Y-linux-amd64.tar.gz)
+containing the Kubermatic Installer and the required Helm charts and extract it locally, for example:
 
 ```bash
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
-# VERSION=2.14.x
-wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}.tar.gz
-tar -xzvf kubermatic-ce-v${VERSION}.tar.gz
+# VERSION=2.15.x
+wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
+tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 ```
+
+Make sure to download the installer built for your operating system (Linux, Darwin or Windows). Also note that for Windows,
+ZIP files are provided for convenience.
 
 ### Create a StorageClass
 
@@ -70,237 +78,88 @@ kubectl apply -f aws-storageclass.yaml
 Please consult the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters)
 for more information about the possible parameters for your storage backend.
 
-### Install Helm's Tiller
-
-It's required to setup Tiller inside the cluster. This requires setting up a ClusterRole and
--Binding, before installing Tiller itself. If your cluster already has Tiller installed in another namespace, you
-can re-use it, but an installation dedicated for KKP is preferred.
-
-```bash
-kubectl create namespace kubermatic
-kubectl create serviceaccount -n kubermatic tiller
-kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller
-
-helm --service-account tiller --tiller-namespace kubermatic init
-```
-
 ### Prepare Configuration
 
-KKP ships with a number of Helm charts that need to be installed into the master or seed clusters. These are
-built so they can be configured using a single, shared `values.yaml` file. The required charts are:
+The installation and configuration for a KKP system consists of two important files:
 
-* **Master cluster:** cert-manager, nginx-ingress-controller, oauth
+* A `values.yaml` used to configure the various Helm charts KKP ships with. This is where nginx, Prometheus,
+  Dex etc. can be adjusted to the target environment. A single `values.yaml` is used to configure all Helm charts
+  combined.
+* A `kubermatic.yaml` that configures KKP itself and is an instance of the
+  [KubermaticConfiguration]({{< ref "../../concepts/kubermaticconfiguration" >}}) CRD. This configuration will
+  be stored in the cluster and serves as the basis for the Kubermatic Operator to manage the actual KKP installation.
 
-Optional charts are:
+The release archive hosted on GitHub contains examples for both of the configuration files (`values.example.yaml` and
+`kubermatic.example.yaml`). It's a good idea to take them as a starting point and add more options as necessary.
 
-* **Master cluster:** iap, [monitoring]({{< ref "../monitoring_stack" >}}), [logging stack]({{< ref "../logging_stack" >}})
-* **Seed cluster:** minio, s3-exporter
+The main things to configure are:
 
-In addition to the `values.yaml` for configuring the charts, a number of options will later be made inside a special
-`KubermaticConfiguration` resource.
+* The base domain under which KKP shall be accessible (e.g. `kubermatic.example.com`).
+* The certificate issuer: KKP requires that its dashboard and Dex are only accessible via HTTPS, so a
+  certificate is required. By default cert-manager is used, but you have to choose between the production or
+  staging Let's Encrypt services (if in doubt, choose the production server).
+  It is possible to use a custom CA (i.e. self-signed certificates), but this is outside of the scope of this
+  document.
+* For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses
+  yet another random secret to encrypt cookiesstored in the users' browsers.
 
-A minimal configuration for Helm charts sets these options. The secret keys mentioned below can be generated using any
-password generator or on the shell using `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
-On MacOS, use `brew install gnu-tar` and `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`
-
-For the purpose of this document, we only need to configure a few things in the values.yaml:
-
-```yaml
-# Dex is the OpenID Provider for KKP.
-dex:
-  ingress:
-    # configure your base domain, under which the KKP dashboard shall be available
-    host: kubermatic.example.com
-
-  clients:
-  # The "KKP" client is used for logging into the KKP dashboard. It always
-  # needs to be configured.
-  - id: kubermatic
-    name: Kubermatic
-    # generate a secure secret key
-    secret: <dex-kubermatic-oauth-secret-here>
-    RedirectURIs:
-    # ensure the URLs below use the dex.ingress.host configured above
-    - https://kubermatic.example.com
-    - https://kubermatic.example.com/projects
-
-  # Depending on your chosen login method, you need to configure either an OAuth provider like
-  # Google or GitHub, or configure a set of static passwords. Check the `charts/oauth/values.yaml`
-  # for an overview over all available connectors.
-
-  # For testing purposes, we configure a single static user/password combination.
-  staticPasswords:
-  - email: "kubermatic@example.com"
-    # bcrypt hash of the string "password", can be created using recent versions of htpasswd:
-    # `htpasswd -bnBC 10 "" PASSWORD_HERE | tr -d ':\n' | sed 's/$2y/$2a/'`
-    hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
-
-    # these are used within KKP to identify the user
-    username: "admin"
-    userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
-```
-
-### Install Dependencies
-
-With the configuration prepared, it's now time to install the required Helm charts into the master
-cluster. Take note of where you placed your `values.yaml` and then run the following commands in your
-shell. Note that CRDs are not managed by Helm, so you must apply them manually both when installing
-a component like cert-manager, as well as during any updates later.
+There are many more options, but these are essential to get a minimal system up and running. The secret keys
+mentioned above can be generated using any password generator or on the shell using
+`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`. On MacOS, use `brew install gnu-tar` and
+`cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`. Alternatively, the Kubermatic Installer will suggest some
+properly generated secrets for you when it notices that some are missing, for example:
 
 ```bash
-kubectl apply -f charts/cert-manager/crd/
-
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
-
-kubectl apply -f charts/cert-manager/crd/
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace cert-manager cert-manager charts/cert-manager/
-
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace oauth oauth charts/oauth/
-```
-
-Please, make sure that the `cert-manager` is available, before continuing and installing `oauth`, by waiting a minute for its pods to be running (see: *Validation* section below).
-
-#### Validation
-
-Before continuing, make sure the charts we just installed are functioning correctly. Check that pods inside the
-`nginx-ingress-controller`, `oauth` and `cert-manager` namespaces are in status `Running`:
-
-```bash
-kubectl -n nginx-ingress-controller get pods
-#NAME                                        READY   STATUS    RESTARTS   AGE
-#nginx-ingress-controller-55dd87fc7f-5q4zb   1/1     Running   0          17m
-#nginx-ingress-controller-55dd87fc7f-l492k   1/1     Running   0          4h56m
-#nginx-ingress-controller-55dd87fc7f-rwcwf   1/1     Running   0          5h33m
-
-kubectl -n oauth get pods
-#NAME                   READY   STATUS    RESTARTS   AGE
-#dex-7795d657ff-b4fmq   1/1     Running   0          4h59m
-#dex-7795d657ff-kqbk8   1/1     Running   0          20m
-
-kubectl -n cert-manager get pods
-#NAME                           READY   STATUS    RESTARTS   AGE
-#cainjector-5dc8ccbd45-gk6xp    1/1     Running   0          5h36m
-#cert-manager-799ccc8b5-m7wxk   1/1     Running   0          20m
-#webhook-575b887-zb6m2          1/1     Running   0          5h36m
-```
-
-You should also have a working LoadBalancer service created by nginx:
-
-{{% notice note %}}
-Not all cloud providers provide support for LoadBalancers. In these environments the `nginx-ingress-controller` chart can
-be configured to use a NodePort Service instead, which would open ports 80 and 443 on every node of the cluster. Refer to
-the `charts/nginx-ingress-controller/values.yaml` for more information.
-{{% /notice %}}
-
-```bash
-kubectl -n nginx-ingress-controller get services
-#NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
-#nginx-ingress-controller   LoadBalancer   10.47.248.232   1.2.3.4        80:32014/TCP,443:30772/TCP   449d
-```
-
-Take note of the `EXTERNAL-IP` of this service (`1.2.3.4` in the example above). You will need to configure a DNS record
-pointing to this in a later step.
-
-If any of the pods above are not working, check their logs and describe them (`kubectl -n nginx-ingress-controller describe pod ...`)
-to see what's causing the issues.
-
-### Install KKP Operator
-
-Before installing the KKP Operator, the KKP CRDs need to be installed. You can install them like so:
-
-```bash
-kubectl apply -f charts/kubermatic/crd/
-```
-
-After this, the operator chart can be installed like the previous Helm charts:
-
-```bash
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace kubermatic kubermatic-operator charts/kubermatic-operator/
-```
-
-#### Validation
-
-Once again, let's check that the operator is working properly:
-
-```bash
-kubectl -n kubermatic get pods
-#NAME                                   READY   STATUS    RESTARTS   AGE
-#kubermatic-operator-769986fc8b-7gpsc   1/1     Running   0          28m
-```
-
-### Create KubermaticConfiguration
-
-It's now time to configure KKP itself. This will be done in a `KubermaticConfiguration` CRD, for which a
-[full example]({{< ref "../../concepts/kubermaticconfiguration" >}}) with all options is available, but for the
-purpose of this document we will only need to configure a few things:
-
-```yaml
-apiVersion: operator.kubermatic.io/v1alpha1
-kind: KubermaticConfiguration
-metadata:
-  name: kubermatic
-  namespace: kubermatic
-spec:
-  ingress:
-    # this domain must match what you configured as dex.ingress.host
-    # in the values.yaml
-    domain: kubermatic.example.com
-
-  # These secret keys configure the way components commmunicate with Dex.
-  auth:
-    # this must match the secret configured for the KKP client from
-    # the values.yaml.
-    issuerClientSecret: <dex-kubermatic-oauth-secret-here>
-
-    # these need to be randomly generated. Those can be generated on the
-    # shell using:
-    # cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32
-    issuerCookieKey: <a-random-key>
-    serviceAccountKey: <another-random-key>
-
-  # this needs to match the one in the values.yaml file.
-  imagePullSecret: |
-    {
-      "auths": {
-        "quay.io": {....}
-      }
-    }
-```
-
-Save the YAML above as `kubermatic.yaml` and apply it like so:
-
-```bash
-kubectl apply -f kubermatic.yaml
-```
-
-This will now cause the operator to being provisioning a master cluster for KKP. You can observe the progress by
-looking at `watch kubectl -n kubermatic get pods`:
-
-```bash
-watch kubectl -n kubermatic get pods
-#NAME                                                    READY   STATUS    RESTARTS   AGE
-#kubermatic-api-cfcd95746-5r9z2                          1/1     Running   0          24m
-#kubermatic-api-cfcd95746-tsqjc                          1/1     Running   0          28m
-#kubermatic-master-controller-manager-7d97bb887d-8nb74   1/1     Running   0          3m23s
-#kubermatic-master-controller-manager-7d97bb887d-z8t9w   1/1     Running   0          28m
-#kubermatic-operator-769986fc8b-7gpsc                    1/1     Running   0          28m
-#kubermatic-ui-7fc858fb4b-dq5b5                          1/1     Running   0          85m
-#kubermatic-ui-7fc858fb4b-s8fnn                          1/1     Running   0          24m
+./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
+INFO[15:15:20] � Initializing installer…                     edition="Community Edition" version=v2.15.11
+INFO[15:15:20] � Validating the provided configuration…�
+ERRO[15:15:20]    The provided configuration files are invalid:
+ERRO[15:15:20]    KubermaticConfiguration: spec.auth.serviceAccountKey must be a non-empty secret, for example: ZPCs7_KzgJxUSA5lCk_oNzL7RQFTQ6cOnHuTLAh4pGw
+ERRO[15:15:20]    Operation failed: please review your configuration and try again.
 ```
 
 {{% notice note %}}
-Note that because we don't yet have a TLS certificate and no DNS records configured, some of the pods will crashloop
-until this is fixed.
+A couple of settings are duplicated across the `values.yaml` and the KubermaticConfiguration CRD. The installer
+will take care of filling in the gaps, so it is sufficient to configure the base domain in the
+KubermaticConfiguration and letting the installer then set it in the `values.yaml` as well.
 {{% /notice %}}
+
+### Run Installer
+
+Once the configuration files have been prepared, it's time to run the installer, which will validate them
+and then install all the required components into the cluster. Open a terminal window and run the installer
+like so:
+
+```bash
+./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
+```
+
+{{% notice warning %}}
+If you get an error about Helm being too old, download the most recent version from https://helm.sh/ and either
+replace your system's Helm installation or specify the path to the Helm 3 binary via `--helm-binary ...` (for
+example `./kubermatic-installer deploy .... --helm-binary /home/me/Downloads/helm-3.3.1`)
+{{% /notice %}}
+
+Once the installer has finished, the KKP Master cluster has been installed and will be ready to use once
+the necessary DNS records have been configured (see the next steps).
+
+{{% notice note %}}
+Note that because we don't yet have a TLS certificate and no DNS records configured, some of the pods will crashloop.
+This is normal for fresh setups and once the DNS records have been set, things will sort themselves out.
+{{% /notice %}}
+
+If you change your mind later on and adjust configuration options, it's safe to just run the installer again
+to apply your changes.
 
 ### Create DNS Records
 
 In order to acquire a valid certificate, a DNS name needs to point to your cluster. Depending on your environment,
-this can mean a LoadBalancer service or a NodePort service.
+this can mean a LoadBalancer service or a NodePort service. The nginx-ingress-controller Helm chart will by default
+create a LoadBalancer, unless you reconfigure it because your environment does not support LoadBalancers.
 
-#### With Load Balancers
+#### With LoadBalancers
 
-When your cloud provider supports Load Balancers, you can find the target IP / hostname by looking at the
+When your cloud provider supports LoadBalancers, you can find the target IP / hostname by looking at the
 `nginx-ingress-controller` Service:
 
 ```bash
@@ -309,9 +168,11 @@ kubectl -n nginx-ingress-controller get services
 #nginx-ingress-controller   LoadBalancer   10.47.248.232   1.2.3.4        80:32014/TCP,443:30772/TCP   449d
 ```
 
-The `EXTERNAL-IP` is what we need to put into the DNS record.
+The `EXTERNAL-IP` is what we need to put into the DNS record. Note that this can be a hostname (for example on AWS,
+this can be `my-loadbalancer-1234567890.us-west-2.elb.amazonaws.com`) and in this case, the DNS record needs to
+be a `CNAME` rather than an `A` record.
 
-#### Without Load Balancers
+#### Without LoadBalancers
 
 Without a LoadBalancer, you will need to use the NodePort service (refer to the `charts/nginx-ingress-controller/values.yaml`
 for more information) and setup the DNS records to point to one or many of your cluster's nodes. You can get a list of
@@ -352,11 +213,12 @@ kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
 
 It's a common step to later setup an identity-aware proxy (IAP) to
 [securely access other KKP components]({{< ref "../securing_services" >}}) from the logging or monitoring
-stacks. This involves setting up either individual DNS records per IAP deployment or simply creating a single **wildcard**
-record: `*.kubermatic.example.com`.
+stacks. This involves setting up either individual DNS records per IAP deployment (one for Prometheus, one for Grafana, etc.)
+or simply creating a single **wildcard** record: `*.kubermatic.example.com`.
 
 Whatever you choose, the DNS record needs to point to the same endpoint (IP or hostname, meaning A or CNAME
-records respectively) as the previous record, i.e. `1.2.3.4`.
+records respectively) as the previous record, i.e. `1.2.3.4`. This is because the one nginx-ingress-controller is routing
+traffic both for KKP and all other services.
 
 ```plain
 *.kubermatic.example.com.   IN   A       1.2.3.4
@@ -382,7 +244,7 @@ watch kubectl -n kubermatic get certificates
 #kubermatic   True    kubermatic-tls   1h
 ```
 
-If the certificate does not become ready, `describe` it and follow the chain from Certificate to Order to Challenges.
+If the certificate does not become ready, `kubectl describe` it and follow the chain from Certificate to Order to Challenges.
 Typical faults include bad DNS records or a misconfigured KubermaticConfiguration pointing to a different domain.
 
 ### Have a Break
@@ -390,7 +252,6 @@ Typical faults include bad DNS records or a misconfigured KubermaticConfiguratio
 With all this in place, you should be able to access https://kubermatic.example.com/ and login either with your static
 password from the `values.yaml` or using any of your chosen connectors. All pods running inside the `kubermatic` namespace
 should now be running. If they are not, check their logs to find out what's broken.
-
 
 ### Next Steps
 
