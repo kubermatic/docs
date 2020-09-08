@@ -8,7 +8,7 @@ weight = 5
 
 Automate thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Deploy, manage and run multiple Kubernetes clusters with our production-proven platform. On your preferred infrastructure.
 
-Kubermatic Kubernetes Platform(KKP) is directly integrated with leading cloud providers Amazon Web Services, Azure, DigitalOcean, Google Compute Engine, Hetzner, OpenStack, Packet and VMware vSphere as well as any provider offering Ubuntu 16.04 or greater, even in your own datacenter.
+Kubermatic Kubernetes Platform (KKP) is directly integrated with leading cloud providers Amazon Web Services, Azure, DigitalOcean, Google Compute Engine, Hetzner, OpenStack, Packet and VMware vSphere as well as any provider offering Ubuntu 16.04 or greater, even in your own datacenter.
 
 ## Features
 
