@@ -1,17 +1,17 @@
 +++
-title = "Install Kubermatic EE"
+title = "Install Kubermatic Kubernetes Platform (KKP) EE"
 date = 2018-04-28T12:07:15+02:00
 weight = 20
 
 +++
 
-This chapter explains the installation procedure of Kubermatic into a pre-existing Kubernetes cluster.
+This chapter explains the installation procedure of Kubermatic Kubernetes Platform (KKP) into a pre-existing Kubernetes cluster.
 
 ## Terminology
 
-* **User/Customer cluster** -- A Kubernetes cluster created and managed by Kubermatic
+* **User/Customer cluster** -- A Kubernetes cluster created and managed by KKP
 * **Seed cluster** -- A Kubernetes cluster which is responsible for hosting the master components of a customer cluster
-* **Master cluster** -- A Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys. It hosts the Kubermatic components and might also act as a seed cluster.
+* **Master cluster** -- A Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys. It hosts the KKP components and might also act as a seed cluster.
 * **Seed datacenter** -- A definition/reference to a seed cluster
 * **Node datacenter** -- A definition/reference of a datacenter/region/zone at a cloud provider (aws=zone, digitalocean=region, openstack=zone)
 
@@ -33,9 +33,9 @@ Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g.
 Helm charts choosing the appropriate release (`vX.Y`) and extract it. e.g.
 
 ```bash
-# For latest version: 
-VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||') 
-# For specific version set it explicitly: 
+# For latest version:
+VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
+# For specific version set it explicitly:
 # VERSION=2.14.x
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ee-v${VERSION}.tar.gz
 tar -xzvf kubermatic-ee-v${VERSION}.tar.gz
@@ -43,8 +43,8 @@ tar -xzvf kubermatic-ee-v${VERSION}.tar.gz
 
 ### Create a StorageClass
 
-Kubermatic uses a custom storage class for the volumes created for user clusters. This class, `kubermatic-fast`, needs
-to be manually created during the installation and its parameters depend highly on the environment where Kubermatic is
+KKP uses a custom storage class for the volumes created for user clusters. This class, `kubermatic-fast`, needs
+to be manually created during the installation and its parameters depend highly on the environment where KKP is
 installed.
 
 It's highly recommended to use SSD-based volumes, as etcd is very sensitive to slow disk I/O. If your cluster already
@@ -74,7 +74,7 @@ for more information about the possible parameters for your storage backend.
 
 It's required to setup Tiller inside the cluster. This requires setting up a ClusterRole and
 -Binding, before installing Tiller itself. If your cluster already has Tiller installed in another namespace, you
-can re-use it, but an installation dedicated for Kubermatic is preferred.
+can re-use it, but an installation dedicated for KKP is preferred.
 
 ```bash
 kubectl create namespace kubermatic
@@ -86,7 +86,7 @@ helm --service-account tiller --tiller-namespace kubermatic init
 
 ### Prepare Configuration
 
-Kubermatic ships with a number of Helm charts that need to be installed into the master or seed clusters. These are
+KKP ships with a number of Helm charts that need to be installed into the master or seed clusters. These are
 built so they can be configured using a single, shared `values.yaml` file. The required charts are:
 
 * **Master cluster:** cert-manager, nginx-ingress-controller, oauth
@@ -100,19 +100,19 @@ In addition to the `values.yaml` for configuring the charts, a number of options
 `KubermaticConfiguration` resource.
 
 A minimal configuration for Helm charts sets these options. You can find it in the /examples directory of the tarball.
-The secret keys mentioned below can be generated using any password generator or on the shell using 
+The secret keys mentioned below can be generated using any password generator or on the shell using
 `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 On MacOS, use `brew install gnu-tar` and `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`
 
 ```yaml
-# Dex is the OpenID Provider for Kubermatic.
+# Dex is the OpenID Provider for KKP.
 dex:
   ingress:
-    # configure your base domain, under which the Kubermatic dashboard shall be available
+    # configure your base domain, under which the KKP dashboard shall be available
     host: kubermatic.example.com
 
   clients:
-  # The "kubermatic" client is used for logging into the Kubermatic dashboard. It always
+  # The "kubermatic" client is used for logging into the KKP dashboard. It always
   # needs to be configured.
   - id: kubermatic
     name: Kubermatic
@@ -134,12 +134,12 @@ dex:
     # `htpasswd -bnBC 10 "" PASSWORD_HERE | tr -d ':\n' | sed 's/$2y/$2a/'`
     hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
 
-    # these are used within Kubermatic to identify the user
+    # these are used within KKP to identify the user
     username: "admin"
     userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
 
 kubermaticOperator:
-  # Insert the Docker authentication JSON provided by Kubermatic here
+  # Insert the Docker authentication JSON provided by KKP here
   imagePullSecret: |
     {
       "auths": {
@@ -209,9 +209,9 @@ pointing to this in a later step.
 If any of the pods above are not working, check their logs and describe them (`kubectl -n nginx-ingress-controller describe pod ...`)
 to see what's causing the issues.
 
-### Install Kubermatic Operator
+### Install KKP Operator
 
-Before installing the Kubermatic Operator, the Kubermatic CRDs need to be installed. You can install them like so:
+Before installing the KKP Operator, the KKP CRDs need to be installed. You can install them like so:
 
 ```bash
 kubectl apply -f charts/kubermatic/crd/
@@ -233,9 +233,9 @@ kubectl -n kubermatic get pods
 #kubermatic-operator-769986fc8b-7gpsc   1/1     Running   0          28m
 ```
 
-### Create KubermaticConfiguration
+### Create KKPConfiguration
 
-It's now time to configure Kubermatic itself. This will be done in a `KubermaticConfiguration` CRD, for which a
+It's now time to configure KKP itself. This will be done in a `KubermaticConfiguration` CRD, for which a
 [full example]({{< ref "../../concepts/kubermaticconfiguration" >}}) with all options is available, but for the
 purpose of this document we will only need to configure a few things:
 
@@ -253,7 +253,7 @@ spec:
 
   # These secret keys configure the way components commmunicate with Dex.
   auth:
-    # this must match the secret configured for the kubermatic client from
+    # this must match the secret configured for the KKP client from
     # the values.yaml.
     issuerClientSecret: <dex-kubermatic-oauth-secret-here>
 
@@ -263,7 +263,7 @@ spec:
     issuerCookieKey: <a-random-key>
     serviceAccountKey: <another-random-key>
 
-  # Insert the Docker authentication JSON provided by Kubermatic here
+  # Insert the Docker authentication JSON provided by KKP here
   imagePullSecret: |
     {
       "auths": {
@@ -282,7 +282,7 @@ Apply it like using kubectl:
 kubectl apply -f examples/kubermatic.example.ee.yaml
 ```
 
-This will now cause the operator to being provisioning a master cluster for Kubermatic. You can observe the progress by
+This will now cause the operator to being provisioning a master cluster for KKP. You can observe the progress by
 looking at `watch kubectl -n kubermatic get pods`:
 
 ```bash
@@ -360,7 +360,7 @@ kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
 #### Identity Aware Proxy
 
 It's a common step to later setup an identity-aware proxy (IAP) to
-[securely access other Kubermatic components]({{< ref "../securing_services" >}}) from the logging or monitoring
+[securely access other KKP components]({{< ref "../securing_services" >}}) from the logging or monitoring
 stacks. This involves setting up either individual DNS records per IAP deployment or simply creating a single **wildcard**
 record: `*.kubermatic.example.com`.
 
@@ -392,7 +392,7 @@ watch kubectl -n kubermatic get certificates
 ```
 
 If the certificate does not become ready, `describe` it and follow the chain from Certificate to Order to Challenges.
-Typical faults include bad DNS records or a misconfigured KubermaticConfiguration pointing to a different domain.
+Typical faults include bad DNS records or a misconfigured KKPConfiguration pointing to a different domain.
 
 ### Have a Break
 

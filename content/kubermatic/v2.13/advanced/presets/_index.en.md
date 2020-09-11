@@ -11,7 +11,7 @@ With Presets you can specify default settings for new Cluster. Use Presets to re
 
 ### Core Concept
 
-As a Kubermatic administrator with superuser access, you can define Presets type in a standard format using a static YAML
+As a Kubermatic Kubernetes Platform (KKP) administrator with superuser access, you can define Presets type in a standard format using a static YAML
 file or Kubernetes Custom Resource Definition (CRD) struct that represents the Preset, allowing the assignment of new
 credential types to supported providers. This allows you to define a custom credential type that works in ways similar
 to existing credential types. For example, you could create a custom credential type that injects access keys, passwords
@@ -19,7 +19,7 @@ or network settings into Cloud object.
 
 Users can specify a credential list with unique names for the group of providers. This credential set can be used for every
 logged in user or can be filtered out by email domain.
- 
+
 The API allows using only credential names and never exposes the credential values.
 The proper credential name is used for credential injection.
 
@@ -27,11 +27,11 @@ If the Preset name is used together with standard credentials the preset is take
 
 ### Prerequisites
 
-Presets are optional for the Kubermatic API. The Kubermatic API takes the flags:
+Presets are optional for the KKP API. The KKP API takes the flags:
 
 - `presets` The optional file path for a YAML file containing presets.
 - `dynamic-presets` The optional flag to enable dynamic presets. This parameter has a higher priority than `presets`.
- 
+
 Those flags can be configured using Helm values:
 ```yaml
 kubermatic:
@@ -40,7 +40,7 @@ kubermatic:
   # Whether to load the presets from CRDs dynamically during runtime
   dynamicPresets: false
 ```
- 
+
 
 ### Examples
 
@@ -54,39 +54,39 @@ presets:
       spec:
         requiredEmailDomain: "example.com"
         aws:
-          accessKeyId: 
-          secretAccessKey: 
-          vpcId: 
+          accessKeyId:
+          secretAccessKey:
+          vpcId:
         azure:
-          tenantId: 
-          subscriptionId: 
-          clientId: 
+          tenantId:
+          subscriptionId:
+          clientId:
           clientSecret:
         digitalocean:
-          token: 
+          token:
         gcp:
           serviceAccount:
         hetzner:
-          token: 
+          token:
         openstack:
-          username: 
-          password: 
-          tenant: 
+          username:
+          password:
+          tenant:
           domain: DEFAULT
           floatingIpPool: ext-net
         packet:
-          apiKey: 
-          projectId: 
+          apiKey:
+          projectId:
         vsphere:
-          username: 
-          password: 
+          username:
+          password:
         kubevirt:
           kubeconfig:
 ```
 This file defines credentials for all listed providers. The accessible name for this preset is `example`. Only users with
 `example.com` domain can see this preset. Lack of the `requiredEmailDomain` field makes the preset available for everyone.
 This file can be also extended for the new item with a different preset name.
- 
+
 Another example shows the CRD structure:
 
 ```yaml
@@ -96,31 +96,31 @@ metadata:
   name: example
 spec:
   aws:
-    accessKeyId: 
-    secretAccessKey: 
-    vpcId: 
+    accessKeyId:
+    secretAccessKey:
+    vpcId:
   azure:
-    tenantId: 
-    subscriptionId: 
-    clientId: 
-    clientSecret: 
+    tenantId:
+    subscriptionId:
+    clientId:
+    clientSecret:
   digitalocean:
-    token: 
+    token:
   gcp:
-    serviceAccount: 
+    serviceAccount:
   hetzner:
-    token: 
+    token:
   openstack:
-    username: 
-    password: 
-    tenant: 
+    username:
+    password:
+    tenant:
     domain: DEFAULT
     floatingIpPool: ext-net
   packet:
-    apiKey: 
-    projectId: 
+    apiKey:
+    projectId:
   vsphere:
-    username: 
+    username:
     password:
   kubevirt:
     kubeconfig:

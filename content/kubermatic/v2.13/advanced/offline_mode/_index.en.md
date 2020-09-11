@@ -1,15 +1,15 @@
 +++
-title = "Kubermatic Offline Mode"
+title = "Kubermatic Kubernetes Platform (KKP) Offline Mode"
 date = 2018-04-28T12:07:15+02:00
 weight = 7
 
 +++
 
-### Kubermatic Offline Mode
+### KKP Offline Mode
 
 ## Download All Required Images
 
-To aid in downloading all required images, Kubermatic provides the `image-loader` CLI utility. It can be used like
+To aid in downloading all required images, KKP provides the `image-loader` CLI utility. It can be used like
 this:
 
 ```bash

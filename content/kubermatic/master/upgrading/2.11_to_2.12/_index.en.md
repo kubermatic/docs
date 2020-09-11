@@ -10,7 +10,7 @@ weight = 60
 
 ### cert-manager
 
-Kubermatic 2.12 ships with cert-manager 0.10, which changed the api versions for its manifests. This requires
+Kubermatic Kubernetes Platform (KKP) 2.12 ships with cert-manager 0.10, which changed the api versions for its manifests. This requires
 manual intervention and a short time frame where no certificates can be created when upgrading. Before upgrading,
 create a backup of all cert-manager resources (certificates, issuers, ...) because their CRDs will have to be
 recreated.
@@ -50,7 +50,7 @@ user clusters the following two commands, assuming the Pods CIDR is 172.25.0.0/1
 
 ```bash
 iptables -t nat -D POSTROUTING -s 172.25.0.0/16 ! -d 224.0.0.0/4 -j MASQUERADE
-iptables -t nat -D POSTROUTING ! -s 172.25.0.0/16 -d 172.25.0.0/16 -j MASQUERADE 
+iptables -t nat -D POSTROUTING ! -s 172.25.0.0/16 -d 172.25.0.0/16 -j MASQUERADE
 ```
 
 For more details about this issue, please check [the following link](https://github.com/projectcalico/calico/issues/2898)

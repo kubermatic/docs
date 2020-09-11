@@ -11,11 +11,11 @@ This is also true for existing clusters. Without an authorizing policy, the cont
 
 PSP objects are cluster-level objects. They define a set of conditions that a pod must pass to be accepted by the PSP admission controller. The most common way to apply this is using RBAC. For a pod to use a specific Pod Security Policy, the pod should run using a Service Account or a User that has `use` permission to that particular Pod Security policy.
 
-## Kubermatic Support
+## Kubermatic Kubernetes Platform (KKP) Support
 
 ### User Cluster Level Support
 
-Kubermatic provides support for enabling PSP during cluster creation using a simple switch:
+KKP provides support for enabling PSP during cluster creation using a simple switch:
 
 ![Create Cluster](01-create-cluster.png)
 
@@ -25,7 +25,7 @@ For existing clusters, it's also possible to enable/disable PSP:
 
 
 {{% notice note %}}
-Activating Pod Security Policy will mean that a lot of Pod specifications, Operators and Helm charts will not work out of the box. Kubermatic will apply a default authorizing policy to prevent this. Additionally, all Kubermatic user-clusters are configured to be compatible with enabled PSPs. Make sure that you know the consequences of activating this feature on your workloads.
+Activating Pod Security Policy will mean that a lot of Pod specifications, Operators and Helm charts will not work out of the box. KKP will apply a default authorizing policy to prevent this. Additionally, all KKP user-clusters are configured to be compatible with enabled PSPs. Make sure that you know the consequences of activating this feature on your workloads.
 {{% /notice %}}
 
 ### Datacenter Level Support
@@ -34,7 +34,7 @@ It is also possible to enforce enabling Pod Security Policies on the datacenter 
 To enable this, you will need to update your [Seed Cluster CRD]({{< ref "../../concepts/seeds/" >}}), and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
 
 {{% notice note %}}
-For legacy versions of Kubermatic you will need to edit the [datacenters.yaml]({{< ref "../../concepts/datacenters/" >}}) file instead, and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
+For legacy versions of KKP you will need to edit the [datacenters.yaml]({{< ref "../../concepts/datacenters/" >}}) file instead, and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
 {{% /notice %}}
 
 #### Using Pod Security Policies

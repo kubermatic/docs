@@ -7,4 +7,4 @@ chapter = true
 
 # Tutorials
 
-This section contains illustrated Kubermatic tutorials.
+This section contains illustrated Kubermatic Kubernetes Platform (KKP) tutorials.

@@ -5,7 +5,7 @@ weight = 26
 chapter = false
 +++
 
-## Components 
+## Components
 
 - [API Server](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)
 - [Controller-Manager](https://kubernetes.io/docs/concepts/overview/components/#kube-scheduler)

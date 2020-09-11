@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic Addons"
+title = "Kubermatic Kubernetes Platform (KKP) Addons"
 date = 2018-06-21T14:07:15+02:00
 weight = 8
 
@@ -9,7 +9,7 @@ Addons are specific services and tools extending the functionality of Kubernetes
 
 ### Default Addons
 
-Default addons are installed in each user-cluster in Kubermatic. The default addons are:
+Default addons are installed in each user-cluster in KKP. The default addons are:
 
 * [Canal](https://github.com/projectcalico/canal): policy based networking for cloud native applications
 * [Dashboard](https://github.com/kubernetes/dashboard): General-purpose web UI for Kubernetes clusters
@@ -20,14 +20,14 @@ Default addons are installed in each user-cluster in Kubermatic. The default add
 * default-storage-class: A cloud provider specific StorageClass
 * kubelet-configmap: A set of ConfigMaps used by kubeadm
 
-Installation and configuration of these addons is done by 2 controllers which are part of the Kubermatic controller-manager:
+Installation and configuration of these addons is done by 2 controllers which are part of the KKP controller-manager:
 
 * `addon-installer-controller`: Ensures a given set of addons will be installed in all clusters
 * `addon-controller`: Templates the addons & applies the manifests in the user clusters
 
 #### Configuration
 
-To configure which addons shall be installed in all user clusters, set the following settings in the `values.yaml` for the kubermatic chart:
+To configure which addons shall be installed in all user clusters, set the following settings in the `values.yaml` for the KKP chart:
 
 ```yaml
 kubermatic:
@@ -62,7 +62,7 @@ It will set the specified registry on all control plane components & addons.
 
 ### Accessible Addons
 
-Accessible addons can be installed in each user-cluster in Kubermatic on user demand. If an addon is both default
+Accessible addons can be installed in each user-cluster in KKP on user demand. If an addon is both default
 and accessible, then it will be installed in the user-cluster, but also be visible to the user, who can manage it from
 the UI like the other accessible addons. The accessible addons are:
 
@@ -73,7 +73,7 @@ Accessible addons can be managed in the UI from the cluster details view:
 ![View](/img/kubermatic/v2.13/advanced/addons/view.png)
 
 #### Configuration
-To configure which addons shall be accessible, set the following settings in the `values.yaml` for the Kubermatic chart:
+To configure which addons shall be accessible, set the following settings in the `values.yaml` for the KKP chart:
 
 ```yaml
 kubermatic:
@@ -148,7 +148,7 @@ After applying above config the UI should look like below:
    docker push customer/addons:${TAG}
    ```
 
-1. Edit `values.yaml` you are using for the installation of Kubermatic. Change the path to the addons repository
+1. Edit `values.yaml` you are using for the installation of KKP. Change the path to the addons repository
 
    ```yaml
    kubermatic:
@@ -177,7 +177,7 @@ After applying above config the UI should look like below:
            - rbac
    ```
 
-1. Update the installation of Kubermatic
+1. Update the installation of KKP
 
    ```bash
    helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kubermatic kubermatic charts/kubermatic

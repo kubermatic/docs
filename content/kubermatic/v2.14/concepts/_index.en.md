@@ -7,4 +7,4 @@ chapter = true
 
 # Concepts
 
-Get to know the concepts behind Kubermatic.
+Get to know the concepts behind Kubermatic Kubernetes Platform (KKP).

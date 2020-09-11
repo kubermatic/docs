@@ -23,7 +23,7 @@ The cluster name is how you will identify your Kubernetes cluster instance. Choo
 
 ### Step 3 – Choose a Cloud Provider for Your Kubernetes Nodes
 
-Choose a cloud provider for your Kubernetes nodes to be deployed by Kubermatic. Your nodes can be placed in any cloud you like.
+Choose a cloud provider for your Kubernetes nodes to be deployed by Kubermatic Kubernetes Platform (KKP). Your nodes can be placed in any cloud you like.
 
 ![Wizard provider step](/img/kubermatic/v2.13/getting_started/create_cluster/wizard-provider.png)
 
@@ -35,7 +35,7 @@ This is the datacenter of your cloud provider. Your worker nodes will get deploy
 
 ### Step 5 – Enter Your Provider Credentials and Configure Your Worker Nodes
 
-Enter your provider specific credentials so that Kubermatic can configure your worker machines and integrate them into your cluster.
+Enter your provider specific credentials so that KKP can configure your worker machines and integrate them into your cluster.
 
 {{% notice tip %}}
 This step varies depending on the selected provider! You will be asked for different provider credentials when choosing AWS or Google for example.

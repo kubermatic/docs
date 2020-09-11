@@ -12,7 +12,7 @@ spec:
       - gatekeeper
     # DebugLog enables more verbose logging.
     debugLog: false
-    # DockerRepository is the repository containing the Kubermatic REST API image.
+    # DockerRepository is the repository containing the Kubermatic Kubernetes Platform (KKP) REST API image.
     dockerRepository: quay.io/kubermatic/kubermatic
     # PProfEndpoint controls the port the API should listen on to provide pprof
     # data. This port is never exposed from the container and only available via port-forwardings.
@@ -81,7 +81,7 @@ spec:
   masterController:
     # DebugLog enables more verbose logging.
     debugLog: false
-    # DockerRepository is the repository containing the Kubermatic master-controller-manager image.
+    # DockerRepository is the repository containing the KKP master-controller-manager image.
     dockerRepository: quay.io/kubermatic/kubermatic
     # PProfEndpoint controls the port the master-controller-manager should listen on to provide pprof
     # data. This port is never exposed from the container and only available via port-forwardings.
@@ -106,7 +106,7 @@ spec:
       requests:
         cpu: 50m
         memory: 128Mi
-  # Proxy allows to configure Kubermatic to use proxies to talk to the
+  # Proxy allows to configure KKP to use proxies to talk to the
   # world outside of its cluster.
   proxy:
     # HTTP is the full URL to the proxy to use for plaintext HTTP
@@ -185,7 +185,7 @@ spec:
         mountPath: /backup
     # DebugLog enables more verbose logging.
     debugLog: false
-    # DockerRepository is the repository containing the Kubermatic seed-controller-manager image.
+    # DockerRepository is the repository containing the KKP seed-controller-manager image.
     dockerRepository: quay.io/kubermatic/kubermatic
     # PProfEndpoint controls the port the seed-controller-manager should listen on to provide pprof
     # data. This port is never exposed from the container and only available via port-forwardings.
@@ -213,7 +213,7 @@ spec:
       {
         "share_kubeconfig": false
       }
-    # DockerRepository is the repository containing the Kubermatic dashboard image.
+    # DockerRepository is the repository containing the KKP dashboard image.
     dockerRepository: quay.io/kubermatic/dashboard
     # Replicas sets the number of pod replicas for the UI deployment.
     replicas: 2
@@ -356,11 +356,11 @@ spec:
     # DisableAPIServerEndpointReconciling can be used to toggle the `--endpoint-reconciler-type` flag for
     # the Kubernetes API server.
     disableApiserverEndpointReconciling: false
-    # DNATControllerDockerRepository is the repository containing the Kubermatic user-cluster-controller-manager image.
+    # DNATControllerDockerRepository is the repository containing the KKP user-cluster-controller-manager image.
     dnatControllerDockerRepository: quay.io/kubermatic/kubeletdnat-controller
     # EtcdVolumeSize configures the volume size to use for each etcd pod inside user clusters.
     etcdVolumeSize: 5Gi
-    # KubermaticDockerRepository is the repository containing the Kubermatic user-cluster-controller-manager image.
+    # KubermaticDockerRepository is the repository containing the KKP user-cluster-controller-manager image.
     kubermaticDockerRepository: quay.io/kubermatic/kubermatic
     # Monitoring can be used to fine-tune to in-cluster Prometheus.
     monitoring:

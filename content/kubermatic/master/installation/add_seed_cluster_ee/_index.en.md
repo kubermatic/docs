@@ -5,7 +5,7 @@ weight = 31
 enterprise = true
 +++
 
-This document describes how a new seed cluster can be added to an existing Kubermatic master cluster.
+This document describes how a new seed cluster can be added to an existing Kubermatic Kubernetes Platform (KKP) master cluster.
 
 {{% notice note %}}
 For smaller scale setups it's also possible to use the existing master cluster as a seed cluster (a "shared"
@@ -19,7 +19,7 @@ about the cluster relationships.
 ### Install Kubernetes Cluster
 
 First, you need to install a Kubernetes cluster with some additional components. After the installation of
-Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic
+Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new KKP
 master/seed setup.
 
 To aid in setting up the seed and master clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/),
@@ -29,7 +29,7 @@ and [docs](/kubeone) for details on how to use it.
 Please take note of the [recommended hardware and networking requirements](../../requirements/cluster_requirements/)
 before provisioning a cluster.
 
-### Install Kubermatic Dependencies
+### Install KKP Dependencies
 
 When using Helm 2, install Tiller into the seed cluster first:
 
@@ -42,7 +42,7 @@ helm --service-account tiller --tiller-namespace kubermatic init
 
 #### Cluster Backups
 
-Kubermatic performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
+KKP performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
 are stored locally inside the cluster, but they can be reconfigured to work with any S3-compatible storage.
 The in-cluster storage is provided by [Minio](https://min.io/) and the accompanying `minio` Helm chart.
 
@@ -99,9 +99,9 @@ Kubernetes cluster, but this still means only a single operator is deployed into
 {{% /notice %}}
 
 Make sure the kubeconfig contains static, long-lived credentials. Some cloud providers use custom authentication providers
-(like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic’s usecase because the
+(like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in KKP’s usecase because the
 required tools are not installed inside the cluster environment. You can use the `kubeconfig-serviceaccounts.sh` script from
-the kubermatic-installer repository to automatically create proper service accounts inside the seed cluster with static
+the KKP-installer repository to automatically create proper service accounts inside the seed cluster with static
 credentials:
 
 ```bash
@@ -151,8 +151,8 @@ spec:
 Refer to the [Seed CRD documentation]({{< ref "../../concepts/seeds" >}}) for a complete example of the
 Seed CustomResource and all possible datacenters.
 
-Apply the manifest above in the master cluster and Kubermatic will pick up the new Seed and begin to
-reconcile it by installing the required Kubermatic components.
+Apply the manifest above in the master cluster and KKP will pick up the new Seed and begin to
+reconcile it by installing the required KKP components.
 
 ### Update DNS
 
@@ -160,7 +160,7 @@ The apiservers of all user cluster control planes running in the seed cluster ar
 NodePort Proxy. By default each user cluster gets a virtual domain name like
 `[cluster-id].[seed-name].[kubermatic-domain]`, e.g. `hdu328tr.europe-west1.kubermatic.example.com`
 for the Seed from the previous step when `kubermatic.example.com` is the main domain where the
-Kubermatic dashboard/API are available.
+KKP dashboard/API are available.
 
 To facilitate this, a wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. As with
 the other DNS records the exact target depends on whether or not LoadBalancer services are supported

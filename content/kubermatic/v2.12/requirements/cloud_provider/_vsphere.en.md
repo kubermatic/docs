@@ -49,7 +49,7 @@ If user clusters have dedicated networks, all user clusters therefore need a cus
 
 ### VM Folder
 
-During creation of a user cluster Kubermatic creates a dedicated VM folder in the root path on the Datastore (Defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters)).
+During creation of a user cluster Kubermatic Kubernetes Platform (KKP) creates a dedicated VM folder in the root path on the Datastore (Defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters)).
 That folder will contain all worker nodes of a user cluster.
 
 ### Credentials / Cloud-Config

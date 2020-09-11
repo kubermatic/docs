@@ -5,10 +5,10 @@ weight = 10
 
 +++
 
-Using the installer is the recommended way of installing Kubermatic into your cluster. It provides a simple web wizard for configuration and automates the installation of all required components.
+Using the installer is the recommended way of installing Kubermatic Kubernetes Platform (KKP) into your cluster. It provides a simple web wizard for configuration and automates the installation of all required components.
 
 {{% notice note %}}
-At the moment you need to be invited to get access to Kubermatic's Docker registry before you can try it out. Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
+At the moment you need to be invited to get access to KKP's Docker registry before you can try it out. Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 {{% /notice %}}
 
 ## Quickstart
@@ -21,7 +21,7 @@ docker run --rm -p 8080:8080 quay.io/kubermatic/installer wizard
 
 and then opening [localhost:8080](http://localhost:8080) in your browser. Follow the steps and you should be up and running in no time.
 
-![Kubermatic Installer](/img/kubermatic/v2.13/installation/wizard.png)
+![KKP Installer](/img/kubermatic/v2.13/installation/wizard.png)
 
 {{% notice note %}}
 Because the installer runs inside a Docker container, it cannot access any cluster authentication providers on your host machine, like Amazon's `aws-iam-authenticator`. Make sure to provide static credentials in your `kubeconfig` or use the `kubeconfig-serviceaccounts.sh` script to automatically add static accounts to your clusters (see [credentials](#credentials) section below).
@@ -29,7 +29,7 @@ Because the installer runs inside a Docker container, it cannot access any clust
 
 If you feel more comfortable with using Helm, you can also use the installer to only create the `values.yaml` for you and the continue to use Helm for the actual installation.
 
-In any case, make sure to download the installer manifest and the `values.yaml` when you're done, so you can easily restart the installer at a later point to upgrade Kubermatic.
+In any case, make sure to download the installer manifest and the `values.yaml` when you're done, so you can easily restart the installer at a later point to upgrade KKP.
 
 ## Credentials
 
@@ -51,11 +51,11 @@ Your cluster needs to have a storage class `kubermatic-fast` defined. The instal
 
 Please note the following limitations in the current installer:
 
-* You cannot run Kubermatic in Kubermatic.
+* You cannot run KKP in KKP.
 * The `kubeconfig` needs to contain exactly one cluster and context.
 * It's not yet possible to automatically install separate master and seed clusters.
 * Your cluster needs to have a `kubermatic-fast` storage class already existing **or** run on GKE, EKS or AKS.
 * Because we install Tiller in the `kubermatic` namespace, the `kubeconfig` needs `cluster-admin` permissions.
-* You need publicly reachable hosts and be able to point DNS records to them in order for Kubermatic to acquire TLS certificates from Let's Encrypt.
+* You need publicly reachable hosts and be able to point DNS records to them in order for KKP to acquire TLS certificates from Let's Encrypt.
 
 We are working on removing these limitations in the future.

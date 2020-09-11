@@ -9,17 +9,17 @@ weight = 90
 
 ### Prometheus
 
-The Prometheus version included in Kubermatic 2.15 now enables WAL compression by default; our Helm chart follows this
+The Prometheus version included in Kubermatic Kubernetes Platform (KKP) 2.15 now enables WAL compression by default; our Helm chart follows this
 recommendation. If the compression needs to stay disabled, the key `prometheus.tsdb.compressWAL` can be set to `false`
 when upgrading the Helm chart.
 
 ### CRD Handling in cert-manager, Velero
 
-In previous Kubermatic releases, Helm was responsible for installing the CRDs for cert-manager and Velero. While this
+In previous KKP releases, Helm was responsible for installing the CRDs for cert-manager and Velero. While this
 made the deployment rather simple, it lead to problems in keeping the CRDs up-to-date (as Helm never updates or deletes
 CRDs).
 
-For this reason the CRD handling in Kubermatic 2.15 was changed to require users to always manually install CRDs before
+For this reason the CRD handling in KKP 2.15 was changed to require users to always manually install CRDs before
 installing/updating a Helm chart. This provides much greater control over the CRD lifecycle and eases integration with
 other deployment mechanisms.
 
@@ -84,12 +84,12 @@ minio:
 
 ### Identity-Aware Proxy (IAP)
 
-Previous Kubermatic versions used Keycloak-Proxy for securing access to cluster services like Prometheus or Grafana.
+Previous KKP versions used Keycloak-Proxy for securing access to cluster services like Prometheus or Grafana.
 The project was then renamed to [Louketo](https://github.com/louketo/louketo-proxy) and then shortly thereafter
 [deprecated](https://github.com/louketo/louketo-proxy/issues/683) and users are encouraged to move to
 [OAuth2-Proxy](https://github.com/oauth2-proxy/oauth2-proxy).
 
-Kubermatic 2.15 therefore switches to OAuth2-Proxy, which covers most of Keycloak's functionality but with a slightly
+KKP 2.15 therefore switches to OAuth2-Proxy, which covers most of Keycloak's functionality but with a slightly
 different syntax. Please refer to the [official documentation](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/docs/configuration/configuration.md)
 for the available settings, in addition to these changes:
 
@@ -105,7 +105,7 @@ for the available settings, in addition to these changes:
   `config.github_team`.
 * `email_domains` must be configured for each IAP deployment. In most cases it can be set to `["*"]`.
 
-A few examples can be found in the relevant [code change in Kubermatic](https://github.com/kubermatic/kubermatic/pull/5777/files).
+A few examples can be found in the relevant [code change in KKP](https://github.com/kubermatic/kubermatic/pull/5777/files).
 
 To prevent issues with Helm re-using IAP deployment config values from a previous release, it can be helpful to purge and
 reinstall the chart:

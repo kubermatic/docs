@@ -8,7 +8,7 @@ weight = 7
 ## AWS
 
 <details>
-<summary>**Ensure that the user used to create clusters via Kubermatic has (atleast) the following IAM permissions (Click to expand):** </summary>
+<summary>**Ensure that the user used to create clusters via Kubermatic Kubernetes Platform (KKP) has (atleast) the following IAM permissions (Click to expand):** </summary>
 
 ```json
 {
