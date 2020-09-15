@@ -12,7 +12,7 @@ cluster installation). In this case both master and seed components will run on 
 the same namespace. It is however not possible to use the same cluster for multiple seeds.
 {{% /notice %}}
 
-Plese refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
+Please refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
 about the cluster relationships.
 
 ## Install KKP Dependencies
