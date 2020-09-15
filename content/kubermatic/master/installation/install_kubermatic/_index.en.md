@@ -49,35 +49,6 @@ tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 Make sure to download the installer built for your operating system (Linux, Darwin or Windows). Also note that for Windows,
 ZIP files are provided for convenience.
 
-### Create a StorageClass
-
-KKP uses a custom storage class for the volumes created for user clusters. This class, `kubermatic-fast`, needs
-to be manually created during the installation and its parameters depend highly on the environment where KKP is
-installed.
-
-It's highly recommended to use SSD-based volumes, as etcd is very sensitive to slow disk I/O. If your cluster already
-provides a default SSD-based storage class, you can simply copy and re-create it as `kubermatic-fast`. For a cluster
-running on AWS, an example class could look like this:
-
-```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: kubermatic-fast
-provisioner: kubernetes.io/aws-ebs
-parameters:
-  type: gp2
-```
-
-Store the above YAML snippet in a file and then apply it using `kubectl`:
-
-```bash
-kubectl apply -f aws-storageclass.yaml
-```
-
-Please consult the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters)
-for more information about the possible parameters for your storage backend.
-
 ### Prepare Configuration
 
 The installation and configuration for a KKP system consists of two important files:
@@ -124,6 +95,24 @@ will take care of filling in the gaps, so it is sufficient to configure the base
 KubermaticConfiguration and letting the installer then set it in the `values.yaml` as well.
 {{% /notice %}}
 
+### Create a StorageClass
+
+KKP uses a custom storage class for the volumes created for user clusters. This class, `kubermatic-fast`, needs
+to be created before the installation can succeed and is strongly recommended to use SSDs. The etcd clusters for
+every user cluster will store their data in this StorageClass and etcd is highly sensitive to slow disk I/O.
+
+The installer can automatically create an SSD-based StorageClass for a subset of cloud providers. It can also
+simply copy the default StorageClass, but this is not recommended for production setups unless the default class
+is using SSDs.
+
+Use the `--storageclass` parameter for automatically creating the class during installation. It supports
+automatic creation for AWS, Azure, DigitalOcean, GCE and Hetzner. Run the installer with `--help` to see the current
+list of supported providers.
+
+If no automatic provisioning is possible, please manually create a StorageClass called `kubermatic-fast`. Consult
+the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters) for more
+information about the possible parameters for your storage backend.
+
 ### Run Installer
 
 Once the configuration files have been prepared, it's time to run the installer, which will validate them
@@ -131,7 +120,10 @@ and then install all the required components into the cluster. Open a terminal w
 like so:
 
 ```bash
-./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
+./kubermatic-installer deploy \
+  --config kubermatic.yaml \
+  --helm-values values.yaml \
+  --storageclass aws
 ```
 
 {{% notice warning %}}
