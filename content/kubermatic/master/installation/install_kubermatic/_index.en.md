@@ -111,8 +111,8 @@ properly generated secrets for you when it notices that some are missing, for ex
 
 ```bash
 ./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
-INFO[15:15:20] � Initializing installer…                     edition="Community Edition" version=v2.15.11
-INFO[15:15:20] � Validating the provided configuration…�
+INFO[15:15:20] 🛫 Initializing installer…                     edition="Community Edition" version=v2.15.11
+INFO[15:15:20] 🚦 Validating the provided configuration…
 ERRO[15:15:20]    The provided configuration files are invalid:
 ERRO[15:15:20]    KubermaticConfiguration: spec.auth.serviceAccountKey must be a non-empty secret, for example: ZPCs7_KzgJxUSA5lCk_oNzL7RQFTQ6cOnHuTLAh4pGw
 ERRO[15:15:20]    Operation failed: please review your configuration and try again.
@@ -156,6 +156,30 @@ to apply your changes.
 In order to acquire a valid certificate, a DNS name needs to point to your cluster. Depending on your environment,
 this can mean a LoadBalancer service or a NodePort service. The nginx-ingress-controller Helm chart will by default
 create a LoadBalancer, unless you reconfigure it because your environment does not support LoadBalancers.
+
+The installer will do its best to inform you about the required DNS records to set up. You will receive an output
+similar to this:
+
+```bash
+INFO[13:03:33]    📝 Applying Kubermatic Configuration…
+INFO[13:03:33]    ✅ Success.
+INFO[13:03:33]    📡 Determining DNS settings…
+INFO[13:03:33]       The main LoadBalancer is ready.
+INFO[13:03:33]
+INFO[13:03:33]         Service             : nginx-ingress-controller / nginx-ingress-controller
+INFO[13:03:33]         Ingress via hostname: EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com
+INFO[13:03:33]
+INFO[13:03:33]       Please ensure your DNS settings for "kubermatic.example.com" include the following records:
+INFO[13:03:33]
+INFO[13:03:33]          kubermatic.example.com.    IN  CNAME  EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com.
+INFO[13:03:33]          *.kubermatic.example.com.  IN  CNAME  EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com.
+INFO[13:03:33]
+INFO[13:03:33] 🛬 Installation completed successfully. ✌
+```
+
+Follow the instructions on screen to setup your DNS. If the installer for whatever reason is unable to determine
+the appropriate DNS settings, it will tell you so and you can manually collect the required information from the
+cluster. See the following sections for more information regarding the how and why what DNS records are required.
 
 #### With LoadBalancers
 
