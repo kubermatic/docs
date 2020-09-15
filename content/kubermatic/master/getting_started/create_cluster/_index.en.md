@@ -11,7 +11,7 @@ weight = 20
 
 Before you can manage clusters or SSH keys, select your current project by using the project list after you logged in or use the dropdown in the top left corner of the page. After choosing the project, the relevant menu items will become active.
 
-![Wizard cluster specification step](/kubermatic/master/getting_started/manage_projects/projects-list.png)
+![Wizard cluster specification step](/img/kubermatic/master/getting_started/manage_projects/projects-list.png)
 
 Go to clusters view by clicking on "Clusters" menu entry and then click on the "Add Cluster" button in the top right corner to go to the cluster wizard.
 
