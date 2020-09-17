@@ -84,7 +84,8 @@ The Kubermatic repository provides a [script](https://github.com/kubermatic/kube
 a ServiceAccount in the seed cluster, bind it to the `cluster-admin` role and then put the ServiceAccount's token into
 the kubeconfig file. Afterwards the file can be used in KKP.
 
-The Seed resource itself needs to be called `kubermatic` and needs to reference the new kubeconfig Secret like so:
+The Seed resource itself needs to be called `kubermatic` (for the Community Edition) and needs to reference the new
+kubeconfig Secret like so:
 
 ```yaml
 apiVersion: v1

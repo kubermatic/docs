@@ -129,7 +129,7 @@ reconcile it by installing the required Kubermatic components. You can watch the
 ```bash
 kubectl apply -f seed-with-secret.yaml
 Secret/kubeconfig-europe-west3 created.
-Seed/kubermatic created.
+Seed/europe-west3 created.
 
 watch kubectl -n kubermatic get pods
 #NAME                                                   READY   STATUS    RESTARTS   AGE

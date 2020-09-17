@@ -23,7 +23,7 @@ and make yourself familiar with the requirements for your chosen cloud provider.
 For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 3) installed locally.
 
 {{% notice warning %}}
-This guide assumes a clean installation into an empty cluster. Please refer to the upgrade notes for more information on
+This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../../upgrading" >}}) for more information on
 migrating existing installations to the Kubermatic Installer.
 {{% /notice %}}
 
@@ -35,7 +35,8 @@ permissions.
 ### Download the Installer
 
 Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-ce-X.Y-linux-amd64.tar.gz)
-containing the Kubermatic Installer and the required Helm charts and extract it locally, for example:
+containing the Kubermatic Installer and the required Helm charts for your operating system and extract it locally. Note that
+for Windows, ZIP files are provided instead of tar.gz files.
 
 ```bash
 # For latest version:
@@ -45,9 +46,6 @@ VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/k
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 ```
-
-Make sure to download the installer built for your operating system (Linux, Darwin or Windows). Also note that for Windows,
-ZIP files are provided for convenience.
 
 ### Prepare Configuration
 
@@ -63,7 +61,7 @@ The installation and configuration for a KKP system consists of two important fi
 The release archive hosted on GitHub contains examples for both of the configuration files (`values.example.yaml` and
 `kubermatic.example.yaml`). It's a good idea to take them as a starting point and add more options as necessary.
 
-The main things to configure are:
+The key items to configure are:
 
 * The base domain under which KKP shall be accessible (e.g. `kubermatic.example.com`).
 * The certificate issuer: KKP requires that its dashboard and Dex are only accessible via HTTPS, so a
@@ -92,7 +90,7 @@ ERRO[15:15:20]    Operation failed: please review your configuration and try aga
 {{% notice note %}}
 A couple of settings are duplicated across the `values.yaml` and the KubermaticConfiguration CRD. The installer
 will take care of filling in the gaps, so it is sufficient to configure the base domain in the
-KubermaticConfiguration and letting the installer then set it in the `values.yaml` as well.
+KubermaticConfiguration and let the installer set it in `values.yaml` as well.
 {{% /notice %}}
 
 ### Create a StorageClass
@@ -105,9 +103,16 @@ The installer can automatically create an SSD-based StorageClass for a subset of
 simply copy the default StorageClass, but this is not recommended for production setups unless the default class
 is using SSDs.
 
-Use the `--storageclass` parameter for automatically creating the class during installation. It supports
-automatic creation for AWS, Azure, DigitalOcean, GCE and Hetzner. Run the installer with `--help` to see the current
-list of supported providers.
+Use the `--storageclass` parameter for automatically creating the class during installation. Currently th efollowing
+providers are supported:
+
+- AWS
+- Azure
+- DigitalOcean
+- GCE
+- Hetzner
+
+Run the installer with `--help` to also see the current list of supported providers.
 
 If no automatic provisioning is possible, please manually create a StorageClass called `kubermatic-fast`. Consult
 the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters) for more
@@ -171,7 +176,7 @@ INFO[13:03:33] 🛬 Installation completed successfully. ✌
 
 Follow the instructions on screen to setup your DNS. If the installer for whatever reason is unable to determine
 the appropriate DNS settings, it will tell you so and you can manually collect the required information from the
-cluster. See the following sections for more information regarding the how and why what DNS records are required.
+cluster. See the following sections for more information regarding the required DNS records.
 
 #### With LoadBalancers
 
