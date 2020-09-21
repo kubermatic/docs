@@ -5,12 +5,6 @@ weight = 90
 
 +++
 
-## Helm 3 Support
-
-KKP now supports Helm 3. Previous versions required some manual intervention to get all charts
-installed. With the updated CRD handling (see below), we made the switch to recommending Helm 3
-for new installations.
-
 ## [EE] Deprecation of `kubermatic` Helm Chart
 
 After the Kubermatic Operator has been introduced as a beta in version 2.14, it is now the recommended way of
@@ -170,7 +164,7 @@ the dashboard unavailable and begin the downtime.
 
 ```bash
 # This is written for Helm 2.x
-helm --tiller-namespace kubermatic-installer delete --purge kubermatic
+helm --tiller-namespace kubermatic delete --purge kubermatic
 ```
 
 Once the Helm chart is gone, it's time to perform a clean installation of the new Kubermatic Operator.
@@ -223,7 +217,7 @@ To migrate a seed, first uninstall the `kubermatic` Helm chart from it. As with 
 
 ```bash
 # This is written for Helm 2.x
-helm --tiller-namespace kubermatic-installer delete --purge kubermatic
+helm --tiller-namespace kubermatic delete --purge kubermatic
 ```
 
 Like we did on the master, apply the updated CRDs now:
@@ -275,7 +269,7 @@ nodeport-proxy in place for a period of time (e.g. a week), before finally remov
 
 ```bash
 # This is written for Helm 2.x
-helm --tiller-namespace kubermatic-installer delete --purge nodeport-proxy
+helm --tiller-namespace kubermatic delete --purge nodeport-proxy
 kubectl delete ns nodeport-proxy
 ```
 
