@@ -95,11 +95,14 @@ into their new formats.
 The `convert-helm-values` command takes a Helm values.yaml file and outputs (to stdout) a number
 of YAML files, representing the generated KubermaticConfiguration, Seeds, Secrets, Presets etc.
 Using this command is recommended, as it does all conversions in a single step, because the old
-`values.yaml` contained all information in some form or another. Make sure to add `--pause-seeds`
-to automatically add the `operator.kubermatic.io/skip-reconciling` annotation.
+`values.yaml` contained all information in some form or another.
+
+Note that the conversion commands by default outputs Seed resources with the
+`operator.kubermatic.io/skip-reconciling` annotation already in place, so the Seeds are safe to
+apply during a migration.
 
 ```bash
-./kubermatic-installer convert-helm-values --pause-seeds myvalues.yaml
+./kubermatic-installer convert-helm-values myvalues.yaml
 # apiVersion: operator.kubermatic.io/v1alpha1
 # kind: KubermaticConfiguration
 # metadata:
@@ -116,25 +119,16 @@ to automatically add the `operator.kubermatic.io/skip-reconciling` annotation.
 # ...
 ```
 
-The annotation can also be applied and removed from Seed resources using `kubectl`:
-
-```
-# to add annotation
-kubectl annotate seed your-seed operator.kubermatic.io/skip-reconciling=
-
-# to remove it
-kubectl annotate seed your-seed operator.kubermatic.io/skip-reconciling-
-```
-
 In case migrating the Helm values.yaml is not feasible, the installer also offers a dedicated
 command to convert just the `datacenters.yaml` into Seeds/Secrets. By default, the `datacenters.yaml`
 did not contain kubeconfigs, so you have to manually provide a kubeconfig with contexts for every
 seed cluster in the `datacenters.yaml` (the installer will error out if contexts are missing).
-If you do not provide a kubeconfig, Seeds will still be converted, but you are responsible
-yourself to provide the appropriate kubeconfig Secrets and to reference them in the Seeds.
+If you do not provide a kubeconfig, Seeds will still be converted (and paused by default), but
+you are responsible yourself to provide the appropriate kubeconfig Secrets and to reference them
+in the Seeds.
 
 ```bash
-./kubermatic-installer convert-datacenters --pause-seeds --kubeconfig kubeconfig-with-all-seeds datacenters.yaml
+./kubermatic-installer convert-datacenters --kubeconfig kubeconfig-with-all-seeds datacenters.yaml
 # apiVersion: kubermatic.k8s.io/v1
 # kind: Seed
 # ...
