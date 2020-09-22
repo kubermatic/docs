@@ -17,6 +17,12 @@ have to be converted to `Seed` resources, while the chart configuration must be 
 `KubermaticConfiguration`. The Kubermatic Installer offers commands to perform these conversions
 automatically.
 
+Note that the following customization options are not yet supported in the Kubermatic Operator:
+
+* `maxParallelReconcile` (always defaults to `10`)
+* Node and Pod affinities, node selectors for the KKP components
+* Worker goroutine count for the KKP components
+
 Depending on your chosen installation method, a number of upgrade paths are documented:
 
 * [Upgrading the Operator from 2.14 to 2.15]({{< ref "kubermatic_operator" >}})
