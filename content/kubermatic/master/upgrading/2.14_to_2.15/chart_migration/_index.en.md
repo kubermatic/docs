@@ -126,7 +126,7 @@ kubectl annotate seed your-seed operator.kubermatic.io/skip-reconciling=
 kubectl annotate seed your-seed operator.kubermatic.io/skip-reconciling-
 ```
 
-In case migrating the Helm values.yaml is not feasable, the installer also offers a dedicated
+In case migrating the Helm values.yaml is not feasible, the installer also offers a dedicated
 command to convert just the `datacenters.yaml` into Seeds/Secrets. By default, the `datacenters.yaml`
 did not contain kubeconfigs, so you have to manually provide a kubeconfig with contexts for every
 seed cluster in the `datacenters.yaml` (the installer will error out if contexts are missing).
