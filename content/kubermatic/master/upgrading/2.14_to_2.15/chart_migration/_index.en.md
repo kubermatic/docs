@@ -149,7 +149,7 @@ Refer to the [KubermaticConfiguration]({{< ref "../../../concepts/kubermaticconf
 Once the conversion is completed, carefully check the new configuration files for mistakes. Do
 note that the installer generally does not output default values, so if you configured for example
 2 Apiserver replicas and this is the default for Kubermatic anyway, the generated `KubermaticConfiguration`
-will skip the value alltogether, relying on the defaulting.
+will skip the value altogether, relying on the defaulting.
 
 It is now recommended to setup Kubermatic in a test environment, using the newly converted files.
 

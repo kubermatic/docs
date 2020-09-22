@@ -52,7 +52,7 @@ made the deployment rather simple, it lead to problems in keeping the CRDs up-to
 CRDs).
 
 For this reason the CRD handling in KKP 2.15 was changed to require users to always manually install CRDs before
-installing/updating a Helm chart. This provides much greater control over the CRD lifecycle and eases integration with
+installing/updating a Helm chart. This provides much greater control over the CRD life cycle and eases integration with
 other deployment mechanisms.
 
 Upgrading existing Helm releases in a cluster is simple, as Helm does not delete CRDs. To update cert-manager, simply
@@ -82,7 +82,7 @@ helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_H
 
 ### Promtail
 
-The labelling for the Promtail DaemonSet has changed, requiring administrators to re-install the Helm chart. As a clean
+The labeling for the Promtail DaemonSet has changed, requiring administrators to re-install the Helm chart. As a clean
 upgrade is not possible, we advise to delete and re-install the chart.
 
 ```bash
@@ -96,7 +96,7 @@ Promtail pods are stateless, so no data is lost during this migration.
 
 To prevent insecure misconfigurations, the default credentials for Grafana and Minio have been removed. They must be
 set explicitly when installing the charts. Additionally, the base64 encoding for Grafana credentials has been removed,
-so the plaintext values are put into the Helm `values.yaml`.
+so the plain text values are put into the Helm `values.yaml`.
 
 When upgrading the charts, make sure your `values.yaml` contains at least these keys:
 
@@ -133,7 +133,7 @@ for the available settings, in addition to these changes:
 * The `config.scopes` option for each IAP deployment is now `config.scope`, a single string that must (for Dex)
   be space-separated.
 * The `config.resources` mechanism for granting access based on user groups/roles has been removed. Instead the
-  required organisations/teams are now configured via explicit config variables like `config.github_org` and
+  required organizations/teams are now configured via explicit config variables like `config.github_org` and
   `config.github_team`.
 * `email_domains` must be configured for each IAP deployment. In most cases it can be set to `["*"]`.
 
