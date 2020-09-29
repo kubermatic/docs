@@ -57,9 +57,16 @@ Each service should have its own credentials (i.e. a different `secret` for ever
 with Helm will now prepare Dex to act as an authentication provider, but there is no OAuth2-Proxy yet to make use of
 this:
 
+**Helm 3**
+
 ```bash
-cd kubermatic-installer
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace oauth oauth charts/oauth/
+helm --namespace oauth upgrade --install --wait --values /path/to/your/helm-values.yaml oauth charts/oauth/
+```
+
+**Helm 2**
+
+```bash
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace oauth oauth charts/oauth/
 ```
 
 ### OAuth2-Proxy (IAP)
@@ -120,9 +127,16 @@ iap:
 
 With all this configured, it's now time to install/upgrade the `iap` Helm chart:
 
+**Helm 3**
+
 ```bash
-cd kubermatic-installer
-helm upgrade --tiller-namespace kubermatic --install --values YOUR_VALUES_YAML_PATH --namespace iap charts/iap/
+helm --namespace iap upgrade --install --wait --values /path/to/your/helm-values.yaml iap charts/iap/
+```
+
+**Helm 2**
+
+```bash
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace iap iap charts/iap/
 ```
 
 This will create one Ingress per deployment you configured. If all your Ingress hosts are subdomains of your

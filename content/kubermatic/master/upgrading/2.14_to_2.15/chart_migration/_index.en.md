@@ -152,8 +152,15 @@ It is now recommended to setup Kubermatic in a test environment, using the newly
 It's now time to change the Helm charts. Begin by uninstalling the `kubermatic` chart. This will make
 the dashboard unavailable and begin the downtime.
 
+**Helm 3**
+
 ```bash
-# This is written for Helm 2.x
+helm --namespace kubermatic delete kubermatic
+```
+
+**Helm 2**
+
+```bash
 helm --tiller-namespace kubermatic delete --purge kubermatic
 ```
 
@@ -194,9 +201,16 @@ Now it's time to install the operator. Make sure to configure the `kubermatic-op
 taking care of setting the correct ImagePullSecret in the `values.yaml`. Once you're satisfied, install
 the operator:
 
+**Helm 3**
+
 ```bash
-# This is written for Helm 3.x
 helm -n kubermatic install --values myvalues.yaml kubermatic-operator charts/kubermatic-operator/
+```
+
+**Helm 2**
+
+```bash
+helm --tiller-namespace kubermatic install --values myvalues.yaml --namespace kubermatic kubermatic-operator charts/kubermatic-operator/
 ```
 
 Once the operator is up, it will begin reconciling the KKP Master and Seed clusters. It will now take a
@@ -210,8 +224,15 @@ completed relatively quickly.
 
 To migrate a seed, first uninstall the `kubermatic` Helm chart from it. As with the master, **do not delete the CRDs.**
 
+**Helm 3**
+
 ```bash
-# This is written for Helm 2.x
+helm --namespace kubermatic delete kubermatic
+```
+
+**Helm 2**
+
+```bash
 helm --tiller-namespace kubermatic delete --purge kubermatic
 ```
 
@@ -267,8 +288,16 @@ Take the `nodeport-proxy`'s EXTERNAL IP, in this case `34.89.181.151`, and updat
 It will take some time for the DNS changes to propagate to every user, so it is recommended to leave the old
 nodeport-proxy in place for a period of time (e.g. a week), before finally removing it:
 
+**Helm 3**
+
 ```bash
-# This is written for Helm 2.x
+helm --namespace nodeport-proxy delete nodeport-proxy
+kubectl delete ns nodeport-proxy
+```
+
+**Helm 2**
+
+```bash
 helm --tiller-namespace kubermatic delete --purge nodeport-proxy
 kubectl delete ns nodeport-proxy
 ```

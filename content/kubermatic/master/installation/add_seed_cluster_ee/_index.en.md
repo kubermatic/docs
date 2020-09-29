@@ -21,6 +21,15 @@ about the cluster relationships.
 Compared to master clusters, seed clusters are still mostly manually installed. Future versions of KKP
 will improve the setup experience further.
 
+When using Helm 2, install Tiller into the seed cluster first:
+
+```bash
+kubectl create namespace kubermatic
+kubectl create serviceaccount -n kubermatic tiller
+kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller
+helm --service-account tiller --tiller-namespace kubermatic init
+```
+
 ### Cluster Backups
 
 KKP performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
@@ -62,11 +71,20 @@ It's also advisable to install the `s3-exporter` Helm chart, as it provides basi
 
 ### Install Charts
 
-With this you can install the chart:
+With this you can install the charts:
+
+**Helm 3**
 
 ```bash
-helm --namespace minio upgrade --install --values /path/to/your/helm/values.yaml minio charts/minio/
-helm --namespace s3-exporter upgrade --install --values /path/to/your/helm/values.yaml s3-exporter charts/s3-exporter/
+helm --namespace minio upgrade --install --wait --values /path/to/your/helm-values.yaml minio charts/minio/
+helm --namespace kube-system upgrade --install --wait --values /path/to/your/helm-values.yaml s3-exporter charts/s3-exporter/
+```
+
+**Helm 2**
+
+```bash
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace minio minio charts/minio/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace kube-system s3-exporter charts/s3-exporter/
 ```
 
 ## Add the Seed Resource

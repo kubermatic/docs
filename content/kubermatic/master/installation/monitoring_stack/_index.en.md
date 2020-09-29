@@ -69,13 +69,26 @@ grafana:
 
 With this file prepared, we can now install all required charts:
 
+**Helm 3**
+
 ```bash
-helm upgrade --install --values values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
-helm upgrade --install --values values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
-helm upgrade --install --values values.yaml --namespace monitoring node-exporter charts/monitoring/node-exporter/
-helm upgrade --install --values values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
-helm upgrade --install --values values.yaml --namespace monitoring grafana charts/monitoring/grafana/
-helm upgrade --install --values values.yaml --namespace monitoring karma charts/monitoring/karma/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml prometheus charts/monitoring/prometheus/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml alertmanager charts/monitoring/alertmanager/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml node-exporter charts/monitoring/node-exporter/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml kube-state-metrics charts/monitoring/kube-state-metrics/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml grafana charts/monitoring/grafana/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml karma charts/monitoring/karma/
+```
+
+**Helm 2**
+
+```bash
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring node-exporter charts/monitoring/node-exporter/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring grafana charts/monitoring/grafana/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring karma charts/monitoring/karma/
 ```
 
 ### Going Further

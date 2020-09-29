@@ -54,7 +54,16 @@ promtail:
 
 With this file prepared, we can now install all required charts:
 
+**Helm 3**
+
 ```bash
-helm upgrade --install --values values.yaml --namespace monitoring promtail charts/monitoring/promtail/
-helm upgrade --install --values values.yaml --namespace monitoring loki charts/monitoring/loki/
+helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml promtail charts/logging/promtail/
+helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml loki charts/logging/loki/
+```
+
+**Helm 2**
+
+```bash
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace logging promtail charts/logging/promtail/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace logging loki charts/logging/loki/
 ```

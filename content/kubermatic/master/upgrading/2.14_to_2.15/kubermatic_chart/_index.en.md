@@ -27,6 +27,17 @@ kubectl apply -f charts/kubermatic/crd/
 
 Then use your Helm `values.yaml` and upgrade the releases in your master cluster:
 
+**Helm 3**
+
+```bash
+helm --namespace nginx-ingress-controller upgrade --install --values myvalues.yaml nginx-ingress-controller charts/nginx-ingress-controller/
+helm --namespace cert-manager upgrade --install --values myvalues.yaml cert-manager charts/cert-manager/
+helm --namespace oauth upgrade --install --values myvalues.yaml oauth charts/oauth/
+helm --namespace kubermatic upgrade --install --values myvalues.yaml kubermatic charts/kubermatic/
+```
+
+**Helm 2**
+
 ```bash
 helm --tiller-namespace kubermatic upgrade --install --values myvalues.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
 helm --tiller-namespace kubermatic upgrade --install --values myvalues.yaml --namespace cert-manager cert-manager charts/cert-manager/
@@ -36,6 +47,15 @@ helm --tiller-namespace kubermatic upgrade --install --values myvalues.yaml --na
 
 Once the master cluster is updated, update the `kubermatic` and `nodeport-proxy` chart on all seed clusters
 as well. Remember to set `isMaster` to `false` in the `values.yaml` for your seed clusters.
+
+**Helm 3**
+
+```bash
+helm --namespace nodeport-proxy upgrade --install --values myvalues.yaml nodeport-proxy charts/nodeport-proxy/
+helm --namespace kubermatic upgrade --install --values myvalues.yaml kubermatic charts/kubermatic/
+```
+
+**Helm 2**
 
 ```bash
 helm --tiller-namespace kubermatic upgrade --install --values myvalues.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
