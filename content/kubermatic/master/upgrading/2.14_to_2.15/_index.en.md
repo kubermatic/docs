@@ -5,7 +5,39 @@ weight = 90
 
 +++
 
-## Helm Charts
+## [EE] Deprecation of `kubermatic` Helm Chart
+
+After the Kubermatic Operator has been introduced as a beta in version 2.14, it is now the recommended way of
+installing and managing KKP. This means that the `kubermatic` Helm chart is considered deprecated as of
+version 2.15 and all users are encouraged to prepare the migration to the Operator.
+
+The Kubermatic Operator does not support previously deprecated features like the `datacenters.yaml`
+or the full feature set of the `kubermatic` chart's customization options. Instead, datacenters
+have to be converted to `Seed` resources, while the chart configuration must be converted to a
+`KubermaticConfiguration`. The Kubermatic Installer offers commands to perform these conversions
+automatically.
+
+Note that the following customization options are not yet supported in the Kubermatic Operator:
+
+* `maxParallelReconcile` (always defaults to `10`)
+* Node and Pod affinities, node selectors for the KKP components
+* Worker goroutine count for the KKP components
+
+Depending on your chosen installation method, a number of upgrade paths are documented:
+
+* [Upgrading the Operator from 2.14 to 2.15]({{< ref "kubermatic_operator" >}})
+* [Migration from Helm to the Operator]({{< ref "chart_migration" >}})
+* [Upgrading the legacy Helm Chart]({{< ref "kubermatic_chart" >}}) (EE)
+
+## Deprecation of `nodeport-proxy` Helm Chart
+
+In conjunction with the operator being promoted to the recommended installation method, we also deprecate the
+old `nodeport-proxy` Helm chart. The proxy is still a required component of any Kubermatic setup, but is now
+managed by the Kubermatic Operator (similar to how it manages seed clusters).
+
+The upgrade documents linked above include the necessary migration steps.
+
+## Misc Helm Charts
 
 ### Prometheus
 
@@ -20,7 +52,7 @@ made the deployment rather simple, it lead to problems in keeping the CRDs up-to
 CRDs).
 
 For this reason the CRD handling in KKP 2.15 was changed to require users to always manually install CRDs before
-installing/updating a Helm chart. This provides much greater control over the CRD lifecycle and eases integration with
+installing/updating a Helm chart. This provides much greater control over the CRD life cycle and eases integration with
 other deployment mechanisms.
 
 Upgrading existing Helm releases in a cluster is simple, as Helm does not delete CRDs. To update cert-manager, simply
@@ -50,7 +82,7 @@ helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_H
 
 ### Promtail
 
-The labelling for the Promtail DaemonSet has changed, requiring administrators to re-install the Helm chart. As a clean
+The labeling for the Promtail DaemonSet has changed, requiring administrators to re-install the Helm chart. As a clean
 upgrade is not possible, we advise to delete and re-install the chart.
 
 ```bash
@@ -64,7 +96,7 @@ Promtail pods are stateless, so no data is lost during this migration.
 
 To prevent insecure misconfigurations, the default credentials for Grafana and Minio have been removed. They must be
 set explicitly when installing the charts. Additionally, the base64 encoding for Grafana credentials has been removed,
-so the plaintext values are put into the Helm `values.yaml`.
+so the plain text values are put into the Helm `values.yaml`.
 
 When upgrading the charts, make sure your `values.yaml` contains at least these keys:
 
@@ -101,7 +133,7 @@ for the available settings, in addition to these changes:
 * The `config.scopes` option for each IAP deployment is now `config.scope`, a single string that must (for Dex)
   be space-separated.
 * The `config.resources` mechanism for granting access based on user groups/roles has been removed. Instead the
-  required organisations/teams are now configured via explicit config variables like `config.github_org` and
+  required organizations/teams are now configured via explicit config variables like `config.github_org` and
   `config.github_team`.
 * `email_domains` must be configured for each IAP deployment. In most cases it can be set to `["*"]`.
 
