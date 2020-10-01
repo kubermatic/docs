@@ -196,7 +196,8 @@ clusterNetwork:
 {{% /tab %}}
 {{% tab name="vSphere" %}}
 **Make sure to replace the placeholder values with real values in the
-cloud-config section.**
+cloud-config section. The `vsphere-ccm-credentials` Secret is created
+automatically by KubeOne as of v1.0.4.**
 
 ```yaml
 apiVersion: kubeone.io/v1beta1
@@ -207,7 +208,7 @@ cloudProvider:
   vsphere: {}
   cloudConfig: |
     [Global]
-    secret-name = "cloud-provider-credentials"
+    secret-name = "vsphere-ccm-credentials"
     secret-namespace = "kube-system"
     port = "443"
     insecure-flag = "0"
