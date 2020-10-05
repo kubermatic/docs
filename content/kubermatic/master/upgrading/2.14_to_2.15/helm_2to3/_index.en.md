@@ -50,7 +50,7 @@ Remove `--dry-run` to actually perform the conversion.
 ```bash
 helm 2to3 convert \
   --dry-run \
-  --tiller-ns kubermatic-installer \
+  --tiller-ns kubermatic \
   --delete-v2-releases \
   cert-manager
 ```
@@ -60,7 +60,7 @@ Now the remaining Helm 2 releases can be removed:
 ```bash
 helm 2to3 cleanup \
   --dry-run \
-  --tiller-ns kubermatic-installer \
+  --tiller-ns kubermatic \
   --name cert-manager
 ```
 
@@ -72,5 +72,5 @@ command again without a `--name` flag (see `--help`):
 ```bash
 helm 2to3 cleanup \
   --dry-run \
-  --tiller-ns kubermatic-installer
+  --tiller-ns kubermatic
 ```

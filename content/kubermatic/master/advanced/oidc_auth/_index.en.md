@@ -23,7 +23,7 @@ explicitly granted by creating appropriate [RBAC](https://kubernetes.io/docs/ref
 
 In order to demonstrate the feature we are going to need a working cluster. If you don't have one please check the
 [how to create a cluster]({{< ref "../../getting_started/create_cluster/" >}}) section. If the feature was enabled on your
-installation you should see a "Share cluster" button after navigating to "Cluster details" page.
+installation you will see a "Share cluster" button after navigating to "Cluster details" page.
 
 ![Share cluster button](/img/kubermatic/master/advanced/oidc-auth/share-cluster.png)
 
@@ -133,8 +133,8 @@ dex:
 
 ### Root CA Certificates Chain
 
-In order to verify OIDC provider's certificate in `kubermatic-controll-manager` when establishing
-TLS connection, a public root CA certificate is required. Ideally the whole chain including all intermediary
+In order to verify OIDC provider's certificate in `kubermatic-controller-manager` when establishing
+TLS connection, a public root CA certificate is required. Ideally the whole chain including all intermediate
 CAs certificates is included. Note that we expect that all certificates will be PEM encoded.
 
 For example if the certificate used by your provider was issued by Let's Encrypt. You can visit
@@ -169,7 +169,7 @@ Now that the issuer is available, update the `KubermaticConfiguration`:
 kubectl -n kubermatic apply -f kubermaticconfig.yaml
 ```
 
-After the operator has reconciled the KKP installation, OIDC auth should be available.
+After the operator has reconciled the KKP installation, OIDC auth will become available.
 
 ### Role-Based Access Control Predefined Roles
 
