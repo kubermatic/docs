@@ -5,6 +5,14 @@ weight = 90
 
 +++
 
+## Helm 3 Support
+
+KKP now supports Helm 3. Previous versions required some manual intervention to get all charts
+installed. With the updated CRD handling (see below), we made the switch to recommending Helm 3
+for new installations.
+
+A [migration guide]({{< ref "helm_2to3" >}}) is provided.
+
 ## [EE] Deprecation of `kubermatic` Helm Chart
 
 After the Kubermatic Operator has been introduced as a beta in version 2.14, it is now the recommended way of
@@ -58,6 +66,15 @@ other deployment mechanisms.
 Upgrading existing Helm releases in a cluster is simple, as Helm does not delete CRDs. To update cert-manager, simply
 install the CRDs and then run Helm as usual:
 
+**Helm 3**
+
+```bash
+kubectl apply -f charts/cert-manager/crd/
+helm --namespace cert-manager upgrade --install --values YOUR_VALUES_YAML_HERE cert-manager charts/cert-manager/
+```
+
+**Helm 2**
+
 ```bash
 kubectl apply -f charts/cert-manager/crd/
 helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_HERE --namespace cert-manager cert-manager charts/cert-manager/
@@ -75,6 +92,15 @@ Helm-owned resources", which can be safely ignored.
 
 Perform the same steps for Velero:
 
+**Helm 3**
+
+```bash
+kubectl apply -f charts/backup/velero/crd/
+helm --namespace velero upgrade --install --values YOUR_VALUES_YAML_HERE velero charts/backup/velero/
+```
+
+**Helm 2**
+
 ```bash
 kubectl apply -f charts/backup/velero/crd/
 helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_HERE --namespace velero velero charts/backup/velero/
@@ -84,6 +110,15 @@ helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_H
 
 The labeling for the Promtail DaemonSet has changed, requiring administrators to re-install the Helm chart. As a clean
 upgrade is not possible, we advise to delete and re-install the chart.
+
+**Helm 3**
+
+```bash
+helm --namespace logging delete promtail
+helm --namespace logging upgrade --install --values YOUR_VALUES_YAML_HERE promtail charts/logging/promtail/
+```
+
+**Helm 2**
 
 ```bash
 helm --tiller-namespace kubermatic delete promtail
@@ -142,8 +177,17 @@ A few examples can be found in the relevant [code change in KKP](https://github.
 To prevent issues with Helm re-using IAP deployment config values from a previous release, it can be helpful to purge and
 reinstall the chart:
 
+**Helm 3**
+
 ```bash
-helm --tiller-namespace kubermatic delete --purge iap
+helm --namespace iap delete iap
+helm --namespace iap upgrade --install --values YOUR_VALUES_YAML_HERE iap charts/iap/
+```
+
+**Helm 2**
+
+```bash
+helm --tiller-namespace kubermatic delete iap
 helm --tiller-namespace kubermatic upgrade --install --values YOUR_VALUES_YAML_HERE --namespace iap iap charts/iap/
 ```
 

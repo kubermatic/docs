@@ -28,6 +28,17 @@ kubectl apply -f charts/kubermatic/crd/
 
 Then use your Helm `values.yaml` and upgrade the releases in your master cluster:
 
+**Helm 3**
+
+```bash
+helm --namespace nginx-ingress-controller upgrade --install --values myvalues.yaml nginx-ingress-controller charts/nginx-ingress-controller/
+helm --namespace cert-manager upgrade --install --values myvalues.yaml cert-manager charts/cert-manager/
+helm --namespace oauth upgrade --install --values myvalues.yaml oauth charts/oauth/
+helm --namespace kubermatic upgrade --install --values myvalues.yaml kubermatic-operator charts/kubermatic-operator/
+```
+
+**Helm 2**
+
 ```bash
 helm --tiller-namespace kubermatic upgrade --install --values myvalues.yaml --namespace nginx-ingress-controller nginx-ingress-controller charts/nginx-ingress-controller/
 helm --tiller-namespace kubermatic upgrade --install --values myvalues.yaml --namespace cert-manager cert-manager charts/cert-manager/
@@ -71,8 +82,16 @@ Take the `nodeport-proxy`'s EXTERNAL IP, in this case `34.89.181.151`, and updat
 It will take some time for the DNS changes to propagate to every user, so it is recommended to leave the old
 nodeport-proxy in place for a period of time (e.g. a week), before finally removing it:
 
+**Helm 3**
+
 ```bash
-# This is written for Helm 2.x
+helm --namespace nodeport-proxy delete nodeport-proxy
+kubectl delete ns nodeport-proxy
+```
+
+**Helm 2**
+
+```bash
 helm --tiller-namespace kubermatic delete --purge nodeport-proxy
 kubectl delete ns nodeport-proxy
 ```
