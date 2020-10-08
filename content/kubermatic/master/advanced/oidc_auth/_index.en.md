@@ -10,11 +10,6 @@ weight = 70
 The purpose of this feature is to allow using an OIDC provider like `dex` to authenticate to a Kubernetes cluster
 managed by Kubermatic Kubernetes Platform (KKP). This feature can be used to share access to a cluster with other users.
 
-{{% notice note %}}
-**Note:** This feature is **experimental** and not enabled by default. See the [prerequisites](#prerequisites)
-section for instruction on how to enable this for your installation.
-{{% /notice %}}
-
 ### How Does It Work
 
 This section will demonstrate how to obtain and use the `kubeconfig` to connect to a cluster owned by a different user.
