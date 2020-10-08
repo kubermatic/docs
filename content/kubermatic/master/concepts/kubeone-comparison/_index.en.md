@@ -19,7 +19,7 @@ User management | - | yes, including multi-tenancy
 Automatic Backups | - | yes, via Velero
 Multi cluster Logging | - | yes, via EFK stack
 Multi cluster Metrics Collection | - | yes, via Prometheus
-Multi cluster Graphing | - | yes, via Graphana
+Multi cluster Graphing | - | yes, via Grafana
 Integration into identity providers | Individual per cluster | Central for all clusters: AD/LDAP, GitHub, SAML 2.0, GitLab, OpenID Connect, ... etc.
 Deploy cluster addons | - | yes
 Service Accounts for automation/integration | - | yes
