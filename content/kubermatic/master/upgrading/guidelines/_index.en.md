@@ -58,10 +58,10 @@ Unless otherwise noted in the upgrade notes for the given KKP minor version, the
 upgrade procedure is roughly as follows. The exact paths may vary slightly
 in-between minor releases, but the procedure is the same.
 
-For KKP releases prior to 1.14, refer to https://github.com/kubermatic/kubermatic-installer
+For KKP releases prior to 2.14, refer to https://github.com/kubermatic/kubermatic-installer
 to download the Helm charts and configuration files.
 
-For KKP releases since 1.14, download the appropriate archive from
+For KKP releases since 2.14, download the appropriate archive from
 https://github.com/kubermatic/kubermatic/releases and extract it locally on your
 computer.
 
