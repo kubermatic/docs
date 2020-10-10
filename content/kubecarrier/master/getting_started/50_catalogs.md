@@ -30,7 +30,7 @@ couchdbs.couchdb.io   2020-03-10T10:27:51Z
 ```
 
 Now we will tell the KubeCarrier installation to work with this CRD.
-We can accomplish this, by creating a `CatalogEntrySet`. This object describes which CRD should be fetched from which ServiceCluster, metadata for the Service Catalog and it will limit which fields are available to users.
+We can accomplish this, by creating a `CatalogEntrySet`. This object describes which CRD should be fetched from which ServiceCluster, metadata for the Service Hub and it will limit which fields are available to users.
 
 **CatalogEntrySet definition**
 
@@ -47,9 +47,7 @@ spec:
     crd:
       name: couchdbs.couchdb.io
     serviceClusterSelector: {}
-    kindOverride: CouchDBInternal
   derive:
-    kindOverride: CouchDB
     expose:
     - versions:
       - v1alpha1
@@ -82,11 +80,11 @@ As soon as the `CatalogEntrySet` is ready, you will notice two new `CustomResour
 ```bash
 $ kubectl get crd -l kubecarrier.io/origin-namespace=team-a
 NAME                                CREATED AT
-couchdbinternals.eu-west-1.team-a   2020-03-09T10:28:39Z
-couchdbs.eu-west-1.team-a           2020-03-09T10:28:52Z
+couchdbs.eu-west-1.team-a           2020-07-31T09:36:04Z
+couchdbs.internal.eu-west-1.team-a  2020-07-31T09:35:50Z
 ```
 
-The `couchdbinternals.eu-west-1.team-a` object is just a copy of the CRD present in the `ServiceCluster`, while `couchdbs.eu-west-1.team-a` is a "slimed-down" version, only containing fields specified in the `CatalogEntrySet`. Both CRDs are "namespaced" by their API group.
+The `couchdbs.internal.eu-west-1.team-a` object is just a copy of the CRD present in the `ServiceCluster`, while `couchdbs.eu-west-1.team-a` is a "slimed-down" version, only containing fields specified in the `CatalogEntrySet`. Both CRDs are "namespaced" by their API group.
 
 ## Catalogs
 
@@ -97,7 +95,7 @@ The `CatalogEntrySet` we created in previous step is managing `CatalogEntries` f
 ```bash
 $ kubectl get catalogentry -n team-a
 NAME                 STATUS   BASE CRD                            TENANT CRD                  AGE
-couchdbs.eu-west-1   Ready    couchdbinternals.eu-west-1.team-a   couchdbs.eu-west-1.team-a   26s
+couchdbs.eu-west-1   Ready    couchdbs.internal.eu-west-1.team-a  couchdbs.eu-west-1.team-a   26s
 ```
 
 We can now reference these `CatalogEntries` in a `Catalog` and offer them to `Tenants`.

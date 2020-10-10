@@ -27,7 +27,7 @@ spec:
 ```bash
 $ kubectl apply -n team-b --as=team-b-member \
   -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/couchdb.eu-west-1.yaml
-catalog.catalog.kubecarrier.io/default created
+couchdb.eu-west-1.team-a/db1 created
 
 # This is the object we just created as team-b
 $ kubectl get couchdb -n team-b --as=team-b-member
@@ -35,11 +35,11 @@ NAME   USERNAME   PASSWORD   AGE
 db1    hans       hans2000   4s
 
 # There is also an internal representation, that users cannot access:
-$ kubectl get couchdbinternal -n team-b --as=team-b-member
-Error from server (Forbidden): couchdbinternals.eu-west-1.team-a is forbidden: User "team-b-member" cannot list resource "couchdbinternals" in API group "eu-west-1.team-a" in the namespace "team-b"
+$ kubectl get couchdb.internal.eu-west-1.team-a -n team-b --as=team-b-member
+Error from server (Forbidden): couchdbs.internal.eu-west-1.team-a is forbidden: User "team-b-member" cannot list resource "couchdbs" in API group "internal.eu-west-1.team-a" in the namespace "team-b"
 
 # Only members of the Provider team (team-a) can access these objects:
-kubectl get couchdbinternal -n team-b --as=team-a-member
+$ kubectl get couchdb.internal.eu-west-1.team-a -n team-b --as=team-a-member
 NAME   USERNAME   PASSWORD   VERSION   AGE
 db1    hans       hans2000             31s
 ```

@@ -9,11 +9,11 @@ weight = 80
 
 ### Elastic Stack
 
-Kubermatic 2.14 deprecates the Elasticsearch-based logging stack, consisting of the `elasticsearch`, `kibana` and `fluentbit`
+Kubermatic Kubernetes Platform (KKP) 2.14 deprecates the Elasticsearch-based logging stack, consisting of the `elasticsearch`, `kibana` and `fluentbit`
 Helm charts. These components will only receive security fixes in future releases and will be removed entirely in version
 2.16.
 
-Log aggregation in Kubermatic is now handled by [Grafana Loki](https://grafana.com/oss/loki/), offering a much simpler and
+Log aggregation in KKP is now handled by [Grafana Loki](https://grafana.com/oss/loki/), offering a much simpler and
 less resource intensive setup. As existing data cannot be migrated into Loki, it's recommended to install Loki in parallel
 to an existing ELK stack and ship logs only to it going forward. Once all logs in Elasticsearch have expired, the Elastic
 Stack can be deleted.
@@ -31,9 +31,9 @@ customers are advised to install an ECK stack in parallel to slowly phase out th
 
 ### Certificates
 
-Previously, Kubermatic used a shared Helm chart, `certs`, that contains all TLS certificates for both Kubermatic and all
+Previously, KKP used a shared Helm chart, `certs`, that contains all TLS certificates for both KKP and all
 IAP Ingresses. This however made the configuration somewhat hard to understand and does not work well with the new
-Kubermatic Operator.
+KKP Operator.
 
 For these reasons the `certs` chart is now deprecated. Instead the `kubermatic` and `iap` charts will create their own
 certificates and reference them explicitly in the Ingresses they also create. The `--default-ssl-certificate` CLI flag
@@ -45,11 +45,11 @@ only take a minute for the new certificates to be acquired.
 
 The `certs` chart can be removed entirely from the cluster. You might also want to manually remove the
 `kubermatic/kubermatic-tls-certificates` Secret, as it will soon expire. If you used the `certs` chart to manage
-non-Kubermatic/IAP certificates, please migrate accordingly as the chart will soon not be published with Kubermatic anymore.
+non-KKP/IAP certificates, please migrate accordingly as the chart will soon not be published with KKP anymore.
 
 ## Addon Templating
 
-Kubermatic 2.14 introduced a stable interface for templating addon manifests. Previously, the exact variables that could be
+KKP 2.14 introduced a stable interface for templating addon manifests. Previously, the exact variables that could be
 used were not documented and could change in between releases.
 
 Please refer to the [addon documentation]({{< ref "../../advanced/addons#manifest-templating" >}}) for more information about

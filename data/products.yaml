@@ -7,6 +7,8 @@ kubermatic:
   versions:
     - release: master
       name: master
+    # - release: v2.15
+    #   name: v2.15
     - release: v2.14
       name: v2.14
     - release: v2.13
@@ -20,6 +22,8 @@ kubeone:
   versions:
     - release: master
       name: master
+    - release: v1.0
+      name: v1.0
 kubecarrier:
   name: KubeCarrier
   logo: "img/header-logo-kubecarrier.png"
@@ -27,6 +31,8 @@ kubecarrier:
   versions:
     - release: master
       name: master
+    - release: v0.3
+      name: v0.3
     - release: v0.2
       name: v0.2
     - release: v0.1

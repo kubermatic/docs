@@ -17,9 +17,9 @@ You will want to familiarize yourself with the [basic architecture](../architect
 
 The basic source of metrics is the Prometheus inside each customer cluster namespace. It will track the customer clusters control plane (**IMPORTANT:** it is NOT responsible for the components running in the customer clusters themselves.)
 
-This Prometheus is deployed as part of Kubermatic's cluster creation, which means you cannot directly affect its deployment.
+This Prometheus is deployed as part of Kubermatic Kubernetes Platform's (KKP) cluster creation, which means you cannot directly affect its deployment.
 
-Therefore to still allow customization of rules, Kubermatic provides the possibility to specify rules as part of the `values.yaml` which gets fed to the Kubermatic chart.
+Therefore to still allow customization of rules, KKP provides the possibility to specify rules as part of the `values.yaml` which gets fed to the KKP chart.
 
 ### Rules
 
@@ -43,7 +43,7 @@ kubermatic:
             severity: warning
 ```
 
-If you'd like to disable the default rules coming with Kubermatic itself, you can specify the `disableDefaultRules` flag:
+If you'd like to disable the default rules coming with KKP itself, you can specify the `disableDefaultRules` flag:
 
 ```yaml
 kubermatic:
@@ -67,7 +67,7 @@ clusterNamespacePrometheus:
       regex: true
 ```
 
-Also, the default Kubermatic scraping configs can be disabled in the same way:
+Also, the default KKP scraping configs can be disabled in the same way:
 
 ```yaml
 clusterNamespacePrometheus:

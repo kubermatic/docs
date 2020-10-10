@@ -6,9 +6,9 @@ weight = 15
 draft = true
 +++
 
-## Contributing to Kubermatic Docs
+## Contributing to Kubermatic Kubernetes Platform (KKP) Docs
 
-The [Kubermatic Docs](http://docs.kubermatic.io) source repository can be found on [Github](https://github.com/kubermatic/docs).
+The [KKP Docs](http://docs.kubermatic.io) source repository can be found on [Github](https://github.com/kubermatic/docs).
 
 To generate the documentation you will need to download and install the [Hugo](https://gohugo.io/overview/installing/) static website engine.
 
@@ -27,17 +27,17 @@ hugo server --buildDrafts --baseURL localhost:1313 --watch
 
 ## Repository Organization
 
-The content in the [kubermatic/docs](https://github.com/kubermatic/docs) repository follows the organization of [Hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository root level should be mentioned:
+The content in the [KKP/docs](https://github.com/kubermatic/docs) repository follows the organization of [Hugo directory structure](https://gohugo.io/getting-started/directory-structure/). Essentially, two folders at repository root level should be mentioned:
 
 ### /content
 
-`content`: All content for [kubermatic/docs](https://github.com/kubermatic/docs) will live inside this directory. Each top-level folder in Hugo is considered a `content section`.
+`content`: All content for [KKP/docs](https://github.com/kubermatic/docs) will live inside this directory. Each top-level folder in Hugo is considered a `content section`.
 
 ### /static
 
-`static`: Stores all the static content for [kubermatic/docs](https://github.com/kubermatic/docs) website: images, CSS, JavaScript, etc. When Hugo builds the documentation, all assets inside your static directory are copied over as-is. The `/static` folder contains the `static/media` folder for root directory content media files, inside which are subfolders with the images for each documentation article. The article image folders are named identically to the article file, minus the `.md` file extension.
+`static`: Stores all the static content for [KKP/docs](https://github.com/kubermatic/docs) website: images, CSS, JavaScript, etc. When Hugo builds the documentation, all assets inside your static directory are copied over as-is. The `/static` folder contains the `static/media` folder for root directory content media files, inside which are subfolders with the images for each documentation article. The article image folders are named identically to the article file, minus the `.md` file extension.
 
-## Creating a New Article for Kubermatic Docs
+## Creating a New Article for KKP Docs
 
 The basic structure for a new section in the documentation is as follows:
 

@@ -7,18 +7,18 @@ weight = 30
 
 ### CRD Migration
 
-With v2.9 the Kubermatic chart wont contain any CustomResourceDefinitions.
-Upgrading the existing kubermatic installation with new charts would result in all CRD's being deleted.
+With v2.9 the Kubermatic Kubernetes Platform (KKP) chart wont contain any CustomResourceDefinitions.
+Upgrading the existing KKP installation with new charts would result in all CRD's being deleted.
 
 For this purpose we wrote a migration script.
 The script will:
 
-- Manually delete installed kubermatic manifests (Except CustomResourceDefinitions)
+- Manually delete installed KKP manifests (Except CustomResourceDefinitions)
 - Remove the helm release ConfigMaps ([more information about Helm ConfigMaps](http://technosophos.com/2017/03/23/how-helm-uses-configmaps-to-store-data.html))
 - Apply the out-of-chart CRD manifests.
-- Install the new kubermatic helm chart
+- Install the new KKP helm chart
 
-The script is located inside the Kubermatic helm chart & must be executed before the chart upgrade:
+The script is located inside the KKP helm chart & must be executed before the chart upgrade:
 <https://github.com/kubermatic/kubermatic-installer/blob/release/v2.9/charts/kubermatic/migrate/migrate-kubermatic-chart.sh>
 
 Afterwards, the CRDs must be installed with kubectl `apply -f charts/kubermatic/crd/`.
@@ -45,12 +45,12 @@ and `webhook-ca` secrets cannot be found.
 #### node-exporter
 
 The new version 0.17 has made significant changes to the metric names it provides. Consult the [official guidelines](https://github.com/prometheus/node_exporter/blob/master/docs/V0_16_UPGRADE_GUIDE.md) to learn more about the new names and adjust
-your recording and alerting rules as needed. Note that Kubermatic does not install the recording rules to keep the old metric names
+your recording and alerting rules as needed. Note that KKP does not install the recording rules to keep the old metric names
 intact, so you will notice gaps in the Grafana charts after you updated.
 
 #### fluentbit
 
-Kubermatic 2.9 replaces the old fluentd chart with fluentbit in order to improve performance and reduce resource usage of the
+KKP 2.9 replaces the old fluentd chart with fluentbit in order to improve performance and reduce resource usage of the
 logging stack. When updating an existing installation, make sure to `delete --purge` the fluentd chart, so you do not end up
 with two log shippers in your cluster.
 
@@ -60,14 +60,14 @@ helm --tiller-namespace kubermatic delete --purge fluentd
 
 ### Enforcing Floating IP's for OpenStack Nodes
 
-Until Kubermatic v2.9 all OpenStack nodes got assigned a floating IP.
+Until KKP v2.9 all OpenStack nodes got assigned a floating IP.
 With v2.9 this behaviour changes, as floating IP's are now optional by default.
 Within the "Add Node" dialog, the user can specific if a floating IP should be assigned or not.
 
 If the assignment of floating IP's is a requirement to ensure Node-> API server communication, the assignment can be enforced within the datacenters.yaml:
 
 ```yaml
-  loodse-hamburg-1:
+  kubermatic-hamburg-1:
     location: Hamburg
     seed: europe-west3-c
     country: DE
@@ -100,7 +100,7 @@ Can be enabled by setting the feature flag:
 kubermatic.controller.featureGates="VerticalPodAutoscaler=true"
 ```
 
-This will instruct the kubermatic cluster controller to deploy VerticalPodAutoscaler resources for all control plane components.
+This will instruct the KKP cluster controller to deploy VerticalPodAutoscaler resources for all control plane components.
 
 The [VerticalPodAutoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#vertical-pod-autoscaler) will then make sure that those pod will receive resource requests according to the actual usage.
 

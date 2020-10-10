@@ -1,5 +1,5 @@
 +++
-title = "Changelog for Kubermatic 2.11"
+title = "Changelog for Kubermatic Kubernetes Platform (KKP) 2.11"
 date = 2019-09-18T00:07:15+02:00
 publishDate = 2019-07-12T00:00:00+00:00
 weight = 211
@@ -45,7 +45,7 @@ Supported Kubernetes versions:
 
 **Changes:**
 
-- Kubermatic Swagger API Spec is now exposed over its API server
+- KKP Swagger API Spec is now exposed over its API server
 - Updated Envoy to 1.11.1
 - Kubernetes versions affected by CVE-2019-9512 and CVE-2019-9514 have been dropped
 - Enabling the OIDC feature flag in clusters has been fixed.
@@ -88,8 +88,8 @@ Supported Kubernetes versions:
 
 **Cloud providers:**
 
-- It is now possible to create Kubermatic-managed clusters on Packet.
-- It is now possible to create Kubermatic-managed clusters on GCP.
+- It is now possible to create KKP-managed clusters on Packet.
+- It is now possible to create KKP-managed clusters on GCP.
 - the API stops creating an initial node deployment for new cluster for KubeAdm providers.
 - Openstack: datacenter can be configured with minimum required CPU and memory for nodes
 - vsphere: root disk size is now configurable
@@ -112,13 +112,13 @@ Supported Kubernetes versions:
 - More details are shown when using `kubectl get machine/machineset/machinedeployment`
 - The resiliency of in-cluster DNS was greatly improved by adding the nodelocal-dns-cache addon, which runs a DNS cache on each node, avoiding the need to use NAT for DNS queries
 - Added containerRuntimeVersion and kernelVersion to NodeInfo
-- It is now possible to configure Kubermatic to create one service of type LoadBalancer per user cluster instead of exposing all of them via the nodeport-proxy on one central LoadBalancer service
-- Pod AntiAffinity and PDBs were added to the Kubermatic control plane components,the monitoring stack and the logging stack to spread them out if possible and reduce the chance of unavailability
+- It is now possible to configure KKP to create one service of type LoadBalancer per user cluster instead of exposing all of them via the nodeport-proxy on one central LoadBalancer service
+- Pod AntiAffinity and PDBs were added to the KKP control plane components,the monitoring stack and the logging stack to spread them out if possible and reduce the chance of unavailability
 - Reduced API latency for loading Nodes & NodeDeployments
 - replace gambol99/keycloak-proxy 2.3.0 with official keycloak-gatekeeper 6.0.1
-- More additional printer columns for kubermatic crds
+- More additional printer columns for KKP crds
 - Insecure Kubernetes versions v1.13.6 and v1.14.2 have been disabled.
-- Kubermatic now supports running in environments where the Internet can only be accessed via a http proxy
+- KKP now supports running in environments where the Internet can only be accessed via a http proxy
 - ICMP traffic to clusters is now always permitted to allow MTU discovery
 - A bug that caused errors on very big addon manifests was fixed
 - Updated Prometheus to 2.10.0

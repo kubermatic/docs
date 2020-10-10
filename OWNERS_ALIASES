@@ -1,36 +1,34 @@
 aliases:
   team-lifecycle:
-    - kdomanski
-    - moadqassem
-    - thz
     - kron4eg
+    - moadqassem
+    - moelsayed
     - xmudrii
     - xrstf
     - youssefazrak
+    - irozzo-1A
 
   team-ui:
     - kgroschoff
     - maciaszczykm
     - zreigz
     - floreks
-    - nikhita
+    - lsviben
 
   team-kubecarrier:
-    - thetechnick
-    - nmiculinic
     - aborilov
     - jiachengxu
+    - nmiculinic
+    - thetechnick
 
   team-ps:
     - chrkl
     - eqrx
     - erdii
     - florianeglauer
-    - infinitydon
     - ivomarino
     - ManuStoessel
     - mfranczy
     - stroebitzer
     - themue
-    - thz
     - toschneck

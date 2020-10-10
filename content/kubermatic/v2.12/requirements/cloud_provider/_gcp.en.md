@@ -33,9 +33,9 @@ gcloud projects list
 
 # create policy binding
 gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/compute.admin'
-gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/iam.serviceAccountUser' 
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/iam.serviceAccountUser'
 gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/viewer'
-``` 
+```
 
 ### Google Service Account
 
@@ -71,4 +71,3 @@ The base64 encoded secret of the service account will passed in the field `servi
 `cloudProviderSpec` of the machine deployment. The encoded secret can be entered in the UI field `Service Account`:
 
 ![GCE Service Account Secret](/img/kubermatic/master/requirements/cloud_provider/gce_credentials.png)
-

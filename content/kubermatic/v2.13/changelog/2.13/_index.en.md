@@ -1,10 +1,15 @@
 +++
-title = "Changelog for Kubermatic 2.13"
+title = "Changelog for Kubermatic Kubernetes (KKP) 2.13"
 date = 2020-01-12T00:00:00+00:00
 publishDate = 2020-01-12T00:00:00+00:00
 weight = 213
 
 +++
+
+## v2.13.7
+
+- Added Kubernetes v1.16.13, and removed v1.16.2-7 in default version configuration
+- Added Kubernetes v1.17.9, and removed v1.17.0-3 in default version configuration
 
 ## v2.13.6
 
@@ -53,7 +58,7 @@ Supported Kubernetes versions:
 
 - End-of-Life Kubernetes v1.14 is no longer supported.
 - The `authorized_keys` files on nodes are now updated whenever the SSH keys for a cluster are changed
-- Added support for custom CA for OpenID provider in Kubermatic API.
+- Added support for custom CA for OpenID provider in KKP API.
 - Added user settings panel.
 - Added cluster addon UI
 - MachineDeployments can now be configured to enable dynamic kubelet config

@@ -5,27 +5,27 @@ weight = 30
 
 +++
 
-This manual explains how to configure a custom OIDC provider to use with Kubermatic.
+This manual explains how to configure a custom OIDC provider to use with Kubermatic Kubernetes Platform (KKP).
 
 ### Default Configuration
 
-When nothing is configured, Kubermatic uses `https://<domain>/dex` as the OIDC provider
+When nothing is configured, KKP uses `https://<domain>/dex` as the OIDC provider
 URL, which by default points to Dex. The domain is taken from the
 [KubermaticConfiguration]({{< ref "../../concepts/kubermaticconfiguration" >}}).
 
-When redirecting users to the OIDC provider for login into the Kubermatic dashboard, Kubermatic
+When redirecting users to the OIDC provider for login into the KKP dashboard, KKP
 adds the following parameters to the base URL:
 
 - `&response_type` is set to `id_token`
 - `&client_id` is set to `kubermatic`
-- `&redirect_uri` is set to `https://<domain>/projects` which is root view of the Kubermatic dashboard
+- `&redirect_uri` is set to `https://<domain>/projects` which is root view of the KKP dashboard
 - `&scope` is set to `openid email profile groups`
 - `&nonce` is randomly generated, 32 character string to prevent replay attacks
 
 ### Custom Configuration
 
-The default configuration can be changed as Kubermatic supports other OIDC providers as well. This
-involves updating the Kubermatic dashboard and API using the `KubermaticConfiguration` CRD on the
+The default configuration can be changed as KKP supports other OIDC providers as well. This
+involves updating the KKP dashboard and API using the `KubermaticConfiguration` CRD on the
 master cluster. The used configuration can be retrieved using `kubectl`:
 
 ```bash
@@ -53,7 +53,7 @@ There are two sections to update.
 
 #### API Configuration
 
-The Kubermatic API validates the given token for authentication and therefore needs to be able to
+The KKP API validates the given token for authentication and therefore needs to be able to
 find the new token issuer. The relevant fields are under `spec.auth` and the following snippet
 demonstrates the default values:
 
@@ -82,7 +82,7 @@ spec:
 
 #### UI Configuration
 
-The Kubermatic dashboard needs to know where to redirect the user to in order to perform a
+The KKP dashboard needs to know where to redirect the user to in order to perform a
 login. This can be set by setting a `spec.ui.config` field, containing JSON. This is where
 various UI-related options can be set, among them:
 
@@ -104,6 +104,6 @@ spec:
 ### Applying the Changes
 
 Edit the KubermaticConfiguration either directly via `kubectl edit` or apply it from a YAML
-file by using `kubectl apply`. The Kubermatic Operator will pick up on the changes and
+file by using `kubectl apply`. The KKP Operator will pick up on the changes and
 reconfigure the components accordingly. After a few seconds the new pods should be up and
 running.

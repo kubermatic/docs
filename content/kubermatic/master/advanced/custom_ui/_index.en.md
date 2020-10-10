@@ -65,7 +65,7 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
   }
   ```
   **TIP:** As currently selected theme name is saved inside user settings, change it back to one of the default themes before uploading your theme to the official deployment.
-- Once your new theme is ready run `npm run build:themes`. It should create a `dist-themes` directory inside Kubermatic Dashboard directory with compiled `css` files of all themes
+- Once your new theme is ready run `npm run build:themes`. It should create a `dist-themes` directory inside Kubermatic Kubernetes Platform (KKP) Dashboard directory with compiled `css` files of all themes
   stored inside `src/assets/themes` directory. Now you can rename your `custom.css` theme file to some other name, i.e. `solar.css`.
 
 ![Themes dir](/img/kubermatic/master/advanced/custom-ui/themes-dir.png)
@@ -82,24 +82,24 @@ In this case the easiest way of preparing a new theme is to download one of the 
 We'll describe here two possible ways of downloading enabled themes.
 
 #### Download Theme Using the Browser
-1. Open Kubermatic UI
+1. Open KKP UI
 2. Open `Developer tools` and navigate to `Sources` tab.
 3. There should be a CSS file of a currently selected theme available to be downloaded inside `assts/themes` directory.
 
 ![Dev tools](/img/kubermatic/master/advanced/custom-ui/developer-tools.png)
 
-#### Download Themes Directly From the Kubermatic Dashboard container
+#### Download Themes Directly From the KKP Dashboard container
 Assuming that you know how to exec into the container and copy resources from/to it, themes can be simply copied over to your machine
-from the running Kubermatic Dashboard container. They are stored inside the container in `dist/assets/themes` directory.
+from the running KKP Dashboard container. They are stored inside the container in `dist/assets/themes` directory.
 
 ##### Kubernetes
-Assumming that the Kubermatic Dashboard pod name is `kubermatic-dashboard-5b96d7f5df-mkmgh` you can copy themes to your `${HOME}/themes` directory using below command:
+Assumming that the KKP Dashboard pod name is `kubermatic-dashboard-5b96d7f5df-mkmgh` you can copy themes to your `${HOME}/themes` directory using below command:
 ```bash
 kubectl -n kubermatic cp kubermatic-dashboard-5b96d7f5df-mkmgh:/dist/assets/themes ~/themes
 ```
 
 ##### Docker
-Assumming that the Kubermatic Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
+Assuming that the KKP Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
 ```bash
 docker cp kubermatic-dashboard:/dist/assets/themes/. ~/themes
 ```

@@ -7,4 +7,4 @@ chapter = true
 
 # Operation
 
-Find out about operating Kubermatic.
+Find out about operating Kubermatic Kubernetes Platform (KKP).

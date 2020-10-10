@@ -13,7 +13,7 @@ with a set of rules, where one of the most important ones is:
 
 > kubelet must not be newer than kube-apiserver, and may be up to two minor versions older.
 
-Kubermatic enforces this rule on its own by checking during each upgrade of the cluster's control plane or node's
+Kubermatic Kubernetes Platform (KKP) enforces this rule on its own by checking during each upgrade of the cluster's control plane or node's
 kubelet that it is followed. Additionally, only compatible versions will be listed in the UI as available for upgrade.
 
 ### Upgrading the Control Plane

@@ -8,4 +8,4 @@ chapter = true
 
 # Advanced
 
-Get to know advanced knowledge of Kubermatic.
+Get to know advanced knowledge of Kubermatic Kubernetes Platform (KKP).

@@ -8,7 +8,7 @@ weight = 70
 ### Share Clusters via Delegated OIDC Authentication
 
 The purpose of this feature is to allow using an OIDC provider like `dex` to authenticate to a Kubernetes cluster
-managed by Kubermatic. This feature can be used to share access to a cluster with other users.
+managed by Kubermatic Kubernetes Platform (KKP). This feature can be used to share access to a cluster with other users.
 
 {{% notice note %}}
 **Note:** This feature is **experimental** and not enabled by default. See the [prerequisites](#prerequisites)
@@ -30,17 +30,17 @@ Right after clicking on the button you will see a modal window where you can cop
 
 ![Share cluster dialog](/img/kubermatic/v2.14/advanced/oidc-auth/share-cluster-modal.png)
 
-You can now share this link with anyone that can access the Kubermatic UI. After login, that person will get a download link for a
+You can now share this link with anyone that can access the KKP UI. After login, that person will get a download link for a
 `kubeconfig`.
 
 In order for the shared `kubeconfig` to be of any use, we must grant that other user some permissions. To do so, configure `kubectl` to
 point to the cluster and create a `rolebinding` or `clusterrolebinding`, using the email address of the user the `kubeconfig` was
 shared to as value for the `user` property.
 
-The following example command grants read-only access to the cluster to `lukasz@loodse.com`:
+The following example command grants read-only access to the cluster to `lukasz@kubermatic.com`:
 
 ```bash
-kubectl create clusterrolebinding lukaszviewer --clusterrole=view --user=lukasz@loodse.com
+kubectl create clusterrolebinding lukaszviewer --clusterrole=view --user=lukasz@kubermatic.com
 ```
 
 Now it's time to let the user the cluster was shared to use the config and list some resources for example `pods`.
@@ -56,7 +56,7 @@ If the `lukaszviewer` binding gets deleted or something else goes wrong, the fol
 ```bash
 kubectl get pods
 
-Error from server (Forbidden): pods is forbidden: User "lukasz@loodse.com" cannot list pods in the namespace "default"
+Error from server (Forbidden): pods is forbidden: User "lukasz@kubermatic.com" cannot list pods in the namespace "default"
 ```
 
 ### Prerequisites
@@ -92,7 +92,7 @@ Note that `.Values.kubermatic.auth.caBundle` must contain OIDC provider's root C
 {{% /notice %}}
 
 `conifg.json` file for `kubermatic-dashboard` must contain `"share_kubeconfig":true`.
-You can set it by changing the `kubermatic.ui.config` entry in the `values.yaml` file. Afterwards, [update Kubermatic](#update-kubermatic).
+You can set it by changing the `kubermatic.ui.config` entry in the `values.yaml` file. Afterwards, [update KKP](#update-kubermatic).
 
 ### Root CA Certificates Chain
 
@@ -106,7 +106,7 @@ and use the following command to prepare the bundle.
 cat isrgrootx1.pem.txt lets-encrypt-x3-cross-signed.pem.txt > caBundle.pem
 ```
 
-### Update Kubermatic
+### Update Kubermatic Kubernetes Platform(KKP)
 
 After all values are set at the `values.yaml` the installed helm charts `kubermatic` and `oauth` need to get updated (at the master cluster):
 
@@ -117,7 +117,7 @@ helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kub
 
 ### Role-Based Access Control Predefined Roles
 
-Kubermatic provides predefined roles and cluster roles to help implement granular permissions for specific resources and
+KKP provides predefined roles and cluster roles to help implement granular permissions for specific resources and
 to simplify access control across the user cluster. All of the default roles and cluster roles are labeled with `component=userClusterRole`.
 
 | Default ClusterRole | Description                                                                                                                                                                                                                                       |
@@ -135,8 +135,8 @@ to simplify access control across the user cluster. All of the default roles and
 
 The cluster owner is automatically connected to the `admin` cluster role.
 
-![Kubermatic cluster owner RBAC link](/img/kubermatic/v2.14/advanced/oidc-auth/cluster-owner-rbac.png)
+![KKP cluster owner RBAC link](/img/kubermatic/v2.14/advanced/oidc-auth/cluster-owner-rbac.png)
 
 The project user with owner and editor privileges can add and remove bindings to existing roles and cluster roles.
 
-![Kubermatic add binding RBAC link](/img/kubermatic/v2.14/advanced/oidc-auth/add-binding-rbac.png)
+![KKP add binding RBAC link](/img/kubermatic/v2.14/advanced/oidc-auth/add-binding-rbac.png)

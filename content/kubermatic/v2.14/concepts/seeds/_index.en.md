@@ -11,10 +11,6 @@ The Seed CustomResourceDefinition replaces the legacy [`datacenters.yaml`]({{< r
 a more flexible, dynamic way of managing seed clusters. Seeds can be added and removed at runtime by simply
 managing Seed resources inside the [master cluster]({{< ref "../architecture" >}}).
 
-{{% notice note %}}
-**Note:** This feature is **experimental** and not enabled by default.
-{{% /notice %}}
-
 ### Example Seed
 
 The following is an example Seed, showing all possible options.

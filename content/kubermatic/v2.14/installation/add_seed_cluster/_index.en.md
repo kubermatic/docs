@@ -1,68 +1,21 @@
 +++
-title = "Add Seed Cluster"
+title = "Add Seed Cluster for CE"
 date = 2018-08-09T12:07:15+02:00
 weight = 30
 
 +++
 
-This document describes how a new seed cluster can be added to an existing Kubermatic master cluster.
 
-{{% notice note %}}
-For smaller scale setups it's also possible to use the existing master cluster as a seed cluster (a "shared"
-cluster installation). In this case both master and seed components will run on the same cluster and in
-the same namespace. You can skip the first step and directly continue with installing the seed dependencies.
-{{% /notice %}}
+This document describes how a new seed cluster can be added to an existing Kubermatic Kubernetes Platform (KKP) master cluster.
 
-Plese refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
+Please refer to the [architecture]({{< ref "../../concepts/architecture" >}}) diagrams for more information
 about the cluster relationships.
 
-### 1. Install Kubernetes Cluster
-
-First, you need to install a Kubernetes cluster with some additional components. After the installation of
-Kubernetes you will need a copy of the `kubeconfig` to create a configuration for the new Kubermatic
-master/seed setup.
-
-To aid in setting up the seed and master clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/),
-which can be used to set up a highly-available Kubernetes cluster. Refer to the [KubeOne readme](https://github.com/kubermatic/kubeone/)
-and [docs](https://github.com/kubermatic/kubeone/tree/master/docs) for details on how to use it.
-
-Please take note of the [recommended hardware and networking requirements](../../requirements/cluster_requirements/)
-before provisioning a cluster.
-
-### 2. Install Kubermatic Dependencies
-
-When using Helm 2, install Tiller into the seed cluster first:
-
-```bash
-kubectl create namespace kubermatic
-kubectl create serviceaccount -n kubermatic tiller
-kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller
-helm --service-account tiller --tiller-namespace kubermatic init
-```
-
-#### NodePort Proxy
-
-Kubermatic requires the NodePort Proxy to be installed in each seed cluster. The proxy is shipped as a
-[Helm](https://helm.sh) chart in the kubermatic-installer repository.
-
-As the NodePort Proxy Docker image is in a private registry, you need to configure the Docker Pull Secret for
-the Helm chart. You can re-use the `values.yaml` used during the installation or create new one and configure it like
-so:
-
-```yaml
-kubermaticOperator:
-  # insert the Docker authentication JSON provided by Loodse here
-  imagePullSecret: |
-    {
-      "auths": {
-        "quay.io": {....}
-      }
-    }
-```
+### Install KKP Dependencies
 
 #### Cluster Backups
 
-Kubermatic performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
+KKP performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
 are stored locally inside the cluster, but they can be reconfigured to work with any S3-compatible storage.
 The in-cluster storage is provided by [Minio](https://min.io/) and the accompanying `minio` Helm chart.
 
@@ -73,72 +26,58 @@ the cluster's storage classes via:
 kubectl get storageclasses
 #NAME                 PROVISIONER            AGE
 #kubermatic-fast      kubernetes.io/gce-pd   195d
-#kubermatic-backup    kubernetes.io/gce-pd   195d
 #standard (default)   kubernetes.io/gce-pd   2y43d
 ```
 
-{{% notice note %}}
-Minio does not use `kubermatic-fast` because it does not require SSD speeds. A larger HDD is preferred. It's recommended to create a separate storage class `kubermatic-backup` with a different location/security level.
-{{% /notice %}}
+As Minio does not require any of the SSD's advantages, we can use HDDs.
+For a cluster running on AWS, an example class could look like this:
 
-To configure the storage class and size, extend your `values.yaml`. For more information about the Minio options, take a look at [minio chart `values.yaml`](https://github.com/kubermatic/kubermatic/blob/master/charts/minio/values.yaml) and the [min.io documentation - S3 gateway](https://docs.min.io/docs/minio-gateway-for-s3.html):
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: minio-hdd
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: sc1
+```
+
+To configure the storage class and size, extend your `values.yaml` like so:
 
 ```yaml
 minio:
-  storeSize: '200Gi'
-  # SC will store the etcd backup of the seed hosted user clusters
-  storageClass: kubermatic-backup
-  # access key/secret for the exposed minio S3 gateway
-  credentials:
-    # access key length should be at least 3 characters
-    accessKey: "YOUR-ACCESS-KEY"
-    # secret key length should be at least 8 characters
-    secretKey: "YOUR-SECRET-KEY"
+  storeSize: '500Gi'
+  storageClass: minio-hdd
 ```
-
-It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
 
 #### Install Charts
 
 With this you can install the chart:
 
 ```bash
-cd kubermatic-installer
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace nodeport-proxy nodeport-proxy charts/nodeport-proxy/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace minio minio charts/minio/
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace kube-system s3-exporter charts/s3-exporter/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace s3-exporter s3-exporter charts/s3-exporter/
 ```
 
-### 3. Create Seed Resource
-
-To connect the new seed cluster with the master, you need to create a kubeconfig Secret and a Seed resource
-**in the master cluster**.
-
-{{% notice warning %}}
-Do not install the `kubermatic-operator` chart into seed clusters. It's possible to run master and seed in the same
-Kubernetes cluster, but this still means only a single operator is deployed into the shared cluster.
-{{% /notice %}}
-
-Make sure the kubeconfig contains static, long-lived credentials. Some cloud providers use custom authentication providers
-(like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in Kubermatic’s usecase because the
-required tools are not installed inside the cluster environment. You can use the `kubeconfig-serviceaccounts.sh` script from
-the kubermatic-installer repository to automatically create proper service accounts inside the seed cluster with static
-credentials:
+It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
+This will need the creation of a secret named `s3-credentials` in the `s3-exporter` namespace.
+You can use the following command:
 
 ```bash
-cd kubermatic-installer
-./kubeconfig-service-accounts.sh mykubeconfig.yaml
-Cluster: example
- > context: europe
- > creating service account kubermatic-seed-account ...
- > assigning cluster role kubermatic-seed-account-cluster-role ...
- > reading auth token ...
- > adding user example-kubermatic-service-account ...
- > updating cluster context ...
- > kubeconfig updated
+k create secret generic s3-credentials --from-literal=ACCESS_KEY_ID=<aws_access_key_id> --from-literal=SECRET_ACCESS_KEY=<aws_secret_access_key>
 ```
 
-The Seed resource then needs to reference the new kubeconfig Secret like so:
+### Add the Seed Resource
+
+To connect the new seed cluster with the master, you need to create a Secret containing the kubeconfig and a Seed resource.
+
+You will add the **master cluster** as the **seed cluster**
+
+Make sure the kubeconfig contains static, long-lived credentials. Some cloud providers use custom authentication providers
+(like GKE using `gcloud` and EKS using `aws-iam-authenticator`). Those will not work in KKP’s usecase because the
+required tools are not installed inside the cluster environment.
+
+The Seed resource needs to be called `kubermatic` and needs to reference the new kubeconfig Secret like so:
 
 ```yaml
 apiVersion: v1
@@ -154,7 +93,7 @@ data:
 apiVersion: kubermatic.k8s.io/v1
 kind: Seed
 metadata:
-  name: europe-west1
+  name: kubermatic
   namespace: kubermatic
 spec:
   # these two fields are only informational
@@ -173,30 +112,29 @@ spec:
 Refer to the [Seed CRD documentation]({{< ref "../../concepts/seeds" >}}) for a complete example of the
 Seed CustomResource and all possible datacenters.
 
-Apply the manifest above in the master cluster and Kubermatic will pick up the new Seed and begin to
-reconcile it by installing the required Kubermatic components.
+Apply the manifest above in the master cluster and KKP will pick up the new Seed and begin to
+reconcile it by installing the required KKP components.
 
-### 4. Update DNS
+### Update DNS
 
 The apiservers of all user cluster control planes running in the seed cluster are exposed by the
 NodePort Proxy. By default each user cluster gets a virtual domain name like
 `[cluster-id].[seed-name].[kubermatic-domain]`, e.g. `hdu328tr.europe-west1.kubermatic.example.com`
 for the Seed from the previous step when `kubermatic.example.com` is the main domain where the
-Kubermatic dashboard/API are available.
+KKP dashboard/API are available.
 
-To facilitate this, a wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. As with
-the other DNS records the exact target depends on whether or not LoadBalancer services are supported
-on the seed.
+To facilitate this, a wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. The target of the
+DNS wildcard record should be the `EXTERNAL-IP` of the `nodeport-proxy` service in the `kubermatic` namespace.
 
 #### With LoadBalancers
 
 When your cloud provider supports Load Balancers, you can find the target IP / hostname by looking at the
-`nodeport-lb` Service:
+`nodeport-proxy` Service:
 
 ```bash
-kubectl -n nodeport-proxy get services
+kubectl -n kubermatic get services
 #NAME          TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
-#nodeport-lb   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
+#nodeport-proxy   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
 ```
 
 The `EXTERNAL-IP` is what we need to put into the DNS record.

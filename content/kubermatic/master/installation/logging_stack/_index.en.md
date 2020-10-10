@@ -1,11 +1,11 @@
 +++
 title = "Logging Stack"
 date = 2020-02-14T12:07:15+02:00
-weight = 50
+weight = 80
 
 +++
 
-This chapter describes how to setup the Kubermatic logging stack. It's highly recommended to install this
+This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) logging stack. It's highly recommended to install this
 stack on the master and all seed clusters.
 
 The logging stack consists of Promtail and [Grafana Loki](https://grafana.com/oss/loki/). Customers with more
@@ -31,7 +31,7 @@ Grafana deployment is used to inspect the aggregated logs from Loki.
 
 ### Installation
 
-As with Kubermatic itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
+As with KKP itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
 are a few important options you might want to override for your setup:
 
 * `loki.persistence.size` (default: `10Gi`) controls the volume size for the Loki pods.
@@ -54,7 +54,16 @@ promtail:
 
 With this file prepared, we can now install all required charts:
 
+**Helm 3**
+
 ```bash
-helm upgrade --install --values values.yaml --namespace monitoring promtail charts/monitoring/promtail/
-helm upgrade --install --values values.yaml --namespace monitoring loki charts/monitoring/loki/
+helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml promtail charts/logging/promtail/
+helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml loki charts/logging/loki/
+```
+
+**Helm 2**
+
+```bash
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace logging promtail charts/logging/promtail/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace logging loki charts/logging/loki/
 ```

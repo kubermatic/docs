@@ -10,8 +10,8 @@ Audit logging is also a key requirement of the [Kubernetes CIS benchmark](https:
 
 For more details, you can can refer to the [upstream documentation](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/).
 
-### Kubermatic Support
-Kubermatic provideds two levels of support for the Audit Logging:
+### Kubermatic Kubernetes Platform (KKP) Support
+KKP provides two levels of support for the Audit Logging:
 
 * Audit Logging on user-cluster level
 * Audit Logging on a datacenter level
@@ -20,7 +20,7 @@ Kubermatic provideds two levels of support for the Audit Logging:
 Kubernetes Audit Logging is optional and is not enabled by default, since it requires additional memory and storage resources, depending on the specific configuration used.
 {{% /notice %}}
 
-Once enabled, Kubermatic will use a [Log Backend](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#log-backend) and a minimal [Policy](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy) by default:
+Once enabled, KKP will use a [Log Backend](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#log-backend) and a minimal [Policy](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy) by default:
 
 ```yaml
 {{< readfile "kubermatic/v2.14/data/policy.yaml">}}
@@ -35,7 +35,7 @@ $ kubectl edit -n cluster-<YOUR CLUSTER ID> configmap audit-config
 
 #### User-Cluster Level Audit Logging
 
-To enable user-cluster level Audit Logging, simply check `Audit Logging` in the Kubermatic dashboard `Create Cluster` page:
+To enable user-cluster level Audit Logging, simply check `Audit Logging` in the KKP dashboard `Create Cluster` page:
 
 ![Create Cluster](01-create-cluster.png)
 
@@ -45,6 +45,6 @@ For exiting clusters, you can go to the cluster page, edit your cluster and enab
 
 #### Datacenter Level Audit Logging
 
-Kubermatic also supports enabling Audit Logging on the datacenter level. In this case, the option is enforced on all user-clusters in the datacenter. The user-cluster level flag is ignored in this case.
+KKP also supports enabling Audit Logging on the datacenter level. In this case, the option is enforced on all user-clusters in the datacenter. The user-cluster level flag is ignored in this case.
 
 To enable this, you will need to edit your [datacenters.yaml]({{< ref "../../concepts/datacenters/" >}}) or your [Seed Cluster CRD]({{< ref "../../concepts/seeds/" >}}), and set `enforceAuditLogging` to `true` in the datacenter spec.

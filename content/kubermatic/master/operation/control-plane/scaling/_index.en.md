@@ -11,7 +11,7 @@ As the load on the control plane depends on the size of the cluster, it might be
 
 ### Defaults
 
-All control planes, managed by Kubermatic, have the following defaults:
+All control planes, managed by Kubermatic Kubernetes Platform (KKP), have the following defaults:
 
 ```yaml
 apiserver:

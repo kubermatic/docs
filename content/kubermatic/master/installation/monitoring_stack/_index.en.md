@@ -1,11 +1,11 @@
 +++
 title = "Monitoring Stack"
 date = 2020-02-14T12:07:15+02:00
-weight = 40
+weight = 70
 
 +++
 
-This chapter describes how to setup the Kubermatic monitoring stack. It's highly recommended to install this
+This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) monitoring stack. It's highly recommended to install this
 stack on the master and all seed clusters.
 
 ### Requirements
@@ -24,7 +24,7 @@ This guide assumes the following tools are available:
 
 ### Installation
 
-As with Kubermatic itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
+As with KKP itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
 are a few important options you might want to override for your setup:
 
 * `prometheus.host` is used for the external URL in Prometheus, e.g. `prometheus.kubermatic.example.com`.
@@ -50,7 +50,7 @@ prometheus:
   storageSize: '250Gi'
   tsdb:
     retentionTime: '30d'
-  # only load the kubermatic-master alerts, as this cluster is not a shared master/seed
+  # only load the KKP-master alerts, as this cluster is not a shared master/seed
   ruleFiles:
   - /etc/prometheus/rules/general-*.yaml
   - /etc/prometheus/rules/kubermatic-master-*.yaml
@@ -69,13 +69,26 @@ grafana:
 
 With this file prepared, we can now install all required charts:
 
+**Helm 3**
+
 ```bash
-helm upgrade --install --values values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
-helm upgrade --install --values values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
-helm upgrade --install --values values.yaml --namespace monitoring node-exporter charts/monitoring/node-exporter/
-helm upgrade --install --values values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
-helm upgrade --install --values values.yaml --namespace monitoring grafana charts/monitoring/grafana/
-helm upgrade --install --values values.yaml --namespace monitoring karma charts/monitoring/karma/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml prometheus charts/monitoring/prometheus/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml alertmanager charts/monitoring/alertmanager/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml node-exporter charts/monitoring/node-exporter/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml kube-state-metrics charts/monitoring/kube-state-metrics/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml grafana charts/monitoring/grafana/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml karma charts/monitoring/karma/
+```
+
+**Helm 2**
+
+```bash
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring node-exporter charts/monitoring/node-exporter/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring grafana charts/monitoring/grafana/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring karma charts/monitoring/karma/
 ```
 
 ### Going Further
@@ -89,7 +102,7 @@ Likewise, when your cluster grows, you most likely want to adjust the resource r
 ### Thanos (Beta)
 
 [Thanos](https://thanos.io/) is a long-term storage solution for Prometheus metrics, backed by an S3 compatible
-object store. Kubermatic includes preliminary support for Thanos by setting `prometheus.thanos.enabled=true`. Note
+object store. KKP includes preliminary support for Thanos by setting `prometheus.thanos.enabled=true`. Note
 that this requires considerably more resources to run:
 
 * Thanos UI requires roughly 64MB memory and 50m CPU.

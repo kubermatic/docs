@@ -22,7 +22,7 @@ kubectl -n kube-system delete Deployment s3-exporter
 ### Changes to *values.yaml*
 
 {{% notice note %}}
-An automated `values.yaml` converter for 2.6->2.7 is available in the `release/2.7` branch of the Kubermatic Installer.
+An automated `values.yaml` converter for 2.6->2.7 is available in the `release/2.7` branch of the Kubermatic Kubernetes Platform (KKP) Installer.
 {{% /notice %}}
 
 #### Default Addons
@@ -94,7 +94,7 @@ The `prometheusOperator` section is now gone.
 
 ### Changes to `datacenters.yaml`
 
-A new optional VSphere spec parameter `infra_management_user` has been added to specify a separate account with wider permissions, to be used by Kubermatic for provisioning resources. This allows to restrict permissions for the credentials passed in the UI to the cluster's cloud provider functionality of Kubernetes.
+A new optional VSphere spec parameter `infra_management_user` has been added to specify a separate account with wider permissions, to be used by KKP for provisioning resources. This allows to restrict permissions for the credentials passed in the UI to the cluster's cloud provider functionality of Kubernetes.
 
 A new optional parameter `seed_dns_overwrite` allows force-changing the datacenter's name used in external DNS names.
 
@@ -106,14 +106,14 @@ datacenters:
     location: Antarctica
     seed: europe-west3-c
     country: DE
-    provider: Loodse
+    provider: Kubermatic
     seed_dns_overwrite: internal8
     spec:
       vsphere:
         endpoint: "https://antarctica.kubermatic.io"
         datacenter: "Datacenter-foo"
         datastore: "datastore-bar"
-        cluster: "loodse-cluster"
+        cluster: "kubermatic-cluster"
         allow_insecure: false
         root_path: "/Datacenter/vm/kubermatic"
         templates:

@@ -1,16 +1,37 @@
 +++
-title = "Changelog for Kubermatic 2.14"
+title = "Changelog for Kubermatic Kubernetes Platform (KKP) 2.14"
 date = 2020-06-12T00:00:00+00:00
 publishDate = 2020-06-12T00:00:00+00:00
 weight = 214
 
 +++
 
+## v2.14.3
+
+- Added Kubernetes v1.16.13, and removed v1.16.2-9 in default version configuration
+- Added Kubernetes v1.17.9, and removed v1.17.0-5 in default version configuration
+- Added Kubernetes v1.18.6, and removed v1.18.2 in default version configuration
+
+## v2.14.2
+
+#### Bugfix
+
+- Fixed KKP operator not to specify unsupported &#39;dynamic-datacenter&#39; flag in CE mode.
+- Fixed Seed validation for Community Edition.
+- Fixed Subnetworks for GCP, because the network filtering was wrong.
+- Fixed label for nodeport-proxy when deployed with the operator.
+
+
+#### Misc
+
+- Change default number of replicas for seed and master controller manager to one.
+- Remove empty Docker secret for KKP Operator CE Helm chart.
+
 ## v2.14.1
 
 - Added missing Flatcar Linux handling in API.
 - Fixed nodes sometimes not having the correct distribution label applied.
-- Fixed missing Kubermatic Prometheus metrics.
+- Fixed missing KKP Prometheus metrics.
 
 ## v2.14.0
 
@@ -48,7 +69,7 @@ Supported Kubernetes versions:
 - Created an hourly schedule Velero backup for all namespaces and cluster resources
 - Added support for creating RBAC bindings to group subjects
 - Added a configuration flag for seed-controller-manager to enforce default addons on userclusters. Enabled by default.
-- TLS certificates for Kubermatic/IAP are now not managed by a shared `certs` chart anymore, but handled individually for each Ingress.
+- TLS certificates for KKP/IAP are now not managed by a shared `certs` chart anymore, but handled individually for each Ingress.
 - kubelet sets intial machine taints via --register-with-taints
 - Implement the NodeCSRApprover controller for automatically approving node serving certificates
 - Updated blackbox-exporter to `v0.16.0`

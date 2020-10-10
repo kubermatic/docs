@@ -8,4 +8,4 @@ weight = 20
 
  - **Why are some Azure VM types are not on the listed?**
 
-    Kubermatic use the Azure API client to retrieve the available for VM types your Subscription and selected location. Only VM types are listed, which are suitable for container workload proposes. 
+    Kubermatic Kubernetes Platform (KKP) use the Azure API client to retrieve the available for VM types your Subscription and selected location. Only VM types are listed, which are suitable for container workload proposes. 

@@ -9,7 +9,7 @@ weight = 70
 
 ### cert-manager
 
-Kubermatic 2.13 ships with cert-manager 0.12, which changed the API group for its CRDs from `certmanager.k8s.io` to
+Kubermatic Kubernetes Platform (KKP) 2.13 ships with cert-manager 0.12, which changed the API group for its CRDs from `certmanager.k8s.io` to
 `cert-manager.io`. This requires manual intervention and a short time frame where no certificates can be created when
 upgrading. Before upgrading, create a backup of all cert-manager resources (certificates, issuers, ...) because their
 CRDs will have to be recreated.

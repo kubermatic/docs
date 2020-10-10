@@ -5,11 +5,11 @@ weight = 1
 
 +++
 
-This manual explains how to configure OIDC providers to use them with Kubermatic.
+This manual explains how to configure OIDC providers to use them with Kubermatic Kubernetes Platform (KKP).
 
 ## Default Configuration
 
-By default Kubermatic uses Dex located on the same host, using the following base URL:
+By default KKP uses Dex located on the same host, using the following base URL:
 
 ```plaintext
 <PROTOCOL>//<HOST>/dex/auth
@@ -37,7 +37,7 @@ Where:
 
 ## Custom Configuration
 
-The default configuration can be changed as Kubermatic supports other OIDC providers as well.
+The default configuration can be changed as KKP supports other OIDC providers as well.
 Configuration can be found in the `config.json` file, that is part of the application
 configuration. Check the [Creating the Master Cluster `values.yaml`](../../installation/install_kubermatic/_manual/#creating-the-master-cluster-values-yaml)
 to find out how to specify the config.
