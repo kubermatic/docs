@@ -1,5 +1,5 @@
 presubmits:
-  - name: pre-kubermatic-spellcheck
+  - name: pre-docs-spellcheck
     always_run: true
     decorate: true
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
