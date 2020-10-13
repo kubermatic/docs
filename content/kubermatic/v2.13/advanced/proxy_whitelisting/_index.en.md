@@ -68,7 +68,7 @@ fluent/fluent-bit
 **`quay.io`:**
 
 ```bash
-# util container for debuging or custom controller
+# util container for debugging or custom controller
 quay.io/kubermatic/util
 
 # prometheus metrics scraping

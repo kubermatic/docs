@@ -16,7 +16,7 @@ To access the user settings view click the `Account` entry in the user menu:
 
 ![User settings view](/img/kubermatic/v2.13/advanced/user-settings/view.png)
 
-The user settings view is devided into two columns:
+The user settings view is divided into two columns:
 The left side contains all account details, such as the name and the email of the user, whereas the right side lists all possible settings that a user can make.
 
   * `Items per page` will change the number of visible items per page in a table. It will be applied to all tables within KKP.

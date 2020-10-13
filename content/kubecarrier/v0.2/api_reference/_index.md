@@ -44,7 +44,7 @@ The core `kubecarrier.io` API group contains the basic buildings blocks of KubeC
 
 CustomResourceDiscovery tells KubeCarrier to discover a CustomResource from a ServiceCluster, register it in the Management Cluster and start a new process to reconcile instances of this CRD.
 
-New instances of the CRD will be reconciled by creating a matching instance in the ServiceCluster. Each Namespace in the Managment Cluster needs a ServiceClusterAssignment object, mapping it to a Namespace in the ServiceCluster.
+New instances of the CRD will be reconciled by creating a matching instance in the ServiceCluster. Each Namespace in the Management Cluster needs a ServiceClusterAssignment object, mapping it to a Namespace in the ServiceCluster.
 
 A CustomResourceDiscovery instance will be ready, if the CustomResource was found in the ServiceCluster and a clone of it is established in the Management Cluster. Deleting the instance will also remove the CRD and all instances of it.
 

@@ -19,7 +19,7 @@ KKP performs regular backups of user cluster by snapshotting the etcd of each cl
 are stored locally inside the cluster, but they can be reconfigured to work with any S3-compatible storage.
 The in-cluster storage is provided by [Minio](https://min.io/) and the accompanying `minio` Helm chart.
 
-If your cluster has no default storage class, it's required to configure a class explicitely for Minio. You can check
+If your cluster has no default storage class, it's required to configure a class explicitly for Minio. You can check
 the cluster's storage classes via:
 
 ```bash

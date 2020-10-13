@@ -25,7 +25,7 @@ The individual components and their purpose are:
 1. Get the `kubeconfig` for your seed cluster
 1. Check if there are any errors in the events for the cluster in question by issuing a `kubectl describe cluster cluster-id`
 1. Check if all pods for the cluster are running by executing `kubectl get pods -n cluster-$CLUSTER_ID`
-1. If that is not the case, check the log of the pod in quesiton by issuing a `kubectl logs -n cluster-$CLUSTER_ID $PODNAME`
+1. If that is not the case, check the log of the pod in question by issuing a `kubectl logs -n cluster-$CLUSTER_ID $PODNAME`
 1. If you want to play around with flags or other settings for a pod, you can make KKP stop managing the cluster by running `kubectl edit cluster $CLUSTER_ID` and setting `.spec.pause` to `true`
 1. If you want more detailed logs from KKP, you can edit one of its deployments, e.G. `kubectl edit deployment kubermatic-controller-manager-v1 -n kubermatic`, and set the verbosity by adjusting the default of `-v=2` to e.G. `-v=4`
 

@@ -58,12 +58,12 @@ updates:
 ```
 
 As you can see it is a list containing the keys `from`, `to`, and `automatic`. The fields
-`from` and `to` contain patterns descibing the Kubernetes version numbers. These can be absolut,
+`from` and `to` contain patterns describing the Kubernetes version numbers. These can be absolute,
 contain wildcards, or be ranges. This way KKP can check which updates are allowed for
 the current version.
 
 The field `automatic` determines if an update has to be initiated manually or if the system will
-do it immediatelly in case of a matching version path. So in case of the example above a cluster
+do it immediately in case of a matching version path. So in case of the example above a cluster
 running in any Kubernetes version from 1.12.0 to 1.12.2 would automatically upgrade to 1.12.3.
 This way known vulnerabilities can be handled directly.
 

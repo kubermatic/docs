@@ -4,7 +4,7 @@ date = 2018-08-17T12:07:15+02:00
 weight = 20
 +++
 
-When it comes to monitoring, no approach fits all usecases. It's exptected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
+When it comes to monitoring, no approach fits all usecases. It's expected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
 
 * customer-cluster Prometheus
 * seed-cluster Prometheus
@@ -35,7 +35,7 @@ kubermatic:
         rules:
         - alert: MyCustomAlert
           annotations:
-            message: Something happend in {{ $labels.namespace }}
+            message: Something happened in {{ $labels.namespace }}
           expr: |
             sum(rate(machine_controller_errors_total[5m])) by (namespace) > 0.01
           for: 10m
@@ -119,7 +119,7 @@ This will lead to them being written to a dedicated `_customrules.yaml` and incl
 
 #### Extending the Helm Chart
 
-If you have more than a couple of rules, you can also place new YAML files inside the `rules/` directory before you deploy the Helm chart. They will be included like you would expect. To prevent maintainence headaches further down the road you should never change the existing files inside the chart. If you need to get rid of the predefined rules, see the next section on how to achieve it.
+If you have more than a couple of rules, you can also place new YAML files inside the `rules/` directory before you deploy the Helm chart. They will be included like you would expect. To prevent maintenance headaches further down the road you should never change the existing files inside the chart. If you need to get rid of the predefined rules, see the next section on how to achieve it.
 
 #### Custom ConfigMaps/Secrets
 

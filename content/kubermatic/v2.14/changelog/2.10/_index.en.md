@@ -122,7 +122,7 @@ Supported Kubernetes versions:
 - Fix VolumeSnapshotLocations for Ark configuration
 - Stop exposting `node-exporter` on all host interfaces
 - Improve Kibana usability by auto-provisioning index patterns
-- Add configurable Prometheus backup timeout to accomodate larger seed clusters
+- Add configurable Prometheus backup timeout to accommodate larger seed clusters
 
 #### Other
 

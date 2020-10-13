@@ -81,7 +81,7 @@ If you have annotated pods with Ark-specific annotations, update them to their n
 ## Node Affinities, Selectors and Tolerations
 
 In order to improve cluster stability, all Helm charts now allow to configure node affinities, node selectors
-and taint tolerations. To accomodate this change, the `values.yaml` structure for some charts has changed
+and taint tolerations. To accommodate this change, the `values.yaml` structure for some charts has changed
 slightly to make more sense. Please see the "Explicit resource requests/limits" section below for more details
 about the structural changes.
 
@@ -152,9 +152,9 @@ requests and limits in order to improve cluster stability. The following changes
     be carefully set to avoid split-brain situations when master pods get rescheduled. Please consult
     the chart's documentation for more information.
 * minio
-  * `minio.backups` was turned in `minio.backup.enabled` to accomodate further backup-related settings.
+  * `minio.backups` was turned in `minio.backup.enabled` to accommodate further backup-related settings.
 * prometheus
-  * `prometheus.backups` was turned in `prometheus.backup.enabled` to accomodate further backup-related settings.
+  * `prometheus.backups` was turned in `prometheus.backup.enabled` to accommodate further backup-related settings.
 * nginx-ingress-controller
   * The `nginx.prometheus` settings have been removed.
   * `nginx.ignoreMasterTaint` has been deprecated. Use the new `nginx.tolerations` options to manually

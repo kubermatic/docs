@@ -45,7 +45,7 @@ will cause ELB to be created in "internal" mode (accessible only from inside of 
 internal_api_lb = true
 ```
 
-In order to access your cluster later from outside, there is build-in HTTPS proxy tunnel in KubeOne.
+In order to access your cluster later from outside, there is built-in HTTPS proxy tunnel in KubeOne.
 
 ```bash
 kubeone proxy -t .

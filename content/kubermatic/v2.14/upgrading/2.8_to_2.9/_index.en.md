@@ -7,7 +7,7 @@ weight = 30
 
 ### CRD Migration
 
-With v2.9 the Kubermatic Kubernetes Platform (KKP) chart wont contain any CustomResourceDefinitions.
+With v2.9 the Kubermatic Kubernetes Platform (KKP) chart won't contain any CustomResourceDefinitions.
 Upgrading the existing KKP installation with new charts would result in all CRD's being deleted.
 
 For this purpose we wrote a migration script.
@@ -27,8 +27,8 @@ Afterwards, the CRDs must be installed with kubectl `apply -f charts/kubermatic/
 
 #### Ark
 
-Ark 0.10 requires significant changes to the chart configuation in your `values.yaml`. Please consult the `values.yaml` inside
-the chart to learn more about the new configuration structure. For exsiting backups, Heptio provides a script to migrate them.
+Ark 0.10 requires significant changes to the chart configuration in your `values.yaml`. Please consult the `values.yaml` inside
+the chart to learn more about the new configuration structure. For existing backups, Heptio provides a script to migrate them.
 Consult the [official upgrade guide](https://heptio.github.io/ark/v0.10.0/upgrading-to-v0.10) for more information.
 
 #### cert-manager

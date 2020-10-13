@@ -239,7 +239,7 @@ spec:
     # in the values.yaml
     domain: kubermatic.example.com
 
-  # These secret keys configure the way components commmunicate with Dex.
+  # These secret keys configure the way components communicate with Dex.
   auth:
     # this must match the secret configured for the KKP client from
     # the values.yaml.

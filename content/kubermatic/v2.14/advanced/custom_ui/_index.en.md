@@ -93,13 +93,19 @@ Assuming that you know how to exec into the container and copy resources from/to
 from the running KKP Dashboard container. They are stored inside the container in `dist/assets/themes` directory.
 
 ##### Kubernetes
-Assumming that the KKP Dashboard pod name is `kubermatic-dashboard-5b96d7f5df-mkmgh` you can copy themes to your `${HOME}/themes` directory using below command:
+Assuming that the KKP Dashboard pod name is `kubermatic-dashboard-5b96d7f5df-mkmgh` you can copy themes to your `${HOME}/themes` directory using below command:
 ```bash
 kubectl -n kubermatic cp kubermatic-dashboard-5b96d7f5df-mkmgh:/dist/assets/themes ~/themes
 ```
 
 ##### Docker
-Assumming that the KKP Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
+<<<<<<< HEAD
+Assuming that the KKP Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
+||||||| parent of 307fb35... Add spell checking in CI/CD
+Assuming that the Kubermatic Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
+=======
+Assuming that the Kubermatic Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
+>>>>>>> 307fb35... Add spell checking in CI/CD
 ```bash
 docker cp kubermatic-dashboard:/dist/assets/themes/. ~/themes
 ```

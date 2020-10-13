@@ -29,7 +29,7 @@ Kubernetes Webhooks complement CustomResourceDefinitions by adding a mechanism t
 You can read more about it in the Kubernetes documentation about [Admission Controllers][admission-controllers].
 
 - `MutatingWebhookConfiguration`
-  Can be used to set defaults or overwise manipulate custom resources before validation and storage.
+  Can be used to set defaults or otherwise manipulate custom resources before validation and storage.
 
 - `ValidatingWebhookConfiguration`
   Can be used to validate custom resources on creation or update.

@@ -16,7 +16,7 @@ Register the CRD in the `ServiceCluster`.
 
 ```bash
 # make sure you are connected to the ServiceCluster
-# thats `eu-west-1` if you followed our earlier guide.
+# that's `eu-west-1` if you followed our earlier guide.
 $ kubectl config use-context kind-eu-west-1
 Switched to context "kind-eu-west-1".
 
@@ -64,7 +64,7 @@ spec:
 
 ```bash
 # make sure you are connected to the KubeCarrier Cluster
-# thats `kubecarrier` if you followed our earlier guide.
+# that's `kubecarrier` if you followed our earlier guide.
 $ kubectl config use-context kind-kubecarrier
 Switched to context "kind-kubecarrier".
 

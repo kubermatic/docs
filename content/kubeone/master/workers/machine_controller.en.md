@@ -40,7 +40,7 @@ provisioning time by defining them in the KubeOne Configuration Manifest or in
 the `output.tf` file if you're using Terraform.
 
 If you're using the [KubeOne Terraform Integration][terraform-integration],
-you can define intial MachineDeployment objects in the `output.tf` file under
+you can define initial MachineDeployment objects in the `output.tf` file under
 the [`kubeone_workers` section][terraform-integration]. We already define
 initial MachineDeployment objects in our example Terraform configs and you can
 modify them by setting the appropriate variables or by modifying the

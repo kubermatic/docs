@@ -1,5 +1,3 @@
-+++
-title = "Securing System Services"
 date = 2018-04-28T12:07:15+02:00
 weight = 60
 
@@ -23,7 +21,7 @@ OpenID Connect. For this to work you have to configure both Dex (the `oauth` Hel
 For each service that is supposed to use Dex as an authentication provider, configure a `client`. The callback URL is
 called after authentication has been completed and must point to `https://<domain>/oauth/callback`. Remember that this
 will point to Keycloak-Gatekeeper and is therefore independent of the actual underlying application (Gatekeeper will
-intercept the requesta nd not forward it to the upstream service). Generate a secure random secret for each client,
+intercept the requesta and not forward it to the upstream service). Generate a secure random secret for each client,
 for example by doing `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 
 A sample configuration for Prometheus and Alertmanager could look like this:

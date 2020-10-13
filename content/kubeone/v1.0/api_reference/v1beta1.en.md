@@ -255,7 +255,7 @@ HostConfig describes a single control plane node.
 | bastionPort | BastionPort is SSH port to use when connecting to the bastion if it's configured in .Bastion. Default value is 22. | int | false |
 | bastionUser | BastionUser is system login name to use when connecting to bastion host. Default value is \"root\". | string | false |
 | hostname | Hostname is the hostname(1) of the host. Default value is populated at the runtime via running `hostname -f` command over ssh. | string | false |
-| isLeader | IsLeader indicates this host as a session leader. Default vaule is populated at the runtime. | bool | false |
+| isLeader | IsLeader indicates this host as a session leader. Default value is populated at the runtime. | bool | false |
 | taints | Taints if not provided (i.e. nil) defaults to TaintEffectNoSchedule, with key node-role.kubernetes.io/master for control plane nodes. Explicitly empty (i.e. []corev1.Taint{}) means no taints will be applied (this is default for worker nodes). | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#taint-v1-core) | false |
 
 [Back to Group](#v1beta1)
