@@ -130,7 +130,7 @@ Supported Kubernetes versions:
 - Updated kube-state-metrics to 1.8.0
 - Updated machine-controller to v1.10.0
   - Added support for EBS volume encryption (#663)
-  - kubelet sets intial machine taints via --register-with-taints (#664)
+  - kubelet sets initial machine taints via --register-with-taints (#664)
   - Moved deprecated kubelet flags into config file (#667)
   - Enabled swap accounting for Ubuntu deployments (#666)
 - Updated nginx-ingress-controller to v0.28.0

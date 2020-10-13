@@ -45,7 +45,7 @@ This step varies depending on the selected provider! You will be asked for diffe
 
 ### Step 6 – Review Your Configuration Settings and Confirm Cluster Creation
 
-Check wether all your configuration settings are correct and create your cluster!
+Check whether all your configuration settings are correct and create your cluster!
 
 ![Screenshot of KKP's final cluster creation wizard page](/img/kubermatic/v2.12/getting_started/create_cluster/kubermatic_05.png)
 

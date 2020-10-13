@@ -54,7 +54,7 @@ Please note the following limitations in the current installer:
 * You cannot run KKP in KKP.
 * The `kubeconfig` needs to contain exactly one cluster and context.
 * It's not yet possible to automatically install separate master and seed clusters.
-* Your cluster needs to have a `kubermatic-fast` storage class already existing **or** run on GKE, EKS or AKS.
+* Your cluster needs to have a `kubermatic-fast` storage class already existing **or** run on GKE, EKS or ASK.
 * Because we install Tiller in the `kubermatic` namespace, the `kubeconfig` needs `cluster-admin` permissions.
 * You need publicly reachable hosts and be able to point DNS records to them in order for KKP to acquire TLS certificates from Let's Encrypt.
 

@@ -82,9 +82,9 @@ properly generated secrets for you when it notices that some are missing, for ex
 ./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
 INFO[15:15:20] 🛫 Initializing installer…                     edition="Community Edition" version=v2.15.11
 INFO[15:15:20] 🚦 Validating the provided configuration…
-ERRO[15:15:20]    The provided configuration files are invalid:
-ERRO[15:15:20]    KubermaticConfiguration: spec.auth.serviceAccountKey must be a non-empty secret, for example: ZPCs7_KzgJxUSA5lCk_oNzL7RQFTQ6cOnHuTLAh4pGw
-ERRO[15:15:20]    Operation failed: please review your configuration and try again.
+ERROR[15:15:20]    The provided configuration files are invalid:
+ERROR[15:15:20]    KubermaticConfiguration: spec.auth.serviceAccountKey must be a non-empty secret, for example: ZPCs7_KzgJxUSA5lCk_oNzL7RQFTQ6cOnHuTLAh4pGw
+ERROR[15:15:20]    Operation failed: please review your configuration and try again.
 ```
 
 {{% notice note %}}

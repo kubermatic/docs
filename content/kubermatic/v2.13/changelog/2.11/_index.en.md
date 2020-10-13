@@ -67,7 +67,7 @@ Supported Kubernetes versions:
 
 ## v2.11.1
 
-- Openstack: A bug that could result in many securtiy groups being created when the creation of security group rules failed was fixed
+- Openstack: A bug that could result in many security groups being created when the creation of security group rules failed was fixed
 - Added Kubernetes `v1.15.1`
 - Updated machine controller to `v1.5.1`
 - A bug that sometimes resulted in the creation of the initial NodeDeployment failing was fixed

@@ -70,7 +70,7 @@ Supported Kubernetes versions:
 - Added support for creating RBAC bindings to group subjects
 - Added a configuration flag for seed-controller-manager to enforce default addons on userclusters. Enabled by default.
 - TLS certificates for KKP/IAP are now not managed by a shared `certs` chart anymore, but handled individually for each Ingress.
-- kubelet sets intial machine taints via --register-with-taints
+- kubelet sets initial machine taints via --register-with-taints
 - Implement the NodeCSRApprover controller for automatically approving node serving certificates
 - Updated blackbox-exporter to `v0.16.0`
 - Updated cert-manager to `v0.13.0`
@@ -96,7 +96,7 @@ Supported Kubernetes versions:
 #### Dashboard
 
 - Added a dark theme and a selector to the user settings.
-- Added possibility to define a default project in user settings. When a default project is choosen, the user will be automatically redirected to this project after login. Attention: One initial log in might be needed for the feature to take effect.
+- Added possibility to define a default project in user settings. When a default project is chosen, the user will be automatically redirected to this project after login. Attention: One initial log in might be needed for the feature to take effect.
 - Added UI support for dynamic kubelet config option
 - Added paginators to all tables
 - Added cluster metrics.

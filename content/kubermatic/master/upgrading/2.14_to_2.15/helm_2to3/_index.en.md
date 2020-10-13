@@ -7,7 +7,7 @@ weight = 40
 
 Helm supports in-place migrations using the [2to3 plugin](https://github.com/helm/helm-2to3).
 The migration involves converting the Helm 2 release information (stored in ConfigMaps/Secrets in
-the Tiller namepace) to Helm 3 releases, cleaning up Helm 2 releases afterwards and then removing
+the Tiller namespace) to Helm 3 releases, cleaning up Helm 2 releases afterwards and then removing
 Tiller and its associated resources in the final step.
 
 During the migration, existing resources are not modified, so LoadBalancers will for example not

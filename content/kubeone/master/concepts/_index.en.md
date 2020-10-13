@@ -63,7 +63,7 @@ document for more details about making the example configs suitable for
 the production usage.
 {{% /notice %}}
 
-## KubeOne Terraform Intergration
+## KubeOne Terraform Integration
 
 KubeOne integrates with Terraform by reading the Terraform state for the
 information about the cluster including:

@@ -86,7 +86,7 @@ Supported Kubernetes versions:
 - Support setting oidc authentication settings on cluster
 - The worker-count of controller-manager and master-controller are now configurable
 - master-controller-manager can now be deployed with multiple replicas
-- It is now possible to configure an http proxy on a Seed. This will result in the proxy being used for all control plane pods in that seed that talk to a cloudprovider and for all machines in that Seed, unless its overriden on Datacenter level.
+- It is now possible to configure an http proxy on a Seed. This will result in the proxy being used for all control plane pods in that seed that talk to a cloudprovider and for all machines in that Seed, unless its overridden on Datacenter level.
 - The cert-manager Helm chart now allows configuring extra values for its controllers args and env vars.
 - A fix for CVE-2019-11253 for clusters that were created with a Kubernetes version &lt; 1.14 was deployed
 - The memory requests and limits of the KKP API were increased, because the port-fowarding used for the Kubernetes Dashboard and Openshift Console is very memory-intensive
@@ -108,7 +108,7 @@ Supported Kubernetes versions:
 
 **Cloud providers:**
 
-- Openstack: A bug that could result in many securtiy groups being created when the creation of security group rules failed was fixed
+- Openstack: A bug that could result in many security groups being created when the creation of security group rules failed was fixed
 - Openstack: Fixed a bug preventing an interrupted cluster creation from being resumed.
 - Openstack: Disk size of nodes is now configurable
 - Openstack: Added a security group API compatibility workaround for very old versions of Openstack.

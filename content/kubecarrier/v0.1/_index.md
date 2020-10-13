@@ -46,7 +46,7 @@ So they can create and use your services when they want and you can lean back, d
 
 As your platform grows, you will also have to manage these services across multiple kubernetes clusters, running on multiple cloud providers, across multiple regions.
 
-Thats where the **KubeCarrier Cross Cluster Manager** is getting into the picture. It helps you to locate, inspect and manage services across your whole platform.
+That's where the **KubeCarrier Cross Cluster Manager** is getting into the picture. It helps you to locate, inspect and manage services across your whole platform.
 Independent of *Cloud*, *Datacenter* and *Region*.
 
 ## How?
