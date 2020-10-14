@@ -40,30 +40,37 @@ the cluster's storage classes via:
 
 ```bash
 kubectl get storageclasses
-#NAME                 PROVISIONER            AGE
-#kubermatic-fast      kubernetes.io/gce-pd   195d
-#standard (default)   kubernetes.io/gce-pd   2y43d
+#NAME                 PROVISIONER              AGE
+#kubermatic-fast      kubernetes.io/aws-ebs   195d
+#kubermatic-backup    kubernetes.io/aws-ebs   195d
+#standard (default)   kubernetes.io/aws-ebs   2y43d
 ```
 
-As Minio does not require any of the SSD's advantages, we can use HDDs. For a cluster running on AWS, an example
-class could look like this:
+As Minio does not require any of the SSD's advantages, we can use HDDs. It's recommended to create a separate storage class `kubermatic-backup` with a different location/security level. For a cluster running on AWS, an example class could look like this:
 
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: minio-hdd
+  name: kubermatic-backup
 provisioner: kubernetes.io/aws-ebs
 parameters:
   type: sc1
 ```
 
-To configure the storage class and size, extend your Helm `values.yaml` like so:
+To configure the storage class and size, extend your `values.yaml`. For more information about the Minio options, take a look at [minio chart `values.yaml`](https://github.com/kubermatic/kubermatic/blob/master/charts/minio/values.yaml) and the [min.io documentation - S3 gateway](https://docs.min.io/docs/minio-gateway-for-s3.html):
 
 ```yaml
 minio:
-  storeSize: '500Gi'
-  storageClass: minio-hdd
+  storeSize: '200Gi'
+  # SC will store the etcd backup of the seed hosted user clusters
+  storageClass: kubermatic-backup
+  # access key/secret for the exposed minio S3 gateway
+  credentials:
+    # generated access key length should be at least 3 characters
+    accessKey: "YOUR-ACCESS-KEY"
+    # generated secret key length should be at least 8 characters
+    secretKey: "YOUR-SECRET-KEY"
 ```
 
 It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
@@ -98,7 +105,7 @@ try to talk to local token helper programs like `aws-iam-authenticator` for AWS 
 These kubeconfig files **will not work** for setting up Seeds.
 {{% /notice %}}
 
-The Kubermatic repository provides a [script](https://github.com/kubermatic/kubermatic-installer/blob/release/v2.14/kubeconfig-serviceaccounts.sh) that can be used to prepare a kubeconfig for usage in Kubermatic. The script will create
+The Kubermatic repository provides a [script](https://github.com/kubermatic/kubermatic-installer/blob/release/master/kubeconfig-serviceaccounts.sh) that can be used to prepare a kubeconfig for usage in Kubermatic. The script will create
 a ServiceAccount in the seed cluster, bind it to the `cluster-admin` role and then put the ServiceAccount's token into
 the kubeconfig file. Afterwards the file can be used in KKP.
 
