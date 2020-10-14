@@ -13,7 +13,7 @@ The Kubernetes vSphere driver contains bugs related to detaching volumes from of
 
 ### VM Images
 
-When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters).
+When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../concepts/seeds" >}}).
 
 Supported operating systems
 
@@ -50,7 +50,7 @@ If user clusters have dedicated networks, all user clusters therefore need a cus
 
 ### VM Folder
 
-During creation of a user cluster Kubermatic Kubernetes Platform (KKP) creates a dedicated VM folder in the root path on the Datastore (Defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters)).
+During creation of a user cluster Kubermatic Kubernetes Platform (KKP) creates a dedicated VM folder in the root path on the Datastore (Defined in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.datastore`]({{< ref "../../concepts/seeds" >}})).
 That folder will contain all worker nodes of a user cluster.
 
 ### Credentials / Cloud-Config
