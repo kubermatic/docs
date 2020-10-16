@@ -193,3 +193,40 @@ Upstream Kubernetes has been working on the issue for a long time now and tracki
 * <https://github.com/kubernetes/kubernetes/issues/67900>
 * <https://github.com/kubernetes/kubernetes/issues/71829>
 * <https://github.com/kubernetes/kubernetes/issues/75342>
+
+### Datastores and Datastore Clusters
+
+*Datastore* in VMWare vSphere is an abstraction for storage.
+*Datastore Cluster* is a collection of datastores with shared resources and a
+shared management interface.
+
+In KKP *Datastores* are used for two purposes:
+- Storing the VMs files for the worker nodes of vSphere user clusters.
+- Generating the vSphere cloud provider storage configuration for user clusters.
+    In particular to provide the `dafault-datastore` value, that is the default
+    datastore for dynamic volume provisioning.
+
+*Datastore Clusters* can only be used for the first purpose as it cannot be
+specified directly in [vSphere cloud configuration][vsphere-cloud-config].
+
+There are two places where Datastores and Datastore Clusters can be configured
+in KKP
+
+- At datacenter level (either with [Seed CRD]({{< ref "../../concepts/seeds" >}})
+    or [datacenters.yaml]({{< ref "../../concepts/seeds" >}})) is possible to
+    specify the default *Datastore* that will be used for user clusters dynamic
+    volume provisioning and workers VMs placement in case no *Datastore* or
+    *Datastore Cluster* is specified at cluster level.
+- At *Cluster* level it is possible to provide either a *Datastore* or a
+    *Datastore Cluster* respectively with `spec.cloud.vsphere.datastore` and
+    `spec.cloud.vsphere.datastoreCluster` fields.
+
+{{% notice warning %}}
+At the moment of writing this document *Datastore and *Datastore Cluster*
+are not supported yet at `Cluster` level by Kubermatic UI.
+{{% /notice %}}
+
+It is possible to specify *Datastore* or *Datastore Clusters* in a
+[preset]({{< ref "../../advanced/presets" >}}).
+
+[vsphere-cloud-config]: https://vmware.github.io/vsphere-storage-for-kubernetes/documentation/existing.html#template-config-file

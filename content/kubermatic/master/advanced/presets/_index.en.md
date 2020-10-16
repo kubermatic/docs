@@ -61,6 +61,9 @@ spec:
   vsphere:
     username:
     password:
+    datastore:
+    datastoreCluster:
+    datacenter:
   kubevirt:
     kubeconfig:
 ```
