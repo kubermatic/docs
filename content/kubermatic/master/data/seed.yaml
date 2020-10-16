@@ -5,7 +5,8 @@ metadata:
   namespace: kubermatic
 spec:
   # Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK.
-  # For informational purposes in the Kubermatic dashboard only.
+  # For informational purposes in the Kubermatic Kubernetes Platform (KKP)
+  # dashboard only.
   country: ""
   # Datacenters contains a map of the possible datacenters (DCs) in this seed.
   # Each DC must have a globally unique identifier (i.e. names must be unique
@@ -13,10 +14,10 @@ spec:
   datacenters:
     <<exampledc>>:
       # Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK.
-      # For informational purposes in the Kubermatic dashboard only.
+      # For informational purposes in the KKP dashboard only.
       country: ""
       # Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7".
-      # For informational purposes in the Kubermatic dashboard only.
+      # For informational purposes in the KKP dashboard only.
       location: ""
       # Node holds node-specific settings, like e.g. HTTP proxy, Docker
       # registries and the like. Proxy settings are inherited from the seed if
@@ -158,7 +159,7 @@ spec:
           endpoint: ""
           # Optional: Infra management user is the user that will be used for everything
           # except the cloud provider functionality, which will still use the credentials
-          # passed in via the Kubermatic dashboard/API.
+          # passed in via the KKP dashboard/API.
           infra_management_user:
             password: ""
             username: ""
@@ -209,7 +210,7 @@ spec:
     # More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
     uid: ""
   # Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7".
-  # For informational purposes in the Kubermatic dashboard only.
+  # For informational purposes in the KKP dashboard only.
   location: ""
   # NodeportProxy can be used to configure the NodePort proxy service that is
   # responsible for making user-cluster control planes accessible from the outside.
@@ -219,7 +220,7 @@ spec:
     annotations:
       service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
       service.beta.kubernetes.io/aws-load-balancer-type: nlb
-    # Disable will prevent the Kubermatic Operator from creating a nodeport-proxy
+    # Disable will prevent the KKP Operator from creating a nodeport-proxy
     # setup on the seed cluster. This should only be used if a suitable replacement
     # is installed (like the nodeport-proxy Helm chart).
     disable: false
@@ -241,7 +242,7 @@ spec:
         requests:
           cpu: 50m
           memory: 32Mi
-    # EnvoyManager configures the Kubermatic-internal Envoy manager.
+    # EnvoyManager configures the KKP-internal Envoy manager.
     envoy_manager:
       # DockerRepository is the repository containing the component's image.
       docker_repository: quay.io/kubermatic/nodeport-proxy
