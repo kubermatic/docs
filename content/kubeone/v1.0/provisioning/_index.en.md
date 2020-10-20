@@ -73,6 +73,9 @@ cloudProvider:
 **Make sure to replace the placeholder values with real values in the
 cloud-config section.**
 
+In the [Kubermatic documentation](https://docs.kubermatic.com/kubermatic/v2.15/requirements/cloud_provider/azure/) you 
+can find more information regarding how to set up a service account. This service account is needed to proceed.
+
 ```yaml
 apiVersion: kubeone.io/v1beta1
 kind: KubeOneCluster
