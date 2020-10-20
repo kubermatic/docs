@@ -73,6 +73,8 @@ cloudProvider:
 **Make sure to replace the placeholder values with real values in the
 cloud-config section.**
 
+You can find the requirements for azure and a setup guide in the [Kubermatic documentation](https://docs.kubermatic.com/kubermatic/v2.15/requirements/cloud_provider/_azure/)
+
 ```yaml
 apiVersion: kubeone.io/v1beta1
 kind: KubeOneCluster

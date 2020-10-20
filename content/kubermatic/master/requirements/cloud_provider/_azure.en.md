@@ -7,7 +7,7 @@ weight = 7
 
 ## Prepare Azure Environment
 
-For provisioning Kubernetes clusters with the [Azure cloud provider](https://github.com/kubermatic/machine-controller/tree/master/pkg/cloudprovider/provider/azure) Kubermatic Kubernetes Platform (KKP) needs a service account with (at least) the the Azure role `Contributor`. Please follow the following steps to create an matching service account:
+For provisioning Kubernetes clusters with the [Azure cloud provider](https://github.com/kubermatic/machine-controller/tree/master/pkg/cloudprovider/provider/azure) Kubermatic Kubernetes Platform (KKP) needs a service account. Please follow the following steps to create an matching service account & the roles:
 
 ### Login to Azure and Get Basic Information
 
@@ -17,13 +17,31 @@ Login to Azure with [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view
 az login
 ```
 
-This command will open in your default browser a window where you can authenticate. After you succefull logged in get your subscription ID.
+This command will open in your default browser a window where you can authenticate. After you successful logged in get your subscription ID.
 
 ```bash
 az account show --query id -o json
 
 ********-****-****-****-************
 ```
+
+Create a role that is used by the service account.
+
+``` 
+az role definition create --role-definition '{
+    "Name": "Kubermatic",
+    "Description": "Manage VM and Networks as well to manage Resource Groups and Tags",
+    "Actions": [
+          "Microsoft.Compute/*",
+          "Microsoft.Network/*",
+          "Microsoft.Resources/*"
+    ],
+    "DataActions": [],
+    "NotDataActions": [],
+    "AssignableScopes": ["/subscriptions/<<YOUR_SUBSCRIPTION_ID>>"] 
+}'
+
+``` 
 
 Get your Tenant ID
 
@@ -36,11 +54,8 @@ az account show --query tenantId -o json
 create a new app with
 
 ```bash
-az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/********-****-****-****-************"
+az ad sp create-for-rbac --role="Kubermatic" --scopes="/subscriptions/********-****-****-****-************"
 
-Retrying role assignment creation: 1/36
-Retrying role assignment creation: 2/36
-Retrying role assignment creation: 3/36
 {
   "appId": "********-****-****-****-************",
   "displayName": "azure-cli-2018-11-25-08-01-39",

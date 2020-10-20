@@ -65,3 +65,14 @@ cluster_name    = "my-cool-cluster"
 ami_id          = "ami-00f6fb16625871821"
 internal_api_lb = true
 ```
+
+
+## Azure
+
+### internal Loadbalancer alternative
+
+In order to hide your Kubernetes API endpoint from the external world, it's recommended to use an internal loadbalancer. 
+However due the [limitations](https://docs.microsoft.com/en-us/azure/load-balancer/components#limitations) of the 
+loadbalancer, backend VM cannot call the frontend of it's loadbalancer. We recommend to use
+ [GoBetween Load Balancer][gobetween] as an alternative here. You will find an example in the 
+ [Terrafrom configs][terraform-configs]  
