@@ -3,10 +3,10 @@ title = "[Experimental] Etcd Launcher"
 weight = 0
 +++
 
-Starting with version v2.15, KPP introduced etcd-launcher as an expermental feature. Etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KPP API and flixibly control how the user cluster etcd ring is started.
+Starting with version v2.15.0, KPP introduced etcd-launcher as an expermental feature. Etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KPP API and flixibly control how the user cluster etcd ring is started.
 
 ### Spec updates
-Prior to v2.15, user cluster etcd ring was based on a static StatefulSet with 3 pod running the etcd ring nodes.
+Prior to v2.15.0, user cluster etcd ring was based on a static StatefulSet with 3 pod running the etcd ring nodes.
 With etcd-launcher, the etcd StatefulSet is updated to include:
 - An init container that is responsible for copying the etcd-launcher into the main etcd pod.
 - Additional environment variables used by the etcd-launcher and etcdctl binary for simpler operations.
@@ -67,9 +67,39 @@ To disable etcd-launcher for a specific cluster you need to set the cluster leve
 
 
 # Etcd Launcher Features
-
+Enabling etcd-launcher enables clusters operators to perform several operational tasks that were not possible before. With the the v2.15.0 releases, etcd-launcher provides the following capabilities:
 
 ## Scaling user cluster etcd ring
+Prior to version v2.15.0, the user cluster etcd ring ran as a simple and static 3-node ring. With etcd-launcher enabled, it's now possible to resize the etcd ring to increase capacity and/or availability for user clusters.
 
+Currently, the supported minimum etcd ring size is 3 nodes. This is required to maintain etcd quorum during operations. The maximum supported size is 9 nodes, as recommended by etcd upstream.
+
+To resize the etcd ring for a user cluster, you simply need to edit the cluster:
+
+```bash
+$ kubectl edit cluster 2j2q98dkzt
+```
+
+And set the required size in the cluster spec:
+
+```yaml
+spec:
+  componentsOverride:
+    etcd:
+      clusterSize: 5
+```
+
+{{% notice warning %}}
+The resizing process is currently a disruptive process. Nodes are added/removed one by one and the etcd ring is restarted to add or remove new nodes, which could disrupt the user cluster.
+{{% /notice %}}
 
 ## Automated Persistent Volume Recovery
+The etcd ring is created as a Kubernetes [StatefulSet](https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/). For each etcd pod, a [PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) is automatically created to provide persistent storage for the pods.
+
+Unfortunately, the kubernetes StatefulSet controller doesn't automatically handle cases where a PV is unavailable. In that case, manual intervention is required to remove the related PVC and reset the StatefulSet.
+
+With etcd-launcher enabled for a cluster. The recovery process is fully automatic. Once a pod PV becomes unavailable, a controller will kick-in and remove the PVC and reset the StatefulSet.
+
+{{% notice note %}}
+Restting the etcd StatefulSet means that all etcd nodes in the ring will be restarted. This means that the user cluster API will have a momentary downtime until the etcd node is available again. 
+{{% /notice %}}
