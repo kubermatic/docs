@@ -3,7 +3,7 @@ title = "[Experimental] Etcd Launcher"
 weight = 0
 +++
 
-Starting with version v2.15.0, KPP introduced etcd-launcher as an expermental feature. Etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KPP API and flixibly control how the user cluster etcd ring is started.
+Starting with version v2.15.0, KPP introduced etcd-launcher as an experimental feature. Etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KPP API and flixibly control how the user cluster etcd ring is started.
 
 ### Spec updates
 Prior to v2.15.0, user cluster etcd ring was based on a static StatefulSet with 3 pod running the etcd ring nodes.
@@ -17,7 +17,7 @@ With etcd-launcher, the etcd StatefulSet is updated to include:
 etcd-launcher is an experimental feature. It should not be enabled unless all users clusters are operating nominally. It's possible that a user cluster etcd ring could fail to enable the feature if the etcd ring was not in a stable condition during the update.
 {{% /notice %}}
 
-Since this is an expermental feature, it's disabled by default. There are two modes to enable etcd-launcher support:
+Since this is an experimental feature, it's disabled by default. There are two modes to enable etcd-launcher support:
 ## Enable etcd-launcher for a specific user cluster
 In this mode, the feature is only enabled for a specific user cluster. This can be done by editing the object cluster and enabling the feature flag for etcd-launcher:
 
@@ -101,5 +101,5 @@ Unfortunately, the kubernetes StatefulSet controller doesn't automatically handl
 With etcd-launcher enabled for a cluster. The recovery process is fully automatic. Once a pod PV becomes unavailable, a controller will kick-in and remove the PVC and reset the StatefulSet.
 
 {{% notice note %}}
-Restting the etcd StatefulSet means that all etcd nodes in the ring will be restarted. This means that the user cluster API will have a momentary downtime until the etcd node is available again. 
+Restting the etcd StatefulSet means that all etcd nodes in the ring will be restarted. This means that the user cluster API will have a momentary downtime until the etcd node is available again.
 {{% /notice %}}
