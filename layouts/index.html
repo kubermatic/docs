@@ -11,7 +11,7 @@
 </head>
 <body>
   {{partial "gtm-noscript.html" .}}
-  {{partial "main-header" .}}
+  {{partialCached "main-header" .}}
   {{if .Site.Data.products}}
   <section class="projects">
     <div class="projects-wrap">
