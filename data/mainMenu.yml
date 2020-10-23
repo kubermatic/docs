@@ -95,3 +95,8 @@ items:
 
 - title: Blog
   url: /blog/
+
+- title: Contact Us
+  url: /contact-us/
+  class: menu-item_btn
+  classOnMobile: menu-item_link--caption mt-40

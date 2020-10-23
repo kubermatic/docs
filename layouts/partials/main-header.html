@@ -20,7 +20,8 @@
         {{range $menuItems}}
         <li class="menu-item">
           {{if .title}}
-          <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="menu-item_link">{{.title}}</a>
+          {{$class := .class | default "menu-item_link"}}
+          <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="{{$class}}">{{.title}}</a>
           {{end}}
           {{with .subMenu}}
           <ul class="sub-menu">
@@ -41,9 +42,6 @@
           {{end}}
         </li>
         {{end}}
-        <li class="menu-item">
-          <a href="{{(print $baseWebsiteUrl `/contact-us/`) | relURL}}" class="menu-item_btn">Contact Us</a>
-        </li>
       </ul>
     </div>
 
@@ -52,7 +50,8 @@
         {{range $menuItems}}
           {{if .title}}
           <li>
-            <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="menu-item_link--caption">{{.title}}</a>
+            {{$classOnMobile := .classOnMobile | default "menu-item_link--caption"}}
+            <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="{{$classOnMobile}}">{{.title}}</a>
           </li>
           {{end}}
           {{range .subMenu}}
@@ -63,10 +62,6 @@
             {{end}}
           {{end}}
         {{end}}
-
-        <li>
-          <a href="{{(print $baseWebsiteUrl `/contact-us/`) | relURL}}" class="menu-item_link--caption mt-40">Contact Us</a>
-        </li>
       </ul>
     </div>
   </nav>
