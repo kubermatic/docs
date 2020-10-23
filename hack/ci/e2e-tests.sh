@@ -173,6 +173,7 @@ echodate "Docker became ready"
 # Load kind image
 docker load --input /kindest.tar
 echo "Done loading kind image"
+pwd
 ./deploy.sh
 echo "done running deploy.sh"
 DOCKER_CONFIG=/ docker run --name controller -d -v /root/.kube/config:/inner -v /etc/kubeconfig/kubeconfig:/outer --network host --privileged ${CONTROLLER_IMAGE} --kubeconfig-inner "/inner" --kubeconfig-outer "/outer" --namespace "default" --build-id "$PROW_JOB_ID"
