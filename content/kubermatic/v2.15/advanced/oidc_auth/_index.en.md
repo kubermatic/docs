@@ -1,7 +1,7 @@
 +++
 title = "Share Clusters via Delegated OIDC Authentication"
 date = 2018-11-23T12:01:35+02:00
-weight = 70
+weight = 80
 
 +++
 

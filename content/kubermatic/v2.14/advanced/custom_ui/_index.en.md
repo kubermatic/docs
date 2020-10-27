@@ -1,7 +1,7 @@
 +++
-title = "Customizing the Dashboard Theme"
+title = "Customizing the Dashboard"
 date = 2018-06-21T14:07:15+02:00
-weight = 40
+weight = 30
 
 +++
 
@@ -99,13 +99,7 @@ kubectl -n kubermatic cp kubermatic-dashboard-5b96d7f5df-mkmgh:/dist/assets/them
 ```
 
 ##### Docker
-<<<<<<< HEAD
 Assuming that the KKP Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
-||||||| parent of 307fb35... Add spell checking in CI/CD
-Assuming that the Kubermatic Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
-=======
-Assuming that the Kubermatic Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
->>>>>>> 307fb35... Add spell checking in CI/CD
 ```bash
 docker cp kubermatic-dashboard:/dist/assets/themes/. ~/themes
 ```

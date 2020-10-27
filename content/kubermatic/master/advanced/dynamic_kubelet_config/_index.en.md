@@ -1,7 +1,7 @@
 +++
 title = "Dynamic Kubelet configuration"
 date = 2020-04-01T12:00:00+02:00
-weight = 55
+weight = 100
 
 +++
 
