@@ -1,7 +1,7 @@
 +++
-title = "Customizing the Dashboard Theme"
+title = "Customizing the Dashboard"
 date = 2018-06-21T14:07:15+02:00
-weight = 40
+weight = 30
 
 +++
 
