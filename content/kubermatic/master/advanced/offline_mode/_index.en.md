@@ -91,9 +91,29 @@ helm -n oauth upgrade \
 {{% notice note %}}
 When adjusting the `values.yaml`, do not use the same file for the image-loader, as it would
 attempt to mirror `172.20.0.2:5000/dexidp/dex` to `172.20.0.2:5000/dexidp/dex` (a no-op).
-Either provide the image-loader with a stock configuration or set the overriden image repositories
+Either provide the image-loader with a stock configuration or set the overridden image repositories
 via `--set` when using Helm.
 {{% /notice %}}
+
+Likewise, carefully go through the [KubermaticConfiguration]({{< ref "../../concepts/kubermaticconfiguration" >}})
+and adjust the `dockerRepository` fields:
+
+```yaml
+spec:
+  masterController:
+    dockerRepository: 172.20.0.2:5000/kubermatic/kubermatic
+  seedController:
+    dockerRepository: 172.20.0.2:5000/kubermatic/kubermatic
+  ui:
+    dockerRepository: 172.20.0.2:5000/kubermatic/dashboard
+  # etc.
+```
+
+Re-apply the updated configuration to make the KKP Operator reconcile the setup:
+
+```bash
+kubectl apply -f mykubermatic.yaml
+```
 
 ### Worker Nodes Behind a Proxy
 
