@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic Kubernetes Platform (KKP) User Settings"
+title = "User Settings"
 date = 2020-04-01T14:07:15+02:00
 weight = 10
 
