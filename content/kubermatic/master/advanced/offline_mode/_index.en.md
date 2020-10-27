@@ -5,17 +5,95 @@ weight = 120
 
 +++
 
+It's possible to run KKP in an airgapped/offline environment, by mirroring all required
+Docker images to a local Docker registry. The `image-loader` utility is provided to aid
+in this process.
+
+In general, to setup an airgapped system, the Docker images must be mirrored and the
+Helm charts / KubermaticConfiguration need to be adjusted to point to the new registry.
+
 ### Download All Required Images
 
-To aid in downloading all required images, KKP provides the `image-loader` CLI utility. It can be used like
-this:
+There are a number of sources for the Docker images used in a KKP setup:
+
+* The Docker images used by KKP itself (e.g. `quay.io/kubermatic/kubermatic`)
+* The images used by the various Helm charts used to deploy KKP (nginx, cert-manager,
+  Grafana, ...)
+* The images used for creating a usercluster control plane (the Kubernetes apiserver,
+  scheduler, metrics-server, ...).
+* The images referenced by cluster addons.
+
+To make it easier to collect all required images, the `image-loader` utility is provided.
+It will scan the Helm charts and uses the KKP code itself to determine all images that
+need to be mirrored. Once it has determined these, it will pull, re-tag and then push
+the images.
+
+To use it, provide it with the KubermaticConfiguration as a YAML file (if you are using
+the KKP Operator) and the `values.yaml` file used to install the Helm charts.
+
+The image-loader can be downloaded from the latest [GitHub release](https://github.com/kubermatic/kubermatic/releases)
+in the `tools` archive. It is important to use the image-loader that ships with the KKP
+version you're using, as this will ensure that it finds the same images actually used
+in the clusters later on.
+
+Download the latest KKP release itself too, because for mirroring the Helm charts you
+will need the Helm charts. Extract both the image-loader and the KKP release locally and
+then run the image-loader. Note that you need [Helm 3.x](https://helm.sh/) installed
+on your machine.
 
 ```bash
-image-loader \
-  -versions charts/kubermatic/static/master/versions.yaml \
+./image-loader \
+  -configuration-file mykubermatic.yaml \
+  -helm-values-file myhelmvalues.yaml \
+  -charts-path /path/to/the/extracte/charts \
   -registry 172.20.0.2:5000 \
-  -log-format=Console
+  -dry-run
 ```
+
+Remove the `-dry-run` to let the tool actually download and push Docker images.
+
+#### Addons
+
+Note that by default, the image-loader will determine the configured addons Docker image
+from the KubermaticConfiguration, pull it down and then extract the addon manifests from
+the image, so that it can then scan them for Docker images to mirror.
+
+You can skip this step by pointing the image-loader to a local directory that contains
+all addons, like so:
+
+```bash
+./image-loader \
+  -configuration-file mykubermatic.yaml \
+  -helm-values-file myhelmvalues.yaml \
+  -charts-path /path/to/the/extracte/charts \
+  -addons-path /path/to/my/addons \
+  -registry 172.20.0.2:5000 \
+  -dry-run
+```
+
+### Configuring KKP
+
+After having mirrored all required Docker images, it's time to adjust the KKP configuration
+to point to the new images. For this the KubermaticConfiguration allows to override the
+Docker repository (but not the tag!) for all used images. Likewise, all Helm charts have
+options to reconfigure the repository as well.
+
+For example, Dex can be installed by overwriting `dex.image.repository` either in the
+`values.yaml` file or on the command line:
+
+```bash
+helm -n oauth upgrade \
+  --values myvalues.yaml \
+  --set "dex.image.repository=172.20.0.2:5000/dexidp/dex" \
+  oauth .
+```
+
+{{% notice note %}}
+When adjusting the `values.yaml`, do not use the same file for the image-loader, as it would
+attempt to mirror `172.20.0.2:5000/dexidp/dex` to `172.20.0.2:5000/dexidp/dex` (a no-op).
+Either provide the image-loader with a stock configuration or set the overriden image repositories
+via `--set` when using Helm.
+{{% /notice %}}
 
 ### Worker Nodes Behind a Proxy
 
