@@ -6,12 +6,12 @@ weight = 4
 
 ## RegistryConfiguration
 
-It's possible to configure the central docker image registry to pull images from using `registryConfiguration` config.
+It's possible to configure the central docker image registry to pull images from.
 
-In `registryConfiguration`, overwriteRegistry specifies a custom Docker registry which will be used for all images
-required for KubeOne and KubeAdm. This also applies to addons deployed by KubeOne. This field doesn't modify the
-user/organization part of the image. For example, if `overwriteRegistry` is set to `127.0.0.1:5000/example`, image called
-`calico/cni` would translate to `127.0.0.1:5000/example/calico/cni`.
+The `registryConfiguration.overwriteRegistry` specifies a custom Docker registry which will be used for all images
+required by the KubeOne and KubeAdm. This also applies to addons deployed by KubeOne. This field doesn't modify the
+user/organization part of the image. For example, if `overwriteRegistry` is set to `127.0.0.1:5000/example`, image
+called `calico/cni` would translate to `127.0.0.1:5000/example/calico/cni`.
 
 ```yaml
 apiVersion: kubeone.io/v1beta1
