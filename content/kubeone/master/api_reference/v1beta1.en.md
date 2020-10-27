@@ -1,6 +1,6 @@
 +++
 title = "v1beta1 API Reference"
-date = 2020-08-07T12:41:33+03:00
+date = 2020-10-27T15:03:07+02:00
 weight = 11
 +++
 ## v1beta1
@@ -38,6 +38,7 @@ weight = 11
 * [ProviderSpec](#providerspec)
 * [ProviderStaticNetworkConfig](#providerstaticnetworkconfig)
 * [ProxyConfig](#proxyconfig)
+* [RegistryConfiguration](#registryconfiguration)
 * [StaticAuditLog](#staticauditlog)
 * [StaticAuditLogConfig](#staticauditlogconfig)
 * [StaticWorkersConfig](#staticworkersconfig)
@@ -116,6 +117,8 @@ Only one cloud provider must be defined at the single time.
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | external | External | bool | false |
+| csiMigration | CSIMigration enables the CSIMigration and CSIMigration{Provider} feature gates for providers that support the CSI migration. The CSI migration stability depends on the provider. More details about stability can be found in the Feature Gates document: https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/\n\nNote: Azure has two type of CSI drivers (AzureFile and AzureDisk) and two different feature gates (CSIMigrationAzureDisk and CSIMigrationAzureFile). Enabling CSI migration enables both feature gates. If one CSI driver is not deployed, the volume operations for volumes with missing CSI driver will fallback to the in-tree volume plugin. | bool | false |
+| csiMigrationComplete | CSIMigrationComplete enables the CSIMigration{Provider}Complete feature gate for providers that support the CSI migration. This feature gate disables fallback to the in-tree volume plugins, therefore, it should be enabled only if the CSI driver is deploy on all nodes, and after ensuring that the CSI driver works properly.\n\nNote: If you're running on Azure, make sure that you have both AzureFile and AzureDisk CSI drivers deployed, as enabling this feature disables the fallback to the in-tree volume plugins. See description for the CSIMigration field for more details. | bool | false |
 | cloudConfig | CloudConfig | string | false |
 | aws | AWS | *[AWSSpec](#awsspec) | false |
 | azure | Azure | *[AzureSpec](#azurespec) | false |
@@ -279,6 +282,7 @@ KubeOneCluster is KubeOne Cluster API Schema
 | features | Features enables and configures additional cluster features. | [Features](#features) | false |
 | addons | Addons are used to deploy additional manifests. | *[Addons](#addons) | false |
 | systemPackages | SystemPackages configure kubeone behaviour regarding OS packages. | *[SystemPackages](#systempackages) | false |
+| registryConfiguration | RegistryConfiguration configures how Docker images are pulled from an image registry | *[RegistryConfiguration](#registryconfiguration) | false |
 
 [Back to Group](#v1beta1)
 
@@ -437,6 +441,17 @@ ProxyConfig configures proxy for the Docker daemon and is used by KubeOne script
 | http | HTTP | string | false |
 | https | HTTPS | string | false |
 | noProxy | NoProxy | string | false |
+
+[Back to Group](#v1beta1)
+
+### RegistryConfiguration
+
+RegistryConfiguration controls how images used for components deployed by
+KubeOne and kubeadm are pulled from an image registry
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| overwriteRegistry | OverwriteRegistry specifies a custom Docker registry which will be used for all images required for KubeOne and kubeadm. This also applies to addons deployed by KubeOne. This field doesn't modify the user/organization part of the image. For example, if OverwriteRegistry is set to 127.0.0.1:5000/example, image called calico/cni would translate to 127.0.0.1:5000/example/calico/cni. Default: \"\" | string | false |
 
 [Back to Group](#v1beta1)
 
