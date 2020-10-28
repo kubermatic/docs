@@ -105,7 +105,7 @@ try to talk to local token helper programs like `aws-iam-authenticator` for AWS 
 These kubeconfig files **will not work** for setting up Seeds.
 {{% /notice %}}
 
-The Kubermatic repository provides a [script](https://github.com/kubermatic/kubermatic-installer/blob/release/master/kubeconfig-serviceaccounts.sh) that can be used to prepare a kubeconfig for usage in Kubermatic. The script will create
+The Kubermatic repository provides a [script](https://github.com/kubermatic/kubermatic-installer/blob/master/kubeconfig-serviceaccounts.sh) that can be used to prepare a kubeconfig for usage in Kubermatic. The script will create
 a ServiceAccount in the seed cluster, bind it to the `cluster-admin` role and then put the ServiceAccount's token into
 the kubeconfig file. Afterwards the file can be used in KKP.
 
