@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ .Page.Language | default "en" }}" class="js csstransforms3d">
   <head>
+    {{partial "gtm-script.html" .}}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{if eq .FirstSection.RelPermalink .RelPermalink}}
@@ -33,6 +34,7 @@
     {{ partial "custom-header.html" . }}
   </head>
   <body class="" data-url="{{ .RelPermalink }}">
+    {{partial "gtm-noscript.html" .}}
     {{partial "main-header" .}}
     {{ partial "menu.html" . }}
         <section id="body">
