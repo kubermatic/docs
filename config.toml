@@ -39,6 +39,7 @@ themeVariant = "kubermatic"
 defaultContentLanguage = "en"
 # Force to have /en/my-page and /fr/my-page routes, even for default language.
 defaultContentLanguageInSubdir = true
+baseWebsiteUrl = "https://www.kubermatic.com"
 
 [Languages]
 [Languages.en]
