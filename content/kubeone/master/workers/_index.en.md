@@ -6,4 +6,3 @@ chapter = true
 +++
 
 # Managing Worker Nodes
-

@@ -137,7 +137,7 @@ the [Cluster API repository][cluster-api] and
 the [Cluster API documentation website][cluster-api-book].
 
 We use Cluster API for managing worker nodes, while control plane nodes are
-managed as described in the 
+managed as described in the
 [Cluster Provisioning and Management][cluster-provisioning] section.
 
 The Cluster API controller (e.g. Kubermatic machine-controller) is responsible

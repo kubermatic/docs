@@ -44,7 +44,7 @@ kubectl port-forward \
 ```
 
 {{% notice info %}}
-The default TLS serving certificate of the KubeCarrer API Server is self-signed and will raise warnings in all browsers.  
+The default TLS serving certificate of the KubeCarrer API Server is self-signed and will raise warnings in all browsers.
 See the [TLS](#tls) section for further details.
 {{% /notice %}}
 
@@ -66,7 +66,7 @@ spec:
     - anonymous: {}
 ```
 
-Authentication providers will be called in specified order.  
+Authentication providers will be called in specified order.
 You can find more information about each authentication method below.
 
 ### Anonymous
@@ -163,7 +163,7 @@ Prefix the token with `Bearer ` and use it in the swagger UI:
 
 ### Static Users
 
-Static users uses a static htpasswd file for user authentication. 
+Static users uses a static htpasswd file for user authentication.
 
 First, create a new file via the `htpasswd` utility. In this example, we are using `Bcrypt` as a hashing algorithm. Make sure to specify a strong algorithm, because the default `MD5` hash is insecure.
 
@@ -237,7 +237,7 @@ You can configure your own TLS serving certificate for the KubeCarrier API Serve
 Alternatively you can terminate TLS via an ingress controller or any other edge load balancer.
 
 {{% notice info %}}
-TLS is a requirement the KubeCarrier API server.  
+TLS is a requirement the KubeCarrier API server.
 {{% /notice %}}
 
 [swagger-ui-apikey]: ../../img/Swagger_apikey.png

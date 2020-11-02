@@ -1,7 +1,7 @@
-+++ 
-title = "Machine deployments" 
-date = 2019-12-16T12:07:15+02:00 
-weight = 80 
++++
+title = "Machine deployments"
+date = 2019-12-16T12:07:15+02:00
+weight = 80
 +++
 
 ## Add a New Machine Deployment

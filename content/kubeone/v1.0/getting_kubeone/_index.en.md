@@ -25,7 +25,7 @@ You can download the binary from the [GitHub Releases][github-releases].
 Find the archive for your operating system and architecture, and download it
 or grab the URL and use it with `wget` or `curl`.
 
-**Version:** version of KubeOne  
+**Version:** version of KubeOne
 **Operating system:** `linux` or `darwin` for macOS
 
 ```
