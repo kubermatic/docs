@@ -71,4 +71,3 @@ The base64 encoded secret of the service account will passed in the field `servi
 `cloudProviderSpec` of the machine deployment. The encoded secret can be entered in the UI field `Service Account`:
 
 ![GCE Service Account Secret](/img/kubermatic/v2.15/requirements/cloud_provider/gce_credentials.png)
-

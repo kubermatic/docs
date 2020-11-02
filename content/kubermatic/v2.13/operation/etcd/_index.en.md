@@ -10,4 +10,4 @@ chapter = false
 - Static StatefulSet with 3 members
 - TLS for transport security
 - Client-certificates for authentication
-- Certificates are signed by the cluster root CA 
+- Certificates are signed by the cluster root CA

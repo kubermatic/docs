@@ -24,7 +24,7 @@ addons directory in the KubeOne cluster configuration.
 Manifests support templating based on [Go templates][go-templates].
 The following data is available out of the box:
 
-* KubeOne cluster configuration - `.Config` 
+* KubeOne cluster configuration - `.Config`
 * Credentials - `.Credentials`
 
 On top of that, you can use the [`sprig`][sprig] functions in your templates.
@@ -103,7 +103,7 @@ kubectl apply -f addons.yaml --prune -l kubeone.io/addon
 ```
 
 Using the `--prune` options means that the next time you run `kubeone`:
-* if you updated any manifest, the corresponding resources in the cluster will 
+* if you updated any manifest, the corresponding resources in the cluster will
 be updated,
 * if you removed a resource from a manifest, the resource will be removed from
 the cluster as well

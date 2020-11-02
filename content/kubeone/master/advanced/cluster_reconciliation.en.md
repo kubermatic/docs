@@ -106,7 +106,7 @@ recommends which instances are safe to be deleted without affecting the quorum.
 It's strongly advised to follow the order or otherwise you're risking losing
 the quorum and all cluster data. If it's not possible to repair the cluster
 without affecting the quorum, KubeOne will fail to repair the cluster. In that
-case, [disaster recovery](../manual_cluster_recovery/) might be required.
+case, [disaster recovery]({{< ref "../maintenance/manual_cluster_recovery" >}}) might be required.
 {{% /notice %}}
 
 ### Dynamic Workers (MachineDeployments) Reconciliation
@@ -137,7 +137,7 @@ remove the Node object manually using kubectl.
 
 Currently, the apply command doesn't reconcile features. If you enable/disable
 any feature on already provisioned cluster, you have to run the upgrade process
-for changes to be in the effect. The upgrade process can be run using the 
+for changes to be in the effect. The upgrade process can be run using the
 following upgrade command:
 
 ```bash

@@ -13,12 +13,12 @@ The Kubernetes vSphere driver contains bugs related to detaching volumes from of
 
 ### VM Images
 
-When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../concepts/seeds" >}}).
+When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters).
 
 Supported operating systems
 
 * Ubuntu 18.04 [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
-* CoreOS  [ova](https://stable.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova)
+* CoreOS [ova](https://stable.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova)
 * CentOS 7 [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
 
 #### Importing the OVA
@@ -49,7 +49,7 @@ If user clusters have dedicated networks, all user clusters therefore need a cus
 
 ### VM Folder
 
-During creation of a user cluster Kubermatic Kubernetes Platform (KKP) creates a dedicated VM folder in the root path on the Datastore (Defined in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.datastore`]({{< ref "../../concepts/seeds" >}})).
+During creation of a user cluster Kubermatic Kubernetes Platform (KKP) creates a dedicated VM folder in the root path on the Datastore (Defined in the [datacenters.yaml](https://docs.kubermatic.io/installation/install_kubermatic/#defining-the-datacenters)).
 That folder will contain all worker nodes of a user cluster.
 
 ### Credentials / Cloud-Config
@@ -65,8 +65,6 @@ As this Config must also be deployed onto each worker node of a user cluster, it
 The vsphere user has to have to following permissions on the correct resources:
 
 #### Seed Cluster
-
-For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-seed-cluster`) is needed:
 
 * Role `k8c-storage-vmfolder-propagate`
   * Granted at **VM Folder** and **Template Folder**, propagated
@@ -94,14 +92,10 @@ For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-s
 
 #### User Cluster
 
-For provisioning actions of the KKP in scope of an user cluster, a technical user (e.g. `cust-user-cluster`) is needed:
-
 * Role `k8c-user-vcenter`
   * Granted at **vcenter** level, **not** propagated
   * Needed to customize VM during provisioning
   * Permissions
-    * Profile-driven storage
-      * Profile-driven storage view
     * VirtualMachine
       * Provisioning
         * Modify customization specification
@@ -144,7 +138,7 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
       * vApp instance configuration
 
 * Role k8s-network-attach
-  * Granted for each network that should be used (distributed switch + network)
+  * Granted for each network that should be used
   * Permissions
     * Network
       * Assign network
