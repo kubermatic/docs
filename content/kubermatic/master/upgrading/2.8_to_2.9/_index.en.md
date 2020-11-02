@@ -29,7 +29,7 @@ Afterwards, the CRDs must be installed with kubectl `apply -f charts/kubermatic/
 
 Ark 0.10 requires significant changes to the chart configuration in your `values.yaml`. Please consult the `values.yaml` inside
 the chart to learn more about the new configuration structure. For existing backups, Heptio provides a script to migrate them.
-Consult the [official upgrade guide](https://heptio.github.io/ark/v0.10.0/upgrading-to-v0.10) for more information.
+Consult the [official upgrade guide](https://velero.io/docs/v0.10.0/upgrading-to-v0.10/) for more information.
 
 #### cert-manager
 

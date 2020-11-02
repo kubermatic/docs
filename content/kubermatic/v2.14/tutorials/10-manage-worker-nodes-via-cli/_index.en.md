@@ -14,7 +14,7 @@ To get a list of all nodes execute:
 kubectl get nodes -o wide
 ```
 
-Every node is managed by a machine resource in the `kube-system` namespace, which are bundled into machineDeployments (for more information [see documentation](https://github.com/kubernetes-sigs/cluster-api/blob/master/docs/book/src/architecture/controllers/machine-deployment.md)). To list all machineDeployment resources, execute:
+Every node is managed by a machine resource in the `kube-system` namespace, which are bundled into machineDeployments (for more information [see documentation](https://cluster-api.sigs.k8s.io/developer/architecture/controllers/machine-deployment.html)). To list all machineDeployment resources, execute:
 
 ```bash
 kubectl get machineDeployments --namespace kube-system
