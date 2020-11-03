@@ -1,5 +1,5 @@
 +++
-title = "Using an Custom CA"
+title = "Using a Custom CA"
 date = 2020-11-03T13:07:15+02:00
 weight = 130
 +++
