@@ -168,7 +168,7 @@ is also configured for the Kubernetes apiserver, so that it can also validate th
 
 ### IAP
 
-The certificate chain can be put into a Kubernetes Secret and then be refered to from the `values.yaml`.
+The certificate chain can be put into a Kubernetes Secret and then be referred to from the `values.yaml`.
 Create a Secret inside the IAP's namespace (`iap` by default) and then update your `values.yaml` like so:
 
 ```yaml
