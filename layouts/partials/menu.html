@@ -1,15 +1,14 @@
 <nav id="sidebar" class="{{if $.Site.Params.showVisitedLinks }}showVisitedLinks{{end}}">
-
-{{ $currentNode := . }}
-{{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
-{{ $productSection := .FirstSection.Section }}
-{{ $product := index $.Site.Data.products $productSection}}
+  {{ $currentNode := . }}
+  {{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
+  {{ $productSection := .FirstSection.Section }}
+  {{ $product := index $.Site.Data.products $productSection}}
   <div id="header-wrapper">
     <div id="header">
       {{ partial "logo.html" . }}
     </div>
     {{if not .Site.Params.disableSearch}}
-        {{ partial "search.html" . }}
+      {{ partial "search.html" . }}
     {{end}}
     {{with $.Site.Data.products}}
     <div class="products-toogle">
@@ -17,7 +16,7 @@
         <label for="product-select" class="products-toogle-label">Product</label>
         <select id="product-select" onchange="location = this.value;">
         {{range $key, $value := .}}
-        {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+          {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
           <option value="{{printf "/%s/%s/" $key $release | relURL}}"{{if in $.RelPermalink $key}} selected{{end}}>{{.name}}</option>
         {{end}}
         </select>
@@ -27,7 +26,7 @@
         <label for="version-select" class="products-toogle-label">Version</label>
         <select id="version-select" onchange="location = this.value;">
         {{range .versions}}
-        <option value="{{printf "/%s/%s/" $productSection .release | relURL}}"{{if in $.RelPermalink .release}} selected{{end}}>{{.name}}</option>
+          {{template "optionInDifferentVersion" dict "root" $ "sect" . "productSection" $productSection "version" .}}
         {{end}}
         </select>
       </div>
@@ -126,10 +125,85 @@
       <li data-nav-id="{{.RelPermalink}}" title="{{.Title}}" class="dd-item {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}{{end}}">
         <a href="{{ .RelPermalink}}">
         {{safeHTML .Params.Pre}}{{or .Params.menuTitle .LinkTitle .Title}}{{safeHTML .Params.Post}}
-        {{ if $showvisitedlinks}}<i class="fas fa-check read-icon"></i>{{end}}
+        {{if $showvisitedlinks}}<i class="fas fa-check read-icon"></i>{{end}}
         </a>
-    </li>
+      </li>
      {{ end }}
   {{end}}
  {{ end }}
 {{ end }}
+
+{{- define "optionInDifferentVersion" -}}
+  {{- $ := .root -}}
+  {{- $productSection := .productSection -}}
+  {{- $version := .version -}}
+
+  {{/* create a prefix like "kubermatic/v2.14" */}}
+  {{- $productPathPrefix := path.Join $productSection $version.release -}}
+
+  <option
+    value="{{- template "findBestMatchInVersion" dict "root" $ "page" $.Page "product" $productSection "release" $version.release -}}"
+    {{- if in $.RelPermalink $version.release }} selected{{ end -}}
+  >{{- $version.name -}}</option>
+{{- end -}}
+
+{{- define "findBestMatchInVersion" -}}
+  {{- $ := .root -}}
+  {{- $page := .page -}}
+  {{- $productSection := .product -}}
+  {{- $release := .release -}}
+
+  {{/* create a prefix like "kubermatic/v2.14" */}}
+  {{- $productPathPrefix := path.Join $productSection $release -}}
+
+  {{/* strip product and version from the path (i.e. remove the first two path elements) */}}
+  {{- $relFilePath := path.Join (after 2 (split $page.File "/")) -}}
+  {{- $absFilePath := path.Join $productPathPrefix $relFilePath -}}
+
+  {{- if fileExists $absFilePath -}}
+    {{- ($.GetPage $absFilePath).RelPermalink -}}
+  {{- else -}}
+    {{/* If this is not a section, try the section instead */}}
+    {{- if not $page.IsSection -}}
+      {{- $relFilePathEn := path.Join (path.Dir $relFilePath) "_index.en.md" -}}
+      {{- $absFilePathEn := path.Join $productPathPrefix $relFilePathEn -}}
+
+      {{- if fileExists $absFilePathEn -}}
+        {{- ($.GetPage $absFilePathEn).RelPermalink -}}
+      {{- else -}}
+        {{/* Try the same thing again, but for non-localized products */}}
+        {{- $relFilePath := path.Join (path.Dir $relFilePath) "_index.md" -}}
+        {{- $absFilePath := path.Join $productPathPrefix $relFilePath -}}
+        {{- if fileExists $relFilePath -}}
+          {{- ($.GetPage $absFilePath).RelPermalink -}}
+        {{- else -}}
+          {{- template "walkSectionsUp" dict "root" $ "productPathPrefix" $productPathPrefix "start" $relFilePath -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else -}}
+      {{- template "walkSectionsUp" dict "root" $ "productPathPrefix" $productPathPrefix "start" $relFilePath -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+  This function takes a product-relative path like "section/section/section/_index.en.md"
+  and walks the path up until it finds a matching file in the productPathPrefix.
+*/}}
+{{- define "walkSectionsUp" -}}
+  {{- $ := .root -}}
+  {{- $productPathPrefix := .productPathPrefix -}}
+  {{- $start := path.Dir .start -}}
+  {{- $indexFile := path.Join $productPathPrefix $start "_index.en.md" -}}
+
+  {{- if fileExists $indexFile -}}
+    {{- ($.GetPage $indexFile).RelPermalink -}}
+  {{- else -}}
+    {{- $indexFile := path.Join $productPathPrefix $start "_index.md" -}}
+    {{- if fileExists $indexFile -}}
+      {{- ($.GetPage $indexFile).RelPermalink -}}
+    {{- else -}}
+      {{- template "walkSectionsUp" dict "root" $ "productPathPrefix" $productPathPrefix "start" $start -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
