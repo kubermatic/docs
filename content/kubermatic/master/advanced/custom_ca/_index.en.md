@@ -38,7 +38,7 @@ spec:
 Re-apply the changed configuration and the KKP Operator will reconcile the Certificate resource,
 after which cert-manager will provision a new certificate Secret.
 
-Similarily, update your Helm `values.yaml` that is used for the Dex/IAP deployment and configure
+Similarly, update your Helm `values.yaml` that is used for the Dex/IAP deployment and configure
 the new issuer:
 
 ```yaml
