@@ -1,4 +1,4 @@
-<nav id="sidebar" class="{{if $.Site.Params.showVisitedLinks }}showVisitedLinks{{end}}">
+<nav id="sidebar" class="{{ if $.Site.Params.showVisitedLinks }}showVisitedLinks{{ end }}">
   {{ $currentNode := . }}
   {{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
   {{ $productSection := .FirstSection.Section }}
@@ -7,130 +7,133 @@
     <div id="header">
       {{ partial "logo.html" . }}
     </div>
-    {{if not .Site.Params.disableSearch}}
+    {{ if not .Site.Params.disableSearch }}
       {{ partial "search.html" . }}
-    {{end}}
-    {{with $.Site.Data.products}}
+    {{ end }}
+    {{ with $.Site.Data.products }}
     <div class="products-toogle">
       <div class="products-toogle-select">
         <label for="product-select" class="products-toogle-label">Product</label>
         <select id="product-select" onchange="location = this.value;">
-        {{range $key, $value := .}}
-          {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
-          <option value="{{printf "/%s/%s/" $key $release | relURL}}"{{if in $.RelPermalink $key}} selected{{end}}>{{.name}}</option>
-        {{end}}
+          {{ range $key, $value := . }}
+            {{ $release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release }}
+            <option value="{{ printf "/%s/%s/" $key $release | relURL }}"{{ if in $.RelPermalink $key }} selected{{ end }}>{{ .name }}</option>
+          {{ end }}
         </select>
       </div>
-      {{with $product}}
+      {{ with $product }}
       <div class="products-toogle-select">
         <label for="version-select" class="products-toogle-label">Version</label>
         <select id="version-select" onchange="location = this.value;">
-        {{range .versions}}
-          {{template "optionInDifferentVersion" dict "root" $ "sect" . "productSection" $productSection "version" .}}
-        {{end}}
+          {{ range .versions }}
+            {{ template "optionInDifferentVersion" dict "root" $ "sect" . "productSection" $productSection "version" . }}
+          {{ end }}
         </select>
       </div>
-      {{end}}
+      {{ end }}
     </div>
-    {{end}}
+    {{ end }}
   </div>
-    <div class="highlightable">
+
+  <div class="highlightable">
     <ul class="topics">
-      {{with $product}}
-        {{range .versions}}
-          {{if in $.RelPermalink .release}}
-            {{$path := print "/" $productSection "/" .release}}
-            {{$docVersion := $.Site.GetPage $path}}
-            {{if eq .Site.Params.ordersectionsby "title"}}
-              {{range $docVersion.Sections.ByTitle}}
-                {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
-              {{end}}
-            {{else}}
-              {{range $docVersion.Sections.ByWeight}}
-                {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
-              {{end}}
-            {{end}}
-          {{end}}
-        {{end}}
-      {{end}}
+      {{ with $product }}
+        {{ range .versions }}
+          {{ if in $.RelPermalink .release }}
+            {{ $path := print "/" $productSection "/" .release }}
+            {{ $docVersion := $.Site.GetPage $path }}
+            {{ if eq .Site.Params.ordersectionsby "title" }}
+              {{ range $docVersion.Sections.ByTitle }}
+                {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
+              {{ end }}
+            {{ else }}
+              {{ range $docVersion.Sections.ByWeight }}
+                {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
     </ul>
 
     {{ $disableShortcutsTitle := .Site.Params.DisableShortcutsTitle}}
-    {{with .Site.Menus.shortcuts}}
-      <section id="shortcuts">
-        <h3>{{ if not $disableShortcutsTitle}}{{ T "Shortcuts-Title"}}{{ end }}</h3>
-        <ul>
-          {{ range sort . "Weight"}}
-              <li>
-                  {{.Pre}}<a class="padding" href="{{.URL | absLangURL }}">{{safeHTML .Name}}</a>{{.Post}}
-              </li>
-          {{end}}
-        </ul>
-      </section>
+    {{ with .Site.Menus.shortcuts }}
+    <section id="shortcuts">
+      <h3>{{ if not $disableShortcutsTitle}}{{ T "Shortcuts-Title" }}{{ end }}</h3>
+      <ul>
+        {{ range sort . "Weight"}}
+        <li>{{ .Pre }}<a class="padding" href="{{ .URL | absLangURL }}">{{ safeHTML .Name }}</a>{{ .Post }}</li>
+        {{end}}
+      </ul>
+    </section>
     {{end}}
-
   </div>
+
   <section id="footer">
-    {{partial "menu-footer" .}}
+    {{ partial "menu-footer" . }}
   </section>
 </nav>
 
 <!-- templates -->
 {{ define "section-tree-nav" }}
-{{ $showvisitedlinks := .showvisitedlinks }}
-{{ $currentNode := .currentnode }}
- {{with .sect}}
-  {{if .IsSection}}
-    {{safeHTML .Params.head}}
-    <li data-nav-id="{{.RelPermalink}}" title="{{.Title}}" class="dd-item
-        {{if .IsAncestor $currentNode }}parent{{end}}
-        {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}{{end}}
-        {{if .Params.alwaysopen}}parent{{end}}
+  {{ $showvisitedlinks := .showvisitedlinks }}
+  {{ $currentNode := .currentnode }}
+
+  {{ with .sect }}
+    {{ if .IsSection }}
+      {{ safeHTML .Params.head }}
+      <li data-nav-id="{{ .RelPermalink }}" title="{{ .Title }}" class="dd-item
+        {{ if .IsAncestor $currentNode  }}parent{{ end }}
+        {{ with .File }}{{ $f := . }}{{ with $currentNode.File }}{{ if eq $f.UniqueID .UniqueID }}active{{ end }}{{ end }}{{ end }}
+        {{ if .Params.alwaysopen }}parent{{ end }}
         ">
-      <a href="{{.RelPermalink}}">
-          {{safeHTML .Params.Pre}}{{or .Params.menuTitle .LinkTitle .Title}}{{safeHTML .Params.Post}}
-          {{ if $showvisitedlinks}}
-            <i class="fas fa-check read-icon"></i>
-          {{ end }}
-      </a>
-      {{ $numberOfPages := (add (len .Pages) (len .Sections)) }}
-      {{ if ne $numberOfPages 0 }}
+        <a href="{{ .RelPermalink }}">
+          {{ safeHTML .Params.Pre }}
+          {{ or .Params.menuTitle .LinkTitle .Title }}
+          {{ safeHTML .Params.Post }}
+          {{ if $showvisitedlinks }}<i class="fas fa-check read-icon"></i>{{ end }}
+        </a>
+
+        {{ $numberOfPages := (add (len .Pages) (len .Sections)) }}
+        {{ if ne $numberOfPages 0 }}
         <ul>
           {{ $currentNode.Scratch.Set "pages" .Pages }}
           {{ if .Sections}}
             {{ $currentNode.Scratch.Set "pages" (.Pages | union .Sections) }}
-          {{end}}
+          {{ end }}
           {{ $pages := ($currentNode.Scratch.Get "pages") }}
 
-        {{if eq .Site.Params.ordersectionsby "title"}}
-          {{ range $pages.ByTitle }}
-            {{ if and .Params.hidden (not $.showhidden) }}
-            {{else}}
-            {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
-            {{end}}
+          {{ if eq .Site.Params.ordersectionsby "title" }}
+            {{ range $pages.ByTitle }}
+              {{ if and .Params.hidden (not $.showhidden) }}
+              {{ else }}
+                {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
+              {{ end }}
+            {{ end }}
+          {{ else }}
+            {{ range $pages.ByWeight }}
+              {{ if and .Params.hidden (not $.showhidden) }}
+              {{ else }}
+                {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
+              {{ end }}
+            {{ end }}
           {{ end }}
-        {{else}}
-          {{ range $pages.ByWeight }}
-            {{ if and .Params.hidden (not $.showhidden) }}
-            {{else}}
-            {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
-            {{end}}
-          {{ end }}
-        {{end}}
         </ul>
-      {{ end }}
-    </li>
-  {{else}}
-    {{ if not .Params.Hidden }}
-      <li data-nav-id="{{.RelPermalink}}" title="{{.Title}}" class="dd-item {{with .File}}{{$f := .}}{{with $currentNode.File}}{{if eq $f.UniqueID .UniqueID}}active{{end}}{{end}}{{end}}">
-        <a href="{{ .RelPermalink}}">
-        {{safeHTML .Params.Pre}}{{or .Params.menuTitle .LinkTitle .Title}}{{safeHTML .Params.Post}}
-        {{if $showvisitedlinks}}<i class="fas fa-check read-icon"></i>{{end}}
-        </a>
+        {{ end }}
       </li>
-     {{ end }}
-  {{end}}
- {{ end }}
+    {{ else }}
+      {{ if not .Params.Hidden }}
+        <li data-nav-id="{{ .RelPermalink }}" title="{{ .Title }}" class="dd-item {{ with .File }}{{ $f := . }}{{ with $currentNode.File }}{{ if eq $f.UniqueID .UniqueID }}active{{ end }}{{ end }}{{ end }}">
+          <a href="{{ .RelPermalink }}">
+            {{ safeHTML .Params.Pre }}
+            {{ or .Params.menuTitle .LinkTitle .Title }}
+            {{ safeHTML .Params.Post }}
+            {{ if $showvisitedlinks }}<i class="fas fa-check read-icon"></i>{{ end }}
+          </a>
+        </li>
+      {{ end }}
+    {{ end }}
+  {{ end }}
 {{ end }}
 
 {{- define "optionInDifferentVersion" -}}
@@ -142,9 +145,9 @@
   {{- $productPathPrefix := path.Join $productSection $version.release -}}
 
   <option
-    value="{{- template "findBestMatchInVersion" dict "root" $ "page" $.Page "product" $productSection "release" $version.release -}}"
+    value="{{ template "findBestMatchInVersion" dict "root" $ "page" $.Page "product" $productSection "release" $version.release }}"
     {{- if in $.RelPermalink $version.release }} selected{{ end -}}
-  >{{- $version.name -}}</option>
+  >{{ $version.name }}</option>
 {{- end -}}
 
 {{- define "findBestMatchInVersion" -}}
