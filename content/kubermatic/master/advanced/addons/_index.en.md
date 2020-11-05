@@ -219,12 +219,12 @@ spec:
     NTguMDExIDE5LjM0MTggMTU3LjYzIDIwLjI1VjI3SDE1Ni4wMDRWMTcuNDkwMkgxNTcuNTg2TDE1Ny42MTIgMTguNTg4OUMx
     NTguMTQ2IDE3LjczOTMgMTU4LjkwMSAxNy4zMTQ1IDE1OS44OCAxNy4zMTQ1QzE2MC4xOTYgMTcuMzE0NSAxNjAuNDM3IDE3
     LjM1NTUgMTYwLjYwMSAxNy40Mzc1VjE4Ljk0OTJaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K
-
   formSpec:
     - displayName: Replicas
       internalName: replicas
       required: true
       type: number
+      helpText: "Number of replicas."
     - displayName: Description
       internalName: desc
       required: false
@@ -237,7 +237,17 @@ spec:
       internalName: spec
       required: false
       type: text-area
+      helpText: "Use YAML format."
 ```
+
+There is a short explanation of the single `formSpec` fields:
+- `displayName` is the name that is displayed in the UI as the control label.
+- `internalName` is the name used internally. It can be referenced with template variables (see the description below).
+- `required` indicates if the control should be required in the UI.
+- `type` indicates type of the control that will be displayed in the UI. Can be one of `number`, `text`, `boolean` and
+  `text-area`.
+- `helpText`  is the text that will be displayed in the UI next to the control. It can contain some hints for the
+   end-users.
 
 Each of the fields from the `formSpec` is then available using the `.Variables` template variable.
 See [the section below](#manifest-templating) for more information.
