@@ -179,3 +179,21 @@ iap:
 ```
 
 Re-deploy the `iap` Helm chart to apply the changes.
+
+## Wildcard Certificates
+
+Generally the KKP stack is built to use dedicated certificates for each Ingress / application, but it's
+possible to instead configure a single (usually wildcard) certificate in nginx that will be used as the
+default certificate for all domains.
+
+As with all other custom certificates, create a new Secret with the certificate and private key in it,
+and then adjust your Helm `values.yaml` to configure nginx like so:
+
+```yaml
+nginx:
+  extraArgs:
+    # The value of this flag is in the form "namespace/name".
+    - '--default-ssl-certificate=mynamespace/mysecret'
+```
+
+Redeploy the `nginx-ingress-controller` Helm chart to enable the changes.
