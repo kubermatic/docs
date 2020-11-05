@@ -323,8 +323,16 @@ The above will return `quay.io` when no override is set, otherwise the overridde
 #### Configure KKP
 
 It's now time to configure KKP to use your Docker image instead of its default, and to tell it
-about your new addon. Edit the KubermaticConfiguration and update the Docker repository for example
-for Kubernetes:
+about your new addon. By default, the KKP Operator will use the KKP version for the Docker
+image tag (so if you configure `docker.io/example/my-addons` as the repository, the final image
+name will be `docker.io/example/my-addons:KKP_VERSION`). To help with developing custom addons,
+it is however possible to define an additional suffix for the image tag, which will be appended
+to the KKP version with a dash (i.e. `docker.io/example/my-addons:KKP_VERSION-YOUR_SUFFIX`).
+
+This versioning scheme ensures that admins can easily roll out new Docker images for their addons,
+but also that updating the Docker image is not accidentally forgotten when updating KKP itself.
+
+Edit the KubermaticConfiguration and update the Docker repository for example for Kubernetes:
 
 ```yaml
 spec:
@@ -334,6 +342,12 @@ spec:
         # Do not specify a tag here, as the KKP Operator will always use the KKP
         # version instead.
         dockerRepository: docker.io/customer/addons
+
+        # Leave this empty if you have not created your own Docker images, otherwise this
+        # can be used to force pulling a new image whenever KKP is updated.
+        # With this exact configuration (assuming KKP v2.15.1 is used), the final image name
+        # will be "docker.io/customer/addons:v2.15.1-1".
+        dockerTagSuffix: '1'
 ```
 
 You also need to add your new addon to the `defaultManifests`:
