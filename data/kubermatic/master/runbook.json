@@ -1005,7 +1005,7 @@
             "message": "KubermaticAPI has disappeared from Prometheus target discovery.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticapidown"
           },
-          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",role=\"kubermatic-api\"} == 1)",
+          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",app_kubernetes_io_name=\"kubermatic-api\"} == 1)",
           "for": "15m",
           "labels": {
             "severity": "critical"
@@ -1023,7 +1023,7 @@
             "message": "Kubermatic API is returning a high rate of HTTP 5xx responses.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticapitoomanyerrors"
           },
-          "expr": "sum(rate(http_requests_total{role=\"kubermatic-api\",code=~\"5..\"}[5m])) > 0.1",
+          "expr": "sum(rate(http_requests_total{app_kubernetes_io_name=\"kubermatic-api\",code=~\"5..\"}[5m])) > 0.1",
           "for": "15m",
           "labels": {
             "severity": "warning"
@@ -1043,6 +1043,24 @@
           "for": "15m",
           "labels": {
             "severity": "warning"
+          }
+        },
+        {
+          "alert": "KubermaticMasterControllerManagerDown",
+          "annotations": {
+            "message": "Kubermatic Master Controller Manager has disappeared from Prometheus target discovery.",
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticmastercontrollermanagerdown"
+          },
+          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",app_kubernetes_io_name=\"kubermatic-master-controller-manager\"} == 1)",
+          "for": "15m",
+          "labels": {
+            "severity": "critical"
+          },
+          "runbook": {
+            "steps": [
+              "Check the Prometheus Service Discovery page to find out why the target is unreachable.",
+              "Ensure that the master-controller-manager pod's logs and that it is not crashlooping."
+            ]
           }
         }
       ]
@@ -1100,7 +1118,7 @@
           },
           "runbook": {
             "steps": [
-              "Check the kubermatic controller-manager's logs via `kubectl -n kubermatic logs -l 'role=controller-manager'` for errors related to deletion of the addon. Manually deleted resources inside of the user cluster is a common reason for failing deletions.",
+              "Check the kubermatic controller-manager's logs via `kubectl -n kubermatic logs -l 'app.kubernetes.io/name=kubermatic-seed-controller-manager'` for errors related to deletion of the addon. Manually deleted resources inside of the user cluster is a common reason for failing deletions.",
               "If all resources of the addon inside the user cluster have been cleaned up, remove the blocking finalizer (e.g. `cleanup-manifests`) from the addon resource."
             ]
           }
@@ -1118,17 +1136,17 @@
           },
           "runbook": {
             "steps": [
-              "Check the kubermatic controller-manager's logs via `kubectl -n kubermatic logs -l 'role=controller-manager'` for errors related to reconciliation of the addon."
+              "Check the kubermatic seed controller-manager's logs via `kubectl -n kubermatic logs -l 'app.kubernetes.io/name=kubermatic-seed-controller-manager'` for errors related to reconciliation of the addon."
             ]
           }
         },
         {
-          "alert": "KubermaticControllerManagerDown",
+          "alert": "KubermaticSeedControllerManagerDown",
           "annotations": {
-            "message": "KubermaticControllerManager has disappeared from Prometheus target discovery.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticcontrollermanagerdown"
+            "message": "Kubermatic Seed Controller Manager has disappeared from Prometheus target discovery.",
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticseedcontrollermanagerdown"
           },
-          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",role=\"controller-manager\"} == 1)",
+          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",app_kubernetes_io_name=\"kubermatic-seed-controller-manager\"} == 1)",
           "for": "15m",
           "labels": {
             "severity": "critical"
@@ -1136,7 +1154,7 @@
           "runbook": {
             "steps": [
               "Check the Prometheus Service Discovery page to find out why the target is unreachable.",
-              "Ensure that the controller-manager pod's logs and that it is not crashlooping."
+              "Ensure that the seed-controller-manager pod's logs and that it is not crashlooping."
             ]
           }
         },
