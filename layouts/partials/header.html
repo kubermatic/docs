@@ -14,9 +14,8 @@
         {{end}}
       {{end}}
     {{end}}
-    {{ hugo.Generator }}
     {{ partial "meta.html" . }}
-    {{ partial "favicon.html" . }}
+    {{partialCached "favicon.html" .}}
     <title>{{ .Title }} - {{ partial "title.html" . }}</title>
     {{partialCached "css-includes" .}}
     {{ $assetBusting := not .Site.Params.disableAssetsBusting }}

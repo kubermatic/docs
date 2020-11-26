@@ -1,3 +1,9 @@
-{{with .Site.Params.favicon}}
-<link rel="shortcut icon" type="image/x-icon" href="{{. | relURL}}"/>
-{{end}}
+<link rel="apple-touch-icon" sizes="180x180" href="{{`/img/favicons/apple-touch-icon.png` | relURL}}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{`/img/favicons/favicon-32x32.png` | relURL}}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{`/img/favicons/favicon-16x16.png` | relURL}}">
+<link rel="manifest" href="{{`/img/favicons/site.webmanifest` | relURL}}">
+<link rel="mask-icon" href="{{`/img/favicons/safari-pinned-tab.svg` | relURL}}" color="#5bbad5">
+<link rel="shortcut icon" href="{{`/img/favicons/favicon.ico` | relURL}}">
+<meta name="msapplication-TileColor" content="#00aba9">
+<meta name="msapplication-config" content="{{`/img/favicons/browserconfig.xml` | relURL}}">
+<meta name="theme-color" content="#ffffff">
