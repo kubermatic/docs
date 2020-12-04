@@ -2,6 +2,8 @@ baseURL = "https://docs.kubermatic.com/"
 theme = "hugo-theme-learn"
 languageCode = "en-us"
 title = "Kubermatic Docs"
+disableKinds = ["taxonomy"]
+ignoreErrors = ["error-disable-taxonomy"]
 
 [outputs]
 home = ["HTML"]
@@ -35,21 +37,21 @@ ordersectionsby = "weight"
 # Change default color scheme with a variant one. Can be "red", "blue", "green".
 themeVariant = "kubermatic"
 # English is the default language
-defaultContentLanguage = "en"
+# defaultContentLanguage = "en"
 # Force to have /en/my-page and /fr/my-page routes, even for default language.
-defaultContentLanguageInSubdir = true
+# defaultContentLanguageInSubdir = true
 baseWebsiteUrl = "https://www.kubermatic.com"
 
-[Languages]
-[Languages.en]
-title = "Documentation for "
-weight = 1
-languageName = "English"
+# [Languages]
+# [Languages.en]
+# title = "Documentation for "
+# weight = 1
+# languageName = "English"
 
-[Languages.de]
-title = "Dokumentation für "
-weight = 2
-languageName = "German"
+# [Languages.de]
+# title = "Dokumentation für "
+# weight = 2
+# languageName = "German"
 
 [params.mainLogo]
 src = "/img/kubermatic.svg"
