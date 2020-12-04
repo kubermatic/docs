@@ -11,7 +11,7 @@ Kubermatic Kubernetes Platform (KKP) makes full use of Kubernetes cluster to org
 
 ### Master Cluster
 
-The **Master Cluster** a Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys.
+The **Master Cluster** is a Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys.
 It hosts the KKP components and might also act as a seed cluster.
 
 The KKP components are the
