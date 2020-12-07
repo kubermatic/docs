@@ -53,6 +53,21 @@ Independent of *Cloud*, *Datacenter* and *Region*.
 
 KubeCarrier is just yet another Kubernetes Operator, using `CustomResourceDefinitions` and the Kubernetes Controller pattern to do its magic.
 
-Checkout our *Getting Started* docs to see how easy it is to setup and play around with KubeCarrier.
+Checkout our [Getting Started](getting_started) docs to see how easy it is to setup and play around with KubeCarrier.
+
+### What is the difference to OLM / Crossplane?
+
+The [Operator Lifecycle Manager](https://github.com/operator-framework/operator-lifecycle-manager) and [Crossplane](https://crossplane.io/) are both projects that manage installation, upgrade and deletion of Operators and their CustomResourceDefinitions in a Kubernetes cluster.
+
+KubeCarrier on the other hand is just working with existing CustomResourceDefinitions and already installed Operators.
+As both OLM and Crossplane are driven by CRDs, they can be combined with KubeCarrier to manage their configuration across clusters.
+
+### What is the difference to KubeFed - Kubernetes Federation?
+
+The [Kubernetes Federation Project](https://github.com/kubernetes-sigs/kubefed) was created to distribute Workload across Kubernetes Clusters for e.g. geo-replication and disaster recovery.
+It's intentionally low-level to work for generic workload to be spread across clusters.
+
+While KubeCarrier is also operating on multiple clusters, KubeCarrier operates on a higher abstraction level.
+KubeCarrier assigns applications onto single pre-determined Kubernetes clusters. Kubernetes Operators that enable these applications, may still use KubeFed underneath to spread the workload across clusters.
 
 [logo]: ./img/KubeCarrier.png
