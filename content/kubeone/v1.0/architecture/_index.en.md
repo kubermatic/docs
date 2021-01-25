@@ -12,7 +12,7 @@ which particular order.
 Additional details about concepts used by KubeOne can be found in the
 [Concepts][concepts] document.
 
-![KubeOne Architecture Diagram](/img/kubeone/master/architecture/architecture.png)
+![KubeOne Architecture Diagram](/img/kubeone/v1.0/architecture/architecture.png)
 
 1 This diagram shows [officially supported providers][supported-providers].
 KubeOne is not limited to those providers and is supposed to work on any 
