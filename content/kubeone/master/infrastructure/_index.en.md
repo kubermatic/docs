@@ -1,7 +1,7 @@
 +++
 title = "Infrastructure"
 date = 2020-04-01T12:00:00+02:00
-weight = 6
+weight = 7
 +++
 
 This sections shows how to create the needed infrastructure for a
