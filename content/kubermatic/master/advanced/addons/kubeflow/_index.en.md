@@ -65,7 +65,7 @@ This address can be retrieved by reviewing the `istio-ingressgateway` Service in
 ```bash
 $ kubectl get service istio-ingressgateway -n istio-system
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP
-istio-ingressgateway   LoadBalancer   10.240.28.214 a286f5a47e9564e43ab4165039e58e5e-1598660756.eu-central-1.elb.amazonaws.com
+istio-ingressgateway   LoadBalancer   10.240.28.214   a286f5a47e9564e43ab4165039e58e5e-1598660756.eu-central-1.elb.amazonaws.com
 ```
 
 This external IP can be used to access the Kubeflow dashboard, or for DNS setup if custom `Domain Name` is used
