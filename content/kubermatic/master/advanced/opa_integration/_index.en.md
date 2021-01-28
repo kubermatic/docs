@@ -9,9 +9,9 @@ This manual explains how Kubermatic integrates with OPA and how to use it.
 
 ### OPA
 
-[OPA](https://www.openpolicyagent.org/) (Open Policy Agent) is an open source, general-purpose policy engine that unifies
+[OPA](https://www.openpolicyagent.org/) (Open Policy Agent) is an open-source, general-purpose policy engine that unifies
  policy enforcement across the stack. 
-We are integrating with it using [Gatekeeper](https://github.com/open-policy-agent/gatekeeper), which is a OPA's Kubernetes-native 
+We are integrating with it using [Gatekeeper](https://github.com/open-policy-agent/gatekeeper), which is an OPA's Kubernetes-native 
 policy engine.
 
 More info about OPA and Gatekeeper can be read from their docs and tutorials, but the general idea is that by using the 
@@ -99,7 +99,7 @@ Constraint Template endpoints and API object are described in the Kubermatic Swa
 
 ### Managing Constraints
 
-Constraints are manages similarly to Constraint Templates through Kubermatic CRD wrappers around the Gatkeeper Constraints, 
+Constraints are managed similarly to Constraint Templates through Kubermatic CRD wrappers around the Gatkeeper Constraints, 
 the difference being that Constraints are managed on the user cluster level. Furthermore, due to the way Gatekeeper works, 
 Constraints need to be associated with a Constraint Template.
 
