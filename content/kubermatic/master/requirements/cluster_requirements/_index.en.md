@@ -8,7 +8,9 @@ weight = 5
 ## Requirements
 
 ### Master Cluster
+The Master Cluster hosts the KKP components and might also act as a seed cluster and host the master components of customer clusters (see [Architecture](../../concepts/architecture)). Therefore, it should run in [Highly Available setup](../../installation/install_kubernetes) with at least 3 master nodes and 3 worker nodes.
 
+**Minimal Requirements:**
 * Six or more machines running one of:
   * Ubuntu 16.04+
   * Debian 9
@@ -19,7 +21,9 @@ weight = 5
 * 2 CPUs or more
 
 ### User Cluster
+The User Cluster is a Kubernetes cluster created and managed by KKP. The exact requirements may depend on the type of workloads that will be running in the user cluster.
 
+**Minimal Requirements:**
 * One or more machines running one of:
   * Ubuntu 16.04+
   * Debian 9
