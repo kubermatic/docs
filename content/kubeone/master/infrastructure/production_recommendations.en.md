@@ -65,3 +65,4 @@ cluster_name    = "my-cool-cluster"
 ami_id          = "ami-00f6fb16625871821"
 internal_api_lb = true
 ```
+
