@@ -12,7 +12,7 @@ trap "cleanup" EXIT SIGINT
 cleanup
 
 echo "Checking if the site can be built with Hugo..."
-hugo --logFile hugo.log --renderToMemory
+hugo --logFile hugo.log
 
 if grep -q "WARN" hugo.log; then
   echo "Warnings occurred."
