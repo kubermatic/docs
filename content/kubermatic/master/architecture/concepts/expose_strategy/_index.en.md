@@ -58,7 +58,6 @@ The advantage of this solution is that it uses a single point of entry.
 The requirement in terms of DNS configuration is to setup a wildcard entry (A
 or CNAME record) pointing to the static IPv4 address or FQDN associated to the
 load balancer.
-
 The DNS entry should follow this pattern:
 
 `*.<<seed-cluster-name>>.base.domain`
@@ -76,8 +75,9 @@ allowed.
 **Cons**
 * Some load balancer implementations do not cope well with port ranges. e.g.
   in AWS Elastic Load Balancer a listener per port is required and the default
-  quota is set to [50 listeners per load balancer][aws_elb_qotas], meaning that
-  a maximum of 25 clusters can be exposed per seed with this strategy.
+  quota is set to [50 listeners per load balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html),
+  meaning that a maximum of 25 clusters can be exposed per seed with this
+  strategy.
 
 
 ## One LoadBalancer per User Cluster (KKP 2.11+)
