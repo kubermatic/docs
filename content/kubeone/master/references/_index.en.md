@@ -1,9 +1,9 @@
 +++
-title = "Architecture"
+title = "References"
 date = 2021-10-01T10:30:00+02:00
-weight = 1
+weight = 4
 chapter = true
 +++
 
-# Architecture
+# References
 
