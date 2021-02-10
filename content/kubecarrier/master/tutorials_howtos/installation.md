@@ -45,4 +45,4 @@ $ kubectl kubecarrier setup
 
 The `kubectl kubecarrier setup` command is idempotent, so its safe to just re-run it multiple times, if you encounter any error in your setup.
 
-Take a look at [Debugging Cheat Sheet](../cheat_sheets/debugging.md) if you encounter issues by installation.
+Take a look at [Debugging Cheat Sheet]({{< relref "../cheat_sheets/debugging" >}}) if you encounter issues by installation.

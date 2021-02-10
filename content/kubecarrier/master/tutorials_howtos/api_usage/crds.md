@@ -1,12 +1,12 @@
 ---
 title: External And Internal CustomResourceDefinitions
-menuTitle: CRDs
+menuTitle: External & Internal CRDs
 weight: 40
 slug: crds
 date: 2020-04-24T09:00:00+02:00
 ---
 
-In 4. Catalogs, we created two CRDs. A public one, that users can interact with and an internal one.
+In [Catalogs]({{< relref "./catalogs" >}}), we created two CRDs. A public one, that users can interact with and an internal one.
 This split allows the Provider to override user properties or hide settings and status information from their users.
 
 Now we will create a `CouchDB` instance and see how we work with those objects in KubeCarrier:
@@ -22,7 +22,6 @@ spec:
   username: hans
   password: hans2000
 ```
-</details>
 
 ```bash
 $ kubectl apply -n team-b --as=team-b-member \
