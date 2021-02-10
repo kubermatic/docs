@@ -1,10 +1,10 @@
 +++
-title = "Tutorials"
-date =  2019-10-04T17:35:34+02:00
-weight = 120
+title = "Tutorials & How-tos"
+date = 2020-02-10T11:07:15+02:00
+weight = 20
 chapter = true
 +++
 
-# Tutorials
+# Tutorials & How-tos 
 
-This section contains illustrated Kubermatic Kubernetes Platform (KKP) tutorials.
+
