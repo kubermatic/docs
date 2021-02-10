@@ -58,7 +58,7 @@ Choose the cloud provider and the datacenter:
 Enter a name for your cluster and click Next. Here you can also activate [Audit Logging](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) and [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/), assign labels and SSH keys to your cluster, and choose a Kubernetes version.
 
 **Note:**
-Disabling the User SSH Key Agent at this point can not be reverted after the cluster creation, which means that ssh key manangement after creation for this cluster will have to be done manually. More info in [`User SSH Key Agent`]({{< ref "../../references/user_ssh_key_agent/_index.en.md" >}}) 
+Disabling the User SSH Key Agent at this point can not be reverted after the cluster creation, which means that ssh key management after creation for this cluster will have to be done manually. More info in [`User SSH Key Agent`]({{< ref "../../references/user_ssh_key_agent/_index.en.md" >}}) 
 
 ![General cluster settings](01b-create-cluster-choose-name.png)
 
