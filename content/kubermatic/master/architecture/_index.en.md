@@ -6,5 +6,3 @@ chapter = true
 +++
 
 # Architecture
-
-[Expose Strategy]: {{< ref "./expose_strategy" >}}
