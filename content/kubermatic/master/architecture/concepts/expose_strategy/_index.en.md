@@ -109,7 +109,7 @@ KKP manages. This my result in additional charges by your cloud provider.
 
 ## Tunneling (alpha KKP 2.16+)
 
-This strategy is based on a single load balancer, like the aformentioned
+This strategy is based on a single load balancer, like the aforementioned
 `NodePort with Global LoadBalancer` strategy. The main difference is that it is
 not relying on Services of type `NodePort`. The traffic will be routed based on
 SNI and based on tunneling techniques (e.g. HTTP/2 CONNECT).
