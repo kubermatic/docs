@@ -30,7 +30,7 @@ repository for storing backups.
 Original [addon source][backups-addon-src] can be found in kubeone repository.
 
 ```yaml
-{{< readfile "kubeone/master/data/backups-restic.yaml" >}}
+{{< readfile "kubeone/v1.2/data/backups-restic.yaml" >}}
 ```
 
 You need to replace the following values with the actual ones:
