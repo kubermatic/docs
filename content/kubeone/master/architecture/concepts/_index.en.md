@@ -22,12 +22,16 @@ Using Kubermatic machine-controller is highly advised if your provider is
 [officially supported][supported-providers]. Otherwise, KubeOne Static Workers
 are recommended instead.
 
-## Example Terraform Scripts
+Additional information about the infrastructure management, such as what are
+the infrastructure requirements and how to use the Terraform integration, can
+be found in the [Infrastructure Management document][infrastructure-management].
+
+### Example Terraform Scripts
 
 To make it easier to get started, we provide example Terraform scripts that
 you can use to create the needed infrastructure and instances. The example
 Terraform scripts are available for all
-[natively supported][supported-providers] providers and can be found on
+[officially supported][supported-providers] providers and can be found on
 [GitHub][terraform-scripts].
 
 {{% notice warning %}}
@@ -44,7 +48,7 @@ document for more details about making the example configs suitable for
 the production usage.
 {{% /notice %}}
 
-## KubeOne Terraform Integration
+### KubeOne Terraform Integration
 
 KubeOne integrates with Terraform by reading the Terraform state for the
 information about the cluster including:
@@ -79,7 +83,7 @@ programmatically using client-go and controller-runtime libraries.
 This approach allows us to manage clusters on any infrastructure, is it
 cloud, on-prem, baremetal, Edge, or IoT.
 
-## KubeOne Configuration Manifest
+### KubeOne Configuration Manifest
 
 Clusters are defined declaratively using the KubeOne Configuration Manifest.
 The configuration manifest is a YAML file that defines properties of a cluster
@@ -109,7 +113,7 @@ kubeone config print --full
 You can find more details about machine-controller in the
 [Managing Worker Nodes Using Kubermatic machine-controller document][using-machine-controller].
 
-## Cluster API
+### Cluster API
 
 Cluster API is a Kubernetes sub-project focused on providing declarative APIs
 and tooling to simplify provisioning, upgrading, and operating multiple
@@ -126,7 +130,7 @@ for acting on Cluster API objects — Machines, MachineSets, and
 MachineDeployments. The controller takes care of reconciling the desired state
 and ensuring that the requested machines exist and are part of the cluster.
 
-### Machines
+#### Machines
 
 Machines (`machines.cluster.k8s.io`) define a single machine and node in the
 cluster. In our case, a worker node is requested by creating a Machine
@@ -134,21 +138,22 @@ object which contains all the needed information to create the instance
 (e.g. region, instance size, security groups...). Machines are often compared
 to Pods, i.e. Machine is a atomic unit representing a single node.
 
-### MachineSets
+#### MachineSets
 
 MachineSets (`machinesets.cluster.k8s.io`) have a purpose to maintain a stable
 set of Machines running at any given time. It's often used to guarantee the
 availability of a specified number of Machines. As such, MachineSets work
 similar as ReplicaSets.
 
-### MachineDeployments
+#### MachineDeployments
 
 MachineDeployments (`machinedeployments.cluster.k8s.io`) are similar to the
 Deployments. They are used to provide declarative updates for
 MachineSets/Machines and allow advanced use cases such as rolling updates.
 
 [machine-controller]: https://github.com/kubermatic/machine-controller
-[supported-providers]: {{< ref "./compatibility" >}}
+[supported-providers]: {{< ref "../compatibility" >}}
+[infrastructure-management]: {{< ref "../infrastructure_management" >}}
 [terraform-scripts]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [aws-output-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/output.tf
 [kubeadm]: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/

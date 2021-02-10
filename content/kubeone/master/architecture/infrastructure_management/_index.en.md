@@ -5,6 +5,4 @@ weight = 2
 enableToc = true
 +++
 
-# Infrastructure Management
-
 TBD
