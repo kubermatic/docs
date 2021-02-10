@@ -24,6 +24,8 @@ kubeone:
   versions:
     - release: master
       name: master
+    - release: v1.2
+      name: v1.2
     - release: v1.0
       name: v1.0
 kubecarrier:
