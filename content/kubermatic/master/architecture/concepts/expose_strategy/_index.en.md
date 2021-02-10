@@ -41,9 +41,9 @@ It must point to one or more of the seed cluster node IPs.
 **Note** that as clients will target the seed nodes directly, the IPs used in the
 DNS entries should be routable from the user cluster worker networks.
 
-### Pros
+**Pros**
 * Cost-effective, do not require any load balancer.
-### Cons
+**Cons**
 * Operational overhead (DNS administration).
 
 
@@ -73,9 +73,9 @@ exposed service endpoints change (e.g. KAS pods are created or terminated).
 The Envoy proxies are needed, because chaining Kubernetes services is not
 allowed.
 
-### Pros
+**Pros**
 * Cost-effective, requires one single load balancer per seed cluster.
-### Cons
+**Cons**
 * Some load balancer implementations do not cope well with port ranges. e.g.
   in AWS Elastic Load Balancer a listener per port is required and the default
   quota is set to [50 listeners per load balancer][aws_elb_qotas], meaning that
@@ -93,10 +93,10 @@ creating a load balancer per exposed service.
 This is simple to setup, but will result in one service of type `LoadBalancer` per cluster
 KKP manages. This my result in additional charges by your cloud provider.
 
-### Pros
+**Pros**
 * Avoids problems with load balancers not supporting port ranges.
 * Simple to configure, no DNS configuration is needed.
-### Cons
+**Cons**
 * Not very cost effective, one load balancer has to be created per each user
   cluster.
 
@@ -130,9 +130,9 @@ The DNS entry should follow this pattern:
 
 `*.<<seed-cluster-name>>.base.domain`
 
-### Pros
+**Pros**
 * Avoids problems with load balancers not supporting port ranges.
-### Cons
+**Cons**
 * Cost-effective, requires one single load balancer per seed cluster.
 
 
