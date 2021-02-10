@@ -14,7 +14,6 @@ Kubernetes API Server (KAS) in different ways depending on the chosen expose
 strategy.
 
 The components that are exposed for each user cluster are:
-
 * KAS: The Kubernetes API Server needs to be reachable from the kubelets and
   some pods (e.g. operators and controllers deployed on the user clusters).
 * OpenVPN Server: It is used to establish secure communication channels from
@@ -38,16 +37,15 @@ operator for each of the seed clusters, using the following pattern:
 `*.<<seed-cluster-name>>.base.domain`
 
 It must point to one or more of the seed cluster node IPs.
-*Note* that as clients will target the seed nodes directly, the IPs used in the
+
+**Note** that as clients will target the seed nodes directly, the IPs used in the
 DNS entries should be routable from the user cluster worker networks.
 
 ### Pros
-
 * Cost-effective, do not require any load balancer.
-
 ### Cons
-
 * Operational overhead (DNS administration).
+
 
 ## NodePort with Global LoadBalancer
 
@@ -76,15 +74,13 @@ The Envoy proxies are needed, because chaining Kubernetes services is not
 allowed.
 
 ### Pros
-
 * Cost-effective, requires one single load balancer per seed cluster.
-
 ### Cons
-
 * Some load balancer implementations do not cope well with port ranges. e.g.
   in AWS Elastic Load Balancer a listener per port is required and the default
   quota is set to [50 listeners per load balancer][aws_elb_qotas], meaning that
   a maximum of 25 clusters can be exposed per seed with this strategy.
+
 
 ## One LoadBalancer per User Cluster (KKP 2.11+)
 
@@ -98,14 +94,12 @@ This is simple to setup, but will result in one service of type `LoadBalancer` p
 KKP manages. This my result in additional charges by your cloud provider.
 
 ### Pros
-
 * Avoids problems with load balancers not supporting port ranges.
 * Simple to configure, no DNS configuration is needed.
-
 ### Cons
-
 * Not very cost effective, one load balancer has to be created per each user
   cluster.
+
 
 ## Tunneling (alpha KKP 2.16+)
 
@@ -137,13 +131,9 @@ The DNS entry should follow this pattern:
 `*.<<seed-cluster-name>>.base.domain`
 
 ### Pros
-
 * Avoids problems with load balancers not supporting port ranges.
-
 ### Cons
-
 * Cost-effective, requires one single load balancer per seed cluster.
-  
 
 
 [aws_elb_quotas]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html
