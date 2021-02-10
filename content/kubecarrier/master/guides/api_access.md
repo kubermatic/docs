@@ -1,6 +1,6 @@
 ---
 title: API Access
-weight: 70
+weight: 10
 slug: api_access
 date: 2020-06-26T09:00:00+02:00
 ---

@@ -1,6 +1,6 @@
 ---
 title: API Reference
-weight: 50
+weight: 10
 date: 2020-04-24T09:00:00+02:00
 ---
 
