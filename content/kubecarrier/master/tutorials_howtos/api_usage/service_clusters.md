@@ -1,18 +1,16 @@
 ---
-title: Clusters
+title: ServiceClusters
 weight: 20
 slug: clusters
 date: 2020-04-24T09:00:00+02:00
 ---
 
-Next we want to register Kubernetes Clusters into KubeCarrier.
-To begin you need another Kubeconfig.
+ServiceClusters are used to register Kubernetes Clusters into KubeCarrier.
+To begin you need another Kubernetes cluster and its Kubeconfig.
 
-<details>
-<summary><b><i>Need another Cluster?</i></b></summary>
-<br>
+## Need another Cluster?
 
-If you don't have another Kubernetes Cluster, just go back to [0. Requirements](#0-requirements) and create another cluster with Kind.
+If you don't have another Kubernetes Cluster, just go back to [Requirements]({{< relref "../requirements" >}}) and create another cluster with Kind.
 In this example we will use the name `eu-west-1` for this new cluster.
 
 When you create another cluster with Kind, you have to work with the **internal** Kubeconfig of the cluster, see command below:
@@ -26,7 +24,7 @@ When creating a new cluster with `kind` your active context will be switched to 
 Check `kubectl config current-context` and use `kubectl config use-context` to switch back to the right cluster.
 {{% /notice %}}
 
-</details>
+## Add a ServiceCluster
 
 To begin, we have to upload our Kubeconfig as a `Secret` into our Account Namespace.
 
