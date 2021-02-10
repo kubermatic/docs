@@ -53,7 +53,7 @@ Independent of *Cloud*, *Datacenter* and *Region*.
 
 KubeCarrier is just yet another Kubernetes Operator, using `CustomResourceDefinitions` and the Kubernetes Controller pattern to do its magic.
 
-Checkout our [Getting Started](getting_started) docs to see how easy it is to setup and play around with KubeCarrier.
+Checkout our [Getting Started](tutorials_howtos) docs to see how easy it is to setup and play around with KubeCarrier.
 
 ### What is the difference to OLM / Crossplane?
 
