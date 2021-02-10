@@ -30,11 +30,11 @@ current KubeOne version.
 
 | KubeOne version | 1.20       | 1.19 | 1.18 | 1.17 |
 | --------------- | ---------- | ---- | ---- | ---- |
-| v1.2+         | ✓ | ✓    | ✓    | ✓*   |
+| v1.2+         | ✓ | ✓    | ✓    | -   |
 | v1.0+         | - | ✓    | ✓    | ✓*   |
 
-\* Kubernetes 1.16 will be supported as long as it's supported by upstream.
-It's supposed to reach End-of-Life several weeks after the 1.19 release.
+\* Kubernetes 1.17 has reached End-of-Life (EOL) and is not recommended
+for new clusters.
 
 Additionally, we do **not** recommend installing or upgrading to the following
 Kubernetes versions:
