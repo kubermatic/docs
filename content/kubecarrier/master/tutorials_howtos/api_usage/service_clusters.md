@@ -5,8 +5,11 @@ slug: clusters
 date: 2020-04-24T09:00:00+02:00
 ---
 
-ServiceClusters are used to register Kubernetes Clusters into KubeCarrier.
-To begin you need another Kubernetes cluster and its Kubeconfig.
+ServiceClusters are Kubernetes clusters that run the actual application workloads managed by their operators,
+which are driven by the KubeCarrier Service Hub. To allow that, they first have to be registered in the KubeCarrier 
+Management Cluster.
+
+To register a new Service Cluster in KubeCarrier, we will need another Kubernetes cluster and its Kubeconfig.
 
 ## Need another Cluster?
 
@@ -26,7 +29,7 @@ Check `kubectl config current-context` and use `kubectl config use-context` to s
 
 ## Add a ServiceCluster
 
-To begin, we have to upload our Kubeconfig as a `Secret` into our Account Namespace.
+To add a new Service Cluster, we first have to upload its Kubeconfig as a `Secret` into our Account Namespace.
 
 ```bash
 $ kubectl create secret generic eu-west-1-kubeconfig \
@@ -36,9 +39,6 @@ secret/eu-west-1-kubeconfig created
 ```
 
 Now that we have the credentials and connection information, we can register the Cluster into KubeCarrier.
-
-<details>
-<summary><b>ServiceCluster definitions</b></summary>
 
 ```yaml
 apiVersion: kubecarrier.io/v1alpha1
@@ -51,9 +51,8 @@ spec:
   kubeconfigSecret:
     name: eu-west-1-kubeconfig
 ```
-</details>
 
-Create the object with:
+You can create the above ServiceCluster CR object with:
 
 ```bash
 $ kubectl apply -n team-a \
