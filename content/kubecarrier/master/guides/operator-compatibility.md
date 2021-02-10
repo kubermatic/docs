@@ -1,7 +1,7 @@
 ---
 title: Operator Compatibility
 weight: 20
-date: 2021-02-10T013:00:00+02:00
+date: 2021-02-10T13:00:00+02:00
 ---
 
 Since the operator ecosystem is still evolving, different operators may be built and operate differently, and some
