@@ -1,9 +1,6 @@
 +++
 title = "KubeOne"
-date = 2021-10-01T10:30:00+02:00
-aliases = [
-    "/kubeone/master/frequently_asked_questions/"
-]
+date = 2021-02-10T09:00:00+02:00
 +++
 
 # What is KubeOne?
