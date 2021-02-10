@@ -11,8 +11,7 @@ clusters managed by Kubermatic Kubernetes Platform (KKP).
 
 The kubelets of the worker nodes and the pods running on them will reach the
 Kubernetes API Server (KAS) in different ways depending on the chosen expose
-strategy.
-
+strategy.\
 The components that are exposed for each user cluster are:
 * KAS: The Kubernetes API Server needs to be reachable from the kubelets and
   some pods (e.g. operators and controllers deployed on the user clusters).
@@ -29,8 +28,7 @@ Currently, the supported expose strategies are:
 ## Nodeport
 
 A `NodePort` will be created for every exposed service on the user cluster.
-Clients will use the combination of the FQDN and the port to connect.
-
+Clients will use the combination of the FQDN and the port to connect.\
 A wildcard DNS record (A record) should be created and maintained by the KKP
 operator for each of the seed clusters, using the following pattern:
 
@@ -53,11 +51,9 @@ DNS entries should be routable from the user cluster worker networks.
 An extension to the previous strategy that simplifies the operations is to use
 one LoadBalancer per seed cluster. The routing to the right user cluster and
 its exposed services is based on the port. Services of type Nodeport are used
-to guarantee the uniqueness of the allocation.
-
+to guarantee the uniqueness of the allocation.\
 When using this strategy the `NodeportProxy` will be deployed into the seed.
-It will create a Kubernetes Service of type `LoadBalancer`. 
-
+It will create a Kubernetes Service of type `LoadBalancer`.\
 The advantage of this solution is that it uses a single point of entry.
 The requirement in terms of DNS configuration is to setup a wildcard entry (A
 or CNAME record) pointing to the static IPv4 address or FQDN associated to the
@@ -90,8 +86,7 @@ A third option is to create one load balancer per user cluster.
 
 This will result in one service of type `LoadBalancer` per user cluster being
 created. The `NodeportProxy` will be used in this strategy too, to avoid
-creating a load balancer per exposed service.
-
+creating a load balancer per exposed service.\
 This is simple to setup, but will result in one service of type `LoadBalancer` per cluster
 KKP manages. This my result in additional charges by your cloud provider.
 
@@ -119,12 +114,10 @@ The reasons why we cannot rely solely on SNI routing are two:
   `Client Hello` during the TLS handshake. 
 
 The traffic that cannot be routed based on SNI will be tunneled trough agents
-running on the user cluster worker nodes.
-
+running on the user cluster worker nodes.\
 When using this strategy the `NodeportProxy` will be deployed into the seed
 cluster. It will also create a Kubernetes Service of type `LoadBalancer`
-pointing to it. 
-
+pointing to it.\
 The requirement in terms of DNS configuration is to setup a wildcard entry (A
 or CNAME record) pointing to the static IPv4 address or FQDN associated to the
 load balancer.
