@@ -43,6 +43,7 @@ DNS entries should be routable from the user cluster worker networks.
 
 **Pros**
 * Cost-effective, do not require any load balancer.
+
 **Cons**
 * Operational overhead (DNS administration).
 
@@ -75,6 +76,7 @@ allowed.
 
 **Pros**
 * Cost-effective, requires one single load balancer per seed cluster.
+
 **Cons**
 * Some load balancer implementations do not cope well with port ranges. e.g.
   in AWS Elastic Load Balancer a listener per port is required and the default
@@ -96,6 +98,7 @@ KKP manages. This my result in additional charges by your cloud provider.
 **Pros**
 * Avoids problems with load balancers not supporting port ranges.
 * Simple to configure, no DNS configuration is needed.
+
 **Cons**
 * Not very cost effective, one load balancer has to be created per each user
   cluster.
@@ -132,6 +135,7 @@ The DNS entry should follow this pattern:
 
 **Pros**
 * Avoids problems with load balancers not supporting port ranges.
+
 **Cons**
 * Cost-effective, requires one single load balancer per seed cluster.
 
