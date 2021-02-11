@@ -1,17 +1,12 @@
 ---
-title: Installation
-weight: 20
-slug: installation
+title: kubectl plugin
+weight: 10
 date: 2020-04-24T09:00:00+02:00
 ---
 
-KubeCarrier is distributed via a public container registry [quay.io/kubecarrier](https://quay.io/kubecarrier). While the KubeCarrier installation is managed by the KubeCarrier operator, installing and upgrading the operator is done via our kubectl plugin.
+## Install the KubeCarrier kubectl plugin
 
-This CLI tool will gain more utility functions as the project matures.
-
-## Install the kubectl plugin
-
-To install the kubectl plugin, just visit the KubeCarrier [release page](https://github.com/kubermatic/kubecarrier/releases), download the archive and put the contained `kubecarrier` binary into your `$PATH` as `kubectl-kubecarrier`.
+To install the KubeCarrier kubectl plugin, just visit the KubeCarrier [release page](https://github.com/kubermatic/kubecarrier/releases), download the archive and put the contained `kubecarrier` binary into your `$PATH` as `kubectl-kubecarrier`.
 
 Make sure the binary is executable.
 
@@ -29,6 +24,7 @@ version: master-a23bdbe
 ```
 
 ## Install KubeCarrier
+To install KubeCarrier into a cluster, execute the `kubectl kubecarrier setup` command:
 
 ```bash
 # make sure you are connected to the cluster,
@@ -45,4 +41,4 @@ $ kubectl kubecarrier setup
 
 The `kubectl kubecarrier setup` command is idempotent, so its safe to just re-run it multiple times, if you encounter any error in your setup.
 
-Take a look at [Debugging Cheat Sheet]({{< relref "../cheat_sheets/debugging" >}}) if you encounter issues by installation.
+Take a look at [Debugging Cheat Sheet]({{< relref "../../cheat_sheets/debugging" >}}) if you encounter any issues by installation.
