@@ -136,7 +136,9 @@ check our [example Terraform configs][terraform-configs-github] and the
 
 {{% notice note %}}
 The needed `output.tf` file already comes with all our
-[example Terraform configs]({{< ref "." >}}).
+[example Terraform configs][terraform-configs-github].
+
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 {{% /notice %}}
 
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin

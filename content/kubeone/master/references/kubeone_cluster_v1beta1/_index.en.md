@@ -1,5 +1,5 @@
 +++
-title = "KubeOneCluster v1beta1 API Reference"
+title = "KubeOneCluster v1beta1 API"
 date = 2021-02-10T12:00:00+02:00
 weight = 1
 +++

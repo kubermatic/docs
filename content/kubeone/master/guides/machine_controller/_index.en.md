@@ -40,7 +40,7 @@ the `output.tf` file if you're using Terraform.
 
 If you're using the [KubeOne Terraform Integration][terraform-integration],
 you can define initial MachineDeployment objects in the `output.tf` file under
-the [`kubeone_workers` section][terraform-integration]. We already define
+the [`kubeone_workers` section][terraform-integration-workers]. We already define
 initial MachineDeployment objects in our example Terraform configs and you can
 modify them by setting the appropriate variables or by modifying the
 `output.tf` file.
@@ -145,9 +145,9 @@ otherwise, your changes can get overwritten the next time you run KubeOne.
 {{% /notice %}}
 
 [machine-controller]: https://github.com/kubermatic/machine-controller
-[cluster-api]: {{< ref ".#concepts#cluster-api" >}}
-[machine-deployments]: {{< ref ".#concepts#machinedeployments" >}}
-[supported-providers]: {{< ref ".#compatibility_info" >}}
-[static-workers]: {{< ref ".#static_workers" >}}
-[terraform-integration]: {{< ref ".#infrastructure/terraform_integration" >}}
-[terraform-integration-workers]: {{< ref ".#infrastructure/terraform_integration#kubeone_workers-reference" >}}
+[cluster-api]: {{< ref "../../architecture/concepts#cluster-api" >}}
+[machine-deployments]: {{< ref "../../architecture/concepts#machinedeployments" >}}
+[supported-providers]: {{< ref "../../architecture/compatibility#supported-providers" >}}
+[static-workers]: {{< ref "../static_workers" >}}
+[terraform-integration]: {{< ref "../../architecture/infrastructure_management/#terraform-integration" >}}
+[terraform-integration-workers]: {{< ref "../../references/terraform_integration/#kubeone_workers-reference" >}}

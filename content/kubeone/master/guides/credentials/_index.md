@@ -255,5 +255,5 @@ support for sourcing value using the `env:` prefix:
 | `hosts.ssh_agent_socket` | string | ""            | Socket to be used for SSH |
 
 [cloud-controller-manager]: https://kubernetes.io/docs/concepts/architecture/cloud-controller/
-[machine-controller]: {{< ref "./#concepts#kubermatic-machine-controller" >}}
+[machine-controller]: {{< ref "../../architecture/concepts/#kubermatic-machine-controller" >}}
 [environemnt-variables]: {{< ref "#environment-variables" >}}

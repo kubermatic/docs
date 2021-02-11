@@ -107,7 +107,9 @@ recommends which instances are safe to be deleted without affecting the quorum.
 It's strongly advised to follow the order or otherwise you're risking losing
 the quorum and all cluster data. If it's not possible to repair the cluster
 without affecting the quorum, KubeOne will fail to repair the cluster. In that
-case, [disaster recovery]({{< ref "./" >}}) might be required.
+case, [disaster recovery][manual-cluster-recovery] might be required.
+
+[manual-cluster-recovery]: {{< ref "../../guides/manual_cluster_recovery" >}}
 {{% /notice %}}
 
 ### Dynamic Workers (MachineDeployments) Reconciliation
