@@ -14,13 +14,15 @@ Service Hub functionality for management and distribution of applications in one
 registered in the Management Cluster.
 
 ## Service Clusters
-Service Clusters are Kubernetes clusters that run the actual application workloads managed by their operators,
+Service Clusters are Kubernetes clusters that run the actual application workloads managed by their Operators,
 which are driven by the KubeCarrier Service Hub. To allow that, the Service Clusters first have to be
 [registered in the Management Cluster]({{< relref "../tutorials_howtos/api_usage/service_clusters" >}}).
 
-Service Clusters run operators of the applications that they are providing as a service to the central Service Hub.
-KubeCarrier will automatically discover the available services in the Service Cluster, and make them available for
-management and distribution via the central Service Hub.
+Service Clusters run Operators of the applications that they are providing as a service to the central Service Hub.
+After including a Custom Resource Definition (CRD) of an application Operator in a
+[CatalogEntrySet]({{< relref "../tutorials_howtos/api_usage/catalogs" >}}), KubeCarrier will automatically discover
+that CRD in Service Clusters, and make them available for management and distribution via the central Service Hub.
 
-Whenever a new instance of a service is created in the Service Hub for a given Service Cluster, KubeCarrier
-will automatically take care of its deployment in the Service Cluster.
+Whenever a new instance of a service's Custom Resource (CR) is created in the Service Hub for a given Service Cluster,
+KubeCarrier will automatically propagate it into the target Service Cluster, which will drive the Operator running
+in it to deploy the application.
