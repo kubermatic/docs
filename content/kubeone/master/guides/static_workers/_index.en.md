@@ -1,5 +1,5 @@
 +++
-title = "Using Static Workers"
+title = "Static Workers"
 date = 2020-04-15T12:00:00+02:00
 enableToc = true
 +++
@@ -65,4 +65,4 @@ staticWorkers:
     #   effect: ""
 ```
 
-[supported-providers]: {{< ref ".#compatibility_info" >}}
+[supported-providers]: {{< ref "../../architecture/compatibility" >}}
