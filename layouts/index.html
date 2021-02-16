@@ -10,6 +10,7 @@
   {{partialCached "css-includes" .}}
 </head>
 <body>
+  {{partial "cookie-banner.html" .}}
   {{partial "gtm-noscript.html" .}}
   {{partialCached "main-header" .}}
   {{if .Site.Data.products}}
