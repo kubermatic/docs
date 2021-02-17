@@ -22,6 +22,11 @@ The proper credential name is used for credential injection.
 
 If the Preset name is used together with standard credentials the preset is taken as a first.
 
+{{% notice note %}}
+Preset selection disables advanced settings. Advanced settings can be used only with standard credentials. There is no way
+to mix both kinds of settings.
+{{% /notice %}}
+
 ### Example
 
 The following example shows an example for a Preset CRD:
@@ -34,19 +39,35 @@ metadata:
 spec:
   requiredEmailDomains:
     - example.com
+  anexia:
+    token:
   aws:
     accessKeyId:
     secretAccessKey:
     vpcId:
+    routeTableId:
+    instanceProfileName:
+    securityGroupID:
+    roleARN:  
+  alibaba:
+    accessKeyId:
+    accessKeySecret:  
   azure:
     tenantId:
     subscriptionId:
     clientId:
     clientSecret:
+    resourceGroup:
+    vnet:
+    subnet:
+    routeTable:
+    securityGroup:  
   digitalocean:
     token:
   gcp:
     serviceAccount:
+    network:
+    subnetwork:  
   hetzner:
     token:
   openstack:
@@ -55,15 +76,20 @@ spec:
     tenant:
     domain: DEFAULT
     floatingIpPool: ext-net
+    network:
+    securityGroups:
+    routerID:
+    subnetID:  
   packet:
     apiKey:
     projectId:
+    billingCycle:  
   vsphere:
     username:
     password:
     datastore:
     datastoreCluster:
-    datacenter:
+    vmNetName:
   kubevirt:
     kubeconfig:
 ```
