@@ -7,4 +7,6 @@ chapter = true
 
 # User Interface
 
-Get information on how to use the user interface of Kubermatic Kubernetes Platform (KKP).
+Get information on how to get the most ouf of the Kubermatic Dashboard, the official UI of the Kubermatic Kubernetes Platform.
+
+![Admin Panel](/img/kubermatic/master/ui/dashboard.png?height=400px&classes=shadow,border "Kubermatic Dashboard")
