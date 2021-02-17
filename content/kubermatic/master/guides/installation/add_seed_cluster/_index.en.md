@@ -148,6 +148,9 @@ spec:
 Refer to the [Seed CRD documentation]({{< ref "." >}}) for a complete example of the
 Seed CustomResource and all possible datacenters.
 
+You can override the global [Expose Strategy]({{< ref "../expose_strategy">}})) at
+Seed level if you wish to.
+
 Apply the manifest above in the master cluster and KKP will pick up the new Seed and begin to
 reconcile it by installing the required KKP components. You can watch the progress by using
 `kubectl` and `watch`:
@@ -174,14 +177,17 @@ watch kubectl -n kubermatic get pods
 
 ## Update DNS
 
-The apiservers of all user cluster control planes running in the seed cluster are exposed by the
-NodePort Proxy. By default each user cluster gets a virtual domain name like
+Depending on the chosen [Expose Strategy]({{< ref "../expose_strategy">}})), the control planes of all user clusters
+running in the Seed cluster will be exposed by the `nodeport-proxy` or using
+services of type `NodePort` directly.
+By default each user cluster gets a virtual domain name like
 `[cluster-id].[seed-name].[kubermatic-domain]`, e.g. `hdu328tr.kubermatic.kubermatic.example.com`
 for the Seed from the previous step when `kubermatic.example.com` is the main domain where the
 KKP dashboard/API are available.
 
-To facilitate this, a wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. The target of the
-DNS wildcard record should be the `EXTERNAL-IP` of the `nodeport-proxy` service in the `kubermatic` namespace.
+A wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created.
+The target of the DNS wildcard record should be the `EXTERNAL-IP` of the `nodeport-proxy` service
+in the `kubermatic` namespace or a set of seed nodes IPs.
 
 ### With LoadBalancers
 
