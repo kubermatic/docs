@@ -37,8 +37,7 @@ kind: Preset
 metadata:
   name: example
 spec:
-  requiredEmailDomains:
-    - example.com
+  requiredEmailDomain: example.com
   anexia:
     token:
   aws:
@@ -73,7 +72,7 @@ spec:
   openstack:
     username:
     password:
-    tenant:
+    tenantID:
     domain: DEFAULT
     floatingIpPool: ext-net
     network:
