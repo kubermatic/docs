@@ -67,9 +67,14 @@ The following operating systems are supported:
 * RHEL 7
 * RHEL 8
 * Flatcar
+* Amazon Linux 2***
 
 \*\* Only Kubernetes versions 1.18.6 and newer are known to work properly with
 CentOS 7.
+
+\*\*\* Amazon Linux 2 currently requires you to manually specify URLs to all
+binaries — Kubelet, Kubeadm, Kubectl, and CNI using the AssetConfiguration API.
+Support for package managers on Amazon Linux 2 is planned for the future.
 
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
 [kubernetes-issue-93194]: https://github.com/kubernetes/kubernetes/issues/93194
