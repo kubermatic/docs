@@ -4,17 +4,32 @@ date = 2021-02-10T11:07:15+02:00
 weight = 10
 +++
 
-This document describes how to use a custom set of CA certificates in Kubermatic Kubernetes Platform (KKP). A general understanding of TLS certificates is assumed.
+This document describes how to use a custom set of CA certificates in Kubermatic Kubernetes
+Platform (KKP). A general understanding of TLS certificates is assumed.
 
-KKP allows to configure a "CA bundle" (a set of CA certificates) per Seed cluster. This CA bundle is then automatically injected into various components (like the KKP API, the kube-apiserver, cloud-controller-managers etc.) to allow for self-signed certificates e.g. in vSphere. Do note that the CA bundle configured in KKP is _the only_ source of CA certificates for all of these components, meaning that no certificates are mounted from any of the Seed cluster host systems.
+KKP allows to configure a "CA bundle" (a set of CA certificates) per Seed cluster. This CA
+bundle is then automatically injected into various components (like the KKP API, the
+kube-apiserver, cloud-controller-managers etc.) to allow for self-signed certificates e.g.
+in vSphere. Do note that the CA bundle configured in KKP is _the only_ source of CA certificates
+for all of these components, meaning that no certificates are mounted from any of the Seed
+cluster host systems.
 
 ## Configuration
 
-The CA bundle is stored as a single ConfigMap in the `kubermatic` namespace. It needs to have a `ca-bundle.pem` key, which is simply the collection of all PEM-encoded CA certificates. A good source for a general purpose CA bundle is Mozilla's CA database. The curl maintainers provide a [ready-to-use bundle file](https://curl.se/docs/caextract.html) that can be used as a starting point and then extended with your own CAs.
+The CA bundle is stored as a single ConfigMap in the `kubermatic` namespace. It needs to
+have a `ca-bundle.pem` key, which is simply the collection of all PEM-encoded CA certificates.
+A good source for a general purpose CA bundle is Mozilla's CA database. The curl maintainers
+provide a [ready-to-use bundle file](https://curl.se/docs/caextract.html) that can be used as
+a starting point and then extended with your own CAs.
 
-KKP ships the CA bundle mentioned above by default in the `kubermatic-operator` Helm chart. This means that after installing KKP, a usable default CA bundle is available right from the start.
+KKP ships the CA bundle mentioned above by default in the `kubermatic-operator` Helm chart.
+This means that after installing KKP, a usable default CA bundle is available right from the
+start.
 
-To override the CA bundle, either overwrite the `static/ca-bundle.pem` file in the `kubermatic-operator` Helm chart with your own and then `helm upgrade` the operator, or manually change the ConfigMap later using `kubectl edit`. Changes to the ConfigMap are picked up automatically and are then reconciled.
+To override the CA bundle, either overwrite the `static/ca-bundle.pem` file in the
+`kubermatic-operator` Helm chart with your own and then `helm upgrade` the operator, or manually
+change the ConfigMap later using `kubectl edit`. Changes to the ConfigMap are picked up
+automatically and are then reconciled.
 
 A typical CA bundle ConfigMap must look like this:
 
@@ -72,20 +87,8 @@ data:
     .... more certificates ....
 ```
 
-The CA bundle needs to be configured in two places:
-
-* The `KubermaticConfiguration` needs to be adjusted to point to the ConfigMap. This ensures
-  that the KKP API on the master cluster is able to validate the OIDC provider's certificate.
-* Each `Seed` can override the CA bundle. If a Seed does not override it, it will use the
-  master cluster's CA bundle. Overriding is useful if you operate multiple seed clusters that
-  use separate CAs and you want to prevent misconfiguration. Imagine running vSphere in both
-  seed clusters, but with different CAs: Keeping the CA bundles separate makes it so that one
-  configuration cannot accidentally work in the wrong seed cluster, because the certificates
-  could not be validated.
-
-### Master Cluster
-
-You need to configure the name of the ConfigMap in the `KubermaticConfiguration`:
+The CA bundle needs to be configured in the `KubermaticConfiguration`; you need to configure
+the name of the ConfigMap in it:
 
 ```yaml
 apiVersion: operator.kubermatic.io/v1alpha1
@@ -95,38 +98,15 @@ metadata:
   namespace: kubermatic
 spec:
   # This configures the global default CA bundle, which is used on the
-  # master cluster and on all seeds (except those seeds that override it).
+  # master cluster and on all seeds, userclusters.
   caBundle:
     # name of the ConfigMap;
     # must be in the same namespace as KKP
     name: ca-bundle
 ```
 
-### Seed Cluster
-
-For Seeds, the configuration happens in the `Seed` resource:
-
-```yaml
-apiVersion: kubermatic.k8s.io/v1
-kind: Seed
-metadata:
-  name: my-seed-europe
-  namespace: kubermatic
-spec:
-  # This configures the CA bundle only for this seed. This is useful if you
-  # have a custom CA per seed and do not want to share them, so that
-  # accidental misconfigurations get noticed immediately because certificates
-  # cannot be verified.
-  caBundle:
-    # name of the ConfigMap;
-    # must be in the same namespace as KKP
-    name: seed-europe-ca-bundle
-```
-
-**Important:** The `seed-europe-ca-bundle` ConfigMap must exist **on the master cluster**,
-from where it will be automatically synchronized into the seed cluster.
-
 ### User Cluster
 
 KKP automatically synchronizes the relevant CA bundle into each user cluster. The ConfigMap
-is called `ca-bundle` and created in the `kube-system` namespace.
+is called `ca-bundle` and created in the `kube-system` namespace. For this reason it's important
+to not put actual secrets into the CA bundle.
