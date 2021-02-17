@@ -6,4 +6,4 @@ weight = 80
 +++
 
 This chapter describes how to configure the expose strategy when setting up a Kubermatic Kubernetes Platform (KKP).
-More details about the concepts can be found [here]([expose strategy]({{< ref "../../../architecture/concepts/expose_strategy">}}).
+More details about the concepts can be found [here]({{< ref "../../../architecture/concepts/expose_strategy">}}).
