@@ -72,6 +72,7 @@ spec:
   openstack:
     username:
     password:
+    tenant:  
     tenantID:
     domain: DEFAULT
     floatingIpPool: ext-net
