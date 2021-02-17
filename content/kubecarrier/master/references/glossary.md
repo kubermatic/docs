@@ -39,3 +39,12 @@ You can read more about it in the Kubernetes documentation about [Admission Cont
 
 [admission-controllers]: https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/
 [custom-resources]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
+
+
+### Kubernetes RBAC
+RBAC (Role-Based Access Control) is a method of regulating access to computer or network resources based on the roles
+of individual users within an organization.
+
+[RBAC authorization in Kubernetes](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) uses the
+`rbac.authorization.k8s.io` API group to drive authorization decisions, which allows Kubernetes administrators
+to dynamically configure policies through the Kubernetes API.
