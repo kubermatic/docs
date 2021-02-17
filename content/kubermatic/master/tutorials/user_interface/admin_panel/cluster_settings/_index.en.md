@@ -35,7 +35,7 @@ Controls the checkboxes in the dialog. When selected, cleanup checkboxes will be
 Controls the status of checkboxes in the dialog. When selected, cleanup checkboxes will be disabled and user will not
 be able to check/uncheck them.
 
-## Displayed Distributions {{< badge type="warning" text="Deprecated" >}}
+## Displayed Distributions {#displayed-distributions} {{< badge type="warning" text="Deprecated" >}}
 
 {{% notice warning %}}
 OpenShift support is scheduled to be removed in one of the upcoming releases.
