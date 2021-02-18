@@ -3,7 +3,7 @@ title: KubeCarrier
 date: 2020-04-24T09:00:00+02:00
 ---
 
-![KubeCarrier logo][logo]
+![KubeCarrier logo](./img/KubeCarrier.png)
 
 
 # What is KubeCarrier?
@@ -50,9 +50,8 @@ That's where the **KubeCarrier Cross Cluster Manager** is getting into the pictu
 Independent of *Cloud*, *Datacenter* and *Region*.
 
 ## How?
-
 KubeCarrier is just yet another Kubernetes Operator, using `CustomResourceDefinitions` and the Kubernetes Controller pattern to do its magic.
 
-Checkout the [Architecture]({{< relref "./architecture" >}}) section for more details and our [Tutorials & How-Tos]({{< relref "./tutorials_howtos" >}}) docs to see how easy it is to setup and play around with KubeCarrier.
+![Service Hub](./img/kubecarrier_service_hub.png)
 
-[logo]: ./img/KubeCarrier.png
+Checkout the [Architecture]({{< relref "./architecture" >}}) section for more details and our [Tutorials & How-Tos]({{< relref "./tutorials_howtos" >}}) docs to see how easy it is to setup and play around with KubeCarrier.

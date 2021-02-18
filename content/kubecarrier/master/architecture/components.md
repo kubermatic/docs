@@ -6,7 +6,7 @@ enabletoc: true
 ---
 
 
-KubeCarrier consists of multiple components that are installed on a single Kubernetes Cluster, referred to as *Management Cluster*.
+KubeCarrier consists of multiple components that are installed on a single Kubernetes Cluster, referred to as [Management Cluster]({{< relref "./concepts#management-cluster" >}}).
 
 All components take the form of Kubernetes Controllers working with `CustomResourceDefinitions` and are build using the [kubebuilder project](https://github.com/kubernetes-sigs/kubebuilder).
 
@@ -14,7 +14,7 @@ All components take the form of Kubernetes Controllers working with `CustomResou
 
 The KubeCarrier CLI is a `kubectl` plugin that simplifies the management of your KubeCarrier installation, by providing helpers to validate the environment, trigger the KubeCarrier installation and work with KubeCarrier's APIs.
 
-###KubeCarrier Operator
+## KubeCarrier Operator
 
 The KubeCarrier Operator is managing the core KubeCarrier installation and its dynamic components. It runs as a Kubernetes controller and continuously reconciles the KubeCarrier installation to ensure its operation.
 
