@@ -11,7 +11,7 @@ outside the seed cluster.
 
 The expose strategies rely on a component called `nodeport-proxy`. It is
 basically a L4 service proxy (TCP only is supported at the moment), capable of
-routing the traffic based one:
+routing the traffic based on:
 
 * Destination port: this requires a unique port for each service.
 * SNI: TLS traffic can be routed based on SNI without termination.
@@ -22,7 +22,7 @@ More details about the expose strategy concept can be found [here]({{< ref "../.
 
 ## Configure the Expose Strategy
 
-The expose strategy can be configured globally with the `KubermaticConfiguration` as follows:
+The expose strategy can be configured globally with the `KubermaticConfiguration` as follow:
 
 ```yaml
 apiVersion: operator.kubermatic.io/v1alpha1
