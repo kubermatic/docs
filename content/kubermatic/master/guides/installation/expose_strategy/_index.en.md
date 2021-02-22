@@ -11,9 +11,9 @@ outside the seed cluster.
 
 The expose strategies rely on a component called `nodeport-proxy`. It is
 basically a L4 service proxy (TCP only is supported at the moment), capable of
-routing the traffic based on one of:
+routing the traffic based one:
 
-* destination port: this requires a unique port for each service.
+* Destination port: this requires a unique port for each service.
 * SNI: TLS traffic can be routed based on SNI without termination.
 * HTTP/2 tunnel: Terminate HTTP/2 CONNECT request and multiplex the TCP
   streams.  
@@ -48,7 +48,7 @@ The valid values for `exposeStrategy` are:
 * `Tunneling`: (alpha) With this strategy the traffic is routed to the based on
   a combination of SNI and HTTP/2 tunnels by the `nodeport-proxy`.
 
-Alternatively, the expose strategy can be overridden ad `Seed` level, meaning
+Alternatively, the expose strategy can be overridden at `Seed` level, meaning
 that it is possible to have different expose strategies on the same KKP
 cluster. e.g.
 
@@ -108,5 +108,5 @@ The current limitations of this strategy are:
 * Not supported yet in set-ups where the worker nodes should pass from a
   corporate proxy (HTTPS proxy) to reach the control plane.
 * An agent is deployed on each worker node to provide access to control plane
-  components. It binds to the IP advertsed by the Kubernetes API Servier, that
-  at the moment is hardcoded to `192.168.30.10`.
+  components. It binds to the IP advertised by the Kubernetes API Server, which
+  is currently hardcoded to `192.168.30.10`.
