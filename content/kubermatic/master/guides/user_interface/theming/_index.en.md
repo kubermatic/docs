@@ -5,18 +5,18 @@ weight = 50
 
 +++
 
-This guide explains the KKP dashboard theming capabilities.
+This guide explains the KKP UI theming capabilities.
 
 ## Switching Themes
-KKP dashboard provides three theming options out of the box:
+KKP UI provides three theming options out of the box:
 
 - Light - default option
 - Dark 
 - System - picks light or dark theme based on the user's operating system theme
 
-Users can select a theme option that he wants to use in the `User Settings` view. It can be accessed from the user menu:
+Users can select a theme option that he wants to use in the `User Settings` view. It can be accessed from the user menu.
 
-![Custom Theme](/img/kubermatic/v2.16/advanced/custom-ui/customizing-account.png)
+![Default Themes](/img/kubermatic/master/ui/themes.jpg?classes=shadow,border "KKP UI Default Themes")
 
 ## Disabling Theming Functionality
 In order to disable theming options for all users and enforce using only the default theme, set `enforced_theme`
