@@ -7,17 +7,27 @@ weight = 10
 This document describes how to use a custom set of CA certificates in Kubermatic Kubernetes
 Platform (KKP). A general understanding of TLS certificates is assumed.
 
-KKP allows to configure a "CA bundle" (a set of CA certificates) per Seed cluster. This CA
-bundle is then automatically injected into various components (like the KKP API, the
-kube-apiserver, cloud-controller-managers etc.) to allow for self-signed certificates e.g.
-in vSphere. Do note that the CA bundle configured in KKP is _the only_ source of CA certificates
+KKP 2.17+ allows to configure a "CA bundle" (a set of CA certificates) on the master cluster.
+This CA bundle is then automatically
+
+* copied into each seed cluster
+* copied into each usercluster namespace
+* copied into each usercluster (into the `kube-system` namespace)
+* used for various components, like the KKP API, machine-controller, kube-apiserver etc.
+
+Changes to the CA bundle are automatically reconciled across these locations. If the CA bundle
+is invalid, no further reconciliation happens, so if the master cluster's CA bundle breaks,
+seed clusters are not affected.
+
+Do note that the CA bundle configured in KKP is usually _the only_ source of CA certificates
 for all of these components, meaning that no certificates are mounted from any of the Seed
 cluster host systems.
 
 ## Configuration
 
-The CA bundle is stored as a single ConfigMap in the `kubermatic` namespace. It needs to
-have a `ca-bundle.pem` key, which is simply the collection of all PEM-encoded CA certificates.
+The CA bundle is stored as a single ConfigMap in the `kubermatic` namespace on the master cluster.
+It needs to have a `ca-bundle.pem` key, which is simply the collection of all PEM-encoded CA
+certificates.
 A good source for a general purpose CA bundle is Mozilla's CA database. The curl maintainers
 provide a [ready-to-use bundle file](https://curl.se/docs/caextract.html) that can be used as
 a starting point and then extended with your own CAs.
@@ -40,6 +50,7 @@ metadata:
   name: ca-bundle
   namespace: kubermatic
 data:
+  # The key must be "ca-bundle.pem".
   ca-bundle.pem: |
     GlobalSign Root CA
     ==================
