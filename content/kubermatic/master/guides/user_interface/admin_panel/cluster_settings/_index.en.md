@@ -10,7 +10,6 @@ can influence cluster creation, management and cleanup after deletion.
 ![](/img/kubermatic/master/ui/cluster_settings.png?height=300px&classes=shadow)
 
 - ### [Cleanup on Cluster Deletion](#cleanup-on-cluster-deletion)
-- ### [Displayed Distributions](#displayed-distributions) {{< badge type="warning" text="Deprecated" >}}
 - ### [Machine Deployment](#machine-deployment)
 - ### [Enable Kubernetes Dashboard](#enable-kubernetes-dashboard)
 - ### [Enable OIDC Kubeconfig](#enable-oidc-kubeconfig)
@@ -35,61 +34,67 @@ Controls the checkboxes in the dialog. When selected, cleanup checkboxes will be
 Controls the status of checkboxes in the dialog. When selected, cleanup checkboxes will be disabled and user will not
 be able to check/uncheck them.
 
-## Displayed Distributions {{< badge type="warning" text="Deprecated" >}} {#displayed-distributions}
-
-{{% notice warning %}}
-OpenShift support is scheduled to be removed in one of the upcoming releases.
-{{% /notice %}}
-
-This section controls which distributions will be enabled in the wizard. By selecting shown distributions
-administrator can control what kind of clusters will be possible to get created by the Kubermatic users.
-
-#### Admin Panel
-![](/img/kubermatic/master/ui/displayed_distributions.png?classes=shadow,floatleft)
-
 
 #### Cluster Creation Wizard - Cluster Step
 ![](/img/kubermatic/master/ui/wizard_cluster_step.png?height=300px&classes=shadow,floatleft)
 
 ## Machine Deployment
 
+![](/img/kubermatic/master/ui/machine_deployment.png?classes=shadow,floatleft)
+
 This section controls the default number of initial Machine Deployment replicas. It can be seen and changed
 in the cluster creation wizard on the Initial Nodes step and also on the add/edit machine deployment dialog on
 the cluster details.
-
-#### Admin Panel
-![](/img/kubermatic/master/ui/machine_deployment.png?classes=shadow,floatleft)
 
 #### Cluster Creation Wizard - Initial Nodes Step
 ![](/img/kubermatic/master/ui/wizard_initial_nodes_step.png?height=300px&classes=shadow,floatleft)
 
 ## Enable Kubernetes Dashboard
 
+![](/img/kubermatic/master/ui/enable_kubernetes_dashboard.png?classes=shadow,floatleft)
+
 This section controls the Kubernetes Dashboard support for created user clusters. When enabled an `Open Dashboard` 
 button will appear on the cluster details, and the API will allow Kubernetes Dashboard proxy access through the API.
-
-#### Admin Panel
-![](/img/kubermatic/master/ui/enable_kubernetes_dashboard.png?classes=shadow,floatleft)
 
 #### Cluster Details
 ![](/img/kubermatic/master/ui/cluster_details.png?height=300px&classes=shadow,floatleft)
 
 ## Enable OIDC Kubeconfig
 
-#### Admin Panel
 ![](/img/kubermatic/master/ui/enable_oidc_kubeconfig.png?classes=shadow,floatleft)
+
+This setting controls whether OIDC provider should be used as a proxy for `kubeconfig` download. Enabling this option
+will also disable the possibility of using `Share` feature on the cluster details.
+
+![](/img/kubermatic/master/ui/cluster_details_top.png?classes=shadow,floatleft)
 
 ## Enable External Clusters
 
-#### Admin Panel
 ![](/img/kubermatic/master/ui/enable_external_clusters.png?classes=shadow,floatleft)
+
+External clusters feature allows you to connect third-party Kubernetes clusters in a read-only mode to your Kubermatic
+project. Those clusters will not be managed by the Kubermatic Kubernetes Platform therefore the available information
+will be limited. Clusters on the list will have an `External` badge to indicate their origin.
+
+#### External Cluster on the Cluster List
+![](/img/kubermatic/master/ui/external_cluster.png?classes=shadow,floatleft)
+
+#### External Cluster Details
+![](/img/kubermatic/master/ui/external_cluster_details.png?classes=shadow,floatleft)
 
 ## User Projects Limit
 
-#### Admin Panel
 ![](/img/kubermatic/master/ui/user_projects_limit.png?classes=shadow,floatleft)
+
+This setting controls how project creation will be handled by the Kubermatic. The administrator can control
+if regular users should be able to create projects. There is also an option to control maximum number of projects
+that regular users will be able to create. The `User Projects Limit` is controlled on a per-user basis and affects
+only non-admin users.
 
 ## Resource Quota
 
-#### Admin Panel
 ![](/img/kubermatic/master/ui/resource_quota.png?classes=shadow,floatleft)
+
+Resource Quota settings provide an easy way to control the size of machines used to create user clusters. The administrator
+can also control if selection of instances with GPU should be possible. Every node size that does not match the
+specified criteria will be filtered out and not displayed to the user.

@@ -76,7 +76,6 @@ spec:
     minRAM: 2
   restrictProjectCreation: false
   userProjectsLimit: 0
-
 ```
 
 It can be edited directly from the command line:
