@@ -28,7 +28,7 @@ Admin privileges can be granted for users also from the admin panel in the UI. T
 ![Admin panel](/img/kubermatic/master/advanced/settings/view.png)
 
 Admin panel consist of two cards. One allows to manipulate global settings, the second allows to manipulate the list
-of admin users. All settings changes are saved asynchronously, and the saves are confirmed by the green confirmation
+of datacenters, admin users and presets. All settings changes are saved asynchronously, and the saves are confirmed by the green confirmation
 icons next to changed settings. Changes are automatically populated to all opened instances of the application.
 
 ### Changing the Global Settings Using `kubectl`
@@ -65,6 +65,18 @@ spec:
   displayAPIDocs: true
   displayDemoInfo: false
   displayTermsOfService: true
+  enableDashboard: true
+  enableExternalClusterImport: true
+  enableOIDCKubeconfig: false
+  machineDeploymentVMResourceQuota:
+    enableGPU: true
+    maxCPU: 8
+    maxRAM: 64
+    minCPU: 1
+    minRAM: 2
+  restrictProjectCreation: false
+  userProjectsLimit: 0
+
 ```
 
 It can be edited directly from the command line:
