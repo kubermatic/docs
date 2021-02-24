@@ -50,11 +50,10 @@ Kubernetes version by changing the `versions.Kubernetes` field. It is possible
 to upgrade only to the next minor release, or to any patch release as long as
 the minor version is same or the next one.
 
-After modifying the configuration manifest, you can use the `apply` command
-to run upgrade. The `kubeone.yaml` file is the
-[configuration manifest][manifest] and the `tf.json` file is the
-[Terraform state file][tf-json] (can be omitted if the Terraform Integration is
-not used).
+After modifying the configuration manifest, you can use the `apply` command to
+run upgrade. The `kubeone.yaml` file is the [configuration manifest][manifest]
+and the `tf.json` file is the [Terraform state file][tf-json] (can be omitted if
+the Terraform Integration is not used).
 
 ```bash
 kubeone apply --manifest kubeone.yaml -t tf.json --upgrade-machine-deployments
@@ -188,6 +187,6 @@ command can be used to modify cluster properties.
 
 [compatibility]: {{< ref "../../architecture/compatibility" >}}
 [k8s-skew]: https://kubernetes.io/docs/setup/version-skew-policy/
-[backups-addon]: {{< ref "." >}}
-[manifest]: {{< ref "." >}}
-[tf-json]: {{< ref "." >}}
+[backups-addon]: {{< ref "../../examples/addons_backup" >}}
+[manifest]: {{< ref "../../architecture/concepts/#kubeone-configuration-manifest" >}}
+[tf-json]: {{< ref "../../architecture/infrastructure_management/#terraform-integration" >}}

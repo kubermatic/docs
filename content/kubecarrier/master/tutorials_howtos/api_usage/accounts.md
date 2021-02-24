@@ -69,4 +69,4 @@ team-a   team-a              The A Team     Ready    7s
 team-b   team-b                             Ready    7s
 ```
 
-We will look more at the differences between the *Provider* and *Tenant* roles for accounts in *4. Catalogs*.
+We will look more at the differences between the *Provider* and *Tenant* roles for accounts in [Catalogs]({{< relref "./catalogs" >}}).

@@ -33,6 +33,7 @@
     {{ partial "custom-header.html" . }}
   </head>
   <body class="" data-url="{{ .RelPermalink }}">
+    {{partial "cookie-banner.html" .}}
     {{partial "gtm-noscript.html" .}}
     {{partialCached "main-header" .}}
     {{ partial "menu.html" . }}

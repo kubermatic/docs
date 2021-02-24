@@ -5,100 +5,76 @@ weight = 3
 enableToc = true
 +++
 
-The cluster reconciliation process determines the actual state of the cluster
-and takes actions based on the difference between actual and expected states.
-The reconciliation is capable of automatically installing, upgrading, and
-repairing the cluster. On top of that, reconciliation can change some cluster
-properties, such as apply addons and create new worker nodes.
+## What is Cluster Reconciliation?
 
-More information about the technical implementation can be found in the
-[KubeOne Reconciliation Process (kubeone apply) proposal][apply-proposal].
+Cluster reconciliation is a process of determining the actual state of the
+cluster and taking actions based on the difference between the actual and the
+expected states. The cluster reconciliation is capable of automatically
+installing, upgrading, and repairing the cluster. On top of that,
+the reconciliation can change cluster properties, such as apply addons, create
+new worker nodes, and/or enable/disable features.
 
-## Using kubeone apply
+## How it works?
 
-Before getting started, make sure you have up-to-date Terraform output
-file if you're using the Terraform integration:
+The cluster reconciliation process is implemented as part of the `kubeone apply`
+command. The `apply` command runs a set of predefined probes to determine the
+actual state, while the expected state is defined as a KubeOne configuration
+manifest. Generally, the predefined probes determine:
 
-```
-terraform output -json > tf.json
-```
+* Operating system and hostnames
+* Container runtime
+* Is a Kubernetes cluster already provisioned on given instances
+* Are all given instances part of the cluster and healthy
+* Is a cluster running the expected Kubernetes version
+* Are all components and MachineDeployments up-to-date
 
-The cluster reconciliation is implemented under the `kubeone apply` command
-which has similar semantics as other KubeOne commands.
+Depending on the difference between the determined actual state and the
+expected state, the `apply` command would take the following actions:
 
-You can use the following command:
-
-```bash
-kubeone apply --manifest config.yaml -t .
-```
-
-For more details about available flags and properties, run the command with
-the `-h` flag:
-
-```bash
-kubeone apply -h
-```
-
-By default, the `apply` command expects the user confirmation before taking
-any action. If you are running `kubeone apply` in a script and/or without
-terminal and ability to confirm actions, you can use the `--auto-approve`
-flag:
-
-```bash
-kubeone apply --manifest config.yaml -t tf.json --auto-approve
-```
-
-## Reconciliation Process
-
-The reconciliation process is explained in details in the
-[technical proposal][apply-proposal]. This section includes important details
-about the reconciliation process that you should be aware of.
-
-The actual state of the cluster is determined by running a set of probes
-(Bash scripts and Kubernetes API requests) on the cluster instances.
-
-The expected state is defined with the KubeOne configuration manifest, and
-optionally with the Terraform state.
-
-The general reconciliation workflow is based on:
-
-* If cluster is **not provisioned**, run the installation process
-  (`kubeone install`).
+* If the cluster is **not provisioned** on given instances:
+  * Run the **cluster provisioning process**
 * If the cluster **is provisioned**:
-  * If there are **unhealthy control plane nodes**, try to **repair** the cluster
-    and/or **instruct** the operator about the needed steps.
-  * If there are **not provisioned** or **unhealthy static worker nodes**, try
-    to **provision/repair** them and/or **instruct** the operator about the
-    needed steps.
-  * If **all control plane and static worker nodes are healthy**:
+  * If the **cluster is healthy**:
     * If **upgrade is needed** (mismatch between expected and actual Kubernetes
-    versions), run the upgrade process (`kubeone upgrade`).
-      * If there are **new MachineDeployments**, **create** them.
+    versions), run the **upgrade process**
+    * If there are **not provisioned** control plane or static worker instances
+    try to **provision and join them a cluster** or **instruct** the operator
+    about the needed steps.
+    * If needed, update all **components** and create **new MachineDeployments**
+  * If there are **unhealthy control plane nodes**:
+    * Check is the etcd quorum satisfied:
+      * An etcd cluster needs a majority of nodes, **a quorum**, to agree on
+        updates to the cluster state
+      * For a cluster with `n` members, quorum is `(n/2)+1`
+      * If the **quorum is satisfied**:
+        * **Repair** the cluster if possible or **instruct** the operator about
+          the needed steps
+      * If the **quorum is not satisfied**:
+        * Instruct the operator about the
+          [**disaster recovery** process][disaster-recovery]
+
+The following flowchart describes the reconciliation process graphically:
+
+![Reconciliation Process Flowchart](cluster_reconciliation.png)
 
 ### Repairing Unhealthy Clusters
 
-The apply command has ability to detect is cluster in an unhealthy
-state. The cluster is considered unhealthy if there's at least one
-node that's unhealthy, which can happen if:
+The `apply` command has ability to detect is cluster in an unhealthy
+state. The cluster is considered unhealthy if there's at least one node that's
+unhealthy, which can happen if:
 
+* container runtime is failing or not running
 * kubelet is failing or not running
 * API server is failing or unhealthy
 * etcd is failing or unhealthy
 
-In such a case, the operator needs to manually delete a broken instance,
-update the KubeOne configuration file to remove the old instance and add
-a new one, and then run the apply command again.
+In such a case, there are two options:
 
-If Terraform is used for managing the infrastructure, the `taint` command
-can be used to mark instance for recreation. Running `terraform apply` the
-next time would recreate the instance. Make sure to update the Terraform output
-file by running `terraform apply` again. For example:
-
-```bash
-terraform taint 'aws_instance.control_plane[<index-of-instance>]'
-terraform apply
-terraform output -json > tf.json
-```
+* the operator connects to the failing instance over SSH and tries to repair
+  the node manually
+* the operator manually deletes a broken instance, updates the KubeOne
+  configuration file to remove the old instance and add a new one, and then run
+  `kubeone apply` to join the new instance a cluster
 
 {{% notice warning %}}
 If there are multiple unhealthy instances, it might be required to replace
@@ -107,42 +83,44 @@ recommends which instances are safe to be deleted without affecting the quorum.
 It's strongly advised to follow the order or otherwise you're risking losing
 the quorum and all cluster data. If it's not possible to repair the cluster
 without affecting the quorum, KubeOne will fail to repair the cluster. In that
-case, [disaster recovery]({{< ref "./" >}}) might be required.
+case, [disaster recovery][manual-cluster-recovery] might be required.
+
+[manual-cluster-recovery]: {{< ref "../../guides/manual_cluster_recovery" >}}
 {{% /notice %}}
 
-### Dynamic Workers (MachineDeployments) Reconciliation
+### Reconciling Dynamic Worker Nodes (MachineDeployments)
 
 The apply command doesn't modify or delete existing MachineDeployments.
-The MachineDeployments are created by the apply command only if there's
-another action to be taken, such as install or upgrade. Managing
-MachineDeployments should be done by the operator either by using kubectl or
-the Kubernetes API directly.
+Modifying existing MachineDeployments should be done by the operator either by
+using kubectl or the Kubernetes API directly.
 
 To make managing MachineDeployments easier, the operator can generate the
 manifest containing all MachineDeployments defined in the KubeOne
-configuration by using the `kubeone config machinedeployments` command:
+configuration (or Terraform state) by using the following command:
 
 ```bash
 kubeone config machinedeployments --manifest config.yaml -t tf.json
 ```
 
-### Static Workers Reconciliation
+### Reconciling Static Worker Nodes
 
-The apply command doesn't remove or unprovision the static worker
+The `apply` command doesn't remove or unprovision the static worker
 nodes. That can be done by removing the appropriate instance manually.
-If there is CCM (cloud-controller-manager) running in the cluster, the Node for
-the removed worker should be deleted automatically. If there's no CCM, you can
-remove the Node object manually using kubectl.
+If there is CCM (cloud-controller-manager) running in the cluster, the Node
+object for the removed worker node should be deleted automatically.
+If there's no CCM running in the cluster, you can remove the Node object
+manually using kubectl.
 
-### Features Reconciliation
+### Reconciling Features
 
-Currently, the apply command doesn't reconcile features. If you enable/disable
-any feature on already provisioned cluster, you have to run the upgrade process
-for changes to be in the effect. The upgrade process can be run using the
-following upgrade command:
+Currently, the `apply` command doesn't reconcile features. If you
+enable/disable any feature on already provisioned cluster, you have to
+explicitly run the upgrade process for changes to be in the effect.
+You don't have to change the Kubernetes version, instead, you can use the
+`--force-upgrade` flag to force the upgrade process:
 
 ```bash
-kubeone upgrade --manifest config.yaml -t . --force
+kubeone apply --manifest config.yaml -t . --force-upgrade
 ```
 
-[apply-proposal]: https://github.com/kubermatic/kubeone/blob/master/docs/proposals/20200224-apply.md
+[disaster-recovery]: {{< ref "../../guides/manual_cluster_recovery" >}}
