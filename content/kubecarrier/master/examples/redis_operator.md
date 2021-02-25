@@ -21,7 +21,7 @@ with [Catalog]({{< relref "../tutorials_howtos/api_usage/catalogs#catalogs" >}})
 We can go to the https://github.com/OT-CONTAINER-KIT/redis-operator, clone source code and deploy the operator using the command
 >ServiceCluster
 ```bash
-$ helm upgrade --create-namespace redis-operator ./helm-charts/redis-operator --install --namespace redis-operator
+helm upgrade --create-namespace redis-operator ./helm-charts/redis-operator --install --namespace redis-operator
 ```
 
 or we can save this yaml to the `redis-operator.yaml` file and apply it to the service cluster
@@ -213,3 +213,75 @@ $ kubectl get -n team-b-wqpd2 pods
 NAME                         READY   STATUS    RESTARTS   AGE
 redisinstance-standalone-0   1/1     Running   0          22m
 ```
+
+## Adding second service cluster
+
+Save kubeconfig to the `/tmp/service-cluster-2-kubeconfig` file. If you are using `kind` check [Service Cluster]({{< relref "../tutorials_howtos/api_usage/service_clusters" >}}) documentation to see how to create new cluster and get kubeconfig.
+
+Repeat [Deploy Redis Operator Step]({{< relref "#deploy-redis-operator-to-the-service-cluster">}}) for the second service cluster.
+
+Create secret for Service Cluster 2.
+
+>ManagementCluster
+```bash
+$ kubectl create secret generic service-cluster-2-kubeconfig \
+  -n team-a \
+  --from-file=kubeconfig=/tmp/service-cluster-2-kubeconfig
+```
+
+Create `service-cluster-2.yaml` with content:
+```yaml
+apiVersion: kubecarrier.io/v1alpha1
+kind: ServiceCluster
+metadata:
+  name: eu-west-2
+spec:
+  metadata:
+    displayName: EU West 2
+  kubeconfigSecret:
+    name: service-cluster-2-kubeconfig
+```
+and apply it.
+>ManagementCluster
+```bash
+kubectl apply -n team-a servicecluster-2.yaml
+```
+
+Shortly you should see two more CRDs in the Management Cluster
+
+>ManagementCluster
+```bash
+$ kubectl get crds | grep redis
+redis.eu-west-1.team-a                          2021-02-25T09:07:58Z
+redis.eu-west-2.team-a                          2021-02-25T09:15:41Z
+redis.internal.eu-west-1.team-a                 2021-02-25T09:07:33Z
+redis.internal.eu-west-2.team-a                 2021-02-25T09:15:26Z
+```
+
+and now you can run Redis workload on the second cluster, just edit apiVersion of our `redis.yaml` to use `eu-west-2` service cluster and apply it in the Management cluster.
+
+```yaml
+apiVersion: eu-west-2.team-a/v1beta1
+kind: Redis
+metadata:
+  name: redisinstance
+spec:
+  global:
+    password: "1234"
+    image: opstree/redis:v2.0
+  mode: "standalone"
+  redisExporter:
+    enabled: false
+    image: quay.io/opstree/redis-exporter:1.0
+  size: 3
+  redisConfig: {}
+  service:
+    type: ClusterIP
+```
+
+>ManagementCluster
+```bash
+kubectl apply -n team-b --as=team-b-member -f redis.yaml
+```
+
+after that you can check if redis workloads is running on the second service cluster.
