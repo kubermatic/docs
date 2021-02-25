@@ -3,11 +3,10 @@ title: API Access
 weight: 10
 slug: api_access
 date: 2020-06-26T09:00:00+02:00
+enabletoc: true
 ---
 
-## Intro
-
-KubeCarrier also deploys its own API Server to allow external access and integrations to connect with KubeCarrier.
+KubeCarrier deploys its own API Server to allow external access and integrations to connect with KubeCarrier.
 It's designed as a slim interface layer and all the heavy lifting (validation, authorization, etc.) is still done by Kubernetes Controllers, Kubernetes Admission Webhooks, and other Kubernetes mechanisms.
 
 We decided to build our own custom API Server for a few reasons:
@@ -16,7 +15,7 @@ We decided to build our own custom API Server for a few reasons:
 2. We want to enable separate authentication configuration for users of the KubeCarrier API.
 3. Long term, we want to support aggregation and discovery from multiple KubeCarrier clusters to enable advanced distributed deployments.
 
-## Testing the API
+## Accessing the API
 
 The KubeCarrier API Server exposes a Open API Specification under `<host>/v1/openapi` and the Swagger UI under `<host>/v1/swagger/` to browse the API specification.
 
@@ -50,7 +49,7 @@ See the [TLS](#tls) section for further details.
 
 And access the Swagger UI on [https://localhost:8443/v1/swagger/](https://localhost:8443/v1/swagger/)
 
-## Configure Authentication
+## Authentication
 
 The KubeCarrier API Server supports multiple authentication methods. By default `kubectl kubecarrier setup` starts the KubeCarrier API Server with `ServiceAccount` and `Anonymous` auth enabled.
 

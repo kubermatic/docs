@@ -59,4 +59,4 @@ Apart from operator namespace settings, the RBAC permissions for the operator ha
 The following list contains few examples of operators known to be working correctly with KubeCarrier:
 
  - [Elastic Cloud on Kubernetes (ECK)](https://www.elastic.co/guide/en/cloud-on-k8s/current/index.html)
- - [Kubemq Enterprise Operator](https://operatorhub.io/operator/kubemq-operator)
+ - [Redis Operator](https://github.com/OT-CONTAINER-KIT/redis-operator)
