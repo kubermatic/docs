@@ -23,6 +23,7 @@ spec:
   password: hans2000
 ```
 
+> Management Cluster
 ```bash
 $ kubectl apply -n team-b --as=team-b-member \
   -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/couchdb.eu-west-1.yaml

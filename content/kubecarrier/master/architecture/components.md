@@ -29,7 +29,7 @@ This component is designed as just a slim interface layer with the business logi
 
 ## Ferry
 
-KubeCarrier's `Ferry` component is responsible for managing the connection to a service cluster, which includes health checking, reporting the Kubernetes version and automated setting up of Namespaces in the connected cluster.
+KubeCarrier's `Ferry` component is responsible for managing the connection to a service cluster, which includes health checking, reporting the Kubernetes version and automated setting up of Namespaces in the connected cluster. For that, it opens an HTTPS connection to the Kubernetes API server of the service clusters.
 
 ## Catapult
 
