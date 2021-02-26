@@ -296,7 +296,7 @@ redis.internal.eu-west-2.team-a                 2021-02-25T09:15:26Z
 
 Also, there will be one more available service `Offering` for `team-b`:
 
-```yaml
+```bash
 $ kubectl get offerings -n team-b --as=team-b-member
 NAME                     DISPLAY NAME   PROVIDER   AGE
 redis.eu-west-1.team-a   Redis          team-a     13s
