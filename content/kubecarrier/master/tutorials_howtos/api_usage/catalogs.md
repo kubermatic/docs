@@ -85,13 +85,13 @@ couchdbs.eu-west-1.team-a           2020-07-31T09:36:04Z
 couchdbs.internal.eu-west-1.team-a  2020-07-31T09:35:50Z
 ```
 
-The `couchdbs.internal.eu-west-1.team-a` object is just a copy of the CRD present in the `ServiceCluster`, while `couchdbs.eu-west-1.team-a` is a "slimed-down" version, only containing fields specified in the `CatalogEntrySet`. Both CRDs are "namespaced" by their API group.
+The `couchdbs.internal.eu-west-1.team-a` object is just a copy of the CRD present in the `ServiceCluster`, while `couchdbs.eu-west-1.team-a` is a "slimmed-down" version, only containing fields specified in the `CatalogEntrySet`. Both CRDs are "namespaced" by their API group.
 
 ## Catalogs
 
 Now that we have successfully registered a `CustomResourceDefinition` from another cluster, attached metadata to it and created a "public" interface for other people, we can go ahead and actually offer this `CouchDB` object to other users.
 
-The `CatalogEntrySet` we created in previous step is managing `CatalogEntries` for all `ServiceClusters` that match the given `serviceClusterSelector`.
+The `CatalogEntrySet` we created in the previous step is managing `CatalogEntries` for all `ServiceClusters` that match the given `serviceClusterSelector`.
 
 > Management Cluster
 ```bash
