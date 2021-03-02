@@ -71,3 +71,9 @@ Enter provider credentials using the values from step "Prepare Azure Environment
   - `Client Secret`: Take the value of `password`
   - `Tenant ID`: your tenant ID
   - `Subscription ID`: your subscription ID
+
+### Resources cleanup
+During the machines cleanup, if KKP's Machine-Controller failed to delete the Cloud Provider instance and the user deleted
+that instance manually, Machine-Controller won't be able to delete any referenced resources to that machine, such as Public 
+IPs, Disks and NICs. In that case, the user should cleanup those resources manually due to the fact that, Azure won't cleanup
+any attached resources to the deleted instance.  
