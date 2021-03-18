@@ -54,6 +54,13 @@ output "kubeone_hosts" {}
 # in the machine-controller repository:
 #   https://github.com/kubermatic/machine-controller/tree/master/examples
 output "kubeone_workers" {}
+
+# Contains optional information about static workers hosts, such as IP addresses,
+# hostnames, and SSH parameters
+output "kubeone_static_workers" {}
+
+# Contains optional information about the proxy to configure
+output "proxy" {}
 ```
 
 ### `kubeone_api` Reference
@@ -71,7 +78,7 @@ output "kubeone_api" {
 }
 ```
 
-### `kubeone_hosts` reference
+### `kubeone_hosts` Reference
 
 The `kubeone_hosts` section includes the following information:
 
@@ -96,6 +103,8 @@ output "kubeone_hosts" {
       # You can run kubeone config print --full and refer to the
       # cloudProvider section for the list of cloud provider names
       cloud_provider       = "aws"
+      # Removes any taints from control plane nodes
+      untaint              = true
       # Arrays containing public, private IP addresses, and hostnames.
       # Order of instances must be same across all three arrays.
       # Public addresses are not used in default AWS configs, instead
@@ -139,6 +148,13 @@ output "kubeone_workers" {
       replicas = var.initial_machinedeployment_replicas
       # ProviderSpec includes information needed to create instances
       providerSpec = {
+        # Settings this will set metadata.annotations to the Node object
+        annotations = {}
+        # Settings this will set metadata.labels to the Node object
+        labels = {}
+        # Settings this will set spec.taints to the Node object
+        # See more https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#taint-v1-core
+        taints = []
         # Information about SSH keys and operating system are common for
         # all providers.
         sshPublicKeys   = [aws_key_pair.deployer.public_key]
@@ -187,6 +203,64 @@ output "kubeone_workers" {
     "${var.cluster_name}-${local.zoneC}" = {
       ...
     }
+  }
+}
+```
+
+### `kubeone_static_workers` Reference
+
+The `kubeone_static_workers` section includes the following information:
+
+* public and private IP addresses
+* instance hostnames
+* SSH parameters
+* optionally, parameters for bastion/jump host if such is used
+
+```terraform
+output "kubeone_static_workers" {
+  description = "Static worker config"
+
+  value = {
+    # Name of the group, has no meaning besides for convenience
+    workers1 = {
+      # Arrays containing public, private IP addresses, and hostnames.
+      # Order of instances must be same across all three arrays.
+      # Public addresses are not used in default AWS configs, instead
+      # we access instances over the bastion host defined below
+      # public_address     = <public-addresses>
+      private_address      = aws_instance.static_workers1.*.private_ip
+      hostnames            = aws_instance.static_workers1.*.private_dns
+      # SSH parameters.
+      # Path to SSH agent socket. Usually, value of this parameter is
+      # env:SSH_AUTH_SOCK (value of the SSH_AUTH_SOCK environment variable)
+      ssh_agent_socket     = var.ssh_agent_socket
+      ssh_port             = var.ssh_port
+      ssh_private_key_file = var.ssh_private_key_file
+      ssh_user             = var.ssh_username
+      # The bastion host can be used if the instances are not publicly exposed
+      # on the Internet.
+      # The following variables can be omitted if bastion/jump host is not used
+      bastion              = aws_instance.bastion.public_ip
+      bastion_port         = var.bastion_port
+      bastion_user         = var.bastion_user
+    }
+  }
+}
+```
+
+### `proxy` Reference
+
+```terraform
+output "proxy" {
+  description = "Proxy info"
+
+  value = {
+    # Indicate HTTP proxy (corresponds HTTP_PROXY environment variable)
+    http    = ""
+    # Indicate HTTPS proxy (corresponds HTTPS_PROXY environment variable)
+    https   = ""
+    # Indicate hosts to not proxy (corresponds NO_PROXY environment variable)
+    noProxy = ""
   }
 }
 ```
