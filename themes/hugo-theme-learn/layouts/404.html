@@ -2,7 +2,8 @@
 <html lang="{{ .Page.Language | default "en" }}" class="js csstransforms3d">
 
 <head>
-  <meta charset="utf-8"> {{ partial "meta.html" . }} {{ partial "favicon.html" . }} {{ .Scratch.Add "title" "" }}{{ if eq .Site.Data.titles .Title }}{{ .Scratch.Set "title" (index .Site.Data.titles .Title).title }}{{ else }}{{ .Scratch.Set "title" .Title}}{{end}}
+  {{partial "gtm-script.html" .}}
+  <meta charset="utf-8"> {{ partial "meta.html" . }} {{partialCached "favicon.html" .}} {{ .Scratch.Add "title" "" }}{{ if eq .Site.Data.titles .Title }}{{ .Scratch.Set "title" (index .Site.Data.titles .Title).title }}{{ else }}{{ .Scratch.Set "title" .Title}}{{end}}
   <title>{{ .Scratch.Get "title" }}</title>
 
    {{ $assetBusting := not .Site.Params.disableAssetsBusting }}
@@ -35,7 +36,8 @@
 </head>
 
   <body class="" data-url="/">
-
+    {{partial "cookie-banner.html" .}}
+    {{partial "gtm-noscript.html" .}}
     <section id="body" style="margin-left:0px;">
       <div id="overlay"></div>
       <div id="chapter">

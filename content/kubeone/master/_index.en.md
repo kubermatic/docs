@@ -1,9 +1,6 @@
 +++
 title = "KubeOne"
-date = 2020-04-01T09:00:00+02:00
-aliases = [
-    "/kubeone/master/frequently_asked_questions/"
-]
+date = 2021-02-10T09:00:00+02:00
 +++
 
 # What is KubeOne?
@@ -53,7 +50,9 @@ upgrade, or scale your worker nodes using kubectl.
 ## Getting Started
 
 Check out the Getting Started section to learn how to install KubeOne and get
-started with it.
+started with it. If you want to learn more about how KubeOne works, you can
+check out the Concepts and the [Architecture][architecture]
+documents.
 
 ## Getting Involved
 
@@ -71,6 +70,7 @@ features, connect with us over the forums or Slack:
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
 [cluster-api]: https://github.com/kubernetes-sigs/cluster-api
 [machine-controller]: https://github.com/kubermatic/machine-controller
+[architecture]: {{< ref "./architecture" >}}
 [contributing-guide]: https://github.com/kubermatic/kubeone/blob/master/CONTRIBUTING.md
 [slack-kubeone]: https://kubernetes.slack.com/messages/CNEV2UMT7
 [slack-k8s]: http://slack.k8s.io/

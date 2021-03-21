@@ -5,7 +5,8 @@ metadata:
   namespace: kubermatic
 spec:
   # Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK.
-  # For informational purposes in the Kubermatic Kubernetes Platform (KKP) dashboard only.
+  # For informational purposes in the Kubermatic Kubernetes Platform (KKP)
+  # dashboard only.
   country: ""
   # Datacenters contains a map of the possible datacenters (DCs) in this seed.
   # Each DC must have a globally unique identifier (i.e. names must be unique
@@ -75,9 +76,6 @@ spec:
         # EnforceAuditLogging enforces audit logging on every cluster within the DC,
         # ignoring cluster-specific settings.
         enforceAuditLogging: false
-        # EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC,
-        # ignoring cluster-specific settings
-        enforcePodSecurityPolicy: false
         gcp:
           # Region to use, for example "europe-west3", for a full list of regions see
           # https://cloud.google.com/compute/docs/regions-zones/
@@ -146,10 +144,7 @@ spec:
           cluster: ""
           # The name of the datacenter to use.
           datacenter: ""
-          # The name of the default Datastore to be used for provisioning volumes
-          # using storage classes/dynamic provisioning and for storing virtual
-          # machine files in case no `Datastore` or `DatastoreCluster` is provided
-          # with the `VSphereCloudSpec`.
+          # The name of the datastore to use.
           datastore: ""
           # Endpoint URL to use, including protocol, for example "https://vcenter.example.com".
           endpoint: ""

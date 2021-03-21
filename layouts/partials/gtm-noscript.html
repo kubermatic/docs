@@ -1,0 +1,6 @@
+{{$isProduction := hugo.IsProduction | or (eq .Site.Params.env "production")}}
+
+{{with and $isProduction .Site.Params.googleTagManager}}
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{.}}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+{{end}}

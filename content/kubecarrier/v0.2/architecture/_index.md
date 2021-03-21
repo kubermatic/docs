@@ -23,7 +23,7 @@ The KubeCarrier Operator is managing the core KubeCarrier installation and its d
 The KubeCarrier Manager is the central component of KubeCarrier, that contains all core control loops.
 
 ### KubeCarrier API Server
-  
+
 The KubeCarrier API Server provides a public API with separate authentication (OIDC, Service Accounts, Static Users) from the kube-apiserver.
 This component is designed as just a slim interface layer with the business logic, validation and authorization all being handled as kube-apiserver extensions.
 

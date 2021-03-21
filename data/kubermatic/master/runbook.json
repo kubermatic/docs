@@ -102,128 +102,6 @@
       ]
     },
     {
-      "name": "elasticsearch",
-      "rules": [
-        {
-          "alert": "ElasticsearchHeapTooHigh",
-          "annotations": {
-            "message": "The heap usage of Elasticsearch node {{ $labels.name }} is over 90%.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-elasticsearchheaptoohigh"
-          },
-          "expr": "elasticsearch_jvm_memory_used_bytes{area=\"heap\"} / elasticsearch_jvm_memory_max_bytes{area=\"heap\"} > 0.9",
-          "for": "15m",
-          "labels": {
-            "severity": "warning"
-          },
-          "runbook": {
-            "steps": [
-              "Check the pod's logs for anomalities.",
-              "If it is a data node, check the shard allocation via `http://es-data:9200/_cat/shards?v`."
-            ]
-          }
-        },
-        {
-          "alert": "ElasticsearchClusterUnavailable",
-          "annotations": {
-            "message": "The Elasticsearch cluster health endpoint does not respond to scrapes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-elasticsearchclusterunavailable"
-          },
-          "expr": "elasticsearch_cluster_health_up == 0",
-          "for": "15m",
-          "labels": {
-            "severity": "warning"
-          }
-        },
-        {
-          "alert": "ElasticsearchClusterUnhealthy",
-          "annotations": {
-            "message": "The Elasticsearch cluster is not healthy.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-elasticsearchclusterunhealthy"
-          },
-          "expr": "elasticsearch_cluster_health_status{color=\"green\"} == 0",
-          "for": "15m",
-          "labels": {
-            "severity": "critical"
-          }
-        },
-        {
-          "alert": "ElasticsearchUnassignedShards",
-          "annotations": {
-            "message": "There are {{ $value }} unassigned shards in the Elasticsearch cluster.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-elasticsearchunassignedshards"
-          },
-          "expr": "elasticsearch_cluster_health_unassigned_shards > 0",
-          "for": "15m",
-          "labels": {
-            "severity": "critical"
-          },
-          "runbook": {
-            "steps": [
-              "Check the shard allocation via `http://es-data:9200/_cat/shards?v`."
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "fluentbit",
-      "rules": [
-        {
-          "alert": "FluentbitManyFailedRetries",
-          "annotations": {
-            "message": "Fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` is experiencing an elevated failed retry rate.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-fluentbitmanyfailedretries"
-          },
-          "expr": "sum by (namespace, pod, node) (kube_pod_info) *\n  on (namespace, pod)\n  group_right (node)\n  rate(fluentbit_output_retries_failed_total[1m]) > 0\n",
-          "for": "10m",
-          "labels": {
-            "severity": "warning"
-          },
-          "runbook": {
-            "steps": [
-              "Ensure the target Elasticsearch cluster is healthy and accepts new documents (in certain conditions Elasticsearch clusters become read-only).",
-              "Ensure that `Retry_Limit` is not set to `False` (infinite) to prevent unprocessable logs from stopping the ingestion of new logs."
-            ]
-          }
-        },
-        {
-          "alert": "FluentbitManyOutputErrors",
-          "annotations": {
-            "message": "Fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` is experiencing an elevated output error rate.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-fluentbitmanyoutputerrors"
-          },
-          "expr": "sum by (namespace, pod, node) (kube_pod_info) *\n  on (namespace, pod)\n  group_right (node)\n  rate(fluentbit_output_errors_total[1m]) > 0\n",
-          "for": "10m",
-          "labels": {
-            "severity": "warning"
-          },
-          "runbook": {
-            "steps": [
-              "Ensure the target Elasticsearch cluster is healthy and accepts new documents (in certain conditions Elasticsearch clusters become read-only).",
-              "Ensure that `Retry_Limit` is not set to `False` (infinite) to prevent unprocessable logs from stopping the ingestion of new logs."
-            ]
-          }
-        },
-        {
-          "alert": "FluentbitNotProcessingNewLogs",
-          "annotations": {
-            "message": "Fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` has not processed any new logs for the last 30 minutes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-fluentbitnotprocessingnewlogs"
-          },
-          "expr": "sum by (namespace, pod, node) (kube_pod_info) *\n  on (namespace, pod)\n  group_right (node)\n  rate(fluentbit_output_proc_records_total[1m]) == 0\n",
-          "for": "30m",
-          "labels": {
-            "severity": "warning"
-          },
-          "runbook": {
-            "steps": [
-              "Check if there are no other log-generating pods running on the same node."
-            ]
-          }
-        }
-      ]
-    },
-    {
       "name": "helm-exporter",
       "rules": [
         {
@@ -1009,7 +887,7 @@
             "message": "The Thanos compactor in `{{ $labels.namespace }}` is experiencing a high retry rate.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-thanoscompactormanyretries"
           },
-          "expr": "sum(rate(thanos_compactor_retries_total[5m])) > 0.01",
+          "expr": "sum(rate(thanos_compact_retries_total[5m])) > 0.01",
           "for": "10m",
           "labels": {
             "severity": "warning"
@@ -1127,7 +1005,7 @@
             "message": "KubermaticAPI has disappeared from Prometheus target discovery.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticapidown"
           },
-          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",role=\"kubermatic-api\"} == 1)",
+          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",app_kubernetes_io_name=\"kubermatic-api\"} == 1)",
           "for": "15m",
           "labels": {
             "severity": "critical"
@@ -1145,7 +1023,7 @@
             "message": "Kubermatic API is returning a high rate of HTTP 5xx responses.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticapitoomanyerrors"
           },
-          "expr": "sum(rate(http_requests_total{role=\"kubermatic-api\",code=~\"5..\"}[5m])) > 0.1",
+          "expr": "sum(rate(http_requests_total{app_kubernetes_io_name=\"kubermatic-api\",code=~\"5..\"}[5m])) > 0.1",
           "for": "15m",
           "labels": {
             "severity": "warning"
@@ -1165,6 +1043,24 @@
           "for": "15m",
           "labels": {
             "severity": "warning"
+          }
+        },
+        {
+          "alert": "KubermaticMasterControllerManagerDown",
+          "annotations": {
+            "message": "Kubermatic Master Controller Manager has disappeared from Prometheus target discovery.",
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticmastercontrollermanagerdown"
+          },
+          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",app_kubernetes_io_name=\"kubermatic-master-controller-manager\"} == 1)",
+          "for": "15m",
+          "labels": {
+            "severity": "critical"
+          },
+          "runbook": {
+            "steps": [
+              "Check the Prometheus Service Discovery page to find out why the target is unreachable.",
+              "Ensure that the master-controller-manager pod's logs and that it is not crashlooping."
+            ]
           }
         }
       ]
@@ -1222,7 +1118,7 @@
           },
           "runbook": {
             "steps": [
-              "Check the kubermatic controller-manager's logs via `kubectl -n kubermatic logs -l 'role=controller-manager'` for errors related to deletion of the addon. Manually deleted resources inside of the user cluster is a common reason for failing deletions.",
+              "Check the kubermatic controller-manager's logs via `kubectl -n kubermatic logs -l 'app.kubernetes.io/name=kubermatic-seed-controller-manager'` for errors related to deletion of the addon. Manually deleted resources inside of the user cluster is a common reason for failing deletions.",
               "If all resources of the addon inside the user cluster have been cleaned up, remove the blocking finalizer (e.g. `cleanup-manifests`) from the addon resource."
             ]
           }
@@ -1240,17 +1136,17 @@
           },
           "runbook": {
             "steps": [
-              "Check the kubermatic controller-manager's logs via `kubectl -n kubermatic logs -l 'role=controller-manager'` for errors related to reconciliation of the addon."
+              "Check the kubermatic seed controller-manager's logs via `kubectl -n kubermatic logs -l 'app.kubernetes.io/name=kubermatic-seed-controller-manager'` for errors related to reconciliation of the addon."
             ]
           }
         },
         {
-          "alert": "KubermaticControllerManagerDown",
+          "alert": "KubermaticSeedControllerManagerDown",
           "annotations": {
-            "message": "KubermaticControllerManager has disappeared from Prometheus target discovery.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticcontrollermanagerdown"
+            "message": "Kubermatic Seed Controller Manager has disappeared from Prometheus target discovery.",
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticseedcontrollermanagerdown"
           },
-          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",role=\"controller-manager\"} == 1)",
+          "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",app_kubernetes_io_name=\"kubermatic-seed-controller-manager\"} == 1)",
           "for": "15m",
           "labels": {
             "severity": "critical"
@@ -1258,7 +1154,7 @@
           "runbook": {
             "steps": [
               "Check the Prometheus Service Discovery page to find out why the target is unreachable.",
-              "Ensure that the controller-manager pod's logs and that it is not crashlooping."
+              "Ensure that the seed-controller-manager pod's logs and that it is not crashlooping."
             ]
           }
         },

@@ -12,7 +12,7 @@ parts of a cluster, including:
 * Kubernetes PKI (certificates and keys used by Kubernetes and clients)
 
 The addon uses [Restic][restic-net] to upload backups, encrypt them, and handle
-backup rotation. 
+backup rotation.
 
 {{% notice warning %}}
 By default, backups are done every 30 minutes and are
@@ -30,7 +30,7 @@ repository for storing backups.
 Original [addon source][backups-addon-src] can be found in kubeone repository.
 
 ```yaml
-{{< readfile "kubeone/master/data/backups-restic.yaml" >}}
+{{< readfile "kubeone/v1.0/data/backups-restic.yaml" >}}
 ```
 
 You need to replace the following values with the actual ones:

@@ -25,7 +25,7 @@ This is very simple to set up and does not have any requirements onto the seed c
 ## Global LoadBalancer
 
 It is also possible to use one LoadBalancer per seed cluster instead of `NodePort`s. When doing so,
-the `NodeportProxy` has to be deployed into the seed. It will create a Kuberentes Service of type
+the `NodeportProxy` has to be deployed into the seed. It will create a Kubernetes Service of type
 `LoadBalancer`. Afterwards, a DNS entry for `*.<<seed-cluster-name>>.base.domain` has to be created
 that points to the `LoadBalancer`\`s address.
 

@@ -1,7 +1,7 @@
-+++ 
-title = "Node Deployments" 
-date = 2019-12-16T12:07:15+02:00 
-weight = 80 
++++
+title = "Node Deployments"
+date = 2019-12-16T12:07:15+02:00
+weight = 80
 +++
 
 ## Add a New Node Deployment

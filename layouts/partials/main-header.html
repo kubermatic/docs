@@ -1,9 +1,111 @@
+{{$baseWebsiteUrl := .Site.Params.baseWebsiteUrl}}
+{{$logo := .Site.Params.mainLogo}}
+{{$menuItems := .Site.Data.mainMenu.items}}
 <header class="main-header">
-  <div class="main-header-wrap">
-    <a href="{{.Site.BaseURL}}" class="main-header-logo">
-      {{with .Site.Params.mainLogo}}
-      <img src="{{.src | relURL}}" alt="{{.alt}}" class="main-header-logo-image"/>
-      {{end}}
-    </a>
-  </div>
+  <nav class="flex-wrapper nav-bar">
+    {{with $logo}}
+    <div class="flex-item">
+      <a href="{{$baseWebsiteUrl}}" class="flex-wrapper main-header-logo">
+        <img src="{{.src | relURL}}" alt="{{.alt}}" class="main-header-logo-image">
+      </a>
+    </div>
+    {{end}}
+    <button id="menu-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="flex-item" id="menu">
+      <ul class="menu">
+        {{range $menuItems}}
+        <li class="menu-item">
+          {{if .title}}
+          {{$class := .class | default "menu-item_link"}}
+          <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="{{$class}}">{{.title}}</a>
+          {{end}}
+          {{with .subMenu}}
+          <ul class="sub-menu">
+            {{range .}}
+            {{$class := "flex-wrapper item-link"}}
+            <li class="item">
+              {{if .title}}
+              <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="{{$class}}">
+                {{with .title}}
+                <span class="item-link_title">{{.}}</span>
+                {{end}}
+                <span class="item-link_description">{{.text}}</span>
+              </a>
+              {{end}}
+            </li>
+            {{end}}
+          </ul>
+          {{end}}
+        </li>
+        {{end}}
+      </ul>
+    </div>
+
+    <div id="mobile-menu" class="mobile-menu">
+      <ul  class="mobile-menu-list">
+        {{range $menuItems}}
+          {{if .title}}
+          <li>
+            {{$classOnMobile := .classOnMobile | default "menu-item_link--caption"}}
+            <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="{{$classOnMobile}}">{{.title}}</a>
+          </li>
+          {{end}}
+          {{range .subMenu}}
+            {{if .title}}
+            <li>
+              <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="menu-item_link{{if in .url "/#"}} menu-item-anchor{{end}}">{{.title}}</a>
+            </li>
+            {{end}}
+          {{end}}
+        {{end}}
+      </ul>
+    </div>
+  </nav>
 </header>
+
+<script>
+  function pageReady(fn) {
+    if (document.readyState != 'loading'){
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  };
+
+  pageReady(function() {
+    var body = document.body;
+
+    function hideMobileMenu() {
+      if (body.classList.contains("mobile-menu--open")) {
+        body.classList.remove("mobile-menu--open");
+      }
+    };
+
+    function initMobileMenuAnchors() {
+      var anchors = document.querySelectorAll(".menu-item-anchor");
+
+      anchors.forEach(function(anchor) {
+        anchor.addEventListener("click", function(e) {
+          body.classList.remove("mobile-menu--open");
+        });
+      });
+    };
+
+    window.addEventListener("resize", hideMobileMenu);
+
+    var btnNav = document.getElementById("menu-btn");
+    btnNav.addEventListener("click", function() {
+      if (body.classList.contains("mobile-menu--open")) {
+        body.classList.remove("mobile-menu--open");
+      } else {
+        body.classList.add("mobile-menu--open");
+      }
+    });
+
+    initMobileMenuAnchors();
+  });
+</script>

@@ -472,3 +472,9 @@ pre .copy-to-clipboard {
         margin-right: 1.25rem;
     }
 }
+
+@media only all and (max-width: 45em) {
+    #body {
+        margin-top: 3.125rem;
+    }
+}
