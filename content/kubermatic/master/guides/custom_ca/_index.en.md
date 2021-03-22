@@ -13,7 +13,7 @@ This CA bundle is then automatically
 * copied into each seed cluster
 * copied into each usercluster namespace
 * copied into each usercluster (into the `kube-system` namespace)
-* used for various components, like the KKP API, machine-controller, kube-apiserver etc.
+* used for various components, like the KKP API, machine-controller, usercluster kube-apiserver etc.
 
 Changes to the CA bundle are automatically reconciled across these locations. If the CA bundle
 is invalid, no further reconciliation happens, so if the master cluster's CA bundle breaks,
@@ -38,8 +38,10 @@ start.
 
 To override the CA bundle, either overwrite the `static/ca-bundle.pem` file in the
 `kubermatic-operator` Helm chart with your own and then `helm upgrade` the operator, or manually
-change the ConfigMap later using `kubectl edit`. Changes to the ConfigMap are picked up
-automatically and are then reconciled.
+change the ConfigMap later using `kubectl edit`. Note that you should not use Helm and kubectl
+to manage your CA bundle, but only one of the two.
+
+Changes to the ConfigMap are picked up automatically and are then reconciled.
 
 A typical CA bundle ConfigMap must look like this:
 
@@ -98,8 +100,10 @@ data:
     .... more certificates ....
 ```
 
-The CA bundle needs to be configured in the `KubermaticConfiguration`; you need to configure
-the name of the ConfigMap in it:
+The CA bundle needs to be configured in the `KubermaticConfiguration`. By default
+the configuration refers to the `ca-bundle` ConfigMap that is shipped with the
+`kubermatic-operator` Helm chart; if you need to use a different ConfigMap, adjust
+the `spec.caBundle` settings:
 
 ```yaml
 apiVersion: operator.kubermatic.io/v1alpha1
