@@ -4,6 +4,8 @@ date = 2021-02-10T12:00:00+02:00
 weight = 1
 +++
 
+This page describes API documentation (yaml file layout) for the kubeone configuration file (default name kubeone.yaml).
+
 ## v1beta1
 
 - [v1beta1](#v1beta1)
@@ -156,15 +158,15 @@ Only one cloud provider must be defined at the single time.
 | external | External | bool | false |
 | csiMigration | CSIMigration enables the CSIMigration and CSIMigration{Provider} feature gates for providers that support the CSI migration. The CSI migration stability depends on the provider. More details about stability can be found in the Feature Gates document: https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/\n\nNote: Azure has two type of CSI drivers (AzureFile and AzureDisk) and two different feature gates (CSIMigrationAzureDisk and CSIMigrationAzureFile). Enabling CSI migration enables both feature gates. If one CSI driver is not deployed, the volume operations for volumes with missing CSI driver will fallback to the in-tree volume plugin. | bool | false |
 | csiMigrationComplete | CSIMigrationComplete enables the CSIMigration{Provider}Complete feature gate for providers that support the CSI migration. This feature gate disables fallback to the in-tree volume plugins, therefore, it should be enabled only if the CSI driver is deploy on all nodes, and after ensuring that the CSI driver works properly.\n\nNote: If you're running on Azure, make sure that you have both AzureFile and AzureDisk CSI drivers deployed, as enabling this feature disables the fallback to the in-tree volume plugins. See description for the CSIMigration field for more details. | bool | false |
-| cloudConfig | CloudConfig | string | false |
-| aws | AWS | *[AWSSpec](#awsspec) | false |
-| azure | Azure | *[AzureSpec](#azurespec) | false |
-| digitalocean | DigitalOcean | *[DigitalOceanSpec](#digitaloceanspec) | false |
-| gce | GCE | *[GCESpec](#gcespec) | false |
-| hetzner | Hetzner | *[HetznerSpec](#hetznerspec) | false |
-| openstack | Openstack | *[OpenstackSpec](#openstackspec) | false |
-| packet | Packet | *[PacketSpec](#packetspec) | false |
-| vsphere | Vsphere | *[VsphereSpec](#vspherespec) | false |
+| cloudConfig | CloudConfig file / content which will be passed to kubelet as cloud configuration via --cloud-config param. It can be a file path or direct content provided in yaml file. [Azure cloud-config reference](https://kubernetes-sigs.github.io/cloud-provider-azure/install/configs/). [vSphere cloud-config reference](https://vmware.github.io/vsphere-storage-for-kubernetes/documentation/existing.html) | string | false |
+| aws | [AWSSpec from machine-controller](https://github.com/kubermatic/machine-controller/blob/master/docs/cloud-provider.md#aws). | *[AWSSpec](#awsspec) | false |
+| azure | [AzureSpec from machine-controller](https://github.com/kubermatic/machine-controller/blob/master/docs/cloud-provider.md#azure) | *[AzureSpec](#azurespec) | false |
+| digitalocean | [DigitalOcean Spec from machine-controller](https://github.com/kubermatic/machine-controller/blob/master/docs/cloud-provider.md#digitalocean) | *[DigitalOceanSpec](#digitaloceanspec) | false |
+| gce | [GCE Spec from machine-controller](https://github.com/kubermatic/machine-controller/blob/master/docs/cloud-provider.md#google-cloud-platform) | *[GCESpec](#gcespec) | false |
+| hetzner | [Hetzner Cloud Spec from machine-controller](https://github.com/kubermatic/machine-controller/blob/master/docs/cloud-provider.md#hetzner-cloud) | *[HetznerSpec](#hetznerspec) | false |
+| openstack | [Openstack Spec from machine-controller](https://github.com/kubermatic/machine-controller/blob/master/docs/cloud-provider.md#openstack) | *[OpenstackSpec](#openstackspec) | false |
+| packet | [Packet Spec from machine-controller](https://github.com/kubermatic/machine-controller/blob/master/docs/cloud-provider.md#packet) | *[PacketSpec](#packetspec) | false |
+| vsphere | [VSpehereSpec from machine-controller](https://github.com/kubermatic/machine-controller/blob/master/docs/vsphere.md#provider-configuration) | *[VsphereSpec](#vspherespec) | false |
 | none | None | *[NoneSpec](#nonespec) | false |
 
 [Back to Group](#v1beta1)
