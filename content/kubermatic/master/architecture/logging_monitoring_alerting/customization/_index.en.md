@@ -4,7 +4,7 @@ date = 2018-08-17T12:07:15+02:00
 weight = 20
 +++
 
-When it comes to monitoring, no approach fits all usecases. It's expected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
+When it comes to monitoring, no approach fits all use cases. It's expected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
 
 * customer-cluster Prometheus
 * seed-cluster Prometheus
@@ -119,11 +119,11 @@ This will lead to them being written to a dedicated `_customrules.yaml` and incl
 
 #### Extending the Helm Chart
 
-If you have more than a couple of rules, you can also place new YAML files inside the `rules/` directory before you deploy the Helm chart. They will be included like you would expect. To prevent maintenance headaches further down the road you should never change the existing files inside the chart. If you need to get rid of the predefined rules, see the next section on how to achieve it.
+If you have more than a couple of rules, you can also place new YAML files inside the `rules/` directory before you deploy the Helm chart. They will be included as you would expect. To prevent maintenance headaches further down the road you should never change the existing files inside the chart. If you need to get rid of the predefined rules, see the next section on how to achieve it.
 
 #### Custom ConfigMaps/Secrets
 
-For large deployments with many independently managed rules you can make use of custom volumes to mount your configuration into Prometheus. For this to work you need to create your own ConfigMap or Secret inside the `monitoring` namespace. Then configure the Prometheus chart using the `values.yaml` to mount those appropriately like so:
+For large deployments with many independently managed rules, you can make use of custom volumes to mount your configuration into Prometheus. For this, to work, you need to create your own ConfigMap or Secret inside the `monitoring` namespace. Then configure the Prometheus chart using the `values.yaml` to mount those appropriately like so:
 
 ```yaml
 prometheus:
@@ -156,7 +156,7 @@ Customizing Grafana entails three different aspects:
 * Dashboard providers (telling Grafana where to load dashboards from)
 * Dashboards themselves
 
-In all cases you have two general approaches: Either take the Grafana Helm chart and place additional files into the existing directory structure or leave the Helm chart as-is and use the `values.yaml` and your own ConfigMaps/Secrets to hold your customizations. This is very similar to how customizing the seed-level Prometheus works, so if you read that chapter, you will feel right at home.
+In all cases, you have two general approaches: Either take the Grafana Helm chart and place additional files into the existing directory structure or leave the Helm chart as-is and use the `values.yaml` and your own ConfigMaps/Secrets to hold your customizations. This is very similar to how customizing the seed-level Prometheus works, so if you read that chapter, you will feel right at home.
 
 ### Datasources
 
@@ -206,11 +206,11 @@ grafana:
         type: file
 ```
 
-Customizing the providers is especially important if you want to also add your own dashboards. You can point the `options.path` path to a new mounted volume to load dashboards from (see below).
+Customizing the providers is especially important if you want to also add your own dashboards. You can point the `options.path` path to a newly mounted volume to load dashboards from (see below).
 
 ### Dashboards
 
-Just like with datasources and providers, new dashboards can be placed in the existing `dashboards/` directory. Do note though that if you create a new folder (like `dashboards/example/`), you also must create a new dashboard provider to tell Grafana about it. Your dashboards will be loaded and included in the default ConfigMap, but without the new provider Grafana will not see them.
+Just like with datasources and providers, new dashboards can be placed in the existing `dashboards/` directory. Do note though that if you create a new folder (like `dashboards/example/`), you also must create a new dashboard provider to tell Grafana about it. Your dashboards will be loaded and included in the default ConfigMap, but without the new provider, Grafana will not see them.
 
 Following the example above, if you put your dashboards in `dashboards/example/`, you need a dashboard provider with the `options.path` set to `/grafana-dashboard-definitions/example`, because the ConfigMap is mounted to `/grafana-dashboard-definitions`.
 
