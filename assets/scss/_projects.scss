@@ -34,14 +34,14 @@
   -ms-flex-wrap: wrap;
   -o-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-top: -1.25rem;
-  margin-left: -1.25rem;
-  margin-right: -1.25rem;
+  margin-top: -0.9375rem;
+  margin-left: -0.9375rem;
+  margin-right: -0.9375rem;
 }
 
 .projects-tile {
   width: 33.33%;
-  padding: 1.25rem;
+  padding: 0.9375rem;
 }
 
 .projects-tile-link {
@@ -54,19 +54,16 @@
 
 .projects-tile-link:hover {
   color: var(--MAIN-TEXT-color);
+  border-color: var(--LOODSE-ACCENT-color);
 }
 
-.projects-tile-link:hover .loodse-btn {
-  color: #ffffff;
-  background-color: var(--LOODSE-ACCENT-color);
-}
-
-.projects-tile-image {
-  width: 60%;
+.projects-tile-image img {
+  display: block;
+  height: 40px;
 }
 
 .projects-tile-description {
-  margin: 0.937rem 0 1.875rem;
+  margin: 2rem 0 0;
 }
 
 @media screen and (max-width: 1024px) {
