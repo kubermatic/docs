@@ -15,24 +15,24 @@
   {{partialCached "main-header" .}}
   {{if .Site.Data.products}}
   <section class="projects">
-    <div class="projects-wrap">
+    <div class="wrap">
       {{with .Params.projects_title}}
-      <h1 class="projects-title">{{.}}</h1>
+      <h1 class="section-title">{{.}}</h1>
       {{end}}
       {{with .Site.Data.products}}
-      <div class="projects-list">
+      <div class="tiles">
         {{range $key, $value := .}}
         {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
         {{with $.Site.GetPage (printf "/%s/%s" $key $release)}}
-        <div class="projects-tile">
-          <a class="projects-tile-link" href="{{.RelPermalink}}">
+        <div class="tile">
+          <a class="tile-link" href="{{.RelPermalink}}">
             {{with $value.logo}}
-            <div class="projects-tile-image">
+            <div class="tile-image">
               <img src="{{. | relURL}}" alt="{{$value.name}}">
             </div>
             {{end}}
             {{with $value.description}}
-            <p class="projects-tile-description">{{.}}</p>
+            <p class="tile-description">{{.}}</p>
             {{end}}
           </a>
         </div>
@@ -43,5 +43,100 @@
     </div>
   </section>
   {{end}}
+  <section>
+    <div class="wrap">
+      <h2 class="section-title">How Do I Contribute To ...?</h2>
+      <div class="tiles">
+        <div class="tile">
+          <a class="tile-link" href="/">
+            <p class="tile-description">Documentation</p>
+          </a>
+        </div>
+        <div class="tile">
+          <a class="tile-link" href="/">
+            <div class="tile-image">
+              <img src="/img/KubeOne-logo.svg" alt="" />
+            </div>
+          </a>
+        </div>
+        <div class="tile">
+          <a class="tile-link" href="/">
+            <div class="tile-image">
+              <img src="/img/KubermaticKubernetesPlatform-logo.svg" alt="" />
+            </div>
+          </a>
+        </div>
+        <div class="tile">
+          <a class="tile-link" href="/">
+            <div class="tile-image">
+              <img src="/img/KubeCarrier-logo.svg" alt="" />
+            </div>
+          </a>
+        </div>
+        <div class="tile">
+          <a class="tile-link" href="/">
+            <p class="tile-description">Machine Controller</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <div class="columns-2">
+        <div class="list">
+          <h2 class="list-title">Start Using Kubernetes Today</h2>
+          <div class="list-items">
+            <div class="list-item">
+              <div class="list-item-icon">
+                <img src="/img/icons/auto-scale-icon.svg" alt="" />
+              </div>
+              <p class="list-item-text">Scale like google, more containers with the same amount of devs</p>
+            </div>
+            <div class="list-item">
+              <div class="list-item-icon">
+                <img src="/img/icons/stats-up-icon.svg" alt="" />
+              </div>
+              <p class="list-item-text">Stay flexible, from local testing to global enterprise operations</p>
+            </div>
+            <div class="list-item">
+              <div class="list-item-icon">
+                <img src="/img/icons/kubernetes-icon.svg" alt="" />
+              </div>
+              <p class="list-item-text">Open source offers transparency and freedom, never be dependant again</p>
+            </div>
+          </div>
+        </div>
+        <div class="list">
+          <h2 class="list-title">Made Easier With Kubermatic</h2>
+          <div class="list-items">
+            <div class="list-item">
+              <div class="list-item-icon">
+                <img src="/img/icons/time-icon.svg" alt="" />
+              </div>
+              <p class="list-item-text">Speed up your cloud native adoption</p>
+            </div>
+            <div class="list-item">
+              <div class="list-item-icon">
+                <img src="/img/icons/cash-icon.svg" alt="" />
+              </div>
+              <p class="list-item-text">Automate Day 2 operations and reduce costs</p>
+            </div>
+            <div class="list-item">
+              <div class="list-item-icon">
+                <img src="/img/icons/person-icon.svg" alt="" />
+              </div>
+              <p class="list-item-text">Empower your developer team to work with the stack they need</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <img src="/img/kubermatic-kubernetes-platform.png" alt="" />
+    </div>
+  </section>
 </body>
 </html>

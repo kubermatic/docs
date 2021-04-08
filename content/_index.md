@@ -1,4 +1,4 @@
 +++
 title = "Docs"
-projects_title = "Choose a Project"
+projects_title = "Product Documentation"
 +++
