@@ -25,16 +25,21 @@
         {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
         {{with $.Site.GetPage (printf "/%s/%s" $key $release)}}
         <div class="tile">
-          <a class="tile-link" href="{{.RelPermalink}}">
-            {{with $value.logo}}
-            <div class="tile-image">
-              <img src="{{. | relURL}}" alt="{{$value.name}}">
-            </div>
+          <div class="tile-wrap">
+            {{with $value.title}}
+            <h2 class="tile-caption">{{.}}</h2>
             {{end}}
-            {{with $value.description}}
-            <p class="tile-description">{{.}}</p>
-            {{end}}
-          </a>
+            <a class="tile-link" href="{{.RelPermalink}}">
+              {{with $value.logo}}
+              <div class="tile-image">
+                <img src="{{. | relURL}}" alt="{{$value.name}}">
+              </div>
+              {{end}}
+              {{with $value.description}}
+              <p class="tile-description">{{.}}</p>
+              {{end}}
+            </a>
+          </div>
         </div>
         {{end}}
         {{end}}
@@ -81,7 +86,7 @@
       </div>
     </div>
   </section>
-  <section class="section section--dark-blue">
+  <section class="section section--dark-blue features">
     <div class="wrap">
       <div class="cols-2">
         <div class="list">
