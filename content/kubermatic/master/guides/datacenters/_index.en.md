@@ -7,11 +7,33 @@ weight = 10
 
 ## Datacenter concept
 
-Datacenters are an integral part of Kubermatic. They define physical datacenters in which the user clusters are created.
+[Datacenters]({{< ref "../../architecture/concepts/datacenters" >}}) are an integral part of Kubermatic. They define physical datacenters in which the user clusters are created.
 Datacenters, as Kubermatic resources, are a part of the Seed resource, and all user clusters of that datacenter are handled by its respected Seed Cluster.
 
-The datacenter structure contains the following fields:
+{{%expand "Simplified Seed resource"%}}
+```yaml
+apiVersion: kubermatic.k8s.io/v1
+kind: Seed
+metadata:
+  # The Seed *must* be named "kubermatic".
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  # these two fields are only informational
+  country: DE
+  location: Hamburg
 
+  # list of datacenters where this seed cluster is allowed to create clusters in
+  datacenters: []
+
+  # reference to the kubeconfig to use when connecting to this seed cluster
+  kubeconfig:
+    name: kubeconfig-kubermatic
+    namespace: kubermatic
+```
+{{%/expand%}}
+
+The datacenter structure contains the following fields:
 
 - `country` -- Country code of the DC location. It's purely cosmetic and reflected by a flag shown in the UI.
 - `location` -- Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7". For informational purposes in the Kubermatic dashboard only.
@@ -38,6 +60,7 @@ The datacenter structure contains the following fields:
     - `requiredEmailDomains` -- (since v2.13) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
 
 Example specs for different providers:
+{{%expand "Sample provider specs"%}}
 
 ```yaml
 
@@ -198,6 +221,7 @@ Example specs for different providers:
         location: "ams"
 
 ```
+{{%/expand%}}
 
 
 ## Datacenter management - CE
@@ -228,15 +252,16 @@ The added datacenter can easily be found with the filtering functions:
 
 It is also possible to edit the existing Datacenter, everything can be changed except the seed:
 ![Edit Datacenter](04-edit-dc.png)
-*NOTICE: editing does not affect existing user clusters that were created using this datacenter*
 
 When we are satisfied with our new datacenter, we can use it in the Cluster creation wizard:
 ![Use Datacenter](05-use-dc-in-cluster-creation.png)
 
 To delete the datacenter, just click on the trash icon in the admin panel:
 ![Delete Datacenter](06-delete-dc.png)
-*NOTICE: deleting does not affect existing user clusters that were created using this datacenter*
 
+{{% notice note %}}
+Editing or deleting a datacenter does not affect existing user clusters that were created using it.
+{{% /notice %}}
 
 ### Management through static files - datacenter.yaml
 
@@ -244,7 +269,7 @@ This option is activated by setting the `datacenters` flag on the Kubermatic API
 
 In this option all the Seeds and datacenters used in KKP will be taken from this file, Seed objects in the cluster won't have any effect. 
 
-Example file:
+{{%expand "Sample datacenters.yaml"%}}
 
 ```yaml
 datacenters:
@@ -328,6 +353,6 @@ datacenters:
         # Digitalocean region for the nodes
         region: ams2
 ```
-
+{{%/expand%}}
 
 
