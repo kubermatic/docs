@@ -9,12 +9,16 @@
   text-decoration: none;
 }
 
+.section {
+  padding: 2.5rem 0;
+}
+
 .projects {
   margin-top: 5.5rem;
 }
 
 .wrap {
-  max-width: 1440px;
+  max-width: 1200px;
   padding: 0 1.25rem;
   margin: 0 auto;
 }
@@ -47,7 +51,7 @@
 }
 
 .tile-link {
-  display: inline-block;
+  display: block;
   height: 100%;
   padding: 1.875rem;
   border: 2px solid var(--GRAY-color);
@@ -59,6 +63,10 @@
   border-color: var(--LOODSE-ACCENT-color);
 }
 
+.tile-title {
+  margin: 0;
+}
+
 .tile-image img {
   display: block;
   height: 40px;
@@ -68,18 +76,146 @@
   margin: 2rem 0 0;
 }
 
-@media screen and (min-width: 768px) {
+.tiles--small {
   .tile {
-    width: 50%;
+    &-link {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      padding: 1.25rem 1rem;
+    }
+
+    &-image img {
+      height: 30px;
+    }
   }
 }
 
-@media screen and (min-width: 1024px) {
+.section--dark-blue {
+  color: var(--WHITE-color);
+  background-color: var(--MAIN-HEADER-color);
+}
+
+.white-color {
+  color: var(--WHITE-color);
+}
+
+.list {
+  margin-bottom: 2.5rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &-title {
+    margin: 0;
+  }
+
+  &-items {
+    margin-top: 1.875rem;
+  }
+
+  &-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 1.25rem;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  &-item-icon {
+    width: 30px;
+    flex: 0 0 auto;
+  }
+
+  &-item-text {
+    margin: 0 0 0 1rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
   .projects {
     margin-top: 8.125rem;
   }
 
   .tile {
+    width: 50%;
+  }
+
+  .tiles--small {
+    .tile {
+      width: 33.33%;
+    }
+  }
+
+  .cols-2 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-left: -1rem;
+    margin-left: -1rem;
+  }
+
+  .list {
+    width: 50%;
+    padding: 0 1rem;
+    margin: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .tile {
     width: 33.33%;
+  }
+
+  .cols-2 {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+  }
+
+  .list {
+    padding-left: 1.25rem;
+    padding-right: 1.25em;
+
+    &-title {
+      font-size: 1.75rem;
+    }
+
+    &-item-text {
+      margin-left: 1.25rem;
+    }
+  }
+}
+
+@media screen and (min-width: 1240px) {
+  .projects {
+    margin-top: 8.75rem;
+  }
+
+  .wrap {
+    padding: 0;
+  }
+
+  .section {
+    padding: 4.375rem 0 5rem;
+
+    &--image {
+      padding: 2rem 0 3.125rem;
+    }
+  }
+
+  .tiles--small {
+    .tile {
+      width: 20%;
+    }
   }
 }
