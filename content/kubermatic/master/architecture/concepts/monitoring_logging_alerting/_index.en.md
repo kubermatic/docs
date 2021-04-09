@@ -1,13 +1,10 @@
 +++
-title = "Monitoring Logging Alerting"
+title = "Monitoring, Logging & Alerting"
 date = 2018-08-17T12:07:15+02:00
-weight = 4
+weight = 40
 +++
 
-
-This chapter describes the integrated monitoring stack and how to customize it to your needs.
-
-Kubermatic Kubernetes Platform (KKP) uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. Dashboarding is done with [Grafana](https://grafana.com).
+Kubermatic Kubernetes Platform (KKP) uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. The Logging is based on [Grafana Loki](https://grafana.com/oss/loki/). Dashboarding is done with [Grafana](https://grafana.com).
 
 ## Overview
 

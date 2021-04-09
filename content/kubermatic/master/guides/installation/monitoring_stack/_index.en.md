@@ -1,7 +1,7 @@
 +++
 title = "Monitoring Stack"
 date = 2020-02-14T12:07:15+02:00
-weight = 70
+weight = 80
 
 +++
 
@@ -98,6 +98,8 @@ alerts are sent where.
 
 Likewise, when your cluster grows, you most likely want to adjust the resource requirements in
 `prometheus.containers.prometheus.resources` and others.
+
+You can find more information on the [Monitoring, Logging & Alerting Customization]({{< relref "../../../tutorials/operation/monitoring-logging-alerting-customization" >}}) page.
 
 ### Thanos (Beta)
 

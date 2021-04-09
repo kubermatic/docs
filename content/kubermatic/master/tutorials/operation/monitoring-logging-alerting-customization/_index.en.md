@@ -1,5 +1,5 @@
 +++
-title = "Monitoring Logging Alerting Customization"
+title = "Monitoring, Logging & Alerting Customization"
 date = 2018-08-17T12:07:15+02:00
 weight = 10
 +++
@@ -11,7 +11,7 @@ When it comes to monitoring, no approach fits all use cases. It's expected that 
 * alertmanager rules
 * Grafana dashboards
 
-You will want to familiarize yourself with the [basic architecture](../architecture/) before reading any further.
+You will want to familiarize yourself with the [Monitoring, Logging & Alerting Architecture]({{< relref "../../../architecture/concepts/monitoring_logging_alerting" >}}) before reading any further.
 
 ## Customer-Cluster Prometheus
 
@@ -145,8 +145,30 @@ prometheus:
 Managing the `ruleFiles` is also the way to disable the predefined rules by just removing the applicable item from the list. You can also keep the list completely empty to disable any and all alerts.
 
 ## Alertmanager
+Alertmanager configuration can be tweaked via `values.yaml` like so:
 
-TBD
+```yaml
+alertmanager:
+  config:
+    global:
+      slack_api_url: https://hooks.slack.com/services/YOUR_KEYS_HERE
+    route:
+      receiver: default
+      repeat_interval: 1h
+      routes:
+        - receiver: blackhole
+          match:
+            severity: none
+    receivers:
+      - name: blackhole
+      - name: default
+        slack_configs:
+          - channel: '#alerting'
+            send_resolved: true
+```
+Please review the [Alertmanager Configuration Guise](https://prometheus.io/docs/alerting/latest/configuration/) for detailed configuration syntax.
+
+You can review the [Alerting Runbook]({{< relref "../../../cheat_sheets/alerting_runbook" >}}) for a reference of alerts that Kubermatic Kubernetes Platform (KKP) monitoring setup can fire, alongside a short description and steps to debug.
 
 ## Grafana Dashboards
 
