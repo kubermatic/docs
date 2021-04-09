@@ -42,8 +42,8 @@ You can see when a token was created and when will expire.
 
  - You can grant `editor` or `viewer` roles to service accounts to define access group.
 
- - Since a cluster depend on their service accounts you can delete service accounts when they are still used by running
-   instances. If you delete the service accounts, the clusters are still assigned to the project.
+ - Deleting a service account which was used in cluster creation does not affect the cluster, as the owner of the cluster
+   is the user which created the service account.
 
 
 ## Accessing API via Service Account Token

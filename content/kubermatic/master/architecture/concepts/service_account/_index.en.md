@@ -16,7 +16,7 @@ by default expires after 3 years.
 
 ## Core Concept
 
-A Service accounts are considered as project's resource. Only the owner of the project  can create a service account.
+Service accounts are considered as project's resource. Only the owner of the project  can create a service account.
 There is no need to create a new groups for SA, we want to assign a service account to one of the already defined groups:
 `editors` or `viewers`.
 
@@ -56,8 +56,8 @@ spec:
   name: test
 ```
 
-Service accounts are tied to a set of credentials stored as Secrets. Because a `Secret` is namespaced resource the
-system needs predefined namespace for it: `kubermatic`.
+Service accounts are tied to a set of credentials stored as Secrets. Because a `Secret` is a namespaced resource the
+system needs a predefined namespace for it: `kubermatic`.
 
 Secret label `project-id` is used to create link between secret and project. The `OwnerRef` links the secret with the
 service account. A secret will be automatically deleted after service account removal.
