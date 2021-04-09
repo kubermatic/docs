@@ -27,7 +27,35 @@ The Admin Panel also offers you the possibility to specify Constraint Templates.
 ![Constraint Templates](admin-ct.png)
 
 
-### Constraint Templates
+### Cluster Details View
+
+The cluster details view is extended by some more information if OPA is enabled.
+- `OPA Integration` in the top area is indicating if OPA is enabled or not.
+- `OPA Gatekeeper Controller` and `OPA Gatekeeper Audit` provide information about the status of those controllers.
+- `OPA Constraints` and `OPA Gatekeeper Config` are added to the tab menu on the bottom. More details in the following sections.
+
+![Cluster Details View](cluster-overview.png)
+
+
+### Activating OPA
+
+To create a new cluster with OPA enabled you only have to enable the `OPA Integration` checkbox during the cluster creation process. It is placed in Step 2 `Cluster` and can be enabled by default as mentioned in the [Admin Panel for OPA Options]({{< ref "#admin-panel-for-opa-options" >}}) section. 
+If you don't know how to create a cluster using the Kubermatic Kubernetes Platform follow our [Project and cluster management]({{< ref "../01-manage-project-and-cluster" >}}) tutorial.
+
+![OPA Integration during Cluster Creation](wizard.png)
+
+It is also possible to enable - or disable - OPA for an existing cluster. In the cluster detail view simply click on the vertical ellipsis menu and select `Edit Cluster`.
+
+![Cluster Details Ellipsis Menu](edit-cluster.png)
+
+In the appearing dialog you can now enable/disable the OPA Integration. 
+
+![Edit Cluster Dialog](edit-cluster-dialog.png)
+
+
+### Operating OPA
+
+#### Constraint Templates
 
 Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for constraint parameters and enforce their behavior.
 To add a new constraint template click on the `+` icon on the right. A new dialog will appear, where you can specify the spec of the template:
@@ -66,38 +94,9 @@ Just click on `Add` to create the constraint template. In this table you can als
 ![Constraint Templates](admin-ct-overview.png)
 
 
-### Activating OPA during Cluster Creation
+#### Constraints
 
-To create a new cluster with OPA enabled you only have to enable the `OPA Integration` checkbox during the cluster creation process. It is placed in Step 2 `Cluster` and can be enabled by default as mentioned in the [Admin Panel for OPA Options]({{< ref "#admin-panel-for-opa-options" >}}) section. 
-If you don't know how to create a cluster using the Kubermatic Kubernetes Platform follow our [Project and cluster management]({{< ref "../01-manage-project-and-cluster" >}}) tutorial.
-
-![OPA Integration during Cluster Creation](wizard.png)
-
-
-### Activating OPA for an Existing Cluster
-
-It is also possible to enable - or disable - OPA for an existing cluster. In the cluster detail view simply click on the vertical ellipsis menu and select `Edit Cluster`.
-
-![Cluster Details Ellipsis Menu](edit-cluster.png)
-
-In the appearing dialog you can now enable/disable the OPA Integration. 
-
-![Edit Cluster Dialog](edit-cluster-dialog.png)
-
-
-### Cluster Details View
-
-The cluster details view is extended by some more information if OPA is enabled.
-- `OPA Integration` in the top area is indicating if OPA is enabled or not.
-- `OPA Gatekeeper Controller` and `OPA Gatekeeper Audit` provide information about the status of those controllers.
-- `OPA Constraints` and `OPA Gatekeeper Config` are added to the tab menu on the bottom. More details in the following sections.
-
-![Cluster Details View](cluster-overview.png)
-
-
-### Constraints
-
-Constraints basically are a collection of rules that describe the expected state of your service. They need to be associated with a constraint template.
+Constraints are the filler for rules that are defined by the constraint templates. Constraints provide the parameters which are used in the Constraint Template rule. 
 
 ![Cluster Details View](constraints.png)
 
@@ -112,7 +111,7 @@ match:
     - apiGroups: [""]
       kinds: ["Namespace"]
 parameters:
-  labels: ["gatekeeper"]
+  rawJSON: '{"labels":["gatekeeper"]}'
 ```
 
 Just click on `Add` to create the constraint. In this table you can also edit or delete it again if needed.
@@ -124,7 +123,7 @@ It also shows you possible violations. Click on the row to expand the view and t
 ![Cluster Details View](constraints-violations.png)
 
 
-### Gatekeeper Config
+#### Gatekeeper Config
 
 In this area you have the possibility to define a Gatekeeper Config. It is not required, but might be needed for some constraints that need more access.
 Initially you will only see the `Add Gatekeeper Config` button. 
