@@ -26,6 +26,7 @@
 .section-title {
   margin: 0 0 1.875rem;
   color: var(--MAIN-PRIMARY-color);
+  font-family: "Ubuntu", "Roboto", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
   font-size: 1.75rem;
   text-align: center;
 }
@@ -115,6 +116,7 @@
 
   &-title {
     margin: 0;
+    font-family: "Ubuntu", "Roboto", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
   }
 
   &-items {
