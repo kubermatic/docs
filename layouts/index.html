@@ -48,100 +48,70 @@
     </div>
   </section>
   {{end}}
+  {{with .Params.contribution}}
   <section class="section">
     <div class="wrap">
-      <h2 class="section-title">How Do I Contribute To ...?</h2>
+      {{with .title}}
+      <h2 class="section-title">{{.}}</h2>
+      {{end}}
+      {{with .links}}
       <div class="tiles tiles--small">
+        {{range .}}
         <div class="tile">
-          <a class="tile-link" href="/">
-            <h3 class="tile-title">Documentation</h3>
-          </a>
-        </div>
-        <div class="tile">
-          <a class="tile-link" href="/">
+          <a class="tile-link" href="{{.url | relURL}}">
+            {{with .title}}<h3 class="tile-title">{{.}}</h3>{{end}}
+            {{with .image}}
             <div class="tile-image">
-              <img src="/img/KubeOne-logo.svg" alt="" />
+              <img src="{{.src | relURL}}" alt="{{.alt}}" />
             </div>
+            {{end}}
           </a>
         </div>
-        <div class="tile">
-          <a class="tile-link" href="/">
-            <div class="tile-image">
-              <img src="/img/KubermaticKubernetesPlatform-logo.svg" alt="" />
-            </div>
-          </a>
-        </div>
-        <div class="tile">
-          <a class="tile-link" href="/">
-            <div class="tile-image">
-              <img src="/img/KubeCarrier-logo.svg" alt="" />
-            </div>
-          </a>
-        </div>
-        <div class="tile">
-          <a class="tile-link" href="/">
-            <h3 class="tile-title">Machine Controller</h3>
-          </a>
-        </div>
+        {{end}}
       </div>
+      {{end}}
     </div>
   </section>
+  {{end}}
+  {{with .Params.features}}
   <section class="section section--dark-blue features">
     <div class="wrap">
+      {{with .list}}
       <div class="cols-2">
+        {{range .}}
         <div class="list">
-          <h2 class="white-color list-title">Start Using Kubernetes Today</h2>
+          {{with .title}}
+          <h2 class="white-color list-title">{{.}}</h2>
+          {{end}}
+          {{with .items}}
           <div class="list-items">
+            {{range .}}
             <div class="list-item">
+              {{with .icon}}
               <div class="list-item-icon">
-                <img src="/img/icons/auto-scale-icon.svg" alt="" />
+                <img src="{{.src | relURL}}" alt="{{.alt}}" />
               </div>
-              <p class="list-item-text">Scale like google, more containers with the same amount of devs</p>
+              {{end}}
+              {{with .text}}
+              <p class="list-item-text">{{. | markdownify}}</p>
+              {{end}}
             </div>
-            <div class="list-item">
-              <div class="list-item-icon">
-                <img src="/img/icons/stats-up-icon.svg" alt="" />
-              </div>
-              <p class="list-item-text">Stay flexible, from local testing to global enterprise operations</p>
-            </div>
-            <div class="list-item">
-              <div class="list-item-icon">
-                <img src="/img/icons/kubernetes-icon.svg" alt="" />
-              </div>
-              <p class="list-item-text">Open source offers transparency and freedom, never be dependant again</p>
-            </div>
+            {{end}}
           </div>
+          {{end}}
         </div>
-        <div class="list">
-          <h2 class="white-color list-title">Made Easier With Kubermatic</h2>
-          <div class="list-items">
-            <div class="list-item">
-              <div class="list-item-icon">
-                <img src="/img/icons/time-icon.svg" alt="" />
-              </div>
-              <p class="list-item-text">Speed up your cloud native adoption</p>
-            </div>
-            <div class="list-item">
-              <div class="list-item-icon">
-                <img src="/img/icons/cash-icon.svg" alt="" />
-              </div>
-              <p class="list-item-text">Automate Day 2 operations and reduce costs</p>
-            </div>
-            <div class="list-item">
-              <div class="list-item-icon">
-                <img src="/img/icons/person-icon.svg" alt="" />
-              </div>
-              <p class="list-item-text">Empower your developer team to work with the stack they need</p>
-            </div>
-          </div>
-        </div>
+        {{end}}
       </div>
+      {{end}}
     </div>
   </section>
+  {{end}}
+  {{with .Params.demoImage}}
   <section class="section section--image">
     <div class="wrap">
-      <img src="/img/kubermatic-kubernetes-platform.png" alt="" />
+      <img src="{{.src | relURL}}" alt="{{.alt}}" />
     </div>
   </section>
+  {{end}}
 </body>
 </html>
