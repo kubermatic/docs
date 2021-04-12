@@ -10,10 +10,9 @@ date: 2020-04-24T09:00:00+02:00
 In order to manage Custom Resources from a `ServiceCluster` we have to tell KubeCarrier how to find them and how we want to offer them to our users.
 
 First we need some kind of `CustomResourceDefinition` or Operator installation in our `ServiceCluster`.
-To help get you started we have a fictional example CRD that can be used without having to setup an Operator.
+To help get you started we have a fictional example CRD that can be used without having to setup an Operator. Start with registering the CRD in the `ServiceCluster`:
 
-Register the CRD in the `ServiceCluster`.
-
+> Service Cluster
 ```bash
 # make sure you are connected to the ServiceCluster
 # that's `eu-west-1` if you followed our earlier guide.
@@ -60,8 +59,9 @@ spec:
       - jsonPath: .status.observedGeneration
 ```
 
+> Management Cluster
 ```bash
-# make sure you are connected to the KubeCarrier Cluster
+# make sure you are connected to the KubeCarrier Management Cluster
 # that's `kubecarrier` if you followed our earlier guide.
 $ kubectl config use-context kind-kubecarrier
 Switched to context "kind-kubecarrier".
@@ -77,6 +77,7 @@ couchdbs   Ready    couchdbs.couchdb.io   19s
 
 As soon as the `CatalogEntrySet` is ready, you will notice two new `CustomResourceDefinitions` appearing in the Cluster:
 
+> Management Cluster
 ```bash
 $ kubectl get crd -l kubecarrier.io/origin-namespace=team-a
 NAME                                CREATED AT
@@ -84,14 +85,15 @@ couchdbs.eu-west-1.team-a           2020-07-31T09:36:04Z
 couchdbs.internal.eu-west-1.team-a  2020-07-31T09:35:50Z
 ```
 
-The `couchdbs.internal.eu-west-1.team-a` object is just a copy of the CRD present in the `ServiceCluster`, while `couchdbs.eu-west-1.team-a` is a "slimed-down" version, only containing fields specified in the `CatalogEntrySet`. Both CRDs are "namespaced" by their API group.
+The `couchdbs.internal.eu-west-1.team-a` object is just a copy of the CRD present in the `ServiceCluster`, while `couchdbs.eu-west-1.team-a` is a "slimmed-down" version, only containing fields specified in the `CatalogEntrySet`. Both CRDs are "namespaced" by their API group.
 
 ## Catalogs
 
 Now that we have successfully registered a `CustomResourceDefinition` from another cluster, attached metadata to it and created a "public" interface for other people, we can go ahead and actually offer this `CouchDB` object to other users.
 
-The `CatalogEntrySet` we created in previous step is managing `CatalogEntries` for all `ServiceClusters` that match the given `serviceClusterSelector`.
+The `CatalogEntrySet` we created in the previous step is managing `CatalogEntries` for all `ServiceClusters` that match the given `serviceClusterSelector`.
 
+> Management Cluster
 ```bash
 $ kubectl get catalogentry -n team-a
 NAME                 STATUS   BASE CRD                            TENANT CRD                  AGE
@@ -101,6 +103,7 @@ couchdbs.eu-west-1   Ready    couchdbs.internal.eu-west-1.team-a  couchdbs.eu-we
 We can now reference these `CatalogEntries` in a `Catalog` and offer them to `Tenants`.
 Every `Account` with the `Tenant` role has a `Tenant` object created in each `Provider` namespace.
 
+> Management Cluster
 ```bash
 $ kubectl get tenant -n team-a
 NAME     AGE
@@ -124,6 +127,7 @@ spec:
   catalogEntrySelector: {}
 ```
 
+> Management Cluster
 ```bash
 $ kubectl apply -n team-a \
   -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/catalog.yaml
@@ -137,6 +141,7 @@ default   Ready    5s
 When the `Catalog` is ready, selected `Tenants` can discover objects available to them and RBAC is setup to users to work with the CRD in their namespace.
 Here we also use `kubectl` user impersonation (`--as`), to showcase RBAC:
 
+> Management Cluster
 ```bash
 # Offering objects contain information about CRDs that are shared to a Tenant.
 # They contain all the information to validate and create new instances.

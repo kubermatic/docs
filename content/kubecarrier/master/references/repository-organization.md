@@ -4,8 +4,7 @@ weight: 20
 date: 2020-04-24T09:00:00+02:00
 ---
 
-## Overview
-Here is an overview of the KubeCarrier repository organization:
+The [KubeCarrier repository](https://github.com/kubermatic/kubecarrier) is organized as follows:
 ```bash
 ├── cmd
 │   ├── {kubectl-kubecarrier, manager, operator, ferry, catapult, elevator}

@@ -1,7 +1,7 @@
 +++
 title = "Expose Strategy"
 date = 2020-02-14T12:07:15+02:00
-weight = 80
+weight = 70
 
 +++
 

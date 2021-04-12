@@ -39,6 +39,9 @@ spec:
         # Optional: Translates to --pod-infra-container-image on the kubelet.
         # If not set, the kubelet will default it.
         pause_image: ""
+        # Optional: These image registries will be configured as registry mirrors
+        # on the container runtime.
+        registry_mirrors: []
       # Spec describes the cloud provider settings used to manage resources
       # in this datacenter. Exactly one cloud provider must be defined.
       spec:
@@ -54,7 +57,6 @@ spec:
           # to define the AMIs statically.
           images:
             centos: ""
-            coreos: ""
             flatcar: ""
             rhel: ""
             sles: ""
@@ -97,6 +99,10 @@ spec:
           # Optional: Detailed location of the datacenter, like "Hamburg" or "Datacenter 7".
           # For informational purposes only.
           location: ""
+          # Network is the pre-existing Hetzner network in which the machines are running.
+          # While machines can be in multiple networks, a single one must be chosen for the
+          # HCloud CCM to work.
+          network: ""
         kubevirt:
           # DNSConfig represents the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS
           # configuration based on DNSPolicy.
@@ -123,6 +129,8 @@ spec:
           availability_zone: ""
           # Used for automatic network creation
           dns_servers: []
+          # Optional: List of enabled flavors for the given datacenter
+          enabled_flavors: []
           # Optional
           enforce_floating_ip: false
           # Optional
@@ -130,7 +138,6 @@ spec:
           # Images to use for each supported operating system.
           images:
             centos: ""
-            coreos: ""
             flatcar: ""
             rhel: ""
             sles: ""
@@ -197,7 +204,6 @@ spec:
           # See: https://github.com/kubermatic/machine-controller/blob/master/docs/vsphere.md#template-vms-preparation
           templates:
             centos: ""
-            coreos: ""
             flatcar: ""
             rhel: ""
             sles: ""

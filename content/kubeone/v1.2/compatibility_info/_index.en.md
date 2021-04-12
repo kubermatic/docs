@@ -27,23 +27,20 @@ In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
 
-| KubeOne version | 1.19       | 1.18 | 1.17 | 1.16 | 1.15 |
-| --------------- | ---------- | ---- | ---- | ---- | ---- |
-| v1.0.0+         | unreleased | +    | +    | +*   | -    |
+| KubeOne version | 1.20       | 1.19 | 1.18 | 1.17 |
+| --------------- | ---------- | ---- | ---- | ---- |
+| v1.2+         | ✓ | ✓    | ✓    | -   |
+| v1.0+         | - | ✓    | ✓    | ✓*   |
 
-\* Kubernetes 1.16 will be supported as long as it's supported by upstream.
-It's supposed to reach End-of-Life several weeks after the 1.19 release.
+\* Kubernetes 1.17 has reached End-of-Life (EOL) and is not recommended
+for new clusters.
 
 Additionally, we do **not** recommend installing or upgrading to the following
 Kubernetes versions:
 
-* **1.16.13** due to an upstream bug with health checks for
-  kube-controller-manager and kube-scheduler (more details can be found in the
-  [issue #93194][kubernetes-issue-93194])
-* Releases **older than 1.16.11/1.17.7/1.18.4** as they are affected by
-  multiple CVEs
-* On **CentOS 7** releases **other than** 1.18.6 and 1.17.9 are **not**
-  working properly due to some networking-related issues
+* Releases **older than 1.18.4** as they are affected by multiple CVEs
+* On **CentOS 7** releases **older than** 1.18.6 are **not** working
+  properly due to some networking-related issues
 
 ## Supported Terraform Versions
 
@@ -63,15 +60,20 @@ The following operating systems are supported:
 
 * Ubuntu 18.04 (Bionic)
 * Ubuntu 20.04 (Focal)
+* Debian 10 (Buster)
 * CentOS 7**
 * CentOS 8
 * RHEL 7
 * RHEL 8
-* CoreOS
 * Flatcar
+* Amazon Linux 2***
 
-\*\* Only Kubernetes versions 1.18.6 and 1.17.9 are known to work properly with
+\*\* Only Kubernetes versions 1.18.6 and newer are known to work properly with
 CentOS 7.
+
+\*\*\* Amazon Linux 2 currently requires you to manually specify URLs to all
+binaries — Kubelet, Kubeadm, Kubectl, and CNI using the AssetConfiguration API.
+Support for package managers on Amazon Linux 2 is planned for the future.
 
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
 [kubernetes-issue-93194]: https://github.com/kubernetes/kubernetes/issues/93194
