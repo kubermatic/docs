@@ -19,23 +19,25 @@
       {{with .Params.projects_title}}
       <h1 class="section-title">{{.}}</h1>
       {{end}}
-      {{with .Site.Data.products}}
+      {{with (sort .Site.Data.products ".weight")}}
       <div class="tiles">
-        {{range $key, $value := .}}
+        {{range .}}
+        {{$key := lower .name}}
+        {{$values := .}}
         {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
         {{with $.Site.GetPage (printf "/%s/%s" $key $release)}}
         <div class="tile">
           <div class="tile-wrap">
-            {{with $value.title}}
+            {{with $values.title}}
             <h2 class="tile-caption">{{.}}</h2>
             {{end}}
             <a class="tile-link" href="{{.RelPermalink}}">
-              {{with $value.logo}}
+              {{with $values.logo}}
               <div class="tile-image">
-                <img src="{{. | relURL}}" alt="{{$value.name}}">
+                <img src="{{. | relURL}}" alt="{{$values.name}}">
               </div>
               {{end}}
-              {{with $value.description}}
+              {{with $values.description}}
               <p class="tile-description">{{.}}</p>
               {{end}}
             </a>
