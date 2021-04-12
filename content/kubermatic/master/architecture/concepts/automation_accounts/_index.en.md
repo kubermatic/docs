@@ -14,6 +14,7 @@ Automation accounts are used in scenarios such as:
 
 - Running workloads on user clusters.
 - Running workloads which are not tied to the lifecycle of a human user.
+- Creating fully functional GitOps workflows that automate everything end to end.
 
 ## Core concept
 An automation accounts will be considered as a main resource. Only the human user can manage an automation account.
