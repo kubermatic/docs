@@ -4,7 +4,7 @@ date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++
 
-![Dynamic Datacenters](/img/kubermatic/master/ui/dc.png?classes=shadow,border "Dynamic Datacenters view")
+![Dynamic Datacenters](/img/kubermatic/master/ui/dc.png?classes=shadow,border "Dynamic Datacenters View")
 
 Dynamic Datacenters view on the bottom of the Admin Panel allows Administrators to control the datacenters available
 in KKP. The most important capabilities that this view provides are listing, filtering, creating, editing and deleting
@@ -28,11 +28,21 @@ datacenters.
 In both cases the dialog will look very similar but in the edit mode not all fields can be changed. Provider and seed
 can be set only during the datacenter creation.
 
-![Edit Datacenter](/img/kubermatic/master/ui/dc-edit1.png?classes=shadow,border&height=500 "Dynamic Datacenters edit dialog")
+![Edit Datacenter](/img/kubermatic/master/ui/dc-edit1.png?classes=shadow,border&height=500 "Dynamic Datacenters Edit Dialog")
 
-![Edit Datacenter](/img/kubermatic/master/ui/dc-edit2.png?classes=shadow,border&height=500 "Dynamic Datacenters edit dialog")
+![Edit Datacenter](/img/kubermatic/master/ui/dc-edit2.png?classes=shadow,border&height=500 "Dynamic Datacenters Edit Dialog")
 
-// TODO
+Fields available in the dialogs:
+
+- Name
+- Provider
+- Seed
+- Country - country where datacenter is located.
+- Location - precise location of the datacenter, i.e. city where it is located.
+- Required Email Domains - only users from the specified domains will be able to use this datacenter.
+- Enforce Pod Security Policy - enforces pod security policy in all clusters using this datacenter.
+- Enforce Audit Logging - enforces audit logging in all clusters using this datacenter.
+- Provider Configuration - provider configuration in the YAML format.
 
 ## Deleting Datacenters
 
