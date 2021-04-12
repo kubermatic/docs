@@ -45,8 +45,19 @@ initial MachineDeployment objects in our example Terraform configs and you can
 modify them by setting the appropriate variables or by modifying the
 `output.tf` file.
 
-Otherwise, if you don't use Terraform, you can define MachineDeployment objects
-directly in the KubeOne Configuration Manifest, under `dynamicWorkers` key.
+If you are not using Terraform, other options is to use a yaml file definition to provide `MachineDeployment` CRD values. MachineDeployment CRD is part of Kubernetes Cluster API - which is a spec from Kubernetes project itself. Go spec for this CRD can be found [here](https://pkg.go.dev/github.com/kubermatic/machine-controller@v1.27.4/pkg/apis/cluster/v1alpha1#MachineDeploymentSpec).
+
+If you want to use yaml approach to provide machine-controller deployment, then do not define `kubeone_workers` object in `output.tf` of terraform. Instead, provide the values via `machines.yaml` file as below.
+
+```shell
+# Create a machines.yaml with MachineDeployment resource definition
+# Apply this file directly using kubectl
+kubectl apply -f machines.yaml
+```
+
+Some examples of possible machine deployment yamls can be found in Machine-controller [examples directory](https://github.com/kubermatic/machine-controller/tree/master/examples)
+
+Otherwise, you can also define MachineDeployment objects directly in the KubeOne Configuration Manifest, under `dynamicWorkers` key. 
 You can run `kubeone config print --full` for an example configuration.
 
 ## Creating Additional Worker Nodes
