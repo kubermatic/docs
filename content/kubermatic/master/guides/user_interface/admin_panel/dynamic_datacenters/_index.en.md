@@ -28,9 +28,9 @@ datacenters.
 In both cases the dialog will look very similar but in the edit mode not all fields can be changed. Provider and seed
 can be set only during the datacenter creation.
 
-![Edit Datacenter](/img/kubermatic/master/ui/dc-edit1.png?classes=shadow,border&height=500 "Dynamic Datacenters Edit Dialog")
+![Edit Datacenter](/img/kubermatic/master/ui/dc-edit1.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
 
-![Edit Datacenter](/img/kubermatic/master/ui/dc-edit2.png?classes=shadow,border&height=500 "Dynamic Datacenters Edit Dialog")
+![Edit Datacenter](/img/kubermatic/master/ui/dc-edit2.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
 
 Fields available in the dialogs:
 
@@ -45,5 +45,7 @@ Fields available in the dialogs:
 - Provider Configuration - provider configuration in the YAML format.
 
 ## Deleting Datacenters
+Datacenters can be deleted after clicking on the trash icon that appears after putting mouse over one of the rows with
+datacenters.
 
-// TODO
+![Delete Datacenter](/img/kubermatic/master/ui/dc-delete.png?classes=shadow,border&height=200 "Dynamic Datacenters Delete Dialog")
