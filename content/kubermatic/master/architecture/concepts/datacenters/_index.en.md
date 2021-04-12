@@ -1,46 +1,68 @@
 +++
 title = "Datacenters"
-date = 2019-10-10T12:07:15+02:00
-weight = 20
+date = 2021-04-07T12:07:15+02:00
+weight = 10
 
 +++
 
-# Overview
+## Datacenter concept
 
-There are 2 types of datacenters:
+Datacenters are an integral part of Kubermatic. They define physical datacenters in which the user clusters are created.
+Datacenters, as Kubermatic resources, are a part of the Seed resource, and all user clusters of that datacenter are handled by its respected Seed Cluster.
 
-- **Seed datacenter**, where Kubermatic Kubernetes Platform's (KKP) controller-manager and the control planes for each customer cluster are
-  running.
-- **Node datacenter**, where the customer worker nodes are provisioned.
+{{%expand "Simplified Seed resource"%}}
+```yaml
+apiVersion: kubermatic.k8s.io/v1
+kind: Seed
+metadata:
+  # The Seed *must* be named "kubermatic".
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  # these two fields are only informational
+  country: DE
+  location: Hamburg
 
-Both are defined in a file named `datacenters.yaml`:
+  # list of datacenters where this seed cluster is allowed to create clusters in
+  datacenters: []
 
-{{%expand "Sample datacenters.yaml"%}}
+  # reference to the kubeconfig to use when connecting to this seed cluster
+  kubeconfig:
+    name: kubeconfig-kubermatic
+    namespace: kubermatic
+```
+{{%/expand%}}
+
+The datacenter structure contains the following fields:
+
+- `country` -- Country code of the DC location. It's purely cosmetic and reflected by a flag shown in the UI.
+- `location` -- Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7". For informational purposes in the Kubermatic dashboard only.
+- `nodeSettings` -- Node holds node-specific settings, like e.g. HTTP proxy, Docker
+  registries and the like. Proxy settings are inherited from the seed if
+  not specified here.
+- `spec` one of:
+  - `digitalocean` -- Cloud-specific configuration for DigitalOcean DCs.
+  - `bringyourown` -- Specifies a DC that doesn't use any cloud-provider-specific features
+  - `aws` -- Cloud-specific configuration for AWS DCs.
+  - `azure` -- Cloud-specific configuration for Azure DCs.
+  - `openstack` -- Cloud-specific configuration for Openstack DCs.
+  - `packet` -- Cloud-specific configuration for Packet DCs.
+  - `gcp` -- Cloud-specific configuration for GCP DCs.
+  - `hetzner` -- Cloud-specific configuration for Hetzner DCs.
+  - `vsphere` -- Cloud-specific configuration for vSphere DCs.
+  - `kubevirt` -- Cloud-specific configuration for KubeVirt DCs.
+  - `alibaba`-- Cloud-specific configuration for Alibaba DCs.
+  - `anexia` -- Cloud-specific configuration for Anexia DCs.
+  - and
+  - `enforceAuditLogging` -- enforces audit logging on every cluster within the DC, ignoring cluster-specific settings.
+  - `enforcePodSecurityPolicy` -- enforces pod security policy plugin on every clusters within the DC, ignoring cluster-specific settings
+  - `requiredEmailDomain` -- (deprecated since v2.13) Optional string. Limits the availability of the datacenter to users with email addresses in the given domain.
+  - `requiredEmailDomains` -- (since v2.13) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
+
+Example specs for different providers:
+{{%expand "Sample provider specs"%}}
 
 ```yaml
-datacenters:
-  #==================================
-  #============== Seeds =============
-  #==================================
-
-  # The name needs to match the a context in the kubeconfig given to the API
-  seed-1:
-    # Defines this datacenter as a seed
-    is_seed: true
-    # Though not used, you must configured a provider spec even for seeds.
-    # The bringyourown provider is a good placeholder, as it requires no
-    # further configuration.
-    spec:
-      bringyourown: ~
-
-  seed-2:
-    is_seed: true
-    spec:
-      bringyourown: ~
-
-  #==================================
-  #======= Node Datacenters =========
-  #==================================
 
   #==================================
   #=========== OpenStack ============
@@ -56,11 +78,6 @@ datacenters:
     # the corresponding flag and make it easier to select
     # the proper region.
     country: DE
-
-    # The name of the seed to use when creating clusters in
-    # this datacenter; when someone creates a cluster with
-    # nodes in this dc, the master components will live in seed-1.
-    seed: seed-1
 
     # Configure cloud provider-specific further information.
     spec:
@@ -93,7 +110,6 @@ datacenters:
   do-ams2:
     location: Amsterdam
     country: NL
-    seed: seed-1
     spec:
       digitalocean:
         # Digitalocean region for the nodes
@@ -105,7 +121,6 @@ datacenters:
   aws-us-east-1a:
     location: US East (N. Virginia)
     country: US
-    seed: seed-2
     spec:
       aws:
         # Set default AMI ID's(HVM) for this region
@@ -126,7 +141,6 @@ datacenters:
   hetzner-fsn1:
     location: Falkenstein 1 DC 8
     country: DE
-    seed: seed-1
     spec:
       hetzner:
         datacenter: fsn1-dc8
@@ -137,7 +151,6 @@ datacenters:
   vsphere-office1:
     location: Office
     country: DE
-    seed: europe-west3-c
     spec:
       vsphere:
         endpoint: "https://some-vcenter.com"
@@ -160,7 +173,6 @@ datacenters:
   azure-westeurope:
     location: "Azure West europe"
     country: NL
-    seed: europe-west3-c
     spec:
       azure:
         location: "westeurope"
@@ -170,7 +182,6 @@ datacenters:
   #==================================
   gcp-westeurope:
     location: "Europe West (Germany)"
-    seed: europe-west3-c
     country: DE
     spec:
       gcp:
@@ -183,34 +194,34 @@ datacenters:
   #==================================
   packet-ams1:
     location: "Packet AMS1 (Amsterdam)"
-    seed: europe-west3-c
     country: NL
     spec:
       packet:
         facilities:
         - ams1
 
-```
+  #==================================
+  #============= Alibaba ============
+  #==================================
+  alibaba-eu1:
+    location: "Alibaba N2"
+    country: NL
+    spec:
+      alibaba:
+        region: "eu1"
+    
+  #==================================
+  #============= Anexia ============
+  #==================================
+  anexia-ams1:
+    location: "Anexia NL"
+    country: NL
+    spec:
+      anexia:
+        location: "ams"
 
+```
 {{%/expand%}}
 
-The datacenter structure contains the following fields:
 
-- `seed` -- Tells whether the DC is supposed to be a seed or a normal DC. `true` or `false`.
-- `spec`:
-  - `seed` -- Which seed to use to deploy the master components of this DCs clusters.
-  - `country` -- Country code of the DC location. It's purely cosmetic and reflected by a flag shown in the UI.
-  - `location` -- Name of the DC's location.
-  - `provider` -- Name of the providing entity. Optional.
-  - `requiredEmailDomain` -- (deprecated since v2.13) Optional string. Limits the availability of the datacenter to users with email addresses in the given domain.
-  - `requiredEmailDomains` -- (since v2.13) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
-  - `digitalocean` -- Cloud-specific configuration for DigitalOcean DCs.
-  - `bringyourown` -- Specifies a DC that doesn't use any cloud-provider-specific features
-  - `aws` -- Cloud-specific configuration for AWS DCs.
-  - `azure` -- Cloud-specific configuration for Azure DCs.
-  - `openstack` -- Cloud-specific configuration for Openstack DCs.
-  - `packet` -- Cloud-specific configuration for Packet DCs.
-  - `gcp` -- Cloud-specific configuration for GCP DCs.
-  - `hetzner` -- Cloud-specific configuration for Hetzner DCs.
-  - `vsphere` -- Cloud-specific configuration for vSphere DCs.
-  - `kubevirt` -- Cloud-specific configuration for KubeVirt DCs.
+Datacenters are managed differently depending on the KKP CE or EE edition. Check the [Datacenters guide]({{< ref "../../../guides/datacenters" >}}) for more info.

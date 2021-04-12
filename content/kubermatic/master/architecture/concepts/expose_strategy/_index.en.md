@@ -7,7 +7,10 @@ weight = 1
 # Overview
 
 The expose strategy defines the entry point for the control plane of the user
-clusters managed by Kubermatic Kubernetes Platform (KKP).
+clusters managed by Kubermatic Kubernetes Platform (KKP). Find how to configure
+the expose strategy in your KKP cluster in
+[this]({{< ref "../../../guides/installation/expose_strategy">}}) guide.
+
 
 The kubelets of the worker nodes and the pods running on them will reach the
 Kubernetes API Server (KAS) in different ways depending on the chosen expose

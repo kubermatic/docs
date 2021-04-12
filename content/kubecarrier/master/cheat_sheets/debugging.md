@@ -1,5 +1,5 @@
 ---
-title: Debugging
+title: Debugging KubeCarrier
 weight: 10
 date: 2021-02-10T11:30:00+02:00
 ---
@@ -8,9 +8,9 @@ date: 2021-02-10T11:30:00+02:00
 
 KubeCarrier is installed into the `kubecarrier-system` Namespace by default.
 
-If a step in the installation is timing out, you should check the logs of the respective component:
+If a step in the [installation via the kubectl plugin]({{< relref "../tutorials_howtos/installation" >}}) is timing out, you should check the logs of the respective component:
 
-### Operator
+### KubeCarrier Operator
 ```bash
 $ kubectl kubecarrier setup
 0.03s ✔  Create "kubecarrier-system" Namespace
@@ -27,9 +27,9 @@ Error: running manager: no matches for kind "Issuer" in version "cert-manager.io
 [...]
 ```
 
-In this case the cert-manager was not installed beforehand.
+In this case, the cert-manager was not installed before installing KubeCarrier.
 
-### KubeCarrier Control Plane
+### KubeCarrier Controller Manager
 ```bash
 $ kubectl kubecarrier setup
 0.03s ✔  Create "kubecarrier-system" Namespace
@@ -44,3 +44,5 @@ kubecarrier-operator-manager-7d4b8f74-vfsxl               1/1     Running       
 
 $ kubectl logs -n kubecarrier-system kubecarrier-manager-controller-manager-56bfd4dcbd-8rg4l
 ```
+
+An error here may suggest a bug, or incompatibility with your system. Please open a [Github Issue](https://github.com/kubermatic/kubecarrier/issues) with this log.

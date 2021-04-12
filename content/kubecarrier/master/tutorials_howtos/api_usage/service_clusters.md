@@ -31,6 +31,7 @@ Check `kubectl config current-context` and use `kubectl config use-context` to s
 
 To add a new Service Cluster, we first have to upload its Kubeconfig as a `Secret` into our Account Namespace.
 
+> Management Cluster
 ```bash
 $ kubectl create secret generic eu-west-1-kubeconfig \
   -n team-a \
@@ -54,6 +55,7 @@ spec:
 
 You can create the above ServiceCluster CR object with:
 
+> Management Cluster
 ```bash
 $ kubectl apply -n team-a \
   -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/servicecluster.yaml

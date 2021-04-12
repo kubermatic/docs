@@ -168,7 +168,7 @@ Once the Helm chart is gone, it's time to perform a clean installation of the ne
 The first step for that is to add new Kubermatic CRDs:
 
 ```bash
-kubectl apply -f charts/kubematic/crd/
+kubectl apply -f charts/kubermatic/crd/
 ```
 
 To prevent Kubermatic from rejecting existing clusters, make sure to apply the Seeds before installing
