@@ -40,3 +40,5 @@ privileges.
 ## [Manage Presets]({{< ref "./presets" >}})
 Prepare custom provider presets for a variety of use cases. Control which presets will be visible to the users down to
 the per-provider level.
+
+## [OPA Constraint Templates]({{< ref "./opa_constraint_templates" >}})
