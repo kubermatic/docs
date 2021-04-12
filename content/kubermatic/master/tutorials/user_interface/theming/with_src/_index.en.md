@@ -36,6 +36,7 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
     }
     ```
 
+- Make sure that theme is registered in the `angular.json` file before running the application locally. It is done for `custom` theme by default.
 - Run the application using `npm start`, open the `Account` view under `User settings`, select your new theme and update `custom.scss` according to your needs.
   It is possible to override basically everything inside this theme file. In example if you want to change background color of a `mat-form-field` do this:
   ```scss
