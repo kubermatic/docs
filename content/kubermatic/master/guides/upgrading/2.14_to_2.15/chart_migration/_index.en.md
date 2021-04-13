@@ -137,8 +137,8 @@ in the Seeds.
 # ...
 ```
 
-Refer to the [KubermaticConfiguration]({{< ref "../../../concepts/kubermaticconfiguration" >}}) and
-[Seed]({{< ref "../../../concepts/seeds" >}}) documentation for more information.
+Refer to the [KubermaticConfiguration]({{< ref "../../../../architecture/concepts/configuration" >}}) and
+[Seed]({{< ref "../../../../architecture/concepts/seeds" >}}) documentation for more information.
 
 Once the conversion is completed, carefully check the new configuration files for mistakes. Do
 note that the installer generally does not output default values, so if you configured for example
