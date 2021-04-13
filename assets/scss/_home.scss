@@ -1,0 +1,256 @@
+.loodse-btn {
+  display: inline-block;
+  padding: 0.5rem 1.3125rem;
+  border: 2px solid var(--LOODSE-ACCENT-color);
+  border-radius: 3px;
+  text-align: center;
+  color: var(--MAIN-TEXT-color);
+  transition: all .3s ease;
+  text-decoration: none;
+}
+
+.section {
+  margin: 2.5rem 0;
+}
+
+.projects {
+  margin-top: 5.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.features {
+  padding: 2.5rem 0;
+}
+
+.wrap {
+  max-width: 1200px;
+  padding: 0 1.25rem;
+  margin: 0 auto;
+}
+
+.section-title {
+  margin: 0 0 1.875rem;
+  color: var(--MAIN-PRIMARY-color);
+  font-family: "Ubuntu", "Roboto", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+  font-size: 1.75rem;
+  text-align: center;
+}
+
+.tiles {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-top: -0.9375rem;
+  margin-left: -0.9375rem;
+  margin-right: -0.9375rem;
+}
+
+.tile {
+  padding: 0.9375rem;
+}
+
+.tile-wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-caption {
+  margin: 0 1.875rem 0.875rem;
+  color: var(--MAIN-PRIMARY-color);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.tile-link {
+  display: block;
+  height: 100%;
+  padding: 1.875rem;
+  border: 2px solid var(--GRAY-color);
+  color: var(--MAIN-TEXT-color);
+  transition: border-color .3s;
+}
+
+.tile-link:hover {
+  color: var(--MAIN-TEXT-color);
+  border-color: var(--LOODSE-ACCENT-color);
+}
+
+.tile-title {
+  margin: 0;
+}
+
+.tile-image img {
+  display: block;
+  height: 40px;
+}
+
+.tile-description {
+  margin: 2rem 0 0;
+}
+
+.tiles--small {
+  .tile {
+    &-link {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      min-height: 4.1875rem;
+      padding: 1rem;
+    }
+
+    &-image img {
+      height: 30px;
+    }
+  }
+}
+
+.section--dark-blue {
+  color: var(--WHITE-color);
+  background-color: var(--MAIN-HEADER-color);
+}
+
+.white-color {
+  color: var(--WHITE-color);
+}
+
+.list {
+  margin-bottom: 2.5rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &-title {
+    margin: 0;
+    font-family: "Ubuntu", "Roboto", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+  }
+
+  &-items {
+    margin-top: 1.875rem;
+  }
+
+  &-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin-bottom: 1.25rem;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  &-item-icon {
+    width: 30px;
+    flex: 0 0 auto;
+
+    img {
+      display: block;
+    }
+  }
+
+  &-item-text {
+    margin: 0 0 0 1rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .projects {
+    margin-top: 8.125rem;
+  }
+
+  .tile {
+    width: 50%;
+  }
+
+  .tiles--small {
+    .tile {
+      width: 33.33%;
+    }
+  }
+
+  .cols-2 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-left: -1rem;
+    margin-left: -1rem;
+  }
+
+  .list {
+    width: 50%;
+    padding: 0 1rem;
+    margin: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .tile {
+    width: 33.33%;
+  }
+
+  .cols-2 {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+  }
+
+  .list {
+    padding-left: 1.25rem;
+    padding-right: 1.25em;
+
+    &-title {
+      font-size: 1.75rem;
+    }
+
+    &-item-text {
+      margin-left: 1.25rem;
+    }
+  }
+}
+
+@media screen and (min-width: 1240px) {
+  .projects {
+    margin-top: 8.75rem;
+    margin-bottom: 4.375rem;
+  }
+
+  .wrap {
+    padding: 0;
+  }
+
+  .section {
+    margin: 4.375rem 0 5rem;
+
+    &--image {
+      margin: 2rem 0 3.125rem;
+    }
+  }
+
+  .features {
+    padding: 4.375rem 0 5rem;
+    margin-bottom: 0;
+  }
+
+  .tiles--small {
+    .tile {
+      width: 20%;
+    }
+  }
+}
