@@ -4,7 +4,7 @@ date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++
 
-![Constraint Templates](/img/kubermatic/master/ui/admin-ct.png?classes=shadow,border "Constraint Template View")
+![Constraint Templates](/img/kubermatic/master/ui/admin-ct-overview.png?classes=shadow,border "Constraint Template View")
 
 Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for Constraint parameters and enforce their behavior.
 The Constraint Template view on the bottom of the Admin Panel allows adding, editing and deleting Constraint Templates.
