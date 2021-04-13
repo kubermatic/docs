@@ -23,13 +23,13 @@ Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 
 ## Requirements
 
-Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "../../requirements" >}})
+Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "." >}})
 and make yourself familiar with the requirements for your chosen cloud provider.
 
 For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 3) installed locally.
 
 {{% notice warning %}}
-This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../../upgrading" >}})
+This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "." >}})
 for more information on migrating existing installations to the Kubermatic Installer.
 {{% /notice %}}
 
