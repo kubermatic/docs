@@ -48,7 +48,7 @@ projects_title = "Product Documentation"
   alt = ""
 
   [[features.list.items]]
-  text = "Open source offers transparency and freedom, never be dependant again"
+  text = "Open source offers transparency and freedom, never be dependent again"
   [features.list.items.icon]
   src = "/img/icons/kubernetes-icon.svg"
   alt = ""
