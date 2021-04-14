@@ -34,10 +34,6 @@ Controls the checkboxes in the dialog. When selected, cleanup checkboxes will be
 Controls the status of checkboxes in the dialog. When selected, cleanup checkboxes will be disabled and user will not
 be able to check/uncheck them.
 
-
-#### Cluster Creation Wizard - Cluster Step
-![](/img/kubermatic/master/ui/wizard_cluster_step.png?height=300px&classes=shadow,floatleft)
-
 ## Machine Deployment
 
 ![](/img/kubermatic/master/ui/machine_deployment.png?classes=shadow,floatleft)
