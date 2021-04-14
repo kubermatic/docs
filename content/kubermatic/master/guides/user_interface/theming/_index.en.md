@@ -21,7 +21,7 @@ KKP UI provides three theming options out of the box:
 
 Users can select a theme option that he wants to use in the `User Settings` view. It can be accessed from the user menu.
 
-![Default Themes](/img/kubermatic/master/ui/themes.jpg?classes=shadow,border "KKP UI Default Themes")
+![Default Themes](/img/kubermatic/master/ui/themes.gif?classes=shadow,border&height=400 "KKP UI Default Themes")
 
 ## Disabling Theming Functionality
 In order to disable theming options for all users and enforce using only the default theme, set `enforced_theme`
