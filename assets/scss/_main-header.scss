@@ -24,8 +24,8 @@
   margin-left: 2rem;
   margin-right: 1rem;
   color: var(--WHITE-color);
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 400;
 
   span:first-of-type {
     display: none;
@@ -240,6 +240,7 @@
   .main-header-home-link {
     margin-left: 1rem;
     font-size: 1.125rem;
+    font-weight: 700;
 
     span:first-of-type {
       display: inline;
