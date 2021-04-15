@@ -15,7 +15,7 @@ minor version, and z is the patch version.
 KKP follows the Kubernetes release model and cycle, though for practical reasons
 releases are a bit delayed to ensure compatibility with Kubernetes. In general,
 the latest three minor versions of KKP are supported, i.e. 2.15, 2.14 and 2.13.
-With the release of a new minor KKP version, support for the oldedst supported
+With the release of a new minor KKP version, support for the oldest supported
 KKP version is dropped.
 
 ## Kubernetes Version Policy
