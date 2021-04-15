@@ -5,7 +5,7 @@ weight = 20
 
 +++
 
-This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster.
+This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using installer.
 
 ## Terminology
 

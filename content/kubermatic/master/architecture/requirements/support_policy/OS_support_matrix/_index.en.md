@@ -18,4 +18,4 @@ The operating systems below are currently supported by Kubermatic:
 * SLES beginning with 15.0 (only on AWS)
 * Ubuntu 20.04
 
-There could be more in the future since change is constant. This page will constantly be updated each time there is a new supported operating systems.
+There could be more in the future since change is constant. This page will constantly be updated each time there is a new supported operating system.
