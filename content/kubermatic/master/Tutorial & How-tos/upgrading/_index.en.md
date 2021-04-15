@@ -7,7 +7,7 @@ chapter = true
 
 # Upgrading
 
-This section contains import upgrade notes you should read before upgrading Kubermatic Kubernetes Platform (KKP) to the next minor version.
+This section contains important upgrade notes you should read before upgrading Kubermatic Kubernetes Platform (KKP) to the next minor version.
 
 ## General Guidelines
 
