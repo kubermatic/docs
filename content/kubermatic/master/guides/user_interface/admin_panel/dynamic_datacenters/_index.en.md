@@ -10,7 +10,11 @@ Dynamic Datacenters view on the bottom of the Admin Panel allows Administrators 
 in KKP. The most important capabilities that this view provides are listing, filtering, creating, editing and deleting
 datacenters. All of these will be described below.
 
-## Listing & Filtering Datacenters
+- ### [Listing & Filtering Datacenters](#add)
+- ### [Creating & Editing Datacenters](#cre)
+- ### [Deleting Datacenters](#del)
+
+## Listing & Filtering Datacenters {#add}
 Besides traditional list functionalities the Dynamic Datacenter view provides filtering options. Datacenters can be
 filtered by:
 
@@ -20,7 +24,7 @@ filtered by:
 
 Filters are applied together, that means result datacenters have to match all the filtering criteria.
 
-## Creating & Editing Datacenters
+## Creating & Editing Datacenters {#cre}
 Datacenters can be added after clicking on the plus icon in the top right corner of the Dynamic Datacenters view. To
 edit datacenter Administrator should click on the pencil icon that appears after putting mouse over one of the rows with
 datacenters.
@@ -44,7 +48,7 @@ Fields available in the dialogs:
 - Enforce Audit Logging - enforces audit logging in all clusters using this datacenter.
 - Provider Configuration - provider configuration in the YAML format.
 
-## Deleting Datacenters
+## Deleting Datacenters {#del}
 Datacenters can be deleted after clicking on the trash icon that appears after putting mouse over one of the rows with
 datacenters.
 

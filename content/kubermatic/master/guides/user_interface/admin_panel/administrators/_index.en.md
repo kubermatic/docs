@@ -8,6 +8,9 @@ weight = 20
 
 Administrators view on the bottom of the Admin Panel allows adding and deleting administrator rights to the users.
 
+- ### [Adding Administrators](#adding-administrators)
+- ### [Deleting Administrators](#deleting-administrators)
+
 ## Adding Administrators
 Administrators can be added after clicking on the plus icon in the top right corner of the Administrators view.
 

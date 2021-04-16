@@ -9,10 +9,27 @@ Dashboard. Choose the place that suits you best, whether it is a sidebar, footer
 
 ![Admin Panel](/img/kubermatic/master/ui/custom_links.png?height=250px&classes=shadow,border "Custom Links Settings")
 
-- ### [Add New Custom Link](#add-new-custom-link)
-- ### [Remove Custom Link](#remove-custom-link)
+- ### [Adding Custom Links](#adding-custom-links)
+- ### [Removing Custom Links](#removing-custom-links)
+- ### [API Documentation](#api-documentation)
+- ### [Terms of Service](#terms-of-service)
+- ### [Demo Information](#demo-information)
 
+## Adding Custom Links
 
-## Add New Custom Link
+## Removing Custom Links
 
-## Remove Custom Link
+## API Documentation
+After enabling API documentation checkbox `API Documentation` link will be shown in the KKP UI help panel. It links to
+the KKP API documentation.
+
+![Help Panel](/img/kubermatic/master/ui/help-panel.png?height=250px&classes=shadow,border "Help Panel")
+
+![API Documentation](/img/kubermatic/master/ui/api-docs.png?height=250px&classes=shadow,border "API Documentation")
+
+## Terms of Service
+After enabling terms of service checkbox `Terms of Service` link will be shown in the KKP UI footer. It links to the
+page with terms of use information.
+
+## Demo Information
+After enabling demo information checkbox `Demo system` information will be shown in the KKP UI footer.
