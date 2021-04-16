@@ -92,7 +92,7 @@ Install nginx first:
 
 ```bash
 $ helm \
-  --namespace nginx-ingress-controller \
+  --namespace ingress-nginx \
   upgrade \
     --create-namespace \
     --install \
@@ -112,7 +112,7 @@ nginx-ingress-controller   LoadBalancer   10.107.95.30   1.2.3.4,192.168.0.9   8
 
 ```bash
 $ kubectl \
-  --namespace nginx-ingress-controller \
+  --namespace ingress-nginx \
   annotate \
     --overwrite \
     service nginx-ingress-controller \
@@ -455,7 +455,7 @@ dex               Active   2h
 kube-node-lease   Active   2h
 kube-public       Active   2h
 kube-system       Active   2h
-nginx-ingress     Active   2h
+ingress-nginx     Active   2h
 ```
 
 ### Audit Logging

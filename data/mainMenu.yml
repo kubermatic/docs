@@ -1,49 +1,56 @@
 items:
+- title: Why Kubermatic
+  url: /why-kubermatic/
+  class: menu-item_link menu-item_link--hide
+
 - title: Products
-  url: /products/kubermatic
+  url: /products/kubermatic/
   subMenu:
   - title: Kubermatic Kubernetes Platform
-    url: /products/kubermatic
+    url: /products/kubermatic/
     text: Automated multicloud Kubernetes for enterprise demands
 
   - title: Kubermatic Virtualization
-    url: /products/kubevirt
+    url: /products/kubevirt/
     text: One Platform For Containers and Virtual Machines powered by KubeVirt
 
   - title: KubeOne Professional
-    url: /products/kubeone
+    url: /products/kubeone/
     text: Installation and support for your single Kubernetes cluster
 
   - title: Kubermatic Kubernetes Subscription
-    url: /products/kubernetes-subscription
+    url: /products/kubernetes-subscription/
     text: Upstream Kubernetes support
 
   - title: Professional Services
-    url: /products/professional-services
+    url: /products/professional-services/
     text: Training and consultancy for your successful cloud native journey
 
 - title: Solutions
-  url: /solutions/hybrid-multi-cloud
+  url: /solutions/hybrid-multi-cloud/
   subMenu:
   - title: Hybrid and Multi-cloud Kubernetes
-    url: /solutions/hybrid-multi-cloud
+    url: /solutions/hybrid-multi-cloud/
     text: Operations across hybrid and multi-cloud environments with centralized control and governance.
 
   - title: DevOps Automation on Kubernetes
-    url: /solutions/devops
+    url: /solutions/devops/
     text: Automate every step of your software development life cycle from development to production.
 
   - title: Edge Computing
-    url: /solutions/edge-computing
+    url: /solutions/edge-computing/
     text: Running Kubernetes on the edge
 
   - title: Cloud Native AI & ML
-    url: /solutions/machine-learning
+    url: /solutions/machine-learning/
     text: Leverge Kubernetes to accelerate machine learning research, testing, and production applications.
 
   - title: Kubernetes for 5G
-    url: /solutions/5g
+    url: /solutions/5g/
     text: Run 5G from the cloud to the core data center to the edge on Kubernetes.
+
+- title: Customers
+  url: /customers/
 
 - title: Resources
   url: /resources/
@@ -73,28 +80,28 @@ items:
     url: /company/community/#conferences
 
 - title: Company
-  url: /company/about-us
+  url: /company/about-us/
   subMenu:
   - title: About Us
-    url: /company/about-us
+    url: /company/about-us/
+
+  - title: Blog
+    url: /blog/
 
   - title: Newsletter
-    url: /company/newsletter
+    url: /company/newsletter/
 
   - title: Partners
     url: /partners/
 
   - title: Careers
-    url: /company/careers
+    url: /company/careers/
 
   - title: Press
-    url: /company/press
+    url: /company/press/
 
   - title: Contact Us
     url: /contact-us/
-
-- title: Blog
-  url: /blog/
 
 - title: Contact Us
   url: /contact-us/

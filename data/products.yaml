@@ -1,9 +1,12 @@
 # Please note: the "master" branch should be placed as first element for every product in the "versions" list.
+# The "weight" field is used for order the products on homepage
 
 kubermatic:
   name: Kubermatic
-  logo: "img/header-logo-kubermatic.png"
+  logo: "img/KubermaticKubernetesPlatform-logo.svg"
+  title: Manage Multiple Clusters
   description: Automate multicloud, on-prem, and edge operations with a single management UI enabling you to deliver the cloud native transformation immediately.
+  weight: 2
   versions:
     - release: master
       name: master
@@ -19,8 +22,10 @@ kubermatic:
       name: v2.12
 kubeone:
   name: KubeOne
-  logo: "img/header-logo-kubeone.png"
+  logo: "img/KubeOne-logo.svg"
+  title: Start With One Cluster
   description: Automate operations of a single Kubernetes cluster on your chosen cloud, on-prem, or edge environment.
+  weight: 1
   versions:
     - release: master
       name: master
@@ -30,8 +35,10 @@ kubeone:
       name: v1.0
 kubecarrier:
   name: KubeCarrier
-  logo: "img/header-logo-kubecarrier.png"
+  logo: "img/KubeCarrier-logo.svg"
+  title: Add Apps To Your Clusters
   description: The operator of operators. Centrally manage all your services and applications across multiple clusters, clouds and regions with Kubernetes native API and tooling.
+  weight: 3
   versions:
     - release: master
       name: master

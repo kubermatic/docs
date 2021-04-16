@@ -15,36 +15,103 @@
   {{partialCached "main-header" .}}
   {{if .Site.Data.products}}
   <section class="projects">
-    <div class="projects-wrap">
+    <div class="wrap">
       {{with .Params.projects_title}}
-      <h1 class="projects-title">{{.}}</h1>
+      <h1 class="section-title">{{.}}</h1>
       {{end}}
-      {{with .Site.Data.products}}
-      <div class="projects-list">
-        {{range $key, $value := .}}
+      {{with (sort .Site.Data.products ".weight")}}
+      <div class="tiles">
+        {{range .}}
+        {{$key := lower .name}}
+        {{$values := .}}
         {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
         {{with $.Site.GetPage (printf "/%s/%s" $key $release)}}
-        <div class="projects-tile">
-          <a class="projects-tile-link" href="{{.RelPermalink}}">
-            {{with $value.logo}}
-            <div class="projects-tile-image">
-              <img src="{{. | relURL}}" alt="{{$value.name}}">
-            </div>
+        <div class="tile">
+          <div class="tile-wrap">
+            {{with $values.title}}
+            <h2 class="tile-caption">{{.}}</h2>
             {{end}}
-            {{with $value.description}}
-            <p class="projects-tile-description">{{.}}</p>
-            {{end}}
-            {{with $value.name}}
-            <div class="projects-tile-button-wrap">
-              <span class="loodse-btn">Go to {{.}} Docs</span>
-            </div>
-            {{end}}
-          </a>
+            <a class="tile-link" href="{{.RelPermalink}}">
+              {{with $values.logo}}
+              <div class="tile-image">
+                <img src="{{. | relURL}}" alt="{{$values.name}}">
+              </div>
+              {{end}}
+              {{with $values.description}}
+              <p class="tile-description">{{.}}</p>
+              {{end}}
+            </a>
+          </div>
         </div>
         {{end}}
         {{end}}
       </div>
       {{end}}
+    </div>
+  </section>
+  {{end}}
+  {{with .Params.contribution}}
+  <section class="section">
+    <div class="wrap">
+      {{with .title}}
+      <h2 class="section-title">{{.}}</h2>
+      {{end}}
+      {{with .links}}
+      <div class="tiles tiles--small">
+        {{range .}}
+        <div class="tile">
+          <a class="tile-link" href="{{.url | relURL}}">
+            {{with .title}}<h3 class="tile-title">{{.}}</h3>{{end}}
+            {{with .image}}
+            <div class="tile-image">
+              <img src="{{.src | relURL}}" alt="{{.alt}}" />
+            </div>
+            {{end}}
+          </a>
+        </div>
+        {{end}}
+      </div>
+      {{end}}
+    </div>
+  </section>
+  {{end}}
+  {{with .Params.features}}
+  <section class="section section--dark-blue features">
+    <div class="wrap">
+      {{with .list}}
+      <div class="cols-2">
+        {{range .}}
+        <div class="list">
+          {{with .title}}
+          <h2 class="white-color list-title">{{.}}</h2>
+          {{end}}
+          {{with .items}}
+          <div class="list-items">
+            {{range .}}
+            <div class="list-item">
+              {{with .icon}}
+              <div class="list-item-icon">
+                <img src="{{.src | relURL}}" alt="{{.alt}}" />
+              </div>
+              {{end}}
+              {{with .text}}
+              <p class="list-item-text">{{. | markdownify}}</p>
+              {{end}}
+            </div>
+            {{end}}
+          </div>
+          {{end}}
+        </div>
+        {{end}}
+      </div>
+      {{end}}
+    </div>
+  </section>
+  {{end}}
+  {{with .Params.demoImage}}
+  <section class="section section--image">
+    <div class="wrap">
+      <img src="{{.src | relURL}}" alt="{{.alt}}" />
     </div>
   </section>
   {{end}}
