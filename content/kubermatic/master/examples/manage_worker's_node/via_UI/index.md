@@ -2,10 +2,16 @@
 
 ## Edit the Machine Deployment
 
-To add or delete a worker node you can easily edit the machine deployment in your cluster. Navigate to the cluster overview, scroll down and hover over `Machine Deployments` and click on the edit icon next to the deployment you want to edit:
+To add or delete a worker node you can easily edit the machine deployment in your cluster. Navigate to the cluster overview, scroll down and hover over `Machine Deployments` and click on the edit icon next to the deployment you want to edit.
 
-![Node deployment overview with highlighted edit button](manage-node-deployments-edit.png)
+![Machine deployment overview with highlighted edit button](edit-machine-deployment.png)
 
-In the popup dialog you can now in- or decrease the number of worker nodes which are managed by this machine deployment, as well as their operating system, used image etc.:
+In the popup dialog you can now change the worker nodes.
 
-![Node deployment overview with opened edit modal](manage-node-deployments-edit-dialog.png)
+![Machine deployment overview with opened edit modal](edit-nodes.png)
+
+## Edit labels and taints 
+
+If you scroll down in the dialog, you can also edit node labels and taints.
+
+![Machine deployment overview with opened edit modal](edit-node-labels.png)
