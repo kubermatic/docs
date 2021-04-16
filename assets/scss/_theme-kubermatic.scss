@@ -10,6 +10,8 @@
     --MAIN-HEADER-color:#001128;
     --LOODSE-ACCENT-color:#00d9d2;
     --TAG-BG-color:#edeff0;
+    --BADGE-BG-color: #d8d8db;
+    --BADGE-BG-warning-color: #f7b500;
     --WHITE-color:#fff;
 
     --MAIN-TITLES-TEXT-color: #323232; /* Color of titles h2-h3-h4-h5 */
@@ -485,4 +487,17 @@ pre .copy-to-clipboard {
     #body {
         margin-top: 3.125rem;
     }
+}
+
+.badge {
+  font-size: 14px;
+  font-weight: normal;
+  padding: 2px 4px;
+  margin-left: 8px;
+  border-radius: 4px;
+  background-color: var(--BADGE-BG-color);
+
+  &.warning {
+    background-color: var(--BADGE-BG-warning-color);
+  }
 }

@@ -342,6 +342,9 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 #body img.shadow, #body .video-container.shadow {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
+#body img.floatleft, #body .video-container.floatleft {
+    margin: inherit;
+}
 #body img.inline {
     display: inline !important;
     margin: 0 !important;
@@ -1111,4 +1114,10 @@ pre .copy-to-clipboard:hover {
 
 #searchResults {
     text-align: left;
+}
+
+.featherlight-content img {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e6e6e6 !important;
+  padding: 2px;
 }
