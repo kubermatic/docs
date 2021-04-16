@@ -42,3 +42,4 @@ Prepare custom provider presets for a variety of use cases. Control which preset
 the per-provider level.
 
 ## [OPA Constraint Templates]({{< ref "./opa_constraint_templates" >}})
+Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for Constraint parameters and enforce their behavior.
