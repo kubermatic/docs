@@ -102,7 +102,7 @@ Constraints are the filler for rules that are defined by the constraint template
 
 To add a new constraint template click on the `+` icon on the right. A new dialog will appear, where you can specify the name, the constraint template and the spec:
 
-![Add Constraints Dialog](/img/kubermatic/master/ui/opa_add_constraints.png?height=350px&classes=shadow,border "Add Constraints Dialog")
+![Add Constraints Dialog](/img/kubermatic/master/ui/opa_add_constraint.png?height=350px&classes=shadow,border "Add Constraints Dialog")
 
 Following example will make sure that the gatekeeper label is defined on all namespaces, if you are using the `K8sRequiredLabels` constraint template from above:
 ```

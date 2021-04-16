@@ -55,4 +55,4 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
 - As the last step, mount your custom CSS theme file to the `dist/assets/themes` directory. Make sure not to override whole directory as default themes are required by the application.
 - After application restart, theme picker should show your new theme.
 
-![Theme picker](/img/kubermatic/master/ui/theme_picker.png?classes=shadow,border "Theme picker")
+![Theme picker](/img/kubermatic/master/ui/custom_theme.png?classes=shadow,border "Theme picker")

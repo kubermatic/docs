@@ -104,7 +104,7 @@ Clusters can edited by pressing the ellipsis button on the right:
 
 To delete a cluster, navigate to `Clusters` and choose the cluster that you would like to delete. On the top left is a button `Delete`:
 
-![Cluster Deletion Button in the top right corner](/img/kubermatic/master/tutorials/cluster_delete_btn.png?classes=shadow,border "Cluster Deletion Button in the top right corner")
+![Cluster Deletion Button in the top right corner](/img/kubermatic/master/tutorials/cluster_details_delete_btn.png?classes=shadow,border "Cluster Deletion Button in the top right corner")
 
 To confirm the deletion, type the name of the cluster into the text box:
 
