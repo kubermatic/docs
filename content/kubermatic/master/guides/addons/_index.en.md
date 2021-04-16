@@ -254,7 +254,7 @@ See [the section below](#manifest-templating) for more information.
 
 After applying above config the UI should look like below:
 
-![Addon Form](/img/kubermatic/master/ui/addon_form.png?height=450&classes=shadow,border "Addon Form")
+![Addon Form](/img/kubermatic/master/ui/addon_form.png?height=450px&classes=shadow,border "Addon Form")
 
 ### Custom Addons
 

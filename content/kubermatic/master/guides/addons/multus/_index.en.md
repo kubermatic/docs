@@ -32,7 +32,7 @@ Multus will be installed without a ConfigMap. This is done on purpose to allow u
 ## Deploying Multus Addon in a KKP User Cluster
 Once the Multus Addon is installed in KKP, it can be deployed into a user cluster via the KKP UI as shown below:
 
-![Multus Addon](/img/kubermatic/master/ui/addon_multus.png?height=400&classes=shadow,border "Multus Addon"")
+![Multus Addon](/img/kubermatic/master/ui/addon_multus.png?height=400px&classes=shadow,border "Multus Addon"")
 
 
 ## Multus Addon Options
