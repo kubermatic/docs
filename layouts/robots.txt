@@ -1,3 +1,9 @@
+# We allows Google to crawl website. It should crawl the pages from custom sitemap.xml.
+# sitemap.xml updates every new release and keep the pages for stable version of product.
+# The previous versions should be removed from Google index on every new release for product.
+# These pages are marked with "noindex" rule in the "robots" meta tag on build time and will be deleted from Google after some time.
+# We dont need to disallow crawling for these pages, because Google should have opportunity to analyze previous pages (with "noindex" tag) and update the state of index for those.
+
 User-agent: *
 Disallow:
 
