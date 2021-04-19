@@ -4,6 +4,7 @@ languageCode = "en-us"
 title = "Kubermatic Docs"
 disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
+enableRobotsTXT = true
 
 [outputs]
 home = ["HTML"]
