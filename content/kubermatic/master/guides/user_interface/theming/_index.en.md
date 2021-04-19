@@ -32,10 +32,10 @@ There are two possible approaches of preparing custom themes. They all rely on t
 user access to the application code in order to prepare and quickly test the new theme before using it in the official
 deployment.
 
-- [Preparing a new theme with source access]({{< ref "../../../tutorials/user_interface/theming/with_src" >}}) - this
+- [Preparing a new theme with source access]({{< ref "../../../tutorials_howtos/user_interface/theming/with_src" >}}) - this
   approach grants the possibility to reuse already defined code, to work with SCSS rules and to quickly test your new
   theme before applying it to the official deployment. Access to the KKP UI sources is required though.
-- [Preparing a new theme without source access]({{< ref "../../../tutorials/user_interface/theming/without_src" >}}) -
+- [Preparing a new theme without source access]({{< ref "../../../tutorials_howtos/user_interface/theming/without_src" >}}) -
   this approach has some more limitations like not being able to modify the SCSS rules, but this way does not require
   access to the KKP UI sources.
   
