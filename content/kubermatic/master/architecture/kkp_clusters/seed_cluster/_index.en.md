@@ -7,7 +7,7 @@ weight = 10
 
 ## Overview
 
-The Seed CustomResourceDefinition replaces the legacy [`datacenters.yaml`]({{< ref "../datacenters" >}}) with
+The Seed CustomResourceDefinition replaces the legacy datacenters with
 a more flexible, dynamic way of managing seed clusters. Seeds can be added and removed at runtime by simply
 managing Seed resources inside the master cluster.
 

@@ -72,7 +72,7 @@ The key items to configure are:
 * For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses
   yet another random secret to encrypt cookiesstored in the users' browsers.
 * The expose strategy, that is the strategy used to expose the control plane
-  components to the worker nodes (see the [expose strategy]({{< ref "../expose_strategy">}}))
+  components to the worker nodes (see the [expose strategy]({{< ref "../../../kkp_networking/expose_strategies">}}))
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
 mentioned above can be generated using any password generator or on the shell using
@@ -278,6 +278,5 @@ should now be running. If they are not, check their logs to find out what's brok
 
 ### Next Steps
 
-* [Add a Seed cluster]({{< ref "../add_seed_cluster" >}}) to start creating user clusters.
-* Install the [monitoring stack]({{< ref "../monitoring_stack" >}}) to gain metrics and alerting.
-* Install the [logging stack]({{< ref "../logging_stack" >}}) to collect cluster-wide metrics in a central place.
+* [Add a Seed cluster]({{< ref "../../add_seed_cluster_CE" >}}) to start creating user clusters.
+* Install the [monitoring & logging stack]({{< ref "../../../../tutorials_howtos/operation/logging_and_monitoring_Stacks" >}}) to collect cluster-wide metrics in a central place.

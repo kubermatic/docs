@@ -16,9 +16,8 @@ routing the traffic based on:
 * Destination port: this requires a unique port for each service.
 * SNI: TLS traffic can be routed based on SNI without termination.
 * HTTP/2 tunnel: Terminate HTTP/2 CONNECT request and multiplex the TCP
-  streams.  
-
-More details about the expose strategy concept can be found [here]({{< ref "../../../architecture/concepts/expose_strategy">}}).
+  streams.
+  
 
 ## Configure the Expose Strategy
 

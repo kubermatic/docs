@@ -5,7 +5,7 @@ weight = 15
 +++
 
 This document describes how to use a Service Accounts in Kubermatic Kubernetes Platform (KKP).
-The main Service Account concept you can find [here]({{< ref "../../architecture/concepts/service_account">}}) .
+The main Service Account concept you can find [here]({{< ref "../../service_account">}}) .
 
 ## Managing Service Accounts and Tokens
 

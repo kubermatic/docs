@@ -95,7 +95,7 @@ Either provide the image-loader with a stock configuration or set the overridden
 via `--set` when using Helm.
 {{% /notice %}}
 
-Likewise, carefully go through the [KubermaticConfiguration]({{< ref "../../architecture/concepts/configuration" >}})
+Likewise, carefully go through the [KubermaticConfiguration]({{< ref "../../../architecture/configuration" >}})
 and adjust the `dockerRepository` fields:
 
 ```yaml
@@ -118,8 +118,8 @@ kubectl apply -f mykubermatic.yaml
 ### Worker Nodes Behind a Proxy
 
 In situations where worker nodes will require a proxy to reach the internet, the datacenter specification for the
-Seed cluster must be updated. This can be found in the [Seed]({{< ref "../../architecture/concepts/seeds" >}}) CRD. Find the
-relevant seed via `kubectl`:
+Seed cluster must be updated. 
+Find the relevant seed via `kubectl`:
 
 ```bash
 kubectl -n kubermatic get seeds

@@ -31,10 +31,10 @@ Activating Pod Security Policy will mean that a lot of Pod specifications, Opera
 ### Datacenter Level Support
 It is also possible to enforce enabling Pod Security Policies on the datacenter level. In this case, user cluster level configuration will be ignored, and PSP will be enabled for all user clusters in the datacenter.
 
-To enable this, you will need to update your [Seed Cluster CRD]({{< ref "../../concepts/seeds/" >}}), and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
+To enable this, you will need to update your [Seed Cluster CRD]({{< ref "../../../architecture/kkp_clusters/seed_cluster" >}}), and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
 
 {{% notice note %}}
-For legacy versions of KKP you will need to edit the [datacenters.yaml]({{< ref "../../concepts/datacenters/" >}}) file instead, and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
+For legacy versions of KKP you will need to edit the `datacenters.yaml` file instead, and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
 {{% /notice %}}
 
 #### Using Pod Security Policies
