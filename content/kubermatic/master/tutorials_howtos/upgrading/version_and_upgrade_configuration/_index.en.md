@@ -9,7 +9,7 @@ This chapter describes how to configure the available Kubernetes/OpenShift versi
 provide update paths for user clusters.
 
 The list of selectable versions when [specifying cluster name and Kubernetes version]({{< ref "../../project_and_cluster_management#step-2-specify-the-cluster-name-and-kubernetes-version" >}}) is defined in the `spec.versions`
-section in the [KubermaticConfiguration]({{< ref "../../../architecture/configuration" >}}) CRD.
+section in the [KubermaticConfiguration]({{< ref "../../../tutorials_howtos/kkp_configuration" >}}) CRD.
 This is also where updates are configured.
 
 ### Default Versions

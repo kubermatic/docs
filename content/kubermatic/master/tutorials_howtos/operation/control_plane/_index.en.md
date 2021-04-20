@@ -1,10 +1,6 @@
 +++
-title = "Operation"
-date = 2018-07-24T12:07:15+02:00
-weight = 26
-chapter = true
+title = "Control Plane"
+date = 2021-04-09T12:07:15+02:00
+weight = 20
 +++
 
-# Operation
-
-Find out about operating Kubermatic Kubernetes Platform (KKP).

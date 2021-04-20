@@ -95,7 +95,7 @@ Either provide the image-loader with a stock configuration or set the overridden
 via `--set` when using Helm.
 {{% /notice %}}
 
-Likewise, carefully go through the [KubermaticConfiguration]({{< ref "../../../architecture/configuration" >}})
+Likewise, carefully go through the [KubermaticConfiguration]({{< ref "../../../tutorials_howtos/kkp_configuration" >}})
 and adjust the `dockerRepository` fields:
 
 ```yaml

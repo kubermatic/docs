@@ -24,7 +24,7 @@ Since this is an experimental feature, it's disabled by default. There are two m
 #### Enabling etcd-launcher
 In this mode, the feature is enabled on the seed-cluster level. The cluster feature flag will be added to all user clusters.
 
-To enable etcd-launcher, the related feature should be enabled in the [Kubermatic CRD]({{< ref "../../../architecture/configuration" >}}). To do that, edit your your KubermaticConfiguration file to include the featureGate:
+To enable etcd-launcher, the related feature should be enabled in the [Kubermatic CRD]({{< ref "../../../tutorials_howtos/kkp_configuration" >}}). To do that, edit your your KubermaticConfiguration file to include the featureGate:
 
 ```yaml
 # Snippet, not a complete file!

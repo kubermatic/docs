@@ -11,7 +11,7 @@ This manual explains how to configure a custom OIDC provider to use with Kuberma
 
 When nothing is configured, KKP uses `https://<domain>/dex` as the OIDC provider
 URL, which by default points to Dex. The domain is taken from the
-[KubermaticConfiguration]({{< ref "../../architecture/configuration" >}}).
+[KubermaticConfiguration]({{< ref "../../tutorials_howtos/kkp_configuration" >}}).
 
 When redirecting users to the OIDC provider for login into the KKP dashboard, KKP
 adds the following parameters to the base URL:

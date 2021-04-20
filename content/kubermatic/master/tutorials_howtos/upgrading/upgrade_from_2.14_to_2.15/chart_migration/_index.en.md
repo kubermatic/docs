@@ -137,7 +137,7 @@ in the Seeds.
 # ...
 ```
 
-Refer to the [KubermaticConfiguration]({{< ref "../../../../architecture/configuration" >}}) and
+Refer to the [KubermaticConfiguration]({{< ref "../../../../tutorials_howtos/kkp_configuration" >}}) and
 [Seed]({{< ref "../../../../architecture/kkp_clusters/seed_cluster" >}}) documentation for more information.
 
 Once the conversion is completed, carefully check the new configuration files for mistakes. Do
