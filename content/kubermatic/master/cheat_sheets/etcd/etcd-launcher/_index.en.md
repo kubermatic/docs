@@ -24,7 +24,7 @@ Since this is an experimental feature, it's disabled by default. There are two m
 #### Enabling etcd-launcher
 In this mode, the feature is enabled on the seed-cluster level. The cluster feature flag will be added to all user clusters.
 
-To enable etcd-launcher, the related feature should be enabled in the [Kubermatic CRD]({{< ref "../../../architecture/concepts/configuration" >}}). To do that, edit your your KubermaticConfiguration file to include the featureGate:
+To enable etcd-launcher, the related feature should be enabled in the [Kubermatic CRD]({{< ref "../../../tutorials_howtos/kkp_configuration" >}}). To do that, edit your your KubermaticConfiguration file to include the featureGate:
 
 ```yaml
 # Snippet, not a complete file!
@@ -48,7 +48,7 @@ $ kubectl apply -f kubermatic_config.yaml
 This will update the KPP Operator Deployment and enable etcd-launcher for all users clusters.
 
 {{% notice note %}}
-Once the seed controller manager is reloaded, all users clusters will get upgraded to use etcd-launcher. In seed clusters with a large number of user clusters, this might take some time depending on the applied `-max-parallel-reconcile` value (default is 10). Refer to the [Prepare for Reconciliation Load]({{< ref "../../../tutorials/upgrading/guidelines#prepare-for-reconciliation-load" >}}) section for more information.
+Once the seed controller manager is reloaded, all users clusters will get upgraded to use etcd-launcher. In seed clusters with a large number of user clusters, this might take some time depending on the applied `-max-parallel-reconcile` value (default is 10). Refer to the [Prepare for Reconciliation Load]({{< ref "../../../tutorials_howtos/upgrading" >}}) section for more information.
 {{% /notice %}}
 
 

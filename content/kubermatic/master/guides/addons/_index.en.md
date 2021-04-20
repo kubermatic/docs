@@ -54,7 +54,7 @@ docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-operator-ut
 ### Configuration
 
 To configure which addons shall be installed in all user clusters, update the relevant
-[KubermaticConfiguration]({{< ref "../../architecture/concepts/configuration" >}}) in the `spec.userCluster.addons`
+[KubermaticConfiguration]({{< ref "../../tutorials_howtos/kkp_configuration" >}}) in the `spec.userCluster.addons`
 section. For Kubernetes and OpenShift, configure a Docker image that contains the required addon manifests
 (as YAML files) and an `AddonList` manifest that lists the addons and their requirements. Take a look
 at the default configuration above as a starting point.
