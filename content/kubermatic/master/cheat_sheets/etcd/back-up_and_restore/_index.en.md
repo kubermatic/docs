@@ -1,7 +1,7 @@
 +++
 title = "Restoring from backup"
 date = 2018-07-24T12:07:15+02:00
-weight = 0
+weight = 20
 
 +++
 
