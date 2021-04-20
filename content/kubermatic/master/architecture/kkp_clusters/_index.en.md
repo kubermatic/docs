@@ -5,6 +5,6 @@ weight = 20
 
 +++
 
-#Kubermatic Kubernetes Platform Clusters
+## Kubermatic Kubernetes Platform Clusters
 
 This section will give you the basics understanding of KKP clusters which comprise of Master Components, seed cluster and user cluster. 
