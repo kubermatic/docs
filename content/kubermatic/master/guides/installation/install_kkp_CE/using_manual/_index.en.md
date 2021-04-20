@@ -8,4 +8,4 @@ weight = 20
 This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using manual method.
 
 
-Under Develpment.
+Under Development.

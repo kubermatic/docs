@@ -8,4 +8,4 @@ weight = 20
 
 ## Support Policy
 
-This document describes the software, its components, supported operating systems, cloud providers and third-party softwares. Additionally, it covers the supported infrastructures via their respective API. 
+This document describes the supported software and its components, supported operating systems, cloud providers and third-party software. Additionally, it covers the supported infrastructures via their respective API. 
