@@ -2,7 +2,6 @@
 title = "Migrating to the Operator"
 date = 2021-04-21T11:09:15+02:00
 weight = 30
-
 +++
 
 This chapter outlines a migration plan for the Kubermatic Operator, starting from having KKP installed
@@ -101,7 +100,7 @@ Note that the conversion commands by default outputs Seed resources with the
 `operator.kubermatic.io/skip-reconciling` annotation already in place, so the Seeds are safe to
 apply during a migration.
 
-Copy the old confugration file i.e. values.yaml to new KKP release directory.
+Copy the old configration file i.e. values.yaml to new KKP release directory.
 
 Save the output from below command to respective YAML files i.e. `seeds-with-secrets.yaml`, `kubermaticconfiguration.yaml` and replace `myvalues.yaml` with your values YAML
 
