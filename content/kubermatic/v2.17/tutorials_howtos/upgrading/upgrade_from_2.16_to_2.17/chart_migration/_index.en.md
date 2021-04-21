@@ -1,6 +1,6 @@
 +++
 title = "Migrating to the Operator"
-date = 2020-04-21T11:09:15+02:00
+date = 2021-04-21T11:09:15+02:00
 weight = 30
 
 +++
@@ -25,25 +25,25 @@ cluster reconciliation logic.
 
 {{% notice warning %}}
 **It is of critical importance that the Kubermatic CRDs are not deleted during the migration.**
-This would in turn delete all affected resources, like clusters, users etc.
+This would in turn delete all affected resources, like clusters, users, etc.
 KKP never used Helm to manage its CRDs (Helm was only previously used for the cert-manager and
 Velero CRDs), so it is safe to uninstall the chart.
 {{% /notice %}}
 
-Compared to the old installation method, were the `kubermatic` chart was installed both on the
-master and all seed clusters (toggling the `isMaster` flag in the chart accordingly), with the
+Compared to the old installation method, where the `kubermatic` chart was installed both on the
+master and all seed clusters (toggling the `isMaster` flag in the chart accordingly), the
 operator seeds are now managed automatically. The operator is only ever installed once in the
 master cluster and manages the seed clusters from there. Still, care must be taken to not
-accidentally have both Helm chart and operator-managed resources in seed clusters. For this
+accidentally have both Helm chart and operator-managed resources in seed clusters. For these
 reasons, the reconciliation of seed clusters (installing the seed-controller-manager Deployment,
-the Seed validation webhook etc.) can be disabled by setting the
+the Seed validation webhook, etc.) can be disabled by setting the
 `operator.kubermatic.io/skip-reconciling` annotation on Seed resources.
 
-All in the all, a migration plan can look like this:
+All in all, a migration plan can look like this:
 
 1. Perform a backup or all Kubermatic resources.
 1. Ensure etcd snapshots for all user clusters are in place.
-1. Convert Helm values / `datacenters.yaml` to KubermaticConfiguration, Seeds, Presets etc.
+1. Convert Helm values / `datacenters.yaml` to KubermaticConfiguration, Seeds, Presets, etc.
    using the Kubermatic Installer. Make sure to create Seeds that are *paused* (have the
    `operator.kubermatic.io/skip-reconciling` annotation set; this can be achieved by running
    the installer with the `--pause-seeds` flag).
@@ -93,8 +93,8 @@ The Kubermatic Installer provides commands to automatically convert the old conf
 into their new formats.
 
 The `convert-helm-values` command takes a Helm values.yaml file and outputs (to stdout) a number
-of YAML files, representing the generated KubermaticConfiguration, Seeds, Secrets, Presets etc.
-Using this command is recommended, as it does all conversions in a single step, because the old
+of YAML files, representing the generated KubermaticConfiguration, Seeds, Secrets, Presets, etc.
+Using this command is recommended, as it does all conversions in a single step, because of the old
 `values.yaml` contained all information in some form or another.
 
 Note that the conversion commands by default outputs Seed resources with the
@@ -128,7 +128,7 @@ command to convert just the `datacenters.yaml` into Seeds/Secrets. By default, t
 did not contain kubeconfigs, so you have to manually provide a kubeconfig with contexts for every
 seed cluster in the `datacenters.yaml` (the installer will error out if contexts are missing).
 If you do not provide a kubeconfig, Seeds will still be converted (and paused by default), but
-you are responsible yourself to provide the appropriate kubeconfig Secrets and to reference them
+you are responsible yourself to provide the appropriate kubeconfig Secrets and reference them
 in the Seeds.
 
 ```bash
@@ -149,7 +149,7 @@ note that the installer generally does not output default values, so if you conf
 2 Apiserver replicas and this is the default for Kubermatic anyway, the generated `KubermaticConfiguration`
 will skip the value altogether, relying on the defaulting.
 
-It is now recommended to setup Kubermatic in a test environment, using the newly converted files.
+It is now recommended to set up Kubermatic in a test environment, using the newly converted files.
 
 #### Upgrading the Master Cluster
 
@@ -288,7 +288,7 @@ can co-exist in the same cluster.
 
 The only important aspect is where the DNS record for the seed cluster is pointing. To migrate from the old
 to new nodeport-proxy, all that needs to be done is switch the DNS record to the new LoadBalancer service. The
-new services uses the same ports, so it does not matter what service a user is reaching.
+new services use the same ports, so it does not matter what service a user is reaching.
 
 To migrate, find the new LoadBalancer service's public endpoint:
 
