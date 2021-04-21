@@ -8,7 +8,7 @@ weight = 40
 
 Starting with version v2.17, KKP introduced experimental support for new etcd Backup and Restore controller based on the [etcd-launcher]({{< ref "../etcd-launcher" >}}) experimental feature.
 
-The [legacy backup controller]({{< ref "../restoring-from-backup" >}}) is based on a simple cron job and didn't support automated restore operations. The new experimental controllers utilize new CRDs for backups and restore, support multiple backup configurations per cluster, immediate backups and automated restore operations.
+The [legacy backup controller]({{< ref "../legacy_restore" >}}) is based on a simple cron job and didn't support automated restore operations. The new experimental controllers utilize new CRDs for backups and restore, support multiple backup configurations per cluster, immediate backups and automated restore operations.
 
 The new controllers try to be as backward compatible with the legacy controller possible. However, it's not possible to manage or restore legacy backups with the new controllers.
 
@@ -22,7 +22,7 @@ Currently, only S3 compatible backup backends are supported.
 
 ## Enabling The New controllers
 
-To use the new backup/restore controller, the [etcd-launcher]({{< ref "../etcd-launcher" >}}) experimental feature must be enabled along with specifically enabling the controllers by passing the flag `--enable-etcd-backups-restores` to the seed controller manager. This can be achieved by setting the following values in the [KubermaticConfiguration]({{< ref "../../../architecture/concepts/configuration" >}}):
+To use the new backup/restore controller, the [etcd-launcher]({{< ref "../etcd-launcher" >}}) experimental feature must be enabled along with specifically enabling the controllers by passing the flag `--enable-etcd-backups-restores` to the seed controller manager. This can be achieved by setting the following values in the [KubermaticConfiguration]({{< ref "../../../tutorials_howtos/KKP_configuration/" >}}):
 
 ```yaml
 spec:
