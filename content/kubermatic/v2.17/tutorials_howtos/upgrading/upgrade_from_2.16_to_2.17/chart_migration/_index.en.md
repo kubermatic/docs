@@ -101,7 +101,7 @@ Note that the conversion commands by default outputs Seed resources with the
 `operator.kubermatic.io/skip-reconciling` annotation already in place, so the Seeds are safe to
 apply during a migration.
 
-Copy the old configration file i.e. values.yaml to new KKP release directory.
+Copy the old configuration file i.e. values.yaml to new KKP release directory.
 
 Save the output from below command to respective YAML files i.e. `seeds-with-secrets.yaml`, `kubermaticconfiguration.yaml` and replace `myvalues.yaml` with your values YAML
 
