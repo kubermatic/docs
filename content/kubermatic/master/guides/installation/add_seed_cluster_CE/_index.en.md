@@ -145,7 +145,7 @@ spec:
     namespace: kubermatic
 ```
 
-Refer to the [Seed CRD documentation]({{< ref "." >}}) for a complete example of the
+Refer to the [Seed CRD documentation]({{< ref "../../../architecture/kkp_clusters/seed_cluster">}}) for a complete example of the
 Seed CustomResource and all possible datacenters.
 
 You can override the global [Expose Strategy]({{< ref "../../kkp_networking/expose_strategies">}}) at
