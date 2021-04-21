@@ -2,6 +2,7 @@
 title = "Migrating to the Operator"
 date = 2021-04-21T11:09:15+02:00
 weight = 30
+
 +++
 
 This chapter outlines a migration plan for the Kubermatic Operator, starting from having KKP installed
