@@ -81,7 +81,13 @@ creation.
 ![](/img/kubermatic/v2.17/ui/create_preset_third_step_dc.png?height=200px&classes=shadow)
 
 `Restrict to Datacenter` field will be available for all providers. It allows Administrators to
-restrict the Preset to a single datacenter. Datacenter names can be found i.e. on the `Dynamic Datacenters` list.
+restrict the Preset to a single datacenter. Datacenter names can be found i.e. on the [Dynamic Datacenters]({{< ref "../admin_panel/dynamic_datacenters_management/_index.en.md" >}}) list.
+
+{{% notice note %}}
+Make sure to use actual datacenter names and not the display names that are used i.e. in the wizard while creating the clusters.
+{{% /notice %}}
+
+![](/img/kubermatic/v2.17/ui/datacenter_names.png?height=300px&classes=shadow "Dynamic Datacenter Names")
 
 ## Adding a Provider to the Preset
 
