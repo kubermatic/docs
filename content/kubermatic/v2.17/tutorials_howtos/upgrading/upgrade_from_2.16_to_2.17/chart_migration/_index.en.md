@@ -9,10 +9,16 @@ This chapter outlines a migration plan for the Kubermatic Operator, starting fro
 using the old `kubermatic` Helm chart using Helm 2.x. or 3.x.
 
 {{% notice warning %}}
-Before performing the migration, make sure to back up all Kubermatic resources!
+Chart installations are not supported any longer at KKP 2.17, hence KKP 2.16 chart-based installations have to be imperatively migrated.
+Please make sure that you follow our documentation to migrate to the operator.
 {{% /notice %}}
 
+
+
+{{% notice warning %}}
+Before performing the migration, make sure to back up all Kubermatic resources!
 Make sure that you also have recent etcd snapshots for all user clusters.
+{{% /notice %}}
 
 #### Overview
 
