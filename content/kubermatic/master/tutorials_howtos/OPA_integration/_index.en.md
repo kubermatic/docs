@@ -18,7 +18,7 @@ More info about OPA and Gatekeeper can be read from their docs and tutorials, bu
 Constraint Template CRD the users can create rule templates whose parameters are then filled out by the corresponding Constraints. 
 
 
-### How to activate OPA integration on your cluster
+### How to activate OPA Integration on your cluster
 
 The integration is specific per user cluster, meaning that it is activated by a flag in the cluster spec. 
 
