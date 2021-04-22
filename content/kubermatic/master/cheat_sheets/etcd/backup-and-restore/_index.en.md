@@ -10,12 +10,10 @@ Starting with version v2.17, KKP introduced experimental support for new etcd Ba
 
 The [legacy backup controller]({{< ref "../legacy_restore" >}}) is based on a simple cron job and didn't support automated restore operations. The new experimental controllers utilize new CRDs for backups and restore, support multiple backup configurations per cluster, immediate backups and automated restore operations.
 
-The new controllers try to be as backward compatible with the legacy controller possible. However, it's not possible to manage or restore legacy backups with the new controllers.
+The new controllers try to be as backward compatible as possible with the legacy controller. However, it's not possible to manage or restore legacy backups with the new controllers.
 
 The new controllers manage backup, restore and cleanup operations using [Kubernetes Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/). All jobs triggered use containers that can be passed to the seed controller manager similar to the legacy backup controller. 
 
-
-All backups managed by these controllers are tracked in the backup configuration status where the users can see their status. 
 
 Currently, only S3 compatible backup backends are supported. 
 
@@ -46,7 +44,7 @@ spec:
 
 ### Backup and Delete Containers
 
-The new Backup controller is designed to be a drop-in replacement for the legacy backup controller. To achieve this, the legacy `backupStoreContainer` and `backupCleanupContainer` are supported by the new controller. However, it's best to use the new containers to enable the full full functionality of the new controller.
+The new Backup controller is designed to be a drop-in replacement for the legacy backup controller. To achieve this, the legacy `backupStoreContainer` and `backupCleanupContainer` are supported by the new controller. However, it's best to use the new containers to enable the full functionality of the new controller.
 
  * *`backupStoreContainer`*: it's recommended to update the seed controller configuration to use the new backup container. The new container spec is provided in the `charts` directory shipped with the KKP release:
  ```bash
@@ -59,7 +57,7 @@ charts/kubermatic/static/delete-container.yaml
 ```
 
 {{% notice note %}}
-You can't have both `backupCleanupContainer` and backupDeleteContainer` set. backupDeleteContainer` will take precedence when the new controller is enabled.
+You can't have both `backupCleanupContainer` and `backupDeleteContainer` set. `backupDeleteContainer` will take precedence when the new controller is enabled.
 {{% /notice %}}
 
 {{% notice note %}}
