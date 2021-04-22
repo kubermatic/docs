@@ -104,7 +104,7 @@ Clusters can edited by pressing the ellipsis button on the right:
 
 To delete a cluster, navigate to `Clusters` and choose the cluster that you would like to delete. On the top left is a button `Delete`:
 
-![Cluster Deletion Button in the top right corner](/img/kubermatic/master/tutorials/cluster_details_delete_btn.png?classes=shadow,border "Cluster Deletion Button in the top right corner")
+![Cluster Deletion Button in the top right corner](/img/kubermatic/master/tutorials/cluster_details_btn.png?classes=shadow,border "Cluster Deletion Button in the top right corner")
 
 To confirm the deletion, type the name of the cluster into the text box:
 
@@ -117,7 +117,7 @@ The cluster will switch into deletion state afterwards, and will be removed from
 
 To add a new machine deployment navigate to your cluster view and click on the `Add Machine Deployment` button:
 
-![Cluster overview with highlighted add button](08-manage-node-deployments-overview.png)
+![Cluster overview with highlighted add button](/img/kubermatic/master/tutorials/cluster_details_btn.png?classes=shadow,border "Cluster overview with highlighted add button")
 
 In the popup you can then choose the number of nodes (replicas), kubelet version, etc for your newly created machine deployment. All nodes created in this machine deployment will have the chosen settings.
 
@@ -125,8 +125,8 @@ In the popup you can then choose the number of nodes (replicas), kubelet version
 
 To add or delete a worker node you can easily edit the machine deployment in your cluster. Navigate to the cluster overview, scroll down to `Machine Deployments` and click on the edit icon next to the machine deployment you want to edit:
 
-![Machine deployment overview with highlighted edit button](08-manage-node-deployments-edit.png)
+![Machine deployment overview with highlighted edit button](/img/kubermatic/master/tutorials/machine_deployment_edit.png?classes=shadow,border "Machine deployment overview with highlighted edit button")
 
 In the popup dialog you can now in- or decrease the number of worker nodes which are managed by this machine deployment, as well as their operating system, used image etc.:
 
-![Machine deployment overview with opened edit modal](08-manage-node-deployments-edit-dialog.png)
+![Machine deployment overview with opened edit modal](/img/kubermatic/master/tutorials/machine_deployment_edit_dialog.png?classes=shadow,border "Machine deployment overview with opened edit modal")
