@@ -1,7 +1,7 @@
 +++
 title = "Upgrading KKP Operator"
-date = 2020-06-09T11:09:15+02:00
-weight = 10
+date = 2021-04-22T17:33:39+02:00
+weight = 30
 
 +++
 
@@ -70,7 +70,8 @@ Take the `nodeport-proxy`'s EXTERNAL IP, in this case `34.89.181.151`, and updat
 `*.<seedname>.kubermatic.example.com` to point to this new IP.
 
 It will take some time for the DNS changes to propagate to every user, so it is recommended to leave the old
-nodeport-proxy in place for a period of time (e.g. a week), before finally removing it:
+nodeport-proxy in place for a period of time (e.g. a few days to be
+conservative), before finally removing it:
 
 **Helm 3**
 
