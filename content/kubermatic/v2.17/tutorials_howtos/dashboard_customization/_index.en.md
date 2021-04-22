@@ -19,7 +19,7 @@ Here are some quick links to the different chapters:
 Currently, the application offers two themes by default, light and dark. There is also an option to choose system theme and let the application choose dark/light theme based
 on the user's operating system theme. Each user can specify a theme to use in the `Account` view which is accessible from the user menu under `User Settings`:
 
-![Custom Theme](/img/kubermatic/v2.16/advanced/custom-ui/customizing-account.png)
+![User Settings](/img/kubermatic/v2.17/ui/user_settings.png?classes=shadow,border "User Settings")
 
 ### Disabling Theming Functionality
 In order to disable theming options for all users and enforce using only the default theme, set
@@ -68,14 +68,14 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
 - Once your new theme is ready run `npm run build:themes`. It should create a `dist-themes` directory inside Kubermatic Kubernetes Platform (KKP) Dashboard directory with compiled `css` files of all themes
   stored inside `src/assets/themes` directory. Now you can rename your `custom.css` theme file to some other name, i.e. `solar.css`.
 
-![Themes dir](/img/kubermatic/v2.16/advanced/custom-ui/themes-dir.png)
+![Themes dir](/img/kubermatic/v2.17/ui/themes_dir.png?classes=shadow,border "Themes dir")
 
 - Now, simply update your `config.json` file used by `Kubermatic Dashboard` Deployment and register the new theme same as it was done earlier.
   Make sure that `name` entry corresponds to the name of your theme file (without the `css` suffix).
 - As the last step, mount your custom CSS theme file to the `dist/assets/themes` directory. Make sure not to override whole directory as default themes are required by the application.
 - After application restart, theme picker should show your new theme.
 
-![Theme picker](/img/kubermatic/v2.16/advanced/custom-ui/custom-theme.png)
+![Theme picker](/img/kubermatic/v2.17/ui/custom_theme.png?classes=shadow,border "Theme picker")
 
 ### Preparing a New Theme Without Access to the Sources
 In this case the easiest way of preparing a new theme is to download one of the existing themes light/dark. This can be done in a few different ways.
@@ -86,7 +86,7 @@ We'll describe here two possible ways of downloading enabled themes.
 2. Open `Developer tools` and navigate to `Sources` tab.
 3. There should be a CSS file of a currently selected theme available to be downloaded inside `assts/themes` directory.
 
-![Dev tools](/img/kubermatic/v2.16/advanced/custom-ui/developer-tools.png)
+![Dev tools](/img/kubermatic/v2.17/ui/developer_tools.png?classes=shadow,border "Dev tools")
 
 #### Download Themes Directly From the KKP Dashboard container
 Assuming that you know how to exec into the container and copy resources from/to it, themes can be simply copied over to your machine

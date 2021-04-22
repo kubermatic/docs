@@ -21,11 +21,11 @@ $ kubectl edit user ...
 Admin privileges can be granted for users also from the admin panel in the UI. To access the admin panel click the
 `Admin Panel` entry in the user menu:
 
-![User menu](/img/kubermatic/v2.17/advanced/settings/menu.png)
+![User Menu](/img/kubermatic/v2.17/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
 
 ### Admin Panel Overview
 
-![Admin panel](/img/kubermatic/v2.17/advanced/settings/view.png)
+![Admin Panel](/img/kubermatic/v2.17/ui/panel.png?height=350px&classes=shadow,border "Admin Panel")
 
 Admin panel consist of two cards. One allows to manipulate global settings, the second allows to manipulate the list
 of datacenters, admin users and presets. All settings changes are saved asynchronously, and the saves are confirmed by the green confirmation
