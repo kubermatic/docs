@@ -29,13 +29,13 @@ ResourceQuota
 The Kubermatic provides also two additional plugins: `PodNodeSelector` and `PodSecurityPolicy`. They can be selected in the
 UI wizard.
 
-![View](/img/kubermatic/v2.16/advanced/admission_plugins_configuration/select.png)
+![Admission Plugin Selection](/img/kubermatic/v2.17/ui/admission_plugins.png?height=400px&classes=shadow,border "Admission Plugin Selection")
 
 
 ### PodNodeSelector configuration
 Selecting `PodNodeSelector` plugin expands an additional view for the plugin configuration.
 
-![View](/img/kubermatic/v2.16/advanced/admission_plugins_configuration/configuration.png)
+![Admission Plugin Configuration](/img/kubermatic/v2.17/ui/admission_plugin_configuration.png?classes=shadow,border "Admission Plugin Configuration")
 
 In this view you can define selector for namespaces that have no label selector specified. This example defines the default
 `NodeSelector` for the cluster, as well as whitelist for each namespace.

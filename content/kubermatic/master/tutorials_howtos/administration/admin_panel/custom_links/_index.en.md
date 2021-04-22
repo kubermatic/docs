@@ -30,9 +30,9 @@ performing any changes.
 After enabling API documentation checkbox `API Documentation` link will be shown in the KKP UI help panel. It links to
 the KKP API documentation.
 
-![Help Panel](/img/kubermatic/master/ui/help-panel.png?height=250px&classes=shadow,border "Help Panel")
+![Help Panel](/img/kubermatic/master/ui/help_panel.png?height=250px&classes=shadow,border "Help Panel")
 
-![API Documentation](/img/kubermatic/master/ui/api-docs.png?height=250px&classes=shadow,border "API Documentation")
+![API Documentation](/img/kubermatic/master/ui/api_docs.png?height=250px&classes=shadow,border "API Documentation")
 
 ## Terms of Service
 After enabling terms of service checkbox `Terms of Service` link will be shown in the KKP UI footer. It links to the
