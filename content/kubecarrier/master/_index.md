@@ -3,7 +3,7 @@ title: KubeCarrier
 date: 2020-04-24T09:00:00+02:00
 ---
 
-![KubeCarrier logo](./img/KubeCarrier.png)
+![KubeCarrier logo](./img/KubeCarrier-logo.svg)
 
 
 # What is KubeCarrier?
