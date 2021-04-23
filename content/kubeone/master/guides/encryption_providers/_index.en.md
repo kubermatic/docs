@@ -13,13 +13,6 @@ Kubernetes supports several [providers][k8s-encryption-providers].
 Additionally, it supports external Key Management Systems (KMS) through the
 [KMS provider][kms-provider].
 
-{{% notice note %}}
-Using external Key Management Systems as an encryption provider with KubeOne is
-currently not supported. You can check out the
-[issue #1242](https://github.com/kubermatic/kubeone/issues/1242) for more
-details.
-{{% /notice %}}
-
 Encryption Providers are supported by [Kubernetes][k8s-encrypt-data] since
 v1.13.
 
@@ -165,6 +158,45 @@ features:
         resources:
         - secrets
 ```
+### Using an external KMS Provider
+
+It is possible to use KubeOne to configure your Kubernetes cluster to use an external [Key Management System][Key-Management-System]. This provides an additional layer of security since it doesn't require storing the a plain text key on control plane nodes.
+
+Kubernetes requires using a KMS plugin to be able to communicate with the external KMS providers. Most cloud providers have KMS plugin implementations to allow Kubernetes to use their KMS services. For example:
+- [AWS Encryption Provider][AWS-Encryption-Provider]
+- [Azure KMS Plugin][Azure-KMS-Plugin]
+- [Google Cloud KMS plugin][Google-Cloud-KMS-plugin]
+
+Kubernetes communicates with the KMS Encryption Provider through a unix socket. For this to work, the cluster administrator needs to deploy KMS plugin on all control plane nodes. The plugin can be deployed as binary, a standalone docker container, a static pod or as a Daemonset configured to run only the control plan nodes. KubeOne will detect the unix socket path from the custom configuration and add a bind-mount to the KubeAPI static pod to allow it to communicate to the KMS plugins.
+
+An example of custom encryption providers configuration to enable AWS Encryption Provider would look like this:
+
+```yaml
+apiVersion: kubeone.io/v1beta1
+kind: KubeOneCluster
+name: kms-test
+versions:
+  kubernetes: '1.18.6'
+cloudProvider:
+  aws: {}
+features:
+  encryptionProviders:
+    enable: true
+    customEncryptionConfiguration: |
+      apiVersion: apiserver.config.k8s.io/v1
+      kind: EncryptionConfiguration
+      resources:
+        - resources:
+          - secrets
+          providers:
+          - identity: {}
+          - kms:
+              name: aws-encryption-provider
+              endpoint: unix:///var/run/kmsplugin/socket.sock
+              cachesize: 1000
+              timeout: 3s
+```
+
 
 ## A Note About Backups
 
@@ -180,3 +212,7 @@ access the encrypted data.
 [k8s-rotating-key]: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#rotating-a-decryption-key
 [k8s-encrypt-data-enable]: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#encrypting-your-data
 [k8s-encrypt-data-disable]: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#decrypting-all-data
+[Key-Management-System]: https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/
+[AWS-Encryption-Provider]: https://github.com/kubernetes-sigs/aws-encryption-provider
+[Azure-KMS-Plugin]: https://github.com/Azure/kubernetes-kms
+[Google-Cloud-KMS-plugin]: https://github.com/GoogleCloudPlatform/k8s-cloudkms-plugin
