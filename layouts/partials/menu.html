@@ -2,22 +2,21 @@
   {{ $currentNode := . }}
   {{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
   {{ $productSection := .FirstSection.Section }}
-  {{ $product := index $.Site.Data.products $productSection}}
+  {{ $products := $.Site.Data.products }}
+  {{ $product := index $products $productSection}}
   <div id="header-wrapper">
     <div id="header">
       {{ partial "logo.html" . }}
     </div>
-    {{ if not .Site.Params.disableSearch }}
-      {{ partial "search.html" . }}
-    {{ end }}
-    {{ with $.Site.Data.products }}
+    {{ with sort $products ".weight" }}
     <div class="products-toogle">
       <div class="products-toogle-select">
         <label for="product-select" class="products-toogle-label">Product</label>
         <select id="product-select" onchange="location = this.value;">
-          {{ range $key, $value := . }}
+          {{ range . }}
+            {{ $key := lower .name }}
             {{ $release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release }}
-            <option value="{{ printf "/%s/%s/" $key $release | relURL }}"{{ if in $.RelPermalink $key }} selected{{ end }}>{{ .name }}</option>
+            <option value="{{ printf "/%s/%s/" $key $release | relURL }}"{{ if in $.RelPermalink $key }} selected{{ end }}>{{ .textName | default .name }}</option>
           {{ end }}
         </select>
       </div>
@@ -32,6 +31,9 @@
       </div>
       {{ end }}
     </div>
+    {{ end }}
+    {{ if not .Site.Params.disableSearch }}
+      {{ partial "search.html" . }}
     {{ end }}
   </div>
 

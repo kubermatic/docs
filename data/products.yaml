@@ -6,6 +6,7 @@ kubermatic:
   logo: "img/KubermaticKubernetesPlatform-logo.svg"
   title: Manage Multiple Clusters
   description: Automate multicloud, on-prem, and edge operations with a single management UI enabling you to deliver the cloud native transformation immediately.
+  textName: KKP #used for displaying different title in product dropdown
   weight: 2
   versions:
     - release: master
