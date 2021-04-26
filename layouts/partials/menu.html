@@ -7,9 +7,6 @@
     <div id="header">
       {{ partial "logo.html" . }}
     </div>
-    {{ if not .Site.Params.disableSearch }}
-      {{ partial "search.html" . }}
-    {{ end }}
     {{ with $.Site.Data.products }}
     <div class="products-toogle">
       <div class="products-toogle-select">
@@ -32,6 +29,9 @@
       </div>
       {{ end }}
     </div>
+    {{ end }}
+    {{ if not .Site.Params.disableSearch }}
+      {{ partial "search.html" . }}
     {{ end }}
   </div>
 
