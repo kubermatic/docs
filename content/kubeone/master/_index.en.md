@@ -3,6 +3,10 @@ title = "KubeOne"
 date = 2021-02-10T09:00:00+02:00
 +++
 
+
+![Kubermatic KubeOne logo](./img/KubeOne-logo.jpg)
+
+
 # What is KubeOne?
 
 Kubermatic KubeOne automates cluster operations on all your cloud, on-prem,
