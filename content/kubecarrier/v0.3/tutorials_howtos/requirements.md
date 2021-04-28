@@ -5,19 +5,18 @@ slug: requirements
 date: 2020-04-24T09:00:00+02:00
 ---
 
-## Requirements
-
-To install KubeCarrier you will need a Kubernetes Cluster with the [cert-manager](https://cert-manager.io/docs/) installed.
+To install KubeCarrier you will need a Kubernetes Cluster of version v1.16+ with the
+[cert-manager](https://cert-manager.io/docs/) installed.
 
 |Component   |Version       |
 |------------|--------------|
-|Kubernetes  | v1.16, v1.17 |
+|Kubernetes  | v1.16+       |
 |cert-manager| v0.13.0      |
 
-## Kubernetes Clusters
+## Kubernetes Cluster
 
-If you just want to try out KubeCarrier, we are recommending:
-[kind - Kubernetes IN Docker](https://github.com/kubernetes-sigs/kind)
+If you just want to try out KubeCarrier on your local machine, we are recommending:
+[kind - Kubernetes IN Docker](https://github.com/kubernetes-sigs/kind).
 
 With kind, you can quickly spin up multiple Kubernetes Clusters for testing.
 
@@ -43,8 +42,8 @@ $ kubectl config current-context
 kind-kubecarrier
 ```
 
-### Deploy cert-manager
-
+## cert-manager
+In order to deploy cert-manager into your Kubernetes cluster, you can follow these steps:
 ``` bash
 # deploy cert-manager
 $ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.14.0/cert-manager.yaml

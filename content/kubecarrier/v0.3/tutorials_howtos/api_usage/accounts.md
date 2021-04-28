@@ -1,6 +1,6 @@
 ---
 title: Accounts
-weight: 30
+weight: 10
 slug: accounts
 date: 2020-04-24T09:00:00+02:00
 ---
@@ -53,6 +53,7 @@ spec:
 
 To create these objects just run:
 
+> Management Cluster
 ```bash
 $ kubectl apply \
   -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.3.0/docs/manifests/accounts.yaml
@@ -62,6 +63,7 @@ account.catalog.kubecarrier.io/team-b created
 
 After creating those accounts, you can check their statuses and namespace:
 
+> Management Cluster
 ```bash
 $ kubectl get account
 NAME     ACCOUNT NAMESPACE   DISPLAY NAME   STATUS   AGE
@@ -69,4 +71,4 @@ team-a   team-a              The A Team     Ready    7s
 team-b   team-b                             Ready    7s
 ```
 
-We will look more at the differences between the *Provider* and *Tenant* roles for accounts in *4. Catalogs*.
+We will look more at the differences between the *Provider* and *Tenant* roles for accounts in [Catalogs]({{< relref "./catalogs" >}}).
