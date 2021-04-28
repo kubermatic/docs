@@ -58,7 +58,7 @@ You can create the above ServiceCluster CR object with:
 > Management Cluster
 ```bash
 $ kubectl apply -n team-a \
-  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/servicecluster.yaml
+  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.3.0/docs/manifests/servicecluster.yaml
 servicecluster.kubecarrier.io/team-a created
 
 $ kubectl get servicecluster -n team-a

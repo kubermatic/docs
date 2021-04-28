@@ -23,7 +23,7 @@ You can do:
 >Management Cluster
 ```bash
 $ kubectl apply \
-  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/accounts.yaml
+  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.3.0/docs/manifests/accounts.yaml
 ```
 
 This will create two `Account` objects for you: `team-a`(Provider), and `team-b`(Tenant).
@@ -42,7 +42,7 @@ To select which services to offer to which tenants, a `Catalog` object needs to 
 >Management Cluster
 ```bash
 $ kubectl apply -n team-a \
-  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/catalog.yaml
+  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.3.0/docs/manifests/catalog.yaml
 ```
 
 This will create a `Catalog` object which selects all `CatalogEntries` and offers them to all `Tenants`.

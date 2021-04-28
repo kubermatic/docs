@@ -26,7 +26,7 @@ spec:
 > Management Cluster
 ```bash
 $ kubectl apply -n team-b --as=team-b-member \
-  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/couchdb.eu-west-1.yaml
+  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.3.0/docs/manifests/couchdb.eu-west-1.yaml
 couchdb.eu-west-1.team-a/db1 created
 
 # This is the object we just created as team-b

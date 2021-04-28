@@ -20,7 +20,7 @@ $ kubectl config use-context kind-eu-west-1
 Switched to context "kind-eu-west-1".
 
 $ kubectl apply \
-  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/couchdb.crd.yaml
+  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.3.0/docs/manifests/couchdb.crd.yaml
 customresourcedefinition.apiextensions.k8s.io/couchdbs.couchdb.io created
 
 $ kubectl get crd
@@ -67,7 +67,7 @@ $ kubectl config use-context kind-kubecarrier
 Switched to context "kind-kubecarrier".
 
 $ kubectl apply -n team-a \
-  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/catalogentryset.yaml
+  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.3.0/docs/manifests/catalogentryset.yaml
 catalogentryset.catalog.kubecarrier.io/couchdbs created
 
 $ kubectl get catalogentryset -n team-a
@@ -130,7 +130,7 @@ spec:
 > Management Cluster
 ```bash
 $ kubectl apply -n team-a \
-  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/master/docs/manifests/catalog.yaml
+  -f https://raw.githubusercontent.com/kubermatic/kubecarrier/v0.3.0/docs/manifests/catalog.yaml
 catalog.catalog.kubecarrier.io/default created
 
 $ kubectl get catalog -n team-a
