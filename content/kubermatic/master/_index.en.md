@@ -1,14 +1,17 @@
 +++
-title = "Welcome"
-date = 2019-08-26T16:06:34+02:00
-weight = 5
+title = ""
+date = 2019-04-27T16:06:34+02:00
 +++
 
-## One Enterprise Kubernetes Management Platform for Any Infrastructure
 
-Automate thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Deploy, manage and run multiple Kubernetes clusters with our production-proven platform. On your preferred infrastructure.
+![Kubermatic Kubernetes Platform logo](./img/KubermaticKubernetesPlatform-logo.jpg)
 
-Kubermatic Kubernetes Platform (KKP) is directly integrated with leading cloud providers Amazon Web Services, Azure, DigitalOcean, Google Compute Engine, Hetzner, OpenStack, Packet and VMware vSphere as well as any provider offering Ubuntu 16.04 or greater, even in your own datacenter.
+
+# What is Kubermatic Kubernetes Platform (KKP)?
+
+KKP is one enterprise Kubernetes management platform for any infrastructure. KKP automates thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Deploy, manage and run multiple Kubernetes clusters with our production-proven platform on your preferred infrastructure.
+
+KKP is directly integrated with leading cloud providers such as [Amazon Web Services](https://docs.kubermatic.com/kubermatic/master/architecture/requirements/support_policy/provider_support_matrix/aws/aws/), [Azure](https://docs.kubermatic.com/kubermatic/master/architecture/requirements/support_policy/provider_support_matrix/azure/azure/), DigitalOcean, [Google Compute Engine](https://docs.kubermatic.com/kubermatic/master/architecture/requirements/support_policy/provider_support_matrix/google_cloud/gcp/), Hetzner, OpenStack, Packet and [VMware vSphere](https://docs.kubermatic.com/kubermatic/master/architecture/requirements/support_policy/provider_support_matrix/vsphere/vsphere/) as well as any provider offering Ubuntu 16.04 or greater, even in your own datacenter.
 
 ## Features
 
