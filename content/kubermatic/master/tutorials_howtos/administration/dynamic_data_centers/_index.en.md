@@ -7,7 +7,7 @@ weight = 10
 
 ## Datacenter concept
 
-Datacenters are an integral part of Kubermatic. They define physical datacenters in which the user clusters are created.
+Datacenters are an integral part of Kubermatic. Depending on the cloud provider, they define a zone that has network connection for all machines, for example for hyperscalers it would be an availability zone.
 Datacenters, as Kubermatic resources, are a part of the Seed resource, and all user clusters of that datacenter are handled by its respected Seed Cluster.
 
 The datacenter structure contains the following fields:

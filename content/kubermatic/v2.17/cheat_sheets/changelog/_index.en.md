@@ -21,6 +21,9 @@ This section will explain the schema of our changelog together with some informa
 {
   "type": "object",
   "properties": {
+    "externalChangelogURL": {
+      "type": "string"
+    },
     "entries": {
       "type": "array",
       "items": [
@@ -85,10 +88,12 @@ This section will explain the schema of our changelog together with some informa
 
 ### Supported Changelog Categories
 - `action-required`
-- `api`
-- `interface`
-- `infrastructure`
-- `machine-controller`
+- `added`
+- `removed`
+- `fixed`
+- `changed`
+- `deprecated`
+- `security`
 
 ## Configuring the Changelog
 
@@ -102,11 +107,12 @@ after the release.
 {
   "entries": [
     {
+      "externalChangelogURL": "https://github.com/kubermatic/kubermatic/blob/release/v2.17/CHANGELOG.md#kubermatic-217",
       "category": "action-required",
       "description": "Added logos and descriptions for the addons. In order to see the logos and description, addons have to be configured with AddonConfig CRDs with the same names as addons."
     },
     {
-      "category": "interface",
+      "category": "added",
       "description": "Added User Settings, Cluster Addons management, RBAC management functionality and new Project View",
       "links": [
         {

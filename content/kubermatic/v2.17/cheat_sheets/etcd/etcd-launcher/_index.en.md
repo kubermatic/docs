@@ -1,6 +1,6 @@
 +++
 title = "[Experimental] Etcd Launcher"
-weight = 0
+weight = 30
 +++
 
 Starting with version v2.15.0, KPP introduced etcd-launcher as an experimental feature. Etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KPP API and flexibly control how the user cluster etcd ring is started.
