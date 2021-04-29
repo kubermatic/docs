@@ -70,7 +70,7 @@ The key items to configure are:
   It is possible to use a custom CA (i.e. self-signed certificates), but this is outside of the scope of this
   document.
 * For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses
-  yet another random secret to encrypt cookiesstored in the users' browsers.
+  yet another random secret to encrypt cookies stored in the users' browsers.
 * The expose strategy, that is the strategy used to expose the control plane
   components to the worker nodes (see the [expose strategy]({{< ref "../../kkp_networking/expose_strategies">}}))
 
