@@ -4,17 +4,17 @@ projects_title = "Product Documentation"
 
 [contribution]
 title = "How Do I Contribute To ...?"
-#
+
 #  [[contribution.links]]
 #  url = "/"
 #  title = "Documentation"
-#
-#  [[contribution.links]]
-#  url = "/"
-#  [contribution.links.image]
-#  src = "/img/KubeOne-logo.svg"
-#  alt = ""
-#
+
+  [[contribution.links]]
+  url = "https://docs.kubermatic.com/kubeone/master/tutorials/how_to_contribute_to_kubeone/"
+  [contribution.links.image]
+  src = "/img/KubeOne-logo.svg"
+  alt = ""
+
 #  [[contribution.links]]
 #  url = "/"
 #  [contribution.links.image]
