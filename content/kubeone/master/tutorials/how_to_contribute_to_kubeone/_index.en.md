@@ -28,7 +28,7 @@ There are few things to note when contributing to the Kubermatic KubeOne project
 
 *   Please familiarise yourself with our [Code of Conduct](https://github.com/kubermatic/kubermatic/blob/master/CODE_OF_CONDUCT.md)
 *   Check the [opened issues](https://github.com/kubermatic/kubeone/issues) on our GitHub repo peradventure there might be anyone that will be of interest
-*   Use [good first issue](https://github.com/kubermatic/kubeone/labels/good%20first%20issue) and[ help wanted ](https://github.com/kubermatic/kubeone/labels/help%20wanted)labels to search for issues that need contribution
+*   Use [good first issue](https://github.com/kubermatic/kubeone/labels/good%20first%20issue) and [ help wanted ](https://github.com/kubermatic/kubeone/labels/help%20wanted) labels to search for issues that need contribution
 *   Fork the repository on GitHub
 *   Read the [README](https://github.com/kubermatic/kubeone#readme) for build and test instructions
 
