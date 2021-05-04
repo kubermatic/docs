@@ -2,8 +2,8 @@
 title = "Docs"
 projects_title = "Product Documentation"
 
-#[contribution]
-#title = "How Do I Contribute To ...?"
+[contribution]
+title = "How Do I Contribute To ...?"
 #
 #  [[contribution.links]]
 #  url = "/"
@@ -22,7 +22,7 @@ projects_title = "Product Documentation"
 #  alt = ""
 
  [[contribution.links]]
-  url = "/https://docs.kubermatic.com/kubecarrier/master/tutorials_howtos/how_to_contribute_to_kubecarrier/"
+  url = "https://docs.kubermatic.com/kubecarrier/master/tutorials_howtos/how_to_contribute_to_kubecarrier/"
   [contribution.links.image]
   src = "/img/KubeCarrier-logo.svg"
   alt = ""
