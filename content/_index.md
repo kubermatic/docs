@@ -20,13 +20,13 @@ projects_title = "Product Documentation"
 #  [contribution.links.image]
 #  src = "/img/KubermaticKubernetesPlatform-logo.svg"
 #  alt = ""
-#
-#  [[contribution.links]]
-#  url = "/"
-#  [contribution.links.image]
-#  src = "/img/KubeCarrier-logo.svg"
-#  alt = ""
-#
+
+ [[contribution.links]]
+  url = "/https://docs.kubermatic.com/kubecarrier/master/tutorials_howtos/how_to_contribute_to_kubecarrier/"
+  [contribution.links.image]
+  src = "/img/KubeCarrier-logo.svg"
+  alt = ""
+
 #  [[contribution.links]]
 #  url = "/"
 #  title = "Machine Controller"
