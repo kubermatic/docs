@@ -5,26 +5,26 @@ weight = 25
 +++
 
 
-## Contributing to Kubermatic KubeOne
+# Contributing to Kubermatic KubeOne
 
 Kubermatic KubeOne is an open-source project that automates cluster operations on all your cloud, on-prem, edge, and IoT environments. Therefore, contributors in different areas but not limited to project automation, code review, tooling, documentation, testing etc., for the holistic improvement of the KubeOne project is highly welcomed. Kubermatic projects are [Apache 2.0 licensed](https://github.com/kubermatic/kubermatic/blob/master/LICENSE) and accept contributions via GitHub pull requests from interested contributors. This document outlines some of the conventions on development workflow, contributor's notes, contributing steps, contact points and other resources to make your contribution to the projects felicitous.
 
 
-**Contributor's Notes**
+## Contributor's Notes
 
-There are few things to note when contributing to the Kubermatic KubeOne project, which is highlighted below:
+There are few things to note when contributing to the Kubermatic KubeOne project, which are highlighted below:
 
 
 
 *   KubeOne project is hosted on [GitHub](https://github.com/kubermatic/kubeone); thus, GitHub knowledge is one of the essential pre-requisites 
-*   The KubeOne documentation is written in markdown language (.md) and located in the [docs repository](https://github.com/kubermatic/docs/tree/master/content/kubeone).
+*   The KubeOne documentation is written in markdown (.md) and located in the [docs repository](https://github.com/kubermatic/docs/tree/master/content/kubeone).
 *   See [CONTRIBUTING.md](https://github.com/kubermatic/kubermatic/blob/master/CONTRIBUTING.md) for instructions on the developer certificate of origin that we require
 *   Familiarisation with Hugo for building static site locally is suggested for documentation contribution
 *   Kubernetes knowledge is recommended
-*   The KubeOne [documentation](https://github.com/kubermatic/kubeone) is currently available only in the English Language  
+*   The KubeOne [documentation](https://github.com/kubermatic/kubeone) is currently available only in the English  
 *   We have a simple code of conduct that should be adhered to
 
-    **Steps in Contributing to Kubermatic KubeOne**
+## Steps in Contributing to Kubermatic KubeOne
 
 *   Please familiarise yourself with our [Code of Conduct](https://github.com/kubermatic/kubermatic/blob/master/CODE_OF_CONDUCT.md)
 *   Check the [opened issues](https://github.com/kubermatic/kubeone/issues) on our GitHub repo peradventure there might be anyone that will be of interest
@@ -32,7 +32,7 @@ There are few things to note when contributing to the Kubermatic KubeOne project
 *   Fork the repository on GitHub
 *   Read the [README](https://github.com/kubermatic/kubeone#readme) for build and test instructions
 
-    **Contribution Workflow**
+## Contribution Workflow
 
 
 The below outlines show an example of what a contributor's workflow looks like:
@@ -49,9 +49,9 @@ The below outlines show an example of what a contributor's workflow looks like:
 *   Assign a reviewer if you wish and wait for the PR to be reviewed 
 *   If everything works fine, your PR will be merged into the project's master branch
 
-Congratulations!!! You have successfully contributed to the Kubermatic KubeOne project. 
+Congratulations! You have successfully contributed to the Kubermatic KubeOne project. 
 
-**Communication Channels**
+## Communication Channels
 
 If you encounter a problem, you can [file an issue](https://github.com/kubermatic/kubeone/issues) in the repository on GitHub or talk to us on [GitHub](https://github.com/kubermatic/kubeone/discussions), [#kubermatic slack channel](https://kubernetes.slack.com/messages/CNEV2UMT7), and also through our [forum link](https://forum.kubermatic.com/c/kubeone/7). You can register on [Kubernetes slack here](http://slack.k8s.io/). In case of complex issues, we can set up video meetings for resolution. 
 
