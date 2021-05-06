@@ -15,11 +15,11 @@ title = "How Do I Contribute To ...?"
   src = "/img/KubeOne-logo.svg"
   alt = ""
 
-#  [[contribution.links]]
-#  url = "/"
-#  [contribution.links.image]
-#  src = "/img/KubermaticKubernetesPlatform-logo.svg"
-#  alt = ""
+  [[contribution.links]]
+  url = "https://docs.kubermatic.com/kubermatic/master/tutorials_howtos/how_to_contribute_to_kkp/"
+  [contribution.links.image]
+  src = "/img/KubermaticKubernetesPlatform-logo.svg"
+  alt = ""
 
  [[contribution.links]]
   url = "https://docs.kubermatic.com/kubecarrier/master/tutorials_howtos/how_to_contribute_to_kubecarrier/"
