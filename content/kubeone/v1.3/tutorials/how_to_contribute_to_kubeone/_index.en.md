@@ -5,7 +5,7 @@ weight = 25
 +++
 
 
-# Contributing to Kubermatic KubeOne
+## Contributing to Kubermatic KubeOne
 
 Kubermatic KubeOne is an open-source project that automates cluster operations on all your cloud, on-prem, edge, and IoT environments. Therefore, contributors in different areas but not limited to project automation, code review, tooling, documentation, testing etc., for the holistic improvement of the KubeOne project is highly welcomed. Kubermatic projects are [Apache 2.0 licensed](https://github.com/kubermatic/kubermatic/blob/master/LICENSE) and accept contributions via GitHub pull requests from interested contributors. This document outlines some of the conventions on development workflow, contributor's notes, contributing steps, contact points and other resources to make your contribution to the projects felicitous.
 
@@ -21,7 +21,7 @@ There are few things to note when contributing to the Kubermatic KubeOne project
 *   See [CONTRIBUTING.md](https://github.com/kubermatic/kubermatic/blob/master/CONTRIBUTING.md) for instructions on the developer certificate of origin that we require
 *   Familiarisation with Hugo for building static site locally is suggested for documentation contribution
 *   Kubernetes knowledge is recommended
-*   The KubeOne [documentation](https://github.com/kubermatic/kubeone) is currently available only in the English  
+*   The KubeOne [documentation](https://github.com/kubermatic/kubeone) is currently available only in English  
 *   We have a simple code of conduct that should be adhered to
 
 ## Steps in Contributing to Kubermatic KubeOne
