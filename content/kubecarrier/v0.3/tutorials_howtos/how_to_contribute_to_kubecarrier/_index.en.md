@@ -5,7 +5,7 @@ weight = 40
 +++
 
 
-# Contributing to Kubermatic KubeCarrier
+## Contributing to Kubermatic KubeCarrier
 
 Kubermatic KubeCarrier is an open-source project for services management across multiple Kubernetes clusters on multiple clouds and across different regions. Thus, contributors in different areas and not limited to project automation, code review, tooling, documentation, testing etc., for the holistic improvement of the Kubermatic KubeCarrier project is highly welcomed. Kubermatic projects are [Apache 2.0 licensed](https://github.com/kubermatic/kubermatic/blob/master/LICENSE) and accept contributions via GitHub pull requests from interested contributors. This document outlines some of the conventions on development workflow, contributor's notes, contributing steps, contact points and other resources to make your contribution to the projects felicitous.
 
@@ -20,7 +20,7 @@ There are few things to note when contributing to the Kubermatic KubeCarrier pro
 *   See [CONTRIBUTING.md](https://github.com/kubermatic/kubermatic/blob/master/CONTRIBUTING.md) for instructions on the developer certificate of origin that we require
 *   Familiarization with Hugo for building static site locally is suggested for documentation contribution
 *   Kubernetes knowledge is also recommended
-*   The KubeCarrier [documentation](https://github.com/kubermatic/kubecarrier) is currently available only in the English  
+*   The KubeCarrier [documentation](https://github.com/kubermatic/kubecarrier) is currently available only in English  
 *   We have a simple code of conduct that should be adhered to
 
 ## Steps in Contributing to Kubermatic KubeCarrier
