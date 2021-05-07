@@ -7,4 +7,4 @@ chapter = true
 
 # Guides 
 
-
+This section contains guides on the various ways of installing KKP to your cluster. It also contains guides on networking, platform security, using service accounts and addons.

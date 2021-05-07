@@ -7,4 +7,4 @@ chapter = true
 
 # References 
 
-
+This section contains a reference of the Kubermatic REST API.

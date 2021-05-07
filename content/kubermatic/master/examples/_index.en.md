@@ -7,4 +7,4 @@ chapter = true
 
 # Examples 
 
-
+This section contains examples of using the KKP. such as to manage the worker nodes in your cluster or deploy your application to the cluster.
