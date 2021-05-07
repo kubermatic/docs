@@ -7,7 +7,7 @@ chapter = true
 
 ## Tutorials & How-tos 
 
-This section contains `tutorials and "how-tos` that will show you how to execute basic tasks with your KKP cluster.
+This section contains `tutorials` that will show you how to execute basic tasks with your KKP cluster.
 
 You will learn how to work with the Kubermatic UI dashboard and to prepare new themes for it.
 
