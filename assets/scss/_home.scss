@@ -118,6 +118,12 @@
   }
 }
 
+.tiles--centered {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
 .section--dark-blue {
   color: var(--WHITE-color);
   background-color: var(--MAIN-HEADER-color);
