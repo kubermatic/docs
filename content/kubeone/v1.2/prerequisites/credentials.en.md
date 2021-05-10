@@ -204,8 +204,8 @@ For the Terraform reference, please take a look at
 
 | Environment Variable | Description                         |
 | -------------------- | ----------------------------------- |
-| `VSPHERE_ADDRESS`    | The address of the vSphere instance |
-| `VSPHERE_USERNAME`   | The username of the vSphere user    |
+| `VSPHERE_SERVER`     | The address of the vSphere instance |
+| `VSPHERE_USER`       | The username of the vSphere user    |
 | `VSPHERE_PASSWORD`   | The password of the vSphere user    |
 
 #
@@ -228,8 +228,8 @@ cloud-config contains secrets and you want to keep secrets in a different file.
 The credentials file can look like the following one:
 
 ```yaml
-VSPHERE_ADDRESS: "<<VSPHERE_ADDRESS>>"
-VSPHERE_USERNAME: "<<VSPHERE_USERNAME>>"
+VSPHERE_SERVER: "<<VSPHERE_SERVER>>"
+VSPHERE_USER: "<<VSPHERE_USER>>"
 VSPHERE_PASSWORD: "<<VSPHERE_PASSWORD>>"
 cloudConfig: |
     <<VSPHERE_CLOUD_CONFIG>>
