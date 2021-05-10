@@ -329,8 +329,8 @@ For the Terraform reference, please take a look at
 
 | Environment Variable | Description                         |
 | -------------------- | ----------------------------------- |
-| `VSPHERE_ADDRESS`    | The address of the vSphere instance |
-| `VSPHERE_USERNAME`   | The username of the vSphere user    |
+| `VSPHERE_SERVER`     | The address of the vSphere instance |
+| `VSPHERE_USER`       | The username of the vSphere user    |
 | `VSPHERE_PASSWORD`   | The password of the vSphere user    |
 
 #
