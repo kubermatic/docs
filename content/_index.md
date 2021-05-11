@@ -10,19 +10,19 @@ title = "How Do I Contribute To ...?"
 #  title = "Documentation"
 
   [[contribution.links]]
-  url = "https://docs.kubermatic.com/kubeone/master/tutorials/how_to_contribute_to_kubeone/"
+  url = "https://docs.kubermatic.com/kubeone/v1.2/how_to_contribute_to_kubeone/"
   [contribution.links.image]
   src = "/img/KubeOne-logo.svg"
   alt = ""
 
   [[contribution.links]]
-  url = "https://docs.kubermatic.com/kubermatic/master/tutorials_howtos/how_to_contribute_to_kkp/"
+  url = "https://docs.kubermatic.com/kubermatic/v2.17/tutorials_howtos/how_to_contribute_to_kkp/"
   [contribution.links.image]
   src = "/img/KubermaticKubernetesPlatform-logo.svg"
   alt = ""
 
  [[contribution.links]]
-  url = "https://docs.kubermatic.com/kubecarrier/master/tutorials_howtos/how_to_contribute_to_kubecarrier/"
+  url = "https://docs.kubermatic.com/kubecarrier/v0.3/tutorials_howtos/how_to_contribute_to_kubecarrier/"
   [contribution.links.image]
   src = "/img/KubeCarrier-logo.svg"
   alt = ""
