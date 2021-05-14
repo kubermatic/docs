@@ -7,4 +7,4 @@ chapter = true
 
 ## Examples 
 
-This section contains examples of how to manage worker's nodes in your cluster as well as deploying your application to the cluster using KKP.
+This section contains examples of how to manage worker's nodes in your cluster as well as how to deploy your application to the cluster using KKP.
