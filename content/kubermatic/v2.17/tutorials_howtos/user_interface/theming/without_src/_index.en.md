@@ -14,7 +14,7 @@ We'll describe here two possible ways of downloading enabled themes.
 2. Open `Developer tools` and navigate to `Sources` tab.
 3. There should be a CSS file of a currently selected theme available to be downloaded inside `assts/themes` directory.
 
-![Dev tools](/img/kubermatic/v2.17/ui/developer_tools.png?height=300px&classes=shadow,border "Dev tools")
+![Dev tools](/img/kubermatic/master/ui/developer_tools.png?height=300px&classes=shadow,border "Dev tools")
 
 #### Download Themes Directly From the KKP Dashboard container
 Assuming that you know how to exec into the container and copy resources from/to it, themes can be simply copied over to your machine

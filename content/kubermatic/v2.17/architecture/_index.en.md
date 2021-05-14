@@ -2,10 +2,7 @@
 title = "Architecture"
 date = 2020-02-10T11:07:15+02:00
 weight = 10
-chapter = true
 +++
-
-## Architecture
 
 This section contains information about the architecture of KKP clusters, such as the hardware requirements for the master cluster.
 

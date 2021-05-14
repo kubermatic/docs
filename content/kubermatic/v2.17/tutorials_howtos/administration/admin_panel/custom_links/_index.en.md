@@ -7,7 +7,7 @@ weight = 20
 Custom Links section in the Admin Panel allows user to control the way custom links are displayed in the Kubermatic
 Dashboard. Choose the place that suits you best, whether it is a sidebar, footer or a help & support panel.
 
-![Admin Panel](/img/kubermatic/v2.17/ui/custom_links.png?height=250px&classes=shadow,border "Custom Links Settings")
+![Admin Panel](/img/kubermatic/master/ui/custom_links.png?height=250px&classes=shadow,border "Custom Links Settings")
 
 - ### [Managing Custom Links](#managing-custom-links)
 - ### [API Documentation](#api-documentation)
@@ -30,9 +30,9 @@ performing any changes.
 After enabling API documentation checkbox `API Documentation` link will be shown in the KKP UI help panel. It links to
 the KKP API documentation.
 
-![Help Panel](/img/kubermatic/v2.17/ui/help_panel.png?height=250px&classes=shadow,border "Help Panel")
+![Help Panel](/img/kubermatic/master/ui/help_panel.png?height=250px&classes=shadow,border "Help Panel")
 
-![API Documentation](/img/kubermatic/v2.17/ui/api_docs.png?height=250px&classes=shadow,border "API Documentation")
+![API Documentation](/img/kubermatic/master/ui/api_docs.png?height=250px&classes=shadow,border "API Documentation")
 
 ## Terms of Service
 After enabling terms of service checkbox `Terms of Service` link will be shown in the KKP UI footer. It links to the

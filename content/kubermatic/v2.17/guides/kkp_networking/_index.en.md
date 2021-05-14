@@ -6,3 +6,5 @@ weight = 20
 +++
 
 ## Networking in KKP 
+
+This section provides guides on networking in KKP.
