@@ -11,4 +11,4 @@ This section contains information about the architecture of KKP clusters, such a
 
 In KKP Components Versioning, you can learn about which versions of the KKP components are used in the latest release.
 
-You can also learn the concepts differences between KKP and Kubeone.
+You can also learn the differences in concepts between KKP and Kubeone.
