@@ -7,5 +7,4 @@ chapter = true
 
 # Cheat sheets 
 
-
-This section contains some quick How-Tos resources that help in simplifying certain tasks such as debugging, or etcd-specific task such as restoring etcd from backup.
+This section contains some quick How-To resources that help in simplifying certain tasks such as debugging, or etcd-specific tasks such as restoring etcd from backup.
