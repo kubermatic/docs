@@ -5,6 +5,6 @@ weight = 50
 chapter = true
 +++
 
-# Examples 
+## Examples 
 
-
+This section contains examples of how to manage worker's nodes in your cluster as well as how to deploy your application to the cluster using KKP.
