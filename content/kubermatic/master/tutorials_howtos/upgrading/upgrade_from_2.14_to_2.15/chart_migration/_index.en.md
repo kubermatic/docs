@@ -138,7 +138,7 @@ in the Seeds.
 ```
 
 Refer to the [KubermaticConfiguration]({{< ref "../../../../tutorials_howtos/kkp_configuration" >}}) and
-[Seed]({{< ref "../../../../architecture/kkp_clusters/seed_cluster" >}}) documentation for more information.
+[Seed]({{< ref "../../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}}) documentation for more information.
 
 Once the conversion is completed, carefully check the new configuration files for mistakes. Do
 note that the installer generally does not output default values, so if you configured for example
