@@ -5,6 +5,6 @@ weight = 30
 chapter = true
 +++
 
-# Guides 
+## Guides 
 
 This section contains guides on the various ways of installing KKP to your cluster. It also contains guides on networking, platform security, using service accounts and addons.

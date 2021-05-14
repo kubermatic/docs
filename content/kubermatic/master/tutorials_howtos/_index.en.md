@@ -5,10 +5,10 @@ weight = 20
 chapter = true
 +++
 
-# Tutorials & How-tos 
+## Tutorials & How-tos 
 
-This section contains tutorials and how-tos that will show you how to execute basic tasks with your KKP cluster.
+This section contains `tutorials` that will show you how to execute basic tasks with your KKP cluster.
 
-You can learn how to work with the Kubermatic UI dashboard and how to prepare new themes for it.
+You will learn how to work with the Kubermatic UI dashboard and to prepare new themes for it.
 
-In Operation, you have helpful how-tos on how to scale or upgrade the control plane during runtime, or how to customize monitoring, logging and alerting.
+In Operation, you have helpful `how-tos` on how to scale or upgrade the control plane during runtime, as well as how to customize `monitoring, logging and alerting.`

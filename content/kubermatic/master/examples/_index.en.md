@@ -5,6 +5,6 @@ weight = 50
 chapter = true
 +++
 
-# Examples 
+## Examples 
 
-This section contains examples of using the KKP. such as to manage the worker nodes in your cluster or deploy your application to the cluster.
+This section contains examples of how to manage worker's nodes in your cluster as well as deploying your application to the cluster using KKP.
