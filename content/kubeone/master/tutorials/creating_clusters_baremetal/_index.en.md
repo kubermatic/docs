@@ -63,7 +63,7 @@ Make sure to adhere to the requirements described in the [Infrastructure Managem
 
 Below, you can find a diagram that shows how KubeOne works.
 
-{{< figure src="architecture.png" height="577" width="750" >}}
+{{< figure src="../creating_clusters/architecture.png" height="577" width="750" >}}
 
 ## Default Configuration
 
@@ -84,7 +84,7 @@ clusters
 
 It's possible to configure which components are installed and how they are
 configured by adjusting the KubeOne configuration manifest that we'll create
-later in the Step 5 (Provisioning The Cluster). To see possible configuration
+later in the Step 3 (Provisioning The Cluster). To see possible configuration
 options, refer to the configuration manifest reference which can be obtained
 by running `kubeone config print --full`.
 
@@ -125,7 +125,12 @@ installation methods.
 
 With KubeOne installed and the environment configured, we're ready to create the infrastructure for our cluster.
 Because we are not using any provider, it is up to you, to create the necessary infrastructure.
-Please refer to the [Infrastructure Management][infrastructure-management], for the requirements.
+Please refer to the [Infrastructure Management][infrastructure-management] for the requirements.
+You need to provide Infrastructure for both the control-plane and the worker nodes.
+
+
+Usually the Kubermatic machine-controller would take care of the worker node management.
+However, without a provider we can not make use of it.
 
 For the following steps we assume that the required infrastructure is in place and ssh access is ensured.
 More information about ssh requirements and configuration can be found in the [Configuring SSH][configuring-ssh] guide.
@@ -136,10 +141,10 @@ Now that we have the infrastructure, we can use KubeOne to provision a Kubernete
 
 The first step is to create a KubeOne configuration manifest that describes how
 the cluster will be provisioned, which Kubernetes version will be used,
-and more. You can run `kubeone config print --full` for an example configuration.
+and more. To see possible configuration options reference, you can run `kubeone config print --full`.
 
 For a bare metal deployment we need to set the `cloudProvider` to `none: {}`.
-In order to prevent KubeOne from deploying the Kubermatic Machine Controller, which requires a cloud provider, set `machineController` to `deploy: false`.
+In order to prevent KubeOne from deploying the Kubermatic machine controller, which requires a cloud provider, set `machineController` to `deploy: false`.
 Next we need to define our control-plane and worker nodes, referenced as [staticWorkers][static-workers], in the KubeOneCluster configuration.
 Furthermore, the `apiEndpoint` needs to be set to a load balancer or to the first control-plane node.
 You can find more information about load balancing at [HA load balancing][ha-load-balancing].
@@ -250,7 +255,7 @@ INFO[11:47:17 CEST] Joining worker node                           node=172.31.22
 
 At this point, your cluster is fully provisioned.
 
-## Step 6 — Configuring The Cluster Access
+## Step 4 — Configuring The Cluster Access
 
 KubeOne automatically downloads the Kubeconfig file for the cluster. It's named
 as **\<cluster_name>-kubeconfig**. You can use it with kubectl such as:
