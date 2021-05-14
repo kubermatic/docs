@@ -5,7 +5,7 @@ weight = 10
 chapter = true
 +++
 
-## Architecture
+# Architecture
 
 This section contains information about the architecture of KKP clusters, such as the hardware requirements for the master cluster.
 
