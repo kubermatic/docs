@@ -4,7 +4,7 @@ date = 2021-04-24T15:00:15+02:00
 weight = 25
 +++
 
-# Contributing to KKP
+## Contributing to KKP
 
 KKP is an open-source project to centrally manage the global automation of thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Therefore, contributors in different areas but not limited to project automation, code review, tooling, documentation, testing etc., for the holistic improvement of the KKP project is highly welcomed. Kubermatic projects are [Apache 2.0 licensed](https://github.com/kubermatic/kubermatic/blob/master/LICENSE) and accept contributions via GitHub pull requests from interested contributors. This document outlines some of the conventions on development workflow, contributor's notes, contributing steps, contact points and other resources to make your contribution to the projects felicitous.
 

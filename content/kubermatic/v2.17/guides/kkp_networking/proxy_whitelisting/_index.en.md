@@ -133,7 +133,7 @@ login.microsoftonline.com
 ```
 
 ### vSphere
-API Endpoint URL of all targeted vCenters specified in [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../../architecture/kkp_clusters/seed_cluster" >}}), e.g. `vcenter.example.com`.
+API Endpoint URL of all targeted vCenters specified in [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}}), e.g. `vcenter.example.com`.
 
 
 ## KubeOne Seed Cluster Setup

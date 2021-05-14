@@ -7,7 +7,7 @@ date = 2019-04-27T16:06:34+02:00
 ![Kubermatic Kubernetes Platform logo](./img/KubermaticKubernetesPlatform-logo.jpg)
 
 
-# What is Kubermatic Kubernetes Platform (KKP)?
+## What is Kubermatic Kubernetes Platform (KKP)?
 
 KKP is one enterprise Kubernetes management platform for any infrastructure. KKP automates thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Deploy, manage and run multiple Kubernetes clusters with our production-proven platform on your preferred infrastructure.
 
