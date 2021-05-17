@@ -3,7 +3,7 @@ title = "[Experimental] Etcd Launcher"
 weight = 30
 +++
 
-Starting with version v2.15.0, KPP introduced etcd-launcher as an experimental feature. Etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KPP API and flexibly control how the user cluster etcd ring is started.
+Starting with version v2.15.0, KKP introduced etcd-launcher as an experimental feature. Etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KKP API and flexibly control how the user cluster etcd ring is started.
 
 ### Spec updates
 Prior to v2.15.0, user cluster etcd ring was based on a static StatefulSet with 3 pods running the etcd ring nodes.
@@ -45,7 +45,7 @@ Next, simply apply the updated CRD:
 $ kubectl apply -f kubermatic_config.yaml
 ```
 
-This will update the KPP Operator Deployment and enable etcd-launcher for all users clusters.
+This will update the KKP Operator Deployment and enable etcd-launcher for all users clusters.
 
 {{% notice note %}}
 Once the seed controller manager is reloaded, all users clusters will get upgraded to use etcd-launcher. In seed clusters with a large number of user clusters, this might take some time depending on the applied `-max-parallel-reconcile` value (default is 10). Refer to the [Prepare for Reconciliation Load]({{< ref "../../../tutorials_howtos/upgrading" >}}) section for more information.

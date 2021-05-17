@@ -16,9 +16,9 @@ $ kubectl edit user ...
 After logging in to the dashboard with an administrator you should be able to access the admin panel from the menu up
 top.
 
-![](/img/kubermatic/v2.17/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
+![](/img/kubermatic/master/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
 
-![](/img/kubermatic/v2.17/ui/panel.png?height=350px&classes=shadow,border "Admin Panel")
+![](/img/kubermatic/master/ui/panel.png?height=350px&classes=shadow,border "Admin Panel")
 
 The Admin Panel offers a wide set of features including but not limited to:
 
