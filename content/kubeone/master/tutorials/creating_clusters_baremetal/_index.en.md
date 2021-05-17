@@ -6,9 +6,11 @@ enableToc = true
 +++
 
 In this tutorial, we're going to show how to use Kubermatic KubeOne to create
-a highly-available Kubernetes cluster on bare metal without the usage of any provider. The tutorial covers downloading KubeOne
-and setting up an example environment, and finally, provisioning a cluster using KubeOne.
+a highly-available Kubernetes cluster on providers that are not natively-supported. The tutorial covers downloading KubeOne, and provisioning a cluster using KubeOne.
 As a result, you'll get a production-ready and Kubernetes/CNCF compliant cluster.
+
+To find out weather your provider is supported checkout the [Supported providers][compatibility-providers] section.
+If you are able to use a provider, have a look at the [creating clusters][creating-clusters] tutorial.
 
 ## Prerequisites
 
@@ -31,13 +33,12 @@ the box. Generally, KubeOne runs the following tasks:
 * create worker nodes by creating the appropriate MachineDeployment object(s)
 
 {{% notice note %}}
-To use the machine-controller and though the MachineDeployment, a configured provider is required.
-Therefore, we are disabling the machine-controller and need to create the worker nodes manually.
+Kubermatic machine-controller works only on [natively-supported providers]({{< ref "../../architecture/compatibility#supported-providers" >}}), so we can't use it for bare metal setups. Instead, we'll create worker nodes manually and use the KubeOne Static Worker Nodes feature to provision those worker nodes.
 {{% /notice %}}
 
 ### Infrastructure Management
 
-The infrastructure for the control plane and worker nodes, is created by the user.
+The infrastructure for the control plane and worker nodes is created by the user.
 
 Once the infrastructure is created, the user provides information about the instances that will be used and
 the load balancer that's running in the front of the control plane nodes.
@@ -55,7 +56,7 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, OpenStack, Packet, and VMware vSphere), and is covered in [creating-clusters].
+Hetzner Cloud, OpenStack, Packet, and VMware vSphere), and is covered in [Creating a Kubernetes cluster tutorial][creating-clusters].
 
 This tutorial focuses on bare metal without the usage of any provider to create the required infrastructure.
 Therefore, you need to create the required infrastructure on your own.
@@ -123,33 +124,31 @@ installation methods.
 
 ## Step 2 — Creating The Infrastructure
 
-With KubeOne installed and the environment configured, we're ready to create the infrastructure for our cluster.
-Because we are not using any provider, it is up to you, to create the necessary infrastructure.
-Please refer to the [Infrastructure Management][infrastructure-management] for the requirements.
+With KubeOne installed, we're ready to create the infrastructure for our cluster.
+Because we are not using any provider, it is up to you to create the necessary infrastructure.
+Please refer to the [Infrastructure Management document][infrastructure-management] for the requirements.
 You need to provide Infrastructure for both the control-plane and the worker nodes.
 
 
-Usually the Kubermatic machine-controller would take care of the worker node management.
+Usually the Kubermatic machine-controller would take care of managing the worker nodes.
 However, without a provider we can not make use of it.
 
-For the following steps we assume that the required infrastructure is in place and ssh access is ensured.
-More information about ssh requirements and configuration can be found in the [Configuring SSH][configuring-ssh] guide.
-
+For the following steps, we assume that the required infrastructure is in place and SSH access is ensured.
+More information about SSH requirements and configuration can be found in the [Configuring SSH][configuring-ssh] guide.
 ## Step 3 — Provisioning The Cluster
 
 Now that we have the infrastructure, we can use KubeOne to provision a Kubernetes cluster.
 
-The first step is to create a KubeOne configuration manifest that describes how
-the cluster will be provisioned, which Kubernetes version will be used,
+The first step is to create a KubeOne configuration manifest that contains a list of instances that will be used, and that describes how the cluster will be provisioned, which Kubernetes version will be used,
 and more. To see possible configuration options reference, you can run `kubeone config print --full`.
 
-For a bare metal deployment we need to set the `cloudProvider` to `none: {}`.
-In order to prevent KubeOne from deploying the Kubermatic machine controller, which requires a cloud provider, set `machineController` to `deploy: false`.
-Next we need to define our control-plane and worker nodes, referenced as [staticWorkers][static-workers], in the KubeOneCluster configuration.
-Furthermore, the `apiEndpoint` needs to be set to a load balancer or to the first control-plane node.
+For clusters running on providers that are not natively-supported (e.g. bare metal), we need to set the `cloudProvider` to `none: {}`.
+In order to prevent KubeOne from deploying the Kubermatic machine-controller, which requires a cloud provider, set `machineController` to `deploy: false`.
+Next, we need to define our control plane and worker nodes, referenced as [staticWorkers][static-workers], in the KubeOneCluster configuration.
+Furthermore, the `apiEndpoint` needs to be set to a load balancer or the first control plane node.
 You can find more information about load balancing at [HA load balancing][ha-load-balancing].
 
-Below you find an example reference about the minimum necessary information, for a bare metal deployment.
+Below you find an example reference about the minimum necessary information for a bare metal deployment.
 
 ```yaml
 apiVersion: kubeone.io/v1beta1
