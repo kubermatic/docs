@@ -7,17 +7,16 @@ weight = 7
 
 ## KubeVirt
 Once KubeVirt is installed as what the [official documentation](https://kubevirt.io/quickstart_cloud/) guides, a few
-steps should be followed in order to use KubeVirt with KKP.
-
+steps should be followed in order to use KubeVirt with machine-controller.
 
 [comment]: <> (Todo: not sure about this)
-### StorageClass Requirements
-KKP uses [Containerized Data Importer](https://github.com/kubevirt/containerized-data-importer) (CDI) to import images and
+### Storage Requirements
+The machine-controller uses [Containerized Data Importer](https://github.com/kubevirt/containerized-data-importer) (CDI) to import images and
 provision volumes to launch the VMs. The data can come from different sources: a URL, a container registry, or an upload from a client.
 
 [comment]: <> (Todo: not sure about this)
 ### KubeVirt Operator and Containerized Data Importer Version
-KKP supports KubeVirt Operator >= 0.19.0 and the Containerized Data Importer >= v1.19.0. There are no hard requirements
+The machine-controller supports KubeVirt Operator >= 0.19.0 and the Containerized Data Importer >= v1.19.0. There are no hard requirements
 to run KubeVirt, however a Kubernetes cluster consists of 3 nodes with 2 CPUs, 4GB of RAM and 30GB of storage, to have a
 minimal installation.
 
