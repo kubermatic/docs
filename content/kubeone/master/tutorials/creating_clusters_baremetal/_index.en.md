@@ -194,10 +194,10 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne version | 1.20       | 1.19 | 1.18 | 1.17 |
-| --------------- | ---------- | ---- | ---- | ---- |
-| v1.2+         | ✓ | ✓    | ✓    | -   |
-| v1.0+         | - | ✓    | ✓    | ✓\*\*   |
+| KubeOne version | 1.21       | 1.20       | 1.19 | 1.18 | 1.17 |
+| --------------- | ---------- | ---------- | ---- | ---- | ---- |
+| v1.2+           | ✓ | ✓ | ✓    | ✓    | -   |
+| v1.0+           | - | - | ✓    | ✓    | ✓\*\*   |
 
 \*\* Kubernetes 1.17 has reached End-of-Life (EOL) and is not recommended
 for new clusters
