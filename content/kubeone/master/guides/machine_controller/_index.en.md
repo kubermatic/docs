@@ -160,5 +160,5 @@ otherwise, your changes can get overwritten the next time you run KubeOne.
 [machine-deployments]: {{< ref "../../architecture/concepts#machinedeployments" >}}
 [supported-providers]: {{< ref "../../architecture/compatibility#supported-providers" >}}
 [static-workers]: {{< ref "../static_workers" >}}
-[terraform-integration]: {{< ref "../../architecture/infrastructure_management/#terraform-integration" >}}
+[terraform-integration]: {{< ref "../../architecture/requirements/infrastructure_management/#terraform-integration" >}}
 [terraform-integration-workers]: {{< ref "../../references/terraform_integration/#kubeone_workers-reference" >}}

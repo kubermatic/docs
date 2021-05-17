@@ -190,5 +190,5 @@ may cause all resources to be recreated causing the **data loss**!
 [gobetween]: http://gobetween.io/
 [configuring-ssh]: {{< ref "../ssh" >}}
 [configuring-ssh-noagent]: {{< ref "../ssh#option-2-specify-private-key-in-the-terraform-output" >}}
-[infrastructure-management]: {{< ref "../../architecture/infrastructure_management" >}}
+[infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure_management" >}}
 [compatibility]: {{< ref "../../architecture/compatibility" >}}

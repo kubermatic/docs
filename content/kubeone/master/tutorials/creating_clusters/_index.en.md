@@ -799,7 +799,7 @@ and recommendations.
 
 [compatibility-providers]: {{< ref "../../architecture/compatibility#supported-providers" >}}
 [static-workers]: {{< ref "../../guides/static_workers" >}}
-[infrastructure-management]: {{< ref "../../architecture/infrastructure_management" >}}
+[infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure_management" >}}
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server
 [nodelocaldns]: https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
 [machine-controller]: {{< ref "../../guides/machine_controller" >}}
