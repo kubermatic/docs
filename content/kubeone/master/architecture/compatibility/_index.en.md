@@ -27,11 +27,10 @@ support policy in the [Version Skew Policy document][upstream-supported-versions
 In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
-
-| KubeOne version | 1.20       | 1.19 | 1.18 | 1.17 |
-| --------------- | ---------- | ---- | ---- | ---- |
-| v1.2+         | ✓ | ✓    | ✓    | -   |
-| v1.0+         | - | ✓    | ✓    | ✓*   |
+| KubeOne version | 1.21       | 1.20       | 1.19 | 1.18 | 1.17 |
+| --------------- | ---------- | ---------- | ---- | ---- | ---- |
+| v1.2+           | ✓ | ✓ | ✓    | ✓    | -   |
+| v1.0+           | - | - | ✓    | ✓    | ✓\*   |
 
 \* Kubernetes 1.17 has reached End-of-Life (EOL) and is not recommended
 for new clusters.
