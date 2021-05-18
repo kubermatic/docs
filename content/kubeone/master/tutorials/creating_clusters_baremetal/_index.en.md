@@ -131,8 +131,7 @@ installation methods.
 
 With KubeOne installed, we're ready to create the infrastructure for our cluster.
 Because we are not using any provider, it is up to you to create the necessary infrastructure.
-Please refer to the [Infrastructure Management document][infrastructure-management] for the requirements.
-You need to provide Infrastructure for both the control plane and the worker nodes.
+Below you can find the infrastructure requirements and recommendations for control plane and worker nodes.
 
 ### Infrastructure For Control Plane
 
@@ -200,8 +199,7 @@ plane instances:
   * The following ports open: `10250`, and optionally `30000-32767` for
     NodePort Services
 * You must have an SSH key deployed on all control plane instances and
-  SSH configured as described in the [Configuring SSH][ssh] document
-
+  SSH configured as described in the [Configuring SSH][configuring-ssh] document
 
 
 Usually the Kubermatic machine-controller would take care of managing the worker nodes.
