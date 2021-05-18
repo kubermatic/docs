@@ -134,12 +134,79 @@ Because we are not using any provider, it is up to you to create the necessary i
 Please refer to the [Infrastructure Management document][infrastructure-management] for the requirements.
 You need to provide Infrastructure for both the control plane and the worker nodes.
 
+### Infrastructure For Control Plane
+
+The following infrastructure requirements **must** be satisfied to successfully
+provision a Kubernetes cluster using KubeOne:
+
+* You need the appropriate number of instances dedicated for the control plane
+  * You need **even** number of instances with a minimum of **three** instances
+    for the Highly-Available control plane
+  * If you decide to use a single-node control plane instead, one instance is
+    enough, however, highly-available control plane is highly advised,
+    especially in the production environments
+* All control plane instances must satisfy the
+  [system requirements for a kubeadm cluster][kubeadm-sysreq]
+  * Minimum 2 vCPUs
+  * Minimum 2 GB RAM
+  * Operating system must be a [officially-supported by KubeOne][supported-os]
+    (Ubuntu, Debian, CentOS, RHEL, Flatcar Linux)
+  * Full network connectivity between all machines in the cluster
+    (private network is recommended, but public is supported as well)
+  * Unique hostname, MAC address, and product_uuid for every node
+    * You can get the MAC address of the network interfaces using the command
+      `ip link` or `ifconfig -a`
+    * The product_uuid can be checked by using the command
+      `sudo cat /sys/class/dmi/id/product_uuid`
+  * Swap disabled. You MUST disable swap in order for the kubelet to work
+    properly.
+  * The following ports open: `6443`, `2379`, `2380`, `10250`, `10251`, `10252`
+* For highly-available control plane, a load balancer pointing to the
+  control plane instances (the Kubernetes API server) is required
+  * Load balancer must include all control plane instances and distribute
+    traffic to the TCP port 6443 (default port of the Kubernetes API server)
+  * It's recommended to use a provider's offering for load balancers if such is
+    available
+  * If provider doesn't offer load balancer, you can create an instance and
+    setup a solution such as HAProxy
+  * Check out the [Load Balancer for Highly-Available Cluster example][ha-load-balancing]
+    to learn more about possible setups
+* You must have an SSH key deployed on all control plane instances and
+  SSH configured as described in the [Configuring SSH][configuring-ssh] document
+
+Depending on the environment, you may need additional objects, such as VPCs,
+firewall rules, or images.
+
+### Infrastructure For Worker Nodes
+
+The requirements for the worker istances are similar as for the control
+plane instances:
+
+* All instances must satisfy the
+  [system requirements for a kubeadm cluster][kubeadm-sysreq]
+  * Minimum 2 vCPUs
+  * Minimum 2 GB RAM
+  * Operating system must be a [officially-supported by KubeOne][supported-os]
+    (Ubuntu, Debian, CentOS, RHEL, Flatcar Linux)
+  * Full network connectivity between all machines in the cluster
+    (private network is recommended, but public is supported as well)
+  * Unique hostname, MAC address, and product_uuid for every node
+    * You can get the MAC address of the network interfaces using the command
+      `ip link` or `ifconfig -a`
+    * The product_uuid can be checked by using the command
+      `sudo cat /sys/class/dmi/id/product_uuid`
+  * Swap disabled. You MUST disable swap in order for the kubelet to work
+    properly.
+  * The following ports open: `10250`, and optionally `30000-32767` for
+    NodePort Services
+* You must have an SSH key deployed on all control plane instances and
+  SSH configured as described in the [Configuring SSH][ssh] document
+
+
 
 Usually the Kubermatic machine-controller would take care of managing the worker nodes.
 However, without a provider we can not make use of it.
-
 For the following steps, we assume that the required infrastructure is in place and SSH access is ensured.
-More information about SSH requirements and configuration can be found in the [Configuring SSH][configuring-ssh] guide.
 
 ## Step 3 — Provisioning The Cluster
 
@@ -334,3 +401,5 @@ and recommendations.
 [create-cluster-oidc]: {{< ref "../creating_clusters_oidc" >}}
 [configuring-ssh]: {{< ref "../../guides/ssh" >}}
 [ha-load-balancing]: {{< ref "../../examples/ha_load_balancing" >}}
+[supported-os]: {{< ref "../../architecture/compatibility#supported-operating-systems" >}}
+[kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
