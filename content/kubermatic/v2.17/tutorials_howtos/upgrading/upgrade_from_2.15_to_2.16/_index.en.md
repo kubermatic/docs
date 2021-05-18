@@ -1,7 +1,7 @@
 +++
 title = "Upgrading from 2.15 to 2.16"
 date = 2021-02-03T11:09:15+01:00
-weight = 90
+weight = 95
 
 +++
 
