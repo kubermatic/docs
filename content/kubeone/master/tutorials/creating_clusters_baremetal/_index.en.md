@@ -9,8 +9,13 @@ In this tutorial, we're going to show how to use Kubermatic KubeOne to create
 a highly-available Kubernetes cluster on providers that are not natively-supported. The tutorial covers downloading KubeOne, and provisioning a cluster using KubeOne.
 As a result, you'll get a production-ready and Kubernetes/CNCF compliant cluster.
 
-To find out weather your provider is supported checkout the [Supported providers][compatibility-providers] section.
-If you are able to use a provider, have a look at the [creating clusters][creating-clusters] tutorial.
+This tutorial could be used in the following scenarios:
+
+* Provisioning a cluster on providers that are not [natively-supported][compatibility-providers] (e.g. on bare metal or edge).
+* Provisioning a cluster on a natively-supported provider, but you don't want to use Terraform.
+* Creating a Raspberry Pi cluster
+  
+If you are able to use a provider, have a look at the [creating clusters][creating-clusters] tutorial, as this is the recommended approach.
 
 ## Prerequisites
 
@@ -127,7 +132,7 @@ installation methods.
 With KubeOne installed, we're ready to create the infrastructure for our cluster.
 Because we are not using any provider, it is up to you to create the necessary infrastructure.
 Please refer to the [Infrastructure Management document][infrastructure-management] for the requirements.
-You need to provide Infrastructure for both the control-plane and the worker nodes.
+You need to provide Infrastructure for both the control plane and the worker nodes.
 
 
 Usually the Kubermatic machine-controller would take care of managing the worker nodes.
@@ -135,6 +140,7 @@ However, without a provider we can not make use of it.
 
 For the following steps, we assume that the required infrastructure is in place and SSH access is ensured.
 More information about SSH requirements and configuration can be found in the [Configuring SSH][configuring-ssh] guide.
+
 ## Step 3 — Provisioning The Cluster
 
 Now that we have the infrastructure, we can use KubeOne to provision a Kubernetes cluster.
@@ -290,6 +296,7 @@ ip-172-31-222-48.eu-west-3.compute.internal    Ready    master   41m   v1.20.4
 ip-172-31-223-103.eu-west-3.compute.internal   Ready    <none>   38m   v1.20.4
 ip-172-31-224-178.eu-west-3.compute.internal   Ready    <none>   38m   v1.20.4
 ```
+
 ## Conclusion
 
 Congratulations!!! You have successfully provisioned a Kubernetes cluster using
