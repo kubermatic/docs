@@ -22,7 +22,7 @@ example Terraform configs can be found in the [KubeOne's GitHub repository][terr
 {{% notice note %}}
 The example Terraform configurations are optimized for the CI and might not
 be production-ready out of the box. We advise checking the
-[Production Recommendations][production-recommendations]
+[Production Recommendations]({{< ref "../../../cheat_sheets/production_recommendations" >}})
 document for more details about making the example configurations suitable for
 the production usage.
 {{% /notice %}}

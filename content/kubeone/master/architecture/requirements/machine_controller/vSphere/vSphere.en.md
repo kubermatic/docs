@@ -5,6 +5,14 @@ weight = 7
 
 +++
 
+## vSphere
+
+
+{{% notice note %}}
+Permissions listed here are permission required by the Kubermatic machine-controller. Terraform, and components deployed by KubeOne (such as external cloud-controller-manager) might require additional permissions.
+{{% /notice %}}
+
+
 ### VM Images
 
 When creating worker nodes for a user cluster, the user can specify an existing image.

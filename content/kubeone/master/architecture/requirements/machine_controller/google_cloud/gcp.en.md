@@ -7,6 +7,10 @@ weight = 7
 
 ## Google Cloud Platform
 
+{{% notice note %}}
+Permissions listed here are permission required by the Kubermatic machine-controller. Terraform, and components deployed by KubeOne (such as external cloud-controller-manager) might require additional permissions.
+{{% /notice %}}
+
 ### Compute Engine API
 
 For the access to the Compute Engine API it has to be enabled at the

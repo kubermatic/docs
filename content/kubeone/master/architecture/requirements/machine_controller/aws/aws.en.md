@@ -9,6 +9,10 @@ weight = 7
 
 Ensure that the user used by the machine-controller has (at least) the following IAM permissions:
 
+{{% notice note %}}
+Permissions listed here are permission required by the Kubermatic machine-controller. Terraform, and components deployed by KubeOne (such as external cloud-controller-manager) might require additional permissions.
+{{% /notice %}}
+
 ```json
 {
     "Version": "2012-10-17",

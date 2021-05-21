@@ -32,7 +32,7 @@ Kubermatic machine-controller works only with
 natively-supported, we highly recommend using machine-controller. Otherwise,
 you can use [KubeOne Static Workers][static-workers].
 
-For the required permissions of the machine-controller checkout the [cloud provider][provider-support-matrix] requirements section.
+For the required permissions of the machine-controller checkout the [machine-controller][machine-controller-requirements] requirements.
 
 ## Creating Initial Worker Nodes
 
@@ -164,4 +164,4 @@ otherwise, your changes can get overwritten the next time you run KubeOne.
 [static-workers]: {{< ref "../static_workers" >}}
 [terraform-integration]: {{< ref "../../architecture/requirements/infrastructure_management/#terraform-integration" >}}
 [terraform-integration-workers]: {{< ref "../../references/terraform_integration/#kubeone_workers-reference" >}}
-[provider-support-matrix]: {{< ref "../../architecture/requirements/provider_support_matrix" >}}
+[machine-controller-requirements]: {{< ref "../../architecture/requirements/machine_controller" >}}

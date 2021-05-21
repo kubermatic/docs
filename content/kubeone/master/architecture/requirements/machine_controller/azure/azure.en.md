@@ -9,6 +9,10 @@ weight = 7
 
 For provisioning Kubernetes clusters with the [Azure cloud provider](https://github.com/kubermatic/machine-controller/tree/master/pkg/cloudprovider/provider/azure) Kubermatic KubeOne needs a service account. Please follow the following steps to create a matching service account and the roles:
 
+{{% notice note %}}
+Permissions listed here are permission required by the Kubermatic machine-controller. Terraform, and components deployed by KubeOne (such as external cloud-controller-manager) might require additional permissions.
+{{% /notice %}}
+
 ### Login to Azure and Get Basic Information
 
 Login to Azure with [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) `az`.
@@ -61,7 +65,7 @@ Enter provider credentials using the values from step "Prepare Azure Environment
   - `Subscription ID`: your subscription ID
 
 ### Resources cleanup
-During the machines cleanup, if KKP's Machine-Controller failed to delete the Cloud Provider instance and the user deleted
-that instance manually, Machine-Controller won't be able to delete any referenced resources to that machine, such as Public 
+During the machines cleanup, if KKP's machine-controller failed to delete the Cloud Provider instance and the user deleted
+that instance manually, machine-controller won't be able to delete any referenced resources to that machine, such as Public 
 IPs, Disks and NICs. In that case, the user should cleanup those resources manually due to the fact that, Azure won't cleanup
 any attached resources to the deleted instance.  
