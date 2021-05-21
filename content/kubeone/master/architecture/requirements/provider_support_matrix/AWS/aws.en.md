@@ -7,7 +7,7 @@ weight = 7
 
 ## AWS
 
-Ensure that the user used by the machine controller has (at least) the following IAM permissions:
+Ensure that the user used by the machine-controller has (at least) the following IAM permissions:
 
 ```json
 {
