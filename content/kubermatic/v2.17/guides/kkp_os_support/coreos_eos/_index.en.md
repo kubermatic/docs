@@ -1,6 +1,6 @@
 +++
 title = "CoreOS End Of Support"
-date =  2021-04-22T13:53:56+02:00
+date =  2021-04-22T13:55:01+02:00
 weight = 10
 +++
 

@@ -17,11 +17,11 @@ PSP objects are cluster-level objects. They define a set of conditions that a po
 
 KKP provides support for enabling PSP during cluster creation using a simple switch:
 
-![Pod Security Policy Selection during Cluster Creation](/img/kubermatic/v2.17/ui/admission_plugins.png?height=400px&classes=shadow,border "Pod Security Policy Selection during Cluster Creation")
+![Pod Security Policy Selection during Cluster Creation](/img/kubermatic/master/ui/admission_plugins.png?height=400px&classes=shadow,border "Pod Security Policy Selection during Cluster Creation")
 
 For existing clusters, it's also possible to enable/disable PSP:
 
-![Edit Cluster](/img/kubermatic/v2.17/ui/psp_edit.png?classes=shadow,border "Edit Cluster")
+![Edit Cluster](/img/kubermatic/master/ui/psp_edit.png?classes=shadow,border "Edit Cluster")
 
 
 {{% notice note %}}
@@ -31,7 +31,7 @@ Activating Pod Security Policy will mean that a lot of Pod specifications, Opera
 ### Datacenter Level Support
 It is also possible to enforce enabling Pod Security Policies on the datacenter level. In this case, user cluster level configuration will be ignored, and PSP will be enabled for all user clusters in the datacenter.
 
-To enable this, you will need to update your [Seed Cluster CRD]({{< ref "../../../architecture/kkp_clusters/seed_cluster" >}}), and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
+To enable this, you will need to update your [Seed Cluster CRD]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}}), and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.
 
 {{% notice note %}}
 For legacy versions of KKP you will need to edit the `datacenters.yaml` file instead, and set `enforcePodSecurityPolicy` to `true` in the datacenter spec.

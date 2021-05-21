@@ -60,7 +60,7 @@ provision a Kubernetes cluster using KubeOne:
     traffic to the TCP port 6443 (default port of the Kubernetes API server)
   * It's recommended to use a provider's offering for load balancers if such is
     available
-  * If provider doesn't offer load balacners, you can create an instance and
+  * If provider doesn't offer load balancer, you can create an instance and
     setup a solution such as HAProxy
   * Check out the [Load Balancer for Highly-Available Cluster example][ha-lb-example]
     to learn more about possible setups
