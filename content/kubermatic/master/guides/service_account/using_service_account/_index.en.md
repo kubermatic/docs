@@ -37,14 +37,46 @@ You can also change a token name. It is possible to delete a service account tok
 You can see when a token was created and when will expire.
 
 ## Using service accounts with KKP
+Deleting a service account which was used in cluster creation does not affect the cluster, as the owner of the cluster
+is the user which created the service account.
 
- - You can create a cluster in the same project with different service accounts.
+You can control service account access in your project by provided groups.
+There are three basic access level groups:
+ - viewers
+ - editors
+ - project managers
 
- - You can grant `editor` or `viewer` roles to service accounts to define access group.
+#### Viewers
 
- - Deleting a service account which was used in cluster creation does not affect the cluster, as the owner of the cluster
-   is the user which created the service account.
+**A viewer can:**
+ - list projects
+ - get project details
+ - get project SSH keys
+ - list clusters 
+ - get cluster details
+ - get cluster resources details
 
+Permissions for read-only actions that do not affect state, such as viewing.
+ - viewers are not allowed to interact with service accounts (User)
+ - viewers are not allowed to interact with members of a project (UserProjectBinding)
+
+
+#### Editors
+
+**All viewer permissions, plus permissions to create, edit & delete cluster**
+ - editors are not allowed to delete a project
+ - editors are not allowed to interact with members of a project (UserProjectBinding)
+ - editors are not allowed to interact with service accounts (User)
+
+#### Project managers
+
+**The `project managers` is service account specific group. Which allows**
+
+ - create, edit & delete projects
+ - manage members in project (UserProjectBinding)
+ - mange service accounts
+
+Project managers are not allowed to interact with clusters.
 
 ## Accessing API via Service Account Token
 
