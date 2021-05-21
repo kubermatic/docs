@@ -3,6 +3,9 @@ title = "Infrastructure Management"
 date = 2021-02-10T12:00:00+02:00
 weight = 2
 enableToc = true
+aliases = [
+ "/kubeone/v1.3/architecture/infrastructure_management/"
+]
 +++
 
 This document describes some of the possible approaches for managing the 
@@ -19,7 +22,7 @@ example Terraform configs can be found in the [KubeOne's GitHub repository][terr
 {{% notice note %}}
 The example Terraform configurations are optimized for the CI and might not
 be production-ready out of the box. We advise checking the
-[Production Recommendations]({{< ref "../../cheat_sheets/production_recommendations" >}})
+[Production Recommendations]({{< ref "../../../cheat_sheets/production_recommendations" >}})
 document for more details about making the example configurations suitable for
 the production usage.
 {{% /notice %}}
@@ -60,7 +63,7 @@ provision a Kubernetes cluster using KubeOne:
     traffic to the TCP port 6443 (default port of the Kubernetes API server)
   * It's recommended to use a provider's offering for load balancers if such is
     available
-  * If provider doesn't offer load balacners, you can create an instance and
+  * If provider doesn't offer load balancer, you can create an instance and
     setup a solution such as HAProxy
   * Check out the [Load Balancer for Highly-Available Cluster example][ha-lb-example]
     to learn more about possible setups
@@ -142,14 +145,15 @@ The needed `output.tf` file already comes with all our
 {{% /notice %}}
 
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
-[ssh]: {{< ref "../../guides/ssh#sshd-requirements-on-instances" >}}
-[supported-providers]: {{< ref "../compatibility#supported-providers" >}}
-[supported-os]: {{< ref "../compatibility#supported-operating-systems" >}}
+[ssh]: {{< ref "../../../guides/ssh#sshd-requirements-on-instances" >}}
+[supported-providers]: {{< ref "../../compatibility#supported-providers" >}}
+[supported-os]: {{< ref "../../compatibility#supported-operating-systems" >}}
 [terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [machine-controller]: https://github.com/kubermatic/machine-controller
-[static-workers]: {{< ref "../../guides/static_workers" >}}
-[concepts]: {{< ref "../concepts#kubermatic-machine-controller" >}}
-[concepts-md]: {{< ref "../concepts#machinedeployments" >}}
-[concepts-mc]: {{< ref "../concepts#kubermatic-machine-controller" >}}
-[ha-lb-example]: {{< ref "../../examples/ha_load_balancing" >}}
-[terraform-reference]: {{< ref "../../references/terraform_integration" >}}
+[static-workers]: {{< ref "../../../guides/static_workers" >}}
+[concepts]: {{< ref "../../concepts#kubermatic-machine-controller" >}}
+[concepts-md]: {{< ref "../../concepts#machinedeployments" >}}
+[concepts-mc]: {{< ref "../../concepts#kubermatic-machine-controller" >}}
+[ha-lb-example]: {{< ref "../../../examples/ha_load_balancing" >}}
+[terraform-reference]: {{< ref "../../../references/terraform_integration" >}}
+[production-recommendations]({{< ref "../../../cheat_sheets/production_recommendations" >}})

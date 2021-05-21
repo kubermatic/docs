@@ -155,7 +155,7 @@ MachineSets/Machines and allow advanced use cases such as rolling updates.
 
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [supported-providers]: {{< ref "../compatibility" >}}
-[infrastructure-management]: {{< ref "../infrastructure_management" >}}
+[infrastructure-management]: {{< ref "../requirements/infrastructure_management" >}}
 [terraform-scripts]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [aws-output-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/output.tf
 [kubeadm]: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/
