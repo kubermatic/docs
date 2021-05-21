@@ -18,7 +18,7 @@ by default expires after 3 years.
 
 Service accounts are considered as project's resource. Only the owner of the project  can create a service account.
 There is no need to create a new groups for SA, we want to assign a service account to one of the already defined groups:
-`editors` or `viewers`.
+`editors`, `viewers` or `projectmanagers`.
 
 The KKP User object is used as a service account. To avoid confusion about the purpose of the user the name convention
 was introduced. Service account name starts with prefix `serviceaccount-`. The Regular user starts with name: `user-`.
