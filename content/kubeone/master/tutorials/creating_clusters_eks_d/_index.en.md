@@ -539,7 +539,7 @@ resources and recommendations.
 [eks-d-intro]: https://aws.amazon.com/blogs/opensource/introducing-amazon-eks-distro/
 [eks-distro-github]: https://github.com/aws/eks-distro#releases
 [static-workers]: {{< ref "../../guides/static_workers" >}}
-[infrastructure-management]: {{< ref "../../architecture/infrastructure_management" >}}
+[infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure_management" >}}
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server
 [nodelocaldns]: https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
 [machine-controller]: {{< ref "../../guides/machine_controller" >}}

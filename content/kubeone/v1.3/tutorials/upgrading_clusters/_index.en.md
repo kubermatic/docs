@@ -189,4 +189,4 @@ command can be used to modify cluster properties.
 [k8s-skew]: https://kubernetes.io/docs/setup/version-skew-policy/
 [backups-addon]: {{< ref "../../examples/addons_backup" >}}
 [manifest]: {{< ref "../../architecture/concepts/#kubeone-configuration-manifest" >}}
-[tf-json]: {{< ref "../../architecture/infrastructure_management/#terraform-integration" >}}
+[tf-json]: {{< ref "../../architecture/requirements/infrastructure_management/#terraform-integration" >}}
