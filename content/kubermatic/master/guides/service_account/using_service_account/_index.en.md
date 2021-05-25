@@ -37,9 +37,6 @@ You can also change a token name. It is possible to delete a service account tok
 You can see when a token was created and when will expire.
 
 ## Using service accounts with KKP
-Deleting a service account which was used in cluster creation does not affect the cluster, as the owner of the cluster
-is the user which created the service account.
-
 You can control service account access in your project by provided groups.
 There are three basic access level groups:
  - viewers
