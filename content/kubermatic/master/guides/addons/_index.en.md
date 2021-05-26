@@ -13,14 +13,11 @@ Default addons are installed in each user-cluster in KKP. The default addons are
 
 * [Canal](https://github.com/projectcalico/canal): policy based networking for cloud native applications
 * [Dashboard](https://github.com/kubernetes/dashboard): General-purpose web UI for Kubernetes clusters
-* [DNS](https://github.com/coredns/coredns): Kubernetes DNS service
 * [kube-proxy](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/): Kubernetes network proxy
 * [rbac](https://kubernetes.io/docs/reference/access-authn-authz/rbac/): Kubernetes Role-Based Access Control, needed for
   [TLS node bootstrapping](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/)
 * [OpenVPN client](https://openvpn.net/index.php/open-source/overview.html): virtual private network (VPN). Lets the control
   plan access the Pod & Service network. Required for functionality like `kubectl proxy` & `kubectl port-forward`.
-* [nodelocal-dns-cache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/): Improves DNS performance inside
-  the user-cluster
 * [logrotate](https://github.com/blacklabelops/logrotate): rotates logs on worker nodes
 * pod-security-policy: Policies to configure KKP access when PSPs are enabled
 * default-storage-class: A cloud provider specific StorageClass
@@ -381,10 +378,6 @@ spec:
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
             metadata:
-              name: dns
-          - apiVersion: kubermatic.k8s.io/v1
-            kind: Addon
-            metadata:
               name: kube-proxy
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
@@ -402,10 +395,6 @@ spec:
             kind: Addon
             metadata:
               name: default-storage-class
-          - apiVersion: kubermatic.k8s.io/v1
-            kind: Addon
-            metadata:
-              name: nodelocal-dns-cache
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
             metadata:
