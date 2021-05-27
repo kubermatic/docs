@@ -1,15 +1,13 @@
 +++
-title = "Via UI"
+title = "Manage Worker Nodes via UI"
 date = 2021-04-20T12:16:38+02:00
 weight = 15
 +++
 
 
-# Manage Worker Nodes via UI
-
 ## Find the edit setting
 
-To add or delete a worker node you can easily edit the machine deployment in your cluster. Navigate to the cluster overview, scroll down and hover over `Machine Deployments` and click on the edit icon next to the deployment you want to edit.
+To add or delete a worker node, you can easily edit the machine deployment in your cluster. Navigate to the cluster overview, scroll down and hover over `Machine Deployments` and click on the edit icon next to the deployment you want to edit.
 
 ![Machine deployment overview with highlighted edit button](/img/kubermatic/master/ui/md_edit.png?classes=shadow,border "Machine deployment overview with highlighted edit button")
 

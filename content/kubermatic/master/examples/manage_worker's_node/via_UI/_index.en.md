@@ -1,11 +1,9 @@
 +++
-title = "Via UI"
+title = "Manage Worker Nodes via UI"
 date = 2021-04-20T12:16:38+02:00
 weight = 15
 +++
 
-
-# Manage Worker Nodes via UI
 
 ## Find the edit setting
 
