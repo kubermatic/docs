@@ -580,7 +580,7 @@ cloudProvider:
     [Global]
     username=OS_USERNAME
     password=OS_PASSWORD
-    auth-url=https://OS_AUTH_URL/identity/v3
+    auth-url=https://OS_AUTH_URL/v3
     tenant-id=OS_TENANT_ID
     domain-id=OS_DOMAIN_ID
 
