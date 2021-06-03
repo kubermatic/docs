@@ -102,6 +102,7 @@ helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm
 ```
 
 ## Add CRDs for kubermatic components in seed cluster
+
 If you are installing seed separately, its important to install kubermatic CRDs.
 __Run below in Seed Cluster__
 

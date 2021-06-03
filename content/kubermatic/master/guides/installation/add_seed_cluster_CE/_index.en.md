@@ -93,7 +93,21 @@ helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace kube-system s3-exporter charts/s3-exporter/
 ```
 
+## Add CRDs for kubermatic components in seed cluster
+
+If you are installing seed separately, its important to install kubermatic CRDs.
+__Run below in Seed Cluster__
+
+Please execute:
+
+```bash
+# change into kkp installer directory
+kubectl apply -f charts/kubermatic/crd/
+```
+
 ## Add the Seed Resource
+
+__Run below in MASTER Cluster__
 
 To connect the new seed cluster with the master, you need to create a kubeconfig Secret and a Seed resource. This allows
 the KKP components in the master cluster to communicate with the seed cluster and reconcile user-cluster control planes.
