@@ -13,7 +13,7 @@ cluster installation). In this case both master and seed components will run on 
 the same namespace. It is however not possible to use the same cluster for multiple seeds.
 {{% /notice %}}
 
-Please refer to the [architecture]({{< ref "." >}}) diagrams for more information
+Please refer to the [architecture](../../../architecture/) diagrams for more information
 about the cluster relationships.
 
 ## Install KKP Dependencies
@@ -158,7 +158,7 @@ spec:
     namespace: kubermatic
 ```
 
-Refer to the [Seed CRD documentation]({{< ref "." >}}) for a complete example of the
+Refer to the [Seed CRD documentation](../../../tutorials_howtos/project_and_cluster_management/seed_cluster/) for a complete example of the
 Seed CustomResource and all possible datacenters.
 
 You can override the global [Expose Strategy]({{< ref "../../kkp_networking/expose_strategies">}}) at

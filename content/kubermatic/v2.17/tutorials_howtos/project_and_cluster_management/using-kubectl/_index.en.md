@@ -6,9 +6,9 @@ weight = 70
 
 
 Using kubectl requires the installation of kubectl on your system as well as downloading of kubeconfig on the cluster UI page. 
-See the [Official kubectl Install Instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/) for a tutorial on how to install kubectl on your system. Once you have it installed, [download the kubeconfig](../06-download-kubeconfig/). The below steps will guide you on how to download a kubeconfig. 
+See the [Official kubectl Install Instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/) for a tutorial on how to install kubectl on your system. Once you have installed it, download the kubeconfig. The below steps will guide you on how to download a kubeconfig. 
 
-To download the kubeconfig, navigate to `Clusters` and select the correct cluster. On the top right you can find a download button:
+To download the kubeconfig, navigate to `Clusters` and select the correct cluster. On the top right you can find a download button circled with red box:
 
 ![Download config button in the top right corner](/img/kubermatic/master/tutorials/cluster_details_btn.png?classes=shadow,border "Download config button in the top right corner")
 
@@ -20,8 +20,8 @@ Users in the groups `Owner` and `Editor` have an admin token in their kubeconfig
 
 ![Revoke the token](/img/kubermatic/master/tutorials/revoke_token_dialog.png?classes=shadow,border "Revoke the token")
 
-
-Once you have installed the kubectl and downloaded the kubeconfig,change into the download directory and export it to your environment:
+ 
+Once you have installed the kubectl and downloaded the kubeconfig, change into the download directory and export it to your environment:
 
 
 ```bash

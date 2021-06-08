@@ -4,7 +4,7 @@ date = 2020-01-08T12:07:15+02:00
 weight = 16
 +++
 
-Worker nodes can be managed via the web dashboard as described [here](../08-manage-node-deployments/). Once you have installed [kubectl](../07-using-kubectl/), you can also manage them via the command line interface (CLI) in order to automate creation, deletion and upgrades of nodes.
+Worker nodes can be managed via the web dashboard as described [here](../via_ui/). Once you have installed [kubectl](../../../tutorials_howtos/project_and_cluster_management/using-kubectl/), you can also manage them via the command line interface (CLI) in order to automate creation, deletion and upgrades of nodes.
 
 ## List All Available Nodes
 
