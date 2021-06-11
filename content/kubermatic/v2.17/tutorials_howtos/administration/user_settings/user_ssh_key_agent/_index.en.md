@@ -5,7 +5,7 @@ weight = 6
 
 +++
 
-### User SSH Key Agent
+### User SSH Key Agent Overview
 The user ssh key agent is responsible for syncing the defined user ssh keys to the worker nodes, when users
 attach ssh keys to the user clusters. When users choose to add a user ssh key to a cluster after it was created 
 the agent will sync those keys to the worker machines by fetching the ssh keys and write them to the `authorized_keys` 

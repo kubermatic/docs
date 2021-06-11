@@ -18,9 +18,9 @@ The Kubeflow Addon is still under development, the current version is just a fea
 Before installing the Kubeflow Addon in a KKP user cluster, the following prerequisites have to be met:
 
 ### KKP Version & Features
-This addon works with KKP version **2.16+**, in user clusters with [Service Account Token Volume Projection](../../sa_token_projection) feature enabled.
+This addon works with KKP version **2.16+**, in user clusters with [Service Account Token Volume Projection](../../../guides/service_account/service_account_token_projection/) feature enabled.
 KKP clusters with Kubernetes version v1.20+ have this feature automatically enabled, in KKP clusters with older versions
-of Kubernetes this feature has to be enabled explicitly, as described in the [KKP Documentation](../../sa_token_projection).
+of Kubernetes this feature has to be enabled explicitly, as described in the [KKP Documentation](../../../guides/service_account/service_account_token_projection/).
 
 ### Installing Kubeflow Addon in KKP
 Before this addon can be deployed in a KKP user cluster, the KKP installation has to be configured to enable Kubeflow
@@ -34,9 +34,9 @@ once per KKP installation.
   * add `kubeflow` into `spec.api.accessibleAddons`.
 * Apply the [AddonConfig from the Flowmatic repository](https://raw.githubusercontent.com/kubermatic/flowmatic/master/addon/addonconfig.yaml) in your KKP installation.
 
-### Kubeflow System Requirements
-For deploying Kubeflow in a KKP user cluster, please make sure that the cluster meets the
-[minimum system requirements for running Kubeflow](https://www.kubeflow.org/docs/started/k8s/overview/#minimum-system-requirements).
+### Kubeflow prerequisites
+For deploying Kubeflow in a KKP user cluster, please make sure that you go through the prerequisites
+[prerequisites for running Kubeflow](https://www.kubeflow.org/docs/distributions/aws/deploy/install-kubeflow/#prerequisites).
 
 If your machine learning workloads require GPU acceleration, make sure you are using GPU-enabled machines when creating
 a user cluster. For more details about GPU support, please refer to the [GPU Acceleration Settings](#gpu-acceleration-settings) section below.
@@ -92,7 +92,7 @@ The domain name needs to be pointed to the external IP of the `istio-ingressgate
 
 
 ### OIDC Provider URL & Secret
-By default, access into the Kubeflow dashboard is secured by [basic authentication with static users](https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#add-static-users-for-basic-auth).
+By default, access into the Kubeflow dashboard is secured by [basic authentication with static users](https://www.kubeflow.org/docs/distributions/aws/authentication/authentication/).
 Alternatively, an external OIDC authentication provider can be specified in the `OIDC Provider URL` with the secret
 specified in `OIDC Secret`.
 
@@ -102,7 +102,7 @@ it is possible to point the Kubeflow addon to this KKP OIDC service. In case tha
 
 This setup however requires some configuration on the KKP platform side as well. The KKP installation administrator
 has to add the following section into the KKP’s Helm `values.yaml` before installing the `oauth` chart
-(see the [Securing System Services documentation](../../../installation/securing_services) for more details):
+(see the [Securing System Services documentation](../../../guides/kkp_security/securing_system_services/) for more details):
 
 ```yaml
 dex:

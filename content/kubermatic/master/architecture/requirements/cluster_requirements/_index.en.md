@@ -8,7 +8,7 @@ weight = 15
 ## Requirements
 
 ### Master Cluster
-The Master Cluster hosts the KKP components and might also act as a seed cluster and host the master components of customer clusters (see [Architecture](../../concepts/architecture)). Therefore, it should run in [Highly Available setup](../../installation/install_kubernetes) with at least 3 master nodes and 3 worker nodes.
+The Master Cluster hosts the KKP components and might also act as a seed cluster and host the master components of customer clusters (see [Architecture](../../../architecture/)). Therefore, it should run in [Highly Available setup](../../../guides/installation/install_ha_kubernetes/) with at least 3 master nodes and 3 worker nodes.
 
 **Minimal Requirements:**
 * Six or more machines running one of:
