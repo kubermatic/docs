@@ -5,7 +5,7 @@ weight = 20
 +++
 
 
-Are you just embarking on your cloud adoption journey but feeling a bit overwhelmed on how to get started? Then you’re in the right place here:)
+Are you just embarking on your cloud adoption journey but feeling a bit overwhelmed on how to get started? Then you’re in the right place here.
 
 The purpose of our tutorials is to show how to accomplish a goal that is larger than a single task. Typically a tutorial page has several sections, each of which has a sequence of steps. In our tutorials, we provide detailed walk-throughs of how to get started with Kubermatic Kubernetes Platform (KKP).
 
