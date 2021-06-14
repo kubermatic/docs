@@ -161,17 +161,17 @@ tutorial, we'll do it manually, but you can check out the
 
 First, visit the [Terraform download page][download-terraform] and grab the
 link for the latest version for your platform and architecture.
-KubeOne requires Terraform 0.12.10 or newer. You can download it from the
+KubeOne requires Terraform 1.0 or newer. You can download it from the
 browser, or use `cURL` such as:
 
 ```shell
-curl -LO https://releases.hashicorp.com/terraform/0.14.7/terraform_0.14.7_linux_amd64.zip
+curl -LO https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip
 ```
 
 Once you download the archive, unzip it:
 
 ```shell
-unzip terraform_0.14.7_linux_amd64.zip
+unzip terraform_1.0.0_linux_amd64.zip
 ```
 
 Finally, move the unpacked `terraform` binary to somewhere in your `PATH`.
