@@ -226,7 +226,7 @@ spec:
         requiredClaims: {}
 ```
 
-A complete API Reference can be found on the [API Reference](../../api_reference) page.
+A complete API Reference can be found on the [API Reference]({{< ref "../references/api-reference/" >}}) page.
 
 ## TLS
 
