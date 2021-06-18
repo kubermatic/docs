@@ -31,7 +31,7 @@ Before upgrading your KKP installation be sure that none of the user clusters
 is still using CoreOS operating system.
 
 You can find some information about how to handle the migration
-[here](../../guides/kkp_os_support/coreos_eos).
+[here]({{< ref "../../guides/kkp_os_support/coreos_eos" >}}).
 
 ## Upgrade paths
 

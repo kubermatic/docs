@@ -12,7 +12,7 @@ ip-172-31-19-107.eu-west-2.compute.internal   Ready      <none>   22s   v1.15.6 
 ip-172-31-20-156.eu-west-2.compute.internal   Ready      <none>   21s   v1.15.6   172.31.20.156   35.176.25.131    Ubuntu 18.04.3 LTS   4.15.0-1054-aws   docker://18.9.2
 ```
 
-You can use the external IP to ssh into the node using the SSH key you added as described in [add an SSH key]({{< ref "../../../tutorials_howtos/project_and_cluster_management/">}}) under project management section.
+You can use the external IP to ssh into the node using the SSH key you added as described in [add an SSH key]({{< ref "../../../tutorials_howtos/project_and_cluster_management/" >}}) under project management section.
 
 ```bash
 ssh -i ~/.ssh/id_rsa ubuntu@35.176.177.33
