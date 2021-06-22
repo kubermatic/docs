@@ -12,7 +12,7 @@ cluster installation). In this case both master and seed components will run on 
 the same namespace. It is however not possible to use the same cluster for multiple seeds.
 {{% /notice %}}
 
-Please refer to the [architecture](../../../architecture/) diagrams for more information
+Please refer to the [architecture]({{< ref "../../../architecture/" >}}) diagrams for more information
 about the cluster relationships.
 
 ## Install KKP Dependencies
@@ -162,7 +162,7 @@ spec:
 Refer to the [Seed CRD documentation]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}}) for a complete example of the
 Seed CustomResource and all possible datacenters.
 
-You can override the global [Expose Strategy]({{< ref "../../kkp_networking/expose_strategies">}}) at
+You can override the global [Expose Strategy]({{< ref "../../kkp_networking/expose_strategies" >}}) at
 Seed level if you wish to.
 
 Apply the manifest above in the master cluster and KKP will pick up the new Seed and begin to
@@ -191,7 +191,7 @@ watch kubectl -n kubermatic get pods
 
 ## Update DNS
 
-Depending on the chosen [Expose Strategy]({{< ref "../../kkp_networking/expose_strategies">}}), the control planes of all user clusters
+Depending on the chosen [Expose Strategy]({{< ref "../../kkp_networking/expose_strategies" >}}), the control planes of all user clusters
 running in the Seed cluster will be exposed by the `nodeport-proxy` or using
 services of type `NodePort` directly.
 By default each user cluster gets a virtual domain name like
