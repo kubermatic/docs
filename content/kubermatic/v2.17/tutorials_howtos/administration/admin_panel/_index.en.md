@@ -4,7 +4,7 @@ date = 2018-08-09T12:07:15+02:00
 weight = 40
 +++
 
-The Admin Panel is a section where the Kubermatic administrators can manage the global settings that
+The Admin Panel is a place where the Kubermatic administrators can manage the global settings that
 impact all Kubermatic users directly. Admin rights can be granted from the admin panel itself and also from the kubectl by
 setting the `spec.admin` field of the user object to `true`.
 
@@ -20,16 +20,7 @@ top.
 
 ![](/img/kubermatic/master/ui/panel.png?height=350px&classes=shadow,border "Admin Panel")
 
-## Global Settings
-
-This section explains how to manage KKP global settings such as custom links, dynamic datacenters among others.
-It can be done via UI using admin panel or from the command line with `kubectl`.
-
-### Changing the Global Settings Using `kubectl`
-
-Global settings are stored in `KubermaticSetting` custom resource named `globalsettings`.
-
-The resource has the following structure:
+Global settings can also be modified from the command line with kubectl. It can be done by editing the `globalsettings` in `KubermaticSetting` CRD. This resource has the following structure:
 
 ```
 apiVersion: kubermatic.k8s.io/v1
