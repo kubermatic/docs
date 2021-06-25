@@ -174,7 +174,9 @@ spec:
         vsphere:
           # If set to true, disables the TLS certificate check against the endpoint.
           allow_insecure: false
-          # The name of the vSphere cluster to use.
+          # Optional: The name of the vSphere cluster to use.
+          # Cluster is deprecated and may be removed in future releases as it is
+          # currently ignored.
           # The cluster hosting the VMs will be the same VM used as a template is
           # located.
           cluster: ""
