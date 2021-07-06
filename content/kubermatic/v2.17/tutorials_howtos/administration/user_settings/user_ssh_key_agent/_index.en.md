@@ -25,3 +25,12 @@ to disable the agent(during cluster creation), they should take care of adding s
 **Note:**
 During the user cluster creation steps(at the second step), the users have the possibility to add a user ssh key and it 
 is not affected by the agent, whether it was deployed or not.
+
+### User SSH Key Agent Migration
+Starting from KKP 2.16.0 on-wards, it was made possible to enable and disable the user ssh key agent during cluster creation. Users can 
+enable the agent in KKP dashboard as it is mentioned above, or by enabling the newly added `enableUserSSHKeyAgent: true` 
+in the cluster spec. For user clusters which were created using KKP 2.15.x and earlier, this has introduced an issue, due to 
+the absence of that field. User ssh key agent is enabled by default if that field is missing. However, this wasn't visible 
+in the dashboard. To display the agent as enabled in user clusters dashboard created prior KKP 2.16.0, users should add the 
+`enableUserSSHKeyAgent: true` field to the cluster spec manually.
+ 
