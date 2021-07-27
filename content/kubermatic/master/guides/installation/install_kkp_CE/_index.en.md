@@ -271,11 +271,31 @@ watch kubectl -n kubermatic get certificates
 If the certificate does not become ready, `kubectl describe` it and follow the chain from Certificate to Order to Challenges.
 Typical faults include bad DNS records or a misconfigured KubermaticConfiguration pointing to a different domain.
 
-### Have a Break
+### Initializing the first Kubermatic Admin user
 
 With all this in place, you should be able to access https://kubermatic.example.com/ and login either with your static
-password from the `values.yaml` or using any of your chosen connectors. All pods running inside the `kubermatic` namespace
-should now be running. If they are not, check their logs to find out what's broken.
+password from the `values.yaml` or using any of your chosen connectors. This will initiate your first contact with the 
+KKP API which will create an initial User resource for your account. To become a KKP admin, edit your User instance 
+and set the `admin` flag to `true`. 
+
+```yaml
+apiVersion: kubermatic.k8s.io/v1
+kind: User
+metadata:
+  creationTimestamp: "2020-05-04T07:20:37Z"
+  name: 3ec2d8e832964a39b8e8a3df5d25adeea8677f5d6d4706bf23842d3d9663d37c
+spec:
+  admin: true
+  email: example@example.com
+  id: eb279a47c2c869ea89efa48c193ff813b34b96b5c81ada345629205a
+  name: KKP User
+```
+
+This will allow you to use the KKP UI and API as an admin. Other users can be promoted to Admins using the [Admin Panel]({{< ref "../../../tutorials_howtos/administration/admin_panel/administrators" >}})
+
+### Have a Break
+
+All pods running inside the `kubermatic` namespace should now be running. If they are not, check their logs to find out what's broken.
 
 ### Next Steps
 
