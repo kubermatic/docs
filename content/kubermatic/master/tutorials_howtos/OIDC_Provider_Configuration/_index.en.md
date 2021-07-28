@@ -22,6 +22,59 @@ adds the following parameters to the base URL:
 - `&scope` is set to `openid email profile groups`
 - `&nonce` is randomly generated, 32 character string to prevent replay attacks
 
+The following snippet shows an oidc provider in combination with static passwords:
+
+```yaml
+## Dex local users + OIDC with OpenStack
+# Dex Is the OpenID Provider for Kubermatic.
+dex:
+  ingress:
+    # configure your base domain, under which the Kubermatic dashboard shall be available
+    host: my-kubermatic.example.com
+  clients:
+    # The "kubermatic" client is used for logging into the Kubermatic dashboard. It always
+    # needs to be configured.
+    - id: kubermatic
+      name: Kubermatic
+      # Generate a secure secret key
+      # Those can be generated on the shell using:
+      # cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32
+      secret: XXXXXXXXXXXXXXXXXXXX
+      RedirectURIs:
+        # ensure the URLs below use the dex.ingress.host configured above
+        - https://my-kubermatic.example.com
+        - https://my-kubermatic.example.com/projects
+  # Depending on your chosen login method, you need to configure either an OAuth provider like
+  # Google or GitHub, or configure a set of static passwords. Check the `charts/oauth/values.yaml`
+  # for an overview over all available connectors.
+  connectors:
+    - type: oidc
+      id: my-oauth-provider
+      name: MyOauthProvider
+      config:
+        issuer: https://my-oauth-provider.example.com/oidc/
+        clientID: XXXXXXXXXXXXXXXX
+        clientSecret: XXXXXXXXXXXXXXXXX
+        redirectURI: https://my-kubermatic.example.com/dex/callback
+        scopes:
+          - openid
+        userNameKey: sub
+        getUserInfo: true
+        insecureSkipEmailVerified: true
+        claimMapping:
+          email: sub
+          preferred_username: sub
+  # For testing purposes, we configure a single static user/password combination.
+  staticPasswords:
+    - email: john.doe@example.com
+      # bcrypt hash of the string "password", can be created using recent versions of htpasswd:
+      # `htpasswd -bnBC 10 "" PASSWORD_HERE | tr -d ':\n' | sed 's/$2y/$2a/'`
+      hash: "XXXXXXXXXXXXXXXXXXXX"
+      # these are used within Kubermatic to identify the user
+      username: admin
+      userID: 08a8684b-db88-4b73-90a9-3cd1661f5466
+```
+
 ### Custom Configuration
 
 The default configuration can be changed as KKP supports other OIDC providers as well. This
