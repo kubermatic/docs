@@ -7,6 +7,14 @@ spec:
   # Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK.
   # For informational purposes in the Kubermatic dashboard only.
   country: ""
+  # BackupRestore contains the setup of the new backup and restore controllers.
+  backupRestore:
+    # Enabled enables the new etcd backup and restore controllers.
+    enabled: false
+    # S3BucketName is the S3 bucket name to use for backup and restore.
+    s3BucketName: ""
+    # S3Endpoint is the S3 API endpoint to use for backup and restore. Defaults to s3.amazonaws.com.
+    s3Endpoint: ""
   # Datacenters contains a map of the possible datacenters (DCs) in this seed.
   # Each DC must have a globally unique identifier (i.e. names must be unique
   # across all seeds).

@@ -21,11 +21,14 @@ Currently, only S3 compatible backup backends are supported.
 ## Enabling The New controllers
 
 To use the new backup/restore controller, the [etcd-launcher]({{< ref "../etcd-launcher" >}}) experimental feature must be enabled along with specifically enabling the controllers by passing the flag `--enable-etcd-backups-restores` to the seed controller manager. This can be achieved by setting the following values in the [KubermaticConfiguration]({{< ref "../../../tutorials_howtos/KKP_configuration/" >}}):
-
 ```yaml
 spec:
-  # SeedController configures the seed-controller-manager.
-  seedController:
+    # BackupDeleteContainer is the container used for deleting etcd snapshots from a backup location.
+    backupDeleteContainer: ""
+```
+and these values in [Seed]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster/" >}}) resource:
+```yaml
+spec:
     # BackupRestore contains the setup of the new backup and restore controllers.
     backupRestore:
       # Enabled enables the new etcd backup and restore controllers.
@@ -34,8 +37,6 @@ spec:
       s3BucketName: ""
       # S3Endpoint is the S3 API endpoint to use for backup and restore. Defaults to s3.amazonaws.com.
       s3Endpoint: ""
-    # BackupDeleteContainer is the container used for deleting etcd snapshots from a backup location.
-    backupDeleteContainer: ""
 ```
 
 {{% notice note %}}
