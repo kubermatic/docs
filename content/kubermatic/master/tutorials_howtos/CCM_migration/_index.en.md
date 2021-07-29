@@ -7,7 +7,7 @@ weight = 40
 
 This manual explains how to migrate to using external Cloud Controller Managers for supporting providers.
 
-### CCM (Cloud Controller Manager)
+## Cloud Controller Manager (CCM)
 
 The [CCM](https://kubernetes.io/docs/concepts/architecture/cloud-controller/) (Cloud Controller Manager) is a Kubernetes
 control plane component that embeds cloud-specific control logic. There are two different kinds of Cloud controller managers:
@@ -15,9 +15,9 @@ in-tree and out-of-tree. According to the Kubernetes [design proposal](https://g
 the in-tree code is "code that lives in the core Kubernetes repository [k8s.io/kubernetes](https://github.com/kubernetes/kubernetes/)",
 while the out-of-tree code is "code that lives in an external repository outside of [k8s.io/kubernetes](https://github.com/kubernetes/kubernetes/)".
 
-The first cloud-specific interaction logic was completely in-tree, bringing in a not-negligible amount of problems, such
-as the dependency of the CCM release cycle from the Kubernetes core release cycle, or the difficulty to add new providers
-to the Kubernetes core code. Then, the Kubernetes community moved toward the out-of-tree implementation, by introducing
+The first cloud-specific interaction logic was completely in-tree, bringing in a not-negligible amount of problems, 
+among which the dependency of the CCM release cycle from the Kubernetes core release cycle and the difficulty to add new providers
+to the Kubernetes core code. Then, the Kubernetes community moved toward the out-of-tree implementation by introducing
 a plugin mechanism that allows different cloud providers to integrate their platforms with Kubernetes.
 
 ### Out-of-tree CCM migration
@@ -31,7 +31,7 @@ The supported cloud providers so far are:
 * Openstack
 * vSphere
 
-### Enable the external cloud provider
+### Enabling the external cloud provider
 
 The migration is specific per user cluster, meaning that it is activated by the `externalCloudProvider` feature in the
 cluster spec.
