@@ -4,6 +4,7 @@ date = 2021-08-05T14:07:10+02:00
 weight = 24
 +++
 
+## Kubermatic Kubernetes Platform (KKP) Cluster Autoscaler
 This section deals with the usage of Kubernetes Cluster Autoscaler in the KKP Cluster. 
 
 ## What is a Cluster Autoscaler in Kubernetes?
