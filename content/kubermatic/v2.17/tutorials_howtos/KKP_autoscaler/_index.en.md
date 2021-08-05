@@ -130,29 +130,29 @@ Run the following kubectl command to check the available MachineDeployments:
 ```bash
 $ kubectl get machinedeployments -n kube-system 
 
-NAME                AGE   DELETED REPLICAS  AVAILABLEREPLICAS PROVIDER   OS     VERSION
-test-worker-v5drmq 3h56m            2             2            aws      ubuntu  1.19.9 
-test-worker-pndqd  3h59m            1             1            aws      ubuntu  1.19.9
+NAME                        AGE   DELETED REPLICAS  AVAILABLEREPLICAS PROVIDER    OS    VERSION
+test-cluster-worker-v5drmq  3h56m            2             2            aws     ubuntu  1.19.9 
+test-cluster-worker-pndqd   3h59m            1             1            aws     ubuntu  1.19.9
 ```
 
 **Step 2**
 
-The annotation command will be used with one of the MachineDeployments above to annotate the desired MachineDeployments.  In this case, the  `test-worker-6wjcx` will be annotated, and the minimum and maximum will be set.
+The annotation command will be used with one of the MachineDeployments above to annotate the desired MachineDeployments.  In this case, the  `test-cluster-worker-v5drmq` will be annotated, and the minimum and maximum will be set.
 
 ### Minimum annotation:
 
 ```bash
-kubectl annotate machinedeployment -n kube-system test-worker-6wjcx cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
+kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
 
-machinedeployment.cluster.k8s.io/test-worker-6wjcx annotated
+machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ```
 
 ### Maximum annotation:
 
 ```bash
-kubectl annotate machinedeployment -n kube-system test-worker-6wjcx cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="5"
+kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="5"
 
-machinedeployment.cluster.k8s.io/test-worker-6wjcx annotated
+machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ```
 
  
@@ -161,9 +161,9 @@ machinedeployment.cluster.k8s.io/test-worker-6wjcx annotated
 Check the MachineDeployment description
 
 ```bash
-$ kubectl describe machinedeployments -n kube-system test-worker-6wjcx
+$ kubectl describe machinedeployments -n kube-system test-cluster-worker-v5drmq
 
-Name:         test-worker-6wjcx
+Name:         test-cluster-worker-v5drmq
 
 Namespace:    kube-system
 
@@ -187,7 +187,7 @@ Metadata:
 
     foregroundDeletion
 
-  Generate Name:  test-worker-
+  Generate Name:  test-cluster-worker-
 
   Generation:     1
 
