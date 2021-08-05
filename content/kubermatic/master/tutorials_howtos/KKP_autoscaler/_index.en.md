@@ -32,11 +32,11 @@ You can install Kubernetes autoscaler on a running KKP Cluster using the KKP add
 
  
 
-**Step 1: **
+**Step 1**
 
 Create a KKP Cluster by selecting your project on the dashboard and click on `“create cluster”`. More details can be found on the official [documentation](https://docs.kubermatic.com/kubermatic/master/tutorials_howtos/project_and_cluster_management/) page.  
 
-**Step 2:**
+**Step 2**
 
 When the Cluster is ready, check the Pods in the kube-system Namespace to know if any Autoscaler is running.
 
@@ -89,14 +89,14 @@ Select install:
 ![Installation Confirmation](/img/kubermatic/master/tutorials/autoscaler_confirmation.png?classes=shadow,border "Installation Confirmation")
 
 
-**Step 4:**
+**Step 4**
 
 Go over to the cluster and check the Pods in the kube-system Namespace using the `kubectl` command. 
 
 ```bash
 $ kubectl get pods -n kube-system
 
-NAME                                   READY              STATUS    RESTARTS       AGE
+NAME                                   READY              STATUS    RESTARTS        AGE
 
 canal-gq9gc                          	2/2     	      Running   	0           32m
 
@@ -132,11 +132,10 @@ Run the following kubectl command to check the available MachineDeployments:
 ```bash
 $ kubectl get machinedeployments -n kube-system 
 
+NAME                		 AGE         DELETED   REPLICAS   AVAILABLEREPLICAS   PROVIDER     OS         VERSION
 
-NAME                		 AGE         DELETED   REPLICAS   AVAILABLEREPLICAS   PROVIDER   OS        VERSION
-
-test-worker-v5drmq 3h56m                           2                 2                         aws       ubuntu   1.19.9 
-test-worker-pndqd   3h59m                           1                 1                         aws       ubuntu   1.19.9
+test-worker-v5drmq 3h56m                              2               2             aws       ubuntu       1.19.9 
+test-worker-pndqd   3h59m                             1               1             aws       ubuntu       1.19.9
 ```
 
 **Step 2**
@@ -203,7 +202,8 @@ Metadata:
 
     fieldsV1:
 
-      F:metadata: 
+      F:metadata:
+……………………	  
 
 ```
 
@@ -211,7 +211,7 @@ The description details showed that the MachineDeployment had been annotated wit
 
     
 
-**Step 4:**
+**Step 4**
 
 Edit Autoscaler 
 
@@ -220,7 +220,7 @@ Click on the three dots in front of the Cluster Autoscaler in the Addons section
 ![Edit Autoscaler](/img/kubermatic/master/tutorials/edit_autoscaler.png?classes=shadow,border "Edit Autoscaler")
 
 
-**Step 5:**
+**Step 5**
 
 Delete Autoscaler
 

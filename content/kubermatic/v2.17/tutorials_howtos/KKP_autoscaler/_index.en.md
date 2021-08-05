@@ -32,11 +32,11 @@ You can install Kubernetes autoscaler on a running KKP Cluster using the KKP add
 
  
 
-**Step 1: **
+**Step 1**
 
 Create a KKP Cluster by selecting your project on the dashboard and click on `“create cluster”`. More details can be found on the official [documentation](https://docs.kubermatic.com/kubermatic/master/tutorials_howtos/project_and_cluster_management/) page.  
 
-**Step 2:**
+**Step 2**
 
 When the Cluster is ready, check the Pods in the kube-system Namespace to know if any Autoscaler is running.
 
@@ -46,21 +46,21 @@ When the Cluster is ready, check the Pods in the kube-system Namespace to know i
 $ kubectl get pods -n kube-system
 
 
-NAME                              		 READY   STATUS    RESTARTS   AGE
+NAME                              	READY   STATUS     RESTARTS   AGE
 
-canal-gq9gc                       		     2/2       Running              0           21m
+canal-gq9gc                       	 2/2    Running       0       21m
 
-canal-tnms8                       		     2/2       Running              0           21m
+canal-tnms8                       	 2/2    Running       0       21m
 
-coredns-666448b887-s8wv8               1/1      Running               0           25m
+coredns-666448b887-s8wv8             1/1    Running       0       25m
 
-coredns-666448b887-vldzz                 1/1      Running               0           25m
+coredns-666448b887-vldzz             1/1    Running       0       25m
 
-kube-proxy-2whcq                              1/1      Running               0           21m
+kube-proxy-2whcq                     1/1    Running       0       21m
 
-kube-proxy-tstvd                                 1/1      Running               0           21m
+kube-proxy-tstvd                     1/1    Running       0       21m
 
-node-local-dns-4p8jr                           1/1      Running               0           21m 
+node-local-dns-4p8jr                 1/1    Running       0       21m 
 ```
 
 
@@ -89,24 +89,24 @@ Select install:
 ![Installation Confirmation](/img/kubermatic/v2.17/tutorials/autoscaler_confirmation.png?classes=shadow,border "Installation Confirmation")
 
 
-**Step 4:**
+**Step 4**
 
 Go over to the cluster and check the Pods in the kube-system Namespace using the `kubectl` command. 
 
 ```bash
 $ kubectl get pods -n kube-system
 
-NAME                                 	       READY      STATUS    RESTARTS   AGE
+NAME                                 	       READY          STATUS    RESTARTS        AGE
 
-canal-gq9gc                          	 	2/2     	      Running   	0           32m
+canal-gq9gc                          	 	   2/2     	      Running   	0           32m
 
-canal-tnms8                           		2/2     	      Running   	0           33m
+canal-tnms8                           		   2/2     	      Running   	0           33m
 
-**cluster-autoscaler-58c6c755bb-9g6df   	1/1     	      Running   	0           39s**
+cluster-autoscaler-58c6c755bb-9g6df   	       1/1     	      Running   	0           39s
 
-coredns-666448b887-s8wv8              	1/1     	      Running   	0           36m
+coredns-666448b887-s8wv8              	       1/1     	      Running   	0           36m
 
-coredns-666448b887-vldzz              	1/1     	      Running  		 0          36m
+coredns-666448b887-vldzz              	       1/1     	      Running  		0           36m
 ```
 
 As shown above, the Autoscaler has been provisioned and running. 
@@ -131,11 +131,10 @@ Run the following kubectl command to check the available MachineDeployments:
 ```bash
 $ kubectl get machinedeployments -n kube-system 
 
+NAME                		 AGE         DELETED   REPLICAS   AVAILABLEREPLICAS   PROVIDER     OS        VERSION
 
-NAME                		 AGE         DELETED   REPLICAS   AVAILABLEREPLICAS   PROVIDER   OS        VERSION
-
-test-worker-v5drmq 3h56m                           2                 2                         aws       ubuntu   1.19.9 
-test-worker-pndqd   3h59m                           1                 1                         aws       ubuntu   1.19.9
+test-worker-v5drmq 3h56m                             2                 2            aws       ubuntu      1.19.9 
+test-worker-pndqd   3h59m                            1                 1            aws       ubuntu      1.19.9
 ```
 
 **Step 2**
@@ -202,15 +201,15 @@ Metadata:
 
     fieldsV1:
 
-      F:metadata: \
-……………………..
+      F:metadata: 
+……………………
 ```
 
 The description details showed that the MachineDeployment had been annotated with a minimum of 1 and a maximum of 5. Therefore, the Autoscaler will consider only the annotated MachineDeployment on the Cluster.  
 
     
 
-**Step 4:**
+**Step 4**
 
 Edit Autoscaler 
 
@@ -219,7 +218,7 @@ Click on the three dots in front of the Cluster Autoscaler in the Addons section
 ![Edit Autoscaler](/img/kubermatic/v2.17/tutorials/edit_autoscaler.png?classes=shadow,border "Edit Autoscaler")
 
 
-**Step 5:**
+**Step 5**
 
 Delete Autoscaler
 
