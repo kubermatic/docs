@@ -45,7 +45,6 @@ When the Cluster is ready, check the Pods in the kube-system Namespace to know i
 ```bash
 $ kubectl get pods -n kube-system
 
-
 NAME                              READY      STATUS    RESTARTS       AGE
 
 canal-gq9gc                        2/2       Running      0           21m
@@ -133,9 +132,8 @@ Run the following kubectl command to check the available MachineDeployments:
 $ kubectl get machinedeployments -n kube-system 
 
 NAME                		 AGE         DELETED   REPLICAS   AVAILABLEREPLICAS   PROVIDER     OS         VERSION
-
-test-worker-v5drmq 3h56m                              2               2             aws       ubuntu       1.19.9 
-test-worker-pndqd   3h59m                             1               1             aws       ubuntu       1.19.9
+test-worker-v5drmq          3h56m                     2               2             aws       ubuntu       1.19.9 
+test-worker-pndqd           3h59m                     1               1             aws       ubuntu       1.19.9
 ```
 
 **Step 2**
