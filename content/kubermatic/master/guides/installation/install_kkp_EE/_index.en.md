@@ -70,4 +70,4 @@ Follow the CE install guide as normal, the remaining steps apply equally to the 
 ### Next Steps
 
 * [Add a Seed cluster]({{< ref "../add_seed_cluster_ee" >}}) to start creating user clusters.
-* Install the [monitoring & logging stack]({{< ref "../../../tutorials_howtos/operation/logging_and_monitoring_Stacks" >}}) to collect cluster-wide metrics in a central place.
+* Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../../guides/monitoring_logging_alerting/master_seed/installation" >}}) to collect cluster-wide metrics in a central place.

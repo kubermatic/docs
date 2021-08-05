@@ -1,12 +1,11 @@
 +++
-title = "Monitoring and Logging Stacks"
+linkTitle = "Installation"
+title = "Installation of the Master / Seed MLA Stack"
 date = 2020-02-14T12:07:15+02:00
-weight = 80
-
+weight = 10
 +++
 
-This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) monitoring stack. It's highly recommended to install this
-stack on the master and all seed clusters.
+This chapter describes how to setup the [KKP Master / Seed MLA (Monitoring, Logging & Alerting) stack]({{< relref "../../../../architecture/monitoring_logging_alerting/master_seed/" >}}). It's highly recommended to install this stack on the master and all seed clusters.
 
 ### Requirements
 
@@ -21,6 +20,13 @@ This guide assumes the following tools are available:
 
 * Helm 3.x
 * kubectl 1.16+
+
+## Monitoring & Alerting Components
+
+This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) master / seed monitoring & alerting components. It's highly recommended to install this
+stack on the master and all seed clusters.
+
+It uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. Dashboarding is done with [Grafana](https://grafana.com). More information can be found in the [Architecture]({{< relref "../../../../architecture/monitoring_logging_alerting/master_seed/" >}}) document.
 
 ### Installation
 
@@ -99,7 +105,7 @@ alerts are sent where.
 Likewise, when your cluster grows, you most likely want to adjust the resource requirements in
 `prometheus.containers.prometheus.resources` and others.
 
-You can find more information on the [Monitoring, Logging & Alerting Customization]({{< relref "../monitoring-logging-alerting-customization" >}}) page.
+You can find more information on the [Monitoring, Logging & Alerting Customization]({{< relref "../customization" >}}) page.
 
 ### Thanos (Beta)
 
@@ -116,13 +122,12 @@ It's essential to configure the retention period for Thanos using `prometheus.th
 configure the proper object store and create the required bucket. Refer to the `config/prometheus/values.yaml` for a
 complete list of options.
 
+## Logging Components
 
-This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) logging stack. It's highly recommended to install this
+This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) master / seed logging components. It's highly recommended to install this
 stack on the master and all seed clusters.
 
-The logging stack consists of Promtail and [Grafana Loki](https://grafana.com/oss/loki/). Customers with more
-elaborate requirements can also choose to install an ELK stack (either via Helm or using the Elastic Cloud on
-Kubernetes operator).
+The logging stack consists of Promtail and [Grafana Loki](https://grafana.com/oss/loki/). More information can be found in the [Architecture]({{< relref "../../../../architecture/monitoring_logging_alerting/master_seed/" >}}) document.
 
 ### Requirements
 

@@ -169,5 +169,5 @@ KKP and OAuth2-Proxy accordingly.
 ### Security Considerations
 
 The IAP does not protect services against access from within the cluster. Sensitive services should therefore
-be configured to require further authentication. Grafana, the [monitoring stack]({{< ref "../../../tutorials_howtos/operation/logging_and_monitoring_Stacks" >}})'s
+be configured to require further authentication. Grafana, the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../../architecture/monitoring_logging_alerting/master_seed/" >}})'s
 dashboard UI, requires proper authentication by default, for example.
