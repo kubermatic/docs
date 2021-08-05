@@ -131,9 +131,9 @@ Run the following kubectl command to check the available MachineDeployments:
 ```bash
 $ kubectl get machinedeployments -n kube-system 
 
-NAME                		 AGE         DELETED   REPLICAS   AVAILABLEREPLICAS   PROVIDER     OS         VERSION
-test-worker-v5drmq          3h56m                     2               2             aws       ubuntu       1.19.9 
-test-worker-pndqd           3h59m                     1               1             aws       ubuntu       1.19.9
+NAME                 AGE   DELETED REPLICAS AVAILABLEREPLICAS PROVIDER   OS     VERSION
+test-worker-v5drmq  3h56m             2            2           aws      ubuntu  1.19.9 
+test-worker-pndqd   3h59m             1            1           aws      ubuntu  1.19.9
 ```
 
 **Step 2**
