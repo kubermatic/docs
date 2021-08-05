@@ -114,18 +114,17 @@ As shown above, the Autoscaler has been provisioned and running.
 
 ## Annotating MachineDeployments for Autoscaling
 
-```bash
 The Cluster Autoscaler only considers MachineDeployment with valid annotations. The annotations are used to control the minimum and the maximum number of replicas per MachineDeployment. You don't need to apply those annotations to all MachineDeployment objects, but only on MachineDeployments that Cluster Autoscaler should consider.
 
+```bash
 cluster.k8s.io/cluster-api-autoscaler-node-group-min-size - the minimum number of replicas (must be greater than zero)
-
 
 cluster.k8s.io/cluster-api-autoscaler-node-group-max-size - the maximum number of replicas
 ```
 
 You can apply the annotations to MachineDeployments once the Cluster is provisioned and the MachineDeployments are created and running by following the steps below. 
 
-**Step 1:**
+**Step 1**
 
 Run the following kubectl command to check the available MachineDeployments:
 
