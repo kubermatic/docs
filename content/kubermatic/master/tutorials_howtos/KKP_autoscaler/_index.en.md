@@ -159,7 +159,7 @@ machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
  
 **Step 3**
 
-Check the MachineDeployment description
+Check the MachineDeployment description:
 
 ```bash
 $ kubectl describe machinedeployments -n kube-system test-cluster-worker-v5drmq
