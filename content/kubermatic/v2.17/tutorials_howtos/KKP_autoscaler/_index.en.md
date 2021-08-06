@@ -148,7 +148,7 @@ machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ### Maximum annotation:
 
 ```bash
-kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="5"
+$ kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="5"
 
 machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ```
@@ -225,7 +225,7 @@ You can delete Autoscaler from where you edit it above and select delete.
 
 ## Summary:
 
-That is it! You have successfully deployed a Kubernetes Autoscaler on KKP Cluster and annotates the desire MachineDeployment, which Autoscaler should consider. Please check the learn more below for more resources on Kubernetes Autoscaler and how to provision a KKP Cluster. 
+That is it! You have successfully deployed a Kubernetes Autoscaler on a KKP Cluster and annotated the desired MachineDeployment, which Autoscaler should consider. Please check the learn more below for more resources on Kubernetes Autoscaler and how to provision a KKP Cluster. 
 
 ## Learn More
 
