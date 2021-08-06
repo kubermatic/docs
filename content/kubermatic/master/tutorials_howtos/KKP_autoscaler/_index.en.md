@@ -229,4 +229,4 @@ That is it! You have successfully deployed a Kubernetes Autoscaler on a KKP Clus
 ## Learn More
 
 * Read more on [Kubernetes autoscaler here](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-is-cluster-autoscaler).
-* You can easily provision a Kubernetes Cluster using [KKP here](https://docs.kubermatic.com/kubermatic/master/tutorials_howtos/project_and_cluster_management/)
+* You can easily provision a Kubernetes Cluster using [KKP here](https://docs.kubermatic.com/kubermatic/v2.17/tutorials_howtos/project_and_cluster_management/)
