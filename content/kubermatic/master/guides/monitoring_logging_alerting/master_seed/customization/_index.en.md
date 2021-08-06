@@ -1,8 +1,11 @@
 +++
-title = "Monitoring, Logging & Alerting Customization"
+linkTitle = "Customization"
+title = "Customization of the Master / Seed MLA Stack"
 date = 2018-08-17T12:07:15+02:00
 weight = 20
 +++
+
+This chapter described the customization of the KKP [Master / Seed Monitoring, Logging & Alerting Stack]({{< relref "../../../../architecture/monitoring_logging_alerting/master_seed/_index.en.md" >}}).
 
 When it comes to monitoring, no approach fits all use cases. It's expected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
 
@@ -11,7 +14,7 @@ When it comes to monitoring, no approach fits all use cases. It's expected that 
 * alertmanager rules
 * Grafana dashboards
 
-You will want to familiarize yourself with the [Monitoring, Logging & Alerting Architecture]({{< relref "../logging_and_monitoring_Stacks" >}}) before reading any further.
+You will want to familiarize yourself with the [Installation of the Master / Seed MLA Stack]({{< relref "../installation/" >}}) before reading any further.
 
 ## Customer-Cluster Prometheus
 
@@ -168,7 +171,7 @@ alertmanager:
 ```
 Please review the [Alertmanager Configuration Guise](https://prometheus.io/docs/alerting/latest/configuration/) for detailed configuration syntax.
 
-You can review the [Alerting Runbook]({{< relref "../../../cheat_sheets/alerting_runbook" >}}) for a reference of alerts that Kubermatic Kubernetes Platform (KKP) monitoring setup can fire, alongside a short description and steps to debug.
+You can review the [Alerting Runbook]({{< relref "../../../../cheat_sheets/alerting_runbook" >}}) for a reference of alerts that Kubermatic Kubernetes Platform (KKP) monitoring setup can fire, alongside a short description and steps to debug.
 
 ## Grafana Dashboards
 
