@@ -143,7 +143,7 @@ The annotation command will be used with one of the MachineDeployments above to 
 ### Minimum annotation:
 
 ```bash
-kubectl annotate machinedeployment -n kube-system test-worker-6wjcx cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
+$ kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
 
 machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ```
