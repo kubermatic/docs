@@ -219,7 +219,7 @@ You can delete Autoscaler from where you edit it above and select delete.
 ![Delete Autoscaler](/img/kubermatic/master/tutorials/delete_autoscaler.png?classes=shadow,border "Delete Autoscaler")
 
 
- Once it has been deleted, you can check the Cluster to ensure that the Autoscaler has been deleted using `kubectl get pods -n kube-system command.`
+ Once it has been deleted, you can check the Cluster to ensure that the Autoscaler has been deleted using `kubectl get pods -n kube-system` command.
 
 
 ## Summary:

@@ -95,7 +95,6 @@ Go over to the cluster and check the Pods in the kube-system Namespace using the
 $ kubectl get pods -n kube-system
 
 NAME                                 	       READY          STATUS    RESTARTS        AGE
-
 canal-gq9gc                          	 	   2/2     	      Running   	0           32m
 
 canal-tnms8                           		   2/2     	      Running   	0           33m
@@ -221,7 +220,7 @@ You can delete Autoscaler from where you edit it above and select delete.
 ![Delete Autoscaler](/img/kubermatic/v2.17/tutorials/delete_autoscaler.png?classes=shadow,border "Delete Autoscaler")
 
 
- Once it has been deleted, you can check the Cluster to ensure that the Autoscaler has been deleted using `kubectl get pods -n kube-system command.`
+ Once it has been deleted, you can check the Cluster to ensure that the Autoscaler has been deleted using `kubectl get pods -n kube-system` command.
 
 
 ## Summary:
