@@ -96,3 +96,5 @@ It supports rules for both metrics and logs. For adding a new rule group, click 
 ![KKP UI - Alerting Rules Data](/img/kubermatic/master/monitoring/user_cluster/ui_alert_rules_data.png)
 
 For more information about Prometheus rules, please check [Prometheus Recording Rules](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/) and [Prometheus Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/).
+
+For setting up Alertmanager with alerting rules for metrics and logs, please refer to [Walkthrough Tutorial: Setting up Alertmanager with Slack Notifications]({{< relref "../../../../tutorials_howtos/monitoring_logging_alerting/user_cluster/setting_up_alertmanager_with_slack_notifications" >}}).

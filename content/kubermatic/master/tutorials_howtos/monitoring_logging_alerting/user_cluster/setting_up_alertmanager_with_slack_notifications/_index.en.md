@@ -117,5 +117,5 @@ After those Rule Groups are created, you will be able to to receive alert notifi
 ![Slack Alerts](/img/kubermatic/master/monitoring/user_cluster/slack_alerts.png?height=300px&classes=shadow,border, "Slack Alert Notifications")
 
 That’s it! If you want to configure Alertmanager with more alerts receivers, please check [Prometheus Alertmanager Configuration](https://prometheus.io/docs/alerting/latest/configuration/),
-and if you want to create more useful alerting rules, please check [Prometheus Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/)
+and if you want to create more useful alerting rules, please check [KKP User Cluster MLA Alerting & Recording Rules]({{< relref "../../../../guides/monitoring_logging_alerting/user_cluster/user_guide/#recording-rules--alerting-rules" >}}), [Prometheus Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/)
 and [Awesome Prometheus Alerts](https://awesome-prometheus-alerts.grep.to/).
