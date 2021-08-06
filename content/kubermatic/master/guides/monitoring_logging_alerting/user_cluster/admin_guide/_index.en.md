@@ -261,7 +261,11 @@ kubectl get pods -n mla
 
 ## Uninstallation
 
-**WARNING:** Before proceeding with any of the following steps, make sure that you backup all data that you may still need - metrics data / logs in the object store, alertmanager / rules configuration, Grafana dashboards.
+{{% notice warning %}}
+
+Before proceeding with any of the following steps, make sure that you backup all data that you may still need - metrics data / logs in the object store, alertmanager / rules configuration, Grafana dashboards.
+
+{{% /notice %}}
 
 In order to uninstall the User Cluster MLA stack from a seed cluster (and all user clusters serviced by that seed cluster), follow the 3 steps in this order:
 
