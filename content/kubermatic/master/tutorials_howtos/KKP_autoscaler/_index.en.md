@@ -46,7 +46,6 @@ When the Cluster is ready, check the Pods in the kube-system Namespace to know i
 $ kubectl get pods -n kube-system
 
 NAME                              READY      STATUS    RESTARTS       AGE
-
 canal-gq9gc                        2/2       Running      0           21m
 
 canal-tnms8                        2/2       Running      0           21m
@@ -96,7 +95,6 @@ Go over to the cluster and check the Pods in the kube-system Namespace using the
 $ kubectl get pods -n kube-system
 
 NAME                                   READY              STATUS    RESTARTS        AGE
-
 canal-gq9gc                          	2/2     	      Running   	0           32m
 
 canal-tnms8                           	2/2     	      Running   	0           33m
@@ -168,7 +166,7 @@ Name:         test-cluster-worker-v5drmq
 
 Namespace:    kube-system
 
-Labels:       &lt;none>
+Labels:       <none>
 
 Annotations:  cluster.k8s.io/cluster-api-autoscaler-node-group-max-size: 5
 
@@ -188,7 +186,7 @@ Metadata:
 
     foregroundDeletion
 
-  Generate Name:  test-cluster-worker-v5drmq-
+  Generate Name:  test-cluster-worker-v5drmq
 
   Generation:     1
 
@@ -209,18 +207,14 @@ As shown above, the MachineDeployment has been annotated with a minimum of 1 and
 
     
 
-**Step 4**
+## Edit KKP Autoscaler
 
-Edit Autoscaler 
-
-Click on the three dots in front of the Cluster Autoscaler in the Addons section of the Cluster dashboard and select edit.
+To edit KKP Autoscaler, click on the three dots in front of the Cluster Autoscaler in the Addons section of the Cluster dashboard and select edit.
 
 ![Edit Autoscaler](/img/kubermatic/master/tutorials/edit_autoscaler.png?classes=shadow,border "Edit Autoscaler")
 
 
-**Step 5**
-
-Delete Autoscaler
+## Delete KKP Autoscaler
 
 You can delete Autoscaler from where you edit it above and select delete.
 

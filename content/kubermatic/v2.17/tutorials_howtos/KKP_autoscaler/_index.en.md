@@ -46,7 +46,6 @@ When the Cluster is ready, check the Pods in the kube-system Namespace to know i
 $ kubectl get pods -n kube-system
 
 NAME                              	READY   STATUS     RESTARTS   AGE
-
 canal-gq9gc                       	 2/2    Running       0       21m
 
 canal-tnms8                       	 2/2    Running       0       21m
@@ -142,7 +141,7 @@ The annotation command will be used with one of the MachineDeployments above to 
 ### Minimum annotation:
 
 ```bash
-kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
+$ kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
 
 machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ```
@@ -158,7 +157,7 @@ machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
  
 **Step 3**
 
-Check the MachineDeployment description
+Check the MachineDeployment description:
 
 ```bash
 $ kubectl describe machinedeployments -n kube-system test-cluster-worker-v5drmq
@@ -167,7 +166,7 @@ Name:         test-cluster-worker-v5drmq
 
 Namespace:    kube-system
 
-Labels:       &lt;none>
+Labels:       <none>
 
 Annotations:  cluster.k8s.io/cluster-api-autoscaler-node-group-max-size: 5
 
@@ -187,7 +186,7 @@ Metadata:
 
     foregroundDeletion
 
-  Generate Name:  test-cluster-worker-
+  Generate Name:  test-cluster-worker-v5drmq
 
   Generation:     1
 
@@ -203,22 +202,19 @@ Metadata:
 ……………………
 ```
 
-The description details showed that the MachineDeployment had been annotated with a minimum of 1 and a maximum of 5. Therefore, the Autoscaler will consider only the annotated MachineDeployment on the Cluster.  
+As shown above, the MachineDeployment has been annotated with a minimum of 1 and a maximum of 5. Therefore, the Autoscaler will consider only the annotated MachineDeployment on the Cluster.  
 
     
 
-**Step 4**
+## Edit KKP Autoscaler
 
-Edit Autoscaler 
-
-Click on the three dots in front of the Cluster Autoscaler in the Addons section of the Cluster dashboard and select edit.
+To edit KKP Autoscaler, click on the three dots in front of the Cluster Autoscaler in the Addons section of the Cluster dashboard and select edit.
 
 ![Edit Autoscaler](/img/kubermatic/v2.17/tutorials/edit_autoscaler.png?classes=shadow,border "Edit Autoscaler")
 
 
-**Step 5**
 
-Delete Autoscaler
+## Delete KKP Autoscaler
 
 You can delete Autoscaler from where you edit it above and select delete.
 
@@ -230,7 +226,7 @@ You can delete Autoscaler from where you edit it above and select delete.
 
 ## Summary:
 
-That is it! You have successfully deployed a Kubernetes Autoscaler on KKP Cluster and annotates the desire MachineDloyment, which Autoscaler should consider. Please check the learn more below for more resources on Kubernetes Autoscaler and how to provision a KKP Cluster. 
+That is it! You have successfully deployed a Kubernetes Autoscaler on KKP Cluster and annotates the desire MachineDeployment, which Autoscaler should consider. Please check the learn more below for more resources on Kubernetes Autoscaler and how to provision a KKP Cluster. 
 
 ## Learn More
 
