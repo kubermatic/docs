@@ -232,7 +232,7 @@ You can delete Autoscaler from where you edit it above and select delete.
 
 ## Summary:
 
-That is it! You have successfully deployed a Kubernetes Autoscaler on KKP Cluster and annotates the desire MachineDloyment, which Autoscaler should consider. Please check the learn more below for more resources on Kubernetes Autoscaler and how to provision a KKP Cluster. 
+That is it! You have successfully deployed a Kubernetes Autoscaler on a KKP Cluster and annotated the desired MachineDeployment, which Autoscaler should consider. Please check the learn more below for more resources on Kubernetes Autoscaler and how to provision a KKP Cluster. 
 
 ## Learn More
 
