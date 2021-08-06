@@ -29,7 +29,6 @@ Using a Kubernetes cluster autoscaler in the KKP cluster must meet specific mini
 ## Installing Kubernetes Auto-scaler on KKP Cluster
 
 You can install Kubernetes autoscaler on a running KKP Cluster using the KKP addon mechanism, which is already built into the KKP Cluster dashboard.
-
  
 
 **Step 1**
@@ -200,7 +199,6 @@ Metadata:
 
       F:metadata:
 ……………………	  
-
 ```
 
 As shown above, the MachineDeployment has been annotated with a minimum of 1 and a maximum of 5. Therefore, the Autoscaler will consider only the annotated MachineDeployment on the Cluster.  
