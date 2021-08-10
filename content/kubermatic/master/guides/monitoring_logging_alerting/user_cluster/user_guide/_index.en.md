@@ -87,7 +87,7 @@ Users can configure Alertmanager configuration with customized receivers and tem
 
 ## Recording Rules & Alerting Rules
 
-KKP User Cluster MLA supports Prometheus-compatible rules for metrics and logs. The table on the “User Cluster Prometheus Rules” tab can be used to manage both recording rules and alerting rules:
+KKP User Cluster MLA supports Prometheus-compatible rules for metrics and logs. The table on the “User Cluster Recording & Alerting Rules” tab can be used to manage both recording rules and alerting rules:
 
 ![KKP UI - Alerting Rules](/img/kubermatic/master/monitoring/user_cluster/ui_alert_rules.png)
 

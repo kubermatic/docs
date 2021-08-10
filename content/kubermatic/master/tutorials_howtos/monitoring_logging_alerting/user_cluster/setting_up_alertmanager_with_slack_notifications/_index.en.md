@@ -77,7 +77,7 @@ create some alerting rules to generate alerts from metrics and logs.
 
 ## Creating Alerting Rules
 
-Let’s create two Alerting Rule Groups to generate alerts from metrics and logs. Go to the **User Cluster Alerting & Recording Rules** tab,
+Let’s create two Alerting Rule Groups to generate alerts from metrics and logs. Go to the **User Cluster Recording & Alerting Rules** tab,
 and click **+ Add Rule Group**, and add the following rule group with type `Metric` in order to generate alerts from metrics:
 
 ```yaml
