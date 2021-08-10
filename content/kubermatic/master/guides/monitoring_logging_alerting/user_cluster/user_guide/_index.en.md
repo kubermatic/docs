@@ -18,11 +18,11 @@ Users can enable monitoring and logging independently, and also can disable or e
 
 ## Exposing Application Metrics
 
-User Cluster MLA stack defines some common scrape targets for Prometheus by default. On top of that, it is possible to add custom metrics scrape targets for any applications running in user clusters.
+User Cluster MLA stack defines some common metrics scrape targets for Prometheus by default. As part of that, it is configured to scrape metrics from all Kubernetes pods and service endpoints, provided they have the correct annotations. Thanks to that, it is possible to add custom metrics scrape targets for any applications running in user clusters.
 
 ### Adding Scrape Annotations to Your Applications
 
-In order to expose Prometheus metrics of any application, add Prometheus scraping annotations to its pod specification, for example:
+In order to expose Prometheus metrics of any Kubernetes pod or service endpoints, add `prometheus.io` scraping annotations to the pod / service specification. For example:
 
 ```yaml
 metadata:
@@ -32,7 +32,20 @@ metadata:
     prometheus.io/port: "8080"
 ```
 
-Those metrics will be automatically discovered by the User Cluster Prometheus and made available in the MLA Grafana UI without any further configuration. For more details, please check [Scraping Pod Metrics via Annotations](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus#scraping-pod-metrics-via-annotations) documentation.
+Note that the values for `prometheus.io/scrape` and `prometheus.io/port` must be enclosed in double quotes.
+
+The metric endpoints exposed via annotations will be automatically discovered by the User Cluster Prometheus and made available in the MLA Grafana UI without any further configuration.
+
+The following annotations are supported:
+
+| Annotation                | Example value | Description
+| ------------------------- | ------------- | ------------
+| prometheus.io/scrape      | `"true"`      | Only scrape pods / service endpoints that have a value of `true`
+| prometheus.io/scrape-slow | `"true"`      | The same as `prometheus.io/scrape`, but will scrape metrics in longer intervals (5 minutes)
+| prometheus.io/path        | `/metrics`    |  Overrides the metrics path, the default is `/metrics`
+| prometheus.io/port        | `"8080"`      | Scrape the pod / service endpoints on the indicated port
+
+For more information on exact scraping configuration and annotations, reference the user cluster Prometheus configuration in the `prometheus` ConfigMap (`kubectl get configmap prometheus -n mla-system -oyaml`) against the prometheus documentation for [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config) and [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config).
 
 ## Accessing Metrics & Logs in Grafana
 
