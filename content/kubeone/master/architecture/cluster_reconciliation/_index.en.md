@@ -1,5 +1,6 @@
 +++
 title = "Cluster Reconciliation"
+meta description = "In this section you learn reconciling your cluster with KubeOne"
 date = 2021-02-10T12:00:00+02:00
 weight = 3
 enableToc = true
