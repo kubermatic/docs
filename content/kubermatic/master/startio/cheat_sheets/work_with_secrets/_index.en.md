@@ -26,7 +26,7 @@ Make sure that you never commit the files with decrypted values inside your repo
 If you want to update some values or encrypt a new ones, you will need the AGE public key (set in `AGE_PUBLIC_KEY` variable)
 which is passed to the `sops` command.
 ```shell
-sops -e --encrypted-regex '[sS]ecret|[kK]ey|password|hash' --age $AGE_PUBLIC_KEY kubermatic/values.yaml
+sops -e --encrypted-regex 'secret|Secret|key|Key|password|hash' --age $AGE_PUBLIC_KEY kubermatic/values.yaml
 ```
 
 {{% notice info %}}
