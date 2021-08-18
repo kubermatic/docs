@@ -47,6 +47,30 @@ The following annotations are supported:
 
 For more information on exact scraping configuration and annotations, reference the user cluster Prometheus configuration in the `prometheus` ConfigMap (`kubectl get configmap prometheus -n mla-system -oyaml`) against the prometheus documentation for [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config) and [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config).
 
+### Extending Scrape Config
+It is also possible to extend User Cluster Prometheus with customized scrape configs. This can be achieved by adding ConfigMaps with a pre-defined name prefix `prometheus-scraping` in the `mla-system` namespace in the user cluster. For example, a file `example.yaml` which contains customized scrape configs can look like the following:
+
+```yaml
+- job_name: 'prometheus-example'
+  static_configs:
+  - targets: ["localhost:9090"]
+- job_name: 'schnitzel'
+  kubernetes_sd_configs:
+  - role: pod
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_pod_annotation_kubermatic_scrape]
+    action: keep
+    regex: true
+```
+
+User can create a ConfigMap from the above file by doing:
+
+```bash
+kubectl create configmap prometheus-scraping-test --from-file=example.yaml -n mla-system
+```
+
+User Cluster Prometheus will reload configuration automatically after executing the above command. Please note that users will need to make sure to provide valid scrape configs. Otherwise, User Cluster Prometheus will not reload configuration successfully and crash. For more information about Scrape Config of Prometheus, please refer to [Prometheus Scrape Config Documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
+
 ## Accessing Metrics & Logs in Grafana
 
 Once monitoring and/or logging are enabled for a user cluster, users can access the Grafana UI to see metrics and logs of this user cluster.
