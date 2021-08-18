@@ -8,7 +8,65 @@ file available on your file system.
 
 Let’s unzip it and take a look at the structure.
 
-![Files Structure](files.png "Files Structure")
+```text
+.
+├── .github
+│   └── workflows
+│       └── kkp.yaml
+├── .gitignore
+├── README-local.md
+├── README.md
+├── flux
+│   └── clusters
+│       ├── master
+│       │   ├── iap
+│       │   │   └── iap.yaml
+│       │   ├── kube-system
+│       │   │   └── s3-exporter.yaml
+│       │   ├── kubermatic
+│       │   │   ├── kubermatic-git-source.yaml
+│       │   │   ├── kubermatic-setting.yaml
+│       │   │   ├── project.yaml
+│       │   │   ├── seed.yaml
+│       │   │   ├── sops-kustomization.yaml
+│       │   │   ├── user.yaml
+│       │   │   └── userprojectbinding.yaml
+│       │   ├── minio
+│       │   │   └── minio.yaml
+│       │   └── monitoring
+│       │       ├── alertmanager.yaml
+│       │       ├── blackbox-exporter.yaml
+│       │       ├── grafana.yaml
+│       │       ├── karma.yaml
+│       │       ├── kube-state-metrics.yaml
+│       │       ├── node-exporter.yaml
+│       │       └── prometheus.yaml
+│       └── master-sops
+│           └── kubermatic
+│               └── preset.yaml
+├── kubeone
+│   ├── addons
+│   │   ├── 00_kubermatic-ns.yaml
+│   │   └── 01_kubermatic-sc.yaml
+│   └── kubeone.yaml
+├── kubermatic
+│   ├── kubermatic-configuration.yaml
+│   └── values.yaml
+├── secrets.md
+└── terraform
+    ├── README.md
+    ├── dns
+    │   ├── main.tf
+    │   ├── terraform.tfvars
+    │   ├── variables.tf
+    │   └── versions.tf
+    ├── main.tf
+    ├── output.tf
+    ├── setup_terraform_backend.sh
+    ├── terraform.tfvars
+    ├── variables.tf
+    └── versions.tf
+```
 
 There are following directories and files:
 
@@ -29,4 +87,4 @@ There are following directories and files:
 * _README-local.md_ - includes the troubleshooting steps if you would like to validate the whole installation
   manually instead of using the GitHub Actions
 
-![Example content of secrets.md file](example-secrets.png "Example content of secrets.md file")
+![Example content of secrets.md file](example-secrets.png?width=700px&classes=shadow,border "Example content of secrets.md file")

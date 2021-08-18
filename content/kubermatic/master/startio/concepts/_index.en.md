@@ -22,7 +22,7 @@ can be either public or private, managed by user or organization.
 
 ### Hosted DNS domain
 For setting up DNS endpoint for accessing KKP and other components
-(if you have Route53 - records preparation can be fully automated, hosted zone should be in the same account as other AWS resources).
+(if you have Route53 - records preparation can be fully automated as long as the hosted zone is the same account as other AWS resources).
 
 ## Used Tools
 

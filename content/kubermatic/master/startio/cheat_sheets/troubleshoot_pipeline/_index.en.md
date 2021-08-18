@@ -6,7 +6,7 @@ weight = 30
 In case that some step failed in the pipeline, go to the **Actions** menu and open a specific workflow run,
 see the details of the failed step, see the example below.
 
-![Failed Pipeline](failed_pipeline.png "Failed Pipeline")
+![Failed Pipeline](failed_pipeline.png?width=700px&classes=shadow,border "Failed Pipeline")
 
 There may be various root causes inside the pipeline, in the above step you can see that the `GITHUB_TOKEN`
 was not set properly (missing secret definition).

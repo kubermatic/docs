@@ -5,12 +5,13 @@ title = "GitHub Workflow description"
 GitHub Workflow named `kkp.yaml` was created to automate all installation steps to have KKP up and running and
 ready to operate with GitOps (using Flux tool).
 
-![Pipeline Schema](pipeline.png "Pipeline Schema")
+![Pipeline Schema](pipeline.png?width=700px&classes=shadow,border "Pipeline Schema")
 
 TBD - update image schema
 
 Automation workflows are being triggered on 2 specific events - either on your _Pull Requests_ or after push to _main_ branch.
-On pull requests, only the jobs for terraform validate and plan are executed (so that you have a visibility what is going to change), all other jobs are being executed on the _main_ branch after push (in case that any files in directories _kubeone, kubermatic, terraform_ or _.github/workflows_ has changed).
+On pull requests, only the jobs for terraform validate and plan are executed (so that you have visibility what is going to change).
+All other jobs are being executed on the _main_ branch after push (in case that any files in directories _kubeone, kubermatic, terraform_ or _.github/workflows_ have changed).
 
 ## Jobs
 

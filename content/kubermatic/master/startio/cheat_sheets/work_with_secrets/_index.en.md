@@ -3,7 +3,8 @@ title = "Work with Secrets using SOPS"
 weight = 50
 +++
 
-Install the [sops](https://github.com/mozilla/sops#download) tool locally.
+Install the [sops](https://github.com/mozilla/sops#download) tool locally (version `3.7.1` is used
+in the automated pipeline).
 
 ## Decrypt the file
 Take the values of AGE secret (from `secrets.md`) and put it in a file, e.g. `.age.txt`.

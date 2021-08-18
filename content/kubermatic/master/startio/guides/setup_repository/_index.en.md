@@ -1,6 +1,7 @@
 +++
 title = "Setup your GitHub repository"
 weight = 30
+enableToc = true
 +++
 
 Goal of the setup is to put the downloaded directory structure into your GitHub repository,
@@ -65,11 +66,11 @@ git push -u origin main
 At this point, GitHub Workflow should be triggered and you can watch it in the *Actions* menu on your repository.
 After all steps are complete, it may still take a few minutes to reconcile the required state (as the Flux is delivering additional steps independently).
 
-![GitHub Workflow](pipeline.png "GitHub Workflow")
+![GitHub Workflow](pipeline.png?width=700px&classes=shadow,border "GitHub Workflow")
 
 Congratulations, now it’s time to login to your KKP and create your first user cluster!
 
-![KKP Login Page](kkp-login.png "KKP Login Page")
-![KKP UI](kkp-ui.png "KKP UI")
+![KKP Login Page](kkp-login.png?width=700px&classes=shadow,border "KKP Login Page")
+![KKP UI](kkp-ui.png?width=700px&classes=shadow,border "KKP UI")
 
-Now see the details of Kubermatic Kubernetes Platform [Documentation](https://docs.kubermatic.com/kubermatic/).
+See the details about creating User Cluster in Kubermatic Kubernetes Platform [documentation]({{< ref "../../../tutorials_howtos/project_and_cluster_management/" >}}).
