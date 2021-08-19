@@ -9,8 +9,8 @@ This chapter explains the installation procedure of KKP into a pre-existing Kube
 
 ## Terminology
 
-* **User/Customer cluster** -- A Kubernetes cluster created and managed by KKP
-* **Seed cluster** -- A Kubernetes cluster which is responsible for hosting the master components of a customer cluster
+* **User cluster** -- A Kubernetes cluster created and managed by KKP
+* **Seed cluster** -- A Kubernetes cluster which is responsible for hosting the master components of a user cluster
 * **Master cluster** -- A Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys. It hosts the KKP components and might also act as a seed cluster.
 * **Seed datacenter** -- A definition/reference to a seed cluster
 * **Node datacenter** -- A definition/reference of a datacenter/region/zone at a cloud provider (aws=zone, digitalocean=region, openstack=zone)
