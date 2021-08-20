@@ -9,4 +9,4 @@ simple parts:
  * [explore the content and customize it]({{< ref "./explore_content/" >}})
  * [setup GitHub repository and deliver KKP with GitOps]({{< ref "./setup_repository/" >}})
 
-TBD - high-level IMG here...
+![High-level Flow](../flow.png?width=700px&classes=shadow,border "High-level Flow")

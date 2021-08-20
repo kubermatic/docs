@@ -12,7 +12,7 @@ Application to simplify a way to bootstrap your Kubermatic Kubernetes Platform w
 
 This documentation provides you with the details of your journey.
 
-TBD - image!!!
+![High-level Flow](flow.png?width=700px&classes=shadow,border "High-level Flow")
 
 Check the [Concepts]({{< ref "./concepts/" >}}) page before starting to understand the used tools and prerequisites.
 
