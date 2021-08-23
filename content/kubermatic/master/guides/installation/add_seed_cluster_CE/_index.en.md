@@ -47,7 +47,7 @@ kubectl get storageclasses
 #standard (default)   kubernetes.io/aws-ebs   2y43d
 ```
 
-If you cluster does not have a default storage class confgiured, you have to configure Minio to use a specific one. We'll follow up with creating a storage class named `kubermatic-backup` and setting Minio up to use it.
+If you cluster does not have a default storage class configured, you have to configure Minio to use a specific one. We'll follow up with creating a storage class named `kubermatic-backup` and setting Minio up to use it.
 
 As Minio does not require any of the SSD's advantages, we can use HDD-backed storage. It's recommended that Minio uses a separate storage class with a different location/security level. For a cluster running on AWS, an example class could look as follows:
 
