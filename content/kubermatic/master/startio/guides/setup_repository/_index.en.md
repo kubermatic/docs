@@ -4,7 +4,7 @@ weight = 30
 enableToc = true
 +++
 
-Goal of the setup is to put the downloaded directory structure into your GitHub repository,
+The goal of the setup is to put the downloaded directory structure into your GitHub repository,
 so let’s get started with creating a fresh repository for this purpose and then setup the GitHub Secrets before
 pushing the code to the repository.
 

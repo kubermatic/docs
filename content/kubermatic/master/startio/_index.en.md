@@ -8,7 +8,7 @@ weight = 1
 
 ## What is [start.kubermatic.io](https://start.kubermatic.io)?
 
-Application to simplify a way to bootstrap your Kubermatic Kubernetes Platform within a few minutes in an automated way operated with GitOps.
+A web application and additional tools that bootstraps your Kubermatic Kubernetes Platform within a few minutes in an automated way with applied GitOps principles.
 
 This documentation provides you with the details of your journey.
 
@@ -21,8 +21,7 @@ Follow the steps in [Guides]({{< ref "./guides/" >}}) for a detailed explanation
 Last but not least, there are a bunch of [Operations and Troubleshooting Guides]({{< ref "./cheat_sheets/" >}}) ready for you as well.
 
 ## Disclaimer
-This project is in early adoption version at this stage. After collecting the initial feedback and improving the process,
-it will be fully open-sourced and published in the community.
+This project is in early version at this stage.
 
 This project should serve mainly for the onboarding purposes and easiness to start with KKP. Make sure that you fully
 understand all parts and perform internal security checks before making your setup a production ready.

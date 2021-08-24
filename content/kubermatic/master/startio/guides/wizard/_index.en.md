@@ -46,7 +46,7 @@ Don’t specify a protocol (https://) and the trailing slash in the _Endpoint_ i
 _Username_ should be your email which will be used for your initial user integrated inside Dex (used as a KKP authentication IdP),
 this user will be also “admin” of your KKP installation.
 
-There is optional choice of enabling the monitoring stack - if enabled, monitoring stack will be deployed on your kubernetes master cluster.
+There is optional choice of enabling the monitoring and alerting stack - if enabled, monitoring stack will be deployed on your Kubernetes master cluster.
 Monitoring stack includes following services installed as helm charts: _alertmanager_, _prometheus_, _karma_, _grafana_, _kube-state-metrics_, _blackbox-exporter_, _node-exporter_.
 The services with the UI interface are accessible on the Ingress endpoints which are configured using OAuth2-Proxy as the identity-aware proxy.
 Parameter _IAP Allowed Email Domain_ is used to limit access to monitoring services, see [documentation](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview) for more advanced options.
