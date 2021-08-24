@@ -18,10 +18,9 @@ Default addons are installed in each user-cluster in KKP. The default addons are
   [TLS node bootstrapping](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/)
 * [OpenVPN client](https://openvpn.net/index.php/open-source/overview.html): virtual private network (VPN). Lets the control
   plan access the Pod & Service network. Required for functionality like `kubectl proxy` & `kubectl port-forward`.
-* [logrotate](https://github.com/blacklabelops/logrotate): rotates logs on worker nodes
 * pod-security-policy: Policies to configure KKP access when PSPs are enabled
 * default-storage-class: A cloud provider specific StorageClass
-* kubelet-configmap: A set of ConfigMaps used by kubeadm
+* kubeadm-configmap & kubelet-configmap: A set of ConfigMaps used by kubeadm
 
 Installation and configuration of these addons is done by 2 controllers which are part of the KKP
 seed-controller-manager:
@@ -29,8 +28,8 @@ seed-controller-manager:
 * `addon-installer-controller`: Ensures a given set of addons will be installed in all clusters
 * `addon-controller`: Templates the addons & applies the manifests in the user clusters
 
-The KKP Operator comes with a `kubermatic-operator-util` tool, which can output a full default
-KubermaticConfiguration. This will also include the default configuration for addons and can serve as
+The KKP binaries come with a `kubermatic-installer` tool, which can output a full default
+`KubermaticConfiguration` (`kubermatic-installer print`). This will also include the default configuration for addons and can serve as
 a starting point for adjustments.
 
 ```bash
@@ -370,22 +369,38 @@ spec:
             kind: Addon
             metadata:
               name: canal
+              labels:
+                addons.kubermatic.io/ensure: true
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
             metadata:
               name: csi
+              labels:
+                addons.kubermatic.io/ensure: true
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
             metadata:
               name: kube-proxy
+              labels:
+                addons.kubermatic.io/ensure: true
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
             metadata:
               name: openvpn
+              labels:
+                addons.kubermatic.io/ensure: true
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
             metadata:
               name: rbac
+              labels:
+                addons.kubermatic.io/ensure: true
+          - apiVersion: kubermatic.k8s.io/v1
+            kind: Addon
+            metadata:
+              name: kubeadm-configmap
+              labels:
+                addons.kubermatic.io/ensure: true
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
             metadata:
@@ -398,10 +413,15 @@ spec:
             kind: Addon
             metadata:
               name: pod-security-policy
+              labels:
+                addons.kubermatic.io/ensure: true
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
             metadata:
-              name: logrotate
+              name: aws-node-termination-handler
+              labels:
+                addons.kubermatic.io/ensure: true
+
 ```
 
 If you want to define the addon as accessible (i.e. configurable), add it to the `spec.api.accessibleAddons`
