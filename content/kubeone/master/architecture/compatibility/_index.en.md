@@ -27,20 +27,27 @@ support policy in the [Version Skew Policy document][upstream-supported-versions
 In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
-| KubeOne version | 1.21       | 1.20       | 1.19 | 1.18 | 1.17 |
-| --------------- | ---------- | ---------- | ---- | ---- | ---- |
-| v1.2+           | ✓ | ✓ | ✓    | ✓    | -   |
-| v1.0+           | - | - | ✓    | ✓    | ✓\*   |
+{{% notice warning %}}
+KubeOne 1.3 supports only Kubernetes 1.19 and newer. Clusters running
+Kubernetes 1.18 or older must be upgraded with an older KubeOne release
+according to the table below.
+{{% /notice %}}
 
-\* Kubernetes 1.17 has reached End-of-Life (EOL) and is not recommended
-for new clusters.
+| KubeOne version | 1.22  | 1.21  | 1.20  | 1.19\* | 1.18\*\* | 1.17\*\* |
+| --------------- | ----- | ----- | ----- | ------ | -------- | -------- |
+| v1.3+           | ✓     | ✓     | ✓     | ✓      | -        | -        |
+| v1.2+           | -     | ✓     | ✓     | ✓      | ✓        | -        |
+| v1.0+           | -     | -     | -     | ✓      | ✓        | ✓        |
 
-Additionally, we do **not** recommend installing or upgrading to the following
-Kubernetes versions:
+\* Kubernetes 1.17 and 1.18 releases have reached End-of-Life (EOL). We
+strongly recommend upgrading to a supported Kubernetes release as soon as
+possible.
 
-* Releases **older than 1.18.4** as they are affected by multiple CVEs
-* On **CentOS 7** releases **older than** 1.18.6 are **not** working
-  properly due to some networking-related issues
+\*\* Kubernetes 1.19 is scheduled to reach End-of-Life (EOL) on October 2021.
+
+We recommend using a Kubernetes release that's not older than one minor release
+than the latest Kubernetes release. For example, with 1.22 being the latest
+release, we recommend running at least Kubernetes 1.21.
 
 ## Supported Terraform Versions
 
@@ -56,19 +63,12 @@ The following operating systems are supported:
 * Ubuntu 18.04 (Bionic)
 * Ubuntu 20.04 (Focal)
 * Debian 10 (Buster)
-* CentOS 7**
+* CentOS 7
 * CentOS 8
 * RHEL 7
 * RHEL 8
 * Flatcar
-* Amazon Linux 2***
-
-\*\* Only Kubernetes versions 1.18.6 and newer are known to work properly with
-CentOS 7.
-
-\*\*\* Amazon Linux 2 currently requires you to manually specify URLs to all
-binaries — Kubelet, Kubeadm, Kubectl, and CNI using the AssetConfiguration API.
-Support for package managers on Amazon Linux 2 is planned for the future.
+* Amazon Linux 2
 
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
 [kubernetes-issue-93194]: https://github.com/kubernetes/kubernetes/issues/93194
