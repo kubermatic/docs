@@ -20,6 +20,7 @@ Supported operating systems
 * CentOS 7 [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
 * Flatcar Container Linux [ova](https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_vmware_ova.ova)
 * Ubuntu 18.04 [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
+* Ubuntu 20.04 [ova](https://cloud-images.ubuntu.com/releases/20.04/release/ubuntu-20.04-server-cloudimg-amd64.ova)
 
 #### Importing the OVA
 
@@ -66,7 +67,7 @@ The vsphere user has to have to following permissions on the correct resources:
 
 #### Seed Cluster
 
-For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-seed-cluster`) is needed:
+For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-seed-ccm`) is needed:
 
 * Role `k8c-storage-vmfolder-propagate`
   * Granted at **VM Folder** and **Template Folder**, propagated
@@ -225,6 +226,6 @@ At the moment of writing this document *Datastore and *Datastore Cluster*
 are not supported yet at `Cluster` level by Kubermatic UI.
 {{% /notice %}}
 
-It is possible to specify *Datastore* or *Datastore Clusters* in preset.
+It is possible to specify *Datastore* or *Datastore Clusters* in [preset]({{< ref "../../../../../tutorials_howtos/administration/presets" >}}).
 
 [vsphere-cloud-config]: https://vmware.github.io/vsphere-storage-for-kubernetes/documentation/existing.html#template-config-file

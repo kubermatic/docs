@@ -226,6 +226,6 @@ At the moment of writing this document *Datastore and *Datastore Cluster*
 are not supported yet at `Cluster` level by Kubermatic UI.
 {{% /notice %}}
 
-It is possible to specify *Datastore* or *Datastore Clusters* in preset.
+It is possible to specify *Datastore* or *Datastore Clusters* in [preset]({{< ref "../../../../../tutorials_howtos/administration/presets" >}}).
 
 [vsphere-cloud-config]: https://vmware.github.io/vsphere-storage-for-kubernetes/documentation/existing.html#template-config-file
