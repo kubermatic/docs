@@ -27,11 +27,10 @@ support policy in the [Version Skew Policy document][upstream-supported-versions
 In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
-
-| KubeOne version | 1.20       | 1.19 | 1.18 | 1.17 |
-| --------------- | ---------- | ---- | ---- | ---- |
-| v1.2+         | ✓ | ✓    | ✓    | -   |
-| v1.0+         | - | ✓    | ✓    | ✓*   |
+| KubeOne version | 1.21       | 1.20       | 1.19 | 1.18 | 1.17 |
+| --------------- | ---------- | ---------- | ---- | ---- | ---- |
+| v1.2+           | ✓ | ✓ | ✓    | ✓    | -   |
+| v1.0+           | - | - | ✓    | ✓    | ✓\*   |
 
 \* Kubernetes 1.17 has reached End-of-Life (EOL) and is not recommended
 for new clusters.
@@ -45,12 +44,7 @@ Kubernetes versions:
 
 ## Supported Terraform Versions
 
-The KubeOne Terraform integration requires Terraform **v0.12.0** or newer.
-
-Additionally, the [example Terraform configs][terraform-configs] for some
-providers may require a newer Terraform version:
-
-* The example Terraform configs for AWS require Terraform **v0.12.10** or newer
+The KubeOne Terraform integration requires Terraform **v1.0** or newer.
 
 For more details, you can check the `versions.tf` file that comes with the
 example Terraform configs ([example `versions.tf` file][aws-versions-tf]).

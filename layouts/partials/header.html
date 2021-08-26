@@ -1,12 +1,21 @@
+{{$products := .Site.Data.products}}
+{{$versions := (index $products .Section).versions}}
+
 <!DOCTYPE html>
 <html lang="{{ .Page.Language | default "en" }}" class="js csstransforms3d">
   <head>
     {{partial "gtm-script.html" .}}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{if and $versions (gt (len $versions) 1)}}
+      {{$isStableVersion := or (and (where $versions "release" "in" .RelPermalink) (in .RelPermalink (index $versions 1).release)) (strings.HasSuffix .RelPermalink (printf "/%s/" .Section))}}
+      {{if not $isStableVersion}}
+      <meta name="robots" content="noindex, nofollow" />
+      {{end}}
+    {{end}}
     {{if eq .FirstSection.RelPermalink .RelPermalink}}
       {{$sectionName := .Section}}
-      {{$product := index .Site.Data.products $sectionName}}
+      {{$product := index $products $sectionName}}
       {{with $product}}
         {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
         {{with $.Site.GetPage (printf "/%s/%s" $sectionName $release)}}
@@ -38,8 +47,7 @@
     {{partialCached "main-header" .}}
     {{ partial "menu.html" . }}
         <section id="body">
-        {{if in .RelPermalink "master"}}
-          {{$versions := (index .Site.Data.products .Section).versions}}
+        {{if and $versions (in .RelPermalink "master")}}
           {{if gt (len $versions) 1}}
             {{with $.Site.GetPage (printf "/%s/%s" .Section (index $versions 1).release)}}
             <div class="noticebar">This version is under construction, please use <a href="{{.RelPermalink}}" class="noticebar-link">an official release</a> version</div>

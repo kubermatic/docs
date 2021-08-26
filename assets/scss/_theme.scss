@@ -4,6 +4,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src: local('Roboto'), local('Roboto-Regular'),
     url('../fonts/roboto-latin-regular.woff2') format('woff2'),
     url('../fonts/roboto-latin-regular.woff') format('woff');
@@ -12,6 +13,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
+  font-display: swap;
   src: local('Roboto Medium'), local('Roboto-Medium'),
     url('../fonts/roboto-latin-500.woff2') format('woff2'),
     url('../fonts/roboto-latin-500.woff') format('woff');
@@ -20,9 +22,19 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
+  font-display: swap;
   src: local('Roboto Bold'), local('Roboto-Bold'),
     url('../fonts/roboto-latin-700.woff2') format('woff2'),
     url('../fonts/roboto-latin-700.woff') format('woff');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Ubuntu Bold'), local('Ubuntu-Bold'),
+    url('../fonts/ubuntu-700.woff2') format('woff2'),
+    url('../fonts/ubuntu-700.woff') format('woff');
 }
 
 /* Tags */
@@ -329,6 +341,9 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 }
 #body img.shadow, #body .video-container.shadow {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+#body img.floatleft, #body .video-container.floatleft {
+    margin: inherit;
 }
 #body img.inline {
     display: inline !important;
@@ -1099,4 +1114,10 @@ pre .copy-to-clipboard:hover {
 
 #searchResults {
     text-align: left;
+}
+
+.featherlight-content img {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e6e6e6 !important;
+  padding: 2px;
 }

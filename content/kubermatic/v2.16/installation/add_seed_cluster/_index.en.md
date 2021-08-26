@@ -20,6 +20,9 @@ about the cluster relationships.
 Compared to master clusters, seed clusters are still mostly manually installed. Future versions of KKP
 will improve the setup experience further.
 
+Some of the instructions below need to be carried out in Seed cluster and some in master cluster. If you are using same cluster for master and seed - just run all commands in the same cluster. Its useful to keep two command windows open with reference to two different KUBECONFIG files so carry out seed installation quickly. 
+
+__Run below in Seed Cluster__
 When using Helm 2, install Tiller into the seed cluster first:
 
 ```bash
@@ -38,6 +41,7 @@ The in-cluster storage is provided by [Minio](https://min.io/) and the accompany
 If your cluster has no default storage class, it's required to configure a class explicitly for Minio. You can check
 the cluster's storage classes via:
 
+__Run below in Seed Cluster__
 ```bash
 kubectl get storageclasses
 #NAME                 PROVISIONER              AGE
@@ -79,9 +83,12 @@ It's also advisable to install the `s3-exporter` Helm chart, as it provides basi
 
 With this you can install the charts:
 
+__Run below in Seed Cluster__
+
 **Helm 3**
 
 ```bash
+kubectl create ns minio || true
 helm --namespace minio upgrade --install --wait --values /path/to/your/helm-values.yaml minio charts/minio/
 helm --namespace kube-system upgrade --install --wait --values /path/to/your/helm-values.yaml s3-exporter charts/s3-exporter/
 ```
@@ -89,15 +96,26 @@ helm --namespace kube-system upgrade --install --wait --values /path/to/your/hel
 **Helm 2**
 
 ```bash
+kubectl create ns minio || true
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace minio minio charts/minio/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace kube-system s3-exporter charts/s3-exporter/
 ```
 
+## Add CRDs for kubermatic components in seed cluster
+
+If you are installing seed separately, its important to install kubermatic CRDs.
+__Run below in Seed Cluster__
+
+Please execute:
+
+```bash
+# change into kkp installer directory
+kubectl apply -f charts/kubermatic/crd/
+```
+
 ## Add the Seed Resource
 
-{{% notice warning %}}
-For not combined master/seed cluster setup, please use the [Add Seed Cluster for EE]({{< ref "../add_seed_cluster_ee" >}}) docs!
-{{% /notice %}}
+__Run below in MASTER Cluster__
 
 To connect the new seed cluster with the master, you need to create a kubeconfig Secret and a Seed resource. This allows
 the KKP components in the master cluster to communicate with the seed cluster and reconcile user-cluster control planes.
@@ -159,6 +177,7 @@ Apply the manifest above in the master cluster and KKP will pick up the new Seed
 reconcile it by installing the required KKP components. You can watch the progress by using
 `kubectl` and `watch`:
 
+__Run below in MASTER Cluster__
 ```bash
 kubectl apply -f seed-with-secret.yaml
 Secret/kubeconfig-kubermatic created.

@@ -54,6 +54,12 @@ type ClusterData struct {
 	Network ClusterNetwork
 	// Features is a set of enabled features for this cluster.
 	Features sets.String
+	// CNIPlugin contains the CNIPlugin settings
+	CNIPlugin CNIPlugin
+	// MLA contains monitoring, logging and alerting related settings for the user cluster.
+	MLA MLASettings
+	// StoragePolicy is the storage policy to use for vsphere csi addon
+	StoragePolicy string
 }
 
 type ClusterNetwork struct {
@@ -63,6 +69,19 @@ type ClusterNetwork struct {
 	PodCIDRBlocks     []string
 	ServiceCIDRBlocks []string
 	ProxyMode         string
+	StrictArp         bool
+}
+
+type CNIPlugin struct {
+	Type    string
+	Version string
+}
+
+type MLASettings struct {
+	// MonitoringEnabled is the flag for enabling monitoring in user cluster.
+	MonitoringEnabled bool
+	// LoggingEnabled is the flag for enabling logging in user cluster.
+	LoggingEnabled bool
 }
 
 type Credentials struct {
@@ -104,11 +123,14 @@ type HetznerCredentials struct {
 }
 
 type OpenstackCredentials struct {
-	Username string
-	Password string
-	Tenant   string
-	TenantID string
-	Domain   string
+	Username                    string
+	Password                    string
+	Tenant                      string
+	TenantID                    string
+	Domain                      string
+	ApplicationCredentialID     string
+	ApplicationCredentialSecret string
+	Token                       string
 }
 
 type PacketCredentials struct {

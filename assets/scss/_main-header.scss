@@ -20,6 +20,18 @@
   height: 36px;
 }
 
+.main-header-home-link {
+  margin-left: 2rem;
+  margin-right: 1rem;
+  color: var(--WHITE-color);
+  font-size: 1.25rem;
+  font-weight: 400;
+
+  span:first-of-type {
+    display: none;
+  }
+}
+
 .nav-bar {
   box-sizing: border-box;
   height: 4.375rem;
@@ -224,7 +236,29 @@
   display: none;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1366px) {
+  .main-header-home-link {
+    margin-left: 1rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+
+    span:first-of-type {
+      display: inline;
+    }
+
+    span:last-of-type {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .menu-item_link.menu-item_link--hide {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1080px) {
   .nav-bar {
     align-items: center;
     border-bottom: 2px solid transparent;

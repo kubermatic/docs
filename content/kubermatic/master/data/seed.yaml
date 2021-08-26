@@ -4,6 +4,8 @@ metadata:
   name: <<exampleseed>>
   namespace: kubermatic
 spec:
+  # BackupRestore when set, enables backup and restore controllers with given configuration.
+  backupRestore: null
   # Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK.
   # For informational purposes in the Kubermatic dashboard only.
   country: ""
@@ -199,6 +201,8 @@ spec:
           # "/datacenter-1/vm/all-kubermatic-vms-in-here") and defaults to the root VM
           # folder: "/datacenter-1/vm"
           root_path: ""
+          # The name of the storage policy to use for the storage class created in the user cluster.
+          storage_policy: ""
           # A list of VM templates to use for a given operating system. You must
           # define at least one template.
           # See: https://github.com/kubermatic/machine-controller/blob/master/docs/vsphere.md#template-vms-preparation
@@ -208,6 +212,38 @@ spec:
             rhel: ""
             sles: ""
             ubuntu: ""
+  # DefaultComponentSettings are default values to set for newly created clusters.
+  defaultComponentSettings:
+    apiserver:
+      endpointReconcilingDisabled: null
+      nodePortRange: ""
+      replicas: null
+      resources: null
+      tolerations: null
+    controllerManager:
+      leaderElection:
+        leaseDurationSeconds: null
+        renewDeadlineSeconds: null
+        retryPeriodSeconds: null
+      replicas: null
+      resources: null
+      tolerations: null
+    etcd:
+      clusterSize: null
+      diskSize: null
+      resources: null
+      storageClass: ""
+      tolerations: null
+    prometheus:
+      resources: null
+    scheduler:
+      leaderElection:
+        leaseDurationSeconds: null
+        renewDeadlineSeconds: null
+        retryPeriodSeconds: null
+      replicas: null
+      resources: null
+      tolerations: null
   # Optional: ExposeStrategy explicitly sets the expose strategy for this seed cluster, if not set, the default provided by the master is used.
   expose_strategy: ""
   # A reference to the Kubeconfig of this cluster. The Kubeconfig must
@@ -242,6 +278,8 @@ spec:
   # Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7".
   # For informational purposes in the Kubermatic dashboard only.
   location: ""
+  # Optional: MLA allows configuring seed level MLA (Monitoring, Logging & Alerting) stack settings.
+  mla: null
   # NodeportProxy can be used to configure the NodePort proxy service that is
   # responsible for making user-cluster control planes accessible from the outside.
   nodeport_proxy:
@@ -261,14 +299,14 @@ spec:
       # Resources describes the requested and maximum allowed CPU/memory usage.
       resources:
         # Limits describes the maximum amount of compute resources allowed.
-        # More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+        # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         limits:
           cpu: 200m
           memory: 64Mi
         # Requests describes the minimum amount of compute resources required.
         # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
         # otherwise to an implementation-defined value.
-        # More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+        # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         requests:
           cpu: 50m
           memory: 32Mi
@@ -279,14 +317,14 @@ spec:
       # Resources describes the requested and maximum allowed CPU/memory usage.
       resources:
         # Limits describes the maximum amount of compute resources allowed.
-        # More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+        # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         limits:
           cpu: 150m
           memory: 48Mi
         # Requests describes the minimum amount of compute resources required.
         # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
         # otherwise to an implementation-defined value.
-        # More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+        # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         requests:
           cpu: 50m
           memory: 32Mi
@@ -298,14 +336,14 @@ spec:
       # Resources describes the requested and maximum allowed CPU/memory usage.
       resources:
         # Limits describes the maximum amount of compute resources allowed.
-        # More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+        # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         limits:
           cpu: 150m
           memory: 32Mi
         # Requests describes the minimum amount of compute resources required.
         # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
         # otherwise to an implementation-defined value.
-        # More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+        # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         requests:
           cpu: 50m
           memory: 32Mi
