@@ -46,7 +46,7 @@ After you click on `Add SSH key`, your key will be created and you can now add i
 
 ### Create cluster
 
-To create a new cluster, open the Kubermatic Kubernetes Platform (KKP) dashboard, choose a project, select the menu entry `Clusters` and click the button `Add Cluster` on the top right.
+To create a new cluster, open the Kubermatic Kubernetes Platform (KKP) dashboard, choose a project, select the menu entry `Clusters` and click the button `Create Cluster` on the top right.
 
 ![Cluster List](/img/kubermatic/master/tutorials/cluster_list.png?classes=shadow,border "Cluster List")
 
@@ -62,7 +62,7 @@ Disabling the User SSH Key Agent at this point can not be reverted after the clu
 ![General Cluster Settings](/img/kubermatic/master/tutorials/wizard_step_2.png?classes=shadow,border "General Cluster Settings")
 
 
-In the next step of the installer, enter the credentials for the chosen provider. A good option is to use Kubermatic Presets here, to putting in credentials for every cluster creation:
+In the next step of the installer, enter the credentials for the chosen provider. A good option is to use Kubermatic Presets here, which is `loodse` in this case, instead putting in credentials for every cluster creation:
 
 ![Provider Credentials](/img/kubermatic/master/tutorials/wizard_step_3.png?classes=shadow,border "Provider Credentials")
 
@@ -96,7 +96,9 @@ After the update is initiated, the master components will be upgraded in the bac
 
 ### Edit Cluster
 
-Clusters can edited by pressing the ellipsis button on the right:
+Clusters can be edited by pressing the ellipsis button on the right and then select `Edit Cluster`:
+
+![Select Edit Cluster](/img/kubermatic/master/tutorials/cluster_edit_menu.png?classes=shadow,border "Select Edit Cluster")
 
 ![Edit Cluster Dialog](/img/kubermatic/master/tutorials/edit_cluster_dialog.png?classes=shadow,border "Edit Cluster Dialog")
 
@@ -104,7 +106,7 @@ Clusters can edited by pressing the ellipsis button on the right:
 
 To delete a cluster, navigate to `Clusters` and choose the cluster that you would like to delete. On the top left is a button `Delete`:
 
-![Cluster Deletion Button in the top right corner](/img/kubermatic/master/tutorials/cluster_details_btn.png?classes=shadow,border "Cluster Deletion Button in the top right corner")
+![Cluster Deletion Button in the top right corner](/img/kubermatic/master/tutorials/delete_cluster_button.png?classes=shadow,border "Cluster Deletion Button in the top right corner")
 
 To confirm the deletion, type the name of the cluster into the text box:
 
@@ -117,7 +119,7 @@ The cluster will switch into deletion state afterwards, and will be removed from
 
 To add a new machine deployment navigate to your cluster view and click on the `Add Machine Deployment` button:
 
-![Cluster overview with highlighted add button](/img/kubermatic/master/tutorials/cluster_details_btn.png?classes=shadow,border "Cluster overview with highlighted add button")
+![Cluster overview with highlighted add button](/img/kubermatic/master/tutorials/add_machine_deployment.png?classes=shadow,border "Cluster overview with highlighted add button")
 
 In the popup you can then choose the number of nodes (replicas), kubelet version, etc for your newly created machine deployment. All nodes created in this machine deployment will have the chosen settings.
 
