@@ -32,6 +32,10 @@ a.highlight {
     padding: 0;
   }
 
+  > ul > li {
+    padding-left: 1.2em;
+  }
+
   a {
     padding: 4px 0;
     color: var(--MAIN-TEXT-color);
