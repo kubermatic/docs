@@ -11,12 +11,12 @@ weight = 5
 
 The following list is only eligible for the version that is currently available. Kubermatic has a strong emphasis on the security and reliability of the provided software and releases updates regularly. Therefore this list might be outdated by a patch or minor version change. The most accurate available component list is present in the used Kubermatic Kubernetes Platform installation itself.
 
-| KKP version | 1.20 | 1.19 | 1.18 | 1.17 | 1.16 | 1.15 | 1.14 |
-| ----------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 2.12.0-5    | -    | -    | -    | -    | ✓    | ✓    | ✓    |
-| 2.12.6+     | -    | -    | -    | -    | ✓    | ✓    | -    |
-| 2.13.x      | -    | -    | -    | ✓    | ✓    | ✓    | -    |
-| 2.14.x      | -    | -    | ✓    | ✓    | ✓    | ✓    | -    |
-| 2.15.x      | -    | ✓    | ✓    | ✓    | -    | -    | -    |
-| 2.16.x      | ✓    | ✓    | ✓    | ✓    | -    | -    | -    |
+| KKP Components                | Version | 
+| -----------                   | ------  | 
+| Backup/velero                 | 1.5.2   | 
+| cert-manager                  | 0.16.1  | 
+| iap (identity aware proxy)    | 6.1.1   |
+| 2.14.x         | -       | 
+| 2.15.x         | -       | 
+| 2.16.x         | ✓       | 
 
