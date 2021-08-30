@@ -11,12 +11,18 @@ weight = 5
 
 The following list is only eligible for the version that is currently available. Kubermatic has a strong emphasis on the security and reliability of the provided software and releases updates regularly. Therefore this list might be outdated by a patch or minor version change. The most accurate available component list is present in the used Kubermatic Kubernetes Platform installation itself.
 
-| KKP Components                | Version | 
-| -----------                   | ------  | 
-| Backup/velero                 | 1.5.2   | 
-| cert-manager                  | 0.16.1  | 
-| iap (identity aware proxy)    | 6.1.1   |
-| 2.14.x         | -       | 
-| 2.15.x         | -       | 
-| 2.16.x         | ✓       | 
+| KKP Components              | Version | 
+| -----------                 | ------  | 
+| Backup/velero               | 1.5.2   | 
+| Cert-manager                | 0.16.1  | 
+| Iap (identity aware proxy)  | 6.1.1   |
+| Kubermatic                  | 2.16.5  | 
+| Kubermatic Operator         | 2.16.5  | 
+| Logging/loki                | 1.6.1   | 
+| Logging/promtail            | 1.6.1   | 
+| Minio                       | RELEASE 2020-09-10T22-02-45z| 
+| Monitoring/alertmanager     | 0.21.0  |
+| Monitoring/blackbox-exporter| 0.17.0  | 
+| Monitoring/grafana          | 7.1.5   | 
+| Monitoring/helm-exporter    | 0.4.3   |
 
