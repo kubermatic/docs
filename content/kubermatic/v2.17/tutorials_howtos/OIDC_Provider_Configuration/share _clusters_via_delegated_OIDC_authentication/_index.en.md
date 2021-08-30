@@ -5,12 +5,12 @@ weight = 80
 
 +++
 
-### Share Clusters via Delegated OIDC Authentication
+### Share Clusters via Delegated OIDC Authentication Overview
 
 The purpose of this feature is to allow using an OIDC provider like `dex` to authenticate to a Kubernetes cluster
 managed by Kubermatic Kubernetes Platform (KKP). This feature can be used to share access to a cluster with other users.
 
-### How Does It Work
+### How Does It Work?
 
 This section will demonstrate how to obtain and use the `kubeconfig` to connect to a cluster owned by a different user.
 Note that the user to which the `kubeconfig` is shared will not have any permissions inside that shared cluster unless
@@ -20,7 +20,7 @@ In order to demonstrate the feature we are going to need a working cluster. If y
 [how to create a cluster]({{< ref "../../project_and_cluster_management" >}}) section. If the feature was enabled on your
 installation you will see a "Share cluster" button after navigating to "Cluster details" page.
 
-![Share cluster button](/img/kubermatic/master/ui/cluster_details2_btn.png?classes=shadow,border "Share cluster button")
+![Share cluster button](/img/kubermatic/master/ui/cluster_details_top.png?classes=shadow,border "Share cluster button")
 
 Right after clicking on the button you will see a modal window where you can copy the generated link to your clipboard.
 
