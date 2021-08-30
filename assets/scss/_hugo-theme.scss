@@ -32,21 +32,6 @@ a.highlight {
     padding: 0;
   }
 
-  > ul > li {
-    position: relative;
-    counter-increment: li;
-    padding-left: 1.2em;
-
-    &::before {
-      position: absolute;
-      content: counter(li) ".";
-      top: 8px;
-      left: 0;
-      display: inline-block;
-      font-size: 1.125rem;
-    }
-  }
-
   a {
     padding: 4px 0;
     color: var(--MAIN-TEXT-color);
