@@ -7,6 +7,7 @@ enableToc = true
 +++
 
 This page contains an administrator guide for the [User Cluster MLA Stack]({{< relref "../../../../architecture/monitoring_logging_alerting/user_cluster/" >}}).
+The user guide is available at [User Cluster MLA User Guide]({{< relref "../user_guide/" >}}) page.
 
 ## Installation
 
@@ -141,6 +142,19 @@ There are several options in the KKP “Admin Panel” which are related to user
 **User Cluster Alertmanager Domain:**
 
 - This domain will be used to expose Alertmanager UI to users. It has to be the same domain that has been set up during the MLA stack installation in the Seed cluster. A link to Alertmanager UI will be visible in the tab “User Cluster Alertmanager”  in the cluster details view.
+
+### Addons Configuration
+KKP provides several addons for user clusters, that can be helpful when the User Cluster Monitoring feature is enabled, namely:
+- **node-exporter** addon: exposes hardware and OS metrics of worker nodes to Prometheus,
+- **kube-state-metrics** addon: exposes cluster-level metrics of Kubernetes API objects (like pods, deployments, etc.) to Prometheus.
+
+When these addons are deployed to user clusters, no further configuration of the user cluster MLA stack is needed,
+the exposed metrics will be scraped by user cluster Prometheus and become available in Grafana automatically.
+
+Before addons can be deployed into KKP user clusters, the KKP installation has to be configured to enable them
+as [accessible addons]({{< relref "../../../addons/#accessible-addons" >}}). The `node-exporter` and `kube-state-metrics`
+addons are part of the KKP default accessible addons, so they should be available out-of-the box, unless the KKP installation
+administrator has changed it.
 
 ## Operation
 

@@ -7,6 +7,7 @@ enableToc = true
 +++
 
 This page contains a user guide for the [User Cluster MLA Stack]({{< relref "../../../../architecture/monitoring_logging_alerting/user_cluster/" >}}).
+The administrator guide is available at the [User Cluster MLA Admin Guide]({{< relref "../admin_guide/" >}}) page.
 
 ## Enabling Monitoring & Logging in a User Cluster
 
@@ -16,9 +17,25 @@ Once the User Cluster MLA feature is enabled in KKP, user can enable monitoring 
 
 Users can enable monitoring and logging independently, and also can disable or enable them after the cluster is created.
 
+## Enabling MLA Addons in a User Cluster
+
+KKP provides several addons for user clusters, that can be helpful when the User Cluster Monitoring feature is enabled, namely:
+- **node-exporter** addon: exposes hardware and OS metrics of worker nodes to Prometheus,
+- **kube-state-metrics** addon: exposes cluster-level metrics of Kubernetes API objects (like pods, deployments, etc.) to Prometheus.
+
+When these addons are deployed to user clusters, no further configuration of the user cluster MLA stack is needed,
+the exposed metrics will be scraped by user cluster Prometheus and become available in Grafana automatically.
+
+Given that the addons have been already [enabled in the KKP installation]({{< relref "../admin_guide/#addons-configuration" >}}), they can be enabled via the KKP UI on the cluster page, as shown below:
+
+![KKP UI - Addons](/img/kubermatic/master/monitoring/user_cluster/ui_addons.png)
+
+![KKP UI - Addons](/img/kubermatic/master/monitoring/user_cluster/ui_addons_select.png)
+
 ## Exposing Application Metrics
 
 User Cluster MLA stack defines some common metrics scrape targets for Prometheus by default. As part of that, it is configured to scrape metrics from all Kubernetes pods and service endpoints, provided they have the correct annotations. Thanks to that, it is possible to add custom metrics scrape targets for any applications running in user clusters.
+Apart from that, it is also possible to extend the scraping configuration with custom Prometheus `scrape_config` targets using ConfigMaps, as described later in this section.
 
 ### Adding Scrape Annotations to Your Applications
 
@@ -48,7 +65,7 @@ The following annotations are supported:
 For more information on exact scraping configuration and annotations, reference the user cluster Prometheus configuration in the `prometheus` ConfigMap (`kubectl get configmap prometheus -n mla-system -oyaml`) against the prometheus documentation for [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config) and [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config).
 
 ### Extending Scrape Config
-It is also possible to extend User Cluster Prometheus with customized scrape configs. This can be achieved by adding ConfigMaps with a pre-defined name prefix `prometheus-scraping` in the `mla-system` namespace in the user cluster. For example, a file `example.yaml` which contains customized scrape configs can look like the following:
+It is also possible to extend User Cluster Prometheus with custom `scrape_config` targets. This can be achieved by adding ConfigMaps with a pre-defined name prefix `prometheus-scraping` in the `mla-system` namespace in the user cluster. For example, a file `example.yaml` which contains customized scrape configs can look like the following:
 
 ```yaml
 - job_name: 'prometheus-example'

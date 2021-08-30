@@ -21,7 +21,7 @@ about the cluster relationships.
 Compared to master clusters, seed clusters are still mostly manually installed. Future versions of KKP
 will improve the setup experience further.
 
-When using Helm 2, install Tiller into the seed cluster first:
+If you're using Helm 2, install Tiller into the seed cluster first:
 
 ```bash
 kubectl create namespace kubermatic
@@ -30,14 +30,15 @@ kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admi
 helm --service-account tiller --tiller-namespace kubermatic init
 ```
 
-### Cluster Backups
+## Configure Cluster Backups 
 
-KKP performs regular backups of user cluster by snapshotting the etcd of each cluster. By default these backups
-are stored locally inside the seed cluster, but they can be reconfigured to work with any S3-compatible storage.
-The in-cluster storage is provided by [Minio](https://min.io/) and the accompanying `minio` Helm chart.
+KKP performs regular backups of user clusters by snapshotting the etcd of each cluster. Default configuration uses in-cluster object storage provided by [Minio](https://min.io). It can be installed using `minio` Helm chart provided with the KKP installer. 
 
-If your cluster has no default storage class, it's required to configure a class explicitly for Minio. You can check
-the cluster's storage classes via:
+If you wish to use a different S3-compatible solution for storage of backups, it can be configured within the `KubermaticConfiguration` object. Refer to the [KubermaticConfiguration documentation]({{< ref "../../../tutorials_howtos/KKP_configuration" >}}) for an example of `.spec.backup` fields and values. Following content assumes you're using the provided `minio` Helm chart.
+
+### Prepare Minio configuration
+
+Minio requires a storage class, which will be used as a backend for the exposed object storage. You can view the storage classes available on the cluster using the following command:
 
 ```bash
 kubectl get storageclasses
@@ -47,7 +48,9 @@ kubectl get storageclasses
 #standard (default)   kubernetes.io/aws-ebs   2y43d
 ```
 
-As Minio does not require any of the SSD's advantages, we can use HDDs. It's recommended to create a separate storage class `kubermatic-backup` with a different location/security level. For a cluster running on AWS, an example class could look like this:
+If you cluster does not have a default storage class configured, you have to configure Minio to use a specific one. We'll follow up with creating a storage class named `kubermatic-backup` and setting Minio up to use it.
+
+As Minio does not require any of the SSD's advantages, we can use HDD-backed storage. It's recommended that Minio uses a separate storage class with a different location/security level. For a cluster running on AWS, an example class could look as follows:
 
 ```yaml
 apiVersion: storage.k8s.io/v1
@@ -59,12 +62,13 @@ parameters:
   type: sc1
 ```
 
-To configure the storage class and size, extend your `values.yaml`. For more information about the Minio options, take a look at [minio chart `values.yaml`](https://github.com/kubermatic/kubermatic/blob/master/charts/minio/values.yaml) and the [min.io documentation - S3 gateway](https://docs.min.io/docs/minio-gateway-for-s3.html):
+To configure the storage class to use and the size of backing storage, edit `minio` section in your `values.yaml` file. For more information about the Minio options, take a look at [minio chart `values.yaml`](https://github.com/kubermatic/kubermatic/blob/master/charts/minio/values.yaml) and the [min.io documentation - S3 gateway](https://docs.min.io/docs/minio-gateway-for-s3.html).
 
 ```yaml
 minio:
   storeSize: '200Gi'
-  # SC will store the etcd backup of the seed hosted user clusters
+  # specified storageClass will be used as a storage provider for minio
+  # which will be used store the etcd backup of the seed hosted user clusters
   storageClass: kubermatic-backup
   # access key/secret for the exposed minio S3 gateway
   credentials:
@@ -74,11 +78,11 @@ minio:
     secretKey: "YOUR-SECRET-KEY"
 ```
 
-It's also advisable to install the `s3-exporter` Helm chart, as it provides basic metrics about user cluster backups.
+As a good practice, we also recommend installing the `s3-exporter` Helm chart, which provides metrics regarding user cluster backups.
 
 ### Install Charts
 
-With this you can install the charts:
+After configuring the required options, you can install the charts:
 
 **Helm 3**
 
