@@ -25,4 +25,12 @@ The following list is only eligible for the version that is currently available.
 | Monitoring/blackbox-exporter| 0.17.0  | 
 | Monitoring/grafana          | 7.1.5   | 
 | Monitoring/helm-exporter    | 0.4.3   |
+| monitoring/karma            | 0.68    |
+| monitoring/kube-state-metrics | 1.9.7 |
+| Monitoring/node-exporter    | 1.0.1   |
+| monitoring/prometheus       | 2.23.0  |
+| nginx-ingress-controller    | 0.44.0  |
+| nodeport-proxy              | 2.16.5  |
+| Oauth                       | 2.24.5  |
+| S3-exporter                 | 0.4     |
 
