@@ -1,59 +1,62 @@
 +++
-title = "KubeOneCluster v1beta1 API"
-date = 2021-02-10T12:00:00+02:00
-weight = 1
+title = "v1beta1 API Reference"
+date = 2021-09-03T17:25:30+03:00
+weight = 11
 +++
-
 ## v1beta1
 
-- [v1beta1](#v1beta1)
-  - [APIEndpoint](#apiendpoint)
-  - [AWSSpec](#awsspec)
-  - [Addons](#addons)
-  - [AssetConfiguration](#assetconfiguration)
-  - [AzureSpec](#azurespec)
-  - [BinaryAsset](#binaryasset)
-  - [CNI](#cni)
-  - [CanalSpec](#canalspec)
-  - [CloudProviderSpec](#cloudproviderspec)
-  - [ClusterNetworkConfig](#clusternetworkconfig)
-  - [ContainerRuntimeConfig](#containerruntimeconfig)
-  - [ContainerRuntimeContainerd](#containerruntimecontainerd)
-  - [ContainerRuntimeDocker](#containerruntimedocker)
-  - [ControlPlaneConfig](#controlplaneconfig)
-  - [DNSConfig](#dnsconfig)
-  - [DigitalOceanSpec](#digitaloceanspec)
-  - [DynamicAuditLog](#dynamicauditlog)
-  - [DynamicWorkerConfig](#dynamicworkerconfig)
-  - [ExternalCNISpec](#externalcnispec)
-  - [Features](#features)
-  - [GCESpec](#gcespec)
-  - [HetznerSpec](#hetznerspec)
-  - [HostConfig](#hostconfig)
-  - [ImageAsset](#imageasset)
-  - [KubeOneCluster](#kubeonecluster)
-  - [MachineControllerConfig](#machinecontrollerconfig)
-  - [MetricsServer](#metricsserver)
-  - [NoneSpec](#nonespec)
-  - [OpenIDConnect](#openidconnect)
-  - [OpenIDConnectConfig](#openidconnectconfig)
-  - [OpenstackSpec](#openstackspec)
-  - [PacketSpec](#packetspec)
-  - [PodNodeSelector](#podnodeselector)
-  - [PodNodeSelectorConfig](#podnodeselectorconfig)
-  - [PodPresets](#podpresets)
-  - [PodSecurityPolicy](#podsecuritypolicy)
-  - [ProviderSpec](#providerspec)
-  - [ProviderStaticNetworkConfig](#providerstaticnetworkconfig)
-  - [ProxyConfig](#proxyconfig)
-  - [RegistryConfiguration](#registryconfiguration)
-  - [StaticAuditLog](#staticauditlog)
-  - [StaticAuditLogConfig](#staticauditlogconfig)
-  - [StaticWorkersConfig](#staticworkersconfig)
-  - [SystemPackages](#systempackages)
-  - [VersionConfig](#versionconfig)
-  - [VsphereSpec](#vspherespec)
-  - [WeaveNetSpec](#weavenetspec)
+* [APIEndpoint](#apiendpoint)
+* [AWSSpec](#awsspec)
+* [Addon](#addon)
+* [Addons](#addons)
+* [AssetConfiguration](#assetconfiguration)
+* [AzureSpec](#azurespec)
+* [BinaryAsset](#binaryasset)
+* [CNI](#cni)
+* [CanalSpec](#canalspec)
+* [CloudProviderSpec](#cloudproviderspec)
+* [ClusterNetworkConfig](#clusternetworkconfig)
+* [ContainerRuntimeConfig](#containerruntimeconfig)
+* [ContainerRuntimeContainerd](#containerruntimecontainerd)
+* [ContainerRuntimeDocker](#containerruntimedocker)
+* [ControlPlaneConfig](#controlplaneconfig)
+* [DNSConfig](#dnsconfig)
+* [DigitalOceanSpec](#digitaloceanspec)
+* [DynamicAuditLog](#dynamicauditlog)
+* [DynamicWorkerConfig](#dynamicworkerconfig)
+* [EncryptionProviders](#encryptionproviders)
+* [ExternalCNISpec](#externalcnispec)
+* [Features](#features)
+* [GCESpec](#gcespec)
+* [HetznerSpec](#hetznerspec)
+* [HostConfig](#hostconfig)
+* [IPTables](#iptables)
+* [IPVSConfig](#ipvsconfig)
+* [ImageAsset](#imageasset)
+* [KubeOneCluster](#kubeonecluster)
+* [KubeProxyConfig](#kubeproxyconfig)
+* [MachineControllerConfig](#machinecontrollerconfig)
+* [MetricsServer](#metricsserver)
+* [NoneSpec](#nonespec)
+* [OpenIDConnect](#openidconnect)
+* [OpenIDConnectConfig](#openidconnectconfig)
+* [OpenstackSpec](#openstackspec)
+* [PacketSpec](#packetspec)
+* [PodNodeSelector](#podnodeselector)
+* [PodNodeSelectorConfig](#podnodeselectorconfig)
+* [PodPresets](#podpresets)
+* [PodSecurityPolicy](#podsecuritypolicy)
+* [ProviderSpec](#providerspec)
+* [ProviderStaticNetworkConfig](#providerstaticnetworkconfig)
+* [ProxyConfig](#proxyconfig)
+* [RegistryConfiguration](#registryconfiguration)
+* [StaticAuditLog](#staticauditlog)
+* [StaticAuditLogConfig](#staticauditlogconfig)
+* [StaticWorkersConfig](#staticworkersconfig)
+* [SystemPackages](#systempackages)
+* [VersionConfig](#versionconfig)
+* [VsphereSpec](#vspherespec)
+* [WeaveNetSpec](#weavenetspec)
 
 ### APIEndpoint
 
@@ -75,6 +78,18 @@ AWSSpec defines the AWS cloud provider
 
 [Back to Group](#v1beta1)
 
+### Addon
+
+Addon config
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| name | Name of the addon to configure | string | true |
+| params | Params to the addon, to render the addon using text/template, this will override globalParams | map[string]string | false |
+| delete | Delete flag to ensure the named addon with all its contents to be deleted | bool | false |
+
+[Back to Group](#v1beta1)
+
 ### Addons
 
 Addons config
@@ -82,7 +97,9 @@ Addons config
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | enable | Enable | bool | false |
-| path | Path on the local file system to the directory with addons manifests. | string | true |
+| path | Path on the local file system to the directory with addons manifests. | string | false |
+| globalParams | GlobalParams to the addon, to render all addons using text/template | map[string]string | false |
+| addons | Addons is a list of config options for named addon | [][Addon](#addon) | false |
 
 [Back to Group](#v1beta1)
 
@@ -154,9 +171,8 @@ Only one cloud provider must be defined at the single time.
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | external | External | bool | false |
-| csiMigration | CSIMigration enables the CSIMigration and CSIMigration{Provider} feature gates for providers that support the CSI migration. The CSI migration stability depends on the provider. More details about stability can be found in the Feature Gates document: https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/\n\nNote: Azure has two type of CSI drivers (AzureFile and AzureDisk) and two different feature gates (CSIMigrationAzureDisk and CSIMigrationAzureFile). Enabling CSI migration enables both feature gates. If one CSI driver is not deployed, the volume operations for volumes with missing CSI driver will fallback to the in-tree volume plugin. | bool | false |
-| csiMigrationComplete | CSIMigrationComplete enables the CSIMigration{Provider}Complete feature gate for providers that support the CSI migration. This feature gate disables fallback to the in-tree volume plugins, therefore, it should be enabled only if the CSI driver is deploy on all nodes, and after ensuring that the CSI driver works properly.\n\nNote: If you're running on Azure, make sure that you have both AzureFile and AzureDisk CSI drivers deployed, as enabling this feature disables the fallback to the in-tree volume plugins. See description for the CSIMigration field for more details. | bool | false |
 | cloudConfig | CloudConfig | string | false |
+| csiConfig | CSIConfig | string | false |
 | aws | AWS | *[AWSSpec](#awsspec) | false |
 | azure | Azure | *[AzureSpec](#azurespec) | false |
 | digitalocean | DigitalOcean | *[DigitalOceanSpec](#digitaloceanspec) | false |
@@ -180,6 +196,7 @@ ClusterNetworkConfig describes the cluster network
 | serviceDomainName | ServiceDomainName default value is \"cluster.local\" | string | false |
 | nodePortRange | NodePortRange default value is \"30000-32767\" | string | false |
 | cni | CNI default value is {canal: {mtu: 1450}} | *[CNI](#cni) | false |
+| kubeProxy | KubeProxy config | *[KubeProxyConfig](#kubeproxyconfig) | false |
 
 [Back to Group](#v1beta1)
 
@@ -263,6 +280,17 @@ DynamicWorkerConfig describes a set of worker machines
 
 [Back to Group](#v1beta1)
 
+### EncryptionProviders
+
+Encryption Providers feature flag
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| enable | Enable | bool | true |
+| customEncryptionConfiguration | CustomEncryptionConfiguration | string | true |
+
+[Back to Group](#v1beta1)
+
 ### ExternalCNISpec
 
 ExternalCNISpec defines the external CNI plugin.
@@ -280,12 +308,13 @@ Features controls what features will be enabled on the cluster
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | podNodeSelector | PodNodeSelector | *[PodNodeSelector](#podnodeselector) | false |
-| podPresets | PodPresets | *[PodPresets](#podpresets) | false |
+| podPresets | PodPresets Deprecated: will be removed once Kubernetes 1.19 reaches EOL | *[PodPresets](#podpresets) | false |
 | podSecurityPolicy | PodSecurityPolicy | *[PodSecurityPolicy](#podsecuritypolicy) | false |
 | staticAuditLog | StaticAuditLog | *[StaticAuditLog](#staticauditlog) | false |
 | dynamicAuditLog | DynamicAuditLog | *[DynamicAuditLog](#dynamicauditlog) | false |
 | metricsServer | MetricsServer | *[MetricsServer](#metricsserver) | false |
 | openidConnect | OpenIDConnect | *[OpenIDConnect](#openidconnect) | false |
+| encryptionProviders | Encryption Providers | *[EncryptionProviders](#encryptionproviders) | false |
 
 [Back to Group](#v1beta1)
 
@@ -329,6 +358,30 @@ HostConfig describes a single control plane node.
 
 [Back to Group](#v1beta1)
 
+### IPTables
+
+IPTables
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+
+[Back to Group](#v1beta1)
+
+### IPVSConfig
+
+IPVSConfig contains different options to configure IPVS kube-proxy mode
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| scheduler | ipvs scheduler, if it’s not configured, then round-robin (rr) is the default value. Can be one of: * rr: round-robin * lc: least connection (smallest number of open connections) * dh: destination hashing * sh: source hashing * sed: shortest expected delay * nq: never queue | string | true |
+| excludeCIDRs | excludeCIDRs is a list of CIDR's which the ipvs proxier should not touch when cleaning up ipvs services. | []string | true |
+| strictARP | strict ARP configure arp_ignore and arp_announce to avoid answering ARP queries from kube-ipvs0 interface | bool | true |
+| tcpTimeout | tcpTimeout is the timeout value used for idle IPVS TCP sessions. The default value is 0, which preserves the current timeout value on the system. | metav1.Duration | true |
+| tcpFinTimeout | tcpFinTimeout is the timeout value used for IPVS TCP sessions after receiving a FIN. The default value is 0, which preserves the current timeout value on the system. | metav1.Duration | true |
+| udpTimeout | udpTimeout is the timeout value used for IPVS UDP packets. The default value is 0, which preserves the current timeout value on the system. | metav1.Duration | true |
+
+[Back to Group](#v1beta1)
+
 ### ImageAsset
 
 ImageAsset is used to customize the image repository and the image tag
@@ -357,11 +410,23 @@ KubeOneCluster is KubeOne Cluster API Schema
 | staticWorkers | StaticWorkers describes the worker nodes that are managed by KubeOne/kubeadm. | [StaticWorkersConfig](#staticworkersconfig) | false |
 | dynamicWorkers | DynamicWorkers describes the worker nodes that are managed by Kubermatic machine-controller/Cluster-API. | [][DynamicWorkerConfig](#dynamicworkerconfig) | false |
 | machineController | MachineController configures the Kubermatic machine-controller component. | *[MachineControllerConfig](#machinecontrollerconfig) | false |
+| caBundle | CABundle PEM encoded global CA | string | false |
 | features | Features enables and configures additional cluster features. | [Features](#features) | false |
 | addons | Addons are used to deploy additional manifests. | *[Addons](#addons) | false |
 | systemPackages | SystemPackages configure kubeone behaviour regarding OS packages. | *[SystemPackages](#systempackages) | false |
 | assetConfiguration | AssetConfiguration configures how are binaries and container images downloaded | [AssetConfiguration](#assetconfiguration) | false |
 | registryConfiguration | RegistryConfiguration configures how Docker images are pulled from an image registry | *[RegistryConfiguration](#registryconfiguration) | false |
+
+[Back to Group](#v1beta1)
+
+### KubeProxyConfig
+
+KubeProxyConfig defines configured kube-proxy mode, default is iptables mode
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| ipvs | IPVS config | *[IPVSConfig](#ipvsconfig) | true |
+| iptables | IPTables config | *[IPTables](#iptables) | true |
 
 [Back to Group](#v1beta1)
 
@@ -465,6 +530,9 @@ PodNodeSelectorConfig config
 ### PodPresets
 
 PodPresets feature flag
+The PodPresets feature has been removed in Kubernetes 1.20.
+This feature is deprecated and will be removed from the API once
+Kubernetes 1.19 reaches EOL.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
