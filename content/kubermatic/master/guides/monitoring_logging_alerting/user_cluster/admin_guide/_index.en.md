@@ -59,7 +59,7 @@ As a matter of rule, to integrate well with KKP UI, Grafana and Alertmanager sho
 - `https://grafana.<seed-name>.<kkp-domain>`
 - `https://alertmanager.<seed-name>.<kkp-domain>`
 
-The prefixes chosen for Grafana and Alertmanager then need to be configured in the KKP A[dmin Panel Configuration](#admin-panel-configuration) to enable KKP UI integration.
+The prefixes chosen for Grafana and Alertmanager then need to be configured in the KKP [Admin Panel Configuration](#admin-panel-configuration) to enable KKP UI integration.
 
 Let's start with preparing the values.yaml for the IAP Helm Chart. A starting point can be found in the `config/iap/values.example.yaml` file of the MLA repository:
 
