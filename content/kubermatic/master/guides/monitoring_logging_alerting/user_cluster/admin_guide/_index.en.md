@@ -54,11 +54,20 @@ This will deploy all MLA stack components with the default settings, which may b
 
 After deploying MLA components into a KKP Seed cluster, Grafana and Alertmanager UI are exposed only via ClusterIP services by default. To expose them to users outside of the Seed cluster with proper authentication in place, we will use the [IAP Helm chart](https://github.com/kubermatic/kubermatic/tree/master/charts/iap) from the Kubermatic repository.
 
+As a matter of rule, to integrate well with KKP UI, Grafana and Alertmanager should be exposed at the URL `https://<any-prefix>.<seed-name>.<kkp-domain>`, for example:
+
+- `https://grafana.<seed-name>.<kkp-domain>`
+- `https://alertmanager.<seed-name>.<kkp-domain>`
+
+The prefixes chosen for Grafana and Alertmanager then need to be configured in the KKP A[dmin Panel Configuration](#admin-panel-configuration) to enable KKP UI integration.
+
 Let's start with preparing the values.yaml for the IAP Helm Chart. A starting point can be found in the `config/iap/values.example.yaml` file of the MLA repository:
 
-- Modify the base domain under which your KKP installation is available (`kkp.example.com` in `iap.oidc_issuer_url` and `iap.deployments.grafana.ingress.host`).
+- Modify the base domain under which your KKP installation is available (`kkp.example.com` in `iap.oidc_issuer_url`).
+- Modify the base domain, seed name and Grafana prefix as described above (`grafana.seed-cluster-x.kkp.example.com` in `iap.deployments.grafana.ingress.host`).
 - Set `iap.deployments.grafana.client_secret` + `iap.deployments.grafana.encryption_key` and `iap.deployments.alertmanager.client_secret` + `iap.deployments.alertmanager.encryption_key` to the newly generated key values (they can be generated e.g. with cat `/dev/urandom | tr -dc A-Za-z0-9 | head -c32`).
 - Configure how the users should be authenticated in `iap.deployments.grafana.config` and `iap.deployments.alertmanager.config` (e.g. modify `YOUR_GITHUB_ORG` and `YOUR_GITHUB_TEAM` placeholders). Please check the [OAuth Provider Configuration](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider/) for more details.
+- Make the corresponding changes for the Alertmanager config as well.
 
 It is also necessary to set up your infrastructure accordingly:
 
@@ -69,12 +78,12 @@ It is also necessary to set up your infrastructure accordingly:
 dex:
   clients:
   - RedirectURIs:
-    - https://grafana.mla.kkp.example.com/oauth/callback
+    - https://grafana.seed-cluster-x.kkp.example.com/oauth/callback
     id: mla-grafana
     name: mla-grafana
     secret: YOUR_CLIENT_SECRET
   - RedirectURIs:
-    - https://alertmanager.mla.kkp.example.com/oauth/callback
+    - https://alertmanager.seed-cluster-x.kkp.example.com/oauth/callback
     id: mla-alertmanager
     name: mla-alertmanager
     secret: YOUR_CLIENT_SECRET
@@ -139,9 +148,15 @@ There are several options in the KKP “Admin Panel” which are related to user
 - **Enabled by Default**: If this checkbox is selected, User Cluster Monitoring will be enabled by default in the cluster creation page.
 - **Enforce**: If this is selected, User Cluster Monitoring will be enabled by default, and users will not be able to change it.
 
-**User Cluster Alertmanager Domain:**
+**User Cluster Alertmanager Prefix:**
 
-- This domain will be used to expose Alertmanager UI to users. It has to be the same domain that has been set up during the MLA stack installation in the Seed cluster. A link to Alertmanager UI will be visible in the tab “User Cluster Alertmanager”  in the cluster details view.
+- Domain name prefix on which the User Cluster Alertmanager will be exposed to KKP users. It has to be the same prefix that has been used during the MLA stack installation in the Seed cluster (see [Expose Grafana & Alertmanager UI](#expose-grafana--alertmanager-ui)).
+- Seed name and the base domain under which KKP is running will be appended to it, e.g. for prefix `alertmanager` the final URL would be `https://alertmanager.<seed-name>.<kkp-domain>`.
+
+**User Cluster Grafana Prefix:**
+
+- Domain name prefix on which the User Cluster Grafana will be exposed to KKP users. It has to be the same prefix that has been used during the MLA stack installation in the Seed cluster (see [Expose Grafana & Alertmanager UI](#expose-grafana--alertmanager-ui)).
+- Seed name and the base domain under which KKP is running will be appended to it, e.g. for prefix `grafana` the final URL would be `https://grafana.<seed-name>.<kkp-domain>`.
 
 ### Addons Configuration
 KKP provides several addons for user clusters, that can be helpful when the User Cluster Monitoring feature is enabled, namely:

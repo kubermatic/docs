@@ -131,7 +131,7 @@ Users can also add their own custom Dashboards for more data visualization via G
 
 ## Alertmanager
 
-KKP provides API and UI to allow users to configure Alertmanager on a per user cluster basis. A “User Cluster Alertmanager” tab will be visible if monitoring or logging is enabled for the user cluster:
+KKP provides API and UI to allow users to configure Alertmanager on a per user cluster basis. The “Monitoring, Logging & Alerting” tab will be visible if monitoring or logging is enabled for the user cluster:
 
 ![KKP UI - Alertmanager](/img/kubermatic/master/monitoring/user_cluster/ui_alertmanager.png)
 
@@ -141,7 +141,7 @@ Users can configure Alertmanager configuration with customized receivers and tem
 
 ## Recording Rules & Alerting Rules
 
-KKP User Cluster MLA supports Prometheus-compatible rules for metrics and logs. The table on the “User Cluster Recording & Alerting Rules” tab can be used to manage both recording rules and alerting rules:
+KKP User Cluster MLA supports Prometheus-compatible rules for metrics and logs. The table on the “Monitoring, Logging & Alerting” tab can be used to manage both recording rules and alerting rules:
 
 ![KKP UI - Alerting Rules](/img/kubermatic/master/monitoring/user_cluster/ui_alert_rules.png)
 
