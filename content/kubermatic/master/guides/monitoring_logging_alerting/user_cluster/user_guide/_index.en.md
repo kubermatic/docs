@@ -152,3 +152,39 @@ It supports rules for both metrics and logs. For adding a new rule group, click 
 For more information about Prometheus rules, please check [Prometheus Recording Rules](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/) and [Prometheus Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/).
 
 For setting up Alertmanager with alerting rules for metrics and logs, please refer to [Walkthrough Tutorial: Setting up Alertmanager with Slack Notifications]({{< relref "../../../../tutorials_howtos/monitoring_logging_alerting/user_cluster/setting_up_alertmanager_with_slack_notifications" >}}).
+
+## User Cluster Prometheus & Promtail Resource Request & Limits
+
+As described on the [User Cluster MLA Stack Architecture]({{< relref "../../../../architecture/monitoring_logging_alerting/user_cluster/" >}}) page, the user cluster MLA stack deploys two components into the KKP user clusters: Prometheus and Loki Promtail. The resource consumption of these components highly depends on the actual workload running in the user cluster. By default, they run with the following resource requests & limits:
+
+**Prometheus**:
+
+| Resource | Requests | Limits
+| -------- | -------- | ------
+| CPU      | 100m     | 1
+| Memory   | 256Mi    | 4Gi
+
+**Loki Promtail**:
+
+| Resource | Requests | Limits
+| -------- | -------- | ------
+| CPU      | 50m      | 200m
+| Memory   | 64Mi     | 128Mi
+
+Non-default resource requests & limits for user cluster Prometheus and Loki Promtail can be configured via KKP API endpoint for managing clusters (`/api/v2/projects/{project_id}/clusters/{cluster_id}`):
+
+**For Prometheus:**
+
+- `spec.mla.monitoringResources.requests.cpu`
+- `spec.mla.monitoringResources.requests.memory`
+- `spec.mla.monitoringResources.limits.cpu`
+- `spec.mla.monitoringResources.limits.memory`
+
+**For Loki Promtail:**
+
+- `spec.mla.loggingResources.requests.cpu`
+- `spec.mla.loggingResources.requests.memory`
+- `spec.mla.loggingResources.limits.cpu`
+- `spec.mla.loggingResources.limits.memory`
+
+When no resource requests / limits for `monitoringResources` or `loggingResources` are specified, defaults from the table above are applied. As soon as any `monitoringResources` or `loggingResources` are configured, their exact values are used and no defaults are involved anymore. For example, if you specify `spec.mla.monitoringResources.requests.cpu` but no `spec.mla.monitoringResources.limits.cpu`, the `spec.mla.monitoringResources.limits.cpu` will be equal to zero - no CPU limits will be used.

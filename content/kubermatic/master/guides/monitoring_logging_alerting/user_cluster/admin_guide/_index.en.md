@@ -222,14 +222,15 @@ By default, the MLA stack is configured to hold the logs and metrics in the obje
 - In the [loki Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/loki/values.yaml#L52), set `loki.config.chunk_store_config.max_look_back_period` to the desired value (default: `168h` = 7 days).
 - In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/minio-lifecycle-mgr/values.yaml#L20), set `lifecycleMgr.buckets[name=loki].expirationDays` to the value used in the loki Helm chart + 1 day (default: `8d`).
 
-### Manage Grafana Dashboards
+### Managing Grafana Dashboards
 
-In User Cluster MLA Grafana, we provide some predefined Grafana Dashboards that will be shared across all user clusters. It is also possible to add more Grafana Dashboards, and make them available for all user clusters.
+In the User Cluster MLA Grafana, there are several predefined Grafana dashboards that are automatically available across all Grafana organizations (KKP projects). The KKP administrators have ability to modify the list of these dashboards.
 
-There are three ways for managing Grafana Dashboards:
+There are three ways for managing them:
 
-- Modify the pre-created configmap `grafana-dashboards-default` in the `mla` namespace. This configmap contains the Grafana Dashboards that we predefined, you can add and remove Dashboards by modifying this configmap.
-- Create configmap with `grafana-dashboards` as the name prefix. You can add multiple such configmaps with your Dashboards json data. For example:
+- Modify the already existing (pre-created) configmaps with the `grafana-dashboards` prefix in the `mla` namespace in the Seed cluster. These configmaps contain the Grafana dashboards that are already available across all KKP projects. You can add or remove Dashboards by modifying these configmaps. Be aware that these changes can be overwritten by MLA stack upgrade.
+
+- Create a new configmap with the `grafana-dashboards` name prefix in the `mla` namespace in the Seed cluster. You can add multiple such configmaps with your dashboards json data. For example:
 
 ```yaml
 apiVersion: v1
@@ -241,9 +242,44 @@ data:
   example-dashboard.json: <your-dashboard-json-data>
 ```
 
-- Add dashboards to the User Cluster MLA Grafana Helm chart values. You can add more Dashboards directly in the [`dashboards` in the value.yaml file](https://github.com/kubermatic/mla/blob/main/config/grafana/values.yaml#L41).
+- Add dashboards to the User Cluster MLA Grafana Helm chart values. You can add dashboards into the `dashboards` section of the [values.yaml file](https://github.com/kubermatic/mla/blob/main/config/grafana/values.yaml#L41).
 
-After the new Dashboards are applied to the Seed Cluster, they will be available across all Grafana Organizations, and they can be found in the Grafana UI under Dashboards -> Manage.
+After the new dashboards are applied to the Seed Cluster, they will become available across all Grafana Organizations, and they can be found in the Grafana UI under Dashboards -> Manage.
+
+### Rate-Limiting
+
+In order to prevent from denial of service by abusive users of misconfigured applications, the write path and read path of the User Cluster MLA stack can be configured with rate-limits per user cluster.
+
+Rate-limiting can be configured via the following API endpoints of `MLAAdminSetting` - available only for KKP administrator users:
+
+- `GET /api/v2/projects/{project_id}/clusters/{cluster_id}/mlaadminsetting` - get admin settings
+- `POST /api/v2/projects/{project_id}/clusters/{cluster_id}/mlaadminsetting` - create admin settings
+- `PUT /api/v2/projects/{project_id}/clusters/{cluster_id}/mlaadminsetting` - update admin settings
+- `DELETE /api/v2/projects/{project_id}/clusters/{cluster_id}/mlaadminsetting` - delete admin settings
+
+By default, no rate-limiting is applied. Configuring the rate-limiting options with zero values has the same effect.
+
+For **metrics**, the following rate-limiting options are supported as part of the `monitoringRateLimits`:
+
+| Option               | Direction  | Enforced by | Description
+| -------------------- | -----------| ----------- | ----------------------------------------------------------------------
+| `ingestionRate`      | Write path | Cortex      | Ingestion rate limit in samples per second (Cortex `ingestion_rate`).
+| `ingestionBurstSize` | Write path | Cortex      | Maximum number of series per metric (Cortex `max_series_per_metric`).
+| `maxSeriesPerMetric` | Write path | Cortex      | Maximum number of series per this user cluster (Cortex `max_series_per_user`).
+| `maxSeriesTotal`     | Write path | Cortex      | Maximum number of series per this user cluster (Cortex `max_series_per_user`).
+| `queryRate`          | Read path  | MLA Gateway | Query request rate limit per second (NGINX `rate` in `r/s`).
+| `queryBurstSize`     | Read path  | MLA Gateway | Query burst size in number of requests (NGINX `burst`).
+| `maxSamplesPerQuery` | Read path  | Cortex      | Maximum number of samples during a query (Cortex `max_samples_per_query`).
+| `maxSeriesPerQuery`  | Read path  | Cortex      | Maximum number of timeseries during a query (Cortex `max_series_per_query`).
+
+For **logs**, the following rate-limiting options are supported as part of the `loggingRateLimits`:
+
+| Option               | Direction  | Enforced by | Description
+| -------------------- | -----------| ----------- | ----------------------------------------------------------------------
+| `ingestionRate`      | Write path | MLA Gateway | Ingestion rate limit in requests per second (NGINX `rate` in `r/s`).
+| `ingestionBurstSize` | Write path | MLA Gateway | Ingestion burst size in number of requests (NGINX `burst`).
+| `queryRate`          | Read path  | MLA Gateway | Query request rate limit per second (NGINX `rate` in `r/s`).
+| `queryBurstSize`     | Read path  | MLA Gateway | Query burst size in number of requests (NGINX `burst`).
 
 ## Debugging
 
