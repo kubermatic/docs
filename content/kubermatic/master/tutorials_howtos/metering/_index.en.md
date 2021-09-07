@@ -5,7 +5,7 @@ weight = 100
 
 +++
 
-KKP Enterprise Edition (EE) provides optional measuring tools to provide weekly reports about per-cluster CPU and memory utilization.
+KKP Enterprise Edition (EE) provides optional measuring tools to achieve easier accountability of resources by providing weekly reports about per-cluster CPU and memory utilization.
 The tool will continuously collect information about all user clusters and create reports listing individual usage values.
 The configuration and report files can be easily accessed from the dashboard.
 
