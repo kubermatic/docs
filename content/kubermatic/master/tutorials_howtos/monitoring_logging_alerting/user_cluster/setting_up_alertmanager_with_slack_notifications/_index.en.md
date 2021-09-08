@@ -41,7 +41,7 @@ After Slack Incoming Webhook is enabled, you will need to configure Alertmanager
 
 Make sure that your cluster has User Cluster Logging and User Cluster Monitoring enabled (If you don’t know how to 
 do that, please refer to [Enabling Monitoring & Logging in User Cluster]({{< relref "../../../../guides/monitoring_logging_alerting/user_cluster/user_guide/#enabling-monitoring--logging-in-a-user-cluster" >}})  
-for more details). Go to the cluster details page, and click the **User Cluster Alertmanager** tab to add the following configuration:
+for more details). Go to the cluster details page, and click the **Monitoring, Logging & Alerting** tab to add the following configuration:
 
 ```yaml
 template_files: {}
@@ -68,7 +68,7 @@ change the slack channel under `slack_configs` to the channel that you are going
 ![Slack Alertmanager Config](/img/kubermatic/master/monitoring/user_cluster/slack_alertmanager_config.png?height=700px&classes=shadow,border, "Alertmanager Configuration")
 
 Wait until the configuration takes effect. It can be verified in Alertmanager UI: Click **Open Alertmanager UI** in the
-**User Cluster Alertmanager** tab, in the UI, go to **Status** page and check if the config is applied in the **Config** section as shown in below screenshot:
+**Monitoring, Logging & Alerting** tab, in the UI, go to **Status** page and check if the config is applied in the **Config** section as shown in below screenshot:
 
 ![Alertmanager Status](/img/kubermatic/master/monitoring/user_cluster/alertmanager_status.png?height=800px&classes=shadow,border, "Alertmanager Status")
 
@@ -77,7 +77,7 @@ create some alerting rules to generate alerts from metrics and logs.
 
 ## Creating Alerting Rules
 
-Let’s create two Alerting Rule Groups to generate alerts from metrics and logs. Go to the **User Cluster Recording & Alerting Rules** tab,
+Let’s create two Alerting Rule Groups to generate alerts from metrics and logs. Go to the **Monitoring, Logging & Alerting** tab,
 and click **+ Add Rule Group**, and add the following rule group with type `Metric` in order to generate alerts from metrics:
 
 ```yaml
