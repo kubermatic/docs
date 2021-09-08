@@ -21,7 +21,7 @@ There are few things to note when contributing to the Kubermatic KubeOne project
 *   See [CONTRIBUTING.md](https://github.com/kubermatic/kubermatic/blob/master/CONTRIBUTING.md) for instructions on the developer certificate of origin that we require
 *   Familiarisation with Hugo for building static site locally is suggested for documentation contribution
 *   Kubernetes knowledge is recommended
-*   The KubeOne [documentation](https://github.com/kubermatic/kubeone) is currently available only in English  
+*   The KubeOne [documentation](https://github.com/kubermatic/kubeone) is currently available only in English
 *   We have a simple code of conduct that should be adhered to
 
 ## Steps in Contributing to Kubermatic KubeOne
@@ -56,7 +56,6 @@ Congratulations! You have successfully contributed to the Kubermatic KubeOne pro
 If you encounter a problem, you can [file an issue](https://github.com/kubermatic/kubeone/issues) in the repository on GitHub or talk to us on [GitHub](https://github.com/kubermatic/kubeone/discussions), [#kubermatic slack channel](https://kubernetes.slack.com/messages/CNEV2UMT7), and also through our [forum link](https://forum.kubermatic.com/c/kubeone/7). You can register on [Kubernetes slack here](http://slack.k8s.io/). In case of complex issues, we can set up video meetings for resolution. 
 
 Thank you for your contributions!
-
 
 
 
