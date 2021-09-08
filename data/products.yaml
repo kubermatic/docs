@@ -32,6 +32,8 @@ kubeone:
   versions:
     - release: master
       name: master
+    - release: v1.3
+      name: v1.3
     - release: v1.2
       name: v1.2
     - release: v1.0
