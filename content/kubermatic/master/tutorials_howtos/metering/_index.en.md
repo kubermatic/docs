@@ -24,32 +24,42 @@ The dashboard provides a convenient way to list and download all available repor
 * S3 bucket
     - Any S3-compatible endpoint can be used
     - The bucket is required to store continuous usage data and final reports
+* Administrator access to dashboard
+    - Administrator access can be gained by
+      - asking other administrators to follow the instructions for [Adding administrators][adding-administrators] via the dashboard
+      - or by using kubectl to give a user admin access. Please refer to the [Admin Panel][admin-panel] documentation for instructions
 
 ### Configuration from the Dashboard
 
 Using the dashboard, configuring the Metering tool becomes a breeze.
-Choose the **Metering** tab on the left side and click on **Configure Metering** on the following page.
+Open the [Admin Panel][admin-panel] and choose the **Metering** tab on the left side.
 
-![Metering User Interface](/img/kubermatic/master/tutorials/metering_disabled_state.png?classes=shadow,border "Metering User Interface")
+![Navigation to Metering configuration and reports](/img/kubermatic/master/tutorials/metering_admin_panel_location.png?classes=shadow,border "Navigation to Metering configuration and reports")
 
-A new form will open up and allow you to enable metering and define the required configuration values.
-All values are required.
+First you need to configure the credentials for your S3 bucket.
+To do so click on *Edit credentials*, fill in the credential fields and confirm with the button below.
+
+- **S3 Access Key** and **S3 Access Secret**
+  - Security credentials for your S3 bucket
+- **S3 Endpoint**
+  - Address to your S3 service
+  - If you are using Amazon S3, you may use `https://s3.amazonaws.com`
+- **S3 bucket**
+  - Name of your S3 bucket
+
+!["Edit Credentials" form](/img/kubermatic/master/tutorials/metering_credentials.png?classes=shadow,border "'Edit Credentials' form")
+
+The next step is to enable metering.
+Click on **Configure Metering**, switch on **Enable Metering** and change the configuration options according to your wishes.
 
 - `Enable metering`
   - Switch to turn metering on or off
-- `S3 endpoint`
-  - Address to your S3 service
-  - If you are using Amazon S3, you may use `https://s3.amazonaws.com`
-- `S3 bucket`
-  - Name of your S3 bucket
-- `S3 accessKey` and `S3 secretKey`
-  - Security credentials for your S3 bucket
 - `storageClassName`
   - [Storage Class][k8s-docs-storage-classes] for the [PersistentVolume][k8s-persistent-volumes], that will store the metering data
   - You may use `kubermatic-fast` or any other storage class you have configured
 - `storageSize`
   - The size that will be used for your `PersistentVolume`
-  - You may use a plain integer value (bytes) or a human-readable string like `100Gi`. See the [Kubernetes Docs][k8s-meaning-of-memory] for a more thorough explanation of valid values
+  - You may use a plain integer value (bytes) or a human-readable string like `50Gi`. See the [Kubernetes Docs][k8s-meaning-of-memory] for a more thorough explanation of valid values
   - When choosing a volume size, please take into consideration that old usage data files will not be deleted automatically
 
 ![Metering Configuration](/img/kubermatic/master/tutorials/metering_configuration.png?classes=shadow,border "Metering Configuration")
@@ -112,6 +122,8 @@ Do not delete these files during a collection period as they are providing the d
 ### Checksums
 The checksum of each record is calculated over the checksum of the previous record and the current record.
 
+[adding-administrators]: https://docs.kubermatic.com/kubermatic/v2.17/tutorials_howtos/administration/admin_panel/administrators/#adding-administrators
+[admin-panel]: https://docs.kubermatic.com/kubermatic/v2.17/tutorials_howtos/administration/admin_panel/
 [wiki-csv]: https://en.wikipedia.org/wiki/Comma-separated_values
 [k8s-docs-storage-classes]: https://kubernetes.io/docs/concepts/storage/storage-classes/
 [k8s-persistent-volumes]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
