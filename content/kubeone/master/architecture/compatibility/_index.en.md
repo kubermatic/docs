@@ -62,10 +62,8 @@ The following operating systems are supported:
 
 * Ubuntu 18.04 (Bionic)
 * Ubuntu 20.04 (Focal)
-* Debian 10 (Buster)
 * CentOS 7
 * CentOS 8
-* RHEL 7
 * RHEL 8
 * Flatcar
 * Amazon Linux 2
