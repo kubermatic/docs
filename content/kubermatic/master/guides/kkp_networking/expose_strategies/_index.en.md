@@ -1,5 +1,5 @@
 +++
-title = "Expose Strategy"
+title = "Control Plane Expose Strategy"
 date = 2020-02-14T12:07:15+02:00
 weight = 70
 
