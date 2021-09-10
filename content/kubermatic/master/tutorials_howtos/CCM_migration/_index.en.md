@@ -26,10 +26,15 @@ Since the Kubernetes community has planned to deprecate and then remove all the 
 controller managers and the Kubernetes documentation explain how to migrate from in-tree to out-of-tree CCM, KKP itself
 needed a mechanism to allow users to migrate their clusters to the out-of-tree implementation, as detailed below.
 
-The supported cloud providers so far are:
-* Hetzner
+The CCM/CSI migration is supported only for the following providers so far:
 * Openstack
 * vSphere
+
+{{% notice note %}}
+The latest vSphere CSI driver [release](https://vsphere-csi-driver.sigs.k8s.io/releases/v2.3.0.html) does not support 
+Kubernetes 1.22, hence it is **not** possible to *upgrade* already migrated vSphere clusters to Kubernetes 1.22, *migrate*
+existing vSphere 1.22 clusters, and *create* new vSphere clusters with Kubernetes 1.22 (new clusters are by default controlled by the external CCM).
+{{% /notice %}}
 
 ### Enabling the external cloud provider
 
@@ -51,7 +56,7 @@ spec:
 ```
 
 When this feature gets enabled in a cluster belonging to a supported cloud provider, a mutating webhook patches the cluster
-by adding two different annotations, leading to the following resulting cluster:
+by adding two different annotations, producing the following cluster:
 
 ```yaml
 apiVersion: kubermatic.k8s.io/v1
