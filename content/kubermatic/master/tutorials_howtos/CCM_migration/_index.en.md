@@ -30,9 +30,11 @@ The CCM/CSI migration is supported only for the following providers so far:
 * Openstack
 * vSphere
 
-> NOTE: latest vSphere CSI driver release (v2.3.0) does not support Kubernetes 1.22, hence it is not possible to:
-> * Upgrade already migrated vSphere clusters to Kubernetes 1.22.
-> * Migrate existing vSphere 1.22 clusters.
+{{% notice note %}}
+The latest vSphere CSI driver [release](https://vsphere-csi-driver.sigs.k8s.io/releases/v2.3.0.html) does not support 
+Kubernetes 1.22, hence it is **not** possible to *upgrade* already migrated vSphere clusters to Kubernetes 1.22, *migrate*
+existing vSphere 1.22 clusters, and *create* new vSphere clusters with Kubernetes 1.22 (new clusters are by default controlled by the external CCM).
+{{% /notice %}}
 
 ### Enabling the external cloud provider
 
