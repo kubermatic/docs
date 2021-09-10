@@ -11,7 +11,7 @@ It is possible to use CNI plugins that are not directly supported by the KubeOne
 
 ```shell
 mkdir addons
-curl https://raw.githubusercontent.com/kubermatic/kubeone/master/addons/calico-vxlan/calico-vxlan.yaml > addons/calico-vxlan.yaml
+curl https://raw.githubusercontent.com/kubermatic/kubeone/release/v1.3/addons/calico-vxlan/calico-vxlan.yaml > addons/calico-vxlan.yaml
 ```
 
 ## MTU

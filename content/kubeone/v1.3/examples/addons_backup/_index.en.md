@@ -43,5 +43,5 @@ Credentials are fetched automatically if you are deploying on AWS. If you want
 to use non-default credentials or you're not deploying on AWS, update the
 `s3-credentials` secret (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys).
 
-[backups-addon-src]: https://raw.githubusercontent.com/kubermatic/kubeone/master/addons/backups-restic/backups-restic.yaml
+[backups-addon-src]: https://raw.githubusercontent.com/kubermatic/kubeone/release/v1.3/addons/backups-restic/backups-restic.yaml
 [restic-net]: https://restic.net/

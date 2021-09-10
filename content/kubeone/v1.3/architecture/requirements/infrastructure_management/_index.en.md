@@ -141,14 +141,14 @@ check our [example Terraform configs][terraform-configs-github] and the
 The needed `output.tf` file already comes with all our
 [example Terraform configs][terraform-configs-github].
 
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/release/v1.3/examples/terraform
 {{% /notice %}}
 
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
 [ssh]: {{< ref "../../../guides/ssh#sshd-requirements-on-instances" >}}
 [supported-providers]: {{< ref "../../compatibility#supported-providers" >}}
 [supported-os]: {{< ref "../../compatibility#supported-operating-systems" >}}
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/release/v1.3/examples/terraform
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [static-workers]: {{< ref "../../../guides/static_workers" >}}
 [concepts]: {{< ref "../../concepts#kubermatic-machine-controller" >}}
