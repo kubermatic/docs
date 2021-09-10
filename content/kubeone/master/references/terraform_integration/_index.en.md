@@ -22,7 +22,7 @@ output "kubeone_hosts" {}
 # Contains templates for generating the MachineDeployment objects.
 # More information about Cluster-API, machine-controller, and
 # MachineDeployments can be found in the Concepts document:
-#   http://docs.kubermatic.com/kubeone/master/concepts/#kubermatic-machine-controller
+#   https://docs.kubermatic.com/kubeone/master/architecture/concepts/#kubermatic-machine-controller
 # Example MachineDeployment manifests for each supported provider can be found
 # in the machine-controller repository:
 #   https://github.com/kubermatic/machine-controller/tree/master/examples
@@ -71,7 +71,7 @@ output "kubeone_hosts" {
       # Cloud provider name.
       # KubeOne Terraform integration works only for natively-supported
       # providers:
-      #   http://docs.kubermatic.com/kubeone/master/compatibility_info/
+      #   https://docs.kubermatic.com/kubeone/master/architecture/compatibility/
       # The cloud provider name is defined by the KubeOne API.
       # You can run kubeone config print --full and refer to the
       # cloudProvider section for the list of cloud provider names
