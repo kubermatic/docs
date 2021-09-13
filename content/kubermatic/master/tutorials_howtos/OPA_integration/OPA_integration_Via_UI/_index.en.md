@@ -255,6 +255,29 @@ Deleting Default Constraint causes all related Constraints on the user clusters 
 To delete the constraint click on delete button on the right that appears when hovering over one of the rows.
 ![Delete Default Constraint](/img/kubermatic/master/ui/edit-delete-default-constraint.png?height=200px&classes=shadow,border "Delete Default Constraint")
 
+### AllowedRegistry
+
+[AllowedRegistry]({{< ref "../../OPA_integration/#allowedregistry" >}}) is a part of the OPA Integration Admin Panel.
+
+It allows users to manage the built-in KKP Constraint AllowedRegistry through which you can easily create policies on what image registries can be
+used for Pods on all OPA-enabled user clusters. 
+
+![Allowed Registries View](/img/kubermatic/master/ui/allowed_registries.png?classes=shadow,border "Allowed Registry View")
+
+To create an AllowedRegistry just click on the `+ Add Allowed Registries` button and set a K8s compliant name and a registry prefix.
+These prefixes OPA matches with the Pods container `image` field and if it matches with at least one, it allows the Pod to be created/updated.
+
+![Allowed Registries Create](/img/kubermatic/master/ui/add_allowed_registry.png?classes=shadow,border "Add Allowed Registry")
+
+The Allowed Registries can be managed through the same form by using the edit button, or deleted by the trash button.
+
+A controller is collecting the Allowed Registries prefixes and creates a corresponding Constraint Template and Default Constraint.
+
+![Allowed Registries Default Constraint](/img/kubermatic/master/ui/allowed_registry_default_constraint.png?classes=shadow,border "Allowed Registry Default Constraint")
+
+This Default constraint we managed automatically (Parameters list, Pod match, Enabled/Disabled) but users can still change other
+values, most importantly the [Filtering]({{< ref "#filtering-clusters-on-default-constraints" >}}).
+
 ### Gatekeeper Config
 
 In this area, you have the possibility to define a Gatekeeper Config. It is not required but might be needed for some constraints that need more access.

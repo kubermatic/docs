@@ -315,10 +315,122 @@ Deleting Default Constraint causes all related Constraints on the user clusters 
 
 Note: Cluster Admins will not be able to edit/delete Default Constraints
 
+### AllowedRegistry
+
+AllowedRegistry allows admins to easily control what image registries can be used in user clusters. This is the first KKP 
+inbuilt Constraint and its goal is to make creating Constraint Templates and Default Constraints simpler.
+
+{{% notice info %}}
+This is an EE feature.
+{{% /notice %}}
+
+![Allowed Registries View](/img/kubermatic/master/ui/allowed_registries.png?classes=shadow,border "Allowed Registry View")
+
+AllowedRegistry functions as its own CR, which when created, triggers the creation of the corresponding 
+[Constraint Template]({{< ref "#managing-constraint-templates" >}})(`allowedregistry`) and [Default Constraints]({{< ref "#default-constraints" >}})(`allowedregistry`).
+It accepts only 2 parameters, its name and the registry prefix of the registry which can be used on the user cluster.
+When there are multiple AllowedRegistries, we collect all registry prefixes and put them into a list in the allowedregistry Default Constraint.
+These prefixes OPA matches with the Pods container `image` field and if it matches with at least one, it allows the Pod to be created/updated.
+They are cluster-scoped and reside in the KKP Master cluster.
+
+Example of a AllowedRegistry:
+```yaml
+apiVersion: kubermatic.k8s.io/v1
+kind: AllowedRegistry
+metadata:
+  name: quay
+spec:
+  registryPrefix: quay.io
+```
+
+Corresponding ConstraintTemplate:
+
+```yaml
+apiVersion: kubermatic.k8s.io/v1
+kind: ConstraintTemplate
+metadata:
+  name: allowedregistry
+spec:
+  crd:
+    spec:
+      names:
+        kind: allowedregistry
+      validation:
+        openAPIV3Schema:
+          properties:
+            allowed_registry:
+              items:
+                type: string
+              type: array
+  selector:
+    labelSelector: {}
+  targets:
+  - rego: |-
+      package allowedregistry
+
+      violation[{"msg": msg}] {
+        container := input.review.object.spec.containers[_]
+        satisfied := [good | repo = input.parameters.allowed_registry[_] ; good = startswith(container.image, repo)]
+        not any(satisfied)
+        msg := sprintf("container <%v> has an invalid image registry <%v>, allowed image registries are %v", [container.name, container.image, input.parameters.allowed_registry])
+      }
+      violation[{"msg": msg}] {
+        container := input.review.object.spec.initContainers[_]
+        satisfied := [good | repo = input.parameters.allowed_registry[_] ; good = startswith(container.image, repo)]
+        not any(satisfied)
+        msg := sprintf("container <%v> has an invalid image registry <%v>, allowed image registries are %v", [container.name, container.image, input.parameters.allowed_registry])
+      }
+    target: admission.k8s.gatekeeper.sh
+```
+
+Corresponding Default Constraint:
+
+```yaml
+apiVersion: kubermatic.k8s.io/v1
+kind: Constraint
+metadata:
+  name: allowedregistry
+  namespace: kubermatic
+spec:
+  constraintType: allowedregistry
+  match:
+    kinds:
+    - apiGroups:
+      - ""
+      kinds:
+      - Pod
+    labelSelector: {}
+    namespaceSelector: {}
+  parameters:
+    allowed_registry:
+    - quay.io
+  selector:
+    labelSelector: {}
+```
+
+![Allowed Registry Default Constraint](/img/kubermatic/master/ui/allowed_registry_default_constraint.png?classes=shadow,border "Allowed Registry Default Constraint")
+
+For the existing `allowedregistry` [Default Constraint]({{< ref "#default-constraints" >}}), feel free to edit the [Filtering]({{< ref "#filtering-clusters-on-default-constraints" >}}).
+
+When a user tries to create a Pod with an image coming from a registry that is not prefixed by one of the AllowedRegistries, 
+they will get a similar error:
+```
+container <unwanted> has an invalid image registry <unwanted.registry/unwanted>, allowed image registries are ["quay.io"]
+```
+
+A similar feature as AllowedRegistries can be achieved by an OPA-familiar user, using Constraint Templates and Default Constraints,
+AllowedRegistries are just a way to make admins life easier.
+
+{{% notice info %}}
+When there are no AllowedRegistries, we automatically disable the Default Constraint.
+{{% /notice %}}
+
 ### Managing Config
 
 Gatekeeper [Config](https://github.com/open-policy-agent/gatekeeper#replicating-data) can also be managed through Kubermatic. 
 As Gatekeeper treats it as a kind of singleton CRD resource, Kubermatic just manages this resource directly on the user cluster.
+
+You can manage the config in the user cluster view, per user cluster.
 
 ### Removing OPA Integration
 
