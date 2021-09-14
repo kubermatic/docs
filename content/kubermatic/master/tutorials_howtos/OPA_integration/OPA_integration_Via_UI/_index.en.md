@@ -265,7 +265,7 @@ used for Pods on all OPA-enabled user clusters.
 ![Allowed Registries View](/img/kubermatic/master/ui/allowed_registries.png?classes=shadow,border "Allowed Registry View")
 
 To create an AllowedRegistry just click on the `+ Add Allowed Registries` button and set a K8s compliant name and a registry prefix.
-These prefixes OPA matches with the Pods container `image` field and if it matches with at least one, it allows the Pod to be created/updated.
+OPA matches these prefixes with the Pods container `image` field and if it matches with at least one, it allows the Pod to be created/updated.
 
 ![Allowed Registries Create](/img/kubermatic/master/ui/add_allowed_registry.png?classes=shadow,border "Add Allowed Registry")
 
@@ -275,7 +275,7 @@ A controller is collecting the Allowed Registries prefixes and creates a corresp
 
 ![Allowed Registries Default Constraint](/img/kubermatic/master/ui/allowed_registry_default_constraint.png?classes=shadow,border "Allowed Registry Default Constraint")
 
-This Default constraint we managed automatically (Parameters list, Pod match, Enabled/Disabled) but users can still change other
+We manage this Default Constraint automatically (Parameters list, Pod match, Enabled/Disabled) but users can still change other
 values, most importantly the [Filtering]({{< ref "#filtering-clusters-on-default-constraints" >}}).
 
 ### Gatekeeper Config

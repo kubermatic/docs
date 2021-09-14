@@ -330,7 +330,7 @@ AllowedRegistry functions as its own CR, which when created, triggers the creati
 [Constraint Template]({{< ref "#managing-constraint-templates" >}})(`allowedregistry`) and [Default Constraints]({{< ref "#default-constraints" >}})(`allowedregistry`).
 It accepts only 2 parameters, its name and the registry prefix of the registry which can be used on the user cluster.
 When there are multiple AllowedRegistries, we collect all registry prefixes and put them into a list in the allowedregistry Default Constraint.
-These prefixes OPA matches with the Pods container `image` field and if it matches with at least one, it allows the Pod to be created/updated.
+OPA matches these prefixes with the Pods container `image` field and if it matches with at least one, it allows the Pod to be created/updated.
 They are cluster-scoped and reside in the KKP Master cluster.
 
 Example of a AllowedRegistry:
