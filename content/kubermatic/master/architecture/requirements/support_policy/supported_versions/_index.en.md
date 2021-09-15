@@ -14,7 +14,7 @@ minor version, and z is the patch version.
 
 KKP follows the Kubernetes release model and cycle, though for practical reasons
 releases are a bit delayed to ensure compatibility with Kubernetes. In general,
-the latest three minor versions of KKP are supported, i.e. 2.15, 2.14 and 2.13.
+the latest three minor versions of KKP are supported, i.e. 2.18, 2.17 and 2.16.
 With the release of a new minor KKP version, support for the oldest supported
 KKP version is dropped.
 
@@ -29,7 +29,7 @@ that have been released since, as well as drop old patch versions if they are
 affected by critical bugs.
 
 KKP will typically drop support of minor versions of Kubernetes which have gone EOL,
-even during the lifecycle of a KKP minor version (e.g. from 2.15.1 to 2.15.2).
+even during the lifecycle of a KKP minor version (e.g. from 2.16.1 to 2.16.2).
 This of course results in any minor version of KKP being eventually limited to two
 and later one minor version of Kubernetes.
 
@@ -44,15 +44,17 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version | 1.20 | 1.19 | 1.18 | 1.17 | 1.16 | 1.15 | 1.14 |
-| ----------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 2.12.0-5    | -    | -    | -    | -    | ✓    | ✓    | ✓    |
-| 2.12.6+     | -    | -    | -    | -    | ✓    | ✓    | -    |
-| 2.13.x      | -    | -    | -    | ✓    | ✓    | ✓    | -    |
-| 2.14.x      | -    | -    | ✓    | ✓    | ✓    | ✓    | -    |
-| 2.15.x      | -    | ✓    | ✓    | ✓    | -    | -    | -    |
-| 2.16.x      | ✓    | ✓    | ✓    | ✓    | -    | -    | -    |
+| KKP version | 1.22 | 1.21 | 1.20 | 1.19 | 1.18 | 1.17 | 1.16 | 1.15 | 1.14 |
+| ----------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| 2.12.0-5    | -    | -    | -    | -    | -    | -    | ✓    | ✓    | ✓    |
+| 2.12.6+     | -    | -    | -    | -    | -    | -    | ✓    | ✓    | -    |
+| 2.13.x      | -    | -    | -    | -    | -    | ✓    | ✓    | ✓    | -    |
+| 2.14.x      | -    | -    | -    | -    | ✓    | ✓    | ✓    | ✓    | -    |
+| 2.15.x      | -    | -    | -    | ✓    | ✓    | ✓    | -    | -    | -    |
+| 2.16.x      | -    | -    | ✓    | ✓    | ✓    | ✓    | -    | -    | -    |
+| 2.17.x      | -    | ✓    | ✓    | ✓    | ✓    | -    | -    | -    | -    |
+| 2.18.x      | ✓    | ✓    | ✓    | -    | -    | -    | -    | -    | -    |
 
 Upgrades from a previous Kubernetes version are generally supported whenever a
-version is marked as supported, for example KKP 2.13 supports updating clusters
-from Kubernetes 1.14 to 1.15.
+version is marked as supported, for example KKP 2.17 supports updating clusters
+from Kubernetes 1.18 to 1.20.
