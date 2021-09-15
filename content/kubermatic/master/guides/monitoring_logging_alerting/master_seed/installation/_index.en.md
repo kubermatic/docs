@@ -44,6 +44,7 @@ are a few important options you might want to override for your setup:
 * `prometheus.ruleFiles` is a list of Prometheus alerting rule files to load. Depending on whether or not the
   target cluster is a master or seed, the `/etc/prometheus/rules/kubermatic-master-*.yaml` entry should be removed
   in order to not trigger bogus alerts.
+* `prometheus.blackboxExporter.enabled` is used to enable integration between Prometheus and Blackbox Exporter, used for monitoring of API endpoints of user clusters created on the seed. `prometheus.blackboxExporter.url` should be adjusted accordingly (default value would be `blackbox-exporter:9115`)
 * `grafana.user` and `grafana.password` should be set with custom values if no identity-aware proxy is configured.
   In this case, `grafana.provisioning.configuration.disable_login_form` should be set to `false` so that a manual
   login is possible.
@@ -84,6 +85,7 @@ helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm
 helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml kube-state-metrics charts/monitoring/kube-state-metrics/
 helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml grafana charts/monitoring/grafana/
 helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml karma charts/monitoring/karma/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml blackbox-exporter charts/monitoring/blackbox-exporter/
 ```
 
 **Helm 2**
@@ -95,6 +97,7 @@ helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring grafana charts/monitoring/grafana/
 helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring karma charts/monitoring/karma/
+helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring blackbox-exporter charts/monitoring/blackbox-exporter/
 ```
 
 ### Going Further
