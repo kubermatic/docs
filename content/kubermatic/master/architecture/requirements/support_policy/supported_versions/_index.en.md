@@ -53,7 +53,7 @@ current KKP version.
 | 2.15.x      | -    | -    | -    | ✓    | ✓    | ✓    | -    | -    | -    |
 | 2.16.x      | -    | -    | ✓    | ✓    | ✓    | ✓    | -    | -    | -    |
 | 2.17.x      | -    | ✓    | ✓    | ✓    | ✓    | -    | -    | -    | -    |
-| 2.18.x      | ✓    | ✓    | ✓    | -    | -    | -    | -    | -    | -    |
+| 2.18.x      | ✓    | ✓    | ✓    | ✓    | -    | -    | -    | -    | -    |
 
 Upgrades from a previous Kubernetes version are generally supported whenever a
 version is marked as supported, for example KKP 2.17 supports updating clusters
