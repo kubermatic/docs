@@ -71,11 +71,11 @@ spec:
     # exposes an HTTP endpoint for generating kubeconfig
     # for a cluster that will contain OIDC tokens
     OIDCKubeCfgEndpoint:
-      enabled: {}
+      enabled: true
     # configures the flags on the API server to use
     # OAuth2 identity providers
     OpenIDAuthPlugin:
-      enabled: {}
+      enabled: true
 
   ui:
     # enable shared kubeconfig feature in the dashboard

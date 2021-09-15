@@ -36,7 +36,8 @@ metadata:
 spec:
   # FeatureGates are used to optionally enable certain features.
   featureGates:
-    - "EtcdLauncher=true"
+    EtcdLauncher:
+      enabled: true
 ```
 
 Next, simply apply the updated CRD:
