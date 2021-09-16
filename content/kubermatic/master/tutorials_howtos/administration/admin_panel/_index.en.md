@@ -98,3 +98,6 @@ the per-provider level.
 
 ### [OPA Constraint Templates]({{< ref "./opa_constraint_templates" >}})
 Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for Constraint parameters and enforce their behavior.
+
+### [Backup Buckets]({{< ref "./backup_buckets" >}})
+Through the Backup Buckets settings you can enable and configure the new etcd backups per Seed. 
