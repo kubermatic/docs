@@ -35,7 +35,7 @@ Once created, the controller will start a new backup every time the schedule dem
 and delete backups once more than `.spec.keep` (20 in the example) have been created. The created backups are named based
 on the configuration name and the backup timestamp `$backupconfigname-$timestamp`.
 
-Its also possible to do one-time backups (snapshots).
+It is also possible to do one-time backups (snapshots).
 
 For more detailed info check [Etcd Backup and Restore]({{< ref "../../cheat_sheets/etcd/backup-and-restore" >}}).
 
