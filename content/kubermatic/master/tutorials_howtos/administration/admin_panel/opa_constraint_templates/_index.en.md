@@ -1,22 +1,23 @@
 +++
 title = "OPA Constraint Templates"
-date = 2020-02-10T11:07:15+02:00
+date = 2021-09-08T12:07:15+02:00
 weight = 20
 +++
 
-![Constraint Templates](/img/kubermatic/master/ui/opa_admin_ct_overview.png?classes=shadow,border "Constraint Template View")
+![Constraint Templates](/img/kubermatic/master/ui/opa_admin_ct_view.png?classes=shadow,border "Constraint Templates")
 
 Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for Constraint parameters and enforce their behavior.
-The Constraint Template view on the bottom of the Admin Panel allows adding, editing and deleting Constraint Templates.
+The Constraint Templates view under OPA menu in Admin Panel allows adding, editing and deleting Constraint Templates.
 
 ## Adding Constraint Templates
-Constraint Templates can be added after clicking on the `+` icon in the top right corner of the view.
+Constraint Templates can be added after clicking on the `+ Add Constraint Template` icon in the top right corner of the view.
 
-![Add Constraint Template](/img/kubermatic/master/ui/opa_admin_add_ct.png?classes=shadow,border&height=200 "Constraint Template Add Dialog")
+![Add Constraint Template](/img/kubermatic/master/ui/opa_admin_add_ct.png?classes=shadow,border&height=350px "Constraint Template Add Dialog")
 
-Spec is the only field that needs to be filled with a yaml. By clicking on `Add` a new Constraint Template will be created. 
+Spec is the only field that needs to be filled with a yaml. By clicking on `+ Add Constraint Template` a new Constraint Template will be created.
 
 Following example requires all labels that are described by the Constraint to be present:
+
 ```yaml
 crd:
   spec:

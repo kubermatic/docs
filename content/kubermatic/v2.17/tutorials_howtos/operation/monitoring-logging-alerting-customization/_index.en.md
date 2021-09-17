@@ -166,7 +166,7 @@ alertmanager:
           - channel: '#alerting'
             send_resolved: true
 ```
-Please review the [Alertmanager Configuration Guise](https://prometheus.io/docs/alerting/latest/configuration/) for detailed configuration syntax.
+Please review the [Alertmanager Configuration Guide](https://prometheus.io/docs/alerting/latest/configuration/) for detailed configuration syntax.
 
 You can review the [Alerting Runbook]({{< relref "../../../cheat_sheets/alerting_runbook" >}}) for a reference of alerts that Kubermatic Kubernetes Platform (KKP) monitoring setup can fire, alongside a short description and steps to debug.
 
