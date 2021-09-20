@@ -10,7 +10,7 @@ KKP API provides several networking parameters that can be defined for each user
 
 The networking parameters are configurable in `spec.clusterNetwork`. Some of them can be also configured via KKP UI on the Cluster configuration page, as shown below:
 
-![KKP UI - Network Configuration](/img/kubermatic/master/guides/networking/networking_ui.png)
+![KKP UI - Network Configuration](/img/kubermatic/v2.18/guides/networking/networking_ui.png)
 
 When no explicit value for a setting is provided, the default value is applied. The following table summarizes the parameters configurable via `spec.clusterNetwork` in the cluster API with their default values:
 

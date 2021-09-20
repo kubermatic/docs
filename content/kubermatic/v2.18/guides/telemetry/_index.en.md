@@ -7,7 +7,7 @@ weight = 20
 
 Telemetry is an observability tool that can be used to track Kubermatic Kubernetes Platform and Kubernetes cluster usage. It collects anonymous data and helps us to improve KKP performance for large and scalable setups. The following guide explains how to enable and disable the Telemetry tool in your KKP installation, and what kind of data it collects.
 
-Telemetry helm chart can be found in the [Kubermatic repository](https://github.com/kubermatic/kubermatic/tree/master/charts/telemetry), and since Telemetry is an open source tool, the code can be found in [Telemetry-Client repository](https://github.com/kubermatic/telemetry-client).
+Telemetry helm chart can be found in the [Kubermatic repository](https://github.com/kubermatic/kubermatic/tree/release/v2.18/charts/telemetry), and since Telemetry is an open source tool, the code can be found in [Telemetry-Client repository](https://github.com/kubermatic/telemetry-client).
 
 ## Installation
 ### Kubermatic installer

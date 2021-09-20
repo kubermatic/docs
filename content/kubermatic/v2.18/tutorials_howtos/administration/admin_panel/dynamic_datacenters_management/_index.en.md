@@ -4,7 +4,7 @@ date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++
 
-![Dynamic Datacenters](/img/kubermatic/master/ui/dc.png?classes=shadow,border "Dynamic Datacenters View")
+![Dynamic Datacenters](/img/kubermatic/v2.18/ui/dc.png?classes=shadow,border "Dynamic Datacenters View")
 
 Dynamic Datacenters view on the bottom of the Admin Panel allows Administrators to control the datacenters available
 in KKP. The most important capabilities that this view provides are listing, filtering, creating, editing and deleting
@@ -32,9 +32,9 @@ datacenters.
 In both cases the dialog will look very similar but in the edit mode not all fields can be changed. Provider and seed
 can be set only during the datacenter creation.
 
-![Edit Datacenter](/img/kubermatic/master/ui/dc_edit1.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
+![Edit Datacenter](/img/kubermatic/v2.18/ui/dc_edit1.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
 
-![Edit Datacenter](/img/kubermatic/master/ui/dc_edit2.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
+![Edit Datacenter](/img/kubermatic/v2.18/ui/dc_edit2.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
 
 Fields available in the dialogs:
 
@@ -52,4 +52,4 @@ Fields available in the dialogs:
 Datacenters can be deleted after clicking on the trash icon that appears after putting mouse over one of the rows with
 datacenters.
 
-![Delete Datacenter](/img/kubermatic/master/ui/dc_delete.png?classes=shadow,border&height=200 "Dynamic Datacenters Delete Dialog")
+![Delete Datacenter](/img/kubermatic/v2.18/ui/dc_delete.png?classes=shadow,border&height=200 "Dynamic Datacenters Delete Dialog")

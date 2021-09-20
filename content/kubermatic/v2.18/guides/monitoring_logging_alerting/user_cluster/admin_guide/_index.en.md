@@ -52,7 +52,7 @@ This will deploy all MLA stack components with the default settings, which may b
 
 #### Expose Grafana & Alertmanager UI
 
-After deploying MLA components into a KKP Seed cluster, Grafana and Alertmanager UI are exposed only via ClusterIP services by default. To expose them to users outside of the Seed cluster with proper authentication in place, we will use the [IAP Helm chart](https://github.com/kubermatic/kubermatic/tree/master/charts/iap) from the Kubermatic repository.
+After deploying MLA components into a KKP Seed cluster, Grafana and Alertmanager UI are exposed only via ClusterIP services by default. To expose them to users outside of the Seed cluster with proper authentication in place, we will use the [IAP Helm chart](https://github.com/kubermatic/kubermatic/tree/release/v2.18/charts/iap) from the Kubermatic repository.
 
 As a matter of rule, to integrate well with KKP UI, Grafana and Alertmanager should be exposed at the URL `https://<any-prefix>.<seed-name>.<kkp-domain>`, for example:
 
@@ -136,7 +136,7 @@ spec:
 
 There are several options in the KKP “Admin Panel” which are related to user cluster MLA, as shown on the picture below:
 
-![MLA Admin Panel](/img/kubermatic/master/monitoring/user_cluster/admin_panel.png)
+![MLA Admin Panel](/img/kubermatic/v2.18/monitoring/user_cluster/admin_panel.png)
 
 **User Cluster Logging:**
 
@@ -290,13 +290,13 @@ This chapter describes some potential problems that you may face in a KKP instal
 - Make sure you are switched to the proper Grafana Organization (see the “Switch between Grafana Organizations” section of this documentation)
 - Make sure that user cluster Monitoring / Logging is enabled for the user cluster (In KKP UI, you should see green checkboxes on the Cluster Page):
 
-![MLA UI - Cluster View](/img/kubermatic/master/monitoring/user_cluster/ui_cluster_view.png)
+![MLA UI - Cluster View](/img/kubermatic/v2.18/monitoring/user_cluster/ui_cluster_view.png)
 
 **Metrics / Logs are not available in Grafana UI for some user cluster:**
 
 - Make sure that User Cluster Monitoring / Logging is enabled for the user cluster (In KKP UI, you should see green checkboxes on the Cluster Page):
 
-![MLA UI - Cluster View](/img/kubermatic/master/monitoring/user_cluster/ui_cluster_view.png)
+![MLA UI - Cluster View](/img/kubermatic/v2.18/monitoring/user_cluster/ui_cluster_view.png)
 
 - Check that Prometheus / Promtail was deployed an is running in the user cluster:
 

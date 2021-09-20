@@ -43,29 +43,29 @@ For more detailed info check [Etcd Backup and Restore]({{< ref "../../cheat_shee
 
 EtcdBackups and Restores are project resources, and you can manage them in the Project view.
 
-![Etcd Backups View](/img/kubermatic/master/ui/etcd_backups.png?classes=shadow,border "Project Etcd Backups")
+![Etcd Backups View](/img/kubermatic/v2.18/ui/etcd_backups.png?classes=shadow,border "Project Etcd Backups")
 
 To create a backup, just click on the `Add Automatic Backup` button. You have a choice of preset daily, weekly or monthly backups,
 or you can create a backup with a custom interval and keep time.
 
-![Etcd Backups Configuration](/img/kubermatic/master/ui/add_etcd_backup.png?classes=shadow,border "Etcd Backups Configuration")
+![Etcd Backups Configuration](/img/kubermatic/v2.18/ui/add_etcd_backup.png?classes=shadow,border "Etcd Backups Configuration")
 
 To see what backups are available, click on a backup you are interested in, and you will see a list of completed backups.
 
-![Etcd Backups Details List](/img/kubermatic/master/ui/backups_list.png?classes=shadow,border "Etcd Backups Details")
+![Etcd Backups Details List](/img/kubermatic/v2.18/ui/backups_list.png?classes=shadow,border "Etcd Backups Details")
 
 If you want to restore from a specific backup, just click on the restore from backup icon.
 
-![Etcd Backups Restore button](/img/kubermatic/master/ui/restore_backup.png?classes=shadow,border "Restore backup button")
+![Etcd Backups Restore button](/img/kubermatic/v2.18/ui/restore_backup.png?classes=shadow,border "Restore backup button")
 
-![Etcd Backups Cluster Restore](/img/kubermatic/master/ui/restore_cluster.png?classes=shadow,border "Restore etcd backup for cluster")
+![Etcd Backups Cluster Restore](/img/kubermatic/v2.18/ui/restore_cluster.png?classes=shadow,border "Restore etcd backup for cluster")
 
 #### Etcd Backup Snapshots
 
 You can also create one-time backup snapshots, they are set up similarly to the automatic ones, with the difference that they do not
 have a schedule or keep count set.
 
-![Etcd Backup Snapshots](/img/kubermatic/master/ui/backup_snapshots.png?classes=shadow,border "Etcd Backup Snapshots")
+![Etcd Backup Snapshots](/img/kubermatic/v2.18/ui/backup_snapshots.png?classes=shadow,border "Etcd Backup Snapshots")
 
 ## Backup Restores
 
@@ -84,13 +84,13 @@ Meaning that they will still run, even though etcd(and K8s) is not aware of them
 
 This will create an EtcdRestore object for your cluster. You can observe the progress in the Restore list.
 
-![Etcd Restore List](/img/kubermatic/master/ui/restore_list.png?classes=shadow,border "Etcd Restore List")
+![Etcd Restore List](/img/kubermatic/v2.18/ui/restore_list.png?classes=shadow,border "Etcd Restore List")
 
 In the cluster view, you may notice that your cluster is in a `Restoring` state, and you can not interact with it until it is done.
 
-![Cluster Restoring](/img/kubermatic/master/ui/cluster_restoring.png?classes=shadow,border "Cluster Restoring")
+![Cluster Restoring](/img/kubermatic/v2.18/ui/cluster_restoring.png?classes=shadow,border "Cluster Restoring")
 
 When it's done, the cluster will get un-paused and un-blocked, so you can use it. The Etcd Restore will go into a Completed state.
 
-![Etcd Restore Completed](/img/kubermatic/master/ui/restore_completed.png?classes=shadow,border "Etcd Restore Completed")
+![Etcd Restore Completed](/img/kubermatic/v2.18/ui/restore_completed.png?classes=shadow,border "Etcd Restore Completed")
 

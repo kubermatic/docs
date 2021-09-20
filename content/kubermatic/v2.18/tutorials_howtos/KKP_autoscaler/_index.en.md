@@ -33,13 +33,13 @@ You can install Kubernetes autoscaler on a running KKP Cluster using the KKP add
 
 **Step 1**
 
-Create a KKP Cluster by selecting your project on the dashboard and click on `“create cluster”`. More details can be found on the official [documentation](https://docs.kubermatic.com/kubermatic/master/tutorials_howtos/project_and_cluster_management/) page.  
+Create a KKP Cluster by selecting your project on the dashboard and click on `“create cluster”`. More details can be found on the official [documentation](https://docs.kubermatic.com/kubermatic/v2.18/tutorials_howtos/project_and_cluster_management/) page.  
 
 **Step 2**
 
 When the Cluster is ready, check the Pods in the kube-system Namespace to know if any Autoscaler is running.
 
-![KKP Dashboard](/img/kubermatic/master/tutorials/kkp_autoscaler_dashboard.png?classes=shadow,border "KKP Dashboard")
+![KKP Dashboard](/img/kubermatic/v2.18/tutorials/kkp_autoscaler_dashboard.png?classes=shadow,border "KKP Dashboard")
 
 ```bash
 $ kubectl get pods -n kube-system
@@ -67,23 +67,23 @@ As shown above, the Autoscaler is not part of the running Kubernetes components 
 
 Add the Autoscaler to the Cluster under the addon section on the dashboard by clicking on the Addons and then `Install Addon.`
 
-![Add Addon](/img/kubermatic/master/tutorials/add_autoscaler_addon.png?classes=shadow,border "Add Addon")
+![Add Addon](/img/kubermatic/v2.18/tutorials/add_autoscaler_addon.png?classes=shadow,border "Add Addon")
 
 
 Select Cluster Autoscaler: 
 
 
-![Select Autoscaler](/img/kubermatic/master/tutorials/select_autoscaler.png?classes=shadow,border "Select Autoscaler")
+![Select Autoscaler](/img/kubermatic/v2.18/tutorials/select_autoscaler.png?classes=shadow,border "Select Autoscaler")
 
 
 Select install: 
 
 
-![Select Install](/img/kubermatic/master/tutorials/install_autoscaler.png?classes=shadow,border "Select Install")
+![Select Install](/img/kubermatic/v2.18/tutorials/install_autoscaler.png?classes=shadow,border "Select Install")
 
 
 
-![Installation Confirmation](/img/kubermatic/master/tutorials/autoscaler_confirmation.png?classes=shadow,border "Installation Confirmation")
+![Installation Confirmation](/img/kubermatic/v2.18/tutorials/autoscaler_confirmation.png?classes=shadow,border "Installation Confirmation")
 
 
 **Step 4**
@@ -209,14 +209,14 @@ As shown above, the MachineDeployment has been annotated with a minimum of 1 and
 
 To edit KKP Autoscaler, click on the three dots in front of the Cluster Autoscaler in the Addons section of the Cluster dashboard and select edit.
 
-![Edit Autoscaler](/img/kubermatic/master/tutorials/edit_autoscaler.png?classes=shadow,border "Edit Autoscaler")
+![Edit Autoscaler](/img/kubermatic/v2.18/tutorials/edit_autoscaler.png?classes=shadow,border "Edit Autoscaler")
 
 
 ## Delete KKP Autoscaler
 
 You can delete Autoscaler from where you edit it above and select delete.
 
-![Delete Autoscaler](/img/kubermatic/master/tutorials/delete_autoscaler.png?classes=shadow,border "Delete Autoscaler")
+![Delete Autoscaler](/img/kubermatic/v2.18/tutorials/delete_autoscaler.png?classes=shadow,border "Delete Autoscaler")
 
 
  Once it has been deleted, you can check the Cluster to ensure that the Autoscaler has been deleted using `kubectl get pods -n kube-system` command.

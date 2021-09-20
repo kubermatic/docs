@@ -34,7 +34,7 @@ The dashboard provides a convenient way to list and download all available repor
 Using the dashboard, configuring the Metering tool becomes a breeze.
 Open the [Admin Panel][admin-panel] and choose the **Metering** tab on the left side.
 
-![Navigation to Metering configuration and reports](/img/kubermatic/master/tutorials/metering_admin_panel_location.png?classes=shadow,border "Navigation to Metering configuration and reports")
+![Navigation to Metering configuration and reports](/img/kubermatic/v2.18/tutorials/metering_admin_panel_location.png?classes=shadow,border "Navigation to Metering configuration and reports")
 
 First you need to configure the credentials for your S3 bucket.
 To do so click on *Edit credentials*, fill in the credential fields and confirm with the button below.
@@ -47,7 +47,7 @@ To do so click on *Edit credentials*, fill in the credential fields and confirm 
 - **S3 bucket**
   - Name of your S3 bucket
 
-!["Edit Credentials" form](/img/kubermatic/master/tutorials/metering_credentials.png?classes=shadow,border "'Edit Credentials' form")
+!["Edit Credentials" form](/img/kubermatic/v2.18/tutorials/metering_credentials.png?classes=shadow,border "'Edit Credentials' form")
 
 The next step is to enable metering.
 Click on **Configure Metering**, switch on **Enable Metering** and change the configuration options according to your wishes.
@@ -62,7 +62,7 @@ Click on **Configure Metering**, switch on **Enable Metering** and change the co
   - You may use a plain integer value (bytes) or a human-readable string like `50Gi`. See the [Kubernetes Docs][k8s-meaning-of-memory] for a more thorough explanation of valid values
   - When choosing a volume size, please take into consideration that old usage data files will not be deleted automatically
 
-![Metering Configuration](/img/kubermatic/master/tutorials/metering_configuration.png?classes=shadow,border "Metering Configuration")
+![Metering Configuration](/img/kubermatic/v2.18/tutorials/metering_configuration.png?classes=shadow,border "Metering Configuration")
 
 Once the configuration values have been set and the metering has been enabled, the operator will take care of deploying the tool.
 
@@ -76,7 +76,7 @@ While the reports will be stored in your S3-bucket, they can also be accessed fr
 The metering overview provides a list of all reports.
 Click on the download button on the right side to save a specific report file.
 
-![Metering Overview](/img/kubermatic/master/tutorials/metering_overview.png?classes=shadow,border "Metering Overview")
+![Metering Overview](/img/kubermatic/v2.18/tutorials/metering_overview.png?classes=shadow,border "Metering Overview")
 
 ### Report Values
 The following values will be written to the reports:

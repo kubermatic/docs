@@ -84,7 +84,7 @@ manager.
 ### Finalize the CCM migration
 
 The last step to complete the CCM migration is the rolling restart of all the machineDeployments in the user cluster. 
-To do so via  cli, simply follow the guide in the machine-controller [documentation](https://docs.kubermatic.com/kubeone/master/cheat_sheets/rollout_machinedeployment/).
+To do so via  cli, simply follow the guide in the machine-controller [documentation](https://docs.kubermatic.com/kubeone/v2.18/cheat_sheets/rollout_machinedeployment/).
 
 Performing the rolling update of all the machineDeployments implies the deletion of all the machines (hence all the nodes) and
 their recreation. Since the MachineController has been patched to configure the external cloud provider for the new machines,
