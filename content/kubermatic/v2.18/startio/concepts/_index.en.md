@@ -12,11 +12,11 @@ Throughout this documentation, we are going to mention many Kubermatic Kubernete
 
 ## Prerequisites
 
-### AWS account
-The account that will be used for cloud resources needed to run the KKP.
-You'll need static credentials for the CLI tools.
+### AWS account or vSphere deployment
+Environment that will be used for cloud resources needed to run the KKP.
+You'll need static credentials for the CLI tools in case of AWS.
 
-### GitHub repository
+### GitHub or GitLab repository
 It will be used for storing the declarative setup of all components,
 can be either public or private, managed by user or organization.
 
@@ -27,6 +27,7 @@ For setting up DNS endpoint for accessing KKP and other components
 ## Used Tools
 
 * **[GitHub Actions / Workflow](https://github.com/features/actions)** - for management of complete delivery pipeline on top of your GitHub repository
+* **[GitLab CI/CD](https://docs.gitlab.com/ee/ci/)** - for management of complete delivery pipeline on top of your GitLab repository
 * **[Terraform](https://www.terraform.io/)** - for provisioning of AWS resources for Kubernetes master cluster (the cluster that will run Kubermatic Kubernetes Platform components)
 * **[KubeOne](https://www.kubermatic.com/products/kubeone/)** - for provisioning of Kubernetes master / seed cluster
 * **[KKP installer](https://www.kubermatic.com/products/kubermatic/)** - for installing Kubermatic Kubernetes Platform on master cluster

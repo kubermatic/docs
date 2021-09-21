@@ -27,8 +27,8 @@ This project should serve mainly for the onboarding purposes and easiness to sta
 understand all parts and perform internal security checks before making your setup a production ready.
 
 At this stage, there are following limitations:
- * only AWS is available as the cloud provider
- * only GitHub is supported for storing and integration with GitOps tool
+ * only AWS and vSphere are available as the cloud providers
+ * GitHub and GitLab are supported for storing and integration with GitOps tool
  * KKP CE edition is used.
 
 All the above limitations may change in upcoming iterations.
