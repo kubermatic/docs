@@ -10,10 +10,11 @@ Let’s unzip it and take a look at the structure.
 
 ```text
 .
-├── .github
+├── .github           # if GitHub is used as provider
 │   └── workflows
 │       └── kkp.yaml
 ├── .gitignore
+├── .gitlab-ci.yml    # if GitLab is used as provider
 ├── README-local.md
 ├── README.md
 ├── flux
@@ -54,18 +55,19 @@ Let’s unzip it and take a look at the structure.
 │   └── values.yaml
 ├── secrets.md
 └── terraform
-    ├── README.md
-    ├── dns
-    │   ├── main.tf
-    │   ├── terraform.tfvars
-    │   ├── variables.tf
-    │   └── versions.tf
-    ├── main.tf
-    ├── output.tf
-    ├── setup_terraform_backend.sh
-    ├── terraform.tfvars
-    ├── variables.tf
-    └── versions.tf
+    └── aws
+        ├── README.md
+        ├── dns
+        │   ├── main.tf
+        │   ├── terraform.tfvars
+        │   ├── variables.tf
+        │   └── versions.tf
+        ├── main.tf
+        ├── output.tf
+        ├── setup_terraform_backend.sh
+        ├── terraform.tfvars
+        ├── variables.tf
+        └── versions.tf
 ```
 
 There are following directories and files:

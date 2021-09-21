@@ -12,12 +12,17 @@ Start by clicking on the **Generate** button.
 
 ![Welcome Page](welcome.png?width=700px&classes=shadow,border "Welcome Page" )
 
-## 1. Provider selection
-At this step, you will select a cloud provider where the KKP will be deployed.
+## 1. Git Provider selection
+At this step, you will select a git provider where the repository will be hosted.
 
 ![Step 1](1.png?width=700px&classes=shadow,border "Step 1")
 
-## 2. Kubernetes Cluster configuration
+## 1. Cloud Provider selection
+At this step, you will select a cloud provider where the KKP will be deployed.
+
+![Step 2](2.png?width=700px&classes=shadow,border "Step 2")
+
+## 3. Kubernetes Cluster configuration
 At this step, you are providing details of your Kubernetes master cluster.
 
 You can generate a _Cluster name_, provide a Kubernetes _Master Cluster Version_.
@@ -31,9 +36,9 @@ Make sure to use the x86 instances, ARM instances are not supported.
 Keep in mind that this configuration is for the master cluster where KKP will be deployed, later on you will provision
 User clusters through KKP where your workload will be deployed (and for that you may use a different instance types).
 
-![Step 2](2.png?width=700px&classes=shadow,border "Step 2")
+![Step 3](3.png?width=700px&classes=shadow,border "Step 3")
 
-## 3. KKP configuration
+## 4. KKP configuration
 Here you are going to provide some high-level configuration of the KKP installation.
 
 _Version_ is matching the KKP release tag, see [Release page on github](https://github.com/kubermatic/kubermatic/releases).
@@ -51,9 +56,9 @@ Monitoring stack includes following services installed as helm charts: _alertman
 The services with the UI interface are accessible on the Ingress endpoints which are configured using OAuth2-Proxy as the identity-aware proxy.
 Parameter _IAP Allowed Email Domain_ is used to limit access to monitoring services, see [documentation](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview) for more advanced options.
 
-![Step 3](3.png?width=700px&classes=shadow,border "Step 3")
+![Step 4](4.png?width=700px&classes=shadow,border "Step 4")
 
-## 4. KKP Bootstrap configuration
+## 5. KKP Bootstrap configuration
 This is an additional step of setting up more KKP entities which are managed as the Custom Resources in your Kubernetes cluster.
 
 _Project Name_ is used to create a project inside your KKP. Your admin user will be already bound inside this project out of the box.
@@ -73,14 +78,14 @@ Keep in mind that with KKP CE version you can have only one Seed resource!
 
 _Preset_ will be used for provisioning of your user cluster in AWS provider, these credentials will be safely stored in your GitHub repository (values are encrypted with _SOPS_ tool).
 
-![Step 4](4.png?width=700px&classes=shadow,border "Step 4")
+![Step 5](5.png?width=700px&classes=shadow,border "Step 5")
 
-## 5. Summary
+## 6. Summary
 This is a summary of all your inputs which will be used for generating the configuration for your KKP setup. You can go back to any previous step and update the values if needed.
 
 At this moment, click the **Generate** button.
 
-![Step 5](5.png?width=700px&classes=shadow,border "Step 5")
+![Step 6](6.png?width=700px&classes=shadow,border "Step 6")
 
 You will be redirected to the following page and a file named `kkp-generated-bundle.zip` will be downloaded in your browser.
 
