@@ -32,7 +32,7 @@ Apart from that,  it will claim the following storage from the `kubermatic-fast`
 
 #### Create MLA secrets
 
-The [kubermatic/mla Github repository](https://github.com/kubermatic/mla/tree/release/v0.1) contains all the Helm charts of the User Cluster MLA stack and scripts to install them. Please make sure to clone it, so that we can deploy the MLA stack into a KKP Seed cluster.
+The [kubermatic/mla Github repository](https://github.com/kubermatic/mla/tree/release/v0.1) contains all the Helm charts of the User Cluster MLA stack and scripts to install them. Clone or download it, so that we can deploy the MLA stack into a KKP Seed cluster. Please make sure you are using the tag that is matching your KKP version as described in the "KKP Compatibility Matrix".
 
 Before deploying the MLA stack into the KKP Seed cluster, let’s create two Kubernetes Secrets that contain credentials for MinIO and Grafana, and which will be used by the MLA stack and KKP controllers. The MLA repo contains a Helm chart that will auto-generate the necessary Secrets - for creating them, simply run:
 
