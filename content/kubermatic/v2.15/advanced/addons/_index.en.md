@@ -45,7 +45,7 @@ docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-operator-ut
 #  namespace: kubermatic
 #spec:
 #  ...
-#  userClusters:
+#  userCluster:
 #    addons:
 #      kubernetes: ...
 #      openshift: ...
@@ -326,7 +326,7 @@ Edit the KubermaticConfiguration and update the Docker repository for example fo
 
 ```yaml
 spec:
-  userClusters:
+  userCluster:
     addons:
       kubernetes:
         # Do not specify a tag here, as the KKP Operator will always use the KKP
@@ -344,7 +344,7 @@ You also need to add your new addon to the `defaultManifests`:
 
 ```yaml
 spec:
-  userClusters:
+  userCluster:
     addons:
       kubernetes:
         defaultManifests: |-
