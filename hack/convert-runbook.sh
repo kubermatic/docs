@@ -10,7 +10,7 @@ SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/charts/monitoring/prometh
 # filter out groups that have no rules left over,
 # dump as JSON
 yq \
-  merge -a ${SOURCE}/*/*.yaml | \
+  merge -a append ${SOURCE}/*/*.yaml | \
   yq read -j - | \
   jq "{
     groups: [
