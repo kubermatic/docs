@@ -263,7 +263,7 @@ spec:
 ```
 
 If the certificate used for Dex is not issued by a CA that is trusted by default (e.g. Let's Encrypt),
-the issuing CA's certificate chain needs to be configured inside the Kubermatic Configuration.
+the issuing CA's certificate chain needs to be set via a Custom CA.
 
 Do note that if the [OIDC Endpoint Feature]({{< ref "../../OIDC_Provider_Configuration" >}}) is enabled in KKP, this CA bundle
 is also configured for the Kubernetes apiserver, so that it can also validate the tokens issued by Dex.
