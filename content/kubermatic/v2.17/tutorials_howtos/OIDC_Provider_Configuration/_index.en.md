@@ -60,7 +60,6 @@ demonstrates the default values:
 ```yaml
 spec:
   auth:
-    caBundle: ""
     clientID: kubermatic
     issuerClientID: kubermaticIssuer
     issuerClientSecret: ""
@@ -77,7 +76,7 @@ used. This gives us:
 ```yaml
 spec:
   auth:
-    tokenIssuer: 'https://keycloak.kubermatic.test/auth/realms/test/protocol/openid-connect/auth'
+    tokenIssuer: 'https://keycloak.kubermatic.test/auth/realms/test'
 ```
 
 #### UI Configuration
@@ -107,3 +106,9 @@ Edit the KubermaticConfiguration either directly via `kubectl edit` or apply it 
 file by using `kubectl apply`. The KKP Operator will pick up on the changes and
 reconfigure the components accordingly. After a few seconds the new pods should be up and
 running.
+
+{{% notice note %}}
+If you are using _Keycloak_ as a custom OIDC provider, make sure that you set the option `Implicit Flow Enabled: On`
+on the `kubermatic` and `kubermaticIssuer` clients. Without this option, you won't be properly
+redirected to the login page.
+{{% /notice %}}
