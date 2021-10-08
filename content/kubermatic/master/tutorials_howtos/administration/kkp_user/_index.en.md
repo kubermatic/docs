@@ -24,7 +24,7 @@ spec:
 
 # Initial Admin
 
-After the installation of Kubermatic Kubernetes Platfrom you need to set an initial admin.
+After the installation of Kubermatic Kubernetes Platform you need to set an initial admin.
 To do so make sure the account logged in once at the Kubermatic Dashboard.
 
 Now you can edit the user with `kubectl edit user` command in the master cluster.
