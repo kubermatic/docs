@@ -24,12 +24,14 @@ spec:
 
 # Initial Admin
 
-After the installation of Kubermatic Kubernetes Platform you need to set an initial admin.
-To do so make sure the account logged in once at the Kubermatic Dashboard.
+After the installation of Kubermatic Kubernetes Platform the first account that authenticates at the Dashboard is elected as an admin.
+
+The account is than capable to set admin permissions via the [dashboard]({{< ref "../admin_panel/administrators" >}}) .
+
+# Granting admin permission via Kubeclt
+
+Make sure the account logged in once at the Kubermatic Dashboard.
 
 Now you can edit the user with `kubectl edit user` command in the master cluster.
 
-
 Setting the `admin` flag to `true` will provide admin access to the user.   
-
-This is useful to set an initial admin account. The account is than capable to set admin permissions via the [dashboard]({{< ref "../admin_panel/administrators" >}}) .
