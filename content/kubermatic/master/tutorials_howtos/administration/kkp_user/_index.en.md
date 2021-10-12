@@ -28,7 +28,7 @@ After the installation of Kubermatic Kubernetes Platform the first account that 
 
 The account is than capable to set admin permissions via the [dashboard]({{< ref "../admin_panel/administrators" >}}) .
 
-# Granting admin permission via Kubeclt
+# Granting admin permission via kubeclt
 
 Make sure the account logged in once at the Kubermatic Dashboard.
 
