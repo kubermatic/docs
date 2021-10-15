@@ -1,6 +1,6 @@
 # Kubermatic Products Documentation
 
-Kubermatic products consisting of Kubermatic Kubernetes Platform, KubeOne and Kubecarrier are Cluster-as-a-Service that provides managed Kubernetes for your infrastructure.
+Kubermatic Kubernetes Platform which is a Cluster-as-a-Service, KubeOne which is used to manage highly available Kubernetes clusters and Kubecarrier which is an application management for thousands of apps are Kubermatic products that provides managed Kubernetes for your infrastructure.
 
 These products allow you to set up Kubernetes clusters easily and make sure that your clusters are available and up-to-date at all times, thus allowing you to focus on developing your services.
 
