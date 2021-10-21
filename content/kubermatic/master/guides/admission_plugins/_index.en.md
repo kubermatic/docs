@@ -5,17 +5,18 @@ weight = 150
 
 +++
 
-This page explains how to configure Admission Controllers in the Kubermatic.
+This page explains how to configure Admission Controllers in the Kubermatic Kubernetes Platform.
 
 
 ### How do I turn on an admission controller? 
 
-The Kubermatic manages the Kubernetes API server by setting the `enable-admission-plugins` flag with a comma-delimited
+The Kubermatic Kubernetes Platform manages the Kubernetes API server by setting the `enable-admission-plugins` flag with a comma-delimited
 list of admission control plugins to be enabled during cluster creation.
 
 In the current version, the default ones are:
 ```
 NamespaceLifecycle
+NodeRestriction
 LimitRanger
 ServiceAccount
 DefaultStorageClass
@@ -26,7 +27,7 @@ Priority
 ResourceQuota
 ```
 
-The Kubermatic provides also two additional plugins: `PodNodeSelector` and `PodSecurityPolicy`. They can be selected in the
+The Kubermatic Kubernetes Platform also provides two additional plugins: `PodNodeSelector` and `PodSecurityPolicy`. They can be selected in the
 UI wizard.
 
 ![Admission Plugin Selection](/img/kubermatic/master/ui/admission_plugins.png?height=400px&classes=shadow,border "Admission Plugin Selection")
