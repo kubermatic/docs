@@ -1,16 +1,13 @@
 +++
-title = "Using Kubernetes Autoscaler on KubeOne Cluster"
-date = 2019-04-27T16:06:34+02:00
+title = "Using Kubernetes Autoscaler with KubeOne Cluster"
+date = 2022-10-22T12:18:15+02:00
 enableToc = true
 +++
 
-
 This document explains how to use the Kubernetes cluster-autoscaler on the KubeOne cluster. 
-
 ## What is a Cluster Autoscaler in Kubernetes?
-
 Cluster Autoscaler is a Kubernetes component that automatically adjusts the size of a Kubernetes cluster so that all pods have a place to run and there are no unneeded nodes. This means that the Autoscaler automatically scales up a cluster by adding new nodes when there are not enough resources for workload scheduling and scales down the cluster by removing existing nodes when there are underutilized nodes. The scaling up happens as soon as there are Pods that can’t be scheduled; while scaling down happens if a node is underutilized for an extended period (10 minutes by default).
- 
+
 ## The Prerequisites
 
 Using the Kubernetes Cluster Autoscaler in the KubeOne cluster requires some prerequisites to be met, which are:
@@ -35,33 +32,19 @@ The manifest should look like the following:
 
 ```yaml
 $cat kubeone.yaml
-
 apiVersion: kubeone.io/v1beta1
-
 kind: KubeOneCluster
-
 versions:
-
   kubernetes: '1.22.2'   ## kubernetes version
-
 cloudProvider:  ## This field is sourced automatically if terraform is used for the cluster
-
   aws: {}
-
 addons:
-
   enable: true
-
     # Path to the addons directory.
-
    # We will not use this directory in this tutorial, but the directory must exist regardless.
-
   # In case when the relative path is provided, the path is relative to the KubeOne configuration file.
-
   path: “./addons"
-
   addons:
-
   - name: cluster-autoscaler
 ```
 
@@ -77,64 +60,39 @@ The cluster-autoscaler addon can be deployed by running `kubeone apply`. If you�
 ```bash
 $kubeone apply -m kubeone.yaml -t tf.json
 
- INFO[19:21:58 CEST] Determine hostname...                        
-
+INFO[19:21:58 CEST] Determine hostname...                        
 INFO[19:22:02 CEST] Determine operating system...                
-
 INFO[19:22:04 CEST] Running host probes…
-
 + ensure machinedeployment "seyi-cluster-eu-west-3a" with 1 replica(s) exists
-
 	+ ensure machinedeployment "seyi-cluster-eu-west-3b" with 1 replica(s) exists
-
 	+ ensure machinedeployment "seyi-cluster-eu-west-3c" with 1 replica(s) exists
-
 	+ apply addons defined in "./addons/cluster-autoscaler"
-
 Do you want to proceed (yes/no): yes
-
 INFO[19:31:06 CEST] Patching static pods...                      
-
 INFO[19:31:06 CEST] Patching static pods...                      
-
 INFO[19:31:06 CEST] Patching static pods...                      
-
 INFO[19:31:07 CEST] Downloading kubeconfig...                    
-
 INFO[19:31:07 CEST] Downloading PKI...                           
-
 INFO[19:31:08 CEST] Creating local backup...                      node=172.31.148.48
-
 INFO[19:31:08 CEST] Ensure node local DNS cache...               
-
 INFO[19:31:11 CEST] Activating additional features...            
-
 INFO[19:31:36 CEST] Applying user provided addons...             
-
 INFO[19:31:36 CEST] Applying addon "cluster-autoscaler"...       
-
 INFO[19:31:46 CEST] Applying addons from the root directory...   
-
 INFO[19:31:48 CEST] Creating credentials secret...               
-
 INFO[19:31:50 CEST] Installing machine-controller...
 ```
-   
-
+ 
 ### Step 4: Ensuring Cluster Access
 
-The remaining steps of this tutorial assume that you have a running cluster and can access it using `kubectl`. If it is a new cluster, KubeOne automatically downloads the Kubeconfig file for the cluster. It’s named as **&lt;cluster_name>**-kubeconfig, where **&lt;cluster_name>** is the name provided in the `terraform.tfvars` file. You can use it with kubectl such as:
-
+The remaining steps of this tutorial assume that you have a running cluster and can access it using `kubectl`. If it is a new cluster, KubeOne automatically downloads the Kubeconfig file for the cluster. It’s named as `cluster_name>-kubeconfig`, where `<cluster_name>` is the name provided in the `terraform.tfvars` file. You can use it with kubectl such as:
 ```
 kubectl --kubeconfig=<cluster_name>-kubeconfig
 ```
-
 or export the KUBECONFIG environment variable:
-
 ```
 export KUBECONFIG=$PWD/<cluster_name>-kubeconfig
 ```
-
 ### Step 5: Verifying Cluster Autoscaler Deployment
 
 Before proceeding, make sure that cluster-autoscaler is deployed, running and healthy. You can do that using the following `kubectl` command:
@@ -154,13 +112,9 @@ The Cluster Autoscaler only considers Machinedeployment with valid annotations. 
 ```bash
 cluster.k8s.io/cluster-api-autoscaler-node-group-min-size - the minimum number of replicas(must be greater than zero)
 
-cluster.k8s.io/cluster-api-autoscaler-node-group-max-size - the maximum number of replicas
-
-(must be equal greater than min-size)
+cluster.k8s.io/cluster-api-autoscaler-node-group-max-size - the maximum number of replicas(must be equal greater than min-size)
 ```
-
 ### Step 1: Choose Machinedeployment For Autoscaling
-
 Run the following kubectl command to inspect the available Machinedeployments:
 
 ```bash
@@ -189,10 +143,10 @@ machinedeployment.cluster.k8s.io/kb-cluster-eu-west-3b annotated
 #### Step A
 Check the CPU and memory resources. By default, each Machinedeployment represents a t3.medium instance with 2 vCPU and 4 GB RAM capacity. 
 
-### Step B
+#### Step B
 Create a 3-replica Deployment with a container request of 3 GB RAM and check the status. If everything works well,  all the components should be running. 
 
-### Step C
+#### Step C
 Scale the Deployment to 4 replicas using the `kubectl scale` command and check the status. For example, the new Pod replica should be pending as shown below due to lack of resources, which will trigger the Autoscaler to scale up the annotated Machinedeployment replicas to 2 from the original 1 and create a new node.
 
 ```bash
@@ -205,7 +159,7 @@ nginx-5769cf8f88-p4kh9   1/1    Running       0       106s
 nginx-5769cf8f88-x45l7   1/1    Running       0       106s
 ```
 
-### Step D: Check the Machinedeployments:
+#### Step D: Check the Machinedeployments:
 
 ```bash
 $ kubectl get machinedeployments -n kube-system
@@ -228,12 +182,12 @@ nginx-5769cf8f88-p4kh9    1/1     Running      0       4m50s
 nginx-5769cf8f88-x45l7    1/1     Running      0       4m50s
 ```
 
-### Step E
+#### Step E
 
 Once the Pod is running, check the node with the `kubectl get node` command. At this point, there should be a new node added to the already existing nodes. 
 
 ```bash
-            NAME                                STATUS         ROLES             AGE   VERSION
+NAME                                            STATUS         ROLES             AGE   VERSION
 ip-172-31-10-117.eu-west-3.compute.internal     Ready    control-plane,master    35m   v1.21.5
 ip-172-31-10-86.eu-west-3.compute.internal      Ready       <none>               29m   v1.21.5
 ip-172-31-11-178.eu-west-3.compute.internal     Ready       <none>               86s   v1.21.5
