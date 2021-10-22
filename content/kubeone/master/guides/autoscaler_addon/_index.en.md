@@ -131,10 +131,13 @@ kb-cluster-eu-west-3c      1            1                 aws        ubuntu   1.
 Run the following commands to annotate the Machinedeployment object. Make sure to replace the `Machinedeployment` name and `minimum/maximum` size with the appropriate values. In this case, we will use `kb-cluster-eu-west-3b.`
 
 ```bash
-$kubectl annotate machinedeployment -n kube-system kb-cluster-eu-west-3b cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1" 
+$kubectl annotate machinedeployment -n kube-system kb-cluster-eu-west-3b cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
+ 
 machinedeployment.cluster.k8s.io/kb-cluster-eu-west-3b annotated
-
+```
+```bash
 $kubectl annotate machinedeployment -n kube-system kb-cluster-eu-west-3b cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="4"
+
 machinedeployment.cluster.k8s.io/kb-cluster-eu-west-3b annotated
 ```
 
@@ -170,7 +173,7 @@ kb-cluster-eu-west-3b     2           2               aws     ubuntu   1.21.5   
 kb-cluster-eu-west-3c     1           1               aws     ubuntu   1.21.5    28m
 ```
 
-Once the annotated machinedeployment replicas are ready, check the Pod once again. At this point, the new Pod should be up and running as shown below:
+Once the annotated machinedeployment replica is ready, check the Pod once again. At this point, the new Pod should be up and running as shown below:
 
 ```bash
 $ kubectl get pods
@@ -184,7 +187,7 @@ nginx-5769cf8f88-x45l7    1/1     Running      0       4m50s
 
 #### Step E
 
-Once the Pod is running, check the node with the `kubectl get node` command. At this point, there should be a new node added to the already existing nodes. 
+Once the Pod is running, check the node with the `kubectl get node` command. If everything works fine, there should be a new node added to the existing nodes. 
 
 ```bash
 NAME                                            STATUS         ROLES             AGE   VERSION
