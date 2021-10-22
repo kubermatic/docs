@@ -63,9 +63,9 @@ $kubeone apply -m kubeone.yaml -t tf.json
 INFO[19:21:58 CEST] Determine hostname...                        
 INFO[19:22:02 CEST] Determine operating system...                
 INFO[19:22:04 CEST] Running host probes…
-+ ensure machinedeployment "seyi-cluster-eu-west-3a" with 1 replica(s) exists
-	+ ensure machinedeployment "seyi-cluster-eu-west-3b" with 1 replica(s) exists
-	+ ensure machinedeployment "seyi-cluster-eu-west-3c" with 1 replica(s) exists
++ ensure machinedeployment "kb-cluster-eu-west-3a" with 1 replica(s) exists
+	+ ensure machinedeployment "kb-cluster-eu-west-3b" with 1 replica(s) exists
+	+ ensure machinedeployment "kb-cluster-eu-west-3c" with 1 replica(s) exists
 	+ apply addons defined in "./addons/cluster-autoscaler"
 Do you want to proceed (yes/no): yes
 INFO[19:31:06 CEST] Patching static pods...                      
