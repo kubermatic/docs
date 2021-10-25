@@ -11,14 +11,13 @@ Cluster Autoscaler is a Kubernetes component that automatically adjusts the size
 ## The Prerequisites
 
 Using the Kubernetes Cluster Autoscaler in the KubeOne cluster requires some prerequisites to be met, which are:
-* KubeOne 1.3.0 or newer is required
-* The worker nodes need to be managed by the Kubermatic machine-controller. Therefore, we recommend checking the [concepts](https://docs.kubermatic.com/kubeone/v1.3/architecture/concepts/) document to learn more about how Cluster-API and Kubermatic [machine-controller](https://docs.kubermatic.com/kubeone/v1.3/guides/machine_controller/) work
+* KubeOne 1.3.1 or newer is required
+* The worker nodes need to be managed by the Kubermatic machine-controller. Therefore, we recommend checking the [concepts][concepts] document to learn more about how Cluster-API and Kubermatic [machine-controller][machine-controller] work
 * A Kubernetes cluster running Kubernetes v1.19 or newer is required
-
 
 ## How It Works
 
-We will use the KubeOne [addons mechanism](https://docs.kubermatic.com/kubeone/v1.3/guides/addons/) to deploy the Cluster Autoscaler, which will use the Cluster-API provider. First, the cluster is autoscaled by increasing/decreasing replicas on the chosen Machinedeployment objects. Once the Machinedeployment is scaled, the Kubermatic machine-controller creates a new instance and joins it to the cluster (if the cluster is scaled up) or deletes one of the existing instances (if the cluster is scaled down). The Machinedeployment object for scaling is chosen randomly from a set of Machinedeployments that have autoscaling enabled. **It is important to note that pending pods will cause autoscaler to upscale while lack of workloads (too many free resources on the nodes) will cause it to downscale.**
+We will use the KubeOne [addons mechanism][addons] to deploy the Cluster Autoscaler, which will use the Cluster-API provider. First, the cluster is autoscaled by increasing/decreasing replicas on the chosen Machinedeployment objects. Once the Machinedeployment is scaled, the Kubermatic machine-controller creates a new instance and joins it to the cluster (if the cluster is scaled up) or deletes one of the existing instances (if the cluster is scaled down). The Machinedeployment object for scaling is chosen randomly from a set of Machinedeployments that have autoscaling enabled. **It is important to note that pending pods will cause autoscaler to upscale while lack of workloads (too many free resources on the nodes) will cause it to downscale.**
 
 ## Installing Kubernetes Cluster Autoscaler on KubeOne Cluster
 
@@ -27,11 +26,11 @@ You can either install Kubernetes Cluster Autoscaler when provisioning a new clu
 ### Step 1: Preparing the KubeOneCluster Manifest
 
 The cluster-autoscaler add-on which deploys the cluster-autoscaler component is enabled via the KubeOneCluster manifest. If you already have a KubeOne cluster, modify your existing KubeOneCluster manifest to add the `addons` section below.
-If you don’t have a KubeOne cluster, check out our [Creating a Cluster using the KubeOne tutorial](https://docs.kubermatic.com/kubeone/master/tutorials/creating_clusters/) to find out how to provision a KubeOne cluster and create the infrastructure using Terraform. You will then add the `addons` section into the kubeone.yaml manifest file at [step 5](https://docs.kubermatic.com/kubeone/master/tutorials/creating_clusters/#step-5)  after you have created your tf.json file and before the cluster provisioning.
+If you don’t have a KubeOne cluster, check out our [Creating a Cluster using the KubeOne tutorial][cluster-creation] to find out how to provision a KubeOne cluster and create the infrastructure using Terraform. You will then add the `addons` section into the kubeone.yaml manifest file at [step 5][step-5] after you have created your tf.json file and before the cluster provisioning.
 The manifest should look like the following: 
 
+kubeone.yaml
 ```yaml
-$cat kubeone.yaml
 apiVersion: kubeone.io/v1beta1
 kind: KubeOneCluster
 versions:
@@ -52,14 +51,14 @@ addons:
 
 If you wish to change some of the properties, such as timeout for scaling up/down, you’ll need to provide the appropriate command-line flags to cluster-autoscaler. For that, you’ll need to override the cluster-autoscaler addon embedded in the KubeOne binary with your addon.
 
-To find out how to override embedded add-ons, please check the [Addons document](https://docs.kubermatic.com/kubeone/v1.3/guides/addons/#overriding-embedded-eddons). For more information regarding available configuration parameters and options, please check the [Cluster Autoscaler FAQ](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md).
+To find out how to override embedded add-ons, please check the [Addons document][embedded-addons]. For more information regarding available configuration parameters and options, please check the [Cluster Autoscaler FAQ][ca-faq].
 
 ### Step 3: Deploying Kubernetes Cluster Autoscaler
 
 The cluster-autoscaler addon can be deployed by running `kubeone apply`. If you’re deploying it to an existing cluster, `kubeone apply` will make sure all resources deployed by KubeOne are up to date and then deploy the addon. If this is a new cluster, this command will also provision the cluster for you.
-```bash
-$kubeone apply -m kubeone.yaml -t tf.json
 
+```bash
+$ kubeone apply -m kubeone.yaml -t tf.json
 INFO[19:21:58 CEST] Determine hostname...                        
 INFO[19:22:02 CEST] Determine operating system...                
 INFO[19:22:04 CEST] Running host probes…
@@ -86,20 +85,23 @@ INFO[19:31:50 CEST] Installing machine-controller...
 ### Step 4: Ensuring Cluster Access
 
 The remaining steps of this tutorial assume that you have a running cluster and can access it using `kubectl`. If it is a new cluster, KubeOne automatically downloads the Kubeconfig file for the cluster. It’s named as `cluster_name>-kubeconfig`, where `<cluster_name>` is the name provided in the `terraform.tfvars` file. You can use it with kubectl such as:
+
 ```
 kubectl --kubeconfig=<cluster_name>-kubeconfig
 ```
+
 or export the KUBECONFIG environment variable:
+
 ```
 export KUBECONFIG=$PWD/<cluster_name>-kubeconfig
 ```
+
 ### Step 5: Verifying Cluster Autoscaler Deployment
 
 Before proceeding, make sure that cluster-autoscaler is deployed, running and healthy. You can do that using the following `kubectl` command:
 
 ```bash
-$kubectl get pod -l app=cluster-autoscaler -n kube-system
-
+$ kubectl get pod -l app=cluster-autoscaler -n kube-system
 NAMESPACE             NAME                               READY   STATUS    RESTARTS   AGE
 kube-system   cluster-autoscaler-7556c4f4cc-kqzzr        1/1    Running       0      8m11s
 ```
@@ -109,17 +111,19 @@ If that’s not the case, please make sure to investigate why cluster-autoscaler
 ## Choosing Machinedeployment objects for Autoscaling
 
 The Cluster Autoscaler only considers Machinedeployment with valid annotations. The annotations are used to control the minimum and the maximum number of replicas per Machinedeployment. You don't need to apply those annotations to all Machinedeployment objects; instead, they can be applied only on Machinedeployments that Cluster Autoscaler should consider.
+
 ```bash
 cluster.k8s.io/cluster-api-autoscaler-node-group-min-size - the minimum number of replicas(must be greater than zero)
 
 cluster.k8s.io/cluster-api-autoscaler-node-group-max-size - the maximum number of replicas(must be equal greater than min-size)
 ```
+
 ### Step 1: Choose Machinedeployment For Autoscaling
+
 Run the following kubectl command to inspect the available Machinedeployments:
 
 ```bash
-$kubectl get machinedeployments -n kube-system
-
+$ kubectl get machinedeployments -n kube-system
 NAME       		        REPLICAS   AVAILABLE-REPLICAS   PROVIDER       OS     KUBELET  AGE
 kb-cluster-eu-west-3a      1            1                 aws        ubuntu   1.20.4   10h
 kb-cluster-eu-west-3b      1            1                 aws        ubuntu   1.20.4   10h
@@ -131,13 +135,12 @@ kb-cluster-eu-west-3c      1            1                 aws        ubuntu   1.
 Run the following commands to annotate the Machinedeployment object. Make sure to replace the `Machinedeployment` name and `minimum/maximum` size with the appropriate values. In this case, we will use `kb-cluster-eu-west-3b.`
 
 ```bash
-$kubectl annotate machinedeployment -n kube-system kb-cluster-eu-west-3b cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
- 
+$ kubectl annotate machinedeployment -n kube-system kb-cluster-eu-west-3b cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
 machinedeployment.cluster.k8s.io/kb-cluster-eu-west-3b annotated
 ```
-```bash
-$kubectl annotate machinedeployment -n kube-system kb-cluster-eu-west-3b cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="4"
 
+```bash
+$ kubectl annotate machinedeployment -n kube-system kb-cluster-eu-west-3b cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="4"
 machinedeployment.cluster.k8s.io/kb-cluster-eu-west-3b annotated
 ```
 
@@ -154,7 +157,6 @@ Scale the Deployment to 4 replicas using the `kubectl scale` command and check t
 
 ```bash
 $ kubectl get pods
-
 NAME                     READY   STATUS    RESTARTS   AGE
 nginx-5769cf8f88-6lp7w   0/1    Pending       0       50s
 nginx-5769cf8f88-mfqm8   1/1    Running       0       106s
@@ -166,7 +168,6 @@ nginx-5769cf8f88-x45l7   1/1    Running       0       106s
 
 ```bash
 $ kubectl get machinedeployments -n kube-system
-
 NAME                   REPLICAS  AVAILABLE-REPLICAS  PROVIDER   OS     KUBELET   AGE
 kb-cluster-eu-west-3a     1           1               aws     ubuntu   1.21.5    28m
 kb-cluster-eu-west-3b     2           2               aws     ubuntu   1.21.5    28m
@@ -177,7 +178,6 @@ Once the annotated machinedeployment replica is ready, check the Pod once again.
 
 ```bash
 $ kubectl get pods
-
 NAME                     READY    STATUS    RESTARTS    AGE
 nginx-5769cf8f88-6lp7w    1/1     Running      0       3m54s
 nginx-5769cf8f88-mfqm8    1/1     Running      0       4m50s
@@ -186,7 +186,6 @@ nginx-5769cf8f88-x45l7    1/1     Running      0       4m50s
 ```
 
 #### Step E
-
 Once the Pod is running, check the node with the `kubectl get node` command. If everything works fine, there should be a new node added to the existing nodes. 
 
 ```bash
@@ -201,12 +200,20 @@ ip-172-31-12-78.eu-west-3.compute.internal      Ready    control-plane,master   
 ```
 
 ## Summary:
-
 That is it! You have successfully deployed Kubernetes autoscaler on the KubeOne Cluster and annotated the desired Machinedeployment you want the Autoscaler to consider. Please check the learn more below for more resources on Kubernetes Cluster Autoscaler, Kubermatic machine-controller, and KubeOne.
 
 ## Learn More
 
-* Read more on [Kubernetes Cluster Autoscaler here](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-is-cluster-autoscaler)
-* Learn more about Kubermatic machine-controller in the [following guide](https://docs.kubermatic.com/kubeone/v1.3/guides/machine_controller/)
-* You can easily provision a Kubernetes cluster using [KubeOne here](https://docs.kubermatic.com/kubeone/v1.3/tutorials/creating_clusters/)
-* You can find more information about deploying addons in the [Addons document](https://docs.kubermatic.com/kubeone/v1.3/guides/addons/).
+* Read more on [Kubernetes Cluster Autoscaler here][ca-faq-what-is]
+* Learn more about Kubermatic machine-controller in the [following guide][machine-controller]
+* You can easily provision a Kubernetes cluster using [KubeOne here][cluster-creation]
+* You can find more information about deploying addons in the [Addons document][addons].
+
+[concepts]: {{< ref "../../architecture/concepts/" >}}
+[machine-controller]: {{< ref "../../guides/machine_controller/" >}}
+[addons]: {{< ref "../../guides/addons/" >}}
+[cluster-creation]: {{< ref "../../tutorials/creating_clusters/" >}}
+[step-5]: {{< ref "../../tutorials/creating_clusters/#step-5" >}}
+[embedded-addons]: {{< ref "../../guides/addons/#overriding-embedded-eddons" >}}
+[ca-faq]: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md
+[ca-faq-what-is]: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-is-cluster-autoscaler
