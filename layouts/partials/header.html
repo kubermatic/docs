@@ -122,7 +122,10 @@
             </div>
           {{end}}
           {{ if (and (.Params.enableToc) (not .Params.chapter)) }}
-            {{ .TableOfContents }}
+            <div class="page-toc">
+              <h2 class="page-toc-title">Table Of Content</h2>
+              {{.TableOfContents}}
+            </div>
           {{ end }}
         {{define "breadcrumb"}}
           {{$parent := .page.Parent }}
