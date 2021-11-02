@@ -50,4 +50,4 @@ This setup is useful for keeping the latency between the master components of a 
   * AWS eu-central-1 and eu-west-1
   * DigitalOcean ams1 and lon1
 
-See the [installation documentation]({{< ref "../guides/installation/install_kkp_ce/">}}) for more details on how to setup datacenters.
+See the [installation documentation]({{< ref "../installation/install_kkp_ce/">}}) for more details on how to setup datacenters.

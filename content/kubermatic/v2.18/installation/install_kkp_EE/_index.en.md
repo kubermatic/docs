@@ -23,13 +23,13 @@ Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 
 ## Requirements
 
-Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "../../../architecture/requirements" >}})
+Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "../../architecture/requirements" >}})
 and make yourself familiar with the requirements for your chosen cloud provider.
 
 For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 3) installed locally.
 
 {{% notice warning %}}
-This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../../../tutorials_howtos/upgrading" >}})
+This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../../tutorials_howtos/upgrading" >}})
 for more information on migrating existing installations to the Kubermatic Installer.
 {{% /notice %}}
 
@@ -69,5 +69,5 @@ Follow the CE install guide as normal, the remaining steps apply equally to the 
 
 ### Next Steps
 
-* [Add a Seed cluster]({{< ref "../add_seed_cluster_ee" >}}) to start creating user clusters.
-* Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../../guides/monitoring_logging_alerting/master_seed/installation" >}}) to collect cluster-wide metrics in a central place.
+* [Add a Seed cluster]({{< ref "./add_seed_cluster_ee" >}}) to start creating user clusters.
+* Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../guides/monitoring_logging_alerting/master_seed/installation" >}}) to collect cluster-wide metrics in a central place.

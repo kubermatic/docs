@@ -73,7 +73,7 @@ The key items to configure are:
   yet another random secret to encrypt cookies stored in the users' browsers.
 
   * The expose strategy, that is the strategy used to expose the control plane
-  components to the worker nodes (see the [expose strategy]({{< ref "../../kkp_networking/expose_strategies">}}))
+  components to the worker nodes (see the [expose strategy]({{< ref "../../guides/kkp_networking/expose_strategies">}}))
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
 mentioned above can be generated using any password generator or on the shell using
@@ -307,7 +307,7 @@ spec:
   name: KKP User
 ```
 
-This will allow you to use the KKP UI and API as an admin. Other users can be promoted to Admins using the [Admin Panel]({{< ref "../../../tutorials_howtos/administration/admin_panel/administrators" >}})
+This will allow you to use the KKP UI and API as an admin. Other users can be promoted to Admins using the [Admin Panel]({{< ref "../../tutorials_howtos/administration/admin_panel/administrators" >}})
 
 ### Have a Break
 
@@ -315,5 +315,5 @@ All pods running inside the `kubermatic` namespace should now be running. If the
 
 ### Next Steps
 
-* [Add a Seed cluster]({{< ref "../add_seed_cluster_CE" >}}) to start creating user clusters.
-* Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../../guides/monitoring_logging_alerting/master_seed/installation" >}}) to collect cluster-wide metrics in a central place.
+* [Add a Seed cluster]({{< ref "./add_seed_cluster_CE" >}}) to start creating user clusters.
+* Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../guides/monitoring_logging_alerting/master_seed/installation" >}}) to collect cluster-wide metrics in a central place.

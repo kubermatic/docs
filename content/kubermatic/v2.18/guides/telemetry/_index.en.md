@@ -11,7 +11,7 @@ Telemetry helm chart can be found in the [Kubermatic repository](https://github.
 
 ## Installation
 ### Kubermatic installer
-Telemetry will be enabled by default if you use the Kubermatic installer to deploy KKP. For more information about how to use the Kubermatic installer to deploy KKP, please refer to the [installation guide]({{< relref "../installation/" >}}).  
+Telemetry will be enabled by default if you use the Kubermatic installer to deploy KKP. For more information about how to use the Kubermatic installer to deploy KKP, please refer to the [installation guide]({{< relref "../../installation/" >}}).  
 Kubermatic installer will use a `values.yaml` file to configure all Helm charts, including Telemetry. The following is an example of the configuration of the Telemetry tool:
 
 ```yaml

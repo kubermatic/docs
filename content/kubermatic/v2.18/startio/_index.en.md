@@ -35,7 +35,7 @@ All the above limitations may change in upcoming iterations.
 
 {{% notice info %}}
 If any of above limitations are blocking you, you can install KKP from scratch by following our
-[KKP Installation guide]({{< ref "../guides/installation/" >}}).
+[KKP Installation guide]({{< ref "../installation/" >}}).
 {{% /notice %}}
 
 {{% notice tip %}}
