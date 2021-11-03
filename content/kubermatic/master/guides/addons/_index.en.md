@@ -33,7 +33,7 @@ The KKP binaries come with a `kubermatic-installer` tool, which can output a ful
 a starting point for adjustments.
 
 ```bash
-docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-operator-util defaults
+docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-installer print
 #apiVersion: operator.kubermatic.io/v1alpha1
 #kind: KubermaticConfiguration
 #metadata:
