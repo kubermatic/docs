@@ -14,54 +14,9 @@ This is also where updates are configured.
 
 ### Default Versions
 
-The list of default versions is shown in the CRD example linked to above, but it's recommended
-to retrieve the actual list from the Kubermatic Kubernetes Platform (KKP) Operator itself.
+The list of default versions, is shown by the CRD example linked above, but it's recommended to retrieve the actual list from our github repo itself.
 
-The operator comes with a `kubermatic-operator-util` tool, which can output a full default
-KubermaticConfiguration:
-
-```bash
-docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-operator-util defaults
-#apiVersion: operator.kubermatic.io/v1alpha1
-#kind: KubermaticConfiguration
-#metadata:
-#  name: kubermatic
-#  namespace: kubermatic
-#spec:
-#  ...
-#  versions:
-#    kubernetes: ...
-#      versions: ...
-#      default: ...
-#      updates: ...
-#    openshift: ...
-#      versions: ...
-#      default: ...
-#      updates: ...
-```
-
-A simplified configuration for Kubernetes might look like this:
-
-```yaml
-spec:
-  versions:
-    kubernetes:
-      versions:
-        - '1.15.99'
-        - '1.16.0'
-        - '1.16.1'
-        - '1.16.2'
-      default: '1.16.2'
-      updates:
-        # allow version updates to any minor version
-        - from: '1.16.*'
-          to: '1.16.*'
-        # assuming 1.15.99 has security issues, this would force an
-        # update for clusters using it
-        - from: '1.15.99'
-          to: '1.16.2'
-          automatic: true
-```
+They can be found in the [docs](https://github.com/kubermatic/kubermatic/tree/release/v2.16/docs) directory.
 
 ### Configuring Versions
 

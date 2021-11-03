@@ -32,25 +32,6 @@ seed-controller-manager:
 * `addon-installer-controller`: Ensures a given set of addons will be installed in all clusters
 * `addon-controller`: Templates the addons & applies the manifests in the user clusters
 
-The KKP Operator comes with a `kubermatic-operator-util` tool, which can output a full default
-KubermaticConfiguration. This will also include the default configuration for addons and can serve as
-a starting point for adjustments.
-
-```bash
-docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-operator-util defaults
-#apiVersion: operator.kubermatic.io/v1alpha1
-#kind: KubermaticConfiguration
-#metadata:
-#  name: kubermatic
-#  namespace: kubermatic
-#spec:
-#  ...
-#  userCluster:
-#    addons:
-#      kubernetes: ...
-#      openshift: ...
-```
-
 ### Configuration
 
 To configure which addons shall be installed in all user clusters, update the relevant
