@@ -32,6 +32,8 @@ seed-controller-manager:
 * `addon-installer-controller`: Ensures a given set of addons will be installed in all clusters
 * `addon-controller`: Templates the addons & applies the manifests in the user clusters
 
+From v2.18 on `kubermatic-installer print` can be used to generate a full default `KubermaticConfiguration` manifest.
+
 ### Configuration
 
 To configure which addons shall be installed in all user clusters, update the relevant
