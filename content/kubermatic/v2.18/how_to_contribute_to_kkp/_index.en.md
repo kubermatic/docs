@@ -1,7 +1,7 @@
 +++
-title = "How To Contribute to Kubermatic Kubernetes Platform (KKP)"
+title = "Contribute to KKP"
 date = 2021-04-24T15:00:15+02:00
-weight = 25
+weight = 70
 +++
 
 ## Contributing to KKP
