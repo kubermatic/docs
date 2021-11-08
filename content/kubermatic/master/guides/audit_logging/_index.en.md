@@ -21,7 +21,7 @@ KKP provides two levels of support for the Audit Logging:
 Kubernetes Audit Logging is optional and is not enabled by default, since it requires additional memory and storage resources, depending on the specific configuration used.
 {{% /notice %}}
 
-Audit logs, if enabled, are emitted by a sidecar container called `audit-logs` in the `kubernetes-apiserver` Pods on the [Seed Cluster]({{< ref "../../concepts/architecture/#seed-cluster" >}}) in your cluster namespace. Setting up [the MLA stack on Master / Seed]({{< ref "../monitoring_logging_alerting/master_seed/installation" }}) will allow storing the audit logs alongside other Pod logs collected by the MLA stack.
+Audit logs, if enabled, are emitted by a sidecar container called `audit-logs` in the `kubernetes-apiserver` Pods on the [Seed Cluster]({{< ref "../../concepts/architecture/#seed-cluster" >}}) in your cluster namespace. Setting up [the MLA stack on Master / Seed]({{< ref "../monitoring_logging_alerting/master_seed/installation" >}}) will allow storing the audit logs alongside other Pod logs collected by the MLA stack.
 
 Initially, KKP will set up a minimal [Policy](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy):
 
