@@ -23,17 +23,36 @@ Kubernetes Audit Logging is optional and is not enabled by default, since it req
 
 Audit logs, if enabled, are emitted by a sidecar container called `audit-logs` in the `kubernetes-apiserver` Pods on the [Seed Cluster]({{< ref "../../architecture/#seed-cluster" >}}) in your cluster namespace. Setting up [the MLA stack on Master / Seed]({{< ref "../monitoring_logging_alerting/master_seed/installation" >}}) will allow storing the audit logs alongside other Pod logs collected by the MLA stack.
 
-Initially, KKP will set up a minimal [Policy](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy):
-
-```yaml
-{{< readfile "kubermatic/master/data/policy.yaml">}}
-```
-
+if you do not choose an [audit policy preset](#audit-policy-presets), KKP will set up a minimal [audit policy](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy) for you.
 This file is stored in a ConfigMap named `audit-config` on the [Seed Cluster]({{< ref "../../architecture/#seed-cluster" >}}) in your cluster namespace. To modify the default policy, you can edit this ConfigMap using `kubectl`:
 
 ```bash
 $ kubectl edit -n cluster-<YOUR CLUSTER ID> configmap audit-config
 ```
+
+```yaml
+{{< readfile "kubermatic/master/data/policy.yaml">}}
+```
+
+#### Audit Policy Presets
+
+KKP supports a set of maintained audit policies as presets in case you do not want to tune the audit policy for yourself.
+A preset can be selected by setting the field `auditLogging.policyPreset` on a user-cluster spec (when audit logging is enabled).
+The preset selection can be unset by setting the field to an empty string.
+
+{{% notice note %}}
+Enabling an audit policy preset on your user-cluster will override any manual changes to the `audit-config` ConfigMap.
+{{% /notice %}}
+
+The following presets are available right now:
+
+- `metadata`: Logs metadata for any request (matches the default policy configured when using no policy preset)
+- `minimal`: Is considered the bare minimum that allows to audit for key operations on the cluster. Logs the following operations:
+    - any modification to `Pods`, `Deployments`, `StatefulSets`, `DaemonSets` and `ReplicaSets` (complete request and response bodies)
+    - any access to Pods via shell (by using `exec` to spawn a process) or port-forwarding/proxy (complete request and response bodies)
+    - access to container logs (metadata only)
+    - any access (read, write or delete) to `Secrets` and `ConfigMaps` (metadata only, as the request body could include sensitive information)
+- `recommended`: Logs everything in `minimal` plus metadata for any other request. This is the most verbose audit policy preset, but is recommended due to its extended coverage of security recommendations like the CIS Benchmark
 
 #### User-Cluster Level Audit Logging
 
