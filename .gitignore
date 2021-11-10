@@ -8,6 +8,3 @@ tutorials-tests/cypress/fixtures
 
 # IDE specific files
 .idea/
-
-# macOS files
-.DS_Store
