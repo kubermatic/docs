@@ -21,8 +21,6 @@ This command will open in your default browser a window where you can authentica
 
 ```bash
 az account show --query id -o json
-
-********-****-****-****-************
 ```
 
 Create a role that is used by the service account.
@@ -47,15 +45,17 @@ Get your Tenant ID
 
 ```bash
 az account show --query tenantId -o json
-
-********-****-****-****-************
 ```
 
 create a new app with
 
 ```bash
 az ad sp create-for-rbac --role="Kubermatic" --scopes="/subscriptions/********-****-****-****-************"
+```
 
+The output should look like the following one:
+
+```text
 {
   "appId": "********-****-****-****-************",
   "displayName": "azure-cli-2018-11-25-08-01-39",
