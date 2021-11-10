@@ -53,6 +53,18 @@ create a new app with
 az ad sp create-for-rbac --role="Kubermatic" --scopes="/subscriptions/********-****-****-****-************"
 ```
 
+The output should look like the following one:
+
+```text
+{
+  "appId": "********-****-****-****-************",
+  "displayName": "azure-cli-2018-11-25-08-01-39",
+  "name": "http://azure-cli-2018-11-25-08-01-39",
+  "password": "********-****-****-****-************",
+  "tenant": "********-****-****-****-************"
+}
+```
+
 Enter provider credentials using the values from step "Prepare Azure Environment" into KKP Dashboard:
 
   - `Client ID`: Take the value of `appId`
