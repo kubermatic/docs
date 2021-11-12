@@ -481,6 +481,29 @@ In the [Kubermatic documentation][azure-sa-setup]
 you  can find more information regarding how to set up a service account.
 This service account is needed to proceed.
 
+All required resources (VPCs, Resource Groups, Route Tables...) are created by
+Terraform out of the box. The resources are prefixed with your cluster name
+defined in `terraform.tfvars` (Step 4), so you need to replace `<cluster-name>`
+with your cluster name in the cloud-config example below.
+
+**Warning:** due to Azure limitations, you can have only one Basic SKU Load
+Balancer per Availability Set. Since we already create a Basic SKU load
+balancer for the API server in the Availability Set used by control plane
+nodes, you can't create other load balancers in the same set. This also means
+that you can't create Kubernetes Load Balancer Services because the creation
+would fail due to the mentioned limit.
+
+To mitigate this, our Terraform configs will create a dedicated Availability
+Set to be used for worker nodes and Kubernetes Load Balancer Services. With
+that setup, all pods exposed via a Kubernetes Load Balancer Service must be
+scheduled on worker nodes. Scheduling pods on control plane nodes would make
+Azure CCM fail to find underlying instances and add them to the appropriate
+Azure load balancer because the newly-created load balancer and control plane
+nodes are in different availability sets.
+
+Please check the [Production Recommendations]({{< ref "../../cheat_sheets/production_recommendations" >}})
+document for more details.
+
 ```yaml
 apiVersion: kubeone.io/v1beta1
 kind: KubeOneCluster
@@ -490,20 +513,20 @@ cloudProvider:
   azure: {}
   cloudConfig: |
     {
-      "tenantId": "<AZURE TENANT ID>",
-      "subscriptionId": "<AZURE SUBSCIBTION ID>",
-      "aadClientId": "<AZURE CLIENT ID>",
-      "aadClientSecret": "<AZURE CLIENT SECRET>",
-      "resourceGroup": "<SOME RESOURCE GROUP>",
-      "location": "westeurope",
-      "subnetName": "<SOME SUBNET NAME>",
-      "routeTableName": "",
-      "securityGroupName": "<SOME SECURITY GROUP>",
-      "vnetName": "<SOME VIRTUAL NETWORK>",
-      "primaryAvailabilitySetName": "<SOME AVAILABILITY SET NAME>",
+      "cloud": "AZUREPUBLICCLOUD",
+      "tenantId": "<YOUR-TENANT-ID>",
+      "subscriptionId": "<YOUR-SUBSCRIPTION-ID>",
+      "aadClientId": "<YOUR-CLIENT-ID>",
+      "aadClientSecret": "<YOUR-CLIENT-SECRET>",
+      "resourceGroup": "<cluster-name>-rg",
+      "location": "<YOUR-CLUSTER-REGION>",
+      "vnetName": "<cluster-name>-vpc",
+      "subnetName": "<cluster-name>-subnet",
+      "routeTableName": "<cluster-name>-rt",
+      "securityGroupName": "<cluster-name>-sg",
+      "primaryAvailabilitySetName": "<cluster-name>-avset-workers",
       "useInstanceMetadata": true,
-      "useManagedIdentityExtension": false,
-      "userAssignedIdentityID": ""
+      "loadBalancerSku": ""
     }
 ```
 {{% /tab %}}
