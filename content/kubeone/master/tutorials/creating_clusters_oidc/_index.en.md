@@ -143,7 +143,7 @@ Our cluster is now ready to receive traffic and can provide certificates for the
 
 ### Dex
 
-Before we can install Dex, we need to create an OAuth application at GitHub. GitHub describes the process of [setting up an app](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) in detail, so check out their documentation. Make sure to configure `https://dex.controlplane.example.com/dex/calback` as the callback URL for the app and when that's done, note down the client ID and client secret.
+Before we can install Dex, we need to create an OAuth application at GitHub. GitHub describes the process of [setting up an app](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) in detail, so check out their documentation. Make sure to configure `https://dex.controlplane.example.com/dex/callback` as the callback URL for the app and when that's done, note down the client ID and client secret.
 
 To configure the Helm chart for Dex, create a `values.yaml` like so:
 
