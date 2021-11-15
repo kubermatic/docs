@@ -376,3 +376,30 @@ E.g. to uninstall Cortex, run:
 ```bash
 helm delete cortex -n mla
 ```
+
+## Upgrade
+
+To incorporate the helm-charts upgrade, follow the below steps:
+
+### Upgrade Loki to version 2.4.0
+
+Add the following configuration inside `loki.config` key, under `ingester` label in the Loki's `values.yaml` file:
+```yaml
+wal:
+  dir: /var/loki/wal
+```
+
+### Upgrade Cortex to version 1.9.0
+
+Statefulset `store-gateway` refers to a headless service called `cortex-store-gateway-headless`, however, due to a bug in the upstream helm-chart(v0.5.0), the `cortex-store-gateway-headless` doesn’t exist at all, and headless service is named `cortex-store-gateway`, which is not used by the statefulset. Because `cortex-store-gateway` is not referred at all, we can safely delete it, and do helm upgrade to fix the issue (Refer to this [pull-request](https://github.com/cortexproject/cortex-helm-chart/pull/166) for details).
+    
+Delete the existing `cortex-store-gateway` service by running the below command:
+```bash
+kubectl delete svc cortex-store-gateway -n mla
+```
+
+After doing the above-mentioned steps, MLA stack can be upgraded using the helper-script:
+```bash
+./hack/deploy-seed.sh
+```
+  
