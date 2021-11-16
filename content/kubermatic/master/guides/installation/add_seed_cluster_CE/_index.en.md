@@ -41,6 +41,10 @@ Minio requires a storage class, which will be used as a backend for the exposed 
 
 ```bash
 kubectl get storageclasses
+```
+
+Output will be similar to this:
+```bash
 #NAME                 PROVISIONER              AGE
 #kubermatic-fast      kubernetes.io/aws-ebs   195d
 #kubermatic-backup    kubernetes.io/aws-ebs   195d
@@ -178,10 +182,20 @@ reconcile it by installing the required KKP components. You can watch the progre
 
 ```bash
 kubectl apply -f seed-with-secret.yaml
+```
+
+Output will be similar to this:
+```bash
 Secret/kubeconfig-kubermatic created.
 Seed/kubermatic created.
+```
 
+```bash
 watch kubectl -n kubermatic get pods
+```
+
+Output will be similar to this:
+```bash
 #NAME                                                   READY   STATUS    RESTARTS   AGE
 #kubermatic-api-55765568f7-br9jl                        1/1     Running   0          5m4s
 #kubermatic-api-55765568f7-xbvz2                        1/1     Running   0          5m13s
@@ -217,6 +231,10 @@ When your cloud provider supports LoadBalancers, you can find the target IP / ho
 
 ```bash
 kubectl -n kubermatic get services
+```
+
+Output will be similar to this:
+```bash
 #NAME             TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
 #nodeport-proxy   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
 ```

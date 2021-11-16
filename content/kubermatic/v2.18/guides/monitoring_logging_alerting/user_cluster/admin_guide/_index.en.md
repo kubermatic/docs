@@ -302,6 +302,10 @@ This chapter describes some potential problems that you may face in a KKP instal
 
 ```bash
 kubectl get pods -n mla-system
+```
+
+Output will be similar to this:
+```bash
 NAME                          READY   STATUS    RESTARTS   AGE
 prometheus-68f7485456-jj7v6   1/1     Running   0          11m
 promtail-cm4qd                1/1     Running   0          6m11s
@@ -312,6 +316,10 @@ promtail-cm4qd                1/1     Running   0          6m11s
 
 ```bash
 kubectl get pods -n cluster-cxfmstjqkw | grep mla-gateway
+```
+
+Output will be similar to this:
+```bash
 mla-gateway-6dd8c68d67-knmq7                  1/1     Running   0          22m
 ```
 
