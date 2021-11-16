@@ -248,6 +248,10 @@ list of external IPs like so:
 
 ```bash
 kubectl get nodes -o wide
+```
+
+Output will be similar to this:
+```bash
 #NAME                        STATUS   ROLES    AGE     VERSION         INTERNAL-IP   EXTERNAL-IP
 #worker-node-cbd686cd-50nx   Ready    <none>   3h36m   v1.15.8-gke.3   10.156.0.36   8.7.6.4
 #worker-node-cbd686cd-59s2   Ready    <none>   21m     v1.15.8-gke.3   10.156.0.14   8.7.6.3
