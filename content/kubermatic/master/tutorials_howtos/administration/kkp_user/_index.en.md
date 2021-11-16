@@ -26,7 +26,7 @@ spec:
 
 After the installation of Kubermatic Kubernetes Platform the first account that authenticates at the Dashboard is elected as an admin.
 
-The account is than capable to set admin permissions via the [dashboard]({{< ref "../admin_panel/administrators" >}}) .
+The account is then capable of setting admin permissions via the [dashboard]({{< ref "../admin_panel/administrators" >}}) .
 
 # Granting admin permission via kubeclt
 
