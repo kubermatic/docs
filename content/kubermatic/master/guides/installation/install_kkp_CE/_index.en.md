@@ -83,6 +83,10 @@ properly generated secrets for you when it notices that some are missing, for ex
 
 ```bash
 ./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
+```
+
+Output will be similar to this:
+```bash
 INFO[15:15:20] 🛫 Initializing installer…                     edition="Community Edition" version=v2.15.11
 INFO[15:15:20] 🚦 Validating the provided configuration…
 ERROR[15:15:20]    The provided configuration files are invalid:
@@ -188,6 +192,10 @@ When your cloud provider supports LoadBalancers, you can find the target IP / ho
 
 ```bash
 kubectl -n nginx-ingress-controller get services
+```
+
+Output will be similar to this:
+```bash
 #NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
 #nginx-ingress-controller   LoadBalancer   10.47.248.232   1.2.3.4        80:32014/TCP,443:30772/TCP   449d
 ```
@@ -204,6 +212,10 @@ external IPs like so:
 
 ```bash
 kubectl get nodes -o wide
+```
+
+Output will be similar to this:
+```bash
 #NAME                        STATUS   ROLES    AGE     VERSION         INTERNAL-IP   EXTERNAL-IP
 #worker-node-cbd686cd-50nx   Ready    <none>   3h36m   v1.15.8-gke.3   10.156.0.36   1.2.3.4
 #worker-node-cbd686cd-59s2   Ready    <none>   21m     v1.15.8-gke.3   10.156.0.14   1.2.3.5
@@ -264,6 +276,10 @@ by doing `watch kubectl -n kubermatic get certificates` until it shows `READY=Tr
 
 ```bash
 watch kubectl -n kubermatic get certificates
+```
+
+Output will be similar to this:
+```bash
 #NAME         READY   SECRET           AGE
 #kubermatic   True    kubermatic-tls   1h
 ```

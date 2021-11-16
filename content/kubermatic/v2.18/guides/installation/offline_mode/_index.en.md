@@ -123,6 +123,10 @@ Find the relevant seed via `kubectl`:
 
 ```bash
 kubectl -n kubermatic get seeds
+```
+
+Output will be similar to this:
+```bash
 #NAME        AGE
 #hamburg     143d
 #frankfurt   151d
