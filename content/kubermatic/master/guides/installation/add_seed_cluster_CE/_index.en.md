@@ -15,20 +15,6 @@ the same namespace. It is however not possible to use the same cluster for multi
 Please refer to the [architecture]({{< ref "../../../architecture/" >}}) diagrams for more information
 about the cluster relationships.
 
-## Install KKP Dependencies
-
-Compared to master clusters, seed clusters are still mostly manually installed. Future versions of KKP
-will improve the setup experience further.
-
-If you're using Helm 2, install Tiller into the seed cluster first:
-
-```bash
-kubectl create namespace kubermatic
-kubectl create serviceaccount -n kubermatic tiller
-kubectl create clusterrolebinding tiller-cluster-role --clusterrole=cluster-admin --serviceaccount=kubermatic:tiller
-helm --service-account tiller --tiller-namespace kubermatic init
-```
-
 ## Configure Cluster Backups 
 
 KKP performs regular backups of user clusters by snapshotting the etcd of each cluster. Default configuration uses in-cluster object storage provided by [Minio](https://min.io). It can be installed using `minio` Helm chart provided with the KKP installer. 
@@ -92,13 +78,6 @@ After configuring the required options, you can install the charts:
 ```bash
 helm --namespace minio upgrade --install --wait --values /path/to/your/helm-values.yaml minio charts/minio/
 helm --namespace kube-system upgrade --install --wait --values /path/to/your/helm-values.yaml s3-exporter charts/s3-exporter/
-```
-
-**Helm 2**
-
-```bash
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace minio minio charts/minio/
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace kube-system s3-exporter charts/s3-exporter/
 ```
 
 ## Add CRDs for kubermatic components in the seed cluster
