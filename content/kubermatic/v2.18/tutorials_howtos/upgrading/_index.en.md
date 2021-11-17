@@ -105,7 +105,7 @@ helm --namespace kubermatic upgrade --install --wait --values values.yaml kuberm
 helm --namespace kubermatic upgrade --install --wait --values values.yaml kubermatic charts/kubermatic/
 ```
 
-**Helm 2**
+**Helm 2 (not supported since v2.18.0)**
 
 ```bash
 helm upgrade --install --wait --values values.yaml --namespace cert-manager cert-manager charts/cert-manager/

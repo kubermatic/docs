@@ -152,12 +152,6 @@ After all values are set up, it's time to update the KKP master cluster. Update 
 helm --namespace oauth upgrade --install --wait --values values.yaml oauth charts/oauth/
 ```
 
-**Helm 2**
-
-```bash
-helm upgrade --install --wait --timeout 300 --values values.yaml --namespace oauth oauth charts/oauth/
-```
-
 Now that the issuer is available, update the `KubermaticConfiguration`:
 
 ```bash
