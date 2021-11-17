@@ -50,6 +50,11 @@ After the secrets are created, the MLA stack can be deployed by using the helper
 
 This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, the steps in the helper script can be manually reproduced with tweaked Helm values. See the “Setup Customization” section for more information.
 
+#### Setup Seed Cluster Components for High Availability
+
+By default, Cortex and Loki are deployed for high-availability, but Grafana is not.
+If you want to set up Grafana for high availability, you just need to set up a shared database for storing dashboard, users and other persistent data. For more details, please refer to the [official HA guide setup guide](https://grafana.com/docs/grafana/latest/administration/set-up-for-high-availability/).
+
 #### Expose Grafana & Alertmanager UI
 
 After deploying MLA components into a KKP Seed cluster, Grafana and Alertmanager UI are exposed only via ClusterIP services by default. To expose them to users outside of the Seed cluster with proper authentication in place, we will use the [IAP Helm chart](https://github.com/kubermatic/kubermatic/tree/master/charts/iap) from the Kubermatic repository.
