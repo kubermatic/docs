@@ -37,8 +37,8 @@ $ kubectl edit -n cluster-<YOUR CLUSTER ID> configmap audit-config
 #### Audit Policy Presets
 
 KKP supports a set of maintained audit policies as presets in case you do not want to tune the audit policy for yourself.
-A preset can be selected by setting the field `auditLogging.policyPreset` on a user-cluster spec (when audit logging is enabled).
-The preset selection can be unset by setting the field to an empty string.
+A preset can be selected during cluster creation in the UI or by setting the field `auditLogging.policyPreset` on a
+user-cluster spec (when audit logging is enabled). The preset selection can be unset by setting the field to an empty string.
 
 {{% notice note %}}
 Enabling an audit policy preset on your user-cluster will override any manual changes to the `audit-config` ConfigMap.
@@ -56,7 +56,7 @@ The following presets are available right now:
 
 #### User-Cluster Level Audit Logging
 
-To enable user-cluster level Audit Logging, simply check `Audit Logging` in the KKP dashboard `Create Cluster` page:
+To enable user-cluster level Audit Logging, simply check `Audit Logging` in the KKP dashboard `Create Cluster` page. You can either select "custom" to be able to edit the ConfigMap for audit logging later on or set your cluster up with a [preset](#audit-policy-presets):
 
 ![Create Cluster](01-create-cluster.png)
 
