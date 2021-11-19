@@ -8,3 +8,6 @@ tutorials-tests/cypress/fixtures
 
 # IDE specific files
 .idea/
+
+# Hugo
+.hugo_build.lock
