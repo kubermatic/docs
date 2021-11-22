@@ -88,18 +88,6 @@ helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm
 helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml blackbox-exporter charts/monitoring/blackbox-exporter/
 ```
 
-**Helm 2**
-
-```bash
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring prometheus charts/monitoring/prometheus/
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring alertmanager charts/monitoring/alertmanager/
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring node-exporter charts/monitoring/node-exporter/
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring kube-state-metrics charts/monitoring/kube-state-metrics/
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring grafana charts/monitoring/grafana/
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring karma charts/monitoring/karma/
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace monitoring blackbox-exporter charts/monitoring/blackbox-exporter/
-```
-
 ### Going Further
 
 The charts have a lot more options to tweak, like `alertmanager.config` or `karma.config` to control how and which
@@ -179,11 +167,4 @@ With this file prepared, we can now install all required charts:
 ```bash
 helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml promtail charts/logging/promtail/
 helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml loki charts/logging/loki/
-```
-
-**Helm 2**
-
-```bash
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace logging promtail charts/logging/promtail/
-helm --tiller-namespace kubermatic upgrade --install --values /path/to/your/helm-values.yaml --namespace logging loki charts/logging/loki/
 ```
