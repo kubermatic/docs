@@ -81,6 +81,19 @@ $(window).resize(function() {
 
 })(jQuery, 'smartresize');
 
+var initMenuItemsExpand = function() {
+  var menuArrows = document.querySelectorAll('.topics .menu-arrow');
+  menuArrows.forEach(function(menuArrow) {
+    menuArrow.addEventListener('click', function() {
+      var parentClass = menuArrow.parentNode.classList;
+      if (parentClass.contains('parent')) {
+        parentClass.remove('parent');
+      } else {
+        parentClass.add('parent');
+      }
+    });
+  });
+};
 
 jQuery(document).ready(function() {
     jQuery('#sidebar .category-icon').on('click', function() {
@@ -92,6 +105,7 @@ jQuery(document).ready(function() {
     var sidebarStatus = searchStatus = 'open';
     $('#sidebar .highlightable').perfectScrollbar();
     setMenuHeight();
+    initMenuItemsExpand();
 
     jQuery('#overlay').on('click', function() {
         jQuery(document.body).toggleClass('sidebar-hidden');
@@ -348,7 +362,6 @@ jQuery(document).ready(function() {
 
         $(document).ready($.proxy(anchorScrolls, 'init'));
     })(window.document, window.history, window.location);
-    
 });
 
 jQuery(window).on('load', function() {

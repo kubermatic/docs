@@ -278,7 +278,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 #sidebar ul.topics ul ul {
     padding-bottom: 0;
 }
-#sidebar ul.topics li.parent ul, #sidebar ul.topics > li.active ul {
+#sidebar ul.topics li.parent > ul {
     display: block;
 }
 #sidebar ul.topics > li > a {
@@ -296,6 +296,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     color: #777;
 }
 #sidebar ul li {
+    position: relative;
     padding: 0;
 }
 #sidebar ul li.visited + span {
@@ -312,7 +313,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     display: block;
 }
 #sidebar ul li > a {
-    padding: 4px 0;
+    padding: 4px 30px 4px 0;
 }
 #sidebar ul li.visited > a .read-icon {
     color: #9c6fb6;
