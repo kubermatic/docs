@@ -256,7 +256,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 }
 #sidebar ul.topics {
     padding-left: 0.625rem;
-    margin: 0 1.25rem;
+    margin: 0 0 0 1.25rem;
 }
 #sidebar ul.topics.searched ul {
     display: block;
@@ -272,6 +272,8 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     display: block;
 }
 #sidebar ul.topics > li > a {
+    padding-right: 1.875rem;
+    margin-right: 1.25rem;
     font-size: 1.125rem;
     line-height: 2;
 }
@@ -303,7 +305,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     display: block;
 }
 #sidebar ul li > a {
-    padding: 4px 30px 4px 0;
+    padding: 4px 0;
 }
 #sidebar ul li.visited > a .read-icon {
     color: #9c6fb6;
