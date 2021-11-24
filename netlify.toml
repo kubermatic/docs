@@ -1,3 +1,6 @@
+[context.production]
+command = "hugo --minify"
+
 [context.production.environment]
 HUGO_VERSION = "0.75.1"
 
