@@ -5,9 +5,6 @@
   {{ $products := $.Site.Data.products }}
   {{ $product := index $products $productSection}}
   <div id="header-wrapper">
-    <div id="header">
-      {{ partial "logo.html" . }}
-    </div>
     {{ with sort $products ".weight" }}
     <div class="products-toogle">
       <div class="products-toogle-select">
