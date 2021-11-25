@@ -1,9 +1,11 @@
 +++
-title = "[Experimental] Etcd Launcher"
+title = "Etcd Launcher"
 weight = 30
 +++
 
 Starting with version v2.15.0, KKP introduced etcd-launcher as an experimental feature. Etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KKP API and flexibly control how the user cluster etcd ring is started.
+
+In v2.19.0, peer TLS connections have been added to etcd-launcher. Existing etcd clusters (with or without etcd-launcher) will be upgraded to peer TLS connections if the etcd-launcher feature gate is enabled on a cluster.
 
 ### Spec updates
 Prior to v2.15.0, user cluster etcd ring was based on a static StatefulSet with 3 pods running the etcd ring nodes.
