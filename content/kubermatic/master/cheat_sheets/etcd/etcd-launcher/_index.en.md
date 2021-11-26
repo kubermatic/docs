@@ -7,7 +7,7 @@ Starting with version v2.15.0, KKP introduced etcd-launcher as an experimental f
 
 In v2.19.0, peer TLS connections have been added to etcd-launcher. Existing etcd clusters (with or without etcd-launcher) will be upgraded to peer TLS connections if the etcd-launcher feature gate is enabled on a cluster.
 
-## Comparision to static etcd StatefulSet
+## Comparison to static etcd StatefulSet
 Prior to v2.15.0, user cluster etcd ring was based on a static StatefulSet with 3 pods running the etcd ring nodes.
 
 With etcd-launcher, the etcd StatefulSet is updated to include:
