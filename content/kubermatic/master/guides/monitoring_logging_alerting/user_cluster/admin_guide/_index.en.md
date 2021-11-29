@@ -40,7 +40,7 @@ Before deploying the MLA stack into the KKP Seed cluster, let’s create two Kub
 helm --namespace mla upgrade --atomic --create-namespace --install mla-secrets charts/mla-secrets --values config/mla-secrets/values.yaml
 ```
 
-This above command will create two Secrets (one for MinIO, and one for Grafana), if want to use your existing Secrets in the Cluster, you can disable the creation by modifying the [mla-secret value.yaml](https://github.com/kubermatic/mla/blob/main/config/mla-secrets/values.yaml#L17-L22)
+The above command will create two Secrets (one for MinIO, and one for Grafana), if you want to use your existing Secrets in the Cluster, you can disable the creation by modifying the [mla-secret value.yaml](https://github.com/kubermatic/mla/blob/main/config/mla-secrets/values.yaml#L17-L22)
 
 #### Deploy Seed Cluster Components
 
@@ -52,7 +52,7 @@ After the secrets are created, the MLA stack can be deployed by using the helper
 
 This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, the steps in the helper script can be manually reproduced with tweaked Helm values. See the “Setup Customization” section for more information.
 
-Also, this will deploy a MinIO instance which will be used by MLA components for storage, if you would like to re-use an existing MinIO instance in your cluster or other S3-compatiable srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatiable Services](#setting-up-mla-with-existing-minio-or-other-s3-compatiable-services).
+Also, this will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatiable srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatiable Services](#setting-up-mla-with-existing-minio-or-other-s3-compatiable-services).
 
 #### Setup Seed Cluster Components for High Availability
 
@@ -275,7 +275,7 @@ After the new dashboards are applied to the Seed Cluster, they will become avail
 
 ### Managing Alerting and Recording Rules
 
-Similar to managing Grafana Dashboards, KKP administrators can also define Prometheus-compatible rules for metrics and logs and make them available across all KKP user clusters with MLA enabled.
+Similar to managing Grafana Dashboards, KKP administrators can also pre-define Prometheus-compatible rules for metrics and logs and make them automatically available across all KKP user clusters with MLA enabled.
 
 Rule groups can be managed via the following API endpoints, which are only available for KKP administrator users:
 
