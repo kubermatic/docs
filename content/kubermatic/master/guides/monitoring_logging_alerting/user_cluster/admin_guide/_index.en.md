@@ -40,6 +40,8 @@ Before deploying the MLA stack into the KKP Seed cluster, let’s create two Kub
 helm --namespace mla upgrade --atomic --create-namespace --install mla-secrets charts/mla-secrets --values config/mla-secrets/values.yaml
 ```
 
+This above command will create two Secrets (one for MinIO, and one for Grafana), if want to use your existing Secrets in the Cluster, you can disable the creation by modifying the [mla-secret value.yaml](https://github.com/kubermatic/mla/blob/main/config/mla-secrets/values.yaml#L17-L22)
+
 #### Deploy Seed Cluster Components
 
 After the secrets are created, the MLA stack can be deployed by using the helper script:
@@ -49,6 +51,8 @@ After the secrets are created, the MLA stack can be deployed by using the helper
 ```
 
 This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, the steps in the helper script can be manually reproduced with tweaked Helm values. See the “Setup Customization” section for more information.
+
+Also, this will deploy a MinIO instance which will be used by MLA components for storage, if you would like to re-use an existing MinIO instance in your cluster or other S3-compatiable srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatiable Services](#setting-up-mla-with-existing-minio-or-other-s3-compatiable-services).
 
 #### Setup Seed Cluster Components for High Availability
 
@@ -227,6 +231,24 @@ By default, the MLA stack is configured to hold the logs and metrics in the obje
 - In the [loki Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/loki/values.yaml#L52), set `loki.config.chunk_store_config.max_look_back_period` to the desired value (default: `168h` = 7 days).
 - In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/minio-lifecycle-mgr/values.yaml#L20), set `lifecycleMgr.buckets[name=loki].expirationDays` to the value used in the loki Helm chart + 1 day (default: `8d`).
 
+### Setting up MLA with Existing MinIO or Other S3-compatiable Services
+
+By default, a MinIO instance will also be deployed as the S3 storage backend for MLA components. It is also possible to use an existing MinIO instance in your cluster or any other S3-compatiable services.
+
+There are three Helm charts which are related to MinIO in MLA repository:
+- [mla-secret](https://github.com/kubermatic/mla/tree/main/charts/mla-secrets) is used to create and manage MinIO and Grafana credentials Secrets.
+- [minio](https://github.com/kubermatic/mla/tree/main/charts/minio) is used to deploy MinIO instance in Kubernetes cluster.
+- [minio-lifecycle-mgr](https://github.com/kubermatic/mla/tree/main/charts/minio-lifecycle-mgr) is used to manage the lifecycle of the stored data, and to take care of data retention.
+
+If you want to disable the MinIO installation and use your existing MinIO instance or other S3 services, you need to:
+- Disable the Secret creation for MinIO in mla-secret Helm chart. In the [mla-secret Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/mla-secrets/values.yaml#L22), set `minio.enabled` to `false`.
+- Modify the S3 storage settings in `values.yaml` of other MLA components to use the existing MinIO instance or other S3 services:
+  - In [cortex Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/cortex/values.yaml), change the `config.ruler.storage.s3`, `config.alertmanager.storage.s3`, and `config.blocks_storage.s3` to point to your MinIO instance. Modify the `ruler.env`, `storage_gateway.env`, `ingester.env`, `querier.env` and `alertmanager.env` to get credentials from your Secret.
+  - In [loki Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/loki/values.yaml), change the `storage_config.aws` and `ruler.storage.s3` in the `loki.config` to point to your MinIO instance or S3 service. Modify `extraEnvFrom` of `tableManager`, `ingester`, `querier`, `ruler` and `compactor` to get credentials from your Secret.
+  - If you still want to use MinIO lifecycle manager to manage data retention for MLA data in your MinIO instance, in [minio-lefecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/minio-lifecycle-mgr/values.yaml), set `lifecycleMgr.minio.endpoint` and `lefecycleMgr.minio.secretName` to your MinIO endpoint and Secret.
+- Use `--skip-minio` or `--skip-minio-lifecycle-mgr` flag when you execute `./hack/deploy-seed.sh`. If you want to disable MinIO but still use MinIO lifecycle manager to take care of data retention, you can use `--skip-minio` flag. Otherwise, you can use both flags to disable both MinIO and lifecycle manager.
+
+
 ### Managing Grafana Dashboards
 
 In the User Cluster MLA Grafana, there are several predefined Grafana dashboards that are automatically available across all Grafana organizations (KKP projects). The KKP administrators have ability to modify the list of these dashboards.
@@ -250,6 +272,18 @@ data:
 - Add dashboards to the User Cluster MLA Grafana Helm chart values. You can add dashboards into the `dashboards` section of the [values.yaml file](https://github.com/kubermatic/mla/blob/main/config/grafana/values.yaml#L41).
 
 After the new dashboards are applied to the Seed Cluster, they will become available across all Grafana Organizations, and they can be found in the Grafana UI under Dashboards -> Manage.
+
+### Managing Alerting and Recording Rules
+
+Similar to managing Grafana Dashboards, KKP administrators can also define Prometheus-compatible rules for metrics and logs and make them available across all KKP user clusters with MLA enabled.
+
+Rule groups can be managed via the following API endpoints, which are only available for KKP administrator users:
+
+- `GET /api/v2/seeds/{seed_name}/rulegroups` - list rule groups
+- `GET /api/v2/seeds/{seed_name}/rulegroups/{rulegroup_id}` - get rule group
+- `POST /api/v2/seeds/{seed_name}/rulegroups` - create rule group
+- `PUT  /api/v2/seeds/{seed_name}/rulegroups/{rulegroup_id}` - update rule group
+- `DELETE /api/v2/seeds/{seed_name}/rulegroups/{rulegroup_id}` - delete rule group
 
 ### Rate-Limiting
 
@@ -407,4 +441,3 @@ After doing the above-mentioned steps, MLA stack can be upgraded using the helpe
 ```bash
 ./hack/deploy-seed.sh
 ```
-  
