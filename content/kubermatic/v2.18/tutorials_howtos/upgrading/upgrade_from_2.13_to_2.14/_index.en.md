@@ -52,7 +52,7 @@ non-KKP/IAP certificates, please migrate accordingly as the chart will soon not 
 KKP 2.14 introduced a stable interface for templating addon manifests. Previously, the exact variables that could be
 used were not documented and could change in between releases.
 
-Please refer to the [addon documentation]({{< ref "../../../guides/addons#manifest-templating" >}}) for more information about
+Please refer to the [addon documentation]({{< ref "../../../architecture/concept/kkp-concepts/addons#manifest-templating" >}}) for more information about
 the available fields. Compared to previous versions, the following are the most noticeable changes:
 
 * `.Cluster` is now a dedicated structure and not the Cluster CRD anymore. The CRD was never meant as a stable interface.

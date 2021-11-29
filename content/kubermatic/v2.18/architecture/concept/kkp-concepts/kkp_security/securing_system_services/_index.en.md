@@ -145,17 +145,17 @@ watch kubectl -n iap get certificates
 
 To allow incoming traffic and to acquire a TLS certificate, DNS records must be in place. This can be either
 a single wildcard entry for all IAP deployments or individual records. Refer to the
-[installation instructions]({{< ref "../../../installation/install_kkp_CE" >}}) for more information on
+[installation instructions]({{< ref "../../../../../installation/install_kkp_CE" >}}) for more information on
 what records to create.
 
 ### Alternative Authentication Provider
 
 It's possible to use a different authentication provider than Dex. Please refer to the
-[OIDC provider]({{< ref "../../../tutorials_howtos/OIDC_Provider_Configuration" >}}) chapter for more information on how to configure
+[OIDC provider]({{< ref "../../../../../tutorials_howtos/OIDC_Provider_Configuration" >}}) chapter for more information on how to configure
 KKP and OAuth2-Proxy accordingly.
 
 ### Security Considerations
 
 The IAP does not protect services against access from within the cluster. Sensitive services should therefore
-be configured to require further authentication. Grafana, the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../../architecture/monitoring_logging_alerting/master_seed/" >}})'s
+be configured to require further authentication. Grafana, the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../../../../architecture/monitoring_logging_alerting/master_seed/" >}})'s
 dashboard UI, requires proper authentication by default, for example.
