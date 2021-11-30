@@ -180,6 +180,20 @@ as [accessible addons]({{< relref "../../../addons/#accessible-addons" >}}). The
 addons are part of the KKP default accessible addons, so they should be available out-of-the box, unless the KKP installation
 administrator has changed it.
 
+### Enabling alerts for MLA stack in a Seed
+To enable alerts in seed cluster for user cluster MLA stack(cortex and loki) , update the `values.yaml` used for installation of [Master / Seed MLA stack]({{< relref "../../master_seed/installation/" >}}). Add the following line under `prometheus.ruleFiles` label:
+```yaml
+- /etc/prometheus/rules/usercluster-mla-*.yaml
+```
+
+With this update in `values.yaml`, we can now upgrade the Prometheus chart:
+
+**Helm 3**
+
+```bash
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml prometheus charts/monitoring/prometheus/
+```
+
 ## Operation
 
 ### Setup Customization
