@@ -19,9 +19,11 @@ When creating worker nodes for a user cluster, the user can specify an existing 
 
 Supported operating systems
 
-* CentOS 7 [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
-* Flatcar Container Linux [ova](https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_vmware_ova.ova)
+* CentOS beginning with 7.4 [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
+* CentOS 8 [qcow2](https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.4.2105-20210603.0.x86_64.qcow2)
 * Ubuntu 18.04 [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
+* Ubuntu 20.04 [ova](https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64.ova)
+* Flatcar (Stable channel) [ova](https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_vmware_ova.ova)
 
 #### Importing the OVA
 
@@ -30,13 +32,8 @@ Supported operating systems
 1. Click through the dialog until "Select storage"
 1. Select the same storage you want to use for your machines
 1. Select the same network you want to use for your machines
-1. Leave everyhting in the "Customize Template" and "Ready to complete" dialog as it is
+1. Leave everything in the "Customize Template" and "Ready to complete" dialog as it is
 1. Wait until the VM got fully imported and the "Snapshots" => "Create Snapshot" button is not grayed out anymore
-1. The template VM must have the disk.enableUUID flag set to 1, this can be done using the [govc tool](https://github.com/vmware/govmomi/tree/master/govc) with the following command:
-
-```bash
-govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
-```
 
 #### Importing the QCOW2
 

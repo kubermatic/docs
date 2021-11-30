@@ -114,6 +114,20 @@ plane instances:
 * You must have an SSH key deployed on all control plane instances and
   SSH configured as described in the [Configuring SSH][ssh] document
 
+## Cloud Provider-specific Requirements
+
+Some providers have specific requirements for Kubernetes to work properly.
+Those are set automatically by the machine-controller or the provided Terraform examples, therefore this section is only relevant when machines are created manually.
+
+### VMware vSphere
+For the vSphere CSI driver to work correctly, machines created in vSphere need to meet the [CSI driver prerequisites][vsphere-storage].
+
+Make sure that all VMs have the `disk.enableUUID` flag set to 1. This can be done using the [govc tool](https://github.com/vmware/govmomi/tree/master/govc) with the following command:
+```bash
+govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
+```
+
+The vSphere CSI driver requires that the Virtual Machine Hardware Version is 15 or newer, and the VMware Tools are installed.
 
 ## Terraform Integration
 
@@ -145,26 +159,11 @@ The needed `output.tf` file already comes with all our
 [terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 {{% /notice %}}
 
-## Cloud Provider-specific Requirements
-
-Some providers have specific requirements for Kubernetes to work properly.
-Those are set automatically by the machine-controller or the provided Terraform examples, therefore this section is only relevant when machines are created manually.
-
-### VMware vSphere
-For the vSphere CSI driver to work correctly, machines created in vSphere need to meet the [CSI driver prerequisites][vsphere-storage].
-
-Make sure that all VMs have the `disk.enableUUID` flag set to 1. This can be done using the [govc tool](https://github.com/vmware/govmomi/tree/master/govc) with the following command:
-```bash
-govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
-```
-
-The vSphere CSI driver requires that the Virtual Machine Hardware Version is 15 or newer, and the VMware Tools are installed.
-
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
 [ssh]: {{< ref "../../../guides/ssh#sshd-requirements-on-instances" >}}
 [supported-providers]: {{< ref "../../compatibility#supported-providers" >}}
 [supported-os]: {{< ref "../../compatibility#supported-operating-systems" >}}
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/release/v1.3/examples/terraform
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [static-workers]: {{< ref "../../../guides/static_workers" >}}
 [concepts]: {{< ref "../../concepts#kubermatic-machine-controller" >}}
