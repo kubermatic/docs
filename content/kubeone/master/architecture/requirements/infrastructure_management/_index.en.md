@@ -8,7 +8,7 @@ aliases = [
 ]
 +++
 
-This document describes some of the possible approaches for managing the 
+This document describes some possible approaches for managing the 
 infrastructure needed for a Kubernetes cluster.
 
 ## Infrastructure For Control Plane
@@ -114,6 +114,7 @@ plane instances:
 * You must have an SSH key deployed on all control plane instances and
   SSH configured as described in the [Configuring SSH][ssh] document
 
+
 ## Terraform Integration
 
 KubeOne integrates with Terraform by reading the Terraform state for the
@@ -144,6 +145,19 @@ The needed `output.tf` file already comes with all our
 [terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 {{% /notice %}}
 
+## VMware
+
+For the vSphere csi plugin to work correctly machines created in vSphere need to meet the [prerequisites][vsphere-storage].
+This is done automatically by the machine-controller or the provided terraform examples, therefore it is only relevant when machines are created manually.
+
+Make sure the that all VMs have the disk.enableUUID flag set to 1, this can be done using the [govc tool](https://github.com/vmware/govmomi/tree/master/govc) with the following command:
+
+```bash
+govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
+```
+
+To support all features of the csi plugin ensure that the virtual machine hardware version is 15 or later and VMware Tools are installed.
+
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
 [ssh]: {{< ref "../../../guides/ssh#sshd-requirements-on-instances" >}}
 [supported-providers]: {{< ref "../../compatibility#supported-providers" >}}
@@ -157,3 +171,4 @@ The needed `output.tf` file already comes with all our
 [ha-lb-example]: {{< ref "../../../examples/ha_load_balancing" >}}
 [terraform-reference]: {{< ref "../../../references/terraform_integration" >}}
 [production-recommendations]({{< ref "../../../cheat_sheets/production_recommendations" >}})
+[vsphere-storage]: https://vmware.github.io/vsphere-storage-for-kubernetes/documentation/prerequisites.html
