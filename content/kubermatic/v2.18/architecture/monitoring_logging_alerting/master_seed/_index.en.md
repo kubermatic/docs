@@ -38,4 +38,4 @@ Depending on how user clusters are used, disk usage for Prometheus can vary grea
 These values can also vary if you tweak the retention periods.
 
 ## Installation
-Please follow the [Installation of the Master / Seed MLA Stack Guide]({{< relref "../../../guides/monitoring_logging_alerting/master_seed/installation/" >}}).
+Please follow the [Installation of the Master / Seed MLA Stack Guide]({{< relref "../../../tutorials_howtos/monitoring_logging_alerting/master_seed/installation/" >}}).

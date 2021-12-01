@@ -316,4 +316,4 @@ All pods running inside the `kubermatic` namespace should now be running. If the
 ### Next Steps
 
 * [Add a Seed cluster]({{< ref "./add_seed_cluster_CE" >}}) to start creating user clusters.
-* Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../guides/monitoring_logging_alerting/master_seed/installation" >}}) to collect cluster-wide metrics in a central place.
+* Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../tutorials_howtos/monitoring_logging_alerting/master_seed/installation" >}}) to collect cluster-wide metrics in a central place.

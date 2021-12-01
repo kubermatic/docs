@@ -47,4 +47,4 @@ The backend for processing, storing and retrieving metrics data from user Cluste
 The backend for processing, storing and retrieving logs data from user Cluster Clusters is based on the [Loki](https://grafana.com/docs/loki/latest/) - distributed deployment. It allows horizontal scalability of individual Loki components that can be fine-tuned to fit any use-case. For more details about Loki architecture, please refer to the [Loki Architecture](https://grafana.com/docs/loki/latest/architecture/) documentation.
 
 ## Installation
-Please follow the [User Cluster MLA Stack Admin Guide]({{< relref "../../../guides/monitoring_logging_alerting/user_cluster/admin_guide/" >}}).
+Please follow the [User Cluster MLA Stack Admin Guide]({{< relref "../../../tutorials_howtos/monitoring_logging_alerting/user_cluster/admin_guide/" >}}).
