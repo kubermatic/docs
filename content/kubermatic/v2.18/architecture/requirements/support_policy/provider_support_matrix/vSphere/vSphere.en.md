@@ -33,11 +33,6 @@ Supported operating systems
 1. Select the same network you want to use for your machines
 1. Leave everyhting in the "Customize Template" and "Ready to complete" dialog as it is
 1. Wait until the VM got fully imported and the "Snapshots" => "Create Snapshot" button is not grayed out anymore
-1. The template VM must have the disk.enableUUID flag set to 1, this can be done using the [govc tool](https://github.com/vmware/govmomi/tree/master/govc) with the following command:
-
-```bash
-govc vm.change -e="disk.enableUUID=1" -vm='/PATH/TO/VM'
-```
 
 #### Importing the QCOW2
 
