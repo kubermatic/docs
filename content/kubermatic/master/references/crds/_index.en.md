@@ -7,31 +7,60 @@ weight = 40
 # API Reference
 
 ## Packages
-- [kubermatic.k8s.io/v1](#kubermatick8siov1)
-- [operator.kubermatic.io/v1alpha1](#operatorkubermaticiov1alpha1)
+- [kubermatic.k8c.io/v1](#kubermatick8ciov1)
 
 
-## kubermatic.k8s.io/v1
+## kubermatic.k8c.io/v1
 
 
+### Resource Types
+- [Addon](#addon)
+- [AddonConfig](#addonconfig)
+- [AddonConfigList](#addonconfiglist)
+- [AddonList](#addonlist)
+- [AdmissionPlugin](#admissionplugin)
+- [AdmissionPluginList](#admissionpluginlist)
+- [Alertmanager](#alertmanager)
+- [AlertmanagerList](#alertmanagerlist)
+- [AllowedRegistry](#allowedregistry)
+- [AllowedRegistryList](#allowedregistrylist)
+- [Cluster](#cluster)
+- [ClusterList](#clusterlist)
+- [ClusterTemplate](#clustertemplate)
+- [ClusterTemplateInstance](#clustertemplateinstance)
+- [ClusterTemplateInstanceList](#clustertemplateinstancelist)
+- [ClusterTemplateList](#clustertemplatelist)
+- [Constraint](#constraint)
+- [ConstraintList](#constraintlist)
+- [ConstraintTemplate](#constrainttemplate)
+- [ConstraintTemplateList](#constrainttemplatelist)
+- [EtcdBackupConfig](#etcdbackupconfig)
+- [EtcdBackupConfigList](#etcdbackupconfiglist)
+- [EtcdRestore](#etcdrestore)
+- [EtcdRestoreList](#etcdrestorelist)
+- [ExternalCluster](#externalcluster)
+- [ExternalClusterList](#externalclusterlist)
+- [KubermaticConfiguration](#kubermaticconfiguration)
+- [KubermaticConfigurationList](#kubermaticconfigurationlist)
+- [KubermaticSetting](#kubermaticsetting)
+- [KubermaticSettingList](#kubermaticsettinglist)
+- [MLAAdminSetting](#mlaadminsetting)
+- [MLAAdminSettingList](#mlaadminsettinglist)
+- [Preset](#preset)
+- [PresetList](#presetlist)
+- [Project](#project)
+- [ProjectList](#projectlist)
+- [RuleGroup](#rulegroup)
+- [RuleGroupList](#rulegrouplist)
+- [Seed](#seed)
+- [SeedList](#seedlist)
+- [User](#user)
+- [UserList](#userlist)
+- [UserProjectBinding](#userprojectbinding)
+- [UserProjectBindingList](#userprojectbindinglist)
+- [UserSSHKey](#usersshkey)
+- [UserSSHKeyList](#usersshkeylist)
 
-
-#### AKS
-
-
-
-
-
-_Appears in:_
-- [PresetSpec](#presetspec)
-
-| Field | Description |
-| --- | --- |
-| `enabled` _boolean_ |  |
-| `tenantId` _string_ |  |
-| `subscriptionId` _string_ |  |
-| `clientId` _string_ |  |
-| `clientSecret` _string_ |  |
 
 
 #### APIServerSettings
@@ -62,12 +91,12 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `PresetProvider` _[PresetProvider](#presetprovider)_ |  |
-| `accessKeyId` _string_ |  |
+| `accessKeyID` _string_ |  |
 | `secretAccessKey` _string_ |  |
 | `assumeRoleARN` _string_ |  |
 | `assumeRoleExternalID` _string_ |  |
-| `vpcId` _string_ |  |
-| `routeTableId` _string_ |  |
+| `vpcID` _string_ |  |
+| `routeTableID` _string_ |  |
 | `instanceProfileName` _string_ |  |
 | `securityGroupID` _string_ |  |
 | `roleARN` _string_ |  |
@@ -85,13 +114,13 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `accessKeyId` _string_ |  |
+| `accessKeyID` _string_ |  |
 | `secretAccessKey` _string_ |  |
 | `assumeRoleARN` _string_ |  |
 | `assumeRoleExternalID` _string_ |  |
-| `vpcId` _string_ |  |
+| `vpcID` _string_ |  |
 | `roleARN` _string_ | The IAM role, the control plane will use. The control plane will perform an assume-role |
-| `routeTableId` _string_ |  |
+| `routeTableID` _string_ |  |
 | `instanceProfileName` _string_ |  |
 | `securityGroupID` _string_ |  |
 | `roleName` _string_ | DEPRECATED. Don't care for the role name. We only require the ControlPlaneRoleARN to be set so the control plane can perform the assume-role. We keep it for backwards compatibility (We use this name for cleanup purpose). |
@@ -108,6 +137,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `Addon`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AddonSpec](#addonspec)_ |  |
@@ -153,11 +184,28 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `AddonConfig`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AddonConfigSpec](#addonconfigspec)_ |  |
 
 
+#### AddonConfigList
+
+
+
+AddonConfigList is a list of addon configs
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `AddonConfigList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[AddonConfig](#addonconfig)_ |  |
 
 
 #### AddonConfigSpec
@@ -196,6 +244,21 @@ _Appears in:_
 | `type` _string_ | Type of displayed control |
 
 
+#### AddonList
+
+
+
+AddonList is a list of addons
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `AddonList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[Addon](#addon)_ |  |
 
 
 #### AddonSpec
@@ -241,11 +304,28 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `AdmissionPlugin`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AdmissionPluginSpec](#admissionpluginspec)_ |  |
 
 
+#### AdmissionPluginList
+
+
+
+AdmissionPluginList is the type representing a AdmissionPluginList
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `AdmissionPluginList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[AdmissionPlugin](#admissionplugin) array_ | List of Admission Plugins |
 
 
 #### AdmissionPluginSpec
@@ -274,6 +354,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `Alertmanager`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AlertmanagerSpec](#alertmanagerspec)_ |  |
@@ -296,6 +378,21 @@ _Appears in:_
 | `errorMessage` _string_ | ErrorMessage contains a default error message in case the configuration could not be applied. Will be reset if the error was resolved and condition becomes True |
 
 
+#### AlertmanagerList
+
+
+
+
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `AlertmanagerList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[Alertmanager](#alertmanager)_ |  |
 
 
 #### AlertmanagerSpec
@@ -338,7 +435,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `PresetProvider` _[PresetProvider](#presetprovider)_ |  |
-| `accessKeyId` _string_ |  |
+| `accessKeyID` _string_ |  |
 | `accessKeySecret` _string_ |  |
 
 
@@ -354,7 +451,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `accessKeyId` _string_ |  |
+| `accessKeyID` _string_ |  |
 | `accessKeySecret` _string_ |  |
 
 
@@ -369,11 +466,28 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `AllowedRegistry`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AllowedRegistrySpec](#allowedregistryspec)_ |  |
 
 
+#### AllowedRegistryList
+
+
+
+AllowedRegistryList specifies a list of allowed registries
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `AllowedRegistryList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[AllowedRegistry](#allowedregistry)_ |  |
 
 
 #### AllowedRegistrySpec
@@ -458,9 +572,9 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `PresetProvider` _[PresetProvider](#presetprovider)_ |  |
-| `tenantId` _string_ |  |
-| `subscriptionId` _string_ |  |
-| `clientId` _string_ |  |
+| `tenantID` _string_ |  |
+| `subscriptionID` _string_ |  |
+| `clientID` _string_ |  |
 | `clientSecret` _string_ |  |
 | `resourceGroup` _string_ |  |
 | `vnetResourceGroup` _string_ |  |
@@ -600,8 +714,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `Enabled` _boolean_ |  |
-| `Enforced` _boolean_ |  |
+| `enabled` _boolean_ |  |
+| `enforced` _boolean_ |  |
 
 
 #### CloudSpec
@@ -642,6 +756,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `Cluster`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ClusterSpec](#clusterspec)_ |  |
@@ -681,7 +797,7 @@ _Appears in:_
 | --- | --- |
 | `type` _[ClusterConditionType](#clusterconditiontype)_ | Type of cluster condition. |
 | `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#conditionstatus-v1-core)_ | Status of the condition, one of True, False, Unknown. |
-| `kubermatic_version` _string_ | KubermaticVersion current kubermatic version. |
+| `kubermaticVersion` _string_ | KubermaticVersion current kubermatic version. |
 | `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time we got an update on a given condition. |
 | `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time the condition transit from one status to another. |
 | `reason` _string_ | (brief) reason for the condition's last transition. |
@@ -699,6 +815,21 @@ _Appears in:_
 
 
 
+#### ClusterList
+
+
+
+ClusterList specifies a list of clusters
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ClusterList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[Cluster](#cluster)_ |  |
 
 
 #### ClusterNetworkingConfig
@@ -775,11 +906,11 @@ _Appears in:_
 | `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ |  |
 | `extendedHealth` _[ExtendedClusterHealth](#extendedclusterhealth)_ | ExtendedHealth exposes information about the current health state. Extends standard health status for new states. |
 | `lastProviderReconciliation` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | LastProviderReconciliation is the time when the cloud provider resources were last fully reconciled (during normal cluster reconciliation, KKP does not re-check things like security groups, networks etc.). |
-| `kubermatic_version` _string_ | KubermaticVersion is the current kubermatic version in a cluster. |
+| `kubermaticVersion` _string_ | KubermaticVersion is the current kubermatic version in a cluster. |
 | `rootCA` _[KeyCert](#keycert)_ | Deprecated |
 | `apiserverCert` _[KeyCert](#keycert)_ | Deprecated |
 | `kubeletCert` _[KeyCert](#keycert)_ | Deprecated |
-| `apiserverSshKey` _[RSAKeys](#rsakeys)_ | Deprecated |
+| `apiserverSSHKey` _[RSAKeys](#rsakeys)_ | Deprecated |
 | `serviceAccountKey` _integer array_ | Deprecated |
 | `namespaceName` _string_ | NamespaceName defines the namespace the control plane of this cluster is deployed in |
 | `userName` _string_ | UserName contains the name of the owner of this cluster |
@@ -813,12 +944,14 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ClusterTemplate`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `clusterLabels` _object (keys:string, values:string)_ |  |
 | `inheritedClusterLabels` _object (keys:string, values:string)_ |  |
 | `credential` _string_ |  |
-| `userSshKeys` _[ClusterTemplateSSHKey](#clustertemplatesshkey) array_ |  |
+| `userSSHKeys` _[ClusterTemplateSSHKey](#clustertemplatesshkey) array_ |  |
 | `spec` _[ClusterSpec](#clusterspec)_ |  |
 
 
@@ -833,11 +966,28 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ClusterTemplateInstance`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ClusterTemplateInstanceSpec](#clustertemplateinstancespec)_ |  |
 
 
+#### ClusterTemplateInstanceList
+
+
+
+ClusterTemplateInstanceList specifies a list of cluster template instances
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ClusterTemplateInstanceList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[ClusterTemplateInstance](#clustertemplateinstance)_ |  |
 
 
 #### ClusterTemplateInstanceSpec
@@ -857,6 +1007,21 @@ _Appears in:_
 | `replicas` _integer_ |  |
 
 
+#### ClusterTemplateList
+
+
+
+ClusterTemplateList specifies a list of cluster templates
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ClusterTemplateList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[ClusterTemplate](#clustertemplate)_ |  |
 
 
 #### ClusterTemplateSSHKey
@@ -904,11 +1069,28 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `Constraint`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ConstraintSpec](#constraintspec)_ |  |
 
 
+#### ConstraintList
+
+
+
+ConstraintList specifies a list of constraints
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ConstraintList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[Constraint](#constraint)_ |  |
 
 
 #### ConstraintSelector
@@ -958,11 +1140,28 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ConstraintTemplate`
 | `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ConstraintTemplateSpec](#constrainttemplatespec)_ |  |
 
 
+#### ConstraintTemplateList
+
+
+
+ConstraintTemplateList specifies a list of constraint templates
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ConstraintTemplateList`
+| `TypeMeta` _[TypeMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#typemeta-v1-meta)_ |  |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[ConstraintTemplate](#constrainttemplate)_ |  |
 
 
 #### ConstraintTemplateSelector
@@ -1071,5 +1270,4 @@ _Appears in:_
 | `alibaba` _[DatacenterSpecAlibaba](#datacenterspecalibaba)_ |  |
 | `anexia` _[DatacenterSpecAnexia](#datacenterspecanexia)_ |  |
 | `fake` _[DatacenterSpecFake](#datacenterspecfake)_ |  |
-| `requiredEmailDomain` _string_ | Optional: When defined, only users with an e-mail address on the given domains can make use of this datacenter. You can define multiple domains, e.g. "example.com", one of which must match the email domain exactly (i.e. "example.com" will not match "user@test.example.com"). RequiredEmailDomain is deprecated. Automatically migrated to the RequiredEmailDomains field. |
-| `requiredEmailDomains` _
+| `requiredEmails` _
