@@ -1,5 +1,5 @@
 +++
-title = "CCM migration"
+title = "CCM/CSI migration"
 date = 2021-07-29T14:07:15+02:00
 weight = 40
 
@@ -35,6 +35,25 @@ The latest vSphere CSI driver [release](https://vsphere-csi-driver.sigs.k8s.io/r
 Kubernetes 1.22, hence it is **not** possible to *upgrade* already migrated vSphere clusters to Kubernetes 1.22, *migrate*
 existing vSphere 1.22 clusters, and *create* new vSphere clusters with Kubernetes 1.22 (new clusters are by default controlled by the external CCM).
 {{% /notice %}}
+
+## Migration Prerequisites
+
+Make sure to familiarize yourself with requirements for external CCM and CSI
+drivers. Those requirements are provided by cloud providers and you can usually
+find them in the repositories for each components:
+
+* OpenStack: 
+  * [Required OpenStack services and cloudConfig properties for the external
+    CCM][openstack-ccm-reqs]
+  * [Required OpenStack services and cloudConfig properties for the CSI
+    driver][openstack-csi-reqs]
+* vSphere: vSphere 7.0u1 is required for CCM/CSI migration
+  * Make sure to check the Infrastructure prerequisites of the
+    [following document][vsphere-ccm-reqs]. The other part of the document is
+    fully-handled by Kubermatic
+  * Make sure to check the Introduction and Things to consider before turning
+    on Migration sections of the [following document][vsphere-csi-reqs]. The
+    remaining parts of the document are fully-handled by Kubermatic
 
 ### Enabling the external cloud provider
 
@@ -110,3 +129,8 @@ condition `CSIKubeletMigrationCompleted` will be set to true, and the migration 
 
 Since the Kubernetes community is on the way to deprecating in-tree CCM, once the `externalCloudProvider` feature gets
 enabled, it cannot be disabled.
+
+[openstack-ccm-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/721615aa256bbddbd481cfb4a887c3ab180c5563/docs/openstack-cloud-controller-manager/using-openstack-cloud-controller-manager.md
+[openstack-csi-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/3801bccc264cb75fd8aa0c84785b9385f234c156/docs/cinder-csi-plugin/using-cinder-csi-plugin.md
+[vsphere-ccm-reqs]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html
+[vsphere-csi-reqs]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-A1982536-F741-4614-A6F2-ADEE21AA4588.html

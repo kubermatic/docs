@@ -259,6 +259,6 @@ cluster.
 
 [openstack-ccm-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/721615aa256bbddbd481cfb4a887c3ab180c5563/docs/openstack-cloud-controller-manager/using-openstack-cloud-controller-manager.md
 [openstack-csi-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/3801bccc264cb75fd8aa0c84785b9385f234c156/docs/cinder-csi-plugin/using-cinder-csi-plugin.md
-[vsphere-ccm-reqs]: https://cloud-provider-vsphere.sigs.k8s.io/tutorials/enabling-vsphere-csi-on-an-existing-cluster.html
-[vsphere-csi-reqs]: https://vsphere-csi-driver.sigs.k8s.io/features/vsphere_csi_migration.html
+[vsphere-ccm-reqs]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html
+[vsphere-csi-reqs]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-A1982536-F741-4614-A6F2-ADEE21AA4588.html
 [vsphere-csi-config]: https://vsphere-csi-driver.sigs.k8s.io/driver-deployment/installation.html#create-a-configuration-file-with-vsphere-credentials-
