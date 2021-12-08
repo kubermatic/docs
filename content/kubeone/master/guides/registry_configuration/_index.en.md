@@ -93,6 +93,20 @@ access.
 
 With this done, you can reconcile your cluster by running `kubeone apply`.
 
+## Known Issues
+
+Kubeadm uses different semantics for overriding the CoreDNS image registry.
+The image that will be used for CoreDNS depends on the Kubernetes version:
+
+* for 1.21 => `<your-registry>/coredns/coredns:<tag>` will be used as the
+  CoreDNS image
+* for all other release (including 1.22+) => `<your-registry>/coredns:<tag>`
+  will be used as the CoreDNS image
+
+The image loader script that comes with KubeOne 1.3.3 or newer has been fixed
+to specially address this case. If you're using a custom solution for
+preloading images, please make sure to handle this case as appropriate.
+
 ## Alternatives
 
 {{% notice warning %}}
