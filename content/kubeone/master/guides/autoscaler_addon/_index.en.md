@@ -11,7 +11,7 @@ Cluster Autoscaler is a Kubernetes component that automatically adjusts the size
 ## The Prerequisites
 
 Using the Kubernetes Cluster Autoscaler in the KubeOne cluster requires some prerequisites to be met, which are:
-* KubeOne 1.3.1 or newer is required
+* KubeOne 1.3.2 or newer is required
 * The worker nodes need to be managed by the Kubermatic machine-controller. Therefore, we recommend checking the [concepts][concepts] document to learn more about how Cluster-API and Kubermatic [machine-controller][machine-controller] work
 * A Kubernetes cluster running Kubernetes v1.19 or newer is required
 

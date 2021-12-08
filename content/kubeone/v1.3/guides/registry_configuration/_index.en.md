@@ -115,7 +115,7 @@ possible alternatives that should be used **ONLY** in the case when you are
 **NOT** able to use the approach described above.
 {{% /notice %}}
 
-{{% notice warning %}}
+{{% notice note %}}
 We plan on introducing a new registry mirrors functionality in KubeOne 1.4 as
 an alternative to the overwrite registry functionality. The new functionality
 will be able to override only specific registries such as `docker.io`.
