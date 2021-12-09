@@ -123,7 +123,7 @@ The easiest way to download KubeOne is to use our installation script.
 The following command will download and run the script:
 
 ```shell
-curl -sfL get.kubeone.io | sh
+curl -sfL https://get.kubeone.io | sh
 ```
 
 The script downloads the latest version of KubeOne from GitHub, and unpacks it
