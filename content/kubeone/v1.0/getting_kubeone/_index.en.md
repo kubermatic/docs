@@ -10,14 +10,14 @@ enableToc = true
 The fastest way to get KubeOne is to use our installation script:
 
 ```
-curl -sfL get.kubeone.io | sh
+curl -sfL https://get.kubeone.io | sh
 ```
 
 The installation script downloads the release archive from GitHub, installs
 the KubeOne binary in your `/usr/local/bin` directory and unpacks the example
 Terraform configs in your current working directory. If you want to inspect the
 script before running it, you can use a command such as
-`curl -sfL get.kubeone.io | less` or check it on [GitHub][github-script].
+`curl -sfL https://get.kubeone.io | less` or check it on [GitHub][github-script].
 
 ## Downloading a binary from GitHub Releases
 
