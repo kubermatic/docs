@@ -7,14 +7,11 @@ weight = 20
 
 Through KKP you can set up automatic scheduled etcd backups for your user clusters, and easily restore etcd to its previous state.
 
-Firstly, you need to enable and configure the backup bucket, endpoint and credentials. To see how, check [Backup Buckets Settings]({{< ref "../administration/admin_panel/backup_buckets" >}}) 
+Firstly, you need to enable and configure the destination(backup bucket, endpoint and credentials). To see how, check [Etcd Backup Destination Settings]({{< ref "../administration/admin_panel/backup_buckets" >}}) 
 
 ## Etcd Backups
 
-By default a new backup configuration resource is created in the cluster namespace for each user cluster once the controllers are enabled.
-The new backup configuration resource is created with a default of `@every 20m` interval and `20` backup retention.
-
-However, it's possible to create additional backup configuration if needed, simply by creating a backup configuration resource:
+When the etcd backups are configured for a seed, project admins can create automatic Etcd Backups for the project clusters. B
 
 ```yaml
 apiVersion: kubermatic.k8s.io/v1
@@ -29,11 +26,13 @@ spec:
     name: zvc78xnnz7
   schedule: '@every 20m'
   keep: 20
+  destination: s3
 ```
 
 Once created, the controller will start a new backup every time the schedule demands it (i.e. at 1:00 AM in the example),
 and delete backups once more than `.spec.keep` (20 in the example) have been created. The created backups are named based
-on the configuration name and the backup timestamp `$backupconfigname-$timestamp`.
+on the configuration name and the backup timestamp `$backupconfigname-$timestamp`. The backup is stored at the specified backup destination,
+which is configured per seed. 
 
 It is also possible to do one-time backups (snapshots).
 
@@ -46,9 +45,10 @@ EtcdBackups and Restores are project resources, and you can manage them in the P
 ![Etcd Backups View](/img/kubermatic/master/ui/etcd_backups.png?classes=shadow,border "Project Etcd Backups")
 
 To create a backup, just click on the `Add Automatic Backup` button. You have a choice of preset daily, weekly or monthly backups,
-or you can create a backup with a custom interval and keep time.
+or you can create a backup with a custom interval and keep time. The destination dropdown is based on the configured backup destinations
+for a given seed the cluster belongs to.
 
-![Etcd Backups Configuration](/img/kubermatic/master/ui/add_etcd_backup.png?classes=shadow,border "Etcd Backups Configuration")
+![Etcd Backups Configuration](/img/kubermatic/master/ui/add_backup.png?classes=shadow,border "Etcd Backups Configuration")
 
 To see what backups are available, click on a backup you are interested in, and you will see a list of completed backups.
 
@@ -65,7 +65,7 @@ If you want to restore from a specific backup, just click on the restore from ba
 You can also create one-time backup snapshots, they are set up similarly to the automatic ones, with the difference that they do not
 have a schedule or keep count set.
 
-![Etcd Backup Snapshots](/img/kubermatic/master/ui/backup_snapshots.png?classes=shadow,border "Etcd Backup Snapshots")
+![Etcd Backup Snapshots](/img/kubermatic/master/ui/add_backup_snapshot.png?classes=shadow,border "Etcd Backup Snapshots")
 
 ## Backup Restores
 
@@ -84,7 +84,7 @@ Meaning that they will still run, even though etcd(and K8s) is not aware of them
 
 This will create an EtcdRestore object for your cluster. You can observe the progress in the Restore list.
 
-![Etcd Restore List](/img/kubermatic/master/ui/restore_list.png?classes=shadow,border "Etcd Restore List")
+![Etcd Restore List](/img/kubermatic/master/ui/etcd_restores_list.png?classes=shadow,border "Etcd Restore List")
 
 In the cluster view, you may notice that your cluster is in a `Restoring` state, and you can not interact with it until it is done.
 
