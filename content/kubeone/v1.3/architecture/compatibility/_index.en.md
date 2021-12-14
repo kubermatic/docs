@@ -33,17 +33,15 @@ Kubernetes 1.18 or older must be upgraded with an older KubeOne release
 according to the table below.
 {{% /notice %}}
 
-| KubeOne version | 1.22  | 1.21  | 1.20  | 1.19\* | 1.18\*\* | 1.17\*\* |
+| KubeOne version | 1.22  | 1.21  | 1.20  | 1.19\* | 1.18\*   | 1.17\*   |
 | --------------- | ----- | ----- | ----- | ------ | -------- | -------- |
 | v1.3+           | ✓     | ✓     | ✓     | ✓      | -        | -        |
 | v1.2+           | -     | ✓     | ✓     | ✓      | ✓        | -        |
 | v1.0+           | -     | -     | -     | ✓      | ✓        | ✓        |
 
-\* Kubernetes 1.17 and 1.18 releases have reached End-of-Life (EOL). We
+\* Kubernetes 1.19, 1.18, and 1.17 releases have reached End-of-Life (EOL). We
 strongly recommend upgrading to a supported Kubernetes release as soon as
 possible.
-
-\*\* Kubernetes 1.19 is scheduled to reach End-of-Life (EOL) on October 2021.
 
 We recommend using a Kubernetes release that's not older than one minor release
 than the latest Kubernetes release. For example, with 1.22 being the latest
