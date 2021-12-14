@@ -8,7 +8,7 @@ weight = 110
 To enable KKP behind a proxy environment, the following targets need to be reachable.
 
 {{% notice note %}}
-If you use the [KKP offline mode]({{< ref "../../installation/offline_mode" >}}), images will get pulled from the defined private registry (e.g. `172.20.0.2:5000`) instead of the public registries. For more details see the [KKP offline mode]({{< ref "../../installation/offline_mode" >}}) section.
+If you use the [KKP offline mode]({{< ref "../../../installation/offline_mode" >}}), images will get pulled from the defined private registry (e.g. `172.20.0.2:5000`) instead of the public registries. For more details see the [KKP offline mode]({{< ref "../../../installation/offline_mode" >}}) section.
 {{% /notice %}}
 
 ## KKP Machine Controller

@@ -8,7 +8,7 @@ Using this wizard will provide you with a pre-configured setup of the KKP based 
 It is using a combination of various tools to handle all steps for you.
 
 Throughout this documentation, we are going to mention many Kubermatic Kubernetese Platform
-[concepts and terms]({{< ref "../../architecture/" >}}).
+[concepts and terms]({{< ref "../../../architecture/" >}}).
 
 ## Prerequisites
 

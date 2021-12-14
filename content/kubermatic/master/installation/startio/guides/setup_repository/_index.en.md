@@ -73,4 +73,4 @@ Congratulations, now it’s time to login to your KKP and create your first user
 ![KKP Login Page](kkp-login.png?width=700px&classes=shadow,border "KKP Login Page")
 ![KKP UI](kkp-ui.png?width=700px&classes=shadow,border "KKP UI")
 
-See the details about creating User Cluster in Kubermatic Kubernetes Platform [documentation]({{< ref "../../../tutorials_howtos/project_and_cluster_management/" >}}).
+See the details about creating User Cluster in Kubermatic Kubernetes Platform [documentation]({{< ref "../../../../tutorials_howtos/project_and_cluster_management/" >}}).

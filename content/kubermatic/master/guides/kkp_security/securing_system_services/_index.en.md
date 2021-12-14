@@ -145,7 +145,7 @@ watch kubectl -n iap get certificates
 
 To allow incoming traffic and to acquire a TLS certificate, DNS records must be in place. This can be either
 a single wildcard entry for all IAP deployments or individual records. Refer to the
-[installation instructions]({{< ref "../../installation/install_kkp_CE" >}}) for more information on
+[installation instructions]({{< ref "../../../installation/install_kkp_CE" >}}) for more information on
 what records to create.
 
 ### Alternative Authentication Provider
