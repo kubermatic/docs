@@ -28,22 +28,22 @@ In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
 {{% notice warning %}}
-KubeOne 1.3 supports only Kubernetes 1.19 and newer. Clusters running
-Kubernetes 1.18 or older must be upgraded with an older KubeOne release
+KubeOne 1.4 supports only Kubernetes 1.20 and newer. Clusters running
+Kubernetes 1.19 or older must be upgraded with an older KubeOne release
 according to the table below.
 {{% /notice %}}
 
-| KubeOne version | 1.22  | 1.21  | 1.20  | 1.19\* | 1.18\*\* | 1.17\*\* |
-| --------------- | ----- | ----- | ----- | ------ | -------- | -------- |
-| v1.3+           | ✓     | ✓     | ✓     | ✓      | -        | -        |
-| v1.2+           | -     | ✓     | ✓     | ✓      | ✓        | -        |
-| v1.0+           | -     | -     | -     | ✓      | ✓        | ✓        |
+| KubeOne version | 1.23  | 1.22  | 1.21  | 1.20\*  | 1.19\*\* |
+| --------------- | ----- | ----- | ----- | ------- | -------- |
+| v1.4+           | ✓     | ✓     | ✓     | ✓       | -        |
+| v1.3+           | -     | ✓     | ✓     | ✓       | ✓        |
+| v1.2+           | -     | -     | ✓     | ✓       | ✓        |
 
-\* Kubernetes 1.17 and 1.18 releases have reached End-of-Life (EOL). We
-strongly recommend upgrading to a supported Kubernetes release as soon as
-possible.
+\* Kubernetes 1.20 is scheduled to reach End-of-Life (EOL) on February 2021.
+Using a newer Kubernetes version is strongly recommended.
 
-\*\* Kubernetes 1.19 is scheduled to reach End-of-Life (EOL) on October 2021.
+\*\* Kubernetes 1.19 has reached End-of-Life (EOL). We strongly recommend
+upgrading to a supported Kubernetes release as soon as possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
 than the latest Kubernetes release. For example, with 1.22 being the latest
