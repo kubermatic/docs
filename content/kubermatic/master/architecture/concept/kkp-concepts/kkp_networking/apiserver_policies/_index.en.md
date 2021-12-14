@@ -28,7 +28,7 @@ In an already existing user cluster, the API Server Network Policies can be disa
  - manually delete all NetworkPolicy resources in the user cluster namespace of the seed cluster (see `kubectl get networkpolicy -n cluster-<cluster-id>`).
 
 ### In a Seed Cluster
-The API Server Network Policies can be disabled for all newly created user clusters on the Seed cluster level using the [Defaulting Cluster Template]({{< ref "../../../tutorials_howtos/project_and_cluster_management/cluster_defaulting" >}}) feature.
+The API Server Network Policies can be disabled for all newly created user clusters on the Seed cluster level using the [Defaulting Cluster Template]({{< ref "../../../../../tutorials_howtos/project_and_cluster_management/cluster_defaulting" >}}) feature.
 
 In the defaulting cluster template, set the `apiserverNetworkPolicy` feature gate to `false`, e.g.:
 

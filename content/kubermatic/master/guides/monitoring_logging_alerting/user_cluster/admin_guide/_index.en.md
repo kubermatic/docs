@@ -104,7 +104,7 @@ At this point, we can install the IAP Helm chart into the mla namespace, e.g. as
 helm --namespace mla upgrade --atomic --create-namespace --install iap charts/iap --values config/iap/values.yaml
 ```
 
-For more information about how to secure your services in KKP using IAP and Dex, please check [Securing System Services Documentation]({{< ref "../../../kkp_security/securing_system_services/">}}).
+For more information about how to secure your services in KKP using IAP and Dex, please check [Securing System Services Documentation]({{< ref "../../../../architecture/concept/kkp-concepts/kkp_security/securing_system_services/">}}).
 
 ## Setup
 
@@ -176,7 +176,7 @@ When these addons are deployed to user clusters, no further configuration of the
 the exposed metrics will be scraped by user cluster Prometheus and become available in Grafana automatically.
 
 Before addons can be deployed into KKP user clusters, the KKP installation has to be configured to enable them
-as [accessible addons]({{< relref "../../../addons/#accessible-addons" >}}). The `node-exporter` and `kube-state-metrics`
+as [accessible addons]({{< relref "../../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}). The `node-exporter` and `kube-state-metrics`
 addons are part of the KKP default accessible addons, so they should be available out-of-the box, unless the KKP installation
 administrator has changed it.
 

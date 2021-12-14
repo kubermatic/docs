@@ -152,7 +152,7 @@ spec:
 Refer to the [Seed CRD documentation]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}}) for a complete example of the
 Seed CustomResource and all possible datacenters.
 
-You can override the global [Expose Strategy]({{< ref "../../../guides/kkp_networking/expose_strategies">}}) at
+You can override the global [Expose Strategy]({{< ref "../../../architecture/concept/kkp-concepts/kkp_networking/expose_strategies">}}) at
 Seed level if you wish to.
 
 Apply the manifest above in the master cluster and KKP will pick up the new Seed and begin to
@@ -191,7 +191,7 @@ Output will be similar to this:
 
 ## Update DNS
 
-Depending on the chosen [Expose Strategy]({{< ref "../../../guides/kkp_networking/expose_strategies">}}), the control planes of all user clusters
+Depending on the chosen [Expose Strategy]({{< ref "../../../architecture/concept/kkp-concepts/kkp_networking/expose_strategies">}}), the control planes of all user clusters
 running in the Seed cluster will be exposed by the `nodeport-proxy` or using
 services of type `NodePort` directly.
 By default each user cluster gets a virtual domain name like
