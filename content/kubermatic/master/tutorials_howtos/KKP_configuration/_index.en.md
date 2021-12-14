@@ -1,7 +1,7 @@
 +++
 title = "Configuration"
 date = 2020-02-04T12:07:15+02:00
-weight = 20
+weight = 7
 
 +++
 

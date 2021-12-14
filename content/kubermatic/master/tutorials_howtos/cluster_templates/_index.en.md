@@ -1,7 +1,7 @@
 +++
 title = "Cluster templates"
 date = 2021-08-02T14:07:15+02:00
-weight = 1
+weight = 5
 
 +++
 

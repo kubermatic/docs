@@ -1,7 +1,7 @@
 +++
 title = "Setting up Alertmanager with Slack Notifications"
 date = 2021-08-06T11:58:00+02:00
-weight = 10
+weight = 20
 +++
 
 This tutorial will show you how to set up Alertmanager in KKP User Cluster MLA and receive alert notifications in your Slack workspace.
@@ -40,7 +40,7 @@ Make sure to copy that, and it will be used in the next step where we will confi
 After Slack Incoming Webhook is enabled, you will need to configure Alertmanager to send alerts to Slack for your KKP user cluster.
 
 Make sure that your cluster has User Cluster Logging and User Cluster Monitoring enabled (If you don’t know how to 
-do that, please refer to [Enabling Monitoring & Logging in User Cluster]({{< relref "../../../../guides/monitoring_logging_alerting/user_cluster/user_guide/#enabling-monitoring--logging-in-a-user-cluster" >}})  
+do that, please refer to [Enabling Monitoring & Logging in User Cluster]({{< relref "../user_guide/#enabling-monitoring--logging-in-a-user-cluster" >}})  
 for more details). Go to the cluster details page, and click the **Monitoring, Logging & Alerting** tab to add the following configuration:
 
 ```yaml
@@ -117,5 +117,5 @@ After those Rule Groups are created, you will be able to to receive alert notifi
 ![Slack Alerts](/img/kubermatic/master/monitoring/user_cluster/slack_alerts.png?height=300px&classes=shadow,border, "Slack Alert Notifications")
 
 That’s it! If you want to configure Alertmanager with more alerts receivers, please check [Prometheus Alertmanager Configuration](https://prometheus.io/docs/alerting/latest/configuration/),
-and if you want to create more useful alerting rules, please check [KKP User Cluster MLA Alerting & Recording Rules]({{< relref "../../../../guides/monitoring_logging_alerting/user_cluster/user_guide/#recording-rules--alerting-rules" >}}), [Prometheus Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/)
+and if you want to create more useful alerting rules, please check [KKP User Cluster MLA Alerting & Recording Rules]({{< relref "../user_guide/#recording-rules--alerting-rules" >}}), [Prometheus Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/)
 and [Awesome Prometheus Alerts](https://awesome-prometheus-alerts.grep.to/).

@@ -1,7 +1,7 @@
 +++
 title = "Deploy your application"
 date = 2020-02-21T12:07:15+02:00
-weight = 110
+weight = 17
 +++
 
 This tutorial demonstrates how to deploy your application to your cluster. We will deploy a hello world application to your cluster that responds with "Hello Kubernetes!" when you curl it.

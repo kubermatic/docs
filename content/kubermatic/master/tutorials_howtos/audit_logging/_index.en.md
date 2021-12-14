@@ -2,7 +2,7 @@
 +++
 title = "Audit Logging"
 date = 2021-11-08T12:00:00+02:00
-weight = 130
+weight = 19
 +++
 
 Audit Logging is one of the key security features provided by Kubernetes. Once enabled in the Kubernetes API server, it provides a chronological record of operations performed on the cluster by users, administrators and other cluster components.
