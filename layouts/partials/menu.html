@@ -5,9 +5,6 @@
   {{ $products := $.Site.Data.products }}
   {{ $product := index $products $productSection}}
   <div id="header-wrapper">
-    <div id="header">
-      {{ partial "logo.html" . }}
-    </div>
     {{ with sort $products ".weight" }}
     <div class="products-toogle">
       <div class="products-toogle-select">
@@ -85,7 +82,7 @@
     {{ if .IsSection }}
       {{ safeHTML .Params.head }}
       <li data-nav-id="{{ .RelPermalink }}" title="{{ .Title }}" class="dd-item
-        {{ if .IsAncestor $currentNode  }}parent{{ end }}
+        {{ if .IsAncestor $currentNode }}parent{{ end }}
         {{ with .File }}{{ $f := . }}{{ with $currentNode.File }}{{ if eq $f.UniqueID .UniqueID }}active{{ end }}{{ end }}{{ end }}
         {{ if .Params.alwaysopen }}parent{{ end }}
         ">
@@ -98,6 +95,7 @@
 
         {{ $numberOfPages := (add (len .Pages) (len .Sections)) }}
         {{ if ne $numberOfPages 0 }}
+        <span class="menu-arrow"></span>
         <ul>
           {{ $currentNode.Scratch.Set "pages" .Pages }}
           {{ if .Sections}}

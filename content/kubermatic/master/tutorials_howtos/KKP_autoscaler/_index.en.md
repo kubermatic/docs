@@ -2,7 +2,7 @@
 +++
 title = "Kubermatic Kubernetes Platform (KKP) Cluster Autoscaler"
 date = 2021-08-05T14:07:10+02:00
-weight = 21
+weight = 8
 +++
 
 This section deals with the usage of Kubernetes Cluster Autoscaler in the KKP Cluster. 

@@ -90,7 +90,7 @@ pre {
 b, strong, label, th {
     font-weight: 600;
 }
-.default-animation, #header #logo-svg, #header #logo-svg path, #sidebar, #sidebar ul, #body, #body .padding, #body .nav {
+.default-animation, #sidebar, #sidebar ul, #body, #body .padding, #body .nav {
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     transition: all 0.5s ease;
@@ -123,17 +123,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     background: #8451a1;
     color: #fff;
     text-align: center;
-    padding: 1rem 1.25rem 1.25rem;
-}
-#header a {
-    display: inline-block;
-}
-#header #logo-svg {
-    width: 8rem;
-    height: 2rem;
-}
-#header #logo-svg path {
-    fill: #fff;
+    padding: 0.5rem 1.25rem 1.25rem;
 }
 .searchbox {
     margin-top: 1rem;
@@ -266,7 +256,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 }
 #sidebar ul.topics {
     padding-left: 0.625rem;
-    margin: 0 1.25rem;
+    margin: 0 0 0 1.25rem;
 }
 #sidebar ul.topics.searched ul {
     display: block;
@@ -278,10 +268,12 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 #sidebar ul.topics ul ul {
     padding-bottom: 0;
 }
-#sidebar ul.topics li.parent ul, #sidebar ul.topics > li.active ul {
+#sidebar ul.topics li.parent > ul {
     display: block;
 }
 #sidebar ul.topics > li > a {
+    padding-right: 1.875rem;
+    margin-right: 1.25rem;
     font-size: 1.125rem;
     line-height: 2;
 }
@@ -296,6 +288,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     color: #777;
 }
 #sidebar ul li {
+    position: relative;
     padding: 0;
 }
 #sidebar ul li.visited + span {
@@ -317,9 +310,6 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 #sidebar ul li.visited > a .read-icon {
     color: #9c6fb6;
     display: inline;
-}
-#sidebar ul li li {
-    text-indent: 0.2rem;
 }
 #main {
     background: #f7f7f7;

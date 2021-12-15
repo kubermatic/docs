@@ -1,14 +1,14 @@
 +++
 title = "Cluster templates"
 date = 2021-08-02T14:07:15+02:00
-weight = 20
+weight = 5
 
 +++
 
 This section describes the usage of cluster templates in the KKP.
 
 Cluster templates are designed to standardize and simplify the creation of Kubernetes clusters. A cluster template is a
-reusable cluster template object. The more details about cluster template you can find here: [cluster template guide]({{< ref "../../guides/cluster_templates" >}})
+reusable cluster template object. The more details about cluster template you can find here: [cluster template guide]({{< ref "../../architecture/concept/kkp-concepts/cluster_templates" >}})
 
 ## Create cluster template
 

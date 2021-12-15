@@ -1,7 +1,7 @@
 +++
 title = "Automatic Etcd Backups and Restore"
 date = 2021-09-16T12:07:15+02:00
-weight = 20
+weight = 3
 
 +++
 
