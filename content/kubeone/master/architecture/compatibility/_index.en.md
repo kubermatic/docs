@@ -64,15 +64,13 @@ The following operating systems are supported:
 * Ubuntu 20.04 (Focal)
 * CentOS 7
 * CentOS 8
-* RHEL 8.0, 8.1, 8.2\*
+* RHEL 8.0, 8.1, 8.2, 8.3\*, 8.4\*
 * Flatcar
 * Amazon Linux 2
 
-\* RHEL 8.3 and newer versions are currently not supported due to some issues
-with networking (CNI). See [issue 1573][rhel-issue-1573] for more details.
+\* RHEL 8.3 and 8.4 are supported only with KubeOne 1.3.3 and newer.
 
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
 [kubernetes-issue-93194]: https://github.com/kubernetes/kubernetes/issues/93194
 [terraform-configs]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [aws-versions-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/versions.tf
-[rhel-issue-1573]: https://github.com/kubermatic/kubeone/issues/1573
