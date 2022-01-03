@@ -31,3 +31,12 @@ Please note that the vendors of the software or the cloud provider may change fu
 
 
 See detail pages for specific requirements of the cloud providers.
+
+### Periodic Reconciliation of Infrastructure
+
+Some cloud providers supported by the Kubermatic Kubernetes Platform support periodic reconciliation of cloud infrastructure resources created by KKP (for example, subnets or firewall/security group rules). KKP uses a timestamp in `LastProviderReconciliation` on the cluster status to trigger a reconciliation after the cluster was set up initially. This defaults to six hours and can be changed on a datacenter level by setting `ProviderReconciliationInterval`.
+
+Currently, KKP periodicially reconciles the following providers:
+
+* AWS
+* Azure
