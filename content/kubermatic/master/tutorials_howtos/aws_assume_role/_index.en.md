@@ -5,8 +5,9 @@ weight = 16
 
 +++
 
-AWS provides a feature called [AssumeRole][aws-docs-assume-role] to retrieve temporary security credentials (access key ID, secret access key and session ID) for AWS resources and actions that you do not have regular access to (e. g. accessing and creating resources in the AWS account of a customer).
-Using KKP you are able to use the `AssumeRole` feature to run user clusters in someone elses AWS account.
+AWS provides a feature called [AssumeRole][aws-docs-assume-role] to retrieve temporary security credentials for IAM roles.
+The IAM roles can belong to someone elses AWS account, allowing you to act on their behalf.
+Using KKP you are able to use the `AssumeRole` feature to easily deploy user clusters to AWS accounts that you normally do not have access to.
 
 ## How it works
 
@@ -14,7 +15,7 @@ Using KKP you are able to use the `AssumeRole` feature to run user clusters in s
 
 ## Benefits
   * Privilege escalation
-    - Get access to someones elses AWS account to run user clusters on their behalf
+    - Get access to someones elses AWS account (e.g. a customer) to run user clusters on their behalf
     - While not described here, it is also possible to assume a role belonging to the same AWS account to escalate your privileges inside of your account
   * Billing: All user cluster resources will be billed to **AWS account B** (the "external" account)
   * Control: The owner of **AWS account B** (e.g. the customer) has control over all resources created in his account
