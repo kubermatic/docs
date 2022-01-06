@@ -140,7 +140,7 @@ spec:
   location: Hamburg
 
   # list of datacenters where this seed cluster is allowed to create clusters in
-  datacenters: []
+  datacenters: {}
 
   # reference to the kubeconfig to use when connecting to this seed cluster
   kubeconfig:
