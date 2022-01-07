@@ -1,5 +1,6 @@
 +++
-title = "Architecture"
+title = "KubeOne Architecture | Kubermatic Documentation"
+Meta Description = "The diagram shows the KubeOne’s architecture, including what tasks should be done by the user, what tasks are done by KubeOne and in which particular order."
 date = 2021-02-10T09:00:00+02:00
 weight = 1
 enableToc = true
