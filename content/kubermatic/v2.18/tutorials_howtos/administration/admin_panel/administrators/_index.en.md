@@ -6,7 +6,7 @@ weight = 20
 
 ![Administrators](/img/kubermatic/v2.18/ui/admins.png?classes=shadow,border "Administrators View")
 
-Administrators view on the bottom of the Admin Panel allows adding and deleting administrator rights to the users.
+Administrators view in the Admin Panel allows adding and deleting administrator rights to the users.
 
 - ### [Adding Administrators](#adding-administrators)
 - ### [Deleting Administrators](#deleting-administrators)
