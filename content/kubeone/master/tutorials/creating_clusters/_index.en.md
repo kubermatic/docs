@@ -54,10 +54,10 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, OpenStack, Packet, and VMware vSphere), and we will use it in
-this tutorial. If your provider is not supported (e.g. bare-metal), you can
-check the [KubeOne Static Workers][static-workers] feature for more information
-about the second approach.
+Hetzner Cloud, Nutanix, OpenStack, Packet, and VMware vSphere), and we will use
+it in this tutorial. If your provider is not supported (e.g. bare-metal), you
+can check the [KubeOne Static Workers][static-workers] feature for more
+information about the second approach.
 
 The example Terraform configs that we'll be using satisfy all infrastructure
 requirements out of the box. However, if you're planning on customizing configs
@@ -286,6 +286,31 @@ Manager.
 | Environment Variable | Description                  |
 | -------------------- | ---------------------------- |
 | `HCLOUD_TOKEN`       | The Hetzner API Access Token |
+
+#
+
+{{% /tab %}}
+{{% tab name="Nutanix" %}}
+The following environment variables are needed by Terraform for creating the
+infrastructure and for machine-controller to create the worker nodes.
+
+| Environment Variable  | Description                  |
+| --------------------- | ---------------------------- |
+| `NUTANIX_ENDPOINT`    | The Nutanix API (Prism Central) endpoint |
+| `NUTANIX_PORT`        | The Nutanix API (Prism Central) port |
+| `NUTANIX_USERNAME`    | The username of the Nutanix user |
+| `NUTANIX_PASSWORD`    | The password of the Nutanix user |
+| `NUTANIX_PE_ENDPOINT` | The Nutanix Prism Element endpoint (required by CSI driver) |
+| `NUTANIX_PE_USERNAME` | The username of the Prism Element user (might be different than the Prism Central user) |
+| `NUTANIX_PE_PASSWORD` | The password of the Prism Element user (might be different than the Prism Central user) |
+
+Besides that, the following environment variables are available, but optional.
+
+| Environment Variable   | Description                  |
+| ---------------------- | ---------------------------- |
+| `NUTANIX_INSECURE`     | Allow insecure access to the Nutanix API (default `false`) |
+| `NUTANIX_PROXY_URL`    | The URL of the proxy to the Nutanix API |
+| `NUTANIX_CLUSTER_NAME` | The name of the Nutanix cluster (used by machine-controller if not specified in the MachineDeployment) |
 
 #
 
@@ -586,6 +611,31 @@ versions:
 cloudProvider:
   hetzner: {}
   external: true
+```
+{{% /tab %}}
+{{% tab name="Nutanix" %}}
+The `addons` section instruction KubeOne to deploy the CSI driver, the volume
+snapshots controller, and the default StorageClass object. It's optional and
+you can remove it if you don't want the CSI driver and/or the default
+StorageClass. If you keep the `default-storage-class` addon, make sure to
+replace the placeholder values.
+
+```yaml
+apiVersion: kubeone.k8c.io/v1beta2
+kind: KubeOneCluster
+versions:
+  kubernetes: 1.21.8
+cloudProvider:
+  nutanix: {}
+addons:
+  enable: true
+  addons:
+  - name: "csi-nutanix"
+  - name: "default-storage-class"
+    params:
+      storageContainer: "<storage-container-name>" # Default: Default
+      fsType: "<>" # Default: xfs
+      isSegmentedIscsiNetwork: "<true-or-false>" # Default: false
 ```
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
