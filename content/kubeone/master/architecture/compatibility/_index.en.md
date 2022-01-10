@@ -15,8 +15,10 @@ providers have support for additional features and are frequently tested with
 the current KubeOne version. The additional features include the KubeOne
 Terraform integration and the integration with Kubermatic machine-controller.
 
-KubeOne supports AWS, Azure, DigitalOcean, GCP, Hetzner Cloud,
+KubeOne supports AWS, Azure, DigitalOcean, GCP, Hetzner Cloud, Nutanix\*,
 OpenStack, Packet, and VMware vSphere.
+
+\* Nutanix is supported as of KubeOne 1.4.0.
 
 ## Supported Kubernetes Versions
 
