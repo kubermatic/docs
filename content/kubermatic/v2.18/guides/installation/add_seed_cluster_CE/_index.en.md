@@ -89,7 +89,7 @@ Please execute:
 
 ```bash
 # change into kkp installer directory
-kubectl apply -f charts/kubermatic/crd/
+kubectl apply -f charts/kubermatic-operator/crd/
 ```
 
 ## Add the Seed Resource
