@@ -6,7 +6,7 @@ weight = 20
 
 ![Dynamic Datacenters](/img/kubermatic/master/ui/dc.png?classes=shadow,border "Dynamic Datacenters View")
 
-Dynamic Datacenters view on the bottom of the Admin Panel allows Administrators to control the datacenters available
+Dynamic Datacenters view in the Admin Panel allows Administrators to control the datacenters available
 in KKP. The most important capabilities that this view provides are listing, filtering, creating, editing and deleting
 datacenters. All of these will be described below.
 
