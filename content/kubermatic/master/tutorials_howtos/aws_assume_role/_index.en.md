@@ -1,7 +1,7 @@
 +++
-title = "How To run Clusters on AWS using assumed roles"
+title = "Deploy with AWS AssumeRole"
 date = 2022-01-04T10:23:15+02:00
-weight = 16
+weight = 19
 
 +++
 
@@ -11,7 +11,7 @@ Using KKP you are able to use the `AssumeRole` feature to easily deploy user clu
 
 ## How it works
 
-![How to run user clusters on AWS using assumed roles](/img/kubermatic/master/tutorials/aws_assume_role_sequence_diagram.png?width=1000&classes=shadow,border "How to run user clusters on AWS using assumed roles")
+![Running user clusters using an assumed IAM role](/img/kubermatic/master/tutorials/aws_assume_role_sequence_diagram.png?width=1000&classes=shadow,border "Running user clusters using an assumed IAM role")
 
 ## Benefits
   * Privilege escalation
