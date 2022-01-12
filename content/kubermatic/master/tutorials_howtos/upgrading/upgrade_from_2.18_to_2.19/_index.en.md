@@ -1,7 +1,7 @@
 +++
 title = "Upgrading from 2.18 to 2.19"
 date = 2021-01-07T08:00:39+02:00
-weight = 105
+weight = 110
 +++
 
 ## Helm chart changes
