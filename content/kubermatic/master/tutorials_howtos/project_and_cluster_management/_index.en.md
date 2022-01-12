@@ -54,10 +54,17 @@ Choose the cloud provider and the datacenter:
 
 ![Menu to choose Cloud Provider](/img/kubermatic/master/tutorials/wizard_step_1.png?classes=shadow,border "Menu to choose Cloud Provider")
 
-Enter a name for your cluster and click Next. Here you can also activate [Audit Logging](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) and [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/), assign labels and SSH keys to your cluster, and choose a Kubernetes version.
+Enter a name for your cluster and optionally adapt other settings, such as:
+
+- choose a Kubernetes version and container runtime,
+- assign labels and SSH keys to your cluster,
+- adapt [CNI and Cluster Network Configuration]({{< ref "../../tutorials_howtos/networking/cni_cluster_network/" >}}),
+- activate additional features, such as [Audit Logging](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/), [OPA Integration]({{< ref "../../tutorials_howtos/opa_integration/" >}}), [User Cluster Monitoring, Logging and Alerting]({{< ref "../../tutorials_howtos/monitoring_logging_alerting/user_cluster/" >}}), etc.
+
+When done, click Next to continue to the next step.
 
 **Note:**
-Disabling the User SSH Key Agent at this point can not be reverted after the cluster creation, which means that ssh key management after creation for this cluster will have to be done manually. More info in [`User SSH Key Agent`]({{< ref "../../tutorials_howtos/administration/user_settings/user_ssh_key_agent/_index.en.md" >}}) 
+Disabling the User SSH Key Agent at this point can not be reverted after the cluster creation, which means that ssh key management after creation for this cluster will have to be done manually. More info in [`User SSH Key Agent`]({{< ref "../../tutorials_howtos/administration/user_settings/user_ssh_key_agent/_index.en.md" >}})
 
 ![General Cluster Settings](/img/kubermatic/master/tutorials/wizard_step_2.png?classes=shadow,border "General Cluster Settings")
 

@@ -73,7 +73,7 @@ The key items to configure are:
   yet another random secret to encrypt cookies stored in the users' browsers.
 
   * The expose strategy, that is the strategy used to expose the control plane
-  components to the worker nodes (see the [expose strategy]({{< ref "../../architecture/concept/kkp-concepts/kkp_networking/expose_strategies">}}))
+  components to the worker nodes (see the [expose strategy]({{< ref "../../tutorials_howtos/networking/expose_strategies">}}))
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
 mentioned above can be generated using any password generator or on the shell using
