@@ -47,7 +47,6 @@ Actions required (using the installer):
         nginx:
           # your values
 
-
         # now
         nginx:
           controller:
