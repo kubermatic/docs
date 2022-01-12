@@ -1,14 +1,14 @@
 +++
 title = "Upgrading from 2.18 to 2.19"
 date = 2021-01-07T08:00:39+02:00
-weight = 105
+weight = 110
 +++
 
 ## Helm chart changes
 
 With KKP release 2.19, we're moving to use upstream Helm charts for some of the components. The following list describes the changes to the components and required actions to perform an upgrade.
 
-Note: the upstream charts will be downloaded during the deployment process when using the installer. If you're installing manually, the dependencies have to be downloaded separately for each of the charts mentioned below using command `helm dependency build <chart_location>`
+Note: The upstream charts will be downloaded during the deployment process when using the installer. Make sure to unpack the installer into a fresh location. If chart files from different installers get mixed up, the upgrade can lead to unexpected results. If you're installing manually, the dependencies have to be downloaded separately for each of the charts mentioned below using command `helm dependency build <chart_location>`
 
 ### cert-manager
 
@@ -19,14 +19,12 @@ The new version of the chart does not configure `clusterIssuers` for the cluster
 Actions required (using the installer):
 
 1. Entries for cert-manager in `values.yaml` should now be placed under `cert-manager` key instead of `certManager`, e.g.
-   ```
+   ```yaml
    # before
-
    certManager:
      tolerations: {}
 
    # now
-
    cert-manager:
      tolerations: {}
    ```
@@ -44,9 +42,19 @@ Actions required (using the installer):
 
 1.  The following changes have to be made in the `values.yaml`:
     * entire nginx-ingresss-controller configuration is moved to a subkey in values file: `nginx.controller` - refer to [examples in upstream's values.yaml](https://github.com/kubernetes/ingress-nginx/blob/helm-chart-4.0.9/charts/ingress-nginx/values.yaml)
+      ```yaml
+        # before
+        nginx:
+          # your values
+
+        # now
+        nginx:
+          controller:
+            # your values
+      ```
     * the option to run as a daemonset (`nginx.asDaemonSet`) is removed - use `nginx.controller.kind` instead
     * the option to schedule on master nodes removed (`nginx.ignoreMasterTaint`) and a way to reconfigure it has been added to the `values.yaml` file
-2. `--migrate-upstream-nginx` flag has to be added for the installer to perform the migration.
+2. `--migrate-upstream-nginx-ingress` flag has to be added for the installer to perform the migration.
 
 Actions required (manual installation):
 1.  The following changes have to be made in the `values.yaml`:
