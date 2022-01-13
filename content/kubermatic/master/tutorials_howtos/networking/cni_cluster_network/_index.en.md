@@ -32,7 +32,7 @@ The desired CNI type and version can be selected at the cluster creation time - 
 
 ![Cluster Settings - Network Configuration](/img/kubermatic/master/tutorials/networking/ui_cluster_cni.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
-Available CNI versions depend on the KKP version. Note that CNI type cannot be changed after cluster creation.
+Available CNI versions depend on the KKP version. Note that CNI type cannot be changed after cluster creation, but [manual CNI migration]({{< relref "../cni_migration/" >}}) is possible when necessary.
 
 ### Canal CNI
 
@@ -80,7 +80,7 @@ Once a newer version is selected, the CNI upgrade in the user cluster can be tri
 
 Generally, only one minor version difference is allowed for each CNI upgrade. There are two exceptions to this rule:
 
-- If the cluster is labeled with the `unsafe-cni-upgrade` label, any CNI version change is allowed. In this case, users are fully responsible for the consequences that this upgrade may cause and KKP is not putting any guarantees on the upgrade process.
+- If the cluster is labeled with the `unsafe-cni-upgrade` label (e.g. `unsafe-cni-upgrade: "true"`), any CNI version change is allowed. In this case, users are fully responsible for the consequences that this upgrade may cause and KKP is not putting any guarantees on the upgrade process.
 - When upgrading from an already deprecated version, the upgrade is allowed to any higher version. Please double-check that everything is working fine in the user cluster after such upgrade. Also please note that it is not a good practice to keep the clusters on an old CNI version and try to upgrade as soon as new CNI version is available next time.
 
 #### Forced CNI Upgrade
@@ -95,7 +95,7 @@ Again, please note that it is not a good practice to keep the clusters on an old
 
 ## Konnectivity
 
-Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. It based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it will be replaced with Konnectivity in future KKP releases.
+Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it will be replaced with Konnectivity in future KKP releases.
 
 To enable Konnectivity for control plane to worker nodes communication, the feature first has to be enabled in `KubermaticConfiguration` by enabling the `KonnectivityService` feature gate, e.g.:
 

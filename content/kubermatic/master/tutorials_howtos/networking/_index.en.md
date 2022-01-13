@@ -11,3 +11,4 @@ This section provides guides on networking in KKP:
 - [**Control Plane Expose Strategy**]({{< relref "./expose_strategies/" >}})
 - [**Proxy Whitelisting**]({{< relref "./proxy_whitelisting/" >}})
 - [**API Server Network Policies**]({{< relref "./apiserver_policies/" >}})
+- [**Manual CNI Migration**]({{< relref "./cni_migration/" >}})
