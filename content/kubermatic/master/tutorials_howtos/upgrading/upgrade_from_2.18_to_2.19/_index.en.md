@@ -54,6 +54,7 @@ Actions required (using the installer):
       ```
     * the option to run as a daemonset (`nginx.asDaemonSet`) is removed - use `nginx.controller.kind` instead
     * the option to schedule on master nodes removed (`nginx.ignoreMasterTaint`) and a way to reconfigure it has been added to the `values.yaml` file
+2. After the installation, any Ingress objects which were previously using `ingress.kubernetes.io/*` family of annotations should have them replaced with `nginx.ingress.kubernetes.io/*`, as specified in the [documentation](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) of the ingress. This change is made to simplify usage of the Ingress resources customization when using the upstream documentation as reference.
 2. `--migrate-upstream-nginx-ingress` flag has to be added for the installer to perform the migration.
 
 Actions required (manual installation):
@@ -61,7 +62,8 @@ Actions required (manual installation):
     * entire nginx-ingresss-controller configuration is moved to a subkey in values file: `nginx.controller` - refer to [examples in upstream's values.yaml](https://github.com/kubernetes/ingress-nginx/blob/helm-chart-4.0.9/charts/ingress-nginx/values.yaml)
     * the option to run as a daemonset (`nginx.asDaemonSet`) is removed - use `nginx.controller.kind` instead
     * the option to schedule on master nodes removed (`nginx.ignoreMasterTaint`) and a way to reconfigure it has been added to the `values.yaml` file
-2. The recommended way is to remove the old chart deployment before upgrading to new version. Removing the `ingress-nginx-controller` deployment is required for the upgrade to proceed.
+2. After the installation, any Ingress objects which were previously using `ingress.kubernetes.io/*` family of annotations should have them replaced with `nginx.ingress.kubernetes.io/*`, as specified in the [documentation](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) of the ingress. This change is made to simplify usage of the Ingress resources customization when using the upstream documentation as reference.
+3. The recommended way is to remove the old chart deployment before upgrading to new version. Removing the `ingress-nginx-controller` deployment is required for the upgrade to proceed.
 
 ### logging/loki
 
