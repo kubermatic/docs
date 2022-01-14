@@ -5,6 +5,12 @@ weight = 4
 enableToc = true
 +++
 
+{{% notice warning %}}
+**Support for Amazon EKS-D clusters will be completely removed in KubeOne 1.4!
+We strongly recommend using vanilla/upstream Kubernetes instead, as described
+in the [Creating a Kubernetes cluster tutorial]({{< ref "../creating_clusters" >}}).**
+{{% /notice %}}
+
 [Amazon EKS Distro (EKS-D)][eks-d-intro] is a Kubernetes distribution based on
 and used by Amazon EKS. Amazon EKS Distro enables operators to create reliable
 and secure Kubernetes clusters using the same versions of Kubernetes and its
@@ -20,20 +26,8 @@ Terraform configs, and finally, provisioning a cluster using KubeOne. As a
 result, you'll get a production-ready and Kubernetes/CNCF conformant cluster,
 running Amazon EKS-D distro on AWS.
 
-{{% notice note %}}
-The Amazon EKS-D is currently only supported on AWS with Amazon Linux 2.
-We're working on expanding the cloud provider and operating systems support for
-EKS-D. In meanwhile, you can follow the [issue #1201][k1-issue-1201] for more details.
-
-[k1-issue-1201]: https://github.com/kubermatic/kubeone/issues/1201
-{{% /notice %}}
-
 {{% notice warning %}}
-Currently it's not possible to upgrade EKS-D clusters from 1.18 to 1.19. We're
-investigating the root cause of the issue and we hope to fix it in the future.
-For more information, check out the [issue 1284][k1-issue-1284].
-
-[k1-issue-1284]: https://github.com/kubermatic/kubeone/issues/1284
+It's not possible to upgrade EKS-D clusters from 1.18 to 1.19.
 {{% /notice %}}
 
 We also have a recorded demo that covers all the steps of this tutorial:
@@ -477,7 +471,7 @@ INFO[11:48:07 CEST] Creating worker machines…
 At this point, your cluster is provisioned and ready to be used! In the next
 step, we'll configure `kubectl` to access our newly-created cluster.
 
-## Step 6 — Configuring The Cluster Access
+## Step 7 — Configuring The Cluster Access
 
 KubeOne automatically downloads the Kubeconfig file for the cluster. It's named
 as **\<cluster_name>-kubeconfig**, where **\<cluster_name>** is the name
