@@ -115,7 +115,7 @@ you're not required to keep to them.
 ```shell
 ...
 Kubermatic KubeOne has been installed into /usr/local/bin/kubeone
-Terraform example configs, addons, and helper scripts have been downloaded into the ./kubeone_1.2.0-beta.1_linux_amd64 directory
+Terraform example configs, addons, and helper scripts have been downloaded into the ./kubeone_1.4.0_linux_amd64 directory
 ```
 
 You can confirm that KubeOne has been installed successfully by running the
@@ -139,13 +139,13 @@ KubeOne requires Terraform 1.0 or newer. You can download it from the
 browser, or use `cURL` such as:
 
 ```shell
-curl -LO https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip
+curl -LO https://releases.hashicorp.com/terraform/1.1.3/terraform_1.1.3_linux_amd64.zip
 ```
 
 Once you download the archive, unzip it:
 
 ```shell
-unzip terraform_1.0.0_linux_amd64.zip
+unzip terraform_1.1.3_linux_amd64.zip
 ```
 
 Finally, move the unpacked `terraform` binary to somewhere in your `PATH`.
@@ -385,7 +385,7 @@ created while installing KubeOne in the Step 1. For example (the directory
 name depends on the latest KubeOne version):
 
 ```shell
-cd ./kubeone_1.2.0-beta.1_linux_amd64/examples/terraform
+cd ./kubeone_1.4.0_linux_amd64/examples/terraform
 ```
 
 In this directory, you can find a subdirectory for each supported provider.
@@ -555,10 +555,10 @@ supported provider.
 {{< tabs name="Manifests" >}}
 {{% tab name="AWS" %}}
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.20.4'
+  kubernetes: '1.22.5'
 cloudProvider:
   aws: {}
 ```
@@ -595,10 +595,10 @@ Please check the [Production Recommendations]({{< ref "../../cheat_sheets/produc
 document for more details.
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.20.4'
+  kubernetes: '1.22.5'
 cloudProvider:
   azure: {}
   cloudConfig: |
@@ -627,10 +627,10 @@ The CCM provides additional cluster features, such as LoadBalancer Services,
 and fetches information about nodes from the API.
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.20.4'
+  kubernetes: '1.22.5'
 cloudProvider:
   digitalocean: {}
   external: true
@@ -642,10 +642,10 @@ nodes are across multiple availability zones. We deploy control plane hosts
 in multiple AZs by default in our example Terraform configs.
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.20.4'
+  kubernetes: '1.22.5'
 cloudProvider:
   gce: {}
   cloudConfig: |
@@ -669,10 +669,10 @@ used.
 The Hetzner CCM fetches information about nodes from the API.
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.20.4'
+  kubernetes: '1.22.5'
 cloudProvider:
   hetzner: {}
   external: true
@@ -689,7 +689,7 @@ replace the placeholder values.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.21.8
+  kubernetes: '1.22.5'
 cloudProvider:
   nutanix: {}
 addons:
@@ -708,10 +708,10 @@ addons:
 cloud-config section.**
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.20.4'
+  kubernetes: '1.22.5'
 cloudProvider:
   openstack: {}
   cloudConfig: |
@@ -735,11 +735,11 @@ The Packet CCM fetches information about nodes from the API.
 colliding with the Packet private network which is `10.0.0.0/8`.**
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: "1.20.4"
+  kubernetes: "1.22.5"
 
 cloudProvider:
   packet: {}
@@ -756,10 +756,10 @@ cloud-config section. The `vsphere-ccm-credentials` Secret is created
 automatically by KubeOne as of v1.0.4.**
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.20.4'
+  kubernetes: '1.22.5'
 cloudProvider:
   vsphere: {}
   cloudConfig: |
@@ -793,13 +793,17 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne version | 1.21       | 1.20       | 1.19 | 1.18 | 1.17 |
-| --------------- | ---------- | ---------- | ---- | ---- | ---- |
-| v1.2+           | ✓ | ✓ | ✓    | ✓    | -   |
-| v1.0+           | - | - | ✓    | ✓    | ✓\*\*   |
+| KubeOne version | 1.23  | 1.22  | 1.21  | 1.20\*  | 1.19\*\* |
+| --------------- | ----- | ----- | ----- | ------- | -------- |
+| v1.4+           | ✓     | ✓     | ✓     | ✓       | -        |
+| v1.3+           | -     | ✓     | ✓     | ✓       | ✓        |
+| v1.2+           | -     | -     | ✓     | ✓       | ✓        |
 
-\*\* Kubernetes 1.17 has reached End-of-Life (EOL) and is not recommended
-for new clusters
+\* Kubernetes 1.20 is scheduled to reach End-of-Life (EOL) on February 2021.
+Using a newer Kubernetes version is strongly recommended.
+
+\*\* Kubernetes 1.19 has already reached End-of-Life (EOL) and is not
+recommended for newly-created clusters.
 
 Now, we're ready to provision the cluster! This is done by running the
 `kubeone apply` command and providing it the configuration manifest and the

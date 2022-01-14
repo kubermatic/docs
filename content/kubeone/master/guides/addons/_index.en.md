@@ -62,10 +62,10 @@ To enable addons, you need to modify the KubeOne cluster configuration to add
 the `addons` config:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.20.1
+  kubernetes: 1.22.5
 cloudProvider:
   aws: {}
 # Addons are Kubernetes manifests to be deployed after provisioning the cluster
@@ -108,23 +108,16 @@ like:
 
 To activate the embedded addons, the user needs to use the new [Addons API][addons-api].
 
-{{% notice warning %}}
-The addons directory must exist even if you plan to only use embedded addons
-without providing your custom addons. This is a known bug and can be tracked on
-[GitHub](https://github.com/kubermatic/kubeone/issues/1496).
-{{% /notice %}}
-
 Example:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.20.1
+  kubernetes: 1.22.5
 
 addons:
   enable: true
-  path: "./addons"
   addons:
   - name: cluster-autoscaler
   - name: unattended-upgrades
@@ -150,10 +143,10 @@ To delete embedded addon from the cluster, use the new `delete` field from the
 [Addons API][addons-api].
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.20.1
+  kubernetes: 1.22.5
 
 addons:
   enable: true
@@ -185,10 +178,10 @@ you can use it to override globally defined parameters.
 {{% /notice %}}
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.20.1
+  kubernetes: 1.22.5
 
 addons:
   enable: true
@@ -247,7 +240,7 @@ the [`addons`][addons] directory.
 [sprig-docs]: http://masterminds.github.io/sprig/
 [sprig-b64enc]: http://masterminds.github.io/sprig/encoding.html
 [addons]: https://github.com/kubermatic/kubeone/tree/master/addons
-[addons-api]: {{< ref "../../references/kubeone_cluster_v1beta1/#addons" >}}
+[addons-api]: {{< ref "../../references/kubeone_cluster_v1beta2/#addons" >}}
 [embed-docs]: https://pkg.go.dev/embed
 [addons-list-url]: https://github.com/kubermatic/kubeone/tree/master/addons
 [backups_restic]: https://github.com/kubermatic/kubeone/tree/master/addons/backups-restic

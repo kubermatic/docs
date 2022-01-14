@@ -44,11 +44,11 @@ Once Terraform has finished, we are left with a number of VMs and a LoadBalancer
 Kubermatic KubeOne will now take the output from Terraform and provision a Kubernetes cluster on it. Our KK1 configuration is rather simple at this stage, just as we like it:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.19.3'
+  kubernetes: '1.22.5'
 
 cloudProvider:
   hetzner: {}
@@ -318,11 +318,11 @@ Now, Dex reveals more information from the user identity it received from GitHub
 It's finally time to enable OIDC logins in Kubernetes. As mentioned previously, Kubermatic KubeOne does all the heavy lifting for us already, so the configuration is minimal:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.19.3'
+  kubernetes: '1.22.5'
 
 cloudProvider:
   hetzner: {}
@@ -463,11 +463,11 @@ ingress-nginx     Active   2h
 Now that we have readable user identifiers, audit logging makes much more sense. Let's enable it. Once again, KK1 does all the work for us:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.19.3'
+  kubernetes: '1.22.5'
 
 cloudProvider:
   hetzner: {}

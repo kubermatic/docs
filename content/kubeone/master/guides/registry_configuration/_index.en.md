@@ -58,7 +58,7 @@ to use (without the `v` prefix), as well as, replace the `TARGET_REGISTRY` with
 the address to your image registry.
 
 ```
-KUBERNETES_VERSION=1.22.4 TARGET_REGISTRY=127.0.0.1:5000 ./image-loader.sh
+KUBERNETES_VERSION=1.22.5 TARGET_REGISTRY=127.0.0.1:5000 ./image-loader.sh
 ```
 
 The preloading process can take a several minutes, depending on your
@@ -73,7 +73,7 @@ stanza to your KubeOne configuration file, such as:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.4
+  kubernetes: 1.22.5
 cloudProvider:
   aws: {}
 registryConfiguration:
@@ -133,7 +133,7 @@ when updating KubeOne, or otherwise, you might end up with a non-working
 cluster.
 {{% /notice %}}
 
-[regconfig-api]: {{< ref "../../references/kubeone_cluster_v1beta1#registryconfiguration" >}}
+[regconfig-api]: {{< ref "../../references/kubeone_cluster_v1beta2#registryconfiguration" >}}
 [docker-reg-guide]: https://docs.docker.com/registry/
 [img-loader]: https://github.com/kubermatic/kubeone/blob/master/hack/image-loader.sh
 [override-addons]: {{< ref "../addons#overriding-embedded-eddons" >}}

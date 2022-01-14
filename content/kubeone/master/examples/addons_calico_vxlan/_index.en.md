@@ -23,11 +23,11 @@ documentation how to find MTU size for your cluster https://docs.projectcalico.o
 ## Example AWS kubeone config
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: 1.18.5
+  kubernetes: 1.22.5
 
 cloudProvider:
   aws: {}
