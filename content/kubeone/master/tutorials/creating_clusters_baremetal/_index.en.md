@@ -61,7 +61,7 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, OpenStack, Packet, and VMware vSphere), and is covered in [Creating a Kubernetes cluster tutorial][creating-clusters].
+Hetzner Cloud, Nutanix, OpenStack, Packet, and VMware vSphere), and is covered in [Creating a Kubernetes cluster tutorial][creating-clusters].
 
 This tutorial focuses on bare metal without the usage of any provider to create the required infrastructure.
 Therefore, you need to create the required infrastructure on your own.

@@ -54,10 +54,10 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, OpenStack, Packet, and VMware vSphere), and we will use it in
-this tutorial. If your provider is not supported (e.g. bare-metal), you can
-check the [KubeOne Static Workers][static-workers] feature for more information
-about the second approach.
+Hetzner Cloud, Nutanix, OpenStack, Packet, and VMware vSphere), and we will use
+it in this tutorial. If your provider is not supported (e.g. bare-metal), you
+can check the [KubeOne Static Workers][static-workers] feature for more
+information about the second approach.
 
 The example Terraform configs that we'll be using satisfy all infrastructure
 requirements out of the box. However, if you're planning on customizing configs
@@ -290,6 +290,31 @@ Manager.
 #
 
 {{% /tab %}}
+{{% tab name="Nutanix" %}}
+The following environment variables are needed by Terraform for creating the
+infrastructure and for machine-controller to create the worker nodes.
+
+| Environment Variable  | Description                  |
+| --------------------- | ---------------------------- |
+| `NUTANIX_ENDPOINT`    | The Nutanix API (Prism Central) endpoint |
+| `NUTANIX_PORT`        | The Nutanix API (Prism Central) port |
+| `NUTANIX_USERNAME`    | The username of the Nutanix user |
+| `NUTANIX_PASSWORD`    | The password of the Nutanix user |
+| `NUTANIX_PE_ENDPOINT` | The Nutanix Prism Element endpoint (required by CSI driver) |
+| `NUTANIX_PE_USERNAME` | The username of the Prism Element user (might be different than the Prism Central user) |
+| `NUTANIX_PE_PASSWORD` | The password of the Prism Element user (might be different than the Prism Central user) |
+
+Besides that, the following environment variables are available, but optional.
+
+| Environment Variable   | Description                  |
+| ---------------------- | ---------------------------- |
+| `NUTANIX_INSECURE`     | Allow insecure access to the Nutanix API (default `false`) |
+| `NUTANIX_PROXY_URL`    | The URL of the proxy to the Nutanix API |
+| `NUTANIX_CLUSTER_NAME` | The name of the Nutanix cluster (used by machine-controller if not specified in the MachineDeployment) |
+
+#
+
+{{% /tab %}}
 {{% tab name="OpenStack" %}}
 The following environment variables are needed by Terraform for creating the
 infrastructure and for machine-controller to create the worker nodes.
@@ -392,6 +417,71 @@ The `ssh_public_key_file` is a path to a SSH public key that will be deployed
 on instances. KubeOne connects to instances over SSH to provision and configure
 them. If you don't have an SSH key, you can generate one by running
 `ssh-keygen`.
+
+On top of that, some providers might require setting additional variables as
+described below.
+
+{{< tabs name="Terraform Variables" >}}
+{{% tab name="GCP" %}}
+
+The Terraform config for GCP requires that the `project` variable is set to the
+name of the GCP Project that will be used for deploying a cluster.
+
+#
+
+{{% /tab %}}
+{{% tab name="Nutanix" %}}
+
+The Terraform config for Nutanix requires the following Terraform variables to
+be provided:
+
+```
+nutanix_cluster_name = "<name-of-the-nutanix-cluster>"
+project_name         = "<name-of-the-nutanix-project>"
+subnet_name          = "<name-of-the-subnet>"
+image_name           = "<name-of-the-image>"
+```
+
+If you don't use Projects in your Nutanix setup, you can modify the Terraform
+config to remove usages of the Project. It's expected that all required
+resources (including the image) will be provided by the user.
+
+#
+
+{{% /tab %}}
+{{% tab name="OpenStack" %}}
+
+The Terraform config for GCP requires that the `external_network_name` variable
+is set to the name of the external network that will be used. It's expected
+that this network already exists.
+
+Additionally, you might be required to provide additional variables such as
+`image` and `subnet_cidr` depending on your OpenStack setup.
+
+#
+
+{{% /tab %}}
+{{% tab name="vSphere" %}}
+
+The Terraform config for vSphere might require you to provide the following
+variables, depending on your setup:
+
+```
+datastore_name     = "<datastore-name>"
+network_name       = "<network-name>"
+template_name      = "<template-name>"
+resource_pool_name = "<resource-pool-name>"
+```
+
+`template_name` is the name of the VM that will be used as a template for
+creating other VMs. It's expected that this VM already exists. Please check the
+[vSphere requirements document]({{< ref "../../architecture/requirements/machine_controller/vsphere/vsphere/" >}})
+for more details.
+
+#
+
+{{% /tab %}}
+{{< /tabs >}}
 
 The `terraform.tfvars` files can also be used to customize properties such as
 instances size. We'll use the default settings, but if you wish to customize
@@ -586,6 +676,31 @@ versions:
 cloudProvider:
   hetzner: {}
   external: true
+```
+{{% /tab %}}
+{{% tab name="Nutanix" %}}
+The `addons` section instruction KubeOne to deploy the CSI driver, the volume
+snapshots controller, and the default StorageClass object. It's optional and
+you can remove it if you don't want the CSI driver and/or the default
+StorageClass. If you keep the `default-storage-class` addon, make sure to
+replace the placeholder values.
+
+```yaml
+apiVersion: kubeone.k8c.io/v1beta2
+kind: KubeOneCluster
+versions:
+  kubernetes: 1.21.8
+cloudProvider:
+  nutanix: {}
+addons:
+  enable: true
+  addons:
+  - name: "csi-nutanix"
+  - name: "default-storage-class"
+    params:
+      storageContainer: "<storage-container-name>" # Default: Default
+      fsType: "<>" # Default: xfs
+      isSegmentedIscsiNetwork: "<true-or-false>" # Default: false
 ```
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
