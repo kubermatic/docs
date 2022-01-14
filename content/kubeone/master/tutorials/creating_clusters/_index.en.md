@@ -418,6 +418,71 @@ on instances. KubeOne connects to instances over SSH to provision and configure
 them. If you don't have an SSH key, you can generate one by running
 `ssh-keygen`.
 
+On top of that, some providers might require setting additional variables as
+described below.
+
+{{< tabs name="Terraform Variables" >}}
+{{% tab name="GCP" %}}
+
+The Terraform config for GCP requires that the `project` variable is set to the
+name of the GCP Project that will be used for deploying a cluster.
+
+#
+
+{{% /tab %}}
+{{% tab name="Nutanix" %}}
+
+The Terraform config for Nutanix requires the following Terraform variables to
+be provided:
+
+```
+nutanix_cluster_name = "<name-of-the-nutanix-cluster>"
+project_name         = "<name-of-the-nutanix-project>"
+subnet_name          = "<name-of-the-subnet>"
+image_name           = "<name-of-the-image>"
+```
+
+If you don't use Projects in your Nutanix setup, you can modify the Terraform
+config to remove usages of the Project. It's expected that all required
+resources (including the image) will be provided by the user.
+
+#
+
+{{% /tab %}}
+{{% tab name="OpenStack" %}}
+
+The Terraform config for GCP requires that the `external_network_name` variable
+is set to the name of the external network that will be used. It's expected
+that this network already exists.
+
+Additionally, you might be required to provide additional variables such as
+`image` and `subnet_cidr` depending on your OpenStack setup.
+
+#
+
+{{% /tab %}}
+{{% tab name="vSphere" %}}
+
+The Terraform config for vSphere might require you to provide the following
+variables, depending on your setup:
+
+```
+datastore_name     = "<datastore-name>"
+network_name       = "<network-name>"
+template_name      = "<template-name>"
+resource_pool_name = "<resource-pool-name>"
+```
+
+`template_name` is the name of the VM that will be used as a template for
+creating other VMs. It's expected that this VM already exists. Please check the
+[vSphere requirements document]({{< ref "../../architecture/requirements/machine_controller/vsphere/vsphere/" >}})
+for more details.
+
+#
+
+{{% /tab %}}
+{{< /tabs >}}
+
 The `terraform.tfvars` files can also be used to customize properties such as
 instances size. We'll use the default settings, but if you wish to customize
 settings, you can check the
