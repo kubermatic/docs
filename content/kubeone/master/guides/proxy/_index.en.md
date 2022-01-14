@@ -7,7 +7,7 @@ enableToc = true
 Annotated example config with enabled PROXY support:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: demo-cluster
 ...

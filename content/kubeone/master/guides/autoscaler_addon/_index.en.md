@@ -31,18 +31,14 @@ The manifest should look like the following:
 
 kubeone.yaml
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.2'   ## kubernetes version
+  kubernetes: '1.22.5'   ## kubernetes version
 cloudProvider:  ## This field is sourced automatically if terraform is used for the cluster
   aws: {}
 addons:
   enable: true
-    # Path to the addons directory.
-   # We will not use this directory in this tutorial, but the directory must exist regardless.
-  # In case when the relative path is provided, the path is relative to the KubeOne configuration file.
-  path: “./addons"
   addons:
   - name: cluster-autoscaler
 ```

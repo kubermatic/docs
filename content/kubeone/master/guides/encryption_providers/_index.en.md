@@ -31,11 +31,11 @@ To enable Encryption Providers support, the following section is added to the
 KubeOne Cluster configuration manifest:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: k1-cluster
 versions:
-  kubernetes: '1.18.6'
+  kubernetes: '1.22.5'
 features:
   # enable encryption providers
   encryptionProviders:
@@ -79,11 +79,11 @@ To disable this feature, simply set the `enable` option to `false` and upgrade
 your cluster with the `--force-upgrade` flag:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: k1-cluster
 versions:
-  kubernetes: '1.18.6'
+  kubernetes: '1.22.5'
 features:
   # enable encryption providers
   encryptionProviders:
@@ -137,11 +137,11 @@ To use custom configuration, you simply add them inline to your KubeOne cluster
 configuration manifest:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: k1-cluster
 versions:
-  kubernetes: '1.18.6'
+  kubernetes: '1.22.5'
 features:
   encryptionProviders:
     enable: true
@@ -172,11 +172,11 @@ Kubernetes communicates with the KMS Encryption Provider through a unix socket. 
 An example of custom encryption providers configuration to enable AWS Encryption Provider would look like this:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: kms-test
 versions:
-  kubernetes: '1.18.6'
+  kubernetes: '1.22.5'
 cloudProvider:
   aws: {}
 features:

@@ -205,7 +205,7 @@ The information about the instances are located in the `.controlPlane.hosts`
 part of the configuration manifest:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: demo-cluster
 controlPlane:

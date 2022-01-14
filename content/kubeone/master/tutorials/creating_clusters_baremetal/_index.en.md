@@ -118,7 +118,7 @@ you're not required to keep to them.
 ```shell
 ...
 Kubermatic KubeOne has been installed into /usr/local/bin/kubeone
-Terraform example configs, addons, and helper scripts have been downloaded into the ./kubeone_1.2.0-beta.1_linux_amd64 directory
+Terraform example configs, addons, and helper scripts have been downloaded into the ./kubeone_1.4.0_linux_amd64 directory
 ```
 
 You can confirm that KubeOne has been installed successfully by running the
@@ -222,11 +222,11 @@ You can find more information about load balancing at [HA load balancing][ha-loa
 Below you find an example reference about the minimum necessary information for a bare metal deployment.
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: bm-cluster
 versions:
-  kubernetes: '1.20.4'
+  kubernetes: '1.22.5'
 cloudProvider:
   none: {}
 
@@ -264,13 +264,17 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne version | 1.21       | 1.20       | 1.19 | 1.18 | 1.17 |
-| --------------- | ---------- | ---------- | ---- | ---- | ---- |
-| v1.2+           | ✓ | ✓ | ✓    | ✓    | -   |
-| v1.0+           | - | - | ✓    | ✓    | ✓\*\*   |
+| KubeOne version | 1.23  | 1.22  | 1.21  | 1.20\*  | 1.19\*\* |
+| --------------- | ----- | ----- | ----- | ------- | -------- |
+| v1.4+           | ✓     | ✓     | ✓     | ✓       | -        |
+| v1.3+           | -     | ✓     | ✓     | ✓       | ✓        |
+| v1.2+           | -     | -     | ✓     | ✓       | ✓        |
 
-\*\* Kubernetes 1.17 has reached End-of-Life (EOL) and is not recommended
-for new clusters
+\* Kubernetes 1.20 is scheduled to reach End-of-Life (EOL) on February 2021.
+Using a newer Kubernetes version is strongly recommended.
+
+\*\* Kubernetes 1.19 has already reached End-of-Life (EOL) and is not
+recommended for newly-created clusters.
 
 Now, we're ready to provision the cluster! This is done by running the
 `kubeone apply` command and providing it the configuration manifest.

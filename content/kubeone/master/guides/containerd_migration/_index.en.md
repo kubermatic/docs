@@ -31,7 +31,7 @@ explicitly specify the containerd as a container runtime in the config.
 For this please use `containerRuntime.containerd` field as shown below.
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:

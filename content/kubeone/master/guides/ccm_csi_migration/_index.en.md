@@ -130,7 +130,7 @@ You must set `.cloudProvider.external` to `true`, so KubeOne can deploy
 external CCM and CSI. For example:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
   kubernetes: 1.22.1
@@ -161,10 +161,10 @@ to the `cloudConfig`. The CSI configuration is provided using the `csiConfig`
 field, for example:
 
 ```yaml
-apiVersion: kubeone.io/v1beta1
+apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.1
+  kubernetes: 1.22.5
 cloudProvider:
   openstack: {}
   external: true
