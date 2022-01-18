@@ -8,7 +8,9 @@ weight = 7
 ## Add GKE cluster
 
 You can add an existing Kubernetes cluster and then manage it using KKP. From the Clusters page, click `External Clusters`.
-Click `Add External Cluster` button. Pick `Google Kubernetes Engine` provider.
+Click `Add External Cluster` button and Pick `Google Kubernetes Engine` provider.
+
+![Add External Cluster](/img/kubermatic/master/tutorials/external_clusters/add_external_cluster.png "Add External Cluster")
 
 Select preset with valid credentials or enter GKE Service Account to connect to the provider.
 
@@ -40,7 +42,7 @@ To start the upgrade, just click on the link and choose the desired version:
 
 ![Upgrade GKE](/img/kubermatic/master/tutorials/external_clusters/upgrade_gke.png "Upgrade GKE")
 
-### Edit the Machine Deployment
+### Scale the Machine Deployment
 
 Navigate to the cluster overview, scroll down to Machine Deployments and click on the edit icon next to the machine deployment you want to edit.
 In the popup dialog you can now in- or decrease the number of worker nodes which are managed by this machine deployment.
