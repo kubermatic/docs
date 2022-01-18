@@ -5,7 +5,7 @@ weight = 7
 
 +++
 
-## Add AKS cluster
+## Add AKS Cluster
 
 You can add an existing Kubernetes cluster and then manage it using KKP. From the Clusters page, click `External Clusters`.
 Click `Add External Cluster` button and Pick `Azure Kubernetes Cluster` provider.
@@ -13,16 +13,15 @@ Click `Add External Cluster` button and Pick `Azure Kubernetes Cluster` provider
 ![Add External Cluster](/img/kubermatic/master/tutorials/external_clusters/add_external_cluster.png "Add External Cluster")
 
 Select preset with valid credentials or enter AKS `Tenant ID`, `Subscription ID`, `Client ID` and  `Client Secret`, to connect to the provider.
-The credentials should have enough access like Read, Write the cluster and get admin credentials in order to fetch Kubeconfig using api.
+The credentials should have enough access like read, write the cluster and get admin credentials in order to fetch Kubeconfig using API.
 
 ![AKS credentials](/img/kubermatic/master/tutorials/external_clusters/aks_credentials.png "AKS credentials")
 
-You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Once imported cluster
-is unique for the project. The same cluster can be added from the other projects.
+You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Clusters can be added only once in a single project. The same cluster can be added from the other projects.
 
 ![Select AKS cluster](/img/kubermatic/master/tutorials/external_clusters/select_aks_cluster.png "Select AKS cluster")
 
-## Cluster details page
+## Cluster Details Page
 
 After adding the cluster, you can view the cluster details. The KKP controller retrieves the cluster kubeconfig to display all necessary information. A healthy cluster shows `Running` state. 
 Otherwise, the cluster can be in the `Error` state. Move the mouse cursor over the state indicator to get more details.
@@ -50,7 +49,7 @@ If upgrade version is valid, you will see this msg and the cluster state will ch
 
 ### Scale the Machine Deployment
 
-Navigate to the cluster overview, scroll down to Machine Deployments and click on the edit icon next to the machine deployment you want to edit.
+Navigate to the cluster overview, scroll down to machine deployments and click on the edit icon next to the machine deployment you want to edit.
 
 ![Update AKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/edit_md.png "Update AKS Machine Deployment")
 
@@ -61,7 +60,7 @@ Either specify the number of desired nodes or use the `+` or `-` to increase or 
 
 ## Stopped Cluster State
 
-If Cluster is stopped from the Azure side, you will be able to see the current state of the clusteras stopped.
+If Cluster is stopped from the Azure side, you will be able to see the current state of the cluster as stopped.
 Cluster Details will not be visible as the details are fetched using kubeconfig, and the kubeconfig is not available for the stopped cluster.
 
 ![AKS Cluster Stopped](/img/kubermatic/master/tutorials/external_clusters/aks_stopped.png "AKS Cluster Stopped")

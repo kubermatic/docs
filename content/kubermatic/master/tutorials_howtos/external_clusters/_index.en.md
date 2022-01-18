@@ -5,13 +5,13 @@ weight = 7
 
 +++
 
-This section describes how to add and manage existing Kubernetes clusters called as External Cluster in KKP.
-You can import or connect a cluster.
-- Import: You can import a cluster via credentials. Imported Cluster can be viewed and edited i.e, upgrade the control plane version or scale the nodes. Currently, GKE, AKS, and EKS cluster are supported.
+This section describes how to add and manage existing Kubernetes clusters known as external clusters in KKP.
+You can add or connect a cluster.
+- Add: You can add a cluster via credentials. Added Cluster can be viewed and edited i.e, upgrade the control plane version or scale the nodes. Currently, GKE, AKS, and EKS cluster are supported.
 - Connect: You can also connect any other clusters in the KKP via kubeconfig. Connected clusters can only be viewed, not edited.
 
 The KKP platform uses existing kubeconfig or generates the new one from the cloud provider API.
-The KKP backend takes advantage of this kubeconfig to retrieve the cluster information like cluster and node details, metrics, events.
+The KKP backend takes advantage of this kubeconfig to retrieve the cluster information, its' nodes, metrics and events.
 Every cluster update is performed only by the cloud provider client. There is no need to install any agent on the cloud provider side.
 
 ## Prerequisites
@@ -19,7 +19,7 @@ Every cluster update is performed only by the cloud provider client. There is no
 The following requirements must be met in order to add an external Kubernetes cluster:
  - The external Kubernetes cluster must already exist before you begin the add/connect process. Please refer to your cloud
  provider documentation for instructions.
- - The external Kubernetes cluster must be accessible using kubectl to get the information needed to import that cluster.
+ - The external Kubernetes cluster must be accessible using kubectl to get the information needed to add that cluster.
  - Make sure the cluster kubeconfig or provider credentials have sufficient rights to manage the cluster (get, list, upgrade,
  get kubeconfig)
 
@@ -35,9 +35,9 @@ Select the Kubernetes cloud provider. You can add the following external cluster
   - [AKS]({{< ref "./aks" >}})
   - [EKS]({{< ref "./eks" >}})
 
-## Connect existing cluster
+## Connect Existing Cluster
 
-To connect a cluster from any provider, click on `Any Provider` and add the cluster name and kubeconfig.
+To connect a cluster from any provider, click on `Any Provider` and provide the cluster name and kubeconfig.
 
 ![Connect Cluster](/img/kubermatic/master/tutorials/external_clusters/connect.png "Connect Cluster")
 
@@ -49,7 +49,7 @@ You can then see the details of the cluster.
 
 ## Cluster State
 
-You can view the current state of your cluster, by hovering the cursor over the small circle on the left of the cluster name.
+You can view the current state of your cluster by hovering the cursor over the small circle on the left of the cluster name.
 
 Provisioning state depicts that the cluster is gettig Created:
 ![External Cluster Provisioning State](/img/kubermatic/master/tutorials/external_clusters/provisioning_status.png "External Cluster Provisioning State")
@@ -59,7 +59,7 @@ Reconciling state depicts that the cluster is gettig Upgraded:
 
 ### Deleted Cluster
 
-If you delete the cluster from the provider, the state on KKP will be shown as `Deleting`.
+If you delete the cluster from the provider, the state in KKP will be shown as `Deleting`.
 ![External Cluster Delete State](/img/kubermatic/master/tutorials/external_clusters/delete_status.png "External Cluster Delete State")
 
 You can `Disconnect` the deleted cluster by clicking on the disconnect icon next to the cluster you want to disconnect, which will delete KKP cluster object for this cluster.

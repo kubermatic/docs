@@ -5,7 +5,7 @@ weight = 7
 
 +++
 
-## Add GKE cluster
+## Add GKE Cluster
 
 You can add an existing Kubernetes cluster and then manage it using KKP. From the Clusters page, click `External Clusters`.
 Click `Add External Cluster` button and Pick `Google Kubernetes Engine` provider.
@@ -16,12 +16,12 @@ Select preset with valid credentials or enter GKE Service Account to connect to 
 
 ![GKE credentials](/img/kubermatic/master/tutorials/external_clusters/gke_credentials.png "GKE credentials")
 
-You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Once imported cluster
-is unique for the project. The same cluster can be added for the other projects.
+You should see the list of all available clusters. Select the one and click the `Import Cluster` button.
+Clusters can be added only once in a single project. The same cluster can be added for the other projects.
 
 ![Select GKE cluster](/img/kubermatic/master/tutorials/external_clusters/select_gke_cluster.png "Select GKE cluster")
 
-## Cluster details page
+## Cluster Details Page
 
 Your cluster is added. The KKP controller retrieves the cluster kubeconfig to display all necessary information. When
 everything is fine the cluster is in the `Running` state. Otherwise, the cluster can be in the `Error` state. Move the mouse cursor over the
@@ -33,7 +33,7 @@ You can also click on `Machine Deployments` to get the details:
 
 ![GKE Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/gke_machine_deployments.png "GKE Machine Deployment")
 
-## Update cluster
+## Update Cluster
 
 ### Upgrade Version
 
@@ -44,7 +44,7 @@ To start the upgrade, just click on the link and choose the desired version:
 
 ### Scale the Machine Deployment
 
-Navigate to the cluster overview, scroll down to Machine Deployments and click on the edit icon next to the machine deployment you want to edit.
+Navigate to the cluster overview, scroll down to machine deployments and click on the edit icon next to the machine deployment you want to edit.
 In the popup dialog you can now in- or decrease the number of worker nodes which are managed by this machine deployment.
 
 ![Update GKE Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/update_gke_md.png "Update GKE Machine Deployment")
