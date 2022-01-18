@@ -21,7 +21,7 @@ Generate and serve the documentation at `localhost:1313`:
 hugo server -b localhost:1313 -w
 ```
 
-For further information please have a look at our contribution guide [here](/content/contributing).
+For further information please have a look at our contribution guide [here](./CONTRIBUTING.md).
 
 ## Contributing
 
