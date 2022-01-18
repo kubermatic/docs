@@ -116,7 +116,7 @@ spec:
       - apiGroups: [""]
         kinds: ["Namespace"]
   parameters:
-    rawJSON: '{"labels":["gatekeeper"]}'
+    labels: ["gatekeeper"]
 ```
 
 - `constraintType` - must be equal to the name of an existing Constraint Template
@@ -217,7 +217,7 @@ spec:
       - apiGroups: [""]
         kinds: ["Namespace"]
   parameters:
-    rawJSON: '{"labels":["gatekeeper"]}'
+    labels: ["gatekeeper"]
 ```
 ### Disabling Constraint
 
@@ -245,7 +245,7 @@ spec:
       - apiGroups: [""]
         kinds: ["Namespace"]
   parameters:
-    rawJSON: '{"labels":["gatekeeper"]}'
+    labels: ["gatekeeper"]
 ```
 
 #### Disabling Default Constraint
@@ -255,25 +255,6 @@ By setting `disabled` flag to true, Kubermatic deletes the constraint from all U
 Note: Constraint will still be present in the user cluster namespace on the Seed Cluster for future use.
 
 To Enable Default Constraints again, you can just remove the `disabled` flag or set it to `false`.
-
-Example of a Disabled Kubermatic Constraint:
-
-```yaml
-apiVersion: kubermatic.k8s.io/v1
-kind: Constraint
-metadata:
-  name: ns-must-have-gk
-  namespace: cluster-bpc9nstqvk
-spec:
-  constraintType: K8sRequiredLabels
-  disabled: true
-  match:
-    kinds:
-      - apiGroups: [""]
-        kinds: ["Namespace"]
-  parameters:
-    rawJSON: '{"labels":["gatekeeper"]}'
-```
 
 To disable Default Constraintsin the Admin View, click on the green button under `On/Off`
 ![Disable Default Constraint](/img/kubermatic/master/ui/default-constraint-on.png?height=200px&classes=shadow,border "Disable Default Constraint")
@@ -300,7 +281,7 @@ match:
   labelSelector: {}
   namespaceSelector: {}
 parameters:
-  rawJSON: '{"labels":["gatekeeper"]}'
+  labels: ["gatekeeper"]
 selector:
   providers:
     - aws
