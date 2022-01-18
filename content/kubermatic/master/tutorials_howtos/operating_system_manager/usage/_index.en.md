@@ -1,6 +1,6 @@
 +++
-title = "Enabling Operating System Manager"
-date = 2021-04-20T12:16:38+02:00
+title = "Enable Operating System Manager"
+date = 2022-01-18T10:07:15+02:00
 weight = 2
 +++
 

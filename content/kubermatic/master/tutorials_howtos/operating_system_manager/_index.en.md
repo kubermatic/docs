@@ -1,6 +1,6 @@
 +++
-title = "Operating System Manager"
-date = 2019-11-13T12:07:15+02:00
+title = "[Experimental] Operating System Manager"
+date = 2022-01-18T10:07:15+02:00
 weight = 15
 +++
 Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a kubernetes cluster. It decouples operating system configurations into dedicated and isolable resources for better modularity and maintainability.
@@ -21,7 +21,7 @@ This has been the norm in KKP till v1.19 and it works as expected. Although over
 - The user-data plugins have templates defined [in-code](https://github.com/kubermatic/machine-controller/blob/master/pkg/userdata/ubuntu/provider.go#L133). Which is not ideal because code changes are required to update those templates.
 - Managing configs for multiple cloud providers, OS flavors and OS versions, adds a lot of complexity and redundancy in machine-controller.
 - Since the templates are defined in-code, there is no way for an end user to customize them to suit their use-cases.
-- Each cloud provider sets some sort of limts for the size of `user-data`, machine won't be created in case of non-compliance. For example, at the time of writing this, AWS has set a [hard limit of 16KB](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-add-user-data.html).
+- Each cloud provider sets some sort of limits for the size of `user-data`, machine won't be created in case of non-compliance. For example, at the time of writing this, AWS has set a [hard limit of 16KB](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-add-user-data.html).
 - Better support for air-gapped environments is required.
 
 Operating System Manager was created to overcome these limitations.
