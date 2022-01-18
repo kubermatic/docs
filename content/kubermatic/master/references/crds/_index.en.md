@@ -61,6 +61,28 @@ weight = 40
 
 
 
+### AKS
+
+
+
+
+
+_Appears in:_
+- [PresetSpec](#presetspec)
+
+| Field | Description |
+| --- | --- |
+| `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
+| `tenantID` _string_ |  |
+| `subscriptionID` _string_ |  |
+| `clientID` _string_ |  |
+| `clientSecret` _string_ |  |
+
+
+[Back to top](#top)
+
+
+
 ### APIServerSettings
 
 
@@ -92,7 +114,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `PresetProvider` _[PresetProvider](#presetprovider)_ |  |
+| `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
 | `accessKeyID` _string_ |  |
 | `secretAccessKey` _string_ |  |
 | `assumeRoleARN` _string_ |  |
@@ -129,6 +151,7 @@ _Appears in:_
 | `routeTableID` _string_ |  |
 | `instanceProfileName` _string_ |  |
 | `securityGroupID` _string_ |  |
+| `nodePortsAllowedIPRange` _string_ |  |
 | `roleName` _string_ | DEPRECATED. Don't care for the role name. We only require the ControlPlaneRoleARN to be set so the control plane can perform the assume-role. We keep it for backwards compatibility (We use this name for cleanup purpose). |
 
 
@@ -504,7 +527,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `PresetProvider` _[PresetProvider](#presetprovider)_ |  |
+| `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
 | `accessKeyID` _string_ |  |
 | `accessKeySecret` _string_ |  |
 
@@ -603,7 +626,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `PresetProvider` _[PresetProvider](#presetprovider)_ |  |
+| `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
 | `token` _string_ | Token is used to authenticate with the Anexia API. |
 
 
@@ -671,7 +694,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `PresetProvider` _[PresetProvider](#presetprovider)_ |  |
+| `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
 | `tenantID` _string_ |  |
 | `subscriptionID` _string_ |  |
 | `clientID` _string_ |  |
@@ -711,6 +734,7 @@ _Appears in:_
 | `subnet` _string_ |  |
 | `routeTable` _string_ |  |
 | `securityGroup` _string_ |  |
+| `nodePortsAllowedIPRange` _string_ |  |
 | `assignAvailabilitySet` _boolean_ |  |
 | `availabilitySet` _string_ |  |
 | `loadBalancerSKU` _LBSKU_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "basic" will be used |
@@ -854,6 +878,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dc` _string_ | DatacenterName where the users 'cloud' lives in. |
+| `providerName` _string_ | ProviderName is the name of the cloud provider used for this cluster. This must match the given provider spec (e.g. if the providerName is "aws", then the AWSCloudSpec must be set) |
 | `fake` _[FakeCloudSpec](#fakecloudspec)_ |  |
 | `digitalocean` _[DigitaloceanCloudSpec](#digitaloceancloudspec)_ |  |
 | `bringyourown` _[BringYourOwnCloudSpec](#bringyourowncloudspec)_ |  |
@@ -867,6 +892,7 @@ _Appears in:_
 | `kubevirt` _[KubevirtCloudSpec](#kubevirtcloudspec)_ |  |
 | `alibaba` _[AlibabaCloudSpec](#alibabacloudspec)_ |  |
 | `anexia` _[AnexiaCloudSpec](#anexiacloudspec)_ |  |
+| `nutanix` _[NutanixCloudSpec](#nutanixcloudspec)_ |  |
 
 
 [Back to top](#top)
@@ -1027,6 +1053,7 @@ _Appears in:_
 | `usePodNodeSelectorAdmissionPlugin` _boolean_ |  |
 | `useEventRateLimitAdmissionPlugin` _boolean_ |  |
 | `enableUserSSHKeyAgent` _boolean_ | EnableUserSSHKeyAgent control whether the UserSSHKeyAgent will be deployed in the user cluster or not. If it was enabled, the agent will be deployed and used to sync the user ssh keys, that the user attach to the created cluster. If the agent was disabled, it won't be deployed in the user cluster, thus after the cluster creation any attached ssh keys won't be synced to the worker nodes. Once the agent is enabled/disabled it cannot be changed after the cluster is being created. |
+| `enableOperatingSystemManager` _boolean_ | EnableOperatingSystemManager enables OSM which in-turn is responsible for creating and managing worker node configuration |
 | `podNodeSelectorAdmissionPluginConfig` _object (keys:string, values:string)_ | PodNodeSelectorAdmissionPluginConfig provides the configuration for the PodNodeSelector. It's used by the backend to create a configuration file for this plugin. The key:value from the map is converted to the namespace:<node-selectors-labels> in the file. The format in a file: podNodeSelectorPluginConfig:  clusterDefaultNodeSelector: <node-selectors-labels>  namespace1: <node-selectors-labels>  namespace2: <node-selectors-labels> |
 | `eventRateLimitConfig` _[EventRateLimitConfig](#eventratelimitconfig)_ | EventRateLimitConfig allows configuring the EventRateLimit admission plugin (if enabled via useEventRateLimitAdmissionPlugin) to create limits on Kubernetes event generation. The EventRateLimit plugin is capable of comparing incoming Events to several configured buckets based on the type of event rate limit. |
 | `admissionPlugins` _string array_ | AdmissionPlugins provides the ability to pass arbitrary names of admission plugins to kube-apiserver |
@@ -1487,5 +1514,6 @@ _Appears in:_
 | `kubevirt` _[DatacenterSpecKubevirt](#datacenterspeckubevirt)_ |  |
 | `alibaba` _[DatacenterSpecAlibaba](#datacenterspecalibaba)_ |  |
 | `anexia` _[DatacenterSpecAnexia](#datacenterspecanexia)_ |  |
+| `nutanix` _[DatacenterSpecNutanix](#datacenterspecnutanix)_ | Nutanix is experimental and unsupported |
 | `fake` _[DatacenterSpecFake](#datacenterspecfake)_ |  |
 | `requiredEmails` _
