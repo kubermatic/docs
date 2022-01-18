@@ -97,6 +97,8 @@ Again, please note that it is not a good practice to keep the clusters on an old
 
 Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it will be replaced with Konnectivity in future KKP releases.
 
+### Enabling Konnectivity in KubermaticConfiguration
+
 To enable Konnectivity for control plane to worker nodes communication, the feature first has to be enabled in `KubermaticConfiguration` by enabling the `KonnectivityService` feature gate, e.g.:
 
 ```yaml
@@ -111,17 +113,39 @@ spec:
       enabled: true
 ```
 
-Once the feature gate is enabled, Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
+All existing clusters started before enabling `KonnectivityService` feature gate will continue using OpenVPN.
+
+### Enabling Konnectivity for New Clusters
+
+Once the `KonnectivityService` feature gate is enabled, Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
 
 ![Cluster Settings - Network Configuration](/img/kubermatic/master/tutorials/networking/ui_cluster_konnectivity.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 When this option is checked, Konnectivity will be used for control plane to worker nodes communication in the cluster. Otherwise, the old OpenVPN solution will be used.
 
-All existing clusters started before enabling `KonnectivityService` feature gate, or with Konnectivity disabled will continue using OpenVPN. They can be however migrated to Konnectivity at any time via the "Edit Cluster" dialog in KKP UI:
+### Switching Existing Clusters to Konnectivity
+
+Given that the `KonnectivityService` feature gate is enabled, existing user clusters that are using OpenVPN can be migrated to Konnectivity at any time via the "Edit Cluster" dialog in KKP UI:
+
+{{% notice warning %}}
+
+This action will cause a restart of most of the control plane components and result in temporary cluster unavailability, so it should be performed during a maintenance window.
+
+{{% /notice %}}
 
 ![Cluster Details - Edit Cluster Dialog](/img/kubermatic/master/tutorials/networking/ui_cluster_dialog_konnectivity.png?classes=shadow,border "Cluster Details - Edit Cluster Dialog")
 
-Please note that this action will cause a restart of most of the control plane components and result in temporary cluster unavailability, so it should be performed during a maintenance window.
+After switching to Konnectivity, give the control plane components in Seed enough time to redeploy (may take several minutes). Once this redeployment is done, you should see two `konnectivity-agent` replicas running in the user cluster instead of the `openvpn-client` pod. Apart from it, you should also see new `metrics-server` pods running in the user cluster:
+
+```bash
+$ kubectl get pods -n kube-system
+
+NAMESPACE              NAME                                        READY   STATUS    RESTARTS   AGE
+kube-system            konnectivity-agent-c5f76c89f-8mxvt          1/1     Running   0          6m35s
+kube-system            konnectivity-agent-c5f76c89f-hhdmq          1/1     Running   0          6m35s
+kube-system            metrics-server-59566cbd5c-crtln             1/1     Running   0          6m35s
+kube-system            metrics-server-59566cbd5c-lw75t             1/1     Running   0          6m35s
+```
 
 This action can be also reverted and an existing user cluster using Konnectivity can be switched back to the OpenVPN-based solution if necessary.
 
