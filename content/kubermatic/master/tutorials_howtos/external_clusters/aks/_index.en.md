@@ -13,17 +13,17 @@ Click `Add External Cluster` button and Pick `Azure Kubernetes Cluster` provider
 ![Add External Cluster](/img/kubermatic/master/tutorials/external_clusters/add_external_cluster.png "Add External Cluster")
 
 Select preset with valid credentials or enter AKS `Tenant ID`, `Subscription ID`, `Client ID` and  `Client Secret`, to connect to the provider.
-The credentials should have enough access like read, write the cluster and get admin credentials in order to fetch Kubeconfig using API.
+The credentials should have enough access like read, write Azure Kubernetes Service and list cluster admin credential action, to fetch Kubeconfig using API.
 
 ![AKS credentials](/img/kubermatic/master/tutorials/external_clusters/aks_credentials.png "AKS credentials")
 
-You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Clusters can be added only once in a single project. The same cluster can be added from the other projects.
+You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Clusters can be imported only once in a single project. The same cluster can be imported from the other projects.
 
 ![Select AKS cluster](/img/kubermatic/master/tutorials/external_clusters/select_aks_cluster.png "Select AKS cluster")
 
 ## Cluster Details Page
 
-After adding the cluster, you can view the cluster details. The KKP controller retrieves the cluster kubeconfig to display all necessary information. A healthy cluster shows `Running` state. 
+After the cluster is added, you can view the cluster details. The KKP controller retrieves the cluster kubeconfig to display all necessary information. A healthy cluster shows `Running` state.
 Otherwise, the cluster can be in the `Error` state. Move the mouse cursor over the state indicator to get more details.
 
 ![AKS cluster](/img/kubermatic/master/tutorials/external_clusters/aks_details.png "AKS cluster")
@@ -40,12 +40,12 @@ You can click on `Machine Deployments` to get the details:
 
 ### Upgrade Version
 
-When an upgrade for the cluster is available, a little dropdown arrow will be shown besides the `Control Plane Version` on the cluster’s page.
+When an upgrade for the cluster is available, a little dropdown arrow will be shown beside the `Control Plane Version` on the cluster’s page.
 To start the upgrade, choose the desired version from the list of available upgrade versions and click on `Change Version`.
 
 ![Upgrade AKS](/img/kubermatic/master/tutorials/external_clusters/upgrade_aks.png "Upgrade AKS")
 
-If upgrade version is valid, you will see this msg and the cluster state will change to `Reconciling`
+If the version upgrade is valid, the cluster state will change to `Reconciling`.
 
 ### Scale the Machine Deployment
 
@@ -53,14 +53,14 @@ Navigate to the cluster overview, scroll down to machine deployments and click o
 
 ![Update AKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/edit_md.png "Update AKS Machine Deployment")
 
-In the popup dialog you can now increase or decrease the number of worker nodes which are managed by this machine deployment.
+In the popup dialog, you can now increase or decrease the number of worker nodes that are managed by this machine deployment.
 Either specify the number of desired nodes or use the `+` or `-` to increase or decrease node count.
 
 ![Update AKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/update_aks_md.png "Update AKS Machine Deployment")
 
 ## Stopped Cluster State
 
-If Cluster is stopped from the Azure side, you will be able to see the current state of the cluster as stopped.
-Cluster Details will not be visible as the details are fetched using kubeconfig, and the kubeconfig is not available for the stopped cluster.
+If the cluster is stopped from the Azure side, you will be able to see the current state of the cluster as stopped.
+Cluster details will not be visible as the details are fetched using kubeconfig, and the kubeconfig is not available for the stopped cluster.
 
 ![AKS Cluster Stopped](/img/kubermatic/master/tutorials/external_clusters/aks_stopped.png "AKS Cluster Stopped")

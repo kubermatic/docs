@@ -6,18 +6,18 @@ weight = 7
 +++
 
 This section describes how to add and manage existing Kubernetes clusters known as external clusters in KKP.
-You can add or connect a cluster.
-- Add: You can add a cluster via credentials. Added Cluster can be viewed and edited i.e, upgrade the control plane version or scale the nodes. Currently, GKE, AKS, and EKS cluster are supported.
+You can import or connect a cluster.
+- Import: You can import a cluster via credentials. Imported Cluster can be viewed and edited i.e, upgrade the control plane version or scale the nodes. Currently, GKE, AKS, and EKS clusters are supported.
 - Connect: You can also connect any other clusters in the KKP via kubeconfig. Connected clusters can only be viewed, not edited.
 
 The KKP platform uses existing kubeconfig or generates the new one from the cloud provider API.
-The KKP backend takes advantage of this kubeconfig to retrieve the cluster information, its' nodes, metrics and events.
+The KKP backend takes advantage of this kubeconfig to retrieve the cluster information, its' nodes, metrics, and events.
 Every cluster update is performed only by the cloud provider client. There is no need to install any agent on the cloud provider side.
 
 ## Prerequisites
 
-The following requirements must be met in order to add an external Kubernetes cluster:
- - The external Kubernetes cluster must already exist before you begin the add/connect process. Please refer to your cloud
+The following requirements must be met to add an external Kubernetes cluster:
+ - The external Kubernetes cluster must already exist before you begin the import/connect process. Please refer to your cloud
  provider documentation for instructions.
  - The external Kubernetes cluster must be accessible using kubectl to get the information needed to add that cluster.
  - Make sure the cluster kubeconfig or provider credentials have sufficient rights to manage the cluster (get, list, upgrade,
@@ -25,7 +25,7 @@ The following requirements must be met in order to add an external Kubernetes cl
 
 ## Add External Cluster
 
-To add a new external cluster go to Clusters -> External Clusters and press `Add External Cluster` button.
+To add a new external cluster go to `Clusters` -> `External Clusters` and click the `Add External Cluster` button.
 
 ![Add External Cluster](/img/kubermatic/master/tutorials/external_clusters/add_external_cluster.png "Add External Cluster")
 
@@ -51,10 +51,10 @@ You can then see the details of the cluster.
 
 You can view the current state of your cluster by hovering the cursor over the small circle on the left of the cluster name.
 
-Provisioning state depicts that the cluster is gettig Created:
+Provisioning state depicts that the cluster is getting created:
 ![External Cluster Provisioning State](/img/kubermatic/master/tutorials/external_clusters/provisioning_status.png "External Cluster Provisioning State")
 
-Reconciling state depicts that the cluster is gettig Upgraded:
+Reconciling state depicts that the cluster is getting upgraded:
 ![External Cluster Reconciling State](/img/kubermatic/master/tutorials/external_clusters/aks_reconcile.png "External Cluster Reconciling State")
 
 ### Deleted Cluster
