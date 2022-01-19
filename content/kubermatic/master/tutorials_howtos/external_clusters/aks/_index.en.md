@@ -36,7 +36,7 @@ You can click on `Machine Deployments` to get the details:
 
 ![AKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/aks_machine_deployments.png "AKS Machine Deployment")
 
-## Update cluster
+## Update Cluster
 
 ### Upgrade Version
 
