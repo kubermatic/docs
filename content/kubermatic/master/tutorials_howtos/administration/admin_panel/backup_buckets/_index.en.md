@@ -91,6 +91,6 @@ if the backup is configured for the Seed, the default backups will be created fo
 If the legacy configuration is removed, the default backups will be deleted.
 
 When migrating to multiple destinations, if you would like to keep your default backups, first set up the multiple destinations 
-with the default destination(set the same destination as the legacy), then remove the old configuration. This will cause the default backups to just switch to a new destination,
+with the default destination (set the same destination as the legacy), then remove the old configuration. This will cause the default backups to just switch to a new destination,
 and not get deleted and recreated.
 {{% /notice %}}
