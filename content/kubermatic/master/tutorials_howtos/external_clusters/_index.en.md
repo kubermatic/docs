@@ -41,7 +41,7 @@ To connect a cluster from any provider, click on `Any Provider` and provide the 
 
 ![Connect Cluster](/img/kubermatic/master/tutorials/external_clusters/connect.png "Connect Cluster")
 
-![Provide Kubeconfig](/img/kubermatic/master/tutorials/external_clusters/custom_cluster_credentials.png "Provide Kubeconfig")
+![Provide kubeconfig](/img/kubermatic/master/tutorials/external_clusters/custom_cluster_credentials.png "Provide kubeconfig")
 
 You can then see the details of the cluster.
 

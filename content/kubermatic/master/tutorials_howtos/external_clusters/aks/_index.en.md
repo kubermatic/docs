@@ -13,7 +13,7 @@ Click `Add External Cluster` button and Pick `Azure Kubernetes Cluster` provider
 ![Add External Cluster](/img/kubermatic/master/tutorials/external_clusters/add_external_cluster.png "Add External Cluster")
 
 Select preset with valid credentials or enter AKS `Tenant ID`, `Subscription ID`, `Client ID` and  `Client Secret`, to connect to the provider.
-The credentials should have enough access like read, write Azure Kubernetes Service and list cluster admin credential action, to fetch Kubeconfig using API.
+The credentials should have enough access like read, write Azure Kubernetes Service and list cluster admin credential action, to fetch kubeconfig using API.
 
 ![AKS credentials](/img/kubermatic/master/tutorials/external_clusters/aks_credentials.png "AKS credentials")
 

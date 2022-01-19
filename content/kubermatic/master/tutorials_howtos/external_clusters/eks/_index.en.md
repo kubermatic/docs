@@ -36,8 +36,8 @@ You can also click on `Machine Deployments` to get the details:
 
 ### Upgrade Version
 
-To upgrade, click on the little dropdown arrow beside the `Control Plane Version` on the cluster’s page and specify the version. For more details about AWS available Kubernetes versions
-[AWS Kubernetes Version](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html "AWS Kubernetes Version")
+To upgrade, click on the little dropdown arrow beside the `Control Plane Version` on the cluster’s page and specify the version. For more details about EKS available Kubernetes versions
+[Amazon EKS Kubernetes versions](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html "Amazon EKS Kubernetes versions")
 
 ![Upgrade EKS](/img/kubermatic/master/tutorials/external_clusters/upgrade_eks.png "Upgrade EKS")
 
