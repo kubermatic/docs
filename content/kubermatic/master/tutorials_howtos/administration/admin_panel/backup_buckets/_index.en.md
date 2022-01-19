@@ -48,10 +48,10 @@ For security reasons, the API/UI does not offer a way to get the current credent
 To see how to make backups and restore your cluster, check the [Etcd Backup and Restore Tutorial]({{< ref "../../../etcd_backups" >}}).
 
 
-### Default Backup Destination
+### Enforcing default backups
 
-It is also possible to set a default backup destination. When set, it creates a default EtcdBackupConfig for all the
-user clusters in the Seed. It has to be a destination that is present in the backup destination list for that Seed.
+It is also possible to enforce default backups for each cluster in a Seed. By setting a default destination, a default EtcdBackupConfig
+is created for all the user clusters in the Seed. It has to be a destination that is present in the backup destination list for that Seed.
 
 Example Seed with default destination:
 ```yaml
@@ -79,7 +79,11 @@ Default EtcdBackupConfig that is created:
 ...
 ```
 
-Removing the `defaultDestination` will delete all default backups from all Seed user clusters.
+![Set Default Destination](/img/kubermatic/master/tutorials/backups/set_backup_dest_as_default.png?classes=shadow,border "Set Backup Destination as Default")
+
+{{% notice warning %}}
+Removing the default destination results in the termination of all default backups (Tip: to retain existing backups you can overwrite the default destination instead)
+{{% /notice %}}
 
 {{% notice note %}}
 For users already using the backups introduced in 2.18, when only one backup bucket and endpoint was available,
