@@ -67,15 +67,18 @@ The following table lists the supported operating systems and cloud providers fo
 |   | Ubuntu | Flatcar | RHEL | Amazon Linux 2 |
 |---|---|---|---|---|
 | AWS | ✓ | ✓ | ✓ | ✓ |
-| Azure | ✓ | ✓ | ✓ | x |
-| Digitalocean  | ✓ | x | x | x |
-| Google Cloud Platform | ✓ | x | x | x |
-| Hetzner | ✓ | x | x | x |
-| KubeVirt | ✓ | ✓ | ✓ | x |
-| Equinix Metal | ✓ | x | x | x |
-| Openstack | ✓ | ✓ | ✓ | x |
+| Azure | ✓ | ✓ | ✓ | - |
+| Digitalocean  | ✓ | - | - | - |
+| Google Cloud Platform | ✓ | - | - | - |
+| Hetzner | ✓ | - | - | - |
+| KubeVirt | ✓ | ✓ | ✓ | - |
+| Equinix Metal | ✓ | - | - | - |
+| Openstack | ✓ | ✓ | ✓ | - |
 
-**NOTE:** This has been tested with `ebpf` proxy mode.
+**NOTE:**
+
+- "-" denotes that the operating system is not supported for the given cloud provider.
+- This has been tested with `ebpf` proxy mode.
 
 ### None CNI
 
