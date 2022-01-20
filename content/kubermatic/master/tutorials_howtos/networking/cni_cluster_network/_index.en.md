@@ -64,20 +64,20 @@ Please note that to have the Hubble addon available, the KKP installation has to
 
 The following table lists the supported operating systems and cloud providers for cilium CNI in KKP:
 
-|   | Ubuntu | Flatcar | RHEL | Amazon Linux 2 |
-|---|---|---|---|---|
-| AWS | ✓ | ✓ | ✓ | ✓ |
-| Azure | ✓ | ✓ | ✓ | - |
-| Digitalocean  | ✓ | - | - | - |
-| Google Cloud Platform | ✓ | - | - | - |
-| Hetzner | ✓ | - | - | - |
-| KubeVirt | ✓ | ✓ | ✓ | - |
-| Equinix Metal | ✓ | - | - | - |
-| Openstack | ✓ | ✓ | ✓ | - |
+|   | Ubuntu | CentOS | Flatcar | RHEL | Amazon Linux 2 | SLES |
+|---|---|---|---|---|---|---|
+| AWS | ✓ | - | ✓ | ✓ | ✓ | x |
+| Azure | ✓ | - | ✓ | ✓ | - | - |
+| Digitalocean  | ✓ | x | - | - | - | - |
+| Google Cloud Platform | ✓ | - | - | - | - | - |
+| Hetzner | ✓ | x | - | - | - | - |
+| KubeVirt | ✓ | x | ✓ | ✓ | - | - |
+| Equinix Metal | ✓ | x | - | - | - | - |
+| Openstack | ✓ | x | ✓ | ✓ | - | - |
 
 **NOTE:**
 
-- "-" denotes that the operating system is not supported for the given cloud provider.
+- A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
 - This has been tested with `ebpf` proxy mode.
 
 ### None CNI
