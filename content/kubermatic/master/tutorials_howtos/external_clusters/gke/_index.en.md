@@ -23,8 +23,7 @@ Clusters can be imported only once in a single project. The same cluster can be 
 
 ## Cluster Details Page
 
-After the cluster is added. The KKP controller retrieves the cluster kubeconfig to display all necessary information. When
-everything is fine the cluster is in the `Running` state. Otherwise, the cluster can be in the `Error` state. Move the mouse cursor over the
+After the cluster is added, the KKP controller retrieves the cluster kubeconfig to display all necessary information. A healthy cluster has `Running` state. Otherwise, the cluster can be in the `Error` state. Move the mouse cursor over the
 state indicator to get more details. You can also expand `Events` to get information from the controller.
 
 ![GKE cluster](/img/kubermatic/master/tutorials/external_clusters/gke_details.png "GKE cluster")

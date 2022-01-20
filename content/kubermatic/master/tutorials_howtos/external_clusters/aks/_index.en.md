@@ -23,8 +23,8 @@ You should see the list of all available clusters. Select the one and click the 
 
 ## Cluster Details Page
 
-After the cluster is added, you can view the cluster details. The KKP controller retrieves the cluster kubeconfig to display all necessary information. A healthy cluster shows `Running` state.
-Otherwise, the cluster can be in the `Error` state. Move the mouse cursor over the state indicator to get more details.
+After the cluster is added, the KKP controller retrieves the cluster kubeconfig to display all necessary information.
+A healthy cluster has `Running` state. Otherwise, the cluster can be in the `Error` state. Move the mouse cursor over the state indicator to get more details.
 
 ![AKS cluster](/img/kubermatic/master/tutorials/external_clusters/aks_details.png "AKS cluster")
 
