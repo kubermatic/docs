@@ -14,7 +14,7 @@ minor version, and z is the patch version.
 
 KKP follows the Kubernetes release model and cycle, though for practical reasons
 releases are a bit delayed to ensure compatibility with Kubernetes. In general,
-the latest three minor versions of KKP are supported, i.e. 2.18, 2.17 and 2.16.
+the latest three minor versions of KKP are supported, i.e. 2.19, 2.18 and 2.17.
 With the release of a new minor KKP version, support for the oldest supported
 KKP version is dropped.
 
@@ -44,19 +44,18 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version | 1.22 | 1.21 | 1.20 | 1.19* | 1.18** | 1.17** |
-| ----------- | ---- | ---- | ---- | ----- | ------ | ------ |
-| 2.18.x      | ✓    | ✓    | ✓    | ✓     | -      | -      |
-| 2.17.x      | -    | ✓    | ✓    | ✓     | ✓      | -      |
-| 2.16.x      | -    | -    | ✓    | ✓     | ✓      | ✓      |
-| 2.15.x      | -    | -    | -    | ✓     | ✓      | ✓      |
+| KKP version | 1.22 | 1.21 | 1.20\*\* | 1.19\* | 1.18\* |
+| ----------- | ---- | ---- | -------- | ------ | ------ |
+| 2.19.x      | ✓    | ✓    | ✓        | -      | -      |
+| 2.18.x      | ✓    | ✓    | ✓        | ✓      | -      |
+| 2.17.x      | -    | ✓    | ✓        | ✓      | ✓      |
 
-\* Kubernetes 1.17 and 1.18 releases have reached End-of-Life (EOL). We
+\* Kubernetes 1.18 and 1.19 releases have reached End-of-Life (EOL). We
 strongly recommend upgrading to a supported Kubernetes release as soon as
 possible.
 
-\*\* Kubernetes 1.19 is scheduled to reach End-of-Life (EOL) on October 2021.
+\*\* Kubernetes 1.20 is scheduled to reach End-of-Life (EOL) on March 2022.
 
 Upgrades from a previous Kubernetes version are generally supported whenever a
 version is marked as supported, for example KKP 2.17 supports updating clusters
-from Kubernetes 1.18 to 1.20.
+from Kubernetes 1.18 to 1.21.
