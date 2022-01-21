@@ -8,7 +8,7 @@ enableToc = true
 
 This page describes various cluster networking options that can be configured for each KKP user cluster either via KKP UI (as shown below), or via [KKP API](#cluster-cluster-network-configuration-in-kkp-api).
 
-![Cluster Settings - Network Configuration](/img/kubermatic/master/tutorials/networking/ui_cluster_networking.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Network Configuration](/img/kubermatic/v2.19/tutorials/networking/ui_cluster_networking.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 ## CNI Type and Version
 
@@ -30,7 +30,7 @@ The following table lists the versions of individual CNIs supported by KKP:
 
 The desired CNI type and version can be selected at the cluster creation time - on the Cluster Settings page, as shown below:
 
-![Cluster Settings - Network Configuration](/img/kubermatic/master/tutorials/networking/ui_cluster_cni.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Network Configuration](/img/kubermatic/v2.19/tutorials/networking/ui_cluster_cni.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 Available CNI versions depend on the KKP version. Note that CNI type cannot be changed after cluster creation, but [manual CNI migration]({{< relref "../cni_migration/" >}}) is possible when necessary.
 
@@ -48,9 +48,9 @@ The most of the CIlium CNI features can be utilized when the `ebpf` Proxy Mode i
 
 To provide better observability on cluster networking with Cilium CNI via a web user interface, KKP provides a Hubble Addon that can be easily installed into user clusters with Cilium CNI via the KKP UI on the cluster page, as shown below:
 
-![Cluster Details - Addons](/img/kubermatic/master/tutorials/networking/ui_addons.png?classes=shadow,border "Cluster Details - Addons")
+![Cluster Details - Addons](/img/kubermatic/v2.19/tutorials/networking/ui_addons.png?classes=shadow,border "Cluster Details - Addons")
 
-![Cluster Details - Addons - Install Addon](/img/kubermatic/master/tutorials/networking/ui_addon_hubble.png?classes=shadow,border "Cluster Details - Addons - Install Addon")
+![Cluster Details - Addons - Install Addon](/img/kubermatic/v2.19/tutorials/networking/ui_addon_hubble.png?classes=shadow,border "Cluster Details - Addons - Install Addon")
 
 After the Hubble addon is installed into the cluster, the Hubble UI can be displayed by port-forwarding to it, e.g.:
 
@@ -90,9 +90,9 @@ When this option is selected, the user cluster will be left without any CNI, and
 
 If the KKP installation supports a newer version of the CNI installed in a user cluster, it is possible to upgrade to it. This will be shown in the KKP UI and the available versions will be listed in the upgrade dialog shown after clicking on the "CNI Plugin Version" box:
 
-![Cluster Details](/img/kubermatic/master/tutorials/networking/ui_cni_upgrade_available.png?classes=shadow,border "Cluster Details")
+![Cluster Details](/img/kubermatic/v2.19/tutorials/networking/ui_cni_upgrade_available.png?classes=shadow,border "Cluster Details")
 
-![Cluster Details - CNI Plugin Version Dialog](/img/kubermatic/master/tutorials/networking/ui_cni_upgrade_dialog.png?classes=shadow,border "Cluster Details - CNI Plugin Version Dialog")
+![Cluster Details - CNI Plugin Version Dialog](/img/kubermatic/v2.19/tutorials/networking/ui_cni_upgrade_dialog.png?classes=shadow,border "Cluster Details - CNI Plugin Version Dialog")
 
 Once a newer version is selected, the CNI upgrade in the user cluster can be triggered by clicking on the "Change CNI Version" button. Please note that this action may cause network connectivity drops in the cluster, so it should be performed during a maintenance window.
 
@@ -137,7 +137,7 @@ All existing clusters started before enabling `KonnectivityService` feature gate
 
 Once the `KonnectivityService` feature gate is enabled, Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
 
-![Cluster Settings - Network Configuration](/img/kubermatic/master/tutorials/networking/ui_cluster_konnectivity.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Network Configuration](/img/kubermatic/v2.19/tutorials/networking/ui_cluster_konnectivity.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 When this option is checked, Konnectivity will be used for control plane to worker nodes communication in the cluster. Otherwise, the old OpenVPN solution will be used.
 
@@ -151,7 +151,7 @@ This action will cause a restart of most of the control plane components and res
 
 {{% /notice %}}
 
-![Cluster Details - Edit Cluster Dialog](/img/kubermatic/master/tutorials/networking/ui_cluster_dialog_konnectivity.png?classes=shadow,border "Cluster Details - Edit Cluster Dialog")
+![Cluster Details - Edit Cluster Dialog](/img/kubermatic/v2.19/tutorials/networking/ui_cluster_dialog_konnectivity.png?classes=shadow,border "Cluster Details - Edit Cluster Dialog")
 
 After switching to Konnectivity, give the control plane components in Seed enough time to redeploy (may take several minutes). Once this redeployment is done, you should see two `konnectivity-agent` replicas running in the user cluster instead of the `openvpn-client` pod. Apart from it, you should also see new `metrics-server` pods running in the user cluster:
 

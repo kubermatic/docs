@@ -36,12 +36,12 @@ The Kubermatic Kubernetes Platform also provides support for three additional pl
 
 They can be selected in the UI wizard.
 
-![Admission Plugin Selection](/img/kubermatic/master/ui/admission_plugins.png?height=400px&classes=shadow,border "Admission Plugin Selection")
+![Admission Plugin Selection](/img/kubermatic/v2.19/ui/admission_plugins.png?height=400px&classes=shadow,border "Admission Plugin Selection")
 
 ### PodNodeSelector Configuration
 Selecting the `PodNodeSelector` plugin expands an additional view for the plugin-specific configuration.
 
-![PodNodeSelector Admission Plugin Configuration](/img/kubermatic/master/ui/admission_plugin_configuration.png?classes=shadow,border "PodNodeSelector Admission Plugin Configuration")
+![PodNodeSelector Admission Plugin Configuration](/img/kubermatic/v2.19/ui/admission_plugin_configuration.png?classes=shadow,border "PodNodeSelector Admission Plugin Configuration")
 
 In this view you can define selector for namespaces that have no label selector specified. This example defines the default
 `NodeSelector` for the cluster, as well as whitelist for each namespace.
@@ -54,7 +54,7 @@ Every pod in the `development` namespace will inherit the `clusterDefaultNodeSel
 
 Selecting the `EventRateLimit` plugin expands an additional view for the plugin-specific configuration.
 
-![EventRateLimit Admission Plugin Configuration](/img/kubermatic/master/ui/admission_plugin_configuration_eventratelimit.png?height=200px&classes=shadow,border "EventRateLimit Admission Plugin Configuration")
+![EventRateLimit Admission Plugin Configuration](/img/kubermatic/v2.19/ui/admission_plugin_configuration_eventratelimit.png?height=200px&classes=shadow,border "EventRateLimit Admission Plugin Configuration")
 
 The available fields for the configuration are:
 

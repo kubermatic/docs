@@ -16,9 +16,9 @@ $ kubectl edit user ...
 After logging in to the dashboard as an administrator, you should be able to access the admin panel from the menu up
 top.
 
-![](/img/kubermatic/master/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
+![](/img/kubermatic/v2.19/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
 
-![](/img/kubermatic/master/ui/panel.png?height=350px&classes=shadow,border "Admin Panel")
+![](/img/kubermatic/v2.19/ui/panel.png?height=350px&classes=shadow,border "Admin Panel")
 
 Global settings can also be modified from the command line with kubectl. It can be done by editing the `globalsettings` in `KubermaticSetting` CRD. This resource has the following structure:
 

@@ -70,4 +70,4 @@ base64 -w 0 ./k8c-cluster-provisioner-sa-key.json
 The base64 encoded secret of the service account will passed in the field `serviceAccount` of the
 `cloudProviderSpec` of the machine deployment. The encoded secret can be entered in the UI field `Service Account`:
 
-![GCE Service Account Secret](/img/kubermatic/master/ui/gcp_credentials.png?classes=shadow,border "GCE Service Account Secret")
+![GCE Service Account Secret](/img/kubermatic/v2.19/ui/gcp_credentials.png?classes=shadow,border "GCE Service Account Secret")

@@ -6,7 +6,7 @@ weight = 20
 
 Through the Backup Destinations settings you can enable and configure the new etcd backups for each Seed.
 
-![Backup Destinations](/img/kubermatic/master/tutorials/backups/backup_destinations.png?classes=shadow,border "Backup Destinations Settings View")
+![Backup Destinations](/img/kubermatic/v2.19/tutorials/backups/backup_destinations.png?classes=shadow,border "Backup Destinations Settings View")
 
 
 ### Etcd Backup Settings
@@ -22,7 +22,7 @@ For users already using the backups introduced in 2.18, when only one backup buc
 backups will still work, and the old method is still supported, but deprecated. A warning will be shown on the seed in question, which 
 instructs users to add a destination, and migrate backups to use destination.
 
-![Backup Destinations Warning](/img/kubermatic/master/tutorials/backups/backup_seed_warning.png?classes=shadow,border "Backup Destinations Settings View - Warning")
+![Backup Destinations Warning](/img/kubermatic/v2.19/tutorials/backups/backup_seed_warning.png?classes=shadow,border "Backup Destinations Settings View - Warning")
 {{% /notice %}}
 
 To add a new backup destination, just click on the `Add Destination` button on the right. 
@@ -30,11 +30,11 @@ To add a new backup destination, just click on the `Add Destination` button on t
 When a destination is added, credentials also need to be added for the bucket. To do that, click on the `Edit Credentials`
 button and set the credentials. When credentials are properly set, the green checkmark appears and the destination can be used.
 
-![Add Backup Destination](/img/kubermatic/master/tutorials/backups/add_backup_destination.png?classes=shadow,border "Backup Destination Settings Add")
+![Add Backup Destination](/img/kubermatic/v2.19/tutorials/backups/add_backup_destination.png?classes=shadow,border "Backup Destination Settings Add")
 
 To edit, just click on the `Edit Destination` pen icon on the right
 
-![Edit Backup Destination](/img/kubermatic/master/tutorials/backups/edit_backup_destination.png?classes=shadow,border "Backup Destination Settings Edit")
+![Edit Backup Destination](/img/kubermatic/v2.19/tutorials/backups/edit_backup_destination.png?classes=shadow,border "Backup Destination Settings Edit")
 
 ### Credentials
 
@@ -43,7 +43,7 @@ button and set the credentials. When credentials are properly set, the green che
 
 For security reasons, the API/UI does not offer a way to get the current credentials.
 
-![Edit Credentials](/img/kubermatic/master/tutorials/backups/edit_backup_dest_credentials.png?classes=shadow,border "Backup Destination Credentials Edit")
+![Edit Credentials](/img/kubermatic/v2.19/tutorials/backups/edit_backup_dest_credentials.png?classes=shadow,border "Backup Destination Credentials Edit")
 
 To see how to make backups and restore your cluster, check the [Etcd Backup and Restore Tutorial]({{< ref "../../../etcd_backups" >}}).
 
@@ -79,7 +79,7 @@ Default EtcdBackupConfig that is created:
 ...
 ```
 
-![Set Default Destination](/img/kubermatic/master/tutorials/backups/set_backup_dest_as_default.png?classes=shadow,border "Set Backup Destination as Default")
+![Set Default Destination](/img/kubermatic/v2.19/tutorials/backups/set_backup_dest_as_default.png?classes=shadow,border "Set Backup Destination as Default")
 
 {{% notice warning %}}
 Removing the default destination results in the termination of all default backups (Tip: to retain existing backups you can overwrite the default destination instead)

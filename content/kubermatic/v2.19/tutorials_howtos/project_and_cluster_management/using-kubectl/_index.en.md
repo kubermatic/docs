@@ -10,16 +10,16 @@ See the [Official kubectl Install Instructions](https://kubernetes.io/docs/tasks
 
 To download the kubeconfig, navigate to `Clusters` and select the correct cluster. On the top right you can find a download button circled with red box:
 
-![Download config button in the top right corner](/img/kubermatic/master/tutorials/cluster_details_btn.png?classes=shadow,border "Download config button in the top right corner")
+![Download config button in the top right corner](/img/kubermatic/v2.19/tutorials/cluster_details_btn.png?classes=shadow,border "Download config button in the top right corner")
 
 You can revoke access for already downloaded kubeconfigs by revoking the token on the cluster detail page. To do so, click on the three-dot settings icon on the right to see the option `Revoke Token`:
 
-![Roll out more cluster details](/img/kubermatic/master/tutorials/cluster_edit_menu.png?classes=shadow,border "Roll out more cluster details")
-![Select Revoke Token](/img/kubermatic/master/tutorials/revoke_token_cluster.png?classes=shadow,border "Select Revoke Token")
+![Roll out more cluster details](/img/kubermatic/v2.19/tutorials/cluster_edit_menu.png?classes=shadow,border "Roll out more cluster details")
+![Select Revoke Token](/img/kubermatic/v2.19/tutorials/revoke_token_cluster.png?classes=shadow,border "Select Revoke Token")
 
 Users in the groups `Owner` and `Editor` have an admin token in their kubeconfig. Users in the group `Viewer` have a viewer token. Revoking the token for a user group means the kubeconfig becomes unusable for users in this group and they need to download it again. Using `kubectl` with the invalid kubeconfig will result in an error message. You can see which group every project member belongs to on the `Members` page.
 
-![Revoke the token](/img/kubermatic/master/tutorials/revoke_token_dialog.png?classes=shadow,border "Revoke the token")
+![Revoke the token](/img/kubermatic/v2.19/tutorials/revoke_token_dialog.png?classes=shadow,border "Revoke the token")
 
  
 Once you have installed the kubectl and downloaded the kubeconfig, change into the download directory and export it to your environment:
