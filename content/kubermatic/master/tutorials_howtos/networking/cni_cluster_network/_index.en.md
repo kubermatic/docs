@@ -63,7 +63,7 @@ After the above port-forwarding is active, the Hubble UI can be shown by navigat
 Please note that to have the Hubble addon available, the KKP installation has to be configured with `hubble` as [an accessible addon]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}).
 
 The following table lists the supported operating systems and cloud providers for cilium CNI in KKP:
-
+{{%expand "With ebpf proxy mode" %}}
 |   | Ubuntu | CentOS | Flatcar | RHEL | Amazon Linux 2 | SLES |
 |---|---|---|---|---|---|---|
 | AWS | ✓ | - | ✓ | ✓ | ✓ | x |
@@ -78,8 +78,22 @@ The following table lists the supported operating systems and cloud providers fo
 **NOTE:**
 
 - A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
-- This has been tested with `ebpf` proxy mode.
 
+{{% /expand%}}
+{{%expand "With ipvs proxy mode" %}}
+|                       | Ubuntu | CentOS | Flatcar | RHEL        |
+|-----------------------|--------|--------|---------|-------------|
+| AWS                   | ~[^1]  | x      | ~[^1]   | ~[^1]       |
+| Azure                 | ~[^1]  | x      | ~[^1]   | ~[^1]       |
+| Google Cloud Platform | ~[^1]  | -      | -       | -           |
+| Openstack             | ~[^1]  | x      | ~[^1]   | ~[^1]       |
+**NOTE:**
+
+- A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
+- A tilde(~) denotes a partial support
+
+[^1]: Pod can not access <internal_node_ip>:<node_port>. issue [8767](https://github.com/kubermatic/kubermatic/issues/8767)
+{{% /expand%}}
 ### None CNI
 
 "None" CNI is a special KKP-internal CNI type, which does not install any CNI managed by KKP into the user cluster. CNI management is therefore left on the cluster admin which provides a flexible option to install any CNI with any specific configuration.
