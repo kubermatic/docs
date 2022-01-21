@@ -1,0 +1,182 @@
+// TemplateData is the root context injected into each addon manifest file.
+type TemplateData struct {
+	SeedName       string
+	DatacenterName string
+	Cluster        ClusterData
+	Credentials    Credentials
+	Variables      map[string]interface{}
+}
+
+// ClusterData contains data related to the user cluster
+// the addon is rendered for.
+type ClusterData struct {
+	// Type is only "kubernetes"
+	Type string
+	// Name is the auto-generated, internal cluster name, e.g. "bbc8sc24wb".
+	Name string
+	// HumanReadableName is the user-specified cluster name.
+	HumanReadableName string
+	// Namespace is the full namespace for the cluster's control plane.
+	Namespace string
+	// OwnerName is the owner's full name.
+	OwnerName string
+	// OwnerEmail is the owner's e-mail address.
+	OwnerEmail string
+	// Labels are the labels users have configured for their cluster, including
+	// system-defined labels like the project ID.
+	Labels map[string]string
+	// Annotations are the annotations on the cluster resource, usually
+	// cloud-provider related information like regions.
+	Annotations map[string]string
+	// Kubeconfig is a YAML-encoded kubeconfig with cluster-admin permissions
+	// inside the user-cluster. The kubeconfig uses the external URL to reach
+	// the apiserver.
+	Kubeconfig string
+
+	// ClusterAddress stores access and address information of a cluster.
+	Address kubermaticv1.ClusterAddress
+
+	// CloudProviderName is the name of the cloud provider used, one of
+	// "alibaba", "aws", "azure", "bringyourown", "digitalocean", "gcp",
+	// "hetzner", "kubevirt", "openstack", "packet", "vsphere" depending on
+	// the configured datacenters.
+	CloudProviderName string
+	// Version is the exact cluster version.
+	Version *semver.Version
+	// MajorMinorVersion is a shortcut for common testing on "Major.Minor".
+	MajorMinorVersion string
+	// Network contains DNS and CIDR settings for the cluster.
+	Network ClusterNetwork
+	// Features is a set of enabled features for this cluster.
+	Features sets.String
+	// CNIPlugin contains the CNIPlugin settings
+	CNIPlugin CNIPlugin
+	// MLA contains monitoring, logging and alerting related settings for the user cluster.
+	MLA MLASettings
+	// StoragePolicy is the storage policy to use for vsphere csi addon
+	StoragePolicy string
+	// CSIMigration indicates if the cluster needed the CSIMigration
+	CSIMigration bool
+}
+
+// ClusterAddress stores access and address information of a cluster.
+type ClusterAddress struct {
+	// URL under which the Apiserver is available
+	URL string `json:"url"`
+	// Port is the port the API server listens on
+	Port int32 `json:"port"`
+	// ExternalName is the DNS name for this cluster
+	ExternalName string `json:"externalName"`
+	// InternalName is the seed cluster internal absolute DNS name to the API server
+	InternalName string `json:"internalURL"`
+	// AdminToken is the token for the kubeconfig, the user can download
+	AdminToken string `json:"adminToken"`
+	// IP is the external IP under which the apiserver is available
+	IP string `json:"ip"`
+}
+
+type ClusterNetwork struct {
+	DNSDomain         string
+	DNSClusterIP      string
+	DNSResolverIP     string
+	PodCIDRBlocks     []string
+	ServiceCIDRBlocks []string
+	ProxyMode         string
+	StrictArp         bool
+}
+
+type CNIPlugin struct {
+	Type    string
+	Version string
+}
+
+type MLASettings struct {
+	// MonitoringEnabled is the flag for enabling monitoring in user cluster.
+	MonitoringEnabled bool
+	// LoggingEnabled is the flag for enabling logging in user cluster.
+	LoggingEnabled bool
+}
+
+type Credentials struct {
+	AWS          AWSCredentials
+	Azure        AzureCredentials
+	Digitalocean DigitaloceanCredentials
+	GCP          GCPCredentials
+	Hetzner      HetznerCredentials
+	Openstack    OpenstackCredentials
+	Packet       PacketCredentials
+	Kubevirt     KubevirtCredentials
+	VSphere      VSphereCredentials
+	Alibaba      AlibabaCredentials
+	Anexia       AnexiaCredentials
+	Nutanix      NutanixCredentials
+}
+
+type AWSCredentials struct {
+	AccessKeyID          string
+	SecretAccessKey      string
+	AssumeRoleARN        string
+	AssumeRoleExternalID string
+}
+
+type AzureCredentials struct {
+	TenantID       string
+	SubscriptionID string
+	ClientID       string
+	ClientSecret   string
+}
+
+type DigitaloceanCredentials struct {
+	Token string
+}
+
+type GCPCredentials struct {
+	ServiceAccount string
+}
+
+type HetznerCredentials struct {
+	Token string
+}
+
+type OpenstackCredentials struct {
+	Username                    string
+	Password                    string
+	Project                     string
+	ProjectID                   string
+	Domain                      string
+	ApplicationCredentialID     string
+	ApplicationCredentialSecret string
+	Token                       string
+}
+
+type PacketCredentials struct {
+	APIKey    string
+	ProjectID string
+}
+
+type KubevirtCredentials struct {
+	// Admin kubeconfig for KubeVirt cluster
+	KubeConfig string
+	// CSI driver kubeconfig for user cluster to provision storage on KubeVirt cluster
+	CSIKubeConfig string
+}
+
+type VSphereCredentials struct {
+	Username string
+	Password string
+}
+
+type AlibabaCredentials struct {
+	AccessKeyID     string
+	AccessKeySecret string
+}
+
+type AnexiaCredentials struct {
+	Token string
+}
+
+type NutanixCredentials struct {
+	Username string
+	Password string
+	ProxyURL string
+}
