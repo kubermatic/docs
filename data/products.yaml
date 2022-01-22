@@ -23,6 +23,10 @@ kubermatic:
       name: v2.15
     - release: v2.14
       name: v2.14
+    - release: v2.13
+      name: v2.13
+    - release: v2.12
+      name: v2.12
 kubeone:
   name: KubeOne
   logo: "img/KubeOne-logo.svg"
