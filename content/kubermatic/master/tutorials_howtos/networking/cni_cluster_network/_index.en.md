@@ -81,23 +81,21 @@ The following table lists the supported operating systems and cloud providers fo
 {{% /expand%}}
 
 {{%expand "With iptables proxy mode" %}}
-|                       | Ubuntu | CentOS | Flatcar | RHEL  | SLES |
-| --------------------- | ------ | ------ | ------- | ----- | ---- |
-| AWS                   | ✓      | x      | ✓       | ✓     | x    |
-| Azure                 | ✓      | -      | ✓       | ~[^2] | -    |
-| Digitalocean          | ✓      | x      | -       | -     | -    |
-| Google Cloud Platform | ✓      | -      | -       | -     | -    |
-| Hetzner               | ✓      | x      | -       | -     | -    |
-| KubeVirt              | ✓      | x      | ✓       | ✓     | -    |
-| Equinix Metal         | ✓      | x      | -       | -     | -    |
-| Openstack             | ✓      | x      | ✓       | ✓     | -    |
+|                       | Ubuntu | CentOS | Flatcar | RHEL | SLES |
+| --------------------- | ------ | ------ | ------- | ---- | ---- |
+| AWS                   | ✓      | x      | ✓       | ✓    | x    |
+| Azure                 | ✓      | -      | ✓       | x    | -    |
+| Digitalocean          | ✓      | x      | -       | -    | -    |
+| Google Cloud Platform | ✓      | -      | -       | -    | -    |
+| Hetzner               | ✓      | x      | -       | -    | -    |
+| KubeVirt              | ✓      | x      | ✓       | ✓    | -    |
+| Equinix Metal         | ✓      | x      | -       | -    | -    |
+| Openstack             | ✓      | x      | ✓       | ✓    | -    |
 
 **NOTE:**
 
 - A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
 - A tilde(~) denotes a partial support
-
-[^2]: Issues with in-cluster communication and DNS resolution. Issue [8768](https://github.com/kubermatic/kubermatic/issues/8768).
 
 {{% /expand%}}
 
