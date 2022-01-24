@@ -145,7 +145,7 @@ example `./kubermatic-installer deploy .... --helm-binary /home/me/Downloads/hel
 {{% /notice %}}
 
 Once the installer has finished, the KKP Master cluster has been installed and will be ready to use once
-the necessary DNS records have been configured (see the next steps).
+the necessary cert-manager configuration and DNS records have been configured (see the next steps).
 
 {{% notice note %}}
 Note that because we don't yet have a TLS certificate and no DNS records configured, some of the pods will crashloop.
@@ -154,6 +154,31 @@ This is normal for fresh setups and once the DNS records have been set, things w
 
 If you change your mind later on and adjust configuration options, it's safe to just run the installer again
 to apply your changes.
+
+### Configure ClusterIssuers
+
+By default, KKP installation uses cert-manager to generate SSL certificates for the platform. If you didn't decide to 
+change the settings (`kubermatic.certIssuer` in `values.yaml`), you need to create a `ClusterIssuer` object, named 
+`letsencrypt-prod` to enable cert-manager to issue the certificates. Example of this file can be found below.
+For other possible options, please refer to the [external documentation](https://cert-manager.io/docs/configuration/).
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: <INSERT_YOUR_EMAIL_HERE>
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-acme-account-key
+    solvers:
+    - http01:
+       ingress:
+         class: nginx
+```
+
 
 ### Create DNS Records
 
