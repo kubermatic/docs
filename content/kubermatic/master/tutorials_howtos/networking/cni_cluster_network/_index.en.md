@@ -20,11 +20,11 @@ KKP supports three types of CNI (Container Network Interface) plugin types:
 
 The following table lists the versions of individual CNIs supported by KKP:
 
-| KKP version    | Canal                                                            | Cilium
-| -------------- | ---------------------------------------------------------------- | -------
-| `v2.19.x`      | `v3.21`, `v3.20`, `v3.19`, (deprecated: `v3.8`)                  | `v1.11`
-| `v2.18.x`      | `v3.19` (deprecated: `v3.8`)                                     | -
-| `v2.17.x`      | `v3.8`                                                           | -
+| KKP version | Canal                                           | Cilium  |
+| ----------- | ----------------------------------------------- | ------- |
+| `v2.19.x`   | `v3.21`, `v3.20`, `v3.19`, (deprecated: `v3.8`) | `v1.11` |
+| `v2.18.x`   | `v3.19` (deprecated: `v3.8`)                    | -       |
+| `v2.17.x`   | `v3.8`                                          | -       |
 
 **Note:** The deprecated versions cannot be used for new KKP user clusters, but are supported for backward compatibility of existing clusters.
 
@@ -44,30 +44,32 @@ In KKP versions below v2.19, this was the only supported CNI.
 
 [Cilium](https://cilium.io/) is a feature-rich CNI plugin, which leverages the revolutionary eBPF Kernel technology. It provides enhanced security and observability features, but requires more recent kernel versions on the worker nodes (see [Cilium System Requirements](https://docs.cilium.io/en/stable/operations/system_requirements/)).  
 The following table lists the supported operating systems and cloud providers for cilium CNI in KKP:
+
 {{%expand "With ebpf proxy mode" %}}
-|   | Ubuntu | CentOS | Flatcar | RHEL | Amazon Linux 2 | SLES |
-|---|---|---|---|---|---|---|
-| AWS | ✓ | - | ✓ | ✓ | ✓ | x |
-| Azure | ✓ | - | ✓ | ✓ | - | - |
-| Digitalocean  | ✓ | x | - | - | - | - |
-| Google Cloud Platform | ✓ | - | - | - | - | - |
-| Hetzner | ✓ | x | - | - | - | - |
-| KubeVirt | ✓ | x | ✓ | ✓ | - | - |
-| Equinix Metal | ✓ | x | - | - | - | - |
-| Openstack | ✓ | x | ✓ | ✓ | - | - |
+|                       | Ubuntu | CentOS | Flatcar | RHEL | Amazon Linux 2 | SLES |
+| --------------------- | ------ | ------ | ------- | ---- | -------------- | ---- |
+| AWS                   | ✓      | -      | ✓       | ✓    | ✓              | x    |
+| Azure                 | ✓      | -      | ✓       | ✓    | -              | -    |
+| Digitalocean          | ✓      | x      | -       | -    | -              | -    |
+| Google Cloud Platform | ✓      | -      | -       | -    | -              | -    |
+| Hetzner               | ✓      | x      | -       | -    | -              | -    |
+| KubeVirt              | ✓      | x      | ✓       | ✓    | -              | -    |
+| Equinix Metal         | ✓      | x      | -       | -    | -              | -    |
+| Openstack             | ✓      | x      | ✓       | ✓    | -              | -    |
 
 **NOTE:**
 
 - A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
 
 {{% /expand%}}
+
 {{%expand "With ipvs proxy mode" %}}
-|                       | Ubuntu | CentOS | Flatcar | RHEL        |
-|-----------------------|--------|--------|---------|-------------|
-| AWS                   | ~[^1]  | x      | ~[^1]   | ~[^1]       |
-| Azure                 | ~[^1]  | x      | ~[^1]   | ~[^1]       |
-| Google Cloud Platform | ~[^1]  | -      | -       | -           |
-| Openstack             | ~[^1]  | x      | ~[^1]   | ~[^1]       |
+|                       | Ubuntu | CentOS | Flatcar | RHEL  |
+| --------------------- | ------ | ------ | ------- | ----- |
+| AWS                   | ~[^1]  | x      | ~[^1]   | ~[^1] |
+| Azure                 | ~[^1]  | x      | ~[^1]   | ~[^1] |
+| Google Cloud Platform | ~[^1]  | -      | -       | -     |
+| Openstack             | ~[^1]  | x      | ~[^1]   | ~[^1] |
 
 **NOTE:**
 
@@ -75,9 +77,32 @@ The following table lists the supported operating systems and cloud providers fo
 - A tilde(~) denotes a partial support
 
 [^1]: Pod can not access `<internal_node_ip>:<node_port>`. issue [8767](https://github.com/kubermatic/kubermatic/issues/8767)
+
 {{% /expand%}}
 
-The most of the CIlium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only of [Konnectivity](#konnectivity) is enabled.
+{{%expand "With iptables proxy mode" %}}
+|                       | Ubuntu | CentOS | Flatcar | RHEL  | SLES |
+| --------------------- | ------ | ------ | ------- | ----- | ---- |
+| AWS                   | ✓      | x      | ✓       | ✓     | x    |
+| Azure                 | ✓      | -      | ✓       | ~[^2] | -    |
+| Digitalocean          | ✓      | x      | -       | -     | -    |
+| Google Cloud Platform | ✓      | -      | -       | -     | -    |
+| Hetzner               | ✓      | x      | -       | -     | -    |
+| KubeVirt              | ✓      | x      | ✓       | ✓     | -    |
+| Equinix Metal         | ✓      | x      | -       | -     | -    |
+| Openstack             | ✓      | x      | ✓       | ✓     | -    |
+
+**NOTE:**
+
+- A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
+- A tilde(~) denotes a partial support
+
+[^2]: Issues with in-cluster communication and DNS resolution. Issue [8768](https://github.com/kubermatic/kubermatic/issues/8768).
+
+{{% /expand%}}
+
+
+The most of the Cilium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only of [Konnectivity](#konnectivity) is enabled.
 
 To provide better observability on cluster networking with Cilium CNI via a web user interface, KKP provides a Hubble Addon that can be easily installed into user clusters with Cilium CNI via the KKP UI on the cluster page, as shown below:
 
@@ -120,9 +145,9 @@ Generally, only one minor version difference is allowed for each CNI upgrade. Th
 
 Some newer Kubernetes versions may not be compatible with already deprecated CNI versions. In such case, CNI may be forcefully upgraded together with Kubernetes version upgrade of the user cluster. The following table summarizes the cases when this will happen:
 
-| Kubernetes Version     | CNI   | Old CNI Version | Version After K8s Upgrade
-| ---------------------- | ----- | --------------- | ------------------------------
-| `>= 1.22`              | Canal | `v3.8`          | latest supported Canal version
+| Kubernetes Version | CNI   | Old CNI Version | Version After K8s Upgrade      |
+| ------------------ | ----- | --------------- | ------------------------------ |
+| `>= 1.22`          | Canal | `v3.8`          | latest supported Canal version |
 
 Again, please note that it is not a good practice to keep the clusters on an old CNI version and try to upgrade as soon as new CNI version is available next time.
 
@@ -202,12 +227,12 @@ The other networking parameters are configurable in `spec.clusterNetwork`.
 
 When no explicit value for a setting is provided, the default value is applied. The following table summarizes the parameters configurable via the KKP UI / `spec.clusterNetwork` in the cluster API with their default values:
 
-| Parameter                  | Default Value                                       | Description
-| -------------------------- | --------------------------------------------------- | ---------------------------------------------------------
-| `proxyMode`                | `ipvs`                                              | kube-proxy mode (`ipvs`/ `iptables` / `ebpf`). `ebpf` is allowed only if Cilium CNI is selected and [Konnectivity](#konnectivity) is enabled).
-| `pods.cidrBlocks`          | `[172.25.0.0/16]` (`[172.26.0.0/16]` for Kubevirt)  | The network ranges from which POD networks are allocated.
-| `services.cidrBlocks`      | `[10.240.16.0/20]` (`[10.241.0.0/20]` for Kubevirt) | The network ranges from which service VIPs are allocated.
-| `dnsDomain`                | `cluster.local`                                     | Domain name for k8s services.
-| `ipvs.strictArp`           | `true` for `ipvs` proxyMode, `false` otherwise      | If enabled, configures `arp_ignore` and `arp_announce` kernel parameters to avoid answering ARP queries from `kube-ipvs0` interface.
-| `nodeLocalDNSCacheEnabled` | `true`                                              | Enables NodeLocal DNS Cache feature.
-| `konnectivityEnabled`      | `false`                                             | Enables [Konnectivity](#konnectivity) for control plane to node network communication. Requires `KonnectivityService` feature gate in the `KubermaticConfiguration` to be enabled.
+| Parameter                  | Default Value                                       | Description                                                                                                                                                                        |
+| -------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `proxyMode`                | `ipvs`                                              | kube-proxy mode (`ipvs`/ `iptables` / `ebpf`). `ebpf` is allowed only if Cilium CNI is selected and [Konnectivity](#konnectivity) is enabled).                                     |
+| `pods.cidrBlocks`          | `[172.25.0.0/16]` (`[172.26.0.0/16]` for Kubevirt)  | The network ranges from which POD networks are allocated.                                                                                                                          |
+| `services.cidrBlocks`      | `[10.240.16.0/20]` (`[10.241.0.0/20]` for Kubevirt) | The network ranges from which service VIPs are allocated.                                                                                                                          |
+| `dnsDomain`                | `cluster.local`                                     | Domain name for k8s services.                                                                                                                                                      |
+| `ipvs.strictArp`           | `true` for `ipvs` proxyMode, `false` otherwise      | If enabled, configures `arp_ignore` and `arp_announce` kernel parameters to avoid answering ARP queries from `kube-ipvs0` interface.                                               |
+| `nodeLocalDNSCacheEnabled` | `true`                                              | Enables NodeLocal DNS Cache feature.                                                                                                                                               |
+| `konnectivityEnabled`      | `false`                                             | Enables [Konnectivity](#konnectivity) for control plane to node network communication. Requires `KonnectivityService` feature gate in the `KubermaticConfiguration` to be enabled. |
