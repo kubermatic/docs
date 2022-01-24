@@ -42,26 +42,7 @@ In KKP versions below v2.19, this was the only supported CNI.
 
 ### Cilium CNI
 
-[Cilium](https://cilium.io/) is a feature-rich CNI plugin, which leverages the revolutionary eBPF Kernel technology. It provides enhanced security and observability features, but requires more recent kernel versions on the worker nodes (see [Cilium System Requirements](https://docs.cilium.io/en/stable/operations/system_requirements/)).
-
-The most of the CIlium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only of [Konnectivity](#konnectivity) is enabled.
-
-To provide better observability on cluster networking with Cilium CNI via a web user interface, KKP provides a Hubble Addon that can be easily installed into user clusters with Cilium CNI via the KKP UI on the cluster page, as shown below:
-
-![Cluster Details - Addons](/img/kubermatic/master/tutorials/networking/ui_addons.png?classes=shadow,border "Cluster Details - Addons")
-
-![Cluster Details - Addons - Install Addon](/img/kubermatic/master/tutorials/networking/ui_addon_hubble.png?classes=shadow,border "Cluster Details - Addons - Install Addon")
-
-After the Hubble addon is installed into the cluster, the Hubble UI can be displayed by port-forwarding to it, e.g.:
-
-```bash
-kubectl port-forward -n kube-system svc/hubble-ui 12000:80
-```
-
-After the above port-forwarding is active, the Hubble UI can be shown by navigating to the URL [http://localhost:12000](http://localhost:12000).
-
-Please note that to have the Hubble addon available, the KKP installation has to be configured with `hubble` as [an accessible addon]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}).
-
+[Cilium](https://cilium.io/) is a feature-rich CNI plugin, which leverages the revolutionary eBPF Kernel technology. It provides enhanced security and observability features, but requires more recent kernel versions on the worker nodes (see [Cilium System Requirements](https://docs.cilium.io/en/stable/operations/system_requirements/)).  
 The following table lists the supported operating systems and cloud providers for cilium CNI in KKP:
 {{%expand "With ebpf proxy mode" %}}
 |   | Ubuntu | CentOS | Flatcar | RHEL | Amazon Linux 2 | SLES |
@@ -87,13 +68,33 @@ The following table lists the supported operating systems and cloud providers fo
 | Azure                 | ~[^1]  | x      | ~[^1]   | ~[^1]       |
 | Google Cloud Platform | ~[^1]  | -      | -       | -           |
 | Openstack             | ~[^1]  | x      | ~[^1]   | ~[^1]       |
+
 **NOTE:**
 
 - A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
 - A tilde(~) denotes a partial support
 
-[^1]: Pod can not access <internal_node_ip>:<node_port>. issue [8767](https://github.com/kubermatic/kubermatic/issues/8767)
+[^1]: Pod can not access `<internal_node_ip>:<node_port>`. issue [8767](https://github.com/kubermatic/kubermatic/issues/8767)
 {{% /expand%}}
+
+The most of the CIlium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only of [Konnectivity](#konnectivity) is enabled.
+
+To provide better observability on cluster networking with Cilium CNI via a web user interface, KKP provides a Hubble Addon that can be easily installed into user clusters with Cilium CNI via the KKP UI on the cluster page, as shown below:
+
+![Cluster Details - Addons](/img/kubermatic/master/tutorials/networking/ui_addons.png?classes=shadow,border "Cluster Details - Addons")
+
+![Cluster Details - Addons - Install Addon](/img/kubermatic/master/tutorials/networking/ui_addon_hubble.png?classes=shadow,border "Cluster Details - Addons - Install Addon")
+
+After the Hubble addon is installed into the cluster, the Hubble UI can be displayed by port-forwarding to it, e.g.:
+
+```bash
+kubectl port-forward -n kube-system svc/hubble-ui 12000:80
+```
+
+After the above port-forwarding is active, the Hubble UI can be shown by navigating to the URL [http://localhost:12000](http://localhost:12000).
+
+Please note that to have the Hubble addon available, the KKP installation has to be configured with `hubble` as [an accessible addon]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}).
+
 ### None CNI
 
 "None" CNI is a special KKP-internal CNI type, which does not install any CNI managed by KKP into the user cluster. CNI management is therefore left on the cluster admin which provides a flexible option to install any CNI with any specific configuration.
