@@ -157,14 +157,14 @@ to apply your changes.
 
 ### Configure ClusterIssuers
 
-By default, KKP installation uses cert-manager to generate SSL certificates for the platform. If you didn't decide to 
+By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to 
 change the settings (`kubermatic.certIssuer` in `values.yaml`), you need to create a `ClusterIssuer` object, named 
 `letsencrypt-prod` to enable cert-manager to issue the certificates. Example of this file can be found below.
 For other possible options, please refer to the [external documentation](https://cert-manager.io/docs/configuration/).
 
 ```yaml
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
 spec:
