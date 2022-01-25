@@ -56,8 +56,6 @@ OSCs are processed by controllers to eventually generate **secrets inside each u
 
 This controller was designed by keeping air-gapped environments in mind. Customers can use their own VM images by creating custom OSP profiles to provision nodes in a cluster that doesn't have outbound internet access.
 
-![Architecture](/img/kubermatic/master/tutorials/operating_system_manager/architecture_air_gapped.png?classes=shadow,border "Architecture")
-
 More work is being done to make it even easier to use OSM in air-gapped environments.
 
 ## Compatibility Matrix
