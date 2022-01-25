@@ -72,7 +72,7 @@ Spec is the only field that needs to be filled with a yaml.
 ![Add Constraint Template](/img/kubermatic/master/ui/opa_admin_add_ct.png?classes=shadow,border&height=350px "Constraint Template Add Dialog")
 
 The following example requires all labels that are described by the constraint to be present:
-```
+```yaml
 crd:
   spec:
     names:
@@ -118,13 +118,13 @@ To add a new constraint click on the `+ Add Constraint` icon on the right. A new
 ![Add Constraints Dialog](/img/kubermatic/master/ui/opa_add_constraint.png?height=350px&classes=shadow,border "Add Constraints Dialog")
 
 The following example will make sure that the gatekeeper label is defined on all namespaces, if you are using the `K8sRequiredLabels` constraint template from above:
-```
+```yaml
 match:
   kinds:
     - apiGroups: [""]
       kinds: ["Namespace"]
 parameters:
-  rawJSON: '{"labels":["gatekeeper"]}'
+  labels: ["gatekeeper"]
 ```
 
 Just click on `+ Add Constraint` to create the constraint. In this table, you can also edit or delete it again if needed after clicking on the icons that appears when hovering over one of the rows.
@@ -152,7 +152,7 @@ To add a new default constraint click on the `+Add Default Constraint` icon on t
 
 ![Create Default Constraint](/img/kubermatic/master/ui/create-default-constraint-dialog.png?height=300px&classes=shadow,border "Create Default Constraint")
 
-```
+```yaml
 constraintType: K8sPSPAllowPrivilegeEscalationContainer
 match:
   kinds:
@@ -197,7 +197,7 @@ In case of no filtering applied Default Constraints are synced to all User Clust
 for example, Admin wants to apply a policy only on clusters with the provider as `aws` and label selector as `filtered:true`
 To enable this add the following selectors in the constraint spec for the above use case.
 
-```
+```yaml
 selector:
   providers:
     - aws
@@ -240,8 +240,7 @@ In Admin View to disable Default Constraints, click on the green button under `O
 Kubermatic adds a label `disabled: true` to the Disabled Constraint
 ![Disabled Default Constraint](/img/kubermatic/master/ui/default-constraint-default-true.png?height=400px&classes=shadow,border "Disabled Default Constraint")
 
-Disabled Constraint in the Applied cluster View
-disabled-default-constraint-cluster-view.png
+
 ![Disabled Default Constraint](/img/kubermatic/master/ui/disabled-default-constraint-cluster-view.png?height=200px&classes=shadow,border "Disabled Default Constraint")
 
 

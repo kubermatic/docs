@@ -46,3 +46,51 @@ For security reasons, the API/UI does not offer a way to get the current credent
 ![Edit Credentials](/img/kubermatic/master/tutorials/backups/edit_backup_dest_credentials.png?classes=shadow,border "Backup Destination Credentials Edit")
 
 To see how to make backups and restore your cluster, check the [Etcd Backup and Restore Tutorial]({{< ref "../../../etcd_backups" >}}).
+
+
+### Enforcing default backups
+
+It is also possible to enforce default backups for each cluster in a Seed. By setting a default destination, a default EtcdBackupConfig
+is created for all the user clusters in the Seed. It has to be a destination that is present in the backup destination list for that Seed.
+
+Example Seed with default destination:
+```yaml
+...
+  etcdBackupRestore:
+    destinations:
+      s3:
+        bucketName: kkpbackuptest
+        credentials:
+          name: backup-s3
+          namespace: kube-system
+        endpoint: s3.amazonaws.com
+    defaultDestination: s3
+...
+```
+
+Default EtcdBackupConfig that is created:
+```yaml
+...
+  spec:
+    keep: 20
+    name: default-backups
+    schedule: '@every 20m'
+    destination: s3
+...
+```
+
+![Set Default Destination](/img/kubermatic/master/tutorials/backups/set_backup_dest_as_default.png?classes=shadow,border "Set Backup Destination as Default")
+
+{{% notice warning %}}
+Removing the default destination results in the termination of all default backups (Tip: to retain existing backups you can overwrite the default destination instead)
+{{% /notice %}}
+
+{{% notice note %}}
+For users already using the backups introduced in 2.18, when only one backup bucket and endpoint was available,
+if the backup is configured for the Seed, the default backups will be created for each user cluster as in 2.18.
+If the legacy configuration is removed, the default backups will be deleted.
+
+When migrating to multiple destinations, if you would like to keep your default backups, first set up the multiple destinations 
+with the default destination (set the same destination as the legacy), then remove the old configuration. This will cause the default backups to just switch to a new destination,
+and not get deleted and recreated.
+{{% /notice %}}
