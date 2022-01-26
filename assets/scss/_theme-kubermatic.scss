@@ -196,9 +196,29 @@ a:hover {
     color: var(--WHITE-color);
     text-align: left;
     text-decoration: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    &-title {
+        font-size: 16px;
+    }
+    &-content {
+        margin-top: 3px;
+        font-size: 14px;
+    }
+    &-section {
+        margin-top: 2px;
+        font-size: 13px;
+        em {
+            color: var(--MAIN-PRIMARY-color);
+        }
+    }
 }
 
 #sidebar a {

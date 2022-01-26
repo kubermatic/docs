@@ -6,11 +6,14 @@
 {{/* Include What Pages? */}}
 {{- range $i, $hit := (where (where .Site.Pages "Kind" "section") "Params.ignore" "ne" true) -}}
   {{- $dot := . -}}
-  {{- if or (and ($hit.IsDescendant $section) (and (not $hit.Draft) (not $hit.Params.private))) $section.IsHome -}}
+  {{- if and $hit.Content (or (and ($hit.IsDescendant $section) (and (not $hit.Draft) (not $hit.Params.private))) $section.IsHome) -}}
+    {{- $pathItems := split $hit.RelPermalink "/" -}}
+    {{- $section := delimit (slice (index $pathItems 1) (index $pathItems 2)) "/" -}}
     {{/* Set the hit's objectID */}}
     {{- .Scratch.SetInMap $hit.File.Path "objectID" $hit.File.UniqueID -}}
     {{/* Store built-in page variables in iterable object */}}
-    {{- .Scratch.SetInMap "temp" "content" $hit.Plain -}}
+    {{- .Scratch.SetInMap "temp" "content" ($hit.Plain | htmlUnescape) -}}
+    {{- .Scratch.SetInMap "temp" "productSection" $section -}}
     {{- .Scratch.SetInMap "temp" "date" $hit.Date.UTC.Unix -}}
     {{- .Scratch.SetInMap "temp" "description" $hit.Description -}}
     {{- .Scratch.SetInMap "temp" "dir" $hit.File.Dir -}}

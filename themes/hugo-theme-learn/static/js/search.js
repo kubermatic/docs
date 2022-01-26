@@ -49,7 +49,7 @@ var searchModule = (function() {
     var hits = instantsearch.widgets.hits({
       container: '.search-results',
       templates: {
-        item: '<a href="{{relpermalink}}" title="{{title}}" class="search-results-item">{{{_highlightResult.title.value}}}</a>',
+        item: '<a href="{{relpermalink}}" title="{{title}}" class="search-results-item"><div class="search-results-item-title">{{{_highlightResult.title.value}}}</div><div class="search-results-item-content">{{{_snippetResult.content.value}}}</div><div class="search-results-item-section">in <em>{{productSection}}</em></div></a>',
         empty: '<span class="search-results-item">No results</span>',
       },
     });

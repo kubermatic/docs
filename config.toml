@@ -90,4 +90,4 @@ url = "https://www.facebook.com/kubermatic/"
 class = "fab fa-facebook-f"
 
 [params.search]
-  vars = ["relpermalink", "title", "content"]
+  vars = ["relpermalink", "title", "content", "productSection"]
