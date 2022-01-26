@@ -6,7 +6,7 @@ weight = 100
 +++
 
 {{% notice warning %}}
-Dynamic kubelet configuration is a deprecated feature in Kubernetes. It will no longer be supported in KKP after Kubernetes removes it. See [the upstream documentation](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/) for more details.
+Dynamic kubelet configuration is a deprecated feature in Kubernetes. It will no longer be supported in KKP after [Kubernetes removes it in v1.24](https://github.com/kubernetes/kubernetes/pull/106932). See [the upstream documentation](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/) for more details.
 {{% /notice %}}
 
 Dynamic kubelet configuration allows for live reconfiguration of some or all nodes' kubelet options.
