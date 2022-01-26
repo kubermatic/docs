@@ -5,6 +5,10 @@ weight = 100
 
 +++
 
+{{% notice warning %}}
+Dynamic kubelet configuration is a deprecated feature in Kubernetes. It will no longer be supported in KKP after Kubernetes removes it. See [the upstream documentation](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/) for more details.
+{{% /notice %}}
+
 Dynamic kubelet configuration allows for live reconfiguration of some or all nodes' kubelet options.
 
 ### See Also
@@ -19,7 +23,3 @@ To enable dynamic kubelet configuration, mark the `Dynamic kubelet config` check
 ![Add Machine Deployment](/img/kubermatic/v2.19/ui/md_add.png?classes=shadow,border "Add Machine Deployment")
 
 Normally these configmaps for different versions are created with a set of healthy default options by Kubermatic Kubernetes Platform's (KKP) default `kubelet-configmap` addon. However, if you want to customize the settings, you can replace the default addon with your own. You can also alter the `configSource` parameter of the Machine Deployment to point the kubelet to another config map - that way you can have multiple configurations for multiple sets of nodes.
-
-{{% notice warning %}}
-The dynamic kubelet configuration is a beta feature in both Kubernetes and KKP. Refer to the Kubenetes documentation for more information.
-{{% /notice %}}
