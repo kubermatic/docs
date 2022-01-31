@@ -41,7 +41,7 @@ The Admin panel allows KKP administrators to manage the global settings that imp
 - Control various cluster related settings that influence cluster creation, management and clean up after deletion
 - Select from a range of filters to find and control existing dynamic data centres or add new ones
 - Define Preset types in a Kubernetes Custom Resource Definition (CRD) allowing the assignment of new credential types to supported providers
-- Enable and configure new etcd backups through Backup Buckets
+- Enable and configure etcd backups for your clusters through Backup Buckets
 
 #### Manage worker nodes via the UI or the CLI
 Worker nodes can be managed via the KKP web dashboard. Once you have installed kubectl, you can also manage them via CLI to automate the creation, deletion and up-grade of nodes.
