@@ -42,14 +42,16 @@ storage classes available on the cluster using the following command:
 
 ```bash
 kubectl get storageclasses
+```
+
+```
 #NAME                 PROVISIONER              AGE
 #kubermatic-fast      kubernetes.io/aws-ebs   195d
 #kubermatic-backup    kubernetes.io/aws-ebs   195d
 #standard (default)   kubernetes.io/aws-ebs   2y43d
 ```
 
-If you cluster does not have a default storage class configured, you have to configure Minio to use a specific one.
-We'll follow up with creating a storage class named `kubermatic-backup` and setting Minio up to use it.
+It's recommended that Minio uses a separate storage class with a different location/security level, but you can also use the default one if you desire.
 
 As Minio does not require any of the SSD's advantages, we can use HDD-backed storage. It's recommended that Minio uses
 a separate storage class with a different location/security level. For a cluster running on AWS, an example class could
@@ -105,13 +107,13 @@ export KUBECONFIG=/path/to/seed-cluster/kubeconfig
 The command above will take care of installing/updating the CRDs, setting up Minio and the S3-exporter and attempts
 to provide you with the necessary DNS settings after the installation has completed.
 
-Once the installer has completed, check the `kubermatic` namespace on the seed cluster, the new controller managers
+Once the installer has completed, check the `kubermatic` namespace on the seed cluster, where the new controller managers
 should be deployed automatically. If the deployment gets stuck, check the `kubermatic-operator` logs on the master
 cluster.
 
 ### Manual Installation
 
-Once the preparation for the cluster backup are done (setting up the StorageClass), install the Kubermatic CRDs using `kubectl`:
+Once the preparation for the cluster backup are done (setting up the StorageClass), install the Kubermatic CRDs using `kubectl`. The `charts` directory is part of the download archive on GitHub. Run the following command on the seed cluster:
 
 ```bash
 kubectl replace -f charts/kubermatic-operator/crd/
@@ -122,12 +124,6 @@ After configuring the required options, you can install the charts:
 ```bash
 helm --namespace minio upgrade --install --wait --values /path/to/your/helm-values.yaml minio charts/minio/
 helm --namespace kube-system upgrade --install --wait --values /path/to/your/helm-values.yaml s3-exporter charts/s3-exporter/
-```
-
-If you are installing seed separately, it's important to install the KKP CRDs. Run the following command in the seed cluster:
-
-```bash
-kubectl apply -f charts/kubermatic-operator/crd/
 ```
 
 ## Add the Seed Resource
@@ -189,7 +185,7 @@ spec:
 
 Refer to the [Seed CRD documentation]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}}) for a
 complete example of the Seed CustomResource and all possible datacenters.
-
+¹
 You can override the global [Expose Strategy]({{< ref "../../../tutorials_howtos/networking/expose_strategies">}}) at
 Seed level if you wish to.
 
@@ -198,12 +194,18 @@ required KKP components. You can watch the progress by using `kubectl` and `watc
 
 ```bash
 kubectl apply -f seed-with-secret.yaml
+```
+
+```
 #Secret/kubeconfig-kubermatic created.
 #Seed/kubermatic created.
 ```
 
 ```bash
 watch kubectl -n kubermatic get pods
+```
+
+```
 #NAME                                                   READY   STATUS    RESTARTS   AGE
 #kubermatic-api-55765568f7-br9jl                        1/1     Running   0          5m4s
 #kubermatic-api-55765568f7-xbvz2                        1/1     Running   0          5m13s
@@ -219,7 +221,7 @@ watch kubectl -n kubermatic get pods
 ```
 
 If you experience issues with the seed cluster setup, for example nothing happening in the `kubermatic` namespace,
-check the Kubermatic Operator's logs, for example via `kubectl --namespace kubermatic logs -f kubermatic-operator-7f6957869d-89g55`.
+check the Kubermatic Operator's logs on the master cluster, for example via `kubectl --namespace kubermatic logs -f kubermatic-operator-7f6957869d-89g55`.
 
 ## Update DNS
 
@@ -239,6 +241,9 @@ When your cloud provider supports LoadBalancers, you can find the target IP / ho
 
 ```bash
 kubectl -n kubermatic get services
+```
+
+```
 #NAME             TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
 #nodeport-proxy   LoadBalancer   10.47.248.232   8.7.6.5        80:32014/TCP,443:30772/TCP   449d
 ```
@@ -252,6 +257,9 @@ list of external IPs like so:
 
 ```bash
 kubectl get nodes -o wide
+```
+
+```
 #NAME                        STATUS   ROLES    AGE     VERSION         INTERNAL-IP   EXTERNAL-IP
 #worker-node-cbd686cd-50nx   Ready    <none>   3h36m   v1.15.8-gke.3   10.156.0.36   8.7.6.4
 #worker-node-cbd686cd-59s2   Ready    <none>   21m     v1.15.8-gke.3   10.156.0.14   8.7.6.3
