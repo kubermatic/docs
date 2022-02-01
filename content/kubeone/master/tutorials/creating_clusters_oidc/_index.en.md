@@ -84,8 +84,12 @@ We will be using [Helm 3](https://helm.sh/) to install all software, mostly beca
 Let's download the latest KKP release and use the bundled Helm charts:
 
 ```bash
-$ wget https://github.com/kubermatic/kubermatic/releases/download/v2.15.5/kubermatic-ce-v2.15.5-linux-amd64.tar.gz
-$ tar xzf kubermatic-ce-v2.15.5-linux-amd64.tar.gz charts
+# For latest version:
+$ VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
+# For specific version set it explicitly:
+# VERSION=2.18.x
+$ wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
+$ tar xzf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz charts
 ```
 
 Install nginx first:
@@ -104,6 +108,9 @@ This will create a new LoadBalancer service inside the `ingress-nginx` namespace
 
 ```bash
 $ kubectl -n ingress-nginx get svc nginx-ingress-controller
+```
+Output will be similar to this:
+```bash
 NAME                       TYPE           CLUSTER-IP     EXTERNAL-IP                  PORT(S)                      AGE
 nginx-ingress-controller   LoadBalancer   10.107.95.30   1.2.3.4,192.168.0.9   80:31165/TCP,443:32548/TCP   2d3h
 ```
@@ -127,7 +134,7 @@ As we did for the controlplane, we now have to setup a DNS record for this LoadB
 Now, we can setup cert-manager. Install the CRDs first, then the Helm chart:
 
 ```bash
-$ kubectl apply -filename ./charts/cert-manager/crd/
+$ kubectl apply --filename ./charts/cert-manager/crd/
 $ helm \
   --namespace cert-manager \
   upgrade \
@@ -201,6 +208,9 @@ If everything worked out, you should be able to see the Certificate for Dex turn
 
 ```bash
 $ kubectl -n kube-system get certificates
+```
+Output will be similar to this:
+```bash
 NAME   READY   SECRET    AGE
 dex    True    dex-tls   3m
 ```
@@ -414,6 +424,9 @@ Save it, set it as your `$KUBECONFIG` and test it out:
 ```bash
 $ export KUBECONFIG=oidc-kubeconfig
 $ kubectl get ns
+```
+Output will be similar to this:
+```bash
 error: You must be logged in to the server (Unauthorized)
 ```
 
@@ -448,6 +461,9 @@ $ kubectl apply --filename rbac.yaml
 
 $ export KUBECONFIG=oidc-kubeconfig
 $ kubectl get ns
+```
+Output will be similar to this:
+```bash
 NAME              STATUS   AGE
 cert-manager      Active   2h
 default           Active   2h
