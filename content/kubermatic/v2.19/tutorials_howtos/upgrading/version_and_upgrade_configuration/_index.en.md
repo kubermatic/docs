@@ -1,8 +1,8 @@
 +++
 title = "Versions & Update Configuration"
-date = 2019-07-05T10:45:00+02:00
+date = 2022-02-01T00:45:00+02:00
 weight = 200
-
+description = "Description for page"
 +++
 
 This chapter describes how to configure the available Kubernetes/OpenShift versions and how to
