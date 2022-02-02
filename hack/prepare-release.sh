@@ -14,10 +14,11 @@ usage() {
   echo "Flags:"
   echo "  -p    Product selection. One of 'kubermatic', 'kubeone', 'kubecarrier'. (env: PRODUCT)"
   echo "  -v    Version of the upcoming release. (env: VERSION)"
+  echo "  -k    Location of kubermatic/kubermatic working copy. (env: KUBERMATIC_DIR, default: '../kubermatic')"
   echo "  -h    Print this help."
   echo
   echo "Product and Version can be passed by flag or environment variable. The flag has the higher weight."
-  echo "For the component version update the code of kkp needs to be located at ../kubermatic."
+  echo "For the component version update the code of KKP either needs to be located at ../kubermatic or an alternative location needs to be set (see -k)."
 }
 
 line() {
@@ -27,15 +28,16 @@ line() {
 version_table() {
   line "KKP Component" "Version"
   line "---" "---"
-  for comp in $(find ../kubermatic/charts -name 'Chart.yaml' -printf '%h\n')
+  for comp in $(find $KUBERMATIC_DIR/charts -name 'Chart.yaml')
   do
-    name=${comp#../kubermatic/charts/}
-    ver=$(yq e '.appVersion' $comp/Chart.yaml | sed "s/__KUBERMATIC_TAG__/${VERSION}.0/;s/^v//")
+    folder=${comp%/*}
+    name=${folder#$KUBERMATIC_DIR/charts/}
+    ver=$(yq e '.appVersion' $comp | sed "s/__KUBERMATIC_TAG__/${VERSION}.0/;s/^v//")
     line $name $ver
   done
 }
 
-while getopts "hp:v:" option
+while getopts "hp:v:k:" option
 do
   case $option in
     h)
@@ -45,6 +47,8 @@ do
       export PRODUCT=${OPTARG};;
     v)
       export VERSION=${OPTARG};;
+    k)
+      export KUBERMATIC_DIR=${OPTARG};;
     \?)
       usage
       exit 1;;
@@ -64,6 +68,9 @@ yq --version | grep -q 'yq .* version 4' || {
 
 [[ $PRODUCT =~ ^(kubermatic|kubeone|kubecarrier)$ ]] ||
   (usage; exit 1)
+
+# Default value if unset
+KUBERMATIC_DIR=${KUBERMATIC_DIR:-"../kubermatic"}
 
 # Update component versions and copy static images only when preparing docs for KKP release
 if [[ $PRODUCT == 'kubermatic' ]]
