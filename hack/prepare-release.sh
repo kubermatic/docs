@@ -76,7 +76,7 @@ KUBERMATIC_DIR=${KUBERMATIC_DIR:-"../kubermatic"}
 if [[ $PRODUCT == 'kubermatic' ]]
 then
   tmpfile=$(mktemp)
-  head -13 content/kubermatic/master/architecture/support_policy/KKP_components_versioning/_index.en.md > $tmpfile
+  sed '/^|.*KKP/Q' content/kubermatic/master/architecture/support_policy/KKP_components_versioning/_index.en.md > $tmpfile
   version_table >> $tmpfile
   mv $tmpfile content/kubermatic/master/architecture/support_policy/KKP_components_versioning/_index.en.md
 
