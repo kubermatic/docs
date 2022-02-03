@@ -52,3 +52,22 @@ spec:
   enableOperatingSystemManager: true
 ...
 ```
+
+### Provisioning User Cluster Using OSM
+
+Once KKP Operating System Manager(OSM) is enabled on seed and user cluster level, users have the possibility to provision user
+clusters using OSM. To enable machine controller to pick up the right operating system profile, each machine deployment
+needs to be annotated with the chosen profile. OSM ships default operating system profile by default, once the feature is
+enabled on the user cluster, default OSPs will be available in the cluster namespace in the seed. For instance, if a users
+would like to enable osm provisioning for a machine that runs Ubuntu as an operating system, they should a specific annotation
+accordingly:
+
+```yaml
+apiVersion: "cluster.k8s.io/v1alpha1"
+kind: MachineDeployment
+metadata:
+  annotations:
+    "k8c.io/operating-system-profile": "osp-ubuntu"
+```
+
+**NOTE:** At the moment, it is  not possible to choose an operating system profile and attach to a machine deployment in the UI.
