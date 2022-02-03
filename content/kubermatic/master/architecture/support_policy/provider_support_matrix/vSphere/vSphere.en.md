@@ -62,11 +62,11 @@ As this Config must also be deployed onto each worker node of a user cluster, it
 
 The vsphere user has to have to following permissions on the correct resources:
 
-#### Seed Cluster
+#### User Cluster Could Controller Manager / CSI
 
-For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-seed-cluster`) is needed:
+For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-ccm-cluster`) is needed:
 
-* Role `k8c-storage-vmfolder-propagate`
+* Role `k8c-ccm-storage-vmfolder-propagate`
   * Granted at **VM Folder** and **Template Folder**, propagated
   * Permissions
     * Virtual machine
@@ -79,7 +79,7 @@ For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-s
       * Create folder
       * Delete dolder
 
-* Role `k8c-storage-datastore-propagate`
+* Role `k8c-ccm-storage-datastore-propagate`
   * Granted at **Datastore**, propagated
   * Permissions
     * Datastore
@@ -98,6 +98,8 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
   * Granted at **vcenter** level, **not** propagated
   * Needed to customize VM during provisioning
   * Permissions
+    * CNS
+      * Searchable
     * Profile-driven storage
       * Profile-driven storage view
     * VirtualMachine
@@ -130,6 +132,7 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
   * Permissions
     * Host
       * Configuration
+        * Storage partition configuration
         * System Management
       * Local operations
         * Reconfigure virtual machine

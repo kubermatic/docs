@@ -58,6 +58,8 @@ The vsphere user has to have to following permissions on the correct resources:
   * Granted at **vcenter** level, **not** propagated
   * Needed to customize VM during provisioning
   * Permissions
+    * CNS
+      * Searchable
     * Profile-driven storage
       * Profile-driven storage view
     * VirtualMachine
@@ -90,6 +92,7 @@ The vsphere user has to have to following permissions on the correct resources:
   * Permissions
     * Host
       * Configuration
+        * Storage partition configuration
         * System Management
       * Local operations
         * Reconfigure virtual machine

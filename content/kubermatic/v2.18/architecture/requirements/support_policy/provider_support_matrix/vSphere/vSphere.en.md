@@ -86,37 +86,6 @@ For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-c
       * Allocate space
       * Low level file operations
 
-* Role `k8c-ccm-storage-datastore-vsan`(only for vSAN usage)
-  * Granted at **vSAN Cluster**
-  * Permissions
-    * Host
-      * Configuration
-        * Storage partition configuration
-  ```
-  govc role.ls k8c-storage-datastore-vsan
-  Host.Config.Storage
-  System.Anonymous
-  System.Read
-  System.View
-  ```
-  
-* Role `k8c-ccm-cns-search`
-  * Granted at **vcenter** level, **not** propagated
-  * Needed to provision CSI driver
-  * Permissions
-    * Profile-driven storage
-      * Profile-driven storage view
-     * CNS
-       * Searchable
-  ```
-  govc role.ls k8c-ccm-cns-search
-  Cns.Searchable
-  StorageProfile.View
-  System.Anonymous
-  System.Read
-  System.View
-  ```  
-
 * Role `Read-only` (predefined)
   * Granted at ..., **not** propagated
     * Datacenter
@@ -129,14 +98,14 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
   * Granted at **vcenter** level, **not** propagated
   * Needed to customize VM during provisioning
   * Permissions
+    * CNS
+      * Searchable
     * Profile-driven storage
       * Profile-driven storage view
     * VirtualMachine
       * Provisioning
         * Modify customization specification
         * Read customization specifications
-     * CNS
-       * Searchable
 
 * Role `k8c-user-datacenter`
   * Granted at **datacenter** level, **not** propagated
@@ -163,6 +132,7 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
   * Permissions
     * Host
       * Configuration
+        * Storage partition configuration
         * System Management
       * Local operations
         * Reconfigure virtual machine
@@ -188,20 +158,6 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
       * Browse datastore
       * Low level file operations
 
-* Role `k8c-user-datastore-vsan`(only for vSAN usage)
-  * Granted at **vSAN Cluster**
-  * Permissions
-    * Host
-      * Configuration
-        * Storage partition configuration
-  ```
-  govc role.ls k8c-storage-datastore-vsan
-  Host.Config.Storage
-  System.Anonymous
-  System.Read
-  System.View
-  ```
- 
 * Role `k8c-user-folder-propagate`
   * Granted at **VM Folder** and **Template Folder** level, propagated
   * Needed for managing the node VMs
