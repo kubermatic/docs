@@ -4,7 +4,7 @@ weight = 10
 enableToc = true
 +++
 
-Start by visiting [https://start.kubermatic.io/](https://start.kubermatic.io/).
+Start by visiting [https://start.kubermatic.com](https://start.kubermatic.com).
 
 Introduction page will welcome you.
 
@@ -12,29 +12,37 @@ Start by clicking on the **Generate** button.
 
 ![Welcome Page](welcome.png?width=700px&classes=shadow,border "Welcome Page" )
 
-## 1. Git Provider selection
-At this step, you will select a git provider where the repository will be hosted.
+## 1. Git provider selection
+At this step, you will select a Git provider where the repository will be hosted.
+
+You can pick between GitHub and GitLab.
 
 ![Step 1](1.png?width=700px&classes=shadow,border "Step 1")
 
-## 1. Cloud Provider selection
+## 2. Cloud provider selection
 At this step, you will select a cloud provider where the KKP will be deployed.
 
 ![Step 2](2.png?width=700px&classes=shadow,border "Step 2")
 
-## 3. Kubernetes Cluster configuration
-At this step, you are providing details of your Kubernetes master cluster.
+{{% notice info %}}
+Keep in mind that after the selection of Git Provider, some cloud providers may not be available.
+It is due to the limited support how the Terraform backend is implemented.
+All Cloud Providers are available with GitLab.
+{{% /notice %}}
 
-You can generate a _Cluster name_, provide a Kubernetes _Master Cluster Version_.
+## 3. Kubernetes cluster configuration
+At this step, you are providing details of your Kubernetes cluster where Kubermatic Kubernetes Platform will be installed ("Master / Seed Cluster").
 
-For the AWS setup, you can select an _AWS region_ where the cluster will be provisioned and also the _AWS Worker Type_
-(see the [Instance Types](https://aws.amazon.com/ec2/instance-types/), we recommend at least _t3.xlarge_ for the initial setup).
+You can generate a _Cluster name_, provide a _Kubernetes Version_ and pick the _Container Runtime_.
+
+Then you can configure usage of _Kubernetes Nodes Autoscaler_ by providing minimum and maximum nodes to be managed.
+
 {{% notice warning %}}
-Make sure to use the x86 instances, ARM instances are not supported.
+Section with provider details is different per each cloud provider, AWS is used in the example below.
 {{% /notice %}}
 
 Keep in mind that this configuration is for the master cluster where KKP will be deployed, later on you will provision
-User clusters through KKP where your workload will be deployed (and for that you may use a different instance types).
+User clusters through KKP where your workload will be deployed (and for that you will have a separate control for options like instance types, etc.).
 
 ![Step 3](3.png?width=700px&classes=shadow,border "Step 3")
 
@@ -43,23 +51,29 @@ Here you are going to provide some high-level configuration of the KKP installat
 
 _Version_ is matching the KKP release tag, see [Release page on github](https://github.com/kubermatic/kubermatic/releases).
 
-_Endpoint_ parameter represents the DNS endpoint where the KKP UI will be accessible in the browser (DNS registration will be described later).
+_Endpoint_ parameter represents the DNS endpoint where the KKP Dashboard will be accessible in the browser (DNS registration will be described later).
+
 {{% notice warning %}}
 Don’t specify a protocol (https://) and the trailing slash in the _Endpoint_ input.
 {{% /notice %}}
 
-_Username_ should be your email which will be used for your initial user integrated inside Dex (used as a KKP authentication IdP),
-this user will be also “admin” of your KKP installation.
+_Username_ should be your email which will be used for your initial user integrated inside Dex (used as a KKP authentication provider),
+this user will be also the “admin” of your KKP installation.
 
-There is optional choice of enabling the monitoring and alerting stack - if enabled, monitoring stack will be deployed on your Kubernetes master cluster.
+_Certificate Issuer Email_ should be email for receiving notifications from Let's Encrypt certificate issuer (can be different email than above).
+
+There is optional choice of enabling the Monitoring / Logging / Alerting stack - if enabled, MLA stack for master / seed cluster will be deployed and configured on your Kubernetes cluster.
+
 Monitoring stack includes following services installed as helm charts: _alertmanager_, _prometheus_, _karma_, _grafana_, _kube-state-metrics_, _blackbox-exporter_, _node-exporter_.
-The services with the UI interface are accessible on the Ingress endpoints which are configured using OAuth2-Proxy as the identity-aware proxy.
+
+The services with the UI interface are accessible on the Ingress endpoints which are configured using OAuth2-Proxy (identity aware proxy).
+
 Parameter _IAP Allowed Email Domain_ is used to limit access to monitoring services, see [documentation](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview) for more advanced options.
 
 ![Step 4](4.png?width=700px&classes=shadow,border "Step 4")
 
 ## 5. KKP Bootstrap configuration
-This is an additional step of setting up more KKP entities which are managed as the Custom Resources in your Kubernetes cluster.
+This is an additional step of setting up more KKP resources which are managed as the Custom Resources in your Kubernetes cluster.
 
 _Project Name_ is used to create a project inside your KKP. Your admin user will be already bound inside this project out of the box.
 
@@ -76,7 +90,11 @@ In this wizard, you can setup one datacenter in AWS, you can later on update the
 Keep in mind that with KKP CE version you can have only one Seed resource!
 {{% /notice %}}
 
-_Preset_ will be used for provisioning of your user cluster in AWS provider, these credentials will be safely stored in your GitHub repository (values are encrypted with _SOPS_ tool).
+_Preset Configuration_ will be used for provisioning of your user cluster in your cloud provider, these credentials will be safely stored in your Git repository (values are encrypted with _SOPS_ tool).
+
+{{% notice warning %}}
+Sections with Datacenter and Preset configuration are different per each cloud provider, AWS is used in the example below.
+{{% /notice %}}
 
 ![Step 5](5.png?width=700px&classes=shadow,border "Step 5")
 

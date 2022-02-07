@@ -34,3 +34,8 @@ sops -e --encrypted-regex 'secret|Secret|key|Key|password|hash' --age $AGE_PUBLI
 You should decrypt the whole file if you are willing to update some parts, otherwise `sops` will complain
 that there the file has already some encrypted values.
 {{% /notice %}}
+
+{{% notice warning %}}
+Be aware that even if you are updating some non-sensitive value in the file which includes some encrypted values, it is still necessary
+to first decrypt the file, update the values and encrypt again. This is needed to avoid an errors with "MAC mismatch" (message authentication code).
+{{% /notice %}}

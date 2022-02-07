@@ -4,7 +4,7 @@ weight = 20
 +++
 
 ### Check cluster nodes health
-```shell
+```bash
 kubectl get nodes
 ```
 Should provide an output like:
@@ -19,7 +19,7 @@ ip-172-31-96-184.eu-central-1.compute.internal   Ready    <none>                
 ```
 
 ### Check Pod resources are healthy
-```shell
+```bash
 kubectl get pod -A
 ```
 
@@ -33,7 +33,7 @@ If there are some failing pods, investigate the specific logs.
 
 ### Check Flux kustomizations are applied
 
-```shell
+```bash
 kubectl get kustomizations.kustomize.toolkit.fluxcd.io -A
 ```
 Should provide an output like:
@@ -45,7 +45,7 @@ kubermatic    sops-kustomization   True    Applied revision: main/1d6cdc2b442c11
 
 ### Check Helm Releases managed by Flux are reconciled
 
-```shell
+```bash
 kubectl get helmreleases.helm.toolkit.fluxcd.io -A
 ```
 Should provide an output like:
