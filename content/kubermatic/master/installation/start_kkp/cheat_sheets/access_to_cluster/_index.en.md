@@ -3,7 +3,7 @@ title = "Get Access to Kubernetes Cluster"
 weight = 10
 +++
 
-You can either SSH to created control plane instance(s) and use the `/etc/kubernetes/admin.conf` or if you want to
+You can either SSH to one of the created control plane instance(s) and use the `/etc/kubernetes/admin.conf` or if you want to
 have access to your Kubernetes cluster locally, follow these steps.
 
 ## Prerequisites
