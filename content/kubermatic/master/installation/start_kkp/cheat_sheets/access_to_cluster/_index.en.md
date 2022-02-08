@@ -25,7 +25,7 @@ cd ../..
 ```
 
 ## 2. Prepare SSH Agent with SSH Key
-KubeOne tools requires SSH access to your instances, see [documentation](https://docs.kubermatic.com/kubeone/master/guides/ssh/) for more details.
+KubeOne requires SSH access to your instances, see [documentation](https://docs.kubermatic.com/kubeone/master/guides/ssh/) for more details.
 ```bash
 cd kubeone
 eval `ssh-agent`
