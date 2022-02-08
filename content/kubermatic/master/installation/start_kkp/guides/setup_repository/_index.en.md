@@ -24,7 +24,7 @@ for GitHub which will be used in the next section while preparing Secrets. Token
 {{% tab name="GitLab" %}}
 Create new repository on GitLab [manually](https://docs.gitlab.com/ee/user/project/working_with_projects.html#create-a-project).
 
-Also prepare a GitLab API token which will be used for GitOps setup.
+Also prepare a [GitLab API token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) which will be used for GitOps setup. [Project access token](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html) can be used as well.
 {{% /tab %}}
 {{% /tabs %}}
 
@@ -36,13 +36,15 @@ Also prepare a GitLab API token which will be used for GitOps setup.
 Login to [AWS console](https://console.aws.amazon.com/console) and create your access keys under IAM or using
 AWS CLI `aws iam create-access-key`.
 
+{{% notice warning %}}
 Credentials should be static and do not utilize any tools like `aws-iam-authenticator` because they are also stored as secret in your Kubernetes cluster.
+{{% /notice %}}
 
 {{% /tab %}}
 {{% tab name="Azure" %}}
 Login to [Azure portal](https://portal.azure.com/) and create a role and service account (application).
 
-See [KubeOne documentation](https://docs.kubermatic.com/kubeone/master/architecture/requirements/machine_controller/azure/) for more details.
+See [KubeOne documentation]({{< ref "../../../../../../kubeone/master/architecture/requirements/machine_controller/azure/" >}}) for more details.
 
 Values of tenantId, subscriptionId, clientId and clientSecret will be set in the variables / secrets for the pipeline.
 
@@ -73,18 +75,18 @@ gcloud iam service-accounts keys create --iam-account "${SERVICE_ACCOUNT_ID}" "$
 cat "${SERVICE_ACCOUNT_NAME}-sa-key.json"
 ```
 
-See [KubeOne documentation](https://docs.kubermatic.com/kubeone/master/architecture/requirements/machine_controller/google_cloud/gcp/) for more details.
+See [KubeOne documentation]({{< ref "../../../../../../kubeone/master/architecture/requirements/machine_controller/google_cloud/gcp/" >}}) for more details.
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
 Terraform provider will need to set the environment variables to access the OpenStack API.
 
-See there related KubeOne [documentation](https://docs.kubermatic.com/kubeone/master/guides/credentials/#environment-variables), select OpenStack tab.
+See there related [KubeOne documentation]({{< ref "../../../../../../kubeone/master/guides/credentials/#environment-variables" >}}), select OpenStack tab.
 {{% /tab %}}
 {{% tab name="vSphere" %}}
 Terraform provider will need to set the environment variables to access the vSphere instance.
 
-See there related KubeOne [documentation](https://docs.kubermatic.com/kubeone/master/guides/credentials/#environment-variables), select vSphere tab and
-pay attention to the vSphere specific [permissions](https://docs.kubermatic.com/kubeone/master/architecture/requirements/machine_controller/vsphere/vsphere/).
+See there related [KubeOne documentation]({{< ref "../../../../../../kubeone/master/guides/credentials/#environment-variables" >}}), select vSphere tab and
+pay attention to the vSphere specific [permissions]({{< ref "../../../../../../kubeone/master/architecture/requirements/machine_controller/vsphere/vsphere/" >}}).
 {{% /tab %}}
 {{% /tabs %}}
 
@@ -99,70 +101,56 @@ ssh-keygen -t rsa -b 4096 -C "admin@kubermatic.com" -f ~/.ssh/k8s_rsa
 
 ## Setup Pipeline Secrets / Variables
 
-{{< tabs name="Pipeline Variables" >}}
-{{% tab name="GitHub + AWS" %}}
+Preparation of pipeline variables depends on selected Git and Cloud provider combination.
+
+Please pay attention to the following combination to include all required variables for pipeline to run.
+
+{{< tabs name="Git Variables" >}}
+{{% tab name="GitHub" %}}
 Go to your GitHub repository under **Settings** -> **Secrets** and setup following secrets:
 
 | Secret Name             | Description                                                          |
 | ------------------------| ---------------------------------------------------------------------|
-| `AWS_ACCESS_KEY_ID`     | The AWS Access Key ID from above step                                |
-| `AWS_SECRET_ACCESS_KEY` | The AWS Secret Access Key from above step                            |
 | `SOPS_AGE_SECRET_KEY`   | The generated AGE secret key (see _secrets.md_ file)                 |
 | `TOKEN_GITHUB`          | The GitHub access token from above step                              |
 | `SSH_PRIVATE_KEY`       | The private SSH key (content of `~/.ssh/k8s_rsa`) from above step    |
 | `SSH_PUBLIC_KEY`        | The public SSH key (content of `~/.ssh/k8s_rsa.pub`) from above step |
 {{% /tab %}}
-{{% tab name="GitHub + GCP" %}}
-Go to your GitHub repository under **Settings** -> **Secrets** and setup following secrets:
-
-| Secret Name             | Description                                                                                |
-| ------------------------| -------------------------------------------------------------------------------------------|
-| `GOOGLE_CREDENTIALS`    | The service account key (content of `${SERVICE_ACCOUNT_NAME}-sa-key.json`) from above step |
-| `SOPS_AGE_SECRET_KEY`   | The generated AGE secret key (see _secrets.md_ file)                                       |
-| `TOKEN_GITHUB`          | The GitHub access token from above step                                                    |
-| `SSH_PRIVATE_KEY`       | The private SSH key (content of `~/.ssh/k8s_rsa`) from above step                          |
-| `SSH_PUBLIC_KEY`        | The public SSH key (content of `~/.ssh/k8s_rsa.pub`) from above step                       |
-{{% /tab %}}
-{{% tab name="GitLab + AWS" %}}
+{{% tab name="GitLab" %}}
 Go to your GitLab project under "Settings" -> "CI/CD" -> "Variables" and setup following variables:
 
 | Secret Name             | Description                                                          |
 | ------------------------| ---------------------------------------------------------------------|
-| `AWS_ACCESS_KEY_ID`     | The AWS Access Key ID from above step                                |
-| `AWS_SECRET_ACCESS_KEY` | The AWS Secret Access Key from above step                            |
 | `SOPS_AGE_SECRET_KEY`   | The generated AGE secret key (see _secrets.md_ file)                 |
 | `GITLAB_TOKEN`          | The GitLab access token from above step                              |
 | `SSH_PRIVATE_KEY`       | The private SSH key (content of `~/.ssh/k8s_rsa`) from above step    |
 | `SSH_PUBLIC_KEY`        | The public SSH key (content of `~/.ssh/k8s_rsa.pub`) from above step |
 {{% /tab %}}
-{{% tab name="GitLab + Azure" %}}
-Go to your GitLab project under "Settings" -> "CI/CD" -> "Variables" and setup following variables:
+{{% /tabs %}}
 
+In addition to above, configure following secrets for selected cloud provider.
+
+{{< tabs name="Cloud provider variables" >}}
+{{% tab name="AWS" %}}
+| Secret Name             | Description                                                          |
+| ------------------------| ---------------------------------------------------------------------|
+| `AWS_ACCESS_KEY_ID`     | The AWS Access Key ID from above step                                |
+| `AWS_SECRET_ACCESS_KEY` | The AWS Secret Access Key from above step                            |
+{{% /tab %}}
+{{% tab name="Azure" %}}
 | Secret Name             | Description                                                          |
 | ------------------------| ---------------------------------------------------------------------|
 | `ARM_TENANT_ID`         | The Azure tenant ID                                                  |
 | `ARM_SUBSCRIPTION_ID`   | The Azure Subscription ID                                            |
 | `ARM_CLIENT_ID`         | The Azure Client ID (Application)                                    |
 | `ARM_CLIENT_SECRET`     | The Azure Client Secret for client authentication                    |
-| `SOPS_AGE_SECRET_KEY`   | The generated AGE secret key (see _secrets.md_ file)                 |
-| `GITLAB_TOKEN`          | The GitLab access token from above step                              |
-| `SSH_PRIVATE_KEY`       | The private SSH key (content of `~/.ssh/k8s_rsa`) from above step    |
-| `SSH_PUBLIC_KEY`        | The public SSH key (content of `~/.ssh/k8s_rsa.pub`) from above step |
 {{% /tab %}}
-{{% tab name="GitLab + GCP" %}}
-Go to your GitLab project under "Settings" -> "CI/CD" -> "Variables" and setup following variables:
-
+{{% tab name="GCP" %}}
 | Secret Name             | Description                                                                                |
-| ------------------------| ------------------------------------------------------------------------------------------ |
+| ------------------------| -------------------------------------------------------------------------------------------|
 | `GOOGLE_CREDENTIALS`    | The service account key (content of `${SERVICE_ACCOUNT_NAME}-sa-key.json`) from above step |
-| `SOPS_AGE_SECRET_KEY`   | The generated AGE secret key (see _secrets.md_ file)                                       |
-| `GITLAB_TOKEN`          | The GitLab access token from above step                                                    |
-| `SSH_PRIVATE_KEY`       | The private SSH key (content of `~/.ssh/k8s_rsa`) from above step                          |
-| `SSH_PUBLIC_KEY`        | The public SSH key (content of `~/.ssh/k8s_rsa.pub`) from above step                       |
 {{% /tab %}}
-{{% tab name="GitLab + OpenStack" %}}
-Go to your GitLab project under "Settings" -> "CI/CD" -> "Variables" and setup following variables:
-
+{{% tab name="OpenStack" %}}
 | Secret Name             | Description                                                          |
 | ------------------------| -------------------------------------------------------------------- |
 | `OS_AUTH_URL`           | The URL of OpenStack Identity Service                                |
@@ -171,23 +159,13 @@ Go to your GitLab project under "Settings" -> "CI/CD" -> "Variables" and setup f
 | `OS_DOMAIN_NAME`        | The name of the OpenStack domain                                     |
 | `OS_TENANT_ID`          | The ID of the OpenStack tenant (project)                             |
 | `OS_TENANT_NAME`        | The name of the OpenStack tenant (project)                           |
-| `SOPS_AGE_SECRET_KEY`   | The generated AGE secret key (see _secrets.md_ file)                 |
-| `GITLAB_TOKEN`          | The GitLab access token from above step                              |
-| `SSH_PRIVATE_KEY`       | The private SSH key (content of `~/.ssh/k8s_rsa`) from above step    |
-| `SSH_PUBLIC_KEY`        | The public SSH key (content of `~/.ssh/k8s_rsa.pub`) from above step |
 {{% /tab %}}
-{{% tab name="GitLab + vSphere" %}}
-Go to your GitLab project under "Settings" -> "CI/CD" -> "Variables" and setup following variables:
-
+{{% tab name="vSphere" %}}
 | Secret Name             | Description                                                          |
 | ------------------------| -------------------------------------------------------------------- |
 | `VSPHERE_SERVER`        | The vCenter server name for vSphere API operations                   |
 | `VSPHERE_USER`          | The username for vSphere API operations                              |
 | `VSPHERE_PASSWORD`      | The password for vSphere API operations                              |
-| `SOPS_AGE_SECRET_KEY`   | The generated AGE secret key (see _secrets.md_ file)                 |
-| `GITLAB_TOKEN`          | The GitLab access token from above step                              |
-| `SSH_PRIVATE_KEY`       | The private SSH key (content of `~/.ssh/k8s_rsa`) from above step    |
-| `SSH_PUBLIC_KEY`        | The public SSH key (content of `~/.ssh/k8s_rsa.pub`) from above step |
 {{% /tab %}}
 {{% /tabs %}}
 
