@@ -18,6 +18,8 @@ KKP supports three types of CNI (Container Network Interface) plugin types:
 - **[Cilium](#cilium-cni)**
 - **[None](#none-cni)**
 
+Apart from these, KKP also supports [Multus-CNI addon]({{< relref "../multus/" >}}). This is a CNI meta-plugin that can be installed on top of any of the supported primary CNIs.
+
 The following table lists the versions of individual CNIs supported by KKP:
 
 | KKP version | Canal                                           | Cilium  |

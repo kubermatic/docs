@@ -1,92 +1,105 @@
 +++
 title = "Multus-CNI Addon"
 date = 2021-03-21T20:00:00+02:00
-weight = 10
-
+weight = 160
 +++
 
-The Multus-CNI Addon allows automated installation of [Multus-CNI](https://github.com/k8snetworkplumbingwg/multus-cni)
-in KKP.
+The Multus-CNI Addon allows automated installation of [Multus-CNI](https://github.com/k8snetworkplumbingwg/multus-cni) in KKP user clusters.
 
 {{< table_of_contents >}}
 
-## Prerequisites
-Before installing the Multus Addon in a KKP user cluster, the following prerequisites have to be met:
+## About Multus-CNI
+Multus-CNI enables attaching multiple network interfaces to pods in Kubernetes. It is not a standard CNI plugin - it acts as a CNI "meta-plugin", a CNI that can call multiple other CNI plugins. This implies that clusters still need a primary CNI to function properly.
 
-### KKP Version
-This addon works with KKP version **2.16+**.
+In KKP, Multus can be installed into user clusters with any [supported CNI]({{< relref "../cni_cluster_network/" >}}). Multus addon can be deployed into a user cluster with a working primary CNI at any time.
 
-### Installing Multus Addon in KKP
-Before this addon can be deployed in a KKP user cluster, the KKP installation has to be configured to enable Multus
-as an [accessible addon](../#accessible-addons). This needs to be done by the KKP installation administrator,
+## Installing Multus Addon in KKP
+Before this addon can be deployed in a KKP user cluster, the KKP installation has to be configured to enable `multus` addon as an [accessible addon]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}). This needs to be done by the KKP installation administrator,
 once per KKP installation.
 
-As an administrator you can find the AddonConfig for Multus at the end of this document.
-
-
-{{% notice warning %}}
-Multus will be installed without a ConfigMap. This is done on purpose to allow users to customize the ConfigMap and Plugins as they wish. When no ConfigMap is installed, an error message will be printed in the KKP UI. 
-{{% /notice %}}
-
+As an administrator you can use the [AddonConfig](#multus-addonconfig) listed at the end of this page.
 
 ## Deploying Multus Addon in a KKP User Cluster
 Once the Multus Addon is installed in KKP, it can be deployed into a user cluster via the KKP UI as shown below:
 
 ![Multus Addon](/img/kubermatic/master/ui/addon_multus.png?height=400px&classes=shadow,border "Multus Addon")
 
+Multus will automatically configure itself with the primary CNI running in the user cluster. If the primary CNI is not yet running at the time of Multus installation, Multus will wait for it for up to 10 minutes.
 
-## Multus Addon Options
-With the Multus Addon, we wanted to keep the user able to deploy whatever configuration he needs.
-The addon will deploy Multus without the dynamic ConfigMap creation. A placeholder for the ConfigMap is used instead which will allow the kubelet to read it first (alphabetical order takes precedence CNI wise).
-In short, there are no options from the KKP UI side, and we give free reigns to the cluster's operators.
-You can find multiple examples in the official repo, depending on your node's architecture or the cloud provider. [Click here](https://github.com/k8snetworkplumbingwg/multus-cni/tree/master/images) for the examples provided by Multus.
+## Using Multus-CNI
+When Multus addon is installed, all pods will be still managed by the primary CNI. At this point, it is possible to define additional networks with `NetworkAttachmentDefinition` custom resources.
 
-Here is an example of a ConfigMap that uses flannel as the primary CNI:
+As an example, the following `NetworkAttachmentDefinition` defines a network named `macvlan-net` managed by the [macvlan CNI plugin](https://www.cni.dev/plugins/current/main/macvlan/) (a simple standard CNI plugin usually installed together with the primary CNIs):
+
 ```yaml
-kind: ConfigMap
-apiVersion: v1
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
 metadata:
-  name: multus-cni-config
-  namespace: kube-system
-  labels:
-    tier: node
-    app: multus
-data:
-  cni-conf.json: |
-    {
-      "name": "multus-cni-network",
-      "type": "multus",
-      "capabilities": {
-        "portMappings": true
-      },
-      "delegates": [
-        {
-          "cniVersion": "0.3.1",
-          "name": "default-cni-network",
-          "plugins": [
-            {
-              "type": "flannel",
-              "name": "flannel.1",
-                "delegate": {
-                  "isDefaultGateway": true,
-                  "hairpinMode": true
-                }
-              },
-              {
-                "type": "portmap",
-                "capabilities": {
-                  "portMappings": true
-                }
-              }
-          ]
-        }
-      ],
-      "kubeconfig": "/etc/cni/net.d/multus.d/multus.kubeconfig"
-    }
+  name: macvlan-net
+spec:
+  config: '{
+      "cniVersion": "0.3.0",
+      "type": "macvlan",
+      "master": "eth0",
+      "mode": "bridge",
+      "ipam": {
+        "type": "host-local",
+        "subnet": "192.168.1.0/24",
+        "rangeStart": "192.168.1.200",
+        "rangeEnd": "192.168.1.216",
+        "routes": [
+          { "dst": "0.0.0.0/0" }
+        ],
+        "gateway": "192.168.1.1"
+      }
+    }'
 ```
 
+*NOTE:* If you want to try this example, modify the `master` interface name in the config (`eth0`) to match an interface name present on your worker nodes.
 
-## AddonConfig
+At this point, it is possible to create a pod that attaches an additional interface. The additional interface is requested by an annotation referring to the above `NetworkAttachmentDefinition`:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: samplepod
+  annotations:
+    k8s.v1.cni.cncf.io/networks: macvlan-net
+spec:
+  containers:
+  - name: samplepod
+    command: ["/bin/ash", "-c", "trap : TERM INT; sleep infinity & wait"]
+    image: alpine
+```
+
+After the pod is started, apart from the loopback interface (`lo`) and the primary network interface (`eth0`), the pod should also contain additional interface named `net1`:
+
+```bash
+$ kubectl exec -it samplepod -- ip address
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+3: eth0@if81: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 9001 qdisc noqueue state UP
+    link/ether fe:ee:ac:ef:fc:1b brd ff:ff:ff:ff:ff:ff
+    inet 172.25.0.75/32 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::fcee:acff:feef:fc1b/64 scope link
+       valid_lft forever preferred_lft forever
+4: net1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 9001 qdisc noqueue state UP
+    link/ether 56:c8:02:ed:9e:07 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.200/24 brd 192.168.1.255 scope global net1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::54c8:2ff:feed:9e07/64 scope link
+       valid_lft forever preferred_lft forever
+```
+
+## Multus AddonConfig
+As an KKP administrator, you can use the following AddonConfig for Multus to display Multus logo in the addon list in KKP UI:
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
