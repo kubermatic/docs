@@ -1,5 +1,6 @@
 +++
-title = "Unprovisioning Clusters"
+title = "Know all about the unprovisioning process to destroy Kubernetes cluster"
+description = "Check out our full guide on unprovisioning clusters. The goal of this process is to destroy the cluster. It should be used only if you don’t need the cluster anymore"
 date = 2021-02-10T12:00:00+02:00
 weight = 7
 enableToc = true
