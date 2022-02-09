@@ -1,5 +1,6 @@
 +++
-title = "Upgrading from 1.2 to 1.3"
+title = "Read about the complete changelog of upgrading Kubeone from 1.2 to 1.3"
+description = "Have a look at important upgrade notes for upgrading from KubeOne 1.2 to 1.3. For the complete changelog, please check the complete v1.3.0 changelog on GitHub."
 date = 2021-09-10T12:00:00+02:00
 enableToc = true
 +++
