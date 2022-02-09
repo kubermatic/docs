@@ -1,5 +1,6 @@
 +++
-title = "Infrastructure Management"
+title = "How to manage the infrastructure needed for kubernetes cluster"
+description = "This document describes some possible approaches for managing the infrastructure needed for a Kubernetes cluster. Learn more about cluster management."
 date = 2021-02-10T12:00:00+02:00
 weight = 2
 enableToc = true
