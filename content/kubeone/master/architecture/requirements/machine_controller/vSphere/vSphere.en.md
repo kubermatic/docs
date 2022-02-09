@@ -1,5 +1,6 @@
 +++
-title = "VSphere"
+title = "Learn about the permission required by Kubermatic machine controller"
+description = "Check out the requirements and permissions needed to run KubeOne Kubernetes clusters on vSphere."
 date = 2018-07-04T12:07:15+02:00
 weight = 7
 
