@@ -1,5 +1,6 @@
 +++
-title = "Concepts"
+title = "Effective infrastructure management for KubeOne"
+description = "This document explains KubeOne's concepts that help with easy installation and configuration. Check out KubeOne's functionalities for effective infrastructure management."
 date = 2021-02-10T12:00:00+02:00
 weight = 1
 enableToc = true
