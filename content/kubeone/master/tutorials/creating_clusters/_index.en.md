@@ -1,5 +1,6 @@
 +++
-title = "Creating a Kubernetes Cluster"
+title = "Learn how to create a highly available kubernetes cluster"
+description = "In this tutorial, we’re going to show how to use Kubermatic KubeOne to create a highly-available Kubernetes cluster.  Reach out to learn more in details."
 date = 2021-02-10T12:00:00+02:00
 weight = 1
 enableToc = true
