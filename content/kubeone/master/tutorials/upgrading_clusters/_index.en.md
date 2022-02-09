@@ -1,5 +1,6 @@
 +++
-title = "Upgrading Clusters"
+title = "Learn how to upgrade kubeone manifest to use desired versions"
+description = "You need to update the KubeOne configuration manifest to use the desired Kubernetes version. This tutorial shows the best way to upgrade clusters."
 date = 2021-02-10T12:00:00+02:00
 weight = 5
 enableToc = true
