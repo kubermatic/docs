@@ -1,5 +1,6 @@
 +++
-title = "Azure"
+title = "Learn how to create a service account to provision Kubernetes cluster with Azure"
+description = "For provisioning Kubernetes clusters with the Azure cloud provider Kubermatic KubeOne needs a service account. Learn the steps to create a matching service account."
 date = 2019-05-19T12:07:15+02:00
 weight = 7
 
