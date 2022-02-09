@@ -1,5 +1,6 @@
 +++
-title = "How To Contribute to Kubermatic KubeOne"
+title = "Learn how to contribute to kubermatic kubeone"
+description = "Here are few things to note when contributing to the Kubermatic KubeOne project. Check out our detailed guide on contributing better to Kubermatic KubeOne."
 date = 2021-04-24T15:00:15+02:00
 weight = 25
 +++
