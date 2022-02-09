@@ -1,5 +1,6 @@
 +++
-title = "Creating a Cluster with OIDC Authentication & Audit Logging"
+title = "Learn how to setup Kubernetes cluster with oidc authentication"
+description = "Set up a Kubernetes cluster with OIDC authentication and audit logging enabled. So, without further ado, let's get started."
 date = 2021-02-10T12:00:00+02:00
 weight = 3
 enableToc = true
