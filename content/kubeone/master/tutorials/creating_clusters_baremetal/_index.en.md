@@ -1,5 +1,6 @@
 +++
-title = "Creating a Kubernetes Cluster on Bare-metal"
+title = "Learn how create kubernetes cluster using kubermatic kubeone on baremetal"
+description = "In this tutorial, we’re going to show how to use Kubermatic KubeOne to create a highly-available Kubernetes cluster on providers that are not natively-supported."
 date = 2021-02-10T12:00:00+02:00
 weight = 2
 enableToc = true
