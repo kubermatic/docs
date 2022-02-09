@@ -1,5 +1,6 @@
 +++
-title = "Google Cloud Platform"
+title = "Know more about google cloud platform for Kubermatic machine controller for a kubernetes cluster"
+description = "This guide describes the use of Google Cloud Platform for a Kubernetes Cluster. It also mentions compute engine API, user roles, Google service account activation."
 date = 2019-07-31T13:00:00+02:00
 weight = 7
 
