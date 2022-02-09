@@ -1,5 +1,6 @@
 +++
-title = "AWS"
+title = "Learn all requirements for Kubermatic machine controller to provision kubernetes cluster with AWS"
+description = "Check out the requirements for KubeOne clusters on AWS.  Ensure the user used by the machine-controller has mentioned IAM permissions."
 date = 2018-09-20T12:12:15+02:00
 weight = 7
 
