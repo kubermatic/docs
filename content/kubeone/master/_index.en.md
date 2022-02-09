@@ -1,5 +1,6 @@
 +++
-title = "KubeOne"
+title = "Manage and Deploy Clusters Using KubeOne"
+description = "Kubermatic KubeOne automates cluster operations on all your cloud, on-prem, edge, and IoT environments. It allows you to manage the full lifecycle of your clusters."
 date = 2021-02-10T09:00:00+02:00
 +++
 
