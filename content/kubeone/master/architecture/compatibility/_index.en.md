@@ -1,5 +1,6 @@
 +++
-title = "Compatibility"
+title = "The Compatible Versions of Software and OS with KubeOne"
+description = "This document shows what are compatible Kubernetes, Terraform, and operating systems versions with the current KubeOne version? Reach out to find more."
 date = 2021-02-10T12:00:00+02:00
 weight = 4
 enableToc = true
