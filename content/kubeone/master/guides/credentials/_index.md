@@ -220,12 +220,20 @@ It has the priority over the environment variables, so you can use it if you
 want to use different credentials or if you don't want to export credentials
 as environment variables.
 
+The credentials file is provided to KubeOne using the `--credentials` or `-c`
+flag, such as:
+
+```bash
+kubeone install --manifest kubeone.yaml --credentials credentials.yaml -t tf.json
+```
+
+### cloudConfig
+
 Besides credentials, the credentials file can take the cloud-config file, which
 is provided using the `cloudConfig` key. This can be useful in cases when the
 cloud-config contains secrets and you want to keep secrets in a different file.
 
-The credentials file can look like the following one:
-
+Example:
 ```yaml
 VSPHERE_SERVER: "<<VSPHERE_SERVER>>"
 VSPHERE_USER: "<<VSPHERE_USER>>"
@@ -234,12 +242,32 @@ cloudConfig: |
     <<VSPHERE_CLOUD_CONFIG>>
 ```
 
-The credentials file is provided to KubeOne using the `--credentials` or `-c`
-flag, such as:
+### registriesAuth
 
-```bash
-kubeone install --manifest kubeone.yaml --credentials credentials.yaml -t tf.json
+When using [containerd as container runtime][migrating-to-containerd] it's
+possible to define configurations per registry. This can be useful if for
+example you want to use private registries, local mirrors or your own Docker Hub
+account to increase pull limits.
+
+See the [ContainerRuntimeContainerd reference][containerruntime-containerd] for
+configuration options.
+
+Example:
+```yaml
+registriesAuth: |
+  apiVersion: kubeone.k8c.io/v1beta2
+  kind: ContainerRuntimeContainerd
+  registries:
+      registry-1.docker.io:
+        auth:
+          username: "<<DOCKERHUB_USERNAME>>"
+          password: "<<DOCKERHUB_PASSWORD>>"
 ```
+
+{{% notice note %}}
+For Docker Hub you need to name the registry key `registry-1.docker.io`. Just
+`docker.io` will not work.
+{{% /notice %}}
 
 ## Environment Variables in the Configuration Manifest
 
@@ -256,4 +284,6 @@ support for sourcing value using the `env:` prefix:
 
 [cloud-controller-manager]: https://kubernetes.io/docs/concepts/architecture/cloud-controller/
 [machine-controller]: {{< ref "../../architecture/concepts/#kubermatic-machine-controller" >}}
+[containerruntime-containerd]: {{< ref "../../references/kubeone_cluster_v1beta2/#containerruntimecontainerd" >}}
+[migrating-to-containerd]: {{< ref "../../guides/containerd_migration" >}}
 [environemnt-variables]: {{< ref "#environment-variables" >}}
