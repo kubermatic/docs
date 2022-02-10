@@ -242,6 +242,20 @@ cloudConfig: |
     <<VSPHERE_CLOUD_CONFIG>>
 ```
 
+### csiConfig
+
+Analog to `cloudConfig` a CSI configuration file can be provided for vSphere
+clusters.
+
+Example:
+```yaml
+VSPHERE_SERVER: "<<VSPHERE_SERVER>>"
+VSPHERE_USER: "<<VSPHERE_USER>>"
+VSPHERE_PASSWORD: "<<VSPHERE_PASSWORD>>"
+csiConfig: |
+    <<VSPHERE_CSI_CONFIG>>
+```
+
 ### registriesAuth
 
 When using [containerd as container runtime][migrating-to-containerd] it's
