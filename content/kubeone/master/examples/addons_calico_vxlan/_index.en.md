@@ -7,19 +7,6 @@ enableToc = true
 
 It is possible to use CNI plugins that are not directly supported by the KubeOne. Here's an example for Calico.
 
-## Setup
-
-```shell
-mkdir addons
-curl https://raw.githubusercontent.com/kubermatic/kubeone/master/addons/calico-vxlan/calico-vxlan.yaml > addons/calico-vxlan.yaml
-```
-
-## MTU
-
-Please edit the `addons/calico-vxlan.yaml` and change `veth_mtu: "1450"` to appropriate MTU size. Please see more
-documentation how to find MTU size for your cluster https://docs.projectcalico.org/networking/mtu#determine-mtu-size.
-
-
 ## Example AWS kubeone config
 
 ```yaml
@@ -38,5 +25,15 @@ clusterNetwork:
 
 addons:
   enable: true
-  path: "./addons"
+  addons:
+    - name: calico-vxlan
+      params:
+        MTU: "0" # auto-detect MTU
 ```
+
+You can use the following MTU values depending on your provider:
+
+* `MTU: ""` — auto-detect MTU
+* `MTU: "8951"` — use this if provider is AWS
+* `MTU: "1400"` — use this if provider is OpenStack
+* `MTU: "1410"` — use this if provider is GCE

@@ -28,20 +28,32 @@ repository for storing backups.
 
 ## Using The Addon
 
-Original [addon source][backups-addon-src] can be found in kubeone repository.
+You can enable the addon via the KubeOneCluster manifest. Make sure to replace
+the placeholder values in the `params` stanza with the appropriate values.
 
 ```yaml
-{{< readfile "kubeone/v1.2/data/backups-restic.yaml" >}}
+apiVersion: kubeone.k8c.io/v1beta2
+kind: KubeOneCluster
+versions:
+  kubernetes: 1.23.3
+cloudProvider:
+  aws: {}
+addons:
+  enable: true
+  addons:
+    - name: backups-restic
+      params:
+        resticPassword: "some-secret-value-here"
+        s3Bucket: "name-of-the-s3-bucket"
+        awsDefaultRegion: "default-AWS-region"
 ```
 
-You need to replace the following values with the actual ones:
-* `<<RESTIC_PASSWORD>>` - a password used to encrypt the backups
-* `<<S3_BUCKET>>` - the name of the S3 bucket to be used for backups
-* `<<AWS_DEFAULT_REGION>>` - default AWS region
+Original [addon source][backups-addon-src] can be found in kubeone repository.
 
-Credentials are fetched automatically if you are deploying on AWS. If you want
-to use non-default credentials or you're not deploying on AWS, update the
-`s3-credentials` secret (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys).
+Credentials are fetched automatically via the `AWS_ACCESS_KEY_ID` and
+`AWS_SECRET_ACCESS_KEY` environment variables. If you want to use non-default
+credentials, update the `s3-credentials` secret
+(`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys).
 
 [backups-addon-src]: https://raw.githubusercontent.com/kubermatic/kubeone/master/addons/backups-restic/backups-restic.yaml
 [restic-net]: https://restic.net/
