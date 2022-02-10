@@ -224,7 +224,7 @@ The credentials file is provided to KubeOne using the `--credentials` or `-c`
 flag, such as:
 
 ```bash
-kubeone install --manifest kubeone.yaml --credentials credentials.yaml -t tf.json
+kubeone apply --manifest kubeone.yaml --credentials credentials.yaml -t tf.json
 ```
 
 ### cloudConfig
