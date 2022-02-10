@@ -272,10 +272,10 @@ registriesAuth: |
   apiVersion: kubeone.k8c.io/v1beta2
   kind: ContainerRuntimeContainerd
   registries:
-      registry-1.docker.io:
-        auth:
-          username: "<<DOCKERHUB_USERNAME>>"
-          password: "<<DOCKERHUB_PASSWORD>>"
+    registry-1.docker.io:
+      auth:
+        username: "<<DOCKERHUB_USERNAME>>"
+        password: "<<DOCKERHUB_PASSWORD>>"
 ```
 
 {{% notice note %}}
