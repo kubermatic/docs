@@ -108,3 +108,70 @@ resource "azurerm_lb" "lb" {
 
 [azure-lb-skus]: https://docs.microsoft.com/en-us/azure/load-balancer/skus
 [azure-lb]: https://github.com/kubermatic/kubeone/blob/c3121b7482f910327ef15b187735e79de0bc9572/examples/terraform/azure/main.tf#L143-L157
+
+## Hetzner
+
+### Kubernetes API Server Endpoint
+
+{{% notice warning %}}
+**This can be applied only when creating the cluster for the first time.
+Doing this on an existing cluster will effectively break the cluster!**
+{{% /notice %}}
+
+By default, the provided Terraform configs for Hetzner use Load Balancer's
+public IP for the Kubernetes API server endpoint. This ensures that the
+Kubernetes API is reachable via the Internet (e.g. from you local machine using
+`kubectl`), however, this causes the traffic between Kubernetes Services to go
+via the public interface (i.e. via the Internet).
+
+On Hetzner, there's no option to disable the public IP/interface. The only way
+to enforce the traffic between Service to be routed via the private interface
+is to use the private interface for the Kubernetes API server endpoint.
+This can be done by providing the Load Balancer's private IP (instead of the
+public IP) as the Kubernetes API server endpoint.
+
+Doing this will effectively disable accessing the Kubernetes API via the
+Internet, but that can be solved by creating an SSH tunnel to one of the
+instances. KubeOne provides `kubeone proxy` command which can do that for you.
+
+If you're using our Terraform configs, you only need to change value in the
+[`kubeone_api` section of `output.tf`][hz-output-tf] to
+`hcloud_load_balancer.load_balancer.network_ip`.
+
+{{% notice note %}}
+When creating a new cluster, Terraform will not fetch the private IP of the
+Load Balancer on the first run. You need to wait a minute or two after
+running `terraform apply` for the first time, and then run it again, so
+Terraform can fetch the Load Balancer's private IP and refresh the Terraform
+output and state. You can verify this is done by checking the value of
+`kubeone_api` in the output of `terraform apply` (there should be a private IP
+address set).
+{{% /notice %}}
+
+If you don't use Terraform at all, the API endpoint can be set in the
+KubeOneCluster manifest via `.apiEndpoint.host` field (see output of
+`kubeone config print --full` for more details).
+
+Once you create a new cluster using KubeOne, you can create the SSH tunnel
+using the following command:
+
+```
+kubeone proxy -m kubeone.yaml -t tf.json
+```
+
+KubeOne will print a command that you need to run in a new terminal,
+for example:
+
+```
+export HTTPS_PROXY=http://127.0.0.1:8888
+```
+
+With that done, you can access your cluster using the kubeconfig downloaded by
+KubeOne.
+
+{{% notice note %}}
+You need to run `kubeone proxy` and `export` commands each time you want to
+access your Kubernetes cluster via the Internet.
+{{% /notice %}}
+
+[hz-output-tf]: https://github.com/kubermatic/kubeone/blob/5f11decd23b06d9915af412be5f17fb0d3955467/examples/terraform/hetzner/output.tf#L21
