@@ -6,7 +6,7 @@
 * Updates all references to point to the versioned copies
 * Adds the new product version to `data/products.yaml` to make it selectable in the rendered page
 * For `kubermatic` only:
-    * Updates the components version table based on a working copy of the `kubermatic/kubermatic` repository at `../kubermatic`
+    * Updates the components version table based on a working copy of the `kubermatic/kubermatic` repository
 
 ### Requirements
 
@@ -23,10 +23,11 @@ Usage:
 Flags:
   -p    Product selection. One of 'kubermatic', 'kubeone', 'kubecarrier'. (env: PRODUCT)
   -v    Version of the upcoming release. (env: VERSION)
+  -k    Location of kubermatic/kubermatic working copy. (env: KUBERMATIC_DIR, default: '../kubermatic')
   -h    Print this help.
 
 Product and Version can be passed by flag or environment variable. The flag has the higher weight.
-For the component version update the code of kkp needs to be located at ../kubermatic.
+For the component version update the code of KKP either needs to be located at ../kubermatic or an alternative location needs to be set (see -k).
 $ hack/prepare-release.sh -p kubermatic -v v2.20
 $ git diff
 Changes not staged for commit:
