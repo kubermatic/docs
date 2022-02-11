@@ -7,8 +7,8 @@ enableToc = true
 The CCM/CSI migration is used to migrate your clusters using legacy in-tree
 cloud provider (i.e. created **without** `.cloudProvider.external: true`)
 to external cloud controller managers (CCMs) and CSI drivers. The CCM/CSI
-migration process is currently supported **only** for **OpenStack** and
-**vSphere**.
+migration process is currently supported **only** for **Azure**, **OpenStack**
+and **vSphere**.
 
 This guide provides the context on:
 
@@ -106,18 +106,17 @@ Make sure to familiarize yourself with requirements for external CCM and CSI
 drivers. Those requirements are provided by cloud providers and you can usually
 find them in the repositories for each components:
 
+* Azure: there are no special prerequisites for Azure CCM and CSI drivers
 * OpenStack: 
   * [Required OpenStack services and cloudConfig properties for the external
     CCM][openstack-ccm-reqs]
   * [Required OpenStack services and cloudConfig properties for the CSI
     driver][openstack-csi-reqs]
 * vSphere: vSphere 7.0u1 is required for CCM/CSI migration
-  * Make sure to check the Infrastructure prerequisites of the
-    [following document][vsphere-ccm-reqs]. The other part of the document is
-    fully-handled by KubeOne
-  * Make sure to check the Introduction and Things to consider before turning
-    on Migration sections of the [following document][vsphere-csi-reqs]. The
-    remaining parts of the document are fully-handled by KubeOne
+  * Make sure to check [the prerequisites for installing the vSphere Container
+    Storage Plug-in][vsphere-csi-reqs] before starting the migration
+  * Make sure to check the [considerations for migration of In-Tree vSphere
+    Volumes][vsphere-csi-considerations] before starting the migration
 
 ## Migrating Your Clusters
 
@@ -144,10 +143,11 @@ cloudProvider:
 In addition to that, specific cloud providers might require additional
 configuration.
 
-#### OpenStack
+#### Azure and OpenStack
 
-In general, no addition configuration or changes are needed for OpenStack, but
-make sure to check the documents linked in the Migration Prerequisites section.
+In general, no addition configuration or changes are needed for Azure and
+OpenStack, but make sure to check the documents linked in the Migration
+Prerequisites section.
 
 #### vSphere
 
@@ -259,6 +259,6 @@ cluster.
 
 [openstack-ccm-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/721615aa256bbddbd481cfb4a887c3ab180c5563/docs/openstack-cloud-controller-manager/using-openstack-cloud-controller-manager.md
 [openstack-csi-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/3801bccc264cb75fd8aa0c84785b9385f234c156/docs/cinder-csi-plugin/using-cinder-csi-plugin.md
-[vsphere-ccm-reqs]: https://cloud-provider-vsphere.sigs.k8s.io/tutorials/enabling-vsphere-csi-on-an-existing-cluster.html
-[vsphere-csi-reqs]: https://vsphere-csi-driver.sigs.k8s.io/features/vsphere_csi_migration.html
-[vsphere-csi-config]: https://vsphere-csi-driver.sigs.k8s.io/driver-deployment/installation.html#create-a-configuration-file-with-vsphere-credentials-
+[vsphere-csi-reqs]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html
+[vsphere-csi-considerations]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-968D421F-D464-4E22-8127-6CB9FF54423F.html#considerations-for-migration-of-intree-vsphere-volumes-0
+[vsphere-csi-config]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-BFF39F1D-F70A-4360-ABC9-85BDAFBE8864.html
