@@ -82,7 +82,7 @@ If you are using the AssetConfiguration API to mitigate the issue with the
 CoreDNS image when using the overwrite registry feature, you can use the latest
 image loader script or [the mirror registries][mirror-registries] feature.
 
-[mirror-registries]: 
+[mirror-registries]: {{< ref "../mirror_registries" >}}
 
 ### Packet to Equinix Metal rebranding
 
