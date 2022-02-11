@@ -215,7 +215,7 @@ worker nodes at the same time. For additional approaches, please check the
 document.
 
 ```
-forceRestartAnnotations="{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"forceRestart\":\"$(date +%N)\"}}}}}"
+forceRestartAnnotations="{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"forceRestart\":\"$(date +%s)\"}}}}}"
 for md in $(kubectl get machinedeployments -n kube-system --no-headers | awk '{print $1}'); do
   kubectl patch machinedeployment -n kube-system $md --type=merge -p $forceRestartAnnotations
 done
