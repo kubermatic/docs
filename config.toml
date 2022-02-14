@@ -6,9 +6,16 @@ disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 enableRobotsTXT = true
 
+[outputFormats]
+  [outputFormats.Search]
+    baseName = "search"
+    mediaType = "application/json"
+    isPlainText = true
+    notAlternative = true
+
 [outputs]
-home = ["HTML"]
-section = ["HTML", "JSON"]
+home = ["HTML", "Search"]
+section = ["HTML"]
 
 [params]
 googleTagManager = "GTM-PHMNDW2"
@@ -81,3 +88,6 @@ class = "fab fa-youtube"
 [[params.socials]]
 url = "https://www.facebook.com/kubermatic/"
 class = "fab fa-facebook-f"
+
+[params.search]
+  vars = ["relpermalink", "title", "content", "productSection"]
