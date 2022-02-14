@@ -38,8 +38,8 @@ according to the table below.
 | KubeOne version | 1.23  | 1.22  | 1.21  | 1.20\*  | 1.19\*\* |
 | --------------- | ----- | ----- | ----- | ------- | -------- |
 | v1.4+           | ✓     | ✓     | ✓     | ✓       | -        |
-| v1.3+           | -     | ✓     | ✓     | ✓       | ✓        |
-| v1.2+           | -     | -     | ✓     | ✓       | ✓        |
+| v1.3            | -     | ✓     | ✓     | ✓       | ✓        |
+| v1.2            | -     | -     | ✓     | ✓       | ✓        |
 
 \* Kubernetes 1.20 is scheduled to reach End-of-Life (EOL) on February 2021.
 Using a newer Kubernetes version is strongly recommended.

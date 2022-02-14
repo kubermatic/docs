@@ -394,7 +394,7 @@ and recommendations.
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server
 [nodelocaldns]: https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
 [machine-controller]: {{< ref "../../guides/machine_controller" >}}
-[getting-kubeone]: {{< ref "../../guides/getting_kubeone" >}}
+[getting-kubeone]: {{< ref "../../getting_kubeone" >}}
 [cluster-reconciliation]: {{< ref "../../architecture/cluster_reconciliation" >}}
 [access-clusters]: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
 [upgrading-clusters]: {{< ref "../upgrading_clusters" >}}

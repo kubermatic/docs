@@ -6,6 +6,11 @@ enableToc = true
 
 ## Introduction
 
+{{% notice warning %}}
+A newer version of this guide based on the ContainerRegistry API is available
+[here]({{< ref "../mirror_registries" >}}).
+{{% /notice %}}
+
 This guide describes how to overwrite image registries for images deployed by
 KubeOne (Kubernetes core components, CNI plugins...). This is useful if don't
 have access to the original registries (e.g. you're having an offline setup)

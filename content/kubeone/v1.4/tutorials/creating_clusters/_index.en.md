@@ -945,7 +945,7 @@ and recommendations.
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server
 [nodelocaldns]: https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
 [machine-controller]: {{< ref "../../guides/machine_controller" >}}
-[getting-kubeone]: {{< ref "../../guides/getting_kubeone" >}}
+[getting-kubeone]: {{< ref "../../getting_kubeone" >}}
 [install-terraform]: https://learn.hashicorp.com/tutorials/terraform/install-cli
 [download-terraform]: https://www.terraform.io/downloads.html
 [terraform-configs]: {{< ref "../../guides/using_terraform_configs" >}}

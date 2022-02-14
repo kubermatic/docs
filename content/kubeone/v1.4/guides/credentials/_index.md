@@ -164,6 +164,31 @@ Manager.
 #
 
 {{% /tab %}}
+{{% tab name="Nutanix" %}}
+The following environment variables are needed by Terraform for creating the
+infrastructure and for machine-controller to create the worker nodes.
+
+| Environment Variable  | Description                  |
+| --------------------- | ---------------------------- |
+| `NUTANIX_ENDPOINT`    | The Nutanix API (Prism Central) endpoint |
+| `NUTANIX_PORT`        | The Nutanix API (Prism Central) port |
+| `NUTANIX_USERNAME`    | The username of the Nutanix user |
+| `NUTANIX_PASSWORD`    | The password of the Nutanix user |
+| `NUTANIX_PE_ENDPOINT` | The Nutanix Prism Element endpoint (required by CSI driver) |
+| `NUTANIX_PE_USERNAME` | The username of the Prism Element user (might be different than the Prism Central user) |
+| `NUTANIX_PE_PASSWORD` | The password of the Prism Element user (might be different than the Prism Central user) |
+
+Besides that, the following environment variables are available, but optional.
+
+| Environment Variable   | Description                  |
+| ---------------------- | ---------------------------- |
+| `NUTANIX_INSECURE`     | Allow insecure access to the Nutanix API (default `false`) |
+| `NUTANIX_PROXY_URL`    | The URL of the proxy to the Nutanix API |
+| `NUTANIX_CLUSTER_NAME` | The name of the Nutanix cluster (used by machine-controller if not specified in the MachineDeployment) |
+
+#
+
+{{% /tab %}}
 {{% tab name="OpenStack" %}}
 The following environment variables are needed by Terraform for creating the
 infrastructure and for machine-controller to create the worker nodes.
