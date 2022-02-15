@@ -436,6 +436,13 @@ Once initial `kubeone apply` is done, the
 This command will create all the infrastructure needed to get started.
 This might take up to several minutes, depending on the cloud provider.
 
+{{% notice note %}}
+Once `terraform apply` is complete, check the output and ensure that the
+`endpoint` variable in the `kubeone_api` block is set (i.e. it's not an empty
+string). If it isn't set, wait a minute or two, and then run
+`terraform refresh`.
+{{% /notice %}}
+
 Finally, we need to save the Terraform state in a format that can be parsed by
 KubeOne for information about the infrastructure (security groups, IAM roles,
 etc.), instances, and load balancer. That information will be used for
