@@ -324,6 +324,7 @@ infrastructure and for machine-controller to create the worker nodes.
 | `OS_AUTH_URL`        | The URL of OpenStack Identity Service |
 | `OS_USERNAME`        | The username of the OpenStack user    |
 | `OS_PASSWORD`        | The password of the OpenStack user    |
+| `OS_REGION_NAME`     | The name of the OpenStack region      |
 | `OS_DOMAIN_NAME`     | The name of the OpenStack domain      |
 | `OS_TENANT_ID`       | The ID of the OpenStack tenant        |
 | `OS_TENANT_NAME`     | The name of the OpenStack tenant      |
