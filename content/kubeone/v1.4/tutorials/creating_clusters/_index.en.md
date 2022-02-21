@@ -451,7 +451,7 @@ resources (including the image) will be provided by the user.
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
 
-The Terraform config for GCP requires that the `external_network_name` variable
+The Terraform config for OpenStack requires that the `external_network_name` variable
 is set to the name of the external network that will be used. It's expected
 that this network already exists.
 
