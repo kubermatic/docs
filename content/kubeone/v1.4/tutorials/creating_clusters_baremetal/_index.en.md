@@ -75,18 +75,15 @@ Below, you can find a diagram that shows how KubeOne works.
 
 By default, KubeOne installs the following components:
 
-* Container Runtime: Docker or containerd\*
-* CNI: Canal (based on Calico and Flannel), Cilium, WeaveNet and user-provided CNI are
-  supported
+* Container Runtime: containerd for Kubernetes 1.22+ clusters, otherwise Docker
+* CNI: Canal (based on Calico and Flannel)
+  * Cilium, WeaveNet, and user-provided CNI are supported as an alternative
 * [metrics-server][metrics-server] for collecting and exposing metrics from
   Kubelets
 * [NodeLocal DNSCache][nodelocaldns] for caching DNS queries to improve the
   cluster performance
 * [Kubermatic machine-controller][machine-controller], a Cluster-API based
   implementation for managing worker nodes
-
-\* containerd will be installed by default for newly-created Kubernetes 1.21+
-clusters
 
 It's possible to configure which components are installed and how they are
 configured by adjusting the KubeOne configuration manifest that we'll create
