@@ -12,7 +12,13 @@ In this **Get Started with KKP** guide, we will be using AWS Cloud as our underl
 
 > For more information on the kubeone configurations for different environment, checkout the [Creating the kubernetes Cluster using Kubeone](https://docs.kubermatic.com/kubeone/master/tutorials/creating_clusters/) documentation.
 
-The [kubermatic/kkp-on-node](https://github.com/kubermatic/kkp-on-node) contains the required configuration to install KKP on single node k8s with kubeone. Clone or download it, so that you deploy KKP quickly as per the following instructions and get started with it!  
+## Download the repository
+
+The [kubermatic/kkp-single-node](https://github.com/kubermatic/kkp-single-node) contains the required configuration to install KKP on single node k8s with kubeone. Clone or download it, so that you deploy KKP quickly as per the following instructions and get started with it!
+```bash
+git clone https://github.com/kubermatic/kkp-single-node.git
+cd kkp-single-node
+```
 
 ## Configure the Environment
 ```bash
