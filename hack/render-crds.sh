@@ -24,10 +24,12 @@ processor:
   
   ignoreTypes:
     - "Quantity$"
+    - "Fake$"
 EOF
 
 crd-ref-docs \
   --source-path "${SOURCE}" \
+  --max-depth 10 \
   --renderer markdown \
   --templates-dir=hack/crd-templates \
   --config ${configfile} \
