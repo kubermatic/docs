@@ -46,4 +46,4 @@ presubmits:
             cpu: 200m
             memory: 128Mi
           limits:
-            memory: 512Mi
+            memory: 1Gi
