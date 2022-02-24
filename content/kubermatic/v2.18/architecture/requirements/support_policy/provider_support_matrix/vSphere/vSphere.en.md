@@ -63,6 +63,7 @@ As this Config must also be deployed onto each worker node of a user cluster, it
 The vsphere user has to have to following permissions on the correct resources:
 
 #### User Cluster Could Controller Manager / CSI
+**Note:** Below roles were updated based on [vsphere-storage-plugin-roles] for external CCM which is available from kkp v2.18+ and vsphere v7.0.2+
 
 For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-ccm-cluster`) is needed:
 
@@ -228,4 +229,5 @@ are not supported yet at `Cluster` level by Kubermatic UI.
 
 It is possible to specify *Datastore* or *Datastore Clusters* in preset.
 
-[vsphere-cloud-config]: https://vmware.github.io/vsphere-storage-for-kubernetes/documentation/existing.html#template-config-file
+[vsphere-cloud-config]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-BFF39F1D-F70A-4360-ABC9-85BDAFBE8864.html?hWord=N4IghgNiBcIMYQK4GcAuBTATgWgJYBMACAYQGUBJEAXyA
+[vsphere-storage-plugin-roles]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-043ACF65-9E0B-475C-A507-BBBE2579AA58.html
