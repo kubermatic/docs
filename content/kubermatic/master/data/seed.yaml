@@ -101,7 +101,7 @@ spec:
           zoneSuffixes: []
         hetzner:
           # Datacenter location, e.g. "nbg1-dc3". A list of existing datacenters can be found
-          # at https://wiki.hetzner.de/index.php/Rechenzentren_und_Anbindung/en
+          # at https://docs.hetzner.com/general/others/data-centers-and-connection/
           datacenter: ""
           # Optional: Detailed location of the datacenter, like "Hamburg" or "Datacenter 7".
           # For informational purposes only.
@@ -201,15 +201,11 @@ spec:
         # given domains can make use of this datacenter. You can define multiple
         # domains, e.g. "example.com", one of which must match the email domain
         # exactly (i.e. "example.com" will not match "user@test.example.com").
-        requiredEmails: null
+        requiredEmails: []
         vsphere:
           # If set to true, disables the TLS certificate check against the endpoint.
           allowInsecure: false
-          # Optional: The name of the vSphere cluster to use.
-          # Cluster is deprecated and may be removed in future releases as it is
-          # currently ignored.
-          # The cluster hosting the VMs will be the same VM used as a template is
-          # located.
+          # The name of the vSphere cluster to use. Used for out-of-tree CSI Driver.
           cluster: ""
           # The name of the datacenter to use.
           datacenter: ""
@@ -275,6 +271,19 @@ spec:
       resources: null
       storageClass: ""
       tolerations: null
+    nodePortProxyEnvoy:
+      # DockerRepository is the repository containing the component's image.
+      dockerRepository: ""
+      # Resources describes the requested and maximum allowed CPU/memory usage.
+      resources:
+        # Limits describes the maximum amount of compute resources allowed.
+        # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+        limits: null
+        # Requests describes the minimum amount of compute resources required.
+        # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+        # otherwise to an implementation-defined value.
+        # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+        requests: null
     prometheus:
       resources: null
     scheduler:

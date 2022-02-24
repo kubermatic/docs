@@ -1,6 +1,5 @@
 # Please note: the "master" branch should be placed as first element for every product in the "versions" list.
 # The "weight" field is used for order the products on homepage
-
 kubermatic:
   name: Kubermatic
   logo: "img/KubermaticKubernetesPlatform-logo.svg"
@@ -36,6 +35,8 @@ kubeone:
   versions:
     - release: master
       name: master
+    - release: v1.4
+      name: v1.4
     - release: v1.3
       name: v1.3
     - release: v1.2

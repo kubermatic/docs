@@ -1,89 +1,128 @@
-var lunrIndex, pagesIndex;
+var searchModule = (function() {
+  var getSearchOptions = function(searchResultsBox) {
+    var searchFirstRun = true;
 
-function endsWith(str, suffix) {
-  return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
+    var options = {
+      searchClient: algoliasearch(
+        'Q03DAQELCN',
+        'f8b7a0497068023efe046671dd40ec62'
+      ),
+      indexName: "docs",
+      searchFunction: function(helper) {
+        if (searchFirstRun) {
+          searchFirstRun = false;
+          return;
+        }
 
-// Initialize lunrjs using our generated index file
-function initLunr() {
-  var searchIndexUrl = document.querySelector("div[data-search-index]");
+        helper.state.query
+          ? searchResultsBox.classList.remove('search-results-box--hide')
+          : searchResultsBox.classList.add('search-results-box--hide');
 
-  if (!endsWith(baseurl,"/")){
-    baseurl = baseurl+'/'
-  };
+        helper.search();
+      }
+    };
 
-  // First retrieve the index file
-  $.getJSON(baseurl + searchIndexUrl.dataset.searchIndex)
-    .done(function(index) {
-      pagesIndex = index;
-      // Set up lunrjs by declaring the fields we use
-      // Also provide their boost level for the ranking
-      lunrIndex = lunr(function() {
-        this.ref("uri");
-        this.field('title', {boost: 15});
-        this.field("content", {boost: 5});
-
-        this.pipeline.remove(lunr.stemmer);
-        this.searchPipeline.remove(lunr.stemmer);
-
-        // Feed lunr with each file and let lunr actually index them
-        pagesIndex.forEach(function(page) {
-          this.add(page);
-        }, this);
-      })
-    })
-    .fail(function(jqxhr, textStatus, error) {
-      var err = textStatus + ", " + error;
-      console.error("Error getting Hugo index file:", err);
-    });
-}
-
-/**
- * Trigger a search in lunr and transform the result
- *
- * @param  {String} query
- * @return {Array}  results
- */
-function search(queryTerm) {
-  var queries = queryTerm.replace(/\s\s+/g, ' ').trim().split(" ");
-  var query = "";
-
-  if (queries.length > 1) {
-    query += "+" + queries.join(" +") + "*";
-  } else {
-    query += queries[0]+"^100"+" "+queries[0]+"*^10"+" "+"*"+queries[0]+"^10"+" "+queries[0]+"~2^1";
+    return options;
   }
 
-  return lunrIndex.search(query).map(function(result) {
-    return pagesIndex.filter(function(page) {
-      return page.uri === result.ref;
-    })[0];
-  });
-}
+  var customSearchBoxWidget = function(searchField, clearButton) {
+    var renderSearchBox = function(renderOptions, isFirstRender) {
+      if (isFirstRender) {
+        searchField.addEventListener('input', function(event) {
+          renderOptions.refine(event.target.value);
+        });
 
-$( document ).ready(function() {
-  // Let's get started
-  initLunr();
+        clearButton.addEventListener('click', renderOptions.clear);
+      }
 
-  var searchList = new autoComplete({
-    /* selector for the search box element */
-    selector: $("#search-by").get(0),
-    /* source is the callback to perform the search */
-    source: function(term, response) {
-      response(search(term));
-    },
-    /* renderItem displays individual search results */
-    renderItem: function(item, term) {
-      return '<div class="autocomplete-suggestion" ' +
-        'data-term="' + term + '" ' +
-        'data-title="' + item.title + '" ' +
-        'data-uri="'+ item.uri + '">' +
-        '» ' + item.title +
-        '</div>';
-    },
-    /* onSelect callback fires when a search suggestion is chosen */
-    onSelect: function(e, term, item) {
-      location.href = item.getAttribute('data-uri');
+      searchField.value = renderOptions.query;
+    };
+
+    return instantsearch.connectors.connectSearchBox(renderSearchBox);
+  }
+
+  var initSearchProvider = function(searchField, searchResultsBox, clearButton) {
+    var search = instantsearch(getSearchOptions(searchResultsBox));
+
+    var searchBoxWidget = customSearchBoxWidget(searchField, clearButton);
+
+    var hits = instantsearch.widgets.hits({
+      container: '.search-results',
+      templates: {
+        item: '<a href="{{relpermalink}}" title="{{title}}" class="search-results-item"><div class="search-results-item-title">{{{_highlightResult.title.value}}}</div><div class="search-results-item-content">{{{_snippetResult.content.value}}}</div><div class="search-results-item-section">in <em>{{productSection}}</em></div></a>',
+        empty: '<span class="search-results-item">No results</span>',
+      },
+    });
+
+    search.addWidgets([searchBoxWidget(), hits])
+
+    search.start();
+  }
+
+  var initSearch = function() {
+    var searchBox = document.querySelector('.search-box');
+    var searchField, searchResultsBox, searchResults, clearButton;
+
+    if (!searchBox) return;
+    searchField = searchBox.querySelector('.search-input');
+    searchResultsBox = searchBox.querySelector('.search-results-box');
+    searchResults = searchResultsBox.querySelector('.search-results');
+    clearButton = searchBox.querySelector('.search-clear-icon');
+
+    initSearchProvider(searchField, searchResultsBox, clearButton);
+
+    document.addEventListener('keydown', function(e) {
+      searchFocus(e, searchField, searchResultsBox);
+      hitsFocus(e, searchResults);
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!findAncestor(e.target, '.search-box')) {
+        searchResultsBox.classList.add('search-results-box--hide');
+      }
+    });
+  };
+
+  var searchFocus = function(event, searchField, searchResultsBox) {
+    if (event.ctrlKey && event.key === '/') {
+      event.preventDefault();
+      searchField.focus();
     }
-  });
+    if (event.key === 'Escape') {
+      searchField.blur();
+      searchResultsBox.classList.add('search-results-box--hide');
+    }
+  };
+
+  var hitsFocus = function(event, searchResults) {
+    var searchLinks = searchResults.querySelectorAll('a');
+    var focusLinks = [].slice.call(searchLinks);
+    var index = focusLinks.indexOf(document.activeElement);
+    var nextIndex = 0;
+
+    if (!searchLinks.length) return;
+
+    if (event.keyCode === 38) {
+      event.preventDefault();
+      nextIndex = index > 0 ? index - 1 : 0;
+      searchLinks[nextIndex].focus();
+    } else if (event.keyCode === 40) {
+      event.preventDefault();
+      nextIndex = index + 1 < focusLinks.length ? index + 1 : index;
+      searchLinks[nextIndex].focus();
+    }
+  };
+
+  var findAncestor = function(el, sel) {
+    while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,sel)));
+    return el;
+  };
+
+  return {
+    init: initSearch
+  }
+})();
+
+pageReady(function() {
+  searchModule.init();
 });
