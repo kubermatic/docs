@@ -36,7 +36,7 @@ It is highly advisable to lower `spec.seedController.maximumParallelReconciles` 
 
 ### Migration Guide
 
-The `kubermatic-installer` offers a new subcommand to perform the migration automatically. Due to the complexity of the operation it is highly discouraged to attempt a manual migration.
+The `kubermatic-installer` offers a number of new subcommands to perform the migration automatically. Due to the complexity of the operation it is highly discouraged to attempt a manual migration.
 
 Download the [KKP 2.20 release from GitHub](https://github.com/kubermatic/kubermatic/releases/tag/v2.20.0) and extract the archive on your machine.
 
@@ -55,6 +55,7 @@ Before the migration can begin, a number of preflight checks need to happen firs
 * No KKP resource must be marked as deleted.
 * The new CRD files must be available on disk.
 * All seed clusters must be reachable.
+* Deprecated features which were removed in KKP 2.20 must not be used anymore.
 * (only before actual migration) No KKP controllers/webhooks must be running.
 
 The first step is to get the kubeconfig file for the KKP **master** cluster. Set the `KUBECONFIG` variable pointing to it:
@@ -116,8 +117,8 @@ INFO[16:24:58] Creating Kubernetes client for each Seed…
 INFO[16:25:01] Shutting down in cluster…                     master=true
 INFO[16:25:02] Shutting down in cluster…                     seed=asia-south1-c
 INFO[16:25:03] Shutting down in cluster…                     seed=europe-west3-c
-INFO[16:25:04] All controllers have been scaled down to 0 replicas now. It can take up to 3 minutes for all pods to be terminated.
-INFO[16:25:04] Please run the `migrate-crds` command now to migrate your resources. The migration will first ensure that all controller pods have been removed.
+INFO[16:25:04] All controllers have been scaled down to 0 replicas now.
+INFO[16:25:04] Please run the `migrate-crds` command now to migrate your resources.
 ```
 
 Adding the global `--verbose` flags offers more detail:
@@ -168,8 +169,8 @@ DEBU[16:25:04] Removing…                                     seed=europe-west3
 DEBU[16:25:04] Removing…                                     seed=europe-west3-c webhook=kubermatic-seeds-kubermatic
 DEBU[16:25:04] Removing…                                     seed=europe-west3-c webhook=kubermatic-operating-system-configs
 DEBU[16:25:04] Removing…                                     seed=europe-west3-c webhook=kubermatic-operating-system-profiles
-INFO[16:25:04] All controllers have been scaled down to 0 replicas now. It can take up to 3 minutes for all pods to be terminated.
-INFO[16:25:04] Please run the `migrate-crds` command now to migrate your resources. The migration will first ensure that all controller pods have been removed.
+INFO[16:25:04] All controllers have been scaled down to 0 replicas now.
+INFO[16:25:04] Please run the `migrate-crds` command now to migrate your resources.
 ```
 
 #### Migration
