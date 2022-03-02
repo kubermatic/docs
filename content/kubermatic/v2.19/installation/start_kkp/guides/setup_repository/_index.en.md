@@ -99,6 +99,10 @@ You can use following command to generate the keys:
 ssh-keygen -t rsa -b 4096 -C "admin@kubermatic.com" -f ~/.ssh/k8s_rsa
 ```
 
+{{% notice warning %}}
+Make sure you don't have a passphrase set on the private key as it would cause an issue in automated pipeline.
+{{% /notice %}}
+
 ## Setup Pipeline Secrets / Variables
 
 Preparation of pipeline variables depends on selected Git and Cloud provider combination.
