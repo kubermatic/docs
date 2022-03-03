@@ -32,7 +32,7 @@ to mix both kinds of settings.
 The following example shows an example for a Preset CRD:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Preset
 metadata:
   name: example
@@ -92,6 +92,14 @@ spec:
     vmNetName:
   kubevirt:
     kubeconfig:
+  nutanix:
+    username:
+    password:
+    clusterName:
+    projectName:
+    csiEndpoint:
+    csiUsername:
+    csiPassword:
 ```
 
 This file defines credentials for all listed providers. The accessible name for this preset is `example`. Only users with
