@@ -31,8 +31,8 @@ At Kubermatic, we have chosen to do multi-cluster management with Kubernetes Ope
 Autoscaling in Kubernetes refers to the ability to increase or decrease the number of nodes as the demand for service response changes. Without autoscaling, teams would manually first provision and then scale up or down resources every time conditions change. This means, either services fail at peak demand due to the unavailability of enough resources or you pay at peak capacity to ensure availability. 
 
 The Kubernetes Autoscaler in the KKP Cluster automatically scales up/down when one of the following conditions is satisfied:
-1. Some pods fail to run in the cluster due to insufficient resources. OR
-2. There are nodes in the cluster that have been underutilized for an extended period (10 minutes by default) and can place their Pods on other existing nodes.
+1. Some pods fail to run in the cluster due to insufficient resources.
+2. There are nodes in the cluster that have been underutilized for an extended period (10 minutes by default) and pods running on those nodes can be rescheduled to other existing nodes.
 
 #### Manage all KKP users directly from a single panel
 The Admin panel allows KKP administrators to manage the global settings that impact all KKP users directly. Here as an administrator, you can do the following:
@@ -44,7 +44,7 @@ The Admin panel allows KKP administrators to manage the global settings that imp
 - Enable and configure etcd backups for your clusters through Backup Buckets
 
 #### Manage worker nodes via the UI or the CLI
-Worker nodes can be managed via the KKP web dashboard. Once you have installed kubectl, you can also manage them via CLI to automate the creation, deletion and up-grade of nodes.
+Worker nodes can be managed via the KKP web dashboard. Once you have installed kubectl, you can also manage them via CLI to automate the creation, deletion, and upgrade of nodes.
 
 #### Monitoring, Logging & Alerting
 When it comes to monitoring, no approach fits all use cases. KKP allows you to adjust things to your needs by enabling certain customizations to enable easy and tactical monitoring. 
@@ -52,7 +52,7 @@ KKP provides two different levels of Monitoring, Logging, and Alerting.
 
 1. The first targets only the management components (master, seed, CRDs) and is independent. This is the Master/Seed Cluster MLA Stack and only the KKP Admins can access this monitoring data.
 
-2. The other component is the User Cluster MLA Stack which is a true multi-tenancy solution for all your end-users as well as a comprehensive overview for the KKP Admin. It helps to speed up individual progress but lets the Admin keep an overview of the big picture. It can be configured per seed to match the requirements of the organizational structure All users can access monitoring data of the user clusters under the projects that they are members of.
+2. The other component is the User Cluster MLA Stack which is a true multi-tenancy solution for all your end-users as well as a comprehensive overview for the KKP Admin. It helps to speed up individual progress but lets the Admin keep an overview of the big picture. It can be configured per seed to match the requirements of the organizational structure. All users can access monitoring data of the user clusters under the projects that they are members of.
 
 Integrated Monitoring, Logging and Alerting functionality for applications and services in KKP user clusters are built using Prometheus, Loki, Cortex and Grafana. Furthermore, this can be enabled with a single click on the KKP UI.
 
