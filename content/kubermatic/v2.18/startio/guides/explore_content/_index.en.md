@@ -1,5 +1,6 @@
 +++
 title = "Explore the Generated Bundle"
+description = "This chapter takes a look at the structure of the Zip-bundle that contains all files to install and configure Kubermatic Kubernetes Platform."
 weight = 20
 +++
 
