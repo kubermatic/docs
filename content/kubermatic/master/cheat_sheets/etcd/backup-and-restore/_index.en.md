@@ -27,34 +27,26 @@ This can be achieved for a Seed by KPP admins through configuring backup destina
 More info on that here [Etcd Backup Destination Settings]({{< ref "../../../tutorials_howtos/administration/admin_panel/backup_buckets" >}}).
 
 {{% notice note %}}
-The legacy way of enabling the automatic etcd backups through the KubermaticConfiguration is still supported, although deprecated. It's advised to migrate to the Seed backup destinations.
+The legacy way of enabling the automatic etcd backups through the KubermaticConfiguration or Seed.Spec.EtcdBackup is not supported since 2.20. Migration to the Seed backup destinations is required.
 {{% /notice %}}
 
 ### Backup and Delete Containers
 
-The new Backup controller is designed to be a drop-in replacement for the legacy backup controller. To achieve this, the legacy `backupStoreContainer` and `backupCleanupContainer` are supported by the new controller. However, it's best to use the new containers to enable the full functionality of the new controller.
+The backup controller uses 2 default jobs to for storing backups and deleting them. If needed, it is possible to configure custom jobs in the KubermaticConfiguration.
 
- * *`backupStoreContainer`*: it's recommended to update the seed controller configuration to use the new backup container. The new container spec is provided in the `charts` directory shipped with the KKP release:
+ * *`backupStoreContainer`*:
  ```bash
  charts/kubermatic/static/store-container-new.yaml
  ```
 
-* *`backupDeleteContainer`*: backup deletions are performed using a customizable container that is passed to the seed controller via new optional argument `backupDeleteContainer`. If this option is not set, the controller will not perform deletions and the legacy `backupCleanupContainer` will be used instead. A container spec is provided in the `charts` directory shipped with the KKP release:
+* *`backupDeleteContainer`*: 
 ```bash
 charts/kubermatic/static/delete-container.yaml 
 ```
 
-{{% notice note %}}
-You can't have both `backupCleanupContainer` and `backupDeleteContainer` set. `backupDeleteContainer` will take precedence when the new controller is enabled.
-{{% /notice %}}
-
 ### S3 Credentials and Settings
 
-The new controllers will use the credentials setup in the Seed Backup destinations, depending on the destination used. 
-
-{{% notice note %}}
-Legacy credentials from `kube-system/s3-credentials` and the bucket details in `s3-settings` configmap is still supported, but deprecated. Please migrate to backup destinations.
-{{% /notice %}}
+The new controllers will use the credentials setup in the Seed Backup destinations, depending on the destination used.
 
 ## Creating Backups
 
