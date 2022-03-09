@@ -1,5 +1,6 @@
 +++
 title = "Start with KKP"
+description = "Start.kubermatic.io is a web application tool that bootstraps your Kubermatic Kubernetes Platform within a few minutes in an automated way with applied GitOps principles."
 weight = 1
 
 +++
