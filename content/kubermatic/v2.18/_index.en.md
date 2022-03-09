@@ -1,5 +1,6 @@
 +++
 title = ""
+description = "Kubermatic Kubernetes Platform (KKP) is one enterprise management platform for any infrastructure. Read our documentation to learn how to use KKP to deploy and manage your clusters and take advantage of the advanced features of the platform."
 date = 2019-04-27T16:06:34+02:00
 +++
 
