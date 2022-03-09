@@ -1,5 +1,6 @@
 +++
 title = "GitHub Workflow description"
+description = "Get a proper understanding of the automated Github or Gitlab pipeline that automatically sets up your Kubermatic Kubernetes Platform within minutes."
 +++
 
 Automated pipeline was created in GitHub or GitLab to automate all installation steps to have KKP up and running and
