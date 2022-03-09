@@ -1,5 +1,6 @@
 +++
 title = "Get Access to Kubernetes Cluster"
+description = "Do you know how to access your Kubernetes cluster? Follow these steps to access your Master Kubernetes cluster locally."
 weight = 10
 +++
 
