@@ -55,3 +55,40 @@ Either specify the number of desired nodes or use the `+` or `-` to increase or 
 
 ![Update EKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/update_eks_md.png "Update EKS Machine Deployment")
 
+### Authenticating with EKS
+
+The KKP platform allows getting kubeconfig file for the EKS cluster. The end-user must be aware that the kubeconfig expires
+after some short period of time.
+It's recommended to create your kubeconfig file with the AWS CLI.
+
+#### Configure AWS credentials
+
+The AWS CLI uses credentials and configuration settings located in multiple places, such as the system or user environment
+variables, local AWS configuration files, or explicitly declared on the command line as a parameter.
+
+The AWS CLI stores sensitive credential information that you specify with aws configure in a local file named credentials,
+in a folder named `.aws` in your home directory. The less sensitive configuration options that you specify with aws configure
+are stored in a local file named `config`, also stored in the `.aws` folder in your home directory.
+
+Example:
+
+`~/.aws/credentials`
+
+```
+[default]
+aws_access_key_id=AKIAIOSFODNN7EXAMPLE
+aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+```
+
+#### Create kubeconfig file
+
+Now you can create kubeconfig file automatically ussing the following command:
+
+```
+aws eks update-kubeconfig --region region-code --name cluster-name
+```
+
+By default, the resulting configuration file is created at the default kubeconfig path (.kube/config) in your home directory
+or merged with an existing kubeconfig file at that location. You can specify another path with the `--kubeconfig` option.
+
+
