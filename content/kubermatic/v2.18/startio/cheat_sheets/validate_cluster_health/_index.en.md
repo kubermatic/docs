@@ -1,5 +1,6 @@
 +++
 title = "Validate Cluster and KKP Readiness"
+description = "Read this chapter to learn how to validate cluster and assess Kubermatic Kubernetes Platform readiness. Check cluster nodes' and pods resources' health and more."
 weight = 20
 +++
 
