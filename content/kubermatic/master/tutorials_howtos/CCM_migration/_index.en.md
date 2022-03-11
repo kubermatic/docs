@@ -26,15 +26,19 @@ Since the Kubernetes community has planned to deprecate and then remove all the 
 controller managers and the Kubernetes documentation explain how to migrate from in-tree to out-of-tree CCM, KKP itself
 needed a mechanism to allow users to migrate their clusters to the out-of-tree implementation, as detailed below.
 
-The CCM/CSI migration is supported only for the following providers so far:
-* Openstack
-* vSphere
+### Support and prerequisites
 
-{{% notice note %}}
-The latest vSphere CSI driver [release](https://vsphere-csi-driver.sigs.k8s.io/releases/v2.3.0.html) does not support 
-Kubernetes 1.22, hence it is **not** possible to *upgrade* already migrated vSphere clusters to Kubernetes 1.22, *migrate*
-existing vSphere 1.22 clusters, and *create* new vSphere clusters with Kubernetes 1.22 (new clusters are by default controlled by the external CCM).
-{{% /notice %}}
+The CCM/CSI migration is supported only for the following providers:
+* OpenStack: 
+  * [Required OpenStack services and cloudConfig properties for the external
+    CCM][openstack-ccm-reqs]
+  * [Required OpenStack services and cloudConfig properties for the CSI
+    driver][openstack-csi-reqs]
+* vSphere: vSphere 7.0u1 is required for CCM/CSI migration
+  * Make sure to check [the prerequisites for installing the vSphere Container
+    Storage Plug-in][vsphere-csi-reqs] before starting the migration
+  * Make sure to check the [considerations for migration of In-Tree vSphere
+    Volumes][vsphere-csi-considerations] before starting the migration
 
 ### Enabling the external cloud provider
 
@@ -110,3 +114,8 @@ condition `CSIKubeletMigrationCompleted` will be set to true, and the migration 
 
 Since the Kubernetes community is on the way to deprecating in-tree CCM, once the `externalCloudProvider` feature gets
 enabled, it cannot be disabled.
+
+[openstack-ccm-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/721615aa256bbddbd481cfb4a887c3ab180c5563/docs/openstack-cloud-controller-manager/using-openstack-cloud-controller-manager.md
+[openstack-csi-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/3801bccc264cb75fd8aa0c84785b9385f234c156/docs/cinder-csi-plugin/using-cinder-csi-plugin.md
+[vsphere-csi-reqs]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html
+[vsphere-csi-considerations]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-968D421F-D464-4E22-8127-6CB9FF54423F.html#considerations-for-migration-of-intree-vsphere-volumes-0
