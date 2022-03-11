@@ -18,6 +18,7 @@ exports.handler = async (event, context) => {
   const indexName = process.env.ALGOLIA_INDEX_NAME
   const indexPath = process.env.ALGOLIA_INDEX_FILE
   const deployUrl = process.env.STAGE_URL || 'https://docs.kubermatic.com'
+  console.log('debug')
 
   try {
     let dataResponse = await fetch([deployUrl, indexPath].join('/'))
