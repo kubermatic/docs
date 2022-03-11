@@ -1,0 +1,19 @@
+{
+  "name": "kubermatic-docs",
+  "version": "0.0.1",
+  "description": "Kubermatic docs website",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kubermatic/docs.git"
+  },
+  "author": "Kubermatic",
+  "license": "Owned by Kubermatic",
+  "homepage": "https://github.com/kubermatic/docs",
+  "dependencies": {
+    "atomic-algolia": "^0.3.19",
+    "node-fetch": "^2.6.7"
+  }
+}

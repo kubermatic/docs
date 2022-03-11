@@ -9,3 +9,6 @@ command = "hugo -D -F -b $DEPLOY_PRIME_URL"
 
 [context.deploy-preview.environment]
 HUGO_VERSION = "0.75.1"
+
+[functions]
+directory = "functions"
