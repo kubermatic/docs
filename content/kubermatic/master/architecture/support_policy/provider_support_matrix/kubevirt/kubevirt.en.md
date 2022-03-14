@@ -23,7 +23,7 @@ minimal installation.
 
 ### KubeVirt Configuration Requirements
 Kubevirt requires the following configuration to be used with KKP.
-- In case your Kubevirt namespace has the ConfigMap 'kubevirt-config' then use this ComfigMap for adding the feature gates to it. Look at the path `{.data.feature-gates}`
+- In case your Kubevirt namespace has the ConfigMap 'kubevirt-config' then use this ConfigMap for adding the feature gates to it. Look at the path `{.data.feature-gates}`
 - Otherwise, add the feature gate to the resource of type Kubevirt. There should be a single resource of this type and its name is irrelevant
 
 The configuration KKP requires:
