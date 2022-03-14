@@ -22,9 +22,9 @@ to run KubeVirt, however a Kubernetes cluster consists of 3 nodes with 2 CPUs, 4
 minimal installation.
 
 ### KubeVirt Configuration Requirements
-Kubevirt requires the following configuration to be used with KKP.
-- In case your Kubevirt namespace has the ConfigMap 'kubevirt-config' then use this ConfigMap for adding the feature gates to it. Look at the path `{.data.feature-gates}`
-- Otherwise, add the feature gate to the resource of type Kubevirt. There should be a single resource of this type and its name is irrelevant
+KubeVirt requires the following configuration to be used with KKP.
+- In case your KubeVirt namespace has the ConfigMap 'kubevirt-config' then use this ConfigMap for adding the feature gates to it. Look at the path `{.data.feature-gates}`
+- Otherwise, add the feature gate to the resource of type `KubeVirt`. There should be a single resource of this type and its name can be chosen arbitrarily.
 
 The configuration KKP requires:
 ```yaml
@@ -46,6 +46,8 @@ spec:
       - Snapshot
       - HotplugVolumes
 ```
+
+More information on the KubeVirt feature gates can be found [here: KubeVirt Feature Gates](https://kubevirt.io/user-guide/operations/activating_feature_gates/#how-to-activate-a-feature-gate)
 
 ### Use KKP with KubeVirt
 In order to allow KKP to provision VMs(worker nodes) in KubeVirt, users provide the kubeconfig of the Kubernetes cluster
@@ -99,3 +101,4 @@ spec:
       versions:
         kubelet: "1.18.10"
 ```
+
