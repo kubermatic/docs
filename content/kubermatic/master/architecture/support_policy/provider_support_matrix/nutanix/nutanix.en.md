@@ -12,6 +12,16 @@ Configuration of Nutanix credentials can be done through [Presets]({{< ref "../.
 
 - [CSI driver for Nutanix Volumes and Nutanix Files](https://portal.nutanix.com/page/documents/details?targetId=CSI-Volume-Driver-v2_5:csi-csi-plugin-overview-c.html) will be installed onto the user cluster.
 
+### CSI Driver
+
+The CSI driver takes several configuration values to configure access to a Prism Element instance (these credentials are different from also needed Prism Central credentials). In addition, **Prism Element Storage Class Settings** allow tuning the Kubernetes `StorageClass` created by KKP. The default values for that are:
+
+- Storage Container: `Default` (sets the Nutanix Storage Container used to store volumes created by the driver)
+- Fstype: `xfs` (the filesystem used for created volumes)
+- Segmented Iscsi Network: `false` (tells the CSI driver that [ISCSI network segmentation](https://portal.nutanix.com/page/documents/solutions/details?targetId=BP-2049-Nutanix-Volumes:top-networking-for-iscsi.html) should be used)
+
+When creating a user cluster via UI or API, these settings can be adjusted if needed. The `StorageClass` created by KKP is named `ntnx-csi`. Additional StorageClasses using the Nutanix CSI driver can be created manually.
+
 ## VM Images
 
 Images to create VMs from need to be provided and can be configured in the datacenter spec when configuring a `Seed` to include a Nutanix `Datacenter`. The following OS images are tested and supported:
