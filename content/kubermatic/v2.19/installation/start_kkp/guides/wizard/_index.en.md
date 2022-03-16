@@ -15,7 +15,7 @@ Start by clicking on the **Generate** button.
 ## 1. Git provider selection
 At this step, you will select a Git provider where the repository will be hosted.
 
-You can pick between GitHub and GitLab.
+You can pick between GitHub, GitLab and Bitbucket.
 
 ![Step 1](1.png?width=700px&classes=shadow,border "Step 1")
 
