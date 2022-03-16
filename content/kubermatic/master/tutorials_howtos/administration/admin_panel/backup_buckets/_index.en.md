@@ -18,11 +18,8 @@ It is possible to set multiple destinations per Seed, so that for example some b
 some to an S3 bucket, depending on the importance.
 
 {{% notice note %}}
-For users already using the backups introduced in 2.18, when only one backup bucket and endpoint was available, their
-backups will still work, and the old method is still supported, but deprecated. A warning will be shown on the seed in question, which 
-instructs users to add a destination, and migrate backups to use destination.
-
-![Backup Destinations Warning](/img/kubermatic/master/tutorials/backups/backup_seed_warning.png?classes=shadow,border "Backup Destinations Settings View - Warning")
+For users already using the backups introduced in 2.18, when only one backup bucket and endpoint was available, they need to migrate to using destinations from 2.20 as 
+backups without destination are not supported anymore. 
 {{% /notice %}}
 
 To add a new backup destination, just click on the `Add Destination` button on the right. 
@@ -48,9 +45,9 @@ For security reasons, the API/UI does not offer a way to get the current credent
 To see how to make backups and restore your cluster, check the [Etcd Backup and Restore Tutorial]({{< ref "../../../etcd_backups" >}}).
 
 
-### Enforcing default backups
+### Default backups
 
-It is also possible to enforce default backups for each cluster in a Seed. By setting a default destination, a default EtcdBackupConfig
+Since 2.20, default destinations are required if the automatic etcd backups are configured. A default EtcdBackupConfig
 is created for all the user clusters in the Seed. It has to be a destination that is present in the backup destination list for that Seed.
 
 Example Seed with default destination:
@@ -80,17 +77,3 @@ Default EtcdBackupConfig that is created:
 ```
 
 ![Set Default Destination](/img/kubermatic/master/tutorials/backups/set_backup_dest_as_default.png?classes=shadow,border "Set Backup Destination as Default")
-
-{{% notice warning %}}
-Removing the default destination results in the termination of all default backups (Tip: to retain existing backups you can overwrite the default destination instead)
-{{% /notice %}}
-
-{{% notice note %}}
-For users already using the backups introduced in 2.18, when only one backup bucket and endpoint was available,
-if the backup is configured for the Seed, the default backups will be created for each user cluster as in 2.18.
-If the legacy configuration is removed, the default backups will be deleted.
-
-When migrating to multiple destinations, if you would like to keep your default backups, first set up the multiple destinations 
-with the default destination (set the same destination as the legacy), then remove the old configuration. This will cause the default backups to just switch to a new destination,
-and not get deleted and recreated.
-{{% /notice %}}
