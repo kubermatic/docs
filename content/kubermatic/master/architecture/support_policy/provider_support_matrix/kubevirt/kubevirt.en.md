@@ -21,6 +21,34 @@ KKP supports KubeVirt Operator >= 0.19.0 and the Containerized Data Importer >= 
 to run KubeVirt, however a Kubernetes cluster consists of 3 nodes with 2 CPUs, 4GB of RAM and 30GB of storage, to have a
 minimal installation.
 
+### KubeVirt Configuration Requirements
+KubeVirt requires the following configuration to be used with KKP.
+- In case your KubeVirt namespace has the ConfigMap 'kubevirt-config' then use this ConfigMap for adding the feature gates to it. Look at the path `{.data.feature-gates}`
+- Otherwise, add the feature gate to the resource of type `KubeVirt`. There should be a single resource of this type and its name can be chosen arbitrarily.
+
+The configuration KKP requires:
+```yaml
+apiVersion: kubevirt.io/v1
+kind: KubeVirt
+metadata:
+  name: kubevirt
+  namespace: kubevirt
+spec:
+  configuration:
+    developerConfiguration:
+      featureGates:
+      - DataVolumes
+      - SRIOV
+      - LiveMigration
+      - CPUManager
+      - CPUNodeDiscovery
+      - Sidecar
+      - Snapshot
+      - HotplugVolumes
+```
+
+More information on the KubeVirt feature gates can be found [here: KubeVirt Feature Gates](https://kubevirt.io/user-guide/operations/activating_feature_gates/#how-to-activate-a-feature-gate)
+
 ### Use KKP with KubeVirt
 In order to allow KKP to provision VMs(worker nodes) in KubeVirt, users provide the kubeconfig of the Kubernetes cluster
 where the KubeVirt cluster is running. Users can add the content of the kubeconfig file in the third step of the cluster
@@ -73,3 +101,4 @@ spec:
       versions:
         kubelet: "1.18.10"
 ```
+
