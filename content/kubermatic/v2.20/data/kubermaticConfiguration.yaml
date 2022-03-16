@@ -35,7 +35,7 @@ spec:
       # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
       requests:
         cpu: 100m
-        memory: 150Mi
+        memory: 512Mi
   # Auth defines keys and URLs for Dex.
   auth:
     clientID: kubermatic
@@ -115,7 +115,7 @@ spec:
       # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
       limits:
         cpu: 100m
-        memory: 400Mi
+        memory: 256Mi
       # Requests describes the minimum amount of compute resources required.
       # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
       # otherwise to an implementation-defined value.
@@ -276,7 +276,7 @@ spec:
       # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
       requests:
         cpu: 200m
-        memory: 100Mi
+        memory: 512Mi
   # UI configures the dashboard.
   ui:
     # Config sets flags for various dashboard features.
@@ -412,16 +412,10 @@ spec:
       # CustomRules can be used to inject custom recording and alerting rules. This field
       # must be a YAML-formatted string with a `group` element at its root, as documented
       # on https://prometheus.io/docs/prometheus/2.14/configuration/alerting_rules/.
-      # This value is treated as a Go template, which allows to inject dynamic values like
-      # the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus
-      # and the documentation for more information on the available fields.
       customRules: ""
       # CustomScrapingConfigs can be used to inject custom scraping rules. This must be a
       # YAML-formatted string containing an array of scrape configurations as documented
       # on https://prometheus.io/docs/prometheus/2.14/configuration/configuration/#scrape_config.
-      # This value is treated as a Go template, which allows to inject dynamic values like
-      # the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus
-      # and the documentation for more information on the available fields.
       customScrapingConfigs: ""
       # DisableDefaultRules disables the recording and alerting rules.
       disableDefaultRules: false
@@ -440,7 +434,7 @@ spec:
   # Versions configures the available and default Kubernetes versions and updates.
   versions:
     # Default is the default version to offer users.
-    default: v1.21.10
+    default: v1.21.8
     # ProviderIncompatibilities lists all the Kubernetes version incompatibilities
     providerIncompatibilities:
       - # Condition is the cluster or datacenter condition that must be met to block a specific version
@@ -504,16 +498,13 @@ spec:
     versions:
       - v1.20.13
       - v1.20.14
-      - v1.20.15
       - v1.21.8
-      - v1.21.10
       - v1.22.5
-      - v1.22.7
   # VerticalPodAutoscaler configures the Kubernetes VPA integration.
   verticalPodAutoscaler:
     admissionController:
       # DockerRepository is the repository containing the component's image.
-      dockerRepository: k8s.gcr.io/autoscaling/vpa-admission-controller
+      dockerRepository: gcr.io/google_containers/vpa-admission-controller
       # Resources describes the requested and maximum allowed CPU/memory usage.
       resources:
         # Limits describes the maximum amount of compute resources allowed.
@@ -530,7 +521,7 @@ spec:
           memory: 32Mi
     recommender:
       # DockerRepository is the repository containing the component's image.
-      dockerRepository: k8s.gcr.io/autoscaling/vpa-recommender
+      dockerRepository: gcr.io/google_containers/vpa-recommender
       # Resources describes the requested and maximum allowed CPU/memory usage.
       resources:
         # Limits describes the maximum amount of compute resources allowed.
@@ -547,7 +538,7 @@ spec:
           memory: 512Mi
     updater:
       # DockerRepository is the repository containing the component's image.
-      dockerRepository: k8s.gcr.io/autoscaling/vpa-updater
+      dockerRepository: gcr.io/google_containers/vpa-updater
       # Resources describes the requested and maximum allowed CPU/memory usage.
       resources:
         # Limits describes the maximum amount of compute resources allowed.
@@ -562,28 +553,3 @@ spec:
         requests:
           cpu: 50m
           memory: 32Mi
-  # Webhook configures the webhook.
-  webhook:
-    # DebugLog enables more verbose logging.
-    debugLog: false
-    # DockerRepository is the repository containing the Kubermatic webhook image.
-    dockerRepository: quay.io/kubermatic/kubermatic
-    # PProfEndpoint controls the port the webhook should listen on to provide pprof
-    # data. This port is never exposed from the container and only available via port-forwardings.
-    pprofEndpoint: :6600
-    # Replicas sets the number of pod replicas for the webhook.
-    replicas: 1
-    # Resources describes the requested and maximum allowed CPU/memory usage.
-    resources:
-      # Limits describes the maximum amount of compute resources allowed.
-      # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-      limits:
-        cpu: 250m
-        memory: 256Mi
-      # Requests describes the minimum amount of compute resources required.
-      # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
-      # otherwise to an implementation-defined value.
-      # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-      requests:
-        cpu: 50m
-        memory: 64Mi
