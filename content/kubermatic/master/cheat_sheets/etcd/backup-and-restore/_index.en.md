@@ -32,7 +32,7 @@ The legacy way of enabling the automatic etcd backups through the KubermaticConf
 
 ### Backup and Delete Containers
 
-The backup controller uses 2 default jobs to for storing backups and deleting them. If needed, it is possible to configure custom jobs in the KubermaticConfiguration.
+The new backup controller uses 2 default jobs to for storing backups and deleting them. If needed, it is possible to configure custom jobs in the KubermaticConfiguration.
 
 Store job container:
 ```yaml
