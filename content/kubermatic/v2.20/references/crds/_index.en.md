@@ -3394,7 +3394,7 @@ _Appears in:_
 | `password` _string_ | Prism Element Password for csi driver |
 | `endpoint` _string_ | Prism Element Endpoint to access Nutanix Prism Element for csi driver |
 | `port` _integer_ | Optional: Port to use when connecting to the Nutanix Prism Element endpoint (defaults to 9440) |
-| `storageContainer` _string_ | Optional: defaults to "Default" |
+| `storageContainer` _string_ | Optional: defaults to "SelfServiceContainer" |
 | `fstype` _string_ | Optional: defaults to "xfs" |
 | `ssSegmentedIscsiNetwork` _boolean_ | Optional: defaults to "false" |
 
