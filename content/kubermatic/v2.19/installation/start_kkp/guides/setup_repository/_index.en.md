@@ -167,9 +167,15 @@ In addition to above, configure following secrets for selected cloud provider.
 | `ARM_CLIENT_SECRET`     | The Azure Client Secret for client authentication                    |
 {{% /tab %}}
 {{% tab name="GCP" %}}
-| Secret Name             | Description                                                                                                                                                                                        |
-| ------------------------| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `GOOGLE_CREDENTIALS`    | The service account key (content of `${SERVICE_ACCOUNT_NAME}-sa-key.json`) from above step. For **Bitbucket**, base64 encoded value is required (`base64 -w0 ${SERVICE_ACCOUNT_NAME}-sa-key.json`) |
+For **GitHub** and **GitLab**:
+| Secret Name             | Description                                                                                |
+| ------------------------| -------------------------------------------------------------------------------------------|
+| `GOOGLE_CREDENTIALS`    | The service account key (content of `${SERVICE_ACCOUNT_NAME}-sa-key.json`) from above step |
+
+For **Bitbucket**:
+| Secret Name             | Description                                                                                |
+| ------------------------| -------------------------------------------------------------------------------------------|
+| `GCLOUD_SERVICE_KEY`    | The Base64 encoded service account key (`base64 -w0 ${SERVICE_ACCOUNT_NAME}-sa-key.json`). |
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
 | Secret Name             | Description                                                          |
