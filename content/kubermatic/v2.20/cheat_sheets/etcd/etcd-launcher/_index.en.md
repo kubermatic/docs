@@ -29,6 +29,7 @@ Since this is an optional feature, it's disabled by default. There are two modes
 It is not recommended to enable the `EtcdLauncher` feature gate globally at the same time as applying a KKP upgrade, due to the potential for several changes to etcd happening in short sequence.
 {{% /notice %}}
 
+
 ### Enabling etcd-launcher
 In this mode, the feature is enabled on the KKP installation level. The cluster feature flag will be added to all user clusters.
 
