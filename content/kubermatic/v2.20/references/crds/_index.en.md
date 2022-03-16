@@ -245,7 +245,7 @@ AddonConfigList is a list of addon configs.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AddonConfigList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[AddonConfig](#addonconfig)_ |  |
+| `items` _[AddonConfig](#addonconfig) array_ |  |
 
 
 [Back to top](#top)
@@ -309,7 +309,7 @@ AddonList is a list of addons.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AddonList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[Addon](#addon)_ |  |
+| `items` _[Addon](#addon) array_ |  |
 
 
 [Back to top](#top)
@@ -329,7 +329,7 @@ _Appears in:_
 | --- | --- |
 | `name` _string_ | Name defines the name of the addon to install |
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectreference-v1-core)_ | Cluster is the reference to the cluster the addon should be installed in |
-| `variables` _[RawExtension](#rawextension)_ | Variables is free form data to use for parsing the manifest templates |
+| `variables` _RawExtension_ | Variables is free form data to use for parsing the manifest templates |
 | `requiredResourceTypes` _[GroupVersionKind](#groupversionkind) array_ | RequiredResourceTypes allows to indicate that this addon needs some resource type before it can be installed. This can be used to indicate that a specific CRD and/or extension apiserver must be installed before this addon can be installed. The addon will not be installed until that resource is served. |
 | `isDefault` _boolean_ | IsDefault indicates whether the addon is default |
 
@@ -471,7 +471,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AlertmanagerList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[Alertmanager](#alertmanager)_ |  |
+| `items` _[Alertmanager](#alertmanager) array_ |  |
 
 
 [Back to top](#top)
@@ -588,7 +588,7 @@ AllowedRegistryList specifies a list of allowed registries.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AllowedRegistryList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[AllowedRegistry](#allowedregistry)_ |  |
+| `items` _[AllowedRegistry](#allowedregistry) array_ |  |
 
 
 [Back to top](#top)
@@ -990,7 +990,7 @@ ClusterList specifies a list of clusters.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[Cluster](#cluster)_ |  |
+| `items` _[Cluster](#cluster) array_ |  |
 
 
 [Back to top](#top)
@@ -1164,7 +1164,7 @@ ClusterTemplateInstanceList specifies a list of cluster template instances.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplateInstanceList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[ClusterTemplateInstance](#clustertemplateinstance)_ |  |
+| `items` _[ClusterTemplateInstance](#clustertemplateinstance) array_ |  |
 
 
 [Back to top](#top)
@@ -1205,7 +1205,7 @@ ClusterTemplateList specifies a list of cluster templates.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplateList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[ClusterTemplate](#clustertemplate)_ |  |
+| `items` _[ClusterTemplate](#clustertemplate) array_ |  |
 
 
 [Back to top](#top)
@@ -1289,7 +1289,7 @@ ConstraintList specifies a list of constraints.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ConstraintList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[Constraint](#constraint)_ |  |
+| `items` _[Constraint](#constraint) array_ |  |
 
 
 [Back to top](#top)
@@ -1374,7 +1374,7 @@ ConstraintTemplateList specifies a list of constraint templates.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ConstraintTemplateList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[ConstraintTemplate](#constrainttemplate)_ |  |
+| `items` _[ConstraintTemplate](#constrainttemplate) array_ |  |
 
 
 [Back to top](#top)
@@ -1650,7 +1650,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `datacenter` _string_ | Datacenter location, e.g. "nbg1-dc3". A list of existing datacenters can be found at https://docs.hetzner.com/general/others/data-centers-and-connection/ |
+| `datacenter` _string_ | Datacenter location, e.g. "nbg1-dc3". A list of existing datacenters can be found at https://wiki.hetzner.de/index.php/Rechenzentren_und_Anbindung/en |
 | `network` _string_ | Network is the pre-existing Hetzner network in which the machines are running. While machines can be in multiple networks, a single one must be chosen for the HCloud CCM to work. |
 | `location` _string_ | Optional: Detailed location of the datacenter, like "Hamburg" or "Datacenter 7". For informational purposes only. |
 
@@ -1682,7 +1682,7 @@ _Appears in:_
 
 
 
-DatacenterSpecNutanix describes a Nutanix datacenter. NUTANIX IMPLEMENTATION IS EXPERIMENTAL AND UNSUPPORTED.
+DatacenterSpecNutanix describes a Nutanix datacenter.
 
 _Appears in:_
 - [DatacenterSpec](#datacenterspec)
@@ -1920,7 +1920,7 @@ EtcdBackupConfigList is a list of etcd backup configs.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdBackupConfigList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[EtcdBackupConfig](#etcdbackupconfig)_ |  |
+| `items` _[EtcdBackupConfig](#etcdbackupconfig) array_ |  |
 
 
 [Back to top](#top)
@@ -1942,7 +1942,7 @@ _Appears in:_
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectreference-v1-core)_ | Cluster is the reference to the cluster whose etcd will be backed up |
 | `schedule` _string_ | Schedule is a cron expression defining when to perform the backup. If not set, the backup is performed exactly once, immediately. |
 | `keep` _integer_ | Keep is the number of backups to keep around before deleting the oldest one If not set, defaults to DefaultKeptBackupsCount. Only used if Schedule is set. |
-| `destination` _string_ | Destination indicates where the backup will be stored. The destination name should correspond to a destination in the cluster's Seed.Spec.EtcdBackupRestore. If empty, it will use the legacy destination in Seed.Spec.BackupRestore |
+| `destination` _string_ | Destination indicates where the backup will be stored. The destination name must correspond to a destination in the cluster's Seed.Spec.EtcdBackupRestore. |
 
 
 [Back to top](#top)
@@ -1973,7 +1973,7 @@ _Appears in:_
 
 
 
-EtcdBackupRestore holds the configuration of the automatic backup restores.
+EtcdBackupRestore holds the configuration of the automatic backup and restores.
 
 _Appears in:_
 - [SeedSpec](#seedspec)
@@ -1981,7 +1981,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `destinations` _object (keys:string, values:[BackupDestination](#backupdestination))_ | Destinations stores all the possible destinations where the backups for the Seed can be stored. If not empty, it enables automatic backup and restore for the seed. |
-| `defaultDestination` _string_ | DefaultDestination Optional setting which marks the default destination that will be used for the default etcd backup config which is created for every user cluster. If not set, the default etcd backup config won't be created (unless the legacy Seed.Spec.BackupRestore is used). Has to correspond to a destination in Destinations. If removed, it removes the related default etcd backup configs. |
+| `defaultDestination` _string_ | DefaultDestination marks the default destination that will be used for the default etcd backup config which is created for every user cluster. Has to correspond to a destination in Destinations. If removed, it removes the related default etcd backup configs. |
 
 
 [Back to top](#top)
@@ -2023,7 +2023,7 @@ EtcdRestoreList is a list of etcd restores.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdRestoreList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[EtcdRestore](#etcdrestore)_ |  |
+| `items` _[EtcdRestore](#etcdrestore) array_ |  |
 
 
 [Back to top](#top)
@@ -2085,7 +2085,7 @@ _Appears in:_
 | `clusterSize` _integer_ |  |
 | `storageClass` _string_ |  |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ |  |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#toleration-v1-core)_ |  |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#toleration-v1-core) array_ |  |
 
 
 [Back to top](#top)
@@ -2300,7 +2300,7 @@ ExternalClusterList specifies a list of external kubernetes clusters.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ExternalClusterList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[ExternalCluster](#externalcluster)_ |  |
+| `items` _[ExternalCluster](#externalcluster) array_ |  |
 
 
 [Back to top](#top)
@@ -2640,7 +2640,7 @@ KubermaticConfigurationList is a collection of KubermaticConfigurations.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `KubermaticConfigurationList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[KubermaticConfiguration](#kubermaticconfiguration)_ |  |
+| `items` _[KubermaticConfiguration](#kubermaticconfiguration) array_ |  |
 
 
 [Back to top](#top)
@@ -2666,7 +2666,6 @@ _Appears in:_
 | `api` _[KubermaticAPIConfiguration](#kubermaticapiconfiguration)_ | API configures the frontend REST API used by the dashboard. |
 | `seedController` _[KubermaticSeedControllerConfiguration](#kubermaticseedcontrollerconfiguration)_ | SeedController configures the seed-controller-manager. |
 | `masterController` _[KubermaticMasterControllerConfiguration](#kubermaticmastercontrollerconfiguration)_ | MasterController configures the master-controller-manager. |
-| `webhook` _[KubermaticWebhookConfiguration](#kubermaticwebhookconfiguration)_ | Webhook configures the webhook. |
 | `userCluster` _[KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)_ | UserCluster configures various aspects of the user-created clusters. |
 | `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | ExposeStrategy is the strategy to expose the cluster with. Note: The `seed_dns_overwrite` setting of a Seed's datacenter doesn't have any effect if this is set to LoadBalancerStrategy. |
 | `ingress` _[KubermaticIngressConfiguration](#kubermaticingressconfiguration)_ | Ingress contains settings for making the API and UI accessible remotely. |
@@ -2774,9 +2773,8 @@ _Appears in:_
 | --- | --- |
 | `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic seed-controller-manager image. |
 | `backupStoreContainer` _string_ | BackupStoreContainer is the container used for shipping etcd snapshots to a backup location. |
-| `backupDeleteContainer` _string_ | BackupDeleteContainer is the container used for deleting etcd snapshots from a backup location. |
-| `backupCleanupContainer` _string_ | BackupCleanupContainer is the container used for removing expired backups from the storage location. |
-| `backupRestore` _[LegacyKubermaticBackupRestoreConfiguration](#legacykubermaticbackuprestoreconfiguration)_ | BackupRestore contains the setup of the new backup and restore controllers. Deprecated: Use Seed.Spec.EtcdBackupRestore. This is legacy field to support old configurations. |
+| `backupDeleteContainer` _string_ | BackupDeleteContainer is the container used for deleting etcd snapshots from a backup location. This container is only relevant when the new backup/restore controllers are enabled. |
+| `backupCleanupContainer` _string_ | BackupCleanupContainer is the container used for removing expired backups from the storage location. This container is only relevant when the old, deprecated backup controllers are enabled. |
 | `maximumParallelReconciles` _integer_ | MaximumParallelReconciles limits the number of cluster reconciliations that are active at any given time. |
 | `pprofEndpoint` _string_ | PProfEndpoint controls the port the seed-controller-manager should listen on to provide pprof data. This port is never exposed from the container and only available via port-forwardings. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
@@ -2822,7 +2820,7 @@ KubermaticSettingList is a list of settings.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `KubermaticSettingList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[KubermaticSetting](#kubermaticsetting)_ |  |
+| `items` _[KubermaticSetting](#kubermaticsetting) array_ |  |
 
 
 [Back to top](#top)
@@ -2892,8 +2890,8 @@ _Appears in:_
 | --- | --- |
 | `disableDefaultRules` _boolean_ | DisableDefaultRules disables the recording and alerting rules. |
 | `disableDefaultScrapingConfigs` _boolean_ | DisableDefaultScrapingConfigs disables the default scraping targets. |
-| `customRules` _string_ | CustomRules can be used to inject custom recording and alerting rules. This field must be a YAML-formatted string with a `group` element at its root, as documented on https://prometheus.io/docs/prometheus/2.14/configuration/alerting_rules/. This value is treated as a Go template, which allows to inject dynamic values like the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus and the documentation for more information on the available fields. |
-| `customScrapingConfigs` _string_ | CustomScrapingConfigs can be used to inject custom scraping rules. This must be a YAML-formatted string containing an array of scrape configurations as documented on https://prometheus.io/docs/prometheus/2.14/configuration/configuration/#scrape_config. This value is treated as a Go template, which allows to inject dynamic values like the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus and the documentation for more information on the available fields. |
+| `customRules` _string_ | CustomRules can be used to inject custom recording and alerting rules. This field must be a YAML-formatted string with a `group` element at its root, as documented on https://prometheus.io/docs/prometheus/2.14/configuration/alerting_rules/. |
+| `customScrapingConfigs` _string_ | CustomScrapingConfigs can be used to inject custom scraping rules. This must be a YAML-formatted string containing an array of scrape configurations as documented on https://prometheus.io/docs/prometheus/2.14/configuration/configuration/#scrape_config. |
 | `scrapeAnnotationPrefix` _string_ | ScrapeAnnotationPrefix (if set) is used to make the in-cluster Prometheus scrape pods inside the user clusters. |
 
 
@@ -2951,32 +2949,10 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `versions` _Semver_ | Versions lists the available versions. |
+| `versions` _Semver array_ | Versions lists the available versions. |
 | `default` _Semver_ | Default is the default version to offer users. |
 | `updates` _[Update](#update) array_ | Updates is a list of available and automatic upgrades. All 'to' versions must be configured in the version list for this orchestrator. Each update may optionally be configured to be 'automatic: true', in which case the controlplane of all clusters whose version matches the 'from' directive will get updated to the 'to' version. If automatic is enabled, the 'to' version must be a version and not a version range. Also, updates may set 'automaticNodeUpdate: true', in which case Nodes will get updates as well. 'automaticNodeUpdate: true' implies 'automatic: true' as well, because Nodes may not have a newer version than the controlplane. |
 | `providerIncompatibilities` _[Incompatibility](#incompatibility) array_ | ProviderIncompatibilities lists all the Kubernetes version incompatibilities |
-
-
-[Back to top](#top)
-
-
-
-### KubermaticWebhookConfiguration
-
-
-
-KubermaticWebhookConfiguration configures the Kubermatic webhook.
-
-_Appears in:_
-- [KubermaticConfigurationSpec](#kubermaticconfigurationspec)
-
-| Field | Description |
-| --- | --- |
-| `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic webhook image. |
-| `pprofEndpoint` _string_ | PProfEndpoint controls the port the webhook should listen on to provide pprof data. This port is never exposed from the container and only available via port-forwardings. |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
-| `debugLog` _boolean_ | DebugLog enables more verbose logging. |
-| `replicas` _integer_ | Replicas sets the number of pod replicas for the webhook. |
 
 
 [Back to top](#top)
@@ -3041,26 +3017,6 @@ _Appears in:_
 
 
 
-### LegacyKubermaticBackupRestoreConfiguration
-
-
-
-Deprecated: Use Seed.Spec.EtcdBackupRestore. LegacyKubermaticBackupRestoreConfiguration are s3 settings used for backups and restores of user cluster etcds.
-
-_Appears in:_
-- [KubermaticSeedControllerConfiguration](#kubermaticseedcontrollerconfiguration)
-
-| Field | Description |
-| --- | --- |
-| `enabled` _boolean_ | Enabled enables the new etcd backup and restore controllers. |
-| `s3Endpoint` _string_ | S3Endpoint is the S3 API endpoint to use for backup and restore. Defaults to s3.amazonaws.com. |
-| `s3BucketName` _string_ | S3BucketName is the S3 bucket name to use for backup and restore. |
-
-
-[Back to top](#top)
-
-
-
 ### LoggingRateLimitSettings
 
 
@@ -3116,7 +3072,7 @@ MLAAdminSettingList specifies a list of administrtor settings for KKP user clust
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `MLAAdminSettingList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[MLAAdminSetting](#mlaadminsetting)_ |  |
+| `items` _[MLAAdminSetting](#mlaadminsetting) array_ |  |
 
 
 [Back to top](#top)
@@ -3348,7 +3304,6 @@ _Appears in:_
 | `insecureRegistries` _string array_ | Optional: These image registries will be configured as insecure on the container runtime. |
 | `registryMirrors` _string array_ | Optional: These image registries will be configured as registry mirrors on the container runtime. |
 | `pauseImage` _string_ | Optional: Translates to --pod-infra-container-image on the kubelet. If not set, the kubelet will default it. |
-| `hyperkubeImage` _string_ | Optional: The hyperkube image to use. Currently only Flatcar makes use of this option. |
 
 
 [Back to top](#top)
@@ -3439,6 +3394,9 @@ _Appears in:_
 | `password` _string_ | Prism Element Password for csi driver |
 | `endpoint` _string_ | Prism Element Endpoint to access Nutanix Prism Element for csi driver |
 | `port` _integer_ | Optional: Port to use when connecting to the Nutanix Prism Element endpoint (defaults to 9440) |
+| `storageContainer` _string_ | Optional: defaults to "Default" |
+| `fstype` _string_ | Optional: defaults to "xfs" |
+| `ssSegmentedIscsiNetwork` _boolean_ | Optional: defaults to "false" |
 
 
 [Back to top](#top)
@@ -3449,7 +3407,7 @@ _Appears in:_
 
 
 
-NutanixCloudSpec specifies the access data to Nutanix. NUTANIX IMPLEMENTATION IS EXPERIMENTAL AND UNSUPPORTED.
+NutanixCloudSpec specifies the access data to Nutanix.
 
 _Appears in:_
 - [CloudSpec](#cloudspec)
@@ -3778,7 +3736,7 @@ ProjectList is a collection of projects.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ProjectList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[Project](#project)_ |  |
+| `items` _[Project](#project) array_ |  |
 
 
 [Back to top](#top)
@@ -3930,7 +3888,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `RuleGroupList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[RuleGroup](#rulegroup)_ |  |
+| `items` _[RuleGroup](#rulegroup) array_ |  |
 
 
 [Back to top](#top)
@@ -3948,7 +3906,6 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `isDefault` _boolean_ | IsDefault indicates whether the ruleGroup is default |
 | `ruleGroupType` _[RuleGroupType](#rulegrouptype)_ | RuleGroupType is the type of this ruleGroup applies to. It can be `Metrics` or `Logs`. |
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectreference-v1-core)_ | Cluster is the reference to the cluster the ruleGroup should be created in. |
 | `data` _integer array_ | Data contains the RuleGroup data. Ref: https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/#rule_group |
@@ -4006,25 +3963,6 @@ _Appears in:_
 | `kind` _string_ | `Seed`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[SeedSpec](#seedspec)_ |  |
-
-
-[Back to top](#top)
-
-
-
-### SeedBackupRestoreConfiguration
-
-
-
-SeedBackupRestoreConfiguration defines the bucket name and endpoint as a backup destination. Deprecated: use EtcdBackupRestore.
-
-_Appears in:_
-- [SeedSpec](#seedspec)
-
-| Field | Description |
-| --- | --- |
-| `s3Endpoint` _string_ | S3Endpoint is the S3 API endpoint to use for backup and restore. |
-| `s3BucketName` _string_ | S3BucketName is the S3 bucket name to use for backup and restore. |
 
 
 [Back to top](#top)
@@ -4092,8 +4030,7 @@ _Appears in:_
 | `defaultComponentSettings` _[ComponentSettings](#componentsettings)_ | DefaultComponentSettings are default values to set for newly created clusters. Deprecated: Use DefaultClusterTemplate instead. |
 | `defaultClusterTemplate` _string_ | DefaultClusterTemplate is the name of a cluster template of scope "seed" that is used to default all new created clusters |
 | `metering` _[MeteringConfiguration](#meteringconfiguration)_ | Metering configures the metering tool on user clusters across the seed. |
-| `backupRestore` _[SeedBackupRestoreConfiguration](#seedbackuprestoreconfiguration)_ | BackupRestore when set, enables backup and restore controllers with given configuration. Deprecated: use EtcdBackupRestore instead which allows for multiple destinations. For now, it's still supported and will work if set. |
-| `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed |
+| `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed; if this is set, the new backup/restore controllers are enabled for this Seed. |
 
 
 [Back to top](#top)
@@ -4246,7 +4183,7 @@ UserList is a list of users.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[User](#user)_ |  |
+| `items` _[User](#user) array_ |  |
 
 
 [Back to top](#top)
@@ -4287,7 +4224,7 @@ UserProjectBindingList is a list of users.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserProjectBindingList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[UserProjectBinding](#userprojectbinding)_ |  |
+| `items` _[UserProjectBinding](#userprojectbinding) array_ |  |
 
 
 [Back to top](#top)
@@ -4348,7 +4285,7 @@ UserSSHKeyList specifies a users UserSSHKey.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserSSHKeyList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[UserSSHKey](#usersshkey)_ |  |
+| `items` _[UserSSHKey](#usersshkey) array_ |  |
 
 
 [Back to top](#top)
