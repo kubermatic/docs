@@ -50,6 +50,16 @@ terraform output -json > output.json
 cd ../..
 ```
 {{% /tab %}}
+{{% tab name="Bitbucket" %}}
+Terraform state is stored at remote s3 compatible location (S3 / GCS), and all required configuration is provided via `backend.tf`.
+
+```bash
+cd terraform/<provider>
+terraform init
+terraform output -json > output.json
+cd ../..
+```
+{{% /tab %}}
 {{% /tabs %}}
 
 ## 2. Prepare SSH Agent with SSH Key

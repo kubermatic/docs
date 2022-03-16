@@ -24,7 +24,7 @@ Currently, following providers are supported to try KKP:
 
 Required configuration in wizard is different for each of these providers.
 
-### GitHub or GitLab repository
+### GitHub, GitLab or Bitbucket repository
 It will be used for storing the declarative setup of all components,
 can be either public or private, managed by user or organization.
 
@@ -39,6 +39,7 @@ If you have Route53 and willing to try KKP on AWS - records preparation can be f
 
 * **[GitHub Actions / Workflow](https://github.com/features/actions)** - for management of complete delivery pipeline on top of your GitHub repository
 * **[GitLab CI/CD](https://docs.gitlab.com/ee/ci/)** - for management of complete delivery pipeline on top of your GitLab repository
+* **[Bitbucket Pipelines](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/)** - for management of complete delivery pipeline on top of your Bitbucket Cloud repository
 * **[Terraform](https://www.terraform.io/)** - for provisioning of cloud resources for Kubernetes master / seed cluster (the cluster that will run Kubermatic Kubernetes Platform components)
 * **[KubeOne](https://www.kubermatic.com/products/kubeone/)** - for provisioning of Kubernetes master / seed cluster
 * **[KKP installer](https://www.kubermatic.com/products/kubermatic/)** - for installing Kubermatic Kubernetes Platform on master cluster
