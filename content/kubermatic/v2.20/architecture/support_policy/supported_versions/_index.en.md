@@ -52,7 +52,7 @@ current KKP version.
 | 2.17.x      | -    | ✓    | ✓      | ✓        | ✓        |
 | 2.16.x      | -    | -    | ✓      | ✓        | ✓        |
 
-\*\* Kubernetes 1.18, 1.19 and 1.20 releases have reached End-of-Life (EOL). We
+\* Kubernetes 1.18, 1.19 and 1.20 releases have reached End-of-Life (EOL). We
 strongly recommend upgrading to a supported Kubernetes release as soon as
 possible.
 
