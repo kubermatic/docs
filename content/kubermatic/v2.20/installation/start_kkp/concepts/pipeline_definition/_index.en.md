@@ -2,7 +2,7 @@
 title = "Delivery Pipeline description"
 +++
 
-Automated pipeline was created in GitHub or GitLab to automate all installation steps to have KKP up and running and
+Automated pipeline was created in GitHub, GitLab or Bitbucket to automate all installation steps to have KKP up and running and
 ready to operate with GitOps (using Flux tool).
 
 ![Pipeline Schema](pipeline.png?width=700px&classes=shadow,border "Pipeline Schema")
@@ -11,7 +11,7 @@ Jobs are being triggered on 2 specific events - either on your _Pull (Merge) Req
 
 On pull requests, only the jobs for terraform validate and plan are executed (so that you have visibility what is going to change).
 
-All other jobs are being executed on the _main_ branch after push (in case that any files in directories _kubeone_, _kubermatic_, _terraform_ or _.github_ (_.gitlab-ci.yaml_) have changed).
+All other jobs are being executed on the _main_ branch after push (in case that any files in directories _kubeone_, _kubermatic_, _terraform_ or _.github_ (_.gitlab-ci.yml_ / _bitbucket-pipelines.yml_) have changed).
 
 ## Jobs
 
@@ -22,7 +22,7 @@ Runs validation of Terraform module(s).
 Prepares Terraform backend for storing Terraform state.
 
 {{% notice info %}}
-This is performed only with GitHub and AWS / Azure / GCP. If you are using GitLab, terraform state is stored in GitLab directly.
+This is performed only with [ GitHub / Bitbucket ] and [ AWS / GCP ]. If you are using GitLab, terraform state is stored in GitLab directly.
 {{% /notice %}}
 
 ### terraform-plan
@@ -61,7 +61,7 @@ Optional step for AWS only.
 Runs only after the push in `main` branch.
 
 ### flux-bootstrap
-Initiates Flux v2 using `flux bootstrap github` (or `flux bootstrap gitlab`) command.
+Initiates Flux v2 using `flux bootstrap github` (or `flux bootstrap gitlab` / `flux bootstrap git`) command.
 
 ==> KKP resources (Seed, Preset, Project) and optionally components of Monitoring/Logging/Alerting stack are delivered after Flux is initiated on the cluster,
 Flux itself is also managed by the same repository.

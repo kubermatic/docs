@@ -25,4 +25,4 @@ flux bootstrap github --owner=<org-name> --repository=<repo-name> --branch=main 
 ```
 
 In general in case of any failure, we recommend trying the steps locally (following the instructions in
-`README-local-(github|gitlab).md`) and find the right cause of the problem.
+`README-local-(github|gitlab|bitbucket).md`) and find the right cause of the problem.
