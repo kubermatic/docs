@@ -234,7 +234,7 @@ metadata:
   namespace: kubermatic
 ```
 
-use the `kubermatic-installer` as normal to upgrade to KKP 2.20:
+Use the `kubermatic-installer` as normal to upgrade to KKP 2.20:
 
 ```bash
 ./kubermatic-installer deploy
