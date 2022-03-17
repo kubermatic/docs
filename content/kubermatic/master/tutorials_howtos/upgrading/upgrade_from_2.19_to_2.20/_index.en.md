@@ -216,7 +216,25 @@ If `--remove-old-resources` is not specified, both the old and new CRDs will co-
 
 #### Upgrade
 
-Once the migration has completed, use the `kubermatic-installer` as normal to upgrade to KKP 2.20:
+{{% notice note %}}
+Please ensure that your Helm values do not override the container image tag for the KKP operator, or else you might inadvertently get an old KKP version deployed after the migration. Check that `kubermaticOperator.image.tag` is not set in your `values.yaml`. Remove the custom value if set to allow the Helm chart to use the correct image version.
+{{% /notice %}}
+
+Once the migration has completed, download the migrated `KubermaticConfiguration` (it has moved into the `kubermatic.k8c.io` API group) from the cluster:
+
+```bash
+kubectl get kubermaticconfigurations.kubermatic.k8c.io -n kubermatic kubermatic -o yaml > /path/to/config.yaml
+```
+
+Open the file and make sure to clean up the `metadata` section so it only contains `name` and `namespace`:
+
+```yaml
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+```
+
+Use the `kubermatic-installer` as normal to upgrade to KKP 2.20:
 
 ```bash
 ./kubermatic-installer deploy
@@ -225,3 +243,11 @@ Once the migration has completed, use the `kubermatic-installer` as normal to up
 Refer to the [CE installation]({{< ref "../../../installation/install_kkp_CE/" >}}) or [EE installation]({{< ref "../../../installation/install_kkp_EE/" >}}) guides for more information.
 
 The new operator will reconcile the master/seed controllers and reset their replica counts, which in turn will will begin to reconcile the user clusters.
+
+If `Seed` resources are checked into version control, consider downloading the migrated versions from the cluster as well (repeat if using EE and multiple `Seeds`):
+
+```bash
+kubectl get seed.kubermatic.k8c.io -n kubermatic <SEED NAME> -o yaml
+```
+
+Clean up the metadata section as well so it only has `name` and `namespace` (or compare to your previous YAML files) before checking it into version control.
