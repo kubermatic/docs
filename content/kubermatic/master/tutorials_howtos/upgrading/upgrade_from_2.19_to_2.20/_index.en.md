@@ -216,6 +216,10 @@ If `--remove-old-resources` is not specified, both the old and new CRDs will co-
 
 #### Upgrade
 
+{{% notice note %}}
+Please ensure that your Helm values do not override the container image tag for the KKP operator, or else you might inadvertently get an old KKP version deployed after the migration. Check that `kubermaticOperator.image.tag` is not set in your `values.yaml`. Remove the custom value if set to allow the Helm chart to use the correct image version.
+{{% /notice %}}
+
 Once the migration has completed, download the migrated `KubermaticConfiguration` (it has moved into the `kubermatic.k8c.io` API group) from the cluster. Consider downloading it into a different file name than your old version of it or make sure you have a backup of it.
 
 ```bash
