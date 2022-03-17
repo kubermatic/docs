@@ -23,7 +23,7 @@ Constraint Template CRD the users can create rule templates whose parameters are
 The integration is specific per user cluster, meaning that it is activated by a flag in the cluster spec.
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Cluster
 metadata:
   name: l78dsl4l8x
@@ -45,7 +45,7 @@ Kubermatic CT's which designated controllers to reconcile to the seed and to use
 
 Example of a Kubermatic Constraint Template:
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: ConstraintTemplate
 metadata:
   name: k8srequiredlabels
@@ -104,7 +104,7 @@ Kubermatic Constraint controller reconciles the Kubermatic Constraints on the se
 Example of a Kubermatic Constraint:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Constraint
 metadata:
   name: ns-must-have-gk
@@ -203,7 +203,7 @@ Note that they can not be edited/deleted at the Cluster level.
 Example of a Kubermatic Default Constraint:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Constraint
 metadata:
   name: ns-must-have-gk
@@ -232,7 +232,7 @@ This is an EE feature.
 Example of a Disabled Kubermatic Constraint:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Constraint
 metadata:
   name: ns-must-have-gk
@@ -316,7 +316,7 @@ They are cluster-scoped and reside in the KKP Master cluster.
 
 Example of a AllowedRegistry:
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: AllowedRegistry
 metadata:
   name: quay
@@ -327,7 +327,7 @@ spec:
 Corresponding ConstraintTemplate:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: ConstraintTemplate
 metadata:
   name: allowedregistry
@@ -367,7 +367,7 @@ spec:
 Corresponding Default Constraint:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Constraint
 metadata:
   name: allowedregistry

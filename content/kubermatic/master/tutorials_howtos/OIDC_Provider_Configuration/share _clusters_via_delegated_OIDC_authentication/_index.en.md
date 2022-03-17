@@ -62,7 +62,7 @@ KKP needs to be reconfigured by adjusting the `KubermaticConfiguration`. In the 
 need to be specified. In addition to this, two feature flags need to be set.
 
 ```yaml
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   # ...

@@ -129,7 +129,7 @@ data:
   kubeconfig: <base64 encoded kubeconfig>
 
 ---
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Seed
 metadata:
   # The Seed *must* be named "kubermatic".

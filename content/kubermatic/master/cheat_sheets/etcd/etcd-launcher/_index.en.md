@@ -32,7 +32,7 @@ To enable etcd-launcher, the related feature should be enabled in the [Kubermati
 
 ```yaml
 # Snippet, not a complete file!
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   name: <<mykubermatic>>

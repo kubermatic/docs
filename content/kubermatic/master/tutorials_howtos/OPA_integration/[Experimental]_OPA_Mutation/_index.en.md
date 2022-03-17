@@ -14,7 +14,7 @@ The mutation is Disabled by default, but users can opt-in by setting the flag `e
 By setting this flag `experimentalEnableMutation` to true, Kubermatic deploys Mutation Webhook on the user cluster.
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Cluster
 metadata:
   name: bpc9nstqvk

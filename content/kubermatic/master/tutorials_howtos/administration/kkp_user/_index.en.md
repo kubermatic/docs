@@ -11,7 +11,7 @@ When a user authenticates for the first time at the Dashboard, an internal User 
 Example User representation:
 
 ```
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: User
 metadata:
   name: e0465fecc52a995ab349675d2ecad3189d18cdfa93f0a52693e6d33ec23af3b1

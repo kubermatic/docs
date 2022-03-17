@@ -46,7 +46,7 @@ images from the private Docker repository. The Docker Pull Secret is a tiny JSON
 KubermaticConfiguration (e.g. in the `kubermatic.yaml`):
 
 ```yaml
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   name: kubermatic

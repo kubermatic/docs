@@ -23,7 +23,7 @@ top.
 Global settings can also be modified from the command line with kubectl. It can be done by editing the `globalsettings` in `KubermaticSetting` CRD. This resource has the following structure:
 
 ```
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticSetting
 metadata:
   name: globalsettings

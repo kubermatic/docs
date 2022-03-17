@@ -14,7 +14,7 @@ Since OSM is in experimental phase, it is currently not enabled by default. To e
 
 ```yaml
 # Snippet, not a complete file!
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   name: <<mykubermatic>>
@@ -43,7 +43,7 @@ Create a new cluster from the dashboard and toggle **Operating System Manager** 
 On cluster creation, set the following values in `Cluster` resource:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Cluster
 metadata:
   name: crh4xbxz5f

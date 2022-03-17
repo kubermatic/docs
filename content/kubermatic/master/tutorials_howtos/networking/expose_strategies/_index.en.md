@@ -24,7 +24,7 @@ routing the traffic based on:
 The expose strategy can be configured globally with the `KubermaticConfiguration` as follow:
 
 ```yaml
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   name: kubermatic
@@ -53,7 +53,7 @@ that it is possible to have different expose strategies on the same KKP
 cluster. e.g.
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Seed
 metadata:
   name: kubermatic
@@ -92,7 +92,7 @@ In order to enable this strategy the `TunnelingExposeStrategy` feature gate
 should be enabled.
 
 ```yaml
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   name: kubermatic

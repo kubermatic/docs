@@ -320,7 +320,7 @@ KKP API which will create an initial User resource for your account. To become a
 and set the `admin` flag to `true`. 
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: User
 metadata:
   creationTimestamp: "2020-05-04T07:20:37Z"
