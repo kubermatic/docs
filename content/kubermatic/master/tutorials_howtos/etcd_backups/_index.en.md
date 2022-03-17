@@ -14,14 +14,14 @@ Firstly, you need to enable and configure the destination(backup bucket, endpoin
 When the etcd backups are configured for a seed, project admins can create automatic Etcd Backups for the project clusters. B
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: EtcdBackupConfig
 metadata:
   name: daily-backup
   namespace: cluster-zvc78xnnz7
 spec:
   cluster:
-    apiVersion: kubermatic.k8s.io/v1
+    apiVersion: kubermatic.k8c.io/v1
     kind: Cluster
     name: zvc78xnnz7
   schedule: '@every 20m'
