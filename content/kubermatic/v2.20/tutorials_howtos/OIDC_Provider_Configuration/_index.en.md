@@ -34,7 +34,7 @@ kubectl -n kubermatic get kubermaticconfigurations
 #kubermatic   2h
 
 kubectl -n kubermatic get kubermaticconfiguration kubermatic -o yaml
-#apiVersion: operator.kubermatic.io/v1alpha1
+#apiVersion: kubermatic.k8c.io/v1
 #kind: KubermaticConfiguration
 #metadata:
 #  finalizers:

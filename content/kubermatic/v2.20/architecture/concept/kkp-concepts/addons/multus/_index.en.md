@@ -89,7 +89,7 @@ data:
 ## AddonConfig
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: AddonConfig
 metadata:
   annotations:

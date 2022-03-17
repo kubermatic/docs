@@ -39,14 +39,14 @@ A service account is linked to the project automatically by service account bind
 The `yaml` example of service account object:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: User
 metadata:
   creationTimestamp: "2019-03-27T07:57:55Z"
   generation: 1
   name: serviceaccount-xxxxxxxxxx
   ownerReferences:
-  - apiVersion: kubermatic.k8s.io/v1
+  - apiVersion: kubermatic.k8c.io/v1
     kind: Project
     name: yyyyyyyyyy
     uid: c7694392-43e4-11e9-b04b-42010a9c0119
@@ -74,7 +74,7 @@ service account. A secret will be automatically deleted after service account re
    name: sa-token-zzzzzzzzzz
    namespace: kubermatic
    ownerReferences:
-   - apiVersion: kubermatic.k8s.io/v1
+   - apiVersion: kubermatic.k8c.io/v1
      kind: User
      name: serviceaccount-xxxxxxxxxx
      uid: 26127a31-507a-11e9-9ea9-42010a9c0125

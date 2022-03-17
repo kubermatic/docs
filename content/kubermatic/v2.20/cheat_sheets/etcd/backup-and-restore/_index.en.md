@@ -61,14 +61,14 @@ Legacy credentials from `kube-system/s3-credentials` and the bucket details in `
 To create an automatic backup, simply create a backup configuration resource. Or use the UI as shown here [Etcd Backup Management]({{< ref "../../../tutorials_howtos/etcd_backups" >}}).
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: EtcdBackupConfig
 metadata:
   name: daily-backup
   namespace: cluster-zvc78xnnz7
 spec:
   cluster:
-    apiVersion: kubermatic.k8s.io/v1
+    apiVersion: kubermatic.k8c.io/v1
     kind: Cluster
     name: zvc78xnnz7
   schedule: '0 1 * * *'
@@ -130,14 +130,14 @@ status:
 To restore a cluster from am existing backup, you simply create a restore resource in the cluster namespace:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: EtcdRestore
 metadata:
   name: cluster-restore
   namespace: cluster-zvc78xnnz7
 spec:
   cluster:
-    apiVersion: kubermatic.k8s.io/v1
+    apiVersion: kubermatic.k8c.io/v1
     kind: Cluster
     name: zvc78xnnz7
   backupName: daily-backup-2021-03-02T15:24:00

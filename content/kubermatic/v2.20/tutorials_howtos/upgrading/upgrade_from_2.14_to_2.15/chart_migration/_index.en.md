@@ -103,7 +103,7 @@ apply during a migration.
 
 ```bash
 ./kubermatic-installer convert-helm-values myvalues.yaml
-# apiVersion: operator.kubermatic.io/v1alpha1
+# apiVersion: kubermatic.k8c.io/v1
 # kind: KubermaticConfiguration
 # metadata:
 #   name: kubermatic

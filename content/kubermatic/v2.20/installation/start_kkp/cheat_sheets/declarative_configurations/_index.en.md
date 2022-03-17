@@ -16,7 +16,7 @@ For example, create a new KKP project and assign it to your existing user:
 ```yaml
 # file: flux/clusters/master/kubermatic/internal-project.yaml
 ---
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Project
 metadata:
   name: 8wtyahtwlq
@@ -25,7 +25,7 @@ spec:
 status:
   phase: Active
 ---
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: UserProjectBinding
 metadata:
   name: ilmepndbvt

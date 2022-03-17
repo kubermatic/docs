@@ -103,7 +103,7 @@ the configuration refers to the `ca-bundle` ConfigMap that is shipped with the
 the `spec.caBundle` settings:
 
 ```yaml
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   name: kubermatic

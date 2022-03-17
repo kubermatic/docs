@@ -57,7 +57,7 @@ etcd:
 Custom settings can be applid by modifying the clusters `cluster.spec.componentsOverride` property:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Cluster
 metadata:
   name: rwhxp9j5j
@@ -82,7 +82,7 @@ The above override will override the default settings for the API Server, but wo
 To note here is that, specifying the `resources` override of a component will override all default `resources`. For example:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Cluster
 metadata:
   name: rwhxp9j5j

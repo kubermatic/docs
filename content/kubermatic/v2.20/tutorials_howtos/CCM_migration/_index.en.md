@@ -46,7 +46,7 @@ The migration is specific per user cluster, meaning that it is activated by the 
 cluster spec.
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Cluster
 metadata:
   name: crh4xbxz5f
@@ -63,7 +63,7 @@ When this feature gets enabled in a cluster belonging to a supported cloud provi
 by adding two different annotations, producing the following cluster:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Cluster
 metadata:
   annotations:
