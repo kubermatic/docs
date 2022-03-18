@@ -25,7 +25,7 @@ clusters in any environment (cloud, on-prem, baremetal, edge...). Clusters
 created by KubeOne are production-ready and Kubernetes/CNCF conformant out of
 the box. Generally, KubeOne runs the following tasks:
 
-* install dependencies and required packages (container runtime, kubelet, 
+* install dependencies and required packages (container runtime, kubelet,
   kubeadm...)
 * run Kubernetes' Kubeadm to provision a Kubernetes cluster
 * deploy components such as CNI, metrics-server, and Kubermatic
@@ -45,7 +45,7 @@ Terraform state, and provides example Terraform configs that can be used to
 create the infrastructure. We'll use both the Terraform integration and the
 example configs in this tutorial.
 
-The infrastructure for the worker nodes can be managed in two ways: 
+The infrastructure for the worker nodes can be managed in two ways:
 
 * automatically, by using Kubermatic machine-controller (deployed by default
   for supported providers)
@@ -127,7 +127,7 @@ As described in the How KubeOne Works section, we'll use Terraform to manage
 the infrastructure for the control plane, therefore we need to install it.
 Terraform has several installation methods: manually, using a package manager
 such as `apt`, using Homebrew (for macOS users). In this tutorial, we'll do it
-manually, but you can check out the 
+manually, but you can check out the
 [official installation guide][install-terraform] for other options.
 
 First, visit the [Terraform download page][download-terraform] and grab the
@@ -316,6 +316,9 @@ Besides that, the following environment variables are available, but optional.
 The following environment variables are needed by Terraform for creating the
 infrastructure and for machine-controller to create the worker nodes.
 
+**Either specify default or application credentials for the OpenStack infrastructure.**
+### Default credentials
+
 | Environment Variable | Description                           |
 | -------------------- | ------------------------------------- |
 | `OS_AUTH_URL`        | The URL of OpenStack Identity Service |
@@ -325,6 +328,18 @@ infrastructure and for machine-controller to create the worker nodes.
 | `OS_DOMAIN_NAME`     | The name of the OpenStack domain      |
 | `OS_TENANT_ID`       | The ID of the OpenStack tenant        |
 | `OS_TENANT_NAME`     | The name of the OpenStack tenant      |
+
+### Application Credentials
+
+| Environment Variable | Description                           |
+| -------------------- | ------------------------------------- |
+| `OS_AUTH_URL`        | The URL of OpenStack Identity Service |
+| `OS_APPLICATION_CREDENTIAL_ID`        | The application credential ID for OpenStack    |
+| `OS_APPLICATION_CREDENTIAL_SECRET`        | The application credential secret for OpenStack    |
+| `OS_AUTH_TYPE`     | The auth type for OpenStack; should be set to v3applicationcredential      |
+
+[OpenStack Application Credentials](https://docs.openstack.org/keystone/xena/user/application_credentials.html)
+for more details.
 
 #
 
@@ -554,7 +569,7 @@ Kubernetes cluster.
 The first step is to create a KubeOne configuration manifest that describes how
 the cluster will be provisioned, which Kubernetes version will be used,
 and more. The manifest can be saved in a file called `kubeone.yaml`. In the
-following table you can find example configuration manifest for each 
+following table you can find example configuration manifest for each
 supported provider.
 
 {{< tabs name="Manifests" >}}
@@ -712,6 +727,10 @@ addons:
 **Make sure to replace the placeholder values with real values in the
 cloud-config section.**
 
+**Either specify default or application credentials for the OpenStack infrastructure. Application credentials can only be used when external CCM is enabled.**
+
+### Default Credentials
+
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
@@ -730,6 +749,27 @@ cloudProvider:
     [LoadBalancer]
     subnet-id=SUBNET_ID
 ```
+
+### Application credentials
+
+```yaml
+apiVersion: kubeone.k8c.io/v1beta2
+kind: KubeOneCluster
+versions:
+  kubernetes: '1.22.5'
+cloudProvider:
+  openstack: {}
+  external: true
+  cloudConfig: |
+    [Global]
+    auth-url=https://OS_AUTH_URL/v3
+    application-credential-id=OS_APPLICATION_CREDENTIAL_ID
+    application-credential-secret=OS_APPLICATION_CREDENTIAL_SECRET
+
+    [LoadBalancer]
+    subnet-id=SUBNET_ID
+```
+
 {{% /tab %}}
 {{% tab name="Packet" %}}
 `external: true` instructs KubeOne to deploy the
@@ -932,7 +972,7 @@ and recommendations.
 
 ## Learn More
 
-* Learn how to upgrade your cluster by following the 
+* Learn how to upgrade your cluster by following the
   [Upgrading Clusters][upgrading-clusters] tutorial
 * If you don't need your cluster anymore, you can check the
   [Unprovisioning Clusters][unprovisioning-clusters] tutorial to find out
