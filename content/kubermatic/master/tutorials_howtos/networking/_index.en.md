@@ -12,3 +12,4 @@ This section provides guides on networking in KKP:
 - [**Proxy Whitelisting**]({{< relref "./proxy_whitelisting/" >}})
 - [**API Server Network Policies**]({{< relref "./apiserver_policies/" >}})
 - [**Manual CNI Migration**]({{< relref "./cni_migration/" >}})
+- [**Multus-CNI Addon**]({{< relref "./multus/" >}})
