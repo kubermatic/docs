@@ -26,6 +26,11 @@ Create new repository on GitLab [manually](https://docs.gitlab.com/ee/user/proje
 
 Also prepare a [GitLab API token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) which will be used for GitOps setup. [Project access token](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html) can be used as well.
 {{% /tab %}}
+{{% tab name="Bitbucket" %}}
+Create new repository on Bitbucket [manually](https://support.atlassian.com/bitbucket-cloud/docs/create-a-git-repository/).
+
+The generated SSH Key on the next step will be added to your [SSH Keys](https://bitbucket.org/account/settings/ssh-keys/) for GitOps setup.
+{{% /tab %}}
 {{% /tabs %}}
 
 
@@ -58,6 +63,7 @@ Use `gcloud` CLI tool to create these credentials.
 ```bash
 export GCLOUD_PROJECT="{{ .Configuration.KubernetesSpec.CloudProvider.GCE.Project }}"
 export SERVICE_ACCOUNT_NAME="k1-cluster-provisioner"
+gcloud config set project $GCLOUD_PROJECT
 # create new service account
 gcloud iam service-accounts create "${SERVICE_ACCOUNT_NAME}"
 # get your service account id
@@ -130,6 +136,17 @@ Go to your GitLab project under "Settings" -> "CI/CD" -> "Variables" and setup f
 | `SSH_PRIVATE_KEY`       | The private SSH key (content of `~/.ssh/k8s_rsa`) from above step    |
 | `SSH_PUBLIC_KEY`        | The public SSH key (content of `~/.ssh/k8s_rsa.pub`) from above step |
 {{% /tab %}}
+{{% tab name="Bitbucket" %}}
+Go to your Bitbucket project under "Repository Settings" -> "PIPELINES" -> "Settings" and click on "Enable Pipelines".
+
+Then navigate to "Repository Settings" -> "PIPELINES" -> "Repository Variables" and setup following variables (Make sure that "Secured" is always set):
+
+| Secret Name             | Description                                                                       |
+| ------------------------|-----------------------------------------------------------------------------------|
+| `SOPS_AGE_SECRET_KEY`   | The generated AGE secret key (see _secrets.md_ file)                              |
+| `SSH_PRIVATE_KEY`       | Base64 encoded value of private SSH key (`base64 -w0 k8s_rsa`) from above step    |
+| `SSH_PUBLIC_KEY`        | Base64 encoded value of public SSH key (`base64 -w0 k8s_rsa.pub`) from above step |
+{{% /tab %}}
 {{% /tabs %}}
 
 In addition to above, configure following secrets for selected cloud provider.
@@ -150,9 +167,15 @@ In addition to above, configure following secrets for selected cloud provider.
 | `ARM_CLIENT_SECRET`     | The Azure Client Secret for client authentication                    |
 {{% /tab %}}
 {{% tab name="GCP" %}}
+For **GitHub** and **GitLab**:
 | Secret Name             | Description                                                                                |
 | ------------------------| -------------------------------------------------------------------------------------------|
 | `GOOGLE_CREDENTIALS`    | The service account key (content of `${SERVICE_ACCOUNT_NAME}-sa-key.json`) from above step |
+
+For **Bitbucket**:
+| Secret Name             | Description                                                                                |
+| ------------------------| -------------------------------------------------------------------------------------------|
+| `GCLOUD_SERVICE_KEY`    | The Base64 encoded service account key (`base64 -w0 ${SERVICE_ACCOUNT_NAME}-sa-key.json`). |
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
 | Secret Name             | Description                                                          |
@@ -189,7 +212,7 @@ git push -u origin main
 
 ## Enjoy automated pipeline delivery
 
-At this point, GitHub Workflow or GitLab's CI/CD pipeline should be triggered, and you can watch it on your repository.
+At this point, GitHub Workflow, GitLab's CI/CD pipeline or Bitbucket Pipeline should be triggered, and you can watch it on your repository.
 After all steps are complete, it may still take a few minutes to reconcile the required state (as the Flux is delivering additional steps independently).
 
 ![GitHub Workflow](pipeline.png?width=700px&classes=shadow,border "GitHub Workflow")

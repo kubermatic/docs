@@ -11,12 +11,14 @@ Let’s unzip it and take a look at the structure.
 ```text
 .
 ├── .gitignore
-├── .github                  # if GitHub was used as Git provider
+├── .github                     # if GitHub was used as Git provider
 │   └── workflows
 │       └── kkp.yaml
-├── .gitlab-ci.yml           # if GitLab was used as Git provider
-├── README-local-github.md   # if GitHub was used as Git provider
-├── README-local-gitlab.md   # if GitLab was used as Git provider
+├── .gitlab-ci.yml              # if GitLab was used as Git provider
+├── bitbucket-pipelines.yml     # if Bitbucket was used as Git provider
+├── README-local-github.md      # if GitHub was used as Git provider
+├── README-local-gitlab.md      # if GitLab was used as Git provider
+├── README-local-bitbucket.md   # if Bitbucket was used as Git provider
 ├── README.md
 ├── flux
 │   └── clusters
@@ -76,6 +78,7 @@ There are following directories and files:
 
 * _.github/workflows_ - includes CI/CD jobs for automatic provisioning of cluster and KKP installation (if GitHub was selected as the Git provider).
 * _.gitlab-ci.yml_ - includes CI/CD jobs for automatic provisioning of cluster and KKP installation (if GitLab was selected as the Git provider).
+* _bitbucket-pipelines.yml_ - includes CI/CD jobs for automatic provisioning of cluster and KKP installation (if Bitbucket was selected as the Git provider).
 * _flux_ - includes Kubernetes resources organized by namespaces which are delivered to your Kubernetes cluster by the Flux GitOps tool.
   There are 2 subdirectories _master_ and _master-sops_. First one includes plain Kubernetes resources and second one
   the Kubernetes resources with some encrypted values (they are treated in special way using decryption provider with Flux).
