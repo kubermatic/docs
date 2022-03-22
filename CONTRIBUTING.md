@@ -15,7 +15,7 @@ contribution. See the [DCO](DCO) file for details.
 Any copyright notices in this repo should specify the authors as "the Kubermatic Docs project contributors".
 
 To sign your work, just add a line like this at the end of your commit message:
-
+sdgljdksljgklfjgkldfg
 ```
 Signed-off-by: Joe Example <joe@example.com>
 ```
