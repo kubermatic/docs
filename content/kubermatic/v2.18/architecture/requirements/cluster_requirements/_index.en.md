@@ -1,5 +1,6 @@
 +++
 title = "Cluster Requirements"
+description = "Read this chapter to understand the mimimal requirements for master and user cluster with Kubermatic Kubernetes Platform."
 date = 2018-04-28T12:07:15+02:00
 weight = 15
 

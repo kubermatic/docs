@@ -1,5 +1,6 @@
 +++
 title = "Customize the KKP Deployment"
+description = "Learn how to customize your Kubermatic Kubernetes Platform deployment according to your needs, how to install more applications, and how to provide new Kubernetes resources."
 weight = 40
 +++
 

@@ -1,5 +1,6 @@
 +++
 title = "Supported Versions"
+description = "This document provides detail about the supported KKP versions, our Kubernetes version policy and the supported Kubernetes versions."
 date = 2020-09-16T20:07:15+02:00
 weight = 5
 

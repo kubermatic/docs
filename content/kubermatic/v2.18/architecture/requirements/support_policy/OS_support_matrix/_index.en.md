@@ -1,5 +1,6 @@
 +++
 title = "Operating Systems Support Matrix"
+description = "Kubermatic Kubernetes Platform (KKP) supports a high number of operating systems. Please find here a list of  all operating systems htat are currently supported by KKP."
 date = 2021-04-13T20:07:15+02:00
 weight = 5
 

@@ -1,5 +1,6 @@
 +++
 title = "Architecture"
+description = "Kubermatic Kubernetes Platform makes full use of the Kubernetes cluster to organize and scale workloads. Read on to get a complete understanding of the architecture"
 date = 2018-05-04T12:07:15+02:00
 weight = 5
 

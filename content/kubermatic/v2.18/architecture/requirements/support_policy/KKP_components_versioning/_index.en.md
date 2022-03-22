@@ -1,5 +1,6 @@
 +++
 title = "KKP Components Versioning"
+description = "The document provides a list of the currently available versions of Kubermatic Kubernetes Platform components."
 date = 2021-04-13T20:07:15+02:00
 weight = 5
 
