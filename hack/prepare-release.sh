@@ -100,3 +100,5 @@ yq eval '
   + [{"release": env(VERSION), "name": env(VERSION)}]
   + [.[env(PRODUCT)].versions[] | select(.name != "master")]
 ' -i data/products.yaml
+sdfdshfjkdfhjksh
+

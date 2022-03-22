@@ -19,7 +19,7 @@ To sign your work, just add a line like this at the end of your commit message:
 ```
 Signed-off-by: Joe Example <joe@example.com>
 ```
-
+sdfsjfdhksfjd
 This can easily be done with the `--signoff` option to `git commit`.
 
 By doing this you state that you can certify the following (from https://developercertificate.org/):
