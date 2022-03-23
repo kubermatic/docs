@@ -44,6 +44,8 @@ var searchModule = (function() {
   var initSearchProvider = function(searchField, searchResultsBox, clearButton) {
     var search = instantsearch(getSearchOptions(searchResultsBox));
 
+    var filterSection = searchField.dataset.filter;
+
     var searchBoxWidget = customSearchBoxWidget(searchField, clearButton);
 
     var hits = instantsearch.widgets.hits({
@@ -54,7 +56,15 @@ var searchModule = (function() {
       },
     });
 
-    search.addWidgets([searchBoxWidget(), hits])
+    var widgets = [searchBoxWidget(), hits];
+
+    if (filterSection) {
+      widgets.unshift(instantsearch.widgets.configure({
+        filters: 'productSection:' + filterSection
+      }));
+    }
+
+    search.addWidgets(widgets);
 
     search.start();
   }
