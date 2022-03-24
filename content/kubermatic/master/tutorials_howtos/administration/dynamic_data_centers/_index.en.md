@@ -34,8 +34,8 @@ The datacenter structure contains the following fields:
     - and
     - `enforceAuditLogging` -- enforces audit logging on every cluster within the DC, ignoring cluster-specific settings.
     - `enforcePodSecurityPolicy` -- enforces pod security policy plugin on every clusters within the DC, ignoring cluster-specific settings
-    - `requiredEmailDomain` -- (deprecated since v2.13) Optional string. Limits the availability of the datacenter to users with email addresses in the given domain.
-    - `requiredEmailDomains` -- (since v2.13) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
+    - `requiredEmailDomains` -- (deprecated since v2.20) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
+    - `requiredEmails` -- (since v2.20) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
 
 Example specs for different providers:
 
@@ -60,11 +60,11 @@ Example specs for different providers:
     spec:
       openstack:
         # Authentication endpoint for Openstack, must be v3
-        auth_url: https://our-openstack-api/v3
-        availability_zone: zone-1
+        authURL: https://our-openstack-api/v3
+        availabilityZone: zone-1
         region: "region-1"
         # This DNS server will be set when KKP creates a network
-        dns_servers:
+        dnsServers:
         - "8.8.8.8"
         - "8.8.4.4"
         # Those are default images for nodes which will be shown in the Dashboard.
@@ -74,12 +74,12 @@ Example specs for different providers:
           coreos: "CoreOS"
         # Enforce the creation of floating IP's for new nodes
         # Available since v2.9.0
-        enforce_floating_ip: false
+        enforceFloatingIP: false
         # Gets mapped to the "manage-security-groups" setting in the cloud config.
         # See https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/#load-balancer
         # Defaults to true
         # Available since v2.9.2
-        manage_security_groups: true
+        manageSecurityGroups: true
 
   #==================================
   #========== Digitalocean ==========
@@ -134,13 +134,13 @@ Example specs for different providers:
         datacenter: "Datacenter"
         datastore: "example-datastore"
         cluster: "example-cluster"
-        allow_insecure: true
-        root_path: "/Datacenter/vm/foo"
+        allowInsecure: true
+        rootPath: "/Datacenter/vm/foo"
         templates:
           ubuntu: "ubuntu-template"
           centos: "centos-template"
           coreos: "coreos-template"
-      requiredEmailDomains:
+      requiredEmails:
       - "kubermatic.com"
       - "example.com"
 
@@ -163,7 +163,7 @@ Example specs for different providers:
     spec:
       gcp:
         region: europe-west3
-        zone_suffixes:
+        zoneSuffixes:
         - c
 
   #==================================

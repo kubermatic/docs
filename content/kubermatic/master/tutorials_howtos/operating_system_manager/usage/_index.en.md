@@ -22,8 +22,7 @@ metadata:
 spec:
   # FeatureGates are used to optionally enable certain features.
   featureGates:
-    OperatingSystemManager:
-      enabled: true
+    OperatingSystemManager: true
 ```
 
 **NOTE:** This doesn't enable or deploy OSM on the user cluster. It just ensures that all the required resources/pre-requisites are deployed on the seed.
