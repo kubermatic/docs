@@ -34,8 +34,8 @@ The datacenter structure contains the following fields:
     - and
     - `enforceAuditLogging` -- enforces audit logging on every cluster within the DC, ignoring cluster-specific settings.
     - `enforcePodSecurityPolicy` -- enforces pod security policy plugin on every clusters within the DC, ignoring cluster-specific settings
-    - `requiredEmailDomain` -- (deprecated since v2.13) Optional string. Limits the availability of the datacenter to users with email addresses in the given domain.
-    - `requiredEmailDomains` -- (since v2.13) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
+    - `requiredEmailDomains` -- (deprecated since v2.20) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
+    - `requiredEmails` -- (since v2.20) Optional string array. Limits the availability of the datacenter to users with email addresses in the given domains.
 
 Example specs for different providers:
 
@@ -140,7 +140,7 @@ Example specs for different providers:
           ubuntu: "ubuntu-template"
           centos: "centos-template"
           coreos: "coreos-template"
-      requiredEmailDomains:
+      requiredEmails:
       - "kubermatic.com"
       - "example.com"
 

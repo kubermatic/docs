@@ -37,7 +37,8 @@ kind: Preset
 metadata:
   name: example
 spec:
-  requiredEmailDomain: example.com
+  requiredEmails:
+  - example.com
   anexia:
     token:
   aws:
@@ -103,4 +104,4 @@ spec:
 ```
 
 This file defines credentials for all listed providers. The accessible name for this preset is `example`. Only users with
-`example.com` domain can see this preset. Lack of the `requiredEmailDomains` field makes the preset available for everyone.
+`example.com` domain can see this preset. Lack of the `requiredEmails` field makes the preset available for everyone.
