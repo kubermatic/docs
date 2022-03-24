@@ -1,5 +1,6 @@
 +++
 linkTitle = "User Cluster MLA"
+description = "The User Cluster MLA stack for KKP provides integrated monitoring, logging & alerting functionality for applications and services running in Kubermatic Kubernetes Platform's user clusters"
 title = "User Cluster Monitoring Logging & Alerting"
 date = 2021-08-04T12:10:00+02:00
 weight = 20
