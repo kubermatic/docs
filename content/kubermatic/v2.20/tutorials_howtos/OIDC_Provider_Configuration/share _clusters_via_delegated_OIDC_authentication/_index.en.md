@@ -70,12 +70,10 @@ spec:
   featureGates:
     # exposes an HTTP endpoint for generating kubeconfig
     # for a cluster that will contain OIDC tokens
-    OIDCKubeCfgEndpoint:
-      enabled: true
+    OIDCKubeCfgEndpoint: true
     # configures the flags on the API server to use
     # OAuth2 identity providers
-    OpenIDAuthPlugin:
-      enabled: true
+    OpenIDAuthPlugin: true
 
   ui:
     # enable shared kubeconfig feature in the dashboard

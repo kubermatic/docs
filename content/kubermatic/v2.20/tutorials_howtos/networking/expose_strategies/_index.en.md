@@ -32,8 +32,7 @@ metadata:
 spec:
   exposeStrategy: NodePort
   featureGates:
-    TunnelingExposeStrategy:
-      enabled: true
+    TunnelingExposeStrategy: true
 ``` 
 
 The valid values for `exposeStrategy` are:
@@ -100,8 +99,7 @@ metadata:
 spec:
   exposeStrategy: Tunneling
   featureGates:
-    TunnelingExposeStrategy:
-      enabled: true
+    TunnelingExposeStrategy: true
 ```
 
 The current limitations of this strategy are:

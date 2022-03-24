@@ -122,8 +122,7 @@ metadata:
   namespace: kubermatic
 spec:
   featureGates:
-    UserClusterMLA:
-      enabled: true
+    UserClusterMLA: true
 ```
 
 ### Enabling MLA Stack in a Seed
