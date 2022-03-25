@@ -167,8 +167,7 @@ metadata:
   namespace: kubermatic
 spec:
   featureGates:
-    KonnectivityService:
-      enabled: true
+    KonnectivityService: true
 ```
 
 All existing clusters started before enabling `KonnectivityService` feature gate will continue using OpenVPN.
