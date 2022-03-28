@@ -44,15 +44,19 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version | 1.22 | 1.21 | 1.20\* | 1.19\*   | 1.18\*   |
-| ----------- | ---- | ---- | ------ | -------- | -------- |
-| 2.20.x      | ✓    | ✓    | ✓      | -        | -        |
-| 2.19.x      | ✓    | ✓    | ✓      | -        | -        |
-| 2.18.x      | ✓    | ✓    | ✓      | ✓        | -        |
-| 2.17.x      | -    | ✓    | ✓      | ✓        | ✓        |
-| 2.16.x      | -    | -    | ✓      | ✓        | ✓        |
+| KKP version | 1.23\* | 1.22 | 1.21 | 1.20\*\* | 1.19\*\*   | 1.18\*\*   |
+| ----------- | ------ | ---- | ---- | -------- | ---------- | ---------- |
+| 2.21.x      | ✓      | ✓    | ✓    | -        | -          | -          |
+| 2.20.x      | -      | ✓    | ✓    | ✓        | -          | -          |
+| 2.19.x      | -      | ✓    | ✓    | ✓        | -          | -          |
+| 2.18.x      | -      | ✓    | ✓    | ✓        | ✓          | -          |
+| 2.17.x      | -      | -    | ✓    | ✓        | ✓          | ✓          |
+| 2.16.x      | -      | -    | -    | ✓        | ✓          | ✓          |
 
-\* Kubernetes 1.18, 1.19 and 1.20 releases have reached End-of-Life (EOL). We
+\* Kubernetes 1.23 is currently not supported on ARM64 clusters with Canal CNI
+and kube-proxy running in the IPVS mode.
+
+\*\* Kubernetes 1.18, 1.19 and 1.20 releases have reached End-of-Life (EOL). We
 strongly recommend upgrading to a supported Kubernetes release as soon as
 possible.
 
