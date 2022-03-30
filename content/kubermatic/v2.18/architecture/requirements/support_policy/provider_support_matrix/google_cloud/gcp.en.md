@@ -1,5 +1,6 @@
 +++
 title = "Google Cloud Platform"
+description = "In this chapter you learn how to leverage Google Cloud Platform (GCP) with Kubermatic Kubernetes Platform."
 date = 2019-07-31T13:00:00+02:00
 weight = 7
 
