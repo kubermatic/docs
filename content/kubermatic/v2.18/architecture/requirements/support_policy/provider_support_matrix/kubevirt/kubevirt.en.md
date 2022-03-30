@@ -1,5 +1,6 @@
 +++
 title = "KubeVirt"
+description = "Once KubeVirt is installed, a few steps should be followed to use KubeVirt with KKP. Read on the document to get a complete understanding of these steps."
 date = 2021-02-01T14:46:15+02:00
 weight = 7
 
