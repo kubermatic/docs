@@ -76,6 +76,8 @@ sed -i 's/TODO-A-RANDOM-ISSUERCOOKIEKEY/'"$ISSUERCOOKIEKEY"'/g' ./aws/addons/kkp
 sed -i 's/TODO-A-RANDOM-SERVICEACCOUNTKEY/'"$SERVICEACCOUNTKEY"'/g' ./aws/addons/kkp/*.yaml
 ```
 
+**KKP_DNS** specifies the domain where the kubermatic dashboard would be hosted.
+
 ## Create k8s cluster using kubeone along with KKP master as an addon
 
 ```bash
