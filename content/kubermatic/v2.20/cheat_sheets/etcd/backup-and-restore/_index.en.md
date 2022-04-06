@@ -53,7 +53,7 @@ You can't have both `backupCleanupContainer` and `backupDeleteContainer` set. `b
 The new controllers will use the credentials setup in the Seed Backup destinations, depending on the destination used. 
 
 {{% notice note %}}
-Legacy credentials from `kube-system/s3-credentials` and the bucket details in `s3-settings` configmap is still supported, but deprecated. Please migrate to backup destinations.
+Legacy credentials from `kube-system/backup-s3` and the bucket details in `s3-settings` configmap is still supported, but deprecated. Please migrate to backup destinations.
 {{% /notice %}}
 
 ## Creating Backups
