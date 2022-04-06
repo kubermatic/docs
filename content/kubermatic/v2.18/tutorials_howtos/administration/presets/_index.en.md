@@ -1,5 +1,6 @@
 +++
 title = "Presets"
+description = "Read to know how presets give KKP administrators the ability to predefine a set of provider information that then can be used to speed up the cluster creation."
 date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++

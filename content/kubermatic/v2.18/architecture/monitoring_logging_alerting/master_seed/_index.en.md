@@ -1,5 +1,6 @@
 +++
 linkTitle = "Master / Seed Cluster MLA"
+description = "The Master / Seed Cluster MLA (Monitoring Logging & Alerting) stack monitors KKP components running in the KKP master and seed clusters."
 title = "Master / Seed Cluster Monitoring Logging & Alerting"
 date = 2018-08-17T12:07:15+02:00
 weight = 10

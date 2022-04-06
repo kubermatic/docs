@@ -1,5 +1,6 @@
 +++
 title = "Metering (EE)"
+description = "Get easier accountability of resources with optional measuring tools of KKP Enterprise Edition (EE). It provides weekly reports of per-cluster CPU & memory utilization."
 date = 2021-09-01T11:47:15+02:00
 weight = 100
 
