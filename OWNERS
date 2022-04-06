@@ -1,16 +1,20 @@
 # See the OWNERS docs: https://git.k8s.io/community/contributors/guide/owners.md
 
 approvers:
-  - team-lifecycle
-  - team-ui
-  - team-kubecarrier
+  - sig-api
+  - sig-app-management
+  - sig-cluster-management
+  - sig-networking
+  - sig-virtualization
   - toschneck
   - themue
   - scheeles
 
 reviewers:
-  - team-lifecycle
-  - team-ui
-  - team-kubecarrier
-  - team-ps
+  - sig-api
+  - sig-app-management
+  - sig-cluster-management
+  - sig-networking
+  - sig-virtualization
+  - pso
   - scheeles
