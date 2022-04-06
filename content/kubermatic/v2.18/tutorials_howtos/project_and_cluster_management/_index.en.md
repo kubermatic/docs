@@ -1,5 +1,6 @@
 +++
 title = "Project and cluster management"
+description = "In this chapter we show you how to manage projects and clusters with Kubermatic Kubernetes Platform. Check how they are interlinked and managed easily with examples."
 date = 2021-02-10T12:07:15+02:00
 weight = 10
 

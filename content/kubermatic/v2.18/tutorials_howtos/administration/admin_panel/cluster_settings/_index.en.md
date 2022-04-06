@@ -1,5 +1,6 @@
 +++
 title = "Cluster Settings"
+description = "Cluster Settings section in the Admin Panel allows users to control various cluster-related settings. Read the document to get more information."
 date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++

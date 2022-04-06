@@ -1,5 +1,6 @@
 +++
 title = "Admin Panel"
+description = "Read on the document to learn about the admin panel, the central UI for KKP administrators to manage global settings and users."
 date = 2018-08-09T12:07:15+02:00
 weight = 40
 +++

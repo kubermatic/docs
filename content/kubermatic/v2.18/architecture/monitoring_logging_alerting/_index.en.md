@@ -1,5 +1,6 @@
 +++
 title = "Monitoring, Logging & Alerting"
+description = "Kubermatic Kubernetes Platform's Monitoring, Logging & Alerting (MLA) consists of two stacks: the master cluster stack and the user cluster stack."
 date = 2021-08-04T11:58:00+02:00
 weight = 20
 +++

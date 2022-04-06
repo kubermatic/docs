@@ -1,5 +1,6 @@
 +++
 title = "OPA Default Constraint"
+description = "The OPA default constraint will help you conveniently apply policies to all the OPA enabled clusters. It’s an easy way to ensure all the users are following some policies."
 date = 2021-09-08T12:07:15+02:00
 weight = 20
 +++

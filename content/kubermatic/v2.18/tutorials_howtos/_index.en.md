@@ -1,5 +1,6 @@
 +++
 title = "Tutorials & How-tos"
+description = "Our step-by-step instructions on Kubermatic Kubernetes Platform will help you learn how to work efficiently with KKP."
 date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++

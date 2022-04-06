@@ -1,5 +1,6 @@
 +++
 title = "User SSH Key Agent"
+description = "The user SSH key agent is responsible for syncing the defined user SSH keys to the worker nodes, when users attach SSH keys to the user clusters."
 date = 2021-02-10T12:12:00+02:00
 weight = 6
 

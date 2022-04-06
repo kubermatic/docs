@@ -1,5 +1,6 @@
 +++
 title = "Presets"
+description = "As a Kubermatic Kubernetes Platform (KKP) administrator with superuser access, you can define Preset types in a Kubernetes Custom Resource Definition (CRD), allowing the assignment of new credential types to supported providers."
 date = 2019-06-13T12:01:35+02:00
 weight = 30
 

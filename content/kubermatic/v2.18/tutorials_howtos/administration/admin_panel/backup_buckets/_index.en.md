@@ -1,5 +1,6 @@
 +++
 title = "Backup Buckets"
+description = "How to enable and configure the new etcd backups for each seed with the backup buckets setting."
 date = 2021-09-16T11:07:15+02:00
 weight = 20
 +++
