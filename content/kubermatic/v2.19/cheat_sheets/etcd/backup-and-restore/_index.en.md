@@ -53,7 +53,7 @@ You can't have both `backupCleanupContainer` and `backupDeleteContainer` set. `b
 The new controllers will use the credentials setup in the Seed Backup destinations, depending on the destination used. 
 
 {{% notice note %}}
-Legacy credentials from `kube-system/s3-credentials` and the bucket details in `s3-settings` configmap is still supported, but deprecated. Please migrate to backup destinations.
+Legacy credentials from `kube-system/backup-s3` and the bucket details in `s3-settings` configmap is still supported, but deprecated. Please migrate to backup destinations.
 {{% /notice %}}
 
 ## Creating Backups
@@ -150,7 +150,7 @@ Once this resource is created, the controller will reconcile it and apply the fo
 - Delete the etcd Statefulset and Volumes.
 - Set the `EtcdClusterInitialized` cluster condition to false.
 - Unpause the cluster and wait until the cluster controller has recreated the etcd Statefulset. 
-- During the etcd Statefulset recreation, the etcd-launcher will detect the active restore resources and will download the backup from the S3 backend based on the credentials from the `kube-system/s3-credentials` secret and the information from the `kube-system/s3-settings` configmap. 
+- During the etcd Statefulset recreation, the etcd-launcher will detect the active restore resources and will download the backup from the S3 backend based on the credentials from the `kube-system/backup-s3` secret and the information from the `kube-system/s3-settings` configmap. 
 - Once the backup is downloaded successfully, the etcd-launcher will restore the backup and restart the etcd ring.
 - Once the etcd cluster is recovered and quorum is achieved, the `EtcdClusterInitialized` cluster condition to true.
 

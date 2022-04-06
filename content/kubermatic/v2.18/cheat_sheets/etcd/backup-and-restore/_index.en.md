@@ -67,7 +67,7 @@ The new containers expect that the S3 backend is SSL enabled. Unfortunately, the
 
 ### S3 Credentials and Settings
 
-The new controllers will use the credentials from the secret `kube-system/s3-credentials` similar to the legacy backup controller.
+The new controllers will use credentials from the secret `kube-system/backup-s3`.
 
 However, when using the new containers, creating an additional ConfigMap with the S3 backend settings is required:
 
@@ -176,7 +176,7 @@ Once this resource is created, the controller will reconcile it and apply the fo
 - Delete the etcd Statefulset and Volumes.
 - Set the `EtcdClusterInitialized` cluster condition to false.
 - Unpause the cluster and wait until the cluster controller has recreated the etcd Statefulset. 
-- During the etcd Statefulset recreation, the etcd-launcher will detect the active restore resources and will download the backup from the S3 backend based on the credentials from the `kube-system/s3-credentials` secret and the information from the `kube-system/s3-settings` configmap. 
+- During the etcd Statefulset recreation, the etcd-launcher will detect the active restore resources and will download the backup from the S3 backend based on the credentials from the `kube-system/backup-s3` secret and the information from the `kube-system/s3-settings` configmap. 
 - Once the backup is downloaded successfully, the etcd-launcher will restore the backup and restart the etcd ring.
 - Once the etcd cluster is recovered and quorum is achieved, the `EtcdClusterInitialized` cluster condition to true. At this point the 
 
