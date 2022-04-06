@@ -1,5 +1,6 @@
 +++
 title = "Comparing KubeOne with Kubermatic Kubernetes Platform (KKP)"
+description = "Read on the document to understand the key differences between Kubermatic Kubernetes Platform and KubeOne and gain an understanding of which one is better suited for your particular use case."
 date = 2019-11-28T14:18:30+01:00
 weight = 5
 

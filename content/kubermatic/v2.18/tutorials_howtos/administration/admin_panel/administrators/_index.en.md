@@ -1,5 +1,6 @@
 +++
 title = "Administrators"
+description = "Read on to know about the administrator's view on the bottom of the Admin Panel, which allows adding and deleting administrator rights to the users."
 date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++

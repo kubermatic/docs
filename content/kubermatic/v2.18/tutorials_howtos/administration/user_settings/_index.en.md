@@ -1,5 +1,6 @@
 +++
 title = "User Settings"
+description = "This manual explains how to manage the Kubermatic Kubernetes Platform user settings via the UI."
 date = 2020-04-01T14:07:15+02:00
 weight = 10
 
