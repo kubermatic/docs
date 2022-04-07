@@ -27,6 +27,11 @@ Permissions listed here are permission required by the Kubermatic machine-contro
         },
         {
             "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/*"
+        },
+        {
+            "Effect": "Allow",
             "Action": [
                 "iam:CreateRole",
                 "iam:DeleteRole",
