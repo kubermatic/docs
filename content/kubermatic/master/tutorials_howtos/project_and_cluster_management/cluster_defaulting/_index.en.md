@@ -33,17 +33,17 @@ metadata:
     scope: seed
   name: seed-defaults
   namespace: kubermatic
+credential: ""
 spec:
-  spec:
   auditLogging: {}
   cloud:
-    bringyourown: {}
+    providerName: ""
     dc: byo-europe-west3-c
   clusterNetwork:
     dnsDomain: ""
     pods:
       cidrBlocks: []
-    proxyMode: ""
+    proxyMode: "ipvs"
     services:
       cidrBlocks: []
   componentsOverride:
@@ -55,6 +55,7 @@ spec:
     prometheus: {}
     scheduler:
       leaderElection: {}
+    nodePortProxyEnvoy: {}
   containerRuntime: containerd
   enableUserSSHKeyAgent: true
   exposeStrategy: Tunneling
@@ -65,4 +66,5 @@ spec:
   opaIntegration: {}
   version: 1.21.3
   humanReadableName: "SeedDefaults"
+  pause: false
 ```
