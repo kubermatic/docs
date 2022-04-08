@@ -6,6 +6,10 @@ weight = 10
 enableToc = true
 +++
 
+## Use Cases
+
+**Resource constraint**: In some cases, you will have one/single server/VM and would like to manage the workload with k8s. Follow this guide, when you want to build your k8s environment considering the resource constraint.
+
 This chapter will guide you through the KKP Master setup on a single master/worker k8s node using Kubeone. Here, we are leveraging the kubeone addons capability for quick installation of KKP.
 
 In this **Get Started with KKP** guide, we will be using AWS Cloud as our underlying infrastructure and KKP release v2.18.4.
