@@ -86,14 +86,25 @@ spec:
             - "<< YOUR_PUBLIC_KEY >>"
           cloudProvider: "kubevirt"
           cloudProviderSpec:
-            storageClassName: "<< YOUR_STORAGE_CLASS_NAME >>"
-            pvcSize: "10Gi"
-            sourceURL:
-            cpus: "1"
-            memory: "2048M"
-            kubeconfig:
-              value: '<< KUBECONFIG >>'
-            namespace: kube-system
+            auth:
+              kubeconfig:
+                value: '<< KUBECONFIG >>'
+            virtualMachine:
+              template:
+                cpus: "1"
+                memory: "2048M"
+                primaryDisk:
+                  osImage: "<< YOUR_IMAGE_SOURCE >>"
+                  size: "10Gi"
+                  storageClassName: "<< YOUR_STORAGE_CLASS_NAME >>"
+            affinity:
+              podAffinityPreset: "" # Allowed values: "", "soft", "hard"
+              podAntiAffinityPreset: "" # Allowed values: "", "soft", "hard"
+              nodeAffinityPreset:
+                type: "" # Allowed values: "", "soft", "hard"
+                key: "foo"
+                values:
+                  - bar
           operatingSystem: "ubuntu"
           operatingSystemSpec:
             distUpgradeOnBoot: false
@@ -101,4 +112,26 @@ spec:
       versions:
         kubelet: "1.18.10"
 ```
+#### Node assignment for VMs
+To constrain a VM to run on specific KubeVirt cluster nodes, affinity and anti-affinity rules can be used. See above given MachineDeployment example.
+
+#### Creating VM from Presets
+To create a VM from existing `VirtualMachineInstancePresets`, add the following configuration under `cloudProviderSpec.virtualMachine` in MachineDeployment:
+```yaml
+virtualMachine:
+  flavor:
+    name: "<< VirtualMachineInstancePresets_NAME >>"
+  template:
+    primaryDisk:
+      osImage: "<< YOUR_IMAGE_SOURCE >>"
+      size: "10Gi"
+      storageClassName: "<< YOUR_STORAGE_CLASS_NAME >>"
+```
+
+---
+**NOTE**
+
+All the resources related to VM on the KubeVirt cluster will be created in a dedicated namespace.
+
+---
 
