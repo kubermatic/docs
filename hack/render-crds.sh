@@ -19,5 +19,3 @@ ${GOPATH}/bin/crd-ref-docs \
   --templates-dir=hack/crd-templates \
   --config hack/crd-ref-docs.yaml \
   --output-path content/kubermatic/master/references/crds/_index.en.md
-
-rm ${configfile}
