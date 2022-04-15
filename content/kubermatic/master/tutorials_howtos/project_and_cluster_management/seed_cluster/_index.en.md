@@ -13,7 +13,7 @@ managing Seed resources inside the master cluster.
 
 ### Example Seed
 
-The following is an example Seed, showing all possible options.
+**The following is an example Seed, showing all the possible options**.
 
 ```yaml
 {{< readfile "kubermatic/master/data/seed.yaml" >}}
