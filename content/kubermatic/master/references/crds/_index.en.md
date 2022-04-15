@@ -979,6 +979,36 @@ _Appears in:_
 
 
 
+### ClusterEncryptionPhase
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [ClusterEncryptionStatus](#clusterencryptionstatus)
+
+
+
+### ClusterEncryptionStatus
+
+
+
+ClusterEncryptionStatus holds status information about the encryption-at-rest feature on the user cluster.
+
+_Appears in:_
+- [ClusterStatus](#clusterstatus)
+
+| Field | Description |
+| --- | --- |
+| `activeKey` _string_ | The current "primary" key used to encrypt data written to etcd. Secondary keys that can be used for decryption (but not encryption) might be configured in the ClusterSpec. |
+| `phase` _[ClusterEncryptionPhase](#clusterencryptionphase)_ | The current phase of the encryption process. Can be one of `Pending`, `Failed`, `Active` or `EncryptionNeeded`. The `encryption_controller` logic will process the cluster based on the current phase and issue necessary changes to make sure encryption on the cluster is active and updated with what the ClusterSpec defines. |
+
+
+[Back to top](#top)
+
+
+
 ### ClusterList
 
 
@@ -1073,6 +1103,7 @@ _Appears in:_
 | `opaIntegration` _[OPAIntegrationSettings](#opaintegrationsettings)_ | Optional: OPAIntegration is a preview feature that enables OPA integration for the cluster. Enabling it causes OPA Gatekeeper and its resources to be deployed on the user cluster. By default it is disabled. |
 | `serviceAccount` _[ServiceAccountSettings](#serviceaccountsettings)_ | Optional: ServiceAccount contains service account related settings for the user cluster's kube-apiserver. |
 | `mla` _[MLASettings](#mlasettings)_ | Optional: MLA contains monitoring, logging and alerting related settings for the user cluster. |
+| `encryptionConfiguration` _[EncryptionConfiguration](#encryptionconfiguration)_ | Optional: Configures encryption-at-rest for Kubernetes API data. This needs the `encryptionAtRest` feature gate. THIS IS A PLACEHOLDER AND NOT FUNCTIONAL YET. |
 | `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP. This indicates that the user needs to do some action to resolve the pause. |
 | `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
 | `debugLog` _boolean_ | Enables more verbose logging in KKP's user-cluster-controller-manager. |
@@ -1106,6 +1137,7 @@ _Appears in:_
 | `phase` _[ClusterPhase](#clusterphase)_ | Phase is a description of the current cluster status, summarizing the various conditions, possible active updates etc. This field is for informational purpose only and no logic should be tied to the phase. |
 | `cloudMigrationRevision` _integer_ | CloudMigrationRevision describes the latest version of the migration that has been done It is used to avoid redundant and potentially costly migrations. |
 | `inheritedLabels` _object (keys:string, values:string)_ | InheritedLabels are labels the cluster inherited from the project. They are read-only for users. |
+| `encryption` _[ClusterEncryptionStatus](#clusterencryptionstatus)_ | Encryption describes the status of the encryption-at-rest feature for encrypted data in etcd. |
 
 
 [Back to top](#top)
@@ -1886,6 +1918,26 @@ _Appears in:_
 | `accessKeyID` _string_ |  |
 | `secretAccessKey` _string_ |  |
 | `region` _string_ |  |
+
+
+[Back to top](#top)
+
+
+
+### EncryptionConfiguration
+
+
+
+EncryptionConfiguration configures encryption-at-rest for Kubernetes API data.
+
+_Appears in:_
+- [ClusterSpec](#clusterspec)
+
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | Enables encryption-at-rest on this cluster. |
+| `resources` _string array_ | List of resources that will be stored encrypted in etcd. |
+| `secretbox` _[SecretboxEncryptionConfiguration](#secretboxencryptionconfiguration)_ | Configuration for the `secretbox` static key encryption scheme as supported by Kubernetes. More info: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#providers |
 
 
 [Back to top](#top)
@@ -4135,6 +4187,44 @@ _Appears in:_
 | `clusters` _string array_ | Clusters is the list of cluster names that this SSH key is assigned to. |
 | `fingerprint` _string_ | Fingerprint is calculated on the server-side and doesn't need to be set by clients. |
 | `publicKey` _string_ | PublicKey is the SSH public key. |
+
+
+[Back to top](#top)
+
+
+
+### SecretboxEncryptionConfiguration
+
+
+
+SecretboxEncryptionConfiguration defines static key encryption based on the 'secretbox' solution for Kubernetes.
+
+_Appears in:_
+- [EncryptionConfiguration](#encryptionconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `keys` _[SecretboxKey](#secretboxkey) array_ | List of 'secretbox' encryption keys. The first element of this list is considered the "primary" key which will be used for encrypting data while writing it. Additional keys will be used for decrypting data while reading it, if keys higher in the list did not succeed in decrypting it. |
+
+
+[Back to top](#top)
+
+
+
+### SecretboxKey
+
+
+
+SecretboxKey stores a key or key reference for encrypting Kubernetes API data at rest with a static key.
+
+_Appears in:_
+- [SecretboxEncryptionConfiguration](#secretboxencryptionconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Identifier of a key, used in various places to refer to the key. |
+| `value` _string_ | Value contains a 32-byte random key that is base64 encoded. This is the key used for encryption. Can be generated via `head -c 32 /dev/urandom | base64`, for example. |
+| `secretRef` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | Instead of passing the sensitive encryption key via the `value` field, a secret can be referenced. The key of the secret referenced here needs to hold a key equivalent to the `value` field. |
 
 
 [Back to top](#top)
