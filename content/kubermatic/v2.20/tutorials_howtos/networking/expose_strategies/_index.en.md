@@ -17,7 +17,6 @@ routing the traffic based on:
 * SNI: TLS traffic can be routed based on SNI without termination.
 * HTTP/2 tunnel: Terminate HTTP/2 CONNECT request and multiplex the TCP
   streams.
-  
 
 ## Configure the Expose Strategy
 
@@ -33,19 +32,22 @@ spec:
   exposeStrategy: NodePort
   featureGates:
     TunnelingExposeStrategy: true
-``` 
+```
 
 The valid values for `exposeStrategy` are:
 
 * `NodePort`: With this strategy a service of type nodeport is created for each
   exposed component (e.g. Kubernetes API Server). If services of type
   `LoadBalancer` are available all the services will be made available through
-  a single load balancer, passing from the `nodeport-proxy`. 
+  a single load balancer, passing from the `nodeport-proxy`. `nodeport-proxy` can be disabled
+  if your platform doesn't support LoadBalancers or if LoadBalancers are not required.
 * `LoadBalancer`: A service of type `LoadBalancer` will be created for each user cluster.
   This strategy requires services of type `LoadBalancer` to be available on the seed
   clusters.
 * `Tunneling`: (alpha) With this strategy the traffic is routed to the based on
   a combination of SNI and HTTP/2 tunnels by the `nodeport-proxy`.
+
+**NOTE:** If `exposeStrategy` is not specified in the `KubermaticConfiguration`, it would default to `NodePort`. Which can be overridden at the `Seed` or `Cluster` level.
 
 Alternatively, the expose strategy can be overridden at `Seed` level, meaning
 that it is possible to have different expose strategies on the same KKP
@@ -76,7 +78,45 @@ spec:
         enforcePodSecurityPolicy: false
 
   # Override the default expose strategy with 'LoadBalancer'
-  expose_strategy: LoadBalancer
+  exposeStrategy: LoadBalancer
+  # reference to the kubeconfig to use when connecting to this seed cluster
+  kubeconfig:
+    name: kubeconfig-cluster-example
+    namespace: kubermatic
+```
+
+### Configure NodePort Expose Strategy without nodeport-proxy
+
+By default the nodeport-proxy is enabled when using the `NodePort` expose strategy. If services of type `LoadBalancer` are available all the services will be made available through a single load balancer, passing from the `nodeport-proxy`. `nodeport-proxy` can be disabled if your platform doesn't support LoadBalancers or if LoadBalancers are not required. This can be disabled at the cluster or seed level. Example for disabling it at seed level:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: Seed
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  # these two fields are only informational
+  country: FR
+  location: Paris
+
+  # List of datacenters where this seed cluster is allowed to create clusters in
+  # In this example, user cluster will be deployed in eu-central-1 on AWS.
+  datacenters:
+    aws-eu-central-1:
+      country: DE
+      location: EU (Frankfurt)
+      spec:
+        aws:
+          images: null
+          region: eu-central-1
+        enforceAuditLogging: false
+        enforcePodSecurityPolicy: false
+
+  exposeStrategy: NodePort
+  nodeportProxy:
+    disable: true
+
   # reference to the kubeconfig to use when connecting to this seed cluster
   kubeconfig:
     name: kubeconfig-cluster-example
