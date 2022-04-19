@@ -66,6 +66,41 @@ Click on **Configure Metering**, switch on **Enable Metering** and change the co
 
 Once the configuration values have been set and the metering has been enabled, the operator will take care of deploying the tool.
 
+### Configuration via Seed Object
+
+It is possible to set Metering values directly at the Seed. This allows enabling Metering only for specific Seeds. 
+
+For S3 report synchronization, it is mandatory to create a secret with the following values:
+
+ ```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metering-s3
+  namespace: kubermatic
+data:
+  accessKey: ""
+  bucket: ""
+  endpoint: ""
+  secretKey: ""
+
+```
+
+Metering Seed configuration reference:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: Seed
+spec:
+  metering:
+    enabled: true
+    # StorageClassName is the name of the storage class that the metering tool uses to save processed files before
+    # exporting it to s3 bucket. Default value is kubermatic-fast.
+    storageClassName: kubermatic-fast
+    # StorageSize is the size of the storage class. Default value is 100Gi.
+    storageSize: 100Gi
+```
+
 ## Reports
 
 Reports will be provided as [CSV][wiki-csv] files.
