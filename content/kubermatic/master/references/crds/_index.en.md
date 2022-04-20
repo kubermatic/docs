@@ -3187,6 +3187,7 @@ _Appears in:_
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `kubeconfig` _string_ |  |
 | `csiKubeconfig` _string_ |  |
+| `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ |  |
 
 
 [Back to top](#top)
@@ -3864,6 +3865,27 @@ _Appears in:_
 [Back to top](#top)
 
 
+
+
+
+### PreAllocatedDataVolume
+
+
+
+
+
+_Appears in:_
+- [KubevirtCloudSpec](#kubevirtcloudspec)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ |  |
+| `url` _string_ |  |
+| `size` _string_ |  |
+| `storageClass` _string_ |  |
+
+
+[Back to top](#top)
 
 
 
