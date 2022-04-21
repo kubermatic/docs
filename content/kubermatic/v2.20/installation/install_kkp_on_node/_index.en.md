@@ -67,9 +67,9 @@ output "kubeone_hosts" {
 ```bash
 export KKP_DNS=xxx.xxx.xxx.xxx
 export KKP_USERNAME=xxxx@xxx.xxx
-export RANDOM_SECRET=$(cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32)
-export ISSUERCOOKIEKEY=$(cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32)
-export SERVICEACCOUNTKEY=$(cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32)
+export RANDOM_SECRET=$(base64 < /dev/urandom | tr -dc '[:alnum:]' | head -c32)
+export ISSUERCOOKIEKEY=$(base64 < /dev/urandom | tr -dc '[:alnum:]' | head -c32)
+export SERVICEACCOUNTKEY=$(base64 < /dev/urandom | tr -dc '[:alnum:]' | head -c32)
 mkdir -p ./aws/addons
 cp -r ./addons.template/kkp ./aws/addons
 sed -i 's/TODO_DNS/'"$KKP_DNS"'/g' ./aws/addons/kkp/*.yaml
