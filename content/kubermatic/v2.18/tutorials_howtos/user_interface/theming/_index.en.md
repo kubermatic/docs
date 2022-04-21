@@ -1,5 +1,6 @@
 +++
 title = "Preparing New Themes"
+description = "There are two possible approaches of preparing custom themes: with or without access to the Kubermatic Kubernetes Platform's UI sources. Learn more."
 date = 2018-06-21T14:07:15+02:00
 weight = 50
 +++

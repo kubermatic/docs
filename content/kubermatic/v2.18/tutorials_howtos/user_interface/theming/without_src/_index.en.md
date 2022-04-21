@@ -1,5 +1,6 @@
 +++
 title = "Without Source Access"
+description = "Learn how to prepare a new theme without access to the Kubermatic Kubernetes Platform's UI sources."
 date = 2018-06-21T14:07:15+02:00
 weight = 50
 

@@ -1,5 +1,6 @@
 +++
 title = "Using kubectl"
+description = "Using kubectl requires the installation of kubectl on your system and downloading of kubeconfig on the cluster UI page. See instructions and follow the example."
 date = 2019-11-13T12:07:15+02:00
 weight = 70
 +++

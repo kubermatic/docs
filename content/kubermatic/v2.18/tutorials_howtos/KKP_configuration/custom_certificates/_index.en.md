@@ -1,5 +1,6 @@
 +++
 title = "Custom Certificates"
+description = "Check out how KKP 2.17+ allows configuring a CA bundle. We'll guide you step-by-step through configuration and issuing of certificates."
 date = 2020-11-03T13:07:15+02:00
 weight = 130
 +++

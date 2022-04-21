@@ -1,5 +1,6 @@
 +++
 title = "Example Usage"
+description = "Check out example resource usage of the Kubermatic Kubernetes Platform's control plane."
 date = 2018-04-28T12:07:15+02:00
 weight = 10
 

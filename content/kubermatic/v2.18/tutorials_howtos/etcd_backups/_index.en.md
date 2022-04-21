@@ -1,5 +1,6 @@
 +++
 title = "Automatic Etcd Backups and Restore"
+description = "Our tutorials on automatic etcd backups and restore will provide you with an easy way to set up and restore the automatic scheduled etcd backups for your user cluster."
 date = 2021-09-16T12:07:15+02:00
 weight = 20
 

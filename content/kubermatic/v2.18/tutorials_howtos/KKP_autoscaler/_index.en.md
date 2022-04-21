@@ -1,6 +1,7 @@
 
 +++
 title = "Kubermatic Kubernetes Platform (KKP) Cluster Autoscaler"
+description = "Kubernetes Cluster Autoscaler is a tool that automatically adjusts the size of the worker’s node up or down depending on the consumption. This section deals with the usage of Kubernetes Cluster Autoscaler in the KKP Cluster."
 date = 2021-08-05T14:07:10+02:00
 weight = 21
 +++

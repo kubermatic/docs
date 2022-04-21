@@ -1,5 +1,6 @@
 +++
 title = "Dynamic Kubelet configuration"
+description = "Dynamic kubelet configuration allows for live reconfiguration of some or all nodes' kubelet options. Have a look at the given example to enable it."
 date = 2020-04-01T12:00:00+02:00
 weight = 100
 
