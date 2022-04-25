@@ -1040,6 +1040,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `ipFamily` _[IPFamily](#ipfamily)_ | Optional: IP family used for cluster networking. Supported values are "", "IPv4" or "IPv4+IPv6". Can be omitted / empty if pods and services network ranges are specified. In that case it defaults according to the IP families of the provided network ranges. If neither ipFamily nor pods & services network ranges are specified, defaults to "IPv4". |
 | `services` _[NetworkRanges](#networkranges)_ | The network ranges from which service VIPs are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
 | `pods` _[NetworkRanges](#networkranges)_ | The network ranges from which POD networks are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
 | `nodeCidrMaskSizeIPv4` _integer_ | NodeCIDRMaskSizeIPv4 is the mask size used to address the nodes within provided IPv4 Pods CIDR. It has to be larger than the provided IPv4 Pods CIDR. Defaults to 24. |
@@ -2610,6 +2611,17 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+### IPFamily
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [ClusterNetworkingConfig](#clusternetworkingconfig)
 
 
 
