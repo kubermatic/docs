@@ -2284,6 +2284,7 @@ _Appears in:_
 | `logging` _[HealthStatus](#healthstatus)_ |  |
 | `alertmanagerConfig` _[HealthStatus](#healthstatus)_ |  |
 | `mlaGateway` _[HealthStatus](#healthstatus)_ |  |
+| `applicationController` _[HealthStatus](#healthstatus)_ |  |
 
 
 [Back to top](#top)
