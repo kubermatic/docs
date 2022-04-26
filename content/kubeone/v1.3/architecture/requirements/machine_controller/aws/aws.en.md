@@ -37,7 +37,7 @@ Permissions listed here are permission required by the Kubermatic machine-contro
                 "iam:PassRole",
                 "iam:PutRolePolicy"
             ],
-            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/kubernetes-*"
+            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/YOUR_CLUSTER_NAME-*"
         },
         {
             "Effect": "Allow",
@@ -48,7 +48,7 @@ Permissions listed here are permission required by the Kubermatic machine-contro
                 "iam:GetInstanceProfile",
                 "iam:RemoveRoleFromInstanceProfile"
             ],
-            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/kubernetes-*"
+            "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/YOUR_CLUSTER_NAME-*"
         },
         {
             "Effect": "Allow",
@@ -91,3 +91,6 @@ Permissions listed here are permission required by the Kubermatic machine-contro
     ]
 }
 ```
+
+- YOUR_ACCOUNT_ID is the account ID on AWS <https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html>
+- YOUR_CLUSTER_NAME is the name of your kubeone cluster.
