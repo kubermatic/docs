@@ -1,5 +1,6 @@
 +++
 title = "[Experimental] OPA Mutation"
+description = "KKP release 2.18 introduced upgrading Gatekeeper to v3.5.2 to support K8s 1.2 and the new experimental Mutation features. Learn how to activate mutation on Gatekeeper."
 date = 2021-09-08T12:07:15+02:00
 weight = 40
 

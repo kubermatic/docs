@@ -1,5 +1,6 @@
 +++
 title = "Open Policy Agent (OPA) via UI"
+description = "Learn how to manage your policies using OPA directly from the Kubermatic Kubernetes Platform UI."
 date = 2021-09-08T12:07:15+02:00
 weight = 40
 

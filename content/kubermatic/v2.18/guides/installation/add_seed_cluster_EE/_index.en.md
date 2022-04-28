@@ -1,5 +1,6 @@
 +++
 title = "Add Seed Cluster for EE"
+description = "Go through the document to get a complete understanding of how a new seed cluster can be added to an existing KKP master cluster."
 date = 2018-08-09T12:07:15+02:00
 weight = 50
 enterprise = true

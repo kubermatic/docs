@@ -1,5 +1,6 @@
 +++
 title = "Upgrading from 2.13 to 2.14"
+description = "Check out the best ways to upgrading KKP from 2.13 to 2.14. The document contains everything you need to know."
 date = 2020-02-13T11:09:15+02:00
 weight = 80
 

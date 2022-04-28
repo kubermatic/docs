@@ -1,5 +1,6 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) EE"
+description = "This section explains the installation procedure of the KKP enterprise edition into a pre-existing Kubernetes cluster. Read to get complete information."
 date = 2018-04-28T12:07:15+02:00
 weight = 30
 enterprise = true

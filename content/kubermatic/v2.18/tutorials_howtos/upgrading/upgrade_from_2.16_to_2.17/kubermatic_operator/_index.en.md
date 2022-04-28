@@ -1,5 +1,6 @@
 +++
 title = "Upgrading KKP Operator"
+description = "Upgrading a KKP setup that is already managed by the Operator is as simple as updating the Helm charts and the general upgrade notes. Follow the given procedure."
 date = 2021-04-22T17:33:39+02:00
 weight = 30
 

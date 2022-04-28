@@ -1,5 +1,6 @@
 +++
 title = "Offline Mode"
+description = "Go through the document to learn how to run Kubermatic Kubernetes Platform in an offline environment."
 date = 2018-04-28T12:07:15+02:00
 weight = 120
 

@@ -1,5 +1,6 @@
 +++
 title = "Add Seed Cluster for CE"
+description = "This document explains how a new seed cluster can be added to an existing KKP master cluster. Read to know more."
 date = 2018-08-09T12:07:15+02:00
 weight = 40
 +++
