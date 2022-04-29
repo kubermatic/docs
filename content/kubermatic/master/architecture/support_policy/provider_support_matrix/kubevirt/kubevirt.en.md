@@ -135,3 +135,28 @@ All the resources related to VM on the KubeVirt cluster will be created in a ded
 
 ---
 
+
+### Enable KubeVirt monitoring
+Install [prometheus-operator](https://github.com/prometheus-operator/prometheus-operator) on KubeVirt cluster.
+Then update `KubeVirt` resource similar to this example:
+```yaml
+apiVersion: kubevirt.io/v1
+kind: KubeVirt
+metadata:
+  name: kubevirt
+spec:
+  monitorNamespace: "<<PROMETHEUS_NAMESPACE>>"
+  monitorAccount: "<<PROMETHEUS_SERVICE_ACCOUNT_NAME>>"
+```
+For more details refer this [document](https://kubevirt.io/user-guide/operations/component_monitoring/).
+
+After completing the above setup, you can import this [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) in Grafana to monitor `KubeVirt` components.
+
+Follow the below steps to import the dashboard in Grafana:
+- Download this [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana).
+- Open Grafana and click on `+` icon on the left side of the application. After that select `Import` option.
+- In the below window you can upload the [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) `json` file.
+ 
+![Grafana Dashboard](/img/kubermatic/master/monitoring/kubevirt/grafana.png)
+
+
