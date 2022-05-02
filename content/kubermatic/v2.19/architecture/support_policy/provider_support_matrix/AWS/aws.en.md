@@ -32,7 +32,8 @@ weight = 7
                 "iam:ListAttachedRolePolicies",
                 "iam:ListRolePolicies",
                 "iam:PassRole",
-                "iam:PutRolePolicy"
+                "iam:PutRolePolicy",
+                "iam:TagRole"
             ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/kubernetes-*"
         },
