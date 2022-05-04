@@ -1,5 +1,6 @@
 +++
 title = "Using Service Accounts"
+description = "This document describes how to use Service Accounts and Tokens in Kubermatic Kubernetes Platform."
 date = 2021-02-10T11:07:15+02:00
 weight = 15
 +++

@@ -1,5 +1,6 @@
 +++
 title = "Pod Security Policy"
+description = "This document describes Pod Security Policy (PSP), allowing cluster administrations to set granular controls over security sensitive aspects. Read more."
 date = 2020-04-02T12:07:15+02:00
 weight = 130
 +++

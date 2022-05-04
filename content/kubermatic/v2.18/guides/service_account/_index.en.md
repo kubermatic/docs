@@ -1,5 +1,6 @@
 +++
 title = "Service Accounts"
+description = "Discover how service accounts allow you to use along-lived token that you can use to authenticate with Kubermatic Kubernetes Platform API. Read to know more."
 date = 2019-06-13T12:01:35+02:00
 weight = 20
 

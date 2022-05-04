@@ -1,5 +1,6 @@
 +++
 title = "Service Account Token Volume Projection"
+description = "This section explains the service account token volume projection feature that allows the projection of audience-bound service account tokens into Pods."
 date = 2021-01-21T13:05:00+02:00
 weight = 140
 

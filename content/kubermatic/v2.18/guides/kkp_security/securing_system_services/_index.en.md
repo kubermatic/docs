@@ -1,5 +1,6 @@
 +++
 title = "Securing System Services"
+description = "This document describes how system services like Grafana and Prometheus are secured by running them behind OAuth2-Proxy and using Dex as authentication provider."
 date = 2018-04-28T12:07:15+02:00
 weight = 90
 

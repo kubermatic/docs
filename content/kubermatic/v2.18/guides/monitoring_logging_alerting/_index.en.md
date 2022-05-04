@@ -1,5 +1,6 @@
 +++
 title = "Monitoring, Logging & Alerting"
+description = "Here’s everything you need to know about Kubermatic Monitoring, Logging & Alerting (MLA). It consists of two stacks having specific components and roles."
 date = 2021-08-04T11:58:00+02:00
 weight = 30
 +++

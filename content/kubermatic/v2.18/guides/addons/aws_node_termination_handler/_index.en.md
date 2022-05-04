@@ -1,5 +1,6 @@
 +++
 title = "AWS Node Termination Handler"
+description = "In this section you learn how to creat AWS spot instances from the Kubermatic Kubernetes Platform UI."
 date = 2021-01-27T14:07:00+02:00
 weight = 6
 

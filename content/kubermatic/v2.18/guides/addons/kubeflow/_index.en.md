@@ -1,5 +1,6 @@
 +++
 title = "Kubeflow Addon"
+description = "The Kubeflow Addon allows automated installation of Kubeflow Machine Learning Toolkit for Kubernetes in KKP, with Kubeflow authentication integrated with KKP."
 date = 2021-01-27T14:07:00+02:00
 weight = 10
 

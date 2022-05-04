@@ -1,5 +1,6 @@
 +++
 title = "Addons"
+description = "Read on the document to learn how to extend the functionality of Kubernetes with Addons. This section also includes information about default addons."
 date = 2018-06-21T14:07:15+02:00
 weight = 20
 

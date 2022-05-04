@@ -1,5 +1,6 @@
 +++
 title = "Multus-CNI Addon"
+description = "Go through the section to check how you can automatically install Multus-CNI in Kubermatic Kubernetes Platform (KKP)"
 date = 2021-03-21T20:00:00+02:00
 weight = 10
 
