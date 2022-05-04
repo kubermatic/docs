@@ -1,5 +1,6 @@
 +++
 title = "Control Plane Expose Strategy"
+description = "Read this document to know about the expose strategy when setting up KKP and how the control plane components are exposed outside the seed cluster."
 date = 2020-02-14T12:07:15+02:00
 weight = 70
 

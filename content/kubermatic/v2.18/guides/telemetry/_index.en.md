@@ -1,5 +1,6 @@
 +++
 title = "Telemetry"
+description = "Get the Telemetry observability to track Kubermatic Kubernetes Platform and Kubernetes cluster usage. Collect anonymous data to enhance KKP performance for large setups."
 date = 2021-09-10T08:07:15+02:00
 weight = 20
 

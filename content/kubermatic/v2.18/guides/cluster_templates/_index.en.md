@@ -1,5 +1,6 @@
 +++
 title = "Cluster templates"
+description = "This document will help you learn how to create cluster templates from scratch for pre-defined cluster configuration. The whole process is done in the UI wizard."
 date = 2021-08-02T14:07:15+02:00
 weight = 20
 

@@ -1,5 +1,6 @@
 +++
 title = "CoreOS End Of Support"
+description = "With the upcoming KKP 2.16 release, we will no longer support CoreOS Container Linux. Read this document to learn how to migrate to a supported operating system."
 date =  2021-04-22T13:55:01+02:00
 weight = 10
 +++

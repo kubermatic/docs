@@ -1,5 +1,6 @@
 +++
 title = "API Server Network Policies"
+description = "KKP uses NetworkPolicies to constraint the egress traffic of the Kubernetes API Server. Read this section for more detail."
 date = 2020-02-14T12:07:15+02:00
 weight = 120
 +++

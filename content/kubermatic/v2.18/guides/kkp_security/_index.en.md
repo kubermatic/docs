@@ -1,5 +1,6 @@
 +++
 title = "Kubermatic Kubernetes Platform Security"
+description = "This section provides you with information on how to secure your KKP deployments including how to enable Pod security policy."
 date = 2021-04-20T12:15:02+02:00
 weight = 20
 

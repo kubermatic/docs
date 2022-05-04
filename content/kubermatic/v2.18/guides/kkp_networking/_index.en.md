@@ -1,5 +1,6 @@
 +++
 title = "Kubermatic Kubernetes Platform Networking"
+description = "This document provides guides on networking with Kubermatic Kubernetes Platform including cluster network configuration, control plane expose strategy and more."
 date = 2021-04-20T12:15:02+02:00
 weight = 20
 

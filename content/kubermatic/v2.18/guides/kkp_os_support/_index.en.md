@@ -1,5 +1,6 @@
 +++
 title = "Kubermatic Kubernetes Platform Operating Systems Support"
+description = "This section covers information regarding the operating systems supported by Kubermatic Kubernetes Platform."
 date = 2021-04-22T13:54:14+02:00
 weight = 20
 +++

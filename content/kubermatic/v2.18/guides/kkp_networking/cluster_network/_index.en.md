@@ -1,5 +1,6 @@
 +++
 title = "Cluster Network Configuration"
+description = "The networking parameters provided by KKP API can be easily configured with the help of the KKP API endpoint for managing clusters. Go through our guide to know how!"
 date = 2021-09-07T16:06:10+02:00
 weight = 10
 +++

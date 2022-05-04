@@ -1,5 +1,6 @@
 +++
 title = "Proxy Whitelisting"
+description = "This document describes how to enable the Kubermatic Kubernetes Platform behind a proxy environment. Read more to know about proxy whitelisting."
 date = 2019-09-13T12:07:15+02:00
 weight = 110
 
