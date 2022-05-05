@@ -4270,7 +4270,7 @@ _Appears in:_
 
 
 
-Seed is the type representing a SeedDatacenter.
+Seed is the type representing a Seed cluster.
 
 _Appears in:_
 - [SeedList](#seedlist)
@@ -4281,6 +4281,29 @@ _Appears in:_
 | `kind` _string_ | `Seed`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[SeedSpec](#seedspec)_ |  |
+| `status` _[SeedStatus](#seedstatus)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### SeedCondition
+
+
+
+
+
+_Appears in:_
+- [SeedStatus](#seedstatus)
+
+| Field | Description |
+| --- | --- |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#conditionstatus-v1-core)_ | Status of the condition, one of True, False, Unknown. |
+| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time we got an update on a given condition. |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time the condition transit from one status to another. |
+| `reason` _string_ | (brief) reason for the condition's last transition. |
+| `message` _string_ | Human readable message indicating details about last transition. |
 
 
 [Back to top](#top)
@@ -4329,7 +4352,7 @@ _Appears in:_
 
 
 
-The spec for a seed data.
+The spec for a seed cluster.
 
 _Appears in:_
 - [Seed](#seed)
@@ -4349,6 +4372,46 @@ _Appears in:_
 | `defaultClusterTemplate` _string_ | DefaultClusterTemplate is the name of a cluster template of scope "seed" that is used to default all new created clusters |
 | `metering` _[MeteringConfiguration](#meteringconfiguration)_ | Metering configures the metering tool on user clusters across the seed. |
 | `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed; if this is set, the new backup/restore controllers are enabled for this Seed. |
+
+
+[Back to top](#top)
+
+
+
+### SeedStatus
+
+
+
+SeedStatus contains runtime information regarding the seed.
+
+_Appears in:_
+- [Seed](#seed)
+
+| Field | Description |
+| --- | --- |
+| `phase` _SeedPhase_ | Phase contains a human readable text to indicate the seed cluster status. No logic should be tied to this field, as its content can change in between KKP releases. |
+| `clusters` _integer_ | Clusters is the total number of user clusters that exist on this seed. |
+| `versions` _[SeedVersionsStatus](#seedversionsstatus)_ | Versions contains information regarding versions of components in the cluster and the cluster itself. |
+| `conditions` _object (keys:SeedConditionType, values:[SeedCondition](#seedcondition))_ | Conditions contains conditions the seed is in, its primary use case is status signaling between controllers or between controllers and the API. |
+
+
+[Back to top](#top)
+
+
+
+### SeedVersionsStatus
+
+
+
+SeedVersionsStatus contains information regarding versions of components in the cluster and the cluster itself.
+
+_Appears in:_
+- [SeedStatus](#seedstatus)
+
+| Field | Description |
+| --- | --- |
+| `kubermatic` _string_ | Kubermatic is the version of the currently deployed KKP components. Note that a permanent version skew between master and seed is not supported and KKP setups should never run for longer times with a skew between the clusters. |
+| `cluster` _string_ | Cluster is the Kubernetes version of the cluster's control plane. |
 
 
 [Back to top](#top)
