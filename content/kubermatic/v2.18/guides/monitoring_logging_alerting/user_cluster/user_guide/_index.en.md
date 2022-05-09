@@ -1,6 +1,7 @@
 +++
 linkTitle = "User Guide"
 title = "User Guide of the User Cluster MLA Stack"
+description = "Get a better understanding of how to enable monitoring, logging and MLA addons in a user cluster via the KKP UI."
 date = 2020-02-14T12:07:15+02:00
 weight = 10
 enableToc = true

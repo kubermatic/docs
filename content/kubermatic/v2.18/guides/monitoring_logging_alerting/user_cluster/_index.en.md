@@ -1,6 +1,7 @@
 +++
 linkTitle = "User Cluster MLA"
 title = "User Cluster MLA Stack"
+description = "The User Cluster MLA (Monitoring, Logging & Alerting) stack monitors applications running in the user clusters as well as system components running in the user clusters."
 date = 2021-08-04T12:10:00+02:00
 weight = 20
 +++

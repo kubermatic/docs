@@ -1,6 +1,7 @@
 +++
 linkTitle = "Installation"
 title = "Installation of the Master / Seed MLA Stack"
+description = "Do you know how to setup the KKP Master / Seed Monitoring, Logging, and Alterting stack? It’s highly recommended to install this stack on the master and all seed clusters."
 date = 2020-02-14T12:07:15+02:00
 weight = 10
 +++
