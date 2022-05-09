@@ -1,5 +1,6 @@
 +++
 title = "Manage worker nodes via CLI"
+description = "After installing Kubectl, manage worker nodes with a command-line interface and easily automate, create, and delete nodes. Go through the document to know more."
 date = 2020-01-08T12:07:15+02:00
 weight = 16
 +++

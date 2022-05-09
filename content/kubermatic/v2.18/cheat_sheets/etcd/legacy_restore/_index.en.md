@@ -1,5 +1,6 @@
 +++
 title = "Restoring from backup"
+description = "The etcd’s of the user clusters are being backed up. Read the document to learn the process of restoring a complete etcd StatefulSet from one snapshot."
 date = 2018-07-24T12:07:15+02:00
 weight = 20
 

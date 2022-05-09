@@ -1,5 +1,6 @@
 +++
 title = "Manage Worker Nodes via UI"
+description = "This document explains how to manage worker nodes through UI, delete and add a worker node, and easily edit the machine deployment in your cluster."
 date = 2021-04-20T12:16:38+02:00
 weight = 15
 +++
