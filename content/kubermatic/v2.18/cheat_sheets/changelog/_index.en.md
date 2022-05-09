@@ -1,5 +1,6 @@
 +++
 title = "Changelog"
+description = "Changelog feature allows informing users about all new features, but also warn users about breaking or action required changes. Read to know more."
 date = 2018-06-21T14:07:15+02:00
 weight = 50
 +++

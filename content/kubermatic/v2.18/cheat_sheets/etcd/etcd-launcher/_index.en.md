@@ -1,5 +1,6 @@
 +++
 title = "[Experimental] Etcd Launcher"
+description = "Etcd-launcher is a lightweight wrapper around the etcd binary. It’s responsible for reading information from KKP API and flexibly control how the user cluster etcd ring is started. In this section you learn more about this feature."
 weight = 30
 +++
 
