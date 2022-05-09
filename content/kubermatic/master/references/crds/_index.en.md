@@ -2307,6 +2307,7 @@ _Appears in:_
 | `kind` _string_ | `ExternalCluster`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ExternalClusterSpec](#externalclusterspec)_ |  |
+| `status` _[ExternalClusterStatus](#externalclusterstatus)_ |  |
 
 
 [Back to top](#top)
@@ -2352,6 +2353,25 @@ _Appears in:_
 | `eks` _[ExternalClusterEKSCloudSpec](#externalclusterekscloudspec)_ |  |
 | `aks` _[ExternalClusterAKSCloudSpec](#externalclusterakscloudspec)_ |  |
 | `kubeone` _[ExternalClusterKubeOneCloudSpec](#externalclusterkubeonecloudspec)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### ExternalClusterCondition
+
+
+
+
+
+_Appears in:_
+- [ExternalClusterStatus](#externalclusterstatus)
+
+| Field | Description |
+| --- | --- |
+| `phase` _[ExternalClusterPhase](#externalclusterphase)_ |  |
+| `message` _string_ | Human readable message indicating details about last transition. |
 
 
 [Back to top](#top)
@@ -2412,7 +2432,6 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `clusterStatus` _[KubeOneExternalClusterStatus](#kubeoneexternalclusterstatus)_ |  |
 | `providerName` _string_ | ProviderName is the name of the cloud provider used, one of "aws", "azure", "digitalocean", "gcp", "hetzner", "nutanix", "openstack", "packet", "vsphere" KubeOne natively-supported providers |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `sshReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
@@ -2443,6 +2462,17 @@ ExternalClusterList specifies a list of external kubernetes clusters.
 
 
 
+### ExternalClusterPhase
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [ExternalClusterCondition](#externalclustercondition)
+
+
+
 ### ExternalClusterSpec
 
 
@@ -2457,6 +2487,24 @@ _Appears in:_
 | `humanReadableName` _string_ | HumanReadableName is the cluster name provided by the user |
 | `kubeconfigReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `cloudSpec` _[ExternalClusterCloudSpec](#externalclustercloudspec)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### ExternalClusterStatus
+
+
+
+ExternalClusterStatus denotes status information about an ExternalCluster.
+
+_Appears in:_
+- [ExternalCluster](#externalcluster)
+
+| Field | Description |
+| --- | --- |
+| `condition` _[ExternalClusterCondition](#externalclustercondition)_ | Conditions contains conditions an externalcluster is in, its primary use case is status signaling for controller |
 
 
 [Back to top](#top)
@@ -2679,25 +2727,6 @@ _Appears in:_
 | --- | --- |
 | `kinds` _string array_ | Kinds specifies the kinds of the resources |
 | `apiGroups` _string array_ | APIGroups specifies the APIGroups of the resources |
-
-
-[Back to top](#top)
-
-
-
-### KubeOneExternalClusterStatus
-
-
-
-KubeOneExternalClusterStatus defines the kubeone external cluster status.
-
-_Appears in:_
-- [ExternalClusterKubeOneCloudSpec](#externalclusterkubeonecloudspec)
-
-| Field | Description |
-| --- | --- |
-| `status` _[Status](#status)_ |  |
-| `statusMessage` _string_ |  |
 
 
 [Back to top](#top)
@@ -4486,17 +4515,6 @@ _Appears in:_
 
 
 [Back to top](#top)
-
-
-
-### Status
-
-_Underlying type:_ `string`
-
-
-
-_Appears in:_
-- [KubeOneExternalClusterStatus](#kubeoneexternalclusterstatus)
 
 
 
