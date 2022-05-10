@@ -2277,6 +2277,7 @@ _Appears in:_
 | `machineController` _[HealthStatus](#healthstatus)_ |  |
 | `etcd` _[HealthStatus](#healthstatus)_ |  |
 | `openvpn` _[HealthStatus](#healthstatus)_ |  |
+| `konnectivity` _[HealthStatus](#healthstatus)_ |  |
 | `cloudProviderInfrastructure` _[HealthStatus](#healthstatus)_ |  |
 | `userClusterControllerManager` _[HealthStatus](#healthstatus)_ |  |
 | `gatekeeperController` _[HealthStatus](#healthstatus)_ |  |
