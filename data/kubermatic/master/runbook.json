@@ -314,10 +314,10 @@
           }
         },
         {
-          "alert": "KubeClientErrors",
+          "alert": "KubeletClientErrors",
           "annotations": {
             "message": "The kubelet on {{ $labels.instance }} is experiencing {{ printf \"%0.0f\" $value }}% errors.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/cheat_sheets/alerting_runbook/#alert-kubeclienterrors"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/cheat_sheets/alerting_runbook/#alert-kubeletclienterrors"
           },
           "expr": "(sum(rate(rest_client_requests_total{code=~\"(5..|<error>)\",job=\"kubelet\"}[5m])) by (instance)\n  /\nsum(rate(rest_client_requests_total{job=\"kubelet\"}[5m])) by (instance))\n* 100 > 1\n",
           "for": "15m",
@@ -616,7 +616,7 @@
           "expr": "sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)\n  -\n(sum(kube_node_status_allocatable{resource=\"cpu\"}) - max(kube_node_status_allocatable{resource=\"cpu\"}))\n  > 0\nand\n(sum(kube_node_status_allocatable{resource=\"cpu\"})\n  -\nmax(kube_node_status_allocatable{resource=\"cpu\"}))\n  > 0\n",
           "for": "10m",
           "labels": {
-            "severity": "warning",
+            "severity": "critical",
             "resource": "cluster",
             "service": "kube-state-metrics"
           }
@@ -644,7 +644,7 @@
           "expr": "sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)\n  -\n(sum(kube_node_status_allocatable{resource=\"memory\"}) - max(kube_node_status_allocatable{resource=\"memory\"}))\n  > 0\nand\n(sum(kube_node_status_allocatable{resource=\"memory\"})\n  -\nmax(kube_node_status_allocatable{resource=\"memory\"}))\n  > 0\n",
           "for": "10m",
           "labels": {
-            "severity": "warning",
+            "severity": "critical",
             "resource": "cluster",
             "service": "kube-state-metrics"
           }
@@ -751,6 +751,20 @@
           }
         },
         {
+          "alert": "NodeFilesystemFilesOutOfSpace",
+          "annotations": {
+            "message": "Filesystem on node {{ $labels.node_name }} having IP {{ $labels.instance }} has only {{ $value }}% inodes available on drive {{ $labels.device }}.",
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/cheat_sheets/alerting_runbook/#alert-nodefilesystemfilesoutofspace"
+          },
+          "expr": "node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 10\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
+          "for": "1h",
+          "labels": {
+            "severity": "critical",
+            "resource": "{{ $labels.instance }} {{ $labels.device }}",
+            "service": "node-exporter"
+          }
+        },
+        {
           "alert": "NodeFilesystemFilesFillingUp",
           "annotations": {
             "message": "Filesystem on {{ $labels.device }} at {{ $labels.instance }} is predicted to run out of files within the next 24 hours.",
@@ -773,7 +787,7 @@
           "expr": "predict_linear(node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"}[6h], 4*60*60) < 0\nand\nnode_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} < 0.2\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
           "labels": {
-            "severity": "warning",
+            "severity": "critical",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
             "service": "node-exporter"
           }
@@ -788,20 +802,6 @@
           "for": "1h",
           "labels": {
             "severity": "warning",
-            "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter"
-          }
-        },
-        {
-          "alert": "NodeFilesystemOutOfSpace",
-          "annotations": {
-            "message": "Filesystem on node {{ $labels.node_name }} having IP {{ $labels.instance }} has only {{ $value }}% inodes available on drive {{ $labels.device }}.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/cheat_sheets/alerting_runbook/#alert-nodefilesystemoutofspace"
-          },
-          "expr": "node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 10\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
-          "for": "1h",
-          "labels": {
-            "severity": "critical",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
             "service": "node-exporter"
           }
