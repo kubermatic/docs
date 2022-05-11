@@ -1,5 +1,6 @@
 +++
 title = "etcd"
+description = "Check out someetcd specs like StaticStatefulSet with three members or TLS for transport security."
 date = 2018-07-24T12:07:15+02:00
 weight = 20
 chapter = false

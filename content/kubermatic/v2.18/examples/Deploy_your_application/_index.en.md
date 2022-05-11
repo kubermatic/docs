@@ -1,5 +1,6 @@
 +++
 title = "Deploy your application"
+description = "Read the document to learn how to deploy your application to the cluster. Log into Kubermatic Kubernetes Platform, then create and connect to the cluster."
 date = 2020-02-21T12:07:15+02:00
 weight = 110
 +++

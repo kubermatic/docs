@@ -1,5 +1,6 @@
 +++
 title = "Debugging"
+description = "Learn how to check if KKP components are running, check for problems with an individual user cluster and check for problems with machines for an individual user cluster."
 date = 2018-07-24T12:07:15+02:00
 weight = 10
 chapter = false

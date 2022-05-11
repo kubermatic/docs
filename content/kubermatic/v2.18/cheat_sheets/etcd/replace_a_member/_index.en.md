@@ -1,5 +1,6 @@
 +++
 title = "Replacing a member"
+description = "Replacing a failed etcd member requires manual intervention. Go through the document to know more about replacing a member and pausing the cluster."
 date = 2018-07-24T12:07:15+02:00
 weight = 10
 

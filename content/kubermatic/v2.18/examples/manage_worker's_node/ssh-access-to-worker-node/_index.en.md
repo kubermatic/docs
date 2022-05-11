@@ -1,5 +1,6 @@
 +++
 title = "SSH access to worker nodes"
+description = "This document shows how to SSH access worker nodes by finding the external IP address of the node in simple steps.  Read on the document to know more."
 date = 2019-11-13T12:07:15+02:00
 weight = 90
 +++
