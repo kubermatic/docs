@@ -1,5 +1,6 @@
 +++
 title = "Admission plugins configuration"
+description = "This page explains how to configure admission controllers in the Kubermatic Kubernetes Platform."
 date = 2021-02-05T14:07:15+02:00
 weight = 150
 

@@ -1,6 +1,7 @@
 +++
 linkTitle = "Customization"
 title = "Customization of the Master / Seed MLA Stack"
+description = "Learn how to customize the KKP Master / Seed Monitoring, Logging and Alerting Stack. Get your custom dashboard with Grafana."
 date = 2018-08-17T12:07:15+02:00
 weight = 20
 +++

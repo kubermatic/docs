@@ -1,6 +1,7 @@
 
 +++
 title = "Audit Logging"
+description = "Audit Logging is one of the key security features provided by Kubernetes. KKP provides two levels of audit logging: on user cluster level and on datacenter level."
 date = 2021-11-08T12:00:00+02:00
 weight = 130
 +++

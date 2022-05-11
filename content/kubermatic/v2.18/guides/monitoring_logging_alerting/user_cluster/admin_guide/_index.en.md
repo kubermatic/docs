@@ -1,6 +1,7 @@
 +++
 linkTitle = "Admin Guide"
 title = "Admin Guide of the User Cluster MLA Stack"
+description = "In this guide, Kubermatic Kubernetes Platform admins learn how to install multi-cluster monitoring, logging, and altering in KKP."
 date = 2020-02-14T12:07:15+02:00
 weight = 10
 enableToc = true

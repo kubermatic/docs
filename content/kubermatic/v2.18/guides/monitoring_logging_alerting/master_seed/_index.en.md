@@ -1,6 +1,7 @@
 +++
 linkTitle = "Master / Seed Cluster MLA"
 title = "Master / Seed Cluster MLA Stack"
+description = "Master / Seed Cluster MLA Stack monitors KKP components running in the KKP master and seed clusters.  Only KKP administrators can access this monitoring data."
 date = 2018-08-17T12:07:15+02:00
 weight = 10
 +++
