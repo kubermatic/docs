@@ -610,11 +610,11 @@
         {
           "alert": "KubeCPUOvercommit",
           "annotations": {
-            "message": "Cluster has overcommitted CPU resource requests for pods and cannot tolerate node failure.",
+            "message": "Cluster has overcommitted CPU resource requests for Pods by {{ $value }} CPU shares and cannot tolerate node failure.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/cheat_sheets/alerting_runbook/#alert-kubecpuovercommit"
           },
-          "expr": "sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)\n  /\nsum(node:node_num_cpu:sum)\n  >\n(count(node:node_num_cpu:sum)-1) / count(node:node_num_cpu:sum)\n",
-          "for": "5m",
+          "expr": "sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)\n  -\n(sum(kube_node_status_allocatable{resource=\"cpu\"}) - max(kube_node_status_allocatable{resource=\"cpu\"}))\n  > 0\nand\n(sum(kube_node_status_allocatable{resource=\"cpu\"})\n  -\nmax(kube_node_status_allocatable{resource=\"cpu\"}))\n  > 0\n",
+          "for": "10m",
           "labels": {
             "severity": "warning",
             "resource": "cluster",
@@ -638,11 +638,11 @@
         {
           "alert": "KubeMemOvercommit",
           "annotations": {
-            "message": "Cluster has overcommitted memory resource requests for pods and cannot tolerate node failure.",
+            "message": "Cluster has overcommitted memory resource requests for Pods by {{ $value }} bytes and cannot tolerate node failure.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/cheat_sheets/alerting_runbook/#alert-kubememovercommit"
           },
-          "expr": "sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)\n  /\nsum(node_memory_MemTotal_bytes)\n  >\n(count(node:node_num_cpu:sum)-1)\n  /\ncount(node:node_num_cpu:sum)\n",
-          "for": "5m",
+          "expr": "sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)\n  -\n(sum(kube_node_status_allocatable{resource=\"memory\"}) - max(kube_node_status_allocatable{resource=\"memory\"}))\n  > 0\nand\n(sum(kube_node_status_allocatable{resource=\"memory\"})\n  -\nmax(kube_node_status_allocatable{resource=\"memory\"}))\n  > 0\n",
+          "for": "10m",
           "labels": {
             "severity": "warning",
             "resource": "cluster",
