@@ -1002,6 +1002,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `activeKey` _string_ | The current "primary" key used to encrypt data written to etcd. Secondary keys that can be used for decryption (but not encryption) might be configured in the ClusterSpec. |
+| `encryptedResources` _string array_ | List of resources currently encrypted. |
 | `phase` _[ClusterEncryptionPhase](#clusterencryptionphase)_ | The current phase of the encryption process. Can be one of `Pending`, `Failed`, `Active` or `EncryptionNeeded`. The `encryption_controller` logic will process the cluster based on the current phase and issue necessary changes to make sure encryption on the cluster is active and updated with what the ClusterSpec defines. |
 
 
