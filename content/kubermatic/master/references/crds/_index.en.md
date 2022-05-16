@@ -48,6 +48,7 @@ weight = 40
 - [PresetList](#presetlist)
 - [Project](#project)
 - [ProjectList](#projectlist)
+- [ResourceQuota](#resourcequota)
 - [RuleGroup](#rulegroup)
 - [RuleGroupList](#rulegrouplist)
 - [Seed](#seed)
@@ -4164,6 +4165,77 @@ _Appears in:_
 
 
 
+### ResourceDetails
+
+
+
+ResourceDetails holds the CPU, Memory and Storage quantities.
+
+_Appears in:_
+- [ResourceQuotaSpec](#resourcequotaspec)
+- [ResourceQuotaStatus](#resourcequotastatus)
+
+
+
+### ResourceQuota
+
+
+
+ResourceQuota specifies the amount of cluster resources a project can use.
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ResourceQuota`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[ResourceQuotaSpec](#resourcequotaspec)_ |  |
+| `status` _[ResourceQuotaStatus](#resourcequotastatus)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### ResourceQuotaSpec
+
+
+
+ResourceQuotaSpec describes the desired state of a resource quota.
+
+_Appears in:_
+- [ResourceQuota](#resourcequota)
+
+| Field | Description |
+| --- | --- |
+| `subject` _[Subject](#subject)_ | Subject specifies to which entity the quota applies to. |
+| `quota` _[ResourceDetails](#resourcedetails)_ | Quota specifies the current maximum allowed usage of resources. |
+
+
+[Back to top](#top)
+
+
+
+### ResourceQuotaStatus
+
+
+
+ResourceQuotaStatus describes the current state of a resource quota.
+
+_Appears in:_
+- [ResourceQuota](#resourcequota)
+
+| Field | Description |
+| --- | --- |
+| `globalUsage` _[ResourceDetails](#resourcedetails)_ | GlobalUsage is holds the current usage of resources for all seeds. |
+| `localUsage` _[ResourceDetails](#resourcedetails)_ | LocalUsage is holds the current usage of resources for the local seed. |
+
+
+[Back to top](#top)
+
+
+
 ### RuleGroup
 
 
@@ -4515,6 +4587,24 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### Subject
+
+
+
+Subject describes the entity to which the quota applies to.
+
+_Appears in:_
+- [ResourceQuotaSpec](#resourcequotaspec)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Name of the quota subject. |
 
 
 [Back to top](#top)
