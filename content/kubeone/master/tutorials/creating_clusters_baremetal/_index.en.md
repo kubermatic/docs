@@ -261,17 +261,22 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne version | 1.23  | 1.22  | 1.21  | 1.20\*  | 1.19\*\* |
-| --------------- | ----- | ----- | ----- | ------- | -------- |
-| v1.4+           | ✓     | ✓     | ✓     | ✓       | -        |
-| v1.3+           | -     | ✓     | ✓     | ✓       | ✓        |
-| v1.2+           | -     | -     | ✓     | ✓       | ✓        |
+| KubeOne version | 1.24  | 1.23  | 1.22  | 1.21\*  | 1.20\*\*  | 1.19\*\*   |
+| --------------- | ----- | ----- | ----- | ------- | --------- | ---------- |
+| v1.5            | ✓     | ✓     | ✓     | -       | -         | -          |
+| v1.4            | -     | ✓     | ✓     | ✓       | ✓         | -          |
+| v1.3            | -     | -     | ✓     | ✓       | ✓         | ✓          |
 
-\* Kubernetes 1.20 is scheduled to reach End-of-Life (EOL) on February 2021.
-Using a newer Kubernetes version is strongly recommended.
+\* Kubernetes 1.21 is in the [maintenance mode] which means that only critical
+and security issues are fixed. It's strongly recommended to upgrade to a newer
+Kubernetes version as soon as possible.
 
-\*\* Kubernetes 1.19 has already reached End-of-Life (EOL) and is not
-recommended for newly-created clusters.
+\*\* Kubernetes 1.20 and 1.19 have reached End-of-Life (EOL). We strongly
+recommend upgrading to a supported Kubernetes release as soon as possible.
+
+We recommend using a Kubernetes release that's not older than one minor release
+than the latest Kubernetes release. For example, with 1.24 being the latest
+release, we recommend running at least Kubernetes 1.23.
 
 Now, we're ready to provision the cluster! This is done by running the
 `kubeone apply` command and providing it the configuration manifest.
@@ -402,3 +407,4 @@ and recommendations.
 [ha-load-balancing]: {{< ref "../../examples/ha_load_balancing" >}}
 [supported-os]: {{< ref "../../architecture/compatibility#supported-operating-systems" >}}
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
+[maintenance mode]: https://kubernetes.io/releases/patch-releases/#support-period
