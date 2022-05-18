@@ -13,7 +13,7 @@ The Kubernetes vSphere driver contains bugs related to detaching volumes from of
 
 ### VM Images
 
-When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}}).
+When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}}).
 
 Supported operating systems
 
@@ -47,7 +47,7 @@ If user clusters have dedicated networks, all user clusters therefore need a cus
 
 ### VM Folder
 
-During creation of a user cluster Kubermatic Kubernetes Platform (KKP) creates a dedicated VM folder in the root path on the Datastore (Defined in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.datastore`]({{< ref "../../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}})).
+During creation of a user cluster Kubermatic Kubernetes Platform (KKP) creates a dedicated VM folder in the root path on the Datastore (Defined in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.datastore`]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}})).
 That folder will contain all worker nodes of a user cluster.
 
 ### Credentials / Cloud-Config
@@ -209,8 +209,8 @@ specified directly in [vSphere cloud configuration][vsphere-cloud-config].
 There are two places where Datastores and Datastore Clusters can be configured
 in KKP
 
-- At datacenter level (either with [Seed CRD]({{< ref "../../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}})
-    or [datacenters.yaml]({{< ref "../../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}})) is possible to
+- At datacenter level (either with [Seed CRD]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}})
+    or [datacenters.yaml]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}})) is possible to
     specify the default *Datastore* that will be used for user clusters dynamic
     volume provisioning and workers VMs placement in case no *Datastore* or
     *Datastore Cluster* is specified at cluster level.
