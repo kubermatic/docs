@@ -1,7 +1,7 @@
 +++
 title = "Monitoring, Logging & Alerting"
 date = 2021-08-04T11:58:00+02:00
-weight = 7
+weight = 20
 +++
 
 Kubermatic Monitoring, Logging & Alerting (MLA) consists of two stacks:

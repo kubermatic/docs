@@ -1,9 +1,11 @@
 +++
-title = "KKP Components"
+title = "KKP Components Versioning"
 date = 2022-03-16T20:07:15+02:00
-weight = 2
+weight = 5
 
 +++
+
+
 
 ## Kubermatic Kubernetes Platform Components
 

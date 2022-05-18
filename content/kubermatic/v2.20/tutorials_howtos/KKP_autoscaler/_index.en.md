@@ -18,14 +18,6 @@ The Kubernetes Autoscaler in the KKP Cluster automatically scaled up/down when o
 * Some pods failed to run in the cluster due to insufficient resources.
 * There are nodes in the cluster that have been underutilised for an extended period (10 minutes by default) and can place their Pods on other existing nodes.
 
- 
-## The Pre-requisite
-
-Using a Kubernetes cluster autoscaler in the KKP cluster must meet specific minimum requirement:
-
-* Kubernetes cluster running Kubernetes v1.18 or newer is required.
-
-
 ## Installing Kubernetes Auto-scaler on KKP Cluster
 
 You can install Kubernetes autoscaler on a running KKP Cluster using the KKP addon mechanism, which is already built into the KKP Cluster dashboard.
