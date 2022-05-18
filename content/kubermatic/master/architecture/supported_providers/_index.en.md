@@ -1,5 +1,5 @@
 +++
-title = "Supported providers"
+title = "Supported Providers"
 date = 2018-07-04T12:07:15+02:00
 weight = 5
 
