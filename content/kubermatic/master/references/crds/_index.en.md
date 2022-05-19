@@ -1141,6 +1141,7 @@ _Appears in:_
 | `cloudMigrationRevision` _integer_ | CloudMigrationRevision describes the latest version of the migration that has been done It is used to avoid redundant and potentially costly migrations. |
 | `inheritedLabels` _object (keys:string, values:string)_ | InheritedLabels are labels the cluster inherited from the project. They are read-only for users. |
 | `encryption` _[ClusterEncryptionStatus](#clusterencryptionstatus)_ | Encryption describes the status of the encryption-at-rest feature for encrypted data in etcd. |
+| `resourceUsage` _[ResourceDetails](#resourcedetails)_ | ResourceUsage shows the current usage of resources for the cluster. |
 
 
 [Back to top](#top)
@@ -4172,6 +4173,7 @@ _Appears in:_
 ResourceDetails holds the CPU, Memory and Storage quantities.
 
 _Appears in:_
+- [ClusterStatus](#clusterstatus)
 - [ResourceQuotaSpec](#resourcequotaspec)
 - [ResourceQuotaStatus](#resourcequotastatus)
 
