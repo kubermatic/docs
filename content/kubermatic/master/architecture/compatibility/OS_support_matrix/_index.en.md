@@ -1,7 +1,7 @@
 +++
-title = "Operating Systems Support Matrix"
+title = "Operating Systems"
 date = 2021-04-13T20:07:15+02:00
-weight = 5
+weight = 3
 
 +++
 

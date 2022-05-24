@@ -6,7 +6,7 @@ weight = 7
 
 KKP supports creating user clusters on [Nutanix&trade;](https://www.nutanix.com/) hyper-converged infrastructure. To use the Nutanix integration, a [Nutanix Prism Central](https://www.nutanix.com/products/prism) installation that exposes the [Prism Central v3 API](https://www.nutanix.dev/api_references/prism-central-v3/#/) is required.
 
-Configuration of Nutanix credentials can be done through [Presets]({{< ref "../../../../tutorials_howtos/administration/admin_panel/presets_management" >}}) or by providing them during the cluster creation wizard, same as with other providers.
+Configuration of Nutanix credentials can be done through [Presets]({{< ref "../../../tutorials_howtos/administration/admin_panel/presets_management" >}}) or by providing them during the cluster creation wizard, same as with other providers.
 
 ## Features
 
