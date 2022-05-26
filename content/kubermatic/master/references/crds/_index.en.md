@@ -1051,6 +1051,7 @@ _Appears in:_
 | `proxyMode` _string_ | ProxyMode defines the kube-proxy mode ("ipvs" / "iptables" / "ebpf"). Defaults to "ipvs". "ebpf" disables kube-proxy and requires CNI support. |
 | `ipvs` _[IPVSConfiguration](#ipvsconfiguration)_ | IPVS defines kube-proxy ipvs configuration options |
 | `nodeLocalDNSCacheEnabled` _boolean_ | NodeLocalDNSCacheEnabled controls whether the NodeLocal DNS Cache feature is enabled. Defaults to true. |
+| `coreDNSReplicas` _integer_ | CoreDNSReplicas is the number of desired pods of user cluster coredns deployment. |
 | `konnectivityEnabled` _boolean_ | KonnectivityEnabled enables konnectivity for controlplane to node network communication. |
 
 
