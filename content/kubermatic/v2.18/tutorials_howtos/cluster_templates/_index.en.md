@@ -1,6 +1,6 @@
 +++
 title = "Cluster templates"
-description = "Lean how to create and best use Kubermatic Kubernetes Platform's cluster templates. Cluster templates are reusable cluster template objects."
+description = "Learn how to create and best use Kubermatic Kubernetes Platform's cluster templates. Cluster templates are reusable cluster template objects."
 date = 2021-08-02T14:07:15+02:00
 weight = 20
 
