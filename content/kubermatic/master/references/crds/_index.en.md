@@ -38,6 +38,10 @@ weight = 40
 - [EtcdRestoreList](#etcdrestorelist)
 - [ExternalCluster](#externalcluster)
 - [ExternalClusterList](#externalclusterlist)
+- [IPAMAllocation](#ipamallocation)
+- [IPAMAllocationList](#ipamallocationlist)
+- [IPAMPool](#ipampool)
+- [IPAMPoolList](#ipampoollist)
 - [KubermaticConfiguration](#kubermaticconfiguration)
 - [KubermaticConfigurationList](#kubermaticconfigurationlist)
 - [KubermaticSetting](#kubermaticsetting)
@@ -2667,6 +2671,159 @@ _Appears in:_
 
 
 
+### IPAMAllocation
+
+
+
+IPAMAllocation is the object representing an allocation from an IPAMPool made for a particular KKP user cluster.
+
+_Appears in:_
+- [IPAMAllocationList](#ipamallocationlist)
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `IPAMAllocation`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[IPAMAllocationSpec](#ipamallocationspec)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### IPAMAllocationList
+
+
+
+
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `IPAMAllocationList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[IPAMAllocation](#ipamallocation) array_ |  |
+
+
+[Back to top](#top)
+
+
+
+### IPAMAllocationSpec
+
+
+
+IPAMAllocationSpec specifies an allocation from an IPAMPool made for a particular KKP user cluster.
+
+_Appears in:_
+- [IPAMAllocation](#ipamallocation)
+
+| Field | Description |
+| --- | --- |
+| `type` _[IPAMPoolAllocationType](#ipampoolallocationtype)_ | Type is the allocation type that is being used. |
+| `cidr` _[SubnetCIDR](#subnetcidr)_ | CIDR is the CIDR that is being used for the allocation. Set when "type=prefix". |
+| `addresses` _string array_ | Addresses are the IP address ranges that are being used for the allocation. Set when "type=range". |
+
+
+[Back to top](#top)
+
+
+
+### IPAMPool
+
+
+
+IPAMPool is the object representing Multi-Cluster IP Address Management (IPAM) configuration for KKP user clusters.
+
+_Appears in:_
+- [IPAMPoolList](#ipampoollist)
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `IPAMPool`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[IPAMPoolSpec](#ipampoolspec)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### IPAMPoolAllocationType
+
+_Underlying type:_ `string`
+
+IPAMPoolAllocationType defines the type of allocation to be used. Possible values are `prefix` and `range`.
+
+_Appears in:_
+- [IPAMAllocationSpec](#ipamallocationspec)
+- [IPAMPoolSpec](#ipampoolspec)
+
+
+
+### IPAMPoolDatacenterSettings
+
+
+
+IPAMPoolDatacenterSettings contains IPAM Pool configuration for a datacenter.
+
+_Appears in:_
+- [IPAMPoolSpec](#ipampoolspec)
+
+| Field | Description |
+| --- | --- |
+| `poolCidr` _[SubnetCIDR](#subnetcidr)_ | PoolCIDR is the pool CIDR to be used for the allocation. |
+| `allocationPrefix` _integer_ | AllocationPrefix is the prefix for the allocation. Used when "type=prefix". |
+| `allocationRange` _integer_ | AllocationRange is the range for the allocation. Used when "type=range". |
+
+
+[Back to top](#top)
+
+
+
+### IPAMPoolList
+
+
+
+
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `IPAMPoolList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[IPAMPool](#ipampool) array_ |  |
+
+
+[Back to top](#top)
+
+
+
+### IPAMPoolSpec
+
+
+
+IPAMPoolSpec specifies the  Multi-Cluster IP Address Management (IPAM) configuration for KKP user clusters.
+
+_Appears in:_
+- [IPAMPool](#ipampool)
+
+| Field | Description |
+| --- | --- |
+| `type` _[IPAMPoolAllocationType](#ipampoolallocationtype)_ | Type is the allocation type to be used. |
+| `datacenters` _object (keys:string, values:[IPAMPoolDatacenterSettings](#ipampooldatacentersettings))_ | Datacenters contains a map of datacenters (DCs) for the allocation. |
+
+
+[Back to top](#top)
+
+
+
 ### IPFamily
 
 _Underlying type:_ `string`
@@ -4611,6 +4768,18 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+### SubnetCIDR
+
+_Underlying type:_ `string`
+
+SubnetCIDR is used to store IPv4/IPv6 CIDR.
+
+_Appears in:_
+- [IPAMAllocationSpec](#ipamallocationspec)
+- [IPAMPoolDatacenterSettings](#ipampooldatacentersettings)
 
 
 
