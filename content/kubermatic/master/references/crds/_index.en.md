@@ -1324,12 +1324,12 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `apiserver` _[APIServerSettings](#apiserversettings)_ |  |
-| `controllerManager` _[ControllerSettings](#controllersettings)_ |  |
-| `scheduler` _[ControllerSettings](#controllersettings)_ |  |
-| `etcd` _[EtcdStatefulSetSettings](#etcdstatefulsetsettings)_ |  |
-| `prometheus` _[StatefulSetSettings](#statefulsetsettings)_ |  |
-| `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ |  |
+| `apiserver` _[APIServerSettings](#apiserversettings)_ | Apiserver configures kube-apiserver settings. |
+| `controllerManager` _[ControllerSettings](#controllersettings)_ | ControllerManager configures kube-controller-manager settings. |
+| `scheduler` _[ControllerSettings](#controllersettings)_ | Scheduler configures kube-scheduler settings. |
+| `etcd` _[EtcdStatefulSetSettings](#etcdstatefulsetsettings)_ | Etcd configures the etcd ring used to store Kubernetes data. |
+| `prometheus` _[StatefulSetSettings](#statefulsetsettings)_ | Prometheus configures the Prometheus instance deployed into the cluster control plane. |
+| `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ | NodePortProxyEnvoy configures the per-cluster nodeport-proxy-envoy that is deployed if the `LoadBalancer` expose strategy is used. This is not effective if a different expose strategy is configured. |
 
 
 [Back to top](#top)
