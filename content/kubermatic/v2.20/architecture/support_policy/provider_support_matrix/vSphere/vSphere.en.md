@@ -80,6 +80,16 @@ For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-c
       * Create folder
       * Delete dolder
 
+```
+$ govc role.ls k8c-ccm-storage-vmfolder-propagate
+Folder.Create
+Folder.Delete
+VirtualMachine.Config.AddExistingDisk
+VirtualMachine.Config.AddNewDisk
+VirtualMachine.Config.AddRemoveDevice
+VirtualMachine.Config.RemoveDisk
+```
+
 * Role `k8c-ccm-storage-datastore-propagate`
   * Granted at **Datastore**, propagated
   * Permissions
@@ -87,10 +97,22 @@ For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-c
       * Allocate space
       * Low level file operations
 
+```
+$ govc role.ls k8c-ccm-storage-datastore-propagate
+Datastore.AllocateSpace
+Datastore.FileManagement
+```
+
 * Role `Read-only` (predefined)
   * Granted at ..., **not** propagated
     * Datacenter
 
+```
+$ govc role.ls ReadOnly
+System.Anonymous
+System.Read
+System.View
+```
 #### User Cluster
 
 For provisioning actions of the KKP in scope of an user cluster, a technical user (e.g. `cust-user-cluster`) is needed:
@@ -107,6 +129,18 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
       * Provisioning
         * Modify customization specification
         * Read customization specifications
+
+```
+$ govc role.ls k8c-user-vcenter
+Cns.Searchable
+InventoryService.Tagging.ObjectAttachable
+StorageProfile.View
+System.Anonymous
+System.Read
+System.View
+VirtualMachine.Provisioning.ModifyCustSpecs
+VirtualMachine.Provisioning.ReadCustSpecs
+```
 
 * Role `k8c-user-datacenter`
   * Granted at **datacenter** level, **not** propagated
@@ -127,6 +161,24 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
     * Inventory
       * Create from existing
 
+```
+$ govc role.ls k8c-user-datacenter
+Datastore.AllocateSpace
+Datastore.Browse
+Datastore.DeleteFile
+Datastore.FileManagement
+InventoryService.Tagging.ObjectAttachable
+System.Anonymous
+System.Read
+System.View
+VApp.ApplicationConfig
+VApp.InstanceConfig
+VirtualMachine.Config.CPUCount
+VirtualMachine.Config.Memory
+VirtualMachine.Config.Settings
+VirtualMachine.Inventory.CreateFromExisting
+```
+
 * Role `k8c-user-cluster-propagate`
   * Granted at **cluster** level, propagated
   * Needed for upload of `cloud-init.iso` (Ubuntu and CentOS) or defining the Ignition config into Guestinfo (CoreOS)
@@ -145,11 +197,29 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
       * vApp application configuration
       * vApp instance configuration
 
-* Role k8s-network-attach
+```
+$ govc role.ls k8c-user-cluster-propagate
+Folder.Create
+Host.Config.Storage
+Host.Config.SystemManagement
+Host.Local.ReconfigVM
+Resource.AssignVMToPool
+Resource.ColdMigrate
+Resource.HotMigrate
+VApp.ApplicationConfig
+VApp.InstanceConfig
+```
+
+* Role k8c-network-attach
   * Granted for each network that should be used (distributed switch + network)
   * Permissions
     * Network
       * Assign network
+
+```
+$ govc role.ls k8c-network-attach
+Network.Assign
+```
 
 * Role `k8c-user-datastore-propagate`
   * Granted at **datastore / datastore cluster** level, propagated
@@ -158,6 +228,13 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
       * Allocate space
       * Browse datastore
       * Low level file operations
+
+```
+$ govc role.ls k8c-user-datastore-propagate
+Datastore.AllocateSpace
+Datastore.Browse
+Datastore.FileManagement
+```
 
 * Role `k8c-user-folder-propagate`
   * Granted at **VM Folder** and **Template Folder** level, propagated
@@ -176,7 +253,104 @@ For provisioning actions of the KKP in scope of an user cluster, a technical use
       * Provisioning
       * Snapshot management
 
-The described permissions have been tested with vSphere 6.7 and might be different for other vSphere versions.
+```
+$ govc role.ls k8c-user-folder-propagate
+Folder.Create
+Folder.Delete
+Global.SetCustomField
+InventoryService.Tagging.ObjectAttachable
+System.Anonymous
+System.Read
+System.View
+VirtualMachine.Config.AddExistingDisk
+VirtualMachine.Config.AddNewDisk
+VirtualMachine.Config.AddRemoveDevice
+VirtualMachine.Config.AdvancedConfig
+VirtualMachine.Config.Annotation
+VirtualMachine.Config.CPUCount
+VirtualMachine.Config.ChangeTracking
+VirtualMachine.Config.DiskExtend
+VirtualMachine.Config.DiskLease
+VirtualMachine.Config.EditDevice
+VirtualMachine.Config.HostUSBDevice
+VirtualMachine.Config.ManagedBy
+VirtualMachine.Config.Memory
+VirtualMachine.Config.MksControl
+VirtualMachine.Config.QueryFTCompatibility
+VirtualMachine.Config.QueryUnownedFiles
+VirtualMachine.Config.RawDevice
+VirtualMachine.Config.ReloadFromPath
+VirtualMachine.Config.RemoveDisk
+VirtualMachine.Config.Rename
+VirtualMachine.Config.ResetGuestInfo
+VirtualMachine.Config.Resource
+VirtualMachine.Config.Settings
+VirtualMachine.Config.SwapPlacement
+VirtualMachine.Config.ToggleForkParent
+VirtualMachine.Config.Unlock
+VirtualMachine.Config.UpgradeVirtualHardware
+VirtualMachine.GuestOperations.Execute
+VirtualMachine.GuestOperations.Modify
+VirtualMachine.GuestOperations.ModifyAliases
+VirtualMachine.GuestOperations.Query
+VirtualMachine.GuestOperations.QueryAliases
+VirtualMachine.Interact.AnswerQuestion
+VirtualMachine.Interact.Backup
+VirtualMachine.Interact.ConsoleInteract
+VirtualMachine.Interact.CreateScreenshot
+VirtualMachine.Interact.CreateSecondary
+VirtualMachine.Interact.DefragmentAllDisks
+VirtualMachine.Interact.DeviceConnection
+VirtualMachine.Interact.DisableSecondary
+VirtualMachine.Interact.DnD
+VirtualMachine.Interact.EnableSecondary
+VirtualMachine.Interact.GuestControl
+VirtualMachine.Interact.MakePrimary
+VirtualMachine.Interact.Pause
+VirtualMachine.Interact.PowerOff
+VirtualMachine.Interact.PowerOn
+VirtualMachine.Interact.PutUsbScanCodes
+VirtualMachine.Interact.Record
+VirtualMachine.Interact.Replay
+VirtualMachine.Interact.Reset
+VirtualMachine.Interact.SESparseMaintenance
+VirtualMachine.Interact.SetCDMedia
+VirtualMachine.Interact.SetFloppyMedia
+VirtualMachine.Interact.Suspend
+VirtualMachine.Interact.TerminateFaultTolerantVM
+VirtualMachine.Interact.ToolsInstall
+VirtualMachine.Interact.TurnOffFaultTolerance
+VirtualMachine.Inventory.Create
+VirtualMachine.Inventory.CreateFromExisting
+VirtualMachine.Inventory.Delete
+VirtualMachine.Inventory.Move
+VirtualMachine.Inventory.Register
+VirtualMachine.Inventory.Unregister
+VirtualMachine.Provisioning.Clone
+VirtualMachine.Provisioning.CloneTemplate
+VirtualMachine.Provisioning.CreateTemplateFromVM
+VirtualMachine.Provisioning.Customize
+VirtualMachine.Provisioning.DeployTemplate
+VirtualMachine.Provisioning.DiskRandomAccess
+VirtualMachine.Provisioning.DiskRandomRead
+VirtualMachine.Provisioning.FileRandomAccess
+VirtualMachine.Provisioning.GetVmFiles
+VirtualMachine.Provisioning.MarkAsTemplate
+VirtualMachine.Provisioning.MarkAsVM
+VirtualMachine.Provisioning.ModifyCustSpecs
+VirtualMachine.Provisioning.PromoteDisks
+VirtualMachine.Provisioning.PutVmFiles
+VirtualMachine.Provisioning.ReadCustSpecs
+VirtualMachine.State.CreateSnapshot
+VirtualMachine.State.RemoveSnapshot
+VirtualMachine.State.RenameSnapshot
+VirtualMachine.State.RevertToSnapshot
+
+```
+
+
+
+The described permissions have been tested with vSphere 7.0.U2 and might be different for other vSphere versions.
 
 #### Terraform Setup
 
