@@ -41,9 +41,10 @@ type ClusterData struct {
 	// "hetzner", "kubevirt", "openstack", "packet", "vsphere" depending on
 	// the configured datacenters.
 	CloudProviderName string
-	// Version is the exact cluster version.
-	Version *semver.Version
-	// MajorMinorVersion is a shortcut for common testing on "Major.Minor".
+	// Version is the exact current cluster version.
+	Version *semverlib.Version
+	// MajorMinorVersion is a shortcut for common testing on "Major.Minor" on the
+	// current cluster version.
 	MajorMinorVersion string
 	// Network contains DNS and CIDR settings for the cluster.
 	Network ClusterNetwork
@@ -51,10 +52,10 @@ type ClusterData struct {
 	Features sets.String
 	// CNIPlugin contains the CNIPlugin settings
 	CNIPlugin CNIPlugin
+	// CSI specific options, dependent on provider
+	CSI CSIOptions
 	// MLA contains monitoring, logging and alerting related settings for the user cluster.
 	MLA MLASettings
-	// StoragePolicy is the storage policy to use for vsphere csi addon
-	StoragePolicy string
 	// CSIMigration indicates if the cluster needed the CSIMigration
 	CSIMigration bool
 }
@@ -76,18 +77,35 @@ type ClusterAddress struct {
 }
 
 type ClusterNetwork struct {
-	DNSDomain         string
-	DNSClusterIP      string
-	DNSResolverIP     string
-	PodCIDRBlocks     []string
-	ServiceCIDRBlocks []string
-	ProxyMode         string
-	StrictArp         bool
+	DNSDomain            string
+	DNSClusterIP         string
+	DNSResolverIP        string
+	PodCIDRBlocks        []string
+	ServiceCIDRBlocks    []string
+	ProxyMode            string
+	StrictArp            *bool
+	DualStack            bool
+	PodCIDRIPv4          string
+	PodCIDRIPv6          string
+	NodeCIDRMaskSizeIPv4 int32
+	NodeCIDRMaskSizeIPv6 int32
 }
 
 type CNIPlugin struct {
 	Type    string
 	Version string
+}
+
+type CSIOptions struct {
+
+	// vsphere
+	// StoragePolicy is the storage policy to use for vsphere csi addon
+	StoragePolicy string
+
+	// nutanix
+	StorageContainer        string
+	Fstype                  string
+	SsSegmentedIscsiNetwork *bool
 }
 
 type MLASettings struct {

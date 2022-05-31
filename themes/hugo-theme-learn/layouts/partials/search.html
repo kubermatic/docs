@@ -1,5 +1,7 @@
 <div class="search-box">
-  <input id="search-by" class="search-input" type="search" placeholder="{{T "Search-placeholder"}}" autocomplete="off" />
+  {{$pathItems := split .RelPermalink "/"}}
+  {{$section := delimit (slice (index $pathItems 1) (index $pathItems 2)) "/"}}
+  <input id="search-by" class="search-input" type="search" placeholder="{{T "Search-placeholder"}}" autocomplete="off" data-filter="{{$section}}"/>
   <div class="search-results-box search-results-box--hide">
     <div class="search-results"></div>
   </div>

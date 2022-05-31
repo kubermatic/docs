@@ -34,7 +34,7 @@ a starting point for adjustments.
 
 ```bash
 docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-installer print
-#apiVersion: operator.kubermatic.io/v1alpha1
+#apiVersion: kubermatic.k8c.io/v1
 #kind: KubermaticConfiguration
 #metadata:
 #  name: kubermatic
@@ -97,7 +97,7 @@ The following demonstrates an AddonConfig for the node-expoter addon. It configu
 logo as well as some form fields (which in this case are not used by the addon itself).
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: AddonConfig
 metadata:
   name: node-exporter
@@ -358,64 +358,64 @@ spec:
           items:
 
           # add your new addon here
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: my-custom-addon
 
           # remember to keep the original default addons, or else user clusters will
           # be defunct
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: canal
               labels:
                 addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: csi
               labels:
                 addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: kube-proxy
               labels:
                 addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: openvpn
               labels:
                 addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: rbac
               labels:
                 addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: kubeadm-configmap
               labels:
                 addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: kubelet-configmap
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: default-storage-class
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: pod-security-policy
               labels:
                 addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8s.io/v1
+          - apiVersion: kubermatic.k8c.io/v1
             kind: Addon
             metadata:
               name: aws-node-termination-handler

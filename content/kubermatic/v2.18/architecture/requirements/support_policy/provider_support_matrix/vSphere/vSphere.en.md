@@ -1,5 +1,6 @@
 +++
 title = "VSphere"
+description = "In this chapter you find details about the support of VMware vSphere by Kubermatic Kubernetes Platform."
 date = 2018-07-04T12:07:15+02:00
 weight = 7
 

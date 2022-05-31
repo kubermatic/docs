@@ -1,5 +1,6 @@
 +++
 title = "Azure"
+description = "For provisioning Kubernetes clusters with the Azure cloud provider Kubermatic Kubernetes Platform needs a service account. Read the document to know more."
 date = 2019-05-19T12:07:15+02:00
 weight = 7
 

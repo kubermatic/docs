@@ -25,6 +25,10 @@ Since this is an optional feature, it's disabled by default. There are two modes
 
 ## Etcd-launcher for all user clusters (global setting)
 
+{{% notice warning %}}
+It is not recommended to enable the `EtcdLauncher` feature gate globally at the same as applying a KKP upgrade, due to the potential for several changes to etcd happening in short sequence.
+{{% /notice %}}
+
 ### Enabling etcd-launcher
 In this mode, the feature is enabled on the KKP installation level. The cluster feature flag will be added to all user clusters.
 
@@ -32,7 +36,7 @@ To enable etcd-launcher, the related feature should be enabled in the [Kubermati
 
 ```yaml
 # Snippet, not a complete file!
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   name: <<mykubermatic>>
@@ -40,8 +44,7 @@ metadata:
 spec:
   # FeatureGates are used to optionally enable certain features.
   featureGates:
-    EtcdLauncher:
-      enabled: true
+    EtcdLauncher: true
 ```
 
 Next, simply apply the updated CRD:

@@ -4,10 +4,12 @@ DOCKER_BIN := $(shell which docker)
 
 .PHONY: preview
 preview:
-	docker run -it --name kubermatic-docs --rm \
+	docker run -it --rm \
+		--name kubermatic-docs \
 		-p 1313:1313 \
+		-w /docs \
 		-v `pwd`:/docs quay.io/kubermatic/hugo:0.75.1-0 \
-		 bash -c 'cd /docs; hugo server -D -F --bind 0.0.0.0'
+		hugo server -D -F --bind 0.0.0.0
 
 .PHONY: runbook
 runbook:

@@ -18,6 +18,8 @@ KKP supports three types of CNI (Container Network Interface) plugin types:
 - **[Cilium](#cilium-cni)**
 - **[None](#none-cni)**
 
+Apart from these, KKP also supports [Multus-CNI addon]({{< relref "../multus/" >}}). This is a CNI meta-plugin that can be installed on top of any of the supported primary CNIs.
+
 The following table lists the versions of individual CNIs supported by KKP:
 
 | KKP version | Canal                                           | Cilium  |
@@ -158,15 +160,14 @@ Konnectivity provides TCP level proxy for the control plane (seed cluster) to wo
 To enable Konnectivity for control plane to worker nodes communication, the feature first has to be enabled in `KubermaticConfiguration` by enabling the `KonnectivityService` feature gate, e.g.:
 
 ```yaml
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   name: kubermatic
   namespace: kubermatic
 spec:
   featureGates:
-    KonnectivityService:
-      enabled: true
+    KonnectivityService: true
 ```
 
 All existing clusters started before enabling `KonnectivityService` feature gate will continue using OpenVPN.

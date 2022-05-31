@@ -1,5 +1,6 @@
 +++
 title = "Concepts"
+description = "Understand the key concepts of start.kubermatic.io that provides you with a pre-configured setup of the Kubermatic Kubernetes Platform based on your configuration inputs."
 weight = 3
 +++
 

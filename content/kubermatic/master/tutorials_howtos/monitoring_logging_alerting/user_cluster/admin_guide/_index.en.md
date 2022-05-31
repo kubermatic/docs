@@ -115,30 +115,29 @@ Once the User Cluster MLA stack is installed in all necessary seed clusters, it 
 Since the User Cluster MLA feature is in alpha stage, it has to be explicitly enabled via a feature gate in the `KubermaticConfiguration`, e.g.:
 
 ```yaml
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   name: kubermatic
   namespace: kubermatic
 spec:
   featureGates:
-    UserClusterMLA:
-      enabled: true
+    UserClusterMLA: true
 ```
 
 ### Enabling MLA Stack in a Seed
 
-Since the MLA stack has to be manually installed into every KKP Seed Cluster, it is necessary to explicitly enable it on the Seed Cluster level after it is installed. This can be done via `mla.user_cluster_mla_enabled` option of the `Seed` Custom Resource / API object, e.g.:
+Since the MLA stack has to be manually installed into every KKP Seed Cluster, it is necessary to explicitly enable it on the Seed Cluster level after it is installed. This can be done via `mla.userClusterMLAEnabled` option of the `Seed` Custom Resource / API object, e.g.:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Seed
 metadata:
   name: europe-west3-c
   namespace: kubermatic
 spec:
   mla:
-    user_cluster_mla_enabled: true
+    userClusterMLAEnabled: true
 ```
 
 ### Admin Panel Configuration
@@ -401,17 +400,17 @@ In order to uninstall the User Cluster MLA stack from a seed cluster (and all us
 
 ### Disabling the User Cluster MLA in Seed Configuration
 
-In order to disable the User Cluster MLA feature for a Seed Cluster, set the `mla.user_cluster_mla_enabled` option of the `Seed` Custom Resource / API object to `false`, e.g.:
+In order to disable the User Cluster MLA feature for a Seed Cluster, set the `mla.userClusterMLAEnabled` option of the `Seed` Custom Resource / API object to `false`, e.g.:
 
 ```yaml
-apiVersion: kubermatic.k8s.io/v1
+apiVersion: kubermatic.k8c.io/v1
 kind: Seed
 metadata:
   name: europe-west3-c
   namespace: kubermatic
 spec:
   mla:
-    user_cluster_mla_enabled: false
+    userClusterMLAEnabled: false
 ```
 
 ### Removing the User Cluster MLA Components

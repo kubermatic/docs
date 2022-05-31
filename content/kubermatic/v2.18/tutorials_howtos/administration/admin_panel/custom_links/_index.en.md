@@ -1,5 +1,6 @@
 +++
 title = "Custom Links"
+description = "This section contains information about the custom link section in the admin panel, which allows users to control the way custom links are displayed."
 date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++

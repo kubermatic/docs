@@ -48,3 +48,39 @@ Navigate to the cluster overview, scroll down to machine deployments and click o
 In the popup dialog, you can now increase or decrease the number of worker nodes that are managed by this machine deployment.
 
 ![Update GKE Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/update_gke_md.png "Update GKE Machine Deployment")
+
+### Authenticating with GKE
+
+The KKP platform allows getting kubeconfig file for the GKE cluster. 
+
+![Get GKE kubeconfig](/img/kubermatic/master/tutorials/external_clusters/gke_kubeconfig.png "Get cluster kubeconfig")
+
+
+The end-user must be aware that the kubeconfig expires after some short period of time. To mitigate this disadvantage you
+can extend the kubeconfig for the provider information and use exported JSON with the service account for the authentication.
+
+
+Add `name: gcp` for the users:
+
+```
+users:
+- name: gke_kubermatic-dev_europe-central2-a_test
+  user:
+    auth-provider:
+      name: gcp
+```
+Provide authentication credentials to your application code by setting the environment variable GOOGLE_APPLICATION_CREDENTIALS.
+This variable applies only to your current shell session. If you want the variable to apply to future shell sessions,
+set the variable in your shell startup file, for example in the `~/.bashrc` or `~/.profile` file.
+
+```
+export GOOGLE_APPLICATION_CREDENTIALS="KEY_PATH"
+```
+
+Replace `KEY_PATH` with the path of the JSON file that contains your service account key.
+
+For example:
+
+```
+export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file.json"
+```

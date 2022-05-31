@@ -1,5 +1,6 @@
 +++
 title = "Guides"
+description = "Get a better understanding of how to use start.kubermatic.io in three simple parts."
 weight = 30
 +++
 

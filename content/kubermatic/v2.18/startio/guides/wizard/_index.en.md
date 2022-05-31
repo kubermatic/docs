@@ -1,5 +1,6 @@
 +++
 title = "Use the Wizard to Configure KKP"
+description = "From Git provider selection, cloud provider selection, Kubernetes cloud configuration, and KKP bootstrap configuration, learn how to set up Kubermatic Kubernetes Platform with our wizard start.kubermatic.io."
 weight = 10
 enableToc = true
 +++

@@ -299,6 +299,7 @@ infrastructure and for machine-controller to create the worker nodes.
 | `OS_AUTH_URL`        | The URL of OpenStack Identity Service |
 | `OS_USERNAME`        | The username of the OpenStack user    |
 | `OS_PASSWORD`        | The password of the OpenStack user    |
+| `OS_REGION_NAME`     | The name of the OpenStack region      |
 | `OS_DOMAIN_NAME`     | The name of the OpenStack domain      |
 | `OS_TENANT_ID`       | The ID of the OpenStack tenant        |
 | `OS_TENANT_NAME`     | The name of the OpenStack tenant      |
@@ -484,7 +485,7 @@ cloudProvider:
 **Make sure to replace the placeholder values with real values in the
 cloud-config section.**
 
-In the [Kubermatic documentation][azure-sa-setup]
+In the [Kubermatic documentation]({{< ref "../../architecture/requirements/machine_controller/azure" >}})
 you  can find more information regarding how to set up a service account.
 This service account is needed to proceed.
 
@@ -843,4 +844,3 @@ and recommendations.
 [unprovisioning-clusters]: {{< ref "../unprovisioning_clusters" >}}
 [production-recommendations]: {{< ref "../../cheat_sheets/production_recommendations" >}}
 [create-cluster-oidc]: {{< ref "../creating_clusters_oidc" >}}
-[azure-sa-setup]: {{< ref "../../architecture/requirements/machine_controller/azure" >}}

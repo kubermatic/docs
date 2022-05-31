@@ -1,0 +1,226 @@
+{
+  "addons": [
+    {
+      "addonName": "canal",
+      "resources": [
+        {
+          "kind": "DaemonSet",
+          "resourceName": "canal",
+          "filename": "canal.yaml",
+          "containers": [
+            {
+              "containerName": "calico-node",
+              "resources": {
+                "requests": {
+                  "cpu": "250m"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "addonName": "heapster",
+      "resources": [
+        {
+          "kind": "Deployment",
+          "resourceName": "heapster-v1.5.0",
+          "filename": "heapster-controller.yaml",
+          "containers": []
+        }
+      ]
+    },
+    {
+      "addonName": "kube-proxy",
+      "resources": [
+        {
+          "kind": "DaemonSet",
+          "resourceName": "kube-proxy",
+          "filename": "daemonset.yaml",
+          "containers": [
+            {
+              "containerName": "kube-proxy",
+              "resources": {
+                "limits": {
+                  "cpu": "250m",
+                  "memory": "250Mi"
+                },
+                "requests": {
+                  "cpu": "75m",
+                  "memory": "50Mi"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "addonName": "kube-state-metrics",
+      "resources": [
+        {
+          "kind": "Deployment",
+          "resourceName": "kube-state-metrics",
+          "filename": "deployment.yaml",
+          "containers": [
+            {
+              "containerName": "kube-state-metrics",
+              "resources": {
+                "limits": {
+                  "cpu": "100m",
+                  "memory": "250Mi"
+                },
+                "requests": {
+                  "cpu": "10m",
+                  "memory": "190Mi"
+                }
+              }
+            },
+            {
+              "containerName": "kube-rbac-proxy",
+              "resources": {
+                "limits": {
+                  "cpu": "40m",
+                  "memory": "40Mi"
+                },
+                "requests": {
+                  "cpu": "20m",
+                  "memory": "20Mi"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "addonName": "kubeadm-configmap",
+      "resources": []
+    },
+    {
+      "addonName": "kubelet-configmap",
+      "resources": []
+    },
+    {
+      "addonName": "metrics-server",
+      "resources": [
+        {
+          "kind": "Deployment",
+          "resourceName": "metrics-server",
+          "filename": "metrics-server-deployment.yaml",
+          "containers": []
+        }
+      ]
+    },
+    {
+      "addonName": "multus",
+      "resources": [
+        {
+          "kind": "DaemonSet",
+          "resourceName": "kube-multus-ds",
+          "filename": "daemonset.yaml",
+          "containers": [
+            {
+              "containerName": "kube-multus",
+              "resources": {
+                "limits": {
+                  "cpu": "100m",
+                  "memory": "50Mi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "50Mi"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "addonName": "node-exporter",
+      "resources": [
+        {
+          "kind": "DaemonSet",
+          "resourceName": "node-exporter",
+          "filename": "daemonset.yaml",
+          "containers": [
+            {
+              "containerName": "node-exporter",
+              "resources": {
+                "limits": {
+                  "cpu": "25m",
+                  "memory": "48Mi"
+                },
+                "requests": {
+                  "cpu": "10m",
+                  "memory": "24Mi"
+                }
+              }
+            },
+            {
+              "containerName": "kube-rbac-proxy",
+              "resources": {
+                "limits": {
+                  "cpu": "20m",
+                  "memory": "48Mi"
+                },
+                "requests": {
+                  "cpu": "10m",
+                  "memory": "24Mi"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "addonName": "openvpn",
+      "resources": [
+        {
+          "kind": "Deployment",
+          "resourceName": "openvpn-client",
+          "filename": "openvpn-client-dep.yaml",
+          "containers": [
+            {
+              "containerName": "openvpn-client",
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "32Mi"
+                },
+                "requests": {
+                  "cpu": "5m",
+                  "memory": "5Mi"
+                }
+              }
+            },
+            {
+              "containerName": "dnat-controller",
+              "resources": {
+                "limits": {
+                  "cpu": "100m",
+                  "memory": "50Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "25Mi"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "addonName": "pod-security-policy",
+      "resources": []
+    },
+    {
+      "addonName": "rbac",
+      "resources": []
+    }
+  ]
+}

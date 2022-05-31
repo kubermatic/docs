@@ -1,5 +1,6 @@
 +++
 title = "OPA Constraint Templates"
+description = "This section contains information about constraint templates that allow you to declare new constraints and work as a scheme for constraint parameters."
 date = 2021-09-08T12:07:15+02:00
 weight = 20
 +++

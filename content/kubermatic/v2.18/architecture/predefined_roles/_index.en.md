@@ -1,5 +1,6 @@
 +++
 title = "Predefined Roles"
+description = "Read on to understand the predefined roles and their permissions within Kubermatic Kubernetes Platform."
 date = 2020-04-02T12:07:15+02:00
 weight = 10
 

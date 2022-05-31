@@ -62,7 +62,7 @@ KKP needs to be reconfigured by adjusting the `KubermaticConfiguration`. In the 
 need to be specified. In addition to this, two feature flags need to be set.
 
 ```yaml
-apiVersion: operator.kubermatic.io/v1alpha1
+apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
 metadata:
   # ...
@@ -70,12 +70,10 @@ spec:
   featureGates:
     # exposes an HTTP endpoint for generating kubeconfig
     # for a cluster that will contain OIDC tokens
-    OIDCKubeCfgEndpoint:
-      enabled: true
+    OIDCKubeCfgEndpoint: true
     # configures the flags on the API server to use
     # OAuth2 identity providers
-    OpenIDAuthPlugin:
-      enabled: true
+    OpenIDAuthPlugin: true
 
   ui:
     # enable shared kubeconfig feature in the dashboard
