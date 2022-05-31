@@ -4985,6 +4985,7 @@ _Appears in:_
 | `collapseSidenav` _boolean_ |  |
 | `displayAllProjectsForAdmin` _boolean_ |  |
 | `lastSeenChangelogVersion` _string_ |  |
+| `useClustersView` _boolean_ |  |
 
 
 [Back to top](#top)
