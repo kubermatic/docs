@@ -1330,6 +1330,7 @@ _Appears in:_
 | `etcd` _[EtcdStatefulSetSettings](#etcdstatefulsetsettings)_ | Etcd configures the etcd ring used to store Kubernetes data. |
 | `prometheus` _[StatefulSetSettings](#statefulsetsettings)_ | Prometheus configures the Prometheus instance deployed into the cluster control plane. |
 | `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ | NodePortProxyEnvoy configures the per-cluster nodeport-proxy-envoy that is deployed if the `LoadBalancer` expose strategy is used. This is not effective if a different expose strategy is configured. |
+| `konnectivityProxy` _[KonnectvityProxySettings](#konnectvityproxysettings)_ | KonnectivityProxy configures resources limits/requests for konnectivity-server sidecar. |
 
 
 [Back to top](#top)
@@ -2889,6 +2890,24 @@ _Appears in:_
 | --- | --- |
 | `kinds` _string array_ | Kinds specifies the kinds of the resources |
 | `apiGroups` _string array_ | APIGroups specifies the APIGroups of the resources |
+
+
+[Back to top](#top)
+
+
+
+### KonnectvityProxySettings
+
+
+
+
+
+_Appears in:_
+- [ComponentSettings](#componentsettings)
+
+| Field | Description |
+| --- | --- |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ |  |
 
 
 [Back to top](#top)
