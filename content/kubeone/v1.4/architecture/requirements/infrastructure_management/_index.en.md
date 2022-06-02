@@ -172,4 +172,4 @@ The needed `output.tf` file already comes with all our
 [ha-lb-example]: {{< ref "../../../examples/ha_load_balancing" >}}
 [terraform-reference]: {{< ref "../../../references/terraform_integration" >}}
 [production-recommendations]: {{< ref "../../../cheat_sheets/production_recommendations" >}}
-[vsphere-storage]: https://vmware.github.io/vsphere-storage-for-kubernetes/documentation/prerequisites.html
+[vsphere-storage]: https://vsphere-csi-driver.sigs.k8s.io/
