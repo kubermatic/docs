@@ -20,12 +20,11 @@ Data will either be encrypted with static encryption keys or via envelope encryp
 
 ## Configuring Encryption at Rest
 
-At the moment, encryption at rest can only be configured via KKP's Kubernetes API custom resource type `Cluster`. For example, an existing cluster can be updated via `kubectl edit cluster <Cluster ID>`. Here is an example of what `spec.encryptionConfiguration` can look like:
+Encryption at rest can be configured by updating an existing `Cluster` resource via `kubectl edit cluster <Cluster ID>`. Here is an example of what `spec.encryptionConfiguration` can look like:
 
 ```yaml
 # only a snippet, not valid on its own!
 spec:
-    [...]
     encryptionConfiguration:
         enabled: true
         resources:
@@ -54,11 +53,40 @@ At the moment, the following encryption providers/schemes/methods are available:
 
 The Secretbox encryption scheme can be configured via `spec.encryptionConfiguration.secretbox`. It takes static keys used for symmetric encryption using XSalsa20 and Poly1305.
 
-Each key needs to be 32-byte long and needs to be base64-encoded. A key can be generated via `head -c 32 /dev/urandom | base64` on Linux, for example. Consider your IT security guidelines for a sufficiently secure way to generate such keys. Keys can either be configured directly via `spec.encryptionConfiguration.secretbox.keys[].value`, which can be problematic when `Cluster` resources are stored in git or several people have access to `Cluster` resources. For those situations, `spec.encryptionConfiguration.secretbox.keys[].secretRef` allows to reference a `Secret` resource in the `Cluster`'s control plane namespace (usually `cluster-<Cluster ID>`).
+Each key needs to be 32-byte long and needs to be base64-encoded. A key can be generated via `head -c 32 /dev/urandom | base64` on Linux, for example. Consider your IT security guidelines for a sufficiently secure way to generate such keys. Keys can be configured directly via `spec.encryptionConfiguration.secretbox.keys[].value`, which can be problematic when `Cluster` resources are stored in git or several people have access to `Cluster` resources. For those situations, `spec.encryptionConfiguration.secretbox.keys[].secretRef` allows to reference a `Secret` resource in the `Cluster`'s control plane namespace (usually `cluster-<Cluster ID>`).
+
+```yaml
+# snippet for directly passing a key
+spec:
+    encryptionConfiguration:
+        enabled: true
+        resources:
+            - secrets
+        secretbox:
+            keys:
+                - name: encryption-key-2022-01
+                  value: ynCl8otobs5NuHuS3TLghqwFXVpv6N//SE6ZVTimYok=
+```
+
+```
+# snippet for referencing a secret
+spec:
+    encryptionConfiguration:
+        enabled: true
+        resources:
+            - secrets
+        secretbox:
+            keys:
+                - name: encryption-key-2022-01
+                  secretRef:
+                    name: encryption-key-2022-01
+                    key: key
+
+```
 
 If a key is referenced by a `secretRef`, KKP does not react to updates to the key `Secret` after it has been used for configuring encryption at rest. Follow the key rotation process with a new `Secret` if you want to update the active encryption key.
 
-### Disabling Encryption at Rest
+## Disabling Encryption at Rest
 
 Once configured, encryption at rest can be disabled via setting `spec.encryptionConfiguration.enabled` to `false` or removing `spec.encryptionConfiguration` from the Cluster specification. KKP will reconfigure Kubernetes components and run a decryption job for existing resources.
 
@@ -77,12 +105,11 @@ Only "Active" means that the configured encryption is fully applied.
 
 Occasionally, it might be necessary to rotate encryption keys for data encrypted at rest, for example on a regular basis as a good security practice or when a key has been compromised.
 
-Key rotation can be facilitated by first adding a secondary key to the respective encryption provider that is configured (rotating between different providers is not supported). For example, for Secretbox, I would reconfigure the example given earlier to include a secondary key:
+Key rotation can be facilitated by first adding a secondary key to the respective encryption provider that is configured (rotating between different providers is not supported). For example for Secretbox, you would reconfigure the example given earlier to include a secondary key:
 
 ```yaml
 # only a snippet, not valid on its own!
 spec:
-    [...]
     encryptionConfiguration:
         enabled: true
         resources:
@@ -99,7 +126,7 @@ spec:
                     key: key
 ```
 
-This will configure the contents of `encryption-key-2022-02` as secondary encryption key, which can now be used to read encrypted data. KKP will rotate involved components, but will not run a re-encryption job, as data in etcd does not need to be encrypted again for this update.
+This will configure the contents of `encryption-key-2022-02` as secondary encryption key. Secondary keys allow to decrypt data that is not encrypted with the primary key. This needs to be done so all control plane components can decrypt data once the key is rotated to be the primary key and is thus used to encrypt resources. KKP will rotate involved components, but will not run a re-encryption job, as data in etcd does not need to be encrypted again for this update.
 
 After control plane components have been rotated, switch the position of the two keys in the `keys` array. The given example will look like this:
 
@@ -107,7 +134,6 @@ After control plane components have been rotated, switch the position of the two
 ```yaml
 # only a snippet, not valid on its own!
 spec:
-    [...]
     encryptionConfiguration:
         enabled: true
         resources:
@@ -126,4 +152,4 @@ spec:
 
 The secondary key now becomes the primary key. Data in etcd can still be read because the old key is still configured as a secondary key. KKP will reconfigure control plane components and launch a data re-encryption job for existing resources.
 
-After data has been re-encrypted the old key can be removed from the configuration. Make sure to not remove it before that, as that will make data in etcd unreadable.
+After data has been re-encrypted (check encryption status as per [Querying Encryption Status](#querying-encryption-status)) the old key can be removed from the configuration. Make sure to not remove it before that, as that will make data in etcd unreadable.
