@@ -3410,8 +3410,7 @@ _Appears in:_
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `kubeconfig` _string_ |  |
 | `csiKubeconfig` _string_ |  |
-| `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ | PreAllocatedDataVolumes holds list of preallocated DataVolumes which can be used as reference for DataVolume cloning. |
-| `infraStorageClasses` _string array_ | InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks) |
+| `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ |  |
 
 
 [Back to top](#top)
