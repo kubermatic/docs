@@ -1,5 +1,5 @@
 +++
-title = "Restoring from backup"
+title = "Restoring from Backup"
 date = 2018-07-24T12:07:15+02:00
 weight = 20
 
@@ -7,7 +7,7 @@ weight = 20
 
 ## Intro
 
-The etcd's of the user-clusters are being backed up on a configured interval.
+The etcds of the user-clusters are being backed up on a configured interval.
 This document will lead through the process of restoring a complete etcd StatefulSet from a single snapshot.
 
 ### Pausing the Cluster

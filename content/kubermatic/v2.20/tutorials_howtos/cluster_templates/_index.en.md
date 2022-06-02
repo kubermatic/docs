@@ -1,5 +1,5 @@
 +++
-title = "Cluster templates"
+title = "Cluster Templates"
 date = 2021-08-02T14:07:15+02:00
 weight = 5
 

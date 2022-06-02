@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic CRDs reference"
+title = "Kubermatic CRDs Reference"
 date = 2021-12-02T00:00:00
 weight = 40
 +++
