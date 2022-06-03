@@ -898,6 +898,7 @@ _Appears in:_
 | `alibaba` _[AlibabaCloudSpec](#alibabacloudspec)_ |  |
 | `anexia` _[AnexiaCloudSpec](#anexiacloudspec)_ |  |
 | `nutanix` _[NutanixCloudSpec](#nutanixcloudspec)_ |  |
+| `vmwareCloudDirector` _[VMwareCloudDirectorCloudSpec](#vmwareclouddirectorcloudspec)_ |  |
 
 
 [Back to top](#top)
@@ -1584,6 +1585,7 @@ _Appears in:_
 | `packet` _[DatacenterSpecPacket](#datacenterspecpacket)_ |  |
 | `hetzner` _[DatacenterSpecHetzner](#datacenterspechetzner)_ |  |
 | `vsphere` _[DatacenterSpecVSphere](#datacenterspecvsphere)_ |  |
+| `vmwareCloudDirector` _[DatacenterSpecVMwareCloudDirector](#datacenterspecvmwareclouddirector)_ |  |
 | `gcp` _[DatacenterSpecGCP](#datacenterspecgcp)_ |  |
 | `kubevirt` _[DatacenterSpecKubevirt](#datacenterspeckubevirt)_ |  |
 | `alibaba` _[DatacenterSpecAlibaba](#datacenterspecalibaba)_ |  |
@@ -1822,6 +1824,28 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `facilities` _string array_ | The list of enabled facilities, for example "ams1", for a full list of available facilities see https://support.packet.com/kb/articles/data-centers |
+
+
+[Back to top](#top)
+
+
+
+### DatacenterSpecVMwareCloudDirector
+
+
+
+
+
+_Appears in:_
+- [DatacenterSpec](#datacenterspec)
+
+| Field | Description |
+| --- | --- |
+| `url` _string_ | Endpoint URL to use, including protocol, for example "https://vclouddirector.example.com". |
+| `allowInsecure` _boolean_ | If set to true, disables the TLS certificate check against the endpoint. |
+| `catalog` _string_ | The default catalog which contains the VM templates. |
+| `storageProfile` _string_ | The name of the storage profile to use for disks attached to the VMs. |
+| `templates` _object (keys:OperatingSystem, values:string)_ | A list of VM templates to use for a given operating system. You must define at least one template. |
 
 
 [Back to top](#top)
@@ -4177,6 +4201,7 @@ _Appears in:_
 | `alibaba` _[Alibaba](#alibaba)_ |  |
 | `anexia` _[Anexia](#anexia)_ |  |
 | `nutanix` _[Nutanix](#nutanix)_ |  |
+| `vmwareCloudDirector` _[VMwareCloudDirector](#vmwareclouddirector)_ |  |
 | `gke` _[GKE](#gke)_ |  |
 | `eks` _[EKS](#eks)_ |  |
 | `aks` _[AKS](#aks)_ |  |
@@ -4289,6 +4314,7 @@ _Appears in:_
 - [Nutanix](#nutanix)
 - [Openstack](#openstack)
 - [Packet](#packet)
+- [VMwareCloudDirector](#vmwareclouddirector)
 - [VSphere](#vsphere)
 
 | Field | Description |
@@ -5047,6 +5073,53 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `lastSeen` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### VMwareCloudDirector
+
+
+
+
+
+_Appears in:_
+- [PresetSpec](#presetspec)
+
+| Field | Description |
+| --- | --- |
+| `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
+| `username` _string_ |  |
+| `password` _string_ |  |
+| `vdc` _string_ |  |
+| `organization` _string_ |  |
+| `ovdcNetwork` _string_ |  |
+
+
+[Back to top](#top)
+
+
+
+### VMwareCloudDirectorCloudSpec
+
+
+
+VMwareCloudDirectorCloudSpec specifies access data to VMware Cloud Director cloud.
+
+_Appears in:_
+- [CloudSpec](#cloudspec)
+
+| Field | Description |
+| --- | --- |
+| `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
+| `username` _string_ | Username is the VMware Cloud Director user name. |
+| `password` _string_ | Password is the VMware Cloud Director user password. |
+| `organization` _string_ | Password is the VMware Cloud Director user password. |
+| `vdc` _string_ | VDC is the organizational virtual data center. |
+| `ovdcNetwork` _string_ | Network is the name of organizational virtual data center network that will be associated with the VMs and vApp. |
+| `vapp` _string_ | VApp used for isolation of VMs and their associated network |
 
 
 [Back to top](#top)
