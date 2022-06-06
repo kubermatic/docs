@@ -14,16 +14,14 @@ The [legacy backup controller]({{< ref "../legacy_restore" >}}) is based on a si
 
 The new controllers try to be as backward compatible as possible with the legacy controller. However, it's not possible to manage or restore legacy backups with the new controllers.
 
-The new controllers manage backup, restore and cleanup operations using [Kubernetes Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/). All jobs triggered use containers that can be passed to the seed controller manager similar to the legacy backup controller. 
+The new controllers manage backup, restore and cleanup operations using [Kubernetes Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/). All jobs triggered use containers that can be passed to the seed controller manager similar to the legacy backup controller.
 
-
-Currently, only S3 compatible backup backends are supported. 
-
+Currently, only S3 compatible backup backends are supported.
 
 ## Enabling The New controllers
 
 To use the new backup/restore controller, the [etcd-launcher]({{< ref "../etcd-launcher" >}}) feature must be enabled along with specifically enabling the controllers by passing the flag `--enable-etcd-backups-restores` to the seed controller manager.
-This can be achieved for a Seed by KPP admins through configuring backup destinations for a Seed. As soon as there is at least one backup destination set, the feature is enabled. 
+This can be achieved for a Seed by KPP admins through configuring backup destinations for a Seed. As soon as there is at least one backup destination set, the feature is enabled.
 More info on that here [Etcd Backup Destination Settings]({{< ref "../../../tutorials_howtos/administration/admin_panel/backup_buckets" >}}).
 
 {{% notice note %}}
@@ -32,9 +30,10 @@ The legacy way of enabling the automatic etcd backups through the KubermaticConf
 
 ### Backup and Delete Containers
 
-The new backup controller uses 2 default jobs to for storing backups and deleting them. If needed, it is possible to configure custom jobs in the KubermaticConfiguration.
+The new backup controller uses 2 default jobs to for storing backups and deleting them. If needed, it is possible to configure custom jobs in the [KubermaticConfiguration](https://docs.kubermatic.com/kubermatic/master/references/crds/#kubermaticseedcontrollerconfiguration).
 
-Store job container:
+#### Store job container(backupStoreContainer)
+
 ```yaml
 name: store-container
 image: d3fk/s3cmd@sha256:2061883abbf0ebcf0ea3d5d218558c9c229f212e9c08af4acdaa3758980eb67a
@@ -55,7 +54,8 @@ volumeMounts:
   mountPath: /backup
 ```
 
-Delete job container:
+#### Delete job container(backupDeleteContainer)
+
 ```yaml
 name: delete-container
 image: d3fk/s3cmd@sha256:2061883abbf0ebcf0ea3d5d218558c9c229f212e9c08af4acdaa3758980eb67a
@@ -83,9 +83,14 @@ command:
     ;;
   esac
 ```
+
 ### S3 Credentials and Settings
 
 The new controllers will use the credentials setup in the Seed Backup destinations, depending on the destination used.
+
+{{% notice note %}}
+Legacy credentials from `kube-system/backup-s3` and the bucket details in `s3-settings` configmap is still supported, but deprecated. Please migrate to backup destinations.
+{{% /notice %}}
 
 ## Creating Backups
 
@@ -114,7 +119,7 @@ which is configured per seed.
 
 Backup creations and deletions are done by spawning Kubernetes jobs. For each backup, a job is created with an init container that creates a snapshot and a main container that will run the customizable store container. It will receive the cluster name and backup name in two environment variables. The store container should upload the snapshot to an S3 compatible backend and return exit code 0 if successful.
 
-When a backup needs to be deleted, the controller starts another job with the delete container configured in the seed controller manager. The delete container receives the cluster and backup names in environment variables and must delete the backup at the place where it was uploaded by the create job earlier, and exit 0 if successful. 
+When a backup needs to be deleted, the controller starts another job with the delete container configured in the seed controller manager. The delete container receives the cluster and backup names in environment variables and must delete the backup at the place where it was uploaded by the create job earlier, and exit 0 if successful.
 
 The controller maintains list of backups related to this configuration in the resource status spec, where it tracks the creation and deletion status of all backups that haven't been successfully deleted yet.
 
@@ -155,7 +160,6 @@ status:
     scheduledTime: "2021-03-16T01:54:00Z"
 ```
 
-
 ## Restoring Backups
 
 To restore a cluster from am existing backup, you simply create a restore resource in the cluster namespace:
@@ -180,11 +184,10 @@ Once this resource is created, the controller will reconcile it and apply the fo
 - Pause the cluster.
 - Delete the etcd Statefulset and Volumes.
 - Set the `EtcdClusterInitialized` cluster condition to false.
-- Unpause the cluster and wait until the cluster controller has recreated the etcd Statefulset. 
-- During the etcd Statefulset recreation, the etcd-launcher will detect the active restore resources and will download the backup from the S3 backend based on the credentials from the `kube-system/s3-credentials` secret and the information from the `kube-system/s3-settings` configmap. 
+- Unpause the cluster and wait until the cluster controller has recreated the etcd Statefulset.
+- During the etcd Statefulset recreation, the etcd-launcher will detect the active restore resources and will download the backup from the S3 backend based on the credentials from the `kube-system/s3-credentials` secret and the information from the `kube-system/s3-settings` configmap.
 - Once the backup is downloaded successfully, the etcd-launcher will restore the backup and restart the etcd ring.
 - Once the etcd cluster is recovered and quorum is achieved, the `EtcdClusterInitialized` cluster condition to true.
-
 
 {{% notice note %}}
 Currently, The restore controller only support S3 compatible backends for downloading backups.
