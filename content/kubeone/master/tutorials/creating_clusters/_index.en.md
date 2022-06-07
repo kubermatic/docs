@@ -1052,18 +1052,18 @@ and recommendations.
 [compatibility-providers]: {{< ref "../../architecture/compatibility#supported-providers" >}}
 [static-workers]: {{< ref "../../guides/static_workers" >}}
 [infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure_management" >}}
-[metrics-server]: <https://github.com/kubernetes-sigs/metrics-server>
-[nodelocaldns]: <https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/>
+[metrics-server]: https://github.com/kubernetes-sigs/metrics-server
+[nodelocaldns]: https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
 [machine-controller]: {{< ref "../../guides/machine_controller" >}}
 [getting-kubeone]: {{< ref "../../getting_kubeone" >}}
-[install-terraform]: <https://learn.hashicorp.com/tutorials/terraform/install-cli>
-[download-terraform]: <https://www.terraform.io/downloads.html>
+[install-terraform]: https://learn.hashicorp.com/tutorials/terraform/install-cli
+[download-terraform]: https://www.terraform.io/downloads.html
 [terraform-configs]: {{< ref "../../guides/using_terraform_configs" >}}
 [cluster-reconciliation]: {{< ref "../../architecture/cluster_reconciliation" >}}
-[access-clusters]: <https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/>
+[access-clusters]: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
 [upgrading-clusters]: {{< ref "../upgrading_clusters" >}}
 [unprovisioning-clusters]: {{< ref "../unprovisioning_clusters" >}}
 [production-recommendations]: {{< ref "../../cheat_sheets/production_recommendations" >}}
 [create-cluster-oidc]: {{< ref "../creating_clusters_oidc" >}}
 [azure-sa-setup]: {{< ref "../../architecture/requirements/machine_controller/azure" >}}
-[maintenance mode]: <https://kubernetes.io/releases/patch-releases/#support-period>
+[maintenance mode]: https://kubernetes.io/releases/patch-releases/#support-period
