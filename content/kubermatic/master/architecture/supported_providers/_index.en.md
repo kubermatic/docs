@@ -17,6 +17,7 @@ Kubermatic Kubernetes Platform supports a multitude of different cloud providers
 * OpenStack (Releases with maintenance or extended maintenance)
 * KubeVirt
 * Nutanix (requires Prism Central)
+* VMWare Cloud Director
 
 **Tier 2**
 * OTC (Open Telekom Cloud)
