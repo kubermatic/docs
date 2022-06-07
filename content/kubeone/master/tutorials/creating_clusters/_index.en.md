@@ -54,10 +54,11 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, Nutanix, OpenStack, Packet, and VMware vSphere), and we will use
-it in this tutorial. If your provider is not supported (e.g. bare-metal), you
-can check the [KubeOne Static Workers][static-workers] feature for more
-information about the second approach.
+Hetzner Cloud, Nutanix, OpenStack, Packet, VMware Cloud Director, and
+VMware vSphere), and we will use it in this tutorial. If your provider
+is not supported (e.g. bare-metal), youcan check the
+[KubeOne Static Workers][static-workers] feature for more information about the
+second approach.
 
 The example Terraform configs that we'll be using satisfy all infrastructure
 requirements out of the box. However, if you're planning on customizing configs
@@ -214,9 +215,9 @@ and for machine-controller to create worker nodes.
 
 The needed permissions are are:
 
-- *Compute Admin: `roles/compute.admin`*
-- *Service Account User: `roles/iam.serviceAccountUser`*
-- *Viewer: `roles/viewer`*
+* *Compute Admin: `roles/compute.admin`*
+* *Service Account User: `roles/iam.serviceAccountUser`*
+* *Viewer: `roles/viewer`*
 
 If the [`gcloud`](https://cloud.google.com/sdk/install) CLI is installed,
 a service account can be created like follow:
@@ -241,16 +242,16 @@ A *Google Service Account* for the platform has to be created, see
 
 The result is a JSON file containing the fields:
 
-- `type`
-- `project_id`
-- `private_key_id`
-- `private_key`
-- `client_email`
-- `client_id`
-- `auth_uri`
-- `token_uri`
-- `auth_provider_x509_cert_url`
-- `client_x509_cert_url`
+* `type`
+* `project_id`
+* `private_key_id`
+* `private_key`
+* `client_email`
+* `client_id`
+* `auth_uri`
+* `token_uri`
+* `auth_provider_x509_cert_url`
+* `client_x509_cert_url`
 
 ```bash
 # create a new json key for your service account
@@ -317,7 +318,8 @@ The following environment variables are needed by Terraform for creating the
 infrastructure and for machine-controller to create the worker nodes.
 
 **Either specify default or application credentials for the OpenStack infrastructure.**
-### Default credentials
+
+## Default credentials
 
 | Environment Variable | Description                           |
 | -------------------- | ------------------------------------- |
@@ -329,7 +331,7 @@ infrastructure and for machine-controller to create the worker nodes.
 | `OS_TENANT_ID`       | The ID of the OpenStack tenant        |
 | `OS_TENANT_NAME`     | The name of the OpenStack tenant      |
 
-### Application Credentials
+## Application Credentials
 
 | Environment Variable | Description                           |
 | -------------------- | ------------------------------------- |
@@ -357,13 +359,29 @@ nodes, and for Packet Cloud Controller Manager.
 #
 
 {{% /tab %}}
+{{% tab name="VMware Cloud Director" %}}
+The following environment variables are needed by machine-controller for
+creating the worker nodes.
+
+For the Terraform reference, please take a look at
+[VMware Cloud Director provider docs](https://registry.terraform.io/providers/vmware/vcd/latest/docs#argument-reference)
+
+| Environment Variable | Description                         |
+| -------------------- | ----------------------------------- |
+| `VCD_USER`     | The username of the VMware Cloud Director user |
+| `VCD_PASSWORD`       | The password of the VMware Cloud Director user   |
+| `VCD_ORG`   | The organization to use for VMware Cloud Director    |
+| `VCD_URL`   | The endpoint of the VMware Cloud Director setup    |
+
+#
+
+{{% /tab %}}
 {{% tab name="vSphere" %}}
 The following environment variables are needed by machine-controller for
 creating the worker nodes.
 
 For the Terraform reference, please take a look at
 [vSphere provider docs](https://www.terraform.io/docs/providers/vsphere/index.html#argument-reference)
-
 
 | Environment Variable | Description                         |
 | -------------------- | ----------------------------------- |
@@ -494,6 +512,21 @@ for more details.
 #
 
 {{% /tab %}}
+{{% tab name="VMware Cloud Director" %}}
+
+The Terraform config for VMware Cloud Director might require you to provide the following
+variables, depending on your setup:
+
+```
+vcd_vdc_name     = "<vdc-name>"
+vcd_edge_gateway_name       = "<edge-gateway-name>"
+catalog_name      = "<catalog-name>"
+template_name = "<template-name>"
+```
+
+#
+
+{{% /tab %}}
 {{< /tabs >}}
 
 The `terraform.tfvars` files can also be used to customize properties such as
@@ -518,9 +551,11 @@ variable `control_plane_target_pool_members_count` to be set to 1.
 
 {{< tabs name="terraform-apply" >}}
 {{% tab name="All providers" %}}
+
 ```shell
 terraform apply
 ```
+
 {{% /tab %}}
 {{% tab name="GCP" %}}
 Due to how GCP Load Balancers work, we'll only add one control plane instance
@@ -574,6 +609,7 @@ supported provider.
 
 {{< tabs name="Manifests" >}}
 {{% tab name="AWS" %}}
+
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
@@ -582,6 +618,7 @@ versions:
 cloudProvider:
   aws: {}
 ```
+
 {{% /tab %}}
 {{% tab name="Azure" %}}
 **Make sure to replace the placeholder values with real values in the
@@ -639,6 +676,7 @@ cloudProvider:
       "loadBalancerSku": ""
     }
 ```
+
 {{% /tab %}}
 {{% tab name="DigitalOcean" %}}
 `external: true` instructs KubeOne to deploy the
@@ -655,6 +693,7 @@ cloudProvider:
   digitalocean: {}
   external: true
 ```
+
 {{% /tab %}}
 {{% tab name="GCE" %}}
 Setting `regional = true` in the cloud-config is required when control plane
@@ -697,6 +736,7 @@ cloudProvider:
   hetzner: {}
   external: true
 ```
+
 {{% /tab %}}
 {{% tab name="Nutanix" %}}
 The `addons` section instruction KubeOne to deploy the CSI driver, the volume
@@ -722,6 +762,7 @@ addons:
       fsType: "<>" # Default: xfs
       isSegmentedIscsiNetwork: "<true-or-false>" # Default: false
 ```
+
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
 **Make sure to replace the placeholder values with real values in the
@@ -794,6 +835,23 @@ clusterNetwork:
   podSubnet: "192.168.0.0/16"
   serviceSubnet: "172.16.0.0/12"
 ```
+
+{{% /tab %}}
+{{% tab name="VMware Cloud Director" %}}
+
+**External CCM is currently not supported on VMware Cloud Director.**
+
+```yaml
+apiVersion: kubeone.k8c.io/v1beta2
+kind: KubeOneCluster
+
+versions:
+  kubernetes: "1.22.5"
+
+cloudProvider:
+  vmwareCloudDirector: {}
+```
+
 {{% /tab %}}
 {{% tab name="vSphere" %}}
 **Make sure to replace the placeholder values with real values in the
@@ -829,6 +887,7 @@ cloudProvider:
     [Network]
     public-network = "NAT Network"
 ```
+
 {{% /tab %}}
 {{< /tabs >}}
 
@@ -881,12 +940,12 @@ INFO[11:37:28 CEST] Determine operating system…
 INFO[11:37:30 CEST] Running host probes…
 The following actions will be taken:
 Run with --verbose flag for more information.
-	+ initialize control plane node "ip-172-31-220-51.eu-west-3.compute.internal" (172.31.220.51) using 1.20.4
-	+ join control plane node "ip-172-31-221-177.eu-west-3.compute.internal" (172.31.221.177) using 1.20.4
-	+ join control plane node "ip-172-31-222-48.eu-west-3.compute.internal" (172.31.222.48) using 1.20.4
-	+ ensure machinedeployment "marko-1-eu-west-3a" with 1 replica(s) exists
-	+ ensure machinedeployment "marko-1-eu-west-3b" with 1 replica(s) exists
-	+ ensure machinedeployment "marko-1-eu-west-3c" with 1 replica(s) exists
+ + initialize control plane node "ip-172-31-220-51.eu-west-3.compute.internal" (172.31.220.51) using 1.20.4
+ + join control plane node "ip-172-31-221-177.eu-west-3.compute.internal" (172.31.221.177) using 1.20.4
+ + join control plane node "ip-172-31-222-48.eu-west-3.compute.internal" (172.31.222.48) using 1.20.4
+ + ensure machinedeployment "marko-1-eu-west-3a" with 1 replica(s) exists
+ + ensure machinedeployment "marko-1-eu-west-3b" with 1 replica(s) exists
+ + ensure machinedeployment "marko-1-eu-west-3c" with 1 replica(s) exists
 
 Do you want to proceed (yes/no):
 ```
@@ -923,6 +982,7 @@ run Terraform again, but this time **without** the
 ```shell
 terraform apply
 ```
+
 {{% /tab %}}
 {{< /tabs >}}
 
@@ -992,18 +1052,18 @@ and recommendations.
 [compatibility-providers]: {{< ref "../../architecture/compatibility#supported-providers" >}}
 [static-workers]: {{< ref "../../guides/static_workers" >}}
 [infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure_management" >}}
-[metrics-server]: https://github.com/kubernetes-sigs/metrics-server
-[nodelocaldns]: https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
+[metrics-server]: <https://github.com/kubernetes-sigs/metrics-server>
+[nodelocaldns]: <https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/>
 [machine-controller]: {{< ref "../../guides/machine_controller" >}}
 [getting-kubeone]: {{< ref "../../getting_kubeone" >}}
-[install-terraform]: https://learn.hashicorp.com/tutorials/terraform/install-cli
-[download-terraform]: https://www.terraform.io/downloads.html
+[install-terraform]: <https://learn.hashicorp.com/tutorials/terraform/install-cli>
+[download-terraform]: <https://www.terraform.io/downloads.html>
 [terraform-configs]: {{< ref "../../guides/using_terraform_configs" >}}
 [cluster-reconciliation]: {{< ref "../../architecture/cluster_reconciliation" >}}
-[access-clusters]: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+[access-clusters]: <https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/>
 [upgrading-clusters]: {{< ref "../upgrading_clusters" >}}
 [unprovisioning-clusters]: {{< ref "../unprovisioning_clusters" >}}
 [production-recommendations]: {{< ref "../../cheat_sheets/production_recommendations" >}}
 [create-cluster-oidc]: {{< ref "../creating_clusters_oidc" >}}
 [azure-sa-setup]: {{< ref "../../architecture/requirements/machine_controller/azure" >}}
-[maintenance mode]: https://kubernetes.io/releases/patch-releases/#support-period
+[maintenance mode]: <https://kubernetes.io/releases/patch-releases/#support-period>
