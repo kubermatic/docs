@@ -1091,6 +1091,7 @@ _Appears in:_
 | `version` _Semver_ | Version defines the wanted version of the control plane. |
 | `cloud` _[CloudSpec](#cloudspec)_ |  |
 | `containerRuntime` _string_ | ContainerRuntime to use, i.e. `docker` or `containerd`. By default `containerd` will be used. |
+| `imagePullSecret` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretreference-v1-core)_ | Optional: ImagePullSecret references a secret with container registry credentials. This is passed to the machine-controller which sets the registry credentials on node level. |
 | `cniPlugin` _[CNIPluginSettings](#cnipluginsettings)_ |  |
 | `clusterNetwork` _[ClusterNetworkingConfig](#clusternetworkingconfig)_ |  |
 | `machineNetworks` _[MachineNetworkingConfig](#machinenetworkingconfig) array_ |  |
