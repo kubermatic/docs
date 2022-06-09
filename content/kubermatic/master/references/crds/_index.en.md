@@ -920,8 +920,8 @@ _Appears in:_
 | `kind` _string_ | `Cluster`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ClusterSpec](#clusterspec)_ |  |
-| `address` _[ClusterAddress](#clusteraddress)_ |  |
 | `status` _[ClusterStatus](#clusterstatus)_ |  |
+| `address` _[ClusterAddress](#clusteraddress)_ | Address contains the IPs/URLs to access the cluster control plane. This field is optional and replaced by the identical struct in the ClusterStatus. No code should rely on these fields anymore. |
 
 
 [Back to top](#top)
@@ -936,6 +936,7 @@ ClusterAddress stores access and address information of a cluster.
 
 _Appears in:_
 - [Cluster](#cluster)
+- [ClusterStatus](#clusterstatus)
 
 | Field | Description |
 | --- | --- |
@@ -1134,6 +1135,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `address` _[ClusterAddress](#clusteraddress)_ | Address contains the IPs/URLs to access the cluster control plane. |
 | `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ |  |
 | `extendedHealth` _[ExtendedClusterHealth](#extendedclusterhealth)_ | ExtendedHealth exposes information about the current health state. Extends standard health status for new states. |
 | `lastProviderReconciliation` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | LastProviderReconciliation is the time when the cloud provider resources were last fully reconciled (during normal cluster reconciliation, KKP does not re-check things like security groups, networks etc.). |
