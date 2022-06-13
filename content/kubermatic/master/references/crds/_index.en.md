@@ -3025,6 +3025,7 @@ _Appears in:_
 | `kind` _string_ | `KubermaticConfiguration`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[KubermaticConfigurationSpec](#kubermaticconfigurationspec)_ |  |
+| `status` _[KubermaticConfigurationStatus](#kubermaticconfigurationstatus)_ |  |
 
 
 [Back to top](#top)
@@ -3077,6 +3078,25 @@ _Appears in:_
 | `versions` _[KubermaticVersioningConfiguration](#kubermaticversioningconfiguration)_ | Versions configures the available and default Kubernetes versions and updates. |
 | `verticalPodAutoscaler` _[KubermaticVPAConfiguration](#kubermaticvpaconfiguration)_ | VerticalPodAutoscaler configures the Kubernetes VPA integration. |
 | `proxy` _[KubermaticProxyConfiguration](#kubermaticproxyconfiguration)_ | Proxy allows to configure Kubermatic to use proxies to talk to the world outside of its cluster. |
+
+
+[Back to top](#top)
+
+
+
+### KubermaticConfigurationStatus
+
+
+
+KubermaticConfigurationStatus stores status information about a KubermaticConfiguration.
+
+_Appears in:_
+- [KubermaticConfiguration](#kubermaticconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `kubermaticVersion` _string_ | KubermaticVersion current Kubermatic Version. |
+| `kubermaticEdition` _string_ | KubermaticEdition current Kubermatic Edition , i.e. Community Edition or Enterprise Edition. |
 
 
 [Back to top](#top)
