@@ -1,5 +1,5 @@
 +++
-title = "Cluster defaulting"
+title = "Cluster Defaulting"
 date = 2021-08-02T14:07:15+02:00
 weight = 20
 

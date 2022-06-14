@@ -1,5 +1,5 @@
 +++
-title = "Manage worker nodes via CLI"
+title = "Manage Worker Nodes via CLI"
 date = 2020-01-08T12:07:15+02:00
 weight = 16
 +++

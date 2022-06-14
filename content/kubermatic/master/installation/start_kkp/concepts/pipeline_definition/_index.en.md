@@ -1,5 +1,5 @@
 +++
-title = "Delivery Pipeline description"
+title = "Delivery Pipeline Description"
 +++
 
 Automated pipeline was created in GitHub, GitLab or Bitbucket to automate all installation steps to have KKP up and running and
