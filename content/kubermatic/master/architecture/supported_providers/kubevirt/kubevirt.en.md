@@ -16,6 +16,9 @@ The data can come from different sources: a URL, a container registry, another P
 For more information about the requirements of Kubernetes in general and CDI in specific, please follow the documentation
 for PV,PVC and DV [here](https://github.com/kubevirt/containerized-data-importer/blob/master/doc/basic_pv_pvc_dv.md).
 
+To initialize a storage class from the KubeVirt infrastructure cluster on a user cluster, add `kubevirt-initialization.k8c.io/initialize-sc: 'true'` annotation to the storage class of your choice. 
+This action has to take place before user cluster creation.
+
 ### KubeVirt Operator and Containerized Data Importer Version
 KKP supports KubeVirt Operator >= 0.19.0 and the Containerized Data Importer >= v1.19.0. There are no hard requirements
 to run KubeVirt, however a Kubernetes cluster consists of 3 nodes with 2 CPUs, 4GB of RAM and 30GB of storage, to have a
