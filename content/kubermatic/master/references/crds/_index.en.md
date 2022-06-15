@@ -5126,6 +5126,25 @@ _Appears in:_
 
 
 
+### VMwareCloudDirectorCSIConfig
+
+
+
+
+
+_Appears in:_
+- [VMwareCloudDirectorCloudSpec](#vmwareclouddirectorcloudspec)
+
+| Field | Description |
+| --- | --- |
+| `storageProfile` _string_ | The name of the storage profile to use for disks created by CSI driver |
+| `filesystem` _string_ | Filesystem to use for named disks, defaults to "ext4" |
+
+
+[Back to top](#top)
+
+
+
 ### VMwareCloudDirectorCloudSpec
 
 
@@ -5144,6 +5163,7 @@ _Appears in:_
 | `vdc` _string_ | VDC is the organizational virtual data center. |
 | `ovdcNetwork` _string_ | Network is the name of organizational virtual data center network that will be associated with the VMs and vApp. |
 | `vapp` _string_ | VApp used for isolation of VMs and their associated network |
+| `csi` _[VMwareCloudDirectorCSIConfig](#vmwareclouddirectorcsiconfig)_ | Config for CSI driver |
 
 
 [Back to top](#top)
