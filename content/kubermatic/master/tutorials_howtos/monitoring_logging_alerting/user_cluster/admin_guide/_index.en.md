@@ -28,6 +28,26 @@ Apart from that,  it will claim the following storage from the `kubermatic-fast`
 - 10 Gi volume for Loki Querier
 - 4 x 2 Gi volume for other internal processing services (compactors, store gateways of Cortex and Loki)
 
+### Capacity planning
+
+{{% notice note %}}
+The most important part of resources consumption of the MLA stack belongs to the storage and computing power used by Cortex and it's components.
+For specific information about estimating the resource usage, please refer to [Cortex capacity planning documentation](https://cortexmetrics.io/docs/guides/capacity-planning/).
+{{% /notice %}}
+
+Some key parameters to consider are:
+
+* The number of active series
+* Sampling rate
+* The rate at which series are added and removed
+* How compressible the time-series data are
+
+Other parameters which can become important if you have particularly high values:
+
+* Number of different series under one metric name
+* Number of labels per series
+* Rate and complexity of queries
+
 ### Installing MLA Stack in a Seed Cluster
 
 #### Create MLA secrets
