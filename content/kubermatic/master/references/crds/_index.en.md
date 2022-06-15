@@ -2752,6 +2752,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `type` _[IPAMPoolAllocationType](#ipampoolallocationtype)_ | Type is the allocation type that is being used. |
+| `dc` _string_ | DC is the datacenter of the allocation. |
 | `cidr` _[SubnetCIDR](#subnetcidr)_ | CIDR is the CIDR that is being used for the allocation. Set when "type=prefix". |
 | `addresses` _string array_ | Addresses are the IP address ranges that are being used for the allocation. Set when "type=range". |
 
@@ -2789,7 +2790,7 @@ IPAMPoolAllocationType defines the type of allocation to be used. Possible value
 
 _Appears in:_
 - [IPAMAllocationSpec](#ipamallocationspec)
-- [IPAMPoolSpec](#ipampoolspec)
+- [IPAMPoolDatacenterSettings](#ipampooldatacentersettings)
 
 
 
@@ -2804,6 +2805,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `type` _[IPAMPoolAllocationType](#ipampoolallocationtype)_ | Type is the allocation type to be used. |
 | `poolCidr` _[SubnetCIDR](#subnetcidr)_ | PoolCIDR is the pool CIDR to be used for the allocation. |
 | `allocationPrefix` _integer_ | AllocationPrefix is the prefix for the allocation. Used when "type=prefix". |
 | `allocationRange` _integer_ | AllocationRange is the range for the allocation. Used when "type=range". |
@@ -2844,7 +2846,6 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `type` _[IPAMPoolAllocationType](#ipampoolallocationtype)_ | Type is the allocation type to be used. |
 | `datacenters` _object (keys:string, values:[IPAMPoolDatacenterSettings](#ipampooldatacentersettings))_ | Datacenters contains a map of datacenters (DCs) for the allocation. |
 
 
