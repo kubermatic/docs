@@ -53,6 +53,7 @@ weight = 40
 - [Project](#project)
 - [ProjectList](#projectlist)
 - [ResourceQuota](#resourcequota)
+- [ResourceQuotaList](#resourcequotalist)
 - [RuleGroup](#rulegroup)
 - [RuleGroupList](#rulegrouplist)
 - [Seed](#seed)
@@ -4413,7 +4414,8 @@ _Appears in:_
 
 ResourceQuota specifies the amount of cluster resources a project can use.
 
-
+_Appears in:_
+- [ResourceQuotaList](#resourcequotalist)
 
 | Field | Description |
 | --- | --- |
@@ -4422,6 +4424,26 @@ ResourceQuota specifies the amount of cluster resources a project can use.
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ResourceQuotaSpec](#resourcequotaspec)_ |  |
 | `status` _[ResourceQuotaStatus](#resourcequotastatus)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### ResourceQuotaList
+
+
+
+ResourceQuotaList is a collection of resource quotas.
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ResourceQuotaList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[ResourceQuota](#resourcequota) array_ |  |
 
 
 [Back to top](#top)
