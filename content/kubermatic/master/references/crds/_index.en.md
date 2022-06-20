@@ -3298,6 +3298,7 @@ _Appears in:_
 | `etcdVolumeSize` _string_ | EtcdVolumeSize configures the volume size to use for each etcd pod inside user clusters. |
 | `apiserverReplicas` _integer_ | APIServerReplicas configures the replica count for the API-Server deployment inside user clusters. |
 | `machineController` _[MachineControllerConfiguration](#machinecontrollerconfiguration)_ | MachineController configures the Machine Controller |
+| `operatingSystemManager` _[OperatingSystemManager](#operatingsystemmanager)_ | OperatingSystemManager configures the image repo and the tag version for osm deployment. |
 
 
 [Back to top](#top)
@@ -4092,6 +4093,25 @@ _Appears in:_
 | --- | --- |
 | `minimumVCPUs` _integer_ | VCPUs is the minimum required amount of (virtual) CPUs |
 | `minimumMemory` _integer_ | MinimumMemory is the minimum required amount of memory, measured in MB |
+
+
+[Back to top](#top)
+
+
+
+### OperatingSystemManager
+
+
+
+OperatingSystemManager configures the image repo and the tag version for osm deployment.
+
+_Appears in:_
+- [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `imageRepository` _string_ | ImageRepository is used to override the OperatingSystemManager image repository. It is recommended to use this field only for development, tests and PoC purposes. For production environments. it is not recommended, to use this field due to compatibility with the overall KKP stack. |
+| `imageTag` _string_ | ImageTag is used to override the OperatingSystemManager image. It is recommended to use this field only for development, tests and PoC purposes. For production environments. it is not recommended, to use this field due to compatibility with the overall KKP stack. |
 
 
 [Back to top](#top)
