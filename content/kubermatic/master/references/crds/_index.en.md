@@ -1507,6 +1507,35 @@ _Appears in:_
 
 
 
+### ContainerRuntimeContainerd
+
+
+
+ContainerRuntimeContainerd defines containerd container runtime registries configs.
+
+_Appears in:_
+- [NodeSettings](#nodesettings)
+
+| Field | Description |
+| --- | --- |
+| `registries` _object (keys:string, values:[ContainerdRegistry](#containerdregistry))_ | A map of registries to use to render configs and mirrors for containerd registries |
+
+
+[Back to top](#top)
+
+
+
+### ContainerdRegistry
+
+
+
+ContainerdRegistry defines endpoints and security for given container registry.
+
+_Appears in:_
+- [ContainerRuntimeContainerd](#containerruntimecontainerd)
+
+
+
 ### ControllerSettings
 
 
@@ -3819,6 +3848,7 @@ _Appears in:_
 | `insecureRegistries` _string array_ | Optional: These image registries will be configured as insecure on the container runtime. |
 | `registryMirrors` _string array_ | Optional: These image registries will be configured as registry mirrors on the container runtime. |
 | `pauseImage` _string_ | Optional: Translates to --pod-infra-container-image on the kubelet. If not set, the kubelet will default it. |
+| `containerdRegistryMirrors` _[ContainerRuntimeContainerd](#containerruntimecontainerd)_ | Optional: ContainerdRegistryMirrors configure registry mirrors endpoints. Can be used multiple times to specify multiple mirrors. |
 
 
 [Back to top](#top)
