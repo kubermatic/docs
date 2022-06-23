@@ -11,8 +11,12 @@ date = 2019-04-27T16:06:34+02:00
 
 Kubermatic Kubernetes Platform (KKP) is a Kubernetes management platform that helps address the operational and security challenges of enterprise customers seeking to run Kubernetes at scale. KKP automates deployment and operations of hundreds or thousands of Kubernetes clusters across hybrid-cloud, multi-cloud and edge environments while enabling DevOps teams with a self-service developer and operations portal.
 
+KKP is directly integrated with leading cloud providers including Amazon Web Services (AWS), Google Cloud, Azure, Openstack, VMware vSphere, Open Telekom Cloud, Digital Ocean, Hetzner, Alibaba Cloud, Equinix Metal and Nutanix. For selected providers, ARM is supported as CPU architecture.
 
-KKP is directly integrated with leading cloud providers such as [Amazon Web Services](https://docs.kubermatic.com/kubermatic/v2.20/architecture/requirements/support_policy/provider_support_matrix/aws/aws/), [Azure](https://docs.kubermatic.com/kubermatic/v2.20/architecture/requirements/support_policy/provider_support_matrix/azure/azure/), DigitalOcean, [Google Compute Engine](https://docs.kubermatic.com/kubermatic/v2.20/architecture/requirements/support_policy/provider_support_matrix/google_cloud/gcp/), Hetzner, OpenStack, Packet and [VMware vSphere](https://docs.kubermatic.com/kubermatic/v2.20/architecture/requirements/support_policy/provider_support_matrix/vsphere/vsphere/) as well as any provider offering Ubuntu 16.04 or greater, even in your own datacenter.
+In addition to the long list of supported cloud providers, KKP allows building your own infrastructure and joining Kubernetes nodes via the popular `kubeadm` tool.
+
+KKP is the easiest and most effective software for managing cloud native IT infrastructure and automating multi-cloud operations thanks to its unparalleled density and resilience.
+
 
 ## Features
 
