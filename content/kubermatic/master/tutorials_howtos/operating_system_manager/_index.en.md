@@ -42,7 +42,6 @@ Immutable resource that contains the actual configurations that are going to be 
 
 Its dedicated controller runs in the **seed** cluster, in user cluster namespace, and is responsible for generating the OSCs in **seed** and secrets in `cloud-init-settings` namespace in the user cluster.
 
-
 For each cluster there are at least two OSC objects:
 
 1. **Bootstrap**: OSC used for initial configuration of machine and to fetch the provisioning OSC object.
@@ -71,7 +70,32 @@ More work is being done to make it even easier to use OSM in air-gapped environm
 | Openstack | ✓ | ✓ | ✓ | x |
 | VSphere | ✓ | ✓ | ✓ | x |
 
+## Machine rotation
+
+When there is a change in the Machine Deployment template then the Machine set and in-turn the machines are rotated; nodes are re-created. OSM will take care of re-generating the OperatingSystemConfigs and the provisioning secrets. So any newly created machine will pick up the new configs.
+
+However, if an `OperatingSystemProfile` is updated, that wouldn't result in an automatic rotation of the machines. This is an intentional design decision since an `OperatingSystemProfile` can be associated with multiple Machine Deployments and it is the user's responsibility to rotate the machines when the `OperatingSystemProfile` is updated.
+
+To overcome this limitation, users need to update the `MachineDeployments` manually or **simply delete the machines**. An example for a somewhat benign change that could trigger rotation is to update the `.spec.templates.metadata.annotations` field of a `MachineDeployment`. This would result in the annotation being added to the machines and the machines would be rotated.
+
+```yaml
+apiVersion: "cluster.k8s.io/v1alpha1"
+kind: MachineDeployment
+metadata:
+  name: aws-machinedeployment
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      foo: bar
+  template:
+    metadata:
+      labels:
+        foo: bar
+       annotations:
+        force-rotate: true
+```
+
 ## Limitations
 
-- OSC and secrets are immutable and they are generated once per machine deployment. Hence, OSM doesn't support node rotation/updates when machine or machine deployment is modified.
-- machine-controller is responsible for generating bootstrap configuration. In the future OSM will take care of this.
+- machine-controller is responsible for generating bootstrap configuration. In the future OSM will take care of this as well.
