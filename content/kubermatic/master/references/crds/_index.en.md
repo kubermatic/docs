@@ -38,6 +38,8 @@ weight = 40
 - [EtcdRestoreList](#etcdrestorelist)
 - [ExternalCluster](#externalcluster)
 - [ExternalClusterList](#externalclusterlist)
+- [GroupProjectBinding](#groupprojectbinding)
+- [GroupProjectBindingList](#groupprojectbindinglist)
 - [IPAMAllocation](#ipamallocation)
 - [IPAMAllocationList](#ipamallocationlist)
 - [IPAMPool](#ipampool)
@@ -2653,6 +2655,67 @@ _Appears in:_
 | --- | --- |
 | `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
 | `serviceAccount` _string_ |  |
+
+
+[Back to top](#top)
+
+
+
+### GroupProjectBinding
+
+
+
+GroupProjectBinding specifies a binding between a group and a project This resource is used by the user management to manipulate member groups of the given project.
+
+_Appears in:_
+- [GroupProjectBindingList](#groupprojectbindinglist)
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `GroupProjectBinding`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[GroupProjectBindingSpec](#groupprojectbindingspec)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### GroupProjectBindingList
+
+
+
+GroupProjectBindingList is a list of group project bindings.
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `GroupProjectBindingList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[GroupProjectBinding](#groupprojectbinding) array_ |  |
+
+
+[Back to top](#top)
+
+
+
+### GroupProjectBindingSpec
+
+
+
+GroupProjectBindingSpec specifies an oidc group binding to a project.
+
+_Appears in:_
+- [GroupProjectBinding](#groupprojectbinding)
+
+| Field | Description |
+| --- | --- |
+| `group` _string_ | Group is the group name that is bound to the given project. |
+| `projectID` _string_ | ProjectID is the ID of the target project. |
+| `role` _string_ | Role is the user's role within the project, determining their permissions. Possible roles are: "viewers" - allowed to get/list project resources "editors" - allowed to edit all project resources "owners" - same as editors, but also can manage users in the project |
 
 
 [Back to top](#top)
