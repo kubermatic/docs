@@ -1,5 +1,25 @@
-<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}">
-{{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
+{{$trimTagsRegex := "(h1|h2|h3|h4|h5|h6|ul|ol|pre|table)"}}
+{{$regexPattern := printf "<%[1]s.*?>(.|\n)*?</%[1]s>" $trimTagsRegex}}
+{{$htmlContent := strings.ReplaceRE $regexPattern "" (.Content | safeHTML)}}
+{{$autoDescription := trim (truncate 160 "" ($htmlContent | htmlUnescape | plainify)) " "}}
+{{$description := replace $autoDescription "&amp;" "and"}}
+
+{{if $description}}
+  {{$sentences := split $description "."}}
+  {{range $index, $val := $sentences}}
+    {{if eq $index 0}}
+      {{$description = print . "."}}
+    {{else if lt $index (sub (len $sentences) 1)}}
+      {{$description = print $description . "."}}
+    {{end}}
+  {{end}}
+{{end}}
+
+{{with .Description}}
+  {{$description = .}}
+{{end}}
+<meta name="description" content="{{$description | default .Site.Params.description}}">
+{{with .Site.Params.author}}<meta name="author" content="{{.}}">{{end}}
 
 <meta property="og:url" content="{{.Permalink}}">
 
