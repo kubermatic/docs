@@ -165,6 +165,9 @@ With this file prepared, we can now install all required charts:
 **Helm 3**
 
 ```bash
+helm dependency update charts/logging/promtail/
+helm dependency update charts/logging/loki/
+
 helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml promtail charts/logging/promtail/
 helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml loki charts/logging/loki/
 ```
