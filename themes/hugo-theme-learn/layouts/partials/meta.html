@@ -1,16 +1,22 @@
 {{$trimTagsRegex := "(h1|h2|h3|h4|h5|h6|ul|ol|pre|table)"}}
 {{$regexPattern := printf "<%[1]s.*?>(.|\n)*?</%[1]s>" $trimTagsRegex}}
 {{$htmlContent := strings.ReplaceRE $regexPattern "" (.Content | safeHTML)}}
-{{$autoDescription := trim (truncate 160 "" ($htmlContent | htmlUnescape | plainify)) " "}}
+{{$autoDescription := trim (truncate 160 "" (replace ($htmlContent | htmlUnescape | plainify) "\n" " ")) " " | chomp}}
 {{$description := replace $autoDescription "&amp;" "and"}}
 
 {{if $description}}
-  {{$sentences := split $description "."}}
+  {{$sentences := split $description ". "}}
   {{range $index, $val := $sentences}}
+    {{$delimiter := ""}}
+
+    {{if lt $index (sub (len $sentences) 2)}}
+      {{$delimiter = ". "}}
+    {{end}}
+
     {{if eq $index 0}}
-      {{$description = print . "."}}
+      {{$description = print . $delimiter}}
     {{else if lt $index (sub (len $sentences) 1)}}
-      {{$description = print $description . "."}}
+      {{$description = print $description . $delimiter}}
     {{end}}
   {{end}}
 {{end}}
