@@ -1,5 +1,8 @@
-{{- if eq .Page.Section "kubermatic" -}}
-Kubermatic Documentation
-{{- else -}}
-Kubermatic Documentation
-{{- end -}}
+{{$titleSuffix := "Kubermatic Documentation"}}
+{{$sectionTitlesMap := dict "kubermatic" "KKP" "kubeone" "KubeOne" "kubecarrier" "KubeCarrier"}}
+
+{{with index $sectionTitlesMap .Page.Section}}
+  {{$titleSuffix = print . " Documentation"}}
+{{end}}
+
+<title>{{with .Title}}{{.}} - {{end}}{{$titleSuffix}}</title>
