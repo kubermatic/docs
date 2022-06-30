@@ -2348,13 +2348,15 @@ _Appears in:_
 | `konnectivity` _[HealthStatus](#healthstatus)_ |  |
 | `cloudProviderInfrastructure` _[HealthStatus](#healthstatus)_ |  |
 | `userClusterControllerManager` _[HealthStatus](#healthstatus)_ |  |
+| `applicationController` _[HealthStatus](#healthstatus)_ |  |
 | `gatekeeperController` _[HealthStatus](#healthstatus)_ |  |
 | `gatekeeperAudit` _[HealthStatus](#healthstatus)_ |  |
 | `monitoring` _[HealthStatus](#healthstatus)_ |  |
 | `logging` _[HealthStatus](#healthstatus)_ |  |
 | `alertmanagerConfig` _[HealthStatus](#healthstatus)_ |  |
 | `mlaGateway` _[HealthStatus](#healthstatus)_ |  |
-| `applicationController` _[HealthStatus](#healthstatus)_ |  |
+| `operatingSystemManager` _[HealthStatus](#healthstatus)_ |  |
+| `kubernetesDashboard` _[HealthStatus](#healthstatus)_ |  |
 
 
 [Back to top](#top)
