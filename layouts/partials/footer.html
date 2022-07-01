@@ -13,16 +13,9 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="{{"js/clipboard.min.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
-    <script src="{{"js/perfect-scrollbar.min.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
-    <script src="{{"js/perfect-scrollbar.jquery.min.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
-    <script src="{{"js/jquery.sticky.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
-    <script src="{{"js/featherlight.min.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
-    <script src="{{"js/highlight.pack.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
+    {{$jsFiles := slice "js/jquery-3.6.0.min.js" "js/perfect-scrollbar.min.js" "js/perfect-scrollbar.jquery.min.js" "js/jquery.sticky.js" "js/highlight.pack.min.js" "js/modernizr.custom-3.6.0.min.js" "js/featherlight.min.js" "js/clipboard.min.js" "js/learn.js" "js/hugo-learn.js"}}
+    {{partial "js-includes.html" (dict "filePaths" $jsFiles)}}
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="{{"js/modernizr.custom-3.6.0.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
-    <script src="{{"js/learn.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
-    <script src="{{"js/hugo-learn.js" | relURL}}{{ if not .Site.Params.disableAssetsBusting }}?{{ now.Unix }}{{ end }}"></script>
-    {{ partial "custom-footer.html" . }}
+    {{partial "custom-footer.html" .}}
   </body>
 </html>
