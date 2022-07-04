@@ -5,4 +5,5 @@
   {{$titleSuffix = print . " Documentation"}}
 {{end}}
 
-<title>{{with .Title}}{{.}} - {{end}}{{$titleSuffix}}</title>
+{{$title := .Params.title_tag | default .Title}}
+<title>{{with $title}}{{.}} - {{end}}{{$titleSuffix}}</title>
