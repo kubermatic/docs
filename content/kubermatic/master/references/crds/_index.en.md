@@ -672,21 +672,50 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Enabled will enable or disable audit logging. |
-| `policyPreset` _[AuditPolicyPreset](#auditpolicypreset)_ | Optional: PolicyPreset can be set to utilize a pre-defined set of audit policy rules. |
+| `policyPreset` _AuditPolicyPreset_ | Optional: PolicyPreset can be set to utilize a pre-defined set of audit policy rules. |
+| `sidecar` _[AuditSidecarSettings](#auditsidecarsettings)_ | Optional: Configures the fluent-bit sidecar deployed alongside kube-apiserver. |
 
 
 [Back to top](#top)
 
 
 
-### AuditPolicyPreset
+### AuditSidecarConfiguration
 
-_Underlying type:_ `string`
 
-AuditPolicyPreset refers to a pre-defined set of audit policy rules. Supported values are `metadata`, `recommended` and `minimal`. See KKP documentation for what each policy preset includes.
+
+AuditSidecarConfiguration defines custom configuration for the fluent-bit sidecar deployed with a kube-apiserver. Also see https://docs.fluentbit.io/manual/v/1.8/administration/configuring-fluent-bit/configuration-file.
+
+_Appears in:_
+- [AuditSidecarSettings](#auditsidecarsettings)
+
+| Field | Description |
+| --- | --- |
+| `service` _object (keys:string, values:string)_ |  |
+| `filters` _object array_ |  |
+| `outputs` _object array_ |  |
+
+
+[Back to top](#top)
+
+
+
+### AuditSidecarSettings
+
+
+
+
 
 _Appears in:_
 - [AuditLoggingSettings](#auditloggingsettings)
+
+| Field | Description |
+| --- | --- |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ |  |
+| `config` _[AuditSidecarConfiguration](#auditsidecarconfiguration)_ |  |
+
+
+[Back to top](#top)
 
 
 
