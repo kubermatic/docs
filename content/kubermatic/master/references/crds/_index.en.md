@@ -901,7 +901,7 @@ _Appears in:_
 | `alibaba` _[AlibabaCloudSpec](#alibabacloudspec)_ |  |
 | `anexia` _[AnexiaCloudSpec](#anexiacloudspec)_ |  |
 | `nutanix` _[NutanixCloudSpec](#nutanixcloudspec)_ |  |
-| `vmwareCloudDirector` _[VMwareCloudDirectorCloudSpec](#vmwareclouddirectorcloudspec)_ |  |
+| `vmwareclouddirector` _[VMwareCloudDirectorCloudSpec](#vmwareclouddirectorcloudspec)_ |  |
 
 
 [Back to top](#top)
@@ -1620,7 +1620,7 @@ _Appears in:_
 | `packet` _[DatacenterSpecPacket](#datacenterspecpacket)_ |  |
 | `hetzner` _[DatacenterSpecHetzner](#datacenterspechetzner)_ |  |
 | `vsphere` _[DatacenterSpecVSphere](#datacenterspecvsphere)_ |  |
-| `vmwareCloudDirector` _[DatacenterSpecVMwareCloudDirector](#datacenterspecvmwareclouddirector)_ |  |
+| `vmwareclouddirector` _[DatacenterSpecVMwareCloudDirector](#datacenterspecvmwareclouddirector)_ |  |
 | `gcp` _[DatacenterSpecGCP](#datacenterspecgcp)_ |  |
 | `kubevirt` _[DatacenterSpecKubevirt](#datacenterspeckubevirt)_ |  |
 | `alibaba` _[DatacenterSpecAlibaba](#datacenterspecalibaba)_ |  |
@@ -4342,7 +4342,7 @@ _Appears in:_
 | `alibaba` _[Alibaba](#alibaba)_ |  |
 | `anexia` _[Anexia](#anexia)_ |  |
 | `nutanix` _[Nutanix](#nutanix)_ |  |
-| `vmwareCloudDirector` _[VMwareCloudDirector](#vmwareclouddirector)_ |  |
+| `vmwareclouddirector` _[VMwareCloudDirector](#vmwareclouddirector)_ |  |
 | `gke` _[GKE](#gke)_ |  |
 | `eks` _[EKS](#eks)_ |  |
 | `aks` _[AKS](#aks)_ |  |
