@@ -21,7 +21,7 @@ ifndef CODESPELL_BIN
 	$(error "codespell not available in your environment, use spellcheck-in-docker if you have Docker installed.")
 endif
 	$(CODESPELL_BIN) \
-		-S ./themes,./static,*.css,swagger*.js,swagger.json,*.scss,*.png,*.po,.git,*.jpg,*.woff,*.woff2,*.xml \
+		-S ./themes,./static,*.min.js,*.css,swagger*.js,swagger.json,*.scss,*.png,*.po,.git,*.jpg,*.woff,*.woff2,*.xml \
 		-I ./.codespell.exclude -f
 
 .PHONY: spellcheck-in-docker
