@@ -2556,8 +2556,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `humanReadableName` _string_ | HumanReadableName is the cluster name provided by the user |
-| `kubeconfigReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `cloudSpec` _[ExternalClusterCloudSpec](#externalclustercloudspec)_ |  |
+| `kubeconfigReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | KubeconfigReference is reference to cluster Kubeconfig |
+| `cloudSpec` _[ExternalClusterCloudSpec](#externalclustercloudspec)_ | CloudSpec contains provider specific fields |
+| `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP. This indicates that the user needs to do some action to resolve the pause. |
+| `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
 
 
 [Back to top](#top)
