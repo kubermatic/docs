@@ -8,13 +8,13 @@ other = "Clear History"
 other = "Attachments"
 
 [title-404]
-other = "Error"
+other = "Page not found"
 
 [message-404]
-other = "Woops. Looks like this page doesn't exist ¯\\_(ツ)_/¯."
+other = "We’re sorry, the page you requested could not be found. Please go back to the homepage."
 
 [Go-to-homepage]
-other = "Go to homepage"
+other = "Go to Homepage"
 
 [Edit-this-page]
 other = "Edit this page"
