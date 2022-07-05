@@ -196,7 +196,7 @@ spec:
 
 Refer to the [Seed CRD documentation]({{< ref "../../../tutorials_howtos/project_and_cluster_management/seed_cluster" >}}) for a
 complete example of the Seed CustomResource and all possible datacenters.
-¹
+
 You can override the global [Expose Strategy]({{< ref "../../../tutorials_howtos/networking/expose_strategies">}}) at
 Seed level if you wish to.
 
@@ -239,7 +239,7 @@ check the Kubermatic Operator's logs on the master cluster, for example via `kub
 Depending on the chosen [Expose Strategy]({{< ref "../../../tutorials_howtos/networking/expose_strategies">}}), the control planes of all user clusters
 running in the Seed cluster will be exposed by the `nodeport-proxy` or using services of type `NodePort` directly.
 By default each user cluster gets a virtual domain name like `[cluster-id].[seed-name].[kubermatic-domain]`, e.g.
-`hdu328tr.kubermatic.kubermatic.example.com` for the Seed from the previous step with `kubermatic.example.com` being the main domain
+`hdu328tr.europe-west3.kubermatic.example.com` for the Seed from the previous step with `kubermatic.example.com` being the main domain
 where the KKP dashboard/API are available.
 
 A wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. The target of the DNS wildcard record should be the

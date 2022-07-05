@@ -70,8 +70,7 @@ The key items to configure are:
   document.
 * For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses
   yet another random secret to encrypt cookies stored in the users' browsers.
-
-  * The expose strategy, that is the strategy used to expose the control plane
+* The expose strategy, that is the strategy used to expose the control plane
   components to the worker nodes (see the [expose strategy]({{< ref "../../tutorials_howtos/networking/expose_strategies">}}))
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
