@@ -124,10 +124,9 @@ your workload will run as usual.
 Stopping the CSI driver assumes that you'll not be able to work with volumes
 while it's stopped. This means that you can't attach/detach or create/delete
 volumes. This also means that you'll not be able to schedule/run new pods that
-are using vSphere volumes. It's **strongly recommended that you don't delete
-any pods that are using vSphere volumes while this procedure is ongoing**, or
-otherwise you might not be able to run new pods until the procedure is not
-done.
+are using vSphere volumes. It's **strongly recommended that you don't delete any
+pods that are using vSphere volumes while this procedure is ongoing**, or
+otherwise you might not be able to run new pods until the procedure is done.
 {{% /notice %}}
 
 This approach assumes doing this procedure for each affected user cluster.
@@ -150,8 +149,8 @@ kubectl --kubeconfig=<seed-cluster> patch cluster <cluster-name-1> --type=merge 
 kubectl --kubeconfig=<seed-cluster> patch cluster <cluster-name-n> --type=merge -p $clusterPatch
 ```
 
-Once done, scale down the vSphere CSI driver deployment in **each affected
-user cluster**:
+Once done, scale down the vSphere CSI driver deployment in **each affected user
+cluster**:
 
 ```shell
 kubectl --kubeconfig=<user-cluster-1> scale deployment -n kube-system vsphere-csi-controller --replicas=0
@@ -159,9 +158,9 @@ kubectl --kubeconfig=<user-cluster-1> scale deployment -n kube-system vsphere-cs
 kubectl --kubeconfig=<user-cluster-n> scale deployment -n kube-system vsphere-csi-controller --replicas=0
 ```
 
-Wait a minute or two to give time for the CSI controller pods to get scaled
-down and terminated, and then proceed to change the `cluster-id` value which
-you need to do in two places:
+Wait a minute or two to give time for the CSI controller pods to get scaled down
+and terminated, and then proceed to change the `cluster-id` value which you need
+to do in two places:
 
 1. The `cloud-config-csi` Secret in the user cluster (in the `kube-system`
    namespace)
@@ -172,25 +171,25 @@ you need to do in two places:
 
 {{% notice warning %}}
 You should run steps in this section on one cluster at a time. In other words,
-finish all steps in this section for one user cluster, and then repeat all
-those steps for other user clusters.
+finish all steps in this section for one user cluster, and then repeat all those
+steps for other user clusters.
 {{% /notice %}}
 
 {{% notice info %}}
 `kubectl` commands in this section are targeting the **user cluster**.
 {{% /notice %}}
 
-In this section, you'll change the `cloud-config-csi` Secret in to set
-the `cluster-id` value to the name of the user cluster. The name of the user
-cluster is value of the `NAME` column in output of `kubectl get clusters` for
-that user cluster. For example, it looks something like `s8kkpcccfq`.
+In this section, you'll change the `cloud-config-csi` Secret in to set the
+`cluster-id` value to the name of the user cluster. The name of the user cluster
+is value of the `NAME` column in output of `kubectl get clusters` for that user
+cluster. For example, it looks something like `s8kkpcccfq`.
 
 Since the values of Secrets are base64-encoded, you need to take the config
 stored in the Secret, decode it, change the `cluster-id` value, then encode the
 config and update the Secret.
 
-The following command reads the config stored in the Secret, decodes it and
-then saves it to a file called `cloud-config-csi`:
+The following command reads the config stored in the Secret, decodes it and then
+saves it to a file called `cloud-config-csi`:
 
 ```shell
 kubectl --kubeconfig=<user-cluster-kubeconfig> get secret -n kube-system cloud-config-csi -o=jsonpath='{.data.config}' | base64 -d > cloud-config-csi
@@ -231,8 +230,8 @@ kubectl --kubeconfig=<user-cluster-kubeconfig> edit secret -n kube-system cloud-
 ```
 
 This will open your default text editor and you should see a Secret such as the
-following one. Replace `<base64-encoded-config>` with what you have copied,
-i.e. with the new config, then save the file and close the editor.
+following one. Replace `<base64-encoded-config>` with what you have copied, i.e.
+with the new config, then save the file and close the editor.
 
 ```yaml
 apiVersion: v1
@@ -257,8 +256,8 @@ namespaces in the seed cluster.
 
 {{% notice warning %}}
 You should run steps in this section on one cluster at a time. In other words,
-finish all steps in this section for one user cluster, and then repeat all
-those steps for other user clusters.
+finish all steps in this section for one user cluster, and then repeat all those
+steps for other user clusters.
 {{% /notice %}}
 
 {{% notice info %}}
@@ -267,8 +266,8 @@ those steps for other user clusters.
 
 The ConfigMap is changed in the same way as the Secret, i.e. you need to change
 the `cluster-id` value to the name of the user cluster. Run the following
-`kubectl edit` command. Replace `<cluster-name>` in the command with the name
-of user cluster (e.g. `s8kkpcccfq`).
+`kubectl edit` command. Replace `<cluster-name>` in the command with the name of
+user cluster (e.g. `s8kkpcccfq`).
 
 ```shell
 kubectl --kubeconfig=<seed-cluster-kubeconfig> edit configmap -n cluster-<cluster-name> cloud-config-csi
@@ -302,9 +301,8 @@ Before proceeding with this section, you **MUST WAIT FOR AN HOUR** to give time
 to vSphere to de-register all volumes.
 
 **After an hour**, patch **each affected** Cluster object to unpause the
-cluster. The `vsphereCSIClusterID` feature flag enabled at the beginning
-ensures that your `cluster-id` changes are persisted once the clusters are
-unpaused.
+cluster. The `vsphereCSIClusterID` feature flag enabled at the beginning ensures
+that your `cluster-id` changes are persisted once the clusters are unpaused.
 
 ```shell
 clusterPatch='{"spec":{"pause":false}}'
@@ -313,11 +311,11 @@ kubectl patch cluster <cluster-name-1> --type=merge -p $clusterPatch
 kubectl patch cluster <cluster-name-n> --type=merge -p $clusterPatch
 ```
 
-Wait for a few minutes for KKP to reconcile all unpaused user clusters.
-The vSphere CSI controller deployment should get scaled up in all user clusters
-after a few minutes (up to 5 minutes). Make sure the vSphere CSI controller
-pods are running and that volume operations are working (e.g. you can try
-creating a pod that uses a vSphere volume).
+Wait for a few minutes for KKP to reconcile all unpaused user clusters. The
+vSphere CSI controller deployment should get scaled up in all user clusters
+after a few minutes (up to 5 minutes). Make sure the vSphere CSI controller pods
+are running and that volume operations are working (e.g. you can try creating a
+pod that uses a vSphere volume).
 
 {{% notice warning %}}
 Manually changing Secret and ConfigMap might be skipped since enabling the
@@ -334,21 +332,21 @@ and 6.**
 #### Introduction and Warnings
 
 {{% notice warning %}}
-**This approach is not documented by VMware, so take it on your own risk.**
-If you choose this approach, make sure that you properly test it in an
-appropriate testing/staging production before applying it to the production.
+**This approach is not documented by VMware, so take it on your own risk.** If
+you choose this approach, make sure that you properly test it in an appropriate
+testing/staging production before applying it to the production.
 {{% /notice %}}
 
 This approach assumes changing `cluster-id` without stopping the CSI driver.
 This approach also assumes doing this procedure for each affected user cluster
-like the first approach. You can optionally choose one cluster and leave it
-with the old `cluster-id` value, but we **strongly recommend** migrating all
-your affected user clusters.
+like the first approach. You can optionally choose one cluster and leave it with
+the old `cluster-id` value, but we **strongly recommend** migrating all your
+affected user clusters.
 
 #### Enabling `vsphereCSIClusterID` Feature Flag
 
-Before starting, make sure to download kubeconfig files for each affected
-user cluster.
+Before starting, make sure to download kubeconfig files for each affected user
+cluster.
 
 Start with patching the Cluster object for **each affected** user clusters to
 enable the `vsphereCSIClusterID` feature flag. Enabling this feature flag
@@ -368,8 +366,8 @@ all user clusters.
 
 {{% notice warning %}}
 You should run steps in this section on one cluster at a time. In other words,
-finish all steps in this section for one user cluster, and then repeat all
-those steps for other user clusters.
+finish all steps in this section for one user cluster, and then repeat all those
+steps for other user clusters.
 {{% /notice %}}
 
 Ensure that the `cloud-config-csi` ConfigMap in the user cluster namespace in
@@ -397,8 +395,8 @@ cluster-id        = "<vsphere-compute-cluster>"
 ...
 ```
 
-**Repeat steps in this section for each affected user cluster** and then
-proceed to the next section.
+**Repeat steps in this section for each affected user cluster** and then proceed
+to the next section.
 
 #### Restarting the CSI controller pods
 
@@ -412,7 +410,7 @@ kubectl --kubeconfig=<user-cluster-kubeconfig-n> delete pods -n kube-system -l a
 ```
 
 Wait for the new vSphere CSI controller pods to get healthy. Once pods are
-healthy, make sure that volume operations are working (e.g. you can try 
-creating a pod that uses a vSphere volume).
+healthy, make sure that volume operations are working (e.g. you can try creating
+a pod that uses a vSphere volume).
 
 [vmware-kb]: https://kb.vmware.com/s/article/84446
