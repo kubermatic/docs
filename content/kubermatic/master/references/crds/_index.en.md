@@ -660,6 +660,17 @@ _Appears in:_
 
 
 
+### ApplicationSettings
+
+
+
+
+
+_Appears in:_
+- [ClusterSpec](#clusterspec)
+
+
+
 ### AuditLoggingSettings
 
 
@@ -1146,6 +1157,7 @@ _Appears in:_
 | `opaIntegration` _[OPAIntegrationSettings](#opaintegrationsettings)_ | Optional: OPAIntegration is a preview feature that enables OPA integration for the cluster. Enabling it causes OPA Gatekeeper and its resources to be deployed on the user cluster. By default it is disabled. |
 | `serviceAccount` _[ServiceAccountSettings](#serviceaccountsettings)_ | Optional: ServiceAccount contains service account related settings for the user cluster's kube-apiserver. |
 | `mla` _[MLASettings](#mlasettings)_ | Optional: MLA contains monitoring, logging and alerting related settings for the user cluster. |
+| `applicationSettings` _[ApplicationSettings](#applicationsettings)_ | Optional: ApplicationSettings contains the settings relative to the application feature. |
 | `encryptionConfiguration` _[EncryptionConfiguration](#encryptionconfiguration)_ | Optional: Configures encryption-at-rest for Kubernetes API data. This needs the `encryptionAtRest` feature gate. THIS IS A PLACEHOLDER AND NOT FUNCTIONAL YET. |
 | `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP. This indicates that the user needs to do some action to resolve the pause. |
 | `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
