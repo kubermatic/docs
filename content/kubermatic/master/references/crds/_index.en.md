@@ -5328,7 +5328,7 @@ _Appears in:_
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `username` _string_ | Username is the VMware Cloud Director user name. |
 | `password` _string_ | Password is the VMware Cloud Director user password. |
-| `organization` _string_ | Password is the VMware Cloud Director user password. |
+| `organization` _string_ | Organization is the name of organization to use. |
 | `vdc` _string_ | VDC is the organizational virtual data center. |
 | `ovdcNetwork` _string_ | Network is the name of organizational virtual data center network that will be associated with the VMs and vApp. |
 | `vapp` _string_ | VApp used for isolation of VMs and their associated network |
