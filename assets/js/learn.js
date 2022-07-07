@@ -25,9 +25,26 @@ function getScrollBarWidth() {
     return (w1 - w2);
 };
 
-function setMenuHeight() {
-    $('#sidebar .highlightable').height($('#sidebar').innerHeight() - $('#header-wrapper').height() - 40);
-    $('#sidebar .highlightable').perfectScrollbar('update');
+var menuScrollbar;
+
+function getHeight(el) {
+    var styles = window.getComputedStyle(el);
+    var height = el.offsetHeight;
+    var borderTopWidth = parseFloat(styles.borderTopWidth);
+    var borderBottomWidth = parseFloat(styles.borderBottomWidth);
+    var paddingTop = parseFloat(styles.paddingTop);
+    var paddingBottom = parseFloat(styles.paddingBottom);
+    return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
+}
+
+function handleSidebarMenu() {
+    var sidebar = document.getElementById('sidebar');
+    var sidebarHeader = document.getElementById('header-wrapper');
+    var menu = sidebar.querySelector('.highlightable');
+    menu.style.height = (sidebar.clientHeight - getHeight(sidebarHeader) - 40) + 'px';
+
+    menuScrollbar = menuScrollbar || new PerfectScrollbar(menu);
+    menuScrollbar.update();
 }
 
 function fallbackMessage(action) {
@@ -46,11 +63,6 @@ function fallbackMessage(action) {
 
     return actionMsg;
 }
-
-// for the window resize
-$(window).resize(function() {
-    setMenuHeight();
-});
 
 // debouncing function from John Hann
 // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
@@ -103,8 +115,8 @@ jQuery(document).ready(function() {
     });
 
     var sidebarStatus = searchStatus = 'open';
-    $('#sidebar .highlightable').perfectScrollbar();
-    setMenuHeight();
+    handleSidebarMenu();
+    window.addEventListener('resize', handleSidebarMenu);
     initMenuItemsExpand();
 
     jQuery('#overlay').on('click', function() {
