@@ -561,6 +561,22 @@ pre .copy-to-clipboard {
     }
 }
 
+.img-lightbox {
+    background-color: rgba(0,0,0,0.8);
+    cursor: -webkit-zoom-out;
+    cursor: zoom-out;
+    img {
+        max-width: 95%;
+        padding: 10px;
+        background-color: var(--WHITE-color);
+    }
+    &.animated,
+    & img.animated {
+        -webkit-animation-duration: 0.2s;
+        animation-duration: 0.2s;
+    }
+}
+
 @media only all and (max-width: 59.938em) {
     #body {
         margin-left: 300px;
