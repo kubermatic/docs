@@ -52,10 +52,7 @@ var wrapContentImages = function() {
   });
 };
 
-// Stick the top to the top of the screen when  scrolling
 $(function() {
-  $("#top-bar").sticky({topSpacing:0, zIndex: 1000});
-
   // Add link button for every
   var text, clip = new ClipboardJS('.anchor');
   $("h1~h2,h1~h3,h1~h4,h1~h5,h1~h6").append(function(index, html){
