@@ -5,7 +5,7 @@ weight = 7
 
 +++
 
-## KubeVirt
+## KubeVirt (Technology Preview)
 Once KubeVirt is installed as what the [official documentation](https://kubevirt.io/quickstart_cloud/) guides, a few
 steps should be followed in order to use KubeVirt with KKP.
 
