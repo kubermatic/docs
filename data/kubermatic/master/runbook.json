@@ -12,9 +12,9 @@
           "expr": "probe_success != 1",
           "for": "5m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }}",
-            "service": "blackbox-exporter",
-            "severity": "warning"
+            "service": "blackbox-exporter"
           }
         },
         {
@@ -26,9 +26,9 @@
           "expr": "sum by (instance) (probe_http_duration_seconds) > 3",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }}",
-            "service": "blackbox-exporter",
-            "severity": "warning"
+            "service": "blackbox-exporter"
           },
           "runbook": {
             "steps": [
@@ -45,9 +45,9 @@
           },
           "expr": "probe_ssl_earliest_cert_expiry - time() < 3*24*3600",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }}",
-            "service": "blackbox-exporter",
-            "severity": "warning"
+            "service": "blackbox-exporter"
           }
         },
         {
@@ -58,9 +58,9 @@
           },
           "expr": "probe_ssl_earliest_cert_expiry - time() < 24*3600",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.instance }}",
-            "service": "blackbox-exporter",
-            "severity": "critical"
+            "service": "blackbox-exporter"
           }
         }
       ]
@@ -77,9 +77,9 @@
           "expr": "absent(up{job=\"cadvisor\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "critical",
             "resource": "cadvisor",
-            "service": "cadvisor",
-            "severity": "critical"
+            "service": "cadvisor"
           }
         }
       ]
@@ -95,9 +95,9 @@
           },
           "expr": "certmanager_certificate_expiration_timestamp_seconds - time() < 3*24*3600",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.name }}",
-            "service": "cert-manager",
-            "severity": "warning"
+            "service": "cert-manager"
           }
         },
         {
@@ -108,9 +108,9 @@
           },
           "expr": "certmanager_certificate_expiration_timestamp_seconds - time() < 24*3600",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.name }}",
-            "service": "cert-manager",
-            "severity": "critical"
+            "service": "cert-manager"
           }
         }
       ]
@@ -127,9 +127,9 @@
           "expr": "helm_chart_info != 1",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.release }}",
-            "service": "helm-exporter",
-            "severity": "warning"
+            "service": "helm-exporter"
           },
           "runbook": {
             "steps": [
@@ -152,9 +152,9 @@
           "expr": "absent(up{job=\"apiserver\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "critical",
             "resource": "apiserver",
-            "service": "kubernetes",
-            "severity": "critical"
+            "service": "kubernetes"
           }
         },
         {
@@ -166,9 +166,9 @@
           "expr": "sum(rate(apiserver_request_total{job=\"apiserver\",code=~\"^(?:5..)$\"}[5m])) without(instance, pod)\n  /\nsum(rate(apiserver_request_total{job=\"apiserver\"}[5m])) without(instance, pod) * 100 > 10\n",
           "for": "10m",
           "labels": {
+            "severity": "critical",
             "resource": "apiserver",
-            "service": "kubernetes",
-            "severity": "critical"
+            "service": "kubernetes"
           }
         },
         {
@@ -180,9 +180,9 @@
           "expr": "sum(rate(apiserver_request_terminations_total{job=\"apiserver\"}[10m]))\n  /\n(sum(rate(apiserver_request_total{job=\"apiserver\"}[10m])) + sum(rate(apiserver_request_terminations_total{job=\"apiserver\"}[10m])) ) > 0.20\n",
           "for": "5m",
           "labels": {
+            "severity": "warning",
             "resource": "apiserver",
-            "service": "kubernetes",
-            "severity": "warning"
+            "service": "kubernetes"
           }
         },
         {
@@ -194,9 +194,9 @@
           "expr": "sum(rate(apiserver_request_terminations_total{job=\"apiserver\"}[10m]))\n  /\n(sum(rate(apiserver_request_total{job=\"apiserver\"}[10m])) + sum(rate(apiserver_request_terminations_total{job=\"apiserver\"}[10m])) ) > 0.20\n",
           "for": "10m",
           "labels": {
+            "severity": "critical",
             "resource": "apiserver",
-            "service": "kubernetes",
-            "severity": "critical"
+            "service": "kubernetes"
           }
         },
         {
@@ -208,9 +208,9 @@
           "expr": "sum(rate(apiserver_request_total{job=\"apiserver\",code=~\"^(?:5..)$\"}[5m])) without(instance, pod)\n  /\nsum(rate(apiserver_request_total{job=\"apiserver\"}[5m])) without(instance, pod) * 100 > 5\n",
           "for": "10m",
           "labels": {
+            "severity": "warning",
             "resource": "apiserver",
-            "service": "kubernetes",
-            "severity": "warning"
+            "service": "kubernetes"
           }
         },
         {
@@ -221,9 +221,9 @@
           },
           "expr": "apiserver_client_certificate_expiration_seconds_count{job=\"apiserver\"} > 0\nand\nhistogram_quantile(0.01, sum by (job, instance, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job=\"apiserver\"}[5m]))) < 604800\n",
           "labels": {
+            "severity": "warning",
             "resource": "apiserver",
-            "service": "kubernetes",
-            "severity": "warning"
+            "service": "kubernetes"
           },
           "runbook": {
             "steps": [
@@ -240,9 +240,9 @@
           },
           "expr": "apiserver_client_certificate_expiration_seconds_count{job=\"apiserver\"} > 0\nand\nhistogram_quantile(0.01, sum by (job, instance, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job=\"apiserver\"}[5m]))) < 86400\n",
           "labels": {
+            "severity": "critical",
             "resource": "apiserver",
-            "service": "kubernetes",
-            "severity": "critical"
+            "service": "kubernetes"
           },
           "runbook": {
             "steps": [
@@ -266,9 +266,9 @@
           "expr": "absent(up{job=\"kubelet\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.instance }}",
-            "service": "kubelet",
-            "severity": "critical"
+            "service": "kubelet"
           }
         },
         {
@@ -280,9 +280,9 @@
           "expr": "100 * kubelet_volume_stats_available_bytes{job=\"kubelet\"}\n  /\nkubelet_volume_stats_capacity_bytes{job=\"kubelet\"}\n  < 3\n",
           "for": "1m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }}",
+            "severity": "critical",
             "service": "kubelet",
-            "severity": "critical"
+            "resource": "{{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }}"
           }
         },
         {
@@ -294,9 +294,9 @@
           "expr": "(\n  kubelet_volume_stats_used_bytes{job=\"kubelet\"}\n    /\n  kubelet_volume_stats_capacity_bytes{job=\"kubelet\"}\n) > 0.85\nand\npredict_linear(kubelet_volume_stats_available_bytes{job=\"kubelet\"}[6h], 4 * 24 * 3600) < 0\n",
           "for": "5m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }}",
+            "severity": "critical",
             "service": "kubelet",
-            "severity": "critical"
+            "resource": "{{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }}"
           }
         },
         {
@@ -308,9 +308,9 @@
           "expr": "kubelet_running_pod_count{job=\"kubelet\"} > 110 * 0.9",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }}",
-            "service": "kubelet",
-            "severity": "warning"
+            "service": "kubelet"
           }
         },
         {
@@ -322,9 +322,9 @@
           "expr": "(sum(rate(rest_client_requests_total{code=~\"(5..|<error>)\",job=\"kubelet\"}[5m])) by (instance)\n  /\nsum(rate(rest_client_requests_total{job=\"kubelet\"}[5m])) by (instance))\n* 100 > 1\n",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }}",
-            "service": "kubelet",
-            "severity": "warning"
+            "service": "kubelet"
           }
         },
         {
@@ -336,9 +336,9 @@
           "expr": "(sum(rate(rest_client_requests_total{code=~\"(5..|<error>)\",job=\"pods\"}[5m])) by (namespace, pod)\n  /\nsum(rate(rest_client_requests_total{job=\"pods\"}[5m])) by (namespace, pod))\n* 100 > 1\n",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }}",
-            "service": "kubelet",
-            "severity": "warning"
+            "service": "kubelet"
           }
         },
         {
@@ -350,9 +350,9 @@
           "expr": "sum(rate(kubelet_runtime_operations_errors_total{job=\"kubelet\"}[5m])) by (instance) > 0.1\n",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }}",
-            "service": "kubelet",
-            "severity": "warning"
+            "service": "kubelet"
           }
         },
         {
@@ -378,9 +378,9 @@
           "expr": "sum(rate(kubelet_pod_worker_duration_seconds{quantile=\"0.9\"}[5m])) by (instance, operation_type) * 1000 > 250\n",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }}/{{ $labels.operation_type }}",
-            "service": "kubelet",
-            "severity": "warning"
+            "service": "kubelet"
           }
         },
         {
@@ -409,9 +409,9 @@
           "expr": "absent(up{job=\"kube-state-metrics\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "service": "kube-state-metrics",
-            "severity": "critical"
+            "service": "kube-state-metrics"
           }
         },
         {
@@ -423,8 +423,8 @@
           "expr": "rate(kube_pod_container_status_restarts_total{job=\"kube-state-metrics\"}[15m]) * 60 * 5 > 0",
           "for": "1h",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "severity": "critical"
+            "severity": "critical",
+            "resource": "{{ $labels.namespace }}/{{ $labels.pod }}"
           },
           "runbook": {
             "steps": [
@@ -441,8 +441,8 @@
           "expr": "sum by (namespace, pod) (kube_pod_status_phase{job=\"kube-state-metrics\", phase=~\"Pending|Unknown\"}) > 0",
           "for": "30m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "severity": "critical"
+            "severity": "critical",
+            "resource": "{{ $labels.namespace }}/{{ $labels.pod }}"
           },
           "runbook": {
             "steps": [
@@ -459,8 +459,8 @@
           "expr": "kube_deployment_status_observed_generation{job=\"kube-state-metrics\"}\n  !=\nkube_deployment_metadata_generation{job=\"kube-state-metrics\"}\n",
           "for": "15m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.deployment }}",
-            "severity": "critical"
+            "severity": "critical",
+            "resource": "{{ $labels.namespace }}/{{ $labels.deployment }}"
           }
         },
         {
@@ -472,8 +472,8 @@
           "expr": "kube_deployment_spec_replicas{job=\"kube-state-metrics\"}\n  !=\nkube_deployment_status_replicas_available{job=\"kube-state-metrics\"}\n",
           "for": "1h",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.deployment }}",
-            "severity": "critical"
+            "severity": "critical",
+            "resource": "{{ $labels.namespace }}/{{ $labels.deployment }}"
           }
         },
         {
@@ -485,8 +485,8 @@
           "expr": "kube_statefulset_status_replicas_ready{job=\"kube-state-metrics\"}\n  !=\nkube_statefulset_status_replicas{job=\"kube-state-metrics\"}\n",
           "for": "15m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.statefulset }}",
-            "severity": "critical"
+            "severity": "critical",
+            "resource": "{{ $labels.namespace }}/{{ $labels.statefulset }}"
           }
         },
         {
@@ -498,8 +498,8 @@
           "expr": "kube_statefulset_status_observed_generation{job=\"kube-state-metrics\"}\n  !=\nkube_statefulset_metadata_generation{job=\"kube-state-metrics\"}\n",
           "for": "15m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.statefulset }}",
-            "severity": "critical"
+            "severity": "critical",
+            "resource": "{{ $labels.namespace }}/{{ $labels.statefulset }}"
           }
         },
         {
@@ -511,8 +511,8 @@
           "expr": "max without (revision) (\n  kube_statefulset_status_current_revision{job=\"kube-state-metrics\"}\n    unless\n  kube_statefulset_status_update_revision{job=\"kube-state-metrics\"}\n)\n  *\n(\n  kube_statefulset_replicas{job=\"kube-state-metrics\"}\n    !=\n  kube_statefulset_status_replicas_updated{job=\"kube-state-metrics\"}\n)\n",
           "for": "15m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.statefulset }}",
-            "severity": "critical"
+            "severity": "critical",
+            "resource": "{{ $labels.namespace }}/{{ $labels.statefulset }}"
           }
         },
         {
@@ -524,8 +524,8 @@
           "expr": "kube_daemonset_status_number_ready{job=\"kube-state-metrics\"}\n  /\nkube_daemonset_status_desired_number_scheduled{job=\"kube-state-metrics\"} * 100 < 100\n",
           "for": "15m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.daemonset }}",
-            "severity": "critical"
+            "severity": "critical",
+            "resource": "{{ $labels.namespace }}/{{ $labels.daemonset }}"
           }
         },
         {
@@ -537,8 +537,8 @@
           "expr": "kube_daemonset_status_desired_number_scheduled{job=\"kube-state-metrics\"}\n  -\nkube_daemonset_status_current_number_scheduled{job=\"kube-state-metrics\"} > 0\n",
           "for": "10m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.daemonset }}",
-            "severity": "warning"
+            "severity": "warning",
+            "resource": "{{ $labels.namespace }}/{{ $labels.daemonset }}"
           }
         },
         {
@@ -550,8 +550,8 @@
           "expr": "kube_daemonset_status_number_misscheduled{job=\"kube-state-metrics\"} > 0",
           "for": "10m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.daemonset }}",
-            "severity": "warning"
+            "severity": "warning",
+            "resource": "{{ $labels.namespace }}/{{ $labels.daemonset }}"
           }
         },
         {
@@ -563,8 +563,8 @@
           "expr": "time() - kube_cronjob_next_schedule_time{job=\"kube-state-metrics\"} > 3600",
           "for": "1h",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.cronjob }}",
-            "severity": "warning"
+            "severity": "warning",
+            "resource": "{{ $labels.namespace }}/{{ $labels.cronjob }}"
           }
         },
         {
@@ -576,8 +576,8 @@
           "expr": "kube_job_spec_completions{job=\"kube-state-metrics\"} - kube_job_status_succeeded{job=\"kube-state-metrics\"} > 0",
           "for": "1h",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.job_name }}",
-            "severity": "warning"
+            "severity": "warning",
+            "resource": "{{ $labels.namespace }}/{{ $labels.job_name }}"
           }
         },
         {
@@ -589,8 +589,8 @@
           "expr": "kube_job_status_failed{job=\"kube-state-metrics\"} > 0",
           "for": "1h",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.job_name }}",
-            "severity": "warning"
+            "severity": "warning",
+            "resource": "{{ $labels.namespace }}/{{ $labels.job_name }}"
           }
         },
         {
@@ -602,9 +602,9 @@
           "expr": "sum(kube_resourcequota{job=\"kube-state-metrics\", type=\"hard\", resource=\"requests.cpu\"})\n  /\nsum(node:node_num_cpu:sum)\n  > 1.5\n",
           "for": "5m",
           "labels": {
+            "severity": "warning",
             "resource": "cluster",
-            "service": "kube-state-metrics",
-            "severity": "warning"
+            "service": "kube-state-metrics"
           }
         },
         {
@@ -616,9 +616,9 @@
           "expr": "sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)\n  -\n(sum(kube_node_status_allocatable{resource=\"cpu\"}) - max(kube_node_status_allocatable{resource=\"cpu\"}))\n  > 0\nand\n(sum(kube_node_status_allocatable{resource=\"cpu\"})\n  -\nmax(kube_node_status_allocatable{resource=\"cpu\"}))\n  > 0\n",
           "for": "10m",
           "labels": {
+            "severity": "critical",
             "resource": "cluster",
-            "service": "kube-state-metrics",
-            "severity": "critical"
+            "service": "kube-state-metrics"
           }
         },
         {
@@ -630,9 +630,9 @@
           "expr": "sum(kube_resourcequota{job=\"kube-state-metrics\", type=\"hard\", resource=\"requests.memory\"})\n  /\nsum(node_memory_MemTotal_bytes{app=\"node-exporter\"})\n  > 1.5\n",
           "for": "5m",
           "labels": {
+            "severity": "warning",
             "resource": "cluster",
-            "service": "kube-state-metrics",
-            "severity": "warning"
+            "service": "kube-state-metrics"
           }
         },
         {
@@ -644,9 +644,9 @@
           "expr": "sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)\n  -\n(sum(kube_node_status_allocatable{resource=\"memory\"}) - max(kube_node_status_allocatable{resource=\"memory\"}))\n  > 0\nand\n(sum(kube_node_status_allocatable{resource=\"memory\"})\n  -\nmax(kube_node_status_allocatable{resource=\"memory\"}))\n  > 0\n",
           "for": "10m",
           "labels": {
+            "severity": "critical",
             "resource": "cluster",
-            "service": "kube-state-metrics",
-            "severity": "critical"
+            "service": "kube-state-metrics"
           }
         },
         {
@@ -658,9 +658,9 @@
           "expr": "100 * kube_resourcequota{job=\"kube-state-metrics\", type=\"used\"}\n  / ignoring(instance, job, type)\n(kube_resourcequota{job=\"kube-state-metrics\", type=\"hard\"} > 0)\n  > 90\n",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cluster",
-            "service": "kube-state-metrics",
-            "severity": "warning"
+            "service": "kube-state-metrics"
           }
         },
         {
@@ -672,8 +672,8 @@
           "expr": "(kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 30m >= 2)\nand\nignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason=\"OOMKilled\"}[30m]) == 1\n",
           "for": "0m",
           "labels": {
-            "resource": "{{ $labels.namespace }}/{{ $labels.pod }}/{{ $labels.container }}",
-            "severity": "warning"
+            "severity": "warning",
+            "resource": "{{ $labels.namespace }}/{{ $labels.pod }}/{{ $labels.container }}"
           }
         },
         {
@@ -685,8 +685,8 @@
           "expr": "kube_node_status_condition{job=\"kube-state-metrics\",condition=\"Ready\",status=\"true\"} == 0",
           "for": "1h",
           "labels": {
-            "resource": "{{ $labels.node }}",
-            "severity": "warning"
+            "severity": "warning",
+            "resource": "{{ $labels.node }}"
           }
         }
       ]
@@ -703,9 +703,9 @@
           "expr": "predict_linear(node_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"}[6h], 24*60*60) < 0\nand\nnode_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_size_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} < 0.4\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "warning"
+            "service": "node-exporter"
           }
         },
         {
@@ -717,9 +717,9 @@
           "expr": "predict_linear(node_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"}[6h], 4*60*60) < 0\nand\nnode_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_size_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} < 0.2\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "critical"
+            "service": "node-exporter"
           }
         },
         {
@@ -731,9 +731,9 @@
           "expr": "node_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_size_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 10\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "30m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "warning"
+            "service": "node-exporter"
           }
         },
         {
@@ -745,9 +745,9 @@
           "expr": "node_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_size_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 5\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "10m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "critical"
+            "service": "node-exporter"
           }
         },
         {
@@ -759,9 +759,9 @@
           "expr": "node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 10\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "critical"
+            "service": "node-exporter"
           }
         },
         {
@@ -773,9 +773,9 @@
           "expr": "predict_linear(node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"}[6h], 24*60*60) < 0\nand\nnode_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} < 0.4\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "warning"
+            "service": "node-exporter"
           }
         },
         {
@@ -787,9 +787,9 @@
           "expr": "predict_linear(node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"}[6h], 4*60*60) < 0\nand\nnode_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} < 0.2\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "critical"
+            "service": "node-exporter"
           }
         },
         {
@@ -801,9 +801,9 @@
           "expr": "node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 5\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "warning"
+            "service": "node-exporter"
           }
         },
         {
@@ -815,9 +815,9 @@
           "expr": "increase(node_network_receive_errs_total[2m]) > 10",
           "for": "1h",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "critical"
+            "service": "node-exporter"
           }
         },
         {
@@ -829,9 +829,9 @@
           "expr": "increase(node_network_transmit_errs_total[2m]) > 10",
           "for": "1h",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.instance }} {{ $labels.device }}",
-            "service": "node-exporter",
-            "severity": "critical"
+            "service": "node-exporter"
           }
         }
       ]
@@ -848,9 +848,9 @@
           "expr": "up != 1",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.job }}/{{ $labels.instance }}",
-            "service": "prometheus",
-            "severity": "warning"
+            "service": "prometheus"
           },
           "runbook": {
             "steps": [
@@ -867,9 +867,9 @@
           "expr": "prometheus_config_last_reload_successful{job=\"prometheus\"} == 0",
           "for": "15m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.job }}/{{ $labels.instance }}",
-            "service": "prometheus",
-            "severity": "critical"
+            "service": "prometheus"
           },
           "runbook": {
             "steps": [
@@ -887,9 +887,9 @@
           "expr": "alertmanager_config_last_reload_successful{job=\"alertmanager\"} == 0",
           "for": "10m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.job }}/{{ $labels.instance }}",
-            "service": "prometheus",
-            "severity": "critical"
+            "service": "prometheus"
           },
           "runbook": {
             "steps": [
@@ -907,9 +907,9 @@
           "expr": "sum(increase(alertmanager_notifications_failed_total{job=\"alertmanager\"}[5m])) by (namespace) > 0",
           "for": "5m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.job }}/{{ $labels.instance }}",
-            "service": "prometheus",
-            "severity": "critical"
+            "service": "prometheus"
           },
           "runbook": {
             "steps": [
@@ -927,9 +927,9 @@
           "expr": "(rate(prometheus_remote_storage_failed_samples_total{job=\"prometheus\"}[1m]) * 100)\n  /\n(rate(prometheus_remote_storage_failed_samples_total{job=\"prometheus\"}[1m]) + rate(prometheus_remote_storage_succeeded_samples_total{job=\"prometheus\"}[1m]))\n  > 1\n",
           "for": "15m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.job }}/{{ $labels.instance }}",
-            "service": "prometheus",
-            "severity": "critical"
+            "service": "prometheus"
           },
           "runbook": {
             "steps": [
@@ -947,9 +947,9 @@
           "expr": "rate(prometheus_rule_evaluation_failures_total{job=\"prometheus\"}[1m]) > 0",
           "for": "15m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.job }}/{{ $labels.instance }}",
-            "service": "prometheus",
-            "severity": "critical"
+            "service": "prometheus"
           },
           "runbook": {
             "steps": [
@@ -972,9 +972,9 @@
           "expr": "thanos_sidecar_prometheus_up != 1",
           "for": "5m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "service": "thanos",
-            "severity": "warning"
+            "service": "thanos"
           }
         },
         {
@@ -986,9 +986,9 @@
           "expr": "time() - thanos_sidecar_last_heartbeat_success_time_seconds > 60",
           "for": "3m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "service": "thanos",
-            "severity": "warning"
+            "service": "thanos"
           }
         },
         {
@@ -1000,9 +1000,9 @@
           "expr": "sum(rate(thanos_compact_retries_total[5m])) > 0.01",
           "for": "10m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "service": "thanos",
-            "severity": "warning"
+            "service": "thanos"
           },
           "runbook": {
             "steps": [
@@ -1019,9 +1019,9 @@
           "expr": "sum(rate(thanos_shipper_dir_sync_failures_total[5m])) > 0.01",
           "for": "10m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "service": "thanos",
-            "severity": "warning"
+            "service": "thanos"
           },
           "runbook": {
             "steps": [
@@ -1038,9 +1038,9 @@
           "expr": "sum(rate(thanos_grpc_req_panics_recovered_total[5m])) > 0.01",
           "for": "10m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "service": "thanos",
-            "severity": "warning"
+            "service": "thanos"
           }
         },
         {
@@ -1052,9 +1052,9 @@
           "expr": "sum(rate(thanos_bucket_store_block_load_failures_total[5m])) > 0.01",
           "for": "10m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "service": "thanos",
-            "severity": "warning"
+            "service": "thanos"
           }
         },
         {
@@ -1066,9 +1066,9 @@
           "expr": "sum(rate(thanos_bucket_store_block_drop_failures_total[5m])) > 0.01",
           "for": "10m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.namespace }}/{{ $labels.pod }}",
-            "service": "thanos",
-            "severity": "warning"
+            "service": "thanos"
           }
         }
       ]
@@ -1085,9 +1085,9 @@
           "expr": "time() - velero_backup_last_successful_timestamp{schedule!=\"\"} > 3600",
           "for": "5m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.schedule }}",
-            "service": "velero",
-            "severity": "warning"
+            "service": "velero"
           },
           "runbook": {
             "steps": [
@@ -1105,9 +1105,9 @@
           },
           "expr": "time() - velero_backup_last_successful_timestamp{schedule!=\"\"} > 3600*25",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.schedule }}",
-            "service": "velero",
-            "severity": "critical"
+            "service": "velero"
           },
           "runbook": {
             "steps": [
@@ -1132,8 +1132,8 @@
           "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",app_kubernetes_io_name=\"kubermatic-api\"} == 1)",
           "for": "15m",
           "labels": {
-            "service": "kubermatic-master",
-            "severity": "critical"
+            "severity": "critical",
+            "service": "kubermatic-master"
           },
           "runbook": {
             "steps": [
@@ -1151,8 +1151,8 @@
           "expr": "sum(rate(http_requests_total{app_kubernetes_io_name=\"kubermatic-api\",code=~\"5..\"}[5m])) > 0.1",
           "for": "15m",
           "labels": {
-            "service": "kubermatic-master",
-            "severity": "warning"
+            "severity": "warning",
+            "service": "kubermatic-master"
           },
           "runbook": {
             "steps": [
@@ -1180,8 +1180,8 @@
           "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",app_kubernetes_io_name=\"kubermatic-master-controller-manager\"} == 1)",
           "for": "15m",
           "labels": {
-            "service": "kubermatic-master",
-            "severity": "critical"
+            "severity": "critical",
+            "service": "kubermatic-master"
           },
           "runbook": {
             "steps": [
@@ -1204,9 +1204,9 @@
           "expr": "sum(rate(kubermatic_controller_manager_unhandled_errors_total[5m])) > 0.01",
           "for": "10m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.namespace }}",
-            "service": "kubermatic-seed",
-            "severity": "warning"
+            "service": "kubermatic-seed"
           },
           "runbook": {
             "steps": [
@@ -1223,9 +1223,9 @@
           "expr": "(time() - max by (cluster) (kubermatic_cluster_deleted)) > 30*60",
           "for": "0m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.cluster }}",
-            "service": "kubermatic-seed",
-            "severity": "warning"
+            "service": "kubermatic-seed"
           },
           "runbook": {
             "steps": [
@@ -1245,9 +1245,9 @@
           "expr": "(time() - max by (cluster,addon) (kubermatic_addon_deleted)) > 30*60",
           "for": "0m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.cluster }}/{{ $labels.addon }}",
-            "service": "kubermatic-seed",
-            "severity": "warning"
+            "service": "kubermatic-seed"
           },
           "runbook": {
             "steps": [
@@ -1265,9 +1265,9 @@
           "expr": "kubermatic_addon_reconcile_failed * on(cluster) group_left() kubermatic_cluster_created\n- kubermatic_addon_reconcile_failed * on(cluster) group_left() kubermatic_cluster_deleted\n> 0\n",
           "for": "30m",
           "labels": {
+            "severity": "warning",
             "resource": "{{ $labels.cluster }}/{{ $labels.addon }}",
-            "service": "kubermatic-seed",
-            "severity": "warning"
+            "service": "kubermatic-seed"
           },
           "runbook": {
             "steps": [
@@ -1284,8 +1284,8 @@
           "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",app_kubernetes_io_name=\"kubermatic-seed-controller-manager\"} == 1)",
           "for": "15m",
           "labels": {
-            "service": "kubermatic-seed",
-            "severity": "critical"
+            "severity": "critical",
+            "service": "kubermatic-seed"
           },
           "runbook": {
             "steps": [
@@ -1303,9 +1303,9 @@
           "expr": "(kube_deployment_status_replicas_available{cluster!=\"\",deployment=\"openvpn-server\"} != kube_deployment_spec_replicas{cluster!=\"\",deployment=\"openvpn-server\"}) and count(kubermatic_cluster_info) > 0",
           "for": "15m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.cluster }}",
-            "service": "kubermatic-seed",
-            "severity": "critical"
+            "service": "kubermatic-seed"
           }
         },
         {
@@ -1317,9 +1317,9 @@
           "expr": "(\n  kubermatic_cluster_info * on (name) group_left\n  label_replace(up{job=\"clusters\"}, \"name\", \"$1\", \"namespace\", \"cluster-(.+)\")\n  or\n  kubermatic_cluster_info * 0\n) == 0\n",
           "for": "15m",
           "labels": {
+            "severity": "critical",
             "resource": "{{ $labels.name }}",
-            "service": "kubermatic-seed",
-            "severity": "critical"
+            "service": "kubermatic-seed"
           }
         },
         {
@@ -1329,9 +1329,9 @@
           },
           "expr": "label_replace(kubermatic_cluster_info{pause=\"true\"}, \"cluster\", \"$0\", \"name\", \".+\")",
           "labels": {
+            "severity": "informational",
             "resource": "{{ $labels.name }}",
-            "service": "kubermatic-seed",
-            "severity": "informational"
+            "service": "kubermatic-seed"
           }
         }
       ]
@@ -1348,9 +1348,9 @@
           "expr": "absent(:ready_kube_controller_managers:sum) or :ready_kube_controller_managers:sum == 0",
           "for": "10m",
           "labels": {
+            "severity": "critical",
             "resource": "kube-controller-manager",
-            "service": "kubernetes",
-            "severity": "critical"
+            "service": "kubernetes"
           }
         }
       ]
@@ -1367,9 +1367,9 @@
           "expr": "absent(:ready_kube_schedulers:sum) or :ready_kube_schedulers:sum == 0",
           "for": "10m",
           "labels": {
+            "severity": "critical",
             "resource": "kube-scheduler",
-            "service": "kubernetes",
-            "severity": "critical"
+            "service": "kubernetes"
           }
         }
       ]
@@ -1386,9 +1386,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"distributor\",app_kubernetes_io_name=\"cortex\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1400,9 +1400,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"querier\",app_kubernetes_io_name=\"cortex\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1414,9 +1414,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"query-frontend\",app_kubernetes_io_name=\"cortex\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1428,9 +1428,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"ruler\",app_kubernetes_io_name=\"cortex\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1442,9 +1442,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\", app_kubernetes_io_instance=\"cortex\",app_kubernetes_io_name=\"memcached-blocks\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1456,9 +1456,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_instance=\"cortex\",app_kubernetes_io_name=\"memcached-blocks-metadata\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1470,9 +1470,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_instance=\"cortex\",app_kubernetes_io_name=\"memcached-blocks-index\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1484,9 +1484,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"alertmanager\",app_kubernetes_io_name=\"cortex\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1498,9 +1498,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"compactor\",app_kubernetes_io_name=\"cortex\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1512,9 +1512,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"ingester\",app_kubernetes_io_name=\"cortex\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         },
         {
@@ -1526,9 +1526,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"store-gateway\",app_kubernetes_io_name=\"cortex\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "cortex",
-            "service": "cortex",
-            "severity": "warning"
+            "service": "cortex"
           }
         }
       ]
@@ -1545,9 +1545,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"ingester\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1559,9 +1559,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"distributor\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1573,9 +1573,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"querier\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1587,9 +1587,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"query-frontend\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1601,9 +1601,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"table-manager\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1615,9 +1615,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"compactor\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1629,9 +1629,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"ruler\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1643,9 +1643,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"memcached-chunks\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1657,9 +1657,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"memcached-frontend\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1671,9 +1671,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"memcached-index-queries\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         },
         {
@@ -1685,9 +1685,9 @@
           "expr": "absent(up{job=\"pods\",namespace=\"mla\",app_kubernetes_io_component=\"memcached-index-writes\",app_kubernetes_io_name=\"loki-distributed\"} == 1)",
           "for": "15m",
           "labels": {
+            "severity": "warning",
             "resource": "loki",
-            "service": "loki",
-            "severity": "warning"
+            "service": "loki"
           }
         }
       ]
