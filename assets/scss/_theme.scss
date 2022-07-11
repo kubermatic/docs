@@ -361,14 +361,6 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     margin-top: -1.7rem;
     margin-bottom: 3rem;
 }
-@media only all and (max-width: 59.938em) {
-    #body #navigation {
-        position: static;
-        margin-right: 0 !important;
-        width: 100%;
-        display: table;
-    }
-}
 #body .nav {
     position: fixed;
     top: 0;
