@@ -182,7 +182,7 @@ var initMobileMenuSidebar = function(body) {
 };
 
 // Clipboard for code blocks
-var initCodeClipboard = function(body) {
+var initCopyCode = function(body) {
   var codeElements = body.querySelectorAll('pre code');
 
   codeElements.forEach(function(codeEl) {
@@ -262,7 +262,7 @@ pageLayoutReady(function() {
   initMobileMenuSidebar(body);
   initMenuItemsExpand();
 
-  initCodeClipboard(body);
+  initCopyCode(body);
   initCopyAnchor(body);
 
   wrapContentImages();
