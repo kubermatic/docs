@@ -2759,7 +2759,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `group` _string_ | Group is the group name that is bound to the given project. |
-| `projectID` _string_ | ProjectID is the ID of the target project. |
+| `projectID` _string_ | ProjectID is the ID of the target project. Should be a valid lowercase RFC1123 domain name |
 | `role` _string_ | Role is the user's role within the project, determining their permissions. Possible roles are: "viewers" - allowed to get/list project resources "editors" - allowed to edit all project resources "owners" - same as editors, but also can manage users in the project |
 
 
