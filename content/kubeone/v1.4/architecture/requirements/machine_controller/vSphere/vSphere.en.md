@@ -1,6 +1,7 @@
 +++
 title = "VSphere"
 date = 2018-07-04T12:07:15+02:00
+description = "Learn about the specific requirements of VMware vSphere used by the Kubermatic machine-controller"
 weight = 7
 
 +++

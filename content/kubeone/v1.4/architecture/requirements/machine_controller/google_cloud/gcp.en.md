@@ -1,6 +1,7 @@
 +++
 title = "Google Cloud Platform"
 date = 2019-07-31T13:00:00+02:00
+description = "Learn about the specific requirements of the Google Cloud Platform used by the Kubermatic machine-controller"
 weight = 7
 
 +++
