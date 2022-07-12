@@ -5257,6 +5257,7 @@ _Appears in:_
 | `name` _string_ | Name is the full name of this user. |
 | `email` _string_ | Email is the email address of this user. Emails must be globally unique across all KKP users. |
 | `admin` _boolean_ | IsAdmin defines whether this user is an administrator with additional permissions. Admins can for example see all projects and clusters in the KKP dashboard. |
+| `groups` _string array_ | Groups holds the information to which groups the user belongs to. Set automatically when logging in to the KKP API, and used by the KKP API. |
 | `project` _string_ | Project is the name of the project that this service account user is tied to. This field is only applicable to service accounts and regular users must not set this field. |
 | `settings` _[UserSettings](#usersettings)_ |  |
 | `invalidTokensReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
