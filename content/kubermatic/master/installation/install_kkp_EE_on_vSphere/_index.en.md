@@ -1,6 +1,7 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) EE on vSphere"
 date =  2022-06-20T01:30:15+05:00
+description = "Learn how to install KKP Enterprise Edition (EE) into a pre-existing Kubernetes cluster on VMware vSphere"
 weight = 5
 enterprise = true
 +++

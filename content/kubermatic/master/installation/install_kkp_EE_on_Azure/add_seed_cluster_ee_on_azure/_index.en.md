@@ -1,6 +1,7 @@
 +++
 title = "Add Seed Cluster for EE on Azure"
 date = 2018-08-09T12:07:15+02:00
+description = "Learn how to add a new seed cluster to an existing KKP (Enterprise Edition) master cluster on Microsoft Azure"
 weight = 110
 enterprise = true
 +++

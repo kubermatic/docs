@@ -1,6 +1,7 @@
 +++
 title = "Add Seed Cluster for CE on vSphere"
 date =  2022-06-20T01:31:11+05:00
+description = "Learn how to add a new seed cluster to an existing KKP (Community Edition) master cluster on VMware vSphere"
 weight = 5
 +++
 

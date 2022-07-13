@@ -1,6 +1,7 @@
 +++
 title = "Add Seed Cluster for CE on AWS"
 date =  2022-06-20T00:15:34+05:00
+description = "Learn how to add a new seed cluster  to an existing KKP (Community Edition) master cluster on AWS"
 weight = 5
 +++
 

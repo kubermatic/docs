@@ -1,6 +1,7 @@
 +++
 title = "Monitoring, Logging & Alerting"
 date = 2021-08-04T11:58:00+02:00
+description = "Learn about the Kubermatic Kubernetes Platform MLA stack for the Master/Seed and User clusters"
 weight = 20
 +++
 

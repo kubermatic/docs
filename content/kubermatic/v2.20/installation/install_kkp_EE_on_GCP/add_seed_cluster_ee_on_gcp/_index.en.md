@@ -1,6 +1,7 @@
 +++
 title = "Add Seed Cluster for EE on GCP"
 date = 2018-08-09T12:07:15+02:00
+description = "Learn how to add a new seed cluster to an existing KKP (Enterprise Edition) master cluster on Google Cloud Platform (GCP)"
 weight = 130
 enterprise = true
 +++
