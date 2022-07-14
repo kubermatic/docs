@@ -1,6 +1,7 @@
 +++
 title = "Upgrading KKP Operator"
 date = 2021-04-22T17:33:39+02:00
+title_tag = "Upgrading KKP Operator - KKP 2.16 to KKP 2.17"
 description = "Learn how to upgrade a KKP set up that is already managed by the Operator (for KKP upgrade from 2.16 to 2.17)"
 weight = 30
 

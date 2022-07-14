@@ -1,5 +1,6 @@
 +++
 title = "Cheat Sheets"
+title_tag = "Cheat Sheets - KKP Installation"
 weight = 60
 +++
 
