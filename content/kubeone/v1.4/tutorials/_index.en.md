@@ -8,3 +8,4 @@ chapter = true
 
 # Tutorials & How-tos
 
+The best way to master KubeOne is to master the basics and everything covered under this section. These tutorials will walk you through the process of setting up and using KubeOne, and they'll also provide valuable tips and tricks that will help you get the most out of it. Whether you're a beginner or an experienced user, taking some time to review a few KubeOne tutorials is always a wise investment.

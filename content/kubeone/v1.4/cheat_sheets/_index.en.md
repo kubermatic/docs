@@ -8,3 +8,4 @@ chapter = true
 
 # Cheat Sheets
 
+Trying to keep track of everything in KubeOne? While a powerful tool, it can be tough to keep all the KubeOne concepts straight. To help you out, we've compiled a list of the most important information. These cheat sheets will help you work quickly and efficiently with KubeOne. So make sure you keep them handy!

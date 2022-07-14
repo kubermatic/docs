@@ -8,3 +8,4 @@ chapter = true
 
 # Examples
 
+If you are more comfortable learning about KubeOne from examples of specific scenarios, we have got you covered! This section provides you with a selection of scenarios that show how KubeOne can be used in specific situations. These examples are handpicked and regularly updated, so you can always find something new and relevant.

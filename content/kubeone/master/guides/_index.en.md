@@ -8,3 +8,4 @@ chapter = true
 
 # Guides
 
+The Guides section contains everything you need to know about KubeOne. From important concepts to how these concepts relate to each other, you have everything here. The guides are comprehensive and exhaustive, so you can be confident that you have all the information you need to learn and operate KubeOne. We hope that you find this section helpful and that it makes your experience with KubeOne even better!
