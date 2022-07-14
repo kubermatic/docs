@@ -1900,6 +1900,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `facilities` _string array_ | The list of enabled facilities, for example "ams1", for a full list of available facilities see https://support.packet.com/kb/articles/data-centers |
+| `metro` _string_ | Metros are facilities that are grouped together geographically and share capacity and networking features, see https://metal.equinix.com/developers/docs/locations/metros/ |
 
 
 [Back to top](#top)
