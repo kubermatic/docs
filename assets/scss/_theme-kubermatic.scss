@@ -319,10 +319,6 @@ pre code {
     font-size: 1rem !important;
 }
 
-#top-bar {
-    font-size: 1rem;
-}
-
 .notices {
     border: 1px solid var(--GRAY-color);
 }
@@ -558,6 +554,22 @@ pre .copy-to-clipboard {
     &:after {
         top: 17px;
         left: 8px;
+    }
+}
+
+.img-lightbox {
+    background-color: rgba(0,0,0,0.8);
+    cursor: -webkit-zoom-out;
+    cursor: zoom-out;
+    img {
+        max-width: 95%;
+        padding: 10px;
+        background-color: var(--WHITE-color);
+    }
+    &.animated,
+    & img.animated {
+        -webkit-animation-duration: 0.2s;
+        animation-duration: 0.2s;
     }
 }
 

@@ -79,12 +79,6 @@ a.highlight {
     z-index:200;
 }
 
-#toc-menu {
-  border-right: thin solid #DAD8D8 !important;
-  padding-right: 1rem !important;
-  margin-right: 0.5rem !important;
-}
-
 #sidebar-toggle-span {
   border-right: thin solid #DAD8D8 !important;
   padding-right: 0.5rem !important;
@@ -253,11 +247,7 @@ figcaption h4 {
 }
 
 @media only all and (max-width: 47.938em) {
-  #breadcrumbs .links, #top-github-link-text {
+  #top-github-link-text {
       display: none;
   }
-}
-
-.is-sticky #top-bar {
-  box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.1); 
 }
