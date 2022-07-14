@@ -1882,6 +1882,7 @@ _Appears in:_
 | `trustDevicePath` _boolean_ | Optional: Gets mapped to the "trust-device-path" setting in the cloud config. See https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/#block-storage This setting defaults to false. |
 | `nodeSizeRequirements` _[OpenstackNodeSizeRequirements](#openstacknodesizerequirements)_ |  |
 | `enabledFlavors` _string array_ | Optional: List of enabled flavors for the given datacenter |
+| `ipv6Enabled` _boolean_ | Optional: defines if the IPv6 is enabled for the datacenter |
 
 
 [Back to top](#top)
