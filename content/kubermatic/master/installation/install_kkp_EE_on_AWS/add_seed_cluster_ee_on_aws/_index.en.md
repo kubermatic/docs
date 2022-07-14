@@ -1,6 +1,7 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) EE on AWS"
 date =  2022-06-20T00:59:54+05:00
+title_tag = "Add new seed cluster to existing KKP master cluster on AWS"
 weight = 5
 enterprise = true
 +++

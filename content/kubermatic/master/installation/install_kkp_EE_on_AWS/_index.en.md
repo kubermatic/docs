@@ -1,6 +1,8 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) EE on AWS"
 date =  2022-06-20T00:46:55+05:00
+title_tag = "Install KKP Enterprise Edition (EE) into a pre-existing AWS Kubernetes cluster"
+description = "Learn how to install KKP Enterprise Edition (EE) into a pre-existing Kubernetes cluster on AWS"
 weight = 5
 enterprise = true
 +++

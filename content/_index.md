@@ -1,5 +1,6 @@
 +++
 title = "Docs"
+description = "Learn more about KKP, KubeOne and KubeCarrier through the official Kubermatic documentation"
 projects_title = "Product Documentation"
 
 [contribution]

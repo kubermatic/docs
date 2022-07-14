@@ -1,6 +1,7 @@
 +++
 title = "KubeOne"
 date = 2021-02-10T09:00:00+02:00
+description = "Learn how you can use Kubermatic KubeOne to automate cluster operations on all your cloud, on-prem, edge, and IoT environments"
 +++
 
 

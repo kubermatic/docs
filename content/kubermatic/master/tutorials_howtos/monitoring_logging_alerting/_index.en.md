@@ -1,6 +1,8 @@
 +++
 title = "Monitoring, Logging & Alerting"
 date = 2021-08-06T11:58:00+02:00
+title_tag = "Monitoring, Logging & Alerting - Tutorial"
+description = "Learn about the architectural impact of the KKP Monitoring, Logging and Alerting Stack"
 weight = 4
 +++
 Kubermatic Monitoring, Logging & Alerting (MLA) consists of two stacks:

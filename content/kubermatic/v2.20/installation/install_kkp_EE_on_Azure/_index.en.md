@@ -1,6 +1,7 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) EE on Azure"
 date = 2018-04-28T12:07:15+02:00
+description = "Learn how to install KKP Enterprise Edition (EE) into a pre-existing Kubernetes cluster on Microsoft Azure"
 weight = 100
 enterprise = true
 +++

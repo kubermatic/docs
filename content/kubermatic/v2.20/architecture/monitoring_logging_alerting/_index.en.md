@@ -1,6 +1,8 @@
 +++
 title = "Monitoring, Logging & Alerting"
 date = 2021-08-04T11:58:00+02:00
+title_tag = "Monitoring, Logging & Alerting - Architecture Impact"
+description = "Learn about the Kubermatic Kubernetes Platform MLA stack for the Master/Seed and User clusters"
 weight = 20
 +++
 

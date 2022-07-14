@@ -1,6 +1,7 @@
 +++
 title = "Add Seed Cluster for EE on vSphere"
 date =  2022-06-20T01:30:49+05:00
+description = "Learn how to add a new seed cluster to an existing KKP (Enterprise Edition) master cluster on VMware vSphere"
 weight = 5
 enterprise = true
 +++

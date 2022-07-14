@@ -1,6 +1,7 @@
 +++
 title = "Adding an External GKE Kubernetes Cluster"
 date = 2022-01-10T14:07:15+02:00
+description = "Detailed tutorial to help you add an existing Kubernetes cluster in GKE and then manage it using KKP"
 weight = 7
 
 +++

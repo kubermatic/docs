@@ -1,6 +1,7 @@
 +++
 title = "Architecture"
 date = 2021-02-10T09:00:00+02:00
+description = "Learn about the architecture of Kubermatic KubeOne v1.4 and how you can automate cluster operations on all environments"
 weight = 2
 enableToc = true
 +++

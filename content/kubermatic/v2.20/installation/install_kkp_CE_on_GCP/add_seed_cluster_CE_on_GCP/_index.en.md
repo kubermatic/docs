@@ -1,6 +1,7 @@
 +++
 title = "Add Seed Cluster for CE on GCP"
 date = 2022-06-15T12:07:15+02:00
+description = "Learn how to add a new seed cluster to an existing KKP (Community Edition) master cluster on Google Cloud Platform (GCP)"
 weight = 90
 +++
 
