@@ -2463,6 +2463,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `providerName` _ExternalClusterProvider_ |  |
 | `gke` _[ExternalClusterGKECloudSpec](#externalclustergkecloudspec)_ |  |
 | `eks` _[ExternalClusterEKSCloudSpec](#externalclusterekscloudspec)_ |  |
 | `aks` _[ExternalClusterAKSCloudSpec](#externalclusterakscloudspec)_ |  |
