@@ -1014,7 +1014,7 @@ kubectl get nodes
 ```
 
 You should see output such as the following one. You should have three control
-plane node and one (three for AWS) worker node(s). If you don't see all worker
+plane node and two (three for AWS) worker node(s). If you don't see all worker
 nodes yet, note that it might take several minutes for all nodes to join the
 cluster.
 
