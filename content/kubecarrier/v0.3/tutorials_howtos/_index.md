@@ -6,4 +6,4 @@ date: 2020-04-24T09:00:00+02:00
 chapter: true
 ---
 # Tutorials & How-Tos
-Read and learn how to install, use and contribute to KubeCarrier.
+Read and learn how to install, use and contribute to KubeCarrier
