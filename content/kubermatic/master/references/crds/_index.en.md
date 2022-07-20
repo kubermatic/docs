@@ -1950,6 +1950,7 @@ _Appears in:_
 | `rootPath` _string_ | Optional: The root path for cluster specific VM folders. Each cluster gets its own folder below the root folder. Must be the FQDN (for example "/datacenter-1/vm/all-kubermatic-vms-in-here") and defaults to the root VM folder: "/datacenter-1/vm" |
 | `templates` _object (keys:OperatingSystem, values:string)_ | A list of VM templates to use for a given operating system. You must define at least one template. See: https://github.com/kubermatic/machine-controller/blob/master/docs/vsphere.md#template-vms-preparation |
 | `infraManagementUser` _[VSphereCredentials](#vspherecredentials)_ | Optional: Infra management user is the user that will be used for everything except the cloud provider functionality, which will still use the credentials passed in via the Kubermatic dashboard/API. |
+| `ipv6Enabled` _boolean_ | Optional: defines if the IPv6 is enabled for the datacenter |
 
 
 [Back to top](#top)
