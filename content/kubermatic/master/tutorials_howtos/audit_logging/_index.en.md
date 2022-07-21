@@ -90,7 +90,7 @@ spec:
         outputs:
           - Name: forward
             Match: *
-            Host: "fluentdd.audit-forward.svc.cluster.local"
+            Host: "fluentd.audit-forward.svc.cluster.local"
 ```
 
 This configures the fluentbit sidecar to flush incoming audit logs every 10 seconds, filters them by a string (`user@example.com`) and writes them to a fluentd service available in-cluster.
