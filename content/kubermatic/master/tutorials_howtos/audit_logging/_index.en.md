@@ -54,6 +54,47 @@ The following presets are available right now:
     - any access (read, write or delete) to `Secrets` and `ConfigMaps` (metadata only, as the request body could include sensitive information)
 - `recommended`: Logs everything in `minimal` plus metadata for any other request. This is the most verbose audit policy preset, but is recommended due to its extended coverage of security recommendations like the CIS Benchmark
 
+#### Custom Output Configuration
+
+In some situations the default behaviour of writing the audit logs to standard output and processing them alongside regular container logs might not be desirable. For those cases, `Cluster` objects support custom configuration for the [fluentbit](https://fluentbit.io/) sidecar via `spec.auditLogging.sidecar` (also see [CRD reference]({{< ref "../../references/crds/#auditloggingsettings" >}})). 
+
+In specific, `spec.auditLogging.sidecar.config` has three fields that allow custom elements in the fluent-bit configuration. All sections in this are maps, which means any key and value can be given to set specific values.
+
+{{% notice note %}}
+Configuration options are not validated before being passed to fluentbit, so it is strongly recommended to test settings on non-production user clusters before applying them.
+{{% /notice %}}
+
+The available options are:
+
+- `service`: Configures the [[SERVICE]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_section) section, enabling fine-tuning of fluentbit. Note that some options alter fluentbit's behaviour and can cause issues in some cases (for example, adjusting the `daemon` setting).
+- `filters`: Configures one or several [[FILTER]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_filter) sections. To match audit logs, put a `match: '*'` directive in your filter definition. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/filters) for available filters.
+- `outputs` Configures one or several [[OUTPUT]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_output) sections. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/outputs) for available outputs.
+
+Since this setting is part of the cluster specification, you might have the requirement to avoid disclosing credentials used to access your log output targets (a company-wide logging system, for example). In those situations, it is recommended to set up a central forwarder in your seed cluster that is then used by fluentbit outputs. This is possible by e.g. setting up [fluentd](https://www.fluentd.org/) and using a [forward output](https://docs.fluentbit.io/manual/pipeline/outputs/forward).
+
+An example configuration could look like this:
+
+```yaml
+# Cluster spec snippet, not a complete configuration
+spec:
+  auditLogging:
+    enabled: true
+    sidecar:
+      config:
+        service:
+            Flush: 10
+        filters:
+          - Name: grep
+            Match: *
+            Regex: "user@example.com"
+        outputs:
+          - Name: forward
+            Match: *
+            fluentdd.audit-forward.svc.cluster.local"
+```
+
+This configures the fluentbit sidecar to flush incoming audit logs every 10 seconds, filters them by a string (`user@example.com`) and writes them to a fluentd service available in-cluster.
+
 #### User-Cluster Level Audit Logging
 
 To enable user-cluster level Audit Logging, simply check `Audit Logging` in the KKP dashboard `Create Cluster` page. You can either select "custom" to be able to edit the ConfigMap for audit logging later on or set your cluster up with a [preset](#audit-policy-presets):
