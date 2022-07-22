@@ -20,11 +20,12 @@ KKP supports three types of CNI (Container Network Interface) plugin types:
 
 The following table lists the versions of individual CNIs supported by KKP:
 
-| KKP version | Canal                                           | Cilium  |
-| ----------- | ----------------------------------------------- | ------- |
-| `v2.19.x`   | `v3.21`, `v3.20`, `v3.19`, (deprecated: `v3.8`) | `v1.11` |
-| `v2.18.x`   | `v3.19` (deprecated: `v3.8`)                    | -       |
-| `v2.17.x`   | `v3.8`                                          | -       |
+| KKP version | Canal                                                    | Cilium  |
+| ----------- |----------------------------------------------------------|---------|
+| `v2.20.x`   | `v3.22`, `v3.21`, `v3.20`, `v3.19`, (deprecated: `v3.8`) | `v1.11` |
+| `v2.19.x`   | `v3.21`, `v3.20`, `v3.19`, (deprecated: `v3.8`)          | `v1.11` |
+| `v2.18.x`   | `v3.19` (deprecated: `v3.8`)                             | -       |
+| `v2.17.x`   | `v3.8`                                                   | -       |
 
 **Note:** The deprecated versions cannot be used for new KKP user clusters, but are supported for backward compatibility of existing clusters.
 
@@ -144,8 +145,9 @@ Generally, only one minor version difference is allowed for each CNI upgrade. Th
 Some newer Kubernetes versions may not be compatible with already deprecated CNI versions. In such case, CNI may be forcefully upgraded together with Kubernetes version upgrade of the user cluster. The following table summarizes the cases when this will happen:
 
 | Kubernetes Version | CNI   | Old CNI Version | Version After K8s Upgrade      |
-| ------------------ | ----- | --------------- | ------------------------------ |
+|--------------------| ----- |-----------------|--------------------------------|
 | `>= 1.22`          | Canal | `v3.8`          | latest supported Canal version |
+| `>= 1.23`          | Canal | `< v3.22`       | `v3.22`                        |
 
 Again, please note that it is not a good practice to keep the clusters on an old CNI version and try to upgrade as soon as new CNI version is available next time.
 
