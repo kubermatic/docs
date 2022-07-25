@@ -1,6 +1,6 @@
 +++
 title = "Known Issues"
-date = 2022-07-20T12:22:15+02:00
+date = 2022-07-22T12:22:15+02:00
 weight = 25
 enableToc = true
 
@@ -59,3 +59,7 @@ IPVS kube-proxy mode is not really supported by Cilium as mentioned in the Ciliu
 **Solution**
 
 We do not recommend to configure the Cilium with IPVS kube-proxy mode and this option has been removed from the KKP UI as part of the issue [#4687](https://github.com/kubermatic/dashboard/issues/4687).
+
+
+
+

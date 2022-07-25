@@ -2,6 +2,7 @@
 title = "Known Issues"
 date = 2022-07-20T12:22:15+02:00
 weight = 25
+enableToc = true
 
 +++
 
@@ -44,3 +45,17 @@ As the issue is seen only with older versions of K8s which have reached end of l
 In the case where upgrade is not desirable then a work around can be applied by adding a label to the `nginx-ingress-controller` namespace as shown below.
 
 `kubectl label ns nginx-ingress-controller "kubernetes.io/metadata.name=nginx-ingress-controller"`
+
+### 2. Connectivity issue in pod-to-NodePort service in Cilium + IPVS proxy mode
+
+**Problem**
+
+In a KKP user cluster with Cilium CNI and IPVS kube-proxy mode, the connectivity between the NodePort service and client pod does not work when the service is load balanced to a pod running on a remote node. For the detailed description and the steps to reproduce the problem, refer issue [#8767](https://github.com/kubermatic/kubermatic/issues/8767).
+
+**Root Cause**
+
+IPVS kube-proxy mode is not really supported by Cilium as mentioned in the Cilium issue [#18610](https://github.com/cilium/cilium/issues/18610).
+
+**Solution**
+
+We do not recommend to configure the Cilium with IPVS kube-proxy mode and this option has been removed from the KKP UI as part of the issue [#4687](https://github.com/kubermatic/dashboard/issues/4687).
