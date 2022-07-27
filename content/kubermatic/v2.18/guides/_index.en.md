@@ -1,5 +1,6 @@
 +++
 title = "Guides"
+description = "Go through our guides to get information on ways of installing KKP to your cluster. The section also contains guides on networking, platform security and much more."
 date = 2020-02-10T11:07:15+02:00
 weight = 30
 +++

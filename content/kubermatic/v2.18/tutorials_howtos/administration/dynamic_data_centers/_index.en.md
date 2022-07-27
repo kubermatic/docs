@@ -1,5 +1,6 @@
 +++
 title = "Datacenters"
+description = "Datacenters are an integral part of Kubermatic Kubernetes Platform. Learn more about our datacenter concept and how you manage datacenters with KKP."
 date = 2021-04-07T12:07:15+02:00
 weight = 10
 

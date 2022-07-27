@@ -1,5 +1,6 @@
 +++
 title = "Install HA-Kubernetes"
+description = "Read on the document to get a complete understanding of how KubeOne can be used to set up a highly available Kubernetes cluster and details on using it."
 date = 2018-04-28T12:07:15+02:00
 weight = 10
 

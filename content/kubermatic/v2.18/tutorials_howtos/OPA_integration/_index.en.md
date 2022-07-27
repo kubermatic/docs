@@ -1,5 +1,6 @@
 +++
 title = "OPA Integration"
+description = "This manual explains how Kubermatic integrates with OPA and how to use it. Check out how you activate OPA integration for your cluster."
 date = 2021-09-08T12:07:15+02:00
 weight = 40
 

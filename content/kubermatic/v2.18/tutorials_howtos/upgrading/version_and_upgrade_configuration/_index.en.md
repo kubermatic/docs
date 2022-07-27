@@ -1,5 +1,6 @@
 +++
 title = "Versions & Update Configuration"
+description = "This chapter describes how to configure the available Kubernetes/OpenShift versions and how to provide update paths for user clusters."
 date = 2019-07-05T10:45:00+02:00
 weight = 100
 

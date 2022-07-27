@@ -1,5 +1,6 @@
 +++
 title = "Share Clusters via Delegated OIDC Authentication"
+description = "This sections will show you how to share your clusters via delegated OIDC authentication."
 date = 2018-11-23T12:01:35+02:00
 weight = 80
 

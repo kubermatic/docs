@@ -1,5 +1,6 @@
 +++
 title = "Migrating to the Operator"
+description = "This chapter outlines a migration plan for the Kubermatic Operator, starting from having KKP installed using the old kubermatic Helm chart using Helm 2.x. or 3.x."
 date = 2021-04-21T11:09:15+02:00
 weight = 30
 

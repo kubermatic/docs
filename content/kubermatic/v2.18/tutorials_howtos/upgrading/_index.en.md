@@ -1,5 +1,6 @@
 +++
 title = "Upgrading"
+description = "This section contains important upgrade notes you should read before upgrading Kubermatic Kubernetes Platform (KKP) to the next minor version."
 date =  2018-10-17T14:35:34+02:00
 weight = 50
 chapter = true

@@ -1,5 +1,6 @@
 +++
 title = "CCM migration via UI"
+description = "This manual explains how to migrate to using external Cloud Controller Managers for supported providers via the KKP UI."
 date = 2021-07-29T12:07:15+02:00
 weight = 10
 

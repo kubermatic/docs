@@ -1,5 +1,6 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) CE"
+description = "This document explains the installation procedure of Kubermatic Kubernetes Platform into a pre-existing Kubernetes cluster. Read to know more."
 date = 2018-04-28T12:07:15+02:00
 weight = 20
 

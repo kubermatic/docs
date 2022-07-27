@@ -1,5 +1,6 @@
 +++
 title = "Upgrading from 2.14 to 2.15"
+description = "KKP now supports Helm 3. With the updated CRD handling, we now recommend Helm 3 for new installations. Check the complete steps with examples."
 date = 2020-06-09T11:09:15+02:00
 weight = 90
 

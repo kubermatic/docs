@@ -1,5 +1,6 @@
 +++
 title = "Upgrading from 2.17 to 2.18"
+description = "A new Kubeadm-configmap add-on has to help you bring your own cluster. Learn more with this tutorial."
 date = 2021-06-08T18:33:39+02:00
 weight = 105
 +++
