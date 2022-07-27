@@ -103,6 +103,23 @@
       "resources": []
     },
     {
+      "addonName": "metallb",
+      "resources": [
+        {
+          "kind": "Deployment",
+          "resourceName": "controller",
+          "filename": "00_metallb.yaml",
+          "containers": []
+        },
+        {
+          "kind": "DaemonSet",
+          "resourceName": "speaker",
+          "filename": "00_metallb.yaml",
+          "containers": []
+        }
+      ]
+    },
+    {
       "addonName": "metrics-server",
       "resources": [
         {
