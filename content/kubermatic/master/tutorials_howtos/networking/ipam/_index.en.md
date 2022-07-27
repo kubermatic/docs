@@ -3,12 +3,12 @@ title = "Multi-Cluster IP Address Management (IPAM)"
 date = 2022-07-26T14:45:00+02:00
 +++
 
-Feature responsible for automating the allocation of ranges of IP addresses per-user-cluster, based on a predefined configuration ([IPAMPool](#input-resource-ipampool)) per datacenter that defines the pool subnet and the allocation size. The user cluster allocated ranges are available in the [KKP Addon](#kkp-addon-template-integration) `TemplateData`, so it can be used by various applications / Addons running in the user cluster.
+Feature responsible for automating the allocation of IP address ranges per user-cluster, based on a predefined configuration ([IPAMPool](#input-resource-ipampool)) per datacenter that defines the pool subnet and the allocation size. The user cluster allocated ranges are available in the [KKP Addon](#kkp-addon-template-integration) `TemplateData`, so it can be used by various Addons running in the user cluster.
 
 {{< table_of_contents >}}
 
 ## Motivation and Background
-Networking applications deployed in KKP user clusters need automated IP Address Management (IPAM) for IP ranges that they use, in a way that prevents address overlaps between multiple user clusters. An example for such an application is MetalLB load-balancer, for which a unique IP range from a larger CIDR range needs to be configured in each user cluster in the same datacenter. This is currently mostly done manually, by keeping evidence of allocated subnets in an external document and copy-pasting from it when deploying the MetalLB addon.
+Networking applications deployed in KKP user clusters need automated IP Address Management (IPAM) for IP ranges that they use, in a way that prevents address overlaps between multiple user clusters. An example for such an application is MetalLB load-balancer, for which a unique IP range from a larger CIDR range needs to be configured in each user cluster in the same datacenter.
 
 The goal is to provide a simple solution that is automated and less prone to human errors.
 
@@ -23,7 +23,7 @@ E.g. the first allocation for a range of size **8** in a pool subnet `192.168.1.
 192.168.1.0-192.168.1.7
 ```
 
-*Note*: There is a minimum allowed pool subnet mask based on the IP version (IPv4 or IPv6). So, if you need a large range of IPs, it's recommended to use the "prefix" type.
+*Note*: There is a minimum allowed pool subnet mask based on the IP version (**20** for IPv4 and **116** for IPv6). So, if you need a large range of IPs, it's recommended to use the "prefix" type.
 
 ### Prefix
 Results in a subnet of the pool subnet based on an input subnet prefix. Recommended when a large range of IPs is necessary.
@@ -38,7 +38,7 @@ and the second would be
 ```
 
 ## Input resource (IPAMPool)
-KKP exposes a global-scoped Custom Resource Definition (CRD) `IPAMPool` in the seed cluster. The administrators are able to define the `IPAMPool` CR with a specific name with multiple pool CIDRs with predefined allocation ranges tied to specific datacenters.
+KKP exposes a global-scoped Custom Resource Definition (CRD) `IPAMPool` in the seed cluster. The administrators are able to define the `IPAMPool` CR with a specific name with multiple pool CIDRs with predefined allocation ranges tied to specific datacenters. The administrators can also manage the IPAM pools via [API endpoints]({{< relref "../../../references/rest_api_reference/#/ipampool" >}}) (`/api/v2/seeds/{seed_name}/ipampools`).
 
 E.g. containing both allocation types for different datacenters:
 ```yaml
@@ -78,7 +78,7 @@ For the "prefix" allocation type:
 - `allocationPrefix` should be equal or greater than the pool subnet mask size.
 
 ### Modifications
-In general, modifications are not allowed. If you need to change a already applied `IPAMPool`, you should first delete it (note that all user clusters allocations `IPAMAllocation` will be deleted, in that case) and then apply it with the changes.
+In general, modifications are not allowed. If you need to change an already applied `IPAMPool`, you should first delete it (note that all user clusters allocations `IPAMAllocation` will be deleted, in that case) and then apply it with the changes.
 
 The only allowed modification in a `IPAMPool` CR is the deletion of a datacenter configuration if there is no persisted allocation `IPAMAllocation` in any user cluster for it.
 
@@ -150,7 +150,7 @@ E.g. looping all user cluster IPAM pools allocations:
 ```
 
 ## MetalLB Addon
-We implemented an KKP Addon for [MetalLB](https://metallb.universe.tf/), so its manifests will be rendered with the persisted IPAM allocations in the user cluster.
+We implemented a KKP Addon for [MetalLB](https://metallb.universe.tf/), so its manifests will be rendered with the persisted IPAM allocations in the user cluster.
 
 It means that, if the KKP user installs it, it will generate [`IPAddressPool`](https://metallb.universe.tf/configuration/#defining-the-ips-to-assign-to-the-load-balancer-services) CRs (from `metallb.io/v1beta1`) for each user cluster IPAM pool allocation, along with all other MetalLB manifests.
 
