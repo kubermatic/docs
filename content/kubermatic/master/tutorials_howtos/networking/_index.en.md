@@ -13,3 +13,4 @@ This section provides guides on networking in KKP:
 - [**API Server Network Policies**]({{< relref "./apiserver_policies/" >}})
 - [**Manual CNI Migration**]({{< relref "./cni_migration/" >}})
 - [**Multus-CNI Addon**]({{< relref "./multus/" >}})
+- [**Multi-Cluster IP Address Management (IPAM)**]({{< relref "./ipam/" >}})
