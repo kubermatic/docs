@@ -1,5 +1,6 @@
 +++
 title = "User Interface"
+description = "Get information on how to get the most out of the Kubermatic Kubernetes Platform's Dashboard and its advanced functionalities."
 date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++

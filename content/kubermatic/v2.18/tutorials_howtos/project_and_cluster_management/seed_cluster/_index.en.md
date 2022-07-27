@@ -1,5 +1,6 @@
 +++
 title = "Seed Clusters"
+description = "The Seed CustomResourceDefinition replaces the legacy datacenters with a more flexible, dynamic way of managing seed clusters. Seeds can be added and removed at runtime by simply managing Seed resources inside the master cluster."
 date = 2019-10-21T12:07:15+02:00
 weight = 10
 

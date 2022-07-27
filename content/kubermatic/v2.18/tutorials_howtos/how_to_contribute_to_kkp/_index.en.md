@@ -1,5 +1,6 @@
 +++
 title = "How To Contribute to Kubermatic Kubernetes Platform (KKP)"
+description = "This document outlines conventions on how to contribute to the community project Kubermatic Kubernetes Platform including Code of Conduct, contribution workflow, and communication channels."
 date = 2021-04-24T15:00:15+02:00
 weight = 25
 +++

@@ -1,5 +1,6 @@
 +++
 title = "Setting up Alertmanager with Slack Notifications"
+description = "This tutorial will show you how to set up Alertmanager in KKP User Cluster MLA and receive alert notifications in your Slack workspace."
 date = 2021-08-06T11:58:00+02:00
 weight = 10
 +++

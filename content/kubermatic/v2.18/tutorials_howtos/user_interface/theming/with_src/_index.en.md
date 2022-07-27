@@ -1,5 +1,6 @@
 +++
 title = "With Source Access"
+description = "There are two ways to prepare a new theme. Check out the examples and procedure of preparing a new theme with access to KKP's UI sources."
 date = 2018-06-21T14:07:15+02:00
 weight = 50
 

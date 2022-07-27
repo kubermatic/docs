@@ -1,5 +1,6 @@
 +++
 title = "Upgrading the Control Plane and the kubelets"
+description = "How to upgrade control plane and the Kubelets for Kubermatic Kubernetes Platform? Check out this section to learn more."
 date = 2019-03-12T08:55:54+01:00
 weight = 0
 

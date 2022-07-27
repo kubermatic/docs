@@ -1,5 +1,6 @@
 +++
 title = "Scaling the Control Plane"
+description = "As the load on the control plane depends on size of cluster, it might be necessary to scale up the control plane during runtime. Learn doing it."
 date = 2018-07-24T12:07:15+02:00
 weight = 0
 

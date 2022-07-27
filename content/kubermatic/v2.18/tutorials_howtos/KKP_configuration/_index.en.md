@@ -1,5 +1,6 @@
 +++
 title = "Configuration"
+description = "The Kubermatic Configuration Custom Resource Definition is used for configuring the KKP Operator. Please check an example configuration showing all options."
 date = 2020-02-04T12:07:15+02:00
 weight = 20
 
