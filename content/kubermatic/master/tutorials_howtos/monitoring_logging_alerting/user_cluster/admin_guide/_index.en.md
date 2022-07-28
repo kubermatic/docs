@@ -70,6 +70,15 @@ After the secrets are created, the MLA stack can be deployed by using the helper
 ./hack/deploy-seed.sh
 ```
 
+Please note: this helper script uses `yq` version 4.x and `jq` in addition to helm. Refer to the section below for full list of available options:
+
+```bash
+--skip-minio               this can be used if you want to configure MLA backend components to user existing minio in the cluster, if this flag is not specified, it will deploy a minio instance for you.
+--skip-minio-lifecycle-mgr this will skip the installation of minio lifecycle manager.
+--skip-dependencies        this will skip downloading dependencies for the charts from external repositories
+--download-only            this will only download the dependencies without installing MLA stack
+```
+
 This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, the steps in the helper script can be manually reproduced with tweaked Helm values. See the “Setup Customization” section for more information.
 
 Also, this will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatiable srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatiable Services](#setting-up-mla-with-existing-minio-or-other-s3-compatiable-services).
