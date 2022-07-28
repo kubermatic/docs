@@ -216,7 +216,7 @@ var initCopyAnchor = function(body) {
     var anchorWrap = document.createElement('span');
     var link = document.location.origin + document.location.pathname + '#' + anchor.id;
     anchorWrap.setAttribute('data-clipboard-text', encodeURI(link));
-    anchorWrap.setAttribute('aria-label', 'copy link to section');
+    anchorWrap.setAttribute('aria-label', 'Copy link to section');
     anchorWrap.className = 'copy-anchor';
     anchorWrap.textContent = anchor.textContent;
 
@@ -226,7 +226,7 @@ var initCopyAnchor = function(body) {
     });
 
     anchorWrap.addEventListener('mouseleave', function() {
-      anchorWrap.setAttribute('aria-label', 'copy link to section');
+      anchorWrap.setAttribute('aria-label', 'Copy link to section');
       anchorWrap.classList.remove('tooltipped');
       anchorWrap.classList.remove('tooltipped-s');
     });
