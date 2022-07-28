@@ -60,7 +60,7 @@ var scrollToAnchor = function() {
 
   if (!anchor) return;
 
-  Jump(anchor, { offset: -70 });
+  Jump(anchor, { offset: -85 });
 };
 
 var showCopyCodeTooltip = function(e, message) {
@@ -72,13 +72,8 @@ var showCopyCodeTooltip = function(e, message) {
   el.classList.add('tooltipped-' + (inPre ? 'w' : 's'));
 };
 
-var initClipboard = function() {
-  var clip = new ClipboardJS('.copy-to-clipboard', {
-    text: function(trigger) {
-      var text = trigger.previousElementSibling.textContent;
-      return text.replace(/^\$\s/gm, '');
-    }
-  });
+var initClipboard = function(selector, options) {
+  var clip = new ClipboardJS(selector, options || {});
 
   clip.on('success', function(e) {
     e.clearSelection();
@@ -129,7 +124,7 @@ var updateImageAttrs = function(image) {
 };
 
 // Execute actions on images generated from Markdown pages
-// Wrap image inside a featherlight (to get a full size view in a popup)
+// Wrap image inside a modal box (to get a full size view in a popup)
 var wrapContentImages = function() {
   var images = document.querySelectorAll("div#body-inner img");
   images.forEach(function(image) {
@@ -187,13 +182,14 @@ var initMobileMenuSidebar = function(body) {
 };
 
 // Clipboard for code blocks
-var initCodeClipboard = function(body) {
+var initCopyCode = function(body) {
   var codeElements = body.querySelectorAll('pre code');
+
   codeElements.forEach(function(codeEl) {
     var text = codeEl.textContent;
 
     if (text.length > 5) {
-      codeEl.insertAdjacentHTML('afterend', '<span class="copy-to-clipboard" title="Copy to clipboard"/>');
+      codeEl.insertAdjacentHTML('afterend', '<span class="copy-to-clipboard" title="Copy to clipboard" />');
 
       codeEl.nextElementSibling.addEventListener('mouseleave', function() {
         var el = this;
@@ -204,10 +200,61 @@ var initCodeClipboard = function(body) {
       });
     }
   });
+
+  initClipboard('.copy-to-clipboard', {
+    text: function(trigger) {
+      var text = trigger.previousElementSibling.textContent;
+      return text.replace(/^\$\s/gm, '');
+    }
+  });
 }
 
-window.addEventListener('DOMContentLoaded', function() {
-  scrollToAnchor();
+var initCopyAnchor = function(body) {
+  var anchors = body.querySelectorAll('#body-inner > [id]');
+
+  anchors.forEach(function(anchor) {
+    var anchorWrap = document.createElement('span');
+    var link = document.location.origin + document.location.pathname + '#' + anchor.id;
+    anchorWrap.setAttribute('data-clipboard-text', encodeURI(link));
+    anchorWrap.setAttribute('aria-label', 'Copy link to section');
+    anchorWrap.className = 'copy-anchor';
+    anchorWrap.textContent = anchor.textContent;
+
+    anchorWrap.addEventListener('mouseover', function() {
+      anchorWrap.classList.add('tooltipped');
+      anchorWrap.classList.add('tooltipped-s');
+    });
+
+    anchorWrap.addEventListener('mouseleave', function() {
+      anchorWrap.setAttribute('aria-label', 'Copy link to section');
+      anchorWrap.classList.remove('tooltipped');
+      anchorWrap.classList.remove('tooltipped-s');
+    });
+
+    anchor.innerHTML = null;
+    anchor.appendChild(anchorWrap);
+  });
+
+  initClipboard('.copy-anchor');
+};
+
+function pageLayoutReady(fn) {
+  if (document.readyState !== 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+function pageReady(fn) {
+  if (document.readyState === 'complete') {
+    fn();
+  } else {
+    window.addEventListener('load', fn);
+  }
+}
+
+pageLayoutReady(function() {
   var body = document.body;
 
   handleSidebarMenu();
@@ -215,10 +262,12 @@ window.addEventListener('DOMContentLoaded', function() {
   initMobileMenuSidebar(body);
   initMenuItemsExpand();
 
-  initCodeClipboard(body);
-  initClipboard();
+  initCopyCode(body);
+  initCopyAnchor(body);
 
   wrapContentImages();
   imgLightbox('img-lightbox-link', {rate: 10});
   initExpandShortcode();
 });
+
+pageReady(scrollToAnchor);

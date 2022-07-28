@@ -573,6 +573,14 @@ pre .copy-to-clipboard {
     }
 }
 
+.copy-anchor {
+    transition: 0.1s;
+    &:hover {
+        color: var(--MAIN-ACCENT-color);
+        cursor: pointer;
+    }
+}
+
 @media only all and (max-width: 59.938em) {
     #body {
         margin-left: 300px;
