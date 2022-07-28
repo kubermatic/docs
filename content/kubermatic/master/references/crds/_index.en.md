@@ -2589,6 +2589,37 @@ _Appears in:_
 
 
 
+### ExternalClusterProviderType
+
+_Underlying type:_ `string`
+
+ExternalClusterProviderType is used to indicate ExternalCluster Provider Types.
+
+_Appears in:_
+- [KubermaticVersioningConfiguration](#kubermaticversioningconfiguration)
+
+
+
+### ExternalClusterProviderVersioningConfiguration
+
+
+
+ExternalClusterProviderVersioningConfiguration configures the available and default Kubernetes versions for ExternalCluster Providers.
+
+_Appears in:_
+- [KubermaticVersioningConfiguration](#kubermaticversioningconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `versions` _Semver array_ | Versions lists the available versions. |
+| `default` _Semver_ | Default is the default version to offer users. |
+| `updates` _Semver array_ | Updates is a list of available upgrades. |
+
+
+[Back to top](#top)
+
+
+
 ### ExternalClusterSpec
 
 
@@ -3522,6 +3553,7 @@ _Appears in:_
 | `default` _Semver_ | Default is the default version to offer users. |
 | `updates` _[Update](#update) array_ | Updates is a list of available and automatic upgrades. All 'to' versions must be configured in the version list for this orchestrator. Each update may optionally be configured to be 'automatic: true', in which case the controlplane of all clusters whose version matches the 'from' directive will get updated to the 'to' version. If automatic is enabled, the 'to' version must be a version and not a version range. Also, updates may set 'automaticNodeUpdate: true', in which case Nodes will get updates as well. 'automaticNodeUpdate: true' implies 'automatic: true' as well, because Nodes may not have a newer version than the controlplane. |
 | `providerIncompatibilities` _[Incompatibility](#incompatibility) array_ | ProviderIncompatibilities lists all the Kubernetes version incompatibilities |
+| `externalClusters` _object (keys:[ExternalClusterProviderType](#externalclusterprovidertype), values:[ExternalClusterProviderVersioningConfiguration](#externalclusterproviderversioningconfiguration))_ | ExternalClusters contains the available and default Kubernetes versions and updates for ExternalClusters. |
 
 
 [Back to top](#top)
