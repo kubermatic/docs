@@ -189,7 +189,7 @@ var initCopyCode = function(body) {
     var text = codeEl.textContent;
 
     if (text.length > 5) {
-      codeEl.insertAdjacentHTML('afterend', '<span class="copy-to-clipboard" title="Copy to clipboard" />');
+      codeEl.insertAdjacentHTML('afterend', '<span class="copy-to-clipboard" title="Copy to clipboard"/>');
 
       codeEl.nextElementSibling.addEventListener('mouseleave', function() {
         var el = this;
