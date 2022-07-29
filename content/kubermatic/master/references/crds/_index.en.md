@@ -3593,7 +3593,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `enabled` _boolean_ | Controls whether kubernetes-dashboard is deployed to the user cluster or not. |
+| `enabled` _boolean_ | Controls whether kubernetes-dashboard is deployed to the user cluster or not. Enabled by default. |
 
 
 [Back to top](#top)
