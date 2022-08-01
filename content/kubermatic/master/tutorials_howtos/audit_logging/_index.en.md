@@ -95,6 +95,22 @@ spec:
 
 This configures the fluentbit sidecar to flush incoming audit logs every 10 seconds, filters them by a string (`user@example.com`) and writes them to a manually deployed fluentd service available in-cluster.
 
+##### Audit Logs Source Identification
+
+Depending on your architecture, it might be advisable to use the sidecar configuration options to enrich logs with metadata, e.g. the cluster name. This is likely necessary to differentiate the source of your audit logs in a central storage location. This can be done via a filter plugin, like this:
+
+```yaml
+# snippet, needs to be added to spec.auditLogging.sidecar
+filters:
+  - Name: record_modifier
+    Match: *
+    Record: cluster <CLUSTER ID>
+```
+
+Replace `<CLUSTER ID>` with the ID of your cluster.
+
+Future KKP releases may add an environment variable to automatically get the cluster ID or even enrich records with this information by default.
+
 #### User-Cluster Level Audit Logging
 
 To enable user-cluster level Audit Logging, simply check `Audit Logging` in the KKP dashboard `Create Cluster` page. You can either select "custom" to be able to edit the ConfigMap for audit logging later on or set your cluster up with a [preset](#audit-policy-presets):
