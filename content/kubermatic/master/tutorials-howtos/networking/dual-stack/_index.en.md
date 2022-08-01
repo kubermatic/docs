@@ -86,7 +86,7 @@ IPv4 as the primary IP family (meaning that IPv4 address must be the first in th
 ## Verifying Dual-Stack Networking in a User Cluster
 in order to verify the connectivity in a dual-stack enabled user cluster, please refer to the
 [Validate IPv4/IPv6 dual-stack](https://kubernetes.io/docs/tasks/network/validate-dual-stack/) page in the
-Kubernetes documentation. Pleas note the [cloud-provider specifics & limitations](#cloud-provider-specifics-and-limitations)
+Kubernetes documentation. Please note the [cloud-provider specifics & limitations](#cloud-provider-specifics-and-limitations)
 section below, as some features may not be supported on the given cloud-provider.
 
 ## Cloud-Provider Specifics and Limitations
