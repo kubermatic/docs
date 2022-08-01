@@ -150,8 +150,8 @@ E.g. looping all user cluster IPAM pools allocations:
 ```
 
 ## MetalLB Addon
-We implemented a KKP Addon for [MetalLB](https://metallb.universe.tf/), so its manifests will be rendered with the persisted IPAM allocations in the user cluster.
+We implemented a KKP Addon for [MetalLB](https://metallb.universe.tf/). It takes the IPAM allocation for the user cluster from the IPAM pool named `metallb` and automatically installs the equivalent MetalLB IP address pool in the user cluster.
 
-It means that, if the KKP user installs it, it will generate [`IPAddressPool`](https://metallb.universe.tf/configuration/#defining-the-ips-to-assign-to-the-load-balancer-services) CRs (from `metallb.io/v1beta1`) for each user cluster IPAM pool allocation, along with all other MetalLB manifests.
+It means that, if the KKP user installs it, it will generate an [`IPAddressPool`](https://metallb.universe.tf/configuration/#defining-the-ips-to-assign-to-the-load-balancer-services) CR (from `metallb.io/v1beta1`) for the user cluster's `IPAMAllocation` CR with name `metallb`, along with all other MetalLB manifests.
 
 The Addon manifests can be found [here](https://github.com/kubermatic/kubermatic/blob/master/addons/metallb/).
