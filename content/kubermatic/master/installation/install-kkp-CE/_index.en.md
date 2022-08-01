@@ -273,7 +273,7 @@ kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
 #### Identity Aware Proxy
 
 It's a common step to later setup an identity-aware proxy (IAP) to
-[securely access other KKP components]({{< ref "../../architecture/concept/kkp-concepts/kkp_security/securing_system_services" >}}) from the logging or monitoring
+[securely access other KKP components]({{< ref "../../architecture/concept/kkp-concepts/kkp-security/securing-system-services" >}}) from the logging or monitoring
 stacks. This involves setting up either individual DNS records per IAP deployment (one for Prometheus, one for Grafana, etc.)
 or simply creating a single **wildcard** record: `*.kubermatic.example.com`.
 
