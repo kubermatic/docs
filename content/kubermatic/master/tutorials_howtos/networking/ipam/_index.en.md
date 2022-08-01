@@ -155,3 +155,4 @@ We implemented a KKP Addon for [MetalLB](https://metallb.universe.tf/). It takes
 It means that, if the KKP user installs it, it will generate an [`IPAddressPool`](https://metallb.universe.tf/configuration/#defining-the-ips-to-assign-to-the-load-balancer-services) CR (from `metallb.io/v1beta1`) for the user cluster's `IPAMAllocation` CR with name `metallb`, along with all other MetalLB manifests.
 
 The Addon manifests can be found [here](https://github.com/kubermatic/kubermatic/blob/master/addons/metallb/).
+
