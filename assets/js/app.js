@@ -210,7 +210,7 @@ var initCopyCode = function(body) {
 }
 
 var initCopyAnchor = function(body) {
-  var anchors = body.querySelectorAll('#body-inner > [id]');
+  var anchors = body.querySelectorAll('#body-inner > h2[id], #body-inner > h3[id], #body-inner > h4[id], #body-inner > h5[id], #body-inner > h6[id]');
 
   anchors.forEach(function(anchor) {
     var anchorWrap = document.createElement('span');
