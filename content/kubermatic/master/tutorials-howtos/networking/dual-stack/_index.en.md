@@ -21,7 +21,7 @@ KKP supports dual-stack networking for KKP-managed user clusters for the followi
  - Azure
  - BYO / kubeadm
  - DigitalOcean
- - Equnix Metal
+ - Equinix Metal
  - GCP
  - Hetzner
  - OpenStack
@@ -151,10 +151,22 @@ Limitations:
 such as [MetalLB](https://metallb.universe.tf/) to make them work in your custom kubeadm setup.
 
 ### DigitalOcean
-TODO
+Dual-stack feature is available automatically for all new user clusters in DigitalOcean.
 
-### Equnix Metal
-TODO
+Limitations:
+- Services of type `LoadBalancer` are not yet supported in KKP on DigitalOcean (not even for IPv4-only clusters).
+
+Related issues:
+- https://github.com/kubermatic/kubermatic/issues/8847
+
+### Equinix Metal
+Dual-stack feature is available automatically for all new user clusters in Equinix Metal.
+
+Limitations:
+- Services of type `LoadBalancer` are not yet supported in KKP on Equinix Metal (not even for IPv4-only clusters).
+
+Related issues:
+- https://github.com/kubermatic/kubermatic/issues/10648
 
 ### GCP
 TODO
