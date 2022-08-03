@@ -13,7 +13,7 @@ The administrator guide is available at the [User Cluster MLA Admin Guide]({{< r
 
 Once the User Cluster MLA feature is enabled in KKP, user can enable monitoring and logging for a user cluster via the KKP UI as shown below:
 
-![MLA UI - Cluster Create](/img/kubermatic/master/monitoring/user-cluster/ui_cluster_create.png)
+![MLA UI - Cluster Create](/img/kubermatic/master/monitoring/user_cluster/ui_cluster_create.png)
 
 Users can enable monitoring and logging independently, and also can disable or enable them after the cluster is created.
 
@@ -28,9 +28,9 @@ the exposed metrics will be scraped by user cluster Prometheus and become availa
 
 Given that the addons have been already [enabled in the KKP installation]({{< relref "../admin-guide/#addons-configuration" >}}), they can be enabled via the KKP UI on the cluster page, as shown below:
 
-![KKP UI - Addons](/img/kubermatic/master/monitoring/user-cluster/ui_addons.png)
+![KKP UI - Addons](/img/kubermatic/master/monitoring/user_cluster/ui_addons.png)
 
-![KKP UI - Addons](/img/kubermatic/master/monitoring/user-cluster/ui_addons_select.png)
+![KKP UI - Addons](/img/kubermatic/master/monitoring/user_cluster/ui_addons_select.png)
 
 ## Exposing Application Metrics
 
@@ -96,9 +96,9 @@ Once monitoring and/or logging are enabled for a user cluster, users can access 
 
 Every KKP Project is mapped to a Grafana Organization with name of `<project-name>- <project-id>` respectively, and if users want to access metrics and logs of different user clusters which belong to different KKP Projects, they can navigate between different Grafana Organizations as shown below (in the bottom left corner of Grafana UI, navigate to your profile icon - > Current Org. -> Switch):
 
-![Grafana UI - Organizations](/img/kubermatic/master/monitoring/user-cluster/ui_grafana_orgs.png)
+![Grafana UI - Organizations](/img/kubermatic/master/monitoring/user_cluster/ui_grafana_orgs.png)
 
-![Grafana UI - Organizations](/img/kubermatic/master/monitoring/user-cluster/ui_grafana_orgs2.png)
+![Grafana UI - Organizations](/img/kubermatic/master/monitoring/user_cluster/ui_grafana_orgs2.png)
 
 User’s permission in Grafana Organization is tied to the role in the KKP Project. The table below demonstrates the mapping between KKP role and Grafana Organization role:
 
@@ -117,13 +117,13 @@ For every user cluster with MLA enabled, corresponding Grafana Datasources will 
 - A Datasource with the name `Loki <cluster-name>` is created for accessing logs data if User Cluster Logging is enabled.
 - A Datasource with the name `Prometheus <cluster-name>` is created for accessing metrics data if User Cluster Monitoring is enabled.
 
-![Grafana UI - Datasources](/img/kubermatic/master/monitoring/user-cluster/ui_grafana_datasources.png)
+![Grafana UI - Datasources](/img/kubermatic/master/monitoring/user_cluster/ui_grafana_datasources.png)
 
 ### Grafana Dashboards
 
 There are some pre-installed Grafana Dashboards which can be found in Grafana UI under Dashboards -> Manage:
 
-![Grafana UI - Dashboards](/img/kubermatic/master/monitoring/user-cluster/ui_grafana_dashboards.png)
+![Grafana UI - Dashboards](/img/kubermatic/master/monitoring/user_cluster/ui_grafana_dashboards.png)
 
 KKP administrators can configure the set of Dashboards deployed for each user cluster - see the Manage Grafana Dashboard section of the Admin guide.
 
@@ -133,7 +133,7 @@ Users can also add their own custom Dashboards for more data visualization via G
 
 KKP provides API and UI to allow users to configure Alertmanager on a per user cluster basis. The “Monitoring, Logging & Alerting” tab will be visible if monitoring or logging is enabled for the user cluster:
 
-![KKP UI - Alertmanager](/img/kubermatic/master/monitoring/user-cluster/ui_alertmanager.png)
+![KKP UI - Alertmanager](/img/kubermatic/master/monitoring/user_cluster/ui_alertmanager.png)
 
 There will be a default Alertmanager configuration which is created by KKP, and users can click “Open Alertmanager UI” to navigate to the Alertmanager UI.
 
@@ -143,11 +143,11 @@ Users can configure Alertmanager configuration with customized receivers and tem
 
 KKP User Cluster MLA supports Prometheus-compatible rules for metrics and logs. The table on the “Monitoring, Logging & Alerting” tab can be used to manage both recording rules and alerting rules:
 
-![KKP UI - Alerting Rules](/img/kubermatic/master/monitoring/user-cluster/ui_alert_rules.png)
+![KKP UI - Alerting Rules](/img/kubermatic/master/monitoring/user_cluster/ui_alert_rules.png)
 
 It supports rules for both metrics and logs. For adding a new rule group, click on the “+ Add Rule Group” button, select the rule type and fill the “Data” input with rule group in YAML format:
 
-![KKP UI - Alerting Rules Data](/img/kubermatic/master/monitoring/user-cluster/ui_alert_rules_data.png)
+![KKP UI - Alerting Rules Data](/img/kubermatic/master/monitoring/user_cluster/ui_alert_rules_data.png)
 
 For more information about Prometheus rules, please check [Prometheus Recording Rules](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/) and [Prometheus Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/).
 

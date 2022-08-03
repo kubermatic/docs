@@ -7,7 +7,7 @@ weight = 20
 Custom Links section in the Admin Panel allows user to control the way custom links are displayed in the Kubermatic
 Dashboard. Choose the place that suits you best, whether it is a sidebar, footer or a help & support panel.
 
-![Admin Panel](/img/kubermatic/master/ui/custom-links.png?height=250px&classes=shadow,border "Custom Links Settings")
+![Admin Panel](/img/kubermatic/master/ui/custom_links.png?height=250px&classes=shadow,border "Custom Links Settings")
 
 - ### [Managing Custom Links](#managing-custom-links)
 - ### [API Documentation](#api-documentation)

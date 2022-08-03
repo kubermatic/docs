@@ -7,7 +7,7 @@ weight = 20
 Cluster Settings section in the Admin Panel allows user to control various cluster-related settings. They
 can influence cluster creation, management and cleanup after deletion.
 
-![](/img/kubermatic/master/ui/cluster-settings.png?height=300px&classes=shadow,border)
+![](/img/kubermatic/master/ui/cluster_settings.png?height=300px&classes=shadow,border)
 
 - ### [Cleanup on Cluster Deletion](#cleanup-on-cluster-deletion)
 - ### [Machine Deployment](#machine-deployment)

@@ -42,7 +42,7 @@ For more detailed info check [Etcd Backup and Restore]({{< ref "../../cheat-shee
 
 EtcdBackups and Restores are project resources, and you can manage them in the Project view.
 
-![Etcd Backups View](/img/kubermatic/master/ui/etcd-backups.png?classes=shadow,border "Project Etcd Backups")
+![Etcd Backups View](/img/kubermatic/master/ui/etcd_backups.png?classes=shadow,border "Project Etcd Backups")
 
 To create a backup, just click on the `Add Automatic Backup` button. You have a choice of preset daily, weekly or monthly backups,
 or you can create a backup with a custom interval and keep time. The destination dropdown is based on the configured backup destinations
