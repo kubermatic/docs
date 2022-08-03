@@ -97,13 +97,16 @@ that the VPC and subnets used to host the worker nodes need to be dual-stack ena
 
 Limitations:
 - Worker nodes do not have their IPv6 IP addresses published in k8s API (`kubectl describe nodes`), but have them physically
-(can be seen after SSHing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
+(can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
 - Dual-Stack services of type `LoadBalancer` are not yet supported by AWS cloud-controller-manager. Only `NodePort` services can be used
 to expose services outside the cluster via IPv6.
 
 Related issues:
  - https://github.com/kubermatic/kubermatic/issues/9899
  - https://github.com/kubernetes/cloud-provider-aws/issues/79
+
+Docs:
+ - [AWS: Subnets for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html)
 
 ### Azure
 Dual-stack feature is available automatically for all new user clusters in Azure. Please note however that the VNet
@@ -118,6 +121,9 @@ to expose services outside the cluster via IPv6.
 Related issues:
  - https://github.com/kubernetes-sigs/cloud-provider-azure/issues/814
  - https://github.com/kubernetes-sigs/cloud-provider-azure/issues/1831
+
+Docs:
+ - [Overview of IPv6 for Azure Virtual Network](https://docs.microsoft.com/en-us/azure/virtual-network/ip-services/ipv6-overview)
 
 ### BYO / kubeadm
 Dual-stack feature is available automatically for all new Bring-Your-Own (kubeadm) user clusters.
@@ -150,6 +156,9 @@ Limitations:
 - Services of type `LoadBalancer` don't work out of the box in BYO/kubeadm clusters. You can use additional addon software,
 such as [MetalLB](https://metallb.universe.tf/) to make them work in your custom kubeadm setup.
 
+Docs:
+ - [Dual-stack support with kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/dual-stack-support/)
+
 ### DigitalOcean
 Dual-stack feature is available automatically for all new user clusters in DigitalOcean.
 
@@ -169,10 +178,37 @@ Related issues:
 - https://github.com/kubermatic/kubermatic/issues/10648
 
 ### GCP
-TODO
+Dual-stack feature is available automatically for all new user clusters in GCP. Please note however,
+that the subnet used to host the worker nodes need to be dual-stack enabled - i.e. must have both IPv4 and IPv6 CIDR assigned.
+
+Limitations:
+- Worker nodes do not have their IPv6 IP addresses published in k8s API (`kubectl describe nodes`), but have them physically
+  (can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
+- Dual-Stack services of type `LoadBalancer` are not yet supported by GCP cloud-controller-manager. Only `NodePort` services can be used
+  to expose services outside the cluster via IPv6.
+
+Related issues:
+- https://github.com/kubermatic/kubermatic/issues/9899
+- https://github.com/kubernetes/cloud-provider-gcp/issues/324
+
+Docs:
+ - [GCP: Create and modify VPC Networks](https://cloud.google.com/vpc/docs/create-modify-vpc-networks)
 
 ### Hetzner
-TODO
+Dual-stack feature is available automatically for all new user clusters in Hetzner.
+
+Please note that all services of type `LoadBalancer` in Hetzner need to have a
+[network zone / location](https://docs.hetzner.com/cloud/general/locations/) specified via an annotation,
+for example `load-balancer.hetzner.cloud/network-zone: "eu-central"` or `load-balancer.hetzner.cloud/location: "fsn1"`.
+Without one of these annotations, the load-balancer will be stuck in pending state.
+
+Limitations:
+- Due to the [issue with node ExternalIP ordering](https://github.com/hetznercloud/hcloud-cloud-controller-manager/issues/305),
+we recommend using dual-stack clusters on Hetzner only with [Konnectivity]({{< relref "../cni_cluster_network/#konnectivity" >}})
+enabled, otherwise errors can be seen when issuing `kubectl logs` / `kubectl exec` / `kubectl cp` commands on the cluster.
+
+Related Issues:
+- https://github.com/hetznercloud/hcloud-cloud-controller-manager/issues/305
 
 ### OpenStack
 As IPv6 support in OpenStack highly depends on the datacenter setup, dual-stack feature in KKP is available only in
