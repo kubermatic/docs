@@ -86,8 +86,8 @@ var initClipboard = function(selector, options) {
 };
 
 // Get Parameters from some url
-var getUrlParameter = function getUrlParameter(sPageURL) {
-  var url = sPageURL.split('?');
+var getUrlParameter = function(sPageURL) {
+  var url = cleanupHTML(sPageURL).split('?');
   var obj = {};
   if (url.length == 2) {
     var sURLVariables = url[1].split('&'),
@@ -101,6 +101,12 @@ var getUrlParameter = function getUrlParameter(sPageURL) {
   } else {
     return undefined;
   }
+};
+
+var cleanupHTML = function(str) {
+  var temp = document.createElement('div');
+  temp.textContent = str;
+  return temp.innerHTML;
 };
 
 // Change styles, depending on parameters set to the image
@@ -117,7 +123,7 @@ var updateImageAttrs = function(image) {
     if (typeof c !== "undefined") {
       var classes = c.split(',');
       for (i = 0; i < classes.length; i++) {
-        image.classList.add(classes[i]);
+        classes[i] && image.classList.add(classes[i]);
       }
     }
   }
