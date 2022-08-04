@@ -1,4 +1,5 @@
 +++
-title = "Docs"
-
+title = "KubeCarrier Docs"
+description = "The operator of operators. Centrally manage all your services and applications across multiple clusters, clouds and regions with Kubernetes native API and tooling."
 +++
+The operator of operators. Centrally manage all your services and applications across multiple clusters, clouds and regions with Kubernetes native API and tooling.
