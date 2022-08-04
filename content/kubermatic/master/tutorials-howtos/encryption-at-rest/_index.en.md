@@ -20,28 +20,30 @@ Data will either be encrypted with static encryption keys or via envelope encryp
 
 ## Configuring Encryption at Rest
 
-Encryption at rest can be configured by updating an existing `Cluster` resource via `kubectl edit cluster <Cluster ID>`. Here is an example of what `spec.encryptionConfiguration` can look like:
+Encryption at rest can be configured by updating an existing `Cluster` resource via `kubectl edit cluster <Cluster ID>`. At the moment, a feature gate is required on the cluster to enable the feature. Here is an example of what `spec.encryptionConfiguration` can look like:
 
 ```yaml
 # only a snippet, not valid on its own!
 spec:
-    encryptionConfiguration:
-        enabled: true
-        resources:
-            - secrets
-        secretbox:
-            keys:
-                - name: encryption-key-2022-01
-                  secretRef:
-                    name: encryption-key-2022-01
-                    key: key
+  features:
+    encryptionAtRest: true
+  encryptionConfiguration:
+    enabled: true
+    resources:
+      - secrets
+    secretbox:
+      keys:
+        - name: encryption-key-2022-01
+          secretRef:
+            name: encryption-key-2022-01
+            key: key
 ```
 
 Check out the [Kubermatic CRD documentation]({{< ref "../../references/crds/#encryptionconfiguration" >}}) for a full overview of the configuration options.
 
 ### Encrypted Resources
 
-While most users might want to encrypt their `Secret` resources at rest, the encryption at rest feature is flexible enough to expand to other resource types. This can be useful if you have CRDs for custom resources that store sensitive data. A list of encrypted resources can be passed via `spec.encryptionConfiguration.resources`.
+While most users might want to encrypt their `Secret` resources at rest, the encryption at rest feature is flexible enough to expand to other resource types. This can be useful if you have CRDs for custom resources that store sensitive data. A list of encrypted resources can be passed via `spec.encryptionConfiguration.resources`. At the moment, the list of resources is static and cannot be changed once encryption at rest is enabled. You will need to disable encryption at rest before re-configuring it. This might change in future versions of the feature.
 
 Resource types should be passed in their plural form, all lowercase.
 
@@ -58,30 +60,29 @@ Each key needs to be 32-byte long and needs to be base64-encoded. A key can be g
 ```yaml
 # snippet for directly passing a key
 spec:
-    encryptionConfiguration:
-        enabled: true
-        resources:
-            - secrets
-        secretbox:
-            keys:
-                - name: encryption-key-2022-01
-                  value: ynCl8otobs5NuHuS3TLghqwFXVpv6N//SE6ZVTimYok=
+  encryptionConfiguration:
+    enabled: true
+    resources:
+      - secrets
+    secretbox:
+      keys:
+        - name: encryption-key-2022-01
+          value: ynCl8otobs5NuHuS3TLghqwFXVpv6N//SE6ZVTimYok=
 ```
 
 ```
 # snippet for referencing a secret
 spec:
-    encryptionConfiguration:
-        enabled: true
-        resources:
-            - secrets
-        secretbox:
-            keys:
-                - name: encryption-key-2022-01
-                  secretRef:
-                    name: encryption-key-2022-01
-                    key: key
-
+  encryptionConfiguration:
+    enabled: true
+    resources:
+      - secrets
+    secretbox:
+      keys:
+        - name: encryption-key-2022-01
+          secretRef:
+            name: encryption-key-2022-01
+            key: key
 ```
 
 If a key is referenced by a `secretRef`, KKP does not react to updates to the key `Secret` after it has been used for configuring encryption at rest. Follow the key rotation process with a new `Secret` if you want to update the active encryption key.
@@ -110,20 +111,20 @@ Key rotation can be facilitated by first adding a secondary key to the respectiv
 ```yaml
 # only a snippet, not valid on its own!
 spec:
-    encryptionConfiguration:
-        enabled: true
-        resources:
-            - secrets
-        secretbox:
-            keys:
-                - name: encryption-key-2022-01
-                  secretRef:
-                    name: encryption-key-2022-01
-                    key: key
-                - name: encryption-key-2022-02
-                  secretRef:
-                    name: encryption-key-2022-02
-                    key: key
+  encryptionConfiguration:
+    enabled: true
+    resources:
+      - secrets
+    secretbox:
+      keys:
+        - name: encryption-key-2022-01
+          secretRef:
+            name: encryption-key-2022-01
+            key: key
+        - name: encryption-key-2022-02
+          secretRef:
+            name: encryption-key-2022-02
+            key: key
 ```
 
 This will configure the contents of `encryption-key-2022-02` as secondary encryption key. Secondary keys allow to decrypt data that is not encrypted with the primary key. This needs to be done so all control plane components can decrypt data once the key is rotated to be the primary key and is thus used to encrypt resources. KKP will rotate involved components, but will not run a re-encryption job, as data in etcd does not need to be encrypted again for this update.
@@ -134,20 +135,20 @@ After control plane components have been rotated, switch the position of the two
 ```yaml
 # only a snippet, not valid on its own!
 spec:
-    encryptionConfiguration:
-        enabled: true
-        resources:
-            - secrets
-        secretbox:
-            keys:
-                - name: encryption-key-2022-02
-                  secretRef:
-                    name: encryption-key-2022-02
-                    key: key
-                - name: encryption-key-2022-01
-                  secretRef:
-                    name: encryption-key-2022-01
-                    key: key
+  encryptionConfiguration:
+    enabled: true
+    resources:
+      - secrets
+    secretbox:
+      keys:
+        - name: encryption-key-2022-02
+          secretRef:
+            name: encryption-key-2022-02
+            key: key
+        - name: encryption-key-2022-01
+          secretRef:
+            name: encryption-key-2022-01
+            key: key
 ```
 
 The secondary key now becomes the primary key. Data in etcd can still be read because the old key is still configured as a secondary key. KKP will reconfigure control plane components and launch a data re-encryption job for existing resources.
