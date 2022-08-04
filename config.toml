@@ -12,9 +12,14 @@ enableRobotsTXT = true
     mediaType = "application/json"
     isPlainText = true
     notAlternative = true
+  [outputFormats.Redirects]
+    baseName = "_redirects"
+    mediaType = "application/octet-stream"
+    isPlainText = true
+    notAlternative = true
 
 [outputs]
-home = ["HTML", "Search"]
+home = ["HTML", "Search", "Redirects"]
 section = ["HTML"]
 
 [params]
