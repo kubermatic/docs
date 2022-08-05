@@ -1,7 +1,8 @@
 +++
-title = "Metering (EE)"
+title = "Metering"
 date = 2021-09-01T11:47:15+02:00
 weight = 16
+enterprise = true
 
 +++
 
