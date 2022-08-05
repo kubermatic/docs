@@ -7,8 +7,8 @@ weight = 5
 
 ## Overview
 
-A project is an entity that holds various resources.  All resources in a project are equal in terms of the `groups` attached
-to them. Affiliation of a `user` to one of the `groups` gives them certain powers they are allowed to use within a project.
+A project is an entity that logically groups various resources.  All resources in a project can be accessed by users that have the correct role associated with them.
+Affiliation of a user to one of the roles gives them certain powers they are allowed to use within a project.
 
 ### Kubermatic Kubernetes Platform (KKP) roles
 
