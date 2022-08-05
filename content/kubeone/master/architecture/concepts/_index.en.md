@@ -115,6 +115,12 @@ kubeone config print --full
 You can find more details about machine-controller in the
 [Managing Worker Nodes Using Kubermatic machine-controller document][using-machine-controller].
 
+## Kubermatic operating-system-manager
+
+[Kubermatic operating-system-manager][operating-system-manager] is used to create and manage worker node
+configurations in a kubernetes cluster. It works in liaison with [machine-controller][machine-controller]
+and provides the required user-data to machine-controller that is used to provision the worker nodes.
+
 ### Cluster API
 
 Cluster API is a Kubernetes sub-project focused on providing declarative APIs
@@ -163,3 +169,4 @@ MachineSets/Machines and allow advanced use cases such as rolling updates.
 [cluster-api]: https://github.com/kubernetes-sigs/cluster-api
 [cluster-api-book]: https://cluster-api.sigs.k8s.io/
 [cluster-provisioning]: {{< ref "#cluster-provisioning-and-management" >}}
+[operating-system-manager]: https://github.com/kubermatic/operating-system-manager
