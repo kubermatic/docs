@@ -11,3 +11,7 @@ tutorials-tests/cypress/fixtures
 
 # Hugo
 .hugo_build.lock
+
+# MacOS indexing files
+.DS_Store
+
