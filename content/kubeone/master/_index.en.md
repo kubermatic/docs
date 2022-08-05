@@ -76,7 +76,7 @@ features, connect with us over the forums or Slack:
 [cluster-api]: https://github.com/kubernetes-sigs/cluster-api
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [architecture]: {{< ref "./architecture" >}}
-[contributing-guide]: {{< ref "./tutorials/how_to_contribute_to_kubeone" >}}
+[contributing-guide]: {{< ref "./tutorials/how-to-contribute-to-kubeone" >}}
 [slack-kubeone]: https://kubernetes.slack.com/messages/CNEV2UMT7
 [slack-k8s]: http://slack.k8s.io/
 [forums]: https://forum.kubermatic.com/

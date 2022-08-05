@@ -47,7 +47,7 @@ Please check the
 document for more details about making the example configs suitable for
 the production usage.
 
-[production_recommendations]: {{< ref "../../cheat_sheets/production_recommendations" >}}
+[production_recommendations]: {{< ref "../../cheat-sheets/production-recommendations" >}}
 {{% /notice %}}
 
 ### KubeOne Terraform Integration
@@ -155,11 +155,11 @@ MachineSets/Machines and allow advanced use cases such as rolling updates.
 
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [supported-providers]: {{< ref "../compatibility" >}}
-[infrastructure-management]: {{< ref "../requirements/infrastructure_management" >}}
+[infrastructure-management]: {{< ref "../requirements/infrastructure-management" >}}
 [terraform-scripts]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [aws-output-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/output.tf
 [kubeadm]: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/
-[using-machine-controller]: {{< ref "../../guides/machine_controller" >}}
+[using-machine-controller]: {{< ref "../../guides/machine-controller" >}}
 [cluster-api]: https://github.com/kubernetes-sigs/cluster-api
 [cluster-api-book]: https://cluster-api.sigs.k8s.io/
 [cluster-provisioning]: {{< ref "#cluster-provisioning-and-management" >}}
