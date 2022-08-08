@@ -59,7 +59,7 @@ Dual-Stack networking can be enabled in two ways from the KKP API:
 1. The easy way relies on defaulting of the pods & services CIDRs. To enable dual-stack networking for a user cluster
 without specifying pod / services CIDRs for individual address families, just set the cluster's
 `spec.clusterNetwork.ipFamily` to `IPv4+IPv6` and leave `spec.clusterNetwork.pods` and `spec.clusterNetwork.services` empty.
-They will be defaulted as described on the [CNI & Cluster Network Configuration page]({{< relref "../cni_cluster_network/" >}}#cluster-cluster-network-configuration-in-kkp-api).
+They will be defaulted as described on the [CNI & Cluster Network Configuration page]({{< relref "../cni-cluster-network/" >}}#cluster-cluster-network-configuration-in-kkp-api).
 
 2. The other option is to specify both IPv4 and IPv6 CIDRs in `spec.clusterNetwork.pods` and `spec.clusterNetwork.services`.
 For example, a valid `clusterNetwork` configuration excerpt may look like:
@@ -204,9 +204,9 @@ Without one of these annotations, the load-balancer will be stuck in pending sta
 
 Limitations:
 - Due to the [issue with node ExternalIP ordering](https://github.com/hetznercloud/hcloud-cloud-controller-manager/issues/305),
-we recommend using dual-stack clusters on Hetzner only with [Konnectivity]({{< relref "../cni_cluster_network/#konnectivity" >}})
+we recommend using dual-stack clusters on Hetzner only with [Konnectivity]({{< relref "../cni-cluster-network/#konnectivity" >}})
 enabled, otherwise errors can be seen when issuing `kubectl logs` / `kubectl exec` / `kubectl cp` commands on the cluster.
-
+ß
 Related Issues:
 - https://github.com/hetznercloud/hcloud-cloud-controller-manager/issues/305
 
