@@ -2,6 +2,7 @@
 title = "Operating System Manager"
 date = 2022-08-05T12:00:00+02:00
 enableToc = true
+weight = 6
 +++
 
 ## Introduction
@@ -37,14 +38,13 @@ Templatized resource that represents the details of each operating system. OSPs 
 
 ### OperatingSystemConfig
 
-Immutable resource that contains the **actual configurations** that are going to be used to bootstrap and provision the worker nodes. It is a subset of OperatingSystemProfile, OperatingSystemProfile is a template while OperatingSystemConfig is an instance rendered using OperatingSystemProfile, MachineDeployment and flags provided at OSM level.
+Immutable resource that contains the **actual configurations** that are going to be used to bootstrap and provision the worker nodes. It is a subset of OperatingSystemProfile. OperatingSystemProfile is a template while OperatingSystemConfig is an instance rendered with data from OperatingSystemProfile, MachineDeployment, and flags provided at OSM command-line level.
 
-OperatingSystemConfigs have a 1-to-1 relation with the MachineDeployment. A dedicated controller watches the MachineDeployments and generates the OSCs in `kube-system` and secrets in `cloud-init-settings` namespaces in the cluster. Machine Controller then waits for the bootstrapping and provisioning secrets to become available. Once they are ready, it will extract the configurations from those secrets and pass them as `user-data`
-to the machines that it's going to provision.
+OperatingSystemConfigs have a 1-to-1 relation with the MachineDeployment. A dedicated controller watches the MachineDeployments and generates the OSCs in `kube-system` and secrets in `cloud-init-settings` namespaces in the cluster. Machine Controller then waits for the bootstrapping- and provisioning-secrets to become available. Once they are ready, it will extract the configurations from those secrets and pass them as `user-data` to the to-be-provisioned machines.
 
 For each MachineDeployment we have two types of configurations, which are stored in secrets:
 
-1. **Bootstrap**: Configuration ussed for initially setting up the machine and to fetch the provisioning configuration.
+1. **Bootstrap**: Configuration used for initially setting up the machine and fetching the provisioning configuration.
 2. **Provisioning**: Configuration with the actual `cloud-config` that is used to provision the worker machine.
 
 ![Architecture](/img/kubeone/master/operating-system-manager/architecture.png?classes=shadow,border "Architecture")
