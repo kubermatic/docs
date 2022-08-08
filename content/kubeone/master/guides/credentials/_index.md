@@ -323,6 +323,6 @@ support for sourcing value using the `env:` prefix:
 
 [cloud-controller-manager]: https://kubernetes.io/docs/concepts/architecture/cloud-controller/
 [machine-controller]: {{< ref "../../architecture/concepts/#kubermatic-machine-controller" >}}
-[containerruntime-containerd]: {{< ref "../../references/kubeone_cluster_v1beta2/#containerruntimecontainerd" >}}
-[migrating-to-containerd]: {{< ref "../../guides/containerd_migration" >}}
+[containerruntime-containerd]: {{< ref "../../references/kubeone-cluster-v1beta2/#containerruntimecontainerd" >}}
+[migrating-to-containerd]: {{< ref "../../guides/containerd-migration" >}}
 [environemnt-variables]: {{< ref "#environment-variables" >}}
