@@ -10,11 +10,16 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 /kubermatic/master/cheat_sheets/alerting_runbook/* /kubermatic/master/cheat-sheets/alerting-runbook/:splat 301!
 /kubermatic/master/tutorials_howtos/oidc_provider_configuration/share-_clusters_via_delegated_oidc_authentication /kubermatic/master/tutorials-howtos/oidc-provider-configuration/share-clusters-via-delegated-oidc-authentication/ 301!
 
+/kubeone/master/getting_kubeone /kubeone/master/getting-kubeone/ 301!
+/kubeone/master/architecture/requirements/machine_controller/azure /kubeone/master/architecture/requirements/machine-controller/azure/ 301!
+/kubeone/master/architecture/requirements/machine_controller/google_cloud/gcp /kubeone/master/architecture/requirements/machine-controller/google-cloud/gcp/ 301!
+/kubeone/master/architecture/requirements/machine_controller/vsphere/vsphere /kubeone/master/architecture/requirements/machine-controller/vsphere/vsphere/ 301!
+
 {{- /* # Generate the redirects to stable version of the products */ -}}
 {{- $products := .Site.Data.products -}}
 {{- range $productName, $val := $products -}}
 {{- $release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release -}}
 {{- with $.Site.GetPage (printf "/%s/%s" $productName $release)}}
-{{printf "/%s %s 301!" $productName .RelPermalink -}}
+{{printf "/%s %s 302!" $productName .RelPermalink -}}
 {{end -}}
 {{- end -}}
