@@ -1,5 +1,5 @@
 +++
-title = "One Node Cluster"
+title = "All-in-one Cluster"
 date = 2022-08-05T15:58:00+02:00
 enableToc = true
 +++
