@@ -35,7 +35,7 @@ Dual-stack networking can be enabled for each user-cluster across one of the sup
 refer to [provider-specific documentation](#cloud-provider-specifics-and-limitations) below to see if it is supported globally,
 or it needs to be enabled on the datacenter level.
 
-Dual-Stack can be enabled for each supported CNI (both Canal and Cilium).
+Dual-stack can be enabled for each supported CNI (both Canal and Cilium).
 
 ### Enabling Dual-Stack Networking from KKP UI
 If dual-stack networking is available for the given provider and datacenter, an option for choosing between
@@ -44,9 +44,9 @@ creation wizard:
 
 ![Cluster Settings - Network Configuration - IPv4 vs. Dual-Stack](/img/kubermatic/master/tutorials/networking/ui_cluster_ip_family.png?classes=shadow,border "Cluster Settings - Network Configuration - IPv4 vs. Dual-Stack")
 
-After clicking on the `ADVANCED NETWORKING CONFIGURATION`, detailed netowking configuration can be provided, as shown below.
+After clicking on the `ADVANCED NETWORKING CONFIGURATION` button, more detailed networking configuration can be provided.
 In case of a dual-stack cluster, the pods & services CIDRs, the node CIDR mask size and the allowed IP range for nodePorts
-can be configured separately for each address family.
+can be configured separately for each address family:
 
 ![Cluster Settings - Network Configuration - Advanced Dual-Stack Configuration](/img/kubermatic/master/tutorials/networking/ui_cluster_advanced_nw_config.png?classes=shadow,border "Cluster Settings - Network Configuration - Advanced Dual-Stack Configuration")
 
@@ -80,7 +80,7 @@ spec:
 ```
 
 Please note that the order of address families in the `cidrBlocks` is important and KKP right now only supports
-IPv4 as the primary IP family (meaning that IPv4 address must be the first in the `cidrBlocks`).
+IPv4 as the primary IP family (meaning that IPv4 address must always be the first in the `cidrBlocks` list).
 
 
 ## Verifying Dual-Stack Networking in a User Cluster
@@ -97,7 +97,7 @@ that the VPC and subnets used to host the worker nodes need to be dual-stack ena
 
 Limitations:
 - Worker nodes do not have their IPv6 IP addresses published in k8s API (`kubectl describe nodes`), but have them physically
-(can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
+applied on their network interfaces (can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
 - Dual-Stack services of type `LoadBalancer` are not yet supported by AWS cloud-controller-manager. Only `NodePort` services can be used
 to expose services outside the cluster via IPv6.
 
@@ -134,7 +134,7 @@ flag of the kubelet. This can be done as follows:
 
 - As instructed by KKP UI, run the `kubeadm token --kubeconfig <your-kubeconfig> create --print-join-command`
 command and use its output in the next step.
-- Create a yaml file with kubeadm `JoinConfiguration`, e.g. `kubeadm-join-config.yaml` with content similar to this:
+- Create a yaml file with kubeadm `JoinConfiguration`, e.g. `kubeadm-join-config.yaml` with the content similar to this:
 ```yaml
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: JoinConfiguration
@@ -150,7 +150,7 @@ nodeRegistration:
     # change the node-ip below to match your desired IPv4 and IPv6 addresses of the node
     node-ip: 10.0.6.114,2a05:d014:937:4500:a324:767b:38da:2bff
 ```
-- Join with `kubeadm join --config kubeadm-join-config.yaml`.
+- Join the node with the provided config file, e.g.: `kubeadm join --config kubeadm-join-config.yaml`.
 
 Limitations:
 - Services of type `LoadBalancer` don't work out of the box in BYO/kubeadm clusters. You can use additional addon software,
@@ -183,7 +183,7 @@ that the subnet used to host the worker nodes need to be dual-stack enabled - i.
 
 Limitations:
 - Worker nodes do not have their IPv6 IP addresses published in k8s API (`kubectl describe nodes`), but have them physically
-  (can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
+  applied on their network interfaces (can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
 - Dual-Stack services of type `LoadBalancer` are not yet supported by GCP cloud-controller-manager. Only `NodePort` services can be used
   to expose services outside the cluster via IPv6.
 
@@ -200,13 +200,13 @@ Dual-stack feature is available automatically for all new user clusters in Hetzn
 Please note that all services of type `LoadBalancer` in Hetzner need to have a
 [network zone / location](https://docs.hetzner.com/cloud/general/locations/) specified via an annotation,
 for example `load-balancer.hetzner.cloud/network-zone: "eu-central"` or `load-balancer.hetzner.cloud/location: "fsn1"`.
-Without one of these annotations, the load-balancer will be stuck in pending state.
+Without one of these annotations, the load-balancer will be stuck in the Pending state.
 
 Limitations:
 - Due to the [issue with node ExternalIP ordering](https://github.com/hetznercloud/hcloud-cloud-controller-manager/issues/305),
 we recommend using dual-stack clusters on Hetzner only with [Konnectivity]({{< relref "../cni-cluster-network/#konnectivity" >}})
 enabled, otherwise errors can be seen when issuing `kubectl logs` / `kubectl exec` / `kubectl cp` commands on the cluster.
-ß
+
 Related Issues:
 - https://github.com/hetznercloud/hcloud-cloud-controller-manager/issues/305
 
@@ -230,6 +230,10 @@ Kubernetes version 1.25.
 Related Issues:
 - https://github.com/kubernetes/cloud-provider-openstack/issues/1937
 
+Docs:
+- [IPv6 in OpenStack](https://docs.openstack.org/neutron/yoga/admin/config-ipv6.html)
+- [Subnet pools](https://docs.openstack.org/neutron/yoga/admin/config-subnet-pools.html)
+
 ### VMware vSphere
 As IPv6 support in VMware vSphere highly depends on the datacenter setup, dual-stack feature in KKP is available only in
 those vSphere datacenters where it is explicitly enabled in the datacenter config of the KKP
@@ -238,4 +242,4 @@ those vSphere datacenters where it is explicitly enabled in the datacenter confi
 Limitations:
 - Services of type `LoadBalancer` don't work out of the box in vSphere clusters, as they are not implemented
 by the vSphere cloud-controller-manager. You can use additional addon software, such as [MetalLB](https://metallb.universe.tf/)
-to make them work in your custom kubeadm setup.
+to make them work in your environment.
