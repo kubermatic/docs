@@ -62,7 +62,7 @@ Application Metadata is mainly used for presentation and does not affect how an 
 
 ### Templating Method
 
-A Templating Method describes how the Kubernetes manifests are being packaged and rendered. Currently the `helm` templating method is supported exclusively.
+A Templating Method describes how the Kubernetes manifests are being packaged and rendered. Currently [helm](https://helm.sh/docs/) templating is supported exclusively. Integrations with other templating engines are planned.
 
 ### Templating Source
 
