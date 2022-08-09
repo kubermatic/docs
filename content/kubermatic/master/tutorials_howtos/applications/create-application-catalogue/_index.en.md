@@ -49,7 +49,7 @@ spec:
           path: charts/prometheus
           ref:
             branch: master
-            remote: https://github.com/prometheus-community/helm-charts
+          remote: https://github.com/prometheus-community/helm-charts
     version: dev
 ```
 
@@ -62,20 +62,23 @@ Application Metadata is mainly used for presentation and does not affect how an 
 
 ### Templating Method
 
-Currently the `helm` templating method is supported exclusively.
+A Templating Method describes how the Kubernetes manifests are being packaged and rendered. Currently the `helm` templating method is supported exclusively.
 
 ### Templating Source
 
-Source of the Manifests that should be templated. This controls from where your Application manifests should be fetched. You can combine multiple sources (e.g. helm & git) within one ApplicationDefinition.
+Source of the Manifests that should be installed. This controls from where your Application manifests should be fetched. You can combine multiple sources (e.g. helm & git) within one ApplicationDefinition.
 A common use-case for combining is to make stable versions (via helm) and a development version (via git) available at the same time.
 
 #### Helm Source
+
+The Helm Source allows downloading from a Helm [HTTP repository](https://helm.sh/docs/topics/chart_repository/) or an [OCI repository](https://helm.sh/blog/storing-charts-in-oci/#helm).
+The following parameters are required:
 
 - `url` ->  URL to a [helm chart repository](https://helm.sh/docs/topics/chart_repository/); If you are unsure about a server, you can always double check if "\<your-url\>/index.yaml" returns a valid index
 - `chartName` -> Name of the chart within the repository
 - `chartVersion` -> Version of the chart; corresponds to the chartVersion field
 
-Currently the best way to obtain `chartName` and `chartVersion` is to make use of `helm search`:
+Currently the best way to obtain `chartName` and `chartVersion` for an HTTP repository is to make use of `helm search`:
 
 ```sh
 # initial preparation
@@ -92,13 +95,17 @@ helm search repo <repo-name>/<chart-name> --versions
 helm search repo prometheus-community/prometheus --versions --version ">=15"
 ```
 
+For OCI repositories, there is currently [no helm native search](https://github.com/helm/helm/issues/9983). Instead you have to rely on the capabilities of your OCI registry (for example harbor supports searching for helm-charts directly [in their UI](https://goharbor.io/docs/2.4.0/working-with-projects/working-with-images/managing-helm-charts/#list-charts)).
+
+For private registries, please check the [working with private registries](#working-with-private-registries) section.
+
 #### Git Source
 
 - `path` -> path where all manifests are stored; In case of the helm templating method, each chart should be inside its own subdirectory inside path
+- `remote` -> url to the repository
 - `ref`
-  - `remote` -> url to the repository
   - `branch` -> branch from which the chart should be pulled
-  - `tag` -> git tag from which the chart should be pulled; Can be used in conjunction with commit or branch
+  - `tag` -> git tag from which the chart should be pulled; Can not be used in conjunction with commit or branch
   - `commit` -> sha of a commit from which the chart should be pulled; Must be used in conjunction with a branch to ensure shallow cloning
 
 For private git repositories, please check the [working with private registries](#working-with-private-registries) section.
@@ -115,7 +122,7 @@ kubectl apply -f my-appdef.yml
 ## Working With Private Registries
 
 For working with private registries, the Applications Feature supports storing credentials in Kubernetes secrets in the KKP master and referencing the secrets in your ApplicationDefinitions.
-A KKP controller will ensure that the required secrets are synched to your seed clusters. In order for the controller to sync your secrets, they need to be annotated with `apps.kubermatic.k8c.io/secret-type` and be created in the namespace that KKP is installed in (unless changed, this defaults to "kubermatic").
+A KKP controller will ensure that the required secrets are synched to your seed clusters. In order for the controller to sync your secrets, they must be annotated with `apps.kubermatic.k8c.io/secret-type` and be created in the namespace that KKP is installed in (unless changed, this defaults to "kubermatic").
 
 ### Helm OCI Registries
 
@@ -216,7 +223,7 @@ spec:
             path: <path-inside-git-repo>
             ref:
               branch: <branch>
-              remote: <server-url> # for ssh-key, an ssh url must be chosen (e.g. git@example.com/repo.git)
+            remote: <server-url> # for ssh-key, an ssh url must be chosen (e.g. git@example.com/repo.git)
             credentials:
               method: <password || token || ssh-key>
               # user-pass
