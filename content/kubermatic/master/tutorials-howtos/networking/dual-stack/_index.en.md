@@ -59,7 +59,7 @@ Dual-Stack networking can be enabled in two ways from the KKP API:
 1. The easy way relies on defaulting of the pods & services CIDRs. To enable dual-stack networking for a user cluster
 without specifying pod / services CIDRs for individual address families, just set the cluster's
 `spec.clusterNetwork.ipFamily` to `IPv4+IPv6` and leave `spec.clusterNetwork.pods` and `spec.clusterNetwork.services` empty.
-They will be defaulted as described on the [CNI & Cluster Network Configuration page]({{< relref "../cni-cluster-network/" >}}#cluster-cluster-network-configuration-in-kkp-api).
+They will be defaulted as described on the [CNI & Cluster Network Configuration page]({{< relref "../cni-cluster-network/" >}}#default-cluster-network-configuration).
 
 2. The other option is to specify both IPv4 and IPv6 CIDRs in `spec.clusterNetwork.pods` and `spec.clusterNetwork.services`.
 For example, a valid `clusterNetwork` configuration excerpt may look like:
