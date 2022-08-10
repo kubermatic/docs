@@ -38,7 +38,7 @@ At this point, you are able to change the CNI type and version in the Cluster AP
 
 - or by editing the cluster CR in the Seed Cluster (`kubectl edit cluster <cluster-name>`).
 
-Now wait until all Cilium pods are running:
+Now wait until all Cilium pods are deployed and running (it can take up to 5 minutes before the deployment starts):
 
 ```bash
 $ kubectl get pods -A
@@ -160,6 +160,23 @@ At this point, you are able to change the proxy mode in the Cluster API. Change 
 - or by editing the cluster CR in the Seed Cluster (`kubectl edit cluster <cluster-name>`).
 
 #### Step 3:
+When switching to/from ebpf, wait until all Cilium pods are redeployed (you will notice a restart of all Cilium pods).
+It can take up to 5 minutes until this happens.
+
+When switching between `ipvs` and `iptables`, wait until your change is reflected in the `kube-proxy` configmap in the
+`kube-system` namespace in the user cluster, e.g. by observing it with the following command:
+
+```bash
+kubectl get configmap kube-proxy -n kube-system -oyaml | grep mode
+```
+
+This can take up to 5 minutes. After the change, manually restart all `kube-proxy` pods, e.g.:
+
+```bash
+kubectl rollout restart daemonset kube-proxy -n kube-system
+```
+
+#### Step 4:
 
 Perform rolling restart of machine deployments in the cluster. That will make sure your nodes do not contain any leftover iptables rules.
 Alternatively, reboot all worker nodes manually.
