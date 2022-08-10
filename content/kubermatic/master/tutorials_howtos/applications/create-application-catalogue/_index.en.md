@@ -9,6 +9,7 @@ weight = 1
 ## Introduction
 
 This guide targets KKP Admins and details adding Applications to a catalogue, so they can be installed by Cluster Admins.
+For a more details on Applications refer to our [Applications Primer](../).
 Create permissions on the KKP master cluster are required to complete it.
 
 Before an Application is available for install, its installation- and metadata need to be added to the KKP Master Cluster. From the master, they will be automatically replicated to all KKP Seed Clusters.
