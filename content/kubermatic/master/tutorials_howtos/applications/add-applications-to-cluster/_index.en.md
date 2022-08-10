@@ -44,7 +44,7 @@ An application catalogue will be displayed. If no Applications are being display
 
 {{< figure src="../application-catalogue.png" title="Application Catalogue" >}}
 
-After choosing an Application, its installation can be further customized
+After choosing an Application, its installation can be further customized.
 
 {{< figure src="./application_customization.png" title="Application Installation Customization" >}}
 
@@ -53,7 +53,7 @@ The following can be customized:
 - `Version` -> The version of the Application that should be displayed
 - `Namespace` -> The namespace the workload should be installed in. If the namespace does not exist, KKP will automatically create it
 - `Name` -> The name of the Application
-- `Values` -> Value override for Installation. This will be left-merged with the default values of your Installation.
+- `Values` -> Value override for Installation. This will be left-merged with the default values of your Application.
 
 The combination of Namespace and Name must be unique within your cluster.
 
@@ -71,13 +71,13 @@ For a detailed flow and explanation of all customizations see  the ["Adding Appl
 
 {{< figure src="./applications_flow_in_cluster_wizard.png" title="Application Section in Cluster Creation Wizard" >}}
 
-Afterwards, you can track the installation-progress in the Applications Tab.
+Afterwards, you can track the installation progress in the Applications Tab.
 
 {{< figure src="./application_status.png" title="Application Installation Status" >}}
 
 ### Storing Applications in a ClusterTemplate
 
-ApplicationInstallations can also be added to ClusterTemplates in order to re-use them across multiple clusters. In order to do so, select the `Save Cluster Template` option during the Summary step of the cluster creation wizard.
+ApplicationInstallations can also be added to [ClusterTemplates](../../cluster_templates/) in order to re-use them across multiple clusters. In order to do so, select the `Save Cluster Template` option during the Summary step of the cluster creation wizard.
 
 {{< figure src="./save_to_cluster_template.png" title="Saving As Cluster Template" >}}
 
@@ -112,7 +112,18 @@ After creating an ApplicationInstallation, you can directly apply it into the de
 kubectl apply -n <namespace> -f <your-appinstall>
 ```
 
-You can check the progress of your installation in the `status.helmRelease` field of the ApplicationInstallation you created:
+You can check the progress of your installation in `status.conditions`.
+
+```sh
+kubectl -n <namespace> get applicationinstallation <name> -o jsonpath='{.status.conditions}'
+```
+
+There are 2 conditions:
+
+- `ManifestsRetrieved` -> application's source has been correctly downloaded
+- `Ready` ->  application has been correctly installed or upgraded
+
+Additionally when using helm, the field `status.helmRelease` will contain additional information.
 
 ```sh
 kubectl -n <namespace> get applicationinstallation <name> -o jsonpath='{.status.helmRelease}'
