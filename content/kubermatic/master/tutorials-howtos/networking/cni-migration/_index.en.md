@@ -3,6 +3,7 @@ linkTitle = "Manual CNI Migration"
 title = "Manual CNI Migration"
 date = 2022-01-12T14:30:00+02:00
 weight = 150
+enableToc = true
 +++
 
 As described on the [**CNI & Cluster Network Configuration**]({{< relref "../cni-cluster-network/" >}}) page, the CNI type (e.g. Canal or CIlium) cannot be changed after cluster creation.
@@ -110,12 +111,17 @@ kubectl delete -f https://docs.projectcalico.org/v3.21/manifests/canal.yaml
 At this point, your cluster should be running on Cilium CNI.
 
 #### Step 5 (Optional):
+Consider changing the kube-proxy mode, especially if it was IPVS previously. See [Changing the Kube-Proxy Mode](#changing-the-kube-proxy-mode)
+for more details.
+
+#### Step 6 (Optional):
 
 As the last step, we recommend to perform rolling restart of machine deployments in the cluster. That will make sure your nodes do not contain any leftovers of the Canal CNI, even if they are not affecting anything.
 
-#### Step 6:
+#### Step 7:
 
 Please verify that everything works normally in the cluster. If there are any problems, you can revert the migration procedure and go back to the previously used CNI type and version as described in the next section.
+
 
 ## Migrating User Cluster with the Cilium CNI to the Canal CNI
 
@@ -132,3 +138,28 @@ helm template cilium cilium/cilium --version 1.11.0 --namespace kube-system | ku
 ```
 
 - [(Step 5)](#step-5-optional) Restart all already running non-host-networking pods as in the [Step 3](#step-3). We then recommend to perform rolling restart of machine deployments in the cluster as well.
+
+
+## Changing the Kube-Proxy Mode
+If you migrated your cluster from Canal CNI to Cilium CNI, you may want to change the kube-proxy mode of the cluster.
+As the `ipvs` kube-proxy mode is not recommended with Cilium CNI due to [a known issue]({{< relref "../../../architecture/known-issues/" >}}#2-connectivity-issue-in-pod-to-nodeport-service-in-cilium--ipvs-proxy-mode),
+we strongly recommend migrating to `ebpf` or `iptables` proxy mode after Canal -> Cilium migration.
+
+Note that `ebpf` is allowed only for Cilium CNI if [Konnectivity]({{< relref "../cni-cluster-network/" >}}#konnectivity) is enabled.
+
+#### Step 1:
+
+In order to allow kube-proxy mode migration, the cluster still needs to be labeled with the `unsafe-cni-migration` label (e.g. `unsafe-cni-migration: "true"`).
+
+#### Step 2:
+
+At this point, you are able to change the proxy mode in the Cluster API. Change Cluster `spec.clusterNetwork.proxyMode` to the desired values (e.g. `ebpf`):
+
+- either using KKP API endpoint `/api/v2/projects/{project_id}/clusters/{cluster_id}`,
+
+- or by editing the cluster CR in the Seed Cluster (`kubectl edit cluster <cluster-name>`).
+
+#### Step 3:
+
+Perform rolling restart of machine deployments in the cluster. That will make sure your nodes do not contain any leftover iptables rules.
+Alternatively, reboot all worker nodes manually.
