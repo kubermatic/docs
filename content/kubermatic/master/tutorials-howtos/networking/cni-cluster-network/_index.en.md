@@ -6,7 +6,11 @@ weight = 10
 enableToc = true
 +++
 
-This page describes various cluster networking options that can be configured for each KKP user cluster either via KKP UI (as shown below), or via [KKP API](#cluster-cluster-network-configuration-in-kkp-api).
+This page describes various cluster networking options that can be configured for each KKP user cluster either via KKP UI
+or via [KKP API](#cluster-cluster-network-configuration-in-kkp-api). Most of this configuration can be specified only
+at the cluster creation time and cannot be changed in an already existing clusters.
+
+Cluster networking can be configured in the "Network Configuration" part of the cluster creation wizard, as shown below:
 
 ![Cluster Settings - Network Configuration](/img/kubermatic/master/tutorials/networking/ui_cluster_networking.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
@@ -67,23 +71,6 @@ The following table lists the supported operating systems and cloud providers fo
 
 {{% /expand%}}
 
-{{%expand "With ipvs proxy mode" %}}
-|                       | Ubuntu | CentOS | Flatcar | RHEL  |
-| --------------------- | ------ | ------ | ------- | ----- |
-| AWS                   | ~[^1]  | x      | ~[^1]   | ~[^1] |
-| Azure                 | ~[^1]  | x      | ~[^1]   | ~[^1] |
-| Google Cloud Platform | ~[^1]  | -      | -       | -     |
-| Openstack             | ~[^1]  | x      | ~[^1]   | ~[^1] |
-
-**NOTE:**
-
-- A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
-- A tilde(~) denotes a partial support
-
-[^1]: Pod can not access `<internal_node_ip>:<node_port>`. issue [8767](https://github.com/kubermatic/kubermatic/issues/8767)
-
-{{% /expand%}}
-
 {{%expand "With iptables proxy mode" %}}
 |                       | Ubuntu | CentOS | Flatcar | RHEL | SLES |
 | --------------------- | ------ | ------ | ------- | ---- | ---- |
@@ -103,6 +90,7 @@ The following table lists the supported operating systems and cloud providers fo
 
 {{% /expand%}}
 
+**NOTE:** IPVS kube-proxy mode is not recommended with Cilium CNI due to [a known issue]({{< relref "../../../architecture/known-issues/" >}}#2-connectivity-issue-in-pod-to-nodeport-service-in-cilium--ipvs-proxy-mode).
 
 The most of the Cilium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only of [Konnectivity](#konnectivity) is enabled.
 
@@ -127,6 +115,7 @@ Please note that to have the Hubble addon available, the KKP installation has to
 "None" CNI is a special KKP-internal CNI type, which does not install any CNI managed by KKP into the user cluster. CNI management is therefore left on the cluster admin which provides a flexible option to install any CNI with any specific configuration.
 
 When this option is selected, the user cluster will be left without any CNI, and will not be functioning until some CNI is installed into it by the cluster admin. This can be done either manually (e.g. via helm charts), or by leveraging KKP [Addons]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}) infrastructure and creating a custom Accessible addon.
+When deploying your own CNI, please make sure you pass proper pods & services CIDRs to your CNI configuration - matching with the KKP user-cluster level configuration in the [Advanced Network Configuration](#advanced-network-configuration).
 
 ### CNI Version Upgrades
 
@@ -154,11 +143,40 @@ Some newer Kubernetes versions may not be compatible with already deprecated CNI
 
 Again, please note that it is not a good practice to keep the clusters on an old CNI version and try to upgrade as soon as new CNI version is available next time.
 
-## Konnectivity
+## IPv4 / IPv4 + IPv6 (Dual Stack)
+This option allows for switching between IPv4-only and IPv4+IPv6 (dual-stack) networking in the user cluster.
+This feature is described in detail on an individual page: [Dual-Stack Networking]({{< relref "../dual-stack/" >}}).
 
-Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it will be replaced with Konnectivity in future KKP releases.
+## Advanced Network Configuration
+After Clicking on the "Advanced Networking Configuration" button in the cluster creation wizard, several more network
+configuration options are shown to the user:
 
-### Enabling Konnectivity in KubermaticConfiguration
+![Cluster Settings - Advanced Network Configuration](/img/kubermatic/master/tutorials/networking/ui_cluster_networking_advanced.png?classes=shadow,border "Cluster Settings - Network Configuration")
+
+### Proxy Mode
+Configures kube-proxy mode for k8s services. Can be set to `ipvs`, `iptables` or `ebpf` (`ebpf` is available only if Cilium CNI is selected and [Konnectivity](#konnectivity) is enabled).
+Defaults to `ipvs` for Canal CNI clusters and `ebpf` / `iptables` (based on whether Konnectivity is enabled or not) for Cilium CNI clusters.
+Note that IPVS kube-proxy mode is not recommended with Cilium CNI due to [a known issue]({{< relref "../../../architecture/known-issues/" >}}#2-connectivity-issue-in-pod-to-nodeport-service-in-cilium--ipvs-proxy-mode).
+
+### Pods CIDR
+The network range from which POD networks are allocated. Defaults to `[172.25.0.0/16]` (or `[172.26.0.0/16]` for Kubevirt clusters, `[172.25.0.0/16, fd01::/48]` for `IPv4+IPv6` ipFamily).
+
+### Services CIDR
+The network range from which service VIPs are allocated. Defaults to `[10.240.16.0/20]` (or `[10.241.0.0/20]` for Kubevirt clusters, `[10.240.16.0/20, fd02::/120]` for `IPv4+IPv6` ipFamily).
+
+### Node CIDR Mask Size
+The mask size (prefix length) used to allocate a node-specific pod subnet within the provided Pods CIDR. It has to be larger than the provided Pods CIDR prefix length.
+
+### Allowed IP Range for NodePorts
+IP range from which NodePort access to the worker nodes will be allowed. Defaults to `0.0.0.0/0` (allowed from anywhere). This option is available only for some cloud providers that support it.
+
+### Node Local DNS Cache
+Enables NodeLocal DNS Cache - caching DNS server running on each worker node in the cluster.
+
+### Konnectivity
+Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. Defaults to `0.0.0.0/0` (allowed from everywhere). It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it will be replaced with Konnectivity in future KKP releases.
+
+#### Enabling Konnectivity in KubermaticConfiguration
 
 To enable Konnectivity for control plane to worker nodes communication, the feature first has to be enabled in `KubermaticConfiguration` by enabling the `KonnectivityService` feature gate, e.g.:
 
@@ -175,15 +193,15 @@ spec:
 
 All existing clusters started before enabling `KonnectivityService` feature gate will continue using OpenVPN.
 
-### Enabling Konnectivity for New Clusters
+#### Enabling Konnectivity for New Clusters
 
-Once the `KonnectivityService` feature gate is enabled, Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
+Once the `KonnectivityService` feature gate is enabled, Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Advanced Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
 
 ![Cluster Settings - Network Configuration](/img/kubermatic/master/tutorials/networking/ui_cluster_konnectivity.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 When this option is checked, Konnectivity will be used for control plane to worker nodes communication in the cluster. Otherwise, the old OpenVPN solution will be used.
 
-### Switching Existing Clusters to Konnectivity
+#### Switching Existing Clusters to Konnectivity
 
 Given that the `KonnectivityService` feature gate is enabled, existing user clusters that are using OpenVPN can be migrated to Konnectivity at any time via the "Edit Cluster" dialog in KKP UI:
 
@@ -209,15 +227,7 @@ kube-system            metrics-server-59566cbd5c-lw75t             1/1     Runni
 
 This action can be also reverted and an existing user cluster using Konnectivity can be switched back to the OpenVPN-based solution if necessary.
 
-## Other Cluster Network Configuration
-
-Apart from the above mentioned ones, there are several other networking parameters that can be configured for the user cluster from the KKP UI:
-
-- `Proxy Mode`: configures kube-proxy mode for k8s services. Can be set to `ipvs`, `iptables` or `ebpf` (`ebpf` is available only if Cilium CNI is selected and [Konnectivity](#konnectivity) is enabled). Defaults to `ipvs`.
-- `Pods CIDR`:  The network range from which POD networks are allocated. Defaults to `[172.25.0.0/16]` (`[172.26.0.0/16]` for Kubevirt clusters).
-- `Services CIDR`:  The network range from which service VIPs are allocated. Defaults to `[10.240.16.0/20]` (`[10.241.0.0/20]` for Kubevirt).
-
-## Cluster Cluster Network Configuration in KKP API
+## Cluster Network Configuration in KKP API
 
 All of the settings described in the previous sections (plus some more) can be also configured via KKP API endpoint for managing clusters:
 
@@ -227,14 +237,23 @@ The CNI type and version can be configured in `spec.cniPlugin.type` and `spec.cn
 
 The other networking parameters are configurable in `spec.clusterNetwork`.
 
-When no explicit value for a setting is provided, the default value is applied. The following table summarizes the parameters configurable via the KKP UI / `spec.clusterNetwork` in the cluster API with their default values:
+When no explicit value for a setting is provided, the default value is applied. The following table summarizes the parameters configurable via the KKP UI / `spec.clusterNetwork` in the cluster API with their default values,
+as described in the [Default Cluster Networking Configuration](#default-cluster-network-configuration) section.
 
-| Parameter                  | Default Value                                       | Description                                                                                                                                                                        |
-| -------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `proxyMode`                | `ipvs`                                              | kube-proxy mode (`ipvs`/ `iptables` / `ebpf`). `ebpf` is allowed only if Cilium CNI is selected and [Konnectivity](#konnectivity) is enabled).                                     |
-| `pods.cidrBlocks`          | `[172.25.0.0/16]` (`[172.26.0.0/16]` for Kubevirt)  | The network ranges from which POD networks are allocated.                                                                                                                          |
-| `services.cidrBlocks`      | `[10.240.16.0/20]` (`[10.241.0.0/20]` for Kubevirt) | The network ranges from which service VIPs are allocated.                                                                                                                          |
-| `dnsDomain`                | `cluster.local`                                     | Domain name for k8s services.                                                                                                                                                      |
-| `ipvs.strictArp`           | `true` for `ipvs` proxyMode, `false` otherwise      | If enabled, configures `arp_ignore` and `arp_announce` kernel parameters to avoid answering ARP queries from `kube-ipvs0` interface.                                               |
-| `nodeLocalDNSCacheEnabled` | `true`                                              | Enables NodeLocal DNS Cache feature.                                                                                                                                               |
-| `konnectivityEnabled`      | `false`                                             | Enables [Konnectivity](#konnectivity) for control plane to node network communication. Requires `KonnectivityService` feature gate in the `KubermaticConfiguration` to be enabled. |
+## Default Cluster Network Configuration
+
+The following table describes the cluster networking configuration options along with their default values, that are in
+use if not explicitly specified:
+
+| Parameter                  | Default Value                                                                                                | Description                                                                                                                                                                                                                                         |
+|----------------------------|--------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ipFamily`                 | `IPv4`                                                                                                       | IP family used for cluster networking. Supported values are empty, `IPv4` or `IPv4+IPv6`. Can be omitted (empty) if pods and services CIDR ranges are specified. See [Dual-Stack Networking]({{< relref "../dual-stack/" >}}) for more information. |
+| `pods.cidrBlocks`          | `[172.25.0.0/16]` (`[172.26.0.0/16]` for Kubevirt, `[172.25.0.0/16, fd01::/48]` for `IPv4+IPv6` ipFamily)    | The network ranges from which POD networks are allocated.                                                                                                                                                                                           |
+| `services.cidrBlocks`      | `[10.240.16.0/20]` (`[10.241.0.0/20]` for Kubevirt, `[10.240.16.0/20, fd02::/120]` for `IPv4+IPv6` ipFamily) | The network ranges from which service VIPs are allocated.                                                                                                                                                                                           |
+| `nodeCidrMaskSizeIPv4`     | `24`                                                                                                         | The mask size (prefix length) used to allocate a node-specific pod subnet within the provided IPv4 Pods CIDR. It has to be larger than the provided IPv4 Pods CIDR prefix length.                                                                   |
+| `nodeCidrMaskSizeIPv6`     | `64`                                                                                                         | The mask size (prefix length) used to allocate a node-specific pod subnet within the provided IPv6 Pods CIDR. It has to be larger than the provided IPv6 Pods CIDR prefix length.                                                                   |
+| `proxyMode`                | `ipvs`                                                                                                       | kube-proxy mode (`ipvs`/ `iptables` / `ebpf`). `ebpf` is allowed only if Cilium CNI is selected and [Konnectivity](#konnectivity) is enabled).                                                                                                      |
+| `dnsDomain`                | `cluster.local`                                                                                              | Domain name for k8s services.                                                                                                                                                                                                                       |
+| `ipvs.strictArp`           | `true` for `ipvs` proxyMode, `false` otherwise                                                               | If enabled, configures `arp_ignore` and `arp_announce` kernel parameters to avoid answering ARP queries from `kube-ipvs0` interface.                                                                                                                |
+| `nodeLocalDNSCacheEnabled` | `true`                                                                                                       | Enables NodeLocal DNS Cache - caching DNS server running on each worker node in the cluster.                                                                                                                                                        |
+| `konnectivityEnabled`      | `false`                                                                                                      | Enables [Konnectivity](#konnectivity) for control plane to node network communication. Requires `KonnectivityService` feature gate in the `KubermaticConfiguration` to be enabled.                                                                  |

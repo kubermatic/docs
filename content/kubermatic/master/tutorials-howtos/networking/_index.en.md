@@ -8,6 +8,7 @@ weight = 9
 This section provides guides on networking in KKP:
 
 - [**CNI & Cluster Network Configuration**]({{< relref "./cni-cluster-network/" >}})
+- [**Dual-Stack (IPv4 + IPv6) Networking**]({{< relref "./dual-stack/" >}})
 - [**Control Plane Expose Strategy**]({{< relref "./expose-strategies/" >}})
 - [**Proxy Whitelisting**]({{< relref "./proxy-whitelisting/" >}})
 - [**API Server Network Policies**]({{< relref "./apiserver-policies/" >}})
