@@ -3,7 +3,7 @@ title = "Compatibility Matrix"
 date = 2022-08-05T12:00:00+02:00
 +++
 
-The page provides an overview for the supported operating systems on various cloud providers.
+The page provides an overview for the supported operating systems on various cloud providers. These are the combinations that are covered by the "default" OperatingSystemProfiles that OSM will install in your cluster. Users can create custom OperatingSystemProfiles that work with a provider/OS combination that are not listed here.
 
 ### Operating System
 
