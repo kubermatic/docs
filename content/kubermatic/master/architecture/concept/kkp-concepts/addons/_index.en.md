@@ -7,6 +7,19 @@ weight = 20
 
 Addons are specific services and tools extending the functionality of Kubernetes/OpenShift.
 
+## Comparison To KKP Applications
+
+While sharing a similar goal, [KKP Applications](../../../../tutorials-howtos/applications/) and KKP Addons differ in scope and complexity:
+
+KKP Applications provide an integration using established Kubernetes Technologies to deploy Application workload and configuration.
+They are a great choice for leveraging Kubernetes community contributions or basing your own applications on them. For example to deploy the popular monitoring solution Prometheus, you can make use of the community-developed [Prometheus Helm Chart](https://github.com/prometheus-community/helm-charts) and do not have to package the application yourself.
+Furthermore, Applications integrate seamlessly into the KKP lifecycle and can be stored in KKP Cluster Templates for re-usability.
+
+KKP Addons on the other hand, are powerful extensions which can not only deploy workload and configuration into a cluster, but also change the underlying functionality of the cluster itself. The majority of KKP addons are provided directly by Kubermatic.
+Addons are a great choice if you want to extend the functionality of your cluster and when you need access to lower-level functionality.
+
+In general, we recommend the usage of Applications for workloads running inside a cluster and recommend to use Addons when specific lower-level capabilities are required (e.g. making changes to nodes of a cluster or changing network interfaces).
+
 ### Default Addons
 
 Default addons are installed in each user-cluster in KKP. The default addons are:
