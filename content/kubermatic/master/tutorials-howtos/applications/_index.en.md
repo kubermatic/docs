@@ -19,7 +19,7 @@ Helm Applications can both be installed from helm registries directly or from a 
 
 ## Comparison To KKP Addons
 
-While sharing a similar goal, KKP Applications and [KKP Addons](../../../architecture/concept/kkp-concepts/addons/) differ in scope and complexity:
+While sharing a similar goal, KKP Applications and [KKP Addons](../../architecture/concept/kkp-concepts/addons/) differ in scope and complexity:
 
 KKP Applications provide an integration using established Kubernetes Technologies to deploy Application workload and configuration.
 They are a great choice for leveraging Kubernetes community contributions or basing your own applications on them. For example to deploy the popular monitoring solution Prometheus, you can make use of the community-developed [Prometheus Helm Chart](https://github.com/prometheus-community/helm-charts) and do not have to package the application yourself.
