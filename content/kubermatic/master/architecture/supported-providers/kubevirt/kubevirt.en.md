@@ -138,6 +138,7 @@ All the resources related to VM on the KubeVirt cluster will be created in a ded
 
 ---
 
+<<<<<<< HEAD
 ### Advanced disk configuration
 
 For the basic configuration, disk images are imported from a web server, via HTTP download, by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
@@ -166,6 +167,278 @@ For each of them, the user must specify:
 - the image disk URL for image download.
 
 The same Custom Local Disk can be used as source of cloning for all the VMs (same MachineDeployment or not) in the same cluster.
+=======
+### Advanced configuration
+
+#### Scheduling settings
+It's possible to control how the tenant nodes are scheduled on the infrastructure nodes.
+![Scheduling](./Scheduling.png)
+
+We provide 3 different types of scheduling for the KubeVirt tenant nodes:
+- Ensure co-location on the same infrastructure node (*Pod Affinity Preset*).
+- Prevent co-locotation on the same infrastructure node (*Pod Anti Affinity Preset*).
+- Schedule on nodes having some specific labels (*Node Affinity Preset*).
+
+This setup is done in the `Initial Nodes` step of KKP dashboard when creating a cluster.
+
+![Dashboard](./Dashboard-scheduling.png) 
+
+
+For each of this scheduling types (*Pod Affinity Preset*, *Pod Anti Affinity Preset*, *Node Affinity Preset*), we can also specify if we want the affinity to be:
+- *"hard"* 
+-  *"soft"* 
+
+To achieve this goal, we use the [KubeVirt VM Affinity and Anti-affinity capabilities](https://kubevirt.io/user-guide/operations/node_assignment/#affinity-and-anti-affinity).
+
+
+*"hard"* or *"soft"* are related to the [Kubernetes: Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/). The following table shows the mapping:
+| Affinity type | Kubernetes affinity                             |
+|---------------|-------------------------------------------------|
+| hard          | requiredDuringSchedulingIgnoredDuringExecution  |
+| soft          | preferredDuringSchedulingIgnoredDuringExecution |
+
+
+#### How to set up the scheduling
+
+This set up is defined in the *MachineDeployment* `spec.affinity`:
+
+```yaml
+kind: MachineDeployment
+spec:
+ // ...
+  template:
+    spec:
+      providerSpec:
+        value:
+            // ....
+            affinity:
+              podAffinityPreset: "" # Allowed values: "", "soft", "hard"
+              podAntiAffinityPreset: "" # Allowed values: "", "soft", "hard"
+              nodeAffinityPreset:
+                type: "" # Allowed values: "", "soft", "hard"
+                key: "foo"
+                values:
+                  - bar
+// ....
+```
+
+**Important Note**:
+- `podAffinityPreset` and `podAntiAffinityPreset` are **mutually exclusive**. It does not make sense to schedule both on a single infrastructure node and prevent from being on the same infrastructure node.
+- `podAffinityPreset` can be specified along with `nodeAffinityPreset`: this allows ensure that the KubeVirt tenant nodes are co-located on a single infrastructure node that has some specific labels.
+- `podAntiAffinityPreset` can be specified along with `nodeAffinityPreset`: this prevents the KubeVirt tenant nodes from being co-located on the same infrastructure node, but be located on infrastructure nodes that have some specific labels.
+
+---
+1- **Usage of Pod Affinity Preset**
+
+<details>
+  <summary>With the following *MachineDeployment* specification</summary>
+
+```yaml
+kind: MachineDeployment
+spec:
+ // ...
+  template:
+    spec:
+      providerSpec:
+        value:
+            // ....
+            affinity:
+              podAffinityPreset: "hard" # or "soft"
+// ....
+```
+</details>
+
+The following *VirtualMachine* specification will be generated
+- with affinity type *"hard"*:
+<details>
+ <summary>VirtualMachine* specification</summary>
+
+```yaml
+kind: VirtualMachine
+metadata:
+  ...
+spec:
+  ...
+  template:
+    ...
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution: ### as affinity is "hard"
+          - labelSelector:
+              matchLabels:
+                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
+            topologyKey: kubernetes.io/hostname
+```
+</details>
+
+- with affinity type *"soft"*:
+<details>
+ <summary>VirtualMachine* specification</summary>
+
+```yaml
+kind: VirtualMachine
+metadata:
+  ...
+spec:
+  ...
+  template:
+    ...
+    spec:
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution: ### as affinity is "soft"
+          - labelSelector:
+              matchLabels:
+                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
+            topologyKey: kubernetes.io/hostname
+```
+</details>
+
+---
+2- **Usage of Pod Anti Affinity Preset**
+
+<details>
+  <summary>With the following *MachineDeployment* specification</summary>
+
+```yaml
+kind: MachineDeployment
+spec:
+ // ...
+  template:
+    spec:
+      providerSpec:
+        value:
+            // ....
+            affinity:
+              podAntiAffinityPreset: "hard" # or "soft"
+// ....
+```
+</details>
+
+The following *VirtualMachine* specification will be generated
+- with affinity type *"hard"*:
+<details>
+ <summary>VirtualMachine* specification</summary>
+
+```yaml
+kind: VirtualMachine
+metadata:
+  ...
+spec:
+  ...
+  template:
+    ...
+   spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
+            topologyKey: kubernetes.io/hostname
+```
+</details>
+
+- with affinity type *"soft"*:
+<details>
+ <summary>VirtualMachine* specification</summary>
+
+```yaml
+kind: VirtualMachine
+metadata:
+  ...
+spec:
+  ...
+  template:
+    ...
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution: ### as affinity is "soft"
+          - labelSelector:
+              matchLabels:
+                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
+            topologyKey: kubernetes.io/hostname
+```
+</details>
+
+---
+3- **Usage of Node Affinity Preset**
+
+<details>
+  <summary>With the following *MachineDeployment* specification</summary>
+
+```yaml
+kind: MachineDeployment
+spec:
+ // ...
+  template:
+    spec:
+      providerSpec:
+        value:
+            // ....
+            affinity:
+              nodeAffinityPreset:
+                type: "hard" # or "soft"
+                key: "foo"
+                values:
+                  - bar
+```
+</details>
+
+The following *VirtualMachine* specification will be generated
+- with affinity type *"hard"*:
+
+<details>
+ <summary>VirtualMachine* specification</summary>
+
+```yaml
+kind: VirtualMachine
+metadata:
+  ...
+spec:
+  ...
+  template:
+    ...
+   spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: foo
+                operator: In
+                values:
+                - bar
+```
+</details>
+
+- with affinity type *"soft"*:
+<details>
+  <summary>VirtualMachine* specification</summary>
+
+ ```yaml
+kind: VirtualMachine
+metadata:
+  ...
+spec:
+  ...
+  template:
+    ...
+spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: foo
+                operator: In
+                values:
+                - bar
+```
+</details>
+>>>>>>> 441c4ce9 (Documentation for KubeVirt scheduling settings)
 
 ---
 
