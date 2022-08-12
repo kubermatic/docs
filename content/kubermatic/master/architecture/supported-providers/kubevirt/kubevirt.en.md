@@ -138,8 +138,9 @@ All the resources related to VM on the KubeVirt cluster will be created in a ded
 
 ---
 
-<<<<<<< HEAD
-### Advanced disk configuration
+### Advanced configuration
+
+#### Advanced disk configuration
 
 For the basic configuration, disk images are imported from a web server, via HTTP download, by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
 
@@ -167,9 +168,8 @@ For each of them, the user must specify:
 - the image disk URL for image download.
 
 The same Custom Local Disk can be used as source of cloning for all the VMs (same MachineDeployment or not) in the same cluster.
-=======
-### Advanced configuration
 
+---
 #### Scheduling settings
 It's possible to control how the tenant nodes are scheduled on the infrastructure nodes.
 ![Scheduling](./Scheduling.png)
@@ -438,7 +438,6 @@ spec:
                 - bar
 ```
 </details>
->>>>>>> 441c4ce9 (Documentation for KubeVirt scheduling settings)
 
 ---
 
