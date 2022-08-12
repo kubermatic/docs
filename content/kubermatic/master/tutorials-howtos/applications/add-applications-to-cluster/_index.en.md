@@ -26,7 +26,9 @@ An application catalogue will be displayed. If no Applications are being display
 
 After choosing an Application, its installation can be further customized.
 
-{{< figure src="./application_customization.png" title="Application Installation Customization" >}}
+{{< figure src="./application_settings.png" title="Application Settings" >}}
+
+{{< figure src="./application_values.png" title="Application Values" >}}
 
 The following can be customized:
 
