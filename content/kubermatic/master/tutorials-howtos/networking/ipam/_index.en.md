@@ -149,9 +149,22 @@ E.g. looping all user cluster IPAM pools allocations:
 {{- end }}
 ```
 
-## MetalLB Addon
-We implemented a KKP Addon for [MetalLB](https://metallb.universe.tf/). It takes the IPAM allocation for the user cluster from the IPAM pool named `metallb` and automatically installs the equivalent MetalLB IP address pool in the user cluster.
+## MetalLB Addon Integration
+KKP provides a [MetalLB](https://metallb.universe.tf/) [accessible addon]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}) integrated with the Multi-Cluster IPAM feature.
 
-It means that, if the KKP user installs it, it will generate an [`IPAddressPool`](https://metallb.universe.tf/configuration/#defining-the-ips-to-assign-to-the-load-balancer-services) CR (from `metallb.io/v1beta1`) for the user cluster's `IPAMAllocation` CR with name `metallb`, along with all other MetalLB manifests.
+The addon deploys standard MetalLB manifests into the user cluster. On top of that, if an IPAM allocation from an IPAM pool with a specific name is available for the user-cluster, the addon
+automatically installs the equivalent MetalLB IP address pool in the user cluster (in the `IPAddressPool` custom resource from the `metallb.io/v1beta1` API).
 
-The Addon manifests can be found [here](https://github.com/kubermatic/kubermatic/blob/master/addons/metallb/).
+The KKP `IPAMPool` from which the allocations are made need to have the following name:
+ - `metallb` if a single-stack (either IPv4 or IPv6) IP address pool needs to be created in the user cluster.
+ - `metallb-ipv4` and `metallb-ipv6` if a dual-stack (both IPv4 and IPv6) IP address pool needs to be created in the user cluster.
+In this case, allocations from both address pools need to exist.
+
+The created [`IPAddressPool`](https://metallb.universe.tf/configuration/#defining-the-ips-to-assign-to-the-load-balancer-services)
+custom resource (from the `metallb.io/v1beta1` API) will have the following name:
+ - `kkp-managed-pool` in case of a single-stack address pool,
+ - `kkp-managed-pool-dualstack` in case of a dual-stack address pool.
+
+Both address pools (single-stack and dual-stack) can co-exist in the same cluster.
+
+For the reference, the Addon manifests can be found in the [addons/metallb/](https://github.com/kubermatic/kubermatic/blob/master/addons/metallb/) folder of the KKP source code.
