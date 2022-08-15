@@ -12,6 +12,7 @@ Kubermatic Kubernetes Platform supports a multitude of different cloud providers
 **Tier 1**
 * AWS (excluding AWS GovCloud and China Cloud)
 * Azure (excluding GovCloud and China Cloud)
+* Equinix Metal
 * GCP (excluding GovCloud and China Cloud)
 * vSphere beginning with v6.5
 * OpenStack (Releases with maintenance or extended maintenance)
@@ -26,7 +27,6 @@ Kubermatic Kubernetes Platform supports a multitude of different cloud providers
 **Tier 3**
 * Alibaba Cloud
 * DigitalOcean
-* Equinix Metal
 
 Note: KubeVirt cloud provider is under heavy development. There is no guarantee that user clusters created on the KubeVirt cloud provider will perform well after the upgrade to the newer KKP version.
 
