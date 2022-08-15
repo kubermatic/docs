@@ -2711,7 +2711,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `serviceAccount` _string_ |  |
+| `serviceAccount` _string_ | The Google Service Account (JSON format), encoded with base64. |
 | `network` _string_ |  |
 | `subnetwork` _string_ |  |
 | `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the firewall rules to. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
@@ -3631,7 +3631,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `kubeconfig` _string_ |  |
+| `kubeconfig` _string_ | The cluster's kubeconfig file, encoded with base64. |
 | `csiKubeconfig` _string_ |  |
 | `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ | PreAllocatedDataVolumes holds list of preallocated DataVolumes which can be used as reference for DataVolume cloning. |
 | `infraStorageClasses` _string array_ | InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks) |
