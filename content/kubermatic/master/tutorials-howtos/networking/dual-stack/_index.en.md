@@ -100,6 +100,7 @@ Limitations:
 applied on their network interfaces (can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
 - Dual-Stack services of type `LoadBalancer` are not yet supported by AWS cloud-controller-manager. Only `NodePort` services can be used
 to expose services outside the cluster via IPv6.
+- CentOS 7 has issues getting default route even though the interface gets the public IPv6 address. Restarting networking stack helps but is not reliable. Even patching it with fixes discussed in [this issue](https://bugzilla.proxmox.com/show_bug.cgi?id=2027) does not fix it for good.
 
 Related issues:
  - https://github.com/kubermatic/kubermatic/issues/9899
