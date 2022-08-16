@@ -198,9 +198,9 @@ To achieve this goal, we use the [KubeVirt VM Affinity and Anti-affinity capabil
 | soft          | preferredDuringSchedulingIgnoredDuringExecution |
 
 
-#### How to set up the scheduling
+#### How scheduling settings influence a MachineDeployment object
 
-This set up is defined in the *MachineDeployment* `spec.affinity`:
+Scheduling settings are represented in the *MachineDeployment* object under *spec.providerSpec.value.affinity*:
 
 ```yaml
 kind: MachineDeployment
@@ -223,7 +223,7 @@ spec:
 ```
 
 **Important Note**:
-- `podAffinityPreset` and `podAntiAffinityPreset` are **mutually exclusive**. It does not make sense to schedule both on a single infrastructure node and prevent from being on the same infrastructure node.
+- `podAffinityPreset` and `podAntiAffinityPreset` are **mutually exclusive**. The Anti-Affinity setting works the opposite of Affinity.
 - `podAffinityPreset` can be specified along with `nodeAffinityPreset`: this allows ensure that the KubeVirt tenant nodes are co-located on a single infrastructure node that has some specific labels.
 - `podAntiAffinityPreset` can be specified along with `nodeAffinityPreset`: this prevents the KubeVirt tenant nodes from being co-located on the same infrastructure node, but be located on infrastructure nodes that have some specific labels.
 
