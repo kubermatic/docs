@@ -176,7 +176,7 @@ It's possible to control how the tenant nodes are scheduled on the infrastructur
 
 We provide 3 different types of scheduling for the KubeVirt tenant nodes:
 - Ensure co-location on the same infrastructure node (*Pod Affinity Preset*).
-- Prevent co-locotation on the same infrastructure node (*Pod Anti Affinity Preset*).
+- Prevent co-location on the same infrastructure node (*Pod Anti Affinity Preset*).
 - Schedule on nodes having some specific labels (*Node Affinity Preset*).
 
 This setup is done in the `Initial Nodes` step of KKP dashboard when creating a cluster.
