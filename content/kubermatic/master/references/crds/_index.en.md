@@ -4248,6 +4248,8 @@ _Appears in:_
 | `ipv6SubnetPool` _string_ | IPv6SubnetPool holds the name of the subnet pool used for creating new IPv6 subnets. If not provided, the default IPv6 subnet pool will be used. |
 | `useOctavia` _boolean_ | Whether or not to use Octavia for LoadBalancer type of Service implementation instead of using Neutron-LBaaS. Attention:Openstack CCM use Octavia as default load balancer implementation since v1.17.0 
  Takes precedence over the 'use_octavia' flag provided at datacenter level if both are specified. |
+| `enableIngressHostname` _boolean_ | Enable the `enable-ingress-hostname` cloud provider option on the Openstack CCM. Can only be used with the external CCM and might be deprecated and removed in future versions as it is considered a workaround for the PROXY protocol to preserve client IPs. |
+| `ingressHostnameSuffix` _string_ | Set a specific suffix for the hostnames used for the PROXY protocol workaround that is enabled by EnableIngressHostname. The suffix is set to `nip.io` by default. Can only be used with the external CCM and might be deprecated and removed in future versions as it is considered a workaround only. |
 
 
 [Back to top](#top)
