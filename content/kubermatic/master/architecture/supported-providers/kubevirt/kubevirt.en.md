@@ -138,6 +138,37 @@ All the resources related to VM on the KubeVirt cluster will be created in a ded
 
 ---
 
+### Advanced disk configuration
+
+For the basic configuration, disk images are imported from a web server, via HTTP download, by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
+
+![Primary Disk](./primary-disk.png)
+
+#### Usage of Custom Local Disk Name instead of URL for disk image
+
+However, it's possible to specify a Custom Local Disk name instead of a URL. This should be the name of a DataVolume that already exists in the cluster dedicated namespace of the KubeVirt infrastructure cluster (*cluster-zyz* namespace).
+When specifying a DataVolume name instead of a URL, **the image disk will be cloned** instead of being downloaded from the HTTP source URL.  
+
+**NOTE:** the source DataVolume must exist in the *cluster-xyz* namespace where the VM is created. Cloning across namespaces is not allowed.
+
+
+![DataVolume cloning](./DV-cloning.png)
+
+The source DataVolume can be created *manually* (not from KKP) by the user in the *cluster-xyz* namespace, or it can also be created using KKP when creating the cluster at the `Settings` step, with the `Advanced Disk configuration` panel.
+
+![DataVolume creation](./Source-DV-creation.png)
+
+In this panel, the user can add several Custom Local Disks (DataVolumes).
+For each of them, the user must specify:
+- the disk name (DataVolume name, must be compliant with [Kubernetes object names constraints](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/))
+- the Storage Class from a dropdown list
+- the disk size
+- the image disk URL for image download.
+
+The same Custom Local Disk can be used as source of cloning for all the VMs (same MachineDeployment or not) in the same cluster.
+
+---
+
 
 ### Enable KubeVirt monitoring
 Install [prometheus-operator](https://github.com/prometheus-operator/prometheus-operator) on KubeVirt cluster.
