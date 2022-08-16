@@ -37,7 +37,11 @@ Select the Kubernetes cloud provider. You can add the following external cluster
 
 ## Connect Existing Cluster
 
-To connect a cluster from any provider, click on `Any Provider` and provide the cluster name and kubeconfig.
+KKP allows connecting any existing Kubernetes cluster as external cluster to view the cluster's current status. To connect a cluster from any provider, click on `Any Provider` and provide the cluster name and kubeconfig. It is important that the kubeconfig used to connect the cluster is using standard authentication mechanisms like certificates or ServiceAccount tokens. OIDC or provider-specific plugins are not supported.
+
+{{% notice info %}}
+If an existing kubeconfig uses custom authentication mechanisms, `kubermatic-installer convert-kubeconfig` can (optionally) be used to create a ServiceAccount on the external cluster and fetch its token into a new kubeconfig.
+{{% /notice %}}
 
 ![Connect Cluster](/img/kubermatic/master/tutorials/external_clusters/connect.png "Connect Cluster")
 
