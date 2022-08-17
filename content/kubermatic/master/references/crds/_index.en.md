@@ -3873,7 +3873,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ |  |
-| `storageClassName` _string_ | StorageClassName is the name of the storage class that the metering tool uses to save processed files before exporting it to s3 bucket. Default value is kubermatic-fast. |
+| `storageClassName` _string_ | StorageClassName is the name of the storage class that the metering prometheus instance uses to store metric data for reporting. |
 | `storageSize` _string_ | StorageSize is the size of the storage class. Default value is 100Gi. |
 | `reports` _object (keys:string, values:[MeteringReportConfiguration](#meteringreportconfiguration))_ | ReportConfigurations is a map of report configuration definitions. |
 
@@ -3896,6 +3896,7 @@ _Appears in:_
 | `schedule` _string_ | Schedule in Cron format, see https://en.wikipedia.org/wiki/Cron. Please take a note that Schedule is responsible only for setting the time when a report generation mechanism kicks off. The Interval MUST be set independently. |
 | `interval` _integer_ | Interval defines the number of days consulted in the metering report. |
 | `retention` _integer_ | Retention defines a number of days after which reports are queued for removal. If not set, reports are kept forever. Please note that this functionality works only for object storage that supports an object lifecycle management mechanism. |
+| `type` _string array_ | Types of reports to generate. Available report types are cluster and namespace. By default, all types of reports are generated. |
 
 
 [Back to top](#top)
