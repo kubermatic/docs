@@ -72,6 +72,8 @@ The available options are:
 
 Since this setting is part of the cluster specification, you might have the requirement to avoid disclosing credentials used to access your log output targets (a company-wide logging system, for example). In those situations, it is recommended to set up a central forwarder in your seed cluster that is then used by fluentbit outputs. This is possible by e.g. setting up [fluentd](https://www.fluentd.org/) and using a [forward output](https://docs.fluentbit.io/manual/pipeline/outputs/forward).
 
+Be aware that the [API server network policy feature]({{< ref "../networking/apiserver-policies/" >}}) will block the sidecar from sending logs to an external output by default. You will need to set up a custom egress NetworkPolicy that matches the `app=apiserver` Pod label. The specific policy depends on where you are planning to send your logs (for example, an in-cluster service can be targeted via label matching, while external services will need to be allowed by IP address).
+
 An example configuration could look like this:
 
 ```yaml
