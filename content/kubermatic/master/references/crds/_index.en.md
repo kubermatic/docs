@@ -2453,6 +2453,17 @@ _Appears in:_
 
 
 
+### ExternalClusterBringYourOwnCloudSpec
+
+
+
+
+
+_Appears in:_
+- [ExternalClusterCloudSpec](#externalclustercloudspec)
+
+
+
 ### ExternalClusterCloudSpec
 
 
@@ -2469,6 +2480,7 @@ _Appears in:_
 | `eks` _[ExternalClusterEKSCloudSpec](#externalclusterekscloudspec)_ |  |
 | `aks` _[ExternalClusterAKSCloudSpec](#externalclusterakscloudspec)_ |  |
 | `kubeone` _[ExternalClusterKubeOneCloudSpec](#externalclusterkubeonecloudspec)_ |  |
+| `bringyourown` _[ExternalClusterBringYourOwnCloudSpec](#externalclusterbringyourowncloudspec)_ |  |
 
 
 [Back to top](#top)
