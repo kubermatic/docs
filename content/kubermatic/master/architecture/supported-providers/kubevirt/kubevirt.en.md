@@ -144,7 +144,7 @@ All the resources related to VM on the KubeVirt cluster will be created in a ded
 
 For the basic configuration, disk images are imported from a web server, via HTTP download, by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
 
-![Primary Disk](./primary-disk.png)
+![Primary Disk](/img/kubermatic/master/architecture/supported-providers/kubevirt/primary-disk.png)
 
 #### Usage of Custom Local Disk Name instead of URL for disk image
 
@@ -154,11 +154,11 @@ When specifying a DataVolume name instead of a URL, **the image disk will be clo
 **NOTE:** the source DataVolume must exist in the *cluster-xyz* namespace where the VM is created. Cloning across namespaces is not allowed.
 
 
-![DataVolume cloning](./DV-cloning.png)
+![DataVolume cloning](/img/kubermatic/master/architecture/supported-providers/kubevirt/DV-cloning.png)
 
 The source DataVolume can be created *manually* (not from KKP) by the user in the *cluster-xyz* namespace, or it can also be created using KKP when creating the cluster at the `Settings` step, with the `Advanced Disk configuration` panel.
 
-![DataVolume creation](./Source-DV-creation.png)
+![DataVolume creation](/img/kubermatic/master/architecture/supported-providers/kubevirt/Source-DV-creation.png)
 
 In this panel, the user can add several Custom Local Disks (DataVolumes).
 For each of them, the user must specify:
@@ -172,7 +172,7 @@ The same Custom Local Disk can be used as source of cloning for all the VMs (sam
 ---
 #### Scheduling settings
 It's possible to control how the tenant nodes are scheduled on the infrastructure nodes.
-![Scheduling](./Scheduling.png)
+![Scheduling](/img/kubermatic/master/architecture/supported-providers/kubevirt/Scheduling.png)
 
 We provide 3 different types of scheduling for the KubeVirt tenant nodes:
 - Ensure co-location on the same infrastructure node (*Pod Affinity Preset*).
@@ -181,7 +181,7 @@ We provide 3 different types of scheduling for the KubeVirt tenant nodes:
 
 This setup is done in the `Initial Nodes` step of KKP dashboard when creating a cluster.
 
-![Dashboard](./Dashboard-scheduling.png) 
+![Dashboard](/img/kubermatic/master/architecture/supported-providers/kubevirt/Dashboard-scheduling.png) 
 
 
 For each of this scheduling types (*Pod Affinity Preset*, *Pod Anti Affinity Preset*, *Node Affinity Preset*), we can also specify if we want the affinity to be:
