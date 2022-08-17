@@ -7,7 +7,7 @@ weight = 20
 
 ## Resource Quotas in KKP
 
-Resource Quotas allow admins to set quotas on the amount of resources a subject can use. For now the only
+Resource Quotas allow administrators to set quotas on the amount of resources a subject can use. For now the only
 subject which is supported is Project, so the resource quotas currently limit the amount of resources that can be used project-wide.
 
 The resources in question are the resources of the user cluster:
@@ -25,16 +25,13 @@ That one just controls the size of the machines suggested to users in the KKP Da
 
 ### Setting up the resource quotas
 
-The resource quotas are managed by admins either through the KKP UI or through the Resource Quota CRDs.
+The resource quotas are managed by administrators either through the KKP UI/API or through the Resource Quota CRDs.
 
 Example ResourceQuota:
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
 kind: ResourceQuota
 metadata:
-  labels:
-    subject-kind: project
-    subject-name: tjqjkphnm6
   name: project-tjqjkphnm6
 spec:
   quota:
@@ -44,15 +41,6 @@ spec:
   subject:
     kind: project
     name: tjqjkphnm6
-status:
-  globalUsage:
-    cpu: "2"
-    memory: 35G
-    storage: 127G
-  localUsage:
-    cpu: "1"
-    memory: 17G
-    storage: 100G
 ```
 
 The quota fields use the [ResourceQuantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity) to 
@@ -69,7 +57,24 @@ The ResourceQuota has 2 status fields:
 - `globalUsage` which shows the resource usage across all seeds
 - `localUsage` which shows the resource usage on the local seed
 
-Each seed cluster has a controller which calculates the `localUsage` by calculating the machine resource usage
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: ResourceQuota
+metadata:
+  name: project-tjqjkphnm6
+...
+status:
+  globalUsage:
+    cpu: "2"
+    memory: 35G
+    storage: 127G
+  localUsage:
+    cpu: "1"
+    memory: 17G
+    storage: 100G
+```
+
+Each seed cluster has a controller which calculates the `localUsage` by calculating the Machine resource usage
 across all the user clusters that belong to a subject (for now only project).
 
 The master cluster has a controller which calculates the `globalUsage` by adding up all `localUsage` across the Seeds.
@@ -87,12 +92,12 @@ resulting K8s Node `.status.capacity`.
 | GCP                   | VCPUs (query to provider)                                                              | Memory (query to provider)                                                              | Set in Machine spec by user                            |
 | Hetzner               | Cores (query to provider)                                                              | Memory (query to provider)                                                              | Disk (query to provider)                               |
 | Openstack             | VCPUs (query to provider)                                                              | Memory (query to provider)                                                              | Disk (query to provider)                               |
-| KubeVirt              | If flavor set: calculate from the provider flavor, otherwise get from the machine spec | If flavor set: calculate from the provider flavor, otherwise get from the machine spec  | Add up Primary and Secondary disks (from machine spec) |
-| Nutanix               | CPU * CPUCores (machine spec)                                                          | MemoryMB (from machine spec)                                                            | DiskSize (from machine spec)                           |
+| KubeVirt              | If flavor set: calculate from the provider flavor, otherwise get from the Machine spec | If flavor set: calculate from the provider flavor, otherwise get from the Machine spec  | Add up Primary and Secondary disks (from Machine spec) |
+| Nutanix               | CPU * CPUCores (Machine spec)                                                          | MemoryMB (from Machine spec)                                                            | DiskSize (from Machine spec)                           |
 | Equinox               | Add up all CPUs (query to provider)                                                    | Memory.Total (query to provider)                                                        | Add up all Drives (query to provider)                  |
-| vSphere               | CPUs (set in machine spec)                                                             | MemoryMB (from machine spec)                                                            | DiskSizeGB (from machine spec)                         |
-| Anexia                | CPUs (set in machine spec)                                                             | Memory  (from machine spec)                                                             | DiskSize  (from machine spec)                          |       
-| VMWare Cloud Director | CPU * CPUCores (machine spec)                                                          | MemoryMB (from machine spec)                                                            | DiskSizeGB (from machine spec)                         |       
+| vSphere               | CPUs (set in Machine spec)                                                             | MemoryMB (from Machine spec)                                                            | DiskSizeGB (from Machine spec)                         |
+| Anexia                | CPUs (set in Machine spec)                                                             | Memory  (from Machine spec)                                                             | DiskSize  (from Machine spec)                          |       
+| VMWare Cloud Director | CPU * CPUCores (Machine spec)                                                          | MemoryMB (from Machine spec)                                                            | DiskSizeGB (from Machine spec)                         |       
 
 
 ### Enforcing the quotas
@@ -112,12 +117,12 @@ Furthermore, a project quota widget of the active project is visible in the dash
 ### Some additional information
 
 If the quota is exceeded, be it due to the quota being set on a project with active clusters, or due to a race, this feature
-will just block new machines from being provisioned, it won't clean up/remove cluster resources to get below the quota. This
+will just block new Machines from being provisioned, it won't clean up/remove cluster resources to get below the quota. This
 is something that should be agreed upon between the KKP admin and users.
 
 The storage quota just affects the local node storage. It doesn't monitor various provider PV that users can provision. 
 
-The quotas dont support external clusters.
+The quotas don't support external clusters.
 
 The quotas won't restrict the usage of resources for the control plane on the seed cluster.
 
