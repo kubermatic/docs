@@ -1,5 +1,5 @@
 baseURL = "https://docs.kubermatic.com/"
-theme = "hugo-theme-learn"
+theme = "kubermatic-docs"
 languageCode = "en-us"
 title = "Kubermatic Docs"
 disableKinds = ["taxonomy"]
@@ -54,6 +54,10 @@ themeVariant = "kubermatic"
 # Force to have /en/my-page and /fr/my-page routes, even for default language.
 # defaultContentLanguageInSubdir = true
 baseWebsiteUrl = "https://www.kubermatic.com"
+productLabel = "Product"
+versionLabel = "Version"
+cookiefirstBanner = "e938558d-78b5-4f1b-b574-cd5dfde73684"
+titleSuffix = "Kubermatic Documentation"
 
 # [Languages]
 # [Languages.en]
@@ -96,3 +100,8 @@ class = "fab fa-facebook-f"
 
 [params.search]
   vars = ["relpermalink", "title", "content", "productSection"]
+
+[params.searchOptions]
+  appId = "Q03DAQELCN"
+  searchKey = "f8b7a0497068023efe046671dd40ec62"
+  indexName = "docs"

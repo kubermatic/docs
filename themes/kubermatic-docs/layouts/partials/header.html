@@ -1,0 +1,109 @@
+{{$products := .Site.Data.products}}
+{{$versions := (index $products .Section).versions | default dict}}
+
+<!DOCTYPE html>
+<html lang="{{ .Page.Language | default "en" }}" class="js csstransforms3d">
+  <head>
+    {{partialCached "gtm-script.html" .}}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{if and $versions (gt (len $versions) 1)}}
+      {{$isStableVersion := or (and (where $versions "release" "in" .RelPermalink) (in .RelPermalink (index $versions 1).release)) (strings.HasSuffix .RelPermalink (printf "/%s/" .Section))}}
+      {{if not $isStableVersion}}
+      <meta name="robots" content="noindex, nofollow" />
+      {{end}}
+    {{end}}
+    {{if eq .FirstSection.RelPermalink .RelPermalink}}
+      {{$sectionName := .Section}}
+      {{$product := index $products $sectionName}}
+      {{with $product}}
+        {{if .versions}}
+          {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+          {{with $.Site.GetPage (printf "/%s/%s" $sectionName $release)}}
+          <meta http-equiv="refresh" content="0; url={{.Permalink}}" />
+          {{end}}
+        {{end}}
+      {{end}}
+    {{end}}
+    {{partial "meta.html" .}}
+    {{partialCached "favicon.html" .}}
+    {{partial "title.html" .}}
+    {{partialCached "css-includes" .}}
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      {{ if .Site.Params.disableInlineCopyToClipBoard }}
+        :not(pre) > code + span.copy-to-clipboard {
+            display: none;
+        }
+      {{ end }}
+    </style>
+    {{block "custom-header" .}}{{end}}
+  </head>
+  <body class="" data-url="{{ .RelPermalink }}">
+    {{partialCached "cookie-banner.html" .}}
+    {{partialCached "gtm-noscript.html" .}}
+    {{partialCached "main-header" .}}
+    {{ partial "menu.html" . }}
+        <section id="body">
+        {{if and $versions (in .RelPermalink "master")}}
+          {{if gt (len $versions) 1}}
+            {{with $.Site.GetPage (printf "/%s/%s" .Section (index $versions 1).release)}}
+            <div class="noticebar">This version is under construction, please use <a href="{{.RelPermalink}}" class="noticebar-link">an official release</a> version</div>
+            {{end}}
+          {{end}}
+        {{end}}
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+        <div class="top-bar">
+          <span id="sidebar-toggle-span">
+            <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+              <i class="fas fa-bars"></i>
+            </a>
+          </span>
+          {{if and .Site.Params.editURL .File }}
+          {{$editLink := printf "%s%s" .Site.Params.editURL (replace .File.Path `\` `/`)}}
+          <div id="top-github-link">
+            <a class="github-link" title='{{T "Edit-this-page"}}' href="{{$editLink}}" target="blank">
+              <i class="fas fa-code-branch"></i>
+              <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
+            </a>
+          </div>
+          {{end}}
+        </div>
+        {{if .Params.tags}}
+          <div id="head-tags">
+            {{partialCached "tags.html" .}}
+          </div>
+        {{end}}
+        {{ if .Params.chapter }}
+          <div id="chapter">
+        {{ end }}
+        {{$samePageTitleAndSection := .Site.Params.samePageTitleAndSection | default (ne (.Title | lower) (.Section | lower))}}
+        <div id="body-inner">
+          {{if and (not .IsHome) (not .Params.chapter) $samePageTitleAndSection}}
+            <div class="title-bar">
+              <div{{with .Params.enterprise}} class="title-bar--with-badge"{{end}}>
+                <h1>{{if eq .Kind "taxonomy"}}{{.Kind}} :: {{end}}{{.Title}}</h1>{{with .Params.enterprise}}<span class="title-bar-badge">Enterprise Edition</span>{{end}}
+              </div>
+              {{if .Site.Params.enableLastModifiedDate}}
+                <div class="title-bar-date">last update: <span title="{{dateFormat `15:04 UTC` .Lastmod.UTC}}">{{dateFormat "2006-01-02" .Lastmod.UTC}}</span></div>
+              {{end}}
+            </div>
+          {{end}}
+          {{ if (and (.Params.enableToc) (not .Params.chapter)) }}
+            <div class="page-toc">
+              <h2 class="page-toc-title">Table Of Content</h2>
+              {{.TableOfContents}}
+            </div>
+          {{ end }}
+        {{define "breadcrumb"}}
+          {{$parent := .page.Parent }}
+          {{ if $parent }}
+            {{ $value := (printf "<a href='%s'>%s</a> > %s" $parent.RelPermalink $parent.Title .value) }}
+            {{ template "breadcrumb" dict "page" $parent "value" $value }}
+          {{else}}
+            {{.value|safeHTML}}
+          {{end}}
+        {{end}}
