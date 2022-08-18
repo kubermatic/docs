@@ -67,7 +67,7 @@ spec:
     secretbox:
       keys:
         - name: encryption-key-2022-01
-          value: ynCl8otobs5NuHuS3TLghqwFXVpv6N//SE6ZVTimYok=
+          value: ynCl8otobs5NuHu$3TLghqwFXVpv6N//SE6ZVTimYok=
 ```
 
 ```
