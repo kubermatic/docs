@@ -115,10 +115,29 @@ spec:
       versions:
         kubelet: "1.18.10"
 ```
+
+---
+**NOTE**
+
+All the resources related to VM on the KubeVirt cluster will be created in a dedicated namespace in the infrastructure cluster. This name follow the pattern `cluster-xyz`, where `xyz` is the `id` of the cluster created with KKP.
+
+![Dedicated Namespace](/img/kubermatic/master/architecture/supported-providers/kubevirt/Dedicated-namespace.jpg)
+
+How to know the `id` of the cluster created ?
+
+![Cluster Id](/img/kubermatic/master/architecture/supported-providers/kubevirt/clusterid.png)
+
+With the example of the previous image, the cluster `elastic-mayer` has a cluster id `gff5gnxc7r`, so all resources for this cluster are located in the `cluster-gff5gnxc7r` namespace in the KubeVirt infrastructure cluster.
+
+---
+
 #### Node assignment for VMs
 To constrain a VM to run on specific KubeVirt cluster nodes, affinity and anti-affinity rules can be used. See above given MachineDeployment example.
 
+---
 #### Creating VM from Presets
+
+
 To create a VM from existing `VirtualMachineInstancePresets`, add the following configuration under `cloudProviderSpec.virtualMachine` in MachineDeployment:
 ```yaml
 virtualMachine:
@@ -130,11 +149,60 @@ virtualMachine:
       size: "10Gi"
       storageClassName: "<< YOUR_STORAGE_CLASS_NAME >>"
 ```
+To apply a `VirtualMachineInstancePreset` to a VM, this VirtualMachineInstancePreset should be created in the `default` namespace.
+KKP will then copy into the dedicated `clusterxyz` namespace and start the VirtualMachine applying it.
 
----
-**NOTE**
+![Preset Copy   ](/img/kubermatic/master/architecture/supported-providers/kubevirt/Preset.jpg)
 
-All the resources related to VM on the KubeVirt cluster will be created in a dedicated namespace.
+A default `VirtualMachineInstancePreset` named `kubermatic-standard` is always added to the list by KKP (even if not existing in the `default` namespace).
+
+```yaml
+{
+apiVersion: kubevirt.io/v1
+kind: VirtualMachineInstancePreset
+metadata:
+  name: kubermatic-standard
+spec:
+  domain:
+    resources:
+      requests:
+        cpu: 2
+        memory: 8Gi
+      limits:
+        cpu: 2
+        memory: 8Gi
+  selector:
+    matchLabels:
+      kubevirt.io/flavor: kubermatic-standard
+}
+```
+
+To create new a `VirtualMachineInstancePreset` usable to apply to new VMs, create it in the `default` namespace. It will be present in the `VM Flavor` dropdown list selection and be copied in the right namespace by KKP.
+
+*Note 1:* Update of a `VirtualMachineInstancePreset` in the `default` namespace.
+
+What happens if we update a `VirtualMachineInstancePreset` existing in the `default` namespace ?
+- The updated `VirtualMachineInstancePreset` will be reconciled from the `default` namespace into the `cluster-xyz` namespace. Give it some time to be reconciled. The reconciliation interval is configurable (refer to `providerReconciliationInterval` in [Seed configuration](https://docs.kubermatic.com/kubermatic/master/tutorials-howtos/project-and-cluster-management/seed-cluster/))
+- For all `VirtualMachineIsntances` already created, this will have no impact. Please refer to [KubeVirt Preset documentation](https://kubevirt.io/user-guide/virtual_machines/presets/#updating-a-virtualmachineinstancepreset)
+- The update will then be effective for new `VirtualMachineIsntances`.
+
+*Note 2:* Limitation of the list of reconciled fields.
+
+Please note that not all fields of the `VirtualMachineInstance` are merged into the `VirtualMachineInstance`.
+[](https://github.com/kubevirt/kubevirt/blob/main/pkg/virt-api/webhooks/mutating-webhook/mutators/preset.go#L123)
+For the `domain`, only the following fields are merged:
+- `CPU`
+- `Firmware`
+- `Clock`
+- `Features`
+- `Devices.Watchdog`
+- `IOThreadsPolicy`
+
+*Note3:* Migration to the instanceType API
+
+Please note that in the next KKP release, we will migrate to the new instanceType API, as the VirtualMachineInstance will be deprecated.
+This will for example lift the limitation around the list of merged fields from the `VirtualMachineInstance`.
+
 
 ---
 
