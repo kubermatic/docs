@@ -100,7 +100,8 @@ Limitations:
 applied on their network interfaces (can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
 - Dual-Stack services of type `LoadBalancer` are not yet supported by AWS cloud-controller-manager. Only `NodePort` services can be used
 to expose services outside the cluster via IPv6.
-- CentOS 7 has issues getting default route even though the interface gets the public IPv6 address. Restarting networking stack helps but is not reliable. Even patching it with fixes discussed in [this issue](https://bugzilla.proxmox.com/show_bug.cgi?id=2027) does not fix it for good.
+- CentOS 7 has issues getting default route even though the interface gets the public IPv6 address. Restarting networking stack helps but is not reliable.
+Please also see the [Centos Limitations](#centos) section.
 
 Related issues:
  - https://github.com/kubermatic/kubermatic/issues/9899
@@ -174,6 +175,9 @@ Dual-stack feature is available automatically for all new user clusters in Equin
 
 Limitations:
 - Services of type `LoadBalancer` are not yet supported in KKP on Equinix Metal (not even for IPv4-only clusters).
+- On some operating systems (e.g. Rocky Linux) IPv6 address assignment on the node may take longer time during the node provisioning.
+In that case, the IPv6 address may not be detected when the kubelet starts, and because of that, worker nodes may not have their IPv6 IP addresses
+published in k8s API (`kubectl describe nodes`). This can be work-arounded by restarting the kubelet manually / rebooting the node.
 
 Related issues:
 - https://github.com/kubermatic/kubermatic/issues/10648
@@ -244,3 +248,20 @@ Limitations:
 - Services of type `LoadBalancer` don't work out of the box in vSphere clusters, as they are not implemented
 by the vSphere cloud-controller-manager. You can use additional addon software, such as [MetalLB](https://metallb.universe.tf/)
 to make them work in your environment.
+
+
+## Operating System Specifics and Limitations
+Although IPv6 is usually enabled by most modern operating systems by default, there can be cases when the particular
+provider's IPv6 assignment method is not automatically enabled in the given operating system image.
+Even though we tried to cover most of the cases in the Machine Controller and Operating System Manager code, in some cases
+it was not possible to reliably do that in a generic way. These are documented in this section.
+
+In case of such an incompatibility, the worker nodes would miss the IPv6 address and the CNI plugin would not start.
+These cases can be still addressed by introducing of a custom Operating System Profile with proper OS- and environment-
+specific configuration (see [Operating System Manager]({{< relref "../../operating-system-manager/" >}}) docs).
+
+### CentOS
+CentOS provides an extensive set of IPv6 settings (see "Table 22. ipv6 setting" in the
+[NetworkManager ifcfg-rh settings plugin docs](https://developer-old.gnome.org/NetworkManager/unstable/nm-settings-ifcfg-rh.html)).
+Depending on the IPv6 assignment method used in the datacenter, you may need the proper combination
+of them - e.g. `IPV6_AUTOCONF` and `DHCPV6C` in `/etc/sysconfig/network`.
