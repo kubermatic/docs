@@ -88,10 +88,12 @@
 }
 
 .tile-image {
-  margin-bottom: 2rem;
   img {
     display: block;
     height: 40px;
+  }
+  &--bspace {
+    margin-bottom: 2rem;
   }
 }
 
