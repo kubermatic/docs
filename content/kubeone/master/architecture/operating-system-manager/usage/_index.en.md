@@ -32,7 +32,7 @@ To perform this rotation please follow the guide at [Rolling Restart MachineDepl
 
 OSM doesn't support using `cloud-init` as a provisioning utility for Flatcar machines. Flatcar use [coreos-cloudinit](https://github.com/coreos/coreos-cloudinit) instead of the upstream [cloud-init](https://cloud-init.io/). [coreos-cloudinit](https://github.com/coreos/coreos-cloudinit) is deprecated and its usage is not recommended in production environments.
 
-After upgrading to KubeOne 1.5, when OSM is enabled, the newly created MachineDeployments will default to `ignition` as the provisioning utility unless `cloud-init` is specified explicitly in the MachineDeployment.git status
+After upgrading to KubeOne 1.5, when OSM is enabled, the newly created MachineDeployments will default to `ignition` as the provisioning utility unless `cloud-init` is specified explicitly in the MachineDeployment.
 
 To migrate existing MachineDeployments, make sure that you either leave the provisioningUtility field blank or set it to `ignition` explicitly.
 
