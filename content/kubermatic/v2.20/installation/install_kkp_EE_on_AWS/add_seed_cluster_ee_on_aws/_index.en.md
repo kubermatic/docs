@@ -1,5 +1,5 @@
 +++
-title = "Install Kubermatic Kubernetes Platform (KKP) EE on AWS"
+title = "Add Seed Cluster for EE on AWS"
 description = "This document describes how a new seed cluster can be added to an existing KKP (Enterprise Edition) master cluster"
 date =  2022-06-20T00:59:54+05:00
 title_tag = "Add new seed cluster to existing KKP master cluster on AWS"
