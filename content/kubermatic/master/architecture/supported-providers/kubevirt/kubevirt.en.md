@@ -9,6 +9,26 @@ weight = 7
 Once KubeVirt is installed as what the [official documentation](https://kubevirt.io/quickstart_cloud/) guides, a few
 steps should be followed in order to use KubeVirt with KKP.
 
+---
+
+## Important note of the migration from KKP 2.20 to KKP 2.21: non backward compatible change in the MachineDeployment.
+
+If you already have KKP 2.20 installed and a KubeVirt cluster created with it, please be aware that there is a non backward compatible change of the *MachineDeployment* format. It means a *MachineDeployment* created with KKP 2.20 and one created with KKP 2.21 will have different formats, and no automatic migration from formats will happen as KubeVirt is in Technology Preview phase.
+
+Below is the procedure to follow to migrate from KKP 2.20 to KKP 2.21 for a KubeVirt cluster.
+
+
+1) Upgrade KKP following the procedure [KKP upgrading procedure](https://docs.kubermatic.com/kubermatic/master/tutorials-howtos/upgrading/)
+2) Your existing KKP 2.20 tenant cluster with its existing worker nodes will continue to work. The restricition is that you will not be able to update the *MachineDeployment*. No reconciliation will happen.
+3) Create some new *MachineDeployment*
+4) Once the new worker nodes are up and running, you can migrate your traffic to the new nodes.
+5) Then cleanup the old worker nodes created with KKP 2.20:
+  - in the tenant cluster: delete the *MachineDeployment*
+  - in the KubeVirt infrastructure cluster: delete the corresponding *VirtualMachine* 
+ 
+
+---
+
 ### StorageClass Requirements
 KKP uses [Containerized Data Importer](https://github.com/kubevirt/containerized-data-importer) (CDI) to import images and
 provision volumes to launch the VMs. CDI provides the ability to populate PVCs with VM images or other data upon creation.
