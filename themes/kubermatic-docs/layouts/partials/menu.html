@@ -1,0 +1,240 @@
+<nav id="sidebar" class="{{ if $.Site.Params.showVisitedLinks }}showVisitedLinks{{ end }}">
+  {{ $currentNode := . }}
+  {{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
+  {{ $productSection := .FirstSection.Section }}
+  {{ $products := $.Site.Data.products }}
+  {{ $product := index $products $productSection }}
+
+  {{ $productLabel := .Site.Params.productLabel }}
+  {{ $versionLabel := .Site.Params.versionLabel }}
+  <div id="header-wrapper">
+    {{with sort $products ".weight"}}
+    <div class="products-toogle">
+      <div class="products-toogle-select">
+        {{with $productLabel}}
+        <label for="product-select" class="products-toogle-label">{{.}}</label>
+        {{end}}
+        <select id="product-select" onchange="location = this.value;">
+          {{range .}}
+            {{$key := urlize .name}}
+            {{$url := ""}}
+            {{$title := .title}}
+            {{if .versions}}
+              {{$url = (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+              {{$title = .name}}
+            {{end}}
+            <option value="{{printf `/%s/%s/` $key $url | relURL}}"{{if in (split $.RelPermalink `/`) $key}} selected{{end}}>{{.textName | default $title}}</option>
+          {{end}}
+        </select>
+      </div>
+      {{with $product}}
+        {{if .versions}}
+        <div class="products-toogle-select">
+          {{with $versionLabel}}
+          <label for="version-select" class="products-toogle-label">{{.}}</label>
+          {{end}}
+          <select id="version-select" onchange="location = this.value;">
+            {{range .versions}}
+              {{template "optionInDifferentVersion" dict "root" $ "sect" . "productSection" $productSection "version" .}}
+            {{end}}
+          </select>
+        </div>
+        {{end}}
+      {{end}}
+    </div>
+    {{end}}
+    {{if not .Site.Params.disableSearch}}
+      {{partial "search.html" .}}
+    {{end}}
+  </div>
+
+  <div class="highlightable">
+    <ul class="topics">
+      {{with $product}}
+        {{if .versions}}
+          {{range .versions}}
+            {{if in $.RelPermalink .release}}
+              {{$path := print "/" $productSection "/" .release}}
+              {{$docVersion := $.Site.GetPage $path}}
+              {{if eq .Site.Params.ordersectionsby "title"}}
+                {{range $docVersion.Sections.ByTitle}}
+                  {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
+                {{end}}
+              {{else}}
+                {{range $docVersion.Sections.ByWeight}}
+                  {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
+                {{end}}
+              {{end}}
+            {{end}}
+          {{end}}
+        {{else}}
+          {{$path := print "/" $productSection "/"}}
+          {{$docVersion := $.Site.GetPage $path}}
+          {{if eq .Site.Params.ordersectionsby "title"}}
+            {{range $docVersion.Sections.ByTitle}}
+              {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
+            {{end}}
+          {{else}}
+            {{range $docVersion.Sections.ByWeight}}
+              {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
+            {{end}}
+          {{end}}
+        {{end}}
+      {{end}}
+    </ul>
+
+    {{ $disableShortcutsTitle := .Site.Params.DisableShortcutsTitle}}
+    {{ with .Site.Menus.shortcuts }}
+    <section id="shortcuts">
+      <h3>{{ if not $disableShortcutsTitle}}{{ T "Shortcuts-Title" }}{{ end }}</h3>
+      <ul>
+        {{ range sort . "Weight"}}
+        <li>{{ .Pre }}<a class="padding" href="{{ .URL | absLangURL }}">{{ safeHTML .Name }}</a>{{ .Post }}</li>
+        {{end}}
+      </ul>
+    </section>
+    {{end}}
+  </div>
+
+  <section id="footer">
+    {{partialCached "menu-footer" .}}
+  </section>
+</nav>
+
+<!-- templates -->
+{{ define "section-tree-nav" }}
+  {{ $showvisitedlinks := .showvisitedlinks }}
+  {{ $currentNode := .currentnode }}
+
+  {{ with .sect }}
+    {{ if .IsSection }}
+      {{ safeHTML .Params.head }}
+      <li data-nav-id="{{ .RelPermalink }}" title="{{ .Title }}" class="dd-item
+        {{ if .IsAncestor $currentNode }}parent{{ end }}
+        {{ with .File }}{{ $f := . }}{{ with $currentNode.File }}{{ if eq $f.UniqueID .UniqueID }}active{{ end }}{{ end }}{{ end }}
+        {{ if .Params.alwaysopen }}parent{{ end }}
+        ">
+        <a href="{{ .RelPermalink }}">
+          {{ safeHTML .Params.Pre }}
+          {{ or .Params.menuTitle .LinkTitle .Title }}
+          {{ safeHTML .Params.Post }}
+          {{ if $showvisitedlinks }}<i class="fas fa-check read-icon"></i>{{ end }}
+        </a>
+
+        {{ $numberOfPages := (add (len .Pages) (len .Sections)) }}
+        {{ if ne $numberOfPages 0 }}
+        <span class="menu-arrow"></span>
+        <ul>
+          {{ $currentNode.Scratch.Set "pages" .Pages }}
+          {{ if .Sections}}
+            {{ $currentNode.Scratch.Set "pages" (.Pages | union .Sections) }}
+          {{ end }}
+          {{ $pages := ($currentNode.Scratch.Get "pages") }}
+
+          {{ if eq .Site.Params.ordersectionsby "title" }}
+            {{ range $pages.ByTitle }}
+              {{ if and .Params.hidden (not $.showhidden) }}
+              {{ else }}
+                {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
+              {{ end }}
+            {{ end }}
+          {{ else }}
+            {{ range $pages.ByWeight }}
+              {{ if and .Params.hidden (not $.showhidden) }}
+              {{ else }}
+                {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+        </ul>
+        {{ end }}
+      </li>
+    {{ else }}
+      {{ if not .Params.Hidden }}
+        <li data-nav-id="{{ .RelPermalink }}" title="{{ .Title }}" class="dd-item {{ with .File }}{{ $f := . }}{{ with $currentNode.File }}{{ if eq $f.UniqueID .UniqueID }}active{{ end }}{{ end }}{{ end }}">
+          <a href="{{ .RelPermalink }}">
+            {{ safeHTML .Params.Pre }}
+            {{ or .Params.menuTitle .LinkTitle .Title }}
+            {{ safeHTML .Params.Post }}
+            {{ if $showvisitedlinks }}<i class="fas fa-check read-icon"></i>{{ end }}
+          </a>
+        </li>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{- define "optionInDifferentVersion" -}}
+  {{- $ := .root -}}
+  {{- $productSection := .productSection -}}
+  {{- $version := .version -}}
+
+  {{/* create a prefix like "kubermatic/v2.14" */}}
+  {{- $productPathPrefix := path.Join $productSection $version.release -}}
+
+  <option
+    value="{{ template "findBestMatchInVersion" dict "root" $ "page" $.Page "product" $productSection "release" $version.release }}"
+    {{- if in $.RelPermalink $version.release }} selected{{ end -}}
+  >{{ $version.name }}</option>
+{{- end -}}
+
+{{- define "findBestMatchInVersion" -}}
+  {{- $ := .root -}}
+  {{- $page := .page -}}
+  {{- $productSection := .product -}}
+  {{- $release := .release -}}
+
+  {{/* create a prefix like "kubermatic/v2.14" */}}
+  {{- $productPathPrefix := path.Join $productSection $release -}}
+
+  {{/* strip product and version from the path (i.e. remove the first two path elements) */}}
+  {{- $relFilePath := path.Join (after 2 (split $page.File "/")) -}}
+  {{- $absFilePath := path.Join $productPathPrefix $relFilePath -}}
+
+  {{- if fileExists $absFilePath -}}
+    {{- ($.GetPage $absFilePath).RelPermalink -}}
+  {{- else -}}
+    {{/* If this is not a section, try the section instead */}}
+    {{- if not $page.IsSection -}}
+      {{- $relFilePathEn := path.Join (path.Dir $relFilePath) "_index.en.md" -}}
+      {{- $absFilePathEn := path.Join $productPathPrefix $relFilePathEn -}}
+
+      {{- if fileExists $absFilePathEn -}}
+        {{- ($.GetPage $absFilePathEn).RelPermalink -}}
+      {{- else -}}
+        {{/* Try the same thing again, but for non-localized products */}}
+        {{- $relFilePath := path.Join (path.Dir $relFilePath) "_index.md" -}}
+        {{- $absFilePath := path.Join $productPathPrefix $relFilePath -}}
+        {{- if fileExists $relFilePath -}}
+          {{- ($.GetPage $absFilePath).RelPermalink -}}
+        {{- else -}}
+          {{- template "walkSectionsUp" dict "root" $ "productPathPrefix" $productPathPrefix "start" $relFilePath -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else -}}
+      {{- template "walkSectionsUp" dict "root" $ "productPathPrefix" $productPathPrefix "start" $relFilePath -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+  This function takes a product-relative path like "section/section/section/_index.en.md"
+  and walks the path up until it finds a matching file in the productPathPrefix.
+*/}}
+{{- define "walkSectionsUp" -}}
+  {{- $ := .root -}}
+  {{- $productPathPrefix := .productPathPrefix -}}
+  {{- $start := path.Dir .start -}}
+  {{- $indexFile := path.Join $productPathPrefix $start "_index.en.md" -}}
+
+  {{- if fileExists $indexFile -}}
+    {{- ($.GetPage $indexFile).RelPermalink -}}
+  {{- else -}}
+    {{- $indexFile := path.Join $productPathPrefix $start "_index.md" -}}
+    {{- if fileExists $indexFile -}}
+      {{- ($.GetPage $indexFile).RelPermalink -}}
+    {{- else -}}
+      {{- template "walkSectionsUp" dict "root" $ "productPathPrefix" $productPathPrefix "start" $start -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

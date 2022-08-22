@@ -1,9 +1,0 @@
-{{$titleSuffix := "Kubermatic Documentation"}}
-{{$sectionTitlesMap := dict "kubermatic" "KKP" "kubeone" "KubeOne" "kubecarrier" "KubeCarrier"}}
-
-{{with index $sectionTitlesMap .Page.Section}}
-  {{$titleSuffix = print . " Documentation"}}
-{{end}}
-
-{{$title := .Params.title_tag | default .Title}}
-<title>{{with $title}}{{.}} - {{end}}{{$titleSuffix}}</title>
