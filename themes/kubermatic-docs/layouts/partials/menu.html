@@ -44,7 +44,7 @@
     </div>
     {{end}}
     {{if not .Site.Params.disableSearch}}
-      {{partialCached "search.html" .}}
+      {{partial "search.html" .}}
     {{end}}
   </div>
 
