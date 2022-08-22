@@ -3,7 +3,7 @@ title = "Multi-Cluster IP Address Management (IPAM)"
 date = 2022-07-26T14:45:00+02:00
 +++
 
-Feature responsible for automating the allocation of IP address ranges per user-cluster, based on a predefined configuration ([IPAMPool](#input-resource-ipampool)) per datacenter that defines the pool subnet and the allocation size. The user cluster allocated ranges are available in the [KKP Addon](#kkp-addon-template-integration) `TemplateData`, so it can be used by various Addons running in the user cluster.
+Multi-Cluster IPAM is a feature responsible for automating the allocation of IP address ranges/subnets per user-cluster, based on a predefined configuration ([IPAMPool](#input-resource-ipampool)) per datacenter that defines the pool subnet and the allocation size. The user cluster allocated ranges are available in the [KKP Addon](#kkp-addon-template-integration) `TemplateData`, so it can be used by various Addons running in the user cluster.
 
 {{< table_of_contents >}}
 
@@ -12,7 +12,7 @@ Networking applications deployed in KKP user clusters need automated IP Address 
 
 The goal is to provide a simple solution that is automated and less prone to human errors.
 
-## Allocation types
+## Allocation Types
 Each IPAM pool in a datacenter should define an allocation type: "range" or "prefix".
 
 ### Range
@@ -23,7 +23,7 @@ E.g. the first allocation for a range of size **8** in a pool subnet `192.168.1.
 192.168.1.0-192.168.1.7
 ```
 
-*Note*: There is a minimum allowed pool subnet mask based on the IP version (**20** for IPv4 and **116** for IPv6). So, if you need a large range of IPs, it's recommended to use the "prefix" type.
+*Note*: There is a minimal allowed pool subnet mask based on the IP version (**20** for IPv4 and **116** for IPv6). So, if you need a large range of IPs, it's recommended to use the "prefix" type.
 
 ### Prefix
 Results in a subnet of the pool subnet based on an input subnet prefix. Recommended when a large range of IPs is necessary.
@@ -37,7 +37,7 @@ and the second would be
 192.168.1.4/30
 ```
 
-## Input resource (IPAMPool)
+## Input Resource (IPAMPool)
 KKP exposes a global-scoped Custom Resource Definition (CRD) `IPAMPool` in the seed cluster. The administrators are able to define the `IPAMPool` CR with a specific name with multiple pool CIDRs with predefined allocation ranges tied to specific datacenters. The administrators can also manage the IPAM pools via [API endpoints]({{< relref "../../../references/rest-api-reference/#/ipampool" >}}) (`/api/v2/seeds/{seed_name}/ipampools`).
 
 E.g. containing both allocation types for different datacenters:
@@ -60,13 +60,13 @@ spec:
 
 Note that `poolCIDR` can be the same in different datacenters.
 
-### Validations
-Required spec fields:
-- `datacenters`
-- `type` for a datacenter
-- `poolCidr` for a datacenter
-- `allocationRange` for a datacenter with "range" allocation type
-- `allocationPrefix` for a datacenter with "prefix" allocation type
+### Restrictions
+Required `IPAMPool` spec fields:
+- `datacenters` list cannot be empty.
+- `type` for a datacenter is mandatory.
+- `poolCidr` for a datacenter is mandatory.
+- `allocationRange` for a datacenter with "range" allocation type is mandatory.
+- `allocationPrefix` for a datacenter with "prefix" allocation type is mandatory.
 
 For the "range" allocation type:
 - `allocationRange` should be a positive integer and cannot be greater than the pool subnet possible number of IP addresses.
@@ -78,11 +78,16 @@ For the "prefix" allocation type:
 - `allocationPrefix` should be equal or greater than the pool subnet mask size.
 
 ### Modifications
-In general, modifications are not allowed. If you need to change an already applied `IPAMPool`, you should first delete it (note that all user clusters allocations `IPAMAllocation` will be deleted, in that case) and then apply it with the changes.
+In general, modifications of the `IPAMPool` are not allowed, with the following exceptions:
 
-The only allowed modification in a `IPAMPool` CR is the deletion of a datacenter configuration if there is no persisted allocation `IPAMAllocation` in any user cluster for it.
+- It is possible to add a new datacenter into the `IPAMPool`.
+- It is possible to delete a datacenter from the `IPAMPool`, if there is no persisted allocation (`IPAMAllocation`) in any user cluster for it.
 
-## Generated resource (IPAMAllocation)
+If you need to change an already applied `IPAMPool`, you should first delete it and then apply it with the changes.
+Note that by `IPAMPool` deletion, all user clusters allocations (`IPAMAllocation`) will be deleted as well.
+
+
+## Generated Resource (IPAMAllocation)
 The IPAM controller in the seed-controller-manager is in charge of the allocation of IP ranges from the defined pools for user clusters. For each user cluster which runs in a datacenter for which an `IPAMPool` is defined, it will automatically allocate a free IP range from the available pool.
 
 The persisted allocation is an `IPAMAllocation` CR that will be installed in the seed cluster in the user cluster's namespace.
@@ -121,17 +126,18 @@ spec:
   - "192.168.1.0-192.168.1.7"
   - "192.168.1.16-192.168.1.23"
 ```
-That's because, in the future, we could start allowing the modification (i.e. increase) of the allocation range.
+The reason for that is to allow for some `IPAMPool` modifications (i.e. increase of the allocation range) in the future.
 
-### Allocations cleanup
+### Allocations Cleanup
 The allocations (i.e. `IPAMAllocation` CRs) for a user cluster are deleted in two occasions:
 - Related pool (i.e. `IPAMPool` CR with same name) is deleted.
 - User cluster itself is deleted.
 
-## KKP Addon template integration
-The user cluster allocated ranges (i.e. `IPAMAllocation` CRs values) are available in the Addon template data (attribute `.Cluster.Network.IPAMAllocations`) to be rendered in the Addons manifests.
+## KKP Addon Template Integration
+The user cluster allocated ranges (i.e. `IPAMAllocation` CRs values) are available in the [Addon template data]({{< relref "../../../architecture/concept/kkp-concepts/addons/" >}}#manifest-templating) (attribute `.Cluster.Network.IPAMAllocations`) to be rendered in the Addons manifests.
+That allows consumption of the user cluster's IPAM allocations in any KKP [Addon]({{< relref "../../../architecture/concept/kkp-concepts/addons/" >}}).
 
-E.g. looping all user cluster IPAM pools allocations:
+For example, looping over all user cluster IPAM pools allocations in an addon template can be done as follows:
 ```yaml
 ...
 
@@ -149,9 +155,22 @@ E.g. looping all user cluster IPAM pools allocations:
 {{- end }}
 ```
 
-## MetalLB Addon
-We implemented a KKP Addon for [MetalLB](https://metallb.universe.tf/). It takes the IPAM allocation for the user cluster from the IPAM pool named `metallb` and automatically installs the equivalent MetalLB IP address pool in the user cluster.
+## MetalLB Addon Integration
+KKP provides a [MetalLB](https://metallb.universe.tf/) [accessible addon]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}) integrated with the Multi-Cluster IPAM feature.
 
-It means that, if the KKP user installs it, it will generate an [`IPAddressPool`](https://metallb.universe.tf/configuration/#defining-the-ips-to-assign-to-the-load-balancer-services) CR (from `metallb.io/v1beta1`) for the user cluster's `IPAMAllocation` CR with name `metallb`, along with all other MetalLB manifests.
+The addon deploys standard MetalLB manifests into the user cluster. On top of that, if an IPAM allocation from an IPAM pool with a specific name is available for the user-cluster, the addon
+automatically installs the equivalent MetalLB IP address pool in the user cluster (in the `IPAddressPool` custom resource from the `metallb.io/v1beta1` API).
 
-The Addon manifests can be found [here](https://github.com/kubermatic/kubermatic/blob/master/addons/metallb/).
+The KKP `IPAMPool` from which the allocations are made need to have the following name:
+ - `metallb` if a single-stack (either IPv4 or IPv6) IP address pool needs to be created in the user cluster.
+ - `metallb-ipv4` and `metallb-ipv6` if a dual-stack (both IPv4 and IPv6) IP address pool needs to be created in the user cluster.
+In this case, allocations from both address pools need to exist.
+
+The created [`IPAddressPool`](https://metallb.universe.tf/configuration/#defining-the-ips-to-assign-to-the-load-balancer-services)
+custom resource (from the `metallb.io/v1beta1` API) will have the following name:
+ - `kkp-managed-pool` in case of a single-stack address pool,
+ - `kkp-managed-pool-dualstack` in case of a dual-stack address pool.
+
+Both address pools (single-stack and dual-stack) can co-exist in the same cluster.
+
+For the reference, the Addon manifests can be found in the [addons/metallb/](https://github.com/kubermatic/kubermatic/blob/master/addons/metallb/) folder of the KKP source code.
