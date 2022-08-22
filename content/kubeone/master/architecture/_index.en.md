@@ -37,16 +37,16 @@ which particular order.
 Additional details about concepts used by KubeOne can be found in the
 [Concepts][concepts] document.
 
-![KubeOne Architecture Diagram](architecture.png)
+![KubeOne Architecture Diagram](architecture.jpg)
 
 1 This diagram shows [officially supported providers][supported-providers].
-KubeOne is not limited to those providers and is supposed to work on any 
+KubeOne is not limited to those providers and is supposed to work on any
 infrastructure out of the box, for example, on bare-metal.
 Officially supported providers have additional features, such as Terraform
 integration, example Terraform configurations that can be used to create
 the initial infrastructure, and the machine-controller support.
 
-2 [Kubermatic Machine Controller][machine-controller] is available
+2 [Kubermatic Machine Controller][machine-controller] and [Kubermatic Operating System Manager][operating-system-manager] are available
 only for [officially supported providers][supported-providers]. For non-officially
 supported providers, you can provision machines manually using KubeOne's
 [Static Workers feature][static-workers].
@@ -56,5 +56,6 @@ supported providers, you can provision machines manually using KubeOne's
 [supported-providers]: {{< ref "./compatibility" >}}
 [terraform-integration]: {{< ref "./" >}}
 [terraform-configs]: {{< ref "./" >}}
-[machine-controller]: https://github.com/kubermatic/machine-controller
+[machine-controller]: <https://github.com/kubermatic/machine-controller>
+[operating-system-manager]: <https://github.com/kubermatic/operating-system-manager>
 [static-workers]: {{< ref "./" >}}
