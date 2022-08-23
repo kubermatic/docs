@@ -200,8 +200,8 @@ For the `domain`, only the following fields are merged:
 
 *Note3:* Migration to the instanceType API
 
-Please note that in the next KKP release, we will migrate to the new instanceType API, as the VirtualMachineInstance will be deprecated.
-This will for example lift the limitation around the list of merged fields from the `VirtualMachineInstance`.
+Please note that in the next KKP release, we will migrate to the new *VirtualMachineInstancetype* ([alpha release](https://github.com/kubevirt/api/blob/main/instancetype/v1alpha1/types.go#L35)), as the *VirtualMachineInstancePreset* will be deprecated.
+This will for example lift the limitation around the list of merged fields from the `VirtualMachineInstance` and provide deterministic behavior with immediate detection of merge conflicts.
 
 
 ---
