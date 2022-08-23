@@ -1,17 +1,17 @@
 <nav id="sidebar" class="{{ if $.Site.Params.showVisitedLinks }}showVisitedLinks{{ end }}">
   {{ $currentNode := . }}
   {{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
-  {{ $productSection := .FirstSection.Section }}
+  {{ $topSection := .FirstSection.Section }}
   {{ $products := $.Site.Data.products }}
-  {{ $product := index $products $productSection }}
+  {{ $product := index $products $topSection }}
 
-  {{ $productLabel := .Site.Params.productLabel }}
+  {{ $sectionLabel := .Site.Params.sectionLabel }}
   {{ $versionLabel := .Site.Params.versionLabel }}
   <div id="header-wrapper">
     {{with sort $products ".weight"}}
     <div class="products-toogle">
       <div class="products-toogle-select">
-        {{with $productLabel}}
+        {{with $sectionLabel}}
         <label for="product-select" class="products-toogle-label">{{.}}</label>
         {{end}}
         <select id="product-select" onchange="location = this.value;">
@@ -35,7 +35,7 @@
           {{end}}
           <select id="version-select" onchange="location = this.value;">
             {{range .versions}}
-              {{template "optionInDifferentVersion" dict "root" $ "sect" . "productSection" $productSection "version" .}}
+              {{template "optionInDifferentVersion" dict "root" $ "sect" . "topSection" $topSection "version" .}}
             {{end}}
           </select>
         </div>
@@ -54,7 +54,7 @@
         {{if .versions}}
           {{range .versions}}
             {{if in $.RelPermalink .release}}
-              {{$path := print "/" $productSection "/" .release}}
+              {{$path := print "/" $topSection "/" .release}}
               {{$docVersion := $.Site.GetPage $path}}
               {{if eq .Site.Params.ordersectionsby "title"}}
                 {{range $docVersion.Sections.ByTitle}}
@@ -68,7 +68,7 @@
             {{end}}
           {{end}}
         {{else}}
-          {{$path := print "/" $productSection "/"}}
+          {{$path := print "/" $topSection "/"}}
           {{$docVersion := $.Site.GetPage $path}}
           {{if eq .Site.Params.ordersectionsby "title"}}
             {{range $docVersion.Sections.ByTitle}}
@@ -78,6 +78,18 @@
             {{range $docVersion.Sections.ByWeight}}
               {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
             {{end}}
+          {{end}}
+        {{end}}
+      {{else}}
+        {{$path := print "/" $topSection "/"}}
+        {{$docVersion := $.Site.GetPage $path}}
+        {{if eq .Site.Params.ordersectionsby "title"}}
+          {{range $docVersion.Sections.ByTitle}}
+            {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
+          {{end}}
+        {{else}}
+          {{range $docVersion.Sections.ByWeight}}
+            {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
           {{end}}
         {{end}}
       {{end}}
@@ -166,14 +178,14 @@
 
 {{- define "optionInDifferentVersion" -}}
   {{- $ := .root -}}
-  {{- $productSection := .productSection -}}
+  {{- $topSection := .topSection -}}
   {{- $version := .version -}}
 
   {{/* create a prefix like "kubermatic/v2.14" */}}
-  {{- $productPathPrefix := path.Join $productSection $version.release -}}
+  {{- $productPathPrefix := path.Join $topSection $version.release -}}
 
   <option
-    value="{{ template "findBestMatchInVersion" dict "root" $ "page" $.Page "product" $productSection "release" $version.release }}"
+    value="{{ template "findBestMatchInVersion" dict "root" $ "page" $.Page "product" $topSection "release" $version.release }}"
     {{- if in $.RelPermalink $version.release }} selected{{ end -}}
   >{{ $version.name }}</option>
 {{- end -}}
@@ -181,11 +193,11 @@
 {{- define "findBestMatchInVersion" -}}
   {{- $ := .root -}}
   {{- $page := .page -}}
-  {{- $productSection := .product -}}
+  {{- $topSection := .product -}}
   {{- $release := .release -}}
 
   {{/* create a prefix like "kubermatic/v2.14" */}}
-  {{- $productPathPrefix := path.Join $productSection $release -}}
+  {{- $productPathPrefix := path.Join $topSection $release -}}
 
   {{/* strip product and version from the path (i.e. remove the first two path elements) */}}
   {{- $relFilePath := path.Join (after 2 (split $page.File "/")) -}}
