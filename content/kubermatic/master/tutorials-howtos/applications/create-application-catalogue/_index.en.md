@@ -137,7 +137,7 @@ kubectl create secret -n <kkp-install-namespace> docker-registry <secret-name> -
 kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="helm"
 
 # example
-kubectl create secret -n kubermatic docker-registry oci-cred --docker-server=oci://harbor.example.com --docker-username=someuser --docker-password=somepaswword
+kubectl create secret -n kubermatic docker-registry oci-cred --docker-server=harbor.example.com/my-project --docker-username=someuser --docker-password=somepaswword
 kubectl annotate secret oci-cred apps.kubermatic.k8c.io/secret-type="helm"
 ```
 
