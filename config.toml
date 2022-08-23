@@ -59,17 +59,6 @@ versionLabel = "Version"
 cookiefirstBanner = "e938558d-78b5-4f1b-b574-cd5dfde73684"
 titleSuffix = "Kubermatic Documentation"
 
-# [Languages]
-# [Languages.en]
-# title = "Documentation for "
-# weight = 1
-# languageName = "English"
-
-# [Languages.de]
-# title = "Dokumentation für "
-# weight = 2
-# languageName = "German"
-
 [params.mainLogo]
 src = "/img/kubermatic.svg"
 alt = "Kubermatic logo"
