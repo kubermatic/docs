@@ -63,10 +63,7 @@ spec:
             diskType: "gp2"
             ebsVolumeEncrypted: false
             ami: "my-custom-ami"
-          operatingSystem: flatcar
-          operatingSystemSpec:
-            # 'provisioningUtility` is only used for flatcar os, can be set to ignition or cloud-init. Defaults to ignition.
-            provisioningUtility: ignition
+          operatingSystem: ubuntu
       versions:
         kubelet: "<< KUBERNETES_VERSION >>"
 ```
