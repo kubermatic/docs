@@ -19,7 +19,7 @@ Below is the procedure to follow to migrate from KKP 2.20 to KKP 2.21 for a Kube
 
 
 1) Upgrade KKP following the procedure [KKP upgrading procedure](https://docs.kubermatic.com/kubermatic/master/tutorials-howtos/upgrading/)
-2) Your existing KKP 2.20 tenant cluster with its existing worker nodes will continue to work. The restricition is that you will not be able to update the old *MachineDeployment* ojects. Additionaly, reconciliation of those objects will not work properly and you may see errors.
+2) Your existing KKP 2.20 tenant cluster with its existing worker nodes will continue to work. The restricition is that you will not be able to update the old *MachineDeployment* ojbects. Additionally, reconciliation of those objects will not work properly and you may see errors.
 3) Create some new *MachineDeployment*
 4) Once the new worker nodes are up and running, you can migrate your workload to the new nodes.
 5) Then cleanup the old worker nodes created with KKP 2.20:
