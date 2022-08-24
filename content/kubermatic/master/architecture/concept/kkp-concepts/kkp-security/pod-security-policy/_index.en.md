@@ -13,9 +13,9 @@ PSP objects are cluster-level objects. They define a set of conditions that a po
 
 ## Note on PodSecurityPolicy deprecation
 
-Please note that PodSecurityPolicy [Pod Security Policy deprecation](https://kubernetes.io/docs/concepts/security/pod-security-policy/) was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. As such, future KKP releases will not support the PodSecurityPolicy feature on Kubernetes 1.25 or higher.
+Please note that PodSecurityPolicy [Pod Security Policy deprecation](https://kubernetes.io/docs/concepts/security/pod-security-policy/) was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. As such, future KKP releases will not support the PodSecurityPolicy feature on Kubernetes 1.25 or higher. 
 
-We suggest to move to [Open Policy Agent (OPA)]({{< relref "../../../../../tutorials-howtos/opa-integration/opa-integration-via-ui/">}}) as a replacement.
+We suggest to move to [Open Policy Agent (OPA)]({{< relref "../../../../../tutorials-howtos/opa-integration/">}}) as a replacement.
 
 ## Kubermatic Kubernetes Platform (KKP) Support
 
