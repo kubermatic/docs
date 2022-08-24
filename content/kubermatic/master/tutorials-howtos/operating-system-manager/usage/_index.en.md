@@ -37,6 +37,10 @@ spec:
 ...
 ```
 
+## Custom OperatingSystemProfiles
+
+To consume custom OperatingSystemProfiles. Users can create their custom OSPs in the seed namespace(kubermatic). They will be automatically synced to all the user-cluster namespaces.
+
 ## Migrating existing clusters
 
 For migrating existing clusters, user can enable OSM using either the CLI or UI. That would enable OSM on the user cluster level. Although the machines will not be rotated automatically. To perform this rotation for existing MachineDeployments please follow the guide at [Rolling Restart MachineDeploments][rolling-restart].
