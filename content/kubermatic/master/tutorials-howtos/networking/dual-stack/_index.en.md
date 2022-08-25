@@ -53,7 +53,7 @@ The following table lists the provider / operating system combinations compatibl
 
 - A hyphen(`-`) denotes that the operating system is available / not tested on the given platform.
 - An asterisk (`*`) denotes a minor issue described in [specifics & limitations of individual cloud-providers](#cloud-provider-specifics-and-limitations).
-- Cilium CNI is not compatible with CentOS on any platform.
+- Cilium CNI is not compatible with CentOS 7 on any platform.
 - CentOS 8 is past end of life, so it was not tested.
 
 
