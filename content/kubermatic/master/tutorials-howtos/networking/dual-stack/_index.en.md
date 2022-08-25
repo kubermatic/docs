@@ -37,16 +37,16 @@ Dual-stack [specifics & limitations of individual cloud-providers](#cloud-provid
 ## Compatibility Matrix
 The following table lists the provider / operating system combinations compatible with dual-stack clusters on KKP:
 
-|                             | Ubuntu | CentOS | Flatcar | RHEL | Rocky Linux |
-|-----------------------------|--------|--------|---------|------|-------------|
-| Amazon Web Services (AWS)   | ✓      | x      | ✓       | ✓    | ✓           |
-| Microsoft Azure             | ✓      | ✓      | ✓       | ✓    | ✓           |
-| DigitalOcean                | ✓      | ✓      | -       | -    | ✓ *         |
-| Equinix Metal               | ✓      | ✓      | ✓ *     | -    | ✓ *         |
-| Google Cloud Platform (GCP) | ✓      | -      | -       | -    | -           |
-| Hetzner                     | ✓      | ✓      | -       | -    | ✓           |
-| Openstack                   | ✓      | x      | ✓       | ✓    | ✓           |
-| VMware vSphere              | ✓      | -      | -       | -    | -           |
+|                             | Ubuntu | CentOS 7 | Flatcar | RHEL | Rocky Linux |
+|-----------------------------|--------|----------|---------|------|-------------|
+| Amazon Web Services (AWS)   | ✓      | x        | ✓       | ✓    | ✓           |
+| Microsoft Azure             | ✓      | ✓        | ✓       | ✓    | ✓           |
+| DigitalOcean                | ✓      | ✓        | -       | -    | ✓ *         |
+| Equinix Metal               | ✓      | ✓        | ✓ *     | -    | ✓ *         |
+| Google Cloud Platform (GCP) | ✓      | -        | -       | -    | -           |
+| Hetzner                     | ✓      | ✓        | -       | -    | ✓           |
+| Openstack                   | ✓      | x        | ✓       | ✓    | ✓           |
+| VMware vSphere              | ✓      | -        | -       | -    | -           |
 
 
 **NOTES:**
@@ -54,6 +54,7 @@ The following table lists the provider / operating system combinations compatibl
 - A hyphen(`-`) denotes that the operating system is available / not tested on the given platform.
 - An asterisk (`*`) denotes a minor issue described in [specifics & limitations of individual cloud-providers](#cloud-provider-specifics-and-limitations).
 - Cilium CNI is not compatible with CentOS on any platform.
+- CentOS 8 is past end of life, so it was not tested.
 
 
 ## Enabling Dual-Stack Networking for a User Cluster
@@ -286,7 +287,7 @@ Even though we tried to cover most of the cases in the Machine Controller and Op
 it was not possible to reliably do that in a generic way. These are documented in this section.
 
 In case of such an incompatibility, the worker nodes would miss the IPv6 address and the CNI plugin would not start.
-These cases can be still addressed by introducing of a custom Operating System Profile with proper OS- and environment-
+These cases can be still addressed by introducing of custom Operating System Profile with proper OS- and environment-
 specific configuration (see [Operating System Manager]({{< relref "../../operating-system-manager/" >}}) docs).
 
 ### CentOS / RHEL / Rocky Linux
@@ -295,5 +296,5 @@ CentOS, RHEL & Rocky Linux provide an extensive set of IPv6 settings for Network
 Depending on the IPv6 assignment method used in the datacenter, you may need the proper combination
 of them - e.g. `IPV6INIT`, `IPV6_AUTOCONF`, `IPV6_DEFROUTE`, `DHCPV6C`, etc.
 
-As mentioned above, this can be addressed by introducing of a custom Operating System Profile with proper OS- and environment-
+As mentioned above, this can be addressed by introducing of custom Operating System Profile with proper OS- and environment-
 specific configuration (see [Operating System Manager]({{< relref "../../operating-system-manager/" >}}) docs).
