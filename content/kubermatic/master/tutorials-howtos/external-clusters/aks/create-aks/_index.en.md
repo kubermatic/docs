@@ -44,8 +44,8 @@ Resource Group should have sufficient permissions to manage AKS cluster and to p
 ### Primary Node Pool Setting:
 
 {{% notice info %}}
-At least one systempool is required in a AKS cluster.
-Hence a systempool will be created alongwith the cluster.
+At least one systempool is required in an AKS cluster.
+Hence a systempool will be created along with the cluster.
 {{% /notice %}}
 
 [Learn more about node pools in Azure Kubernetes Service

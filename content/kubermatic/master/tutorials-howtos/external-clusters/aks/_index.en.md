@@ -8,7 +8,7 @@ weight = 7
 
 ## Add AKS Cluster
 
-You can add an existing Kubernetes cluster and then manage it using KKP. 
+You can add an existing Azure Kubernetes Service cluster and then manage it using KKP. 
 
 - Navigate to `External Clusters` page.
 
@@ -27,7 +27,7 @@ You can add an existing Kubernetes cluster and then manage it using KKP.
     - Manually enter the credentials `Tenant ID`, `Subscription ID`, `Client ID` and  `Client Secret`. 
 
 {{% notice info %}}
-The credentials should have enough access like read, write Azure Kubernetes Service and list cluster admin credential, to fetch kubeconfig using API.
+The credentials should provide access rights to read & write Azure Kubernetes Service and list cluster admin credential, in order to fetch kubeconfig using API.
 [Learn about Authorize Resource Group](https://docs.microsoft.com/en-us/azure/aks/concepts-identity#azure-rbac-to-authorize-access-to-the-aks-resource "Learn about Authorize Resource Group")
 {{% /notice %}}
 
@@ -39,7 +39,7 @@ Validation performed will only check if the credentials have `Read` access.
 
 ![AKS credentials](/img/kubermatic/master/tutorials/external_clusters/aks_credentials.png "AKS credentials")
 
-- You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Clusters can be imported only once in a single project. The same cluster can be imported from the other projects.
+- You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Clusters can be imported only once in a single project. The same cluster can be imported in multiple projects.
 
 ![Select AKS cluster](/img/kubermatic/master/tutorials/external_clusters/select_aks_cluster.png "Select AKS cluster")
 
@@ -74,7 +74,7 @@ If the version upgrade is valid, the cluster state will change to `Reconciling`.
 ## Edit the Machine Deployment
 
 {{% notice info %}}
-Only one operation can be performed at one point of time. If replica is updated then upgrade kuberntes version will be disabled and vice versa.
+Only one operation can be performed at one point of time. If the replica count is updated then Kubernetes version upgrade will be disabled and vice versa.
 {{% /notice %}}
 
 - Navigate to the cluster overview, scroll down to machine deployments.
@@ -83,9 +83,9 @@ Only one operation can be performed at one point of time. If replica is updated 
 
 ![Update AKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/edit_md.png "Update AKS Machine Deployment")
 
-- Upgrade Kubernetes Version. Select the Kubernetes Version from the dropdown to upgrade the md.
+- Upgrade Kubernetes Version. Select the Kubernetes Version from the dropdown to upgrade the machine deployment.
 
-- Scale the replicas In the popup dialog, you can increase or decrease the number of worker nodes that are managed by this machine deployment.
+- Scale the replicas: In the popup dialog, you can increase or decrease the number of worker nodes that are managed by this machine deployment.
 
 ![Update AKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/scale_aks_md.png "Update AKS Machine Deployment")
 
@@ -95,7 +95,7 @@ Only one operation can be performed at one point of time. If replica is updated 
 Delete operation is not allowed for imported clusters
 {{% /notice %}}
 
-Delete cluster allows to delete the cluster from the Provider. Click on the `Delete` button.
+Delete cluster operation allows to delete the cluster from the Provider. Click on the `Delete` button.
 
 ![Delete Cluster](/img/kubermatic/master/tutorials/external_clusters/eks_disconnect_button.png
  "Delete Cluster")
@@ -103,7 +103,7 @@ Delete cluster allows to delete the cluster from the Provider. Click on the `Del
 ## Delete the Node Pool
 
 {{% notice info %}}
-At least one systempool is required in a AKS cluster.
+At least one systempool is required in an AKS cluster.
 {{% /notice %}}
 
 Navigate to the cluster overview, scroll down to machine deployments and click on the delete icon next to the machine deployment you want to delete.

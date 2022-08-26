@@ -23,7 +23,7 @@ You can add an existing Kubernetes cluster and then manage it using KKP.
 ![GKE credentials](/img/kubermatic/master/tutorials/external_clusters/gke_credentials.png "GKE credentials")
 
 You should see the list of all available clusters. Select the one and click the `Import Cluster` button.
-Clusters can be imported only once in a single project. The same cluster can be imported for the other projects.
+Clusters can be imported only once in a single project. The same cluster can be imported in multiple projects.
 
 ![Select GKE cluster](/img/kubermatic/master/tutorials/external_clusters/select_gke_cluster.png "Select GKE cluster")
 
@@ -65,7 +65,7 @@ If the version upgrade is valid, the cluster state will change to `Reconciling`.
 ### Edit the Machine Deployment
 
 {{% notice info %}}
-Only one operation can be performed at one point of time. If replica is updated then upgrade kuberntes version will be disabled and vice versa.
+Only one operation can be performed at one point of time. If the replica count is updated then Kubernetes version upgrade will be disabled and vice versa.
 {{% /notice %}}
 
 - Navigate to the cluster overview, scroll down to machine deployments 
@@ -77,9 +77,8 @@ Only one operation can be performed at one point of time. If replica is updated 
 
 ![Update GKE Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/upgrade_gke_md.png "Update GKE Machine Deployment")
 
-- Scale the replicas In the popup dialog, you can increase or decrease the number of worker nodes that are managed by this machine deployment.
+- Scale the replicas: In the popup dialog, you can increase or decrease the number of worker nodes that are managed by this machine deployment. Either specify the number of desired nodes or use the + or - to increase or decrease node count.
 
-Either specify the number of desired nodes or use the + or - to increase or decrease node count.
 ![Scale GKE Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/scale_gke_md.png "Scale GKE Machine Deployment")
 
 ## Delete Cluster
@@ -88,7 +87,7 @@ Either specify the number of desired nodes or use the + or - to increase or decr
 Delete operation is not allowed for imported clusters
 {{% /notice %}}
 
-Delete cluster allows to delete the cluster from the Provider. Click on the `Delete` button.
+Delete cluster operation allows to delete the cluster from the Provider. Click on the `Delete` button.
 
 ![Delete Cluster](/img/kubermatic/master/tutorials/external_clusters/eks_disconnect_button.png
  "Delete Cluster")

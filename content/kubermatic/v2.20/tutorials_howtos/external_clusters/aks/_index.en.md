@@ -8,7 +8,7 @@ weight = 7
 
 ## Add AKS Cluster
 
-You can add an existing Kubernetes cluster and then manage it using KKP. From the Clusters page, click `External Clusters`.
+You can add an existing Azure Kubernetes Service cluster and then manage it using KKP. From the Clusters page, click `External Clusters`.
 Click `Add External Cluster` button and Pick `Azure Kubernetes Cluster` provider.
 
 ![Add External Cluster](/img/kubermatic/v2.20/tutorials/external_clusters/add_external_cluster.png "Add External Cluster")
@@ -18,7 +18,7 @@ The credentials should have enough access like read, write Azure Kubernetes Serv
 
 ![AKS credentials](/img/kubermatic/v2.20/tutorials/external_clusters/aks_credentials.png "AKS credentials")
 
-You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Clusters can be imported only once in a single project. The same cluster can be imported from the other projects.
+You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Clusters can be imported only once in a single project. The same cluster can be imported in multiple projects.
 
 ![Select AKS cluster](/img/kubermatic/v2.20/tutorials/external_clusters/select_aks_cluster.png "Select AKS cluster")
 

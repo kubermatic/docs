@@ -66,7 +66,7 @@ Reconciling state depicts that the cluster is getting upgraded:
 If you delete the cluster from the provider, the state in KKP will be shown as `Deleting`.
 ![External Cluster Delete State](/img/kubermatic/v2.20/tutorials/external_clusters/delete_status.png "External Cluster Delete State")
 
-You can `Disconnect` the deleted cluster by clicking on the disconnect icon next to the cluster you want to disconnect, which will delete KKP cluster object for this cluster.
+You can `Disconnect` the deleted cluster by clicking on the disconnect icon next to the cluster you want to disconnect, which will delete internal cluster object in KKP.
 
 ![Disconnect Deleted External Cluster](/img/kubermatic/v2.20/tutorials/external_clusters/disconnect_deleted_cluster.png "Disconnect Deleted External Cluster")
 

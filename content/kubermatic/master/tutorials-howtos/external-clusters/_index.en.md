@@ -33,7 +33,7 @@ To add a new external cluster go to `External Clusters` page and click the `Impo
 ![Import External Cluster](/img/kubermatic/master/tutorials/external_clusters/add_external_cluster.png "Import External Cluster")
 
 
-KKP allows connecting any existing Kubernetes cluster as external cluster to view the cluster's current state. 
+KKP allows connecting any existing Kubernetes cluster as an external cluster to view the cluster's current state. 
 
 To connect a cluster from any provider, click on `Any Provider` and provide the cluster name and kubeconfig. 
 
@@ -91,7 +91,7 @@ Cluster can be  Deleted by clicking on the delete icon next to the cluster you w
 Disconnect operation does not delete the cluster from the cloud provider.
 {{% /notice %}}
 
-You can `Disconnect` an external cluster by clicking on the disconnect icon next to the cluster you want to disconnect or from the cluster details page, which will delete KKP cluster object.
+You can `Disconnect` an external cluster by clicking on the disconnect icon next to the cluster you want to disconnect or from the cluster details page, which will delete internal cluster object in KKP.
 
 ![Disconnect External Cluster](/img/kubermatic/master/tutorials/external_clusters/disconnect_externalcluster.png "Disconnect External Cluster")
 

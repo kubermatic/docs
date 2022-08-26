@@ -27,7 +27,7 @@ You can add an existing Kubernetes cluster and then manage it using KKP.
     - Manually enter the credentials `Access Key ID`, `Secret Access Key` and select `Region`
 
 {{% notice info %}}
-Region is also kept a part of preset as its a required value to create a EKS client.
+Region is also kept as a part of a preset as it is a required value to create an EKS client.
 {{% /notice %}}
 
 - After user provides all required credentials, credentials will be validated.
@@ -69,7 +69,7 @@ If the upgrade version provided is valid, the cluster state will change to `Reco
 ### Edit the Machine Deployment
 
 {{% notice info %}}
-Only one operation can be performed at one point of time. If replica is updated then upgrade Kubernetes version will be disabled and vice versa.
+Only one operation can be performed at one point of time. If the replica count is updated then Kubernetes version upgrade will be disabled and vice versa.
 {{% /notice %}}
 
 - Navigate to the cluster overview, scroll down to machine deployments.
@@ -80,10 +80,7 @@ Only one operation can be performed at one point of time. If replica is updated 
 
 - Upgrade Kubernetes Version. Select the Kubernetes Version from the dropdown to upgrade the md.
 
-- Scale the replicas
-    In the popup dialog, you can increase or decrease the number of worker nodes that are managed by this machine deployment.
-
-    Either specify the number of desired nodes or use the `+` or `-` to increase or decrease node count.
+- Scale the replicas: In the popup dialog, you can increase or decrease the number of worker nodes that are managed by this machine deployment. Either specify the number of desired nodes or use the `+` or `-` to increase or decrease node count.
 
 ![Update EKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/edit_eks_md.png "Update EKS Machine Deployment")
 
@@ -93,7 +90,7 @@ Only one operation can be performed at one point of time. If replica is updated 
 Delete operation is not allowed for imported clusters.
 {{% /notice %}}
 
-Delete cluster allows to delete the cluster from the Provider. Click on the `Delete` button.
+Delete cluster operation allows to delete the cluster from the Provider. Click on the `Delete` button.
 
 ![Delete Cluster](/img/kubermatic/master/tutorials/external_clusters/eks_disconnect_button.png
  "Delete Cluster")

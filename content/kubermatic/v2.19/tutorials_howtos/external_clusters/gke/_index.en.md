@@ -17,7 +17,7 @@ Select preset with valid credentials or enter GKE Service Account to connect to 
 ![GKE credentials](/img/kubermatic/v2.19/tutorials/external_clusters/gke_credentials.png "GKE credentials")
 
 You should see the list of all available clusters. Select the one and click the `Import Cluster` button.
-Clusters can be imported only once in a single project. The same cluster can be imported for the other projects.
+Clusters can be imported only once in a single project. The same cluster can be imported in multiple projects.
 
 ![Select GKE cluster](/img/kubermatic/v2.19/tutorials/external_clusters/select_gke_cluster.png "Select GKE cluster")
 
