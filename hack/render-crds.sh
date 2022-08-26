@@ -4,7 +4,7 @@ set -euox pipefail
 
 cd $(dirname $0)/..
 
-SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/pkg/apis/kubermatic/v1/"
+SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/pkg/apis/"
 
 which crd-ref-docs >/dev/null || {
   echo "running go install github.com/elastic/crd-ref-docs@v0.0.8 in 5s... (ctrl-c to cancel)"
