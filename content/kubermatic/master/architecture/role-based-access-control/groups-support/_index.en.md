@@ -27,3 +27,7 @@ From this view, new group bindings can be created via the "Add Group" button.
 Be aware that group names are not further validated as KKP does not have access to a complete list of groups in the OIDC backend. This way, group permissions can be pre-provisioned even if no user with a specific group membership has signed into KKP yet.
 
 The role associated with a group can be updated later on to reflect changes in responsibilities. Group bindings can later be removed from the list of bindings by deleting it from the list.
+
+{{% notice note %}}
+Be aware that as of KKP 2.21.0 (when this feature was introduced), there is no group support for MLA Grafana access yet.
+{{% /notice %}}
