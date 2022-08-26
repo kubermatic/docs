@@ -67,9 +67,23 @@ Click on **Configure Metering**, switch on **Enable Metering** and change the co
   - You may use a plain integer value (bytes) or a human-readable string like `50Gi`. See the [Kubernetes Docs][k8s-meaning-of-memory] for a more thorough explanation of valid values
   - When choosing a volume size, please take into consideration that old usage data files will not be deleted automatically
 
-![Metering Configuration](/img/kubermatic/master/tutorials/metering_configuration.png?classes=shadow,border "Metering Configuration")
 
-Once the configuration values have been set and the metering has been enabled, the operator will take care of deploying the tool.
+In the end it is possible to create different report schedules.  
+Click on **Create Schedule**, to open the Schedule configuration dialog.
+
+Below to the three predefined Schdules it is possible to create a custom schedule. 
+A schedule consist of four different values to set: 
+
+- `Schedule Name`
+  - Name of the Schedule. This is also used as a folder name to store generated reports.
+- `Report retention`
+  - Number of days each report is saved, leave the field empty to store reports forever. This will set a retention period at the s3 Backend. 
+- `Report scope`
+  - Number of days captured in each report.
+- `Cron Expression`
+  -  Cron expression that describes how often a report should be created.
+
+![Metering Configuration](/img/kubermatic/master/tutorials/metering_report_configuration.png?classes=shadow,border "Metering Configuration")
 
 ### Configuration via Seed Object
 
