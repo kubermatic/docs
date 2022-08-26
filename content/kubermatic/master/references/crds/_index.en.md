@@ -6,7 +6,461 @@ searchExclude = true
 +++
 
 ## Packages
+- [apps.kubermatic.k8c.io/v1](#appskubermatick8ciov1)
 - [kubermatic.k8c.io/v1](#kubermatick8ciov1)
+
+
+## apps.kubermatic.k8c.io/v1
+
+
+### Resource Types
+- [ApplicationDefinition](#applicationdefinition)
+- [ApplicationDefinitionList](#applicationdefinitionlist)
+- [ApplicationInstallation](#applicationinstallation)
+- [ApplicationInstallationList](#applicationinstallationlist)
+
+
+
+### ApplicationDefinition
+
+
+
+ApplicationDefinition is the Schema for the applicationdefinitions API.
+
+_Appears in:_
+- [ApplicationDefinitionList](#applicationdefinitionlist)
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `apps.kubermatic.k8c.io/v1`
+| `kind` _string_ | `ApplicationDefinition`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[ApplicationDefinitionSpec](#applicationdefinitionspec)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationDefinitionList
+
+
+
+ApplicationDefinitionList contains a list of ApplicationDefinition.
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `apps.kubermatic.k8c.io/v1`
+| `kind` _string_ | `ApplicationDefinitionList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[ApplicationDefinition](#applicationdefinition) array_ |  |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationDefinitionSpec
+
+
+
+ApplicationDefinitionSpec defines the desired state of ApplicationDefinition.
+
+_Appears in:_
+- [ApplicationDefinition](#applicationdefinition)
+
+| Field | Description |
+| --- | --- |
+| `description` _string_ | Description of the application. what is its purpose |
+| `method` _TemplateMethod_ | Method used to install the application |
+| `defaultValues` _RawExtension_ | DefaultValues describe overrides for manifest-rendering in UI when creating an application. |
+| `versions` _[ApplicationVersion](#applicationversion) array_ | Available version for this application |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationInstallation
+
+
+
+ApplicationInstallation describes a single installation of an Application.
+
+_Appears in:_
+- [ApplicationInstallationList](#applicationinstallationlist)
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `apps.kubermatic.k8c.io/v1`
+| `kind` _string_ | `ApplicationInstallation`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[ApplicationInstallationSpec](#applicationinstallationspec)_ |  |
+| `status` _[ApplicationInstallationStatus](#applicationinstallationstatus)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationInstallationCondition
+
+
+
+
+
+_Appears in:_
+- [ApplicationInstallationStatus](#applicationinstallationstatus)
+
+| Field | Description |
+| --- | --- |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#conditionstatus-v1-core)_ | Status of the condition, one of True, False, Unknown. |
+| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time we got an update on a given condition. |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time the condition transit from one status to another. |
+| `reason` _string_ | (brief) reason for the condition's last transition. |
+| `message` _string_ | Human readable message indicating details about last transition. |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationInstallationConditionType
+
+_Underlying type:_ `string`
+
+swagger:enum ApplicationInstallationConditionType All condition types must be registered within the `AllApplicationInstallationConditionTypes` variable.
+
+_Appears in:_
+- [ApplicationInstallationStatus](#applicationinstallationstatus)
+
+
+
+### ApplicationInstallationList
+
+
+
+ApplicationInstallationList is a list of ApplicationInstallations.
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `apps.kubermatic.k8c.io/v1`
+| `kind` _string_ | `ApplicationInstallationList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[ApplicationInstallation](#applicationinstallation) array_ |  |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationInstallationSpec
+
+
+
+
+
+_Appears in:_
+- [ApplicationInstallation](#applicationinstallation)
+
+| Field | Description |
+| --- | --- |
+| `namespace` _[NamespaceSpec](#namespacespec)_ | Namespace describe the desired state of the namespace where application will be created. |
+| `applicationRef` _[ApplicationRef](#applicationref)_ | ApplicationRef is a reference to identify which Application should be deployed |
+| `values` _[RawExtension](#rawextension)_ | Values describe overrides for manifest-rendering. It's a free yaml field. |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationInstallationStatus
+
+
+
+ApplicationInstallationStatus denotes status information about an ApplicationInstallation.
+
+_Appears in:_
+- [ApplicationInstallation](#applicationinstallation)
+
+| Field | Description |
+| --- | --- |
+| `conditions` _object (keys:[ApplicationInstallationConditionType](#applicationinstallationconditiontype), values:[ApplicationInstallationCondition](#applicationinstallationcondition))_ | Conditions contains conditions an installation is in, its primary use case is status signaling between controllers or between controllers and the API |
+| `applicationVersion` _[ApplicationVersion](#applicationversion)_ | ApplicationVersion contains information installing / removing application |
+| `method` _TemplateMethod_ | Method used to install the application |
+| `helmRelease` _[HelmRelease](#helmrelease)_ | HelmRelease holds the information about the helm release installed by this application. This field is only filled if template method is 'helm'. |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationRef
+
+
+
+ApplicationRef describes a KKP-wide, unique reference to an Application.
+
+_Appears in:_
+- [ApplicationInstallationSpec](#applicationinstallationspec)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Name of the Application. Should be a valid lowercase RFC1123 domain name |
+| `version` _[Version](#version)_ | Version of the Application. Must be a valid SemVer version |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationSource
+
+
+
+
+
+_Appears in:_
+- [ApplicationTemplate](#applicationtemplate)
+
+| Field | Description |
+| --- | --- |
+| `helm` _[HelmSource](#helmsource)_ | Install Application from a Helm repository |
+| `git` _[GitSource](#gitsource)_ | Install application from a Git repository |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationTemplate
+
+
+
+
+
+_Appears in:_
+- [ApplicationVersion](#applicationversion)
+
+| Field | Description |
+| --- | --- |
+| `source` _[ApplicationSource](#applicationsource)_ | Defined how the source of the application (e.g Helm chart) is retrieved. Exactly one type of source must be defined. |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationVersion
+
+
+
+
+
+_Appears in:_
+- [ApplicationDefinitionSpec](#applicationdefinitionspec)
+- [ApplicationInstallationStatus](#applicationinstallationstatus)
+
+| Field | Description |
+| --- | --- |
+| `version` _string_ | Version of the application (e.g. v1.2.3) |
+| `template` _[ApplicationTemplate](#applicationtemplate)_ | Template defines how application is installed (source provenance, Method...) |
+
+
+[Back to top](#top)
+
+
+
+### GitCredentials
+
+
+
+
+
+_Appears in:_
+- [GitSource](#gitsource)
+
+| Field | Description |
+| --- | --- |
+| `method` _GitAuthMethod_ | Authentication method. Either password or token or ssh-key. if method is password then username and password must be defined. if method is token then token must be defined. if method is ssh-key then ssh-key must be defined. |
+| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | Username holds the ref and key in the secret for the username credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | Password holds the ref and key in the secret for the Password credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `token` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | Token holds the ref and key in the secret for the token credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `sshKey` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | SSHKey holds the ref and key in the secret for the SshKey credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+
+
+[Back to top](#top)
+
+
+
+### GitReference
+
+
+
+
+
+_Appears in:_
+- [GitSource](#gitsource)
+
+| Field | Description |
+| --- | --- |
+| `branch` _string_ | Branch to checkout. Only the last commit of the branch will be checkout in order to reduce the amount of data to download. |
+| `commit` _string_ | Commit SHA in a Branch to checkout. 
+ It must be used in conjunction with branch field. |
+| `tag` _string_ | Tag to check out. It can not be used in conjunction with commit or branch. |
+
+
+[Back to top](#top)
+
+
+
+### GitSource
+
+
+
+
+
+_Appears in:_
+- [ApplicationSource](#applicationsource)
+
+| Field | Description |
+| --- | --- |
+| `remote` _string_ | URL to the repository. Can be HTTP(s) (e.g. https://example.com/myrepo) or SSH (e.g. git://example.com[:port]/path/to/repo.git/) |
+| `ref` _[GitReference](#gitreference)_ | Git reference to checkout. For large repositories, we recommend to either use Tag, Branch or Branch+Commit. This allows a shallow clone, which dramatically speeds up performance |
+| `path` _string_ | Path of the "source" in the repository. default is repository root |
+| `credentials` _[GitCredentials](#gitcredentials)_ | Credentials are optional and holds the git credentials |
+
+
+[Back to top](#top)
+
+
+
+### HelmCredentials
+
+
+
+
+
+_Appears in:_
+- [HelmSource](#helmsource)
+
+| Field | Description |
+| --- | --- |
+| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | Username holds the ref and key in the secret for the username credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | Password holds the ref and key in the secret for the Password credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `registryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | RegistryConfigFile holds the ref and key in the secret for the registry credential file. The value is dockercfg file that follows the same format rules as ~/.docker/config.json The The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+
+
+[Back to top](#top)
+
+
+
+### HelmRelease
+
+
+
+
+
+_Appears in:_
+- [ApplicationInstallationStatus](#applicationinstallationstatus)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Name is the name of the release. |
+| `version` _integer_ | Version is an int which represents the revision of the release. |
+| `info` _[HelmReleaseInfo](#helmreleaseinfo)_ | Info provides information about a release. |
+
+
+[Back to top](#top)
+
+
+
+### HelmReleaseInfo
+
+
+
+HelmReleaseInfo describes release information. tech note: we can not use release.Info from Helm because the underlying type used for time has no json tag.
+
+_Appears in:_
+- [HelmRelease](#helmrelease)
+
+| Field | Description |
+| --- | --- |
+| `firstDeployed` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | FirstDeployed is when the release was first deployed. |
+| `lastDeployed` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | LastDeployed is when the release was last deployed. |
+| `deleted` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Deleted tracks when this object was deleted. |
+| `description` _string_ | Description is human-friendly "log entry" about this release. |
+| `status` _Status_ | Status is the current state of the release. |
+| `notes` _string_ | Notes is  the rendered templates/NOTES.txt if available. |
+
+
+[Back to top](#top)
+
+
+
+### HelmSource
+
+
+
+
+
+_Appears in:_
+- [ApplicationSource](#applicationsource)
+
+| Field | Description |
+| --- | --- |
+| `url` _string_ | URl of the helm repository. It can be an HTTP(s) repository (e.g. https://localhost/myrepo) or on OCI repository (e.g. oci://localhost:5000/myrepo). |
+| `chartName` _string_ | Name of the Chart. |
+| `chartVersion` _string_ | Version of the Chart. |
+| `credentials` _[HelmCredentials](#helmcredentials)_ | Credentials are optional and hold the ref to the secret with helm credentials. Either username / Password or registryConfigFile can be defined. |
+
+
+[Back to top](#top)
+
+
+
+### NamespaceSpec
+
+
+
+NamespaceSpec describe the desired state of the namespace where application will be created.
+
+_Appears in:_
+- [ApplicationInstallationSpec](#applicationinstallationspec)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Name is the namespace to deploy the Application into. Should be a valid lowercase RFC1123 domain name |
+| `create` _boolean_ | Create defines whether the namespace should be created if it does not exist. Defaults to true |
+| `labels` _object (keys:string, values:string)_ | Labels of the namespace More info: http://kubernetes.io/docs/user-guide/labels |
+| `annotations` _object (keys:string, values:string)_ | Annotations of the namespace More info: http://kubernetes.io/docs/user-guide/annotations |
+
+
+[Back to top](#top)
+
+
+
+### Version
+
+
+
+Version wraps semverlib.Version. It is needed because kubebuilder does not accept structs with non-tagged fields, even if they have custom marshallers With this the CRD resource will have Version as string but operator code can work directly with the semverlib.Version struct (taken from https://github.com/kubernetes-sigs/controller-tools/blob/master/pkg/crd/testdata/cronjob_types.go#L283)
+
+_Appears in:_
+- [ApplicationRef](#applicationref)
+
+| Field | Description |
+| --- | --- |
+| `invalid type` _invalid type_ |  |
+
+
+[Back to top](#top)
+
+
 
 
 ## kubermatic.k8c.io/v1
@@ -339,7 +793,7 @@ _Appears in:_
 | --- | --- |
 | `name` _string_ | Name defines the name of the addon to install |
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectreference-v1-core)_ | Cluster is the reference to the cluster the addon should be installed in |
-| `variables` _RawExtension_ | Variables is free form data to use for parsing the manifest templates |
+| `variables` _[RawExtension](#rawextension)_ | Variables is free form data to use for parsing the manifest templates |
 | `requiredResourceTypes` _[GroupVersionKind](#groupversionkind) array_ | RequiredResourceTypes allows to indicate that this addon needs some resource type before it can be installed. This can be used to indicate that a specific CRD and/or extension apiserver must be installed before this addon can be installed. The addon will not be installed until that resource is served. |
 | `isDefault` _boolean_ | IsDefault indicates whether the addon is default |
 
