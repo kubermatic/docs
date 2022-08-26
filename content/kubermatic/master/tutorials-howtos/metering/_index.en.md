@@ -71,7 +71,7 @@ Click on **Configure Metering**, switch on **Enable Metering** and change the co
 In the end it is possible to create different report schedules.  
 Click on **Create Schedule**, to open the Schedule configuration dialog.
 
-Below to the three predefined Schdules it is possible to create a custom schedule. 
+Below to the three predefined Schedules it is possible to create a custom schedule. 
 A schedule consist of four different values to set: 
 
 - `Schedule Name`
