@@ -245,12 +245,8 @@ spec:
 ```
 
 ## ApplicationDefinition Reference
+**The following is an example of ApplicationDefinition, showing all the possible options**.
 
-// TODO Currently there is a bug when generating a reference from a slice field that has two values. Before fixing this, I wanted to make the larger part of the guide already available, so it does not block testing. For the release a full reference will be displayed here.
-
-For now if you want to look into any details, you can run:
-
-```sh
-# inside KKP master cluster
-kubectl explain applicationdefinition
+```yaml
+{{< readfile "kubermatic/master/data/applicationDefinition.yaml" >}}
 ```
