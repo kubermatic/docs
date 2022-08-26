@@ -112,12 +112,8 @@ kubectl -n <namespace> get applicationinstallation <name> -o jsonpath='{.status.
 ```
 
 ## ApplicationInstallation Reference
+**The following is an example of ApplicationInstallation, showing all the possible options**.
 
-// TODO Currently there is a bug when generating a reference from a slice field that has two values. Before fixing this, I wanted to make the larger part of the guide already available, so it does not block testing. For the release a full reference will be displayed here.
-
-For now if you want to look into any details, you can run:
-
-```sh
-# inside any KKP cluster
-kubectl explain applicationinstallation
+```yaml
+{{< readfile "kubermatic/master/data/applicationInstallation.yaml" >}}
 ```
