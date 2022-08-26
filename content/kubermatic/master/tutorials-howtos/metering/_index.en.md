@@ -81,7 +81,7 @@ A schedule consist of four different values to set:
 - `Report scope`
   - Number of days captured in each report.
 - `Cron Expression`
-  -  Cron expression that describes how often a report should be created.
+  - Cron expression that describes how often a report should be created.
 
 ![Metering Configuration](/img/kubermatic/master/tutorials/metering_report_configuration.png?classes=shadow,border "Metering Configuration")
 
