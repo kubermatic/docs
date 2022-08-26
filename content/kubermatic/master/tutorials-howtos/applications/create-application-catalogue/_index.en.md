@@ -51,7 +51,7 @@ spec:
           ref:
             branch: master
           remote: https://github.com/prometheus-community/helm-charts
-    version: dev
+    version: 0.0.0-dev
 ```
 
 ### Application Metadata
