@@ -76,7 +76,7 @@ Deleting state depicts that the cluster is getting deleted:
 ## Delete Cluster:
 
 {{% notice info %}}
-Delete operation is not allowed for imported clusters
+Delete operation is not allowed for imported clusters.
 {{% /notice %}}
 
 Cluster can be  Deleted by clicking on the delete icon next to the cluster you want to delete or from the cluster details page, which will delete and disconnect the cluster from the provider.
@@ -87,7 +87,11 @@ Cluster can be  Deleted by clicking on the delete icon next to the cluster you w
 
 ## Disconnect Cluster
 
-You can `Disconnect` a external cluster by clicking on the disconnect icon next to the cluster you want to disconnect or from the cluster details page, which will delete KKP cluster object.
+{{% notice info %}}
+Disconnect operation does not delete the cluster from the cloud provider.
+{{% /notice %}}
+
+You can `Disconnect` an external cluster by clicking on the disconnect icon next to the cluster you want to disconnect or from the cluster details page, which will delete KKP cluster object.
 
 ![Disconnect External Cluster](/img/kubermatic/master/tutorials/external_clusters/disconnect_externalcluster.png "Disconnect External Cluster")
 
