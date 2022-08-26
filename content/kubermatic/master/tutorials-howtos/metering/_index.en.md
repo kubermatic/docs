@@ -102,7 +102,6 @@ data:
   bucket: ""
   endpoint: ""
   secretKey: ""
-
 ```
 
 Metering Seed configuration reference:
@@ -140,8 +139,6 @@ Metrics used to aggregate to a report are as follows:
  - machine_cpu_cores
  - machine_memory_bytes
  - node_memory_working_set_bytes
- - container_cpu_usage_seconds_total
- - container_memory_working_set_bytes
 
 ### Accessing Reports
 While the reports will be stored in your S3-bucket, they can also be accessed from the dashboard.
@@ -151,6 +148,15 @@ Click on the download button on the right side to save a specific report file.
 ![Metering Overview](/img/kubermatic/master/tutorials/metering_overview.png?classes=shadow,border "Metering Overview")
 
 ### Cluster Report
+
+Report consist information on a per cluster level.
+
+Prometheus Metrics used: 
+- node_cpu_usage_seconds_total
+- node_memory_working_set_bytes
+- machine_cpu_cores
+- machine_memory_bytes
+
 The following values will be written to the reports:
 
 - Project name
@@ -160,7 +166,7 @@ The following values will be written to the reports:
 - Cluster ID
 - Cluster labels
 - Average available CPU cores
-- Total used CPU seconds (based on node_cpu_usage_seconds_total)
+- Total used CPU seconds 
 - Average available memory bytes
 - Average used memory bytes
 - Average number of used nodes
@@ -168,6 +174,13 @@ The following values will be written to the reports:
 - Deleted at (timestamp in RFC 3339 format)
 
 ### Namespace Report
+
+Report consist information on a per namespace level.
+
+Prometheus Metrics used:
+- container_cpu_usage_seconds_total
+- container_memory_working_set_bytes
+
 The following values will be written to the reports:
 
 - Project name
@@ -191,3 +204,14 @@ If you desire to store this data for longer than 90days, you need to extract the
 [k8s-docs-storage-classes]: https://kubernetes.io/docs/concepts/storage/storage-classes/
 [k8s-persistent-volumes]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 [k8s-meaning-of-memory]: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory
+
+
+// Kubernetes node/machine metrics.
+const totalNodeCpuUsageSeconds = "last_over_time(node_cpu_usage_seconds_total{cluster=\"%s\"}[%dm]) - node_cpu_usage_seconds_total{cluster=\"%s\"} offset %dm"
+const averageMachineCpuCores = "avg_over_time(machine_cpu_cores{cluster=\"%s\"}[%dm])"
+const averageMachineMemoryBytes = "avg_over_time(machine_memory_bytes{cluster=\"%s\"}[%dm])"
+const averageNodeUsedMemoryBytes = "avg_over_time(node_memory_working_set_bytes{cluster=\"%s\"}[%dm])"
+
+// Kubernetes container metrics.
+const totalContainerCpuUsageSeconds = "last_over_time(container_cpu_usage_seconds_total{cluster=\"%s\",namespace=\"%s\",container=~\".+\",image=~\".+\"}[%dm]) - container_cpu_usage_seconds_total{cluster=\"%s\",namespace=\"%s\",container=~\".+\",image=~\".+\"} offset %dm"
+const averageContainerUsedMemoryBytes = "avg_over_time(container_memory_working_set_bytes{cluster=\"%s\",namespace=\"%s\",container=~\".+\",image=~\".+\"}[%dm])"
