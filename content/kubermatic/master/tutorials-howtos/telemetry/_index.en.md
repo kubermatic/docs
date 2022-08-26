@@ -20,7 +20,10 @@ telemetry:
   schedule: "0 0 * * *”
 ```
 
-Telemetry uses anonymous UUIDs to identify user data, so it requires a generated UUID. You can use tools like `uuidgen` to generate the UUID.
+Telemetry uses anonymous UUIDs to identify user data, so it requires a UUID. 
+Optional: You can use tools like `uuidgen` to generate the UUID. 
+
+If not Provided by the user, the UUID will be generated and will we stored in a secret.
 
 The `schedule` is in Cron format, please check [Cron format](https://en.wikipedia.org/wiki/Cron) for more details, and it is used to configure the frequency of sending data from the Telemetry tool. If this is not configured, it will send data once per day.
 
