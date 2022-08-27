@@ -14,17 +14,17 @@ Create a cluster following these steps:
 
 ![Create External Cluster](/img/kubermatic/master/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
 
-- Choose the supported providers:
+- Choose "Google Kubernetes Engine" from the supported providers:
 
-![Select Provider](/img/kubermatic/master/tutorials/external_clusters/select_provider.png "Select Provider")
+![Select Provider](/img/kubermatic/master/tutorials/external_clusters/gke_select_provider.png "Select Provider")
 
 - Provide the credentials:
 
-![Select Preset](/img/kubermatic/master/tutorials/external_clusters/select_preset.png "Select Preset")
+![Select Preset](/img/kubermatic/master/tutorials/external_clusters/select_gke_preset.png "Select Preset")
 
 - Configure the cluster:
 
-![Configure Cluster](/img/kubermatic/master/tutorials/external_clusters/eks_settings.png "Configure Cluster")
+![Configure Cluster](/img/kubermatic/master/tutorials/external_clusters/gke_settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
 

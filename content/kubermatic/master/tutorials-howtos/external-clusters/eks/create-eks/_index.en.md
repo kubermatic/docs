@@ -9,7 +9,7 @@ weight = 7
 ## Create EKS Cluster
 
 {{% notice info %}}
-Creating External cluster does not create node group by default but you can create one by clicking `Add Machine Deployment` once the cluster is created".
+Creating External cluster does not create node group by default but you can create one by clicking `Add Machine Deployment` once the cluster is created.
 {{% /notice %}}
 
 Create a cluster following these steps:
@@ -18,13 +18,13 @@ Create a cluster following these steps:
 
 ![Create External Cluster](/img/kubermatic/master/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
 
-- Choose the supported providers:
+- Choose "Elastic Kubernetes Service" from the supported providers:
 
 ![Select AKS Provider](/img/kubermatic/master/tutorials/external_clusters/eks_selection.png "Select EKS Provider")
 
 - Provide the credentials:
 
-![Select Preset](/img/kubermatic/master/tutorials/external_clusters/select_preset.png "Select Preset")
+![Select Preset](/img/kubermatic/master/tutorials/external_clusters/select_eks_preset.png "Select Preset")
 
 - Configure the cluster:
 

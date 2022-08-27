@@ -6,7 +6,7 @@ weight = 7
 
 +++
 
-## Add AKS Cluster
+## Import AKS Cluster
 
 You can add an existing Azure Kubernetes Service cluster and then manage it using KKP. 
 
@@ -22,8 +22,7 @@ You can add an existing Azure Kubernetes Service cluster and then manage it usin
 
 - Provide Credentials in either of the below mentioned ways:
     - Select a pre-created preset which stores the provider specific credentials. 
-      
-      Create a preset on your KKP cluster with `spec.aks.tenantID`, `spec.aks.subscriptionID`, `spec.aks.clientID` and `spec.aks.clientSecret`.
+
     - Manually enter the credentials `Tenant ID`, `Subscription ID`, `Client ID` and  `Client Secret`. 
 
 {{% notice info %}}
@@ -43,6 +42,34 @@ Validation performed will only check if the credentials have `Read` access.
 
 ![Select AKS cluster](/img/kubermatic/master/tutorials/external_clusters/select_aks_cluster.png "Select AKS cluster")
 
+## Create AKS Preset
+Admin can create a preset on a KKP cluster using KKP `Admin Panel`.
+This Preset can then be used to Create/Import an AKS cluster.
+
+- Click on `Admin Panel` from the menu.
+
+![Select Admin Panel](/img/kubermatic/master/tutorials/external_clusters/select_adminpanel.png "Select Admin Panel")
+
+- Navigate to `Provider Presets` Page and Click on `+ Create Preset` button.
+
+![Provider Preset Page](/img/kubermatic/master/tutorials/external_clusters/provider_presets.png "Provider Preset Page")
+
+- Enter Preset Name.
+
+![Provide Preset Name](/img/kubermatic/master/tutorials/external_clusters/create_akspreset.png "Provide Preset Name")
+
+- Choose `Azure Kubernetes Service` from the list of providers.
+
+![Choose AKS Preset](/img/kubermatic/master/tutorials/external_clusters/choose_akspreset.png "Choose AKS Preset")
+
+-  Enter AKS credentials and Click on `Create` button.
+
+!["Enter Credentials](/img/kubermatic/master/tutorials/external_clusters/enter_aks_credentials_preset.png "Enter Credentials")
+
+- You can now use created AKS Preset to Create or Import AKS Cluster.
+
+![Select AKS Preset](/img/kubermatic/master/tutorials/external_clusters/existing_aks_preset.png "Select AKS Preset")
+
 ## Cluster Details Page
 
 After the cluster is added, the KKP controller retrieves the cluster kubeconfig to display all necessary information.
@@ -52,7 +79,7 @@ A healthy cluster has `Running` state. Otherwise, the cluster can be in the `Err
 
 You can also expand `Events` to get information from the controller.
 
-![Cluster Events](/img/kubermatic/master/tutorials/external_clusters/events.png "Cluster Events")
+![Cluster Events](/img/kubermatic/master/tutorials/external_clusters/aks_cluster_events.png "Cluster Events")
 
 You can click on `Machine Deployments` to get the details:
 
@@ -97,7 +124,7 @@ Delete operation is not allowed for imported clusters
 
 Delete cluster operation allows to delete the cluster from the Provider. Click on the `Delete` button.
 
-![Delete Cluster](/img/kubermatic/master/tutorials/external_clusters/eks_disconnect_button.png
+![Delete Cluster](/img/kubermatic/master/tutorials/external_clusters/aks_delete_button.png
  "Delete Cluster")
 
 ## Delete the Node Pool

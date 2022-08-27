@@ -11,7 +11,7 @@ You can import or connect a cluster.
 - Connect: You can also connect any other clusters in the KKP via kubeconfig. Connected clusters can only be viewed, not edited.
 
 The KKP platform uses existing kubeconfig or generates the new one from the cloud provider API.
-The KKP backend takes advantage of this kubeconfig to retrieve the cluster information, its' nodes, metrics, and events.
+The KKP backend takes advantage of this kubeconfig to retrieve the cluster's information, nodes, metrics, and events.
 Every cluster update is performed only by the cloud provider client. There is no need to install any agent on the cloud provider side.
 
 ## Prerequisites

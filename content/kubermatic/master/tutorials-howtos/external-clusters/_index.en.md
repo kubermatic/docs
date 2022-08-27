@@ -16,7 +16,7 @@ You can create a new cluster or import/connect an existing cluster.
 - Connect: You can also connect any cluster in the KKP via kubeconfig. Connected clusters can only be viewed, not edited.
 
 The KKP platform uses the provided kubeconfig or generates a new one from the cloud provider API.
-The KKP backend takes advantage of this kubeconfig to retrieve the cluster information, its' nodes, metrics, and events.
+The KKP backend takes advantage of this kubeconfig to retrieve the cluster's information, nodes, metrics, and events.
 Every cluster update is performed only by the cloud provider client. There is no need to install any agent on the cloud provider side.
 
 ## Prerequisites
@@ -28,16 +28,23 @@ The following requirements must be met to add an external Kubernetes cluster:
 
 ## Import External Cluster
 
-To add a new external cluster go to `External Clusters` page and click the `Import External Cluster` button.
+KKP allows connecting any existing Kubernetes cluster as an external cluster to view the cluster's current state. 
+
+- To add a new external cluster go to `External Clusters` page and Click the `Import External Cluster` button.
 
 ![Import External Cluster](/img/kubermatic/master/tutorials/external_clusters/add_external_cluster.png "Import External Cluster")
 
+- Select the Kubernetes cloud provider. You can add or create the following external clusters:
 
-KKP allows connecting any existing Kubernetes cluster as an external cluster to view the cluster's current state. 
+  - [GKE]({{< ref "./gke" >}})
+  - [AKS]({{< ref "./aks" >}})
+  - [EKS]({{< ref "./eks" >}})
 
-To connect a cluster from any provider, click on `Any Provider` and provide the cluster name and kubeconfig. 
+- To connect a cluster from any provider, click on `Any Provider` and provide the cluster name and kubeconfig. 
 
+{{% notice info %}}
 It is important that the kubeconfig used to connect the cluster is using standard authentication mechanisms like certificates or ServiceAccount tokens. OIDC or provider-specific plugins are not supported.
+{{% /notice %}}
 
 ![Connect Cluster](/img/kubermatic/master/tutorials/external_clusters/connect.png "Connect Cluster")
 
@@ -51,13 +58,25 @@ You can then see the details of the cluster.
 
 ![Custom Cluster](/img/kubermatic/master/tutorials/external_clusters/bringyourown.png "BringYourOwn Cluster")
 
-Select the Kubernetes cloud provider. You can add or create the following external clusters:
+## Create External Cluster
 
-  - [GKE]({{< ref "./gke" >}})
-  - [AKS]({{< ref "./aks" >}})
-  - [EKS]({{< ref "./eks" >}})
+KKP allows creating an Kubernetes cluster on AKS/GKE/EKS and import it as an External Cluster.
 
-![External Cluster](/img/kubermatic/master/tutorials/external_clusters/externalcluster_list.png "External Cluster")
+![Create External Cluster](/img/kubermatic/master/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
+
+![External Cluster List](/img/kubermatic/master/tutorials/external_clusters/externalcluster_list.png "External Cluster List")
+
+## Delete Cluster:
+
+{{% notice info %}}
+Delete operation is not allowed for imported clusters.
+{{% /notice %}}
+
+Cluster can be  Deleted by clicking on the delete icon next to the cluster you want to delete or from the cluster details page, which will delete and disconnect the cluster from the provider.
+
+![Delete External Cluster](/img/kubermatic/master/tutorials/external_clusters/delete_externalcluster.png "Delete External Cluster")
+
+![Delete External Cluster on Details Page](/img/kubermatic/master/tutorials/external_clusters/delete_disconnect_page.png "Delete External Cluster on Details Page")
 
 ## Cluster State
 
@@ -72,18 +91,6 @@ Reconciling state depicts that the cluster is getting upgraded:
 Deleting state depicts that the cluster is getting deleted:
 
 ![External Cluster Delete State](/img/kubermatic/master/tutorials/external_clusters/aks_deleting.png "External Cluster Delete State")
-
-## Delete Cluster:
-
-{{% notice info %}}
-Delete operation is not allowed for imported clusters.
-{{% /notice %}}
-
-Cluster can be  Deleted by clicking on the delete icon next to the cluster you want to delete or from the cluster details page, which will delete and disconnect the cluster from the provider.
-
-![Delete External Cluster](/img/kubermatic/master/tutorials/external_clusters/delete_externalcluster.png "Delete External Cluster")
-
-![Delete External Cluster on Details Page](/img/kubermatic/master/tutorials/external_clusters/delete_disconnect_page.png "Delete External Cluster on Details Page")
 
 ## Disconnect Cluster
 

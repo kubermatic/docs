@@ -6,7 +6,7 @@ weight = 7
 
 +++
 
-## Add EKS Cluster
+## Import EKS Cluster
 
 You can add an existing Kubernetes cluster and then manage it using KKP.
 
@@ -23,7 +23,6 @@ You can add an existing Kubernetes cluster and then manage it using KKP.
 - Provide Credentials in either of the below mentioned ways:
     - Select a pre-created preset which stores the provider specific credentials. 
 
-      Create a preset on your KKP cluster with `spec.eks.accessKeyID` , `spec.eks.secretAccessKey` and `spec.eks.region`.
     - Manually enter the credentials `Access Key ID`, `Secret Access Key` and select `Region`
 
 {{% notice info %}}
@@ -42,12 +41,44 @@ You should see the list of all available clusters in the region specified. Selec
 
 ![Select EKS cluster](/img/kubermatic/master/tutorials/external_clusters/select_eks_cluster.png "Select EKS cluster")
 
+## Create EKS Preset
+Admin can create a preset on a KKP cluster using KKP `Admin Panel`.
+This Preset can then be used to Create/Import an EKS cluster.
+
+- Click on `Admin Panel` from the menu.
+
+![Select Admin Panel](/img/kubermatic/master/tutorials/external_clusters/select_adminpanel.png "Select Admin Panel")
+
+- Navigate to `Provider Presets` Page and Click on `+ Create Preset` button.
+
+![Provider Preset Page](/img/kubermatic/master/tutorials/external_clusters/provider_presets.png "Provider Preset Page")
+
+- Enter Preset Name.
+
+![Provide Preset Name](/img/kubermatic/master/tutorials/external_clusters/create_ekspreset.png "Provide Preset Name")
+
+- Choose `Elastic Kubernetes Service` from the list of providers.
+
+![Choose EKS Preset](/img/kubermatic/master/tutorials/external_clusters/choose_akspreset.png "Choose EKS Preset")
+
+-  Enter EKS credentials and Click on `Create` button.
+
+![Enter Credentials](/img/kubermatic/master/tutorials/external_clusters/enter_eks_credentials_preset.png "Enter Credentials")
+
+- You can now use created EKS Preset to Create or Import EKS Cluster.
+
+![Select EKS Preset](/img/kubermatic/master/tutorials/external_clusters/existing_eks_preset.png "Select EKS Preset")
+
 ## Cluster Details Page
 
 After the cluster is added, the KKP controller retrieves the cluster kubeconfig to display all necessary information.
 A healthy cluster has `Running` state. Move the mouse cursor over the state indicator to get more details.
 
 ![EKS cluster](/img/kubermatic/master/tutorials/external_clusters/eks_details.png "EKS cluster")
+
+You can also expand `Events` to get information from the controller.
+
+![Cluster Events](/img/kubermatic/master/tutorials/external_clusters/eks_cluster_events.png "Cluster Events")
 
 You can also click on `Machine Deployments` to get the details:
 
@@ -76,7 +107,7 @@ Only one operation can be performed at one point of time. If the replica count i
 
 - Click on the edit icon next to the machine deployment you want to edit.
 
-![Update AKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/edit_md.png "Update AKS Machine Deployment")
+![Update EKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/edit_md.png "Update EKS Machine Deployment")
 
 - Upgrade Kubernetes Version. Select the Kubernetes Version from the dropdown to upgrade the md.
 
@@ -99,7 +130,7 @@ Delete cluster operation allows to delete the cluster from the Provider. Click o
 
 Navigate to the cluster overview, scroll down to machine deployments and click on the delete icon next to the machine deployment you want to delete.
 
-![Update AKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/delete_md.png "Delete AKS Machine Deployment")
+![Update EKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/delete_md.png "Delete EKS Machine Deployment")
 
 ### Authenticating with EKS
 

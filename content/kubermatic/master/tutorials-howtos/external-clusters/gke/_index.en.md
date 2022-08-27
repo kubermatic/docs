@@ -40,12 +40,44 @@ Clusters can be imported only once in a single project. The same cluster can be 
 Validation performed will only check if the credentials have `Read` access.
 {{% /notice %}}
 
+## Create GKE Preset
+Admin can create a preset on a KKP cluster using KKP `Admin Panel`.
+This Preset can then be used to Create/Import an GKE cluster.
+
+- Click on `Admin Panel` from the menu.
+
+![Select Admin Panel](/img/kubermatic/master/tutorials/external_clusters/select_adminpanel.png "Select Admin Panel")
+
+- Navigate to `Provider Presets` Page and Click on `+ Create Preset` button.
+
+![Provider Preset Page](/img/kubermatic/master/tutorials/external_clusters/provider_presets.png "Provider Preset Page")
+
+- Enter Preset Name.
+
+![Provide Preset Name](/img/kubermatic/master/tutorials/external_clusters/provide_gkepreset_name.png "Provide Preset Name")
+
+- Choose `Google Kubernetes Engine` from the list of providers.
+
+![Choose EKS Preset](/img/kubermatic/master/tutorials/external_clusters/choose_akspreset.png "Choose GKE Preset")
+
+-  Enter GKE credentials and Click on `Create` button.
+
+![Enter Credentials](/img/kubermatic/master/tutorials/external_clusters/enter_gke_credentials_preset.png "Enter Credentials")
+
+- You can now use created GKE Preset to Create or Import GKE Cluster.
+
+![Select GKE Preset](/img/kubermatic/master/tutorials/external_clusters/existing_gke_preset.png "Select GKE Preset")
+
 ## Cluster Details Page
 
 After the cluster is added, the KKP controller retrieves the cluster kubeconfig to display all necessary information. A healthy cluster has `Running` state. Otherwise, the cluster can be in the `Error` state. Move the mouse cursor over the
 state indicator to get more details. You can also expand `Events` to get information from the controller.
 
 ![GKE cluster](/img/kubermatic/master/tutorials/external_clusters/gke_details.png "GKE cluster")
+
+You can also expand `Events` to get information from the controller.
+
+![GKE Events](/img/kubermatic/master/tutorials/external_clusters/gke_cluster_events.png "GKE Events")
 
 You can also click on `Machine Deployments` to get the details:
 
@@ -89,14 +121,14 @@ Delete operation is not allowed for imported clusters
 
 Delete cluster operation allows to delete the cluster from the Provider. Click on the `Delete` button.
 
-![Delete Cluster](/img/kubermatic/master/tutorials/external_clusters/eks_disconnect_button.png
+![Delete Cluster](/img/kubermatic/master/tutorials/external_clusters/gke_delete_button.png
  "Delete Cluster")
 
 ## Delete the Node Pool
 
 Navigate to the cluster overview, scroll down to machine deployments and click on the delete icon next to the machine deployment you want to delete.
 
-![Update AKS Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/delete_md.png "Delete AKS Machine Deployment")
+![Update GKE Machine Deployment](/img/kubermatic/master/tutorials/external_clusters/delete_md.png "Delete GKE Machine Deployment")
 
 ### Authenticating with GKE
 

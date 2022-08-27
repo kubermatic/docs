@@ -13,7 +13,7 @@ Create a cluster following these steps:
 
 ![Create External Cluster](/img/kubermatic/master/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
 
-- Choose the supported providers:
+- Choose "Azure Kubernetes Service" from the supported providers:
 
 ![Select AKS Provider](/img/kubermatic/master/tutorials/external_clusters/aks_selection.png "Select AKS Provider")
 
