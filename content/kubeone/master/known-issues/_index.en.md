@@ -3,6 +3,7 @@ title = "Known Issues"
 date = 2022-08-29T09:00:00+02:00
 description = "Known Issues in Kubermatic KubeOne"
 weight = 99
+enableToc = true
 +++
 
 This page documents the list of known issues in Kubermatic KubeOne along with
@@ -48,7 +49,7 @@ issue.
 
 ### Recommendation
 
-If you're affected by this issue, we recommend creating VMs with newer Flatcar
+If you're affected by this issue, we recommend creating VMs with a newer Flatcar
 version or following the [cgroups v2 migration instructions][flatcar-cgroups].
 
 [flatcar-cgroups]: https://www.flatcar.org/docs/latest/container-runtimes/switching-to-unified-cgroups#migrating-old-nodes-to-unified-cgroups

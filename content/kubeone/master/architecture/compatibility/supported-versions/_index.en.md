@@ -15,8 +15,8 @@ In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
 {{% notice warning %}}
-KubeOne 1.4 supports only Kubernetes 1.20 and newer. Clusters running
-Kubernetes 1.19 or older must be upgraded with an older KubeOne release
+KubeOne 1.5 supports only Kubernetes 1.22 and newer. Clusters running
+Kubernetes 1.21 or older must be upgraded with an older KubeOne release
 according to the table below.
 {{% /notice %}}
 
