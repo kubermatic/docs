@@ -578,15 +578,15 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
-| `accessKeyID` _string_ |  |
-| `secretAccessKey` _string_ |  |
+| `accessKeyID` _string_ | Access Key ID to authenticate against AWS. |
+| `secretAccessKey` _string_ | Secret Access Key to authenticate against AWS. |
 | `assumeRoleARN` _string_ |  |
 | `assumeRoleExternalID` _string_ |  |
-| `vpcID` _string_ |  |
-| `routeTableID` _string_ |  |
-| `instanceProfileName` _string_ |  |
-| `securityGroupID` _string_ |  |
-| `roleARN` _string_ |  |
+| `vpcID` _string_ | AWS VPC to use. Must be configured. |
+| `routeTableID` _string_ | Route table to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
+| `instanceProfileName` _string_ | Instance profile to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
+| `securityGroupID` _string_ | Security group to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
+| `roleARN` _string_ | ARN to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
 
 
 [Back to top](#top)
@@ -626,7 +626,7 @@ _Appears in:_
 
 
 
-Addon specifies a add-on.
+Addon specifies a cluster addon. Addons can be installed into user clusters to provide additional manifests for CNIs, CSIs or other applications, which makes addons a necessary component to create functioning user clusters. Addon objects must be created inside cluster namespaces.
 
 _Appears in:_
 - [AddonList](#addonlist)
@@ -636,8 +636,8 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Addon`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[AddonSpec](#addonspec)_ |  |
-| `status` _[AddonStatus](#addonstatus)_ |  |
+| `spec` _[AddonSpec](#addonspec)_ | Spec describes the desired addon state. |
+| `status` _[AddonStatus](#addonstatus)_ | Status contrains information about the reconciliation status. |
 
 
 [Back to top](#top)
@@ -657,7 +657,7 @@ _Appears in:_
 | --- | --- |
 | `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#conditionstatus-v1-core)_ | Status of the condition, one of True, False, Unknown. |
 | `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time we got an update on a given condition. |
-| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time the condition transit from one status to another. |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time the condition transitioned from one status to another. |
 
 
 [Back to top](#top)
@@ -679,7 +679,7 @@ _Appears in:_
 
 
 
-AddonConfig specifies addon configuration.
+AddonConfig specifies addon configuration. Addons can be installed without a matching AddonConfig, but they will be missing a logo, description and the potentially necessary form fields in the KKP dashboard to make the addon comfortable to use.
 
 _Appears in:_
 - [AddonConfigList](#addonconfiglist)
@@ -795,7 +795,7 @@ _Appears in:_
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectreference-v1-core)_ | Cluster is the reference to the cluster the addon should be installed in |
 | `variables` _[RawExtension](#rawextension)_ | Variables is free form data to use for parsing the manifest templates |
 | `requiredResourceTypes` _[GroupVersionKind](#groupversionkind) array_ | RequiredResourceTypes allows to indicate that this addon needs some resource type before it can be installed. This can be used to indicate that a specific CRD and/or extension apiserver must be installed before this addon can be installed. The addon will not be installed until that resource is served. |
-| `isDefault` _boolean_ | IsDefault indicates whether the addon is default |
+| `isDefault` _boolean_ | IsDefault indicates whether the addon is installed because it was configured in the default addon section in the KubermaticConfiguration. User-installed addons must not set this field to true, as extra default Addon objects (that are not in the KubermaticConfiguration) will be garbage-collected. |
 
 
 [Back to top](#top)
@@ -806,7 +806,7 @@ _Appears in:_
 
 
 
-
+AddonStatus contrains information about the reconciliation status.
 
 _Appears in:_
 - [Addon](#addon)
@@ -990,8 +990,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
-| `accessKeyID` _string_ |  |
-| `accessKeySecret` _string_ |  |
+| `accessKeyID` _string_ | Access Key ID to authenticate against Alibaba. |
+| `accessKeySecret` _string_ | Access Key Secret to authenticate against Alibaba. |
 
 
 [Back to top](#top)
@@ -1361,8 +1361,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `enabled` _boolean_ |  |
-| `enforced` _boolean_ |  |
+| `enabled` _boolean_ | Enable checkboxes that allow the user to ask for LoadBalancers and PVCs to be deleted in order to not leave potentially expensive resources behind. |
+| `enforced` _boolean_ | If enforced is set to true, the cleanup of LoadBalancers and PVCs is enforced. |
 
 
 [Back to top](#top)
@@ -1407,7 +1407,7 @@ _Appears in:_
 
 
 
-Cluster represents a Kubermatic Kubernetes Platform user cluster.
+Cluster represents a Kubermatic Kubernetes Platform user cluster. Cluster objects exist on Seed clusters and each user cluster consists of a namespace containing the Kubernetes control plane and additional pods (like Prometheus or the machine-controller).
 
 _Appears in:_
 - [ClusterList](#clusterlist)
@@ -1417,8 +1417,8 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Cluster`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[ClusterSpec](#clusterspec)_ |  |
-| `status` _[ClusterStatus](#clusterstatus)_ |  |
+| `spec` _[ClusterSpec](#clusterspec)_ | Spec describes the desired cluster state. |
+| `status` _[ClusterStatus](#clusterstatus)_ | Status contains reconciliation information for the cluster. |
 | `address` _[ClusterAddress](#clusteraddress)_ | Address contains the IPs/URLs to access the cluster control plane. This field is optional and replaced by the identical struct in the ClusterStatus. No code should rely on these fields anymore. |
 
 
@@ -1588,13 +1588,13 @@ _Appears in:_
 | --- | --- |
 | `humanReadableName` _string_ | HumanReadableName is the cluster name provided by the user. |
 | `version` _Semver_ | Version defines the wanted version of the control plane. |
-| `cloud` _[CloudSpec](#cloudspec)_ |  |
+| `cloud` _[CloudSpec](#cloudspec)_ | Cloud contains information regarding the cloud provider that is responsible for hosting the cluster's workload. |
 | `containerRuntime` _string_ | ContainerRuntime to use, i.e. `docker` or `containerd`. By default `containerd` will be used. |
 | `imagePullSecret` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretreference-v1-core)_ | Optional: ImagePullSecret references a secret with container registry credentials. This is passed to the machine-controller which sets the registry credentials on node level. |
 | `cniPlugin` _[CNIPluginSettings](#cnipluginsettings)_ |  |
 | `clusterNetwork` _[ClusterNetworkingConfig](#clusternetworkingconfig)_ |  |
 | `machineNetworks` _[MachineNetworkingConfig](#machinenetworkingconfig) array_ |  |
-| `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ |  |
+| `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | ExposeStrategy is the strategy used to expose a cluster control plane. |
 | `componentsOverride` _[ComponentSettings](#componentsettings)_ | Optional: Component specific overrides that allow customization of control plane components. |
 | `oidc` _[OIDCSettings](#oidcsettings)_ |  |
 | `features` _object (keys:string, values:boolean)_ | A map of optional or early-stage features that can be enabled for the user cluster. Some feature gates cannot be disabled after being enabled. The available feature gates vary based on KKP version, Kubernetes version and Seed configuration. Please consult the KKP documentation for specific feature gates. |
@@ -3856,7 +3856,7 @@ _Appears in:_
 
 
 
-KubermaticSetting is the type representing a KubermaticSetting.
+KubermaticSetting is the type representing a KubermaticSetting. These settings affect the KKP dashboard and are not relevant when using the Kube API on the master/seed clusters directly.
 
 _Appears in:_
 - [KubermaticSettingList](#kubermaticsettinglist)
@@ -4831,7 +4831,7 @@ _Appears in:_
 
 
 
-Preset is the type representing a Preset.
+Presets are preconfigured cloud provider credentials that can be applied to new clusters. This frees end users from having to know the actual credentials used for their clusters.
 
 _Appears in:_
 - [PresetList](#presetlist)
@@ -4895,8 +4895,8 @@ _Appears in:_
 | `gke` _[GKE](#gke)_ |  |
 | `eks` _[EKS](#eks)_ |  |
 | `aks` _[AKS](#aks)_ |  |
-| `requiredEmails` _string array_ |  |
-| `enabled` _boolean_ |  |
+| `requiredEmails` _string array_ | RequiredEmails is a list of e-mail addresses that this presets should be restricted to. Each item in the list can be either a full e-mail address or just a domain name. This restriction is only enforced in the KKP API. |
+| `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 
 
 [Back to top](#top)
@@ -4907,7 +4907,7 @@ _Appears in:_
 
 
 
-Project is the type describing a project.
+Project is the type describing a project. A project is a collection of SSH keys, clusters and members. Members are assigned by creating UserProjectBinding objects.
 
 _Appears in:_
 - [ProjectList](#projectlist)
@@ -4976,7 +4976,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `phase` _ProjectPhase_ |  |
+| `phase` _ProjectPhase_ | Phase describes the project phase. New projects are in the `Inactive` phase; after being reconciled they move to `Active` and during deletion they are `Terminating`. |
 
 
 [Back to top](#top)
@@ -5009,8 +5009,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `enabled` _boolean_ |  |
-| `datacenter` _string_ |  |
+| `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
 
 
 [Back to top](#top)
@@ -5240,7 +5240,7 @@ _Appears in:_
 | `owner` _string_ | Owner is the name of the User object that owns this SSH key. Deprecated: This field is not used anymore. |
 | `project` _string_ | Project is the name of the Project object that this SSH key belongs to. This field is immutable. |
 | `clusters` _string array_ | Clusters is the list of cluster names that this SSH key is assigned to. |
-| `fingerprint` _string_ | Fingerprint is calculated on the server-side and doesn't need to be set by clients. |
+| `fingerprint` _string_ | Fingerprint is calculated server-side based on the supplied public key and doesn't need to be set by clients. |
 | `publicKey` _string_ | PublicKey is the SSH public key. |
 
 
@@ -5290,7 +5290,7 @@ _Appears in:_
 
 
 
-Seed is the type representing a Seed cluster.
+Seed is the type representing a Seed cluster. Seed clusters host the the control planes for KKP user clusters.
 
 _Appears in:_
 - [SeedList](#seedlist)
@@ -5469,17 +5469,17 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `customLinks` _[CustomLink](#customlink) array_ |  |
-| `defaultNodeCount` _integer_ |  |
-| `displayDemoInfo` _boolean_ |  |
-| `displayAPIDocs` _boolean_ |  |
-| `displayTermsOfService` _boolean_ |  |
-| `enableDashboard` _boolean_ |  |
+| `customLinks` _[CustomLink](#customlink) array_ | CustomLinks are additional links that can be shown the dashboard's footer. |
+| `defaultNodeCount` _integer_ | DefaultNodeCount is the default number of replicas for the initial MachineDeployment. |
+| `displayDemoInfo` _boolean_ | DisplayDemoInfo controls whether a "Demo System" hint is shown in the footer. |
+| `displayAPIDocs` _boolean_ | DisplayDemoInfo controls whether a a link to the KKP API documentation is shown in the footer. |
+| `displayTermsOfService` _boolean_ | DisplayDemoInfo controls whether a a link to TOS is shown in the footer. |
+| `enableDashboard` _boolean_ | EnableDashboard enables the link to the Kubernetes dashboard for a user cluster. |
 | `enableOIDCKubeconfig` _boolean_ |  |
-| `userProjectsLimit` _integer_ |  |
+| `userProjectsLimit` _integer_ | UserProjectsLimit is the maximum number of projects a user can create. |
 | `restrictProjectCreation` _boolean_ |  |
 | `enableExternalClusterImport` _boolean_ |  |
-| `cleanupOptions` _[CleanupOptions](#cleanupoptions)_ |  |
+| `cleanupOptions` _[CleanupOptions](#cleanupoptions)_ | CleanupOptions control what happens when a cluster is deleted via the dashboard. |
 | `opaOptions` _[OpaOptions](#opaoptions)_ |  |
 | `mlaOptions` _[MlaOptions](#mlaoptions)_ |  |
 | `mlaAlertmanagerPrefix` _string_ |  |
@@ -5583,7 +5583,7 @@ _Appears in:_
 
 
 
-User specifies a user.
+User specifies a KKP user. Users can be either humans or KKP service accounts.
 
 _Appears in:_
 - [UserList](#userlist)
@@ -5675,7 +5675,7 @@ _Appears in:_
 | --- | --- |
 | `userEmail` _string_ | UserEmail is the email of the user that is bound to the given project. |
 | `projectID` _string_ | ProjectID is the name of the target project. |
-| `group` _string_ | Group is the user's group, determining their permissions within the project. |
+| `group` _string_ | Group is the user's group, determining their permissions within the project. Must be one of `owners`, `editors`, `viewers` or `projectmanagers`. |
 
 
 [Back to top](#top)
@@ -5765,8 +5765,8 @@ _Appears in:_
 | `admin` _boolean_ | IsAdmin defines whether this user is an administrator with additional permissions. Admins can for example see all projects and clusters in the KKP dashboard. |
 | `groups` _string array_ | Groups holds the information to which groups the user belongs to. Set automatically when logging in to the KKP API, and used by the KKP API. |
 | `project` _string_ | Project is the name of the project that this service account user is tied to. This field is only applicable to service accounts and regular users must not set this field. |
-| `settings` _[UserSettings](#usersettings)_ |  |
-| `invalidTokensReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
+| `settings` _[UserSettings](#usersettings)_ | Settings contains both user-configurable and system-owned configuration for the KKP dashboard. |
+| `invalidTokensReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | InvalidTokensReference is a reference to a Secret that contains invalidated login tokens. The tokens are used to provide a safe logout mechanism. |
 
 
 [Back to top](#top)
