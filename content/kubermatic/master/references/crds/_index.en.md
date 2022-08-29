@@ -2332,9 +2332,9 @@ _Appears in:_
 | `enforceFloatingIP` _boolean_ | Optional |
 | `dnsServers` _string array_ | Used for automatic network creation |
 | `images` _object (keys:OperatingSystem, values:string)_ | Images to use for each supported operating system. |
-| `manageSecurityGroups` _boolean_ | Optional: Gets mapped to the "manage-security-groups" setting in the cloud config. See https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/#load-balancer This setting defaults to true. |
+| `manageSecurityGroups` _boolean_ | Optional: Gets mapped to the "manage-security-groups" setting in the cloud config. This setting defaults to true. |
 | `useOctavia` _boolean_ | Optional: Gets mapped to the "use-octavia" setting in the cloud config. use-octavia is enabled by default in CCM since v1.17.0, and disabled by default with the in-tree cloud provider. |
-| `trustDevicePath` _boolean_ | Optional: Gets mapped to the "trust-device-path" setting in the cloud config. See https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/#block-storage This setting defaults to false. |
+| `trustDevicePath` _boolean_ | Optional: Gets mapped to the "trust-device-path" setting in the cloud config. This setting defaults to false. |
 | `nodeSizeRequirements` _[OpenstackNodeSizeRequirements](#openstacknodesizerequirements)_ |  |
 | `enabledFlavors` _string array_ | Optional: List of enabled flavors for the given datacenter |
 | `ipv6Enabled` _boolean_ | Optional: defines if the IPv6 is enabled for the datacenter |
@@ -2355,7 +2355,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `facilities` _string array_ | The list of enabled facilities, for example "ams1", for a full list of available facilities see https://support.packet.com/kb/articles/data-centers |
+| `facilities` _string array_ | The list of enabled facilities, for example "ams1", for a full list of available facilities see https://metal.equinix.com/developers/docs/locations/facilities/ |
 | `metro` _string_ | Metros are facilities that are grouped together geographically and share capacity and networking features, see https://metal.equinix.com/developers/docs/locations/metros/ |
 
 
@@ -3957,8 +3957,8 @@ _Appears in:_
 | --- | --- |
 | `disableDefaultRules` _boolean_ | DisableDefaultRules disables the recording and alerting rules. |
 | `disableDefaultScrapingConfigs` _boolean_ | DisableDefaultScrapingConfigs disables the default scraping targets. |
-| `customRules` _string_ | CustomRules can be used to inject custom recording and alerting rules. This field must be a YAML-formatted string with a `group` element at its root, as documented on https://prometheus.io/docs/prometheus/2.14/configuration/alerting_rules/. This value is treated as a Go template, which allows to inject dynamic values like the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus and the documentation for more information on the available fields. |
-| `customScrapingConfigs` _string_ | CustomScrapingConfigs can be used to inject custom scraping rules. This must be a YAML-formatted string containing an array of scrape configurations as documented on https://prometheus.io/docs/prometheus/2.14/configuration/configuration/#scrape_config. This value is treated as a Go template, which allows to inject dynamic values like the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus and the documentation for more information on the available fields. |
+| `customRules` _string_ | CustomRules can be used to inject custom recording and alerting rules. This field must be a YAML-formatted string with a `group` element at its root, as documented on https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/. This value is treated as a Go template, which allows to inject dynamic values like the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus and the documentation for more information on the available fields. |
+| `customScrapingConfigs` _string_ | CustomScrapingConfigs can be used to inject custom scraping rules. This must be a YAML-formatted string containing an array of scrape configurations as documented on https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config. This value is treated as a Go template, which allows to inject dynamic values like the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus and the documentation for more information on the available fields. |
 | `scrapeAnnotationPrefix` _string_ | ScrapeAnnotationPrefix (if set) is used to make the in-cluster Prometheus scrape pods inside the user clusters. |
 
 
