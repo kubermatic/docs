@@ -10,6 +10,8 @@ kubermatic:
   versions:
     - release: master
       name: master
+    - release: v2.21
+      name: v2.21
     - release: v2.20
       name: v2.20
     - release: v2.19
