@@ -116,6 +116,14 @@ Furthermore, a project quota widget of the active project is visible in the dash
 
 ### Some additional information
 
+{{% notice note %}}
+**Note:** If multiple nodes are created in the same time there is a possibility of a race happening and the quota being exceeded.
+As an example, there is a quota which CPU is filled 3/5, a user creates a cluster with 2 nodes, both using 2 CPU. There is a possibility 
+of a race happening between calculating and adding the quota for the first machine and the second machine being created. So 
+the end result could be that both nodes get created, and the quota ends up exceeded 7/5.
+This is planned to be fixed in the next KKP releases.
+{{% /notice %}}
+
 If the quota is exceeded, be it due to the quota being set on a project with active clusters, or due to a race, this feature
 will just block new Machines from being provisioned, it won't clean up/remove cluster resources to get below the quota. This
 is something that should be agreed upon between the KKP admin and users.
