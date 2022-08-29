@@ -8,7 +8,7 @@ weight = 7
 
 ## Add GKE Cluster
 
-You can add an existing Kubernetes cluster and then manage it using KKP. From the Clusters page, click `External Clusters`.
+You can add an existing Azure Kubernetes Service cluster and then manage it using KKP. From the Clusters page, click `External Clusters`.
 Click the `Add External Cluster` button and Pick `Google Kubernetes Engine` provider.
 
 ![Add External Cluster](/img/kubermatic/v2.20/tutorials/external_clusters/add_external_cluster.png "Add External Cluster")
@@ -18,7 +18,7 @@ Select preset with valid credentials or enter GKE Service Account to connect to 
 ![GKE credentials](/img/kubermatic/v2.20/tutorials/external_clusters/gke_credentials.png "GKE credentials")
 
 You should see the list of all available clusters. Select the one and click the `Import Cluster` button.
-Clusters can be imported only once in a single project. The same cluster can be imported for the other projects.
+Clusters can be imported only once in a single project. The same cluster can be imported in multiple projects.
 
 ![Select GKE cluster](/img/kubermatic/v2.20/tutorials/external_clusters/select_gke_cluster.png "Select GKE cluster")
 
