@@ -204,14 +204,3 @@ If you desire to store this data for longer than 90days, you need to extract the
 [k8s-docs-storage-classes]: https://kubernetes.io/docs/concepts/storage/storage-classes/
 [k8s-persistent-volumes]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 [k8s-meaning-of-memory]: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory
-
-
-// Kubernetes node/machine metrics.
-const totalNodeCpuUsageSeconds = "last_over_time(node_cpu_usage_seconds_total{cluster=\"%s\"}[%dm]) - node_cpu_usage_seconds_total{cluster=\"%s\"} offset %dm"
-const averageMachineCpuCores = "avg_over_time(machine_cpu_cores{cluster=\"%s\"}[%dm])"
-const averageMachineMemoryBytes = "avg_over_time(machine_memory_bytes{cluster=\"%s\"}[%dm])"
-const averageNodeUsedMemoryBytes = "avg_over_time(node_memory_working_set_bytes{cluster=\"%s\"}[%dm])"
-
-// Kubernetes container metrics.
-const totalContainerCpuUsageSeconds = "last_over_time(container_cpu_usage_seconds_total{cluster=\"%s\",namespace=\"%s\",container=~\".+\",image=~\".+\"}[%dm]) - container_cpu_usage_seconds_total{cluster=\"%s\",namespace=\"%s\",container=~\".+\",image=~\".+\"} offset %dm"
-const averageContainerUsedMemoryBytes = "avg_over_time(container_memory_working_set_bytes{cluster=\"%s\",namespace=\"%s\",container=~\".+\",image=~\".+\"}[%dm])"
