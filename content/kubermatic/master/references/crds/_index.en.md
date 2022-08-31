@@ -21,6 +21,27 @@ searchExclude = true
 
 
 
+### AppNamespaceSpec
+
+
+
+AppNamespaceSpec describe the desired state of the namespace where application will be created.
+
+_Appears in:_
+- [ApplicationInstallationSpec](#applicationinstallationspec)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Name is the namespace to deploy the Application into. Should be a valid lowercase RFC1123 domain name |
+| `create` _boolean_ | Create defines whether the namespace should be created if it does not exist. Defaults to true |
+| `labels` _object (keys:string, values:string)_ | Labels of the namespace More info: http://kubernetes.io/docs/user-guide/labels |
+| `annotations` _object (keys:string, values:string)_ | Annotations of the namespace More info: http://kubernetes.io/docs/user-guide/annotations |
+
+
+[Back to top](#top)
+
+
+
 ### ApplicationDefinition
 
 
@@ -169,7 +190,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `namespace` _[NamespaceSpec](#namespacespec)_ | Namespace describe the desired state of the namespace where application will be created. |
+| `namespace` _[AppNamespaceSpec](#appnamespacespec)_ | Namespace describe the desired state of the namespace where application will be created. |
 | `applicationRef` _[ApplicationRef](#applicationref)_ | ApplicationRef is a reference to identify which Application should be deployed |
 | `values` _[RawExtension](#rawextension)_ | Values describe overrides for manifest-rendering. It's a free yaml field. |
 
@@ -417,27 +438,6 @@ _Appears in:_
 | `chartName` _string_ | Name of the Chart. |
 | `chartVersion` _string_ | Version of the Chart. |
 | `credentials` _[HelmCredentials](#helmcredentials)_ | Credentials are optional and hold the ref to the secret with helm credentials. Either username / Password or registryConfigFile can be defined. |
-
-
-[Back to top](#top)
-
-
-
-### NamespaceSpec
-
-
-
-NamespaceSpec describe the desired state of the namespace where application will be created.
-
-_Appears in:_
-- [ApplicationInstallationSpec](#applicationinstallationspec)
-
-| Field | Description |
-| --- | --- |
-| `name` _string_ | Name is the namespace to deploy the Application into. Should be a valid lowercase RFC1123 domain name |
-| `create` _boolean_ | Create defines whether the namespace should be created if it does not exist. Defaults to true |
-| `labels` _object (keys:string, values:string)_ | Labels of the namespace More info: http://kubernetes.io/docs/user-guide/labels |
-| `annotations` _object (keys:string, values:string)_ | Annotations of the namespace More info: http://kubernetes.io/docs/user-guide/annotations |
 
 
 [Back to top](#top)
