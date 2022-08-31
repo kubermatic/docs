@@ -21,15 +21,13 @@ This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) 
 
 Before starting the upgrade, make sure your KKP master and seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.
 
-Download the latest 2.21.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.20 available, as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
+Download the latest 2.21.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.20 available and already adjusted for any 2.21 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
 ```sh 
-$ ./kubermatic-installer deploy kubermatic-master \
-  --helm-values path/to/values.yaml \
-  --force
+$ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
 ```
 
-Upgrading seed clusters is no longer necessary in KKP 2.21, unless you are running the `minio` Helm chart as distributed by KKP on them. Apart from upgrading the `minio` chart, no manual steps for seed clusters are required. They will be automatically upgraded by KKP master components.
+Upgrading seed clusters is no longer necessary in KKP 2.21, unless you are running the `minio` Helm chart as distributed by KKP on them. Apart from upgrading the `minio` chart, no manual steps for seed clusters are required. They will be automatically upgraded by KKP components. Do note that this only applies to **existing** seed clusters. New seed clusters must still be first installed using the KKP installer, afterwards KKP controllers take over upgrading it.
 
 You can follow the upgrade process by either supervising the pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
