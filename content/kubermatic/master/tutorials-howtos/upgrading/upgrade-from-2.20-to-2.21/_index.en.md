@@ -9,7 +9,7 @@ weight = 120
 Upgrading to KKP 2.21 is only supported from version 2.20. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from [2.19 to 2.20]({{< ref "../upgrade-from-2.19-to-2.20/" >}}) and then to 2.21). It is also strongly advised to be on the latest 2.20.x patch release before upgrading to 2.21.
 {{% /notice %}}
 
-This upgrade guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.21. For the full list of changes in this release, please check out the [KKP changelog for v2.21](https://github.com/kubermatic/kubermatic/blob/master/docs/changelogs/CHANGELOG-2.21.md). Please read the full document before proceeding with the upgrade.
+This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.21. For the full list of changes in this release, please check out the [KKP changelog for v2.21](https://github.com/kubermatic/kubermatic/blob/master/docs/changelogs/CHANGELOG-2.21.md). Please read the full document before proceeding with the upgrade.
 
 ## Pre-Upgrade Considerations
 
@@ -19,11 +19,12 @@ This upgrade guide will walk you through upgrading Kubermatic Kubernetes Platfor
 
 ## Upgrade Procedure
 
-Download the latest release archive for the KKP 2.21.x release series from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` and `KubermaticConfiguration` yaml file you used to deploy KKP 2.20 available, as you need to pass them to the installer. From within the extracted directory, run the installer:
+Before starting the upgrade, make sure your KKP master and seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.
+
+Download the latest 2.21.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.20 available, as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
 ```sh 
 $ ./kubermatic-installer deploy kubermatic-master \
-  --config path/to/kubermaticconfiguration.yaml \
   --helm-values path/to/values.yaml \
   --force
 ```
@@ -37,7 +38,7 @@ $ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status
 kubermatic - {"clusters":3,"conditions":{"KubeconfigValid":{"lastHeartbeatTime":"2022-08-03T10:10:32Z","reason":"KubeconfigValid","status":"True"},"ResourcesReconciled":{"lastHeartbeatTime":"2022-08-25T09:30:52Z","lastTransitionTime":"2022-08-25T09:30:52Z","reason":"ReconcilingSuccess","status":"True"}},"phase":"Healthy","versions":{"cluster":"v1.23.6","kubermatic":"v2.21.0"}}
 ```
 
-Particularly interesting for the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight.
+Particularly interesting for the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight. If the upgrade is stuck, try `kubectl -n kubermatic describe seed <seed name>` to see what exactly is keeping the KKP operator from updating the seed cluster.
 
 After a seed was successfully upgraded, user clusters on that seed should start updating. Observe their control plane components in the respective cluster namespaces if you want to follow the upgrade process. This is the last step of the upgrade, after all user clusters have settled the upgrade is complete.
 
