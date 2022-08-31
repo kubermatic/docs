@@ -18,6 +18,11 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 /kubeone/master/tutorials/creating_clusters /kubeone/master/tutorials/creating-clusters/ 301!
 /kubeone/master/cheat_sheets/rollout_machinedeployment /kubeone/master/cheat-sheets/rollout-machinedeployment/ 301!
 
+/kubeone/v1.5/references/kubeone_cluster_v1beta1 /kubeone/v1.5/references/kubeone-cluster-v1beta1/ 301!
+/kubeone/v1.5/references/kubeone_cluster_v1beta2 /kubeone/v1.5/references/kubeone-cluster-v1beta2/ 301!
+/kubeone/master/references/kubeone_cluster_v1beta1 /kubeone/master/references/kubeone-cluster-v1beta1/ 301!
+/kubeone/master/references/kubeone_cluster_v1beta2 /kubeone/master/references/kubeone-cluster-v1beta2/ 301!
+
 {{- /* # Generate the redirects to stable version of the products */ -}}
 {{- $products := .Site.Data.products -}}
 {{- range $productName, $val := $products -}}
