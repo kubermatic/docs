@@ -20,7 +20,7 @@ All App functionality resides in the Applications Tab, from which a new Applicat
 
 {{< figure src="./application_section.png" title="Applications Tab" >}}
 
-An application catalogue will be displayed. If no Applications are being displayed, please contact your KKP administrator to [create an Application Catalogue](../create-application-catalogue/)
+An application catalogue will be displayed. If no Applications are being displayed, please contact your KKP administrator to [create an Application Catalogue]({{< relref "../create-application-catalogue/" >}})
 
 {{< figure src="../application-catalogue.png" title="Application Catalogue" >}}
 
@@ -59,7 +59,7 @@ Afterwards, you can track the installation progress in the Applications Tab.
 
 ### Storing Applications in a ClusterTemplate
 
-ApplicationInstallations can also be added to [ClusterTemplates](../../cluster-templates/) in order to re-use them across multiple clusters. In order to do so, select the `Save Cluster Template` option during the Summary step of the cluster creation wizard.
+ApplicationInstallations can also be added to [ClusterTemplates]({{< relref "../../cluster-templates/" >}}) in order to re-use them across multiple clusters. In order to do so, select the `Save Cluster Template` option during the Summary step of the cluster creation wizard.
 
 {{< figure src="./save_to_cluster_template.png" title="Saving As Cluster Template" >}}
 
