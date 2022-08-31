@@ -30,16 +30,16 @@ $ ./kubermatic-installer deploy kubermatic-master \
 
 Upgrading seed clusters is no longer necessary in KKP 2.21, unless you are running the `minio` Helm chart as distributed by KKP on them. Apart from upgrading the `minio` chart, no manual steps for seed clusters are required. They will be automatically upgraded by KKP master components.
 
-You can follow the upgrade process by either supervising the pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objecs. A possible command to extract the current status by seed would be:
+You can follow the upgrade process by either supervising the pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
 ```sh
 $ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
 kubermatic - {"clusters":3,"conditions":{"KubeconfigValid":{"lastHeartbeatTime":"2022-08-03T10:10:32Z","reason":"KubeconfigValid","status":"True"},"ResourcesReconciled":{"lastHeartbeatTime":"2022-08-25T09:30:52Z","lastTransitionTime":"2022-08-25T09:30:52Z","reason":"ReconcilingSuccess","status":"True"}},"phase":"Healthy","versions":{"cluster":"v1.23.6","kubermatic":"v2.21.0"}}
 ```
 
-Particuarly interesting for the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight.
+Particularly interesting for the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight.
 
-After a seed was succesfully upgraded, user clusters on that seed should start updating. Observe their control plane components in the respective cluster namespaces if you want to follow the upgrade process. This is the last step of the upgrade, after all user clusters have settled the upgrade is complete.
+After a seed was successfully upgraded, user clusters on that seed should start updating. Observe their control plane components in the respective cluster namespaces if you want to follow the upgrade process. This is the last step of the upgrade, after all user clusters have settled the upgrade is complete.
 
 ## Post-Upgrade Considerations
 
