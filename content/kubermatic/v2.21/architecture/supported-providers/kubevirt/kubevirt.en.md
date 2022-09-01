@@ -115,18 +115,18 @@ spec:
 All the resources related to VM on the KubeVirt cluster will be created in a dedicated namespace in the infrastructure cluster.
 This name follow the pattern `cluster-xyz`, where `xyz` is the `id` of the cluster created with KKP.
 
-![Dedicated Namespace](/img/kubermatic/master/architecture/supported-providers/kubevirt/Dedicated-namespace.jpg)
+![Dedicated Namespace](/img/kubermatic/v2.21/architecture/supported-providers/kubevirt/Dedicated-namespace.jpg)
 
 How to know the `id` of the cluster created ?
 
-![Cluster Id](/img/kubermatic/master/architecture/supported-providers/kubevirt/clusterid.png)
+![Cluster Id](/img/kubermatic/v2.21/architecture/supported-providers/kubevirt/clusterid.png)
 
 With the example of the previous image, the cluster `elastic-mayer` has a cluster id `gff5gnxc7r`,
 so all resources for this cluster are located in the `cluster-gff5gnxc7r` namespace in the KubeVirt infrastructure cluster.
 
 ### Virtual Machines Scheduling
 It is possible to control how the tenant nodes are scheduled on the infrastructure nodes.
-![Scheduling](/img/kubermatic/master/architecture/supported-providers/kubevirt/Scheduling.png)
+![Scheduling](/img/kubermatic/v2.21/architecture/supported-providers/kubevirt/Scheduling.png)
 
 We provide 3 different types of scheduling for the KubeVirt tenant nodes:
 - Ensure co-location on the same infrastructure node (*Pod Affinity Preset*).
@@ -135,7 +135,7 @@ We provide 3 different types of scheduling for the KubeVirt tenant nodes:
 
 This setup is done in the `Initial Nodes` step of KKP dashboard when creating a cluster.
 
-![Dashboard](/img/kubermatic/master/architecture/supported-providers/kubevirt/Dashboard-scheduling.png)
+![Dashboard](/img/kubermatic/v2.21/architecture/supported-providers/kubevirt/Dashboard-scheduling.png)
 
 
 For each of this scheduling types (*Pod Affinity Preset*, *Pod Anti Affinity Preset*, *Node Affinity Preset*), we can also specify if we want the affinity to be:
@@ -412,7 +412,7 @@ virtualMachine:
 To apply a `VirtualMachineInstancePreset` to a VM, this VirtualMachineInstancePreset should be created in the `default` namespace.
 KKP will then copy into the dedicated `clusterxyz` namespace and start the VirtualMachine applying it.
 
-![Preset Copy   ](/img/kubermatic/master/architecture/supported-providers/kubevirt/Preset.jpg)
+![Preset Copy   ](/img/kubermatic/v2.21/architecture/supported-providers/kubevirt/Preset.jpg)
 
 A default `VirtualMachineInstancePreset` named `kubermatic-standard` is always added to the list by KKP
 (even if not existing in the `default` namespace).
@@ -478,7 +478,7 @@ merged fields from the `VirtualMachineInstance` and provide deterministic behavi
 For the basic configuration, disk images are imported from a web server, via HTTP download,
 by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
 
-![Primary Disk](/img/kubermatic/master/architecture/supported-providers/kubevirt/primary-disk.png)
+![Primary Disk](/img/kubermatic/v2.21/architecture/supported-providers/kubevirt/primary-disk.png)
 
 #### Custom Local Disk
 
@@ -492,12 +492,12 @@ Custom local disk creates a Data Volume on KubeVirt cluster in the user cluster 
 **NOTE:** the source DataVolume (Custom Local Disk) must exist in the *cluster-xyz* namespace where the VM is created.
 Cloning across namespaces is not allowed.
 
-![DataVolume cloning](/img/kubermatic/master/architecture/supported-providers/kubevirt/DV-cloning.png)
+![DataVolume cloning](/img/kubermatic/v2.21/architecture/supported-providers/kubevirt/DV-cloning.png)
 
 The source DataVolume can be created *manually* (not from KKP) by the user in the *cluster-xyz* namespace,
 or it can also be created using KKP when creating the cluster at the `Settings` step, with the `Advanced Disk configuration` panel.
 
-![DataVolume creation](/img/kubermatic/master/architecture/supported-providers/kubevirt/Source-DV-creation.png)
+![DataVolume creation](/img/kubermatic/v2.21/architecture/supported-providers/kubevirt/Source-DV-creation.png)
 
 In this panel, the user can add several Custom Local Disks (DataVolumes).
 For each of them, the user must specify:
@@ -552,7 +552,7 @@ Follow the below steps to import the dashboard in Grafana:
 - Open Grafana and click on `+` icon on the left side of the application. After that select `Import` option.
 - In the below window you can upload the [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) `json` file.
 
-![Grafana Dashboard](/img/kubermatic/master/monitoring/kubevirt/grafana.png)
+![Grafana Dashboard](/img/kubermatic/v2.21/monitoring/kubevirt/grafana.png)
 
 ## Breaking Changes
 
