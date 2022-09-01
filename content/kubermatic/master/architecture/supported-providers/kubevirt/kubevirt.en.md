@@ -553,3 +553,7 @@ Follow the below steps to import the dashboard in Grafana:
 - In the below window you can upload the [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) `json` file.
 
 ![Grafana Dashboard](/img/kubermatic/master/monitoring/kubevirt/grafana.png)
+
+## Breaking Changes
+
+Please be aware that between KKP 2.20 and KKP 2.21, a breaking change to the `MachineDeployment` API for KubeVirt has occurred. For more details, please [check out the 2.20 to 2.21 upgrade notes]({{< ref "../../../tutorials-howtos/upgrading/upgrade-from-2.20-to-2.21/#kubevirt-migration" >}}).
