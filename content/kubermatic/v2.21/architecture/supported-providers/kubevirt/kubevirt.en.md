@@ -554,23 +554,6 @@ Follow the below steps to import the dashboard in Grafana:
 
 ![Grafana Dashboard](/img/kubermatic/v2.21/monitoring/kubevirt/grafana.png)
 
----
+## Breaking Changes
 
-## Upgrade from KKP 2.20 to 2.21 (breaking change)
-
-If you already have KKP 2.20 installed and a KubeVirt cluster created with it, please be aware that there is a 
-**non backward compatible spec change** of the *MachineDeployment*. It means a *MachineDeployment*
-created with KKP 2.20 and one created with KKP 2.21 will have different API,
-and no automatic migration will happen as KubeVirt is in Technology Preview phase.
-
-Below is the procedure to follow to migrate from KKP 2.20 to KKP 2.21 for a KubeVirt cluster.
-
-1) Upgrade KKP following the procedure [KKP upgrading procedure]({{< ref "../../../tutorials-howtos/upgrading/" >}})
-2) Your existing KKP 2.20 tenant cluster with its existing worker nodes will continue to work.
-The restriction is that you will not be able to update the old *MachineDeployment* objects.
-Additionally, reconciliation of those objects will not work properly, and you may see errors.
-3) Create some new *MachineDeployment*
-4) Once the new worker nodes are up and running, you can migrate your workload to the new nodes.
-5) Then cleanup the old worker nodes created with KKP 2.20:
-- in the tenant cluster: delete the old *MachineDeployment* objects
-- in the KubeVirt infrastructure cluster: delete the corresponding *VirtualMachine*
+Please be aware that between KKP 2.20 and KKP 2.21, a breaking change to the `MachineDeployment` API for KubeVirt has occurred. For more details, please [check out the 2.20 to 2.21 upgrade notes]({{< ref "../../../tutorials-howtos/upgrading/upgrade-from-2.20-to-2.21/#kubevirt-migration" >}}).
