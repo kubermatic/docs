@@ -2901,6 +2901,7 @@ _Appears in:_
 | `clientID` _string_ |  |
 | `clientSecret` _string_ |  |
 | `resourceGroup` _string_ |  |
+| `location` _string_ |  |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 
 
