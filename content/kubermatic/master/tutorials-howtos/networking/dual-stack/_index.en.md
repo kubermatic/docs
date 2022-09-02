@@ -132,7 +132,7 @@ Please also see the [Centos Limitations](#centos--rhel--rocky-linux) section.
 
 Related issues:
  - https://github.com/kubermatic/kubermatic/issues/9899
- - https://github.com/kubernetes/cloud-provider-aws/issues/79
+ - https://github.com/kubernetes/cloud-provider-aws/issues/477
 
 Docs:
  - [AWS: Subnets for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html)
@@ -211,6 +211,7 @@ published in k8s API (`kubectl describe nodes`). This can be work-arounded by re
 
 Related issues:
 - https://github.com/kubermatic/kubermatic/issues/10648
+- https://github.com/equinix/cloud-provider-equinix-metal/issues/179
 
 ### Google Cloud Platform (GCP)
 Dual-stack feature is available automatically for all new user clusters in GCP. Please note however,
