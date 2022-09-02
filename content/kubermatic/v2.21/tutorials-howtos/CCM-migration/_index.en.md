@@ -20,27 +20,24 @@ among which the dependency of the CCM release cycle from the Kubernetes core rel
 to the Kubernetes core code. Then, the Kubernetes community moved toward the out-of-tree implementation by introducing
 a plugin mechanism that allows different cloud providers to integrate their platforms with Kubernetes.
 
-### Out-of-tree CCM migration
+### Out-of-tree CCM Migration
 
 Since the Kubernetes community has planned to deprecate and then remove all the code related to in-tree cloud
 controller managers and the Kubernetes documentation explain how to migrate from in-tree to out-of-tree CCM, KKP itself
 needed a mechanism to allow users to migrate their clusters to the out-of-tree implementation, as detailed below.
 
-### Support and prerequisites
+### Support and Prerequisites
 
-The CCM/CSI migration is supported only for the following providers:
-* OpenStack: 
-  * [Required OpenStack services and cloudConfig properties for the external
-    CCM][openstack-ccm-reqs]
-  * [Required OpenStack services and cloudConfig properties for the CSI
-    driver][openstack-csi-reqs]
+The CCM/CSI migration is supported for the following providers:
+* OpenStack 
+  * [Required OpenStack services and cloudConfig properties for the external CCM][openstack-ccm-reqs]
+  * [Required OpenStack services and cloudConfig properties for the CSI driver][openstack-csi-reqs]
 * vSphere: vSphere 7.0u1 is required for CCM/CSI migration
-  * Make sure to check [the prerequisites for installing the vSphere Container
-    Storage Plug-in][vsphere-csi-reqs] before starting the migration
-  * Make sure to check the [considerations for migration of In-Tree vSphere
-    Volumes][vsphere-csi-considerations] before starting the migration
+  * Make sure to check [the prerequisites for installing the vSphere ContainerStorage Plug-in][vsphere-csi-reqs] before starting the migration
+  * Make sure to check the [considerations for migration of In-Tree vSphere Volumes][vsphere-csi-considerations] before starting the migration
+* Microsoft Azure
 
-### Enabling the external cloud provider
+### Enabling the External Cloud Provider
 
 The migration is specific per user cluster, meaning that it is activated by the `externalCloudProvider` feature in the
 cluster spec.
@@ -85,7 +82,7 @@ manager.
 * Patch of The Machine controller deployment to configure the external cloud provider for the new machines.
 * Addition of a condition related to the ccm migration to the cluster status.
 
-### Finalize the CCM migration
+### Finalize the CCM Migration
 
 The last step to complete the CCM migration is the rolling restart of all the machineDeployments in the user cluster. 
 To do so via  cli, simply follow the guide in the machine-controller [documentation]({{< relref "kubeone/v1.5/cheat-sheets/rollout-machinedeployment/" >}}).
@@ -110,7 +107,7 @@ metadata:
 Once all the machineDeployments are rolled out, and the new machines have the aforementioned annotation, the cluster
 condition `CSIKubeletMigrationCompleted` will be set to true, and the migration is considered completed.
 
-### Disabling the external CCM
+### Disabling the External CCM
 
 Since the Kubernetes community is on the way to deprecating in-tree CCM, once the `externalCloudProvider` feature gets
 enabled, it cannot be disabled.
