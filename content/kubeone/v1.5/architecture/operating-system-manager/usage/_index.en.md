@@ -147,6 +147,12 @@ spec:
             data: echo "hello world"
 ```
 
+{{% notice warning %}}
+Make sure to escape all occurrences of Go text template in your custom
+OperatingSystemProfiles. For example, if you want have `{{.Token}}` in your OSP
+then it should be replaced with ```{{ `{{.Token}}` }}```.
+{{% /notice %}}
+
 **NOTE:** This is just for demonstration purposes and the custom OSPs would most likely be more complicated than this.
 
 2. Create your infrastructure
