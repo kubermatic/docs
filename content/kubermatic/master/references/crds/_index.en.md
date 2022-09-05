@@ -2485,7 +2485,6 @@ _Appears in:_
 | `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
 | `accessKeyID` _string_ |  |
 | `secretAccessKey` _string_ |  |
-| `region` _string_ |  |
 
 
 [Back to top](#top)
