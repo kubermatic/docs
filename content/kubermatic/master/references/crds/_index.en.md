@@ -1419,7 +1419,6 @@ _Appears in:_
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ClusterSpec](#clusterspec)_ | Spec describes the desired cluster state. |
 | `status` _[ClusterStatus](#clusterstatus)_ | Status contains reconciliation information for the cluster. |
-| `address` _[ClusterAddress](#clusteraddress)_ | Address contains the IPs/URLs to access the cluster control plane. This field is optional and replaced by the identical struct in the ClusterStatus. No code should rely on these fields anymore. |
 
 
 [Back to top](#top)
@@ -1433,7 +1432,6 @@ _Appears in:_
 ClusterAddress stores access and address information of a cluster.
 
 _Appears in:_
-- [Cluster](#cluster)
 - [ClusterStatus](#clusterstatus)
 
 | Field | Description |
