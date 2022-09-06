@@ -22,10 +22,13 @@
       {{with (sort .Site.Data.products ".weight")}}
       <div class="tiles">
         {{range .}}
-        {{$key := lower .name}}
+        {{$key := urlize .name}}
         {{$values := .}}
-        {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
-        {{with $.Site.GetPage (printf "/%s/%s" $key $release)}}
+        {{$url := ""}}
+        {{if .versions}}
+          {{$url = (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+        {{end}}
+        {{with $.Site.GetPage (printf "/%s/%s" $key $url)}}
         <div class="tile">
           <div class="tile-wrap">
             {{with $values.title}}
