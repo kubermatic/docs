@@ -26,8 +26,10 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 {{- /* # Generate the redirects to stable version of the products */ -}}
 {{- $products := .Site.Data.products -}}
 {{- range $productName, $val := $products -}}
+{{- if .versions -}}
 {{- $release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release -}}
 {{- with $.Site.GetPage (printf "/%s/%s" $productName $release)}}
 {{printf "/%s %s 302!" $productName .RelPermalink -}}
 {{end -}}
+{{- end -}}
 {{- end -}}
