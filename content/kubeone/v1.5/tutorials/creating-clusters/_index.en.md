@@ -67,7 +67,7 @@ in the [Infrastructure Management document][infrastructure-management].
 
 Below, you can find a diagram that shows how KubeOne works.
 
-{{< figure src="architecture.png" height="577" width="750" >}}
+{{< figure src="/img/kubeone/common/creating-clusters/architecture.png" height="577" width="750" alt="KubeOne architecture" >}}
 
 ## Default Configuration
 
