@@ -23,7 +23,7 @@ Before starting the upgrade, make sure your KKP master and seed clusters are hea
 
 Download the latest 2.21.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.20 available and already adjusted for any 2.21 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
-```sh 
+```sh
 $ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
 
 # example output for a successful upgrade
@@ -87,6 +87,36 @@ Seed status is a new functionality introduced in KKP 2.21, so running this comma
 
 After a seed was successfully upgraded, user clusters on that seed should start updating. Observe their control plane components in the respective cluster namespaces if you want to follow the upgrade process. This is the last step of the upgrade, after all user clusters have settled the upgrade is complete.
 
+## Known Issues
+
+1. When upgrading a Multi-Seed KKP environment, reconciling the seed can fail with error events like these on the `Seed`:
+
+```bash
+Warning  SeedReconcilingError  59m (x6 over 3h57m)     kkp-seed-operator  aws-seed: [Cluster.kubermatic.k8c.io "<Cluster ID>" is invalid: spec.pause: Required value, Cluster.kubermatic.k8c.io "<Cluster ID>" is invalid: spec.pause: Required value]
+```
+
+It should be possible to resolve this issue by patching all affected clusters on the seed cluster (do not apply this to clusters that have OSM enabled already):
+
+```bash
+kubectl patch cluster <CLUSTER_ID> --type=merge -p '{"spec":{"enableOperatingSystemManager":false}}'
+```
+
+Refer to the github issue [Disabling OSM on existing clusters during 2.21 upgrade fails on separate seeds](https://github.com/kubermatic/kubermatic/issues/10940) for more details.
+
+2. KKP 2.21 deploys a new `kubermatic-webhook` component into both master and seed clusters. When running dedicated seed clusters, one can run into errors like this:
+
+```
+(combined from similar events): failed to ensure addons: failed to ensure Addon <Cluster ID>/aws-node-termination-handler: failed to create *v1.Addon '<Cluster ID>/aws-node-termination-handler': admission webhook "addons.kubermatic.io" denied the request: addon mutation request <Request ID> failed: failed to get Seed client: failed to get kubeconfig secret "kubermatic/<Seed Name>-kubeconfig": Secret "<Seed Name>-kubeconfig" not found
+```
+
+This prevents the creation of (most likely) various resources on the seed level as the webhook installed on seeds rejects them.
+
+To work around this issue, sync the `<Seed Name>-kubeconfig` secret that exists on the master cluster into the matching seed cluster (into the `kubermatic` namespace). This should allow the existing webhook to talk to the underlying seed until this bug is fixed.
+
+Refer to the github issue [kubermatic-webhook attempts to read kubeconfig secret on separate seed cluster](https://github.com/kubermatic/kubermatic/issues/10941) for more details.
+
+**NOTE:** These issues will be resolved with KKP 2.21.1 release.
+
 ## Post-Upgrade Considerations
 
 - `operating-system-manager` (OSM) is now enabled by default, which is reflected in the dashboard during cluster creation. For existing clusters, [enableOperatingSystemManager]({{< ref "../../../references/crds/#clusterspec" >}}) is **not** updated and needs to be manually enabled. After enabling OSM, `MachineDeployments` require manual rotation for instances to start using OSM to bootstrap. That can be forced for example by using the "Restart Machine Deployment" button from the dashboard or updating machine annotations.
@@ -94,7 +124,7 @@ After a seed was successfully upgraded, user clusters on that seed should start 
 
 ### KubeVirt Migration
 
-If you already have KKP 2.20 installed and a KubeVirt cluster created with it, please be aware that there is a 
+If you already have KKP 2.20 installed and a KubeVirt cluster created with it, please be aware that there is a
 **non backward compatible spec change** for `MachineDeployments`. It means a `MachineDeployment`
 created with KKP 2.20 and one created with KKP 2.21 will have different API,
 and no automatic migration will happen as KubeVirt is in Technology Preview phase.
@@ -107,8 +137,8 @@ Additionally, reconciliation of those objects will not work properly, and you ma
 2) Create new `MachineDeployments`.
 3) Once the new worker nodes are up and running, you can migrate your workload to the new nodes.
 4) Then cleanup the old worker nodes created with KKP 2.20:
-    * in the user cluster: delete the old `MachineDeployment` objects.
-    * in the KubeVirt infrastructure cluster: delete the corresponding `VirtualMachine`.
+    - in the user cluster: delete the old `MachineDeployment` objects.
+    - in the KubeVirt infrastructure cluster: delete the corresponding `VirtualMachine`.
 
 ## Next Steps
 
