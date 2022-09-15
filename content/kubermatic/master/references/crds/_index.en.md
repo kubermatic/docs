@@ -637,7 +637,7 @@ _Appears in:_
 | `kind` _string_ | `Addon`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AddonSpec](#addonspec)_ | Spec describes the desired addon state. |
-| `status` _[AddonStatus](#addonstatus)_ | Status contrains information about the reconciliation status. |
+| `status` _[AddonStatus](#addonstatus)_ | Status contains information about the reconciliation status. |
 
 
 [Back to top](#top)
@@ -806,7 +806,7 @@ _Appears in:_
 
 
 
-AddonStatus contrains information about the reconciliation status.
+AddonStatus contains information about the reconciliation status.
 
 _Appears in:_
 - [Addon](#addon)
@@ -5757,7 +5757,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `id` _string_ | ID is an unnused legacy field. Deprecated: do not set this field anymore. |
+| `id` _string_ | ID is an unused legacy field. Deprecated: do not set this field anymore. |
 | `name` _string_ | Name is the full name of this user. |
 | `email` _string_ | Email is the email address of this user. Emails must be globally unique across all KKP users. |
 | `admin` _boolean_ | IsAdmin defines whether this user is an administrator with additional permissions. Admins can for example see all projects and clusters in the KKP dashboard. |
