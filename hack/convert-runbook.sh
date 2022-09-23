@@ -4,14 +4,11 @@ cd $(dirname $0)/..
 
 SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/charts/monitoring/prometheus/rules/src"
 
-# merge all files,
-# convert to JSON,
+# merge all files and convert to JSON,
 # filter out rules that are not alerts,
 # filter out groups that have no rules left over,
 # dump as JSON
-yq \
-  merge -a append ${SOURCE}/*/*.yaml | \
-  yq read -j - | \
+yq eval-all '. as $item ireduce ({}; . *+ $item)' ${SOURCE}/*/*.yaml -o json | \
   jq "{
     groups: [
       .groups[] |
