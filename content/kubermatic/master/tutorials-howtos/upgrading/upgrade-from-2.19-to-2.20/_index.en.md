@@ -251,3 +251,17 @@ kubectl get seed.kubermatic.k8c.io -n kubermatic <SEED NAME> -o yaml
 ```
 
 Clean up the metadata section as well so it only has `name` and `namespace` (or compare to your previous YAML files) before checking it into version control.
+
+## MLA Stack changes
+
+Due to some changes in the MLA stack, you might have to recreate some resources
+manually. 
+
+- If you're running into an issue with Helm failing to deploy `logging/loki`
+  and/or `logging/promtail` charts due to fields being immutable, manually
+  remove the old Loki StatefulSet and the old Promtail DaemonSet. After removing
+  those resources, run Helm again
+- If you're running into an issue that user-cluster-controller-manager is
+  failing to reconcile user cluster MLA Prometheus deployment in user clusters,
+  you need to manually remove the Prometheus deployment located in `mla-system`
+  namespace in each user cluster
