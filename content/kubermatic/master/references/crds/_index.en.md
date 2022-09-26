@@ -2873,8 +2873,8 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ExternalCluster`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[ExternalClusterSpec](#externalclusterspec)_ |  |
-| `status` _[ExternalClusterStatus](#externalclusterstatus)_ |  |
+| `spec` _[ExternalClusterSpec](#externalclusterspec)_ | Spec describes the desired cluster state. |
+| `status` _[ExternalClusterStatus](#externalclusterstatus)_ | Status contains reconciliation information for the cluster. |
 
 
 [Back to top](#top)
@@ -2892,14 +2892,14 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | CredentialsReference allows referencing a `Secret` resource instead of passing secret data in this spec. |
 | `name` _string_ |  |
-| `tenantID` _string_ |  |
-| `subscriptionID` _string_ |  |
-| `clientID` _string_ |  |
-| `clientSecret` _string_ |  |
-| `resourceGroup` _string_ |  |
-| `location` _string_ |  |
-| `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
+| `tenantID` _string_ | TenantID: The Azure Active Directory Tenant used for this cluster. Can be read from `credentialsReference` instead. |
+| `subscriptionID` _string_ | SubscriptionID: The Azure Subscription used for this cluster. Can be read from `credentialsReference` instead. |
+| `clientID` _string_ | ClientID: The service principal used to access Azure. Can be read from `credentialsReference` instead. |
+| `clientSecret` _string_ | ClientSecret: The client secret corresponding to the given service principal. Can be read from `credentialsReference` instead. |
+| `location` _string_ | Location: The geo-location where the resource lives |
+| `resourceGroup` _string_ | ResourceGroup: The resource group that will be used to look up and create resources for the cluster in. If set to empty string at cluster creation, a new resource group will be created and this field will be updated to the generated resource group's name. |
 
 
 [Back to top](#top)
@@ -2970,11 +2970,15 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `name` _string_ |  |
-| `accessKeyID` _string_ |  |
-| `secretAccessKey` _string_ |  |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
+| `name` _string_ |  |
+| `accessKeyID` _string_ | AccessKeyID: AWS Access key ID Can be read from `credentialsReference` instead. |
+| `secretAccessKey` _string_ | SecretAccessKey: AWS Secret Access Key Can be read from `credentialsReference` instead. |
 | `region` _string_ |  |
+| `roleArn` _string_ | ControlPlaneRoleARN: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. |
+| `vpcID` _string_ | VPCID: The VPC associated with your cluster. |
+| `subnetIDs` _string array_ | SubnetIDs: The subnets associated with your cluster. |
+| `securityGroupIDs` _string array_ | SecurityGroupIDs: The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane. |
 
 
 [Back to top](#top)
@@ -2992,10 +2996,10 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `name` _string_ |  |
-| `serviceAccount` _string_ |  |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `zone` _string_ |  |
+| `name` _string_ |  |
+| `serviceAccount` _string_ | ServiceAccount: The Google Cloud Platform Service Account. Can be read from `credentialsReference` instead. |
+| `zone` _string_ | Zone: The name of the Google Compute Engine zone (https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. |
 
 
 [Back to top](#top)
@@ -3037,6 +3041,27 @@ ExternalClusterList specifies a list of external kubernetes clusters.
 | `kind` _string_ | `ExternalClusterList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ExternalCluster](#externalcluster) array_ |  |
+
+
+[Back to top](#top)
+
+
+
+
+
+### ExternalClusterNetworkingConfig
+
+
+
+ExternalClusterNetworkingConfig specifies the different networking parameters for a external cluster.
+
+_Appears in:_
+- [ExternalClusterSpec](#externalclusterspec)
+
+| Field | Description |
+| --- | --- |
+| `services` _[NetworkRanges](#networkranges)_ | The network ranges from which service VIPs are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
+| `pods` _[NetworkRanges](#networkranges)_ | The network ranges from which POD networks are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
 
 
 [Back to top](#top)
@@ -3099,6 +3124,7 @@ _Appears in:_
 | `humanReadableName` _string_ | HumanReadableName is the cluster name provided by the user |
 | `kubeconfigReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | KubeconfigReference is reference to cluster Kubeconfig |
 | `cloudSpec` _[ExternalClusterCloudSpec](#externalclustercloudspec)_ | CloudSpec contains provider specific fields |
+| `clusterNetwork` _[ExternalClusterNetworkingConfig](#externalclusternetworkingconfig)_ |  |
 | `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP. This indicates that the user needs to do some action to resolve the pause. |
 | `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
 
@@ -4412,6 +4438,7 @@ _Appears in:_
 - [AWSCloudSpec](#awscloudspec)
 - [AzureCloudSpec](#azurecloudspec)
 - [ClusterNetworkingConfig](#clusternetworkingconfig)
+- [ExternalClusterNetworkingConfig](#externalclusternetworkingconfig)
 - [GCPCloudSpec](#gcpcloudspec)
 - [OpenstackCloudSpec](#openstackcloudspec)
 
