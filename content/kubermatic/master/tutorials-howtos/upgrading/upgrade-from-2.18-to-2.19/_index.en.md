@@ -71,8 +71,44 @@ Loki is now using upstream Helm chart version 2.8.1 - [documentation](https://ar
 
 Please refer to the chart's documentation linked above for information about changes to the `values.yaml` structure. No additional actions are required to perform an upgrade.
 
+Before upgrading, you have to manually remove the old Loki StatefulSet, otherwise
+upgrade fails with the following error. It's enough to just remove the StatefulSet,
+it's not needed to uninstall the chart.
+
+```
+Error: UPGRADE FAILED: cannot patch "loki" with kind StatefulSet: StatefulSet.apps "loki" is invalid: spec: Forbidden: updates to statefulset spec for fields other than 'replicas', 'template', 'updateStrategy' and 'minReadySeconds' are forbidden
+```
+
 ### logging/promtail
 
 Promtail is now using upstream Helm chart version 3.8.1 - [documentation](https://artifacthub.io/packages/helm/grafana/promtail/3.8.1)
 
 Please refer to the chart's documentation linked above for information about changes to the `values.yaml` structure. No additional actions are required to perform an upgrade.
+
+Similar to `logging/loki` chart, you have to manually remove the Promtail
+DaemonSet before upgrading, otherwise you'll run into issues when upgrading the
+chart.
+
+## User cluster MLA
+
+### Prometheus
+
+Due to changes in label selectors for Prometheus deployment in user clusters
+(as part of the user cluster MLA), Prometheus deployments in user clusters must be
+manually deleted. The Prometheus deployment is located in the `mla-system`
+namespace. You can delete deployment using `kubectl` such as:
+
+```bash
+kubectl --kubeconfig=<user-cluster-kubeconfig> delete deployment -n mla-system prometheus
+```
+
+Deleting Prometheus Deployments will cause KKP to create new
+Deployment with proper labels and label selectors.
+
+Not doing so will manifest in KKP user-cluster-controller-manager failing to
+reconcile the user cluster:
+
+```
+{"level":"error","time":"2022-09-21T14:41:38.104Z","caller":"resources/controller.go:324","msg":"Reconciling failed","error":"failed to reconcile Deployments in namespace mla-system: failed to ensure Deployment mla-system/prometheus: failed to update object *v1.Deployment 'mla-system/prometheus': Deployment.apps \"prometheus\" is invalid: spec.selector: Invalid value: v1.LabelSelector{MatchLabels:map[string]string{\"app.kubernetes.io/component\":\"mla\", \"app.kubernetes.io/instance\":\"prometheus\", \"app.kubernetes.io/name\":\"prometheus\"}, MatchExpressions:[]v1.LabelSelectorRequirement(nil)}: field is immutable"}
+
+```

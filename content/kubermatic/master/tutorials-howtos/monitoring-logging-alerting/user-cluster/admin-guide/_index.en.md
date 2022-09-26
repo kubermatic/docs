@@ -62,6 +62,12 @@ helm --namespace mla upgrade --atomic --create-namespace --install mla-secrets c
 
 The above command will create two Secrets (one for MinIO, and one for Grafana), if you want to use your existing Secrets in the Cluster, you can disable the creation by modifying the [mla-secret value.yaml](https://github.com/kubermatic/mla/blob/main/config/mla-secrets/values.yaml#L17-L22)
 
+{{% notice warning %}}
+The `mla-secrets` chart should be installed **ONLY ONCE** when installing
+the MLA Stack for the first time. Installing/upgrading it afterwards will cause
+credentials to get rotated which can cause issues with the MLA Stack.
+{{% /notice %}}
+
 #### Deploy Seed Cluster Components
 
 After the secrets are created, the MLA stack can be deployed by using the helper script:
