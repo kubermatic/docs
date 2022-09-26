@@ -54,11 +54,33 @@ version or following the [cgroups v2 migration instructions][flatcar-cgroups].
 
 [flatcar-cgroups]: https://www.flatcar.org/docs/latest/container-runtimes/switching-to-unified-cgroups#migrating-old-nodes-to-unified-cgroups
 
+## vSphere CSI webhook certificates are generated with an invalid domain/FQDN
+
+|              |                                                   |
+|--------------|---------------------------------------------------|
+| Status       | Fixed by [#2366](https://github.com/kubermatic/kubeone/pull/2366) in [KubeOne 1.5.1](https://github.com/kubermatic/kubeone/releases/tag/v1.5.1) |
+| Severity     | High                                              |
+| GitHub issue | https://github.com/kubermatic/kubeone/issues/2350 |
+
+### Description
+
+In KubeOne 1.5.0 we moved the vSphere CSI driver from the `kube-system`
+namespace to the `vmware-system-csi` namespace. However, we didn't update the
+domain/FQDN in certificates for CSI webhooks to use the new namespace. This
+causes issues when communicating with the CSI webhooks as described in the
+GitHub issue.
+
+### Recommendation
+
+This issue has been fixed in KubeOne 1.5.1, so we advise upgrading your KubeOne
+installation to 1.5.1 or newer. You need to run `kubeone apply` to regenerate
+certificates after upgrading KubeOne.
+
 ## CoreDNS PodDisruptionBudget is not cleaned up when disabled
 
 |              |                                                     |
 |--------------|-----------------------------------------------------|
-| Status       | Fix planned for KubeOne 1.5.1; Workaround available |
+| Status       | Fixed by [#2364](https://github.com/kubermatic/kubeone/pull/2364) in [KubeOne 1.5.1](https://github.com/kubermatic/kubeone/releases/tag/v1.5.1) |
 | Severity     | Low                                                 |
 | GitHub issue | https://github.com/kubermatic/kubeone/issues/2322   |
 
@@ -70,14 +92,14 @@ cluster.
 
 ### Recommendation
 
-If you're affected by this issue, you can manually remove the
-PodDisruptionBudget object created by KubeOne.
+This issue has been fixed in KubeOne 1.5.1, so we advise upgrading your KubeOne
+installation to 1.5.1 or newer.
 
 ## `kubeone apply` might fail to recover if the SSH connection is interrupted
 
 |              |                                                     |
 |--------------|-----------------------------------------------------|
-| Status       | Being Investigated                                  |
+| Status       | Fixed by [#2345](https://github.com/kubermatic/kubeone/pull/2345) in [KubeOne 1.5.1](https://github.com/kubermatic/kubeone/releases/tag/v1.5.1) |
 | Severity     | Low                                                 |
 | GitHub issue | https://github.com/kubermatic/kubeone/issues/2319   |
 
@@ -88,5 +110,5 @@ restarted while kubeone apply is running).
 
 ### Recommendation
 
-In this case, it's enough to run `kubeone apply` again and KubeOne should be
-able to continue as usual.
+This issue has been fixed in KubeOne 1.5.1, so we advise upgrading your KubeOne
+installation to 1.5.1 or newer.
