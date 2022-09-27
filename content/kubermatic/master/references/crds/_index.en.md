@@ -3047,6 +3047,22 @@ ExternalClusterList specifies a list of external kubernetes clusters.
 
 
 
+### ExternalClusterNetworkRanges
+
+
+
+ExternalClusterNetworkRanges represents ranges of network addresses.
+
+_Appears in:_
+- [ExternalClusterNetworkingConfig](#externalclusternetworkingconfig)
+
+| Field | Description |
+| --- | --- |
+| `cidrBlocks` _string array_ |  |
+
+
+[Back to top](#top)
+
 
 
 ### ExternalClusterNetworkingConfig
@@ -3060,8 +3076,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `services` _[NetworkRanges](#networkranges)_ | The network ranges from which service VIPs are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
-| `pods` _[NetworkRanges](#networkranges)_ | The network ranges from which POD networks are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
+| `services` _[ExternalClusterNetworkRanges](#externalclusternetworkranges)_ | The network ranges from which service VIPs are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
+| `pods` _[ExternalClusterNetworkRanges](#externalclusternetworkranges)_ | The network ranges from which POD networks are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
 
 
 [Back to top](#top)
@@ -4438,7 +4454,6 @@ _Appears in:_
 - [AWSCloudSpec](#awscloudspec)
 - [AzureCloudSpec](#azurecloudspec)
 - [ClusterNetworkingConfig](#clusternetworkingconfig)
-- [ExternalClusterNetworkingConfig](#externalclusternetworkingconfig)
 - [GCPCloudSpec](#gcpcloudspec)
 - [OpenstackCloudSpec](#openstackcloudspec)
 
