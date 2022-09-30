@@ -97,13 +97,19 @@ spec:
                   size: "10Gi"
                   storageClassName: "<< YOUR_STORAGE_CLASS_NAME >>"
             affinity:
+              # Deprecated: Use topologySpreadConstraints instead.
               podAffinityPreset: "" # Allowed values: "", "soft", "hard"
+              # Deprecated: Use topologySpreadConstraints instead.
               podAntiAffinityPreset: "" # Allowed values: "", "soft", "hard"
               nodeAffinityPreset:
                 type: "" # Allowed values: "", "soft", "hard"
                 key: "foo"
                 values:
                   - bar
+            topologySpreadConstraints:
+              - maxSkew: "1"
+                topologyKey: "kubernetes.io/hostname"
+                whenUnsatisfiable: "" # Allowed values: "DoNotSchedule", "ScheduleAnyway"
           operatingSystem: "ubuntu"
           operatingSystemSpec:
             distUpgradeOnBoot: false
@@ -115,30 +121,40 @@ spec:
 All the resources related to VM on the KubeVirt cluster will be created in a dedicated namespace in the infrastructure cluster.
 This name follow the pattern `cluster-xyz`, where `xyz` is the `id` of the cluster created with KKP.
 
-![Dedicated Namespace](/img/kubermatic/main/architecture/supported-providers/kubevirt/Dedicated-namespace.jpg)
+![Dedicated Namespace](/img/kubermatic/master/architecture/supported-providers/kubevirt/Dedicated-namespace.jpg)
 
 How to know the `id` of the cluster created ?
 
-![Cluster Id](/img/kubermatic/main/architecture/supported-providers/kubevirt/clusterid.png)
+![Cluster Id](/img/kubermatic/master/architecture/supported-providers/kubevirt/clusterid.png)
 
 With the example of the previous image, the cluster `elastic-mayer` has a cluster id `gff5gnxc7r`,
 so all resources for this cluster are located in the `cluster-gff5gnxc7r` namespace in the KubeVirt infrastructure cluster.
 
 ### Virtual Machines Scheduling
 It is possible to control how the tenant nodes are scheduled on the infrastructure nodes.
-![Scheduling](/img/kubermatic/main/architecture/supported-providers/kubevirt/Scheduling.png)
+![Scheduling](/img/kubermatic/master/architecture/supported-providers/kubevirt/Scheduling.png)
 
-We provide 3 different types of scheduling for the KubeVirt tenant nodes:
-- Ensure co-location on the same infrastructure node (*Pod Affinity Preset*).
-- Prevent co-location on the same infrastructure node (*Pod Anti Affinity Preset*).
+We provide control of the user cluster nodes scheduling over topology spread constraints and node affinity presets mechanisms. You can use a combination of them, or they can work independently:
+- Spread across a given topology domains (*TopologySpreadConstraints*).
 - Schedule on nodes having some specific labels (*Node Affinity Preset*).
 
-This setup is done in the `Initial Nodes` step of KKP dashboard when creating a cluster.
+**Note**: `Pod Affinity Preset` and `Pod Anti Affinity Preset` are deprecated. Migration to `TopologySpreadConstraints` does not affect existing MachineDeployment and corresponding VMs.
+If existing MachineDeployment has Pod Affinity/Anti-Affinity Preset spec, it will remain the same. But any update of existing MachineDeployment will trigger creation of new VMs which will not have Pod Affinity/Anti-Affinity Preset spec
+, instead they will have default topology spread constraint.
 
-![Dashboard](/img/kubermatic/main/architecture/supported-providers/kubevirt/Dashboard-scheduling.png)
+TopologySpreadConstraint for VMs are related to [Kubernetes:Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/). Below is the description of different fields of a `TopologySpreadConstraints`:
 
+| Field             | Description                                                                 |
+|-------------------|-----------------------------------------------------------------------------|
+| maxSkew           | degree to which VMs may be unevenly distributed                             |
+| topologyKey       | key of infra-node labels                                                    |
+| whenUnsatisfiable | indicates how to deal with a VM if it doesn't satisfy the spread constraint |
 
-For each of this scheduling types (*Pod Affinity Preset*, *Pod Anti Affinity Preset*, *Node Affinity Preset*), we can also specify if we want the affinity to be:
+The allowed values for `whenUnsatisfiable` are as follows:
+- `DoNotSchedule` tells the scheduler not to schedule if it doesn't satisfy the spread constraint.
+- `ScheduleAnyway` tells the scheduler to schedule the VM in any location, but giving higher precedence to topologies that would help reduce the skew.
+
+For *Node Affinity Preset* scheduling type, we can specify if we want the affinity to be:
 - *"hard"*
 -  *"soft"*
 
@@ -154,7 +170,7 @@ To achieve this goal, we use the [KubeVirt VM Affinity and Anti-affinity capabil
 
 #### How scheduling settings influence a MachineDeployment object
 
-Scheduling settings are represented in the *MachineDeployment* object under *spec.providerSpec.value.affinity*:
+Scheduling settings are represented in the *MachineDeployment* object under *spec.providerSpec.value.affinity* and *spec.providerSpec.value.topologySpreadConstraints*:
 
 ```yaml
 kind: MachineDeployment
@@ -166,23 +182,19 @@ spec:
         value:
             // ....
             affinity:
-              podAffinityPreset: "" # Allowed values: "", "soft", "hard"
-              podAntiAffinityPreset: "" # Allowed values: "", "soft", "hard"
               nodeAffinityPreset:
                 type: "" # Allowed values: "", "soft", "hard"
                 key: "foo"
                 values:
                   - bar
+            topologySpreadConstraints:
+              - maxSkew: "1"
+                topologyKey: "kubernetes.io/hostname"
+                whenUnsatisfiable: "" # Allowed values: "DoNotSchedule", "ScheduleAnyway"
 // ....
 ```
 
-**Important Note**:
-- `podAffinityPreset` and `podAntiAffinityPreset` are **mutually exclusive**. The Anti-Affinity setting works the opposite of Affinity.
-- `podAffinityPreset` can be specified along with `nodeAffinityPreset`: this allows ensure that the KubeVirt tenant nodes are co-located on a single infrastructure node that has some specific labels.
-- `podAntiAffinityPreset` can be specified along with `nodeAffinityPreset`: this prevents the KubeVirt tenant nodes from being co-located on the same infrastructure node, but be located on infrastructure nodes that have some specific labels.
-
-
-1- **Usage of Pod Affinity Preset**
+1- **Usage of TopologySpreadConstraints**
 
 <details>
   <summary>With the following *MachineDeployment* specification</summary>
@@ -196,14 +208,16 @@ spec:
       providerSpec:
         value:
             // ....
-            affinity:
-              podAffinityPreset: "hard" # or "soft"
+          topologySpreadConstraints:
+              - maxSkew: "1"
+                topologyKey: "zone"
+                whenUnsatisfiable: "DoNotSchedule"
 // ....
 ```
 </details>
 
-The following *VirtualMachine* specification will be generated
-- with affinity type *"hard"*:
+The following *VirtualMachine* specification will be generated from above *MachineDeployment*
+- with the `custom topologySpreadConstraints`:
 <details>
  <summary>VirtualMachine* specification</summary>
 
@@ -216,17 +230,18 @@ spec:
   template:
     ...
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution: ### as affinity is "hard"
-          - labelSelector:
-              matchLabels:
-                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-            topologyKey: kubernetes.io/hostname
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: zone
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              md : qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
 ```
 </details>
 
-- with affinity type *"soft"*:
+The following *VirtualMachine* specification will be generated if no custom topologySpreadConstraints is specified in *MachineDeployment*
+- with `default topologySpreadConstraints`:
 <details>
  <summary>VirtualMachine* specification</summary>
 
@@ -239,84 +254,18 @@ spec:
   template:
     ...
     spec:
-      affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution: ### as affinity is "soft"
-          - labelSelector:
-              matchLabels:
-                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-            topologyKey: kubernetes.io/hostname
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              md : qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
 ```
 </details>
 
-2- **Usage of Pod Anti Affinity Preset**
 
-<details>
-  <summary>With the following *MachineDeployment* specification</summary>
-
-```yaml
-kind: MachineDeployment
-spec:
- // ...
-  template:
-    spec:
-      providerSpec:
-        value:
-            // ....
-            affinity:
-              podAntiAffinityPreset: "hard" # or "soft"
-// ....
-```
-</details>
-
-The following *VirtualMachine* specification will be generated
-- with affinity type *"hard"*:
-<details>
- <summary>VirtualMachine* specification</summary>
-
-```yaml
-kind: VirtualMachine
-metadata:
-  ...
-spec:
-  ...
-  template:
-    ...
-   spec:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchLabels:
-                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-            topologyKey: kubernetes.io/hostname
-```
-</details>
-
-- with affinity type *"soft"*:
-<details>
- <summary>VirtualMachine* specification</summary>
-
-```yaml
-kind: VirtualMachine
-metadata:
-  ...
-spec:
-  ...
-  template:
-    ...
-    spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution: ### as affinity is "soft"
-          - labelSelector:
-              matchLabels:
-                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-            topologyKey: kubernetes.io/hostname
-```
-</details>
-
-3- **Usage of Node Affinity Preset**
+2- **Usage of Node Affinity Preset**
 
 <details>
   <summary>With the following *MachineDeployment* specification</summary>
@@ -412,7 +361,7 @@ virtualMachine:
 To apply a `VirtualMachineInstancePreset` to a VM, this VirtualMachineInstancePreset should be created in the `default` namespace.
 KKP will then copy into the dedicated `clusterxyz` namespace and start the VirtualMachine applying it.
 
-![Preset Copy   ](/img/kubermatic/main/architecture/supported-providers/kubevirt/Preset.jpg)
+![Preset Copy   ](/img/kubermatic/master/architecture/supported-providers/kubevirt/Preset.jpg)
 
 A default `VirtualMachineInstancePreset` named `kubermatic-standard` is always added to the list by KKP
 (even if not existing in the `default` namespace).
@@ -445,10 +394,10 @@ It will be present in the `VM Flavor` dropdown list selection and be copied in t
 
 What happens if we update a `VirtualMachineInstancePreset` existing in the `default` namespace ?
 - The updated `VirtualMachineInstancePreset` will be reconciled from the `default` namespace into the `cluster-xyz` namespace.
-Give it some time to be reconciled. The reconciliation interval is configurable (refer to `providerReconciliationInterval`
-in [Seed configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})
+  Give it some time to be reconciled. The reconciliation interval is configurable (refer to `providerReconciliationInterval`
+  in [Seed configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})
 - For all `VirtualMachineIsntances` already created, this will have no impact.
-Please refer to [KubeVirt Preset documentation](https://kubevirt.io/user-guide/virtual_machines/presets/#updating-a-virtualmachineinstancepreset)
+  Please refer to [KubeVirt Preset documentation](https://kubevirt.io/user-guide/virtual_machines/presets/#updating-a-virtualmachineinstancepreset)
 - The update will then be effective for new `VirtualMachineIsntances`.
 
 *Note 2:* Limitation of the list of reconciled fields.
@@ -478,7 +427,7 @@ merged fields from the `VirtualMachineInstance` and provide deterministic behavi
 For the basic configuration, disk images are imported from a web server, via HTTP download,
 by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
 
-![Primary Disk](/img/kubermatic/main/architecture/supported-providers/kubevirt/primary-disk.png)
+![Primary Disk](/img/kubermatic/master/architecture/supported-providers/kubevirt/primary-disk.png)
 
 #### Custom Local Disk
 
@@ -492,12 +441,12 @@ Custom local disk creates a Data Volume on KubeVirt cluster in the user cluster 
 **NOTE:** the source DataVolume (Custom Local Disk) must exist in the *cluster-xyz* namespace where the VM is created.
 Cloning across namespaces is not allowed.
 
-![DataVolume cloning](/img/kubermatic/main/architecture/supported-providers/kubevirt/DV-cloning.png)
+![DataVolume cloning](/img/kubermatic/master/architecture/supported-providers/kubevirt/DV-cloning.png)
 
 The source DataVolume can be created *manually* (not from KKP) by the user in the *cluster-xyz* namespace,
 or it can also be created using KKP when creating the cluster at the `Settings` step, with the `Advanced Disk configuration` panel.
 
-![DataVolume creation](/img/kubermatic/main/architecture/supported-providers/kubevirt/Source-DV-creation.png)
+![DataVolume creation](/img/kubermatic/master/architecture/supported-providers/kubevirt/Source-DV-creation.png)
 
 In this panel, the user can add several Custom Local Disks (DataVolumes).
 For each of them, the user must specify:
@@ -523,7 +472,7 @@ KKP uses [Containerized Data Importer](https://github.com/kubevirt/containerized
 provision volumes to launch the VMs. CDI provides the ability to populate PVCs with VM images or other data upon creation.
 The data can come from different sources: a URL, a container registry, another PVC (clone), or an upload from a client.
 For more information about Containerized Data Importer project, please follow the documentation
-[here](https://github.com/kubevirt/containerized-data-importer/blob/main/doc/basic_pv_pvc_dv.md).
+[here](https://github.com/kubevirt/containerized-data-importer/blob/master/doc/basic_pv_pvc_dv.md).
 
 **To initialize a storage class on a user cluster that exists on the KubeVirt infrastructure cluster.
 add `kubevirt-initialization.k8c.io/initialize-sc: 'true'` annotation to the storage class of your choice.
@@ -552,7 +501,7 @@ Follow the below steps to import the dashboard in Grafana:
 - Open Grafana and click on `+` icon on the left side of the application. After that select `Import` option.
 - In the below window you can upload the [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) `json` file.
 
-![Grafana Dashboard](/img/kubermatic/main/monitoring/kubevirt/grafana.png)
+![Grafana Dashboard](/img/kubermatic/master/monitoring/kubevirt/grafana.png)
 
 ## Breaking Changes
 
