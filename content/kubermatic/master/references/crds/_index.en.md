@@ -2124,6 +2124,7 @@ _Appears in:_
 | `enforceAuditLogging` _boolean_ | EnforceAuditLogging enforces audit logging on every cluster within the DC, ignoring cluster-specific settings. |
 | `enforcePodSecurityPolicy` _boolean_ | EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC, ignoring cluster-specific settings |
 | `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#duration-v1-meta)_ | ProviderReconciliationInterval is the time that must have passed since a Cluster's status.lastProviderReconciliation to make the cliuster controller perform an in-depth provider reconciliation, where for example missing security groups will be reconciled. Setting this too low can cause rate limits by the cloud provider, setting this too high means that *if* a resource at a cloud provider is removed/changed outside of KKP, it will take this long to fix it. |
+| `operatingSystemProfiles` _object (keys:OperatingSystem, values:string)_ | DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system. |
 
 
 [Back to top](#top)
@@ -3562,8 +3563,6 @@ _Appears in:_
 
 
 
-
-
 ### Incompatibility
 
 
@@ -4799,6 +4798,10 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+
 
 
 
