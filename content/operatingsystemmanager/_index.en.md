@@ -5,7 +5,7 @@ weight = 6
 description = "Learn how you can use Kubermatic OperatingSystemManager to manage and customize worker node configurations for more granular control over your kubernetes clusters."
 +++
 
-![OperatingSystemManager](./img/operating-system-manager-logo.png)
+![OperatingSystemManager logo](/img/operatingsystemmanager/common/operating-system-manager-logo.png)
 
 ## What is OperatingSystemManager?
 

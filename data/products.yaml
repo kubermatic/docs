@@ -66,6 +66,7 @@ kubecarrier:
       name: v0.1
 operatingsystemmanager:
   name: operatingsystemmanager
+  logo: "/img/operatingsystemmanager/common/operating-system-manager-logo.png"
   title: Operating System Manager
   textName: Operating System Manager
   description: Operating System Manager
