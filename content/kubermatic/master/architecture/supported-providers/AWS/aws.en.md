@@ -7,8 +7,9 @@ weight = 7
 
 ## AWS
 
-<details>
-<summary>**Ensure that the user used to create clusters via Kubermatic Kubernetes Platform (KKP) has (at least) the following IAM permissions (Click to expand):** </summary>
+When using KKP to provision user clusters on Amazon Web Services (AWS), the cluster credentials provided must have a policy assigned that allows managing the instance profiles and roles. This means that only a single policy for KKP must be created while all others are automatically created and removed when no longer required.
+
+Ensure that the assigned policy contains at least the following permissions. Policies and users can be managed on the [AWS Management Console](https://eu-central-1.console.aws.amazon.com/iamv2/home?region=eu-central-1#/policies).
 
 ```json
 {
@@ -89,5 +90,3 @@ weight = 7
     ]
 }
 ```
-
-</details>
