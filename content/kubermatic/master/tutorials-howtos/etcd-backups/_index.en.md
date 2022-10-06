@@ -7,7 +7,10 @@ weight = 3
 
 Through KKP you can set up automatic scheduled etcd backups for your user clusters, and easily restore etcd to its previous state.
 
-Firstly, you need to enable and configure the destination(backup bucket, endpoint and credentials). To see how, check [Etcd Backup Destination Settings]({{< ref "../administration/admin-panel/backup-buckets" >}}) 
+Firstly, you need to enable and configure the destination(backup bucket, endpoint and credentials). To see how, check [Etcd Backup Destination Settings]({{< ref "../administration/admin-panel/backup-buckets" >}}).
+
+It is recommended to enable [EtcdLauncher]({{< ref "../../cheat-sheets/etcd/etcd-launcher" >}}) on the clusters.
+It is _required_ for the restore to work.
 
 ## Etcd Backups
 
@@ -80,6 +83,11 @@ Keep in mind that this is an etcd backup and restore. The only thing that is res
 {{% notice note %}}
 If you have running pods on the user cluster, which are not in the backup, it's possible that they will get orphaned. 
 Meaning that they will still run, even though etcd(and K8s) is not aware of them.
+{{% /notice %}}
+
+{{% notice note %}}
+EtcdRestore can be marked with phase `EtcdLauncherNotEnabled`. You should 
+enable [EtcdLauncher]({{<ref "../../cheat-sheets/etcd/etcd-launcher" >}}) on the cluster for restore to proceed.
 {{% /notice %}}
 
 This will create an EtcdRestore object for your cluster. You can observe the progress in the Restore list.
