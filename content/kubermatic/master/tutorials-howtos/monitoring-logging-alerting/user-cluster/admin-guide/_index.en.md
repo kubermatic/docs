@@ -50,44 +50,25 @@ Other parameters which can become important if you have particularly high values
 
 ### Installing MLA Stack in a Seed Cluster
 
-#### Create MLA secrets
-
-The [kubermatic/mla Github repository](https://github.com/kubermatic/mla) contains all the Helm charts of the User Cluster MLA stack and scripts to install them. Clone or download it, so that we can deploy the MLA stack into a KKP Seed cluster. Please make sure you are using the tag that is matching your KKP version as described in the "KKP Compatibility Matrix".
-
-Before deploying the MLA stack into the KKP Seed cluster, let’s create two Kubernetes Secrets that contain credentials for MinIO and Grafana, and which will be used by the MLA stack and KKP controllers. The MLA repo contains a Helm chart that will auto-generate the necessary Secrets - for creating them, simply run:
-
-```bash
-helm --namespace mla upgrade --atomic --create-namespace --install mla-secrets charts/mla-secrets --values config/mla-secrets/values.yaml
-```
-
-The above command will create two Secrets (one for MinIO, and one for Grafana), if you want to use your existing Secrets in the Cluster, you can disable the creation by modifying the [mla-secret value.yaml](https://github.com/kubermatic/mla/blob/main/config/mla-secrets/values.yaml#L17-L22)
-
-{{% notice warning %}}
-The `mla-secrets` chart should be installed **ONLY ONCE** when installing
-the MLA Stack for the first time. Installing/upgrading it afterwards will cause
-credentials to get rotated which can cause issues with the MLA Stack.
-{{% /notice %}}
-
 #### Deploy Seed Cluster Components
 
-After the secrets are created, the MLA stack can be deployed by using the helper script:
+The MLA stack can be deployed by using the kubermatic installer:
 
 ```bash
-./hack/deploy-seed.sh
+kubermatic-installer deploy usercluster-mla --config <kubermatic.yaml> --helm-values <mlavalues.yaml>
 ```
 
-Please note: this helper script uses `yq` version 4.x and `jq` in addition to helm. Refer to the section below for full list of available options:
-
+Additional options that can be used for the installation include:
 ```bash
---skip-minio               this can be used if you want to configure MLA backend components to user existing minio in the cluster, if this flag is not specified, it will deploy a minio instance for you.
---skip-minio-lifecycle-mgr this will skip the installation of minio lifecycle manager.
---skip-dependencies        this will skip downloading dependencies for the charts from external repositories
---download-only            this will only download the dependencies without installing MLA stack
+--mla-force-secrets                (UserCluster MLA) force reinstallation of mla-secrets Helm chart
+--mla-include-iap                  (UserCluster MLA) Include Identity-Aware Proxy installation
+--mla-skip-minio                   (UserCluster MLA) skip installation of UserCluster MLA Minio
+--mla-skip-minio-lifecycle-mgr     (UserCluster MLA) skip installation of userCluster MLA Minio Bucket Lifecycle Manager
 ```
 
-This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, the steps in the helper script can be manually reproduced with tweaked Helm values. See the “Setup Customization” section for more information.
+This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, The helm values for the MLA stack can be adjusted and the installer can be re-run to redeploy and reconfigure the components.
 
-Also, this will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatiable srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatiable Services](#setting-up-mla-with-existing-minio-or-other-s3-compatiable-services).
+This default installation will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatiable srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatiable Services](#setting-up-mla-with-existing-minio-or-other-s3-compatiable-services).
 
 #### Setup Seed Cluster Components for High Availability
 
@@ -105,7 +86,7 @@ As a matter of rule, to integrate well with KKP UI, Grafana and Alertmanager sho
 
 The prefixes chosen for Grafana and Alertmanager then need to be configured in the KKP [Admin Panel Configuration](#admin-panel-configuration) to enable KKP UI integration.
 
-Let's start with preparing the values.yaml for the IAP Helm Chart. A starting point can be found in the `config/iap/values.example.yaml` file of the MLA repository:
+Let's start with preparing the values.yaml for the IAP Helm Chart. A starting point can be found in the `example/values.example.mla.yaml` file of the installer package:
 
 - Modify the base domain under which your KKP installation is available (`kkp.example.com` in `iap.oidc_issuer_url`).
 - Modify the base domain, seed name and Grafana prefix as described above (`grafana.seed-cluster-x.kkp.example.com` in `iap.deployments.grafana.ingress.host`).
@@ -133,10 +114,10 @@ dex:
     secret: YOUR_CLIENT_SECRET
 ```
 
-At this point, we can install the IAP Helm chart into the mla namespace, e.g. as follows:
+At this point, we can install the IAP Helm chart into the mla namespace as follows:
 
 ```bash
-helm --namespace mla upgrade --atomic --create-namespace --install iap charts/iap --values config/iap/values.yaml
+kubermatic-installer deploy usercluster-mla --config <kubermatic.yaml> --helm-values <mlavalues.yaml> --mla-include-iap
 ```
 
 For more information about how to secure your services in KKP using IAP and Dex, please check [Securing System Services Documentation]({{< ref "../../../../architecture/concept/kkp-concepts/kkp-security/securing-system-services/">}}).
