@@ -4939,6 +4939,7 @@ _Appears in:_
 | `eks` _[EKS](#eks)_ |  |
 | `aks` _[AKS](#aks)_ |  |
 | `requiredEmails` _string array_ | RequiredEmails is a list of e-mail addresses that this presets should be restricted to. Each item in the list can be either a full e-mail address or just a domain name. This restriction is only enforced in the KKP API. |
+| `projects` _string array_ | Projects is a list of project IDs that this preset is limited to. |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 
 
