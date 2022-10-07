@@ -1593,6 +1593,7 @@ _Appears in:_
 | `clusterNetwork` _[ClusterNetworkingConfig](#clusternetworkingconfig)_ |  |
 | `machineNetworks` _[MachineNetworkingConfig](#machinenetworkingconfig) array_ |  |
 | `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | ExposeStrategy is the strategy used to expose a cluster control plane. |
+| `apiServerAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: APIServerAllowedIPRanges is a list of IP ranges allowed to access the API server. Applicable only if the expose strategy of the cluster is LoadBalancer. If not configured, access to the API server is unrestricted. |
 | `componentsOverride` _[ComponentSettings](#componentsettings)_ | Optional: Component specific overrides that allow customization of control plane components. |
 | `oidc` _[OIDCSettings](#oidcsettings)_ |  |
 | `features` _object (keys:string, values:boolean)_ | A map of optional or early-stage features that can be enabled for the user cluster. Some feature gates cannot be disabled after being enabled. The available feature gates vary based on KKP version, Kubernetes version and Seed configuration. Please consult the KKP documentation for specific feature gates. |
@@ -4453,6 +4454,7 @@ _Appears in:_
 - [AWSCloudSpec](#awscloudspec)
 - [AzureCloudSpec](#azurecloudspec)
 - [ClusterNetworkingConfig](#clusternetworkingconfig)
+- [ClusterSpec](#clusterspec)
 - [GCPCloudSpec](#gcpcloudspec)
 - [OpenstackCloudSpec](#openstackcloudspec)
 
