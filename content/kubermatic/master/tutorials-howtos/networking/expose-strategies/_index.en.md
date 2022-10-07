@@ -40,7 +40,7 @@ This expose strategy is still in alpha stage and to use it,
 it first needs to be enabled [via a feature gate](#enabling-the-tunneling-expose-strategy-alpha).
 
 ## Configuring the Expose Strategy
-The expose startegy can be configured at 3 levels:
+The expose strategy can be configured at 3 levels:
 
  - globally,
  - on Seed level,
@@ -147,4 +147,46 @@ The current limitations of this strategy are:
   is currently hardcoded to `192.168.30.10`.
 
 ## Migrating the Expose Strategy for Existing Clusters
-TODO
+The expose strategy of a user cluster normally cannot be changed after the cluster creation.
+However, for experienced KKP administrators, it is still possible to migrate a user cluster from one expose strategy to another using some manual steps.
+
+{{% notice warning %}}
+
+This procedure will cause temporary outage in the user cluster, so it should be performed during a maintenance window. It is also recommended trying this procedure first on a testing cluster with the same setup (same Seed, same cloud provider, same worker node OS images, etc.) before performing it on a production cluster.
+
+{{% /notice %}}
+
+#### Step 1:
+In order to allow the expose strategy migration, the cluster first needs to be labeled with the `unsafe-expose-strategy-migration` label (e.g. `unsafe-expose-strategy-migration: "true"`).
+
+{{% notice warning %}}
+
+By putting this label on your cluster you acknowledge that this type of upgrade is not supported by Kubermatic and you are fully responsible for the consequences it may have.
+
+{{% /notice %}}
+
+#### Step 2:
+At this point, you are able to change the expose strategy of the cluster in the Cluster API.
+Change the Cluster `spec.exposeStrategy` to the desired version:
+
+- either using KKP API endpoint `/api/v2/projects/{project_id}/clusters/{cluster_id}`,
+
+- or by editing the cluster CR in the Seed Cluster (`kubectl edit cluster <cluster-name>`).
+
+Now wait until control-plane components in the seed cluster redeploy.
+
+#### Step 3:
+At this point, all existing kubeconfig files used to access the cluster are invalid and not working anymore.
+To access the cluster, download a new kubeconfig file.
+
+#### Step 4:
+Perform a rolling restart of all machine deployments in the user cluster. All nodes need to be rotated so that
+kubelet running on the nodes starts using the new API server endpoint, and all workloads in the cluster do the
+same as well. This can be done from KKP UI, or using kubectl, e.g.:
+
+```bash
+forceRestartAnnotations="{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"forceRestart\":\"$(date +%s)\"}}}}}"
+for md in $(kubectl get machinedeployments -n kube-system --no-headers | awk '{print $1}'); do
+  kubectl patch machinedeployment -n kube-system $md --type=merge -p $forceRestartAnnotations
+done
+```

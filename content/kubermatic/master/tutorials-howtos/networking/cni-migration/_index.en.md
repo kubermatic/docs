@@ -26,7 +26,7 @@ In order to allow CNI migration, the cluster first needs to be labeled with the 
 
 {{% notice warning %}}
 
-By putting this label on your cluster you acknowledge that this type of upgrade is not supported by Kubermatic and the you are fully responsible for the consequences it may have. The process can be quite complex and you should be well aware of the target CNI prerequisites and upgrade path steps.
+By putting this label on your cluster you acknowledge that this type of upgrade is not supported by Kubermatic and you are fully responsible for the consequences it may have. The process can be quite complex and you should be well aware of the target CNI prerequisites and upgrade path steps.
 
 {{% /notice %}}
 
