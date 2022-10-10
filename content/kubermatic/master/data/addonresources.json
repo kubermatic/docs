@@ -120,17 +120,6 @@
       ]
     },
     {
-      "addonName": "metrics-server",
-      "resources": [
-        {
-          "kind": "Deployment",
-          "resourceName": "metrics-server",
-          "filename": "metrics-server-deployment.yaml",
-          "containers": []
-        }
-      ]
-    },
-    {
       "addonName": "multus",
       "resources": [
         {
