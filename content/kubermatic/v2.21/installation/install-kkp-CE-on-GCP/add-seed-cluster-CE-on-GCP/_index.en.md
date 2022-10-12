@@ -185,7 +185,7 @@ spec:
   #      gcp:
   #        region: "europe-west3"
   #        regional: true
-  #        zone_suffixes: [a,b,c]
+  #        zoneSuffixes: [a,b,c]
   datacenters: {}
 
   # reference to the kubeconfig to use when connecting to this seed cluster
