@@ -160,7 +160,7 @@ otherwise, your changes can get overwritten the next time you run KubeOne.
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [cluster-api]: {{< ref "../../architecture/concepts#cluster-api" >}}
 [machine-deployments]: {{< ref "../../architecture/concepts#machinedeployments" >}}
-[supported-providers]: {{< ref "../../architecture/compatibility#supported-providers" >}}
+[supported-providers]: {{< ref "../../architecture/supported-providers/" >}}
 [static-workers]: {{< ref "../static-workers" >}}
 [terraform-integration]: {{< ref "../../architecture/requirements/infrastructure-management/#terraform-integration" >}}
 [terraform-integration-workers]: {{< ref "../../references/terraform-integration/#kubeone_workers-reference" >}}

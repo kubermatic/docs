@@ -53,9 +53,9 @@ supported providers, you can provision machines manually using KubeOne's
 
 [kubeadm]: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/
 [concepts]: {{< ref "./concepts" >}}
-[supported-providers]: {{< ref "./compatibility" >}}
+[supported-providers]: {{< ref "./supported-providers" >}}
 [terraform-integration]: {{< ref "./" >}}
 [terraform-configs]: {{< ref "./" >}}
 [machine-controller]: <https://github.com/kubermatic/machine-controller>
 [operating-system-manager]: <https://github.com/kubermatic/operating-system-manager>
-[static-workers]: {{< ref "./" >}}
+[static-workers]: {{< ref "../guides/static-workers" >}}

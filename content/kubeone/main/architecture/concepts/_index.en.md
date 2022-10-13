@@ -160,7 +160,7 @@ Deployments. They are used to provide declarative updates for
 MachineSets/Machines and allow advanced use cases such as rolling updates.
 
 [machine-controller]: https://github.com/kubermatic/machine-controller
-[supported-providers]: {{< ref "../compatibility" >}}
+[supported-providers]: {{< ref "../supported-providers" >}}
 [infrastructure-management]: {{< ref "../requirements/infrastructure-management" >}}
 [terraform-scripts]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
 [aws-output-tf]: https://github.com/kubermatic/kubeone/blob/main/examples/terraform/aws/output.tf

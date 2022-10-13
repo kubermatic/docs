@@ -161,9 +161,9 @@ The needed `output.tf` file already comes with all our
 
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
 [ssh]: {{< ref "../../../guides/ssh#sshd-requirements-on-instances" >}}
-[supported-providers]: {{< ref "../../compatibility#supported-providers" >}}
-[supported-os]: {{< ref "../../compatibility#supported-operating-systems" >}}
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/release/v1.3/examples/terraform
+[supported-providers]: {{< ref "../../supported-providers/" >}}
+[supported-os]: {{< ref "../../compatibility/os-support-matrix/" >}}
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [static-workers]: {{< ref "../../../guides/static-workers" >}}
 [concepts]: {{< ref "../../concepts#kubermatic-machine-controller" >}}

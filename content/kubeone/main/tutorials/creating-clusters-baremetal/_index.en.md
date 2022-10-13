@@ -38,7 +38,7 @@ the box. Generally, KubeOne runs the following tasks:
 * create worker nodes by creating the appropriate MachineDeployment object(s)
 
 {{% notice note %}}
-Kubermatic machine-controller works only on [natively-supported providers]({{< ref "../../architecture/compatibility#supported-providers" >}}), so we can't use it for bare metal setups. Instead, we'll create worker nodes manually and use the KubeOne Static Worker Nodes feature to provision those worker nodes.
+Kubermatic machine-controller works only on [natively-supported providers]({{< ref "../../architecture/supported-providers/" >}}), so we can't use it for bare metal setups. Instead, we'll create worker nodes manually and use the KubeOne Static Worker Nodes feature to provision those worker nodes.
 {{% /notice %}}
 
 ### Infrastructure Management
@@ -389,7 +389,7 @@ and recommendations.
 * Learn more about Kubermatic machine-controller and how we use it to create
   worker nodes in [the following guide][machine-controller]
 
-[compatibility-providers]: {{< ref "../../architecture/compatibility#supported-providers" >}}
+[compatibility-providers]: {{< ref "../../architecture/supported-providers/" >}}
 [static-workers]: {{< ref "../../guides/static-workers" >}}
 [creating-clusters]: {{< ref "../creating-clusters" >}}
 [infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure-management" >}}
@@ -405,6 +405,6 @@ and recommendations.
 [create-cluster-oidc]: {{< ref "../creating-clusters-oidc" >}}
 [configuring-ssh]: {{< ref "../../guides/ssh" >}}
 [ha-load-balancing]: {{< ref "../../examples/ha-load-balancing" >}}
-[supported-os]: {{< ref "../../architecture/compatibility#supported-operating-systems" >}}
+[supported-os]: {{< ref "../../architecture/compatibility/os-support-matrix/" >}}
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
 [maintenance mode]: https://kubernetes.io/releases/patch-releases/#support-period

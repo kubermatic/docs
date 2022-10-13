@@ -1049,7 +1049,7 @@ and recommendations.
 * Learn more about Kubermatic machine-controller and how we use it to create
   worker nodes in [the following guide][machine-controller]
 
-[compatibility-providers]: {{< ref "../../architecture/compatibility#supported-providers" >}}
+[compatibility-providers]: {{< ref "../../architecture/supported-providers/" >}}
 [static-workers]: {{< ref "../../guides/static-workers" >}}
 [infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure-management" >}}
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server
