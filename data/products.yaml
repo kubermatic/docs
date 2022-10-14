@@ -37,8 +37,8 @@ kubeone:
   description: Automate operations of a single Kubernetes cluster on your chosen cloud, on-prem, or edge environment.
   weight: 1
   versions:
-    - release: master
-      name: master
+    - release: main
+      name: main
     - release: v1.5
       name: v1.5
     - release: v1.4

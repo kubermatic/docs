@@ -11,17 +11,17 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 /kubermatic/master/tutorials_howtos/oidc_provider_configuration/share-_clusters_via_delegated_oidc_authentication /kubermatic/master/tutorials-howtos/oidc-provider-configuration/share-clusters-via-delegated-oidc-authentication/ 301!
 /kubermatic/master/installation/start_kkp /kubermatic/master/installation/start-kkp/ 301!
 
-/kubeone/master/getting_kubeone /kubeone/master/getting-kubeone/ 301!
-/kubeone/master/architecture/requirements/machine_controller/azure /kubeone/master/architecture/requirements/machine-controller/azure/ 301!
-/kubeone/master/architecture/requirements/machine_controller/google_cloud/gcp /kubeone/master/architecture/requirements/machine-controller/google-cloud/gcp/ 301!
-/kubeone/master/architecture/requirements/machine_controller/vsphere/vsphere /kubeone/master/architecture/requirements/machine-controller/vsphere/vsphere/ 301!
-/kubeone/master/tutorials/creating_clusters /kubeone/master/tutorials/creating-clusters/ 301!
-/kubeone/master/cheat_sheets/rollout_machinedeployment /kubeone/master/cheat-sheets/rollout-machinedeployment/ 301!
+/kubeone/master/getting_kubeone /kubeone/main/getting-kubeone/ 301!
+/kubeone/master/architecture/requirements/machine_controller/azure /kubeone/main/architecture/requirements/machine-controller/azure/ 301!
+/kubeone/master/architecture/requirements/machine_controller/google_cloud/gcp /kubeone/main/architecture/requirements/machine-controller/google-cloud/gcp/ 301!
+/kubeone/master/architecture/requirements/machine_controller/vsphere/vsphere /kubeone/main/architecture/requirements/machine-controller/vsphere/vsphere/ 301!
+/kubeone/master/tutorials/creating_clusters /kubeone/main/tutorials/creating-clusters/ 301!
+/kubeone/master/cheat_sheets/rollout_machinedeployment /kubeone/main/cheat-sheets/rollout-machinedeployment/ 301!
 
 /kubeone/v1.5/references/kubeone_cluster_v1beta1 /kubeone/v1.5/references/kubeone-cluster-v1beta1/ 301!
 /kubeone/v1.5/references/kubeone_cluster_v1beta2 /kubeone/v1.5/references/kubeone-cluster-v1beta2/ 301!
-/kubeone/master/references/kubeone_cluster_v1beta1 /kubeone/master/references/kubeone-cluster-v1beta1/ 301!
-/kubeone/master/references/kubeone_cluster_v1beta2 /kubeone/master/references/kubeone-cluster-v1beta2/ 301!
+/kubeone/master/references/kubeone_cluster_v1beta1 /kubeone/main/references/kubeone-cluster-v1beta1/ 301!
+/kubeone/master/references/kubeone_cluster_v1beta2 /kubeone/main/references/kubeone-cluster-v1beta2/ 301!
 
 {{- /* # Generate the redirects to stable version of the products */ -}}
 {{- $products := .Site.Data.products -}}

@@ -15,7 +15,7 @@ in-tree and out-of-tree. According to the Kubernetes [design proposal](https://g
 the in-tree code is "code that lives in the core Kubernetes repository [k8s.io/kubernetes](https://github.com/kubernetes/kubernetes/)",
 while the out-of-tree code is "code that lives in an external repository outside of [k8s.io/kubernetes](https://github.com/kubernetes/kubernetes/)".
 
-The first cloud-specific interaction logic was completely in-tree, bringing in a not-negligible amount of problems, 
+The first cloud-specific interaction logic was completely in-tree, bringing in a not-negligible amount of problems,
 among which the dependency of the CCM release cycle from the Kubernetes core release cycle and the difficulty to add new providers
 to the Kubernetes core code. Then, the Kubernetes community moved toward the out-of-tree implementation by introducing
 a plugin mechanism that allows different cloud providers to integrate their platforms with Kubernetes.
@@ -29,7 +29,7 @@ needed a mechanism to allow users to migrate their clusters to the out-of-tree i
 ### Support and prerequisites
 
 The CCM/CSI migration is supported only for the following providers:
-* OpenStack: 
+* OpenStack:
   * [Required OpenStack services and cloudConfig properties for the external
     CCM][openstack-ccm-reqs]
   * [Required OpenStack services and cloudConfig properties for the CSI
@@ -87,8 +87,8 @@ manager.
 
 ### Finalize the CCM migration
 
-The last step to complete the CCM migration is the rolling restart of all the machineDeployments in the user cluster. 
-To do so via  cli, simply follow the guide in the machine-controller [documentation]({{< relref "../../../../kubeone/master/cheat-sheets/rollout-machinedeployment/" >}}).
+The last step to complete the CCM migration is the rolling restart of all the machineDeployments in the user cluster.
+To do so via  cli, simply follow the guide in the machine-controller [documentation]({{< relref "../../../../kubeone/main/cheat-sheets/rollout-machinedeployment/" >}}).
 
 Performing the rolling update of all the machineDeployments implies the deletion of all the machines (hence all the nodes) and
 their recreation. Since the MachineController has been patched to configure the external cloud provider for the new machines,

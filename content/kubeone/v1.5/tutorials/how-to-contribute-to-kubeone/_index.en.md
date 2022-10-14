@@ -16,8 +16,8 @@ There are few things to note when contributing to the Kubermatic KubeOne project
 
 
 
-*   KubeOne project is hosted on [GitHub](https://github.com/kubermatic/kubeone); thus, GitHub knowledge is one of the essential pre-requisites 
-*   The KubeOne documentation is written in markdown (.md) and located in the [docs repository](https://github.com/kubermatic/docs/tree/master/content/kubeone).
+*   KubeOne project is hosted on [GitHub](https://github.com/kubermatic/kubeone); thus, GitHub knowledge is one of the essential pre-requisites
+*   The KubeOne documentation is written in markdown (.md) and located in the [docs repository](https://github.com/kubermatic/docs/tree/main/content/kubeone).
 *   See [CONTRIBUTING.md](https://github.com/kubermatic/kubermatic/blob/master/CONTRIBUTING.md) for instructions on the developer certificate of origin that we require
 *   Familiarisation with Hugo for building static site locally is suggested for documentation contribution
 *   Kubernetes knowledge is recommended
@@ -40,20 +40,20 @@ The below outlines show an example of what a contributor's workflow looks like:
 
 
 *   Fork the repository on [GitHub](https://github.com/kubermatic/kubeone)
-*   Create a topic branch from where you want to base your work (usually master)
+*   Create a topic branch from where you want to base your work (usually main)
 *   Make commits of logical units
 *   Make sure your commit messages are in the proper format
 *   Push your changes to the topic branch in your fork repository
 *   Make sure the tests pass and add any new tests as appropriate
 *   Submit a pull request to the original repository
-*   Assign a reviewer if you wish and wait for the PR to be reviewed 
-*   If everything works fine, your PR will be merged into the project's master branch
+*   Assign a reviewer if you wish and wait for the PR to be reviewed
+*   If everything works fine, your PR will be merged into the project's main branch
 
-Congratulations! You have successfully contributed to the Kubermatic KubeOne project. 
+Congratulations! You have successfully contributed to the Kubermatic KubeOne project.
 
 ## Communication Channels
 
-If you encounter a problem, you can [file an issue](https://github.com/kubermatic/kubeone/issues) in the repository on GitHub or talk to us on [GitHub](https://github.com/kubermatic/kubeone/discussions), [#kubermatic slack channel](https://kubernetes.slack.com/messages/CNEV2UMT7), and also through our [forum link](https://forum.kubermatic.com/c/kubeone/7). You can register on [Kubernetes slack here](http://slack.k8s.io/). In case of complex issues, we can set up video meetings for resolution. 
+If you encounter a problem, you can [file an issue](https://github.com/kubermatic/kubeone/issues) in the repository on GitHub or talk to us on [GitHub](https://github.com/kubermatic/kubeone/discussions), [#kubermatic slack channel](https://kubernetes.slack.com/messages/CNEV2UMT7), and also through our [forum link](https://forum.kubermatic.com/c/kubeone/7). You can register on [Kubernetes slack here](http://slack.k8s.io/). In case of complex issues, we can set up video meetings for resolution.
 
 Thank you for your contributions!
 

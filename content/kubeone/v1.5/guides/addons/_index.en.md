@@ -93,7 +93,7 @@ supported and YAML manifest in that directory will be deployed, but
 
 Since KubeOne v1.3 release, there's a new kind of addons that are always carried
 with the binary itself -- embedded addons. This is done thanks to the new Go's
-[`embed`][embed-docs] package. 
+[`embed`][embed-docs] package.
 
 Some of those addons are directly and automatically used by the KubeOne itself
 (for example `machinecontroller`), but it's not the case for all of them. Some
@@ -239,11 +239,11 @@ the [`addons`][addons] directory.
 [sprig]: https://github.com/Masterminds/sprig
 [sprig-docs]: http://masterminds.github.io/sprig/
 [sprig-b64enc]: http://masterminds.github.io/sprig/encoding.html
-[addons]: https://github.com/kubermatic/kubeone/tree/master/addons
+[addons]: https://github.com/kubermatic/kubeone/tree/mai/addons
 [addons-api]: {{< ref "../../references/kubeone-cluster-v1beta2/#addons" >}}
 [embed-docs]: https://pkg.go.dev/embed
-[addons-list-url]: https://github.com/kubermatic/kubeone/tree/master/addons
-[backups_restic]: https://github.com/kubermatic/kubeone/tree/master/addons/backups-restic
-[cluster_autoscaler]: https://github.com/kubermatic/kubeone/tree/master/addons/cluster-autoscaler
-[default_storage_class]: https://github.com/kubermatic/kubeone/tree/master/addons/default-storage-class
-[unattended_upgrades]: https://github.com/kubermatic/kubeone/tree/master/addons/unattended-upgrades
+[addons-list-url]: https://github.com/kubermatic/kubeone/tree/mai/addons
+[backups_restic]: https://github.com/kubermatic/kubeone/tree/mai/addons/backups-restic
+[cluster_autoscaler]: https://github.com/kubermatic/kubeone/tree/mai/addons/cluster-autoscaler
+[default_storage_class]: https://github.com/kubermatic/kubeone/tree/mai/addons/default-storage-class
+[unattended_upgrades]: https://github.com/kubermatic/kubeone/tree/mai/addons/unattended-upgrades

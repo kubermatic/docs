@@ -2,7 +2,7 @@
 
 ## hack/prepare-release.sh
 
-* Copies content and assets from `master` to the desired version subfolder
+* Copies content and assets from `master` (or `main`) to the desired version subfolder
 * Updates all references to point to the versioned copies
 * Adds the new product version to `data/products.yaml` to make it selectable in the rendered page
 * For `kubermatic` only:

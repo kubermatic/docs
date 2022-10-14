@@ -12,5 +12,5 @@ The KubeOne Terraform integration requires Terraform **v1.0** or newer.
 For more details, you can check the `versions.tf` file that comes with the
 example Terraform configs ([example `versions.tf` file][aws-versions-tf]).
 
-[aws-versions-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/versions.tf
-[terraform-configs]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[aws-versions-tf]: https://github.com/kubermatic/kubeone/blob/main/examples/terraform/aws/versions.tf
+[terraform-configs]: https://github.com/kubermatic/kubeone/tree/mai/examples/terraform
