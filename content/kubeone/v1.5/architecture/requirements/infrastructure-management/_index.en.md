@@ -4,11 +4,11 @@ date = 2021-02-10T12:00:00+02:00
 weight = 2
 enableToc = true
 aliases = [
- "/kubeone/master/architecture/infrastructure_management/"
+ "/kubeone/main/architecture/infrastructure_management/"
 ]
 +++
 
-This document describes some possible approaches for managing the 
+This document describes some possible approaches for managing the
 infrastructure needed for a Kubernetes cluster.
 
 ## Infrastructure For Control Plane
@@ -156,7 +156,7 @@ check our [example Terraform configs][terraform-configs-github] and the
 The needed `output.tf` file already comes with all our
 [example Terraform configs][terraform-configs-github].
 
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/mai/examples/terraform
 {{% /notice %}}
 
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin

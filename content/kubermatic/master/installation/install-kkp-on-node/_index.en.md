@@ -14,7 +14,7 @@ This chapter will guide you through the KKP Master setup on a single master/work
 
 In this **Get Started with KKP** guide, we will be using AWS Cloud as our underlying infrastructure and KKP release v2.18.4.
 
-> For more information on the kubeone configurations for different environment, checkout the [Creating the kubernetes Cluster using Kubeone]({{< relref "../../../../kubeone/master/tutorials/creating-clusters/" >}}) documentation.
+> For more information on the kubeone configurations for different environment, checkout the [Creating the kubernetes Cluster using Kubeone]({{< relref "../../../../kubeone/main/tutorials/creating-clusters/" >}}) documentation.
 
 ## Prerequisites
 

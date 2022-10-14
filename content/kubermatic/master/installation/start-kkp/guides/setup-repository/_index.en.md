@@ -49,7 +49,7 @@ Credentials should be static and do not utilize any tools like `aws-iam-authenti
 {{% tab name="Azure" %}}
 Login to [Azure portal](https://portal.azure.com/) and create a role and service account (application).
 
-See [KubeOne documentation]({{< ref "../../../../../../kubeone/master/architecture/requirements/machine-controller/azure/" >}}) for more details.
+See [KubeOne documentation]({{< ref "../../../../../../kubeone/main/architecture/requirements/machine-controller/azure/" >}}) for more details.
 
 Values of tenantId, subscriptionId, clientId and clientSecret will be set in the variables / secrets for the pipeline.
 
@@ -81,18 +81,18 @@ gcloud iam service-accounts keys create --iam-account "${SERVICE_ACCOUNT_ID}" "$
 cat "${SERVICE_ACCOUNT_NAME}-sa-key.json"
 ```
 
-See [KubeOne documentation]({{< ref "../../../../../../kubeone/master/architecture/requirements/machine-controller/google-cloud/gcp/" >}}) for more details.
+See [KubeOne documentation]({{< ref "../../../../../../kubeone/main/architecture/requirements/machine-controller/google-cloud/gcp/" >}}) for more details.
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
 Terraform provider will need to set the environment variables to access the OpenStack API.
 
-See there related [KubeOne documentation]({{< ref "../../../../../../kubeone/master/guides/credentials/#environment-variables" >}}), select OpenStack tab.
+See there related [KubeOne documentation]({{< ref "../../../../../../kubeone/main/guides/credentials/#environment-variables" >}}), select OpenStack tab.
 {{% /tab %}}
 {{% tab name="vSphere" %}}
 Terraform provider will need to set the environment variables to access the vSphere instance.
 
-See there related [KubeOne documentation]({{< ref "../../../../../../kubeone/master/guides/credentials/#environment-variables" >}}), select vSphere tab and
-pay attention to the vSphere specific [permissions]({{< ref "../../../../../../kubeone/master/architecture/requirements/machine-controller/vsphere/vsphere/" >}}).
+See there related [KubeOne documentation]({{< ref "../../../../../../kubeone/main/guides/credentials/#environment-variables" >}}), select vSphere tab and
+pay attention to the vSphere specific [permissions]({{< ref "../../../../../../kubeone/main/architecture/requirements/machine-controller/vsphere/vsphere/" >}}).
 {{% /tab %}}
 {{% /tabs %}}
 

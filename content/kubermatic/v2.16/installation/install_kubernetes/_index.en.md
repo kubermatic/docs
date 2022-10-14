@@ -7,7 +7,7 @@ weight = 10
 
 To aid in setting up the seed and master clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/) which can be used to set up a highly-available Kubernetes cluster.
 
-Refer to the [KubeOne readme](https://github.com/kubermatic/kubeone/) and [documentation](https://docs.kubermatic.com/kubeone/master/) for details on
+Refer to the [KubeOne readme](https://github.com/kubermatic/kubeone/) and [documentation](https://docs.kubermatic.com/kubeone/main/) for details on
 how to use it.
 
 Please take note of the [recommended hardware and networking requirements](../../requirements/cluster_requirements/) before provisioning a cluster.
