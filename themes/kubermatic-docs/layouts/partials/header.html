@@ -47,7 +47,7 @@
     {{partialCached "main-header" .}}
     {{ partial "menu.html" . }}
         <section id="body">
-        {{if and $versions (in .RelPermalink "master")}}
+        {{if and $versions (len (intersect (split .RelPermalink "/") (slice "master" "main")))}}
           {{if gt (len $versions) 1}}
             {{with $.Site.GetPage (printf "/%s/%s" .Section (index $versions 1).release)}}
             <div class="noticebar">This version is under construction, please use <a href="{{.RelPermalink}}" class="noticebar-link">an official release</a> version</div>
