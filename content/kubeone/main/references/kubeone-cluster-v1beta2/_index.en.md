@@ -1,6 +1,6 @@
 +++
 title = "v1beta2 API Reference"
-date = 2022-10-05T12:04:49+02:00
+date = 2022-07-27T18:43:11+05:00
 weight = 11
 +++
 ## v1beta2
@@ -44,7 +44,6 @@ weight = 11
 * [LoggingConfig](#loggingconfig)
 * [MachineControllerConfig](#machinecontrollerconfig)
 * [MetricsServer](#metricsserver)
-* [NodeLocalDNS](#nodelocaldns)
 * [NoneSpec](#nonespec)
 * [NutanixSpec](#nutanixspec)
 * [OpenIDConnect](#openidconnect)
@@ -290,7 +289,6 @@ ControlPlaneConfig defines control plane nodes
 | ----- | ----------- | ------ | -------- |
 | replicas |  | *int32 | false |
 | deployPodDisruptionBudget |  | *bool | false |
-| imageRepository | ImageRepository allows users to specify the image registry to be used for CoreDNS. Kubeadm automatically appends `/coredns` at the end, so it's not necessary to specify it. By default it's empty, which means it'll be defaulted based on kubeadm defaults and if overwriteRegistry feature is used. ImageRepository has the highest priority, meaning that it'll override overwriteRegistry if specified. | string | false |
 
 [Back to Group](#v1beta2)
 
@@ -379,7 +377,6 @@ Features controls what features will be enabled on the cluster
 | metricsServer | MetricsServer | *[MetricsServer](#metricsserver) | false |
 | openidConnect | OpenIDConnect | *[OpenIDConnect](#openidconnect) | false |
 | encryptionProviders | Encryption Providers | *[EncryptionProviders](#encryptionproviders) | false |
-| nodeLocalDNS | NodeLocalDNS config | *[NodeLocalDNS](#nodelocaldns) | false |
 
 [Back to Group](#v1beta2)
 
@@ -413,12 +410,10 @@ HostConfig describes a single control plane node.
 | sshPort | SSHPort is port to connect ssh to. Default value is 22. | int | false |
 | sshUsername | SSHUsername is system login name. Default value is \"root\". | string | false |
 | sshPrivateKeyFile | SSHPrivateKeyFile is path to the file with PRIVATE AND CLEANTEXT ssh key. Default value is \"\". | string | false |
-| sshHostPublicKey | SSHHostPublicKey if not empty, will be used to verify remote host public key | []byte | false |
 | sshAgentSocket | SSHAgentSocket path (or reference to the environment) to the SSH agent unix domain socket. Default value is \"env:SSH_AUTH_SOCK\". | string | false |
 | bastion | Bastion is an IP or hostname of the bastion (or jump) host to connect to. Default value is \"\". | string | false |
 | bastionPort | BastionPort is SSH port to use when connecting to the bastion if it's configured in .Bastion. Default value is 22. | int | false |
 | bastionUser | BastionUser is system login name to use when connecting to bastion host. Default value is \"root\". | string | false |
-| bastionHostPublicKey | BastionHostPublicKey if not empty, will be used to verify bastion SSH public key | []byte | false |
 | hostname | Hostname is the hostname(1) of the host. Default value is populated at the runtime via running `hostname -f` command over ssh. | string | false |
 | isLeader | IsLeader indicates this host as a session leader. Default value is populated at the runtime. | bool | false |
 | taints | Taints are taints applied to nodes. Those taints are only applied when the node is being provisioned. If not provided (i.e. nil) for control plane nodes, it defaults to:\n  * For Kubernetes 1.23 and older: TaintEffectNoSchedule with key node-role.kubernetes.io/master\n  * For Kubernetes 1.24 and newer: TaintEffectNoSchedule with keys\n    node-role.kubernetes.io/control-plane and node-role.kubernetes.io/master\nExplicitly empty (i.e. []corev1.Taint{}) means no taints will be applied (this is default for worker nodes). | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#taint-v1-core) | false |
@@ -543,16 +538,6 @@ MetricsServer feature flag
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | enable | Enable deployment of metrics-server. Default value is true. | bool | false |
-
-[Back to Group](#v1beta2)
-
-### NodeLocalDNS
-
-
-
-| Field | Description | Scheme | Required |
-| ----- | ----------- | ------ | -------- |
-| deploy | Deploy is enabled by default | bool | false |
 
 [Back to Group](#v1beta2)
 
