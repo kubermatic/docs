@@ -1,4 +1,4 @@
-# Please note: the "master" branch should be placed as first element for every product in the "versions" list.
+# Please note: the "main" branch should be placed as first element for every product in the "versions" list.
 # The "weight" field is used for order the products on homepage
 kubermatic:
   name: Kubermatic
@@ -8,8 +8,8 @@ kubermatic:
   textName: KKP #used for displaying different title in product dropdown
   weight: 2
   versions:
-    - release: master
-      name: master
+    - release: main
+      name: main
     - release: v2.21
       name: v2.21
     - release: v2.20

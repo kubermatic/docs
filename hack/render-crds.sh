@@ -18,4 +18,4 @@ ${GOPATH}/bin/crd-ref-docs \
   --renderer markdown \
   --templates-dir=hack/crd-templates \
   --config hack/crd-ref-docs.yaml \
-  --output-path content/kubermatic/master/references/crds/_index.en.md
+  --output-path content/kubermatic/main/references/crds/_index.en.md
