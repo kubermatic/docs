@@ -248,5 +248,5 @@ spec:
 **The following is an example of ApplicationDefinition, showing all the possible options**.
 
 ```yaml
-{{< readfile "kubermatic/master/data/applicationDefinition.yaml" >}}
+{{< readfile "kubermatic/main/data/applicationDefinition.yaml" >}}
 ```

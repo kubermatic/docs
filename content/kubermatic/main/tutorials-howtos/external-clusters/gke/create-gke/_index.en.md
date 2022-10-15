@@ -6,25 +6,25 @@ weight = 7
 
 +++
 
-## Create GKE Cluster 
+## Create GKE Cluster
 
 Create a cluster following these steps:
 
 - Click on `Create External Cluster` button:
 
-![Create External Cluster](/img/kubermatic/master/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
+![Create External Cluster](/img/kubermatic/main/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
 
 - Choose "Google Kubernetes Engine" from the supported providers:
 
-![Select Provider](/img/kubermatic/master/tutorials/external_clusters/gke_select_provider.png "Select Provider")
+![Select Provider](/img/kubermatic/main/tutorials/external_clusters/gke_select_provider.png "Select Provider")
 
 - Provide the credentials:
 
-![Select Preset](/img/kubermatic/master/tutorials/external_clusters/select_gke_preset.png "Select Preset")
+![Select Preset](/img/kubermatic/main/tutorials/external_clusters/select_gke_preset.png "Select Preset")
 
 - Configure the cluster:
 
-![Configure Cluster](/img/kubermatic/master/tutorials/external_clusters/gke_settings.png "Configure Cluster")
+![Configure Cluster](/img/kubermatic/main/tutorials/external_clusters/gke_settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
 
@@ -45,15 +45,15 @@ Create a cluster following these steps:
 
 ### Create Node Pool:
 
-![Add Node Pool](/img/kubermatic/master/tutorials/external_clusters/add_md.png "Add Node Pool")
+![Add Node Pool](/img/kubermatic/main/tutorials/external_clusters/add_md.png "Add Node Pool")
 
 - Name: Enter a unique name for this machine deployment.
 - Kubernetes Version: Control Plane Version of Cluster is prefilled.
-- Machine Type: Choose the machine family, type, and series that will best fit the resource needs of your cluster. You won't be able to change the machine type for this cluster once it's created. 
+- Machine Type: Choose the machine family, type, and series that will best fit the resource needs of your cluster. You won't be able to change the machine type for this cluster once it's created.
 - Disk Type, Disk Size
 - AutoScaling: Autoscaling is recommended for standard configuration.
     Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
 
-![Create Node Pool](/img/kubermatic/master/tutorials/external_clusters/gke_md.png "Create Node Pool")
+![Create Node Pool](/img/kubermatic/main/tutorials/external_clusters/gke_md.png "Create Node Pool")
 
 

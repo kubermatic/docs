@@ -56,7 +56,7 @@ kubectl get storageclasses
 It's recommended that Minio uses a separate storage class with a different location/security level, but you can also use the default one if you desire.
 
 As Minio does not require any of the SSD's advantages, we can use HDD-backed storage. It's recommended that Minio uses
-a separate storage class with a different location/security level. For a cluster running on vSphere, an example class 
+a separate storage class with a different location/security level. For a cluster running on vSphere, an example class
 could look as follows:
 
 ```yaml
@@ -73,7 +73,7 @@ provisioner: csi.vsphere.vmware.com
 
 To configure the storage class to use and the size of backing storage, edit `minio` section in your `values.yaml` file.
 For more information about the Minio options, take a look at
-[minio chart `values.yaml`](https://github.com/kubermatic/kubermatic/blob/master/charts/minio/values.yaml) and the
+[minio chart `values.yaml`](https://github.com/kubermatic/kubermatic/blob/main/charts/minio/values.yaml) and the
 [min.io documentation - S3 gateway](https://docs.min.io/docs/minio-gateway-for-s3.html).
 
 ```yaml

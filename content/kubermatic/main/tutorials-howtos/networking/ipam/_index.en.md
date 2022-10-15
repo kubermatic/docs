@@ -173,4 +173,4 @@ custom resource (from the `metallb.io/v1beta1` API) will have the following name
 
 Both address pools (single-stack and dual-stack) can co-exist in the same cluster.
 
-For the reference, the Addon manifests can be found in the [addons/metallb/](https://github.com/kubermatic/kubermatic/blob/master/addons/metallb/) folder of the KKP source code.
+For the reference, the Addon manifests can be found in the [addons/metallb/](https://github.com/kubermatic/kubermatic/blob/main/addons/metallb/) folder of the KKP source code.

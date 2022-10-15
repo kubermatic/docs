@@ -7,11 +7,11 @@ weight = 18
 
 Telemetry is an observability tool that can be used to track Kubermatic Kubernetes Platform and Kubernetes cluster usage. It collects anonymous data and helps us to improve KKP performance for large and scalable setups. The following guide explains how to enable and disable the Telemetry tool in your KKP installation, and what kind of data it collects.
 
-Telemetry helm chart can be found in the [Kubermatic repository](https://github.com/kubermatic/kubermatic/tree/master/charts/telemetry), and since Telemetry is an open source tool, the code can be found in [Telemetry-Client repository](https://github.com/kubermatic/telemetry-client).
+Telemetry helm chart can be found in the [Kubermatic repository](https://github.com/kubermatic/kubermatic/tree/main/charts/telemetry), and since Telemetry is an open source tool, the code can be found in [Telemetry-Client repository](https://github.com/kubermatic/telemetry-client).
 
 ## Installation
 ### Kubermatic installer
-Telemetry will be enabled by default if you use the Kubermatic installer to deploy KKP. For more information about how to use the Kubermatic installer to deploy KKP, please refer to the [installation guide]({{< relref "../../installation/" >}}).  
+Telemetry will be enabled by default if you use the Kubermatic installer to deploy KKP. For more information about how to use the Kubermatic installer to deploy KKP, please refer to the [installation guide]({{< relref "../../installation/" >}}).
 Kubermatic installer will use a `values.yaml` file to configure all Helm charts, including Telemetry. The following is an example of the configuration of the Telemetry tool:
 
 ```yaml
@@ -20,8 +20,8 @@ telemetry:
   schedule: "0 0 * * *”
 ```
 
-Telemetry uses anonymous UUIDs to identify user data, so it requires a UUID. 
-Optional: You can use tools like `uuidgen` to generate the UUID. 
+Telemetry uses anonymous UUIDs to identify user data, so it requires a UUID.
+Optional: You can use tools like `uuidgen` to generate the UUID.
 
 If not provided by the user, the UUID will be generated and will we stored in a secret.
 
@@ -35,7 +35,7 @@ Then you can use the Kubermatic installer to install KKP by using the following 
 
 After this command finishes, a CronJob will be created in the `telemetry-system` namespace on the master cluster. The CronJob includes the following components:
 - Agents, including Kubermatic Agent and Kubernetes Agent. They will collect data based on the predefined report schema. Each agent will collect data as an initContainer and write data to local storage.
-- Reporter. It will aggregate data that was collected by Agents from local storage, and send it to the public Telemetry endpoint (https://telemetry.k8c.io) based on the `schedule` you defined in the `values.yaml` (or once per day by default). 
+- Reporter. It will aggregate data that was collected by Agents from local storage, and send it to the public Telemetry endpoint (https://telemetry.k8c.io) based on the `schedule` you defined in the `values.yaml` (or once per day by default).
 
 ### Helm Chart
 Telemetry can also be installed by using Helm chart, which is included in the release, prepare a `values.yaml` as we mentioned in the previous section, and install it on the master cluster by using the following command:

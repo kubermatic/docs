@@ -22,7 +22,7 @@ When listing compatible control plane versions it is checked that the upgrade is
 versions. If any of the available control plane versions are restricted by too low kubelet version then a warning will
 be shown in the UI and this version will not be listed in the upgrade dialog:
 
-![Upgrade Warning](/img/kubermatic/master/ui/upgrade_warning.png?height=350px&classes=shadow,border "Upgrade Warning")
+![Upgrade Warning](/img/kubermatic/main/ui/upgrade_warning.png?height=350px&classes=shadow,border "Upgrade Warning")
 
 ### Upgrading the kubelets
 

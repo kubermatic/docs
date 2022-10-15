@@ -17,7 +17,7 @@ This has been the norm in KKP till v1.21 and it works as expected. Although over
 ## Machine Controller Limitations
 
 - Machine Controller expects **ALL** the supported user-data plugins to exist and be ready. User might only be interested in a subset of the available operating systems. For example, user might only want to work with `ubuntu`.
-- The user-data plugins have templates defined [in-code](https://github.com/kubermatic/machine-controller/blob/master/pkg/userdata/ubuntu/provider.go#L133). Which is not ideal because code changes are required to update those templates.
+- The user-data plugins have templates defined [in-code](https://github.com/kubermatic/machine-controller/blob/main/pkg/userdata/ubuntu/provider.go#L133). Which is not ideal because code changes are required to update those templates.
 - Managing configs for multiple cloud providers, OS flavors and OS versions, adds a lot of complexity and redundancy in machine-controller.
 - Since the templates are defined in-code, there is no way for an end user to customize them to suit their use-cases.
 - Each cloud provider sets some sort of limits for the size of `user-data`, machine won't be created in case of non-compliance. For example, at the time of writing this, AWS has set a [hard limit of 16KB](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-add-user-data.html).
@@ -48,7 +48,7 @@ For each cluster there are at least two OSC objects:
 
 OSCs are processed by controllers to eventually generate **secrets inside each user cluster**. These secrets are then consumed by worker nodes.
 
-![Architecture](/img/kubermatic/master/tutorials/operating_system_manager/architecture.png?classes=shadow,border "Architecture")
+![Architecture](/img/kubermatic/main/tutorials/operating_system_manager/architecture.png?classes=shadow,border "Architecture")
 
 ### Air-gapped Environment
 

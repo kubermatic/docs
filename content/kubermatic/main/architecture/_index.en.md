@@ -7,7 +7,7 @@ weight = 5
 
 Kubermatic Kubernetes Platform (KKP) makes full use of Kubernetes cluster to organize and scale workloads, depending on your and your customer's needs. In a typical small-scale setup, pictured below, a single cluster contains KKP and the master components for every user cluster.
 
-![KKP Architecture Diagram](/img/kubermatic/master/architecture/combined-master-seed.png)
+![KKP Architecture Diagram](/img/kubermatic/main/architecture/combined-main-seed.png)
 
 ### Master Cluster
 
@@ -38,7 +38,7 @@ KKP has the concept of **Datacenters**, for example "AWS US-East", "DigitalOcean
 
 Instead of running the KKP master and seed components in a single cluster, it is advisable for large-scale deployments to have multiple, dedicated seed clusters, as pictured below.
 
-![KKP Architecture Diagram](/img/kubermatic/master/architecture/dedicated-seeds.png)
+![KKP Architecture Diagram](/img/kubermatic/main/architecture/dedicated-seeds.png)
 
 This setup is useful for keeping the latency between the master components of a user cluster and the worker nodes as small as possible, improving the Kubernetes performance for customers. In this setup, the supported datacenters are assigned to a single seed, for example
 

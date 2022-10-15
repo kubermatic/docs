@@ -12,7 +12,7 @@ Starting with KKP 2.21, OSM will be enabled by default for all the new user clus
 
 Create a new cluster from the dashboard and toggle **Operating System Manager** feature on.
 
-![Enable OSM during cluster creation](/img/kubermatic/master/tutorials/operating_system_manager/osm_dashboard.png?height=450px&classes=shadow,border "Enable OSM during cluster creation")
+![Enable OSM during cluster creation](/img/kubermatic/main/tutorials/operating_system_manager/osm_dashboard.png?height=450px&classes=shadow,border "Enable OSM during cluster creation")
 
 {{% notice note %}}
 OSM cannot be disabled after cluster creation.
@@ -20,7 +20,7 @@ OSM cannot be disabled after cluster creation.
 
 ### Selecting OperatingSystemProfile
 
-![Select OperatingSystemProfile](/img/kubermatic/master/tutorials/operating_system_manager/osm_select.png?height=450px&classes=shadow,border "Select OperatingSystemProfile")
+![Select OperatingSystemProfile](/img/kubermatic/main/tutorials/operating_system_manager/osm_select.png?height=450px&classes=shadow,border "Select OperatingSystemProfile")
 
 ## Via CLI
 

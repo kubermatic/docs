@@ -7,7 +7,7 @@ weight = 7
 
 ## Prepare Azure Environment
 
-For provisioning Kubernetes clusters with the [Azure cloud provider](https://github.com/kubermatic/machine-controller/tree/master/pkg/cloudprovider/provider/azure) Kubermatic Kubernetes Platform (KKP) needs a service account. Please follow the following steps steps to create a matching service account and the roles:
+For provisioning Kubernetes clusters with the [Azure cloud provider](https://github.com/kubermatic/machine-controller/tree/main/pkg/cloudprovider/provider/azure) Kubermatic Kubernetes Platform (KKP) needs a service account. Please follow the following steps steps to create a matching service account and the roles:
 
 ### Login to Azure and Get Basic Information
 
@@ -25,7 +25,7 @@ az account show --query id -o json
 
 Create a role that is used by the service account.
 
-``` 
+```
 az role definition create --role-definition '{
     "Name": "Kubermatic",
     "Description": "Manage VM and Networks as well to manage Resource Groups and Tags",
@@ -36,10 +36,10 @@ az role definition create --role-definition '{
     ],
     "DataActions": [],
     "NotDataActions": [],
-    "AssignableScopes": ["/subscriptions/<<YOUR_SUBSCRIPTION_ID>>"] 
+    "AssignableScopes": ["/subscriptions/<<YOUR_SUBSCRIPTION_ID>>"]
 }'
 
-``` 
+```
 
 Get your Tenant ID
 
@@ -74,6 +74,6 @@ Enter provider credentials using the values from step "Prepare Azure Environment
 
 ### Resources cleanup
 During the machines cleanup, if KKP's Machine-Controller failed to delete the Cloud Provider instance and the user deleted
-that instance manually, Machine-Controller won't be able to delete any referenced resources to that machine, such as Public 
+that instance manually, Machine-Controller won't be able to delete any referenced resources to that machine, such as Public
 IPs, Disks and NICs. In that case, the user should cleanup those resources manually due to the fact that, Azure won't cleanup
-any attached resources to the deleted instance.  
+any attached resources to the deleted instance.

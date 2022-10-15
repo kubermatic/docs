@@ -35,7 +35,7 @@ spec:
   pause: false
 ```
 
-By setting this flag to true, Kubermatic automatically deploys the needed Gatekeeper components to the control plane 
+By setting this flag to true, Kubermatic automatically deploys the needed Gatekeeper components to the control plane
 as well as the user cluster.
 
 ### Managing Constraint Templates
@@ -60,7 +60,7 @@ spec:
           properties:
             labels:
               type: array
-              items: 
+              items:
                 type: string
   targets:
     - target: admission.k8s.gatekeeper.sh
@@ -87,15 +87,15 @@ Constraints are managed similarly to Constraint Templates through Kubermatic CRD
 the difference being that Constraints are managed on the user cluster level. Furthermore, due to the way Gatekeeper works,
 Constraints need to be associated with a Constraint Template.
 
-![Cluster Details View](/img/kubermatic/master/ui/opa_cluster_view.png?height=500px&classes=shadow,border "Cluster Details View")
+![Cluster Details View](/img/kubermatic/main/ui/opa_cluster_view.png?height=500px&classes=shadow,border "Cluster Details View")
 
-![Constraints Cluster View](/img/kubermatic/master/ui/opa_constraints_cluster.png?classes=shadow,border "Constraints Cluster View")
+![Constraints Cluster View](/img/kubermatic/main/ui/opa_constraints_cluster.png?classes=shadow,border "Constraints Cluster View")
 
 To add a new constraint click on the `+ Add Constraint` icon on the right at the bottom of cluster view. A new dialog will appear, where you can specify the name, the constraint template, and the spec:
 Spec is the only field that needs to be filled with a yaml.
 
 
-![Add Constraints Dialog](/img/kubermatic/master/ui/opa_add_constraint.png?height=350px&classes=shadow,border "Add Constraints Dialog")
+![Add Constraints Dialog](/img/kubermatic/main/ui/opa_add_constraint.png?height=350px&classes=shadow,border "Add Constraints Dialog")
 
 `Note: You can now manage Default Constraints from the Admin Panel.`
 
@@ -183,18 +183,18 @@ selector:
 
 ### Managing Default Constraints
 
-Default Constraints are managed similarly to Constraint through Kubermatic CRD wrappers around the Gatekeeper Constraints, the difference being that Default Constraints are managed on the `Admin level` by Kubermatic platform admins. 
+Default Constraints are managed similarly to Constraint through Kubermatic CRD wrappers around the Gatekeeper Constraints, the difference being that Default Constraints are managed on the `Admin level` by Kubermatic platform admins.
 Also Default Constraints are created in `kubermatic` namespace in Master Cluster from where they are propagated to seed clusters `kubermatic` namespace and then to user clusters with OPA-integration.
 cluster namespaces
 
 In the Admin Panel navigate to the OPA menu and then to Default Constraints.
 
-![Default Constraints](/img/kubermatic/master/ui/default-constraint-admin.png?height=300px&classes=shadow,border "Default Constraints")
+![Default Constraints](/img/kubermatic/main/ui/default-constraint-admin.png?height=300px&classes=shadow,border "Default Constraints")
 
 To add a new default constraint click on the `+Add Default Constraint` icon on the right. A new dialog will appear, where you can specify the name, the constraint template and the spec:
 Spec is the only field that needs to be filled with a yaml.
 
-![Create Default Constraint](/img/kubermatic/master/ui/create-default-constraint-dialog.png?height=300px&classes=shadow,border "Create Default Constraint")
+![Create Default Constraint](/img/kubermatic/main/ui/create-default-constraint-dialog.png?height=300px&classes=shadow,border "Create Default Constraint")
 
 On Cluster Level, Default Constraints are the same as Constraints with a `default` label to differentiate them from other Constraints.
 
@@ -257,10 +257,10 @@ Note: Constraint will still be present in the user cluster namespace on the Seed
 To Enable Default Constraints again, you can just remove the `disabled` flag or set it to `false`.
 
 To disable Default Constraintsin the Admin View, click on the green button under `On/Off`
-![Disable Default Constraint](/img/kubermatic/master/ui/default-constraint-on.png?height=200px&classes=shadow,border "Disable Default Constraint")
+![Disable Default Constraint](/img/kubermatic/main/ui/default-constraint-on.png?height=200px&classes=shadow,border "Disable Default Constraint")
 
 Enable the constraint by clicking the same button
-![Enable Default Constraint](/img/kubermatic/master/ui/disabled-default-constraint.png?height=200px&classes=shadow,border "Enable Default Constraint")
+![Enable Default Constraint](/img/kubermatic/main/ui/disabled-default-constraint.png?height=200px&classes=shadow,border "Enable Default Constraint")
 
 ### Filtering Clusters on Default Constraints
 
@@ -298,16 +298,16 @@ Note: Cluster Admins will not be able to edit/delete Default Constraints
 
 ### AllowedRegistry
 
-AllowedRegistry allows admins to easily control what image registries can be used in user clusters. This is the first KKP 
+AllowedRegistry allows admins to easily control what image registries can be used in user clusters. This is the first KKP
 inbuilt Constraint and its goal is to make creating Constraint Templates and Default Constraints simpler.
 
 {{% notice info %}}
 This is an EE feature.
 {{% /notice %}}
 
-![Allowed Registries View](/img/kubermatic/master/ui/allowed_registries.png?classes=shadow,border "Allowed Registry View")
+![Allowed Registries View](/img/kubermatic/main/ui/allowed_registries.png?classes=shadow,border "Allowed Registry View")
 
-AllowedRegistry functions as its own CR, which when created, triggers the creation of the corresponding 
+AllowedRegistry functions as its own CR, which when created, triggers the creation of the corresponding
 [Constraint Template]({{< ref "#managing-constraint-templates" >}})(`allowedregistry`) and [Default Constraints]({{< ref "#default-constraints" >}})(`allowedregistry`).
 It accepts only 2 parameters, its name and the registry prefix of the registry which can be used on the user cluster.
 When there are multiple AllowedRegistries, we collect all registry prefixes and put them into a list in the allowedregistry Default Constraint.
@@ -389,11 +389,11 @@ spec:
     labelSelector: {}
 ```
 
-![Allowed Registry Default Constraint](/img/kubermatic/master/ui/allowed_registry_default_constraint.png?classes=shadow,border "Allowed Registry Default Constraint")
+![Allowed Registry Default Constraint](/img/kubermatic/main/ui/allowed_registry_default_constraint.png?classes=shadow,border "Allowed Registry Default Constraint")
 
 For the existing `allowedregistry` [Default Constraint]({{< ref "#default-constraints" >}}), feel free to edit the [Filtering]({{< ref "#filtering-clusters-on-default-constraints" >}}).
 
-When a user tries to create a Pod with an image coming from a registry that is not prefixed by one of the AllowedRegistries, 
+When a user tries to create a Pod with an image coming from a registry that is not prefixed by one of the AllowedRegistries,
 they will get a similar error:
 ```
 container <unwanted> has an invalid image registry <unwanted.registry/unwanted>, allowed image registries are ["quay.io"]
@@ -408,14 +408,14 @@ When there are no AllowedRegistries, we automatically disable the Default Constr
 
 ### Managing Config
 
-Gatekeeper [Config](https://github.com/open-policy-agent/gatekeeper#replicating-data) can also be managed through Kubermatic. 
+Gatekeeper [Config](https://github.com/open-policy-agent/gatekeeper#replicating-data) can also be managed through Kubermatic.
 As Gatekeeper treats it as a kind of singleton CRD resource, Kubermatic just manages this resource directly on the user cluster.
 
 You can manage the config in the user cluster view, per user cluster.
 
 ### Removing OPA Integration
 
-OPA integration on a user cluster can simply be removed by disabling the OPA Integration flag on the Cluster object. 
+OPA integration on a user cluster can simply be removed by disabling the OPA Integration flag on the Cluster object.
 Be advised that this action removes all Constraint Templates, Constraints, and Config related to the cluster.
 
 **Exempting Namespaces**

@@ -17,7 +17,7 @@ Resources pulled on machine controller nodes
 
 ### kubelet - Binary
 
-The machine controller is downloading a few components to install the kubelet, see [download_binaries_script.go](https://github.com/kubermatic/machine-controller/blob/master/pkg/userdata/helper/download_binaries_script.go):
+The machine controller is downloading a few components to install the kubelet, see [download_binaries_script.go](https://github.com/kubermatic/machine-controller/blob/main/pkg/userdata/helper/download_binaries_script.go):
 
 ```bash
 # Binaries for the Kubernetes kubelet Get Downloaded From:
@@ -81,21 +81,21 @@ quay.io/coreos/container-linux-update-operator
 ```
 
 ### OS Resources
-Additional to the kubelet dependencies, the [machine controller OS provider](https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata) installs some os specific packages over cloud-init:
+Additional to the kubelet dependencies, the [machine controller OS provider](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata) installs some os specific packages over cloud-init:
 
 #### CentOS 7/8
-Init script: [pkg/userdata/centos](https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata/centos)
+Init script: [pkg/userdata/centos](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/centos)
 
 - default yum repositories
 - docker yum repository: `download.docker.com/linux/centos`
 
 ### CoreOS / Flatcar Linux / SLES
-Init script: [pkg/userdata/coreos](https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata/coreos), [pkg/userdata/flatcar](https://github.com/kubermatic/machine-controller/blob/master/pkg/userdata/flatcar), [pkg/userdata/sles](https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata/sles)
+Init script: [pkg/userdata/coreos](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/coreos), [pkg/userdata/flatcar](https://github.com/kubermatic/machine-controller/blob/main/pkg/userdata/flatcar), [pkg/userdata/sles](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/sles)
 
 - no additional targets
 
 ### Ubuntu 18.04/20.04
-Init script: [pkg/userdata/ubuntu](https://github.com/kubermatic/machine-controller/tree/master/pkg/userdata/ubuntu)
+Init script: [pkg/userdata/ubuntu](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/ubuntu)
 
 - default apt repositories
 - docker apt repository: `download.docker.com/linux/ubuntu`
@@ -138,7 +138,7 @@ API Endpoint URL of all targeted vCenters specified in [seed cluster `spec.datac
 
 ## KubeOne Seed Cluster Setup
 
-If [KubeOne](https://github.com/kubermatic/kubeone) is used to setup the seed cluster, kubeone will use in addition to OS specific default repositories the following URIs (see [os.go](https://github.com/kubermatic/kubeone/blob/master/pkg/scripts/os.go)):
+If [KubeOne](https://github.com/kubermatic/kubeone) is used to setup the seed cluster, kubeone will use in addition to OS specific default repositories the following URIs (see [os.go](https://github.com/kubermatic/kubeone/blob/main/pkg/scripts/os.go)):
 
 ```bash
 # debian / ubuntu

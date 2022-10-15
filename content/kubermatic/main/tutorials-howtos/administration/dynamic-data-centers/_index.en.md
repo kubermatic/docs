@@ -186,7 +186,7 @@ Example specs for different providers:
     spec:
       alibaba:
         region: "eu1"
-    
+
   #==================================
   #============= Anexia ============
   #==================================
@@ -208,43 +208,43 @@ Datacenters are a part of the Seed resource and need to be managed by an Kuberma
 
 The EE offers 2 different ways to manage the datacenters. One way is using the dynamic datacenters feature through which
 admins can manage Datacenters on Seeds through API/UI. This is the preferred and recommended way. The other way is through the
-`datacenter.yaml` file which needs to be provided to the Kubermatic API server. 
+`datacenter.yaml` file which needs to be provided to the Kubermatic API server.
 
 ### Dynamic Datacenters
 
 The dynamic datacenters are activated by setting the `dynamic-datacenters` flag to `true` on the Kubermatic API server.
 
 Admins can manage the datacenters through the admin panel:
-![Dynamic Datacenters](/img/kubermatic/master/ui/dc.png?classes=shadow,border "Dynamic Datacenters View")
+![Dynamic Datacenters](/img/kubermatic/main/ui/dc.png?classes=shadow,border "Dynamic Datacenters View")
 
 To create a new Datacenter, press the `+` icon and fill out the form:
-![Add Datacenter](/img/kubermatic/master/ui/dc_add1.png?classes=shadow,border&height=600 "Dynamic Datacenters Add Dialog")
+![Add Datacenter](/img/kubermatic/main/ui/dc_add1.png?classes=shadow,border&height=600 "Dynamic Datacenters Add Dialog")
 
 and add the provider spec based on the Datacenter provider:
-![Add Datacenter Provider](/img/kubermatic/master/ui/dc_add2.png?classes=shadow,border&height=600 "Dynamic Datacenters Add Dialog")
+![Add Datacenter Provider](/img/kubermatic/main/ui/dc_add2.png?classes=shadow,border&height=600 "Dynamic Datacenters Add Dialog")
 
 The added datacenter can easily be found with the filtering functions:
-![Find Datacenter](/img/kubermatic/master/ui/dc_filter.png?classes=shadow,border "Filter Datacenters")
+![Find Datacenter](/img/kubermatic/main/ui/dc_filter.png?classes=shadow,border "Filter Datacenters")
 
 It is also possible to edit the existing Datacenter, everything can be changed except the seed:
-![Edit Datacenter](/img/kubermatic/master/ui/dc_edit1.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
+![Edit Datacenter](/img/kubermatic/main/ui/dc_edit1.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
 *NOTICE: editing does not affect existing user clusters that were created using this datacenter*
 
-![Edit Datacenter](/img/kubermatic/master/ui/dc_edit2.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
+![Edit Datacenter](/img/kubermatic/main/ui/dc_edit2.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
 
 When we are satisfied with our new datacenter, we can use it in the Cluster creation wizard:
-![Use Datacenter](/img/kubermatic/master/ui/wizard_step1.png?classes=shadow,border "Use Datacenter during Cluster Creation")
+![Use Datacenter](/img/kubermatic/main/ui/wizard_step1.png?classes=shadow,border "Use Datacenter during Cluster Creation")
 
 To delete the datacenter, just click on the trash icon in the admin panel:
-![Delete Datacenter](/img/kubermatic/master/ui/dc_delete.png?classes=shadow,border&height=200 "Dynamic Datacenters Delete Dialog")
+![Delete Datacenter](/img/kubermatic/main/ui/dc_delete.png?classes=shadow,border&height=200 "Dynamic Datacenters Delete Dialog")
 *NOTICE: deleting does not affect existing user clusters that were created using this datacenter*
 
 
 ### Management through static files - datacenter.yaml
 
-This option is activated by setting the `datacenters` flag on the Kubermatic API server and providing the path to the `datacenters.yaml` file. 
+This option is activated by setting the `datacenters` flag on the Kubermatic API server and providing the path to the `datacenters.yaml` file.
 
-In this option all the Seeds and datacenters used in KKP will be taken from this file, Seed objects in the cluster won't have any effect. 
+In this option all the Seeds and datacenters used in KKP will be taken from this file, Seed objects in the cluster won't have any effect.
 
 Example file:
 

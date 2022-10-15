@@ -11,14 +11,14 @@ Resource Quotas allow administrators to set quotas on the amount of resources a 
 subject which is supported is Project, so the resource quotas currently limit the amount of resources that can be used project-wide.
 
 The resources in question are the resources of the user cluster:
-- CPU - the cumulated CPU used by the nodes on all clusters. 
+- CPU - the cumulated CPU used by the nodes on all clusters.
 - Memory - the cumulated RAM used by the nodes on all clusters.
 - Storage - the cumulated disk size of the nodes on all clusters.
 
 This feature is available in the EE edition only.
 
 {{% notice note %}}
-**Note:** Do not confuse with the Resource Filter setting in the `Defaults And Limits` admin panel page. 
+**Note:** Do not confuse with the Resource Filter setting in the `Defaults And Limits` admin panel page.
 That one just controls the size of the machines suggested to users in the KKP Dashboard during the cluster creation.
 {{% /notice %}}
 
@@ -43,13 +43,13 @@ spec:
     name: tjqjkphnm6
 ```
 
-The quota fields use the [ResourceQuantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity) to 
+The quota fields use the [ResourceQuantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity) to
 represent the values. One note is that CPU is denoted in single integer numbers.
 
-![Manage Quotas](/img/kubermatic/master/architecture/concepts/resource-quotas/quota-menu.png?classes=shadow,border "Manage Quotas")
+![Manage Quotas](/img/kubermatic/main/architecture/concepts/resource-quotas/quota-menu.png?classes=shadow,border "Manage Quotas")
 
 To simplify matters the UI uses GB as representation for Memory and Storage. The conversion from any value
-set in the ResourceQuota is done automatically by the API. 
+set in the ResourceQuota is done automatically by the API.
 
 ### Calculating the quota usage
 
@@ -80,7 +80,7 @@ across all the user clusters that belong to a subject (for now only project).
 The master cluster has a controller which calculates the `globalUsage` by adding up all `localUsage` across the Seeds.
 
 The Machine(Node) resource usage is calculated depending on the provider in question, the table below shows
-some details from where the resources are taken. The goal was to have the calculated resource the same as the 
+some details from where the resources are taken. The goal was to have the calculated resource the same as the
 resulting K8s Node `.status.capacity`.
 
 | Provider              | CPU                                                                                    | Memory                                                                                  | Storage                                                |
@@ -96,8 +96,8 @@ resulting K8s Node `.status.capacity`.
 | Nutanix               | CPU * CPUCores (Machine spec)                                                          | MemoryMB (from Machine spec)                                                            | DiskSize (from Machine spec)                           |
 | Equinox               | Add up all CPUs (query to provider)                                                    | Memory.Total (query to provider)                                                        | Add up all Drives (query to provider)                  |
 | vSphere               | CPUs (set in Machine spec)                                                             | MemoryMB (from Machine spec)                                                            | DiskSizeGB (from Machine spec)                         |
-| Anexia                | CPUs (set in Machine spec)                                                             | Memory  (from Machine spec)                                                             | DiskSize  (from Machine spec)                          |       
-| VMWare Cloud Director | CPU * CPUCores (Machine spec)                                                          | MemoryMB (from Machine spec)                                                            | DiskSizeGB (from Machine spec)                         |       
+| Anexia                | CPUs (set in Machine spec)                                                             | Memory  (from Machine spec)                                                             | DiskSize  (from Machine spec)                          |
+| VMWare Cloud Director | CPU * CPUCores (Machine spec)                                                          | MemoryMB (from Machine spec)                                                            | DiskSizeGB (from Machine spec)                         |
 
 
 ### Enforcing the quotas
@@ -108,18 +108,18 @@ takes place after the MachineDeployment is created, and if quota is exceeded, th
 Users can observe the quotas being enforced (with a message stating why) on the User clusters Machine Deployment, in the form
 of Events.
 
-![Enforced Quota](/img/kubermatic/master/architecture/concepts/resource-quotas/enforced.png?classes=shadow,border "Enforced Quota")
+![Enforced Quota](/img/kubermatic/main/architecture/concepts/resource-quotas/enforced.png?classes=shadow,border "Enforced Quota")
 
 Furthermore, a project quota widget of the active project is visible in the dashboard, which shows what is the quota usage.
 
-![Quota Widget](/img/kubermatic/master/architecture/concepts/resource-quotas/widget.png?classes=shadow,border "Quota Widget")
+![Quota Widget](/img/kubermatic/main/architecture/concepts/resource-quotas/widget.png?classes=shadow,border "Quota Widget")
 
 ### Some additional information
 
 {{% notice note %}}
 **Note:** If multiple nodes are created in the same time there is a possibility of a race happening and the quota being exceeded.
-As an example, there is a quota which CPU is filled 3/5, a user creates a cluster with 2 nodes, both using 2 CPU. There is a possibility 
-of a race happening between calculating and adding the quota for the first machine and the second machine being created. So 
+As an example, there is a quota which CPU is filled 3/5, a user creates a cluster with 2 nodes, both using 2 CPU. There is a possibility
+of a race happening between calculating and adding the quota for the first machine and the second machine being created. So
 the end result could be that both nodes get created, and the quota ends up exceeded 7/5.
 This is planned to be fixed in the next KKP releases.
 {{% /notice %}}
@@ -128,7 +128,7 @@ If the quota is exceeded, be it due to the quota being set on a project with act
 will just block new Machines from being provisioned, it won't clean up/remove cluster resources to get below the quota. This
 is something that should be agreed upon between the KKP admin and users.
 
-The storage quota just affects the local node storage. It doesn't monitor various provider PV that users can provision. 
+The storage quota just affects the local node storage. It doesn't monitor various provider PV that users can provision.
 
 The quotas don't support external clusters.
 

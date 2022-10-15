@@ -16,9 +16,9 @@ $ kubectl edit user ...
 After logging in to the dashboard as an administrator, you should be able to access the admin panel from the menu up
 top.
 
-![](/img/kubermatic/master/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
+![](/img/kubermatic/main/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
 
-![](/img/kubermatic/master/ui/panel.png?height=350px&classes=shadow,border "Admin Panel")
+![](/img/kubermatic/main/ui/panel.png?height=350px&classes=shadow,border "Admin Panel")
 
 Global settings can also be modified from the command line with kubectl. It can be done by editing the `globalsettings` in `KubermaticSetting` CRD. This resource has the following structure:
 
@@ -100,4 +100,4 @@ the per-provider level.
 Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for Constraint parameters and enforce their behavior.
 
 ### [Backup Buckets]({{< ref "./backup-buckets" >}})
-Through the Backup Buckets settings you can enable and configure the new etcd backups per Seed. 
+Through the Backup Buckets settings you can enable and configure the new etcd backups per Seed.

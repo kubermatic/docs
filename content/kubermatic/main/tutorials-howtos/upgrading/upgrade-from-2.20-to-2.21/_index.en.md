@@ -9,13 +9,13 @@ weight = 120
 Upgrading to KKP 2.21 is only supported from version 2.20. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from [2.19 to 2.20]({{< ref "../upgrade-from-2.19-to-2.20/" >}}) and then to 2.21). It is also strongly advised to be on the latest 2.20.x patch release before upgrading to 2.21.
 {{% /notice %}}
 
-This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.21. For the full list of changes in this release, please check out the [KKP changelog for v2.21](https://github.com/kubermatic/kubermatic/blob/master/docs/changelogs/CHANGELOG-2.21.md). Please read the full document before proceeding with the upgrade.
+This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.21. For the full list of changes in this release, please check out the [KKP changelog for v2.21](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.21.md). Please read the full document before proceeding with the upgrade.
 
 ## Pre-Upgrade Considerations
 
 - Support for Kubernetes 1.20 and Kubernetes 1.21 has been removed in KKP. User clusters on Kubernetes 1.20 need to be upgraded prior to a KKP upgrade. It is recommended to update existing user clusters to 1.22 before proceeding with the upgrade, but user clusters with 1.21 will also be automatically updated to 1.22 as part of the upgrade.
 - The expected secret name for S3 credentials has been updated to `kubermatic-s3-credentials`. If the `s3-credentials` secret was manually created instead of using the `minio` Helm chart, the existing `s3-credentials` secret should be duplicated to `kubermatic-s3-credentials`.
-- Check the full list of [breaking changes](https://github.com/kubermatic/kubermatic/blob/master/docs/changelogs/CHANGELOG-2.21.md#breaking-changes), specifically for changes to Helm chart values shipped as part of KKP. Adjust your local `values.yaml` and any CRDs manually deployed for the required changes (do not apply them yet, the Helm charts will be updated during the upgrade procedure).
+- Check the full list of [breaking changes](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.21.md#breaking-changes), specifically for changes to Helm chart values shipped as part of KKP. Adjust your local `values.yaml` and any CRDs manually deployed for the required changes (do not apply them yet, the Helm charts will be updated during the upgrade procedure).
 
 ## Upgrade Procedure
 
@@ -121,4 +121,4 @@ After finishing the upgrade, check out some of the new features that were added 
 - [Resource Quotas]({{< ref "../../../architecture/concept/kkp-concepts/resource-quotas/" >}}) (available in Enterprise Edition)
 - [KKP role assignments for OIDC groups]({{< ref "../../../architecture/role-based-access-control/groups-support/" >}}) (available in Enterprise Edition)
 
-Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/master/docs/changelogs/CHANGELOG-2.21.md) for a full list of changes.
+Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.21.md) for a full list of changes.

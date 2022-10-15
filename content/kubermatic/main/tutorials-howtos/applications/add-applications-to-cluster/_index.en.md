@@ -115,5 +115,5 @@ kubectl -n <namespace> get applicationinstallation <name> -o jsonpath='{.status.
 **The following is an example of ApplicationInstallation, showing all the possible options**.
 
 ```yaml
-{{< readfile "kubermatic/master/data/applicationInstallation.yaml" >}}
+{{< readfile "kubermatic/main/data/applicationInstallation.yaml" >}}
 ```

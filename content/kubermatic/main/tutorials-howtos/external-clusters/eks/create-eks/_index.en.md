@@ -16,19 +16,19 @@ Create a cluster following these steps:
 
 - Click on `Create External Cluster` button:
 
-![Create External Cluster](/img/kubermatic/master/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
+![Create External Cluster](/img/kubermatic/main/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
 
 - Choose "Elastic Kubernetes Service" from the supported providers:
 
-![Select AKS Provider](/img/kubermatic/master/tutorials/external_clusters/eks_selection.png "Select EKS Provider")
+![Select AKS Provider](/img/kubermatic/main/tutorials/external_clusters/eks_selection.png "Select EKS Provider")
 
 - Provide the credentials:
 
-![Select Preset](/img/kubermatic/master/tutorials/external_clusters/select_eks_preset.png "Select Preset")
+![Select Preset](/img/kubermatic/main/tutorials/external_clusters/select_eks_preset.png "Select Preset")
 
 - Configure the cluster:
 
-![Configure Cluster](/img/kubermatic/master/tutorials/external_clusters/eks_settings.png "Configure Cluster")
+![Configure Cluster](/img/kubermatic/main/tutorials/external_clusters/eks_settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
 
@@ -37,7 +37,7 @@ Create a cluster following these steps:
 ### Basic Settings:
 - Name: Provide a unique name for your cluster
 - Kubernetes Version: Select the Kubernetes version for this cluster.
-- Cluster Service Role: Select the IAM role to allow the Kubernetes control plane to manage AWS resources on your behalf. This property cannot be changed after the cluster is created. 
+- Cluster Service Role: Select the IAM role to allow the Kubernetes control plane to manage AWS resources on your behalf. This property cannot be changed after the cluster is created.
 
 ### Networking:
 - VPC: Select a VPC to use for your EKS cluster resources
@@ -47,7 +47,7 @@ Create a cluster following these steps:
 Subnets specified must be in at least two different AZs.
 {{% /notice %}}
 
-- Security Groups: Choose the security groups to apply to the EKS-managed Elastic Network Interfaces that are created in your worker node subnets. 
+- Security Groups: Choose the security groups to apply to the EKS-managed Elastic Network Interfaces that are created in your worker node subnets.
 
 Both Subnet and Security Groups list depends on chosen VPC.
 
@@ -68,12 +68,12 @@ Both Subnet and Security Groups list depends on chosen VPC.
 - VPC: VPC of the cluster is pre-filled.
 - Subnet: Specify the subnets in your VPC where your nodes will run.
 
-### AutoScaling: 
+### AutoScaling:
 Node group scaling configuration:
 - Desired Size: Set the desired number of nodes that the group should launch with initially.
 - Max Count: Set the maximum number of nodes that the group can scale out to.
 - Min Count: Set the minimum number of nodes that the group can scale in to.
 
-![Add Node Group](/img/kubermatic/master/tutorials/external_clusters/add_md.png "Add Node Group")
+![Add Node Group](/img/kubermatic/main/tutorials/external_clusters/add_md.png "Add Node Group")
 
-![Create Node Group](/img/kubermatic/master/tutorials/external_clusters/create_eks_md.png "Create Node Group")
+![Create Node Group](/img/kubermatic/main/tutorials/external_clusters/create_eks_md.png "Create Node Group")

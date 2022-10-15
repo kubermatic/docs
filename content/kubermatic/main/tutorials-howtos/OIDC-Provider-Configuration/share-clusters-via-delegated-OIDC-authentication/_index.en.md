@@ -20,11 +20,11 @@ In order to demonstrate the feature we are going to need a working cluster. If y
 [how to create a cluster]({{< ref "../../project-and-cluster-management" >}}) section. If the feature was enabled on your
 installation you will see a "Share cluster" button after navigating to "Cluster details" page.
 
-![Share cluster button](/img/kubermatic/master/ui/cluster_details_top.png?classes=shadow,border "Share cluster button")
+![Share cluster button](/img/kubermatic/main/ui/cluster_details_top.png?classes=shadow,border "Share cluster button")
 
 Right after clicking on the button you will see a modal window where you can copy the generated link to your clipboard.
 
-![Share cluster dialog](/img/kubermatic/master/ui/share.png?classes=shadow,border "Share cluster dialog")
+![Share cluster dialog](/img/kubermatic/main/ui/share.png?classes=shadow,border "Share cluster dialog")
 
 You can now share this link with anyone that can access the KKP UI. After login, that person will get a download link for a
 `kubeconfig`.
@@ -179,8 +179,8 @@ with `component=userClusterRole`.
 
 The cluster owner is automatically connected to the `admin` cluster role.
 
-![KKP cluster owner RBAC link](/img/kubermatic/master/ui/rbac.png?classes=shadow,border "KKP cluster owner RBAC link")
+![KKP cluster owner RBAC link](/img/kubermatic/main/ui/rbac.png?classes=shadow,border "KKP cluster owner RBAC link")
 
 The project user with owner and editor privileges can add and remove bindings to existing roles and cluster roles.
 
-![KKP add binding RBAC link](/img/kubermatic/master/ui/rbac_add.png?classes=shadow,border "KKP add binding RBAC link")
+![KKP add binding RBAC link](/img/kubermatic/main/ui/rbac_add.png?classes=shadow,border "KKP add binding RBAC link")

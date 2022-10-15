@@ -31,7 +31,7 @@ $ kubectl edit -n cluster-<YOUR CLUSTER ID> configmap audit-config
 ```
 
 ```yaml
-{{< readfile "kubermatic/master/data/policy.yaml">}}
+{{< readfile "kubermatic/main/data/policy.yaml">}}
 ```
 
 #### Audit Policy Presets
@@ -56,7 +56,7 @@ The following presets are available right now:
 
 #### Custom Output Configuration
 
-In some situations the default behaviour of writing the audit logs to standard output and processing them alongside regular container logs might not be desirable. For those cases, `Cluster` objects support custom configuration for the [fluentbit](https://fluentbit.io/) sidecar via `spec.auditLogging.sidecar` (also see [CRD reference]({{< ref "../../references/crds/#auditloggingsettings" >}})). 
+In some situations the default behaviour of writing the audit logs to standard output and processing them alongside regular container logs might not be desirable. For those cases, `Cluster` objects support custom configuration for the [fluentbit](https://fluentbit.io/) sidecar via `spec.auditLogging.sidecar` (also see [CRD reference]({{< ref "../../references/crds/#auditloggingsettings" >}})).
 
 In specific, `spec.auditLogging.sidecar.config` has three fields that allow custom elements in the fluent-bit configuration. All sections in this are maps, which means any key and value can be given to set specific values.
 
