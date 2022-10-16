@@ -33,7 +33,7 @@ $ git diff
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
-	modified:   content/kubermatic/master/architecture/support_policy/KKP_components_versioning/_index.en.md
+	modified:   content/kubermatic/main/architecture/support_policy/KKP_components_versioning/_index.en.md
 	modified:   data/products.yaml
 
 Untracked files:

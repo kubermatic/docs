@@ -19,4 +19,4 @@ yq eval-all '. as $item ireduce ({}; . *+ $item)' ${SOURCE}/*/*.yaml -o json | \
       select (.rules | length > 0)
     ]
   }" \
-  > data/kubermatic/master/runbook.json
+  > data/kubermatic/main/runbook.json
