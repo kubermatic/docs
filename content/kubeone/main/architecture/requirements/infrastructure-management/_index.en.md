@@ -163,7 +163,7 @@ The needed `output.tf` file already comes with all our
 [ssh]: {{< ref "../../../guides/ssh#sshd-requirements-on-instances" >}}
 [supported-providers]: {{< ref "../../supported-providers/" >}}
 [supported-os]: {{< ref "../../compatibility/os-support-matrix/" >}}
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [static-workers]: {{< ref "../../../guides/static-workers" >}}
 [concepts]: {{< ref "../../concepts#kubermatic-machine-controller" >}}
