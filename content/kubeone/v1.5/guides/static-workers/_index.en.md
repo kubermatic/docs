@@ -65,4 +65,4 @@ staticWorkers:
     #   effect: ""
 ```
 
-[supported-providers]: {{< ref "../../architecture/compatibility" >}}
+[supported-providers]: {{< ref "../../architecture/supported-providers/" >}}

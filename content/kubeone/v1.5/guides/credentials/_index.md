@@ -23,7 +23,7 @@ dedicated, non-administrator credentials whenever it's possible.
 
 {{% notice note %}}
 You can skip this document if you're deploying to bare-metal or provider that's
-not [natively supported]({{< ref "../../architecture/compatibility#supported-providers" >}}).
+not [natively supported]({{< ref "../../architecture/supported-providers/" >}}).
 {{% /notice %}}
 
 {{% notice note %}}
