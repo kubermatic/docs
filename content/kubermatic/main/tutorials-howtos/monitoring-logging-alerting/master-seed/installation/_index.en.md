@@ -90,13 +90,8 @@ helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm
 
 ### Going Further
 
-The charts have a lot more options to tweak, like `alertmanager.config` or `karma.config` to control how and which
-alerts are sent where.
-
-Likewise, when your cluster grows, you most likely want to adjust the resource requirements in
-`prometheus.containers.prometheus.resources` and others.
-
-You can find more information on the [Monitoring, Logging & Alerting Customization]({{< relref "../customization" >}}) page.
+- To expose Prometheus, Alertmanager and other services installed via the steps above, follow [Securing System Services]({{< relref "../../../../architecture/concept/kkp-concepts/kkp-security/securing-system-services/" >}}).
+- The charts have a lot more options to tweak, like `alertmanager.config` or `karma.config` to control how and which alerts are sent where. Likewise, when your cluster grows, you most likely want to adjust the resource requirements in `prometheus.containers.prometheus.resources` and others. You can find more information on the [Monitoring, Logging & Alerting Customization]({{< relref "../customization" >}}) page.
 
 ### Thanos (Beta)
 
