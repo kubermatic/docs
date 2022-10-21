@@ -9,8 +9,14 @@ weight = 7
 ## Installation
 
 ### Requirements
-KKP supports KubeVirt Operator >= 0.19.0 and the Containerized Data Importer >= v1.19.0.
-It is strongly recommended to run the latest released version.
+Kubernetes cluster where KubeVirt is installed (KubeVirt infrastructure cluster) must be in range of [supported KKP Kubernetes clusters](https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions). The strong recommendation is to use the latest supported version.
+
+The infrastructure cluster must have installed:
+* KubeVirt >= 0.57 and support the selected Kubernetes version.
+* Containerized Data Importer that supports the selected KubeVirt and Kubernetes version.
+
+Visit [KubeVirt compatibility page](https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions) to find out which version of KubeVirt you can install on your infrastructure cluster.
+
 A minimal Kubernetes cluster should consist of 3 nodes with 2 CPUs, 4GB of RAM and 30GB of storage.
 
 ### KubeVirt on Kubernetes
@@ -121,18 +127,18 @@ spec:
 All the resources related to VM on the KubeVirt cluster will be created in a dedicated namespace in the infrastructure cluster.
 This name follow the pattern `cluster-xyz`, where `xyz` is the `id` of the cluster created with KKP.
 
-![Dedicated Namespace](/img/kubermatic/master/architecture/supported-providers/kubevirt/Dedicated-namespace.jpg)
+![Dedicated Namespace](/img/kubermatic/main/architecture/supported-providers/kubevirt/Dedicated-namespace.jpg)
 
 How to know the `id` of the cluster created ?
 
-![Cluster Id](/img/kubermatic/master/architecture/supported-providers/kubevirt/clusterid.png)
+![Cluster Id](/img/kubermatic/main/architecture/supported-providers/kubevirt/clusterid.png)
 
 With the example of the previous image, the cluster `elastic-mayer` has a cluster id `gff5gnxc7r`,
 so all resources for this cluster are located in the `cluster-gff5gnxc7r` namespace in the KubeVirt infrastructure cluster.
 
 ### Virtual Machines Scheduling
 It is possible to control how the tenant nodes are scheduled on the infrastructure nodes.
-![Scheduling](/img/kubermatic/master/architecture/supported-providers/kubevirt/Scheduling.png)
+![Scheduling](/img/kubermatic/main/architecture/supported-providers/kubevirt/Scheduling.png)
 
 We provide control of the user cluster nodes scheduling over topology spread constraints and node affinity presets mechanisms. You can use a combination of them, or they can work independently:
 - Spread across a given topology domains (*TopologySpreadConstraints*).
@@ -361,7 +367,7 @@ virtualMachine:
 To apply a `VirtualMachineInstancePreset` to a VM, this VirtualMachineInstancePreset should be created in the `default` namespace.
 KKP will then copy into the dedicated `clusterxyz` namespace and start the VirtualMachine applying it.
 
-![Preset Copy   ](/img/kubermatic/master/architecture/supported-providers/kubevirt/Preset.jpg)
+![Preset Copy   ](/img/kubermatic/main/architecture/supported-providers/kubevirt/Preset.jpg)
 
 A default `VirtualMachineInstancePreset` named `kubermatic-standard` is always added to the list by KKP
 (even if not existing in the `default` namespace).
@@ -427,7 +433,7 @@ merged fields from the `VirtualMachineInstance` and provide deterministic behavi
 For the basic configuration, disk images are imported from a web server, via HTTP download,
 by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
 
-![Primary Disk](/img/kubermatic/master/architecture/supported-providers/kubevirt/primary-disk.png)
+![Primary Disk](/img/kubermatic/main/architecture/supported-providers/kubevirt/primary-disk.png)
 
 #### Custom Local Disk
 
@@ -441,12 +447,12 @@ Custom local disk creates a Data Volume on KubeVirt cluster in the user cluster 
 **NOTE:** the source DataVolume (Custom Local Disk) must exist in the *cluster-xyz* namespace where the VM is created.
 Cloning across namespaces is not allowed.
 
-![DataVolume cloning](/img/kubermatic/master/architecture/supported-providers/kubevirt/DV-cloning.png)
+![DataVolume cloning](/img/kubermatic/main/architecture/supported-providers/kubevirt/DV-cloning.png)
 
 The source DataVolume can be created *manually* (not from KKP) by the user in the *cluster-xyz* namespace,
 or it can also be created using KKP when creating the cluster at the `Settings` step, with the `Advanced Disk configuration` panel.
 
-![DataVolume creation](/img/kubermatic/master/architecture/supported-providers/kubevirt/Source-DV-creation.png)
+![DataVolume creation](/img/kubermatic/main/architecture/supported-providers/kubevirt/Source-DV-creation.png)
 
 In this panel, the user can add several Custom Local Disks (DataVolumes).
 For each of them, the user must specify:
@@ -472,7 +478,7 @@ KKP uses [Containerized Data Importer](https://github.com/kubevirt/containerized
 provision volumes to launch the VMs. CDI provides the ability to populate PVCs with VM images or other data upon creation.
 The data can come from different sources: a URL, a container registry, another PVC (clone), or an upload from a client.
 For more information about Containerized Data Importer project, please follow the documentation
-[here](https://github.com/kubevirt/containerized-data-importer/blob/master/doc/basic_pv_pvc_dv.md).
+[here](https://github.com/kubevirt/containerized-data-importer/blob/main/doc/basic_pv_pvc_dv.md).
 
 **To initialize a storage class on a user cluster that exists on the KubeVirt infrastructure cluster.
 add `kubevirt-initialization.k8c.io/initialize-sc: 'true'` annotation to the storage class of your choice.
@@ -501,7 +507,7 @@ Follow the below steps to import the dashboard in Grafana:
 - Open Grafana and click on `+` icon on the left side of the application. After that select `Import` option.
 - In the below window you can upload the [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) `json` file.
 
-![Grafana Dashboard](/img/kubermatic/master/monitoring/kubevirt/grafana.png)
+![Grafana Dashboard](/img/kubermatic/main/monitoring/kubevirt/grafana.png)
 
 ## Breaking Changes
 
