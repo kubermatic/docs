@@ -29,5 +29,6 @@ Be aware that group names are not further validated as KKP does not have access 
 The role associated with a group can be updated later on to reflect changes in responsibilities. Group bindings can later be removed from the list of bindings by deleting it from the list.
 
 {{% notice note %}}
-Be aware that as of KKP 2.21.0 (when this feature was introduced), there is no group support for MLA Grafana access yet.
+Be aware that as of KKP 2.21.0 (when this feature was introduced), there was no group support for MLA Grafana access yet. As of
+KKP 2.21.2 groups are supported in MLA Grafana.
 {{% /notice %}}
