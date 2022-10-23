@@ -15,23 +15,26 @@ In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
 {{% notice warning %}}
-KubeOne 1.5 supports only Kubernetes 1.22 and newer. Clusters running
+KubeOne 1.5 and 1.6 support only Kubernetes 1.22 and newer. Clusters running
 Kubernetes 1.21 or older must be upgraded with an older KubeOne release
 according to the table below.
 {{% /notice %}}
 
-| KubeOne version | 1.24  | 1.23  | 1.22  | 1.21\*  | 1.20\*\*  | 1.19\*\*   |
-| --------------- | ----- | ----- | ----- | ------- | --------- | ---------- |
-| v1.5            | ✓     | ✓     | ✓     | -       | -         | -          |
-| v1.4            | -     | ✓     | ✓     | ✓       | ✓         | -          |
-| v1.3            | -     | -     | ✓     | ✓       | ✓         | ✓          |
+| KubeOne version | 1.25  | 1.24  | 1.23  | 1.22\*  | 1.21\*\*  | 1.20\*\*  |
+| --------------- | ----- | ----- | ----- | ------- | --------- | --------- |
+| v1.6            | ✓     | ✓     | ✓     | ✓\*\*\* | -         | -         |
+| v1.5            | -     | ✓     | ✓     | ✓       | -         | -         |
+| v1.4            | -     | -     | ✓     | ✓       | ✓         | ✓         |
 
-\* Kubernetes 1.21 is in the [maintenance mode] which means that only critical
+\* Kubernetes 1.22 is in the [maintenance mode] which means that only critical
 and security issues are fixed. It's strongly recommended to upgrade to a newer
 Kubernetes version as soon as possible.
 
-\*\* Kubernetes 1.20 and 1.19 have reached End-of-Life (EOL). We strongly
+\*\* Kubernetes 1.21 and 1.20 have reached End-of-Life (EOL). We strongly
 recommend upgrading to a supported Kubernetes release as soon as possible.
+
+\*\*\* Support for Kubernetes 1.22 might be removed from KubeOne 1.6 because
+1.22 will reach End-of-Life (EOL) before KubeOne 1.6 planned release date.
 
 We recommend using a Kubernetes release that's not older than one minor release
 than the latest Kubernetes release. For example, with 1.24 being the latest
