@@ -139,6 +139,17 @@ Metrics used to aggregate to a report are as follows:
  - machine_cpu_cores
  - machine_memory_bytes
  - node_memory_working_set_bytes
+ - container_cpu_usage_seconds_total
+ - container_memory_working_set_bytes
+
+These metrics are used to calculate an average value for the time of the report.
+CPU values are converted to [milliCPU](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu)
+Memory values are converted to [bytes](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory)
+
+Example: 
+Report duration is 7 Days. Cluster A was running for 1 Day at 100% CPU utilisation and Cluster B for 3 Days at 50%.
+Cluster A: 1000 millicores / 7 = 142.857142857 millicores average
+Cluster B: 1500 millicores / 7 = 214.285714286 millicores average
 
 ### Accessing Reports
 While the reports will be stored in your S3-bucket, they can also be accessed from the dashboard.
@@ -151,7 +162,7 @@ Click on the download button on the right side to save a specific report file.
 
 Report consist information on a per cluster level.
 
-Prometheus Metrics used:
+Kubelet Metrics used:
 - node_cpu_usage_seconds_total
 - node_memory_working_set_bytes
 - machine_cpu_cores
@@ -165,19 +176,20 @@ The following values will be written to the reports:
 - Cluster name
 - Cluster ID
 - Cluster labels
-- Average available CPU cores
-- Total used CPU seconds
+- Average available CPU millicores
+- Average used cpu millicores
 - Average available memory bytes
 - Average used memory bytes
 - Average number of used nodes
 - Created at (timestamp in RFC 3339 format)
 - Deleted at (timestamp in RFC 3339 format)
 
+
 ### Namespace Report
 
 Report consist information on a per namespace level.
 
-Prometheus Metrics used:
+Kubelet Metrics used:
 - container_cpu_usage_seconds_total
 - container_memory_working_set_bytes
 
@@ -190,7 +202,7 @@ The following values will be written to the reports:
 - Cluster ID
 - Cluster labels
 - Namespace name
-- Total used CPU seconds
+- Average used cpu millicores
 - Average used memory bytes
 
 ## Raw data
