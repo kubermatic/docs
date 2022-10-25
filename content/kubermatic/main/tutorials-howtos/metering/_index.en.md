@@ -142,14 +142,11 @@ Metrics used to aggregate to a report are as follows:
  - container_cpu_usage_seconds_total
  - container_memory_working_set_bytes
 
-These metrics are used to calculate an average value for the time of the report.
-CPU values are converted to [milliCPU](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu)
-Memory values are converted to [bytes](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory)
+CPU values are converted to [milliCPU][k8s-meaning-of-cpu]
+Memory values are converted to [bytes][k8s-meaning-of-memory]
 
-Example: 
-Report duration is 7 Days. Cluster A was running for 1 Day at 100% CPU utilisation and Cluster B for 3 Days at 50%.
-Cluster A: 1000 millicores / 7 = 142.857142857 millicores average
-Cluster B: 1500 millicores / 7 = 214.285714286 millicores average
+Metrics are used to calculate an average value for the time period of the report.
+
 
 ### Accessing Reports
 While the reports will be stored in your S3-bucket, they can also be accessed from the dashboard.
@@ -216,3 +213,4 @@ If you desire to store this data for longer than 90days, you need to extract the
 [k8s-docs-storage-classes]: https://kubernetes.io/docs/concepts/storage/storage-classes/
 [k8s-persistent-volumes]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 [k8s-meaning-of-memory]: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory
+[k8s-meaning-of-cpu]: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu
