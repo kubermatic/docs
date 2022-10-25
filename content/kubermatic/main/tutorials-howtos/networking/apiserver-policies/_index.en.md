@@ -1,9 +1,11 @@
 +++
-title = "API Server Network Policies"
+title = "API Server Access Control"
 date = 2020-02-14T12:07:15+02:00
 weight = 120
+enableToc = true
 +++
 
+## API Server Network Policies
 To ensure proper isolation of control plane components in Seed clusters, as of KKP version 2.18, KKP uses NetworkPolicies to constraint the egress traffic of the Kubernetes API Server.
 
 The egress traffic of the API Server pods is restricted to the following set of control plane pods of the same user cluster:
@@ -39,3 +41,16 @@ spec:
 ```
 
 Please note that this procedure does not affect already running user clusters, for those the API Server Network Policies need to be disabled individually as described in the previous section.
+
+## API Server Allowed Source IP ranges
+Since KKP v2.22, it is possible to restrict the access to the user cluster API server based on the source IP ranges. To restrict the server access from the internet or to have a limited access,`apiServerAllowedIPRanges` need to be configured. It is also important to note that you allow IP range of the worker nodes too, otherwise worker nodes will not be able to connect to the api server.
+
+In the cluster spec, set the `apiServerAllowedIPRanges` as shown in below example, 
+
+```yaml
+spec:
+  exposeStrategy: LoadBalancer
+  apiServerAllowedIPRanges:
+    cidrBlocks:
+    - 192.168.1.0/32
+```
