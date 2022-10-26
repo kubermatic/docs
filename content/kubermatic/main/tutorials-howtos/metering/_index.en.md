@@ -142,11 +142,10 @@ Metrics used to aggregate to a report are as follows:
  - container_cpu_usage_seconds_total
  - container_memory_working_set_bytes
 
-CPU values are converted to [milliCPU][k8s-meaning-of-cpu]
-Memory values are converted to [bytes][k8s-meaning-of-memory]
-
 Metrics are used to calculate an average value for the time period of the report.
 
+CPU values are converted to [milliCPU][k8s-meaning-of-cpu]
+Memory values are converted to [bytes][k8s-meaning-of-memory]
 
 ### Accessing Reports
 While the reports will be stored in your S3-bucket, they can also be accessed from the dashboard.
