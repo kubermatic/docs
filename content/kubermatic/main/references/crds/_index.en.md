@@ -2126,6 +2126,7 @@ _Appears in:_
 | `enforcePodSecurityPolicy` _boolean_ | EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC, ignoring cluster-specific settings |
 | `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#duration-v1-meta)_ | ProviderReconciliationInterval is the time that must have passed since a Cluster's status.lastProviderReconciliation to make the cliuster controller perform an in-depth provider reconciliation, where for example missing security groups will be reconciled. Setting this too low can cause rate limits by the cloud provider, setting this too high means that *if* a resource at a cloud provider is removed/changed outside of KKP, it will take this long to fix it. |
 | `operatingSystemProfiles` _object (keys:OperatingSystem, values:string)_ | DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system. |
+| `machineFlavorFilter` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
 
 
 [Back to top](#top)
@@ -4291,22 +4292,23 @@ _Appears in:_
 
 
 
-### MachineDeploymentVMResourceQuota
+### MachineFlavorFilter
 
 
 
 
 
 _Appears in:_
+- [DatacenterSpec](#datacenterspec)
 - [SettingSpec](#settingspec)
 
 | Field | Description |
 | --- | --- |
-| `minCPU` _integer_ | Minimal number of vCPU |
-| `maxCPU` _integer_ | Maximal number of vCPU |
-| `minRAM` _integer_ | Minimal RAM size in GB |
+| `minCPU` _integer_ | Minimum number of vCPU |
+| `maxCPU` _integer_ | Maximum number of vCPU |
+| `minRAM` _integer_ | Minimum RAM size in GB |
 | `maxRAM` _integer_ | Maximum RAM size in GB |
-| `enableGPU` _boolean_ |  |
+| `enableGPU` _boolean_ | Include VMs with GPU |
 
 
 [Back to top](#top)
@@ -5531,7 +5533,7 @@ _Appears in:_
 | `mlaOptions` _[MlaOptions](#mlaoptions)_ |  |
 | `mlaAlertmanagerPrefix` _string_ |  |
 | `mlaGrafanaPrefix` _string_ |  |
-| `machineDeploymentVMResourceQuota` _[MachineDeploymentVMResourceQuota](#machinedeploymentvmresourcequota)_ |  |
+| `machineDeploymentVMResourceQuota` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineDeploymentVMResourceQuota is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
 
 
 [Back to top](#top)
