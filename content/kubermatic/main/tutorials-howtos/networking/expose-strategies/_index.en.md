@@ -18,7 +18,10 @@ Different user clusters in KKP may be using different expose strategies at the s
 
 ### NodePort
 NodePort is the default expose strategy in KKP. With this strategy a k8s service of type NodePort is created for each
-exposed component (e.g. Kubernetes API Server) of each user cluster. Each cluster normally consumes 2 NodePorts,
+exposed component (e.g. Kubernetes API Server) of each user cluster. This implies, that each apiserver will be
+exposed on a randomly assigned TCP port from the nodePort range configured for the seed cluster.
+
+Each cluster normally consumes 2 NodePorts (on for the apiserver + one for the worker-nodes to control-plane "tunnel"),
 which limits the number of total clusters per Seed based on the NodePort range configured in the Seed cluster.
 
 By default, the nodeport-proxy is enabled for this expose strategy. If services of type LoadBalancer are
@@ -33,9 +36,19 @@ In the LoadBalancer expose strategy, a dedicated service of type LoadBalancer wi
 This strategy requires services of type LoadBalancer to be available on the Seed cluster and usually results into higher cost of cloud resources.
 However, this expose strategy supports more user clusters per Seed, and provides better ingress traffic isolation per user cluster.
 
+The port number on which the apierver is exposed via the LoadBalancer service is still randomly allocated from the
+NodePort range configured in the Seed cluster.
+
 ### Tunneling (Alpha)
 The Tunneling expose strategy addresses both the scaling issues of the NodePort strategy and cost issues of the LoadBalancer strategy.
 With this strategy, the traffic is routed to the based on a combination of SNI and HTTP/2 tunnels by the nodeport-proxy.
+
+Another benefit of this expose strategy is that control plane components of each user cluster are always exposed
+on fixed port numbers: `6443` for the apiserver and `8088` for the worker-nodes to control-plane "tunnel".
+This allows for more strict firewall configuration than exposing the whole nodePort range.
+Note that only the port `6443` needs to be allowed for external apiserver access, the port `8088` needs to be allowed
+only between the worker-nodes network and the seed cluster network.
+
 This expose strategy is still in alpha stage and to use it,
 it first needs to be enabled [via a feature gate](#enabling-the-tunneling-expose-strategy-alpha).
 
