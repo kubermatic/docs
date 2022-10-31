@@ -52,6 +52,15 @@ only between the worker-nodes network and the seed cluster network.
 This expose strategy is still in alpha stage and to use it,
 it first needs to be enabled [via a feature gate](#enabling-the-tunneling-expose-strategy-alpha).
 
+The current limitations of this strategy are:
+
+* Not supported yet in set-ups where the worker nodes should pass from a
+  corporate proxy (HTTPS proxy) to reach the control plane.
+* An agent is deployed on each worker node to provide access to the apiserver from
+  within the cluster via the `kubernetes` service. The agent binds the IP used as the
+  `kubernetes` service endpoint, which is currently hardcoded to `192.168.30.10`. This IP cannot collide
+  with anything else running in the datacenter.
+
 ## Configuring the Expose Strategy
 The expose strategy can be configured at 3 levels:
 
@@ -150,14 +159,6 @@ spec:
   featureGates:
     TunnelingExposeStrategy: true
 ```
-
-The current limitations of this strategy are:
-
-* Not supported yet in set-ups where the worker nodes should pass from a
-  corporate proxy (HTTPS proxy) to reach the control plane.
-* An agent is deployed on each worker node to provide access to control plane
-  components. It binds to the IP advertised by the Kubernetes API Server, which
-  is currently hardcoded to `192.168.30.10`.
 
 ## Migrating the Expose Strategy for Existing Clusters
 The expose strategy of a user cluster normally cannot be changed after the cluster creation.
