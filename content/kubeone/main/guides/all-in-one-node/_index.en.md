@@ -33,7 +33,7 @@ tains array in the YAML.
 ### Drop control plane taints using terraform output
 
 In the `output.tf` file, add `untaint = true` to the `control_plane` like shows
-in the diff bellow.
+in the diff below.
 
 ```diff
  output "kubeone_hosts" {
