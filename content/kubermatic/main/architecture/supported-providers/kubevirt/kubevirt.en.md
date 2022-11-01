@@ -554,6 +554,59 @@ Follow the below steps to import the dashboard in Grafana:
 
 ![Grafana Dashboard](/img/kubermatic/main/monitoring/kubevirt/grafana.png)
 
-## Breaking Changes
+## Migration to KKP 2.22
 
-Please be aware that between KKP 2.20 and KKP 2.21, a breaking change to the `MachineDeployment` API for KubeVirt has occurred. For more details, please [check out the 2.20 to 2.21 upgrade notes]({{< ref "../../../tutorials-howtos/upgrading/upgrade-from-2.20-to-2.21/#kubevirt-migration" >}}).
+### Cluster labels
+
+With KKP 2.22 KubeVirt CCM is upgraded from `v0.2.0` to `v0.4.0`.
+From `v0.3.0` on it requires [new labels](https://github.com/kubevirt/cloud-provider-kubevirt#prerequisites) on VMs to correctly route the traffic to services.
+
+Newly created VMs will have these labels automatically but for existing VMs and VMIs there is manual action required on your KubeVirt cluster.
+
+Add following labels
+```yaml
+cluster.x-k8s.io/cluster-name: cluster-<cluster-id>
+cluster.x-k8s.io/role: worker
+```
+to:
+
+* `VirtualMachine.metadata.labels`
+* `VirtualMachine.spec.template.metadata.labels`
+* `VirtualMachineInstance.metadata.labels`
+
+Additionally if there are already existing LoadBalancer Services in your cluster namespace on the KubeVirt cluster, you also need to manually add these labels to these Service's `spec.selector`
+
+#### Step by step example
+
+Patch VirtualMachine, VirtualMachineInstance, LoadBalander Service:
+```
+$ export KUBECONFIG=<kubeconfig of your KubeVirt cluster>
+$ export CLUSTERID=<your kkp user cluster id>
+$ cat << EOF > patch-vm.yaml
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: cluster-$CLUSTERID
+    cluster.x-k8s.io/role: worker
+spec:
+  template:
+    metadata:
+      labels:
+        cluster.x-k8s.io/cluster-name: cluster-$CLUSTERID
+        cluster.x-k8s.io/role: worker
+EOF
+$ kubectl patch -n cluster-$CLUSTERID vm <vm> --patch-file patch-vm.yaml --type=merge
+$ cat << EOF > patch-vmi.yaml
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: cluster-$CLUSTERID
+    cluster.x-k8s.io/role: worker
+EOF
+$ kubectl patch -n cluster-$CLUSTERID vmi <vmi> --patch-file patch-vmi.yaml --type=merge
+$ cat << EOF > patch-lb-svc.yaml
+spec:
+  selector:
+    cluster.x-k8s.io/cluster-name: cluster-$CLUSTERID
+    cluster.x-k8s.io/role: worker
+EOF
+$ kubectl patch -n cluster-$CLUSTERID svc <lb-svc> --patch-file patch-lb-svc.yaml --type=merge
+```
