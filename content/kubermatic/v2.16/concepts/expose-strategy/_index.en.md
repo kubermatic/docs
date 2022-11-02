@@ -115,7 +115,7 @@ The reasons why we cannot rely solely on SNI routing are two:
   the ClusterIP. This means that no SNI information will be present in the
   `Client Hello` during the TLS handshake. 
 
-The traffic that cannot be routed based on SNI will be tunneled trough agents
+The traffic that cannot be routed based on SNI will be tunneled through agents
 running on the user cluster worker nodes.\
 When using this strategy the `NodeportProxy` will be deployed into the seed
 cluster. It will also create a Kubernetes Service of type `LoadBalancer`
