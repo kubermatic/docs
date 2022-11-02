@@ -161,18 +161,50 @@ curl -sSL https://raw.githubusercontent.com/vmware/cloud-init-vmware-guestinfo/m
 The script will use `pip` (which we installed earlier) to download needed
 dependencies and install the cloud-init datasource plugin.
 
+Once the datasource plugin is installed, we need to adjust the plugin's
+configuration to allow using it alongside with the integrated NoCloud datasource
+plugin. The NoCloud datasource plugin is required by Kubermatic
+machine-controller. Open the following configuration file in a text editor of
+your choice:
+
+```shell
+vi /etc/cloud/cloud.cfg.d/99-DataSourceVMwareGuestInfo.cfg
+```
+
+Replace `datasource_list: [ "VMwareGuestInfo" ]` with the following line:
+
+```yaml
+datasource_list: [ "VMwareGuestInfo", "NoCloud" ]
+```
+
 If there are any additional adjustments that you want to make to the VM, you
 should do those adjustments now before proceeding.
 
 As a final step, we'll cleanup the VM so that it can be used as a template.
-First, remove generated SSH host keys. They'll be regenerated upon the next
+
+First, we'll ensure that there's no hardcoded MAC address in the network
+configuration. Run `ip addr` and note the name of your network interface,
+for example `eth0`. Locate and open a network configuration file for your
+network interface. Network configuration files are located in
+`/etc/sysconfig/network-scripts` and are named as `ifcfg-<interface-name>`.
+For example:
+
+```shell
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+```
+
+Locate the line starting with `HWADDR=...`. If there's such line, remove it
+completely, then save the file and close the text editor. If there's no such
+line, you don't need to take any action and can just close the text editor.
+
+Then, remove generated SSH host keys. They'll be regenerated upon the next
 boot:
 
 ```shell
 rm -f /etc/ssh/ssh_host_*
 ```
 
-Then, remove logs from `/var/log` and installation logs from the `/root`
+Proceed to remove logs from `/var/log` and installation logs from the `/root`
 directory:
 
 ```shell
