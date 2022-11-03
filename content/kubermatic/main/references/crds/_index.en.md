@@ -2487,6 +2487,8 @@ _Appears in:_
 | `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
 | `accessKeyID` _string_ |  |
 | `secretAccessKey` _string_ |  |
+| `assumeRoleARN` _string_ |  |
+| `assumeRoleExternalID` _string_ |  |
 
 
 [Back to top](#top)
@@ -2983,6 +2985,8 @@ _Appears in:_
 | `vpcID` _string_ | VPCID: The VPC associated with your cluster. |
 | `subnetIDs` _string array_ | SubnetIDs: The subnets associated with your cluster. |
 | `securityGroupIDs` _string array_ | SecurityGroupIDs: The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane. |
+| `assumeRoleARN` _string_ | AssumeRoleARN defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. required: false |
+| `assumeRoleExternalID` _string_ | AssumeRoleExternalID is an arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". required: false |
 
 
 [Back to top](#top)
