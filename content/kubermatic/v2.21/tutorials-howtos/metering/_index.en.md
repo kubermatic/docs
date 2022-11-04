@@ -18,7 +18,7 @@ The collected information will be saved in the metering prometheus instance for 
 
 When a scheduled report is executed, data in the metering prometheus instance gets aggregated to create a report from.
 Generated reports are uploaded to a s3 bucket, from where the reports can be accessed.
-The dashboard provides a convenient way to list and download all available reports. 
+The dashboard provides a convenient way to list and download all available reports.
 For that to work properly the s3 endpoint needs to be available from the browser.
 
 ## Configuration
@@ -39,7 +39,7 @@ For that to work properly the s3 endpoint needs to be available from the browser
 Using the dashboard, configuring the Metering tool becomes a breeze.
 Open the [Admin Panel][admin-panel] and choose the **Metering** tab on the left side.
 
-![Navigation to Metering configuration and reports](/img/kubermatic/v2.21/tutorials/metering_admin_panel_location.png?classes=shadow,border "Navigation to Metering configuration and reports")
+![Navigation to Metering configuration and reports](/img/kubermatic/main/tutorials/metering_admin_panel_location.png?classes=shadow,border "Navigation to Metering configuration and reports")
 
 First you need to configure the credentials for your S3 bucket.
 To do so click on *Edit credentials*, fill in the credential fields and confirm with the button below.
@@ -52,7 +52,7 @@ To do so click on *Edit credentials*, fill in the credential fields and confirm 
 - **S3 bucket**
   - Name of your S3 bucket
 
-!["Edit Credentials" form](/img/kubermatic/v2.21/tutorials/metering_credentials.png?classes=shadow,border "'Edit Credentials' form")
+!["Edit Credentials" form](/img/kubermatic/main/tutorials/metering_credentials.png?classes=shadow,border "'Edit Credentials' form")
 
 The next step is to enable metering.
 Click on **Configure Metering**, switch on **Enable Metering** and change the configuration options according to your wishes.
@@ -68,26 +68,26 @@ Click on **Configure Metering**, switch on **Enable Metering** and change the co
   - When choosing a volume size, please take into consideration that old usage data files will not be deleted automatically
 
 
-In the end it is possible to create different report schedules.  
+In the end it is possible to create different report schedules.
 Click on **Create Schedule**, to open the Schedule configuration dialog.
 
-Below to the three predefined Schedules it is possible to create a custom schedule. 
-A schedule consist of four different values to set: 
+Below to the three predefined Schedules it is possible to create a custom schedule.
+A schedule consist of four different values to set:
 
 - `Schedule Name`
   - Name of the Schedule. This is also used as a folder name to store generated reports.
 - `Report retention`
-  - Number of days each report is saved, leave the field empty to store reports forever. This will set a retention period at the s3 Backend. 
+  - Number of days each report is saved, leave the field empty to store reports forever. This will set a retention period at the s3 Backend.
 - `Report scope`
   - Number of days captured in each report.
 - `Cron Expression`
   - Cron expression that describes how often a report should be created.
 
-![Metering Configuration](/img/kubermatic/v2.21/tutorials/metering_report_configuration.png?classes=shadow,border "Metering Configuration")
+![Metering Configuration](/img/kubermatic/main/tutorials/metering_report_configuration.png?classes=shadow,border "Metering Configuration")
 
 ### Configuration via Seed Object
 
-It is possible to set Metering values directly at the Seed. This allows enabling Metering only for specific Seeds. 
+It is possible to set Metering values directly at the Seed. This allows enabling Metering only for specific Seeds.
 
 For S3 report synchronization, it is mandatory to create a secret with the following values:
 
@@ -133,29 +133,41 @@ The file names include the reporting interval.
 
 Data used to aggregate the report are stored in a prometheus instance dedicated to metering. It will delete entries older than 90days.
 This metering prometheus instance collects data from user clusters via federation. Originally they are collected from kubelet and cAdvisor.
-Metrics used to aggregate to a report are as follows: 
+Metrics used to aggregate to a report are as follows:
 
+ - machine_controller_machines_total
  - node_cpu_usage_seconds_total
  - machine_cpu_cores
  - machine_memory_bytes
  - node_memory_working_set_bytes
+ - container_cpu_usage_seconds_total
+ - container_memory_working_set_bytes
+
+Metrics are used to calculate an average value for the time period of the report.
+
+CPU values are converted to [milliCPU][k8s-meaning-of-cpu]
+Memory values are converted to [bytes][k8s-meaning-of-memory]
 
 ### Accessing Reports
 While the reports will be stored in your S3-bucket, they can also be accessed from the dashboard.
 The metering overview provides a list of all reports.
 Click on the download button on the right side to save a specific report file.
 
-![Metering Overview](/img/kubermatic/v2.21/tutorials/metering_overview.png?classes=shadow,border "Metering Overview")
+![Metering Overview](/img/kubermatic/main/tutorials/metering_overview.png?classes=shadow,border "Metering Overview")
 
 ### Cluster Report
 
 Report consist information on a per cluster level.
 
-Prometheus Metrics used: 
+Kubelet Metrics:
 - node_cpu_usage_seconds_total
 - node_memory_working_set_bytes
 - machine_cpu_cores
 - machine_memory_bytes
+
+Machine controller Metrics:
+
+- machine_controller_machines_total
 
 The following values will be written to the reports:
 
@@ -165,8 +177,9 @@ The following values will be written to the reports:
 - Cluster name
 - Cluster ID
 - Cluster labels
-- Average available CPU cores
-- Total used CPU seconds 
+- Average Cluster Machines
+- Average available CPU millicores
+- Average used cpu millicores
 - Average available memory bytes
 - Average used memory bytes
 - Average number of used nodes
@@ -177,7 +190,7 @@ The following values will be written to the reports:
 
 Report consist information on a per namespace level.
 
-Prometheus Metrics used:
+Kubelet Metrics:
 - container_cpu_usage_seconds_total
 - container_memory_working_set_bytes
 
@@ -190,7 +203,7 @@ The following values will be written to the reports:
 - Cluster ID
 - Cluster labels
 - Namespace name
-- Total used CPU seconds
+- Average used cpu millicores
 - Average used memory bytes
 
 ## Raw data
@@ -204,3 +217,4 @@ If you desire to store this data for longer than 90days, you need to extract the
 [k8s-docs-storage-classes]: https://kubernetes.io/docs/concepts/storage/storage-classes/
 [k8s-persistent-volumes]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 [k8s-meaning-of-memory]: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory
+[k8s-meaning-of-cpu]: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu
