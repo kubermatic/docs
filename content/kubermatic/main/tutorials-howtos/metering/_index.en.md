@@ -135,6 +135,7 @@ Data used to aggregate the report are stored in a prometheus instance dedicated 
 This metering prometheus instance collects data from user clusters via federation. Originally they are collected from kubelet and cAdvisor.
 Metrics used to aggregate to a report are as follows:
 
+ - machine_controller_machines_total
  - node_cpu_usage_seconds_total
  - machine_cpu_cores
  - machine_memory_bytes
@@ -158,11 +159,15 @@ Click on the download button on the right side to save a specific report file.
 
 Report consist information on a per cluster level.
 
-Kubelet Metrics used:
+Kubelet Metrics:
 - node_cpu_usage_seconds_total
 - node_memory_working_set_bytes
 - machine_cpu_cores
 - machine_memory_bytes
+
+Machine controller Metrics:
+
+- machine_controller_machines_total
 
 The following values will be written to the reports:
 
@@ -172,6 +177,7 @@ The following values will be written to the reports:
 - Cluster name
 - Cluster ID
 - Cluster labels
+- Average Cluster Machines
 - Average available CPU millicores
 - Average used cpu millicores
 - Average available memory bytes
@@ -180,12 +186,11 @@ The following values will be written to the reports:
 - Created at (timestamp in RFC 3339 format)
 - Deleted at (timestamp in RFC 3339 format)
 
-
 ### Namespace Report
 
 Report consist information on a per namespace level.
 
-Kubelet Metrics used:
+Kubelet Metrics:
 - container_cpu_usage_seconds_total
 - container_memory_working_set_bytes
 
