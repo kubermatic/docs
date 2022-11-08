@@ -1646,7 +1646,6 @@ _Appears in:_
 | `errorMessage` _string_ | ErrorMessage contains a default error message in case the controller encountered an error. Will be reset if the error was resolved. |
 | `conditions` _object (keys:[ClusterConditionType](#clusterconditiontype), values:[ClusterCondition](#clustercondition))_ | Conditions contains conditions the cluster is in, its primary use case is status signaling between controllers or between controllers and the API. |
 | `phase` _[ClusterPhase](#clusterphase)_ | Phase is a description of the current cluster status, summarizing the various conditions, possible active updates etc. This field is for informational purpose only and no logic should be tied to the phase. |
-| `cloudMigrationRevision` _integer_ | CloudMigrationRevision describes the latest version of the migration that has been done It is used to avoid redundant and potentially costly migrations. |
 | `inheritedLabels` _object (keys:string, values:string)_ | InheritedLabels are labels the cluster inherited from the project. They are read-only for users. |
 | `encryption` _[ClusterEncryptionStatus](#clusterencryptionstatus)_ | Encryption describes the status of the encryption-at-rest feature for encrypted data in etcd. |
 | `resourceUsage` _[ResourceDetails](#resourcedetails)_ | ResourceUsage shows the current usage of resources for the cluster. |
