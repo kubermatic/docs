@@ -4558,6 +4558,25 @@ _Appears in:_
 
 
 
+### NotificationsOptions
+
+
+
+
+
+_Appears in:_
+- [SettingSpec](#settingspec)
+
+| Field | Description |
+| --- | --- |
+| `hideErrors` _boolean_ | HideErrors will silence error notifications for the dashboard. |
+| `hideErrorEvents` _boolean_ | HideErrorEvents will silence error events for the dashboard. |
+
+
+[Back to top](#top)
+
+
+
 ### Nutanix
 
 
@@ -5538,6 +5557,7 @@ _Appears in:_
 | `mlaOptions` _[MlaOptions](#mlaoptions)_ |  |
 | `mlaAlertmanagerPrefix` _string_ |  |
 | `mlaGrafanaPrefix` _string_ |  |
+| `notifications` _[NotificationsOptions](#notificationsoptions)_ | Notifications are the configuration for notifications on dashboard. |
 | `machineDeploymentVMResourceQuota` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineDeploymentVMResourceQuota is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
 
 
