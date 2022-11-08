@@ -3496,7 +3496,9 @@ _Appears in:_
 | `type` _[IPAMPoolAllocationType](#ipampoolallocationtype)_ | Type is the allocation type to be used. |
 | `poolCidr` _[SubnetCIDR](#subnetcidr)_ | PoolCIDR is the pool CIDR to be used for the allocation. |
 | `allocationPrefix` _integer_ | AllocationPrefix is the prefix for the allocation. Used when "type=prefix". |
+| `excludePrefixes` _[SubnetCIDR](#subnetcidr) array_ | Optional: ExcludePrefixes is used to exclude particular subnets for the allocation. NOTE: must be the same length as allocationPrefix. Can be used when "type=prefix". |
 | `allocationRange` _integer_ | AllocationRange is the range for the allocation. Used when "type=range". |
+| `excludeRanges` _string array_ | Optional: ExcludeRanges is used to exclude particular IPs or IP ranges for the allocation. Examples: "192.168.1.100-192.168.1.110", "192.168.1.255". Can be used when "type=range". |
 
 
 [Back to top](#top)
