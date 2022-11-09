@@ -177,8 +177,8 @@ The following values will be written to the reports:
 - Cluster name
 - Cluster ID
 - Cluster labels
-- Average available CPU cores
-- Total used CPU seconds
+- Average available CPU cores (deprecated, likely to be removed in future releases)
+- Total used CPU seconds (deprecated, likely to be removed in future releases)
 - Average available memory bytes
 - Average used memory bytes
 - Average number of used nodes
@@ -206,7 +206,7 @@ The following values will be written to the reports:
 - Cluster ID
 - Cluster labels
 - Namespace name
-- Total used CPU seconds
+- Total used CPU seconds (deprecated, likely to be removed in future releases)
 - Average used memory bytes
 - Average used cpu millicores
 
