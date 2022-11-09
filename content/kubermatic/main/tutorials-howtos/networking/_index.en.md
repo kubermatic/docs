@@ -11,7 +11,7 @@ This section provides guides on networking in KKP:
 - [**Dual-Stack (IPv4 + IPv6) Networking**]({{< relref "./dual-stack/" >}})
 - [**Control Plane Expose Strategy**]({{< relref "./expose-strategies/" >}})
 - [**Proxy Whitelisting**]({{< relref "./proxy-whitelisting/" >}})
-- [**API Server Network Policies**]({{< relref "./apiserver-policies/" >}})
+- [**API Server Access Control**]({{< relref "./apiserver-policies/" >}})
 - [**Manual CNI Migration**]({{< relref "./cni-migration/" >}})
 - [**Multus-CNI Addon**]({{< relref "./multus/" >}})
 - [**Multi-Cluster IP Address Management (IPAM)**]({{< relref "./ipam/" >}})
