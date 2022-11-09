@@ -43,9 +43,11 @@ spec:
 Please note that this procedure does not affect already running user clusters, for those the API Server Network Policies need to be disabled individually as described in the previous section.
 
 ## API Server Allowed Source IP ranges
-Since KKP v2.22, it is possible to restrict the access to the user cluster API server based on the source IP ranges. To restrict the server access from the internet or to have a limited access,`apiServerAllowedIPRanges` need to be configured. It is also important to note that you allow IP range of the worker nodes too, otherwise worker nodes will not be able to connect to the api server.
+Since KKP v2.22, it is possible to restrict the access to the user cluster API server based on the source IP ranges. By default, the access is not restricted and the API server is accessible from anywhere. To restrict the API server access, Cluster's `spec.apiServerAllowedIPRanges` needs to be configured with the list of allowed IP ranges. Access from any other IP ranges will be denied.
 
-In the cluster spec, set the `apiServerAllowedIPRanges` as shown in below example, 
+When restricting access to the API server, it is important to allow the IP range of the worker nodes network too, otherwise the worker nodes will not be able to connect to the it.
+
+To restrict the access to the API server, set the `apiServerAllowedIPRanges` in the in the cluster spec, as shown in the example below:
 
 ```yaml
 spec:
