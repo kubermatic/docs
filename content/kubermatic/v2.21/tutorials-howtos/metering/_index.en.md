@@ -177,14 +177,17 @@ The following values will be written to the reports:
 - Cluster name
 - Cluster ID
 - Cluster labels
-- Average Cluster Machines
-- Average available CPU millicores
-- Average used cpu millicores
+- Average available CPU cores
+- Total used CPU seconds
 - Average available memory bytes
 - Average used memory bytes
 - Average number of used nodes
 - Created at (timestamp in RFC 3339 format)
 - Deleted at (timestamp in RFC 3339 format)
+- Average Cluster Machines
+- Average available CPU millicores
+- Average used cpu millicores
+
 
 ### Namespace Report
 
@@ -203,8 +206,9 @@ The following values will be written to the reports:
 - Cluster ID
 - Cluster labels
 - Namespace name
-- Average used cpu millicores
+- Total used CPU seconds
 - Average used memory bytes
+- Average used cpu millicores
 
 ## Raw data
 
