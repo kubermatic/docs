@@ -4718,6 +4718,24 @@ _Appears in:_
 
 
 
+### OpenStack
+
+
+
+
+
+_Appears in:_
+- [ProviderConfiguration](#providerconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `enforceCustomDisk` _boolean_ | EnforceCustomDisk will enforce the custom disk option for machines for the dashboard. |
+
+
+[Back to top](#top)
+
+
+
 ### Openstack
 
 
@@ -5050,6 +5068,24 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `phase` _ProjectPhase_ | Phase describes the project phase. New projects are in the `Inactive` phase; after being reconciled they move to `Active` and during deletion they are `Terminating`. |
+
+
+[Back to top](#top)
+
+
+
+### ProviderConfiguration
+
+
+
+
+
+_Appears in:_
+- [SettingSpec](#settingspec)
+
+| Field | Description |
+| --- | --- |
+| `openStack` _[OpenStack](#openstack)_ | OpenStack are the configurations for openstack provider. |
 
 
 [Back to top](#top)
@@ -5559,6 +5595,7 @@ _Appears in:_
 | `mlaAlertmanagerPrefix` _string_ |  |
 | `mlaGrafanaPrefix` _string_ |  |
 | `notifications` _[NotificationsOptions](#notificationsoptions)_ | Notifications are the configuration for notifications on dashboard. |
+| `providerConfiguration` _[ProviderConfiguration](#providerconfiguration)_ | ProviderConfiguration are the cloud provider specific configurations on dashboard. |
 | `machineDeploymentVMResourceQuota` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineDeploymentVMResourceQuota is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
 
 
