@@ -19179,6 +19179,27 @@
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
+    "AnexiaDiskConfig": {
+      "description": "AnexiaDiskConfig defines a single disk for a node at anexia",
+      "type": "object",
+      "required": [
+        "size"
+      ],
+      "properties": {
+        "performanceType": {
+          "description": "PerformanceType configures the performance type this disks of each node will have.\nKnown values are something like \"ENT3\" or \"HPC2\".",
+          "type": "string",
+          "x-go-name": "PerformanceType"
+        },
+        "size": {
+          "description": "Disks configures this disk of each node will have.",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Size"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/api/v1"
+    },
     "AnexiaNodeSpec": {
       "description": "AnexiaNodeSpec anexia specific node settings",
       "type": "object",
@@ -19186,8 +19207,7 @@
         "vlanID",
         "templateID",
         "cpus",
-        "memory",
-        "diskSize"
+        "memory"
       ],
       "properties": {
         "cpus": {
@@ -19197,10 +19217,18 @@
           "x-go-name": "CPUs"
         },
         "diskSize": {
-          "description": "DiskSize states the disk size that node will have.",
+          "description": "DiskSize states the disk size that node will have.\nDeprecated: please use the new Disks attribute instead.",
           "type": "integer",
           "format": "int64",
           "x-go-name": "DiskSize"
+        },
+        "disks": {
+          "description": "Disks configures the disks each node will have.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AnexiaDiskConfig"
+          },
+          "x-go-name": "Disks"
         },
         "memory": {
           "description": "Memory states the memory that node will have.",
@@ -20716,6 +20744,36 @@
         }
       },
       "x-go-package": "github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1beta1"
+    },
+    "ContainerRuntimeContainerd": {
+      "type": "object",
+      "title": "ContainerRuntimeContainerd defines containerd container runtime registries configs.",
+      "properties": {
+        "registries": {
+          "description": "A map of registries to use to render configs and mirrors for containerd registries",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ContainerdRegistry"
+          },
+          "x-go-name": "Registries"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "ContainerdRegistry": {
+      "type": "object",
+      "title": "ContainerdRegistry defines endpoints and security for given container registry.",
+      "properties": {
+        "mirrors": {
+          "description": "List of registry mirrors to use",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Mirrors"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
     "ControlPlaneMetrics": {
       "description": "ControlPlaneMetrics defines a metric for the user cluster control plane resources",
@@ -22629,6 +22687,7 @@
           "x-go-name": "NodePortsAllowedIPRange"
         },
         "serviceAccount": {
+          "description": "The Google Service Account (JSON format), encoded with base64.",
           "type": "string",
           "x-go-name": "ServiceAccount"
         },
@@ -24189,7 +24248,12 @@
         "credentialsReference": {
           "$ref": "#/definitions/GlobalSecretKeySelector"
         },
+        "csiKubeconfig": {
+          "type": "string",
+          "x-go-name": "CSIKubeconfig"
+        },
         "kubeconfig": {
+          "description": "The cluster's kubeconfig file, encoded with base64.",
           "type": "string",
           "x-go-name": "Kubeconfig"
         }
@@ -25029,6 +25093,9 @@
       "type": "object",
       "title": "NodeSettings are node specific flags which can be configured on datacenter level.",
       "properties": {
+        "containerdRegistryMirrors": {
+          "$ref": "#/definitions/ContainerRuntimeContainerd"
+        },
         "httpProxy": {
           "$ref": "#/definitions/ProxyValue"
         },

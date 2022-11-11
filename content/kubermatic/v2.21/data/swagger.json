@@ -22023,6 +22023,11 @@
         "credentialsReference": {
           "$ref": "#/definitions/GlobalSecretKeySelector"
         },
+        "disableIAMReconciling": {
+          "description": "DisableIAMReconciling is used to disable reconciliation for IAM related configuration. This is useful in air-gapped\nsetups where access to IAM service is not possible.",
+          "type": "boolean",
+          "x-go-name": "DisableIAMReconciling"
+        },
         "instanceProfileName": {
           "type": "string",
           "x-go-name": "InstanceProfileName"
@@ -23009,6 +23014,27 @@
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
+    "AnexiaDiskConfig": {
+      "description": "AnexiaDiskConfig defines a single disk for a node at anexia",
+      "type": "object",
+      "required": [
+        "size"
+      ],
+      "properties": {
+        "performanceType": {
+          "description": "PerformanceType configures the performance type this disks of each node will have.\nKnown values are something like \"ENT3\" or \"HPC2\".",
+          "type": "string",
+          "x-go-name": "PerformanceType"
+        },
+        "size": {
+          "description": "Disks configures this disk of each node will have.",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Size"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/api/v1"
+    },
     "AnexiaNodeSpec": {
       "description": "AnexiaNodeSpec anexia specific node settings",
       "type": "object",
@@ -23016,8 +23042,7 @@
         "vlanID",
         "templateID",
         "cpus",
-        "memory",
-        "diskSize"
+        "memory"
       ],
       "properties": {
         "cpus": {
@@ -23027,10 +23052,18 @@
           "x-go-name": "CPUs"
         },
         "diskSize": {
-          "description": "DiskSize states the disk size that node will have.",
+          "description": "DiskSize states the disk size that node will have.\nDeprecated: please use the new Disks attribute instead.",
           "type": "integer",
           "format": "int64",
           "x-go-name": "DiskSize"
+        },
+        "disks": {
+          "description": "Disks configures the disks each node will have.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AnexiaDiskConfig"
+          },
+          "x-go-name": "Disks"
         },
         "memory": {
           "description": "Memory states the memory that node will have.",
@@ -23334,7 +23367,7 @@
           "$ref": "#/definitions/RawExtension"
         }
       },
-      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/apps.kubermatic/v1"
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/api/v2"
     },
     "ApplicationInstallationStatus": {
       "type": "object",
@@ -24447,6 +24480,9 @@
         },
         "eventRateLimitConfig": {
           "$ref": "#/definitions/EventRateLimitConfig"
+        },
+        "exposeStrategy": {
+          "$ref": "#/definitions/ExposeStrategy"
         },
         "kubernetesDashboard": {
           "$ref": "#/definitions/KubernetesDashboard"
@@ -29287,7 +29323,7 @@
           "x-go-name": "Name"
         }
       },
-      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/apps.kubermatic/v1"
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/api/v2"
     },
     "NetworkDefaults": {
       "type": "object",
