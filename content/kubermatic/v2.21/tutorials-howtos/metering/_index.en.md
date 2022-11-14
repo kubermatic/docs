@@ -39,7 +39,7 @@ For that to work properly the s3 endpoint needs to be available from the browser
 Using the dashboard, configuring the Metering tool becomes a breeze.
 Open the [Admin Panel][admin-panel] and choose the **Metering** tab on the left side.
 
-![Navigation to Metering configuration and reports](/img/kubermatic/main/tutorials/metering_admin_panel_location.png?classes=shadow,border "Navigation to Metering configuration and reports")
+![Navigation to Metering configuration and reports](/img/kubermatic/v2.21/tutorials/metering_admin_panel_location.png?classes=shadow,border "Navigation to Metering configuration and reports")
 
 First you need to configure the credentials for your S3 bucket.
 To do so click on *Edit credentials*, fill in the credential fields and confirm with the button below.
@@ -52,7 +52,7 @@ To do so click on *Edit credentials*, fill in the credential fields and confirm 
 - **S3 bucket**
   - Name of your S3 bucket
 
-!["Edit Credentials" form](/img/kubermatic/main/tutorials/metering_credentials.png?classes=shadow,border "'Edit Credentials' form")
+!["Edit Credentials" form](/img/kubermatic/v2.21/tutorials/metering_credentials.png?classes=shadow,border "'Edit Credentials' form")
 
 The next step is to enable metering.
 Click on **Configure Metering**, switch on **Enable Metering** and change the configuration options according to your wishes.
@@ -83,7 +83,7 @@ A schedule consist of four different values to set:
 - `Cron Expression`
   - Cron expression that describes how often a report should be created.
 
-![Metering Configuration](/img/kubermatic/main/tutorials/metering_report_configuration.png?classes=shadow,border "Metering Configuration")
+![Metering Configuration](/img/kubermatic/v2.21/tutorials/metering_report_configuration.png?classes=shadow,border "Metering Configuration")
 
 ### Configuration via Seed Object
 
@@ -153,7 +153,7 @@ While the reports will be stored in your S3-bucket, they can also be accessed fr
 The metering overview provides a list of all reports.
 Click on the download button on the right side to save a specific report file.
 
-![Metering Overview](/img/kubermatic/main/tutorials/metering_overview.png?classes=shadow,border "Metering Overview")
+![Metering Overview](/img/kubermatic/v2.21/tutorials/metering_overview.png?classes=shadow,border "Metering Overview")
 
 ### Cluster Report
 
