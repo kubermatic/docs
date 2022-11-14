@@ -98,7 +98,7 @@
     "@types/lodash": "4.14.136",
     "@types/node": "12.6.8",
     "codelyzer": "5.1.0",
-    "cypress": "3.4.1",
+    "cypress": "11.0.1",
     "gts": "0.9.0",
     "husky": "3.0.1",
     "jasmine-core": "3.4.0",
