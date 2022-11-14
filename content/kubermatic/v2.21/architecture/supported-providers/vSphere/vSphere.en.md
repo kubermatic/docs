@@ -348,6 +348,55 @@ VirtualMachine.State.RevertToSnapshot
 
 ```
 
+* Role `k8c-user-tags-category` (**Optional**: Needed only for handling tags and tags categories)
+  * Granted at **datacenter** level, propagated
+  * Provides permission to create vSphere tags and tag categories which are need by KKP seed controller manager
+  * Permissions
+    * vSphere Tagging
+      * Create vSphere Tag Category
+      * Delete vSphere Tag Category
+      * Create vSphere Tag
+      * Delete vSphere Tag
+```
+
+$ govc role.ls k8c-user-tags-category
+InventoryService.Tagging.CreateCategory
+InventoryService.Tagging.CreateTag
+InventoryService.Tagging.DeleteCategory
+InventoryService.Tagging.DeleteTag
+System.Anonymous
+System.Read
+System.View
+
+```
+* Role `k8c-user-tags` (**Optional**: Needed only for attaching tags on VMs)
+  * Granted at **datacenter** level, propagated
+  * Provider permission to manage vSphere tags on machine level by machine controller
+  * Permissions
+    * vSphere Tagging
+      * Assign or Unassign vSphere Tag
+      * Assign or Unassign vSphere Tag on Object
+```
+
+$ govc role.ls k8c-user-tags
+InventoryService.Tagging.AttachTag
+InventoryService.Tagging.ObjectAttachable
+System.Anonymous
+System.Read
+System.View
+
+```
+
+{{% notice %}}
+Note: If the user creates a new user cluster, without specifying any tag category, KKP will create one by default. This 
+category will be deleted upon cluster deletion.
+{{% /notice %}}
+
+{{% notice warning %}}
+Note: If a tag category is assigned to a user cluster, KKP would claim the ownership of this category and it would try to 
+clean it up upon cluster deletion. Thus, make sure that, the assigned category, isn't shared across other lingering resources.
+{{% /notice %}}
+
 
 
 The described permissions have been tested with vSphere 7.0.U2 and might be different for other vSphere versions.
