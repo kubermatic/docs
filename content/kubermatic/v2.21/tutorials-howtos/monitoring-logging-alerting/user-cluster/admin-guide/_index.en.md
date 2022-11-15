@@ -52,12 +52,16 @@ Other parameters which can become important if you have particularly high values
 
 #### Create MLA secrets
 
+{{% notice warning %}}
+If you are upgrading MLA from older version, do not reinstall/upgrade the `mla-secrets` chart, unless instructed to do so in the release notes.
+{{% /notice %}}
+
 The [kubermatic/mla Github repository](https://github.com/kubermatic/mla) contains all the Helm charts of the User Cluster MLA stack and scripts to install them. Clone or download it, so that we can deploy the MLA stack into a KKP Seed cluster. Please make sure you are using the tag that is matching your KKP version as described in the "KKP Compatibility Matrix".
 
 Before deploying the MLA stack into the KKP Seed cluster, let’s create two Kubernetes Secrets that contain credentials for MinIO and Grafana, and which will be used by the MLA stack and KKP controllers. The MLA repo contains a Helm chart that will auto-generate the necessary Secrets - for creating them, simply run:
 
 ```bash
-helm --namespace mla upgrade --atomic --create-namespace --install mla-secrets charts/mla-secrets --values config/mla-secrets/values.yaml
+helm --namespace mla install --atomic --create-namespace mla-secrets charts/mla-secrets --values config/mla-secrets/values.yaml
 ```
 
 The above command will create two Secrets (one for MinIO, and one for Grafana), if you want to use your existing Secrets in the Cluster, you can disable the creation by modifying the [mla-secret value.yaml](https://github.com/kubermatic/mla/blob/main/config/mla-secrets/values.yaml#L17-L22)
