@@ -45,6 +45,6 @@ Congratulations! You have successfully contributed to the KKP project.
 
 ## Communication Channels
 
-If you encounter a problem, you can [file an issue](https://github.com/kubermatic/kubermatic/issues) in the repository on GitHub or talk to us on the [Kubermatic Community Slack](http://kubermatic-community.slack.com/) ([click here to join](https://join.slack.com/t/kubermatic-community/shared_invite/zt-vqjjqnza-dDw8BuUm3HvD4VGrVQ_ptw)). In case of complex issues, we can set up video meetings for resolution. 
+If you encounter a problem, you can [file an issue](https://github.com/kubermatic/kubermatic/issues) in the repository on GitHub or talk to us on the [Kubermatic Community Slack](https://kubermatic-community.slack.com/) ({{< slackjoinlink "click here to join" >}}). In case of complex issues, we can set up video meetings for resolution.
 
 Thank you for your contributions!
