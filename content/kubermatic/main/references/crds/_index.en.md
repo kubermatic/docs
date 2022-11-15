@@ -232,7 +232,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ | Name of the Application. Should be a valid lowercase RFC1123 domain name |
-| `version` _[Version](#version)_ | Version of the Application. Must be a valid SemVer version |
+| `version` _string_ | Version of the Application. Must be a valid SemVer version |
 
 
 [Back to top](#top)
@@ -438,24 +438,6 @@ _Appears in:_
 | `chartName` _string_ | Name of the Chart. |
 | `chartVersion` _string_ | Version of the Chart. |
 | `credentials` _[HelmCredentials](#helmcredentials)_ | Credentials are optional and hold the ref to the secret with helm credentials. Either username / Password or registryConfigFile can be defined. |
-
-
-[Back to top](#top)
-
-
-
-### Version
-
-
-
-Version wraps semverlib.Version. It is needed because kubebuilder does not accept structs with non-tagged fields, even if they have custom marshallers With this the CRD resource will have Version as string but operator code can work directly with the semverlib.Version struct (taken from https://github.com/kubernetes-sigs/controller-tools/blob/master/pkg/crd/testdata/cronjob_types.go#L283)
-
-_Appears in:_
-- [ApplicationRef](#applicationref)
-
-| Field | Description |
-| --- | --- |
-| `invalid type` _invalid type_ |  |
 
 
 [Back to top](#top)
