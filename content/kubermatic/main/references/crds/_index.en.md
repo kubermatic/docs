@@ -5997,7 +5997,8 @@ _Appears in:_
 | `storagePolicy` _string_ | StoragePolicy to be used for storage provisioning |
 | `resourcePool` _string_ | ResourcePool is used to manage resources such as cpu and memory for vSphere virtual machines. The resource pool should be defined on vSphere cluster level. |
 | `infraManagementUser` _[VSphereCredentials](#vspherecredentials)_ | This user will be used for everything except cloud provider functionality |
-| `tagCategoryID` _string_ | This is category for the machine deployment tags |
+| `tagCategoryName` _string_ | TagCategoryName represents the name of vSphere tag category that will be used to create and attach tags on VMS. |
+| `tagCategoryID` _string_ | TagCategoryID represents the category id for the machine deployment tags. |
 
 
 [Back to top](#top)
