@@ -85,6 +85,7 @@ spec:
             - "<< YOUR_PUBLIC_KEY >>"
           cloudProvider: "kubevirt"
           cloudProviderSpec:
+            clusterName: "cluster-name"
             auth:
               kubeconfig:
                 value: '<< KUBECONFIG >>'
