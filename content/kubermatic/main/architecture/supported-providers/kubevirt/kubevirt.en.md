@@ -566,7 +566,7 @@ Newly created VMs will have these labels automatically but for existing VMs and 
 
 Add following labels
 ```yaml
-cluster.x-k8s.io/cluster-name: cluster-<cluster-id>
+cluster.x-k8s.io/cluster-name: <cluster-id>
 cluster.x-k8s.io/role: worker
 ```
 to:
@@ -586,27 +586,27 @@ $ export CLUSTERID=<your kkp user cluster id>
 $ cat << EOF > patch-vm.yaml
 metadata:
   labels:
-    cluster.x-k8s.io/cluster-name: cluster-$CLUSTERID
+    cluster.x-k8s.io/cluster-name: $CLUSTERID
     cluster.x-k8s.io/role: worker
 spec:
   template:
     metadata:
       labels:
-        cluster.x-k8s.io/cluster-name: cluster-$CLUSTERID
+        cluster.x-k8s.io/cluster-name: $CLUSTERID
         cluster.x-k8s.io/role: worker
 EOF
 $ kubectl patch -n cluster-$CLUSTERID vm <vm> --patch-file patch-vm.yaml --type=merge
 $ cat << EOF > patch-vmi.yaml
 metadata:
   labels:
-    cluster.x-k8s.io/cluster-name: cluster-$CLUSTERID
+    cluster.x-k8s.io/cluster-name: $CLUSTERID
     cluster.x-k8s.io/role: worker
 EOF
 $ kubectl patch -n cluster-$CLUSTERID vmi <vmi> --patch-file patch-vmi.yaml --type=merge
 $ cat << EOF > patch-lb-svc.yaml
 spec:
   selector:
-    cluster.x-k8s.io/cluster-name: cluster-$CLUSTERID
+    cluster.x-k8s.io/cluster-name: $CLUSTERID
     cluster.x-k8s.io/role: worker
 EOF
 $ kubectl patch -n cluster-$CLUSTERID svc <lb-svc> --patch-file patch-lb-svc.yaml --type=merge
