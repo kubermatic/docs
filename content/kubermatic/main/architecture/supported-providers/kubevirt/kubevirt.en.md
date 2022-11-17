@@ -557,6 +557,10 @@ Follow the below steps to import the dashboard in Grafana:
 
 ## Migration to KKP 2.22
 
+### KubeVirt upgrade
+
+tbd.
+
 ### Cluster labels
 
 With KKP 2.22 KubeVirt CCM is upgraded from `v0.2.0` to `v0.4.0`.
