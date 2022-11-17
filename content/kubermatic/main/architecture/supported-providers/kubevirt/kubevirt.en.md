@@ -615,3 +615,13 @@ spec:
 EOF
 $ kubectl patch -n cluster-$CLUSTERID svc <lb-svc> --patch-file patch-lb-svc.yaml --type=merge
 ```
+
+### MachineDeployments
+
+MachineDeployments created with KKP 2.22 will have the field `clusterName` set with the cluster ID in the KubeVirt `cloudProviderSpec`,
+which is used by the machine-controller to set the cluster labels on VMs and VMIs. Any pre-existing MachineDeployments will not have this
+field set automatically to avoid rolling over all Machines. So in the scenario of scaling up pre-existing MachineDeployments for
+LoadBalancers to properly function, there are 2 possibilities:
+
+1. If it's no problem that all VMs get re-created, just set `MachineDeployment.spec.template.spec.providerSpec.value.cloudProviderSpec.clusterName` to your cluster ID.
+2. Otherwise you need to manually set the cluster labels described above on all VMs and VMIs that are being created while scaling the MachineDeployment up.
