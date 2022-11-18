@@ -131,3 +131,6 @@ spec:
             url: https://charts.example.com || oci://localhost:5000/myrepo
       # Version of the application (e.g. v1.2.3)
       version: v1.2.3
+  # DefaultValues describe overrides for manifest-rendering in UI when creating an application.
+  # Reference https://docs.kubermatic.com/kubermatic/main/references/crds/#applicationdefinitionspec
+  defaultValues: {}

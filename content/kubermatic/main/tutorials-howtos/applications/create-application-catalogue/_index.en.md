@@ -52,6 +52,9 @@ spec:
             branch: master
           remote: https://github.com/prometheus-community/helm-charts
     version: 0.0.0-dev
+  # DefaultValues describe overrides for manifest-rendering in UI when creating an application.
+  # Reference https://docs.kubermatic.com/kubermatic/main/references/crds/#applicationdefinitionspec
+  defaultValues: {}
 ```
 
 ### Application Metadata
@@ -110,6 +113,10 @@ For private registries, please check the [working with private registries](#work
   - `commit` -> sha of a commit from which the chart should be pulled; Must be used in conjunction with a branch to ensure shallow cloning
 
 For private git repositories, please check the [working with private registries](#working-with-private-registries) section.
+
+### Default Values
+
+- `spec.defaultValues` - defaultValues describe overrides for manifest-rendering in UI when creating an application. During the applicationdefinition creation time if the defaultValues is updated, then it is render for override during the application creation process from UI.
 
 ### Applying the ApplicationDefinition
 

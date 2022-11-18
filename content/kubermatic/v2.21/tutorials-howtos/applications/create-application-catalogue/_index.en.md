@@ -52,6 +52,9 @@ spec:
             branch: master
           remote: https://github.com/prometheus-community/helm-charts
     version: 0.0.0-dev
+  # DefaultValues describe overrides for manifest-rendering in UI when creating an application.
+  # Reference https://docs.kubermatic.com/kubermatic/main/references/crds/#applicationdefinitionspec
+  defaultValues: {}
 ```
 
 ### Application Metadata
