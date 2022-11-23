@@ -123,7 +123,7 @@ Dual-stack feature is available automatically for all new user clusters in AWS. 
 that the VPC and subnets used to host the worker nodes need to be dual-stack enabled - i.e. must have both IPv4 and IPv6 CIDR assigned.
 
 Limitations:
-- Worker nodes do not have their IPv6 IP addresses published in k8s API (`kubectl describe nodes`), but have them physically
+- In the Clusters with control plane version < 1.24, Worker nodes do not have their IPv6 IP addresses published in k8s API (`kubectl describe nodes`), but have them physically
 applied on their network interfaces (can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
 - Dual-Stack services of type `LoadBalancer` are not yet supported by AWS cloud-controller-manager. Only `NodePort` services can be used
 to expose services outside the cluster via IPv6.
