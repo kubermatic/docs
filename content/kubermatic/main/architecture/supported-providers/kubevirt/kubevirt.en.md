@@ -9,8 +9,14 @@ weight = 7
 ## Installation
 
 ### Requirements
-KKP supports KubeVirt Operator >= 0.19.0 and the Containerized Data Importer >= v1.19.0.
-It is strongly recommended to run the latest released version.
+Kubernetes cluster where KubeVirt is installed (KubeVirt infrastructure cluster) must be in range of [supported KKP Kubernetes clusters](https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions). The strong recommendation is to use the latest supported version.
+
+The infrastructure cluster must have installed:
+* KubeVirt >= 0.57 and support the selected Kubernetes version.
+* Containerized Data Importer that supports the selected KubeVirt and Kubernetes version.
+
+Visit [KubeVirt compatibility page](https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions) to find out which version of KubeVirt you can install on your infrastructure cluster.
+
 A minimal Kubernetes cluster should consist of 3 nodes with 2 CPUs, 4GB of RAM and 30GB of storage.
 
 ### KubeVirt on Kubernetes
@@ -97,13 +103,19 @@ spec:
                   size: "10Gi"
                   storageClassName: "<< YOUR_STORAGE_CLASS_NAME >>"
             affinity:
+              # Deprecated: Use topologySpreadConstraints instead.
               podAffinityPreset: "" # Allowed values: "", "soft", "hard"
+              # Deprecated: Use topologySpreadConstraints instead.
               podAntiAffinityPreset: "" # Allowed values: "", "soft", "hard"
               nodeAffinityPreset:
                 type: "" # Allowed values: "", "soft", "hard"
                 key: "foo"
                 values:
                   - bar
+            topologySpreadConstraints:
+              - maxSkew: "1"
+                topologyKey: "kubernetes.io/hostname"
+                whenUnsatisfiable: "" # Allowed values: "DoNotSchedule", "ScheduleAnyway"
           operatingSystem: "ubuntu"
           operatingSystemSpec:
             distUpgradeOnBoot: false
@@ -128,17 +140,27 @@ so all resources for this cluster are located in the `cluster-gff5gnxc7r` namesp
 It is possible to control how the tenant nodes are scheduled on the infrastructure nodes.
 ![Scheduling](/img/kubermatic/main/architecture/supported-providers/kubevirt/Scheduling.png)
 
-We provide 3 different types of scheduling for the KubeVirt tenant nodes:
-- Ensure co-location on the same infrastructure node (*Pod Affinity Preset*).
-- Prevent co-location on the same infrastructure node (*Pod Anti Affinity Preset*).
+We provide control of the user cluster nodes scheduling over topology spread constraints and node affinity presets mechanisms. You can use a combination of them, or they can work independently:
+- Spread across a given topology domains (*TopologySpreadConstraints*).
 - Schedule on nodes having some specific labels (*Node Affinity Preset*).
 
-This setup is done in the `Initial Nodes` step of KKP dashboard when creating a cluster.
+**Note**: `Pod Affinity Preset` and `Pod Anti Affinity Preset` are deprecated. Migration to `TopologySpreadConstraints` does not affect existing MachineDeployment and corresponding VMs.
+If existing MachineDeployment has Pod Affinity/Anti-Affinity Preset spec, it will remain the same. But any update of existing MachineDeployment will trigger creation of new VMs which will not have Pod Affinity/Anti-Affinity Preset spec
+, instead they will have default topology spread constraint.
 
-![Dashboard](/img/kubermatic/main/architecture/supported-providers/kubevirt/Dashboard-scheduling.png)
+TopologySpreadConstraint for VMs are related to [Kubernetes:Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/). Below is the description of different fields of a `TopologySpreadConstraints`:
 
+| Field             | Description                                                                 |
+|-------------------|-----------------------------------------------------------------------------|
+| maxSkew           | degree to which VMs may be unevenly distributed                             |
+| topologyKey       | key of infra-node labels                                                    |
+| whenUnsatisfiable | indicates how to deal with a VM if it doesn't satisfy the spread constraint |
 
-For each of this scheduling types (*Pod Affinity Preset*, *Pod Anti Affinity Preset*, *Node Affinity Preset*), we can also specify if we want the affinity to be:
+The allowed values for `whenUnsatisfiable` are as follows:
+- `DoNotSchedule` tells the scheduler not to schedule if it doesn't satisfy the spread constraint.
+- `ScheduleAnyway` tells the scheduler to schedule the VM in any location, but giving higher precedence to topologies that would help reduce the skew.
+
+For *Node Affinity Preset* scheduling type, we can specify if we want the affinity to be:
 - *"hard"*
 -  *"soft"*
 
@@ -154,7 +176,7 @@ To achieve this goal, we use the [KubeVirt VM Affinity and Anti-affinity capabil
 
 #### How scheduling settings influence a MachineDeployment object
 
-Scheduling settings are represented in the *MachineDeployment* object under *spec.providerSpec.value.affinity*:
+Scheduling settings are represented in the *MachineDeployment* object under *spec.providerSpec.value.affinity* and *spec.providerSpec.value.topologySpreadConstraints*:
 
 ```yaml
 kind: MachineDeployment
@@ -166,23 +188,19 @@ spec:
         value:
             // ....
             affinity:
-              podAffinityPreset: "" # Allowed values: "", "soft", "hard"
-              podAntiAffinityPreset: "" # Allowed values: "", "soft", "hard"
               nodeAffinityPreset:
                 type: "" # Allowed values: "", "soft", "hard"
                 key: "foo"
                 values:
                   - bar
+            topologySpreadConstraints:
+              - maxSkew: "1"
+                topologyKey: "kubernetes.io/hostname"
+                whenUnsatisfiable: "" # Allowed values: "DoNotSchedule", "ScheduleAnyway"
 // ....
 ```
 
-**Important Note**:
-- `podAffinityPreset` and `podAntiAffinityPreset` are **mutually exclusive**. The Anti-Affinity setting works the opposite of Affinity.
-- `podAffinityPreset` can be specified along with `nodeAffinityPreset`: this allows ensure that the KubeVirt tenant nodes are co-located on a single infrastructure node that has some specific labels.
-- `podAntiAffinityPreset` can be specified along with `nodeAffinityPreset`: this prevents the KubeVirt tenant nodes from being co-located on the same infrastructure node, but be located on infrastructure nodes that have some specific labels.
-
-
-1- **Usage of Pod Affinity Preset**
+1- **Usage of TopologySpreadConstraints**
 
 <details>
   <summary>With the following *MachineDeployment* specification</summary>
@@ -196,14 +214,16 @@ spec:
       providerSpec:
         value:
             // ....
-            affinity:
-              podAffinityPreset: "hard" # or "soft"
+          topologySpreadConstraints:
+              - maxSkew: "1"
+                topologyKey: "zone"
+                whenUnsatisfiable: "DoNotSchedule"
 // ....
 ```
 </details>
 
-The following *VirtualMachine* specification will be generated
-- with affinity type *"hard"*:
+The following *VirtualMachine* specification will be generated from above *MachineDeployment*
+- with the `custom topologySpreadConstraints`:
 <details>
  <summary>VirtualMachine* specification</summary>
 
@@ -216,17 +236,18 @@ spec:
   template:
     ...
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution: ### as affinity is "hard"
-          - labelSelector:
-              matchLabels:
-                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-            topologyKey: kubernetes.io/hostname
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: zone
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              md : qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
 ```
 </details>
 
-- with affinity type *"soft"*:
+The following *VirtualMachine* specification will be generated if no custom topologySpreadConstraints is specified in *MachineDeployment*
+- with `default topologySpreadConstraints`:
 <details>
  <summary>VirtualMachine* specification</summary>
 
@@ -239,84 +260,18 @@ spec:
   template:
     ...
     spec:
-      affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution: ### as affinity is "soft"
-          - labelSelector:
-              matchLabels:
-                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-            topologyKey: kubernetes.io/hostname
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              md : qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
 ```
 </details>
 
-2- **Usage of Pod Anti Affinity Preset**
 
-<details>
-  <summary>With the following *MachineDeployment* specification</summary>
-
-```yaml
-kind: MachineDeployment
-spec:
- // ...
-  template:
-    spec:
-      providerSpec:
-        value:
-            // ....
-            affinity:
-              podAntiAffinityPreset: "hard" # or "soft"
-// ....
-```
-</details>
-
-The following *VirtualMachine* specification will be generated
-- with affinity type *"hard"*:
-<details>
- <summary>VirtualMachine* specification</summary>
-
-```yaml
-kind: VirtualMachine
-metadata:
-  ...
-spec:
-  ...
-  template:
-    ...
-   spec:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchLabels:
-                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-            topologyKey: kubernetes.io/hostname
-```
-</details>
-
-- with affinity type *"soft"*:
-<details>
- <summary>VirtualMachine* specification</summary>
-
-```yaml
-kind: VirtualMachine
-metadata:
-  ...
-spec:
-  ...
-  template:
-    ...
-    spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution: ### as affinity is "soft"
-          - labelSelector:
-              matchLabels:
-                md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-            topologyKey: kubernetes.io/hostname
-```
-</details>
-
-3- **Usage of Node Affinity Preset**
+2- **Usage of Node Affinity Preset**
 
 <details>
   <summary>With the following *MachineDeployment* specification</summary>
@@ -445,10 +400,10 @@ It will be present in the `VM Flavor` dropdown list selection and be copied in t
 
 What happens if we update a `VirtualMachineInstancePreset` existing in the `default` namespace ?
 - The updated `VirtualMachineInstancePreset` will be reconciled from the `default` namespace into the `cluster-xyz` namespace.
-Give it some time to be reconciled. The reconciliation interval is configurable (refer to `providerReconciliationInterval`
-in [Seed configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})
+  Give it some time to be reconciled. The reconciliation interval is configurable (refer to `providerReconciliationInterval`
+  in [Seed configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})
 - For all `VirtualMachineIsntances` already created, this will have no impact.
-Please refer to [KubeVirt Preset documentation](https://kubevirt.io/user-guide/virtual_machines/presets/#updating-a-virtualmachineinstancepreset)
+  Please refer to [KubeVirt Preset documentation](https://kubevirt.io/user-guide/virtual_machines/presets/#updating-a-virtualmachineinstancepreset)
 - The update will then be effective for new `VirtualMachineIsntances`.
 
 *Note 2:* Limitation of the list of reconciled fields.
