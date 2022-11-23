@@ -2389,6 +2389,7 @@ _Appears in:_
 | `templates` _object (keys:OperatingSystem, values:string)_ | A list of VM templates to use for a given operating system. You must define at least one template. See: https://github.com/kubermatic/machine-controller/blob/master/docs/vsphere.md#template-vms-preparation |
 | `infraManagementUser` _[VSphereCredentials](#vspherecredentials)_ | Optional: Infra management user is the user that will be used for everything except the cloud provider functionality, which will still use the credentials passed in via the Kubermatic dashboard/API. |
 | `ipv6Enabled` _boolean_ | Optional: defines if the IPv6 is enabled for the datacenter |
+| `defaultTagCategoryID` _string_ | DefaultTagCategoryID is the tag category id that will be used as default, if users don't specify it on a cluster level, and they don't wish KKP to create default generated tag category, upon cluster creation. |
 
 
 [Back to top](#top)
