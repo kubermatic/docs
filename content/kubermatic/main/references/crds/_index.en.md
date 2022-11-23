@@ -1538,6 +1538,7 @@ _Appears in:_
 | `nodeLocalDNSCacheEnabled` _boolean_ | NodeLocalDNSCacheEnabled controls whether the NodeLocal DNS Cache feature is enabled. Defaults to true. |
 | `coreDNSReplicas` _integer_ | CoreDNSReplicas is the number of desired pods of user cluster coredns deployment. |
 | `konnectivityEnabled` _boolean_ | KonnectivityEnabled enables konnectivity for controlplane to node network communication. |
+| `tunnelingAgentIP` _string_ | TunnelingAgentIP is the address used by the tunneling agents |
 
 
 [Back to top](#top)
