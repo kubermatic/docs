@@ -41,7 +41,7 @@ current KKP version.
 
 [^1]: Kubernetes 1.24 and 1.23 are currently not supported on ARM64 clusters with Canal CNI and kube-proxy running in the IPVS mode.
 
-[^2]: Kubernetes 1.18, 1.19, 1.20, 1.21 and 1.22 releases have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
+[^2]: Kubernetes 1.19, 1.20, 1.21 and 1.22 releases have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
 
 [^3]: KKP 2.18 has reached End-of-Life (EOL). We strongly recommend upgrading to a supported KKP version as soon as possible.
 
