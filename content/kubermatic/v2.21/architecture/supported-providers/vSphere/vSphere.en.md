@@ -406,6 +406,13 @@ The described permissions have been tested with vSphere 7.0.U2 and might be diff
 It's also possible to create the roles by a terraform script. The following repo can be used as reference:
 * https://github.com/kubermatic-labs/kubermatic-vsphere-permissions-terraform
 
+#### Tag Category
+
+Starting from version 2.21, KKP supports the creation of Tags and Tag Categories. However, this feature requires access 
+for vSphere tagging permissions. Users can create a default tag category and assign it in vSphere datacenter configs 
+in the seed object, then, either they use pre-created tag categories and assign it on seed level and then it gets passed 
+to user clusters, or they permit KKP to create and manage it's own tags and tag catehories. 
+
 #### Volume Detach Bug
 
 After a node is powered-off, the Kubernetes vSphere driver doesn't detach disks associated with PVCs mounted on that node. This makes it impossible to reschedule pods using these PVCs until the disks are manually detached in vCenter.
