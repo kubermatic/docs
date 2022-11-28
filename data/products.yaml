@@ -69,5 +69,5 @@ operatingsystemmanager:
   logo: "/img/operatingsystemmanager/common/operating-system-manager-logo.png"
   title: Operating System Manager
   textName: Operating System Manager
-  description: Operating System Manager
+  description: Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster.
   weight: 4
