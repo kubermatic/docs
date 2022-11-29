@@ -672,7 +672,7 @@ However, if you already have KKP 2.21 installed and a KubeVirt cluster created w
 List of deprecated/updated features that require some manual update in the `MachineDeployment`:
 
 
-| Topic                      | Deprecated /Updagred                                          | In Favor of               | Mandatory/Optional migration |
+| Topic                      | Deprecated /Upgraded                                          | In Favor of               | Mandatory/Optional migration |
 |----------------------------|------------------------------------------------------|---------------------------|-------|
 | Virtual Machine Scheduling | Deprecated: `Pod Affinity Preset` and `Pod Anti Affinity Preset` | `TopologySpreadConstraints` | **Optional**: only if your `MachineDeployment` did contain `podAffinityPreset` or `podAntiAffinityPreset` |
 | Virtual Machines Templating | Deprecated: `Flavor`            | `Instancetype` and `Preference`           | **Optional**: only if your `MachineDeployment` did contain `flavor` |
