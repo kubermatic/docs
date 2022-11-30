@@ -14,14 +14,14 @@ reusable cluster template object. At seed level, cluster templates are used to s
 
 Some required values for new clusters are defaulted by KKP.
 
-To adjust the defaulting behavior to fit your needs it is possible to define a `defaultClusterTemplate` in a seed object. 
+To adjust the defaulting behavior to fit your needs it is possible to define a `defaultClusterTemplate` in a seed object.
 
 This template will merge with the input made by the user and only adjust fields that are not set.
 KKP always provides default values for mandatory fields, even if they are not specified in the template.
 
 `defaultClusterTemplate` expects a name of a `ClusterTemplate` with label `scope: seed` to be existent in the seed cluster.
 
-Example ClusterTemplate: 
+Example ClusterTemplate:
 
 ```yaml
 
@@ -68,3 +68,7 @@ spec:
   humanReadableName: "SeedDefaults"
   pause: false
 ```
+
+{{% notice warning %}}
+Cloud provider specific configurations are not allowed in the default Cluster Template.
+{{% /notice %}}
