@@ -188,7 +188,7 @@ KKP provides several addons for user clusters, that can be helpful when the User
 - **kube-state-metrics** addon: exposes cluster-level metrics of Kubernetes API objects (like pods, deployments, etc.) to Prometheus.
 
 When these addons are deployed to user clusters, no further configuration of the user cluster MLA stack is needed,
-the exposed metrics will be scraped by user cluster Prometheus and become available in Grafana automatically.
+the exposed metrics will be scraped by user cluster monitoring agent and become available in Grafana automatically.
 
 Before addons can be deployed into KKP user clusters, the KKP installation has to be configured to enable them
 as [accessible addons]({{< relref "../../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}). The `node-exporter` and `kube-state-metrics`
@@ -366,7 +366,7 @@ This chapter describes some potential problems that you may face in a KKP instal
 
 ![MLA UI - Cluster View](/img/kubermatic/main/monitoring/user_cluster/ui_cluster_view.png)
 
-- Check that Prometheus / Promtail was deployed an is running in the user cluster:
+- Check that Monitoring / Logging Agent was deployed an is running in the user cluster:
 
 ```bash
 kubectl get pods -n mla-system
@@ -374,12 +374,12 @@ kubectl get pods -n mla-system
 
 Output will be similar to this:
 ```bash
-NAME                          READY   STATUS    RESTARTS   AGE
-prometheus-68f7485456-jj7v6   1/1     Running   0          11m
-promtail-cm4qd                1/1     Running   0          6m11s
+NAME                                READY   STATUS    RESTARTS   AGE
+monitoring-agent-68f7485456-jj7v6   1/1     Running   0          11m
+logging-agent-cm4qd                 1/1     Running   0          6m11s
 ```
 
-- Check the logs of Prometheus / Promtail pods
+- Check the logs of monitoring agent / logging agent pods
 - Check that the MLA Gateway pod is running in the user cluster namespace in the Seed cluster:
 
 ```bash

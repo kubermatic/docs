@@ -24,7 +24,7 @@ KKP provides several addons for user clusters, that can be helpful when the User
 - **kube-state-metrics** addon: exposes cluster-level metrics of Kubernetes API objects (like pods, deployments, etc.) to Prometheus.
 
 When these addons are deployed to user clusters, no further configuration of the user cluster MLA stack is needed,
-the exposed metrics will be scraped by user cluster Prometheus and become available in Grafana automatically.
+the exposed metrics will be scraped by user cluster Monitoring Agent and become available in Grafana automatically.
 
 Given that the addons have been already [enabled in the KKP installation]({{< relref "../admin-guide/#addons-configuration" >}}), they can be enabled via the KKP UI on the cluster page, as shown below:
 
@@ -34,8 +34,8 @@ Given that the addons have been already [enabled in the KKP installation]({{< re
 
 ## Exposing Application Metrics
 
-User Cluster MLA stack defines some common metrics scrape targets for Prometheus by default. As part of that, it is configured to scrape metrics from all Kubernetes pods and service endpoints, provided they have the correct annotations. Thanks to that, it is possible to add custom metrics scrape targets for any applications running in user clusters.
-Apart from that, it is also possible to extend the scraping configuration with custom Prometheus `scrape_config` targets using ConfigMaps, as described later in this section.
+User Cluster MLA stack defines some common metrics scrape targets for Monitoring Agent by default. As part of that, it is configured to scrape metrics from all Kubernetes pods and service endpoints, provided they have the correct annotations. Thanks to that, it is possible to add custom metrics scrape targets for any applications running in user clusters.
+Apart from that, it is also possible to extend the scraping configuration with custom targets using ConfigMaps, as described later in this section.
 
 ### Adding Scrape Annotations to Your Applications
 
@@ -51,7 +51,7 @@ metadata:
 
 Note that the values for `prometheus.io/scrape` and `prometheus.io/port` must be enclosed in double quotes.
 
-The metric endpoints exposed via annotations will be automatically discovered by the User Cluster Prometheus and made available in the MLA Grafana UI without any further configuration.
+The metric endpoints exposed via annotations will be automatically discovered by the User Cluster Monitoring Agent and made available in the MLA Grafana UI without any further configuration.
 
 The following annotations are supported:
 
@@ -62,13 +62,13 @@ The following annotations are supported:
 | prometheus.io/path        | `/metrics`    |  Overrides the metrics path, the default is `/metrics`
 | prometheus.io/port        | `"8080"`      | Scrape the pod / service endpoints on the indicated port
 
-For more information on exact scraping configuration and annotations, reference the user cluster Prometheus configuration in the `prometheus` ConfigMap (`kubectl get configmap prometheus -n mla-system -oyaml`) against the prometheus documentation for [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config) and [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config).
+For more information on exact scraping configuration and annotations, reference the user cluster Grafana Agent configuration in the `monitoring-agent` ConfigMap (`kubectl get configmap monitoring-agent -n mla-system -oyaml`) against the prometheus documentation for [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config) and [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config).
 
 ### Extending Scrape Config
-It is also possible to extend User Cluster Prometheus with custom `scrape_config` targets. This can be achieved by adding ConfigMaps with a pre-defined name prefix `prometheus-scraping` in the `mla-system` namespace in the user cluster. For example, a file `example.yaml` which contains customized scrape configs can look like the following:
+It is also possible to extend User Cluster Grafana Agent with custom `scrape_config` targets. This can be achieved by adding ConfigMaps with a pre-defined name prefix `monitoring-scraping` in the `mla-system` namespace in the user cluster. For example, a file `example.yaml` which contains customized scrape configs can look like the following:
 
 ```yaml
-- job_name: 'prometheus-example'
+- job_name: 'monitoring-example'
   static_configs:
   - targets: ["localhost:9090"]
 - job_name: 'schnitzel'
@@ -83,10 +83,10 @@ It is also possible to extend User Cluster Prometheus with custom `scrape_config
 User can create a ConfigMap from the above file by doing:
 
 ```bash
-kubectl create configmap prometheus-scraping-test --from-file=example.yaml -n mla-system
+kubectl create configmap monitoring-scraping-test --from-file=example.yaml -n mla-system
 ```
 
-User Cluster Prometheus will reload configuration automatically after executing the above command. Please note that users will need to make sure to provide valid scrape configs. Otherwise, User Cluster Prometheus will not reload configuration successfully and crash. For more information about Scrape Config of Prometheus, please refer to [Prometheus Scrape Config Documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
+User Cluster Monitoring Agent will reload configuration automatically after executing the above command. Please note that users will need to make sure to provide valid scrape configs. Otherwise, User Cluster Monitoring Agent will not reload configuration successfully and crash. For more information about Scrape Config of Prometheus, please refer to [Prometheus Scrape Config Documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
 ## Accessing Metrics & Logs in Grafana
 
@@ -153,18 +153,18 @@ For more information about Prometheus rules, please check [Prometheus Recording 
 
 For setting up Alertmanager with alerting rules for metrics and logs, please refer to [Walkthrough Tutorial: Setting up Alertmanager with Slack Notifications]({{< relref "../../../../tutorials-howtos/monitoring-logging-alerting/user-cluster/setting-up-alertmanager-with-slack-notifications" >}}).
 
-## User Cluster Prometheus & Promtail Resource Request & Limits
+## User Cluster Monitoring & Logging Agents Resource Request & Limits
 
-As described on the [User Cluster MLA Stack Architecture]({{< relref "../../../../architecture/monitoring-logging-alerting/user-cluster/" >}}) page, the user cluster MLA stack deploys two components into the KKP user clusters: Prometheus and Loki Promtail. The resource consumption of these components highly depends on the actual workload running in the user cluster. By default, they run with the following resource requests & limits:
+As described on the [User Cluster MLA Stack Architecture]({{< relref "../../../../architecture/monitoring-logging-alerting/user-cluster/" >}}) page, the user cluster MLA stack deploys two instances of Grafana Agent into the KKP user clusters: one for monitoring (`monitoring-agent`) and one for logging (`logging-agent`). The resource consumption of these components highly depends on the actual workload running in the user cluster. By default, they run with the following resource requests & limits:
 
-**Prometheus**:
+**monitoring-agent**:
 
 | Resource | Requests | Limits
 | -------- | -------- | ------
 | CPU      | 100m     | 1
 | Memory   | 256Mi    | 4Gi
 
-**Loki Promtail**:
+**logging-agent**:
 
 | Resource | Requests | Limits
 | -------- | -------- | ------
@@ -173,14 +173,14 @@ As described on the [User Cluster MLA Stack Architecture]({{< relref "../../../.
 
 Non-default resource requests & limits for user cluster Prometheus and Loki Promtail can be configured via KKP API endpoint for managing clusters (`/api/v2/projects/{project_id}/clusters/{cluster_id}`):
 
-**For Prometheus:**
+**monitoring-agent:**
 
 - `spec.mla.monitoringResources.requests.cpu`
 - `spec.mla.monitoringResources.requests.memory`
 - `spec.mla.monitoringResources.limits.cpu`
 - `spec.mla.monitoringResources.limits.memory`
 
-**For Loki Promtail:**
+**logging-agent:**
 
 - `spec.mla.loggingResources.requests.cpu`
 - `spec.mla.loggingResources.requests.memory`
