@@ -42,65 +42,13 @@ In KKP versions below v2.19, this was the only supported CNI.
 
 ### Cilium CNI
 
-[Cilium](https://cilium.io/) is a feature-rich CNI plugin, which leverages the revolutionary eBPF Kernel technology. It provides enhanced security and observability features, but requires more recent kernel versions on the worker nodes (see [Cilium System Requirements](https://docs.cilium.io/en/stable/operations/system_requirements/)).  
-The following table lists the supported operating systems and cloud providers for cilium CNI in KKP:
+Cilium](https://cilium.io/) is a feature-rich CNI plugin, which leverages the revolutionary eBPF Kernel technology. It provides enhanced security and observability features, but requires more recent kernel versions on the worker nodes (see [Cilium System Requirements](https://docs.cilium.io/en/stable/operations/system_requirements/)).
 
-{{%expand "With ebpf proxy mode" %}}
-|                       | Ubuntu | CentOS | Flatcar | RHEL | Amazon Linux 2 | SLES |
-| --------------------- | ------ | ------ | ------- | ---- | -------------- | ---- |
-| AWS                   | ✓      | -      | ✓       | ✓    | ✓              | x    |
-| Azure                 | ✓      | -      | ✓       | ✓    | -              | -    |
-| Digitalocean          | ✓      | x      | -       | -    | -              | -    |
-| Google Cloud Platform | ✓      | -      | -       | -    | -              | -    |
-| Hetzner               | ✓      | x      | -       | -    | -              | -    |
-| KubeVirt              | ✓      | x      | ✓       | ✓    | -              | -    |
-| Equinix Metal         | ✓      | x      | -       | -    | -              | -    |
-| Openstack             | ✓      | x      | ✓       | ✓    | -              | -    |
+Before opting for Cilium CNI, please verify that your worker nodes' Linux distributions is known to work well with Cilium based on the [Linux Distribution Compatibility List](https://docs.cilium.io/en/stable/operations/system_requirements/#linux-distribution-compatibility-considerations).
 
-**NOTE:**
+The most of the Cilium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only if [Konnectivity](#konnectivity) is enabled.
 
-- A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
-
-{{% /expand%}}
-
-{{%expand "With ipvs proxy mode" %}}
-|                       | Ubuntu | CentOS | Flatcar | RHEL  |
-| --------------------- | ------ | ------ | ------- | ----- |
-| AWS                   | ~[^1]  | x      | ~[^1]   | ~[^1] |
-| Azure                 | ~[^1]  | x      | ~[^1]   | ~[^1] |
-| Google Cloud Platform | ~[^1]  | -      | -       | -     |
-| Openstack             | ~[^1]  | x      | ~[^1]   | ~[^1] |
-
-**NOTE:**
-
-- A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
-- A tilde(~) denotes a partial support
-
-[^1]: Pod can not access `<internal_node_ip>:<node_port>`. issue [8767](https://github.com/kubermatic/kubermatic/issues/8767)
-
-{{% /expand%}}
-
-{{%expand "With iptables proxy mode" %}}
-|                       | Ubuntu | CentOS | Flatcar | RHEL | SLES |
-| --------------------- | ------ | ------ | ------- | ---- | ---- |
-| AWS                   | ✓      | x      | ✓       | ✓    | x    |
-| Azure                 | ✓      | -      | ✓       | x    | -    |
-| Digitalocean          | ✓      | x      | -       | -    | -    |
-| Google Cloud Platform | ✓      | -      | -       | -    | -    |
-| Hetzner               | ✓      | x      | -       | -    | -    |
-| KubeVirt              | ✓      | x      | ✓       | ✓    | -    |
-| Equinix Metal         | ✓      | x      | -       | -    | -    |
-| Openstack             | ✓      | x      | ✓       | ✓    | -    |
-
-**NOTE:**
-
-- A hyphen(-) denotes that the operating system is not supported for the given cloud provider.
-- A tilde(~) denotes a partial support
-
-{{% /expand%}}
-
-
-The most of the Cilium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only of [Konnectivity](#konnectivity) is enabled.
+**NOTE:** IPVS kube-proxy mode is not recommended with Cilium CNI due to [a known issue]({{< relref "../../../architecture/known-issues/" >}}#2-connectivity-issue-in-pod-to-nodeport-service-in-cilium--ipvs-proxy-mode).
 
 To provide better observability on cluster networking with Cilium CNI via a web user interface, KKP provides a Hubble Addon that can be easily installed into user clusters with Cilium CNI via the KKP UI on the cluster page, as shown below:
 
