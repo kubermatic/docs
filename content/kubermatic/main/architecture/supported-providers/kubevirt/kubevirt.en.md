@@ -91,10 +91,17 @@ spec:
             - "<< YOUR_PUBLIC_KEY >>"
           cloudProvider: "kubevirt"
           cloudProviderSpec:
+            clusterName: <cluster-id>
             auth:
               kubeconfig:
-                value: '<< KUBECONFIG >>'
+                value: "<< KUBECONFIG_BASE64 >>"
             virtualMachine:
+              instancetype:
+                name: "standard-2"
+                kind: "VirtualMachineInstancetype" # Allowed values: "VirtualMachineInstancetype"/"VirtualMachineClusterInstancetype"
+              preference:
+                name: "sockets-advantage"
+                kind: "VirtualMachinePreference" # Allowed values: "VirtualMachinePreference"/"VirtualMachineClusterPreference"
               template:
                 cpus: "1"
                 memory: "2048M"
@@ -103,10 +110,6 @@ spec:
                   size: "10Gi"
                   storageClassName: "<< YOUR_STORAGE_CLASS_NAME >>"
             affinity:
-              # Deprecated: Use topologySpreadConstraints instead.
-              podAffinityPreset: "" # Allowed values: "", "soft", "hard"
-              # Deprecated: Use topologySpreadConstraints instead.
-              podAntiAffinityPreset: "" # Allowed values: "", "soft", "hard"
               nodeAffinityPreset:
                 type: "" # Allowed values: "", "soft", "hard"
                 key: "foo"
@@ -116,12 +119,21 @@ spec:
               - maxSkew: "1"
                 topologyKey: "kubernetes.io/hostname"
                 whenUnsatisfiable: "" # Allowed values: "DoNotSchedule", "ScheduleAnyway"
+          # Can also be `centos`, must align with he configured registryImage above
           operatingSystem: "ubuntu"
           operatingSystemSpec:
             distUpgradeOnBoot: false
             disableAutoUpdate: true
+            # 'rhelSubscriptionManagerUser' is only used for rhel os and can be set via env var `RHEL_SUBSCRIPTION_MANAGER_USER`
+            rhelSubscriptionManagerUser: "<< RHEL_SUBSCRIPTION_MANAGER_USER >>"
+            # 'rhelSubscriptionManagerPassword' is only used for rhel os and can be set via env var `RHEL_SUBSCRIPTION_MANAGER_PASSWORD`
+            rhelSubscriptionManagerPassword: "<< RHEL_SUBSCRIPTION_MANAGER_PASSWORD >>"
+            # 'rhsmOfflineToken' if it was provided red hat systems subscriptions will be removed upon machines deletions, and if wasn't
+            # provided the rhsm will be disabled and any created subscription won't be removed automatically
+            rhsmOfflineToken: "<< REDHAT_SUBSCRIPTIONS_OFFLINE_TOKEN >>"
       versions:
-        kubelet: "1.18.10"
+        kubelet: 1.23.13
+
 ```
 
 All the resources related to VM on the KubeVirt cluster will be created in a dedicated namespace in the infrastructure cluster.
@@ -144,9 +156,12 @@ We provide control of the user cluster nodes scheduling over topology spread con
 - Spread across a given topology domains (*TopologySpreadConstraints*).
 - Schedule on nodes having some specific labels (*Node Affinity Preset*).
 
-**Note**: `Pod Affinity Preset` and `Pod Anti Affinity Preset` are deprecated. Migration to `TopologySpreadConstraints` does not affect existing MachineDeployment and corresponding VMs.
+
+{{% notice note %}}
+`Pod Affinity Preset` and `Pod Anti Affinity Preset` are deprecated. Migration to `TopologySpreadConstraints` does not affect existing MachineDeployment and corresponding VMs.
 If existing MachineDeployment has Pod Affinity/Anti-Affinity Preset spec, it will remain the same. But any update of existing MachineDeployment will trigger creation of new VMs which will not have Pod Affinity/Anti-Affinity Preset spec
-, instead they will have default topology spread constraint.
+, instead they will have default topology spread constraint. Refer to the migration notes from KKP 2.21 to KKP 2.22
+{{% /notice %}}
 
 TopologySpreadConstraint for VMs are related to [Kubernetes:Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/). Below is the description of different fields of a `TopologySpreadConstraints`:
 
@@ -174,7 +189,7 @@ To achieve this goal, we use the [KubeVirt VM Affinity and Anti-affinity capabil
 | soft          | preferredDuringSchedulingIgnoredDuringExecution |
 
 
-#### How scheduling settings influence a MachineDeployment object
+#### How scheduling settings in the MachineDeployment influence a VirtualMachine object
 
 Scheduling settings are represented in the *MachineDeployment* object under *spec.providerSpec.value.affinity* and *spec.providerSpec.value.topologySpreadConstraints*:
 
@@ -200,10 +215,10 @@ spec:
 // ....
 ```
 
-1- **Usage of TopologySpreadConstraints**
+{{< tabs name="Scheduling settings" >}}
+{{% tab name="Usage of Custom TopologySpreadConstraints" %}}
 
-<details>
-  <summary>With the following *MachineDeployment* specification</summary>
+With the following `MachineDeployment` specification that contains a custom `topologySpreadConstraints` section
 
 ```yaml
 kind: MachineDeployment
@@ -220,12 +235,8 @@ spec:
                 whenUnsatisfiable: "DoNotSchedule"
 // ....
 ```
-</details>
 
-The following *VirtualMachine* specification will be generated from above *MachineDeployment*
-- with the `custom topologySpreadConstraints`:
-<details>
- <summary>VirtualMachine* specification</summary>
+the following `VirtualMachine` specification will be generated from above `MachineDeployment`
 
 ```yaml
 kind: VirtualMachine
@@ -244,12 +255,29 @@ spec:
             matchLabels:
               md : qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
 ```
-</details>
 
-The following *VirtualMachine* specification will be generated if no custom topologySpreadConstraints is specified in *MachineDeployment*
-- with `default topologySpreadConstraints`:
-<details>
- <summary>VirtualMachine* specification</summary>
+{{% /tab %}}
+{{% tab name="Usage of Default TopologySpreadConstraints" %}}
+
+If **no** `topologySpreadConstraints` is defined, a **default** `topologySpreadConstraints` will be generated in the `MachineDeployment`,
+
+With the following `MachineDeployment` specification
+
+```yaml
+kind: MachineDeployment
+spec:
+ // ...
+  template:
+    spec:
+      providerSpec:
+        value:
+            // ....
+          // topologySpreadConstraints: # none defined
+           
+// ....
+```
+
+Find below the content of the default `topologySpreadConstraints` generated (if no `topologySpreadConstraints` is specified in the `MachineDeployment`).
 
 ```yaml
 kind: VirtualMachine
@@ -268,13 +296,11 @@ spec:
             matchLabels:
               md : qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
 ```
-</details>
+{{% /tab %}}
 
+{{% tab name="Usage of Node Affinity Preset (hard)" %}}
 
-2- **Usage of Node Affinity Preset**
-
-<details>
-  <summary>With the following *MachineDeployment* specification</summary>
+With the following `MachineDeployment` specification (`nodeAffinityPreset.type="hard"`)
 
 ```yaml
 kind: MachineDeployment
@@ -287,18 +313,13 @@ spec:
             // ....
             affinity:
               nodeAffinityPreset:
-                type: "hard" # or "soft"
+                type: "hard" 
                 key: "foo"
                 values:
                   - bar
 ```
-</details>
 
 The following *VirtualMachine* specification will be generated
-- with affinity type *"hard"*:
-
-<details>
- <summary>VirtualMachine* specification</summary>
 
 ```yaml
 kind: VirtualMachine
@@ -319,11 +340,29 @@ spec:
                 values:
                 - bar
 ```
-</details>
+{{% /tab %}}
+{{% tab name="Usage of Node Affinity Preset (soft)" %}}
 
-- with affinity type *"soft"*:
-<details>
-  <summary>VirtualMachine* specification</summary>
+With the following `MachineDeployment` specification ((`nodeAffinityPreset.type="soft"`))
+
+```yaml
+kind: MachineDeployment
+spec:
+ // ...
+  template:
+    spec:
+      providerSpec:
+        value:
+            // ....
+            affinity:
+              nodeAffinityPreset:
+                type: "soft" 
+                key: "foo"
+                values:
+                  - bar
+```
+
+The following *VirtualMachine* specification will be generated
 
  ```yaml
 kind: VirtualMachine
@@ -344,85 +383,188 @@ spec:
                 values:
                 - bar
 ```
-</details>
+{{% /tab %}}
+{{< /tabs >}}
 
 ---
 
 ### Virtual Machines Templates
 
-To create a VM from existing `VirtualMachineInstancePresets`,
-add the following configuration under `cloudProviderSpec.virtualMachine` in MachineDeployment:
+{{% notice note %}}
+`VirtualMachineInstancePresets` (`flavor` ) is deprecated. Migration to `Instancetype` and `Preference` does not affect existing MachineDeployment and corresponding VMs but a manual migration of the `MachineDeployment` must be done before any update (including re-scale)
+Refer to the migration notes from KKP 2.21 to KKP 2.22 (can be done safely after KKP was upgraded from 2.21 to 2.22)
+{{% /notice %}}
+
+
+KKP allows to benefit from [Kubevirt Instancetypes and Preferences](https://kubevirt.io/user-guide/virtual_machines/instancetypes/).
+
+Instancetypes and preferences provide a way to define a set of resource, performance and other runtime characteristics, allowing users to reuse these definitions across multiple VirtualMachines.
+
+There are 2 categories of instancetypes that you can use:
+- **Kubermatic**: some instancetypes/preferences provided by default by Kubermatic.
+- **Custom**: instancetypes/preferences that you can freely provide.
+
+This can be done at the *Initial Nodes* step during the cluster creation.
+![Instancetypes Preferences](/img/kubermatic/main/architecture/supported-providers/kubevirt/instancetypes-preferences.png)
+
+{{% notice note %}}
+You can display the content of any instancetype/preference by pressing the `View` button.
+{{% /notice %}}
+
+
+
+#### How the Templates settings in the MachineDeployment settings affect the VirtualMachine object
+
+{{< tabs name="Template settings" >}}
+{{% tab name="Custom InstanceTypes/Preferences" %}}
+If you select some **Custom** Instancetype/Preference, for example *custom-instancetype-1*/*custom-preference-1*, the following `MachineDeployment` will be created.
+
 
 ```yaml
-virtualMachine:
-  flavor:
-    name: "<< VirtualMachineInstancePresets_NAME >>"
-  template:
-    primaryDisk:
-      osImage: "<< YOUR_IMAGE_SOURCE >>"
-      size: "10Gi"
-      storageClassName: "<< YOUR_STORAGE_CLASS_NAME >>"
-```
-
-To apply a `VirtualMachineInstancePreset` to a VM, this VirtualMachineInstancePreset should be created in the `default` namespace.
-KKP will then copy into the dedicated `clusterxyz` namespace and start the VirtualMachine applying it.
-
-![Preset Copy   ](/img/kubermatic/main/architecture/supported-providers/kubevirt/Preset.jpg)
-
-A default `VirtualMachineInstancePreset` named `kubermatic-standard` is always added to the list by KKP
-(even if not existing in the `default` namespace).
-
-```yaml
-{
-apiVersion: kubevirt.io/v1
-kind: VirtualMachineInstancePreset
-metadata:
-  name: kubermatic-standard
+kind: MachineDeployment
 spec:
-  domain:
-    resources:
-      requests:
-        cpu: 2
-        memory: 8Gi
-      limits:
-        cpu: 2
-        memory: 8Gi
-  selector:
-    matchLabels:
-      kubevirt.io/flavor: kubermatic-standard
-}
+ // ...
+  template:
+    spec:
+      providerSpec:
+        value:
+            // ....
+            virtualMachine:
+              instancetype:
+                name: "custom-instancetype-1"
+                kind: "VirtualMachineClusterInstancetype"
+              preference:
+                name: "custom-preference-1"
+                kind: "VirtualMachineClusterPreference" 
 ```
 
-To create new a `VirtualMachineInstancePreset` usable to apply to new VMs, create it in the `default` namespace.
-It will be present in the `VM Flavor` dropdown list selection and be copied in the right namespace by KKP.
+which will create a `VirtualMachine` with this specification:
 
-*Note 1:* Update of a `VirtualMachineInstancePreset` in the `default` namespace.
+```yaml
+piVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  // ---
+spec:
+  // ...
+  instancetype:
+    kind: VirtualMachineClusterInstancetype
+    name: custom-instancetype-1
+  preference:
+    kind: VirtualMachineClusterPreference
+    name: custom-preference-1
+  template:
+```
 
-What happens if we update a `VirtualMachineInstancePreset` existing in the `default` namespace ?
-- The updated `VirtualMachineInstancePreset` will be reconciled from the `default` namespace into the `cluster-xyz` namespace.
-  Give it some time to be reconciled. The reconciliation interval is configurable (refer to `providerReconciliationInterval`
-  in [Seed configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})
-- For all `VirtualMachineIsntances` already created, this will have no impact.
-  Please refer to [KubeVirt Preset documentation](https://kubevirt.io/user-guide/virtual_machines/presets/#updating-a-virtualmachineinstancepreset)
-- The update will then be effective for new `VirtualMachineIsntances`.
+{{% /tab %}}
 
-*Note 2:* Limitation of the list of reconciled fields.
+{{% tab name="Kubermatic InstanceTypes/Preferences" %}}
+If you select some **Kubermatic** Instancetype/Preference, for example *standard-2*/*sockets-advantage*, the following `MachineDeployment` will be created
 
-Please note that not all fields of the `VirtualMachineInstance` are merged into the `VirtualMachineInstance`.
-[](https://github.com/kubevirt/kubevirt/blob/main/pkg/virt-api/webhooks/mutating-webhook/mutators/preset.go#L123)
-For the `domain`, only the following fields are merged:
-- `CPU`
-- `Firmware`
-- `Clock`
-- `Features`
-- `Devices.Watchdog`
-- `IOThreadsPolicy`
+```yaml
+kind: MachineDeployment
+spec:
+ // ...
+  template:
+    spec:
+      providerSpec:
+        value:
+            // ....
+            virtualMachine:
+              instancetype:
+                name: "standard-2"
+                kind: "VirtualMachineInstancetype"
+              preference:
+                name: "socket-advantage"
+                kind: "VirtualMachinePreference" 
+```
 
-*Note3:* Migration to the instanceType API
+which will create a `VirtualMachine` with this specification:
 
-Please note that in the next KKP release, we will migrate to the new *VirtualMachineInstancetype* ([alpha release](https://github.com/kubevirt/api/blob/main/instancetype/v1alpha1/types.go#L35)),
-as the *VirtualMachineInstancePreset* will be deprecated. This will for example lift the limitation around the list of
-merged fields from the `VirtualMachineInstance` and provide deterministic behavior with immediate detection of merge conflicts.
+```yaml
+piVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  // ---
+spec:
+  // ...
+  instancetype:
+    kind: VirtualMachineInstancetype
+    name: stadard-2
+  preference:
+    kind: VirtualMachinePreference
+    name: socket-advantage
+  template:
+```
+
+{{% /tab %}}
+{{< /tabs >}}
+
+#### Specification of the Kubermatic provided instancetype/preferences
+
+{{% notice note %}}
+The **Kubermatic** instancetypes/preferences are created in the dedicated `cluster-xyz` namespace in the KubeVirt infrastructure cluster. 
+They are namespaced resources.
+{{% /notice %}}
+
+{{< tabs name="Kubermatic instancetypes" >}}
+
+{{% tab name="standard-2 instancetype" %}}
+```yaml
+apiVersion: instancetype.kubevirt.io/v1alpha1
+kind: VirtualMachineInstancetype
+metadata:
+  name: standard-2
+spec:
+  cpu:
+    guest: 2
+  memory:
+    guest: 8Gi
+```
+{{% /tab %}}
+{{% tab name="standard-4 instancetype" %}}
+```yaml
+apiVersion: instancetype.kubevirt.io/v1alpha1
+kind: VirtualMachineInstancetype
+metadata:
+  name: standard-4
+spec:
+  cpu:
+    guest: 4
+  memory:
+    guest: 16Gi
+```
+{{% /tab %}}
+{{% tab name="standard-8 instancetype" %}}
+```yaml
+apiVersion: instancetype.kubevirt.io/v1alpha1
+kind: VirtualMachineInstancetype
+metadata:
+  name: standard-8
+spec:
+  cpu:
+    guest: 8
+  memory:
+    guest: 32Gi
+```
+{{% /tab %}}
+{{% tab name="socket-advantage preference" %}}
+```yaml
+apiVersion: instancetype.kubevirt.io/v1alpha1
+kind: VirtualMachinePreference
+metadata:
+  name: sockets-advantage
+spec:
+  cpu:
+    preferredCPUTopology: preferSockets
+```
+{{% /tab %}}
+{{< /tabs >}}
+
+#### How to provide your own **Custom** instancetypes and preferences
+
+
+Just create some `VirtualMachinClusterInstancetype` and/or some `VirtualMachineClusterPreference` (cluster-wide resources) in the KubeVirt infrastructure cluster and you are can use them to template your VMs.
 
 ---
 
@@ -512,3 +654,125 @@ Follow the below steps to import the dashboard in Grafana:
 ## Breaking Changes
 
 Please be aware that between KKP 2.20 and KKP 2.21, a breaking change to the `MachineDeployment` API for KubeVirt has occurred. For more details, please [check out the 2.20 to 2.21 upgrade notes]({{< ref "../../../tutorials-howtos/upgrading/upgrade-from-2.20-to-2.21/#kubevirt-migration" >}}).
+
+## Migration from KKP 2.21 to KKP 2.22
+
+{{% notice note %}}
+Note that the VMs (and their workload) created from `MachineDeployments` with KKP 2.21 are not affected by the migration from KKP 2.21 to KKP 2.22 **if no update is done in the `MachineDeployment`**. You can safely perform the *MachineDeployment* manual migration after KKP upgrade from 2.21 to 2.22. `MachineDeployments` (and associated VM/VMIs) do not require any action before the migration from KKP 2.21 to KKP 2.22.
+{{% /notice %}}
+
+{{% notice warning %}}
+However, if you already have KKP 2.21 installed and a KubeVirt cluster created with it, please be aware that there are some spec change for MachineDeployments that will require some manual update before any update to the *MachineDeployment* (including scaling it), please follow the below migration guide.
+{{% /notice %}}
+
+
+
+### Features that need some manual migration of the `MachineDeployment`:
+
+List of deprecated/updated features that require some manual update in the `MachineDeployment`:
+
+
+| Topic                      | Deprecated /Upgraded                                          | In Favor of               | Mandatory/Optional migration |
+|----------------------------|------------------------------------------------------|---------------------------|-------|
+| Virtual Machine Scheduling | Deprecated: `Pod Affinity Preset` and `Pod Anti Affinity Preset` | `TopologySpreadConstraints` | **Optional**: only if your `MachineDeployment` did contain `podAffinityPreset` or `podAntiAffinityPreset` |
+| Virtual Machines Templating | Deprecated: `Flavor`            | `Instancetype` and `Preference`           | **Optional**: only if your `MachineDeployment` did contain `flavor` |
+| Upgrade of [KubeVirt CCM](https://github.com/kubevirt/cloud-provider-kubevirt) from v0.2.0 to v0.4.0 | Upgrade Kubevirt CCM version            | (needed for LoadBalancer services)        | **Mandatory**: all existing `MachineDeployment` must be updated |
+
+{{% notice warning %}}
+**Perform all the needed migration of your existing `MachineDeployment` following the below procedure according to each topic that needs migration.**
+Updating the `MachineDeployment` will create a new `VirtualMachine`  - Perform all the needed changes at once.
+{{% /notice %}}
+
+
+
+{{< tabs name="Migration of existing `MachineDeployment" >}}
+{{% tab name="Upgrade of KubeVirt CCM" %}}
+With KKP 2.22 KubeVirt CCM is upgraded from v0.2.0 to v0.4.0. From v0.3.0 on it requires new labels on VMs to correctly route the traffic to services.
+
+Newly created VMs will have these labels automatically but for existing VMs and VMIs there is manual action required on your KubeVirt cluster.
+
+Just set:
+
+**MachineDeployment.spec.template.spec.providerSpec.value.cloudProviderSpec.clusterName to your cluster ID.**
+
+How to get **cluster-id** is explained before in this page.  
+
+```yaml
+apiVersion: "cluster.k8s.io/v1alpha1"
+kind: MachineDeployment
+metadata:
+  name: my-kubevirt-machine
+spec:
+  // ....
+  template:
+    metadata:
+      labels:
+        name: foo
+    spec:
+      providerSpec:
+          // ...
+          cloudProvider: "kubevirt"
+          cloudProviderSpec:
+            clusterName: <cluster-id> ### ADD THIS FIELD
+```
+
+{{% /tab %}}
+{{% tab name="Scheduling" %}}
+
+If you had `MachineDeployment.spec.template.spec.providerSpec.value.cloudProviderSpec.affinity.podAffinityPreset` or `MachineDeployment.spec.template.spec.providerSpec.value.cloudProviderSpec.affinity.podAntiAffinityPreset` in your specification, replace it with `TopologySpreadConstraints`.
+
+```yaml
+apiVersion: "cluster.k8s.io/v1alpha1"
+kind: MachineDeployment
+//...
+spec:
+  //...
+  template:
+    metadata:
+      labels:
+        name: my-kubevirt-machine
+    spec:
+      providerSpec:
+        value:
+          cloudProvider: "kubevirt"
+          cloudProviderSpec:
+            virtualMachine:
+              //....
+            affinity:
+              # Deprecated: Use topologySpreadConstraints instead.
+              podAffinityPreset: "" # Allowed values: "", "soft", "hard"
+              # Deprecated: Use topologySpreadConstraints instead.
+              podAntiAffinityPreset: "" # Allowed values: "", "soft", "hard"
+```
+Refer to the **Virtual Machines Scheduling** section for details.
+
+{{% /tab %}}
+{{% tab name="Templating" %}}
+
+If you had `MachineDeployment.spec.template.spec.providerSpec.value.cloudProviderSpec.virtualMachine.flavor`in your specification, replace it with `instancetype`/`preference`.
+
+```yaml
+apiVersion: "cluster.k8s.io/v1alpha1"
+kind: MachineDeployment
+//...
+spec:
+  //...
+  template:
+    metadata:
+      labels:
+        name: my-kubevirt-machine
+    spec:
+      providerSpec:
+        value:
+          cloudProvider: "kubevirt"
+          cloudProviderSpec:
+            virtualMachine:
+              //....
+              # Deprecated: Use instancetype/preference instead
+              flavor:
+                name: "<< VirtualMachineInstancePresets_NAME >>"
+```
+Refer to the **Virtual Machines Templates** section for details.
+
+{{% /tab %}}
+{{< /tabs >}}
