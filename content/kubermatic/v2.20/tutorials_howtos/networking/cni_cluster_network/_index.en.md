@@ -49,7 +49,7 @@ Before opting for Cilium CNI, please verify that your worker nodes' Linux distri
 
 The most of the Cilium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only if [Konnectivity](#konnectivity) is enabled.
 
-**NOTE:** IPVS kube-proxy mode is not recommended with Cilium CNI due to [a known issue]({{< relref "../../../architecture/known-issues/" >}}#2-connectivity-issue-in-pod-to-nodeport-service-in-cilium--ipvs-proxy-mode).
+**NOTE:** IPVS kube-proxy mode is not recommended with Cilium CNI due to a [known issue](https://github.com/cilium/cilium/issues/18610).
 
 To provide better observability on cluster networking with Cilium CNI via a web user interface, KKP provides a Hubble Addon that can be easily installed into user clusters with Cilium CNI via the KKP UI on the cluster page, as shown below:
 
