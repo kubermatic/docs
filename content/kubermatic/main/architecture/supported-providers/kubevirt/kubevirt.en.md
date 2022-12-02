@@ -679,7 +679,7 @@ List of deprecated/updated features that require some manual update in the `Mach
 | Upgrade of [KubeVirt CCM](https://github.com/kubevirt/cloud-provider-kubevirt) from v0.2.0 to v0.4.0 | Upgrade Kubevirt CCM version            | (needed for LoadBalancer services)        | **Mandatory**: all existing `MachineDeployment` must be updated |
 
 {{% notice warning %}}
-**Perform all the needed migration of you existing `MachineDeployment` following the below procedure according to each topic that needs migration.**
+**Perform all the needed migration of your existing `MachineDeployment` following the below procedure according to each topic that needs migration.**
 Updating the `MachineDeployment` will create a new `VirtualMachine`  - Perform all the needed changes at once.
 {{% /notice %}}
 
