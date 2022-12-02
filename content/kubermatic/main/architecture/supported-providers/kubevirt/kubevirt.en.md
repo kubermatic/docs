@@ -658,7 +658,7 @@ Please be aware that between KKP 2.20 and KKP 2.21, a breaking change to the `Ma
 ## Migration from KKP 2.21 to KKP 2.22
 
 {{% notice note %}}
-Note that the Vms (and their workload) created from `MachineDeployments` with KKP 2.21 are not affected by the migration from KKP 2.21 to KKP 2.22 **if no update is done in the `MachineDeployment`**. You can safely perform the *MachineDeployment* manual migration after KKP upgrade from 2.21 to 2.22. `MachineDeployments` (and associated VM/VMis) do not require any action before the migration from KKP 2.21 to KKP 2.22.
+Note that the VMs (and their workload) created from `MachineDeployments` with KKP 2.21 are not affected by the migration from KKP 2.21 to KKP 2.22 **if no update is done in the `MachineDeployment`**. You can safely perform the *MachineDeployment* manual migration after KKP upgrade from 2.21 to 2.22. `MachineDeployments` (and associated VM/VMIs) do not require any action before the migration from KKP 2.21 to KKP 2.22.
 {{% /notice %}}
 
 {{% notice warning %}}
