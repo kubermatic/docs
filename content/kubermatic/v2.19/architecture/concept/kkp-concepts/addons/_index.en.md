@@ -371,6 +371,12 @@ spec:
               name: canal
               labels:
                 addons.kubermatic.io/ensure: true
+          - apiVersion: kubermatic.k8c.io/v1
+            kind: Addon
+            metadata:
+              name: cilium
+              labels:
+                addons.kubermatic.io/ensure: true
           - apiVersion: kubermatic.k8s.io/v1
             kind: Addon
             metadata:
