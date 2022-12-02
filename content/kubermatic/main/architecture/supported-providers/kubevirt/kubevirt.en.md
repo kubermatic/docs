@@ -564,7 +564,7 @@ spec:
 #### How to provide your own **Custom** instancetypes and preferences
 
 
-Just create some `VirtualMachinClusterInstancetype` and/or some `VirtualMachineClusterPreference` (custer-wide resources) in the KubeVirt infrastructure cluster and you are can use them to template your VMs.
+Just create some `VirtualMachinClusterInstancetype` and/or some `VirtualMachineClusterPreference` (cluster-wide resources) in the KubeVirt infrastructure cluster and you are can use them to template your VMs.
 
 ---
 
@@ -680,7 +680,7 @@ List of deprecated/updated features that require some manual update in the `Mach
 
 {{% notice warning %}}
 **Perform all the needed migration of you existing `MachineDeployment` following the below procedure according to each topic that needs migration.**
-Updating the `MachineDeployment` will create a new `VirtualMachine`  - Perform all the needed changed at once.
+Updating the `MachineDeployment` will create a new `VirtualMachine`  - Perform all the needed changes at once.
 {{% /notice %}}
 
 
