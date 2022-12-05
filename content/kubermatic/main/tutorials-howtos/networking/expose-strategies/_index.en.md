@@ -58,8 +58,7 @@ The current limitations of this strategy are:
   corporate proxy (HTTPS proxy) to reach the control plane.
 * An agent is deployed on each worker node to provide access to the apiserver from
   within the cluster via the `kubernetes` service. The agent binds the IP used as the
-  `kubernetes` service endpoint, which is currently hardcoded to `192.168.30.10`. This IP cannot collide
-  with anything else running in the datacenter.
+  `kubernetes` service endpoint. The default value of tunneling agent IP is `100.64.30.10`. This is a configurable field `tunnelingAgentIP` in cluster API and make sure that this IP cannot collide with anything else running in the datacenter.
 
 ## Configuring the Expose Strategy
 The expose strategy can be configured at 3 levels:
