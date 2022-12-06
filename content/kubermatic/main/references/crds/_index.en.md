@@ -272,6 +272,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `source` _[ApplicationSource](#applicationsource)_ | Defined how the source of the application (e.g Helm chart) is retrieved. Exactly one type of source must be defined. |
+| `templateCredentials` _[DependencyCredentials](#dependencycredentials)_ | DependencyCredentials holds the credentials that may be needed for templating the application. |
 
 
 [Back to top](#top)
@@ -292,6 +293,24 @@ _Appears in:_
 | --- | --- |
 | `version` _string_ | Version of the application (e.g. v1.2.3) |
 | `template` _[ApplicationTemplate](#applicationtemplate)_ | Template defines how application is installed (source provenance, Method...) |
+
+
+[Back to top](#top)
+
+
+
+### DependencyCredentials
+
+
+
+
+
+_Appears in:_
+- [ApplicationTemplate](#applicationtemplate)
+
+| Field | Description |
+| --- | --- |
+| `helmCredentials` _[HelmCredentials](#helmcredentials)_ | HelmCredentials holds the ref to the secret with helm credentials needed to build helm dependencies. It is not required when using helm as a source, as dependencies are already prepackaged in this case. It's either username / password or a registryConfigFile can be defined. |
 
 
 [Back to top](#top)
@@ -369,6 +388,7 @@ _Appears in:_
 
 
 _Appears in:_
+- [DependencyCredentials](#dependencycredentials)
 - [HelmSource](#helmsource)
 
 | Field | Description |
