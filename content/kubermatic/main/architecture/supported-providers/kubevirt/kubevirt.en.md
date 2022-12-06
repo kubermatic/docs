@@ -40,6 +40,7 @@ spec:
   configuration:
     developerConfiguration:
       featureGates:
+      - ExperimentalIgnitionSupport
       - DataVolumes
       - LiveMigration
       - CPUManager
