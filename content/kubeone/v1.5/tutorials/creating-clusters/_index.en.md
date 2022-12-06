@@ -56,7 +56,7 @@ The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
 Hetzner Cloud, Nutanix, OpenStack, Packet, VMware Cloud Director, and
 VMware vSphere), and we will use it in this tutorial. If your provider
-is not supported (e.g. bare-metal), youcan check the
+is not supported (e.g. bare-metal), you can check the
 [KubeOne Static Workers][static-workers] feature for more information about the
 second approach.
 
