@@ -21,7 +21,10 @@ It will be updated once the final minor versions for both platforms are released
 Before proceeding, please review that your intended setup meets
 the [Prerequisites for Cilium Cluster Mesh](https://docs.cilium.io/en/latest/network/clustermesh/clustermesh/#prerequisites).
 
-Especially, keep in mind that nodes in all clusters must have IP connectivity between each other.
+Especially, keep in mind that nodes in all clusters must have IP connectivity between each other. The ports that need to be allowed between all nodes of all clusters are:
+
+- UDP 8472 (VXLAN)
+- TCP 4240 (HTTP health checks)
 
 ## Deployment Steps
 
