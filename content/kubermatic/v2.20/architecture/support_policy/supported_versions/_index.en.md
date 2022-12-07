@@ -58,6 +58,4 @@ current KKP version.
 
 [^3]: Kubernetes 1.23 support has been added in KKP 2.20.3.
 
-Upgrades from a previous Kubernetes version are generally supported whenever a
-version is marked as supported, for example KKP 2.17 supports updating clusters
-from Kubernetes 1.18 to 1.21.
+Upgrades from a previous Kubernetes version are generally supported whenever a version is marked as supported, for example KKP 2.17 supports updating clusters from Kubernetes 1.18 to 1.21.
