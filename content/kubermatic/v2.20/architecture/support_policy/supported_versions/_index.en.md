@@ -44,18 +44,18 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version | 1.22 | 1.21 | 1.20\* | 1.19\*   | 1.18\*   |
-| ----------- | ---- | ---- | ------ | -------- | -------- |
-| 2.20.x      | ✓    | ✓    | ✓      | -        | -        |
-| 2.19.x      | ✓    | ✓    | ✓      | -        | -        |
-| 2.18.x      | ✓    | ✓    | ✓      | ✓        | -        |
-| 2.17.x      | -    | ✓    | ✓      | ✓        | ✓        |
-| 2.16.x      | -    | -    | ✓      | ✓        | ✓        |
+| KKP version | 1.23  |1.22[^1] | 1.21[^1] | 1.20[^1] | 1.19[^1] | 1.18[^1] |
+| ----------- | ----- |-------- | -------- | -------- | -------- | -------- |
+| 2.20.x      | ✓[^3] | ✓       | ✓        | ✓        | -        | -        |
+| 2.19.x      | -     | ✓       | ✓        | ✓        | -        | -        |
+| 2.18.x[^2]  | -     | ✓       | ✓        | ✓        | ✓        | -        |
+| 2.17.x[^2]  | -     | -       | ✓        | ✓        | ✓        | ✓        |
+| 2.16.x[^2]  | -     | -       | -        | ✓        | ✓        | ✓        |
 
-\* Kubernetes 1.18, 1.19 and 1.20 releases have reached End-of-Life (EOL). We
-strongly recommend upgrading to a supported Kubernetes release as soon as
-possible.
+[^1]: Kubernetes 1.22 and lower have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
 
-Upgrades from a previous Kubernetes version are generally supported whenever a
-version is marked as supported, for example KKP 2.17 supports updating clusters
-from Kubernetes 1.18 to 1.21.
+[^2]: KKP 2.18 and lower have reached End-of-Life (EOL). We strongly recommend upgrading to a supported KKP release as soon as possible.
+
+[^3]: Kubernetes 1.23 support has been added in KKP 2.20.3.
+
+Upgrades from a previous Kubernetes version are generally supported whenever a version is marked as supported, for example KKP 2.17 supports updating clusters from Kubernetes 1.18 to 1.21.

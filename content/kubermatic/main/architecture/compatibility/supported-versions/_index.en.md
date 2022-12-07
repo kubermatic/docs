@@ -35,7 +35,7 @@ current KKP version.
 | ------------ | -------- | -------- | -------- | -------- | -------- | -------- | ---------- |
 | 2.22.x[^not-out-yet] | ✓        | ✓        | ✓        | -        | -        | -        | -          |
 | 2.21.x       | -        | ✓        | ✓        | ✓        | ✓        | -        | -          |
-| 2.20.x       | -        | -        | -        | ✓        | ✓        | ✓        | -          |
+| 2.20.x       | -        | -        | ✓[^4]    | ✓        | ✓        | ✓        | -          |
 | 2.19.x       | -        | -        | -        | ✓        | ✓        | ✓        | -          |
 | 2.18.x[^3]   | -        | -        | -        | ✓        | ✓        | ✓        | ✓          |
 
@@ -44,6 +44,8 @@ current KKP version.
 [^2]: Kubernetes 1.19, 1.20, 1.21 and 1.22 releases have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
 
 [^3]: KKP 2.18 has reached End-of-Life (EOL). We strongly recommend upgrading to a supported KKP version as soon as possible.
+
+[^4]: Kubernetes 1.23 support has been added in KKP 2.20.3.
 
 [^not-out-yet]: KKP 2.22 has not been released yet.
 
