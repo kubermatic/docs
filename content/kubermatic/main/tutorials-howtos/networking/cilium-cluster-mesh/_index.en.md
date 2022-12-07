@@ -247,7 +247,7 @@ The list of backends for a service can be checked with:
 kubectl exec -it cilium-<pod-id> -n kube-system -- cilium service list --clustermesh-affinity
 ```
 
-Exmple output:
+Example output:
 ```
 ID   Frontend                Service Type   Backend
 16   10.240.27.208:80        ClusterIP      1 => 172.25.0.160:80 (active) (preferred)
