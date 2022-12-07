@@ -1,6 +1,7 @@
 +++
 title = "Multi-Cluster IP Address Management (IPAM)"
 date = 2022-07-26T14:45:00+02:00
+weight = 170
 +++
 
 Multi-Cluster IPAM is a feature responsible for automating the allocation of IP address ranges/subnets per user-cluster, based on a predefined configuration ([IPAMPool](#input-resource-ipampool)) per datacenter that defines the pool subnet and the allocation size. The user cluster allocated ranges are available in the [KKP Addon](#kkp-addon-template-integration) `TemplateData`, so it can be used by various Addons running in the user cluster.
