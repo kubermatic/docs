@@ -2293,6 +2293,7 @@ _Appears in:_
 | --- | --- |
 | `dnsPolicy` _string_ | DNSPolicy represents the dns policy for the pod. Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'. Defaults to "ClusterFirst". DNS parameters given in DNSConfig will be merged with the policy selected with DNSPolicy. |
 | `dnsConfig` _[PodDNSConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#poddnsconfig-v1-core)_ | DNSConfig represents the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy. |
+| `images` _[ImageSources](#imagesources)_ | Images represents standard VM Image sources. |
 
 
 [Back to top](#top)
@@ -3342,6 +3343,17 @@ _Appears in:_
 
 
 
+### HTTPSource
+
+
+
+HTTPSource represents list of standard VM images with http-source.
+
+_Appears in:_
+- [ImageSources](#imagesources)
+
+
+
 ### HealthStatus
 
 _Underlying type:_ `string`
@@ -3572,6 +3584,27 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `strictArp` _boolean_ | StrictArp configure arp_ignore and arp_announce to avoid answering ARP queries from kube-ipvs0 interface. defaults to true. |
+
+
+[Back to top](#top)
+
+
+
+
+
+### ImageSources
+
+
+
+ImageSources represents standard VM Image sources.
+
+_Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
+
+| Field | Description |
+| --- | --- |
+| `http` _[HTTPSource](#httpsource)_ | HTTP source for standard images. |
+| `enableCustomImages` _boolean_ | EnableCustomImages allows to enable/disable the usage of custom-disks (defaults to false). |
 
 
 [Back to top](#top)
@@ -4154,7 +4187,7 @@ _Appears in:_
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `kubeconfig` _string_ | The cluster's kubeconfig file, encoded with base64. |
 | `csiKubeconfig` _string_ |  |
-| `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ | PreAllocatedDataVolumes holds list of preallocated DataVolumes which can be used as reference for DataVolume cloning. |
+| `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ | PreAllocatedDataVolumes represents a list of DataVolumes that are tied to cluster lifecycle and can be referenced by machines. Custom Images are a good example of this use case. |
 | `infraStorageClasses` _string array_ | InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks) |
 
 
@@ -4706,6 +4739,17 @@ _Appears in:_
 
 
 
+### OSVersions
+
+
+
+OSVersions defines a map of OS version and the URL to download the image.
+
+_Appears in:_
+- [AuditSidecarConfiguration](#auditsidecarconfiguration)
+
+
+
 ### OpaOptions
 
 
@@ -4915,6 +4959,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ |  |
+| `annotations` _object (keys:string, values:string)_ |  |
 | `url` _string_ |  |
 | `size` _string_ |  |
 | `storageClass` _string_ |  |
