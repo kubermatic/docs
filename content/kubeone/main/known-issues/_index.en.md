@@ -32,6 +32,31 @@ from a node where the pod is running.
 **We do NOT recommend upgrading to KubeOne 1.5 at this time if you're using
 Calico VXLAN. Follow the linked GitHub issue and this page for updates.**
 
+## Canal CNI crashing after upgrading from KubeOne 1.x to 1.5
+
+|              |                                                                             |
+|--------------|-----------------------------------------------------------------------------|
+| Status       | Fixed in KubeOne 1.5.4                                                      |
+| Severity     | Low; rare issue affecting only clusters created with older KubeOne versions |
+| GitHub issue | https://github.com/projectcalico/calico/issues/6442                         |
+
+### Description
+
+Cluster created with older KubeOne versions might be affected by an issue
+where Canal (Calico) pods are stuck in CrashLoopBackoff after upgrading to
+KubeOne 1.5. This is caused by upgrading Canal from an older version to v3.23.
+
+### Recommendation
+
+This issue is fixed in Calico v3.23.4+ which is used in KubeOne 1.5.4+
+
+If you're encountering this issue, we strongly recommend upgrading to the latest
+KubeOne patch release and running `kubeone apply` to upgrade you Canal CNI.
+
+Alternatively, workaround is to manually modify the `default-ipv4-ippool`
+`ippools.crd.projectcalico.org` object to add `vxlanMode: Never`. In this case,
+see the linked upstream GitHub issue for more details.
+
 ## KubeOne is failing to provision a cluster on upgraded Flatcar VMs
 
 |              |                                                   |
