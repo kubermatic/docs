@@ -99,6 +99,16 @@ output "kubeone_hosts" {
       bastion              = aws_instance.bastion.public_ip
       bastion_port         = var.bastion_port
       bastion_user         = var.bastion_user
+      bastion_host_key     = var.bastion_host_key
+      labels               = var.control_plane_labels
+      # uncomment to following to set those kubelet parameters. More into at:
+      # https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
+      # kubelet            = {
+      #   system_reserved = "cpu=200m,memory=200Mi"
+      #   kube_reserved   = "cpu=200m,memory=300Mi"
+      #   eviction_hard   = ""
+      #   max_pods        = 110
+      # }
     }
   }
 }
@@ -135,6 +145,15 @@ output "kubeone_workers" {
         operatingSystemSpec = {
           distUpgradeOnBoot = false
         }
+        # machineObjectAnnotations are applied on resulting Machine objects
+        # uncomment to following to set those kubelet parameters. More into at:
+        # https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
+        # machineObjectAnnotations = {
+        #   "v1.kubelet-config.machine-controller.kubermatic.io/SystemReserved" = "cpu=200m,memory=200Mi"
+        #   "v1.kubelet-config.machine-controller.kubermatic.io/KubeReserved"   = "cpu=200m,memory=300Mi"
+        #   "v1.kubelet-config.machine-controller.kubermatic.io/EvictionHard"   = ""
+        #   "v1.kubelet-config.machine-controller.kubermatic.io/MaxPods"        = "110"
+        # }
         # CloudProviderSpec is provider-specific. The following example is an
         # AWS CloudProviderSpec.
         # In the machine-controller repository, you can find example manifests
@@ -216,6 +235,16 @@ output "kubeone_static_workers" {
       bastion              = aws_instance.bastion.public_ip
       bastion_port         = var.bastion_port
       bastion_user         = var.bastion_user
+      bastion_host_key     = var.bastion_host_key
+      labels               = var.control_plane_labels
+      # uncomment to following to set those kubelet parameters. More into at:
+      # https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
+      # kubelet            = {
+      #   system_reserved = "cpu=200m,memory=200Mi"
+      #   kube_reserved   = "cpu=200m,memory=300Mi"
+      #   eviction_hard   = ""
+      #   max_pods        = 110
+      # }
     }
   }
 }
