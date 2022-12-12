@@ -15,3 +15,4 @@ This section provides guides on networking in KKP:
 - [**Manual CNI Migration**]({{< relref "./cni-migration/" >}})
 - [**Multus-CNI Addon**]({{< relref "./multus/" >}})
 - [**Multi-Cluster IP Address Management (IPAM)**]({{< relref "./ipam/" >}})
+- [**Cilium Cluster Mesh on KKP**]({{< relref "./cilium-cluster-mesh/" >}})
