@@ -25536,6 +25536,11 @@
           "type": "string",
           "x-go-name": "DefaultDatastore"
         },
+        "defaultTagCategoryID": {
+          "description": "DefaultTagCategoryID is the tag category id that will be used as default, if users don't specify it on a cluster level,\nand they don't wish KKP to create default generated tag category, upon cluster creation.",
+          "type": "string",
+          "x-go-name": "DefaultTagCategoryID"
+        },
         "endpoint": {
           "description": "Endpoint URL to use, including protocol, for example \"https://vcenter.example.com\".",
           "type": "string",
@@ -29569,6 +29574,16 @@
           "description": "Only supported for nodes with Kubernetes 1.23 or less.",
           "type": "boolean",
           "x-go-name": "DynamicConfig"
+        },
+        "maxReplicas": {
+          "type": "integer",
+          "format": "uint32",
+          "x-go-name": "MaxReplicas"
+        },
+        "minReplicas": {
+          "type": "integer",
+          "format": "uint32",
+          "x-go-name": "MinReplicas"
         },
         "paused": {
           "type": "boolean",
