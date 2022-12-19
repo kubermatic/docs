@@ -2420,6 +2420,24 @@ _Appears in:_
 
 
 
+### DefaultProjectResourceQuota
+
+
+
+DefaultProjectResourceQuota contains the default resource quota which will be set for all projects that do not have a custom quota already set.
+
+_Appears in:_
+- [SettingSpec](#settingspec)
+
+| Field | Description |
+| --- | --- |
+| `quota` _[ResourceDetails](#resourcedetails)_ |  |
+
+
+[Back to top](#top)
+
+
+
 ### DeploymentSettings
 
 
@@ -5228,6 +5246,7 @@ ResourceDetails holds the CPU, Memory and Storage quantities.
 
 _Appears in:_
 - [ClusterStatus](#clusterstatus)
+- [DefaultProjectResourceQuota](#defaultprojectresourcequota)
 - [ResourceQuotaSpec](#resourcequotaspec)
 - [ResourceQuotaStatus](#resourcequotastatus)
 
@@ -5649,6 +5668,7 @@ _Appears in:_
 | `notifications` _[NotificationsOptions](#notificationsoptions)_ | Notifications are the configuration for notifications on dashboard. |
 | `providerConfiguration` _[ProviderConfiguration](#providerconfiguration)_ | ProviderConfiguration are the cloud provider specific configurations on dashboard. |
 | `machineDeploymentVMResourceQuota` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineDeploymentVMResourceQuota is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
+| `defaultQuota` _[DefaultProjectResourceQuota](#defaultprojectresourcequota)_ | DefaultProjectResourceQuota allows to configure a default project resource quota which will be set for all projects that do not have a custom quota already set. EE-version only. |
 
 
 [Back to top](#top)
