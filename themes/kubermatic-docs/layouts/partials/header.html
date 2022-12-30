@@ -41,12 +41,13 @@
     </style>
     {{block "custom-header" .}}{{end}}
   </head>
-  <body {{with and .Params.enableToc .TableOfContents}} class="ptoc--enabled"{{end}} data-url="{{ .RelPermalink }}">
+  {{$hasToc := and .Site.Params.enableTOC (ne .Params.enableToc false) (not .Params.chapter) (findRE `(?s)<ul.*?>.*?</ul>` .TableOfContents)}}
+  <body {{if $hasToc}} class="ptoc--enabled"{{end}} data-url="{{.RelPermalink}}">
     {{partialCached "cookie-banner.html" .}}
     {{partialCached "gtm-noscript.html" .}}
     {{partialCached "main-header" .}}
     {{partial "menu.html" .}}
-    {{if and (.Params.enableToc) (not .Params.chapter) .TableOfContents}}
+    {{if $hasToc}}
     <aside class="ptoc">
       <button class="ptoc-open-btn" title="Open page index"><span></span></button>
       <div class="ptoc-content">
