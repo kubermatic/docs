@@ -52,15 +52,19 @@ var initMenuItemsExpand = function() {
 };
 
 var scrollToAnchor = function() {
-  var hash = window.location.hash, anchor;
+  var hash = window.location.hash;
 
   if (!hash) return;
 
-  anchor = document.querySelector('[id=' + hash.replace("#",'') + ']');
+  scrollToHeading(hash);
+};
+
+var scrollToHeading = function(id) {
+  var anchor = document.querySelector('[id=' + id.replace("#",'') + ']');
 
   if (!anchor) return;
 
-  Jump(anchor, { offset: -85 });
+  Jump(anchor);
 };
 
 var showCopyCodeTooltip = function(e, message) {
@@ -260,6 +264,16 @@ function pageReady(fn) {
   }
 }
 
+var tocLinksHandler = function() {
+  var tocLinks = document.querySelectorAll('.ptoc #TableOfContents a');
+  tocLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      scrollToHeading(link.getAttribute('href'));
+    });
+  });
+};
+
 pageLayoutReady(function() {
   var body = document.body;
 
@@ -276,4 +290,7 @@ pageLayoutReady(function() {
   initExpandShortcode();
 });
 
-pageReady(scrollToAnchor);
+pageReady(function() {
+  scrollToAnchor();
+  tocLinksHandler();
+});
