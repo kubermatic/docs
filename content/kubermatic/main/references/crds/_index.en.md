@@ -2342,7 +2342,7 @@ _Appears in:_
 | `manageSecurityGroups` _boolean_ | Optional: Gets mapped to the "manage-security-groups" setting in the cloud config. This setting defaults to true. |
 | `useOctavia` _boolean_ | Optional: Gets mapped to the "use-octavia" setting in the cloud config. use-octavia is enabled by default in CCM since v1.17.0, and disabled by default with the in-tree cloud provider. |
 | `trustDevicePath` _boolean_ | Optional: Gets mapped to the "trust-device-path" setting in the cloud config. This setting defaults to false. |
-| `nodeSizeRequirements` _[OpenstackNodeSizeRequirements](#openstacknodesizerequirements)_ |  |
+| `nodeSizeRequirements` _[OpenstackNodeSizeRequirements](#openstacknodesizerequirements)_ | Optional: Restrict the allowed VM configurations that can be chosen in the KKP dashboard. This setting does not affect the validation webhook for MachineDeployments. |
 | `enabledFlavors` _string array_ | Optional: List of enabled flavors for the given datacenter |
 | `ipv6Enabled` _boolean_ | Optional: defines if the IPv6 is enabled for the datacenter |
 
