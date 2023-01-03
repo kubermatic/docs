@@ -1,11 +1,12 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) CE"
-date = 2018-04-28T12:07:15+02:00
+linkTitle = "Install Community Edition"
+date = 2023-01-03T12:00:00+02:00
 weight = 20
 
 +++
 
-This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using installer.
+This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`).
 
 ## Terminology
 
@@ -17,20 +18,23 @@ This chapter explains the installation procedure of KKP into a pre-existing Kube
 
 ## Requirements
 
-Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "../../architecture/requirements" >}})
-and make yourself familiar with the requirements for your chosen cloud provider.
-
-For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 3) installed locally.
-
 {{% notice warning %}}
 This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../../tutorials-howtos/upgrading" >}}) for more information on
-migrating existing installations to the Kubermatic Installer.
+migrating existing installations.
 {{% /notice %}}
+
+For this guide you will have to have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Helm](https://www.helm.sh/) (version 3) installed locally.
+
+### Set up Kubernetes
+
+To aid in setting up the seed and master clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/) which can be used to set up a highly-available Kubernetes cluster.
+Refer to the [KubeOne documentation](https://docs.kubermatic.com/kubeone) for details on how to use it.
+
+Please take note of the [recommended hardware and networking requirements]({{< ref "../../architecture/requirements/cluster-requirements/" >}}) before provisioning a cluster.
 
 ## Installation
 
-To begin the installation, make sure you have a kubeconfig file at hand, with a user context that grants `cluster-admin`
-permissions.
+To begin the installation, make sure you have a kubeconfig file at hand, with a user context that grants `cluster-admin` permissions.
 
 ### Download the Installer
 
@@ -42,7 +46,7 @@ for Windows, ZIP files are provided instead of tar.gz files.
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
-# VERSION=2.15.x
+# VERSION=2.21.x
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 ```
@@ -71,13 +75,13 @@ The key items to configure are:
   document.
 * For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses
   yet another random secret to encrypt cookies stored in the users' browsers.
-
-  * The expose strategy, that is the strategy used to expose the control plane
-  components to the worker nodes (see the [expose strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies">}}))
+* The expose strategy, that is the strategy used to expose the control plane
+  components of a user cluster to the worker nodes
+  (see [expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies">}}) for available options)
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
 mentioned above can be generated using any password generator or on the shell using
-`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`. On MacOS, use `brew install gnu-tar` and
+`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`. On macOS, use `brew install gnu-tar` and
 `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`. Alternatively, the Kubermatic Installer will suggest some
 properly generated secrets for you when it notices that some are missing, for example:
 
@@ -87,7 +91,7 @@ properly generated secrets for you when it notices that some are missing, for ex
 
 Output will be similar to this:
 ```bash
-INFO[15:15:20] 🛫 Initializing installer…                     edition="Community Edition" version=v2.15.11
+INFO[15:15:20] 🛫 Initializing installer…                     edition="Community Edition" version=v2.21.2
 INFO[15:15:20] 🚦 Validating the provided configuration…
 ERROR[15:15:20]    The provided configuration files are invalid:
 ERROR[15:15:20]    KubermaticConfiguration: spec.auth.serviceAccountKey must be a non-empty secret, for example: ZPCs7_KzgJxUSA5lCk_oNzL7RQFTQ6cOnHuTLAh4pGw
@@ -110,20 +114,67 @@ The installer can automatically create an SSD-based StorageClass for a subset of
 simply copy the default StorageClass, but this is not recommended for production setups unless the default class
 is using SSDs.
 
-Use the `--storageclass` parameter for automatically creating the class during installation. Currently the following
-providers are supported:
+{{< tabs name="StorageClass Creation" >}}
+{{% tab name="AWS" %}}
+Pass `--storageclass aws` to `kubermatic-installer deploy`.
+{{% /tab %}}
+{{% tab name="Azure" %}}
+Pass `--storageclass azure` to `kubermatic-installer deploy`.
+{{% /tab %}}
+{{% tab name="DigitalOcean" %}}
+Pass `--storageclass digitalocean` to `kubermatic-installer deploy`.
+{{% /tab %}}
+{{% tab name="GCP" %}}
+Pass `--storageclass gce` to `kubermatic-installer deploy`.
+{{% /tab %}}
+{{% tab name="Hetzner" %}}
+Pass `--storageclass hetzner` to `kubermatic-installer deploy`.
+{{% /tab %}}
+{{% tab name="vSphere" %}}
+Create your own `StorageClass` resource named `kubermatic-fast` that suits your vSphere environment. An example
+could be this file:
 
-- AWS
-- Azure
-- DigitalOcean
-- GCE
-- Hetzner
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: kubermatic-fast
+provisioner: csi.vsphere.vmware.com
+```
 
-Run the installer with `--help` to also see the current list of supported providers.
+Save this to a file (e.g. `storageclass.yaml`) and apply it to the cluster:
 
-If no automatic provisioning is possible, please manually create a StorageClass called `kubermatic-fast`. Consult
-the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters) for more
-information about the possible parameters for your storage backend.
+```bash
+kubectl apply -f ./storageclass.yaml
+```
+
+Also see [vSphere CSI driver documentation](https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-606E179E-4856-484C-8619-773848175396.html) for optional parameters that can be passed as part of this `StorageClass` (e.g. the storage policy name).
+
+{{% /tab %}}
+{{% tab name="Other Providers" %}}
+For other providers, please refer to the respective CSI driver documentation. It should guide you through setting up a `StorageClass`. Ensure that the `StorageClass` you create is named `kubermatic-fast`. The final resource should look something like this:
+
+```yaml
+# snippet, this is not a valid StorageClass!
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: kubermatic-fast
+provisioner: csi.example.com
+# CSI driver specific parameters
+parameters:
+  parameter1: value1
+  parameter2: value2
+```
+
+Save your StorageClass to a file (e.g. `storageclass.yaml`) and apply it to the cluster:
+
+```bash
+kubectl apply -f ./storageclass.yaml
+```
+
+{{% /tab %}}
+{{< /tabs >}}
 
 ### Run Installer
 
@@ -133,9 +184,10 @@ like so:
 
 ```bash
 ./kubermatic-installer deploy \
+  # uncomment the line below after updating it to your respective provider; remove flag if provider is not supported (see above)
+  # --storageclass aws \
   --config kubermatic.yaml \
-  --helm-values values.yaml \
-  --storageclass aws
+  --helm-values values.yaml
 ```
 
 {{% notice warning %}}
@@ -148,7 +200,7 @@ Once the installer has finished, the KKP Master cluster has been installed and w
 the necessary cert-manager configuration and DNS records have been configured (see the next steps).
 
 {{% notice note %}}
-Note that because we don't yet have a TLS certificate and no DNS records configured, some of the pods will crashloop.
+Note that because you don't have a TLS certificate and no DNS records configured yet, some of the pods will crashloop.
 This is normal for fresh setups and once the DNS records have been set, things will sort themselves out.
 {{% /notice %}}
 
@@ -177,6 +229,13 @@ spec:
     - http01:
        ingress:
          class: nginx
+```
+
+Save this (or the adjusted `ClusterIssuer` you are going to use) to a file, e.g. `clusterissuer.yaml` and apply it
+to your cluster:
+
+```bash
+kubectl apply -f ./clusterissuer.yaml
 ```
 
 
@@ -225,14 +284,14 @@ Output will be similar to this:
 #nginx-ingress-controller   LoadBalancer   10.47.248.232   1.2.3.4        80:32014/TCP,443:30772/TCP   449d
 ```
 
-The `EXTERNAL-IP` is what we need to put into the DNS record. Note that this can be a hostname (for example on AWS,
+`EXTERNAL-IP` is what you need to put into the DNS record. Note that this can be a hostname (for example on AWS,
 this can be `my-loadbalancer-1234567890.us-west-2.elb.amazonaws.com`) and in this case, the DNS record needs to
 be a `CNAME` rather than an `A` record.
 
 #### Without LoadBalancers
 
-Without a LoadBalancer, you will need to use the NodePort service (refer to the `charts/nginx-ingress-controller/values.yaml`
-for more information) and setup the DNS records to point to one or many of your cluster's nodes. You can get a list of
+Without a LoadBalancer, you will need to use a NodePort service (refer to the `charts/nginx-ingress-controller/values.yaml`
+for more information) and set up the DNS records to point to one or many of your cluster nodes. You can get a list of
 external IPs like so:
 
 ```bash
@@ -240,11 +299,12 @@ kubectl get nodes -o wide
 ```
 
 Output will be similar to this:
+
 ```bash
-#NAME                        STATUS   ROLES    AGE     VERSION         INTERNAL-IP   EXTERNAL-IP
-#worker-node-cbd686cd-50nx   Ready    <none>   3h36m   v1.15.8-gke.3   10.156.0.36   1.2.3.4
-#worker-node-cbd686cd-59s2   Ready    <none>   21m     v1.15.8-gke.3   10.156.0.14   1.2.3.5
-#worker-node-cbd686cd-90j3   Ready    <none>   45m     v1.15.8-gke.3   10.156.0.22   1.2.3.6
+#NAME                        STATUS   ROLES    AGE     VERSION     INTERNAL-IP   EXTERNAL-IP
+#worker-node-cbd686cd-50nx   Ready    <none>   3h36m   v1.22.8     10.156.0.36   1.2.3.4
+#worker-node-cbd686cd-59s2   Ready    <none>   21m     v1.22.8     10.156.0.14   1.2.3.5
+#worker-node-cbd686cd-90j3   Ready    <none>   45m     v1.22.8     10.156.0.22   1.2.3.6
 ```
 
 {{% notice note %}}
@@ -262,11 +322,7 @@ respectively.
 
 ```plain
 kubermatic.example.com.   IN   A   1.2.3.4
-```
-
-or, for a CNAME:
-
-```plain
+; or for a CNAME:
 kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
 ```
 
@@ -287,7 +343,7 @@ traffic both for KKP and all other services.
 *.kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
 ```
 
-If CNAME records are not possible, you would configure individual records instead:
+If CNAME records are not possible, you can configure individual records instead:
 
 ```plain
 prometheus.kubermatic.example.com.     IN   A       1.2.3.4
