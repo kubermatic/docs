@@ -172,8 +172,9 @@ var initMobileMenuSidebar = function(body) {
     var classList = body.classList;
     if (classList.contains('sidebar-hidden')) {
       classList.remove('sidebar-hidden');
-    } else {
-      classList.add('sidebar-hidden');
+    }
+    if (classList.contains('ptoc--show-panel')) {
+      classList.remove('ptoc--show-panel');
     }
 
     return false;

@@ -55,16 +55,6 @@
         {{.TableOfContents}}
       </div>
     </aside>
-    <script>
-      var ptocCloseBtn = document.querySelector('.ptoc-title button');
-      var ptocOpenBtn = document.querySelector('.ptoc-open-btn');
-      ptocCloseBtn.addEventListener('click', function() {
-        document.body.classList.add('ptoc--hidden');
-      });
-      ptocOpenBtn.addEventListener('click', function() {
-        document.body.classList.remove('ptoc--hidden');
-      });
-    </script>
     {{end}}
         <section id="body">
         {{if and $versions (len (intersect (split .RelPermalink "/") (slice "master" "main")))}}
@@ -82,15 +72,36 @@
               <i class="fas fa-bars"></i>
             </a>
           </span>
-          {{if and .Site.Params.editURL .File }}
-          {{$editLink := printf "%s%s" .Site.Params.editURL (replace .File.Path `\` `/`)}}
-          <div id="top-github-link">
-            <a class="github-link" title='{{T "Edit-this-page"}}' href="{{$editLink}}" target="blank">
-              <i class="fas fa-code-branch"></i>
-              <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
-            </a>
+          <div>
+            {{if and .Site.Params.editURL .File }}
+            {{$editLink := printf "%s%s" .Site.Params.editURL (replace .File.Path `\` `/`)}}
+            <div id="top-github-link">
+              <a class="github-link" title='{{T "Edit-this-page"}}' href="{{$editLink}}" target="blank">
+                <i class="fas fa-code-branch"></i>
+                <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
+              </a>
+            </div>
+            {{end}}
+            {{if $hasToc}}
+            <button class="ptoc-open-btn-mobile" title="Open page index"><span></span></button>
+            <script>
+              var ptocCloseBtn = document.querySelector('.ptoc-title button');
+              var ptocOpenBtn = document.querySelector('.ptoc-open-btn');
+              var ptocOpenBtnMobile = document.querySelector('.ptoc-open-btn-mobile');
+              ptocCloseBtn.addEventListener('click', function() {
+                document.body.classList.add('ptoc--hidden');
+                document.body.classList.remove('ptoc--show-panel');
+              });
+              ptocOpenBtn.addEventListener('click', function() {
+                document.body.classList.remove('ptoc--hidden');
+                document.body.classList.add('ptoc--show-panel');
+              });
+              ptocOpenBtnMobile.addEventListener('click', function() {
+                document.body.classList.add('ptoc--show-panel');
+              });
+            </script>
+            {{end}}
           </div>
-          {{end}}
         </div>
         {{if .Params.tags}}
           <div id="head-tags">
