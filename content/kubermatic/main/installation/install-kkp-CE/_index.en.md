@@ -38,18 +38,21 @@ Depending on which choice you make, you will need to have either one or two Kube
 
 ### Set up Kubernetes
 
-To aid in setting up the seed and master clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/) which can be used to set up a highly-available Kubernetes cluster.
+To aid in setting up the Seed and Master Clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/) which can be used to set up a highly-available Kubernetes cluster.
 Refer to the [KubeOne documentation](https://docs.kubermatic.com/kubeone) for details on how to use it.
 
 Please take note of the [recommended hardware and networking requirements]({{< ref "../../architecture/requirements/cluster-requirements/" >}}) before provisioning a cluster.
+Resource requirements on Seed Clusters or combined Master/Seed Clusters grow with each created User Cluster. As such, it is advised to plan ahead and provision enough capacity
+to host the anticipated number of User Clusters. If you are using KubeOne, configuring the cluster-autoscaler addon might be a good idea to provide enough resources while the
+number of User Clusters grows.
 
 ## Installation
 
-Make sure you have a kubeconfig for the desired master cluster available. It needs to have `cluster-admin` permissions on that cluster.
+Make sure you have a kubeconfig for the desired master cluster available. It needs to have `cluster-admin` permissions on that cluster to install all KKP master components.
 
 ### Download the Installer
 
-Download the [tarball](https://github.com/kubermatic/kubermatic/releases/) (e.g. kubermatic-ce-X.Y-linux-amd64.tar.gz)
+Download the [release archive from our GitHub release page](https://github.com/kubermatic/kubermatic/releases/) (e.g. `kubermatic-ce-X.Y-linux-amd64.tar.gz`)
 containing the Kubermatic Installer and the required Helm charts for your operating system and extract it locally. Note that
 for Windows, ZIP files are provided instead of tar.gz files.
 
@@ -86,7 +89,7 @@ The key items to configure are described in the table below.
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
 | The base domain under which KKP shall be accessible (e.g. `kubermatic.example.com`). | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.host` (`values.yaml`); also adjust `.dex.clients[*].RedirectURIs` (`values.yaml`) according to your domain. |
 | The certificate issuer (KKP requires that its dashboard and Dex are only accessible via HTTPS); by default cert-manager is used, but you have to select an issuer that you need to create later on. | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`) |
-| For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`; this needs to be equal `.dex.clients[name=="kubermaticIssuer"].secret` from `values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
+| For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`; this needs to be equal to `.dex.clients[name=="kubermaticIssuer"].secret` from `values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
 | The expose strategy, which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
