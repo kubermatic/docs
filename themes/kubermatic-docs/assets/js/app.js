@@ -265,12 +265,20 @@ function pageReady(fn) {
   }
 }
 
+var removeActiveTocLinks = function(links) {
+  links.forEach(function(link) {
+    link.classList.remove('active');
+  });
+};
+
 var tocLinksHandler = function() {
   var tocLinks = document.querySelectorAll('.ptoc #TableOfContents a');
   tocLinks.forEach(function(link) {
     link.addEventListener('click', function(e) {
       e.preventDefault();
       scrollToHeading(link.getAttribute('href'));
+      removeActiveTocLinks(tocLinks);
+      link.classList.add('active');
     });
   });
 };

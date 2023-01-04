@@ -372,10 +372,12 @@ a:hover {
       color: var(--MAIN-TEXT-color);
       font-size: 1rem;
       line-height: 1.5;
+      &.active {
+        color: var(--MAIN-ACCENT-color);
+      }
     }
 
     a:hover {
-      color: var(--MAIN-ACCENT-color);
       color: var(--MAIN-ACCENT-color);
       border-color: var(--MAIN-ACCENT-color);
       transition: 0.1s;
@@ -392,6 +394,9 @@ a:hover {
       margin-left: -2px;
       border-left: 2px solid transparent;
       font-size: 0.875rem;
+      &.active {
+        border-color: var(--MAIN-ACCENT-color);
+      }
     }
 
     > ul > li > ul > li > ul > li > ul > li > ul > li  {
