@@ -39,7 +39,7 @@ Skip to [Installation](#installation) if you plan to use a different storage bac
 do not want to configure cluster backups at all.
 {{% /notice %}}
 
-KKP can perform regular backups of user clusters by snapshotting the etcd of each cluster to a S3-compatible
+KKP can perform regular backups of User Clusters by snapshotting the etcd of each cluster to a S3-compatible
 storage backend. If no storage backend outside the seed cluster exists, an in-cluster [MinIO](https://min.io/)
 service can be installed via the `minio` Helm chart provided with the KKP installer.
 
@@ -145,7 +145,7 @@ For more information about the Minio options, take a look at
 minio:
   storeSize: '200Gi'
   # specified storageClass will be used as a storage provider for minio
-  # which will be used store the etcd backup of the seed hosted user clusters
+  # which will be used store the etcd backup of the seed hosted User Clusters
   storageClass: kubermatic-backup
   # access key/secret for the exposed minio S3 gateway
   credentials:
@@ -348,8 +348,8 @@ Key considerations for creating your `Seed` resource are:
 ### Configure Datacenters
 
 Each `Seed` has a map of so-called _Datacenters_ (under `.spec.datacenters`), which define the cloud
-provider locations that user clusters can be deployed to. Every datacenter name is globally unique in a KKP setup.
-Users will select from a list of datacenters when creating user clusters and their clusters will
+provider locations that User Clusters can be deployed to. Every datacenter name is globally unique in a KKP setup.
+Users will select from a list of datacenters when creating User Clusters and their clusters will
 automatically get scheduled to the seed that defines that datacenter.
 
 Check the [CRD reference]({{< ref "../../../references/crds/#datacenter" >}}) for a full reference of all possible
@@ -550,9 +550,9 @@ kubectl --namespace kubermatic logs -l app.kubernetes.io/name=kubermatic-operato
 
 ## Update DNS
 
-Depending on the chosen [Expose Strategy]({{< ref "../../../tutorials-howtos/networking/expose-strategies">}}), the control planes of all user clusters
-running in the Seed cluster will be exposed by the `nodeport-proxy` or using services of type `NodePort` directly.
-By default each user cluster gets a virtual domain name like `[cluster-id].[seed-name].[kubermatic-domain]`, e.g.
+Depending on the chosen [Expose Strategy]({{< ref "../../../tutorials-howtos/networking/expose-strategies">}}), the control planes of all User Clusters
+running in the Seed Cluster will be exposed by the `nodeport-proxy` or using services of type `NodePort` directly.
+By default each User Cluster gets a virtual domain name like `[cluster-id].[seed-name].[kubermatic-domain]`, e.g.
 `hdu328tr.kubermatic.kubermatic.example.com` for the Seed from the previous step with `kubermatic.example.com` being the main domain
 where the KKP dashboard/API are available.
 
@@ -600,10 +600,10 @@ Once your DNS settings have propagated (this takes a few minutes depending on yo
 ## Next Steps
 
 After your seed has been set up successfully, your KKP setup is functional and can be used to create
-user clusters on that seed. Here are a couple of suggestions what to do next:
+User Clusters on that seed. Here are a couple of suggestions what to do next:
 
 * If you haven't already, create your first project [via the dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/#create-a-new-project" >}}).
   As a reminder, the dashboard will be available via the first DNS record [you have set up during master installation]({{< ref "../#create-dns-records" >}}), e.g. `https://kubermatic.example.com`.
-* Create your very first user cluster [via the dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/#create-cluster" >}}) and deploy your applications to it.
+* Create your very first User Cluster [via the dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/#create-cluster" >}}) and deploy your applications to it.
 * Set up the [User Cluster MLA stack]({{< ref "../../../architecture/monitoring-logging-alerting/user-cluster/" >}}) by [following its setup instructions]({{< ref "../../../tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/" >}}).
-* Explore [our CRD reference]({{< ref "../../../references/crds/#kubermatick8ciov1" >}}), e.g. to check out the `Cluster` resource type which can be used to create user clusters from `kubectl` on seed clusters directly.
+* Explore [our CRD reference]({{< ref "../../../references/crds/#kubermatick8ciov1" >}}), e.g. to check out the `Cluster` resource type which can be used to create User Clusters from `kubectl` on seed clusters directly.

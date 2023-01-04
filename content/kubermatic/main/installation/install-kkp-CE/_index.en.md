@@ -13,7 +13,7 @@ This chapter explains the installation procedure of KKP into a pre-existing Kube
 ## Terminology
 
 * **Master Cluster** -- A Kubernetes cluster which is responsible for storing central information about users, projects and SSH keys. It hosts the KKP master components and might also act as a seed cluster.
-* **Seed Cluster** -- A Kubernetes cluster which is responsible for hosting the control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd and more) of a user cluster.
+* **Seed Cluster** -- A Kubernetes cluster which is responsible for hosting the control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd and more) of a User Cluster.
 * **User Cluster** -- A Kubernetes cluster created and managed by KKP, hosting applications managed by users.
 
 ## Requirements
@@ -87,7 +87,7 @@ The key items to configure are described in the table below.
 | The base domain under which KKP shall be accessible (e.g. `kubermatic.example.com`). | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.host` (`values.yaml`); also adjust `.dex.clients[*].RedirectURIs` (`values.yaml`) according to your domain. |
 | The certificate issuer (KKP requires that its dashboard and Dex are only accessible via HTTPS); by default cert-manager is used, but you have to select an issuer that you need to create later on. | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`) |
 | For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`; this needs to be equal `.dex.clients[name=="kubermaticIssuer"].secret` from `values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
-| The expose strategy, which controls how control plane components of a user cluster are exposed to worker nodes and users. See [expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
+| The expose strategy, which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
 mentioned above can be generated using any password generator or on the shell using
@@ -116,9 +116,9 @@ KubermaticConfiguration and let the installer set it in `values.yaml` as well.
 
 ### Create a StorageClass
 
-KKP uses a custom storage class for the volumes created for user clusters. This class, `kubermatic-fast`, needs
+KKP uses a custom storage class for the volumes created for User Clusters. This class, `kubermatic-fast`, needs
 to be created before the installation can succeed and is required to use SSDs or a comparable storage layer.
-The etcd clusters for every user cluster will store their data in this StorageClass and etcd is highly sensitive
+The etcd clusters for every User Cluster will store their data in this StorageClass and etcd is highly sensitive
 to slow disk I/O.
 
 The installer can automatically create an SSD-based StorageClass for a subset of cloud providers. It can also
@@ -207,7 +207,7 @@ replace your system's Helm installation or specify the path to the Helm 3 binary
 example `./kubermatic-installer deploy .... --helm-binary /home/me/Downloads/helm-3.3.1`)
 {{% /notice %}}
 
-Once the installer has finished, the KKP Master cluster has been installed and will be ready to use once
+Once the installer has finished, the KKP Master Cluster has been installed and will be ready to use once
 the necessary cert-manager configuration and DNS records have been configured (see the next steps).
 
 {{% notice note %}}
@@ -399,5 +399,5 @@ This will allow you to use the KKP UI and API as an admin. Other users can be pr
 
 ## Next Steps
 
-* [Add a Seed cluster]({{< ref "./add-seed-cluster-CE" >}}) to start creating user clusters.
+* [Add a Seed cluster]({{< ref "./add-seed-cluster-CE" >}}) to start creating User Clusters.
 * Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../tutorials-howtos/monitoring-logging-alerting/master-seed/installation" >}}) to collect cluster-wide metrics in a central place.
