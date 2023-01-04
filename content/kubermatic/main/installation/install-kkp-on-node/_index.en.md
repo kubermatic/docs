@@ -2,7 +2,7 @@
 linkTitle = "Single Node Setup"
 title = "KKP on a Single Node with KubeOne on AWS"
 date = 2022-02-07T12:07:15+02:00
-weight = 10
+weight = 40
 enableToc = true
 +++
 
