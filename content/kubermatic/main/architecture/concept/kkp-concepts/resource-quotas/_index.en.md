@@ -2,6 +2,7 @@
 title = "Resource Quotas"
 date = 2022-08-16T14:07:15+02:00
 weight = 20
+enterprise = true
 
 +++
 

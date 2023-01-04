@@ -1,9 +1,9 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) CE"
 linkTitle = "Install Community Edition"
-date = 2023-01-03T12:00:00+02:00
+date = 2018-04-28T12:07:15+02:00
 weight = 20
-
+enableToc = true
 +++
 
 This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`).
@@ -207,6 +207,8 @@ This is normal for fresh setups and once the DNS records have been set, things w
 If you change your mind later on and adjust configuration options, it's safe to just run the installer again
 to apply your changes.
 
+## Update DNS & TLS
+
 ### Configure ClusterIssuers
 
 By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to 
@@ -231,13 +233,12 @@ spec:
          class: nginx
 ```
 
-Save this (or the adjusted `ClusterIssuer` you are going to use) to a file, e.g. `clusterissuer.yaml` and apply it
+Save this (or the adjusted `ClusterIssuer` you are going to use) to a file (e.g. `clusterissuer.yaml`) and apply it
 to your cluster:
 
 ```bash
 kubectl apply -f ./clusterissuer.yaml
 ```
-
 
 ### Create DNS Records
 
@@ -326,7 +327,7 @@ kubermatic.example.com.   IN   A   1.2.3.4
 kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
 ```
 
-#### Identity Aware Proxy
+### Identity Aware Proxy
 
 It's a common step to later setup an identity-aware proxy (IAP) to
 [securely access other KKP components]({{< ref "../../architecture/concept/kkp-concepts/kkp-security/securing-system-services" >}}) from the logging or monitoring
@@ -350,7 +351,7 @@ prometheus.kubermatic.example.com.     IN   A       1.2.3.4
 alertmanager.kubermatic.example.com.   IN   A       1.2.3.4
 ```
 
-#### Validation
+### Validation
 
 With the 2 DNS records configured, it's now time to wait for the certificate to be acquired. You can watch the progress
 by doing `watch kubectl -n kubermatic get certificates` until it shows `READY=True`:
@@ -366,35 +367,26 @@ Output will be similar to this:
 ```
 
 If the certificate does not become ready, `kubectl describe` it and follow the chain from Certificate to Order to Challenges.
-Typical faults include bad DNS records or a misconfigured KubermaticConfiguration pointing to a different domain.
+Typical faults include:
 
-### Initializing the first Kubermatic Admin user
-
-With all this in place, you should be able to access https://kubermatic.example.com/ and login either with your static
-password from the `values.yaml` or using any of your chosen connectors. This will initiate your first contact with the 
-KKP API which will create an initial User resource for your account. To become a KKP admin, edit your User instance 
-and set the `admin` flag to `true`. 
-
-```yaml
-apiVersion: kubermatic.k8c.io/v1
-kind: User
-metadata:
-  creationTimestamp: "2020-05-04T07:20:37Z"
-  name: 3ec2d8e832964a39b8e8a3df5d25adeea8677f5d6d4706bf23842d3d9663d37c
-spec:
-  admin: true
-  email: example@example.com
-  id: eb279a47c2c869ea89efa48c193ff813b34b96b5c81ada345629205a
-  name: KKP User
-```
-
-This will allow you to use the KKP UI and API as an admin. Other users can be promoted to Admins using the [Admin Panel]({{< ref "../../tutorials-howtos/administration/admin-panel/administrators" >}})
-
-### Have a Break
+* Bad DNS records.
+* A misconfigured KubermaticConfiguration pointing to a different domain.
 
 All pods running inside the `kubermatic` namespace should now be running. If they are not, check their logs to find out what's broken.
 
-### Next Steps
+## First Sign In
+
+With all this in place, you should be able to access https://kubermatic.example.com/ (i.e. the URL to your KKP setup that you
+configured) and log in either with your static password from the `values.yaml` files  or using any of your chosen connectors.
+This will initiate your first contact with the KKP API which will create an initial `User` resource for your account.
+
+{{% notice note %}}
+The first user signing into the dashboard will be granted admin permissions.
+{{% /notice %}}
+
+This will allow you to use the KKP UI and API as an admin. Other users can be promoted to Admins using the [Admin Panel]({{< ref "../../tutorials-howtos/administration/admin-panel/administrators" >}}).
+
+## Next Steps
 
 * [Add a Seed cluster]({{< ref "./add-seed-cluster-CE" >}}) to start creating user clusters.
 * Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../tutorials-howtos/monitoring-logging-alerting/master-seed/installation" >}}) to collect cluster-wide metrics in a central place.

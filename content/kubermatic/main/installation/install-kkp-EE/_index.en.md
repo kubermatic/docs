@@ -17,8 +17,8 @@ Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 
 ## Installation
 
-The installation procedure is identical to the [Community Edition]({{< ref "../install-kkp-CE" >}}), with the exception that
-a different installer needs to be downloaded and that the Docker credentials need to be configured.
+The installation procedure is identical to the [installation process for the Community Edition]({{< ref "../install-kkp-CE" >}}),
+with the exception that a different installer needs to be downloaded and that the Docker credentials need to be configured.
 
 When downloading the installer, make sure to choose the `-ee-` variant on GitHub. Extract it like documented in the CE install
 guide.
