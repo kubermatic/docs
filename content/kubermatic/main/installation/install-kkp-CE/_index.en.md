@@ -6,15 +6,15 @@ weight = 20
 enableToc = true
 +++
 
+Kubermatic Kubernetes Platform (KKP) is a Kubernetes management platform that helps address the operational and security challenges of enterprise customers seeking to run Kubernetes at scale. KKP automates deployment and operations of hundreds or thousands of Kubernetes clusters across hybrid-cloud, multi-cloud and edge environments while enabling DevOps teams with a self-service developer and operations portal. If you are looking for more general information on KKP, we recommend our [documentation start page]({{< ref "../../" >}}) and the [Architecture section of the documentation]({{< ref "../../architecture/" >}}) to get familiar with KKP's core concepts.
+
 This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`).
 
 ## Terminology
 
-* **User cluster** -- A Kubernetes cluster created and managed by KKP
-* **Seed cluster** -- A Kubernetes cluster which is responsible for hosting the master components of a user cluster
-* **Master cluster** -- A Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys. It hosts the KKP components and might also act as a seed cluster.
-* **Seed datacenter** -- A definition/reference to a seed cluster
-* **Node datacenter** -- A definition/reference of a datacenter/region/zone at a cloud provider (aws=zone, digitalocean=region, openstack=zone)
+* **Master Cluster** -- A Kubernetes cluster which is responsible for storing central information about users, projects and SSH keys. It hosts the KKP master components and might also act as a seed cluster.
+* **Seed Cluster** -- A Kubernetes cluster which is responsible for hosting the control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd and more) of a user cluster.
+* **User Cluster** -- A Kubernetes cluster created and managed by KKP, hosting applications managed by users.
 
 ## Requirements
 
@@ -25,6 +25,17 @@ migrating existing installations.
 
 For this guide you will have to have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Helm](https://www.helm.sh/) (version 3) installed locally.
 
+### Plan your Architecture
+
+Before getting started, we strongly recommend you to think ahead and model your KKP setup. In particular you should decide if you want Master and Seed components
+to share the same cluster (a shared Master/Seed setup) or run Master and Seed on two separate clusters. See [our architecture overview]({{< ref "../../architecture/" >}}) for
+a visual representation of the KKP architecture.
+
+If you would like to run multiple Seeds to scale your setup beyond a single Seed, please check out the [Enterprise Edition]({{< ref "../install-kkp-EE/" >}})
+as that feature is only available there.
+
+Depending on which choice you make, you will need to have either one or two Kubernetes clusters available before starting with the KKP setup.
+
 ### Set up Kubernetes
 
 To aid in setting up the seed and master clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/) which can be used to set up a highly-available Kubernetes cluster.
@@ -34,7 +45,7 @@ Please take note of the [recommended hardware and networking requirements]({{< r
 
 ## Installation
 
-To begin the installation, make sure you have a kubeconfig file at hand, with a user context that grants `cluster-admin` permissions.
+Make sure you have a kubeconfig for the desired master cluster available. It needs to have `cluster-admin` permissions on that cluster.
 
 ### Download the Installer
 
@@ -59,25 +70,24 @@ The installation and configuration for a KKP system consists of two important fi
   Dex etc. can be adjusted to the target environment. A single `values.yaml` is used to configure all Helm charts
   combined.
 * A `kubermatic.yaml` that configures KKP itself and is an instance of the
-  [KubermaticConfiguration]({{< ref "." >}}) CRD. This configuration will
+  [KubermaticConfiguration]({{< ref "../../references/crds/#kubermaticconfiguration" >}}) CRD. This configuration will
   be stored in the cluster and serves as the basis for the Kubermatic Operator to manage the actual KKP installation.
+
+{{% notice warning %}}
+Both files will include secret data, so make sure to securely store them (e.g. in a secret vault) and not share them freely.
+{{% /notice %}}
 
 The release archive hosted on GitHub contains examples for both of the configuration files (`values.example.yaml` and
 `kubermatic.example.yaml`). It's a good idea to take them as a starting point and add more options as necessary.
 
-The key items to configure are:
+The key items to configure are described in the table below.
 
-* The base domain under which KKP shall be accessible (e.g. `kubermatic.example.com`).
-* The certificate issuer: KKP requires that its dashboard and Dex are only accessible via HTTPS, so a
-  certificate is required. By default cert-manager is used, but you have to choose between the production or
-  staging Let's Encrypt services (if in doubt, choose the production server).
-  It is possible to use a custom CA (i.e. self-signed certificates), but this is outside of the scope of this
-  document.
-* For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses
-  yet another random secret to encrypt cookies stored in the users' browsers.
-* The expose strategy, that is the strategy used to expose the control plane
-  components of a user cluster to the worker nodes
-  (see [expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies">}}) for available options)
+| Description                                                                          | YAML Paths and File                                                                         |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| The base domain under which KKP shall be accessible (e.g. `kubermatic.example.com`). | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.host` (`values.yaml`); also adjust `.dex.clients[*].RedirectURIs` (`values.yaml`) according to your domain. |
+| The certificate issuer (KKP requires that its dashboard and Dex are only accessible via HTTPS); by default cert-manager is used, but you have to select an issuer that you need to create later on. | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`) |
+| For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`; this needs to be equal `.dex.clients[name=="kubermaticIssuer"].secret` from `values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
+| The expose strategy, which controls how control plane components of a user cluster are exposed to worker nodes and users. See [expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
 mentioned above can be generated using any password generator or on the shell using
@@ -107,8 +117,9 @@ KubermaticConfiguration and let the installer set it in `values.yaml` as well.
 ### Create a StorageClass
 
 KKP uses a custom storage class for the volumes created for user clusters. This class, `kubermatic-fast`, needs
-to be created before the installation can succeed and is strongly recommended to use SSDs. The etcd clusters for
-every user cluster will store their data in this StorageClass and etcd is highly sensitive to slow disk I/O.
+to be created before the installation can succeed and is required to use SSDs or a comparable storage layer.
+The etcd clusters for every user cluster will store their data in this StorageClass and etcd is highly sensitive
+to slow disk I/O.
 
 The installer can automatically create an SSD-based StorageClass for a subset of cloud providers. It can also
 simply copy the default StorageClass, but this is not recommended for production setups unless the default class

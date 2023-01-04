@@ -522,7 +522,7 @@ watch kubectl -n kubermatic get seeds
 #kubermatic       0          Hamburg     v2.21.2                  v1.24.8             Healthy   5m
 ```
 
-Watch the `PHASE` row until it shows "_Healthy_". If it does not after a couple of minutes, you can check
+Watch the `PHASE` column until it shows "_Healthy_". If it does not after a couple of minutes, you can check
 the `kubermatic` namespace on the new seed cluster and verify if there are any Pods showing signs of issues:
 
 ```bash
