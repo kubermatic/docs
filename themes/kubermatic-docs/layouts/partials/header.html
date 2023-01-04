@@ -85,16 +85,22 @@
             {{if $hasToc}}
             <button class="ptoc-open-btn-mobile" title="Open page index"><span></span></button>
             <script>
+              if (localStorage.getItem('hiddenToc')) {
+                document.body.classList.add('ptoc--hidden');
+              }
+
               var ptocCloseBtn = document.querySelector('.ptoc-title button');
               var ptocOpenBtn = document.querySelector('.ptoc-open-btn');
               var ptocOpenBtnMobile = document.querySelector('.ptoc-open-btn-mobile');
               ptocCloseBtn.addEventListener('click', function() {
                 document.body.classList.add('ptoc--hidden');
                 document.body.classList.remove('ptoc--show-panel');
+                localStorage.setItem('hiddenToc', true);
               });
               ptocOpenBtn.addEventListener('click', function() {
                 document.body.classList.remove('ptoc--hidden');
                 document.body.classList.add('ptoc--show-panel');
+                localStorage.removeItem('hiddenToc');
               });
               ptocOpenBtnMobile.addEventListener('click', function() {
                 document.body.classList.add('ptoc--show-panel');
