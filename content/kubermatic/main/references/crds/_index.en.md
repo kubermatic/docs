@@ -97,6 +97,7 @@ _Appears in:_
 | `description` _string_ | Description of the application. what is its purpose |
 | `method` _TemplateMethod_ | Method used to install the application |
 | `defaultValues` _RawExtension_ | DefaultValues describe overrides for manifest-rendering in UI when creating an application. |
+| `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | DefaultDeployOptions holds the settings specific to the templating method used to deploy the application. These settings can be overridden in applicationInstallation. |
 | `versions` _[ApplicationVersion](#applicationversion) array_ | Available version for this application |
 
 
@@ -195,6 +196,7 @@ _Appears in:_
 | `values` _[RawExtension](#rawextension)_ | Values describe overrides for manifest-rendering. It's a free yaml field. |
 | `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#duration-v1-meta)_ | ReconciliationInterval is the interval at which to force the reconciliation of the application. By default, Applications are only reconciled on changes on spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload deployed by the application, nothing will happen until the application CR change. 
  Setting a value greater than zero force reconciliation even if no changes occurred on application CR. Setting a value equal to 0 disables the force reconciliation of the application (default behavior). Setting this too low can cause a heavy load and may disrupt your application workload depending on the template method. |
+| `deployOptions` _[DeployOptions](#deployoptions)_ | DeployOptions holds the settings specific to the templating method used to deploy the application. |
 
 
 [Back to top](#top)
@@ -216,6 +218,7 @@ _Appears in:_
 | `applicationVersion` _[ApplicationVersion](#applicationversion)_ | ApplicationVersion contains information installing / removing application |
 | `method` _TemplateMethod_ | Method used to install the application |
 | `helmRelease` _[HelmRelease](#helmrelease)_ | HelmRelease holds the information about the helm release installed by this application. This field is only filled if template method is 'helm'. |
+| `failures` _integer_ | Failures counts the number of failed installation or updagrade. it is reset on successful reconciliation. |
 
 
 [Back to top](#top)
@@ -317,6 +320,25 @@ _Appears in:_
 
 
 
+### DeployOptions
+
+
+
+DeployOptions holds the settings specific to the templating method used to deploy the application.
+
+_Appears in:_
+- [ApplicationDefinitionSpec](#applicationdefinitionspec)
+- [ApplicationInstallationSpec](#applicationinstallationspec)
+
+| Field | Description |
+| --- | --- |
+| `helm` _[HelmDeployOptions](#helmdeployoptions)_ |  |
+
+
+[Back to top](#top)
+
+
+
 ### GitCredentials
 
 
@@ -396,6 +418,26 @@ _Appears in:_
 | `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | Username holds the ref and key in the secret for the username credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
 | `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | Password holds the ref and key in the secret for the Password credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
 | `registryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | RegistryConfigFile holds the ref and key in the secret for the registry credential file. The value is dockercfg file that follows the same format rules as ~/.docker/config.json The The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+
+
+[Back to top](#top)
+
+
+
+### HelmDeployOptions
+
+
+
+HelmDeployOptions holds the deployment settings when templating method is Helm.
+
+_Appears in:_
+- [DeployOptions](#deployoptions)
+
+| Field | Description |
+| --- | --- |
+| `wait` _boolean_ | Wait corresponds to the --wait flag on Helm cli. if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as timeout |
+| `timeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#duration-v1-meta)_ | Timeout corresponds to the --timeout flag on Helm cli. time to wait for any individual Kubernetes operation. |
+| `atomic` _boolean_ | Atomic corresponds to the --atomic flag on Helm cli. if set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of failed upgrade. |
 
 
 [Back to top](#top)
