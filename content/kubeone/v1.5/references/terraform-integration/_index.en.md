@@ -99,7 +99,6 @@ output "kubeone_hosts" {
       bastion              = aws_instance.bastion.public_ip
       bastion_port         = var.bastion_port
       bastion_user         = var.bastion_user
-      bastion_host_key     = var.bastion_host_key
       labels               = var.control_plane_labels
       # uncomment to following to set those kubelet parameters. More into at:
       # https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
@@ -235,7 +234,6 @@ output "kubeone_static_workers" {
       bastion              = aws_instance.bastion.public_ip
       bastion_port         = var.bastion_port
       bastion_user         = var.bastion_user
-      bastion_host_key     = var.bastion_host_key
       labels               = var.control_plane_labels
       # uncomment to following to set those kubelet parameters. More into at:
       # https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
