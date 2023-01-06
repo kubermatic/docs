@@ -89,8 +89,8 @@ Init script: [pkg/userdata/centos](https://github.com/kubermatic/machine-control
 - default yum repositories
 - docker yum repository: `download.docker.com/linux/centos`
 
-### CoreOS / Flatcar Linux / SLES
-Init script: [pkg/userdata/coreos](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/coreos), [pkg/userdata/flatcar](https://github.com/kubermatic/machine-controller/blob/main/pkg/userdata/flatcar), [pkg/userdata/sles](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/sles)
+### CoreOS / Flatcar Linux
+Init script: [pkg/userdata/coreos](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/coreos), [pkg/userdata/flatcar](https://github.com/kubermatic/machine-controller/blob/main/pkg/userdata/flatcar)
 
 - no additional targets
 
