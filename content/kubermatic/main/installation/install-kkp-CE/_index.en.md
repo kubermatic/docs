@@ -24,6 +24,7 @@ migrating existing installations.
 {{% /notice %}}
 
 For this guide you need to have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Helm](https://www.helm.sh/) (version 3) installed locally.
+You should be familiar with core Kubernetes concepts and the YAML file format before proceeding.
 
 ### Plan your Architecture
 
@@ -48,7 +49,7 @@ number of User Clusters grows.
 
 ## Installation
 
-Make sure you have a kubeconfig for the desired master cluster available. It needs to have `cluster-admin` permissions on that cluster to install all KKP master components.
+Make sure you have a kubeconfig for the desired Master Cluster available. It needs to have `cluster-admin` permissions on that cluster to install all KKP master components.
 
 ### Download the Installer
 
@@ -63,6 +64,13 @@ VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/k
 # VERSION=2.21.x
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
+```
+
+The installer will use the `KUBECONFIG` environment variable to pick up the right kubeconfig to access the designated Master Cluster. Ensure that you
+have exported it, for example like this (on Linux and macOS):
+
+```bash
+export KUBECONFIG=/path/to/master/kubeconfig
 ```
 
 ### Prepare Configuration
@@ -83,19 +91,20 @@ Both files will include secret data, so make sure to securely store them (e.g. i
 The release archive hosted on GitHub contains examples for both of the configuration files (`values.example.yaml` and
 `kubermatic.example.yaml`). It's a good idea to take them as a starting point and add more options as necessary.
 
-The key items to configure are described in the table below.
+The key items to consider while preparing your configuration files are described in the table below.
 
 | Description                                                                          | YAML Paths and File                                                                         |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
 | The base domain under which KKP shall be accessible (e.g. `kubermatic.example.com`). | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.host` (`values.yaml`); also adjust `.dex.clients[*].RedirectURIs` (`values.yaml`) according to your domain. |
-| The certificate issuer (KKP requires that its dashboard and Dex are only accessible via HTTPS); by default cert-manager is used, but you have to select an issuer that you need to create later on. | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`) |
+| The certificate issuer for KKP (KKP requires that its dashboard and Dex are only accessible via HTTPS); by default cert-manager is used, but you have to reference an issuer that you need to create later on. | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`) |
 | For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`; this needs to be equal to `.dex.clients[name=="kubermaticIssuer"].secret` from `values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
+| To authenticate via an external identity provider, you need to set up connectors in Dex. Check out [Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required but highly recommended for multi-user installations. | `.dex.connectors` (`values.yaml`; not included in example file) |
 | The expose strategy, which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
 mentioned above can be generated using any password generator or on the shell using
-`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`. On macOS, use `brew install gnu-tar` and
-`cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`. Alternatively, the Kubermatic Installer will suggest some
+`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32` (on macOS, use `brew install gnu-tar` and
+`cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`). Alternatively, the Kubermatic Installer will suggest some
 properly generated secrets for you when it notices that some are missing, for example:
 
 ```bash
@@ -116,6 +125,29 @@ A couple of settings are duplicated across the `values.yaml` and the KubermaticC
 will take care of filling in the gaps, so it is sufficient to configure the base domain in the
 KubermaticConfiguration and let the installer set it in `values.yaml` as well.
 {{% /notice %}}
+
+#### Without LoadBalancers
+
+If the Master Cluster's cloud provider does not support `Services` of type `LoadBalancer` (e.g. in an on-premise environment)
+you can configure KKP to not create such `Services`. Later parts of the documentation will cover this case while setting up DNS as well.
+
+To prepare your configuration correctly for this case, ensure that `nginx-ingress-controller` will be set up with a `Service`
+of type `NodePort` instead of `LoadBalancer`. This can be done by providing the appropriate configuration in your `values.yaml`
+file (this will bind access to `Ingress` resources exposed via plain HTTP to port **32080** and encrypted HTTPS to port **32443** on all nodes):
+
+```yaml
+# this is a snippet, not a full values.yaml!
+nginx:
+  controller:
+    service:
+      type: NodePort
+      nodePorts:
+        http: 32080
+        https: 32443
+```
+
+Make sure to include **32443** as port in all URLs both in `kubermatic.yaml` and `values.yaml`, e.g. the token issuer URL from `kubermatic.yaml`
+should now be `https://cluster.example.dev:32443/dex`.
 
 ### Create a StorageClass
 
@@ -226,8 +258,11 @@ to apply your changes.
 ### Configure ClusterIssuers
 
 By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to 
-change the settings (`kubermatic.certIssuer` in `values.yaml`), you need to create a `ClusterIssuer` object, named 
-`letsencrypt-prod` to enable cert-manager to issue the certificates. Example of this file can be found below.
+change the settings (`.spec.ingress.certificateIssuer.name` in `kubermatic.yaml`), you need to create a `ClusterIssuer` object, named 
+`letsencrypt-prod` to enable cert-manager to issue the certificates. Example of this file can be found below. If you
+adjusted this configuration option while preparing the configuration files, make sure to change the `ClusterIssuer`
+resource name accordingly.
+
 For other possible options, please refer to the [external documentation](https://cert-manager.io/docs/configuration/).
 
 ```yaml
@@ -305,9 +340,8 @@ be a `CNAME` rather than an `A` record.
 
 #### Without LoadBalancers
 
-Without a LoadBalancer, you will need to use a NodePort service (refer to the `charts/nginx-ingress-controller/values.yaml`
-for more information) and set up the DNS records to point to one or many of your cluster nodes. You can get a list of
-external IPs like so:
+If you have [set up KKP to work without LoadBalancer support](#without-loadbalancers), set up the DNS records to
+point to one or many of your cluster nodes. You can get a list of external IPs like this:
 
 ```bash
 kubectl get nodes -o wide
@@ -391,7 +425,7 @@ All pods running inside the `kubermatic` namespace should now be running. If the
 ## First Sign In
 
 With all this in place, you should be able to access `https://kubermatic.example.com/` (i.e. the URL to your KKP setup that you
-configured) and log in either with your static password from the `values.yaml` files  or using any of your chosen connectors.
+configured) and log in either with your static password from the `values.yaml` files or using any of your chosen connectors.
 This will initiate your first contact with the KKP API which will create an initial `User` resource for your account.
 
 {{% notice note %}}
