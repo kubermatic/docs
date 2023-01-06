@@ -51,6 +51,13 @@ number of User Clusters grows.
 
 Make sure you have a kubeconfig for the desired Master Cluster available. It needs to have `cluster-admin` permissions on that cluster to install all KKP master components.
 
+The installer will use the `KUBECONFIG` environment variable to pick up the right kubeconfig to access the designated Master Cluster. Ensure that you
+have exported it, for example like this (on Linux and macOS):
+
+```bash
+export KUBECONFIG=/path/to/master/kubeconfig
+```
+
 ### Download the Installer
 
 Download the [release archive from our GitHub release page](https://github.com/kubermatic/kubermatic/releases/) (e.g. `kubermatic-ce-X.Y-linux-amd64.tar.gz`)
@@ -64,13 +71,6 @@ VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/k
 # VERSION=2.21.x
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
-```
-
-The installer will use the `KUBECONFIG` environment variable to pick up the right kubeconfig to access the designated Master Cluster. Ensure that you
-have exported it, for example like this (on Linux and macOS):
-
-```bash
-export KUBECONFIG=/path/to/master/kubeconfig
 ```
 
 ### Prepare Configuration
