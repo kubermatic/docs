@@ -51,7 +51,7 @@ Follow the CE install guide as normal, the remaining steps apply equally to the 
 ### Multiple Seeds
 
 The Enterprise Edition (EE) supports running multiple seeds with arbitrary names, lifting the single seed (called `kubermatic`) limitation of the Community Edition (CE).
-As such, the seed setup process linked above can be repeated multiple times with different seed clusters. Ignore the `kuberimatic` name limitation given
+As such, the seed setup process linked above can be repeated multiple times with different seed clusters. Ignore the `kubermatic` name limitation given
 in various places of the seed installation documentation if you are using the Enterprise Edition.
 
 ## Next Steps

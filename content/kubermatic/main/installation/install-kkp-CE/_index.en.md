@@ -23,7 +23,7 @@ This guide assumes a clean installation into an empty cluster. Please refer to t
 migrating existing installations.
 {{% /notice %}}
 
-For this guide you will have to have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Helm](https://www.helm.sh/) (version 3) installed locally.
+For this guide you need to have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Helm](https://www.helm.sh/) (version 3) installed locally.
 
 ### Plan your Architecture
 
@@ -31,10 +31,10 @@ Before getting started, we strongly recommend you to think ahead and model your 
 to share the same cluster (a shared Master/Seed setup) or run Master and Seed on two separate clusters. See [our architecture overview]({{< ref "../../architecture/" >}}) for
 a visual representation of the KKP architecture.
 
+Depending on which choice you make, you will need to have either one or two Kubernetes clusters available before starting with the KKP setup.
+
 If you would like to run multiple Seeds to scale your setup beyond a single Seed, please check out the [Enterprise Edition]({{< ref "../install-kkp-EE/" >}})
 as that feature is only available there.
-
-Depending on which choice you make, you will need to have either one or two Kubernetes clusters available before starting with the KKP setup.
 
 ### Set up Kubernetes
 
@@ -358,7 +358,7 @@ traffic both for KKP and all other services.
 *.kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
 ```
 
-If CNAME records are not possible, you can configure individual records instead:
+If wildcard records are not possible, you can configure individual records instead:
 
 ```plain
 prometheus.kubermatic.example.com.     IN   A       1.2.3.4
@@ -367,7 +367,7 @@ alertmanager.kubermatic.example.com.   IN   A       1.2.3.4
 
 ### Validation
 
-With the 2 DNS records configured, it's now time to wait for the certificate to be acquired. You can watch the progress
+With the two DNS records configured, it's now time to wait for the certificate to be acquired. You can watch the progress
 by doing `watch kubectl -n kubermatic get certificates` until it shows `READY=True`:
 
 ```bash
@@ -390,7 +390,7 @@ All pods running inside the `kubermatic` namespace should now be running. If the
 
 ## First Sign In
 
-With all this in place, you should be able to access https://kubermatic.example.com/ (i.e. the URL to your KKP setup that you
+With all this in place, you should be able to access `https://kubermatic.example.com/` (i.e. the URL to your KKP setup that you
 configured) and log in either with your static password from the `values.yaml` files  or using any of your chosen connectors.
 This will initiate your first contact with the KKP API which will create an initial `User` resource for your account.
 

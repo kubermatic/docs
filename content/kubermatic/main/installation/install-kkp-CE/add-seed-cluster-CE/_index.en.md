@@ -7,7 +7,9 @@ weight = 40
 enableToc = true
 +++
 
-This document describes how a new seed cluster can be added to an existing KKP master cluster.
+This document describes how a new Seed Cluster can be added to an existing KKP Master Cluster.
+It expects that all steps from [Install Kubermatic Kubernetes Platform (KKP) CE]({{< ref "../" >}})
+have been completed.
 
 {{% notice note %}}
 For smaller scale setups it's possible to use the existing master cluster as a seed cluster (a "shared"
@@ -179,13 +181,13 @@ You should skip this (by not passing the `--storageclass` flag at all) if you ar
 the `StorageClass` has been created already during master installation.
 
 If you do not want to install MinIO, the only thing to do is ensure a suitable `StorageClass` named `kubermatic-fast` exists
-on the seed cluster. This `StorageClass` should fulfill the performance requirements as explained
+on the Seed Cluster (choose Option 3 from below). This `StorageClass` should fulfill the performance requirements as explained
 [in the master installation documentation]({{< ref "../#create-a-storageclass" >}}). The installer is capable of setting up 
 a suitable `StorageClass` and is therefore still recommended to use.
 
 ### Option 1: Use the Installer
 
-Similar to how the master cluster can be installed with the installler, run the `deploy` command. You still need to
+Similar to how the Master Cluster can be installed with the installler, run the `deploy kubermatic-seed` command. You still need to
 manually ensure that the StorageClass you configured for MinIO exists already.
 
 ```bash
@@ -274,9 +276,17 @@ the seed setup (applying CRDs and creating seed-specific workloads).
 
 ### Create Seed Kubeconfig
 
-To connect the new seed cluster with the master, you need to create a kubeconfig Secret and a Seed resource
-**on the master cluster**. This allows the KKP components in the master cluster to communicate with the seed cluster and
+To connect the new Seed Cluster with the Master, you need to create a kubeconfig Secret and a Seed resource
+**on the Master Cluster**. This allows the KKP components in the Master Cluster to communicate with the Seed Cluster and
 reconcile user-cluster control planes.
+
+{{% notice note %}}
+If you have any potential networking restrictions (like firewalls) in place, make sure that your Master Cluster is allowed
+to connect to your Seed Cluster's Kubernetes API endpoint.
+{{% /notice %}}
+
+The separate kubeconfig Secret needs to be provided even when a shared Master/Seed Cluster is being set up. Make sure that
+the kubeconfig you provide to the Seed resource has an Kubernetes API endpoint configured that is reachable from within the cluster.
 
 {{% notice warning %}}
 To make sure that the kubeconfig stays valid forever, it must not contain temporary login tokens. Depending on the
@@ -440,14 +450,13 @@ Additional backup locations can also be added after installation either by updat
 #### MinIO Backup Location
 
 If MinIO was [installed from the provided Helm chart](#configure-cluster-backups), the etcd backup location configuration
-should look like this:
+should look like this (the credentials secret is created by the `minio` Helm chart):
 
 ```yaml
 # snippet, not a valid seed resource!
 apiVersion: kubermatic.k8c.io/v1
 kind: Seed
 metadata:
-  # The Seed *must* be named "kubermatic".
   name: kubermatic
   namespace: kubermatic
 spec:
@@ -456,6 +465,7 @@ spec:
     defaultDestination: minio
     destinations:
       minio:
+        # use the bucket name chosen during installation.
         bucketName: kkpbackup
         credentials:
           name: s3-credentials
@@ -480,15 +490,14 @@ stringData:
   SECRET_ACCESS_KEY: <YOUR_SECRET_ACCESS_KEY>
 ```
 
-And apply it via `kubectl`. Afterwards, update your `.spec.etcdBackupRestore` to reference your `Secret` and the
-storage backend's endpoint:
+Apply it via `kubectl`. Afterwards, update your `.spec.etcdBackupRestore` to reference your `Secret` and the
+storage backend's endpoint (replacing bucket, secret reference and endpoint as appropriate):
 
 ```yaml
 # snippet, not a valid seed resource!
 apiVersion: kubermatic.k8c.io/v1
 kind: Seed
 metadata:
-  # The Seed *must* be named "kubermatic".
   name: kubermatic
   namespace: kubermatic
 spec:
@@ -499,7 +508,7 @@ spec:
       s3:
         bucketName: examplebucketname
         credentials:
-          name: backup-s3-credentials
+          name: s3-backup-credentials
           namespace: kube-system
         endpoint: https://s3.amazonaws.com
 ```
