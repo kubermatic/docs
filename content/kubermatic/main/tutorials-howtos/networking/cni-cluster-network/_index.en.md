@@ -138,36 +138,19 @@ IP range from which NodePort access to the worker nodes will be allowed. Default
 Enables NodeLocal DNS Cache - caching DNS server running on each worker node in the cluster.
 
 ### Konnectivity
-Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. Defaults to `0.0.0.0/0` (allowed from everywhere). It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it will be replaced with Konnectivity in future KKP releases.
-
-#### Enabling Konnectivity in KubermaticConfiguration
-
-To enable Konnectivity for control plane to worker nodes communication, the feature first has to be enabled in `KubermaticConfiguration` by enabling the `KonnectivityService` feature gate, e.g.:
-
-```yaml
-apiVersion: kubermatic.k8c.io/v1
-kind: KubermaticConfiguration
-metadata:
-  name: kubermatic
-  namespace: kubermatic
-spec:
-  featureGates:
-    KonnectivityService: true
-```
-
-All existing clusters started before enabling `KonnectivityService` feature gate will continue using OpenVPN.
+Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it has been replaced with Konnectivity and will be removed in future KKP releases.
 
 #### Enabling Konnectivity for New Clusters
 
-Once the `KonnectivityService` feature gate is enabled, Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Advanced Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
+Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Advanced Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
 
 ![Cluster Settings - Network Configuration](/img/kubermatic/main/tutorials/networking/ui_cluster_konnectivity.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
-When this option is checked, Konnectivity will be used for control plane to worker nodes communication in the cluster. Otherwise, the old OpenVPN solution will be used.
+When this option is checked (which it is by default), Konnectivity will be used for control plane to worker nodes communication in the cluster. Otherwise, the old OpenVPN solution will be used.
 
 #### Switching Existing Clusters to Konnectivity
 
-Given that the `KonnectivityService` feature gate is enabled, existing user clusters that are using OpenVPN can be migrated to Konnectivity at any time via the "Edit Cluster" dialog in KKP UI:
+Existing user clusters that are using OpenVPN can be migrated to Konnectivity at any time via the "Edit Cluster" dialog in KKP UI:
 
 {{% notice warning %}}
 
@@ -220,4 +203,4 @@ use if not explicitly specified:
 | `dnsDomain`                | `cluster.local`                                                                                              | Domain name for k8s services.                                                                                                                                                                                                                       |
 | `ipvs.strictArp`           | `true` for `ipvs` proxyMode, `false` otherwise                                                               | If enabled, configures `arp_ignore` and `arp_announce` kernel parameters to avoid answering ARP queries from `kube-ipvs0` interface.                                                                                                                |
 | `nodeLocalDNSCacheEnabled` | `true`                                                                                                       | Enables NodeLocal DNS Cache - caching DNS server running on each worker node in the cluster.                                                                                                                                                        |
-| `konnectivityEnabled`      | `false`                                                                                                      | Enables [Konnectivity](#konnectivity) for control plane to node network communication. Requires `KonnectivityService` feature gate in the `KubermaticConfiguration` to be enabled.                                                                  |
+| `konnectivityEnabled`      | `false`                                                                                                      | Enables [Konnectivity](#konnectivity) for control plane to node network communication.                                                                                                                                                              |
