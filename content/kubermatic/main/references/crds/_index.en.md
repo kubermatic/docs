@@ -143,6 +143,7 @@ _Appears in:_
 | `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#time-v1-meta)_ | Last time the condition transit from one status to another. |
 | `reason` _string_ | (brief) reason for the condition's last transition. |
 | `message` _string_ | Human readable message indicating details about last transition. |
+| `observedGeneration` _integer_ | observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. |
 
 
 [Back to top](#top)
