@@ -18,22 +18,21 @@ The following operating systems are currently supported by Kubermatic:
 * Ubuntu LTS beginning with 18.04
 * CentOS beginning with 7.4
 * Amazon Linux 2
-* SLES beginning with 15.0 (only on AWS)
 
 This table shows the combinations of operating systems and cloud providers that KKP supports:
 
-|   | Ubuntu | CentOS | Flatcar | RHEL | SLES | Amazon Linux 2 | Rocky Linux |
+|   | Ubuntu | CentOS | Flatcar | RHEL | Amazon Linux 2 | Rocky Linux |
 |---|---|---|---|---|---|---|---|
-| AWS | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Azure | ✓ | ✓ | ✓ | ✓ | x | x | ✓ |
-| Digitalocean  | ✓ | ✓ | x | x | x | x | ✓ |
-| Equinix Metal | ✓ | ✓ | ✓ | x | x | x | ✓ |
-| Google Cloud Platform | ✓ | x | x | x | x | x | x |
-| Hetzner | ✓ | ✓ | x | x | x | x | ✓ |
-| KubeVirt | ✓ | ✓ | ✓ | ✓ | x | x | ✓ |
-| Nutanix | ✓ | ✓ | x | x | x | x | x |
-| Openstack | ✓ | ✓ | ✓ | ✓ | x | x | ✓ |
-| VMware Cloud Director | ✓ | x | x | x | x | x | x |
-| VSphere | ✓ | ✓ | ✓ | ✓ | x | x | ✓ |
+| AWS | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Azure | ✓ | ✓ | ✓ | ✓ | x | ✓ |
+| Digitalocean  | ✓ | ✓ | x | x | x | ✓ |
+| Equinix Metal | ✓ | ✓ | ✓ | x | x | ✓ |
+| Google Cloud Platform | ✓ | x | x | x | x | x |
+| Hetzner | ✓ | ✓ | x | x | x | ✓ |
+| KubeVirt | ✓ | ✓ | ✓ | ✓ | x | ✓ |
+| Nutanix | ✓ | ✓ | x | x | x | x |
+| Openstack | ✓ | ✓ | ✓ | ✓ | x | ✓ |
+| VMware Cloud Director | ✓ | x | x | x | x | x |
+| VSphere | ✓ | ✓ | ✓ | ✓ | x | ✓ |
 
 There could be more in the future since change is constant. This page will constantly be updated each time there is a new supported operating system.
