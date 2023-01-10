@@ -3093,6 +3093,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `providerName` _string_ | ProviderName is the name of the cloud provider used, one of "aws", "azure", "digitalocean", "gcp", "hetzner", "nutanix", "openstack", "packet", "vsphere" KubeOne natively-supported providers |
+| `region` _string_ | Region is the cloud provider region in which the cluster resides. This field is used only to display information. |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `sshReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `manifestReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
@@ -3214,6 +3215,7 @@ _Appears in:_
 | --- | --- |
 | `humanReadableName` _string_ | HumanReadableName is the cluster name provided by the user |
 | `kubeconfigReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | KubeconfigReference is reference to cluster Kubeconfig |
+| `version` _Semver_ | Version defines the wanted version of the control plane. |
 | `cloudSpec` _[ExternalClusterCloudSpec](#externalclustercloudspec)_ | CloudSpec contains provider specific fields |
 | `clusterNetwork` _[ExternalClusterNetworkingConfig](#externalclusternetworkingconfig)_ |  |
 | `containerRuntime` _string_ | ContainerRuntime to use, i.e. `docker` or `containerd`. |
