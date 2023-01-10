@@ -1,8 +1,8 @@
 +++
-linkTitle = "Install KKP - Quick Guide"
-title = "Get started with KKP - “KKP on a single node with Kubeone on AWS”"
+linkTitle = "Single Node Setup"
+title = "KKP on a Single Node with KubeOne on AWS"
 date = 2022-02-07T12:07:15+02:00
-weight = 10
+weight = 40
 enableToc = true
 +++
 
@@ -19,7 +19,7 @@ In this **Get Started with KKP** guide, we will be using AWS Cloud as our underl
 ## Prerequisites
 
 1. [Terraform >v1.0.0](https://www.terraform.io/downloads)
-2. [Kubeone](https://github.com/kubermatic/kubeone/releases/tag/v1.4.0)
+2. [KubeOne](https://github.com/kubermatic/kubeone/releases)
 
 ## Download the repository
 

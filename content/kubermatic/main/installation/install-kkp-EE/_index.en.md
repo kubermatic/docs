@@ -1,5 +1,6 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) EE"
+linkTitle = "Install Enterprise Edition"
 date = 2018-04-28T12:07:15+02:00
 description = "Learn the installation procedure of KKP Enterprise Edition (EE) into a pre-existing Kubernetes cluster"
 weight = 30
@@ -14,30 +15,10 @@ At the moment you need to be invited to get access to Kubermatic's EE Docker rep
 Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 {{% /notice %}}
 
-## Terminology
-
-* **User cluster** -- A Kubernetes cluster created and managed by KKP
-* **Seed cluster** -- A Kubernetes cluster which is responsible for hosting the master components of a user cluster
-* **Master cluster** -- A Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys. It hosts the KKP components and might also act as a seed cluster.
-* **Seed datacenter** -- A definition/reference to a seed cluster
-* **Node datacenter** -- A definition/reference of a datacenter/region/zone at a cloud provider (aws=zone, digitalocean=region, openstack=zone)
-
-## Requirements
-
-Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "../../architecture/requirements" >}})
-and make yourself familiar with the requirements for your chosen cloud provider.
-
-For this guide you will have to have `kubectl` and [Helm](https://www.helm.sh/) (version 3) installed locally.
-
-{{% notice warning %}}
-This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../../tutorials-howtos/upgrading" >}})
-for more information on migrating existing installations to the Kubermatic Installer.
-{{% /notice %}}
-
 ## Installation
 
-The installation procedure is identical to the [Community Edition]({{< ref "../install-kkp-CE" >}}), with the exception that
-a different installer needs to be downloaded and that the Docker credentials need to be configured.
+The installation procedure is identical to the [installation process for the Community Edition]({{< ref "../install-kkp-CE" >}}),
+with the exception that a different installer needs to be downloaded and that the Docker credentials need to be configured.
 
 When downloading the installer, make sure to choose the `-ee-` variant on GitHub. Extract it like documented in the CE install
 guide.
