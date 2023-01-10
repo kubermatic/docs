@@ -2148,7 +2148,7 @@ _Appears in:_
 
 
 
-DatacenterSpec mutually points to provider datacenter spec.
+DatacenterSpec configures a KKP datacenter. Provider configuration is mutually exclusive, and as such only a single provider can be configured per datacenter.
 
 _Appears in:_
 - [Datacenter](#datacenter)
@@ -2157,24 +2157,24 @@ _Appears in:_
 | --- | --- |
 | `digitalocean` _[DatacenterSpecDigitalocean](#datacenterspecdigitalocean)_ |  |
 | `bringyourown` _[DatacenterSpecBringYourOwn](#datacenterspecbringyourown)_ | BringYourOwn contains settings for clusters using manually created nodes via kubeadm. |
-| `aws` _[DatacenterSpecAWS](#datacenterspecaws)_ |  |
-| `azure` _[DatacenterSpecAzure](#datacenterspecazure)_ |  |
-| `openstack` _[DatacenterSpecOpenstack](#datacenterspecopenstack)_ |  |
-| `packet` _[DatacenterSpecPacket](#datacenterspecpacket)_ |  |
-| `hetzner` _[DatacenterSpecHetzner](#datacenterspechetzner)_ |  |
-| `vsphere` _[DatacenterSpecVSphere](#datacenterspecvsphere)_ |  |
-| `vmwareclouddirector` _[DatacenterSpecVMwareCloudDirector](#datacenterspecvmwareclouddirector)_ |  |
-| `gcp` _[DatacenterSpecGCP](#datacenterspecgcp)_ |  |
-| `kubevirt` _[DatacenterSpecKubevirt](#datacenterspeckubevirt)_ |  |
-| `alibaba` _[DatacenterSpecAlibaba](#datacenterspecalibaba)_ |  |
-| `anexia` _[DatacenterSpecAnexia](#datacenterspecanexia)_ |  |
-| `nutanix` _[DatacenterSpecNutanix](#datacenterspecnutanix)_ | Nutanix is experimental and unsupported |
+| `aws` _[DatacenterSpecAWS](#datacenterspecaws)_ | AWS configures an Amazon Web Services (AWS) datacenter. |
+| `azure` _[DatacenterSpecAzure](#datacenterspecazure)_ | Azure configures an Azure datacenter. |
+| `openstack` _[DatacenterSpecOpenstack](#datacenterspecopenstack)_ | Openstack configures an Openstack datacenter. |
+| `packet` _[DatacenterSpecPacket](#datacenterspecpacket)_ | Packet configures an Equinix Metal datacenter. |
+| `hetzner` _[DatacenterSpecHetzner](#datacenterspechetzner)_ | Hetzner configures a Hetzner datacenter. |
+| `vsphere` _[DatacenterSpecVSphere](#datacenterspecvsphere)_ | VSphere configures a VMware vSphere datacenter. |
+| `vmwareclouddirector` _[DatacenterSpecVMwareCloudDirector](#datacenterspecvmwareclouddirector)_ | VMwareCloudDirector configures a VMware Cloud Director datacenter. |
+| `gcp` _[DatacenterSpecGCP](#datacenterspecgcp)_ | GCP configures a Google Cloud Platform (GCP) datacenter. |
+| `kubevirt` _[DatacenterSpecKubevirt](#datacenterspeckubevirt)_ | Kubevirt configures a KubeVirt datacenter. |
+| `alibaba` _[DatacenterSpecAlibaba](#datacenterspecalibaba)_ | Alibaba configures an Alibaba Cloud datacenter. |
+| `anexia` _[DatacenterSpecAnexia](#datacenterspecanexia)_ | Anexia configures an Anexia datacenter. |
+| `nutanix` _[DatacenterSpecNutanix](#datacenterspecnutanix)_ | Nutanix configures a Nutanix HCI datacenter. |
 | `requiredEmails` _string array_ | Optional: When defined, only users with an e-mail address on the given domains can make use of this datacenter. You can define multiple domains, e.g. "example.com", one of which must match the email domain exactly (i.e. "example.com" will not match "user@test.example.com"). |
-| `enforceAuditLogging` _boolean_ | EnforceAuditLogging enforces audit logging on every cluster within the DC, ignoring cluster-specific settings. |
-| `enforcePodSecurityPolicy` _boolean_ | EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC, ignoring cluster-specific settings |
-| `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#duration-v1-meta)_ | ProviderReconciliationInterval is the time that must have passed since a Cluster's status.lastProviderReconciliation to make the cliuster controller perform an in-depth provider reconciliation, where for example missing security groups will be reconciled. Setting this too low can cause rate limits by the cloud provider, setting this too high means that *if* a resource at a cloud provider is removed/changed outside of KKP, it will take this long to fix it. |
-| `operatingSystemProfiles` _object (keys:OperatingSystem, values:string)_ | DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system. |
-| `machineFlavorFilter` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
+| `enforceAuditLogging` _boolean_ | Optional: EnforceAuditLogging enforces audit logging on every cluster within the DC, ignoring cluster-specific settings. |
+| `enforcePodSecurityPolicy` _boolean_ | Optional: EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC, ignoring cluster-specific settings. |
+| `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#duration-v1-meta)_ | Optional: ProviderReconciliationInterval is the time that must have passed since a Cluster's status.lastProviderReconciliation to make the cliuster controller perform an in-depth provider reconciliation, where for example missing security groups will be reconciled. Setting this too low can cause rate limits by the cloud provider, setting this too high means that *if* a resource at a cloud provider is removed/changed outside of KKP, it will take this long to fix it. |
+| `operatingSystemProfiles` _object (keys:OperatingSystem, values:string)_ | Optional: DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system. |
+| `machineFlavorFilter` _[MachineFlavorFilter](#machineflavorfilter)_ | Optional: MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
 
 
 [Back to top](#top)
