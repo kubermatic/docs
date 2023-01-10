@@ -136,3 +136,32 @@ The quotas don't support external clusters.
 The quotas won't restrict the usage of resources for the control plane on the seed cluster.
 
 Nodes which join the cluster using other means than through KKP are not supported in the quotas.
+
+### Default Project Resource Quotas
+
+It is possible to set the a default resource quota for all projects which do not have a quota already set.
+
+In the KKP's KubermaticSettings `globalsettings` resource, there is a field in `spec.defaultQuota` through which
+default project resource quotas can be managed:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticSettings
+metadata:
+  name: globalsettings
+...
+spec:
+  defaultQuota:
+    quota:
+      cpu: "2"
+      memory: 35G
+      storage: 127G
+```
+
+If the `spec.defaultQuota` is set, a controller will create a default ResourceQuota for all projects which do
+not have a ResourceQuota already. And if the field is updated, the default ResourceQuota's will be updated as well.
+Unsetting this field will delete all the default ResourceQuotas.
+
+To distinguish a ResourceQuota from a default ResourceQuota, the label `"kkp-default-resource-quota": "true"` is set on the
+default ResourceQuotas. To mark the ResourceQuota as non-default, just remove the label. When a default ResourceQuota is 
+edited through the UI/API, this will be done automatically.
