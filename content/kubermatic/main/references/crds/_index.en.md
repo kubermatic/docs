@@ -2336,6 +2336,7 @@ _Appears in:_
 | --- | --- |
 | `dnsPolicy` _string_ | DNSPolicy represents the dns policy for the pod. Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'. Defaults to "ClusterFirst". DNS parameters given in DNSConfig will be merged with the policy selected with DNSPolicy. |
 | `dnsConfig` _[PodDNSConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#poddnsconfig-v1-core)_ | DNSConfig represents the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy. |
+| `customNetworkPolicies` _[NetworkPolicy](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#networkpolicy-v1-networking) array_ | CustomNetworkPolicies (optional) allows to add some extra custom NetworkPolicies, that are deployed in the dedicated infra KubeVirt cluster. They are added to the defaults. |
 | `images` _[ImageSources](#imagesources)_ | Images represents standard VM Image sources. |
 
 
