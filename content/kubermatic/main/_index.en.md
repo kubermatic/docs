@@ -3,9 +3,7 @@ title = ""
 date = 2019-04-27T16:06:34+02:00
 +++
 
-
 ![Kubermatic Kubernetes Platform logo](/img/KubermaticKubernetesPlatform-logo.jpg)
-
 
 ## What is Kubermatic Kubernetes Platform (KKP)?
 

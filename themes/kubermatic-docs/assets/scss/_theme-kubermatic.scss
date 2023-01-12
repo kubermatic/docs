@@ -328,10 +328,10 @@ body {
 
 code {
     padding: 1px 5px;
-    background-color: var(--GRAY-color);
+    background-color: #F3F3F3;
     color: var(--MAIN-TEXT-color);
-    border: none;
-    border-radius: 0;
+    border: 1px solid var(--GRAY-color);
+    border-radius: 4px;
     font-size: 1rem;
     white-space: pre-wrap;
 }
