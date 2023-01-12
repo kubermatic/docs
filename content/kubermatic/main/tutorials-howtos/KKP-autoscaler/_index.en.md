@@ -1,15 +1,15 @@
 
 +++
-title = "Kubermatic Kubernetes Platform (KKP) Cluster Autoscaler"
+title = "Cluster Autoscaler"
 date = 2021-08-05T14:07:10+02:00
 weight = 8
 +++
 
-This section deals with the usage of Kubernetes Cluster Autoscaler in the KKP Cluster.
+This section deals with the usage of Kubernetes Cluster Autoscaler in a KKP User Cluster.
 
 ## What is a Cluster Autoscaler in Kubernetes?
 
-Kubernetes Cluster Autoscaler is a tool that automatically adjusts the size of the worker’s node up or down depending on the consumption. This means that the Autoscaler, for example, automatically scale up a Cluster by increasing the node size when there are not enough node resources for Cluster workload scheduling and scale down when the node resources have continuously staying idle, or there are more than enough node resources available for Cluster workload scheduling. In a nutshell, it is a component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes.
+Kubernetes Cluster Autoscaler is a tool that automatically adjusts the size of the worker’s node up or down depending on the consumption. This means that the autoscaler, for example, automatically scale up a Cluster by increasing the node count when there are not enough node resources for Cluster workload scheduling and scale down when the node resources have continuously staying idle, or there are more than enough node resources available for Cluster workload scheduling. In a nutshell, it is a component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes.
 
 ## KKP Cluster Autoscaler Usage
 
