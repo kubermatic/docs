@@ -8,13 +8,8 @@ enableToc = true
 
 Kubermatic Kubernetes Platform (KKP) is a Kubernetes management platform that helps address the operational and security challenges of enterprise customers seeking to run Kubernetes at scale. KKP automates deployment and operations of hundreds or thousands of Kubernetes clusters across hybrid-cloud, multi-cloud and edge environments while enabling DevOps teams with a self-service developer and operations portal. If you are looking for more general information on KKP, we recommend our [documentation start page]({{< ref "../../" >}}) and the [Architecture section of the documentation]({{< ref "../../architecture/" >}}) to get familiar with KKP's core concepts.
 
-This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`).
+This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`). KKP can be installed on any infrastructure provider that can host a Kubernetes cluster, i.e. any major cloud provider like Amazon Web Services (AWS), Azure, Google Cloud Platform (GCP), Digital Ocean or Hetzner. Private infrastructure providers like vSphere, OpenStack or Nutanix are supported as well, e.g. by using [KubeOne](https://docs.kubermatic.com/kubeone/). See [Set up Kubernetes](#set-up-kubernetes) for details.
 
-## Terminology
-
-* **Master Cluster** -- A Kubernetes cluster which is responsible for storing central information about users, projects and SSH keys. It hosts the KKP master components and might also act as a seed cluster.
-* **Seed Cluster** -- A Kubernetes cluster which is responsible for hosting the control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd and more) of a User Cluster.
-* **User Cluster** -- A Kubernetes cluster created and managed by KKP, hosting applications managed by users.
 
 ## Requirements
 
@@ -28,9 +23,10 @@ You should be familiar with core Kubernetes concepts and the YAML file format be
 
 ### Plan your Architecture
 
-Before getting started, we strongly recommend you to think ahead and model your KKP setup. In particular you should decide if you want Master and Seed components
+Before getting started we strongly recommend you to think ahead and model your KKP setup. In particular you should decide if you want Master and Seed components
 to share the same cluster (a shared Master/Seed setup) or run Master and Seed on two separate clusters. See [our architecture overview]({{< ref "../../architecture/" >}}) for
-a visual representation of the KKP architecture.
+a visual representation of the KKP architecture. A shared Master/Seed is useful for getting up and running quickly, while separate clusters will allow to scale
+your KKP environment better.
 
 Depending on which choice you make, you will need to have either one or two Kubernetes clusters available before starting with the KKP setup.
 
@@ -39,7 +35,7 @@ as that feature is only available there.
 
 ### Set up Kubernetes
 
-To aid in setting up the Seed and Master Clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/) which can be used to set up a highly-available Kubernetes cluster.
+To aid in setting up the Seed and Master Clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/), which can be used to set up a highly-available Kubernetes cluster.
 Refer to the [KubeOne documentation](https://docs.kubermatic.com/kubeone) for details on how to use it.
 
 Please take note of the [recommended hardware and networking requirements]({{< ref "../../architecture/requirements/cluster-requirements/" >}}) before provisioning a cluster.
@@ -62,7 +58,7 @@ export KUBECONFIG=/path/to/master/kubeconfig
 
 Download the [release archive from our GitHub release page](https://github.com/kubermatic/kubermatic/releases/) (e.g. `kubermatic-ce-X.Y-linux-amd64.tar.gz`)
 containing the Kubermatic Installer and the required Helm charts for your operating system and extract it locally. Note that
-for Windows, ZIP files are provided instead of tar.gz files.
+for Windows `zip` files are provided instead of `tar.gz` files.
 
 ```bash
 # For latest version:
@@ -78,7 +74,7 @@ tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 The installation and configuration for a KKP system consists of two important files:
 
 * A `values.yaml` used to configure the various Helm charts KKP ships with. This is where nginx, Prometheus,
-  Dex etc. can be adjusted to the target environment. A single `values.yaml` is used to configure all Helm charts
+  Dex, etc. can be adjusted to the target environment. A single `values.yaml` is used to configure all Helm charts
   combined.
 * A `kubermatic.yaml` that configures KKP itself and is an instance of the
   [KubermaticConfiguration]({{< ref "../../references/crds/#kubermaticconfiguration" >}}) CRD. This configuration will
@@ -97,11 +93,11 @@ The key items to consider while preparing your configuration files are described
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
 | The base domain under which KKP shall be accessible (e.g. `kubermatic.example.com`). | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.host` (`values.yaml`); also adjust `.dex.clients[*].RedirectURIs` (`values.yaml`) according to your domain. |
 | The certificate issuer for KKP (KKP requires that its dashboard and Dex are only accessible via HTTPS); by default cert-manager is used, but you have to reference an issuer that you need to create later on. | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`) |
-| For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`; this needs to be equal to `.dex.clients[name=="kubermaticIssuer"].secret` from `values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
-| To authenticate via an external identity provider, you need to set up connectors in Dex. Check out [Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required but highly recommended for multi-user installations. | `.dex.connectors` (`values.yaml`; not included in example file) |
-| The expose strategy, which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
+| For proper authentication shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`; this needs to be equal to `.dex.clients[name=="kubermaticIssuer"].secret` from `values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
+| To authenticate via an external identity provider you need to set up connectors in Dex. Check out [the Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required but highly recommended for multi-user installations. | `.dex.connectors` (`values.yaml`; not included in example file) |
+| The expose strategy which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [the expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
 
-There are many more options, but these are essential to get a minimal system up and running. The secret keys
+There are many more options but these are essential to get a minimal system up and running. The secret keys
 mentioned above can be generated using any password generator or on the shell using
 `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32` (on macOS, use `brew install gnu-tar` and
 `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`). Alternatively, the Kubermatic Installer will suggest some
@@ -291,9 +287,9 @@ kubectl apply -f ./clusterissuer.yaml
 
 ### Create DNS Records
 
-In order to acquire a valid certificate, a DNS name needs to point to your cluster. Depending on your environment,
-this can mean a LoadBalancer service or a NodePort service. The nginx-ingress-controller Helm chart will by default
-create a LoadBalancer, unless you reconfigure it because your environment does not support LoadBalancers.
+In order to acquire a valid certificate, a DNS name needs to point to your cluster. Depending on your environment
+this can mean a `LoadBalancer` service or a `NodePort` service. The `nginx-ingress-controller` Helm chart will by default
+create a load balancer, unless you [reconfigured it because your environment does not support load balancers](#without-loadbalancers).
 
 The installer will do its best to inform you about the required DNS records to set up. You will receive an output
 similar to this:
@@ -321,7 +317,7 @@ cluster. See the following sections for more information regarding the required 
 
 #### With LoadBalancers
 
-When your cloud provider supports LoadBalancers, you can find the target IP / hostname by looking at the
+If your cloud provider supports load balancers, you can find the target IP / hostname by looking at the
 `nginx-ingress-controller` Service:
 
 ```bash
@@ -361,12 +357,12 @@ Some cloud providers list the external IP as the `INTERNAL-IP` and show no value
 use the internal IP.
 {{% /notice %}}
 
-For this example we choose the second node, and so `1.2.3.5` is our DNS record target.
+For this example you could choose the second node and therefore, `1.2.3.5` is your DNS record target.
 
 #### DNS Records
 
 The main DNS record must connect the `kubermatic.example.com` domain with the target IP / hostname. Depending on whether
-or not your LoadBalancer/node uses hostnames instead of IPs (like AWS ELB), create either an **A** or a **CNAME** record,
+or not your load balancer or node uses hostnames instead of IPs (like AWS ELB), create either an **A** or a **CNAME** record,
 respectively.
 
 ```plain
