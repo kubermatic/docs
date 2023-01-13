@@ -4769,6 +4769,26 @@ _Appears in:_
 
 
 
+### OIDCProviderConfiguration
+
+
+
+OIDCProviderConfiguration allows to configure OIDC provider at the Seed level. If set, it overwrites the OIDC configuration from the KubermaticConfiguration. OIDC is later used to configure: - access to User Cluster API-Servers (via user kubeconfigs) - https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens, - access to User Cluster's Kubernetes Dashboards.
+
+_Appears in:_
+- [SeedSpec](#seedspec)
+
+| Field | Description |
+| --- | --- |
+| `issuerURL` _string_ | URL of the provider which allows the API server to discover public signing keys. |
+| `issuerClientID` _string_ | IssuerClientID is the application's ID. |
+| `issuerClientSecret` _string_ | IssuerClientSecret is the application's secret. |
+
+
+[Back to top](#top)
+
+
+
 ### OIDCSettings
 
 
@@ -5630,6 +5650,7 @@ _Appears in:_
 | `defaultClusterTemplate` _string_ | DefaultClusterTemplate is the name of a cluster template of scope "seed" that is used to default all new created clusters |
 | `metering` _[MeteringConfiguration](#meteringconfiguration)_ | Metering configures the metering tool on user clusters across the seed. |
 | `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed; if this is set, the new backup/restore controllers are enabled for this Seed. |
+| `oidcProviderConfiguration` _[OIDCProviderConfiguration](#oidcproviderconfiguration)_ | OIDCProviderConfiguration allows to configure OIDC provider at the Seed level. |
 
 
 [Back to top](#top)
