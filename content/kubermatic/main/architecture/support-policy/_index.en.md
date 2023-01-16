@@ -13,9 +13,8 @@ KKP versions are expressed as x.y.z, where x is the **major** version, y is the
 
 KKP follows the Kubernetes release model and cycle, though for practical reasons
 releases are a bit delayed to ensure compatibility with Kubernetes. In general,
-the latest three minor versions of KKP are supported, i.e. 2.22, 2.21 and 2.20.
-With the release of a new minor KKP version, support for the oldest supported
-KKP version is dropped.
+the latest three minor versions of KKP are supported. With the release of a
+new minor KKP version, support for the oldest supported KKP version is dropped.
 
 ## Release Cycle
 
