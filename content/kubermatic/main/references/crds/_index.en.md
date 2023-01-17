@@ -4805,6 +4805,10 @@ _Appears in:_
 | `issuerURL` _string_ | URL of the provider which allows the API server to discover public signing keys. |
 | `issuerClientID` _string_ | IssuerClientID is the application's ID. |
 | `issuerClientSecret` _string_ | IssuerClientSecret is the application's secret. |
+| `cookieHashKey` _string_ | Optional: CookieHashKey is required, used to authenticate the cookie value using HMAC. It is recommended to use a key with 32 or 64 bytes. If not set, configuration is inherited from the default OIDC provider. |
+| `cookieSecureMode` _boolean_ | Optional: CookieSecureMode if true then cookie received only with HTTPS otherwise with HTTP. If not set, configuration is inherited from the default OIDC provider. |
+| `offlineAccessAsScope` _boolean_ | Optional:  OfflineAccessAsScope if true then "offline_access" scope will be used otherwise 'access_type=offline" query param will be passed. If not set, configuration is inherited from the default OIDC provider. |
+| `skipTLSVerify` _boolean_ | Optional: SkipTLSVerify skip TLS verification for the token issuer. If not set, configuration is inherited from the default OIDC provider. |
 
 
 [Back to top](#top)
