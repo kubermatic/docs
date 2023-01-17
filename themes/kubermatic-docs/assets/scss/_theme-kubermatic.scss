@@ -345,7 +345,6 @@ a:hover {
     padding: 1rem 1rem 1rem 1.2rem;
     margin: 0;
     color: var(--MAIN-TEXT-color);
-    border-bottom: 1px solid var(--GRAY-color);
     font-size: 1.125rem;
     font-weight: 700;
     button {
@@ -473,6 +472,7 @@ a:hover {
         &--enabled {
             .ptoc {
                 width: 300px;
+                border-left: none;
                 &:hover {
                     background-color: var(--WHITE-color);
                 }
@@ -488,6 +488,7 @@ a:hover {
             .ptoc {
                 width: 40px;
                 cursor: pointer;
+                border-left: 1px solid var(--GRAY-color);
                 &:hover {
                     background-color: var(--GRAY-color);
                 }
