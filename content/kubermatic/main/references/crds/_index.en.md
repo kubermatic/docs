@@ -2349,6 +2349,7 @@ _Appears in:_
 | `dnsConfig` _[PodDNSConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#poddnsconfig-v1-core)_ | DNSConfig represents the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy. |
 | `customNetworkPolicies` _[CustomNetworkPolicy](#customnetworkpolicy) array_ | CustomNetworkPolicies (optional) allows to add some extra custom NetworkPolicies, that are deployed in the dedicated infra KubeVirt cluster. They are added to the defaults. |
 | `images` _[ImageSources](#imagesources)_ | Images represents standard VM Image sources. |
+| `infraStorageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | InfraStorageClasses contains a list of KubeVirt infra cluster StorageClasses names that will be used to initialise StorageClasses in the tenant cluster. In the tenant cluster, the created StorageClass name will have as name: kubevirt-<infra-storageClass-name> |
 
 
 [Back to top](#top)
@@ -3744,6 +3745,26 @@ _Appears in:_
 
 
 
+### KubeVirtInfraStorageClass
+
+
+
+
+
+_Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
+- [KubevirtCloudSpec](#kubevirtcloudspec)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ |  |
+| `isDefautClass` _boolean_ | Optional: IsDefaultClass. If true, the created StorageClass in the tenant cluster will be annotated with: storageclass.kubernetes.io/is-default-class : true If missing or false, annotation will be: storageclass.kubernetes.io/is-default-class : false |
+
+
+[Back to top](#top)
+
+
+
 ### KubermaticAPIConfiguration
 
 
@@ -4264,6 +4285,7 @@ _Appears in:_
 | `csiKubeconfig` _string_ |  |
 | `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ | PreAllocatedDataVolumes represents a list of DataVolumes that are tied to cluster lifecycle and can be referenced by machines. Custom Images are a good example of this use case. |
 | `infraStorageClasses` _string array_ | InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks) |
+| `storageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | StorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks. It contains also some flag specifying which one is the default one. |
 | `imageCloningEnabled` _boolean_ | ImageCloningEnabled flag enable/disable cloning for a cluster. |
 
 
