@@ -2348,7 +2348,7 @@ _Appears in:_
 | `dnsPolicy` _string_ | DNSPolicy represents the dns policy for the pod. Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'. Defaults to "ClusterFirst". DNS parameters given in DNSConfig will be merged with the policy selected with DNSPolicy. |
 | `dnsConfig` _[PodDNSConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#poddnsconfig-v1-core)_ | DNSConfig represents the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy. |
 | `customNetworkPolicies` _[CustomNetworkPolicy](#customnetworkpolicy) array_ | CustomNetworkPolicies (optional) allows to add some extra custom NetworkPolicies, that are deployed in the dedicated infra KubeVirt cluster. They are added to the defaults. |
-| `images` _[ImageSources](#imagesources)_ | Images represents standard VM Image sources. |
+| `images` _[KubeVirtImageSources](#kubevirtimagesources)_ | Images represents standard VM Image sources. |
 | `infraStorageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | InfraStorageClasses contains a list of KubeVirt infra cluster StorageClasses names that will be used to initialise StorageClasses in the tenant cluster. In the tenant cluster, the created StorageClass name will have as name: kubevirt-<infra-storageClass-name> |
 
 
@@ -3419,17 +3419,6 @@ _Appears in:_
 
 
 
-### HTTPSource
-
-
-
-HTTPSource represents list of standard VM images with http-source.
-
-_Appears in:_
-- [ImageSources](#imagesources)
-
-
-
 ### HealthStatus
 
 _Underlying type:_ `string`
@@ -3668,25 +3657,6 @@ _Appears in:_
 
 
 
-### ImageSources
-
-
-
-ImageSources represents standard VM Image sources.
-
-_Appears in:_
-- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
-
-| Field | Description |
-| --- | --- |
-| `http` _[HTTPSource](#httpsource)_ | HTTP source for standard images. |
-| `enableCustomImages` _boolean_ | EnableCustomImages allows to enable/disable the usage of custom-disks (defaults to false). |
-
-
-[Back to top](#top)
-
-
-
 ### Incompatibility
 
 
@@ -3739,6 +3709,35 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### KubeVirtHTTPSource
+
+
+
+KubeVirtHTTPSource represents list of images and their versions that can be downloaded over HTTP.
+
+_Appears in:_
+- [KubeVirtImageSources](#kubevirtimagesources)
+
+
+
+### KubeVirtImageSources
+
+
+
+KubeVirtImageSources represents KubeVirt image sources.
+
+_Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
+
+| Field | Description |
+| --- | --- |
+| `http` _[KubeVirtHTTPSource](#kubevirthttpsource)_ | HTTP represents a http source. |
 
 
 [Back to top](#top)
@@ -4865,7 +4864,7 @@ _Appears in:_
 
 
 
-OSVersions defines a map of OS version and the URL to download the image.
+OSVersions defines a map of OS version and the source to download the image.
 
 _Appears in:_
 - [AuditSidecarConfiguration](#auditsidecarconfiguration)
