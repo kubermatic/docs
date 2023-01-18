@@ -3757,7 +3757,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ |  |
-| `isDefautClass` _boolean_ | Optional: IsDefaultClass. If true, the created StorageClass in the tenant cluster will be annotated with: storageclass.kubernetes.io/is-default-class : true If missing or false, annotation will be: storageclass.kubernetes.io/is-default-class : false |
+| `isDefaultClass` _boolean_ | Optional: IsDefaultClass. If true, the created StorageClass in the tenant cluster will be annotated with: storageclass.kubernetes.io/is-default-class : true If missing or false, annotation will be: storageclass.kubernetes.io/is-default-class : false |
 
 
 [Back to top](#top)
@@ -4283,7 +4283,7 @@ _Appears in:_
 | `kubeconfig` _string_ | The cluster's kubeconfig file, encoded with base64. |
 | `csiKubeconfig` _string_ |  |
 | `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ | PreAllocatedDataVolumes represents a list of DataVolumes that are tied to cluster lifecycle and can be referenced by machines. Custom Images are a good example of this use case. |
-| `infraStorageClasses` _string array_ | InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks) |
+| `infraStorageClasses` _string array_ | Deprecated: in favor of InfraStorageClasses. InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks) |
 | `storageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | StorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks. It contains also some flag specifying which one is the default one. |
 | `imageCloningEnabled` _boolean_ | ImageCloningEnabled flag enable/disable cloning for a cluster. |
 
