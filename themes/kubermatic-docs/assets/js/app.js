@@ -59,12 +59,16 @@ var scrollToAnchor = function() {
   scrollToHeading(hash);
 };
 
+var autoScrollActive = false;
 var scrollToHeading = function(id) {
   var anchor = document.querySelector('[id=' + id.replace("#",'') + ']');
 
   if (!anchor) return;
 
-  Jump(anchor);
+  Jump(anchor, {callback: function() {
+      autoScrollActive = false;
+    }
+  });
 };
 
 var showCopyCodeTooltip = function(e, message) {
@@ -266,7 +270,7 @@ function pageReady(fn) {
 }
 
 function throttle(func, wait) {
-  let waiting = false;
+  var waiting = false;
   return function() {
     if (waiting) {
       return;
@@ -280,43 +284,66 @@ function throttle(func, wait) {
   };
 };
 
-var removeActiveTocLinks = function(links) {
-  links.forEach(function(link) {
-    link.classList.remove('active');
-  });
-};
+var TocModule = (function() {
+  var tocLinksHolder, tocLinks;
 
-var tocLinksHandler = function() {
-  var tocLinks = document.querySelectorAll('.ptoc #TableOfContents a');
-  tocLinks.forEach(function(link) {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      scrollToHeading(link.getAttribute('href'));
-      removeActiveTocLinks(tocLinks);
-      link.classList.add('active');
-    });
-  });
-};
+  function setTocContainer(tocContainer) {
+    tocLinksHolder = tocContainer;
+    tocLinks = tocContainer.querySelectorAll('a')
+  }
 
-var tocLinksScrollHandler = function() {
-  var tocLinks = document.querySelectorAll('#TableOfContents a');
-  var headings = document.querySelectorAll('#body-inner > h2[id], #body-inner > h3[id]');
-  var contentHolder = document.querySelector('#body');
-  var activateTocLinks = throttle(function() {
-    var contentOffset = parseInt(getComputedStyle(contentHolder).marginTop);
-    var len = headings.length;
-    while(--len && window.scrollY - contentOffset < headings[len].offsetTop){};
+  function setActiveTocLink(activeLinkId) {
     tocLinks.forEach(function(link) {
-      if ('#' + headings[len].id === link.getAttribute('href')) {
+      if (link.getAttribute('href') === activeLinkId) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
       }
     });
-  }, 150);
-  activateTocLinks();
-  window.addEventListener('scroll', activateTocLinks);
-  window.addEventListener('resize', activateTocLinks);
+  };
+
+  function tocLinksHandler() {
+    tocLinksHolder.addEventListener('click', function(e) {
+      var el = e.target;
+      if (el.nodeName != 'A') return;
+
+      e.preventDefault();
+      autoScrollActive = true;
+      scrollToHeading(el.getAttribute('href'));
+      setActiveTocLink(el.getAttribute('href'));
+    });
+  };
+
+  function tocLinksScrollHandler() {
+    var headings = document.querySelectorAll('#body-inner > h2[id], #body-inner > h3[id]');
+    var contentHolder = document.querySelector('#body');
+
+    var activateTocLinks = throttle(function() {
+      if (autoScrollActive) return;
+      var contentOffset = parseInt(getComputedStyle(contentHolder).marginTop);
+      var len = headings.length;
+      while(--len && window.scrollY - contentOffset + 1 < headings[len].offsetTop){};
+      setActiveTocLink('#' + headings[len].id);
+    }, 200);
+
+    activateTocLinks();
+    window.addEventListener('scroll', activateTocLinks);
+    window.addEventListener('resize', activateTocLinks);
+  }
+
+  return {
+    setTocContainer: setTocContainer,
+    tocLinksHandler: tocLinksHandler,
+    tocLinksScrollHandler: tocLinksScrollHandler
+  }
+})();
+
+var initToc = function() {
+  var tocContainer = document.querySelector('.ptoc #TableOfContents');
+  if (!tocContainer) return;
+  TocModule.setTocContainer(tocContainer);
+  TocModule.tocLinksHandler();
+  TocModule.tocLinksScrollHandler();
 }
 
 pageLayoutReady(function() {
@@ -337,6 +364,5 @@ pageLayoutReady(function() {
 
 pageReady(function() {
   scrollToAnchor();
-  tocLinksHandler();
-  tocLinksScrollHandler();
+  initToc();
 });
