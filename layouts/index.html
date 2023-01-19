@@ -31,19 +31,24 @@
         {{with $.Site.GetPage (printf "/%s/%s" $key $url)}}
         <div class="tile">
           <div class="tile-wrap">
-            {{with $values.title}}
-            <h2 class="tile-caption">{{.}}</h2>
-            {{end}}
-            <a class="tile-link" href="{{.RelPermalink}}">
-              {{with $values.logo}}
+            <div class="tile-content">
+              {{/* with $values.logo}}
               <div class="tile-image tile-image--bspace">
                 <img src="{{. | relURL}}" alt="{{$values.name}}">
               </div>
-              {{end}}
+              {{end */}}
+              {{$title := $values.title | default $values.name}}
+              {{$link := .RelPermalink}}
+              {{with $title}}<h2 class="tile-caption">{{end}}
+                <a href="{{$link}}">{{$title}}</a>
+              {{with $title}}</h2>{{end}}
               {{with $values.description}}
               <p class="tile-description">{{.}}</p>
               {{end}}
-            </a>
+            </div>
+            <div class="tile-btns">
+              <span class="tile-btn">Read the Documentation</span>
+            </div>
           </div>
         </div>
         {{end}}
