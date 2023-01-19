@@ -41,7 +41,7 @@
     </style>
     {{block "custom-header" .}}{{end}}
   </head>
-  {{$hasToc := and .Site.Params.enableTOC (ne .Params.enableToc false) (not .Params.chapter) (findRE `(?s)<ul.*?>.*?</ul>` .TableOfContents)}}
+  {{$hasToc := and .Site.Params.enableTOC (not .Params.disableToc) (not .Params.chapter) (findRE `(?s)<ul.*?>.*?</ul>` .TableOfContents)}}
   <body {{if $hasToc}} class="ptoc--enabled"{{end}} data-url="{{.RelPermalink}}">
     {{partialCached "cookie-banner.html" .}}
     {{partialCached "gtm-noscript.html" .}}

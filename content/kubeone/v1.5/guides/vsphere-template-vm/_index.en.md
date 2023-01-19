@@ -1,7 +1,6 @@
 +++
 title = "Creating vSphere Template VMs"
 date = 2022-10-31T12:00:00+02:00
-enableToc = false
 +++
 
 This guide describes how to create templates VMs for vSphere to be used with
