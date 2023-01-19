@@ -16,22 +16,6 @@ a.highlight {
   display: inline-block;
 }
 
-/* Table of contents */
-.progress ul {
-  list-style: none;
-  margin: 0;
-  padding: 0 5px;
-}
-
-.progress {
-    position:absolute;
-    background-color: rgba(246, 246, 246, 0.97);
-    width: auto;
-    border: thin solid #ECECEC;
-    display:none;
-    z-index:200;
-}
-
 #sidebar-toggle-span {
   border-right: thin solid #DAD8D8 !important;
   padding-right: 0.5rem !important;
