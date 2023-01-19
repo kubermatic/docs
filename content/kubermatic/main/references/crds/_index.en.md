@@ -4113,6 +4113,7 @@ _Appears in:_
 | `etcdLauncherDockerRepository` _string_ | EtcdLauncherDockerRepository is the repository containing the Kubermatic etcd-launcher image. |
 | `overwriteRegistry` _string_ | OverwriteRegistry specifies a custom Docker registry which will be used for all images used for user clusters (user cluster control plane + addons). This also applies to the KubermaticDockerRepository and DNATControllerDockerRepository fields. |
 | `addons` _[KubermaticAddonsConfiguration](#kubermaticaddonsconfiguration)_ | Addons controls the optional additions installed into each user cluster. |
+| `systemApplications` _[SystemApplicationsConfiguration](#systemapplicationsconfiguration)_ | SystemApplications contains configuration for system Applications (such as CNI). |
 | `nodePortRange` _string_ | NodePortRange is the port range for user clusters - this must match the NodePort range of the seed cluster. |
 | `monitoring` _[KubermaticUserClusterMonitoringConfiguration](#kubermaticuserclustermonitoringconfiguration)_ | Monitoring can be used to fine-tune to in-cluster Prometheus. |
 | `disableApiserverEndpointReconciling` _boolean_ | DisableAPIServerEndpointReconciling can be used to toggle the `--endpoint-reconciler-type` flag for the Kubernetes API server. |
@@ -5824,6 +5825,25 @@ SubnetCIDR is used to store IPv4/IPv6 CIDR.
 _Appears in:_
 - [IPAMAllocationSpec](#ipamallocationspec)
 - [IPAMPoolDatacenterSettings](#ipampooldatacentersettings)
+
+
+
+### SystemApplicationsConfiguration
+
+
+
+SystemApplicationsConfiguration contains configuration for system Applications (e.g. CNI).
+
+_Appears in:_
+- [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `helmRepository` _string_ | HelmRepository specifies OCI repository containing Helm charts of system Applications. |
+| `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#secretkeyselector-v1-core)_ | HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file. The value is dockercfg file that follows the same format rules as ~/.docker/config.json The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm". |
+
+
+[Back to top](#top)
 
 
 
