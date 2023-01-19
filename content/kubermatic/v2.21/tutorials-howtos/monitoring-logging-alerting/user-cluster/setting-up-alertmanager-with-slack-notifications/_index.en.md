@@ -6,8 +6,6 @@ weight = 20
 
 This tutorial will show you how to set up Alertmanager in KKP User Cluster MLA and receive alert notifications in your Slack workspace.
 
-{{< table_of_contents >}}
-
 ## Setting up Slack Incoming Webhooks
 
 If you want to receive alert notifications via Slack, you need to be in a Slack workspace, if you are not in any Slack 

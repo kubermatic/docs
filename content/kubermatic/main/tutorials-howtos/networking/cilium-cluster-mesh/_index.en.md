@@ -7,8 +7,6 @@ weight = 180
 This guide describes the setup for configuring Cilium Cluster Mesh between 2 KKP user clusters
 running with Cilium CNI.
 
-{{< table_of_contents >}}
-
 ## Versions
 This guide was made for the following versions of KKP and Cilium:
 

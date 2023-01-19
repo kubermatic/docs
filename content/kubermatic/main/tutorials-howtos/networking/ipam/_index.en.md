@@ -6,8 +6,6 @@ weight = 170
 
 Multi-Cluster IPAM is a feature responsible for automating the allocation of IP address ranges/subnets per user-cluster, based on a predefined configuration ([IPAMPool](#input-resource-ipampool)) per datacenter that defines the pool subnet and the allocation size. The user cluster allocated ranges are available in the [KKP Addon](#kkp-addon-template-integration) `TemplateData`, so it can be used by various Addons running in the user cluster.
 
-{{< table_of_contents >}}
-
 ## Motivation and Background
 Networking applications deployed in KKP user clusters need automated IP Address Management (IPAM) for IP ranges that they use, in a way that prevents address overlaps between multiple user clusters. An example for such an application is MetalLB load-balancer, for which a unique IP range from a larger CIDR range needs to be configured in each user cluster in the same datacenter.
 

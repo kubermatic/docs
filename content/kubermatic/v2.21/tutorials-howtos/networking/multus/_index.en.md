@@ -6,8 +6,6 @@ weight = 160
 
 The Multus-CNI Addon allows automated installation of [Multus-CNI](https://github.com/k8snetworkplumbingwg/multus-cni) in KKP user clusters.
 
-{{< table_of_contents >}}
-
 ## About Multus-CNI
 Multus-CNI enables attaching multiple network interfaces to pods in Kubernetes. It is not a standard CNI plugin - it acts as a CNI "meta-plugin", a CNI that can call multiple other CNI plugins. This implies that clusters still need a primary CNI to function properly.
 
