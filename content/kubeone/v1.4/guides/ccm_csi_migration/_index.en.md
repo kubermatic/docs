@@ -1,7 +1,6 @@
 +++
 title = "CCM/CSI migration"
 date = 2021-09-06T12:00:00+02:00
-enableToc = true
 +++
 
 The CCM/CSI migration is used to migrate your clusters using legacy in-tree

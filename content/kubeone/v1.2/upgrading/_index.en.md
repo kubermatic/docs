@@ -3,7 +3,6 @@ title = "Upgrading"
 date = 2020-08-12T12:00:00+02:00
 weight = 10
 chapter = false
-enableToc = true
 +++
 
 ## Scope of The Upgrade Process

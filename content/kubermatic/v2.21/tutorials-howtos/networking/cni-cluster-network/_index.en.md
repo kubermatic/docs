@@ -3,7 +3,6 @@ linkTitle = "CNI & Cluster Network Configuration"
 title = "CNI (Container Network Interface) & Cluster Network Configuration"
 date = 2021-09-07T16:06:10+02:00
 weight = 10
-enableToc = true
 +++
 
 This page describes various cluster networking options that can be configured for each KKP user cluster either via KKP UI

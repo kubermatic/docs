@@ -3,7 +3,6 @@ linkTitle = "Dual-Stack Networking"
 title = "Dual-Stack (IPv4 + IPv6) Networking"
 date = 2022-08-01T15:06:10+02:00
 weight = 20
-enableToc = true
 +++
 
 ## Feature Overview

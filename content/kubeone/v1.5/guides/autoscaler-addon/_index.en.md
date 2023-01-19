@@ -1,7 +1,6 @@
 +++
 title = "Using Kubernetes Autoscaler with KubeOne Cluster"
 date = 2022-10-22T12:18:15+02:00
-enableToc = true
 +++
 
 This document explains how to use the Kubernetes cluster-autoscaler on the KubeOne cluster. 

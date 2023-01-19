@@ -1,7 +1,6 @@
 +++
 title = "Migrating to the KubeOneCluster v1beta1 API"
 date = 2020-04-01T12:00:00+02:00
-enableToc = true
 weight = 2
 +++
 

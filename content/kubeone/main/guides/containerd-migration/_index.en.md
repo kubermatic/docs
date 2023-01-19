@@ -1,7 +1,6 @@
 +++
 title = "Migrating to containerd"
 date = 2020-06-15T15:00:00+02:00
-enableToc = true
 +++
 
 Since dockershim has been deprecated and soon (as of kubernetes 1.22+) to be

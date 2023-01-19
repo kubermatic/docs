@@ -3,7 +3,6 @@ linkTitle = "Manual CNI Migration"
 title = "Manual CNI Migration"
 date = 2022-01-12T14:30:00+02:00
 weight = 150
-enableToc = true
 +++
 
 As described on the [**CNI & Cluster Network Configuration**]({{< relref "../cni-cluster-network/" >}}) page, the CNI type (e.g. Canal or CIlium) cannot be changed after cluster creation.

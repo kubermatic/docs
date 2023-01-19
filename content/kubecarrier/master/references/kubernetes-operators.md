@@ -2,7 +2,6 @@
 title: About Kubernetes Operators
 weight: 30
 date: 2021-02-24T15:00:00+02:00
-enabletoc: true
 ---
 
 ## What Is a Kubernetes Operator?

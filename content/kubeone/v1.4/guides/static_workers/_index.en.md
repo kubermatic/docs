@@ -1,7 +1,6 @@
 +++
 title = "Static Workers"
 date = 2020-04-15T12:00:00+02:00
-enableToc = true
 +++
 
 KubeOne Static Workers are worker nodes provisioned by KubeOne using kubeadm.

@@ -2,7 +2,6 @@
 title = "Compatibility"
 date = 2021-02-10T12:00:00+02:00
 weight = 4
-enableToc = true
 +++
 
 This document shows what are compatible Kubernetes, Terraform, and operating

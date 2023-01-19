@@ -3,7 +3,6 @@ title: Manage Redis Service via KubeCarrier
 weight: 10
 slug: redis_operator
 date: 2020-02-24T09:00:00+03:00
-enableToc: true
 ---
 This example will show you how to manage [Redis](https://redis.io/) service cross cluster via KubeCarrier.
 

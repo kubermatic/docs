@@ -1,7 +1,6 @@
 +++
 title = "All In One Node"
 date = 2022-03-21T12:13:28+02:00
-enableToc = true
 +++
 
 Sometimes it's needed to create a one-node-cluster, which will host control

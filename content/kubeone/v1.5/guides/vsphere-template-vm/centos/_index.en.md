@@ -1,7 +1,6 @@
 +++
 title = "CentOS 7 Template VM"
 date = 2022-10-31T12:00:00+02:00
-enableToc = true
 +++
 
 This guide describes how to create a template VM for vSphere running CentOS 7.

@@ -1,7 +1,6 @@
 +++
 title = "Helm integration"
 date = 2022-11-30T12:00:00+02:00
-enableToc = true
 +++
 
 Helm integration is a way to automatically deploy a bunch of helm releases

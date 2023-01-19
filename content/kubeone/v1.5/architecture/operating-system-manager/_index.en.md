@@ -1,7 +1,6 @@
 +++
 title = "Operating System Manager"
 date = 2022-08-05T12:00:00+02:00
-enableToc = true
 weight = 6
 +++
 
