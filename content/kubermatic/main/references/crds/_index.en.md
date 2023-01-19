@@ -1880,7 +1880,7 @@ _Appears in:_
 | `etcd` _[EtcdStatefulSetSettings](#etcdstatefulsetsettings)_ | Etcd configures the etcd ring used to store Kubernetes data. |
 | `prometheus` _[StatefulSetSettings](#statefulsetsettings)_ | Prometheus configures the Prometheus instance deployed into the cluster control plane. |
 | `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ | NodePortProxyEnvoy configures the per-cluster nodeport-proxy-envoy that is deployed if the `LoadBalancer` expose strategy is used. This is not effective if a different expose strategy is configured. |
-| `konnectivityProxy` _[KonnectvityProxySettings](#konnectvityproxysettings)_ | KonnectivityProxy configures resources limits/requests for konnectivity-server sidecar. |
+| `konnectivityProxy` _[KonnectivityProxySettings](#konnectivityproxysettings)_ | KonnectivityProxy configures konnectivity-server and konnectivity-agent components. |
 
 
 [Back to top](#top)
@@ -3697,7 +3697,7 @@ _Appears in:_
 
 
 
-### KonnectvityProxySettings
+### KonnectivityProxySettings
 
 
 
@@ -3708,7 +3708,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ |  |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ | Resources configure limits/requests for Konnectivity components. |
+| `keepaliveTime` _string_ | KeepaliveTime represents a duration of time to check if the transport is still alive. The option is propagated to agents and server. Defaults to 1m. |
 
 
 [Back to top](#top)
