@@ -1966,6 +1966,7 @@ _Appears in:_
  And with regular parameters: 
  parameters:   labels: ["gatekeeper"] |
 | `selector` _[ConstraintSelector](#constraintselector)_ | Selector specifies the cluster selection filters |
+| `enforcementAction` _string_ | EnforcementAction defines the action to take in response to a constraint being violated. By default, EnforcementAction is set to deny as the default behavior is to deny admission requests with any violation. |
 
 
 [Back to top](#top)
