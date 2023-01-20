@@ -54,6 +54,10 @@ kubectl get pods
 #Error from server (Forbidden): pods is forbidden: User "user@example.com" cannot list pods in the namespace "default"
 ```
 
+{{% notice info %}}
+You can also grant permission though the UI. See [Cluster RBAC]({{< ref "../../cluster-rbac/" >}})
+{{% /notice %}}
+
 ## Prerequisites
 
 In order to enable the feature the necessary flags must be passed to various applications.
@@ -158,29 +162,5 @@ kubectl -n kubermatic apply -f kubermaticconfig.yaml
 
 After the operator has reconciled the KKP installation, OIDC auth will become available.
 
-## Role-Based Access Control Predefined Roles
-
-KKP provides predefined roles and cluster roles to help implement granular permissions for specific resources
-and to simplify access control across the user cluster. All of the default roles and cluster roles are labeled
-with `component=userClusterRole`.
-
-| Default ClusterRole | Description                                                                                                                                                                                                                                       |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| admin               | Allows admin access. allows read/write access to most resources in a namespace, including the ability to create roles and role bindings within the namespace. This role does not allow write access to resource quota or to the namespace itself. |
-| edit                | Allows read/write access to most objects in a namespace. This role does not allow viewing or modifying roles or role bindings. However, this role allows accessing secrets and running pods as any service account in the namespace               |
-| view                | Allows read-only access to see most objects in a namespace. It does not allow viewing roles or role bindings.                                                                                                                                     |
-
-
-| Default Role     | Description                                                                                                                                         |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| namespace-admin  | Allows admin access. Allows read/write access to most resources in a namespace.                                                                     |
-| namespace-editor | Allows read/write access to most objects in a namespace. This role allows accessing secrets and running pods as any service account in the namespace|
-| namespace-viewer | Allows read-only access to see most objects in a namespace.                                                                                         |
-
-The cluster owner is automatically connected to the `admin` cluster role.
-
-![KKP cluster owner RBAC link](/img/kubermatic/main/ui/rbac.png?classes=shadow,border "KKP cluster owner RBAC link")
-
-The project user with owner and editor privileges can add and remove bindings to existing roles and cluster roles.
-
-![KKP add binding RBAC link](/img/kubermatic/main/ui/rbac_add.png?classes=shadow,border "KKP add binding RBAC link")
+### Grant Permission to an OIDC group
+Please take a look at [Cluster RBAC - Manage Group's permissions]({{< ref "../../cluster-rbac#manage-groups-permissions" >}})
