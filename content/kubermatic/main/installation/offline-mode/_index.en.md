@@ -49,7 +49,7 @@ Note that you need [Helm 3.x](https://helm.sh/) installed on your machine.
 ```
 
 {{% notice info %}}
-Be aware that `kubermatic-installer mirror-images` will ignore repository overrides in the referenced `KubermaticConfiguration` and as such, a configuraiton file
+Be aware that `kubermatic-installer mirror-images` will ignore repository overrides in the referenced `KubermaticConfiguration` and as such, a configuration file
 used to deploy an offline setup with respective overrides can be reused. **However, no such logic is available for Helm charts**. To ensure that the correct
 images are extracted from Helm charts, it is highly recommended to maintain a secondary Helm values file that does not include any image repository overrides.
 {{% /notice %}}
