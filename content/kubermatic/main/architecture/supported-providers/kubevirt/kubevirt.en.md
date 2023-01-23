@@ -1,5 +1,5 @@
 +++
-title = "KubeVirt (Technology Preview)"
+title = "KubeVirt"
 date = 2021-02-01T14:46:15+02:00
 enableToc = true
 weight = 7
@@ -623,9 +623,27 @@ The data can come from different sources: a URL, a container registry, another P
 For more information about Containerized Data Importer project, please follow the documentation
 [here](https://github.com/kubevirt/containerized-data-importer/blob/main/doc/basic_pv_pvc_dv.md).
 
-**To initialize a storage class on a user cluster that exists on the KubeVirt infrastructure cluster.
-add `kubevirt-initialization.k8c.io/initialize-sc: 'true'` annotation to the storage class of your choice.
-This action has to take place before user cluster creation.**
+**How to initialize Storage Classes on the teant (user) cluster?**
+
+The configuration of StorageClasses that are initialized on the tenant cluster is done at Seed level in the `datacenter.spec.kubevirtinfraStorageClasses` field.
+Here as an example:
+```yaml
+kv-hamburg:
+      country: DE
+      location: Frankfurt
+      spec:
+        kubevirt:
+          infraStorageClasses:   <----- config of StorageClasses initialized on the user cluster
+            - isDefaultClass: true   <---- specify here is the StorageClass should have the storageclass.kubernetes.io/is-default-class annotation set to true
+              name: px-csi-db
+```
+The StorageClasses should exist in KubeVirt infra cluster.
+
+**Note about impact of Seed configuration change**
+
+If you change the Seed `datacenter.spec.kubevirtinfraStorageClasses` configuration:
+- this will apply to newly created cluster
+- thils will also apply to clusters created before the update, **if there is any update of the Cluster object** (for example adding an annotation) and after the Addon enforcement period (by default 5 minutes - `addon-enforce-interval`, parameter of the seed-controller-manager).
 
 ---
 
