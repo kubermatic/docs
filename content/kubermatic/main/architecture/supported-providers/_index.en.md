@@ -17,7 +17,7 @@ Kubermatic Kubernetes Platform supports a multitude of different cloud providers
 * GCP (excluding GovCloud and China Cloud)
 * vSphere beginning with v6.5
 * OpenStack (Releases with maintenance or extended maintenance)
-* KubeVirt (technology preview)
+* KubeVirt
 * Nutanix (requires Prism Central)
 * VMWare Cloud Director
 
