@@ -5,7 +5,7 @@ weight = 20
 
 +++
 
-Addons are specific services and tools extending the functionality of Kubernetes/OpenShift.
+Addons are specific services and tools extending the functionality of Kubernetes.
 
 ## Comparison To KKP Applications
 
@@ -45,26 +45,33 @@ The KKP binaries come with a `kubermatic-installer` tool, which can output a ful
 `KubermaticConfiguration` (`kubermatic-installer print`). This will also include the default configuration for addons and can serve as
 a starting point for adjustments.
 
-```bash
-docker run --rm quay.io/kubermatic/api:KUBERMATIC_VERSION kubermatic-installer print
-#apiVersion: kubermatic.k8c.io/v1
-#kind: KubermaticConfiguration
-#metadata:
-#  name: kubermatic
-#  namespace: kubermatic
-#spec:
-#  ...
-#  userCluster:
-#    addons:
-#      kubernetes: ...
-#      openshift: ...
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  userCluster:
+    addons:
+      # DefaultManifests is a list of addon manifests to install into all clusters.
+      # Mutually exclusive with "default".
+      defaultManifests: [...]
+      # DockerRepository is the repository containing the Docker image containing
+      # the possible addon manifests.
+      dockerRepository: quay.io/kubermatic/addons
+      # DockerTagSuffix is appended to the tag used for referring to the addons image.
+      # If left empty, the tag will be the KKP version (e.g. "v2.15.0"), with a
+      # suffix it becomes "v2.15.0-SUFFIX".
+      dockerTagSuffix: ""
+[...]
 ```
 
 ### Configuration
 
 To configure which addons shall be installed in all user clusters, update the relevant
 [KubermaticConfiguration]({{< ref "../../../../tutorials-howtos/kkp-configuration" >}}) in the `spec.userCluster.addons`
-section. For Kubernetes and OpenShift, configure a Docker image that contains the required addon manifests
+section. You can configure a Docker image that contains the required addon manifests
 (as YAML files) and an `AddonList` manifest that lists the addons and their requirements. Take a look
 at the default configuration above as a starting point.
 
@@ -267,14 +274,12 @@ After applying above config the UI should look like below:
 ### Custom Addons
 
 All manifests and config files for the default addons are stored in a Docker image, whose name is configured
-in the KubermaticConfiguration at `spec.userClusters.addons.kubernetes.dockerRepository` and
-`spec.userClusters.addons.openshift.dockerRepository`. These default to `quay.io/kubermatic/addons` and
-`quay.io/kubermatic/openshift-addons`, respectively.
+in the KubermaticConfiguration at `spec.userClusters.addons.dockerRepository`. This defaults to `quay.io/kubermatic/addons`.
 
 #### Creating a Docker Image
 
-Depending on the cluster orchestrator, choose the Kubernetes or OpenShift Docker image as the basis for your
-own image. All addon manifest are stored in `/addons/<addonname>`, e.g. `/addons/kube-proxy`. When creating
+It is recommended to choose the default image as the basis for your own image to include default addons.
+All addon manifest are stored in `/addons/<addonname>`, e.g. `/addons/kube-proxy`. When creating
 your own image, copy the manifests into a directory below `/addons`.
 
 Suppose you have this directory structure:
