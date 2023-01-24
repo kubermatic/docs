@@ -5,7 +5,7 @@ weight = 6
 
 +++
 
-### User SSH Key Agent Overview
+## Overview
 The user ssh key agent is responsible for syncing the defined user ssh keys to the worker nodes, when users
 attach ssh keys to the user clusters. When users choose to add a user ssh key to a cluster after it was created
 the agent will sync those keys to the worker machines by fetching the ssh keys and write them to the `authorized_keys`
@@ -26,7 +26,7 @@ to disable the agent(during cluster creation), they should take care of adding s
 During the user cluster creation steps(at the second step), the users have the possibility to add a user ssh key and it
 is not affected by the agent, whether it was deployed or not.
 
-### User SSH Key Agent Migration
+## Migration
 Starting from KKP 2.16.0 on-wards, it was made possible to enable and disable the user ssh key agent during cluster creation. Users can
 enable the agent in KKP dashboard as it is mentioned above, or by enabling the newly added `enableUserSSHKeyAgent: true`
 in the cluster spec. For user clusters which were created using KKP 2.15.x and earlier, this has introduced an issue, due to

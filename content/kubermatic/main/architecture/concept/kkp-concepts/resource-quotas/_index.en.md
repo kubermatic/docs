@@ -6,9 +6,7 @@ enterprise = true
 
 +++
 
-## Resource Quotas in KKP
-
-Resource Quotas allow administrators to set quotas on the amount of resources a subject can use. For now the only
+Resource Quotas in KKP allow administrators to set quotas on the amount of resources a subject can use. For now the only
 subject which is supported is Project, so the resource quotas currently limit the amount of resources that can be used project-wide.
 
 The resources in question are the resources of the user cluster:
@@ -24,7 +22,7 @@ That one just controls the size of the machines suggested to users in the KKP Da
 {{% /notice %}}
 
 
-### Setting up the resource quotas
+## Setting up Resource Quotas
 
 The resource quotas are managed by administrators either through the KKP UI/API or through the Resource Quota CRDs.
 
@@ -52,7 +50,7 @@ represent the values. One note is that CPU is denoted in single integer numbers.
 To simplify matters the UI uses GB as representation for Memory and Storage. The conversion from any value
 set in the ResourceQuota is done automatically by the API.
 
-### Calculating the quota usage
+## Calculating Quota Usage
 
 The ResourceQuota has 2 status fields:
 - `globalUsage` which shows the resource usage across all seeds
@@ -101,7 +99,7 @@ resulting K8s Node `.status.capacity`.
 | VMWare Cloud Director | CPU * CPUCores (Machine spec)                                                          | MemoryMB (from Machine spec)                                                            | DiskSizeGB (from Machine spec)                         |
 
 
-### Enforcing the quotas
+## Enforcing Quotas
 
 The quotas are enforced through a validating webhook on Machine resources in the user clusters. This means that the quota validation
 takes place after the MachineDeployment is created, and if quota is exceeded, the creation of the Machines(Nodes) will be blocked.
@@ -115,7 +113,7 @@ Furthermore, a project quota widget of the active project is visible in the dash
 
 ![Quota Widget](/img/kubermatic/main/architecture/concepts/resource-quotas/widget.png?classes=shadow,border "Quota Widget")
 
-### Some additional information
+## Some Additional Information
 
 {{% notice note %}}
 **Note:** If multiple nodes are created in the same time there is a possibility of a race happening and the quota being exceeded.
@@ -137,7 +135,7 @@ The quotas won't restrict the usage of resources for the control plane on the se
 
 Nodes which join the cluster using other means than through KKP are not supported in the quotas.
 
-### Default Project Resource Quotas
+## Default Project Resource Quotas
 
 It is possible to set the a default resource quota for all projects which do not have a quota already set.
 

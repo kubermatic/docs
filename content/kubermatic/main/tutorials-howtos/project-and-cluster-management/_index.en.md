@@ -29,7 +29,7 @@ To delete a project, move the cursor over the line with the project name and cli
 ![Delete Project](/img/kubermatic/main/tutorials/project_delete.png?classes=shadow,border "Delete Project")
 
 
-### Add an SSH key
+### Add an SSH Key
 
 If you want to ssh into the project VMs, you need to provide your SSH public key. SSH keys are tied to a project. During cluster creation you can choose which SSH keys should be added to nodes. To add an SSH key, navigate to `SSH Keys` in the Dashboard and click on `Add SSH Key`:
 
@@ -42,9 +42,9 @@ This will create a pop up. Enter a unique name and paste the complete content of
 After you click on `Add SSH key`, your key will be created and you can now add it to clusters in the same project.
 
 
-## Manage clusters
+## Manage Clusters
 
-### Create cluster
+### Create Cluster
 
 To create a new cluster, open the Kubermatic Kubernetes Platform (KKP) dashboard, choose a project, select the menu entry `Clusters` and click the button `Create Cluster` on the top right.
 

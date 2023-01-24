@@ -3,6 +3,7 @@ title = "Applications"
 date =  2022-08-03T16:27:43+02:00
 weight = 5
 +++
+
 ## Introduction
 
 KKP Applications offer a seamless experience to add third-party applications into a KKP cluster and offer full [integration with KKP's UI](./add-applications-to-cluster#adding-applications) as well as [GitOps Systems](add-applications-to-cluster#managing-applications-via-gitops).

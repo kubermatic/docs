@@ -26,7 +26,7 @@ user clusters.
   namespace in the seed cluster named `cluster-<name>`, where `<name>` is the
   user cluster name as defined above (e.g. `cluster-s8kkpcccfq`)
 
-## Affected KKP versions and vSphere User Clusters
+## Affected KKP Versions and vSphere User Clusters
 
 The following vSphere user clusters are affected by this issue:
 
@@ -88,7 +88,7 @@ Finally, verify value of the `cluster-id` field:
       don't use an affected KKP version when migrating the cluster to the
       external CCM/CSI**
 
-## Changing the `cluster-id` value
+## Changing the `cluster-id` Value
 
 This guide documents two different approaches to change the `cluster-id` value.
 
@@ -166,7 +166,7 @@ to do in two places:
 1. The `cloud-config-csi` ConfigMap in the user cluster namespace in the
    seed cluster
 
-#### Changing the `cloud-config-csi` Secret in the user cluster
+#### Changing the `cloud-config-csi` Secret in the User Cluster
 
 {{% notice warning %}}
 You should run steps in this section on one cluster at a time. In other words,
@@ -251,7 +251,7 @@ Secret in other affected user clusters**. Once that's done, proceed to the next
 section where you'll update the `cloud-config-csi` Secret in the user cluster
 namespaces in the seed cluster.
 
-#### Changing the `cloud-config-csi` ConfigMap in the user cluster namespaces
+#### Changing the `cloud-config-csi` ConfigMap in the User Cluster Namespaces
 
 {{% notice warning %}}
 You should run steps in this section on one cluster at a time. In other words,
@@ -294,7 +294,7 @@ Before proceeding to the next step, **you need to update the `cloud-config-csi`
 ConfigMap for other affected user clusters**. Once that's done, proceed to the
 next section where you'll finalize the procedure.
 
-#### Finaling the procedure
+#### Finalizing the Procedure
 
 Before proceeding with this section, you **MUST WAIT FOR AN HOUR** to give time
 to vSphere to de-register all volumes.
@@ -361,7 +361,7 @@ kubectl patch cluster <cluster-name-n> --type=merge -p $clusterPatch
 Wait for a minute or two to give time to KKP to reconcile and apply changes on
 all user clusters.
 
-#### Verifying that ConfigMaps and Secrets are updated
+#### Verifying that ConfigMaps and Secrets are Updated
 
 {{% notice warning %}}
 You should run steps in this section on one cluster at a time. In other words,
@@ -397,7 +397,7 @@ cluster-id        = "<vsphere-compute-cluster>"
 **Repeat steps in this section for each affected user cluster** and then proceed
 to the next section.
 
-#### Restarting the CSI controller pods
+#### Restarting the CSI Controller Pods
 
 Finally, restart the vSphere CSI controller pods in the **each affected user
 cluster** to put those changes in the effect:

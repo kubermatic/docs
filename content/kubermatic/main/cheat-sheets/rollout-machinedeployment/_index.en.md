@@ -5,14 +5,14 @@ description = "Rolling restart machine deployments: Learn about the concept and 
 weight = 25
 +++
 
-## To rolling restart a single machineDeployment
+## To Rolling Restart a Single MachineDeployment
 
 ```shell
 forceRestartAnnotations="{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"forceRestart\":\"$(date +%s)\"}}}}}"
 kubectl patch machinedeployment -n kube-system <NAME> --type=merge -p $forceRestartAnnotations 
 ```
 
-## To rolling restart all machineDeployments
+## To Rolling Restart all MachineDeployments
 
 ```shell
 forceRestartAnnotations="{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"forceRestart\":\"$(date +%s)\"}}}}}"

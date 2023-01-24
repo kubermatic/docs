@@ -10,7 +10,8 @@ Telemetry is an observability tool that can be used to track Kubermatic Kubernet
 Telemetry helm chart can be found in the [Kubermatic repository](https://github.com/kubermatic/kubermatic/tree/main/charts/telemetry), and since Telemetry is an open source tool, the code can be found in [Telemetry-Client repository](https://github.com/kubermatic/telemetry-client).
 
 ## Installation
-### Kubermatic installer
+
+### Kubermatic Installer
 Telemetry will be enabled by default if you use the Kubermatic installer to deploy KKP. For more information about how to use the Kubermatic installer to deploy KKP, please refer to the [installation guide]({{< relref "../../installation/" >}}).
 Kubermatic installer will use a `values.yaml` file to configure all Helm charts, including Telemetry. The following is an example of the configuration of the Telemetry tool:
 

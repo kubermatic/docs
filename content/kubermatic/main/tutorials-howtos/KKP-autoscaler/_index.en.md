@@ -18,10 +18,9 @@ The Kubernetes Autoscaler in the KKP Cluster automatically scaled up/down when o
 * Some pods failed to run in the cluster due to insufficient resources.
 * There are nodes in the cluster that have been underutilised for an extended period (10 minutes by default) and can place their Pods on other existing nodes.
 
-## Installing Kubernetes Auto-scaler on KKP Cluster
+## Installing Kubernetes Autoscaler on User Cluster
 
-You can install Kubernetes autoscaler on a running KKP Cluster using the KKP addon mechanism, which is already built into the KKP Cluster dashboard.
-
+You can install Kubernetes autoscaler on a running User Cluster using the KKP addon mechanism, which is already built into the KKP Cluster dashboard.
 
 **Step 1**
 
@@ -129,7 +128,7 @@ test-cluster-worker-pndqd  3h59m            1             1           aws    ubu
 
 The annotation command will be used with one of the MachineDeployments above to annotate the desired MachineDeployments.  In this case, the  `test-cluster-worker-v5drmq` will be annotated, and the minimum and maximum will be set.
 
-### Minimum annotation:
+### Minimum Annotation
 
 ```bash
 $ kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
@@ -137,7 +136,7 @@ $ kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq c
 machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ```
 
-### Maximum annotation:
+### Maximum Annotation
 
 ```bash
 $ kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="5"
@@ -214,7 +213,7 @@ You can delete Autoscaler from where you edit it above and select delete.
  Once it has been deleted, you can check the Cluster to ensure that the Autoscaler has been deleted using `kubectl get pods -n kube-system` command.
 
 
-## Summary:
+## Summary
 
 That is it! You have successfully deployed a Kubernetes Autoscaler on a KKP Cluster and annotated the desired MachineDeployment, which Autoscaler should consider. Please check the learn more below for more resources on Kubernetes Autoscaler and how to provision a KKP Cluster.
 

@@ -28,7 +28,7 @@ Create a cluster following these steps:
 
 - Click on `Create External Cluster` button
 
-### Configure the cluster:
+### Configure the Cluster
 
 - Name: Provide a unique name for your cluster.
 - Zone: Select the cluster zone from the dropdown list.
@@ -43,7 +43,7 @@ Create a cluster following these steps:
 
    - Stable: These versions have met all the requirements of the Regular channel and have been shown to be stable and reliable in production, based on the observed performance of running clusters.
 
-### Create Node Pool:
+### Create Node Pool
 
 ![Add Node Pool](/img/kubermatic/main/tutorials/external_clusters/add_md.png "Add Node Pool")
 

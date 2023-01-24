@@ -7,8 +7,6 @@ weight = 10
 
 This manual explains how to migrate to using external Cloud Controller Managers for supported providers via UI.
 
-## Cloud Controller Manager (CCM)
-
 The [CCM](https://kubernetes.io/docs/concepts/architecture/cloud-controller/) (Cloud Controller Manager) is a Kubernetes
 control plane component that embeds cloud-specific control logic. There are two different kinds of Cloud controller managers:
 in-tree and out-of-tree. According to the Kubernetes [design proposal](https://github.com/kubernetes/enhancements/tree/master/keps/sig-cloud-provider/2395-removing-in-tree-cloud-providers),
@@ -20,7 +18,7 @@ among which the dependency of the CCM release cycle from the Kubernetes core rel
 to the Kubernetes core code. Then, the Kubernetes community moved toward the out-of-tree implementation by introducing
 a plugin mechanism that allows different cloud providers to integrate their platforms with Kubernetes.
 
-### CCM migration status
+## CCM Migration Status
 To allow migration from in-tree to out-of-tree CCM for existing cluster, the cluster details view has been extended by a
 section in the top area, the "External CCM Migration Status", that indicates the status of the CCM migration.
 
@@ -28,26 +26,26 @@ section in the top area, the "External CCM Migration Status", that indicates the
 
 The "External CCM Migration Status" can have four different possible values:
 
-#### Not needed
+### Not Needed
 The cluster already uses the external CCM.
 ![ccm_migration_not_needed](ccm_migration_not_needed.png?height=60px&classes=shadow,border)
 
-#### Supported
+### Supported
 KKP supports the external CCM for the given cloud provider, therefore the cluster can be migrated.
 ![ccm_migration_supported](ccm_migration_supported.png?height=130px&classes=shadow,border)
 
 When clicking on this button, a windows pops up to confirm the migration.
 ![ccm_migration_supported](ccm_migration_confirm.png?height=200px&classes=shadow,border)
 
-#### In progress
+### In Progress
 External CCM migration has already been enabled for the given cluster, and the migration is in progress.
 ![ccm_migration_in_progress](ccm_migration_in_progress.png?height=60px&classes=shadow,border)
 
-#### Unsupported
+### Unsupported
 KKP does not support yet the external CCM for the given cloud provider.
 ![ccm_migration_unsupported](ccm_migration_unsupported.png?height=60px&classes=shadow,border)
 
-### Roll out the machineDeployments
+## Roll out MachineDeployments
 Once the CCM migration has been enabled by clicking on the "Supported" button, the migration procedure will hang in 
 "In progress" status until all the `machineDeployments` will be rolled out. To roll out a `machineDeployment` get into 
 the `machineDeployment` view and click on the circular arrow in the top right.

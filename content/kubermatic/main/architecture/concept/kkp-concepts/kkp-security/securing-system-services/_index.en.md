@@ -14,6 +14,8 @@ It is still possible to access the system services by using `kubectl port-forwar
 proxy's authentication entirely.
 {{% /notice %}}
 
+## Configuration
+
 Dex can then be configured to use external authentication sources like GitHub's or Google's OAuth endpoint, LDAP or
 OpenID Connect. For this to work you have to configure both Dex (the `oauth` Helm chart) and OAuth2-Proxy
 (called "IAP", Identity-Aware Proxy) in your Helm `values.yaml`.
@@ -148,13 +150,13 @@ a single wildcard entry for all IAP deployments or individual records. Refer to 
 [installation instructions]({{< ref "../../../../../installation/install-kkp-CE" >}}) for more information on
 what records to create.
 
-### Alternative Authentication Provider
+## Alternative Authentication Provider
 
 It's possible to use a different authentication provider than Dex. Please refer to the
 [OIDC provider]({{< ref "../../../../../tutorials-howtos/OIDC-Provider-Configuration" >}}) chapter for more information on how to configure
 KKP and OAuth2-Proxy accordingly.
 
-### Security Considerations
+## Security Considerations
 
 The IAP does not protect services against access from within the cluster. Sensitive services should therefore
 be configured to require further authentication. Grafana, the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../../../monitoring-logging-alerting/master-seed/" >}})'s

@@ -73,7 +73,7 @@ $ kubectl edit kubermaticsetting globalsettings
 **Note:** Custom link `icon` is not required and defaults will be used if field is not specified. `icon` URL can
 point to the images inside the container as well, i.e. `/assets/images/icons/custom/github.svg`.
 
-## Manage Global Settings Via UI
+## Manage Global Settings via UI
 
 The below global settings are managed via UI:
 

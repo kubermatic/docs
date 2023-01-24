@@ -30,7 +30,7 @@ Therefore the etcd statefulset must be configured to just execute a `exec /bin/s
 kubectl -n cluster-xxxxxxxxxx edit statefulset etcd
 ```
 
-### Deleting All PVC's
+### Deleting All PVCs
 
 To ensure that we start on each pod with a empty disk, we delete all PVC's.
 The StatefulSet will create new ones with empty PV's automatically.
@@ -47,7 +47,7 @@ To ensure all Pods start with the sleep command and with new PV's, all etcd pods
 kubectl -n cluster-xxxxxxxxxx delete pod -l app=etcd
 ```
 
-### Restoring the etcd (Must Be Executed on All etcd Pods)
+### Restoring etcd (Must Be Executed on All etcd Pods)
 
 The restore command is different for each member. Make sure to update it gets executed.
 

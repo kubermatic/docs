@@ -5,7 +5,7 @@ weight = 80
 
 +++
 
-### Share Clusters via Delegated OIDC Authentication Overview
+## Share Clusters via Delegated OIDC Authentication Overview
 
 The purpose of this feature is to allow using an OIDC provider like `dex` to authenticate to a Kubernetes cluster
 managed by Kubermatic Kubernetes Platform (KKP). This feature can be used to share access to a cluster with other users.
@@ -54,7 +54,7 @@ kubectl get pods
 #Error from server (Forbidden): pods is forbidden: User "user@example.com" cannot list pods in the namespace "default"
 ```
 
-### Prerequisites
+## Prerequisites
 
 In order to enable the feature the necessary flags must be passed to various applications.
 
@@ -124,7 +124,7 @@ dex:
     - https://example.com/api/v1/kubeconfig # issuerRedirectURL
 ```
 
-### Root CA Certificates Chain
+## Root CA Certificates Chain
 
 In order to verify OIDC provider's certificate in `kubermatic-controller-manager` when establishing
 TLS connection, a public root CA certificate is required. Ideally the whole chain including all intermediate
@@ -140,7 +140,7 @@ cat isrgrootx1.pem.txt lets-encrypt-x3-cross-signed.pem.txt > caBundle.pem
 
 This bundle must then be copied verbatim into the `KubermaticConfiguration`.
 
-### Update KKP
+## Update KKP
 
 After all values are set up, it's time to update the KKP master cluster. Update the `oauth` chart first:
 
@@ -158,7 +158,7 @@ kubectl -n kubermatic apply -f kubermaticconfig.yaml
 
 After the operator has reconciled the KKP installation, OIDC auth will become available.
 
-### Role-Based Access Control Predefined Roles
+## Role-Based Access Control Predefined Roles
 
 KKP provides predefined roles and cluster roles to help implement granular permissions for specific resources
 and to simplify access control across the user cluster. All of the default roles and cluster roles are labeled

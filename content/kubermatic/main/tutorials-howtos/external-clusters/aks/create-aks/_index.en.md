@@ -6,7 +6,6 @@ weight = 7
 
 +++
 
-## Create AKS Cluster:
 Create a cluster following these steps:
 
 - Click on `Create External Cluster` button:
@@ -27,9 +26,9 @@ Create a cluster following these steps:
 
 - Click on `Create External Cluster` button
 
-## Configure the cluster:
+## Configure Cluster
 
-### Basic Settings:
+### Basic Settings
 
 - Name: Assign a unique name for this node pool.
 - Kubernetes Version: Select the Kubernetes version that should be used for this cluster. You will be able to upgrade this version after creating the cluster.
@@ -41,7 +40,7 @@ Create a cluster following these steps:
 Resource Group should have sufficient permissions to manage AKS cluster and to pull the Admin kubeconfig.
 {{% /notice %}}
 
-### Primary Node Pool Setting:
+### Primary Node Pool Settings
 
 {{% notice info %}}
 At least one systempool is required in an AKS cluster.
@@ -59,7 +58,7 @@ Node size
 - AutoScaling: Autoscaling is recommended for standard configuration.
     Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
 
-## Create Node Pool:
+## Create Node Pool
 
 ![Add Node Pool](/img/kubermatic/main/tutorials/external_clusters/add_md.png "Add Node Pool")
 

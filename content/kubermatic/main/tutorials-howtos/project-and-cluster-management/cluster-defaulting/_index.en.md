@@ -10,7 +10,7 @@ This section describes the usage of cluster templates for a seed.
 Cluster templates are designed to standardize and simplify the creation of Kubernetes clusters. A cluster template is a
 reusable cluster template object. At seed level, cluster templates are used to set default values for new created clusters.
 
-## Defaulting cluster template
+## Defaulting Cluster Template
 
 Some required values for new clusters are defaulted by KKP.
 

@@ -20,7 +20,7 @@ In this **Get Started with KKP** guide, we will be using AWS Cloud as our underl
 1. [Terraform >v1.0.0](https://www.terraform.io/downloads)
 2. [KubeOne](https://github.com/kubermatic/kubeone/releases)
 
-## Download the repository
+## Download the Repository
 
 The [kubermatic/kkp-single-node](https://github.com/kubermatic/kkp-single-node) contains the required configuration to install KKP on single node k8s with kubeone. Clone or download it, so that you deploy KKP quickly as per the following instructions and get started with it!
 
@@ -59,7 +59,7 @@ output "kubeone_hosts" {
       untaint              = true
 ```
 
-## Prepare the KKP addon configuration
+## Prepare the KKP Addon Configuration
 
 > Replace the TODO place holder in addons/kkp yaml definitions.
 
@@ -81,7 +81,7 @@ sed -i 's/TODO-A-RANDOM-SERVICEACCOUNTKEY/'"$SERVICEACCOUNTKEY"'/g' ./aws/addons
 
 **KKP_DNS** specifies the domain where the kubermatic dashboard would be hosted.
 
-## Create k8s cluster using kubeone along with KKP master as an addon
+## Create k8s Cluster using KubeOne along with KKP Master as an Addon
 
 ```bash
 make k1-apply PROVIDER=aws
@@ -93,7 +93,7 @@ make k1-apply PROVIDER=aws
 export KUBECONFIG=$PWD/aws/<cluster_name>-kubeconfig
 ```
 
-## Validate the KKP Master setup
+## Validate the KKP Master Setup
 
 * Get the LoadBalancer External IP by following command.
 

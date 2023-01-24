@@ -10,7 +10,7 @@ weight = 5
 A project is an entity that logically groups various resources.  All resources in a project can be accessed by users that have the correct role associated with them.
 Affiliation of a user to one of the roles gives them certain powers they are allowed to use within a project.
 
-### Kubermatic Kubernetes Platform (KKP) roles
+## Kubermatic Kubernetes Platform (KKP) Roles
 
 There are three roles: owner, editor, and viewer. These roles are concentric; that is, the owner role includes the permissions
 of the editor role, and the editor role includes the permissions of the viewer role.
@@ -29,7 +29,7 @@ The following table summarizes the permissions:
 | editor                                            | All viewer permissions, plus permissions to create, edit & delete the cluster.<br>Editors are not allowed to delete a project. Editors are not allowed to interact with members of a project (UserProjectBinding).<br>Editors are not allowed to interact with service accounts (user) |
 | owner (role can not be held by a service account) | All editor permissions and permissions for managing permissions for a project.<br>Only the owners of a project can create a service account (aka. users) <br>Only the owners of a project can manipulate members                                                                        |
 
-### KKP Service Accounts
+## KKP Service Accounts
 
 A service account is a special type of user account that belongs to the KKP project, instead of to an individual
 end-user. A service account is considered as project's resource. Only the owner of a project can create and update a

@@ -13,7 +13,7 @@ If you use the [KKP offline mode]({{< ref "../../../installation/offline-mode" >
 
 ## KKP Machine Controller
 
-Resources pulled on machine controller nodes
+Resources pulled on machine controller nodes.
 
 ### kubelet - Binary
 

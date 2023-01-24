@@ -15,11 +15,11 @@ This procedure will cause temporary outage in the user cluster, so it should be 
 
 {{% /notice %}}
 
-## Migrating User Cluster with the Canal CNI to the Cilium CNI
+## Migrating User Cluster with Canal CNI to Cilium CNI
 
 Before starting, make sure you understand the [Cilium System Requirements](https://docs.cilium.io/en/stable/operations/system_requirements/) and migration steps. Also please note your current CNI type and version, you will need it in a later step.
 
-#### Step 1:
+### Step 1
 
 In order to allow CNI migration, the cluster first needs to be labeled with the `unsafe-cni-migration` label (e.g. `unsafe-cni-migration: "true"`).
 
@@ -29,7 +29,7 @@ By putting this label on your cluster you acknowledge that this type of upgrade 
 
 {{% /notice %}}
 
-#### Step 2:
+### Step 2
 
 At this point, you are able to change the CNI type and version in the Cluster API. Change Cluster `spec.cniPlugin.type` and `spec.cniPlugin.version` to a supported CNI type and version - in our case `cilium` and `v1.11` respectively:
 
@@ -53,7 +53,7 @@ kube-system            cilium-operator-f8447b698-kz267             1/1     Runni
 
 Note that at this point, both Canal and Cilium pods are running. Existing pods are still connected via Canal CNI, but Cilium will be used to connect all new pods.
 
-#### Step 3:
+### Step 3
 
 Restart all already running non-host-networking pods to ensure that Cilium starts managing them:
 
@@ -97,7 +97,7 @@ Image versions    cilium             quay.io/cilium/cilium:v1.11.0@sha256:ea6775
                   cilium-operator    quay.io/cilium/operator-generic:v1.11.0@sha256:b522279577d0d5f1ad7cadaacb7321d1b172d8ae8c8bc816e503c897b420cfe3: 1
 ```
 
-#### Step 4:
+### Step 4
 
 At this point, you can delete all Canal resources from the cluster.
 
@@ -109,20 +109,20 @@ kubectl delete -f https://docs.projectcalico.org/v3.21/manifests/canal.yaml
 
 At this point, your cluster should be running on Cilium CNI.
 
-#### Step 5 (Optional):
+### Step 5 (Optional)
 Consider changing the kube-proxy mode, especially if it was IPVS previously. See [Changing the Kube-Proxy Mode](#changing-the-kube-proxy-mode)
 for more details.
 
-#### Step 6 (Optional):
+### Step 6 (Optional)
 
 As the last step, we recommend to perform rolling restart of machine deployments in the cluster. That will make sure your nodes do not contain any leftovers of the Canal CNI, even if they are not affecting anything.
 
-#### Step 7:
+### Step 7
 
 Please verify that everything works normally in the cluster. If there are any problems, you can revert the migration procedure and go back to the previously used CNI type and version as described in the next section.
 
 
-## Migrating User Cluster with the Cilium CNI to the Canal CNI
+## Migrating User Cluster with Cilium CNI to Canal CNI
 
 Please follow the same steps as in [Migrating User Cluster with the Canal CNI to the Cilium CNI](#migrating-user-cluster-with-the-canal-cni-to-the-cilium-cni), with the following changes:
 
@@ -146,11 +146,11 @@ we strongly recommend migrating to `ebpf` or `iptables` proxy mode after Canal -
 
 Note that `ebpf` is allowed only for Cilium CNI if [Konnectivity]({{< relref "../cni-cluster-network/" >}}#konnectivity) is enabled.
 
-#### Step 1:
+### Step 1
 
 In order to allow kube-proxy mode migration, the cluster still needs to be labeled with the `unsafe-cni-migration` label (e.g. `unsafe-cni-migration: "true"`).
 
-#### Step 2:
+### Step 2
 
 At this point, you are able to change the proxy mode in the Cluster API. Change Cluster `spec.clusterNetwork.proxyMode` to the desired values (e.g. `ebpf`):
 
@@ -158,7 +158,7 @@ At this point, you are able to change the proxy mode in the Cluster API. Change 
 
 - or by editing the cluster CR in the Seed Cluster (`kubectl edit cluster <cluster-name>`).
 
-#### Step 3:
+### Step 3
 When switching to/from ebpf, wait until all Cilium pods are redeployed (you will notice a restart of all Cilium pods).
 It can take up to 5 minutes until this happens.
 
@@ -175,7 +175,7 @@ This can take up to 5 minutes. After the change, manually restart all `kube-prox
 kubectl rollout restart daemonset kube-proxy -n kube-system
 ```
 
-#### Step 4:
+### Step 4
 
 Perform rolling restart of machine deployments in the cluster. That will make sure your nodes do not contain any leftover iptables rules.
 Alternatively, reboot all worker nodes manually.
