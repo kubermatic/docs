@@ -1,7 +1,6 @@
 +++
 title = "Configuring Credentials"
 date = 2020-08-03T12:00:00+02:00
-enableToc = true
 +++
 
 KubeOne deploys the provider credentials to the cluster to be used by

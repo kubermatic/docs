@@ -2,7 +2,6 @@
 title = "Changing cluster-id for existing vSphere user clusters"
 date = 2022-07-06T12:00:00+02:00
 weight = 40
-enableToc = true
 +++
 
 Some vSphere user clusters have the `cluster-id` value in the CSI config

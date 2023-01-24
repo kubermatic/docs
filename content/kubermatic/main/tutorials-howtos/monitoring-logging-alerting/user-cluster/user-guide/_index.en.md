@@ -3,7 +3,6 @@ linkTitle = "User Guide"
 title = "User Guide of the User Cluster MLA Stack"
 date = 2020-02-14T12:07:15+02:00
 weight = 10
-enableToc = true
 +++
 
 This page contains a user guide for the [User Cluster MLA Stack]({{< relref "../../../../architecture/monitoring-logging-alerting/user-cluster/" >}}).

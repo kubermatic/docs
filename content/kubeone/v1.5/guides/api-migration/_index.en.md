@@ -1,7 +1,6 @@
 +++
 title = "Migrating to the KubeOneCluster v1beta2 API"
 date = 2022-02-11T12:00:00+02:00
-enableToc = true
 +++
 
 Starting with v1.4.0, KubeOne comes with a new v1beta2 version of the

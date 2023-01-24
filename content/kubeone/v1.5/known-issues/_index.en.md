@@ -3,7 +3,6 @@ title = "Known Issues"
 date = 2022-08-29T09:00:00+02:00
 description = "Known Issues in Kubermatic KubeOne"
 weight = 99
-enableToc = true
 +++
 
 This page documents the list of known issues in Kubermatic KubeOne along with

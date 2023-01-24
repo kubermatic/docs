@@ -1,7 +1,6 @@
 +++
 title = "Setup your Git repository"
 weight = 30
-enableToc = true
 +++
 
 The goal of the setup is to put the downloaded directory structure into your Git repository,

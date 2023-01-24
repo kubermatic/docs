@@ -1,7 +1,6 @@
 +++
 title = "Upgrading from 1.4 to 1.5"
 date = 2022-08-30T12:00:00+02:00
-enableToc = true
 +++
 
 This document contains important upgrade notes for upgrading from KubeOne 1.4

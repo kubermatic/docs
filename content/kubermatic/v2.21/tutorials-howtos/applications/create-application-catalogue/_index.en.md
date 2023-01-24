@@ -3,9 +3,6 @@ title = "Creating An Application Catalogue"
 date =  2022-08-03T16:27:43+02:00
 weight = 1
 +++
-
-{{< toc >}}
-
 ## Introduction
 
 This guide targets KKP Admins and details adding Applications to a catalogue, so they can be installed by Cluster Admins.

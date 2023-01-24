@@ -1,7 +1,6 @@
 +++
 title = "Configuring Operating System Manager"
 date = 2022-08-20T12:00:00+02:00
-enableToc = true
 +++
 
 ## Configuring Operating System Manager

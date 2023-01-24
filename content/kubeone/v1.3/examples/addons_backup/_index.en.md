@@ -2,7 +2,6 @@
 title = "Backups Addon"
 date = 2021-02-10T12:00:00+02:00
 weight = 2
-enableToc = true
 +++
 
 The [backups addon][backups-addon-src] can be used to backup the most important

@@ -1,7 +1,6 @@
 +++
 title = "KubeVirt"
 date = 2021-02-01T14:46:15+02:00
-enableToc = true
 weight = 7
 
 +++

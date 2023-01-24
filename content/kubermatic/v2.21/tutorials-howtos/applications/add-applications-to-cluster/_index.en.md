@@ -3,9 +3,6 @@ title = "Adding Applications To A Cluster"
 date =  2022-08-03T16:43:41+02:00
 weight = 5
 +++
-
-{{< toc >}}
-
 ## Introduction
 
 This guide targets Cluster Admins and details how KKP Applications can be integrated into a cluster.

@@ -2,7 +2,6 @@
 title = "Known Issues"
 date = 2022-07-20T12:22:15+02:00
 weight = 25
-enableToc = true
 
 +++
 

@@ -1,7 +1,6 @@
 +++
 title = "Monitoring Etcd Ring and Replacing Corrupted Members"
 date = 2022-04-05T12:00:00+02:00
-enableToc = true
 +++
 
 The etcd maintainers are no longer recommending running etcd v3.5 in

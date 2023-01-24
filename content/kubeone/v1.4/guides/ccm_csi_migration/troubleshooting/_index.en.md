@@ -1,7 +1,6 @@
 +++
 title = "Troubleshooting a failed migration"
 date = 2021-09-06T12:00:00+02:00
-enableToc = true
 +++
 
 In some rare cases it might happen that the CCM/CSI migration fails. This
