@@ -5849,6 +5849,25 @@ _Appears in:_
 
 
 
+### TagCategory
+
+
+
+TagCategory is the tag category that is owned by KKP, where it is used to define KKP created tags, such as resources ownership tag, where this tag is applied on any vSphere resource that is created by KKP.
+
+_Appears in:_
+- [VSphereCloudSpec](#vspherecloudspec)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Name represents the name of vSphere tag category that will be used to create and attach tags on VMS. |
+| `id` _string_ | ID represents the category id for the machine deployment tags. |
+
+
+[Back to top](#top)
+
+
+
 ### Update
 
 
@@ -6213,7 +6232,8 @@ _Appears in:_
 | `storagePolicy` _string_ | StoragePolicy to be used for storage provisioning |
 | `resourcePool` _string_ | ResourcePool is used to manage resources such as cpu and memory for vSphere virtual machines. The resource pool should be defined on vSphere cluster level. |
 | `infraManagementUser` _[VSphereCredentials](#vspherecredentials)_ | This user will be used for everything except cloud provider functionality |
-| `tagCategoryID` _string_ | This is category for the machine deployment tags |
+| `tagCategory` _[TagCategory](#tagcategory)_ | TagCategory is the vSphere tag category that is owned by KKP. It is really important to note that, if the user set this field manually, KKP will claim this category as it's own, thus if the cluster has been deleted, the category and it is all underlying tags will be deleted as well. |
+| `tags` _object (keys:string, values:[VSphereTag](#vspheretag))_ | Tags represent the tags that are attached or created on the cluster level and propagated to MachineDeployment level afterwards. |
 
 
 [Back to top](#top)
@@ -6234,6 +6254,26 @@ _Appears in:_
 | --- | --- |
 | `username` _string_ |  |
 | `password` _string_ |  |
+
+
+[Back to top](#top)
+
+
+
+### VSphereTag
+
+
+
+VSphereTag represents the tags that are attached or created on the cluster level, that are then propagated down to the MachineDeployments. In order to attach tags on MachineDeployment, users must create the tag on a cluster level first then attach that tag on the MachineDeployment.
+
+_Appears in:_
+- [VSphereCloudSpec](#vspherecloudspec)
+
+| Field | Description |
+| --- | --- |
+| `id` _string_ | ID represents the generated vsphere tag id. |
+| `name` _string_ | Name represents the name of the created tag. |
+| `categoryID` _string_ | CategoryID is the id of the vsphere category that the tag belongs to. If the category id is left empty, the default category id for the cluster will be used. |
 
 
 [Back to top](#top)
