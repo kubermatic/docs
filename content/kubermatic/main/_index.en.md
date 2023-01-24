@@ -78,7 +78,6 @@ Clusters can be created in a few clicks with the UI. To take the user experience
 For latest updates follow us on Twitter [@Kubermatic](https://twitter.com/Kubermatic)
 {{% /notice %}}
 
-
 ## Further Information
 
 See [kubermatic.com](https://www.kubermatic.com/).
