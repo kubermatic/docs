@@ -31,19 +31,19 @@
         {{with $.Site.GetPage (printf "/%s/%s" $key $url)}}
         <div class="tile">
           <div class="tile-wrap">
-            {{with $values.title}}
-            <h2 class="tile-caption">{{.}}</h2>
-            {{end}}
-            <a class="tile-link" href="{{.RelPermalink}}">
-              {{with $values.logo}}
-              <div class="tile-image tile-image--bspace">
-                <img src="{{. | relURL}}" alt="{{$values.name}}">
-              </div>
-              {{end}}
+            <div class="tile-content">
+              {{$title := $values.title | default $values.name}}
+              {{$link := .RelPermalink}}
+              {{with $title}}<h2 class="tile-caption">{{end}}
+                <a href="{{$link}}">{{$title}}</a>
+              {{with $title}}</h2>{{end}}
               {{with $values.description}}
               <p class="tile-description">{{.}}</p>
               {{end}}
-            </a>
+            </div>
+            <div class="tile-btns">
+              <span class="tile-btn">Read the Documentation</span>
+            </div>
           </div>
         </div>
         {{end}}
@@ -117,6 +117,28 @@
       <img src="{{.src | relURL}}" alt="{{.alt}}" />
     </div>
   </section>
+  {{end}}
+  {{if or .Site.Params.externals .Site.Params.socials}}
+  <footer class="page-footer">
+    <div class="wrap">
+      <div class="externals">
+        {{with .Site.Params.externals}}
+          <div class="externals-links">
+          {{range .}}
+          <a href="{{.url | relURL}}" class="externals-link">{{.title}}</a>
+          {{end}}
+          </div>
+        {{end}}
+        {{with .Site.Params.socials}}
+          <div class="socials">
+          {{range .}}
+            <a href="{{.url | relURL}}" class="socials-link" target="_blank">{{with .class}}<i class="{{.}}"></i>{{end}}{{.title}}</a>
+          {{end}}
+          </div>
+        {{end}}
+      </div>
+    </div>
+  </footer>
   {{end}}
 </body>
 </html>

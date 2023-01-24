@@ -3,7 +3,7 @@
 kubermatic:
   name: Kubermatic
   logo: "img/KubermaticKubernetesPlatform-logo.svg"
-  title: Manage Multiple Clusters
+  title: Kubermatic Kubernetes Platform
   description: Automate multicloud, on-prem, and edge operations with a single management UI enabling you to deliver the cloud native transformation immediately.
   textName: KKP #used for displaying different title in product dropdown
   weight: 2
@@ -33,7 +33,7 @@ kubermatic:
 kubeone:
   name: KubeOne
   logo: "img/KubeOne-logo.svg"
-  title: Start With One Cluster
+  title: KubeOne
   description: Automate operations of a single Kubernetes cluster on your chosen cloud, on-prem, or edge environment.
   weight: 1
   versions:
@@ -52,7 +52,7 @@ kubeone:
 kubecarrier:
   name: KubeCarrier
   logo: "img/KubeCarrier-logo.svg"
-  title: Add Apps To Your Clusters
+  title: KubeCarrier
   description: The operator of operators. Centrally manage all your services and applications across multiple clusters, clouds and regions with Kubernetes native API and tooling.
   weight: 3
   versions:
