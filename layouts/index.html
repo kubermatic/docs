@@ -118,5 +118,27 @@
     </div>
   </section>
   {{end}}
+  {{if or .Site.Params.externals .Site.Params.socials}}
+  <footer class="page-footer">
+    <div class="wrap">
+      <div class="externals">
+        {{with .Site.Params.externals}}
+          <div class="externals-links">
+          {{range .}}
+          <a href="{{.url | relURL}}" class="externals-link">{{.title}}</a>
+          {{end}}
+          </div>
+        {{end}}
+        {{with .Site.Params.socials}}
+          <div class="socials">
+          {{range .}}
+            <a href="{{.url | relURL}}" class="socials-link" target="_blank">{{with .class}}<i class="{{.}}"></i>{{end}}{{.title}}</a>
+          {{end}}
+          </div>
+        {{end}}
+      </div>
+    </div>
+  </footer>
+  {{end}}
 </body>
 </html>
