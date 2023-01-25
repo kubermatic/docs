@@ -38,7 +38,7 @@ However, this expose strategy supports more user clusters per Seed, and provides
 The port number on which the apiserver is exposed via the LoadBalancer service is still randomly allocated from the
 NodePort range configured in the Seed cluster.
 
-### Tunneling (Alpha)
+### Tunneling
 The Tunneling expose strategy addresses both the scaling issues of the NodePort strategy and cost issues of the LoadBalancer strategy.
 With this strategy, the traffic is routed to the based on a combination of SNI and HTTP/2 tunnels by the nodeport-proxy.
 
@@ -48,16 +48,14 @@ This allows for more strict firewall configuration than exposing the whole nodeP
 Note that only the port `6443` needs to be allowed for external apiserver access, the port `8088` needs to be allowed
 only between the worker-nodes network and the seed cluster network.
 
-This expose strategy is still in alpha stage and to use it,
-it first needs to be enabled [via a feature gate](#enabling-the-tunneling-expose-strategy-alpha).
+The following limitations apply to the Tunneling expose strategy:
 
-The current limitations of this strategy are:
-
-* Not supported yet in set-ups where the worker nodes should pass from a
+* It is not supported in set-ups where the worker nodes should pass from a
   corporate proxy (HTTPS proxy) to reach the control plane.
 * An agent is deployed on each worker node to provide access to the apiserver from
   within the cluster via the `kubernetes` service. The agent binds the IP used as the
-  `kubernetes` service endpoint. The default value of tunneling agent IP is `100.64.30.10`. This is a configurable field in the cluster API (`spec.clusterNetwork.tunnelingAgentIP`). Please make sure that this IP cannot collide with anything else running in the datacenter.
+  `kubernetes` service endpoint. This address can not collide with any other address in the cluster / datacenter.
+  The default value of tunneling agent IP is `100.64.30.10`. The default value can be changed via the cluster API (`spec.clusterNetwork.tunnelingAgentIP`).
 
 ## Configuring the Expose Strategy
 The expose strategy can be configured at 3 levels:
@@ -137,25 +135,6 @@ spec:
   exposeStrategy: NodePort
   nodeportProxy:
     disable: true
-```
-
-### Enabling the Tunneling Expose Strategy (Alpha)
-
-This strategy is available as a tech preview and is still in alpha stage.
-
-In order to enable this strategy the `TunnelingExposeStrategy` feature gate
-should be enabled:
-
-```yaml
-apiVersion: kubermatic.k8c.io/v1
-kind: KubermaticConfiguration
-metadata:
-  name: kubermatic
-  namespace: kubermatic
-spec:
-  exposeStrategy: Tunneling
-  featureGates:
-    TunnelingExposeStrategy: true
 ```
 
 ## Migrating the Expose Strategy for Existing Clusters
