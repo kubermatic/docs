@@ -4,7 +4,7 @@ weight = 30
 +++
 
 etcd Launcher is a lightweight wrapper around the `etcd` binary. It is responsible for reading information from KKP's Kubernetes
-API types and flexibly control how the user cluster etcd ring is started.
+API and flexibly control how the user cluster etcd ring is started.
 
 ## Release Timeline
 
