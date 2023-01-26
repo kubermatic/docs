@@ -111,6 +111,7 @@ metadata:
   namespace: cluster-l78dsl4l8x
 spec:
   constraintType: K8sRequiredLabels
+  enforcementAction: "deny"
   match:
     kinds:
       - apiGroups: [""]
@@ -120,6 +121,7 @@ spec:
 ```
 
 - `constraintType` - must be equal to the name of an existing Constraint Template
+- `enforcementAction` - (optional) defines the action to take in response to a constraint being violated. By default, EnforcementAction is set to deny as the default behavior is to deny admission requests with any violation. Works the same as [Gatekeeper enforcementAction](https://open-policy-agent.github.io/gatekeeper/website/docs/violations/)
 - `match` - works the same as [Gatekeeper Constraint matching](https://github.com/open-policy-agent/gatekeeper#constraints)
 - `parameters` - holds the parameters that are used in Constraints. As in Gatekeeper, this can be basically anything that fits the related Constraint Template.
 
