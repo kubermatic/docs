@@ -1,38 +1,44 @@
 +++
-title = "Etcd Launcher"
+title = "etcd Launcher"
 weight = 30
 +++
 
-Starting with version v2.15.0, KKP introduced etcd-launcher as an experimental feature. etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KKP API and flexibly control how the user cluster etcd ring is started.
+etcd Launcher is a lightweight wrapper around the `etcd` binary. It is responsible for reading information from KKP's Kubernetes
+API and flexibly control how the user cluster etcd ring is started.
 
-In v2.19.0, peer TLS connections have been added to etcd-launcher. Existing etcd clusters (with or without etcd-launcher) will be upgraded to peer TLS connections if the etcd-launcher feature gate is enabled on a cluster.
+## Release Timeline
 
-## Comparison to static etcd StatefulSet
+- **v2.15.0**: KKP introduced etcd-launcher as an experimental feature.
+- **v2.19.0**: Peer TLS connections have been added to etcd-launcher.
+- **v2.22.0**: `EtcdLauncher` feature gate is enabled by default in `KubermaticConfiguration`.
+
+
+## Comparison to static etcd
+
 Prior to v2.15.0, user cluster etcd ring was based on a static StatefulSet with 3 pods running the etcd ring nodes.
 
-With etcd-launcher, the etcd StatefulSet is updated to include:
+With `etcd-launcher`, the etcd `StatefulSet` is updated to include:
 - An init container that is responsible for copying the etcd-launcher into the main etcd pod.
 - Additional environment variables used by the etcd-launcher and etcdctl binary for simpler operations.
 - A liveness probe to improve stability.
-- The pod command is updated to run etcd-launcher binary instead of the etcd server binary.
+- The pod command is updated to run the `etcd-launcher` binary instead of the etcd server binary.
 - TLS encrypted peer connections (etcd node to etcd node communication).
 
-{{% notice warning %}}
-etcd-launcher is an optional feature. It should not be enabled unless all users clusters are operating nominally. It's possible that a user cluster etcd ring could fail to enable the feature if the etcd ring was not in a stable condition during the update. **The etcd-launcher feature cannot be disabled once enabled.**
-{{% /notice %}}
+## Global Configuration
 
-Since this is an optional feature, it's disabled by default. There are two modes to enable etcd-launcher support:
+The feature can be configured on a global level, e.g. to disable it for the whole KKP installation.
 
-## etcd-launcher for all User Clusters (global setting)
+### Enabled by Default
 
-{{% notice warning %}}
-It is not recommended to enable the `EtcdLauncher` feature gate globally at the same as applying a KKP upgrade, due to the potential for several changes to etcd happening in short sequence.
-{{% /notice %}}
+By default, etcd Launcher is enabled because the `EtcdLauncher` feature gate in `KubermaticConfiguration` is defaulted accordingly.
+If the feature gate is enabled, the etcd Launcher feature is enabled at the KKP installation level and the cluster feature gate will be
+added to all user clusters.
 
-### Enabling etcd-launcher
-In this mode, the feature is enabled on the KKP installation level. The cluster feature flag will be added to all user clusters.
+### Disabling etcd Launcher
 
-To enable etcd-launcher, the related feature should be enabled in the [Kubermatic CRD]({{< ref "../../../tutorials-howtos/kkp-configuration" >}}). To do that, edit your your KubermaticConfiguration file to include the featureGate:
+When etcd Launcher is enabled for all user clusters, the setting is "inherited" into all user clusters. It is not possible to
+revert the settings for existing user clusters, but you can revert the changes in your `KubermaticConfiguration` so that new
+clusters are not created with etcd-launcher. Just set the feature gate explicitly as shown below:
 
 ```yaml
 # Snippet, not a complete file!
@@ -44,36 +50,22 @@ metadata:
 spec:
   # FeatureGates are used to optionally enable certain features.
   featureGates:
-    EtcdLauncher: true
+    EtcdLauncher: false
 ```
 
-Next, simply apply the updated CRD:
+## For a Specific User Cluster
 
-```bash
-$ kubectl apply -f kubermatic_config.yaml
-```
+If the feature gate was disabled explicitly, etcd Launcher can still be configured for individual user clusters.
 
-This will update the KKP Operator Deployment and enable etcd-launcher for all users clusters.
-
-{{% notice note %}}
-Once the seed controller manager is reloaded, all users clusters will get upgraded to use etcd-launcher. In seed clusters with a large number of user clusters, this might take some time depending on the applied `-max-parallel-reconcile` value (default is 10). Refer to the [Prepare for Reconciliation Load]({{< ref "../../../tutorials-howtos/upgrading" >}}) section for more information.
-{{% /notice %}}
-
-
-### Disabling etcd-launcher
-
-When etcd-launcher is enabled for all user clusters, the setting is "inherited" into all user clusters. It is not possible to revert the settings for existing user clusters, but you can revert the changes in your `KubermaticConfiguration` so that new clusters are not created with etcd-launcher. Just undo the changes shown above and apply again.
-
-## etcd-launcher for a Specific User Cluster
-
-### Enabling etcd-launcher
-In this mode, the feature is only enabled for a specific user cluster. This can be done by editing the object cluster and enabling the feature flag for etcd-launcher:
+### Enabling etcd Launcher
+In this mode, the feature is only enabled for a specific user cluster. This can be done by editing the object cluster and
+enabling the feature gate for `etcdLauncher`:
 
 ```bash
 $ kubectl edit cluster 27k9rzjzs7
 ```
 
-Edit the cluster spec to add the `etcdLauncher` feature flag, and set it to `true`:
+Edit the cluster spec to add the `etcdLauncher` feature gate, and set it to `true`:
 
 ```yaml
 spec:
@@ -81,19 +73,25 @@ spec:
     etcdLauncher: true
 ```
 
-Once the cluster object is updated, The etcd StatefulSet will start updating the etcd ring pods one by one, replacing the old etcd run command with the etcd-launcher.
+Once the cluster object is updated, The etcd StatefulSet will start updating the etcd ring pods one by one,
+replacing the old etcd run command with the etcd-launcher.
 
-### Disabling etcd-launcher
+### Disabling etcd Launcher
 
-It is not possible to disable etcd-launcher since v2.19.0, as the upgrade of peer connections to TLS changes membership information of the etcd ring.
+It is not possible to disable etcd Launcher since v2.19.0, as the upgrade of peer connections to TLS changes
+membership information of the etcd ring.
 
-## Etcd Launcher Features
-Enabling etcd-launcher enables cluster operators to perform several operational tasks that were not possible before. With the the v2.15.0 releases, etcd-launcher provides the following capabilities:
+## Features
 
-### Scaling User Cluster etcd Ring
-Prior to version v2.15.0, the user cluster etcd ring ran as a simple and static 3-node ring. With etcd-launcher enabled, it's now possible to resize the etcd ring to increase capacity and/or availability for user clusters.
+Enabling etcd Launcher enables cluster operators to perform several operational tasks that were not possible before.
 
-Currently, the supported minimum etcd ring size is 3 nodes. This is required to maintain etcd quorum during operations. The maximum supported size is 9 nodes, as recommended by etcd upstream.
+### Scaling User Cluster etcd Rings
+
+Without the etcd Launcher feature, the user cluster etcd ring runs as a simple and static 3-node ring.
+With etcd-launcher enabled, it is now possible to resize the etcd ring to increase capacity and/or availability for user clusters.
+
+Currently, the supported minimum etcd ring size is 3 nodes. This is required to maintain etcd quorum during operations.
+The maximum supported size is 9 nodes, as recommended by etcd upstream.
 
 To resize the etcd ring for a user cluster, you simply need to edit the cluster:
 
@@ -110,17 +108,26 @@ spec:
       clusterSize: 5
 ```
 
-{{% notice warning %}}
-The resizing process is currently a disruptive process. Nodes are added/removed one by one and the etcd ring is restarted to add or remove new nodes, which could disrupt the user cluster.
-{{% /notice %}}
+### TLS Peer Connectivity
+
+With etcd Launcher, peer connections between individual etcd nodes within an etcd ring get encrypted with mutual TLS (mTLS).
+Be aware that existing etcd clusters (with or without etcd Launcher) will be upgraded to peer TLS connections if the
+`etcdLauncher` feature gate is enabled on a cluster.
 
 ### Automated Persistent Volume Recovery
-The etcd ring is created as a Kubernetes [StatefulSet](https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/). For each etcd pod, a [PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) is automatically created to provide persistent storage for the pods.
 
-Unfortunately, the Kubernetes StatefulSet controller doesn't automatically handle cases where a PV is unavailable. This can happen for example if the storage backend is having availability issues or the node running the etcd pod is using network-attached storage and becomes unavailable. In such cases, manual intervention is required to remove the related PVC and reset the StatefulSet.
+The etcd ring is created as a Kubernetes [StatefulSet](https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/).
+For each etcd pod, a [PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) is automatically created to provide
+persistent storage for the pods.
 
-With etcd-launcher enabled for a cluster, the recovery process is fully automatic. Once a pod PV becomes unavailable, a controller will kick-in and remove the PVC and reset the StatefulSet.
+Unfortunately, the Kubernetes StatefulSet controller doesn't automatically handle cases where a PV is unavailable.
+This can happen for example if the storage backend is having availability issues or the node running the etcd pod is using network-attached
+storage and becomes unavailable. In such cases, manual intervention is required to remove the related PVC and reset the StatefulSet.
+
+With etcd-launcher enabled for a cluster, the recovery process is fully automatic. Once a pod PV becomes unavailable,
+a controller will kick-in and remove the PVC and reset the StatefulSet.
 
 {{% notice note %}}
-Resetting the etcd StatefulSet means that all etcd nodes in the ring will be restarted. This means that the user cluster API will have a momentary downtime until the etcd ring is available again.
+Resetting the etcd StatefulSet means that all etcd nodes in the ring will be restarted. This means that the user cluster API
+will have a momentary downtime until the etcd ring is available again.
 {{% /notice %}}
