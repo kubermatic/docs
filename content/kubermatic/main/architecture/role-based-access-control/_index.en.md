@@ -5,6 +5,9 @@ weight = 5
 
 +++
 
+This guide explains how to configure Role-Based Access Control for KKP. To configure Role-Based Access Control for 
+user cluster, please refer to [Cluster RBAC]({{< ref "../../tutorials-howtos/cluster-rbac" >}}) page.
+
 ## Overview
 
 A project is an entity that logically groups various resources.  All resources in a project can be accessed by users that have the correct role associated with them.

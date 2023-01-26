@@ -163,4 +163,4 @@ kubectl -n kubermatic apply -f kubermaticconfig.yaml
 After the operator has reconciled the KKP installation, OIDC auth will become available.
 
 ### Grant Permission to an OIDC group
-Please take a look at [Cluster RBAC - Manage Group's permissions]({{< ref "../../cluster-rbac#manage-groups-permissions" >}})
+Please take a look at [Cluster RBAC - Manage Group's permissions]({{< ref "../../cluster-rbac#manage-group-permissions" >}})

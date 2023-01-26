@@ -7,13 +7,13 @@ weight = 14
 
 This manual explains how to configure Role-Based Access Control (a.k.a RBAC) on user clusters.
 
-# Concepts
+## Concepts
 You can grant permission to 3 types of subjects:
-* `user`: end-user identify by it email
+* `user`: end user identified by their email
 * `group`: named collection of users
-* `service account`: a k8s service account that authenticated a process (e.g. Continuous integration process)
+* `service account`: a Kubernetes service account that authenticates a process (e.g. Continuous integration)
 
-You can either grant permission on the all cluster or on specific namespaces by creating bindings.
+You can either grant permission on the whole cluster or on specific namespaces by creating bindings.
 
 The RBAC view is organized by subjects. You can choose the subject thanks to the dropbox selector and grant or remove
 permission by adding or removing binding.
@@ -22,12 +22,12 @@ permission by adding or removing binding.
 ![list service account rbac](/img/kubermatic/main/ui/rbac_sa_view.png?classes=shadow,border "list service account rbac")
 
 
-# Role-Based Access Control Predefined Roles
+## Role-Based Access Control Predefined Roles
 KKP provides predefined roles and cluster roles to help implement granular permissions for specific resources
 and simplify access control across the user cluster. All of the default roles and cluster roles are labeled
 with `component=userClusterRole`.
 
-**Permission on cluster level:**
+###  Cluster Level
 
 | Default ClusterRole | Description                                                                                                                                                                                                                          |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -36,7 +36,7 @@ with `component=userClusterRole`.
 | view                | Allows read-only access to see most objects in a namespace. It does not allow viewing roles or role bindings.                                                                                                                        |
 | list-namespaces     | Allows to list namespaces                                                                                                                                                                                                            |
 
-**Permission on namespace level:**
+### Namespace Level
 
 | Default Role     | Description                                                                                                                                         |
 |------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -46,34 +46,34 @@ with `component=userClusterRole`.
 
 
 
-# Manage User's permissions
-You can grant permission to a group by clicking on `add Bindings`.
+# Manage User Permissions
+You can grant permissions to a group by clicking on `add Bindings`.
 ![Grant permission to a user](/img/kubermatic/main/ui/rbac_user_binding.png?classes=shadow,border "Grant permission to a user")
 
 {{% notice info %}}
-The cluster owner is automatically connected to the `admin` cluster role.
+The cluster owner is automatically connected to the `cluster-admin` cluster role.
 {{% /notice %}}
 
-# Manage Group's permissions
+## Manage Group Permissions
 Group are named collection of users. You can grant permission to a group by clicking on `add Bindings`.
 ![Grant permission to a group](/img/kubermatic/main/ui/rbac_group_binding.png?classes=shadow,border "Grant permission to a Group")
 
-In this example, we grant the permission `view` on the cluster to the `oidc` group `security-audit`
+In this example, we grant the role `view` on the cluster to the OIDC group `security-audit`
 
 {{% notice warning %}}
-If you want to bind an `oidc` group, you must prefix the group's name with `oidc:`  
+If you want to bind an OIDC group, you must prefix the group's name with `oidc:`  
 The kubernetes API Server automatically adds this prefix to prevent conflicts with other authentication strategies
 {{% /notice %}}
 
 
-# Manage Service Account's permissions
+## Manage Service Account Permissions
 Service accounts are designed to authenticate processes like Continuous integration (a.k.a CI).  
 In this example, we will:
 * create a Service account
 * grant permission to 2 namespaces
 * download the associated kubeconfig that can be used to deploy workload into these namespaces.
 
-## Create a Service Account
+### Create a Service Account
 Service accounts are namespaced objects. So you must choose in which namespace you will create it. The namespace where
 the service account live is not related to the granted permissions.  
 To create a service account, click on `Add Service Account`
@@ -81,7 +81,7 @@ To create a service account, click on `Add Service Account`
 
 In this example, we create a service account named `ci` into `kube-system` namespace.
 
-## Grant permission to Service Account
+## Grant Permissions to Service Account
 You can grant permission by clicking on `Add binding`
 ![Grant permission to service account](/img/kubermatic/main/ui/rbac_sa_binding.png?classes=shadow,border "Grant permission to service account")
 
@@ -92,7 +92,7 @@ You can see and remove binding by unfolding the service account.
 {{% /notice %}}
 
 
-## Download Service Account's kubeconfig
+### Download Service Account kubeconfig
 Finally, you can download the service account's kubeconfig by clicking on the download icon.
 ![download service account's kubeconfig](/img/kubermatic/main/ui/rbac_sa_download_kc.png?classes=shadow,border "Download service account's kubeconfig")
 
@@ -100,9 +100,9 @@ Finally, you can download the service account's kubeconfig by clicking on the do
 You can edit service account's permissions at any time. There is no need to download the kubeconfig again.
 {{% /notice %}}
 
-## Delete a Service Account
+### Delete a Service Account
 You can delete a service account by clicking on the trash icon. Deleting a service account also deletes all associated binding.
 
-# Debugging
+## Debugging
 The best way to debug authorizing problems is to enable [audit logging]({{< ref "../audit-logging/" >}})
 and checks audit logs. For example, check the user belongs to the expected groups (see `.user.groups`)
