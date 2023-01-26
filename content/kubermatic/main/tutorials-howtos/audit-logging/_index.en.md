@@ -11,7 +11,7 @@ Audit logging is also a key requirement of the [Kubernetes CIS benchmark](https:
 
 For more details, you can refer to the [upstream documentation](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/).
 
-### Kubermatic Kubernetes Platform (KKP) Support
+## Kubermatic Kubernetes Platform (KKP) Support
 KKP provides two levels of support for the Audit Logging:
 
 * Audit Logging on user-cluster level
@@ -34,7 +34,7 @@ $ kubectl edit -n cluster-<YOUR CLUSTER ID> configmap audit-config
 {{< readfile "kubermatic/main/data/policy.yaml">}}
 ```
 
-#### Audit Policy Presets
+### Audit Policy Presets
 
 KKP supports a set of maintained audit policies as presets in case you do not want to tune the audit policy for yourself.
 A preset can be selected during cluster creation in the UI or by setting the field `auditLogging.policyPreset` on a
@@ -54,7 +54,7 @@ The following presets are available right now:
     - any access (read, write or delete) to `Secrets` and `ConfigMaps` (metadata only, as the request body could include sensitive information)
 - `recommended`: Logs everything in `minimal` plus metadata for any other request. This is the most verbose audit policy preset, but is recommended due to its extended coverage of security recommendations like the CIS Benchmark
 
-#### Custom Output Configuration
+## Custom Output Configuration
 
 In some situations the default behaviour of writing the audit logs to standard output and processing them alongside regular container logs might not be desirable. For those cases, `Cluster` objects support custom configuration for the [fluentbit](https://fluentbit.io/) sidecar via `spec.auditLogging.sidecar` (also see [CRD reference]({{< ref "../../references/crds/#auditloggingsettings" >}})).
 
@@ -97,7 +97,7 @@ spec:
 
 This configures the fluentbit sidecar to flush incoming audit logs every 10 seconds, filters them by a string (`user@example.com`) and writes them to a manually deployed fluentd service available in-cluster.
 
-##### Audit Logs Source Identification
+### Audit Logs Source Identification
 
 Depending on your architecture, it might be advisable to use the sidecar configuration options to enrich logs with metadata, e.g. the cluster name. This is likely necessary to differentiate the source of your audit logs in a central storage location. This can be done via a filter plugin, like this:
 
@@ -113,7 +113,7 @@ Replace `<CLUSTER ID>` with the ID of your cluster.
 
 Future KKP releases may add an environment variable to automatically get the cluster ID or even enrich records with this information by default.
 
-#### User-Cluster Level Audit Logging
+## User Cluster Level Audit Logging
 
 To enable user-cluster level Audit Logging, simply check `Audit Logging` in the KKP dashboard `Create Cluster` page. You can either select "custom" to be able to edit the ConfigMap for audit logging later on or set your cluster up with a [preset](#audit-policy-presets):
 
@@ -123,7 +123,7 @@ For exiting clusters, you can go to the cluster page, edit your cluster and enab
 
 ![Edit Cluster](01-edit-cluster.png)
 
-#### Datacenter Level Audit Logging
+## Datacenter Level Audit Logging
 
 KKP also supports enabling Audit Logging on the datacenter level. In this case, the option is enforced on all user-clusters in the datacenter. The user-cluster level flag is ignored in this case.
 

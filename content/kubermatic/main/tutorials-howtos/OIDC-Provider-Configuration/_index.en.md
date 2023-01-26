@@ -7,7 +7,7 @@ weight = 14
 
 This manual explains how to configure a custom OIDC provider to use with Kubermatic Kubernetes Platform (KKP).
 
-### Default Configuration
+## Default Configuration
 
 When nothing is configured, KKP uses `https://<domain>/dex` as the OIDC provider
 URL, which by default points to Dex. The domain is taken from the
@@ -22,7 +22,7 @@ adds the following parameters to the base URL:
 - `&scope` is set to `openid email profile groups`
 - `&nonce` is randomly generated, 32 character string to prevent replay attacks
 
-### Custom Configuration
+## Custom Configuration
 
 The default configuration can be changed as KKP supports other OIDC providers as well. This
 involves updating the KKP dashboard and API using the `KubermaticConfiguration` CRD on the
@@ -51,7 +51,7 @@ kubectl -n kubermatic get kubermaticconfiguration kubermatic -o yaml
 
 There are two sections to update.
 
-#### API Configuration
+### API Configuration
 
 The KKP API validates the given token for authentication and therefore needs to be able to
 find the new token issuer. The relevant fields are under `spec.auth` and the following snippet
@@ -79,7 +79,7 @@ spec:
     tokenIssuer: 'https://keycloak.kubermatic.test/auth/realms/test'
 ```
 
-#### UI Configuration
+### UI Configuration
 
 The KKP dashboard needs to know where to redirect the user to in order to perform a
 login. This can be set by setting a `spec.ui.config` field, containing JSON. This is where
@@ -102,7 +102,7 @@ spec:
       }
 ```
 
-### Applying the Changes
+## Applying Changes
 
 Edit the KubermaticConfiguration either directly via `kubectl edit` or apply it from a YAML
 file by using `kubectl apply`. The KKP Operator will pick up on the changes and

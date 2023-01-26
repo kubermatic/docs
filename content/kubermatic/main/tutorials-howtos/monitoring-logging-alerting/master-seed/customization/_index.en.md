@@ -16,9 +16,9 @@ When it comes to monitoring, no approach fits all use cases. It's expected that 
 
 You will want to familiarize yourself with the [Installation of the Master / Seed MLA Stack]({{< relref "../installation/" >}}) before reading any further.
 
-## Customer-Cluster Prometheus
+## User Cluster Prometheus
 
-The basic source of metrics is the Prometheus inside each customer cluster namespace. It will track the customer clusters control plane (**IMPORTANT:** it is NOT responsible for the components running in the customer clusters themselves.)
+The basic source of metrics is the Prometheus inside each user cluster namespace. It will track the customer clusters control plane (**IMPORTANT:** it is NOT responsible for the components running in the customer clusters themselves.)
 
 This Prometheus is deployed as part of Kubermatic Kubernetes Platform's (KKP) cluster creation, which means you cannot directly affect its deployment.
 
@@ -77,7 +77,7 @@ clusterNamespacePrometheus:
   disableDefaultScrapingConfigs: true
 ```
 
-## Seed-Cluster Prometheus
+## Seed Cluster Prometheus
 
 This Prometheus is primarily used to collect metrics from the customer clusters and then provide those to Grafana. In contrast to the Prometheus mentioned above, this one is deployed via a [Helm](https://helm.sh) chart and you can use Helm's native customization options.
 

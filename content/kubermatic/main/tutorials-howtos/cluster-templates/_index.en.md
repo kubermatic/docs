@@ -25,7 +25,7 @@ The newly created cluster template is visible in `Cluster Templates` menu:
 
 You can also create a cluster template in this view. You will be redirected to the cluster creation wizard.
 
-## Create Cluster from the Template
+## Create Cluster from Template
 
 On the right side, you can find two action buttons:
  - Create Cluster from Template
@@ -33,13 +33,12 @@ On the right side, you can find two action buttons:
 
 ![Create from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/actions.png?classes=shadow,border "Action buttons")
 
-### Create Cluster from Template
 During the cluster creation process, the end user can pick the desired template and specify number of cluster instances.
 The cluster template doesn't create any link to the clusters. They work independently.
 
 ![Create from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/create_cluster.png?classes=shadow,border "Create Clusters from Template")
 
-### Delete Cluster Template
+## Delete Cluster Template
 
 ![Delete from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/delete_template.png?classes=shadow,border "Delete Cluster Template")
 

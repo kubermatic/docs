@@ -125,7 +125,7 @@ after the release.
 }
 ```
 
-### Overriding embedded changelog
+### Overriding Embedded Changelog
 
 Assuming that you know how to exec into the container and copy resources from/to it, `changelog.json` can be simply
 copied over to running KKP Dashboard container. It is stored inside the container in `dist/assets/config` directory.

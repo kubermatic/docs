@@ -5,13 +5,12 @@ weight = 10
 
 +++
 
-## Datacenter concept
+## Datacenter Concept
 
 Datacenters are an integral part of Kubermatic. Depending on the cloud provider, they define a zone that has network connection for all machines, for example for hyperscalers it would be an availability zone.
 Datacenters, as Kubermatic resources, are a part of the Seed resource, and all user clusters of that datacenter are handled by its respected Seed Cluster.
 
 The datacenter structure contains the following fields:
-
 
 - `country` -- Country code of the DC location. It's purely cosmetic and reflected by a flag shown in the UI.
 - `location` -- Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7". For informational purposes in the Kubermatic dashboard only.
@@ -199,20 +198,7 @@ Example specs for different providers:
 
 ```
 
-
-## Datacenter management - CE
-
-Datacenters are a part of the Seed resource and need to be managed by an Kubermatic operator on the Seed object.
-
-## Datacenter management - EE
-
-The EE offers 2 different ways to manage the datacenters. One way is using the dynamic datacenters feature through which
-admins can manage Datacenters on Seeds through API/UI. This is the preferred and recommended way. The other way is through the
-`datacenter.yaml` file which needs to be provided to the Kubermatic API server.
-
-### Dynamic Datacenters
-
-The dynamic datacenters are activated by setting the `dynamic-datacenters` flag to `true` on the Kubermatic API server.
+## Dynamic Datacenters
 
 Admins can manage the datacenters through the admin panel:
 ![Dynamic Datacenters](/img/kubermatic/main/ui/dc.png?classes=shadow,border "Dynamic Datacenters View")
@@ -238,98 +224,3 @@ When we are satisfied with our new datacenter, we can use it in the Cluster crea
 To delete the datacenter, just click on the trash icon in the admin panel:
 ![Delete Datacenter](/img/kubermatic/main/ui/dc_delete.png?classes=shadow,border&height=200 "Dynamic Datacenters Delete Dialog")
 *NOTICE: deleting does not affect existing user clusters that were created using this datacenter*
-
-
-### Management through static files - datacenter.yaml
-
-This option is activated by setting the `datacenters` flag on the Kubermatic API server and providing the path to the `datacenters.yaml` file.
-
-In this option all the Seeds and datacenters used in KKP will be taken from this file, Seed objects in the cluster won't have any effect.
-
-Example file:
-
-```yaml
-datacenters:
-  #==================================
-  #============== Seeds =============
-  #==================================
-
-  # The name needs to match the a context in the kubeconfig given to the API
-  seed-1:
-    # Defines this datacenter as a seed
-    is_seed: true
-    # Though not used, you must configured a provider spec even for seeds.
-    # The bringyourown provider is a good placeholder, as it requires no
-    # further configuration.
-    spec:
-      bringyourown: ~
-
-  seed-2:
-    is_seed: true
-    spec:
-      bringyourown: ~
-
-  #==================================
-  #======= Node Datacenters =========
-  #==================================
-
-  #==================================
-  #=========== OpenStack ============
-  #==================================
-  # The keys for non-seeds can be freely chosen.
-  openstack-zone-1:
-    # The location is shown in the KKP dashboard
-    # and should be descriptive within each provider (e.g.
-    # for AWS a good location name would be "US East-1").
-    location: Datacenter 2
-
-    # The country is also used by the dashboard to show
-    # the corresponding flag and make it easier to select
-    # the proper region.
-    country: DE
-
-    # The name of the seed to use when creating clusters in
-    # this datacenter; when someone creates a cluster with
-    # nodes in this dc, the master components will live in seed-1.
-    seed: seed-1
-
-    # Configure cloud provider-specific further information.
-    spec:
-      openstack:
-        # Authentication endpoint for Openstack, must be v3
-        auth_url: https://our-openstack-api/v3
-        availability_zone: zone-1
-        region: "region-1"
-        # This DNS server will be set when KKP creates a network
-        dns_servers:
-        - "8.8.8.8"
-        - "8.8.4.4"
-        # Those are default images for nodes which will be shown in the Dashboard.
-        images:
-          ubuntu: "Ubuntu 18.04"
-          centos: "CentOS 7"
-          coreos: "CoreOS"
-        # Enforce the creation of floating IP's for new nodes
-        # Available since v2.9.0
-        enforce_floating_ip: false
-        # Gets mapped to the "manage-security-groups" setting in the cloud config.
-        # See https://kubernetes.io/docs/concepts/cluster-administration/cloud-providers/#load-balancer
-        # Defaults to true
-        # Available since v2.9.2
-        manage_security_groups: true
-
-  #==================================
-  #========== Digitalocean ==========
-  #==================================
-  do-ams2:
-    location: Amsterdam
-    country: NL
-    seed: seed-1
-    spec:
-      digitalocean:
-        # Digitalocean region for the nodes
-        region: ams2
-```
-
-
-

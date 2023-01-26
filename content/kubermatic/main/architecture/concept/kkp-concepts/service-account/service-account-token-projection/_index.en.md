@@ -58,7 +58,7 @@ The following table summarizes the supported properties of the `ServiceAccountSe
 | `apiAudiences`                 | Identifiers of the API. The service account token authenticator will validate that tokens used against the API are bound to at least one of these audiences. Multiple audiences can be separated by comma (`,`). | Equal to `issuer`. |
 
 
-### Example: Configuration using a request to KKP API
+### Example: Configuration using a Request to KKP API
 To configure the feature in an existing cluster, execute a `PATCH` request to URL:
 
 `https://<your-kubermatic-domain>/api/v1/projects/<project-id>/dc/<datacenter-name>/clusters/<cluster-id>` 

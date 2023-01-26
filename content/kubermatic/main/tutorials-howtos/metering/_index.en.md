@@ -206,7 +206,7 @@ The following values will be written to the reports:
 - Average used cpu millicores
 - Average used memory bytes
 
-## Raw data
+## Raw Data
 
 The data used to aggregate the reports can be accessed via the metering prometheus instance.
 If you desire to store this data for longer than 90days, you need to extract the data from the metering prometheus instance and replicate it to a long term storage of your choice.

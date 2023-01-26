@@ -21,7 +21,7 @@ migrating existing installations.
 For this guide you need to have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Helm](https://www.helm.sh/) (version 3) installed locally.
 You should be familiar with core Kubernetes concepts and the YAML file format before proceeding.
 
-### Plan your Architecture
+### Plan Your Architecture
 
 Before getting started we strongly recommend you to think ahead and model your KKP setup. In particular you should decide if you want Master and Seed components
 to share the same cluster (a shared Master/Seed setup) or run Master and Seed on two separate clusters. See [our architecture overview]({{< ref "../../architecture/" >}}) for
@@ -33,7 +33,7 @@ Depending on which choice you make, you will need to have either one or two Kube
 If you would like to run multiple Seeds to scale your setup beyond a single Seed, please check out the [Enterprise Edition]({{< ref "../install-kkp-EE/" >}})
 as that feature is only available there.
 
-### Set up Kubernetes
+### Set Up Kubernetes
 
 To aid in setting up the Seed and Master Clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/), which can be used to set up a highly-available Kubernetes cluster.
 Refer to the [KubeOne documentation](https://docs.kubermatic.com/kubeone) for details on how to use it.

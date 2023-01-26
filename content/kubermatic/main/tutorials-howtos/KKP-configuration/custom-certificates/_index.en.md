@@ -4,7 +4,7 @@ date = 2020-11-03T13:07:15+02:00
 weight = 130
 +++
 
-# Custom CA
+## Custom CA
 
 KKP 2.17+ allows to configure a "CA bundle" (a set of CA certificates) on the master cluster.
 This CA bundle is then automatically
@@ -21,6 +21,64 @@ seed clusters are not affected.
 Do note that the CA bundle configured in KKP is usually _the only_ source of CA certificates
 for all of these components, meaning that no certificates are mounted from any of the Seed
 cluster host systems.
+
+
+## Issuing Certificates
+
+KKP uses [cert-manager](https://cert-manager.io/) for managing all TLS certificates used for KKP
+itself, as well as Dex and the Identity-Aware Proxies (IAP). The default configuration sets up
+Certificate Issuers for [Let's Encrypt](https://letsencrypt.org/), but other issuers can be configured
+as well. This section describes the various options for using a custom CA: using cert-manager or managing
+certificates manually outside of the cluster.
+
+### Using cert-manager
+
+cert-manager offers a [CA Issuer](https://cert-manager.io/docs/configuration/ca/) that can automatically
+create and sign certificates inside the cluster. This requires that the CA itself is stored inside the
+cluster as a Kubernetes Secret, so care must be taken to prevent unauthorized access (e.g. by setting
+up proper RBAC rules).
+
+If having the CA certificate and key inside the cluster is not a problem, this approach is recommended,
+as it introduces the least friction and can be achieved rather easily.
+
+Currently the `cert-manager` Helm chart that is part of KKP does not support creating non-ACME
+ClusterIssuers (i.e ClusterIssuers that do not use Let's Encrypt). New issuers must therefore be
+created manually. Please follow the [description](https://cert-manager.io/docs/configuration/ca/) in
+the cert-manager documentation.
+
+Once the new ClusterIssuer has been created, KKP and the IAP need to be adjusted to use the new issuer.
+For KKP, update the `KubermaticConfiguration` and configure `spec.ingress.certificateIssuer` accordingly:
+
+```yaml
+spec:
+  ingress:
+    certificateIssuer:
+      name: my-own-ca-issuer
+```
+
+Re-apply the changed configuration and the KKP Operator will reconcile the Certificate resource,
+after which cert-manager will provision a new certificate Secret.
+
+Similarly, update your Helm `values.yaml` that is used for the Dex/IAP deployment and configure
+the new issuer:
+
+```yaml
+dex:
+  certIssuer:
+    name: my-own-ca-issuer
+
+iap:
+  certIssuer:
+    name: my-own-ca-issuer
+```
+
+Re-deploy the `iap` Helm chart to perform the changes and update the Certificate resources.
+
+### External
+
+If issuing certificates inside the cluster is not possible, static certificates can also be provided. The
+cluster admin is responsible for renewing and updating them as needed. Going forward, it is assumed that
+proper certificates have already been created and now need to be configured inside the cluster.
 
 ## Configuration
 
@@ -117,68 +175,6 @@ spec:
     name: ca-bundle
 ```
 
-### User Cluster
-
-KKP automatically synchronizes the relevant CA bundle into each user cluster. The ConfigMap
-is called `ca-bundle` and created in the `kube-system` namespace. For this reason it's important
-to not put actual secrets into the CA bundle.
-
-# Issuing certificates
-
-KKP uses [cert-manager](https://cert-manager.io/) for managing all TLS certificates used for KKP
-itself, as well as Dex and the Identity-Aware Proxies (IAP). The default configuration sets up
-Certificate Issuers for [Let's Encrypt](https://letsencrypt.org/), but other issuers can be configured
-as well. This section describes the various options for using a custom CA: using cert-manager or managing
-certificates manually outside of the cluster.
-
-## Using cert-manager
-
-cert-manager offers a [CA Issuer](https://cert-manager.io/docs/configuration/ca/) that can automatically
-create and sign certificates inside the cluster. This requires that the CA itself is stored inside the
-cluster as a Kubernetes Secret, so care must be taken to prevent unauthorized access (e.g. by setting
-up proper RBAC rules).
-
-If having the CA certificate and key inside the cluster is not a problem, this approach is recommended,
-as it introduces the least friction and can be achieved rather easily.
-
-Currently the `cert-manager` Helm chart that is part of KKP does not support creating non-ACME
-ClusterIssuers (i.e ClusterIssuers that do not use Let's Encrypt). New issuers must therefore be
-created manually. Please follow the [description](https://cert-manager.io/docs/configuration/ca/) in
-the cert-manager documentation.
-
-Once the new ClusterIssuer has been created, KKP and the IAP need to be adjusted to use the new issuer.
-For KKP, update the `KubermaticConfiguration` and configure `spec.ingress.certificateIssuer` accordingly:
-
-```yaml
-spec:
-  ingress:
-    certificateIssuer:
-      name: my-own-ca-issuer
-```
-
-Re-apply the changed configuration and the KKP Operator will reconcile the Certificate resource,
-after which cert-manager will provision a new certificate Secret.
-
-Similarly, update your Helm `values.yaml` that is used for the Dex/IAP deployment and configure
-the new issuer:
-
-```yaml
-dex:
-  certIssuer:
-    name: my-own-ca-issuer
-
-iap:
-  certIssuer:
-    name: my-own-ca-issuer
-```
-
-Re-deploy the `iap` Helm chart to perform the changes and update the Certificate resources.
-
-## External
-
-If issuing certificates inside the cluster is not possible, static certificates can also be provided. The
-cluster admin is responsible for renewing and updating them as needed. Going forward, it is assumed that
-proper certificates have already been created and now need to be configured inside the cluster.
 
 ### KKP
 
@@ -208,6 +204,12 @@ spec:
 
 Refer to the [Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
 for details on the format for certificate Secrets.
+
+#### User Cluster
+
+KKP automatically synchronizes the relevant CA bundle into each user cluster. The ConfigMap
+is called `ca-bundle` and created in the `kube-system` namespace. For this reason it's important
+to not put actual secrets into the CA bundle.
 
 ### Dex
 
@@ -239,7 +241,7 @@ iap:
 For each configured Deployment (`iap.deployments`) a matching Secret needs to be created. For a Deployment
 named `grafana`, the Secret needs to be called `grafana-tls`.
 
-## Token Validation
+### Token Validation
 
 Both the KKP API and the OAuth-Proxy from the IAP need to validate the OAuth tokens (generated by Dex,
 by default). If the the token issuer uses a custom CA, this CA needs to be configured for KKP and all
@@ -247,7 +249,7 @@ IAPs.
 
 In both cases, the full certificate chain (including intermediates) needs to be configured.
 
-### KKP API
+#### KKP API
 
 The token issuer (not to be confused with a cert-manager certificate issuer) is configured in the
 `KubermaticConfiguration` and by default requires a valid certificate. The required adjustments for this
@@ -268,7 +270,7 @@ the issuing CA's certificate chain needs to be set via a Custom CA.
 Do note that if the [OIDC Endpoint Feature]({{< ref "../../OIDC-Provider-Configuration" >}}) is enabled in KKP, this CA bundle
 is also configured for the Kubernetes apiserver, so that it can also validate the tokens issued by Dex.
 
-### IAP
+#### IAP
 
 The certificate chain can be put into a Kubernetes Secret and then be referred to from the `values.yaml`.
 Create a Secret inside the IAP's namespace (`iap` by default) and then update your `values.yaml` like so:

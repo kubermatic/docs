@@ -1,16 +1,14 @@
 +++
-title = "OPA Default Constraint"
+title = "OPA Default Constraints"
 date = 2021-09-08T12:07:15+02:00
 weight = 20
 +++
-
-## Default Constraints
 
 Default Constraints allow admins to conveniently apply policies to all OPA enabled clusters
 This would allow admins an easier way to make sure all user clusters are following some policies (for example security), instead of the current way in which Constraints need to be created for each cluster separately.
 Kubermatic operator/admin creates a Constraint in the admin panel, it gets propagated to seed clusters and user clusters with OPA-integration
 
-### Create Default Constraint
+## Create Default Constraint
 
 In the Admin view navigate to the OPA menu and then to Default Constraints.
 
@@ -38,7 +36,7 @@ selector:
 The Default Constraint created will also show up in the applied cluster view with `Admin Constraint` label
 ![Created Default Constraint on the Cluster](/img/kubermatic/main/ui/default_constraint_cluster_view.png?height=200px&classes=shadow,border "Created Default Constraint on the Cluster")
 
-### Edit Default Constraint
+## Edit Default Constraint
 
 Editing Default Constraint will sync the changes to all the respective constraints on the user clusters.
 
@@ -48,7 +46,7 @@ To edit the constraint click on edit button on the right that appears when hover
 In the appearing dialog you can now edit the Default Constraint.
 ![Edit Constraint Dialog](/img/kubermatic/main/ui/edit-default-constraint-dialog.png?height=350px&classes=shadow,border "Edit Constraint Dialog")
 
-### Filtering Clusters on Default Constraints
+## Filtering Clusters on Default Constraints
 
 {{% notice info %}}
 This is an EE feature.
@@ -80,7 +78,7 @@ for example, for the above use case Default Constraints will be applied to Clust
 
 ![Filtered Cluster with Default Constraint](/img/kubermatic/main/ui/cluster-aws-filter.png?height=400px&classes=shadow,border "Filtered Cluster with Default Constraint")
 
-### Disable Default Constraints
+## Disable Default Constraints
 
 In Admin View to disable Default Constraints, click on the green button under `On/Off`
 ![Disable Default Constraint](/img/kubermatic/main/ui/default-constraint-on.png?height=200px&classes=shadow,border "Disable Default Constraint")
@@ -96,7 +94,7 @@ disabled-default-constraint-cluster-view.png
 Enable the constraint by clicking the same button
 ![Enable Default Constraint](/img/kubermatic/main/ui/disabled-default-constraint.png?height=200px&classes=shadow,border "Enable Default Constraint")
 
-### Delete Default Constraint
+## Delete Default Constraint
 
 Deleting Default Constraint causes all related Constraints on the user clusters to be deleted as well.
 

@@ -3,7 +3,7 @@ title = "Etcd Launcher"
 weight = 30
 +++
 
-Starting with version v2.15.0, KKP introduced etcd-launcher as an experimental feature. Etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KKP API and flexibly control how the user cluster etcd ring is started.
+Starting with version v2.15.0, KKP introduced etcd-launcher as an experimental feature. etcd-launcher is a lightweight wrapper around the etcd binary. It's responsible for reading information from KKP API and flexibly control how the user cluster etcd ring is started.
 
 In v2.19.0, peer TLS connections have been added to etcd-launcher. Existing etcd clusters (with or without etcd-launcher) will be upgraded to peer TLS connections if the etcd-launcher feature gate is enabled on a cluster.
 
@@ -23,7 +23,7 @@ etcd-launcher is an optional feature. It should not be enabled unless all users 
 
 Since this is an optional feature, it's disabled by default. There are two modes to enable etcd-launcher support:
 
-## Etcd-launcher for all user clusters (global setting)
+## etcd-launcher for all User Clusters (global setting)
 
 {{% notice warning %}}
 It is not recommended to enable the `EtcdLauncher` feature gate globally at the same as applying a KKP upgrade, due to the potential for several changes to etcd happening in short sequence.
@@ -64,7 +64,7 @@ Once the seed controller manager is reloaded, all users clusters will get upgrad
 
 When etcd-launcher is enabled for all user clusters, the setting is "inherited" into all user clusters. It is not possible to revert the settings for existing user clusters, but you can revert the changes in your `KubermaticConfiguration` so that new clusters are not created with etcd-launcher. Just undo the changes shown above and apply again.
 
-## Etcd-launcher for a specific user cluster
+## etcd-launcher for a Specific User Cluster
 
 ### Enabling etcd-launcher
 In this mode, the feature is only enabled for a specific user cluster. This can be done by editing the object cluster and enabling the feature flag for etcd-launcher:
@@ -90,7 +90,7 @@ It is not possible to disable etcd-launcher since v2.19.0, as the upgrade of pee
 ## Etcd Launcher Features
 Enabling etcd-launcher enables cluster operators to perform several operational tasks that were not possible before. With the the v2.15.0 releases, etcd-launcher provides the following capabilities:
 
-### Scaling user cluster etcd ring
+### Scaling User Cluster etcd Ring
 Prior to version v2.15.0, the user cluster etcd ring ran as a simple and static 3-node ring. With etcd-launcher enabled, it's now possible to resize the etcd ring to increase capacity and/or availability for user clusters.
 
 Currently, the supported minimum etcd ring size is 3 nodes. This is required to maintain etcd quorum during operations. The maximum supported size is 9 nodes, as recommended by etcd upstream.

@@ -5,14 +5,12 @@ weight = 7
 
 +++
 
-## Google Cloud Platform
+## Compute Engine API
 
-### Compute Engine API
-
-For the access to the Compute Engine API it has to be enabled at the
+For the access to the Compute Engine API it has to be enabled in the
 [Google APIs console](https://console.developers.google.com/apis/dashboard).
 
-### User Roles
+## User Roles
 
 The user for the *Google Service Account* that has to be created has to
 have three roles:
@@ -37,7 +35,7 @@ gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:
 gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member 'serviceAccount:YOUR_SERVICE_ACCOUNT_ID' --role='roles/viewer'
 ```
 
-### Google Service Account
+## Google Service Account
 
 A *Google Service Account* for the platform has to be created, see
 [Creating and managing service accounts](https://cloud.google.com/iam/docs/creating-managing-service-accounts).

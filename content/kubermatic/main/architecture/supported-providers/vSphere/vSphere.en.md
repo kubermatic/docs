@@ -5,13 +5,11 @@ weight = 7
 
 +++
 
-## VSphere
-
 {{% notice warning %}}
 The Kubernetes vSphere driver contains bugs related to detaching volumes from offline nodes. See the [**Volume detach bug**](#volume-detach-bug) section for more details.
 {{% /notice %}}
 
-### VM Images
+## VM Images
 
 When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}}).
 
@@ -24,7 +22,7 @@ Supported operating systems
 * Flatcar (Stable channel) [ova](https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_vmware_ova.ova)
 
 
-#### Importing the OVA
+### Importing the OVA
 
 1. Go into the VSphere WebUI, select your datacenter, right click onto it and choose "Deploy OVF Template"
 1. Fill in the "URL" field with the appropriate url
@@ -34,23 +32,23 @@ Supported operating systems
 1. Leave everyhting in the "Customize Template" and "Ready to complete" dialog as it is
 1. Wait until the VM got fully imported and the "Snapshots" => "Create Snapshot" button is not grayed out anymore
 
-#### Importing the QCOW2
+### Importing the QCOW2
 
 1. Convert it to vmdk: `qemu-img convert -f qcow2 -O vmdk CentOS-7-x86_64-GenericCloud.qcow2 CentOS-7-x86_64-GenericCloud.vmdk`
 1. Upload it to a Datastore of your vSphere installation
 1. Create a new virtual machine that uses the uploaded vmdk as rootdisk
 
-#### Modifications
+### Modifications
 
 Modifications like Network, disk size, etc. must be done in the ova template before creating a worker node from it.
 If user clusters have dedicated networks, all user clusters therefore need a custom template.
 
-### VM Folder
+## VM Folder
 
 During creation of a user cluster Kubermatic Kubernetes Platform (KKP) creates a dedicated VM folder in the root path on the Datastore (Defined in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.datastore`]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})).
 That folder will contain all worker nodes of a user cluster.
 
-### Credentials / Cloud-Config
+## Credentials / Cloud-Config
 
 Kubernetes needs to talk to the vSphere to enable Storage inside the cluster.
 For this, kubernetes needs a config called `cloud-config`.
@@ -58,11 +56,11 @@ This config contains all details to connect to a vCenter installation, including
 
 As this Config must also be deployed onto each worker node of a user cluster, its recommended to have individual credentials for each user cluster.
 
-### Permissions
+## Permissions
 
 The vsphere user has to have to following permissions on the correct resources:
 
-#### User Cluster Could Controller Manager / CSI
+### User Cluster Could Controller Manager / CSI
 **Note:** Below roles were updated based on [vsphere-storage-plugin-roles] for external CCM which is available from kkp v2.18+ and vsphere v7.0.2+
 
 For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-ccm-cluster`) is needed:
@@ -113,7 +111,7 @@ System.Anonymous
 System.Read
 System.View
 ```
-#### User Cluster
+### User Cluster
 
 For provisioning actions of the KKP in scope of an user cluster, a technical user (e.g. `cust-user-cluster`) is needed:
 
@@ -352,12 +350,12 @@ VirtualMachine.State.RevertToSnapshot
 
 The described permissions have been tested with vSphere 7.0.U2 and might be different for other vSphere versions.
 
-#### Terraform Setup
+### Terraform Setup
 
 It's also possible to create the roles by a terraform script. The following repo can be used as reference:
 * https://github.com/kubermatic-labs/kubermatic-vsphere-permissions-terraform
 
-#### Volume Detach Bug
+### Volume Detach Bug
 
 After a node is powered-off, the Kubernetes vSphere driver doesn't detach disks associated with PVCs mounted on that node. This makes it impossible to reschedule pods using these PVCs until the disks are manually detached in vCenter.
 
@@ -369,7 +367,7 @@ Upstream Kubernetes has been working on the issue for a long time now and tracki
 * <https://github.com/kubernetes/kubernetes/issues/71829>
 * <https://github.com/kubernetes/kubernetes/issues/75342>
 
-### Datastores and Datastore Clusters
+## Datastores and Datastore Clusters
 
 *Datastore* in VMWare vSphere is an abstraction for storage.
 *Datastore Cluster* is a collection of datastores with shared resources and a

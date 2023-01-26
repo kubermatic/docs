@@ -11,20 +11,20 @@ Multus-CNI enables attaching multiple network interfaces to pods in Kubernetes. 
 
 In KKP, Multus can be installed into user clusters with any [supported CNI]({{< relref "../cni-cluster-network/" >}}). Multus addon can be deployed into a user cluster with a working primary CNI at any time.
 
-## Installing Multus Addon in KKP
+## Installing the Multus Addon in KKP
 Before this addon can be deployed in a KKP user cluster, the KKP installation has to be configured to enable `multus` addon as an [accessible addon]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}). This needs to be done by the KKP installation administrator,
 once per KKP installation.
 
 As an administrator you can use the [AddonConfig](#multus-addonconfig) listed at the end of this page.
 
-## Deploying Multus Addon in a KKP User Cluster
+## Deploying the Multus Addon in a KKP User Cluster
 Once the Multus Addon is installed in KKP, it can be deployed into a user cluster via the KKP UI as shown below:
 
 ![Multus Addon](/img/kubermatic/main/ui/addon_multus.png?height=400px&classes=shadow,border "Multus Addon")
 
 Multus will automatically configure itself with the primary CNI running in the user cluster. If the primary CNI is not yet running at the time of Multus installation, Multus will wait for it for up to 10 minutes.
 
-## Using Multus-CNI
+## Using Multus CNI
 When Multus addon is installed, all pods will be still managed by the primary CNI. At this point, it is possible to define additional networks with `NetworkAttachmentDefinition` custom resources.
 
 As an example, the following `NetworkAttachmentDefinition` defines a network named `macvlan-net` managed by the [macvlan CNI plugin](https://www.cni.dev/plugins/current/main/macvlan/) (a simple standard CNI plugin usually installed together with the primary CNIs):

@@ -8,7 +8,7 @@ weight = 30
 
 With Presets you can specify default settings for new Cluster. Use Presets to reuse property settings across multiple providers.
 
-### Core Concept
+## Core Concept
 
 As a Kubermatic Kubernetes Platform (KKP) administrator with superuser access, you can define Preset types in a Kubernetes Custom Resource Definition (CRD),
 allowing the assignment of new credential types to supported providers. This allows you to define a custom credential type
@@ -28,7 +28,7 @@ Preset selection disables advanced settings. Advanced settings can be used only 
 to mix both kinds of settings.
 {{% /notice %}}
 
-### Example
+## Example
 
 The following example shows an example for a Preset CRD:
 

@@ -27,7 +27,7 @@ Apart from that,  it will claim the following storage from the `kubermatic-fast`
 - 10 Gi volume for Loki Querier
 - 4 x 2 Gi volume for other internal processing services (compactors, store gateways of Cortex and Loki)
 
-### Capacity planning
+### Capacity Planning
 
 {{% notice note %}}
 The most important part of resources consumption of the MLA stack belongs to the storage and computing power used by Cortex and it's components.
