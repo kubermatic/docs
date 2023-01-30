@@ -31,21 +31,14 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version  | 1.25     | 1.24[^1] | 1.23[^1] | 1.22[^2] | 1.21[^2] | 1.20[^2] | 1.19[^2]   |
-| ------------ | -------- | -------- | -------- | -------- | -------- | -------- | ---------- |
-| 2.22.x[^not-out-yet] | ✓        | ✓        | ✓        | -        | -        | -        | -          |
-| 2.21.x       | -        | ✓        | ✓        | ✓        | ✓        | -        | -          |
-| 2.20.x       | -        | -        | ✓[^4]    | ✓        | ✓        | ✓        | -          |
-| 2.19.x       | -        | -        | -        | ✓        | ✓        | ✓        | -          |
-| 2.18.x[^3]   | -        | -        | -        | ✓        | ✓        | ✓        | ✓          |
+| KKP version          | 1.26 | 1.25 |1.24 | 1.23[^2]| 1.22[^2] | 1.21[^2] | 1.20[^2] | 1.19[^2] |
+| -------------------  | ---- | ---- | --- | ------- | -------- | -------- | -------- | -------- |
+| 2.22.x[^not-out-yet] | ✓    | ✓    | ✓   | -       | -        | -        | -        | -        |
+| 2.21.x               | -    | -    | ✓   | ✓       | ✓        | -        | -        | -        |
+| 2.20.x               | -    | -    | -   | ✓       | ✓        | ✓        | ✓        | -        |
 
-[^1]: Kubernetes 1.24 and 1.23 are currently not supported on ARM64 clusters with Canal CNI and kube-proxy running in the IPVS mode.
 
-[^2]: Kubernetes 1.19, 1.20, 1.21 and 1.22 releases have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
-
-[^3]: KKP 2.18 has reached End-of-Life (EOL). We strongly recommend upgrading to a supported KKP version as soon as possible.
-
-[^4]: Kubernetes 1.23 support has been added in KKP 2.20.3.
+[^2]: Kubernetes releases from 1.19 to 1.23 have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
 
 [^not-out-yet]: KKP 2.22 has not been released yet.
 
