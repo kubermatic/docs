@@ -10,10 +10,8 @@ running with Cilium CNI.
 ## Versions
 This guide was made for the following versions of KKP and Cilium:
 
-- KKP 2.22-pre-alpha (main)
-- Cilium 1.13-rc3
-
-It will be updated once the final minor versions for both platforms are released.
+- KKP 2.22.0
+- Cilium 1.13.0
 
 ## Prerequisites
 Before proceeding, please review that your intended setup meets
