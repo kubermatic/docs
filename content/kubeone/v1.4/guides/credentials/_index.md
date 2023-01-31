@@ -204,15 +204,15 @@ infrastructure and for machine-controller to create the worker nodes.
 #
 
 {{% /tab %}}
-{{% tab name="Packet" %}}
+{{% tab name="Equinix Metal" %}}
 You need an [API Access Token](https://metal.equinix.com/developers/docs/integrations/devops/)
 for Terraform to create the infrastructure, machine-controller to create worker
-nodes, and for Packet Cloud Controller Manager.
+nodes, and for Equinix Metal Cloud Controller Manager.
 
 | Environment Variable | Description       |
 | -------------------- | ----------------- |
-| `PACKET_AUTH_TOKEN`  | Packet auth token |
-| `PACKET_PROJECT_ID`  | Packet project ID |
+| `METAL_AUTH_TOKEN`  | Equinix Metal auth token |
+| `METAL_PROJECT_ID`  | Equinix Metal project ID |
 
 #
 
