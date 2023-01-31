@@ -10,7 +10,7 @@ weight = 6
 
 Kubermatic Kubernetes Platform (KKP) is an open-source product, and both the Community Edition and the Enterprise Edition are available to download from GitHub. However, there are some extra features that are only available in the Enterprise Edition of Kubermatic Kubernetes Platform.
 
-## Extra features Enterprise Edition
+## Extra features of Enterprise Edition
 
 | Features                                    | Description                                                                                                                       |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
