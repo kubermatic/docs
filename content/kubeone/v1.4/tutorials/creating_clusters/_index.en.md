@@ -24,7 +24,7 @@ clusters in any environment (cloud, on-prem, baremetal, edge...). Clusters
 created by KubeOne are production-ready and Kubernetes/CNCF conformant out of
 the box. Generally, KubeOne runs the following tasks:
 
-* install dependencies and required packages (container runtime, kubelet, 
+* install dependencies and required packages (container runtime, kubelet,
   kubeadm...)
 * run Kubernetes' Kubeadm to provision a Kubernetes cluster
 * deploy components such as CNI, metrics-server, and Kubermatic
@@ -44,7 +44,7 @@ Terraform state, and provides example Terraform configs that can be used to
 create the infrastructure. We'll use both the Terraform integration and the
 example configs in this tutorial.
 
-The infrastructure for the worker nodes can be managed in two ways: 
+The infrastructure for the worker nodes can be managed in two ways:
 
 * automatically, by using Kubermatic machine-controller (deployed by default
   for supported providers)
@@ -53,7 +53,7 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, Nutanix, OpenStack, Packet, and VMware vSphere), and we will use
+Hetzner Cloud, Nutanix, OpenStack, Equinix Metal, and VMware vSphere), and we will use
 it in this tutorial. If your provider is not supported (e.g. bare-metal), you
 can check the [KubeOne Static Workers][static-workers] feature for more
 information about the second approach.
@@ -126,7 +126,7 @@ As described in the How KubeOne Works section, we'll use Terraform to manage
 the infrastructure for the control plane, therefore we need to install it.
 Terraform has several installation methods: manually, using a package manager
 such as `apt`, using Homebrew (for macOS users). In this tutorial, we'll do it
-manually, but you can check out the 
+manually, but you can check out the
 [official installation guide][install-terraform] for other options.
 
 First, visit the [Terraform download page][download-terraform] and grab the
@@ -328,15 +328,15 @@ infrastructure and for machine-controller to create the worker nodes.
 #
 
 {{% /tab %}}
-{{% tab name="Packet" %}}
+{{% tab name="Equinix Metal" %}}
 You need an [API Access Token](https://metal.equinix.com/developers/docs/integrations/devops/)
 for Terraform to create the infrastructure, machine-controller to create worker
-nodes, and for Packet Cloud Controller Manager.
+nodes, and for Equinix Metal Cloud Controller Manager.
 
 | Environment Variable | Description       |
 | -------------------- | ----------------- |
-| `PACKET_AUTH_TOKEN`  | Packet auth token |
-| `PACKET_PROJECT_ID`  | Packet project ID |
+| `METAL_AUTH_TOKEN`  | Equinix Metal auth token |
+| `METAL_PROJECT_ID`  | Equinix Metal project ID |
 
 #
 
@@ -553,7 +553,7 @@ Kubernetes cluster.
 The first step is to create a KubeOne configuration manifest that describes how
 the cluster will be provisioned, which Kubernetes version will be used,
 and more. The manifest can be saved in a file called `kubeone.yaml`. In the
-following table you can find example configuration manifest for each 
+following table you can find example configuration manifest for each
 supported provider.
 
 {{< tabs name="Manifests" >}}
@@ -730,13 +730,13 @@ cloudProvider:
     subnet-id=SUBNET_ID
 ```
 {{% /tab %}}
-{{% tab name="Packet" %}}
+{{% tab name="Equinix Metal" %}}
 `external: true` instructs KubeOne to deploy the
-[Packet Cloud Controller Manager](https://github.com/packethost/packet-ccm).
-The Packet CCM fetches information about nodes from the API.
+[Equinix Metal Cloud Controller Manager](https://github.com/equinix/cloud-provider-equinix-metal).
+The Equinix Metal CCM fetches information about nodes from the API.
 
 **It’s important to provide custom clusterNetwork settings in order to avoid
-colliding with the Packet private network which is `10.0.0.0/8`.**
+colliding with the Equinix Metal private network which is `10.0.0.0/8`.**
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
@@ -746,7 +746,7 @@ versions:
   kubernetes: "1.22.5"
 
 cloudProvider:
-  packet: {}
+  equinixmetal: {}
   external: true
 
 clusterNetwork:
@@ -936,7 +936,7 @@ and recommendations.
 
 ## Learn More
 
-* Learn how to upgrade your cluster by following the 
+* Learn how to upgrade your cluster by following the
   [Upgrading Clusters][upgrading-clusters] tutorial
 * If you don't need your cluster anymore, you can check the
   [Unprovisioning Clusters][unprovisioning-clusters] tutorial to find out

@@ -13,6 +13,6 @@ the current KubeOne version. The additional features include the KubeOne
 Terraform integration and the integration with Kubermatic machine-controller.
 
 KubeOne supports AWS, Azure, DigitalOcean, GCP, Hetzner Cloud, Nutanix\*,
-OpenStack, Packet, VMware Cloud Director, and VMware vSphere.
+OpenStack, Equinix Metal, VMware Cloud Director, and VMware vSphere.
 
 \* Nutanix is supported as of KubeOne 1.4.0.
