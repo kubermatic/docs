@@ -66,7 +66,7 @@ For more details, see how to delete a version from an `ApplicationDefinition`.
 {{% /notice %}}
 
 ## How to delete a version from an ApplicationDefinition
-Deleting a version from `ApplicationDefinition` will trigger the deletion of all `ApplicationInstallation` that reference this version! It guarantees that only desired versions are installed in user clusters, which is helpful if a version contains a critical security breach.
+Deleting a version from `ApplicationDefinition` will trigger the deletion of all `ApplicationInstallations` that reference this version! It guarantees that only desired versions are installed in user clusters, which is helpful if a version contains a critical security breach.
 Under normal circumstances, we recommend following the deprecation policy to delete a version.
 
 ### Deprecation policy
@@ -187,7 +187,7 @@ spec:
     labelSelector: {}
 ```
 
-If a user tries to create an  `ApplicationInstallation` using the deprecation version, he will get this error message:
+If users try to create an  `ApplicationInstallation` using the deprecation version, they will get the following error message:
 
 ```
 $ kubectl create -f app.yaml

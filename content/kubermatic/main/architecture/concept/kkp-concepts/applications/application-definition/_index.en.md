@@ -7,8 +7,8 @@ weight = 1
 
 An `ApplicationDefinition` represents a single Application and contains all its versions. It holds the necessary information to install an application.
 Two types of information are required to install an application:
-* how to download the application's source (i.e Kubernetes manifest, helm chart...). We named it `source`.
-* how to renderer (i.e. templating) the application's source to install it into user-cluster. We named it `templating method`.
+* How to download the application's source (i.e Kubernetes manifest, helm chart...). We refer to this as `source`.
+* How to render (i.e. templating) the application's source to install it into user-cluster. We refer to this as`templating method`.
 
 Each version can have a different `source` (`.spec.version[].template.source`) but share the same `templating method` (`.spec.method`).  
 Here is the simplest example of `ApplicationDefinition`. More advanced configurations are described in the subsequent paragraphs.
@@ -39,7 +39,7 @@ spec:
       version: 2.4.55-git
 ```
 
-In this example, the `ApplicationDefinition` allow to install two versions of apache thanks to [helm method](#helm-method). Notice that one source comes from a [Helm repository](#helm-source) and the other from a [git repository](#git-source)
+In this example, the `ApplicationDefinition` allows the installation of two versions of apache using the [helm method](#helm-method). Notice that one source originates from a [Helm repository](#helm-source) and the other from a [git repository](#git-source)
 
 ## Templating Method
 Templating Method describes how the Kubernetes manifests are being packaged and rendered.

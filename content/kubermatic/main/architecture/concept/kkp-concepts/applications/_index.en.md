@@ -15,7 +15,7 @@ Currently, helm is exclusively supported as a templating method, but integration
 Helm Applications can both be installed from helm registries directly or from a git repository.
 
 ## Concepts
-KKP admin "publish" available application thanks to the [ApplicationDefinition]({{< ref "./application-definition" >}}) CRD, which contains all the necessary information to install the applications.  
+KKP admins "publish" available application via the [ApplicationDefinition]({{< ref "./application-definition" >}}) CR, which contains all the necessary information to install an application.  
 User cluster admin will be able to install the application thanks to [ApplicationInstallation]({{< ref "./application-installation" >}}), which reference the `ApplicationDefinition` and defines custom parameters for the installation.
 
 The `ApplicationInstallation` aims to hide the complexity of installing an application as much as possible, so users with minimal knowledge of Kubernetes can use the application and focus on domain-related work.
