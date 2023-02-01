@@ -6,7 +6,7 @@ weight = 20
 
 Interface section in the Admin Panel allows you to control various UI related settings. They can be used to show/hide certain features on the dashboard.
 
-![Interface](/img/kubermatic/main/ui/interface.png?height=330px&classes=shadow,border)
+![Interface](/img/kubermatic/main/ui/interface.png?classes=shadow,border)
 
 - ### [Enable External Clusters](#enable-external-clusters)
 
