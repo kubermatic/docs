@@ -137,7 +137,7 @@ IP range from which NodePort access to the worker nodes will be allowed. Default
 Enables NodeLocal DNS Cache - caching DNS server running on each worker node in the cluster.
 
 ### Konnectivity
-Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. Defaults to `0.0.0.0/0` (allowed from everywhere). It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it will be replaced with Konnectivity in future KKP releases.
+Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it will be replaced with Konnectivity in future KKP releases.
 
 #### Enabling Konnectivity in KubermaticConfiguration
 
