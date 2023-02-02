@@ -5,7 +5,7 @@ weight = 21
 
 +++
 
-KKP Applications offer a seamless experience to add third-party applications into a KKP cluster and offer full [integration with KKP's UI]({{< ref "../../../../tutorials-howtos/applications/add-applications-to-cluster#managing-applications-via-the-uI" >}}) as well as [GitOps Systems]({{< ref "../../../../tutorials-howtos/applications/add-applications-to-cluster#managing-applications-via-gitops" >}}).
+KKP Applications offer a seamless experience to add third-party applications into a KKP cluster and offer full [integration with KKP's UI]({{< ref "../../../../tutorials-howtos/applications/add-applications-to-cluster#managing-applications-via-the-ui" >}}) as well as [GitOps Systems]({{< ref "../../../../tutorials-howtos/applications/add-applications-to-cluster#managing-applications-via-gitops" >}}).
 
 KKP Applications leverage established Kubernetes projects (e.g. helm) for templating manifests. This ensures compatibility within the Kubernetes ecosystem. For example, a list of community-developed charts can be found on [ArtifactHub's Helm Section](https://artifacthub.io/packages/search?kind=0&sort=relevance&page=1)
 
@@ -15,10 +15,13 @@ Currently, helm is exclusively supported as a templating method, but integration
 Helm Applications can both be installed from helm registries directly or from a git repository.
 
 ## Concepts
-KKP admins "publish" available application via the [ApplicationDefinition]({{< ref "./application-definition" >}}) CR, which contains all the necessary information to install an application.  
-User cluster admin will be able to install the application thanks to [ApplicationInstallation]({{< ref "./application-installation" >}}), which reference the `ApplicationDefinition` and defines custom parameters for the installation.
+KKP manages Applications using two key mechanisms: [ApplicationDefinition]({{< ref "./application-definition" >}}) and [ApplicationInstallations]({{< ref "./application-installation" >}}).
 
-The `ApplicationInstallation` aims to hide the complexity of installing an application as much as possible, so users with minimal knowledge of Kubernetes can use the application and focus on domain-related work.
+The `ApplicationDefinitions` are managed by KKP Admins and contain all the necessary information for an application's installation.
+
+The `ApplicationInstallations`, on the other hand, are managed by Cluster Admins and simplify the installation process by referencing the `ApplicationDefinition` and defining custom parameters for the installation. `ApplicationInstallations` aim to simplify the installation of applications, which helps users to get their apps up and running quickly and continue their work on domain-related topics.
+
+Concretely KKP admins "publish" available applications via the [ApplicationDefinition]({{< ref "./application-definition" >}}) CR, and Cluster admins will be able to install the application using [ApplicationInstallations]({{< ref "./application-installation" >}}) CR or [UI]({{< ref "../../../../tutorials-howtos/applications/add-applications-to-cluster#managing-applications-via-the-ui" >}}).
 
 ## Comparison To KKP Addons
 

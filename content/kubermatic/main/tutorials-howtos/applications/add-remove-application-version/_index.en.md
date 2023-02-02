@@ -58,7 +58,7 @@ spec:
             url: https://charts.bitnami.com/bitnami
       version: 9.2.11
 ```
-Users will now be able to reference this version in their `ApplicationInstallation`. TODO MENTION update ??
+Users will now be able to reference this version in their `ApplicationInstallation`. For additional details, see the [update an application guide]({{< ref "../update-application" >}}).
 
 {{% notice warning %}}
 Do not replace one version with another, as it will be perceived as a **deletion** by the application installation controller leading to **deletion of all `ApplicationInstallation` using this version.**

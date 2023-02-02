@@ -48,6 +48,42 @@ will stop trying to install or upgrade the application until applicationInstalla
 
 This behavior reduces the load on the cluster and avoids an infinite loop that disrupts workload, in case `.spec.deployOptions.helm.atomic` is true.
 
+### Helm additional information
+If the [templating method]({{< ref "../application-definition#templating-method" >}}) is `Helm`, then additional information regarding the install or upgrade is provided under `.status.helmRelease`.
+
+Example:
+```yaml
+status:
+  [...]
+  helmRelease:
+    info:
+      description: Install complete
+      firstDeployed: "2023-02-02T07:52:58Z"
+      lastDeployed: "2023-02-02T07:52:58Z"
+      notes: |+
+        CHART NAME: apache
+        CHART VERSION: 9.2.9
+        APP VERSION: 2.4.54
+
+        ** Please be patient while the chart is being deployed **
+
+        1. Get the Apache URL by running:
+
+        ** Please ensure an external IP is associated to the default-apache service before proceeding **
+        ** Watch the status using: kubectl get svc --namespace default -w default-apache **
+
+          export SERVICE_IP=$(kubectl get svc --namespace default default-apache --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
+          echo URL            : http://$SERVICE_IP/
+
+
+        WARNING: You did not provide a custom web application. Apache will be deployed with a default page. Check the README section "Deploying your custom web application" in https://github.com/bitnami/charts/blob/main/bitnami/apache/README.md#deploying-a-custom-web-application.
+
+
+      status: deployed
+    name: default-apache
+    version: 1
+```
+
 ## Advanced Configuration
 This section is relevant to advanced users. However, configuring advanced parameters may impact performance, load, and workload stability. Consequently, it must be treated carefully.
 

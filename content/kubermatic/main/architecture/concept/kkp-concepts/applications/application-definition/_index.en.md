@@ -11,7 +11,7 @@ Two types of information are required to install an application:
 * How to render (i.e. templating) the application's source to install it into user-cluster. We refer to this as`templating method`.
 
 Each version can have a different `source` (`.spec.version[].template.source`) but share the same `templating method` (`.spec.method`).  
-Here is the simplest example of `ApplicationDefinition`. More advanced configurations are described in the subsequent paragraphs.
+Here is the minimal example of `ApplicationDefinition`. More advanced configurations are described in subsequent paragraphs.
 
 ```yaml
 apiVersion: apps.kubermatic.k8c.io/v1
@@ -95,7 +95,7 @@ helm search repo <repo-name>/<chart-name> --versions
 helm search repo prometheus-community/prometheus --versions --version ">=15"
 ```
 
-For OCI repositories, there is currently [no helm native search](https://github.com/helm/helm/issues/9983). Instead, you have to rely on the capabilities of your OCI registry (for example, harbor supports searching for helm-charts directly [in their UI](https://goharbor.io/docs/2.4.0/working-with-projects/working-with-images/managing-helm-charts/#list-charts)).
+For OCI repositories, there is currently [no native helm search](https://github.com/helm/helm/issues/9983). Instead, you have to rely on the capabilities of your OCI registry. For example, harbor supports searching for helm-charts directly [in their UI](https://goharbor.io/docs/2.4.0/working-with-projects/working-with-images/managing-helm-charts/#list-charts).
 
 ### Git Source
 The Git source allows you to download the application's source from a Git repository.

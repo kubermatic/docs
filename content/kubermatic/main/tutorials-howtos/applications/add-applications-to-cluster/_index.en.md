@@ -5,7 +5,7 @@ weight = 2
 +++
 
 This guide targets Cluster Admins and details how KKP Applications can be integrated into a cluster.
-For a more details on Applications please refer to our [Applications Primer]({{< ref "../../../architecture/concept/kkp-concepts/applications/" >}}).
+For more details on Applications, please refer to our [Applications Primer]({{< ref "../../../architecture/concept/kkp-concepts/applications/" >}}).
 
 ## Managing Applications via the UI
 
@@ -44,7 +44,7 @@ In the cluster creation wizard, you can select applications to install into your
 KKP will automatically install your selection after the infrastructure is provisioned and the cluster is ready.
 
 Applications can be added in the `Applications` Section of the wizard.
-For a detailed flow and explanation of all customizations see  the ["Adding Applications to an Existing Cluster"](#adding-applications-to-an-existing-cluster) section of this guide.
+For a detailed flow and explanation of all customizations see the ["Adding Applications to an Existing Cluster"](#adding-applications-to-an-existing-cluster) section of this guide.
 
 ![Application Section in Cluster Creation Wizard](/img/kubermatic/common/applications/applications_flow_in_cluster_wizard.png "Application Section in Cluster Creation Wizard")
 
