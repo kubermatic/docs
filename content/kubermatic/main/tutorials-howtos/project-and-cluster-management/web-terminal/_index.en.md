@@ -12,7 +12,9 @@ After enabling it, a button will appear on the top right side of the user cluste
 
 ![Web Terminal](/img/kubermatic/main/ui/web_terminal.png?classes=shadow,border)
 
-**Note:** at the first usage time, you will be requested to login to KKP again. Please use a user with the ***same Kubermatic user email***.
+**Notes:**
+- At the first usage time, you will be requested to login to KKP again. Please use a user with the ***same Kubermatic user email***.
+- There is a 1 hour timeout for the websocket connection. So, if no activity happens in 1 hour, the Web Terminal connection will be closed.
 
 ## How it works
 
