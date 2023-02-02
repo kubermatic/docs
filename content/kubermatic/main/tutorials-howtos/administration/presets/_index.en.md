@@ -57,7 +57,7 @@ Open the `Create Preset` dialog through the button available on the Preset list.
 - `Name` is a required parameter and will be used in the wizard to select the provider.
 - `Domain` is an optional parameter that allows to limit Preset availability only to the specific users with email matching this domain.
 - `Projects` is an optional list of projects that allows to limit Preset availability to the specific projects.
-- `Hide upon creation` allows to hide the preset after creation from the users.
+- `Hide upon creation` allows to hide the preset after creation. The Preset can later be updated to be visible to users.
 
 Email domain and project limitations "stack", which means that setting both fields will limit a Preset to be used
 by users with the correct email domain but only within projects for which the Preset is allowed.
@@ -204,7 +204,7 @@ It is important to note that this is the project ID and not the "human-readable"
 
 ### Creating a Preset
 
-Presets can also be created via `kubectl`. As with any other Kubernetes resource, you will neec to draft a YAML file
+Presets can also be created via `kubectl`. As with any other Kubernetes resource, you will need to draft a YAML file
 for it and then create/apply it. The YAML example above can be re-used to start creating a `Preset` resource. For respective
 fields for each provider, check out the [PresetSpec CRD reference]({{< ref "../../../references/crds/#presetspec" >}}).
 
