@@ -25,3 +25,17 @@ After 30 minutes, the expiration happens and every deployed resource is destroye
 the user is asked for extending the terminal for more 30 minutes.
 
 ![Web Terminal sequence diagram](/img/kubermatic/main/ui/web_terminal_sequence_diagram.png?classes=shadow,border)
+
+## Troubleshooting
+
+### Connection being closed after some time
+
+KKP nginx ingress controller is configured with 1 hour proxy timeout to support long-lasting connections of webterminal. In case that you use a different ingress controller in your setup, you may need to extend the timeouts for the `kubermatic` ingress - e.g. in case of nginx ingress controller, you can add these annotations to have a 1 hour "read" and "send" timeouts:
+```
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+```
+
+### Cannot connect to other pods or internet from the web terminal pod
+
+The `network policy` deployed to the user cluster restricts access from the web terminal `pod` and allows only the egress traffic to the Kubernetes API server. Therefore you will not be able to access any other pods in the cluster from the web terminal pod.
