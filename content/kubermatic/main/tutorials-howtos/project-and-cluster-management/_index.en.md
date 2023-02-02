@@ -69,7 +69,7 @@ Disabling the User SSH Key Agent at this point can not be reverted after the clu
 ![General Cluster Settings](/img/kubermatic/main/tutorials/wizard_step_2.png?classes=shadow,border "General Cluster Settings")
 
 
-In the next step of the installer, enter the credentials for the chosen provider. A good option is to use Kubermatic Presets here, which is `loodse` in this case, instead putting in credentials for every cluster creation:
+In the next step of the installer, enter the credentials for the chosen provider. A good option is to use [Presets]({{< ref "../administration/presets/" >}}) instead putting in credentials for every cluster creation:
 
 ![Provider Credentials](/img/kubermatic/main/tutorials/wizard_step_3.png?classes=shadow,border "Provider Credentials")
 
@@ -85,7 +85,7 @@ You will then be forwarded to the cluster page where you can view the cluster cr
 
 ![Cluster Details in Creation State](/img/kubermatic/main/tutorials/cluster_details_after_creation.png?classes=shadow,border "Cluster Details in Creation State")
 
-After all of the master components are ready, your cluster will create the configured number of worker nodes. Fully created nodes will be marked with a green dot, pending ones with a yellow circle. Clicking on the download icon lets you download the kubeconfig to be able to use `kubectl` with your cluster.
+After all of the control plane components are ready, your cluster will create the configured number of worker nodes. Fully created nodes will be marked with a green dot, pending ones with a yellow circle. Clicking on the download icon lets you download the kubeconfig to be able to use `kubectl` with your cluster.
 
 ![Cluster Created](/img/kubermatic/main/tutorials/cluster_details_overview.png?classes=shadow,border "Cluster Created")
 
