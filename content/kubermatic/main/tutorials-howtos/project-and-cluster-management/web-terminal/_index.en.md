@@ -35,3 +35,7 @@ KKP nginx ingress controller is configured with 1 hour proxy timeout to support 
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 ```
+
+### Cannot connect to other pods or internet from the web terminal pod
+
+The `network policy` deployed to the user cluster restricts access from the web terminal `pod` and allow only the egress to the Kubernetes API server. Therefore you will not be able to access any other pods in the cluster from the web terminal pod.
