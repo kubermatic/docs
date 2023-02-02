@@ -102,7 +102,7 @@ In addition to the `values.yaml` for configuring the charts, a number of options
 A minimal configuration for Helm charts sets these options. You can find it in the /examples directory of the tarball.
 The secret keys mentioned below can be generated using any password generator or on the shell using
 `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
-On MacOS, use `brew install gnu-tar` and `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`
+On MacOS, use `brew install coreutils` and `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`
 
 ```yaml
 # Dex is the OpenID Provider for KKP.
