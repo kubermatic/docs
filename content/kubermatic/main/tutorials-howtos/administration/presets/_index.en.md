@@ -36,12 +36,12 @@ Preset list offers multiple options that allow Administrators to manage Presets.
 ![](/img/kubermatic/main/ui/preset_management.png?height=300px&classes=shadow,border)
 
 1. Create a new Preset
-2. Manage existing Preset
+1. Manage existing Preset
     - Edit Preset (allows showing/hiding specific providers)
     - Add a new provider to the Preset
     - Edit configure provider
-3. Show/Hide the Preset. Allows hiding Presets from the users and block new cluster creation based on them.
-4. A list of providers configured for the Preset.
+1. Show/Hide the Preset. Allows hiding Presets from the users and block new cluster creation based on them.
+1. A list of providers configured for the Preset.
 
 
 ### Creating a Preset
