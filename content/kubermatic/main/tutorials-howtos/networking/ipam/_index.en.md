@@ -59,6 +59,36 @@ spec:
 
 Note that `poolCIDR` can be the same in different datacenters.
 
+### Exclusions
+
+Optionally, you can configure range/prefix exclusions in IPAMPools, in order to exclude particular IPs/subnets of IPAMPool (e.g. dedicated for special services) from IPAM allocations.
+
+For that, you need to extend the IPAM Pool datacenter spec to include a list of subnets CIDR to exclude (`excludePrefixes` for prefix allocation type) or a list of particular IPs or IP ranges to exclude (`excludeRanges` for range allocation type).
+
+E.g. from previous example, containing both allocation types exclusions:
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: IPAMPool
+metadata:
+  name: metallb
+spec:
+  datacenters:
+    azure-westeurope:
+      type: range
+      poolCidr: "192.168.1.0/26"
+      allocationRange: 8
+      excludeRanges:
+      - "192.168.1.1"
+      - "192.168.1.5-192.168.1.7"
+    aws-eu-central-1a:
+      type: prefix
+      poolCidr: "192.168.1.0/26"
+      allocationPrefix: 30
+      excludePrefixes:
+      - "192.168.1.0/30"
+      - "192.168.1.8/30"
+```
+
 ### Restrictions
 Required `IPAMPool` spec fields:
 - `datacenters` list cannot be empty.
