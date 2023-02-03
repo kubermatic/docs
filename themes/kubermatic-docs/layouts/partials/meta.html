@@ -29,7 +29,9 @@
 
 <meta property="og:url" content="{{.Permalink}}">
 
-{{with "/img/share-socials.jpg"}}
+{{$product := index .Site.Data.products .Section | default (dict "shareImage" nil)}}
+{{$shareImage := or .Params.shareImage $product.shareImage | default .Site.Params.shareImage}}
+{{with $shareImage}}
 <meta property="og:image" content="{{. | absURL}}">
 <meta name="twitter:image" content="{{. | absURL}}">
 {{end}}

@@ -7,6 +7,7 @@ kubermatic:
   description: Automate multicloud, on-prem, and edge operations with a single management UI enabling you to deliver the cloud native transformation immediately.
   textName: KKP #used for displaying different title in product dropdown
   weight: 2
+  shareImage: img/Docs-KKP-share.jpg
   versions:
     - release: main
       name: main
@@ -36,6 +37,7 @@ kubeone:
   title: KubeOne
   description: Automate operations of a single Kubernetes cluster on your chosen cloud, on-prem, or edge environment.
   weight: 1
+  shareImage: img/Docs-KubeOne-share.jpg
   versions:
     - release: main
       name: main
@@ -55,6 +57,7 @@ kubecarrier:
   title: KubeCarrier
   description: The operator of operators. Centrally manage all your services and applications across multiple clusters, clouds and regions with Kubernetes native API and tooling.
   weight: 3
+  shareImage: img/Docs-KubeCarrier-share.jpg
   versions:
     - release: master
       name: master
@@ -71,3 +74,4 @@ operatingsystemmanager:
   textName: Operating System Manager
   description: Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster.
   weight: 4
+  shareImage: img/Docs-OSM-share.jpg
