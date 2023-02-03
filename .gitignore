@@ -2,10 +2,6 @@
 /public/
 /resources/_gen/
 
-# cypress tests
-tutorials-tests/node_modules
-tutorials-tests/cypress/fixtures
-
 # IDE specific files
 .idea/
 
@@ -14,4 +10,3 @@ tutorials-tests/cypress/fixtures
 
 # MacOS indexing files
 .DS_Store
-
