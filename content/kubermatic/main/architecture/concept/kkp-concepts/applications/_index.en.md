@@ -21,7 +21,7 @@ KKP manages Applications using two key mechanisms: [ApplicationDefinitions]({{< 
 
 `ApplicationInstallations`, on the other hand, are managed by Cluster Admins and simplify the installation process by referencing `ApplicationDefinitions` and defining custom parameters for the installation. `ApplicationInstallations` aim to simplify the installation of applications, which helps users to get their apps up and running quickly and continue their work on domain-related topics.
 
-Concretely KKP admins "publish" available applications via the [ApplicationDefinition]({{< ref "./application-definition" >}}) CR, and Cluster admins will be able to install the application using [ApplicationInstallations]({{< ref "./application-installation" >}}) CR or [UI]({{< ref "../../../../tutorials-howtos/applications/add-applications-to-cluster#managing-applications-via-the-ui" >}}).
+Specifically KKP admins "publish" available applications via the [ApplicationDefinition]({{< ref "./application-definition" >}}) CR, and Cluster admins will be able to install the application using [ApplicationInstallations]({{< ref "./application-installation" >}}) CR or [UI]({{< ref "../../../../tutorials-howtos/applications/add-applications-to-cluster#managing-applications-via-the-ui" >}}).
 
 ## Comparison To KKP Addons
 
