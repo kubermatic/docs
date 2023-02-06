@@ -102,26 +102,10 @@ spec:
       }
 ```
 
-#### Seed Configuration
-
-In some cases a Seed may require an independent OIDC provider. For this reason a `Seed` CRD contains relevant fileds under `spec.oidcProviderConfiguration`. Filling those resluts in overwriting a configration from `KubermaticConfiguration` CRD. The following snippet presents an example of `Seed` CRD configuration:
-
-```yaml
-spec:
-  oidcProviderConfiguration:
-    issuerURL: https://example.kubermatic.io/dex
-    issuerClientID: kubermaticIssuer
-    issuerClientSecret: "SuperSecretIssuerClientSecret"
-```
-
-{{% notice note %}}
-It is highly recomended to use the same domain in email scope both for Seed level and main OIDC providers. This is a prerequisite for web termnial feature and it saves some time on user cluster RBAC configuration.
-{{% /notice %}}
-
 ### Applying the Changes
 
-Edit KubermaticConfiguration or Seed either directly via `kubectl edit` or apply them from YAML
-files by using `kubectl apply`. The KKP Operator will pick up on the changes and
+Edit the KubermaticConfiguration either directly via `kubectl edit` or apply it from a YAML
+file by using `kubectl apply`. The KKP Operator will pick up on the changes and
 reconfigure the components accordingly. After a few seconds the new pods should be up and
 running.
 
