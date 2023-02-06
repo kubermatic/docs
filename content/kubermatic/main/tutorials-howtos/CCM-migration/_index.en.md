@@ -29,6 +29,7 @@ needed a mechanism to allow users to migrate their clusters to the out-of-tree i
 ### Support and Prerequisites
 
 The CCM/CSI migration is supported for the following providers:
+* Amazon Web Services (AWS)
 * OpenStack
   * [Required OpenStack services and cloudConfig properties for the external CCM][openstack-ccm-reqs]
   * [Required OpenStack services and cloudConfig properties for the CSI driver][openstack-csi-reqs]
@@ -77,17 +78,18 @@ spec:
 ```
 
 The addition of the `externalCloudProvider` feature triggers the following operations:
+
 * Deployment in the user cluster of the components being part of both the Cloud Controller Manager and the CSI controller
 manager.
-* Patch of The Machine controller deployment to configure the external cloud provider for the new machines.
+* Patch of the Machine controller deployment to configure the external cloud provider for the new machines.
 * Addition of a condition related to the ccm migration to the cluster status.
 
 ### Finalize the CCM Migration
 
-The last step to complete the CCM migration is the rolling restart of all the machineDeployments in the user cluster.
-To do so via  cli, simply follow the guide in the machine-controller [documentation]({{< relref "kubeone/main/cheat-sheets/rollout-machinedeployment/" >}}).
+The last step to complete the CCM migration is the rolling restart of all the machine deployments in the user cluster.
+To do so via CLI, simply follow the [guide in the machine-controller documentation]({{< relref "kubeone/main/cheat-sheets/rollout-machinedeployment/" >}}).
 
-Performing the rolling update of all the machineDeployments implies the deletion of all the machines (hence all the nodes) and
+Performing the rolling update of all the machine deployments implies the deletion of all the machines (hence all the nodes) and
 their recreation. Since the MachineController has been patched to configure the external cloud provider for the new machines,
 all the recreated machines will be configured to use the out-of-tree CCM. You can check this condition by verifying that
 the new machines have the `ExternalCloudProvider` annotation:
@@ -104,7 +106,7 @@ metadata:
 ...
 ```
 
-Once all the machineDeployments are rolled out, and the new machines have the aforementioned annotation, the cluster
+Once all the machine deployments are rolled out and the new machines have the aforementioned annotation, the cluster
 condition `CSIKubeletMigrationCompleted` will be set to true, and the migration is considered completed.
 
 ### Disabling the External CCM
