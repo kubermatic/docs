@@ -209,7 +209,7 @@ parameter of Machine Controller that sets the timeout for workload eviction.
 **Once exceeded, the VMs will simply be deleted.** 
 {{% /notice %}}
 
-### I discovered a DNS collision on my cluster. Why it happens?
+### I discovered a DNS collision on my cluster. Why does it happen?
 
 Usually it happens when both infrastructure and user clusters points to the same address of NodeLocal DNS Cache servers, even if they have separate server instances running.  
 
