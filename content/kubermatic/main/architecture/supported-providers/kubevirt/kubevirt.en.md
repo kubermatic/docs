@@ -18,7 +18,7 @@ A Kubernetes cluster (KubeVirt infrastructure cluster), which consists of nodes 
 * 4GB of RAM
 * 30GB of storage.
 
-The cluster version must be in the scope of [supported KKP Kubernetes clusters](https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions)
+The cluster version must be in the scope of [supported KKP Kubernetes clusters]({{< ref "../../../tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions" >}})
 and it must have the following components installed:
 * KubeVirt >= 0.57 which supports the selected Kubernetes version.
 * Containerized Data Importer which supports the selected KubeVirt and Kubernetes versions.
@@ -41,7 +41,7 @@ Additionally, make sure that your nodes have appropriate Qemu and KVM packages i
 ### Kubernetes And KubeVirt Installation
 
 We provide KubeOne, which can be used to set up a highly-available Kubernetes cluster on bare metal.  
-Refer to the [KubeOne documentation](https://docs.kubermatic.com/kubeone/v1.5/tutorials/creating-clusters-baremetal/) for details on how to use it.
+Refer to the [KubeOne documentation]({{< ref "/kubeone/v1.5/tutorials/creating-clusters-baremetal/" >}}) for details on how to use it.
 
 Follow [KubeVirt](https://kubevirt.io/user-guide/operations/installation/#installation) and [Containerized Data Importer](https://kubevirt.io/user-guide/operations/containerized_data_importer/#install-cdi)
 documentation to find out how to install them and learn about their requirements.
@@ -99,13 +99,13 @@ We allow to configure:
   * Check [Network Policy documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource) to see available options in the spec.
   * Also check a [common services connectivity issue](#i-created-a-load-balancer-service-on-a-user-cluster-but-services-outside-cannot-reach-it) that can be solved by a custom network policy.
 * `dnsConfig` and `dnsPolicy` - DNS config and policy which are set up on a guest. Defaults to `ClusterFirst`.
-  * You should set those fields when you suffer from DNS loop or collision issue. [Refer to this section for more details.](#i-discovered-a-dns-collision-on-my-cluster-why-it-happens) 
+  * You should set those fields when you suffer from DNS loop or collision issue. [Refer to this section for more details.](#i-discovered-a-dns-collision-on-my-cluster-why-does-it-happen) 
 * `images` - Images for Virtual Machines that are selectable from KKP dashboard.
-  * Set this field to make sure that users can select operating systems for their VMs. 
+  * Set this field according to [supported operating systems]({{< ref "../../compatibility/os-support-matrix/" >}}) to make sure that users can select operating systems for their VMs.
 * `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
   * Pass names of KubeVirt storage classes that can be used from user clusters.
 
-Refer to this [document](https://github.com/kubermatic/kubermatic/blob/main/docs/zz_generated.seed.ce.yaml#L116)
+Refer to this [document](https://github.com/kubermatic/kubermatic/blob/main/docs/zz_generated.seed.ce.yaml#L115)
 for more details and configuration example.
 
 {{% notice warning %}}
@@ -189,7 +189,7 @@ Refer to the [InstanceTypes and Preferences](https://kubevirt.io/user-guide/virt
 
 ### How can I safely drain a bare metal node?
 
-You can do it as every normal k8s cluster, over `kubectl drain` command.
+You can do it as with every standard k8s cluster, over `kubectl drain` command.
 
 We implemented a mechanism that will allow you to safely drain a bare-metal node without losing the VM workload.  
 After running a drain command the VMs running on the node along with their workload will be evicted to different nodes.
@@ -226,7 +226,7 @@ Follow [Configure KKP With KubeVirt](#configure-kkp-with-kubevirt) to learn how 
 ### I created a load balancer service on a user cluster but services outside cannot reach it.
 
 In most cases it is due to `cluster-isolation` network policy that is deployed as default on each user cluster.  
-It only allows in-cluster communication. You should adjust network rules to your needs by adding [customNetworkPolicies configuration](https://github.com/kubermatic/kubermatic/blob/main/docs/zz_generated.seed.ce.yaml#L119).
+It only allows in-cluster communication. You should adjust network rules to your needs by adding [customNetworkPolicies configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})).
 
 For instance, if you need to allow all ingress traffic from `10.200.10.0/24` CIDR to each user cluster then you would have to set:
 
@@ -248,7 +248,7 @@ customNetworkPolicies:
 
 Currently, the KubeVirt CSI driver does not support volumes with block mode therefore you should avoid using this option to mount a PVC to a user cluster.
 
-### Topology constraint storage
+### Topology constrained storage
 
 Due to [the issue](https://github.com/kubevirt/csi-driver/issues/66), it is not recommended to use local or any storage that is constrained by some topology.  
 You can find more details in the linked issue.
