@@ -7,7 +7,7 @@ weight = 5
 
 Kubermatic Kubernetes Platform (KKP) makes full use of Kubernetes cluster to organize and scale workloads, depending on your and your customer's needs. In a typical small-scale setup, pictured below, a single cluster contains KKP and the master components for every user cluster.
 
-![KKP Architecture Diagram](/img/kubermatic/main/architecture/combined-master-seed.png)
+![KKP Architecture Diagram](/img/kubermatic/main/architecture/high-level-architecture.png)
 
 ### Master Cluster
 
