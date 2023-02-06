@@ -44,4 +44,5 @@ Currently, KKP periodicially reconciles the following providers:
 
 * AWS
 * Azure
+* KubeVirt
 * vSphere
