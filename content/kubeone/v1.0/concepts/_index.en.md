@@ -2,7 +2,6 @@
 title = "Concepts"
 date = 2020-07-30T12:00:00+02:00
 weight = 4
-enableToc = true
 +++
 
 ## Control Plane

@@ -140,52 +140,6 @@ items:
                 alike.
       - title: Services
         items:
-          - title: Professional Services
-            url: /products/professional-services/
-            text: Training and consultancy for your successful cloud native journey
-            panel:
-              image: /img/menu/professional-services.jpeg
-              columns:
-                - column:
-                    - title: Accelerators
-                      url: /products/professional-services/accelerators/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: Edge Computing
-                      url: /products/professional-services/accelerators/#edge-computing
-                    - title: Application Migration
-                      url: /products/professional-services/accelerators/#application-migration
-                    - title: Virtualization by KubeVirt
-                      url: /products/professional-services/accelerators/#virtualization-by-kubevirt
-                    - title: Kubernetes for Operators
-                      url: /products/professional-services/accelerators/#kubernetes-for-operators
-                    - title: Kubernetes Operator Engineering
-                      url: /products/professional-services/accelerators/#kubernetes-operator-engineering
-                    - title: Cloud Native for Developers
-                      url: /products/professional-services/accelerators/#cloud-native-for-developers
-                - column:
-                    - title: Trainings
-                      url: /products/professional-services/trainings/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: Kubernetes Administration
-                      url: /products/professional-services/trainings/#kubernetes-administration
-                    - title: Monitoring with Prometheus
-                      url: /products/professional-services/trainings/#monitoring-with-prometheus
-                    - title: Service Mesh
-                      url: /products/professional-services/trainings/#service-mesh
-                    - title: Kubernetes Application Development
-                      url: /products/professional-services/trainings/#kubernetes-application-development
-                - column:
-                    - title: Fundamentals
-                      url: /products/professional-services/fundamentals/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: Cloud Native Explore
-                      url: /products/professional-services/fundamentals/#cloud-native-explore
-                    - title: Cloud Native Design
-                      url: /products/professional-services/fundamentals/#cloud-native-design
-                    - title: Container Fundamentals
-                      url: /products/professional-services/fundamentals/#container-fundamentals
-                    - title: Kubernetes Fundamentals
-                      url: /products/professional-services/fundamentals/#kubernetes-fundamentals
           - title: Kubermatic Kubernetes Subscription
             url: /products/kubermatic-kubernetes-subscription/
             text: Upstream Kubernetes support
@@ -377,6 +331,19 @@ items:
                       url: /products/managed-custom-kubernetes/cloud/#digitalocean
                     - title: Equinix Metal
                       url: /products/managed-custom-kubernetes/cloud/#equinix-metal
+  - title: Services
+    url: /services/
+    sections:
+      - items:
+          - title: Accelerators
+            url: /services/accelerators/
+            text: Bring your cloud native stack into production
+          - title: Trainings
+            url: /services/trainings/
+            text: Advance your in-house expertise
+          - title: Fundamentals
+            url: /services/fundamentals/
+            text: Set the basis for your successful cloud native journey
   - title: Solutions
     url: /solutions/hybrid-multi-cloud/
     sections:

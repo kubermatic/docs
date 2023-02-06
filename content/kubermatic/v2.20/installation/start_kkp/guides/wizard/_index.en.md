@@ -1,7 +1,6 @@
 +++
 title = "Use the Wizard to Configure KKP"
 weight = 10
-enableToc = true
 +++
 
 Start by visiting [https://start.kubermatic.com](https://start.kubermatic.com).

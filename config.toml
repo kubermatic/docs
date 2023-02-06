@@ -1,5 +1,5 @@
 baseURL = "https://docs.kubermatic.com/"
-theme = "hugo-theme-learn"
+theme = "kubermatic-docs"
 languageCode = "en-us"
 title = "Kubermatic Docs"
 disableKinds = ["taxonomy"]
@@ -54,17 +54,11 @@ themeVariant = "kubermatic"
 # Force to have /en/my-page and /fr/my-page routes, even for default language.
 # defaultContentLanguageInSubdir = true
 baseWebsiteUrl = "https://www.kubermatic.com"
-
-# [Languages]
-# [Languages.en]
-# title = "Documentation for "
-# weight = 1
-# languageName = "English"
-
-# [Languages.de]
-# title = "Dokumentation für "
-# weight = 2
-# languageName = "German"
+cookiefirstBanner = "e938558d-78b5-4f1b-b574-cd5dfde73684"
+titleSuffix = "Kubermatic Documentation"
+slackJoinLink = "https://join.slack.com/t/kubermatic-community/shared_invite/zt-1jtex2o9f-fpaDZ2ytX7FmDaNOHqljIg"
+enableTOC = true
+shareImage = "img/Kubermatic-share.jpg"
 
 [params.mainLogo]
 src = "/img/kubermatic.svg"
@@ -96,3 +90,8 @@ class = "fab fa-facebook-f"
 
 [params.search]
   vars = ["relpermalink", "title", "content", "productSection"]
+
+[params.searchOptions]
+  appId = "Q03DAQELCN"
+  searchKey = "f8b7a0497068023efe046671dd40ec62"
+  indexName = "docs"

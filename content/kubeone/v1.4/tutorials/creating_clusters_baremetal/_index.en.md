@@ -2,7 +2,6 @@
 title = "Creating a Kubernetes Cluster on Bare-metal"
 date = 2021-02-10T12:00:00+02:00
 weight = 2
-enableToc = true
 +++
 
 In this tutorial, we're going to show how to use Kubermatic KubeOne to create
@@ -14,7 +13,7 @@ This tutorial could be used in the following scenarios:
 * Provisioning a cluster on providers that are not [natively-supported][compatibility-providers] (e.g. on bare metal or edge).
 * Provisioning a cluster on a natively-supported provider, but you don't want to use Terraform.
 * Creating a Raspberry Pi cluster
-  
+
 If you are able to use a provider, have a look at the [creating clusters][creating-clusters] tutorial, as this is the recommended approach.
 
 ## Prerequisites
@@ -61,7 +60,7 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, Nutanix, OpenStack, Packet, and VMware vSphere), and is covered in [Creating a Kubernetes cluster tutorial][creating-clusters].
+Hetzner Cloud, Nutanix, OpenStack, Equinix Metal, and VMware vSphere), and is covered in [Creating a Kubernetes cluster tutorial][creating-clusters].
 
 This tutorial focuses on bare metal without the usage of any provider to create the required infrastructure.
 Therefore, you need to create the required infrastructure on your own.

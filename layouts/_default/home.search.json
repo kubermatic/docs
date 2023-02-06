@@ -4,7 +4,7 @@
 {{- $validVars := $.Param "search.vars" | default slice -}}
 {{- $validParams := $.Param "search.params" | default slice -}}
 {{/* Include What Pages? */}}
-{{- range $i, $hit := (where (where .Site.Pages "Kind" "section") "Params.ignore" "ne" true) -}}
+{{- range $i, $hit := (where (where .Site.Pages "Kind" "section") "Params.searchexclude" "ne" true) -}}
   {{- $dot := . -}}
   {{- if and $hit.Content (or (and ($hit.IsDescendant $section) (and (not $hit.Draft) (not $hit.Params.private))) $section.IsHome) -}}
     {{- $pathItems := split $hit.RelPermalink "/" -}}

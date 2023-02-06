@@ -2,7 +2,7 @@
 
 ## hack/prepare-release.sh
 
-* Copies content and assets from `master` to the desired version subfolder
+* Copies content and assets from `master` (or `main`) to the desired version subfolder
 * Updates all references to point to the versioned copies
 * Adds the new product version to `data/products.yaml` to make it selectable in the rendered page
 * For `kubermatic` only:
@@ -33,7 +33,7 @@ $ git diff
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
-	modified:   content/kubermatic/master/architecture/support_policy/KKP_components_versioning/_index.en.md
+	modified:   content/kubermatic/main/architecture/support_policy/KKP_components_versioning/_index.en.md
 	modified:   data/products.yaml
 
 Untracked files:

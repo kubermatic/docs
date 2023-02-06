@@ -3,7 +3,6 @@ linkTitle = "Install KKP - Quick Guide"
 title = "Get started with KKP - “KKP on a single node with Kubeone on AWS”"
 date = 2022-02-07T12:07:15+02:00
 weight = 10
-enableToc = true
 +++
 
 ## Use Cases
@@ -14,7 +13,7 @@ This chapter will guide you through the KKP Master setup on a single master/work
 
 In this **Get Started with KKP** guide, we will be using AWS Cloud as our underlying infrastructure and KKP release v2.18.4.
 
-> For more information on the kubeone configurations for different environment, checkout the [Creating the kubernetes Cluster using Kubeone](https://docs.kubermatic.com/kubeone/master/tutorials/creating_clusters/) documentation.
+> For more information on the kubeone configurations for different environment, checkout the [Creating the kubernetes Cluster using Kubeone]({{< relref "../../../../kubeone/main/tutorials/creating-clusters/" >}}) documentation.
 
 ## Prerequisites
 

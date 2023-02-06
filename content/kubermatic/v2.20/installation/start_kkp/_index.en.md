@@ -26,7 +26,7 @@ This project should serve mainly for the onboarding purposes and easiness to sta
 Make sure that you fully understand all parts and perform internal security checks before making your setup a production ready.
 
 At any stage or with more complex deployment options, feel free to [reach](https://www.kubermatic.com/contact-us/) the Kubermatic's Professional Services team
-or use the [Kubermatic Community Slack](https://join.slack.com/t/kubermatic-community/shared_invite/zt-ro7jrcb8-2seRN00dTBIyt~ca0gIfSg) - #start-kubermatic channel.
+or use the {{< slackjoinlink "Kubermatic Community Slack" >}} - #start-kubermatic channel.
 
 {{% notice info %}}
 You can install KKP from scratch by following our

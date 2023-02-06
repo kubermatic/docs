@@ -1,0 +1,3 @@
+{{- $link := .Site.Params.slackJoinLink -}}
+{{- $text := .Get 0 | default $link -}}
+{{- with $link -}}<a href="{{.}}" target="_blank">{{$text}}</a>{{- end -}}

@@ -1,7 +1,6 @@
 +++
 title = "Configuring SSH"
 date = 2020-07-29T12:00:00+02:00
-enableToc = true
 +++
 
 KubeOne connects to the instances over SSH in order to execute tasks, such

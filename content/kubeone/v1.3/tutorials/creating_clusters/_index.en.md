@@ -2,7 +2,6 @@
 title = "Creating a Kubernetes Cluster"
 date = 2021-02-10T12:00:00+02:00
 weight = 1
-enableToc = true
 +++
 
 In this tutorial, we're going to show how to use Kubermatic KubeOne to create
@@ -25,7 +24,7 @@ clusters in any environment (cloud, on-prem, baremetal, edge...). Clusters
 created by KubeOne are production-ready and Kubernetes/CNCF conformant out of
 the box. Generally, KubeOne runs the following tasks:
 
-* install dependencies and required packages (container runtime, kubelet, 
+* install dependencies and required packages (container runtime, kubelet,
   kubeadm...)
 * run Kubernetes' Kubeadm to provision a Kubernetes cluster
 * deploy components such as CNI, metrics-server, and Kubermatic
@@ -45,7 +44,7 @@ Terraform state, and provides example Terraform configs that can be used to
 create the infrastructure. We'll use both the Terraform integration and the
 example configs in this tutorial.
 
-The infrastructure for the worker nodes can be managed in two ways: 
+The infrastructure for the worker nodes can be managed in two ways:
 
 * automatically, by using Kubermatic machine-controller (deployed by default
   for supported providers)
@@ -130,7 +129,7 @@ As described in the How KubeOne Works section, we'll use Terraform to manage
 the infrastructure for the control plane, therefore we need to install it.
 Terraform has several installation methods: manually, using a package manager
 such as `apt`, using Homebrew (for macOS users). In this tutorial, we'll do it
-manually, but you can check out the 
+manually, but you can check out the
 [official installation guide][install-terraform] for other options.
 
 First, visit the [Terraform download page][download-terraform] and grab the
@@ -467,7 +466,7 @@ Kubernetes cluster.
 The first step is to create a KubeOne configuration manifest that describes how
 the cluster will be provisioned, which Kubernetes version will be used,
 and more. The manifest can be saved in a file called `kubeone.yaml`. In the
-following table you can find example configuration manifest for each 
+following table you can find example configuration manifest for each
 supported provider.
 
 {{< tabs name="Manifests" >}}
@@ -816,7 +815,7 @@ and recommendations.
 
 ## Learn More
 
-* Learn how to upgrade your cluster by following the 
+* Learn how to upgrade your cluster by following the
   [Upgrading Clusters][upgrading-clusters] tutorial
 * If you don't need your cluster anymore, you can check the
   [Unprovisioning Clusters][unprovisioning-clusters] tutorial to find out

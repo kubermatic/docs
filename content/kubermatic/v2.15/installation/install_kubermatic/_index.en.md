@@ -74,7 +74,7 @@ The key items to configure are:
 
 There are many more options, but these are essential to get a minimal system up and running. The secret keys
 mentioned above can be generated using any password generator or on the shell using
-`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`. On MacOS, use `brew install gnu-tar` and
+`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`. On MacOS, use `brew install coreutils` and
 `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`. Alternatively, the Kubermatic Installer will suggest some
 properly generated secrets for you when it notices that some are missing, for example:
 

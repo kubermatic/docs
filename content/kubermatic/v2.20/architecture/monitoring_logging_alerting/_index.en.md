@@ -10,8 +10,10 @@ Kubermatic Monitoring, Logging & Alerting (MLA) consists of two stacks:
 
 ## [Master / Seed Cluster MLA Stack]({{< ref "./master_seed/">}})
 
-Monitors KKP components running in the KKP master and seed clusters, including control plane components of the user clusters. Only KKP administrators can access this monitoring data.
+[Master / Seed Cluster MLA Stack]({{< ref "./master_seed/">}}) monitors KKP components running in the KKP master and seed clusters, including control plane components of the user clusters. Only KKP administrators can access this monitoring data.
 
 ## [User Cluster MLA Stack]({{< ref "./user_cluster/">}})
 
-Monitors applications running in the user clusters as well as system components running in the user clusters. All KKP users can access monitoring data of the user clusters under projects they are members of.
+[User Cluster MLA Stack]({{< ref "./user_cluster/">}}) monitors applications running in the user clusters as well as system components running in the user clusters. All KKP users can access monitoring data of the user clusters under projects they are members of.
+
+![KKP MLA Architecture](/img/kubermatic/v2.20/architecture/kkp-mla-architecture.png?classes=shadow,border "KKP MLA Architecture")

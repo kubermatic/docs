@@ -8,8 +8,6 @@ weight = 10
 The Multus-CNI Addon allows automated installation of [Multus-CNI](https://github.com/k8snetworkplumbingwg/multus-cni)
 in KKP.
 
-{{< table_of_contents >}}
-
 ## Prerequisites
 Before installing the Multus Addon in a KKP user cluster, the following prerequisites have to be met:
 

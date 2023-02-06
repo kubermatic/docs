@@ -1,0 +1,3 @@
+{{$pathItems := split .RelPermalink "/"}}
+{{$section := delimit (slice (index $pathItems 1) (index $pathItems 2)) "/"}}
+{{return $section}}

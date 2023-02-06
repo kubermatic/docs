@@ -1,7 +1,6 @@
 +++
 title = "Docs"
 description = "Learn more about KKP, KubeOne and KubeCarrier through the official Kubermatic documentation"
-projects_title = "Product Documentation"
 
 [contribution]
 title = "How Do I Contribute To ...?"
@@ -11,13 +10,13 @@ title = "How Do I Contribute To ...?"
 #  title = "Documentation"
 
   [[contribution.links]]
-  url = "https://docs.kubermatic.com/kubeone/v1.2/how_to_contribute_to_kubeone/"
+  url = "https://docs.kubermatic.com/kubeone/v1.5/tutorials/how-to-contribute-to-kubeone/"
   [contribution.links.image]
   src = "/img/KubeOne-logo.svg"
   alt = ""
 
   [[contribution.links]]
-  url = "https://docs.kubermatic.com/kubermatic/v2.17/tutorials_howtos/how_to_contribute_to_kkp/"
+  url = "https://docs.kubermatic.com/kubermatic/v2.21/how-to-contribute-to-kkp/"
   [contribution.links.image]
   src = "/img/KubermaticKubernetesPlatform-logo.svg"
   alt = ""
@@ -37,7 +36,7 @@ title = "How Do I Contribute To ...?"
   title = "Start Using Kubernetes Today"
 
   [[features.list.items]]
-  text = "Scale like google, more containers with the same amount of devs"
+  text = "Scale like Google, more containers with the same amount of developers"
   [features.list.items.icon]
   src = "/img/icons/auto-scale-icon.svg"
   alt = ""
@@ -70,7 +69,7 @@ title = "How Do I Contribute To ...?"
   alt = ""
 
   [[features.list.items]]
-  text = "Empower your developer team to work with the stack they need"
+  text = "Empower your development team to work with the stack they need"
   [features.list.items.icon]
   src = "/img/icons/person-icon.svg"
   alt = ""

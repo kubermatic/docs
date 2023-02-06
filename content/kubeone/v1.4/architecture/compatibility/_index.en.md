@@ -2,7 +2,6 @@
 title = "Compatibility"
 date = 2021-02-10T12:00:00+02:00
 weight = 4
-enableToc = true
 +++
 
 This document shows what are compatible Kubernetes, Terraform, and operating
@@ -16,7 +15,7 @@ the current KubeOne version. The additional features include the KubeOne
 Terraform integration and the integration with Kubermatic machine-controller.
 
 KubeOne supports AWS, Azure, DigitalOcean, GCP, Hetzner Cloud, Nutanix\*,
-OpenStack, Packet, and VMware vSphere.
+OpenStack, Equinix Metal, and VMware vSphere.
 
 \* Nutanix is supported as of KubeOne 1.4.0.
 
@@ -35,18 +34,15 @@ Kubernetes 1.19 or older must be upgraded with an older KubeOne release
 according to the table below.
 {{% /notice %}}
 
-| KubeOne version | 1.23  | 1.22  | 1.21\*  | 1.20\*\*  | 1.19\*\* |
-| --------------- | ----- | ----- | ------- | --------- | -------- |
-| v1.4+           | ✓     | ✓     | ✓       | ✓         | -        |
-| v1.3            | -     | ✓     | ✓       | ✓         | ✓        |
-| v1.2            | -     | -     | ✓       | ✓         | ✓        |
+| KubeOne version | 1.23  | 1.22\*  | 1.21\*    | 1.20\*    | 1.19\*   |
+| --------------- | ----- | ------- | --------- | --------- | -------- |
+| v1.4+           | ✓     | ✓       | ✓         | ✓         | -        |
+| v1.3            | -     | ✓       | ✓         | ✓         | ✓        |
+| v1.2            | -     | -       | ✓         | ✓         | ✓        |
 
-\* Kubernetes 1.21 is in the [maintenance mode] which means that only critical
-and security issues are fixed. It's strongly recommended to upgrade to a newer
-Kubernetes version as soon as possible.
-
-\*\* Kubernetes 1.20 and 1.19 have reached End-of-Life (EOL). We strongly
-recommend upgrading to a supported Kubernetes release as soon as possible.
+\* Kubernetes 1.22, 1.21, 1.20, and 1.19 have reached End-of-Life (EOL).
+We strongly recommend upgrading to a supported Kubernetes release as soon as
+possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
 than the latest Kubernetes release. For example, with 1.23 being the latest
@@ -77,4 +73,3 @@ The following operating systems are supported:
 [kubernetes-issue-93194]: https://github.com/kubernetes/kubernetes/issues/93194
 [terraform-configs]: https://github.com/kubermatic/kubeone/tree/master/examples/terraform
 [aws-versions-tf]: https://github.com/kubermatic/kubeone/blob/master/examples/terraform/aws/versions.tf
-[maintenance mode]: https://kubernetes.io/releases/patch-releases/#support-period
