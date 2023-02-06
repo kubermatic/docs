@@ -21,7 +21,7 @@ If you update the application's version, you may have to update the values accor
 
 ![Applications Tab](/img/kubermatic/common/applications/applications_edit_values.png?classes=shadow,border "Applications edit values and version")
 
-## Update an Application via the GitOps
+## Update an Application via GitOps
 Use `kubectl` to edit the applicationInstallation CR.
 
 ```sh

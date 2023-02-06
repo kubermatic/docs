@@ -70,8 +70,8 @@ Deleting a version from `ApplicationDefinition` will trigger the deletion of all
 Under normal circumstances, we recommend following the deprecation policy to delete a version.
 
 ### Deprecation policy
-The deprecation policy is the following one:
-* stop the user from creating or upgrading to the deprecated version. But let them edit the application using a deprecated version. (it may be needed for operational purposes)
+Our recommended deprecation policy is as follows:
+* stop the user from creating or upgrading to the deprecated version. But let them edit the application using a deprecated version (it may be needed for operational purposes).
 * notify the user running this version that it's deprecated.
 
 Once the deprecation period is over, delete the version from the `ApplicationDefinition`.

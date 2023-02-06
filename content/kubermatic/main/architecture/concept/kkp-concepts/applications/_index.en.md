@@ -15,11 +15,11 @@ Currently, helm is exclusively supported as a templating method, but integration
 Helm Applications can both be installed from helm registries directly or from a git repository.
 
 ## Concepts
-KKP manages Applications using two key mechanisms: [ApplicationDefinition]({{< ref "./application-definition" >}}) and [ApplicationInstallations]({{< ref "./application-installation" >}}).
+KKP manages Applications using two key mechanisms: [ApplicationDefinitions]({{< ref "./application-definition" >}}) and [ApplicationInstallations]({{< ref "./application-installation" >}}).
 
-The `ApplicationDefinitions` are managed by KKP Admins and contain all the necessary information for an application's installation.
+`ApplicationDefinitions` are managed by KKP Admins and contain all the necessary information for an application's installation.
 
-The `ApplicationInstallations`, on the other hand, are managed by Cluster Admins and simplify the installation process by referencing the `ApplicationDefinition` and defining custom parameters for the installation. `ApplicationInstallations` aim to simplify the installation of applications, which helps users to get their apps up and running quickly and continue their work on domain-related topics.
+`ApplicationInstallations`, on the other hand, are managed by Cluster Admins and simplify the installation process by referencing `ApplicationDefinitions` and defining custom parameters for the installation. `ApplicationInstallations` aim to simplify the installation of applications, which helps users to get their apps up and running quickly and continue their work on domain-related topics.
 
 Concretely KKP admins "publish" available applications via the [ApplicationDefinition]({{< ref "./application-definition" >}}) CR, and Cluster admins will be able to install the application using [ApplicationInstallations]({{< ref "./application-installation" >}}) CR or [UI]({{< ref "../../../../tutorials-howtos/applications/add-applications-to-cluster#managing-applications-via-the-ui" >}}).
 
