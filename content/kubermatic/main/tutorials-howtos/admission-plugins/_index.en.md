@@ -31,7 +31,7 @@ ResourceQuota
 The Kubermatic Kubernetes Platform also provides support for three additional plugins that can be enabled if needed:
 
 - `PodNodeSelector`
-- `PodSecurityPolicy`
+- `PodSecurityPolicy` *(not supported anymore on Kubernetes 1.25 or higher)*
 - `EventRateLimit`
 
 They can be selected in the UI wizard.
