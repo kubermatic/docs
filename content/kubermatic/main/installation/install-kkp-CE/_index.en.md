@@ -20,6 +20,15 @@ migrating existing installations.
 For this guide you need to have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Helm](https://www.helm.sh/) (version 3) installed locally.
 You should be familiar with core Kubernetes concepts and the YAML file format before proceeding.
 
+<!-- TODO Add quotas for additional providers-->
+In addition, we recommend to familiarize yourself with the resource-quota system of your infrastructure provider. It is important to leave free capacity to allow KKP to provision infrastructure for your future Kubernetes clusters, but also to enforce a maximum to protect against overspending.
+
+{{< tabs name="resource-quotas" >}}
+{{% tab name="AWS" %}}
+AWS manages service quotas per region. Please refer to the [official AWS service quotas documentation](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) for further details.
+{{% /tab %}}
+{{< /tabs >}}
+
 ### Plan Your Architecture
 
 Before getting started we strongly recommend you to think ahead and model your KKP setup. In particular you should decide if you want Master and Seed components
