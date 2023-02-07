@@ -156,6 +156,11 @@ By putting this label on your cluster you acknowledge that this type of upgrade 
 
 {{% /notice %}}
 
+It is recommended to suspend/terminate all workloads (e.g. by draining all active nodes via `kubectl drain`) as all nodes will
+lose connectivity to the cluster control plane upon updating the expose strategy. Therefore, updating the expose strategy
+in the next step will stop the ability to coordinate and properly terminate workloads on existing nodes. A planned shutdown
+might be desired to prevent potential data loss in your application stack.
+
 #### Step 2:
 At this point, you are able to change the expose strategy of the cluster in the Cluster API.
 Change the Cluster `spec.exposeStrategy` to the desired version:
@@ -185,3 +190,6 @@ for md in $(kubectl get machinedeployments -n kube-system --no-headers | awk '{p
   kubectl patch machinedeployment -n kube-system $md --type=merge -p $forceRestartAnnotations
 done
 ```
+
+Afterwards, all `Node` objects that show up as `NotReady` should be deleted. No quick shell script is provided because
+nodes might still be joining the cluster and temporarily show up as `NotReady`. Those should of course not be deleted.
