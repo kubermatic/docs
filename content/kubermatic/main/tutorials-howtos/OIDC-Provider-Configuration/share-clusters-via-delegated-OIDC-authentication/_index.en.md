@@ -55,7 +55,7 @@ kubectl get pods
 ```
 
 {{% notice info %}}
-You can also grant permission though the UI. See [Cluster RBAC]({{< ref "../../cluster-rbac/" >}})
+You can also grant permission though the UI. See [Cluster Accessibility]({{< ref "../../cluster-accessibility/" >}})
 {{% /notice %}}
 
 ## Prerequisites
@@ -163,4 +163,4 @@ kubectl -n kubermatic apply -f kubermaticconfig.yaml
 After the operator has reconciled the KKP installation, OIDC auth will become available.
 
 ### Grant Permission to an OIDC group
-Please take a look at [Cluster RBAC - Manage Group's permissions]({{< ref "../../cluster-rbac#manage-group-permissions" >}})
+Please take a look at [Cluster Accessibility - Manage Group's permissions]({{< ref "../../cluster-accessibility#manage-group-permissions" >}})
