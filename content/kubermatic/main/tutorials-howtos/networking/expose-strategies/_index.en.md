@@ -164,6 +164,10 @@ Change the Cluster `spec.exposeStrategy` to the desired version:
 
 - or by editing the cluster CR in the Seed Cluster (`kubectl edit cluster <cluster-name>`).
 
+{{% notice info %}}
+When migrating from the Tunneling expose strategy (to any other), it is also necessary to delete the `clusterNetwork.tunnelingAgentIP` in the cluster spec.
+{{% /notice %}}
+
 Now wait until control-plane components in the seed cluster redeploy.
 
 #### Step 3:
