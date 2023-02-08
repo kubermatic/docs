@@ -146,12 +146,6 @@ spec:
             data: echo "hello world"
 ```
 
-{{% notice warning %}}
-Make sure to escape all occurrences of Go text template in your custom
-OperatingSystemProfiles. For example, if you want have `{{.Token}}` in your OSP
-then it should be replaced with ```{{ `{{.Token}}` }}```.
-{{% /notice %}}
-
 **NOTE:** This is just for demonstration purposes and the custom OSPs would most likely be more complicated than this.
 
 2. Create your infrastructure
@@ -162,7 +156,7 @@ terraform apply -var=initial_machinedeployment_operating_system_profile=osp-inst
 
 The variable `initial_machinedeployment_operating_system_profile` can also be configured using `terraform.tfvars`.
 
-3. Now create your cluster and make sure that you are using the custom addons folder.
+1. Now create your cluster, make sure that you are using the custom addons folder and disabling templating for the addon/folder with the custom OSPs.
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
@@ -174,9 +168,13 @@ cloudProvider:
 addons:
   enable: true
   path: "./custom-addons"
+  addons:
+  - name: custom-operating-system-profiles
+    disableTemplating: true
+
 ```
 
-**NOTE:** The path for addons can be anything. But make sure that the custom OSP exists in that directory.
+**NOTE:** The path for addons and name of folder can be anything. But make sure that the custom OSP exists in that directory.
 
 ### For new MachineDeployments
 
