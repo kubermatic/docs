@@ -11,7 +11,7 @@ Kubermatic supports a multitude of operating systems. One of the unique features
 
 The following operating systems are currently supported by Kubermatic:
 
-* Ubuntu 20.04
+* Ubuntu 20.04 and 22.04
 * RHEL beginning with 8.0 (support is cloud provider-specific)
 * Flatcar (Stable channel)
 * Rocky Linux beginning with 8.0

@@ -26,7 +26,7 @@ care of setting up a production ready Highly Available cluster!
 ### Native Support For The Most Popular Providers
 
 KubeOne natively supports the most popular providers, including AWS, Azure,
-DigitalOcean, GCP, Hetzner Cloud, Nutanix, OpenStack, and VMware vSphere. The
+DigitalOcean, GCP, Hetzner Cloud, Nutanix, OpenStack, VMware Cloud Director, and VMware vSphere. The
 natively supported providers enjoy additional features such as integration with
 Terraform and Kubermatic machine-controller.
 
