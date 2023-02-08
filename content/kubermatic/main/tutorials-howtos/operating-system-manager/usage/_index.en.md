@@ -4,7 +4,9 @@ date = 2022-01-18T10:07:15+02:00
 weight = 2
 +++
 
-Starting with KKP 2.21, OSM will be enabled by default for all the new user clusters. This can be configured using the dashboard or CLI.
+Starting with KKP 2.21, OSM will be enabled by default for all the new user clusters. It is highly recommended to use OSM instead of user-data from machine-controller, which is consideread deprecated and will be removed in the near future.
+
+OSM can be configured using the dashboard or CLI.
 
 ## Via UI
 
@@ -39,7 +41,71 @@ spec:
 
 ## Custom OperatingSystemProfiles
 
-To consume custom OperatingSystemProfiles. Users can create their custom OSPs in the seed namespace(kubermatic). They will be automatically synced to all the user-cluster namespaces.
+To use custom OperatingSystemProfiles, users can do the following:
+
+1. Create their `CustomOperatingSystemProfile` resource in the seed namespace(kubermatic). These resources will be automatically synced to the `kube-system` namespace of the user-clusters.
+
+```yaml
+apiVersion: operatingsystemmanager.k8c.io/v1alpha1
+kind: CustomOperatingSystemProfile
+metadata:
+  name: osp-install-curl
+  namespace: kube-system
+spec:
+  osName: "ubuntu"
+  osVersion: "20.04"
+  version: "v1.0.0"
+  supportedCloudProviders:
+    - name: "aws"
+  bootstrapConfig:
+    files:
+      - path: /opt/bin/bootstrap
+        permissions: 755
+        content:
+          inline:
+            encoding: b64
+            data: |
+              #!/bin/bash
+
+              apt update && apt install -y curl jq
+
+      - path: /etc/systemd/system/bootstrap.service
+        permissions: 644
+        content:
+          inline:
+            encoding: b64
+            data: |
+              [Install]
+              WantedBy=multi-user.target
+
+              [Unit]
+              Requires=network-online.target
+              After=network-online.target
+              [Service]
+              Type=oneshot
+              RemainAfterExit=true
+              ExecStart=/opt/bin/bootstrap
+
+    modules:
+      runcmd:
+        - systemctl restart bootstrap.service
+
+  provisioningConfig:
+    files:
+      - path: /opt/hello-world
+        permissions: 644
+        content:
+          inline:
+            encoding: b64
+            data: echo "hello world"
+```
+
+2. Create `OperatingSystemProfile` resources in the `kube-system` namespace of the user cluster, after cluster creation.
+
+{{% notice note %}}
+OSM uses a dedicated resource CustomOperatingSystemProfile in seed cluster. These CustomOperatingSystemProfiles are converted to OperatingSystemProfiles and then propagated to the user clusters.
+{{% /notice %}}
+
 
 ## Migrating existing clusters
 

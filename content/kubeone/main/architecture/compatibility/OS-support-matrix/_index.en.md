@@ -9,8 +9,8 @@ weight = 3
 
 The following operating systems are supported:
 
-* Ubuntu 18.04 (Bionic)
 * Ubuntu 20.04 (Focal)
+* Ubuntu 22.04 (Jammy Jellyfish)
 * CentOS 7
 * CentOS 8
 * RHEL 8.0, 8.1, 8.2, 8.3\*, 8.4\*
