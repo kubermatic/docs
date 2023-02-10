@@ -104,11 +104,11 @@ The Git source allows you to download the application's source from a Git reposi
 ```yaml
 - template:
     source:
-        git:
-        path: bitnami/apache
-        ref:
-            branch: main
-        remote: https://github.com/bitnami/charts.git
+      git:
+      path: bitnami/apache
+      ref:
+        branch: main
+      remote: https://github.com/bitnami/charts.git
 ```
 
 - `path` -> path where all manifests are stored; In case of the helm templating method, each chart should be inside its own subdirectory inside path
