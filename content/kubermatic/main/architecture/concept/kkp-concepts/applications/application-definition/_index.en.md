@@ -132,7 +132,11 @@ In order for the controller to sync your secrets, they must be annotated with `a
 
 ### Git Repositories
 
-KKP supports three types of authentication for git repositories: Userpass, Token, and SSH-Key.
+KKP supports three types of authentication for git repositories: 
+* `password`: authenticate with a username and password.
+* `Token`: authenticate with a Bearer token
+* `SSH-Key`: authenticate with an ssh private key.
+
 Their setup is comparable:
 
 1. Create a secret containing our credentials
@@ -183,6 +187,17 @@ spec:
                 key: sshKey
                 name: <secret-name>
 ```
+#### Compatibility Warning
+
+Be aware that all authentication methods may be available on your git server. More and more servers disable the authentication with username and password.  
+More over on some providers like GitHub, to authenticate with an access token, you must use `password` method instead of `token`.
+
+Example of secret to authenticate with [GitHub access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#using-a-token-on-the-command-line):
+```sh
+kubectl create secret -n <kkp-install-namespace> generic --from-literal=pass=<github-access-token> --from-literal=user=<username> <secret-name>
+```
+
+For other providers, please refer to their official documentation.
 
 ### Helm OCI Registries
 
