@@ -124,7 +124,11 @@ For private git repositories, please check the [working with private registries]
 ## Working With Private Registries
 
 For private registries, the Applications Feature supports storing credentials in Kubernetes secrets in the KKP master and referencing the secrets in your ApplicationDefinitions.
-A KKP controller will ensure that the required secrets are synced to your seed clusters. In order for the controller to sync your secrets, they must be annotated with `apps.kubermatic.k8c.io/secret-type` and be created in the namespace that KKP is installed in (unless changed, this defaults to "kubermatic").
+A KKP controller will ensure that the required secrets are synced to your seed clusters. 
+
+{{% notice note %}}
+In order for the controller to sync your secrets, they must be annotated with `apps.kubermatic.k8c.io/secret-type` and be created in the namespace that KKP is installed in (unless changed, this defaults to `kubermatic`).
+{{% /notice %}}
 
 ### Git Repositories
 
