@@ -124,7 +124,7 @@ For private git repositories, please check the [working with private registries]
 ## Working With Private Registries
 
 For private registries, the Applications Feature supports storing credentials in Kubernetes secrets in the KKP master and referencing the secrets in your ApplicationDefinitions.
-A KKP controller will ensure that the required secrets are synched to your seed clusters. In order for the controller to sync your secrets, they must be annotated with `apps.kubermatic.k8c.io/secret-type` and be created in the namespace that KKP is installed in (unless changed, this defaults to "kubermatic").
+A KKP controller will ensure that the required secrets are synced to your seed clusters. In order for the controller to sync your secrets, they must be annotated with `apps.kubermatic.k8c.io/secret-type` and be created in the namespace that KKP is installed in (unless changed, this defaults to "kubermatic").
 
 ### Git Repositories
 
@@ -249,7 +249,7 @@ spec:
 There is a particular case where credentials may be needed at the templating stage to render the manifests. For example, if the template method is `helm` and the source is git. To install the chart into the user cluster, we have to build the chart dependencies.
 These dependencies may be hosted on a private registry requiring authentication.
 
-You can specify the templating credentials by settings `.spec.version[].template.templateCredentials`
+You can specify the templating credentials by settings `.spec.version[].template.templateCredentials`. It works the same way as source credentials.
 
 **Example of template credentials:**
 ```yaml
@@ -278,12 +278,12 @@ The `.spec.defaultValues` describe overrides for manifest-rendering in UI when c
 
 ### Customize Deployment
 You can tune how the application will be installed by setting `.spec.defaultDeployOptions`.
-The options depend of the template method (i.e. `.spec.method`).
+The options depend on the template method (i.e. `.spec.method`).
 
 *note: `defaultDeployOptions` can be overridden at `ApplicationInstallation` level by settings `.spec.deployOptions`*
 
 #### Customize Deployment For Helm Method
-You may tune how Helm deploys the application with  the following options:
+You may tune how Helm deploys the application with the following options:
 
 * `atomic`: corresponds to the `--atomic` flag on Helm CLI. If set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of failed upgrade.
 * `wait`: corresponds to the `--wait` flag on Helm CLI. If set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as `--timeout`
