@@ -1,13 +1,11 @@
 +++
 title = "Adding Applications To A Cluster"
 date =  2022-08-03T16:43:41+02:00
-weight = 5
+weight = 2
 +++
-## Introduction
 
 This guide targets Cluster Admins and details how KKP Applications can be integrated into a cluster.
-KKP Applications offer a seamless experience to add third-party applications into a KKP cluster and offer full [integration with KKP's UI](#adding-applications) as well as [GitOps Systems](#managing-applications-via-gitops).
-For a more details on Applications please refer to our [Applications Primer]({{< relref "../" >}}).
+For more details on Applications, please refer to our [Applications Primer]({{< ref "../../../architecture/concept/kkp-concepts/applications/" >}}).
 
 ## Managing Applications via the UI
 
@@ -46,7 +44,7 @@ In the cluster creation wizard, you can select applications to install into your
 KKP will automatically install your selection after the infrastructure is provisioned and the cluster is ready.
 
 Applications can be added in the `Applications` Section of the wizard.
-For a detailed flow and explanation of all customizations see  the ["Adding Applications to an Existing Cluster"](#adding-applications-to-an-existing-cluster) section of this guide.
+For a detailed flow and explanation of all customizations see the ["Adding Applications to an Existing Cluster"](#adding-applications-to-an-existing-cluster) section of this guide.
 
 ![Application Section in Cluster Creation Wizard](/img/kubermatic/common/applications/applications_flow_in_cluster_wizard.png "Application Section in Cluster Creation Wizard")
 
@@ -64,7 +62,7 @@ ApplicationInstallations can also be added to [ClusterTemplates]({{< relref "../
 
 KKP Applications are managed via the `ApplicationInstallation` custom Kubernetes resource.
 ApplicationInstallations reside in the user-cluster and represent a desired state of an Application.
-For a full reference of all supported fields, please check the [ApplicationInstallation Reference](#applicationinstallation-reference) Section of this guide.
+For a full reference of all supported fields, please check the [ApplicationInstallation Reference]({{< ref "../../../architecture/concept/kkp-concepts/applications/application-installation" >}})
 
 ```yaml
 # Example of an ApplicationInstallation
@@ -106,11 +104,4 @@ Additionally when using helm, the field `status.helmRelease` will contain additi
 
 ```sh
 kubectl -n <namespace> get applicationinstallation <name> -o jsonpath='{.status.helmRelease}'
-```
-
-## ApplicationInstallation Reference
-**The following is an example of ApplicationInstallation, showing all the possible options**.
-
-```yaml
-{{< readfile "kubermatic/main/data/applicationInstallation.yaml" >}}
 ```
