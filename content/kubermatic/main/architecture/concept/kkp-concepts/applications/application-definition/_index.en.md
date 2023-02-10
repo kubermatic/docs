@@ -137,13 +137,13 @@ Their setup is comparable:
 # inside KKP master
 
 # user-pass
-kubectl create secret -n <kkp-install-namespace> generic <secret-name> --from-literal=pass=<password> --from-literal=user=<username>
+kubectl create secret -n <kkp-install-namespace> generic --from-literal=pass=<password> --from-literal=user=<username> <secret-name>
 
 # token
-kubectl create secret -n <kkp-install-namespace> generic <secret-name> --from-literal=token=<token>
+kubectl create secret -n <kkp-install-namespace> generic --from-literal=token=<token> <secret-name>
 
 # ssh-key
-kubectl create secret -n <kkp-install-namespace> generic <secret-name> --from-literal=sshKey=<private-ssh-key>
+kubectl create secret -n <kkp-install-namespace> generic --from-literal=sshKey=<private-ssh-key> <secret-name>
 
 # after creation, annotate
 kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="git"
@@ -188,11 +188,11 @@ spec:
 
 ```sh
 # inside KKP master
-kubectl create secret -n <kkp-install-namespace> docker-registry <secret-name> --docker-server=<server> --docker-username=<user> --docker-password=<password>
+kubectl create secret -n <kkp-install-namespace> docker-registry  --docker-server=<server> --docker-username=<user> --docker-password=<password> <secret-name>
 kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="helm"
 
 # example
-kubectl create secret -n kubermatic docker-registry oci-cred --docker-server=harbor.example.com/my-project --docker-username=someuser --docker-password=somepaswword
+kubectl create secret -n kubermatic docker-registry --docker-server=harbor.example.com/my-project --docker-username=someuser --docker-password=somepaswword oci-cred
 kubectl annotate secret oci-cred apps.kubermatic.k8c.io/secret-type="helm"
 ```
 
@@ -221,7 +221,7 @@ To use KKP Applications with a helm [userpass auth](https://helm.sh/docs/topics/
 
 ```sh
 # inside KKP master
-kubectl create secret -n <kkp-install-namespace> generic <secret-name> --from-literal=pass=<password> --from-literal=user=<username>
+kubectl create secret -n <kkp-install-namespace> generic --from-literal=pass=<password> --from-literal=user=<username> <secret-name>
 kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="helm"
 ```
 
