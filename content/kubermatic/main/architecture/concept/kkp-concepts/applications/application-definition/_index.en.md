@@ -265,11 +265,11 @@ spec:
         templateCredentials:
           helm: # this the same struct as .spec.versions[].template.source.helm.credentials
             password:
-                key: pass
-                name: <secret-name>
+              key: pass
+              name: <secret-name>
             username:
-                key: user
-                name: <secret-name>
+              key: user
+              name: <secret-name>
 ```
 
 ## Advanced Configuration
