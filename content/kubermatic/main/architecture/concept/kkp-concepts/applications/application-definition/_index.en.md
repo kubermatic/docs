@@ -282,7 +282,7 @@ spec:
               branch: <branch>
             remote: <server-url> # for ssh-key, an ssh url must be chosen (e.g. git@example.com/repo.git)
         templateCredentials:
-          helm: # this the same struct as .spec.versions[].template.source.helm.credentials
+          helmCredentials: # this the same struct as .spec.versions[].template.source.helm.credentials
             password:
               key: pass
               name: <secret-name>
