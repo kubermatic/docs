@@ -33,13 +33,13 @@ OSM introduces the following new resources:
 
 Templatized resource that represents the details of each operating system. OSPs are immutable and default OSPs for supported operating systems are provided/installed automatically by kubermatic. End users can create custom OSPs as well to fit their own use-cases.
 
-Its dedicated controller runs in the **seed** cluster, in user cluster namespace, and operates on the `OperatingSystemProfile` custom resource. It is responsible for installing the default OSPs in user-cluster namespace.
+Its dedicated controller runs in the **seed** cluster, in user cluster namespace, and operates on the `OperatingSystemProfile` custom resource in the `kube-system` namespace in user clusters. It is responsible for installing the default OSPs in user clusters.
 
 ### OperatingSystemConfig
 
 Immutable resource that contains the actual configurations that are going to be used to bootstrap and provision the worker nodes. It is a subset of OperatingSystemProfile, rendered using OperatingSystemProfile, MachineDeployment and flags
 
-Its dedicated controller runs in the **seed** cluster, in user cluster namespace, and is responsible for generating the OSCs in **seed** and secrets in `cloud-init-settings` namespace in the user cluster.
+Its dedicated controller runs in the **seed** cluster, in user cluster namespace, and is responsible for generating the OSCs in `kube-system` and secrets in `cloud-init-settings` namespace in the user cluster.
 
 For each cluster there are at least two OSC objects:
 
