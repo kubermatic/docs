@@ -38,4 +38,5 @@ This table shows the combinations of operating systems and cloud providers that 
 
 There could be more in the future since change is constant. This page will constantly be updated each time there is a new supported operating system.
 
+
 [^1] Supported since KKP 2.21.2.
