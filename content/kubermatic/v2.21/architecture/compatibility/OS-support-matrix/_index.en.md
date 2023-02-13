@@ -11,7 +11,7 @@ Kubermatic supports a multitude of operating systems. One of the unique features
 
 The following operating systems are currently supported by Kubermatic:
 
-* Ubuntu 20.04
+* Ubuntu 20.04 and 22.04[^1]
 * RHEL beginning with 8.0 (support is cloud provider-specific)
 * Flatcar (Stable channel)
 * Rocky Linux beginning with 8.0
@@ -37,3 +37,6 @@ This table shows the combinations of operating systems and cloud providers that 
 | VSphere | ✓ | ✓ | ✓ | ✓ | x | x | ✓ |
 
 There could be more in the future since change is constant. This page will constantly be updated each time there is a new supported operating system.
+
+
+[^1]: Supported since KKP 2.21.2.
