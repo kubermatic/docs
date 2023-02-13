@@ -1,10 +1,19 @@
 +++
 title = "Upgrading"
 date =  2018-10-17T14:35:34+02:00
-weight = 13
+weight = 30
 +++
 
 This section contains important upgrade notes you should read before upgrading Kubermatic Kubernetes Platform (KKP) to the next minor version.
+
+## Upgrade Guide
+
+- [Upgrading from 2.21 to 2.22]({{< ref "./upgrade-from-2.21-to-2.22/" >}})
+
+### Older Upgrade Guides
+
+- [Upgrading from 2.20 to 2.21]({{< ref "./upgrade-from-2.20-to-2.21/" >}})
+- [Upgrading from 2.19 to 2.20]({{< ref "./upgrade-from-2.19-to-2.20/" >}})
 
 ## General Guidelines
 

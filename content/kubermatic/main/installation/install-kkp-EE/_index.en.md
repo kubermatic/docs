@@ -3,7 +3,7 @@ title = "Install Kubermatic Kubernetes Platform (KKP) EE"
 linkTitle = "Install Enterprise Edition"
 date = 2018-04-28T12:07:15+02:00
 description = "Learn the installation procedure of KKP Enterprise Edition (EE) into a pre-existing Kubernetes cluster"
-weight = 30
+weight = 20
 enterprise = true
 +++
 

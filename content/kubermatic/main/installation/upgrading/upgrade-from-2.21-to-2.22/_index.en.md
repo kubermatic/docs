@@ -1,0 +1,103 @@
+
++++
+title = "Upgrading from 2.21 to 2.22"
+date = 2023-02-13T00:00:00+01:00
+weight = 10
++++
+
+{{% notice note %}}
+Upgrading to KKP 2.22 is only supported from version 2.21. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from [2.20 to 2.21]({{< ref "../upgrade-from-2.20-to-2.21/" >}}) and then to 2.22). It is also strongly advised to be on the latest 2.21.x patch release before upgrading to 2.22.
+{{% /notice %}}
+
+This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.22. For the full list of changes in this release, please check out the [KKP changelog for v2.22](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.22.md). Please read the full document before proceeding with the upgrade.
+
+## Pre-Upgrade Considerations
+
+KKP 2.22 adjusts the list of supported Kubernetes versions and drops a couple of Kubernetes releases without upstream support. Support for Kubernetes 1.23 and below has been removed. As such, all user clusters should be upgraded to Kubernetes 1.24. Existing Kubernetes 1.23 user clusters with containerd will not block the upgrade procedure, but they will be upgraded to 1.24 automatically.
+
+### Removal of Docker Support
+
+Support for `docker` as container runtime has been removed due to removal of `dockershim` in upstream Kubernetes. The only supported
+container runtime in KKP 2.22 is therefore `containerd`. As such, the upgrade will fail if `kubermatic-installer` detects any user clusters
+with `docker` as container runtime.
+
+It is necessary to migrate existing clusters to `containerd` before proceeding.
+
+## Upgrade Procedure
+
+Before starting the upgrade, make sure your KKP Master and Seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.
+
+Download the latest 2.22.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.21 available and already adjusted for any 2.22 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
+
+```sh
+$ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
+
+# example output for a successful upgrade
+INFO[0000] 🚀 Initializing installer…                     edition="Enterprise Edition" version=v2.22.0
+INFO[0001] 🚦 Validating the provided configuration…
+WARN[0001]    Helm values: kubermaticOperator.imagePullSecret is empty, setting to spec.imagePullSecret from KubermaticConfiguration
+INFO[0001] ✅ Provided configuration is valid.
+INFO[0001] 🚦 Validating existing installation…
+INFO[0001]    Checking seed cluster…                     seed=kubermatic
+INFO[0002] ✅ Existing installation is valid.
+INFO[0002] 🛫 Deploying KKP master stack…
+INFO[0002]    💾 Deploying kubermatic-fast StorageClass…
+INFO[0002]    ✅ StorageClass exists, nothing to do.
+INFO[0002]    📦 Deploying nginx-ingress-controller…
+INFO[0002]       Deploying Helm chart…
+INFO[0002]       Updating release from 2.20.6 to 2.21.0…
+INFO[0024]    ✅ Success.
+INFO[0024]    📦 Deploying cert-manager…
+INFO[0025]       Deploying Custom Resource Definitions…
+INFO[0026]       Deploying Helm chart…
+INFO[0027]       Updating release from 2.20.6 to 2.21.0…
+INFO[0053]    ✅ Success.
+INFO[0053]    📦 Deploying Dex…
+INFO[0053]       Updating release from 2.20.6 to 2.21.0…
+INFO[0072]    ✅ Success.
+INFO[0072]    📦 Deploying Kubermatic Operator…
+INFO[0072]       Deploying Custom Resource Definitions…
+INFO[0078]       Migrating UserSSHKeys…
+INFO[0079]       Migrating Users…
+INFO[0079]       Migrating ExternalClusters…
+INFO[0079]       Deploying Helm chart…
+INFO[0079]       Updating release from 2.20.6 to 2.21.0…
+INFO[0136]    ✅ Success.
+INFO[0136]    📦 Deploying Telemetry
+INFO[0136]       Updating release from 2.20.6 to 2.21.0…
+INFO[0142]    ✅ Success.
+INFO[0142]    📡 Determining DNS settings…
+INFO[0142]       The main LoadBalancer is ready.
+INFO[0142]
+INFO[0142]         Service             : nginx-ingress-controller / nginx-ingress-controller
+INFO[0142]         Ingress via hostname: <AWS ELB Name>.eu-central-1.elb.amazonaws.com
+INFO[0142]
+INFO[0142]       Please ensure your DNS settings for "<Hostname>" include the following records:
+INFO[0142]
+INFO[0142]          <Hostname>    IN  CNAME  <AWS ELB Name>.eu-central-1.elb.amazonaws.com.
+INFO[0142]          *.<Hostname>  IN  CNAME  <AWS ELB Name>.eu-central-1.elb.amazonaws.com.
+INFO[0142]
+INFO[0142] 🛬 Installation completed successfully. Time for a break, maybe? ☺
+```
+
+Upgrading seed clusters is no longer necessary in KKP 2.22, unless you are running the `minio` Helm chart as distributed by KKP on them. Apart from upgrading the `minio` chart, no manual steps for seed clusters are required. They will be automatically upgraded by KKP components.
+
+You can follow the upgrade process by either supervising the pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
+
+```sh
+$ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
+kubermatic - {"clusters":3,"conditions":{"KubeconfigValid":{"lastHeartbeatTime":"2022-08-03T10:10:32Z","reason":"KubeconfigValid","status":"True"},"ResourcesReconciled":{"lastHeartbeatTime":"2022-08-25T09:30:52Z","lastTransitionTime":"2022-08-25T09:30:52Z","reason":"ReconcilingSuccess","status":"True"}},"phase":"Healthy","versions":{"cluster":"v1.23.6","kubermatic":"v2.21.0"}}
+```
+
+Of particular interest to the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight. If the upgrade is stuck, try `kubectl -n kubermatic describe seed <seed name>` to see what exactly is keeping the KKP Operator from updating the seed cluster.
+
+After a Seed was successfully upgraded, user clusters on that Seed should start updating. Observe their control plane components in the respective cluster namespaces if you want to follow the upgrade process. This is the last step of the upgrade, after all user clusters have completed component rotation the KKP upgrade is complete.
+
+## Post-Upgrade Considerations
+
+
+## Next Steps
+
+After finishing the upgrade, check out some of the new features that were added in KKP 2.21:
+
+Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.21.md) for a full list of changes.
