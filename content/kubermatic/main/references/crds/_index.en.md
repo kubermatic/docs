@@ -3669,7 +3669,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `provider` _[ProviderType](#providertype)_ | Provider to which to apply the compatibility check. Empty string matches all providers |
+| `provider` _string_ | Provider to which to apply the compatibility check. Empty string matches all providers |
 | `version` _string_ | Version is the Kubernetes version that must be checked. Wildcards are allowed, e.g. "1.25.*". |
 | `condition` _ConditionType_ | Condition is the cluster or datacenter condition that must be met to block a specific version |
 | `operation` _OperationType_ | Operation is the operation triggering the compatibility check (CREATE or UPDATE) |
@@ -5299,17 +5299,6 @@ _Appears in:_
 
 
 [Back to top](#top)
-
-
-
-### ProviderType
-
-_Underlying type:_ `string`
-
-
-
-_Appears in:_
-- [Incompatibility](#incompatibility)
 
 
 
