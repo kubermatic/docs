@@ -307,6 +307,7 @@ You may tune how Helm deploys the application with the following options:
 * `atomic`: corresponds to the `--atomic` flag on Helm CLI. If set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of failed upgrade.
 * `wait`: corresponds to the `--wait` flag on Helm CLI. If set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as `--timeout`
 * `timeout`: corresponds to the `--timeout` flag on Helm CLI. It's time to wait for any individual Kubernetes operation.
+* `enableDNS`: corresponds to the `-enable-dns ` flag on Helm CLI. It enables DNS lookups when rendering templates. if you enable this flag, you have to verify that helm template function 'getHostByName' is not being used in a chart to disclose any information you do not want to be passed to DNS servers.(c.f. [CVE-2023-25165](https://github.com/helm/helm/security/advisories/GHSA-pwcw-6f5g-gxf8))
 
 Example:
 ```yaml
