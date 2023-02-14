@@ -1,5 +1,5 @@
 +++
-title = "Enable Operating System Manager"
+title = "Using Operating System Manager"
 date = 2022-01-18T10:07:15+02:00
 weight = 2
 +++
@@ -40,6 +40,12 @@ spec:
 ## Custom OperatingSystemProfiles
 
 To consume custom OperatingSystemProfiles. Users can create their custom OSPs in the seed namespace(kubermatic). They will be automatically synced to all the user-cluster namespaces.
+
+## Updating existing OperatingSystemProfiles
+
+OSPs are immutable by design and any modifications to an existing OSP requires a version bump in `.spec.version`. Users can create custom OSPs in the seed namespace or in the user-cluster namespace and manage them.
+
+KKP ships default OSPs for different operating systems and it is not recommended to update default OSPs. Since KKP manages those resources and will revert any changes made on them.
 
 ## Migrating existing clusters
 
