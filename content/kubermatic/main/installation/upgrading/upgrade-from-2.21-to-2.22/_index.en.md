@@ -23,6 +23,26 @@ with `docker` as container runtime.
 
 It is necessary to migrate existing clusters to `containerd` before proceeding.
 
+### etcd-launcher Enabled by Default
+
+The [etcd-launcher feature]({{< ref "../../../cheat-sheets/etcd/etcd-launcher/" >}}) will be enabled by default starting with KKP 2.22. The feature is necessary to run the new backup and restore controllers, for example. Existing user clusters will be upgraded from the old etcd `StatefulSet` to `etcd-launcher`. This should be taken into consideration as it will happen upon the upgrade to 2.22.
+
+To disable this, the feature gate for etcd-launcher can be explicitly disabled on the `KubermaticConfiguration` resource:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: <<mykubermatic>>
+  namespace: kubermatic
+spec:
+  featureGates:
+    EtcdLauncher: false
+[...]
+```
+
+However, be aware that the old etcd `StatefulSet` will be deprecated and removed in future releases. Disabling the feature gate should only be a temporary measure, e.g. to control the migration of individual clusters directly before enabling the feature globally.
+
 ## Upgrade Procedure
 
 Before starting the upgrade, make sure your KKP Master and Seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.
