@@ -44,6 +44,8 @@ Along with that, OSM also supports environments where workloads are divided into
 
 To use management/worker cluster mode, simply pass on the kubeconfig for management cluster using `kubeconfig` and worker cluster using the `worker-cluster-kubeconfig` flags at OSM level. With this topology the OSP and OSC exist within the management cluster while only the bootstrap and provisioning secrets are created in the worker clusters.
 
+![Management worker mode](/img/operatingsystemmanager/master/osm-management-worker.png?classes=shadow,border "Management/worker mode")
+
 ## Integration with machine-controller
 
 When a MachineDeployment is created, OSM reconciles it and generates the corresponding OSC and secrets based on the selected OSP. The OSP to be used for a MachineDeployment is specified using `k8c.io/operating-system-profile` annotation on the MachineDeployment. Machine controller waits for the bootstrapping and provisioning secrets to become available. Once they are made available by OSM, machine controller will extract the configurations from those secrets and propagate them as `user-data` for the machines that are to be provisioned.
