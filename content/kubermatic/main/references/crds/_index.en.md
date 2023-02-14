@@ -439,6 +439,7 @@ _Appears in:_
 | `wait` _boolean_ | Wait corresponds to the --wait flag on Helm cli. if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as timeout |
 | `timeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#duration-v1-meta)_ | Timeout corresponds to the --timeout flag on Helm cli. time to wait for any individual Kubernetes operation. |
 | `atomic` _boolean_ | Atomic corresponds to the --atomic flag on Helm cli. if set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of failed upgrade. |
+| `enableDNS` _boolean_ | EnableDNS  corresponds to the --enable-dns flag on Helm cli. enable DNS lookups when rendering templates. if you enable this flag, you have to verify that helm template function 'getHostByName' is not being used in a chart to disclose any information you do not want to be passed to DNS servers.(c.f. CVE-2023-25165) |
 
 
 [Back to top](#top)
