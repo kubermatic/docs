@@ -6,3 +6,5 @@ weight = 20
 +++
 
 See detail pages for specific requirements of the cloud providers used by the Kubermatic machine-controller.
+
+{{% children %}}
