@@ -107,7 +107,7 @@ The key items to consider while preparing your configuration files are described
 | To authenticate via an external identity provider you need to set up connectors in Dex. Check out [the Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required but highly recommended for multi-user installations. | `.dex.connectors` (`values.yaml`; not included in example file) |
 | The expose strategy which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [the expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
 
-There are many more options but these are essential to get a minimal system up and running. A full reference of all options can be found in the [KubermaticConfiguration Reference]({{< relref "../../references/crds/_index.en.md#kubermaticconfigurationspec" >}}). The secret keys
+There are many more options but these are essential to get a minimal system up and running. A full reference of all options can be found in the [KubermaticConfiguration Reference]({{< relref "../../references/crds/#kubermaticconfigurationspec" >}}). The secret keys
 mentioned above can be generated using any password generator or on the shell using
 `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32` (on macOS, use `brew install coreutils` and
 `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`). Alternatively, the Kubermatic Installer will suggest some
