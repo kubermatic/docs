@@ -17,11 +17,41 @@ KKP 2.22 adjusts the list of supported Kubernetes versions and drops a couple of
 
 ### Removal of Docker Support
 
-Support for `docker` as container runtime has been removed due to removal of `dockershim` in upstream Kubernetes. The only supported
-container runtime in KKP 2.22 is therefore `containerd`. As such, the upgrade will fail if `kubermatic-installer` detects any user clusters
-with `docker` as container runtime.
+Support for Docker as container runtime has been removed due to removal of `dockershim` in upstream Kubernetes. The only supported
+container runtime in KKP 2.22 is therefore containerd. As such, the upgrade will fail if `kubermatic-installer` detects any user clusters
+with Docker as container runtime.
 
-It is necessary to migrate existing clusters to `containerd` before proceeding.
+It is necessary to migrate existing clusters to containerd before proceeding. This can be done either via the Kubermatic Dashboard
+or with `kubectl`. On the Dashboard, just edit the cluster, change the _Container Runtime_ field to `containerd` and save your changes.
+
+![Change Container Runtime](/img/kubermatic/main/installation/upgrade_container_runtime.png?classes=shadow,border&height=200 "Change Container Runtime")
+
+If using `kubectl`, update the `containerRuntime` field that is part of the [`Cluster` spec]({{< ref "../../../references/crds/#clusterspec" >}})
+and replace `docker` with `containerd`, e.g. by using `kubectl edit cluster <cluster name>`:
+
+```yaml
+# before
+apiVersion: kubermatic.k8c.io/v1
+kind: Cluster
+metadata:
+  name: wq7dl64vbc
+  [...]
+spec:
+  containerRuntime: docker
+  [...]
+---
+# after
+apiVersion: kubermatic.k8c.io/v1
+kind: Cluster
+metadata:
+  name: wq7dl64vbc
+  [...]
+spec:
+  containerRuntime: containerd
+  [...]
+```
+
+As a last step, [existing Machines have to be rotated]({{< ref "../../../cheat-sheets/rollout-machinedeployment/" >}}) so they get re-deployed with containerd instead of Docker.
 
 ### etcd-launcher Enabled by Default
 
@@ -115,9 +145,12 @@ After a Seed was successfully upgraded, user clusters on that Seed should start 
 
 ## Post-Upgrade Considerations
 
+### KubeVirt Migration
+
+TBD.
 
 ## Next Steps
 
-After finishing the upgrade, check out some of the new features that were added in KKP 2.21:
+After finishing the upgrade, check out some of the new features that were added in KKP 2.22:
 
-Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.21.md) for a full list of changes.
+Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.22.md) for a full list of changes.
