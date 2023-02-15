@@ -236,3 +236,8 @@ kubectl edit preset my-preset
 
 This will open the editor configured for `kubectl edit` and let you update the YAML specification.
 It is possible to update any fields already present or add/remove provider sections from the `Preset`.
+
+## Limiting Permissions for Credentials used in Presets
+
+For selected infrastructure providers it makes sense to limit the permissions of the credentials to protect against access creep.
+For these cases, we have compiled a [list of minimum permissions]({{< relref "../../../../../kubeone/main/architecture/requirements/machine-controller/" >}}) required for different providers.
