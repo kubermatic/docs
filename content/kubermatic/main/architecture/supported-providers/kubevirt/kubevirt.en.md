@@ -271,7 +271,7 @@ Additionally, we removed some features that didn't leave technology preview stag
 * Secondary Disks
 
 {{% notice warning %}}
-The official upgrade procedure will not break clusters that already exist, however, *scaling a cluster nodes will not lead to expected results*.
+The official upgrade procedure will not break clusters that already exist, however, **scaling cluster nodes will not lead to expected results**.  
 We require to update Machine Deployment objects and rotate machines right after the upgrade.
 {{% /notice %}}
 
@@ -285,8 +285,8 @@ Here we are going to cover manual steps that are required for smooth transition 
 Updating of Kubernetes, KubeVirt and Containerized Data Imported should be done from N-1 to N release.
 {{% /notice %}}
 
-The k8s cluster and KubeVirt components must be in [scope of our supported versions](#requirements).
-You can update k8s version by following [the official guide](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/)...
+The k8s cluster and KubeVirt components must be in [scope of our supported versions](#requirements).  
+You can update k8s version by following [the official guide](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/).  
 Or if you provisioned the cluster over KubeOne please follow [the update procedure](/kubeone/v1.5/tutorials/upgrading-clusters/).
 
 Next you can update KubeVirt control plane and Containerized Data Importer by executing:
@@ -313,6 +313,11 @@ It can happen that hosts where KubeVirt runs might need reconfiguration or packa
 
 #### Update Machine Deployment
 
+{{% notice warning %}}
+If user clusters have working Load Balancers those can be unreachable after Machine Deployment rotation due to LB selector key change.  
+After this step, it is required to follow the [Update LoadBalancer selectors](#update-loadbalancer-selectors) guide to fix it.
+{{% /notice %}}
+
 Right after the upgrade it is required to update Machine Deployment object (this will trigger Machines rotation).  
 You can do it from the KKP Dashboard which is recommended approach as you will be guided with the possible options.
 
@@ -323,4 +328,16 @@ Take a look into [the example](https://github.com/kubermatic/machine-controller/
 
 #### Update LoadBalancer selectors
 
-This step is only required if Load Balancers on user clusters have been created.
+{{% notice note %}}
+This step is only required if Load Balancers on user clusters have been created, and the previous [Update Machine Deployment](#update-machine-deployment) guide has been accomplished.
+{{% /notice %}}
+
+From v0.3.0 KubeVirt Cloud Controller Manager changed Load Balancer selector. You have to edit Load Balancer(s) in 
+user cluster namespace on KubeVirt infrastructure and change its selector from  
+`cloud.kubevirt.io/<id>: <val>`  
+to  
+`cluster.x-k8s.io/cluster-name: <cluster-id>`.
+
+For instance the selector of LB that exists in KubeVirt infrastructure cluster in the `cluster-xyz` namespace,
+would have to be replaced to  
+`cluster.x-k8s.io/cluster-name: xyz`
