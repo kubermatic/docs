@@ -23,7 +23,7 @@ For this guide you need to have [kubectl](https://kubernetes.io/docs/tasks/tools
 You should be familiar with core Kubernetes concepts and the YAML file format before proceeding.
 
 <!-- TODO Add quotas for additional providers-->
-In addition, we recommend to familiarize yourself with the resource-quota system of your infrastructure provider. It is important to leave free capacity to allow KKP to provision infrastructure for your future Kubernetes clusters, but also to enforce a maximum to protect against overspending.
+In addition, we recommend familiarizing yourself with the resource quota system of your infrastructure provider. It is important to provide enough capacity to let KKP provision infrastructure for your future user clusters, but also to enforce a maximum to protect against overspending.
 
 {{< tabs name="resource-quotas" >}}
 {{% tab name="AWS" %}}
