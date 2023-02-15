@@ -43,17 +43,17 @@ Please note that this procedure does not affect already running user clusters, f
 
 ## API Server Allowed Source IP Ranges
 
+Since KKP v2.22, it is possible to restrict the access to the user cluster API server based on the source IP ranges. By default (when not configured), the access is not restricted and the API server is accessible from anywhere. To restrict the API server access, Cluster's `spec.apiServerAllowedIPRanges` needs to be configured with the list of allowed IP ranges (CIDR blocks). Access from IP addresses outside the configured ranges will be denied.
+
 {{% notice info %}}
 
-This feature is available only for user clusters with the `LoadBalancer` [Expose Strategy]({{< relref "../expose-strategies/" >}}).
+This feature is available only for user clusters with the `LoadBalancer` [Expose Strategy]({{< relref "../expose-strategies/" >}}). It also depends on cloud provider's support for service's `loadBalancerSourceRanges`, which may not be available on all platforms (e.g. does not work on AWS with ELB load balancer).
 
 {{% /notice %}}
 
-Since KKP v2.22, it is possible to restrict the access to the user cluster API server based on the source IP ranges. By default, the access is not restricted and the API server is accessible from anywhere. To restrict the API server access, Cluster's `spec.apiServerAllowedIPRanges` needs to be configured with the list of allowed IP ranges. Access from any other IP ranges will be denied.
-
 {{% notice warning %}}
 
-When restricting access to the API server, it is important to allow the IP range of the worker nodes network too, otherwise the worker nodes will not be able to connect to the API server.
+When restricting access to the API server, it is important to allow IP ranges of the user cluster's worker nodes network (to allow kubelet to apiserver communication), IP ranges of the KKP main cluster's worker nodes (to allow access of the kubermatic-api for proper KKP dashboard operation) and KKP seed cluster's worker nodes too.
 
 {{% /notice %}}
 
