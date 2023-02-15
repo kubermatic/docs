@@ -53,7 +53,7 @@ This feature is available only for user clusters with the `LoadBalancer` [Expose
 
 {{% notice warning %}}
 
-When restricting access to the API server, it is important to allow IP range of the user cluster's worker nodes network and IP ranges of the KKP main and seed cluster's worker nodes too.
+When restricting access to the API server, it is important to allow IP ranges of the user cluster's worker nodes network (to allow kubelet to apiserver communication), IP ranges of the KKP main cluster's worker nodes (to allow access of the kubermatic-api for proper KKP dashboard operation) and KKP seed cluster's worker nodes too.
 
 {{% /notice %}}
 
