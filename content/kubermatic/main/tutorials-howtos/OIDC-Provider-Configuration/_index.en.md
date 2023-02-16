@@ -104,7 +104,7 @@ spec:
 
 #### Seed Configuration
 
-In some cases a Seed may require an independent OIDC provider. For this reason a `Seed` CRD contains relevant fields under `spec.oidcProviderConfiguration`. Filling those results in overwriting a configuration from `KubermaticConfiguration` CRD. The following snippet presents an example of `Seed` CRD configuration:
+In some cases a Seed may require an independent OIDC provider. For this reason a `Seed` CRD contains relevant fields under `spec.oidcProviderConfiguration`. Filling those fields results in overwriting a configuration from `KubermaticConfiguration` CRD. The following snippet presents an example of `Seed` CRD configuration:
 
 ```yaml
 spec:
