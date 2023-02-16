@@ -34,7 +34,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: k1-cluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 features:
   # enable encryption providers
   encryptionProviders:
@@ -82,7 +82,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: k1-cluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 features:
   # enable encryption providers
   encryptionProviders:
@@ -101,7 +101,7 @@ resources again to ensure that they are written back in plain text.
 
 KubeOne also supports rotating encryption keys to allow having a rotation
 policy for secret keys. The new `--rotate-encryption-key` flag is added to
-the `apply` command for this. 
+the `apply` command for this.
 
 ```bash
 kubeone apply --manifest kubeone.yaml --tfjson output.json --force-upgrade --rotate-encryption-key
@@ -128,7 +128,7 @@ This means that managed key rotation is not supported with custom
 configuration.
 
 When custom configuration is used, the user will be responsible for managing
-the configuration to apply the steps required for 
+the configuration to apply the steps required for
 [enable][k8s-encrypt-data-enable], [disable][k8s-encrypt-data-disable]
 and [rotate][k8s-rotating-key] processes.
 
@@ -140,7 +140,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: k1-cluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 features:
   encryptionProviders:
     enable: true
@@ -175,7 +175,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: kms-test
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   aws: {}
 features:

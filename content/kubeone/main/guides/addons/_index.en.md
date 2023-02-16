@@ -64,7 +64,7 @@ the `addons` config:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.5
+  kubernetes: 1.25.6
 cloudProvider:
   aws: {}
 # Addons are Kubernetes manifests to be deployed after provisioning the cluster
@@ -113,7 +113,7 @@ Example:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.5
+  kubernetes: 1.25.6
 
 addons:
   enable: true
@@ -145,7 +145,7 @@ To delete embedded addon from the cluster, use the new `delete` field from the
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.5
+  kubernetes: 1.25.6
 
 addons:
   enable: true
@@ -180,7 +180,7 @@ you can use it to override globally defined parameters.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.5
+  kubernetes: 1.25.6
 
 addons:
   enable: true

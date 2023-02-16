@@ -222,7 +222,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: bm-cluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   none: {}
 

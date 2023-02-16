@@ -54,7 +54,7 @@ increased, many problems appeared:
 * Having many in-tree cloud providers integrated in kube-controller-manager
   increases the binary size, while you don't actually need all providers
 * All providers had to follow the Kubernetes release cycle. If they wanted to
-  change anything in controllers (e.g. they changed the API, added a new 
+  change anything in controllers (e.g. they changed the API, added a new
   feature), they would have to wait for a new Kubernetes release to bring
   changes to their users
 * Testing and maintaining all the controllers became very complicated
@@ -106,7 +106,7 @@ drivers. Those requirements are provided by cloud providers and you can usually
 find them in the repositories for each components:
 
 * Azure: there are no special prerequisites for Azure CCM and CSI drivers
-* OpenStack: 
+* OpenStack:
   * [Required OpenStack services and cloudConfig properties for the external
     CCM][openstack-ccm-reqs]
   * [Required OpenStack services and cloudConfig properties for the CSI
@@ -131,7 +131,7 @@ external CCM and CSI. For example:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.1
+  kubernetes: 1.25.6
 cloudProvider:
   openstack: {}
   external: true
@@ -163,7 +163,7 @@ field, for example:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.5
+  kubernetes: 1.25.6
 cloudProvider:
   openstack: {}
   external: true
@@ -193,7 +193,7 @@ kube-controller-manager are configured to:
 * redirect all volumes-related operations to the CSI plugin
 
 The existing worker nodes will continue to use in-tree provider, and that's why
-we still leave it enabled on API server and kube-controller-manager. 
+we still leave it enabled on API server and kube-controller-manager.
 Therefore, all worker nodes managed by machine-controller must be rolled out
 after phase 1 is complete.
 
