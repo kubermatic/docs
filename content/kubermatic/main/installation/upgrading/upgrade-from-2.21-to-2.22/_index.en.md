@@ -86,64 +86,61 @@ $ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.y
 
 # example output for a successful upgrade
 INFO[0000] 🚀 Initializing installer…                     edition="Enterprise Edition" version=v2.22.0
-INFO[0001] 🚦 Validating the provided configuration…
-WARN[0001]    Helm values: kubermaticOperator.imagePullSecret is empty, setting to spec.imagePullSecret from KubermaticConfiguration
-INFO[0001] ✅ Provided configuration is valid.
-INFO[0001] 🚦 Validating existing installation…
+INFO[0000] 🚦 Validating the provided configuration…
+WARN[0000]    Helm values: kubermaticOperator.imagePullSecret is empty, setting to spec.imagePullSecret from KubermaticConfiguration
+INFO[0000] ✅ Provided configuration is valid.
+INFO[0000] 🚦 Validating existing installation…
 INFO[0001]    Checking seed cluster…                     seed=kubermatic
-INFO[0002] ✅ Existing installation is valid.
-INFO[0002] 🛫 Deploying KKP master stack…
-INFO[0002]    💾 Deploying kubermatic-fast StorageClass…
-INFO[0002]    ✅ StorageClass exists, nothing to do.
-INFO[0002]    📦 Deploying nginx-ingress-controller…
-INFO[0002]       Deploying Helm chart…
-INFO[0002]       Updating release from 2.20.6 to 2.21.0…
-INFO[0024]    ✅ Success.
-INFO[0024]    📦 Deploying cert-manager…
-INFO[0025]       Deploying Custom Resource Definitions…
-INFO[0026]       Deploying Helm chart…
-INFO[0027]       Updating release from 2.20.6 to 2.21.0…
-INFO[0053]    ✅ Success.
-INFO[0053]    📦 Deploying Dex…
-INFO[0053]       Updating release from 2.20.6 to 2.21.0…
-INFO[0072]    ✅ Success.
-INFO[0072]    📦 Deploying Kubermatic Operator…
-INFO[0072]       Deploying Custom Resource Definitions…
-INFO[0078]       Migrating UserSSHKeys…
-INFO[0079]       Migrating Users…
-INFO[0079]       Migrating ExternalClusters…
-INFO[0079]       Deploying Helm chart…
-INFO[0079]       Updating release from 2.20.6 to 2.21.0…
-INFO[0136]    ✅ Success.
-INFO[0136]    📦 Deploying Telemetry
-INFO[0136]       Updating release from 2.20.6 to 2.21.0…
-INFO[0142]    ✅ Success.
-INFO[0142]    📡 Determining DNS settings…
-INFO[0142]       The main LoadBalancer is ready.
-INFO[0142]
-INFO[0142]         Service             : nginx-ingress-controller / nginx-ingress-controller
-INFO[0142]         Ingress via hostname: <AWS ELB Name>.eu-central-1.elb.amazonaws.com
-INFO[0142]
-INFO[0142]       Please ensure your DNS settings for "<Hostname>" include the following records:
-INFO[0142]
-INFO[0142]          <Hostname>    IN  CNAME  <AWS ELB Name>.eu-central-1.elb.amazonaws.com.
-INFO[0142]          *.<Hostname>  IN  CNAME  <AWS ELB Name>.eu-central-1.elb.amazonaws.com.
-INFO[0142]
-INFO[0142] 🛬 Installation completed successfully. Time for a break, maybe? ☺
+INFO[0001] ✅ Existing installation is valid.
+INFO[0001] 🛫 Deploying KKP master stack…
+INFO[0001]    💾 Deploying kubermatic-fast StorageClass…
+INFO[0001]    ✅ StorageClass exists, nothing to do.
+INFO[0001]    📦 Deploying nginx-ingress-controller…
+INFO[0001]       Deploying Helm chart…
+INFO[0002]       Updating release from 2.21.6 to 2.22.0…
+INFO[0005]    ✅ Success.
+INFO[0005]    📦 Deploying cert-manager…
+INFO[0005]       Deploying Custom Resource Definitions…
+INFO[0006]       Deploying Helm chart…
+INFO[0007]       Updating release from 2.21.6 to 2.22.0…
+INFO[0026]    ✅ Success.
+INFO[0026]    📦 Deploying Dex…
+INFO[0027]       Updating release from 2.21.6 to 2.22.0…
+INFO[0030]    ✅ Success.
+INFO[0030]    📦 Deploying Kubermatic Operator…
+INFO[0030]       Deploying Custom Resource Definitions…
+INFO[0034]       Deploying Helm chart…
+INFO[0035]       Updating release from 2.21.6 to 2.22.0…
+INFO[0064]    ✅ Success.
+INFO[0064]    📦 Deploying Telemetry
+INFO[0065]       Updating release from 2.21.6 to 2.22.0…
+INFO[0066]    ✅ Success.
+INFO[0066]    📡 Determining DNS settings…
+INFO[0066]       The main LoadBalancer is ready.
+INFO[0066]
+INFO[0066]         Service             : nginx-ingress-controller / nginx-ingress-controller
+INFO[0066]         Ingress via hostname: <Load Balancer>.eu-central-1.elb.amazonaws.com
+INFO[0066]
+INFO[0066]       Please ensure your DNS settings for <KKP FQDN>" include the following records:
+INFO[0066]
+INFO[0066]          <KKP FQDN>.    IN  CNAME  <Load Balancer>.eu-central-1.elb.amazonaws.com.
+INFO[0066]          *.<KKP FQDN>.  IN  CNAME  <Load Balancer>.eu-central-1.elb.amazonaws.com.
+INFO[0066]
+INFO[0066] 🛬 Installation completed successfully. ✌
 ```
 
-Upgrading seed clusters is no longer necessary in KKP 2.22, unless you are running the `minio` Helm chart as distributed by KKP on them. Apart from upgrading the `minio` chart, no manual steps for seed clusters are required. They will be automatically upgraded by KKP components.
+Upgrading seed clusters is no longer necessary in KKP 2.22, unless you are running the `minio` Helm chart or User Cluster MLA as distributed by KKP on them. They will be automatically upgraded by KKP components.
 
-You can follow the upgrade process by either supervising the pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
+You can follow the upgrade process by either supervising the Pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
 ```sh
 $ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
-kubermatic - {"clusters":3,"conditions":{"KubeconfigValid":{"lastHeartbeatTime":"2022-08-03T10:10:32Z","reason":"KubeconfigValid","status":"True"},"ResourcesReconciled":{"lastHeartbeatTime":"2022-08-25T09:30:52Z","lastTransitionTime":"2022-08-25T09:30:52Z","reason":"ReconcilingSuccess","status":"True"}},"phase":"Healthy","versions":{"cluster":"v1.23.6","kubermatic":"v2.21.0"}}
+kubermatic - {"clusters":5,"conditions":{"ClusterInitialized":{"lastHeartbeatTime":"2023-02-16T10:53:34Z","message":"All KKP CRDs have been installed successfully.","reason":"CRDsUpdated","status":"True"},"KubeconfigValid":{"lastHeartbeatTime":"2023-02-14T16:50:09Z","reason":"KubeconfigValid","status":"True"},"ResourcesReconciled":{"lastHeartbeatTime":"2023-02-14T16:50:14Z","reason":"ReconcilingSuccess","status":"True"}},"phase":"Healthy","versions":{"cluster":"v1.24.10","kubermatic":"v2.22.0"}}
 ```
 
-Of particular interest to the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight. If the upgrade is stuck, try `kubectl -n kubermatic describe seed <seed name>` to see what exactly is keeping the KKP Operator from updating the seed cluster.
+Of particular interest to the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight. If the upgrade is stuck, try `kubectl -n kubermatic describe seed <seed name>` to see what exactly is keeping the KKP Operator from updating the Seed cluster.
 
-After a Seed was successfully upgraded, user clusters on that Seed should start updating. Observe their control plane components in the respective cluster namespaces if you want to follow the upgrade process. This is the last step of the upgrade, after all user clusters have completed component rotation the KKP upgrade is complete.
+After a Seed was successfully upgraded, user clusters on that Seed should start updating. Observe their control plane components in the respective cluster namespaces if you want to follow the upgrade process. This is the last step of the upgrade unless you are running User Cluster MLA (see below).
 
 ### User Cluster MLA Upgrade (if applicable)
 
@@ -160,6 +157,8 @@ User Cluster MLA should be upgraded after KKP has been upgraded to 2.22. This ha
 Providing a Helm values file for the User Cluster MLA installation is optional and depends on whether you have passed any non-standard configuration values to your MLA setup in earlier versions (e.g. to set the `StorageClass` for some components) or have set up IAP, you will need to merge all custom Helm values into a shared `mlavalues.yaml` file, similar to the `values.yaml` provided to `kubermatic-installer` for installing a KKP setup. For example, a file configuring IAP and custom Cortex storage would looks like this:
 
 ```yaml
+# This is a example file, do not use it!
+#
 # Cortex configuration
 cortex:
   compactor:
@@ -213,8 +212,16 @@ using IAP for MLA; both flags are optional).
 
 KubeVirt graduates to GA in KKP 2.22 and has gained several new features. However, KubeVirt clusters need to be migrated after the KKP 2.22 upgrade. [Instructions are available in KubeVirt provider documentation]({{< ref "../../../architecture/supported-providers/kubevirt/kubevirt#migration-from-kkp-221" >}}).
 
+### OSM Migration
+
+The KKP upgrade migrates operating-system-manager (OSM) custom resources (`OperatingSystemProfiles`, `OperatingSystemConfigs`) to the user cluster to ensure that they do not conflict with OSM custom resources already installed on the Seed cluster. This process is automated and migrates existing, custom profiles accordingly. A new custom resource, `CustomOperatingSystemProfiles`, has been introduced on Seed clusters for providing custom profiles on that level.
+
+You can find more information on this [in the documentation on how to use OSM in KKP]({{< ref "../../../tutorials-howtos/operating-system-manager/usage/#custom-operatingsystemprofiles" >}}). If you have been applying OSM custom resources through any means, you will need to adjust them accordingly.
+
 ## Next Steps
 
 After finishing the upgrade, check out some of the new features that were added in KKP 2.22:
+
+- TODO
 
 Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.22.md) for a full list of changes.
