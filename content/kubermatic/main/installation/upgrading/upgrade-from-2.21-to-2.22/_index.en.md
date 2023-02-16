@@ -211,7 +211,7 @@ using IAP for MLA; both flags are optional).
 
 ### KubeVirt Migration
 
-TBD.
+KubeVirt graduates to GA in KKP 2.22 and has gained several new features. However, KubeVirt clusters need to be migrated after the KKP 2.22 upgrade. [Instructions are available in KubeVirt provider documentation]({{< ref "../../../architecture/supported-providers/kubevirt/kubevirt#migration-from-kkp-221" >}}).
 
 ## Next Steps
 
