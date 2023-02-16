@@ -9,9 +9,9 @@ This section describes how to add, create and manage Kubernetes clusters known a
 You can create a new cluster or import/connect an existing cluster.
 - Import: You can import a cluster via credentials. Imported Cluster can be viewed and edited.
   Supported Providers:
-  - Google Kubernetes Engine (GKE)
   - Azure Kubernetes Service (AKS)
   - Amazon Elastic Kubernetes Service (EKS)
+  - Google Kubernetes Engine (GKE)
 
 - Connect: You can also connect any cluster in the KKP via kubeconfig. Connected clusters can only be viewed, not edited.
 
@@ -36,9 +36,9 @@ KKP allows connecting any existing Kubernetes cluster as an external cluster to 
 
 - Select the Kubernetes cloud provider. You can add or create the following external clusters:
 
-  - [GKE]({{< ref "./gke" >}})
   - [AKS]({{< ref "./aks" >}})
   - [EKS]({{< ref "./eks" >}})
+  - [GKE]({{< ref "./gke" >}})
 
 - To connect a cluster from any provider, click on `Any Provider` and provide the cluster name and kubeconfig.
 
@@ -88,6 +88,9 @@ Provisioning state depicts that the cluster is getting created:
 Reconciling state depicts that the cluster is getting upgraded:
 ![External Cluster Reconciling State](/img/kubermatic/main/tutorials/external_clusters/reconciling_status.png "External Cluster Reconciling State")
 
+Running state depicts that the cluster is healthy:
+![External Cluster Provisioning State](/img/kubermatic/main/tutorials/external_clusters/running_status.png "External Cluster Running State")
+
 Deleting state depicts that the cluster is getting deleted:
 
 ![External Cluster Delete State](/img/kubermatic/main/tutorials/external_clusters/aks_deleting.png "External Cluster Delete State")
@@ -102,6 +105,16 @@ You can `Disconnect` an external cluster by clicking on the disconnect icon next
 
 ![Disconnect External Cluster](/img/kubermatic/main/tutorials/external_clusters/disconnect_externalcluster.png "Disconnect External Cluster")
 
-![Disconnect External Cluster on Details Page](/img/kubermatic/main/tutorials/external_clusters/delete_disconnect_page.png "Disconnect External Cluster on Details Page")
+![Disconnect External Cluster on Details Page](/img/kubermatic/main/tutorials/external_clusters/disconnect_externalcluster_details_page.png "Disconnect External Cluster on Details Page")
 
 ![Disconnect Dialog](/img/kubermatic/main/tutorials/external_clusters/disconnect.png "Disconnect Dialog")
+
+
+## Delete Cluster
+
+{{% notice info %}}
+Delete Cluster displays information in case nodes are attched
+{{% /notice %}}
+
+
+![Delete External Cluster](/img/kubermatic/main/tutorials/external_clusters/delete_external_cluster_dialog.png "Delete External Cluster")
