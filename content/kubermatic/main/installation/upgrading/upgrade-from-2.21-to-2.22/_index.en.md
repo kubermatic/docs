@@ -153,18 +153,13 @@ This step can be skipped if User Cluster MLA was not installed previously.
 
 Between KKP 2.21 and 2.22, the installation method for [User Cluster MLA]({{< ref "../../../architecture/monitoring-logging-alerting/user-cluster/" >}}) has changed and is now part of `kubermatic-installer`. Updated installation instructions can be found [here]({{< ref "../../../tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/" >}}).
 
-User Cluster MLA should be upgraded after KKP has been upgraded to 2.22. This has to be done for each Seed that has User Cluster MLA installed. If you have passed any non-standard configuration values to your MLA setup in earlier versions (e.g. to set the `StorageClass` for some components) or have set up IAP, you will need to merge all custom Helm values into a shared `mlavalues.yaml` file, similar to the `values.yaml` provided to `kubermatic-installer` for installing a KKP setup. For example, a file configuring IAP and custom Cortex storage would looks like this:
+User Cluster MLA should be upgraded after KKP has been upgraded to 2.22. This has to be done for each Seed that has User Cluster MLA installed.
+
+#### Helm Values File
+
+Providing a Helm values file for the User Cluster MLA installation is optional and depends on whether you have passed any non-standard configuration values to your MLA setup in earlier versions (e.g. to set the `StorageClass` for some components) or have set up IAP, you will need to merge all custom Helm values into a shared `mlavalues.yaml` file, similar to the `values.yaml` provided to `kubermatic-installer` for installing a KKP setup. For example, a file configuring IAP and custom Cortex storage would looks like this:
 
 ```yaml
-# IAP configuration
-iap:
-  oidc_issuer_url: <OIDC Issuer URL>
-  deployments:
-    grafana:
-      <Grafana IAP configuration>
-    alertmanager:
-      <Alertmanager IAP configuration>
-
 # Cortex configuration
 cortex:
   compactor:
@@ -179,17 +174,36 @@ cortex:
   alertmanager:
     persistentVolume:
       storageClass: kubermatic-slow
+
+# IAP configuration
+# this section is only needed if IAP was configured for MLA before
+iap:
+  oidc_issuer_url: <OIDC Issuer URL>
+  deployments:
+    grafana:
+      <Grafana IAP configuration>
+    alertmanager:
+      <Alertmanager IAP configuration>
 ```
+
+#### Running the Upgrade
 
 {{% notice warning %}}
 Upgrading User Cluster MLA is **briefly disruptive to Consul and Cortex availability**. Consider this when planning the
 upgrade.
 {{% /notice %}}
 
-Once a suitable `mlavalues.yaml` has been set up, `kubermatic-installer` can be used to upgrade User Cluster MLA.
+If a custom values file is required and is ready for use, `kubermatic-installer` can be used to upgrade User Cluster MLA. Ensure that you
+uncomment the command flags that you need (e.g. `--helm-values` if you have a `mlavalues.yaml` to pass and `--mla-include-iap` if you are
+using IAP for MLA; both flags are optional).
 
 ```sh
-./kubermatic-installer deploy usercluster-mla --config kubermatic.yaml --helm-values mlavalues.yaml
+./kubermatic-installer deploy usercluster-mla \
+  # uncomment if you are providing non-standard values
+  # --helm-values mlavalues.yaml \
+  # uncomment if you deployed MLA IAP before as well
+  # --mla-include-iap \
+  --config kubermatic.yaml
 ```
 
 ## Post-Upgrade Considerations
