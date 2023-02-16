@@ -210,7 +210,7 @@ using IAP for MLA; both flags are optional).
 
 ### KubeVirt Migration
 
-KubeVirt graduates to GA in KKP 2.22 and has gained several new features. However, KubeVirt clusters need to be migrated after the KKP 2.22 upgrade. [Instructions are available in KubeVirt provider documentation]({{< ref "../../../architecture/supported-providers/kubevirt/kubevirt#migration-from-kkp-221" >}}).
+KubeVirt support graduates to GA in KKP 2.22 and has gained several new features. However, KubeVirt clusters need to be migrated after the KKP 2.22 upgrade. [Instructions are available in KubeVirt provider documentation]({{< ref "../../../architecture/supported-providers/kubevirt/kubevirt#migration-from-kkp-221" >}}).
 
 ### OSM Migration
 
@@ -222,6 +222,9 @@ You can find more information on this [in the documentation on how to use OSM in
 
 After finishing the upgrade, check out some of the new features that were added in KKP 2.22:
 
-- TODO
+- [A web terminal has been added to interact with user clusters on a command line without leaving the Kubermatic Dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/web-terminal/" >}}).
+- [Default resource quotas can be enforced for all projects to optimize resource consumption across an organization (EE only)]({{< ref "../../../architecture/concept/kkp-concepts/resource-quotas/#default-project-resource-quotas" >}}).
+- Support for Kubernetes 1.25 and 1.26 has been added and can be used to create or upgrade user clusters.
+- Various improvements to the look and feel of the Kubermatic Dashboard of your KKP instance.
 
 Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.22.md) for a full list of changes.
