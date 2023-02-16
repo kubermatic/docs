@@ -77,6 +77,8 @@ However, be aware that the old etcd `StatefulSet` will be deprecated and removed
 
 Before starting the upgrade, make sure your KKP Master and Seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.
 
+### KKP Master Upgrade
+
 Download the latest 2.22.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.21 available and already adjusted for any 2.22 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
 ```sh
@@ -143,7 +145,55 @@ Of particular interest to the upgrade process is if the `ResourcesReconciled` co
 
 After a Seed was successfully upgraded, user clusters on that Seed should start updating. Observe their control plane components in the respective cluster namespaces if you want to follow the upgrade process. This is the last step of the upgrade, after all user clusters have completed component rotation the KKP upgrade is complete.
 
+### User Cluster MLA Upgrade (if applicable)
+
+{{% notice note %}}
+This step can be skipped if User Cluster MLA was not installed previously.
+{{% /notice %}}
+
+Between KKP 2.21 and 2.22, the installation method for [User Cluster MLA]({{< ref "../../../architecture/monitoring-logging-alerting/user-cluster/" >}}) has changed and is now part of `kubermatic-installer`. Updated installation instructions can be found [here]({{< ref "../../../tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/" >}}).
+
+User Cluster MLA should be upgraded after KKP has been upgraded to 2.22. This has to be done for each Seed that has User Cluster MLA installed. If you have passed any non-standard configuration values to your MLA setup in earlier versions (e.g. to set the `StorageClass` for some components) or have set up IAP, you will need to merge all custom Helm values into a shared `mlavalues.yaml` file, similar to the `values.yaml` provided to `kubermatic-installer` for installing a KKP setup. For example, a file configuring IAP and custom Cortex storage would looks like this:
+
+```yaml
+# IAP configuration
+iap:
+  oidc_issuer_url: <OIDC Issuer URL>
+  deployments:
+    grafana:
+      <Grafana IAP configuration>
+    alertmanager:
+      <Alertmanager IAP configuration>
+
+# Cortex configuration
+cortex:
+  compactor:
+    persistentVolume:
+      storageClass: kubermatic-slow
+  store_gateway:
+    persistentVolume:
+      storageClass: kubermatic-slow
+  ingester:
+    persistentVolume:
+      storageClass: kubermatic-slow
+  alertmanager:
+    persistentVolume:
+      storageClass: kubermatic-slow
+```
+
+{{% notice warning %}}
+Upgrading User Cluster MLA is **briefly disruptive to Consul and Cortex availability**. Consider this when planning the
+upgrade.
+{{% /notice %}}
+
+Once a suitable `mlavalues.yaml` has been set up, `kubermatic-installer` can be used to upgrade User Cluster MLA.
+
+```sh
+./kubermatic-installer deploy usercluster-mla --config kubermatic.yaml --helm-values mlavalues.yaml
+```
+
 ## Post-Upgrade Considerations
+
 
 ### KubeVirt Migration
 
