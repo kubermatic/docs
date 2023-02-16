@@ -242,13 +242,102 @@ customNetworkPolicies:
             cidr: 10.200.10.0/24
 ```
 
-## Known issues
+## Known Issues
 
-### Support of block volume mode
+### Support of Block Volume Mode
 
 Currently, the KubeVirt CSI driver does not support volumes with block mode therefore you should avoid using this option to mount a PVC to a user cluster.
 
-### Topology constrained storage
+### Topology Constrained Storage
 
 Due to [the issue](https://github.com/kubevirt/csi-driver/issues/66), it is not recommended to use local or any storage that is constrained by some topology.  
 You can find more details in the linked issue.
+
+## Migration from KKP 2.21
+
+Kubermatic Virtualization graduates to GA from KKP 2.22!
+On the way, we have changed many things that improved our implementation of KubeVirt Cloud Provider.
+
+Just to highlight the most important:
+* Safe Virtual Machine workload eviction has been implemented.
+* Virtual Machine templating is based on InstanceTypes and Preferences.
+* KubeVirt CSI controller has been moved to control plane of a user cluster.
+* Users can influence scheduling of VMs over topology spread constraints and node affinity presets.
+* KubeVirt Cloud Controller Manager has been improved and optimized.
+* Cluster admin can define the list of supported OS images and initialized storage classes.
+
+Additionally, we removed some features that didn't leave technology preview stage, those are:
+* Custom Local Disks
+* Secondary Disks
+
+{{% notice warning %}}
+The official upgrade procedure will not break clusters that already exist, however, **scaling cluster nodes will not lead to expected results**.  
+We require to update Machine Deployment objects and rotate machines right after the upgrade.
+{{% /notice %}}
+
+### Required Migration Steps
+
+Here we are going to cover manual steps that are required for smooth transition from technology preview to GA.
+
+#### Upgrade of KubeVirt Infrastructure Cluster
+
+{{% notice warning %}}
+Updating of Kubernetes, KubeVirt and Containerized Data Imported should be done from N-1 to N release.
+{{% /notice %}}
+
+The k8s cluster and KubeVirt components must be in [scope of our supported versions](#requirements).  
+You can update k8s version by following [the official guide](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/).  
+Or if you provisioned the cluster over KubeOne please follow [the update procedure](/kubeone/v1.5/tutorials/upgrading-clusters/).
+
+Next you can update KubeVirt control plane and Containerized Data Importer by executing:
+
+```shell
+export RELEASE=<SUPPORTED_RELEASE>
+kubectl apply -f https://github.com/kubevirt/kubevirt/releases/download/${RELEASE}/kubevirt-operator.yaml
+```
+
+```shell
+export RELEASE=<SUPPORTED_RELEASE>
+kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/${RELEASE}/cdi-operator.yaml
+```
+
+{{% notice note %}}
+Refer to [the KubeVirt control update documentation](https://kubevirt.io/user-guide/operations/updating_and_deletion/#updating-kubevirt-control-plane)
+for further details about the update.
+{{% /notice %}}
+
+{{% notice warning %}}
+It is highly recommended to first test the upgrade on a staging environment.  
+It can happen that hosts where KubeVirt runs might need reconfiguration or packages update.
+{{% /notice %}}
+
+#### Update Machine Deployment
+
+{{% notice warning %}}
+If user clusters have working Load Balancers those can be unreachable after Machine Deployment rotation due to LB selector key change.  
+After this step, it is required to follow the [Update LoadBalancer selectors](#update-loadbalancer-selectors) guide to fix it.
+{{% /notice %}}
+
+Right after the upgrade it is required to update Machine Deployment object (this will trigger Machines rotation).  
+You can do it from the KKP Dashboard which is recommended approach as you will be guided with the possible options.
+
+![Machine Deployment Edit](/img/kubermatic/main/architecture/supported-providers/kubevirt/mc-edit.png?classes=shadow,border "Machine Deployment Edit")
+
+The alternative is to directly change Machine Deployment objects over `kubectl apply`.  
+Take a look into [the example](https://github.com/kubermatic/machine-controller/blob/v1.56.0/examples/kubevirt-machinedeployment.yaml) to see what has been changed.
+
+#### Update LoadBalancer Selectors
+
+{{% notice note %}}
+This step is only required if Load Balancers on user clusters have been created, and the previous [Update Machine Deployment](#update-machine-deployment) guide has been accomplished.
+{{% /notice %}}
+
+From v0.3.0 KubeVirt Cloud Controller Manager changed Load Balancer selector. You have to edit Load Balancer(s) in 
+user cluster namespace on KubeVirt infrastructure and change its selector from  
+`cloud.kubevirt.io/<id>: <val>`  
+to  
+`cluster.x-k8s.io/cluster-name: <cluster-id>`.
+
+For instance the selector of LB that exists in KubeVirt infrastructure cluster in the `cluster-xyz` namespace,
+would have to be replaced to  
+`cluster.x-k8s.io/cluster-name: xyz`
