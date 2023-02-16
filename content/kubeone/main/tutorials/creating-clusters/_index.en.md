@@ -613,7 +613,7 @@ supported provider.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   aws: {}
 ```
@@ -654,7 +654,7 @@ document for more details.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   azure: {}
   cloudConfig: |
@@ -687,7 +687,7 @@ and fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   digitalocean: {}
   external: true
@@ -703,7 +703,7 @@ in multiple AZs by default in our example Terraform configs.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   gce: {}
   cloudConfig: |
@@ -730,7 +730,7 @@ The Hetzner CCM fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   hetzner: {}
   external: true

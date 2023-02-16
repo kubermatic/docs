@@ -47,7 +47,7 @@ stanza to your KubeOne configuration file, such as:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.5
+  kubernetes: 1.25.6
 cloudProvider:
   aws: {}
 containerRuntime:
@@ -71,7 +71,7 @@ stanza to your KubeOne configuration file, such as:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.22.5
+  kubernetes: 1.25.6
 cloudProvider:
   aws: {}
 containerRuntime:
