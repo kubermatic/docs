@@ -242,13 +242,13 @@ customNetworkPolicies:
             cidr: 10.200.10.0/24
 ```
 
-## Known issues
+## Known Issues
 
-### Support of block volume mode
+### Support of Block Volume Mode
 
 Currently, the KubeVirt CSI driver does not support volumes with block mode therefore you should avoid using this option to mount a PVC to a user cluster.
 
-### Topology constrained storage
+### Topology Constrained Storage
 
 Due to [the issue](https://github.com/kubevirt/csi-driver/issues/66), it is not recommended to use local or any storage that is constrained by some topology.  
 You can find more details in the linked issue.
@@ -275,11 +275,11 @@ The official upgrade procedure will not break clusters that already exist, howev
 We require to update Machine Deployment objects and rotate machines right after the upgrade.
 {{% /notice %}}
 
-### Required migration steps
+### Required Migration Steps
 
 Here we are going to cover manual steps that are required for smooth transition from technology preview to GA.
 
-#### Upgrade of KubeVirt Infrastructure cluster
+#### Upgrade of KubeVirt Infrastructure Cluster
 
 {{% notice warning %}}
 Updating of Kubernetes, KubeVirt and Containerized Data Imported should be done from N-1 to N release.
@@ -324,9 +324,9 @@ You can do it from the KKP Dashboard which is recommended approach as you will b
 ![Machine Deployment Edit](/img/kubermatic/main/architecture/supported-providers/kubevirt/mc-edit.png?classes=shadow,border "Machine Deployment Edit")
 
 The alternative is to directly change Machine Deployment objects over `kubectl apply`.  
-Take a look into [the example](https://github.com/kubermatic/machine-controller/blob/v1.55.0/examples/kubevirt-machinedeployment.yaml) to see what has been changed.
+Take a look into [the example](https://github.com/kubermatic/machine-controller/blob/v1.56.0/examples/kubevirt-machinedeployment.yaml) to see what has been changed.
 
-#### Update LoadBalancer selectors
+#### Update LoadBalancer Selectors
 
 {{% notice note %}}
 This step is only required if Load Balancers on user clusters have been created, and the previous [Update Machine Deployment](#update-machine-deployment) guide has been accomplished.
