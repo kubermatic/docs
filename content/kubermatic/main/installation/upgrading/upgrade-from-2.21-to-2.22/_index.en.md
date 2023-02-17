@@ -21,8 +21,8 @@ Support for Docker as container runtime has been removed due to removal of `dock
 container runtime in KKP 2.22 is therefore containerd. As such, the upgrade will fail if `kubermatic-installer` detects any user clusters
 with Docker as container runtime.
 
-It is necessary to migrate existing clusters to containerd before proceeding. This can be done either via the Kubermatic Dashboard
-or with `kubectl`. On the Dashboard, just edit the cluster, change the _Container Runtime_ field to `containerd` and save your changes.
+It is necessary to migrate **existing clusters and cluster templates** to containerd before proceeding. This can be done either via the Kubermatic Dashboard
+or with `kubectl`. On the Dashboard, just edit the cluster or cluster template, change the _Container Runtime_ field to `containerd` and save your changes.
 
 ![Change Container Runtime](/img/kubermatic/main/installation/upgrade_container_runtime.png?classes=shadow,border&height=200 "Change Container Runtime")
 
