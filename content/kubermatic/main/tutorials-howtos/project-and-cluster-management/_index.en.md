@@ -76,10 +76,15 @@ In the next step of the installer, enter the credentials for the chosen provider
 In the Initial nodes section of the wizard you can setup the size, settings and amount of nodes your cluster will start with. Also you can assign labels to your nodes. You can also set [node taints](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) which is a property that allows your node to repel certain pods.
 
 ![Node Settings](/img/kubermatic/main/tutorials/wizard_step_4.png?classes=shadow,border "Node Settings")
+![Node Settings](/img/kubermatic/main/tutorials/wizard_step_4.1.png?classes=shadow,border "Node Settings")
+
+In the cluster creation wizard, you can select applications to install into your cluster. KKP will automatically install your selection after the infrastructure is provisioned and the cluster is ready. Learn more about [Adding Applications to a cluster via wizard](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/applications/add-applications-to-cluster/)
+
+![Add Applications to a cluster Settings](/img/kubermatic/main/tutorials/wizard_step_5.png?classes=shadow,border "Add Applications")
 
 Lastly, a cluster summary screen will be presented so that you can check out if everything looks ok.
 
-![Cluster Details as a Summary](/img/kubermatic/main/tutorials/wizard_step_5.png?classes=shadow,border "Cluster Details as a Summary")
+![Cluster Details as a Summary](/img/kubermatic/main/tutorials/wizard_step_6.png?classes=shadow,border "Cluster Details as a Summary")
 
 You will then be forwarded to the cluster page where you can view the cluster creation process:
 
