@@ -113,7 +113,7 @@ You can `Disconnect` an external cluster by clicking on the disconnect icon next
 ## Delete Cluster
 
 {{% notice info %}}
-Delete Cluster displays information in case nodes are attched
+Delete Cluster displays information in case nodes are attached
 {{% /notice %}}
 
 
