@@ -102,7 +102,19 @@ As shown above, the Autoscaler has been provisioned and running.
 ## Annotating MachineDeployments for Autoscaling
 
 
-The Cluster Autoscaler only considers MachineDeployment with valid annotations. The annotations are used to control the minimum and the maximum number of replicas per MachineDeployment. You don't need to apply those annotations to all MachineDeployment objects, but only on MachineDeployments that Cluster Autoscaler should consider.
+The Cluster Autoscaler only considers MachineDeployment with valid annotations. The annotations are used to control the minimum and the maximum number of replicas per MachineDeployment. You don't need to apply those annotations to all MachineDeployment objects, but only on MachineDeployments that Cluster Autoscaler should consider. Annotations can be set either using the KKP Dashboard or manually with kubectl.
+
+### KKP Dashboard
+
+Annotations can be preconfigured at the time of cluster creation. Just put appropriate values in the Initial Nodes form.
+
+![Set autoscaling annotations while creating cluster](/img/kubermatic/main/tutorials/create_autoscaler_annotations.png?classes=shadow,border "Set autoscaling annotations while creating cluster")
+
+If you already have an existing Machine Deployment, open an edit form and scroll down to `Advanced Settings` > `Node Autoscaling`.
+
+![Set autoscaling annotations while editing MD](/img/kubermatic/main/tutorials/edit_autoscaler_annotations.png?classes=shadow,border "Set autoscaling annotations while editing Machine Deployment")
+
+### Manual setup
 
 ```bash
 cluster.k8s.io/cluster-api-autoscaler-node-group-min-size - the minimum number of replicas (must be greater than zero)
