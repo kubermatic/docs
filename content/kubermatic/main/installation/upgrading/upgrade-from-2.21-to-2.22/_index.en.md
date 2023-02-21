@@ -103,7 +103,7 @@ INFO[0066]
 INFO[0066]         Service             : nginx-ingress-controller / nginx-ingress-controller
 INFO[0066]         Ingress via hostname: <Load Balancer>.eu-central-1.elb.amazonaws.com
 INFO[0066]
-INFO[0066]       Please ensure your DNS settings for <KKP FQDN>" include the following records:
+INFO[0066]       Please ensure your DNS settings for "<KKP FQDN>" include the following records:
 INFO[0066]
 INFO[0066]          <KKP FQDN>.    IN  CNAME  <Load Balancer>.eu-central-1.elb.amazonaws.com.
 INFO[0066]          *.<KKP FQDN>.  IN  CNAME  <Load Balancer>.eu-central-1.elb.amazonaws.com.
