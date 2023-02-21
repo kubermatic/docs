@@ -5,7 +5,7 @@ weight = 20
 +++
 
 
-The Seed Configurations page in the Admin Panel allows administrators to see Seeds available in the KKP instance. This page presents a Seed's utilization broken down into Providers and Datacenters.
+The Seed Configurations page in the Admin Panel allows administrators to see Seeds available in the KKP instance. This page presents Seed's utilization broken down into Providers and Datacenters.
 
 {{% notice note %}}
 The Seed Configuration section is a readonly view page. This page does not provide any **CRUD** operations.
