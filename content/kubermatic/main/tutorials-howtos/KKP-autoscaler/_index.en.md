@@ -24,7 +24,7 @@ You can install Kubernetes autoscaler on a running User Cluster using the KKP ad
 
 **Step 1**
 
-Create a KKP Cluster by selecting your project on the dashboard and click on `“create cluster”`. More details can be found on the official [documentation](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/project-and-cluster-management/) page.
+Create a KKP Cluster by selecting your project on the dashboard and click on "Create Cluster". More details can be found on the official [documentation]({{< ref "../project-and-cluster-management/" >}}) page.
 
 **Step 2**
 
