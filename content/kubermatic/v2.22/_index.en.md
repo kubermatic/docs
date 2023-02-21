@@ -47,7 +47,7 @@ The admin panel allows KKP administrators to manage the global settings that imp
 - Enable and configure etcd backups for your clusters through Backup Buckets.
 
 #### Manage Worker Nodes via the UI or the CLI
-Worker nodes can be managed [via the KKP web dashboard]({{< ref "./tutorials-howtos/manage-worker's-node/via-ui/" >}}). Once you have installed kubectl, you can also manage them [via CLI]({{< ref "./tutorials-howtos/manage-worker's-node/via-command-line" >}}) to automate the creation, deletion, and upgrade of nodes.
+Worker nodes can be managed [via the KKP web dashboard]({{< ref "./tutorials-howtos/manage-workers-node/via-ui/" >}}). Once you have installed kubectl, you can also manage them [via CLI]({{< ref "./tutorials-howtos/manage-workers-node/via-command-line" >}}) to automate the creation, deletion, and upgrade of nodes.
 
 #### Monitoring, Logging & Alerting
 When it comes to monitoring, no approach fits all use cases. KKP allows you to adjust things to your needs by enabling certain customizations to enable easy and tactical monitoring.
