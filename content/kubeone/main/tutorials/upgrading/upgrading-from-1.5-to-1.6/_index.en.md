@@ -40,7 +40,7 @@ KubeOne already ensures that all pods have a proper toleration for the new
 1.23 to 1.24. We believe that this change shouldn't affect anyone, but
 we want to raise awareness for it.
 
-KubeOne will also preform checks to make sure that:
+KubeOne will also perform checks to make sure that:
 
 - there's no `node-role.kubernetes.io/master:NoSchedule` taint set on nodes in
   the KubeOneCluster manifest for clusters running Kubernetes 1.25+
