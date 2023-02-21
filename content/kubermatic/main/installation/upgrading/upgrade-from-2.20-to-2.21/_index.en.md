@@ -1,8 +1,8 @@
 
 +++
-title = "Upgrading from 2.20 to 2.21"
+title = "Upgrading to KKP 2.21"
 date = 2022-08-31T00:00:00+01:00
-weight = 120
+weight = 20
 +++
 
 {{% notice note %}}
@@ -114,9 +114,9 @@ Additionally, reconciliation of those objects will not work properly, and you ma
 
 After finishing the upgrade, check out some of the new features that were added in KKP 2.21:
 
-- [Third-party application installs via an application catalogue]({{< ref "../../applications/" >}})
-- [Creating external clusters from KKP]({{< ref "../../external-clusters/" >}})
-- [Operating System Manager]({{< ref "../../operating-system-manager/" >}}) (available as preview in KKP 2.20, but enabled by default in 2.21)
+- [Third-party application installs via an application catalogue]({{< ref "../../../tutorials-howtos/applications/" >}})
+- [Creating external clusters from KKP]({{< ref "../../../tutorials-howtos/external-clusters/" >}})
+- [Operating System Manager]({{< ref "../../../tutorials-howtos/operating-system-manager/" >}}) (available as preview in KKP 2.20, but enabled by default in 2.21)
 - Support for Rocky Linux as new OS and VMware Cloud Director as new cloud provider
 - [Resource Quotas]({{< ref "../../../architecture/concept/kkp-concepts/resource-quotas/" >}}) (available in Enterprise Edition)
 - [KKP role assignments for OIDC groups]({{< ref "../../../architecture/role-based-access-control/groups-support/" >}}) (available in Enterprise Edition)

@@ -8,7 +8,7 @@ weight = 200
 This chapter describes how to configure the available Kubernetes versions and how to
 provide update paths for user clusters.
 
-The list of selectable versions when [specifying cluster name and Kubernetes version]({{< ref "../../project-and-cluster-management" >}}) is defined in the `spec.versions`
+The list of selectable versions when [specifying cluster name and Kubernetes version]({{< ref "../../../tutorials-howtos/project-and-cluster-management" >}}) is defined in the `spec.versions`
 section in the [KubermaticConfiguration]({{< ref "../../../tutorials-howtos/kkp-configuration" >}}) CRD.
 This is also where updates are configured.
 

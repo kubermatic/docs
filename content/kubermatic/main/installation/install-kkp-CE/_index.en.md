@@ -2,7 +2,7 @@
 title = "Install Kubermatic Kubernetes Platform (KKP) CE"
 linkTitle = "Install Community Edition"
 date = 2018-04-28T12:07:15+02:00
-weight = 20
+weight = 10
 enableToc = true
 +++
 
@@ -10,11 +10,10 @@ Kubermatic Kubernetes Platform (KKP) is a Kubernetes management platform that he
 
 This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`). KKP can be installed on any infrastructure provider that can host a Kubernetes cluster, i.e. any major cloud provider like Amazon Web Services (AWS), Azure, Google Cloud Platform (GCP), Digital Ocean or Hetzner. Private infrastructure providers like vSphere, OpenStack or Nutanix are supported as well, e.g. by using [KubeOne](https://docs.kubermatic.com/kubeone/). See [Set up Kubernetes](#set-up-kubernetes) for details.
 
-
 ## Requirements
 
 {{% notice warning %}}
-This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../../tutorials-howtos/upgrading" >}}) for more information on
+This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../upgrading/upgrade-from-2.21-to-2.22/" >}}) for more information on
 migrating existing installations.
 {{% /notice %}}
 
