@@ -1,7 +1,7 @@
 +++
 title = "Nutanix"
 date = 2022-03-02T12:00:00+02:00
-weight = 7
+weight = 5
 +++
 
 KKP supports creating user clusters on [Nutanix&trade;](https://www.nutanix.com/) hyper-converged infrastructure. To use the Nutanix integration, a [Nutanix Prism Central](https://www.nutanix.com/products/prism) installation that exposes the [Prism Central v3 API](https://www.nutanix.dev/api_references/prism-central-v3/#/) is required.

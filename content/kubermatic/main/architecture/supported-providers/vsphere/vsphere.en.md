@@ -1,5 +1,5 @@
 +++
-title = "VSphere"
+title = "vSphere"
 date = 2018-07-04T12:07:15+02:00
 weight = 7
 
@@ -367,10 +367,10 @@ System.View
 ```
 
 {{% notice warning %}} Note: If a category id is assigned to a user cluster, KKP would claim the ownership of any tags
-it creates. KKP would try to delete tags assigned to the cluster upon cluster deletion. Thus, make sure that the assigned 
+it creates. KKP would try to delete tags assigned to the cluster upon cluster deletion. Thus, make sure that the assigned
 category isn't shared across other lingering resources. {{% /notice %}}
 
-{{% notice warning %}} Note: Tags can be attached to machine deployments regardless if the tags are created via KKP or not. 
+{{% notice warning %}} Note: Tags can be attached to machine deployments regardless if the tags are created via KKP or not.
 If a tag was not attached to the user cluster, machine controller will only detach it.{{% /notice %}}
 
 The described permissions have been tested with vSphere 7.0.U2 and might be different for other vSphere versions.

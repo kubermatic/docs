@@ -1,7 +1,7 @@
 +++
 title = "KubeVirt"
 date = 2021-02-01T14:46:15+02:00
-weight = 7
+weight = 4
 
 +++
 
@@ -13,7 +13,7 @@ weight = 7
 
 ### Requirements
 
-A Kubernetes cluster (KubeVirt infrastructure cluster), which consists of nodes that **have a hardware virtualization support** with at least: 
+A Kubernetes cluster (KubeVirt infrastructure cluster), which consists of nodes that **have a hardware virtualization support** with at least:
 * 2 CPUs
 * 4GB of RAM
 * 30GB of storage.
@@ -40,7 +40,7 @@ Additionally, make sure that your nodes have appropriate Qemu and KVM packages i
 
 ### Kubernetes And KubeVirt Installation
 
-We provide KubeOne, which can be used to set up a highly-available Kubernetes cluster on bare metal.  
+We provide KubeOne, which can be used to set up a highly-available Kubernetes cluster on bare metal.
 Refer to the [KubeOne documentation]({{< ref "/kubeone/v1.5/tutorials/creating-clusters-baremetal/" >}}) for details on how to use it.
 
 Follow [KubeVirt](https://kubevirt.io/user-guide/operations/installation/#installation) and [Containerized Data Importer](https://kubevirt.io/user-guide/operations/containerized_data_importer/#install-cdi)
@@ -99,7 +99,7 @@ We allow to configure:
   * Check [Network Policy documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource) to see available options in the spec.
   * Also check a [common services connectivity issue](#i-created-a-load-balancer-service-on-a-user-cluster-but-services-outside-cannot-reach-it) that can be solved by a custom network policy.
 * `dnsConfig` and `dnsPolicy` - DNS config and policy which are set up on a guest. Defaults to `ClusterFirst`.
-  * You should set those fields when you suffer from DNS loop or collision issue. [Refer to this section for more details.](#i-discovered-a-dns-collision-on-my-cluster-why-does-it-happen) 
+  * You should set those fields when you suffer from DNS loop or collision issue. [Refer to this section for more details.](#i-discovered-a-dns-collision-on-my-cluster-why-does-it-happen)
 * `images` - Images for Virtual Machines that are selectable from KKP dashboard.
   * Set this field according to [supported operating systems]({{< ref "../../compatibility/os-support-matrix/" >}}) to make sure that users can select operating systems for their VMs.
 * `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
@@ -131,9 +131,9 @@ spec:
 
 For more details please refer to this [document](https://kubevirt.io/user-guide/operations/component_monitoring/).
 
-After completing the above setup, you can import the [KubeVirt Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) to Grafana.  
+After completing the above setup, you can import the [KubeVirt Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) to Grafana.
 Follow the official [Grafana documentation](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#export-and-import-dashboards
-) to learn how to import the dashboard. 
+) to learn how to import the dashboard.
 
 ## Advanced Settings
 
@@ -170,19 +170,19 @@ whenUnsatisfiable: ScheduleAnyway
 
 this allows us to spread Virtual Machine equally across a cluster.
 
-However, it is possible to change the default behaviour and create your own topology combined with Node Affinity Presets.  
+However, it is possible to change the default behaviour and create your own topology combined with Node Affinity Presets.
 You can do it by expanding *ADVANCED SCHEDULING SETTINGS* on the initial nodes dashboard page.
 
 ![Instance Types and Preferences](/img/kubermatic/main/architecture/supported-providers/kubevirt/scheduling-form.png?classes=shadow,border "Advanced Scheduling Settings")
 
-It gives you a possibility to create your own unique scheduling options that override ours.  
+It gives you a possibility to create your own unique scheduling options that override ours.
 For instance, you could avoid creation of Virtual Machines on database nodes etc.
 
 ## Frequently Asked Questions
 
 ### How can I add a new Virtual Machine template?
 
-You can do it by simply creating a new `VirtualMachineClusterInstancetype` and `VirtualMachineClusterPreference` on the KubeVirt infrastructure cluster.  
+You can do it by simply creating a new `VirtualMachineClusterInstancetype` and `VirtualMachineClusterPreference` on the KubeVirt infrastructure cluster.
 Those resources are cluster scoped meaning all users will see them.
 
 Refer to the [InstanceTypes and Preferences](https://kubevirt.io/user-guide/virtual_machines/instancetypes/#virtualmachineinstancetype) guide for details on how to use it.
@@ -191,7 +191,7 @@ Refer to the [InstanceTypes and Preferences](https://kubevirt.io/user-guide/virt
 
 You can do it as with every standard k8s cluster, over `kubectl drain` command.
 
-We implemented a mechanism that will allow you to safely drain a bare-metal node without losing the VM workload.  
+We implemented a mechanism that will allow you to safely drain a bare-metal node without losing the VM workload.
 After running a drain command the VMs running on the node along with their workload will be evicted to different nodes.
 
 {{% notice note %}}
@@ -199,25 +199,25 @@ More details on the eviction implementation can be found [here](https://github.c
 {{% /notice %}}
 
 {{% notice warning %}}
-Remember, the responsibility of making sure that the workload can be evicted lies on you.  
-Invalid `PodDisruptionBudget` configuration may block the eviction.  
+Remember, the responsibility of making sure that the workload can be evicted lies on you.
+Invalid `PodDisruptionBudget` configuration may block the eviction.
 {{% /notice %}}
 
 {{% notice warning %}}
 Additionally consider [skipEvictionAfter](https://github.com/kubermatic/machine-controller/blob/main/cmd/machine-controller/main.go#L125-L126)
-parameter of Machine Controller that sets the timeout for workload eviction.  
-**Once exceeded, the VMs will simply be deleted.** 
+parameter of Machine Controller that sets the timeout for workload eviction.
+**Once exceeded, the VMs will simply be deleted.**
 {{% /notice %}}
 
 ### I discovered a DNS collision on my cluster. Why does it happen?
 
-Usually it happens when both infrastructure and user clusters points to the same address of NodeLocal DNS Cache servers, even if they have separate server instances running.  
+Usually it happens when both infrastructure and user clusters points to the same address of NodeLocal DNS Cache servers, even if they have separate server instances running.
 
-Let us imagine that: 
-* On the infrastructure cluster there is a running NodeLocal DNS Cache under 169.254.20.10 address.  
-* Then we create a new user cluster, start a few Virtual Machines that finally gives a fully functional k8s cluster that runs on another k8s cluster.  
-* Next we observe that on the user cluster there is another NodeLocal DNS Cache that has the same 169.254.20.10 address.  
-* Since Virtual Machine can have access to subnets on the infra and user clusters (depends on your network policy rules) having the same address of DNS cache leads to conflict.  
+Let us imagine that:
+* On the infrastructure cluster there is a running NodeLocal DNS Cache under 169.254.20.10 address.
+* Then we create a new user cluster, start a few Virtual Machines that finally gives a fully functional k8s cluster that runs on another k8s cluster.
+* Next we observe that on the user cluster there is another NodeLocal DNS Cache that has the same 169.254.20.10 address.
+* Since Virtual Machine can have access to subnets on the infra and user clusters (depends on your network policy rules) having the same address of DNS cache leads to conflict.
 
 One way to prevent that situation is to set a `dnsPolicy` and `dnsConfig` rules that Virtual Machines do not copy DNS configuration from their pods and points to different addresses.
 
@@ -225,7 +225,7 @@ Follow [Configure KKP With KubeVirt](#configure-kkp-with-kubevirt) to learn how 
 
 ### I created a load balancer service on a user cluster but services outside cannot reach it.
 
-In most cases it is due to `cluster-isolation` network policy that is deployed as default on each user cluster.  
+In most cases it is due to `cluster-isolation` network policy that is deployed as default on each user cluster.
 It only allows in-cluster communication. You should adjust network rules to your needs by adding [customNetworkPolicies configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})).
 
 For instance, if you need to allow all ingress traffic from `10.200.10.0/24` CIDR to each user cluster then you would have to set:
@@ -250,7 +250,7 @@ Currently, the KubeVirt CSI driver does not support volumes with block mode ther
 
 ### Topology Constrained Storage
 
-Due to [the issue](https://github.com/kubevirt/csi-driver/issues/66), it is not recommended to use local or any storage that is constrained by some topology.  
+Due to [the issue](https://github.com/kubevirt/csi-driver/issues/66), it is not recommended to use local or any storage that is constrained by some topology.
 You can find more details in the linked issue.
 
 ## Migration from KKP 2.21
@@ -271,7 +271,7 @@ Additionally, we removed some features that didn't leave technology preview stag
 * Secondary Disks
 
 {{% notice warning %}}
-The official upgrade procedure will not break clusters that already exist, however, **scaling cluster nodes will not lead to expected results**.  
+The official upgrade procedure will not break clusters that already exist, however, **scaling cluster nodes will not lead to expected results**.
 We require to update Machine Deployment objects and rotate machines right after the upgrade.
 {{% /notice %}}
 
@@ -285,8 +285,8 @@ Here we are going to cover manual steps that are required for smooth transition 
 Updating of Kubernetes, KubeVirt and Containerized Data Imported should be done from N-1 to N release.
 {{% /notice %}}
 
-The k8s cluster and KubeVirt components must be in [scope of our supported versions](#requirements).  
-You can update k8s version by following [the official guide](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/).  
+The k8s cluster and KubeVirt components must be in [scope of our supported versions](#requirements).
+You can update k8s version by following [the official guide](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/).
 Or if you provisioned the cluster over KubeOne please follow [the update procedure](/kubeone/v1.5/tutorials/upgrading-clusters/).
 
 Next you can update KubeVirt control plane and Containerized Data Importer by executing:
@@ -307,23 +307,23 @@ for further details about the update.
 {{% /notice %}}
 
 {{% notice warning %}}
-It is highly recommended to first test the upgrade on a staging environment.  
+It is highly recommended to first test the upgrade on a staging environment.
 It can happen that hosts where KubeVirt runs might need reconfiguration or packages update.
 {{% /notice %}}
 
 #### Update Machine Deployment
 
 {{% notice warning %}}
-If user clusters have working Load Balancers those can be unreachable after Machine Deployment rotation due to LB selector key change.  
+If user clusters have working Load Balancers those can be unreachable after Machine Deployment rotation due to LB selector key change.
 After this step, it is required to follow the [Update LoadBalancer selectors](#update-loadbalancer-selectors) guide to fix it.
 {{% /notice %}}
 
-Right after the upgrade it is required to update Machine Deployment object (this will trigger Machines rotation).  
+Right after the upgrade it is required to update Machine Deployment object (this will trigger Machines rotation).
 You can do it from the KKP Dashboard which is recommended approach as you will be guided with the possible options.
 
 ![Machine Deployment Edit](/img/kubermatic/main/architecture/supported-providers/kubevirt/mc-edit.png?classes=shadow,border "Machine Deployment Edit")
 
-The alternative is to directly change Machine Deployment objects over `kubectl apply`.  
+The alternative is to directly change Machine Deployment objects over `kubectl apply`.
 Take a look into [the example](https://github.com/kubermatic/machine-controller/blob/v1.56.0/examples/kubevirt-machinedeployment.yaml) to see what has been changed.
 
 #### Update LoadBalancer Selectors
@@ -332,12 +332,12 @@ Take a look into [the example](https://github.com/kubermatic/machine-controller/
 This step is only required if Load Balancers on user clusters have been created, and the previous [Update Machine Deployment](#update-machine-deployment) guide has been accomplished.
 {{% /notice %}}
 
-From v0.3.0 KubeVirt Cloud Controller Manager changed Load Balancer selector. You have to edit Load Balancer(s) in 
-user cluster namespace on KubeVirt infrastructure and change its selector from  
-`cloud.kubevirt.io/<id>: <val>`  
-to  
+From v0.3.0 KubeVirt Cloud Controller Manager changed Load Balancer selector. You have to edit Load Balancer(s) in
+user cluster namespace on KubeVirt infrastructure and change its selector from
+`cloud.kubevirt.io/<id>: <val>`
+to
 `cluster.x-k8s.io/cluster-name: <cluster-id>`.
 
 For instance the selector of LB that exists in KubeVirt infrastructure cluster in the `cluster-xyz` namespace,
-would have to be replaced to  
+would have to be replaced to
 `cluster.x-k8s.io/cluster-name: xyz`

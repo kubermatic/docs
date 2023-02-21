@@ -1,7 +1,7 @@
 +++
 title = "AWS"
 date = 2018-09-20T12:12:15+02:00
-weight = 7
+weight = 1
 
 +++
 
