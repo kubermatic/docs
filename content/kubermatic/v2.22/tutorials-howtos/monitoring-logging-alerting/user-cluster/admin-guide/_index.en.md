@@ -76,7 +76,7 @@ If you want to set up Grafana for high availability, you just need to set up a s
 
 #### Expose Grafana & Alertmanager UI
 
-After deploying MLA components into a KKP Seed cluster, Grafana and Alertmanager UI are exposed only via ClusterIP services by default. To expose them to users outside of the Seed cluster with proper authentication in place, we will use the [IAP Helm chart](https://github.com/kubermatic/kubermatic/tree/main/charts/iap) from the Kubermatic Installer package.
+After deploying MLA components into a KKP Seed cluster, Grafana and Alertmanager UI are exposed only via ClusterIP services by default. To expose them to users outside of the Seed cluster with proper authentication in place, we will use the [IAP Helm chart](https://github.com/kubermatic/kubermatic/tree/release/v2.22/charts/iap) from the Kubermatic Installer package.
 
 As a matter of rule, to integrate well with KKP UI, Grafana and Alertmanager should be exposed at the URL `https://<any-prefix>.<seed-name>.<kkp-domain>`, for example:
 
@@ -216,9 +216,9 @@ The default settings of the MLA stack components are sufficient for smaller scal
 
 User Cluster MLA stack components setting can be adapted by modifying (using your own) their `value.yaml` files. Available Helm chart options can be reviewed in the MLA repo:
 
-- [Cortex values](https://github.com/kubermatic/kubermatic/tree/main/charts/mla/cortex#values)
-- [Loki values](https://github.com/kubermatic/kubermatic/tree/main/charts/mla/loki-distributed#values)
-- [Grafana values](https://github.com/kubermatic/kubermatic/tree/main/charts/mla/grafana#configuration)
+- [Cortex values](https://github.com/kubermatic/kubermatic/tree/release/v2.22/charts/mla/cortex#values)
+- [Loki values](https://github.com/kubermatic/kubermatic/tree/release/v2.22/charts/mla/loki-distributed#values)
+- [Grafana values](https://github.com/kubermatic/kubermatic/tree/release/v2.22/charts/mla/grafana#configuration)
 
 For larger scales, you will may start with tweaking the following:
 
@@ -264,9 +264,9 @@ By default, the MLA stack is configured to hold the logs and metrics in the obje
 By default, a MinIO instance will also be deployed as the S3 storage backend for MLA components. It is also possible to use an existing MinIO instance in your cluster or any other S3-compatiable services.
 
 There are three Helm charts which are related to MinIO in MLA repository:
-- [mla-secrets](https://github.com/kubermatic/kubermatic/tree/main/charts/mla/mla-secrets) is used to create and manage MinIO and Grafana credentials Secrets.
-- [minio](https://github.com/kubermatic/kubermatic/tree/main/charts/mla/minio) is used to deploy MinIO instance in Kubernetes cluster.
-- [minio-lifecycle-mgr](https://github.com/kubermatic/kubermatic/tree/main/charts/mla/minio-lifecycle-mgr) is used to manage the lifecycle of the stored data, and to take care of data retention.
+- [mla-secrets](https://github.com/kubermatic/kubermatic/tree/release/v2.22/charts/mla/mla-secrets) is used to create and manage MinIO and Grafana credentials Secrets.
+- [minio](https://github.com/kubermatic/kubermatic/tree/release/v2.22/charts/mla/minio) is used to deploy MinIO instance in Kubernetes cluster.
+- [minio-lifecycle-mgr](https://github.com/kubermatic/kubermatic/tree/release/v2.22/charts/mla/minio-lifecycle-mgr) is used to manage the lifecycle of the stored data, and to take care of data retention.
 
 If you want to disable the MinIO installation and use your existing MinIO instance or other S3 services, you need to:
 - Disable the Secret creation for MinIO in mla-secrets Helm chart. In the [mla-secrets Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/mla-secrets/values.yaml#L18), set `mlaSecrets.minio.enabled` to `false`.

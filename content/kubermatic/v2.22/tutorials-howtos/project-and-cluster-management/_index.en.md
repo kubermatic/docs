@@ -78,7 +78,7 @@ In the Initial nodes section of the wizard you can setup the size, settings and 
 ![Node Settings](/img/kubermatic/v2.22/tutorials/wizard_step_4.png?classes=shadow,border "Node Settings")
 ![Node Settings](/img/kubermatic/v2.22/tutorials/wizard_step_4.1.png?classes=shadow,border "Node Settings")
 
-In the cluster creation wizard, you can select applications to install into your cluster. KKP will automatically install your selection after the infrastructure is provisioned and the cluster is ready. Learn more about [Adding Applications to a cluster via wizard](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/applications/add-applications-to-cluster/)
+In the cluster creation wizard, you can select applications to install into your cluster. KKP will automatically install your selection after the infrastructure is provisioned and the cluster is ready. Learn more about [Adding Applications to a cluster via wizard]({{< ref "../applications/add-applications-to-cluster/" >}})
 
 ![Add Applications to a cluster Settings](/img/kubermatic/v2.22/tutorials/wizard_step_5.png?classes=shadow,border "Add Applications")
 

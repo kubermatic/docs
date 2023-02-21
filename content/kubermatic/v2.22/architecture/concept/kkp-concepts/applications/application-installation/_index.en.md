@@ -133,5 +133,5 @@ This behavior reduces the load on the cluster and avoids an infinite loop that d
 **The following is an example of ApplicationInstallation, showing all the possible options**.
 
 ```yaml
-{{< readfile "kubermatic/main/data/applicationInstallation.yaml" >}}
+{{< readfile "kubermatic/v2.22/data/applicationInstallation.yaml" >}}
 ```

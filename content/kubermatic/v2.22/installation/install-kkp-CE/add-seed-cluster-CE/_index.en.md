@@ -141,7 +141,7 @@ when creating your `Seed` resource.
 
 To configure the storage class to use and the size of backing storage, edit the `minio` section in your `values.yaml` file.
 For more information about the Minio options, take a look at
-[the minio chart's `values.yaml`](https://github.com/kubermatic/kubermatic/blob/main/charts/minio/values.yaml).
+[the minio chart's `values.yaml`](https://github.com/kubermatic/kubermatic/blob/release/v2.22/charts/minio/values.yaml).
 
 ```yaml
 minio:

@@ -14,5 +14,5 @@ The following is an example configuration, showing all possible options. Note th
 don't define explicitly are always defaulted to these values.
 
 ```yaml
-{{< readfile "kubermatic/main/data/kubermaticConfiguration.yaml" >}}
+{{< readfile "kubermatic/v2.22/data/kubermaticConfiguration.yaml" >}}
 ```

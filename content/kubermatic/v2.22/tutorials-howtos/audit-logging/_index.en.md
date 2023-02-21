@@ -31,7 +31,7 @@ $ kubectl edit -n cluster-<YOUR CLUSTER ID> configmap audit-config
 ```
 
 ```yaml
-{{< readfile "kubermatic/main/data/policy.yaml">}}
+{{< readfile "kubermatic/v2.22/data/policy.yaml">}}
 ```
 
 ### Audit Policy Presets
