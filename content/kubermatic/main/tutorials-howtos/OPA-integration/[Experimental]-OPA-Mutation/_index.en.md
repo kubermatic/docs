@@ -7,7 +7,7 @@ weight = 40
 
 ### [Experimental] OPA Mutation
 
-KKP release 2.18 includes upgrading Gatekeeper to v3.5.2 to support K8s 1.22, and also introduces the new Experimental [Mutation](https://open-policy-agent.github.io/gatekeeper/website/docs/mutation/) feature, which is not integrated with KKP(yet), but users can still use it on the user clusters.
+KKP release 2.22 includes Gatekeeper version v3.7.2 which also supports the Experimental [Mutation](https://open-policy-agent.github.io/gatekeeper/website/docs/mutation/) feature, which is not integrated with KKP(yet), but users can still use it on the user clusters.
 
 **How to activate Mutation on Gatekeeper**
 The mutation is Disabled by default, but users can opt-in by setting the flag `experimentalEnableMutation` in the Cluster spec.
