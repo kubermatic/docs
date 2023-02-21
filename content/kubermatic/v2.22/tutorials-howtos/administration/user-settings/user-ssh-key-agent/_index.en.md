@@ -13,7 +13,7 @@ file on each worker node. The agent runs as a daemonset in the cluster. If a use
 manually via logging into machine and change the content of the file the agent will reject the changes and will rewrite
 the content of the file based on the attached user ssh keys.
 
-![SSH Key Agent Checkbox](/img/kubermatic/main/ui/sshkey_agent.png?height=300px&classes=shadow,border "SSH Key Agent Checkbox")
+![SSH Key Agent Checkbox](/img/kubermatic/v2.22/ui/sshkey_agent.png?height=300px&classes=shadow,border "SSH Key Agent Checkbox")
 
 The agent is deployed to the user clusters by default and it is not possible to change whether to deploy it or not once
 the cluster has been created. The reason behind that is, once the agent is deployed after the cluster is created, any

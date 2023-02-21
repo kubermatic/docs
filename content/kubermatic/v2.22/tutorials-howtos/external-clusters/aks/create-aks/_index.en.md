@@ -10,19 +10,19 @@ Create a cluster following these steps:
 
 - Click on `Create External Cluster` button:
 
-![Create External Cluster](/img/kubermatic/main/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
+![Create External Cluster](/img/kubermatic/v2.22/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
 
 - Choose "Azure Kubernetes Service" from the supported providers:
 
-![Select AKS Provider](/img/kubermatic/main/tutorials/external_clusters/aks_selection.png "Select AKS Provider")
+![Select AKS Provider](/img/kubermatic/v2.22/tutorials/external_clusters/aks_selection.png "Select AKS Provider")
 
 - Provide the credentials
 
-![Select Preset](/img/kubermatic/main/tutorials/external_clusters/select_preset.png "Select Preset")
+![Select Preset](/img/kubermatic/v2.22/tutorials/external_clusters/select_preset.png "Select Preset")
 
 - Configure the cluster:
 
-![Configure Cluster](/img/kubermatic/main/tutorials/external_clusters/aks_cluster_settings.png "Configure Cluster")
+![Configure Cluster](/img/kubermatic/v2.22/tutorials/external_clusters/aks_cluster_settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
 
@@ -60,7 +60,7 @@ Node size
 
 ## Create Node Pool
 
-![Add Node Pool](/img/kubermatic/main/tutorials/external_clusters/add_md.png "Add Node Pool")
+![Add Node Pool](/img/kubermatic/v2.22/tutorials/external_clusters/add_md.png "Add Node Pool")
 
 - Name: The name for this node pool. Node pool must contain only lowercase letters and numbers. For Linux node pools the name cannot be longer than 12 characters, and for Windows node pools the name cannot be longer than 6 characters.
 - VM Size: The size of the virtual machines that will form the nodes in this node pool.
@@ -70,6 +70,6 @@ Node size
 - AutoScaling: Autoscaling is recommended for standard configuration.
     Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
 
-![Create Node Pool](/img/kubermatic/main/tutorials/external_clusters/aks_md.png "Create Node Pool")
+![Create Node Pool](/img/kubermatic/v2.22/tutorials/external_clusters/aks_md.png "Create Node Pool")
 
 

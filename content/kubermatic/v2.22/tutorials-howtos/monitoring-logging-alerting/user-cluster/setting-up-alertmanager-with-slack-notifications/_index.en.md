@@ -14,22 +14,22 @@ workspace, please create one Slack workspace [here](https://slack.com/create).
 You will need a Slack Webhook URL in order to receive alerting notifications. Please go to **Slack** ->
 **Administration** -> **Manage apps** as shown below:
 
-![Slack Workspace](/img/kubermatic/main/monitoring/user_cluster/slack_dashboard.png?height=500px&classes=shadow,border, "Slack Workspace")
+![Slack Workspace](/img/kubermatic/v2.22/monitoring/user_cluster/slack_dashboard.png?height=500px&classes=shadow,border, "Slack Workspace")
 
 In the **Manage apps** directory, search for **Incoming Webhooks** and add it to your Slack workspace as shown below:
 
-![Slack Manage Apps](/img/kubermatic/main/monitoring/user_cluster/slack_incoming_webhook.png?height=400px&classes=shadow,border, "Slack Manage Apps")
+![Slack Manage Apps](/img/kubermatic/v2.22/monitoring/user_cluster/slack_incoming_webhook.png?height=400px&classes=shadow,border, "Slack Manage Apps")
 
 After you click the **Add to Slack** button as shown above, you will be directed to the configuration page.
 Please select the channel that you would like to receive notifications from Alertmanager, in this example, we will use
 a channel called "#test-alerts":
 
-![Slack Config Channel](/img/kubermatic/main/monitoring/user_cluster/slack_config_channel.png?height=700px&classes=shadow,border, "Slack Channel Config")
+![Slack Config Channel](/img/kubermatic/v2.22/monitoring/user_cluster/slack_config_channel.png?height=700px&classes=shadow,border, "Slack Channel Config")
 
 Then click the **Add Incoming WebHooks integration** button, and the Slack Webhook URL will be generated and displayed
 in the **Setup Instructions** page as shown below:
 
-![Slack Webhook URL](/img/kubermatic/main/monitoring/user_cluster/slack_webhook_url.png?height=350px&classes=shadow,border, "Slack Setup Instructions")
+![Slack Webhook URL](/img/kubermatic/v2.22/monitoring/user_cluster/slack_webhook_url.png?height=350px&classes=shadow,border, "Slack Setup Instructions")
 
 Make sure to copy that, and it will be used in the next step where we will configure Alertmanager.
 
@@ -63,12 +63,12 @@ alertmanager_config: |
 Don’t forget to add the Slack Webhook URL that you have generated in the previous setup to `slack_api_url`,
 change the slack channel under `slack_configs` to the channel that you are going to use and save it by clicking **Edit** button:
 
-![Slack Alertmanager Config](/img/kubermatic/main/monitoring/user_cluster/slack_alertmanager_config.png?height=700px&classes=shadow,border, "Alertmanager Configuration")
+![Slack Alertmanager Config](/img/kubermatic/v2.22/monitoring/user_cluster/slack_alertmanager_config.png?height=700px&classes=shadow,border, "Alertmanager Configuration")
 
 Wait until the configuration takes effect. It can be verified in Alertmanager UI: Click **Open Alertmanager UI** in the
 **Monitoring, Logging & Alerting** tab, in the UI, go to **Status** page and check if the config is applied in the **Config** section as shown in below screenshot:
 
-![Alertmanager Status](/img/kubermatic/main/monitoring/user_cluster/alertmanager_status.png?height=800px&classes=shadow,border, "Alertmanager Status")
+![Alertmanager Status](/img/kubermatic/v2.22/monitoring/user_cluster/alertmanager_status.png?height=800px&classes=shadow,border, "Alertmanager Status")
 
 If the configuration is applied to Alertmanager, it is ready to send notifications to Slack. In the next step, we will
 create some alerting rules to generate alerts from metrics and logs.
@@ -91,7 +91,7 @@ rules:
     severity: 'critical'
 ```
 
-![Metrics Rule Group](/img/kubermatic/main/monitoring/user_cluster/create_metrics_alert_rule.png?height=700px&classes=shadow,border, "Creating Rule Group with type Metrics")
+![Metrics Rule Group](/img/kubermatic/v2.22/monitoring/user_cluster/create_metrics_alert_rule.png?height=700px&classes=shadow,border, "Creating Rule Group with type Metrics")
 
 Add another one with type `Logs` to generate alerts for logs:
 
@@ -108,11 +108,11 @@ rules:
     summary: "log stream is high"
 ```
 
-![Logs Rule Group](/img/kubermatic/main/monitoring/user_cluster/create_logs_alert_rule.png?height=700px&classes=shadow,border, "Creating Rule Group with type Logs")
+![Logs Rule Group](/img/kubermatic/v2.22/monitoring/user_cluster/create_logs_alert_rule.png?height=700px&classes=shadow,border, "Creating Rule Group with type Logs")
 
 After those Rule Groups are created, you will be able to to receive alert notifications in your Slack channel like the following:
 
-![Slack Alerts](/img/kubermatic/main/monitoring/user_cluster/slack_alerts.png?height=300px&classes=shadow,border, "Slack Alert Notifications")
+![Slack Alerts](/img/kubermatic/v2.22/monitoring/user_cluster/slack_alerts.png?height=300px&classes=shadow,border, "Slack Alert Notifications")
 
 That’s it! If you want to configure Alertmanager with more alerts receivers, please check [Prometheus Alertmanager Configuration](https://prometheus.io/docs/alerting/latest/configuration/),
 and if you want to create more useful alerting rules, please check [KKP User Cluster MLA Alerting & Recording Rules]({{< relref "../user-guide/#recording-rules--alerting-rules" >}}), [Prometheus Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/)

@@ -35,6 +35,6 @@ cluster once the spot instance is interrupted.
 To create a user cluster which runs some spot instance machines, the user can specify the machine type whether it's a spot
 instance or not at the step number four (Initial Nodes). A checkbox that has the label "Spot Instance" should be checked.
 
- ![AWS spot instance selection](/img/kubermatic/main/guides/addons/spot_instance_selection.png?height=350px&classes=shadow,border "AWS spot instance selection")
+ ![AWS spot instance selection](/img/kubermatic/v2.22/guides/addons/spot_instance_selection.png?height=350px&classes=shadow,border "AWS spot instance selection")
 
 

@@ -15,13 +15,13 @@ reusable cluster template object. The more details about cluster template you ca
 
 There are two ways to create cluster template. First, you can do this during the cluster creation in the last `Summary` step:
 
-![Create from cluster wizard](/img/kubermatic/main/tutorials/cluster_template/create_from_cluster_wizard.png?classes=shadow,border "Cluster Template creation")
+![Create from cluster wizard](/img/kubermatic/v2.22/tutorials/cluster_template/create_from_cluster_wizard.png?classes=shadow,border "Cluster Template creation")
 
 Press button `Save Cluster Template` to create the template. Now you can specify the name and scope.
 
 The newly created cluster template is visible in `Cluster Templates` menu:
 
-![Create from cluster wizard](/img/kubermatic/main/tutorials/cluster_template/cluster_template_menu.png?classes=shadow,border "Cluster Template view")
+![Create from cluster wizard](/img/kubermatic/v2.22/tutorials/cluster_template/cluster_template_menu.png?classes=shadow,border "Cluster Template view")
 
 You can also create a cluster template in this view. You will be redirected to the cluster creation wizard.
 
@@ -37,17 +37,17 @@ On the right side, you can find the action buttons:
 
 User can pick the desired template and specify number of cluster instances. The cluster template doesn't create any link to the clusters. They work independently.
 
-![Create from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/create_cluster.png?classes=shadow,border "Create Clusters from Template")
+![Create from cluster template wizard](/img/kubermatic/v2.22/tutorials/cluster_template/create_cluster.png?classes=shadow,border "Create Clusters from Template")
 
 ## Edit Cluster Template
 
 From cluster template list, users can select to edit the cluster template, the wizard will walk you through each step from the cluster template creation wizard.
-![Edit cluster template](/img/kubermatic/main/tutorials/cluster_template/edit_cluster_template.png?classes=shadow,border "Edit Cluster Template")
+![Edit cluster template](/img/kubermatic/v2.22/tutorials/cluster_template/edit_cluster_template.png?classes=shadow,border "Edit Cluster Template")
 
 Finally, user can choose to either update the existing cluster template or create a new cluster template that contains all the modifications.
 
-![Create from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/edit_cluster_template_summary.png?classes=shadow,border "Save Cluster Template")
+![Create from cluster template wizard](/img/kubermatic/v2.22/tutorials/cluster_template/edit_cluster_template_summary.png?classes=shadow,border "Save Cluster Template")
 
 ## Delete Cluster Template
 
-![Delete from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/delete_template.png?classes=shadow,border "Delete Cluster Template")
+![Delete from cluster template wizard](/img/kubermatic/v2.22/tutorials/cluster_template/delete_template.png?classes=shadow,border "Delete Cluster Template")

@@ -24,7 +24,7 @@ with Docker as container runtime.
 It is necessary to migrate **existing clusters and cluster templates** to containerd before proceeding. This can be done either via the Kubermatic Dashboard
 or with `kubectl`. On the Dashboard, just edit the cluster or cluster template, change the _Container Runtime_ field to `containerd` and save your changes.
 
-![Change Container Runtime](/img/kubermatic/main/installation/upgrade_container_runtime.png?classes=shadow,border&height=200 "Change Container Runtime")
+![Change Container Runtime](/img/kubermatic/v2.22/installation/upgrade_container_runtime.png?classes=shadow,border&height=200 "Change Container Runtime")
 
 If using `kubectl`, update the `containerRuntime` field that is part of the [`Cluster` spec]({{< ref "../../../references/crds/#clusterspec" >}})
 and replace `docker` with `containerd`, e.g. by using `kubectl edit cluster <cluster name>` or by using `kubectl patch`:

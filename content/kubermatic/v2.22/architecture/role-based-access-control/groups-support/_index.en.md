@@ -18,11 +18,11 @@ enterprise = true
 
 Group bindings can be configured from the "Members" project panel. For Enterprise Edition, an additional tab is available for groups:
 
-![Group Bindings Overview](/img/kubermatic/main/architecture/group-rbac-view.png)
+![Group Bindings Overview](/img/kubermatic/v2.22/architecture/group-rbac-view.png)
 
 From this view, new group bindings can be created via the "Add Group" button.
 
-![Group Binding Wizard](/img/kubermatic/main/architecture/group-rbac-add.png)
+![Group Binding Wizard](/img/kubermatic/v2.22/architecture/group-rbac-add.png)
 
 Be aware that group names are not further validated as KKP does not have access to a complete list of groups in the OIDC backend. This way, group permissions can be pre-provisioned even if no user with a specific group membership has signed into KKP yet.
 
