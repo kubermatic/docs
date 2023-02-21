@@ -43,11 +43,6 @@ It mainly composes of 2 steps: download the application's source and install or 
   - `{status: "False", reason: "InstallationFailed"}`:  meaning the installation / upgrade has failed.
   - `{status: "False", reason: "InstallationFailedRetriesExceeded"}`:  meaning the max number of retries was exceeded.
 
-When installation or upgrade of an application fails, `ApplicationsInstallation.Status.Failures` counter is incremented. If it reached the max number of retries (hardcoded to 5), then applicationInstallation controller
-will stop trying to install or upgrade the application until applicationInstallation 's spec changes.
-
-This behavior reduces the load on the cluster and avoids an infinite loop that disrupts workload, in case `.spec.deployOptions.helm.atomic` is true.
-
 ### Helm additional information
 If the [templating method]({{< ref "../application-definition#templating-method" >}}) is `Helm`, then additional information regarding the install or upgrade is provided under `.status.helmRelease`.
 
@@ -130,6 +125,9 @@ spec:
 
 *note: if `atomic` is true, then wait must be true. If `wait` is true then `timeout` must be defined.*
 
+If `.spec.deployOptions.helm.atomic` is true, then when installation or upgrade of an application fails, `ApplicationsInstallation.Status.Failures` counter is incremented.
+If it reaches the max number of retries (hardcoded to 5), then the applicationInstallation controller will stop trying to install or upgrade the application until applicationInstallation 's spec changes.
+This behavior reduces the load on the cluster and avoids an infinite loop that disrupts workload.
 
 ## ApplicationInstallation Reference
 **The following is an example of ApplicationInstallation, showing all the possible options**.
