@@ -27,28 +27,10 @@ or with `kubectl`. On the Dashboard, just edit the cluster or cluster template, 
 ![Change Container Runtime](/img/kubermatic/main/installation/upgrade_container_runtime.png?classes=shadow,border&height=200 "Change Container Runtime")
 
 If using `kubectl`, update the `containerRuntime` field that is part of the [`Cluster` spec]({{< ref "../../../references/crds/#clusterspec" >}})
-and replace `docker` with `containerd`, e.g. by using `kubectl edit cluster <cluster name>`:
+and replace `docker` with `containerd`, e.g. by using `kubectl edit cluster <cluster name>` or by using `kubectl patch`:
 
-```yaml
-# before
-apiVersion: kubermatic.k8c.io/v1
-kind: Cluster
-metadata:
-  name: wq7dl64vbc
-  [...]
-spec:
-  containerRuntime: docker
-  [...]
----
-# after
-apiVersion: kubermatic.k8c.io/v1
-kind: Cluster
-metadata:
-  name: wq7dl64vbc
-  [...]
-spec:
-  containerRuntime: containerd
-  [...]
+```sh
+kubectl patch cluster <cluster name> --type=merge -p '{"spec":{"containerRuntime":"containerd"}}'
 ```
 
 As a last step, [existing Machines have to be rotated]({{< ref "../../../cheat-sheets/rollout-machinedeployment/" >}}) so they get re-deployed with containerd instead of Docker.
