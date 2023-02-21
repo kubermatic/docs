@@ -11,6 +11,9 @@ kubermatic:
   versions:
     - release: main
       name: main
+    # uncomment when KKP 2.22.0 is released
+    # - release: v2.22
+    #   name: v2.22
     - release: v2.21
       name: v2.21
     - release: v2.20
