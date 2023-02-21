@@ -82,7 +82,7 @@ When creating a new user cluster via KKP UI, it is possible to specify Helm valu
 ![Edit CNI Values](/img/kubermatic/main/tutorials/networking/edit-cni-app-values.png?classes=shadow,border "Edit CNI Values")
 
 This can be used e.g. to turn specific CNI features on or off, or modify arbitrary CNI configuration. If no initial values are provided, the default values configured for the CNI `ApplicationDefinition` will be used (see [Changing the Default CNI Configuration](#changing-the-default-cni-configuration)).
-Please note that the final Helm vales applied in the user cluster will be automatically extended/overridden by the KKP controllers with the configuration necessary to provision the cluster, such as pod CIDR etc.
+Please note that the final Helm values applied in the user cluster will be automatically extended/overridden by the KKP controllers with the configuration necessary to provision the cluster, such as pod CIDR etc.
 
 This option is also available when creating cluster templates and the CNI configuration saved in the cluster template is automatically applied to all clusters created from the template.
 
