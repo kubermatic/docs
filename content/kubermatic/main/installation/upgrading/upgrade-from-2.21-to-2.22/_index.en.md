@@ -55,6 +55,12 @@ spec:
 
 However, be aware that the old etcd `StatefulSet` will be deprecated and removed in future releases. Disabling the feature gate should only be a temporary measure, e.g. to control the migration of individual clusters directly before enabling the feature globally.
 
+### Kubermatic REST API Status
+
+With this KKP release, admins and integrators are now advised to use the Kube API (i.e. KKP's [CRDs]({{< ref "../../../references/crds/" >}})) for integrating into the platform. The legacy REST API should be considered deprecated and all new integrations are recommended to use Kube API instead. One exception to this recommendation is when user context is required: all permission handling in KKP 2.x is implemented in the legacy API and does not rely on Kubernetes-native RBAC. Likewise giving end users access to every seed cluster is rarely desirable.
+
+The legacy API has now been moved into the dashboard repository and while it is still installed as a regular part of a KKP setup, it should be considered private to the dashboard from now on.
+
 ## Upgrade Procedure
 
 Before starting the upgrade, make sure your KKP Master and Seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.
