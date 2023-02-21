@@ -1,5 +1,5 @@
 +++
-title = "Upgrading from 2.19 to 2.20"
+title = "Upgrading to KKP 2.20"
 date = 2022-02-01T00:00:39+01:00
 weight = 30
 +++
