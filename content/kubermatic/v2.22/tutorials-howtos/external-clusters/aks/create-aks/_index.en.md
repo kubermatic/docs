@@ -22,6 +22,10 @@ Create a cluster following these steps:
 
 - Configure the cluster:
 
+{{% notice info %}}
+Supported kubernetes versions 1.23.0, 1.24.0, 1.25.0 currently available for new Azure AKS clusters.
+{{% /notice %}}
+
 ![Configure Cluster](/img/kubermatic/v2.22/tutorials/external_clusters/aks_cluster_settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
@@ -34,7 +38,7 @@ Create a cluster following these steps:
 - Kubernetes Version: Select the Kubernetes version that should be used for this cluster. You will be able to upgrade this version after creating the cluster.
 - Location: Enter The Azure region into which the cluster should be deployed.
 - Resource Group: A resource group is a collection of resources that share the same lifecycle, permissions, and policies.
-[Authorize Resource Group](https://docs.microsoft.com/en-us/azure/aks/concepts-identity#azure-rbac-to-authorize-access-to-the-aks-resource "Authorize Resource Group")
+  [Authorize Resource Group](https://docs.microsoft.com/en-us/azure/aks/concepts-identity#azure-rbac-to-authorize-access-to-the-aks-resource "Authorize Resource Group")
 
 {{% notice info %}}
 Resource Group should have sufficient permissions to manage AKS cluster and to pull the Admin kubeconfig.
@@ -56,7 +60,7 @@ Node size
 - VM Size: The size of the virtual machines that will form the nodes in the cluster. This cannot be changed after creating the cluster.
 - Mode: System Mode will be preselected. `System` node pools are preferred for system pods (used to keep AKS running) and have size and other restrictions to ensure they have enough capacity to run those pods.
 - AutoScaling: Autoscaling is recommended for standard configuration.
-    Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
+  Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
 
 ## Create Node Pool
 
@@ -68,7 +72,7 @@ Node size
 - Count: Number of replicas for the nodepool.
 - Mode: Choose between 'system' and 'user' mode for this node pool. System node pools are preferred for system pods (used to keep AKS running) and have size and other restrictions to ensure they have enough capacity to run those pods. User node pools are preferred for your application pods although application pods may be scheduled on system node pools.
 - AutoScaling: Autoscaling is recommended for standard configuration.
-    Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
+  Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
 
 ![Create Node Pool](/img/kubermatic/v2.22/tutorials/external_clusters/aks_md.png "Create Node Pool")
 
