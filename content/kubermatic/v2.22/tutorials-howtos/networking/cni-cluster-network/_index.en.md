@@ -25,15 +25,11 @@ Apart from these, KKP also supports [Multus-CNI addon]({{< relref "../multus/" >
 
 The following table lists the versions of individual CNIs supported by KKP:
 
-| KKP version | Canal                                                             | Cilium           |
-|-------------|-------------------------------------------------------------------|------------------|
-| `v2.21.x`   | `v3.23`, `v3.22`, `v3.21`, `v3.20`, (deprecated: `v3.8`, `v3.19`) | `v1.11`, `v1.12` |
-| `v2.20.x`   | `v3.22`, `v3.21`, `v3.20`, `v3.19`, (deprecated: `v3.8`)          | `v1.11`          |
-| `v2.19.x`   | `v3.21`, `v3.20`, `v3.19`, (deprecated: `v3.8`)                   | `v1.11`          |
-| `v2.18.x`   | `v3.19` (deprecated: `v3.8`)                                      | -                |
-| `v2.17.x`   | `v3.8`                                                            | -                |
-
-**Note:** The deprecated versions cannot be used for new KKP user clusters, but are supported for backward compatibility of existing clusters.
+| KKP version | Canal                              | Cilium                      |
+|-------------|------------------------------------|-----------------------------|
+| `v2.22.x`   | `v3.24`, `v3.23`, `v3.22`          | `v1.13.x`, `v1.12`, `v1.11` |
+| `v2.21.x`   | `v3.23`, `v3.22`, `v3.21`, `v3.20` | `v1.12`, `v1.11`            |
+| `v2.20.x`   | `v3.22`, `v3.21`, `v3.20`, `v3.19` | `v1.11`                     |
 
 The desired CNI type and version can be selected at the cluster creation time - on the Cluster Settings page, as shown below:
 
@@ -51,19 +47,15 @@ In KKP versions below v2.19, this was the only supported CNI.
 
 [Cilium](https://cilium.io/) is a feature-rich CNI plugin, which leverages the revolutionary eBPF Kernel technology. It provides enhanced security and observability features, but requires more recent kernel versions on the worker nodes (see [Cilium System Requirements](https://docs.cilium.io/en/stable/operations/system_requirements/)).
 
+As of Cilium version `1.13.0`, Cilium in KKP is deployed [as a System Application](#deploying-cni-as-a-system-application), which provides KKP cluster administrators full flexibility of Cilium feature usage and configuration. See [Deploying CNI as a System Application](#deploying-cni-as-a-system-application) for more details.
+
 Before opting for Cilium CNI, please verify that your worker nodes' Linux distributions is known to work well with Cilium based on the [Linux Distribution Compatibility List](https://docs.cilium.io/en/stable/operations/system_requirements/#linux-distribution-compatibility-considerations).
 
 The most of the Cilium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only if [Konnectivity](#konnectivity) is enabled.
 
 **NOTE:** IPVS kube-proxy mode is not recommended with Cilium CNI due to [a known issue]({{< relref "../../../architecture/known-issues/" >}}#2-connectivity-issue-in-pod-to-nodeport-service-in-cilium--ipvs-proxy-mode).
 
-To provide better observability on cluster networking with Cilium CNI via a web user interface, KKP provides a Hubble Addon that can be easily installed into user clusters with Cilium CNI via the KKP UI on the cluster page, as shown below:
-
-![Cluster Details - Addons](/img/kubermatic/v2.22/tutorials/networking/ui_addons.png?classes=shadow,border "Cluster Details - Addons")
-
-![Cluster Details - Addons - Install Addon](/img/kubermatic/v2.22/tutorials/networking/ui_addon_hubble.png?classes=shadow,border "Cluster Details - Addons - Install Addon")
-
-After the Hubble addon is installed into the cluster, the Hubble UI can be displayed by port-forwarding to it, e.g.:
+To allow better observability and troubleshooting of cluster networking with Cilium CNI, Cilium is by default deployed with the [Hubble user interface](https://github.com/cilium/hubble-ui). To access Hubble UI, you can use port-forwarding, e.g.:
 
 ```bash
 kubectl port-forward -n kube-system svc/hubble-ui 12000:80
@@ -71,14 +63,72 @@ kubectl port-forward -n kube-system svc/hubble-ui 12000:80
 
 After the above port-forwarding is active, the Hubble UI can be shown by navigating to the URL [http://localhost:12000](http://localhost:12000).
 
-Please note that to have the Hubble addon available, the KKP installation has to be configured with `hubble` as [an accessible addon]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}).
+Please note that for Cilium versions below `1.13.0`, Hubble had to be installed as a KKP Addon. As of Cilium `1.13.0` it is enabled by default, but can be disabled if necessary. See [Deploying CNI as a System Application](#deploying-cni-as-a-system-application) for more details.
 
 ### None CNI
 
 "None" CNI is a special KKP-internal CNI type, which does not install any CNI managed by KKP into the user cluster. CNI management is therefore left on the cluster admin which provides a flexible option to install any CNI with any specific configuration.
 
-When this option is selected, the user cluster will be left without any CNI, and will not be functioning until some CNI is installed into it by the cluster admin. This can be done either manually (e.g. via helm charts), or by leveraging KKP [Addons]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}) infrastructure and creating a custom Accessible addon.
+When this option is selected, the user cluster will be left without any CNI, and will not be functioning until some CNI is installed into it by the cluster admin. This can be done either manually (e.g. via helm charts), or by leveraging the KKP [Accessible Addons]({{< relref "../../../architecture/concept/kkp-concepts/addons/#accessible-addons" >}}) infrastructure or the [Applications]({{< relref "../../../architecture/concept/kkp-concepts/applications" >}}) feature.
 When deploying your own CNI, please make sure you pass proper pods & services CIDRs to your CNI configuration - matching with the KKP user-cluster level configuration in the [Advanced Network Configuration](#advanced-network-configuration).
+
+### Deploying CNI as a System Application
+As of Cilium version `1.13.0`, Cilium CNI is deployed as a "System Application" instead of KKP Addon (as it is the case for older Cilium versions and all Canal CNI versions).
+Apart from internally relying on KKP's [Applications]({{< relref "../../applications" >}}) infrastructure rather than [Addons]({{< relref "../../../architecture/concept/kkp-concepts/addons" >}}) infrastructure, it provides the users with full flexibility of CNI feature usage and configuration.
+
+#### Editing the CNI Configuration During Cluster Creation
+When creating a new user cluster via KKP UI, it is possible to specify Helm values used to deploy the CNI via the "Edit CNI Values" button at the bottom of the "Advanced Network Configuration" section on the step 2 of the cluster creation wizard:
+
+![Edit CNI Values](/img/kubermatic/v2.22/tutorials/networking/edit-cni-app-values.png?classes=shadow,border "Edit CNI Values")
+
+This can be used e.g. to turn specific CNI features on or off, or modify arbitrary CNI configuration. If no initial values are provided, the default values configured for the CNI `ApplicationDefinition` will be used (see [Changing the Default CNI Configuration](#changing-the-default-cni-configuration)).
+Please note that the final Helm values applied in the user cluster will be automatically extended/overridden by the KKP controllers with the configuration necessary to provision the cluster, such as pod CIDR etc.
+
+This option is also available when creating cluster templates and the CNI configuration saved in the cluster template is automatically applied to all clusters created from the template.
+
+#### Editing the CNI Configuration in Existing Cluster
+In an existing cluster, the CNI configuration can be edited in two ways: via KKP UI, or by editing CNI `ApplicationInstallation` in the user cluster.
+
+For editing CNI configuration via KKP UI, navigate to the "Applications" tab on the cluster details page, switch the "Show System Applications" toggle, and click on the "Edit Application" button of the CNI. After that a new dialog window with currently applied CNI Helm values will be open and allow their modification.
+
+![Edit CNI Application](/img/kubermatic/v2.22/tutorials/networking/edit-cni-app.png?classes=shadow,border "Edit CNI Application")
+
+The other option is to edit the CNI `ApplicationInstallation` in the user cluster directly, e.g. like this for the Cilium CNI:
+```bash
+kubectl edit ApplicationInstallation cilium -n kube-system
+```
+and edit the configuration in ApplicationInstallation's `spec.values`.
+
+This approach can be used e.g. to turn specific CNI features on or off, or modify arbitrary CNI configuration. Please note that some parts of the CNI configuration (e.g. pod CIDR etc.) is managed by KKP, and its change will not be allowed, or may be overwritten upon next reconciliation of the ApplicationInstallation.
+
+#### Changing the Default CNI Configuration
+The default CNI configuration that will be used to deploy CNI in new KKP user clusters can be defined at two places:
+ - in a cluster template, if the cluster is being created from a template (which takes precedence over the next option),
+ - in the CNI ApplicationDefinition's `spec.defaultValues` in the KKP master cluster (editable e.g. via `kubectl edit ApplicationDefinition cilium`).
+
+#### CNI Helm Chart Source
+The Helm charts used to deploy CNI are hosted in a Kubermatic OCI registry (`oci://quay.io/kubermatic/helm-charts`). This registry needs to be accessible from the KKP Seed cluster to allow successful CNI deployment. In setups with restricted Internet connectivity, a different (e.g. private) OCI registry source for the CNI charts can be configured in `KubermaticConfiguration` (`spec.systemApplications.helmRepository` and `spec.systemApplications.helmRegistryConfigFile`).
+
+To mirror a Helm chart into a private OCI repository, you can use the helm CLI, e.g.:
+```bash
+CHART_VERSION=1.13.0
+helm pull oci://quay.io/kubermatic/helm-charts/cilium --version ${CHART_VERSION}
+helm push cilium-${CHART_VERSION}.tgz oci://<registry>/<repository>/
+```
+
+#### Upgrading Cilium CNI to Cilium 1.13.0 / Downgrading
+For user clusters originally created with the Cilium CNI version lower than `1.13.0` (which was managed by the Addons mechanism rather than Applications), the migration to the management via Applications infra happens automatically during the CNI version upgrade to `1.13.0`.
+
+During the upgrade, if the Hubble Addon was installed in the cluster before, the Addon will be automatically removed, as Hubble is now enabled by default.
+If there are such clusters in your KKP installation, it is important to preserve the following part of the configuration in the [default configuration](#changing-the-default-cni-configuration) of the ApplicationInstallation:
+```bash
+  hubble:
+    tls:
+      auto:
+        method: cronJob
+```
+
+In the rare case of downgrading the Cilium CNI from the `1.13.0` to a lower version, it is necessary to manually delete the CNI `ApplicationInstallation` from the user cluster, e.g.: `kubectl delete ApplicationInstallation cilium -n kube-system`.
 
 ### CNI Version Upgrades
 
