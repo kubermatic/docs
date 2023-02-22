@@ -28,6 +28,10 @@ Create a cluster following these steps:
 
 - Configure the cluster:
 
+{{% notice info %}}
+Supported kubernetes versions 1.21.0, 1.22.0, 1.23.0, 1.24.0 currently available for new Amazon EKS clusters.
+{{% /notice %}}
+
 ![Configure Cluster](/img/kubermatic/v2.22/tutorials/external_clusters/eks_settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
@@ -43,9 +47,9 @@ Create a cluster following these steps:
 - VPC: Select a VPC to use for your EKS cluster resources
 
 - Subnets: Choose the subnets in your VPC where the control plane may place elastic network interfaces (ENIs) to facilitate communication with your cluster.
-{{% notice info %}}
-Subnets specified must be in at least two different AZs.
-{{% /notice %}}
+  {{% notice info %}}
+  Subnets specified must be in at least two different AZs.
+  {{% /notice %}}
 
 - Security Groups: Choose the security groups to apply to the EKS-managed Elastic Network Interfaces that are created in your worker node subnets.
 

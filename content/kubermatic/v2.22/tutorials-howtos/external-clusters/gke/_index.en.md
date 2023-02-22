@@ -54,7 +54,7 @@ This Preset can then be used to Create/Import an GKE cluster.
 
 - Enter Preset Name.
 
-![Provide Preset Name](/img/kubermatic/v2.22/tutorials/external_clusters/provide_gkepreset_name.png "Provide Preset Name")
+![Provide Preset Name](/img/kubermatic/v2.22/tutorials/external_clusters/create_gkepreset.png "Provide Preset Name")
 
 - Choose `Google Kubernetes Engine` from the list of providers.
 
@@ -122,7 +122,7 @@ Delete operation is not allowed for imported clusters
 Delete cluster operation allows to delete the cluster from the Provider. Click on the `Delete` button.
 
 ![Delete Cluster](/img/kubermatic/v2.22/tutorials/external_clusters/gke_delete_button.png
- "Delete Cluster")
+"Delete Cluster")
 
 ## Delete the Node Pool
 
