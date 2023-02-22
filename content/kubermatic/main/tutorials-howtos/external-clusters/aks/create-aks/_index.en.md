@@ -22,6 +22,10 @@ Create a cluster following these steps:
 
 - Configure the cluster:
 
+{{% notice info %}}
+Supported kubernetes versions 1.23.0, 1.24.0, 1.25.0 currently available for new Azure AKS clusters.
+{{% /notice %}}
+
 ![Configure Cluster](/img/kubermatic/main/tutorials/external_clusters/aks_cluster_settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button

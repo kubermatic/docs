@@ -54,7 +54,7 @@ This Preset can then be used to Create/Import an GKE cluster.
 
 - Enter Preset Name.
 
-![Provide Preset Name](/img/kubermatic/main/tutorials/external_clusters/provide_gkepreset_name.png "Provide Preset Name")
+![Provide Preset Name](/img/kubermatic/main/tutorials/external_clusters/create_gkepreset.png "Provide Preset Name")
 
 - Choose `Google Kubernetes Engine` from the list of providers.
 

@@ -24,13 +24,13 @@ You can install Kubernetes autoscaler on a running User Cluster using the KKP ad
 
 **Step 1**
 
-Create a KKP Cluster by selecting your project on the dashboard and click on `“create cluster”`. More details can be found on the official [documentation](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/project-and-cluster-management/) page.
+Create a KKP Cluster by selecting your project on the dashboard and click on "Create Cluster". More details can be found on the official [documentation]({{< ref "../project-and-cluster-management/" >}}) page.
 
 **Step 2**
 
 When the Cluster is ready, check the Pods in the kube-system Namespace to know if any Autoscaler is running.
 
-![KKP Dashboard](/img/kubermatic/main/tutorials/kkp_autoscaler_dashboard.png?classes=shadow,border "KKP Dashboard")
+![KKP Dashboard](/img/kubermatic/main/tutorials/cluster-autoscaler/kkp_autoscaler_dashboard.png?classes=shadow,border "KKP Dashboard")
 
 ```bash
 $ kubectl get pods -n kube-system
@@ -58,23 +58,23 @@ As shown above, the Autoscaler is not part of the running Kubernetes components 
 
 Add the Autoscaler to the Cluster under the addon section on the dashboard by clicking on the Addons and then `Install Addon.`
 
-![Add Addon](/img/kubermatic/main/tutorials/add_autoscaler_addon.png?classes=shadow,border "Add Addon")
+![Add Addon](/img/kubermatic/main/tutorials/cluster-autoscaler/add_autoscaler_addon.png?classes=shadow,border "Add Addon")
 
 
 Select Cluster Autoscaler:
 
 
-![Select Autoscaler](/img/kubermatic/main/tutorials/select_autoscaler.png?classes=shadow,border "Select Autoscaler")
+![Select Autoscaler](/img/kubermatic/main/tutorials/cluster-autoscaler/select_autoscaler.png?classes=shadow,border "Select Autoscaler")
 
 
 Select install:
 
 
-![Select Install](/img/kubermatic/main/tutorials/install_autoscaler.png?classes=shadow,border "Select Install")
+![Select Install](/img/kubermatic/main/tutorials/cluster-autoscaler/install_autoscaler.png?classes=shadow,border "Select Install")
 
 
 
-![Installation Confirmation](/img/kubermatic/main/tutorials/autoscaler_confirmation.png?classes=shadow,border "Installation Confirmation")
+![Installation Confirmation](/img/kubermatic/main/tutorials/cluster-autoscaler/autoscaler_confirmation.png?classes=shadow,border "Installation Confirmation")
 
 
 **Step 4**
@@ -102,7 +102,19 @@ As shown above, the Autoscaler has been provisioned and running.
 ## Annotating MachineDeployments for Autoscaling
 
 
-The Cluster Autoscaler only considers MachineDeployment with valid annotations. The annotations are used to control the minimum and the maximum number of replicas per MachineDeployment. You don't need to apply those annotations to all MachineDeployment objects, but only on MachineDeployments that Cluster Autoscaler should consider.
+The Cluster Autoscaler only considers MachineDeployment with valid annotations. The annotations are used to control the minimum and the maximum number of replicas per MachineDeployment. You don't need to apply those annotations to all MachineDeployment objects, but only on MachineDeployments that Cluster Autoscaler should consider. Annotations can be set either using the KKP Dashboard or manually with kubectl.
+
+### KKP Dashboard
+
+Annotations can be preconfigured at the time of cluster creation. Just put appropriate values in the Initial Nodes form.
+
+![Set autoscaling annotations while creating cluster](/img/kubermatic/main/tutorials/cluster-autoscaler/create_autoscaler_annotations.png?classes=shadow,border "Set autoscaling annotations while creating cluster")
+
+If you already have an existing Machine Deployment, open an edit form and scroll down to `Advanced Settings` > `Node Autoscaling`.
+
+![Set autoscaling annotations while editing MD](/img/kubermatic/main/tutorials/cluster-autoscaler/edit_autoscaler_annotations.png?classes=shadow,border "Set autoscaling annotations while editing Machine Deployment")
+
+### Manual setup
 
 ```bash
 cluster.k8s.io/cluster-api-autoscaler-node-group-min-size - the minimum number of replicas (must be greater than zero)
@@ -200,14 +212,14 @@ As shown above, the MachineDeployment has been annotated with a minimum of 1 and
 
 To edit KKP Autoscaler, click on the three dots in front of the Cluster Autoscaler in the Addons section of the Cluster dashboard and select edit.
 
-![Edit Autoscaler](/img/kubermatic/main/tutorials/edit_autoscaler.png?classes=shadow,border "Edit Autoscaler")
+![Edit Autoscaler](/img/kubermatic/main/tutorials/cluster-autoscaler/edit_autoscaler.png?classes=shadow,border "Edit Autoscaler")
 
 
 ## Delete KKP Autoscaler
 
 You can delete Autoscaler from where you edit it above and select delete.
 
-![Delete Autoscaler](/img/kubermatic/main/tutorials/delete_autoscaler.png?classes=shadow,border "Delete Autoscaler")
+![Delete Autoscaler](/img/kubermatic/main/tutorials/cluster-autoscaler/delete_autoscaler.png?classes=shadow,border "Delete Autoscaler")
 
 
  Once it has been deleted, you can check the Cluster to ensure that the Autoscaler has been deleted using `kubectl get pods -n kube-system` command.

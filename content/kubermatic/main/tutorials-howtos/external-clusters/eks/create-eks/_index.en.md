@@ -28,6 +28,10 @@ Create a cluster following these steps:
 
 - Configure the cluster:
 
+{{% notice info %}}
+Supported kubernetes versions 1.21.0, 1.22.0, 1.23.0, 1.24.0 currently available for new Amazon EKS clusters. 
+{{% /notice %}}
+
 ![Configure Cluster](/img/kubermatic/main/tutorials/external_clusters/eks_settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
