@@ -4,18 +4,14 @@ date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++
 
-Cluster Settings section in the Admin Panel allows user to control various cluster-related settings. They
+Interface section in the Admin Panel allows user to control various cluster-related settings. They
 can influence cluster creation, management and cleanup after deletion.
-
-![](/img/kubermatic/v2.22/ui/cluster_settings.png?height=500px&classes=shadow,border)
+## Defaults Cluster Settings
+![](/img/kubermatic/v2.22/ui/defaults_cluster_settings.png?height=500px&classes=shadow,border)
 
 - ### [Cleanup on Cluster Deletion](#cleanup-on-cluster-deletion)
 
 - ### [Machine Deployment](#machine-deployment)
-
-- ### [User Projects Limit](#user-projects-limit)
-
-- ### [Resource Filter](#resource-filter)
 
 ## Cleanup on Cluster Deletion
 
@@ -45,6 +41,13 @@ the cluster details.
 #### Cluster Creation Wizard - Initial Nodes Step
 
 ![](/img/kubermatic/v2.22/ui/wizard_initial_nodes_step.png?height=300px&classes=shadow,border)
+
+## Limits
+
+![](/img/kubermatic/main/ui/interface_limits.png?height=250px&classes=shadow,border)
+- ### [User Projects Limit](#user-projects-limit)
+
+- ### [Resource Filter](#resource-filter)
 
 ## User Projects Limit
 

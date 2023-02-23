@@ -14,7 +14,7 @@ You can add an existing Azure Kubernetes Service cluster and then manage it usin
 
 - Click `Import External Cluster` button.
 
-![Add External Cluster](/img/kubermatic/v2.22/tutorials/external_clusters/add_external_cluster.png "Add External Cluster")
+![Add External Cluster](/img/kubermatic/v2.22/tutorials/external_clusters/external_cluster_page.png "Add External Cluster")
 
 - Pick `Azure Kubernetes Cluster` provider.
 
@@ -52,7 +52,7 @@ This Preset can then be used to Create/Import an AKS cluster.
 
 - Navigate to `Provider Presets` Page and Click on `+ Create Preset` button.
 
-![Provider Preset Page](/img/kubermatic/v2.22/tutorials/external_clusters/provider_presets.png "Provider Preset Page")
+![Provider Preset Page](/img/kubermatic/v2.22/ui/preset_management.png?height=300px&classes=shadow,border "Provider Preset Page")
 
 - Enter Preset Name.
 
