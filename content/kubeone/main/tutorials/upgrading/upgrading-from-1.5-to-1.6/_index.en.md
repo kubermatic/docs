@@ -48,7 +48,17 @@ KubeOne will also perform checks to make sure that:
   `node-role.kubernetes.io/master:NoSchedule` taint upon running
   `kubeone apply`
 
-## OpenStack In-Tree Cloud Provider Removal
+## External CCM/CSI Required for vSphere Cluster Running Kubernetes 1.25 and newer
+
+External CCM/CSI is required for vSphere clusters starting with Kubernetes
+1.25. If your vSphere clusters are using the in-tree cloud provider 
+(`.cloudProvider.external` is `false` or unset), you must migrate your vSphere
+clusters to the external CCM/CSI before upgrading to Kubernetes 1.25. Please
+check [the documentation for more details about the CCM/CSI 
+migration][ccm-migration]. This change is introduced because vSphere requires
+the CSI driver to be deployed starting with Kubernetes 1.25.
+
+## External CCM/CSI Required for OpenStack Cluster Running Kubernetes 1.26 and newer
 
 If you have OpenStack clusters running the in-tree cloud provider
 (`.cloudProvider.external` is false or unset), you'll not be able to upgrade

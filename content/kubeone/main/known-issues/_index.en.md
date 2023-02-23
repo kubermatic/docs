@@ -19,7 +19,7 @@ please consult the [appropriate changelog][changelogs].
 
 |              |                                                   |
 |--------------|---------------------------------------------------|
-| Status       | Fixed in KubeOne 1.6.0-rc.2                       |
+| Status       | Fixed in KubeOne 1.6.0                            |
 | Severity     | Critical                                          |
 | GitHub issue | https://github.com/kubermatic/kubeone/pull/2688   |
 
