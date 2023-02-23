@@ -1,1 +1,1 @@
-{{ path.Base (index (findRE "^([^/]+)/([^/]+)/" .Page.File.Dir) 0) }}
+{{- index (split .Page.RelPermalink "/") 2 -}}
