@@ -161,8 +161,8 @@ MachineSets/Machines and allow advanced use cases such as rolling updates.
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [supported-providers]: {{< ref "../supported-providers" >}}
 [infrastructure-management]: {{< ref "../requirements/infrastructure-management" >}}
-[terraform-scripts]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
-[aws-output-tf]: https://github.com/kubermatic/kubeone/blob/main/examples/terraform/aws/output.tf
+[terraform-scripts]: https://github.com/kubermatic/kubeone/tree/release/v1.6/examples/terraform
+[aws-output-tf]: https://github.com/kubermatic/kubeone/blob/release/v1.6/examples/terraform/aws/output.tf
 [kubeadm]: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/
 [using-machine-controller]: {{< ref "../../guides/machine-controller" >}}
 [cluster-api]: https://github.com/kubernetes-sigs/cluster-api

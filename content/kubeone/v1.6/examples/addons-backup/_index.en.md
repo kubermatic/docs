@@ -54,5 +54,5 @@ Credentials are fetched automatically via the `AWS_ACCESS_KEY_ID` and
 credentials, update the `s3-credentials` secret
 (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys).
 
-[backups-addon-src]: https://raw.githubusercontent.com/kubermatic/kubeone/main/addons/backups-restic/backups-restic.yaml
+[backups-addon-src]: https://raw.githubusercontent.com/kubermatic/kubeone/release/v1.6/addons/backups-restic/backups-restic.yaml
 [restic-net]: https://restic.net/

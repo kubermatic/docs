@@ -13,7 +13,7 @@ the [v1.5 version of this document][known-issues-1.5]. For earlier releases,
 please consult the [appropriate changelog][changelogs].
 
 [known-issues-1.5]: {{< ref "../../v1.5/known-issues" >}}
-[changelogs]: https://github.com/kubermatic/kubeone/tree/main/CHANGELOG
+[changelogs]: https://github.com/kubermatic/kubeone/tree/release/v1.6/CHANGELOG
 
 ## `node-role.kubernetes.io/master` taint not removed on upgrade when using KubeOne 1.6.0-rc.1
 

@@ -139,5 +139,5 @@ cluster.
 
 [regconfig-api]: {{< ref "../../references/kubeone-cluster-v1beta2#registryconfiguration" >}}
 [docker-reg-guide]: https://docs.docker.com/registry/
-[img-loader]: https://github.com/kubermatic/kubeone/blob/main/hack/image-loader.sh
+[img-loader]: https://github.com/kubermatic/kubeone/blob/release/v1.6/hack/image-loader.sh
 [override-addons]: {{< ref "../addons#overriding-embedded-eddons" >}}
