@@ -14,7 +14,6 @@ To download the kubeconfig, navigate to `Clusters` and select the correct cluste
 
 You can revoke access for already downloaded kubeconfigs by revoking the token on the cluster detail page. To do so, click on the three-dot settings icon on the right to see the option `Revoke Token`:
 
-![Roll out more cluster details](/img/kubermatic/v2.22/tutorials/cluster_edit_menu.png?classes=shadow,border "Roll out more cluster details")
 ![Select Revoke Token](/img/kubermatic/v2.22/tutorials/revoke_token_cluster.png?classes=shadow,border "Select Revoke Token")
 
 Users in the groups `Owner` and `Editor` have an admin token in their kubeconfig. Users in the group `Viewer` have a viewer token. Revoking the token for a user group means the kubeconfig becomes unusable for users in this group and they need to download it again. Using `kubectl` with the invalid kubeconfig will result in an error message. You can see which group every project member belongs to on the `Members` page.

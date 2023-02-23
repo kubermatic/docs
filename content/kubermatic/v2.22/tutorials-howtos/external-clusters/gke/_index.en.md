@@ -50,7 +50,7 @@ This Preset can then be used to Create/Import an GKE cluster.
 
 - Navigate to `Provider Presets` Page and Click on `+ Create Preset` button.
 
-![Provider Preset Page](/img/kubermatic/v2.22/tutorials/external_clusters/provider_presets.png "Provider Preset Page")
+![Provider Preset Page](/img/kubermatic/v2.22/ui/preset_management.png?height=300px&classes=shadow,border "Provider Preset Page")
 
 - Enter Preset Name.
 
