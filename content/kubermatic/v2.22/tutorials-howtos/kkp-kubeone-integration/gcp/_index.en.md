@@ -20,14 +20,18 @@ You can add an existing Google KubeOne cluster and then manage it using KKP.
 
 ![Select Provider](/img/kubermatic/v2.22/tutorials/kubeone_clusters/import_kubeone_cluster.png "Select Provider")
 
-- Provide cluster Manifest config and enter private key to access the KubeOne cluster.
+- Provide cluster Manifest config yaml, SSH private key and SSH key Passphrase (if any) used to create the cluster you are importing, to access the KubeOne cluster using KKP.
 
 ![Cluster Settings](/img/kubermatic/v2.22/tutorials/kubeone_clusters/cluster_settings_step.png "Cluster Settings")
 
 - Provide Credentials in either of the below mentioned ways:
     - Select a pre-created preset which stores the provider specific credentials.
 
-    - Manually enter the credentials `Service Account`.
+    - Manually enter the credentials Base64 encoded `Service Account` used to create the KubeOne cluster you are importing.
+
+{{% notice info %}}
+GCP Service Account should be Base64 encoded.
+{{% /notice %}}
 
 ![GCP credentials](/img/kubermatic/v2.22/tutorials/kubeone_clusters/gcp_credentials_step.png "GCP credentials")
 
