@@ -52,7 +52,7 @@ If you don’t want to send usage data to us to improve our product, or your KKP
 
 ## Data that Telemetry Collects
 Telemetry tool collects the following metadata in an anonymous manner with UUIDs, the data schemas can be found in [Telemetry-Client repository](https://github.com/kubermatic/telemetry-client):
-- For Kubermatic usage: [Kubermatic Record](https://github.com/kubermatic/telemetry-client/blob/release/v0.1/pkg/agent/kubermatic/v1/record.go)
-- For Kubernetes usage: [Kubernetes Record](https://github.com/kubermatic/telemetry-client/blob/release/v0.1/pkg/agent/kubernetes/v1/record.go)
+- For Kubermatic usage: [Kubermatic Record](https://github.com/kubermatic/telemetry-client/blob/release/v0.3/pkg/agent/kubermatic/v2/record.go)
+- For Kubernetes usage: [Kubernetes Record](https://github.com/kubermatic/telemetry-client/blob/release/v0.3/pkg/agent/kubernetes/v2/record.go)
 
 
