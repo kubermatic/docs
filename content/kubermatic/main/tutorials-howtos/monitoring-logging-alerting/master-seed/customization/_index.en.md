@@ -5,7 +5,7 @@ date = 2018-08-17T12:07:15+02:00
 weight = 20
 +++
 
-This chapter described the customization of the KKP [Master / Seed Monitoring, Logging & Alerting Stack]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/_index.en.md" >}}).
+This chapter describes the customization of the KKP [Master / Seed Monitoring, Logging & Alerting Stack]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/_index.en.md" >}}).
 
 When it comes to monitoring, no approach fits all use cases. It's expected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
 
