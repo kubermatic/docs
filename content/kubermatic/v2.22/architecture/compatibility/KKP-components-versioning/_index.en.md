@@ -16,7 +16,7 @@ of provided software and therefore releases updates regularly that also include 
 | cert-manager | 1.10.1 |
 | gatekeeper | 3.7.2 |
 | iap | 7.3.0 |
-| kubermatic-operator | 9.9.9-dev |
+| kubermatic-operator | 2.22.0|
 | logging/loki | 2.5.0 |
 | logging/promtail | 2.5.0 |
 | minio | RELEASE.2022-06-25T15-50-16Z |
