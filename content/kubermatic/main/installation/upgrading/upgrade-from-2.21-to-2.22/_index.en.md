@@ -206,6 +206,19 @@ The KKP upgrade migrates operating-system-manager (OSM) custom resources (`Opera
 
 You can find more information on this [in the documentation on how to use OSM in KKP]({{< ref "../../../tutorials-howtos/operating-system-manager/usage/#custom-operatingsystemprofiles" >}}). If you have been applying OSM custom resources through any means, you will need to adjust them accordingly.
 
+### vSphere & OpenStack User Cluster Upgrades
+
+KKP 2.22 introduces limitations to Kubernetes version upgrades for vSphere & OpenStack user clusters when the "in-tree" cloud providers are used. This has been added due to Kubernetes slowly removing provider-specific code from core Kubernetes, instead asking users to rely on external CCM (Cloud Controller Managers) and CSI drivers.
+
+By default, new vSphere and OpenStack user clusters in KKP get created with external cloud provider support. However, some long running user clusters might still be using the in-tree implementations. KKP supports [CCM & CSI migration]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}) for those user clusters. The Kubermatic Dashboard offers information about the current status via the "External CCM/CSI" check under "Misc" in the additional cluster information section.
+
+The limitations in KKP 2.22 are as follows:
+
+- **vSphere** user clusters **with Kubernetes 1.24** and in-tree cloud provider usage cannot be upgraded to 1.25 or higher.
+- **OpenStack** user clusters **with Kubernetes 1.25** and in-tree cloud provider usage cannot be upgraded to 1.26 or higher.
+
+For user clusters with the in-tree cloud provider, KKP will not offer those upgrade paths in the Dashboard. After clusters have been migrated to external CCM & CSI, upgrades to the next minor Kubernetes versions will be available.
+
 ## Next Steps
 
 After finishing the upgrade, check out some of the new features that were added in KKP 2.22:

@@ -33,13 +33,23 @@ current KKP version.
 
 | KKP version          | 1.26 | 1.25 |1.24 | 1.23[^2]| 1.22[^2] | 1.21[^2] | 1.20[^2] | 1.19[^2] |
 | -------------------  | ---- | ---- | --- | ------- | -------- | -------- | -------- | -------- |
-| 2.22.x[^not-out-yet] | ✓    | ✓    | ✓   | -       | -        | -        | -        | -        |
+| 2.22.x               | ✓    | ✓    | ✓   | -       | -        | -        | -        | -        |
 | 2.21.x               | -    | -    | ✓   | ✓       | ✓        | -        | -        | -        |
 | 2.20.x               | -    | -    | -   | ✓       | ✓        | ✓        | ✓        | -        |
 
 
 [^2]: Kubernetes releases from 1.19 to 1.23 have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
 
-[^not-out-yet]: KKP 2.22 has not been released yet.
-
 Upgrades from a previous Kubernetes version are generally supported whenever a version is marked as supported, for example KKP 2.19 supports updating clusters from Kubernetes 1.20 to 1.21.
+
+## Provider Incompatibilities
+
+KKP has some incompatibilities with cloud providers, e.g. because their in-tree cloud provider
+implementation has been removed from upstream Kubernetes. For KKP 2.22.x, the following incompatibilities
+apply:
+
+| Condition                          | Incompatible with Kubernetes | Notes                                                                                             |
+| ---------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| vSphere + in-tree cloud provider   | >= 1.25                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}). | 
+| OpenStack + in-tree cloud provider | >= 1.26                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}). | 
+
