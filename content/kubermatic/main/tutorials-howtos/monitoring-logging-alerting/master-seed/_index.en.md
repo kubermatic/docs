@@ -10,3 +10,4 @@ Master / Seed Cluster MLA (Monitoring, Logging & Alerting) Stack monitors KKP co
 - [**Architecture**]({{< relref "../../../architecture/monitoring-logging-alerting/master-seed/" >}})
 - [**Installation**]({{< relref "./installation/" >}})
 - [**Customization**]({{< relref "./customization/" >}})
+- [**Health Assessment**]({{< relref "./health-assessment/" >}})

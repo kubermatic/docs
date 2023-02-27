@@ -10,3 +10,4 @@ User Cluster MLA (Monitoring, Logging & Alerting) Stack monitors applications ru
 - [**Admin Guide**]({{< relref "./admin-guide/" >}})
 - [**User Guide**]({{< relref "./user-guide/" >}})
 - [**Setting up Alertmanager with Slack Notifications**]({{< relref "./setting-up-alertmanager-with-slack-notifications/" >}})
+- [**Health Assessment**]({{< relref "./health-assessment/" >}})
