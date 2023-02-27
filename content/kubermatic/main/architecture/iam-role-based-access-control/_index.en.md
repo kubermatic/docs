@@ -12,7 +12,7 @@ please refer to the [OIDC provider]({{< ref "../../tutorials-howtos/OIDC-Provide
 ## Authentication with Dex
 [Dex](https://dexidp.io/) is an identity service that uses OIDC to drive authentication for KKP components. It acts as a
 portal to other identity providers through [connectors](https://dexidp.io/docs/connectors/). This lets Dex defer
-authentication to these connectors. Multiple connectors may be configured at the same time. Most Popular are:
+authentication to these connectors. Multiple connectors may be configured at the same time. Most popular are:
 * [GitHub](https://dexidp.io/docs/connectors/github/)
 * [Google](https://dexidp.io/docs/connectors/google/)
 * [LDAP](https://dexidp.io/docs/connectors/ldap/)
@@ -45,7 +45,7 @@ dex:
 And apply the changes to the cluster:
 
 ```bash
-helm --namespace oauth upgrade --install --wait --values /path/to/your/helm-values.yaml oauth charts/oauth/
+./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
 ```
 
 ## Authorization
@@ -84,7 +84,7 @@ of the editor role, and the editor role includes the permissions of the viewer r
 
 The following table summarizes the permissions:
 
-|                                   | Viewer                                                                                                                          | editor                                                                                                                          | Owner                                                                                                                            |
+|                                   | Viewer                                                                                                                          | Editor                                                                                                                          | Owner                                                                                                                            |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | cluster [^1]                      | RO                                                                                                                              | RW                                                                                                                              | RW                                                                                                                               |
 | cluster nodes (machineDeployment) | RO                                                                                                                              | RW                                                                                                                              | RW                                                                                                                               |
