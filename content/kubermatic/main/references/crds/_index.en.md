@@ -5753,6 +5753,7 @@ _Appears in:_
 | `displayTermsOfService` _boolean_ | DisplayDemoInfo controls whether a a link to TOS is shown in the footer. |
 | `enableDashboard` _boolean_ | EnableDashboard enables the link to the Kubernetes dashboard for a user cluster. |
 | `enableWebTerminal` _boolean_ | EnableWebTerminal enables the Web Terminal feature for the user clusters. |
+| `enableShareCluster` _boolean_ | EnableShareCluster enables the Share Cluster feature for the user clusters. |
 | `enableOIDCKubeconfig` _boolean_ |  |
 | `userProjectsLimit` _integer_ | UserProjectsLimit is the maximum number of projects a user can create. |
 | `restrictProjectCreation` _boolean_ |  |
