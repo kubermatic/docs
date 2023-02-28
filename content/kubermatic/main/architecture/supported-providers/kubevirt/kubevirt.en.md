@@ -160,6 +160,18 @@ instance types and preferences that users can select later. [Read how to add new
 
 ### Virtual Machine Scheduling
 
+KubeVirt can take advantage of Kubernetes inner features to provide an advanced scheduling mechanism to virtual machines (VMs):
+- [Kubernetes topology spread constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/)
+- [Kubernetes node affinity/anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+
+Since KubeVirt VMs are wrapped in pods, the Kubernetes scheduling rules applicable to pods are completely valid for KubeVirt VMs.
+This allows you to restrict KubeVirt VMs ([see architecture](#architecture)) to run only on specific KubeVirt infra nodes.
+
+{{% notice note %}}
+Note that topology spread constraints and node affinity presets are applicable to KubeVirt infra nodes.
+{{% /notice %}}
+#### Default Scheduling Behavior
+
 Each Virtual Machine you create has default [topology spread constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) applied:
 
 ```yaml
@@ -170,13 +182,26 @@ whenUnsatisfiable: ScheduleAnyway
 
 this allows us to spread Virtual Machine equally across a cluster.
 
+#### Customize Scheduling Behavior
+
 However, it is possible to change the default behaviour and create your own topology combined with Node Affinity Presets.
 You can do it by expanding *ADVANCED SCHEDULING SETTINGS* on the initial nodes dashboard page.
 
 ![Instance Types and Preferences](/img/kubermatic/main/architecture/supported-providers/kubevirt/scheduling-form.png?classes=shadow,border "Advanced Scheduling Settings")
 
+- `Node Affinity Preset Key` refers to the key of KubeVirt infra node labels.
+- `Node Affinity Preset Values` refers to the values of KubeVirt infra node labels.
+
+Node Affinity Preset type can be `hard` or `soft` and refers to the same notion of [Pod affinity/anti-affinity types](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#types-of-inter-pod-affinity-and-anti-affinity):
+- `hard`: the scheduler can't schedule the VM  unless the rule is met.
+- `soft`: the scheduler tries to find a node that meets the rule. If a matching node is not available, the scheduler still schedules the VM. 
+
 It gives you a possibility to create your own unique scheduling options that override ours.
 For instance, you could avoid creation of Virtual Machines on database nodes etc.
+
+{{% notice note %}}
+Note that you can specify a `Node Affinity Preset Key` and leave `Node Affinity Preset Values` empty to constrain the VM to run on KubeVirt infra nodes that have a specific label key (whatever the values are). 
+{{% /notice %}}
 
 ## Frequently Asked Questions
 
