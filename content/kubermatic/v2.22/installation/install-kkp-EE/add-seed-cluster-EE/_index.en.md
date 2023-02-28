@@ -60,4 +60,4 @@ Once you have set up a seed in your KKP environment, check out some EE-only feat
 
 - Set up [Metering]({{< ref "../../../tutorials-howtos/metering/" >}}) to measure and report resource consumption across your KKP installation.
 - Configure [Resource Quotas]({{< ref "../../../architecture/concept/kkp-concepts/resource-quotas/" >}}) to limit resource consumption in KKP projects.
-- Assign [roles to OIDC groups]({{< ref "../../../architecture/role-based-access-control/groups-support/" >}}) to manage authorization for large amount of users.
+- Assign [roles to OIDC groups]({{< ref "../../../architecture/iam-role-based-access-control/groups-support/" >}}) to manage authorization for large amount of users.
