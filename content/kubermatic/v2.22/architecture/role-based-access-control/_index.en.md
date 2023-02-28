@@ -6,7 +6,7 @@ weight = 5
 +++
 
 This guide explains how to configure Role-Based Access Control for KKP. To configure Role-Based Access Control for 
-user cluster, please refer to [Cluster RBAC]({{< ref "../../tutorials-howtos/cluster-rbac" >}}) page.
+user cluster, please refer to [Cluster Access]({{< ref "../../tutorials-howtos/cluster-access" >}}) page.
 
 ## Overview
 
