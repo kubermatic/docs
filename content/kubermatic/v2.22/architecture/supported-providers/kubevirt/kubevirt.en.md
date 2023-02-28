@@ -187,7 +187,7 @@ this allows us to spread Virtual Machine equally across a cluster.
 However, it is possible to change the default behaviour and create your own topology combined with Node Affinity Presets.
 You can do it by expanding *ADVANCED SCHEDULING SETTINGS* on the initial nodes dashboard page.
 
-![Instance Types and Preferences](/img/kubermatic/main/architecture/supported-providers/kubevirt/scheduling-form.png?classes=shadow,border "Advanced Scheduling Settings")
+![Instance Types and Preferences](/img/kubermatic/2.22/architecture/supported-providers/kubevirt/scheduling-form.png?classes=shadow,border "Advanced Scheduling Settings")
 
 - `Node Affinity Preset Key` refers to the key of KubeVirt infra node labels.
 - `Node Affinity Preset Values` refers to the values of KubeVirt infra node labels.
