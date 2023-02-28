@@ -170,7 +170,7 @@ This allows you to restrict KubeVirt VMs ([see architecture](#architecture)) to 
 {{% notice note %}}
 Note that topology spread constraints and node affinity presets are applicable to KubeVirt infra nodes.
 {{% /notice %}}
-#### Default scheduling behavior
+#### Default Scheduling Behavior
 
 Each Virtual Machine you create has default [topology spread constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) applied:
 
@@ -182,7 +182,7 @@ whenUnsatisfiable: ScheduleAnyway
 
 this allows us to spread Virtual Machine equally across a cluster.
 
-#### Customize scheduling behavior
+#### Customize Scheduling Behavior
 
 However, it is possible to change the default behaviour and create your own topology combined with Node Affinity Presets.
 You can do it by expanding *ADVANCED SCHEDULING SETTINGS* on the initial nodes dashboard page.
