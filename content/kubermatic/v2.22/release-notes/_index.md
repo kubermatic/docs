@@ -1,5 +1,5 @@
 +++
-title = "Release Changelog"
+title = "Release Notes"
 date = 2023-02-23T16:00:00+02:00
 weight = 70
 +++
