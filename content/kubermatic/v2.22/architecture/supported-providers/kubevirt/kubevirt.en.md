@@ -164,7 +164,7 @@ KubeVirt can take advantage of Kubernetes inner features to provide an advanced 
 - [Kubernetes topology spread constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/)
 - [Kubernetes node affinity/anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
 
-Since KubeVirt VMs are wrapped in pods, the Kubernetes scheduling rules applicable to pods are completely valid for KubeVirt VMs.
+Since KubeVirt VMs are wrapped in pods, the Kubernetes scheduling rules applicable to pods are completely valid for KubeVirt VMs.  
 This allows you to restrict KubeVirt VMs ([see architecture](#architecture)) to run only on specific KubeVirt infra nodes.
 
 {{% notice note %}}
@@ -184,7 +184,7 @@ this allows us to spread Virtual Machine equally across a cluster.
 
 #### Customize Scheduling Behavior
 
-However, it is possible to change the default behaviour and create your own topology combined with Node Affinity Presets.
+It is possible to change the default behaviour and create your own topology combined with Node Affinity Presets.
 You can do it by expanding *ADVANCED SCHEDULING SETTINGS* on the initial nodes dashboard page.
 
 ![Instance Types and Preferences](/img/kubermatic/2.22/architecture/supported-providers/kubevirt/scheduling-form.png?classes=shadow,border "Advanced Scheduling Settings")
