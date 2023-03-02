@@ -119,6 +119,6 @@ After finishing the upgrade, check out some of the new features that were added 
 - [Operating System Manager]({{< ref "../../../tutorials-howtos/operating-system-manager/" >}}) (available as preview in KKP 2.20, but enabled by default in 2.21)
 - Support for Rocky Linux as new OS and VMware Cloud Director as new cloud provider
 - [Resource Quotas]({{< ref "../../../architecture/concept/kkp-concepts/resource-quotas/" >}}) (available in Enterprise Edition)
-- [KKP role assignments for OIDC groups]({{< ref "../../../architecture/role-based-access-control/groups-support/" >}}) (available in Enterprise Edition)
+- [KKP role assignments for OIDC groups]({{< ref "../../../architecture/iam-role-based-access-control/groups-support/" >}}) (available in Enterprise Edition)
 
 Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.21.md) for a full list of changes.
