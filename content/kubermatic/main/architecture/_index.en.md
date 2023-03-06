@@ -7,8 +7,6 @@ weight = 5
 
 Kubermatic Kubernetes Platform (KKP) makes full use of Kubernetes cluster to organize and scale workloads, depending on your and your customer's needs. On a high level we differentiate between the Master Cluster, Seed Clusters, and User Clusters.
 
-![KKP Architecture Diagram](/img/kubermatic/main/architecture/high-level-architecture.png)
-
 ### Master Cluster
 
 The **Master Cluster** is a Kubernetes cluster which is responsible for storing the information about users, projects, SSH keys and credentials for infrastructure providers.
