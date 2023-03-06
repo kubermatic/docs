@@ -236,3 +236,74 @@ kubectl edit preset my-preset
 
 This will open the editor configured for `kubectl edit` and let you update the YAML specification.
 It is possible to update any fields already present or add/remove provider sections from the `Preset`.
+
+## Limiting Permissions for Credentials used in Presets
+
+For selected infrastructure providers it makes sense to limit the permissions of the credentials to protect against access creep.
+
+{{< tabs name="Permissions" >}}
+{{% tab name="AWS" %}}
+For AWS we recommend the following IAM policy:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:AddRoleToInstanceProfile",
+        "iam:CreateInstanceProfile",
+        "iam:DeleteInstanceProfile",
+        "iam:GetInstanceProfile",
+        "iam:RemoveRoleFromInstanceProfile",
+        "iam:TagInstanceProfile"
+      ],
+      "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:DeleteRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:GetRole",
+        "iam:ListAttachedRolePolicies",
+        "iam:ListRolePolicies",
+        "iam:PutRolePolicy",
+        "iam:TagRole"
+      ],
+      "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:CancelSpotInstanceRequests",
+        "ec2:CreateSecurityGroup",
+        "ec2:CreateTags",
+        "ec2:DeleteSecurityGroup",
+        "ec2:DeleteTags",
+        "ec2:DescribeAvailabilityZones",
+        "ec2:DescribeImages",
+        "ec2:DescribeInstanceTypeOfferings",
+        "ec2:DescribeInstanceTypes",
+        "ec2:DescribeInstances",
+        "ec2:DescribeRegions",
+        "ec2:DescribeRouteTables",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeVpcs",
+        "ec2:RunInstances",
+        "ec2:TerminateInstances"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+YOUR_ACCOUNT_ID is the account ID on AWS https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html
+{{% /tab %}}
+{{< /tabs >}}

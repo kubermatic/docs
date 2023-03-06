@@ -5,13 +5,11 @@ weight = 5
 
 +++
 
-Kubermatic Kubernetes Platform (KKP) makes full use of Kubernetes cluster to organize and scale workloads, depending on your and your customer's needs. In a typical small-scale setup, pictured below, a single cluster contains KKP and the master components for every user cluster.
-
-![KKP Architecture Diagram](/img/kubermatic/main/architecture/combined-master-seed.png)
+Kubermatic Kubernetes Platform (KKP) makes full use of Kubernetes cluster to organize and scale workloads, depending on your and your customer's needs. On a high level we differentiate between the Master Cluster, Seed Clusters, and User Clusters.
 
 ### Master Cluster
 
-The **Master Cluster** is a Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys.
+The **Master Cluster** is a Kubernetes cluster which is responsible for storing the information about users, projects, SSH keys and credentials for infrastructure providers.
 It hosts the KKP components and might also act as a seed cluster.
 
 The KKP components are the
@@ -22,7 +20,7 @@ The KKP components are the
 
 ### Seed Cluster
 
-The **Seed Cluster** is a Kubernetes cluster which is responsible for hosting the master components of a user cluster.
+The **Seed Cluster** is a Kubernetes cluster which is responsible for hosting the master components of a user cluster including credentials for the available infrastructure providers.
 
 The seed cluster uses namespaces of Kubernetes to logically separate resources from each other. KKP will install the master components of a Kubernetes cluster within each namespace, plus a light monitoring stack consisting of Prometheus and an OpenVPN server to allow secure communication between the master components in the seed cluster and the pod/service network of the worker nodes.
 
@@ -33,6 +31,12 @@ The **User Cluster** is a Kubernetes cluster created and managed by KKP.
 ### Datacenters
 
 KKP has the concept of **Datacenters**, for example "AWS US-East", "DigitalOcean Frankfurt" or a local vSphere deployment. Datacenters are used to specify where user clusters can be created in, so you can choose to only support running user clusters on AWS.
+
+### Small-Scale Deployments
+
+In a typical small-scale setup, pictured below, a single cluster contains KKP and the master components for every user cluster.
+
+![KKP Architecture Diagram](/img/kubermatic/main/architecture/combined-master-seed.png)
 
 ### Large-Scale Deployments
 

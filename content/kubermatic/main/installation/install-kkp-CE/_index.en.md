@@ -10,6 +10,8 @@ Kubermatic Kubernetes Platform (KKP) is a Kubernetes management platform that he
 
 This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`). KKP can be installed on any infrastructure provider that can host a Kubernetes cluster, i.e. any major cloud provider like Amazon Web Services (AWS), Azure, Google Cloud Platform (GCP), Digital Ocean or Hetzner. Private infrastructure providers like vSphere, OpenStack or Nutanix are supported as well, e.g. by using [KubeOne](https://docs.kubermatic.com/kubeone/). See [Set up Kubernetes](#set-up-kubernetes) for details.
 
+A full setup takes between 1-2 hours depending on your configuration and infrastructure provider.
+
 ## Requirements
 
 {{% notice warning %}}
@@ -19,6 +21,15 @@ migrating existing installations.
 
 For this guide you need to have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Helm](https://www.helm.sh/) (version 3) installed locally.
 You should be familiar with core Kubernetes concepts and the YAML file format before proceeding.
+
+<!-- TODO Add quotas for additional providers-->
+In addition, we recommend familiarizing yourself with the resource quota system of your infrastructure provider. It is important to provide enough capacity to let KKP provision infrastructure for your future user clusters, but also to enforce a maximum to protect against overspending.
+
+{{< tabs name="resource-quotas" >}}
+{{% tab name="AWS" %}}
+AWS manages service quotas per region. Please refer to the [official AWS service quotas documentation](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) for further details.
+{{% /tab %}}
+{{< /tabs >}}
 
 ### Plan Your Architecture
 
@@ -96,7 +107,7 @@ The key items to consider while preparing your configuration files are described
 | To authenticate via an external identity provider you need to set up connectors in Dex. Check out [the Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required but highly recommended for multi-user installations. | `.dex.connectors` (`values.yaml`; not included in example file) |
 | The expose strategy which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [the expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
 
-There are many more options but these are essential to get a minimal system up and running. The secret keys
+There are many more options but these are essential to get a minimal system up and running. A full reference of all options can be found in the [KubermaticConfiguration Reference]({{< relref "../../references/crds/#kubermaticconfigurationspec" >}}). The secret keys
 mentioned above can be generated using any password generator or on the shell using
 `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32` (on macOS, use `brew install coreutils` and
 `cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`). Alternatively, the Kubermatic Installer will suggest some
