@@ -94,6 +94,7 @@ $ tar xzf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz charts
 Install nginx first:
 
 ```bash
+$ helm dependency build ./charts/nginx-ingress-controller
 $ helm \
   --namespace ingress-nginx \
   upgrade \
@@ -134,6 +135,7 @@ Now, we can setup cert-manager. Install the CRDs first, then the Helm chart:
 
 ```bash
 $ kubectl apply --filename ./charts/cert-manager/crd/
+$ helm dependency build ./charts/cert-manager/
 $ helm \
   --namespace cert-manager \
   upgrade \
@@ -143,7 +145,126 @@ $ helm \
     ./charts/cert-manager
 ```
 
-By default, the Helm chart will setup two ClusterIssuers: `letsencrypt-prod` and `letsencrypt-staging`. We will be using the `prod` variant for this example.
+Now we have to create a `ClusterIssuer` representing certificate authority (CA) able to sign certificates in response to certificate signing requests.  
+More `ClusterIssuer` types are available, please refer to the [cert-manager documentation](https://cert-manager.io/docs/configuration/) for an exhaustive list.
+
+{{< tabs name="ClusterIssuers" >}}
+{{% tab name="letsencrypt-prod (ACME ClusterIssuer)" %}}
+Create the `clusterIssuer.yaml` file with the following content:
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: letsencrypt-prod-acme-account-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+```
+
+Apply it on the cluster:
+```bash
+$ kubectl apply -f clusterIssuer.yaml
+```
+
+After a short moment, ClusterIssuer should switch to ready state:
+```bash
+$ NAME               READY   AGE
+letsencrypt-prod     True    1m
+```
+{{% /tab %}}
+
+{{% tab name="letsencrypt-staging (ACME ClusterIssuer)" %}}
+Create the `clusterIssuer.yaml` file with the following content:
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: user@example.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: letsencrypt-staging-acme-account-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+```
+
+Apply it on the cluster:
+```bash
+$ kubectl apply -f clusterIssuer.yaml
+```
+
+After a short moment, ClusterIssuer should switch to ready state:
+```bash
+$ NAME               READY   AGE
+letsencrypt-staging     True    1m
+```
+Let's Encrypt staging CA are **not present** in browser/client trust stores.
+
+You must download [Let's Encrypt root CA](https://letsencrypt.org/docs/staging-environment/#root-certificates) and upload it on **ALL** master nodes under `/etc/ssl/certs`.
+We upload the CA under this directory because the api-server mounts it and all CA under `/etc/ssl/certs` are trusted by the system, so no additional configuration is required.
+
+For other possible options, please refer to [cert-manager documentation](https://cert-manager.io/docs/configuration/acme/)
+
+{{% /tab %}}
+
+{{% tab name="Self-signed CA (CA ClusterIssuer)" %}}
+First, you have to store your CA key pair as Kubernetes secret:
+```bash
+$ kubectl -n cert-manager create secret tls  --key ca-key.pem --cert ca.pem ca-key-pair
+```
+
+Then create the `clusterIssuer.yaml` file with the following content:
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: ca-issuer
+spec:
+  ca:
+    # name of the secret containing the CA key pair
+    secretName: ca-key-pair
+```
+
+Apply it on the cluster:
+```bash
+$ kubectl apply -f clusterIssuer.yaml
+```
+
+After a short moment, ClusterIssuer should switch to ready state:
+```bash
+$ kubectl get clusterIssuer
+NAME        READY   AGE
+ca-issuer   True    34s
+```
+
+As it's a self-signed CA, it will probably not be trusted by browser/client, So you must upload it on **ALL** master nodes under `/etc/ssl/certs`.
+We upload the CA under this directory because the api-server mounts it and all CA under `/etc/ssl/certs` are trusted by the system, so no additional configuration is required.
+
+For other possible options, please refer to [cert-manager documentation](https://cert-manager.io/docs/configuration/ca/)
+{{% /tab %}}
+{{% /tabs %}}
 
 Our cluster is now ready to receive traffic and can provide certificates for these apps that need them. We can continue with the next step:
 
@@ -155,6 +276,11 @@ To configure the Helm chart for Dex, create a `values.yaml` like so:
 
 ```yaml
 dex:
+  # tell to the cert-manage to generate a certificate for our ingress using the ClusterIssuer
+  certIssuer:
+    # name of the clusterIssuer created in previous step. (e.g. letsencrypt-prod)
+    name: <clusterIssuer name>
+    kind: ClusterIssuer
   ingress:
     host: dex.controlplane.example.com
 
@@ -199,6 +325,8 @@ $ helm \
   upgrade \
     --create-namespace \
     --install \
+    --values values.yaml
+    --wait
     dex \
     ./charts/oauth
 ```
@@ -238,6 +366,7 @@ $ kubectl oidc-login setup \
   --oidc-issuer-url=https://dex.controlplane.example.com/dex \
   --oidc-client-id=<the client ID from the values.yaml here> \
   --oidc-client-secret=<the client secret from the values.yaml here>
+  #--certificate-authority=<path to CA> # only required if the CA is not trusted
 ```
 
 **Important:** Use the ID/secret for the client (most likely called "kubernetes") you defined yourself. This is not the ID/secret that GitHub generated for you.
@@ -293,7 +422,8 @@ $ kubectl oidc-login setup \
   --oidc-issuer-url=https://dex.controlplane.example.com/dex \
   --oidc-client-id=<the client ID from the values.yaml here> \
   --oidc-client-secret=<the client secret from the values.yaml here> \
-  --oidc-extra-scope=groups,profile
+  --oidc-extra-scope=groups,profile,email \
+  #--certificate-authority=<path to CA> # only required if the CA is not trusted
 
 authentication in progress...
 
@@ -314,7 +444,8 @@ You got a token with the following claims:
     "kubermatic:sig-cluster-management"
   ],
   "name": "Christoph Mewes",
-  "preferred_username": "xrstf"
+  "preferred_username": "xrstf",
+  "email": "email@company.com"
 }
 
 ...
@@ -351,7 +482,7 @@ features:
 
       # This is the important piece. By default this is "sub", as it is the most secure.
       # In our cluster we rely on GitHub usernames being unique and stable enough, so we
-      # switch to `preferred_username`.
+      # switch to `preferred_username`. If you prefer, you can also set it to `email`.
       usernameClaim: "preferred_username"
 
       # The remaining fields are just the defaults from KubeOne and noted here just FYI
@@ -415,7 +546,9 @@ users:
       - --oidc-issuer-url=https://dex.controlplane.example.com/dex
       - --oidc-client-id=<the client ID from the values.yaml here>
       - --oidc-client-secret=<the client secret from the values.yaml here>
-      - --oidc-extra-scope=groups,profile
+      - --oidc-extra-scope=groups,profile,email
+      # Uncomment if the CA is not trusted.
+      #- --certificate-authority=<path to CA>
 ```
 
 Save it, set it as your `$KUBECONFIG` and test it out:
