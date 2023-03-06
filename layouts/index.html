@@ -14,7 +14,8 @@
   {{partial "gtm-noscript.html" .}}
   {{partialCached "main-header" .}}
   {{if .Site.Data.products}}
-  <section class="projects">
+  {{$bgImage := "/img/main-background.svg"}}
+  <section class="projects"{{with $bgImage}} style="background-image: url('{{. | relURL}}');"{{end}}>
     <div class="wrap">
       {{with .Params.projects_title}}
       <h1 class="section-title">{{.}}</h1>
