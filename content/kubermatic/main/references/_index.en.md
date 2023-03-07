@@ -5,3 +5,8 @@ weight = 40
 +++
 
 This section contains a reference of the Kubermatic REST API.
+
+## Pages
+
+{{% children %}}
+{{% /children %}}
