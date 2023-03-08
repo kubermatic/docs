@@ -33,7 +33,7 @@ of provided software and therefore releases updates regularly that also include 
 | monitoring/helm-exporter | 1.2.2 |
 | monitoring/karma | 0.103 |
 | monitoring/kube-state-metrics | 2.5.0 |
-| monitoring/node-exporter | 1.4.0 |
+| monitoring/node-exporter | 1.5.0 |
 | monitoring/prometheus | 2.40.2 |
 | nginx-ingress-controller | 1.5.1 |
 | oauth | 2.35.3 |
