@@ -4090,7 +4090,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic dashboard image. |
-| `dockerTag` _string_ | DockerTag is used to overwrite the dashboard Docker image tag and is only for development purposes. This field must not be set in production environments. --- |
+| `dockerTag` _string_ | DockerTag is used to overwrite the dashboard Docker image tag and is only for development purposes. This field must not be set in production environments. If DockerTag is specified then DockerTagSuffix will be ignored. --- |
+| `dockerTagSuffix` _string_ | DockerTagSuffix is appended to the KKP version used for referring to the custom dashboard image. If left empty, either the `DockerTag` if specified or the original dashboard Docker image tag will be used. With DockerTagSuffix the tag becomes <KKP_VERSION:SUFFIX> i.e. "v2.15.0-SUFFIX". |
 | `config` _string_ | Config sets flags for various dashboard features. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
 | `replicas` _integer_ | Replicas sets the number of pod replicas for the UI deployment. |
