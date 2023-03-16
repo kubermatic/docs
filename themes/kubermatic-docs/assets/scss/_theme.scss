@@ -37,6 +37,15 @@
     url('../fonts/ubuntu-700.woff') format('woff');
 }
 
+/* TODO: move to separate file with mixins */
+@mixin break-long-word {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+}
+
 /* Tags */
 @import "tags";
 
@@ -409,22 +418,31 @@ blockquote cite {
     display: flex;
     padding: 15px 1.25rem;
     margin: 1.25rem 0 2.125rem;
-}
-.notices p {
-    display: block;
-    width: 100%;
-    font-size: 1rem;
-    margin-top: 0rem;
-    margin-bottom: 0rem;
-}
-.notices:before {
-    content: '';
-    display: inline-block;
-    width: 36px;
-    height: 36px;
-    margin-right: 20px;
-    background-repeat: no-repeat;
-    background-size: contain;
+    p {
+        display: block;
+        width: 100%;
+        font-size: 1rem;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    code {
+        @include break-long-word;
+    }
+    & > div {
+        flex: 1;
+        & > * + * {
+            margin-top: 1rem;
+        }
+    }
+    &:before {
+        content: '';
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        margin-right: 1rem;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
 }
 .info:before {
     background-image: url('/img/icons/info-icon.svg');
