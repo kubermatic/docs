@@ -16,7 +16,7 @@ backup rotation.
 
 {{% notice warning %}}
 By default, backups are done every 30 minutes and are
-kept for 48 hours. If you need renention, please adjust the restic CLI flags
+kept for 48 hours. If you need retention, please adjust the restic CLI flags
 `restic forget --prune --keep-last <NEW AMOUNT OF HOURS>`.
 {{% /notice %}}
 
