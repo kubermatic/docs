@@ -4,7 +4,15 @@ set -euox pipefail
 
 cd $(dirname $0)/..
 
-SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/pkg/apis/"
+# starting with https://github.com/kubermatic/kubermatic/pull/12079,
+# CRDs are kept in a dedicated repo and are only available because KKP's
+# update-docs.sh just did a `go mod vendor`, just for us.
+SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/vendor/k8c.io/api/v2/pkg/apis/"
+
+# We are building for an older KKP release.
+if [ ! -d "$SOURCE" ]; then
+  SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/pkg/apis/"
+fi
 
 which crd-ref-docs >/dev/null || {
   echo "running go install github.com/elastic/crd-ref-docs@v0.0.8 in 5s... (ctrl-c to cancel)"
