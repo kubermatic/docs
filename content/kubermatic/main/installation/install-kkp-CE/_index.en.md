@@ -12,6 +12,8 @@ This chapter explains the installation procedure of KKP into a pre-existing Kube
 
 A full setup takes between 1-2 hours depending on your configuration and infrastructure provider.
 
+Expected skills and knowledge for the installation: moderate level of familiarity with cloud services (like AWS, Azure, GCP ore others) and familiarity with container and Kubernetes technologies, constructs, and configurations.
+
 ## Requirements
 
 {{% notice warning %}}
