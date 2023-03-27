@@ -10,6 +10,16 @@ Kubermatic Kubernetes Platform (KKP) is a Kubernetes management platform that he
 
 This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`). KKP can be installed on any infrastructure provider that can host a Kubernetes cluster, i.e. any major cloud provider like Amazon Web Services (AWS), Azure, Google Cloud Platform (GCP), Digital Ocean or Hetzner. Private infrastructure providers like vSphere, OpenStack or Nutanix are supported as well, e.g. by using [KubeOne](https://docs.kubermatic.com/kubeone/). See [Set up Kubernetes](#set-up-kubernetes) for details.
 
+## Terminology
+
+In this chapter, you will find the following KKP-specific terms:
+
+* **Master Cluster** -- A Kubernetes cluster which is responsible for storing central information about users, projects and SSH keys. It hosts the KKP master components and might also act as a seed cluster.
+* **Seed Cluster** -- A Kubernetes cluster which is responsible for hosting the control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd and more) of a User Cluster.
+* **User Cluster** -- A Kubernetes cluster created and managed by KKP, hosting applications managed by users.
+
+It is also recommended to make yourself familiar with our [architecture documentation]({{< ref "../../architecture/" >}}).
+
 ## Requirements
 
 {{% notice warning %}}
