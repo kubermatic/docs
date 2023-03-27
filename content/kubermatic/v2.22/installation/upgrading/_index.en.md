@@ -9,6 +9,7 @@ This section contains important upgrade notes you should read before upgrading K
 ## Upgrade Guides
 
 {{% children %}}
+{{% /children %}}
 
 ## General Guidelines
 
