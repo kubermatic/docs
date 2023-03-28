@@ -1,6 +1,6 @@
 +++
 title = "Operating System Manager"
-description = “Tutorial about the Operating System Manager (OSM) responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster“
+description = "Tutorial about the Operating System Manager (OSM) responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster"
 date = 2022-01-18T10:07:15+02:00
 weight = 15
 +++
