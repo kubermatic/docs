@@ -243,7 +243,7 @@ For selected infrastructure providers it makes sense to limit the permissions of
 
 {{< tabs name="Permissions" >}}
 {{% tab name="AWS" %}}
-For AWS we recommend the following IAM policy:
+For AWS no root is required and we recommend the following IAM policy:
 
 ```json
 {
