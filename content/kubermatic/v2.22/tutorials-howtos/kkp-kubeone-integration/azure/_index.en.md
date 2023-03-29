@@ -1,6 +1,6 @@
 +++
 title = "Azure"
-title_tag = "Tutorials-Integration- Azure - KKP Documentation"
+title_tag = "Tutorials - Integration - Azure"
 date = 2023-02-21T14:07:15+02:00
 description = "Detailed tutorial to help you manage Azure KubeOne cluster using KKP"
 weight = 7
