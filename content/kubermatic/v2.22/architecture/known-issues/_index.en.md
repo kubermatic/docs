@@ -99,5 +99,5 @@ spec:
         permissions: 644
     modules:
       runcmd:
-        - systemctl reload systemd-networkd.service
+        - systemctl restart systemd-networkd.service
 ````

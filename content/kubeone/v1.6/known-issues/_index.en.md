@@ -117,7 +117,6 @@ version or following the [cgroups v2 migration instructions][flatcar-cgroups].
 
 [flatcar-cgroups]: https://www.flatcar.org/docs/latest/container-runtimes/switching-to-unified-cgroups#migrating-old-nodes-to-unified-cgroups
 
-
 ### 3. Networking issues with Cilium and Systemd based distributions
 
 |              |                                                  |
@@ -128,7 +127,7 @@ version or following the [cgroups v2 migration instructions][flatcar-cgroups].
 
 ### Description
 
-A KubeOne clusters with Cilium CNI running on a systemd based distribution the network can become unstable.
+A KubeOne clusters with Cilium CNI running on a systemd based distribution can get into an unstable network state.
 We do not necessarily meet the [requirements for systemd based distribution](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions) by default.
 
 An update of systemd caused an incompatibility with cilium. With that change systemd is managing external routes by default.
@@ -160,5 +159,5 @@ spec:
         permissions: 644
     modules:
       runcmd:
-        - systemctl reload systemd-networkd.service
+        - systemctl restart systemd-networkd.service
 ````
