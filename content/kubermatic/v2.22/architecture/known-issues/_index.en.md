@@ -64,18 +64,18 @@ We do not recommend to configure the Cilium with IPVS kube-proxy mode and this o
 
 **Problem**
 
-In KKP user clusters with Cilium CNI running on a systemd based distribution the network can become unstable ([12104](https://github.com/kubermatic/kubermatic/issues/12104)) .
+In KKP user clusters with Cilium CNI running on a systemd based distribution the network can become unstable ([12104](https://github.com/kubermatic/kubermatic/issues/12104)).
 
 We do not necessarily meet the [requirements for systemd based distribution](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions) by default nor does KKP change os/systemd settings based on CNI.
 
 **Root Cause**
 
-An update of systemd caused an incompatibility with cilium. With that change systemd is managing external routes by default. 
-On a change in the network this can cause systemd to delete cilium owned resources.
+An update of systemd caused an incompatibility with Cilium. With that change systemd is managing external routes by default. 
+On a change in the network this can cause systemd to delete Cilium owned resources.
 
 **Solution**
 
-* Adjust systemd manually based on the [cilium requirements](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions).
+* Adjust systemd manually based on the [Cilium requirements](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions).
 
 * Use a custom OSP and configure systemd: 
 

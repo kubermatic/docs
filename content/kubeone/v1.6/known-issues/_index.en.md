@@ -66,15 +66,15 @@ tolerating the `node-role.kubernetes.io/master` taint.**
 
 Cilium CNI is not supported on CentOS 7 because it's using too older kernel
 version which is not supported by Cilium itself. For more details, consider
-[the official Cilium documentation][cilium-requirements].
+[the official Cilium documentation][Cilium-requirements].
 
-[cilium-requirements]: https://docs.cilium.io/en/v1.13/operations/system_requirements/
+[Cilium-requirements]: https://docs.Cilium.io/en/v1.13/operations/system_requirements/
 
 ### Recommendation
 
 Please consider using an operating system with a newer kernel version, such
 as Ubuntu, Rocky Linux, and Flatcar. See 
-[the official Cilium documentation][cilium-requirements] for a list of
+[the official Cilium documentation][Cilium-requirements] for a list of
 operating systems and versions supported by Cilium.
 
 ## Pod connectivity is broken for Calico VXLAN clusters
@@ -130,12 +130,12 @@ version or following the [cgroups v2 migration instructions][flatcar-cgroups].
 A KubeOne clusters with Cilium CNI running on a systemd based distribution can get into an unstable network state.
 We do not necessarily meet the [requirements for systemd based distribution](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions) by default.
 
-An update of systemd caused an incompatibility with cilium. With that change systemd is managing external routes by default.
-On a change in the network this can cause systemd to delete cilium owned resources.
+An update of systemd caused an incompatibility with Cilium. With that change systemd is managing external routes by default.
+On a change in the network this can cause systemd to delete Cilium owned resources.
 
 **Recommendation**
 
-* Adjust systemd manually based on the [cilium requirements](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions).
+* Adjust systemd manually based on the [Cilium requirements](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions).
 
 * Use a custom OSP and configure systemd:
 
