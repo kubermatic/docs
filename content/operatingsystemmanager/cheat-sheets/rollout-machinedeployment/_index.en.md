@@ -1,7 +1,7 @@
 +++
 title = "Rolling Restart MachineDeploments"
 date = 2022-08-20T12:00:00+02:00
-description = "Rolling restart machine deployments: Learn about the concept and keep it handy"
+description = "Rolling restart machine deployments for Operating System Manager (OSM): Learn about the concept and keep it handy"
 weight = 25
 +++
 
