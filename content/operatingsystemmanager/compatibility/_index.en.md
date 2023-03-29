@@ -1,5 +1,6 @@
 +++
 title = "Compatibility Matrix"
+description = "Overview of operating systems supported by Operating System Manager (OSM)"
 date = 2022-08-20T12:00:00+02:00
 weight = 6
 +++
