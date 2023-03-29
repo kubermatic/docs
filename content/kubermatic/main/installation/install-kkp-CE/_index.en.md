@@ -10,7 +10,7 @@ Kubermatic Kubernetes Platform (KKP) is a Kubernetes management platform that he
 
 This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`). KKP can be installed on any infrastructure provider that can host a Kubernetes cluster, i.e. any major cloud provider like Amazon Web Services (AWS), Azure, Google Cloud Platform (GCP), Digital Ocean or Hetzner. Private infrastructure providers like vSphere, OpenStack or Nutanix are supported as well, e.g. by using [KubeOne](https://docs.kubermatic.com/kubeone/). See [Set up Kubernetes](#set-up-kubernetes) for details.
 
-A full setup takes between 1-2 hours depending on your configuration and infrastructure provider.
+Typically the setup of KKP cluster, including creation of a base Kubernetes cluster on which KKP is deployed, should be no more than 2 hours. Inclusive of preparation of the Infrastructure.
 
 Expected skills and knowledge for the installation: moderate level of familiarity with cloud services (like AWS, Azure, GCP ore others) and familiarity with container and Kubernetes technologies, constructs, and configurations.
 
