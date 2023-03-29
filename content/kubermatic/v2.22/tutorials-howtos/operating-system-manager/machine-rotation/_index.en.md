@@ -1,5 +1,6 @@
 +++
 title = "Machine Rotation"
+description = "Scenarios for machine rotation in KKP 2.22"
 date = 2022-01-18T10:07:15+02:00
 weight = 2
 +++
