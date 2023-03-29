@@ -1,5 +1,6 @@
 +++
 title = "Machine Rotation"
+description = "Scenarios for machine rotation in Operating System Manager"
 date = 2022-08-20T12:00:00+02:00
 +++
 
