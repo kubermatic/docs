@@ -1,6 +1,6 @@
 +++
 title = "Azure"
-title_tag = "KKP Supported Providers- Azure- KKP Documentation"
+title_tag = "KKP Supported Providers - Azure"
 date = 2019-05-19T12:07:15+02:00
 weight = 2
 
