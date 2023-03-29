@@ -64,7 +64,7 @@ We do not recommend to configure the Cilium with IPVS kube-proxy mode and this o
 
 **Problem**
 
-In KKP user clusters with Cilium CNI running on a systemd based distribution the network can become unstable.
+In KKP user clusters with Cilium CNI running on a systemd based distribution the network can become unstable ([12104](https://github.com/kubermatic/kubermatic/issues/12104)) .
 
 We do not necessarily meet the [requirements for systemd based distribution](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions) by default nor does KKP change os/systemd settings based on CNI.
 
