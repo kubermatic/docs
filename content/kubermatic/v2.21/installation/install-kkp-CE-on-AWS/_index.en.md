@@ -16,6 +16,8 @@ This chapter explains the installation procedure of KKP into a pre-existing Kube
 
 ## Requirements
 
+The installation requires a moderate level of familiarity with AWS/or any cloud services and assumes familiarity with container and Kubernetes technologies, constructs, and configurations.
+
 Before installing, make sure your Kubernetes cluster meets the [minimal requirements]({{< ref "../../architecture/requirements" >}})
 and make yourself familiar with the requirements for your AWS cloud provider.
 
