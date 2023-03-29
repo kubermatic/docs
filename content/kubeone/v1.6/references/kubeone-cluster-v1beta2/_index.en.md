@@ -1,5 +1,6 @@
 +++
 title = "v1beta2 API Reference"
+description = "Communicate with the Kubernetes API Back to Group AWSSpec with APIEndpoint"
 date = 2023-01-30T19:59:26+05:00
 weight = 11
 +++
