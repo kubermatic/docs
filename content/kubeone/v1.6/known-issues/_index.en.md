@@ -66,15 +66,15 @@ tolerating the `node-role.kubernetes.io/master` taint.**
 
 Cilium CNI is not supported on CentOS 7 because it's using too older kernel
 version which is not supported by Cilium itself. For more details, consider
-[the official Cilium documentation][Cilium-requirements].
+[the official Cilium documentation][cilium-requirements].
 
-[Cilium-requirements]: https://docs.Cilium.io/en/v1.13/operations/system_requirements/
+[cilium-requirements]: https://docs.cilium.io/en/v1.13/operations/system_requirements/
 
 ### Recommendation
 
 Please consider using an operating system with a newer kernel version, such
 as Ubuntu, Rocky Linux, and Flatcar. See 
-[the official Cilium documentation][Cilium-requirements] for a list of
+[the official Cilium documentation][cilium-requirements] for a list of
 operating systems and versions supported by Cilium.
 
 ## Pod connectivity is broken for Calico VXLAN clusters
