@@ -1,5 +1,6 @@
 +++
 title = "AWS"
+title_tag = "KKP Supported Providers-AWS - KKP Documentation"
 date = 2018-09-20T12:12:15+02:00
 weight = 1
 
