@@ -60,5 +60,44 @@ IPVS kube-proxy mode is not really supported by Cilium as mentioned in the Ciliu
 We do not recommend to configure the Cilium with IPVS kube-proxy mode and this option has been removed from the KKP UI as part of the issue [#4687](https://github.com/kubermatic/dashboard/issues/4687).
 
 
+### 3. Networking issues with Cilium and Systemd based distributions
 
+**Problem**
 
+In KKP user clusters with Cilium CNI running on a systemd based distribution the network can become unstable ([12104](https://github.com/kubermatic/kubermatic/issues/12104)).
+
+We do not necessarily meet the [requirements for systemd based distribution](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions) by default nor does KKP change os/systemd settings based on CNI.
+
+**Root Cause**
+
+An update of systemd caused an incompatibility with Cilium. With that change systemd is managing external routes by default. 
+On a change in the network this can cause systemd to delete Cilium owned resources.
+
+**Solution**
+
+* Adjust systemd manually based on the [Cilium requirements](https://docs.cilium.io/en/v1.13/operations/system_requirements/#systemd-based-distributions).
+
+* Use a custom OSP and configure systemd: 
+
+````yaml
+apiVersion: operatingsystemmanager.k8c.io/v1alpha1
+kind: CustomOperatingSystemProfile
+metadata:
+  name: cilium-ubuntu
+  namespace: kubermatic
+spec:
+  bootstrapConfig:
+    files:
+      - content:
+          inline:
+            data: |
+              [Network]
+              ManageForeignRoutes=no
+              ManageForeignRoutingPolicyRules=no
+            encoding: b64
+        path: /etc/systemd/networkd.conf
+        permissions: 644
+    modules:
+      runcmd:
+        - systemctl restart systemd-networkd.service
+````
