@@ -1,5 +1,6 @@
 +++
 title = "Install Kubermatic Kubernetes Platform (KKP) CE"
+description = "Complete installation procedure of KKP into a pre-existing Kubernetes cluster using KKP’s installer"
 linkTitle = "Install Community Edition"
 date = 2018-04-28T12:07:15+02:00
 weight = 10
