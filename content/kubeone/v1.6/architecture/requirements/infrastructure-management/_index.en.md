@@ -73,7 +73,7 @@ Depending on the environment, you may need additional objects, such as VPCs,
 firewall rules, or images. For [officially-supported
 providers][supported-providers], we recommended checking our [example Terraform
 configs][terraform-configs-github] as a reference what objects you should be
-created.
+created. In addition, options for multi-zone deployments are shown for selected providers.
 
 ## Infrastructure For Worker Nodes
 
