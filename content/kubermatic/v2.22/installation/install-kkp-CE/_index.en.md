@@ -42,6 +42,8 @@ Depending on which choice you make, you will need to have either one or two Kube
 If you would like to run multiple Seeds to scale your setup beyond a single Seed, please check out the [Enterprise Edition]({{< ref "../install-kkp-EE/" >}})
 as that feature is only available there.
 
+We recommended checking our example Terraform configs as a reference of what objects/resources will be created: https://github.com/kubermatic/kubeone/tree/release/v1.5/examples/terraform
+
 ### Set Up Kubernetes
 
 To aid in setting up the Seed and Master Clusters, we provide [KubeOne](https://github.com/kubermatic/kubeone/), which can be used to set up a highly-available Kubernetes cluster.
