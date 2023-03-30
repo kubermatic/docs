@@ -7,6 +7,8 @@ weight = 5
 
 Kubermatic Kubernetes Platform (KKP) makes full use of Kubernetes cluster to organize and scale workloads, depending on your and your customer's needs. On a high level we differentiate between the Master Cluster, Seed Clusters, and User Clusters.
 
+## Terminology
+
 ### Master Cluster
 
 The **Master Cluster** is a Kubernetes cluster which is responsible for storing the information about users, projects, SSH keys and credentials for infrastructure providers.
@@ -32,6 +34,8 @@ The **User Cluster** is a Kubernetes cluster created and managed by KKP.
 
 KKP has the concept of **Datacenters**, for example "AWS US-East", "DigitalOcean Frankfurt" or a local vSphere deployment. Datacenters are used to specify where user clusters can be created in, so you can choose to only support running user clusters on AWS.
 
+## Deployment Types
+
 ### Small-Scale Deployments
 
 In a typical small-scale setup, pictured below, a single cluster contains KKP and the master components for every user cluster.
@@ -55,3 +59,8 @@ This setup is useful for keeping the latency between the master components of a 
   * DigitalOcean ams1 and lon1
 
 See the [installation documentation]({{< relref "../installation/install-kkp-ce/">}}) for more details on how to setup datacenters.
+
+## Pages
+
+{{% children depth=5 %}}
+{{% /children %}}
