@@ -10,6 +10,10 @@ Kubermatic Kubernetes Platform (KKP) is a Kubernetes management platform that he
 
 This chapter explains the installation procedure of KKP into a pre-existing Kubernetes cluster using KKP's installer (called `kubermatic-installer`). KKP can be installed on any infrastructure provider that can host a Kubernetes cluster, i.e. any major cloud provider like Amazon Web Services (AWS), Azure, Google Cloud Platform (GCP), Digital Ocean or Hetzner. Private infrastructure providers like vSphere, OpenStack or Nutanix are supported as well, e.g. by using [KubeOne](https://docs.kubermatic.com/kubeone/). See [Set up Kubernetes](#set-up-kubernetes) for details.
 
+A full setup takes between 1-2 hours depending on your configuration and infrastructure provider.
+
+Expected skills and knowledge for the installation: moderate level of familiarity with cloud services (like AWS, Azure, GCP ore others) and familiarity with container and Kubernetes technologies, constructs, and configurations.
+
 ## Terminology
 
 In this chapter, you will find the following KKP-specific terms:
@@ -29,6 +33,15 @@ migrating existing installations.
 
 For this guide you need to have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Helm](https://www.helm.sh/) (version 3) installed locally.
 You should be familiar with core Kubernetes concepts and the YAML file format before proceeding.
+
+<!-- TODO Add quotas for additional providers-->
+In addition, we recommend familiarizing yourself with the resource quota system of your infrastructure provider. It is important to provide enough capacity to let KKP provision infrastructure for your future user clusters, but also to enforce a maximum to protect against overspending.
+
+{{< tabs name="resource-quotas" >}}
+{{% tab name="AWS" %}}
+AWS manages service quotas per region. Please refer to the [official AWS service quotas documentation](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) for further details.
+{{% /tab %}}
+{{< /tabs >}}
 
 ### Plan Your Architecture
 
