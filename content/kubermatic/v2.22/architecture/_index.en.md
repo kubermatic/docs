@@ -11,7 +11,7 @@ Kubermatic Kubernetes Platform (KKP) makes full use of Kubernetes cluster to org
 
 ### Master Cluster
 
-The **Master Cluster** is a Kubernetes cluster which is responsible for storing the information about users, projects and SSH keys.
+The **Master Cluster** is a Kubernetes cluster which is responsible for storing the information about users, projects, SSH keys and credentials for infrastructure providers. All sensitive information is stored in etcd, which is split across the nodes of the master cluster.
 It hosts the KKP components and might also act as a seed cluster.
 
 The KKP components are the
@@ -22,7 +22,7 @@ The KKP components are the
 
 ### Seed Cluster
 
-The **Seed Cluster** is a Kubernetes cluster which is responsible for hosting the master components of a user cluster.
+The **Seed Cluster** is a Kubernetes cluster which is responsible for hosting the master components of a user cluster including credentials for the available infrastructure providers. All sensitive information is stored in etcd, which is split across the nodes of the master cluster.
 
 The seed cluster uses namespaces of Kubernetes to logically separate resources from each other. KKP will install the master components of a Kubernetes cluster within each namespace, plus a light monitoring stack consisting of Prometheus and an OpenVPN server to allow secure communication between the master components in the seed cluster and the pod/service network of the worker nodes.
 
