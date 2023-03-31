@@ -50,9 +50,9 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
 
 ![Themes dir](/img/kubermatic/v2.21/ui/themes_dir.png?classes=shadow,border "Themes dir")
 
-- Now, simply update your `config.json` file used by `Kubermatic Dashboard` Deployment and register the new theme same as it was done earlier.
+- Now, update the `config.json` in [KubermaticSettings]({{< relref "../../../../../../references/crds/#kubermaticuiconfiguration" >}}) CR used by `Kubermatic Dashboard` Deployment and register the new theme same as it was done earlier.
   Make sure that `name` entry corresponds to the name of your theme file (without the `css` suffix).
-- As the last step, mount your custom CSS theme file to the `dist/assets/themes` directory. Make sure not to override whole directory as default themes are required by the application.
+- As the last step, mount your custom CSS theme file to the `dist/assets/themes` directory. To do so, specify `extraVolumes` and `extraVolumeMounts` in the [KubermaticSettings]({{< relref "../../../../../../references/crds/#kubermaticuiconfiguration" >}}) CR. Make sure not to override whole directory as default themes are required by the application.
 - After application restart, theme picker should show your new theme.
 
 ![Theme picker](/img/kubermatic/v2.21/ui/custom_theme.png?classes=shadow,border "Theme picker")
