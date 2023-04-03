@@ -1,8 +1,8 @@
 +++
 title = "Add Seed Cluster to Kubermatic Kubernetes Platform (KKP) CE"
+description = "Complete installation procedure of KKP into a pre-existing Kubernetes cluster using KKP’s installer"
 linkTitle = "Add Seed Cluster to CE"
 date = 2018-08-09T12:07:15+02:00
-description = "Learn to add a new seed cluster to an existing KKP master cluster (Community Edition)"
 weight = 40
 enableToc = true
 +++

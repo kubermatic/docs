@@ -1,7 +1,7 @@
 +++
 title = "Create an External EKS Cluster"
 date = 2022-01-10T14:07:15+02:00
-description = "Detailed tutorial to help you add an existing Kubernetes cluster in EKS"
+description = "Detailed tutorial to help you create a kubernetes cluster in EKS from KKP"
 weight = 7
 
 +++
