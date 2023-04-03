@@ -1,5 +1,6 @@
 +++
 title = "Azure"
+title_tag = "Azure - KKP Supported Providers"
 date = 2019-05-19T12:07:15+02:00
 weight = 2
 

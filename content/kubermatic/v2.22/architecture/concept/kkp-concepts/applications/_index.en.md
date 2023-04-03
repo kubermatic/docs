@@ -1,6 +1,5 @@
 +++
 title = "Applications"
-title_tag = "Applications- KKP Documentation"
 date = 2023-01-27T14:07:15+02:00
 weight = 21
 
