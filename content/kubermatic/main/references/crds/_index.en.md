@@ -6109,6 +6109,7 @@ _Appears in:_
 | `ProviderPreset` _[ProviderPreset](#providerpreset)_ |  |
 | `username` _string_ |  |
 | `password` _string_ |  |
+| `apiToken` _string_ |  |
 | `vdc` _string_ |  |
 | `organization` _string_ |  |
 | `ovdcNetwork` _string_ |  |
@@ -6151,6 +6152,7 @@ _Appears in:_
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `username` _string_ | Username is the VMware Cloud Director user name. |
 | `password` _string_ | Password is the VMware Cloud Director user password. |
+| `apiToken` _string_ | APIToken is the VMware Cloud Director API token. |
 | `organization` _string_ | Organization is the name of organization to use. |
 | `vdc` _string_ | VDC is the organizational virtual data center. |
 | `ovdcNetwork` _string_ | Network is the name of organizational virtual data center network that will be associated with the VMs and vApp. |
