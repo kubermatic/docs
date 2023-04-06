@@ -4442,6 +4442,25 @@ _Appears in:_
 
 
 
+### MachineDeploymentOptions
+
+
+
+
+
+_Appears in:_
+- [SettingSpec](#settingspec)
+
+| Field | Description |
+| --- | --- |
+| `autoUpdatesEnabled` _boolean_ | AutoUpdatesEnabled enables the auto updates option for machine deployments on the dashboard. In case of flatcar linux, this will enable automatic updates through update engine and for other operating systems, this will enable package updates on boot for the machines. |
+| `autoUpdatesEnforced` _boolean_ | AutoUpdatesEnforced enforces the auto updates option for machine deployments on the dashboard. In case of flatcar linux, this will enable automatic updates through update engine and for other operating systems, this will enable package updates on boot for the machines. |
+
+
+[Back to top](#top)
+
+
+
 ### MachineFlavorFilter
 
 
@@ -5770,6 +5789,7 @@ _Appears in:_
 | `providerConfiguration` _[ProviderConfiguration](#providerconfiguration)_ | ProviderConfiguration are the cloud provider specific configurations on dashboard. |
 | `machineDeploymentVMResourceQuota` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineDeploymentVMResourceQuota is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
 | `defaultQuota` _[DefaultProjectResourceQuota](#defaultprojectresourcequota)_ | DefaultProjectResourceQuota allows to configure a default project resource quota which will be set for all projects that do not have a custom quota already set. EE-version only. |
+| `machineDeploymentOptions` _[MachineDeploymentOptions](#machinedeploymentoptions)_ |  |
 
 
 [Back to top](#top)
