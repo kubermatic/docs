@@ -4094,6 +4094,8 @@ _Appears in:_
 | `config` _string_ | Config sets flags for various dashboard features. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
 | `replicas` _integer_ | Replicas sets the number of pod replicas for the UI deployment. |
+| `extraVolumeMounts` _[VolumeMount](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#volumemount-v1-core) array_ | ExtraVolumeMounts allows to mount additional volumes into the UI container. |
+| `extraVolumes` _[Volume](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#volume-v1-core) array_ | ExtraVolumes allows to mount additional volumes into the UI container. |
 
 
 [Back to top](#top)
