@@ -5780,6 +5780,7 @@ _Appears in:_
 | `enableOIDCKubeconfig` _boolean_ |  |
 | `userProjectsLimit` _integer_ | UserProjectsLimit is the maximum number of projects a user can create. |
 | `restrictProjectCreation` _boolean_ |  |
+| `restrictProjectDeletion` _boolean_ |  |
 | `enableExternalClusterImport` _boolean_ |  |
 | `cleanupOptions` _[CleanupOptions](#cleanupoptions)_ | CleanupOptions control what happens when a cluster is deleted via the dashboard. |
 | `opaOptions` _[OpaOptions](#opaoptions)_ |  |
