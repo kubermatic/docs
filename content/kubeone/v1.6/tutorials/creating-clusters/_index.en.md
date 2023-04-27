@@ -868,7 +868,7 @@ cloudProvider:
 [vSphere Cloud Controller Manager](https://github.com/kubernetes/cloud-provider-vsphere).
 
 **Make sure to replace the placeholder values with real values in the
-cloud-config section. The `vsphere-ccm-credentials` Secret is created
+cloud-config and csi-config section. The `vsphere-ccm-credentials` Secret is created
 automatically by KubeOne as of v1.0.4.**
 
 ```yaml
@@ -900,6 +900,17 @@ cloudProvider:
 
     [Network]
     public-network = "NAT Network"
+  csiconfig: |
+    [Global]
+    cluster-id = "<CLUSTER-ID>"
+    cluster-distribution = "<CLUSTER-DISTRIBUTION>"
+
+    [VirtualCenter "<VCENTER-ADDRESS>"]
+    insecure-flag = "false"
+    user = "<USERNAME>"
+    password = "<PASSWORD>"
+    port = "<PORT>"
+    datacenters = "<DATACENTER>"
 ```
 
 {{% /tab %}}
