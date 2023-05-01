@@ -78,19 +78,13 @@
         "@type": "WebPage",
         "name": "Kubermatic Documentation",
         "description": "Learn more about Kubermatic Kubernetes Platform, KubeOne and KubeCarrier through the official Kubermatic documentation",
-        "inLanguage": {
-          "@type": "Language",
-          "name": "English",
-          "alternateName": "en"
-        },
-        "sourceOrganization": {
-          "@id": {{print .Site.Params.baseWebsiteUrl "/#organization"}}
-        },
         "publisher": {
-          "@id": {{print .Site.Params.baseWebsiteUrl "/#organization"}}
-        },
-        "author": {
-          "@id": {{print .Site.Params.baseWebsiteUrl "/#organization"}}
+          "@type": "Corporation",
+          "name": "Kubermatic",
+          "url": {{print .Site.Params.baseWebsiteUrl}},
+          "logo": {
+            "@id": {{print .Site.Params.baseWebsiteUrl "/#companylogo"}}
+          }
         }
       }
     ]
