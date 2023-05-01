@@ -232,9 +232,6 @@ controlPlane:
       privateAddress: '172.18.0.1'
       sshUsername: root
       sshPrivateKeyFile: '/home/me/.ssh/id_rsa'
-      taints:
-        - key: "node-role.kubernetes.io/master"
-          effect: "NoSchedule"
 
 staticWorkers:
   hosts:
