@@ -608,6 +608,8 @@ supported provider.
 
 {{< tabs name="Manifests" >}}
 {{% tab name="AWS" %}}
+`external: true` instructs KubeOne to deploy the
+[AWS Cloud Controller Manager](https://github.com/kubernetes/cloud-provider-aws).
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
@@ -616,6 +618,7 @@ versions:
   kubernetes: '1.25.6'
 cloudProvider:
   aws: {}
+  external: true
 ```
 
 {{% /tab %}}
@@ -623,7 +626,7 @@ cloudProvider:
 **Make sure to replace the placeholder values with real values in the
 cloud-config section.**
 
-In the [Kubermatic documentation][azure-sa-setup]
+In the [Kubermatic documentation](azure-sa-setup)
 you  can find more information regarding how to set up a service account.
 This service account is needed to proceed.
 
@@ -650,6 +653,9 @@ nodes are in different availability sets.
 Please check the [Production Recommendations]({{< ref "../../cheat-sheets/production-recommendations" >}})
 document for more details.
 
+`external: true` instructs KubeOne to deploy the
+[Azure Cloud Controller Manager](https://github.com/kubernetes-sigs/cloud-provider-azure).
+
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
@@ -657,6 +663,7 @@ versions:
   kubernetes: '1.25.6'
 cloudProvider:
   azure: {}
+  external: true
   cloudConfig: |
     {
       "cloud": "AZUREPUBLICCLOUD",
@@ -764,6 +771,9 @@ addons:
 
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
+`external: true` instructs KubeOne to deploy the
+[OpenStack Cloud Controller Manager](https://github.com/kubernetes/cloud-provider-openstack).
+
 **Make sure to replace the placeholder values with real values in the
 cloud-config section.**
 
@@ -775,9 +785,10 @@ cloud-config section.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   openstack: {}
+  external: true
   cloudConfig: |
     [Global]
     username=OS_USERNAME
@@ -796,7 +807,7 @@ cloudProvider:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   openstack: {}
   external: true
@@ -824,7 +835,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: "1.22.5"
+  kubernetes: '1.25.6'
 
 cloudProvider:
   equinixmetal: {}
@@ -845,7 +856,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: "1.22.5"
+  kubernetes: '1.25.6'
 
 cloudProvider:
   vmwareCloudDirector: {}
@@ -853,17 +864,21 @@ cloudProvider:
 
 {{% /tab %}}
 {{% tab name="vSphere" %}}
+`external: true` instructs KubeOne to deploy the
+[vSphere Cloud Controller Manager](https://github.com/kubernetes/cloud-provider-vsphere).
+
 **Make sure to replace the placeholder values with real values in the
-cloud-config section. The `vsphere-ccm-credentials` Secret is created
+cloud-config and csi-config section. The `vsphere-ccm-credentials` Secret is created
 automatically by KubeOne as of v1.0.4.**
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   vsphere: {}
+  external: true
   cloudConfig: |
     [Global]
     secret-name = "vsphere-ccm-credentials"
@@ -885,6 +900,18 @@ cloudProvider:
 
     [Network]
     public-network = "NAT Network"
+  csiConfig: |
+    [Global]
+    # Unique identifier; name of the cluster
+    cluster-id = "<CLUSTER-ID>"
+    user = "<USERNAME>"
+    password = "<PASSWORD>"
+    port = "<PORT>"
+    insecure-flag = "false"
+
+    [VirtualCenter "<VCENTER-ADDRESS>"]
+    # List of comma separated datacenters where node VMs are present
+    datacenters = "<DATACENTER>"
 ```
 
 {{% /tab %}}
