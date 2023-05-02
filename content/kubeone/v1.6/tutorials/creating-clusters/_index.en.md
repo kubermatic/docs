@@ -900,16 +900,17 @@ cloudProvider:
 
     [Network]
     public-network = "NAT Network"
-  csiconfig: |
+  csiConfig: |
     [Global]
+    # Unique identifier; name of the cluster
     cluster-id = "<CLUSTER-ID>"
-    cluster-distribution = "<CLUSTER-DISTRIBUTION>"
-
-    [VirtualCenter "<VCENTER-ADDRESS>"]
-    insecure-flag = "false"
     user = "<USERNAME>"
     password = "<PASSWORD>"
     port = "<PORT>"
+    insecure-flag = "false"
+
+    [VirtualCenter "<VCENTER-ADDRESS>"]
+    # List of comma separated datacenters where node VMs are present
     datacenters = "<DATACENTER>"
 ```
 
