@@ -14,8 +14,26 @@ The [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-st
 
 This section explains how the connection between user clusters and the control plane is established, as well as the general networking concept in KKP.
 
-![KKP Networking](/img/kubermatic/main/concepts/architecture/network.png?classes=shadow,border "The diagram shows a Seed cluster with the nodeport-proxy service, which exposes two endpoints for user clusters: the Kubernetes apiserver and the Konnectivity proxy to connect to the user cluster network.
-A user cluster is shown connected to the Seed control plane via the nodeport-proxy.")
+KKP Operator --> Master cluster Kubernetes API
+KKP Operator --> Seed cluster Kubernetes API
+
+Kubernetes API --> Seed Cluster Kubernetes API
+Kubernetes API --> Seed cluster nodeport-proxy 
+
+Seed controller manager --> Seed cluster Kubernetes API
+Seed controller manager --> Cloud Provider API
+
+![KKP Network](/img/kubermatic/main/concepts/architecture/expose-np.png?classes=shadow,border "This diagram illustrated the necessary connections for KKP.")
+
+The following diagrams illustrate all available [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-strategies" >}}) available in KKP.
+
+![KKP NodePort](/img/kubermatic/main/concepts/architecture/expose-np.png?classes=shadow,border "NodePort")
+
+![KKP Tunneling](/img/kubermatic/main/concepts/architecture/expose-tunnel.png?classes=shadow,border "Tunneling")
+
+![KKP LoadBalancer](/img/kubermatic/main/concepts/architecture/expose-lb.png?classes=shadow,border "LoadBalancer")
+
+They define how user cluster connect to their control plane and how users connect to the cluster apiserver.
 
 #### Worker Nodes
 
@@ -28,7 +46,7 @@ Its purpose is not only to make the apiserver accessible to users, but also to e
 Nodes run kubelet as the primary node agent, which registers the node with the apiserver and therefore requires access to it. 
 In addition, the apiserver is used for [in-cluster API](https://kubernetes.io/docs/tasks/run-application/access-api-from-pod) access.
 
-To forward traffic to the actual apiserver, an envoy proxy is deployed on each node, serving as an endpoint for the Kubernetes cluster service to proxy traffic to the apiserver.
+In Tunneling mode, to forward traffic to the correct apiserver, an envoy proxy is deployed on each node, serving as an endpoint for the Kubernetes cluster service to proxy traffic to the apiserver.
 
 #### Kubernetes Konnectivity proxy
 
@@ -36,5 +54,4 @@ To enable Kubernetes to work properly, parts of the control plane need to be con
 This is done via the [konnectivity proxy](https://kubernetes.io/docs/tasks/extend-kubernetes/setup-konnectivity/), which is deployed for each cluster. 
 It consists of a client and server model, where the server is deployed in the Seed and the client is deployed as part of the kube-system in the user cluster. 
 This allows the apiserver to communicate with kubelet, which is required, for example, to receive logs of a container.
-
 
