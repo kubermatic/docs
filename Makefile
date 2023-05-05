@@ -4,7 +4,7 @@ DOCKER_BIN := $(shell which docker)
 
 .PHONY: preview
 preview:
-	nerdctl run -it --rm \
+	docker run -it --rm \
 		--name kubermatic-docs \
 		-p 1313:1313 \
 		-w /docs \
