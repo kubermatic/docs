@@ -12,82 +12,15 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@id": {{print .Site.Params.baseWebsiteUrl "/#organization"}},
-        "@type": "Corporation",
-        "name": "Kubermatic",
-        "description": "We build the world's most adaptable and autonomous software delivery platform.",
-        "url": {{print .Site.Params.baseWebsiteUrl}},
-        "legalName": "Kubermatic GmbH",
-        "alternateName": [
-          "kubermatic",
-          "Loodse"
-        ],
-        "logo": {
-          "@type": "ImageObject",
-          "@id": {{print .Site.Params.baseWebsiteUrl "/#companylogo"}},
-          "url": {{$logoUrl}},
-          "contentUrl": {{$logoUrl}},
-          "inLanguage": "en-US",
-          "caption": "Kubermatic",
-          "width": 1200,
-          "height": 1200
-        },
-        "image": {
-          "@id": {{print .Site.Params.baseWebsiteUrl "/#companylogo"}}
-        },
-        "foundingDate": "2016",
-        "email": "info@kubermatic.com",
-        "founder": [
-          {
-            "@type": "Person",
-            "name": "Sebastian Scheele"
-          },
-          {
-            "@type": "Person",
-            "name": "Julian Hansert"
-          }
-        ],
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "contactType": "customer service",
-          "telephone": "+4940605907110"
-        },
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "Germany",
-          "addressLocality": "Hamburg",
-          "streetAddress": "Willy-Brandt-Straße 23",
-          "postalCode": "20457"
-        },
-        "sameAs": [
-          {{.Site.Params.baseWebsiteUrl}},
-          "https://twitter.com/Kubermatic",
-          "https://www.linkedin.com/company/kubermatic",
-          "https://www.facebook.com/KubermaticInc",
-          "https://www.youtube.com/channel/UCHyOXqpOR7TRyOzS5bolcUw",
-          "https://www.crunchbase.com/organization/kubermatic",
-          "https://www.xing.com/pages/kubermatic",
-          "https://www.google.com/search?kgmid=/g/11jv7yz581",
-          "https://www.google.com/search?kgmid=/g/11h54_jyqg",
-          "https://loodse.com"
-        ],
-        "areaServed": "Worldwide"
-      },{
-        "@type": "WebPage",
-        "name": "Kubermatic Documentation",
-        "description": "Learn more about Kubermatic Kubernetes Platform, KubeOne and KubeCarrier through the official Kubermatic documentation",
-        "publisher": {
-          "@type": "Corporation",
-          "name": "Kubermatic",
-          "url": {{print .Site.Params.baseWebsiteUrl}},
-          "logo": {
-            "@id": {{print .Site.Params.baseWebsiteUrl "/#companylogo"}}
-          }
-        }
-      }
-    ]
+    "@type": "WebPage",
+    "name": "Kubermatic Documentation",
+    "description": "Learn more about Kubermatic Kubernetes Platform, KubeOne and KubeCarrier through the official Kubermatic documentation",
+    "publisher": {
+      "@type": "Corporation",
+      "name": "Kubermatic",
+      "url": {{print .Site.Params.baseWebsiteUrl}},
+      "@id": {{print .Site.Params.baseWebsiteUrl "/#organization"}}
+    }
   }
   </script>
 </head>
