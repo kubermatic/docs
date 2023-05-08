@@ -377,8 +377,6 @@ items:
             url: /resources/
           - title: Events
             url: /events/
-          - title: Documentation
-            url: /
           - footer: false
             title: Topics
             url: /topics/
