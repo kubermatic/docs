@@ -14,18 +14,19 @@ The [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-st
 
 This section explains how the connection between user clusters and the control plane is established, as well as the general networking concept in KKP.
 
-KKP Operator --> Master cluster Kubernetes API
-KKP Operator --> Seed cluster Kubernetes API
+KKP Operator &rarr; Master cluster Kubernetes API
+KKP Operator &rarr; Seed cluster Kubernetes API
 
-Kubernetes API --> Seed Cluster Kubernetes API
-Kubernetes API --> Seed cluster nodeport-proxy 
+Kubernetes API &rarr; Seed Cluster Kubernetes API
+Kubernetes API &rarr; Seed cluster nodeport-proxy 
 
-Seed controller manager --> Seed cluster Kubernetes API
-Seed controller manager --> Cloud Provider API
+Seed controller manager &rarr; Seed cluster Kubernetes API
+Seed controller manager &rarr; Cloud Provider API
 
 ![KKP Network](/img/kubermatic/main/concepts/architecture/expose-np.png?classes=shadow,border "This diagram illustrated the necessary connections for KKP.")
 
 The following diagrams illustrate all available [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-strategies" >}}) available in KKP.
+They define how user cluster connect to their control plane and how users connect to the cluster apiserver.
 
 ![KKP NodePort](/img/kubermatic/main/concepts/architecture/expose-np.png?classes=shadow,border "NodePort")
 
@@ -33,7 +34,6 @@ The following diagrams illustrate all available [expose strategy]({{< ref "../..
 
 ![KKP LoadBalancer](/img/kubermatic/main/concepts/architecture/expose-lb.png?classes=shadow,border "LoadBalancer")
 
-They define how user cluster connect to their control plane and how users connect to the cluster apiserver.
 
 #### Worker Nodes
 
