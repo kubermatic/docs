@@ -14,7 +14,7 @@ of provided software and therefore releases updates regularly that also include 
 | ----------------------------- | ---------------------------- |
 | backup/velero | 1.10.1 |
 | cert-manager | 1.11.1 |
-| iap | 7.3.0 |
+| iap | 7.4.0 |
 | kubermatic-operator | 9.9.9-dev |
 | logging/loki | 2.5.0 |
 | logging/promtail | 2.5.0 |
