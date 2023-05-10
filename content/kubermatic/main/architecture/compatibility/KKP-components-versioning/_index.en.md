@@ -28,7 +28,7 @@ of provided software and therefore releases updates regularly that also include 
 | mla/minio | RELEASE.2022-09-17T00-09-45Z |
 | mla/mla-secrets | 0.1.0 |
 | monitoring/alertmanager | 0.25.0 |
-| monitoring/blackbox-exporter | 0.21.1 |
+| monitoring/blackbox-exporter | 0.23.0 |
 | monitoring/grafana | 9.4.3 |
 | monitoring/helm-exporter | 1.2.5 |
 | monitoring/karma | 0.103 |
