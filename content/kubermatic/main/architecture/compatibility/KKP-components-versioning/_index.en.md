@@ -31,7 +31,7 @@ of provided software and therefore releases updates regularly that also include 
 | monitoring/blackbox-exporter | 0.23.0 |
 | monitoring/grafana | 9.4.3 |
 | monitoring/helm-exporter | 1.2.5 |
-| monitoring/karma | 0.103 |
+| monitoring/karma | 0.114 |
 | monitoring/kube-state-metrics | 2.8.2 |
 | monitoring/node-exporter | 1.5.0 |
 | monitoring/prometheus | 2.40.2 |
