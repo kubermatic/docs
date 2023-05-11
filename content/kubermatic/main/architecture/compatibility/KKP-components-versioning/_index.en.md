@@ -29,12 +29,12 @@ of provided software and therefore releases updates regularly that also include 
 | mla/mla-secrets | 0.1.0 |
 | monitoring/alertmanager | 0.25.0 |
 | monitoring/blackbox-exporter | 0.23.0 |
-| monitoring/grafana | 9.4.3 |
+| monitoring/grafana | 9.5.1 |
 | monitoring/helm-exporter | 1.2.5 |
 | monitoring/karma | 0.114 |
 | monitoring/kube-state-metrics | 2.8.2 |
 | monitoring/node-exporter | 1.5.0 |
-| monitoring/prometheus | 2.40.2 |
+| monitoring/prometheus | 2.43.1 |
 | nginx-ingress-controller | 1.7.1 |
 | oauth | 2.36.0 |
 | s3-exporter | 0.6 |
