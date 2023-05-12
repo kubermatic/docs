@@ -18,7 +18,7 @@ of provided software and therefore releases updates regularly that also include 
 | kubermatic-operator | 9.9.9-dev |
 | logging/loki | 2.5.0 |
 | logging/promtail | 2.5.0 |
-| minio | RELEASE.2022-06-25T15-50-16Z |
+| minio | RELEASE.2023-05-04T21-44-30Z |
 | mla/alertmanager-proxy | 0.2.1 |
 | mla/consul | 1.14.2 |
 | mla/cortex | 1.13.1 |
