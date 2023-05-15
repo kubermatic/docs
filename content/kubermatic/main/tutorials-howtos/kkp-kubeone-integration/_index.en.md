@@ -12,6 +12,9 @@ We can import/connect an existing KubeOne cluster. Imported Cluster can be viewe
    - [AWS]({{< ref "./aws" >}})
    - [Google Cloud Provider]({{< ref "./gcp" >}})
    - [Azure]({{< ref "./azure" >}})
+   - [DigitalOcean]({{< ref "./digitalocean" >}})
+   - [Hetzner]({{< ref "./hetzner" >}})
+   - [OpenStack]({{< ref "./openstack" >}})
 
 ## Prerequisites
 
@@ -36,7 +39,7 @@ KKP allows connecting any existing KubeOne cluster of supported provider to view
 
 ![Select Provider](/img/kubermatic/main/tutorials/kubeone_clusters/import_kubeone_cluster.png "Select Provider")
 
-- See [AWS]({{< ref "./aws" >}}) / [Google Cloud Provider]({{< ref "./gcp" >}})/[Azure]({{< ref "./azure" >}})
+- See [AWS]({{< ref "./aws" >}}) / [Google Cloud Provider]({{< ref "./gcp" >}})/[Azure]({{< ref "./azure" >}})/[DigitalOcean]({{< ref "./digitalocean" >}})/[Hetzner]({{< ref "./hetzner" >}})/[OpenStack]({{< ref "./openstack" >}})
  specific documentation for detailed cluster import steps.
 
 After the cluster has been imported, we can see the details of the cluster in the dashboard.
