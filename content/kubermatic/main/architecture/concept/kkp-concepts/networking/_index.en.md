@@ -2,7 +2,6 @@
 title = "Networking"
 date = 2022-04-20T12:15:02+02:00
 weight = 20
-
 +++
 
 ## KKP Networking 
@@ -28,23 +27,7 @@ They define how user cluster connect to their control plane and how users connec
 
 Required accessible ports: 
 
-| Source                  | Destination                   | Expose Strategy | Ports             | Purpose                                              |
-|-------------------------|-------------------------------|-----------------|-------------------|------------------------------------------------------|
-| KKP Users               | Master Ingress Controller     | Any             | 443*              | Access to KKP Dashboard                              |
-| KKP Operator            | Master cluster Kubernetes API | Any             | 6443*             | Operator access                                      |
-| KKP Operator            | Seed cluster Kubernetes API   | Any             | 6443*             | Operator access                                      |
-| Kubermatic API          | Seed cluster Kubernetes API   | Any             | 6443*             | Operator access                                      |
-| Kubermatic API          | Seed cluster nodeport-proxy   | Tunneling       | 6443              | Access to User Cluster API Endpoints                 |
-| Kubermatic API          | Seed cluster nodeport-proxy   | NodePort        | 30000-32767**     | Access to User Cluster API Endpoints                 |
-| Kubermatic API          | Seed cluster nodeport-proxy   | LoadBalancer    | 30000-32767**     | Access to User Cluster API Endpoints                 |
-| Seed controller manager | Seed cluster Kubernetes API   | Any             | 6443*             | Controller access                                    |
-| Seed controller manager | Cloud Prorivder API           | Any             | provider specific | Cloud provider api access                            |
-| User cluster nodes      | Seed cluster nodeport-proxy   | Tunneling       | 6443, 8088        | Access to User Cluster API Endpoints and Konnecitivy |
-| User cluster nodes      | Seed cluster nodeport-proxy   | NodePort        | 30000-32767**     | Access to User Cluster API Endpoints and Konnecitivy |
-| User cluster nodes      | Seed cluster node port-proxy  | LoadBalancer    | 30000-32767**     | Access to User Cluster API Endpoints and Konnecitivy |
-| KKP Users               | Seed cluster nodeport-proxy   | Tunneling       | 6443              | Access to User Cluster API Endpoints                 |
-| KKP Users               | Seed cluster nodeport-proxy   | NodePort        | 30000-32767**     | Access to User Cluster API Endpoints                 |
-| KKP Users               | Seed cluster nodeport-proxy   | LoadBalancer    | 30000-32767**     | Access to User Cluster API Endpoints                 |
+{{< include file="../../../../data/ports.md" >}}
 
 Any port numbers marked with * are overridable, so you will need to ensure any custom ports you provide are also open.
 ** Default port range for [NodePort Services](https://kubernetes.io/docs/concepts/services-networking/service/).
