@@ -50,27 +50,13 @@ If you have more than one network adapter, and your Kubernetes components are no
 
 ## Check Required Ports
 
-The tables below list the ports that need to be open for communication, e.g. by allowing them via a firewall.
+Please ensure that all nodes in a user cluster can communicate without restriction to ensure functionality of CNI/CSI and Kubernetes itself.
+In addition, user cluster nodes must be able to connect to the Seed cluster's nodeport-proxy. This depends on the [expose strategy]({{< ref "../../../tutorials-howtos/networking/expose-strategies" >}}.
 
-### Master Cluster Master Node(s)
+It is recommended to make yourself familiar with the [concept of networking]({{< ref "../../../architecture/concept/kkp-concepts/networking" >}}) in KKP.
 
-| Protocol | Direction | Port Range | Purpose                 |
-|----------|-----------|------------|-------------------------|
-| TCP      | Inbound   | 6443*      | Kubernetes API server   |
-| TCP      | Inbound   | 2379-2380  | etcd server client API  |
-| TCP      | Inbound   | 10250      | kubelet API             |
-| TCP      | Inbound   | 10251      | kube-scheduler          |
-| TCP      | Inbound   | 10252      | kube-controller-manager |
-| TCP      | Inbound   | 10255      | Read-only kubelet API   |
-
-### Worker Node(s) & User Cluster Worker Nodes
-
-| Protocol | Direction | Port Range  | Purpose               |
-|----------|-----------|-------------|-----------------------|
-| TCP      | Inbound   | 10250       | kubelet API           |
-| TCP      | Inbound   | 10255       | Read-only kubelet API |
-| TCP      | Inbound   | 30000-32767 | NodePort Services**   |
-
-** Default port range for [NodePort Services](https://kubernetes.io/docs/concepts/services-networking/service/).
+{{< include file="../../../data/ports.md" >}}
 
 Any port numbers marked with * are overridable, so you will need to ensure any custom ports you provide are also open.
+** Default port range for [NodePort Services](https://kubernetes.io/docs/concepts/services-networking/service/).
+All ports listed are using TCP.
