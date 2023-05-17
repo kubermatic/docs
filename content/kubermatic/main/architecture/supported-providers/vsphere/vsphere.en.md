@@ -11,14 +11,13 @@ The Kubernetes vSphere driver contains bugs related to detaching volumes from of
 
 ## VM Images
 
-When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}}).
+When creating worker nodes for a user cluster, the user can specify an existing image. Defaults may be set in the [seed configuration `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}}).
 
-Supported operating systems
+### Supported Operating Systems
 
 * CentOS beginning with 7.4 [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
-* CentOS 8 [qcow2](https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.4.2105-20210603.0.x86_64.qcow2)
-* Ubuntu 18.04 [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
-* Ubuntu 20.04 [ova](https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64.ova)
+* Ubuntu 20.04 [ova](https://cloud-images.ubuntu.com/releases/20.04/release/ubuntu-20.04-server-cloudimg-amd64.ova)
+* Ubuntu 22.04 [ova](https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64.ova)
 * Flatcar (Stable channel) [ova](https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_vmware_ova.ova)
 
 
@@ -40,7 +39,7 @@ Supported operating systems
 
 ### Modifications
 
-Modifications like Network, disk size, etc. must be done in the ova template before creating a worker node from it.
+Modifications like network, disk size, etc. must be done in the ova template before creating a worker node from it.
 If user clusters have dedicated networks, all user clusters therefore need a custom template.
 
 ## VM Folder
@@ -50,33 +49,41 @@ That folder will contain all worker nodes of a user cluster.
 
 ## Credentials / Cloud-Config
 
-Kubernetes needs to talk to the vSphere to enable Storage inside the cluster.
-For this, kubernetes needs a config called `cloud-config`.
-This config contains all details to connect to a vCenter installation, including credentials.
+KKP utilises provider credentials to create and manage infrastructure on the respective cloud provider. For vSphere, permissions
+are needed to manage VMs, storage, networking and tags.
 
-As this Config must also be deployed onto each worker node of a user cluster, its recommended to have individual credentials for each user cluster.
+The vSphere provider allows to split permissions into two sets of credentials:
+1. Credentials passed to the vSphere Cloud Controller Manager (CCM) and CSI Storage driver. These credentials are currently inherited into the user cluster and should therefore be individual per user cluster.
+2. Credentials used for creating and managing infrastructure (VMs, tags, networks). This set of credentials is not shared with the user cluster and is kept on the seed cluster.
 
-## Permissions
+If such a split is not desired, one set of credentials used for both use cases can be provided instead. Providing two sets of credentials is optional.
 
-The vsphere user has to have to following permissions on the correct resources:
+### Permissions
 
-### User Cluster Could Controller Manager / CSI
+The vsphere users has to have to following permissions on the correct resources. Note that if a shared set of credentials is used, roles for both use cases need to be assigned to the technical user which will be used for credentials.
+
+#### User Cluster Could Controller Manager (CCM) / CSI
 **Note:** Below roles were updated based on [vsphere-storage-plugin-roles] for external CCM which is available from kkp v2.18+ and vsphere v7.0.2+
 
-For provisioning actions of the KKP seed cluster, a technical user (e.g. `cust-ccm-cluster`) is needed:
+For the Cloud Controller Manager (CCM) and CSI components used to provide cloud provider and storage integration to the user cluster,
+a technical user (e.g. `cust-ccm-cluster`) is needed. The user should be assigned all roles listed below:
 
-* Role `k8c-ccm-storage-vmfolder-propagate`
-  * Granted at **VM Folder** and **Template Folder**, propagated
-  * Permissions
-    * Virtual machine
-      * Change Configuration
-        * Add existing disk
-        * Add new disk
-        * Add or remove device
-        * Remove disk
-    * Folder
-      * Create folder
-      * Delete dolder
+{{< tabs name="CCM/CSI User Roles" >}}
+{{% tab name="k8c-ccm-storage-vmfolder-propagate" %}}
+##### Role `k8c-ccm-storage-vmfolder-propagate`
+* Granted at **VM Folder** and **Template Folder**, propagated
+* Permissions
+  * Virtual machine
+    * Change Configuration
+      * Add existing disk
+      * Add new disk
+      * Add or remove device
+      * Remove disk
+  * Folder
+    * Create folder
+    * Delete dolder
+
+---
 
 ```
 $ govc role.ls k8c-ccm-storage-vmfolder-propagate
@@ -87,23 +94,29 @@ VirtualMachine.Config.AddNewDisk
 VirtualMachine.Config.AddRemoveDevice
 VirtualMachine.Config.RemoveDisk
 ```
+{{% /tab %}}
+{{% tab name="k8c-ccm-storage-datastore-propagate" %}}
+##### Role `k8c-ccm-storage-datastore-propagate`
+* Granted at **Datastore**, propagated
+* Permissions
+  * Datastore
+    * Allocate space
+    * Low level file operations
 
-* Role `k8c-ccm-storage-datastore-propagate`
-  * Granted at **Datastore**, propagated
-  * Permissions
-    * Datastore
-      * Allocate space
-      * Low level file operations
+---
 
 ```
 $ govc role.ls k8c-ccm-storage-datastore-propagate
 Datastore.AllocateSpace
 Datastore.FileManagement
 ```
+{{% /tab %}}
+{{% tab name="Read-only (predefined)" %}}
+##### Role `Read-only` (predefined)
+* Granted at ..., **not** propagated
+  * Datacenter
 
-* Role `Read-only` (predefined)
-  * Granted at ..., **not** propagated
-    * Datacenter
+---
 
 ```
 $ govc role.ls ReadOnly
@@ -111,22 +124,29 @@ System.Anonymous
 System.Read
 System.View
 ```
-### User Cluster
+{{% /tab %}}
+{{< /tabs >}}
 
-For provisioning actions of the KKP in scope of an user cluster, a technical user (e.g. `cust-user-cluster`) is needed:
+#### Infrastructure Management
 
-* Role `k8c-user-vcenter`
-  * Granted at **vcenter** level, **not** propagated
-  * Needed to customize VM during provisioning
-  * Permissions
-    * CNS
-      * Searchable
-    * Profile-driven storage
-      * Profile-driven storage view
-    * VirtualMachine
-      * Provisioning
-        * Modify customization specification
-        * Read customization specifications
+For provisioning actions of KKP in the scope of a user cluster, a technical user (e.g. `cust-infra-user-cluster`) is needed:
+
+{{< tabs name="Infrastructure Management" >}}
+{{% tab name="k8c-user-vcenter" %}}
+##### Role `k8c-user-vcenter`
+* Granted at **vcenter** level, **not** propagated
+* Needed to customize VM during provisioning
+* Permissions
+  * CNS
+    * Searchable
+  * Profile-driven storage
+    * Profile-driven storage view
+  * VirtualMachine
+    * Provisioning
+      * Modify customization specification
+      * Read customization specifications
+
+---
 
 ```
 $ govc role.ls k8c-user-vcenter
@@ -139,25 +159,28 @@ System.View
 VirtualMachine.Provisioning.ModifyCustSpecs
 VirtualMachine.Provisioning.ReadCustSpecs
 ```
+{{% /tab %}}
+{{% tab name="k8c-user-datacenter" %}}
+##### Role `k8c-user-datacenter`
+* Granted at **datacenter** level, **not** propagated
+* Needed for cloning the template VM (obviously this is not done in a folder at this time)
+* Permissions
+* Datastore
+  * Allocate space
+  * Browse datastore
+  * Low level file operations
+  * Remove file
+* vApp
+  * vApp application configuration
+  * vApp instance configuration
+* Virtual Machine
+  * Change CPU count
+  * Memory
+  * Settings
+* Inventory
+  * Create from existing
 
-* Role `k8c-user-datacenter`
-  * Granted at **datacenter** level, **not** propagated
-  * Needed for cloning the template VM (obviously this is not done in a folder at this time)
-  * Permissions
-    * Datastore
-      * Allocate space
-      * Browse datastore
-      * Low level file operations
-      * Remove file
-    * vApp
-      * vApp application configuration
-      * vApp instance configuration
-    * Virtual Machine
-      * Change CPU count
-      * Memory
-      * Settings
-    * Inventory
-      * Create from existing
+---
 
 ```
 $ govc role.ls k8c-user-datacenter
@@ -176,7 +199,8 @@ VirtualMachine.Config.Memory
 VirtualMachine.Config.Settings
 VirtualMachine.Inventory.CreateFromExisting
 ```
-
+{{% /tab %}}
+{{% tab name="k8c-user-cluster-propagate" %}}
 * Role `k8c-user-cluster-propagate`
   * Granted at **cluster** level, propagated
   * Needed for upload of `cloud-init.iso` (Ubuntu and CentOS) or defining the Ignition config into Guestinfo (CoreOS)
@@ -195,6 +219,8 @@ VirtualMachine.Inventory.CreateFromExisting
       * vApp application configuration
       * vApp instance configuration
 
+---
+
 ```
 $ govc role.ls k8c-user-cluster-propagate
 Folder.Create
@@ -207,25 +233,32 @@ Resource.HotMigrate
 VApp.ApplicationConfig
 VApp.InstanceConfig
 ```
+{{% /tab %}}
+{{% tab name="k8c-network-attach" %}}
+##### Role `k8c-network-attach`
+* Granted for each network that should be used (distributed switch + network)
+* Permissions
+  * Network
+    * Assign network
 
-* Role k8c-network-attach
-  * Granted for each network that should be used (distributed switch + network)
-  * Permissions
-    * Network
-      * Assign network
+---
 
 ```
 $ govc role.ls k8c-network-attach
 Network.Assign
 ```
 
-* Role `k8c-user-datastore-propagate`
-  * Granted at **datastore / datastore cluster** level, propagated
-  * Permissions
-    * Datastore
-      * Allocate space
-      * Browse datastore
-      * Low level file operations
+{{% /tab %}}
+{{% tab name="k8c-user-datastore-propagate" %}}
+##### Role `k8c-user-datastore-propagate`
+* Granted at **datastore / datastore cluster** level, propagated
+* Permissions
+* Datastore
+  * Allocate space
+  * Browse datastore
+  * Low level file operations
+
+---
 
 ```
 $ govc role.ls k8c-user-datastore-propagate
@@ -233,23 +266,26 @@ Datastore.AllocateSpace
 Datastore.Browse
 Datastore.FileManagement
 ```
+{{% /tab %}}
+{{% tab name="k8c-user-folder-propagate" %}}
+##### Role `k8c-user-folder-propagate`
+* Granted at **VM Folder** and **Template Folder** level, propagated
+* Needed for managing the node VMs
+* Permissions
+* Folder
+  * Create folder
+  * Delete folder
+* Global
+  * Set custom attribute
+* Virtual machine
+  * Change Configuration
+  * Edit Inventory
+  * Guest operations
+  * Interaction
+  * Provisioning
+  * Snapshot management
 
-* Role `k8c-user-folder-propagate`
-  * Granted at **VM Folder** and **Template Folder** level, propagated
-  * Needed for managing the node VMs
-  * Permissions
-    * Folder
-      * Create folder
-      * Delete folder
-    * Global
-      * Set custom attribute
-    * Virtual machine
-      * Change Configuration
-      * Edit Inventory
-      * Guest operations
-      * Interaction
-      * Provisioning
-      * Snapshot management
+---
 
 ```
 $ govc role.ls k8c-user-folder-propagate
@@ -345,15 +381,26 @@ VirtualMachine.State.RenameSnapshot
 VirtualMachine.State.RevertToSnapshot
 
 ```
+{{% /tab %}}
+{{% tab name="k8c-user-tags" %}}
 
-* Role `k8c-user-tags`
-  * Granted at datacenter level, propagated
-  * Provides permission to create vSphere tags for a dedicated category, which are required by KKP seed controller manager
-  * Permissions
-    * vSphere Tagging
-      * Create vSphere Tag
-      * Delete vSphere Tag
-      * Assign or Unassign vSphere Tag on an Object
+**Note**: If a category id is assigned to a user cluster, KKP would claim the ownership of any tags
+it creates. KKP would try to delete tags assigned to the cluster upon cluster deletion. Thus, make sure that the assigned
+category isn't shared across other lingering resources.
+
+**Note**: Tags can be attached to machine deployments regardless if the tags are created via KKP or not.
+If a tag was not attached to the user cluster, machine controller will only detach it.
+
+##### Role `k8c-user-tags`
+* Granted at datacenter level, propagated
+* Provides permission to create vSphere tags for a dedicated category, which are required by KKP seed controller manager
+* Permissions
+* vSphere Tagging
+  * Create vSphere Tag
+  * Delete vSphere Tag
+  * Assign or Unassign vSphere Tag on an Object
+
+---
 
 ```
 $ govc role.ls k8c-user-tags
@@ -366,19 +413,23 @@ System.Read
 System.View
 ```
 
-{{% notice warning %}} Note: If a category id is assigned to a user cluster, KKP would claim the ownership of any tags
-it creates. KKP would try to delete tags assigned to the cluster upon cluster deletion. Thus, make sure that the assigned
-category isn't shared across other lingering resources. {{% /notice %}}
+{{% /tab %}}
+{{< /tabs >}}
 
-{{% notice warning %}} Note: Tags can be attached to machine deployments regardless if the tags are created via KKP or not.
-If a tag was not attached to the user cluster, machine controller will only detach it.{{% /notice %}}
+
+<!--
+
+
+-->
+
+
+
+
+
 
 The described permissions have been tested with vSphere 7.0.U2 and might be different for other vSphere versions.
 
-### Terraform Setup
-
-It's also possible to create the roles by a terraform script. The following repo can be used as reference:
-* https://github.com/kubermatic-labs/kubermatic-vsphere-permissions-terraform
+## Known Issues
 
 ### Volume Detach Bug
 
@@ -394,8 +445,8 @@ Upstream Kubernetes has been working on the issue for a long time now and tracki
 
 ## Datastores and Datastore Clusters
 
-*Datastore* in VMWare vSphere is an abstraction for storage.
-*Datastore Cluster* is a collection of datastores with shared resources and a
+*Datastores* in vSphere are an abstraction for storage.
+A *Datastore Cluster* is a collection of datastores with shared resources and a
 shared management interface.
 
 In KKP *Datastores* are used for two purposes:
@@ -407,24 +458,22 @@ In KKP *Datastores* are used for two purposes:
 *Datastore Clusters* can only be used for the first purpose as it cannot be
 specified directly in [vSphere cloud configuration][vsphere-cloud-config].
 
-There are two places where Datastores and Datastore Clusters can be configured
-in KKP
+There are three places where Datastores and Datastore Clusters can be configured
+in KKP:
 
-- At datacenter level (either with [Seed CRD]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})
-  or [datacenters.yaml]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})) is possible to
+- At datacenter level (configured in the [Seed CRD]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})))
+  it is possible to
   specify the default *Datastore* that will be used for user clusters dynamic
   volume provisioning and workers VMs placement in case no *Datastore* or
   *Datastore Cluster* is specified at cluster level.
 - At *Cluster* level it is possible to provide either a *Datastore* or a
   *Datastore Cluster* respectively with `spec.cloud.vsphere.datastore` and
   `spec.cloud.vsphere.datastoreCluster` fields.
+- It is possible to specify *Datastore* or *Datastore Clusters* in a preset
+  than is later used to create a user cluster from it.
 
-{{% notice warning %}}
-At the moment of writing this document *Datastore and *Datastore Cluster*
-are not supported yet at `Cluster` level by Kubermatic UI.
-{{% /notice %}}
-
-It is possible to specify *Datastore* or *Datastore Clusters* in preset.
+These settings can also be configured as part of the "Advanced Settings" step
+when creating a user cluster from the [KKP dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/#create-cluster" >}}).
 
 [vsphere-cloud-config]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-BFF39F1D-F70A-4360-ABC9-85BDAFBE8864.html?hWord=N4IghgNiBcIMYQK4GcAuBTATgWgJYBMACAYQGUBJEAXyA
 [vsphere-storage-plugin-roles]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html#GUID-043ACF65-9E0B-475C-A507-BBBE2579AA58__GUID-E51466CB-F1EA-4AD7-A541-F22CDC6DE881
