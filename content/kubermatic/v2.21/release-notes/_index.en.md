@@ -12,6 +12,65 @@ weight = 70
 - [v2.21.5](#v2215)
 - [v2.21.6](#v2216)
 - [v2.21.7](#v2217)
+- [v2.21.8](#v2218)
+- [v2.21.9](#v2219)
+
+## [v2.21.9](https://github.com/kubermatic/kubermatic/releases/tag/v2.21.9)
+
+### Bugfixes
+
+- Do not try to watch `Cluster` resources on the master in `usersshkey-synchronizer` and use Seeds as correct source instead ([#12271](https://github.com/kubermatic/kubermatic/pull/12271))
+- Fix a bug that lead to metering reports overwriting each other when used with multiple seeds. Report names now include the Seed name as a Prefix ([#12268](https://github.com/kubermatic/kubermatic/pull/12268))
+- The MLA stack is now able to recover from a lost Grafana volume, properly recreating organizations for KKP projects ([#12220](https://github.com/kubermatic/kubermatic/pull/12220))
+- Fix OOM on usercluster-controller by limiting the history of helm releases. This fix is critical if user-cluster is using Cilium >= 1.13.0 as CNI. From this version, Cilium is deployed using System Applications ([#12247](https://github.com/kubermatic/kubermatic/pull/12247))
+
+### Updates
+
+- Patch cilium v1.12 and v1.11 to latest patch releases (v1.12.9) (v1.11.16) ([#12272](https://github.com/kubermatic/kubermatic/pull/12272))
+- Update Anexia CCM (cloud-controller-manager) to version 1.5.4 ([#12214](https://github.com/kubermatic/kubermatic/pull/12214))
+
+### New Feature
+
+- New alert for NodeTimeDrift ([#12275](https://github.com/kubermatic/kubermatic/pull/12275))
+
+### Dashboard
+
+#### Bugfixes
+
+- Machine Deployments are initialized without waiting for all cluster details to finish loading ([#5922](https://github.com/kubermatic/dashboard/pull/5922))
+
+## [v2.21.8](https://github.com/kubermatic/kubermatic/releases/tag/v2.21.8)
+
+### Action Required
+
+- [User Cluster MLA 0.2.6](https://github.com/kubermatic/mla/releases/tag/v0.2.6) has been released and requires manual updating by re-running [User Cluster MLA Installation](https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/#installation) ([#12105](https://github.com/kubermatic/kubermatic/pull/12105))
+
+### Bugfixes
+
+- Fix calculation of node CPU utilisation in Grafana dashboards for multi-core nodes ([#12080](https://github.com/kubermatic/kubermatic/pull/12080))
+- Use seed proxy configuration for seed deployed webhook ([#12070](https://github.com/kubermatic/kubermatic/pull/12070))
+- Fix metering CronJobs after KKP upgrades ([#12139](https://github.com/kubermatic/kubermatic/pull/12139))
+
+### Updates
+
+- Update Anexia CCM (cloud-controller-manager) to version 1.5.3 ([#12132](https://github.com/kubermatic/kubermatic/pull/12132))
+- Update machine-controller to v1.54.6 ([#12146](https://github.com/kubermatic/kubermatic/pull/12146))
+- Add support for Kubernetes 1.24.13 ([#12167](https://github.com/kubermatic/kubermatic/pull/12167))
+
+### Misc
+
+- Pull `kas-network-proxy/proxy-server:v0.0.33` and `kas-network-proxy/proxy-agent:v0.0.33` image from `registry.k8s.io` instead of legacy GCR registry (`eu.gcr.io/k8s-artifacts-prod`) ([#12069](https://github.com/kubermatic/kubermatic/pull/12069))
+- Support for configuring additional volumes for the UI ([#12108](https://github.com/kubermatic/kubermatic/pull/12108))
+
+### Dashboard & API
+
+#### Bugfixes
+
+- Show correct health information for Machine Deployments with no replicas ([#5840](https://github.com/kubermatic/dashboard/pull/5840))
+
+#### New Feature
+
+- Configure Ingress Hostname cluster settings of OpenStack provider ([#5865](https://github.com/kubermatic/dashboard/pull/5865))
 
 ## [v2.21.7](https://github.com/kubermatic/kubermatic/releases/tag/v2.21.7)
 
