@@ -6,6 +6,86 @@ weight = 70
 
 - [v2.22.0](#v2220)
 - [v2.22.1](#v2221)
+- [v2.22.2](#v2222)
+- [v2.22.3](#v2223)
+
+## [v2.22.3](https://github.com/kubermatic/kubermatic/releases/tag/v2.22.3)
+
+### Security
+
+- Fix potential path traversal in mirror-images command ([#12294](https://github.com/kubermatic/kubermatic/pull/12294))
+
+### Bugfixes
+
+- Addons: (Openstack) add a dedicated service account for CSI snapshot webhook server ([#12201](https://github.com/kubermatic/kubermatic/pull/12201))
+- Fix: do not override floating IP settings from user input for OpenStack initial MD ([#12261](https://github.com/kubermatic/kubermatic/pull/12261))
+- Do not try to watch `Cluster` resources on the master in `usersshkey-synchronizer` and use Seeds as correct source instead ([#12271](https://github.com/kubermatic/kubermatic/pull/12271))
+- Fix a bug that lead to metering reports overwriting each other when used with multiple seeds. Report names now include the Seed name as a Prefix ([#12222](https://github.com/kubermatic/kubermatic/pull/12221))
+- Fix MLA stack constantly updating Grafana datasources ([#12182](https://github.com/kubermatic/kubermatic/pull/12182))
+- The MLA stack is now able to recover from a lost Grafana volume, properly recreating organizations for KKP projects ([#12195](https://github.com/kubermatic/kubermatic/pull/12195))
+- Revert CRD split between master and seed by installing all CRDs on the master again ([#12283](https://github.com/kubermatic/kubermatic/pull/12283))
+
+### Updates
+
+- Patch cilium v1.12 and v1.11 to latest patch releases (v1.12.9) (v1.11.16) ([#12264](https://github.com/kubermatic/kubermatic/pull/12264))
+- Addons: ([#12184](https://github.com/kubermatic/kubermatic/pull/12184))
+    - kube-state-metrics updated to v2.5.0
+    - node-exporter updated to v1.4.0
+- Update Anexia CCM (cloud-controller-manager) to version 1.5.4 ([#12212](https://github.com/kubermatic/kubermatic/pull/12212))
+
+### New Feature
+
+- New alert for NodeTimeDrift ([#12275](https://github.com/kubermatic/kubermatic/pull/12275))
+
+### Dashboard
+
+#### Bugfixes
+
+- Machine Deployments are initialized without waiting for all cluster details to finish loading ([#5922](https://github.com/kubermatic/dashboard/pull/5922))
+
+## [v2.22.2](https://github.com/kubermatic/kubermatic/releases/tag/v2.22.2)
+
+### Bugfixes
+
+- Applications: fix OOM in usercluster-controller by limiting the history of helm releases. This fix is critical if user-cluster is using Cilium >= 1.13.0 as CNI. From this version, Cilium is deployed using System Applications ([#12090](https://github.com/kubermatic/kubermatic/pull/12090))
+- Include etcd-launcher and gatekeeper images in kubermatic-installer mirror-images ([#12130](https://github.com/kubermatic/kubermatic/pull/12130))
+- Include metering images in kubermatic-installer mirror-images ([#12144](https://github.com/kubermatic/kubermatic/pull/12144))
+- Fix a bug that causes dedicated Seeds to be stuck in deletion ([#12131](https://github.com/kubermatic/kubermatic/pull/12131))
+- Fix calculation of node CPU utilisation in Grafana dashboards for multi-core nodes ([#12034](https://github.com/kubermatic/kubermatic/pull/12034))
+- Fix metering CronJobs after KKP upgrades ([#12139](https://github.com/kubermatic/kubermatic/pull/12139))
+- Missing CRDs for VPA and KKP resources are correctly installed onto Seeds ([#12119](https://github.com/kubermatic/kubermatic/pull/12119))
+- Support for configuring additional volumes for the UI ([#12107](https://github.com/kubermatic/kubermatic/pull/12107))
+- Update external-snapshotter validation webhook server to v6.0.1 ([#12120](https://github.com/kubermatic/kubermatic/pull/12120))
+- Use seed proxy configuration for seed deployed webhook ([#12070](https://github.com/kubermatic/kubermatic/pull/12070))
+- Installer: mla: --mla-skip-minio and --mla-skip-minio-lifecycle-mgr work properly now ([#12140](https://github.com/kubermatic/kubermatic/pull/12140))
+
+### Updates
+
+- Update Go version to 1.19.8 ([#12143](https://github.com/kubermatic/kubermatic/pull/12143))
+- Update Anexia CCM (cloud-controller-manager) to version 1.5.3 ([#12133](https://github.com/kubermatic/kubermatic/pull/12133))
+- Update OSM to 1.2.2 and machine-controller to 1.56.2 ([#12157](https://github.com/kubermatic/kubermatic/pull/12157))
+- Add support for Kubernetes 1.24.13, 1.25.9 and 1.26.4. Update default version to 1.25.9 ([#12166](https://github.com/kubermatic/kubermatic/pull/12166))
+
+### Misc
+
+- Pull `kas-network-proxy/proxy-server:v0.0.35` and `kas-network-proxy/proxy-agent:v0.0.35` image from `registry.k8s.io` instead of legacy GCR registry (`eu.gcr.io/k8s-artifacts-prod`) ([#12067](https://github.com/kubermatic/kubermatic/pull/12067))
+- Disable PodSecurityPolicy in MLA Grafana deployment ([#12101](https://github.com/kubermatic/kubermatic/pull/12101))
+
+### Dashboard & API
+
+#### Bugfixes
+
+- AWS subnets are fetched correctly if credentials are provided directly instead of using a preset ([#5883](https://github.com/kubermatic/dashboard/pull/5883))
+- Fix cluster wizard not selecting a default version if custom versions are configured in `KubermaticConfiguration` ([#5879](https://github.com/kubermatic/dashboard/pull/5879))
+- Show correct health information for Machine Deployments with no replicas ([#5837](https://github.com/kubermatic/dashboard/pull/5837))
+
+#### Updates
+
+- Update Go version to 1.19.8 ([#5887](https://github.com/kubermatic/dashboard/pull/5887))
+
+#### New Feature
+
+- Configure Ingress Hostname cluster settings of OpenStack provider ([#5861](https://github.com/kubermatic/dashboard/pull/5861))
 
 ## [v2.22.1](https://github.com/kubermatic/kubermatic/releases/tag/v2.22.1)
 
