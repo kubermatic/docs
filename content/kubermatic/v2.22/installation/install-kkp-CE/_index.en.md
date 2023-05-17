@@ -82,6 +82,8 @@ Download the [release archive from our GitHub release page](https://github.com/k
 containing the Kubermatic Installer and the required Helm charts for your operating system and extract it locally. Note that
 for Windows `zip` files are provided instead of `tar.gz` files.
 
+{{< tabs name="Download the installer" >}}
+{{% tab name="Linux" %}}
 ```bash
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
@@ -90,6 +92,18 @@ VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/k
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 ```
+{{% /tab %}}
+{{% tab name="MacOS" %}}
+```bash
+# For latest version:
+VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
+# For specific version set it explicitly:
+# VERSION=2.21.x
+wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-amd64.tar.gz
+tar -xzvf kubermatic-ce-v${VERSION}-darwin-amd64.tar.gz
+```
+{{% /tab %}}
+{{< /tabs >}}
 
 ### Prepare Configuration
 
