@@ -5,7 +5,7 @@ weight = 7
 
 +++
 
-KKP fully supports VMware vSphere as a tier 1 provider. It allows the automatic provision of user cluster nodes and automatically deploys CCM and CSI for cloud provider and storage integration.
+KKP fully supports VMware vSphere as a tier 1 provider. It enables automatic provisioning of user cluster nodes and storage management by integrating vSphere CCM and vSphere CSI.
 
 {{% notice warning %}}
 The Kubernetes vSphere driver contains bugs related to detaching volumes from offline nodes. See the [**Volume detach bug**](#volume-detach-bug) section for more details.
