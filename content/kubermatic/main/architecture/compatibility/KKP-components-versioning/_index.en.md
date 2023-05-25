@@ -16,6 +16,7 @@ of provided software and therefore releases updates regularly that also include 
 | cert-manager | 1.11.1 |
 | iap | 7.4.0 |
 | kubermatic-operator | 9.9.9-dev |
+| local-kubevirt | 1.0.0-alpha.0 |
 | logging/loki | 2.5.0 |
 | logging/promtail | 2.5.0 |
 | minio | RELEASE.2023-05-04T21-44-30Z |
