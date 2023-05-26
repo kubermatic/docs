@@ -5,6 +5,8 @@ weight = 7
 
 +++
 
+KKP fully supports VMware vSphere as a tier 1 provider. It enables automatic provisioning of user cluster nodes and storage management by integrating vSphere CCM and vSphere CSI.
+
 {{% notice warning %}}
 The Kubernetes vSphere driver contains bugs related to detaching volumes from offline nodes. See the [**Volume detach bug**](#volume-detach-bug) section for more details.
 {{% /notice %}}
@@ -53,8 +55,8 @@ KKP utilises provider credentials to create and manage infrastructure on the res
 are needed to manage VMs, storage, networking and tags.
 
 The vSphere provider allows to split permissions into two sets of credentials:
-1. Credentials passed to the vSphere Cloud Controller Manager (CCM) and CSI Storage driver. These credentials are currently inherited into the user cluster and should therefore be individual per user cluster.
-2. Credentials used for creating and managing infrastructure (VMs, tags, networks). This set of credentials is not shared with the user cluster and is kept on the seed cluster.
+1. Credentials passed to the [vSphere Cloud Controller Manager (CCM) and CSI Storage driver](#cloud-controller-manager-ccm--csi). These credentials are currently inherited into the user cluster and should therefore be individual per user cluster. This type of credentials can be passed when creating a user cluster or setting up a preset.
+2. Credentials used for [creating and managing infrastructure](#infrastructure-management) (VMs, tags, networks). This set of credentials is not shared with the user cluster and is kept on the seed cluster. This type of credentials can either be passed in the Seed configuration ([.spec.datacenters.EXAMPLEDC.vpshere.infraManagementUser]({{< ref "../../../references/crds/#datacenterspecvsphere" >}})) for all user clusters created in this datacenter or individually while creating a user cluster.
 
 If such a split is not desired, one set of credentials used for both use cases can be provided instead. Providing two sets of credentials is optional.
 
@@ -62,7 +64,7 @@ If such a split is not desired, one set of credentials used for both use cases c
 
 The vsphere users has to have to following permissions on the correct resources. Note that if a shared set of credentials is used, roles for both use cases need to be assigned to the technical user which will be used for credentials.
 
-#### User Cluster Could Controller Manager (CCM) / CSI
+#### Cloud Controller Manager (CCM) / CSI
 **Note:** Below roles were updated based on [vsphere-storage-plugin-roles] for external CCM which is available from kkp v2.18+ and vsphere v7.0.2+
 
 For the Cloud Controller Manager (CCM) and CSI components used to provide cloud provider and storage integration to the user cluster,
@@ -129,7 +131,7 @@ System.View
 
 #### Infrastructure Management
 
-For provisioning actions of KKP in the scope of a user cluster, a technical user (e.g. `cust-infra-user-cluster`) is needed:
+For infrastructure (e.g. VMs, tags and networking) provisioning actions of KKP in the scope of a user cluster, the following roles have to be added to the existing user (if a single set of credentials is used) or an additional technical user (e.g. `cust-infra-user-cluster`) is needed that has the following roles attached:
 
 {{< tabs name="Infrastructure Management" >}}
 {{% tab name="k8c-user-vcenter" %}}
