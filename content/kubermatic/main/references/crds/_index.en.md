@@ -1164,6 +1164,17 @@ _Appears in:_
 
 
 
+### AntiAffinityType
+
+_Underlying type:_ `string`
+
+AntiAffinityType is the type of anti-affinity that should be used. Can be "preferred" or "required".
+
+_Appears in:_
+- [EtcdStatefulSetSettings](#etcdstatefulsetsettings)
+
+
+
 ### ApplicationSettings
 
 
@@ -2848,10 +2859,12 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `clusterSize` _integer_ |  |
-| `storageClass` _string_ |  |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ |  |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#toleration-v1-core) array_ |  |
+| `clusterSize` _integer_ | ClusterSize is the number of replicas created for etcd. This should be an odd number to guarantee consensus, e.g. 3, 5 or 7. |
+| `storageClass` _string_ | StorageClass is the Kubernetes StorageClass used for persistent storage which stores the etcd WAL and other data persisted across restarts. Defaults to `kubermatic-fast` (the global default). |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ | Resources allows to override the resource requirements for etcd Pods. |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#toleration-v1-core) array_ | Tolerations allows to override the scheduling tolerations for etcd Pods. |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | HostAntiAffinity allows to enforce a certain type of host anti-affinity on etcd pods. Options are "preferred" (default) and "required". Please note that enforcing anti-affinity via "required" can mean that pods are never scheduled. |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on etcd pods. Options are "preferred" (default) and "required". Please note that enforcing anti-affinity via "required" can mean that pods are never scheduled. |
 
 
 [Back to top](#top)
