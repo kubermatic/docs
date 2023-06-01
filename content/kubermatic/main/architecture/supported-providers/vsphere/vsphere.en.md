@@ -207,6 +207,11 @@ VirtualMachine.Inventory.CreateFromExisting
   * Granted at **cluster** level, propagated
   * Needed for upload of `cloud-init.iso` (Ubuntu and CentOS) or defining the Ignition config into Guestinfo (CoreOS)
   * Permissions
+    * AutoDeploy
+      * Rule
+        * Create
+        * Delete
+        * Edit
     * Host
       * Configuration
         * Storage partition configuration
@@ -220,11 +225,13 @@ VirtualMachine.Inventory.CreateFromExisting
     * vApp
       * vApp application configuration
       * vApp instance configuration
-
 ---
 
 ```
 $ govc role.ls k8c-user-cluster-propagate
+AutoDeploy.Rule.Create
+AutoDeploy.Rule.Delete
+AutoDeploy.Rule.Edit
 Folder.Create
 Host.Config.Storage
 Host.Config.SystemManagement
