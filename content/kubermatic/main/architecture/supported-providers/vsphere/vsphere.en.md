@@ -218,6 +218,8 @@ VirtualMachine.Inventory.CreateFromExisting
         * System Management
       * Local operations
         * Reconfigure virtual machine
+      * Inventory
+        * EditCluster
     * Resource
       * Assign virtual machine to resource pool
       * Migrate powered off virtual machine
@@ -235,6 +237,7 @@ AutoDeploy.Rule.Edit
 Folder.Create
 Host.Config.Storage
 Host.Config.SystemManagement
+Host.Inventory.EditCluster
 Host.Local.ReconfigVM
 Resource.AssignVMToPool
 Resource.ColdMigrate
