@@ -1244,12 +1244,13 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `apiserver` _[APIServerSettings](#apiserversettings)_ |  |
-| `controllerManager` _[ControllerSettings](#controllersettings)_ |  |
-| `scheduler` _[ControllerSettings](#controllersettings)_ |  |
-| `etcd` _[EtcdStatefulSetSettings](#etcdstatefulsetsettings)_ |  |
-| `prometheus` _[StatefulSetSettings](#statefulsetsettings)_ |  |
-| `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ |  |
+| `apiserver` _[APIServerSettings](#apiserversettings)_ | Apiserver configures kube-apiserver settings. |
+| `controllerManager` _[ControllerSettings](#controllersettings)_ | ControllerManager configures kube-controller-manager settings. |
+| `scheduler` _[ControllerSettings](#controllersettings)_ | Scheduler configures kube-scheduler settings. |
+| `etcd` _[EtcdStatefulSetSettings](#etcdstatefulsetsettings)_ | Etcd configures the etcd ring used to store Kubernetes data. |
+| `prometheus` _[StatefulSetSettings](#statefulsetsettings)_ | Prometheus configures the Prometheus instance deployed into the cluster control plane. |
+| `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ | NodePortProxyEnvoy configures the per-cluster nodeport-proxy-envoy that is deployed if the `LoadBalancer` expose strategy is used. This is not effective if a different expose strategy is configured. |
+| `konnectivityProxy` _[KonnectvityProxySettings](#konnectvityproxysettings)_ | KonnectivityProxy configures resources limits/requests for konnectivity-server sidecar. |
 
 
 [Back to top](#top)
@@ -1418,6 +1419,35 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+### ContainerRuntimeContainerd
+
+
+
+ContainerRuntimeContainerd defines containerd container runtime registries configs.
+
+_Appears in:_
+- [NodeSettings](#nodesettings)
+
+| Field | Description |
+| --- | --- |
+| `registries` _object (keys:string, values:[ContainerdRegistry](#containerdregistry))_ | A map of registries to use to render configs and mirrors for containerd registries |
+
+
+[Back to top](#top)
+
+
+
+### ContainerdRegistry
+
+
+
+ContainerdRegistry defines endpoints and security for given container registry.
+
+_Appears in:_
+- [ContainerRuntimeContainerd](#containerruntimecontainerd)
 
 
 
@@ -1847,6 +1877,25 @@ _Appears in:_
 | `accessKeyID` _string_ |  |
 | `secretAccessKey` _string_ |  |
 | `region` _string_ |  |
+
+
+[Back to top](#top)
+
+
+
+### EnvoyLoadBalancerService
+
+
+
+
+
+_Appears in:_
+- [NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)
+
+| Field | Description |
+| --- | --- |
+| `annotations` _object (keys:string, values:string)_ | Annotations are used to further tweak the LoadBalancer integration with the cloud provider. |
+| `sourceRanges` _CIDR array_ | SourceRanges will restrict loadbalancer service to IP ranges specified using CIDR notation like 172.25.0.0/16. This field will be ignored if the cloud-provider does not support the feature. More info: https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/ |
 
 
 [Back to top](#top)
@@ -2379,7 +2428,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `serviceAccount` _string_ |  |
+| `serviceAccount` _string_ | The Google Service Account (JSON format), encoded with base64. |
 | `network` _string_ |  |
 | `subnetwork` _string_ |  |
 | `nodePortsAllowedIPRange` _string_ |  |
@@ -2509,7 +2558,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `provider` _[ProviderType](#providertype)_ | Provider to which to apply the compatibility check |
+| `provider` _[ProviderType](#providertype)_ | Provider to which to apply the compatibility check. Empty string matches all providers |
 | `version` _string_ | Version is the Kubernetes version that must be checked. Wildcards are allowed, e.g. "1.22.*". |
 | `condition` _ConditionType_ | Condition is the cluster or datacenter condition that must be met to block a specific version |
 | `operation` _OperationType_ | Operation is the operation triggering the compatibility check (CREATE or UPDATE) |
@@ -2532,6 +2581,24 @@ _Appears in:_
 | --- | --- |
 | `kinds` _string array_ | Kinds specifies the kinds of the resources |
 | `apiGroups` _string array_ | APIGroups specifies the APIGroups of the resources |
+
+
+[Back to top](#top)
+
+
+
+### KonnectvityProxySettings
+
+
+
+
+
+_Appears in:_
+- [ComponentSettings](#componentsettings)
+
+| Field | Description |
+| --- | --- |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#resourcerequirements-v1-core)_ |  |
 
 
 [Back to top](#top)
@@ -2872,6 +2939,7 @@ _Appears in:_
 | `etcdVolumeSize` _string_ | EtcdVolumeSize configures the volume size to use for each etcd pod inside user clusters. |
 | `apiserverReplicas` _integer_ | APIServerReplicas configures the replica count for the API-Server deployment inside user clusters. |
 | `machineController` _[MachineControllerConfiguration](#machinecontrollerconfiguration)_ | MachineController configures the Machine Controller |
+| `operatingSystemManager` _[OperatingSystemManager](#operatingsystemmanager)_ | OperatingSystemManager configures the image repo and the tag version for osm deployment. |
 
 
 [Back to top](#top)
@@ -2991,7 +3059,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `kubeconfig` _string_ |  |
+| `kubeconfig` _string_ | The cluster's kubeconfig file, encoded with base64. |
+| `csiKubeconfig` _string_ |  |
 
 
 [Back to top](#top)
@@ -3290,6 +3359,25 @@ _Appears in:_
 
 
 
+### NodePortProxyComponentEnvoy
+
+
+
+
+
+_Appears in:_
+- [NodeportProxyConfig](#nodeportproxyconfig)
+
+| Field | Description |
+| --- | --- |
+| `NodeportProxyComponent` _[NodeportProxyComponent](#nodeportproxycomponent)_ |  |
+| `loadBalancerService` _[EnvoyLoadBalancerService](#envoyloadbalancerservice)_ |  |
+
+
+[Back to top](#top)
+
+
+
 ### NodeSettings
 
 
@@ -3305,6 +3393,7 @@ _Appears in:_
 | `insecureRegistries` _string array_ | Optional: These image registries will be configured as insecure on the container runtime. |
 | `registryMirrors` _string array_ | Optional: These image registries will be configured as registry mirrors on the container runtime. |
 | `pauseImage` _string_ | Optional: Translates to --pod-infra-container-image on the kubelet. If not set, the kubelet will default it. |
+| `containerdRegistryMirrors` _[ContainerRuntimeContainerd](#containerruntimecontainerd)_ | Optional: ContainerdRegistryMirrors configure registry mirrors endpoints. Can be used multiple times to specify multiple mirrors. |
 
 
 [Back to top](#top)
@@ -3319,6 +3408,7 @@ _Appears in:_
 
 _Appears in:_
 - [ComponentSettings](#componentsettings)
+- [NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)
 - [NodeportProxyConfig](#nodeportproxyconfig)
 
 | Field | Description |
@@ -3343,8 +3433,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `disable` _boolean_ | Disable will prevent the Kubermatic Operator from creating a nodeport-proxy setup on the seed cluster. This should only be used if a suitable replacement is installed (like the nodeport-proxy Helm chart). |
-| `annotations` _object (keys:string, values:string)_ | Annotations are used to further tweak the LoadBalancer integration with the cloud provider where the seed cluster is running. |
-| `envoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ | Envoy configures the Envoy application itself. |
+| `annotations` _object (keys:string, values:string)_ | Annotations are used to further tweak the LoadBalancer integration with the cloud provider where the seed cluster is running. Deprecated: Use .envoy.loadBalancerService.annotations instead. |
+| `envoy` _[NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)_ | Envoy configures the Envoy application itself. |
 | `envoyManager` _[NodeportProxyComponent](#nodeportproxycomponent)_ | EnvoyManager configures the Kubermatic-internal Envoy manager. |
 | `updater` _[NodeportProxyComponent](#nodeportproxycomponent)_ | Updater configures the component responsible for updating the LoadBalancer service. |
 
@@ -3575,6 +3665,25 @@ _Appears in:_
 | --- | --- |
 | `minimumVCPUs` _integer_ | VCPUs is the minimum required amount of (virtual) CPUs |
 | `minimumMemory` _integer_ | MinimumMemory is the minimum required amount of memory, measured in MB |
+
+
+[Back to top](#top)
+
+
+
+### OperatingSystemManager
+
+
+
+OperatingSystemManager configures the image repo and the tag version for osm deployment.
+
+_Appears in:_
+- [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `imageRepository` _string_ | ImageRepository is used to override the OperatingSystemManager image repository. It is recommended to use this field only for development, tests and PoC purposes. For production environments. it is not recommended, to use this field due to compatibility with the overall KKP stack. |
+| `imageTag` _string_ | ImageTag is used to override the OperatingSystemManager image. It is recommended to use this field only for development, tests and PoC purposes. For production environments. it is not recommended, to use this field due to compatibility with the overall KKP stack. |
 
 
 [Back to top](#top)

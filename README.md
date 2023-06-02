@@ -6,7 +6,7 @@ These products allow you to set up Kubernetes clusters easily and make sure that
 
 ## Generate the Docs locally
 
-You will need to download and install the [hugo](https://gohugo.io/overview/installing/) static website engine to generate the documentation. **Please note:** you need to install the extended version of Hugo for building a website locally.
+You will need to download and install the [hugo](https://gohugo.io/installation/) static website engine to generate the documentation. **Please note:** you need to install the extended version of Hugo for building a website locally.
 
 Clone the repository to your local device and create a new feature branch.
 

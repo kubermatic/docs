@@ -12,8 +12,6 @@ in KKP, with Kubeflow authentication integrated with KKP.
 The Kubeflow Addon is still under development, the current version is just a feature preview.
 {{% /notice %}}
 
-{{< table_of_contents >}}
-
 ## Prerequisites
 Before installing the Kubeflow Addon in a KKP user cluster, the following prerequisites have to be met:
 

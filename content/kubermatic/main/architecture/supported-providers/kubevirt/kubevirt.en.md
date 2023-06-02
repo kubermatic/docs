@@ -1,35 +1,52 @@
 +++
-title = "KubeVirt (Technology Preview)"
+title = "KubeVirt"
 date = 2021-02-01T14:46:15+02:00
-enableToc = true
-weight = 7
+weight = 4
 
 +++
 
-## Installation
+## Architecture
+
+![KubeVirt Cloud Provider Architecture](/img/kubermatic/main/architecture/supported-providers/kubevirt/architecture.png?classes=shadow,border "KubeVirt Cloud Provider Architecture")
+
+## Installation And Configuration
 
 ### Requirements
-Kubernetes cluster where KubeVirt is installed (KubeVirt infrastructure cluster) must be in range of [supported KKP Kubernetes clusters](https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions). The strong recommendation is to use the latest supported version.
 
-The infrastructure cluster must have installed:
-* KubeVirt >= 0.57 and support the selected Kubernetes version.
-* Containerized Data Importer that supports the selected KubeVirt and Kubernetes version.
+A Kubernetes cluster (KubeVirt infrastructure cluster), which consists of nodes that **have a hardware virtualization support** with at least:
+* 2 CPUs
+* 4GB of RAM
+* 30GB of storage.
 
-Visit [KubeVirt compatibility page](https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions) to find out which version of KubeVirt you can install on your infrastructure cluster.
+The cluster version must be in the scope of [supported KKP Kubernetes clusters]({{< ref "../../../tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions" >}})
+and it must have the following components installed:
+* KubeVirt >= 0.57 which supports the selected Kubernetes version.
+* Containerized Data Importer which supports the selected KubeVirt and Kubernetes versions.
 
-A minimal Kubernetes cluster should consist of 3 nodes with 2 CPUs, 4GB of RAM and 30GB of storage.
+{{% notice note %}}
+We recommend to install the latest stable releases of both projects.
+{{% /notice %}}
 
-### KubeVirt on Kubernetes
+The setup has been successfully tested with:
+* CRI: containerd
+* CNI: Canal
 
-Follow the [official guide](https://kubevirt.io/user-guide/operations/installation/#installing-kubevirt-on-kubernetes) to install KubeVirt on Kubernetes
+Other CRIs and CNIs should work too. However, they were not tested, so it is possible to discover issues.
 
-### Configuration
+{{% notice note %}}
+To achieve the best possible performance it is recommended to run the setup on bare metal hosts with a hardware virtualization support.
+Additionally, make sure that your nodes have appropriate Qemu and KVM packages installed.
+{{% /notice %}}
 
-KubeVirt requires the following configuration to be used with KKP.
-- In case your KubeVirt namespace has the ConfigMap 'kubevirt-config' then use this ConfigMap for adding the feature gates to it. Look at the path `{.data.feature-gates}`
-- Otherwise, add the feature gate to the resource of type `KubeVirt`. There should be a single resource of this type and its name can be chosen arbitrarily.
+### Kubernetes And KubeVirt Installation
 
-The configuration KKP requires:
+We provide KubeOne, which can be used to set up a highly-available Kubernetes cluster on bare metal.
+Refer to the [KubeOne documentation]({{< ref "/kubeone/v1.5/tutorials/creating-clusters-baremetal/" >}}) for details on how to use it.
+
+Follow [KubeVirt](https://kubevirt.io/user-guide/operations/installation/#installation) and [Containerized Data Importer](https://kubevirt.io/user-guide/operations/containerized_data_importer/#install-cdi)
+documentation to find out how to install them and learn about their requirements.
+
+We require the following KubeVirt configuration:
 ```yaml
 apiVersion: kubevirt.io/v1
 kind: KubeVirt
@@ -50,730 +67,302 @@ spec:
       - HotplugVolumes
 ```
 
-More information on the KubeVirt feature gates can be found [here: KubeVirt Feature Gates](https://kubevirt.io/user-guide/operations/activating_feature_gates/#how-to-activate-a-feature-gate)
-
----
-
-## Usage
-In order to allow KKP to provision VMs(worker nodes) in KubeVirt, users provide the kubeconfig of the Kubernetes cluster
-where the KubeVirt cluster is running (called the infra cluster).
-Users can add the content of the kubeconfig file in the third step of the cluster creation.
-The **kubeconfig must be base64** encoded.
-
-### KKP MachineDeployment Sample
-Here is a sample of a MachineDeployment that can be used to provision a VM:
+It is not required to have any specific Containerized Data Importer configuration as long the main storage is **not** local disks.
+Otherwise, CDI must be configured with `HonorWaitForFirstConsumer` feature gate.
 
 ```yaml
-apiVersion: "cluster.k8s.io/v1alpha1"
-kind: MachineDeployment
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: CDI
 metadata:
-  name: my-kubevirt-machine
-  namespace: kube-system
+  name: cdi
 spec:
-  paused: false
-  replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
-  minReadySeconds: 0
-  selector:
-    matchLabels:
-      name: my-kubevirt-machine
-  template:
-    metadata:
-      labels:
-        name: my-kubevirt-machine
-    spec:
-      providerSpec:
-        value:
-          sshPublicKeys:
-            - "<< YOUR_PUBLIC_KEY >>"
-          cloudProvider: "kubevirt"
-          cloudProviderSpec:
-            clusterName: <cluster-id>
-            auth:
-              kubeconfig:
-                value: "<< KUBECONFIG_BASE64 >>"
-            virtualMachine:
-              instancetype:
-                name: "standard-2"
-                kind: "VirtualMachineInstancetype" # Allowed values: "VirtualMachineInstancetype"/"VirtualMachineClusterInstancetype"
-              preference:
-                name: "sockets-advantage"
-                kind: "VirtualMachinePreference" # Allowed values: "VirtualMachinePreference"/"VirtualMachineClusterPreference"
-              template:
-                cpus: "1"
-                memory: "2048M"
-                primaryDisk:
-                  osImage: "<< YOUR_IMAGE_SOURCE >>"
-                  size: "10Gi"
-                  storageClassName: "<< YOUR_STORAGE_CLASS_NAME >>"
-            affinity:
-              nodeAffinityPreset:
-                type: "" # Allowed values: "", "soft", "hard"
-                key: "foo"
-                values:
-                  - bar
-            topologySpreadConstraints:
-              - maxSkew: "1"
-                topologyKey: "kubernetes.io/hostname"
-                whenUnsatisfiable: "" # Allowed values: "DoNotSchedule", "ScheduleAnyway"
-          # Can also be `centos`, must align with he configured registryImage above
-          operatingSystem: "ubuntu"
-          operatingSystemSpec:
-            distUpgradeOnBoot: false
-            disableAutoUpdate: true
-            # 'rhelSubscriptionManagerUser' is only used for rhel os and can be set via env var `RHEL_SUBSCRIPTION_MANAGER_USER`
-            rhelSubscriptionManagerUser: "<< RHEL_SUBSCRIPTION_MANAGER_USER >>"
-            # 'rhelSubscriptionManagerPassword' is only used for rhel os and can be set via env var `RHEL_SUBSCRIPTION_MANAGER_PASSWORD`
-            rhelSubscriptionManagerPassword: "<< RHEL_SUBSCRIPTION_MANAGER_PASSWORD >>"
-            # 'rhsmOfflineToken' if it was provided red hat systems subscriptions will be removed upon machines deletions, and if wasn't
-            # provided the rhsm will be disabled and any created subscription won't be removed automatically
-            rhsmOfflineToken: "<< REDHAT_SUBSCRIPTIONS_OFFLINE_TOKEN >>"
-      versions:
-        kubelet: 1.23.13
-
+  config:
+    featureGates:
+    - HonorWaitForFirstConsumer
 ```
-
-All the resources related to VM on the KubeVirt cluster will be created in a dedicated namespace in the infrastructure cluster.
-This name follow the pattern `cluster-xyz`, where `xyz` is the `id` of the cluster created with KKP.
-
-![Dedicated Namespace](/img/kubermatic/main/architecture/supported-providers/kubevirt/Dedicated-namespace.jpg)
-
-How to know the `id` of the cluster created ?
-
-![Cluster Id](/img/kubermatic/main/architecture/supported-providers/kubevirt/clusterid.png)
-
-With the example of the previous image, the cluster `elastic-mayer` has a cluster id `gff5gnxc7r`,
-so all resources for this cluster are located in the `cluster-gff5gnxc7r` namespace in the KubeVirt infrastructure cluster.
-
-### Virtual Machines Scheduling
-It is possible to control how the tenant nodes are scheduled on the infrastructure nodes.
-![Scheduling](/img/kubermatic/main/architecture/supported-providers/kubevirt/Scheduling.png)
-
-We provide control of the user cluster nodes scheduling over topology spread constraints and node affinity presets mechanisms. You can use a combination of them, or they can work independently:
-- Spread across a given topology domains (*TopologySpreadConstraints*).
-- Schedule on nodes having some specific labels (*Node Affinity Preset*).
-
 
 {{% notice note %}}
-`Pod Affinity Preset` and `Pod Anti Affinity Preset` are deprecated. Migration to `TopologySpreadConstraints` does not affect existing MachineDeployment and corresponding VMs.
-If existing MachineDeployment has Pod Affinity/Anti-Affinity Preset spec, it will remain the same. But any update of existing MachineDeployment will trigger creation of new VMs which will not have Pod Affinity/Anti-Affinity Preset spec
-, instead they will have default topology spread constraint. Refer to the migration notes from KKP 2.21 to KKP 2.22
+Refer to this [document](https://github.com/kubevirt/kubevirt/blob/main/docs/localstorage-disks.md)
+to learn more about how KubeVirt handles local disks storage.
 {{% /notice %}}
 
-TopologySpreadConstraint for VMs are related to [Kubernetes:Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/). Below is the description of different fields of a `TopologySpreadConstraints`:
-
-| Field             | Description                                                                 |
-|-------------------|-----------------------------------------------------------------------------|
-| maxSkew           | degree to which VMs may be unevenly distributed                             |
-| topologyKey       | key of infra-node labels                                                    |
-| whenUnsatisfiable | indicates how to deal with a VM if it doesn't satisfy the spread constraint |
-
-The allowed values for `whenUnsatisfiable` are as follows:
-- `DoNotSchedule` tells the scheduler not to schedule if it doesn't satisfy the spread constraint.
-- `ScheduleAnyway` tells the scheduler to schedule the VM in any location, but giving higher precedence to topologies that would help reduce the skew.
-
-For *Node Affinity Preset* scheduling type, we can specify if we want the affinity to be:
-- *"hard"*
--  *"soft"*
-
-To achieve this goal, we use the [KubeVirt VM Affinity and Anti-affinity capabilities](https://kubevirt.io/user-guide/operations/node_assignment/#affinity-and-anti-affinity).
-
-
-*"hard"* or *"soft"* are related to the [Kubernetes: Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/). The following table shows the mapping:
-| Affinity type | Kubernetes affinity                             |
-|---------------|-------------------------------------------------|
-| hard          | requiredDuringSchedulingIgnoredDuringExecution  |
-| soft          | preferredDuringSchedulingIgnoredDuringExecution |
-
-
-#### How scheduling settings in the MachineDeployment influence a VirtualMachine object
-
-Scheduling settings are represented in the *MachineDeployment* object under *spec.providerSpec.value.affinity* and *spec.providerSpec.value.topologySpreadConstraints*:
-
-```yaml
-kind: MachineDeployment
-spec:
- // ...
-  template:
-    spec:
-      providerSpec:
-        value:
-            // ....
-            affinity:
-              nodeAffinityPreset:
-                type: "" # Allowed values: "", "soft", "hard"
-                key: "foo"
-                values:
-                  - bar
-            topologySpreadConstraints:
-              - maxSkew: "1"
-                topologyKey: "kubernetes.io/hostname"
-                whenUnsatisfiable: "" # Allowed values: "DoNotSchedule", "ScheduleAnyway"
-// ....
-```
-
-{{< tabs name="Scheduling settings" >}}
-{{% tab name="Usage of Custom TopologySpreadConstraints" %}}
-
-With the following `MachineDeployment` specification that contains a custom `topologySpreadConstraints` section
-
-```yaml
-kind: MachineDeployment
-spec:
- // ...
-  template:
-    spec:
-      providerSpec:
-        value:
-            // ....
-          topologySpreadConstraints:
-              - maxSkew: "1"
-                topologyKey: "zone"
-                whenUnsatisfiable: "DoNotSchedule"
-// ....
-```
-
-the following `VirtualMachine` specification will be generated from above `MachineDeployment`
-
-```yaml
-kind: VirtualMachine
-metadata:
-  ...
-spec:
-  ...
-  template:
-    ...
-    spec:
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: zone
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              md : qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-```
-
-{{% /tab %}}
-{{% tab name="Usage of Default TopologySpreadConstraints" %}}
-
-If **no** `topologySpreadConstraints` is defined, a **default** `topologySpreadConstraints` will be generated in the `MachineDeployment`,
-
-With the following `MachineDeployment` specification
-
-```yaml
-kind: MachineDeployment
-spec:
- // ...
-  template:
-    spec:
-      providerSpec:
-        value:
-            // ....
-          // topologySpreadConstraints: # none defined
-           
-// ....
-```
-
-Find below the content of the default `topologySpreadConstraints` generated (if no `topologySpreadConstraints` is specified in the `MachineDeployment`).
-
-```yaml
-kind: VirtualMachine
-metadata:
-  ...
-spec:
-  ...
-  template:
-    ...
-    spec:
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: ScheduleAnyway
-          labelSelector:
-            matchLabels:
-              md : qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
-```
-{{% /tab %}}
-
-{{% tab name="Usage of Node Affinity Preset (hard)" %}}
-
-With the following `MachineDeployment` specification (`nodeAffinityPreset.type="hard"`)
-
-```yaml
-kind: MachineDeployment
-spec:
- // ...
-  template:
-    spec:
-      providerSpec:
-        value:
-            // ....
-            affinity:
-              nodeAffinityPreset:
-                type: "hard" 
-                key: "foo"
-                values:
-                  - bar
-```
-
-The following *VirtualMachine* specification will be generated
-
-```yaml
-kind: VirtualMachine
-metadata:
-  ...
-spec:
-  ...
-  template:
-    ...
-   spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: foo
-                operator: In
-                values:
-                - bar
-```
-{{% /tab %}}
-{{% tab name="Usage of Node Affinity Preset (soft)" %}}
-
-With the following `MachineDeployment` specification ((`nodeAffinityPreset.type="soft"`))
-
-```yaml
-kind: MachineDeployment
-spec:
- // ...
-  template:
-    spec:
-      providerSpec:
-        value:
-            // ....
-            affinity:
-              nodeAffinityPreset:
-                type: "soft" 
-                key: "foo"
-                values:
-                  - bar
-```
-
-The following *VirtualMachine* specification will be generated
-
- ```yaml
-kind: VirtualMachine
-metadata:
-  ...
-spec:
-  ...
-  template:
-    ...
-    spec:
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: foo
-                operator: In
-                values:
-                - bar
-```
-{{% /tab %}}
-{{< /tabs >}}
-
----
-
-### Virtual Machines Templates
-
-{{% notice note %}}
-`VirtualMachineInstancePresets` (`flavor` ) is deprecated. Migration to `Instancetype` and `Preference` does not affect existing MachineDeployment and corresponding VMs but a manual migration of the `MachineDeployment` must be done before any update (including re-scale)
-Refer to the migration notes from KKP 2.21 to KKP 2.22 (can be done safely after KKP was upgraded from 2.21 to 2.22)
+{{% notice warning %}}
+Currently, it is not recommended to use local or any topology constrained storage due to [the issue with kubevirt csi driver](https://github.com/kubevirt/csi-driver/issues/66)
 {{% /notice %}}
 
+### Configure KKP With KubeVirt
 
-KKP allows to benefit from [Kubevirt Instancetypes and Preferences](https://kubevirt.io/user-guide/virtual_machines/instancetypes/).
+Once you have Kubernetes with all needed components, the last thing is to configure KubeVirt datacenter on seed.
 
-Instancetypes and preferences provide a way to define a set of resource, performance and other runtime characteristics, allowing users to reuse these definitions across multiple VirtualMachines.
+We allow to configure:
+* `customNetworkPolicies` - Network policies that are deployed on the infrastructure cluster (where VMs run).
+  * Check [Network Policy documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource) to see available options in the spec.
+  * Also check a [common services connectivity issue](#i-created-a-load-balancer-service-on-a-user-cluster-but-services-outside-cannot-reach-it) that can be solved by a custom network policy.
+* `dnsConfig` and `dnsPolicy` - DNS config and policy which are set up on a guest. Defaults to `ClusterFirst`.
+  * You should set those fields when you suffer from DNS loop or collision issue. [Refer to this section for more details.](#i-discovered-a-dns-collision-on-my-cluster-why-does-it-happen)
+* `images` - Images for Virtual Machines that are selectable from KKP dashboard.
+  * Set this field according to [supported operating systems]({{< ref "../../compatibility/os-support-matrix/" >}}) to make sure that users can select operating systems for their VMs.
+* `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
+  * Pass names of KubeVirt storage classes that can be used from user clusters.
 
-There are 2 categories of instancetypes that you can use:
-- **Kubermatic**: some instancetypes/preferences provided by default by Kubermatic.
-- **Custom**: instancetypes/preferences that you can freely provide.
+Refer to this [document](https://github.com/kubermatic/kubermatic/blob/main/docs/zz_generated.seed.ce.yaml#L115)
+for more details and configuration example.
 
-This can be done at the *Initial Nodes* step during the cluster creation.
-![Instancetypes Preferences](/img/kubermatic/main/architecture/supported-providers/kubevirt/instancetypes-preferences.png)
-
-{{% notice note %}}
-You can display the content of any instancetype/preference by pressing the `View` button.
+{{% notice warning %}}
+By default, each user cluster is deployed with the **cluster-isolation** Network Policy that allows network communication
+only inside the cluster. You should use `customNetworkPolicies` to customize the network rules to your needs.
+**Remember that new rules will affect all user clusters.**
 {{% /notice %}}
 
+### Setup Monitoring
 
-
-#### How the Templates settings in the MachineDeployment settings affect the VirtualMachine object
-
-{{< tabs name="Template settings" >}}
-{{% tab name="Custom InstanceTypes/Preferences" %}}
-If you select some **Custom** Instancetype/Preference, for example *custom-instancetype-1*/*custom-preference-1*, the following `MachineDeployment` will be created.
-
-
-```yaml
-kind: MachineDeployment
-spec:
- // ...
-  template:
-    spec:
-      providerSpec:
-        value:
-            // ....
-            virtualMachine:
-              instancetype:
-                name: "custom-instancetype-1"
-                kind: "VirtualMachineClusterInstancetype"
-              preference:
-                name: "custom-preference-1"
-                kind: "VirtualMachineClusterPreference" 
-```
-
-which will create a `VirtualMachine` with this specification:
-
-```yaml
-piVersion: kubevirt.io/v1
-kind: VirtualMachine
-metadata:
-  // ---
-spec:
-  // ...
-  instancetype:
-    kind: VirtualMachineClusterInstancetype
-    name: custom-instancetype-1
-  preference:
-    kind: VirtualMachineClusterPreference
-    name: custom-preference-1
-  template:
-```
-
-{{% /tab %}}
-
-{{% tab name="Kubermatic InstanceTypes/Preferences" %}}
-If you select some **Kubermatic** Instancetype/Preference, for example *standard-2*/*sockets-advantage*, the following `MachineDeployment` will be created
-
-```yaml
-kind: MachineDeployment
-spec:
- // ...
-  template:
-    spec:
-      providerSpec:
-        value:
-            // ....
-            virtualMachine:
-              instancetype:
-                name: "standard-2"
-                kind: "VirtualMachineInstancetype"
-              preference:
-                name: "socket-advantage"
-                kind: "VirtualMachinePreference" 
-```
-
-which will create a `VirtualMachine` with this specification:
-
-```yaml
-piVersion: kubevirt.io/v1
-kind: VirtualMachine
-metadata:
-  // ---
-spec:
-  // ...
-  instancetype:
-    kind: VirtualMachineInstancetype
-    name: stadard-2
-  preference:
-    kind: VirtualMachinePreference
-    name: socket-advantage
-  template:
-```
-
-{{% /tab %}}
-{{< /tabs >}}
-
-#### Specification of the Kubermatic provided instancetype/preferences
-
-{{% notice note %}}
-The **Kubermatic** instancetypes/preferences are created in the dedicated `cluster-xyz` namespace in the KubeVirt infrastructure cluster. 
-They are namespaced resources.
-{{% /notice %}}
-
-{{< tabs name="Kubermatic instancetypes" >}}
-
-{{% tab name="standard-2 instancetype" %}}
-```yaml
-apiVersion: instancetype.kubevirt.io/v1alpha1
-kind: VirtualMachineInstancetype
-metadata:
-  name: standard-2
-spec:
-  cpu:
-    guest: 2
-  memory:
-    guest: 8Gi
-```
-{{% /tab %}}
-{{% tab name="standard-4 instancetype" %}}
-```yaml
-apiVersion: instancetype.kubevirt.io/v1alpha1
-kind: VirtualMachineInstancetype
-metadata:
-  name: standard-4
-spec:
-  cpu:
-    guest: 4
-  memory:
-    guest: 16Gi
-```
-{{% /tab %}}
-{{% tab name="standard-8 instancetype" %}}
-```yaml
-apiVersion: instancetype.kubevirt.io/v1alpha1
-kind: VirtualMachineInstancetype
-metadata:
-  name: standard-8
-spec:
-  cpu:
-    guest: 8
-  memory:
-    guest: 32Gi
-```
-{{% /tab %}}
-{{% tab name="socket-advantage preference" %}}
-```yaml
-apiVersion: instancetype.kubevirt.io/v1alpha1
-kind: VirtualMachinePreference
-metadata:
-  name: sockets-advantage
-spec:
-  cpu:
-    preferredCPUTopology: preferSockets
-```
-{{% /tab %}}
-{{< /tabs >}}
-
-#### How to provide your own **Custom** instancetypes and preferences
-
-
-Just create some `VirtualMachinClusterInstancetype` and/or some `VirtualMachineClusterPreference` (cluster-wide resources) in the KubeVirt infrastructure cluster and you are can use them to template your VMs.
-
----
-
-### Virtual Machines Disks
-
-#### Basic Disk Configuration
-
-For the basic configuration, disk images are imported from a web server, via HTTP download,
-by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
-
-![Primary Disk](/img/kubermatic/main/architecture/supported-providers/kubevirt/primary-disk.png)
-
-#### Custom Local Disk
-
-Custom local disks are disks created during cluster initialization that can be referenced later when creating nodes.
-Reference the custom local disk by name in the node's primary disk field.
-**The disk will be cloned** instead of being downloaded from the HTTP source URL.
-
-The feature relies on Data Volumes from the [Containerized Data Importer](https://github.com/kubevirt/containerized-data-importer/) project.
-Custom local disk creates a Data Volume on KubeVirt cluster in the user cluster namespace.
-
-**NOTE:** the source DataVolume (Custom Local Disk) must exist in the *cluster-xyz* namespace where the VM is created.
-Cloning across namespaces is not allowed.
-
-![DataVolume cloning](/img/kubermatic/main/architecture/supported-providers/kubevirt/DV-cloning.png)
-
-The source DataVolume can be created *manually* (not from KKP) by the user in the *cluster-xyz* namespace,
-or it can also be created using KKP when creating the cluster at the `Settings` step, with the `Advanced Disk configuration` panel.
-
-![DataVolume creation](/img/kubermatic/main/architecture/supported-providers/kubevirt/Source-DV-creation.png)
-
-In this panel, the user can add several Custom Local Disks (DataVolumes).
-For each of them, the user must specify:
-- the disk name (DataVolume name, must be compliant with [Kubernetes object names constraints](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/))
-- the Storage Class from a dropdown list
-- the disk size
-- the image disk URL for image download.
-
-The same Custom Local Disk can be used as source of cloning for all the VMs (same MachineDeployment or not) in the same cluster.
-
-#### Secondary Disks
-
-Secondary disks are additional disks that can be attached to nodes (up to three disks).
-The feature is under heavy development, and it is functionality might change over time.
-
-Currently, blank Data Volumes are being created and attached to nodes, meaning it is up to the cluster admin to
-format the disks that they are being usable.
-
-**It is not recommended to use those disks in production environment yet.**
-
-### Storage Class Initialization
-KKP uses [Containerized Data Importer](https://github.com/kubevirt/containerized-data-importer) (CDI) to import images and
-provision volumes to launch the VMs. CDI provides the ability to populate PVCs with VM images or other data upon creation.
-The data can come from different sources: a URL, a container registry, another PVC (clone), or an upload from a client.
-For more information about Containerized Data Importer project, please follow the documentation
-[here](https://github.com/kubevirt/containerized-data-importer/blob/main/doc/basic_pv_pvc_dv.md).
-
-**To initialize a storage class on a user cluster that exists on the KubeVirt infrastructure cluster.
-add `kubevirt-initialization.k8c.io/initialize-sc: 'true'` annotation to the storage class of your choice.
-This action has to take place before user cluster creation.**
-
----
-
-## Monitoring
-Install [prometheus-operator](https://github.com/prometheus-operator/prometheus-operator) on KubeVirt cluster.
-Then update `KubeVirt` resource similar to this example:
+Install [prometheus-operator](https://github.com/prometheus-operator/prometheus-operator) on the KubeVirt cluster.
+Then update `KubeVirt` configuration with the following spec:
 ```yaml
 apiVersion: kubevirt.io/v1
 kind: KubeVirt
 metadata:
   name: kubevirt
+  namespace: kubevirt
 spec:
   monitorNamespace: "<<PROMETHEUS_NAMESPACE>>"
   monitorAccount: "<<PROMETHEUS_SERVICE_ACCOUNT_NAME>>"
 ```
-For more details refer this [document](https://kubevirt.io/user-guide/operations/component_monitoring/).
 
-After completing the above setup, you can import this [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) in Grafana to monitor `KubeVirt` components.
+For more details please refer to this [document](https://kubevirt.io/user-guide/operations/component_monitoring/).
 
-Follow the below steps to import the dashboard in Grafana:
-- Download this [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana).
-- Open Grafana and click on `+` icon on the left side of the application. After that select `Import` option.
-- In the below window you can upload the [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) `json` file.
+After completing the above setup, you can import the [KubeVirt Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) to Grafana.
+Follow the official [Grafana documentation](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#export-and-import-dashboards
+) to learn how to import the dashboard.
 
-![Grafana Dashboard](/img/kubermatic/main/monitoring/kubevirt/grafana.png)
+## Advanced Settings
 
-## Breaking Changes
+### Virtual Machine Templating
 
-Please be aware that between KKP 2.20 and KKP 2.21, a breaking change to the `MachineDeployment` API for KubeVirt has occurred. For more details, please [check out the 2.20 to 2.21 upgrade notes]({{< ref "../../../tutorials-howtos/upgrading/upgrade-from-2.20-to-2.21/#kubevirt-migration" >}}).
+We provide a Virtual Machine templating functionality over [Instance Types and Preferences](https://kubevirt.io/user-guide/virtual_machines/instancetypes/).
 
-## Migration from KKP 2.21 to KKP 2.22
+![Instance Types and Preferences](/img/kubermatic/main/architecture/supported-providers/kubevirt/instance-type.png?classes=shadow,border "Instance Types and Preferences")
+
+You can use our standard
+
+Instance Types:
+* standard-2 - 2 CPUs, 8Gi RAM
+* standard-4 - 4 CPUs, 16Gi RAM
+* standard-8 - 8 CPUs, 32Gi RAM
+
+and Preferences (which are optional):
+* sockets-advantage - cpu guest topology where number of cpus is equal to number of sockets
+
+or you can just simply adjust the amount of CPUs and RAM of our default template according to your needs.
+
+Additionally, if our templates will not fulfill your requirements then a KubeVirt cluster admin can create customized
+instance types and preferences that users can select later. [Read how to add new Instance Types and Preferences.](#how-can-i-add-a-new-virtual-machine-template)
+
+### Virtual Machine Scheduling
+
+KubeVirt can take advantage of Kubernetes inner features to provide an advanced scheduling mechanism to virtual machines (VMs):
+- [Kubernetes topology spread constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/)
+- [Kubernetes node affinity/anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+
+Since KubeVirt VMs are wrapped in pods, the Kubernetes scheduling rules applicable to pods are completely valid for KubeVirt VMs.  
+This allows you to restrict KubeVirt VMs ([see architecture](#architecture)) to run only on specific KubeVirt infra nodes.
 
 {{% notice note %}}
-Note that the VMs (and their workload) created from `MachineDeployments` with KKP 2.21 are not affected by the migration from KKP 2.21 to KKP 2.22 **if no update is done in the `MachineDeployment`**. You can safely perform the *MachineDeployment* manual migration after KKP upgrade from 2.21 to 2.22. `MachineDeployments` (and associated VM/VMIs) do not require any action before the migration from KKP 2.21 to KKP 2.22.
+Note that topology spread constraints and node affinity presets are applicable to KubeVirt infra nodes.
+{{% /notice %}}
+#### Default Scheduling Behavior
+
+Each Virtual Machine you create has default [topology spread constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) applied:
+
+```yaml
+maxSkew: 1
+topologyKey: kubernetes.io/hostname
+whenUnsatisfiable: ScheduleAnyway
+```
+
+this allows us to spread Virtual Machine equally across a cluster.
+
+#### Customize Scheduling Behavior
+
+It is possible to change the default behaviour and create your own topology combined with Node Affinity Presets.
+You can do it by expanding *ADVANCED SCHEDULING SETTINGS* on the initial nodes dashboard page.
+
+![Instance Types and Preferences](/img/kubermatic/main/architecture/supported-providers/kubevirt/scheduling-form.png?classes=shadow,border "Advanced Scheduling Settings")
+
+- `Node Affinity Preset Key` refers to the key of KubeVirt infra node labels.
+- `Node Affinity Preset Values` refers to the values of KubeVirt infra node labels.
+
+Node Affinity Preset type can be `hard` or `soft` and refers to the same notion of [Pod affinity/anti-affinity types](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#types-of-inter-pod-affinity-and-anti-affinity):
+- `hard`: the scheduler can't schedule the VM  unless the rule is met.
+- `soft`: the scheduler tries to find a node that meets the rule. If a matching node is not available, the scheduler still schedules the VM. 
+
+It gives you a possibility to create your own unique scheduling options that override ours.
+For instance, you could avoid creation of Virtual Machines on database nodes etc.
+
+{{% notice note %}}
+Note that you can specify a `Node Affinity Preset Key` and leave `Node Affinity Preset Values` empty to constrain the VM to run on KubeVirt infra nodes that have a specific label key (whatever the values are). 
+{{% /notice %}}
+
+## Frequently Asked Questions
+
+### How can I add a new Virtual Machine template?
+
+You can do it by simply creating a new `VirtualMachineClusterInstancetype` and `VirtualMachineClusterPreference` on the KubeVirt infrastructure cluster.
+Those resources are cluster scoped meaning all users will see them.
+
+Refer to the [InstanceTypes and Preferences](https://kubevirt.io/user-guide/virtual_machines/instancetypes/#virtualmachineinstancetype) guide for details on how to use it.
+
+### How can I safely drain a bare metal node?
+
+You can do it as with every standard k8s cluster, over `kubectl drain` command.
+
+We implemented a mechanism that will allow you to safely drain a bare-metal node without losing the VM workload.
+After running a drain command the VMs running on the node along with their workload will be evicted to different nodes.
+
+{{% notice note %}}
+More details on the eviction implementation can be found [here](https://github.com/kubermatic/kubermatic/blob/main/docs/proposals/kubevirt-workload-eviction.md).
 {{% /notice %}}
 
 {{% notice warning %}}
-However, if you already have KKP 2.21 installed and a KubeVirt cluster created with it, please be aware that there are some spec change for MachineDeployments that will require some manual update before any update to the *MachineDeployment* (including scaling it), please follow the below migration guide.
+Remember, the responsibility of making sure that the workload can be evicted lies on you.
+Invalid `PodDisruptionBudget` configuration may block the eviction.
 {{% /notice %}}
-
-
-
-### Features that need some manual migration of the `MachineDeployment`:
-
-List of deprecated/updated features that require some manual update in the `MachineDeployment`:
-
-
-| Topic                      | Deprecated /Upgraded                                          | In Favor of               | Mandatory/Optional migration |
-|----------------------------|------------------------------------------------------|---------------------------|-------|
-| Virtual Machine Scheduling | Deprecated: `Pod Affinity Preset` and `Pod Anti Affinity Preset` | `TopologySpreadConstraints` | **Optional**: only if your `MachineDeployment` did contain `podAffinityPreset` or `podAntiAffinityPreset` |
-| Virtual Machines Templating | Deprecated: `Flavor`            | `Instancetype` and `Preference`           | **Optional**: only if your `MachineDeployment` did contain `flavor` |
-| Upgrade of [KubeVirt CCM](https://github.com/kubevirt/cloud-provider-kubevirt) from v0.2.0 to v0.4.0 | Upgrade Kubevirt CCM version            | (needed for LoadBalancer services)        | **Mandatory**: all existing `MachineDeployment` must be updated |
 
 {{% notice warning %}}
-**Perform all the needed migration of your existing `MachineDeployment` following the below procedure according to each topic that needs migration.**
-Updating the `MachineDeployment` will create a new `VirtualMachine`  - Perform all the needed changes at once.
+Additionally consider [skipEvictionAfter](https://github.com/kubermatic/machine-controller/blob/main/cmd/machine-controller/main.go#L125-L126)
+parameter of Machine Controller that sets the timeout for workload eviction.
+**Once exceeded, the VMs will simply be deleted.**
 {{% /notice %}}
 
+### I discovered a DNS collision on my cluster. Why does it happen?
 
+Usually it happens when both infrastructure and user clusters points to the same address of NodeLocal DNS Cache servers, even if they have separate server instances running.
 
-{{< tabs name="Migration of existing `MachineDeployment" >}}
-{{% tab name="Upgrade of KubeVirt CCM" %}}
-With KKP 2.22 KubeVirt CCM is upgraded from v0.2.0 to v0.4.0. From v0.3.0 on it requires new labels on VMs to correctly route the traffic to services.
+Let us imagine that:
+* On the infrastructure cluster there is a running NodeLocal DNS Cache under 169.254.20.10 address.
+* Then we create a new user cluster, start a few Virtual Machines that finally gives a fully functional k8s cluster that runs on another k8s cluster.
+* Next we observe that on the user cluster there is another NodeLocal DNS Cache that has the same 169.254.20.10 address.
+* Since Virtual Machine can have access to subnets on the infra and user clusters (depends on your network policy rules) having the same address of DNS cache leads to conflict.
 
-Newly created VMs will have these labels automatically but for existing VMs and VMIs there is manual action required on your KubeVirt cluster.
+One way to prevent that situation is to set a `dnsPolicy` and `dnsConfig` rules that Virtual Machines do not copy DNS configuration from their pods and points to different addresses.
 
-Just set:
+Follow [Configure KKP With KubeVirt](#configure-kkp-with-kubevirt) to learn how set DNS config correctly.
 
-**MachineDeployment.spec.template.spec.providerSpec.value.cloudProviderSpec.clusterName to your cluster ID.**
+### I created a load balancer service on a user cluster but services outside cannot reach it.
 
-How to get **cluster-id** is explained before in this page.  
+In most cases it is due to `cluster-isolation` network policy that is deployed as default on each user cluster.
+It only allows in-cluster communication. You should adjust network rules to your needs by adding [customNetworkPolicies configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})).
 
-```yaml
-apiVersion: "cluster.k8s.io/v1alpha1"
-kind: MachineDeployment
-metadata:
-  name: my-kubevirt-machine
-spec:
-  // ....
-  template:
-    metadata:
-      labels:
-        name: foo
-    spec:
-      providerSpec:
-          // ...
-          cloudProvider: "kubevirt"
-          cloudProviderSpec:
-            clusterName: <cluster-id> ### ADD THIS FIELD
-```
-
-{{% /tab %}}
-{{% tab name="Scheduling" %}}
-
-If you had `MachineDeployment.spec.template.spec.providerSpec.value.cloudProviderSpec.affinity.podAffinityPreset` or `MachineDeployment.spec.template.spec.providerSpec.value.cloudProviderSpec.affinity.podAntiAffinityPreset` in your specification, replace it with `TopologySpreadConstraints`.
+For instance, if you need to allow all ingress traffic from `10.200.10.0/24` CIDR to each user cluster then you would have to set:
 
 ```yaml
-apiVersion: "cluster.k8s.io/v1alpha1"
-kind: MachineDeployment
-//...
-spec:
-  //...
-  template:
-    metadata:
-      labels:
-        name: my-kubevirt-machine
+customNetworkPolicies:
+  - name: allow-external-traffic
     spec:
-      providerSpec:
-        value:
-          cloudProvider: "kubevirt"
-          cloudProviderSpec:
-            virtualMachine:
-              //....
-            affinity:
-              # Deprecated: Use topologySpreadConstraints instead.
-              podAffinityPreset: "" # Allowed values: "", "soft", "hard"
-              # Deprecated: Use topologySpreadConstraints instead.
-              podAntiAffinityPreset: "" # Allowed values: "", "soft", "hard"
+      policyTypes:
+        - Ingress
+      ingress:
+        - from:
+          - ipBlock:
+            cidr: 10.200.10.0/24
 ```
-Refer to the **Virtual Machines Scheduling** section for details.
 
-{{% /tab %}}
-{{% tab name="Templating" %}}
+## Known Issues
 
-If you had `MachineDeployment.spec.template.spec.providerSpec.value.cloudProviderSpec.virtualMachine.flavor`in your specification, replace it with `instancetype`/`preference`.
+### Support of Block Volume Mode
 
-```yaml
-apiVersion: "cluster.k8s.io/v1alpha1"
-kind: MachineDeployment
-//...
-spec:
-  //...
-  template:
-    metadata:
-      labels:
-        name: my-kubevirt-machine
-    spec:
-      providerSpec:
-        value:
-          cloudProvider: "kubevirt"
-          cloudProviderSpec:
-            virtualMachine:
-              //....
-              # Deprecated: Use instancetype/preference instead
-              flavor:
-                name: "<< VirtualMachineInstancePresets_NAME >>"
+Currently, the KubeVirt CSI driver does not support volumes with block mode therefore you should avoid using this option to mount a PVC to a user cluster.
+
+### Topology Constrained Storage
+
+Due to [the issue](https://github.com/kubevirt/csi-driver/issues/66), it is not recommended to use local or any storage that is constrained by some topology.
+You can find more details in the linked issue.
+
+## Migration from KKP 2.21
+
+Kubermatic Virtualization graduates to GA from KKP 2.22!
+On the way, we have changed many things that improved our implementation of KubeVirt Cloud Provider.
+
+Just to highlight the most important:
+* Safe Virtual Machine workload eviction has been implemented.
+* Virtual Machine templating is based on InstanceTypes and Preferences.
+* KubeVirt CSI controller has been moved to control plane of a user cluster.
+* Users can influence scheduling of VMs over topology spread constraints and node affinity presets.
+* KubeVirt Cloud Controller Manager has been improved and optimized.
+* Cluster admin can define the list of supported OS images and initialized storage classes.
+
+Additionally, we removed some features that didn't leave technology preview stage, those are:
+* Custom Local Disks
+* Secondary Disks
+
+{{% notice warning %}}
+The official upgrade procedure will not break clusters that already exist, however, **scaling cluster nodes will not lead to expected results**.
+We require to update Machine Deployment objects and rotate machines right after the upgrade.
+{{% /notice %}}
+
+### Required Migration Steps
+
+Here we are going to cover manual steps that are required for smooth transition from technology preview to GA.
+
+#### Upgrade of KubeVirt Infrastructure Cluster
+
+{{% notice warning %}}
+Updating of Kubernetes, KubeVirt and Containerized Data Imported should be done from N-1 to N release.
+{{% /notice %}}
+
+The k8s cluster and KubeVirt components must be in [scope of our supported versions](#requirements).
+You can update k8s version by following [the official guide](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/).
+Or if you provisioned the cluster over KubeOne please follow [the update procedure](/kubeone/v1.5/tutorials/upgrading-clusters/).
+
+Next you can update KubeVirt control plane and Containerized Data Importer by executing:
+
+```shell
+export RELEASE=<SUPPORTED_RELEASE>
+kubectl apply -f https://github.com/kubevirt/kubevirt/releases/download/${RELEASE}/kubevirt-operator.yaml
 ```
-Refer to the **Virtual Machines Templates** section for details.
 
-{{% /tab %}}
-{{< /tabs >}}
+```shell
+export RELEASE=<SUPPORTED_RELEASE>
+kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/${RELEASE}/cdi-operator.yaml
+```
+
+{{% notice note %}}
+Refer to [the KubeVirt control update documentation](https://kubevirt.io/user-guide/operations/updating_and_deletion/#updating-kubevirt-control-plane)
+for further details about the update.
+{{% /notice %}}
+
+{{% notice warning %}}
+It is highly recommended to first test the upgrade on a staging environment.
+It can happen that hosts where KubeVirt runs might need reconfiguration or packages update.
+{{% /notice %}}
+
+#### Update Machine Deployment
+
+{{% notice warning %}}
+If user clusters have working Load Balancers those can be unreachable after Machine Deployment rotation due to LB selector key change.
+After this step, it is required to follow the [Update LoadBalancer selectors](#update-loadbalancer-selectors) guide to fix it.
+{{% /notice %}}
+
+Right after the upgrade it is required to update Machine Deployment object (this will trigger Machines rotation).
+You can do it from the KKP Dashboard which is recommended approach as you will be guided with the possible options.
+
+![Machine Deployment Edit](/img/kubermatic/main/architecture/supported-providers/kubevirt/mc-edit.png?classes=shadow,border "Machine Deployment Edit")
+
+The alternative is to directly change Machine Deployment objects over `kubectl apply`.
+Take a look into [the example](https://github.com/kubermatic/machine-controller/blob/v1.56.0/examples/kubevirt-machinedeployment.yaml) to see what has been changed.
+
+#### Update LoadBalancer Selectors
+
+{{% notice note %}}
+This step is only required if Load Balancers on user clusters have been created, and the previous [Update Machine Deployment](#update-machine-deployment) guide has been accomplished.
+{{% /notice %}}
+
+From v0.3.0 KubeVirt Cloud Controller Manager changed Load Balancer selector. You have to edit Load Balancer(s) in
+user cluster namespace on KubeVirt infrastructure and change its selector from
+`cloud.kubevirt.io/<id>: <val>`
+to
+`cluster.x-k8s.io/cluster-name: <cluster-id>`.
+
+For instance the selector of LB that exists in KubeVirt infrastructure cluster in the `cluster-xyz` namespace,
+would have to be replaced to
+`cluster.x-k8s.io/cluster-name: xyz`

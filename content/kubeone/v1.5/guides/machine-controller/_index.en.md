@@ -1,7 +1,6 @@
 +++
 title = "Using machine-controller"
 date = 2020-04-01T12:00:00+02:00
-enableToc = true
 +++
 
 [Kubermatic machine-controller][machine-controller] is an open-source

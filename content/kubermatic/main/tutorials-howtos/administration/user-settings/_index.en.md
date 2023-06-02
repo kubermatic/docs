@@ -7,13 +7,13 @@ weight = 10
 
 This manual explains how to manage KKP user settings via the UI.
 
-### Accessing the User Settings
+## Accessing User Settings
 
 To access the user settings click the `User Settings` entry in the user menu:
 
 ![User Menu](/img/kubermatic/main/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the User Settings")
 
-### User Settings Overview
+## User Settings Overview
 
 ![User Settings](/img/kubermatic/main/ui/user_settings.png?classes=shadow,border "User Settings")
 

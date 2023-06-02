@@ -3,7 +3,6 @@ linkTitle = "Admin Guide"
 title = "Admin Guide of the User Cluster MLA Stack"
 date = 2020-02-14T12:07:15+02:00
 weight = 10
-enableToc = true
 +++
 
 This page contains an administrator guide for the [User Cluster MLA Stack]({{< relref "../../../../architecture/monitoring-logging-alerting/user-cluster/" >}}).
@@ -28,7 +27,7 @@ Apart from that,  it will claim the following storage from the `kubermatic-fast`
 - 10 Gi volume for Loki Querier
 - 4 x 2 Gi volume for other internal processing services (compactors, store gateways of Cortex and Loki)
 
-### Capacity planning
+### Capacity Planning
 
 {{% notice note %}}
 The most important part of resources consumption of the MLA stack belongs to the storage and computing power used by Cortex and it's components.

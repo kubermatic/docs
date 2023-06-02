@@ -1,7 +1,6 @@
 +++
 title = "Configuring Operating System Manager"
 date = 2022-08-20T12:00:00+02:00
-enableToc = true
 +++
 
 ## Configuring Operating System Manager
@@ -34,6 +33,7 @@ OSM can be configured using the following command line flags:
 | `override-bootstrap-kubelet-apiserver` | string | false | `""` | Override for the API server address used in worker nodes bootstrap-kubelet.conf. |
 | `bootstrap-token-service-account-name` | string | false | `""` | When set use the service account token from this SA as bootstrap token instead of creating a temporary one. Passed in `namespace/name` format. |
 | `worker-count` | int | false | `10` | Number of workers which process reconciliation in parallel. |
+| `ca-bundle` | string | false | `""` | Path to a file containing all PEM-encoded CA certificates. Will be used for Kubernetes CA certificates. |
 
 ## Configuring Operating System Profile
 

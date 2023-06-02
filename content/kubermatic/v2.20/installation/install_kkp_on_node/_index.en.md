@@ -3,7 +3,6 @@ linkTitle = "Install KKP - Quick Guide"
 title = "Get started with KKP - “KKP on a single node with Kubeone on AWS”"
 date = 2022-02-07T12:07:15+02:00
 weight = 10
-enableToc = true
 +++
 
 ## Use Cases

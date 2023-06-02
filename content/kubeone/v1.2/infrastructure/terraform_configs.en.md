@@ -2,7 +2,6 @@
 title = "Creating Infrastructure Using Example Terraform Configs"
 date = 2020-04-01T12:00:00+02:00
 weight = 2
-enableToc = true
 +++
 
 KubeOne comes with example Terraform configs that can be used to create the

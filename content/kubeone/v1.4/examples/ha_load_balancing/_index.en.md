@@ -2,7 +2,6 @@
 title = "Load Balancing in Highly-Available Clusters"
 date = 2021-02-10T12:00:00+02:00
 weight = 1
-enableToc = true
 +++
 
 For providers that doesn't support LoadBalancer as a Service functionality we

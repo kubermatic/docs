@@ -2,7 +2,6 @@
 title = "Control Plane Expose Strategy"
 date = 2020-02-14T12:07:15+02:00
 weight = 70
-enableToc = true
 +++
 
 ## Expose Strategies
@@ -21,6 +20,9 @@ NodePort is the default expose strategy in KKP. With this strategy a k8s service
 exposed component (e.g. Kubernetes API Server) of each user cluster. This implies, that each apiserver will be
 exposed on a randomly assigned TCP port from the nodePort range configured for the seed cluster.
 
+![KKP NodePort](/img/kubermatic/main/concepts/architecture/expose-np.png?classes=shadow,border)
+
+
 Each cluster normally consumes 2 NodePorts (one for the apiserver + one for the worker-nodes to control-plane "tunnel"),
 which limits the number of total clusters per Seed based on the NodePort range configured in the Seed cluster.
 
@@ -36,12 +38,18 @@ In the LoadBalancer expose strategy, a dedicated service of type LoadBalancer wi
 This strategy requires services of type LoadBalancer to be available on the Seed cluster and usually results into higher cost of cloud resources.
 However, this expose strategy supports more user clusters per Seed, and provides better ingress traffic isolation per user cluster.
 
+![KKP LoadBalancer](/img/kubermatic/main/concepts/architecture/expose-lb.png?classes=shadow,border)
+
+
 The port number on which the apiserver is exposed via the LoadBalancer service is still randomly allocated from the
 NodePort range configured in the Seed cluster.
 
-### Tunneling (Alpha)
+### Tunneling
 The Tunneling expose strategy addresses both the scaling issues of the NodePort strategy and cost issues of the LoadBalancer strategy.
 With this strategy, the traffic is routed to the based on a combination of SNI and HTTP/2 tunnels by the nodeport-proxy.
+
+![KKP Tunneling](/img/kubermatic/main/concepts/architecture/expose-tunnel.png?classes=shadow,border)
+
 
 Another benefit of this expose strategy is that control plane components of each user cluster are always exposed
 on fixed port numbers: `6443` for the apiserver and `8088` for the worker-nodes to control-plane "tunnel".
@@ -49,16 +57,14 @@ This allows for more strict firewall configuration than exposing the whole nodeP
 Note that only the port `6443` needs to be allowed for external apiserver access, the port `8088` needs to be allowed
 only between the worker-nodes network and the seed cluster network.
 
-This expose strategy is still in alpha stage and to use it,
-it first needs to be enabled [via a feature gate](#enabling-the-tunneling-expose-strategy-alpha).
+The following limitations apply to the Tunneling expose strategy:
 
-The current limitations of this strategy are:
-
-* Not supported yet in set-ups where the worker nodes should pass from a
+* It is not supported in set-ups where the worker nodes should pass from a
   corporate proxy (HTTPS proxy) to reach the control plane.
 * An agent is deployed on each worker node to provide access to the apiserver from
   within the cluster via the `kubernetes` service. The agent binds the IP used as the
-  `kubernetes` service endpoint. The default value of tunneling agent IP is `100.64.30.10`. This is a configurable field in the cluster API (`spec.clusterNetwork.tunnelingAgentIP`). Please make sure that this IP cannot collide with anything else running in the datacenter.
+  `kubernetes` service endpoint. This address can not collide with any other address in the cluster / datacenter.
+  The default value of tunneling agent IP is `100.64.30.10`. The default value can be changed via the cluster API (`spec.clusterNetwork.tunnelingAgentIP`).
 
 ## Configuring the Expose Strategy
 The expose strategy can be configured at 3 levels:
@@ -140,25 +146,6 @@ spec:
     disable: true
 ```
 
-### Enabling the Tunneling Expose Strategy (Alpha)
-
-This strategy is available as a tech preview and is still in alpha stage.
-
-In order to enable this strategy the `TunnelingExposeStrategy` feature gate
-should be enabled:
-
-```yaml
-apiVersion: kubermatic.k8c.io/v1
-kind: KubermaticConfiguration
-metadata:
-  name: kubermatic
-  namespace: kubermatic
-spec:
-  exposeStrategy: Tunneling
-  featureGates:
-    TunnelingExposeStrategy: true
-```
-
 ## Migrating the Expose Strategy for Existing Clusters
 The expose strategy of a user cluster normally cannot be changed after the cluster creation.
 However, for experienced KKP administrators, it is still possible to migrate a user cluster from one expose strategy to another using some manual steps.
@@ -178,6 +165,11 @@ By putting this label on your cluster you acknowledge that this type of upgrade 
 
 {{% /notice %}}
 
+It is recommended to suspend/terminate all workloads (e.g. by draining all active nodes via `kubectl drain`) as all nodes will
+lose connectivity to the cluster control plane upon updating the expose strategy. Therefore, updating the expose strategy
+in the next step will stop the ability to coordinate and properly terminate workloads on existing nodes. A planned shutdown
+might be desired to prevent potential data loss in your application stack.
+
 #### Step 2:
 At this point, you are able to change the expose strategy of the cluster in the Cluster API.
 Change the Cluster `spec.exposeStrategy` to the desired version:
@@ -185,6 +177,10 @@ Change the Cluster `spec.exposeStrategy` to the desired version:
 - either using KKP API endpoint `/api/v2/projects/{project_id}/clusters/{cluster_id}`,
 
 - or by editing the cluster CR in the Seed Cluster (`kubectl edit cluster <cluster-name>`).
+
+{{% notice info %}}
+When migrating from the Tunneling expose strategy (to any other), it is also necessary to delete the `clusterNetwork.tunnelingAgentIP` in the cluster spec.
+{{% /notice %}}
 
 Now wait until control-plane components in the seed cluster redeploy.
 
@@ -203,3 +199,6 @@ for md in $(kubectl get machinedeployments -n kube-system --no-headers | awk '{p
   kubectl patch machinedeployment -n kube-system $md --type=merge -p $forceRestartAnnotations
 done
 ```
+
+Afterwards, all `Node` objects that show up as `NotReady` should be deleted. No quick shell script is provided because
+nodes might still be joining the cluster and temporarily show up as `NotReady`. Those should of course not be deleted.

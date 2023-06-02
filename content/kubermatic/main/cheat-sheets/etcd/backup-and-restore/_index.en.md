@@ -18,7 +18,7 @@ The new controllers manage backup, restore and cleanup operations using [Kuberne
 
 Currently, only S3 compatible backup backends are supported.
 
-## Enabling The New controllers
+## Enabling the new Controllers
 
 To use the new backup/restore controller, the [etcd-launcher]({{< ref "../etcd-launcher" >}}) feature must be enabled along with specifically enabling the controllers by passing the flag `--enable-etcd-backups-restores` to the seed controller manager.
 This can be achieved for a Seed by KPP admins through configuring backup destinations for a Seed. As soon as there is at least one backup destination set, the feature is enabled.
@@ -30,9 +30,9 @@ The legacy way of enabling the automatic etcd backups through the KubermaticConf
 
 ### Backup and Delete Containers
 
-The new backup controller uses 2 default jobs to for storing backups and deleting them. If needed, it is possible to configure custom jobs in the [KubermaticConfiguration](https://docs.kubermatic.com/kubermatic/main/references/crds/#kubermaticseedcontrollerconfiguration).
+The new backup controller uses 2 default jobs to for storing backups and deleting them. If needed, it is possible to configure custom jobs in the [KubermaticConfiguration](({{ ref "../../../references/crds#kubermaticseedcontrollerconfiguration" }})).
 
-#### Store job container(backupStoreContainer)
+#### Store Job Container (backupStoreContainer)
 
 ```yaml
 name: store-container
@@ -54,7 +54,7 @@ volumeMounts:
   mountPath: /backup
 ```
 
-#### Delete job container(backupDeleteContainer)
+#### Delete Job Container (backupDeleteContainer)
 
 ```yaml
 name: delete-container

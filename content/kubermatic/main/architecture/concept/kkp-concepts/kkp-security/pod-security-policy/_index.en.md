@@ -11,9 +11,9 @@ This is also true for existing clusters. Without an authorizing policy, the cont
 
 PSP objects are cluster-level objects. They define a set of conditions that a pod must pass to be accepted by the PSP admission controller. The most common way to apply this is using RBAC. For a pod to use a specific Pod Security Policy, the pod should run using a Service Account or a User that has `use` permission to that particular Pod Security policy.
 
-## Note on PodSecurityPolicy deprecation
+## Note on PodSecurityPolicy Deprecation
 
-Please note that PodSecurityPolicy [Pod Security Policy deprecation](https://kubernetes.io/docs/concepts/security/pod-security-policy/) was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. As such, future KKP releases will not support the PodSecurityPolicy feature on Kubernetes 1.25 or higher.
+Please note that PodSecurityPolicy [Pod Security Policy deprecation](https://kubernetes.io/docs/concepts/security/pod-security-policy/) was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. As such, KKP does not support the PodSecurityPolicy feature on Kubernetes 1.25 or higher.
 
 We suggest to move to [Open Policy Agent (OPA)]({{< relref "../../../../../tutorials-howtos/opa-integration/">}}) as a replacement.
 

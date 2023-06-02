@@ -2,7 +2,6 @@
 title = "Compatibility"
 date = 2021-02-10T12:00:00+02:00
 weight = 4
-enableToc = true
 +++
 
 This document shows what are compatible Kubernetes, Terraform, and operating
@@ -16,7 +15,7 @@ the current KubeOne version. The additional features include the KubeOne
 Terraform integration and the integration with Kubermatic machine-controller.
 
 KubeOne supports AWS, Azure, DigitalOcean, GCP, Hetzner Cloud, Nutanix\*,
-OpenStack, Packet, and VMware vSphere.
+OpenStack, Equinix Metal, and VMware vSphere.
 
 \* Nutanix is supported as of KubeOne 1.4.0.
 

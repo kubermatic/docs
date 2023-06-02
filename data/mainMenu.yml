@@ -377,8 +377,6 @@ items:
             url: /resources/
           - title: Events
             url: /events/
-          - title: Documentation
-            url: https://docs.kubermatic.com
           - footer: false
             title: Topics
             url: /topics/

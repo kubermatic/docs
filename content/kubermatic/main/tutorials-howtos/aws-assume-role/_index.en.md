@@ -9,7 +9,7 @@ AWS provides a feature called [AssumeRole][aws-docs-assume-role] to retrieve tem
 The IAM roles can belong to someone elses AWS account, allowing you to act on their behalf.
 Using KKP you are able to use the `AssumeRole` feature to easily deploy user clusters to AWS accounts that you normally do not have access to.
 
-## How it works
+## How it Works
 
 ![Running user clusters using an assumed IAM role](/img/kubermatic/main/tutorials/aws_assume_role_sequence_diagram.png?width=1000&classes=shadow,border "Running user clusters using an assumed IAM role")
 

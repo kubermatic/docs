@@ -25,24 +25,29 @@ The newly created cluster template is visible in `Cluster Templates` menu:
 
 You can also create a cluster template in this view. You will be redirected to the cluster creation wizard.
 
-## Create Cluster from the Template
+## Using Cluster Templates
 
-On the right side, you can find two action buttons:
- - Create Cluster from Template
- - Delete Cluster Template
+On the right side, you can find the action buttons:
 
-![Create from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/actions.png?classes=shadow,border "Action buttons")
+- Edit Cluster Template
+- Create Clusters from Template
+- Delete Cluster Template
 
-### Create Cluster from Template
-During the cluster creation process, the end user can pick the desired template and specify number of cluster instances.
-The cluster template doesn't create any link to the clusters. They work independently.
+## Create Clusters from Template
+
+User can pick the desired template and specify number of cluster instances. The cluster template doesn't create any link to the clusters. They work independently.
 
 ![Create from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/create_cluster.png?classes=shadow,border "Create Clusters from Template")
 
-### Delete Cluster Template
+## Edit Cluster Template
+
+From cluster template list, users can select to edit the cluster template, the wizard will walk you through each step from the cluster template creation wizard.
+![Edit cluster template](/img/kubermatic/main/tutorials/cluster_template/edit_cluster_template.png?classes=shadow,border "Edit Cluster Template")
+
+Finally, user can choose to either update the existing cluster template or create a new cluster template that contains all the modifications.
+
+![Create from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/edit_cluster_template_summary.png?classes=shadow,border "Save Cluster Template")
+
+## Delete Cluster Template
 
 ![Delete from cluster template wizard](/img/kubermatic/main/tutorials/cluster_template/delete_template.png?classes=shadow,border "Delete Cluster Template")
-
-You can also use `Create Clusters from Template` option in the `Clusters` menu.
-
-![Create from cluster wizard](/img/kubermatic/main/tutorials/cluster_template/create_from_clusters.png?classes=shadow,border "Create Clusters")

@@ -13,6 +13,6 @@ minor version, and z is the patch version.
 
 KubeOne follows the Kubernetes release model and cycle, though for practical reasons
 releases are a bit delayed to ensure compatibility with Kubernetes. In general,
-the latest two minor versions of KubeOne are supported, n and n-1, i.e. the current 1.4 and 1.3.
+the latest two minor versions of KubeOne are supported, n and n-1, i.e. the current 1.5 and 1.4.
 With the release of a new minor KubeOne version, support for the oldest supported
 KubeOne version is dropped.

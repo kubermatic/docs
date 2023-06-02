@@ -29,7 +29,7 @@ To delete a project, move the cursor over the line with the project name and cli
 ![Delete Project](/img/kubermatic/main/tutorials/project_delete.png?classes=shadow,border "Delete Project")
 
 
-### Add an SSH key
+### Add an SSH Key
 
 If you want to ssh into the project VMs, you need to provide your SSH public key. SSH keys are tied to a project. During cluster creation you can choose which SSH keys should be added to nodes. To add an SSH key, navigate to `SSH Keys` in the Dashboard and click on `Add SSH Key`:
 
@@ -42,9 +42,9 @@ This will create a pop up. Enter a unique name and paste the complete content of
 After you click on `Add SSH key`, your key will be created and you can now add it to clusters in the same project.
 
 
-## Manage clusters
+## Manage Clusters
 
-### Create cluster
+### Create Cluster
 
 To create a new cluster, open the Kubermatic Kubernetes Platform (KKP) dashboard, choose a project, select the menu entry `Clusters` and click the button `Create Cluster` on the top right.
 
@@ -69,23 +69,28 @@ Disabling the User SSH Key Agent at this point can not be reverted after the clu
 ![General Cluster Settings](/img/kubermatic/main/tutorials/wizard_step_2.png?classes=shadow,border "General Cluster Settings")
 
 
-In the next step of the installer, enter the credentials for the chosen provider. A good option is to use Kubermatic Presets here, which is `loodse` in this case, instead putting in credentials for every cluster creation:
+In the next step of the installer, enter the credentials for the chosen provider. A good option is to use [Presets]({{< ref "../administration/presets/" >}}) instead putting in credentials for every cluster creation:
 
 ![Provider Credentials](/img/kubermatic/main/tutorials/wizard_step_3.png?classes=shadow,border "Provider Credentials")
 
 In the Initial nodes section of the wizard you can setup the size, settings and amount of nodes your cluster will start with. Also you can assign labels to your nodes. You can also set [node taints](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) which is a property that allows your node to repel certain pods.
 
 ![Node Settings](/img/kubermatic/main/tutorials/wizard_step_4.png?classes=shadow,border "Node Settings")
+![Node Settings](/img/kubermatic/main/tutorials/wizard_step_4.1.png?classes=shadow,border "Node Settings")
+
+In the cluster creation wizard, you can select applications to install into your cluster. KKP will automatically install your selection after the infrastructure is provisioned and the cluster is ready. Learn more about [Adding Applications to a cluster via wizard]({{< ref "../applications/add-applications-to-cluster/" >}}).
+
+![Add Applications to a cluster Settings](/img/kubermatic/main/tutorials/wizard_step_5.png?classes=shadow,border "Add Applications")
 
 Lastly, a cluster summary screen will be presented so that you can check out if everything looks ok.
 
-![Cluster Details as a Summary](/img/kubermatic/main/tutorials/wizard_step_5.png?classes=shadow,border "Cluster Details as a Summary")
+![Cluster Details as a Summary](/img/kubermatic/main/tutorials/wizard_step_6.png?classes=shadow,border "Cluster Details as a Summary")
 
 You will then be forwarded to the cluster page where you can view the cluster creation process:
 
 ![Cluster Details in Creation State](/img/kubermatic/main/tutorials/cluster_details_after_creation.png?classes=shadow,border "Cluster Details in Creation State")
 
-After all of the master components are ready, your cluster will create the configured number of worker nodes. Fully created nodes will be marked with a green dot, pending ones with a yellow circle. Clicking on the download icon lets you download the kubeconfig to be able to use `kubectl` with your cluster.
+After all of the control plane components are ready, your cluster will create the configured number of worker nodes. Fully created nodes will be marked with a green dot, pending ones with a yellow circle. Clicking on the download icon lets you download the kubeconfig to be able to use `kubectl` with your cluster.
 
 ![Cluster Created](/img/kubermatic/main/tutorials/cluster_details_overview.png?classes=shadow,border "Cluster Created")
 

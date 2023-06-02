@@ -10,6 +10,8 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 /kubermatic/master/cheat_sheets/alerting_runbook/* /kubermatic/main/cheat-sheets/alerting-runbook/:splat 301!
 /kubermatic/master/tutorials_howtos/oidc_provider_configuration/share-_clusters_via_delegated_oidc_authentication /kubermatic/main/tutorials-howtos/oidc-provider-configuration/share-clusters-via-delegated-oidc-authentication/ 301!
 /kubermatic/master/installation/start_kkp /kubermatic/main/installation/start-kkp/ 301!
+/kubermatic/main/tutorials-howtos/upgrading/* /kubermatic/main/installation/upgrading/:splat 301!
+/kubermatic/v2.22/tutorials-howtos/upgrading/* /kubermatic/v2.22/installation/upgrading/:splat 301!
 
 /kubeone/master/getting_kubeone /kubeone/main/getting-kubeone/ 301!
 /kubeone/master/architecture/requirements/machine_controller/azure /kubeone/main/architecture/requirements/machine-controller/azure/ 301!

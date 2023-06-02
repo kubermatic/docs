@@ -7,7 +7,7 @@ weight = 11
 
 This manual explains how Kubermatic integrates with OPA and how to use it.
 
-### OPA
+## OPA
 
 [OPA](https://www.openpolicyagent.org/) (Open Policy Agent) is an open-source, general-purpose policy engine that unifies
  policy enforcement across the stack.
@@ -18,7 +18,7 @@ More info about OPA and Gatekeeper can be read from their docs and tutorials, bu
 Constraint Template CRD the users can create rule templates whose parameters are then filled out by the corresponding Constraints.
 
 
-### How to activate OPA Integration on your cluster
+## How to activate OPA Integration on your Cluster
 
 The integration is specific per user cluster, meaning that it is activated by a flag in the cluster spec.
 
@@ -38,7 +38,7 @@ spec:
 By setting this flag to true, Kubermatic automatically deploys the needed Gatekeeper components to the control plane
 as well as the user cluster.
 
-### Managing Constraint Templates
+## Managing Constraint Templates
 
 Constraint Templates are managed by the Kubermatic platform admins. Kubermatic introduces a Kubermatic Constraint Template wrapper CRD through which the users can interact with the OPA CT's. The Kubermatic master clusters contain the
 Kubermatic CT's which designated controllers to reconcile to the seed and to user cluster with activated OPA integration as Gatekeeper CT's.
@@ -77,11 +77,11 @@ spec:
 
 Kubermatic Constraint Template corresponds 1:1 to the Gatekeeper Constraint Template.
 
-#### Deleting Constraint Templates
+### Deleting Constraint Templates
 
 Deleting Constraint Templates causes all related Constraints to be deleted as well.
 
-### Managing Constraints
+## Managing Constraints
 
 Constraints are managed similarly to Constraint Templates through Kubermatic CRD wrappers around the Gatekeeper Constraints,
 the difference being that Constraints are managed on the user cluster level. Furthermore, due to the way Gatekeeper works,
@@ -111,6 +111,7 @@ metadata:
   namespace: cluster-l78dsl4l8x
 spec:
   constraintType: K8sRequiredLabels
+  enforcementAction: "deny"
   match:
     kinds:
       - apiGroups: [""]
@@ -120,10 +121,11 @@ spec:
 ```
 
 - `constraintType` - must be equal to the name of an existing Constraint Template
+- `enforcementAction` - (optional) defines the action to take in response to a constraint being violated. By default, EnforcementAction is set to deny as the default behavior is to deny admission requests with any violation. Works the same as [Gatekeeper enforcementAction](https://open-policy-agent.github.io/gatekeeper/website/docs/violations/)
 - `match` - works the same as [Gatekeeper Constraint matching](https://github.com/open-policy-agent/gatekeeper#constraints)
 - `parameters` - holds the parameters that are used in Constraints. As in Gatekeeper, this can be basically anything that fits the related Constraint Template.
 
-### Default Constraints
+## Default Constraints
 
 Default Constraints allow admins to conveniently apply policies to all OPA enabled clusters.
 This would allow admins an easier way to make sure all user clusters are following some policies (for example security), instead of the current way in which Constraints need to be created for each cluster separately.
@@ -219,9 +221,10 @@ spec:
   parameters:
     labels: ["gatekeeper"]
 ```
-### Disabling Constraint
 
-The constraint can be Disabled/Turned off by setting the `disabled` flag to true in the constraint spec.
+### Disabling Default Constraint
+
+A constraint can be disabled/turned off by setting the `disabled` flag to true in the constraint spec.
 
 To Enable Default Constraints again, you can just remove the `disabled` flag or set it to `false`.
 
@@ -247,8 +250,6 @@ spec:
   parameters:
     labels: ["gatekeeper"]
 ```
-
-#### Disabling Default Constraint
 
 By setting `disabled` flag to true, Kubermatic deletes the constraint from all User clusters.
 
@@ -296,7 +297,7 @@ Deleting Default Constraint causes all related Constraints on the user clusters 
 
 Note: Cluster Admins will not be able to edit/delete Default Constraints
 
-### AllowedRegistry
+## AllowedRegistry
 
 AllowedRegistry allows admins to easily control what image registries can be used in user clusters. This is the first KKP
 inbuilt Constraint and its goal is to make creating Constraint Templates and Default Constraints simpler.
@@ -406,14 +407,14 @@ AllowedRegistries are just a way to make admins life easier.
 When there are no AllowedRegistries, we automatically disable the Default Constraint.
 {{% /notice %}}
 
-### Managing Config
+## Managing Gatekeeper Configuration
 
 Gatekeeper [Config](https://github.com/open-policy-agent/gatekeeper#replicating-data) can also be managed through Kubermatic.
 As Gatekeeper treats it as a kind of singleton CRD resource, Kubermatic just manages this resource directly on the user cluster.
 
 You can manage the config in the user cluster view, per user cluster.
 
-### Removing OPA Integration
+## Removing OPA Integration
 
 OPA integration on a user cluster can simply be removed by disabling the OPA Integration flag on the Cluster object.
 Be advised that this action removes all Constraint Templates, Constraints, and Config related to the cluster.

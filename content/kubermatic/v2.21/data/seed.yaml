@@ -235,6 +235,10 @@ spec:
           datastore: ""
           # Endpoint URL to use, including protocol, for example "https://vcenter.example.com".
           endpoint: ""
+          # Optional: DefaultTagCategoryID is the tag category id that will be used as default,
+          # if users don't specify it on a cluster level, and they don't wish KKP to create default
+          # generated tag category, upon cluster creation.
+          defaultTagCategoryID: ""
           # Optional: Infra management user is the user that will be used for everything
           # except the cloud provider functionality, which will still use the credentials
           # passed in via the Kubermatic dashboard/API.

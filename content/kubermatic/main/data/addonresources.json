@@ -21,17 +21,6 @@
       ]
     },
     {
-      "addonName": "heapster",
-      "resources": [
-        {
-          "kind": "Deployment",
-          "resourceName": "heapster-v1.5.0",
-          "filename": "heapster-controller.yaml",
-          "containers": []
-        }
-      ]
-    },
-    {
       "addonName": "kube-proxy",
       "resources": [
         {

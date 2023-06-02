@@ -14,3 +14,8 @@ Let’s start simple! In the following step-by-step instructions, you’ll learn
 And now let’s dive a little deeper. In our How-To sections, you’ll find helpful information which is necessary for the operation part: How to scale or upgrade the control plane during runtime, how to customize monitoring, logging & alerting or how to set up the monitoring stack.
 
 Our tutorials include surface-level explanations and link to related concept topics for deep explanations.
+
+## Pages
+
+{{% children depth=5 %}}
+{{% /children %}}

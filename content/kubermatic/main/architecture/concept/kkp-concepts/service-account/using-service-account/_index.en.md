@@ -36,7 +36,7 @@ You can also change a token name. It is possible to delete a service account tok
 
 You can see when a token was created and when will expire.
 
-## Using service accounts with KKP
+## Using Service Accounts with KKP
 You can control service account access in your project by provided groups.
 There are three basic access level groups:
  - viewers
@@ -65,7 +65,7 @@ Permissions for read-only actions that do not affect state, such as viewing.
  - editors are not allowed to interact with members of a project (UserProjectBinding)
  - editors are not allowed to interact with service accounts (User)
 
-#### Project managers
+#### Project Managers
 
 **The `project managers` is service account specific group. Which allows**
 
@@ -75,7 +75,7 @@ Permissions for read-only actions that do not affect state, such as viewing.
 
 Project managers are not allowed to interact with clusters.
 
-## Accessing API via Service Account Token
+## Accessing the API via Service Account Tokens
 
 A client that wants to authenticate itself with a server can then do so by including an `Authorization` request header
 field with the service account token:

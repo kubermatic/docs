@@ -7,7 +7,7 @@ weight = 150
 
 This page explains how to configure [Admission Controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) in the Kubermatic Kubernetes Platform.
 
-## How do I turn on an admission controller?
+## Default Admission Controllers
 
 The Kubermatic Kubernetes Platform manages the Kubernetes API server by setting the `enable-admission-plugins` flag with a comma-delimited
 list of admission control plugins to be enabled during cluster creation.
@@ -31,7 +31,7 @@ ResourceQuota
 The Kubermatic Kubernetes Platform also provides support for three additional plugins that can be enabled if needed:
 
 - `PodNodeSelector`
-- `PodSecurityPolicy`
+- `PodSecurityPolicy` *(not supported anymore on Kubernetes 1.25 or higher)*
 - `EventRateLimit`
 
 They can be selected in the UI wizard.

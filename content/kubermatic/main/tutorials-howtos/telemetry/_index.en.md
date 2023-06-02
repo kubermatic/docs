@@ -10,7 +10,8 @@ Telemetry is an observability tool that can be used to track Kubermatic Kubernet
 Telemetry helm chart can be found in the [Kubermatic repository](https://github.com/kubermatic/kubermatic/tree/main/charts/telemetry), and since Telemetry is an open source tool, the code can be found in [Telemetry-Client repository](https://github.com/kubermatic/telemetry-client).
 
 ## Installation
-### Kubermatic installer
+
+### Kubermatic Installer
 Telemetry will be enabled by default if you use the Kubermatic installer to deploy KKP. For more information about how to use the Kubermatic installer to deploy KKP, please refer to the [installation guide]({{< relref "../../installation/" >}}).
 Kubermatic installer will use a `values.yaml` file to configure all Helm charts, including Telemetry. The following is an example of the configuration of the Telemetry tool:
 
@@ -51,7 +52,7 @@ If you don’t want to send usage data to us to improve our product, or your KKP
 
 ## Data that Telemetry Collects
 Telemetry tool collects the following metadata in an anonymous manner with UUIDs, the data schemas can be found in [Telemetry-Client repository](https://github.com/kubermatic/telemetry-client):
-- For Kubermatic usage: [Kubermatic Record](https://github.com/kubermatic/telemetry-client/blob/release/v0.1/pkg/agent/kubermatic/v1/record.go)
-- For Kubernetes usage: [Kubernetes Record](https://github.com/kubermatic/telemetry-client/blob/release/v0.1/pkg/agent/kubernetes/v1/record.go)
+- For Kubermatic usage: [Kubermatic Record](https://github.com/kubermatic/telemetry-client/blob/release/v0.3/pkg/agent/kubermatic/v2/record.go)
+- For Kubernetes usage: [Kubernetes Record](https://github.com/kubermatic/telemetry-client/blob/release/v0.3/pkg/agent/kubernetes/v2/record.go)
 
 

@@ -5,12 +5,9 @@ weight = 40
 
 +++
 
-## Open Policy Agent (OPA)
-
 [Open Policy Agent](https://www.openpolicyagent.org/) (OPA) is an open-source, general-purpose policy engine that unifies policy enforcement across the stack. We are integrating it with using [Gatekeeper](https://github.com/open-policy-agent/gatekeeper), which is an OPA's Kubernetes-native policy engine. More info about OPA and Gatekeeper can be read from their docs and tutorials.
 
-
-### Admin Panel for OPA Options
+## Admin Panel for OPA Options
 
 As an admin, you will find a few options in the `Admin Panel`. You can access this panel by clicking on the account icon on the top right and select `Admin Panel`.
 
@@ -30,7 +27,7 @@ Here you navigate to the OPA menu and then to Default Constraints.
 
 ![Default Constraints](/img/kubermatic/main/ui/default-constraint-admin.png?height=300px&classes=shadow,border "Default Constraints")
 
-### Cluster Details View
+## Cluster Details View
 
 The cluster details view is extended by some more information if OPA is enabled.
 - `OPA Integration` in the top area is indicating if OPA is enabled or not.
@@ -40,7 +37,7 @@ The cluster details view is extended by some more information if OPA is enabled.
 ![Cluster Details View](/img/kubermatic/main/ui/opa_cluster_view.png?height=500px&classes=shadow,border "Cluster Details View")
 
 
-### Activating OPA
+## Activating OPA
 
 To create a new cluster with OPA enabled you only have to enable the `OPA Integration` checkbox during the cluster creation process. It is placed in Step 2 `Cluster` and can be enabled by default as mentioned in the [Admin Panel for OPA Options]({{< ref "#admin-panel-for-opa-options" >}}) section.
 If you don't know how to create a cluster using the Kubermatic Kubernetes Platform follow our [Project and cluster management]({{< ref "../../project-and-cluster-management" >}}) tutorial.
@@ -103,6 +100,7 @@ Just click on `Add Constraint Template` to create the constraint template.
 Constraint Templates can be edited after clicking on the pencil icon that appears when hovering over one of the rows. The form is identical to the one from creation. In this table you can also delete it if needed.
 
 ![Edit Constraint Template](/img/kubermatic/main/ui/edit_constraint_template.png?height=300px&classes=shadow,border "Cluster Details View")
+
 ### Constraints
 
 Constraints are the filler for rules that are defined by the constraint templates. Constraints provide the parameters which are used in the Constraint Template rule.

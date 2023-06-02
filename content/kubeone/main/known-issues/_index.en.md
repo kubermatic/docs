@@ -1,18 +1,81 @@
 +++
 title = "Known Issues"
-date = 2022-08-29T09:00:00+02:00
+date = 2023-02-21T09:00:00+02:00
 description = "Known Issues in Kubermatic KubeOne"
 weight = 99
-enableToc = true
 +++
 
 This page documents the list of known issues in Kubermatic KubeOne along with
 possible workarounds and recommendations.
 
-This list applies to KubeOne 1.5 releases. For earlier releases, please
-consult the [appropriate changelog][changelogs].
+This list applies to KubeOne 1.6 releases. For KubeOne 1.5, please consider
+the [v1.5 version of this document][known-issues-1.5]. For earlier releases,
+please consult the [appropriate changelog][changelogs].
 
-[changelogs]: https://github.com/kubermatic/kubeone/tree/mai/CHANGELOG
+[known-issues-1.5]: {{< ref "../../v1.5/known-issues" >}}
+[changelogs]: https://github.com/kubermatic/kubeone/tree/main/CHANGELOG
+
+## `node-role.kubernetes.io/master` taint not removed on upgrade when using KubeOne 1.6.0-rc.1
+
+|              |                                                   |
+|--------------|---------------------------------------------------|
+| Status       | Fixed in KubeOne 1.6.0                            |
+| Severity     | Critical                                          |
+| GitHub issue | https://github.com/kubermatic/kubeone/pull/2688   |
+
+Users who:
+
+- used **KubeOne 1.6.0-rc.1** or built KubeOne manually on
+  **[commit up to `8291a9f`][8291a9f]**, AND
+- provisioned clusters running Kubernetes 1.25 OR upgraded clusters running
+  Kubernetes 1.24 to Kubernetes 1.25
+
+**are affected by this issue**.
+
+[8291a9f]: https://github.com/kubermatic/kubeone/commit/8291a9f13408f7bc10e248c0c014d94e35e4fcad
+
+### Description
+
+Kubernetes removed the `node-role.kubernetes.io/master` taint in 1.25.
+However, we had a bug in KubeOne that enforced this taint up until Kubernetes
+1.26. Even if we don't put that taint for 1.26 clusters, Kubeadm is not going
+to remove it upon upgrading to 1.26. That's because the migration logic that
+was removing that taint has been already removed in 1.26.
+
+### Recommendation
+
+If you're affected by this issue, you have to manually untaint affected
+control plane nodes. You can do that by using the following command:
+
+```shell
+kubectl taint nodes node-role.kubernetes.io/master- --all
+```
+
+**Not doing so might cause a major outage as we (both KubeOne and Kubeadm) stop
+tolerating the `node-role.kubernetes.io/master` taint.**
+
+## Cilium CNI is not working on clusters running CentOS 7
+
+|              |                                                   |
+|--------------|---------------------------------------------------|
+| Status       | Known Issue                                       |
+| Severity     | Low                                               |
+| GitHub issue | N/A                                               |
+
+### Description
+
+Cilium CNI is not supported on CentOS 7 because it's using too older kernel
+version which is not supported by Cilium itself. For more details, consider
+[the official Cilium documentation][cilium-requirements].
+
+[cilium-requirements]: https://docs.cilium.io/en/v1.13/operations/system_requirements/
+
+### Recommendation
+
+Please consider using an operating system with a newer kernel version, such
+as Ubuntu, Rocky Linux, and Flatcar. See 
+[the official Cilium documentation][cilium-requirements] for a list of
+operating systems and versions supported by Cilium.
 
 ## Pod connectivity is broken for Calico VXLAN clusters
 
@@ -29,33 +92,8 @@ from a node where the pod is running.
 
 ### Recommendation
 
-**We do NOT recommend upgrading to KubeOne 1.5 at this time if you're using
-Calico VXLAN. Follow the linked GitHub issue and this page for updates.**
-
-## Canal CNI crashing after upgrading from KubeOne 1.x to 1.5
-
-|              |                                                                             |
-|--------------|-----------------------------------------------------------------------------|
-| Status       | Fixed in KubeOne 1.5.4                                                      |
-| Severity     | Low; rare issue affecting only clusters created with older KubeOne versions |
-| GitHub issue | https://github.com/projectcalico/calico/issues/6442                         |
-
-### Description
-
-Cluster created with older KubeOne versions might be affected by an issue
-where Canal (Calico) pods are stuck in CrashLoopBackoff after upgrading to
-KubeOne 1.5. This is caused by upgrading Canal from an older version to v3.23.
-
-### Recommendation
-
-This issue is fixed in Calico v3.23.4+ which is used in KubeOne 1.5.4+
-
-If you're encountering this issue, we strongly recommend upgrading to the latest
-KubeOne patch release and running `kubeone apply` to upgrade you Canal CNI.
-
-Alternatively, workaround is to manually modify the `default-ipv4-ippool`
-`ippools.crd.projectcalico.org` object to add `vxlanMode: Never`. In this case,
-see the linked upstream GitHub issue for more details.
+**We do NOT recommend upgrading to KubeOne 1.6 and 1.5 at this time if you're 
+using Calico VXLAN. Follow the linked GitHub issue and this page for updates.**
 
 ## KubeOne is failing to provision a cluster on upgraded Flatcar VMs
 
@@ -78,62 +116,3 @@ If you're affected by this issue, we recommend creating VMs with a newer Flatcar
 version or following the [cgroups v2 migration instructions][flatcar-cgroups].
 
 [flatcar-cgroups]: https://www.flatcar.org/docs/latest/container-runtimes/switching-to-unified-cgroups#migrating-old-nodes-to-unified-cgroups
-
-## vSphere CSI webhook certificates are generated with an invalid domain/FQDN
-
-|              |                                                   |
-|--------------|---------------------------------------------------|
-| Status       | Fixed by [#2366](https://github.com/kubermatic/kubeone/pull/2366) in [KubeOne 1.5.1](https://github.com/kubermatic/kubeone/releases/tag/v1.5.1) |
-| Severity     | High                                              |
-| GitHub issue | https://github.com/kubermatic/kubeone/issues/2350 |
-
-### Description
-
-In KubeOne 1.5.0 we moved the vSphere CSI driver from the `kube-system`
-namespace to the `vmware-system-csi` namespace. However, we didn't update the
-domain/FQDN in certificates for CSI webhooks to use the new namespace. This
-causes issues when communicating with the CSI webhooks as described in the
-GitHub issue.
-
-### Recommendation
-
-This issue has been fixed in KubeOne 1.5.1, so we advise upgrading your KubeOne
-installation to 1.5.1 or newer. You need to run `kubeone apply` to regenerate
-certificates after upgrading KubeOne.
-
-## CoreDNS PodDisruptionBudget is not cleaned up when disabled
-
-|              |                                                     |
-|--------------|-----------------------------------------------------|
-| Status       | Fixed by [#2364](https://github.com/kubermatic/kubeone/pull/2364) in [KubeOne 1.5.1](https://github.com/kubermatic/kubeone/releases/tag/v1.5.1) |
-| Severity     | Low                                                 |
-| GitHub issue | https://github.com/kubermatic/kubeone/issues/2322   |
-
-### Description
-
-If the CoreDNS PodDisruptionBudget is enabled in the KubeOneCluster API,
-and then disabled, `kubeone apply` will not remove the PDB object from the
-cluster.
-
-### Recommendation
-
-This issue has been fixed in KubeOne 1.5.1, so we advise upgrading your KubeOne
-installation to 1.5.1 or newer.
-
-## `kubeone apply` might fail to recover if the SSH connection is interrupted
-
-|              |                                                     |
-|--------------|-----------------------------------------------------|
-| Status       | Fixed by [#2345](https://github.com/kubermatic/kubeone/pull/2345) in [KubeOne 1.5.1](https://github.com/kubermatic/kubeone/releases/tag/v1.5.1) |
-| Severity     | Low                                                 |
-| GitHub issue | https://github.com/kubermatic/kubeone/issues/2319   |
-
-### Description
-
-`kubeone apply` might fail if the SSH connection is interrupted (e.g. VM is
-restarted while kubeone apply is running).
-
-### Recommendation
-
-This issue has been fixed in KubeOne 1.5.1, so we advise upgrading your KubeOne
-installation to 1.5.1 or newer.

@@ -45,7 +45,7 @@ For security reasons, the API/UI does not offer a way to get the current credent
 To see how to make backups and restore your cluster, check the [Etcd Backup and Restore Tutorial]({{< ref "../../../etcd-backups" >}}).
 
 
-### Default backups
+### Default Backups
 
 Since 2.20, default destinations are required if the automatic etcd backups are configured. A default EtcdBackupConfig
 is created for all the user clusters in the Seed. It has to be a destination that is present in the backup destination list for that Seed.

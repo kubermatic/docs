@@ -41,11 +41,21 @@
     </style>
     {{block "custom-header" .}}{{end}}
   </head>
-  <body class="" data-url="{{ .RelPermalink }}">
+  {{$hasToc := and .Site.Params.enableTOC (not .Params.disableToc) (not .Params.chapter) (findRE `(?s)<ul.*?>.*?</ul>` .TableOfContents)}}
+  <body {{if $hasToc}} class="ptoc--enabled"{{end}} data-url="{{.RelPermalink}}">
     {{partialCached "cookie-banner.html" .}}
     {{partialCached "gtm-noscript.html" .}}
     {{partialCached "main-header" .}}
-    {{ partial "menu.html" . }}
+    {{partial "menu.html" .}}
+    {{if $hasToc}}
+    <aside class="ptoc">
+      <button class="ptoc-open-btn" title="Open page index"><span></span></button>
+      <div class="ptoc-content">
+        <div class="ptoc-title">On this page<button><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.256 6.006a.875.875 0 0 1 1.238 0l5.868 5.869-5.868 5.869a.875.875 0 0 1-1.238-1.238l4.632-4.631-4.632-4.631a.875.875 0 0 1 0-1.238Z"/><path fill="currentColor" d="M12.256 6.006a.875.875 0 0 1 1.238 0l5.868 5.869-5.868 5.869a.875.875 0 1 1-1.238-1.238l4.632-4.631-4.632-4.631a.875.875 0 0 1 0-1.238Z"/></svg></button></div>
+        {{.TableOfContents}}
+      </div>
+    </aside>
+    {{end}}
         <section id="body">
         {{if and $versions (len (intersect (split .RelPermalink "/") (slice "master" "main")))}}
           {{if gt (len $versions) 1}}
@@ -62,15 +72,42 @@
               <i class="fas fa-bars"></i>
             </a>
           </span>
-          {{if and .Site.Params.editURL .File }}
-          {{$editLink := printf "%s%s" .Site.Params.editURL (replace .File.Path `\` `/`)}}
-          <div id="top-github-link">
-            <a class="github-link" title='{{T "Edit-this-page"}}' href="{{$editLink}}" target="blank">
-              <i class="fas fa-code-branch"></i>
-              <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
-            </a>
+          <div>
+            {{if and .Site.Params.editURL .File }}
+            {{$editLink := printf "%s%s" .Site.Params.editURL (replace .File.Path `\` `/`)}}
+            <div id="top-github-link">
+              <a class="github-link" title='{{T "Edit-this-page"}}' href="{{$editLink}}" target="blank">
+                <i class="fas fa-code-branch"></i>
+                <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
+              </a>
+            </div>
+            {{end}}
+            {{if $hasToc}}
+            <button class="ptoc-open-btn-mobile" title="Open page index"><span></span></button>
+            <script>
+              if (localStorage.getItem('hiddenToc')) {
+                document.body.classList.add('ptoc--hidden');
+              }
+
+              var ptocCloseBtn = document.querySelector('.ptoc-title button');
+              var ptocOpenBtn = document.querySelector('.ptoc-open-btn');
+              var ptocOpenBtnMobile = document.querySelector('.ptoc-open-btn-mobile');
+              ptocCloseBtn.addEventListener('click', function() {
+                document.body.classList.add('ptoc--hidden');
+                document.body.classList.remove('ptoc--show-panel');
+                localStorage.setItem('hiddenToc', true);
+              });
+              ptocOpenBtn.addEventListener('click', function() {
+                document.body.classList.remove('ptoc--hidden');
+                document.body.classList.add('ptoc--show-panel');
+                localStorage.removeItem('hiddenToc');
+              });
+              ptocOpenBtnMobile.addEventListener('click', function() {
+                document.body.classList.add('ptoc--show-panel');
+              });
+            </script>
+            {{end}}
           </div>
-          {{end}}
         </div>
         {{if .Params.tags}}
           <div id="head-tags">
@@ -92,12 +129,6 @@
               {{end}}
             </div>
           {{end}}
-          {{ if (and (.Params.enableToc) (not .Params.chapter)) }}
-            <div class="page-toc">
-              <h2 class="page-toc-title">Table Of Content</h2>
-              {{.TableOfContents}}
-            </div>
-          {{ end }}
         {{define "breadcrumb"}}
           {{$parent := .page.Parent }}
           {{ if $parent }}

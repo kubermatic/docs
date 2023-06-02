@@ -1,6 +1,6 @@
 +++
 title = "v1beta2 API Reference"
-date = 2022-11-30T09:29:15+01:00
+date = 2023-05-11T15:48:17+03:00
 weight = 11
 +++
 ## v1beta2
@@ -98,6 +98,7 @@ Addon config
 | ----- | ----------- | ------ | -------- |
 | name | Name of the addon to configure | string | true |
 | params | Params to the addon, to render the addon using text/template, this will override globalParams | map[string]string | false |
+| disableTemplating | DisableTemplating is used to disable templatization for the addon. | bool | false |
 | delete | Delete flag to ensure the named addon with all its contents to be deleted | bool | false |
 
 [Back to Group](#v1beta2)
@@ -176,6 +177,7 @@ Only one cloud provider must be defined at the single time.
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | external | External | bool | false |
+| disableBundledCSIDrivers | DisableBundledCSIDrivers disables automatic deployment of CSI drivers bundled with KubeOne | bool | true |
 | cloudConfig | CloudConfig | string | false |
 | csiConfig | CSIConfig | string | false |
 | secretProviderClassName | SecretProviderClassName | string | false |
@@ -406,7 +408,7 @@ GCESpec defines the GCE cloud provider
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | chart | Chart is [CHART] part of the `helm upgrade [RELEASE] [CHART]` command. | string | true |
-| repoURL | RepoURL is a chart repository URL where to locate the requested chart. | string | true |
+| repoURL | RepoURL is a chart repository URL where to locate the requested chart. | string | false |
 | version | Version is --version flag of the `helm upgrade` command. Specify the exact chart version to use. If this is not specified, the latest version is used. | string | false |
 | releaseName | ReleaseName is [RELEASE] part of the `helm upgrade [RELEASE] [CHART]` command. Empty is defaulted to chart. | string | false |
 | namespace | Namespace is --namespace flag of the `helm upgrade` command. A namespace to use for a release. | string | true |

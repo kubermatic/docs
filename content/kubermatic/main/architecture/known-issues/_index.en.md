@@ -2,7 +2,6 @@
 title = "Known Issues"
 date = 2022-07-22T12:22:15+02:00
 weight = 25
-enableToc = true
 
 +++
 
@@ -10,7 +9,7 @@ enableToc = true
 
 This page documents the list of known issues and possible work arounds/solutions.
 
-### 1. OIDC user authentication issue
+### 1. OIDC User Authentication Issue
 
 **Problem** 
 
@@ -46,7 +45,7 @@ In the case where upgrade is not desirable then a work around can be applied by 
 
 `kubectl label ns nginx-ingress-controller "kubernetes.io/metadata.name=nginx-ingress-controller"`
 
-### 2. Connectivity issue in pod-to-NodePort service in Cilium + IPVS proxy mode
+### 2. Connectivity Issue in Pod-to-NodePort Service in Cilium + IPVS Proxy Mode
 
 **Problem**
 

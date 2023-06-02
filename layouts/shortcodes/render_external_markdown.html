@@ -1,0 +1,4 @@
+{{- $urlToRender := .Get 0 -}}
+{{- with resources.GetRemote $urlToRender (dict "headers" (dict "Cache-Control" "no-cache" "Connection" "keep-alive")) -}}
+  {{- .Content | markdownify | safeHTML -}}
+{{- end -}}

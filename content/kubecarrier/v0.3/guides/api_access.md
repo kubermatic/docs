@@ -3,7 +3,6 @@ title: API Access
 weight: 10
 slug: api_access
 date: 2020-06-26T09:00:00+02:00
-enabletoc: true
 ---
 
 KubeCarrier deploys its own API Server to allow external access and integrations to connect with KubeCarrier.

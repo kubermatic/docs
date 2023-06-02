@@ -2,7 +2,6 @@
 title = "Creating a Cluster with OIDC Authentication & Audit Logging"
 date = 2021-02-10T12:00:00+02:00
 weight = 3
-enableToc = true
 +++
 
 In this article we're going to set up a Kubernetes cluster with OIDC authentication and audit logging enabled. We prefer to manage our team associations via GitHub Teams and we want to grant permissions inside the cluster based on these teams, so we will use [Dex](https://dexidp.io/) as a bridge between Kubernetes and GitHub. Dex also allows us to integrate with other providers like Google or Azure to give non-developers access to the same cluster.

@@ -49,7 +49,7 @@ type ClusterData struct {
 	// Network contains DNS and CIDR settings for the cluster.
 	Network ClusterNetwork
 	// Features is a set of enabled features for this cluster.
-	Features sets.String
+	Features sets.Set[string]
 	// CNIPlugin contains the CNIPlugin settings
 	CNIPlugin CNIPlugin
 	// CSI specific options, dependent on provider
@@ -60,7 +60,7 @@ type ClusterData struct {
 	CSIMigration bool
 	// KubeVirtInfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for
 	// initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks)
-	KubeVirtInfraStorageClasses []string
+	KubeVirtInfraStorageClasses []kubermaticv1.KubeVirtInfraStorageClass
 }
 
 // ClusterAddress stores access and address information of a cluster.
@@ -99,6 +99,7 @@ type ClusterNetwork struct {
 	NodeCIDRMaskSizeIPv4 int32
 	NodeCIDRMaskSizeIPv6 int32
 	IPAMAllocations      map[string]IPAMAllocation
+	NodePortRange        string
 }
 
 type CNIPlugin struct {
@@ -217,6 +218,7 @@ type NutanixCredentials struct {
 type VMwareCloudDirectorCredentials struct {
 	Username     string
 	Password     string
+	APIToken     string
 	Organization string
 	VDC          string
 }

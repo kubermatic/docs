@@ -2,7 +2,6 @@
 title = "Creating a Kubernetes Cluster"
 date = 2021-02-10T12:00:00+02:00
 weight = 1
-enableToc = true
 +++
 
 In this tutorial, we're going to show how to use Kubermatic KubeOne to create
@@ -54,7 +53,7 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, Nutanix, OpenStack, Packet, VMware Cloud Director, and
+Hetzner Cloud, Nutanix, OpenStack, Equinix Metal, VMware Cloud Director, and
 VMware vSphere), and we will use it in this tutorial. If your provider
 is not supported (e.g. bare-metal), you can check the
 [KubeOne Static Workers][static-workers] feature for more information about the
@@ -346,15 +345,15 @@ for more details.
 #
 
 {{% /tab %}}
-{{% tab name="Packet" %}}
+{{% tab name="Equinix Metal" %}}
 You need an [API Access Token](https://metal.equinix.com/developers/docs/integrations/devops/)
 for Terraform to create the infrastructure, machine-controller to create worker
-nodes, and for Packet Cloud Controller Manager.
+nodes, and for Equinix Metal Cloud Controller Manager.
 
 | Environment Variable | Description       |
 | -------------------- | ----------------- |
-| `PACKET_AUTH_TOKEN`  | Packet auth token |
-| `PACKET_PROJECT_ID`  | Packet project ID |
+| `METAL_AUTH_TOKEN`  | Equinix Metal auth token |
+| `METAL_PROJECT_ID`  | Equinix Metal project ID |
 
 #
 
@@ -812,13 +811,13 @@ cloudProvider:
 ```
 
 {{% /tab %}}
-{{% tab name="Packet" %}}
+{{% tab name="Equinix Metal" %}}
 `external: true` instructs KubeOne to deploy the
-[Packet Cloud Controller Manager](https://github.com/packethost/packet-ccm).
-The Packet CCM fetches information about nodes from the API.
+[Equinix Metal Cloud Controller Manager](https://github.com/equinix/cloud-provider-equinix-metal).
+The Equinix Metal CCM fetches information about nodes from the API.
 
 **It’s important to provide custom clusterNetwork settings in order to avoid
-colliding with the Packet private network which is `10.0.0.0/8`.**
+colliding with the Equinix Metal private network which is `10.0.0.0/8`.**
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
@@ -828,7 +827,7 @@ versions:
   kubernetes: "1.22.5"
 
 cloudProvider:
-  packet: {}
+  equinixmetal: {}
   external: true
 
 clusterNetwork:

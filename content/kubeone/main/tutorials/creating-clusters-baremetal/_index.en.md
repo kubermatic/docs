@@ -2,7 +2,6 @@
 title = "Creating a Kubernetes Cluster on Bare-metal"
 date = 2021-02-10T12:00:00+02:00
 weight = 2
-enableToc = true
 +++
 
 In this tutorial, we're going to show how to use Kubermatic KubeOne to create
@@ -14,7 +13,7 @@ This tutorial could be used in the following scenarios:
 * Provisioning a cluster on providers that are not [natively-supported][compatibility-providers] (e.g. on bare metal or edge).
 * Provisioning a cluster on a natively-supported provider, but you don't want to use Terraform.
 * Creating a Raspberry Pi cluster
-  
+
 If you are able to use a provider, have a look at the [creating clusters][creating-clusters] tutorial, as this is the recommended approach.
 
 ## Prerequisites
@@ -61,7 +60,7 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, Nutanix, OpenStack, Packet, and VMware vSphere), and is covered in [Creating a Kubernetes cluster tutorial][creating-clusters].
+Hetzner Cloud, Nutanix, OpenStack, Equinix Metal, and VMware vSphere), and is covered in [Creating a Kubernetes cluster tutorial][creating-clusters].
 
 This tutorial focuses on bare metal without the usage of any provider to create the required infrastructure.
 Therefore, you need to create the required infrastructure on your own.
@@ -223,7 +222,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: bm-cluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.25.6'
 cloudProvider:
   none: {}
 
@@ -261,22 +260,21 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne version | 1.24  | 1.23  | 1.22  | 1.21\*  | 1.20\*\*  | 1.19\*\*   |
-| --------------- | ----- | ----- | ----- | ------- | --------- | ---------- |
-| v1.5            | ✓     | ✓     | ✓     | -       | -         | -          |
-| v1.4            | -     | ✓     | ✓     | ✓       | ✓         | -          |
-| v1.3            | -     | -     | ✓     | ✓       | ✓         | ✓          |
+| KubeOne version | 1.26  | 1.25  | 1.24  | 1.23\* | 1.22\*\* | 1.21\*\* | 1.20\*\* |
+| --------------- | ----- | ----- | ----- | -------- | -------- | -------- | -------- |
+| v1.6            | ✓     | ✓     | ✓     | -        | -        | -        | -        |
+| v1.5            | -     | -     | ✓     | ✓        | ✓        | -        | -        |
+| v1.4            | -     | -     | -     | ✓        | ✓        | ✓        | ✓        |
 
-\* Kubernetes 1.21 is in the [maintenance mode] which means that only critical
-and security issues are fixed. It's strongly recommended to upgrade to a newer
-Kubernetes version as soon as possible.
+\* Kubernetes 1.23 is scheduled to reach End-of-Life (EOL) on 2022-02-28.
+We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
 
-\*\* Kubernetes 1.20 and 1.19 have reached End-of-Life (EOL). We strongly
+\*\* Kubernetes 1.22, 1.21 and 1.20 have reached End-of-Life (EOL). We strongly
 recommend upgrading to a supported Kubernetes release as soon as possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
-than the latest Kubernetes release. For example, with 1.24 being the latest
-release, we recommend running at least Kubernetes 1.23.
+than the latest Kubernetes release. For example, with 1.26 being the latest
+release, we recommend running at least Kubernetes 1.25.
 
 Now, we're ready to provision the cluster! This is done by running the
 `kubeone apply` command and providing it the configuration manifest.

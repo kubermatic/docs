@@ -2,7 +2,6 @@
 title = "Calico VXLAN Addon"
 date = 2021-02-10T12:00:00+02:00
 weight = 3
-enableToc = true
 +++
 
 It is possible to use CNI plugins that are not directly supported by the KubeOne. Here's an example for Calico.

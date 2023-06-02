@@ -3,37 +3,28 @@
 
 aliases:
   pso:
-    - adeniyistephen
     - akash-gautam
     - archups
     - colangw
+    - csengerszabo
     - dakraus
     - dharapvj
-    - ezasewe
     - hc2p
-    - holgers66
-    - imharshita
     - istvanr
     - ivomarino
+    - koksay
     - mfahlandt
     - mihiragrawal
-    - nerdeveloper
-    - ozdoll
     - stroebitzer
-    - talhalatiforakzai
     - toschneck
   sig-api:
-    - floreks
-    - lsviben
-    - maciaszczykm
+    - ahmedwaleedmalik
     - pkprzekwas
-    - zreigz
+    - simontheleg
   sig-app-management:
     - ahmedwaleedmalik
-    - dermorz
     - hdurand0710
     - rastislavs
-    - sankalp-r
     - simontheleg
     - vgramer
     - wurbanski
@@ -41,10 +32,8 @@ aliases:
     - zyanichaimaa
   sig-cluster-management:
     - ahmedwaleedmalik
-    - dermorz
     - embik
     - hdurand0710
-    - imharshita
     - kron4eg
     - moadqassem
     - moelsayed
@@ -53,15 +42,12 @@ aliases:
   sig-networking:
     - moadqassem
     - moelsayed
-    - pratikdeoghare
     - rastislavs
     - weirdmachine
   sig-ui:
-    - floreks
-    - maciaszczykm
+    - ahmadhamzh
+    - ahmedwaleedmalik
     - waseem826
   sig-virtualization:
     - hdurand0710
     - mfranczy
-    - moadqassem
-    - sankalp-r

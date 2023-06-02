@@ -14,7 +14,7 @@ You can add an existing Kubernetes cluster and then manage it using KKP.
 
 - Click the `Import External Cluster` button
 
-![External Cluster](/img/kubermatic/main/tutorials/external_clusters/external_cluster_page.png "External Cluster")
+![Add External Cluster](/img/kubermatic/main/tutorials/external_clusters/external_cluster_page.png "Add External Cluster")
 
 - Pick `Elastic Kubernetes Engine` provider.
 
@@ -51,7 +51,7 @@ This Preset can then be used to Create/Import an EKS cluster.
 
 - Navigate to `Provider Presets` Page and Click on `+ Create Preset` button.
 
-![Provider Preset Page](/img/kubermatic/main/tutorials/external_clusters/provider_presets.png "Provider Preset Page")
+![Provider Preset Page](/img/kubermatic/main/ui/preset_management.png?height=300px&classes=shadow,border "Provider Preset Page")
 
 - Enter Preset Name.
 
