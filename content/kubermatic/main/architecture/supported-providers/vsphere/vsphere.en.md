@@ -489,3 +489,39 @@ when creating a user cluster from the [KKP dashboard]({{< ref "../../../tutorial
 
 [vsphere-cloud-config]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-BFF39F1D-F70A-4360-ABC9-85BDAFBE8864.html?hWord=N4IghgNiBcIMYQK4GcAuBTATgWgJYBMACAYQGUBJEAXyA
 [vsphere-storage-plugin-roles]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html#GUID-043ACF65-9E0B-475C-A507-BBBE2579AA58__GUID-E51466CB-F1EA-4AD7-A541-F22CDC6DE881
+
+## Internal Kubernetes endpoints unreachable
+
+### Symptoms
+
+* Unable to perform CRUD operations on resources governed by webhooks (e.g. ValidatingWebhookConfiguration, MutatingWebhookConfiguration, etc.). The following error is observed:
+
+```sh
+Internal error occurred: failed calling webhook "webhook-name": failed to call webhook: Post "https://webhook-service-name.namespace.svc:443/webhook-endpoint": context deadline exceeded
+```
+
+* Unable to reach internal Kubernetes endpoints from pods/nodes.
+* ICMP is working but TCP/UDP is not.
+
+### Cause
+
+On recent enough VMware hardware compatibility version (i.e >=15 or maybe >=14), CNI connectivity breaks because of hardware segmentation offload. `cilium-health status` has ICMP connectivity working, but not TCP connectivity. cilium-health status may also fail completely.
+
+### Solution
+
+```sh
+sudo ethtool -K ens192 tx-udp_tnl-segmentation off
+sudo ethtool -K ens192 tx-udp_tnl-csum-segmentation off
+```
+
+These flags are related to the hardware segmentation offload done by the vSphere driver VMXNET3. We have observed this issue for both Cilium and Canal CNI running on Ubuntu 22.04.
+
+We have two options to configure these flags for KKP installations:
+
+* When configuring the VM template, set these flags as well.
+* Create a [custom Operating System Profile]({{< ref "../../../tutorials-howtos/operating-system-manager/usage#custom-operatingsystemprofiles" >}}) and configure the flags there.
+
+### References
+
+* <https://github.com/cilium/cilium/issues/13096>
+* <https://github.com/cilium/cilium/issues/21801>

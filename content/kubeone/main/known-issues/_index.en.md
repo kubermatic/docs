@@ -73,7 +73,7 @@ version which is not supported by Cilium itself. For more details, consider
 ### Recommendation
 
 Please consider using an operating system with a newer kernel version, such
-as Ubuntu, Rocky Linux, and Flatcar. See 
+as Ubuntu, Rocky Linux, and Flatcar. See
 [the official Cilium documentation][cilium-requirements] for a list of
 operating systems and versions supported by Cilium.
 
@@ -92,7 +92,7 @@ from a node where the pod is running.
 
 ### Recommendation
 
-**We do NOT recommend upgrading to KubeOne 1.6 and 1.5 at this time if you're 
+**We do NOT recommend upgrading to KubeOne 1.6 and 1.5 at this time if you're
 using Calico VXLAN. Follow the linked GitHub issue and this page for updates.**
 
 ## KubeOne is failing to provision a cluster on upgraded Flatcar VMs
@@ -116,3 +116,47 @@ If you're affected by this issue, we recommend creating VMs with a newer Flatcar
 version or following the [cgroups v2 migration instructions][flatcar-cgroups].
 
 [flatcar-cgroups]: https://www.flatcar.org/docs/latest/container-runtimes/switching-to-unified-cgroups#migrating-old-nodes-to-unified-cgroups
+
+
+## Internal Kubernetes endpoints unreachable on vSphere with Cilium/Canal
+
+|              |                                                   |
+|--------------|---------------------------------------------------|
+| Status       | Workaround available                              |
+| Severity     | Low                                               |
+| GitHub issue | https://github.com/cilium/cilium/issues/21801 |
+
+### Description
+#### Symptoms
+
+* Unable to perform CRUD operations on resources governed by webhooks (e.g. ValidatingWebhookConfiguration, MutatingWebhookConfiguration, etc.). The following error is observed:
+
+```sh
+Internal error occurred: failed calling webhook "webhook-name": failed to call webhook: Post "https://webhook-service-name.namespace.svc:443/webhook-endpoint": context deadline exceeded
+```
+
+* Unable to reach internal Kubernetes endpoints from pods/nodes.
+* ICMP is working but TCP/UDP is not.
+
+#### Cause
+
+On recent enough VMware hardware compatibility version (i.e >=15 or maybe >=14), CNI connectivity breaks because of hardware segmentation offload. `cilium-health status` has ICMP connectivity working, but not TCP connectivity. cilium-health status may also fail completely.
+
+### Recommendation
+
+```sh
+sudo ethtool -K ens192 tx-udp_tnl-segmentation off
+sudo ethtool -K ens192 tx-udp_tnl-csum-segmentation off
+```
+
+These flags are related to the hardware segmentation offload done by the vSphere driver VMXNET3. We have observed this issue for both Cilium and Canal CNI running on Ubuntu 22.04.
+
+We have two options to configure these flags for KubeOne installations:
+
+* When configuring the VM template, set these flags as well.
+* Create a [custom Operating System Profile]({{< ref "../architecture/operating-system-manager/usage#using-custom-operatingsystemprofile" >}}) and configure the flags there.
+
+### References
+
+* <https://github.com/cilium/cilium/issues/13096>
+* <https://github.com/cilium/cilium/issues/21801>
