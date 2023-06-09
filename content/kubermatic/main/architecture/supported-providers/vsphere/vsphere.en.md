@@ -17,7 +17,7 @@ When creating worker nodes for a user cluster, the user can specify an existing 
 
 ### Supported Operating Systems
 
-* CentOS beginning with 7.4 [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
+* CentOS beginning with 7.4 excluding stream versions [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
 * Ubuntu 20.04 [ova](https://cloud-images.ubuntu.com/releases/20.04/release/ubuntu-20.04-server-cloudimg-amd64.ova)
 * Ubuntu 22.04 [ova](https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64.ova)
 * Flatcar (Stable channel) [ova](https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_vmware_ova.ova)
