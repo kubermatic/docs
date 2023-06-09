@@ -18,7 +18,7 @@ When creating worker nodes for a user cluster, the user can specify an existing 
 
 Supported operating systems
 
-* CentOS beginning with 7.4 [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
+* CentOS beginning with 7.4 excluding stream versions [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
 * CentOS 8 [qcow2](https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.4.2105-20210603.0.x86_64.qcow2)
 * Ubuntu 18.04 [ova](https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova)
 * Ubuntu 20.04 [ova](https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64.ova)

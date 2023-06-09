@@ -16,7 +16,7 @@ The following operating systems are currently supported by Kubermatic:
 * Flatcar (Stable channel)
 * Rocky Linux beginning with 8.0
 * Ubuntu LTS beginning with 18.04
-* CentOS beginning with 7.4
+* CentOS beginning with 7.4 excluding stream versions
 * Amazon Linux 2
 * SLES beginning with 15.0 (only on AWS)
 
