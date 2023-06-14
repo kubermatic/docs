@@ -4,15 +4,15 @@ set -euox pipefail
 
 cd $(dirname $0)/..
 
-SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/pkg/apis/"
+SOURCE=${SOURCE:-"$(go env GOPATH)/src/github.com/kubermatic/kubermatic/pkg/apis"}
 
 which crd-ref-docs >/dev/null || {
-  echo "running go install github.com/elastic/crd-ref-docs@v0.0.8 in 5s... (ctrl-c to cancel)"
+  echo "running go install github.com/elastic/crd-ref-docs@v0.0.9 in 5s... (ctrl-c to cancel)"
   sleep 5
-  go install github.com/elastic/crd-ref-docs@v0.0.8
+  go install github.com/elastic/crd-ref-docs@v0.0.9
 }
 
-${GOPATH}/bin/crd-ref-docs \
+$(go env GOPATH)/bin/crd-ref-docs \
   --source-path "${SOURCE}" \
   --max-depth 10 \
   --renderer markdown \
