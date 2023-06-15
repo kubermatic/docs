@@ -79,13 +79,6 @@ spec:
     # OAuth2 identity providers
     OpenIDAuthPlugin: true
 
-  ui:
-    # enable shared kubeconfig feature in the dashboard
-    config: |-
-      {
-        "share_kubeconfig": true
-      }
-
   auth:
     # This is the OIDC issuer client ID and defaults to
     # "<spec.auth.clientID>Issuer". As the default issuer used

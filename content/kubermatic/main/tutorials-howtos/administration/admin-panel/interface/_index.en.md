@@ -16,6 +16,8 @@ Interface section in the Admin Panel allows you to control various UI related se
 
 - ### [Enable Web Terminal](#enable-web-terminal)
 
+- ### [Enable Share Cluster](#enable-share-cluster)
+
 ## Enable External Clusters
 
 ![Enable External Cluster](/img/kubermatic/main/ui/enable_external_clusters.png?classes=shadow,border)
@@ -63,3 +65,13 @@ top right side of the user cluster page and the API will allow its usage. **Note
 
 Please visit [Web Terminal]({{< ref "../../../project-and-cluster-management/web-terminal/_index.en.md" >}}) for more information about this feature.
 
+## Enable Share Cluster
+
+![Enable Share Cluster](/img/kubermatic/main/ui/enable_share_cluster.png?classes=shadow,border)
+
+This section controls the support for sharing access to clusters with other users. When enabled, a `Share Cluster`
+option will appear in menu on the cluster details, and it can be used to share a link to download the cluster `kubeconfig`.
+
+![Share Cluster](/img/kubermatic/main/ui/share_cluster.png?classes=shadow,border)
+
+Please visit [Share Clusters via Delegated OIDC Authentication]({{< ref "../../../OIDC-Provider-Configuration/share-clusters-via-delegated-OIDC-authentication/_index.en.md" >}}) for more information about this feature.

@@ -25,7 +25,6 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
       "openstack": {
         "wizard_use_default_user": false
       },
-      "share_kubeconfig": false,
       "themes": [
         {
           "name": "custom",
