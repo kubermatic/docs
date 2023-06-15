@@ -47,7 +47,6 @@ assume that we have downloaded a `light.css` file and will be preparing a new th
       "openstack": {
         "wizard_use_default_user": false
       },
-      "share_kubeconfig": false,
       "themes": [
         {
           "name": "solar",
