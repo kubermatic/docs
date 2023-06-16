@@ -15,6 +15,8 @@ We can import/connect an existing KubeOne cluster. Imported Cluster can be viewe
    - [DigitalOcean]({{< ref "./digitalocean" >}})
    - [Hetzner]({{< ref "./hetzner" >}})
    - [OpenStack]({{< ref "./openstack" >}})
+   - [vSphere]({{< ref "./vsphere" >}})
+
 
 ## Prerequisites
 
