@@ -13,6 +13,7 @@ Dashboard. Choose the place that suits you best, whether it is a sidebar, footer
 - ### [API Documentation](#api-documentation)
 - ### [Terms of Service](#terms-of-service)
 - ### [Demo Information](#demo-information)
+- ### [What's New](#whats-new)
 
 ## Managing Custom Links
 Custom links have following properties:
@@ -40,3 +41,12 @@ page with terms of use information.
 
 ## Demo Information
 After enabling demo information checkbox `Demo system` information will be shown in the KKP UI footer.
+
+## What's New
+After enabling What's new checkbox `What's New` option will be shown in the KKP UI help panel. It opens a dialog which 
+displays new features and breaking or action required changes in the current release.
+
+![Help Panel](/img/kubermatic/main/ui/help_panel.png?height=250px&classes=shadow,border "Help Panel")
+
+Please visit [Changelog]({{< ref "../../../../cheat-sheets/changelog/_index.en.md" >}}) for more information about this 
+feature.
