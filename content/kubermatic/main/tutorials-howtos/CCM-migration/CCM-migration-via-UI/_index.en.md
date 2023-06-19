@@ -49,10 +49,10 @@ KKP does not support yet the external CCM for the given cloud provider.
 Once the CCM migration has been enabled by clicking on the "Supported" button, the migration procedure will hang in 
 "In progress" status until all the `machineDeployments` will be rolled out. To roll out a `machineDeployment` get into 
 the `machineDeployment` view and click on the circular arrow in the top right.
-![ccm_migration_md](ccm_migration_machine_deployment.png?height=300px&classes=shadow,border)
+![ccm_migration_md](ccm_migration_machine_deployment.png?classes=shadow,border)
 
 Then, you will be asked to confirm the restart operation.
-![ccm_migration_confirm_rollout](ccm_migration_confirm_rollout.png?height=200px&classes=shadow,border)
+![ccm_migration_confirm_rollout](ccm_migration_confirm_rollout.png?classes=shadow,border)
 
 Once all the `machineDeployments` will be rolling restarted, the status will get into "Not needed" status to indicate
 that there is no need for CCM migration.

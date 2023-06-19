@@ -2,7 +2,7 @@
 title = "AWS"
 date = 2023-02-21T14:07:15+02:00
 description = "Detailed tutorial to help you manage AWS KubeOne cluster using KKP"
-weight = 7
+weight = 1
 
 +++
 
