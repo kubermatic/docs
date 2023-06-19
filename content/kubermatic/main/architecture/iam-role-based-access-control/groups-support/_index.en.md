@@ -16,7 +16,7 @@ enterprise = true
 
 ## Binding Roles to Groups
 
-Group bindings can be configured from the "Members" project panel. For Enterprise Edition, an additional tab is available for groups:
+Group bindings can be configured from the "Groups" project panel.
 
 ![Group Bindings Overview](/img/kubermatic/main/architecture/group-rbac-view.png)
 

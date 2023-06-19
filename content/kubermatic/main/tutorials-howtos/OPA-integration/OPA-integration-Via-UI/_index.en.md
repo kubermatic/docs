@@ -11,7 +11,7 @@ weight = 40
 
 As an admin, you will find a few options in the `Admin Panel`. You can access this panel by clicking on the account icon on the top right and select `Admin Panel`.
 
-![Access Admin Panel](/img/kubermatic/main/ui/admin_panel.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
+![Access Admin Panel](/img/kubermatic/main/ui/admin_panel.png?classes=shadow,border "Accessing the Admin Panel")
 
 In here you can see the `OPA Options` with two checkboxes attached.
 - `Enable by Default`: Set the `OPA Integration` checkbox on cluster creation to enabled by default.
@@ -25,7 +25,7 @@ The Admin Panel also offers you the possibility to specify Constraint Templates.
 
 Here you navigate to the OPA menu and then to Default Constraints.
 
-![Default Constraints](/img/kubermatic/main/ui/default-constraint-admin.png?height=300px&classes=shadow,border "Default Constraints")
+![Default Constraints](/img/kubermatic/main/ui/default-constraint-admin.png?classes=shadow,border "Default Constraints")
 
 ## Cluster Details View
 
@@ -34,7 +34,7 @@ The cluster details view is extended by some more information if OPA is enabled.
 - `OPA Gatekeeper Controller` and `OPA Gatekeeper Audit` provide information about the status of those controllers.
 - `OPA Constraints` and `OPA Gatekeeper Config` are added to the tab menu on the bottom. More details are in the following sections.
 
-![Cluster Details View](/img/kubermatic/main/ui/opa_cluster_view.png?height=500px&classes=shadow,border "Cluster Details View")
+![Cluster Details View](/img/kubermatic/main/ui/opa_cluster_view.png?classes=shadow,border "Cluster Details View")
 
 
 ## Activating OPA
@@ -42,15 +42,15 @@ The cluster details view is extended by some more information if OPA is enabled.
 To create a new cluster with OPA enabled you only have to enable the `OPA Integration` checkbox during the cluster creation process. It is placed in Step 2 `Cluster` and can be enabled by default as mentioned in the [Admin Panel for OPA Options]({{< ref "#admin-panel-for-opa-options" >}}) section.
 If you don't know how to create a cluster using the Kubermatic Kubernetes Platform follow our [Project and cluster management]({{< ref "../../project-and-cluster-management" >}}) tutorial.
 
-![OPA Integration during Cluster Creation](/img/kubermatic/main/ui/opa_enable.png?height=400px&classes=shadow,border "OPA Integration during Cluster Creation")
+![OPA Integration during Cluster Creation](/img/kubermatic/main/ui/opa_enable.png?classes=shadow,border "OPA Integration during Cluster Creation")
 
 It is also possible to enable - or disable - OPA for an existing cluster. In the cluster detail view simply click on the vertical ellipsis menu and select `Edit Cluster`.
 
-![Cluster Details Ellipsis Menu](/img/kubermatic/main/ui/edit_cluster_menu.png?height=300px&classes=shadow,border "Cluster Details Ellipsis Menu")
+![Cluster Details Ellipsis Menu](/img/kubermatic/main/ui/edit_cluster_menu.png?classes=shadow,border "Cluster Details Ellipsis Menu")
 
 In the appearing dialog, you can now enable/disable the OPA Integration.
 
-![Edit Cluster Dialog](/img/kubermatic/main/ui/edit_cluster_dialog.png?height=400px&classes=shadow,border "Edit Cluster Dialog")
+![Edit Cluster Dialog](/img/kubermatic/main/ui/edit_cluster_dialog.png?classes=shadow,border "Edit Cluster Dialog")
 
 ## Operating OPA
 
@@ -99,7 +99,7 @@ Just click on `Add Constraint Template` to create the constraint template.
 
 Constraint Templates can be edited after clicking on the pencil icon that appears when hovering over one of the rows. The form is identical to the one from creation. In this table you can also delete it if needed.
 
-![Edit Constraint Template](/img/kubermatic/main/ui/edit_constraint_template.png?height=300px&classes=shadow,border "Cluster Details View")
+![Edit Constraint Template](/img/kubermatic/main/ui/edit_constraint_template.png?classes=shadow,border "Cluster Details View")
 
 ### Constraints
 
@@ -107,13 +107,13 @@ Constraints are the filler for rules that are defined by the constraint template
 
 #### Create Constraint in the Cluster
 
-![Cluster Details View](/img/kubermatic/main/ui/opa_cluster_view.png?height=500px&classes=shadow,border "Cluster Details View")
+![Cluster Details View](/img/kubermatic/main/ui/opa_cluster_view.png?classes=shadow,border "Cluster Details View")
 
 ![Constraints](/img/kubermatic/main/ui/opa_constraints_cluster.png?classes=shadow,border "Constraints")
 
 To add a new constraint click on the `+ Add Constraint` icon on the right. A new dialog will appear, where you can specify the name, the constraint template, and the spec:
 
-![Add Constraints Dialog](/img/kubermatic/main/ui/opa_add_constraint.png?height=350px&classes=shadow,border "Add Constraints Dialog")
+![Add Constraints Dialog](/img/kubermatic/main/ui/opa_add_constraint.png?classes=shadow,border "Add Constraints Dialog")
 
 The following example will make sure that the gatekeeper label is defined on all namespaces, if you are using the `K8sRequiredLabels` constraint template from above:
 ```yaml
@@ -145,7 +145,7 @@ On Cluster Level, Default Constraints are differentiated from Constraints with `
 
 In the Admin view navigate to the OPA menu and then to Default Constraints.
 
-![Default Constraints](/img/kubermatic/main/ui/default-constraint-admin.png?height=300px&classes=shadow,border "Default Constraints")
+![Default Constraints](/img/kubermatic/main/ui/default-constraint-admin.png?classes=shadow,border "Default Constraints")
 To add a new default constraint click on the `+Add Default Constraint` icon on the right. A new dialog will appear, where you can specify the name, the constraint template and the spec:
 
 ![Create Default Constraint](/img/kubermatic/main/ui/create-default-constraint-dialog.png?height=300px&classes=shadow,border "Create Default Constraint")
@@ -164,10 +164,10 @@ selector:
   labelSelector: {}
 ```
 
-![Created Default Constraint](/img/kubermatic/main/ui/default-constraint-admin-view.png?height=200px&classes=shadow,border "Created Default Constraint")
+![Created Default Constraint](/img/kubermatic/main/ui/default-constraint-admin-view.png?classes=shadow,border "Created Default Constraint")
 
 The Default Constraint created will also show up in the applied cluster view with `Admin Constraint` label
-![Created Default Constraint on the Cluster](/img/kubermatic/main/ui/default_constraint_cluster_view.png?height=200px&classes=shadow,border "Created Default Constraint on the Cluster")
+![Created Default Constraint on the Cluster](/img/kubermatic/main/ui/default_constraint_cluster_view.png?classes=shadow,border "Created Default Constraint on the Cluster")
 
 #### Edit Default Constraint
 
@@ -176,10 +176,10 @@ Editing Default Constraint will sync the changes to all the respective constrain
 admin_default_constraint.png
 
 To edit the constraint click on edit button on the right that appears when hovering over one of the rows.
-![Edit Default Constraint](/img/kubermatic/main/ui/edit-delete-default-constraint.png?height=200px&classes=shadow,border "Edit Default Constraint")
+![Edit Default Constraint](/img/kubermatic/main/ui/edit-delete-default-constraint.png?classes=shadow,border "Edit Default Constraint")
 
 In the appearing dialog you can now edit the Default Constraint.
-![Edit Constraint Dialog](/img/kubermatic/main/ui/edit-default-constraint-dialog.png?height=350px&classes=shadow,border "Edit Constraint Dialog")
+![Edit Constraint Dialog](/img/kubermatic/main/ui/edit-default-constraint-dialog.png?classes=shadow,border "Edit Constraint Dialog")
 
 #### Filtering Clusters on Default Constraints
 
@@ -190,7 +190,7 @@ This is an EE feature.
 Filter Clusters feature enables Admin to filter User Clusters where Default Constraint is applied using with  Cloud Provider and Label Selector filters.
 
 In case of no filtering applied Default Constraints are synced to all User Clusters which can be verified by the `Applies To` field as shown here:
-![Default Constraint Applies To](/img/kubermatic/main/ui/default-constraint-admin-view.png?height=200px&classes=shadow,border "Default Constraint Applies To")
+![Default Constraint Applies To](/img/kubermatic/main/ui/default-constraint-admin-view.png?classes=shadow,border "Default Constraint Applies To")
 
 for example, Admin wants to apply a policy only on clusters with the provider as `aws` and label selector as `filtered:true`
 To enable this add the following selectors in the constraint spec for the above use case.
@@ -204,14 +204,14 @@ selector:
       filtered: 'true'
 ```
 
-![Default Constraint Filters](/img/kubermatic/main/ui/default-constraint-applied-to.png?height=200px&classes=shadow,border "Default Constraint Filters")
+![Default Constraint Filters](/img/kubermatic/main/ui/default-constraint-applied-to.png?classes=shadow,border "Default Constraint Filters")
 
 Constraints then can only be seen in the clusters which satisfy the filters.
 for example, for the above use case Default Constraints will be applied to Cluster `blissful-stallman` with Provider `aws` and filter `filtered: 'true'` and not on the Cluster `zen-knuth` with Provider `gcp`
 
-![Clusters](/img/kubermatic/main/ui/filtered-clusters.png?height=200px&classes=shadow,border "Clusters")
+![Clusters](/img/kubermatic/main/ui/filtered-clusters.png?classes=shadow,border "Clusters")
 
-![Filtered Cluster with Default Constraint](/img/kubermatic/main/ui/cluster-aws-filter.png?height=400px&classes=shadow,border "Filtered Cluster with Default Constraint")
+![Filtered Cluster with Default Constraint](/img/kubermatic/main/ui/cluster-aws-filter.png?classes=shadow,border "Filtered Cluster with Default Constraint")
 
 ### Disabling Constraint
 
@@ -233,24 +233,24 @@ Disabled Kubermatic Constraint on a Cluster is blurred to differentiate between 
 #### Disable Default Constraints
 
 In Admin View to disable Default Constraints, click on the green button under `On/Off`
-![Disable Default Constraint](/img/kubermatic/main/ui/default-constraint-on.png?height=200px&classes=shadow,border "Disable Default Constraint")
+![Disable Default Constraint](/img/kubermatic/main/ui/default-constraint-on.png?classes=shadow,border "Disable Default Constraint")
 
 Kubermatic adds a label `disabled: true` to the Disabled Constraint
 ![Disabled Default Constraint](/img/kubermatic/main/ui/default-constraint-default-true.png?height=400px&classes=shadow,border "Disabled Default Constraint")
 
 
-![Disabled Default Constraint](/img/kubermatic/main/ui/disabled-default-constraint-cluster-view.png?height=200px&classes=shadow,border "Disabled Default Constraint")
+![Disabled Default Constraint](/img/kubermatic/main/ui/disabled-default-constraint-cluster-view.png?classes=shadow,border "Disabled Default Constraint")
 
 
 Enable the constraint by clicking the same button
-![Enable Default Constraint](/img/kubermatic/main/ui/disabled-default-constraint.png?height=200px&classes=shadow,border "Enable Default Constraint")
+![Enable Default Constraint](/img/kubermatic/main/ui/disabled-default-constraint.png?classes=shadow,border "Enable Default Constraint")
 
 ### Delete Default Constraint
 
 Deleting Default Constraint causes all related Constraints on the user clusters to be deleted as well.
 
 To delete the constraint click on delete button on the right that appears when hovering over one of the rows.
-![Delete Default Constraint](/img/kubermatic/main/ui/edit-delete-default-constraint.png?height=200px&classes=shadow,border "Delete Default Constraint")
+![Delete Default Constraint](/img/kubermatic/main/ui/edit-delete-default-constraint.png?classes=shadow,border "Delete Default Constraint")
 
 ### AllowedRegistry
 
@@ -299,4 +299,4 @@ sync:
 ```
 
 Just click on `Add` to create the config. The view then displays the config parts you specified. You can also edit and delete it later.
-![Gatekeeper Config](/img/kubermatic/main/ui/opa_config_overview.png?height=300px&classes=shadow,border "Gatekeeper Config")
+![Gatekeeper Config](/img/kubermatic/main/ui/opa_config_overview.png?classes=shadow,border "Gatekeeper Config")

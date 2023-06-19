@@ -9,7 +9,7 @@ Interface section in the Admin Panel allows user to control various cluster-rela
 can influence cluster creation, management and cleanup after deletion.
 
 ## Defaults Cluster Settings
-![](/img/kubermatic/main/ui/defaults_cluster_settings.png?height=500px&classes=shadow,border)
+![](/img/kubermatic/main/ui/defaults_cluster_settings.png?classes=shadow,border)
 
 - ### [Cleanup on Cluster Deletion](#cleanup-on-cluster-deletion)
 
@@ -21,7 +21,7 @@ can influence cluster creation, management and cleanup after deletion.
 
 This section controls cluster cleanup settings available inside cluster delete dialog.
 
-![](/img/kubermatic/main/ui/delete_cluster_dialog.png?height=200px&classes=shadow,border)
+![](/img/kubermatic/main/ui/delete_cluster_dialog.png?classes=shadow,border)
 
 ### Enable by Default
 
@@ -42,12 +42,12 @@ the cluster details.
 
 #### Cluster Creation Wizard - Initial Nodes Step
 
-![](/img/kubermatic/main/ui/wizard_initial_nodes_step.png?height=300px&classes=shadow,border)
+![](/img/kubermatic/main/ui/wizard_initial_nodes_step.png?classes=shadow,border)
 
 
 ## Limits
 
-![](/img/kubermatic/main/ui/interface_limits.png?height=250px&classes=shadow,border)
+![](/img/kubermatic/main/ui/interface_limits.png?classes=shadow,border)
 - ### [User Projects Limit](#user-projects-limit)
 
 - ### [Resource Filter](#resource-filter)
