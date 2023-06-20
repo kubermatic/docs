@@ -16,12 +16,14 @@ Here are some quick links to the different chapters:
   * [Preparing a New Theme Without Access to the Sources]({{< ref "#customizing-the-application-sources-inside-custom-container" >}})
 
 ## Modifying Available Themes
+
 Currently, the application offers two themes by default, light and dark. There is also an option to choose system theme and let the application choose dark/light theme based
 on the user's operating system theme. Each user can specify a theme to use in the `Account` view which is accessible from the user menu under `User Settings`:
 
 ![User Settings](/img/kubermatic/main/ui/user_settings.png?classes=shadow,border "User Settings")
 
 ### Disabling Theming Functionality
+
 In order to disable theming options for all users and enforce using only the default theme, set
 `enforced_theme` property in the application `config.json` file to the name of the theme that should be enforced (i.e. `light`).
 
