@@ -147,7 +147,8 @@ For infrastructure (e.g. VMs, tags and networking) provisioning actions of KKP i
     * Provisioning
       * Modify customization specification
       * Read customization specifications
-
+  * vSphere Tagging
+    * Assign or Unassign vSphere Tag on Object
 ---
 
 ```
@@ -167,20 +168,23 @@ VirtualMachine.Provisioning.ReadCustSpecs
 * Granted at **datacenter** level, **not** propagated
 * Needed for cloning the template VM (obviously this is not done in a folder at this time)
 * Permissions
-* Datastore
-  * Allocate space
-  * Browse datastore
-  * Low level file operations
-  * Remove file
-* vApp
-  * vApp application configuration
-  * vApp instance configuration
-* Virtual Machine
-  * Change CPU count
-  * Memory
-  * Settings
-* Inventory
-  * Create from existing
+  * Datastore
+    * Allocate space
+    * Browse datastore
+    * Low level file operations
+    * Remove file
+  * vApp
+    * vApp application configuration
+    * vApp instance configuration
+  * Virtual Machine
+    * Change Configuration
+      * Change CPU count
+      * Change Memory
+      * Change Settings
+    * Edit Inventory
+      * Create from existing
+  * vSphere Tagging
+    * Assign or Unassign vSphere Tag on Object
 
 ---
 
@@ -212,6 +216,8 @@ VirtualMachine.Inventory.CreateFromExisting
         * Create
         * Delete
         * Edit
+    * Folder
+      * Create folder
     * Host
       * Configuration
         * Storage partition configuration
@@ -219,7 +225,7 @@ VirtualMachine.Inventory.CreateFromExisting
       * Local operations
         * Reconfigure virtual machine
       * Inventory
-        * EditCluster
+        * Modify cluster
     * Resource
       * Assign virtual machine to resource pool
       * Migrate powered off virtual machine
@@ -265,10 +271,10 @@ Network.Assign
 ##### Role `k8c-user-datastore-propagate`
 * Granted at **datastore / datastore cluster** level, propagated
 * Permissions
-* Datastore
-  * Allocate space
-  * Browse datastore
-  * Low level file operations
+  * Datastore
+    * Allocate space
+    * Browse datastore
+    * Low level file operations
 
 ---
 
@@ -284,18 +290,20 @@ Datastore.FileManagement
 * Granted at **VM Folder** and **Template Folder** level, propagated
 * Needed for managing the node VMs
 * Permissions
-* Folder
-  * Create folder
-  * Delete folder
-* Global
-  * Set custom attribute
-* Virtual machine
-  * Change Configuration
-  * Edit Inventory
-  * Guest operations
-  * Interaction
-  * Provisioning
-  * Snapshot management
+  * Folder
+    * Create folder
+    * Delete folder
+  * Global
+    * Set custom attribute
+  * Virtual machine
+    * Change Configuration
+    * Edit Inventory
+    * Guest operations
+    * Interaction
+    * Provisioning
+    * Snapshot management
+  * vShere Tagging
+    * Assign or Unassign vSphere Tag on Object
 
 ---
 
@@ -407,11 +415,12 @@ If a tag was not attached to the user cluster, machine controller will only deta
 * Granted at datacenter level, propagated
 * Provides permission to create vSphere tags for a dedicated category, which are required by KKP seed controller manager
 * Permissions
-* vSphere Tagging
-  * Create vSphere Tag
-  * Delete vSphere Tag
-  * Assign or Unassign vSphere Tag on an Object
-
+  * vSphere Tagging
+    * Assign or Unassign vSphere Tag
+    * Assign or Unassign vSphere Tag on an Object
+    * Create vSphere Tag
+    * Delete vSphere Tag
+    
 ---
 
 ```
