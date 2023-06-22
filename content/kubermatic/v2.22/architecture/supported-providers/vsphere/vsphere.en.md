@@ -380,6 +380,45 @@ The described permissions have been tested with vSphere 7.0.U2 and might be diff
 It's also possible to create the roles by a terraform script. The following repo can be used as reference:
 * https://github.com/kubermatic-labs/kubermatic-vsphere-permissions-terraform
 
+## Datastores and Datastore Clusters
+
+*Datastores* in vSphere are an abstraction for storage.
+A *Datastore Cluster* is a collection of datastores with shared resources and a
+shared management interface.
+
+In KKP *Datastores* are used for two purposes:
+
+* Storing the VMs files for the worker nodes of vSphere user clusters.
+* Generating the vSphere cloud provider storage configuration for user clusters.
+  In particular to provide the `dafault-datastore` value, that is the default
+  datastore for dynamic volume provisioning.
+
+*Datastore Clusters* can only be used for the first purpose as it cannot be
+specified directly in [vSphere cloud configuration][vsphere-cloud-config].
+
+There are three places where Datastores and Datastore Clusters can be configured
+in KKP:
+
+* At datacenter level (configured in the [Seed CRD]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})))
+  it is possible to
+  specify the default *Datastore* that will be used for user clusters dynamic
+  volume provisioning and workers VMs placement in case no *Datastore* or
+  *Datastore Cluster* is specified at cluster level.
+* At *Cluster* level it is possible to provide either a *Datastore* or a
+  *Datastore Cluster* respectively with `spec.cloud.vsphere.datastore` and
+  `spec.cloud.vsphere.datastoreCluster` fields.
+* It is possible to specify *Datastore* or *Datastore Clusters* in a preset
+  than is later used to create a user cluster from it.
+
+These settings can also be configured as part of the "Advanced Settings" step
+when creating a user cluster from the [KKP dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/#create-cluster" >}}).
+
+[vsphere-cloud-config]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-BFF39F1D-F70A-4360-ABC9-85BDAFBE8864.html?hWord=N4IghgNiBcIMYQK4GcAuBTATgWgJYBMACAYQGUBJEAXyA
+[vsphere-storage-plugin-roles]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html#GUID-043ACF65-9E0B-475C-A507-BBBE2579AA58__GUID-E51466CB-F1EA-4AD7-A541-F22CDC6DE881
+
+
+## Known Issues
+
 ### Volume Detach Bug
 
 After a node is powered-off, the Kubernetes vSphere driver doesn't detach disks associated with PVCs mounted on that node. This makes it impossible to reschedule pods using these PVCs until the disks are manually detached in vCenter.
@@ -392,39 +431,38 @@ Upstream Kubernetes has been working on the issue for a long time now and tracki
 * <https://github.com/kubernetes/kubernetes/issues/71829>
 * <https://github.com/kubernetes/kubernetes/issues/75342>
 
-## Datastores and Datastore Clusters
+## Internal Kubernetes endpoints unreachable
 
-*Datastore* in VMWare vSphere is an abstraction for storage.
-*Datastore Cluster* is a collection of datastores with shared resources and a
-shared management interface.
+### Symptoms
 
-In KKP *Datastores* are used for two purposes:
-- Storing the VMs files for the worker nodes of vSphere user clusters.
-- Generating the vSphere cloud provider storage configuration for user clusters.
-  In particular to provide the `dafault-datastore` value, that is the default
-  datastore for dynamic volume provisioning.
+* Unable to perform CRUD operations on resources governed by webhooks (e.g. ValidatingWebhookConfiguration, MutatingWebhookConfiguration, etc.). The following error is observed:
 
-*Datastore Clusters* can only be used for the first purpose as it cannot be
-specified directly in [vSphere cloud configuration][vsphere-cloud-config].
+```sh
+Internal error occurred: failed calling webhook "webhook-name": failed to call webhook: Post "https://webhook-service-name.namespace.svc:443/webhook-endpoint": context deadline exceeded
+```
 
-There are two places where Datastores and Datastore Clusters can be configured
-in KKP
+* Unable to reach internal Kubernetes endpoints from pods/nodes.
+* ICMP is working but TCP/UDP is not.
 
-- At datacenter level (either with [Seed CRD]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})
-  or [datacenters.yaml]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})) is possible to
-  specify the default *Datastore* that will be used for user clusters dynamic
-  volume provisioning and workers VMs placement in case no *Datastore* or
-  *Datastore Cluster* is specified at cluster level.
-- At *Cluster* level it is possible to provide either a *Datastore* or a
-  *Datastore Cluster* respectively with `spec.cloud.vsphere.datastore` and
-  `spec.cloud.vsphere.datastoreCluster` fields.
+### Cause
 
-{{% notice warning %}}
-At the moment of writing this document *Datastore and *Datastore Cluster*
-are not supported yet at `Cluster` level by Kubermatic UI.
-{{% /notice %}}
+On recent enough VMware hardware compatibility version (i.e >=15 or maybe >=14), CNI connectivity breaks because of hardware segmentation offload. `cilium-health status` has ICMP connectivity working, but not TCP connectivity. cilium-health status may also fail completely.
 
-It is possible to specify *Datastore* or *Datastore Clusters* in preset.
+### Solution
 
-[vsphere-cloud-config]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-BFF39F1D-F70A-4360-ABC9-85BDAFBE8864.html?hWord=N4IghgNiBcIMYQK4GcAuBTATgWgJYBMACAYQGUBJEAXyA
-[vsphere-storage-plugin-roles]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html#GUID-043ACF65-9E0B-475C-A507-BBBE2579AA58__GUID-E51466CB-F1EA-4AD7-A541-F22CDC6DE881
+```sh
+sudo ethtool -K ens192 tx-udp_tnl-segmentation off
+sudo ethtool -K ens192 tx-udp_tnl-csum-segmentation off
+```
+
+These flags are related to the hardware segmentation offload done by the vSphere driver VMXNET3. We have observed this issue for both Cilium and Canal CNI running on Ubuntu 22.04.
+
+We have two options to configure these flags for KKP installations:
+
+* When configuring the VM template, set these flags as well.
+* Create a [custom Operating System Profile]({{< ref "../../../tutorials-howtos/operating-system-manager/usage#custom-operatingsystemprofiles" >}}) and configure the flags there.
+
+### References
+
+* <https://github.com/cilium/cilium/issues/13096>
+* <https://github.com/cilium/cilium/issues/21801>
