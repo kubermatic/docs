@@ -24,10 +24,7 @@ You can add an existing OpenStack KubeOne cluster and then manage it using KKP.
 
 ![Cluster Settings](/img/kubermatic/main/tutorials/kubeone_clusters/cluster_settings_step.png "Cluster Settings")
 
-- Provide Credentials in either of the below mentioned ways:
-    - Select a pre-created preset which stores the provider specific credentials.
-
-    - Manually enter the credentials `AuthURL`, `Username`, `Password`, `Domain`, `Project Name`, `Project ID`, `Region` used to create the KubeOne cluster you are importing.
+- Enter the credentials `AuthURL`, `Username`, `Password`, `Domain`, `Project Name`, `Project ID` and `Region` used to create the KubeOne cluster you are importing.
 
 
 ![OpenStack credentials](/img/kubermatic/main/tutorials/kubeone_clusters/openstack_credentials_step.png "OpenStack credentials")

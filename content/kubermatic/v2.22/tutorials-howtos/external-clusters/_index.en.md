@@ -60,7 +60,7 @@ You can then see the details of the cluster.
 
 ## Create External Cluster
 
-KKP allows creating an Kubernetes cluster on AKS/GKE/EKS and import it as an External Cluster.
+KKP allows creating a Kubernetes cluster on AKS/GKE/EKS and import it as an External Cluster.
 
 ![Create External Cluster](/img/kubermatic/v2.22/tutorials/external_clusters/create_external_cluster.png "Create External Cluster")
 
