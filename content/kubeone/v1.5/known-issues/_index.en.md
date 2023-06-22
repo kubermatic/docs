@@ -136,3 +136,46 @@ restarted while kubeone apply is running).
 
 This issue has been fixed in KubeOne 1.5.1, so we advise upgrading your KubeOne
 installation to 1.5.1 or newer.
+
+## Internal Kubernetes endpoints unreachable on vSphere with Cilium/Canal
+
+|              |                                                   |
+|--------------|---------------------------------------------------|
+| Status       | Workaround available                              |
+| Severity     | Low                                               |
+| GitHub issue | https://github.com/cilium/cilium/issues/21801 |
+
+### Description
+#### Symptoms
+
+* Unable to perform CRUD operations on resources governed by webhooks (e.g. ValidatingWebhookConfiguration, MutatingWebhookConfiguration, etc.). The following error is observed:
+
+```sh
+Internal error occurred: failed calling webhook "webhook-name": failed to call webhook: Post "https://webhook-service-name.namespace.svc:443/webhook-endpoint": context deadline exceeded
+```
+
+* Unable to reach internal Kubernetes endpoints from pods/nodes.
+* ICMP is working but TCP/UDP is not.
+
+#### Cause
+
+On recent enough VMware hardware compatibility version (i.e >=15 or maybe >=14), CNI connectivity breaks because of hardware segmentation offload. `cilium-health status` has ICMP connectivity working, but not TCP connectivity. cilium-health status may also fail completely.
+
+### Recommendation
+
+```sh
+sudo ethtool -K ens192 tx-udp_tnl-segmentation off
+sudo ethtool -K ens192 tx-udp_tnl-csum-segmentation off
+```
+
+These flags are related to the hardware segmentation offload done by the vSphere driver VMXNET3. We have observed this issue for both Cilium and Canal CNI running on Ubuntu 22.04.
+
+We have two options to configure these flags for KubeOne installations:
+
+* When configuring the VM template, set these flags as well.
+* Create a [custom Operating System Profile]({{< ref "../architecture/operating-system-manager/usage#using-custom-operatingsystemprofile" >}}) and configure the flags there.
+
+### References
+
+* <https://github.com/cilium/cilium/issues/13096>
+* <https://github.com/cilium/cilium/issues/21801>

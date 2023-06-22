@@ -249,7 +249,7 @@ Ensure that **CD/DVD drive 1** is set to **Client Device**, then click on that
 drive and ensure that **Device Mode** is set to **Passthrough CD-ROM**. Click on
 **OK** button to confirm the changes.
 
-Finally, go to the **Configure** tab and then choose vApp Options. Click on 
+Finally, go to the **Configure** tab and then choose vApp Options. Click on
 the **Edit** button and ensure that:
 - **Enable vApp options** is checked
 - **IP protocol** is set to the appropriate protocol
@@ -259,8 +259,13 @@ Confirm the changes by clicking on the **OK** button.
 
 ## Conclusion
 
-The VM configuration is now completely done and the VM can be used as a 
+The VM configuration is now completely done and the VM can be used as a
 template VM for both Terraform and machine-controller.
 
 [cloud images]: https://cloud-images.ubuntu.com/
 [cloud-images-jammy]: https://cloud-images.ubuntu.com/jammy/current/
+
+## Known Issues
+
+* Internal Kubernetes endpoints unreachable on vSphere with Cilium/Canal on VMXNET3 adapter, see [this issue](../../../known-issues/#internal-kubernetes-endpoints-unreachable-on-vsphere-with-ciliumcanal) for more details and workaround.
+  

@@ -420,7 +420,7 @@ If a tag was not attached to the user cluster, machine controller will only deta
     * Assign or Unassign vSphere Tag on an Object
     * Create vSphere Tag
     * Delete vSphere Tag
-    
+
 ---
 
 ```
@@ -450,6 +450,43 @@ System.View
 
 The described permissions have been tested with vSphere 7.0.U2 and might be different for other vSphere versions.
 
+## Datastores and Datastore Clusters
+
+*Datastores* in vSphere are an abstraction for storage.
+A *Datastore Cluster* is a collection of datastores with shared resources and a
+shared management interface.
+
+In KKP *Datastores* are used for two purposes:
+
+* Storing the VMs files for the worker nodes of vSphere user clusters.
+* Generating the vSphere cloud provider storage configuration for user clusters.
+  In particular to provide the `dafault-datastore` value, that is the default
+  datastore for dynamic volume provisioning.
+
+*Datastore Clusters* can only be used for the first purpose as it cannot be
+specified directly in [vSphere cloud configuration][vsphere-cloud-config].
+
+There are three places where Datastores and Datastore Clusters can be configured
+in KKP:
+
+* At datacenter level (configured in the [Seed CRD]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})))
+  it is possible to
+  specify the default *Datastore* that will be used for user clusters dynamic
+  volume provisioning and workers VMs placement in case no *Datastore* or
+  *Datastore Cluster* is specified at cluster level.
+* At *Cluster* level it is possible to provide either a *Datastore* or a
+  *Datastore Cluster* respectively with `spec.cloud.vsphere.datastore` and
+  `spec.cloud.vsphere.datastoreCluster` fields.
+* It is possible to specify *Datastore* or *Datastore Clusters* in a preset
+  than is later used to create a user cluster from it.
+
+These settings can also be configured as part of the "Advanced Settings" step
+when creating a user cluster from the [KKP dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/#create-cluster" >}}).
+
+[vsphere-cloud-config]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-BFF39F1D-F70A-4360-ABC9-85BDAFBE8864.html?hWord=N4IghgNiBcIMYQK4GcAuBTATgWgJYBMACAYQGUBJEAXyA
+[vsphere-storage-plugin-roles]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html#GUID-043ACF65-9E0B-475C-A507-BBBE2579AA58__GUID-E51466CB-F1EA-4AD7-A541-F22CDC6DE881
+
+
 ## Known Issues
 
 ### Volume Detach Bug
@@ -463,41 +500,6 @@ Upstream Kubernetes has been working on the issue for a long time now and tracki
 * <https://github.com/kubernetes/kubernetes/issues/67900>
 * <https://github.com/kubernetes/kubernetes/issues/71829>
 * <https://github.com/kubernetes/kubernetes/issues/75342>
-
-## Datastores and Datastore Clusters
-
-*Datastores* in vSphere are an abstraction for storage.
-A *Datastore Cluster* is a collection of datastores with shared resources and a
-shared management interface.
-
-In KKP *Datastores* are used for two purposes:
-- Storing the VMs files for the worker nodes of vSphere user clusters.
-- Generating the vSphere cloud provider storage configuration for user clusters.
-  In particular to provide the `dafault-datastore` value, that is the default
-  datastore for dynamic volume provisioning.
-
-*Datastore Clusters* can only be used for the first purpose as it cannot be
-specified directly in [vSphere cloud configuration][vsphere-cloud-config].
-
-There are three places where Datastores and Datastore Clusters can be configured
-in KKP:
-
-- At datacenter level (configured in the [Seed CRD]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})))
-  it is possible to
-  specify the default *Datastore* that will be used for user clusters dynamic
-  volume provisioning and workers VMs placement in case no *Datastore* or
-  *Datastore Cluster* is specified at cluster level.
-- At *Cluster* level it is possible to provide either a *Datastore* or a
-  *Datastore Cluster* respectively with `spec.cloud.vsphere.datastore` and
-  `spec.cloud.vsphere.datastoreCluster` fields.
-- It is possible to specify *Datastore* or *Datastore Clusters* in a preset
-  than is later used to create a user cluster from it.
-
-These settings can also be configured as part of the "Advanced Settings" step
-when creating a user cluster from the [KKP dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/#create-cluster" >}}).
-
-[vsphere-cloud-config]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-BFF39F1D-F70A-4360-ABC9-85BDAFBE8864.html?hWord=N4IghgNiBcIMYQK4GcAuBTATgWgJYBMACAYQGUBJEAXyA
-[vsphere-storage-plugin-roles]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html#GUID-043ACF65-9E0B-475C-A507-BBBE2579AA58__GUID-E51466CB-F1EA-4AD7-A541-F22CDC6DE881
 
 ## Internal Kubernetes endpoints unreachable
 
