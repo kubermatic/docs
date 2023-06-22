@@ -55,6 +55,7 @@ spec:
   osName: "ubuntu"
   osVersion: "20.04"
   version: "v1.0.0"
+  provisioningUtility: "cloud-init"
   supportedCloudProviders:
     - name: "aws"
   bootstrapConfig:
