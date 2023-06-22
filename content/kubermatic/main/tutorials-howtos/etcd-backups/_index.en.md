@@ -14,7 +14,7 @@ It is _required_ for the restore to work.
 
 ## Etcd Backups
 
-When the etcd backups are configured for a seed, project admins can create automatic Etcd Backups for the project clusters. B
+When the etcd backups are configured for a seed, project admins can create automatic Etcd Backups for the project clusters.
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
