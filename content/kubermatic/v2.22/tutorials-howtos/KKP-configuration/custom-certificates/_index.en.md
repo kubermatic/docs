@@ -295,9 +295,10 @@ and then adjust your Helm `values.yaml` to configure nginx like so:
 
 ```yaml
 nginx:
-  extraArgs:
-    # The value of this flag is in the form "namespace/name".
-    - '--default-ssl-certificate=mynamespace/mysecret'
+  controller:
+    extraArgs:
+      # The value of this flag is in the form "namespace/name".
+      default-ssl-certificate: "mynamespace/mysecret'
 ```
 
 Redeploy the `nginx-ingress-controller` Helm chart to enable the changes.
