@@ -6,7 +6,7 @@ weight = 20
 +++
 
 {{% notice note %}}
-Upgrading to KKP 2.21 is only supported from version 2.20. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from [2.19 to 2.20]({{< ref "../upgrade-from-2.19-to-2.20/" >}}) and then to 2.21). It is also strongly advised to be on the latest 2.20.x patch release before upgrading to 2.21.
+Upgrading to KKP 2.21 is only supported from version 2.20. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from 2.19 to 2.20 and then to 2.21). It is also strongly advised to be on the latest 2.20.x patch release before upgrading to 2.21.
 {{% /notice %}}
 
 This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.21. For the full list of changes in this release, please check out the [KKP changelog for v2.21](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.21.md). Please read the full document before proceeding with the upgrade.

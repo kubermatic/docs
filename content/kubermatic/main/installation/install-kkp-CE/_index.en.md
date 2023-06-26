@@ -27,7 +27,7 @@ It is also recommended to make yourself familiar with our [architecture document
 ## Requirements
 
 {{% notice warning %}}
-This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../upgrading/upgrade-from-2.21-to-2.22/" >}}) for more information on
+This guide assumes a clean installation into an empty cluster. Please refer to the [upgrade notes]({{< ref "../upgrading/upgrade-from-2.22-to-2.23/" >}}) for more information on
 migrating existing installations.
 {{% /notice %}}
 

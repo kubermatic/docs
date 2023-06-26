@@ -31,22 +31,20 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version          | 1.27 | 1.26 | 1.25 | 1.24 | 1.23[^2]| 1.22[^2] | 1.21[^2] | 1.20[^2] | 1.19[^2] |
-| -------------------  | ---- | ---- | ---- | ---- | ------- | -------- | -------- | -------- | -------- |
-| 2.23.x               | ✓    | ✓    | ✓    | ✓    | -       | -        | -        | -        | -        |
-| 2.22.x               | -    | ✓    | ✓    | ✓    | -       | -        | -        | -        | -        |
-| 2.21.x               | -    | -    | -    | ✓    | ✓       | ✓        | -        | -        | -        |
-| 2.20.x               | -    | -    | -    | -    | ✓       | ✓        | ✓        | ✓        | -        |
+| KKP version          | 1.27 | 1.26 | 1.25 | 1.24 | 1.23[^2]| 1.22[^2] | 
+| -------------------  | ---- | ---- | ---- | ---- | ------- | -------- |
+| 2.23.x               | ✓    | ✓    | ✓    | ✓    | -       | -        |
+| 2.22.x               | -    | ✓    | ✓    | ✓    | -       | -        |
+| 2.21.x               | -    | -    | -    | ✓    | ✓       | ✓        |
 
-
-[^2]: Kubernetes releases from 1.19 to 1.23 have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
+[^2]: Kubernetes releases below version 1.23 have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
 
 Upgrades from a previous Kubernetes version are generally supported whenever a version is marked as supported, for example KKP 2.19 supports updating clusters from Kubernetes 1.20 to 1.21.
 
 ## Provider Incompatibilities
 
 KKP has some incompatibilities with cloud providers, e.g. because their in-tree cloud provider
-implementation has been removed from upstream Kubernetes. For KKP 2.22.x, the following incompatibilities
+implementation has been removed from upstream Kubernetes. For KKP 2.23.x, the following incompatibilities
 apply:
 
 | Condition                          | Incompatible with Kubernetes | Notes                                                                                             |

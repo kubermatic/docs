@@ -27,9 +27,9 @@ The following table lists the versions of individual CNIs supported by KKP:
 
 | KKP version | Canal                              | Cilium                      |
 |-------------|------------------------------------|-----------------------------|
+| `v2.23.x`   | `v3.25`, `v3.24`, `v3.23`          | `v1.13.x`, `v1.12`, `v1.11` |
 | `v2.22.x`   | `v3.24`, `v3.23`, `v3.22`          | `v1.13.x`, `v1.12`, `v1.11` |
 | `v2.21.x`   | `v3.23`, `v3.22`, `v3.21`, `v3.20` | `v1.12`, `v1.11`            |
-| `v2.20.x`   | `v3.22`, `v3.21`, `v3.20`, `v3.19` | `v1.11`                     |
 
 The desired CNI type and version can be selected at the cluster creation time - on the Cluster Settings page, as shown below:
 

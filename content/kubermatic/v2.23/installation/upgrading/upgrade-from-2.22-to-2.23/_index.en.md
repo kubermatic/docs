@@ -27,7 +27,7 @@ Before starting the upgrade, make sure your KKP Master and Seed clusters are hea
 
 ### KKP Master Upgrade
 
-Download the latest 2.23.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.21 available and already adjusted for any 2.23 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
+Download the latest 2.23.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.22 available and already adjusted for any 2.23 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
 ```sh
 $ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
@@ -45,23 +45,23 @@ INFO[0001]    💾 Deploying kubermatic-fast StorageClass…
 INFO[0001]    ✅ StorageClass exists, nothing to do.
 INFO[0001]    📦 Deploying nginx-ingress-controller…
 INFO[0001]       Deploying Helm chart…
-INFO[0002]       Updating release from 2.21.6 to 2.23.0…
+INFO[0002]       Updating release from 2.22.4 to 2.23.0…
 INFO[0005]    ✅ Success.
 INFO[0005]    📦 Deploying cert-manager…
 INFO[0005]       Deploying Custom Resource Definitions…
 INFO[0006]       Deploying Helm chart…
-INFO[0007]       Updating release from 2.21.6 to 2.23.0…
+INFO[0007]       Updating release from 2.22.4 to 2.23.0…
 INFO[0026]    ✅ Success.
 INFO[0026]    📦 Deploying Dex…
-INFO[0027]       Updating release from 2.21.6 to 2.23.0…
+INFO[0027]       Updating release from 2.22.4 to 2.23.0…
 INFO[0030]    ✅ Success.
 INFO[0030]    📦 Deploying Kubermatic Operator…
 INFO[0030]       Deploying Custom Resource Definitions…
 INFO[0034]       Deploying Helm chart…
-INFO[0035]       Updating release from 2.21.6 to 2.23.0…
+INFO[0035]       Updating release from 2.22.4 to 2.23.0…
 INFO[0064]    ✅ Success.
 INFO[0064]    📦 Deploying Telemetry
-INFO[0065]       Updating release from 2.21.6 to 2.23.0…
+INFO[0065]       Updating release from 2.22.4 to 2.23.0…
 INFO[0066]    ✅ Success.
 INFO[0066]    📡 Determining DNS settings…
 INFO[0066]       The main LoadBalancer is ready.
