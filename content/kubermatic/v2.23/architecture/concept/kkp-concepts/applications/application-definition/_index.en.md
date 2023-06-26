@@ -330,5 +330,5 @@ spec:
 **The following is an example of ApplicationDefinition, showing all the possible options**.
 
 ```yaml
-{{< readfile "kubermatic/main/data/applicationDefinition.yaml" >}}
+{{< readfile "kubermatic/v2.23/data/applicationDefinition.yaml" >}}
 ```
