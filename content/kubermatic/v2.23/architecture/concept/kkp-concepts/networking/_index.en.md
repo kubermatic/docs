@@ -14,16 +14,16 @@ The [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-st
 This section explains how the connection between user clusters and the control plane is established, as well as the general networking concept in KKP.
 
 
-![KKP Network](/img/kubermatic/main/concepts/architecture/network.png?classes=shadow,border "This diagram illustrated the necessary connections for KKP.")
+![KKP Network](/img/kubermatic/v2.23/concepts/architecture/network.png?classes=shadow,border "This diagram illustrated the necessary connections for KKP.")
 
 The following diagrams illustrate all available [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-strategies" >}}) available in KKP.
 They define how user cluster connect to their control plane and how users connect to the cluster apiserver.
 
-![KKP NodePort](/img/kubermatic/main/concepts/architecture/expose-np.png?classes=shadow,border "NodePort")
+![KKP NodePort](/img/kubermatic/v2.23/concepts/architecture/expose-np.png?classes=shadow,border "NodePort")
 
-![KKP Tunneling](/img/kubermatic/main/concepts/architecture/expose-tunnel.png?classes=shadow,border "Tunneling")
+![KKP Tunneling](/img/kubermatic/v2.23/concepts/architecture/expose-tunnel.png?classes=shadow,border "Tunneling")
 
-![KKP LoadBalancer](/img/kubermatic/main/concepts/architecture/expose-lb.png?classes=shadow,border "LoadBalancer")
+![KKP LoadBalancer](/img/kubermatic/v2.23/concepts/architecture/expose-lb.png?classes=shadow,border "LoadBalancer")
 
 Required accessible ports: 
 

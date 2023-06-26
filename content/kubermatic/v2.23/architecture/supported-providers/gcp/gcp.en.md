@@ -63,4 +63,4 @@ base64 -w 0 ./k8c-cluster-provisioner-sa-key.json
 The base64-encoded key for the service account can be passed in the field `serviceAccount` of the
 `cloudProviderSpec` of the machine deployment. The encoded key can be entered in the UI field `Service Account`:
 
-![GCP Service Account Key](/img/kubermatic/main/ui/gcp_credentials.png?classes=shadow,border "Cluster Wizard Credential Step")
+![GCP Service Account Key](/img/kubermatic/v2.23/ui/gcp_credentials.png?classes=shadow,border "Cluster Wizard Credential Step")

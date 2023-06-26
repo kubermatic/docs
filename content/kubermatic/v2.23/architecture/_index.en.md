@@ -40,13 +40,13 @@ KKP has the concept of **Datacenters**, for example "AWS US-East", "DigitalOcean
 
 In a typical small-scale setup, pictured below, a single cluster contains KKP and the master components for every user cluster.
 
-![KKP Architecture Diagram](/img/kubermatic/main/architecture/combined-master-seed.png)
+![KKP Architecture Diagram](/img/kubermatic/v2.23/architecture/combined-master-seed.png)
 
 ### Large-Scale Deployments
 
 Instead of running the KKP master and seed components in a single cluster, it is advisable for large-scale deployments to have multiple, dedicated seed clusters, as pictured below.
 
-![KKP Architecture Diagram](/img/kubermatic/main/architecture/dedicated-seeds.png)
+![KKP Architecture Diagram](/img/kubermatic/v2.23/architecture/dedicated-seeds.png)
 
 This setup is useful for keeping the latency between the master components of a user cluster and the worker nodes as small as possible, improving the Kubernetes performance for customers. In this setup, the supported datacenters are assigned to a single seed, for example
 

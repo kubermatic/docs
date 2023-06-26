@@ -155,11 +155,11 @@ version of the application changes it will be automatically shown right after lo
 last seen version in the user object in order to avoid showing it every time after logging in when there was no version
 update. It is still possible to open it manually by using the `What's new` entry inside `Help & Support` panel.
 
-![Opening Changelog](/img/kubermatic/main/ui/opening_changelog.png?classes=shadow,border)
+![Opening Changelog](/img/kubermatic/v2.23/ui/opening_changelog.png?classes=shadow,border)
 
 An example changelog might look like the one below.
 
-![Changelog](/img/kubermatic/main/ui/changelog.png?classes=shadow,border)
+![Changelog](/img/kubermatic/v2.23/ui/changelog.png?classes=shadow,border)
 
 The `What's New` entry inside `Help & Support` panel can be hidden from Admin Panel's `Customization` page. Please visit
 [Custom Links]({{< ref "../../tutorials-howtos/administration/admin-panel/custom-links/_index.en.md" >}}) for more information.

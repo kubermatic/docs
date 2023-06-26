@@ -90,7 +90,7 @@ it from the KKP dashboard like the other accessible addons. The accessible addon
 
 Accessible addons can be managed in the UI from the cluster details view:
 
-![Addons](/img/kubermatic/main/ui/addons_overview.png?classes=shadow,border "Addons View")
+![Addons](/img/kubermatic/v2.23/ui/addons_overview.png?classes=shadow,border "Addons View")
 
 #### Configuration
 
@@ -269,7 +269,7 @@ See [the section below](#manifest-templating) for more information.
 
 After applying above config the UI should look like below:
 
-![Addon Form](/img/kubermatic/main/ui/addon_form.png?height=450px&classes=shadow,border "Addon Form")
+![Addon Form](/img/kubermatic/v2.23/ui/addon_form.png?height=450px&classes=shadow,border "Addon Form")
 
 ### Custom Addons
 

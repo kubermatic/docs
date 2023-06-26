@@ -69,8 +69,8 @@ spec:
 
 This can be also configured from the KKP UI, either during cluster creation, under the "Network Configuration" > "Advanced Network Configuration":
 
-![Allowed IP Ranges - Cluster Creation](/img/kubermatic/main/tutorials/networking/network_config_allowed_ip_ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Cluster Creation")
+![Allowed IP Ranges - Cluster Creation](/img/kubermatic/v2.23/tutorials/networking/network_config_allowed_ip_ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Cluster Creation")
 
 or in an existing cluster via the "Edit Cluster" dialog:
 
-![Allowed IP Ranges - Edit Cluster](/img/kubermatic/main/tutorials/networking/cluster_details_allowed_ip_ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Edit Cluster")
+![Allowed IP Ranges - Edit Cluster](/img/kubermatic/v2.23/tutorials/networking/cluster_details_allowed_ip_ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Edit Cluster")

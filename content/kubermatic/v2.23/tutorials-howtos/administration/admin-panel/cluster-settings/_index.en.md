@@ -9,7 +9,7 @@ Interface section in the Admin Panel allows user to control various cluster-rela
 can influence cluster creation, management and cleanup after deletion.
 
 ## Defaults Cluster Settings
-![](/img/kubermatic/main/ui/defaults_cluster_settings.png?classes=shadow,border)
+![](/img/kubermatic/v2.23/ui/defaults_cluster_settings.png?classes=shadow,border)
 
 - ### [Cleanup on Cluster Deletion](#cleanup-on-cluster-deletion)
 
@@ -17,11 +17,11 @@ can influence cluster creation, management and cleanup after deletion.
 
 ### Cleanup on Cluster Deletion
 
-![](/img/kubermatic/main/ui/cleanup_on_cluster_deletion.png?classes=shadow,border)
+![](/img/kubermatic/v2.23/ui/cleanup_on_cluster_deletion.png?classes=shadow,border)
 
 This section controls cluster cleanup settings available inside cluster delete dialog.
 
-![](/img/kubermatic/main/ui/delete_cluster_dialog.png?classes=shadow,border)
+![](/img/kubermatic/v2.23/ui/delete_cluster_dialog.png?classes=shadow,border)
 
 ### Enable by Default
 
@@ -34,7 +34,7 @@ be able to check/uncheck them.
 
 ## Machine Deployment
 
-![](/img/kubermatic/main/ui/machine_deployment.png?classes=shadow,border)
+![](/img/kubermatic/v2.23/ui/machine_deployment.png?classes=shadow,border)
 
 This section controls the default number of initial Machine Deployment replicas. It can be seen and changed
 in the cluster creation wizard on the Initial Nodes step and also on the add/edit machine deployment dialog on
@@ -42,12 +42,12 @@ the cluster details.
 
 #### Cluster Creation Wizard - Initial Nodes Step
 
-![](/img/kubermatic/main/ui/wizard_initial_nodes_step.png?classes=shadow,border)
+![](/img/kubermatic/v2.23/ui/wizard_initial_nodes_step.png?classes=shadow,border)
 
 
 ## Limits
 
-![](/img/kubermatic/main/ui/interface_limits.png?classes=shadow,border)
+![](/img/kubermatic/v2.23/ui/interface_limits.png?classes=shadow,border)
 - ### [User Projects Limit](#user-projects-limit)
 
 - ### [Resource Filter](#resource-filter)
@@ -55,7 +55,7 @@ the cluster details.
 
 ## User Projects Limit
 
-![](/img/kubermatic/main/ui/user_projects_limit.png?classes=shadow,border)
+![](/img/kubermatic/v2.23/ui/user_projects_limit.png?classes=shadow,border)
 
 This setting controls how project creation will be handled by the Kubermatic. The administrator can control
 if regular users should be able to create projects. There is also an option to control maximum number of projects
@@ -64,7 +64,7 @@ only non-admin users.
 
 ## Resource Filter
 
-![](/img/kubermatic/main/ui/resource_filter.png?classes=shadow,border)
+![](/img/kubermatic/v2.23/ui/resource_filter.png?classes=shadow,border)
 
 Resource Filter settings provide an easy way to control the size of machines used to create user clusters. The administrator
 can also control if selection of instances with GPU should be possible. Every node size that does not match the

@@ -6,7 +6,7 @@ weight = 151
 
 Get information on how to get the most ouf of the Kubermatic Dashboard, the official UI of the Kubermatic Kubernetes Platform.
 
-![Admin Panel](/img/kubermatic/main/ui/dashboard.png?height=400px&classes=shadow,border "Kubermatic Dashboard")
+![Admin Panel](/img/kubermatic/v2.23/ui/dashboard.png?height=400px&classes=shadow,border "Kubermatic Dashboard")
 
 ## [Preparing New Themes]({{< ref "./theming/_index.en.md" >}})
 A set of tutorials that will teach you how to prepare custom themes and apply them to be used by the KKP Dashboard.

@@ -14,11 +14,11 @@ You can add an existing Azure Kubernetes Service cluster and then manage it usin
 
 - Click `Import External Cluster` button.
 
-![Add External Cluster](/img/kubermatic/main/tutorials/external_clusters/external_cluster_page.png "Add External Cluster")
+![Add External Cluster](/img/kubermatic/v2.23/tutorials/external_clusters/external_cluster_page.png "Add External Cluster")
 
 - Pick `Azure Kubernetes Cluster` provider.
 
-![Select Provider](/img/kubermatic/main/tutorials/external_clusters/connect.png "Select Provider")
+![Select Provider](/img/kubermatic/v2.23/tutorials/external_clusters/connect.png "Select Provider")
 
 - Provide Credentials in either of the below mentioned ways:
     - Select a pre-created preset which stores the provider specific credentials.
@@ -36,11 +36,11 @@ The credentials should provide access rights to read & write Azure Kubernetes Se
 Validation performed will only check if the credentials have `Read` access.
 {{% /notice %}}
 
-![AKS credentials](/img/kubermatic/main/tutorials/external_clusters/aks_credentials.png "AKS credentials")
+![AKS credentials](/img/kubermatic/v2.23/tutorials/external_clusters/aks_credentials.png "AKS credentials")
 
 - You should see the list of all available clusters. Select the one and click the `Import Cluster` button. Clusters can be imported only once in a single project. The same cluster can be imported in multiple projects.
 
-![Select AKS cluster](/img/kubermatic/main/tutorials/external_clusters/select_aks_cluster.png "Select AKS cluster")
+![Select AKS cluster](/img/kubermatic/v2.23/tutorials/external_clusters/select_aks_cluster.png "Select AKS cluster")
 
 ## Create AKS Preset
 Admin can create a preset on a KKP cluster using KKP `Admin Panel`.
@@ -48,42 +48,42 @@ This Preset can then be used to Create/Import an AKS cluster.
 
 - Click on `Admin Panel` from the menu.
 
-![Select Admin Panel](/img/kubermatic/main/tutorials/external_clusters/select_adminpanel.png "Select Admin Panel")
+![Select Admin Panel](/img/kubermatic/v2.23/tutorials/external_clusters/select_adminpanel.png "Select Admin Panel")
 
 - Navigate to `Provider Presets` Page and Click on `+ Create Preset` button.
 
-![Provider Preset Page](/img/kubermatic/main/ui/preset_management.png?height=300px&classes=shadow,border "Provider Preset Page")
+![Provider Preset Page](/img/kubermatic/v2.23/ui/preset_management.png?height=300px&classes=shadow,border "Provider Preset Page")
 
 - Enter Preset Name.
 
-![Provide Preset Name](/img/kubermatic/main/tutorials/external_clusters/create_akspreset.png "Provide Preset Name")
+![Provide Preset Name](/img/kubermatic/v2.23/tutorials/external_clusters/create_akspreset.png "Provide Preset Name")
 
 - Choose `Azure Kubernetes Service` from the list of providers.
 
-![Choose AKS Preset](/img/kubermatic/main/tutorials/external_clusters/choose_akspreset.png "Choose AKS Preset")
+![Choose AKS Preset](/img/kubermatic/v2.23/tutorials/external_clusters/choose_akspreset.png "Choose AKS Preset")
 
 -  Enter AKS credentials and Click on `Create` button.
 
-!["Enter Credentials](/img/kubermatic/main/tutorials/external_clusters/enter_aks_credentials_preset.png "Enter Credentials")
+!["Enter Credentials](/img/kubermatic/v2.23/tutorials/external_clusters/enter_aks_credentials_preset.png "Enter Credentials")
 
 - You can now use created AKS Preset to Create or Import AKS Cluster.
 
-![Select AKS Preset](/img/kubermatic/main/tutorials/external_clusters/existing_aks_preset.png "Select AKS Preset")
+![Select AKS Preset](/img/kubermatic/v2.23/tutorials/external_clusters/existing_aks_preset.png "Select AKS Preset")
 
 ## Cluster Details Page
 
 After the cluster is added, the KKP controller retrieves the cluster kubeconfig to display all necessary information.
 A healthy cluster has `Running` state. Otherwise, the cluster can be in the `Error` state. Move the mouse cursor over the state indicator to get more details.
 
-![AKS cluster](/img/kubermatic/main/tutorials/external_clusters/aks_details.png "AKS cluster")
+![AKS cluster](/img/kubermatic/v2.23/tutorials/external_clusters/aks_details.png "AKS cluster")
 
 You can also expand `Events` to get information from the controller.
 
-![Cluster Events](/img/kubermatic/main/tutorials/external_clusters/aks_cluster_events.png "Cluster Events")
+![Cluster Events](/img/kubermatic/v2.23/tutorials/external_clusters/aks_cluster_events.png "Cluster Events")
 
 You can click on `Machine Deployments` to get the details:
 
-![AKS Machine Deployment](/img/kubermatic/main/tutorials/external_clusters/aks_machine_deployments.png "AKS Machine Deployment")
+![AKS Machine Deployment](/img/kubermatic/v2.23/tutorials/external_clusters/aks_machine_deployments.png "AKS Machine Deployment")
 
 ## Update Cluster
 
@@ -92,9 +92,9 @@ You can click on `Machine Deployments` to get the details:
 When an upgrade for the cluster is available, a little dropdown arrow will be shown beside the `Control Plane Version` on the cluster’s page.
 To start the upgrade, choose the desired version from the list of available upgrade versions and click on `Change Version`.
 
-![Upgrade Available](/img/kubermatic/main/tutorials/external_clusters/aks_upgrade_available.png "Upgrade Available")
+![Upgrade Available](/img/kubermatic/v2.23/tutorials/external_clusters/aks_upgrade_available.png "Upgrade Available")
 
-![Upgrade AKS](/img/kubermatic/main/tutorials/external_clusters/upgrade_aks.png "Upgrade AKS")
+![Upgrade AKS](/img/kubermatic/v2.23/tutorials/external_clusters/upgrade_aks.png "Upgrade AKS")
 
 If the version upgrade is valid, the cluster state will change to `Reconciling`.
 
@@ -108,13 +108,13 @@ Only one operation can be performed at one point of time. If the replica count i
 
 - Click on the edit icon next to the machine deployment you want to edit.
 
-![Update AKS Machine Deployment](/img/kubermatic/main/tutorials/external_clusters/edit_md.png "Update AKS Machine Deployment")
+![Update AKS Machine Deployment](/img/kubermatic/v2.23/tutorials/external_clusters/edit_md.png "Update AKS Machine Deployment")
 
 - Upgrade Kubernetes Version. Select the Kubernetes Version from the dropdown to upgrade the machine deployment.
 
 - Scale the replicas: In the popup dialog, you can increase or decrease the number of worker nodes that are managed by this machine deployment.
 
-![Update AKS Machine Deployment](/img/kubermatic/main/tutorials/external_clusters/scale_aks_md.png "Update AKS Machine Deployment")
+![Update AKS Machine Deployment](/img/kubermatic/v2.23/tutorials/external_clusters/scale_aks_md.png "Update AKS Machine Deployment")
 
 ## Delete Cluster
 
@@ -124,7 +124,7 @@ Delete operation is not allowed for imported clusters
 
 Delete cluster operation allows to delete the cluster from the Provider. Click on the `Delete` button.
 
-![Delete Cluster](/img/kubermatic/main/tutorials/external_clusters/aks_delete_button.png
+![Delete Cluster](/img/kubermatic/v2.23/tutorials/external_clusters/aks_delete_button.png
  "Delete Cluster")
 
 ## Delete the Node Pool
@@ -135,7 +135,7 @@ At least one systempool is required in an AKS cluster.
 
 Navigate to the cluster overview, scroll down to machine deployments and click on the delete icon next to the machine deployment you want to delete.
 
-![Update AKS Machine Deployment](/img/kubermatic/main/tutorials/external_clusters/delete_md.png "Delete AKS Machine Deployment")
+![Update AKS Machine Deployment](/img/kubermatic/v2.23/tutorials/external_clusters/delete_md.png "Delete AKS Machine Deployment")
 
 ## Cluster State:
 
@@ -147,4 +147,4 @@ This represents the state of the last operation attempted on this node pool, suc
 If the cluster is stopped from the Azure side, you will be able to see the current state of the cluster as stopped.
 Cluster details will not be visible as the details are fetched using kubeconfig, and the kubeconfig is not available for the stopped cluster.
 
-![AKS Cluster Stopped](/img/kubermatic/main/tutorials/external_clusters/aks_stopped.png "AKS Cluster Stopped")
+![AKS Cluster Stopped](/img/kubermatic/v2.23/tutorials/external_clusters/aks_stopped.png "AKS Cluster Stopped")
