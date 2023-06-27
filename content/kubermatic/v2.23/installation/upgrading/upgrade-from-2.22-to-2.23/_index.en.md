@@ -100,8 +100,4 @@ Of particular interest to the upgrade process is if the `ResourcesReconciled` co
 
 ## Post-Upgrade Considerations
 
-TBD
-
-## Next Steps
-
-- Try out Kubernetes 1.27, the latest Kubernetes release shipping with this version of KKP.
+No special considerations for after the upgrade are necessary.
