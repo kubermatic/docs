@@ -11,9 +11,9 @@ Upgrading to KKP 2.23 is only supported from version 2.22. Do not attempt to upg
 
 This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.23. For the full list of changes in this release, please check out the [KKP changelog for v2.23](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.23.md). Please read the full document before proceeding with the upgrade.
 
-## TODO: Pre-Upgrade Considerations
+## Pre-Upgrade Considerations
 
-KKP 2.23 adjusts the list of supported Kubernetes versions and drops a couple of Kubernetes releases without upstream support. Support for Kubernetes XXXXXX and below has been removed. As such, all user clusters should be upgraded to Kubernetes YYYYY.
+KKP 2.23 adjusts the list of supported Kubernetes versions but does not drop any old versions in comparison to KKP 2.22. Kubernetes 1.24 continues to be the lowest support version.
 
 ### Velero 1.10
 
@@ -21,13 +21,23 @@ KKP 2.23 adjusts the list of supported Kubernetes versions and drops a couple of
 
 Please refer to the [Velero 1.10 Upgrade Notes](https://velero.io/docs/v1.10/upgrade-to-1.10/) for more information if you want to switch to kopia or have customized Velero in any other way.
 
+### Cluster Isolation Network Policies in KubeVirt
+
+KKP 2.23 changes the way that the `cluster-isolation` feature in the KubeVirt provider works. Previously, a `NetworkPolicy` blocking incoming traffic has been added to each cluster namespace in KubeVirt. With KKP 2.23, this changes to blocking outgoing traffic as it has been identified that blocking incoming traffic is highly problematic in e.g. load balancing scenarios.
+
+Since the direction of blocked traffic changes, it might be necessary to provide your own custom `NetworkPolicies` that allow egress traffic. The new `cluster-isolation` policy blocks traffic to internal IP ranges (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16) by default and only allows traffic within the KubeVirt infrastructure cluster that is vital (e.g. DNS). Additional private IP addresses need to be allowed in separate egress-based policies, for example via the Seed level `customNetworkPolicies` (also [see the KubeVirt provider documentation]({{< ref "../../../architecture/supported-providers/kubevirt/kubevirt/#configure-kkp-with-kubevirt" >}})).
+
+### Canal 3.22 Deprecation
+
+Support for Canal 3.22 has been deprecated in KKP 2.23 and this version will no longer be offered for Kubernetes clusters of version 1.25 or higher. User clusters that are upgraded to Kubernetes 1.25 while running Canal 3.22 will automatically be upgraded to Canal 3.23.
+
 ## Upgrade Procedure
 
 Before starting the upgrade, make sure your KKP Master and Seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.
 
 ### KKP Master Upgrade
 
-Download the latest 2.23.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.21 available and already adjusted for any 2.23 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
+Download the latest 2.23.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.22 available and already adjusted for any 2.23 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
 ```sh
 $ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
@@ -45,23 +55,23 @@ INFO[0001]    💾 Deploying kubermatic-fast StorageClass…
 INFO[0001]    ✅ StorageClass exists, nothing to do.
 INFO[0001]    📦 Deploying nginx-ingress-controller…
 INFO[0001]       Deploying Helm chart…
-INFO[0002]       Updating release from 2.21.6 to 2.23.0…
+INFO[0002]       Updating release from 2.22.4 to 2.23.0…
 INFO[0005]    ✅ Success.
 INFO[0005]    📦 Deploying cert-manager…
 INFO[0005]       Deploying Custom Resource Definitions…
 INFO[0006]       Deploying Helm chart…
-INFO[0007]       Updating release from 2.21.6 to 2.23.0…
+INFO[0007]       Updating release from 2.22.4 to 2.23.0…
 INFO[0026]    ✅ Success.
 INFO[0026]    📦 Deploying Dex…
-INFO[0027]       Updating release from 2.21.6 to 2.23.0…
+INFO[0027]       Updating release from 2.22.4 to 2.23.0…
 INFO[0030]    ✅ Success.
 INFO[0030]    📦 Deploying Kubermatic Operator…
 INFO[0030]       Deploying Custom Resource Definitions…
 INFO[0034]       Deploying Helm chart…
-INFO[0035]       Updating release from 2.21.6 to 2.23.0…
+INFO[0035]       Updating release from 2.22.4 to 2.23.0…
 INFO[0064]    ✅ Success.
 INFO[0064]    📦 Deploying Telemetry
-INFO[0065]       Updating release from 2.21.6 to 2.23.0…
+INFO[0065]       Updating release from 2.22.4 to 2.23.0…
 INFO[0066]    ✅ Success.
 INFO[0066]    📡 Determining DNS settings…
 INFO[0066]       The main LoadBalancer is ready.
@@ -94,4 +104,4 @@ TBD
 
 ## Next Steps
 
-TBD
+- Try out Kubernetes 1.27, the latest Kubernetes release shipping with this version of KKP.
