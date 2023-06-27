@@ -46,11 +46,6 @@ Upgrades from a previous Kubernetes version are generally supported whenever a v
 KKP has some incompatibilities with cloud providers, e.g. because their in-tree cloud provider
 implementation has been removed from upstream Kubernetes. For KKP 2.23.x, the following incompatibilities
 apply:
-## Provider Incompatibilities
-
-KKP has some incompatibilities with cloud providers, e.g. because their in-tree cloud provider
-implementation has been removed from upstream Kubernetes. For KKP 2.23.x, the following incompatibilities
-apply:
 
 | Condition                          | Incompatible with Kubernetes | Notes                                                                                             |
 |------------------------------------|------------------------------|---------------------------------------------------------------------------------------------------|
