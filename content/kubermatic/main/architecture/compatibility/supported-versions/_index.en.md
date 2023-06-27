@@ -48,6 +48,7 @@ implementation has been removed from upstream Kubernetes. For KKP 2.23.x, the fo
 apply:
 
 | Condition                          | Incompatible with Kubernetes | Notes                                                                                             |
-| ---------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------- |
+|------------------------------------|------------------------------|---------------------------------------------------------------------------------------------------|
 | vSphere + in-tree cloud provider   | >= 1.25                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}). |
 | OpenStack + in-tree cloud provider | >= 1.26                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}). |
+| AWS + in-tree cloud provider       | >= 1.27                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}). |

@@ -4,7 +4,7 @@ DOCKER_BIN := $(shell which docker)
 
 .PHONY: preview
 preview:
-	docker run -it --rm \
+	$(DOCKER_BIN) run -it --rm \
 		--name kubermatic-docs \
 		-p 1313:1313 \
 		-w /docs \
