@@ -26,7 +26,8 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 {{- if .versions -}}
 {{- $release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release -}}
 {{- with $.Site.GetPage (printf "/%s/%s" $productName $release)}}
-{{printf "/%s %s 302!" $productName .RelPermalink -}}
+{{printf "/%s %s 302!" $productName .RelPermalink}}
+{{printf "/%s/latest/* %s:splat 302!" $productName .RelPermalink -}}
 {{end -}}
 {{- end -}}
 {{- end -}}
