@@ -11,9 +11,9 @@ deployment.
 ## Preparing a New Theme With Access to the Sources
 
 This approach grants the possibility to reuse already defined code, to work with SCSS rules and to quickly test your new
-theme before applying it to the official deployment. Access to the KKP UI sources is required though. Checkout the [Theme with Source]({{< ref "./with-src" >}}) section for more details.
+theme before applying it to the official deployment. Access to the KKP UI sources is required though. Check out the [Theme with Source]({{< ref "./with-src" >}}) section for more details.
 
 ## Preparing a New Theme Without Access to the Sources
 
 This approach has some more limitations like not being able to modify the SCSS rules, but this way does not require
-access to the KKP UI sources. Checkout the [Theme without Source]({{< ref "./without-src" >}}) section for more details.
+access to the KKP UI sources. Check out the [Theme without Source]({{< ref "./without-src" >}}) section for more details.

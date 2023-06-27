@@ -77,27 +77,33 @@ point to the images inside the container as well, i.e. `/assets/images/icons/cus
 
 The below global settings are managed via UI:
 
-### [Manage Custom Links]({{< ref "./custom-links" >}})
+### Manage Custom Links
 Control the way custom links are displayed in the Kubermatic Dashboard. Choose the place that suits you best, whether
-it is a sidebar, footer or a help & support panel.
+it is a sidebar, footer or a help & support panel. Check out the [Custom Links]({{< ref "./custom-links" >}}) section for
+more details.
 
-### [Control Cluster Settings]({{< ref "./cluster-settings" >}})
+### Control Cluster Settings
 Control number of initial Machine Deployment replicas, cluster deletion cleanup settings, availability of
-Kubernetes Dashboard for user clusters and more.
+Kubernetes Dashboard for user clusters and more. Check out the [Cluster Settings]({{< ref "./cluster-settings" >}}) section
+for more details.
 
-### [Manage Dynamic Datacenters]({{< ref "./dynamic-datacenters-management" >}})
-Use number of filtering options to find and control existing dynamic datacenters or simply create a new one.
+### Manage Dynamic Datacenters
+Use number of filtering options to find and control existing dynamic datacenters or simply create a new one.Check out the
+[Dynamic Datacenters]({{< ref "./dynamic-datacenters-management" >}}) section for more details.
 
-### [Manage Administrators]({{< ref "./administrators" >}})
+### Manage Administrators
 Manage all Kubermatic Dashboard Administrator in a single place. Decide who should be granted or revoked an administrator
-privileges.
+privileges. Check out the [Administrators]({{< ref "./administrators" >}}) section for more details.
 
-### [Manage Presets]({{< ref "./presets-management" >}})
+### Manage Presets
 Prepare custom provider presets for a variety of use cases. Control which presets will be visible to the users down to
-the per-provider level.
+the per-provider level. Check out the [Presets]({{< ref "./presets-management" >}}) section for more details.
 
-### [OPA Constraint Templates]({{< ref "./opa-constraint-templates" >}})
-Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for Constraint parameters and enforce their behavior.
+### OPA Constraint Templates
+Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for Constraint parameters
+and enforce their behavior. Check out the [OPA Constraint Templates]({{< ref "./opa-constraint-templates" >}}) section for
+more details.
 
-### [Backup Buckets]({{< ref "./backup-buckets" >}})
-Through the Backup Buckets settings you can enable and configure the new etcd backups per Seed.
+### Backup Buckets
+Through the Backup Buckets settings you can enable and configure the new etcd backups per Seed. Check out the
+[Etcd Backup Settings]({{< ref "./backup-buckets" >}}) section for more details.
