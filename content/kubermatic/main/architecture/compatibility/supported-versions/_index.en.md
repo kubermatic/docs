@@ -46,8 +46,14 @@ Upgrades from a previous Kubernetes version are generally supported whenever a v
 KKP has some incompatibilities with cloud providers, e.g. because their in-tree cloud provider
 implementation has been removed from upstream Kubernetes. For KKP 2.23.x, the following incompatibilities
 apply:
+## Provider Incompatibilities
+
+KKP has some incompatibilities with cloud providers, e.g. because their in-tree cloud provider
+implementation has been removed from upstream Kubernetes. For KKP 2.23.x, the following incompatibilities
+apply:
 
 | Condition                          | Incompatible with Kubernetes | Notes                                                                                             |
-| ---------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------- |
+|------------------------------------|------------------------------|---------------------------------------------------------------------------------------------------|
 | vSphere + in-tree cloud provider   | >= 1.25                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}). |
 | OpenStack + in-tree cloud provider | >= 1.26                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}). |
+| AWS + in-tree cloud provider       | >= 1.27                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}). |
