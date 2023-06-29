@@ -141,7 +141,7 @@ source <(kubeone completion zsh)
 To active completion permanently, add the command to your `~/.zshrc` file.
 
 ```
-echo "source <(kubeone completion bash)" >> ~/.zshrc
+echo "source <(kubeone completion zsh)" >> ~/.zshrc
 ```
 
 ### Generating documentation
