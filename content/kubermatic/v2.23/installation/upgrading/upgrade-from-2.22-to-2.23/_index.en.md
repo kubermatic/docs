@@ -87,7 +87,14 @@ INFO[0066]
 INFO[0066] 🛬 Installation completed successfully. ✌
 ```
 
-Upgrading seed clusters is not necessary, unless you are running the `minio` Helm chart or User Cluster MLA as distributed by KKP on them. They will be automatically upgraded by KKP components.
+{{% notice warning %}}
+A breaking change in the `minio` Helm chart shipped in KKP v2.23.0 has been identified that will prevent MinIO from starting successfully. See [#12430](https://github.com/kubermatic/kubermatic/issues/12430) for details. We strongly recommend to **not upgrade** the `minio` Helm chart when upgrading to KKP v2.23.0, leaving it at v2.22.x.
+{{% /notice %}}
+
+Upgrading seed cluster is not necessary unless User Cluster MLA has been installed. All other KKP components on the seed will be upgraded automatically.
+
+<!-- TODO(embik): put back in place after issue above is fixed -->
+<!-- Upgrading seed clusters is not necessary, unless you are running the `minio` Helm chart or User Cluster MLA as distributed by KKP on them. They will be automatically upgraded by KKP components.-->
 
 You can follow the upgrade process by either supervising the Pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
