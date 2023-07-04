@@ -5826,6 +5826,7 @@ _Appears in:_
 | `notifications` _[NotificationsOptions](#notificationsoptions)_ | Notifications are the configuration for notifications on dashboard. |
 | `providerConfiguration` _[ProviderConfiguration](#providerconfiguration)_ | ProviderConfiguration are the cloud provider specific configurations on dashboard. |
 | `machineDeploymentVMResourceQuota` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineDeploymentVMResourceQuota is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
+| `allowedOperatingSystems` _object (keys:OperatingSystem, values:boolean)_ | AllowedOperatingSystems shows if the operating system is allowed to be use in the machinedeployment. |
 | `defaultQuota` _[DefaultProjectResourceQuota](#defaultprojectresourcequota)_ | DefaultProjectResourceQuota allows to configure a default project resource quota which will be set for all projects that do not have a custom quota already set. EE-version only. |
 | `machineDeploymentOptions` _[MachineDeploymentOptions](#machinedeploymentoptions)_ |  |
 | `disableChangelogPopup` _boolean_ | DisableChangelogPopup disables the changelog popup in KKP dashboard. |
