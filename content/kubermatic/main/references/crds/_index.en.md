@@ -6240,7 +6240,8 @@ _Appears in:_
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
 | `username` _string_ |  |
 | `password` _string_ |  |
-| `vmNetName` _string_ |  |
+| `vmNetName` _string_ | Deprecated: Use networks instead. |
+| `networks` _string array_ |  |
 | `datastore` _string_ |  |
 | `datastoreCluster` _string_ |  |
 | `resourcePool` _string_ |  |
@@ -6264,7 +6265,8 @@ _Appears in:_
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `username` _string_ | Username is the vSphere user name. |
 | `password` _string_ | Password is the vSphere user password. |
-| `vmNetName` _string_ | VMNetName is the name of the vSphere network. |
+| `vmNetName` _string_ | VMNetName is the name of the vSphere network. Deprecated: Use networks instead. |
+| `networks` _string array_ | Networks is the list of vSphere networks. |
 | `folder` _string_ | Folder is the folder to be used to group the provisioned virtual machines. |
 | `datastore` _string_ | Datastore to be used for storing virtual machines and as a default for dynamic volume provisioning, it is mutually exclusive with DatastoreCluster. |
 | `datastoreCluster` _string_ | DatastoreCluster to be used for storing virtual machines, it is mutually exclusive with Datastore. |
