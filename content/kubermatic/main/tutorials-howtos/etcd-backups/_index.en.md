@@ -61,7 +61,6 @@ To see what backups are available, click on a backup you are interested in, and 
 
 ![Etcd Backups Details List](/img/kubermatic/main/ui/backups_list.png?classes=shadow,border "Etcd Backups Details")
 
-
 Alternatively, the list of backups is also published to the `EtcdBackupConfig` and can be fetched from the object's status
 subresource via `kubectl`. It would look like this:
 
