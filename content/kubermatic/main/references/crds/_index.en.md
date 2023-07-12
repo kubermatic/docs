@@ -4739,6 +4739,8 @@ _Appears in:_
 | `envoy` _[NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)_ | Envoy configures the Envoy application itself. |
 | `envoyManager` _[NodeportProxyComponent](#nodeportproxycomponent)_ | EnvoyManager configures the Kubermatic-internal Envoy manager. |
 | `updater` _[NodeportProxyComponent](#nodeportproxycomponent)_ | Updater configures the component responsible for updating the LoadBalancer service. |
+| `ipFamilyPolicy` _[IPFamilyPolicy](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#ipfamilypolicy-v1-core)_ | IPFamilyPolicy configures the IP family policy for the LoadBalancer service. |
+| `ipFamilies` _[IPFamily](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#ipfamily-v1-core) array_ | IPFamilies configures the IP families to use for the LoadBalancer service. |
 
 
 [Back to top](#top)
