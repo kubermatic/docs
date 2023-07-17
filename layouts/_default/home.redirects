@@ -20,6 +20,9 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 /kubeone/master/tutorials/creating_clusters /kubeone/main/tutorials/creating-clusters/ 301!
 /kubeone/master/cheat_sheets/rollout_machinedeployment /kubeone/main/cheat-sheets/rollout-machinedeployment/ 301!
 
+# redirect page with duplicate content to backups tutorial page
+/kubermatic/v2.23/cheat-sheets/etcd/backup-and-restore /kubermatic/v2.23/tutorials-howtos/etcd-backups/ 301!
+
 {{- /* # Generate the redirects to stable version of the products */ -}}
 {{- $products := .Site.Data.products -}}
 {{- range $productName, $val := $products -}}
