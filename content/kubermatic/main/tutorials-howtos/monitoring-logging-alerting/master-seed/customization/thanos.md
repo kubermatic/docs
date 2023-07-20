@@ -32,7 +32,7 @@ HELM_EXPERIMENTAL_OCI=1 helm upgrade --install thanos \
 ### Basic Thanos Customization file 
 You can configure Thanos to store the metrics in any s3 compatible storage as well as other popular cloud storate solution.
 
-Below yaml snippet uses Azure Blob storage configuration. You can refer to XXXX for other object storage configurations.
+Below yaml snippet uses Azure Blob storage configuration. You can refer to all [supported object storage configurations](https://thanos.io/tip/thanos/storage.md/#supported-clients).
 
 ```yaml
 # thanos-values.yaml
