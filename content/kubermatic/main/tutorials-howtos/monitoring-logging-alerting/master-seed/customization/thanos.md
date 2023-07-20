@@ -65,7 +65,7 @@ In order to receive metrics from prometheus into Thanos, Thanos provides two mec
 1. [Thanos Sidecar](https://thanos.io/tip/components/sidecar.md/)
 1. [Thanos Receiver](https://thanos.io/tip/components/receive.md/)
 
-Thanos sidecar is a much simpler and less resource heavy approach. You can understand more about Thanos compoents [here](https://thanos.io/tip/thanos/quick-tutorial.md/#components). Due to simplicity, we have outlined how to integrate the Thanos sidecar in existing prometheus chart configuration.
+Thanos sidecar is a much simpler and less resource heavy approach. You can understand more about Thanos components [here](https://thanos.io/tip/thanos/quick-tutorial.md/#components). Due to simplicity, we have outlined how to integrate the Thanos sidecar in existing prometheus chart configuration.
 
 Use below changes in `prometheus` block in `values.yaml` to add Thanos sidecar into existing prometheus pods.
 

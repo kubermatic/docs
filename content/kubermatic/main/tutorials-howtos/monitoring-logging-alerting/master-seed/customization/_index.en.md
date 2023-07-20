@@ -151,7 +151,7 @@ Managing the `ruleFiles` is also the way to disable the predefined rules by just
 By default, the seed prometheus is configured to store 1 days worth of metrics.
 It can be customized via overriding `prometheus.tsdb.retentionTime` field in `values.yaml` used for chart installation.
 
-If you would like to store the metrics for longer term, typically, other solutions like Thanos are used. Thanos integration is bit involved process. Plese read more about [thanos integration]({{< relref "./thanos.md" >}}).
+If you would like to store the metrics for longer term, typically, other solutions like Thanos are used. Thanos integration is bit involved process. Please read more about [thanos integration]({{< relref "./thanos.md" >}}).
 
 ## Alertmanager
 Alertmanager configuration can be tweaked via `values.yaml` like so:
