@@ -42,10 +42,37 @@ you're good to go, no migration required. However if you receive
 you must either
 
 * migrate according to the [migration guide](https://min.io/docs/minio/container/operations/install-deploy-manage/migrate-fs-gateway.html), which effectively involves setting up a second MinIO and copying each file over, or
-* wipe your MinIO's storage (e.g. by deleting the PVC), or
+* wipe your MinIO's storage (e.g. by deleting the PVC, see below), or
 * pin the MinIO version to the last version that supports `fs`, which is `RELEASE.2022-10-24T18-35-07Z`, using the Helm values file (set `minio.image.tag=RELEASE.2022-10-24T18-35-07Z`).
 
 The KKP installer will, when installing the seed dependencies, perform an automated check and will refuse to upgrade if the existing MinIO volume uses the old `fs` driver.
+
+If the contents of MinIO is expendable, instead of migrating it's also possible to wipe (**deleting all data**) MinIO's storage entirely. There are several ways to go about this, for example:
+
+```bash
+$ kubectl --namespace minio scale deployment/minio --replicas=0
+#deployment.apps/minio scaled
+
+$ kubectl --namespace minio delete pvc minio-data
+#persistentvolumeclaim "minio-data" deleted
+
+# re-install MinIO chart manually or re-run the KKP installer
+$ helm --namespace minio upgrade minio ./charts/minio --values myhelmvalues.yaml
+#Release "minio" has been upgraded. Happy Helming!
+#NAME: minio
+#LAST DEPLOYED: Mon Jul 24 13:40:51 2023
+#NAMESPACE: minio
+#STATUS: deployed
+#REVISION: 2
+#TEST SUITE: None
+
+$ kubectl --namespace minio scale deployment/minio --replicas=1
+#deployment.apps/minio scaled
+```
+
+{{% notice note %}}
+Deleting the Helm release will not delete the PVC, in order to prevent accidental data loss.
+{{% /notice %}}
 
 ### Velero 1.10
 
