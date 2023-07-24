@@ -4044,8 +4044,8 @@ _Appears in:_
 | --- | --- |
 | `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic seed-controller-manager image. |
 | `backupStoreContainer` _string_ | BackupStoreContainer is the container used for shipping etcd snapshots to a backup location. |
-| `backupDeleteContainer` _string_ | BackupDeleteContainer is the container used for deleting etcd snapshots from a backup location. This container is only relevant when the new backup/restore controllers are enabled. |
-| `backupCleanupContainer` _string_ | BackupCleanupContainer is the container used for removing expired backups from the storage location. This container is only relevant when the old, deprecated backup controllers are enabled. |
+| `backupDeleteContainer` _string_ | BackupDeleteContainer is the container used for deleting etcd snapshots from a backup location. |
+| `backupCleanupContainer` _string_ | Deprecated: BackupCleanupContainer is the container used for removing expired backups from the storage location. This field is a no-op and is no longer used. The old backup controller it was used for has been removed. Do not set this field. |
 | `maximumParallelReconciles` _integer_ | MaximumParallelReconciles limits the number of cluster reconciliations that are active at any given time. |
 | `pprofEndpoint` _string_ | PProfEndpoint controls the port the seed-controller-manager should listen on to provide pprof data. This port is never exposed from the container and only available via port-forwardings. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
