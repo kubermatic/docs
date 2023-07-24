@@ -15,6 +15,65 @@ This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) 
 
 KKP 2.23 adjusts the list of supported Kubernetes versions but does not drop any old versions in comparison to KKP 2.22. Kubernetes 1.24 continues to be the lowest support version.
 
+### MinIO Upgrade
+
+MinIO, the object storage for etcd cluster backups, has been upgraded from `RELEASE.2022-06-25T15-50-16Z` to `RELEASE.2023-05-04T21-44-30Z`. This includes a breaking change where in version `RELEASE.2022-10-29T06-21-33Z` support for the legacy `fs` filesystem driver was removed from MinIO. This means MinIO will be unable to start up with an existing data volume that is still using the `fs` implementation.
+
+In MinIO `RELEASE.2022-06-02T02-11-04Z` the default filesystem driver was changed from `fs` to `xl.single`, meaning that any MinIO that was set up with KKP 2.21+ is already using the new `xl.single` driver.
+
+To verify what storage driver your MinIO is using, you can look at the `.minio.sys/format.json` file like so:
+
+```bash
+kubectl --namespace minio exec --container minio _minio_pod_here_ -- cat /storage/.minio.sys/format.json
+```
+
+The JSON file contains a `format` key. If the output looks like
+
+```json
+{"version":"1","format":"xl-single","id":"5dc676ac-92f3-4c19-81d0-2304b366293c","xl":{"version":"3","this":"888f699a-2f22-402a-9e49-2e0fc9abd5c5","sets":[["888f699a-2f22-402a-9e49-2e0fc9abd5c5"]],"distributionAlgo":"SIPMOD+PARITY"}}
+```
+
+you're good to go, no migration required. However if you receive
+
+```json
+{"version":"1","format":"fs","id":"baa787b5-43b6-4bcb-b1d7-acf46bcc0a05","fs":{"version":"2"}}
+```
+
+you must either
+
+* migrate according to the [migration guide](https://min.io/docs/minio/container/operations/install-deploy-manage/migrate-fs-gateway.html), which effectively involves setting up a second MinIO and copying each file over, or
+* wipe your MinIO's storage (e.g. by deleting the PVC, see below), or
+* pin the MinIO version to the last version that supports `fs`, which is `RELEASE.2022-10-24T18-35-07Z`, using the Helm values file (set `minio.image.tag=RELEASE.2022-10-24T18-35-07Z`).
+
+The KKP installer will, when installing the seed dependencies, perform an automated check and will refuse to upgrade if the existing MinIO volume uses the old `fs` driver.
+
+If the contents of MinIO is expendable, instead of migrating it's also possible to wipe (**deleting all data**) MinIO's storage entirely. There are several ways to go about this, for example:
+
+```bash
+$ kubectl --namespace minio scale deployment/minio --replicas=0
+#deployment.apps/minio scaled
+
+$ kubectl --namespace minio delete pvc minio-data
+#persistentvolumeclaim "minio-data" deleted
+
+# re-install MinIO chart manually or re-run the KKP installer
+$ helm --namespace minio upgrade minio ./charts/minio --values myhelmvalues.yaml
+#Release "minio" has been upgraded. Happy Helming!
+#NAME: minio
+#LAST DEPLOYED: Mon Jul 24 13:40:51 2023
+#NAMESPACE: minio
+#STATUS: deployed
+#REVISION: 2
+#TEST SUITE: None
+
+$ kubectl --namespace minio scale deployment/minio --replicas=1
+#deployment.apps/minio scaled
+```
+
+{{% notice note %}}
+Deleting the Helm release will not delete the PVC, in order to prevent accidental data loss.
+{{% /notice %}}
+
 ### Velero 1.10
 
 [Velero](https://velero.io/) has been upgraded from v1.9.x to 1.10.x. During this change, Velero improved backups by adding support for kopia for doing file-system level backups (in addition to the existing restic support). The KKP Helm chart continues to be configured for restic.
