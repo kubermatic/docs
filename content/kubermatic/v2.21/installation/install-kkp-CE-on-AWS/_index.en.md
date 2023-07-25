@@ -26,6 +26,10 @@ This guide assumes a clean installation into an empty cluster. Please refer to t
 migrating existing installations to the Kubermatic Installer.
 {{% /notice %}}
 
+We recommended checking our example Terraform configs as a reference of what objects/resources will be created  
+
+https://github.com/kubermatic/kubeone/tree/release/v1.5/examples/terraform/aws
+
 ## Installation
 
 To begin the installation, make sure you have a kubeconfig file at hand, with a user context that grants `cluster-admin`
