@@ -29,11 +29,26 @@ Follow these steps to use the KKP installer local command:
 
 **1. Download the installer.** This is the only manual step; there's no need to prepare any configuration since the installer should automatically configure KKP.
 
+{{< tabs name="Download the installer" >}}
+{{% tab name="Linux" %}}
 ```bash
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 ```
+{{% /tab %}}
+{{% tab name="MacOS" %}}
+```bash
+# For latest version:
+VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
+# For specific version set it explicitly:
+# VERSION=2.21.x
+wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-amd64.tar.gz
+tar -xzvf kubermatic-ce-v${VERSION}-darwin-amd64.tar.gz
+```
+{{% /tab %}}
+{{< /tabs >}}
+
 You can find more information regarding the download instructions in the [CE installation guide](../install-kkp-ce/#download-the-installer).
 
 **2. Run the `local` command.**
