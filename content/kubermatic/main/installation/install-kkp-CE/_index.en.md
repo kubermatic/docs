@@ -95,12 +95,15 @@ tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 {{% /tab %}}
 {{% tab name="MacOS" %}}
 ```bash
+# Determine your macOS processor architecture type
+# Replace 'amd64' with 'arm64' if using an Apple Silicon (M1) Mac.
+export ARCH=amd64
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
 # VERSION=2.21.x
-wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-amd64.tar.gz
-tar -xzvf kubermatic-ce-v${VERSION}-darwin-amd64.tar.gz
+wget "https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
+tar -xzvf "kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 ```
 {{% /tab %}}
 {{< /tabs >}}
