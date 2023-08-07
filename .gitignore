@@ -10,3 +10,9 @@
 
 # MacOS indexing files
 .DS_Store
+
+# Local Netlify folder
+.netlify
+
+.env
+node_modules

@@ -1,11 +1,14 @@
+[build.environment]
+HUGO_VERSION = "0.75.1"
+
 [context.production]
 command = "hugo --minify"
-
-[context.production.environment]
-HUGO_VERSION = "0.75.1"
 
 [context.deploy-preview]
 command = "hugo -D -F -b $DEPLOY_PRIME_URL"
 
-[context.deploy-preview.environment]
-HUGO_VERSION = "0.75.1"
+[functions]
+directory = "functions"
+
+[functions."deploy-succeeded"]
+included_files = ["public/search.json"]

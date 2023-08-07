@@ -1,0 +1,18 @@
+{
+  "name": "kubermatic-docs",
+  "version": "1.0.0",
+  "description": "Kubermatic Docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kubermatic/docs.git"
+  },
+  "author": "Kubermatic",
+  "license": "Owned by Kubermatic",
+  "bugs": {
+    "url": "https://github.com/kubermatic/docs/issues"
+  },
+  "homepage": "https://github.com/kubermatic/docs#readme",
+  "dependencies": {
+    "atomic-algolia": "^0.3.19"
+  }
+}
