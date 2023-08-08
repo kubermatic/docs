@@ -165,8 +165,7 @@ Kubelet Metrics:
 - machine_cpu_cores
 - machine_memory_bytes
 
-Other Metrics:
-
+Kube-State Metrics:
 - kube_node_info
 
 The following values will be written to the reports:
