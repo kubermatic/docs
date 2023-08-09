@@ -1690,6 +1690,7 @@ _Appears in:_
 | `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP. This indicates that the user needs to do some action to resolve the pause. |
 | `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
 | `debugLog` _boolean_ | Enables more verbose logging in KKP's user-cluster-controller-manager. |
+| `disableCsiDriver` _boolean_ | Optional: DisableCSIDriver disables the installation of CSI driver on the cluster If this is true at the data center then it can't be over-written in the cluster configuration |
 
 
 [Back to top](#top)
@@ -2215,6 +2216,7 @@ _Appears in:_
 | `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#duration-v1-meta)_ | Optional: ProviderReconciliationInterval is the time that must have passed since a Cluster's status.lastProviderReconciliation to make the cliuster controller perform an in-depth provider reconciliation, where for example missing security groups will be reconciled. Setting this too low can cause rate limits by the cloud provider, setting this too high means that *if* a resource at a cloud provider is removed/changed outside of KKP, it will take this long to fix it. |
 | `operatingSystemProfiles` _object (keys:OperatingSystem, values:string)_ | Optional: DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system. |
 | `machineFlavorFilter` _[MachineFlavorFilter](#machineflavorfilter)_ | Optional: MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
+| `disableCsiDriver` _boolean_ | Optional: DisableCSIDriver disables the installation of CSI driver on every clusters within the DC If true it can't be over-written in the cluster configuration |
 
 
 [Back to top](#top)
