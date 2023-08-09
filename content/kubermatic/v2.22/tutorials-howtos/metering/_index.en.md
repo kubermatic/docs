@@ -135,7 +135,7 @@ Data used to aggregate the report are stored in a prometheus instance dedicated 
 This metering prometheus instance collects data from user clusters via federation. Originally they are collected from kubelet and cAdvisor.
 Metrics used to aggregate to a report are as follows:
 
- - machine_controller_machines_total
+ - kube_node_info
  - node_cpu_usage_seconds_total
  - machine_cpu_cores
  - machine_memory_bytes
@@ -165,9 +165,8 @@ Kubelet Metrics:
 - machine_cpu_cores
 - machine_memory_bytes
 
-Machine controller Metrics:
-
-- machine_controller_machines_total
+Kube-State Metrics:
+- kube_node_info
 
 The following values will be written to the reports:
 
