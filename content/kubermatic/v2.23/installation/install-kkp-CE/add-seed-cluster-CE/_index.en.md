@@ -476,7 +476,7 @@ spec:
         # use the bucket name chosen during installation.
         bucketName: kkpbackup
         credentials:
-          name: s3-credentials
+          name: kubermatic-s3-credentials
           namespace: kube-system
         endpoint: http://minio.minio.svc.cluster.local:9000
 ```

@@ -473,10 +473,10 @@ spec:
     defaultDestination: minio
     destinations:
       minio:
-        # use the bucket name chosen during installation.
+        # use the bucket name chosen for the create-minio-backup-bucket Job from above.
         bucketName: kkpbackup
         credentials:
-          name: s3-credentials
+          name: kubermatic-s3-credentials
           namespace: kube-system
         endpoint: http://minio.minio.svc.cluster.local:9000
 ```
