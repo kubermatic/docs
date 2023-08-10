@@ -4583,7 +4583,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `schedule` _string_ | Schedule in Cron format, see https://en.wikipedia.org/wiki/Cron. Please take a note that Schedule is responsible only for setting the time when a report generation mechanism kicks off. The Interval MUST be set independently. |
-| `interval` _integer_ | Interval defines the number of days consulted in the metering report. |
+| `interval` _integer_ | Interval defines the number of days consulted in the metering report. Ignored when `Monthly` is set to true |
+| `monthly` _boolean_ | Monthly creates a report for the previous month. |
 | `retention` _integer_ | Retention defines a number of days after which reports are queued for removal. If not set, reports are kept forever. Please note that this functionality works only for object storage that supports an object lifecycle management mechanism. |
 | `type` _string array_ | Types of reports to generate. Available report types are cluster and namespace. By default, all types of reports are generated. |
 
