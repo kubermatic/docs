@@ -15,6 +15,18 @@ weight = 70
 - [v2.21.8](#v2218)
 - [v2.21.9](#v2219)
 - [v2.21.10](#v22110)
+- [v2.21.11](#v22111)
+
+## [v2.21.11](https://github.com/kubermatic/kubermatic/releases/tag/v2.21.11)
+
+### Bugfixes
+
+- Fix default url configuration of blackbox exporter ([#12412](https://github.com/kubermatic/kubermatic/pull/12412))
+- Metrics server write timeout increased ([#12314](https://github.com/kubermatic/kubermatic/pull/12314))
+
+### Updates
+
+- Update machine-controller to [v1.54.8](https://github.com/kubermatic/machine-controller/releases/tag/v1.54.8) ([#12391](https://github.com/kubermatic/kubermatic/pull/12498))
 
 ## [v2.21.10](https://github.com/kubermatic/kubermatic/releases/tag/v2.21.10)
 
