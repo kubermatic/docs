@@ -293,7 +293,17 @@ spec:
 
 ## Advanced Configuration
 ### Default Values
-The `.spec.defaultValues` describe overrides for manifest-rendering in UI when creating an application. (e.g. if the method is Helm, then this field contains the Helm values.).
+jhe `.spec.defaultValues` describe overrides for manifest-rendering in UI when creating an application. For example if the method is Helm, then this field contains the Helm values.
+
+**Example for helm values**
+
+```yaml
+spec:
+  defaultValues:
+    key1:
+      nestedkey: value 1
+    key2: value 2
+```
 
 ### Customize Deployment
 You can tune how the application will be installed by setting `.spec.defaultDeployOptions`.
