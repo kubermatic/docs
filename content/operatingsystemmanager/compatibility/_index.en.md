@@ -35,7 +35,7 @@ The following operating systems are currently supported by the default Operating
 
 Currently supported K8S versions are:
 
-- 1.27
-- 1.26
-- 1.25
-- 1.24
+* 1.28
+* 1.27
+* 1.26
+* 1.25
