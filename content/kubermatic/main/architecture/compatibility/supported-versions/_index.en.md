@@ -31,15 +31,20 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version          | 1.27 | 1.26 | 1.25 | 1.24 | 1.23[^2]| 1.22[^2] | 
-| -------------------  | ---- | ---- | ---- | ---- | ------- | -------- |
-| 2.23.x               | ✓    | ✓    | ✓    | ✓    | -       | -        |
-| 2.22.x               | -    | ✓    | ✓    | ✓    | -       | -        |
-| 2.21.x               | -    | -    | -    | ✓    | ✓       | ✓        |
+| KKP version          | 1.27 | 1.26 | 1.25 | 1.24[^2] | 1.23[^2]| 1.22[^2] |
+| -------------------  | ---- | ---- | ---- | -------- | ------- | -------- |
+| 2.24.x               | ✓    | ✓    | ✓    | --      | --      | --       |
+| 2.23.x               | ✓    | ✓    | ✓    | ✓       | --      | --       |
+| 2.22.x               | --   | ✓    | ✓    | ✓       | --      | --       |
+| 2.21.x               | --   | --   | --   | ✓       | ✓       | ✓        |
 
-[^2]: Kubernetes releases below version 1.23 have reached End-of-Life (EOL). We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
+[^2]: Kubernetes releases below version 1.25 have reached End-of-Life (EOL). We strongly
+recommend upgrading to a supported Kubernetes release as soon as possible. Refer to the
+[Kubernetes website](https://kubernetes.io/releases/) for more information on the supported
+releases.
 
-Upgrades from a previous Kubernetes version are generally supported whenever a version is marked as supported, for example KKP 2.19 supports updating clusters from Kubernetes 1.20 to 1.21.
+Upgrades from a previous Kubernetes version are generally supported whenever a version is
+marked as supported, for example KKP 2.19 supports updating clusters from Kubernetes 1.20 to 1.21.
 
 ## Provider Incompatibilities
 
