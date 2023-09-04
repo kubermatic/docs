@@ -19,7 +19,59 @@ As an example, let's modify the [default OSP for ubuntu](https://github.com/kube
 
 The changes we made to the OSP:
 
-![Git Diff](/img/operatingsystemmanager/master/osp-ubuntu-swap-enabled.png?classes=shadow,border "Custom OperatingSystemProfile")
+```diff
+diff --git a/deploy/osps/default/osp-ubuntu.yml b/deploy/osps/default/osp-ubuntu.yaml
+index e72fe54..73d1d08 100644
+--- a/deploy/osps/default/osp-ubuntu.yml
++++ b/deploy/osps/default/osp-ubuntu.yaml
+@@ -572,7 +572,6 @@ spec:
+               Environment="PATH=/opt/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin/"
+               EnvironmentFile=-/etc/environment
+
+-              ExecStartPre=/bin/bash /opt/disable-swap.sh
+               ExecStartPre=/bin/bash /opt/load-kernel-modules.sh
+               ExecStartPre=/bin/bash /opt/bin/setup_net_env.sh
+               ExecStart=/opt/bin/kubelet $KUBELET_EXTRA_ARGS \
+@@ -596,7 +595,7 @@ spec:
+                 {{- end }}
+                 {{- if semverCompare "<1.23" .KubeVersion }}
+                 --dynamic-config-dir=/etc/kubernetes/dynamic-config-dir \
+-                --feature-gates=DynamicKubeletConfig=true \
++                --feature-gates=DynamicKubeletConfig=true,NodeSwap=true \
+                 {{- end }}
+                 --exit-on-lock-contention \
+                 --lock-file=/tmp/kubelet.lock \
+@@ -776,7 +775,9 @@ spec:
+                   json:
+                     infoBufferSize: "0"
+                 verbosity: 0
+-              memorySwap: {}
++              failSwapOn: false
++              memorySwap:
++                swapBehavior: LimitedSwap
+               nodeStatusReportFrequency: 0s
+               nodeStatusUpdateFrequency: 0s
+               protectKernelDefaults: true
+@@ -851,17 +852,3 @@ spec:
+
+               [Install]
+               WantedBy=multi-user.target
+-
+-      - path: /opt/disable-swap.sh
+-        permissions: 755
+-        content:
+-          inline:
+-            encoding: b64
+-            data: |
+-              #!/usr/bin/env bash
+-              set -euo pipefail
+-
+-              # Make sure we always disable swap - Otherwise the kubelet won't start as for some cloud
+-              # providers swap gets enabled on reboot or after the setup script has finished executing.
+-              sed -i.orig '/.*swap.*/d' /etc/fstab
+-              swapoff -a
+
+```
 
 ## Consume the custom OSP
 
