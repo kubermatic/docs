@@ -4887,6 +4887,8 @@ _Appears in:_
 | `groupsClaim` _string_ |  |
 | `requiredClaim` _string_ |  |
 | `extraScopes` _string_ |  |
+| `usernamePrefix` _string_ |  |
+| `groupsPrefix` _string_ |  |
 
 
 [Back to top](#top)
