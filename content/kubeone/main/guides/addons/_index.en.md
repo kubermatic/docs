@@ -192,6 +192,19 @@ addons:
       key2: value2
 ```
 
+### Well-known Parameters
+
+Some embedded addons can be configured via "well-known" parameters. They are documented below.
+
+#### External CCMs
+
+All external CCMs support being configured via parameters (either passed as global parameter
+or passed as parameter on the respective CCM addon):
+
+| Parameter     | Description                                                             |
+| ------------- | ----------------------------------------------------------------------- |
+| `CCM_CONCURRENT_SERVICE_SYNCS` | Sets the parallel `Service` (load balancer) reconciles in the CCM. If not set, this is "1". The value for this parameter is a number, but needs to be wrapped in quotes. **Warning**: Setting this parameter will result in higher CPU and network consumption. It might also trigger rate limits with your cloud provider APIs. Be very conservative about increasing this number. |
+
 ## Reconciling Addons
 
 The addons are reconciled after initializing and joining the control plane
