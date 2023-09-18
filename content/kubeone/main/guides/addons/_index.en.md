@@ -203,7 +203,7 @@ or passed as parameter on the respective CCM addon):
 
 | Parameter     | Description                                                             |
 | ------------- | ----------------------------------------------------------------------- |
-| `CCM_CONCURRENT_SERVICE_SYNCS` | Sets the parallel `Service` (load balancer) reconciles in the CCM. If not set, this is "1". The value for this parameter is a number, but needs to be wrapped in quotes. |
+| `CCM_CONCURRENT_SERVICE_SYNCS` | Sets the parallel `Service` (load balancer) reconciles in the CCM. If not set, this is "1". The value for this parameter is a number, but needs to be wrapped in quotes. **Warning**: Setting this parameter will result in higher CPU and network consumption. It might also trigger rate limits with your cloud provider APIs. Be very conservative about increasing this number. |
 
 ## Reconciling Addons
 
