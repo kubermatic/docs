@@ -1663,13 +1663,13 @@ _Appears in:_
 | `cloud` _[CloudSpec](#cloudspec)_ | Cloud contains information regarding the cloud provider that is responsible for hosting the cluster's workload. |
 | `containerRuntime` _string_ | ContainerRuntime to use, i.e. `docker` or `containerd`. By default `containerd` will be used. |
 | `imagePullSecret` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#secretreference-v1-core)_ | Optional: ImagePullSecret references a secret with container registry credentials. This is passed to the machine-controller which sets the registry credentials on node level. |
-| `cniPlugin` _[CNIPluginSettings](#cnipluginsettings)_ |  |
-| `clusterNetwork` _[ClusterNetworkingConfig](#clusternetworkingconfig)_ |  |
-| `machineNetworks` _[MachineNetworkingConfig](#machinenetworkingconfig) array_ |  |
+| `cniPlugin` _[CNIPluginSettings](#cnipluginsettings)_ | Optional: CNIPluginSettings contains the spec of the CNI plugin used by the Cluster. |
+| `clusterNetwork` _[ClusterNetworkingConfig](#clusternetworkingconfig)_ | Optional: ClusterNetworkingConfig specifies the different networking parameters for a cluster. |
+| `machineNetworks` _[MachineNetworkingConfig](#machinenetworkingconfig) array_ | Optional: MachineNetworkingConfig specifies the networking parameters used for IPAM. |
 | `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | ExposeStrategy is the strategy used to expose a cluster control plane. |
 | `apiServerAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: APIServerAllowedIPRanges is a list of IP ranges allowed to access the API server. Applicable only if the expose strategy of the cluster is LoadBalancer. If not configured, access to the API server is unrestricted. |
 | `componentsOverride` _[ComponentSettings](#componentsettings)_ | Optional: Component specific overrides that allow customization of control plane components. |
-| `oidc` _[OIDCSettings](#oidcsettings)_ |  |
+| `oidc` _[OIDCSettings](#oidcsettings)_ | Optional: OIDCSettings contains OIDC configuration parameters for enabling authentication mechanism for the cluster. |
 | `features` _object (keys:string, values:boolean)_ | A map of optional or early-stage features that can be enabled for the user cluster. Some feature gates cannot be disabled after being enabled. The available feature gates vary based on KKP version, Kubernetes version and Seed configuration. Please consult the KKP documentation for specific feature gates. |
 | `updateWindow` _[UpdateWindow](#updatewindow)_ | Optional: UpdateWindow configures automatic update systems to respect a maintenance window for applying OS updates to nodes. This is only respected on Flatcar nodes currently. |
 | `usePodSecurityPolicyAdmissionPlugin` _boolean_ | Enables the admission plugin `PodSecurityPolicy`. This plugin is deprecated by Kubernetes. |
@@ -1709,7 +1709,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `address` _[ClusterAddress](#clusteraddress)_ | Address contains the IPs/URLs to access the cluster control plane. |
-| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#time-v1-meta)_ |  |
+| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#time-v1-meta)_ | LastUpdated contains the timestamp at which the cluster was last modified.  |
 | `extendedHealth` _[ExtendedClusterHealth](#extendedclusterhealth)_ | ExtendedHealth exposes information about the current health state. Extends standard health status for new states. |
 | `lastProviderReconciliation` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#time-v1-meta)_ | LastProviderReconciliation is the time when the cloud provider resources were last fully reconciled (during normal cluster reconciliation, KKP does not re-check things like security groups, networks etc.). |
 | `namespaceName` _string_ | NamespaceName defines the namespace the control plane of this cluster is deployed in. |
@@ -4872,7 +4872,7 @@ _Appears in:_
 ### OIDCSettings
 
 
-
+OIDCSettings contains OIDC configuration parameters for enabling authentication mechanism for the cluster.
 
 
 _Appears in:_
