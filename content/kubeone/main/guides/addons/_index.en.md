@@ -201,8 +201,8 @@ Some embedded addons can be configured via "well-known" parameters. They are doc
 All external CCMs support being configured via parameters (either passed as global parameter
 or passed as parameter on the respective CCM addon):
 
-| Parameter     | Description                     |
-| ------------- | ------------------------------- |
+| Parameter     | Description                                                      |
+| ------------- | ---------------------------------------------------------------- |
 | `CCM_CONCURRENT_SERVICE_SYNCS` | Sets the parallel `Service` (load balancer) reconciles in the CCM. If not set, this is "1". The value for this parameter is a number, but needs to be wrapped in quotes. |
 
 ## Reconciling Addons
