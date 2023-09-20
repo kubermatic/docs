@@ -23,7 +23,7 @@ according to the table below.
 | KubeOne version | 1.28  | 1.27  | 1.26  | 1.25  | 1.24[^1] |
 | --------------- | ----- | ----- | ----- | ----- | -------- |
 | v1.7            | -     | ✓     | ✓     | -     | -        |
-| v1.6            | -     | ✓     | ✓     | ✓     | ✓        |
+| v1.6            | -     | -     | ✓     | ✓     | ✓        |
 
 [^1]: Kubernetes 1.24 has reached End-of-Life (EOL) on 2023-07-28.
 We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
