@@ -59,3 +59,26 @@ IPVS kube-proxy mode is not really supported by Cilium as mentioned in the Ciliu
 
 We do not recommend to configure the Cilium with IPVS kube-proxy mode and this option has been removed from the KKP UI as part of the issue [#4687](https://github.com/kubermatic/dashboard/issues/4687).
 
+### 3. Ubuntu 22.04 Cloud Image issue on VMware Cloud Director
+
+**Problem**
+
+The issue arises in Ubuntu 22.04 cloud image OVAs starting from version 20230602 when they are run on VMware Cloud Director. This problem disrupts the provisioning of new Kubernetes nodes using machine-controller due to interruptions caused by reboots.
+
+**Root Cause**
+
+The root cause of this issue can be traced back to a change in the default settings of open-vm-tools. These changes, in turn, affect the behavior of cloud-init during startup, leading to the disruptive behavior observed when provisioning new Kubernetes nodes. Specifically, the open-vm-tools.service starts before cloud-init, and it runs with the default timeout (30 seconds).
+
+**Solution**
+
+One interim [solution](https://github.com/canonical/cloud-init/issues/4188#issuecomment-1695041510) in this scenario is to create a custom Ubuntu 22.04 image with the following setting preconfigured
+in /etc/vmware-tools/tools.conf file.
+```
+[deployPkg]
+wait-cloudinit-timeout=0
+```
+This adjustment will help ensure that the issue no longer disrupts the provisioning of new Kubernetes nodes on the affected Ubuntu 22.04 cloud images running on VMware Cloud Director provider.
+
+For additional details and discussions related to this issue, you can refer to the following GitHub issues:
+- [open-vm-tools](https://github.com/vmware/open-vm-tools/issues/684).
+- [cloud-init](https://github.com/canonical/cloud-init/issues/4188).
