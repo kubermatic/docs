@@ -62,3 +62,7 @@ CSI driver settings can be configured at the cluster level when creating a clust
 ## Known Limitations
 
 - External Cloud Controller Manager is not supported yet. Please refer to the [GitHub Issue](https://github.com/kubermatic/kubermatic/issues/10752) for more details.
+
+## Known Issues
+
+- [Ubuntu 22.04 Cloud Image issue on VMware Cloud Director]({{< ref "../../known-issues/#3. Ubuntu 22.04 Cloud Image issue on VMware Cloud Director" >}})
