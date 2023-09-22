@@ -88,6 +88,8 @@ various UI-related options can be set, among them:
 - `oidc_provider` is the name of the OIDC provider. UI will configure workflows like sign-in, sign-out, etc based on the provider. Currently, only dex and keycloak are supported.
 - `oidc_provider_url` to change the base URL of the OIDC provider.
 - `oidc_provider_scope` to change the scope of the OIDC provider. (the `scope` URL parameter)
+- `oidc_provider_client_id` to change the client of the OIDC provider.
+- `oidc_connector_id` to use a default connector of the OIDC provider.
 - `oidc_logout_url` to redirect to logout URL of the OIDC provider.
 
 A configuration of a custom OIDC provider may look like this:
@@ -100,6 +102,8 @@ spec:
         "oidc_provider": "keycloak"
         "oidc_provider_url": "https://keycloak.kubermatic.test/auth/realms/test/protocol/openid-connect/auth",
         "oidc_provider_scope": "openid email profile roles",
+        "oidc_provider_client_id": "kubermatic",
+        "oidc_connector_id": "github",
         "oidc_logout_url": "https://keycloak.kubermatic.test/auth/realms/test/protocol/openid-connect/logout"
       }
 ```
