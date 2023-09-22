@@ -65,4 +65,4 @@ CSI driver settings can be configured at the cluster level when creating a clust
 
 ## Known Issues
 
-- [Ubuntu 22.04 Cloud Image issue on VMware Cloud Director]({{< ref "../../known-issues/#3. Ubuntu 22.04 Cloud Image issue on VMware Cloud Director" >}})
+- [Ubuntu 22.04 Cloud Image issue on VMware Cloud Director]({{< ref "../../known-issues/#3-ubuntu-2204-cloud-image-issue-on-vmware-cloud-director" >}})
