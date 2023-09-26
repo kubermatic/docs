@@ -128,7 +128,7 @@ Once the User Cluster MLA stack is installed in all necessary seed clusters, it 
 
 ### Enabling MLA Feature in KKP Configuration
 
-Since the User Cluster MLA feature is in alpha stage, it has to be explicitly enabled via a feature gate in the `KubermaticConfiguration`, e.g.:
+Since the User Cluster MLA feature is optional and might be subject to change in the future, it has to be explicitly enabled via a feature gate in the `KubermaticConfiguration`, e.g.:
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
