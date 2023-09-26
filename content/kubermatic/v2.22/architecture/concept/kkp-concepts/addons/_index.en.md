@@ -351,16 +351,15 @@ Edit the KubermaticConfiguration and update the Docker repository for example fo
 spec:
   userCluster:
     addons:
-      kubernetes:
-        # Do not specify a tag here, as the KKP Operator will always use the KKP
-        # version instead.
-        dockerRepository: docker.io/customer/addons
+      # Do not specify a tag here, as the KKP Operator will always use the KKP
+      # version instead.
+      dockerRepository: docker.io/customer/addons
 
-        # Leave this empty if you have not created your own Docker images, otherwise this
-        # can be used to force pulling a new image whenever KKP is updated.
-        # With this exact configuration (assuming KKP v2.15.1 is used), the final image name
-        # will be "docker.io/customer/addons:v2.15.1-1".
-        dockerTagSuffix: '1'
+      # Leave this empty if you have not created your own Docker images, otherwise this
+      # can be used to force pulling a new image whenever KKP is updated.
+      # With this exact configuration (assuming KKP v2.15.1 is used), the final image name
+      # will be "docker.io/customer/addons:v2.15.1-1".
+      dockerTagSuffix: '1'
 ```
 
 You also need to add your new addon to the `defaultManifests`:
@@ -369,76 +368,89 @@ You also need to add your new addon to the `defaultManifests`:
 spec:
   userCluster:
     addons:
-      kubernetes:
-        defaultManifests: |-
-          apiVersion: v1
-          kind: List
-          items:
+      defaultManifests: |-
+        apiVersion: v1
+        kind: List
+        items:
 
-          # add your new addon here
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: my-custom-addon
+        # add your new addon here
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: my-custom-addon
 
-          # remember to keep the original default addons, or else user clusters will
-          # be defunct
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: canal
-              labels:
-                addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: csi
-              labels:
-                addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: kube-proxy
-              labels:
-                addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: openvpn
-              labels:
-                addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: rbac
-              labels:
-                addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: kubeadm-configmap
-              labels:
-                addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: kubelet-configmap
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: default-storage-class
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: pod-security-policy
-              labels:
-                addons.kubermatic.io/ensure: true
-          - apiVersion: kubermatic.k8c.io/v1
-            kind: Addon
-            metadata:
-              name: aws-node-termination-handler
-              labels:
-                addons.kubermatic.io/ensure: true
+        # remember to keep the original default addons, or else user clusters will
+        # be defunct
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: canal
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: cilium
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: csi
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: kube-proxy
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: openvpn
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: rbac
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: kubeadm-configmap
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: kubelet-configmap
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: default-storage-class
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: pod-security-policy
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: aws-node-termination-handler
+            labels:
+              addons.kubermatic.io/ensure: true
+        - apiVersion: kubermatic.k8c.io/v1
+          kind: Addon
+          metadata:
+            name: azure-cloud-node-manager
+            labels:
+              addons.kubermatic.io/ensure: true
 
 ```
 
