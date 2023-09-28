@@ -99,7 +99,7 @@ spec:
   ui:
     config: |
       {
-        "oidc_provider": "keycloak"
+        "oidc_provider": "keycloak",
         "oidc_provider_url": "https://keycloak.kubermatic.test/auth/realms/test/protocol/openid-connect/auth",
         "oidc_provider_scope": "openid email profile roles",
         "oidc_provider_client_id": "kubermatic",
