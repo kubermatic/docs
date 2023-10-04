@@ -1680,6 +1680,7 @@ _Appears in:_
 | `eventRateLimitConfig` _[EventRateLimitConfig](#eventratelimitconfig)_ | Optional: Configures the EventRateLimit admission plugin (if enabled via `useEventRateLimitAdmissionPlugin`) to create limits on Kubernetes event generation. The EventRateLimit plugin is capable of comparing and rate limiting incoming `Events` based on several configured buckets. |
 | `enableUserSSHKeyAgent` _boolean_ | Optional: Deploys the UserSSHKeyAgent to the user cluster. This field is immutable. If enabled, the agent will be deployed and used to sync user ssh keys attached by users to the cluster. No SSH keys will be synced after node creation if this is disabled. |
 | `enableOperatingSystemManager` _boolean_ | Optional: Enables operating-system-manager (OSM), which is responsible for creating and managing worker node configuration. This field is enabled(true) by default. |
+| `kubeLb` _[KubeLB](#kubelb)_ | KubeLB holds the configuration for the kubeLB component. |
 | `kubernetesDashboard` _[KubernetesDashboard](#kubernetesdashboard)_ | KubernetesDashboard holds the configuration for the kubernetes-dashboard component. |
 | `auditLogging` _[AuditLoggingSettings](#auditloggingsettings)_ | Optional: AuditLogging configures Kubernetes API audit logging (https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) for the user cluster. |
 | `opaIntegration` _[OPAIntegrationSettings](#opaintegrationsettings)_ | Optional: OPAIntegration is a preview feature that enables OPA integration for the cluster. Enabling it causes OPA Gatekeeper and its resources to be deployed on the user cluster. By default it is disabled. |
@@ -2217,6 +2218,7 @@ _Appears in:_
 | `operatingSystemProfiles` _object (keys:OperatingSystem, values:string)_ | Optional: DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system. |
 | `machineFlavorFilter` _[MachineFlavorFilter](#machineflavorfilter)_ | Optional: MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
 | `disableCsiDriver` _boolean_ | Optional: DisableCSIDriver disables the installation of CSI driver on every clusters within the DC If true it can't be over-written in the cluster configuration |
+| `kubeLb` _[KubeLBDatacenterSettings](#kubelbdatacentersettings)_ | Optional: KubeLB holds the configuration for the kubeLB at the data center level. |
 
 
 [Back to top](#top)
@@ -3734,6 +3736,62 @@ _Appears in:_
 | --- | --- |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#resourcerequirements-v1-core)_ | Resources configure limits/requests for Konnectivity components. |
 | `keepaliveTime` _string_ | KeepaliveTime represents a duration of time to check if the transport is still alive. The option is propagated to agents and server. Defaults to 1m. |
+
+
+[Back to top](#top)
+
+
+
+### KubeLB
+
+
+
+KubeLB contains settings for the kubeLB component as part of the cluster control plane. This component is responsible for managing load balancers.
+
+_Appears in:_
+- [ClusterSpec](#clusterspec)
+
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | Controls whether kubeLB is deployed or not. |
+
+
+[Back to top](#top)
+
+
+
+### KubeLBDatacenterSettings
+
+
+
+
+
+_Appears in:_
+- [DatacenterSpec](#datacenterspec)
+
+| Field | Description |
+| --- | --- |
+| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectreference-v1-core)_ | Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster. |
+| `enabled` _boolean_ | Enabled is used to enable/disable kubeLB for the datacenter. This is used to control whether installing kubeLB is allowed or not for the datacenter. |
+
+
+[Back to top](#top)
+
+
+
+### KubeLBSettings
+
+
+
+
+
+_Appears in:_
+- [KubeLBDatacenterSettings](#kubelbdatacentersettings)
+- [SeedSpec](#seedspec)
+
+| Field | Description |
+| --- | --- |
+| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectreference-v1-core)_ | Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster. |
 
 
 [Back to top](#top)
@@ -5735,6 +5793,7 @@ _Appears in:_
 | `metering` _[MeteringConfiguration](#meteringconfiguration)_ | Metering configures the metering tool on user clusters across the seed. |
 | `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed; if this is set, the new backup/restore controllers are enabled for this Seed. |
 | `oidcProviderConfiguration` _[OIDCProviderConfiguration](#oidcproviderconfiguration)_ | OIDCProviderConfiguration allows to configure OIDC provider at the Seed level. |
+| `kubeLb` _[KubeLBSettings](#kubelbsettings)_ | KubeLB holds the configuration for the kubeLB at the Seed level. This component is responsible for managing load balancers. |
 
 
 [Back to top](#top)
