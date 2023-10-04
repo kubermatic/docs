@@ -5821,6 +5821,7 @@ _Appears in:_
 | `enableWebTerminal` _boolean_ | EnableWebTerminal enables the Web Terminal feature for the user clusters. |
 | `enableShareCluster` _boolean_ | EnableShareCluster enables the Share Cluster feature for the user clusters. |
 | `enableOIDCKubeconfig` _boolean_ |  |
+| `disableAdminKubeconfig` _boolean_ | DisableAdminKubeconfig disables the admin kubeconfig functionality on the dashboard. |
 | `userProjectsLimit` _integer_ | UserProjectsLimit is the maximum number of projects a user can create. |
 | `restrictProjectCreation` _boolean_ |  |
 | `restrictProjectDeletion` _boolean_ |  |
