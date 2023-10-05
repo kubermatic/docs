@@ -2978,6 +2978,7 @@ _Appears in:_
 | `mlaGateway` _[HealthStatus](#healthstatus)_ |  |
 | `operatingSystemManager` _[HealthStatus](#healthstatus)_ |  |
 | `kubernetesDashboard` _[HealthStatus](#healthstatus)_ |  |
+| `kubeLb` _[HealthStatus](#healthstatus)_ |  |
 
 
 [Back to top](#top)
@@ -3773,6 +3774,7 @@ _Appears in:_
 | --- | --- |
 | `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectreference-v1-core)_ | Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster. |
 | `enabled` _boolean_ | Enabled is used to enable/disable kubeLB for the datacenter. This is used to control whether installing kubeLB is allowed or not for the datacenter. |
+| `enforced` _boolean_ | Enforced is used to enforce kubeLB installation for all the user clusters belonging to this datacenter. Setting enforced to false will not uninstall kubeLB from the user clusters and it needs to be disabled manually. |
 
 
 [Back to top](#top)
