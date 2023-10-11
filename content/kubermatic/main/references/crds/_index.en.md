@@ -6314,6 +6314,7 @@ _Appears in:_
 | `datastore` _string_ |  |
 | `datastoreCluster` _string_ |  |
 | `resourcePool` _string_ |  |
+| `basePath` _string_ | BasePath configures a vCenter folder path that KKP will create an individual cluster folder in. If it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path, the BasePath part will be appended to the RootPath to construct the full path. |
 
 
 [Back to top](#top)
@@ -6337,6 +6338,7 @@ _Appears in:_
 | `vmNetName` _string_ | VMNetName is the name of the vSphere network. Deprecated: Use networks instead. |
 | `networks` _string array_ | Networks is the list of vSphere networks. |
 | `folder` _string_ | Folder is the folder to be used to group the provisioned virtual machines. |
+| `basePath` _string_ | Optional: BasePath configures a vCenter folder path that KKP will create an individual cluster folder in. If it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path, the BasePath part will be appended to the RootPath (if set) to construct the full path. |
 | `datastore` _string_ | Datastore to be used for storing virtual machines and as a default for dynamic volume provisioning, it is mutually exclusive with DatastoreCluster. |
 | `datastoreCluster` _string_ | DatastoreCluster to be used for storing virtual machines, it is mutually exclusive with Datastore. |
 | `storagePolicy` _string_ | StoragePolicy to be used for storage provisioning |
