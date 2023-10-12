@@ -189,6 +189,11 @@ Enables NodeLocal DNS Cache - caching DNS server running on each worker node in 
 ### Konnectivity
 Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it has been replaced with Konnectivity and will be removed in future KKP releases.
 
+{{% notice warning %}}
+OpenVPN is a deprecated feature. It will no longer be supported and removed in the future releases of Kubermatic Kubernetes Platform.
+Please follow these guidelines to migrate clusters to the Konnectivity.
+{{% /notice %}}
+
 #### Enabling Konnectivity for New Clusters
 
 Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Advanced Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
