@@ -36,7 +36,7 @@ of provided software and therefore releases updates regularly that also include 
 | monitoring/kube-state-metrics | 2.8.2 |
 | monitoring/node-exporter | 1.5.0 |
 | monitoring/prometheus | 2.43.1 |
-| nginx-ingress-controller | 1.7.1 |
+| nginx-ingress-controller | 1.9.3 |
 | oauth | 2.36.0 |
 | s3-exporter | 0.6 |
 | telemetry | 0.4.1 |
