@@ -1627,7 +1627,7 @@ _Appears in:_
 | `ipvs` _[IPVSConfiguration](#ipvsconfiguration)_ | IPVS defines kube-proxy ipvs configuration options |
 | `nodeLocalDNSCacheEnabled` _boolean_ | NodeLocalDNSCacheEnabled controls whether the NodeLocal DNS Cache feature is enabled. Defaults to true. |
 | `coreDNSReplicas` _integer_ | CoreDNSReplicas is the number of desired pods of user cluster coredns deployment. |
-| `konnectivityEnabled` _boolean_ | KonnectivityEnabled enables konnectivity for controlplane to node network communication. |
+| `konnectivityEnabled` _boolean_ | Deprecated: KonnectivityEnabled enables konnectivity for controlplane to node network communication. As OpenVPN will be removed in the future KKP versions, clusters with konnectivity disabled will not be supported. All existing clusters with OpenVPN should migrate to the Konnectivity. |
 | `tunnelingAgentIP` _string_ | TunnelingAgentIP is the address used by the tunneling agents |
 
 
@@ -2965,7 +2965,7 @@ _Appears in:_
 | `controller` _[HealthStatus](#healthstatus)_ |  |
 | `machineController` _[HealthStatus](#healthstatus)_ |  |
 | `etcd` _[HealthStatus](#healthstatus)_ |  |
-| `openvpn` _[HealthStatus](#healthstatus)_ |  |
+| `openvpn` _[HealthStatus](#healthstatus)_ | Deprecated: OpenVPN will be removed entirely in the future. |
 | `konnectivity` _[HealthStatus](#healthstatus)_ |  |
 | `cloudProviderInfrastructure` _[HealthStatus](#healthstatus)_ |  |
 | `userClusterControllerManager` _[HealthStatus](#healthstatus)_ |  |
