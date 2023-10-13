@@ -3775,6 +3775,7 @@ _Appears in:_
 | `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectreference-v1-core)_ | Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster. |
 | `enabled` _boolean_ | Enabled is used to enable/disable kubeLB for the datacenter. This is used to control whether installing kubeLB is allowed or not for the datacenter. |
 | `enforced` _boolean_ | Enforced is used to enforce kubeLB installation for all the user clusters belonging to this datacenter. Setting enforced to false will not uninstall kubeLB from the user clusters and it needs to be disabled manually. |
+| `nodeAddressType` _string_ | NodeAddressType is used to configure the address type from node, used for load balancing. Optional: Defaults to ExternalIP. |
 
 
 [Back to top](#top)
