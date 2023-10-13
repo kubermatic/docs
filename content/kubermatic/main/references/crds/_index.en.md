@@ -585,10 +585,10 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `tenantID` _string_ |  |
-| `subscriptionID` _string_ |  |
-| `clientID` _string_ |  |
-| `clientSecret` _string_ |  |
+| `tenantID` _string_ | The Azure Active Directory Tenant used for the user cluster. |
+| `subscriptionID` _string_ | The Azure Subscription used for the user cluster. |
+| `clientID` _string_ | The service principal used to access Azure. |
+| `clientSecret` _string_ | The client secret corresponding to the given service principal. |
 
 
 [Back to top](#top)
@@ -630,10 +630,10 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `accessKeyID` _string_ | Access Key ID to authenticate against AWS. |
-| `secretAccessKey` _string_ | Secret Access Key to authenticate against AWS. |
-| `assumeRoleARN` _string_ |  |
-| `assumeRoleExternalID` _string_ |  |
+| `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. |
+| `secretAccessKey` _string_ | The Secret Access Key used to authenticate against AWS. |
+| `assumeRoleARN` _string_ | Defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. |
+| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". |
 | `vpcID` _string_ | AWS VPC to use. Must be configured. |
 | `routeTableID` _string_ | Route table to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
 | `instanceProfileName` _string_ | Instance profile to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
@@ -657,10 +657,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `accessKeyID` _string_ |  |
-| `secretAccessKey` _string_ |  |
-| `assumeRoleARN` _string_ |  |
-| `assumeRoleExternalID` _string_ |  |
+| `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. |
+| `secretAccessKey` _string_ | The Secret Access Key used to authenticate against AWS. |
+| `assumeRoleARN` _string_ | Defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. |
+| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". |
 | `vpcID` _string_ |  |
 | `roleARN` _string_ | The IAM role, the control plane will use. The control plane will perform an assume-role |
 | `routeTableID` _string_ |  |
@@ -947,8 +947,8 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Alertmanager`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[AlertmanagerSpec](#alertmanagerspec)_ |  |
-| `status` _[AlertmanagerStatus](#alertmanagerstatus)_ |  |
+| `spec` _[AlertmanagerSpec](#alertmanagerspec)_ | Spec describes the configuration of the Alertmanager. |
+| `status` _[AlertmanagerStatus](#alertmanagerstatus)_ | Status stores status information about the Alertmanager. |
 
 
 [Back to top](#top)
@@ -999,7 +999,7 @@ _Appears in:_
 
 
 
-
+AlertmanagerSpec describes the configuration of the Alertmanager.
 
 _Appears in:_
 - [Alertmanager](#alertmanager)
@@ -1044,8 +1044,8 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `accessKeyID` _string_ | Access Key ID to authenticate against Alibaba. |
-| `accessKeySecret` _string_ | Access Key Secret to authenticate against Alibaba. |
+| `accessKeyID` _string_ | The Access Key ID used to authenticate against Alibaba. |
+| `accessKeySecret` _string_ | The Access Key Secret used to authenticate against Alibaba. |
 
 
 [Back to top](#top)
@@ -1064,8 +1064,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `accessKeyID` _string_ |  |
-| `accessKeySecret` _string_ |  |
+| `accessKeyID` _string_ | The Access Key ID used to authenticate against Alibaba. |
+| `accessKeySecret` _string_ | The Access Key Secret used to authenticate against Alibaba. |
 
 
 [Back to top](#top)
@@ -1163,7 +1163,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `token` _string_ |  |
+| `token` _string_ | Token is used to authenticate with the Anexia API. |
 
 
 [Back to top](#top)
@@ -1271,16 +1271,16 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `tenantID` _string_ |  |
-| `subscriptionID` _string_ |  |
-| `clientID` _string_ |  |
-| `clientSecret` _string_ |  |
-| `resourceGroup` _string_ |  |
-| `vnetResourceGroup` _string_ |  |
-| `vnet` _string_ |  |
-| `subnet` _string_ |  |
-| `routeTable` _string_ |  |
-| `securityGroup` _string_ |  |
+| `tenantID` _string_ | The Azure Active Directory Tenant used for the user cluster. |
+| `subscriptionID` _string_ | The Azure Subscription used for the user cluster. |
+| `clientID` _string_ | The service principal used to access Azure. |
+| `clientSecret` _string_ | The client secret corresponding to the given service principal. |
+| `resourceGroup` _string_ | The resource group that will be used to look up and create resources for the cluster in. If set to empty string at cluster creation, a new resource group will be created and this field will be updated to the generated resource group's name. |
+| `vnetResourceGroup` _string_ | Optional: Defines a second resource group that will be used for VNet related resources instead. If left empty, NO additional resource group will be created and all VNet related resources use the resource group defined by `resourceGroup`. |
+| `vnet` _string_ | The name of the VNet resource used for setting up networking in. If set to empty string at cluster creation, a new VNet will be created and this field will be updated to the generated VNet's name. |
+| `subnet` _string_ | The name of a subnet in the VNet referenced by `vnet`. If set to empty string at cluster creation, a new subnet will be created and this field will be updated to the generated subnet's name. If no VNet is defined at cluster creation, this field should be empty as well. |
+| `routeTable` _string_ | The name of a route table associated with the subnet referenced by `subnet`. If set to empty string at cluster creation, a new route table will be created and this field will be updated to the generated route table's name. If no subnet is defined at cluster creation, this field should be empty as well. |
+| `securityGroup` _string_ | The name of a security group associated with the subnet referenced by `subnet`. If set to empty string at cluster creation, a new security group will be created and this field will be updated to the generated security group's name. If no subnet is defined at cluster creation, this field should be empty as well. |
 | `loadBalancerSKU` _LBSKU_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "basic" will be used |
 
 
@@ -1300,12 +1300,12 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | CredentialsReference allows referencing a `Secret` resource instead of passing secret data in this spec. |
-| `tenantID` _string_ | TenantID is the Azure Active Directory Tenant used for this cluster. Can be read from `credentialsReference` instead. |
-| `subscriptionID` _string_ | SubscriptionID is the Azure Subscription used for this cluster. Can be read from `credentialsReference` instead. |
-| `clientID` _string_ | ClientID is the service principal used to access Azure. Can be read from `credentialsReference` instead. |
-| `clientSecret` _string_ | ClientSecret is the client secret corresponding to the given service principal. Can be read from `credentialsReference` instead. |
+| `tenantID` _string_ | The Azure Active Directory Tenant used for this cluster. Can be read from `credentialsReference` instead. |
+| `subscriptionID` _string_ | The Azure Subscription used for this cluster. Can be read from `credentialsReference` instead. |
+| `clientID` _string_ | The service principal used to access Azure. Can be read from `credentialsReference` instead. |
+| `clientSecret` _string_ | The client secret corresponding to the given service principal. Can be read from `credentialsReference` instead. |
 | `resourceGroup` _string_ | The resource group that will be used to look up and create resources for the cluster in. If set to empty string at cluster creation, a new resource group will be created and this field will be updated to the generated resource group's name. |
-| `vnetResourceGroup` _string_ | Optional: VNetResourceGroup optionally defines a second resource group that will be used for VNet related resources instead. If left empty, NO additional resource group will be created and all VNet related resources use the resource group defined by `resourceGroup`. |
+| `vnetResourceGroup` _string_ | Optional: Defines a second resource group that will be used for VNet related resources instead. If left empty, NO additional resource group will be created and all VNet related resources use the resource group defined by `resourceGroup`. |
 | `vnet` _string_ | The name of the VNet resource used for setting up networking in. If set to empty string at cluster creation, a new VNet will be created and this field will be updated to the generated VNet's name. |
 | `subnet` _string_ | The name of a subnet in the VNet referenced by `vnet`. If set to empty string at cluster creation, a new subnet will be created and this field will be updated to the generated subnet's name. If no VNet is defined at cluster creation, this field should be empty as well. |
 | `routeTable` _string_ | The name of a route table associated with the subnet referenced by `subnet`. If set to empty string at cluster creation, a new route table will be created and this field will be updated to the generated route table's name. If no subnet is defined at cluster creation, this field should be empty as well. |
@@ -1314,7 +1314,7 @@ _Appears in:_
 | `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: CIDR ranges that will be used to allow access to the node port range in the security group to. Only applies if the security group is generated by KKP and not preexisting. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set,  the node port range can be accessed from anywhere. |
 | `assignAvailabilitySet` _boolean_ | Optional: AssignAvailabilitySet determines whether KKP creates and assigns an AvailabilitySet to machines. Defaults to `true` internally if not set. |
 | `availabilitySet` _string_ | An availability set that will be associated with nodes created for this cluster. If this field is set to empty string at cluster creation and `AssignAvailabilitySet` is set to `true`, a new availability set will be created and this field will be updated to the generated availability set's name. |
-| `loadBalancerSKU` _LBSKU_ |  |
+| `loadBalancerSKU` _LBSKU_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "basic" will be used. |
 
 
 [Back to top](#top)
@@ -1456,20 +1456,20 @@ _Appears in:_
 | --- | --- |
 | `dc` _string_ | DatacenterName states the name of a cloud provider "datacenter" (defined in `Seed` resources) this cluster should be deployed into. |
 | `providerName` _string_ | ProviderName is the name of the cloud provider used for this cluster. This must match the given provider spec (e.g. if the providerName is "aws", then the `aws` field must be set). |
-| `digitalocean` _[DigitaloceanCloudSpec](#digitaloceancloudspec)_ |  |
-| `bringyourown` _[BringYourOwnCloudSpec](#bringyourowncloudspec)_ |  |
-| `aws` _[AWSCloudSpec](#awscloudspec)_ |  |
-| `azure` _[AzureCloudSpec](#azurecloudspec)_ |  |
-| `openstack` _[OpenstackCloudSpec](#openstackcloudspec)_ |  |
-| `packet` _[PacketCloudSpec](#packetcloudspec)_ |  |
-| `hetzner` _[HetznerCloudSpec](#hetznercloudspec)_ |  |
-| `vsphere` _[VSphereCloudSpec](#vspherecloudspec)_ |  |
-| `gcp` _[GCPCloudSpec](#gcpcloudspec)_ |  |
-| `kubevirt` _[KubevirtCloudSpec](#kubevirtcloudspec)_ |  |
-| `alibaba` _[AlibabaCloudSpec](#alibabacloudspec)_ |  |
-| `anexia` _[AnexiaCloudSpec](#anexiacloudspec)_ |  |
-| `nutanix` _[NutanixCloudSpec](#nutanixcloudspec)_ |  |
-| `vmwareclouddirector` _[VMwareCloudDirectorCloudSpec](#vmwareclouddirectorcloudspec)_ |  |
+| `digitalocean` _[DigitaloceanCloudSpec](#digitaloceancloudspec)_ | Digitalocean defines the configuration data of the DigitalOcean cloud provider. |
+| `bringyourown` _[BringYourOwnCloudSpec](#bringyourowncloudspec)_ | BringYourOwn defines the configuration data for a Bring Your Own cluster. |
+| `aws` _[AWSCloudSpec](#awscloudspec)_ | AWS defines the configuration data of the Amazon Web Services(AWS) cloud provider. |
+| `azure` _[AzureCloudSpec](#azurecloudspec)_ | Azure defines the configuration data of the Microsoft Azure cloud. |
+| `openstack` _[OpenstackCloudSpec](#openstackcloudspec)_ | Openstack defines the configuration data of an OpenStack cloud. |
+| `packet` _[PacketCloudSpec](#packetcloudspec)_ | Packet defines the configuration data of a Packet cloud. |
+| `hetzner` _[HetznerCloudSpec](#hetznercloudspec)_ | Hetzner defines the configuration data of the Hetzner cloud. |
+| `vsphere` _[VSphereCloudSpec](#vspherecloudspec)_ | VSphere defines the configuration data of the vSphere. |
+| `gcp` _[GCPCloudSpec](#gcpcloudspec)_ | GCP defines the configuration data of the Google Cloud Platform(GCP). |
+| `kubevirt` _[KubevirtCloudSpec](#kubevirtcloudspec)_ | Kubevirt defines the configuration data of the KubeVirt. |
+| `alibaba` _[AlibabaCloudSpec](#alibabacloudspec)_ | Alibaba defines the configuration data of the Alibaba. |
+| `anexia` _[AnexiaCloudSpec](#anexiacloudspec)_ | Anexia defines the configuration data of the Anexia. |
+| `nutanix` _[NutanixCloudSpec](#nutanixcloudspec)_ | Nutanix defines the configuration data of the Nutanix. |
+| `vmwareclouddirector` _[VMwareCloudDirectorCloudSpec](#vmwareclouddirectorcloudspec)_ | VMwareCloudDirector defines the configuration data of the VMware Cloud Director. |
 
 
 [Back to top](#top)
@@ -2197,7 +2197,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `digitalocean` _[DatacenterSpecDigitalocean](#datacenterspecdigitalocean)_ |  |
+| `digitalocean` _[DatacenterSpecDigitalocean](#datacenterspecdigitalocean)_ | Digitalocean configures a Digitalocean datacenter. |
 | `bringyourown` _[DatacenterSpecBringYourOwn](#datacenterspecbringyourown)_ | BringYourOwn contains settings for clusters using manually created nodes via kubeadm. |
 | `aws` _[DatacenterSpecAWS](#datacenterspecaws)_ | AWS configures an Amazon Web Services (AWS) datacenter. |
 | `azure` _[DatacenterSpecAzure](#datacenterspecazure)_ | Azure configures an Azure datacenter. |
@@ -2422,9 +2422,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `authURL` _string_ |  |
-| `availabilityZone` _string_ |  |
-| `region` _string_ |  |
+| `authURL` _string_ | Authentication URL |
+| `availabilityZone` _string_ | Used to configure availability zone. |
+| `region` _string_ | Authentication region name |
 | `ignoreVolumeAZ` _boolean_ | Optional |
 | `enforceFloatingIP` _boolean_ | Optional |
 | `dnsServers` _string array_ | Used for automatic network creation |
@@ -2521,7 +2521,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `quota` _[ResourceDetails](#resourcedetails)_ |  |
+| `quota` _[ResourceDetails](#resourcedetails)_ | Quota specifies the default CPU, Memory and Storage quantities for all the projects. |
 
 
 [Back to top](#top)
@@ -2581,7 +2581,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _GlobalSecretKeySelector_ |  |
-| `token` _string_ |  |
+| `token` _string_ | Token is used to authenticate with the DigitalOcean API. |
 
 
 [Back to top](#top)
@@ -2601,10 +2601,10 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `accessKeyID` _string_ |  |
-| `secretAccessKey` _string_ |  |
-| `assumeRoleARN` _string_ |  |
-| `assumeRoleExternalID` _string_ |  |
+| `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. |
+| `secretAccessKey` _string_ | The Secret Access Key used to authenticate against AWS. |
+| `assumeRoleARN` _string_ | Defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. required: false |
+| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". required: false |
 
 
 [Back to top](#top)
@@ -2654,7 +2654,7 @@ _Appears in:_
 
 
 
-EtcdBackupConfig specifies a add-on.
+EtcdBackupConfig describes how snapshots of user cluster etcds should be performed. Each user cluster automatically gets a default EtcdBackupConfig in its cluster namespace.
 
 _Appears in:_
 - [EtcdBackupConfigList](#etcdbackupconfiglist)
@@ -2664,7 +2664,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdBackupConfig`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[EtcdBackupConfigSpec](#etcdbackupconfigspec)_ |  |
+| `spec` _[EtcdBackupConfigSpec](#etcdbackupconfigspec)_ | Spec describes details of an Etcd backup. |
 | `status` _[EtcdBackupConfigStatus](#etcdbackupconfigstatus)_ |  |
 
 
@@ -2718,7 +2718,7 @@ EtcdBackupConfigList is a list of etcd backup configs.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdBackupConfigList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[EtcdBackupConfig](#etcdbackupconfig) array_ |  |
+| `items` _[EtcdBackupConfig](#etcdbackupconfig) array_ | Items is a list of EtcdBackupConfig objects. |
 
 
 [Back to top](#top)
@@ -2790,7 +2790,7 @@ _Appears in:_
 
 
 
-EtcdRestore specifies a add-on.
+EtcdRestore specifies an add-on.
 
 _Appears in:_
 - [EtcdRestoreList](#etcdrestorelist)
@@ -2800,7 +2800,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdRestore`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[EtcdRestoreSpec](#etcdrestorespec)_ |  |
+| `spec` _[EtcdRestoreSpec](#etcdrestorespec)_ | Spec describes details of an etcd restore. |
 | `status` _[EtcdRestoreStatus](#etcdrestorestatus)_ |  |
 
 
@@ -2821,7 +2821,7 @@ EtcdRestoreList is a list of etcd restores.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdRestoreList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[EtcdRestore](#etcdrestore) array_ |  |
+| `items` _[EtcdRestore](#etcdrestore) array_ | Items is the list of the Etcd restores. |
 
 
 [Back to top](#top)
@@ -3020,12 +3020,12 @@ _Appears in:_
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | CredentialsReference allows referencing a `Secret` resource instead of passing secret data in this spec. |
 | `name` _string_ |  |
-| `tenantID` _string_ | TenantID: The Azure Active Directory Tenant used for this cluster. Can be read from `credentialsReference` instead. |
-| `subscriptionID` _string_ | SubscriptionID: The Azure Subscription used for this cluster. Can be read from `credentialsReference` instead. |
-| `clientID` _string_ | ClientID: The service principal used to access Azure. Can be read from `credentialsReference` instead. |
-| `clientSecret` _string_ | ClientSecret: The client secret corresponding to the given service principal. Can be read from `credentialsReference` instead. |
-| `location` _string_ | Location: The geo-location where the resource lives |
-| `resourceGroup` _string_ | ResourceGroup: The resource group that will be used to look up and create resources for the cluster in. If set to empty string at cluster creation, a new resource group will be created and this field will be updated to the generated resource group's name. |
+| `tenantID` _string_ | The Azure Active Directory Tenant used for this cluster. Can be read from `credentialsReference` instead. |
+| `subscriptionID` _string_ | The Azure Subscription used for this cluster. Can be read from `credentialsReference` instead. |
+| `clientID` _string_ | The service principal used to access Azure. Can be read from `credentialsReference` instead. |
+| `clientSecret` _string_ | The client secret corresponding to the given service principal. Can be read from `credentialsReference` instead. |
+| `location` _string_ | The geo-location where the resource lives |
+| `resourceGroup` _string_ | The resource group that will be used to look up and create resources for the cluster in. If set to empty string at cluster creation, a new resource group will be created and this field will be updated to the generated resource group's name. |
 
 
 [Back to top](#top)
@@ -3098,15 +3098,15 @@ _Appears in:_
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `name` _string_ |  |
-| `accessKeyID` _string_ | AccessKeyID: AWS Access key ID Can be read from `credentialsReference` instead. |
-| `secretAccessKey` _string_ | SecretAccessKey: AWS Secret Access Key Can be read from `credentialsReference` instead. |
+| `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. Can be read from `credentialsReference` instead. |
+| `secretAccessKey` _string_ | The Secret Access Key used to authenticate against AWS. Can be read from `credentialsReference` instead. |
 | `region` _string_ |  |
-| `roleArn` _string_ | ControlPlaneRoleARN: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. |
-| `vpcID` _string_ | VPCID: The VPC associated with your cluster. |
-| `subnetIDs` _string array_ | SubnetIDs: The subnets associated with your cluster. |
-| `securityGroupIDs` _string array_ | SecurityGroupIDs: The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane. |
-| `assumeRoleARN` _string_ | AssumeRoleARN defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. required: false |
-| `assumeRoleExternalID` _string_ | AssumeRoleExternalID is an arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". required: false |
+| `roleArn` _string_ | The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. |
+| `vpcID` _string_ | The VPC associated with your cluster. |
+| `subnetIDs` _string array_ | The subnets associated with your cluster. |
+| `securityGroupIDs` _string array_ | The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane. |
+| `assumeRoleARN` _string_ | The ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. required: false |
+| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". required: false |
 
 
 [Back to top](#top)
@@ -3145,8 +3145,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `providerName` _string_ | ProviderName is the name of the cloud provider used, one of "aws", "azure", "digitalocean", "gcp", "hetzner", "nutanix", "openstack", "packet", "vsphere" KubeOne natively-supported providers |
-| `region` _string_ | Region is the cloud provider region in which the cluster resides. This field is used only to display information. |
+| `providerName` _string_ | The name of the cloud provider used, one of "aws", "azure", "digitalocean", "gcp", "hetzner", "nutanix", "openstack", "packet", "vsphere" KubeOne natively-supported providers |
+| `region` _string_ | The cloud provider region in which the cluster resides. This field is used only to display information. |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `sshReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `manifestReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
@@ -3169,7 +3169,7 @@ ExternalClusterList specifies a list of external kubernetes clusters.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ExternalClusterList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[ExternalCluster](#externalcluster) array_ |  |
+| `items` _[ExternalCluster](#externalcluster) array_ | Items holds the list of the External Kubernetes cluster. |
 
 
 [Back to top](#top)
@@ -3198,7 +3198,7 @@ _Appears in:_
 
 
 
-ExternalClusterNetworkingConfig specifies the different networking parameters for a external cluster.
+ExternalClusterNetworkingConfig specifies the different networking parameters for an external cluster.
 
 _Appears in:_
 - [ExternalClusterSpec](#externalclusterspec)
@@ -3267,10 +3267,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `humanReadableName` _string_ | HumanReadableName is the cluster name provided by the user |
-| `kubeconfigReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | KubeconfigReference is reference to cluster Kubeconfig |
-| `version` _Semver_ | Version defines the wanted version of the control plane. |
+| `kubeconfigReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | Reference to cluster Kubeconfig |
+| `version` _Semver_ | Defines the wanted version of the control plane. |
 | `cloudSpec` _[ExternalClusterCloudSpec](#externalclustercloudspec)_ | CloudSpec contains provider specific fields |
-| `clusterNetwork` _[ExternalClusterNetworkingConfig](#externalclusternetworkingconfig)_ |  |
+| `clusterNetwork` _[ExternalClusterNetworkingConfig](#externalclusternetworkingconfig)_ | ClusterNetwork contains the different networking parameters for an external cluster. |
 | `containerRuntime` _string_ | ContainerRuntime to use, i.e. `docker` or `containerd`. |
 | `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP. This indicates that the user needs to do some action to resolve the pause. |
 | `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
@@ -3313,7 +3313,7 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `serviceAccount` _string_ |  |
+| `serviceAccount` _string_ | ServiceAccount is the Google Service Account (JSON format), encoded with base64. |
 | `network` _string_ |  |
 | `subnetwork` _string_ |  |
 
@@ -3379,7 +3379,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `GroupProjectBinding`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[GroupProjectBindingSpec](#groupprojectbindingspec)_ |  |
+| `spec` _[GroupProjectBindingSpec](#groupprojectbindingspec)_ | Spec describes an oidc group binding to a project. |
 
 
 [Back to top](#top)
@@ -3399,7 +3399,7 @@ GroupProjectBindingList is a list of group project bindings.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `GroupProjectBindingList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[GroupProjectBinding](#groupprojectbinding) array_ |  |
+| `items` _[GroupProjectBinding](#groupprojectbinding) array_ | Items holds the list of the group and project bindings. |
 
 
 [Back to top](#top)
@@ -3573,7 +3573,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `IPAMPool`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[IPAMPoolSpec](#ipampoolspec)_ |  |
+| `spec` _[IPAMPoolSpec](#ipampoolspec)_ | Spec describes the Multi-Cluster IP Address Management (IPAM) configuration for KKP user clusters. |
 
 
 [Back to top](#top)
@@ -3619,7 +3619,7 @@ _Appears in:_
 
 
 
-
+IPAMPoolList is the list of the object representing Multi-Cluster IP Address Management (IPAM) configuration for KKP user clusters.
 
 
 
@@ -3628,7 +3628,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `IPAMPoolList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[IPAMPool](#ipampool) array_ |  |
+| `items` _[IPAMPool](#ipampool) array_ | Items holds the list of IPAM pool objects. |
 
 
 [Back to top](#top)
@@ -4351,7 +4351,7 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `kubeconfig` _string_ |  |
+| `kubeconfig` _string_ | Kubeconfig is the cluster's kubeconfig file, encoded with base64. |
 
 
 [Back to top](#top)
@@ -4437,7 +4437,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `MLAAdminSetting`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[MLAAdminSettingSpec](#mlaadminsettingspec)_ |  |
+| `spec` _[MLAAdminSettingSpec](#mlaadminsettingspec)_ | Spec describes the cluster-specific administrator settings for KKP user cluster MLA (monitoring, logging & alerting) stack. |
 
 
 [Back to top](#top)
@@ -4457,7 +4457,7 @@ MLAAdminSettingList specifies a list of administrtor settings for KKP user clust
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `MLAAdminSettingList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[MLAAdminSetting](#mlaadminsetting) array_ |  |
+| `items` _[MLAAdminSetting](#mlaadminsetting) array_ | Items holds the list of the cluster-specific administrative settings for KKP user cluster MLA. |
 
 
 [Back to top](#top)
@@ -4842,15 +4842,15 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `proxyURL` _string_ | ProxyURL is used to optionally configure a HTTP proxy to access Nutanix Prism Central. |
-| `username` _string_ | Username is the username to access the Nutanix Prism Central API. |
-| `password` _string_ | Password is the password corresponding to the provided user. |
-| `clusterName` _string_ | ClusterName is the Nutanix cluster to deploy resources and nodes to. |
-| `projectName` _string_ | ProjectName is the optional Nutanix project to use. If none is given, no project will be used. |
-| `csiUsername` _string_ | Prism Element Username for csi driver |
-| `csiPassword` _string_ | Prism Element Password for csi driver |
-| `csiEndpoint` _string_ | CSIEndpoint to access Nutanix Prism Element for csi driver |
-| `csiPort` _integer_ | CSIPort to use when connecting to the Nutanix Prism Element endpoint (defaults to 9440) |
+| `proxyURL` _string_ | Optional: To configure a HTTP proxy to access Nutanix Prism Central. |
+| `username` _string_ | Username that is used to access the Nutanix Prism Central API. |
+| `password` _string_ | Password corresponding to the provided user. |
+| `clusterName` _string_ | The name of the Nutanix cluster to which the resources and nodes are deployed to. |
+| `projectName` _string_ | Optional: Nutanix project to use. If none is given, no project will be used. |
+| `csiUsername` _string_ | Prism Element Username for CSI driver. |
+| `csiPassword` _string_ | Prism Element Password for CSI driver. |
+| `csiEndpoint` _string_ | CSIEndpoint to access Nutanix Prism Element for CSI driver. |
+| `csiPort` _integer_ | CSIPort to use when connecting to the Nutanix Prism Element endpoint (defaults to 9440). |
 
 
 [Back to top](#top)
@@ -4868,13 +4868,13 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `username` _string_ | Prism Element Username for csi driver |
-| `password` _string_ | Prism Element Password for csi driver |
-| `endpoint` _string_ | Prism Element Endpoint to access Nutanix Prism Element for csi driver |
-| `port` _integer_ | Optional: Port to use when connecting to the Nutanix Prism Element endpoint (defaults to 9440) |
-| `storageContainer` _string_ | Optional: defaults to "SelfServiceContainer" |
+| `username` _string_ | Prism Element Username for CSI driver. |
+| `password` _string_ | Prism Element Password for CSI driver. |
+| `endpoint` _string_ | Prism Element Endpoint to access Nutanix Prism Element for CSI driver. |
+| `port` _integer_ | Optional: Port to use when connecting to the Nutanix Prism Element endpoint (defaults to 9440). |
+| `storageContainer` _string_ | Optional: defaults to "SelfServiceContainer". |
 | `fstype` _string_ | Optional: defaults to "xfs" |
-| `ssSegmentedIscsiNetwork` _boolean_ | Optional: defaults to "false" |
+| `ssSegmentedIscsiNetwork` _boolean_ | Optional: defaults to "false". |
 
 
 [Back to top](#top)
@@ -4894,11 +4894,11 @@ _Appears in:_
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `clusterName` _string_ | ClusterName is the Nutanix cluster that this user cluster will be deployed to. |
-| `projectName` _string_ | ProjectName is the project that this cluster is deployed into. If none is given, no project will be used. |
-| `proxyURL` _string_ |  |
-| `username` _string_ |  |
-| `password` _string_ |  |
-| `csi` _[NutanixCSIConfig](#nutanixcsiconfig)_ | NutanixCSIConfig for csi driver that connects to a prism element |
+| `projectName` _string_ | The name of the project that this cluster is deployed into. If none is given, no project will be used. |
+| `proxyURL` _string_ | Optional: Used to configure a HTTP proxy to access Nutanix Prism Central. |
+| `username` _string_ | Username to access the Nutanix Prism Central API. |
+| `password` _string_ | Password corresponding to the provided user. |
+| `csi` _[NutanixCSIConfig](#nutanixcsiconfig)_ | NutanixCSIConfig for CSI driver that connects to a prism element. |
 
 
 [Back to top](#top)
@@ -5043,12 +5043,12 @@ _Appears in:_
 | `applicationCredentialSecret` _string_ |  |
 | `username` _string_ |  |
 | `password` _string_ |  |
-| `project` _string_ |  |
-| `projectID` _string_ |  |
+| `project` _string_ | Project, formally known as tenant. |
+| `projectID` _string_ | ProjectID, formally known as tenantID. |
 | `domain` _string_ |  |
-| `network` _string_ |  |
+| `network` _string_ | Network holds the name of the internal network When specified, all worker nodes will be attached to this network. If not specified, a network, subnet & router will be created. |
 | `securityGroups` _string_ |  |
-| `floatingIPPool` _string_ |  |
+| `floatingIPPool` _string_ | FloatingIPPool holds the name of the public network The public network is reachable from the outside world and should provide the pool of IP addresses to choose from. |
 | `routerID` _string_ |  |
 | `subnetID` _string_ |  |
 
@@ -5078,7 +5078,7 @@ _Appears in:_
 | `applicationCredentialSecret` _string_ |  |
 | `useToken` _boolean_ |  |
 | `token` _string_ | Used internally during cluster creation |
-| `network` _string_ | Network holds the name of the internal network When specified, all worker nodes will be attached to this network. If not specified, a network, subnet & router will be created 
+| `network` _string_ | Network holds the name of the internal network When specified, all worker nodes will be attached to this network. If not specified, a network, subnet & router will be created. 
  Note that the network is internal if the "External" field is set to false |
 | `securityGroups` _string_ |  |
 | `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the security group to. Only applies if the security group is generated by KKP and not preexisting. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
@@ -5261,22 +5261,22 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `digitalocean` _[Digitalocean](#digitalocean)_ |  |
-| `hetzner` _[Hetzner](#hetzner)_ |  |
-| `azure` _[Azure](#azure)_ |  |
-| `vsphere` _[VSphere](#vsphere)_ |  |
-| `aws` _[AWS](#aws)_ |  |
-| `openstack` _[Openstack](#openstack)_ |  |
-| `packet` _[Packet](#packet)_ |  |
-| `gcp` _[GCP](#gcp)_ |  |
-| `kubevirt` _[Kubevirt](#kubevirt)_ |  |
-| `alibaba` _[Alibaba](#alibaba)_ |  |
-| `anexia` _[Anexia](#anexia)_ |  |
-| `nutanix` _[Nutanix](#nutanix)_ |  |
-| `vmwareclouddirector` _[VMwareCloudDirector](#vmwareclouddirector)_ |  |
-| `gke` _[GKE](#gke)_ |  |
-| `eks` _[EKS](#eks)_ |  |
-| `aks` _[AKS](#aks)_ |  |
+| `digitalocean` _[Digitalocean](#digitalocean)_ | Access data for DigitalOcean. |
+| `hetzner` _[Hetzner](#hetzner)_ | Access data for Hetzner. |
+| `azure` _[Azure](#azure)_ | Access data for Microsoft Azure Cloud. |
+| `vsphere` _[VSphere](#vsphere)_ | Access data for vSphere. |
+| `aws` _[AWS](#aws)_ | Access data for Amazon Web Services(AWS) Cloud. |
+| `openstack` _[Openstack](#openstack)_ | Access data for OpenStack. |
+| `packet` _[Packet](#packet)_ | Access data for Packet Cloud. |
+| `gcp` _[GCP](#gcp)_ | Access data for Google Cloud Platform(GCP). |
+| `kubevirt` _[Kubevirt](#kubevirt)_ | Access data for KuberVirt. |
+| `alibaba` _[Alibaba](#alibaba)_ | Access data for Alibaba Cloud. |
+| `anexia` _[Anexia](#anexia)_ | Access data for Anexia. |
+| `nutanix` _[Nutanix](#nutanix)_ | Access data for Nutanix. |
+| `vmwareclouddirector` _[VMwareCloudDirector](#vmwareclouddirector)_ | Access data for VMware Cloud Director. |
+| `gke` _[GKE](#gke)_ | Access data for Google Kubernetes Engine(GKE). |
+| `eks` _[EKS](#eks)_ | Access data for Amazon Elastic Kubernetes Service(EKS). |
+| `aks` _[AKS](#aks)_ | Access data for Azure Kubernetes Service(AKS). |
 | `requiredEmails` _string array_ | RequiredEmails is a list of e-mail addresses that this presets should be restricted to. Each item in the list can be either a full e-mail address or just a domain name. This restriction is only enforced in the KKP API. |
 | `projects` _string array_ | Projects is a list of project IDs that this preset is limited to. |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
@@ -5300,8 +5300,8 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Project`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[ProjectSpec](#projectspec)_ |  |
-| `status` _[ProjectStatus](#projectstatus)_ |  |
+| `spec` _[ProjectSpec](#projectspec)_ | Spec describes the configuration of the project. |
+| `status` _[ProjectStatus](#projectstatus)_ | Status holds the current status of the project. |
 
 
 [Back to top](#top)
@@ -5323,7 +5323,7 @@ ProjectList is a collection of projects.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ProjectList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[Project](#project) array_ |  |
+| `items` _[Project](#project) array_ | Items is the list of the projects. |
 
 
 [Back to top](#top)
@@ -5488,8 +5488,8 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ResourceQuota`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[ResourceQuotaSpec](#resourcequotaspec)_ |  |
-| `status` _[ResourceQuotaStatus](#resourcequotastatus)_ |  |
+| `spec` _[ResourceQuotaSpec](#resourcequotaspec)_ | Spec describes the desired state of the resource quota. |
+| `status` _[ResourceQuotaStatus](#resourcequotastatus)_ | Status holds the current state of the resource quota. |
 
 
 [Back to top](#top)
@@ -5509,7 +5509,7 @@ ResourceQuotaList is a collection of resource quotas.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ResourceQuotaList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[ResourceQuota](#resourcequota) array_ |  |
+| `items` _[ResourceQuota](#resourcequota) array_ | Items is the list of the resource quotas. |
 
 
 [Back to top](#top)
@@ -5702,8 +5702,8 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Seed`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[SeedSpec](#seedspec)_ |  |
-| `status` _[SeedStatus](#seedstatus)_ |  |
+| `spec` _[SeedSpec](#seedspec)_ | Spec describes the configuration of the Seed cluster. |
+| `status` _[SeedStatus](#seedstatus)_ | Status holds the runtime information of the Seed cluster. |
 
 
 [Back to top](#top)
@@ -6026,8 +6026,8 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `User`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[UserSpec](#userspec)_ |  |
-| `status` _[UserStatus](#userstatus)_ |  |
+| `spec` _[UserSpec](#userspec)_ | Spec describes a KKP user. |
+| `status` _[UserStatus](#userstatus)_ | Status holds the information about the KKP user. |
 
 
 [Back to top](#top)
@@ -6047,7 +6047,7 @@ UserList is a list of users.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[User](#user) array_ |  |
+| `items` _[User](#user) array_ | Items is the list of KKP users. |
 
 
 [Back to top](#top)
@@ -6068,7 +6068,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserProjectBinding`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[UserProjectBindingSpec](#userprojectbindingspec)_ |  |
+| `spec` _[UserProjectBindingSpec](#userprojectbindingspec)_ | Spec describes a KKP user and project binding. |
 
 
 [Back to top](#top)
@@ -6079,7 +6079,7 @@ _Appears in:_
 
 
 
-UserProjectBindingList is a list of users.
+UserProjectBindingList is a list of KKP user and project bindings.
 
 
 
@@ -6088,7 +6088,7 @@ UserProjectBindingList is a list of users.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserProjectBindingList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[UserProjectBinding](#userprojectbinding) array_ |  |
+| `items` _[UserProjectBinding](#userprojectbinding) array_ | Items is the list of KKP user and project bindings. |
 
 
 [Back to top](#top)
@@ -6099,7 +6099,7 @@ UserProjectBindingList is a list of users.
 
 
 
-UserProjectBindingSpec specifies a user.
+UserProjectBindingSpec specifies a user and project binding.
 
 _Appears in:_
 - [UserProjectBinding](#userprojectbinding)
@@ -6237,12 +6237,12 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `username` _string_ |  |
-| `password` _string_ |  |
-| `apiToken` _string_ |  |
-| `vdc` _string_ |  |
-| `organization` _string_ |  |
-| `ovdcNetwork` _string_ |  |
+| `username` _string_ | The VMware Cloud Director user name. |
+| `password` _string_ | The VMware Cloud Director user password. |
+| `apiToken` _string_ | The VMware Cloud Director API token. |
+| `vdc` _string_ | The organizational virtual data center. |
+| `organization` _string_ | The name of organization to use. |
+| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp. |
 
 
 [Back to top](#top)
@@ -6280,12 +6280,12 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `username` _string_ | Username is the VMware Cloud Director user name. |
-| `password` _string_ | Password is the VMware Cloud Director user password. |
-| `apiToken` _string_ | APIToken is the VMware Cloud Director API token. |
-| `organization` _string_ | Organization is the name of organization to use. |
-| `vdc` _string_ | VDC is the organizational virtual data center. |
-| `ovdcNetwork` _string_ | Network is the name of organizational virtual data center network that will be associated with the VMs and vApp. |
+| `username` _string_ | The VMware Cloud Director user name. |
+| `password` _string_ | The VMware Cloud Director user password. |
+| `apiToken` _string_ | The VMware Cloud Director API token. |
+| `organization` _string_ | The name of organization to use. |
+| `vdc` _string_ | The organizational virtual data center. |
+| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp. |
 | `vapp` _string_ | VApp used for isolation of VMs and their associated network |
 | `csi` _[VMwareCloudDirectorCSIConfig](#vmwareclouddirectorcsiconfig)_ | Config for CSI driver |
 
@@ -6307,13 +6307,13 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
-| `username` _string_ |  |
-| `password` _string_ |  |
+| `username` _string_ | The vSphere user name. |
+| `password` _string_ | The vSphere user password. |
 | `vmNetName` _string_ | Deprecated: Use networks instead. |
-| `networks` _string array_ |  |
-| `datastore` _string_ |  |
-| `datastoreCluster` _string_ |  |
-| `resourcePool` _string_ |  |
+| `networks` _string array_ | List of vSphere networks. |
+| `datastore` _string_ | Datastore to be used for storing virtual machines and as a default for dynamic volume provisioning, it is mutually exclusive with DatastoreCluster. |
+| `datastoreCluster` _string_ | DatastoreCluster to be used for storing virtual machines, it is mutually exclusive with Datastore. |
+| `resourcePool` _string_ | ResourcePool is used to manage resources such as cpu and memory for vSphere virtual machines. The resource pool should be defined on vSphere cluster level. |
 | `basePath` _string_ | BasePath configures a vCenter folder path that KKP will create an individual cluster folder in. If it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path, the BasePath part will be appended to the RootPath to construct the full path. |
 
 
@@ -6333,11 +6333,11 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
-| `username` _string_ | Username is the vSphere user name. |
-| `password` _string_ | Password is the vSphere user password. |
-| `vmNetName` _string_ | VMNetName is the name of the vSphere network. Deprecated: Use networks instead. |
-| `networks` _string array_ | Networks is the list of vSphere networks. |
-| `folder` _string_ | Folder is the folder to be used to group the provisioned virtual machines. |
+| `username` _string_ | The vSphere user name. |
+| `password` _string_ | The vSphere user password. |
+| `vmNetName` _string_ | The name of the vSphere network. Deprecated: Use networks instead. |
+| `networks` _string array_ | List of vSphere networks. |
+| `folder` _string_ | Folder to be used to group the provisioned virtual machines. |
 | `basePath` _string_ | Optional: BasePath configures a vCenter folder path that KKP will create an individual cluster folder in. If it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path, the BasePath part will be appended to the RootPath (if set) to construct the full path. |
 | `datastore` _string_ | Datastore to be used for storing virtual machines and as a default for dynamic volume provisioning, it is mutually exclusive with DatastoreCluster. |
 | `datastoreCluster` _string_ | DatastoreCluster to be used for storing virtual machines, it is mutually exclusive with Datastore. |
