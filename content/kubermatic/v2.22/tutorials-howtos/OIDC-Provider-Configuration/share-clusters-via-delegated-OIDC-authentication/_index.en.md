@@ -105,14 +105,6 @@ spec:
     # kubeconfig endpoint in the dashboard, i.e.
     # "https://<spec.ingress.domain>/api/v1/kubeconfig"
     issuerRedirectURL: https://example.com/api/v1/kubeconfig
-
-    # OIDC provider's root CA certificates chain, see
-    # the section further down in this document for more
-    # information on how to generate this
-    caBundle: |-
-      -----BEGIN CERTIFICATE-----
-      ....
-      -----END CERTIFICATE-----
 ```
 
 These values must match the configuration used for the `oauth` Helm chart (Dex). Define
@@ -130,19 +122,13 @@ dex:
 
 ## Root CA Certificates Chain
 
-In order to verify OIDC provider's certificate in `kubermatic-controller-manager` when establishing
-TLS connection, a public root CA certificate is required. Ideally the whole chain including all intermediate
-CAs certificates is included. Note that we expect that all certificates will be PEM encoded.
+KKP needs to be able to verify the OIDC provider's TLS certificate when connecting to it.
+If the OIDC provider's TLS certificate is signed by a public CA, no changes are required.
 
-For example if the certificate used by your provider was issued by Let's Encrypt. You can visit
-[Let's Encrypt](https://letsencrypt.org/certificates) to download the necessary certificates and use the
-following command to prepare the bundle.
-
-```bash
-cat isrgrootx1.pem.txt lets-encrypt-x3-cross-signed.pem.txt > caBundle.pem
-```
-
-This bundle must then be copied verbatim into the `KubermaticConfiguration`.
+However, if the TLS certificate is signed by a private CA, you will need to configure [a custom CA bundle]({{< ref "../../KKP-configuration/custom-certificates/#configuration" >}})
+that includes your private CA chain. Configuring it globally as described on the referenced page
+will make the private CA chain available to all components in KKP that interact with the
+OIDC provider.
 
 ## Update KKP
 
