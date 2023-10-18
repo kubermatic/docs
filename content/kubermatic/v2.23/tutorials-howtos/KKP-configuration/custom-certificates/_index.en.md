@@ -170,6 +170,7 @@ spec:
   # This configures the global default CA bundle, which is used on the
   # master cluster and on all seeds, userclusters.
   caBundle:
+    kind: ConfigMap
     # name of the ConfigMap;
     # must be in the same namespace as KKP
     name: ca-bundle
