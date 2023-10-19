@@ -53,6 +53,7 @@ For KKP, update the `KubermaticConfiguration` and configure `spec.ingress.certif
 spec:
   ingress:
     certificateIssuer:
+      kind: ClusterIssuer # or Issuer, depending on your scenario.
       name: my-own-ca-issuer
 ```
 
@@ -65,14 +66,16 @@ the new issuer:
 ```yaml
 dex:
   certIssuer:
+    kind: ClusterIssuer # or Issuer, depending on your scenario.
     name: my-own-ca-issuer
 
 iap:
   certIssuer:
+    kind: ClusterIssuer # or Issuer, depending on your scenario.
     name: my-own-ca-issuer
 ```
 
-Re-deploy the `iap` Helm chart to perform the changes and update the Certificate resources.
+Re-deploy the `iap` Helm chart to perform the changes and update the `Certificate` resources.
 
 ### External
 
@@ -183,14 +186,13 @@ The KKP Operator manages a single Ingress for the KKP API/dashboard. This by def
 the required annotations and spec settings for usage with cert-manager. However, if the cert-manager
 integration is disabled, the cluster admin is free to manage these settings themselves.
 
-To disable the cert-manager integration, set the `spec.ingress.certificateIssuer.name` to an empty string
+To disable cert-manager integration, set `spec.ingress.certificateIssuer` as empty
 in the `KubermaticConfiguration`:
 
 ```yaml
 spec:
   ingress:
-    certificateIssuer:
-      name: ""
+    certificateIssuer: {}
 ```
 
 It is now possible to set `spec.tls` on the `kubermatic` Ingress to a custom certificate:
