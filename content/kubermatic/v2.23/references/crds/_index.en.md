@@ -742,7 +742,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AddonConfig`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[AddonConfigSpec](#addonconfigspec)_ |  |
+| `spec` _[AddonConfigSpec](#addonconfigspec)_ | Spec describes the configuration of an addon. |
 
 
 [Back to top](#top)
@@ -762,7 +762,7 @@ AddonConfigList is a list of addon configs.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AddonConfigList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[AddonConfig](#addonconfig) array_ |  |
+| `items` _[AddonConfig](#addonconfig) array_ | Items refers to the list of AddonConfig objects. |
 
 
 [Back to top](#top)
@@ -826,7 +826,7 @@ AddonList is a list of addons.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AddonList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[Addon](#addon) array_ |  |
+| `items` _[Addon](#addon) array_ | Items refers to the list of the cluster addons. |
 
 
 [Back to top](#top)
@@ -887,7 +887,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AdmissionPlugin`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[AdmissionPluginSpec](#admissionpluginspec)_ |  |
+| `spec` _[AdmissionPluginSpec](#admissionpluginspec)_ | Spec describes an admission plugin name and in which k8s version it is supported. |
 
 
 [Back to top](#top)
@@ -907,7 +907,7 @@ AdmissionPluginList is the type representing a AdmissionPluginList.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AdmissionPluginList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[AdmissionPlugin](#admissionplugin) array_ | List of Admission Plugins |
+| `items` _[AdmissionPlugin](#admissionplugin) array_ | Items refers to the list of Admission Plugins |
 
 
 [Back to top](#top)
@@ -988,7 +988,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AlertmanagerList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[Alertmanager](#alertmanager) array_ |  |
+| `items` _[Alertmanager](#alertmanager) array_ | Items refers to the list of Alertmanager objects. |
 
 
 [Back to top](#top)
@@ -1024,7 +1024,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `configStatus` _[AlertmanagerConfigurationStatus](#alertmanagerconfigurationstatus)_ |  |
+| `configStatus` _[AlertmanagerConfigurationStatus](#alertmanagerconfigurationstatus)_ | ConfigStatus stores status information about the AlertManager configuration. |
 
 
 [Back to top](#top)
@@ -1086,7 +1086,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AllowedRegistry`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[AllowedRegistrySpec](#allowedregistryspec)_ |  |
+| `spec` _[AllowedRegistrySpec](#allowedregistryspec)_ | Spec describes the desired state for an allowed registry. |
 
 
 [Back to top](#top)
@@ -1106,7 +1106,7 @@ AllowedRegistryList specifies a list of allowed registries.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AllowedRegistryList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[AllowedRegistry](#allowedregistry) array_ |  |
+| `items` _[AllowedRegistry](#allowedregistry) array_ | Items refers to the list of the allowed registries. |
 
 
 [Back to top](#top)
@@ -1663,13 +1663,13 @@ _Appears in:_
 | `cloud` _[CloudSpec](#cloudspec)_ | Cloud contains information regarding the cloud provider that is responsible for hosting the cluster's workload. |
 | `containerRuntime` _string_ | ContainerRuntime to use, i.e. `docker` or `containerd`. By default `containerd` will be used. |
 | `imagePullSecret` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#secretreference-v1-core)_ | Optional: ImagePullSecret references a secret with container registry credentials. This is passed to the machine-controller which sets the registry credentials on node level. |
-| `cniPlugin` _[CNIPluginSettings](#cnipluginsettings)_ |  |
-| `clusterNetwork` _[ClusterNetworkingConfig](#clusternetworkingconfig)_ |  |
-| `machineNetworks` _[MachineNetworkingConfig](#machinenetworkingconfig) array_ |  |
+| `cniPlugin` _[CNIPluginSettings](#cnipluginsettings)_ | Optional: CNIPlugin refers to the spec of the CNI plugin used by the Cluster. |
+| `clusterNetwork` _[ClusterNetworkingConfig](#clusternetworkingconfig)_ | Optional: ClusterNetwork specifies the different networking parameters for a cluster. |
+| `machineNetworks` _[MachineNetworkingConfig](#machinenetworkingconfig) array_ | Optional: MachineNetworks is the list of the networking parameters used for IPAM. |
 | `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | ExposeStrategy is the strategy used to expose a cluster control plane. |
 | `apiServerAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: APIServerAllowedIPRanges is a list of IP ranges allowed to access the API server. Applicable only if the expose strategy of the cluster is LoadBalancer. If not configured, access to the API server is unrestricted. |
 | `componentsOverride` _[ComponentSettings](#componentsettings)_ | Optional: Component specific overrides that allow customization of control plane components. |
-| `oidc` _[OIDCSettings](#oidcsettings)_ |  |
+| `oidc` _[OIDCSettings](#oidcsettings)_ | Optional: OIDC specifies the OIDC configuration parameters for enabling authentication mechanism for the cluster. |
 | `features` _object (keys:string, values:boolean)_ | A map of optional or early-stage features that can be enabled for the user cluster. Some feature gates cannot be disabled after being enabled. The available feature gates vary based on KKP version, Kubernetes version and Seed configuration. Please consult the KKP documentation for specific feature gates. |
 | `updateWindow` _[UpdateWindow](#updatewindow)_ | Optional: UpdateWindow configures automatic update systems to respect a maintenance window for applying OS updates to nodes. This is only respected on Flatcar nodes currently. |
 | `usePodSecurityPolicyAdmissionPlugin` _boolean_ | Enables the admission plugin `PodSecurityPolicy`. This plugin is deprecated by Kubernetes. |
@@ -1708,7 +1708,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `address` _[ClusterAddress](#clusteraddress)_ | Address contains the IPs/URLs to access the cluster control plane. |
-| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#time-v1-meta)_ |  |
+| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#time-v1-meta)_ | Deprecated: LastUpdated contains the timestamp at which the cluster was last modified. It is kept only for KKP 2.20 release to not break the backwards-compatibility and not being set for KKP higher releases. |
 | `extendedHealth` _[ExtendedClusterHealth](#extendedclusterhealth)_ | ExtendedHealth exposes information about the current health state. Extends standard health status for new states. |
 | `lastProviderReconciliation` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#time-v1-meta)_ | LastProviderReconciliation is the time when the cloud provider resources were last fully reconciled (during normal cluster reconciliation, KKP does not re-check things like security groups, networks etc.). |
 | `namespaceName` _string_ | NamespaceName defines the namespace the control plane of this cluster is deployed in. |
@@ -1756,8 +1756,8 @@ _Appears in:_
 | `clusterLabels` _object (keys:string, values:string)_ |  |
 | `inheritedClusterLabels` _object (keys:string, values:string)_ |  |
 | `credential` _string_ |  |
-| `userSSHKeys` _[ClusterTemplateSSHKey](#clustertemplatesshkey) array_ |  |
-| `spec` _[ClusterSpec](#clusterspec)_ |  |
+| `userSSHKeys` _[ClusterTemplateSSHKey](#clustertemplatesshkey) array_ | UserSSHKeys is the list of SSH public keys that should be assigned to all nodes in the cluster. |
+| `spec` _[ClusterSpec](#clusterspec)_ | Spec describes the desired state of a user cluster. |
 
 
 [Back to top](#top)
@@ -1778,7 +1778,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplateInstance`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[ClusterTemplateInstanceSpec](#clustertemplateinstancespec)_ |  |
+| `spec` _[ClusterTemplateInstanceSpec](#clustertemplateinstancespec)_ | Spec specifies the data for cluster instances. |
 
 
 [Back to top](#top)
@@ -1798,7 +1798,7 @@ ClusterTemplateInstanceList specifies a list of cluster template instances.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplateInstanceList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[ClusterTemplateInstance](#clustertemplateinstance) array_ |  |
+| `items` _[ClusterTemplateInstance](#clustertemplateinstance) array_ | Items refers to the list of ClusterTemplateInstance objects. |
 
 
 [Back to top](#top)
@@ -1839,7 +1839,7 @@ ClusterTemplateList specifies a list of cluster templates.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplateList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[ClusterTemplate](#clustertemplate) array_ |  |
+| `items` _[ClusterTemplate](#clustertemplate) array_ | Items refers to the list of the ClusterTemplate objects. |
 
 
 [Back to top](#top)
@@ -1927,7 +1927,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Constraint`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[ConstraintSpec](#constraintspec)_ |  |
+| `spec` _[ConstraintSpec](#constraintspec)_ | Spec describes the desired state for the constraint. |
 
 
 [Back to top](#top)
@@ -1947,7 +1947,7 @@ ConstraintList specifies a list of constraints.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ConstraintList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[Constraint](#constraint) array_ |  |
+| `items` _[Constraint](#constraint) array_ | Items is a list of Gatekeeper Constraints |
 
 
 [Back to top](#top)
@@ -2013,7 +2013,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ConstraintTemplate`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[ConstraintTemplateSpec](#constrainttemplatespec)_ |  |
+| `spec` _[ConstraintTemplateSpec](#constrainttemplatespec)_ | Spec specifies the gatekeeper constraint template and KKP related spec. |
 
 
 [Back to top](#top)
@@ -2033,7 +2033,7 @@ ConstraintTemplateList specifies a list of constraint templates.
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ConstraintTemplateList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[ConstraintTemplate](#constrainttemplate) array_ |  |
+| `items` _[ConstraintTemplate](#constrainttemplate) array_ | Items refers to the list of ConstraintTemplate objects. |
 
 
 [Back to top](#top)
@@ -2072,7 +2072,7 @@ _Appears in:_
 | --- | --- |
 | `crd` _[CRD](#crd)_ |  |
 | `targets` _[Target](#target) array_ |  |
-| `selector` _[ConstraintTemplateSelector](#constrainttemplateselector)_ |  |
+| `selector` _[ConstraintTemplateSelector](#constrainttemplateselector)_ | Selector configures which clusters this constraint template is applied to. |
 
 
 [Back to top](#top)
@@ -4739,6 +4739,8 @@ _Appears in:_
 | `envoy` _[NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)_ | Envoy configures the Envoy application itself. |
 | `envoyManager` _[NodeportProxyComponent](#nodeportproxycomponent)_ | EnvoyManager configures the Kubermatic-internal Envoy manager. |
 | `updater` _[NodeportProxyComponent](#nodeportproxycomponent)_ | Updater configures the component responsible for updating the LoadBalancer service. |
+| `ipFamilyPolicy` _[IPFamilyPolicy](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#ipfamilypolicy-v1-core)_ | IPFamilyPolicy configures the IP family policy for the LoadBalancer service. |
+| `ipFamilies` _[IPFamily](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#ipfamily-v1-core) array_ | IPFamilies configures the IP families to use for the LoadBalancer service. |
 
 
 [Back to top](#top)
@@ -4868,7 +4870,7 @@ _Appears in:_
 
 
 
-
+OIDCSettings contains OIDC configuration parameters for enabling authentication mechanism for the cluster.
 
 _Appears in:_
 - [ClusterSpec](#clusterspec)
@@ -5814,6 +5816,7 @@ _Appears in:_
 | `enableWebTerminal` _boolean_ | EnableWebTerminal enables the Web Terminal feature for the user clusters. |
 | `enableShareCluster` _boolean_ | EnableShareCluster enables the Share Cluster feature for the user clusters. |
 | `enableOIDCKubeconfig` _boolean_ |  |
+| `disableAdminKubeconfig` _boolean_ | DisableAdminKubeconfig disables the admin kubeconfig functionality on the dashboard. |
 | `userProjectsLimit` _integer_ | UserProjectsLimit is the maximum number of projects a user can create. |
 | `restrictProjectCreation` _boolean_ |  |
 | `restrictProjectDeletion` _boolean_ |  |
@@ -6239,7 +6242,8 @@ _Appears in:_
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
 | `username` _string_ |  |
 | `password` _string_ |  |
-| `vmNetName` _string_ |  |
+| `vmNetName` _string_ | VMNetName is going to be deprecated starting with KKP 2.24 and removed in KKP 2.26+. It's recommended to use Networks instead. |
+| `networks` _string array_ |  |
 | `datastore` _string_ |  |
 | `datastoreCluster` _string_ |  |
 | `resourcePool` _string_ |  |
@@ -6263,7 +6267,8 @@ _Appears in:_
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `username` _string_ | Username is the vSphere user name. |
 | `password` _string_ | Password is the vSphere user password. |
-| `vmNetName` _string_ | VMNetName is the name of the vSphere network. |
+| `vmNetName` _string_ | VMNetName is the name of the vSphere network. VMNetName is going to be deprecated starting with KKP 2.24 and removed in KKP 2.26+. It's recommended to use Networks instead. |
+| `networks` _string array_ | Networks is the list of vSphere networks. |
 | `folder` _string_ | Folder is the folder to be used to group the provisioned virtual machines. |
 | `datastore` _string_ | Datastore to be used for storing virtual machines and as a default for dynamic volume provisioning, it is mutually exclusive with DatastoreCluster. |
 | `datastoreCluster` _string_ | DatastoreCluster to be used for storing virtual machines, it is mutually exclusive with Datastore. |
