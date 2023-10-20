@@ -5,22 +5,22 @@ date = 2023-07-20T09:44:15+05:30
 weight = 20
 +++
 
-This page explains how we can integrated [Thanos](https://thanos.io/) long term storage of metrics with KKP seed prometheus
+This page explains how we can integrate [Thanos](https://thanos.io/) long term storage of metrics with KKP seed Prometheus
 
 ## Pre-requsites
 1. Helm is installed.
 1. KKP v2.22.4+ is installed in the cluster.
-1. KKP prometheus chart has been deployed in each seed where you want to store long term metrics
+1. KKP Prometheus chart has been deployed in each seed where you want to store long term metrics
 
 ## Integration steps
 Below page outlines
-1. Install thanos components in your kubernetes cluster via Helm chart
-1. Customize KKP prometheus chart to augment prometheus pod with thanos sidecar
+1. Installation of Thanos components in your Kubernetes cluster via Helm chart
+1. Customization of KKP Prometheus chart to augment Prometheus pod with Thanos sidecar
 2. Customize KKP prometheus chart values to monitor and get alerts for Thanos components
 
 ## Install thanos chart
 
-You can install thanos helm chart from bitnami chart repository 
+You can install the Thanos Helm chart from Bitnami chart repository 
 ```shell
 HELM_EXPERIMENTAL_OCI=1 helm upgrade --install thanos \
   --namespace monitoring --create-namespace\
@@ -30,7 +30,7 @@ HELM_EXPERIMENTAL_OCI=1 helm upgrade --install thanos \
 ```
 
 ### Basic Thanos Customization file 
-You can configure Thanos to store the metrics in any s3 compatible storage as well as other popular cloud storate solution.
+You can configure Thanos to store the metrics in any s3 compatible storage as well as many other popular cloud storage solutions.
 
 Below yaml snippet uses Azure Blob storage configuration. You can refer to all [supported object storage configurations](https://thanos.io/tip/thanos/storage.md/#supported-clients).
 
@@ -61,13 +61,13 @@ storegateway:
 
 ## Augment prometheus to use Thanos sidecar
 
-In order to receive metrics from prometheus into Thanos, Thanos provides two mechanisms.
+In order to receive metrics from Prometheus into Thanos, Thanos provides two mechanisms.
 1. [Thanos Sidecar](https://thanos.io/tip/components/sidecar.md/)
 1. [Thanos Receiver](https://thanos.io/tip/components/receive.md/)
 
 Thanos sidecar is a much simpler and less resource heavy approach. You can understand more about Thanos components [here](https://thanos.io/tip/thanos/quick-tutorial.md/#components). Due to simplicity, we have outlined how to integrate the Thanos sidecar in existing prometheus chart configuration.
 
-Use below changes in `prometheus` block in `values.yaml` to add Thanos sidecar into existing prometheus pods.
+Use below changes in `prometheus` block in `values.yaml` to add Thanos sidecar into existing Prometheus pods.
 
 ```yaml
 prometheus:
@@ -145,10 +145,10 @@ prometheus:
 
 ## Add scraping and alerting rules to monitor thanos itself
 
-To monitor thanos effectively, we must scrape the thanos components and define some alertmanager rules to get alerted when Thanos is not working well. Below sections outline changes in `prometheus` section of `values.yaml` to enable such scraping and alerting for Thanos components.
+To monitor Thanos effectively, we must scrape the Thanos components and define some Prometheus alerting rules to get notified when Thanos is not working correctly. Below sections outline changes in `prometheus` section of `values.yaml` to enable such scraping and alerting for Thanos components.
 
 ### Scraping config
-Add below `scraping` configuration to scrape the thanos sidecar as well as various thanos components deployed via helm chart.
+Add below `scraping` configuration to scrape the Thanos sidecar as well as various Thanos components deployed via helm chart.
 
 ```yaml
 prometheus:
@@ -183,7 +183,7 @@ prometheus:
 ```
 
 ### Alerting Rules
-Add Below configmap and then refer this configMap in KKP prometheus chart's `values.yaml` customization
+Add Below configmap and then refer this configMap in KKP Prometheus chart's `values.yaml` customization
 
 ```yaml
 # values.yaml customization
