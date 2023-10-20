@@ -26,9 +26,7 @@ presubmits:
         - "./hack/ci/verify-hugo.sh"
         resources:
           requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
+            cpu: 250m
             memory: 512Mi
 
   - name: pre-docs-verify-remark-lint
