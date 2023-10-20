@@ -33,17 +33,13 @@ Feedback and discussion are available on [the mailing list][11].
 
 * Please familiarize yourself with the [Code of Conduct][4] before contributing.
 * See [CONTRIBUTING.md][2] for instructions on the developer certificate of origin that we require.
-* Read how [we're using ZenHub][13] for project and roadmap planning
 
 ### Pull requests
 
 * We welcome pull requests. Feel free to dig through the [issues][1] and jump in.
-
-
 
 [1]: https://github.com/kubermatic/docs/issues
 [2]: https://github.com/kubermatic/docs/blob/master/CONTRIBUTING.md
 [4]: https://github.com/kubermatic/docs/blob/master/CODE_OF_CONDUCT.md
 
 [11]: https://groups.google.com/forum/#!forum/kubermatic-dev
-[13]: https://github.com/kubermatic/docs/blob/master/docs/zenhub.md

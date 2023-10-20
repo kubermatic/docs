@@ -8,7 +8,7 @@ preview:
 		--name kubermatic-docs \
 		-p 1313:1313 \
 		-w /docs \
-		-v `pwd`:/docs quay.io/kubermatic/hugo:0.75.1-0 \
+		-v `pwd`:/docs quay.io/kubermatic/hugo:0.119.0-0 \
 		hugo server -D -F --bind 0.0.0.0
 
 .PHONY: runbook
