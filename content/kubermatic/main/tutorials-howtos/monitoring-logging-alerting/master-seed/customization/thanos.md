@@ -16,7 +16,7 @@ This page explains how we can integrate [Thanos](https://thanos.io/) long term s
 Below page outlines
 1. Installation of Thanos components in your Kubernetes cluster via Helm chart
 1. Customization of KKP Prometheus chart to augment Prometheus pod with Thanos sidecar
-2. Customize KKP prometheus chart values to monitor and get alerts for Thanos components
+1. Customization of KKP Prometheus chart values to monitor and get alerts for Thanos components
 
 ## Install thanos chart
 
@@ -65,7 +65,7 @@ In order to receive metrics from Prometheus into Thanos, Thanos provides two mec
 1. [Thanos Sidecar](https://thanos.io/tip/components/sidecar.md/)
 1. [Thanos Receiver](https://thanos.io/tip/components/receive.md/)
 
-Thanos sidecar is a much simpler and less resource heavy approach. You can understand more about Thanos components [here](https://thanos.io/tip/thanos/quick-tutorial.md/#components). Due to simplicity, we have outlined how to integrate the Thanos sidecar in existing prometheus chart configuration.
+Thanos sidecar is a much simpler and less resource heavy approach. You can learn more about Thanos components [here](https://thanos.io/tip/thanos/quick-tutorial.md/#components). Due to simplicity, we have outlined how to integrate the Thanos sidecar in the existing Prometheus chart configuration.
 
 Use below changes in `prometheus` block in `values.yaml` to add Thanos sidecar into existing Prometheus pods.
 
