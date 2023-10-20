@@ -21,14 +21,12 @@ presubmits:
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
-      - image: quay.io/kubermatic/hugo:0.75.1-0
+      - image: quay.io/kubermatic/hugo:0.119.0-0
         command:
         - "./hack/ci/verify-hugo.sh"
         resources:
           requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
+            cpu: 250m
             memory: 512Mi
 
   - name: pre-docs-verify-remark-lint
