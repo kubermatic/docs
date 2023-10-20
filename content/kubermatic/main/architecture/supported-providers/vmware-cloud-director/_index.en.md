@@ -1,7 +1,7 @@
 +++
 title = "VMware Cloud Director"
 date = 2022-08-14T12:00:00+02:00
-weight = 6
+weight = 7
 
 +++
 

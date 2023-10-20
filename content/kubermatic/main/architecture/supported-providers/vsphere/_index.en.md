@@ -1,7 +1,7 @@
 +++
 title = "vSphere"
 date = 2018-07-04T12:07:15+02:00
-weight = 7
+weight = 8
 
 +++
 

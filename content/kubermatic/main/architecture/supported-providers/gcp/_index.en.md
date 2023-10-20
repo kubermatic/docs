@@ -2,6 +2,7 @@
 title = "Google Cloud Platform"
 date = 2019-07-31T13:00:00+02:00
 weight = 3
+
 +++
 
 KKP userclusters can use the Google Cloud Platform (GCP) to host worker nodes. To provision
