@@ -25,9 +25,9 @@ So we need to get rid of them.
 
 ## How to remove the default control plane taint?
 
-In order to remove the default tains from the control plane Nodes we need to
+In order to remove the default taints from the control plane Nodes we need to
 ether edit the terraform output (in case when it's in use) or to specify empty
-tains array in the YAML.
+taints array in the YAML.
 
 ### Drop control plane taints using terraform output
 
