@@ -17,7 +17,7 @@ Additionally this mechanism can be used to ensure that only approved Application
 ## Creating an ApplicationDefinition
 
 An ApplicationDefinition represents a single Application and contains all of its versions.
-Each ApplicationDefinition maps to one Application in the UI.  
+Each ApplicationDefinition maps to one Application in the UI.
 Currently ApplicationDefinitions need to be created by hand, but we plan to include a UI importer in an upcoming release.
 
 ```yaml
@@ -47,11 +47,11 @@ spec:
     version: 0.0.0-dev
 ```
 
-The example defines the application `prometheus` with two versions. To learn more about the ApplicationDefintion's configuration please refer to the [ApplicationDefinition Reference]({{< ref "../../../architecture/concept/kkp-concepts/applications/application-definition" >}})
+The example defines the application `prometheus` with two versions. To learn more about the ApplicationDefinition's configuration please refer to the [ApplicationDefinition Reference]({{< ref "../../../architecture/concept/kkp-concepts/applications/application-definition" >}})
 
 ### Applying the ApplicationDefinition
 
-After creating an ApplicationDefinition file, you can simply apply it using kubectl in the KKP master cluster. 
+After creating an ApplicationDefinition file, you can simply apply it using kubectl in the KKP master cluster.
 
 ```sh
 # Inside KKP master

@@ -7,7 +7,7 @@ weight = 3
 This guide targets KKP Admins and details adding and removing a version to an `ApplicationDefinition`.
 
 ## How to add a version to an ApplicationDefinition
-To make a new version of an application available, you only have to add it to `ApplicationDefinition` version's list.  
+To make a new version of an application available, you only have to add it to `ApplicationDefinition` version's list.
 Let's say you have the following `ApplicationDefinition`
 ```yaml
 apiVersion: apps.kubermatic.k8c.io/v1
@@ -80,7 +80,7 @@ Once the deprecation period is over, delete the version from the `ApplicationDef
 This deprecation policy is an example and may have to be adapted to your organization's needs.
 {{% /notice %}}
 
-The best way to achieve that is using the [gatekepper / opa integration]({{< ref "../../OPA-integration" >}}) to create a `ContraintTemplate` and two [Default Constraints]({{< ref "../../OPA-integration#default-constraints" >}}) (one for each point of the deprecation policy)
+The best way to achieve that is using the [gatekepper / opa integration]({{< ref "../../OPA-integration" >}}) to create a `ConstraintTemplate` and two [Default Constraints]({{< ref "../../OPA-integration#default-constraints" >}}) (one for each point of the deprecation policy)
 
 **Example Kubermatic Constraint Template to deprecate a version:**
 ```yaml
@@ -112,7 +112,7 @@ spec:
   targets:
   - target: admission.k8s.gatekeeper.sh
     rego: |
-      package applicationdeprecation 
+      package applicationdeprecation
 
       # reject creation of a new application using the deprecated version
       violation[{"msg": msg, "details": {}}] {

@@ -67,7 +67,7 @@ Additional options that can be used for the installation include:
 
 This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, The helm values for the MLA stack can be adjusted and the installer can be re-run to redeploy and reconfigure the components.
 
-This default installation will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatiable srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatiable Services](#setting-up-mla-with-existing-minio-or-other-s3-compatiable-services).
+This default installation will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatible srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatible Services](#setting-up-mla-with-existing-minio-or-other-s3-compatible-services).
 
 #### Setup Seed Cluster Components for High Availability
 
@@ -259,9 +259,9 @@ By default, the MLA stack is configured to hold the logs and metrics in the obje
 - In the [loki Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/loki-distributed/values.yaml#L52), set `loki-distributed.loki.config.chunk_store_config.max_look_back_period` to the desired value (default: `168h` = 7 days).
 - In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/minio-lifecycle-mgr/values.yaml#L20), set `lifecycleMgr.buckets[name=loki].expirationDays` to the value used in the loki Helm chart + 1 day (default: `8d`).
 
-### Setting up MLA with Existing MinIO or Other S3-compatiable Services
+### Setting up MLA with Existing MinIO or Other S3-compatible Services
 
-By default, a MinIO instance will also be deployed as the S3 storage backend for MLA components. It is also possible to use an existing MinIO instance in your cluster or any other S3-compatiable services.
+By default, a MinIO instance will also be deployed as the S3 storage backend for MLA components. It is also possible to use an existing MinIO instance in your cluster or any other S3-compatible services.
 
 There are three Helm charts which are related to MinIO in MLA repository:
 - [mla-secrets](https://github.com/kubermatic/kubermatic/tree/release/v2.22/charts/mla/mla-secrets) is used to create and manage MinIO and Grafana credentials Secrets.

@@ -157,8 +157,8 @@ to apply your changes.
 
 ### Configure ClusterIssuers
 
-By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to 
-change the settings (`kubermatic.certIssuer` in `values.yaml`), you need to create a `ClusterIssuer` object, named 
+By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to
+change the settings (`kubermatic.certIssuer` in `values.yaml`), you need to create a `ClusterIssuer` object, named
 `letsencrypt-prod` to enable cert-manager to issue the certificates. Example of this file can be found below.
 For other possible options, please refer to the [external documentation](https://cert-manager.io/docs/configuration/).
 
@@ -248,7 +248,7 @@ Output will be similar to this:
 ```
 
 {{% notice note %}}
-Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTENAL-IP`. In this case,
+Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTERNAL-IP`. In this case,
 use the internal IP.
 {{% /notice %}}
 
@@ -315,9 +315,9 @@ Typical faults include bad DNS records or a misconfigured KubermaticConfiguratio
 ### Initializing the first Kubermatic Admin user
 
 With all this in place, you should be able to access https://kubermatic.example.com/ and login either with your static
-password from the `values.yaml` or using any of your chosen connectors. This will initiate your first contact with the 
-KKP API which will create an initial User resource for your account. To become a KKP admin, edit your User instance 
-and set the `admin` flag to `true`. 
+password from the `values.yaml` or using any of your chosen connectors. This will initiate your first contact with the
+KKP API which will create an initial User resource for your account. To become a KKP admin, edit your User instance
+and set the `admin` flag to `true`.
 
 ```yaml
 apiVersion: kubermatic.k8s.io/v1

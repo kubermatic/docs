@@ -31,7 +31,7 @@ Supported operating systems
 1. Click through the dialog until "Select storage"
 1. Select the same storage you want to use for your machines
 1. Select the same network you want to use for your machines
-1. Leave everyhting in the "Customize Template" and "Ready to complete" dialog as it is
+1. Leave everything in the "Customize Template" and "Ready to complete" dialog as it is
 1. Wait until the VM got fully imported and the "Snapshots" => "Create Snapshot" button is not grayed out anymore
 
 #### Importing the QCOW2
@@ -423,7 +423,7 @@ In KKP *Datastores* are used for two purposes:
 
 * Storing the VMs files for the worker nodes of vSphere user clusters.
 * Generating the vSphere cloud provider storage configuration for user clusters.
-  In particular to provide the `dafault-datastore` value, that is the default
+  In particular to provide the `default-datastore` value, that is the default
   datastore for dynamic volume provisioning.
 
 *Datastore Clusters* can only be used for the first purpose as it cannot be

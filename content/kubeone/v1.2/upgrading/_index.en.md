@@ -168,7 +168,7 @@ In case you want to change some of the cluster properties (e.g. enable a new
 feature), you can use the `upgrade` command to reconcile the changes.
 Modify your manifest to include the desired changes, but don't change the
 Kubernetes version (unless you want to upgrade the cluster), and then run the
-`upgade` command with the `--force` flag:
+`upgrade` command with the `--force` flag:
 
 ```bash
 kubeone upgrade --manifest kubeone.yaml -t tf.json --force

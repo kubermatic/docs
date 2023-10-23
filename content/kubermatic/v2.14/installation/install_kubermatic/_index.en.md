@@ -320,7 +320,7 @@ kubectl get nodes -o wide
 ```
 
 {{% notice note %}}
-Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTENAL-IP`. In this case,
+Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTERNAL-IP`. In this case,
 use the internal IP.
 {{% /notice %}}
 
