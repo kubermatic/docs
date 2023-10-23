@@ -224,7 +224,7 @@ Output will be similar to this:
 ```
 
 {{% notice note %}}
-Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTENAL-IP`. In this case,
+Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTERNAL-IP`. In this case,
 use the internal IP.
 {{% /notice %}}
 
@@ -291,9 +291,9 @@ Typical faults include bad DNS records or a misconfigured KubermaticConfiguratio
 ### Initializing the first Kubermatic Admin user
 
 With all this in place, you should be able to access https://kubermatic.example.com/ and login either with your static
-password from the `values.yaml` or using any of your chosen connectors. This will initiate your first contact with the 
-KKP API which will create an initial User resource for your account. To become a KKP admin, edit your User instance 
-and set the `admin` flag to `true`. 
+password from the `values.yaml` or using any of your chosen connectors. This will initiate your first contact with the
+KKP API which will create an initial User resource for your account. To become a KKP admin, edit your User instance
+and set the `admin` flag to `true`.
 
 ```yaml
 apiVersion: kubermatic.k8s.io/v1

@@ -443,7 +443,7 @@ It will be present in the `VM Flavor` dropdown list selection and be copied in t
 *Note 1:* Update of a `VirtualMachineInstancePreset` in the `default` namespace.
 
 What happens if we update a `VirtualMachineInstancePreset` existing in the `default` namespace ?
-- The updated `VirtualMachineInstancePreset` will be reconciled from the `default` namespace into the `cluster-xyz` namespace. 
+- The updated `VirtualMachineInstancePreset` will be reconciled from the `default` namespace into the `cluster-xyz` namespace.
 Give it some time to be reconciled. The reconciliation interval is configurable (refer to `providerReconciliationInterval`
 in [Seed configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})
 - For all `VirtualMachineIsntances` already created, this will have no impact.
@@ -482,7 +482,7 @@ by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the 
 #### Custom Local Disk
 
 Custom local disks are disks created during cluster initialization that can be referenced later when creating nodes.
-Reference the custom local disk by name in the node's primary disk field. 
+Reference the custom local disk by name in the node's primary disk field.
 **The disk will be cloned** instead of being downloaded from the HTTP source URL.
 
 The feature relies on Data Volumes from the [Containerized Data Importer](https://github.com/kubevirt/containerized-data-importer/) project.
@@ -512,8 +512,8 @@ The same Custom Local Disk can be used as source of cloning for all the VMs (sam
 Secondary disks are additional disks that can be attached to nodes (up to three disks).
 The feature is under heavy development, and it is functionality might change over time.
 
-Currently, blank Data Volumes are being created and attached to nodes, meaning it is up to the cluster admin to 
-format the disks that they are being usable. 
+Currently, blank Data Volumes are being created and attached to nodes, meaning it is up to the cluster admin to
+format the disks that they are being usable.
 
 **It is not recommended to use those disks in production environment yet.**
 
@@ -544,12 +544,12 @@ spec:
 ```
 For more details refer this [document](https://kubevirt.io/user-guide/operations/component_monitoring/).
 
-After completing the above setup, you can import this [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) in Grafana to monitor `KubeVirt` components.
+After completing the above setup, you can import this [KubeVirt-Dashboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) in Grafana to monitor `KubeVirt` components.
 
 Follow the below steps to import the dashboard in Grafana:
-- Download this [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana).
+- Download this [KubeVirt-Dashboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana).
 - Open Grafana and click on `+` icon on the left side of the application. After that select `Import` option.
-- In the below window you can upload the [KubeVirt-Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) `json` file.
+- In the below window you can upload the [KubeVirt-Dashboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) `json` file.
 
 ![Grafana Dashboard](/img/kubermatic/v2.21/monitoring/kubevirt/grafana.png)
 

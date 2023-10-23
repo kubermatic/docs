@@ -52,7 +52,7 @@ node-local-dns-4p8jr               1/1       Running      0           21m
 ```
 
 
-As shown above, the Autoscaler is not part of the running Kubernetes components within the Namspace.
+As shown above, the Autoscaler is not part of the running Kubernetes components within the Namespace.
 
 **Step 3**
 

@@ -291,8 +291,8 @@ to apply your changes.
 
 ### Configure ClusterIssuers
 
-By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to 
-change the settings (`.spec.ingress.certificateIssuer.name` in `kubermatic.yaml`), you need to create a `ClusterIssuer` object, named 
+By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to
+change the settings (`.spec.ingress.certificateIssuer.name` in `kubermatic.yaml`), you need to create a `ClusterIssuer` object, named
 `letsencrypt-prod` to enable cert-manager to issue the certificates. Example of this file can be found below. If you
 adjusted this configuration option while preparing the configuration files, make sure to change the `ClusterIssuer`
 resource name accordingly.
@@ -391,7 +391,7 @@ Output will be similar to this:
 ```
 
 {{% notice note %}}
-Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTENAL-IP`. In this case,
+Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTERNAL-IP`. In this case,
 use the internal IP.
 {{% /notice %}}
 

@@ -55,7 +55,7 @@ After the secrets are created, the MLA stack can be deployed by using the helper
 
 This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, the steps in the helper script can be manually reproduced with tweaked Helm values. See the “Setup Customization” section for more information.
 
-Also, this will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatiable srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatiable Services](#setting-up-mla-with-existing-minio-or-other-s3-compatiable-services).
+Also, this will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatible srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatible Services](#setting-up-mla-with-existing-minio-or-other-s3-compatible-services).
 
 #### Setup Seed Cluster Components for High Availability
 
@@ -201,7 +201,7 @@ helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm
 
 ### Setup Customization
 
-The default settings of the MLA stack components are sufficient for smaller scale setups (several user clusters). Whenever a larger scale is needed these settings should be adapted accordingly. 
+The default settings of the MLA stack components are sufficient for smaller scale setups (several user clusters). Whenever a larger scale is needed these settings should be adapted accordingly.
 
 User Cluster MLA stack components setting can be adapted by modifying (using your own) their `value.yaml` files. Available Helm chart options can be reviewed in the MLA repo:
 
@@ -248,9 +248,9 @@ By default, the MLA stack is configured to hold the logs and metrics in the obje
 - In the [loki Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/loki/values.yaml#L52), set `loki.config.chunk_store_config.max_look_back_period` to the desired value (default: `168h` = 7 days).
 - In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/mla/blob/main/config/minio-lifecycle-mgr/values.yaml#L20), set `lifecycleMgr.buckets[name=loki].expirationDays` to the value used in the loki Helm chart + 1 day (default: `8d`).
 
-### Setting up MLA with Existing MinIO or Other S3-compatiable Services
+### Setting up MLA with Existing MinIO or Other S3-compatible Services
 
-By default, a MinIO instance will also be deployed as the S3 storage backend for MLA components. It is also possible to use an existing MinIO instance in your cluster or any other S3-compatiable services.
+By default, a MinIO instance will also be deployed as the S3 storage backend for MLA components. It is also possible to use an existing MinIO instance in your cluster or any other S3-compatible services.
 
 There are three Helm charts which are related to MinIO in MLA repository:
 - [mla-secret](https://github.com/kubermatic/mla/tree/main/charts/mla-secrets) is used to create and manage MinIO and Grafana credentials Secrets.
@@ -448,7 +448,7 @@ wal:
 ### Upgrade Cortex to version 1.9.0
 
 Statefulset `store-gateway` refers to a headless service called `cortex-store-gateway-headless`, however, due to a bug in the upstream helm-chart(v0.5.0), the `cortex-store-gateway-headless` doesn’t exist at all, and headless service is named `cortex-store-gateway`, which is not used by the statefulset. Because `cortex-store-gateway` is not referred at all, we can safely delete it, and do helm upgrade to fix the issue (Refer to this [pull-request](https://github.com/cortexproject/cortex-helm-chart/pull/166) for details).
-    
+
 Delete the existing `cortex-store-gateway` service by running the below command:
 ```bash
 kubectl delete svc cortex-store-gateway -n mla

@@ -131,7 +131,7 @@ spec:
 
 For more details please refer to this [document](https://kubevirt.io/user-guide/operations/component_monitoring/).
 
-After completing the above setup, you can import the [KubeVirt Dasboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) to Grafana.
+After completing the above setup, you can import the [KubeVirt Dashboard](https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana) to Grafana.
 Follow the official [Grafana documentation](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#export-and-import-dashboards
 ) to learn how to import the dashboard.
 

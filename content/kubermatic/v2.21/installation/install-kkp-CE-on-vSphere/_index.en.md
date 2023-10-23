@@ -85,7 +85,7 @@ properly generated secrets for you when it notices that some are missing, for ex
 
 Output will be similar to this:
 ```bash
-INFO[15:15:20] 🛫 Initializing installer…                     edition="Community Edition" version=v2.20.3 
+INFO[15:15:20] 🛫 Initializing installer…                     edition="Community Edition" version=v2.20.3
 INFO[15:15:20] 🚦 Validating the provided configuration…
 ERROR[15:15:20]    The provided configuration files are invalid:
 ERROR[15:15:20]    KubermaticConfiguration: spec.auth.serviceAccountKey must be a non-empty secret, for example: ZPCs7_KzgJxUSA5lCk_oNzL7RQFTQ6cOnHuTLAh4pGw
@@ -110,12 +110,12 @@ is using SSDs.
 
 Use the `--storageclass` parameter for automatically creating the class during installation.
 
-In case of vSphere if the user have not enabled the default storage class while installing kubeone, please manually 
+In case of vSphere if the user have not enabled the default storage class while installing kubeone, please manually
 create a StorageClass called `kubermatic-fast`. Consult the
 [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters) for more
 information about the possible parameters for your storage backend.
 
-Here is a storage class example, this needs to created before running the installer 
+Here is a storage class example, this needs to created before running the installer
 
 ```yaml
 apiVersion: storage.k8s.io/v1
@@ -138,7 +138,7 @@ like so:
 ```bash
 ./kubermatic-installer deploy \
   --config kubermatic.yaml \
-  --helm-values values.yaml 
+  --helm-values values.yaml
 ```
 
 {{% notice warning %}}
@@ -160,8 +160,8 @@ to apply your changes.
 
 ### Configure ClusterIssuers
 
-By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to 
-change the settings (`kubermatic.certIssuer` in `values.yaml`), you need to create a `ClusterIssuer` object, named 
+By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to
+change the settings (`kubermatic.certIssuer` in `values.yaml`), you need to create a `ClusterIssuer` object, named
 `letsencrypt-prod` to enable cert-manager to issue the certificates. Example of this file can be found below.
 For other possible options, please refer to the [external documentation](https://cert-manager.io/docs/configuration/).
 
@@ -228,7 +228,7 @@ Output will be similar to this:
 #nginx-ingress-controller   LoadBalancer   10.47.248.232   1.2.3.4        80:32014/TCP,443:30772/TCP   449d
 ```
 
-The `EXTERNAL-IP` is what we need to put into the DNS record. Note that this can be an IP address (for example on 
+The `EXTERNAL-IP` is what we need to put into the DNS record. Note that this can be an IP address (for example on
 vSphere, this can be `1.2.3.4`) and in this case, the DNS record needs to be an `A` record.
 
 #### Without LoadBalancers
@@ -250,7 +250,7 @@ Output will be similar to this:
 ```
 
 {{% notice note %}}
-Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTENAL-IP`. In this case,
+Some cloud providers list the external IP as the `INTERNAL-IP` and show no value for the `EXTERNAL-IP`. In this case,
 use the internal IP.
 {{% /notice %}}
 
@@ -272,7 +272,7 @@ It's a common step to later setup an identity-aware proxy (IAP) to
 stacks. This involves setting up either individual DNS records per IAP deployment (one for Prometheus, one for Grafana, etc.)
 or simply creating a single **wildcard** record: `*.kubermatic.example.com`.
 
-Whatever you choose, the DNS record needs to point to the same endpoint (IP, meaning A records respectively) 
+Whatever you choose, the DNS record needs to point to the same endpoint (IP, meaning A records respectively)
 as the previous record, i.e. `1.2.3.4`. This is because the one nginx-ingress-controller is routing
 traffic both for KKP and all other services.
 
@@ -308,9 +308,9 @@ Typical faults include bad DNS records or a misconfigured KubermaticConfiguratio
 ### Initializing the first Kubermatic Admin user
 
 With all this in place, you should be able to access https://kubermatic.example.com/ and login either with your static
-password from the `values.yaml` or using any of your chosen connectors. This will initiate your first contact with the 
-KKP API which will create an initial User resource for your account. To become a KKP admin, edit your User instance 
-and set the `admin` flag to `true`. 
+password from the `values.yaml` or using any of your chosen connectors. This will initiate your first contact with the
+KKP API which will create an initial User resource for your account. To become a KKP admin, edit your User instance
+and set the `admin` flag to `true`.
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1

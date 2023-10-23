@@ -239,7 +239,7 @@ For the Terraform reference, please take a look at
 ## Credentials File
 
 The credentials file is a key-value YAML file, where the key is the environment
-variable name from the [environment variables section][environemnt-variables].
+variable name from the [environment variables section][environment-variables].
 It has the priority over the environment variables, so you can use it if you
 want to use different credentials or if you don't want to export credentials
 as environment variables.
@@ -324,4 +324,4 @@ support for sourcing value using the `env:` prefix:
 [machine-controller]: {{< ref "../../architecture/concepts/#kubermatic-machine-controller" >}}
 [containerruntime-containerd]: {{< ref "../../references/kubeone-cluster-v1beta2/#containerruntimecontainerd" >}}
 [migrating-to-containerd]: {{< ref "../../guides/containerd-migration" >}}
-[environemnt-variables]: {{< ref "#environment-variables" >}}
+[environment-variables]: {{< ref "#environment-variables" >}}

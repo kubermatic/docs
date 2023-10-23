@@ -25,7 +25,7 @@ So we need to get rid of them.
 
 ## How to remove the default control plane taint?
 
-In order to remove the default tains from the control plane Nodes we need to
+In order to remove the default taints from the control plane Nodes we need to
 ether edit the terraform output (in case when it's in use) or to specify empty
 tains array in the YAML.
 
@@ -37,7 +37,7 @@ in the diff below.
 ```diff
  output "kubeone_hosts" {
    description = "Control plane endpoints to SSH to"
- 
+
    value = {
      control_plane = {
 +      untaint = true
@@ -54,7 +54,7 @@ In case if you don't use terraform but rather write whole config manually:
  apiVersion: kubeone.k8c.io/v1beta2
  kind: KubeOneCluster
  name: demo-cluster
- 
+
  controlPlane:
    hosts:
      - publicAddress: "x.x.x.1"
