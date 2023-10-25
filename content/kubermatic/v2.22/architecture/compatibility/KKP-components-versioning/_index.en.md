@@ -14,9 +14,8 @@ of provided software and therefore releases updates regularly that also include 
 | ----------------------------- | ---------------------------- |
 | backup/velero | 1.9.0 |
 | cert-manager | 1.10.1 |
-| gatekeeper | 3.7.2 |
 | iap | 7.3.0 |
-| kubermatic-operator | 2.22.0|
+| kubermatic-operator | 2.22.9 |
 | logging/loki | 2.5.0 |
 | logging/promtail | 2.5.0 |
 | minio | RELEASE.2022-06-25T15-50-16Z |
@@ -39,4 +38,4 @@ of provided software and therefore releases updates regularly that also include 
 | nginx-ingress-controller | 1.5.1 |
 | oauth | 2.35.3 |
 | s3-exporter | 0.6 |
-| telemetry | 0.3.0 |
+| telemetry | 0.4.1 |
