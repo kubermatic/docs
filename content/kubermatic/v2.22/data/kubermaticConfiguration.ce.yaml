@@ -36,14 +36,14 @@ spec:
       # Limits describes the maximum amount of compute resources allowed.
       # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
       limits:
-        cpu: 250m
+        cpu: "1"
         memory: 1Gi
       # Requests describes the minimum amount of compute resources required.
       # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
       # otherwise to an implementation-defined value.
       # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
       requests:
-        cpu: 100m
+        cpu: 200m
         memory: 150Mi
   # Auth defines keys and URLs for Dex. These must be defined unless the HeadlessInstallation
   # feature gate is set, which will disable the UI/API and its need for an OIDC provider entirely.
@@ -133,14 +133,14 @@ spec:
       # Limits describes the maximum amount of compute resources allowed.
       # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
       limits:
-        cpu: 100m
+        cpu: "1"
         memory: 400Mi
       # Requests describes the minimum amount of compute resources required.
       # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
       # otherwise to an implementation-defined value.
       # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
       requests:
-        cpu: 50m
+        cpu: 200m
         memory: 128Mi
   # Proxy allows to configure Kubermatic to use proxies to talk to the
   # world outside of its cluster.
@@ -299,7 +299,7 @@ spec:
       # Limits describes the maximum amount of compute resources allowed.
       # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
       limits:
-        cpu: 500m
+        cpu: "1"
         memory: 1Gi
       # Requests describes the minimum amount of compute resources required.
       # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
@@ -317,6 +317,10 @@ spec:
       }
     # DockerRepository is the repository containing the Kubermatic dashboard image.
     dockerRepository: quay.io/kubermatic/dashboard
+    # ExtraVolumeMounts allows to mount additional volumes into the UI container.
+    extraVolumeMounts: null
+    # ExtraVolumes allows to mount additional volumes into the UI container.
+    extraVolumes: null
     # Replicas sets the number of pod replicas for the UI deployment.
     replicas: 2
     # Resources describes the requested and maximum allowed CPU/memory usage.
@@ -506,7 +510,7 @@ spec:
   # Versions configures the available and default Kubernetes versions and updates.
   versions:
     # Default is the default version to offer users.
-    default: v1.25.6
+    default: v1.25.14
     # ExternalClusters contains the available and default Kubernetes versions and updates for ExternalClusters.
     externalClusters:
       aks:
@@ -610,11 +614,19 @@ spec:
       - v1.24.8
       - v1.24.9
       - v1.24.10
+      - v1.24.13
+      - v1.24.15
       - v1.25.2
       - v1.25.4
       - v1.25.5
       - v1.25.6
+      - v1.25.9
+      - v1.25.11
+      - v1.25.14
       - v1.26.1
+      - v1.26.4
+      - v1.26.6
+      - v1.26.9
   # VerticalPodAutoscaler configures the Kubernetes VPA integration.
   verticalPodAutoscaler:
     admissionController:
