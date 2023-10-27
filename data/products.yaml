@@ -83,3 +83,12 @@ operatingsystemmanager:
   description: Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster.
   weight: 4
   shareImage: img/Docs-OSM-share.jpg
+
+kubelb:
+  name: kubelb
+  logo: "/img/kubelb/common/logo.png"
+  title: KubeLB
+  textName: KubeLB
+  description: KubeLB is a project to centrally manage load balancers across multicloud and on-prem environments.
+  weight: 5
+  shareImage: img/Docs-KubeLB-share.jpg
