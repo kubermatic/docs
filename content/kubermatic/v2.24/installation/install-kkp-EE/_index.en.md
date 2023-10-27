@@ -66,6 +66,12 @@ The catalog provides an easy solution to make use of upstream helm charts after 
 
 ![Example of the default Application Catalog](/img/kubermatic/common/applications/default-application-catalogue.png "Example of the default Application Catalog")
 
+In order to deploy pre-defined Application Catalog, add the `--deploy-default-app-catalog` when running the kubermatic installer.
+
+{{% notice info %}}
+In order to maintain upgrade compatibility, deploying the default-app-catalog will overwrite any prior [default ApplicationDefinitions](https://github.com/kubermatic/kubermatic/tree/main/pkg/ee/default-application-catalog/applicationdefinitions).
+{{% /notice %}}
+
 ### Next Steps
 
 * [Add a Seed cluster]({{< ref "./add-seed-cluster-ee" >}}) to start creating user clusters.
