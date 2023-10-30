@@ -5,7 +5,7 @@ weight = 6
 description = "Learn how you can use Kubermatic KubeLB to centrally provision and manage load balancers across multiple cloud and on-premise environments."
 +++
 
-![KubeLB logo](/img/kubelb/common/logo.png)
+![KubeLB logo](/img/kubelb/common/logo.png?classes=height=50)
 
 ## What is KubeLB?
 
