@@ -19,7 +19,7 @@ Please [contact sales](mailto:sales@kubermatic.com) for more information.
 
 #### Load balancer cluster
 
-* Service type "LoadBalancer" implementation. This can be a cloud solution or a self-managed implementation like [MetalLB](https://metallb.universe.tf).
+* Service type `LoadBalancer` implementation. This can be a cloud solution or a self-managed implementation like [MetalLB](https://metallb.universe.tf).
 * Network access to the consumer cluster nodes with node port range (default: 30000-32767). This is required for the envoy proxy to be able to connect to the consumer cluster nodes.
 
 ### Installation for KubeLB manager
@@ -29,7 +29,7 @@ KubeLB manager is deployed as a Kubernetes application. It can be deployed using
 #### Prerequisites
 
 * Create a namespace `kubelb` for the CCM to be deployed in.
-* Create imagePullSecrets for the chart to pull the image from the registry.
+* Create `imagePullSecrets` for the chart to pull the image from the registry.
 
 At this point a minimal values.yaml should look like this:
 
@@ -102,11 +102,11 @@ helm install kubelb-manager kubelb-manager --namespace kubelb -f values.yaml
 #### Pre-requisites
 
 * Create a namespace `kubelb` for the CCM to be deployed in.
-* Create imagePullSecrets for the chart to pull the image from the registry.
+* Create `imagePullSecrets` for the chart to pull the image from the registry.
 * The agent expects a `Secret` with a kubeconf file named `kubelb` to access the load balancer cluster. To create such run: `kubectl --namespace kubelb create secret generic kubelb-cluster --from-file=<path to kubelb kubeconf file>`. The name of secret can't be overridden using `.Values.kubelb.clusterSecretName`
-* Update the `tenantName` in the values.yaml to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. This can be any unique string that follows [lower case RFC 1123](https://www.rfc-editor.org/rfc/rfc1123).
+* Update the `tenantName` in the `values.yaml` to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. This can be any unique string that follows [lower case RFC 1123](https://www.rfc-editor.org/rfc/rfc1123).
 
-At this point a minimal values.yaml should look like this:
+At this point a minimal `values.yaml` should look like this:
 
 ```yaml
 imagePullSecrets:

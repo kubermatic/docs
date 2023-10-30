@@ -12,8 +12,8 @@ Starting with KKP v2.24, KubeLB is integrated into the Kubermatic Kubernetes Pla
 
 KubeLB can be configured in the following way:
 
-* Create a secret with the key `kubeconfig` that contains the kubeconfig for the KubeLB management cluster .
-* Configure Seed as follows:
+* Create a secret with the key `kubeconfig` that contains the kubeconfig for the KubeLB management cluster.
+* Configure `Seed` as follows:
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
