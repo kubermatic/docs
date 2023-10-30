@@ -187,12 +187,12 @@ the required annotations and spec settings for usage with cert-manager. However,
 integration is disabled, the cluster admin is free to manage these settings themselves.
 
 To disable cert-manager integration, set `spec.ingress.certificateIssuer` as empty
-in the `KubermaticConfiguration`:
+in the `KubermaticConfiguration` or omit setting the field entirely:
 
 ```yaml
 spec:
   ingress:
-    certificateIssuer: {}
+    certificateIssuer: null
 ```
 
 It is now possible to set `spec.tls` on the `kubermatic` Ingress to a custom certificate:
