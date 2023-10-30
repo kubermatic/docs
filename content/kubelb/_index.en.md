@@ -21,6 +21,8 @@ KubeLB solves this problem by providing a centralized load balancer management s
 
 ## Architecture
 
+![KubeLB Architecture](/img/kubelb/common/architecture.png "KubeLB Architecture")
+
 KubeLB comprises of two components:
 
 ### CCM
