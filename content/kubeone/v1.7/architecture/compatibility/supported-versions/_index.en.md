@@ -20,13 +20,14 @@ Kubernetes 1.21 or older must be upgraded with an older KubeOne release
 according to the table below.
 {{% /notice %}}
 
-| KubeOne version | 1.28  | 1.27  | 1.26  | 1.25  | 1.24[^1] |
-| --------------- | ----- | ----- | ----- | ----- | -------- |
-| v1.7            | -     | ✓     | ✓     | -     | -        |
-| v1.6            | -     | -     | ✓     | ✓     | ✓        |
+| KubeOne version | 1.28  | 1.27  | 1.26  | 1.25[^1] | 1.24[^1] |
+| --------------- | ----- | ----- | ----- | -------- | -------- |
+| v1.7            | -     | ✓     | ✓     | ✓        | -        |
+| v1.6            | -     | -     | ✓     | ✓        | ✓        |
 
-[^1]: Kubernetes 1.24 has reached End-of-Life (EOL) on 2023-07-28.
-We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
+[^1]: Kubernetes 1.25 and 1.24 have reached End-of-Life (EOL) on 2023-10-28 and
+2023-07-28, respectively, We strongly recommend upgrading to a supported
+Kubernetes release as soon as possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
 than the latest Kubernetes release. For example, with 1.27 being the latest
