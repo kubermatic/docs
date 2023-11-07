@@ -87,15 +87,15 @@ Constraints are managed similarly to Constraint Templates through Kubermatic CRD
 the difference being that Constraints are managed on the user cluster level. Furthermore, due to the way Gatekeeper works,
 Constraints need to be associated with a Constraint Template.
 
-![Cluster Details View](/img/kubermatic/main/ui/opa_cluster_view.png?height=500px&classes=shadow,border "Cluster Details View")
+![Cluster Details View](/img/kubermatic/main/ui/opa-cluster-view.png?height=500px&classes=shadow,border "Cluster Details View")
 
-![Constraints Cluster View](/img/kubermatic/main/ui/opa_constraints_cluster.png?classes=shadow,border "Constraints Cluster View")
+![Constraints Cluster View](/img/kubermatic/main/ui/opa-constraints-cluster.png?classes=shadow,border "Constraints Cluster View")
 
 To add a new constraint click on the `+ Add Constraint` icon on the right at the bottom of cluster view. A new dialog will appear, where you can specify the name, the constraint template, and the spec:
 Spec is the only field that needs to be filled with a yaml.
 
 
-![Add Constraints Dialog](/img/kubermatic/main/ui/opa_add_constraint.png?height=350px&classes=shadow,border "Add Constraints Dialog")
+![Add Constraints Dialog](/img/kubermatic/main/ui/opa-add-constraint.png?height=350px&classes=shadow,border "Add Constraints Dialog")
 
 `Note: You can now manage Default Constraints from the Admin Panel.`
 
@@ -306,7 +306,7 @@ inbuilt Constraint and its goal is to make creating Constraint Templates and Def
 This is an EE feature.
 {{% /notice %}}
 
-![Allowed Registries View](/img/kubermatic/main/ui/allowed_registries.png?classes=shadow,border "Allowed Registry View")
+![Allowed Registries View](/img/kubermatic/main/ui/allowed-registries.png?classes=shadow,border "Allowed Registry View")
 
 AllowedRegistry functions as its own CR, which when created, triggers the creation of the corresponding
 [Constraint Template]({{< ref "#managing-constraint-templates" >}})(`allowedregistry`) and [Default Constraints]({{< ref "#default-constraints" >}})(`allowedregistry`).
@@ -390,7 +390,7 @@ spec:
     labelSelector: {}
 ```
 
-![Allowed Registry Default Constraint](/img/kubermatic/main/ui/allowed_registry_default_constraint.png?classes=shadow,border "Allowed Registry Default Constraint")
+![Allowed Registry Default Constraint](/img/kubermatic/main/ui/allowed-registry-default-constraint.png?classes=shadow,border "Allowed Registry Default Constraint")
 
 For the existing `allowedregistry` [Default Constraint]({{< ref "#default-constraints" >}}), feel free to edit the [Filtering]({{< ref "#filtering-clusters-on-default-constraints" >}}).
 

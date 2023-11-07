@@ -20,7 +20,7 @@ In order to demonstrate the feature we are going to need a working cluster. If y
 [how to create a cluster]({{< ref "../../project-and-cluster-management" >}}) section. If the feature was enabled on your
 installation you will see a "Share cluster" button after navigating to "Cluster details" page.
 
-![Share cluster button](/img/kubermatic/main/ui/cluster_details_top.png?classes=shadow,border "Share cluster button")
+![Share cluster button](/img/kubermatic/main/ui/cluster-details-top.png?classes=shadow,border "Share cluster button")
 
 Right after clicking on the button you will see a modal window where you can copy the generated link to your clipboard.
 
