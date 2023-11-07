@@ -11,6 +11,8 @@ kubermatic:
   versions:
     - release: main
       name: main
+    - release: v2.24
+      name: v2.24
     - release: v2.23
       name: v2.23
     - release: v2.22
@@ -83,7 +85,6 @@ operatingsystemmanager:
   description: Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster.
   weight: 4
   shareImage: img/Docs-OSM-share.jpg
-
 kubelb:
   name: kubelb
   logo: "/img/kubelb/common/logo.png"
