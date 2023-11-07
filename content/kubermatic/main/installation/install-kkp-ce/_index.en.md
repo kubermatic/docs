@@ -471,5 +471,5 @@ This will allow you to use the KKP UI and API as an admin. Other users can be pr
 
 ## Next Steps
 
-* [Add a Seed cluster]({{< ref "./add-seed-cluster-ce" >}}) to start creating User Clusters.
+* [Add a Seed cluster]({{< ref "./add-seed-cluster" >}}) to start creating User Clusters.
 * Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../tutorials-howtos/monitoring-logging-alerting/master-seed/installation" >}}) to collect cluster-wide metrics in a central place.

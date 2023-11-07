@@ -26,7 +26,7 @@ It is also recommended to make yourself familiar with our [architecture document
 
 ## Installation
 
-The installation procedure is almost identical to the [seed setup process for the Community Edition]({{< ref "../../install-kkp-ce/add-seed-cluster-ce/" >}}),
+The installation procedure is almost identical to the [seed setup process for the Community Edition]({{< ref "../../install-kkp-ce/add-seed-cluster" >}}),
 with the exception that a different installer needs to be downloaded and that the Docker credentials need to be configured.
 
 When downloading the installer, make sure to choose the `-ee-` variant on GitHub. Extract it like documented in the CE install
