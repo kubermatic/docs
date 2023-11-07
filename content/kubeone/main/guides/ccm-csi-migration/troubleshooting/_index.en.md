@@ -23,7 +23,7 @@ phase failed, and logs for the failing component.
     ```
     kubectl describe node NODE_NAME
     ```
-    
+
 2. Check the status of pods in the `kube-system` namespace. All pods should be
 Running and not restarting or crashlooping:
    ```
@@ -39,7 +39,7 @@ Running and not restarting or crashlooping:
    Note: you can get logs for previous runs of the pod by using the `-p` flag,
    for example: `kubectl logs -p -n kube-system POD_NAME`
 
-4. 
+4.
    a) In case there's a control plane component that's failing (such as
    kube-apiserver or kube-controller-manager), you'll need to restart the
    container itself. In this case, you can't use `kubectl delete` to restart

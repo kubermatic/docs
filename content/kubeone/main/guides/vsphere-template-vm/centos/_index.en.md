@@ -92,7 +92,7 @@ When asked to customize the hardware, you should take the following steps:
 - remove the existing hard drive
 - click on **Add New Device** and choose **Existing Hard Disk**
   - Find the uploaded `vmdk` file and then click on the **OK** button
-- choose **Client Device** for **New CD/DVD Drive** and ensure that 
+- choose **Client Device** for **New CD/DVD Drive** and ensure that
   **Device Mode** is set to **Passthrough Mode** for that CD/DVD drive
 
 Proceed with creating the VM. Once the VM is created, power it on and proceed
@@ -246,5 +246,5 @@ steps again.
 
 ## Conclusion
 
-The VM configuration is now completely done and the VM can be used as a 
+The VM configuration is now completely done and the VM can be used as a
 template VM for both Terraform and machine-controller.
