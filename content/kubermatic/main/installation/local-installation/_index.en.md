@@ -72,7 +72,7 @@ First, it creates a `kind` cluster named `kind-kkp-cluster`, exposes ports `443`
 The installer also configures a single `Seed` and `Presets` for KubeVirt user clusters deployed in the same `kind` cluster. You can inspect the resources using `kubectl`:
 
 ```bash
-kubectl get seed -nkubermatic kubermatic -o yaml 
+kubectl get seed -nkubermatic kubermatic -o yaml
 kubectl get preset -nkubermatic local -o yaml
 ```
 

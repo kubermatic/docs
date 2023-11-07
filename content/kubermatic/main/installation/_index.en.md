@@ -24,4 +24,3 @@ At the moment, the only supported installation method for KKP is using the Kuber
 
 {{% children depth=5 %}}
 {{% /children %}}
-

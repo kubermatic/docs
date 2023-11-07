@@ -167,4 +167,3 @@ aws eks update-kubeconfig --region region-code --name cluster-name
 
 By default, the resulting configuration file is created at the default kubeconfig path (.kube/config) in your home directory
 or merged with an existing kubeconfig file at that location. You can specify another path with the `--kubeconfig` option.
-

@@ -46,8 +46,8 @@ KKP does not support yet the external CCM for the given cloud provider.
 ![ccm_migration_unsupported](ccm_migration_unsupported.png?height=60px&classes=shadow,border)
 
 ## Roll out MachineDeployments
-Once the CCM migration has been enabled by clicking on the "Supported" button, the migration procedure will hang in 
-"In progress" status until all the `machineDeployments` will be rolled out. To roll out a `machineDeployment` get into 
+Once the CCM migration has been enabled by clicking on the "Supported" button, the migration procedure will hang in
+"In progress" status until all the `machineDeployments` will be rolled out. To roll out a `machineDeployment` get into
 the `machineDeployment` view and click on the circular arrow in the top right.
 ![ccm_migration_md](ccm_migration_machine_deployment.png?classes=shadow,border)
 

@@ -32,6 +32,3 @@ You can add an existing AWS KubeOne cluster and then manage it using KKP.
 ![AWS credentials](/img/kubermatic/main/tutorials/kubeone-clusters/aws-credentials-step.png "AWS credentials")
 
 - Review provided settings and click `Import KubeOne Cluster`.
-
-
-

@@ -75,5 +75,3 @@ Node size
     Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
 
 ![Create Node Pool](/img/kubermatic/main/tutorials/external-clusters/aks-md.png "Create Node Pool")
-
-

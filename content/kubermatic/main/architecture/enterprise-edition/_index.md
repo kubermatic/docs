@@ -1,4 +1,3 @@
-
 +++
 title = "Enterprise Edition"
 date = 2023-01-31T12:11:35+02:00

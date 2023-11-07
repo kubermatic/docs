@@ -36,5 +36,3 @@ To create a user cluster which runs some spot instance machines, the user can sp
 instance or not at the step number four (Initial Nodes). A checkbox that has the label "Spot Instance" should be checked.
 
  ![AWS spot instance selection](/img/kubermatic/main/guides/addons/spot-instance-selection.png?height=350px&classes=shadow,border "AWS spot instance selection")
-
-

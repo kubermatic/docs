@@ -32,4 +32,3 @@ You can add an existing Azure KubeOne cluster and then manage it using KKP.
 ![Azure credentials](/img/kubermatic/main/tutorials/kubeone-clusters/azure-credentials-step.png "Azure credentials")
 
 - Review provided settings and click `Import KubeOne Cluster`.
-

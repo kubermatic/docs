@@ -9,7 +9,7 @@ weight = 25
 
 ```shell
 forceRestartAnnotations="{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"forceRestart\":\"$(date +%s)\"}}}}}"
-kubectl patch machinedeployment -n kube-system <NAME> --type=merge -p $forceRestartAnnotations 
+kubectl patch machinedeployment -n kube-system <NAME> --type=merge -p $forceRestartAnnotations
 ```
 
 ## To Rolling Restart all MachineDeployments

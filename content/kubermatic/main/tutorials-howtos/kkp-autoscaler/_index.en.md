@@ -1,4 +1,3 @@
-
 +++
 title = "Cluster Autoscaler"
 date = 2021-08-05T14:07:10+02:00
