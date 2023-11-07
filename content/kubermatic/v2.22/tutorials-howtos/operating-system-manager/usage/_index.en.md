@@ -43,14 +43,14 @@ spec:
 
 To use custom OperatingSystemProfiles, users can do the following:
 
-1. Create their `CustomOperatingSystemProfile` resource in the seed namespace(kubermatic). These resources will be automatically synced to the `kube-system` namespace of the user-clusters.
+1. Create their `CustomOperatingSystemProfile` resource on the seed cluster in the `kubermatic` namespace. These resources will be automatically synced to the `kube-system` namespace of the user-clusters.
 
 ```yaml
 apiVersion: operatingsystemmanager.k8c.io/v1alpha1
 kind: CustomOperatingSystemProfile
 metadata:
   name: osp-install-curl
-  namespace: kube-system
+  namespace: kubermatic
 spec:
   osName: "ubuntu"
   osVersion: "20.04"
