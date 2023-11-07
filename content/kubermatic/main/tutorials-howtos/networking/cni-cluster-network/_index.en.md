@@ -25,11 +25,12 @@ Apart from these, KKP also supports [Multus-CNI addon]({{< relref "../multus/" >
 
 The following table lists the versions of individual CNIs supported by KKP:
 
-| KKP version | Canal                              | Cilium                      |
-|-------------|------------------------------------|-----------------------------|
-| `v2.23.x`   | `v3.25`, `v3.24`, `v3.23`          | `v1.13.x`, `v1.12`, `v1.11` |
-| `v2.22.x`   | `v3.24`, `v3.23`, `v3.22`          | `v1.13.x`, `v1.12`, `v1.11` |
-| `v2.21.x`   | `v3.23`, `v3.22`, `v3.21`, `v3.20` | `v1.12`, `v1.11`            |
+| KKP version | Canal                              | Cilium                                 |
+|-------------|------------------------------------|----------------------------------------|
+| `v2.24.x`   | `v3.26`, `v3.25`, `v3.24`          | `v1.14.x`, `v1.13.x`, `v1.12`, `v1.11` |
+| `v2.23.x`   | `v3.25`, `v3.24`, `v3.23`          | `v1.13.x`, `v1.12`, `v1.11`            |
+| `v2.22.x`   | `v3.24`, `v3.23`, `v3.22`          | `v1.13.x`, `v1.12`, `v1.11`            |
+| `v2.21.x`   | `v3.23`, `v3.22`, `v3.21`, `v3.20` | `v1.12`, `v1.11`                       |
 
 The desired CNI type and version can be selected at the cluster creation time - on the Cluster Settings page, as shown below:
 
