@@ -175,7 +175,7 @@ They are configured in `KubermaticConfiguration` via:
 - `.spec.seedController.backupDeleteContainer` for backup deletion.
 - `.spec.seedController.backupStoreContainer` for backup file upload.
 
-Their defaults can be reviewed [in the reference KubermaticConfiguration]({{< ref "../KKP-configuration/" >}}). Both containers
+Their defaults can be reviewed [in the reference KubermaticConfiguration]({{< ref "../kkp-configuration/" >}}). Both containers
 use the image `d3fk/s3cmd` to interact with S3-compatible storage. The configuration options mentioned above hold a full container
 specification, which means that a full [container specification](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#container-v1-core)
 can be passed. This way uploads and deletions can be adjusted to individual needs. The dashboard and configuration objects expect

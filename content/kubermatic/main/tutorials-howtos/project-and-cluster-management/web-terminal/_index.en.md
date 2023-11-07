@@ -7,7 +7,7 @@ weight = 80
 Web terminal allows `kubectl` access to a user cluster directly from the KKP dashboard web interface.
 Therefore, you can also manage your cluster with the Web Terminal by using `kubectl` commands there.
 
-To enable it, go to the [Interface section]({{< ref "../../administration/admin-panel/interface/_index.en.md" >}}) of the Admin Panel.
+To enable it, go to the [Interface section]({{< ref "../../administration/admin-panel/interface" >}}) of the Admin Panel.
 After enabling it, a button will appear on the top right side of the user cluster page and the API will allow its usage.
 
 ![Web Terminal](/img/kubermatic/main/ui/web_terminal.png?classes=shadow,border)
@@ -16,12 +16,12 @@ After enabling it, a button will appear on the top right side of the user cluste
 
 ## How it works
 
-After KKP UI establishes a websocket connection with the the KKP API, webterminal-related Kubernetes resources are deployed in the user cluster. 
+After KKP UI establishes a websocket connection with the the KKP API, webterminal-related Kubernetes resources are deployed in the user cluster.
 These are responsible for executing the commands (pod), managing expiration, cleanup and network policy.
 
 Then, the API starts streaming terminal commands from the UI to the Web Terminal pod deployed in the user cluster.
 
-After 30 minutes, the expiration happens and every deployed resource is destroyed. Although, 5 minutes before the expiration time, 
+After 30 minutes, the expiration happens and every deployed resource is destroyed. Although, 5 minutes before the expiration time,
 the user is asked for extending the terminal for more 30 minutes.
 
 ![Web Terminal sequence diagram](/img/kubermatic/main/ui/web_terminal_sequence_diagram.png?classes=shadow,border)

@@ -52,7 +52,7 @@ your KKP environment better.
 
 Depending on which choice you make, you will need to have either one or two Kubernetes clusters available before starting with the KKP setup.
 
-If you would like to run multiple Seeds to scale your setup beyond a single Seed, please check out the [Enterprise Edition]({{< ref "../install-kkp-EE/" >}})
+If you would like to run multiple Seeds to scale your setup beyond a single Seed, please check out the [Enterprise Edition]({{< ref "../install-kkp-ee/" >}})
 as that feature is only available there.
 
 ### Set Up Kubernetes
@@ -471,5 +471,5 @@ This will allow you to use the KKP UI and API as an admin. Other users can be pr
 
 ## Next Steps
 
-* [Add a Seed cluster]({{< ref "./add-seed-cluster-CE" >}}) to start creating User Clusters.
+* [Add a Seed cluster]({{< ref "./add-seed-cluster-ce" >}}) to start creating User Clusters.
 * Install the [Master / Seed Monitoring, Logging & Alerting Stack]({{< ref "../../tutorials-howtos/monitoring-logging-alerting/master-seed/installation" >}}) to collect cluster-wide metrics in a central place.

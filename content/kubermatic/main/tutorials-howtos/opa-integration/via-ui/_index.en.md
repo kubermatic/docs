@@ -254,7 +254,7 @@ To delete the constraint click on delete button on the right that appears when h
 
 ### AllowedRegistry
 
-[AllowedRegistry]({{< ref "../../OPA-integration/#allowedregistry" >}}) is a part of the OPA Integration Admin Panel.
+[AllowedRegistry]({{< ref "../../opa-integration/#allowedregistry" >}}) is a part of the OPA Integration Admin Panel.
 
 It allows users to manage the built-in KKP Constraint AllowedRegistry through which you can easily create policies on what image registries can be
 used for Pods on all OPA-enabled user clusters.

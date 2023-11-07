@@ -18,8 +18,8 @@ the same namespace. It is however not possible to use the same cluster for multi
 {{% /notice %}}
 
 {{% notice note %}}
-Please note that the Community Edition is limited to a single seed with a fixed name. To run a multi-seed 
-environment, please refer to the [Enterprise Edition]({{< ref "../../install-kkp-EE/" >}}).
+Please note that the Community Edition is limited to a single seed with a fixed name. To run a multi-seed
+environment, please refer to the [Enterprise Edition]({{< ref "../../install-kkp-ee/" >}}).
 {{% /notice %}}
 
 Please refer to the [architecture]({{< ref "../../../architecture/" >}}) diagrams for more information
@@ -55,7 +55,7 @@ service can be installed via the `minio` Helm chart provided with the KKP instal
 
 For more details on cluster backups, see [Automatic Etcd Backups and Restore]({{< ref "../../../tutorials-howtos/etcd-backups/" >}}).
 
-The following content assumes you are using the provided `minio` Helm chart. 
+The following content assumes you are using the provided `minio` Helm chart.
 
 ### Create Backup StorageClass
 
@@ -190,7 +190,7 @@ the `StorageClass` has been created already during master installation.
 
 If you do not want to install MinIO, the only thing to do is ensure a suitable `StorageClass` named `kubermatic-fast` exists
 on the Seed Cluster (choose Option 3 from below). This `StorageClass` should fulfill the performance requirements as explained
-[in the master installation documentation]({{< ref "../#create-a-storageclass" >}}). The installer is capable of setting up 
+[in the master installation documentation]({{< ref "../#create-a-storageclass" >}}). The installer is capable of setting up
 a suitable `StorageClass` and is therefore still recommended to use.
 
 ### Option 1: Use the Installer
@@ -524,7 +524,7 @@ spec:
 ### Create Seed on Master Cluster
 
 Apply the manifest above in the master cluster and KKP will pick up the new Seed and begin to reconcile it by installing the
-required KKP components. 
+required KKP components.
 
 ```bash
 kubectl apply -f seed-with-secret.yaml

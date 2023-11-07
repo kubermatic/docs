@@ -162,4 +162,4 @@ An example changelog might look like the one below.
 ![Changelog](/img/kubermatic/main/ui/changelog.png?classes=shadow,border)
 
 The `What's New` entry inside `Help & Support` panel can be hidden from Admin Panel's `Customization` page. Please visit
-[Custom Links]({{< ref "../../tutorials-howtos/administration/admin-panel/custom-links/_index.en.md" >}}) for more information.
+[Custom Links]({{< ref "../../tutorials-howtos/administration/admin-panel/custom-links" >}}) for more information.

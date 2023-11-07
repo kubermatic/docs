@@ -64,7 +64,7 @@ Enter a name for your cluster and optionally adapt other settings, such as:
 When done, click Next to continue to the next step.
 
 **Note:**
-Disabling the User SSH Key Agent at this point can not be reverted after the cluster creation, which means that ssh key management after creation for this cluster will have to be done manually. More info in [`User SSH Key Agent`]({{< ref "../../tutorials-howtos/administration/user-settings/user-ssh-key-agent/_index.en.md" >}})
+Disabling the User SSH Key Agent at this point can not be reverted after the cluster creation, which means that ssh key management after creation for this cluster will have to be done manually. More info in [`User SSH Key Agent`]({{< ref "../../tutorials-howtos/administration/user-settings/user-ssh-key-agent" >}})
 
 ![General Cluster Settings](/img/kubermatic/main/tutorials/wizard_step_2.png?classes=shadow,border "General Cluster Settings")
 

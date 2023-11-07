@@ -118,7 +118,7 @@ dex:
 KKP needs to be able to verify the OIDC provider's TLS certificate when connecting to it.
 If the OIDC provider's TLS certificate is signed by a public CA, no changes are required.
 
-However, if the TLS certificate is signed by a private CA, you will need to configure [a custom CA bundle]({{< ref "../../KKP-configuration/custom-certificates/#configuration" >}})
+However, if the TLS certificate is signed by a private CA, you will need to configure [a custom CA bundle]({{< ref "../../kkp-configuration/custom-certificates/#configuration" >}})
 that includes your private CA chain. Configuring it globally as described on the referenced page
 will make the private CA chain available to all components in KKP that interact with the
 OIDC provider.

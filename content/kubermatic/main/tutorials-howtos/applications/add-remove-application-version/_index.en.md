@@ -80,7 +80,7 @@ Once the deprecation period is over, delete the version from the `ApplicationDef
 This deprecation policy is an example and may have to be adapted to your organization's needs.
 {{% /notice %}}
 
-The best way to achieve that is using the [gatekepper / opa integration]({{< ref "../../OPA-integration" >}}) to create a `ConstraintTemplate` and two [Default Constraints]({{< ref "../../OPA-integration#default-constraints" >}}) (one for each point of the deprecation policy)
+The best way to achieve that is using the [gatekepper / opa integration]({{< ref "../../opa-integration" >}}) to create a `ConstraintTemplate` and two [Default Constraints]({{< ref "../../opa-integration#default-constraints" >}}) (one for each point of the deprecation policy)
 
 **Example Kubermatic Constraint Template to deprecate a version:**
 ```yaml

@@ -210,7 +210,7 @@ You can find more information on this [in the documentation on how to use OSM in
 
 KKP 2.22 introduces limitations to Kubernetes version upgrades for vSphere & OpenStack user clusters when the "in-tree" cloud providers are used. This has been added due to Kubernetes slowly removing provider-specific code from core Kubernetes, instead asking users to rely on external CCM (Cloud Controller Managers) and CSI drivers.
 
-By default, new vSphere and OpenStack user clusters in KKP get created with external cloud provider support. However, some long running user clusters might still be using the in-tree implementations. KKP supports [CCM & CSI migration]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}) for those user clusters. The Kubermatic Dashboard offers information about the current status via the "External CCM/CSI" check under "Misc" in the additional cluster information section.
+By default, new vSphere and OpenStack user clusters in KKP get created with external cloud provider support. However, some long running user clusters might still be using the in-tree implementations. KKP supports [CCM & CSI migration]({{< ref "../../../tutorials-howtos/ccm-migration/" >}}) for those user clusters. The Kubermatic Dashboard offers information about the current status via the "External CCM/CSI" check under "Misc" in the additional cluster information section.
 
 The limitations in KKP 2.22 are as follows:
 

@@ -43,7 +43,7 @@ button will appear on the cluster details, and the API will allow Kubernetes Das
 ![Enable OIDC Kubeconfig](/img/kubermatic/{{< current_version >}}/ui/enable_oidc_kubeconfig.png?classes=shadow,border)
 
 This setting controls whether OIDC provider should be used as a proxy for the `kubeconfig`. For more details on this feature please visit
-[OIDC Provider Configuration]({{< ref "../../../oidc-provider-configuration/share-clusters-via-delegated-OIDC-authentication/_index.en.md" >}}).
+[OIDC Provider Configuration]({{< ref "../../../oidc-provider-configuration/share-clusters-via-delegated-oidc-authentication" >}}).
 
 ![Get Kubeconfig](/img/kubermatic/{{< current_version >}}/ui/get_kubeconfig.png?classes=shadow,border)
 
@@ -63,7 +63,7 @@ top right side of the user cluster page and the API will allow its usage. **Note
 
 ![Web Terminal](/img/kubermatic/{{< current_version >}}/ui/web_terminal_button.png?classes=shadow,border)
 
-Please visit [Web Terminal]({{< ref "../../../project-and-cluster-management/web-terminal/_index.en.md" >}}) for more information about this feature.
+Please visit [Web Terminal]({{< ref "../../../project-and-cluster-management/web-terminal" >}}) for more information about this feature.
 
 ## Enable Share Cluster
 
@@ -74,4 +74,4 @@ option will appear in menu on the cluster details, and it can be used to share a
 
 ![Share Cluster](/img/kubermatic/{{< current_version >}}/ui/share_cluster.png?classes=shadow,border)
 
-Please visit [Share Clusters via Delegated OIDC Authentication]({{< ref "../../../OIDC-Provider-Configuration/share-clusters-via-delegated-OIDC-authentication/_index.en.md" >}}) for more information about this feature.
+Please visit [Share Clusters via Delegated OIDC Authentication]({{< ref "../../../oidc-provider-configuration/share-clusters-via-delegated-oidc-authentication" >}}) for more information about this feature.

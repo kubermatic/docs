@@ -23,4 +23,4 @@ Kubermatic Kubernetes Platform (KKP) is an open-source product, and both the Com
 
 ## How to use Enterprise Edition
 
-If you are willing to use Enterprise Edition, you'll need to [insert a secret during the installation]({{< ref "../../installation/install-kkp-EE/" >}}). In order to own this secret, you will need to be our customer. If you are interested in being our customer, please [contact us](https://www.kubermatic.com/contact-us/) or check our AWS marketplace listing.
+If you are willing to use Enterprise Edition, you'll need to [insert a secret during the installation]({{< ref "../../installation/install-kkp-ee/" >}}). In order to own this secret, you will need to be our customer. If you are interested in being our customer, please [contact us](https://www.kubermatic.com/contact-us/) or check our AWS marketplace listing.

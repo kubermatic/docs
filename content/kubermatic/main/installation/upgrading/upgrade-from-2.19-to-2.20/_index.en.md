@@ -240,7 +240,7 @@ Use the `kubermatic-installer` as normal to upgrade to KKP 2.20:
 ./kubermatic-installer deploy
 ```
 
-Refer to the [CE installation]({{< ref "../../../installation/install-kkp-CE/" >}}) or [EE installation]({{< ref "../../../installation/install-kkp-EE/" >}}) guides for more information.
+Refer to the [CE installation]({{< ref "../../../installation/install-kkp-ce/" >}}) or [EE installation]({{< ref "../../../installation/install-kkp-ee/" >}}) guides for more information.
 
 The new operator will reconcile the master/seed controllers and reset their replica counts, which in turn will will begin to reconcile the user clusters.
 
@@ -255,7 +255,7 @@ Clean up the metadata section as well so it only has `name` and `namespace` (or 
 ## MLA Stack changes
 
 Due to some changes in the MLA stack, you might have to recreate some resources
-manually. 
+manually.
 
 - If you're running into an issue with Helm failing to deploy `logging/loki`
   and/or `logging/promtail` charts due to fields being immutable, manually
