@@ -19,7 +19,6 @@ aliases:
     - toschneck
   sig-api:
     - ahmedwaleedmalik
-    - pkprzekwas
     - simontheleg
   sig-app-management:
     - ahmedwaleedmalik
@@ -37,7 +36,6 @@ aliases:
   sig-networking:
     - cnvergence
     - moadqassem
-    - pkprzekwas
     - wozniakjan
   sig-ui:
     - ahmadhamzh
