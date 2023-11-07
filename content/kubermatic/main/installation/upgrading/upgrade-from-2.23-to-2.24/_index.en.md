@@ -13,7 +13,36 @@ This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) 
 
 ## Pre-Upgrade Considerations
 
-KKP 2.24 adjusts the list of supported Kubernetes versions but does not drop any old versions in comparison to KKP 2.23. Kubernetes 1.24 continues to be the lowest support version.
+KKP 2.24 adjusts the list of supported Kubernetes versions and removes support for Kubernetes 1.24 and 1.25. Existing user clusters need to be migrated to 1.26+ or later before the KKP upgrade can begin.
+
+### Removal of the legacy backup controller
+
+KKP ships with an advanced etcd backup/restore controller since version 2.17.0 (April 2021), which replaces the classic backup controller. Since 2.17 both controllers were part of KKP, but 2.24 now finally removes the long deprecated classic backup controller.
+
+If your KKP setup is still using the legacy controller, you have to migrate your setup. Please refer to the [etcd backup/restore configuration]({{< ref "../../../tutorials-howtos/etcd-backups/" >}}) for more information on how to configure and enable the new controller.
+
+### Multi-network Support for vSphere
+
+Beginning with this version, multiple networks can be configured for a single vSphere user cluster. To support this, the existing field `vmNetName` in both the `Cluster` and `Seed` CRDs has been deprecated. Instead the new fields `networks` should be used.
+
+### OpenVPN Deprecation
+
+This release deprecates support for using OpenVPN as the tunneling solution between the user cluster control planes (i.e. seed clusters) and the user cluster worker nodes. New clusters should use Konnectivity instead. Please refer to the [CNI documentation]({{< ref "../../../tutorials-howtos/networking/cni-cluster-network/" >}}) for more information on how to migrate existing clusters.
+
+### Updated Metering Reports
+
+The metering component (Enterprise Edition only) has been updated and the generated reports now contain different columns. The deprecated columns listed below are for the time being still part of the report, but consumers are advised to migrate to the new columns.
+
+For the **cluster** report:
+
+- The field `total-used-cpu-seconds` and has been deprecated, use `average-used-cpu-millicores` instead.
+- The field `average-available-cpu-cores` and has been deprecated, use `average-available-cpu-millicores` instead.
+
+For the **namespace** report:
+
+- The field `total-used-cpu-seconds` and has been deprecated, use `average-used-cpu-millicores` instead.
+
+Please refer to the [metering documentation]({{< ref "../../../tutorials-howtos/metering/" >}}) for more information.
 
 ## Upgrade Procedure
 
