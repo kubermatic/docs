@@ -505,7 +505,7 @@ resource_pool_name = "<resource-pool-name>"
 
 `template_name` is the name of the VM that will be used as a template for
 creating other VMs. It's expected that this VM already exists. Please check the
-[vSphere requirements document]({{< ref "../../architecture/requirements/machine-controller/vsphere/vsphere/" >}})
+[vSphere requirements document]({{< ref "../../architecture/requirements/machine-controller/vsphere/" >}})
 for more details.
 
 #

@@ -55,7 +55,7 @@ expected state, the `apply` command would take the following actions:
 
 The following flowchart describes the reconciliation process graphically:
 
-![Reconciliation Process Flowchart](cluster_reconciliation.png)
+![Reconciliation Process Flowchart](cluster-reconciliation.png)
 
 ### Repairing Unhealthy Clusters
 
