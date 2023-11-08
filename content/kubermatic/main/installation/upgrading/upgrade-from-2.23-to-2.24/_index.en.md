@@ -1,4 +1,3 @@
-
 +++
 title = "Upgrading to KKP 2.24"
 date = 2023-11-07T00:00:00+01:00

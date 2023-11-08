@@ -13,7 +13,7 @@ This page documents the list of known issues and possible work arounds/solutions
 
 **Problem**
 
-[OIDC]({{< ref "../../tutorials-howtos/oidc-provider-configuration/share-clusters-via-delegated-OIDC-authentication" >}}) user is denied to access the user cluster in the KKP with K8s version of 1.20 and below. Refer the github issue [Bug: OIDC authentication...](https://github.com/kubermatic/kubermatic/issues/9908) for detailed problem description. Example logs look like below,
+[OIDC]({{< ref "../../tutorials-howtos/oidc-provider-configuration/share-clusters-via-delegated-oidc-authentication" >}}) user is denied to access the user cluster in the KKP with K8s version of 1.20 and below. Refer the github issue [Bug: OIDC authentication...](https://github.com/kubermatic/kubermatic/issues/9908) for detailed problem description. Example logs look like below,
 
 Kubectl output
 

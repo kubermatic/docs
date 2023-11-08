@@ -18,10 +18,9 @@ It is also recommended to make yourself familiar with our [architecture document
 
 ## Installation Methods
 
-At the moment, the only supported installation method for KKP is using the Kubermatic Installer. We provide an [installation guide for the Community Edition (CE)]({{< ref "./install-kkp-CE/" >}}) that uses this method. Installation for the Enterprise Edition (EE) is fundamentally the same and only requires a adjustments to the CE installation that you can find [here]({{< ref "./install-kkp-EE/" >}}).
+At the moment, the only supported installation method for KKP is using the Kubermatic Installer. We provide an [installation guide for the Community Edition (CE)]({{< ref "./install-kkp-ce/" >}}) that uses this method. Installation for the Enterprise Edition (EE) is fundamentally the same and only requires a adjustments to the CE installation that you can find [here]({{< ref "./install-kkp-ee/" >}}).
 
 ## Pages
 
 {{% children depth=5 %}}
 {{% /children %}}
-

@@ -6,4 +6,4 @@ weight = 2
 
 ## Manage Worker Nodes via UI and Commandline
 
-This page describes worker node's management using both command lines and UI. 
+This page describes worker node's management using both command lines and UI.

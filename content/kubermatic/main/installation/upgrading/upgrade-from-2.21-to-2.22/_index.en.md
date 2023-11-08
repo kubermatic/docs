@@ -1,4 +1,3 @@
-
 +++
 title = "Upgrading to KKP 2.22"
 date = 2023-02-13T00:00:00+01:00
@@ -24,7 +23,7 @@ with Docker as container runtime.
 It is necessary to migrate **existing clusters and cluster templates** to containerd before proceeding. This can be done either via the Kubermatic Dashboard
 or with `kubectl`. On the Dashboard, just edit the cluster or cluster template, change the _Container Runtime_ field to `containerd` and save your changes.
 
-![Change Container Runtime](/img/kubermatic/main/installation/upgrade_container_runtime.png?classes=shadow,border&height=200 "Change Container Runtime")
+![Change Container Runtime](/img/kubermatic/main/installation/upgrade-container-runtime.png?classes=shadow,border&height=200 "Change Container Runtime")
 
 If using `kubectl`, update the `containerRuntime` field that is part of the [`Cluster` spec]({{< ref "../../../references/crds/#clusterspec" >}})
 and replace `docker` with `containerd`, e.g. by using `kubectl edit cluster <cluster name>` or by using `kubectl patch`:
@@ -210,7 +209,7 @@ You can find more information on this [in the documentation on how to use OSM in
 
 KKP 2.22 introduces limitations to Kubernetes version upgrades for vSphere & OpenStack user clusters when the "in-tree" cloud providers are used. This has been added due to Kubernetes slowly removing provider-specific code from core Kubernetes, instead asking users to rely on external CCM (Cloud Controller Managers) and CSI drivers.
 
-By default, new vSphere and OpenStack user clusters in KKP get created with external cloud provider support. However, some long running user clusters might still be using the in-tree implementations. KKP supports [CCM & CSI migration]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}) for those user clusters. The Kubermatic Dashboard offers information about the current status via the "External CCM/CSI" check under "Misc" in the additional cluster information section.
+By default, new vSphere and OpenStack user clusters in KKP get created with external cloud provider support. However, some long running user clusters might still be using the in-tree implementations. KKP supports [CCM & CSI migration]({{< ref "../../../tutorials-howtos/ccm-migration/" >}}) for those user clusters. The Kubermatic Dashboard offers information about the current status via the "External CCM/CSI" check under "Misc" in the additional cluster information section.
 
 The limitations in KKP 2.22 are as follows:
 

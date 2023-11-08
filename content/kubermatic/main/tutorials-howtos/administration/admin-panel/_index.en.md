@@ -16,7 +16,7 @@ $ kubectl edit user ...
 After logging in to the dashboard as an administrator, you should be able to access the admin panel from the menu up
 top.
 
-![](/img/kubermatic/main/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
+![](/img/kubermatic/main/ui/admin-panel-access.png?height=300px&classes=shadow,border "Accessing the Admin Panel")
 
 ![](/img/kubermatic/main/ui/panel.png?height=350px&classes=shadow,border "Admin Panel")
 
@@ -88,7 +88,7 @@ Kubernetes Dashboard for user clusters and more. Check out the [Cluster Settings
 for more details.
 
 ### Manage Dynamic Datacenters
-Use number of filtering options to find and control existing dynamic datacenters or simply create a new one.Check out the 
+Use number of filtering options to find and control existing dynamic datacenters or simply create a new one.Check out the
 [Dynamic Datacenters]({{< ref "./dynamic-datacenters-management" >}}) section for more details.
 
 ### Manage Administrators
@@ -100,10 +100,10 @@ Prepare custom provider presets for a variety of use cases. Control which preset
 the per-provider level. Check out the [Presets]({{< ref "./presets-management" >}}) section for more details.
 
 ### OPA Constraint Templates
-Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for Constraint parameters 
-and enforce their behavior. Check out the [OPA Constraint Templates]({{< ref "./opa-constraint-templates" >}}) section for 
+Constraint Templates allow you to declare new Constraints. They are intended to work as a schema for Constraint parameters
+and enforce their behavior. Check out the [OPA Constraint Templates]({{< ref "./opa-constraint-templates" >}}) section for
 more details.
 
 ### Backup Buckets
-Through the Backup Buckets settings you can enable and configure the new etcd backups per Seed. Check out the 
+Through the Backup Buckets settings you can enable and configure the new etcd backups per Seed. Check out the
 [Etcd Backup Settings]({{< ref "./backup-buckets" >}}) section for more details.

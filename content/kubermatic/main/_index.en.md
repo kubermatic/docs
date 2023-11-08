@@ -32,7 +32,7 @@ At Kubermatic, we have chosen to do multi-cluster management with Kubernetes Ope
 #### Kubernetes Autoscaler Integration
 Autoscaling in Kubernetes refers to the ability to increase or decrease the number of nodes as the demand for service response changes. Without autoscaling, teams would manually first provision and then scale up or down resources every time conditions change. This means, either services fail at peak demand due to the unavailability of enough resources or you pay at peak capacity to ensure availability.
 
-[The Kubernetes Autoscaler in a cluster created by KKP]({{< ref "./tutorials-howtos/KKP-autoscaler/" >}}) can automatically scale up/down when one of the following conditions is satisfied:
+[The Kubernetes Autoscaler in a cluster created by KKP]({{< ref "./tutorials-howtos/kkp-autoscaler/" >}}) can automatically scale up/down when one of the following conditions is satisfied:
 
 1. Some pods fail to run in the cluster due to insufficient resources.
 2. There are nodes in the cluster that have been underutilized for an extended period (10 minutes by default) and pods running on those nodes can be rescheduled to other existing nodes.

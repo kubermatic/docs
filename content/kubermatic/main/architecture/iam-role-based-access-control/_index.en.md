@@ -7,7 +7,7 @@ weight = 5
 
 KKP components use OpenID Connect (OIDC) protocol for authentication and RBAC for authorization.
 By default, KKP provides [Dex](#authentication-with-dex) as OIDC provider, but you can configure your own provider. For more information,
-please refer to the [OIDC provider]({{< ref "../../tutorials-howtos/OIDC-Provider-Configuration" >}}) chapter.
+please refer to the [OIDC provider]({{< ref "../../tutorials-howtos/oidc-provider-configuration" >}}) chapter.
 
 ## Authentication with Dex
 [Dex](https://dexidp.io/) is an identity service that uses OIDC to drive authentication for KKP components. It acts as a

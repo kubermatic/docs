@@ -7,7 +7,7 @@ weight = 20
 
 This page explains how we can integrate [Thanos](https://thanos.io/) long term storage of metrics with KKP seed Prometheus
 
-## Pre-requsites
+## Pre-requisites
 1. Helm is installed.
 1. KKP v2.22.4+ is installed in the cluster.
 1. KKP Prometheus chart has been deployed in each seed where you want to store long term metrics
@@ -20,16 +20,16 @@ Below page outlines
 
 ## Install thanos chart
 
-You can install the Thanos Helm chart from Bitnami chart repository 
+You can install the Thanos Helm chart from Bitnami chart repository
 ```shell
 HELM_EXPERIMENTAL_OCI=1 helm upgrade --install thanos \
   --namespace monitoring --create-namespace\
    --version 12.8.6 \
   -f thanos-values.yaml \
-  oci://registry-1.docker.io/bitnamicharts/thanos 
+  oci://registry-1.docker.io/bitnamicharts/thanos
 ```
 
-### Basic Thanos Customization file 
+### Basic Thanos Customization file
 You can configure Thanos to store the metrics in any s3 compatible storage as well as many other popular cloud storage solutions.
 
 Below yaml snippet uses Azure Blob storage configuration. You can refer to all [supported object storage configurations](https://thanos.io/tip/thanos/storage.md/#supported-clients).
@@ -93,7 +93,7 @@ prometheus:
     - name: thanos
       mountPath: /etc/thanos
       secretName: prometheus-thanos
-  
+
   # Add thanos sidecar to prometheus pods
   sidecarContainers:
     thanos:

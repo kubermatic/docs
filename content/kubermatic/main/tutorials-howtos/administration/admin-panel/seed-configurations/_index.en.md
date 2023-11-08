@@ -13,13 +13,13 @@ The Seed Configuration section is a readonly view page. This page does not provi
 
 ### Seed Configurations
 
-![Seed Configurations](/img/kubermatic/main/tutorials/seed-configurations/seed_confgurations.png?classes=shadow,border "Seed Configurations List View")
+![Seed Configurations](/img/kubermatic/main/tutorials/seed-configurations/seed-confgurations.png?classes=shadow,border "Seed Configurations List View")
 
 
 ### Seed Details
 
 The following page presents Seed's statistics along with tables of utilization broken down respectively per Providers and Datacenters.
 
-![Providers](/img/kubermatic/main/tutorials/seed-configurations/seed_confgurations_details.png?classes=shadow,border "Available providers per seed")
+![Providers](/img/kubermatic/main/tutorials/seed-configurations/seed-confgurations-details.png?classes=shadow,border "Available providers per seed")
 
-![Datacenters](/img/kubermatic/main/tutorials/seed-configurations/seed_confgurations_provider_datacenters.png?classes=shadow,border "Associated clusters per datacenter")
+![Datacenters](/img/kubermatic/main/tutorials/seed-configurations/seed-confgurations-provider-datacenters.png?classes=shadow,border "Associated clusters per datacenter")
