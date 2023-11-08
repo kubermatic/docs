@@ -84,7 +84,7 @@ Please refer to the [Velero 1.10 Upgrade Notes](https://velero.io/docs/v1.10/upg
 
 KKP 2.23 changes the way that the `cluster-isolation` feature in the KubeVirt provider works. Previously, a `NetworkPolicy` blocking incoming traffic has been added to each cluster namespace in KubeVirt. With KKP 2.23, this changes to blocking outgoing traffic as it has been identified that blocking incoming traffic is highly problematic in e.g. load balancing scenarios.
 
-Since the direction of blocked traffic changes, it might be necessary to provide your own custom `NetworkPolicies` that allow egress traffic. The new `cluster-isolation` policy blocks traffic to internal IP ranges (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16) by default and only allows traffic within the KubeVirt infrastructure cluster that is vital (e.g. DNS). Additional private IP addresses need to be allowed in separate egress-based policies, for example via the Seed level `customNetworkPolicies` (also [see the KubeVirt provider documentation]({{< ref "../../../architecture/supported-providers/kubevirt#configure-kkp-with-kubevirt" >}})).
+Since the direction of blocked traffic changes, it might be necessary to provide your own custom `NetworkPolicies` that allow egress traffic. The new `cluster-isolation` policy blocks traffic to internal IP ranges (10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16) by default and only allows traffic within the KubeVirt infrastructure cluster that is vital (e.g. DNS). Additional private IP addresses need to be allowed in separate egress-based policies, for example via the Seed level `customNetworkPolicies` (also [see the KubeVirt provider documentation]({{< ref "../../../architecture/supported-providers/kubevirt/kubevirt/#configure-kkp-with-kubevirt" >}})).
 
 ### Canal 3.22 Deprecation
 
@@ -166,8 +166,18 @@ Of particular interest to the upgrade process is if the `ResourcesReconciled` co
 
 ## Post-Upgrade Considerations
 
-TBD
+### AWS User Cluster Upgrades
+
+KKP 2.23 introduces limitations to Kubernetes version upgrades for AWS user clusters when the "in-tree" cloud providers are used. This has been added due to Kubernetes removing provider-specific code from core Kubernetes, instead asking users to rely on external CCM (Cloud Controller Managers) and CSI drivers.
+
+An additional limitation has been added in  KKP 2.23:
+
+- **AWS** user clusters **with Kubernetes 1.26** and in-tree cloud provider usage cannot be upgraded to 1.27 or higher.
+
+By default, new AWS user clusters in KKP get created with external cloud provider support. However, some long running user clusters might still be using the in-tree implementations. KKP supports [CCM & CSI migration]({{< ref "../../../tutorials-howtos/CCM-migration/" >}}) for those user clusters. The Kubermatic Dashboard offers information about the current status via the "External CCM/CSI" check under "Misc" in the additional cluster information section.
 
 ## Next Steps
 
-- Try out Kubernetes 1.27, the latest Kubernetes release shipping with this version of KKP.
+- Check out Kubernetes 1.27, the newest minor release provided by the Kubernetes community.
+- Import KubeOne clusters on DigitalOcean, Hetzner, OpenStack and vSphere.
+- Use API tokens to authenticate to VMware Cloud Director as a cloud provider.
