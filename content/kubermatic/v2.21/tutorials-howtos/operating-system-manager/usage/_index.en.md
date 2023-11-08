@@ -39,7 +39,7 @@ spec:
 
 ## Custom OperatingSystemProfiles
 
-To consume custom OperatingSystemProfiles. Users can create their custom OSPs in the seed namespace(kubermatic). They will be automatically synced to all the user-cluster namespaces.
+To consume custom OperatingSystemProfiles. Users can create their custom OSPs on the seed cluster in the `kubermatic` namespace. They will be automatically synced to all the user-cluster namespaces.
 
 ## Updating existing OperatingSystemProfiles
 
