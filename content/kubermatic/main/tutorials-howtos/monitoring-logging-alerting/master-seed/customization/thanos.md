@@ -7,7 +7,7 @@ weight = 20
 
 This page explains how we can integrate [Thanos](https://thanos.io/) long term storage of metrics with KKP seed Prometheus
 
-## Pre-requsites
+## Pre-requisites
 1. Helm is installed.
 1. KKP v2.22.4+ is installed in the cluster.
 1. KKP Prometheus chart has been deployed in each seed where you want to store long term metrics
