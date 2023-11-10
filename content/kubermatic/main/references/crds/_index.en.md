@@ -2887,6 +2887,7 @@ _Appears in:_
 | `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#toleration-v1-core) array_ | Tolerations allows to override the scheduling tolerations for etcd Pods. |
 | `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | HostAntiAffinity allows to enforce a certain type of host anti-affinity on etcd pods. Options are "preferred" (default) and "required". Please note that enforcing anti-affinity via "required" can mean that pods are never scheduled. |
 | `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on etcd pods. Options are "preferred" (default) and "required". Please note that enforcing anti-affinity via "required" can mean that pods are never scheduled. |
+| `nodeSelector` _object (keys:string, values:string)_ | NodeSelector is a selector which restricts the set of nodes where etcd Pods can run. Multiple labels with a required value can be supplied.
 
 
 [Back to top](#top)
