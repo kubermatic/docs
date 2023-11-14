@@ -14,6 +14,20 @@ weight = 70
 - [v2.22.7](#v2227)
 - [v2.22.8](#v2228)
 - [v2.22.9](#v2228)
+- [v2.22.10](#v22210)
+
+## [v2.22.10](https://github.com/kubermatic/kubermatic/releases/tag/v2.22.10)
+
+### Action Required
+
+- **ACTION REQUIRED (EE ONLY):** Update metering component to v1.0.5, fixing highly inaccurate data in cluster reports. Reports generated in KKP v2.23.2+ or v2.22.5+ do not represent actual consumption. Ad-hoc reports for time frames that need correct consumption data can be generated [by following our documentation](https://docs.kubermatic.com/kubermatic/v2.23/tutorials-howtos/metering/#custom-reports) ([#12824](https://github.com/kubermatic/kubermatic/pull/12824))
+
+### Bugfixes
+
+- Extend project-synchronizer controller in `kubermatic-master-controller-manager` to propagate labels from Projects in the master cluster to Projects in the seed cluster. This fixes an issue where the metering report doesn't contain project-labels in separate master/seed setups ([#12793](https://github.com/kubermatic/kubermatic/pull/12793))
+- Fix CPU Utilization graph showing no data for User Cluster MLA dashboard "Nodes Overview" ([#12817](https://github.com/kubermatic/kubermatic/pull/12817))
+- Fix empty panels in Grafana dashboard "Resource Usage per Namespace" for Master/Seed MLA ([#12833](https://github.com/kubermatic/kubermatic/pull/12833))
+- Fix Helm 3.13 failing to install the MLA Minio chart due to "resource name may not be empty" error ([#12806](https://github.com/kubermatic/kubermatic/pull/12806))
 
 ## [v2.22.9](https://github.com/kubermatic/kubermatic/releases/tag/v2.22.9)
 
@@ -296,7 +310,7 @@ KubeVirt cloud provider support is leaving the "technical preview" phase and is 
 - Add new field  `ReconciliationInterval` in `ApplicationInstallation` to force reconciliation, even if the `ApplicationInstallation` CR has not changed ([#11467](https://github.com/kubermatic/kubermatic/pull/11467))
 - Extend `ApplicationDefinition` and `ApplicationInstallation` CRD with `DeployOptions.HelmDeployOptions` to control how applications are deployed with `Helm`([#11608](https://github.com/kubermatic/kubermatic/pull/11608))
     - ApplicationInstallation: set condition ready to `unknown` with reason `InstallationInProgress` before starting the installation
-    - ApplicationInstallation: don't try to install / upgrade the application if the max number of retries is exceeded 
+    - ApplicationInstallation: don't try to install / upgrade the application if the max number of retries is exceeded
 - Use string Version type for `ApplicationInstallation` CRD ([#11359](https://github.com/kubermatic/kubermatic/pull/11359))
 - Make uninstall for Applications idempotent ([#11622](https://github.com/kubermatic/kubermatic/pull/11622))
 - Add validating and defaulting webhook for Application deployOptions ([#11633](https://github.com/kubermatic/kubermatic/pull/11633))
@@ -548,7 +562,7 @@ Konnectivity is now GA.
 - Update metering to version 1.0.1 ([#11282](https://github.com/kubermatic/kubermatic/pull/11282))
     - Add average-used-cpu-millicores to Cluster and Namespace reports
     - Add average-available-cpu-millicores add average-cluster-machines field to Cluster reports
-    - Fix a bug that causes wrong values if metric is not continuously present for the aggregation window 
+    - Fix a bug that causes wrong values if metric is not continuously present for the aggregation window
 
 ### Miscellaneous
 
@@ -584,7 +598,7 @@ Konnectivity is now GA.
 - Add API endpoints for KubeVirt that allow using project-scoped Presets as credentials ([#5509](https://github.com/kubermatic/dashboard/pull/5509))
 - Add API endpoints for Nutanix that allow using project-scoped Presets as credentials ([#5154](https://github.com/kubermatic/dashboard/pull/5154))
 - Add API endpoints for OpenStack that allow using project-scoped Presets as credentials ([#5489](https://github.com/kubermatic/dashboard/pull/5489))
-    - ACTION REQUIRED: Headers for API operations `listOpenstackServerGroups` and `listOpenstackSubnetPools` have been renamed from `Tenant`, `TenantID`, `Project`, `ProjectID` to `OpenstackTenant`, `OpenstackTenantID`, `OpenstackProject` and `OpenstackProjectID`, respectively 
+    - ACTION REQUIRED: Headers for API operations `listOpenstackServerGroups` and `listOpenstackSubnetPools` have been renamed from `Tenant`, `TenantID`, `Project`, `ProjectID` to `OpenstackTenant`, `OpenstackTenantID`, `OpenstackProject` and `OpenstackProjectID`, respectively
 - Add API endpoints for VMware Cloud Director that allow using project-scoped Presets as credentials ([#5512](https://github.com/kubermatic/dashboard/pull/5512))
 - Add API endpoints for vSphere that allow using project-scoped Presets as credentials ([#5508](https://github.com/kubermatic/dashboard/pull/5508))
 - Add API endpoints for GKE that allow using project-scoped Presets as credentials ([#11156](https://github.com/kubermatic/kubermatic/pull/11156))
