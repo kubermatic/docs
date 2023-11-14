@@ -23,7 +23,7 @@ weight = 70
 
 ## [v2.21.15](https://github.com/kubermatic/kubermatic/releases/tag/v2.21.15)
 
-With this release, support for KKP v2.21.x ceases. Please upgrade to a supported version of KKP in the near future.
+With this release, support for KKP v2.21.x [ceases](https://youtu.be/vZw35VUBdzo?t=169). Please upgrade to a supported version of KKP in the near future.
 
 ### Bugfixes
 
