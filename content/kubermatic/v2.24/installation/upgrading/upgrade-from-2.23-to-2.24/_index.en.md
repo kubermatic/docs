@@ -1,4 +1,3 @@
-
 +++
 title = "Upgrading to KKP 2.24"
 date = 2023-11-07T00:00:00+01:00
@@ -15,13 +14,13 @@ This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) 
 
 KKP 2.24 adjusts the list of supported Kubernetes versions and removes support for Kubernetes 1.24 and 1.25. Existing user clusters need to be migrated to 1.26+ or later before the KKP upgrade can begin.
 
-### Removal of the legacy backup controller
+### Removal of the Legacy Backup Controller
 
 KKP ships with an advanced etcd backup/restore controller since version 2.17.0 (April 2021), which replaces the classic backup controller. Since 2.17 both controllers were part of KKP, but 2.24 now finally removes the long deprecated classic backup controller.
 
 If your KKP setup is still using the legacy controller, you have to migrate your setup. Please refer to the [etcd backup/restore configuration]({{< ref "../../../tutorials-howtos/etcd-backups/" >}}) for more information on how to configure and enable the new controller.
 
-### Multi-network Support for vSphere
+### Multi-Network Support for vSphere
 
 Beginning with this version, multiple networks can be configured for a single vSphere user cluster. To support this, the existing field `vmNetName` in both the `Cluster` and `Seed` CRDs has been deprecated. Instead the new fields `networks` should be used.
 
@@ -110,10 +109,6 @@ kubermatic - {"clusters":5,"conditions":{"ClusterInitialized":{"lastHeartbeatTim
 ```
 
 Of particular interest to the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight. If the upgrade is stuck, try `kubectl -n kubermatic describe seed <seed name>` to see what exactly is keeping the KKP Operator from updating the Seed cluster.
-
-## Post-Upgrade Considerations
-
-TBD
 
 ## Next Steps
 
