@@ -9,10 +9,10 @@ weight = 130
 KKP 2.17+ allows to configure a "CA bundle" (a set of CA certificates) on the master cluster.
 This CA bundle is then automatically
 
-* copied into each seed cluster
-* copied into each usercluster namespace
-* copied into each usercluster (into the `kube-system` namespace)
-* used for various components, like the KKP API, machine-controller, usercluster kube-apiserver etc.
+* copied into each Seed Cluster
+* copied into each User Cluster namespace
+* copied into each User Cluster (into the `kube-system` namespace)
+* used for various components, like the KKP API, machine-controller, User Cluster kube-apiserver, etc.
 
 Changes to the CA bundle are automatically reconciled across these locations. If the CA bundle
 is invalid, no further reconciliation happens, so if the master cluster's CA bundle breaks,
@@ -21,7 +21,6 @@ seed clusters are not affected.
 Do note that the CA bundle configured in KKP is usually _the only_ source of CA certificates
 for all of these components, meaning that no certificates are mounted from any of the Seed
 cluster host systems.
-
 
 ## Issuing Certificates
 
@@ -79,13 +78,21 @@ Re-deploy the `iap` Helm chart to perform the changes and update the `Certificat
 
 ### External
 
-If issuing certificates inside the cluster is not possible, static certificates can also be provided. The
-cluster admin is responsible for renewing and updating them as needed. Going forward, it is assumed that
-proper certificates have already been created and now need to be configured inside the cluster.
+If issuing certificates inside the cluster is not possible, static certificates can also be provided from 
+`Secret` resources. The cluster admin is responsible for renewing and updating them as needed. A TLS secret
+can be created via `kubectl` when certificate and private key are available:
+
+```sh
+$ kubectl create secret tls tls-secret --cert=tls.cert --key=tls.key
+```
+
+Going forward, it is assumed that proper certificates have already been created and now need to be configured into KKP.
 
 ## Configuration
 
-The CA bundle is stored as a single ConfigMap in the `kubermatic` namespace on the master cluster.
+### CA Bundle
+
+The CA bundle is stored as a single `ConfigMap` in the `kubermatic` namespace on the master cluster.
 It needs to have a `ca-bundle.pem` key, which is simply the collection of all PEM-encoded CA
 certificates.
 A good source for a general purpose CA bundle is Mozilla's CA database. The curl maintainers
@@ -97,13 +104,13 @@ This means that after installing KKP, a usable default CA bundle is available ri
 start.
 
 To override the CA bundle, either overwrite the `static/ca-bundle.pem` file in the
-`kubermatic-operator` Helm chart with your own and then `helm upgrade` the operator, or manually
-change the ConfigMap later using `kubectl edit`. Note that you should not use Helm and kubectl
-to manage your CA bundle, but only one of the two.
+`kubermatic-operator` Helm chart with your own and then `helm upgrade` the operator, or create
+a custom CA bundle in a `ConfigMap` with a distinct name (e.g. `ca-bundle-customized`) in the
+`kubermatic` namespace.
 
-Changes to the ConfigMap are picked up automatically and are then reconciled.
+Changes to the `ConfigMap` are picked up automatically and are then reconciled.
 
-A typical CA bundle ConfigMap must look like this:
+A typical CA bundle `ConfigMap` must look like this:
 
 ```yaml
 apiVersion: v1
@@ -159,8 +166,8 @@ data:
 ```
 
 The CA bundle needs to be configured in the `KubermaticConfiguration`. By default
-the configuration refers to the `ca-bundle` ConfigMap that is shipped with the
-`kubermatic-operator` Helm chart; if you need to use a different ConfigMap, adjust
+the configuration refers to the `ca-bundle` `ConfigMap` that is shipped with the
+`kubermatic-operator` Helm chart; if you need to use a different `ConfigMap`, adjust
 the `spec.caBundle` settings:
 
 ```yaml
@@ -171,19 +178,19 @@ metadata:
   namespace: kubermatic
 spec:
   # This configures the global default CA bundle, which is used on the
-  # master cluster and on all seeds, userclusters.
+  # master cluster and on all seeds, user clusters.
   caBundle:
     kind: ConfigMap
-    # name of the ConfigMap;
-    # must be in the same namespace as KKP
+    # name of the ConfigMap; e.g. 'ca-bundle-customized' if you created your CA bundle ConfigMap. 
+    # must be in the same namespace as KKP.
     name: ca-bundle
 ```
 
 
 ### KKP
 
-The KKP Operator manages a single Ingress for the KKP API/dashboard. This by default includes setting up
-the required annotations and spec settings for usage with cert-manager. However, if the cert-manager
+The KKP Operator manages a single `Ingress` for the KKP API/dashboard. This by default includes setting up
+the required annotations and spec settings for usage with cert-manager. However, if cert-manager
 integration is disabled, the cluster admin is free to manage these settings themselves.
 
 To disable cert-manager integration, set `spec.ingress.certificateIssuer` as empty
@@ -195,7 +202,8 @@ spec:
     certificateIssuer: null
 ```
 
-It is now possible to set `spec.tls` on the `kubermatic` Ingress to a custom certificate:
+It is now possible to set `spec.tls` on the `kubermatic` `Ingress` to a custom certificate by manually changing
+it with `kubectl edit`:
 
 ```yaml
 spec:
@@ -206,17 +214,23 @@ spec:
 ```
 
 Refer to the [Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
-for details on the format for certificate Secrets.
+for details on the format for certificate `Secrets`.
+
+{{% notice warning %}}
+If the static certificate is signed by a private CA, it is necessary to add that private CA to the [CA bundle](#ca-bundle)
+used by KKP. Otherwise, components will not be able to properly communicate with each other.
+{{% /notice %}}
+
 
 #### User Cluster
 
-KKP automatically synchronizes the relevant CA bundle into each user cluster. The ConfigMap
-is called `ca-bundle` and created in the `kube-system` namespace. For this reason it's important
+KKP automatically synchronizes the relevant CA bundle into each user cluster. The `ConfigMap`
+is called `ca-bundle` and created in the `kube-system` namespace. For this reason it is important
 to not put actual secrets into the CA bundle.
 
 ### Dex
 
-The same technique used for KKP is applicable to Dex as well: Set the name of the cert issuer to an empty
+The same technique used for KKP is applicable to Dex as well: Set the name of the certificate issuer to an empty
 string to be able to configure your own certificates. Update the Helm `values.yaml` used to deploy the
 chart like so:
 
@@ -226,8 +240,8 @@ dex:
     name: ""
 ```
 
-Re-deploy the chart and the Certificate resource will not be created anymore. You have to manually create
-a `dex-tls` Secret in Dex's namespace. This Secret follows the
+Re-deploy the chart and the `Certificate` resource will not be created anymore. You have to manually create
+a `dex-tls` Secret in the `oauth` namespace. This `Secret` follows the
 [same format](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) as the one for KKP's API.
 
 ### Identity-Aware Proxy
