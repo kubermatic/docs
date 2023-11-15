@@ -9,10 +9,10 @@ weight = 130
 KKP 2.17+ allows to configure a "CA bundle" (a set of CA certificates) on the master cluster.
 This CA bundle is then automatically
 
-* copied into each Seed Cluster
-* copied into each User Cluster namespace
-* copied into each User Cluster (into the `kube-system` namespace)
-* used for various components, like the KKP API, machine-controller, User Cluster kube-apiserver, etc.
+* copied into each seed cluster
+* copied into each user cluster namespace
+* copied into each user cluster (into the `kube-system` namespace)
+* used for various components, like the KKP API, machine-controller, user cluster kube-apiserver, etc.
 
 Changes to the CA bundle are automatically reconciled across these locations. If the CA bundle
 is invalid, no further reconciliation happens, so if the master cluster's CA bundle breaks,
