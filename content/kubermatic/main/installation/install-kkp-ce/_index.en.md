@@ -290,13 +290,20 @@ to apply your changes.
 
 ## Update DNS & TLS
 
+By default, KKP uses cert-manager to generate TLS certificates for the platform.
+
+{{% notice info %}}
+Check out [Custom Certificates]({{< ref "../../tutorials-howtos/kkp-configuration/custom-certificates/" >}}) if you
+want to provide a static certificate and disable cert-manager integration.
+For certificates coming from a **private CA** it is necessary to add the CA to the **CA bundle** used by KKP.
+{{% /notice %}}
+
 ### Configure ClusterIssuers
 
-By default, KKP installation uses cert-manager to generate TLS certificates for the platform. If you didn't decide to
-change the settings (`.spec.ingress.certificateIssuer.name` in `kubermatic.yaml`), you need to create a `ClusterIssuer` object, named
-`letsencrypt-prod` to enable cert-manager to issue the certificates. Example of this file can be found below. If you
-adjusted this configuration option while preparing the configuration files, make sure to change the `ClusterIssuer`
-resource name accordingly.
+If you didn't decide to change the settings (`.spec.ingress.certificateIssuer.name` in `kubermatic.yaml`),
+you need to create a `ClusterIssuer` object, named `letsencrypt-prod` to enable cert-manager to issue the certificates.
+An example of this file can be found below. If you adjusted this configuration option while preparing the configuration
+files, make sure to change the `ClusterIssuer` resource name accordingly.
 
 For other possible options, please refer to the [external documentation](https://cert-manager.io/docs/configuration/).
 
