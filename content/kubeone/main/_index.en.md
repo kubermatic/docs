@@ -5,7 +5,7 @@ description = "Learn how you can use Kubermatic KubeOne to automate cluster oper
 +++
 
 
-![Kubermatic KubeOne logo](./img/KubeOne-logo.jpg)
+![Kubermatic KubeOne logo](./img/kubeone-logo.jpg)
 
 
 # What is KubeOne?

@@ -10,7 +10,7 @@ Two types of information are required to install an application:
 * How to download the application's source (i.e Kubernetes manifest, helm chart...). We refer to this as `source`.
 * How to render (i.e. templating) the application's source to install it into user-cluster. We refer to this as`templating method`.
 
-Each version can have a different `source` (`.spec.version[].template.source`) but share the same `templating method` (`.spec.method`).  
+Each version can have a different `source` (`.spec.version[].template.source`) but share the same `templating method` (`.spec.method`).
 Here is the minimal example of `ApplicationDefinition`. More advanced configurations are described in subsequent paragraphs.
 
 ```yaml
@@ -124,7 +124,7 @@ For private git repositories, please check the [working with private registries]
 ## Working With Private Registries
 
 For private registries, the Applications Feature supports storing credentials in Kubernetes secrets in the KKP master and referencing the secrets in your ApplicationDefinitions.
-A KKP controller will ensure that the required secrets are synced to your seed clusters. 
+A KKP controller will ensure that the required secrets are synced to your seed clusters.
 
 {{% notice note %}}
 In order for the controller to sync your secrets, they must be annotated with `apps.kubermatic.k8c.io/secret-type` and be created in the namespace that KKP is installed in (unless changed, this defaults to `kubermatic`).
@@ -132,7 +132,7 @@ In order for the controller to sync your secrets, they must be annotated with `a
 
 ### Git Repositories
 
-KKP supports three types of authentication for git repositories: 
+KKP supports three types of authentication for git repositories:
 * `password`: authenticate with a username and password.
 * `Token`: authenticate with a Bearer token
 * `SSH-Key`: authenticate with an ssh private key.
@@ -189,7 +189,7 @@ spec:
 ```
 #### Compatibility Warning
 
-Be aware that all authentication methods may be available on your git server. More and more servers disable the authentication with username and password.  
+Be aware that all authentication methods may be available on your git server. More and more servers disable the authentication with username and password.
 More over on some providers like GitHub, to authenticate with an access token, you must use `password` method instead of `token`.
 
 Example of secret to authenticate with [GitHub access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#using-a-token-on-the-command-line):

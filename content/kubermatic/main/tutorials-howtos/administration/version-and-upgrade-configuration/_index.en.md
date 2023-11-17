@@ -15,7 +15,7 @@ This is also where updates are configured.
 ### Default Versions
 
 The list of default versions, is shown by the CRD example linked above, but it's recommended
-to retrieve the actual list from the Kubermatic installer itself. 
+to retrieve the actual list from the Kubermatic installer itself.
 To print the default configuration run `kubermatic-installer print` which outputs a full KubermaticConfiguration.
 
 ### Configuring Versions

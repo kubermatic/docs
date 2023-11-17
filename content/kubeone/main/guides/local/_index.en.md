@@ -64,4 +64,4 @@ forcefully rewritten. Such fields include:
   `--kubernetes-version`
 
 Rest of configuration is up to you. Config will be defaulted as usual (i.e. you
-can omit specifying CNI or containerRuntime). 
+can omit specifying CNI or containerRuntime).

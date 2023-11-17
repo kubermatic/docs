@@ -11,11 +11,11 @@ This manual explains how to manage KKP user settings via the UI.
 
 To access the user settings click the `User Settings` entry in the user menu:
 
-![User Menu](/img/kubermatic/main/ui/admin_panel_access.png?height=300px&classes=shadow,border "Accessing the User Settings")
+![User Menu](/img/kubermatic/main/ui/admin-panel-access.png?height=300px&classes=shadow,border "Accessing the User Settings")
 
 ## User Settings Overview
 
-![User Settings](/img/kubermatic/main/ui/user_settings.png?classes=shadow,border "User Settings")
+![User Settings](/img/kubermatic/main/ui/user-settings.png?classes=shadow,border "User Settings")
 
 The user settings view is divided into two columns:
 The left side contains all account details, such as the name and the email of the user, whereas the right side lists all possible settings that a user can make.

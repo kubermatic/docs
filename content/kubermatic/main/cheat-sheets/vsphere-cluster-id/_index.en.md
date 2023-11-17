@@ -84,7 +84,7 @@ Finally, verify value of the `cluster-id` field:
    1. If it's set to the vSphere Compute Cluster Name, you're **affected** and
       you should follow this guide
    1. If the ConfigMap doesn't exist, you're still running the in-tree cloud
-      provider, and therefore you're **not** affected. **Make sure that you 
+      provider, and therefore you're **not** affected. **Make sure that you
       don't use an affected KKP version when migrating the cluster to the
       external CCM/CSI**
 
@@ -99,7 +99,7 @@ and you'll not be able to work with vSphere volumes (attach/detach volumes,
 create new volumes, delete volumes...).
 
 The second approach assumes changing `cluster-id` without stopping the CSI
-driver. This approach is **not documented** by VMware, however, it worked in 
+driver. This approach is **not documented** by VMware, however, it worked in
 our environment. In this case, there's no significant downtime. Since this
 approach is not documented by VMware, we **heavily advise** that you:
    - follow the first approach

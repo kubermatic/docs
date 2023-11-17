@@ -159,7 +159,7 @@ kubectl apply -f mykubermatic.yaml
 ### Worker Nodes Behind a Proxy
 
 In situations where worker nodes will require a proxy to reach the internet, the datacenter specification for the
-Seed cluster must be updated. 
+Seed cluster must be updated.
 Find the relevant seed via `kubectl`:
 
 ```bash

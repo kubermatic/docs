@@ -14,7 +14,7 @@ OSM can be configured using the dashboard or CLI.
 
 Create a new cluster from the dashboard and toggle **Operating System Manager** feature on.
 
-![Enable OSM during cluster creation](/img/kubermatic/main/tutorials/operating_system_manager/osm_dashboard.png?classes=shadow,border "Enable OSM during cluster creation")
+![Enable OSM during cluster creation](/img/kubermatic/main/tutorials/operating-system-manager/osm-dashboard.png?classes=shadow,border "Enable OSM during cluster creation")
 
 {{% notice note %}}
 OSM cannot be disabled after cluster creation.
@@ -22,7 +22,7 @@ OSM cannot be disabled after cluster creation.
 
 ### Selecting OperatingSystemProfile
 
-![Select OperatingSystemProfile](/img/kubermatic/main/tutorials/operating_system_manager/osm_select.png?classes=shadow,border "Select OperatingSystemProfile")
+![Select OperatingSystemProfile](/img/kubermatic/main/tutorials/operating-system-manager/osm-select.png?classes=shadow,border "Select OperatingSystemProfile")
 
 ## Via CLI
 
@@ -43,14 +43,14 @@ spec:
 
 To use custom OperatingSystemProfiles, users can do the following:
 
-1. Create their `CustomOperatingSystemProfile` resource in the seed namespace(kubermatic). These resources will be automatically synced to the `kube-system` namespace of the user-clusters.
+1. Create their `CustomOperatingSystemProfile` resource on the seed cluster in the `kubermatic` namespace. These resources will be automatically synced to the `kube-system` namespace of the user-clusters.
 
 ```yaml
 apiVersion: operatingsystemmanager.k8c.io/v1alpha1
 kind: CustomOperatingSystemProfile
 metadata:
   name: osp-install-curl
-  namespace: kube-system
+  namespace: kubermatic
 spec:
   osName: "ubuntu"
   osVersion: "20.04"

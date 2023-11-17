@@ -55,13 +55,6 @@ do
   esac
 done
 
-# Check requirements
-yq --version | grep -q 'yq .* version 4' || {
-  echo "yq >= 4.x is required"
-  echo "e.g. go install github.com/mikefarah/yq/v4@latest"
-  exit 1
-}
-
 # Check mandatory parameters
 [[ $VERSION ]] ||
   (usage; exit 1)
@@ -81,9 +74,9 @@ fi
 if [[ $PRODUCT == 'kubermatic' ]]
 then
   tmpfile=$(mktemp)
-  sed '/^|.*KKP/Q' content/kubermatic/$PRIMARY_BRANCH/architecture/support_policy/KKP_components_versioning/_index.en.md > $tmpfile
+  sed '/^|.*KKP/Q' content/kubermatic/$PRIMARY_BRANCH/architecture/compatibility/KKP-components-versioning/_index.en.md > $tmpfile
   version_table >> $tmpfile
-  mv $tmpfile content/kubermatic/$PRIMARY_BRANCH/architecture/support_policy/KKP_components_versioning/_index.en.md
+  mv $tmpfile content/kubermatic/$PRIMARY_BRANCH/architecture/compatibility/KKP-components-versioning/_index.en.md
 
   cp -R static/img/kubermatic/{$PRIMARY_BRANCH,$VERSION}
 fi

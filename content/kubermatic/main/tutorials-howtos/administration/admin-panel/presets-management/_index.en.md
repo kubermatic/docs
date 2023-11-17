@@ -49,10 +49,10 @@ spec:
     routeTableId:
     instanceProfileName:
     securityGroupID:
-    roleARN:  
+    roleARN:
   alibaba:
     accessKeyId:
-    accessKeySecret:  
+    accessKeySecret:
   azure:
     tenantId:
     subscriptionId:
@@ -62,30 +62,30 @@ spec:
     vnet:
     subnet:
     routeTable:
-    securityGroup:  
+    securityGroup:
   digitalocean:
     token:
   gcp:
     serviceAccount:
     network:
-    subnetwork:  
+    subnetwork:
   hetzner:
     token:
   openstack:
     username:
     password:
-    tenant:  
+    tenant:
     tenantID:
     domain: DEFAULT
     floatingIpPool: ext-net
     network:
     securityGroups:
     routerID:
-    subnetID:  
+    subnetID:
   packet:
     apiKey:
     projectId:
-    billingCycle:  
+    billingCycle:
   vsphere:
     username:
     password:

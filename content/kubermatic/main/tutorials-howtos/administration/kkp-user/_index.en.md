@@ -34,4 +34,4 @@ Make sure the account logged in once at the Kubermatic Dashboard.
 
 Now you can edit the user with `kubectl edit user` command in the master cluster.
 
-Setting the `admin` flag to `true` will provide admin access to the user.   
+Setting the `admin` flag to `true` will provide admin access to the user.

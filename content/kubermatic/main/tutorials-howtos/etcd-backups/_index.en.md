@@ -47,19 +47,19 @@ It is also possible to do one-time backups (snapshots). The only change to the Y
 
 EtcdBackups and Restores are project resources, and you can manage them in the Project view.
 
-![Etcd Backups View](/img/kubermatic/main/ui/etcd_backups.png?classes=shadow,border "Project Etcd Backups")
+![Etcd Backups View](/img/kubermatic/main/ui/etcd-backups.png?classes=shadow,border "Project Etcd Backups")
 
 To create a backup, just click on the `Add Automatic Backup` button. You have a choice of preset daily, weekly or monthly backups,
 or you can create a backup with a custom interval and keep time. The destination dropdown is based on the configured backup destinations
 for a given seed the cluster belongs to.
 
-![Etcd Backups Configuration](/img/kubermatic/main/ui/add_backup.png?classes=shadow,border "Etcd Backups Configuration")
+![Etcd Backups Configuration](/img/kubermatic/main/ui/add-backup.png?classes=shadow,border "Etcd Backups Configuration")
 
 ### Listing Backups
 
 To see what backups are available, click on a backup you are interested in, and you will see a list of completed backups.
 
-![Etcd Backups Details List](/img/kubermatic/main/ui/backups_list.png?classes=shadow,border "Etcd Backups Details")
+![Etcd Backups Details List](/img/kubermatic/main/ui/backups-list.png?classes=shadow,border "Etcd Backups Details")
 
 Alternatively, the list of backups is also published to the `EtcdBackupConfig` and can be fetched from the object's status
 subresource via `kubectl`. It would look like this:
@@ -98,7 +98,7 @@ status:
 You can also create one-time backup snapshots, they are set up similarly to the automatic ones, with the difference that they do not
 have a schedule or keep count set.
 
-![Etcd Backup Snapshots](/img/kubermatic/main/ui/add_backup_snapshot.png?classes=shadow,border "Etcd Backup Snapshots")
+![Etcd Backup Snapshots](/img/kubermatic/main/ui/add-backup-snapshot.png?classes=shadow,border "Etcd Backup Snapshots")
 
 ## Restoring from Backup
 
@@ -124,13 +124,13 @@ enable [EtcdLauncher]({{<ref "../../cheat-sheets/etcd/etcd-launcher" >}}) on the
 
 If you want to restore from a specific backup, just click on the restore from backup icon.
 
-![Etcd Backups Restore button](/img/kubermatic/main/ui/restore_backup.png?classes=shadow,border "Restore backup button")
+![Etcd Backups Restore button](/img/kubermatic/main/ui/restore-backup.png?classes=shadow,border "Restore backup button")
 
-![Etcd Backups Cluster Restore](/img/kubermatic/main/ui/restore_cluster.png?classes=shadow,border "Restore etcd backup for cluster")
+![Etcd Backups Cluster Restore](/img/kubermatic/main/ui/restore-cluster.png?classes=shadow,border "Restore etcd backup for cluster")
 
 This will create an `EtcdRestore` object for your cluster. You can observe the progress in the Restore list.
 
-![Etcd Restore List](/img/kubermatic/main/ui/etcd_restores_list.png?classes=shadow,border "Etcd Restore List")
+![Etcd Restore List](/img/kubermatic/main/ui/etcd-restores-list.png?classes=shadow,border "Etcd Restore List")
 
 
 #### Starting Restore via kubectl
@@ -159,11 +159,11 @@ This needs to reference the backup name from the list of backups (shown above).
 
 In the cluster view, you may notice that your cluster is in a `Restoring` state, and you can not interact with it until it is done.
 
-![Cluster Restoring](/img/kubermatic/main/ui/cluster_restoring.png?classes=shadow,border "Cluster Restoring")
+![Cluster Restoring](/img/kubermatic/main/ui/cluster-restoring.png?classes=shadow,border "Cluster Restoring")
 
 When it's done, the cluster will get un-paused and un-blocked, so you can use it. The Etcd Restore will go into a Completed state.
 
-![Etcd Restore Completed](/img/kubermatic/main/ui/restore_completed.png?classes=shadow,border "Etcd Restore Completed")
+![Etcd Restore Completed](/img/kubermatic/main/ui/restore-completed.png?classes=shadow,border "Etcd Restore Completed")
 
 ## Customization
 
@@ -175,7 +175,7 @@ They are configured in `KubermaticConfiguration` via:
 - `.spec.seedController.backupDeleteContainer` for backup deletion.
 - `.spec.seedController.backupStoreContainer` for backup file upload.
 
-Their defaults can be reviewed [in the reference KubermaticConfiguration]({{< ref "../KKP-configuration/" >}}). Both containers
+Their defaults can be reviewed [in the reference KubermaticConfiguration]({{< ref "../kkp-configuration/" >}}). Both containers
 use the image `d3fk/s3cmd` to interact with S3-compatible storage. The configuration options mentioned above hold a full container
 specification, which means that a full [container specification](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#container-v1-core)
 can be passed. This way uploads and deletions can be adjusted to individual needs. The dashboard and configuration objects expect

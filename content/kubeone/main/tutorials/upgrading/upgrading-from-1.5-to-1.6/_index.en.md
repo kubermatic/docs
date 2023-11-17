@@ -51,10 +51,10 @@ KubeOne will also perform checks to make sure that:
 ## External CCM/CSI Required for vSphere Cluster Running Kubernetes 1.25 and newer
 
 External CCM/CSI is required for vSphere clusters starting with Kubernetes
-1.25. If your vSphere clusters are using the in-tree cloud provider 
+1.25. If your vSphere clusters are using the in-tree cloud provider
 (`.cloudProvider.external` is `false` or unset), you must migrate your vSphere
 clusters to the external CCM/CSI before upgrading to Kubernetes 1.25. Please
-check [the documentation for more details about the CCM/CSI 
+check [the documentation for more details about the CCM/CSI
 migration][ccm-migration]. This change is introduced because vSphere requires
 the CSI driver to be deployed starting with Kubernetes 1.25.
 

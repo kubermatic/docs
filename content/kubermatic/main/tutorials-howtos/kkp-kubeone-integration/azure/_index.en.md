@@ -14,22 +14,21 @@ You can add an existing Azure KubeOne cluster and then manage it using KKP.
 
 - Click `Import KubeOne Cluster` button.
 
-![Import KubeOne Cluster](/img/kubermatic/main/tutorials/kubeone_clusters/cluster_list_empty.png "Import KubeOne Cluster")
+![Import KubeOne Cluster](/img/kubermatic/main/tutorials/kubeone-clusters/cluster-list-empty.png "Import KubeOne Cluster")
 
 - Pick `Azure` provider.
 
-![Select Provider](/img/kubermatic/main/tutorials/kubeone_clusters/import_kubeone_cluster.png "Select Provider")
+![Select Provider](/img/kubermatic/main/tutorials/kubeone-clusters/import-kubeone-cluster.png "Select Provider")
 
 - Provide cluster Manifest config and enter private key to access the KubeOne cluster.
 
-![Cluster Settings](/img/kubermatic/main/tutorials/kubeone_clusters/cluster_settings_step.png "Cluster Settings")
+![Cluster Settings](/img/kubermatic/main/tutorials/kubeone-clusters/cluster-settings-step.png "Cluster Settings")
 
 - Provide Credentials in either of the below mentioned ways:
     - Select a pre-created preset which stores the provider specific credentials.
 
     - Manually enter the credentials `Client ID`, `Client Secret`, `Subscription ID`, `Tenant ID`.
 
-![Azure credentials](/img/kubermatic/main/tutorials/kubeone_clusters/azure_credentials_step.png "Azure credentials")
+![Azure credentials](/img/kubermatic/main/tutorials/kubeone-clusters/azure-credentials-step.png "Azure credentials")
 
 - Review provided settings and click `Import KubeOne Cluster`.
-

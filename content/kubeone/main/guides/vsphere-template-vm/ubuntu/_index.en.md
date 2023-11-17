@@ -268,4 +268,3 @@ template VM for both Terraform and machine-controller.
 ## Known Issues
 
 * Internal Kubernetes endpoints unreachable on vSphere with Cilium/Canal on VMXNET3 adapter, see [this issue](../../../known-issues/#internal-kubernetes-endpoints-unreachable-on-vsphere-with-ciliumcanal) for more details and workaround.
-  

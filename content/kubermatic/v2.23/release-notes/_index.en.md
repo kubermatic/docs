@@ -9,6 +9,33 @@ weight = 70
 - [v2.23.2](#v2232)
 - [v2.23.3](#v2233)
 - [v2.23.5](#v2235)
+- [v2.23.6](#v2236)
+- [v2.23.7](#v2237)
+
+## [v2.23.7](https://github.com/kubermatic/kubermatic/releases/tag/v2.23.7)
+
+### Action Required
+
+- **ACTION REQUIRED (EE ONLY):** Update metering component to v1.0.5, fixing highly inaccurate data in cluster reports. Reports generated in KKP v2.23.2+ or v2.22.5+ do not represent actual consumption. Ad-hoc reports for time frames that need correct consumption data can be generated [by following our documentation](https://docs.kubermatic.com/kubermatic/v2.23/tutorials-howtos/metering/#custom-reports) ([#12823](https://github.com/kubermatic/kubermatic/pull/12823))
+
+### Bugfixes
+
+- Extend project-synchronizer controller in `kubermatic-master-controller-manager` to propagate labels from Projects in the master cluster to Projects in the seed cluster. This fixes an issue where the metering report doesn't contain project-labels in separate master/seed setups ([#12792](https://github.com/kubermatic/kubermatic/pull/12792))
+- Fix CPU Utilization graph showing no data for User Cluster MLA dashboard "Nodes Overview" ([#12814](https://github.com/kubermatic/kubermatic/pull/12814))
+- Fix empty panels in Grafana dashboard "Resource Usage per Namespace" for Master/Seed MLA ([#12816](https://github.com/kubermatic/kubermatic/pull/12816))
+- Fix Helm 3.13 failing to install the MLA Minio chart due to "resource name may not be empty" error ([#12806](https://github.com/kubermatic/kubermatic/pull/12806))
+
+## [v2.23.6](https://github.com/kubermatic/kubermatic/releases/tag/v2.23.6)
+
+### Bugfixes
+
+- Fix Digitalocean CSI addon failing to render ([#12739](https://github.com/kubermatic/kubermatic/pull/12739))
+- Fix node-labeller controller not applying the `x-kubernetes.io/distribution` label to RHEL nodes ([#12751](https://github.com/kubermatic/kubermatic/pull/12751))
+- Increase default CPU limits for KKP API/seed/master-controller-managers to prevent general slowness ([#12764](https://github.com/kubermatic/kubermatic/pull/12764))
+
+### Updates
+
+- Add support for Cilium 1.13.8, mitigating a high-severity vulnerability, CVE-2023-44487 ([#12762](https://github.com/kubermatic/kubermatic/pull/12762))
 
 ## [v2.23.5](https://github.com/kubermatic/kubermatic/releases/tag/v2.23.5)
 
@@ -107,9 +134,9 @@ Before upgrading, make sure to read the [general upgrade guidelines](https://doc
 ### Breaking Changes
 
 - Move to Egress based cluster isolation network policies for KubeVirt ([#12329](https://github.com/kubermatic/kubermatic/pull/12329))
-  - **ACTION REQUIRED:** Custom Network policies for KubeVirt datacenters might need adjustment 
+  - **ACTION REQUIRED:** Custom Network policies for KubeVirt datacenters might need adjustment
 - The `kubermatic-installer` now recognizes CSIDrivers automatically and will use them when creating the `kubermatic-fast` StorageClass. Admins can still choose to simply copy the default StorageClass if it's heavily customized by continuing to specify `--storageclass copy-default` ([#12012](https://github.com/kubermatic/kubermatic/pull/12012))
-  - **ACTION REQUIRED:** The flag value `gce` was renamed to `gcp` for `--storageclass` 
+  - **ACTION REQUIRED:** The flag value `gce` was renamed to `gcp` for `--storageclass`
 - Introduce `EnableShareCluster` flag in `KubermaticSettings` to toggle the share cluster feature for the dashboard ([#11950](https://github.com/kubermatic/kubermatic/pull/11950))
   - **ACTION REQUIRED:** `share_kubeconfig` field in the UI configuration for KubermaticConfiguration has been replaced with `EnableShareCluster` flag in KubermaticSettings. `share_kubeconfig` is no-op and will be ignored by the dashboard
 
@@ -121,7 +148,7 @@ Before upgrading, make sure to read the [general upgrade guidelines](https://doc
 
 - Add short name for  Application  CRDs ([#12017](https://github.com/kubermatic/kubermatic/pull/12017))
     - `applicationdefinition` -> `appdef`, e.g `kubectl get appdef`
-    - `applicationinstallation` -> `appinstall`, e.g `kubectl get appinstall` 
+    - `applicationinstallation` -> `appinstall`, e.g `kubectl get appinstall`
 - Support added to specify the suffix `dockerTagSuffix` in `KubermaticConfiguration` for dashboard images. With `dockerTagSuffix` the tag becomes <CURRENT_KKP_VERSION:SUFFIX> i.e. "v2.15.0-SUFFIX" ([#12056](https://github.com/kubermatic/kubermatic/pull/12056))
 - Add support for disabling Changelog popup in `KubermaticSettings` ([#12175](https://github.com/kubermatic/kubermatic/pull/12175))
 - Add support for enforcing/enabling auto-updates and updates on first boot for Machine Deployments in `KubermaticSettings` ([#12152](https://github.com/kubermatic/kubermatic/pull/12152))
@@ -248,7 +275,7 @@ Before upgrading, make sure to read the [general upgrade guidelines](https://doc
 - Add support for ca-bundle to metering cronjobs ([#11979](https://github.com/kubermatic/kubermatic/pull/11979))
 - Update Metering to v1.0.3 ([#12035](https://github.com/kubermatic/kubermatic/pull/12035))
     - Add non machine-controller managed machines to `average-cluster-machines`. Note that this is based on a new metric that will be collected together in the same release, therefore information prior this update is not available
-    - Fixes a bug that leads to low CPU usage values* Remove redundant label quotation 
+    - Fixes a bug that leads to low CPU usage values* Remove redundant label quotation
 - Fix metering CronJobs after KKP upgrades ([#12139](https://github.com/kubermatic/kubermatic/pull/12139))
 - Fix a bug that lead to metering reports overwriting each other when used with multiple seeds. Report names now include the Seed name as a Prefix ([#12221](https://github.com/kubermatic/kubermatic/pull/12221))
 
@@ -335,7 +362,7 @@ Before upgrading, make sure to read the [general upgrade guidelines](https://doc
 #### Bugfixes
 
 - UI/UX improvements for vSphere credentials in provider settings step ([#5959](https://github.com/kubermatic/dashboard/pull/5959))
-    - By default, username/password will be configured and dedicated credentials will be used to configure infra management user for vSphere 
+    - By default, username/password will be configured and dedicated credentials will be used to configure infra management user for vSphere
 - Add cache busting mechanism for theme styles ([#5943](https://github.com/kubermatic/dashboard/pull/5943))
 - Allow removing cluster label when PodNodeSelector admission plugin and clusterDefaultNodeSelector namespace are set ([#5981](https://github.com/kubermatic/dashboard/pull/5981))
 - Allow updating of the `clusterNetwork.proxyMode` via the KKP API (PATCH endpoint) ([#5803](https://github.com/kubermatic/dashboard/pull/5803))

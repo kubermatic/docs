@@ -204,23 +204,23 @@ Admins can manage the datacenters through the admin panel:
 ![Dynamic Datacenters](/img/kubermatic/main/ui/dc.png?classes=shadow,border "Dynamic Datacenters View")
 
 To create a new Datacenter, press the `+` icon and fill out the form:
-![Add Datacenter](/img/kubermatic/main/ui/dc_add1.png?classes=shadow,border&height=600 "Dynamic Datacenters Add Dialog")
+![Add Datacenter](/img/kubermatic/main/ui/dc-add1.png?classes=shadow,border&height=600 "Dynamic Datacenters Add Dialog")
 
 and add the provider spec based on the Datacenter provider:
-![Add Datacenter Provider](/img/kubermatic/main/ui/dc_add2.png?classes=shadow,border&height=600 "Dynamic Datacenters Add Dialog")
+![Add Datacenter Provider](/img/kubermatic/main/ui/dc-add2.png?classes=shadow,border&height=600 "Dynamic Datacenters Add Dialog")
 
 The added datacenter can easily be found with the filtering functions:
-![Find Datacenter](/img/kubermatic/main/ui/dc_filter.png?classes=shadow,border "Filter Datacenters")
+![Find Datacenter](/img/kubermatic/main/ui/dc-filter.png?classes=shadow,border "Filter Datacenters")
 
 It is also possible to edit the existing Datacenter, everything can be changed except the seed:
-![Edit Datacenter](/img/kubermatic/main/ui/dc_edit1.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
+![Edit Datacenter](/img/kubermatic/main/ui/dc-edit1.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
 *NOTICE: editing does not affect existing user clusters that were created using this datacenter*
 
-![Edit Datacenter](/img/kubermatic/main/ui/dc_edit2.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
+![Edit Datacenter](/img/kubermatic/main/ui/dc-edit2.png?classes=shadow,border&height=600 "Dynamic Datacenters Edit Dialog")
 
 When we are satisfied with our new datacenter, we can use it in the Cluster creation wizard:
-![Use Datacenter](/img/kubermatic/main/ui/wizard_step1.png?classes=shadow,border "Use Datacenter during Cluster Creation")
+![Use Datacenter](/img/kubermatic/main/ui/wizard-step1.png?classes=shadow,border "Use Datacenter during Cluster Creation")
 
 To delete the datacenter, just click on the trash icon in the admin panel:
-![Delete Datacenter](/img/kubermatic/main/ui/dc_delete.png?classes=shadow,border&height=200 "Dynamic Datacenters Delete Dialog")
+![Delete Datacenter](/img/kubermatic/main/ui/dc-delete.png?classes=shadow,border&height=200 "Dynamic Datacenters Delete Dialog")
 *NOTICE: deleting does not affect existing user clusters that were created using this datacenter*

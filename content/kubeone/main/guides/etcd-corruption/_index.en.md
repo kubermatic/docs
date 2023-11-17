@@ -28,7 +28,7 @@ clusters. We heavily advise taking the following actions:
   * Postpone upgrades of existing clusters to or deploying new clusters with
     Kubernetes 1.22 or newer until a fixed etcd version is available from the
     etcd maintainers
- 
+
 [addons-backup]: {{< ref "../../examples/addons-backup" >}}
 
 ## Enabling Etcd Corruption Checks

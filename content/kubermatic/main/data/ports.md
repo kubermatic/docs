@@ -1,4 +1,3 @@
-
 | Source               | Component                             | Destination                 | Expose Strategy | Ports             | Purpose                                               |
 |----------------------|---------------------------------------|-----------------------------|-----------------|-------------------|-------------------------------------------------------|
 | KKP Users            | /                                     | Master Ingress Controller   | Any             | 443*              | Access to KKP Dashboard                               |

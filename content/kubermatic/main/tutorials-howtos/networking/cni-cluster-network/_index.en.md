@@ -11,7 +11,7 @@ at the cluster creation time and cannot be changed in an already existing cluste
 
 Cluster networking can be configured in the "Network Configuration" part of the cluster creation wizard, as shown below:
 
-![Cluster Settings - Network Configuration](/img/kubermatic/main/tutorials/networking/ui_cluster_networking.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Network Configuration](/img/kubermatic/main/tutorials/networking/ui-cluster-networking.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 ## CNI Type and Version
 
@@ -25,15 +25,16 @@ Apart from these, KKP also supports [Multus-CNI addon]({{< relref "../multus/" >
 
 The following table lists the versions of individual CNIs supported by KKP:
 
-| KKP version | Canal                              | Cilium                      |
-|-------------|------------------------------------|-----------------------------|
-| `v2.23.x`   | `v3.25`, `v3.24`, `v3.23`          | `v1.13.x`, `v1.12`, `v1.11` |
-| `v2.22.x`   | `v3.24`, `v3.23`, `v3.22`          | `v1.13.x`, `v1.12`, `v1.11` |
-| `v2.21.x`   | `v3.23`, `v3.22`, `v3.21`, `v3.20` | `v1.12`, `v1.11`            |
+| KKP version | Canal                              | Cilium                                 |
+|-------------|------------------------------------|----------------------------------------|
+| `v2.24.x`   | `v3.26`, `v3.25`, `v3.24`          | `v1.14.x`, `v1.13.x`, `v1.12`, `v1.11` |
+| `v2.23.x`   | `v3.25`, `v3.24`, `v3.23`          | `v1.13.x`, `v1.12`, `v1.11`            |
+| `v2.22.x`   | `v3.24`, `v3.23`, `v3.22`          | `v1.13.x`, `v1.12`, `v1.11`            |
+| `v2.21.x`   | `v3.23`, `v3.22`, `v3.21`, `v3.20` | `v1.12`, `v1.11`                       |
 
 The desired CNI type and version can be selected at the cluster creation time - on the Cluster Settings page, as shown below:
 
-![Cluster Settings - Network Configuration](/img/kubermatic/main/tutorials/networking/ui_cluster_cni.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Network Configuration](/img/kubermatic/main/tutorials/networking/ui-cluster-cni.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 Available CNI versions depend on the KKP version. Note that CNI type cannot be changed after cluster creation, but [manual CNI migration]({{< relref "../cni-migration/" >}}) is possible when necessary.
 
@@ -45,11 +46,11 @@ In KKP versions below v2.19, this was the only supported CNI.
 
 ### Cilium CNI
 
-[Cilium](https://cilium.io/) is a feature-rich CNI plugin, which leverages the revolutionary eBPF Kernel technology. It provides enhanced security and observability features, but requires more recent kernel versions on the worker nodes (see [Cilium System Requirements](https://docs.cilium.io/en/stable/operations/system_requirements/)).
+[Cilium](https://cilium.io/) is a feature-rich CNI plugin, which leverages the revolutionary eBPF Kernel technology. It provides enhanced security and observability features, but requires more recent kernel versions on the worker nodes (see [Cilium System Requirements](https://docs.cilium.io/en/stable/operations/system-requirements/)).
 
 As of Cilium version `1.13.0`, Cilium in KKP is deployed [as a System Application](#deploying-cni-as-a-system-application), which provides KKP cluster administrators full flexibility of Cilium feature usage and configuration. See [Deploying CNI as a System Application](#deploying-cni-as-a-system-application) for more details.
 
-Before opting for Cilium CNI, please verify that your worker nodes' Linux distributions is known to work well with Cilium based on the [Linux Distribution Compatibility List](https://docs.cilium.io/en/stable/operations/system_requirements/#linux-distribution-compatibility-considerations).
+Before opting for Cilium CNI, please verify that your worker nodes' Linux distributions is known to work well with Cilium based on the [Linux Distribution Compatibility List](https://docs.cilium.io/en/stable/operations/system-requirements/#linux-distribution-compatibility-considerations).
 
 The most of the Cilium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only if [Konnectivity](#konnectivity) is enabled.
 
@@ -134,9 +135,9 @@ In the rare case of downgrading the Cilium CNI from the `1.13.0` to a lower vers
 
 If the KKP installation supports a newer version of the CNI installed in a user cluster, it is possible to upgrade to it. This will be shown in the KKP UI and the available versions will be listed in the upgrade dialog shown after clicking on the "CNI Plugin Version" box:
 
-![Cluster Details](/img/kubermatic/main/tutorials/networking/ui_cni_upgrade_available.png?classes=shadow,border "Cluster Details")
+![Cluster Details](/img/kubermatic/main/tutorials/networking/ui-cni-upgrade-available.png?classes=shadow,border "Cluster Details")
 
-![Cluster Details - CNI Plugin Version Dialog](/img/kubermatic/main/tutorials/networking/ui_cni_upgrade_dialog.png?classes=shadow,border "Cluster Details - CNI Plugin Version Dialog")
+![Cluster Details - CNI Plugin Version Dialog](/img/kubermatic/main/tutorials/networking/ui-cni-upgrade-dialog.png?classes=shadow,border "Cluster Details - CNI Plugin Version Dialog")
 
 Once a newer version is selected, the CNI upgrade in the user cluster can be triggered by clicking on the "Change CNI Version" button. Please note that this action may cause network connectivity drops in the cluster, so it should be performed during a maintenance window.
 
@@ -164,7 +165,7 @@ This feature is described in detail on an individual page: [Dual-Stack Networkin
 After Clicking on the "Advanced Networking Configuration" button in the cluster creation wizard, several more network
 configuration options are shown to the user:
 
-![Cluster Settings - Advanced Network Configuration](/img/kubermatic/main/tutorials/networking/ui_cluster_networking_advanced.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Advanced Network Configuration](/img/kubermatic/main/tutorials/networking/ui-cluster-networking-advanced.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 ### Proxy Mode
 Configures kube-proxy mode for k8s services. Can be set to `ipvs`, `iptables` or `ebpf` (`ebpf` is available only if Cilium CNI is selected and [Konnectivity](#konnectivity) is enabled).
@@ -198,7 +199,7 @@ Please follow these guidelines to migrate clusters to the Konnectivity.
 
 Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Advanced Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
 
-![Cluster Settings - Network Configuration](/img/kubermatic/main/tutorials/networking/ui_cluster_konnectivity.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Network Configuration](/img/kubermatic/main/tutorials/networking/ui-cluster-konnectivity.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 When this option is checked (which it is by default), Konnectivity will be used for control plane to worker nodes communication in the cluster. Otherwise, the old OpenVPN solution will be used.
 
@@ -212,7 +213,7 @@ This action will cause a restart of most of the control plane components and res
 
 {{% /notice %}}
 
-![Cluster Details - Edit Cluster Dialog](/img/kubermatic/main/tutorials/networking/ui_cluster_dialog_konnectivity.png?classes=shadow,border "Cluster Details - Edit Cluster Dialog")
+![Cluster Details - Edit Cluster Dialog](/img/kubermatic/main/tutorials/networking/ui-cluster-dialog-konnectivity.png?classes=shadow,border "Cluster Details - Edit Cluster Dialog")
 
 After switching to Konnectivity, give the control plane components in Seed enough time to redeploy (may take several minutes). Once this redeployment is done, you should see two `konnectivity-agent` replicas running in the user cluster instead of the `openvpn-client` pod. Apart from it, you should also see new `metrics-server` pods running in the user cluster:
 

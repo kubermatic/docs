@@ -34,7 +34,7 @@ selector:
 ![Created Default Constraint](/img/kubermatic/main/ui/default-constraint-admin-view.png?classes=shadow,border "Created Default Constraint")
 
 The Default Constraint created will also show up in the applied cluster view with `Admin Constraint` label
-![Created Default Constraint on the Cluster](/img/kubermatic/main/ui/default_constraint_cluster_view.png?classes=shadow,border "Created Default Constraint on the Cluster")
+![Created Default Constraint on the Cluster](/img/kubermatic/main/ui/default-constraint-cluster-view.png?classes=shadow,border "Created Default Constraint on the Cluster")
 
 ## Edit Default Constraint
 

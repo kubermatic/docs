@@ -161,5 +161,5 @@ not have a ResourceQuota already. And if the field is updated, the default Resou
 Unsetting this field will delete all the default ResourceQuotas.
 
 To distinguish a ResourceQuota from a default ResourceQuota, the label `"kkp-default-resource-quota": "true"` is set on the
-default ResourceQuotas. To mark the ResourceQuota as non-default, just remove the label. When a default ResourceQuota is 
+default ResourceQuotas. To mark the ResourceQuota as non-default, just remove the label. When a default ResourceQuota is
 edited through the UI/API, this will be done automatically.
