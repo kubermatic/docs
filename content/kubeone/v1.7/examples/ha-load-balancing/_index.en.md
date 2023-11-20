@@ -4,21 +4,20 @@ date = 2021-02-10T12:00:00+02:00
 weight = 1
 +++
 
-For providers that doesn't support LoadBalancer as a Service functionality we
+For providers that doesn't support LoadBalancer as a Service functionality, we
 included a working example of how it might look like in your setup. Provided
 example is not a requirement and you can always use your own solution.
 
 ## What software is used?
 
-For those examples we use [gobetween][gobetween] project. It is free, open-source,
+For those examples, we use [gobetween][gobetween] project. It is free, open-source,
 modern & minimalistic L4 load balancer solutions that's easy to integrate into
 terraform.
 
 ## But it's a SPoF (Single Point of Failure)!
 
 Yes, it is. We provide this only as an example how it might look like, and at
-the same time trying to stay minimal on resources. As provider you're using
-doesn't support LBaaS, it's completely up to you how you organize your frontend
+the same time trying to stay minimal on resources. Since the provider which you're using doesn't support LBaaS, it's completely up to you how you organize your frontend
 loadbalancing and HA for your kube-apiservers.
 
 Possibilities to achieve truly HA loadbalancing is to bootstrap 2 of those LBs
