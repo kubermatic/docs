@@ -4623,8 +4623,9 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ |  |
-| `storageClassName` _string_ | StorageClassName is the name of the storage class that the metering prometheus instance uses to store metric data for reporting. |
-| `storageSize` _string_ | StorageSize is the size of the storage class. Default value is 100Gi. |
+| `storageClassName` _string_ | StorageClassName is the name of the storage class that the metering Prometheus instance uses to store metric data for reporting. |
+| `storageSize` _string_ | StorageSize is the size of the storage class. Default value is 100Gi. Changing this value requires manual deletion of the existing Prometheus PVC (and thereby removing all metering data). |
+| `retentionDays` _integer_ | RetentionDays is the number of days for which data should be kept in Prometheus. Default value is 90. |
 | `reports` _object (keys:string, values:[MeteringReportConfiguration](#meteringreportconfiguration))_ | ReportConfigurations is a map of report configuration definitions. |
 
 
