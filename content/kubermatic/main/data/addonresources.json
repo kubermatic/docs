@@ -1,12 +1,19 @@
 {
   "addons": [
     {
+      "addonName": "aws-node-termination-handler",
+      "resources": []
+    },
+    {
+      "addonName": "azure-cloud-node-manager",
+      "resources": []
+    },
+    {
       "addonName": "canal",
       "resources": [
         {
           "kind": "DaemonSet",
           "resourceName": "canal",
-          "filename": "canal.yaml",
           "containers": [
             {
               "containerName": "calico-node",
@@ -21,12 +28,31 @@
       ]
     },
     {
+      "addonName": "cilium",
+      "resources": []
+    },
+    {
+      "addonName": "cluster-autoscaler",
+      "resources": []
+    },
+    {
+      "addonName": "csi",
+      "resources": []
+    },
+    {
+      "addonName": "default-storage-class",
+      "resources": []
+    },
+    {
+      "addonName": "hubble",
+      "resources": []
+    },
+    {
       "addonName": "kube-proxy",
       "resources": [
         {
           "kind": "DaemonSet",
           "resourceName": "kube-proxy",
-          "filename": "daemonset.yaml",
           "containers": [
             {
               "containerName": "kube-proxy",
@@ -51,7 +77,6 @@
         {
           "kind": "Deployment",
           "resourceName": "kube-state-metrics",
-          "filename": "deployment.yaml",
           "containers": [
             {
               "containerName": "kube-state-metrics",
@@ -97,13 +122,11 @@
         {
           "kind": "Deployment",
           "resourceName": "controller",
-          "filename": "00_metallb.yaml",
           "containers": []
         },
         {
           "kind": "DaemonSet",
           "resourceName": "speaker",
-          "filename": "00_metallb.yaml",
           "containers": []
         }
       ]
@@ -114,7 +137,6 @@
         {
           "kind": "DaemonSet",
           "resourceName": "kube-multus-ds",
-          "filename": "daemonset.yaml",
           "containers": [
             {
               "containerName": "kube-multus",
@@ -139,7 +161,6 @@
         {
           "kind": "DaemonSet",
           "resourceName": "node-exporter",
-          "filename": "daemonset.yaml",
           "containers": [
             {
               "containerName": "node-exporter",
@@ -177,7 +198,6 @@
         {
           "kind": "Deployment",
           "resourceName": "openvpn-client",
-          "filename": "openvpn-client-dep.yaml",
           "containers": [
             {
               "containerName": "openvpn-client",
@@ -208,6 +228,10 @@
           ]
         }
       ]
+    },
+    {
+      "addonName": "pod-security-policy",
+      "resources": []
     },
     {
       "addonName": "rbac",
