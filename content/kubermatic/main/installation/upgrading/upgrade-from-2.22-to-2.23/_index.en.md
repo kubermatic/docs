@@ -55,7 +55,7 @@ $ kubectl --namespace minio scale deployment/minio --replicas=0
 $ kubectl --namespace minio delete pvc minio-data
 #persistentvolumeclaim "minio-data" deleted
 
-# re-install MinIO chart manually or re-run the KKP installer
+# re-install MinIO chart manually
 $ helm --namespace minio upgrade minio ./charts/minio --values myhelmvalues.yaml
 #Release "minio" has been upgraded. Happy Helming!
 #NAME: minio
