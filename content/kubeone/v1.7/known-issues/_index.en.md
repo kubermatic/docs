@@ -15,6 +15,41 @@ please consult the [appropriate changelog][changelogs].
 [known-issues-1.6]: {{< ref "../../v1.6/known-issues" >}}
 [changelogs]: https://github.com/kubermatic/kubeone/tree/main/CHANGELOG
 
+## KubeOne is unable to upgrade AzureDisk CSI driver upon upgrading KubeOne from 1.6 to 1.7
+
+|              |                                                   |
+|--------------|---------------------------------------------------|
+| Status       | Fixed in KubeOne 1.7.2                            |
+| Severity     | High for clusters running on Azure                |
+| GitHub issue | https://github.com/kubermatic/kubeone/pull/2971   |
+
+Users who used **KubeOne 1.6 or earlier** to provision a cluster running on
+Microsoft Azure **are affected by this issue**.
+
+### Description
+
+We upgraded AzureDisk CSI driver to a newer version in KubeOne 1.7.
+This upgrade changed the subject name in the
+`csi-azuredisk-node-secret-binding` ClusterRoleBinding object from
+`csi-azuredisk-node-secret-role` to `csi-azuredisk-node-sa`. However, the
+subject name is immutable, requiring the ClusterRoleBinding object to be
+replaced. Trying to upgrade KubeOne from 1.6 to 1.7.0 or 1.7.1 results in
+KubeOne getting stuck while updating the AzureDisk CSI driver.
+
+### Recommendation
+
+KubeOne 1.7.2 is configured to replace the `csi-azuredisk-node-secret-binding`
+ClusterRoleBinding object if the subject name is
+`csi-azuredisk-node-secret-role`. We recommend using KubeOne 1.7.2 or newer
+if you're upgrading from KubeOne 1.6.
+
+This issue can also be mitigated manually by removing the ClusterRoleBinding
+object if KubeOne is stuck trying to upgrade the AzureDisk CSI driver:
+
+```shell
+kubectl delete clusterrolebinding csi-azuredisk-node-secret-binding
+```
+
 ## Cilium CNI is not working on clusters running CentOS 7
 
 |              |                                                   |
