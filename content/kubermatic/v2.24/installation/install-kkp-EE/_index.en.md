@@ -59,6 +59,7 @@ spec:
 
 Follow the CE install guide as normal, the remaining steps apply equally to the Enterprise Edition.
 
+
 ### Pre-Defined Application Catalog
 
 The Enterprise Edition(EE) of KKP offers the capability to deploy an Application Catalog consisting of [well-known Kubernetes applications](https://github.com/kubermatic/kubermatic/tree/main/pkg/ee/default-application-catalog/applicationdefinitions).
