@@ -25,14 +25,6 @@ environment, please refer to the [Enterprise Edition]({{< ref "../../install-kkp
 Please refer to the [architecture]({{< ref "../../../architecture/" >}}) diagrams for more information
 about the cluster relationships.
 
-## Terminology
-
-In this chapter, you will find the following KKP-specific terms:
-
-* **Master Cluster** -- A Kubernetes cluster which is responsible for storing central information about users, projects and SSH keys. It hosts the KKP master components and might also act as a seed cluster.
-* **Seed Cluster** -- A Kubernetes cluster which is responsible for hosting the control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd and more) of a User Cluster.
-* **User Cluster** -- A Kubernetes cluster created and managed by KKP, hosting applications managed by users.
-
 ## Overview
 
 The setup procedure for seed clusters happens in multiple stages:

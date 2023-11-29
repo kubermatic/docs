@@ -15,16 +15,6 @@ At the moment you need to be invited to get access to Kubermatic's EE Docker rep
 Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 {{% /notice %}}
 
-## Terminology
-
-In this chapter, you will find the following KKP-specific terms:
-
-* **Master Cluster** -- A Kubernetes cluster which is responsible for storing central information about users, projects and SSH keys. It hosts the KKP master components and might also act as a seed cluster.
-* **Seed Cluster** -- A Kubernetes cluster which is responsible for hosting the control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd and more) of a User Cluster.
-* **User Cluster** -- A Kubernetes cluster created and managed by KKP, hosting applications managed by users.
-
-It is also recommended to make yourself familiar with our [architecture documentation]({{< ref "../../architecture/" >}}).
-
 ## Installation
 
 The installation procedure is identical to the [installation process for the Community Edition]({{< ref "../install-kkp-ce" >}}),
