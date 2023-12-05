@@ -129,15 +129,6 @@ items:
                       url: /products/kubermatic-kubeone/cloud/#digitalocean
                     - title: Equinix Metal
                       url: /products/kubermatic-kubeone/cloud/#equinix-metal
-          - title: Kubermatic KubeCarrier
-            url: /products/kubecarrier/
-            text: Centrally manage all your applications and services
-            panel:
-              image: /img/menu/kubecarrier.jpeg
-              summary: KubeCarrier is your enterprise cloud native app store. Deliver
-                automatically operated applications to all parts of your
-                business and let your teams become providers and consumers
-                alike.
       - title: Services
         items:
           - title: Kubermatic Kubernetes Subscription
