@@ -25,7 +25,7 @@ Kubermatic tracks this as [kubermatic/kubermatic#12874](https://github.com/kuber
 
 ### Root Cause
 
-A bug in Cilium tracked as [cilium/cilium#12277](https://github.com/cilium/cilium/issues/12277) and [cilium/cilium#20550](https://github.com/cilium/cilium/issues/20550):
+A bug in Cilium tracked as [cilium/cilium#12277](https://github.com/cilium/cilium/issues/12277) and [cilium/cilium#20550](https://github.com/cilium/cilium/issues/20550).
 
 Kubernetes `NetworkPolicy` documentation [implies that allowing node access via CIDRs is supposed to work](https://kubernetes.io/docs/concepts/services-networking/network-policies/#what-you-can-t-do-with-network-policies-at-least-not-yet):
 
@@ -38,7 +38,7 @@ But Cilium does not properly allow traffic even though `NetworkPolicies` with no
 At the moment (with KKP v2.24.0), there are two options available:
 
 1. [Disable kube-apiserver NetworkPolicies in Seeds with Cilium as CNI]({{< ref "../../tutorials-howtos/networking/apiserver-policies/#in-a-seed-cluster" >}})
-2. Manually creating `CiliumNetworkPolicy` objects in each user cluster namespace to allow the erroneously traffic:
+2. Manually creating `CiliumNetworkPolicy` objects in each user cluster namespace to allow the erroneously blocked traffic:
 
 ```yaml
 apiVersion: cilium.io/v2
