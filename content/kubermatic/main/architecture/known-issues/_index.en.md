@@ -9,67 +9,68 @@ weight = 25
 
 This page documents the list of known issues and possible work arounds/solutions.
 
-### 1. OIDC User Authentication Issue
+## User Cluster API Servers Fail to Start on Seed with Cilium CNI
 
-**Problem**
+### Problem
 
-[OIDC]({{< ref "../../tutorials-howtos/oidc-provider-configuration/share-clusters-via-delegated-oidc-authentication" >}}) user is denied to access the user cluster in the KKP with K8s version of 1.20 and below. Refer the github issue [Bug: OIDC authentication...](https://github.com/kubermatic/kubermatic/issues/9908) for detailed problem description. Example logs look like below,
+When upgrading to or installing KKP v2.24, kube-apiserver components fail to start with log output similar to the snippet below:
 
-Kubectl output
-
-```
-kubectl get nodes
-error: You must be logged in to the server (Unauthorized)
+```json
+{"level":"error","time":"2023-11-30T10:43:46.518Z","caller":"etcd-launcher/main.go:116","msg":"Operation failed: failed to initialize etcd cluster configuration: failed to get API group resources: unable to retrieve the complete list of server APIs: kubermatic.k8c.io/v1: Get \"https://10.96.0.1:443/apis/kubermatic.k8c.io/v1\": dial tcp 10.96.0.1:443: i/o timeout."}
 ```
 
-API server logs
+This problem arises when Cilium is used as CNI for the underlying seed cluster.
 
+Kubermatic tracks this as [kubermatic/kubermatic#12874](https://github.com/kubermatic/kubermatic/issues/12874).
+
+### Root Cause
+
+A bug in Cilium tracked as [cilium/cilium#12277](https://github.com/cilium/cilium/issues/12277) and [cilium/cilium#20550](https://github.com/cilium/cilium/issues/20550):
+
+Kubernetes `NetworkPolicy` documentation [implies that allowing node access via CIDRs is supposed to work](https://kubernetes.io/docs/concepts/services-networking/network-policies/#what-you-can-t-do-with-network-policies-at-least-not-yet):
+
+> Node specific policies (you can use CIDR notation for these, but you cannot target nodes by their Kubernetes identities specifically).
+
+But Cilium does not properly allow traffic even though `NetworkPolicies` with node CIDRs are in place.
+
+### Solution
+
+At the moment (with KKP v2.24.0), there are two options available:
+
+1. [Disable kube-apiserver NetworkPolicies in Seeds with Cilium as CNI]({{< ref "../../tutorials-howtos/networking/apiserver-policies/#in-a-seed-cluster" >}})
+2. Manually creating `CiliumNetworkPolicy` objects in each user cluster namespace to allow the erroneously traffic:
+
+```yaml
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cilium-seed-apiserver-allow
+spec:
+  endpointSelector:
+    matchLabels:
+      app: apiserver
+  egress:
+  - toEntities:
+    - kube-apiserver
+  - toPorts:
+    - ports:
+      - port: "6443"
+        protocol: TCP
 ```
-2022-05-26T11:46:11.269134597Z stderr F E0526 11:46:11.267368       1 authentication.go:63] "Unable to authenticate the request" err="[invalid bearer token, oidc: authenticator not initialized]"
-2022-05-26 13:46:11
-2022-05-26T11:46:11.200645694Z stderr F E0526 11:46:11.200494       1 authentication.go:63] "Unable to authenticate the request" err="[invalid bearer token, oidc: authenticator not initialized]"
-2022-05-26 13:46:10
-2022-05-26T11:46:10.282230799Z stderr F E0526 11:46:10.282080       1 oidc.go:224] oidc authenticator: initializing plugin: Get "https://<your-kkp.domain>/dex/.well-known/openid-configuration": net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
 
-```
+Further solutions are currently in evaluation.
 
+## Ubuntu 22.04 Cloud Image Issue on VMware Cloud Director
 
-**Root cause**
-
-The KKP [API Server network policy]({{< ref "../../tutorials-howtos/networking/apiserver-policies" >}}) is relying on the namespace label `kubernetes.io/metadata.name` which is automatically present on K8s 1.21 and above versions, but missing on K8s versions below 1.21. Due to the mismatch in the label selector, the access is denied.
-
-**Solution**
-
-As the issue is seen only with older versions of K8s which have reached end of life, the preferred solution is to upgrade the K8s to 1.21 or the latest version.
-In the case where upgrade is not desirable then a work around can be applied by adding a label to the `nginx-ingress-controller` namespace as shown below.
-
-`kubectl label ns nginx-ingress-controller "kubernetes.io/metadata.name=nginx-ingress-controller"`
-
-### 2. Connectivity Issue in Pod-to-NodePort Service in Cilium + IPVS Proxy Mode
-
-**Problem**
-
-In a KKP user cluster with Cilium CNI and IPVS kube-proxy mode, the connectivity between the NodePort service and client pod does not work when the service is load balanced to a pod running on a remote node. For the detailed description and the steps to reproduce the problem, refer issue [#8767](https://github.com/kubermatic/kubermatic/issues/8767).
-
-**Root Cause**
-
-IPVS kube-proxy mode is not really supported by Cilium as mentioned in the Cilium issue [#18610](https://github.com/cilium/cilium/issues/18610).
-
-**Solution**
-
-We do not recommend to configure the Cilium with IPVS kube-proxy mode and this option has been removed from the KKP UI as part of the issue [#4687](https://github.com/kubermatic/dashboard/issues/4687).
-
-### 3. Ubuntu 22.04 Cloud Image issue on VMware Cloud Director
-
-**Problem**
+### Problem
 
 The issue arises in Ubuntu 22.04 cloud image OVAs starting from version 20230602 when they are run on VMware Cloud Director. This problem disrupts the provisioning of new Kubernetes nodes using machine-controller due to interruptions caused by reboots.
 
-**Root Cause**
+### Root Cause
 
 The root cause of this issue can be traced back to a change in the default settings of open-vm-tools. These changes, in turn, affect the behavior of cloud-init during startup, leading to the disruptive behavior observed when provisioning new Kubernetes nodes. Specifically, the open-vm-tools.service starts before cloud-init, and it runs with the default timeout (30 seconds).
 
-**Solution**
+### Solution
 
 One interim [solution](https://github.com/canonical/cloud-init/issues/4188#issuecomment-1695041510) in this scenario is to create a custom Ubuntu 22.04 image with the following setting preconfigured
 in /etc/vmware-tools/tools.conf file.
