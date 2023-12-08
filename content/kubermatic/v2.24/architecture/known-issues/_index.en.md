@@ -38,27 +38,21 @@ But Cilium does not properly allow traffic even though `NetworkPolicies` with no
 At the moment (with KKP v2.24.0), there are two options available:
 
 1. [Disable kube-apiserver NetworkPolicies in Seeds with Cilium as CNI]({{< ref "../../tutorials-howtos/networking/apiserver-policies/#in-a-seed-cluster" >}})
-2. Manually creating `CiliumNetworkPolicy` objects in each user cluster namespace to allow the erroneously blocked traffic:
+2. Manually creating a single `CiliumClusterwideNetworkPolicy` object (this is a cluster-scoped resource, i.e. global) to allow the erroneously blocked traffic:
 
 ```yaml
 apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
+kind: CiliumClusterwideNetworkPolicy
 metadata:
   name: cilium-seed-apiserver-allow
 spec:
-  endpointSelector:
-    matchLabels:
-      app: apiserver
   egress:
   - toEntities:
     - kube-apiserver
-  - toPorts:
-    - ports:
-      - port: "6443"
-        protocol: TCP
+  endpointSelector:
+    matchLabels:
+      app: apiserver
 ```
-
-Further solutions are currently in evaluation.
 
 ## Ubuntu 22.04 Cloud Image Issue on VMware Cloud Director
 
