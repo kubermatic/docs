@@ -7,7 +7,7 @@ weight = 40
 enableToc = true
 +++
 
-This document describes how a new Seed Cluster can be added to an existing KKP Master Cluster.
+This document describes how a new seed cluster can be added to an existing KKP master cluster.
 It expects that all steps from [Install Kubermatic Kubernetes Platform (KKP) CE]({{< ref "../" >}})
 have been completed.
 
@@ -35,12 +35,16 @@ In this chapter, you will find the following KKP-specific terms:
 
 ## Overview
 
+{{% notice warning %}}
+If the seed cluster is using Cilium as CNI, it is currently necessary to put a workaround for [cilium/cilium#20550](https://github.com/cilium/cilium/issues/20550) in place on each seed cluster with Cilium by creating a `CiliumClusterwideNetworkPolicy` object **before** adding them as seed(s). See [User Cluster API Servers Fail to Start on Seed with Cilium CNI]({{< ref "../../../architecture/known-issues/#user-cluster-api-servers-fail-to-start-on-seed-with-cilium-cni" >}}) for details.
+{{% /notice %}}
+
 The setup procedure for seed clusters happens in multiple stages:
 
-1. You must setup the CRDs and Helm charts (preferably using the KKP installer, but can also be done manually).
+1. You have to prepare the Kubernetes cluster to be used as seed (set up MinIO for cluster backups and ensure that usable storage is available).
 1. You create a `Seed` resource on the master cluster.
-1. The KKP Operator checks if the configured `Seed` cluster is valid and installs the KKP components like the
-   seed-controller-manager. This is an automated process.
+1. The KKP Operator checks if the configured `Seed` cluster is valid and installs all KKP components like the
+   seed-controller-manager and necessary CRDs. This is an automated process.
 
 ## Configure MinIO for Cluster Backups (Recommended)
 
