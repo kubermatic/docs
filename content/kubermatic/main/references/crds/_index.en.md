@@ -2435,6 +2435,7 @@ _Appears in:_
 | `nodeSizeRequirements` _[OpenstackNodeSizeRequirements](#openstacknodesizerequirements)_ | Optional: Restrict the allowed VM configurations that can be chosen in the KKP dashboard. This setting does not affect the validation webhook for MachineDeployments. |
 | `enabledFlavors` _string array_ | Optional: List of enabled flavors for the given datacenter |
 | `ipv6Enabled` _boolean_ | Optional: defines if the IPv6 is enabled for the datacenter |
+| `csiCinderTopologyEnabled` _boolean_ | Optional: configures enablement of topology support for the Cinder CSI Plugin. This requires Nova and Cinder to have matching availability zones configured. |
 
 
 [Back to top](#top)
@@ -5097,6 +5098,7 @@ _Appears in:_
  Takes precedence over the 'use_octavia' flag provided at datacenter level if both are specified. |
 | `enableIngressHostname` _boolean_ | Enable the `enable-ingress-hostname` cloud provider option on the Openstack CCM. Can only be used with the external CCM and might be deprecated and removed in future versions as it is considered a workaround for the PROXY protocol to preserve client IPs. |
 | `ingressHostnameSuffix` _string_ | Set a specific suffix for the hostnames used for the PROXY protocol workaround that is enabled by EnableIngressHostname. The suffix is set to `nip.io` by default. Can only be used with the external CCM and might be deprecated and removed in future versions as it is considered a workaround only. |
+| `cinderTopologyEnabled` _boolean_ | Flag to configure enablement of topology support for the Cinder CSI plugin. This requires Nova and Cinder to have matching availability zones configured. |
 
 
 [Back to top](#top)
