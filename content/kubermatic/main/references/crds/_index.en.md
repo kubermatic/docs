@@ -2163,6 +2163,14 @@ CustomNetworkPolicy contains a name and the Spec of a NetworkPolicy.
 _Appears in:_
 - [DatacenterSpecKubevirt](#datacenterspeckubevirt)
 
+| Field | Description |
+| --- | --- |
+| `name` _string_ | Name is the name of the Custom Network Policy. |
+| `spec` _[NetworkPolicySpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#networkpolicyspec-v1-networking)_ | Spec is the Spec of the NetworkPolicy, using the standard type. |
+
+
+[Back to top](#top)
+
 
 
 ### Datacenter
