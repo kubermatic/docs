@@ -20,7 +20,7 @@ of provided software and therefore releases updates regularly that also include 
 | logging/loki                   | 2.5.0                          |
 | logging/promtail               | 2.5.0                          |
 | minio                          | RELEASE.2023-05-04T21-44-30Z   |
-| mla/alertmanager-proxy         | 0.2.1                          |
+| mla/alertmanager-proxy         | 0.3.0                          |
 | mla/consul                     | 1.14.2                         |
 | mla/cortex                     | 1.13.1                         |
 | mla/grafana                    | 9.3.1                          |
@@ -38,5 +38,5 @@ of provided software and therefore releases updates regularly that also include 
 | monitoring/prometheus          | 2.43.1                         |
 | nginx-ingress-controller       | 1.9.3                          |
 | oauth                          | 2.36.0                         |
-| s3-exporter                    | 0.6                            |
+| s3-exporter                    | 0.7                            |
 | telemetry                      | 0.4.1                          |
