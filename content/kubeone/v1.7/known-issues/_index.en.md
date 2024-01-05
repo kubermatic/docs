@@ -208,6 +208,23 @@ steps depending on the error message. For example, if the error message is
 the listener port 80 already exists, you can manually delete the listener and
 OpenStack CCM will create a valid one again after some time.
 
+**Note:** Load Balancers that were created with the cluster name set to
+`kubernetes` will **NOT** be removed from OpenStack upon deleting the Service
+object in Kubernetes. The affected Load Balancers must be manually removed
+from OpenStack **after** deleting the Service object.
+
+**Note 2:** If you delete listeners manually, it might take up to 5 minutes
+for OpenStack CCM to recreate listeners. For that time, the Load Balancer
+will be unreachable, which can be unacceptable for some environments.
+The process can be sped up by manually removing all OpenStack CCM pods,
+which is going to retrigger reconciliation for all Load Balancers once the new
+CCM pods are up and running. The CCM pods can be deleted using the following
+command:
+
+```shell
+kubectl delete pod --namespace kube-system --selector="k8s-app=openstack-cloud-controller-manager"
+```
+
 ## KubeOne is unable to upgrade AzureDisk CSI driver upon upgrading KubeOne from 1.6 to 1.7
 
 |              |                                                   |
