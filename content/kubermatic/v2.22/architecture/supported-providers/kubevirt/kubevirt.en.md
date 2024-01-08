@@ -31,7 +31,11 @@ The setup has been successfully tested with:
 * CRI: containerd
 * CNI: Canal
 
-Other CRIs and CNIs should work too. However, they were not tested, so it is possible to discover issues.
+Other CRIs and CNIs might work too. However, they were not tested, so it is possible to discover issues.
+
+{{% notice warning %}}
+Currently, it is not possible to use Cilium on the KubeVirt infrastructure cluster because of lacking support for the [Pod MAC Address Specification](https://github.com/cilium/cilium/issues/22119).
+{{% /notice %}}
 
 {{% notice note %}}
 To achieve the best possible performance it is recommended to run the setup on bare metal hosts with a hardware virtualization support.
