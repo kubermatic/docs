@@ -26,7 +26,7 @@ The page provides an overview for the supported operating systems on various clo
 
 Currently supported K8S versions are:
 
+* 1.29
 * 1.28
 * 1.27
 * 1.26
-* 1.25
