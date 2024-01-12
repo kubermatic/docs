@@ -13,7 +13,7 @@ This page documents the list of known issues and possible work arounds/solutions
 
 ### Problem
 
-When upgrading to or installing KKP v2.24, kube-apiserver components fail to start with log output similar to the snippet below:
+When upgrading to or installing KKP in version 2.24.0 or 2.24.1 kube-apiserver components fail to start with log output similar to the snippet below:
 
 ```json
 {"level":"error","time":"2023-11-30T10:43:46.518Z","caller":"etcd-launcher/main.go:116","msg":"Operation failed: failed to initialize etcd cluster configuration: failed to get API group resources: unable to retrieve the complete list of server APIs: kubermatic.k8c.io/v1: Get \"https://10.96.0.1:443/apis/kubermatic.k8c.io/v1\": dial tcp 10.96.0.1:443: i/o timeout."}
