@@ -230,10 +230,6 @@
       ]
     },
     {
-      "addonName": "pod-security-policy",
-      "resources": []
-    },
-    {
       "addonName": "rbac",
       "resources": []
     }
