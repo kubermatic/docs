@@ -88,7 +88,7 @@ for Windows `zip` files are provided instead of `tar.gz` files.
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
-# VERSION=2.21.x
+# VERSION=2.24.x
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 ```
@@ -101,7 +101,7 @@ export ARCH=amd64
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
-# VERSION=2.21.x
+# VERSION=2.24.x
 wget "https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 tar -xzvf "kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 ```
@@ -138,9 +138,9 @@ The key items to consider while preparing your configuration files are described
 
 There are many more options but these are essential to get a minimal system up and running. A full reference of all options can be found in the [KubermaticConfiguration Reference]({{< relref "../../references/crds/#kubermaticconfigurationspec" >}}). The secret keys
 mentioned above can be generated using any password generator or on the shell using
-`cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32` (on macOS, use `brew install coreutils` and
-`cat /dev/urandom | gtr -dc A-Za-z0-9 | head -c32`). Alternatively, the Kubermatic Installer will suggest some
-properly generated secrets for you when it notices that some are missing, for example:
+`cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32`. Alternatively, the
+Kubermatic Installer will suggest some properly generated secrets for you when it
+notices that some are missing, for example:
 
 ```bash
 ./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml

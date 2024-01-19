@@ -88,7 +88,7 @@ for Windows `zip` files are provided instead of `tar.gz` files.
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
-# VERSION=2.21.x
+# VERSION=2.22.x
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 ```
@@ -101,7 +101,7 @@ export ARCH=amd64
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
-# VERSION=2.21.x
+# VERSION=2.22.x
 wget "https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 tar -xzvf "kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 ```
