@@ -526,6 +526,8 @@ _Appears in:_
 - [AllowedRegistry](#allowedregistry)
 - [AllowedRegistryList](#allowedregistrylist)
 - [Cluster](#cluster)
+- [ClusterBackupStorageLocation](#clusterbackupstoragelocation)
+- [ClusterBackupStorageLocationList](#clusterbackupstoragelocationlist)
 - [ClusterList](#clusterlist)
 - [ClusterTemplate](#clustertemplate)
 - [ClusterTemplateInstance](#clustertemplateinstance)
@@ -1321,6 +1323,24 @@ _Appears in:_
 
 
 
+### BackupConfig
+
+
+
+
+
+_Appears in:_
+- [ClusterSpec](#clusterspec)
+
+| Field | Description |
+| --- | --- |
+| `backupStorageLocation` _[LocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#localobjectreference-v1-core)_ |  |
+
+
+[Back to top](#top)
+
+
+
 ### BackupDestination
 
 
@@ -1521,6 +1541,48 @@ _Appears in:_
 
 
 
+### ClusterBackupStorageLocation
+
+
+
+ClusterBackupStorageLocation is a KKP wrapper around Velero BSL spec.
+
+_Appears in:_
+- [ClusterBackupStorageLocationList](#clusterbackupstoragelocationlist)
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ClusterBackupStorageLocation`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[BackupStorageLocationSpec](#backupstoragelocationspec)_ | Spec is a Velero BSL spec |
+| `status` _[BackupStorageLocationStatus](#backupstoragelocationstatus)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### ClusterBackupStorageLocationList
+
+
+
+ClusterBackupStorageLocationList is a list of ClusterBackupStorageLocations.
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `ClusterBackupStorageLocationList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[ClusterBackupStorageLocation](#clusterbackupstoragelocation) array_ | Items is a list of EtcdBackupConfig objects. |
+
+
+[Back to top](#top)
+
+
+
 ### ClusterCondition
 
 
@@ -1692,6 +1754,7 @@ _Appears in:_
 | `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
 | `debugLog` _boolean_ | Enables more verbose logging in KKP's user-cluster-controller-manager. |
 | `disableCsiDriver` _boolean_ | Optional: DisableCSIDriver disables the installation of CSI driver on the cluster If this is true at the data center then it can't be over-written in the cluster configuration |
+| `backupConfig` _[BackupConfig](#backupconfig)_ | Optional: BackupConfig contains the configuration options for managing the Cluster Backup Velero integration feature. |
 
 
 [Back to top](#top)
