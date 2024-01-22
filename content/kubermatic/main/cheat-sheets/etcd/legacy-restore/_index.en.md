@@ -5,6 +5,13 @@ weight = 20
 
 +++
 
+{{% notice warning %}}
+This page documents a **manual** restore procedure in case the legacy backup controllers were used to create
+the backup object in question. KKP v2.24 has removed the legacy backup controllers. The current implementation
+supports [automated restores]({{< ref "../../../tutorials-howtos/etcd-backups/" >}}), so this procedure should 
+**not** be used. Use the restore functionality in KKP directly instead.
+{{% /notice %}}
+
 ## Intro
 
 The etcds of the user-clusters are being backed up on a configured interval.
@@ -62,7 +69,26 @@ cd /var/run/etcd/
 # This command is specific to each member.
 export MEMBER=etcd-0
 export CLUSTER_ID=xxxxxxxxxx
+```
 
+#### With etcd-launcher Enabled
+
+If `etcd-launcher` is enabled (which it is by default since KKP v2.22), the restore command needs to use TLS-enabled endpoints:
+
+```bash
+etcdctl snapshot restore snapshot.db \
+  --name ${MEMBER} \
+  --initial-cluster etcd-0=https://etcd-0.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2381,etcd-1=https://etcd-1.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2381,etcd-2=https://etcd-2.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2381 \
+  --initial-cluster-token ${CLUSTER_ID} \
+  --initial-advertise-peer-urls https://${MEMBER}.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2381 \
+  --data-dir /var/run/etcd/pod_${MEMBER}/
+```
+
+#### With etcd-launcher Disabled
+
+If `etcd-launcher` is disabled (which is not recommended), the restore command needs to use plain HTTP networking:
+
+```bash
 etcdctl snapshot restore snapshot.db \
   --name ${MEMBER} \
   --initial-cluster etcd-0=http://etcd-0.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2380,etcd-1=http://etcd-1.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2380,etcd-2=http://etcd-2.etcd.cluster-${CLUSTER_ID}.svc.cluster.local:2380 \
