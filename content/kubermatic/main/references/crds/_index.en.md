@@ -6319,7 +6319,8 @@ _Appears in:_
 | `apiToken` _string_ | The VMware Cloud Director API token. |
 | `vdc` _string_ | The organizational virtual data center. |
 | `organization` _string_ | The name of organization to use. |
-| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp. |
+| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp. Deprecated: OVDCNetwork has been deprecated starting with KKP 2.25 and will be removed in KKP 2.27+. It is recommended to use OVDCNetworks instead. |
+| `ovdcNetworks` _string array_ | OVDCNetworks is the list of organizational virtual data center networks that will be attached to the vApp and can be consumed the VMs. |
 
 
 [Back to top](#top)
@@ -6362,7 +6363,8 @@ _Appears in:_
 | `apiToken` _string_ | The VMware Cloud Director API token. |
 | `organization` _string_ | The name of organization to use. |
 | `vdc` _string_ | The organizational virtual data center. |
-| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp. |
+| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp. Deprecated: OVDCNetwork has been deprecated starting with KKP 2.25 and will be removed in KKP 2.27+. It is recommended to use OVDCNetworks instead. |
+| `ovdcNetworks` _string array_ | OVDCNetworks is the list of organizational virtual data center networks that will be attached to the vApp and can be consumed the VMs. |
 | `vapp` _string_ | VApp used for isolation of VMs and their associated network |
 | `csi` _[VMwareCloudDirectorCSIConfig](#vmwareclouddirectorcsiconfig)_ | Config for CSI driver |
 
