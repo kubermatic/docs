@@ -5454,6 +5454,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `openStack` _[OpenStack](#openstack)_ | OpenStack are the configurations for openstack provider. |
+| `vmwareCloudDirector` _[VMwareCloudDirectorSettings](#vmwareclouddirectorsettings)_ | VMwareCloudDirector are the configurations for VMware Cloud Director provider. |
 
 
 [Back to top](#top)
@@ -6367,6 +6368,24 @@ _Appears in:_
 | `ovdcNetworks` _string array_ | OVDCNetworks is the list of organizational virtual data center networks that will be attached to the vApp and can be consumed the VMs. |
 | `vapp` _string_ | VApp used for isolation of VMs and their associated network |
 | `csi` _[VMwareCloudDirectorCSIConfig](#vmwareclouddirectorcsiconfig)_ | Config for CSI driver |
+
+
+[Back to top](#top)
+
+
+
+### VMwareCloudDirectorSettings
+
+
+
+
+
+_Appears in:_
+- [ProviderConfiguration](#providerconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `ipAllocationModes` _[ipAllocationMode](#ipallocationmode) array_ | IPAllocationModes are the allowed IP allocation modes for the VMware Cloud Director provider. If not set, all modes are allowed. |
 
 
 [Back to top](#top)
