@@ -98,6 +98,8 @@ _Appears in:_
 | `method` _TemplateMethod_ | Method used to install the application |
 | `defaultValues` _RawExtension_ | DefaultValues describe overrides for manifest-rendering in UI when creating an application. |
 | `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | DefaultDeployOptions holds the settings specific to the templating method used to deploy the application. These settings can be overridden in applicationInstallation. |
+| `documentationURL` _string_ | DocumentationURL holds a link to official documentation of the Application Alternatively this can be a link to the Readme of a chart in a git repository |
+| `sourceURL` _string_ | SourceURL holds a link to the official source code mirror or git repository of the application |
 | `versions` _[ApplicationVersion](#applicationversion) array_ | Available version for this application |
 
 
