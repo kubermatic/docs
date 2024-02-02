@@ -1,0 +1,19 @@
++++
+title = "Default Applications Catalog"
+date = 2024-01-16T12:57:00+02:00
+weight = 3
+
++++
+
+Here is the list of the applications that comes as part of the Default Applicaiton Catalog offering from the KKP(EE) installation.
+
+* [ArgoCD]({{< ref "./argocd/" >}})
+* [CertManager]({{< ref "./cert-manager/" >}})
+* [Falco]({{< ref "./falco/" >}})
+* [Flux2]({{< ref "./flux2/" >}})
+* [KubeVIP]({{< ref "./kube-vip/" >}})
+* [KubeVirt]({{< ref "./kubevirt/" >}})
+* [MetalLB]({{< ref "./metallb/" >}})
+* [Nginx]({{< ref "./nginx/" >}})
+* [Trivy]({{< ref "./trivy/" >}})
+* [Trivy-Operator]({{< ref "./trivy-operator/" >}})
