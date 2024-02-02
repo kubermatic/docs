@@ -1478,6 +1478,7 @@ _Appears in:_
 | `providerName` _string_ | ProviderName is the name of the cloud provider used for this cluster. This must match the given provider spec (e.g. if the providerName is "aws", then the `aws` field must be set). |
 | `digitalocean` _[DigitaloceanCloudSpec](#digitaloceancloudspec)_ | Digitalocean defines the configuration data of the DigitalOcean cloud provider. |
 | `bringyourown` _[BringYourOwnCloudSpec](#bringyourowncloudspec)_ | BringYourOwn defines the configuration data for a Bring Your Own cluster. |
+| `edge` _[EdgeCloudSpec](#edgecloudspec)_ | Edge defines the configuration data for an edge cluster. |
 | `aws` _[AWSCloudSpec](#awscloudspec)_ | AWS defines the configuration data of the Amazon Web Services(AWS) cloud provider. |
 | `azure` _[AzureCloudSpec](#azurecloudspec)_ | Azure defines the configuration data of the Microsoft Azure cloud. |
 | `openstack` _[OpenstackCloudSpec](#openstackcloudspec)_ | Openstack defines the configuration data of an OpenStack cloud. |
@@ -2270,6 +2271,7 @@ _Appears in:_
 | --- | --- |
 | `digitalocean` _[DatacenterSpecDigitalocean](#datacenterspecdigitalocean)_ | Digitalocean configures a Digitalocean datacenter. |
 | `bringyourown` _[DatacenterSpecBringYourOwn](#datacenterspecbringyourown)_ | BringYourOwn contains settings for clusters using manually created nodes via kubeadm. |
+| `edge` _[DatacenterSpecEdge](#datacenterspecedge)_ | Edge contains settings for clusters using manually created nodes in edge envs. |
 | `aws` _[DatacenterSpecAWS](#datacenterspecaws)_ | AWS configures an Amazon Web Services (AWS) datacenter. |
 | `azure` _[DatacenterSpecAzure](#datacenterspecazure)_ | Azure configures an Azure datacenter. |
 | `openstack` _[DatacenterSpecOpenstack](#datacenterspecopenstack)_ | Openstack configures an Openstack datacenter. |
@@ -2395,6 +2397,17 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+### DatacenterSpecEdge
+
+
+
+DatacenterSpecEdge describes a datacenter of edge nodes.
+
+_Appears in:_
+- [DatacenterSpec](#datacenterspec)
 
 
 
@@ -2680,6 +2693,17 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+### EdgeCloudSpec
+
+
+
+EdgeCloudSpec specifies access data for an edge cluster.
+
+_Appears in:_
+- [CloudSpec](#cloudspec)
 
 
 
