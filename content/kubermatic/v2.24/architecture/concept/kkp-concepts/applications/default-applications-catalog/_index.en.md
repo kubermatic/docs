@@ -5,7 +5,7 @@ weight = 3
 
 +++
 
-Here is the list of the applications that comes as part of the Default Applicaiton Catalog offering from the KKP(EE) installation.
+Here is the list of the applications that comes as part of the Default Applications Catalog offering from the KKP(EE) installation.
 
 * [ArgoCD]({{< ref "./argocd/" >}})
 * [CertManager]({{< ref "./cert-manager/" >}})
