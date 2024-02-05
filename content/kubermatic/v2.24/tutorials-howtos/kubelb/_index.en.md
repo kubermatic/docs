@@ -2,6 +2,7 @@
 title = "KubeLB"
 date = 2023-10-27T10:07:15+02:00
 weight = 15
+enterprise = true
 +++
 
 KubeLB is a Kubernetes native tool, responsible for centrally managing load balancers for Kubernetes clusters across multi-cloud and on-premise environments.
