@@ -1,5 +1,6 @@
 +++
 title = "Trivy Application"
+linkTitle = "Trivy"
 date = 2024-01-16T12:57:00+02:00
 weight = 8
 
