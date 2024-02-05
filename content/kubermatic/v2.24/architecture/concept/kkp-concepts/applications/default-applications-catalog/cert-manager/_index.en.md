@@ -1,5 +1,7 @@
 +++
-title = "Cert Manager Application"
+title = "Cert-Manager Application"
+linkTitle = "Cert-Manager"
+enterprise = true
 date = 2024-01-16T12:57:00+02:00
 weight = 3
 

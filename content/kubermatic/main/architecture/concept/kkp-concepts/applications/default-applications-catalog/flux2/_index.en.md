@@ -1,6 +1,7 @@
 +++
 title = "Flux2 Application"
 linkTitle = "Flux2"
+enterprise = true
 date = 2024-01-16T12:57:00+02:00
 weight = 2
 

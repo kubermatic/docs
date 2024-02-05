@@ -1,6 +1,7 @@
 +++
 title = "Default Applications Catalog"
 linkTitle = "Default Applications Catalog"
+enterprise = true
 date = 2024-01-16T12:57:00+02:00
 weight = 3
 
