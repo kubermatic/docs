@@ -20,15 +20,15 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 * Select the Trivy Operator application from the Application Catalog.
 
-![Select Trivy Operator Application](/img/kubermatic/common/applications/default-app-catalog/01-select-application-trivy-operator-app.png)
+![Select Trivy Operator Application](/img/kubermatic/common/applications/default-apps-catalog/01-select-application-trivy-operator-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for Trivy Operator Application](/img/kubermatic/common/applications/default-app-catalog/02-settings-trivy-operator-app.png)
+![Settings for Trivy Operator Application](/img/kubermatic/common/applications/default-apps-catalog/02-settings-trivy-operator-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the Trivy Operator application to the user cluster.
 
-![Application Values for Trivy Operator Application](/img/kubermatic/common/applications/default-app-catalog/03-applicationvalues-trivy-operator-app.png)
+![Application Values for Trivy Operator Application](/img/kubermatic/common/applications/default-apps-catalog/03-applicationvalues-trivy-operator-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the Trivy Operator application to the user cluster.
 
