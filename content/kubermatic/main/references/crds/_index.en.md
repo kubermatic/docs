@@ -100,6 +100,8 @@ _Appears in:_
 | `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | DefaultDeployOptions holds the settings specific to the templating method used to deploy the application. These settings can be overridden in applicationInstallation. |
 | `documentationURL` _string_ | DocumentationURL holds a link to official documentation of the Application Alternatively this can be a link to the Readme of a chart in a git repository |
 | `sourceURL` _string_ | SourceURL holds a link to the official source code mirror or git repository of the application |
+| `logo` _string_ | Logo of the Application as a base64 encoded svg |
+| `logoFormat` _string_ | LogoFormat contains logo format of the configured Application. Options are "svg+xml" and "png" |
 | `versions` _[ApplicationVersion](#applicationversion) array_ | Available version for this application |
 
 
