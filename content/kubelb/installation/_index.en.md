@@ -44,7 +44,7 @@ Now, we can install the helm chart:
 
 ```sh
 helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v0.4.0 --untardir "kubelb-manager" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v0.5.0 --untardir "kubelb-manager" --untar
 ## Create and update values.yaml with the required values.
 helm install kubelb-manager kubelb-manager --namespace kubelb -f values.yaml
 ```
@@ -62,7 +62,7 @@ helm install kubelb-manager kubelb-manager --namespace kubelb -f values.yaml
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
-| image.tag | string | `"v0.4.0"` |  |
+| image.tag | string | `"v0.5.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.debug | bool | `false` |  |
 | kubelb.enableLeaderElection | bool | `true` |  |
@@ -122,7 +122,7 @@ Now, we can install the helm chart:
 
 ```sh
 helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v0.4.0 --untardir "kubelb-ccm" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v0.5.0 --untardir "kubelb-ccm" --untar
 ## Create and update values.yaml with the required values.
 helm install kubelb-ccm kubelb-ccm --namespace kubelb -f values.yaml
 ```
@@ -142,7 +142,7 @@ helm install kubelb-ccm kubelb-ccm --namespace kubelb -f values.yaml
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
-| image.tag | string | `"v0.4.0"` |  |
+| image.tag | string | `"v0.5.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` |  |
 | kubelb.enableLeaderElection | bool | `true` |  |
