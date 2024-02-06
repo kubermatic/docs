@@ -16,6 +16,8 @@ This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) 
 Please review [known issues]({{< ref "../../../architecture/known-issues/" >}}) before upgrading to understand if any issues might affect you. In specific, please review:
 
 - [User Cluster API Servers Fail to Start on Seed with Cilium CNI]({{< ref "../../../architecture/known-issues/#user-cluster-api-servers-fail-to-start-on-seed-with-cilium-cni" >}})
+
+This issue was fixed in KKP 2.24.2, but still is applicable to previous versions.
 {{% /notice %}}
 
 KKP 2.24 adjusts the list of supported Kubernetes versions and removes support for Kubernetes 1.24 and 1.25. Existing user clusters need to be migrated to 1.26+ or later before the KKP upgrade can begin.
