@@ -8,9 +8,9 @@ weight = 1
 +++
 
 # What is ArgoCD?
-Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes.
+ArgoCD is a declarative, GitOps continuous delivery tool for Kubernetes.
 
-Argo CD follows the GitOps pattern of using Git repositories as the source of truth for defining the desired application state. Kubernetes manifests can be specified in several ways:
+ArgoCD follows the GitOps pattern of using Git repositories as the source of truth for defining the desired application state. Kubernetes manifests can be specified in several ways:
 
 - kustomize applications
 - helm charts
@@ -38,4 +38,4 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Application Values for ArgoCD Application](/img/kubermatic/common/applications/default-apps-catalog/03-applicationvalues-argocd-app.png)
 
-To further configure the values.yaml, find more information on the [Argo Helm chart documentation](https://github.com/argoproj/argo-helm)
+To further configure the values.yaml, find more information on the [ArgoCD Helm chart documentation](https://github.com/argoproj/argo-helm)

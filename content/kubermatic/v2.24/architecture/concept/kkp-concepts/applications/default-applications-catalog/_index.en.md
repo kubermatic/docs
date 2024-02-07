@@ -13,6 +13,7 @@ Here is the list of the applications that comes as part of the Default Applicati
 * [CertManager]({{< ref "./cert-manager/" >}})
 * [Falco]({{< ref "./falco/" >}})
 * [Flux2]({{< ref "./flux2/" >}})
+* [K8sGPT]({{< ref "./k8sgpt/" >}})
 * [KubeVIP]({{< ref "./kube-vip/" >}})
 * [KubeVirt]({{< ref "./kubevirt/" >}})
 * [MetalLB]({{< ref "./metallb/" >}})
