@@ -39,4 +39,4 @@ of provided software and therefore releases updates regularly that also include 
 | nginx-ingress-controller       | 1.9.3                          |
 | oauth                          | 2.36.0                         |
 | s3-exporter                    | 0.7                            |
-| telemetry                      | 0.4.1                          |
+| telemetry                      | 0.5.0                          |
