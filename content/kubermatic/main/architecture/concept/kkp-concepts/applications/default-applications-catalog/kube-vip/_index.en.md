@@ -9,6 +9,8 @@ weight = 6
 
 # What is Kube-VIP?
 
+Kube-VIP provides Kubernetes clusters with a virtual IP and load balancer for both the control plane (for building a highly-available cluster) and Kubernetes Services of type LoadBalancer without relying on any external hardware or software.
+
 For more information on the Kube-VIP, please refer to the [official documentation](https://kube-vip.io/)
 
 # How to deploy?

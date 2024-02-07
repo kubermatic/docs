@@ -9,9 +9,9 @@ weight = 10
 
 # What is KubeVirt?
 
-KubeVirt is a virtual machine management add-on for Kubernetes. The aim is to provide a common ground for virtualization solutions on top of Kubernetes.
+KubeVirt is a virtual machine management add-on for Kubernetes. Its aim is to provide a common ground for virtualization solutions on top of Kubernetes.
 
-As of today KubeVirt can be used to declaratively
+As of today KubeVirt can be used to declaratively:
 
 - Create a predefined VM
 - Schedule a VM on a Kubernetes cluster

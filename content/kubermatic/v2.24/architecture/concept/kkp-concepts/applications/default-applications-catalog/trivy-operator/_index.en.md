@@ -9,7 +9,9 @@ weight = 9
 
 # What is Trivy Operator?
 
-The Trivy Operator leverages Trivy to continuously scan your Kubernetes cluster for security issues. The scans are summarised in security reports as Kubernetes Custom Resource Definitions, which become accessible through the Kubernetes API. The Operator does this by watching Kubernetes for state changes and automatically triggering security scans in response. For example, a vulnerability scan is initiated when a new Pod is created. This way, users can find and view the risks that relate to different resources in a Kubernetes-native way.
+The Trivy Operator leverages Trivy to continuously scan your Kubernetes cluster for security issues. The scans are summarised in security reports as Kubernetes Custom Resources, which become accessible through the Kubernetes API. The Operator does this by watching Kubernetes for state changes and automatically triggering security scans in response. For example, a vulnerability scan is initiated when a new Pod is created. This way, users can find and view the risks that relate to different resources in a Kubernetes-native way.
+
+Trivy Operator can be deployed and used for scanning the resources deployed on the underlying the Kubernetes cluster, while Trivy provides a way to scan images/configurations/secrets to the end users.
 
 For more information on the Trivy Operator, please refer to the [official documentation](https://aquasecurity.github.io/trivy-operator/latest/)
 

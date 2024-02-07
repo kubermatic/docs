@@ -12,7 +12,7 @@ weight = 4
 MetalLB is a load-balancer implementation for bare metal Kubernetes clusters, using standard routing protocols.
 
 
-For more information on the MetalLB, please refer to the [official documentation]()
+For more information on the MetalLB, please refer to the [official documentation](https://metallb.universe.tf/)
 
 # How to deploy?
 

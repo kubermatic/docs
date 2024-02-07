@@ -9,7 +9,7 @@ weight = 5
 
 # What is Nginx?
 
-Nginx is an Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
+Nginx is an ingress-controller for Kubernetes using NGINX as a reverse proxy and load balancer.
 
 For more information on the Nginx, please refer to the [official documentation](https://kubernetes.github.io/ingress-nginx/)
 
