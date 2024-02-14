@@ -5,7 +5,7 @@ date: 2021-02-10T11:30:00+02:00
 ---
 
 The KubeCarrier application service management platform can help you to build complex multi-application,
-multi-cluster and hybrid-cloud solutions that can be easily manged from a central place, without
+multi-cluster and hybrid-cloud solutions that can be easily managed from a central place, without
 compromises on security aspects. To give you an idea, here are some examples:
 
 ## SaaS (Software as a Service) Platform
@@ -24,7 +24,7 @@ separated infrastructures.
 ## Multi-Regional Service Deployments
 In order to build multi-regional, highly-available solutions, it is often needed to deploy
 the same set of applications into multiple Kubernetes clusters. In such deployments, it is critical to
-mange the applications as a cattle, not as a pet - especially if we are speaking about dozens or hundreds
+manage the applications as a cattle, not as a pet - especially if we are speaking about dozens or hundreds
 of clusters. KubeCarrier can be used as a central management hub for applications that run across many clusters.
 
 ## Hybrid Cloud Service Deployments

@@ -70,7 +70,7 @@ This external IP can be used to access the Kubeflow dashboard, or for DNS setup 
 (see the [Domain Name](#domain-name) section).
 
 ### Enable TLS
-By default, the connection to the Kubeflow dashboard is handled by unsecure HTTP connection. To use secure HTTPS instead,
+By default, the connection to the Kubeflow dashboard is handled by insecure HTTP connection. To use secure HTTPS instead,
 select the `Enable TLS` option. When selected, the addon will automatically request a TLS certificate for the specified
 `Domain Name` (described in the [Domain Name](#domain-name) section) issued by the [Let’s Encrypt](https://letsencrypt.org/)
 certificate authority, and it will use it to configure HTTPS for accessing the dashboard.

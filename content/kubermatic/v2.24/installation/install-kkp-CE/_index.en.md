@@ -12,7 +12,7 @@ This chapter explains the installation procedure of KKP into a pre-existing Kube
 
 Typically the setup of KKP cluster, including creation of a base Kubernetes cluster on which KKP is deployed, should be no more than 2 hours. Inclusive of preparation of the Infrastructure.
 
-Expected skills and knowledge for the installation: moderate level of familiarity with cloud services (like AWS, Azure, GCP ore others) and familiarity with container and Kubernetes technologies, constructs, and configurations.
+Expected skills and knowledge for the installation: moderate level of familiarity with cloud services (like AWS, Azure, GCP or others) and familiarity with container and Kubernetes technologies, constructs, and configurations.
 
 ## Terminology
 
