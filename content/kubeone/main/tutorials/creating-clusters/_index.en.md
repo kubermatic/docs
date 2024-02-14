@@ -701,21 +701,26 @@ cloudProvider:
 ```
 
 {{% /tab %}}
+
 {{% tab name="GCE" %}}
-Setting `regional = true` in the cloud-config is required when control plane
-nodes are across multiple availability zones. We deploy control plane hosts
-in multiple AZs by default in our example Terraform configs.
+Setting `regional = true` and `multi-zone = true` in the cloud-config is
+required when control plane nodes are across multiple availability zones. We
+deploy control plane hosts in multiple AZs by default in our example Terraform
+configs.
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.28.6'
 cloudProvider:
   gce: {}
+  external: true
   cloudConfig: |
     [global]
     regional = true
+    multi-zone = true
+    token-url = "nil"
 ```
 
 Due to how GCP LBs work, initial `terraform apply` requires variable `control_plane_target_pool_members_count` to be set
@@ -728,6 +733,7 @@ terraform apply -var=control_plane_target_pool_members_count=1
 Once initial `kubeone install` or `kubeone apply` is done, the `control_plane_target_pool_members_count` should not be
 used.
 {{% /tab %}}
+
 {{% tab name="Hetzner" %}}
 `external: true` instructs KubeOne to deploy the
 [Hetzner Cloud Controller Manager](https://github.com/hetznercloud/hcloud-cloud-controller-manager).
