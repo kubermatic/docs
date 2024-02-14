@@ -71,7 +71,7 @@ Permissions for read-only actions that do not affect state, such as viewing.
 
  - create, edit & delete projects
  - manage members in project (UserProjectBinding)
- - mange service accounts
+ - manage service accounts
 
 Project managers are not allowed to interact with clusters.
 

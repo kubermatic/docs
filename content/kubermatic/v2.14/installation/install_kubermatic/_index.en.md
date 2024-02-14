@@ -74,7 +74,7 @@ for more information about the possible parameters for your storage backend.
 
 It's required to setup Tiller inside the cluster. This requires setting up a ClusterRole and
 -Binding, before installing Tiller itself. If your cluster already has Tiller installed in another namespace, you
-can re-use it, but an installation dedicated for KKP is preferred.
+can reuse it, but an installation dedicated for KKP is preferred.
 
 ```bash
 kubectl create namespace kubermatic

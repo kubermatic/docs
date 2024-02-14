@@ -5,15 +5,15 @@ presubmits:
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
-      - image: quay.io/kubermatic/codespell:1.17.1
-        command:
-        - make
-        args:
-        - spellcheck
-        resources:
-          requests:
-            memory: 512Mi
-            cpu: 0.5
+        - image: quay.io/kubermatic/build:go-1.22-node-18-kind-0.21-2
+          command:
+            - make
+          args:
+            - spellcheck
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 0.5
 
   - name: pre-docs-verify-filenames
     always_run: true
@@ -21,13 +21,13 @@ presubmits:
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
-      - image: quay.io/kubermatic/build:go-1.21-node-18-6
-        command:
-        - "./hack/verify-filenames.sh"
-        resources:
-          requests:
-            cpu: 250m
-            memory: 32Mi
+        - image: quay.io/kubermatic/build:go-1.22-node-18-kind-0.21-2
+          command:
+            - "./hack/verify-filenames.sh"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 32Mi
 
   - name: pre-docs-verify-hugo
     always_run: true
@@ -35,13 +35,13 @@ presubmits:
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
-      - image: quay.io/kubermatic/hugo:0.119.0-0
-        command:
-        - "./hack/ci/verify-hugo.sh"
-        resources:
-          requests:
-            cpu: 250m
-            memory: 512Mi
+        - image: quay.io/kubermatic/hugo:0.119.0-0
+          command:
+            - "./hack/ci/verify-hugo.sh"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
 
   - name: pre-docs-verify-remark-lint
     always_run: true
@@ -50,12 +50,12 @@ presubmits:
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
-      - image: quay.io/kubermatic/remark-lint:1.0.0
-        command:
-        - "./hack/ci/lint-markdown.sh"
-        resources:
-          requests:
-            cpu: 200m
-            memory: 128Mi
-          limits:
-            memory: 1Gi
+        - image: quay.io/kubermatic/remark-lint:1.0.0
+          command:
+            - "./hack/ci/lint-markdown.sh"
+          resources:
+            requests:
+              cpu: 200m
+              memory: 128Mi
+            limits:
+              memory: 1Gi

@@ -425,7 +425,7 @@
         {
           "alert": "KubeletRuntimeErrors",
           "annotations": {
-            "message": "The kubelet on {{ $labels.instance }} is having an elevated error rate for container runtime oprations.",
+            "message": "The kubelet on {{ $labels.instance }} is having an elevated error rate for container runtime operations.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeletruntimeerrors"
           },
           "expr": "sum(rate(kubelet_runtime_operations_errors{job=\"kubelet\"}[5m])) by (instance) > 0.1\n",
@@ -499,9 +499,7 @@
             "severity": "critical"
           },
           "runbook": {
-            "steps": [
-              "Check the pod's logs."
-            ]
+            "steps": ["Check the pod's logs."]
           }
         },
         {
@@ -1015,9 +1013,7 @@
             "severity": "warning"
           },
           "runbook": {
-            "steps": [
-              "Check the `thanos-compact` pod's logs."
-            ]
+            "steps": ["Check the `thanos-compact` pod's logs."]
           }
         },
         {
@@ -1151,9 +1147,7 @@
             "severity": "warning"
           },
           "runbook": {
-            "steps": [
-              "Check the API pod's logs."
-            ]
+            "steps": ["Check the API pod's logs."]
           }
         },
         {
@@ -1184,9 +1178,7 @@
             "severity": "warning"
           },
           "runbook": {
-            "steps": [
-              "Check the controller-manager pod's logs."
-            ]
+            "steps": ["Check the controller-manager pod's logs."]
           }
         },
         {

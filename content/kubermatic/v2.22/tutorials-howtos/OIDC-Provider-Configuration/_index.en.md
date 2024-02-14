@@ -121,7 +121,7 @@ spec:
 ```
 
 {{% notice note %}}
-It is highly recommended to use the same domain in email scope both for Seed level and main OIDC providers. This is a prerequisite for web termnial feature and it saves some time on user cluster RBAC configuration.
+It is highly recommended to use the same domain in email scope both for Seed level and main OIDC providers. This is a prerequisite for web terminal feature and it saves some time on user cluster RBAC configuration.
 {{% /notice %}}
 
 ## Applying Changes

@@ -56,7 +56,7 @@ Afterwards, you can track the installation progress in the Applications Tab.
 
 ### Storing Applications in a ClusterTemplate
 
-ApplicationInstallations can also be added to [ClusterTemplates]({{< relref "../../cluster-templates/" >}}) in order to re-use them across multiple clusters. In order to do so, select the `Save Cluster Template` option during the Summary step of the cluster creation wizard.
+ApplicationInstallations can also be added to [ClusterTemplates]({{< relref "../../cluster-templates/" >}}) in order to reuse them across multiple clusters. In order to do so, select the `Save Cluster Template` option during the Summary step of the cluster creation wizard.
 
 ![Saving As Cluster Template](/img/kubermatic/common/applications/save_to_cluster_template.png "Saving As Cluster Template")
 
