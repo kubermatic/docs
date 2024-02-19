@@ -30,3 +30,21 @@ This script can be used for creating the required RBAC and generating the kubeco
 ### KubeLB CCM configuration
 
 For CCM, during installation we need to provide the `kubeconfig` that we generated in the previous step. Also, the `tenantName` field in the values.yaml should be set to the name of the tenant cluster.
+
+### Propagate annotations from services to LoadBalancer
+
+KubeLB can propagate annotations from services in the consumer cluster to the LoadBalancers in the management cluster. This is useful for setting annotations that are required by the cloud provider to configure the LoadBalancers. For example, the `service.beta.kubernetes.io/aws-load-balancer-internal` annotation is used to create an internal LoadBalancer in AWS.
+
+Annotations are not propagated by default since tenants can make unwanted changes to the LoadBalancer configuration. Since each tenant is treated as a separate entity, the KubeLB manager cluster needs to be configured to allow the propagation of specific annotations.
+
+This is done by adding the `kubelb.k8c.io/propagate-annotation` annotation to the tenant namespace in the management cluster. For multiple annotations, the suffix can be incremented like `kubelb.k8c.io/propagate-annotation-1` . The suffix can be any arbitrary string, it's just for uniqueness.
+
+Here is a basic example, where optionally kubelb allows to set a values filter:
+
+```yaml
+annotations:
+  kubelb.k8c.io/propagate-annotation: "metallb.universe.tf/address-pool"
+  kubelb.k8c.io/propagate-annotation-1: "metallb.universe.tf/loadBalancerIPs=192.168.1.100,192.168.1.102"
+```
+
+The first configured annotation allows propagating any value for `metallb.universe.tf/address-pool` and the second one restricts the values to be either `192.168.1.100` or `192.168.1.102`.
