@@ -60,6 +60,10 @@ ApplicationInstallations can also be added to [ClusterTemplates]({{< relref "../
 
 ## Managing Applications via GitOps
 
+{{% notice info %}}
+Starting with KKP 2.25, the `valuesBlock` field has been introduced, which retains comments. The old `values` field is deprecated.
+{{% /notice %}}
+
 KKP Applications are managed via the `ApplicationInstallation` custom Kubernetes resource.
 ApplicationInstallations reside in the user-cluster and represent a desired state of an Application.
 For a full reference of all supported fields, please check the [ApplicationInstallation Reference]({{< ref "../../../architecture/concept/kkp-concepts/applications/application-installation" >}})
@@ -78,7 +82,7 @@ spec:
   namespace:
     create: true
     name: prometheus
-  values:
+  valuesBlock: |
     alertmanager:
       enabled: false
 ```

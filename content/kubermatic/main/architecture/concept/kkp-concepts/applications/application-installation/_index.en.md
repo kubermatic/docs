@@ -24,7 +24,7 @@ spec:
     create: true
     labels:
       owner: "team-1"
-  values:
+  valuesBlock: |
     commonLabels:
       owner: "team-1"
 ```

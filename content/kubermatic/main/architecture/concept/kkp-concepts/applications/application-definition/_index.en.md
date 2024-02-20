@@ -293,15 +293,16 @@ spec:
 
 ## Advanced Configuration
 ### Default Values
-The `.spec.defaultValues` describe overrides for manifest-rendering in UI when creating an application. For example if the method is Helm, then this field contains the Helm values.
+The `.spec.defaultValuesBlock` field describes overrides for manifest-rendering in UI when creating an application. For example if the method is Helm, then this field contains the Helm values.
 
 **Example for helm values**
 
 ```yaml
 spec:
-  defaultValues:
+  defaultValuesBlock: |
     key1:
       nestedkey: value 1
+    # comments are persisted and will be displayed in the UI as well
     key2: value 2
 ```
 
