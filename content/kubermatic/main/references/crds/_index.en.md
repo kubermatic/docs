@@ -96,7 +96,8 @@ _Appears in:_
 | --- | --- |
 | `description` _string_ | Description of the application. what is its purpose |
 | `method` _TemplateMethod_ | Method used to install the application |
-| `defaultValues` _RawExtension_ | DefaultValues describe overrides for manifest-rendering in UI when creating an application. |
+| `defaultValues` _RawExtension_ | DefaultValues specify values overrides for manifest-rendering in UI when creating an application. Comments are not preserved. Deprecated: use DefaultValuesBlock instead |
+| `defaultValuesBlock` _string_ | DefaultValuesBlock specify values overrides for manifest-rendering in UI when creating an application. Comments not preserved. Preserves yaml comments. |
 | `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | DefaultDeployOptions holds the settings specific to the templating method used to deploy the application. These settings can be overridden in applicationInstallation. |
 | `documentationURL` _string_ | DocumentationURL holds a link to official documentation of the Application Alternatively this can be a link to the Readme of a chart in a git repository |
 | `sourceURL` _string_ | SourceURL holds a link to the official source code mirror or git repository of the application |
@@ -198,7 +199,8 @@ _Appears in:_
 | --- | --- |
 | `namespace` _[AppNamespaceSpec](#appnamespacespec)_ | Namespace describe the desired state of the namespace where application will be created. |
 | `applicationRef` _[ApplicationRef](#applicationref)_ | ApplicationRef is a reference to identify which Application should be deployed |
-| `values` _[RawExtension](#rawextension)_ | Values describe overrides for manifest-rendering. It's a free yaml field. |
+| `values` _[RawExtension](#rawextension)_ | Values specify values overrides that are passed to helm templating. Comments are not preserved. Deprecated: Use ValuesBlock instead. |
+| `valuesBlock` _string_ | ValuesBlock specifies values overrides that are passed to helm templating. Comments are preserved. |
 | `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#duration-v1-meta)_ | ReconciliationInterval is the interval at which to force the reconciliation of the application. By default, Applications are only reconciled on changes on spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload deployed by the application, nothing will happen until the application CR change. 
  Setting a value greater than zero force reconciliation even if no changes occurred on application CR. Setting a value equal to 0 disables the force reconciliation of the application (default behavior). Setting this too low can cause a heavy load and may disrupt your application workload depending on the template method. |
 | `deployOptions` _[DeployOptions](#deployoptions)_ | DeployOptions holds the settings specific to the templating method used to deploy the application. |
