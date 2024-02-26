@@ -273,3 +273,46 @@ grafana:
 Using a Secret instead of a ConfigMap works identically, just specify `secretName` instead of `configMap` in the `volumes` section.
 
 Remember that you still need a custom dashboard provider to make Grafana load your new dashboards.
+
+## Custom Resource State Metrics
+
+kube-state-metrics helm chart deployed on a seed/master cluster can be extended to get state metrics of [custom resources](https://github.com/kubernetes/kube-state-metrics/blob/main/docs/customresourcestate-metrics.md) as well. For this we need to enable `customResourceState` & pass the configuration for custom state metrics.
+
+```yaml
+kubeStateMetrics:
+  customResourceState:
+    enabled: true
+    config:
+      spec:
+        resources:
+          - groupVersionKind:
+              group: helm.toolkit.fluxcd.io
+              version: "v2beta2"
+              kind: HelmRelease
+            metricNamePrefix: gotk
+            metrics:
+              - name: "resource_info"
+                help: "The current state of a GitOps Toolkit resource."
+                each:
+                  type: Info
+                  info:
+                    labelsFromPath:
+                      name: [metadata, name]
+                labelsFromPath:
+                  exported_namespace: [metadata, namespace]
+                  suspended: [spec, suspend]
+                  ready: [status, conditions, "[type=Ready]", status]
+```
+
+Along with this the rbac rules also needs to be update to allow kube-state-metrics perform the necessary operations on the custom resource(s).
+
+```yaml
+kubeStateMetrics:
+  rbac:
+    extraRules:
+      - apiGroups:
+          - helm.toolkit.fluxcd.io
+        resources:
+          - helmreleases
+        verbs: [ "list", "watch" ]
+```
