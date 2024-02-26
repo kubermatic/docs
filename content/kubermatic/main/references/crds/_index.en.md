@@ -96,8 +96,8 @@ _Appears in:_
 | --- | --- |
 | `description` _string_ | Description of the application. what is its purpose |
 | `method` _TemplateMethod_ | Method used to install the application |
-| `defaultValues` _RawExtension_ | DefaultValues specify values overrides for manifest-rendering in UI when creating an application. Comments are not preserved. Deprecated: use DefaultValuesBlock instead |
-| `defaultValuesBlock` _string_ | DefaultValuesBlock specify values overrides for manifest-rendering in UI when creating an application. Comments not preserved. Preserves yaml comments. |
+| `defaultValues` _RawExtension_ | DefaultValues specify default values for the UI which are passed to helm templating when creating an application. Comments are not preserved. Deprecated: use DefaultValuesBlock instead |
+| `defaultValuesBlock` _string_ | DefaultValuesBlock specifies default values for the UI which are passed to helm templating when creating an application. Comments are preserved. |
 | `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | DefaultDeployOptions holds the settings specific to the templating method used to deploy the application. These settings can be overridden in applicationInstallation. |
 | `documentationURL` _string_ | DocumentationURL holds a link to official documentation of the Application Alternatively this can be a link to the Readme of a chart in a git repository |
 | `sourceURL` _string_ | SourceURL holds a link to the official source code mirror or git repository of the application |
