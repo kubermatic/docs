@@ -26,7 +26,7 @@ of provided software and therefore releases updates regularly that also include 
 | mla/grafana                    | 10.2.2                         |
 | mla/loki-distributed           | 2.9.2                          |
 | mla/minio-lifecycle-mgr        | 0.1.0                          |
-| mla/minio                      | RELEASE.2022-09-17T00-09-45Z   |
+| mla/minio                      | RELEASE.2023-04-28T18-11-17Z   |
 | mla/mla-secrets                | 0.1.0                          |
 | monitoring/alertmanager        | 0.25.0                         |
 | monitoring/blackbox-exporter   | 0.23.0                         |
