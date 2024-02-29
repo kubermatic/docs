@@ -7,15 +7,17 @@ weight = 3
 This guide targets KKP Admins and details adding and removing a version to an `ApplicationDefinition`.
 
 ## How to add a version to an ApplicationDefinition
+
 To make a new version of an application available, you only have to add it to `ApplicationDefinition` version's list.
 Let's say you have the following `ApplicationDefinition`
+
 ```yaml
 apiVersion: apps.kubermatic.k8c.io/v1
 kind: ApplicationDefinition
 metadata:
   name: apache
 spec:
-  defaultValues:
+  defaultValuesBlock: |
     commonLabels:
       owner: somebody
   description: Apache HTTP Server is an open-source HTTP server for modern operating systems
