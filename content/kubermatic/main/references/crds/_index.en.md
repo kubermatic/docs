@@ -4128,6 +4128,7 @@ _Appears in:_
 | --- | --- |
 | `domain` _string_ | Domain is the base domain where the dashboard shall be available. Even with a disabled Ingress, this must always be a valid hostname. |
 | `className` _string_ | ClassName is the Ingress resource's class name, used for selecting the appropriate ingress controller. |
+| `namespaceOverride` _string_ | NamespaceOverride need to be set if a different ingress-controller is used than the KKP default one. |
 | `disable` _boolean_ | Disable will prevent an Ingress from being created at all. This is mostly useful during testing. If the Ingress is disabled, the CertificateIssuer setting can also be left empty, as no Certificate resource will be created. |
 | `certificateIssuer` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#typedlocalobjectreference-v1-core)_ | CertificateIssuer is the name of a cert-manager Issuer or ClusterIssuer (default) that will be used to acquire the certificate for the configured domain. To use a namespaced Issuer, set the Kind to "Issuer" and manually create the matching Issuer in Kubermatic's namespace. Setting an empty name disables the automatic creation of certificates and disables the TLS settings on the Kubermatic Ingress. |
 
