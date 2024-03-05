@@ -10,7 +10,7 @@ weight = 3
 Here is the list of the applications that come as part of the Default Applications Catalog offering from the KKP(EE) installation.
 
 * [ArgoCD]({{< ref "./argocd/" >}})
-* [CertManager]({{< ref "./cert-manager/" >}})
+* [cert-manager]({{< ref "./cert-manager/" >}})
 * [Falco]({{< ref "./falco/" >}})
 * [Flux2]({{< ref "./flux2/" >}})
 * [K8sGPT]({{< ref "./k8sgpt/" >}})
