@@ -61,22 +61,6 @@ kubeone:
       name: v1.2
     - release: v1.0
       name: v1.0
-kubecarrier:
-  name: KubeCarrier
-  logo: "img/KubeCarrier-logo.svg"
-  title: KubeCarrier
-  description: The operator of operators. Centrally manage all your services and applications across multiple clusters, clouds and regions with Kubernetes native API and tooling.
-  weight: 3
-  shareImage: img/Docs-KubeCarrier-share.jpg
-  versions:
-    - release: master
-      name: master
-    - release: v0.3
-      name: v0.3
-    - release: v0.2
-      name: v0.2
-    - release: v0.1
-      name: v0.1
 operatingsystemmanager:
   name: operatingsystemmanager
   logo: "/img/operatingsystemmanager/common/operating-system-manager-logo.png"

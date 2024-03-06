@@ -4,9 +4,9 @@ This document describes the documentation process for Kubermatic projects.
 
 ## What must be documented?
 
-All user-facing changes must be documented. Documentation for KKP,
-KubeOne, and KubeCarrier is located in this repository. Documentation for
-other projects is usually located in the respective repository.
+All user-facing changes must be documented. Documentation for KKP and KubeOne
+is located in this repository. Documentation for other projects is usually
+located in the respective repository.
 
 ## How are changes documented?
 
