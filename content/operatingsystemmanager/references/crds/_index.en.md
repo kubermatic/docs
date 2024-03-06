@@ -1,5 +1,5 @@
 +++
-title = "KubeLB CRDs Reference"
+title = "OperatingSystemManager CRDs Reference"
 date = 2024-03-06T12:00:00+02:00
 weight = 40
 +++
@@ -148,7 +148,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `supportedContainerRuntimes` _[ContainerRuntimeSpec](#containerruntimespec) array_ | SupportedContainerRuntimes represents the container runtimes supported by the given OS |
+| `supportedContainerRuntimes` _[ContainerRuntimeSpec](#containerruntimespec) array_ | SupportedContainerRuntimes represents the container runtimes supported by the given OS. Docker has been deprecated and is no-op. |
 | `templates` _object (keys:string, values:string)_ | Templates to be included in units and files |
 | `units` _[Unit](#unit) array_ | Units a list of the systemd unit files which will run on the instance |
 | `files` _[File](#file) array_ | Files is a list of files that should exist in the instance |
