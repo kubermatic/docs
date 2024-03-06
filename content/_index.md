@@ -1,6 +1,6 @@
 +++
 title = "Docs"
-description = "Learn more about KKP, KubeOne and KubeCarrier through the official Kubermatic documentation"
+description = "Learn more about KKP and KubeOne through the official Kubermatic documentation"
 
 [contribution]
 title = "How Do I Contribute To ...?"
@@ -15,12 +15,6 @@ title = "How Do I Contribute To ...?"
   url = "https://docs.kubermatic.com/kubermatic/v2.24/how-to-contribute-to-kkp/"
   [contribution.links.image]
   src = "/img/KubermaticKubernetesPlatform-logo.svg"
-  alt = ""
-
- [[contribution.links]]
-  url = "https://docs.kubermatic.com/kubecarrier/v0.3/tutorials_howtos/how_to_contribute_to_kubecarrier/"
-  [contribution.links.image]
-  src = "/img/KubeCarrier-logo.svg"
   alt = ""
 
 [features]

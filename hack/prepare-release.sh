@@ -12,7 +12,7 @@ usage() {
   echo "  prepare-release.sh -p <PRODUCT> -v <VERSION>"
   echo
   echo "Flags:"
-  echo "  -p    Product selection. One of 'kubermatic', 'kubeone', 'kubecarrier'. (env: PRODUCT)"
+  echo "  -p    Product selection. One of 'kubermatic', 'kubeone'. (env: PRODUCT)"
   echo "  -v    Version of the upcoming release. (env: VERSION)"
   echo "  -k    Location of kubermatic/kubermatic working copy. (env: KUBERMATIC_DIR, default: '../kubermatic')"
   echo "  -h    Print this help."
@@ -59,7 +59,7 @@ done
 [[ $VERSION ]] ||
   (usage; exit 1)
 
-[[ $PRODUCT =~ ^(kubermatic|kubeone|kubecarrier)$ ]] ||
+[[ $PRODUCT =~ ^(kubermatic|kubeone)$ ]] ||
   (usage; exit 1)
 
 # Default value if unset
