@@ -19,7 +19,7 @@ Kubermatic Kubernetes Platform (KKP) is an open-source product, and both the Com
 | Resource Quotas                             | KKP admins can define consumption caps for different projects.                                                                                                                                |
 | Group Project bindings                      | Projects can be bound to user groups defined in your authentication provider.                                                                                                                 |
 | Edge capabilities                           | Independent operation from the control plane and workload allocation among different clusters.                                                                                                |
-| Application catalog                         | Easy solution for deploying and managing the most popular applications in your Kubernetes User Clusters right from KKP.                                                                       |
+| Application catalog                         | Easy solution for deploying and managing the most popular applications in your Kubernetes user clusters right from KKP.                                                                       |
 | User Cluster Backup                         | Backups can be done in KKP (through Velero integration) for user clusters in order to transport full clusters, and be able to restore only specific namespaces of a chosen user cluster.      |
 
 ## How to use Enterprise Edition
