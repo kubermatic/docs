@@ -28,7 +28,7 @@ The following operating systems are currently supported by the default Operating
 | KubeVirt | ✓ | ✓ | ✓ | x | ✓ | ✓ |
 | Nutanix | ✓ | ✓ | x | x | x | x |
 | Openstack | ✓ | ✓ | ✓ | x | ✓ | ✓ |
-| VMware Cloud Director | ✓ | x | x | x | x | x |
+| VMware Cloud Director | ✓ | x | ✓ | x | x | x |
 | VSphere | ✓ | ✓ | ✓ | x | ✓ | ✓ |
 
 ## Kubernetes Versions

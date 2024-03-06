@@ -19,7 +19,7 @@ The page provides an overview for the supported operating systems on various clo
 | KubeVirt | ✓ | ✓ | ✓ | x | ✓ | ✓ |
 | Nutanix | ✓ | ✓ | x | x | x | x |
 | Openstack | ✓ | ✓ | ✓ | x | ✓ | ✓ |
-| VMware Cloud Director | ✓ | x | x | x | x | x |
+| VMware Cloud Director | ✓ | x | ✓ | x | x | x |
 | VSphere | ✓ | ✓ | ✓ | x | ✓ | ✓ |
 
 ## Kubernetes Versions
