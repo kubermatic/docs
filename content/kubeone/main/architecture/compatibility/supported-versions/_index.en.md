@@ -1,6 +1,6 @@
 +++
 title = "Kubernetes"
-date = 2020-09-16T20:07:15+02:00
+date = 2024-03-06T00:00:00+00:00
 weight = 1
 
 +++
@@ -14,16 +14,10 @@ support policy in the [Version Skew Policy document][upstream-supported-versions
 In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
-{{% notice warning %}}
-KubeOne 1.5 and 1.6 support only Kubernetes 1.22 and newer. Clusters running
-Kubernetes 1.21 or older must be upgraded with an older KubeOne release
-according to the table below.
-{{% /notice %}}
-
-| KubeOne version | 1.28  | 1.27  | 1.26  | 1.25[^1] |
-| --------------- | ----- | ----- | ----- | -------- |
-| v1.8            | ✓     | ✓     | ✓     | ✓        |
-| v1.7            | -     | ✓     | ✓     | ✓        |
+| KubeOne \ Kubernetes | 1.29 | 1.28  | 1.27 | 1.26 | 1.25[^1] |
+| -------------------- | ---- | ----- | ---- | ---- | -------- |
+| v1.8                 | ✓   | ✓    | ✓   | -    | -        |
+| v1.7                 | -    | -     | ✓   | ✓   | ✓       |
 
 [^1]: Kubernetes 1.25 has reached End-of-Life (EOL) on 2023-10-28.
 We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
