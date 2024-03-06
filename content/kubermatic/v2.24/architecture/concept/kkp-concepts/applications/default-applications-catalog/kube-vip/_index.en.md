@@ -20,11 +20,11 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 * Select the Kube-VIP application from the Application Catalog.
 
-![Select Kube-VIP Application](/img/kubermatic/common/applications/default-apps-catalog/01-select-application-kube-vip-app.png)
+![Select Kube-VIP Application](/img/kubermatic/common/applications/default-apps-catalog/2.24/01-select-application-kube-vip-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for Kube-VIP Application](/img/kubermatic/common/applications/default-apps-catalog/02-settings-kube-vip-app.png)
+![Settings for Kube-VIP Application](/img/kubermatic/common/applications/default-apps-catalog/2.24/02-settings-kube-vip-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the Kube-VIP application to the user cluster.
 

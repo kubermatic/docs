@@ -28,14 +28,14 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 * Select the ArgoCD application from the Application Catalog.
 
-![Select ArgoCD Application](/img/kubermatic/common/applications/default-apps-catalog/01-select-application-argocd-app.png)
+![Select ArgoCD Application](/img/kubermatic/common/applications/default-apps-catalog/2.24/01-select-application-argocd-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for ArgoCD Application](/img/kubermatic/common/applications/default-apps-catalog/02-settings-argocd-app.png)
+![Settings for ArgoCD Application](/img/kubermatic/common/applications/default-apps-catalog/2.24/02-settings-argocd-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the ArgoCD application to the user cluster.
 
-![Application Values for ArgoCD Application](/img/kubermatic/common/applications/default-apps-catalog/03-applicationvalues-argocd-app.png)
+![Application Values for ArgoCD Application](/img/kubermatic/common/applications/default-apps-catalog/2.24/03-applicationvalues-argocd-app.png)
 
 To further configure the values.yaml, find more information on the [ArgoCD Helm chart documentation](https://github.com/argoproj/argo-helm)
