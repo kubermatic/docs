@@ -27,6 +27,26 @@ This script can be used for creating the required RBAC and generating the kubeco
 {{< readfile "kubelb/data/create-kubelb-sa.sh" >}}
 ```
 
+#### Manager Config
+
+We have a dedicated CRD `config` that can be used to manage configuration for KubeLB manager. The following is an example of a `config` CRD:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+  namespace: kubelb
+spec:
+  envoyProxy:
+    replicas: 3
+    topology: shared
+```
+
+Users can skip creation  of `config` CRD via helm by setting `kubelb.skipConfigGeneration` to `true` in the values.yaml. This will de-couple the `config` CRD from the helm chart and users can manage it separately.
+
+**NOTE: The `config` CR named `default` is mandatory for KubeLB manager to work.**
+
 ### KubeLB CCM configuration
 
 For CCM, during installation we need to provide the `kubeconfig` that we generated in the previous step. Also, the `tenantName` field in the values.yaml should be set to the name of the tenant cluster.
