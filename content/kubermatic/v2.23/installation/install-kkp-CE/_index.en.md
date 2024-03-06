@@ -181,7 +181,7 @@ nginx:
 ```
 
 Make sure to include **32443** as port in all URLs both in `kubermatic.yaml` and `values.yaml`, e.g. the token issuer URL from `kubermatic.yaml`
-should now be `https://cluster.example.dev:32443/dex`.
+should now be `https://kkp.example.com:32443/dex`.
 
 ### Create a StorageClass
 
