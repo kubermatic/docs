@@ -44,7 +44,7 @@ Now, we can install the helm chart:
 
 ```sh
 helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v0.5.0 --untardir "kubelb-manager" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v0.6.0 --untardir "kubelb-manager" --untar
 ## Create and update values.yaml with the required values.
 helm install kubelb-manager kubelb-manager --namespace kubelb -f values.yaml
 ```
@@ -62,14 +62,20 @@ helm install kubelb-manager kubelb-manager --namespace kubelb -f values.yaml
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
-| image.tag | string | `"v0.5.0"` |  |
+| image.tag | string | `"v0.4.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.debug | bool | `false` |  |
 | kubelb.enableLeaderElection | bool | `true` |  |
-| kubelb.envoyProxyReplicas | int | `3` |  |
-| kubelb.envoyProxySinglePodPerNode | bool | `true` |  |
-| kubelb.envoyProxyTopology | string | `"shared"` |  |
-| kubelb.envoyProxyUseDaemonset | bool | `false` |  |
+| kubelb.envoyProxy.affinity | object | `{}` |  |
+| kubelb.envoyProxy.nodeSelector | object | `{}` |  |
+| kubelb.envoyProxy.replicas | int | `3` | The number of replicas for the Envoy Proxy deployment. |
+| kubelb.envoyProxy.singlePodPerNode | bool | `true` | Deploy single pod per node. |
+| kubelb.envoyProxy.tolerations | list | `[]` |  |
+| kubelb.envoyProxy.topology | string | `"shared"` | Topology defines the deployment topology for Envoy Proxy. Valid values are: shared, dedicated, and global. |
+| kubelb.envoyProxy.useDaemonset | bool | `false` | Use DaemonSet for Envoy Proxy deployment instead of Deployment. |
+| kubelb.propagateAllAnnotations | bool | `false` | Propagate all annotations from the LB resource to the LB service. |
+| kubelb.propagatedAnnotations | object | `{}` | Allowed annotations that will be propagated from the LB resource to the LB service. |
+| kubelb.skipConfigGeneration | bool | `false` | Set to true to skip the generation of the Config CR. Useful when the config CR needs to be managed manually. |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
@@ -122,7 +128,7 @@ Now, we can install the helm chart:
 
 ```sh
 helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v0.5.0 --untardir "kubelb-ccm" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v0.6.0 --untardir "kubelb-ccm" --untar
 ## Create and update values.yaml with the required values.
 helm install kubelb-ccm kubelb-ccm --namespace kubelb -f values.yaml
 ```
@@ -141,8 +147,8 @@ helm install kubelb-ccm kubelb-ccm --namespace kubelb -f values.yaml
 | extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
-| image.tag | string | `"v0.5.0"` |  |
+| image.repository | string | `"quay.io/kubermatic/kubelb-ccm-ee"` |  |
+| image.tag | string | `"v0.4.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` |  |
 | kubelb.enableLeaderElection | bool | `true` |  |
