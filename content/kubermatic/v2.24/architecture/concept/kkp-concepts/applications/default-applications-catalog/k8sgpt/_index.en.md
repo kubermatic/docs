@@ -23,14 +23,14 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 * Select the K8sGPT application from the Application Catalog.
 
-![Select K8sGPT Application](/img/kubermatic/common/applications/default-apps-catalog/2.24/01-select-application-k8sgpt-app.png)
+![Select K8sGPT Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/01-select-application-k8sgpt-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for K8sGPT Application](/img/kubermatic/common/applications/default-apps-catalog/2.24/02-settings-k8sgpt-app.png)
+![Settings for K8sGPT Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/02-settings-k8sgpt-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the K8sGPT application to the user cluster.
 
-![Application Values for K8sGPT Application](/img/kubermatic/common/applications/default-apps-catalog/2.24/03-applicationvalues-k8sgpt-app.png)
+![Application Values for K8sGPT Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/03-applicationvalues-k8sgpt-app.png)
 
 To further configure the values.yaml, find more information under the [K8sGPT Helm chart](https://github.com/k8sgpt-ai/k8sgpt/tree/main/charts/k8sgpt)
