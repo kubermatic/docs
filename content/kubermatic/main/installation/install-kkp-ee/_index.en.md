@@ -57,16 +57,6 @@ spec:
     }
 ```
 
-```yaml
-kubermaticOperator:
-  # insert the Docker authentication JSON provided by Kubermatic here
-  imagePullSecret: |
-    {
-      "auths": {
-        "quay.io": {....}
-      }
-    }
-```
 
 Follow the CE install guide as normal, the remaining steps apply equally to the Enterprise Edition.
 
