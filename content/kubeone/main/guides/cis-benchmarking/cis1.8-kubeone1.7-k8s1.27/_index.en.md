@@ -141,7 +141,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔵 Not Applicable
 
-**Details:** This is mitigated by RBAC, please see https://kubernetes.io/docs/reference/access-authn-authz/authentication/#anonymous-requests
+**Details:** This is mitigated by RBAC, please see [here][anon-req]
 
 ---
 #### 1.2.2: Ensure that the --token-auth-file parameter is not set (Automated)
@@ -185,7 +185,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔵 Not Applicable
 
-**Details:** EventRateLimit admission control plugin in in Alpha state, please see https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit
+**Details:** EventRateLimit admission control plugin in in Alpha state, please see [here][eventratelimit]
 
 ---
 #### 1.2.10: Ensure that the admission control plugin AlwaysAdmit is not set (Automated)
@@ -204,7 +204,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔵 Not Applicable
 
-**Details:** SecurityContextDeny admission control plugin is deprecated as of Kubernetes 1.27: https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#securitycontextdeny
+**Details:** SecurityContextDeny admission control plugin is deprecated as of [Kubernetes 1.27][securitycontextdeny]
 
 ---
 #### 1.2.13: Ensure that the admission control plugin ServiceAccount is set (Automated)
@@ -233,28 +233,28 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🟠 Configurable
 
-**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 1.2.18: Ensure that the --audit-log-maxage argument is set to 30 or as appropriate (Automated)
 
 **Result:** 🟠 Configurable
 
-**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 1.2.19: Ensure that the --audit-log-maxbackup argument is set to 10 or as appropriate (Automated)
 
 **Result:** 🟠 Configurable
 
-**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 1.2.20: Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate (Automated)
 
 **Result:** 🟠 Configurable
 
-**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 1.2.21: Ensure that the --request-timeout argument is set as appropriate (Manual)
@@ -298,14 +298,14 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🟠 Configurable
 
-**Details:** Encryption configuration can be enabled as described here: https://docs.kubermatic.com/kubeone/v1.7/guides/encryption-providers/
+**Details:** Encryption configuration can be enabled as described [here][encryption-providers]
 
 ---
 #### 1.2.29: Ensure that encryption providers are appropriately configured (Manual)
 
 **Result:** 🟠 Configurable
 
-**Details:** Encryption configuration can be enabled as described here: https://docs.kubermatic.com/kubeone/v1.7/guides/encryption-providers/
+**Details:** Encryption configuration can be enabled as described [here][encryption-providers]
 
 ---
 #### 1.2.30: Ensure that the API Server only makes use of Strong Cryptographic Ciphers (Manual)
@@ -403,21 +403,21 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🟠 Configurable
 
-**Details:** KubeOne can be configured with OIDC authentication: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/
+**Details:** KubeOne can be configured with OIDC authentication as described [here][oidc]
 
 ---
 #### 3.1.2: Service account token authentication should not be used for users (Manual)
 
 **Result:** 🟠 Configurable
 
-**Details:** KubeOne can be configured with OIDC authentication: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/
+**Details:** KubeOne can be configured with OIDC authentication as described [here][oidc]
 
 ---
 #### 3.1.3: Bootstrap token authentication should not be used for users (Manual)
 
 **Result:** 🟠 Configurable
 
-**Details:** KubeOne can be configured with OIDC authentication: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/
+**Details:** KubeOne can be configured with OIDC authentication as described [here][oidc]
 
 ---
 ### 3.2. Logging
@@ -425,14 +425,14 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🟠 Configurable
 
-**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 3.2.2: Ensure that the audit policy covers key security concerns (Manual)
 
 **Result:** 🟠 Configurable
 
-**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 ## Control Type: node
@@ -567,3 +567,10 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 _The issue is under investigation to provide a fix in a future KubeOne release_
 
 ---
+
+[audit-logging]: {{< ref "../../../tutorials/creating-clusters-oidc/#audit-logging" >}}
+[encryption-providers]: {{< ref "../../../guides/encryption-providers/" >}}
+[oidc]: {{< ref "../../../tutorials/creating-clusters-oidc/" >}}
+[anon-req]: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#anonymous-requests
+[eventratelimit]: https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit
+[securitycontextdeny]: https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#securitycontextdeny
