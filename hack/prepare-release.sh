@@ -14,7 +14,6 @@ usage() {
   echo "Flags:"
   echo "  -p    Product selection. One of 'kubermatic', 'kubeone'. (env: PRODUCT)"
   echo "  -v    Version of the upcoming release. (env: VERSION)"
-  echo "  -k    Location of kubermatic/kubermatic working copy. (env: KUBERMATIC_DIR, default: '../kubermatic')"
   echo "  -h    Print this help."
   echo
   echo "Product and Version can be passed by flag or environment variable. The flag has the higher weight."
@@ -23,18 +22,6 @@ usage() {
 
 line() {
   printf "| %-30s | %-30s |\n" "$1" "$2"
-}
-
-version_table() {
-  line "KKP Component" "Version"
-  line "---" "---"
-  for comp in $(find $KUBERMATIC_DIR/charts -name 'Chart.yaml')
-  do
-    folder=${comp%/*}
-    name=${folder#$KUBERMATIC_DIR/charts/}
-    ver=$(yq e '.appVersion' $comp | sed "s/__KUBERMATIC_TAG__/${VERSION}.0/;s/^v//")
-    line $name $ver
-  done
 }
 
 while getopts "hp:v:k:" option
@@ -47,8 +34,6 @@ do
       export PRODUCT=${OPTARG};;
     v)
       export VERSION=${OPTARG};;
-    k)
-      export KUBERMATIC_DIR=${OPTARG};;
     \?)
       usage
       exit 1;;
@@ -62,9 +47,6 @@ done
 [[ $PRODUCT =~ ^(kubermatic|kubeone)$ ]] ||
   (usage; exit 1)
 
-# Default value if unset
-KUBERMATIC_DIR=${KUBERMATIC_DIR:-"../kubermatic"}
-
 PRIMARY_BRANCH=master
 if [ -d content/$PRODUCT/main ]; then
   PRIMARY_BRANCH=main
@@ -73,11 +55,6 @@ fi
 # Update component versions and copy static images only when preparing docs for KKP release
 if [[ $PRODUCT == 'kubermatic' ]]
 then
-  tmpfile=$(mktemp)
-  sed '/^|.*KKP/Q' content/kubermatic/$PRIMARY_BRANCH/architecture/compatibility/KKP-components-versioning/_index.en.md > $tmpfile
-  version_table >> $tmpfile
-  mv $tmpfile content/kubermatic/$PRIMARY_BRANCH/architecture/compatibility/KKP-components-versioning/_index.en.md
-
   cp -R static/img/kubermatic/{$PRIMARY_BRANCH,$VERSION}
 fi
 
