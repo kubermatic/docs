@@ -59,7 +59,7 @@ information about the cluster including:
 * SSH parameters (username, port, key)
 * bastion/jump host parameters if bastion is used
 * information needed to generate the MachineDeployment objects which define
-  worker nodes
+  worker nodes; for more information, see [terraform worker reference][terraform-integration-workers].
 
 All you need to do to utilize the integration is to ensure that you have
 the appropriate `output.tf` file along with your other Terraform files. It's
@@ -169,3 +169,4 @@ MachineSets/Machines and allow advanced use cases such as rolling updates.
 [cluster-api-book]: https://cluster-api.sigs.k8s.io/
 [cluster-provisioning]: {{< ref "#cluster-provisioning-and-management" >}}
 [operating-system-manager]: https://github.com/kubermatic/operating-system-manager
+[terraform-integration-workers]: {{< ref "../../references/terraform-integration/#kubeone_workers-reference" >}}
