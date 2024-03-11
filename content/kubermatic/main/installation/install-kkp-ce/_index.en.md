@@ -130,13 +130,15 @@ The key items to consider while preparing your configuration files are described
 
 | Description                                                                          | YAML Paths and File                                                                         |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| The base domain under which KKP shall be accessible (e.g. `kubermatic.example.com`). | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.host` (`values.yaml`); also adjust `.dex.clients[*].RedirectURIs` (`values.yaml`) according to your domain. |
-| The certificate issuer for KKP (KKP requires that its dashboard and Dex are only accessible via HTTPS); by default cert-manager is used, but you have to reference an issuer that you need to create later on. | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`) |
-| For proper authentication shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`; this needs to be equal to `.dex.clients[name=="kubermaticIssuer"].secret` from `values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
-| To authenticate via an external identity provider you need to set up connectors in Dex. Check out [the Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required but highly recommended for multi-user installations. | `.dex.connectors` (`values.yaml`; not included in example file) |
-| The expose strategy which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [the expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
+| The base domain under which KKP shall be accessible (e.g. `kkp.example.com`). | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.host` (`values.yaml`); also adjust `.dex.clients[*].RedirectURIs` (`values.yaml`) according to your domain. |
+| The certificate issuer for KKP (KKP requires it since the dashboard and Dex are accessible only via HTTPS); by default cert-manager is used, but you have to reference an issuer that you need to create later on. | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`) |
+| For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`); this needs to be equal to `.dex.clients[name=="kubermaticIssuer"].secret` (`values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
+| To authenticate via an external identity provider, you need to set up connectors in Dex. Check out [the Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required, but highly recommended for multi-user installations. | `.dex.connectors` (`values.yaml`; not included in example file) |
+| The expose strategy which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [the expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy, if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
+| Telemetry used to track the KKP and k8s cluster usage, uuid field is required and will print an error message when that entry is missing. | `.telemetry.uuid` (`values.yaml`) |
 
-There are many more options but these are essential to get a minimal system up and running. A full reference of all options can be found in the [KubermaticConfiguration Reference]({{< relref "../../references/crds/#kubermaticconfigurationspec" >}}). The secret keys
+
+There are many more options, but these are essential to get a minimal system up and running. A full reference of all options can be found in the [KubermaticConfiguration Reference]({{< relref "../../references/crds/#kubermaticconfigurationspec" >}}). The secret keys
 mentioned above can be generated using any password generator or on the shell using
 `cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32`. Alternatively, the
 Kubermatic Installer will suggest some properly generated secrets for you when it
@@ -474,7 +476,7 @@ This will initiate your first contact with the KKP API which will create an init
 The first user signing into the dashboard will be granted admin permissions.
 {{% /notice %}}
 
-This will allow you to use the KKP UI and API as an admin. Other users can be promoted to Admins using the [Admin Panel]({{< ref "../../tutorials-howtos/administration/admin-panel/administrators" >}}).
+This will allow you to use the KKP Dashboard and API as an admin. Other users can be promoted to admins using the [Admin Panel]({{< ref "../../tutorials-howtos/administration/admin-panel/administrators" >}}).
 
 ## Next Steps
 

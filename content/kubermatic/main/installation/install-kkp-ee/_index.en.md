@@ -11,7 +11,7 @@ This chapter explains the installation procedure of KKP Enterprise Edition (EE) 
 Kubernetes cluster.
 
 {{% notice note %}}
-At the moment you need to be invited to get access to Kubermatic's EE Docker repository before you can try it out.
+At the moment, you need to be invited to get access to Kubermatic's EE Docker repository before you can try it out.
 Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 {{% /notice %}}
 
@@ -35,7 +35,7 @@ guide.
 
 During configuration, it's required to set the Docker Pull Secret, which allows the local Docker daemons to pull the KKP
 images from the private Docker repository. The Docker Pull Secret is a tiny JSON snippet and needs to be configured in the
-KubermaticConfiguration (e.g. in the `kubermatic.yaml`):
+KubermaticConfiguration (e.g. in the `kubermatic.yaml`) and in the `values.yaml`:
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
@@ -49,6 +49,17 @@ spec:
 
   # This is where the JSON snippet needs to be configured. It does not need to be
   # a multiline JSON string.
+  imagePullSecret: |
+    {
+      "auths": {
+        "quay.io": {....}
+      }
+    }
+```
+
+```yaml
+kubermaticOperator:
+  # insert the Docker authentication JSON provided by Kubermatic here
   imagePullSecret: |
     {
       "auths": {
