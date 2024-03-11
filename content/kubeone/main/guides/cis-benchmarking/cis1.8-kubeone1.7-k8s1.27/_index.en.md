@@ -197,7 +197,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔵 Not Applicable
 
-**Details:** AlwaysPullImages admission control will force all images to be pulled everytime, it's not efficient for all users. This can be performed by a Kyverno or OPA policy
+**Details:** AlwaysPullImages admission control will force all images to be pulled every time, it's not efficient for all users. This can be performed by a Kyverno or OPA policy
 
 ---
 #### 1.2.12: Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used (Manual)
