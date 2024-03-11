@@ -35,7 +35,7 @@ But Cilium does not properly allow traffic even though `NetworkPolicies` with no
 
 ### Solution
 
-At the moment (with KKP v2.24.0), there are two options available:
+For installations with KKP versions 2.24.0 or 2.24.1, there are two options available:
 
 1. [Disable kube-apiserver NetworkPolicies in Seeds with Cilium as CNI]({{< ref "../../tutorials-howtos/networking/apiserver-policies/#in-a-seed-cluster" >}})
 2. Manually creating a single `CiliumClusterwideNetworkPolicy` object (this is a cluster-scoped resource, i.e. global) to allow the erroneously blocked traffic:
@@ -53,6 +53,8 @@ spec:
     matchLabels:
       app: apiserver
 ```
+
+For KKP 2.24.2 and higher, this policy is automatically created.
 
 ## Ubuntu 22.04 Cloud Image Issue on VMware Cloud Director
 
