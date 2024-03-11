@@ -84,8 +84,9 @@ metadata:
   name: default
   namespace: kubelb
 spec:
-  metalb.universe.tf/allow-shared-ip: ""
-  metallb.universe.tf/loadBalancerIPs: "8.8.8.8"
+  propagatedAnnotations:
+    metalb.universe.tf/allow-shared-ip: ""
+    metallb.universe.tf/loadBalancerIPs: "8.8.8.8"
 ```
 
 #### Propagate annotations from tenant namespace
