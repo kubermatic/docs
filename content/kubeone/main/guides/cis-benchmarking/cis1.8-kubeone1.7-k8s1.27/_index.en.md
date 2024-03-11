@@ -153,7 +153,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔵 Not Applicable
 
-**Details:** DenyServiceExternalIPs is not enabled by default, and it is not in the enabled plugins list
+**Details:** When DenyServiceExternalIPs is enabled, users of the cluster may not create new Services which use externalIPs and may not add new values to externalIPs on existing Service objects. It is not enabled by default, and it is not in the enabled plugins list
 
 ---
 #### 1.2.4: Ensure that the --kubelet-client-certificate and --kubelet-client-key arguments are set as appropriate (Automated)
@@ -231,30 +231,30 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.2.17: Ensure that the --audit-log-path argument is set (Automated)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
-**Details:** Audit logging is responsibility of the users, needs extra configuration
+**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
 
 ---
 #### 1.2.18: Ensure that the --audit-log-maxage argument is set to 30 or as appropriate (Automated)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
-**Details:** Audit logging is responsibility of the users, needs extra configuration
+**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
 
 ---
 #### 1.2.19: Ensure that the --audit-log-maxbackup argument is set to 10 or as appropriate (Automated)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
-**Details:** Audit logging is responsibility of the users, needs extra configuration
+**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
 
 ---
 #### 1.2.20: Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate (Automated)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
-**Details:** Audit logging is responsibility of the users, needs extra configuration
+**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
 
 ---
 #### 1.2.21: Ensure that the --request-timeout argument is set as appropriate (Manual)
@@ -296,16 +296,16 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.2.28: Ensure that the --encryption-provider-config argument is set as appropriate (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
-**Details:** Encryption configuration is responsibility of the users, needs extra configuration
+**Details:** Encryption configuration can be enabled as described here: https://docs.kubermatic.com/kubeone/v1.7/guides/encryption-providers/
 
 ---
 #### 1.2.29: Ensure that encryption providers are appropriately configured (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
-**Details:** Encryption configuration is responsibility of the users, needs extra configuration
+**Details:** Encryption configuration can be enabled as described here: https://docs.kubermatic.com/kubeone/v1.7/guides/encryption-providers/
 
 ---
 #### 1.2.30: Ensure that the API Server only makes use of Strong Cryptographic Ciphers (Manual)
@@ -401,21 +401,21 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ### 3.1. Authentication and Authorization
 #### 3.1.1: Client certificate authentication should not be used for users (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
 **Details:** KubeOne can be configured with OIDC authentication: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/
 
 ---
 #### 3.1.2: Service account token authentication should not be used for users (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
 **Details:** KubeOne can be configured with OIDC authentication: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/
 
 ---
 #### 3.1.3: Bootstrap token authentication should not be used for users (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
 **Details:** KubeOne can be configured with OIDC authentication: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/
 
@@ -423,16 +423,16 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ### 3.2. Logging
 #### 3.2.1: Ensure that a minimal audit policy is created (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
-**Details:** Audit logging is responsibility of the users, needs extra configuration
+**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
 
 ---
 #### 3.2.2: Ensure that the audit policy covers key security concerns (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟠 Configurable
 
-**Details:** Audit logging is responsibility of the users, needs extra configuration
+**Details:** Audit logging is not enabled by default, it can be configured as described here: https://docs.kubermatic.com/kubeone/v1.7/tutorials/creating-clusters-oidc/#audit-logging
 
 ---
 ## Control Type: node
@@ -538,7 +538,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 4.2.9: Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟢 Pass
 
 **Details:** This is a manual check, `--tls-cert-file` and `--tls-private-key-file` options are provided to Kubelet
 

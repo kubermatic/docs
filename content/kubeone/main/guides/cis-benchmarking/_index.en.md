@@ -9,7 +9,7 @@ In this document, information how it can be run on KubeOne clusters and what to 
 
 ## Tooling
 
-[kube-bench](https://github.com/aquasecurity/kube-bench) is used to create the assesment.
+[kube-bench](https://github.com/aquasecurity/kube-bench) is used to create the assessment.
 
 ### Installation
 {{% notice note %}}
