@@ -57,6 +57,39 @@ KubeLB can propagate annotations from services in the consumer cluster to the Lo
 
 Annotations are not propagated by default since tenants can make unwanted changes to the LoadBalancer configuration. Since each tenant is treated as a separate entity, the KubeLB manager cluster needs to be configured to allow the propagation of specific annotations.
 
+This can be achieved in the following ways:
+
+#### Propagate all annotations
+
+This can be done by setting the `kubelb.propagateAllAnnotations` field to `true` in the `config` CRD. This will propagate all annotations from the service to the LoadBalancer.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+  namespace: kubelb
+spec:
+  propagateAllAnnotations: true
+```
+
+#### Propagate specific annotations
+
+This can be done by setting the `kubelb.propagatedAnnotations` field in the `config` CRD. This field is a map of annotations that are allowed to be propagated. The key is the annotation name and the value is the annotation value. If the value is empty, any value is allowed.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+  namespace: kubelb
+spec:
+  metalb.universe.tf/allow-shared-ip: ""
+  metallb.universe.tf/loadBalancerIPs: "8.8.8.8"
+```
+
+#### Propagate annotations from tenant namespace
+
 This is done by adding the `kubelb.k8c.io/propagate-annotation` annotation to the tenant namespace in the management cluster. For multiple annotations, the suffix can be incremented like `kubelb.k8c.io/propagate-annotation-1` . The suffix can be any arbitrary string, it's just for uniqueness.
 
 Here is a basic example, where optionally kubelb allows to set a values filter:
