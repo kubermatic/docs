@@ -52,14 +52,15 @@ if [ -d content/$PRODUCT/main ]; then
   PRIMARY_BRANCH=main
 fi
 
+# Copy content
+cp -R content/$PRODUCT/{$PRIMARY_BRANCH,$VERSION}
+
 # Update component versions and copy static images only when preparing docs for KKP release
 if [[ $PRODUCT == 'kubermatic' ]]
 then
-  cp -R static/img/kubermatic/{$PRIMARY_BRANCH,$VERSION}
+  sed -i --regexp-extended "s/9.9.9-dev/${VERSION#"v"}.0/g" content/kubermatic/${VERSION}/architecture/compatibility/KKP-components-versioning/_index.en.md
+  cp -R static/img/${PRODUCT}/{$PRIMARY_BRANCH,$VERSION}
 fi
-
-# Copy content
-cp -R content/$PRODUCT/{$PRIMARY_BRANCH,$VERSION}
 
 # Update references
 grep --recursive --files-with-matches "${PRODUCT}/$PRIMARY_BRANCH" -- "content/${PRODUCT}/${VERSION}" | while read -r f
