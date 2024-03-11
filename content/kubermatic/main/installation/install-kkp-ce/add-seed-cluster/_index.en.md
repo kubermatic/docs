@@ -147,7 +147,7 @@ You can copy and adjust the correct `StorageClass` to a file (e.g. `kubermatic-b
 ### Prepare MinIO Configuration
 
 {{% notice note %}}
-If you are setting up MinIO make sure to refer to the later section [MinIO Backup Location](#minio-backup-location)
+If you are setting up MinIO, make sure to refer to the later section [MinIO Backup Location](#minio-backup-location)
 when creating your `Seed` resource.
 {{% /notice %}}
 
@@ -219,7 +219,7 @@ to provide you with the necessary DNS settings after the installation has comple
 If you want to install MinIO charts manually, you can install them via `helm`:
 
 ```bash
-helm --namespace minio upgrade --install --wait --values /path/to/your/helm-values.yaml minio charts/minio/
+helm --namespace minio upgrade --install --create-namespace --wait --values /path/to/your/helm-values.yaml minio charts/minio/
 helm --namespace kube-system upgrade --install --wait --values /path/to/your/helm-values.yaml s3-exporter charts/s3-exporter/
 ```
 

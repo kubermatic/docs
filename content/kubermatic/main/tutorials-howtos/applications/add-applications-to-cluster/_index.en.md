@@ -17,7 +17,7 @@ All App functionality resides in the Applications Tab, from which a new Applicat
 
 An application catalogue will be displayed. If no Applications are being displayed, please contact your KKP administrator to [create an Application Catalogue]({{< relref "../create-application-catalogue/" >}})
 
-![Application Catalogue](/img/kubermatic/common/applications/default-application-catalogue.png "Application Catalogue")
+![Application Catalogue](/img/kubermatic/common/applications/default-applications-catalog.png "Application Catalogue")
 
 After choosing an Application, its installation can be further customized.
 
