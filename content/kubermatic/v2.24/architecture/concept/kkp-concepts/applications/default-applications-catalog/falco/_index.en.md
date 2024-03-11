@@ -20,11 +20,11 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 * Select the Falco application from the Application Catalog.
 
-![Select Falco Application](/img/kubermatic/common/applications/default-apps-catalog/01-select-application-falco-app.png)
+![Select Falco Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/01-select-application-falco-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for Falco Application](/img/kubermatic/common/applications/default-apps-catalog/02-settings-falco-app.png)
+![Settings for Falco Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/02-settings-falco-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the Falco application to the user cluster.
 
