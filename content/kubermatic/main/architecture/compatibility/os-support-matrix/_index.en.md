@@ -26,12 +26,12 @@ This table shows the combinations of operating systems and cloud providers that 
 | Azure                 | ✓ | ✓ | ✓ | ✓ | x | ✓ |
 | Digitalocean          | ✓ | ✓ | x | x | x | ✓ |
 | Equinix Metal         | ✓ | ✓ | ✓ | x | x | ✓ |
-| Google Cloud Platform | ✓ | x | x | x | x | x |
+| Google Cloud Platform | ✓ | x | ✓ | x | x | x |
 | Hetzner               | ✓ | x[^1] | x | x | x | ✓ |
 | KubeVirt              | ✓ | ✓ | ✓ | ✓ | x | ✓ |
 | Nutanix               | ✓ | ✓ | x | x | x | x |
 | Openstack             | ✓ | ✓ | ✓ | ✓ | x | ✓ |
-| VMware Cloud Director | ✓ | x | x | x | x | x |
+| VMware Cloud Director | ✓ | x | ✓ | x | x | x |
 | VSphere               | ✓ | ✓ | ✓ | ✓ | x | ✓ |
 
 There could be more in the future since change is constant. This page will constantly be updated each time there is a new supported operating system.
