@@ -80,7 +80,7 @@ kubelb:
   weight: 5
   shareImage: img/Docs-KubeLB-share.jpg
   versions:
-    - release: ce
-      name: Community
     - release: ee
       name: Enterprise
+    - release: ce
+      name: Community
