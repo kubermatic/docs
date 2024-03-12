@@ -455,7 +455,7 @@ described below.
 {{% tab name="GCP" %}}
 
 The Terraform config for GCP requires that the `project` variable is set to the
-name of the GCP Project that will be used for deploying a cluster.
+_ID_ of the GCP Project that will be used for deploying a cluster.
 
 #
 
