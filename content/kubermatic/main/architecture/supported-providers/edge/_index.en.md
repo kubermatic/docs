@@ -8,8 +8,8 @@ KKP empowers you to build Kubermatic user clusters across a wide range of edge d
 field devices all the way up to powerful servers running in data centers.
 
 {{% notice warning %}}
-KKP Edge provider is marked as experimental and deploying it to production carries significant risks. We recommend using a 
-staging environment for testing purposes only.
+KKP Edge provider is marked as experimental and deploying it to production is on your own risk and we recommend using a 
+staging environment for testing before.
 {{% /notice %}}
 
 ## Requirement
