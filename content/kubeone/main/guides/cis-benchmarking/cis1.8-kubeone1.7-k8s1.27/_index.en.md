@@ -17,13 +17,11 @@ Each control in the CIS Kubernetes Benchmark was evaluated against a KubeOne clu
 
 These are the possible results for each control:
 
-**Pass:** The KubeOne cluster passes the audit outlined in the benchmark.
+🟢 **Pass:** The KubeOne cluster passes the audit outlined in the benchmark.
 
-**Not Applicable:** The control is not applicable to KubeOne because of how it is designed to operate. Details are provided for it.
+🔵 **Pass (Additional Configuration Required):** The KubeOne cluster passes the audit outlined in the benchmark with some extra configuration. The documentation is provided.
 
-**Warn:** The control is manual in the CIS benchmark and it depends on the cluster's use-case or some other factor that must be determined by the cluster operator. These controls have been evaluated to ensure KubeOne doesn't prevent their implementation, but no further configuration or auditing of the cluster has been performed.
-
-**Fail:** The control will be fixed in a future KubeOne release.
+🔴 **Fail:** The control will be fixed in a future KubeOne release.
 
 ## Control Type: master
 ### 1.1. Control Plane Node Configuration Files
@@ -69,7 +67,7 @@ These are the possible results for each control:
 ---
 #### 1.1.9: Ensure that the Container Network Interface file permissions are set to 600 or more restrictive (Manual)
 
-**Result:** 🟡 Warn
+**Result:** 🔴 Fail
 
 _The issue is under investigation to provide a fix in a future KubeOne release_
 
@@ -86,9 +84,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.1.12: Ensure that the etcd data directory ownership is set to etcd:etcd (Automated)
 
-**Result:** 🔴 Fail
+**Result:** 🟢 Pass
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** KubeOne runs etcd cluster as containers and there is not a `etcd` user and group on the system
 
 ---
 #### 1.1.13: Ensure that the admin.conf file permissions are set to 600 or more restrictive (Automated)
@@ -139,9 +137,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ### 1.2. API Server
 #### 1.2.1: Ensure that the --anonymous-auth argument is set to false (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🔴 Fail
 
-**Details:** This is mitigated by RBAC, please see [here][anon-req]
+_The issue is under investigation to provide a fix in a future KubeOne release_
 
 ---
 #### 1.2.2: Ensure that the --token-auth-file parameter is not set (Automated)
@@ -151,9 +149,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.2.3: Ensure that the --DenyServiceExternalIPs is set (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🔴 Fail
 
-**Details:** When DenyServiceExternalIPs is enabled, users of the cluster may not create new Services which use externalIPs and may not add new values to externalIPs on existing Service objects. It is not enabled by default, and it is not in the enabled plugins list
+_The issue is under investigation to provide a fix in a future KubeOne release_
 
 ---
 #### 1.2.4: Ensure that the --kubelet-client-certificate and --kubelet-client-key arguments are set as appropriate (Automated)
@@ -183,7 +181,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.2.9: Ensure that the admission control plugin EventRateLimit is set (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟢 Pass
 
 **Details:** EventRateLimit admission control plugin in in Alpha state, please see [here][eventratelimit]
 
@@ -195,14 +193,14 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.2.11: Ensure that the admission control plugin AlwaysPullImages is set (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🔴 Fail
 
-**Details:** AlwaysPullImages admission control will force all images to be pulled every time, it's not efficient for all users. This can be performed by a Kyverno or OPA policy
+_The issue is under investigation to provide a fix in a future KubeOne release_
 
 ---
 #### 1.2.12: Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟢 Pass
 
 **Details:** SecurityContextDeny admission control plugin is deprecated as of [Kubernetes 1.27][securitycontextdeny]
 
@@ -231,37 +229,37 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.2.17: Ensure that the --audit-log-path argument is set (Automated)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 1.2.18: Ensure that the --audit-log-maxage argument is set to 30 or as appropriate (Automated)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 1.2.19: Ensure that the --audit-log-maxbackup argument is set to 10 or as appropriate (Automated)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 1.2.20: Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate (Automated)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 1.2.21: Ensure that the --request-timeout argument is set as appropriate (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟢 Pass
 
-**Details:** By default it's 60 seconds. Setting this timeout limit to be too large can exhaust the API server resources making it prone to Denial-of-Service attack. Hence, it is recommended to set this limit as appropriate and change the default limit of 60 seconds only if needed
+**Details:** The timeout is set to 60 seconds by default. Setting this timeout limit to be too large can exhaust the API server resources making it prone to Denial-of-Service attack.
 
 ---
 #### 1.2.22: Ensure that the --service-account-lookup argument is set to true (Automated)
@@ -296,14 +294,14 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.2.28: Ensure that the --encryption-provider-config argument is set as appropriate (Manual)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** Encryption configuration can be enabled as described [here][encryption-providers]
 
 ---
 #### 1.2.29: Ensure that encryption providers are appropriately configured (Manual)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** Encryption configuration can be enabled as described [here][encryption-providers]
 
@@ -401,21 +399,21 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ### 3.1. Authentication and Authorization
 #### 3.1.1: Client certificate authentication should not be used for users (Manual)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** KubeOne can be configured with OIDC authentication as described [here][oidc]
 
 ---
 #### 3.1.2: Service account token authentication should not be used for users (Manual)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** KubeOne can be configured with OIDC authentication as described [here][oidc]
 
 ---
 #### 3.1.3: Bootstrap token authentication should not be used for users (Manual)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** KubeOne can be configured with OIDC authentication as described [here][oidc]
 
@@ -423,14 +421,14 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ### 3.2. Logging
 #### 3.2.1: Ensure that a minimal audit policy is created (Manual)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 #### 3.2.2: Ensure that the audit policy covers key security concerns (Manual)
 
-**Result:** 🟠 Configurable
+**Result:** 🔵 Pass (Additional Configuration Required)
 
 **Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
@@ -451,14 +449,14 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 4.1.3: If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟢 Pass
 
 **Details:** KubeOne does not contain `/etc/kubernetes/proxy.conf` file
 
 ---
 #### 4.1.4: If proxy kubeconfig file exists ensure ownership is set to root:root (Manual)
 
-**Result:** 🔵 Not Applicable
+**Result:** 🟢 Pass
 
 **Details:** KubeOne does not contain `/etc/kubernetes/proxy.conf` file
 
@@ -540,7 +538,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🟢 Pass
 
-**Details:** This is a manual check, `--tls-cert-file` and `--tls-private-key-file` options are provided to Kubelet
+**Details:** `--tls-cert-file` and `--tls-private-key-file` options are provided to Kubelet
 
 ---
 #### 4.2.10: Ensure that the --rotate-certificates argument is not set to false (Automated)
@@ -555,14 +553,14 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 4.2.12: Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers (Manual)
 
-**Result:** 🟡 Warn
+**Result:** 🔴 Fail
 
 _The issue is under investigation to provide a fix in a future KubeOne release_
 
 ---
 #### 4.2.13: Ensure that a limit is set on pod PIDs (Manual)
 
-**Result:** 🟡 Warn
+**Result:** 🔴 Fail
 
 _The issue is under investigation to provide a fix in a future KubeOne release_
 
