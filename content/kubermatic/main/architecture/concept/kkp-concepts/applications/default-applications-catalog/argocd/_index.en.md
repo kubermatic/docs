@@ -23,7 +23,7 @@ For more information on the ArgoCD, please refer to the [official documentation]
 
 # How to deploy?
 
-Argo CD is available as part of the KKP's default application catalog. 
+ArgoCD is available as part of the KKP's default application catalog. 
 It can be deployed to the user cluster either during the cluster creation or after the cluster is ready(existing cluster) from the Applications tab via UI.
 
 * Select the ArgoCD application from the Application Catalog.
