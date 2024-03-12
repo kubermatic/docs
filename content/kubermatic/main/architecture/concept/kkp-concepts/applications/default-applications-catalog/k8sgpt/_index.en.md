@@ -18,7 +18,7 @@ For more information on the K8sGPT, please refer to the [official documentation]
 
 # How to deploy?
 
-Argo CD is available as part of the KKP's default application catalog. 
+K8sGPT is available as part of the KKP's default application catalog. 
 It can be deployed to the user cluster either during the cluster creation or after the cluster is ready(existing cluster) from the Applications tab via UI.
 
 * Select the K8sGPT application from the Application Catalog.
