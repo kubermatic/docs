@@ -2,7 +2,7 @@
 title = "Nvidia GPU Operator Application"
 linkTitle = "Nvidia GPU Operator"
 enterprise = true
-date = 2024-03-12T12:57:00+02:00
+date = 2024-03-11T12:57:00+02:00
 weight = 12
 
 +++
