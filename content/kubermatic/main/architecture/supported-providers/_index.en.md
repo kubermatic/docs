@@ -26,6 +26,7 @@ Kubermatic Kubernetes Platform supports a multitude of different cloud providers
 * OTC (Open Telekom Cloud)
 * Bare metal via KubeVirt
 * Hetzner
+* Edge (Experimental)
 
 **Tier 3**
 
