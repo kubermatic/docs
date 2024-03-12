@@ -21,4 +21,3 @@ Here is the list of the applications that come as part of the Default Applicatio
 * [Trivy]({{< ref "./trivy/" >}})
 * [Trivy-Operator]({{< ref "./trivy-operator/" >}})
 * [Nvidia-GPU-Operator]({{< ref "./nvidia-gpu-operator/" >}})
-
