@@ -64,7 +64,7 @@ function ensure_valid_filenames() {
 
 ensure_valid_filenames kubeone "v1.0,v1.2,v1.3,v1.4,v1.5,v1.6,v1.7"
 ensure_valid_filenames kubermatic "v2.12,v2.13,v2.14,v2.15,v2.16,v2.17,v2.18,v2.19,v2.20,v2.21,v2.22,v2.23,v2.24,"
-ensure_valid_filenames_dir content/kubelb
+ensure_valid_filenames_dir kubelb "ce,ee"
 ensure_valid_filenames_dir content/operatingsystemmanager
 
 if [[ $EXIT_CODE == 1 ]]; then
