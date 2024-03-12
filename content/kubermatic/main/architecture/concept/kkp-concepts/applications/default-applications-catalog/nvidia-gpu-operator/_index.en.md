@@ -27,4 +27,4 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the Nvidia GPU Operator application to the user cluster.
 
-To further configure the values.yaml, find more information on the [Nvidia GPU Operator Helm chart documentation]https://github.com/NVIDIA/gpu-operator/)
+To further configure the values.yaml, find more information on the [Nvidia GPU Operator Helm chart documentation](https://github.com/NVIDIA/gpu-operator/)
