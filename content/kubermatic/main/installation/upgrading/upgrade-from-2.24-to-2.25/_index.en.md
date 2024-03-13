@@ -8,7 +8,7 @@ weight = 10
 Upgrading to KKP 2.25 is only supported from version 2.24. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from [2.23 to 2.24]({{< ref "../upgrade-from-2.23-to-2.24/" >}}) and then to 2.25). It is also strongly advised to be on the latest 2.24.x patch release before upgrading to 2.25.
 {{% /notice %}}
 
-This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.25. For the full list of changes in this release, please check out the [KKP changelog for v2.24](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.25.md). Please read the full document before proceeding with the upgrade.
+This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.25. For the full list of changes in this release, please check out the [KKP changelog for v2.25](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.25.md). Please read the full document before proceeding with the upgrade.
 
 ## Pre-Upgrade Considerations
 
