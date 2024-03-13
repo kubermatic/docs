@@ -41,6 +41,65 @@ If the `values.yaml` shipped by default in KKP have been copied / modified to be
 
 In addition, the various `memcached-*` Helm charts are now sub-charts of `cortex`, which means that any modification to the default values need to be configured as sub-items of the `cortex` block in its `values.yaml` file.
 
+### MLA MinIO Upgrade
+
+MinIO, the default object storage for persistence in the MLA stack, has been upgraded from `RELEASE.2022-09-17T00-09-45Z` to `RELEASE.2023-04-28T18-11-17Z`. This includes a breaking change where in version `RELEASE.2022-10-29T06-21-33Z` support for the legacy `fs` filesystem driver was removed from MinIO. This means MinIO will be unable to start up with an existing data volume that is still using the `fs` implementation.
+
+In MinIO `RELEASE.2022-06-02T02-11-04Z` the default filesystem driver was changed from `fs` to `xl.single`, meaning that any MinIO that was set up with KKP 2.22+ is already using the new `xl.single` driver.
+
+To verify what storage driver your MinIO is using, you can look at the `.minio.sys/format.json` file like so:
+
+```bash
+kubectl --namespace mla exec --container minio _minio_pod_here_ -- cat /export/.minio.sys/format.json
+```
+
+The JSON file contains a `format` key. If the output looks like
+
+```json
+{"version":"1","format":"xl-single","id":"5dc676ac-92f3-4c19-81d0-2304b366293c","xl":{"version":"3","this":"888f699a-2f22-402a-9e49-2e0fc9abd5c5","sets":[["888f699a-2f22-402a-9e49-2e0fc9abd5c5"]],"distributionAlgo":"SIPMOD+PARITY"}}
+```
+
+you're good to go, no migration required. However if you receive
+
+```json
+{"version":"1","format":"fs","id":"baa787b5-43b6-4bcb-b1d7-acf46bcc0a05","fs":{"version":"2"}}
+```
+
+you must either
+
+* migrate according to the [migration guide](https://min.io/docs/minio/container/operations/install-deploy-manage/migrate-fs-gateway.html), which effectively involves setting up a second MinIO and copying each file over, or
+* wipe your MinIO's storage (e.g. by deleting the PVC, see below), or
+* pin the MinIO version to the last version that supports `fs`, which is `RELEASE.2022-10-24T18-35-07Z`, using the Helm values file (set `minio.image.tag=RELEASE.2022-10-24T18-35-07Z`).
+
+The KKP installer will, when installing the `usercluster-mla` stack, perform an automated check and will refuse to upgrade if the existing MinIO volume uses the old `fs` driver.
+
+If the contents of MinIO is expendable, instead of migrating it's also possible to wipe (**deleting all data**) MinIO's storage entirely. There are several ways to go about this, for example:
+
+```bash
+$ kubectl --namespace mla scale deployment/minio --replicas=0
+#deployment.apps/minio scaled
+
+$ kubectl --namespace mla delete pvc minio-data
+#persistentvolumeclaim "minio-data" deleted
+
+# re-install MinIO chart manually
+$ helm --namespace mla upgrade minio ./charts/minio --values myhelmvalues.yaml
+#Release "minio" has been upgraded. Happy Helming!
+#NAME: minio
+#LAST DEPLOYED: Mon Jul 24 13:40:51 2023
+#NAMESPACE: minio
+#STATUS: deployed
+#REVISION: 2
+#TEST SUITE: None
+
+$ kubectl --namespace mla scale deployment/minio --replicas=1
+#deployment.apps/minio scaled
+```
+
+{{% notice note %}}
+Deleting the Helm release will not delete the PVC, in order to prevent accidental data loss.
+{{% /notice %}}
+
 ## Upgrade Procedure
 
 Before starting the upgrade, make sure your KKP Master and Seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.
