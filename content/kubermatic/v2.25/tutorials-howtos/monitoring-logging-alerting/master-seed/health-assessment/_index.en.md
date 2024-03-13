@@ -12,7 +12,7 @@ All screenshots below were taken from live Grafana instance installed with Kuber
 
 Dashboards list consists of categories as shown below, each containing Dashboards relevant to the specific area of KKP:
 - **Go Applications** - Go metrics for applications running in the cluster.
-- **Kubermatic** - dashboards provides insight into KKP components (described [below](#monitoring-kubermatic-kubernetes-platform)).
+- **Kubermatic** - dashboards provide insight into KKP components (described [below](#monitoring-kubermatic-kubernetes-platform)).
 - **Kubernetes** - dashboards used for monitoring Kubernetes resources of the seed cluster (described [below](#monitoring-kubernetes)).
 - **Minio** - dashboards used for monitoring local MinIO installation.
 - **Monitoring** - dashboards used for checking the health of the monitoring stack itself.
