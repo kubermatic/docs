@@ -11,12 +11,12 @@ All screenshots below were taken from live Grafana instance installed with Kuber
 ## Dashboard categories
 
 Dashboards list consists of categories as shown below, each containing Dashboards relevant to the specific area of KKP:
-- **Go Applications** - Go metrics for applications running in the cluster
-- **Kubermatic** - insight into KKP components (described [below](#monitoring-kubermatic-kubernetes-platform))
-- **Kubernetes** - dashboards used for monitoring Kubernetes resources of the seed cluster (described [below](#monitoring-kubernetes))
-- **Minio** - dashboards used for monitoring local Min.IO installation
-- **Monitoring** - dashboards used for checking the health of the monitoring stack itself
-- **NGINX Ingress Controller** - dashboards visualising NGINX Ingress status
+- **Go Applications** - Go metrics for applications running in the cluster.
+- **Kubermatic** - dashboards provide insight into KKP components (described [below](#monitoring-kubermatic-kubernetes-platform)).
+- **Kubernetes** - dashboards used for monitoring Kubernetes resources of the seed cluster (described [below](#monitoring-kubernetes)).
+- **Minio** - dashboards used for monitoring local MinIO installation.
+- **Monitoring** - dashboards used for checking the health of the monitoring stack itself.
+- **NGINX Ingress Controller** - dashboards used for visualising NGINX Ingress status.
 
 ![Categories of Grafana dashboards](/img/kubermatic/{{< current_version >}}/tutorials/mla/master-seed/health-assessment/all-dashboards.png?classes=shadow,border)
 
