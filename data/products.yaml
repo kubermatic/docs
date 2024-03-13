@@ -11,8 +11,8 @@ kubermatic:
   versions:
     - release: main
       name: main
-    #- release: v2.25
-    #  name: v2.25
+    - release: v2.25
+      name: v2.25
     - release: v2.24
       name: v2.24
     - release: v2.23
