@@ -27,7 +27,7 @@ the production usage.
 {{% /notice %}}
 
 {{% notice note %}}
-If you're using our example Terraform configs, requirements are satisfied
+If you're using our example Terraform configs, KubeOne's infrastructure requirements are satisfied
 out of the box.
 {{% /notice %}}
 
