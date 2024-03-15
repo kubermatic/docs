@@ -29,7 +29,7 @@ Before you start, you need to check these 2 files:
 > In case you use a different version than cis-1.8, you need to create those files, and  pay attention to the control/audit numbers.
 
 - [configurable_controls_cis-${VERSION}.json](./configurable_controls_cis-1.8.json): This file contains some details about some features that are not enabled by a default installation, but KubeOne supports them. e.g. audit logging, oidc, ...
-- [additional_details_cis-${VERSION}.json](./additional_details_cis-1.8.json): This file contains some explanation for contols that are in `Warn` or `Fail` state in the benchmark output file. 
+- [additional_details_cis-${VERSION}.json](./additional_details_cis-1.8.json): This file contains some explanation for controls that are in `Warn` or `Fail` state in the benchmark output file. 
 
 When you are sure that this configuration is correct, just run the script:
 
