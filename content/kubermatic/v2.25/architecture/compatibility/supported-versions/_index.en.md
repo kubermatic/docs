@@ -45,7 +45,7 @@ marked as supported, for example KKP 2.19 supports updating clusters from Kubern
 ## Provider Incompatibilities
 
 KKP has some incompatibilities with cloud providers, e.g. because their in-tree cloud provider
-implementation has been removed from upstream Kubernetes. For KKP 2.24.x, the following incompatibilities
+implementation has been removed from upstream Kubernetes. For KKP 2.25.x, the following incompatibilities
 apply:
 
 | Condition                          | Incompatible with Kubernetes | Notes                                                                                             |
