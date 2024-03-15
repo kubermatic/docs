@@ -2,7 +2,7 @@
 
 ## Running kube-bench
 
-Kube bench is deployed on the master node, and run this way:
+kube-bench is deployed on the master node, and run this way:
 
 ```bash
 # make sure you run those commands as root user:

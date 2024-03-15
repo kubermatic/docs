@@ -5,7 +5,7 @@ date = 2024-03-06T12:00:00+02:00
 
 [CIS Benchmark for Kubernetes](https://www.cisecurity.org/benchmark/kubernetes) is a guide that consists of secure configuration guidelines and best practices developed for Kubernetes.
 
-In this document, information how it can be run on KubeOne clusters and what to expect as the result is described.
+In this document, information how it can be run on a Kubernetes cluster created using KubeOne and what to expect as the result is described.
 
 ## Tooling
 
