@@ -1,27 +1,25 @@
 +++
-title = "Benchmark on KubeOne-1.7.3 and Kubernetes-1.27"
+title = "Benchmark on Kubernetes 1.27 with KubeOne 1.7.3"
 date = 2024-03-06T12:01:00+02:00
 +++
 
-This benchmark guide helps you evaluate the security of a KubeOne cluster against each control in the CIS Kubernetes Benchmark.
+This guide helps you evaluate the security of a Kubernetes cluster created using KubeOne against each control in the CIS Kubernetes Benchmark.
 
 This guide corresponds to the following versions of KubeOne, CIS Benchmarks, and Kubernetes:
 
 | KubeOne Version  | Kubernetes Version | CIS Benchmark Version |
 | ---------------- | ------------------ | --------------------- |
-| 1.7.3               | 1.27                 | CIS-1.8                    |
+| 1.7.3            | 1.27.10            | CIS-1.8               |
 
 ## Testing Methodology
 
-Each control in the CIS Kubernetes Benchmark was evaluated against a KubeOne cluster that was configured according to the accompanying hardening guide.
+Each control in the CIS Kubernetes Benchmark was evaluated. These are the possible results for each control:
 
-These are the possible results for each control:
+🟢 **Pass:** The cluster passes the audit/control outlined in the benchmark.
 
-🟢 **Pass:** The KubeOne cluster passes the audit outlined in the benchmark.
+🔵 **Pass (Additional Configuration Required):** The cluster passes the audit/control outlined in the benchmark with some extra configuration. The documentation is provided.
 
-🔵 **Pass (Additional Configuration Required):** The KubeOne cluster passes the audit outlined in the benchmark with some extra configuration. The documentation is provided.
-
-🔴 **Fail:** The control will be fixed in a future KubeOne release.
+🔴 **Fail:** The audit/control will be fixed in a future KubeOne release.
 
 ## Control Type: master
 ### 1.1. Control Plane Node Configuration Files
@@ -181,9 +179,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.2.9: Ensure that the admission control plugin EventRateLimit is set (Manual)
 
-**Result:** 🟢 Pass
+**Result:** 🔴 Fail
 
-**Details:** EventRateLimit admission control plugin in in Alpha state, please see [here][eventratelimit]
+**Details:** EventRateLimit admission control plugin in in Alpha state, please see [here][eventratelimit]. Supporting Alpha features is under consideration.
 
 ---
 #### 1.2.10: Ensure that the admission control plugin AlwaysAdmit is not set (Automated)
@@ -200,9 +198,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 1.2.12: Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used (Manual)
 
-**Result:** 🟢 Pass
+**Result:** 🔴 Fail
 
-**Details:** SecurityContextDeny admission control plugin is deprecated as of [Kubernetes 1.27][securitycontextdeny]
+**Details:** SecurityContextDeny admission control plugin is deprecated as of [Kubernetes 1.27][securitycontextdeny], hence it is not enabled.
 
 ---
 #### 1.2.13: Ensure that the admission control plugin ServiceAccount is set (Automated)

@@ -18,12 +18,12 @@ There are [multiple ways](https://github.com/aquasecurity/kube-bench/blob/main/d
 
 ```bash
 # make sure you run those commands as root user:
+KUBE_BENCH_VERSION="0.7.2"
+KUBE_BENCH_URL="https://github.com/aquasecurity/kube-bench/releases/download/v${KUBE_BENCH_VERSION}/kube-bench_${KUBE_BENCH_VERSION}_linux_amd64.tar.gz"
+
 mkdir /root/kube-bench
 cd /root/kube-bench
-KUBE_BENCH_VERSION="0.7.2"
-
-curl -L https://github.com/aquasecurity/kube-bench/releases/download/v${KUBE_BENCH_VERSION}/kube-bench_${KUBE_BENCH_VERSION}_linux_amd64.tar.gz \
-  -o kube-bench_${KUBE_BENCH_VERSION}_linux_amd64.tar.gz
+curl -L ${KUBE_BENCH_URL} -o kube-bench_${KUBE_BENCH_VERSION}_linux_amd64.tar.gz
 tar xvf kube-bench_${KUBE_BENCH_VERSION}_linux_amd64.tar.gz
 ```
 
