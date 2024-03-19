@@ -13,17 +13,17 @@ For more details on Applications, please refer to our [Applications Primer]({{< 
 
 All App functionality resides in the Applications Tab, from which a new Application can be added.
 
-![Applications Tab](/img/kubermatic/common/applications/application_section.png "Applications Tab")
+![Applications Tab](/img/kubermatic/v2.24/applications/application_section.png "Applications Tab")
 
 An application catalogue will be displayed. If no Applications are being displayed, please contact your KKP administrator to [create an Application Catalogue]({{< relref "../create-application-catalogue/" >}})
 
-![Application Catalogue](/img/kubermatic/common/applications/application-catalogue.png "Application Catalogue")
+![Application Catalogue](/img/kubermatic/v2.24/applications/application-catalogue.png "Application Catalogue")
 
 After choosing an Application, its installation can be further customized.
 
-![Application Settings](/img/kubermatic/common/applications/application_settings.png "Application Settings")
+![Application Settings](/img/kubermatic/v2.24/applications/application_settings.png "Application Settings")
 
-![Application Values](/img/kubermatic/common/applications/application_values.png "Application Values")
+![Application Values](/img/kubermatic/v2.24/applications/application_values.png "Application Values")
 
 The following can be customized:
 
@@ -36,7 +36,7 @@ The combination of Namespace and Name must be unique within your cluster.
 
 After you have selected your customizations, the installation-status of your Application can be viewed in the Applications Tab.
 
-![Application Installation Status](/img/kubermatic/common/applications/application_status.png "Application Installation Status")
+![Application Installation Status](/img/kubermatic/v2.24/applications/application_status.png "Application Installation Status")
 
 ### Creating a New Cluster With Applications
 
@@ -46,17 +46,17 @@ KKP will automatically install your selection after the infrastructure is provis
 Applications can be added in the `Applications` Section of the wizard.
 For a detailed flow and explanation of all customizations see the ["Adding Applications to an Existing Cluster"](#adding-applications-to-an-existing-cluster) section of this guide.
 
-![Application Section in Cluster Creation Wizard](/img/kubermatic/common/applications/applications_flow_in_cluster_wizard.png "Application Section in Cluster Creation Wizard")
+![Application Section in Cluster Creation Wizard](/img/kubermatic/v2.24/applications/applications_flow_in_cluster_wizard.png "Application Section in Cluster Creation Wizard")
 
 Afterwards, you can track the installation progress in the Applications Tab.
 
-![Application Installation Status](/img/kubermatic/common/applications/application_status.png "Application Installation Status")
+![Application Installation Status](/img/kubermatic/v2.24/applications/application_status.png "Application Installation Status")
 
 ### Storing Applications in a ClusterTemplate
 
 ApplicationInstallations can also be added to [ClusterTemplates]({{< relref "../../cluster-templates/" >}}) in order to reuse them across multiple clusters. In order to do so, select the `Save Cluster Template` option during the Summary step of the cluster creation wizard.
 
-![Saving As Cluster Template](/img/kubermatic/common/applications/save_to_cluster_template.png "Saving As Cluster Template")
+![Saving As Cluster Template](/img/kubermatic/v2.24/applications/save_to_cluster_template.png "Saving As Cluster Template")
 
 ## Managing Applications via GitOps
 

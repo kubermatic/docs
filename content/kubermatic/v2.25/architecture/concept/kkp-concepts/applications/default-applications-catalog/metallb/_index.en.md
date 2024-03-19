@@ -16,16 +16,16 @@ For more information on the MetalLB, please refer to the [official documentation
 
 # How to deploy?
 
-MetalLB is available as part of the KKP's default application catalog. 
+MetalLB is available as part of the KKP's default application catalog.
 It can be deployed to the user cluster either during the cluster creation or after the cluster is ready(existing cluster) from the Applications tab via UI.
 
 * Select the MetalLB application from the Application Catalog.
 
-![Select MetalLB Application](/img/kubermatic/common/applications/default-apps-catalog/01-select-application-metallb-app.png)
+![Select MetalLB Application](01-select-application-metallb-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for MetalLB Application](/img/kubermatic/common/applications/default-apps-catalog/02-settings-metallb-app.png)
+![Settings for MetalLB Application](02-settings-metallb-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the MetalLB application to the user cluster.
 
