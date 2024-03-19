@@ -23,13 +23,13 @@ For more information on the KubeVirt, please refer to the [official documentatio
 
 # How to deploy?
 
-KubeVirt is available as part of the KKP's default application catalog. 
+KubeVirt is available as part of the KKP's default application catalog.
 It can be deployed to the user cluster either during the cluster creation or after the cluster is ready(existing cluster) from the Applications tab via UI.
 
 * Select the KubeVirt application from the Application Catalog.
 
-![Select KubeVirt Application](/img/kubermatic/common/applications/default-apps-catalog/01-select-application-kubevirt-app.png)
+![Select KubeVirt Application](01-select-application-kubevirt-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for KubeVirt Application](/img/kubermatic/common/applications/default-apps-catalog/02-settings-kubevirt-app.png)
+![Settings for KubeVirt Application](02-settings-kubevirt-app.png)

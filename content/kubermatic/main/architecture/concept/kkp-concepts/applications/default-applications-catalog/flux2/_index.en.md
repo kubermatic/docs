@@ -21,16 +21,16 @@ For more information on the Flux2, please refer to the [official documentation](
 
 # How to deploy?
 
-Flux2 is available as part of the KKP's default application catalog. 
+Flux2 is available as part of the KKP's default application catalog.
 It can be deployed to the user cluster either during the cluster creation or after the cluster is ready(existing cluster) from the Applications tab via UI.
 
 * Select the Flux2 application from the Application Catalog.
 
-![Select Flux2 Application](/img/kubermatic/common/applications/default-apps-catalog/01-select-application-flux2-app.png)
+![Select Flux2 Application](01-select-application-flux2-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for Flux2 Application](/img/kubermatic/common/applications/default-apps-catalog/02-settings-flux2-app.png)
+![Settings for Flux2 Application](02-settings-flux2-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the Flux2 application to the user cluster.
 
