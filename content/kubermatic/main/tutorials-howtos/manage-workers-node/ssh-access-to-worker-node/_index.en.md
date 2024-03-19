@@ -1,5 +1,6 @@
 +++
 title = "SSH Access to Worker Nodes"
+linktitle = "SSH Access"
 date = 2019-11-13T12:07:15+02:00
 weight = 90
 +++

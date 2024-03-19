@@ -1,5 +1,6 @@
 +++
-title = "Manage Worker Nodes via UI"
+title = "Manage Worker Nodes using the KKP Dashboard"
+linktitle = "Using the Dashboard"
 date = 2021-04-20T12:16:38+02:00
 weight = 15
 +++

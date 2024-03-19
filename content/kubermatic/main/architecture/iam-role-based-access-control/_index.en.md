@@ -1,5 +1,6 @@
 +++
 title = "IAM and Role-Based Access Control"
+linktitle = "IAM and RBAC"
 date = 2020-04-02T12:07:15+02:00
 weight = 5
 

@@ -1,5 +1,6 @@
 +++
 title = "Adding Applications To A Cluster"
+linktitle = "Adding Apps To A Cluster"
 date =  2022-08-03T16:43:41+02:00
 weight = 2
 +++

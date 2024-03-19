@@ -1,5 +1,6 @@
 +++
 title = "KKP KubeOne Integration"
+linktitle = "KubeOne Integration"
 date = 2023-02-21T14:07:15+02:00
 weight = 7
 
