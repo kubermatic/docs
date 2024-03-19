@@ -102,4 +102,25 @@ for fulldir in static/img/kubermatic/*/; do
   fi
 done
 
+# No, we also do not want image sharing through the backdoor with
+# content/kubermatic/common/...
+for fulldir in content/kubermatic/*/; do
+  base="$(basename $fulldir)"
+
+  if [[ "$base" != "main" ]] && ! [[ "$base" =~ ^v2\. ]]; then
+    EXIT_CODE=1
+
+    if ! $shownError; then
+      shownError=true
+      echo
+      echo "Only create new version directories in /content/kubermatic/."
+      echo "Please do not share content between KKP releases."
+      echo "See https://github.com/kubermatic/docs/pull/1654 for more information."
+      echo
+    fi
+
+    echo "Forbidden directory: $fulldir"
+  fi
+done
+
 exit $EXIT_CODE
