@@ -23,11 +23,11 @@ We suggest to move to [Open Policy Agent (OPA)]({{< relref "../../../../../tutor
 
 KKP provides support for enabling PSP during cluster creation using a simple switch:
 
-![Pod Security Policy Selection during Cluster Creation](/img/kubermatic/main/ui/admission-plugins.png?height=400px&classes=shadow,border "Pod Security Policy Selection during Cluster Creation")
+![Pod Security Policy Selection during Cluster Creation](@/images/ui/admission-plugins.png?height=400px&classes=shadow,border "Pod Security Policy Selection during Cluster Creation")
 
 For existing clusters, it's also possible to enable/disable PSP:
 
-![Edit Cluster](/img/kubermatic/main/ui/psp-edit.png?classes=shadow,border "Edit Cluster")
+![Edit Cluster](@/images/ui/psp-edit.png?classes=shadow,border "Edit Cluster")
 
 
 {{% notice note %}}

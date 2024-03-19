@@ -10,15 +10,15 @@ Create a cluster following these steps:
 
 - Click on `Create External Cluster` button:
 
-![Create External Cluster](/img/kubermatic/main/tutorials/external-clusters/create-external-cluster.png "Create External Cluster")
+![Create External Cluster](@/images/main/tutorials/external-clusters/create-external-cluster.png "Create External Cluster")
 
 - Choose "Azure Kubernetes Service" from the supported providers:
 
-![Select AKS Provider](/img/kubermatic/main/tutorials/external-clusters/aks-selection.png "Select AKS Provider")
+![Select AKS Provider](@/images/main/tutorials/external-clusters/aks-selection.png "Select AKS Provider")
 
 - Provide the credentials
 
-![Select Preset](/img/kubermatic/main/tutorials/external-clusters/select-preset.png "Select Preset")
+![Select Preset](@/images/main/tutorials/external-clusters/select-preset.png "Select Preset")
 
 - Configure the cluster:
 
@@ -26,7 +26,7 @@ Create a cluster following these steps:
 Supported kubernetes versions 1.23.0, 1.24.0, 1.25.0 currently available for new Azure AKS clusters.
 {{% /notice %}}
 
-![Configure Cluster](/img/kubermatic/main/tutorials/external-clusters/aks-cluster-settings.png "Configure Cluster")
+![Configure Cluster](@/images/main/tutorials/external-clusters/aks-cluster-settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
 
@@ -64,7 +64,7 @@ Node size
 
 ## Create Node Pool
 
-![Add Node Pool](/img/kubermatic/main/tutorials/external-clusters/add-md.png "Add Node Pool")
+![Add Node Pool](@/images/main/tutorials/external-clusters/add-md.png "Add Node Pool")
 
 - Name: The name for this node pool. Node pool must contain only lowercase letters and numbers. For Linux node pools the name cannot be longer than 12 characters, and for Windows node pools the name cannot be longer than 6 characters.
 - VM Size: The size of the virtual machines that will form the nodes in this node pool.
@@ -74,4 +74,4 @@ Node size
 - AutoScaling: Autoscaling is recommended for standard configuration.
     Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
 
-![Create Node Pool](/img/kubermatic/main/tutorials/external-clusters/aks-md.png "Create Node Pool")
+![Create Node Pool](@/images/main/tutorials/external-clusters/aks-md.png "Create Node Pool")

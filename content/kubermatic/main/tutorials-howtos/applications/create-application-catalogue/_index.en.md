@@ -9,7 +9,7 @@ Create permissions on the KKP master cluster are required to complete it.
 
 Before an Application is available for install, its installation- and metadata need to be added to the KKP Master Cluster. From the master, they will be automatically replicated to all KKP Seed Clusters.
 
-![Example of a populated catalogue](/img/kubermatic/common/applications/default-applications-catalog.png "Example of a populated catalogue")
+![Example of a populated catalogue](@/images/common/applications/default-applications-catalog.png "Example of a populated catalogue")
 
 To organize its catalogue, KKP makes use of a Custom Kubernetes Resource Type called `ApplicationDefinition`. This ensures Kubernetes-native management and full GitOps compatibility.
 Additionally this mechanism can be used to ensure that only approved Applications can be deployed into a cluster.
@@ -64,7 +64,7 @@ A KKP controller will afterwards ensure that your definition is synced to all KK
 
 In addition, it is possible to provide useful metadata about an application. This includes the applications upstream source-code, documentation link, or a logo. These fields will be displayed to ClusterAdmins, when interacting with Applications:
 
-![ApplicationDefinition Customizations](/img/kubermatic/common/applications/appdef-customizations.png "ApplicationDefinition Customizations")
+![ApplicationDefinition Customizations](@/images/common/applications/appdef-customizations.png "ApplicationDefinition Customizations")
 
 ```yaml
 spec:

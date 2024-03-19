@@ -160,7 +160,7 @@ spec:
 
 There are several options in the KKP “Admin Panel” which are related to user cluster MLA, as shown on the picture below:
 
-![MLA Admin Panel](/img/kubermatic/main/monitoring/user-cluster/admin-panel.png)
+![MLA Admin Panel](@/images/main/monitoring/user-cluster/admin-panel.png)
 
 **User Cluster Logging:**
 
@@ -358,13 +358,13 @@ This chapter describes some potential problems that you may face in a KKP instal
 - Make sure you are switched to the proper Grafana Organization (see the “Switch between Grafana Organizations” section of this documentation)
 - Make sure that user cluster Monitoring / Logging is enabled for the user cluster (In KKP UI, you should see green checkboxes on the Cluster Page):
 
-![MLA UI - Cluster View](/img/kubermatic/main/monitoring/user-cluster/ui-cluster-view.png)
+![MLA UI - Cluster View](@/images/main/monitoring/user-cluster/ui-cluster-view.png)
 
 **Metrics / Logs are not available in Grafana UI for some user cluster:**
 
 - Make sure that User Cluster Monitoring / Logging is enabled for the user cluster (In KKP UI, you should see green checkboxes on the Cluster Page):
 
-![MLA UI - Cluster View](/img/kubermatic/main/monitoring/user-cluster/ui-cluster-view.png)
+![MLA UI - Cluster View](@/images/main/monitoring/user-cluster/ui-cluster-view.png)
 
 - Check that Monitoring / Logging Agent was deployed an is running in the user cluster:
 

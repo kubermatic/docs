@@ -7,7 +7,7 @@ weight = 5
 
 ## Architecture
 
-![KubeVirt Cloud Provider Architecture](/img/kubermatic/main/architecture/supported-providers/kubevirt/architecture.png?classes=shadow,border "KubeVirt Cloud Provider Architecture")
+![KubeVirt Cloud Provider Architecture](@/images/main/architecture/supported-providers/kubevirt/architecture.png?classes=shadow,border "KubeVirt Cloud Provider Architecture")
 
 ## Installation And Configuration
 
@@ -141,7 +141,7 @@ Follow the official [Grafana documentation](https://grafana.com/docs/grafana/lat
 
 We provide a Virtual Machine templating functionality over [Instance Types and Preferences](https://kubevirt.io/user-guide/virtual_machines/instancetypes/).
 
-![Instance Types and Preferences](/img/kubermatic/main/architecture/supported-providers/kubevirt/instance-type.png?classes=shadow,border "Instance Types and Preferences")
+![Instance Types and Preferences](@/images/main/architecture/supported-providers/kubevirt/instance-type.png?classes=shadow,border "Instance Types and Preferences")
 
 You can use our standard
 
@@ -187,7 +187,7 @@ this allows us to spread Virtual Machine equally across a cluster.
 It is possible to change the default behaviour and create your own topology combined with Node Affinity Presets.
 You can do it by expanding *ADVANCED SCHEDULING SETTINGS* on the initial nodes dashboard page.
 
-![Instance Types and Preferences](/img/kubermatic/main/architecture/supported-providers/kubevirt/scheduling-form.png?classes=shadow,border "Advanced Scheduling Settings")
+![Instance Types and Preferences](@/images/main/architecture/supported-providers/kubevirt/scheduling-form.png?classes=shadow,border "Advanced Scheduling Settings")
 
 - `Node Affinity Preset Key` refers to the key of KubeVirt infra node labels.
 - `Node Affinity Preset Values` refers to the values of KubeVirt infra node labels.
@@ -346,7 +346,7 @@ After this step, it is required to follow the [Update LoadBalancer selectors](#u
 Right after the upgrade it is required to update Machine Deployment object (this will trigger Machines rotation).
 You can do it from the KKP Dashboard which is recommended approach as you will be guided with the possible options.
 
-![Machine Deployment Edit](/img/kubermatic/main/architecture/supported-providers/kubevirt/mc-edit.png?classes=shadow,border "Machine Deployment Edit")
+![Machine Deployment Edit](@/images/main/architecture/supported-providers/kubevirt/mc-edit.png?classes=shadow,border "Machine Deployment Edit")
 
 The alternative is to directly change Machine Deployment objects over `kubectl apply`.
 Take a look into [the example](https://github.com/kubermatic/machine-controller/blob/v1.56.0/examples/kubevirt-machinedeployment.yaml) to see what has been changed.
