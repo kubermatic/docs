@@ -574,7 +574,7 @@ kubectl --namespace kubermatic logs -l app.kubernetes.io/name=kubermatic-operato
 Depending on the chosen [Expose Strategy]({{< ref "../../../tutorials-howtos/networking/expose-strategies">}}), the control planes of all User Clusters
 running in the Seed Cluster will be exposed by the `nodeport-proxy` or using services of type `NodePort` directly.
 By default each User Cluster gets a virtual domain name like `[cluster-id].[seed-name].[kubermatic-domain]`, e.g.
-`hdu328tr.kubermatic.kubermatic.example.com` for the Seed from the previous step with `kubermatic.example.com` being the main domain
+`hdu328tr.kubermatic.kkp.example.com` for the Seed from the previous step with `kkp.example.com` being the main domain
 where the KKP dashboard/API are available.
 
 A wildcard DNS record `*.[seed-name].[kubermatic-domain]` must be created. The target of the DNS wildcard record should be the
@@ -611,9 +611,9 @@ kubectl get nodes -o wide
 Create an A or CNAME record as needed pointing to the target:
 
 ```plain
-*.kubermatic.kubermatic.example.com.   IN   A   8.7.6.5
+*.kubermatic.kkp.example.com.   IN   A   8.7.6.5
 ; or for a CNAME:
-*.kubermatic.kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
+*.kubermatic.kkp.example.com.   IN   CNAME   myloadbalancer.example.com.
 ```
 
 Once your DNS settings have propagated (this takes a few minutes depending on your environment), your seed setup is complete.
@@ -625,7 +625,7 @@ User Clusters on that seed. Here are a couple of suggestions what to do next:
 
 - If you haven't already, create your first project [via the dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/#create-a-new-project" >}}).
 - Setup a [preset]({{< relref "../../../tutorials-howtos/administration/presets/_index.en.md" >}}) to configure credentials and defaults for infrastructure providers
-- As a reminder, the dashboard will be available via the first DNS record [you have set up during master installation]({{< ref "../#create-dns-records" >}}), e.g. `https://kubermatic.example.com`.
+- As a reminder, the dashboard will be available via the first DNS record [you have set up during master installation]({{< ref "../#create-dns-records" >}}), e.g. `https://kkp.example.com`.
 - Create your very first User Cluster [via the dashboard]({{< ref "../../../tutorials-howtos/project-and-cluster-management/#create-cluster" >}}) and deploy your applications to it.
 - Set up the [User Cluster MLA stack]({{< ref "../../../architecture/monitoring-logging-alerting/user-cluster/" >}}) by [following its setup instructions]({{< ref "../../../tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/" >}}).
 - Explore [our CRD reference]({{< ref "../../../references/crds/#kubermatick8ciov1" >}}), e.g. to check out the `Cluster` resource type which can be used to create User Clusters from `kubectl` on seed clusters directly.
