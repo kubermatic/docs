@@ -1,17 +1,17 @@
 +++
-title = "Creating An Application Catalogue"
+title = "Creating An Application Catalog"
 date =  2022-08-03T16:27:43+02:00
 weight = 1
 +++
 
-This guide targets KKP Admins and details adding Applications to a catalogue, so they can be installed by Cluster Admins.
+This guide targets KKP Admins and details adding Applications to a catalog, so they can be installed by Cluster Admins.
 Create permissions on the KKP master cluster are required to complete it.
 
 Before an Application is available for install, its installation- and metadata need to be added to the KKP Master Cluster. From the master, they will be automatically replicated to all KKP Seed Clusters.
 
-![Example of a populated catalogue](@/images/applications/default-applications-catalog.png "Example of a populated catalogue")
+![Example of a populated catalog](@/images/applications/default-applications-catalog.png "Example of a populated catalog")
 
-To organize its catalogue, KKP makes use of a Custom Kubernetes Resource Type called `ApplicationDefinition`. This ensures Kubernetes-native management and full GitOps compatibility.
+To organize its catalog, KKP makes use of a Custom Kubernetes Resource Type called `ApplicationDefinition`. This ensures Kubernetes-native management and full GitOps compatibility.
 Additionally this mechanism can be used to ensure that only approved Applications can be deployed into a cluster.
 
 ## Creating an ApplicationDefinition
@@ -82,6 +82,6 @@ In order to base64 encode the logo, we recommend the usage of the standard base6
 base64 mylogo.svg
 ```
 
-## Edit Application Catalogue
+## Edit Application Catalog
 
 Please refer to [Add or Remove an  Application Version]({{< ref "../add-remove-application-version/" >}})

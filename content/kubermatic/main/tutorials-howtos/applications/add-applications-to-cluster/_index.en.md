@@ -15,9 +15,9 @@ All App functionality resides in the Applications Tab, from which a new Applicat
 
 ![Applications Tab](@/images/applications/application-section.png "Applications Tab")
 
-An application catalogue will be displayed. If no Applications are being displayed, please contact your KKP administrator to [create an Application Catalogue]({{< relref "../create-application-catalogue/" >}})
+An application catalog will be displayed. If no Applications are being displayed, please contact your KKP administrator to [create an Application Catalog]({{< relref "../create-application-catalog/" >}})
 
-![Application Catalogue](@/images/applications/default-applications-catalog.png "Application Catalogue")
+![Application Catalog](@/images/applications/default-applications-catalog.png "Application Catalog")
 
 After choosing an Application, its installation can be further customized.
 
