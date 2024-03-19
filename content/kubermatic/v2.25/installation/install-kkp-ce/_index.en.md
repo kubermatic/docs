@@ -351,10 +351,10 @@ INFO[13:03:33]
 INFO[13:03:33]         Service             : nginx-ingress-controller / nginx-ingress-controller
 INFO[13:03:33]         Ingress via hostname: EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com
 INFO[13:03:33]
-INFO[13:03:33]       Please ensure your DNS settings for "kubermatic.example.com" include the following records:
+INFO[13:03:33]       Please ensure your DNS settings for "kkp.example.com" include the following records:
 INFO[13:03:33]
-INFO[13:03:33]          kubermatic.example.com.    IN  CNAME  EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com.
-INFO[13:03:33]          *.kubermatic.example.com.  IN  CNAME  EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com.
+INFO[13:03:33]          kkp.example.com.    IN  CNAME  EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com.
+INFO[13:03:33]          *.kkp.example.com.  IN  CNAME  EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com.
 INFO[13:03:33]
 INFO[13:03:33] 🛬 Installation completed successfully. ✌
 ```
@@ -409,14 +409,14 @@ For this example you could choose the second node and therefore, `1.2.3.5` is yo
 
 #### DNS Records
 
-The main DNS record must connect the `kubermatic.example.com` domain with the target IP / hostname. Depending on whether
+The main DNS record must connect the `kkp.example.com` domain with the target IP / hostname. Depending on whether
 or not your load balancer or node uses hostnames instead of IPs (like AWS ELB), create either an **A** or a **CNAME** record,
 respectively.
 
 ```plain
-kubermatic.example.com.   IN   A   1.2.3.4
+kkp.example.com.   IN   A   1.2.3.4
 ; or for a CNAME:
-kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
+kkp.example.com.   IN   CNAME   myloadbalancer.example.com.
 ```
 
 ### Identity Aware Proxy
@@ -424,23 +424,23 @@ kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
 It's a common step to later setup an identity-aware proxy (IAP) to
 [securely access other KKP components]({{< ref "../../architecture/concept/kkp-concepts/kkp-security/securing-system-services" >}}) from the logging or monitoring
 stacks. This involves setting up either individual DNS records per IAP deployment (one for Prometheus, one for Grafana, etc.)
-or simply creating a single **wildcard** record: `*.kubermatic.example.com`.
+or simply creating a single **wildcard** record: `*.kkp.example.com`.
 
 Whatever you choose, the DNS record needs to point to the same endpoint (IP or hostname, meaning A or CNAME
 records respectively) as the previous record, i.e. `1.2.3.4`. This is because the one nginx-ingress-controller is routing
 traffic both for KKP and all other services.
 
 ```plain
-*.kubermatic.example.com.   IN   A       1.2.3.4
+*.kkp.example.com.   IN   A       1.2.3.4
 ; or for a CNAME:
-*.kubermatic.example.com.   IN   CNAME   myloadbalancer.example.com.
+*.kkp.example.com.   IN   CNAME   myloadbalancer.example.com.
 ```
 
 If wildcard records are not possible, you can configure individual records instead:
 
 ```plain
-prometheus.kubermatic.example.com.     IN   A       1.2.3.4
-alertmanager.kubermatic.example.com.   IN   A       1.2.3.4
+prometheus.kkp.example.com.     IN   A       1.2.3.4
+alertmanager.kkp.example.com.   IN   A       1.2.3.4
 ```
 
 ### Validation
@@ -468,7 +468,7 @@ All pods running inside the `kubermatic` namespace should now be running. If the
 
 ## First Sign In
 
-With all this in place, you should be able to access `https://kubermatic.example.com/` (i.e. the URL to your KKP setup that you
+With all this in place, you should be able to access `https://kkp.example.com/` (i.e. the URL to your KKP setup that you
 configured) and log in either with your static password from the `values.yaml` files or using any of your chosen connectors.
 This will initiate your first contact with the KKP API which will create an initial `User` resource for your account.
 

@@ -33,8 +33,8 @@ It uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prome
 As with KKP itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
 are a few important options you might want to override for your setup:
 
-* `prometheus.host` is used for the external URL in Prometheus, e.g. `prometheus.kubermatic.example.com`.
-* `alertmanager.host` is used for the external URL in Alertmanager, e.g. `alertmanager.kubermatic.example.com`.
+* `prometheus.host` is used for the external URL in Prometheus, e.g. `prometheus.kkp.example.com`.
+* `alertmanager.host` is used for the external URL in Alertmanager, e.g. `alertmanager.kkp.example.com`.
 * `prometheus.storageSize` (default: `100Gi`) controls the volume size for each Prometheus replica; this should
   be large enough to hold all data as per your retention time (see next option). Long-term storage for Prometheus
   blocks is provided by Thanos, an optional extension to the Prometheus chart.
@@ -50,10 +50,10 @@ are a few important options you might want to override for your setup:
   login is possible.
 
 An example `values.yaml` could look like this if all options mentioned above are customized:
-
+kkp.example.com
 ```yaml
 prometheus:
-  host: prometheus.kubermatic.example.com
+  host: prometheus.kkp.example.com
   storageSize: '250Gi'
   tsdb:
     retentionTime: '30d'
@@ -61,10 +61,10 @@ prometheus:
   ruleFiles:
   - /etc/prometheus/rules/general-*.yaml
   - /etc/prometheus/rules/kubermatic-master-*.yaml
-  - /etc/prometheus/rules/managed-*.yaml
+  - /etc/prometheus/rkkp.example.com
 
 alertmanager:
-  host: alertmanager.kubermatic.example.com
+  host: alertmanager.kkp.example.com
 
 grafana:
   user: admin

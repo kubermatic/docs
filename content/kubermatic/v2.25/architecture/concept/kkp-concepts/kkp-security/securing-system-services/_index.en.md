@@ -33,7 +33,7 @@ A sample configuration for Prometheus and Alertmanager could look like this:
 ```yaml
 dex:
   ingress:
-    host: kubermatic.example.com
+    host: kkp.example.com
 
   clients:
    # keep the KKP client for the login to the KKP dashboard
@@ -45,14 +45,14 @@ dex:
     name: Prometheus
     secret: <generate random secret key here>
     RedirectURIs:
-    - 'https://prometheus.kubermatic.example.com/oauth/callback'
+    - 'https://prometheus.kkp.example.com/oauth/callback'
 
   # new client used for authenticating Alertmanager
   - id: alertmanager # a unique identifier
     name: Alertmanager
     secret: <generate another random secret key here>
     RedirectURIs:
-    - 'https://alertmanager.kubermatic.example.com/oauth/callback'
+    - 'https://alertmanager.kkp.example.com/oauth/callback'
 ```
 
 Each service should have its own credentials (i.e. a different `secret` for every client). Re-deploying the `oauth` chart
@@ -83,7 +83,7 @@ iap:
       name: prometheus
 
       ingress:
-        host: prometheus.kubermatic.example.com
+        host: prometheus.kkp.example.com
 
       # the Kubernetes service and port the IAP should point to
       upstream_service: prometheus.monitoring.svc.cluster.local
@@ -109,7 +109,7 @@ iap:
     alertmanager:
       name: alertmanager
       ingress:
-        host: alertmanager.kubermatic.example.com
+        host: alertmanager.kkp.example.com
       upstream_service: alertmanager.monitoring.svc.cluster.local
       upstream_port: 9093
       client_id: alertmanager

@@ -210,7 +210,7 @@ spec:
   tls:
   - secretName: my-custom-kubermatic-cert
     hosts:
-    - kubermatic.example.com
+    - kkp.example.com
 ```
 
 Refer to the [Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
