@@ -1,5 +1,6 @@
 +++
 title = "Application Installation"
+linktitle = "Installations"
 date = 2023-01-27T14:07:15+02:00
 weight = 2
 

@@ -1,5 +1,6 @@
 +++
 title = "KKP KubeOne Integration"
+linktitle = "KubeOne Integration"
 date = 2023-02-21T14:07:15+02:00
 weight = 7
 
@@ -35,20 +36,20 @@ KKP allows connecting any existing KubeOne cluster of supported provider to view
 
 - To import a KubeOne cluster go to `KubeOne Clusters` page and Click the `Import KubeOne Cluster` button.
 
-![Import KubeOne Cluster](/img/kubermatic/main/tutorials/kubeone-clusters/cluster-list-empty.png "Import KubeOne Cluster")
+![Import KubeOne Cluster](@/images/main/tutorials/kubeone-clusters/cluster-list-empty.png "Import KubeOne Cluster")
 
 - Select the KubeOne cloud provider.
 
-![Select Provider](/img/kubermatic/main/tutorials/kubeone-clusters/import-kubeone-cluster.png "Select Provider")
+![Select Provider](@/images/main/tutorials/kubeone-clusters/import-kubeone-cluster.png "Select Provider")
 
 - See [AWS]({{< ref "./aws" >}}) / [Google Cloud Provider]({{< ref "./gcp" >}})/[Azure]({{< ref "./azure" >}})/[DigitalOcean]({{< ref "./digitalocean" >}})/[Hetzner]({{< ref "./hetzner" >}})/[OpenStack]({{< ref "./openstack" >}})/[vSphere]({{< ref "./vsphere" >}})
  specific documentation for detailed cluster import steps.
 
 After the cluster has been imported, we can see the details of the cluster in the dashboard.
 
-![Cluster Details](/img/kubermatic/main/tutorials/kubeone-clusters/cluster-details.png "Imported AWS Cluster")
+![Cluster Details](@/images/main/tutorials/kubeone-clusters/cluster-details.png "Imported AWS Cluster")
 
-![KubeOne Cluster List](/img/kubermatic/main/tutorials/kubeone-clusters/cluster-list.png "KubeOne Cluster List")
+![KubeOne Cluster List](@/images/main/tutorials/kubeone-clusters/cluster-list.png "KubeOne Cluster List")
 
 ## Cluster Details Page
 
@@ -68,7 +69,7 @@ Please refer to the [KubeOne Compatibility section]({{< relref "../../../../kube
 When an upgrade for the cluster is available, a little dropdown arrow will be shown beside the `Control Plane Version` on the cluster’s page.
 To start the upgrade, choose the desired version from the list of available upgrade versions and click on `Change Version`.
 
-![Upgrade Cluster](/img/kubermatic/main/tutorials/kubeone-clusters/upgrade-cluster.png "Upgrade Cluster")
+![Upgrade Cluster](@/images/main/tutorials/kubeone-clusters/upgrade-cluster.png "Upgrade Cluster")
 
 If the version upgrade is valid, the cluster state will change to `Reconciling`.
 
@@ -80,11 +81,11 @@ Kubelet version on the worker nodes managed by Machine Deployments can be update
 
 - Click on the edit icon next to the machine deployment we want to edit.
 
-![Update Machine Deployment Version](/img/kubermatic/main/tutorials/kubeone-clusters/update-md-list.png "Update Machine Deployment Version")
+![Update Machine Deployment Version](@/images/main/tutorials/kubeone-clusters/update-md-list.png "Update Machine Deployment Version")
 
 - Upgrade Kubelet Version. Select the Kubelet Version from the dropdown to upgrade the machine deployment.
 
-![Select Version](/img/kubermatic/main/tutorials/kubeone-clusters/update-md-dialog.png "Select Version")
+![Select Version](@/images/main/tutorials/kubeone-clusters/update-md-dialog.png "Select Version")
 
 ## Disconnect Cluster
 
@@ -94,11 +95,11 @@ Disconnect operation does not delete the cluster from the cloud provider.
 
 We can `Disconnect` a KubeOne cluster by clicking on the disconnect icon next to the cluster we want to disconnect or from the cluster details page.
 
-![Disconnect KubeOne Cluster](/img/kubermatic/main/tutorials/kubeone-clusters/disconnect-cluster-list.png "Disconnect KubeOne Cluster")
+![Disconnect KubeOne Cluster](@/images/main/tutorials/kubeone-clusters/disconnect-cluster-list.png "Disconnect KubeOne Cluster")
 
-![Disconnect KubeOne Cluster on Details Page](/img/kubermatic/main/tutorials/kubeone-clusters/disconnect-cluster-details.png "Disconnect KubeOne Cluster on Details Page")
+![Disconnect KubeOne Cluster on Details Page](@/images/main/tutorials/kubeone-clusters/disconnect-cluster-details.png "Disconnect KubeOne Cluster on Details Page")
 
-![Disconnect Dialog](/img/kubermatic/main/tutorials/kubeone-clusters/disconnect-cluster-dialog.png "Disconnect Dialog")
+![Disconnect Dialog](@/images/main/tutorials/kubeone-clusters/disconnect-cluster-dialog.png "Disconnect Dialog")
 
 ## Troubleshoot
 To Troubleshoot a failing imported cluster we can `Pause` cluster by editing the external cluster CR.

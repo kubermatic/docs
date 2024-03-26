@@ -47,11 +47,11 @@ a user cluster. For more details about GPU support, please refer to the [GPU Acc
 
 Once the Kubeflow Addon is installed in KKP, it can be deployed into a user cluster via the KKP UI as shown below:
 
-![Kubeflow Addon](/img/kubermatic/main/ui/addon-add.png?height=400px&classes=shadow,border "Kubeflow Addon")
+![Kubeflow Addon](addon-add.png?height=400px&classes=shadow,border "Kubeflow Addon")
 
 The UI will provide several options that can be used to customize the Kubeflow installation, as shown below.
 
-![Kubeflow Addon Details](/img/kubermatic/main/ui/addon-details.png?height=450px&classes=shadow,border "Kubeflow Addon Details")
+![Kubeflow Addon Details](addon-details.png?height=450px&classes=shadow,border "Kubeflow Addon Details")
 
 These options will be described in detail in the following section.
 

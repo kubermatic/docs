@@ -66,7 +66,7 @@ Follow the CE install guide as normal, the remaining steps apply equally to the 
 The Enterprise Edition(EE) of KKP offers the capability to deploy an Application Catalog consisting of [well-known Kubernetes applications]({{< ref "../../architecture/concept/kkp-concepts/applications/default-applications-catalog/" >}}).
 The catalog provides an easy solution to make use of upstream helm charts after the installation to get your organization up and running quickly. Applications are integrated into the KKP cluster lifecycle and can be directly managed via the UI, GitOps or KKP Cluster Templates. Afterwards, the initial catalog can be extended and adjusted to your preferences. For more details, please refer to the [Applications documentation]({{< ref "../../architecture/concept/kkp-concepts/applications/" >}}).
 
-![Example of the default Application Catalog](/img/kubermatic/common/applications/default-applications-catalog.png "Example of the default Application Catalog")
+![Example of the default Application Catalog](@/images/applications/default-applications-catalog.png "Example of the default Application Catalog")
 
 In order to deploy pre-defined Application Catalog, add the `--deploy-default-app-catalog` when running the kubermatic installer.
 

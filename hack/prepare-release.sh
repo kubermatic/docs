@@ -47,19 +47,19 @@ done
 [[ $PRODUCT =~ ^(kubermatic|kubeone)$ ]] ||
   (usage; exit 1)
 
-PRIMARY_BRANCH=master
-if [ -d content/$PRODUCT/main ]; then
-  PRIMARY_BRANCH=main
-fi
+PRIMARY_BRANCH=main
 
-# Copy content
+# ensure leading v
+VERSION="v${VERSION#v}"
+
+# Copy content, data
 cp -R content/$PRODUCT/{$PRIMARY_BRANCH,$VERSION}
+cp -R data/$PRODUCT/{$PRIMARY_BRANCH,$VERSION}
 
-# Update component versions and copy static images only when preparing docs for KKP release
+# Update component versions only when preparing docs for KKP release
 if [[ $PRODUCT == 'kubermatic' ]]
 then
-  sed -i --regexp-extended "s/9.9.9-dev/${VERSION#"v"}.0/g" content/kubermatic/${VERSION}/architecture/compatibility/KKP-components-versioning/_index.en.md
-  cp -R static/img/${PRODUCT}/{$PRIMARY_BRANCH,$VERSION}
+  sed -i --regexp-extended "s/9.9.9-dev/${VERSION#v}.0/g" content/kubermatic/${VERSION}/architecture/compatibility/KKP-components-versioning/_index.en.md
 fi
 
 # Update references

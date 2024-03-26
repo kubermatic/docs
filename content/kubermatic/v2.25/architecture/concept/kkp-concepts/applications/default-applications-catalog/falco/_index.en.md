@@ -15,16 +15,16 @@ For more information on the Falco, please refer to the [official documentation](
 
 # How to deploy?
 
-Falco is available as part of the KKP's default application catalog. 
+Falco is available as part of the KKP's default application catalog.
 It can be deployed to the user cluster either during the cluster creation or after the cluster is ready(existing cluster) from the Applications tab via UI.
 
 * Select the Falco application from the Application Catalog.
 
-![Select Falco Application](/img/kubermatic/common/applications/default-apps-catalog/01-select-application-falco-app.png)
+![Select Falco Application](01-select-application-falco-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for Falco Application](/img/kubermatic/common/applications/default-apps-catalog/02-settings-falco-app.png)
+![Settings for Falco Application](02-settings-falco-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the Falco application to the user cluster.
 

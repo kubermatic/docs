@@ -1,0 +1,19 @@
+{{- $url := .Destination -}}
+{{- if hasPrefix $url "@" -}}
+  {{- $path := "" -}}
+  {{- with .Page.File -}}
+    {{- $path = .Path -}}
+  {{- else -}}
+    {{- $path = .Path -}}
+  {{- end -}}
+
+  {{- $pathItems := split $path "/" -}}
+
+  {{- $url = (strings.TrimPrefix "@" $url) -}}
+  {{- $url = (path.Join "/" (index $pathItems 0) (index $pathItems 1) $url) -}}
+{{- end -}}
+
+<img src="{{ $url | safeURL }}"
+  {{- with .Text }} alt="{{ . }}"{{ end -}}
+  {{- with .Title }} title="{{ . }}"{{ end -}}
+>

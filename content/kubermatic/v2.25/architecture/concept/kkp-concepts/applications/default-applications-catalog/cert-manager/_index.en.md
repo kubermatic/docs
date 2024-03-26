@@ -24,14 +24,14 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 * Select the cert-manager application from the Application Catalog.
 
-![Select cert-manager Application](/img/kubermatic/common/applications/default-apps-catalog/01-select-application-cert-manager-app.png)
+![Select cert-manager Application](01-select-application-cert-manager-app.png)
 
 * Under the Settings section, select and provide appropriate details and clck `-> Next` button.
 
-![Settings for cert-manager Application](/img/kubermatic/common/applications/default-apps-catalog/02-settings-cert-manager-app.png)
+![Settings for cert-manager Application](02-settings-cert-manager-app.png)
 
 * Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the cert-manager application to the user cluster.
 
-![Application Values for cert-manager Application](/img/kubermatic/common/applications/default-apps-catalog/03-applicationvalues-cert-manager-app.png)
+![Application Values for cert-manager Application](03-applicationvalues-cert-manager-app.png)
 
 A full list of available Helm values is on [cert-manager's ArtifactHub page](https://artifacthub.io/packages/helm/cert-manager/cert-manager).

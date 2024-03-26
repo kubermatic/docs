@@ -22,7 +22,7 @@ Unlike the [Master / Seed Cluster MLA stack]({{< ref "../master-seed/">}}), it i
 
 ## Architecture
 
-![Monitoring architecture diagram](/img/kubermatic/main/monitoring/user-cluster/architecture.png)
+![Monitoring architecture diagram](@/images/main/monitoring/user-cluster/architecture.png)
 
 ### User Cluster Components
 When User Cluster MLA is enabled in a KKP user cluster, it automatically deploys two components into it - Prometheus and Loki Promtail. These components are configured to stream (remote write) the logs and metrics into backends running in the Seed Cluster (Cortex for metrics and Loki-Distributed for logs). The connection between the user cluster components and Seed cluster components is secured by HTTPS with mutual TLS certificate authentication.

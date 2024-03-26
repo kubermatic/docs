@@ -20,7 +20,7 @@ As an administrator you can use the [AddonConfig](#multus-addonconfig) listed at
 ## Deploying the Multus Addon in a KKP User Cluster
 Once the Multus Addon is installed in KKP, it can be deployed into a user cluster via the KKP UI as shown below:
 
-![Multus Addon](/img/kubermatic/main/ui/addon-multus.png?height=400px&classes=shadow,border "Multus Addon")
+![Multus Addon](@/images/ui/addon-multus.png?height=400px&classes=shadow,border "Multus Addon")
 
 Multus will automatically configure itself with the primary CNI running in the user cluster. If the primary CNI is not yet running at the time of Multus installation, Multus will wait for it for up to 10 minutes.
 

@@ -45,7 +45,7 @@ spec:
 The quota fields use the [ResourceQuantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity) to
 represent the values. One note is that CPU is denoted in single integer numbers.
 
-![Manage Quotas](/img/kubermatic/main/architecture/concepts/resource-quotas/quota-menu.png?classes=shadow,border "Manage Quotas")
+![Manage Quotas](@/images/main/architecture/concepts/resource-quotas/quota-menu.png?classes=shadow,border "Manage Quotas")
 
 To simplify matters the UI uses GB as representation for Memory and Storage. The conversion from any value
 set in the ResourceQuota is done automatically by the API.
@@ -107,11 +107,11 @@ takes place after the MachineDeployment is created, and if quota is exceeded, th
 Users can observe the quotas being enforced (with a message stating why) on the User clusters Machine Deployment, in the form
 of Events.
 
-![Enforced Quota](/img/kubermatic/main/architecture/concepts/resource-quotas/enforced.png?classes=shadow,border "Enforced Quota")
+![Enforced Quota](@/images/main/architecture/concepts/resource-quotas/enforced.png?classes=shadow,border "Enforced Quota")
 
 Furthermore, a project quota widget of the active project is visible in the dashboard, which shows what is the quota usage.
 
-![Quota Widget](/img/kubermatic/main/architecture/concepts/resource-quotas/widget.png?classes=shadow,border "Quota Widget")
+![Quota Widget](@/images/main/architecture/concepts/resource-quotas/widget.png?classes=shadow,border "Quota Widget")
 
 ## Some Additional Information
 

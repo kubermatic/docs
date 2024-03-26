@@ -1,5 +1,6 @@
 +++
 title = "Comparing KubeOne with Kubermatic Kubernetes Platform (KKP)"
+linktitle = "Comparing KubeOne with KKP"
 date = 2019-11-28T14:18:30+01:00
 description = "A detailed comparison between Kubermatic KubeOne and Kubermatic Kubernetes Platform"
 weight = 5

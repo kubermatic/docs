@@ -10,7 +10,7 @@ For more details on Applications, please refer to our [Applications Primer]({{< 
 ## Update an Application via the UI
 Go to the Applications Tab and click on the pen icon to edit the application.
 
-![Applications Tab](/img/kubermatic/common/applications/applications_edit_icon.png?classes=shadow,border "Applications edit button")
+![Applications Tab](/img/kubermatic/v2.23/applications/applications_edit_icon.png?classes=shadow,border "Applications edit button")
 
 Then you can update the values and or version using the editor.
 
@@ -19,7 +19,7 @@ If you update the application's version, you may have to update the values accor
 {{% /notice %}}
 
 
-![Applications Tab](/img/kubermatic/common/applications/applications_edit_values.png?classes=shadow,border "Applications edit values and version")
+![Applications Tab](/img/kubermatic/v2.23/applications/applications_edit_values.png?classes=shadow,border "Applications edit values and version")
 
 ## Update an Application via GitOps
 Use `kubectl` to edit the applicationInstallation CR.

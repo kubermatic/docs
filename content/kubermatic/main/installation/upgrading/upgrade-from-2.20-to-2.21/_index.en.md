@@ -113,7 +113,7 @@ Additionally, reconciliation of those objects will not work properly, and you ma
 
 After finishing the upgrade, check out some of the new features that were added in KKP 2.21:
 
-- [Third-party application installs via an application catalogue]({{< ref "../../../tutorials-howtos/applications/" >}})
+- [Third-party application installs via an application catalog]({{< ref "../../../tutorials-howtos/applications/" >}})
 - [Creating external clusters from KKP]({{< ref "../../../tutorials-howtos/external-clusters/" >}})
 - [Operating System Manager]({{< ref "../../../tutorials-howtos/operating-system-manager/" >}}) (available as preview in KKP 2.20, but enabled by default in 2.21)
 - Support for Rocky Linux as new OS and VMware Cloud Director as new cloud provider
