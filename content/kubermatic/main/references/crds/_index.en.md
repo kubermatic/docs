@@ -4753,9 +4753,21 @@ _Appears in:_
 | `monthly` _boolean_ | Monthly creates a report for the previous month. |
 | `retention` _integer_ | Retention defines a number of days after which reports are queued for removal. If not set, reports are kept forever. Please note that this functionality works only for object storage that supports an object lifecycle management mechanism. |
 | `type` _string array_ | Types of reports to generate. Available report types are cluster and namespace. By default, all types of reports are generated. |
+| `format` _[MeteringReportFormat](#meteringreportformat)_ | Format is the file format of the generated report, one of "csv" or "json" (defaults to "csv"). |
 
 
 [Back to top](#top)
+
+
+
+### MeteringReportFormat
+
+_Underlying type:_ `string`
+
+MeteringReportFormat maps directly to the values supported by the kubermatic-metering tool.
+
+_Appears in:_
+- [MeteringReportConfiguration](#meteringreportconfiguration)
 
 
 
