@@ -61,6 +61,7 @@ Ensure that the assigned policy contains at least the following permissions. Pol
             "Effect": "Allow",
             "Action": [
                 "ec2:*",
+                "iam:TagInstanceProfile",
                 "elasticloadbalancing:CreateListener",
                 "elasticloadbalancing:CreateRule",
                 "elasticloadbalancing:CreateTargetGroup",
