@@ -20,7 +20,7 @@ of provided software and therefore releases updates regularly that also include 
 | logging/loki                   | 2.5.0                          |
 | logging/promtail               | 2.5.0                          |
 | minio                          | RELEASE.2023-05-04T21-44-30Z   |
-| mla/alertmanager-proxy         | 0.3.1                          |
+| mla/alertmanager-proxy         | 0.3.3                          |
 | mla/consul                     | 1.14.2                         |
 | mla/cortex                     | 1.14.1                         |
 | mla/grafana                    | 10.2.2                         |
