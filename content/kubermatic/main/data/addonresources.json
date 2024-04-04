@@ -28,10 +28,6 @@
       ]
     },
     {
-      "addonName": "cilium",
-      "resources": []
-    },
-    {
       "addonName": "cluster-autoscaler",
       "resources": []
     },
