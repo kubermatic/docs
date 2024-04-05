@@ -33,7 +33,7 @@ features and how to use the preset management.
 
 Preset list offers multiple options that allow Administrators to manage Presets.
 
-![](/img/kubermatic/v2.25/ui/preset-management.png?height=300px&classes=shadow,border)
+![Provider presets management](/img/kubermatic/v2.25/ui/preset-management.png?classes=shadow,border)
 
 1. Create a new Preset
 1. Manage existing Preset
@@ -48,11 +48,11 @@ Preset list offers multiple options that allow Administrators to manage Presets.
 
 Open the `Create Preset` dialog through the button available on the Preset list.
 
-![](/img/kubermatic/v2.25/ui/create-preset.png?height=300px&classes=shadow,border)
+![Creating a preset](/img/kubermatic/v2.25/ui/create-preset.png?classes=shadow,border)
 
 #### Step 1: Preset
 
-![](/img/kubermatic/v2.25/ui/create-preset-first-step.png?height=500px&classes=shadow,border)
+![First step of creating a preset](/img/kubermatic/v2.25/ui/create-preset-first-step.png?height=500px&classes=shadow,border)
 
 - `Name` is a required parameter and will be used in the wizard to select the provider.
 - `Domain` is an optional parameter that allows to limit Preset availability only to the specific users with email matching this domain.
@@ -68,14 +68,14 @@ Note that project limitations can only be [edited from `kubectl`](#editing-a-pre
 
 All configured providers will be available on this step and only a single provider can be selected.
 
-![](/img/kubermatic/v2.25/ui/create-preset-second-step.png?height=500px&classes=shadow,border)
+![Second step of creating a preset](/img/kubermatic/v2.25/ui/create-preset-second-step.png?height=500px&classes=shadow,border)
 
 #### Step 3: Settings
 
 The _Settings_ step will vary depending on the provider selected in the previous step. In our example, we have selected
 an AWS provider.
 
-![](/img/kubermatic/v2.25/ui/create-preset-third-step.png?height=500px&classes=shadow,border)
+![Third step of creating a preset](/img/kubermatic/v2.25/ui/create-preset-third-step.png?height=500px&classes=shadow,border)
 
 There are provider specific fields available here. Some of them will be mandatory as they are needed for the cluster
 creation.
@@ -89,27 +89,27 @@ restrict using the Preset to a single datacenter. Datacenter names can be found 
 Make sure to use actual datacenter names and not the display names that are used i.e. in the wizard while creating the clusters.
 {{% /notice %}}
 
-![](/img/kubermatic/v2.25/ui/datacenter-names.png?height=300px&classes=shadow,border "Dynamic Datacenter Names")
+![Dynamic datacenter names](/img/kubermatic/v2.25/ui/datacenter-names.png?classes=shadow,border "Dynamic Datacenter Names")
 
 ### Adding a Provider to the Preset
 
 Open `Add Provider` option through dotted menu on the Preset list entry. Note that it will only be available if not all
 available providers were configured for the Preset.
 
-![](/img/kubermatic/v2.25/ui/add-provider.png?height=300px&classes=shadow,border)
+![Adding a provider to the preset](/img/kubermatic/v2.25/ui/add-provider.png?height=300px&classes=shadow,border)
 
 #### Step 1: Provider
 
 Select a provider you would like to add to the Preset. In our example, we have selected an AWS provider. Note that every
 provider can be configured only once for the Preset and only providers that are not already configured will appear on the list.
 
-![](/img/kubermatic/v2.25/ui/add-provider-first-step.png?height=500px&classes=shadow,border)
+![First step of adding a provider to the preset](/img/kubermatic/v2.25/ui/add-provider-first-step.png?height=500px&classes=shadow,border)
 
 #### Step 2: Settings
 
 Provider specific fields will be available to fill out, same as during the Preset creation process.
 
-![](/img/kubermatic/v2.25/ui/add-provider-second-step.png?height=500px&classes=shadow,border)
+![Second step of adding a provider to the preset](/img/kubermatic/v2.25/ui/add-provider-second-step.png?height=500px&classes=shadow,border)
 
 ### Editing a Provider Preset
 
@@ -120,31 +120,31 @@ from said Preset.
 
 Open `Edit Provider` option through dotted menu on the Preset list entry.
 
-![](/img/kubermatic/v2.25/ui/edit-provider.png?height=250px&classes=shadow,border)
+![Editing a provider preset](/img/kubermatic/v2.25/ui/edit-provider.png?height=250px&classes=shadow,border)
 
 #### Step 1: Provider
 
 Select a provider you would like to add to the Preset. In our example, we have selected an Openstack provider. Note that every
 only already configured providers are available on the list.
 
-![](/img/kubermatic/v2.25/ui/edit-provider-first-step.png?height=350px&classes=shadow,border)
+![First step of editing a provider preset](/img/kubermatic/v2.25/ui/edit-provider-first-step.png?height=350px&classes=shadow,border)
 
 #### Step 2: Settings
 
 Provider specific fields will be available to fill out, same as during the Preset creation process.
 
-![](/img/kubermatic/v2.25/ui/edit-provider-second-step.png?height=500px&classes=shadow,border)
+![Second step of editing a provider preset](/img/kubermatic/v2.25/ui/edit-provider-second-step.png?height=500px&classes=shadow,border)
 
 ### Showing/Hiding Providers Inside the Preset {#show-hide-provider-inside-the-preset}
 
 Open `Edit Preset` option through dotted menu on the Preset list entry.
 
-![](/img/kubermatic/v2.25/ui/edit-preset.png?height=250px&classes=shadow,border)
+![Showing or hiding providers inside the preset](/img/kubermatic/v2.25/ui/edit-preset.png?height=250px&classes=shadow,border)
 
 This dialog allows managing the Preset status on a per-provider basis. In case only a specific provider should
 be hidden/shown instead of hiding the whole Preset it can be managed here.
 
-![](/img/kubermatic/v2.25/ui/edit-preset-dialog.png?height=400px&classes=shadow,border)
+![Showing or hiding specific providers inside the preset dialog](/img/kubermatic/v2.25/ui/edit-preset-dialog.png?height=400px&classes=shadow,border)
 
 ## Managing Presets via kubectl
 
