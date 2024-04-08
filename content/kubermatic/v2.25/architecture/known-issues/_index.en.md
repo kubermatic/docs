@@ -79,3 +79,19 @@ This adjustment will help ensure that the issue no longer disrupts the provision
 For additional details and discussions related to this issue, you can refer to the following GitHub issues:
 - [open-vm-tools](https://github.com/vmware/open-vm-tools/issues/684).
 - [cloud-init](https://github.com/canonical/cloud-init/issues/4188).
+
+## CSI addon's reconciliation fails after upgrading user clusters to k8s 1.29 on Azure
+
+### Problem
+
+The CSI addon's reconciliation fails after we upgrade a user cluster on Azure cloud provider to kubernetes version 1.29.x.
+
+### Root Cause
+
+The root cause of this issue is an update to Azure CSI driver's upstream where the ClusterRole referenced in ClusterRoleBinding `csi-azuredisk-node-secret-binding` has been updated from `csi-azuredisk-node-secret-role` to `csi-azuredisk-node-role`.
+
+### Solution
+
+As the ClusterRole referenced in the ClusterRoleBinding can't be updated, we need to delete it & let it get re-created as per the latest spec.
+
+`kubectl delete ClusterRoleBinding csi-azuredisk-node-secret-binding`
