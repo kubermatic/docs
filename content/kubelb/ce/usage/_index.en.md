@@ -27,7 +27,7 @@ We then create a restricted service account in the tenant cluster that will be u
 This script can be used for creating the required RBAC and generating the kubeconfig:
 
 ```sh
-{{< readfile "kubelb/data/create-kubelb-sa.sh" >}}
+{{< readfile "kubelb/ce/data/create-kubelb-sa.sh" >}}
 ```
 
 #### Manager Config
