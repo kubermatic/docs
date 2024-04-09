@@ -841,6 +841,17 @@ AddonList is a list of addons.
 
 
 
+### AddonPhase
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [AddonStatus](#addonstatus)
+
+
+
 ### AddonSpec
 
 
@@ -874,6 +885,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `phase` _[AddonPhase](#addonphase)_ | Phase is a description of the current addon status, summarizing the various conditions. This field is for informational purpose only and no logic should be tied to the phase. |
 | `conditions` _object (keys:[AddonConditionType](#addonconditiontype), values:[AddonCondition](#addoncondition))_ |  |
 
 
