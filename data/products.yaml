@@ -86,10 +86,10 @@ kubelb:
       name: Enterprise
     - release: ce
       name: Community
-kdp:
-  name: kdp
-  logo: "/img/kdp/common/logo.png"
+developer-platform:
+  name: developer-platform
+  logo: "/img/developer-platform/common/logo.png"
   title: Kubermatic Developer Platform
   description: <TODO>
   weight: 6
-  shareImage: img/share-kdp.jpg
+  shareImage: img/share-developer-platform.jpg
