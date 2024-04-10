@@ -2,12 +2,12 @@
 # The "weight" field is used for order the products on homepage
 kubermatic:
   name: Kubermatic
-  logo: "img/KubermaticKubernetesPlatform-logo.svg"
+  logo: "img/logo-kubermatic.svg"
   title: Kubermatic Kubernetes Platform
   description: Automate multicloud, on-prem, and edge operations with a single management UI enabling you to deliver the cloud native transformation immediately.
   textName: KKP #used for displaying different title in product dropdown
   weight: 2
-  shareImage: img/Docs-KKP-share.jpg
+  shareImage: img/share-kubermatic.jpg
   versions:
     - release: main
       name: main
@@ -41,11 +41,11 @@ kubermatic:
       name: v2.12
 kubeone:
   name: KubeOne
-  logo: "img/KubeOne-logo.svg"
+  logo: "/img/logo-kubeone.svg"
   title: KubeOne
   description: Automate operations of a single Kubernetes cluster on your chosen cloud, on-prem, or edge environment.
   weight: 1
-  shareImage: img/Docs-KubeOne-share.jpg
+  shareImage: img/share-kubeone.jpg
   versions:
     - release: main
       name: main
@@ -72,7 +72,7 @@ operatingsystemmanager:
   textName: Operating System Manager
   description: Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster.
   weight: 4
-  shareImage: img/Docs-OSM-share.jpg
+  shareImage: img/share-operatingsystemmanager.png
 kubelb:
   name: kubelb
   logo: "/img/kubelb/common/logo.png"
@@ -80,9 +80,16 @@ kubelb:
   textName: KubeLB
   description: KubeLB is a tool to centrally manage load balancers across multicloud and on-prem environments.
   weight: 5
-  shareImage: img/Docs-KubeLB-share.jpg
+  shareImage: img/share-kubelb.jpg
   versions:
     - release: ee
       name: Enterprise
     - release: ce
       name: Community
+kdp:
+  name: kdp
+  logo: "/img/kdp/common/logo.png"
+  title: Kubermatic Developer Platform
+  description: <TODO>
+  weight: 6
+  shareImage: img/share-kdp.jpg

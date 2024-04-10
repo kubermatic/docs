@@ -8,13 +8,13 @@ title = "How Do I Contribute To ...?"
   [[contribution.links]]
   url = "https://docs.kubermatic.com/kubeone/v1.7/tutorials/how-to-contribute-to-kubeone/"
   [contribution.links.image]
-  src = "/img/KubeOne-logo.svg"
+  src = "/img/logo-kubeone.svg"
   alt = ""
 
   [[contribution.links]]
   url = "https://docs.kubermatic.com/kubermatic/v2.24/how-to-contribute-to-kkp/"
   [contribution.links.image]
-  src = "/img/KubermaticKubernetesPlatform-logo.svg"
+  src = "/img/logo-kubermatic.svg"
   alt = ""
 
 [features]
@@ -61,6 +61,6 @@ title = "How Do I Contribute To ...?"
   alt = ""
 
 [demoImage]
-src = "/img/kubermatic-kubernetes-platform.png"
+src = "/img/kkp-platform.png"
 alt = ""
 +++
