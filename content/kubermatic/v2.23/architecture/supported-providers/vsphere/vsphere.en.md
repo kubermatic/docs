@@ -148,12 +148,30 @@ For infrastructure (e.g. VMs, tags and networking) provisioning actions of KKP i
       * Modify customization specification
       * Read customization specifications
   * vSphere Tagging
-    * Assign or Unassign vSphere Tag on Object
+      * Assign or Unassign vSphere Tag
+      * Assign or Unassign vSphere Tag on Object
+      * Create vSphere Tag
+      * Create vSphere Tag Category
+      * Delete vSphere Tag
+      * Delete vSphere Tag Category
+      * Edit vSphere Tag
+      * Edit vSphere Tag Category
+      * Modify UsedBy Field For Category
+      * Modify UsedBy Field For Tag
 ---
 
 ```
 $ govc role.ls k8c-user-vcenter
 Cns.Searchable
+InventoryService.Tagging.AttachTag
+InventoryService.Tagging.CreateCategory
+InventoryService.Tagging.CreateTag
+InventoryService.Tagging.DeleteCategory
+InventoryService.Tagging.DeleteTag
+InventoryService.Tagging.EditCategory
+InventoryService.Tagging.EditTag
+InventoryService.Tagging.ModifyUsedByForCategory
+InventoryService.Tagging.ModifyUsedByForTag
 InventoryService.Tagging.ObjectAttachable
 StorageProfile.View
 System.Anonymous
@@ -233,6 +251,8 @@ VirtualMachine.Inventory.CreateFromExisting
     * vApp
       * vApp application configuration
       * vApp instance configuration
+    * vSphere Tagging
+      * Assign or Unassign vSphere Tag on Object
 ---
 
 ```
@@ -245,6 +265,7 @@ Host.Config.Storage
 Host.Config.SystemManagement
 Host.Inventory.EditCluster
 Host.Local.ReconfigVM
+InventoryService.Tagging.ObjectAttachable
 Resource.AssignVMToPool
 Resource.ColdMigrate
 Resource.HotMigrate
@@ -258,12 +279,17 @@ VApp.InstanceConfig
 * Permissions
   * Network
     * Assign network
-
+  * vSphere Tagging
+    * Assign or Unassign vSphere Tag on Object
 ---
 
 ```
 $ govc role.ls k8c-network-attach
+InventoryService.Tagging.ObjectAttachable
 Network.Assign
+System.Anonymous
+System.Read
+System.View
 ```
 
 {{% /tab %}}
@@ -283,10 +309,7 @@ If a tag was not attached to the user cluster, machine controller will only deta
     * Browse datastore
     * Low level file operations
   * vSphere Tagging
-    * Assign or Unassign vSphere Tag
     * Assign or Unassign vSphere Tag on an Object
-    * Create vSphere Tag
-    * Delete vSphere Tag
 
 ---
 
@@ -295,9 +318,6 @@ $ govc role.ls k8c-user-datastore-propagate
 Datastore.AllocateSpace
 Datastore.Browse
 Datastore.FileManagement
-InventoryService.Tagging.CreateTag
-InventoryService.Tagging.DeleteTag
-InventoryService.Tagging.AttachTag
 InventoryService.Tagging.ObjectAttachable
 System.Anonymous
 System.Read
@@ -440,7 +460,7 @@ VirtualMachine.State.RevertToSnapshot
 
 
 
-The described permissions have been tested with vSphere 7.0.U2 and might be different for other vSphere versions.
+The described permissions have been tested with vSphere 8.0.2 and might be different for other vSphere versions.
 
 ## Datastores and Datastore Clusters
 
