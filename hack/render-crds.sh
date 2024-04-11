@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euox pipefail
+set -euo pipefail
 
 cd $(dirname $0)/..
 
@@ -27,10 +27,24 @@ which crd-ref-docs >/dev/null || {
   go install github.com/elastic/crd-ref-docs@v0.0.12
 }
 
+# get latest stable Kubernetes version
+currentStable="$(curl -sSL https://dl.k8s.io/release/stable-1.txt)"
+
+# trim leading v
+currentStable="${currentStable#v}"
+
+# drop patch
+currentRelease="$(echo "$currentStable" | cut -d. -f1,2)"
+
+configFile=hack/crd-ref-docs.yaml
+
+# Version of Kubernetes to use when generating links to Kubernetes API documentation.
+yq --inplace ".render.kubernetesVersion = \"$currentRelease\"" "$configFile"
+
 $(go env GOPATH)/bin/crd-ref-docs \
-  --source-path "${SOURCE}" \
+  --source-path "$SOURCE" \
   --max-depth 10 \
   --renderer markdown \
   --templates-dir hack/crd-templates \
-  --config hack/crd-ref-docs.yaml \
+  --config "$configFile" \
   --output-path content/kubermatic/main/references/crds/_index.en.md
