@@ -12,7 +12,7 @@ of provided software and therefore releases updates regularly that also include 
 
 | KKP Components                 | Version                        |
 | ------------------------------ | ------------------------------ |
-| backup/velero                  | 1.10.1                         |
+| backup/velero                  | 1.13.1                         |
 | cert-manager                   | 1.12.2                         |
 | iap                            | 7.4.0                          |
 | kubermatic-operator            | 9.9.9-dev                      |
