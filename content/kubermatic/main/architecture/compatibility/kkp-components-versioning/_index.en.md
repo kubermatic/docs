@@ -31,7 +31,7 @@ of provided software and therefore releases updates regularly that also include 
 | monitoring/alertmanager        | 0.25.0                         |
 | monitoring/blackbox-exporter   | 0.23.0                         |
 | monitoring/grafana             | 9.5.1                          |
-| monitoring/helm-exporter       | 1.2.5                          |
+| monitoring/helm-exporter       | 1.2.16                         |
 | monitoring/karma               | 0.120                          |
 | monitoring/kube-state-metrics  | 2.8.2                          |
 | monitoring/node-exporter       | 1.5.0                          |
