@@ -4,7 +4,8 @@ processor:
     - "apiversion$"
     - "kind$"
     - "fake$"
-
   ignoreTypes:
     - "Quantity$"
     - "Fake$"
+render:
+  kubernetesVersion: "1.29"

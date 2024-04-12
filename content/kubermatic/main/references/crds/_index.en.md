@@ -32,10 +32,13 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `name` _string_ | Name is the namespace to deploy the Application into. Should be a valid lowercase RFC1123 domain name |
+| `name` _string_ | Name is the namespace to deploy the Application into.
+Should be a valid lowercase RFC1123 domain name |
 | `create` _boolean_ | Create defines whether the namespace should be created if it does not exist. Defaults to true |
-| `labels` _object (keys:string, values:string)_ | Labels of the namespace More info: http://kubernetes.io/docs/user-guide/labels |
-| `annotations` _object (keys:string, values:string)_ | Annotations of the namespace More info: http://kubernetes.io/docs/user-guide/annotations |
+| `labels` _object (keys:string, values:string)_ | Labels of the namespace
+More info: http://kubernetes.io/docs/user-guide/labels |
+| `annotations` _object (keys:string, values:string)_ | Annotations of the namespace
+More info: http://kubernetes.io/docs/user-guide/annotations |
 
 
 [Back to top](#top)
@@ -95,11 +98,14 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `description` _string_ | Description of the application. what is its purpose |
-| `method` _TemplateMethod_ | Method used to install the application |
-| `defaultValues` _RawExtension_ | DefaultValues specify default values for the UI which are passed to helm templating when creating an application. Comments are not preserved. Deprecated: use DefaultValuesBlock instead |
+| `method` _[TemplateMethod](#templatemethod)_ | Method used to install the application |
+| `defaultValues` _[RawExtension](#rawextension)_ | DefaultValues specify default values for the UI which are passed to helm templating when creating an application. Comments are not preserved.
+Deprecated: use DefaultValuesBlock instead |
 | `defaultValuesBlock` _string_ | DefaultValuesBlock specifies default values for the UI which are passed to helm templating when creating an application. Comments are preserved. |
-| `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | DefaultDeployOptions holds the settings specific to the templating method used to deploy the application. These settings can be overridden in applicationInstallation. |
-| `documentationURL` _string_ | DocumentationURL holds a link to official documentation of the Application Alternatively this can be a link to the Readme of a chart in a git repository |
+| `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | DefaultDeployOptions holds the settings specific to the templating method used to deploy the application.
+These settings can be overridden in applicationInstallation. |
+| `documentationURL` _string_ | DocumentationURL holds a link to official documentation of the Application
+Alternatively this can be a link to the Readme of a chart in a git repository |
 | `sourceURL` _string_ | SourceURL holds a link to the official source code mirror or git repository of the application |
 | `logo` _string_ | Logo of the Application as a base64 encoded svg |
 | `logoFormat` _string_ | LogoFormat contains logo format of the configured Application. Options are "svg+xml" and "png" |
@@ -148,7 +154,9 @@ _Appears in:_
 | `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#time-v1-meta)_ | Last time the condition transit from one status to another. |
 | `reason` _string_ | (brief) reason for the condition's last transition. |
 | `message` _string_ | Human readable message indicating details about last transition. |
-| `observedGeneration` _integer_ | observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. |
+| `observedGeneration` _integer_ | observedGeneration represents the .metadata.generation that the condition was set based upon.
+For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+with respect to the current state of the instance. |
 
 
 [Back to top](#top)
@@ -159,7 +167,8 @@ _Appears in:_
 
 _Underlying type:_ `string`
 
-swagger:enum ApplicationInstallationConditionType All condition types must be registered within the `AllApplicationInstallationConditionTypes` variable.
+swagger:enum ApplicationInstallationConditionType
+All condition types must be registered within the `AllApplicationInstallationConditionTypes` variable.
 
 _Appears in:_
 - [ApplicationInstallationStatus](#applicationinstallationstatus)
@@ -199,10 +208,17 @@ _Appears in:_
 | --- | --- |
 | `namespace` _[AppNamespaceSpec](#appnamespacespec)_ | Namespace describe the desired state of the namespace where application will be created. |
 | `applicationRef` _[ApplicationRef](#applicationref)_ | ApplicationRef is a reference to identify which Application should be deployed |
-| `values` _[RawExtension](#rawextension)_ | Values specify values overrides that are passed to helm templating. Comments are not preserved. Deprecated: Use ValuesBlock instead. |
+| `values` _[RawExtension](#rawextension)_ | Values specify values overrides that are passed to helm templating. Comments are not preserved.
+Deprecated: Use ValuesBlock instead. |
 | `valuesBlock` _string_ | ValuesBlock specifies values overrides that are passed to helm templating. Comments are preserved. |
-| `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#duration-v1-meta)_ | ReconciliationInterval is the interval at which to force the reconciliation of the application. By default, Applications are only reconciled on changes on spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload deployed by the application, nothing will happen until the application CR change. 
- Setting a value greater than zero force reconciliation even if no changes occurred on application CR. Setting a value equal to 0 disables the force reconciliation of the application (default behavior). Setting this too low can cause a heavy load and may disrupt your application workload depending on the template method. |
+| `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#duration-v1-meta)_ | ReconciliationInterval is the interval at which to force the reconciliation of the application. By default, Applications are only reconciled
+on changes on spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload
+deployed by the application, nothing will happen until the application CR change.
+
+
+Setting a value greater than zero force reconciliation even if no changes occurred on application CR.
+Setting a value equal to 0 disables the force reconciliation of the application (default behavior).
+Setting this too low can cause a heavy load and may disrupt your application workload depending on the template method. |
 | `deployOptions` _[DeployOptions](#deployoptions)_ | DeployOptions holds the settings specific to the templating method used to deploy the application. |
 
 
@@ -223,7 +239,7 @@ _Appears in:_
 | --- | --- |
 | `conditions` _object (keys:[ApplicationInstallationConditionType](#applicationinstallationconditiontype), values:[ApplicationInstallationCondition](#applicationinstallationcondition))_ | Conditions contains conditions an installation is in, its primary use case is status signaling between controllers or between controllers and the API |
 | `applicationVersion` _[ApplicationVersion](#applicationversion)_ | ApplicationVersion contains information installing / removing application |
-| `method` _TemplateMethod_ | Method used to install the application |
+| `method` _[TemplateMethod](#templatemethod)_ | Method used to install the application |
 | `helmRelease` _[HelmRelease](#helmrelease)_ | HelmRelease holds the information about the helm release installed by this application. This field is only filled if template method is 'helm'. |
 | `failures` _integer_ | Failures counts the number of failed installation or updagrade. it is reset on successful reconciliation. |
 
@@ -243,7 +259,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `name` _string_ | Name of the Application. Should be a valid lowercase RFC1123 domain name |
+| `name` _string_ | Name of the Application.
+Should be a valid lowercase RFC1123 domain name |
 | `version` _string_ | Version of the Application. Must be a valid SemVer version |
 
 
@@ -281,7 +298,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `source` _[ApplicationSource](#applicationsource)_ | Defined how the source of the application (e.g Helm chart) is retrieved. Exactly one type of source must be defined. |
+| `source` _[ApplicationSource](#applicationsource)_ | Defined how the source of the application (e.g Helm chart) is retrieved.
+Exactly one type of source must be defined. |
 | `templateCredentials` _[DependencyCredentials](#dependencycredentials)_ | DependencyCredentials holds the credentials that may be needed for templating the application. |
 
 
@@ -320,7 +338,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `helmCredentials` _[HelmCredentials](#helmcredentials)_ | HelmCredentials holds the ref to the secret with helm credentials needed to build helm dependencies. It is not required when using helm as a source, as dependencies are already prepackaged in this case. It's either username / password or a registryConfigFile can be defined. |
+| `helmCredentials` _[HelmCredentials](#helmcredentials)_ | HelmCredentials holds the ref to the secret with helm credentials needed to build helm dependencies.
+It is not required when using helm as a source, as dependencies are already prepackaged in this case.
+It's either username / password or a registryConfigFile can be defined. |
 
 
 [Back to top](#top)
@@ -346,6 +366,17 @@ _Appears in:_
 
 
 
+### GitAuthMethod
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [GitCredentials](#gitcredentials)
+
+
+
 ### GitCredentials
 
 
@@ -357,11 +388,22 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `method` _GitAuthMethod_ | Authentication method. Either password or token or ssh-key. if method is password then username and password must be defined. if method is token then token must be defined. if method is ssh-key then ssh-key must be defined. |
-| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Username holds the ref and key in the secret for the username credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
-| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Password holds the ref and key in the secret for the Password credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
-| `token` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Token holds the ref and key in the secret for the token credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
-| `sshKey` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | SSHKey holds the ref and key in the secret for the SshKey credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `method` _[GitAuthMethod](#gitauthmethod)_ | Authentication method. Either password or token or ssh-key.
+if method is password then username and password must be defined.
+if method is token then token must be defined.
+if method is ssh-key then ssh-key must be defined. |
+| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Username holds the ref and key in the secret for the username credential.
+The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
+The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Password holds the ref and key in the secret for the Password credential.
+The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
+The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `token` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Token holds the ref and key in the secret for the token credential.
+The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
+The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `sshKey` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | SSHKey holds the ref and key in the secret for the SshKey credential.
+The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
+The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
 
 
 [Back to top](#top)
@@ -380,9 +422,12 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `branch` _string_ | Branch to checkout. Only the last commit of the branch will be checkout in order to reduce the amount of data to download. |
-| `commit` _string_ | Commit SHA in a Branch to checkout. 
- It must be used in conjunction with branch field. |
-| `tag` _string_ | Tag to check out. It can not be used in conjunction with commit or branch. |
+| `commit` _string_ | Commit SHA in a Branch to checkout.
+
+
+It must be used in conjunction with branch field. |
+| `tag` _string_ | Tag to check out.
+It can not be used in conjunction with commit or branch. |
 
 
 [Back to top](#top)
@@ -401,7 +446,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `remote` _string_ | URL to the repository. Can be HTTP(s) (e.g. https://example.com/myrepo) or SSH (e.g. git://example.com[:port]/path/to/repo.git/) |
-| `ref` _[GitReference](#gitreference)_ | Git reference to checkout. For large repositories, we recommend to either use Tag, Branch or Branch+Commit. This allows a shallow clone, which dramatically speeds up performance |
+| `ref` _[GitReference](#gitreference)_ | Git reference to checkout.
+For large repositories, we recommend to either use Tag, Branch or Branch+Commit. This allows a shallow clone, which dramatically speeds up performance |
 | `path` _string_ | Path of the "source" in the repository. default is repository root |
 | `credentials` _[GitCredentials](#gitcredentials)_ | Credentials are optional and holds the git credentials |
 
@@ -422,9 +468,16 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Username holds the ref and key in the secret for the username credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
-| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Password holds the ref and key in the secret for the Password credential. The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
-| `registryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | RegistryConfigFile holds the ref and key in the secret for the registry credential file. The value is dockercfg file that follows the same format rules as ~/.docker/config.json The The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Username holds the ref and key in the secret for the username credential.
+The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
+The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Password holds the ref and key in the secret for the Password credential.
+The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
+The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
+| `registryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | RegistryConfigFile holds the ref and key in the secret for the registry credential file. The value is dockercfg
+file that follows the same format rules as ~/.docker/config.json
+The The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
+The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git |
 
 
 [Back to top](#top)
@@ -442,10 +495,15 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `wait` _boolean_ | Wait corresponds to the --wait flag on Helm cli. if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as timeout |
-| `timeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#duration-v1-meta)_ | Timeout corresponds to the --timeout flag on Helm cli. time to wait for any individual Kubernetes operation. |
-| `atomic` _boolean_ | Atomic corresponds to the --atomic flag on Helm cli. if set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of failed upgrade. |
-| `enableDNS` _boolean_ | EnableDNS  corresponds to the --enable-dns flag on Helm cli. enable DNS lookups when rendering templates. if you enable this flag, you have to verify that helm template function 'getHostByName' is not being used in a chart to disclose any information you do not want to be passed to DNS servers.(c.f. CVE-2023-25165) |
+| `wait` _boolean_ | Wait corresponds to the --wait flag on Helm cli.
+if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as timeout |
+| `timeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#duration-v1-meta)_ | Timeout corresponds to the --timeout flag on Helm cli.
+time to wait for any individual Kubernetes operation. |
+| `atomic` _boolean_ | Atomic corresponds to the --atomic flag on Helm cli.
+if set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of failed upgrade. |
+| `enableDNS` _boolean_ | EnableDNS  corresponds to the --enable-dns flag on Helm cli.
+enable DNS lookups when rendering templates.
+if you enable this flag, you have to verify that helm template function 'getHostByName' is not being used in a chart to disclose any information you do not want to be passed to DNS servers.(c.f. CVE-2023-25165) |
 
 
 [Back to top](#top)
@@ -476,7 +534,8 @@ _Appears in:_
 
 
 
-HelmReleaseInfo describes release information. tech note: we can not use release.Info from Helm because the underlying type used for time has no json tag.
+HelmReleaseInfo describes release information.
+tech note: we can not use release.Info from Helm because the underlying type used for time has no json tag.
 
 _Appears in:_
 - [HelmRelease](#helmrelease)
@@ -487,7 +546,7 @@ _Appears in:_
 | `lastDeployed` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#time-v1-meta)_ | LastDeployed is when the release was last deployed. |
 | `deleted` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#time-v1-meta)_ | Deleted tracks when this object was deleted. |
 | `description` _string_ | Description is human-friendly "log entry" about this release. |
-| `status` _Status_ | Status is the current state of the release. |
+| `status` _[Status](#status)_ | Status is the current state of the release. |
 | `notes` _string_ | Notes is  the rendered templates/NOTES.txt if available. |
 
 
@@ -506,13 +565,27 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `url` _string_ | URl of the helm repository. It can be an HTTP(s) repository (e.g. https://localhost/myrepo) or on OCI repository (e.g. oci://localhost:5000/myrepo). |
+| `url` _string_ | URl of the helm repository.
+It can be an HTTP(s) repository (e.g. https://localhost/myrepo) or on OCI repository (e.g. oci://localhost:5000/myrepo). |
 | `chartName` _string_ | Name of the Chart. |
 | `chartVersion` _string_ | Version of the Chart. |
-| `credentials` _[HelmCredentials](#helmcredentials)_ | Credentials are optional and hold the ref to the secret with helm credentials. Either username / Password or registryConfigFile can be defined. |
+| `credentials` _[HelmCredentials](#helmcredentials)_ | Credentials are optional and hold the ref to the secret with helm credentials.
+Either username / Password or registryConfigFile can be defined. |
 
 
 [Back to top](#top)
+
+
+
+### TemplateMethod
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [ApplicationDefinitionSpec](#applicationdefinitionspec)
+- [ApplicationInstallationStatus](#applicationinstallationstatus)
 
 
 
@@ -592,7 +665,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `tenantID` _string_ | The Azure Active Directory Tenant used for the user cluster. |
 | `subscriptionID` _string_ | The Azure Subscription used for the user cluster. |
 | `clientID` _string_ | The service principal used to access Azure. |
@@ -637,16 +711,23 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. |
 | `secretAccessKey` _string_ | The Secret Access Key used to authenticate against AWS. |
-| `assumeRoleARN` _string_ | Defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. |
-| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". |
+| `assumeRoleARN` _string_ | Defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used
+to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. |
+| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation.
+Using an external ID can help to prevent the "confused deputy problem". |
 | `vpcID` _string_ | AWS VPC to use. Must be configured. |
-| `routeTableID` _string_ | Route table to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
-| `instanceProfileName` _string_ | Instance profile to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
-| `securityGroupID` _string_ | Security group to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
-| `roleARN` _string_ | ARN to use. This can be configured, but if left empty will be automatically filled in during reconciliation. |
+| `routeTableID` _string_ | Route table to use. This can be configured, but if left empty will be
+automatically filled in during reconciliation. |
+| `instanceProfileName` _string_ | Instance profile to use. This can be configured, but if left empty will be
+automatically filled in during reconciliation. |
+| `securityGroupID` _string_ | Security group to use. This can be configured, but if left empty will be
+automatically filled in during reconciliation. |
+| `roleARN` _string_ | ARN to use. This can be configured, but if left empty will be
+automatically filled in during reconciliation. |
 
 
 [Back to top](#top)
@@ -667,16 +748,23 @@ _Appears in:_
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. |
 | `secretAccessKey` _string_ | The Secret Access Key used to authenticate against AWS. |
-| `assumeRoleARN` _string_ | Defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. |
-| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". |
+| `assumeRoleARN` _string_ | Defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used
+to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. |
+| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation.
+Using an external ID can help to prevent the "confused deputy problem". |
 | `vpcID` _string_ |  |
 | `roleARN` _string_ | The IAM role, the control plane will use. The control plane will perform an assume-role |
 | `routeTableID` _string_ |  |
 | `instanceProfileName` _string_ |  |
 | `securityGroupID` _string_ |  |
-| `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the security group to. Only applies if the security group is generated by KKP and not preexisting. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
-| `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: CIDR ranges that will be used to allow access to the node port range in the security group to. Only applies if the security group is generated by KKP and not preexisting. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set,  the node port range can be accessed from anywhere. |
-| `disableIAMReconciling` _boolean_ | DisableIAMReconciling is used to disable reconciliation for IAM related configuration. This is useful in air-gapped setups where access to IAM service is not possible. |
+| `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the security group to. Only applies if
+the security group is generated by KKP and not preexisting.
+If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
+| `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: CIDR ranges that will be used to allow access to the node port range in the security group to. Only applies if
+the security group is generated by KKP and not preexisting.
+If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set,  the node port range can be accessed from anywhere. |
+| `disableIAMReconciling` _boolean_ | DisableIAMReconciling is used to disable reconciliation for IAM related configuration. This is useful in air-gapped
+setups where access to IAM service is not possible. |
 
 
 [Back to top](#top)
@@ -687,7 +775,10 @@ _Appears in:_
 
 
 
-Addon specifies a cluster addon. Addons can be installed into user clusters to provide additional manifests for CNIs, CSIs or other applications, which makes addons a necessary component to create functioning user clusters. Addon objects must be created inside cluster namespaces.
+Addon specifies a cluster addon. Addons can be installed into user clusters
+to provide additional manifests for CNIs, CSIs or other applications, which makes
+addons a necessary component to create functioning user clusters.
+Addon objects must be created inside cluster namespaces.
 
 _Appears in:_
 - [AddonList](#addonlist)
@@ -740,7 +831,10 @@ _Appears in:_
 
 
 
-AddonConfig specifies addon configuration. Addons can be installed without a matching AddonConfig, but they will be missing a logo, description and the potentially necessary form fields in the KKP dashboard to make the addon comfortable to use.
+AddonConfig specifies addon configuration. Addons can be installed without
+a matching AddonConfig, but they will be missing a logo, description and
+the potentially necessary form fields in the KKP dashboard to make the
+addon comfortable to use.
 
 _Appears in:_
 - [AddonConfigList](#addonconfiglist)
@@ -788,7 +882,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `shortDescription` _string_ | ShortDescription of the configured addon that contains more detailed information about the addon, it will be displayed in the addon details view in the UI |
+| `shortDescription` _string_ | ShortDescription of the configured addon that contains more detailed information about the addon,
+it will be displayed in the addon details view in the UI |
 | `description` _string_ | Description of the configured addon, it will be displayed in the addon overview in the UI |
 | `logo` _string_ | Logo of the configured addon, encoded in base64 |
 | `logoFormat` _string_ | LogoFormat contains logo format of the configured addon, i.e. svg+xml |
@@ -866,8 +961,14 @@ _Appears in:_
 | `name` _string_ | Name defines the name of the addon to install |
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#objectreference-v1-core)_ | Cluster is the reference to the cluster the addon should be installed in |
 | `variables` _[RawExtension](#rawextension)_ | Variables is free form data to use for parsing the manifest templates |
-| `requiredResourceTypes` _[GroupVersionKind](#groupversionkind) array_ | RequiredResourceTypes allows to indicate that this addon needs some resource type before it can be installed. This can be used to indicate that a specific CRD and/or extension apiserver must be installed before this addon can be installed. The addon will not be installed until that resource is served. |
-| `isDefault` _boolean_ | IsDefault indicates whether the addon is installed because it was configured in the default addon section in the KubermaticConfiguration. User-installed addons must not set this field to true, as extra default Addon objects (that are not in the KubermaticConfiguration) will be garbage-collected. |
+| `requiredResourceTypes` _[GroupVersionKind](#groupversionkind) array_ | RequiredResourceTypes allows to indicate that this addon needs some resource type before it
+can be installed. This can be used to indicate that a specific CRD and/or extension
+apiserver must be installed before this addon can be installed. The addon will not
+be installed until that resource is served. |
+| `isDefault` _boolean_ | IsDefault indicates whether the addon is installed because it was configured in
+the default addon section in the KubermaticConfiguration. User-installed addons
+must not set this field to true, as extra default Addon objects (that are not in
+the KubermaticConfiguration) will be garbage-collected. |
 
 
 [Back to top](#top)
@@ -885,7 +986,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `phase` _[AddonPhase](#addonphase)_ | Phase is a description of the current addon status, summarizing the various conditions. This field is for informational purpose only and no logic should be tied to the phase. |
+| `phase` _[AddonPhase](#addonphase)_ | Phase is a description of the current addon status, summarizing the various conditions.
+This field is for informational purpose only and no logic should be tied to the phase. |
 | `conditions` _object (keys:[AddonConditionType](#addonconditiontype), values:[AddonCondition](#addoncondition))_ |  |
 
 
@@ -946,7 +1048,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `pluginName` _string_ |  |
-| `fromVersion` _Semver_ | FromVersion flag can be empty. It means the plugin fit to all k8s versions |
+| `fromVersion` _[Semver](#semver)_ | FromVersion flag can be empty. It means the plugin fit to all k8s versions |
 
 
 [Back to top](#top)
@@ -988,7 +1090,8 @@ _Appears in:_
 | --- | --- |
 | `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#time-v1-meta)_ | LastUpdated stores the last successful time when the configuration was successfully applied |
 | `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#conditionstatus-v1-core)_ | Status of whether the configuration was applied, one of True, False |
-| `errorMessage` _string_ | ErrorMessage contains a default error message in case the configuration could not be applied. Will be reset if the error was resolved and condition becomes True |
+| `errorMessage` _string_ | ErrorMessage contains a default error message in case the configuration could not be applied.
+Will be reset if the error was resolved and condition becomes True |
 
 
 [Back to top](#top)
@@ -1026,7 +1129,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `configSecret` _[LocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#localobjectreference-v1-core)_ | ConfigSecret refers to the Secret in the same namespace as the Alertmanager object, which contains configuration for this Alertmanager. |
+| `configSecret` _[LocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#localobjectreference-v1-core)_ | ConfigSecret refers to the Secret in the same namespace as the Alertmanager object,
+which contains configuration for this Alertmanager. |
 
 
 [Back to top](#top)
@@ -1063,7 +1167,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `accessKeyID` _string_ | The Access Key ID used to authenticate against Alibaba. |
 | `accessKeySecret` _string_ | The Access Key Secret used to authenticate against Alibaba. |
 
@@ -1144,7 +1249,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `registryPrefix` _string_ | RegistryPrefix contains the prefix of the registry which will be allowed. User clusters will be able to deploy only images which are prefixed with one of the allowed image registry prefixes. |
+| `registryPrefix` _string_ | RegistryPrefix contains the prefix of the registry which will be allowed. User clusters will be able to deploy
+only images which are prefixed with one of the allowed image registry prefixes. |
 
 
 [Back to top](#top)
@@ -1163,7 +1269,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `token` _string_ | Token is used to authenticate with the Anexia API. |
 
 
@@ -1194,7 +1301,8 @@ _Appears in:_
 
 _Underlying type:_ `string`
 
-AntiAffinityType is the type of anti-affinity that should be used. Can be "preferred" or "required".
+AntiAffinityType is the type of anti-affinity that should be used. Can be "preferred"
+or "required".
 
 _Appears in:_
 - [EtcdStatefulSetSettings](#etcdstatefulsetsettings)
@@ -1210,13 +1318,6 @@ _Appears in:_
 _Appears in:_
 - [ClusterSpec](#clusterspec)
 
-| Field | Description |
-| --- | --- |
-| `cacheSize` _Quantity_ | CacheSize is the size of the cache used to download application's sources. |
-
-
-[Back to top](#top)
-
 
 
 ### AuditLoggingSettings
@@ -1231,7 +1332,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Enabled will enable or disable audit logging. |
-| `policyPreset` _AuditPolicyPreset_ | Optional: PolicyPreset can be set to utilize a pre-defined set of audit policy rules. |
+| `policyPreset` _[AuditPolicyPreset](#auditpolicypreset)_ | Optional: PolicyPreset can be set to utilize a pre-defined set of audit policy rules. |
 | `sidecar` _[AuditSidecarSettings](#auditsidecarsettings)_ | Optional: Configures the fluent-bit sidecar deployed alongside kube-apiserver. |
 
 
@@ -1239,11 +1340,24 @@ _Appears in:_
 
 
 
+### AuditPolicyPreset
+
+_Underlying type:_ `string`
+
+AuditPolicyPreset refers to a pre-defined set of audit policy rules. Supported values
+are `metadata`, `recommended` and `minimal`. See KKP documentation for what each policy preset includes.
+
+_Appears in:_
+- [AuditLoggingSettings](#auditloggingsettings)
+
+
+
 ### AuditSidecarConfiguration
 
 
 
-AuditSidecarConfiguration defines custom configuration for the fluent-bit sidecar deployed with a kube-apiserver. Also see https://docs.fluentbit.io/manual/v/1.8/administration/configuring-fluent-bit/configuration-file.
+AuditSidecarConfiguration defines custom configuration for the fluent-bit sidecar deployed with a kube-apiserver.
+Also see https://docs.fluentbit.io/manual/v/1.8/administration/configuring-fluent-bit/configuration-file.
 
 _Appears in:_
 - [AuditSidecarSettings](#auditsidecarsettings)
@@ -1290,18 +1404,30 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `tenantID` _string_ | The Azure Active Directory Tenant used for the user cluster. |
 | `subscriptionID` _string_ | The Azure Subscription used for the user cluster. |
 | `clientID` _string_ | The service principal used to access Azure. |
 | `clientSecret` _string_ | The client secret corresponding to the given service principal. |
-| `resourceGroup` _string_ | The resource group that will be used to look up and create resources for the cluster in. If set to empty string at cluster creation, a new resource group will be created and this field will be updated to the generated resource group's name. |
-| `vnetResourceGroup` _string_ | Optional: Defines a second resource group that will be used for VNet related resources instead. If left empty, NO additional resource group will be created and all VNet related resources use the resource group defined by `resourceGroup`. |
-| `vnet` _string_ | The name of the VNet resource used for setting up networking in. If set to empty string at cluster creation, a new VNet will be created and this field will be updated to the generated VNet's name. |
-| `subnet` _string_ | The name of a subnet in the VNet referenced by `vnet`. If set to empty string at cluster creation, a new subnet will be created and this field will be updated to the generated subnet's name. If no VNet is defined at cluster creation, this field should be empty as well. |
-| `routeTable` _string_ | The name of a route table associated with the subnet referenced by `subnet`. If set to empty string at cluster creation, a new route table will be created and this field will be updated to the generated route table's name. If no subnet is defined at cluster creation, this field should be empty as well. |
-| `securityGroup` _string_ | The name of a security group associated with the subnet referenced by `subnet`. If set to empty string at cluster creation, a new security group will be created and this field will be updated to the generated security group's name. If no subnet is defined at cluster creation, this field should be empty as well. |
-| `loadBalancerSKU` _LBSKU_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "basic" will be used |
+| `resourceGroup` _string_ | The resource group that will be used to look up and create resources for the cluster in.
+If set to empty string at cluster creation, a new resource group will be created and this field will be updated to
+the generated resource group's name. |
+| `vnetResourceGroup` _string_ | Optional: Defines a second resource group that will be used for VNet related resources instead.
+If left empty, NO additional resource group will be created and all VNet related resources use the resource group defined by `resourceGroup`. |
+| `vnet` _string_ | The name of the VNet resource used for setting up networking in.
+If set to empty string at cluster creation, a new VNet will be created and this field will be updated to
+the generated VNet's name. |
+| `subnet` _string_ | The name of a subnet in the VNet referenced by `vnet`.
+If set to empty string at cluster creation, a new subnet will be created and this field will be updated to
+the generated subnet's name. If no VNet is defined at cluster creation, this field should be empty as well. |
+| `routeTable` _string_ | The name of a route table associated with the subnet referenced by `subnet`.
+If set to empty string at cluster creation, a new route table will be created and this field will be updated to
+the generated route table's name. If no subnet is defined at cluster creation, this field should be empty as well. |
+| `securityGroup` _string_ | The name of a security group associated with the subnet referenced by `subnet`.
+If set to empty string at cluster creation, a new security group will be created and this field will be updated to
+the generated security group's name. If no subnet is defined at cluster creation, this field should be empty as well. |
+| `loadBalancerSKU` _[LBSKU](#lbsku)_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "basic" will be used |
 
 
 [Back to top](#top)
@@ -1320,21 +1446,43 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | CredentialsReference allows referencing a `Secret` resource instead of passing secret data in this spec. |
-| `tenantID` _string_ | The Azure Active Directory Tenant used for this cluster. Can be read from `credentialsReference` instead. |
-| `subscriptionID` _string_ | The Azure Subscription used for this cluster. Can be read from `credentialsReference` instead. |
-| `clientID` _string_ | The service principal used to access Azure. Can be read from `credentialsReference` instead. |
-| `clientSecret` _string_ | The client secret corresponding to the given service principal. Can be read from `credentialsReference` instead. |
-| `resourceGroup` _string_ | The resource group that will be used to look up and create resources for the cluster in. If set to empty string at cluster creation, a new resource group will be created and this field will be updated to the generated resource group's name. |
-| `vnetResourceGroup` _string_ | Optional: Defines a second resource group that will be used for VNet related resources instead. If left empty, NO additional resource group will be created and all VNet related resources use the resource group defined by `resourceGroup`. |
-| `vnet` _string_ | The name of the VNet resource used for setting up networking in. If set to empty string at cluster creation, a new VNet will be created and this field will be updated to the generated VNet's name. |
-| `subnet` _string_ | The name of a subnet in the VNet referenced by `vnet`. If set to empty string at cluster creation, a new subnet will be created and this field will be updated to the generated subnet's name. If no VNet is defined at cluster creation, this field should be empty as well. |
-| `routeTable` _string_ | The name of a route table associated with the subnet referenced by `subnet`. If set to empty string at cluster creation, a new route table will be created and this field will be updated to the generated route table's name. If no subnet is defined at cluster creation, this field should be empty as well. |
-| `securityGroup` _string_ | The name of a security group associated with the subnet referenced by `subnet`. If set to empty string at cluster creation, a new security group will be created and this field will be updated to the generated security group's name. If no subnet is defined at cluster creation, this field should be empty as well. |
-| `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the security group to. Only applies if the security group is generated by KKP and not preexisting. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
-| `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: CIDR ranges that will be used to allow access to the node port range in the security group to. Only applies if the security group is generated by KKP and not preexisting. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set,  the node port range can be accessed from anywhere. |
-| `assignAvailabilitySet` _boolean_ | Optional: AssignAvailabilitySet determines whether KKP creates and assigns an AvailabilitySet to machines. Defaults to `true` internally if not set. |
-| `availabilitySet` _string_ | An availability set that will be associated with nodes created for this cluster. If this field is set to empty string at cluster creation and `AssignAvailabilitySet` is set to `true`, a new availability set will be created and this field will be updated to the generated availability set's name. |
-| `loadBalancerSKU` _LBSKU_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "basic" will be used. |
+| `tenantID` _string_ | The Azure Active Directory Tenant used for this cluster.
+Can be read from `credentialsReference` instead. |
+| `subscriptionID` _string_ | The Azure Subscription used for this cluster.
+Can be read from `credentialsReference` instead. |
+| `clientID` _string_ | The service principal used to access Azure.
+Can be read from `credentialsReference` instead. |
+| `clientSecret` _string_ | The client secret corresponding to the given service principal.
+Can be read from `credentialsReference` instead. |
+| `resourceGroup` _string_ | The resource group that will be used to look up and create resources for the cluster in.
+If set to empty string at cluster creation, a new resource group will be created and this field will be updated to
+the generated resource group's name. |
+| `vnetResourceGroup` _string_ | Optional: Defines a second resource group that will be used for VNet related resources instead.
+If left empty, NO additional resource group will be created and all VNet related resources use the resource group defined by `resourceGroup`. |
+| `vnet` _string_ | The name of the VNet resource used for setting up networking in.
+If set to empty string at cluster creation, a new VNet will be created and this field will be updated to
+the generated VNet's name. |
+| `subnet` _string_ | The name of a subnet in the VNet referenced by `vnet`.
+If set to empty string at cluster creation, a new subnet will be created and this field will be updated to
+the generated subnet's name. If no VNet is defined at cluster creation, this field should be empty as well. |
+| `routeTable` _string_ | The name of a route table associated with the subnet referenced by `subnet`.
+If set to empty string at cluster creation, a new route table will be created and this field will be updated to
+the generated route table's name. If no subnet is defined at cluster creation, this field should be empty as well. |
+| `securityGroup` _string_ | The name of a security group associated with the subnet referenced by `subnet`.
+If set to empty string at cluster creation, a new security group will be created and this field will be updated to
+the generated security group's name. If no subnet is defined at cluster creation, this field should be empty as well. |
+| `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the security group to. Only applies if
+the security group is generated by KKP and not preexisting.
+If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
+| `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: CIDR ranges that will be used to allow access to the node port range in the security group to. Only applies if
+the security group is generated by KKP and not preexisting.
+If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set,  the node port range can be accessed from anywhere. |
+| `assignAvailabilitySet` _boolean_ | Optional: AssignAvailabilitySet determines whether KKP creates and assigns an AvailabilitySet to machines.
+Defaults to `true` internally if not set. |
+| `availabilitySet` _string_ | An availability set that will be associated with nodes created for this cluster. If this field is set to empty string
+at cluster creation and `AssignAvailabilitySet` is set to `true`, a new availability set will be created and this field
+will be updated to the generated availability set's name. |
+| `loadBalancerSKU` _[LBSKU](#lbsku)_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "basic" will be used. |
 
 
 [Back to top](#top)
@@ -1432,6 +1580,17 @@ _Appears in:_
 
 
 
+### CIDR
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [EnvoyLoadBalancerService](#envoyloadbalancerservice)
+
+
+
 ### CNIPluginSettings
 
 
@@ -1455,7 +1614,8 @@ _Appears in:_
 
 _Underlying type:_ `string`
 
-CNIPluginType defines the type of CNI plugin installed. Possible values are `canal`, `cilium` or `none`.
+CNIPluginType defines the type of CNI plugin installed.
+Possible values are `canal`, `cilium` or `none`.
 
 _Appears in:_
 - [CNIPluginSettings](#cnipluginsettings)
@@ -1473,8 +1633,10 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `enabled` _boolean_ | Enable checkboxes that allow the user to ask for LoadBalancers and PVCs to be deleted in order to not leave potentially expensive resources behind. |
-| `enforced` _boolean_ | If enforced is set to true, the cleanup of LoadBalancers and PVCs is enforced. |
+| `enabled` _boolean_ | Enable checkboxes that allow the user to ask for LoadBalancers and PVCs
+to be deleted in order to not leave potentially expensive resources behind. |
+| `enforced` _boolean_ | If enforced is set to true, the cleanup of LoadBalancers and PVCs is
+enforced. |
 
 
 [Back to top](#top)
@@ -1492,8 +1654,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `dc` _string_ | DatacenterName states the name of a cloud provider "datacenter" (defined in `Seed` resources) this cluster should be deployed into. |
-| `providerName` _string_ | ProviderName is the name of the cloud provider used for this cluster. This must match the given provider spec (e.g. if the providerName is "aws", then the `aws` field must be set). |
+| `dc` _string_ | DatacenterName states the name of a cloud provider "datacenter" (defined in `Seed` resources)
+this cluster should be deployed into. |
+| `providerName` _string_ | ProviderName is the name of the cloud provider used for this cluster.
+This must match the given provider spec (e.g. if the providerName is
+"aws", then the `aws` field must be set). |
 | `digitalocean` _[DigitaloceanCloudSpec](#digitaloceancloudspec)_ | Digitalocean defines the configuration data of the DigitalOcean cloud provider. |
 | `bringyourown` _[BringYourOwnCloudSpec](#bringyourowncloudspec)_ | BringYourOwn defines the configuration data for a Bring Your Own cluster. |
 | `edge` _[EdgeCloudSpec](#edgecloudspec)_ | Edge defines the configuration data for an edge cluster. |
@@ -1519,7 +1684,10 @@ _Appears in:_
 
 
 
-Cluster represents a Kubermatic Kubernetes Platform user cluster. Cluster objects exist on Seed clusters and each user cluster consists of a namespace containing the Kubernetes control plane and additional pods (like Prometheus or the machine-controller).
+Cluster represents a Kubermatic Kubernetes Platform user cluster.
+Cluster objects exist on Seed clusters and each user cluster consists
+of a namespace containing the Kubernetes control plane and additional
+pods (like Prometheus or the machine-controller).
 
 _Appears in:_
 - [ClusterList](#clusterlist)
@@ -1629,7 +1797,9 @@ _Appears in:_
 
 _Underlying type:_ `string`
 
-ClusterConditionType is used to indicate the type of a cluster condition. For all condition types, the `true` value must indicate success. All condition types must be registered within the `AllClusterConditionTypes` variable.
+ClusterConditionType is used to indicate the type of a cluster condition. For all condition
+types, the `true` value must indicate success. All condition types must be registered within
+the `AllClusterConditionTypes` variable.
 
 _Appears in:_
 - [ClusterStatus](#clusterstatus)
@@ -1658,9 +1828,12 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `activeKey` _string_ | The current "primary" key used to encrypt data written to etcd. Secondary keys that can be used for decryption (but not encryption) might be configured in the ClusterSpec. |
+| `activeKey` _string_ | The current "primary" key used to encrypt data written to etcd. Secondary keys that can be used for decryption
+(but not encryption) might be configured in the ClusterSpec. |
 | `encryptedResources` _string array_ | List of resources currently encrypted. |
-| `phase` _[ClusterEncryptionPhase](#clusterencryptionphase)_ | The current phase of the encryption process. Can be one of `Pending`, `Failed`, `Active` or `EncryptionNeeded`. The `encryption_controller` logic will process the cluster based on the current phase and issue necessary changes to make sure encryption on the cluster is active and updated with what the ClusterSpec defines. |
+| `phase` _[ClusterEncryptionPhase](#clusterencryptionphase)_ | The current phase of the encryption process. Can be one of `Pending`, `Failed`, `Active` or `EncryptionNeeded`.
+The `encryption_controller` logic will process the cluster based on the current phase and issue necessary changes
+to make sure encryption on the cluster is active and updated with what the ClusterSpec defines. |
 
 
 [Back to top](#top)
@@ -1691,24 +1864,38 @@ ClusterList specifies a list of user clusters.
 
 
 
-ClusterNetworkingConfig specifies the different networking parameters for a cluster.
+ClusterNetworkingConfig specifies the different networking
+parameters for a cluster.
 
 _Appears in:_
 - [ClusterSpec](#clusterspec)
 
 | Field | Description |
 | --- | --- |
-| `ipFamily` _[IPFamily](#ipfamily)_ | Optional: IP family used for cluster networking. Supported values are "", "IPv4" or "IPv4+IPv6". Can be omitted / empty if pods and services network ranges are specified. In that case it defaults according to the IP families of the provided network ranges. If neither ipFamily nor pods & services network ranges are specified, defaults to "IPv4". |
-| `services` _[NetworkRanges](#networkranges)_ | The network ranges from which service VIPs are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
-| `pods` _[NetworkRanges](#networkranges)_ | The network ranges from which POD networks are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
-| `nodeCidrMaskSizeIPv4` _integer_ | NodeCIDRMaskSizeIPv4 is the mask size used to address the nodes within provided IPv4 Pods CIDR. It has to be larger than the provided IPv4 Pods CIDR. Defaults to 24. |
-| `nodeCidrMaskSizeIPv6` _integer_ | NodeCIDRMaskSizeIPv6 is the mask size used to address the nodes within provided IPv6 Pods CIDR. It has to be larger than the provided IPv6 Pods CIDR. Defaults to 64. |
+| `ipFamily` _[IPFamily](#ipfamily)_ | Optional: IP family used for cluster networking. Supported values are "", "IPv4" or "IPv4+IPv6".
+Can be omitted / empty if pods and services network ranges are specified.
+In that case it defaults according to the IP families of the provided network ranges.
+If neither ipFamily nor pods & services network ranges are specified, defaults to "IPv4". |
+| `services` _[NetworkRanges](#networkranges)_ | The network ranges from which service VIPs are allocated.
+It can contain one IPv4 and/or one IPv6 CIDR.
+If both address families are specified, the first one defines the primary address family. |
+| `pods` _[NetworkRanges](#networkranges)_ | The network ranges from which POD networks are allocated.
+It can contain one IPv4 and/or one IPv6 CIDR.
+If both address families are specified, the first one defines the primary address family. |
+| `nodeCidrMaskSizeIPv4` _integer_ | NodeCIDRMaskSizeIPv4 is the mask size used to address the nodes within provided IPv4 Pods CIDR.
+It has to be larger than the provided IPv4 Pods CIDR. Defaults to 24. |
+| `nodeCidrMaskSizeIPv6` _integer_ | NodeCIDRMaskSizeIPv6 is the mask size used to address the nodes within provided IPv6 Pods CIDR.
+It has to be larger than the provided IPv6 Pods CIDR. Defaults to 64. |
 | `dnsDomain` _string_ | Domain name for services. |
-| `proxyMode` _string_ | ProxyMode defines the kube-proxy mode ("ipvs" / "iptables" / "ebpf"). Defaults to "ipvs". "ebpf" disables kube-proxy and requires CNI support. |
+| `proxyMode` _string_ | ProxyMode defines the kube-proxy mode ("ipvs" / "iptables" / "ebpf").
+Defaults to "ipvs". "ebpf" disables kube-proxy and requires CNI support. |
 | `ipvs` _[IPVSConfiguration](#ipvsconfiguration)_ | IPVS defines kube-proxy ipvs configuration options |
-| `nodeLocalDNSCacheEnabled` _boolean_ | NodeLocalDNSCacheEnabled controls whether the NodeLocal DNS Cache feature is enabled. Defaults to true. |
+| `nodeLocalDNSCacheEnabled` _boolean_ | NodeLocalDNSCacheEnabled controls whether the NodeLocal DNS Cache feature is enabled.
+Defaults to true. |
 | `coreDNSReplicas` _integer_ | CoreDNSReplicas is the number of desired pods of user cluster coredns deployment. |
-| `konnectivityEnabled` _boolean_ | Deprecated: KonnectivityEnabled enables konnectivity for controlplane to node network communication. As OpenVPN will be removed in the future KKP versions, clusters with konnectivity disabled will not be supported. All existing clusters with OpenVPN should migrate to the Konnectivity. |
+| `konnectivityEnabled` _boolean_ | Deprecated: KonnectivityEnabled enables konnectivity for controlplane to node network communication.
+As OpenVPN will be removed in the future KKP versions, clusters with konnectivity disabled will not be supported.
+All existing clusters with OpenVPN should migrate to the Konnectivity. |
 | `tunnelingAgentIP` _string_ | TunnelingAgentIP is the address used by the tunneling agents |
 
 
@@ -1740,39 +1927,63 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `humanReadableName` _string_ | HumanReadableName is the cluster name provided by the user. |
-| `version` _Semver_ | Version defines the wanted version of the control plane. |
-| `cloud` _[CloudSpec](#cloudspec)_ | Cloud contains information regarding the cloud provider that is responsible for hosting the cluster's workload. |
+| `version` _[Semver](#semver)_ | Version defines the wanted version of the control plane. |
+| `cloud` _[CloudSpec](#cloudspec)_ | Cloud contains information regarding the cloud provider that
+is responsible for hosting the cluster's workload. |
 | `containerRuntime` _string_ | ContainerRuntime to use, i.e. `docker` or `containerd`. By default `containerd` will be used. |
 | `imagePullSecret` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretreference-v1-core)_ | Optional: ImagePullSecret references a secret with container registry credentials. This is passed to the machine-controller which sets the registry credentials on node level. |
 | `cniPlugin` _[CNIPluginSettings](#cnipluginsettings)_ | Optional: CNIPlugin refers to the spec of the CNI plugin used by the Cluster. |
 | `clusterNetwork` _[ClusterNetworkingConfig](#clusternetworkingconfig)_ | Optional: ClusterNetwork specifies the different networking parameters for a cluster. |
 | `machineNetworks` _[MachineNetworkingConfig](#machinenetworkingconfig) array_ | Optional: MachineNetworks is the list of the networking parameters used for IPAM. |
 | `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | ExposeStrategy is the strategy used to expose a cluster control plane. |
-| `apiServerAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: APIServerAllowedIPRanges is a list of IP ranges allowed to access the API server. Applicable only if the expose strategy of the cluster is LoadBalancer. If not configured, access to the API server is unrestricted. |
+| `apiServerAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: APIServerAllowedIPRanges is a list of IP ranges allowed to access the API server.
+Applicable only if the expose strategy of the cluster is LoadBalancer.
+If not configured, access to the API server is unrestricted. |
 | `componentsOverride` _[ComponentSettings](#componentsettings)_ | Optional: Component specific overrides that allow customization of control plane components. |
 | `oidc` _[OIDCSettings](#oidcsettings)_ | Optional: OIDC specifies the OIDC configuration parameters for enabling authentication mechanism for the cluster. |
-| `features` _object (keys:string, values:boolean)_ | A map of optional or early-stage features that can be enabled for the user cluster. Some feature gates cannot be disabled after being enabled. The available feature gates vary based on KKP version, Kubernetes version and Seed configuration. Please consult the KKP documentation for specific feature gates. |
-| `updateWindow` _[UpdateWindow](#updatewindow)_ | Optional: UpdateWindow configures automatic update systems to respect a maintenance window for applying OS updates to nodes. This is only respected on Flatcar nodes currently. |
+| `features` _object (keys:string, values:boolean)_ | A map of optional or early-stage features that can be enabled for the user cluster.
+Some feature gates cannot be disabled after being enabled.
+The available feature gates vary based on KKP version, Kubernetes version and Seed configuration.
+Please consult the KKP documentation for specific feature gates. |
+| `updateWindow` _[UpdateWindow](#updatewindow)_ | Optional: UpdateWindow configures automatic update systems to respect a maintenance window for
+applying OS updates to nodes. This is only respected on Flatcar nodes currently. |
 | `usePodSecurityPolicyAdmissionPlugin` _boolean_ | Enables the admission plugin `PodSecurityPolicy`. This plugin is deprecated by Kubernetes. |
 | `usePodNodeSelectorAdmissionPlugin` _boolean_ | Enables the admission plugin `PodNodeSelector`. Needs additional configuration via the `podNodeSelectorAdmissionPluginConfig` field. |
-| `useEventRateLimitAdmissionPlugin` _boolean_ | Enables the admission plugin `EventRateLimit`. Needs additional configuration via the `eventRateLimitConfig` field. This plugin is considered "alpha" by Kubernetes. |
-| `admissionPlugins` _string array_ | A list of arbitrary admission plugin names that are passed to kube-apiserver. Must not include admission plugins that can be enabled via a separate setting. |
-| `podNodeSelectorAdmissionPluginConfig` _object (keys:string, values:string)_ | Optional: Provides configuration for the PodNodeSelector admission plugin (needs plugin enabled via `usePodNodeSelectorAdmissionPlugin`). It's used by the backend to create a configuration file for this plugin. The key:value from this map is converted to <namespace>:<node-selectors-labels> in the file. Use `clusterDefaultNodeSelector` as key to configure a default node selector. |
-| `eventRateLimitConfig` _[EventRateLimitConfig](#eventratelimitconfig)_ | Optional: Configures the EventRateLimit admission plugin (if enabled via `useEventRateLimitAdmissionPlugin`) to create limits on Kubernetes event generation. The EventRateLimit plugin is capable of comparing and rate limiting incoming `Events` based on several configured buckets. |
-| `enableUserSSHKeyAgent` _boolean_ | Optional: Deploys the UserSSHKeyAgent to the user cluster. This field is immutable. If enabled, the agent will be deployed and used to sync user ssh keys attached by users to the cluster. No SSH keys will be synced after node creation if this is disabled. |
-| `enableOperatingSystemManager` _boolean_ | Optional: Enables operating-system-manager (OSM), which is responsible for creating and managing worker node configuration. This field is enabled(true) by default. |
-| `kubelb` _[KubeLB](#kubelb)_ | KubeLB holds the configuration for the kubeLB component. Only available in Enterprise Edition. |
+| `useEventRateLimitAdmissionPlugin` _boolean_ | Enables the admission plugin `EventRateLimit`. Needs additional configuration via the `eventRateLimitConfig` field.
+This plugin is considered "alpha" by Kubernetes. |
+| `admissionPlugins` _string array_ | A list of arbitrary admission plugin names that are passed to kube-apiserver. Must not include admission plugins
+that can be enabled via a separate setting. |
+| `podNodeSelectorAdmissionPluginConfig` _object (keys:string, values:string)_ | Optional: Provides configuration for the PodNodeSelector admission plugin (needs plugin enabled
+via `usePodNodeSelectorAdmissionPlugin`). It's used by the backend to create a configuration file for this plugin.
+The key:value from this map is converted to <namespace>:<node-selectors-labels> in the file. Use `clusterDefaultNodeSelector`
+as key to configure a default node selector. |
+| `eventRateLimitConfig` _[EventRateLimitConfig](#eventratelimitconfig)_ | Optional: Configures the EventRateLimit admission plugin (if enabled via `useEventRateLimitAdmissionPlugin`)
+to create limits on Kubernetes event generation. The EventRateLimit plugin is capable of comparing and rate limiting incoming
+`Events` based on several configured buckets. |
+| `enableUserSSHKeyAgent` _boolean_ | Optional: Deploys the UserSSHKeyAgent to the user cluster. This field is immutable.
+If enabled, the agent will be deployed and used to sync user ssh keys attached by users to the cluster.
+No SSH keys will be synced after node creation if this is disabled. |
+| `enableOperatingSystemManager` _boolean_ | Optional: Enables operating-system-manager (OSM), which is responsible for creating and managing worker node configuration.
+This field is enabled(true) by default. |
+| `kubelb` _[KubeLB](#kubelb)_ | KubeLB holds the configuration for the kubeLB component.
+Only available in Enterprise Edition. |
 | `kubernetesDashboard` _[KubernetesDashboard](#kubernetesdashboard)_ | KubernetesDashboard holds the configuration for the kubernetes-dashboard component. |
-| `auditLogging` _[AuditLoggingSettings](#auditloggingsettings)_ | Optional: AuditLogging configures Kubernetes API audit logging (https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) for the user cluster. |
-| `opaIntegration` _[OPAIntegrationSettings](#opaintegrationsettings)_ | Optional: OPAIntegration is a preview feature that enables OPA integration for the cluster. Enabling it causes OPA Gatekeeper and its resources to be deployed on the user cluster. By default it is disabled. |
+| `auditLogging` _[AuditLoggingSettings](#auditloggingsettings)_ | Optional: AuditLogging configures Kubernetes API audit logging (https://kubernetes.io/docs/tasks/debug-application-cluster/audit/)
+for the user cluster. |
+| `opaIntegration` _[OPAIntegrationSettings](#opaintegrationsettings)_ | Optional: OPAIntegration is a preview feature that enables OPA integration for the cluster.
+Enabling it causes OPA Gatekeeper and its resources to be deployed on the user cluster.
+By default it is disabled. |
 | `serviceAccount` _[ServiceAccountSettings](#serviceaccountsettings)_ | Optional: ServiceAccount contains service account related settings for the user cluster's kube-apiserver. |
 | `mla` _[MLASettings](#mlasettings)_ | Optional: MLA contains monitoring, logging and alerting related settings for the user cluster. |
 | `applicationSettings` _[ApplicationSettings](#applicationsettings)_ | Optional: ApplicationSettings contains the settings relative to the application feature. |
 | `encryptionConfiguration` _[EncryptionConfiguration](#encryptionconfiguration)_ | Optional: Configures encryption-at-rest for Kubernetes API data. This needs the `encryptionAtRest` feature gate. |
-| `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP. This indicates that the user needs to do some action to resolve the pause. |
-| `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
+| `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP.
+This indicates that the user needs to do some action to resolve the pause. |
+| `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational
+purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
 | `debugLog` _boolean_ | Enables more verbose logging in KKP's user-cluster-controller-manager. |
-| `disableCsiDriver` _boolean_ | Optional: DisableCSIDriver disables the installation of CSI driver on the cluster If this is true at the data center then it can't be over-written in the cluster configuration |
+| `disableCsiDriver` _boolean_ | Optional: DisableCSIDriver disables the installation of CSI driver on the cluster
+If this is true at the data center then it can't be over-written in the cluster configuration |
 | `backupConfig` _[BackupConfig](#backupconfig)_ | Optional: BackupConfig contains the configuration options for managing the Cluster Backup Velero integration feature. |
 
 
@@ -1792,17 +2003,27 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `address` _[ClusterAddress](#clusteraddress)_ | Address contains the IPs/URLs to access the cluster control plane. |
-| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#time-v1-meta)_ | Deprecated: LastUpdated contains the timestamp at which the cluster was last modified. It is kept only for KKP 2.20 release to not break the backwards-compatibility and not being set for KKP higher releases. |
-| `extendedHealth` _[ExtendedClusterHealth](#extendedclusterhealth)_ | ExtendedHealth exposes information about the current health state. Extends standard health status for new states. |
-| `lastProviderReconciliation` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#time-v1-meta)_ | LastProviderReconciliation is the time when the cloud provider resources were last fully reconciled (during normal cluster reconciliation, KKP does not re-check things like security groups, networks etc.). |
+| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#time-v1-meta)_ | Deprecated: LastUpdated contains the timestamp at which the cluster was last modified.
+It is kept only for KKP 2.20 release to not break the backwards-compatibility and not being set for KKP higher releases. |
+| `extendedHealth` _[ExtendedClusterHealth](#extendedclusterhealth)_ | ExtendedHealth exposes information about the current health state.
+Extends standard health status for new states. |
+| `lastProviderReconciliation` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#time-v1-meta)_ | LastProviderReconciliation is the time when the cloud provider resources
+were last fully reconciled (during normal cluster reconciliation, KKP does
+not re-check things like security groups, networks etc.). |
 | `namespaceName` _string_ | NamespaceName defines the namespace the control plane of this cluster is deployed in. |
-| `versions` _[ClusterVersionsStatus](#clusterversionsstatus)_ | Versions contains information regarding the current and desired versions of the cluster control plane and worker nodes. |
-| `userName` _string_ | Deprecated: UserName contains the name of the owner of this cluster. This field is not actively used and will be removed in the future. |
-| `userEmail` _string_ | UserEmail contains the email of the owner of this cluster. During cluster creation only, this field will be used to bind the `cluster-admin` `ClusterRole` to a cluster owner. |
+| `versions` _[ClusterVersionsStatus](#clusterversionsstatus)_ | Versions contains information regarding the current and desired versions
+of the cluster control plane and worker nodes. |
+| `userName` _string_ | Deprecated: UserName contains the name of the owner of this cluster.
+This field is not actively used and will be removed in the future. |
+| `userEmail` _string_ | UserEmail contains the email of the owner of this cluster.
+During cluster creation only, this field will be used to bind the `cluster-admin` `ClusterRole` to a cluster owner. |
 | `errorReason` _[ClusterStatusError](#clusterstatuserror)_ | ErrorReason contains a error reason in case the controller encountered an error. Will be reset if the error was resolved. |
 | `errorMessage` _string_ | ErrorMessage contains a default error message in case the controller encountered an error. Will be reset if the error was resolved. |
-| `conditions` _object (keys:[ClusterConditionType](#clusterconditiontype), values:[ClusterCondition](#clustercondition))_ | Conditions contains conditions the cluster is in, its primary use case is status signaling between controllers or between controllers and the API. |
-| `phase` _[ClusterPhase](#clusterphase)_ | Phase is a description of the current cluster status, summarizing the various conditions, possible active updates etc. This field is for informational purpose only and no logic should be tied to the phase. |
+| `conditions` _object (keys:[ClusterConditionType](#clusterconditiontype), values:[ClusterCondition](#clustercondition))_ | Conditions contains conditions the cluster is in, its primary use case is status signaling between controllers or between
+controllers and the API. |
+| `phase` _[ClusterPhase](#clusterphase)_ | Phase is a description of the current cluster status, summarizing the various conditions,
+possible active updates etc. This field is for informational purpose only and no logic
+should be tied to the phase. |
 | `inheritedLabels` _object (keys:string, values:string)_ | InheritedLabels are labels the cluster inherited from the project. They are read-only for users. |
 | `encryption` _[ClusterEncryptionStatus](#clusterencryptionstatus)_ | Encryption describes the status of the encryption-at-rest feature for encrypted data in etcd. |
 | `resourceUsage` _[ResourceDetails](#resourcedetails)_ | ResourceUsage shows the current usage of resources for the cluster. |
@@ -1941,7 +2162,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `id` _string_ | ID is the name of the UserSSHKey object that is supposed to be assigned to any ClusterTemplateInstance created based on this template. |
+| `id` _string_ | ID is the name of the UserSSHKey object that is supposed to be assigned
+to any ClusterTemplateInstance created based on this template. |
 | `name` _string_ | Name is the human readable SSH key name. |
 
 
@@ -1953,18 +2175,28 @@ _Appears in:_
 
 
 
-ClusterVersionsStatus contains information regarding the current and desired versions of the cluster control plane and worker nodes.
+ClusterVersionsStatus contains information regarding the current and desired versions
+of the cluster control plane and worker nodes.
 
 _Appears in:_
 - [ClusterStatus](#clusterstatus)
 
 | Field | Description |
 | --- | --- |
-| `controlPlane` _Semver_ | ControlPlane is the currently active cluster version. This can lag behind the apiserver version if an update is currently rolling out. |
-| `apiserver` _Semver_ | Apiserver is the currently desired version of the kube-apiserver. During upgrades across multiple minor versions (e.g. from 1.20 to 1.23), this will gradually be increased by the update-controller until the desired cluster version (spec.version) is reached. |
-| `controllerManager` _Semver_ | ControllerManager is the currently desired version of the kube-controller-manager. This field behaves the same as the apiserver field. |
-| `scheduler` _Semver_ | Scheduler is the currently desired version of the kube-scheduler. This field behaves the same as the apiserver field. |
-| `oldestNodeVersion` _Semver_ | OldestNodeVersion is the oldest node version currently in use inside the cluster. This can be nil if there are no nodes. This field is primarily for speeding up reconciling, so that the controller doesn't have to re-fetch to the usercluster and query its node on every reconciliation. |
+| `controlPlane` _[Semver](#semver)_ | ControlPlane is the currently active cluster version. This can lag behind the apiserver
+version if an update is currently rolling out. |
+| `apiserver` _[Semver](#semver)_ | Apiserver is the currently desired version of the kube-apiserver. During
+upgrades across multiple minor versions (e.g. from 1.20 to 1.23), this will gradually
+be increased by the update-controller until the desired cluster version (spec.version)
+is reached. |
+| `controllerManager` _[Semver](#semver)_ | ControllerManager is the currently desired version of the kube-controller-manager. This
+field behaves the same as the apiserver field. |
+| `scheduler` _[Semver](#semver)_ | Scheduler is the currently desired version of the kube-scheduler. This field behaves the
+same as the apiserver field. |
+| `oldestNodeVersion` _[Semver](#semver)_ | OldestNodeVersion is the oldest node version currently in use inside the cluster. This can be
+nil if there are no nodes. This field is primarily for speeding up reconciling, so that
+the controller doesn't have to re-fetch to the usercluster and query its node on every
+reconciliation. |
 
 
 [Back to top](#top)
@@ -1988,13 +2220,26 @@ _Appears in:_
 | `scheduler` _[ControllerSettings](#controllersettings)_ | Scheduler configures kube-scheduler settings. |
 | `etcd` _[EtcdStatefulSetSettings](#etcdstatefulsetsettings)_ | Etcd configures the etcd ring used to store Kubernetes data. |
 | `prometheus` _[StatefulSetSettings](#statefulsetsettings)_ | Prometheus configures the Prometheus instance deployed into the cluster control plane. |
-| `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ | NodePortProxyEnvoy configures the per-cluster nodeport-proxy-envoy that is deployed if the `LoadBalancer` expose strategy is used. This is not effective if a different expose strategy is configured. |
+| `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ | NodePortProxyEnvoy configures the per-cluster nodeport-proxy-envoy that is deployed if
+the `LoadBalancer` expose strategy is used. This is not effective if a different expose
+strategy is configured. |
 | `konnectivityProxy` _[KonnectivityProxySettings](#konnectivityproxysettings)_ | KonnectivityProxy configures konnectivity-server and konnectivity-agent components. |
 | `userClusterController` _[ControllerSettings](#controllersettings)_ | UserClusterController configures the KKP usercluster-controller deployed as part of the cluster control plane. |
 | `operatingSystemManager` _[ControllerSettings](#controllersettings)_ | OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller). |
 
 
 [Back to top](#top)
+
+
+
+### ConditionType
+
+_Underlying type:_ `string`
+
+ConditionType is the type defining the cluster or datacenter condition that must be met to block a specific version.
+
+_Appears in:_
+- [Incompatibility](#incompatibility)
 
 
 
@@ -2072,12 +2317,25 @@ _Appears in:_
 | `constraintType` _string_ | ConstraintType specifies the type of gatekeeper constraint that the constraint applies to |
 | `disabled` _boolean_ | Disabled  is the flag for disabling OPA constraints |
 | `match` _[Match](#match)_ | Match contains the constraint to resource matching data |
-| `parameters` _object (keys:string, values:integer array)_ | Parameters specifies the parameters used by the constraint template REGO. It supports both the legacy rawJSON parameters, in which all the parameters are set in a JSON string, and regular parameters like in Gatekeeper Constraints. If rawJSON is set, during constraint syncing to the user cluster, the other parameters are ignored Example with rawJSON parameters: 
- parameters: rawJSON: '{"labels":["gatekeeper"]}' 
- And with regular parameters: 
- parameters: labels: ["gatekeeper"] |
+| `parameters` _[Parameters](#parameters)_ | Parameters specifies the parameters used by the constraint template REGO.
+It supports both the legacy rawJSON parameters, in which all the parameters are set in a JSON string, and regular
+parameters like in Gatekeeper Constraints.
+If rawJSON is set, during constraint syncing to the user cluster, the other parameters are ignored
+Example with rawJSON parameters:
+
+
+parameters:
+  rawJSON: '{"labels":["gatekeeper"]}'
+
+
+And with regular parameters:
+
+
+parameters:
+  labels: ["gatekeeper"] |
 | `selector` _[ConstraintSelector](#constraintselector)_ | Selector specifies the cluster selection filters |
-| `enforcementAction` _string_ | EnforcementAction defines the action to take in response to a constraint being violated. By default, EnforcementAction is set to deny as the default behavior is to deny admission requests with any violation. |
+| `enforcementAction` _string_ | EnforcementAction defines the action to take in response to a constraint being violated.
+By default, EnforcementAction is set to deny as the default behavior is to deny admission requests with any violation. |
 
 
 [Back to top](#top)
@@ -2156,7 +2414,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `crd` _[CRD](#crd)_ |  |
-| `targets` _[Target](#target) array_ |  |
+| `targets` _Target array_ |  |
 | `selector` _[ConstraintTemplateSelector](#constrainttemplateselector)_ | Selector configures which clusters this constraint template is applied to. |
 
 
@@ -2181,15 +2439,6 @@ _Appears in:_
 [Back to top](#top)
 
 
-
-### ContainerdRegistry
-
-
-
-ContainerdRegistry defines endpoints and security for given container registry.
-
-_Appears in:_
-- [ContainerRuntimeContainerd](#containerruntimecontainerd)
 
 
 
@@ -2221,6 +2470,27 @@ _Appears in:_
 
 
 _Appears in:_
+- [CustomLinks](#customlinks)
+
+| Field | Description |
+| --- | --- |
+| `label` _string_ |  |
+| `url` _string_ |  |
+| `icon` _string_ |  |
+| `location` _string_ |  |
+
+
+[Back to top](#top)
+
+
+
+### CustomLinks
+
+_Underlying type:_ `[CustomLink](#customlink)`
+
+
+
+_Appears in:_
 - [SettingSpec](#settingspec)
 
 | Field | Description |
@@ -2235,24 +2505,14 @@ _Appears in:_
 
 
 
-
-
 ### CustomNetworkPolicy
 
-
+_Underlying type:_ `[struct{Name string "json:\"name\""; Spec k8s.io/api/networking/v1.NetworkPolicySpec "json:\"spec\""}](#struct{name-string-"json:\"name\"";-spec-k8sioapinetworkingv1networkpolicyspec-"json:\"spec\""})`
 
 CustomNetworkPolicy contains a name and the Spec of a NetworkPolicy.
 
 _Appears in:_
 - [DatacenterSpecKubevirt](#datacenterspeckubevirt)
-
-| Field | Description |
-| --- | --- |
-| `name` _string_ | Name is the name of the Custom Network Policy. |
-| `spec` _[NetworkPolicySpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#networkpolicyspec-v1-networking)_ | Spec is the Spec of the NetworkPolicy, using the standard type. |
-
-
-[Back to top](#top)
 
 
 
@@ -2267,10 +2527,15 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `country` _string_ | Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK. For informational purposes in the Kubermatic dashboard only. |
-| `location` _string_ | Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7". For informational purposes in the Kubermatic dashboard only. |
-| `node` _[NodeSettings](#nodesettings)_ | Node holds node-specific settings, like e.g. HTTP proxy, Docker registries and the like. Proxy settings are inherited from the seed if not specified here. |
-| `spec` _[DatacenterSpec](#datacenterspec)_ | Spec describes the cloud provider settings used to manage resources in this datacenter. Exactly one cloud provider must be defined. |
+| `country` _string_ | Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK.
+For informational purposes in the Kubermatic dashboard only. |
+| `location` _string_ | Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7".
+For informational purposes in the Kubermatic dashboard only. |
+| `node` _[NodeSettings](#nodesettings)_ | Node holds node-specific settings, like e.g. HTTP proxy, Docker
+registries and the like. Proxy settings are inherited from the seed if
+not specified here. |
+| `spec` _[DatacenterSpec](#datacenterspec)_ | Spec describes the cloud provider settings used to manage resources
+in this datacenter. Exactly one cloud provider must be defined. |
 
 
 [Back to top](#top)
@@ -2281,7 +2546,8 @@ _Appears in:_
 
 
 
-DatacenterSpec configures a KKP datacenter. Provider configuration is mutually exclusive, and as such only a single provider can be configured per datacenter.
+DatacenterSpec configures a KKP datacenter. Provider configuration is mutually exclusive,
+and as such only a single provider can be configured per datacenter.
 
 _Appears in:_
 - [Datacenter](#datacenter)
@@ -2289,8 +2555,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `digitalocean` _[DatacenterSpecDigitalocean](#datacenterspecdigitalocean)_ | Digitalocean configures a Digitalocean datacenter. |
-| `bringyourown` _[DatacenterSpecBringYourOwn](#datacenterspecbringyourown)_ | BringYourOwn contains settings for clusters using manually created nodes via kubeadm. |
-| `edge` _[DatacenterSpecEdge](#datacenterspecedge)_ | Edge contains settings for clusters using manually created nodes in edge envs. |
+| `bringyourown` _[DatacenterSpecBringYourOwn](#datacenterspecbringyourown)_ | BringYourOwn contains settings for clusters using manually created
+nodes via kubeadm. |
+| `edge` _[DatacenterSpecEdge](#datacenterspecedge)_ | Edge contains settings for clusters using manually created
+nodes in edge envs. |
 | `aws` _[DatacenterSpecAWS](#datacenterspecaws)_ | AWS configures an Amazon Web Services (AWS) datacenter. |
 | `azure` _[DatacenterSpecAzure](#datacenterspecazure)_ | Azure configures an Azure datacenter. |
 | `openstack` _[DatacenterSpecOpenstack](#datacenterspecopenstack)_ | Openstack configures an Openstack datacenter. |
@@ -2303,14 +2571,27 @@ _Appears in:_
 | `alibaba` _[DatacenterSpecAlibaba](#datacenterspecalibaba)_ | Alibaba configures an Alibaba Cloud datacenter. |
 | `anexia` _[DatacenterSpecAnexia](#datacenterspecanexia)_ | Anexia configures an Anexia datacenter. |
 | `nutanix` _[DatacenterSpecNutanix](#datacenterspecnutanix)_ | Nutanix configures a Nutanix HCI datacenter. |
-| `requiredEmails` _string array_ | Optional: When defined, only users with an e-mail address on the given domains can make use of this datacenter. You can define multiple domains, e.g. "example.com", one of which must match the email domain exactly (i.e. "example.com" will not match "user@test.example.com"). |
-| `enforceAuditLogging` _boolean_ | Optional: EnforceAuditLogging enforces audit logging on every cluster within the DC, ignoring cluster-specific settings. |
-| `enforcePodSecurityPolicy` _boolean_ | Optional: EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC, ignoring cluster-specific settings. |
-| `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#duration-v1-meta)_ | Optional: ProviderReconciliationInterval is the time that must have passed since a Cluster's status.lastProviderReconciliation to make the cliuster controller perform an in-depth provider reconciliation, where for example missing security groups will be reconciled. Setting this too low can cause rate limits by the cloud provider, setting this too high means that *if* a resource at a cloud provider is removed/changed outside of KKP, it will take this long to fix it. |
-| `operatingSystemProfiles` _object (keys:OperatingSystem, values:string)_ | Optional: DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system. |
+| `requiredEmails` _string array_ | Optional: When defined, only users with an e-mail address on the
+given domains can make use of this datacenter. You can define multiple
+domains, e.g. "example.com", one of which must match the email domain
+exactly (i.e. "example.com" will not match "user@test.example.com"). |
+| `enforceAuditLogging` _boolean_ | Optional: EnforceAuditLogging enforces audit logging on every cluster within the DC,
+ignoring cluster-specific settings. |
+| `enforcePodSecurityPolicy` _boolean_ | Optional: EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC,
+ignoring cluster-specific settings. |
+| `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#duration-v1-meta)_ | Optional: ProviderReconciliationInterval is the time that must have passed since a
+Cluster's status.lastProviderReconciliation to make the cliuster controller
+perform an in-depth provider reconciliation, where for example missing security
+groups will be reconciled.
+Setting this too low can cause rate limits by the cloud provider, setting this
+too high means that *if* a resource at a cloud provider is removed/changed outside
+of KKP, it will take this long to fix it. |
+| `operatingSystemProfiles` _[OperatingSystemProfileList](#operatingsystemprofilelist)_ | Optional: DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system. |
 | `machineFlavorFilter` _[MachineFlavorFilter](#machineflavorfilter)_ | Optional: MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
-| `disableCsiDriver` _boolean_ | Optional: DisableCSIDriver disables the installation of CSI driver on every clusters within the DC If true it can't be over-written in the cluster configuration |
-| `kubelb` _[KubeLBDatacenterSettings](#kubelbdatacentersettings)_ | Optional: KubeLB holds the configuration for the kubeLB at the data center level. Only available in Enterprise Edition. |
+| `disableCsiDriver` _boolean_ | Optional: DisableCSIDriver disables the installation of CSI driver on every clusters within the DC
+If true it can't be over-written in the cluster configuration |
+| `kubelb` _[KubeLBDatacenterSettings](#kubelbdatacentersettings)_ | Optional: KubeLB holds the configuration for the kubeLB at the data center level.
+Only available in Enterprise Edition. |
 
 
 [Back to top](#top)
@@ -2328,8 +2609,12 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `region` _string_ | The AWS region to use, e.g. "us-east-1". For a list of available regions, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html |
-| `images` _object (keys:OperatingSystem, values:string)_ | List of AMIs to use for a given operating system. This gets defaulted by querying for the latest AMI for the given distribution when machines are created, so under normal circumstances it is not necessary to define the AMIs statically. |
+| `region` _string_ | The AWS region to use, e.g. "us-east-1". For a list of available regions, see
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html |
+| `images` _[ImageList](#imagelist)_ | List of AMIs to use for a given operating system.
+This gets defaulted by querying for the latest AMI for the given distribution
+when machines are created, so under normal circumstances it is not necessary
+to define the AMIs statically. |
 
 
 [Back to top](#top)
@@ -2347,7 +2632,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `region` _string_ | Region to use, for a full list of regions see https://www.alibabacloud.com/help/doc-detail/40654.htm |
+| `region` _string_ | Region to use, for a full list of regions see
+https://www.alibabacloud.com/help/doc-detail/40654.htm |
 
 
 [Back to top](#top)
@@ -2383,7 +2669,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `location` _string_ | Region to use, for example "westeurope". A list of available regions can be found at https://azure.microsoft.com/en-us/global-infrastructure/locations/ |
+| `location` _string_ | Region to use, for example "westeurope". A list of available regions can be
+found at https://azure.microsoft.com/en-us/global-infrastructure/locations/ |
 
 
 [Back to top](#top)
@@ -2412,7 +2699,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `region` _string_ | Datacenter location, e.g. "ams3". A list of existing datacenters can be found at https://www.digitalocean.com/docs/platform/availability-matrix/ |
+| `region` _string_ | Datacenter location, e.g. "ams3". A list of existing datacenters can be found
+at https://www.digitalocean.com/docs/platform/availability-matrix/ |
 
 
 [Back to top](#top)
@@ -2441,9 +2729,13 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `region` _string_ | Region to use, for example "europe-west3", for a full list of regions see https://cloud.google.com/compute/docs/regions-zones/ |
-| `zoneSuffixes` _string array_ | List of enabled zones, for example [a, c]. See the link above for the available zones in your chosen region. |
-| `regional` _boolean_ | Optional: Regional clusters spread their resources across multiple availability zones. Refer to the official documentation for more details on this: https://cloud.google.com/kubernetes-engine/docs/concepts/regional-clusters |
+| `region` _string_ | Region to use, for example "europe-west3", for a full list of regions see
+https://cloud.google.com/compute/docs/regions-zones/ |
+| `zoneSuffixes` _string array_ | List of enabled zones, for example [a, c]. See the link above for the available
+zones in your chosen region. |
+| `regional` _boolean_ | Optional: Regional clusters spread their resources across multiple availability zones.
+Refer to the official documentation for more details on this:
+https://cloud.google.com/kubernetes-engine/docs/concepts/regional-clusters |
 
 
 [Back to top](#top)
@@ -2461,9 +2753,13 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `datacenter` _string_ | Datacenter location, e.g. "nbg1-dc3". A list of existing datacenters can be found at https://docs.hetzner.com/general/others/data-centers-and-connection/ |
-| `network` _string_ | Network is the pre-existing Hetzner network in which the machines are running. While machines can be in multiple networks, a single one must be chosen for the HCloud CCM to work. |
-| `location` _string_ | Optional: Detailed location of the datacenter, like "Hamburg" or "Datacenter 7". For informational purposes only. |
+| `datacenter` _string_ | Datacenter location, e.g. "nbg1-dc3". A list of existing datacenters can be found
+at https://docs.hetzner.com/general/others/data-centers-and-connection/ |
+| `network` _string_ | Network is the pre-existing Hetzner network in which the machines are running.
+While machines can be in multiple networks, a single one must be chosen for the
+HCloud CCM to work. |
+| `location` _string_ | Optional: Detailed location of the datacenter, like "Hamburg" or "Datacenter 7".
+For informational purposes only. |
 
 
 [Back to top](#top)
@@ -2481,12 +2777,20 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `dnsPolicy` _string_ | DNSPolicy represents the dns policy for the pod. Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'. Defaults to "ClusterFirst". DNS parameters given in DNSConfig will be merged with the policy selected with DNSPolicy. |
-| `dnsConfig` _[PodDNSConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#poddnsconfig-v1-core)_ | DNSConfig represents the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy. |
-| `enableDefaultNetworkPolicies` _boolean_ | Optional: EnableDefaultNetworkPolicies enables deployment of default network policies like cluster isolation. Defaults to true. |
-| `customNetworkPolicies` _[CustomNetworkPolicy](#customnetworkpolicy) array_ | Optional: CustomNetworkPolicies allows to add some extra custom NetworkPolicies, that are deployed in the dedicated infra KubeVirt cluster. They are added to the defaults. |
+| `dnsPolicy` _string_ | DNSPolicy represents the dns policy for the pod. Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst',
+'Default' or 'None'. Defaults to "ClusterFirst". DNS parameters given in DNSConfig will be merged with the
+policy selected with DNSPolicy. |
+| `dnsConfig` _[PodDNSConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#poddnsconfig-v1-core)_ | DNSConfig represents the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS
+configuration based on DNSPolicy. |
+| `enableDefaultNetworkPolicies` _boolean_ | Optional: EnableDefaultNetworkPolicies enables deployment of default network policies like cluster isolation.
+Defaults to true. |
+| `customNetworkPolicies` _[CustomNetworkPolicy](#customnetworkpolicy) array_ | Optional: CustomNetworkPolicies allows to add some extra custom NetworkPolicies, that are deployed
+in the dedicated infra KubeVirt cluster. They are added to the defaults. |
 | `images` _[KubeVirtImageSources](#kubevirtimagesources)_ | Images represents standard VM Image sources. |
-| `infraStorageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | Optional: InfraStorageClasses contains a list of KubeVirt infra cluster StorageClasses names that will be used to initialise StorageClasses in the tenant cluster. In the tenant cluster, the created StorageClass name will have as name: kubevirt-<infra-storageClass-name> |
+| `infraStorageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | Optional: InfraStorageClasses contains a list of KubeVirt infra cluster StorageClasses names
+that will be used to initialise StorageClasses in the tenant cluster.
+In the tenant cluster, the created StorageClass name will have as name:
+kubevirt-<infra-storageClass-name> |
 
 
 [Back to top](#top)
@@ -2504,10 +2808,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `endpoint` _string_ | Endpoint to use for accessing Nutanix Prism Central. No protocol or port should be passed, for example "nutanix.example.com" or "10.0.0.1" |
+| `endpoint` _string_ | Endpoint to use for accessing Nutanix Prism Central. No protocol or port should be passed,
+for example "nutanix.example.com" or "10.0.0.1" |
 | `port` _integer_ | Optional: Port to use when connecting to the Nutanix Prism Central endpoint (defaults to 9440) |
 | `allowInsecure` _boolean_ | Optional: AllowInsecure allows to disable the TLS certificate check against the endpoint (defaults to false) |
-| `images` _object (keys:OperatingSystem, values:string)_ | Images to use for each supported operating system |
+| `images` _[ImageList](#imagelist)_ | Images to use for each supported operating system |
 
 
 [Back to top](#top)
@@ -2531,14 +2836,21 @@ _Appears in:_
 | `ignoreVolumeAZ` _boolean_ | Optional |
 | `enforceFloatingIP` _boolean_ | Optional |
 | `dnsServers` _string array_ | Used for automatic network creation |
-| `images` _object (keys:OperatingSystem, values:string)_ | Images to use for each supported operating system. |
-| `manageSecurityGroups` _boolean_ | Optional: Gets mapped to the "manage-security-groups" setting in the cloud config. This setting defaults to true. |
-| `useOctavia` _boolean_ | Optional: Gets mapped to the "use-octavia" setting in the cloud config. use-octavia is enabled by default in CCM since v1.17.0, and disabled by default with the in-tree cloud provider. |
-| `trustDevicePath` _boolean_ | Optional: Gets mapped to the "trust-device-path" setting in the cloud config. This setting defaults to false. |
-| `nodeSizeRequirements` _[OpenstackNodeSizeRequirements](#openstacknodesizerequirements)_ | Optional: Restrict the allowed VM configurations that can be chosen in the KKP dashboard. This setting does not affect the validation webhook for MachineDeployments. |
+| `images` _[ImageList](#imagelist)_ | Images to use for each supported operating system. |
+| `manageSecurityGroups` _boolean_ | Optional: Gets mapped to the "manage-security-groups" setting in the cloud config.
+This setting defaults to true. |
+| `useOctavia` _boolean_ | Optional: Gets mapped to the "use-octavia" setting in the cloud config.
+use-octavia is enabled by default in CCM since v1.17.0, and disabled by
+default with the in-tree cloud provider. |
+| `trustDevicePath` _boolean_ | Optional: Gets mapped to the "trust-device-path" setting in the cloud config.
+This setting defaults to false. |
+| `nodeSizeRequirements` _[OpenstackNodeSizeRequirements](#openstacknodesizerequirements)_ | Optional: Restrict the allowed VM configurations that can be chosen in
+the KKP dashboard. This setting does not affect the validation webhook for
+MachineDeployments. |
 | `enabledFlavors` _string array_ | Optional: List of enabled flavors for the given datacenter |
 | `ipv6Enabled` _boolean_ | Optional: defines if the IPv6 is enabled for the datacenter |
-| `csiCinderTopologyEnabled` _boolean_ | Optional: configures enablement of topology support for the Cinder CSI Plugin. This requires Nova and Cinder to have matching availability zones configured. |
+| `csiCinderTopologyEnabled` _boolean_ | Optional: configures enablement of topology support for the Cinder CSI Plugin.
+This requires Nova and Cinder to have matching availability zones configured. |
 
 
 [Back to top](#top)
@@ -2556,8 +2868,10 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `facilities` _string array_ | The list of enabled facilities, for example "ams1", for a full list of available facilities see https://metal.equinix.com/developers/docs/locations/facilities/ |
-| `metro` _string_ | Metros are facilities that are grouped together geographically and share capacity and networking features, see https://metal.equinix.com/developers/docs/locations/metros/ |
+| `facilities` _string array_ | The list of enabled facilities, for example "ams1", for a full list of available
+facilities see https://metal.equinix.com/developers/docs/locations/facilities/ |
+| `metro` _string_ | Metros are facilities that are grouped together geographically and share capacity
+and networking features, see https://metal.equinix.com/developers/docs/locations/metros/ |
 
 
 [Back to top](#top)
@@ -2579,7 +2893,8 @@ _Appears in:_
 | `allowInsecure` _boolean_ | If set to true, disables the TLS certificate check against the endpoint. |
 | `catalog` _string_ | The default catalog which contains the VM templates. |
 | `storageProfile` _string_ | The name of the storage profile to use for disks attached to the VMs. |
-| `templates` _object (keys:OperatingSystem, values:string)_ | A list of VM templates to use for a given operating system. You must define at least one template. |
+| `templates` _[ImageList](#imagelist)_ | A list of VM templates to use for a given operating system. You must
+define at least one template. |
 
 
 [Back to top](#top)
@@ -2599,15 +2914,25 @@ _Appears in:_
 | --- | --- |
 | `endpoint` _string_ | Endpoint URL to use, including protocol, for example "https://vcenter.example.com". |
 | `allowInsecure` _boolean_ | If set to true, disables the TLS certificate check against the endpoint. |
-| `datastore` _string_ | The default Datastore to be used for provisioning volumes using storage classes/dynamic provisioning and for storing virtual machine files in case no `Datastore` or `DatastoreCluster` is provided at Cluster level. |
+| `datastore` _string_ | The default Datastore to be used for provisioning volumes using storage
+classes/dynamic provisioning and for storing virtual machine files in
+case no `Datastore` or `DatastoreCluster` is provided at Cluster level. |
 | `datacenter` _string_ | The name of the datacenter to use. |
 | `cluster` _string_ | The name of the vSphere cluster to use. Used for out-of-tree CSI Driver. |
 | `storagePolicy` _string_ | The name of the storage policy to use for the storage class created in the user cluster. |
-| `rootPath` _string_ | Optional: The root path for cluster specific VM folders. Each cluster gets its own folder below the root folder. Must be the FQDN (for example "/datacenter-1/vm/all-kubermatic-vms-in-here") and defaults to the root VM folder: "/datacenter-1/vm" |
-| `templates` _object (keys:OperatingSystem, values:string)_ | A list of VM templates to use for a given operating system. You must define at least one template. See: https://github.com/kubermatic/machine-controller/blob/master/docs/vsphere.md#template-vms-preparation |
-| `infraManagementUser` _[VSphereCredentials](#vspherecredentials)_ | Optional: Infra management user is the user that will be used for everything except the cloud provider functionality, which will still use the credentials passed in via the Kubermatic dashboard/API. |
+| `rootPath` _string_ | Optional: The root path for cluster specific VM folders. Each cluster gets its own
+folder below the root folder. Must be the FQDN (for example
+"/datacenter-1/vm/all-kubermatic-vms-in-here") and defaults to the root VM
+folder: "/datacenter-1/vm" |
+| `templates` _[ImageList](#imagelist)_ | A list of VM templates to use for a given operating system. You must
+define at least one template.
+See: https://github.com/kubermatic/machine-controller/blob/master/docs/vsphere.md#template-vms-preparation |
+| `infraManagementUser` _[VSphereCredentials](#vspherecredentials)_ | Optional: Infra management user is the user that will be used for everything
+except the cloud provider functionality, which will still use the credentials
+passed in via the Kubermatic dashboard/API. |
 | `ipv6Enabled` _boolean_ | Optional: defines if the IPv6 is enabled for the datacenter |
-| `defaultTagCategoryID` _string_ | DefaultTagCategoryID is the tag category id that will be used as default, if users don't specify it on a cluster level, and they don't wish KKP to create default generated tag category, upon cluster creation. |
+| `defaultTagCategoryID` _string_ | DefaultTagCategoryID is the tag category id that will be used as default, if users don't specify it on a cluster level,
+and they don't wish KKP to create default generated tag category, upon cluster creation. |
 
 
 [Back to top](#top)
@@ -2618,7 +2943,8 @@ _Appears in:_
 
 
 
-DefaultProjectResourceQuota contains the default resource quota which will be set for all projects that do not have a custom quota already set.
+DefaultProjectResourceQuota contains the default resource quota which will be set for all
+projects that do not have a custom quota already set.
 
 _Appears in:_
 - [SettingSpec](#settingspec)
@@ -2665,7 +2991,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `token` _string_ | Token is used to authenticate with the DigitalOcean API. |
 
 
@@ -2684,7 +3011,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `credentialsReference` _GlobalSecretKeySelector_ |  |
+| `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `token` _string_ | Token is used to authenticate with the DigitalOcean API. |
 
 
@@ -2704,11 +3031,16 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. |
 | `secretAccessKey` _string_ | The Secret Access Key used to authenticate against AWS. |
-| `assumeRoleARN` _string_ | Defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. required: false |
-| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". required: false |
+| `assumeRoleARN` _string_ | Defines the ARN for an IAM role that should be assumed when handling resources on AWS. It will be used
+to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session.
+required: false |
+| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation.
+Using an external ID can help to prevent the "confused deputy problem".
+required: false |
 
 
 [Back to top](#top)
@@ -2739,7 +3071,8 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | Enables encryption-at-rest on this cluster. |
 | `resources` _string array_ | List of resources that will be stored encrypted in etcd. |
-| `secretbox` _[SecretboxEncryptionConfiguration](#secretboxencryptionconfiguration)_ | Configuration for the `secretbox` static key encryption scheme as supported by Kubernetes. More info: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#providers |
+| `secretbox` _[SecretboxEncryptionConfiguration](#secretboxencryptionconfiguration)_ | Configuration for the `secretbox` static key encryption scheme as supported by Kubernetes.
+More info: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#providers |
 
 
 [Back to top](#top)
@@ -2757,8 +3090,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `annotations` _object (keys:string, values:string)_ | Annotations are used to further tweak the LoadBalancer integration with the cloud provider. |
-| `sourceRanges` _CIDR array_ | SourceRanges will restrict loadbalancer service to IP ranges specified using CIDR notation like 172.25.0.0/16. This field will be ignored if the cloud-provider does not support the feature. More info: https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/ |
+| `annotations` _object (keys:string, values:string)_ | Annotations are used to further tweak the LoadBalancer integration with the
+cloud provider. |
+| `sourceRanges` _[CIDR](#cidr) array_ | SourceRanges will restrict loadbalancer service to IP ranges specified using CIDR notation like 172.25.0.0/16.
+This field will be ignored if the cloud-provider does not support the feature.
+More info: https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/ |
 
 
 [Back to top](#top)
@@ -2769,7 +3105,8 @@ _Appears in:_
 
 
 
-EtcdBackupConfig describes how snapshots of user cluster etcds should be performed. Each user cluster automatically gets a default EtcdBackupConfig in its cluster namespace.
+EtcdBackupConfig describes how snapshots of user cluster etcds should be performed. Each user cluster
+automatically gets a default EtcdBackupConfig in its cluster namespace.
 
 _Appears in:_
 - [EtcdBackupConfigList](#etcdbackupconfiglist)
@@ -2813,7 +3150,9 @@ _Appears in:_
 
 _Underlying type:_ `string`
 
-EtcdBackupConfigConditionType is used to indicate the type of a EtcdBackupConfig condition. For all condition types, the `true` value must indicate success. All condition types must be registered within the `AllClusterConditionTypes` variable.
+EtcdBackupConfigConditionType is used to indicate the type of a EtcdBackupConfig condition. For all condition
+types, the `true` value must indicate success. All condition types must be registered within
+the `AllClusterConditionTypes` variable.
 
 _Appears in:_
 - [EtcdBackupConfigStatus](#etcdbackupconfigstatus)
@@ -2851,11 +3190,17 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `name` _string_ | Name defines the name of the backup The name of the backup file in S3 will be <cluster>-<backup name> If a schedule is set (see below), -<timestamp> will be appended. |
+| `name` _string_ | Name defines the name of the backup
+The name of the backup file in S3 will be <cluster>-<backup name>
+If a schedule is set (see below), -<timestamp> will be appended. |
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#objectreference-v1-core)_ | Cluster is the reference to the cluster whose etcd will be backed up |
-| `schedule` _string_ | Schedule is a cron expression defining when to perform the backup. If not set, the backup is performed exactly once, immediately. |
-| `keep` _integer_ | Keep is the number of backups to keep around before deleting the oldest one If not set, defaults to DefaultKeptBackupsCount. Only used if Schedule is set. |
-| `destination` _string_ | Destination indicates where the backup will be stored. The destination name must correspond to a destination in the cluster's Seed.Spec.EtcdBackupRestore. |
+| `schedule` _string_ | Schedule is a cron expression defining when to perform
+the backup. If not set, the backup is performed exactly
+once, immediately. |
+| `keep` _integer_ | Keep is the number of backups to keep around before deleting the oldest one
+If not set, defaults to DefaultKeptBackupsCount. Only used if Schedule is set. |
+| `destination` _string_ | Destination indicates where the backup will be stored. The destination name must correspond to a destination in
+the cluster's Seed.Spec.EtcdBackupRestore. |
 
 
 [Back to top](#top)
@@ -2893,8 +3238,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `destinations` _object (keys:string, values:[BackupDestination](#backupdestination))_ | Destinations stores all the possible destinations where the backups for the Seed can be stored. If not empty, it enables automatic backup and restore for the seed. |
-| `defaultDestination` _string_ | DefaultDestination marks the default destination that will be used for the default etcd backup config which is created for every user cluster. Has to correspond to a destination in Destinations. If removed, it removes the related default etcd backup configs. |
+| `destinations` _object (keys:string, values:[BackupDestination](#backupdestination))_ | Destinations stores all the possible destinations where the backups for the Seed can be stored. If not empty,
+it enables automatic backup and restore for the seed. |
+| `defaultDestination` _string_ | DefaultDestination marks the default destination that will be used for the default etcd backup config which is
+created for every user cluster. Has to correspond to a destination in Destinations.
+If removed, it removes the related default etcd backup configs. |
 
 
 [Back to top](#top)
@@ -2943,6 +3291,17 @@ EtcdRestoreList is a list of etcd restores.
 
 
 
+### EtcdRestorePhase
+
+_Underlying type:_ `string`
+
+EtcdRestorePhase represents the lifecycle phase of an EtcdRestore.
+
+_Appears in:_
+- [EtcdRestoreStatus](#etcdrestorestatus)
+
+
+
 ### EtcdRestoreSpec
 
 
@@ -2954,11 +3313,15 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `name` _string_ | Name defines the name of the restore The name of the restore file in S3 will be <cluster>-<restore name> If a schedule is set (see below), -<timestamp> will be appended. |
+| `name` _string_ | Name defines the name of the restore
+The name of the restore file in S3 will be <cluster>-<restore name>
+If a schedule is set (see below), -<timestamp> will be appended. |
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#objectreference-v1-core)_ | Cluster is the reference to the cluster whose etcd will be backed up |
 | `backupName` _string_ | BackupName is the name of the backup to restore from |
-| `backupDownloadCredentialsSecret` _string_ | BackupDownloadCredentialsSecret is the name of a secret in the cluster-xxx namespace containing credentials needed to download the backup |
-| `destination` _string_ | Destination indicates where the backup was stored. The destination name should correspond to a destination in the cluster's Seed.Spec.EtcdBackupRestore. If empty, it will use the legacy destination configured in Seed.Spec.BackupRestore |
+| `backupDownloadCredentialsSecret` _string_ | BackupDownloadCredentialsSecret is the name of a secret in the cluster-xxx namespace containing
+credentials needed to download the backup |
+| `destination` _string_ | Destination indicates where the backup was stored. The destination name should correspond to a destination in
+the cluster's Seed.Spec.EtcdBackupRestore. If empty, it will use the legacy destination configured in Seed.Spec.BackupRestore |
 
 
 [Back to top](#top)
@@ -2976,7 +3339,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `phase` _EtcdRestorePhase_ |  |
+| `phase` _[EtcdRestorePhase](#etcdrestorephase)_ |  |
 | `restoreTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#time-v1-meta)_ |  |
 
 
@@ -2995,13 +3358,19 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `clusterSize` _integer_ | ClusterSize is the number of replicas created for etcd. This should be an odd number to guarantee consensus, e.g. 3, 5 or 7. |
-| `storageClass` _string_ | StorageClass is the Kubernetes StorageClass used for persistent storage which stores the etcd WAL and other data persisted across restarts. Defaults to `kubermatic-fast` (the global default). |
-| `diskSize` _Quantity_ | DiskSize is the volume size used when creating persistent storage from the configured StorageClass. This is inherited from KubermaticConfiguration if not set. Defaults to 5Gi. |
+| `clusterSize` _integer_ | ClusterSize is the number of replicas created for etcd. This should be an
+odd number to guarantee consensus, e.g. 3, 5 or 7. |
+| `storageClass` _string_ | StorageClass is the Kubernetes StorageClass used for persistent storage
+which stores the etcd WAL and other data persisted across restarts. Defaults to
+`kubermatic-fast` (the global default). |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcerequirements-v1-core)_ | Resources allows to override the resource requirements for etcd Pods. |
 | `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#toleration-v1-core) array_ | Tolerations allows to override the scheduling tolerations for etcd Pods. |
-| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | HostAntiAffinity allows to enforce a certain type of host anti-affinity on etcd pods. Options are "preferred" (default) and "required". Please note that enforcing anti-affinity via "required" can mean that pods are never scheduled. |
-| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on etcd pods. Options are "preferred" (default) and "required". Please note that enforcing anti-affinity via "required" can mean that pods are never scheduled. |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | HostAntiAffinity allows to enforce a certain type of host anti-affinity on etcd
+pods. Options are "preferred" (default) and "required". Please note that
+enforcing anti-affinity via "required" can mean that pods are never scheduled. |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on etcd
+pods. Options are "preferred" (default) and "required". Please note that
+enforcing anti-affinity via "required" can mean that pods are never scheduled. |
 | `nodeSelector` _object (keys:string, values:string)_ | NodeSelector is a selector which restricts the set of nodes where etcd Pods can run. |
 
 
@@ -3013,7 +3382,8 @@ _Appears in:_
 
 
 
-EventRateLimitConfig configures the `EventRateLimit` admission plugin. More info: https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit
+EventRateLimitConfig configures the `EventRateLimit` admission plugin.
+More info: https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit
 
 _Appears in:_
 - [ClusterSpec](#clusterspec)
@@ -3056,7 +3426,8 @@ _Appears in:_
 
 _Underlying type:_ `string`
 
-ExposeStrategy is the strategy used to expose a cluster control plane. Possible values are `NodePort`, `LoadBalancer` or `Tunneling` (requires a feature gate).
+ExposeStrategy is the strategy used to expose a cluster control plane.
+Possible values are `NodePort`, `LoadBalancer` or `Tunneling` (requires a feature gate).
 
 _Appears in:_
 - [ClusterSpec](#clusterspec)
@@ -3081,7 +3452,7 @@ _Appears in:_
 | `controller` _[HealthStatus](#healthstatus)_ |  |
 | `machineController` _[HealthStatus](#healthstatus)_ |  |
 | `etcd` _[HealthStatus](#healthstatus)_ |  |
-| `openvpn` _[HealthStatus](#healthstatus)_ | Deprecated: OpenVPN will be removed entirely in the future. |
+| `openvpn` _[HealthStatus](#healthstatus)_ |  Deprecated: OpenVPN will be removed entirely in the future. |
 | `konnectivity` _[HealthStatus](#healthstatus)_ |  |
 | `cloudProviderInfrastructure` _[HealthStatus](#healthstatus)_ |  |
 | `userClusterControllerManager` _[HealthStatus](#healthstatus)_ |  |
@@ -3136,12 +3507,18 @@ _Appears in:_
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | CredentialsReference allows referencing a `Secret` resource instead of passing secret data in this spec. |
 | `name` _string_ |  |
-| `tenantID` _string_ | The Azure Active Directory Tenant used for this cluster. Can be read from `credentialsReference` instead. |
-| `subscriptionID` _string_ | The Azure Subscription used for this cluster. Can be read from `credentialsReference` instead. |
-| `clientID` _string_ | The service principal used to access Azure. Can be read from `credentialsReference` instead. |
-| `clientSecret` _string_ | The client secret corresponding to the given service principal. Can be read from `credentialsReference` instead. |
+| `tenantID` _string_ | The Azure Active Directory Tenant used for this cluster.
+Can be read from `credentialsReference` instead. |
+| `subscriptionID` _string_ | The Azure Subscription used for this cluster.
+Can be read from `credentialsReference` instead. |
+| `clientID` _string_ | The service principal used to access Azure.
+Can be read from `credentialsReference` instead. |
+| `clientSecret` _string_ | The client secret corresponding to the given service principal.
+Can be read from `credentialsReference` instead. |
 | `location` _string_ | The geo-location where the resource lives |
-| `resourceGroup` _string_ | The resource group that will be used to look up and create resources for the cluster in. If set to empty string at cluster creation, a new resource group will be created and this field will be updated to the generated resource group's name. |
+| `resourceGroup` _string_ | The resource group that will be used to look up and create resources for the cluster in.
+If set to empty string at cluster creation, a new resource group will be created and this field will be updated to
+the generated resource group's name. |
 
 
 [Back to top](#top)
@@ -3170,7 +3547,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `providerName` _ExternalClusterProvider_ |  |
+| `providerName` _[ExternalClusterProvider](#externalclusterprovider)_ |  |
 | `gke` _[ExternalClusterGKECloudSpec](#externalclustergkecloudspec)_ |  |
 | `eks` _[ExternalClusterEKSCloudSpec](#externalclusterekscloudspec)_ |  |
 | `aks` _[ExternalClusterAKSCloudSpec](#externalclusterakscloudspec)_ |  |
@@ -3214,15 +3591,25 @@ _Appears in:_
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `name` _string_ |  |
-| `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. Can be read from `credentialsReference` instead. |
-| `secretAccessKey` _string_ | The Secret Access Key used to authenticate against AWS. Can be read from `credentialsReference` instead. |
+| `accessKeyID` _string_ | The Access key ID used to authenticate against AWS.
+Can be read from `credentialsReference` instead. |
+| `secretAccessKey` _string_ | The Secret Access Key used to authenticate against AWS.
+Can be read from `credentialsReference` instead. |
 | `region` _string_ |  |
-| `roleArn` _string_ | The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. |
+| `roleArn` _string_ | The Amazon Resource Name (ARN) of the IAM role that provides permissions
+for the Kubernetes control plane to make calls to Amazon Web Services API
+operations on your behalf. |
 | `vpcID` _string_ | The VPC associated with your cluster. |
 | `subnetIDs` _string array_ | The subnets associated with your cluster. |
-| `securityGroupIDs` _string array_ | The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane. |
-| `assumeRoleARN` _string_ | The ARN for an IAM role that should be assumed when handling resources on AWS. It will be used to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session. required: false |
-| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation. Using an external ID can help to prevent the "confused deputy problem". required: false |
+| `securityGroupIDs` _string array_ | The security groups associated with the cross-account elastic network interfaces
+that are used to allow communication between your nodes and the Kubernetes
+control plane. |
+| `assumeRoleARN` _string_ | The ARN for an IAM role that should be assumed when handling resources on AWS. It will be used
+to acquire temporary security credentials using an STS AssumeRole API operation whenever creating an AWS session.
+required: false |
+| `assumeRoleExternalID` _string_ | An arbitrary string that may be needed when calling the STS AssumeRole API operation.
+Using an external ID can help to prevent the "confused deputy problem".
+required: false |
 
 
 [Back to top](#top)
@@ -3242,8 +3629,11 @@ _Appears in:_
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `name` _string_ |  |
-| `serviceAccount` _string_ | ServiceAccount: The Google Cloud Platform Service Account. Can be read from `credentialsReference` instead. |
-| `zone` _string_ | Zone: The name of the Google Compute Engine zone (https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. |
+| `serviceAccount` _string_ | ServiceAccount: The Google Cloud Platform Service Account.
+Can be read from `credentialsReference` instead. |
+| `zone` _string_ | Zone: The name of the Google Compute Engine zone
+(https://cloud.google.com/compute/docs/zones#available) in which the
+cluster resides. |
 
 
 [Back to top](#top)
@@ -3261,8 +3651,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `providerName` _string_ | The name of the cloud provider used, one of "aws", "azure", "digitalocean", "gcp", "hetzner", "nutanix", "openstack", "packet", "vsphere" KubeOne natively-supported providers |
-| `region` _string_ | The cloud provider region in which the cluster resides. This field is used only to display information. |
+| `providerName` _string_ | The name of the cloud provider used, one of
+"aws", "azure", "digitalocean", "gcp",
+"hetzner", "nutanix", "openstack", "packet", "vsphere" KubeOne natively-supported providers |
+| `region` _string_ | The cloud provider region in which the cluster resides.
+This field is used only to display information. |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `sshReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `manifestReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
@@ -3314,15 +3707,20 @@ _Appears in:_
 
 
 
-ExternalClusterNetworkingConfig specifies the different networking parameters for an external cluster.
+ExternalClusterNetworkingConfig specifies the different networking
+parameters for an external cluster.
 
 _Appears in:_
 - [ExternalClusterSpec](#externalclusterspec)
 
 | Field | Description |
 | --- | --- |
-| `services` _[ExternalClusterNetworkRanges](#externalclusternetworkranges)_ | The network ranges from which service VIPs are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
-| `pods` _[ExternalClusterNetworkRanges](#externalclusternetworkranges)_ | The network ranges from which POD networks are allocated. It can contain one IPv4 and/or one IPv6 CIDR. If both address families are specified, the first one defines the primary address family. |
+| `services` _[ExternalClusterNetworkRanges](#externalclusternetworkranges)_ | The network ranges from which service VIPs are allocated.
+It can contain one IPv4 and/or one IPv6 CIDR.
+If both address families are specified, the first one defines the primary address family. |
+| `pods` _[ExternalClusterNetworkRanges](#externalclusternetworkranges)_ | The network ranges from which POD networks are allocated.
+It can contain one IPv4 and/or one IPv6 CIDR.
+If both address families are specified, the first one defines the primary address family. |
 
 
 [Back to top](#top)
@@ -3337,6 +3735,18 @@ _Underlying type:_ `string`
 
 _Appears in:_
 - [ExternalClusterCondition](#externalclustercondition)
+
+
+
+### ExternalClusterProvider
+
+_Underlying type:_ `string`
+
+ExternalClusterProvider is the identifier for the cloud provider that hosts
+the external cluster control plane.
+
+_Appears in:_
+- [ExternalClusterCloudSpec](#externalclustercloudspec)
 
 
 
@@ -3362,9 +3772,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `versions` _Semver array_ | Versions lists the available versions. |
-| `default` _Semver_ | Default is the default version to offer users. |
-| `updates` _Semver array_ | Updates is a list of available upgrades. |
+| `versions` _[Semver](#semver) array_ | Versions lists the available versions. |
+| `default` _[Semver](#semver)_ | Default is the default version to offer users. |
+| `updates` _[Semver](#semver) array_ | Updates is a list of available upgrades. |
 
 
 [Back to top](#top)
@@ -3384,12 +3794,14 @@ _Appears in:_
 | --- | --- |
 | `humanReadableName` _string_ | HumanReadableName is the cluster name provided by the user |
 | `kubeconfigReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | Reference to cluster Kubeconfig |
-| `version` _Semver_ | Defines the wanted version of the control plane. |
+| `version` _[Semver](#semver)_ | Defines the wanted version of the control plane. |
 | `cloudSpec` _[ExternalClusterCloudSpec](#externalclustercloudspec)_ | CloudSpec contains provider specific fields |
 | `clusterNetwork` _[ExternalClusterNetworkingConfig](#externalclusternetworkingconfig)_ | ClusterNetwork contains the different networking parameters for an external cluster. |
 | `containerRuntime` _string_ | ContainerRuntime to use, i.e. `docker` or `containerd`. |
-| `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP. This indicates that the user needs to do some action to resolve the pause. |
-| `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
+| `pause` _boolean_ | If this is set to true, the cluster will not be reconciled by KKP.
+This indicates that the user needs to do some action to resolve the pause. |
+| `pauseReason` _string_ | PauseReason is the reason why the cluster is not being managed. This field is for informational
+purpose only and can be set by a user or a controller to communicate the reason for pausing the cluster. |
 
 
 [Back to top](#top)
@@ -3428,7 +3840,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `serviceAccount` _string_ | ServiceAccount is the Google Service Account (JSON format), encoded with base64. |
 | `network` _string_ |  |
 | `subnetwork` _string_ |  |
@@ -3453,8 +3866,10 @@ _Appears in:_
 | `serviceAccount` _string_ | The Google Service Account (JSON format), encoded with base64. |
 | `network` _string_ |  |
 | `subnetwork` _string_ |  |
-| `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the firewall rules to. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
-| `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: CIDR ranges that will be used to allow access to the node port range in the firewall rules to. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set,  the node port range can be accessed from anywhere. |
+| `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the firewall rules to.
+If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
+| `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: CIDR ranges that will be used to allow access to the node port range in the firewall rules to.
+If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set,  the node port range can be accessed from anywhere. |
 
 
 [Back to top](#top)
@@ -3473,7 +3888,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `serviceAccount` _string_ |  |
 
 
@@ -3485,7 +3901,8 @@ _Appears in:_
 
 
 
-GroupProjectBinding specifies a binding between a group and a project This resource is used by the user management to manipulate member groups of the given project.
+GroupProjectBinding specifies a binding between a group and a project
+This resource is used by the user management to manipulate member groups of the given project.
 
 _Appears in:_
 - [GroupProjectBindingList](#groupprojectbindinglist)
@@ -3534,8 +3951,13 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `group` _string_ | Group is the group name that is bound to the given project. |
-| `projectID` _string_ | ProjectID is the ID of the target project. Should be a valid lowercase RFC1123 domain name |
-| `role` _string_ | Role is the user's role within the project, determining their permissions. Possible roles are: "viewers" - allowed to get/list project resources "editors" - allowed to edit all project resources "owners" - same as editors, but also can manage users in the project |
+| `projectID` _string_ | ProjectID is the ID of the target project.
+Should be a valid lowercase RFC1123 domain name |
+| `role` _string_ | Role is the user's role within the project, determining their permissions.
+Possible roles are:
+"viewers" - allowed to get/list project resources
+"editors" - allowed to edit all project resources
+"owners" - same as editors, but also can manage users in the project |
 
 
 [Back to top](#top)
@@ -3546,7 +3968,8 @@ _Appears in:_
 
 
 
-GroupVersionKind unambiguously identifies a kind. It doesn't anonymously include GroupVersion to avoid automatic coercion. It doesn't use a GroupVersion to avoid custom marshalling.
+GroupVersionKind unambiguously identifies a kind. It doesn't anonymously include GroupVersion
+to avoid automatic coercion. It doesn't use a GroupVersion to avoid custom marshalling.
 
 _Appears in:_
 - [AddonSpec](#addonspec)
@@ -3584,9 +4007,13 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `token` _string_ | Token is used to authenticate with the Hetzner API. |
-| `network` _string_ | Network is the pre-existing Hetzner network in which the machines are running. While machines can be in multiple networks, a single one must be chosen for the HCloud CCM to work. If this is empty, the network configured on the datacenter will be used. |
+| `network` _string_ | Network is the pre-existing Hetzner network in which the machines are running.
+While machines can be in multiple networks, a single one must be chosen for the
+HCloud CCM to work.
+If this is empty, the network configured on the datacenter will be used. |
 
 
 [Back to top](#top)
@@ -3606,7 +4033,10 @@ _Appears in:_
 | --- | --- |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `token` _string_ | Token is used to authenticate with the Hetzner cloud API. |
-| `network` _string_ | Network is the pre-existing Hetzner network in which the machines are running. While machines can be in multiple networks, a single one must be chosen for the HCloud CCM to work. If this is empty, the network configured on the datacenter will be used. |
+| `network` _string_ | Network is the pre-existing Hetzner network in which the machines are running.
+While machines can be in multiple networks, a single one must be chosen for the
+HCloud CCM to work.
+If this is empty, the network configured on the datacenter will be used. |
 
 
 [Back to top](#top)
@@ -3617,7 +4047,8 @@ _Appears in:_
 
 
 
-IPAMAllocation is the object representing an allocation from an IPAMPool made for a particular KKP user cluster.
+IPAMAllocation is the object representing an allocation from an IPAMPool
+made for a particular KKP user cluster.
 
 _Appears in:_
 - [IPAMAllocationList](#ipamallocationlist)
@@ -3658,7 +4089,8 @@ _Appears in:_
 
 
 
-IPAMAllocationSpec specifies an allocation from an IPAMPool made for a particular KKP user cluster.
+IPAMAllocationSpec specifies an allocation from an IPAMPool
+made for a particular KKP user cluster.
 
 _Appears in:_
 - [IPAMAllocation](#ipamallocation)
@@ -3667,8 +4099,10 @@ _Appears in:_
 | --- | --- |
 | `type` _[IPAMPoolAllocationType](#ipampoolallocationtype)_ | Type is the allocation type that is being used. |
 | `dc` _string_ | DC is the datacenter of the allocation. |
-| `cidr` _[SubnetCIDR](#subnetcidr)_ | CIDR is the CIDR that is being used for the allocation. Set when "type=prefix". |
-| `addresses` _string array_ | Addresses are the IP address ranges that are being used for the allocation. Set when "type=range". |
+| `cidr` _[SubnetCIDR](#subnetcidr)_ | CIDR is the CIDR that is being used for the allocation.
+Set when "type=prefix". |
+| `addresses` _string array_ | Addresses are the IP address ranges that are being used for the allocation.
+Set when "type=range". |
 
 
 [Back to top](#top)
@@ -3679,7 +4113,8 @@ _Appears in:_
 
 
 
-IPAMPool is the object representing Multi-Cluster IP Address Management (IPAM) configuration for KKP user clusters.
+IPAMPool is the object representing Multi-Cluster IP Address Management (IPAM)
+configuration for KKP user clusters.
 
 _Appears in:_
 - [IPAMPoolList](#ipampoollist)
@@ -3700,7 +4135,8 @@ _Appears in:_
 
 _Underlying type:_ `string`
 
-IPAMPoolAllocationType defines the type of allocation to be used. Possible values are `prefix` and `range`.
+IPAMPoolAllocationType defines the type of allocation to be used.
+Possible values are `prefix` and `range`.
 
 _Appears in:_
 - [IPAMAllocationSpec](#ipamallocationspec)
@@ -3721,10 +4157,16 @@ _Appears in:_
 | --- | --- |
 | `type` _[IPAMPoolAllocationType](#ipampoolallocationtype)_ | Type is the allocation type to be used. |
 | `poolCidr` _[SubnetCIDR](#subnetcidr)_ | PoolCIDR is the pool CIDR to be used for the allocation. |
-| `allocationPrefix` _integer_ | AllocationPrefix is the prefix for the allocation. Used when "type=prefix". |
-| `excludePrefixes` _[SubnetCIDR](#subnetcidr) array_ | Optional: ExcludePrefixes is used to exclude particular subnets for the allocation. NOTE: must be the same length as allocationPrefix. Can be used when "type=prefix". |
-| `allocationRange` _integer_ | AllocationRange is the range for the allocation. Used when "type=range". |
-| `excludeRanges` _string array_ | Optional: ExcludeRanges is used to exclude particular IPs or IP ranges for the allocation. Examples: "192.168.1.100-192.168.1.110", "192.168.1.255". Can be used when "type=range". |
+| `allocationPrefix` _integer_ | AllocationPrefix is the prefix for the allocation.
+Used when "type=prefix". |
+| `excludePrefixes` _[SubnetCIDR](#subnetcidr) array_ | Optional: ExcludePrefixes is used to exclude particular subnets for the allocation.
+NOTE: must be the same length as allocationPrefix.
+Can be used when "type=prefix". |
+| `allocationRange` _integer_ | AllocationRange is the range for the allocation.
+Used when "type=range". |
+| `excludeRanges` _string array_ | Optional: ExcludeRanges is used to exclude particular IPs or IP ranges for the allocation.
+Examples: "192.168.1.100-192.168.1.110", "192.168.1.255".
+Can be used when "type=range". |
 
 
 [Back to top](#top)
@@ -3735,7 +4177,8 @@ _Appears in:_
 
 
 
-IPAMPoolList is the list of the object representing Multi-Cluster IP Address Management (IPAM) configuration for KKP user clusters.
+IPAMPoolList is the list of the object representing Multi-Cluster IP Address Management (IPAM)
+configuration for KKP user clusters.
 
 
 
@@ -3755,7 +4198,8 @@ IPAMPoolList is the list of the object representing Multi-Cluster IP Address Man
 
 
 
-IPAMPoolSpec specifies the  Multi-Cluster IP Address Management (IPAM) configuration for KKP user clusters.
+IPAMPoolSpec specifies the  Multi-Cluster IP Address Management (IPAM)
+configuration for KKP user clusters.
 
 _Appears in:_
 - [IPAMPool](#ipampool)
@@ -3791,10 +4235,26 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `strictArp` _boolean_ | StrictArp configure arp_ignore and arp_announce to avoid answering ARP queries from kube-ipvs0 interface. defaults to true. |
+| `strictArp` _boolean_ | StrictArp configure arp_ignore and arp_announce to avoid answering ARP queries from kube-ipvs0 interface.
+defaults to true. |
 
 
 [Back to top](#top)
+
+
+
+### ImageList
+
+_Underlying type:_ `OperatingSystem]string`
+
+ImageList defines a map of operating system and the image to use.
+
+_Appears in:_
+- [DatacenterSpecAWS](#datacenterspecaws)
+- [DatacenterSpecNutanix](#datacenterspecnutanix)
+- [DatacenterSpecOpenstack](#datacenterspecopenstack)
+- [DatacenterSpecVMwareCloudDirector](#datacenterspecvmwareclouddirector)
+- [DatacenterSpecVSphere](#datacenterspecvsphere)
 
 
 
@@ -3811,10 +4271,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `provider` _string_ | Provider to which to apply the compatibility check. Empty string matches all providers |
+| `provider` _string_ | Provider to which to apply the compatibility check.
+Empty string matches all providers |
 | `version` _string_ | Version is the Kubernetes version that must be checked. Wildcards are allowed, e.g. "1.25.*". |
-| `condition` _ConditionType_ | Condition is the cluster or datacenter condition that must be met to block a specific version |
-| `operation` _OperationType_ | Operation is the operation triggering the compatibility check (CREATE or UPDATE) |
+| `condition` _[ConditionType](#conditiontype)_ | Condition is the cluster or datacenter condition that must be met to block a specific version |
+| `operation` _[OperationType](#operationtype)_ | Operation is the operation triggering the compatibility check (CREATE or UPDATE) |
 
 
 [Back to top](#top)
@@ -3852,7 +4313,9 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcerequirements-v1-core)_ | Resources configure limits/requests for Konnectivity components. |
-| `keepaliveTime` _string_ | KeepaliveTime represents a duration of time to check if the transport is still alive. The option is propagated to agents and server. Defaults to 1m. |
+| `keepaliveTime` _string_ | KeepaliveTime represents a duration of time to check if the transport is still alive.
+The option is propagated to agents and server.
+Defaults to 1m. |
 
 
 [Back to top](#top)
@@ -3863,7 +4326,8 @@ _Appears in:_
 
 
 
-KubeLB contains settings for the kubeLB component as part of the cluster control plane. This component is responsible for managing load balancers. Only available in Enterprise Edition.
+KubeLB contains settings for the kubeLB component as part of the cluster control plane. This component is responsible for managing load balancers.
+Only available in Enterprise Edition.
 
 _Appears in:_
 - [ClusterSpec](#clusterspec)
@@ -3891,7 +4355,8 @@ _Appears in:_
 | `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#objectreference-v1-core)_ | Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster. |
 | `enabled` _boolean_ | Enabled is used to enable/disable kubeLB for the datacenter. This is used to control whether installing kubeLB is allowed or not for the datacenter. |
 | `enforced` _boolean_ | Enforced is used to enforce kubeLB installation for all the user clusters belonging to this datacenter. Setting enforced to false will not uninstall kubeLB from the user clusters and it needs to be disabled manually. |
-| `nodeAddressType` _string_ | NodeAddressType is used to configure the address type from node, used for load balancing. Optional: Defaults to ExternalIP. |
+| `nodeAddressType` _string_ | NodeAddressType is used to configure the address type from node, used for load balancing.
+Optional: Defaults to ExternalIP. |
 
 
 [Back to top](#top)
@@ -3916,15 +4381,6 @@ _Appears in:_
 [Back to top](#top)
 
 
-
-### KubeVirtHTTPSource
-
-
-
-KubeVirtHTTPSource represents list of images and their versions that can be downloaded over HTTP.
-
-_Appears in:_
-- [KubeVirtImageSources](#kubevirtimagesources)
 
 
 
@@ -3959,7 +4415,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ |  |
-| `isDefaultClass` _boolean_ | Optional: IsDefaultClass. If true, the created StorageClass in the tenant cluster will be annotated with: storageclass.kubernetes.io/is-default-class : true If missing or false, annotation will be: storageclass.kubernetes.io/is-default-class : false |
+| `isDefaultClass` _boolean_ | Optional: IsDefaultClass. If true, the created StorageClass in the tenant cluster will be annotated with:
+storageclass.kubernetes.io/is-default-class : true
+If missing or false, annotation will be:
+storageclass.kubernetes.io/is-default-class : false |
 
 
 [Back to top](#top)
@@ -3979,7 +4438,8 @@ _Appears in:_
 | --- | --- |
 | `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic REST API image. |
 | `accessibleAddons` _string array_ | AccessibleAddons is a list of addons that should be enabled in the API. |
-| `pprofEndpoint` _string_ | PProfEndpoint controls the port the API should listen on to provide pprof data. This port is never exposed from the container and only available via port-forwardings. |
+| `pprofEndpoint` _string_ | PProfEndpoint controls the port the API should listen on to provide pprof
+data. This port is never exposed from the container and only available via port-forwardings. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
 | `debugLog` _boolean_ | DebugLog enables more verbose logging. |
 | `replicas` _integer_ | Replicas sets the number of pod replicas for the API deployment. |
@@ -4000,10 +4460,15 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `default` _string array_ | Default is the list of addons to be installed by default into each cluster. Mutually exclusive with "defaultManifests". |
-| `defaultManifests` _string_ | DefaultManifests is a list of addon manifests to install into all clusters. Mutually exclusive with "default". |
-| `dockerRepository` _string_ | DockerRepository is the repository containing the Docker image containing the possible addon manifests. |
-| `dockerTagSuffix` _string_ | DockerTagSuffix is appended to the tag used for referring to the addons image. If left empty, the tag will be the KKP version (e.g. "v2.15.0"), with a suffix it becomes "v2.15.0-SUFFIX". |
+| `default` _string array_ | Default is the list of addons to be installed by default into each cluster.
+Mutually exclusive with "defaultManifests". |
+| `defaultManifests` _string_ | DefaultManifests is a list of addon manifests to install into all clusters.
+Mutually exclusive with "default". |
+| `dockerRepository` _string_ | DockerRepository is the repository containing the Docker image containing
+the possible addon manifests. |
+| `dockerTagSuffix` _string_ | DockerTagSuffix is appended to the tag used for referring to the addons image.
+If left empty, the tag will be the KKP version (e.g. "v2.15.0"), with a
+suffix it becomes "v2.15.0-SUFFIX". |
 
 
 [Back to top](#top)
@@ -4088,9 +4553,13 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `caBundle` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#typedlocalobjectreference-v1-core)_ | CABundle references a ConfigMap in the same namespace as the KubermaticConfiguration. This ConfigMap must contain a ca-bundle.pem with PEM-encoded certificates. This bundle automatically synchronized into each seed and each usercluster. APIGroup and Kind are currently ignored. |
+| `caBundle` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#typedlocalobjectreference-v1-core)_ | CABundle references a ConfigMap in the same namespace as the KubermaticConfiguration.
+This ConfigMap must contain a ca-bundle.pem with PEM-encoded certificates. This bundle
+automatically synchronized into each seed and each usercluster. APIGroup and Kind are
+currently ignored. |
 | `imagePullSecret` _string_ | ImagePullSecret is used to authenticate against Docker registries. |
-| `auth` _[KubermaticAuthConfiguration](#kubermaticauthconfiguration)_ | Auth defines keys and URLs for Dex. These must be defined unless the HeadlessInstallation feature gate is set, which will disable the UI/API and its need for an OIDC provider entirely. |
+| `auth` _[KubermaticAuthConfiguration](#kubermaticauthconfiguration)_ | Auth defines keys and URLs for Dex. These must be defined unless the HeadlessInstallation
+feature gate is set, which will disable the UI/API and its need for an OIDC provider entirely. |
 | `featureGates` _object (keys:string, values:boolean)_ | FeatureGates are used to optionally enable certain features. |
 | `ui` _[KubermaticUIConfiguration](#kubermaticuiconfiguration)_ | UI configures the dashboard. |
 | `api` _[KubermaticAPIConfiguration](#kubermaticapiconfiguration)_ | API configures the frontend REST API used by the dashboard. |
@@ -4098,11 +4567,14 @@ _Appears in:_
 | `masterController` _[KubermaticMasterControllerConfiguration](#kubermaticmastercontrollerconfiguration)_ | MasterController configures the master-controller-manager. |
 | `webhook` _[KubermaticWebhookConfiguration](#kubermaticwebhookconfiguration)_ | Webhook configures the webhook. |
 | `userCluster` _[KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)_ | UserCluster configures various aspects of the user-created clusters. |
-| `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | ExposeStrategy is the strategy to expose the cluster with. Note: The `seed_dns_overwrite` setting of a Seed's datacenter doesn't have any effect if this is set to LoadBalancerStrategy. |
+| `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | ExposeStrategy is the strategy to expose the cluster with.
+Note: The `seed_dns_overwrite` setting of a Seed's datacenter doesn't have any effect
+if this is set to LoadBalancerStrategy. |
 | `ingress` _[KubermaticIngressConfiguration](#kubermaticingressconfiguration)_ | Ingress contains settings for making the API and UI accessible remotely. |
 | `versions` _[KubermaticVersioningConfiguration](#kubermaticversioningconfiguration)_ | Versions configures the available and default Kubernetes versions and updates. |
 | `verticalPodAutoscaler` _[KubermaticVPAConfiguration](#kubermaticvpaconfiguration)_ | VerticalPodAutoscaler configures the Kubernetes VPA integration. |
-| `proxy` _[KubermaticProxyConfiguration](#kubermaticproxyconfiguration)_ | Proxy allows to configure Kubermatic to use proxies to talk to the world outside of its cluster. |
+| `proxy` _[KubermaticProxyConfiguration](#kubermaticproxyconfiguration)_ | Proxy allows to configure Kubermatic to use proxies to talk to the
+world outside of its cluster. |
 
 
 [Back to top](#top)
@@ -4139,11 +4611,20 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `domain` _string_ | Domain is the base domain where the dashboard shall be available. Even with a disabled Ingress, this must always be a valid hostname. |
-| `className` _string_ | ClassName is the Ingress resource's class name, used for selecting the appropriate ingress controller. |
+| `domain` _string_ | Domain is the base domain where the dashboard shall be available. Even with
+a disabled Ingress, this must always be a valid hostname. |
+| `className` _string_ | ClassName is the Ingress resource's class name, used for selecting the appropriate
+ingress controller. |
 | `namespaceOverride` _string_ | NamespaceOverride need to be set if a different ingress-controller is used than the KKP default one. |
-| `disable` _boolean_ | Disable will prevent an Ingress from being created at all. This is mostly useful during testing. If the Ingress is disabled, the CertificateIssuer setting can also be left empty, as no Certificate resource will be created. |
-| `certificateIssuer` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#typedlocalobjectreference-v1-core)_ | CertificateIssuer is the name of a cert-manager Issuer or ClusterIssuer (default) that will be used to acquire the certificate for the configured domain. To use a namespaced Issuer, set the Kind to "Issuer" and manually create the matching Issuer in Kubermatic's namespace. Setting an empty name disables the automatic creation of certificates and disables the TLS settings on the Kubermatic Ingress. |
+| `disable` _boolean_ | Disable will prevent an Ingress from being created at all. This is mostly useful
+during testing. If the Ingress is disabled, the CertificateIssuer setting can also
+be left empty, as no Certificate resource will be created. |
+| `certificateIssuer` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#typedlocalobjectreference-v1-core)_ | CertificateIssuer is the name of a cert-manager Issuer or ClusterIssuer (default)
+that will be used to acquire the certificate for the configured domain.
+To use a namespaced Issuer, set the Kind to "Issuer" and manually create the
+matching Issuer in Kubermatic's namespace.
+Setting an empty name disables the automatic creation of certificates and disables
+the TLS settings on the Kubermatic Ingress. |
 
 
 [Back to top](#top)
@@ -4163,7 +4644,8 @@ _Appears in:_
 | --- | --- |
 | `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic master-controller-manager image. |
 | `projectsMigrator` _[KubermaticProjectsMigratorConfiguration](#kubermaticprojectsmigratorconfiguration)_ | ProjectsMigrator configures the migrator for user projects. |
-| `pprofEndpoint` _string_ | PProfEndpoint controls the port the master-controller-manager should listen on to provide pprof data. This port is never exposed from the container and only available via port-forwardings. |
+| `pprofEndpoint` _string_ | PProfEndpoint controls the port the master-controller-manager should listen on to provide pprof
+data. This port is never exposed from the container and only available via port-forwardings. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
 | `debugLog` _boolean_ | DebugLog enables more verbose logging. |
 | `replicas` _integer_ | Replicas sets the number of pod replicas for the master-controller-manager. |
@@ -4195,16 +4677,27 @@ _Appears in:_
 
 
 
-KubermaticProxyConfiguration can be used to control how the various Kubermatic components reach external services / the Internet. These settings are reflected as environment variables for the Kubermatic pods.
+KubermaticProxyConfiguration can be used to control how the various
+Kubermatic components reach external services / the Internet. These
+settings are reflected as environment variables for the Kubermatic
+pods.
 
 _Appears in:_
 - [KubermaticConfigurationSpec](#kubermaticconfigurationspec)
 
 | Field | Description |
 | --- | --- |
-| `http` _string_ | HTTP is the full URL to the proxy to use for plaintext HTTP connections, e.g. "http://internalproxy.example.com:8080". |
-| `https` _string_ | HTTPS is the full URL to the proxy to use for encrypted HTTPS connections, e.g. "http://secureinternalproxy.example.com:8080". |
-| `noProxy` _string_ | NoProxy is a comma-separated list of hostnames / network masks for which no proxy shall be used. If you make use of proxies, this list should contain all local and cluster-internal domains and networks, e.g. "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,mydomain". The operator will always prepend the following elements to this list if proxying is configured (i.e. HTTP/HTTPS are not empty): "127.0.0.1/8", "localhost", ".local", ".local.", "kubernetes", ".default", ".svc" |
+| `http` _string_ | HTTP is the full URL to the proxy to use for plaintext HTTP
+connections, e.g. "http://internalproxy.example.com:8080". |
+| `https` _string_ | HTTPS is the full URL to the proxy to use for encrypted HTTPS
+connections, e.g. "http://secureinternalproxy.example.com:8080". |
+| `noProxy` _string_ | NoProxy is a comma-separated list of hostnames / network masks
+for which no proxy shall be used. If you make use of proxies,
+this list should contain all local and cluster-internal domains
+and networks, e.g. "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,mydomain".
+The operator will always prepend the following elements to this
+list if proxying is configured (i.e. HTTP/HTTPS are not empty):
+"127.0.0.1/8", "localhost", ".local", ".local.", "kubernetes", ".default", ".svc" |
 
 
 [Back to top](#top)
@@ -4225,9 +4718,13 @@ _Appears in:_
 | `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic seed-controller-manager image. |
 | `backupStoreContainer` _string_ | BackupStoreContainer is the container used for shipping etcd snapshots to a backup location. |
 | `backupDeleteContainer` _string_ | BackupDeleteContainer is the container used for deleting etcd snapshots from a backup location. |
-| `backupCleanupContainer` _string_ | Deprecated: BackupCleanupContainer is the container used for removing expired backups from the storage location. This field is a no-op and is no longer used. The old backup controller it was used for has been removed. Do not set this field. |
-| `maximumParallelReconciles` _integer_ | MaximumParallelReconciles limits the number of cluster reconciliations that are active at any given time. |
-| `pprofEndpoint` _string_ | PProfEndpoint controls the port the seed-controller-manager should listen on to provide pprof data. This port is never exposed from the container and only available via port-forwardings. |
+| `backupCleanupContainer` _string_ | Deprecated: BackupCleanupContainer is the container used for removing expired backups from the storage location.
+This field is a no-op and is no longer used. The old backup controller it was used for has been
+removed. Do not set this field. |
+| `maximumParallelReconciles` _integer_ | MaximumParallelReconciles limits the number of cluster reconciliations
+that are active at any given time. |
+| `pprofEndpoint` _string_ | PProfEndpoint controls the port the seed-controller-manager should listen on to provide pprof
+data. This port is never exposed from the container and only available via port-forwardings. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
 | `debugLog` _boolean_ | DebugLog enables more verbose logging. |
 | `replicas` _integer_ | Replicas sets the number of pod replicas for the seed-controller-manager. |
@@ -4241,7 +4738,9 @@ _Appears in:_
 
 
 
-KubermaticSetting is the type representing a KubermaticSetting. These settings affect the KKP dashboard and are not relevant when using the Kube API on the master/seed clusters directly.
+KubermaticSetting is the type representing a KubermaticSetting.
+These settings affect the KKP dashboard and are not relevant when
+using the Kube API on the master/seed clusters directly.
 
 _Appears in:_
 - [KubermaticSettingList](#kubermaticsettinglist)
@@ -4290,8 +4789,13 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic dashboard image. |
-| `dockerTag` _string_ | DockerTag is used to overwrite the dashboard Docker image tag and is only for development purposes. This field must not be set in production environments. If DockerTag is specified then DockerTagSuffix will be ignored. --- |
-| `dockerTagSuffix` _string_ | DockerTagSuffix is appended to the KKP version used for referring to the custom dashboard image. If left empty, either the `DockerTag` if specified or the original dashboard Docker image tag will be used. With DockerTagSuffix the tag becomes <KKP_VERSION:SUFFIX> i.e. "v2.15.0-SUFFIX". |
+| `dockerTag` _string_ | DockerTag is used to overwrite the dashboard Docker image tag and is only for development
+purposes. This field must not be set in production environments. If DockerTag is specified then
+DockerTagSuffix will be ignored.
+--- |
+| `dockerTagSuffix` _string_ | DockerTagSuffix is appended to the KKP version used for referring to the custom dashboard image.
+If left empty, either the `DockerTag` if specified or the original dashboard Docker image tag will be used.
+With DockerTagSuffix the tag becomes <KKP_VERSION:SUFFIX> i.e. "v2.15.0-SUFFIX". |
 | `config` _string_ | Config sets flags for various dashboard features. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
 | `replicas` _integer_ | Replicas sets the number of pod replicas for the UI deployment. |
@@ -4315,14 +4819,20 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `kubermaticDockerRepository` _string_ | KubermaticDockerRepository is the repository containing the Kubermatic user-cluster-controller-manager image. |
-| `dnatControllerDockerRepository` _string_ | DNATControllerDockerRepository is the repository containing the dnat-controller image. |
-| `etcdLauncherDockerRepository` _string_ | EtcdLauncherDockerRepository is the repository containing the Kubermatic etcd-launcher image. |
-| `overwriteRegistry` _string_ | OverwriteRegistry specifies a custom Docker registry which will be used for all images used for user clusters (user cluster control plane + addons). This also applies to the KubermaticDockerRepository and DNATControllerDockerRepository fields. |
+| `dnatControllerDockerRepository` _string_ | DNATControllerDockerRepository is the repository containing the
+dnat-controller image. |
+| `etcdLauncherDockerRepository` _string_ | EtcdLauncherDockerRepository is the repository containing the Kubermatic
+etcd-launcher image. |
+| `overwriteRegistry` _string_ | OverwriteRegistry specifies a custom Docker registry which will be used for all images
+used for user clusters (user cluster control plane + addons). This also applies to
+the KubermaticDockerRepository and DNATControllerDockerRepository fields. |
 | `addons` _[KubermaticAddonsConfiguration](#kubermaticaddonsconfiguration)_ | Addons controls the optional additions installed into each user cluster. |
 | `systemApplications` _[SystemApplicationsConfiguration](#systemapplicationsconfiguration)_ | SystemApplications contains configuration for system Applications (such as CNI). |
-| `nodePortRange` _string_ | NodePortRange is the port range for user clusters - this must match the NodePort range of the seed cluster. |
+| `nodePortRange` _string_ | NodePortRange is the port range for user clusters - this must match the NodePort
+range of the seed cluster. |
 | `monitoring` _[KubermaticUserClusterMonitoringConfiguration](#kubermaticuserclustermonitoringconfiguration)_ | Monitoring can be used to fine-tune to in-cluster Prometheus. |
-| `disableApiserverEndpointReconciling` _boolean_ | DisableAPIServerEndpointReconciling can be used to toggle the `--endpoint-reconciler-type` flag for the Kubernetes API server. |
+| `disableApiserverEndpointReconciling` _boolean_ | DisableAPIServerEndpointReconciling can be used to toggle the `--endpoint-reconciler-type` flag for
+the Kubernetes API server. |
 | `etcdVolumeSize` _string_ | EtcdVolumeSize configures the volume size to use for each etcd pod inside user clusters. |
 | `apiserverReplicas` _integer_ | APIServerReplicas configures the replica count for the API-Server deployment inside user clusters. |
 | `machineController` _[MachineControllerConfiguration](#machinecontrollerconfiguration)_ | MachineController configures the Machine Controller |
@@ -4346,9 +4856,20 @@ _Appears in:_
 | --- | --- |
 | `disableDefaultRules` _boolean_ | DisableDefaultRules disables the recording and alerting rules. |
 | `disableDefaultScrapingConfigs` _boolean_ | DisableDefaultScrapingConfigs disables the default scraping targets. |
-| `customRules` _string_ | CustomRules can be used to inject custom recording and alerting rules. This field must be a YAML-formatted string with a `group` element at its root, as documented on https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/. This value is treated as a Go template, which allows to inject dynamic values like the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus and the documentation for more information on the available fields. |
-| `customScrapingConfigs` _string_ | CustomScrapingConfigs can be used to inject custom scraping rules. This must be a YAML-formatted string containing an array of scrape configurations as documented on https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config. This value is treated as a Go template, which allows to inject dynamic values like the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus and the documentation for more information on the available fields. |
-| `scrapeAnnotationPrefix` _string_ | ScrapeAnnotationPrefix (if set) is used to make the in-cluster Prometheus scrape pods inside the user clusters. |
+| `customRules` _string_ | CustomRules can be used to inject custom recording and alerting rules. This field
+must be a YAML-formatted string with a `group` element at its root, as documented
+on https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/.
+This value is treated as a Go template, which allows to inject dynamic values like
+the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus
+and the documentation for more information on the available fields. |
+| `customScrapingConfigs` _string_ | CustomScrapingConfigs can be used to inject custom scraping rules. This must be a
+YAML-formatted string containing an array of scrape configurations as documented
+on https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config.
+This value is treated as a Go template, which allows to inject dynamic values like
+the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus
+and the documentation for more information on the available fields. |
+| `scrapeAnnotationPrefix` _string_ | ScrapeAnnotationPrefix (if set) is used to make the in-cluster Prometheus scrape pods
+inside the user clusters. |
 
 
 [Back to top](#top)
@@ -4405,9 +4926,17 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `versions` _Semver array_ | Versions lists the available versions. |
-| `default` _Semver_ | Default is the default version to offer users. |
-| `updates` _[Update](#update) array_ | Updates is a list of available and automatic upgrades. All 'to' versions must be configured in the version list for this orchestrator. Each update may optionally be configured to be 'automatic: true', in which case the controlplane of all clusters whose version matches the 'from' directive will get updated to the 'to' version. If automatic is enabled, the 'to' version must be a version and not a version range. Also, updates may set 'automaticNodeUpdate: true', in which case Nodes will get updates as well. 'automaticNodeUpdate: true' implies 'automatic: true' as well, because Nodes may not have a newer version than the controlplane. |
+| `versions` _[Semver](#semver) array_ | Versions lists the available versions. |
+| `default` _[Semver](#semver)_ | Default is the default version to offer users. |
+| `updates` _[Update](#update) array_ | Updates is a list of available and automatic upgrades.
+All 'to' versions must be configured in the version list for this orchestrator.
+Each update may optionally be configured to be 'automatic: true', in which case the
+controlplane of all clusters whose version matches the 'from' directive will get
+updated to the 'to' version. If automatic is enabled, the 'to' version must be a
+version and not a version range.
+Also, updates may set 'automaticNodeUpdate: true', in which case Nodes will get
+updates as well. 'automaticNodeUpdate: true' implies 'automatic: true' as well,
+because Nodes may not have a newer version than the controlplane. |
 | `providerIncompatibilities` _[Incompatibility](#incompatibility) array_ | ProviderIncompatibilities lists all the Kubernetes version incompatibilities |
 | `externalClusters` _object (keys:[ExternalClusterProviderType](#externalclusterprovidertype), values:[ExternalClusterProviderVersioningConfiguration](#externalclusterproviderversioningconfiguration))_ | ExternalClusters contains the available and default Kubernetes versions and updates for ExternalClusters. |
 
@@ -4428,7 +4957,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic webhook image. |
-| `pprofEndpoint` _string_ | PProfEndpoint controls the port the webhook should listen on to provide pprof data. This port is never exposed from the container and only available via port-forwardings. |
+| `pprofEndpoint` _string_ | PProfEndpoint controls the port the webhook should listen on to provide pprof
+data. This port is never exposed from the container and only available via port-forwardings. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
 | `debugLog` _boolean_ | DebugLog enables more verbose logging. |
 | `replicas` _integer_ | Replicas sets the number of pod replicas for the webhook. |
@@ -4449,7 +4979,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `enabled` _boolean_ | Controls whether kubernetes-dashboard is deployed to the user cluster or not. Enabled by default. |
+| `enabled` _boolean_ | Controls whether kubernetes-dashboard is deployed to the user cluster or not.
+Enabled by default. |
 
 
 [Back to top](#top)
@@ -4468,7 +4999,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `kubeconfig` _string_ | Kubeconfig is the cluster's kubeconfig file, encoded with base64. |
 
 
@@ -4491,12 +5023,28 @@ _Appears in:_
 | `kubeconfig` _string_ | The cluster's kubeconfig file, encoded with base64. |
 | `csiKubeconfig` _string_ |  |
 | `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ | Custom Images are a good example of this use case. |
-| `infraStorageClasses` _string array_ | Deprecated: in favor of StorageClasses. InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks) |
-| `storageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | StorageClasses is a list of storage classes from KubeVirt infra cluster that are used for initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks. It contains also some flag specifying which one is the default one. |
+| `infraStorageClasses` _string array_ | Deprecated: in favor of StorageClasses.
+InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for
+initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks) |
+| `storageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | StorageClasses is a list of storage classes from KubeVirt infra cluster that are used for
+initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks.
+It contains also some flag specifying which one is the default one. |
 | `imageCloningEnabled` _boolean_ | ImageCloningEnabled flag enable/disable cloning for a cluster. |
 
 
 [Back to top](#top)
+
+
+
+### LBSKU
+
+_Underlying type:_ `string`
+
+Azure SKU for Load Balancers. Possible values are `basic` and `standard`.
+
+_Appears in:_
+- [Azure](#azure)
+- [AzureCloudSpec](#azurecloudspec)
 
 
 
@@ -4511,9 +5059,13 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `leaseDurationSeconds` _integer_ | LeaseDurationSeconds is the duration in seconds that non-leader candidates will wait to force acquire leadership. This is measured against time of last observed ack. |
-| `renewDeadlineSeconds` _integer_ | RenewDeadlineSeconds is the duration in seconds that the acting controlplane will retry refreshing leadership before giving up. |
-| `retryPeriodSeconds` _integer_ | RetryPeriodSeconds is the duration in seconds the LeaderElector clients should wait between tries of actions. |
+| `leaseDurationSeconds` _integer_ | LeaseDurationSeconds is the duration in seconds that non-leader candidates
+will wait to force acquire leadership. This is measured against time of
+last observed ack. |
+| `renewDeadlineSeconds` _integer_ | RenewDeadlineSeconds is the duration in seconds that the acting controlplane
+will retry refreshing leadership before giving up. |
+| `retryPeriodSeconds` _integer_ | RetryPeriodSeconds is the duration in seconds the LeaderElector clients
+should wait between tries of actions. |
 
 
 [Back to top](#top)
@@ -4545,7 +5097,8 @@ _Appears in:_
 
 
 
-MLAAdminSetting is the object representing cluster-specific administrator settings for KKP user cluster MLA (monitoring, logging & alerting) stack.
+MLAAdminSetting is the object representing cluster-specific administrator settings
+for KKP user cluster MLA (monitoring, logging & alerting) stack.
 
 _Appears in:_
 - [MLAAdminSettingList](#mlaadminsettinglist)
@@ -4555,7 +5108,8 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `MLAAdminSetting`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `spec` _[MLAAdminSettingSpec](#mlaadminsettingspec)_ | Spec describes the cluster-specific administrator settings for KKP user cluster MLA (monitoring, logging & alerting) stack. |
+| `spec` _[MLAAdminSettingSpec](#mlaadminsettingspec)_ | Spec describes the cluster-specific administrator settings for KKP user cluster MLA
+(monitoring, logging & alerting) stack. |
 
 
 [Back to top](#top)
@@ -4566,7 +5120,8 @@ _Appears in:_
 
 
 
-MLAAdminSettingList specifies a list of administrtor settings for KKP user cluster MLA (monitoring, logging & alerting) stack.
+MLAAdminSettingList specifies a list of administrtor settings for KKP
+user cluster MLA (monitoring, logging & alerting) stack.
 
 
 
@@ -4575,7 +5130,8 @@ MLAAdminSettingList specifies a list of administrtor settings for KKP user clust
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `MLAAdminSettingList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `items` _[MLAAdminSetting](#mlaadminsetting) array_ | Items holds the list of the cluster-specific administrative settings for KKP user cluster MLA. |
+| `items` _[MLAAdminSetting](#mlaadminsetting) array_ | Items holds the list of the cluster-specific administrative settings
+for KKP user cluster MLA. |
 
 
 [Back to top](#top)
@@ -4586,7 +5142,8 @@ MLAAdminSettingList specifies a list of administrtor settings for KKP user clust
 
 
 
-MLAAdminSettingSpec specifies the cluster-specific administrator settings for KKP user cluster MLA (monitoring, logging & alerting) stack.
+MLAAdminSettingSpec specifies the cluster-specific administrator settings
+for KKP user cluster MLA (monitoring, logging & alerting) stack.
 
 _Appears in:_
 - [MLAAdminSetting](#mlaadminsetting)
@@ -4635,8 +5192,10 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `imageRepository` _string_ | ImageRepository is used to override the Machine Controller image repository. It is only for development, tests and PoC purposes. This field must not be set in production environments. |
-| `imageTag` _string_ | ImageTag is used to override the Machine Controller image. It is only for development, tests and PoC purposes. This field must not be set in production environments. |
+| `imageRepository` _string_ | ImageRepository is used to override the Machine Controller image repository.
+It is only for development, tests and PoC purposes. This field must not be set in production environments. |
+| `imageTag` _string_ | ImageTag is used to override the Machine Controller image.
+It is only for development, tests and PoC purposes. This field must not be set in production environments. |
 
 
 [Back to top](#top)
@@ -4654,8 +5213,12 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `autoUpdatesEnabled` _boolean_ | AutoUpdatesEnabled enables the auto updates option for machine deployments on the dashboard. In case of flatcar linux, this will enable automatic updates through update engine and for other operating systems, this will enable package updates on boot for the machines. |
-| `autoUpdatesEnforced` _boolean_ | AutoUpdatesEnforced enforces the auto updates option for machine deployments on the dashboard. In case of flatcar linux, this will enable automatic updates through update engine and for other operating systems, this will enable package updates on boot for the machines. |
+| `autoUpdatesEnabled` _boolean_ | AutoUpdatesEnabled enables the auto updates option for machine deployments on the dashboard.
+In case of flatcar linux, this will enable automatic updates through update engine and for other operating systems,
+this will enable package updates on boot for the machines. |
+| `autoUpdatesEnforced` _boolean_ | AutoUpdatesEnforced enforces the auto updates option for machine deployments on the dashboard.
+In case of flatcar linux, this will enable automatic updates through update engine and for other operating systems,
+this will enable package updates on boot for the machines. |
 
 
 [Back to top](#top)
@@ -4716,12 +5279,14 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `kinds` _[Kind](#kind) array_ | Kinds accepts a list of objects with apiGroups and kinds fields that list the groups/kinds of objects to which the constraint will apply. If multiple groups/kinds objects are specified, only one match is needed for the resource to be in scope |
+| `kinds` _[Kind](#kind) array_ | Kinds accepts a list of objects with apiGroups and kinds fields that list the groups/kinds of objects to which
+the constraint will apply. If multiple groups/kinds objects are specified, only one match is needed for the resource to be in scope |
 | `scope` _string_ | Scope accepts *, Cluster, or Namespaced which determines if cluster-scoped and/or namespace-scoped resources are selected. (defaults to *) |
 | `namespaces` _string array_ | Namespaces is a list of namespace names. If defined, a constraint will only apply to resources in a listed namespace. |
 | `excludedNamespaces` _string array_ | ExcludedNamespaces is a list of namespace names. If defined, a constraint will only apply to resources not in a listed namespace. |
 | `labelSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#labelselector-v1-meta)_ | LabelSelector is a standard Kubernetes label selector. |
-| `namespaceSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#labelselector-v1-meta)_ | NamespaceSelector  is a standard Kubernetes namespace selector. If defined, make sure to add Namespaces to your configs.config.gatekeeper.sh object to ensure namespaces are synced into OPA |
+| `namespaceSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#labelselector-v1-meta)_ | NamespaceSelector  is a standard Kubernetes namespace selector. If defined, make sure to add Namespaces to your
+configs.config.gatekeeper.sh object to ensure namespaces are synced into OPA |
 
 
 [Back to top](#top)
@@ -4741,7 +5306,8 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ |  |
 | `storageClassName` _string_ | StorageClassName is the name of the storage class that the metering Prometheus instance uses to store metric data for reporting. |
-| `storageSize` _string_ | StorageSize is the size of the storage class. Default value is 100Gi. Changing this value requires manual deletion of the existing Prometheus PVC (and thereby removing all metering data). |
+| `storageSize` _string_ | StorageSize is the size of the storage class. Default value is 100Gi. Changing this value requires
+manual deletion of the existing Prometheus PVC (and thereby removing all metering data). |
 | `retentionDays` _integer_ | RetentionDays is the number of days for which data should be kept in Prometheus. Default value is 90. |
 | `reports` _object (keys:string, values:[MeteringReportConfiguration](#meteringreportconfiguration))_ | ReportConfigurations is a map of report configuration definitions. |
 
@@ -4761,10 +5327,13 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `schedule` _string_ | Schedule in Cron format, see https://en.wikipedia.org/wiki/Cron. Please take a note that Schedule is responsible only for setting the time when a report generation mechanism kicks off. The Interval MUST be set independently. |
-| `interval` _integer_ | Interval defines the number of days consulted in the metering report. Ignored when `Monthly` is set to true |
+| `schedule` _string_ | Schedule in Cron format, see https://en.wikipedia.org/wiki/Cron. Please take a note that Schedule is responsible
+only for setting the time when a report generation mechanism kicks off. The Interval MUST be set independently. |
+| `interval` _integer_ | Interval defines the number of days consulted in the metering report.
+Ignored when `Monthly` is set to true |
 | `monthly` _boolean_ | Monthly creates a report for the previous month. |
-| `retention` _integer_ | Retention defines a number of days after which reports are queued for removal. If not set, reports are kept forever. Please note that this functionality works only for object storage that supports an object lifecycle management mechanism. |
+| `retention` _integer_ | Retention defines a number of days after which reports are queued for removal. If not set, reports are kept forever.
+Please note that this functionality works only for object storage that supports an object lifecycle management mechanism. |
 | `type` _string array_ | Types of reports to generate. Available report types are cluster and namespace. By default, all types of reports are generated. |
 | `format` _[MeteringReportFormat](#meteringreportformat)_ | Format is the file format of the generated report, one of "csv" or "json" (defaults to "csv"). |
 
@@ -4885,10 +5454,17 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `httpProxy` _[ProxyValue](#proxyvalue)_ | Optional: If set, this proxy will be configured for both HTTP and HTTPS. |
-| `noProxy` _[ProxyValue](#proxyvalue)_ | Optional: If set this will be set as NO_PROXY environment variable on the node; The value must be a comma-separated list of domains for which no proxy should be used, e.g. "*.example.com,internal.dev". Note that the in-cluster apiserver URL will be automatically prepended to this value. |
-| `insecureRegistries` _string array_ | Optional: These image registries will be configured as insecure on the container runtime. |
-| `registryMirrors` _string array_ | Optional: These image registries will be configured as registry mirrors on the container runtime. |
-| `pauseImage` _string_ | Optional: Translates to --pod-infra-container-image on the kubelet. If not set, the kubelet will default it. |
+| `noProxy` _[ProxyValue](#proxyvalue)_ | Optional: If set this will be set as NO_PROXY environment variable on the node;
+The value must be a comma-separated list of domains for which no proxy
+should be used, e.g. "*.example.com,internal.dev".
+Note that the in-cluster apiserver URL will be automatically prepended
+to this value. |
+| `insecureRegistries` _string array_ | Optional: These image registries will be configured as insecure
+on the container runtime. |
+| `registryMirrors` _string array_ | Optional: These image registries will be configured as registry mirrors
+on the container runtime. |
+| `pauseImage` _string_ | Optional: Translates to --pod-infra-container-image on the kubelet.
+If not set, the kubelet will default it. |
 | `containerdRegistryMirrors` _[ContainerRuntimeContainerd](#containerruntimecontainerd)_ | Optional: ContainerdRegistryMirrors configure registry mirrors endpoints. Can be used multiple times to specify multiple mirrors. |
 
 
@@ -4928,11 +5504,16 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `disable` _boolean_ | Disable will prevent the Kubermatic Operator from creating a nodeport-proxy setup on the seed cluster. This should only be used if a suitable replacement is installed (like the nodeport-proxy Helm chart). |
-| `annotations` _object (keys:string, values:string)_ | Annotations are used to further tweak the LoadBalancer integration with the cloud provider where the seed cluster is running. Deprecated: Use .envoy.loadBalancerService.annotations instead. |
+| `disable` _boolean_ | Disable will prevent the Kubermatic Operator from creating a nodeport-proxy
+setup on the seed cluster. This should only be used if a suitable replacement
+is installed (like the nodeport-proxy Helm chart). |
+| `annotations` _object (keys:string, values:string)_ | Annotations are used to further tweak the LoadBalancer integration with the
+cloud provider where the seed cluster is running.
+Deprecated: Use .envoy.loadBalancerService.annotations instead. |
 | `envoy` _[NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)_ | Envoy configures the Envoy application itself. |
 | `envoyManager` _[NodeportProxyComponent](#nodeportproxycomponent)_ | EnvoyManager configures the Kubermatic-internal Envoy manager. |
-| `updater` _[NodeportProxyComponent](#nodeportproxycomponent)_ | Updater configures the component responsible for updating the LoadBalancer service. |
+| `updater` _[NodeportProxyComponent](#nodeportproxycomponent)_ | Updater configures the component responsible for updating the LoadBalancer
+service. |
 | `ipFamilyPolicy` _[IPFamilyPolicy](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#ipfamilypolicy-v1-core)_ | IPFamilyPolicy configures the IP family policy for the LoadBalancer service. |
 | `ipFamilies` _[IPFamily](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#ipfamily-v1-core) array_ | IPFamilies configures the IP families to use for the LoadBalancer service. |
 
@@ -4972,12 +5553,14 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `proxyURL` _string_ | Optional: To configure a HTTP proxy to access Nutanix Prism Central. |
 | `username` _string_ | Username that is used to access the Nutanix Prism Central API. |
 | `password` _string_ | Password corresponding to the provided user. |
 | `clusterName` _string_ | The name of the Nutanix cluster to which the resources and nodes are deployed to. |
-| `projectName` _string_ | Optional: Nutanix project to use. If none is given, no project will be used. |
+| `projectName` _string_ | Optional: Nutanix project to use. If none is given,
+no project will be used. |
 | `csiUsername` _string_ | Prism Element Username for CSI driver. |
 | `csiPassword` _string_ | Prism Element Password for CSI driver. |
 | `csiEndpoint` _string_ | CSIEndpoint to access Nutanix Prism Element for CSI driver. |
@@ -5040,7 +5623,10 @@ _Appears in:_
 
 
 
-OIDCProviderConfiguration allows to configure OIDC provider at the Seed level. If set, it overwrites the OIDC configuration from the KubermaticConfiguration. OIDC is later used to configure: - access to User Cluster API-Servers (via user kubeconfigs) - https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens, - access to User Cluster's Kubernetes Dashboards.
+OIDCProviderConfiguration allows to configure OIDC provider at the Seed level. If set, it overwrites the OIDC configuration from the KubermaticConfiguration.
+OIDC is later used to configure:
+- access to User Cluster API-Servers (via user kubeconfigs) - https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens,
+- access to User Cluster's Kubernetes Dashboards.
 
 _Appears in:_
 - [SeedSpec](#seedspec)
@@ -5050,10 +5636,16 @@ _Appears in:_
 | `issuerURL` _string_ | URL of the provider which allows the API server to discover public signing keys. |
 | `issuerClientID` _string_ | IssuerClientID is the application's ID. |
 | `issuerClientSecret` _string_ | IssuerClientSecret is the application's secret. |
-| `cookieHashKey` _string_ | Optional: CookieHashKey is required, used to authenticate the cookie value using HMAC. It is recommended to use a key with 32 or 64 bytes. If not set, configuration is inherited from the default OIDC provider. |
-| `cookieSecureMode` _boolean_ | Optional: CookieSecureMode if true then cookie received only with HTTPS otherwise with HTTP. If not set, configuration is inherited from the default OIDC provider. |
-| `offlineAccessAsScope` _boolean_ | Optional:  OfflineAccessAsScope if true then "offline_access" scope will be used otherwise 'access_type=offline" query param will be passed. If not set, configuration is inherited from the default OIDC provider. |
-| `skipTLSVerify` _boolean_ | Optional: SkipTLSVerify skip TLS verification for the token issuer. If not set, configuration is inherited from the default OIDC provider. |
+| `cookieHashKey` _string_ | Optional: CookieHashKey is required, used to authenticate the cookie value using HMAC.
+It is recommended to use a key with 32 or 64 bytes.
+If not set, configuration is inherited from the default OIDC provider. |
+| `cookieSecureMode` _boolean_ | Optional: CookieSecureMode if true then cookie received only with HTTPS otherwise with HTTP.
+If not set, configuration is inherited from the default OIDC provider. |
+| `offlineAccessAsScope` _boolean_ | Optional:  OfflineAccessAsScope if true then "offline_access" scope will be used
+otherwise 'access_type=offline" query param will be passed.
+If not set, configuration is inherited from the default OIDC provider. |
+| `skipTLSVerify` _boolean_ | Optional: SkipTLSVerify skip TLS verification for the token issuer.
+If not set, configuration is inherited from the default OIDC provider. |
 
 
 [Back to top](#top)
@@ -5098,7 +5690,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Enables OPA Gatekeeper integration. |
-| `webhookTimeoutSeconds` _integer_ | The timeout in seconds that is set for the Gatekeeper validating webhook admission review calls. Defaults to `10` (seconds). |
+| `webhookTimeoutSeconds` _integer_ | The timeout in seconds that is set for the Gatekeeper validating webhook admission review calls.
+Defaults to `10` (seconds). |
 | `experimentalEnableMutation` _boolean_ | Optional: Enables experimental mutation in Gatekeeper. |
 | `controllerResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcerequirements-v1-core)_ | Optional: ControllerResources is the resource requirements for user cluster gatekeeper controller. |
 | `auditResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcerequirements-v1-core)_ | Optional: AuditResources is the resource requirements for user cluster gatekeeper audit. |
@@ -5110,12 +5703,13 @@ _Appears in:_
 
 ### OSVersions
 
-
+_Underlying type:_ `object`
 
 OSVersions defines a map of OS version and the source to download the image.
 
 _Appears in:_
-- [AuditSidecarConfiguration](#auditsidecarconfiguration)
+- [ImageListWithVersions](#imagelistwithversions)
+- [KubeVirtHTTPSource](#kubevirthttpsource)
 
 
 
@@ -5168,7 +5762,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `useToken` _boolean_ |  |
 | `applicationCredentialID` _string_ |  |
 | `applicationCredentialSecret` _string_ |  |
@@ -5209,23 +5804,49 @@ _Appears in:_
 | `applicationCredentialSecret` _string_ |  |
 | `useToken` _boolean_ |  |
 | `token` _string_ | Used internally during cluster creation |
-| `network` _string_ | Network holds the name of the internal network When specified, all worker nodes will be attached to this network. If not specified, a network, subnet & router will be created. 
- Note that the network is internal if the "External" field is set to false |
+| `network` _string_ | Network holds the name of the internal network
+When specified, all worker nodes will be attached to this network. If not specified, a network, subnet & router will be created.
+
+
+Note that the network is internal if the "External" field is set to false |
 | `securityGroups` _string_ |  |
-| `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the security group to. Only applies if the security group is generated by KKP and not preexisting. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
-| `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: CIDR ranges that will be used to allow access to the node port range in the security group to. Only applies if the security group is generated by KKP and not preexisting. If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
-| `floatingIPPool` _string_ | FloatingIPPool holds the name of the public network The public network is reachable from the outside world and should provide the pool of IP addresses to choose from. 
- When specified, all worker nodes will receive a public ip from this floating ip pool 
- Note that the network is external if the "External" field is set to true |
+| `nodePortsAllowedIPRange` _string_ | A CIDR range that will be used to allow access to the node port range in the security group to. Only applies if
+the security group is generated by KKP and not preexisting.
+If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
+| `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | Optional: CIDR ranges that will be used to allow access to the node port range in the security group to. Only applies if
+the security group is generated by KKP and not preexisting.
+If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere. |
+| `floatingIPPool` _string_ | FloatingIPPool holds the name of the public network
+The public network is reachable from the outside world
+and should provide the pool of IP addresses to choose from.
+
+
+When specified, all worker nodes will receive a public ip from this floating ip pool
+
+
+Note that the network is external if the "External" field is set to true |
 | `routerID` _string_ |  |
 | `subnetID` _string_ |  |
-| `ipv6SubnetID` _string_ | IPv6SubnetID holds the ID of the subnet used for IPv6 networking. If not provided, a new subnet will be created if IPv6 is enabled. |
-| `ipv6SubnetPool` _string_ | IPv6SubnetPool holds the name of the subnet pool used for creating new IPv6 subnets. If not provided, the default IPv6 subnet pool will be used. |
-| `useOctavia` _boolean_ | Whether or not to use Octavia for LoadBalancer type of Service implementation instead of using Neutron-LBaaS. Attention:Openstack CCM use Octavia as default load balancer implementation since v1.17.0 
- Takes precedence over the 'use_octavia' flag provided at datacenter level if both are specified. |
-| `enableIngressHostname` _boolean_ | Enable the `enable-ingress-hostname` cloud provider option on the Openstack CCM. Can only be used with the external CCM and might be deprecated and removed in future versions as it is considered a workaround for the PROXY protocol to preserve client IPs. |
-| `ingressHostnameSuffix` _string_ | Set a specific suffix for the hostnames used for the PROXY protocol workaround that is enabled by EnableIngressHostname. The suffix is set to `nip.io` by default. Can only be used with the external CCM and might be deprecated and removed in future versions as it is considered a workaround only. |
-| `cinderTopologyEnabled` _boolean_ | Flag to configure enablement of topology support for the Cinder CSI plugin. This requires Nova and Cinder to have matching availability zones configured. |
+| `ipv6SubnetID` _string_ | IPv6SubnetID holds the ID of the subnet used for IPv6 networking.
+If not provided, a new subnet will be created if IPv6 is enabled. |
+| `ipv6SubnetPool` _string_ | IPv6SubnetPool holds the name of the subnet pool used for creating new IPv6 subnets.
+If not provided, the default IPv6 subnet pool will be used. |
+| `useOctavia` _boolean_ | Whether or not to use Octavia for LoadBalancer type of Service
+implementation instead of using Neutron-LBaaS.
+Attention:Openstack CCM use Octavia as default load balancer
+implementation since v1.17.0
+
+
+Takes precedence over the 'use_octavia' flag provided at datacenter
+level if both are specified. |
+| `enableIngressHostname` _boolean_ | Enable the `enable-ingress-hostname` cloud provider option on the Openstack CCM. Can only be used with the
+external CCM and might be deprecated and removed in future versions as it is considered a workaround for the PROXY
+protocol to preserve client IPs. |
+| `ingressHostnameSuffix` _string_ | Set a specific suffix for the hostnames used for the PROXY protocol workaround that is enabled by EnableIngressHostname.
+The suffix is set to `nip.io` by default. Can only be used with the external CCM and might be deprecated and removed in
+future versions as it is considered a workaround only. |
+| `cinderTopologyEnabled` _boolean_ | Flag to configure enablement of topology support for the Cinder CSI plugin.
+This requires Nova and Cinder to have matching availability zones configured. |
 
 
 [Back to top](#top)
@@ -5234,20 +5855,12 @@ _Appears in:_
 
 ### OpenstackNodeSizeRequirements
 
-
+_Underlying type:_ `[struct{MinimumVCPUs int "json:\"minimumVCPUs,omitempty\""; MinimumMemory int "json:\"minimumMemory,omitempty\""}](#struct{minimumvcpus-int-"json:\"minimumvcpus,omitempty\"";-minimummemory-int-"json:\"minimummemory,omitempty\""})`
 
 
 
 _Appears in:_
 - [DatacenterSpecOpenstack](#datacenterspecopenstack)
-
-| Field | Description |
-| --- | --- |
-| `minimumVCPUs` _integer_ | VCPUs is the minimum required amount of (virtual) CPUs |
-| `minimumMemory` _integer_ | MinimumMemory is the minimum required amount of memory, measured in MB |
-
-
-[Back to top](#top)
 
 
 
@@ -5262,15 +5875,37 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `imageRepository` _string_ | ImageRepository is used to override the OperatingSystemManager image repository. It is recommended to use this field only for development, tests and PoC purposes. For production environments. it is not recommended, to use this field due to compatibility with the overall KKP stack. |
-| `imageTag` _string_ | ImageTag is used to override the OperatingSystemManager image. It is recommended to use this field only for development, tests and PoC purposes. For production environments. it is not recommended, to use this field due to compatibility with the overall KKP stack. |
+| `imageRepository` _string_ | ImageRepository is used to override the OperatingSystemManager image repository.
+It is recommended to use this field only for development, tests and PoC purposes. For production environments.
+it is not recommended, to use this field due to compatibility with the overall KKP stack. |
+| `imageTag` _string_ | ImageTag is used to override the OperatingSystemManager image.
+It is recommended to use this field only for development, tests and PoC purposes. For production environments.
+it is not recommended, to use this field due to compatibility with the overall KKP stack. |
 
 
 [Back to top](#top)
 
 
 
+### OperatingSystemProfileList
 
+_Underlying type:_ `OperatingSystem]string`
+
+OperatingSystemProfileList defines a map of operating system and the OperatingSystemProfile to use.
+
+_Appears in:_
+- [DatacenterSpec](#datacenterspec)
+
+
+
+### OperationType
+
+_Underlying type:_ `string`
+
+OperationType is the type defining the operations triggering the compatibility check (CREATE or UPDATE).
+
+_Appears in:_
+- [Incompatibility](#incompatibility)
 
 
 
@@ -5286,7 +5921,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `apiKey` _string_ |  |
 | `projectID` _string_ |  |
 | `billingCycle` _string_ |  |
@@ -5317,6 +5953,15 @@ _Appears in:_
 
 
 
+### Parameters
+
+_Underlying type:_ `RawMessage`
+
+
+
+_Appears in:_
+- [ConstraintSpec](#constraintspec)
+
 
 
 ### PreAllocatedDataVolume
@@ -5345,7 +5990,9 @@ _Appears in:_
 
 
 
-Presets are preconfigured cloud provider credentials that can be applied to new clusters. This frees end users from having to know the actual credentials used for their clusters.
+Presets are preconfigured cloud provider credentials that can be applied
+to new clusters. This frees end users from having to know the actual
+credentials used for their clusters.
 
 _Appears in:_
 - [PresetList](#presetlist)
@@ -5359,6 +6006,8 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
 
 
 
@@ -5409,7 +6058,10 @@ _Appears in:_
 | `gke` _[GKE](#gke)_ | Access data for Google Kubernetes Engine(GKE). |
 | `eks` _[EKS](#eks)_ | Access data for Amazon Elastic Kubernetes Service(EKS). |
 | `aks` _[AKS](#aks)_ | Access data for Azure Kubernetes Service(AKS). |
-| `requiredEmails` _string array_ | RequiredEmails is a list of e-mail addresses that this presets should be restricted to. Each item in the list can be either a full e-mail address or just a domain name. This restriction is only enforced in the KKP API. |
+| `requiredEmails` _string array_ | RequiredEmails is a list of e-mail addresses that this presets should
+be restricted to. Each item in the list can be either a full e-mail
+address or just a domain name. This restriction is only enforced in the
+KKP API. |
 | `projects` _string array_ | Projects is a list of project IDs that this preset is limited to. |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
 
@@ -5422,7 +6074,9 @@ _Appears in:_
 
 
 
-Project is the type describing a project. A project is a collection of SSH keys, clusters and members. Members are assigned by creating UserProjectBinding objects.
+Project is the type describing a project. A project is a collection of
+SSH keys, clusters and members. Members are assigned by creating UserProjectBinding
+objects.
 
 _Appears in:_
 - [ProjectList](#projectlist)
@@ -5462,6 +6116,17 @@ ProjectList is a collection of projects.
 
 
 
+### ProjectPhase
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [ProjectStatus](#projectstatus)
+
+
+
 ### ProjectSpec
 
 
@@ -5491,7 +6156,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `phase` _ProjectPhase_ | Phase describes the project phase. New projects are in the `Inactive` phase; after being reconciled they move to `Active` and during deletion they are `Terminating`. |
+| `phase` _[ProjectPhase](#projectphase)_ | Phase describes the project phase. New projects are in the `Inactive`
+phase; after being reconciled they move to `Active` and during deletion
+they are `Terminating`. |
 
 
 [Back to top](#top)
@@ -5531,7 +6198,6 @@ _Appears in:_
 - [Azure](#azure)
 - [Digitalocean](#digitalocean)
 - [EKS](#eks)
-- [Fake](#fake)
 - [GCP](#gcp)
 - [GKE](#gke)
 - [Hetzner](#hetzner)
@@ -5545,10 +6211,13 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 
 
 [Back to top](#top)
+
+
 
 
 
@@ -5556,7 +6225,8 @@ _Appears in:_
 
 
 
-ProxySettings allow configuring a HTTP proxy for the controlplanes and nodes.
+ProxySettings allow configuring a HTTP proxy for the controlplanes
+and nodes.
 
 _Appears in:_
 - [NodeSettings](#nodesettings)
@@ -5565,7 +6235,11 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `httpProxy` _[ProxyValue](#proxyvalue)_ | Optional: If set, this proxy will be configured for both HTTP and HTTPS. |
-| `noProxy` _[ProxyValue](#proxyvalue)_ | Optional: If set this will be set as NO_PROXY environment variable on the node; The value must be a comma-separated list of domains for which no proxy should be used, e.g. "*.example.com,internal.dev". Note that the in-cluster apiserver URL will be automatically prepended to this value. |
+| `noProxy` _[ProxyValue](#proxyvalue)_ | Optional: If set this will be set as NO_PROXY environment variable on the node;
+The value must be a comma-separated list of domains for which no proxy
+should be used, e.g. "*.example.com,internal.dev".
+Note that the in-cluster apiserver URL will be automatically prepended
+to this value. |
 
 
 [Back to top](#top)
@@ -5595,15 +6269,6 @@ _Appears in:_
 - [DefaultProjectResourceQuota](#defaultprojectresourcequota)
 - [ResourceQuotaSpec](#resourcequotaspec)
 - [ResourceQuotaStatus](#resourcequotastatus)
-
-| Field | Description |
-| --- | --- |
-| `cpu` _Quantity_ | CPU holds the quantity of CPU. For the format, please check k8s.io/apimachinery/pkg/api/resource.Quantity. |
-| `memory` _Quantity_ | Memory represents the quantity of RAM size. For the format, please check k8s.io/apimachinery/pkg/api/resource.Quantity. |
-| `storage` _Quantity_ | Storage represents the disk size. For the format, please check k8s.io/apimachinery/pkg/api/resource.Quantity. |
-
-
-[Back to top](#top)
 
 
 
@@ -5741,7 +6406,8 @@ _Appears in:_
 | --- | --- |
 | `isDefault` _boolean_ | IsDefault indicates whether the ruleGroup is default |
 | `ruleGroupType` _[RuleGroupType](#rulegrouptype)_ | RuleGroupType is the type of this ruleGroup applies to. It can be `Metrics` or `Logs`. |
-| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#objectreference-v1-core)_ | Cluster is the reference to the cluster the ruleGroup should be created in. All fields except for the name are ignored. |
+| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#objectreference-v1-core)_ | Cluster is the reference to the cluster the ruleGroup should be created in. All fields
+except for the name are ignored. |
 | `data` _integer array_ | Data contains the RuleGroup data. Ref: https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/#rule_group |
 
 
@@ -5772,10 +6438,13 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ | Name is the human readable name for this SSH key. |
-| `owner` _string_ | Owner is the name of the User object that owns this SSH key. Deprecated: This field is not used anymore. |
-| `project` _string_ | Project is the name of the Project object that this SSH key belongs to. This field is immutable. |
+| `owner` _string_ | Owner is the name of the User object that owns this SSH key.
+Deprecated: This field is not used anymore. |
+| `project` _string_ | Project is the name of the Project object that this SSH key belongs to.
+This field is immutable. |
 | `clusters` _string array_ | Clusters is the list of cluster names that this SSH key is assigned to. |
-| `fingerprint` _string_ | Fingerprint is calculated server-side based on the supplied public key and doesn't need to be set by clients. |
+| `fingerprint` _string_ | Fingerprint is calculated server-side based on the supplied public key
+and doesn't need to be set by clients. |
 | `publicKey` _string_ | PublicKey is the SSH public key. |
 
 
@@ -5794,7 +6463,10 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `keys` _[SecretboxKey](#secretboxkey) array_ | List of 'secretbox' encryption keys. The first element of this list is considered the "primary" key which will be used for encrypting data while writing it. Additional keys will be used for decrypting data while reading it, if keys higher in the list did not succeed in decrypting it. |
+| `keys` _[SecretboxKey](#secretboxkey) array_ | List of 'secretbox' encryption keys. The first element of this list is considered
+the "primary" key which will be used for encrypting data while writing it. Additional
+keys will be used for decrypting data while reading it, if keys higher in the list
+did not succeed in decrypting it. |
 
 
 [Back to top](#top)
@@ -5813,8 +6485,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ | Identifier of a key, used in various places to refer to the key. |
-| `value` _string_ | Value contains a 32-byte random key that is base64 encoded. This is the key used for encryption. Can be generated via `head -c 32 /dev/urandom | base64`, for example. |
-| `secretRef` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Instead of passing the sensitive encryption key via the `value` field, a secret can be referenced. The key of the secret referenced here needs to hold a key equivalent to the `value` field. |
+| `value` _string_ | Value contains a 32-byte random key that is base64 encoded. This is the key used
+for encryption. Can be generated via `head -c 32 /dev/urandom | base64`, for example. |
+| `secretRef` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | Instead of passing the sensitive encryption key via the `value` field, a secret can be
+referenced. The key of the secret referenced here needs to hold a key equivalent to the `value` field. |
 
 
 [Back to top](#top)
@@ -5825,7 +6499,8 @@ _Appears in:_
 
 
 
-Seed is the type representing a Seed cluster. Seed clusters host the the control planes for KKP user clusters.
+Seed is the type representing a Seed cluster. Seed clusters host the the control planes
+for KKP user clusters.
 
 _Appears in:_
 - [SeedList](#seedlist)
@@ -5862,6 +6537,19 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+### SeedConditionType
+
+_Underlying type:_ `string`
+
+SeedConditionType is used to indicate the type of a seed condition. For all condition
+types, the `true` value must indicate success. All condition types must be registered
+within the `AllSeedConditionTypes` variable.
+
+_Appears in:_
+- [SeedStatus](#seedstatus)
 
 
 
@@ -5903,6 +6591,17 @@ _Appears in:_
 
 
 
+### SeedPhase
+
+_Underlying type:_ `string`
+
+
+
+_Appears in:_
+- [SeedStatus](#seedstatus)
+
+
+
 ### SeedSpec
 
 
@@ -5914,21 +6613,34 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `country` _string_ | Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK. For informational purposes in the Kubermatic dashboard only. |
-| `location` _string_ | Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7". For informational purposes in the Kubermatic dashboard only. |
-| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#objectreference-v1-core)_ | A reference to the Kubeconfig of this cluster. The Kubeconfig must have cluster-admin privileges. This field is mandatory for every seed, even if there are no datacenters defined yet. |
-| `datacenters` _object (keys:string, values:[Datacenter](#datacenter))_ | Datacenters contains a map of the possible datacenters (DCs) in this seed. Each DC must have a globally unique identifier (i.e. names must be unique across all seeds). |
-| `seedDNSOverwrite` _string_ | Optional: This can be used to override the DNS name used for this seed. By default the seed name is used. |
-| `nodeportProxy` _[NodeportProxyConfig](#nodeportproxyconfig)_ | NodeportProxy can be used to configure the NodePort proxy service that is responsible for making user-cluster control planes accessible from the outside. |
-| `proxySettings` _[ProxySettings](#proxysettings)_ | Optional: ProxySettings can be used to configure HTTP proxy settings on the worker nodes in user clusters. However, proxy settings on nodes take precedence. |
+| `country` _string_ | Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK.
+For informational purposes in the Kubermatic dashboard only. |
+| `location` _string_ | Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7".
+For informational purposes in the Kubermatic dashboard only. |
+| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#objectreference-v1-core)_ | A reference to the Kubeconfig of this cluster. The Kubeconfig must
+have cluster-admin privileges. This field is mandatory for every
+seed, even if there are no datacenters defined yet. |
+| `datacenters` _object (keys:string, values:[Datacenter](#datacenter))_ | Datacenters contains a map of the possible datacenters (DCs) in this seed.
+Each DC must have a globally unique identifier (i.e. names must be unique
+across all seeds). |
+| `seedDNSOverwrite` _string_ | Optional: This can be used to override the DNS name used for this seed.
+By default the seed name is used. |
+| `nodeportProxy` _[NodeportProxyConfig](#nodeportproxyconfig)_ | NodeportProxy can be used to configure the NodePort proxy service that is
+responsible for making user-cluster control planes accessible from the outside. |
+| `proxySettings` _[ProxySettings](#proxysettings)_ | Optional: ProxySettings can be used to configure HTTP proxy settings on the
+worker nodes in user clusters. However, proxy settings on nodes take precedence. |
 | `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | Optional: ExposeStrategy explicitly sets the expose strategy for this seed cluster, if not set, the default provided by the master is used. |
 | `mla` _[SeedMLASettings](#seedmlasettings)_ | Optional: MLA allows configuring seed level MLA (Monitoring, Logging & Alerting) stack settings. |
-| `defaultComponentSettings` _[ComponentSettings](#componentsettings)_ | DefaultComponentSettings are default values to set for newly created clusters. Deprecated: Use DefaultClusterTemplate instead. |
-| `defaultClusterTemplate` _string_ | DefaultClusterTemplate is the name of a cluster template of scope "seed" that is used to default all new created clusters |
+| `defaultComponentSettings` _[ComponentSettings](#componentsettings)_ | DefaultComponentSettings are default values to set for newly created clusters.
+Deprecated: Use DefaultClusterTemplate instead. |
+| `defaultClusterTemplate` _string_ | DefaultClusterTemplate is the name of a cluster template of scope "seed" that is used
+to default all new created clusters |
 | `metering` _[MeteringConfiguration](#meteringconfiguration)_ | Metering configures the metering tool on user clusters across the seed. |
-| `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed; if this is set, the new backup/restore controllers are enabled for this Seed. |
+| `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed;
+if this is set, the new backup/restore controllers are enabled for this Seed. |
 | `oidcProviderConfiguration` _[OIDCProviderConfiguration](#oidcproviderconfiguration)_ | OIDCProviderConfiguration allows to configure OIDC provider at the Seed level. |
-| `kubelb` _[KubeLBSettings](#kubelbsettings)_ | KubeLB holds the configuration for the kubeLB at the Seed level. This component is responsible for managing load balancers. Only available in Enterprise Edition. |
+| `kubelb` _[KubeLBSettings](#kubelbsettings)_ | KubeLB holds the configuration for the kubeLB at the Seed level. This component is responsible for managing load balancers.
+Only available in Enterprise Edition. |
 
 
 [Back to top](#top)
@@ -5946,10 +6658,13 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `phase` _SeedPhase_ | Phase contains a human readable text to indicate the seed cluster status. No logic should be tied to this field, as its content can change in between KKP releases. |
+| `phase` _[SeedPhase](#seedphase)_ | Phase contains a human readable text to indicate the seed cluster status. No logic should be tied
+to this field, as its content can change in between KKP releases. |
 | `clusters` _integer_ | Clusters is the total number of user clusters that exist on this seed. |
-| `versions` _[SeedVersionsStatus](#seedversionsstatus)_ | Versions contains information regarding versions of components in the cluster and the cluster itself. |
-| `conditions` _object (keys:SeedConditionType, values:[SeedCondition](#seedcondition))_ | Conditions contains conditions the seed is in, its primary use case is status signaling between controllers or between controllers and the API. |
+| `versions` _[SeedVersionsStatus](#seedversionsstatus)_ | Versions contains information regarding versions of components in the cluster and the cluster
+itself. |
+| `conditions` _object (keys:[SeedConditionType](#seedconditiontype), values:[SeedCondition](#seedcondition))_ | Conditions contains conditions the seed is in, its primary use case is status signaling
+between controllers or between controllers and the API. |
 
 
 [Back to top](#top)
@@ -5960,14 +6675,17 @@ _Appears in:_
 
 
 
-SeedVersionsStatus contains information regarding versions of components in the cluster and the cluster itself.
+SeedVersionsStatus contains information regarding versions of components in the cluster
+and the cluster itself.
 
 _Appears in:_
 - [SeedStatus](#seedstatus)
 
 | Field | Description |
 | --- | --- |
-| `kubermatic` _string_ | Kubermatic is the version of the currently deployed KKP components. Note that a permanent version skew between master and seed is not supported and KKP setups should never run for longer times with a skew between the clusters. |
+| `kubermatic` _string_ | Kubermatic is the version of the currently deployed KKP components. Note that a permanent
+version skew between master and seed is not supported and KKP setups should never run for
+longer times with a skew between the clusters. |
 | `cluster` _string_ | Cluster is the Kubernetes version of the cluster's control plane. |
 
 
@@ -5987,8 +6705,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `tokenVolumeProjectionEnabled` _boolean_ |  |
-| `issuer` _string_ | Issuer is the identifier of the service account token issuer If this is not specified, it will be set to the URL of apiserver by default |
-| `apiAudiences` _string array_ | APIAudiences are the Identifiers of the API If this is not specified, it will be set to a single element list containing the issuer URL |
+| `issuer` _string_ | Issuer is the identifier of the service account token issuer
+If this is not specified, it will be set to the URL of apiserver by default |
+| `apiAudiences` _string array_ | APIAudiences are the Identifiers of the API
+If this is not specified, it will be set to a single element list containing the issuer URL |
 
 
 [Back to top](#top)
@@ -6006,7 +6726,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `customLinks` _[CustomLink](#customlink) array_ | CustomLinks are additional links that can be shown the dashboard's footer. |
+| `customLinks` _[CustomLinks](#customlinks)_ | CustomLinks are additional links that can be shown the dashboard's footer. |
 | `defaultNodeCount` _integer_ | DefaultNodeCount is the default number of replicas for the initial MachineDeployment. |
 | `displayDemoInfo` _boolean_ | DisplayDemoInfo controls whether a "Demo System" hint is shown in the footer. |
 | `displayAPIDocs` _boolean_ | DisplayDemoInfo controls whether a a link to the KKP API documentation is shown in the footer. |
@@ -6029,8 +6749,9 @@ _Appears in:_
 | `notifications` _[NotificationsOptions](#notificationsoptions)_ | Notifications are the configuration for notifications on dashboard. |
 | `providerConfiguration` _[ProviderConfiguration](#providerconfiguration)_ | ProviderConfiguration are the cloud provider specific configurations on dashboard. |
 | `machineDeploymentVMResourceQuota` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineDeploymentVMResourceQuota is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
-| `allowedOperatingSystems` _object (keys:OperatingSystem, values:boolean)_ | AllowedOperatingSystems shows if the operating system is allowed to be use in the machinedeployment. |
-| `defaultQuota` _[DefaultProjectResourceQuota](#defaultprojectresourcequota)_ | DefaultProjectResourceQuota allows to configure a default project resource quota which will be set for all projects that do not have a custom quota already set. EE-version only. |
+| `allowedOperatingSystems` _[allowedOperatingSystems](#allowedoperatingsystems)_ | AllowedOperatingSystems shows if the operating system is allowed to be use in the machinedeployment. |
+| `defaultQuota` _[DefaultProjectResourceQuota](#defaultprojectresourcequota)_ | DefaultProjectResourceQuota allows to configure a default project resource quota which
+will be set for all projects that do not have a custom quota already set. EE-version only. |
 | `machineDeploymentOptions` _[MachineDeploymentOptions](#machinedeploymentoptions)_ |  |
 | `disableChangelogPopup` _boolean_ | DisableChangelogPopup disables the changelog popup in KKP dashboard. |
 
@@ -6099,7 +6820,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `helmRepository` _string_ | HelmRepository specifies OCI repository containing Helm charts of system Applications. |
-| `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file. The value is dockercfg file that follows the same format rules as ~/.docker/config.json The Secret must exist in the namespace where KKP is installed (default is "kubermatic"). The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm". |
+| `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#secretkeyselector-v1-core)_ | HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file.
+The value is dockercfg file that follows the same format rules as ~/.docker/config.json
+The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
+The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm". |
 
 
 [Back to top](#top)
@@ -6118,9 +6842,15 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `from` _string_ | From is the version from which an update is allowed. Wildcards are allowed, e.g. "1.18.*". |
-| `to` _string_ | To is the version to which an update is allowed. Must be a valid version if `automatic` is set to true, e.g. "1.20.13". Can be a wildcard otherwise, e.g. "1.20.*". |
-| `automatic` _boolean_ | Automatic controls whether this update is executed automatically for the control plane of all matching user clusters. --- |
-| `automaticNodeUpdate` _boolean_ | Automatic controls whether this update is executed automatically for the worker nodes of all matching user clusters. --- |
+| `to` _string_ | To is the version to which an update is allowed.
+Must be a valid version if `automatic` is set to true, e.g. "1.20.13".
+Can be a wildcard otherwise, e.g. "1.20.*". |
+| `automatic` _boolean_ | Automatic controls whether this update is executed automatically
+for the control plane of all matching user clusters.
+--- |
+| `automaticNodeUpdate` _boolean_ | Automatic controls whether this update is executed automatically
+for the worker nodes of all matching user clusters.
+--- |
 
 
 [Back to top](#top)
@@ -6131,15 +6861,21 @@ _Appears in:_
 
 
 
-UpdateWindow allows defining windows for maintenance tasks related to OS updates. This is only applied to cluster nodes using Flatcar Linux. The reference time for this is the node system time and might differ from the user's timezone, which needs to be considered when configuring a window.
+UpdateWindow allows defining windows for maintenance tasks related to OS updates.
+This is only applied to cluster nodes using Flatcar Linux.
+The reference time for this is the node system time and might differ from
+the user's timezone, which needs to be considered when configuring a window.
 
 _Appears in:_
 - [ClusterSpec](#clusterspec)
 
 | Field | Description |
 | --- | --- |
-| `start` _string_ | Sets the start time of the update window. This can be a time of day in 24h format, e.g. `22:30`, or a day of week plus a time of day, for example `Mon 21:00`. Only short names for week days are supported, i.e. `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat` and `Sun`. |
-| `length` _string_ | Sets the length of the update window beginning with the start time. This needs to be a valid duration as parsed by Go's time.ParseDuration (https://pkg.go.dev/time#ParseDuration), e.g. `2h`. |
+| `start` _string_ | Sets the start time of the update window. This can be a time of day in 24h format, e.g. `22:30`,
+or a day of week plus a time of day, for example `Mon 21:00`. Only short names for week days are supported,
+i.e. `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat` and `Sun`. |
+| `length` _string_ | Sets the length of the update window beginning with the start time. This needs to be a valid duration
+as parsed by Go's time.ParseDuration (https://pkg.go.dev/time#ParseDuration), e.g. `2h`. |
 
 
 [Back to top](#top)
@@ -6150,7 +6886,8 @@ _Appears in:_
 
 
 
-User specifies a KKP user. Users can be either humans or KKP service accounts.
+User specifies a KKP user. Users can be either humans or KKP service
+accounts.
 
 _Appears in:_
 - [UserList](#userlist)
@@ -6192,7 +6929,8 @@ UserList is a list of users.
 
 
 
-UserProjectBinding specifies a binding between a user and a project This resource is used by the user management to manipulate members of the given project.
+UserProjectBinding specifies a binding between a user and a project
+This resource is used by the user management to manipulate members of the given project.
 
 _Appears in:_
 - [UserProjectBindingList](#userprojectbindinglist)
@@ -6242,7 +6980,8 @@ _Appears in:_
 | --- | --- |
 | `userEmail` _string_ | UserEmail is the email of the user that is bound to the given project. |
 | `projectID` _string_ | ProjectID is the name of the target project. |
-| `group` _string_ | Group is the user's group, determining their permissions within the project. Must be one of `owners`, `editors`, `viewers` or `projectmanagers`. |
+| `group` _string_ | Group is the user's group, determining their permissions within the project.
+Must be one of `owners`, `editors`, `viewers` or `projectmanagers`. |
 
 
 [Back to top](#top)
@@ -6326,14 +7065,21 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `id` _string_ | ID is an unused legacy field. Deprecated: do not set this field anymore. |
+| `id` _string_ | ID is an unused legacy field.
+Deprecated: do not set this field anymore. |
 | `name` _string_ | Name is the full name of this user. |
-| `email` _string_ | Email is the email address of this user. Emails must be globally unique across all KKP users. |
-| `admin` _boolean_ | IsAdmin defines whether this user is an administrator with additional permissions. Admins can for example see all projects and clusters in the KKP dashboard. |
-| `groups` _string array_ | Groups holds the information to which groups the user belongs to. Set automatically when logging in to the KKP API, and used by the KKP API. |
-| `project` _string_ | Project is the name of the project that this service account user is tied to. This field is only applicable to service accounts and regular users must not set this field. |
-| `settings` _[UserSettings](#usersettings)_ | Settings contains both user-configurable and system-owned configuration for the KKP dashboard. |
-| `invalidTokensReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | InvalidTokensReference is a reference to a Secret that contains invalidated login tokens. The tokens are used to provide a safe logout mechanism. |
+| `email` _string_ | Email is the email address of this user. Emails must be globally unique across
+all KKP users. |
+| `admin` _boolean_ | IsAdmin defines whether this user is an administrator with additional permissions.
+Admins can for example see all projects and clusters in the KKP dashboard. |
+| `groups` _string array_ | Groups holds the information to which groups the user belongs to. Set automatically when logging in to the
+KKP API, and used by the KKP API. |
+| `project` _string_ | Project is the name of the project that this service account user is tied to. This
+field is only applicable to service accounts and regular users must not set this field. |
+| `settings` _[UserSettings](#usersettings)_ | Settings contains both user-configurable and system-owned configuration for the
+KKP dashboard. |
+| `invalidTokensReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | InvalidTokensReference is a reference to a Secret that contains invalidated
+login tokens. The tokens are used to provide a safe logout mechanism. |
 
 
 [Back to top](#top)
@@ -6370,13 +7116,15 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `username` _string_ | The VMware Cloud Director user name. |
 | `password` _string_ | The VMware Cloud Director user password. |
 | `apiToken` _string_ | The VMware Cloud Director API token. |
 | `vdc` _string_ | The organizational virtual data center. |
 | `organization` _string_ | The name of organization to use. |
-| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp. Deprecated: OVDCNetwork has been deprecated starting with KKP 2.25 and will be removed in KKP 2.27+. It is recommended to use OVDCNetworks instead. |
+| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp.
+Deprecated: OVDCNetwork has been deprecated starting with KKP 2.25 and will be removed in KKP 2.27+. It is recommended to use OVDCNetworks instead. |
 | `ovdcNetworks` _string array_ | OVDCNetworks is the list of organizational virtual data center networks that will be attached to the vApp and can be consumed the VMs. |
 
 
@@ -6420,7 +7168,8 @@ _Appears in:_
 | `apiToken` _string_ | The VMware Cloud Director API token. |
 | `organization` _string_ | The name of organization to use. |
 | `vdc` _string_ | The organizational virtual data center. |
-| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp. Deprecated: OVDCNetwork has been deprecated starting with KKP 2.25 and will be removed in KKP 2.27+. It is recommended to use OVDCNetworks instead. |
+| `ovdcNetwork` _string_ | The name of organizational virtual data center network that will be associated with the VMs and vApp.
+Deprecated: OVDCNetwork has been deprecated starting with KKP 2.25 and will be removed in KKP 2.27+. It is recommended to use OVDCNetworks instead. |
 | `ovdcNetworks` _string array_ | OVDCNetworks is the list of organizational virtual data center networks that will be attached to the vApp and can be consumed the VMs. |
 | `vapp` _string_ | VApp used for isolation of VMs and their associated network |
 | `csi` _[VMwareCloudDirectorCSIConfig](#vmwareclouddirectorcsiconfig)_ | Config for CSI driver |
@@ -6460,7 +7209,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the configured datacenter. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
 | `username` _string_ | The vSphere user name. |
 | `password` _string_ | The vSphere user password. |
 | `vmNetName` _string_ | Deprecated: Use networks instead. |
@@ -6468,7 +7218,10 @@ _Appears in:_
 | `datastore` _string_ | Datastore to be used for storing virtual machines and as a default for dynamic volume provisioning, it is mutually exclusive with DatastoreCluster. |
 | `datastoreCluster` _string_ | DatastoreCluster to be used for storing virtual machines, it is mutually exclusive with Datastore. |
 | `resourcePool` _string_ | ResourcePool is used to manage resources such as cpu and memory for vSphere virtual machines. The resource pool should be defined on vSphere cluster level. |
-| `basePath` _string_ | BasePath configures a vCenter folder path that KKP will create an individual cluster folder in. If it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path, the BasePath part will be appended to the RootPath to construct the full path. For both cases, the full folder structure needs to exist. KKP will only try to create the cluster folder. |
+| `basePath` _string_ | BasePath configures a vCenter folder path that KKP will create an individual cluster folder in.
+If it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path,
+the BasePath part will be appended to the RootPath to construct the full path. For both cases,
+the full folder structure needs to exist. KKP will only try to create the cluster folder. |
 
 
 [Back to top](#top)
@@ -6489,16 +7242,27 @@ _Appears in:_
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
 | `username` _string_ | The vSphere user name. |
 | `password` _string_ | The vSphere user password. |
-| `vmNetName` _string_ | The name of the vSphere network. Deprecated: Use networks instead. |
+| `vmNetName` _string_ | The name of the vSphere network.
+Deprecated: Use networks instead. |
 | `networks` _string array_ | List of vSphere networks. |
-| `folder` _string_ | Folder to be used to group the provisioned virtual machines. |
-| `basePath` _string_ | Optional: BasePath configures a vCenter folder path that KKP will create an individual cluster folder in. If it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path, the BasePath part will be appended to the RootPath to construct the full path. For both cases, the full folder structure needs to exist. KKP will only try to create the cluster folder. |
-| `datastore` _string_ | Datastore to be used for storing virtual machines and as a default for dynamic volume provisioning, it is mutually exclusive with DatastoreCluster. |
-| `datastoreCluster` _string_ | DatastoreCluster to be used for storing virtual machines, it is mutually exclusive with Datastore. |
+| `folder` _string_ | Folder to be used to group the provisioned virtual
+machines. |
+| `basePath` _string_ | Optional: BasePath configures a vCenter folder path that KKP will create an individual cluster folder in.
+If it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path,
+the BasePath part will be appended to the RootPath to construct the full path. For both cases,
+the full folder structure needs to exist. KKP will only try to create the cluster folder. |
+| `datastore` _string_ | Datastore to be used for storing virtual machines and as a default for
+dynamic volume provisioning, it is mutually exclusive with
+DatastoreCluster. |
+| `datastoreCluster` _string_ | DatastoreCluster to be used for storing virtual machines, it is mutually
+exclusive with Datastore. |
 | `storagePolicy` _string_ | StoragePolicy to be used for storage provisioning |
-| `resourcePool` _string_ | ResourcePool is used to manage resources such as cpu and memory for vSphere virtual machines. The resource pool should be defined on vSphere cluster level. |
+| `resourcePool` _string_ | ResourcePool is used to manage resources such as cpu and memory for vSphere virtual machines. The resource pool
+should be defined on vSphere cluster level. |
 | `infraManagementUser` _[VSphereCredentials](#vspherecredentials)_ | This user will be used for everything except cloud provider functionality |
-| `tags` _[VSphereTag](#vspheretag)_ | Tags represents the tags that are attached or created on the cluster level, that are then propagated down to the MachineDeployments. In order to attach tags on MachineDeployment, users must create the tag on a cluster level first then attach that tag on the MachineDeployment. |
+| `tags` _[VSphereTag](#vspheretag)_ | Tags represents the tags that are attached or created on the cluster level, that are then propagated down to the
+MachineDeployments. In order to attach tags on MachineDeployment, users must create the tag on a cluster level first
+then attach that tag on the MachineDeployment. |
 
 
 [Back to top](#top)
@@ -6529,7 +7293,9 @@ _Appears in:_
 
 
 
-VSphereTag represents the tags that are attached or created on the cluster level, that are then propagated down to the MachineDeployments. In order to attach tags on MachineDeployment, users must create the tag on a cluster level first then attach that tag on the MachineDeployment.
+VSphereTag represents the tags that are attached or created on the cluster level, that are then propagated down to the
+MachineDeployments. In order to attach tags on MachineDeployment, users must create the tag on a cluster level first
+then attach that tag on the MachineDeployment.
 
 _Appears in:_
 - [VSphereCloudSpec](#vspherecloudspec)
@@ -6537,7 +7303,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `tags` _string array_ | Tags represents the name of the created tags. |
-| `categoryID` _string_ | CategoryID is the id of the vsphere category that the tag belongs to. If the category id is left empty, the default category id for the cluster will be used. |
+| `categoryID` _string_ | CategoryID is the id of the vsphere category that the tag belongs to. If the category id is left empty, the default
+category id for the cluster will be used. |
 
 
 [Back to top](#top)
