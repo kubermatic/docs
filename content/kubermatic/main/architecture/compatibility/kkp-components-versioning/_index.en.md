@@ -37,6 +37,6 @@ of provided software and therefore releases updates regularly that also include 
 | monitoring/node-exporter       | 1.5.0                          |
 | monitoring/prometheus          | 2.43.1                         |
 | nginx-ingress-controller       | 1.10.0                         |
-| oauth                          | 2.36.0                         |
+| oauth                          | 2.39.1                         |
 | s3-exporter                    | 0.7.1                          |
 | telemetry                      | 0.5.0                          |
