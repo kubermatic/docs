@@ -1991,6 +1991,7 @@ _Appears in:_
 | `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ | NodePortProxyEnvoy configures the per-cluster nodeport-proxy-envoy that is deployed if the `LoadBalancer` expose strategy is used. This is not effective if a different expose strategy is configured. |
 | `konnectivityProxy` _[KonnectivityProxySettings](#konnectivityproxysettings)_ | KonnectivityProxy configures konnectivity-server and konnectivity-agent components. |
 | `userClusterController` _[ControllerSettings](#controllersettings)_ | UserClusterController configures the KKP usercluster-controller deployed as part of the cluster control plane. |
+| `operatingSystemManager` _[ControllerSettings](#controllersettings)_ | OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller). |
 
 
 [Back to top](#top)
