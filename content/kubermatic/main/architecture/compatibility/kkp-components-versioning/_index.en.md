@@ -30,7 +30,7 @@ of provided software and therefore releases updates regularly that also include 
 | mla/mla-secrets                | 0.1.0                          |
 | monitoring/alertmanager        | 0.27.0                         |
 | monitoring/blackbox-exporter   | 0.23.0                         |
-| monitoring/grafana             | 9.5.1                          |
+| monitoring/grafana             | 10.4.1                         |
 | monitoring/helm-exporter       | 1.2.16                         |
 | monitoring/karma               | 0.120                          |
 | monitoring/kube-state-metrics  | 2.8.2                          |
