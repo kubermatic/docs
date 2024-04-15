@@ -14,7 +14,7 @@ of provided software and therefore releases updates regularly that also include 
 | ------------------------------ | ------------------------------ |
 | backup/velero                  | 1.13.1                         |
 | cert-manager                   | 1.14.4                         |
-| iap                            | 7.4.0                          |
+| iap                            | 7.6.0                          |
 | kubermatic-operator            | 9.9.9-dev                      |
 | local-kubevirt                 | 1.1.1                          |
 | logging/loki                   | 2.9.6                          |
