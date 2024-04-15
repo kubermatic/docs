@@ -47,3 +47,4 @@ Currently, KKP periodicially reconciles the following providers:
 * Azure
 * KubeVirt
 * vSphere
+* Openstack
