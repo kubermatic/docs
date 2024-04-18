@@ -4437,6 +4437,13 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dockerRepository` _string_ | DockerRepository is the repository containing the Kubermatic REST API image. |
+| `dockerTag` _string_ | DockerTag is used to overwrite the Kubermatic API Docker image tag and is only for development
+purposes. This field must not be set in production environments. If DockerTag is specified then
+DockerTagSuffix will be ignored.
+--- |
+| `dockerTagSuffix` _string_ | DockerTagSuffix is appended to the KKP version used for referring to the custom Kubermatic API image.
+If left empty, either the `DockerTag` if specified or the original Kubermatic API Docker image tag will be used.
+With DockerTagSuffix the tag becomes <KKP_VERSION-SUFFIX> i.e. "v2.15.0-SUFFIX". |
 | `accessibleAddons` _string array_ | AccessibleAddons is a list of addons that should be enabled in the API. |
 | `pprofEndpoint` _string_ | PProfEndpoint controls the port the API should listen on to provide pprof
 data. This port is never exposed from the container and only available via port-forwardings. |
@@ -4795,7 +4802,7 @@ DockerTagSuffix will be ignored.
 --- |
 | `dockerTagSuffix` _string_ | DockerTagSuffix is appended to the KKP version used for referring to the custom dashboard image.
 If left empty, either the `DockerTag` if specified or the original dashboard Docker image tag will be used.
-With DockerTagSuffix the tag becomes <KKP_VERSION:SUFFIX> i.e. "v2.15.0-SUFFIX". |
+With DockerTagSuffix the tag becomes <KKP_VERSION-SUFFIX> i.e. "v2.15.0-SUFFIX". |
 | `config` _string_ | Config sets flags for various dashboard features. |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
 | `replicas` _integer_ | Replicas sets the number of pod replicas for the UI deployment. |
