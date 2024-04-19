@@ -5,6 +5,7 @@ set -euo pipefail
 cd $(dirname $0)/..
 
 SOURCE="${SOURCE:-}"
+OUTPUT_VERSION="${OUTPUT_VERSION:-main}"
 
 if [[ -z "$SOURCE" ]]; then
   gopath="$(go env GOPATH)"
@@ -47,4 +48,4 @@ $(go env GOPATH)/bin/crd-ref-docs \
   --renderer markdown \
   --templates-dir hack/crd-templates \
   --config "$configFile" \
-  --output-path content/kubermatic/main/references/crds/_index.en.md
+  --output-path content/kubermatic/${OUTPUT_VERSION}/references/crds/_index.en.md
