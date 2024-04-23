@@ -6739,7 +6739,8 @@ _Appears in:_
 | `displayAPIDocs` _boolean_ | DisplayDemoInfo controls whether a a link to the KKP API documentation is shown in the footer. |
 | `displayTermsOfService` _boolean_ | DisplayDemoInfo controls whether a a link to TOS is shown in the footer. |
 | `enableDashboard` _boolean_ | EnableDashboard enables the link to the Kubernetes dashboard for a user cluster. |
-| `enableWebTerminal` _boolean_ | EnableWebTerminal enables the Web Terminal feature for the user clusters. |
+| `enableWebTerminal` _boolean_ | EnableWebTerminal enables the Web Terminal feature for the user clusters.
+Deprecated: EnableWebTerminal is deprecated and should be removed in KKP 2.27+. Please use webTerminalOptions instead. When webTerminalOptions.enabled is set then this field will be ignored. |
 | `enableShareCluster` _boolean_ | EnableShareCluster enables the Share Cluster feature for the user clusters. |
 | `enableOIDCKubeconfig` _boolean_ |  |
 | `enableClusterBackup` _boolean_ | EnableClusterBackup enables the Cluster Backup feature in the dashboard. |
@@ -6755,6 +6756,7 @@ _Appears in:_
 | `mlaGrafanaPrefix` _string_ |  |
 | `notifications` _[NotificationsOptions](#notificationsoptions)_ | Notifications are the configuration for notifications on dashboard. |
 | `providerConfiguration` _[ProviderConfiguration](#providerconfiguration)_ | ProviderConfiguration are the cloud provider specific configurations on dashboard. |
+| `webTerminalOptions` _[WebTerminalOptions](#webterminaloptions)_ | WebTerminalOptions are the configurations for the Web Terminal feature. |
 | `machineDeploymentVMResourceQuota` _[MachineFlavorFilter](#machineflavorfilter)_ | MachineDeploymentVMResourceQuota is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc. |
 | `allowedOperatingSystems` _[allowedOperatingSystems](#allowedoperatingsystems)_ | AllowedOperatingSystems shows if the operating system is allowed to be use in the machinedeployment. |
 | `defaultQuota` _[DefaultProjectResourceQuota](#defaultprojectresourcequota)_ | DefaultProjectResourceQuota allows to configure a default project resource quota which
@@ -7312,6 +7314,26 @@ _Appears in:_
 | `tags` _string array_ | Tags represents the name of the created tags. |
 | `categoryID` _string_ | CategoryID is the id of the vsphere category that the tag belongs to. If the category id is left empty, the default
 category id for the cluster will be used. |
+
+
+[Back to top](#top)
+
+
+
+### WebTerminalOptions
+
+
+
+
+
+_Appears in:_
+- [SettingSpec](#settingspec)
+
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | Enabled enables the Web Terminal feature for the user clusters. |
+| `enableInternetAccess` _boolean_ | EnableInternetAccess enables the Web Terminal feature to access the internet. |
+| `additionalEnvironmentVariables` _[EnvVar](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#envvar-v1-core) array_ | AdditionalEnvironmentVariables are the additional environment variables that can be set for the Web Terminal. |
 
 
 [Back to top](#top)
