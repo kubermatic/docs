@@ -97,6 +97,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `displayName` _string_ | DisplayName is the name for the application that will be displayed in the UI. |
 | `description` _string_ | Description of the application. what is its purpose |
 | `method` _[TemplateMethod](#templatemethod)_ | Method used to install the application |
 | `defaultValues` _[RawExtension](#rawextension)_ | DefaultValues specify default values for the UI which are passed to helm templating when creating an application. Comments are not preserved.
