@@ -95,3 +95,19 @@ The root cause of this issue is an update to Azure CSI driver's upstream where t
 As the ClusterRole referenced in the ClusterRoleBinding can't be updated, we need to delete it & let it get re-created as per the latest spec.
 
 `kubectl delete ClusterRoleBinding csi-azuredisk-node-secret-binding`
+
+## Azure CCM deployment's reconciliation fails for user clusters post KKP 2.25.x upgrade
+
+### Problem
+
+Post KKP 2.25.x upgrade, the cloud controller manager's deployment fails to reconcile for user clusters on Azure.
+
+### Root Cause
+
+The root cause of this issue is an update to Azure CCM's deployment's selector (`spec.selector.matchLabels["app"]`) in KKP 2.25, this updates an immutable field which is not allowed by kubernetes.
+
+### Solution
+
+We need to delete the ccm deployment for all the user clusters on Azure & let it get re-created as per the latest spec.
+
+`kubectl delete deployment azure-cloud-controller-manager -n cluster-<cluster-id>`
