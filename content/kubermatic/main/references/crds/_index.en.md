@@ -1428,7 +1428,7 @@ the generated route table's name. If no subnet is defined at cluster creation, t
 | `securityGroup` _string_ | The name of a security group associated with the subnet referenced by `subnet`.
 If set to empty string at cluster creation, a new security group will be created and this field will be updated to
 the generated security group's name. If no subnet is defined at cluster creation, this field should be empty as well. |
-| `loadBalancerSKU` _[LBSKU](#lbsku)_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "basic" will be used |
+| `loadBalancerSKU` _[LBSKU](#lbsku)_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "standard" will be used |
 
 
 [Back to top](#top)
@@ -1483,7 +1483,7 @@ Defaults to `true` internally if not set. |
 | `availabilitySet` _string_ | An availability set that will be associated with nodes created for this cluster. If this field is set to empty string
 at cluster creation and `AssignAvailabilitySet` is set to `true`, a new availability set will be created and this field
 will be updated to the generated availability set's name. |
-| `loadBalancerSKU` _[LBSKU](#lbsku)_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "basic" will be used. |
+| `loadBalancerSKU` _[LBSKU](#lbsku)_ | LoadBalancerSKU sets the LB type that will be used for the Azure cluster, possible values are "basic" and "standard", if empty, "standard" will be used. |
 
 
 [Back to top](#top)
