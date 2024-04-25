@@ -6829,7 +6829,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `helmRepository` _string_ | HelmRepository specifies OCI repository containing Helm charts of system Applications. |
+| `helmRepository` _string_ | HelmRepository specifies OCI repository containing Helm charts of system Applications e.g. oci://localhost:5000/myrepo. |
 | `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#secretkeyselector-v1-core)_ | HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file.
 The value is dockercfg file that follows the same format rules as ~/.docker/config.json
 The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
