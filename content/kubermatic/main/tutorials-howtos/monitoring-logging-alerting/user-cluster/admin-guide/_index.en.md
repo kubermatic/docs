@@ -260,6 +260,24 @@ By default, the MLA stack is configured to hold the logs and metrics in the obje
 - In the [loki Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/loki-distributed/values.yaml#L52), set `loki-distributed.loki.config.chunk_store_config.max_look_back_period` to the desired value (default: `168h` = 7 days).
 - In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/minio-lifecycle-mgr/values.yaml#L20), set `lifecycleMgr.buckets[name=loki].expirationDays` to the value used in the loki Helm chart + 1 day (default: `8d`).
 
+### Cortex Performance Tips
+
+Depending on the number of tenants (user clusters) and the data stored, the initial startup cleanup/maintenance operations can be very slow. This makes the `cortex-compactor` Pods potentially take multiple hours to become ready.
+
+If your compactor Pods are being restarted by Kubernetes, adjust the startupProbe via your `values.yaml` and for example give it much more time by increasing the `failureThreshold`:
+
+```yaml
+cortex:
+  compactor:
+    startupProbe:
+      # allow to fail up to 200x 30s = 1h40m for Cortex to start up
+      failureThreshold: 200
+      # wait 5 minutes before even beginning the probe
+      initialDelaySeconds: 300
+```
+
+*NB:* Remember that you must manually delete the current `cortex-compactor-0` Pod, as Kubernetes would only recreate it if and when the Pod would get ready.
+
 ### Setting up MLA with Existing MinIO or Other S3-compatible Services
 
 By default, a MinIO instance will also be deployed as the S3 storage backend for MLA components. It is also possible to use an existing MinIO instance in your cluster or any other S3-compatible services.
