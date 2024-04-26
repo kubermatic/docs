@@ -1,5 +1,5 @@
 +++
-title = "Local Kubermatic Kubernetes Platform (KKP) CE Installation"
+title = "Local Kubermatic Kubernetes Platform (KKP) Installation"
 linkTitle = "Local Installation"
 date = 2023-06-26T09:49:10+02:00
 weight = 200
@@ -10,7 +10,7 @@ enableToc = true
 Local KKP installation is **not** intended for production setups.
 {{% /notice %}}
 
-This page will guide you through using the KKP installer local command `kubermatic-installer local`. This command simplifies and automates the installation of KKP CE using `kind` and a preconfigured KubeVirt seed. The command is intended only for evaluation and local development purposes. For production KKP installation use the [CE installation guide](../install-kkp-ce) or [EE installation guide](../install-kkp-ee).
+This page will guide you through using the KKP installer local command `kubermatic-installer local`. This command simplifies and automates the installation of KKP using `kind` and a preconfigured KubeVirt seed. The command is intended only for evaluation and local development purposes. For production KKP installation use the [CE installation guide](../install-kkp-ce) or [EE installation guide](../install-kkp-ee).
 
 ## Pre-Installation Requirements
 
@@ -29,15 +29,39 @@ Follow these steps to use the KKP installer local command:
 
 **1. Download the installer.** This is the only manual step; there's no need to prepare any configuration since the installer should automatically configure KKP.
 
+If you already have an active KKP license, you can use the enterprise edition installer. Otherwise, use the community edition installer.
+
+{{< tabs name="Setting Kubermatic Edition Environment Variable" >}}
+{{% tab name="Community Edition" %}}
+
+```bash
+KUBERMATIC_EDITION=ce
+```
+
+{{% /tab %}}
+{{% tab name="Enterprise Edition" %}}
+
+```bash
+KUBERMATIC_EDITION=ee
+```
+
+{{% /tab %}}
+{{< /tabs >}}
+
+Download the installer:
+
 {{< tabs name="Download the installer" >}}
 {{% tab name="Linux" %}}
+
 ```bash
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
-wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
-tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
+wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-${KUBERMATIC_EDITION}-v${VERSION}-linux-amd64.tar.gz
+tar -xzvf kubermatic-${KUBERMATIC_EDITION}-v${VERSION}-linux-amd64.tar.gz
 ```
+
 {{% /tab %}}
 {{% tab name="MacOS" %}}
+
 ```bash
 # Determine your macOS processor architecture type
 # Replace 'amd64' with 'arm64' if using an Apple Silicon (M1) Mac.
@@ -46,15 +70,24 @@ export ARCH=amd64
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
 # VERSION=2.21.x
-wget "https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
-tar -xzvf "kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
+wget "https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-${KUBERMATIC_EDITION}-v${VERSION}-darwin-${ARCH}.tar.gz"
+tar -xzvf "kubermatic-${KUBERMATIC_EDITION}-v${VERSION}-darwin-${ARCH}.tar.gz"
 ```
+
 {{% /tab %}}
 {{< /tabs >}}
 
-You can find more information regarding the download instructions in the [CE installation guide](../install-kkp-ce/#download-the-installer).
+You can find more information regarding the download instructions in the [CE installation guide](../install-kkp-ce/#download-the-installer) or [EE installation guide](../install-kkp-ee/#download-the-installer).
 
-**2. Run the `local` command.**
+**2. Provide the image pull secret (EE)**
+
+This step is only required if you are using the enterprise edition installer. Replace `${AUTH_TOKEN}` with the Docker authentication JSON provided by Kubermatic and run the following command:
+
+```bash
+sed -i 's/<your-auth-token>/${AUTH_TOKEN}/g' examples/kubermatic.example.yaml
+```
+
+**3. Run the `local` command.**
 
 ```bash
 ./kubermatic-installer local kind
@@ -101,12 +134,15 @@ The KKP dashboard is [exposed using `nip.io`](https://nip.io/), and certain brow
 By default, KubeVirt is configured to use hardware virtualization. If this is not possible for your setup, consider [setting KubeVirt to use software emulation mode](https://github.com/kubevirt/kubevirt/blob/v1.0.0-rc.0/docs/software-emulation.md).
 
 On Linux, KubeVirt uses the inode notify kernel subsystem `inotify` to watch for changes in certain files. Usually you shouldn't need to configure this but in case you can observe the `virt-handler` failing with
+
 ```
 kubectl log -nkubevirt ds/virt-handler
 ...
 {"component":"virt-handler","level":"fatal","msg":"Failed to create an inotify watcher","pos":"cert-manager.go:105","reason":"too many open files","timestamp":"2023-06-22T09:58:24.284130Z"}
 ```
+
 You may need to set the default values higher to ensure KubeVirt operates correctly. How to change this, along with reasonably elevated values, is described below but it's recommended to inspect your system to figure out the correct `inotify` values depending on your needs and current setup.
+
 ```bash
 sudo sysctl -w fs.inotify.max_user_watches=524288
 sudo sysctl -w fs.inotify.max_user_instances=256
