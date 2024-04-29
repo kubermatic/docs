@@ -16,7 +16,7 @@ The following is a list of values that need to be ignored by the proxy server:
 
 - **Kubernetes:** 127.0.0.1,localhost,.local,.local.,kubernetes,.default,.svc
 - **Domain:** kkp.example.com (replace with your domain)
-- **Node Subnet:** Depends on the subnet used by the underlying Kubernetes cluster. For example,
+- **Node Subnet:** Depends on the subnet used by the underlying Kubernetes cluster.
 
 From KKP:
 
