@@ -21,14 +21,56 @@ This guide assumes the following tools are available:
 * Helm 3.x
 * kubectl 1.16+
 
-## Monitoring & Alerting Components
+## Monitoring, Logging & Alerting Components
 
-This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) master / seed monitoring & alerting components. It's highly recommended to install this
+This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) master / seed monitoring, logging & alerting components. It's highly recommended to install this
 stack on the master and all seed clusters.
 
-It uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. Dashboarding is done with [Grafana](https://grafana.com). More information can be found in the [Architecture]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/" >}}) document.
+It uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. The logging stack consists of Promtail and [Grafana Loki](https://grafana.com/oss/loki/). Dashboarding is done with [Grafana](https://grafana.com). More information can be found in the [Architecture]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/" >}}) document.
 
-### Installation
+## Installation
+
+Make sure you have a kubeconfig for the desired Master/Seed Cluster available. It needs to have `cluster-admin` permissions on that cluster to install all Master/Seed MLA stack components.
+
+The installer will use the `KUBECONFIG` environment variable to pick up the right kubeconfig to access the designated Master/Seed Cluster. Ensure that you
+have exported it, for example like this (on Linux and macOS):
+
+```bash
+export KUBECONFIG=/path/to/kubeconfig
+```
+
+### Download the Installer
+
+Download the [release archive from our GitHub release page](https://github.com/kubermatic/kubermatic/releases/) (e.g. `kubermatic-ce-X.Y-linux-amd64.tar.gz`)
+containing the Kubermatic Installer and the required Helm charts for your operating system and extract it locally.
+
+{{< tabs name="Download the installer" >}}
+{{% tab name="Linux" %}}
+```bash
+# For latest version:
+VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
+# For specific version set it explicitly:
+# VERSION=2.25.x
+wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
+tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
+```
+{{% /tab %}}
+{{% tab name="MacOS" %}}
+```bash
+# Determine your macOS processor architecture type
+# Replace 'amd64' with 'arm64' if using an Apple Silicon (M1) Mac.
+export ARCH=amd64
+# For latest version:
+VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
+# For specific version set it explicitly:
+# VERSION=2.25.x
+wget "https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
+tar -xzvf "kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
+```
+{{% /tab %}}
+{{< /tabs >}}
+
+### Install the Master/Seed MLA stack
 
 As with KKP itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
 are a few important options you might want to override for your setup:
@@ -48,6 +90,11 @@ are a few important options you might want to override for your setup:
 * `grafana.user` and `grafana.password` should be set with custom values if no identity-aware proxy is configured.
   In this case, `grafana.provisioning.configuration.disable_login_form` should be set to `false` so that a manual
   login is possible.
+* `loki.persistence.size` (default: `10Gi`) controls the volume size for the Loki pods.
+* `promtail.scrapeConfigs` controls for which pods the logs are collected. The default configuration should
+  be sufficient for most cases, but adjustment can be made.
+* `promtail.tolerations` might need to be extended to deploy a Promtail pod on every node in the cluster.
+  By default, master-node NoSchedule taints are ignored.
 
 An example `values.yaml` could look like this if all options mentioned above are customized:
 kkp.example.com
@@ -72,20 +119,53 @@ grafana:
   provisioning:
     configuration:
       disable_login_form: false
+
+loki:
+  persistence:
+    size: '100Gi'
+
+promtail:
+  scrapeConfigs:
+  - ...
 ```
 
 With this file prepared, we can now install all required charts:
 
-**Helm 3**
+**Kubermatic Installer**
 
 ```bash
-helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml prometheus charts/monitoring/prometheus/
-helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml alertmanager charts/monitoring/alertmanager/
-helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml node-exporter charts/monitoring/node-exporter/
-helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml kube-state-metrics charts/monitoring/kube-state-metrics/
-helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml grafana charts/monitoring/grafana/
-helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml karma charts/monitoring/karma/
-helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml blackbox-exporter charts/monitoring/blackbox-exporter/
+./kubermatic-installer deploy seed-mla --helm-values values.yaml
+```
+
+Output will be similar to this:
+```bash
+INFO[0000] 🚀 Initializing installer…                     edition="Community Edition" version=X.Y
+INFO[0000] 🚦 Validating the provided configuration…     
+INFO[0000] ✅ Provided configuration is valid.           
+INFO[0000] 🚦 Validating existing installation…          
+INFO[0000] ✅ Existing installation is valid.            
+INFO[0000] 🛫 Deploying KKP Seed MLA Stack…              
+INFO[0000]    📦 Deploying Node Exporter ...             
+INFO[0006]    ✅ Success.                                
+INFO[0006]    📦 Deploying Kube State Metrics…           
+INFO[0022]    ✅ Success.                                
+INFO[0022]    📦 Deploying Grafana…                      
+INFO[0055]    ✅ Success.                                
+INFO[0055]    📦 Deploying Blackbox Exporter…            
+INFO[0064]    ✅ Success.                                
+INFO[0064]    📦 Deploying Alert Manager…                
+INFO[0074]    ✅ Success.                                
+INFO[0074]    📦 Deploying Prometheus…                   
+INFO[0075]    ✅ Success.                                
+INFO[0075]    📦 Deploying Helm Exporter…                
+INFO[0076]    ✅ Success.                                
+INFO[0076]    📦 Deploying Karma…                        
+INFO[0078]    ✅ Success.                                
+INFO[0078]    📦 Deploying Loki…                         
+INFO[0164]    ✅ Success.                                
+INFO[0164]    📦 Deploying Promtail…                     
+INFO[0166]    ✅ Success.                                
+INFO[0166] 🛬 Installation completed successfully. Time for a break, maybe? ☺ 
 ```
 
 ### Going Further
@@ -107,59 +187,3 @@ that this requires considerably more resources to run:
 It's essential to configure the retention period for Thanos using `prometheus.thanos.compact.retention`, as well as to
 configure the proper object store and create the required bucket. Refer to the `config/prometheus/values.yaml` for a
 complete list of options.
-
-## Logging Components
-
-This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) master / seed logging components. It's highly recommended to install this
-stack on the master and all seed clusters.
-
-The logging stack consists of Promtail and [Grafana Loki](https://grafana.com/oss/loki/). More information can be found in the [Architecture]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/" >}}) document.
-
-### Requirements
-
-The exact requirements for the stack depend highly on the expected cluster load; the following are the minimum
-viable resources:
-
-* 2 GB RAM
-* 2 CPU cores
-* 50 GB disk storage
-
-This guide assumes the following tools are available:
-
-* Helm 3.x
-* kubectl 1.16+
-
-It is also assumed that the monitoring stack is installed, as its
-Grafana deployment is used to inspect the aggregated logs from Loki.
-
-### Installation
-
-As with KKP itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
-are a few important options you might want to override for your setup:
-
-* `loki.persistence.size` (default: `10Gi`) controls the volume size for the Loki pods.
-* `promtail.scrapeConfigs` controls for which pods the logs are collected. The default configuration should
-  be sufficient for most cases, but adjustment can be made.
-* `promtail.tolerations` might need to be extended to deploy a Promtail pod on every node in the cluster.
-  By default, master-node NoSchedule taints are ignored.
-
-An example `values.yaml` could look like this if all options mentioned above are customized:
-
-```yaml
-loki:
-  persistence:
-    size: '100Gi'
-
-promtail:
-  scrapeConfigs:
-  - ...
-```
-
-With this file prepared, we can now install all required charts:
-
-**Helm 3**
-
-```bash
-helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml promtail charts/logging/promtail/
-helm --namespace logging upgrade --install --wait --values /path/to/your/helm-values.yaml loki charts/logging/loki/
-```
