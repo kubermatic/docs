@@ -1895,8 +1895,8 @@ Defaults to "ipvs". "ebpf" disables kube-proxy and requires CNI support. |
 Defaults to true. |
 | `coreDNSReplicas` _integer_ | CoreDNSReplicas is the number of desired pods of user cluster coredns deployment. |
 | `konnectivityEnabled` _boolean_ | Deprecated: KonnectivityEnabled enables konnectivity for controlplane to node network communication.
-As OpenVPN will be removed in the future KKP versions, clusters with konnectivity disabled will not be supported.
-All existing clusters with OpenVPN should migrate to the Konnectivity. |
+Konnectivity is the only supported choice for controlplane to node network communication. This field is
+defaulted to true and setting it to false is rejected. It will be removed in a future release. |
 | `tunnelingAgentIP` _string_ | TunnelingAgentIP is the address used by the tunneling agents |
 
 
