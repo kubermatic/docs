@@ -18,7 +18,7 @@ the SSH access to the control plane nodes is required. Such tasks include
 installing and upgrading dependencies (such as container runtime and Kubernetes
 binaries), generating and distributing configuration files and certificates,
 running kubeadm, and more. The cluster components and addons are applied
-applied programmatically using client-go and controller-runtime libraries.
+programmatically using client-go and controller-runtime libraries.
 By default, KubeOne deploys the Canal CNI plugin, metrics-server, NodeLocalDNS,
 and Kubermatic machine-controller.
 
