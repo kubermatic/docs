@@ -8,26 +8,26 @@ This section deals with the usage of Kubernetes Cluster Autoscaler in a KKP User
 
 ## What is a Cluster Autoscaler in Kubernetes?
 
-Kubernetes Cluster Autoscaler is a tool that automatically adjusts the size of the worker’s node up or down depending on the consumption. This means that the autoscaler, for example, automatically scale up a Cluster by increasing the node count when there are not enough node resources for Cluster workload scheduling and scale down when the node resources have continuously staying idle, or there are more than enough node resources available for Cluster workload scheduling. In a nutshell, it is a component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes.
+Kubernetes Cluster Autoscaler is a tool that automatically adjusts the size of the worker’s node up or down depending on the consumption. This means that the autoscaler, for example, automatically scale up a cluster by increasing the node count when there are not enough node resources for cluster workload scheduling and scale down when the node resources have continuously staying idle, or there are more than enough node resources available for cluster workload scheduling. In a nutshell, it is a component that automatically adjusts the size of a Kubernetes cluster so that all pods have a place to run and there are no unneeded nodes.
 
 ## KKP Cluster Autoscaler Usage
 
-The Kubernetes Autoscaler in the KKP Cluster automatically scaled up/down when one of the following conditions is satisfied:
+The Kubernetes Autoscaler in the KKP User cluster automatically scaled up/down when one of the following conditions is satisfied:
 
 * Some pods failed to run in the cluster due to insufficient resources.
 * There are nodes in the cluster that have been underutilised for an extended period (10 minutes by default) and can place their Pods on other existing nodes.
 
 ## Installing Kubernetes Autoscaler on User Cluster
 
-You can install Kubernetes autoscaler on a running User Cluster using the KKP addon mechanism, which is already built into the KKP Cluster dashboard.
+You can install Kubernetes autoscaler on a running User cluster using the KKP addon mechanism, which is already built into the KKP Cluster dashboard.
 
 **Step 1**
 
-Create a KKP Cluster by selecting your project on the dashboard and click on "Create Cluster". More details can be found on the official [documentation]({{< ref "../project-and-cluster-management/" >}}) page.
+Create a KKP User cluster by selecting your project on the dashboard and click on "Create Cluster". More details can be found on the official [documentation]({{< ref "../project-and-cluster-management/" >}}) page.
 
 **Step 2**
 
-When the Cluster is ready, check the Pods in the kube-system Namespace to know if any Autoscaler is running.
+When the User cluster is ready, check the pods in the `kube-system` namespace to know if any autoscaler is running.
 
 ![KKP Dashboard](/img/kubermatic/v2.25/tutorials/cluster-autoscaler/kkp-autoscaler-dashboard.png?classes=shadow,border "KKP Dashboard")
 
@@ -43,11 +43,11 @@ kube-proxy-tstvd                   1/1       Running      0           21m
 node-local-dns-4p8jr               1/1       Running      0           21m
 ```
 
-As shown above, the Autoscaler is not part of the running Kubernetes components within the Namespace.
+As shown above, the autoscaler is not part of the running Kubernetes components within the namespace.
 
 **Step 3**
 
-Add the Autoscaler to the Cluster under the addon section on the dashboard by clicking on the Addons and then `Install Addon.`
+Add the Autoscaler to the User cluster under the addon section on the dashboard by clicking on the Addons and then `Install Addon.`
 
 ![Add Addon](/img/kubermatic/v2.25/tutorials/cluster-autoscaler/add-autoscaler-addon.png?classes=shadow,border "Add Addon")
 
@@ -70,7 +70,7 @@ Select install:
 
 **Step 4**
 
-Go over to the cluster and check the Pods in the kube-system Namespace using the `kubectl` command.
+Go over to the cluster and check the pods in the `kube-system` namespace using the `kubectl` command.
 
 ```bash
 $ kubectl get pods -n kube-system
@@ -82,7 +82,7 @@ coredns-666448b887-s8wv8              	1/1     	      Running   	0           36m
 coredns-666448b887-vldzz              	1/1     	      Running  		0           36m
 ```
 
-As shown above, the Autoscaler has been provisioned and running.
+As shown above, the autoscaler has been provisioned and running.
 
 
 ## Annotating MachineDeployments for Autoscaling
@@ -108,7 +108,7 @@ cluster.k8s.io/cluster-api-autoscaler-node-group-min-size - the minimum number o
 cluster.k8s.io/cluster-api-autoscaler-node-group-max-size - the maximum number of replicas
 ```
 
-You can apply the annotations to MachineDeployments once the Cluster is provisioned and the MachineDeployments are created and running by following the steps below.
+You can apply the annotations to MachineDeployments once the User cluster is provisioned and the MachineDeployments are created and running by following the steps below.
 
 **Step 1**
 
@@ -171,7 +171,7 @@ Metadata:
 ……………………
 ```
 
-As shown above, the MachineDeployment has been annotated with a minimum of 1 and a maximum of 5. Therefore, the Autoscaler will consider only the annotated MachineDeployment on the Cluster.
+As shown above, the MachineDeployment has been annotated with a minimum of 1 and a maximum of 5. Therefore, the autoscaler will consider only the annotated MachineDeployment on the cluster.
 
 ## Edit KKP Autoscaler
 
@@ -182,19 +182,19 @@ To edit KKP Autoscaler, click on the three dots in front of the Cluster Autoscal
 
 ## Delete KKP Autoscaler
 
-You can delete Autoscaler from where you edit it above and select delete.
+You can delete autoscaler from where you edit it above and select delete.
 
 ![Delete Autoscaler](/img/kubermatic/v2.25/tutorials/cluster-autoscaler/delete-autoscaler.png?classes=shadow,border "Delete Autoscaler")
 
 
- Once it has been deleted, you can check the Cluster to ensure that the Autoscaler has been deleted using `kubectl get pods -n kube-system` command.
+ Once it has been deleted, you can check the cluster to ensure that the autoscaler has been deleted using the command `kubectl get pods -n kube-system`.
 
 
 ## Summary
 
-That is it! You have successfully deployed a Kubernetes Autoscaler on a KKP Cluster and annotated the desired MachineDeployment, which Autoscaler should consider. Please check the learn more below for more resources on Kubernetes Autoscaler and how to provision a KKP Cluster.
+That is it! You have successfully deployed a Kubernetes Autoscaler on a KKP Cluster and annotated the desired MachineDeployment, which Autoscaler should consider. Please check the learn more below for more resources on Kubernetes Autoscaler and how to provision a KKP User Cluster.
 
 ## Learn More
 
 * Read more on [Kubernetes autoscaler here](https://github.com/kubernetes/autoscaler/blob/main/cluster-autoscaler/FAQ.md#what-is-cluster-autoscaler).
-* You can easily provision a Kubernetes Cluster using [KKP here]({{< relref "../../tutorials-howtos/project-and-cluster-management/" >}})
+* You can easily provision a Kubernetes User Cluster using [KKP here]({{< relref "../../tutorials-howtos/project-and-cluster-management/" >}})
