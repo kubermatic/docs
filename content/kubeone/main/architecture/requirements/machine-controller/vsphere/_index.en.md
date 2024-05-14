@@ -1,18 +1,14 @@
 +++
-title = "VSphere"
+title = "vSphere"
 date = 2018-07-04T12:07:15+02:00
 description = "Learn about the specific requirements of VMware vSphere used by the Kubermatic machine-controller"
 weight = 7
 
 +++
 
-## vSphere
-
-
 {{% notice note %}}
 Permissions listed here are permission required by the Kubermatic machine-controller. Terraform, and components deployed by KubeOne (such as external cloud-controller-manager) might require additional permissions.
 {{% /notice %}}
-
 
 ### VM Images
 

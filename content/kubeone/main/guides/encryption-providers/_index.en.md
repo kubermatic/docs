@@ -34,7 +34,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: k1-cluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 features:
   # enable encryption providers
   encryptionProviders:
@@ -82,7 +82,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: k1-cluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 features:
   # enable encryption providers
   encryptionProviders:
@@ -140,7 +140,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: k1-cluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 features:
   encryptionProviders:
     enable: true
@@ -175,7 +175,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: kms-test
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   aws: {}
 features:

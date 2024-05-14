@@ -222,7 +222,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: bm-cluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   none: {}
 
@@ -260,21 +260,21 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne version | 1.26  | 1.25  | 1.24  | 1.23\* | 1.22\*\* | 1.21\*\* | 1.20\*\* |
-| --------------- | ----- | ----- | ----- | -------- | -------- | -------- | -------- |
-| v1.6            | ✓     | ✓     | ✓     | -        | -        | -        | -        |
-| v1.5            | -     | -     | ✓     | ✓        | ✓        | -        | -        |
-| v1.4            | -     | -     | -     | ✓        | ✓        | ✓        | ✓        |
+| KubeOne \ Kubernetes | 1.30 | 1.29 | 1.28 | 1.27[^1] | 1.26[^2] | 1.25[^2] |
+| -------------------- | ---- | ---- | ---- | -------- | -------- | -------- |
+| v1.8                 | -    | ✓    | ✓    | ✓        | -        | -        |
+| v1.7                 | -    | -    | -    | ✓        | ✓        | ✓        |
 
-\* Kubernetes 1.23 is scheduled to reach End-of-Life (EOL) on 2022-02-28.
-We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
+[^1]: Kubernetes 1.27 will be reaching End-of-Life (EOL) on 2024-06-28.
+We strongly recommend upgrading to a newer Kubernetes release as soon as possible.
 
-\*\* Kubernetes 1.22, 1.21 and 1.20 have reached End-of-Life (EOL). We strongly
-recommend upgrading to a supported Kubernetes release as soon as possible.
+[^2]: Kubernetes 1.26 and 1.25 have reached End-of-Life (EOL) and are not supported
+any longer. We strongly recommend upgrading to a newer supported Kubernetes release
+as soon as possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
-than the latest Kubernetes release. For example, with 1.26 being the latest
-release, we recommend running at least Kubernetes 1.25.
+than the latest Kubernetes release. For example, with 1.30 being the latest
+release, we recommend running at least Kubernetes 1.29.
 
 Now, we're ready to provision the cluster! This is done by running the
 `kubeone apply` command and providing it the configuration manifest.

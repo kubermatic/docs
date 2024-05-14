@@ -282,9 +282,9 @@ csiConfig: |
 
 ### registriesAuth
 
-When using [containerd as container runtime][migrating-to-containerd] it's
-possible to define configurations per registry. This can be useful if you want
-to use private registries, local mirrors or your own Docker Hub account to
+When using containerd as container runtime it's possible to define
+configurations per registry. This can be useful if you want to use
+private registries, local mirrors or your own Docker Hub account to
 increase pull limits.
 
 See the [ContainerRuntimeContainerd reference][containerruntime-containerd] for
@@ -323,5 +323,4 @@ support for sourcing value using the `env:` prefix:
 [cloud-controller-manager]: https://kubernetes.io/docs/concepts/architecture/cloud-controller/
 [machine-controller]: {{< ref "../../architecture/concepts/#kubermatic-machine-controller" >}}
 [containerruntime-containerd]: {{< ref "../../references/kubeone-cluster-v1beta2/#containerruntimecontainerd" >}}
-[migrating-to-containerd]: {{< ref "../../guides/containerd-migration" >}}
 [environment-variables]: {{< ref "#environment-variables" >}}

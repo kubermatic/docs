@@ -13,7 +13,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: 1.25.6
+  kubernetes: 1.29.4
 
 cloudProvider:
   aws: {}

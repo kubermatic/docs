@@ -59,9 +59,6 @@ sudo mv kubeone_${VERSION}_${OS}_amd64/kubeone /usr/local/bin
 
 ## Using package managers
 
-Support for packages managers is still work in progress. For more details
-about the progress follow the [issue #471][package-managers-issue]
-
 ### Arch Linux
 
 KubeOne can be found in the [official Arch Linux repositories][arch-linux].
@@ -73,34 +70,34 @@ pacman -S kubeone
 
 ## Building KubeOne
 
-If you have the Go toolchain configured, you can use `go get` to obtain KubeOne.
+If you have the Go toolchain configured, you can use `go install` to obtain KubeOne.
 
 To get the latest stable release:
 
 ```
-GO111MODULE=on go get k8c.io/kubeone@main
+go install k8c.io/kubeone@latest
 ```
 
-To get other releases, such as alpha, beta, and RC releases, you can provide a
-tag to the `go get` command. Check out the [GitHub Releases][github-tags] for
-the list of available tags.
+To get a specific release, you can replace `latest` with the tag that you
+want to use. Check out the [GitHub Releases][github-tags] for the list of
+available tags.
 
 ```
-GO111MODULE=on go get k8c.io/kubeone@<insert-tag>
+go install k8c.io/kubeone@<tag>
 ```
 
-For releases before v1.0.0-rc.1, you have to use the following `go get`
-command.
+To get the development version (the `main` branch), you can use the following
+command:
 
 ```
-GO111MODULE=on go get github.com/kubermatic/kubeone@<insert-tag>
+go install k8c.io/kubeone@main
 ```
 
 If you already have KubeOne repository cloned, you can use `make`
-to install it.
+to install it.s
 
 ```
-make install
+make
 ```
 
 {{% notice note %}}
@@ -109,7 +106,6 @@ the new features before they are released, note that main branch can
 break at any time or may contain bugs. Official releases are considered
 stable and recommended for the production usage.
 {{% /notice %}}
-
 
 ## Shell completion and generating documentation
 
@@ -155,5 +151,4 @@ kubeone document man -o /tmp/man
 [github-releases]: https://github.com/kubermatic/kubeone/releases
 [github-script]: https://github.com/kubermatic/kubeone/blob/main/install.sh
 [github-tags]: https://github.com/kubermatic/kubeone/tags
-[package-managers-issue]: https://github.com/kubermatic/kubeone/issues/471
-[arch-linux]: https://www.archlinux.org/packages/community/x86_64/kubeone/
+[arch-linux]: https://archlinux.org/packages/extra/x86_64/kubeone/
