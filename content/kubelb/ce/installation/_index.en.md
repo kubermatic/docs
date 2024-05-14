@@ -33,7 +33,7 @@ Now, we can install the helm chart:
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.0.0 --untardir "kubelb-manager" --untar
 ## Create and update values.yaml with the required values.
-helm install kubelb-manager kubelb-manager --namespace kubelb -f values.yaml
+helm install kubelb-manager kubelb-manager/kubelb-manager --namespace kubelb -f values.yaml
 ```
 
 #### Values
@@ -114,7 +114,7 @@ Now, we can install the helm chart:
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.0.0 --untardir "kubelb-ccm" --untar
 ## Create and update values.yaml with the required values.
-helm install kubelb-ccm kubelb-ccm --namespace kubelb -f values.yaml
+helm install kubelb-ccm kubelb-ccm/kubelb-ccm --namespace kubelb -f values.yaml
 ```
 
 #### Values
