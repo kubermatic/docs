@@ -1,5 +1,5 @@
 +++
-title = "Benchmark on Kubernetes 1.27 with KubeOne 1.7.3"
+title = "Benchmark on Kubernetes 1.29 with KubeOne 1.8.0"
 date = 2024-03-06T12:01:00+02:00
 +++
 
@@ -9,7 +9,7 @@ This guide corresponds to the following versions of KubeOne, CIS Benchmarks, and
 
 | KubeOne Version  | Kubernetes Version | CIS Benchmark Version |
 | ---------------- | ------------------ | --------------------- |
-| 1.7.3            | 1.27.10            | CIS-1.8               |
+| 1.8.0               | 1.29.4                 | CIS-1.8                    |
 
 ## Testing Methodology
 
@@ -435,9 +435,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ### 4.1. Worker Node Configuration Files
 #### 4.1.1: Ensure that the kubelet service file permissions are set to 600 or more restrictive (Automated)
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 #### 4.1.2: Ensure that the kubelet service file ownership is set to root:root (Automated)
@@ -481,9 +479,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 4.1.9: If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive (Automated)
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 #### 4.1.10: If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root (Automated)
@@ -524,7 +520,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 ---
 #### 4.2.7: Ensure that the --hostname-override argument is not set (Manual)
 
-**Result:** 🟢 Pass
+**Result:** 🔴 Fail
+
+_The issue is under investigation to provide a fix in a future KubeOne release_
 
 ---
 #### 4.2.8: Ensure that the eventRecordQPS argument is set to a level which ensures appropriate event capture (Manual)
