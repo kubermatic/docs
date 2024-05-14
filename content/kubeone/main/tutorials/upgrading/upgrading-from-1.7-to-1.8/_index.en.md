@@ -69,7 +69,7 @@ the CCM/CSI  migration][ccm-migration].
 
 [ccm-migration]: {{< ref "../../../guides/ccm-csi-migration/" >}}
 
-## ‘kured’ Has Been Removed From the ‘unattended-Upgrades’ Addon
+## ‘kured’ Has Been Removed From the ‘unattended-upgrades’ Addon
 
 As part of our efforts to migrate towards Helm charts for managing addons,
 we removed `kured` from the `unattended-upgrades` addon. `kured` can now
