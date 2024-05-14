@@ -116,7 +116,7 @@ Terraform configs for an existing cluster, you need to take the following steps
 to ensure that your private network is not deleted upon running `terraform apply`:
 
 - Set `ip_range` variable in `terraform.tfvars` to the IP range that you're using
-  currently. By default, `192.168.0.0/16` have been used previously
+  currently. By default, `192.168.0.0/16` has been used previously
 - Run `terraform plan` and make sure that it doesn't intend to remove your private
   network. If everything is okay, you can proceed by running `terraform apply`
 
