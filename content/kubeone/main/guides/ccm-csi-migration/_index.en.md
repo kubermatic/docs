@@ -8,10 +8,8 @@ cloud provider (i.e. created **without** `.cloudProvider.external: true`)
 to external cloud controller managers (CCMs) and CSI drivers. The CCM/CSI
 migration process is currently supported **only** for the following providers:
 
-* AWS
 * Azure
-* OpenStack
-* vSphere
+* GCE
 
 This guide provides the context on:
 
@@ -65,8 +63,8 @@ increased, many problems appeared:
 
 Therefore, it has been decided to **deprecate and remove** in-tree cloud
 providers in favor of external cloud controller managers and CSI drivers.
-It's expected that in-tree cloud providers will be removed latest by Kubernetes
-1.26.
+The in-tree cloud providers are disabled as of Kubernetes 1.29, and
+permanently removed in Kubernetes 1.30.
 
 ### External Cloud Controller Managers (CCMs) and CSI Drivers
 
@@ -109,18 +107,8 @@ Make sure to familiarize yourself with requirements for external CCM and CSI
 drivers. Those requirements are provided by cloud providers and you can usually
 find them in the repositories for each components:
 
-* AWS: there are no special prerequisites for AWS CCM and CSI drivers
 * Azure: there are no special prerequisites for Azure CCM and CSI drivers
-* OpenStack:
-  * [Required OpenStack services and cloudConfig properties for the external
-    CCM][openstack-ccm-reqs]
-  * [Required OpenStack services and cloudConfig properties for the CSI
-    driver][openstack-csi-reqs]
-* vSphere: vSphere 7.0u1 is required for CCM/CSI migration
-  * Make sure to check [the prerequisites for installing the vSphere Container
-    Storage Plug-in][vsphere-csi-reqs] before starting the migration
-  * Make sure to check the [considerations for migration of In-Tree vSphere
-    Volumes][vsphere-csi-considerations] before starting the migration
+* GCE: there are no special prerequisites for Azure CCM and CSI drivers
 
 ## Migrating Your Clusters
 
@@ -136,7 +124,7 @@ external CCM and CSI. For example:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.25.6
+  kubernetes: 1.29.4
 cloudProvider:
   openstack: {}
   external: true
@@ -147,45 +135,11 @@ cloudProvider:
 In addition to that, specific cloud providers might require additional
 configuration.
 
-#### AWS, Azure and OpenStack
+#### Azure and GCE
 
 In general, no addition configuration or changes are needed for Azure and
-OpenStack, but make sure to check the documents linked in the Migration
+GCE, but make sure to check the documents linked in the Migration
 Prerequisites section.
-
-#### vSphere
-
-You should be able to use the same `cloudConfig` for external CCM as you used
-before, but make sure to check the documents linked in the Migration
-Prerequisites section.
-
-However, the vSphere CSI driver has a different configuration file format then
-external CCM, so you have to provide it in your KubeOneCluster manifest similar
-to the `cloudConfig`. The CSI configuration is provided using the `csiConfig`
-field, for example:
-
-```yaml
-apiVersion: kubeone.k8c.io/v1beta2
-kind: KubeOneCluster
-versions:
-  kubernetes: 1.25.6
-cloudProvider:
-  openstack: {}
-  external: true
-  cloudConfig: |
-    ...
-  csiConfig: |
-    ...
-```
-
-Check out the [Create a configuration file with vSphere credentials section of
-the vSphere CSI Installation document][vsphere-csi-config] for more details on
-how to create the configuration file. In general, the configuration file can
-be similar to the `cloudConfig` configuration with the following changes:
-
-* credentials must be provided in plain-text using `user` and `password`
-  instead of `secret-name` and `secret-namespace`
-* the `cluster-id` must be set to the name of the vSphere Cluster resource
 
 ### Phase 1 — Deploying External CCM and CSI Plugin, with in-tree cloud provider enabled
 
@@ -260,9 +214,3 @@ Restoring from a backup in case of recreating the cluster is not an option
 because that might also restore the old configuration and eventually break the
 cluster.
 {{% /notice %}}
-
-[openstack-ccm-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/721615aa256bbddbd481cfb4a887c3ab180c5563/docs/openstack-cloud-controller-manager/using-openstack-cloud-controller-manager.md
-[openstack-csi-reqs]: https://github.com/kubernetes/cloud-provider-openstack/blob/3801bccc264cb75fd8aa0c84785b9385f234c156/docs/cinder-csi-plugin/using-cinder-csi-plugin.md
-[vsphere-csi-reqs]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html
-[vsphere-csi-considerations]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-968D421F-D464-4E22-8127-6CB9FF54423F.html#considerations-for-migration-of-intree-vsphere-volumes-0
-[vsphere-csi-config]: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-BFF39F1D-F70A-4360-ABC9-85BDAFBE8864.html

@@ -33,7 +33,7 @@ kubeone.yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'   ## kubernetes version
+  kubernetes: '1.29.4'   ## kubernetes version
 cloudProvider:  ## This field is sourced automatically if terraform is used for the cluster
   aws: {}
 addons:

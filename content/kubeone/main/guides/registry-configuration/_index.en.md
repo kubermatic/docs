@@ -62,7 +62,7 @@ to use (without the `v` prefix), as well as, replace the `TARGET_REGISTRY` with
 the address to your image registry.
 
 ```
-KUBERNETES_VERSION=1.25.6 TARGET_REGISTRY=127.0.0.1:5000 ./image-loader.sh
+KUBERNETES_VERSION=1.29.4 TARGET_REGISTRY=127.0.0.1:5000 ./image-loader.sh
 ```
 
 The preloading process can take a several minutes, depending on your
@@ -77,7 +77,7 @@ stanza to your KubeOne configuration file, such as:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.25.6
+  kubernetes: 1.29.4
 cloudProvider:
   aws: {}
 registryConfiguration:
