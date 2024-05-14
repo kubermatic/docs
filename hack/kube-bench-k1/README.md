@@ -8,7 +8,7 @@ kube-bench is deployed on the master node, and run this way:
 # make sure you run those commands as root user:
 mkdir /root/kube-bench
 cd /root/kube-bench
-VERSION="0.7.2"
+VERSION="0.7.3"
 
 curl -L https://github.com/aquasecurity/kube-bench/releases/download/v${VERSION}/kube-bench_${VERSION}_linux_amd64.tar.gz \
   -o kube-bench_${VERSION}_linux_amd64.tar.gz
