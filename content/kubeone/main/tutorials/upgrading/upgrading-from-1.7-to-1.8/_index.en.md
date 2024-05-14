@@ -123,7 +123,7 @@ to ensure that your private network is not deleted upon running `terraform apply
 ## Precedence of Credentials Defined in the Credentials File
 
 Previously, the credentials defined via environment variables had the top priority.
-This is however in contrary with what we have documented and what is expected from
+However this stands in contrast to our documentation and user-expectations of
 the credentials file feature.
 
 This has been fixed in KubeOne 1.8, so that the credentials file (if provided) has
