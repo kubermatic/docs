@@ -100,7 +100,7 @@ chart documentation linked above.
 
 The example Terraform configs for Azure are refactored to use the Standard SKU
 Load Balancers instead of Basic SKU LBs. The Basic SKU Load Balancers are
-deprecated, and it's strongly recommended to use Standard SKU LBs for new
+deprecated and it's strongly recommended to use Standard SKU LBs for new
 clusters.
 
 Existing clusters should continue using the SKU they use at the moment,
