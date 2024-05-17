@@ -36,7 +36,7 @@ spec:
 [...]
 ```
 
-The updated OSM version will be included in the next patch release (2.23.4).
+The updated OSM version will be included in the next patch release (2.25.4).
 
 For custom OSPs the following change is relevant:
 
