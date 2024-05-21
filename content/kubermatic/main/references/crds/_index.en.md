@@ -1964,8 +1964,8 @@ to create limits on Kubernetes event generation. The EventRateLimit plugin is ca
 | `enableUserSSHKeyAgent` _boolean_ | Optional: Deploys the UserSSHKeyAgent to the user cluster. This field is immutable.
 If enabled, the agent will be deployed and used to sync user ssh keys attached by users to the cluster.
 No SSH keys will be synced after node creation if this is disabled. |
-| `enableOperatingSystemManager` _boolean_ | Optional: Enables operating-system-manager (OSM), which is responsible for creating and managing worker node configuration.
-This field is enabled(true) by default. |
+| `enableOperatingSystemManager` _boolean_ | Deprecated: EnableOperatingSystemManager has been deprecated starting with KKP 2.26 and will be removed in KKP 2.28+. This field is no-op and OSM is always enabled for user clusters.
+OSM is responsible for creating and managing worker node configuration. |
 | `kubelb` _[KubeLB](#kubelb)_ | KubeLB holds the configuration for the kubeLB component.
 Only available in Enterprise Edition. |
 | `kubernetesDashboard` _[KubernetesDashboard](#kubernetesdashboard)_ | KubernetesDashboard holds the configuration for the kubernetes-dashboard component. |
