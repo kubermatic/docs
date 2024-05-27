@@ -4736,6 +4736,8 @@ data. This port is never exposed from the container and only available via port-
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#resourcerequirements-v1-core)_ | Resources describes the requested and maximum allowed CPU/memory usage. |
 | `debugLog` _boolean_ | DebugLog enables more verbose logging. |
 | `replicas` _integer_ | Replicas sets the number of pod replicas for the seed-controller-manager. |
+| `disabledCollectors` _[MetricsCollector](#metricscollector) array_ | DisabledCollectors contains a list of metrics collectors that should be disabled.
+Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None". |
 
 
 [Back to top](#top)
@@ -5358,6 +5360,18 @@ MeteringReportFormat maps directly to the values supported by the kubermatic-met
 
 _Appears in:_
 - [MeteringReportConfiguration](#meteringreportconfiguration)
+
+
+
+### MetricsCollector
+
+_Underlying type:_ `string`
+
+MetricsCollector is the name of an available metrics collector.
+
+_Appears in:_
+- [KubermaticSeedControllerConfiguration](#kubermaticseedcontrollerconfiguration)
+- [SeedSpec](#seedspec)
 
 
 
@@ -6649,6 +6663,8 @@ if this is set, the new backup/restore controllers are enabled for this Seed. |
 | `oidcProviderConfiguration` _[OIDCProviderConfiguration](#oidcproviderconfiguration)_ | OIDCProviderConfiguration allows to configure OIDC provider at the Seed level. |
 | `kubelb` _[KubeLBSettings](#kubelbsettings)_ | KubeLB holds the configuration for the kubeLB at the Seed level. This component is responsible for managing load balancers.
 Only available in Enterprise Edition. |
+| `disabledCollectors` _[MetricsCollector](#metricscollector) array_ | DisabledCollectors contains a list of metrics collectors that should be disabled.
+Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None". |
 
 
 [Back to top](#top)
