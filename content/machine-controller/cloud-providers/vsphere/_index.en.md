@@ -30,7 +30,7 @@ To see where to locate the OVAs go to the OS specific section.
 1. Click through the dialog until "Select storage"
 1. Select the same storage you want to use for your machines
 1. Select the same network you want to use for your machines
-1. Leave everyhting in the "Customize Template" and "Ready to complete" dialog as it is
+1. Leave everything in the "Customize Template" and "Ready to complete" dialog as it is
 1. Wait until the VM got fully imported and the "Snapshots" => "Create Snapshot" button is not grayed out anymore
 
 #### Command-line procedure
@@ -232,7 +232,7 @@ networks:
   - network1
 # Optional
 folder: folder1
-# Optional: Force VMs to be provisoned to the specified resourcePool
+# Optional: Force VMs to be provisioned to the specified resourcePool
 # Default is to use the resourcePool of the template VM
 # example: kubeone or /DC/host/Cluster01/Resources/kubeone
 resourcePool: kubeone
