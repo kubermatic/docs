@@ -69,6 +69,7 @@ machine-controller:
   name: machine-controller
   title: machine-controller
   textName: machine-controller
+  description: Manage machines at cloud providers using a declarative Kubernetes API, compatible with the Kubernetes cluster-autoscaler.
   weight: 4
   shareImage: img/share-machine-controller.png
 operatingsystemmanager:
