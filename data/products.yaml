@@ -65,13 +65,20 @@ kubeone:
       name: v1.2
     - release: v1.0
       name: v1.0
+machine-controller:
+  name: machine-controller
+  logo: "/img/machine-controller/common/operating-system-manager-logo.png"
+  title: machine-controller
+  textName: machine-controller
+  weight: 4
+  shareImage: img/Docs-OSM-share.jpg
 operatingsystemmanager:
   name: operatingsystemmanager
   logo: "/img/operatingsystemmanager/common/operating-system-manager-logo.png"
   title: Operating System Manager
   textName: Operating System Manager
   description: Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster.
-  weight: 4
+  weight: 5
   shareImage: img/share-operatingsystemmanager.png
 kubelb:
   name: kubelb
@@ -79,7 +86,7 @@ kubelb:
   title: KubeLB
   textName: KubeLB
   description: KubeLB is a tool to centrally manage load balancers across multicloud and on-prem environments.
-  weight: 5
+  weight: 6
   shareImage: img/share-kubelb.png
   versions:
     - release: main
