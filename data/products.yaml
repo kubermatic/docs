@@ -67,11 +67,10 @@ kubeone:
       name: v1.0
 machine-controller:
   name: machine-controller
-  logo: "/img/machine-controller/common/operating-system-manager-logo.png"
   title: machine-controller
   textName: machine-controller
   weight: 4
-  shareImage: img/Docs-OSM-share.jpg
+  shareImage: img/share-machine-controller.png
 operatingsystemmanager:
   name: operatingsystemmanager
   logo: "/img/operatingsystemmanager/common/operating-system-manager-logo.png"
