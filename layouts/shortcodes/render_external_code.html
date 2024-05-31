@@ -1,0 +1,6 @@
+{{- $urlToRender := .Get 0 -}}
+{{- with resources.GetRemote $urlToRender (dict "headers" (dict "Cache-Control" "no-cache")) -}}
+  {{- .Content | safeHTML -}}
+{{- else -}}
+  {{- errorf "Unable to get remote resource %q" (.Get 0) -}}
+{{- end -}}
