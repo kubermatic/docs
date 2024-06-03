@@ -1893,7 +1893,9 @@ Defaults to "ipvs". "ebpf" disables kube-proxy and requires CNI support. |
 | `ipvs` _[IPVSConfiguration](#ipvsconfiguration)_ | IPVS defines kube-proxy ipvs configuration options |
 | `nodeLocalDNSCacheEnabled` _boolean_ | NodeLocalDNSCacheEnabled controls whether the NodeLocal DNS Cache feature is enabled.
 Defaults to true. |
-| `coreDNSReplicas` _integer_ | CoreDNSReplicas is the number of desired pods of user cluster coredns deployment. |
+| `coreDNSReplicas` _integer_ | CoreDNSReplicas is the number of desired pods of user cluster coredns deployment.
+Deprecated: This field should not be used anymore, use cluster.componentsOverride.coreDNS.replicas
+instead. Only one of the two fields can be set at any time. |
 | `konnectivityEnabled` _boolean_ | Deprecated: KonnectivityEnabled enables konnectivity for controlplane to node network communication.
 Konnectivity is the only supported choice for controlplane to node network communication. This field is
 defaulted to true and setting it to false is rejected. It will be removed in a future release. |
@@ -2227,6 +2229,7 @@ strategy is configured. |
 | `konnectivityProxy` _[KonnectivityProxySettings](#konnectivityproxysettings)_ | KonnectivityProxy configures konnectivity-server and konnectivity-agent components. |
 | `userClusterController` _[ControllerSettings](#controllersettings)_ | UserClusterController configures the KKP usercluster-controller deployed as part of the cluster control plane. |
 | `operatingSystemManager` _[ControllerSettings](#controllersettings)_ | OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller). |
+| `coreDNS` _[DeploymentSettings](#deploymentsettings)_ | CoreDNS configures CoreDNS deployed as part of the cluster control plane. |
 
 
 [Back to top](#top)
@@ -2967,6 +2970,7 @@ _Appears in:_
 
 _Appears in:_
 - [APIServerSettings](#apiserversettings)
+- [ComponentSettings](#componentsettings)
 - [ControllerSettings](#controllersettings)
 
 | Field | Description |
