@@ -1568,6 +1568,17 @@ _Appears in:_
 
 
 
+### BaremetalCloudSpec
+
+
+
+BaremetalCloudSpec specifies access data for a baremetal cluster.
+
+_Appears in:_
+- [CloudSpec](#cloudspec)
+
+
+
 ### BringYourOwnCloudSpec
 
 
@@ -1661,6 +1672,7 @@ this cluster should be deployed into. |
 This must match the given provider spec (e.g. if the providerName is
 "aws", then the `aws` field must be set). |
 | `digitalocean` _[DigitaloceanCloudSpec](#digitaloceancloudspec)_ | Digitalocean defines the configuration data of the DigitalOcean cloud provider. |
+| `baremetal` _[BaremetalCloudSpec](#baremetalcloudspec)_ | Baremetal defines the configuration data for a Baremetal cluster. |
 | `bringyourown` _[BringYourOwnCloudSpec](#bringyourowncloudspec)_ | BringYourOwn defines the configuration data for a Bring Your Own cluster. |
 | `edge` _[EdgeCloudSpec](#edgecloudspec)_ | Edge defines the configuration data for an edge cluster. |
 | `aws` _[AWSCloudSpec](#awscloudspec)_ | AWS defines the configuration data of the Amazon Web Services(AWS) cloud provider. |
@@ -2561,6 +2573,7 @@ _Appears in:_
 | `digitalocean` _[DatacenterSpecDigitalocean](#datacenterspecdigitalocean)_ | Digitalocean configures a Digitalocean datacenter. |
 | `bringyourown` _[DatacenterSpecBringYourOwn](#datacenterspecbringyourown)_ | BringYourOwn contains settings for clusters using manually created
 nodes via kubeadm. |
+| `baremetal` _[DatacenterSpecBaremetal](#datacenterspecbaremetal)_ | Baremetal contains settings for baremetal clusters in datacenters. |
 | `edge` _[DatacenterSpecEdge](#datacenterspecedge)_ | Edge contains settings for clusters using manually created
 nodes in edge envs. |
 | `aws` _[DatacenterSpecAWS](#datacenterspecaws)_ | AWS configures an Amazon Web Services (AWS) datacenter. |
@@ -2678,6 +2691,17 @@ found at https://azure.microsoft.com/en-us/global-infrastructure/locations/ |
 
 
 [Back to top](#top)
+
+
+
+### DatacenterSpecBaremetal
+
+
+
+DatacenterSpecBaremetal describes a datacenter of baremetal nodes.
+
+_Appears in:_
+- [DatacenterSpec](#datacenterspec)
 
 
 
