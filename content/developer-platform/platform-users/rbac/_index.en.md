@@ -1,6 +1,6 @@
 +++
 title = "RBAC"
-weight = 2
+weight = 3
 +++
 
 # RBAC in KDP
