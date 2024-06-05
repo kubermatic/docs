@@ -125,12 +125,13 @@ instead used a Secret. This would mean there 1 related resource and the service 
 called `connection-details`.
 
 For every related resource, there will be an annotation on the original object, named
-`servlet.kdp.k8c.io/related/<name>`, the value being a JSON document of this structure:
+`related-resources.kdp.k8c.io/<name>`, the value being a JSON document of this structure:
 
 ```json
 {
   "name": "<name of the related object>",
   "namespace": "<namespace of the related object (field is omitted for Cluster-scoped objects)>",
+  "apiVersion": "<Kubernetes API group and version, e.g. v1>",
   "kind": "<Kubernetes kind of the related object, e.g. Secret>"
 }
 ```
@@ -144,7 +145,7 @@ metadata:
   name: prod1
   namespace: example-app
   annotations:
-    servlet.kdp.k8c.io/related/connection-details: '{"name":"prod1-credentials","namespace":example-app","kind":"Secret"}'
+    related-resources.kdp.k8c.io/connection-details: '{"name":"prod1-credentials","namespace":example-app","apiVersion":"v1","kind":"Secret"}'
   uid: 1234-5678
   resourceVersion: 1
 spec:
