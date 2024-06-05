@@ -106,8 +106,6 @@ Example specs for different providers:
           ubuntu: "ami-07e101c2aebc37691"
           # Must be CentOS 7, defaults to https://aws.amazon.com/marketplace/pp/B00O7WM7QW
           centos: "ami-02eac2c0129f6376b"
-          # CoreOS Container Linux, defaults to https://coreos.com/os/docs/latest/booting-on-ec2.html
-          coreos: "ami-08e58b93705fb503f"
         # Region to use for nodes
         region: us-east-1
 

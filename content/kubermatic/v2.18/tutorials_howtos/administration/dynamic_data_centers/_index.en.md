@@ -108,8 +108,6 @@ Example specs for different providers:
           ubuntu: "ami-07e101c2aebc37691"
           # Must be CentOS 7, defaults to https://aws.amazon.com/marketplace/pp/B00O7WM7QW
           centos: "ami-02eac2c0129f6376b"
-          # CoreOS Container Linux, defaults to https://coreos.com/os/docs/latest/booting-on-ec2.html
-          coreos: "ami-08e58b93705fb503f"
         # Region to use for nodes
         region: us-east-1
 
@@ -187,7 +185,7 @@ Example specs for different providers:
     spec:
       alibaba:
         region: "eu1"
-    
+
   #==================================
   #============= Anexia ============
   #==================================
@@ -209,7 +207,7 @@ Datacenters are a part of the Seed resource and need to be managed by an Kuberma
 
 The EE offers 2 different ways to manage the datacenters. One way is using the dynamic datacenters feature through which
 admins can manage Datacenters on Seeds through API/UI. This is the preferred and recommended way. The other way is through the
-`datacenter.yaml` file which needs to be provided to the Kubermatic API server. 
+`datacenter.yaml` file which needs to be provided to the Kubermatic API server.
 
 ### Dynamic Datacenters
 
@@ -243,9 +241,9 @@ To delete the datacenter, just click on the trash icon in the admin panel:
 
 ### Management through static files - datacenter.yaml
 
-This option is activated by setting the `datacenters` flag on the Kubermatic API server and providing the path to the `datacenters.yaml` file. 
+This option is activated by setting the `datacenters` flag on the Kubermatic API server and providing the path to the `datacenters.yaml` file.
 
-In this option all the Seeds and datacenters used in KKP will be taken from this file, Seed objects in the cluster won't have any effect. 
+In this option all the Seeds and datacenters used in KKP will be taken from this file, Seed objects in the cluster won't have any effect.
 
 Example file:
 
@@ -331,6 +329,3 @@ datacenters:
         # Digitalocean region for the nodes
         region: ams2
 ```
-
-
-

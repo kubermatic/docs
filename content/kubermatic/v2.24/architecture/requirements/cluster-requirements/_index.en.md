@@ -6,28 +6,32 @@ weight = 15
 +++
 
 ## Master Cluster
+
 The Master Cluster hosts the KKP components and might also act as a seed cluster and host the master components of user clusters (see [Architecture]({{< ref "../../../architecture/">}})). Therefore, it should run in a highly-available setup with at least 3 master nodes and 3 worker nodes.
 
 **Minimal Requirements:**
+
 * Six or more machines running one of:
   * Ubuntu 20.04+
   * Debian 10
-  * CentOS 7
+  * Flatcar
   * RHEL 7
-  * Container Linux (tested with 1576.4.0)
+  * Flatcar
 * 4 GB or more of RAM per machine (any less will leave little room for your apps)
 * 2 CPUs or more
 
 ## User Cluster
+
 The User Cluster is a Kubernetes cluster created and managed by KKP. The exact requirements may depend on the type of workloads that will be running in the user cluster.
 
 **Minimal Requirements:**
+
 * One or more machines running one of:
-  * Ubuntu 20.04+
+  * Flatcar
   * Debian 10
   * CentOS 7
   * RHEL 7
-  * Container Linux (tested with 1576.4.0)
+  * Flatcar
 * 2 GB or more of RAM per machine (any less will leave little room for your apps)
 * 2 CPUs or more
 * Full network connectivity between all machines in the cluster (public or private network is fine)
