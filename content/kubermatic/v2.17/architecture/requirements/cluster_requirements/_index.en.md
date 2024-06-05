@@ -16,7 +16,7 @@ The Master Cluster hosts the KKP components and might also act as a seed cluster
   * Debian 9
   * CentOS 7
   * RHEL 7
-  * Container Linux (tested with 1576.4.0)
+  * Flatcar
 * 4 GB or more of RAM per machine (any less will leave little room for your apps)
 * 2 CPUs or more
 
@@ -29,7 +29,7 @@ The User Cluster is a Kubernetes cluster created and managed by KKP. The exact r
   * Debian 9
   * CentOS 7
   * RHEL 7
-  * Container Linux (tested with 1576.4.0)
+  * Flatcar
 * 2 GB or more of RAM per machine (any less will leave little room for your apps)
 * 2 CPUs or more
 * Full network connectivity between all machines in the cluster (public or private network is fine)
