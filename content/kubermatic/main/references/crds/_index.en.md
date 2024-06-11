@@ -6189,6 +6189,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ | Name is the human-readable name given to the project. |
+| `allowedOperatingSystems` _[allowedOperatingSystems](#allowedoperatingsystems)_ | AllowedOperatingSystems defines a map of operating systems that can be used for the machines inside this project. |
 
 
 [Back to top](#top)
