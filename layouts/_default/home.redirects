@@ -22,6 +22,7 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 
 # redirect page with duplicate content to backups tutorial page
 /kubermatic/v2.23/cheat-sheets/etcd/backup-and-restore /kubermatic/v2.23/tutorials-howtos/etcd-backups/ 301!
+/kubecarrier/* / 301!
 
 {{- /* # Generate the redirects to stable version of the products */ -}}
 {{- $products := .Site.Data.products -}}
