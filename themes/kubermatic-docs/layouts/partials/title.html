@@ -1,6 +1,6 @@
 {{$titleSuffix := .Site.Params.titleSuffix}}
 
-{{$sectionTitlesMap := dict "kubermatic" "KKP" "kubeone" "KubeOne" "kubecarrier" "KubeCarrier"}}
+{{$sectionTitlesMap := dict "kubermatic" "KKP" "kubeone" "KubeOne" "operatingsystemmanager" "OSM" "kubelb" "KubeLB"}}
 {{with index $sectionTitlesMap .Page.Section}}
   {{$titleSuffix = print . " Documentation"}}
 {{end}}
