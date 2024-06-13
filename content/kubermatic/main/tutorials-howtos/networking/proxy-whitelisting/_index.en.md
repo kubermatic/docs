@@ -196,7 +196,7 @@ quay.io/kubevirt/virt-operator
 #MetalLB
 quay.io/metallb/speaker
 
-#Bakup
+#Backup
 quay.io/minio/mc
 quay.io/minio/minio
 ```
