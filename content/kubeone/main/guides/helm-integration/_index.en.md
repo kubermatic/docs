@@ -24,7 +24,7 @@ helmReleases:
     # chart is a required field, simply a chart name to deploy
     chart: kube-state-metrics
 
-    # where to find the chart, chan be a remote server or local directory.
+    # where to find the chart, can be a remote server.
     # --repo flag of the `helm upgrade` command.
     repoURL: https://prometheus-community.github.io/helm-charts
 
@@ -36,6 +36,12 @@ helmReleases:
     # recommended, but version can be omitted. --version flag of the
     # `helm upgrade` command.
     version: 4.22.3
+
+    # Wait is --wait flag of the `helm install` command.
+    wait: true
+
+    # Timeout is --timeout flag of the `helm install` command.
+    timeout: 5m20s
 
     # provide optional overrides for chart values, --values flag of the
     # `helm upgrade` command
