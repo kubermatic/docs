@@ -44,7 +44,7 @@ what the service is about.
 ### Via API
 
 It is of course also possible to create services from the kcp API directly via `kubectl` or similar tools
-(useful when the service should e.g. managed via GitOps). Here is an example YAML specification:
+(useful when the service should be managed via GitOps, for example). Here is an example YAML specification:
 
 ```yaml
 apiVersion: core.kdp.k8c.io/v1alpha1
