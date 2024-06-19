@@ -25,7 +25,7 @@ for more information from the standpoint of Service Consumers (i.e. endusers).
 Login to the KDP Dashboard and navigate to the organization where the Service should be available
 (generally, Services can be consumed from any other workspace). Choose the "Create Service" option.
 
-![Service Creation Wizard](/img/developer-platform/common/service-creation-wizard.png)
+![Service Creation Wizard](service-creation-wizard.png?classes=shadow,border&height=200 "Service Creation Wizard")
 
 First, choose a **title**. This is a "human readable" name for your Service and will be shown to potential
 consumers in the service catalog. Next, choose a unique **API group**. API groups are DNS-style names,
@@ -85,11 +85,11 @@ by the KDP Servlet, the component installed by service owners into the service c
 
 The generated kubeconfig is available from the service's context menu in the Dashboard.
 
-![Service Context Menu](/img/developer-platform/common/service-context-menu.png)
+![Service Context Menu](service-context-menu.png?classes=shadow,border&height=200 "Service Context Menu")
 
 Click "kubeconfig" to inspect and download the kubeconfig:
 
-![Kubeconfig View](/img/developer-platform/common/kubeconfig-view.png)
+![Kubeconfig View](kubeconfig-view.png?classes=shadow,border&height=200 "Kubeconfig View")
 
 You can also use `kubectl` to navigate into your workspace and inspect your Service object.
 In `spec.kubeconfig` you will find the name of the kubeconfig Secret that you can use for your Servlet.
