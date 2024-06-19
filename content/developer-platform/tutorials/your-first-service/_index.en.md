@@ -25,9 +25,55 @@ for more information from the standpoint of Service Consumers (i.e. endusers).
 Login to the KDP Dashboard and navigate to the organization where the Service should be available
 (generally, Services can be consumed from any other workspace). Choose the "Create Service" option.
 
-To define a new service you must choose (i.e. make up) a unique API Group and can then also specify
-a more descriptive name and a short description for your service. All of these will help platform
-users find and consume the service later.
+![Service Creation Wizard](service-creation-wizard.png?classes=shadow,border&height=200 "Service Creation Wizard")
+
+First, choose a **title**. This is a "human readable" name for your Service and will be shown to potential
+consumers in the service catalog. Next, choose a unique **API group**. API groups are DNS-style names,
+so it is recommended to choose a sub-domain of a DNS name you actually control
+(e.g. `databases.services.kubermatic.com`).
+
+You must also choose the location to which the **servlet kubeconfig** secret is written.
+This secret is required to set up the Servlet later.
+
+The service creation wizard also offers several optional metadata fields that will help service consumers
+understand what kind of services are offered. You can (optionally) provide a **documentation link** which
+will be shown to consumers as a way to discover more information about the service, a **logo** which will
+be displayed alongside the service in the service catalog and a markdown-capable **description** to convey
+what the service is about.
+
+### Via API
+
+It is of course also possible to create services from the kcp API directly via `kubectl` or similar tools
+(useful when the service should be managed via GitOps, for example). Here is an example YAML specification:
+
+```yaml
+apiVersion: core.kdp.k8c.io/v1alpha1
+kind: Service
+metadata:
+  name: sample.example.com
+spec:
+  apiGroup: sample.example.com
+  catalogMetadata:
+    description: This is a sample service.
+    documentationURL: ""
+    title: sample-service
+  kubeconfig:
+    name: sample-servlet-kubeconfig
+    namespace: default
+```
+
+This can be applied with `kubectl` in your organization workspace. 
+
+```sh
+$ kubectl ws :root:my-org       # switch to your workspace
+$ kubectl apply -f service.yaml
+```
+
+Use the following command to explore the full schema for `Service` objects:
+
+```sh
+$ kubectl explain --api-version=core.kdp.k8c.io/v1alpha1 service
+```
 
 This concludes all required steps to define the new service. Click on the confirm button to create
 the Service.
@@ -37,9 +83,16 @@ the Service.
 Once the service is created, KDP will provision a kubeconfig. This kubeconfig is meant to be used
 by the KDP Servlet, the component installed by service owners into the service cluster.
 
-(TODO: Make this kubeconfig available via the KDP Dashboard.) You can also use `kubectl` to navigate
-into your workspace and inspect your Service object. In `spec.kubeconfig` you will find the name of
-the kubeconfig Secret that you can use for your Servlet.
+The generated kubeconfig is available from the service's context menu in the Dashboard.
+
+![Service Context Menu](service-context-menu.png?classes=shadow,border&height=200 "Service Context Menu")
+
+Click "kubeconfig" to inspect and download the kubeconfig:
+
+![Kubeconfig View](kubeconfig-view.png?classes=shadow,border&height=200 "Kubeconfig View")
+
+You can also use `kubectl` to navigate into your workspace and inspect your Service object.
+In `spec.kubeconfig` you will find the name of the kubeconfig Secret that you can use for your Servlet.
 
 Now switch your focus to your own cluster, where your business logic happens (for example where
 Crossplane runs). For your Service you need to provide exactly _one_ Servlet in _one_ Kubernetes
