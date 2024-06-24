@@ -9,10 +9,11 @@ items:
             url: /products/kubermatic-kubernetes-platform/
             text: Automated hybrid & multicloud Kubernetes for enterprise demands
             panel:
+              image: /img/menu/kubermatic-kubernetes-platform.jpg
               columns:
                 - column:
                     - title: Edge
-                      url: /products/kubermatic-kubernetes-platform/edge/
+                      url: /products/kubermatic-kubernetes-platform/industry-edge/
                       class: menu-item--bold menu-column-link--tall
                     - title: VMware vSphere
                       url: /products/kubermatic-kubernetes-platform/edge/#vmware-vsphere
@@ -62,27 +63,6 @@ items:
                       url: /products/kubermatic-kubernetes-platform/cloud/#equinix-metal
                     - title: KubeVirt
                       url: /products/kubermatic-kubernetes-platform/cloud/#kubevirt
-              banner:
-                image:
-                  src: /img/menu/kkp-features.svg
-                  alt: People analyzing data
-                title: Accelerate with Kubermatic Kubernetes Platform
-                links:
-                - title: Features
-                  url: /products/kubermatic-kubernetes-platform/features/
-                  icon:
-                    src: /img/icons/star-icon.svg
-                    alt: Star icon
-                - title: Why Kubermatic
-                  url: /products/kubermatic-kubernetes-platform/why-kubermatic/
-                  icon:
-                    src: /img/icons/list-icon.svg
-                    alt: List icon
-                - title: Technology Integrations
-                  url: /products/kubermatic-kubernetes-platform/why-kubermatic/#integrations
-                  icon:
-                    src: /img/icons/network-icon.svg
-                    alt: Network icon
           - title: Kubermatic KubeOne
             url: /products/kubermatic-kubeone/
             text: Installation and support for your single Kubernetes cluster
@@ -129,8 +109,14 @@ items:
                       url: /products/kubermatic-kubeone/cloud/#digitalocean
                     - title: Equinix Metal
                       url: /products/kubermatic-kubeone/cloud/#equinix-metal
-      - title: Services
-        items:
+          - title: Kubermatic KubeLB
+            url: /products/kubelb/
+            text: Cloud Native Multi-Tenant Load Balancing
+            noArrowIcon: true
+            panel:
+              image: /img/menu/kubelb.jpg
+              columns:
+                - column:
           - title: Kubermatic Kubernetes Subscription
             url: /products/kubermatic-kubernetes-subscription/
             text: Upstream Kubernetes support
@@ -224,119 +210,9 @@ items:
                       url: /products/managed-kubermatic-kubernetes-platform/cloud/#digitalocean
                     - title: Equinix Metal
                       url: /products/managed-kubermatic-kubernetes-platform/cloud/#equinix-metal
-          - title: Managed Kubermatic KubeOne
-            url: /products/managed-kubermatic-kubeone/
-            text: Manage your clusters with ease and confidence
-            panel:
-              image: /img/menu/managed-kubermatic-kubeone.jpeg
-              columns:
-                - column:
-                    - title: Edge
-                      url: /products/managed-kubermatic-kubeone/edge/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: VMware vSphere
-                      url: /products/managed-kubermatic-kubeone/edge/#vmware-vsphere
-                    - title: Static BareMetal
-                      url: /products/managed-kubermatic-kubeone/edge/#static-baremetal
-                    - title: ARM
-                      url: /products/managed-kubermatic-kubeone/edge/#arm
-                - column:
-                    - title: On-Prem
-                      url: /products/managed-kubermatic-kubeone/onprem/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: VMware vSphere
-                      url: /products/managed-kubermatic-kubeone/onprem/#vmware-vsphere
-                    - title: OpenStack
-                      url: /products/managed-kubermatic-kubeone/onprem/#openstack
-                    - title: Static BareMetal
-                      url: /products/managed-kubermatic-kubeone/onprem/#static-baremetal
-                - column:
-                    - title: Cloud
-                      url: /products/managed-kubermatic-kubeone/cloud/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: AWS
-                      url: /products/managed-kubermatic-kubeone/cloud/#aws
-                    - title: Azure
-                      url: /products/managed-kubermatic-kubeone/cloud/#azure
-                    - title: Google Cloud
-                      url: /products/managed-kubermatic-kubeone/cloud/#google-cloud
-                    - title: Open Telekom Cloud
-                      url: /products/managed-kubermatic-kubeone/cloud/#open-telekom-cloud
-                    - title: Alibaba Cloud
-                      url: /products/managed-kubermatic-kubeone/cloud/#alibaba-cloud
-                    - title: Hetzner Cloud
-                      url: /products/managed-kubermatic-kubeone/cloud/#hetzner-cloud
-                    - title: DigitalOcean
-                      url: /products/managed-kubermatic-kubeone/cloud/#digitalocean
-                    - title: Equinix Metal
-                      url: /products/managed-kubermatic-kubeone/cloud/#equinix-metal
-          - title: Managed Custom Kubernetes
-            url: /products/managed-custom-kubernetes/
-            text: Fully managed Kubernetes services for your business critical applications
-            panel:
-              image: /img/menu/managed-custom-kubernetes.jpeg
-              columns:
-                - column:
-                    - title: Edge
-                      url: /products/managed-custom-kubernetes/edge/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: VMware vSphere
-                      url: /products/managed-custom-kubernetes/edge/#vmware-vsphere
-                    - title: Static BareMetal
-                      url: /products/managed-custom-kubernetes/edge/#static-baremetal
-                    - title: Dynamic BareMetal
-                      url: /products/managed-custom-kubernetes/edge/#dynamic-baremetal
-                    - title: ARM
-                      url: /products/managed-custom-kubernetes/edge/#arm
-                - column:
-                    - title: On-Prem
-                      url: /products/managed-custom-kubernetes/onprem/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: VMware vSphere
-                      url: /products/managed-custom-kubernetes/onprem/#vmware-vsphere
-                    - title: Nutanix
-                      url: /products/managed-custom-kubernetes/onprem/#nutanix
-                    - title: OpenStack
-                      url: /products/managed-custom-kubernetes/onprem/#openstack
-                    - title: Static BareMetal
-                      url: /products/managed-custom-kubernetes/onprem/#static-baremetal
-                    - title: Dynamic BareMetal
-                      url: /products/managed-custom-kubernetes/onprem/#dynamic-baremetal
-                - column:
-                    - title: Cloud
-                      url: /products/managed-custom-kubernetes/cloud/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: AWS
-                      url: /products/managed-custom-kubernetes/cloud/#aws
-                    - title: Azure
-                      url: /products/managed-custom-kubernetes/cloud/#azure
-                    - title: Google Cloud
-                      url: /products/managed-custom-kubernetes/cloud/#google-cloud
-                    - title: Open Telekom Cloud
-                      url: /products/managed-custom-kubernetes/cloud/#open-telekom-cloud
-                    - title: Alibaba Cloud
-                      url: /products/managed-custom-kubernetes/cloud/#alibaba-cloud
-                    - title: Hetzner
-                      url: /products/managed-custom-kubernetes/cloud/#hetzner
-                    - title: DigitalOcean
-                      url: /products/managed-custom-kubernetes/cloud/#digitalocean
-                    - title: Equinix Metal
-                      url: /products/managed-custom-kubernetes/cloud/#equinix-metal
-  - title: Services
-    url: /services/
-    sections:
-      - items:
-          - title: Accelerators
-            url: /services/accelerators/
-            text: Bring your cloud native stack into production
-          - title: Trainings
-            url: /services/trainings/
-            text: Advance your in-house expertise
-          - title: Fundamentals
-            url: /services/fundamentals/
-            text: Set the basis for your successful cloud native journey
   - title: Solutions
     url: /solutions/hybrid-multi-cloud/
+    hide: true
     sections:
       - items:
           - title: IT Landscape Modernization
@@ -357,6 +233,9 @@ items:
           - title: Kubernetes for 5G
             url: /solutions/5g/
             text: Run 5G from the data center to the cloud to the edge
+  - title: Services
+    url: /services/
+    footer: false
   - title: Customers
     url: /customers/
     footer: false
@@ -364,13 +243,10 @@ items:
     url: /resources/
     sections:
       - items:
-          - title: Resource Library
-            url: /resources/
-          - title: Events
-            url: /events/
-          - footer: false
-            title: Topics
-            url: /topics/
+        - title: Resource Library
+          url: /resources/
+        - title: Cloud Native Topics
+          url: /topics/
   - title: Community
     url: /company/community/
     sections:
@@ -379,12 +255,10 @@ items:
             url: /company/community/#projects
           - title: Contribution
             url: /company/community/#ossprojects
-          - title: Discussions
-            url: /company/community/#discussions
           - title: Meetups
             url: /company/community/#locations
-          - title: Conferences
-            url: /company/community/#conferences
+          - title: Events
+            url: /company/community/#events
   - title: Company
     url: /company/about-us/
     sections:
@@ -393,8 +267,6 @@ items:
             url: /company/about-us/
           - title: Blog
             url: /blog/
-          - title: Newsletter
-            url: /company/newsletter/
           - title: Partners
             url: /partners/
           - title: Careers

@@ -2,14 +2,14 @@
 {{$logo := .Site.Params.mainLogo}}
 {{$hideMenu := .Params.landingPage}}
 
-{{$menuItems := $.Site.Data.mainMenu.items}}
+{{$menuItems := where $.Site.Data.mainMenu.items "hide" "!=" true}}
 <header class="main-header fixed" id="header">
   <nav class="nav-bar flex-wrapper">
     {{if $logo}}
     <div class="flex-item">
       {{with $logo}}
         <a href="{{$baseWebsiteUrl}}" class="flex-wrapper main-header-logo">
-          <img src="{{.src | relURL}}" alt="{{.alt}}" class="main-header-logo-image">
+          <img src="{{.src | relURL}}" alt="{{.alt}}" class="main-header-logo-image" width="200" height="36">
         </a>
       {{end}}
       {{block "action-logo-link" .}}{{end}}
@@ -50,7 +50,7 @@
                     <span class="item-link_title">{{.}}</span>
                     {{end}}
                     <span class="item-link_description">{{.text}}</span>
-                    <span class="main-menu-arrow"></span>
+                    {{if not .noArrowIcon}}<span class="main-menu-arrow"></span>{{end}}
                     {{$urlPanelMap = merge $urlPanelMap (dict .url $paneltId)}}
                     {{$paneltId = add $paneltId 1}}
                     {{$activePanelItem = false}}
@@ -98,7 +98,7 @@
                   {{end}}
                   {{with .image}}
                   <div class="menu-panel-img">
-                    <img src="{{. | relURL}}" alt="" loading="lazy" />
+                    <img src="{{. | relURL}}" alt="" width="600" height="300" loading="lazy"/>
                   </div>
                   {{end}}
                   {{with .banner}}
@@ -142,59 +142,64 @@
         </li>
         {{end}}
         <li class="menu-item">
-          <a href="{{print $baseWebsiteUrl `/contact-us/` | relURL}}" class="menu-item_btn">Contact Us</a>
+          <a href="{{(print $baseWebsiteUrl `/demo/`) | relURL}}" class="menu-item_btn">Book a Demo</a>
         </li>
       </ul>
     </div>
+
+    {{$id := 0}}
+    {{with $.Site.Data.mobileMenu.items}}
     <div id="mobile-menu" class="mobile-menu">
-      <ul  class="mobile-menu-list">
-        {{range $menuItems}}
-          {{if .title}}
-          <li>
-            <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="menu-item_link--caption">{{.title}}</a>
-          </li>
-          {{end}}
-          {{range .sections}}
-            {{if .title}}
-            <li class="menu-item_link"><strong>{{.title}}</strong></li>
-            {{end}}
-            {{range .items}}
-              <li>
-                <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="menu-item_link{{if in .url "/#"}} menu-item-anchor{{end}}">{{.title}}</a>
-              </li>
-              {{with .panel}}
-                {{with .banner}}
-                  {{range .links}}
-                  <li>
-                    <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="menu-item_link{{if in .url "/#"}} menu-item-anchor{{end}}">{{.title}}</a>
-                  </li>
-                  {{end}}
-                {{end}}
-              {{end}}
-              {{/* TODO: cleanup
-              {{with .panel}}
-                {{range .columns}}
-                  {{with .column}}
-                    {{range .}}
-                    <li>
-                      <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="menu-item_link{{if in .url "/#"}} menu-item-anchor{{end}}{{with .class}} {{.}}{{end}}">{{.title}}{{with .badge}}&nbsp;<span class="menu-item-badge">{{.}}</span>{{end}}</a>
-                    </li>
-                    {{end}}
-                  {{end}}
-                {{end}}
-              {{end}}
-              */}}
-            {{end}}
-          {{end}}
-        {{end}}
-        <li>
-          <a href="{{print $baseWebsiteUrl `/contact-us/` | relURL}}" class="menu-item_link--caption mt-40">Contact Us</a>
-        </li>
+      <button class="pos-rel hide menu-btn-back" aria-hidden="true">Menu items</button>
+      <ul class="mobile-menu-list">
+      {{range .}}
+        {{template "create-mobile-menu-tree" dict "node" . "id" $id}}
+      {{end}}
       </ul>
+      <div class="menu-btn-contact">
+        <a href="{{(print $baseWebsiteUrl `/demo/`) | relURL}}" class="btn-mobile-cta">Book a Demo</a>
+      </div>
     </div>
+    {{end}}
+
     {{end}}
   </nav>
 </header>
+
+{{define "create-mobile-menu-tree"}}
+  {{$baseWebsiteUrl := site.Params.baseWebsiteUrl}}
+  {{$id := .id}}
+  {{with .node}}
+  {{$panelId := print (.title | urlize) $id}}
+  {{$id = add $id 1}}
+  <li>
+    {{with .caption}}
+    <div class="mobile-menu-caption">{{.}}</div>
+    {{end}}
+    {{if .url}}
+    <a href="{{(print $baseWebsiteUrl .url) | relURL}}"{{if in .url "/#"}} class="menu-item-anchor"{{end}}>{{.title}}</a>
+    {{else if .title}}
+    <button class="menu-group-btn" data-panel-id="{{$panelId}}"{{if eq $id 1}} data-parent-id="menu-root"{{end}}>{{.title}}</button>
+    {{end}}
+    {{with .items}}
+    <ul data-parent-id="{{$panelId}}">
+      {{range .}}
+        {{template "create-mobile-menu-tree" dict "node" . "id" $id}}
+      {{end}}
+    </ul>
+    {{end}}
+    {{with .childs}}
+    <ul class="mobile-menu-childs">
+      {{range .}}
+        <li>
+          <a href="{{(print $baseWebsiteUrl .url) | relURL}}"{{if in .url "/#"}} class="menu-item-anchor"{{end}}>{{.title}}</a>
+        </li>
+      {{end}}
+    </ul>
+    {{end}}
+  </li>
+  {{end}}
+{{end}}
 
 {{partial "js-includes.html" (dict "filePaths" (slice "/js/menu-hover.min.js") "outputFile" "/js/menu-hover-bundle.js" "attributes" (dict "defer" ""))}}
 <script>
@@ -227,6 +232,54 @@
     };
 
     window.addEventListener("resize", hideMobileMenu);
+
+    function initMobileMenuPanels() {
+      var menu = document.querySelector('#mobile-menu');
+
+      if (!menu) return;
+
+      var menuGroupButtons = menu.querySelectorAll('.menu-group-btn');
+      var panels = menu.querySelectorAll('[data-parent-id]');
+      var backButton = menu.querySelector('.menu-btn-back');
+      var currentPanelId = 'menu-root';
+      var prevPanels = [];
+
+      var showSubMenuPanel = function(panelId) {
+        panels.forEach(function (panel) {
+          if (panel.dataset.parentId === panelId) {
+            panel.classList.add('show');
+          }
+        })
+      }
+
+      var hideSubMenuPanel = function(panelId) {
+        panels.forEach(function(panel) {
+          if (panel.dataset.parentId === panelId) {
+            panel.classList.remove('show');
+          }
+        });
+      }
+
+      menuGroupButtons.forEach(function(menuGroupButton) {
+        menuGroupButton.addEventListener('click', function(e) {
+          var panelId = menuGroupButton.dataset.panelId;
+          showSubMenuPanel(panelId);
+          prevPanels.push([currentPanelId, menuGroupButton.textContent]);
+          currentPanelId = panelId;
+          backButton.textContent = menuGroupButton.textContent;
+          backButton.classList.remove('hide');
+        });
+      });
+
+      backButton.addEventListener('click', function(e) {
+        var currentPanel = prevPanels.pop();
+        hideSubMenuPanel(currentPanelId);
+        currentPanelId = currentPanel[0];
+        backButton.textContent = prevPanels.length ? prevPanels[prevPanels.length - 1][1] : "Menu items";
+        if (!prevPanels.length)
+          backButton.classList.add('hide');
+      });
+    }
 
     function initMenuHoverPanels() {
       var menus = header.querySelectorAll('.menu-group');
@@ -274,25 +327,8 @@
         }
       });
     }
-
+    initMobileMenuPanels();
     initMobileMenuAnchors();
-
-    function addScript(attrs, callback) {
-      var script = document.createElement('script');
-
-      if (attrs) {
-        Object.keys(attrs).forEach(function(key) {
-          script.setAttribute(key, attrs[key]);
-        });
-      }
-
-      if (callback) {
-        script.onload = callback;
-      }
-
-      document.head.appendChild(script);
-    };
-
     initMenuHoverPanels();
   });
 </script>

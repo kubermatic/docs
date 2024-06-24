@@ -1,0 +1,58 @@
+items:
+  - title: Products
+    items:
+    - title: Kubermatic Kubernetes Platform
+      url: /products/kubermatic-kubernetes-platform/
+      caption: Products
+      childs:
+      - title: Features
+        url: /products/kubermatic-kubernetes-platform/features/
+      - title: Why Kubermatic
+        url: /products/kubermatic-kubernetes-platform/why-kubermatic/
+      - title: Technology Integrations
+        url: /products/kubermatic-kubernetes-platform/why-kubermatic/#integrations
+    - title: Kubermatic KubeOne
+      url: /products/kubermatic-kubeone/
+    - title: Kubermatic KubeLB
+      url: /products/kubelb/
+    - title: Kubermatic Kubernetes Subscription
+      url: /products/kubermatic-kubernetes-subscription/
+    - title: Managed Kubermatic Kubernetes Platform
+      url: /products/managed-kubermatic-kubernetes-platform/
+      caption: Managed
+  - title: Services
+    url: /services/
+  - title: Customers
+    url: /customers/
+  - title: Resources
+    items:
+    - title: Resource Library
+      url: /resources/
+    - title: Cloud Native Topics
+      url: /topics/
+  - title: Community
+    items:
+    - title: Our Community
+      url: /company/community/
+    - title: Open Source Projects
+      url: /company/community/#projects
+    - title: Contribution
+      url: /company/community/#ossprojects
+    - title: Meetups
+      url: /company/community/#locations
+    - title: Events
+      url: /company/community/#events
+  - title: Company
+    items:
+    - title: About Us
+      url: /company/about-us/
+    - title: Blog
+      url: /blog/
+    - title: Partners
+      url: /partners/
+    - title: Careers
+      url: /company/careers/
+    - title: Press
+      url: /company/press/
+    - title: Contact Us
+      url: /contact-us/
