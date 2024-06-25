@@ -81,11 +81,11 @@ url = "https://github.com/kubermatic/"
 class = "fab fa-github"
 
 [[params.socials]]
-url = "https://www.youtube.com/channel/UCHyOXqpOR7TRyOzS5bolcUw"
+url = "https://www.youtube.com/@kubermatic"
 class = "fab fa-youtube"
 
 [[params.socials]]
-url = "https://www.facebook.com/kubermatic/"
+url = "https://www.facebook.com/KubermaticInc/"
 class = "fab fa-facebook-f"
 
 [params.search]
