@@ -20,10 +20,9 @@ ultimately translated into a kcp `APIExport` with a number of `APIResourceSchema
 
 ## Browsing Services
 
-Login to the KDP Dashboard and choose your organization. Then select "Services" in the menu bar to
-see a list of all available Services. This page also allows to create new services, which is
-further described in [Your First Service]({{< relref "../../tutorials/your-first-service" >}}) for
-service owners.
+Log in to the KDP Dashboard and choose your organization. Then select "Services Catalog" in the menu bar to see a list of all services that you have access to. For each service that hasn't been added to the organization yet a button is offered to add it to the organization.
+
+![Service Catalog](service-catalog.png?classes=shadow,border&height=200 "Service Catalog showing three available services")
 
 Note that every Service shows:
 
@@ -32,13 +31,18 @@ Note that every Service shows:
   manually enable the service using `kubectl`)
 * a short description
 
+Check out [Your First Service]({{< relref "../../tutorials/your-first-service/" >}}) if you want to publish services by yourself.
+
 ## Enabling a Service
 
-Before a KPD Service can be used, it must be enabled in the workspace where it should be available.
+After clicking on "Add to Organization" in the service catalog, the following wizard will open to confirm adding a service:
 
-### Dashboard
+![Add Service Wizard](add-service-wizard.png?classes=shadow,border&height=200 "Wizard for adding a service to the workspace, showing options for creating default rules and resource claims")
 
-(TODO: currently the UI has no support for this.)
+Several options are offered when adding a service:
+
+- "Create default roles for resources managed by this service" will optionally create a standard set of RBAC roles within the workspace that allow giving different levels of access to this specific service. This is not mandatory, but otherwise roles may need to be created separately.
+- The "Resources" section informs you about resources that the service is requesting access to (claiming) to function properly, e.g. to be able to read or write secret data associated with objects of that service. Service owners are encouraged to gracefully handle situations in which resource access is not granted, but service quality and functionality will likely suffer. You can grant/revoke access to resources for a service at any time.
 
 ### Manually
 
