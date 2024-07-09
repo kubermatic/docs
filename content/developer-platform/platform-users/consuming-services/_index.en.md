@@ -20,9 +20,12 @@ ultimately translated into a kcp `APIExport` with a number of `APIResourceSchema
 
 ## Browsing Services
 
-Log in to the KDP Dashboard and choose your organization. Then select "Services Catalog" in the menu bar to see a list of all services that you have access to. For each service that hasn't been added to the organization yet a button is offered to add it to the organization.
+Log in to the KDP Dashboard and choose your organization. Then on "Services" page, select "External Services" tab to see
+a list of all external services added into this organization. Click "Add Services" button to see a list all services
+that you have access to. For each service that is active and hasn't been added to the organization yet, a button is
+offered to add it to the organization.
 
-![Service Catalog](service-catalog.png?classes=shadow,border&height=200 "Service Catalog showing three available services")
+![Service Catalog Dialog](service-catalog.jpg?classes=shadow,border&height=200 "Service Catalog dialog showing all available services")
 
 Note that every Service shows:
 
