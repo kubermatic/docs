@@ -6820,6 +6820,7 @@ Deprecated: EnableWebTerminal is deprecated and should be removed in KKP 2.27+. 
 will be set for all projects that do not have a custom quota already set. EE-version only. |
 | `machineDeploymentOptions` _[MachineDeploymentOptions](#machinedeploymentoptions)_ |  |
 | `disableChangelogPopup` _boolean_ | DisableChangelogPopup disables the changelog popup in KKP dashboard. |
+| `staticLabels` _[StaticLabel](#staticlabel) array_ | StaticLabels are a list of labels that can be used for the clusters. |
 
 
 [Back to top](#top)
@@ -6838,6 +6839,27 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#resourcerequirements-v1-core)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### StaticLabel
+
+
+
+StaticLabel is a label that can be used for the clusters.
+
+_Appears in:_
+- [SettingSpec](#settingspec)
+
+| Field | Description |
+| --- | --- |
+| `key` _string_ |  |
+| `values` _string array_ |  |
+| `default` _boolean_ |  |
+| `protected` _boolean_ |  |
 
 
 [Back to top](#top)
