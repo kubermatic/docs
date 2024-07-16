@@ -9,8 +9,7 @@ This chapter describes how to setup the [KKP Master / Seed MLA (Monitoring, Logg
 
 ### Requirements
 
-The exact requirements for the stack depend highly on the expected cluster load; the following are the minimum
-viable resources:
+The exact requirements for the stack depend highly on the expected cluster load; the following are the minimum viable resources:
 
 * 4 GB RAM
 * 2 CPU cores
@@ -26,14 +25,13 @@ This guide assumes the following tools are available:
 This chapter describes how to setup the Kubermatic Kubernetes Platform (KKP) master / seed monitoring, logging & alerting components. It's highly recommended to install this
 stack on the master and all seed clusters.
 
-It uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. The logging stack consists of Promtail and [Grafana Loki](https://grafana.com/oss/loki/). Dashboarding is done with [Grafana](https://grafana.com). More information can be found in the [Architecture]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/" >}}) document.
+It uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) for monitoring and alerting. The logging stack consists of [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) and [Grafana Loki](https://grafana.com/oss/loki/). Visualization is done with [Grafana](https://grafana.com) dashboards. More information can be found in the [Architecture]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/" >}}) document.
 
 ## Installation
 
 Make sure you have a kubeconfig for the desired Master/Seed Cluster available. It needs to have `cluster-admin` permissions on that cluster to install all Master/Seed MLA stack components.
 
-The installer will use the `KUBECONFIG` environment variable to pick up the right kubeconfig to access the designated Master/Seed Cluster. Ensure that you
-have exported it, for example like this (on Linux and macOS):
+The installer will use the `KUBECONFIG` environment variable to pick up the right kubeconfig to access the designated Master/Seed Cluster. Ensure that you have exported it, for example like this (on Linux and macOS):
 
 ```bash
 export KUBECONFIG=/path/to/kubeconfig
@@ -41,8 +39,7 @@ export KUBECONFIG=/path/to/kubeconfig
 
 ### Download the Installer
 
-Download the [release archive from our GitHub release page](https://github.com/kubermatic/kubermatic/releases/) (e.g. `kubermatic-ce-X.Y-linux-amd64.tar.gz`)
-containing the Kubermatic Installer and the required Helm charts for your operating system and extract it locally.
+Download the [release archive from our GitHub release page](https://github.com/kubermatic/kubermatic/releases/) (e.g. `kubermatic-ce-X.Y-linux-amd64.tar.gz`) containing the Kubermatic Installer and the required Helm charts for your operating system and extract it locally.
 
 {{< tabs name="Download the installer" >}}
 {{% tab name="Linux" %}}
@@ -72,29 +69,18 @@ tar -xzvf "kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 
 ### Install the Master/Seed MLA stack
 
-As with KKP itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There
-are a few important options you might want to override for your setup:
+As with KKP itself, it's recommended to use a single `values.yaml` to configure all Helm charts. There are a few important options you might want to override for your setup:
 
 * `prometheus.host` is used for the external URL in Prometheus, e.g. `prometheus.kkp.example.com`.
 * `alertmanager.host` is used for the external URL in Alertmanager, e.g. `alertmanager.kkp.example.com`.
-* `prometheus.storageSize` (default: `100Gi`) controls the volume size for each Prometheus replica; this should
-  be large enough to hold all data as per your retention time (see next option). Long-term storage for Prometheus
-  blocks is provided by Thanos, an optional extension to the Prometheus chart.
-* `prometheus.tsdb.retentionTime` (default: `15d`) controls how long metrics are stored in Prometheus before they
-  are deleted. Larger retention times require more disk space. Long-term storage is accomplished by Thanos, so the
-  retention time for Prometheus itself should not be set to extremely large values (like multiple months).
-* `prometheus.ruleFiles` is a list of Prometheus alerting rule files to load. Depending on whether or not the
-  target cluster is a master or seed, the `/etc/prometheus/rules/kubermatic-master-*.yaml` entry should be removed
-  in order to not trigger bogus alerts.
+* `prometheus.storageSize` (default: `100Gi`) controls the volume size for each Prometheus replica; this should be large enough to hold all data as per your retention time (see next option). Long-term storage for Prometheus blocks is provided by Thanos, an optional extension to the Prometheus chart.
+* `prometheus.tsdb.retentionTime` (default: `15d`) controls how long metrics are stored in Prometheus before they are deleted. Larger retention times require more disk space. Long-term storage is accomplished by Thanos, so the retention time for Prometheus itself should not be set to extremely large values (like multiple months).
+* `prometheus.ruleFiles` is a list of Prometheus alerting rule files to load. Depending on whether or not the target cluster is a master or seed, the `/etc/prometheus/rules/kubermatic-master-*.yaml` entry should be removed in order to not trigger bogus alerts.
 * `prometheus.blackboxExporter.enabled` is used to enable integration between Prometheus and Blackbox Exporter, used for monitoring of API endpoints of user clusters created on the seed. `prometheus.blackboxExporter.url` should be adjusted accordingly (default value would be `blackbox-exporter:9115`)
-* `grafana.user` and `grafana.password` should be set with custom values if no identity-aware proxy is configured.
-  In this case, `grafana.provisioning.configuration.disable_login_form` should be set to `false` so that a manual
-  login is possible.
+* `grafana.user` and `grafana.password` should be set with custom values if no identity-aware proxy is configured. In this case, `grafana.provisioning.configuration.disable_login_form` should be set to `false` so that a manual login is possible.
 * `loki.persistence.size` (default: `10Gi`) controls the volume size for the Loki pods.
-* `promtail.scrapeConfigs` controls for which pods the logs are collected. The default configuration should
-  be sufficient for most cases, but adjustment can be made.
-* `promtail.tolerations` might need to be extended to deploy a Promtail pod on every node in the cluster.
-  By default, master-node NoSchedule taints are ignored.
+* `promtail.scrapeConfigs` controls for which pods the logs are collected. The default configuration should be sufficient for most cases, but adjustment can be made.
+* `promtail.tolerations` might need to be extended to deploy a Promtail pod on every node in the cluster. By default, master-node NoSchedule taints are ignored.
 
 An example `values.yaml` could look like this if all options mentioned above are customized:
 kkp.example.com
@@ -175,15 +161,11 @@ INFO[0166] ðŸ›¬ Installation completed successfully. Time for a break, maybe? â˜
 
 ### Thanos (Beta)
 
-[Thanos](https://thanos.io/) is a long-term storage solution for Prometheus metrics, backed by an S3 compatible
-object store. KKP includes preliminary support for Thanos by setting `prometheus.thanos.enabled=true`. Note
-that this requires considerably more resources to run:
+[Thanos](https://thanos.io/) is a long-term storage solution for Prometheus metrics, backed by an S3 compatible object store. KKP includes preliminary support for Thanos by setting `prometheus.thanos.enabled=true`. Note that this requires considerably more resources to run:
 
 * Thanos UI requires roughly 64MB memory and 50m CPU.
 * Thanos Store requires 2GB memory and 500 mCPU per pod.
 * Thanos Query requires 512MB memory and 100m CPU per pod.
 * Thanos Compact requires lots of memory, depending on block sizes, up to 16GB, and 1 CPU core.
 
-It's essential to configure the retention period for Thanos using `prometheus.thanos.compact.retention`, as well as to
-configure the proper object store and create the required bucket. Refer to the `config/prometheus/values.yaml` for a
-complete list of options.
+It's essential to configure the retention period for Thanos using `prometheus.thanos.compact.retention`, as well as to configure the proper object store and create the required bucket. Refer to the `config/prometheus/values.yaml` for a complete list of options.
