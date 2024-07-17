@@ -12,19 +12,19 @@ Create a cluster following these steps:
 
 - Click on `Create External Cluster` button:
 
-![Create External Cluster](@/images/main/tutorials/external-clusters/create-external-cluster.png "Create External Cluster")
+![Create External Cluster](@/images/tutorials/external-clusters/create-external-cluster.png "Create External Cluster")
 
 - Choose "Google Kubernetes Engine" from the supported providers:
 
-![Select Provider](@/images/main/tutorials/external-clusters/gke-select-provider.png "Select Provider")
+![Select Provider](@/images/tutorials/external-clusters/gke-select-provider.png "Select Provider")
 
 - Provide the credentials:
 
-![Select Preset](@/images/main/tutorials/external-clusters/select-gke-preset.png "Select Preset")
+![Select Preset](@/images/tutorials/external-clusters/select-gke-preset.png "Select Preset")
 
 - Configure the cluster:
 
-![Configure Cluster](@/images/main/tutorials/external-clusters/gke-settings.png "Configure Cluster")
+![Configure Cluster](@/images/tutorials/external-clusters/gke-settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
 
@@ -45,7 +45,7 @@ Create a cluster following these steps:
 
 ### Create Node Pool
 
-![Add Node Pool](@/images/main/tutorials/external-clusters/add-md.png "Add Node Pool")
+![Add Node Pool](@/images/tutorials/external-clusters/add-md.png "Add Node Pool")
 
 - Name: Enter a unique name for this machine deployment.
 - Kubernetes Version: Control Plane Version of Cluster is prefilled.
@@ -54,4 +54,4 @@ Create a cluster following these steps:
 - AutoScaling: Autoscaling is recommended for standard configuration.
     Set the minimum and maximum node counts for this node pool. You cannot set a lower minimum than the current node count in the node pool.
 
-![Create Node Pool](@/images/main/tutorials/external-clusters/gke-md.png "Create Node Pool")
+![Create Node Pool](@/images/tutorials/external-clusters/gke-md.png "Create Node Pool")

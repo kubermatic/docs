@@ -48,7 +48,7 @@ For each cluster there are at least two OSC objects:
 
 OSCs are processed by controllers to eventually generate **secrets inside each user cluster**. These secrets are then consumed by worker nodes.
 
-![Architecture](@/images/main/tutorials/operating-system-manager/architecture.png?classes=shadow,border "Architecture")
+![Architecture](@/images/tutorials/operating-system-manager/architecture.png?classes=shadow,border "Architecture")
 
 ### Air-gapped Environment
 

@@ -16,15 +16,15 @@ Create a cluster following these steps:
 
 - Click on `Create External Cluster` button:
 
-![Create External Cluster](@/images/main/tutorials/external-clusters/create-external-cluster.png "Create External Cluster")
+![Create External Cluster](@/images/tutorials/external-clusters/create-external-cluster.png "Create External Cluster")
 
 - Choose "Elastic Kubernetes Service" from the supported providers:
 
-![Select AKS Provider](@/images/main/tutorials/external-clusters/eks-selection.png "Select EKS Provider")
+![Select AKS Provider](@/images/tutorials/external-clusters/eks-selection.png "Select EKS Provider")
 
 - Provide the credentials:
 
-![Select Preset](@/images/main/tutorials/external-clusters/select-eks-preset.png "Select Preset")
+![Select Preset](@/images/tutorials/external-clusters/select-eks-preset.png "Select Preset")
 
 - Configure the cluster:
 
@@ -32,7 +32,7 @@ Create a cluster following these steps:
 Supported kubernetes versions 1.21.0, 1.22.0, 1.23.0, 1.24.0 currently available for new Amazon EKS clusters.
 {{% /notice %}}
 
-![Configure Cluster](@/images/main/tutorials/external-clusters/eks-settings.png "Configure Cluster")
+![Configure Cluster](@/images/tutorials/external-clusters/eks-settings.png "Configure Cluster")
 
 - Click on `Create External Cluster` button
 
@@ -78,6 +78,6 @@ Node group scaling configuration:
 - Max Count: Set the maximum number of nodes that the group can scale out to.
 - Min Count: Set the minimum number of nodes that the group can scale in to.
 
-![Add Node Group](@/images/main/tutorials/external-clusters/add-md.png "Add Node Group")
+![Add Node Group](@/images/tutorials/external-clusters/add-md.png "Add Node Group")
 
-![Create Node Group](@/images/main/tutorials/external-clusters/create-eks-md.png "Create Node Group")
+![Create Node Group](@/images/tutorials/external-clusters/create-eks-md.png "Create Node Group")
