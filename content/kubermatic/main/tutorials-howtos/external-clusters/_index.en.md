@@ -32,7 +32,7 @@ KKP allows connecting any existing Kubernetes cluster as an external cluster to 
 
 - To add a new external cluster go to `External Clusters` page and Click the `Import External Cluster` button.
 
-![Import External Cluster](@/images/main/tutorials/external-clusters/add-external-cluster.png "Import External Cluster")
+![Import External Cluster](@/images/tutorials/external-clusters/add-external-cluster.png "Import External Cluster")
 
 - Select the Kubernetes cloud provider. You can add or create the following external clusters:
 
@@ -46,25 +46,25 @@ KKP allows connecting any existing Kubernetes cluster as an external cluster to 
 It is important that the kubeconfig used to connect the cluster is using standard authentication mechanisms like certificates or ServiceAccount tokens. OIDC or provider-specific plugins are not supported.
 {{% /notice %}}
 
-![Connect Cluster](@/images/main/tutorials/external-clusters/connect.png "Connect Cluster")
+![Connect Cluster](@/images/tutorials/external-clusters/connect.png "Connect Cluster")
 
 {{% notice info %}}
 If an existing kubeconfig uses custom authentication mechanisms, `kubermatic-installer convert-kubeconfig` can (optionally) be used to create a ServiceAccount on the external cluster and fetch its token into a new kubeconfig.
 {{% /notice %}}
 
-![Provide kubeconfig](@/images/main/tutorials/external-clusters/custom-cluster-credentials.png "Provide kubeconfig")
+![Provide kubeconfig](@/images/tutorials/external-clusters/custom-cluster-credentials.png "Provide kubeconfig")
 
 You can then see the details of the cluster.
 
-![Custom Cluster](@/images/main/tutorials/external-clusters/bringyourown.png "BringYourOwn Cluster")
+![Custom Cluster](@/images/tutorials/external-clusters/bringyourown.png "BringYourOwn Cluster")
 
 ## Create External Cluster
 
 KKP allows creating a Kubernetes cluster on AKS/GKE/EKS and import it as an External Cluster.
 
-![Create External Cluster](@/images/main/tutorials/external-clusters/create-external-cluster.png "Create External Cluster")
+![Create External Cluster](@/images/tutorials/external-clusters/create-external-cluster.png "Create External Cluster")
 
-![External Cluster List](@/images/main/tutorials/external-clusters/externalcluster-list.png "External Cluster List")
+![External Cluster List](@/images/tutorials/external-clusters/externalcluster-list.png "External Cluster List")
 
 ## Delete Cluster:
 
@@ -74,26 +74,26 @@ Delete operation is not allowed for imported clusters.
 
 Cluster can be  Deleted by clicking on the delete icon next to the cluster you want to delete or from the cluster details page, which will delete and disconnect the cluster from the provider.
 
-![Delete External Cluster](@/images/main/tutorials/external-clusters/delete-externalcluster.png "Delete External Cluster")
+![Delete External Cluster](@/images/tutorials/external-clusters/delete-externalcluster.png "Delete External Cluster")
 
-![Delete External Cluster on Details Page](@/images/main/tutorials/external-clusters/delete-disconnect-page.png "Delete External Cluster on Details Page")
+![Delete External Cluster on Details Page](@/images/tutorials/external-clusters/delete-disconnect-page.png "Delete External Cluster on Details Page")
 
 ## Cluster State
 
 You can view the current state of your cluster by hovering the cursor over the small circle on the left of the cluster name.
 
 Provisioning state depicts that the cluster is getting created:
-![External Cluster Provisioning State](@/images/main/tutorials/external-clusters/provisioning-status.png "External Cluster Provisioning State")
+![External Cluster Provisioning State](@/images/tutorials/external-clusters/provisioning-status.png "External Cluster Provisioning State")
 
 Reconciling state depicts that the cluster is getting upgraded:
-![External Cluster Reconciling State](@/images/main/tutorials/external-clusters/reconciling-status.png "External Cluster Reconciling State")
+![External Cluster Reconciling State](@/images/tutorials/external-clusters/reconciling-status.png "External Cluster Reconciling State")
 
 Running state depicts that the cluster is healthy:
-![External Cluster Provisioning State](@/images/main/tutorials/external-clusters/running-status.png "External Cluster Running State")
+![External Cluster Provisioning State](@/images/tutorials/external-clusters/running-status.png "External Cluster Running State")
 
 Deleting state depicts that the cluster is getting deleted:
 
-![External Cluster Delete State](@/images/main/tutorials/external-clusters/aks-deleting.png "External Cluster Delete State")
+![External Cluster Delete State](@/images/tutorials/external-clusters/aks-deleting.png "External Cluster Delete State")
 
 ## Disconnect Cluster
 
@@ -103,11 +103,11 @@ Disconnect operation does not delete the cluster from the cloud provider.
 
 You can `Disconnect` an external cluster by clicking on the disconnect icon next to the cluster you want to disconnect or from the cluster details page, which will delete internal cluster object in KKP.
 
-![Disconnect External Cluster](@/images/main/tutorials/external-clusters/disconnect-externalcluster.png "Disconnect External Cluster")
+![Disconnect External Cluster](@/images/tutorials/external-clusters/disconnect-externalcluster.png "Disconnect External Cluster")
 
-![Disconnect External Cluster on Details Page](@/images/main/tutorials/external-clusters/disconnect-externalcluster-details-page.png "Disconnect External Cluster on Details Page")
+![Disconnect External Cluster on Details Page](@/images/tutorials/external-clusters/disconnect-externalcluster-details-page.png "Disconnect External Cluster on Details Page")
 
-![Disconnect Dialog](@/images/main/tutorials/external-clusters/disconnect.png "Disconnect Dialog")
+![Disconnect Dialog](@/images/tutorials/external-clusters/disconnect.png "Disconnect Dialog")
 
 
 ## Delete Cluster
@@ -117,4 +117,4 @@ Delete Cluster displays information in case nodes are attached
 {{% /notice %}}
 
 
-![Delete External Cluster](@/images/main/tutorials/external-clusters/delete-external-cluster-dialog.png "Delete External Cluster")
+![Delete External Cluster](@/images/tutorials/external-clusters/delete-external-cluster-dialog.png "Delete External Cluster")

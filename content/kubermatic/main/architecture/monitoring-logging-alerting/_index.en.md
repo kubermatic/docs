@@ -16,4 +16,4 @@ Kubermatic Monitoring, Logging & Alerting (MLA) consists of two stacks:
 
 [User Cluster MLA Stack]({{< ref "./user-cluster/">}}) monitors applications running in the user clusters as well as system components running in the user clusters. All KKP users can access monitoring data of the user clusters under projects they are members of.
 
-![KKP MLA Architecture](@/images/main/architecture/kkp-mla-architecture.png?classes=shadow,border "KKP MLA Architecture")
+![KKP MLA Architecture](@/images/architecture/kkp-mla-architecture.png?classes=shadow,border "KKP MLA Architecture")

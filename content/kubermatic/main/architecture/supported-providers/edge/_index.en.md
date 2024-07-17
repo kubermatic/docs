@@ -52,4 +52,4 @@ to be executed on the target device you want to add as a worker node to your clu
 Currently, the edge provider only support Ubuntu 20.04 and 22.04 as an operating system. More support for other operating system will be added in the future.
 {{% /notice %}}
 
-![Edge Machine Deployment Window](@/images/main/architecture/supported-providers/edge/edge-machine-deployment-window.png?classes=shadow,border "Edge Machine Deployment Window")
+![Edge Machine Deployment Window](@/images/architecture/supported-providers/edge/edge-machine-deployment-window.png?classes=shadow,border "Edge Machine Deployment Window")

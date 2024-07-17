@@ -6,7 +6,7 @@ weight = 20
 
 Through the Backup Destinations settings you can enable and configure the new etcd backups for each Seed.
 
-![Backup Destinations](@/images/main/tutorials/backups/backup-destinations.png?classes=shadow,border "Backup Destinations Settings View")
+![Backup Destinations](@/images/tutorials/backups/backup-destinations.png?classes=shadow,border "Backup Destinations Settings View")
 
 
 ### Etcd Backup Settings
@@ -27,11 +27,11 @@ To add a new backup destination, just click on the `Add Destination` button on t
 When a destination is added, credentials also need to be added for the bucket. To do that, click on the `Edit Credentials`
 button and set the credentials. When credentials are properly set, the green checkmark appears and the destination can be used.
 
-![Add Backup Destination](@/images/main/tutorials/backups/add-backup-destination.png?classes=shadow,border "Backup Destination Settings Add")
+![Add Backup Destination](@/images/tutorials/backups/add-backup-destination.png?classes=shadow,border "Backup Destination Settings Add")
 
 To edit, just click on the `Edit Destination` pen icon on the right
 
-![Edit Backup Destination](@/images/main/tutorials/backups/edit-backup-destination.png?classes=shadow,border "Backup Destination Settings Edit")
+![Edit Backup Destination](@/images/tutorials/backups/edit-backup-destination.png?classes=shadow,border "Backup Destination Settings Edit")
 
 ### Credentials
 
@@ -40,7 +40,7 @@ button and set the credentials. When credentials are properly set, the green che
 
 For security reasons, the API/UI does not offer a way to get the current credentials.
 
-![Edit Credentials](@/images/main/tutorials/backups/edit-backup-dest-credentials.png?classes=shadow,border "Backup Destination Credentials Edit")
+![Edit Credentials](@/images/tutorials/backups/edit-backup-dest-credentials.png?classes=shadow,border "Backup Destination Credentials Edit")
 
 To see how to make backups and restore your cluster, check the [Etcd Backup and Restore Tutorial]({{< ref "../../../etcd-backups" >}}).
 
@@ -76,4 +76,4 @@ Default EtcdBackupConfig that is created:
 ...
 ```
 
-![Set Default Destination](@/images/main/tutorials/backups/set-backup-dest-as-default.png?classes=shadow,border "Set Backup Destination as Default")
+![Set Default Destination](@/images/tutorials/backups/set-backup-dest-as-default.png?classes=shadow,border "Set Backup Destination as Default")

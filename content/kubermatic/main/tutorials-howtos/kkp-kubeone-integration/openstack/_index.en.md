@@ -14,19 +14,19 @@ You can add an existing OpenStack KubeOne cluster and then manage it using KKP.
 
 - Click `Import KubeOne Cluster` button.
 
-![Import KubeOne Cluster](@/images/main/tutorials/kubeoned-clusters/clusterd-listd-empty.png "Import KubeOne Cluster")
+![Import KubeOne Cluster](@/images/tutorials/kubeoned-clusters/clusterd-listd-empty.png "Import KubeOne Cluster")
 
 - Pick `OpenStack` provider.
 
-![Select Provider](@/images/main/tutorials/kubeoned-clusters/importd-kubeoned-cluster.png "Select Provider")
+![Select Provider](@/images/tutorials/kubeoned-clusters/importd-kubeoned-cluster.png "Select Provider")
 
 - Provide cluster Manifest config yaml, SSH private key and SSH key Passphrase (if any) used to create the cluster you are importing, to access the KubeOne cluster using KKP.
 
-![Cluster Settings](@/images/main/tutorials/kubeoned-clusters/clusterd-settingsd-step.png "Cluster Settings")
+![Cluster Settings](@/images/tutorials/kubeoned-clusters/clusterd-settingsd-step.png "Cluster Settings")
 
 - Enter the credentials `AuthURL`, `Username`, `Password`, `Domain`, `Project Name`, `Project ID` and `Region` used to create the KubeOne cluster you are importing.
 
 
-![OpenStack credentials](@/images/main/tutorials/kubeoned-clusters/openstackd-credentialsd-step.png "OpenStack credentials")
+![OpenStack credentials](@/images/tutorials/kubeoned-clusters/openstackd-credentialsd-step.png "OpenStack credentials")
 
 - Review provided settings and click `Import KubeOne Cluster`.

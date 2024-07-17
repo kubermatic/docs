@@ -69,4 +69,4 @@ spec:
 
 This can be enabled using the KKP dashboard as well.
 
-![Enable KubeLB during cluster creation](@/images/main/tutorials/kubelb/kubelb-dashboard.png?classes=shadow,border "Enable KubeLB during cluster creation")
+![Enable KubeLB during cluster creation](@/images/tutorials/kubelb/kubelb-dashboard.png?classes=shadow,border "Enable KubeLB during cluster creation")

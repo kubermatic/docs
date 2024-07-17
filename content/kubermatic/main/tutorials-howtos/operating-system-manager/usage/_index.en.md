@@ -14,7 +14,7 @@ OSM can be configured using the dashboard or CLI.
 
 Create a new cluster from the dashboard and toggle **Operating System Manager** feature on.
 
-![Enable OSM during cluster creation](@/images/main/tutorials/operating-system-manager/osm-dashboard.png?classes=shadow,border "Enable OSM during cluster creation")
+![Enable OSM during cluster creation](@/images/tutorials/operating-system-manager/osm-dashboard.png?classes=shadow,border "Enable OSM during cluster creation")
 
 {{% notice note %}}
 OSM cannot be disabled after cluster creation.
@@ -22,7 +22,7 @@ OSM cannot be disabled after cluster creation.
 
 ### Selecting OperatingSystemProfile
 
-![Select OperatingSystemProfile](@/images/main/tutorials/operating-system-manager/osm-select.png?classes=shadow,border "Select OperatingSystemProfile")
+![Select OperatingSystemProfile](@/images/tutorials/operating-system-manager/osm-select.png?classes=shadow,border "Select OperatingSystemProfile")
 
 ## Via CLI
 
