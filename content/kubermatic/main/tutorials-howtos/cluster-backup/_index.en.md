@@ -22,7 +22,7 @@ KKP Velero integration provides project owners/editors with the ability to centr
 ### Using Integrated User Cluster Backup
 
 Cluster backup is disabled by default as an experimental feature. To use it, the KKP administrator needs to enable it the admin panel.
-![Enable Backup](@/images/tutorials/cluster-backup/enable-bakcup-kkp.png?classes=shadow,border "Enable Backup")
+![Enable Backup](images/enable-bakcup-kkp.png?classes=shadow,border "Enable Backup")
 
 Once UI dashboard options are available, the project owner must defined at least one Cluster Backup Storage Location.
 
@@ -35,7 +35,7 @@ The `ClusterBackupStorageLocation` resource is a simple wrapper for Velero's [Ba
 When Custer Backup is enabled for a user cluster, KKP will deploy a managed instance of Velero on the user cluster, and propagate the required Velero `BackupStorageLocation` to the user cluster, with a special prefix to avoid collisions with other user clusters that could be using the same storage.
 
 
-![Create ClusterBackupStorageLocation](@/images/tutorials/cluster-backup/create-cbsl.png?classes=shadow,border "Create ClusterBackupStorageLocation")
+![Create ClusterBackupStorageLocation](images/create-cbsl.png?classes=shadow,border "Create ClusterBackupStorageLocation")
 
 For simplicity, the KKP UI requires the minimal required values to enabled a working Velero Backup Storage Location. If further parameters are needed, they can be added by editing the `ClusterBackupStorageLocation` resources on the Seed cluster:
 
@@ -52,11 +52,11 @@ The KKP control plane nodes need to have access to s3 endpoint defined in the St
 #### Enabling Backup for User Clusters
 Cluster Backup can be used for existing clusters and newly created ones. When creating a new user cluster, you can enable the `Cluster Backup` option in the cluster creation wizard. Once enabled, you will be required to assign the Backup Storage Location that you have created previously.
 
-![Enable Backup for New Clusters](@/images/tutorials/cluster-backup/enable-backup-new-cluster.png?classes=shadow,border "Enable Backup for New Clusters")
+![Enable Backup for New Clusters](images/enable-backup-new-cluster.png?classes=shadow,border "Enable Backup for New Clusters")
 
 
 For existing clusters, you can edit the cluster to assign the required Cluster Backup Location:
-![Edit Existing Cluster](@/images/tutorials/cluster-backup/enable-backup-edit-cluster.png?classes=shadow,border "Edit Existing Cluster")
+![Edit Existing Cluster](images/enable-backup-edit-cluster.png?classes=shadow,border "Edit Existing Cluster")
 
 {{% notice note %}}
 Velero's Backup Storage Location Spec supports using s3 prefixes. When the storage location is propagated into the user cluster, an additional prefix of the Project ID and Cluster ID is added to avoid collision and provide isolation in case the storage location is used for multiple clusters.
@@ -75,7 +75,7 @@ Using the user cluster Kubernetes API, you can also create these resources using
 As with the `CBSL`, KKP UI allows the user to set the minimal required options to create a backup configuration. Since the backup process is started immediately after creation, it's not possible to edit it via the Kubernetes API. If you need to customize your backup further, you should use a Schedule.
 
 To configure a new one-time backup, go to the Backups list, select the cluster you would like to create the backup for from the drop-down list, and click `Create Cluster Backup`.
-![Create Backup](@/images/tutorials/cluster-backup/create-backup.png?classes=shadow,border "Create Backup")
+![Create Backup](images/create-backup.png?classes=shadow,border "Create Backup")
 
 
 You can select the Namespaces that you want to include in this backup configuration from the dropdown list. Note that this list of Namespaces is directly fetched from your cluster, so you need to create the Namespaces before configuring the backup.
@@ -91,7 +91,7 @@ Creating scheduled backups is almost identical to one-time backups. Configuratio
 
 For schedules, you also need to add a cron-style schedule to perform the backups.
 
-![Create Backup Schedule](@/images/tutorials/cluster-backup/create-schedule.png?classes=shadow,border "Create Backup Schedule")
+![Create Backup Schedule](images/create-schedule.png?classes=shadow,border "Create Backup Schedule")
 
 
 ##### Downloading Backups
@@ -105,13 +105,13 @@ To restore a specific backup, go to the Backups page, select your cluster and fi
 
 Velero restores backups by creating a `Restore` API resource on the clusters and then reconciles it.
 
-![Create Restore](@/images/tutorials/cluster-backup/create-restore.png?classes=shadow,border "Create Restore")
+![Create Restore](images/create-restore.png?classes=shadow,border "Create Restore")
 
 Simply, set a name for the restore request, and select the Namespaces that you would like to restore.
 
 You can later track the restore status from the Restore page.
 
-![Restore Status](@/images/tutorials/cluster-backup/restore-status.png?classes=shadow,border "Restore Status")
+![Restore Status](images/restore-status.png?classes=shadow,border "Restore Status")
 
 
 

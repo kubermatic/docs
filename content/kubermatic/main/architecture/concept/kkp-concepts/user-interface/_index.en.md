@@ -6,7 +6,7 @@ weight = 151
 
 Get information on how to get the most ouf of the Kubermatic Dashboard, the official UI of the Kubermatic Kubernetes Platform.
 
-![Admin Panel](@/images/ui/dashboard.png?height=400px&classes=shadow,border "Kubermatic Dashboard")
+![Admin Panel](dashboard.png?height=400px&classes=shadow,border "Kubermatic Dashboard")
 
 ## Preparing New Themes
 A set of [tutorials]({{< ref "./theming" >}}) that will teach you how to prepare custom themes and apply
