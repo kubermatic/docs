@@ -10,22 +10,7 @@
     },
     {
       "addonName": "canal",
-      "resources": [
-        {
-          "kind": "DaemonSet",
-          "resourceName": "canal",
-          "containers": [
-            {
-              "containerName": "calico-node",
-              "resources": {
-                "requests": {
-                  "cpu": "250m"
-                }
-              }
-            }
-          ]
-        }
-      ]
+      "resources": []
     },
     {
       "addonName": "cluster-autoscaler",
