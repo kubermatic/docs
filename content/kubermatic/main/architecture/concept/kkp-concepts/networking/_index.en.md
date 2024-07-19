@@ -14,7 +14,7 @@ The [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-st
 This section explains how the connection between user clusters and the control plane is established, as well as the general networking concept in KKP.
 
 
-![KKP Network](images/network.png?classes=shadow,border "This diagram illustrated the necessary connections for KKP.")
+![KKP Network](images/network.png?classes=shadow,border "This diagram illustrates the necessary connections for KKP.")
 
 The following diagrams illustrate all available [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-strategies" >}}) available in KKP.
 They define how user cluster connect to their control plane and how users connect to the cluster apiserver.

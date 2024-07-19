@@ -11,7 +11,7 @@ Using KKP you are able to use the `AssumeRole` feature to easily deploy user clu
 
 ## How it Works
 
-![Running user clusters using an assumed IAM role](@/images/tutorials/aws-assume-role-sequence-diagram.png?width=1000&classes=shadow,border "Running user clusters using an assumed IAM role")
+![Running user clusters using an assumed IAM role](aws-assume-role-sequence-diagram.png?width=1000&classes=shadow,border "Running user clusters using an assumed IAM role")
 
 ## Benefits
   * Privilege escalation
@@ -36,7 +36,7 @@ During cluster creation choose AWS as your provider and configure the cluster to
 After entering your AWS access credentials (access key ID and secret access key) choose "Enable Assume Role" (1), enter the ARN of the IAM role you would like to assume in field (2) (IAM role ARN should be in the format `arn:aws:iam::ID_OF_AWS_ACCOUNT_B:role/ROLE_NAME`) and if the IAM role has an optional `External ID` add it in field (3).
 After that you can proceed as usual.
 
-![Enabling AWS AssumeRole in the cluster creation wizard](@/images/tutorials/aws-assume-role-wizard.png?classes=shadow,border "Enabling AWS AssumeRole in the cluster creation wizard")
+![Enabling AWS AssumeRole in the cluster creation wizard](aws-assume-role-wizard.png?classes=shadow,border "Enabling AWS AssumeRole in the cluster creation wizard")
 
 ## Notes
 Please note that KKP has no way to clean up clusters after a trust relationship has been removed.

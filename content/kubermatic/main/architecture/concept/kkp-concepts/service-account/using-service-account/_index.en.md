@@ -12,18 +12,18 @@ The main Service Account concept you can find [here]({{< ref "../../service-acco
 A service account is a special type of user account that belongs to the KKP project. Once you decide that you need
 a service account, you can add one in Kubermatic dashboard.
 
-![Service Account](@/images/ui/serviceaccount-overview.png?classes=shadow,border "Service Account")
+![Service Account](images/serviceaccount-overview.png?classes=shadow,border "Service Account")
 
 Users can create many Service Accounts (SA) with unique names in the project scope.
 
-![Create Service Account](@/images/ui/serviceaccount-add.png?classes=shadow,border "Create Service Account")
+![Create Service Account](images/serviceaccount-add.png?classes=shadow,border "Create Service Account")
 
 Over time, as you create more and more SA, you might lose track of which SA is used for what purpose. The display name
 of a SA is a good way to capture additional information about the service account, such as the purpose of the SA.
 
 The service account can have multiple tokens with unique names. The service account token is visible to the user during creation.
 
-![Create Service Account](@/images/ui/serviceaccount-token.png?classes=shadow,border "Create Service Account")
+![Create Service Account](images/serviceaccount-token.png?classes=shadow,border "Create Service Account")
 
 {{% notice note %}}
 **Note:** Make sure to save this token at a safe place on your own device. It cannot be displayed again after closing the dashboard window.
@@ -32,7 +32,7 @@ The service account can have multiple tokens with unique names. The service acco
 Users can manage tokens. At any time, you can revoke any personal access token by clicking the respective `Regenerate Service Account Token` button under the Token area.
 You can also change a token name. It is possible to delete a service account token and then create a new  with the same name.
 
-![Manage Service Account](@/images/ui/serviceaccount-manage-token.png?classes=shadow,border "Manage Service Account")
+![Manage Service Account](images/serviceaccount-manage-token.png?classes=shadow,border "Manage Service Account")
 
 You can see when a token was created and when will expire.
 

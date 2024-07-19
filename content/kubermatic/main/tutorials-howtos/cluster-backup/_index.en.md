@@ -22,7 +22,7 @@ KKP Velero integration provides project owners/editors with the ability to centr
 ### Using Integrated User Cluster Backup
 
 Cluster backup is disabled by default as an experimental feature. To use it, the KKP administrator needs to enable it the admin panel.
-![Enable Backup](images/enable-bakcup-kkp.png?classes=shadow,border "Enable Backup")
+![Enable Backup](images/enable-backup-kkp.png?classes=shadow,border "Enable Backup")
 
 Once UI dashboard options are available, the project owner must defined at least one Cluster Backup Storage Location.
 
