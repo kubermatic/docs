@@ -125,9 +125,120 @@ nginx v1.10 brings quite a few potentially breaking changes:
 * dropped support for GeoIP (legacy), only GeoIP2 is supported
 * The automatically generated `NetworkPolicy` from nginx 1.9.3 is now disabled by default, refer to https://github.com/kubernetes/ingress-nginx/pull/10238 for more information.
 
-#### Dex 2.39
+#### Dex 2.40
 
 The validation of username and password in the LDAP connector is much more strict now. Dex uses the [EscapeFilter](https://pkg.go.dev/gopkg.in/ldap.v1#EscapeFilter) function to check for special characters in credentials and prevent injections by denying such requests. Please ensure this is not an issue before upgrading.
+
+Additionally, the custom `oauth` Helm chart in KKP has been deprecated and will be replaced with a new Helm chart, `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex). Administrators are advised to begin migrating to the new chart as soon as possible.
+
+##### Migration Procedure
+
+Most importantly, with this change the Kubernetes namespace where Dex is installed is also changed. Previously we installed Dex into the `oauth` namespace, but the new chart is meant to be installed into the `dex` namespace. This is the default the KKP installer will choose; if you install KKP manually you could place Dex into any namespace.
+
+Because the namespace changes, both old and new Dex can temporarily live side-by-side in your cluster. This allows administrators to verify their configuration changes before migration over to the new Dex instances.
+
+To begin the migration, create a new `values.yaml` section for Dex (both old and new chart use `dex` as the top-level key in the YAML file) and migrate your existing configuration as follows:
+
+* `dex.replicas` is now `dex.replicaCount`
+* `dex.env` is now `dex.envVars`
+* `dex.extraVolumes` is now `dex.volumes`
+* `dex.extraVolumeMounts` is now `dex.volumeMounts`
+* `dex.certIssuer` has been removed, admins must manually set the necessary annotations on the
+  ingress to integrate with cert-manager.
+* `dex.ingress` has changed internally:
+  * `class` is now `className` (the value "non-existent" is not supported anymore, use the `dex.ingress.enabled` field instead)
+  * `host` and `path` are gone, instead admins will have to manually define their Ingress configuration
+  * `scheme` is likewise gone and admins have to configure the `tls` section in the Ingress configuration
+
+{{< tabs name="CCM/CSI User Roles" >}}
+{{% tab name="old oauth Chart" %}}
+```yaml
+dex:
+  replicas: 2
+
+  env: []
+  extraVolumes: []
+  extraVolumeMounts: []
+
+  ingress:
+    # this option is required
+    host: "kkp.example.com"
+    path: "/dex"
+    # this option is only used for testing and should not be
+    # changed to anything unencrypted in production setups
+    scheme: "https"
+    # if set to "non-existent", no Ingress resource will be created
+    class: "nginx"
+    # Map of ingress provider specific annotations for the dex ingress. Values passed through helm tpl engine.
+    # annotations:
+    #   nginx.ingress.kubernetes.io/enable-opentracing: "true"
+    #   nginx.ingress.kubernetes.io/enable-access-log: "true"
+    #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    annotations: {}
+
+  certIssuer:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+```
+{{% /tab %}}
+
+{{% tab name="new dex Chart" %}}
+```yaml
+# Tell the KKP installer to install the new dex Chart into the
+# "dex" namespace, instead of the old oauth Chart.
+useNewDexChart: true
+
+dex:
+  replicaCount: 2
+
+  envVars: []
+  volumes: []
+  volumeMounts: []
+
+  ingress:
+    enabled: true
+    className: "nginx"
+
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+
+    hosts:
+      # Required: host must be set; usually this is the same
+      # host as is used for the KKP Dashboard, but it can be
+      # any other name.
+      - host: "kkp.example.com"
+        paths:
+          - path: /dex
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: dex-tls
+        hosts:
+          # Required: must include at least the host chosen
+          # above.
+          - "kkp.example.com"
+```
+{{% /tab %}}
+{{< /tabs >}}
+
+Additionally, Dex's own configuration is now more clearly separated from how Dex's Kubernetes manifests are configused. The following changes are required:
+
+* In general, Dex's configuration is everything under `dex.config`.
+* `dex.config.issuer` has to be set explicitly (the old `oauth` Chart automatically set it), usually to `https://<dex host>/dex`, e.g. `https://kkp.example.com/dex`.
+* `dex.connectors` is now `dex.config.connectors`
+* `dex.expiry` is now `dex.config.expiry`
+* `dex.frontend` is now `dex.config.frontend`
+* `dex.grpc` is now `dex.config.grpc`
+* `dex.clients` is now `dex.config.staticClients`
+* `dex.staticPasswords` is now `dex.config.staticPasswords` (when using static passwords, you also have to set `dex.config.enablePasswordDB` to `true`)
+
+Finally, theming support has changed. The old `oauth` Helm chart allowed to inline certain assets, like logos, as base64-encoded blobs into the Helm values. This mechanism is not available in the new `dex` Helm chart and admins have to manually provision the desired theme. KKP's Dex chart will setup a `dex-theme-kkp` ConfigMap, which is mounted into Dex and then overlays files over the default theme that ships with Dex. To customize, create your own ConfigMap/Secret and adjust `dex.volumes`, `dex.volumeMounts` and `dex.config.frontend.theme` / `dex.config.frontend.dir` accordingly.
+
+Once you have prepared a new `values.yaml` with the updated configuration, remember to set `useNewDexChart` to `true` and then you're ready. The next time you run the KKP installer, it will install the `dex` Chart for you,but leave the `oauth` release untouched in your cluster. Note that you cannot have two Ingress objects with the same host names and paths, so if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).
+
+Once you have verified that the new Dex installation is up and running, you can either
+
+* point KKP to the new Dex installation (if its new URL is meant to be permanent) by changing the `tokenIssuer` in the `KubermaticConfiguration`, or
+* delete the old `oauth` release (`helm -n oauth delete oauth`) and then re-deploy the new Dex release, but with the same host+path as the old `oauth` chart used, so that no further changes are necessary in downstream components like KKP. This will incur a short downtime, while no Ingress exists for the issuer URL configured in KKP.
 
 ## Upgrade Procedure
 
