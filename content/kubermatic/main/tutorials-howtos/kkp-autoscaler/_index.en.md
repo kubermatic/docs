@@ -8,7 +8,7 @@ This section deals with the usage of Kubernetes Cluster Autoscaler in a KKP User
 
 ## What is a Cluster Autoscaler in Kubernetes?
 
-Kubernetes Cluster Autoscaler is a tool that automatically adjusts the size of the worker’s node up or down depending on the consumption. This means that the autoscaler, for example, automatically scale up a cluster by increasing the node count when there are not enough node resources for cluster workload scheduling and scale down when the node resources have continuously staying idle, or there are more than enough node resources available for cluster workload scheduling. In a nutshell, it is a component that automatically adjusts the size of a Kubernetes cluster so that all pods have a place to run and there are no unneeded nodes.
+Kubernetes Cluster Autoscaler is a tool that automatically adjusts the size of the worker’s node up or down depending on the consumption. This means that the cluster autoscaler, for example, automatically scale up a cluster by increasing the node count when there are not enough node resources for cluster workload scheduling and scale down when the node resources have continuously staying idle, or there are more than enough node resources available for cluster workload scheduling. In a nutshell, it is a component that automatically adjusts the size of a Kubernetes cluster so that all pods have a place to run and there are no unneeded nodes.
 
 ## KKP Cluster Autoscaler Usage
 
@@ -43,7 +43,7 @@ kube-proxy-tstvd                   1/1       Running      0           21m
 node-local-dns-4p8jr               1/1       Running      0           21m
 ```
 
-As shown above, the autoscaler is not part of the running Kubernetes components within the namespace.
+As shown above, the cluster autoscaler is not part of the running Kubernetes components within the namespace.
 
 **Step 3**
 
@@ -82,7 +82,7 @@ coredns-666448b887-s8wv8              	1/1     	      Running   	0           36m
 coredns-666448b887-vldzz              	1/1     	      Running  		0           36m
 ```
 
-As shown above, the autoscaler has been provisioned and running.
+As shown above, the cluster autoscaler has been provisioned and running.
 
 
 ## Annotating MachineDeployments for Autoscaling
@@ -171,7 +171,7 @@ Metadata:
 ……………………
 ```
 
-As shown above, the MachineDeployment has been annotated with a minimum of 1 and a maximum of 5. Therefore, the autoscaler will consider only the annotated MachineDeployment on the cluster.
+As shown above, the MachineDeployment has been annotated with a minimum of 1 and a maximum of 5. Therefore, the cluster autoscaler will consider only the annotated MachineDeployment on the cluster.
 
 ## Edit KKP Autoscaler
 
@@ -187,7 +187,16 @@ You can delete autoscaler from where you edit it above and select delete.
 ![Delete Autoscaler](images/delete-autoscaler.png?classes=shadow,border "Delete Autoscaler")
 
 
- Once it has been deleted, you can check the cluster to ensure that the autoscaler has been deleted using the command `kubectl get pods -n kube-system`.
+ Once it has been deleted, you can check the cluster to ensure that the cluster autoscaler has been deleted using the command `kubectl get pods -n kube-system`.
+
+
+## Customize KKP Autoscaler
+
+You can customize the cluster autoscaler addon in order to override the cluster autoscaler deployment definition to set or pass the required flag(s) by following the instructions provided over [here](https://docs.kubermatic.com/kubermatic/v2.25/architecture/concept/kkp-concepts/addons/#custom-addons), if you are facing any of the below mentioned issues as described in the [cluster autoscaler FAQs](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md):
+
+* [My cluster is below minimum / above maximum number of nodes, but CA did not fix that! Why?](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#my-cluster-is-below-minimum--above-maximum-number-of-nodes-but-ca-did-not-fix-that-why)
+
+* [I'm running cluster with nodes in multiple zones for HA purposes. Is that supported by Cluster Autoscaler?](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler)
 
 
 ## Summary

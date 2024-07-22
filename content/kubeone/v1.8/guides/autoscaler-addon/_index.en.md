@@ -46,7 +46,43 @@ addons:
 
 If you wish to change some of the properties, such as timeout for scaling up/down, you’ll need to provide the appropriate command-line flags to cluster-autoscaler. For that, you’ll need to override the cluster-autoscaler addon embedded in the KubeOne binary with your addon.
 
-To find out how to override embedded add-ons, please check the [Addons document][embedded-addons]. For more information regarding available configuration parameters and options, please check the [Cluster Autoscaler FAQ][ca-faq].
+To find out how to override embedded add-ons, please check the [Addons document][embedded-addons].
+
+If you are facing issue similar to the one described over [here][enforce-node-group-min-size] in the [Cluster Autoscaler FAQ][ca-faq], pass down the param `CLUSTER_AUTOSCALER_ENFORCE_NODE_GROUP_MIN_SIZE` to the cluster autoscaler addon as shown below:
+
+```yaml
+apiVersion: kubeone.k8c.io/v1beta2
+kind: KubeOneCluster
+versions:
+  kubernetes: '1.29.4'   ## kubernetes version
+cloudProvider:  ## This field is sourced automatically if terraform is used for the cluster
+  aws: {}
+addons:
+  enable: true
+  addons:
+  - name: cluster-autoscaler
+    params:
+      CLUSTER_AUTOSCALER_ENFORCE_NODE_GROUP_MIN_SIZE: "true"
+```
+
+If you are facing issue similar to the one described over [here][balance-similar-node-groups] in the [Cluster Autoscaler FAQ][ca-faq], pass down the param `CLUSTER_AUTOSCALER_BALANCE_SIMILAR_NODE_GROUP` to the cluster autoscaler addon as shown below:
+
+```yaml
+apiVersion: kubeone.k8c.io/v1beta2
+kind: KubeOneCluster
+versions:
+  kubernetes: '1.29.4'   ## kubernetes version
+cloudProvider:  ## This field is sourced automatically if terraform is used for the cluster
+  aws: {}
+addons:
+  enable: true
+  addons:
+  - name: cluster-autoscaler
+    params:
+      CLUSTER_AUTOSCALER_BALANCE_SIMILAR_NODE_GROUP: "true"
+```
+
+For more information regarding available configuration parameters and options, please check the [Cluster Autoscaler FAQ][ca-faq].
 
 ### Step 3: Deploying Kubernetes Cluster Autoscaler
 
@@ -212,3 +248,5 @@ That is it! You have successfully deployed Kubernetes autoscaler on the KubeOne 
 [embedded-addons]: {{< ref "../../guides/addons/#overriding-embedded-eddons" >}}
 [ca-faq]: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md
 [ca-faq-what-is]: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-is-cluster-autoscaler
+[enforce-node-group-min-size]: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#my-cluster-is-below-minimum--above-maximum-number-of-nodes-but-ca-did-not-fix-that-why
+[balance-similar-node-groups]: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler
