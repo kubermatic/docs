@@ -31,11 +31,110 @@ KKP 2.26 ships a lot of major version upgrades for the Helm charts, most notably
 
 Some of these updates require manual intervention or at least checking whether a given KKP system is affected by upstream changes. Please read the following sections carefully before beginning the upgrade.
 
-#### Velero 1.13
+#### Velero 1.14
 
-Velero was updated from 1.10 to 1.13, which includes a number of significant improvements internally.
+Velero was updated from 1.10 to 1.14, which includes a number of significant improvements internally. In the same breath, KKP also replaced the custom Helm chart with the [official upstream Helm chart](https://github.com/vmware-tanzu/helm-charts/tree/main/charts/velero) for Velero. Administrators must migrate their configuration accordingly.
 
-* The default file-level backup tool was changed from Restic to Kopia. To keep backwards-compatibility, the KKP `velero` chart now explicitly configures Restic, but we expect that switching to Kopia will be mandatory in the future. Please use the `restic.uploaderType` variable in the `values.yaml` to switch to Kopia when desired.
+* Previously, restic was the default file-level backup solution in Velero. Recently this has been changed to use Kopia instead. Depending on whether you can afford a clean install of Velero, you might want to configure Velero to use restic for the time being (support for restic will be removed from Velero in a future version).
+* The structure of the `values.yaml` has changed, please update your values:
+  * `velero.podAnnotations` is now `velero.annotations`
+  * `velero.serverFlags` is now `velero.configuration.*` (each CLI flag is its own field in the YAML file, e.g. `serverFlags:["--log-format=json"]` would become `configuration.logFormat: "json"`)
+  * `velero.uploaderType` is now `velero.configuration.uploaderType`
+  * `velero.credentials` is now `velero.credentials.*`
+  * `velero.schedulesPath` is not available anymore, since putting additional files into a Helm chart before installing it is a rather unusual process. Instead, specify the desired schedules directly inside the `values.yaml` in `velero.schedules`
+  * `velero.backupStorageLocations` is now `velero.configuration.backupStorageLocation`
+  * `velero.volumeSnapshotLocations` is now `velero.configuration.volumeSnapshotLocation`
+  * `velero.defaultVolumeSnapshotLocations` is now `velero.configuration.defaultBackupStorageLocation`
+
+{{< tabs name="Velero Helm Chart Upgrades" >}}
+{{% tab name="old Velero Chart" %}}
+```yaml
+velero:
+  podAnnotations:
+    iam.amazonaws.com/role: arn:aws:iam::1234:role/velero
+
+  backupStorageLocations:
+    aws:
+      provider: aws
+      objectStorage:
+        bucket: myclusterbackups
+      config:
+        region: eu-west-1
+
+  # optionally define some of your volumeSnapshotLocations as the default;
+  # each element in the list must be a string of the form "provider:location"
+  defaultVolumeSnapshotLocations:
+    - aws:aws
+
+  # see https://velero.io/docs/v1.10/api-types/volumesnapshotlocation/
+  volumeSnapshotLocations:
+    aws:
+      provider: aws
+      config:
+        region: eu-west-1
+
+  uploaderType: restic
+
+  serverFlags:
+    - --log-format=json
+
+  credentials:
+    aws:
+      accessKey: itsme
+      secretKey: andthisismypassword
+
+  schedulesPath: schedules/*
+```
+{{% /tab %}}
+
+{{% tab name="new Velero Chart" %}}
+```yaml
+velero:
+  annotations:
+    iam.amazonaws.com/role: arn:aws:iam::1234:role/velero
+
+  # schedules are no longer loaded from external files, but must be included inline
+  schedules:
+    hourly-cluster:
+      schedule: 0 * * * *
+      template:
+        includeClusterResources: true
+        includedNamespaces:
+          - '*'
+        snapshotVolumes: false
+        ttl: 168h # 7 days
+
+  configuration:
+    uploaderType: restic
+    logFormat: json
+
+    backupStorageLocation:
+      - name: aws
+        provider: aws
+        objectStorage:
+          bucket: myclusterbackups
+        config:
+          region: eu-west-1
+
+    volumeSnapshotLocation:
+      - name: aws
+        provider: aws
+        config:
+          region: eu-west-1
+
+    defaultBackupStorageLocation: aws
+
+  credentials:
+    useSecret: true
+    name: aws-credentials
+    secretContents:
+      cloud: |
+        [default]
+        aws_access_key_id=itsme
+        aws_secret_access_key=andthisismypassword
+```
+{{% /tab %}}
+{{< /tabs >}}
 
 #### cert-manager 1.14
 
