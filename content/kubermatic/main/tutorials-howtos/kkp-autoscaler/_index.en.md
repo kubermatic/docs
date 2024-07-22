@@ -29,7 +29,7 @@ Create a KKP User cluster by selecting your project on the dashboard and click o
 
 When the User cluster is ready, check the pods in the `kube-system` namespace to know if any autoscaler is running.
 
-![KKP Dashboard](@/images/tutorials/cluster-autoscaler/kkp-autoscaler-dashboard.png?classes=shadow,border "KKP Dashboard")
+![KKP Dashboard](images/kkp-autoscaler-dashboard.png?classes=shadow,border "KKP Dashboard")
 
 ```bash
 $ kubectl get pods -n kube-system
@@ -49,23 +49,23 @@ As shown above, the autoscaler is not part of the running Kubernetes components 
 
 Add the Autoscaler to the User cluster under the addon section on the dashboard by clicking on the Addons and then `Install Addon.`
 
-![Add Addon](@/images/tutorials/cluster-autoscaler/add-autoscaler-addon.png?classes=shadow,border "Add Addon")
+![Add Addon](images/add-autoscaler-addon.png?classes=shadow,border "Add Addon")
 
 
 Select Cluster Autoscaler:
 
 
-![Select Autoscaler](@/images/tutorials/cluster-autoscaler/select-autoscaler.png?classes=shadow,border "Select Autoscaler")
+![Select Autoscaler](images/select-autoscaler.png?classes=shadow,border "Select Autoscaler")
 
 
 Select install:
 
 
-![Select Install](@/images/tutorials/cluster-autoscaler/install-autoscaler.png?classes=shadow,border "Select Install")
+![Select Install](images/install-autoscaler.png?classes=shadow,border "Select Install")
 
 
 
-![Installation Confirmation](@/images/tutorials/cluster-autoscaler/autoscaler-confirmation.png?classes=shadow,border "Installation Confirmation")
+![Installation Confirmation](images/autoscaler-confirmation.png?classes=shadow,border "Installation Confirmation")
 
 
 **Step 4**
@@ -94,11 +94,11 @@ The Cluster Autoscaler only considers MachineDeployment with valid annotations. 
 
 Annotations can be preconfigured at the time of cluster creation. Just put appropriate values in the Initial Nodes form.
 
-![Set autoscaling annotations while creating cluster](@/images/tutorials/cluster-autoscaler/create-autoscaler-annotations.png?classes=shadow,border "Set autoscaling annotations while creating cluster")
+![Set autoscaling annotations while creating cluster](images/create-autoscaler-annotations.png?classes=shadow,border "Set autoscaling annotations while creating cluster")
 
 If you already have an existing Machine Deployment, open an edit form and scroll down to `Advanced Settings` > `Node Autoscaling`.
 
-![Set autoscaling annotations while editing MD](@/images/tutorials/cluster-autoscaler/edit-autoscaler-annotations.png?classes=shadow,border "Set autoscaling annotations while editing Machine Deployment")
+![Set autoscaling annotations while editing MD](images/edit-autoscaler-annotations.png?classes=shadow,border "Set autoscaling annotations while editing Machine Deployment")
 
 ### Manual setup
 
@@ -177,14 +177,14 @@ As shown above, the MachineDeployment has been annotated with a minimum of 1 and
 
 To edit KKP Autoscaler, click on the three dots in front of the Cluster Autoscaler in the Addons section of the Cluster dashboard and select edit.
 
-![Edit Autoscaler](@/images/tutorials/cluster-autoscaler/edit-autoscaler.png?classes=shadow,border "Edit Autoscaler")
+![Edit Autoscaler](images/edit-autoscaler.png?classes=shadow,border "Edit Autoscaler")
 
 
 ## Delete KKP Autoscaler
 
 You can delete autoscaler from where you edit it above and select delete.
 
-![Delete Autoscaler](@/images/tutorials/cluster-autoscaler/delete-autoscaler.png?classes=shadow,border "Delete Autoscaler")
+![Delete Autoscaler](images/delete-autoscaler.png?classes=shadow,border "Delete Autoscaler")
 
 
  Once it has been deleted, you can check the cluster to ensure that the autoscaler has been deleted using the command `kubectl get pods -n kube-system`.

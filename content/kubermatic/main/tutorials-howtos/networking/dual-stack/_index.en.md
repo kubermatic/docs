@@ -68,13 +68,13 @@ If dual-stack networking is available for the given provider and datacenter, an 
 `IPv4` and `IPv4 and IPv6 (Dual Stack)` becomes automatically available on the cluster details page in the cluster
 creation wizard:
 
-![Cluster Settings - Network Configuration - IPv4 vs. Dual-Stack](@/images/tutorials/networking/ui-cluster-ip-family.png?classes=shadow,border "Cluster Settings - Network Configuration - IPv4 vs. Dual-Stack")
+![Cluster Settings - Network Configuration - IPv4 vs. Dual-Stack](ui-cluster-ip-family.png?classes=shadow,border "Cluster Settings - Network Configuration - IPv4 vs. Dual-Stack")
 
 After clicking on the `ADVANCED NETWORKING CONFIGURATION` button, more detailed networking configuration can be provided.
 In case of a dual-stack cluster, the pods & services CIDRs, the node CIDR mask size and the allowed IP range for nodePorts
 can be configured separately for each address family:
 
-![Cluster Settings - Network Configuration - Advanced Dual-Stack Configuration](@/images/tutorials/networking/ui-cluster-advanced-nw-config.png?classes=shadow,border "Cluster Settings - Network Configuration - Advanced Dual-Stack Configuration")
+![Cluster Settings - Network Configuration - Advanced Dual-Stack Configuration](ui-cluster-advanced-nw-config.png?classes=shadow,border "Cluster Settings - Network Configuration - Advanced Dual-Stack Configuration")
 
 The rest of the cluster creation process remains the same as for single-stack user clusters.
 

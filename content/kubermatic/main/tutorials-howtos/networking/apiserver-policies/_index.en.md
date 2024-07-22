@@ -69,8 +69,8 @@ spec:
 
 This can be also configured from the KKP UI, either during cluster creation, under the "Network Configuration" > "Advanced Network Configuration":
 
-![Allowed IP Ranges - Cluster Creation](@/images/tutorials/networking/network-config-allowed-ip-ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Cluster Creation")
+![Allowed IP Ranges - Cluster Creation](network-config-allowed-ip-ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Cluster Creation")
 
 or in an existing cluster via the "Edit Cluster" dialog:
 
-![Allowed IP Ranges - Edit Cluster](@/images/tutorials/networking/cluster-details-allowed-ip-ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Edit Cluster")
+![Allowed IP Ranges - Edit Cluster](cluster-details-allowed-ip-ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Edit Cluster")

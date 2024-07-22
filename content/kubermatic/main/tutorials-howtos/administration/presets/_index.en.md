@@ -48,11 +48,11 @@ Preset list offers multiple options that allow Administrators to manage Presets.
 
 Open the `Create Preset` dialog through the button available on the Preset list.
 
-![Creating a preset](@/images/ui/create-preset.png?classes=shadow,border)
+![Creating a preset](images/create-preset.png?classes=shadow,border)
 
 #### Step 1: Preset
 
-![First step of creating a preset](@/images/ui/create-preset-first-step.png?height=500px&classes=shadow,border)
+![First step of creating a preset](images/create-preset-first-step.png?height=500px&classes=shadow,border)
 
 - `Name` is a required parameter and will be used in the wizard to select the provider.
 - `Domain` is an optional parameter that allows to limit Preset availability only to the specific users with email matching this domain.
@@ -68,19 +68,19 @@ Note that project limitations can only be [edited from `kubectl`](#editing-a-pre
 
 All configured providers will be available on this step and only a single provider can be selected.
 
-![Second step of creating a preset](@/images/ui/create-preset-second-step.png?height=500px&classes=shadow,border)
+![Second step of creating a preset](images/create-preset-second-step.png?height=500px&classes=shadow,border)
 
 #### Step 3: Settings
 
 The _Settings_ step will vary depending on the provider selected in the previous step. In our example, we have selected
 an AWS provider.
 
-![Third step of creating a preset](@/images/ui/create-preset-third-step.png?height=500px&classes=shadow,border)
+![Third step of creating a preset](images/create-preset-third-step.png?height=500px&classes=shadow,border)
 
 There are provider specific fields available here. Some of them will be mandatory as they are needed for the cluster
 creation.
 
-![](@/images/ui/create-preset-third-step-dc.png?height=200px&classes=shadow,border)
+![Optional third step of restricting to DC](images/create-preset-third-step-dc.png?height=200px&classes=shadow,border)
 
 The `Restrict to Datacenter` field is available for all providers. It allows administrators to
 restrict using the Preset to a single datacenter. Datacenter names can be found i.e. on the [Dynamic Datacenters]({{< ref "../admin-panel/dynamic-datacenters-management" >}}) list.

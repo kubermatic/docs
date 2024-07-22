@@ -11,11 +11,11 @@ weight = 1
 
 Clusters are assigned to projects, so in order to create a cluster, you must create a project first. In the Kubermatic Kubernetes Platform (KKP) dashboard, choose `Add Project`:
 
-![Project List](@/images/tutorials/projects-overview.png?classes=shadow,border "Project List")
+![Project List](images/projects-overview.png?classes=shadow,border "Project List")
 
 Assign your new project a name:
 
-![Add Project Dialog](@/images/tutorials/project-add.png?classes=shadow,border "Add Project Dialog")
+![Add Project Dialog](images/project-add.png?classes=shadow,border "Add Project Dialog")
 
 You can assign key-label pairs to your projects. These will be inherited by the clusters and cluster nodes in this project. You can assign multiple key-label pairs to a project.
 
@@ -26,18 +26,18 @@ After you click `Save`, the project will be created. If you click on it now, you
 
 To delete a project, move the cursor over the line with the project name and click the trash bucket icon.
 
-![Delete Project](@/images/tutorials/project-delete.png?classes=shadow,border "Delete Project")
+![Delete Project](images/project-delete.png?classes=shadow,border "Delete Project")
 
 
 ### Add an SSH Key
 
 If you want to ssh into the project VMs, you need to provide your SSH public key. SSH keys are tied to a project. During cluster creation you can choose which SSH keys should be added to nodes. To add an SSH key, navigate to `SSH Keys` in the Dashboard and click on `Add SSH Key`:
 
-![SSH Key List](@/images/tutorials/sshkeys-overview.png?classes=shadow,border "SSH Key List")
+![SSH Key List](images/sshkeys-overview.png?classes=shadow,border "SSH Key List")
 
 This will create a pop up. Enter a unique name and paste the complete content of the SSH key into the respective field:
 
-![Add SSH Key Dialog](@/images/tutorials/sshkeys-add-dialog.png?classes=shadow,border "Add SSH Key Dialog")
+![Add SSH Key Dialog](images/sshkeys-add-dialog.png?classes=shadow,border "Add SSH Key Dialog")
 
 After you click on `Add SSH key`, your key will be created and you can now add it to clusters in the same project.
 
@@ -48,11 +48,11 @@ After you click on `Add SSH key`, your key will be created and you can now add i
 
 To create a new cluster, open the Kubermatic Kubernetes Platform (KKP) dashboard, choose a project, select the menu entry `Clusters` and click the button `Create Cluster` on the top right.
 
-![Cluster List](@/images/tutorials/cluster-list.png?classes=shadow,border "Cluster List")
+![Cluster List](images/cluster-list.png?classes=shadow,border "Cluster List")
 
 Choose the cloud provider and the datacenter:
 
-![Menu to choose Cloud Provider](@/images/tutorials/wizard-step-1.png?classes=shadow,border "Menu to choose Cloud Provider")
+![Menu to choose Cloud Provider](images/wizard-step-1.png?classes=shadow,border "Menu to choose Cloud Provider")
 
 Enter a name for your cluster and optionally adapt other settings, such as:
 
@@ -66,43 +66,43 @@ When done, click Next to continue to the next step.
 **Note:**
 Disabling the User SSH Key Agent at this point can not be reverted after the cluster creation, which means that ssh key management after creation for this cluster will have to be done manually. More info in [`User SSH Key Agent`]({{< ref "../../tutorials-howtos/administration/user-settings/user-ssh-key-agent" >}})
 
-![General Cluster Settings](@/images/tutorials/wizard-step-2.png?classes=shadow,border "General Cluster Settings")
+![General Cluster Settings](images/wizard-step-2.png?classes=shadow,border "General Cluster Settings")
 
 
 In the next step of the installer, enter the credentials for the chosen provider. A good option is to use [Presets]({{< ref "../administration/presets/" >}}) instead putting in credentials for every cluster creation:
 
-![Provider Credentials](@/images/tutorials/wizard-step-3.png?classes=shadow,border "Provider Credentials")
+![Provider Credentials](images/wizard-step-3.png?classes=shadow,border "Provider Credentials")
 
 In the Initial nodes section of the wizard you can setup the size, settings and amount of nodes your cluster will start with. Also you can assign labels to your nodes. You can also set [node taints](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) which is a property that allows your node to repel certain pods.
 
-![Node Settings](@/images/tutorials/wizard-step-4.png?classes=shadow,border "Node Settings")
-![Node Settings](@/images/tutorials/wizard-step-4.1.png?classes=shadow,border "Node Settings")
+![Node Settings](images/wizard-step-4.png?classes=shadow,border "Node Settings")
+![Node Settings](images/wizard-step-4.1.png?classes=shadow,border "Node Settings")
 
 In the cluster creation wizard, you can select applications to install into your cluster. KKP will automatically install your selection after the infrastructure is provisioned and the cluster is ready. Learn more about [Adding Applications to a cluster via wizard]({{< ref "../applications/add-applications-to-cluster/" >}}).
 
-![Add Applications to a cluster Settings](@/images/tutorials/wizard-step-5.png?classes=shadow,border "Add Applications")
+![Add Applications to a cluster Settings](images/wizard-step-5.png?classes=shadow,border "Add Applications")
 
 Lastly, a cluster summary screen will be presented so that you can check out if everything looks ok.
 
-![Cluster Details as a Summary](@/images/tutorials/wizard-step-6.png?classes=shadow,border "Cluster Details as a Summary")
+![Cluster Details as a Summary](images/wizard-step-6.png?classes=shadow,border "Cluster Details as a Summary")
 
 You will then be forwarded to the cluster page where you can view the cluster creation process:
 
-![Cluster Details in Creation State](@/images/tutorials/cluster-details-after-creation.png?classes=shadow,border "Cluster Details in Creation State")
+![Cluster Details in Creation State](images/cluster-details-after-creation.png?classes=shadow,border "Cluster Details in Creation State")
 
 After all of the control plane components are ready, your cluster will create the configured number of worker nodes. Fully created nodes will be marked with a green dot, pending ones with a yellow circle. Clicking on the download icon lets you download the kubeconfig to be able to use `kubectl` with your cluster.
 
-![Cluster Created](@/images/tutorials/cluster-details-overview.png?classes=shadow,border "Cluster Created")
+![Cluster Created](images/cluster-details-overview.png?classes=shadow,border "Cluster Created")
 
 ### Upgrade Cluster
 
 When an upgrade for the cluster is available, a little dropdown arrow will be shown besides the Master Version on the cluster's page:
 
-![Cluster with available Upgrade](@/images/tutorials/upgrade-version.png?classes=shadow,border "Cluster with available Upgrade")
+![Cluster with available Upgrade](images/upgrade-version.png?classes=shadow,border "Cluster with available Upgrade")
 
 To start the upgrade, just click on the link and choose the desired version:
 
-![Dialog to choose Upgrade Version](@/images/tutorials/change-version.png?classes=shadow,border "Dialog to choose Upgrade Version")
+![Dialog to choose Upgrade Version](images/change-version.png?classes=shadow,border "Dialog to choose Upgrade Version")
 
 After the update is initiated, the main components will be upgraded in the background. Check the checkbox for `Upgrade Machine Deployments` if you wish to upgrade the existing worker nodes as well.
 
@@ -110,19 +110,19 @@ After the update is initiated, the main components will be upgraded in the backg
 
 Clusters can be edited by pressing the ellipsis button on the right and then select `Edit Cluster`:
 
-![Select Edit Cluster](@/images/tutorials/cluster-edit-menu.png?classes=shadow,border "Select Edit Cluster")
+![Select Edit Cluster](images/cluster-edit-menu.png?classes=shadow,border "Select Edit Cluster")
 
-![Edit Cluster Dialog](@/images/tutorials/edit-cluster-dialog.png?classes=shadow,border "Edit Cluster Dialog")
+![Edit Cluster Dialog](images/edit-cluster-dialog.png?classes=shadow,border "Edit Cluster Dialog")
 
 ### Delete Cluster
 
 To delete a cluster, navigate to `Clusters` and choose the cluster that you would like to delete. On the top left is a button `Delete`:
 
-![Cluster Deletion Button in the top right corner](@/images/tutorials/delete-cluster-button.png?classes=shadow,border "Cluster Deletion Button in the top right corner")
+![Cluster Deletion Button in the top right corner](images/delete-cluster-button.png?classes=shadow,border "Cluster Deletion Button in the top right corner")
 
 To confirm the deletion, type the name of the cluster into the text box:
 
-![Confirmation dialog for Cluster Deletion](@/images/tutorials/delete-cluster.png?classes=shadow,border "Confirmation dialog for Cluster Deletion")
+![Confirmation dialog for Cluster Deletion](images/delete-cluster.png?classes=shadow,border "Confirmation dialog for Cluster Deletion")
 
 The cluster will switch into deletion state afterwards, and will be removed from the list when the deletion succeeds.
 
@@ -131,7 +131,7 @@ The cluster will switch into deletion state afterwards, and will be removed from
 
 To add a new machine deployment navigate to your cluster view and click on the `Add Machine Deployment` button:
 
-![Cluster overview with highlighted add button](@/images/tutorials/add-machine-deployment.png?classes=shadow,border "Cluster overview with highlighted add button")
+![Cluster overview with highlighted add button](images/add-machine-deployment.png?classes=shadow,border "Cluster overview with highlighted add button")
 
 In the popup you can then choose the number of nodes (replicas), kubelet version, etc for your newly created machine deployment. All nodes created in this machine deployment will have the chosen settings.
 
@@ -139,8 +139,8 @@ In the popup you can then choose the number of nodes (replicas), kubelet version
 
 To add or delete a worker node you can easily edit the machine deployment in your cluster. Navigate to the cluster overview, scroll down to `Machine Deployments` and click on the edit icon next to the machine deployment you want to edit:
 
-![Machine deployment overview with highlighted edit button](@/images/tutorials/machine-deployment-edit.png?classes=shadow,border "Machine deployment overview with highlighted edit button")
+![Machine deployment overview with highlighted edit button](images/machine-deployment-edit.png?classes=shadow,border "Machine deployment overview with highlighted edit button")
 
 In the popup dialog you can now in- or decrease the number of worker nodes which are managed by this machine deployment, as well as their operating system, used image etc.:
 
-![Machine deployment overview with opened edit modal](@/images/tutorials/machine-deployment-edit-dialog.png?classes=shadow,border "Machine deployment overview with opened edit modal")
+![Machine deployment overview with opened edit modal](images/machine-deployment-edit-dialog.png?classes=shadow,border "Machine deployment overview with opened edit modal")

@@ -10,7 +10,7 @@ Therefore, you can also manage your cluster with the Web Terminal by using `kube
 To enable it, go to the [Interface section]({{< ref "../../administration/admin-panel/interface" >}}) of the Admin Panel.
 After enabling it, a button will appear on the top right side of the user cluster page and the API will allow its usage.
 
-![Web Terminal](@/images/ui/web-terminal.png?classes=shadow,border)
+![Web Terminal](web-terminal.png?classes=shadow,border)
 
 **Note:** at the first usage time, you will be requested to login to KKP again. Please use a user with the ***same Kubermatic user email***.
 
@@ -24,7 +24,7 @@ Then, the API starts streaming terminal commands from the UI to the Web Terminal
 After 30 minutes, the expiration happens and every deployed resource is destroyed. Although, 5 minutes before the expiration time,
 the user is asked for extending the terminal for more 30 minutes.
 
-![Web Terminal sequence diagram](@/images/ui/web-terminal-sequence-diagram.png?classes=shadow,border)
+![Web Terminal sequence diagram](web-terminal-sequence-diagram.png?classes=shadow,border)
 
 ## Troubleshooting
 

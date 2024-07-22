@@ -11,7 +11,7 @@ at the cluster creation time and cannot be changed in an already existing cluste
 
 Cluster networking can be configured in the "Network Configuration" part of the cluster creation wizard, as shown below:
 
-![Cluster Settings - Network Configuration](@/images/tutorials/networking/ui-cluster-networking.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Network Configuration](images/ui-cluster-networking.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 ## CNI Type and Version
 
@@ -34,7 +34,7 @@ The following table lists the versions of individual CNIs supported by KKP:
 
 The desired CNI type and version can be selected at the cluster creation time - on the Cluster Settings page, as shown below:
 
-![Cluster Settings - Network Configuration](@/images/tutorials/networking/ui-cluster-cni.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Network Configuration](images/ui-cluster-cni.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 Available CNI versions depend on the KKP version. Note that CNI type cannot be changed after cluster creation, but [manual CNI migration]({{< relref "../cni-migration/" >}}) is possible when necessary.
 
@@ -80,7 +80,7 @@ Apart from internally relying on KKP's [Applications]({{< relref "../../applicat
 #### Editing the CNI Configuration During Cluster Creation
 When creating a new user cluster via KKP UI, it is possible to specify Helm values used to deploy the CNI via the "Edit CNI Values" button at the bottom of the "Advanced Network Configuration" section on the step 2 of the cluster creation wizard:
 
-![Edit CNI Values](@/images/tutorials/networking/edit-cni-app-values.png?classes=shadow,border "Edit CNI Values")
+![Edit CNI Values](images/edit-cni-app-values.png?classes=shadow,border "Edit CNI Values")
 
 This can be used e.g. to turn specific CNI features on or off, or modify arbitrary CNI configuration. If no initial values are provided, the default values configured for the CNI `ApplicationDefinition` will be used (see [Changing the Default CNI Configuration](#changing-the-default-cni-configuration)).
 Please note that the final Helm values applied in the user cluster will be automatically extended/overridden by the KKP controllers with the configuration necessary to provision the cluster, such as pod CIDR etc.
@@ -92,7 +92,7 @@ In an existing cluster, the CNI configuration can be edited in two ways: via KKP
 
 For editing CNI configuration via KKP UI, navigate to the "Applications" tab on the cluster details page, switch the "Show System Applications" toggle, and click on the "Edit Application" button of the CNI. After that a new dialog window with currently applied CNI Helm values will be open and allow their modification.
 
-![Edit CNI Application](@/images/tutorials/networking/edit-cni-app.png?classes=shadow,border "Edit CNI Application")
+![Edit CNI Application](images/edit-cni-app.png?classes=shadow,border "Edit CNI Application")
 
 The other option is to edit the CNI `ApplicationInstallation` in the user cluster directly, e.g. like this for the Cilium CNI:
 ```bash
@@ -135,9 +135,9 @@ In the rare case of downgrading the Cilium CNI from the `1.13.0` to a lower vers
 
 If the KKP installation supports a newer version of the CNI installed in a user cluster, it is possible to upgrade to it. This will be shown in the KKP UI and the available versions will be listed in the upgrade dialog shown after clicking on the "CNI Plugin Version" box:
 
-![Cluster Details](@/images/tutorials/networking/ui-cni-upgrade-available.png?classes=shadow,border "Cluster Details")
+![Cluster Details](images/ui-cni-upgrade-available.png?classes=shadow,border "Cluster Details")
 
-![Cluster Details - CNI Plugin Version Dialog](@/images/tutorials/networking/ui-cni-upgrade-dialog.png?classes=shadow,border "Cluster Details - CNI Plugin Version Dialog")
+![Cluster Details - CNI Plugin Version Dialog](images/ui-cni-upgrade-dialog.png?classes=shadow,border "Cluster Details - CNI Plugin Version Dialog")
 
 Once a newer version is selected, the CNI upgrade in the user cluster can be triggered by clicking on the "Change CNI Version" button. Please note that this action may cause network connectivity drops in the cluster, so it should be performed during a maintenance window.
 
@@ -165,7 +165,7 @@ This feature is described in detail on an individual page: [Dual-Stack Networkin
 After Clicking on the "Advanced Networking Configuration" button in the cluster creation wizard, several more network
 configuration options are shown to the user:
 
-![Cluster Settings - Advanced Network Configuration](@/images/tutorials/networking/ui-cluster-networking-advanced.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Advanced Network Configuration](images/ui-cluster-networking-advanced.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 ### Proxy Mode
 Configures kube-proxy mode for k8s services. Can be set to `ipvs`, `iptables` or `ebpf` (`ebpf` is available only if Cilium CNI is selected and [Konnectivity](#konnectivity) is enabled).
@@ -199,7 +199,7 @@ Please follow these guidelines to migrate clusters to the Konnectivity.
 
 Konnectivity can be enabled on per-user-cluster basis. When creating a new user cluster, the `Konnectivity` checkbox will become available in the Advanced Network Configuration part of the cluster in the KKP UI (and will be enabled by default):
 
-![Cluster Settings - Network Configuration](@/images/tutorials/networking/ui-cluster-konnectivity.png?classes=shadow,border "Cluster Settings - Network Configuration")
+![Cluster Settings - Network Configuration](images/ui-cluster-konnectivity.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 When this option is checked (which it is by default), Konnectivity will be used for control plane to worker nodes communication in the cluster. Otherwise, the old OpenVPN solution will be used.
 
@@ -213,7 +213,7 @@ This action will cause a restart of most of the control plane components and res
 
 {{% /notice %}}
 
-![Cluster Details - Edit Cluster Dialog](@/images/tutorials/networking/ui-cluster-dialog-konnectivity.png?classes=shadow,border "Cluster Details - Edit Cluster Dialog")
+![Cluster Details - Edit Cluster Dialog](images/ui-cluster-dialog-konnectivity.png?classes=shadow,border "Cluster Details - Edit Cluster Dialog")
 
 After switching to Konnectivity, give the control plane components in Seed enough time to redeploy (may take several minutes). Once this redeployment is done, you should see two `konnectivity-agent` replicas running in the user cluster instead of the `openvpn-client` pod. Apart from it, you should also see new `metrics-server` pods running in the user cluster:
 

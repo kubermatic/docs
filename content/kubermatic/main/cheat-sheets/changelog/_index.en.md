@@ -155,11 +155,11 @@ version of the application changes it will be automatically shown right after lo
 last seen version in the user object in order to avoid showing it every time after logging in when there was no version
 update. It is still possible to open it manually by using the `What's new` entry inside `Help & Support` panel.
 
-![Opening Changelog](@/images/ui/opening-changelog.png?classes=shadow,border)
+![Opening Changelog](@/images/ui/help-panel.png?classes=shadow,border)
 
 An example changelog might look like the one below.
 
-![Changelog](@/images/ui/changelog.png?classes=shadow,border)
+![Changelog](changelog.png?classes=shadow,border)
 
 The `What's New` entry inside `Help & Support` panel can be hidden from Admin Panel's `Customization` page. Please visit
 [Custom Links]({{< ref "../../tutorials-howtos/administration/admin-panel/custom-links" >}}) for more information.
