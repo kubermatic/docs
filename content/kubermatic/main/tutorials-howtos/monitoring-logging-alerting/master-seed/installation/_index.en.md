@@ -83,7 +83,7 @@ As with KKP itself, it's recommended to use a single `values.yaml` to configure 
 * `promtail.tolerations` might need to be extended to deploy a Promtail pod on every node in the cluster. By default, master-node NoSchedule taints are ignored.
 
 An example `values.yaml` could look like this if all options mentioned above are customized:
-kkp.example.com
+
 ```yaml
 prometheus:
   host: prometheus.kkp.example.com
@@ -94,7 +94,7 @@ prometheus:
   ruleFiles:
   - /etc/prometheus/rules/general-*.yaml
   - /etc/prometheus/rules/kubermatic-master-*.yaml
-  - /etc/prometheus/rkkp.example.com
+  - /etc/prometheus/rules/managed-*.yaml
 
 alertmanager:
   host: alertmanager.kkp.example.com
@@ -158,14 +158,3 @@ INFO[0166] ðŸ›¬ Installation completed successfully. Time for a break, maybe? â˜
 
 - To expose Prometheus, Alertmanager and other services installed via the steps above, follow [Securing System Services]({{< relref "../../../../architecture/concept/kkp-concepts/kkp-security/securing-system-services/" >}}).
 - The charts have a lot more options to tweak, like `alertmanager.config` or `karma.config` to control how and which alerts are sent where. Likewise, when your cluster grows, you most likely want to adjust the resource requirements in `prometheus.containers.prometheus.resources` and others. You can find more information on the [Monitoring, Logging & Alerting Customization]({{< relref "../customization" >}}) page.
-
-### Thanos (Beta)
-
-[Thanos](https://thanos.io/) is a long-term storage solution for Prometheus metrics, backed by an S3 compatible object store. KKP includes preliminary support for Thanos by setting `prometheus.thanos.enabled=true`. Note that this requires considerably more resources to run:
-
-* Thanos UI requires roughly 64MB memory and 50m CPU.
-* Thanos Store requires 2GB memory and 500 mCPU per pod.
-* Thanos Query requires 512MB memory and 100m CPU per pod.
-* Thanos Compact requires lots of memory, depending on block sizes, up to 16GB, and 1 CPU core.
-
-It's essential to configure the retention period for Thanos using `prometheus.thanos.compact.retention`, as well as to configure the proper object store and create the required bucket. Refer to the `config/prometheus/values.yaml` for a complete list of options.
