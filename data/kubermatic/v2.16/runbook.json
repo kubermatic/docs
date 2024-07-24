@@ -7,7 +7,7 @@
           "alert": "HttpProbeFailed",
           "annotations": {
             "message": "Probing the blackbox-exporter target {{ $labels.instance }} failed.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-httpprobefailed"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-httpprobefailed"
           },
           "expr": "probe_success != 1",
           "for": "5m",
@@ -19,7 +19,7 @@
           "alert": "HttpProbeSlow",
           "annotations": {
             "message": "{{ $labels.instance }} takes {{ $value }} seconds to respond.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-httpprobeslow"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-httpprobeslow"
           },
           "expr": "sum by (instance) (probe_http_duration_seconds) > 3",
           "for": "15m",
@@ -37,7 +37,7 @@
           "alert": "HttpCertExpiresSoon",
           "annotations": {
             "message": "The certificate for {{ $labels.instance }} expires in less than 3 days.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-httpcertexpiressoon"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-httpcertexpiressoon"
           },
           "expr": "probe_ssl_earliest_cert_expiry - time() < 3*24*3600",
           "labels": {
@@ -48,7 +48,7 @@
           "alert": "HttpCertExpiresVerySoon",
           "annotations": {
             "message": "The certificate for {{ $labels.instance }} expires in less than 24 hours.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-httpcertexpiresverysoon"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-httpcertexpiresverysoon"
           },
           "expr": "probe_ssl_earliest_cert_expiry - time() < 24*3600",
           "labels": {
@@ -64,7 +64,7 @@
           "alert": "CadvisorDown",
           "annotations": {
             "message": "Cadvisor has disappeared from Prometheus target discovery.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-cadvisordown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-cadvisordown"
           },
           "expr": "absent(up{job=\"cadvisor\"} == 1)",
           "for": "15m",
@@ -81,7 +81,7 @@
           "alert": "CertManagerCertExpiresSoon",
           "annotations": {
             "message": "The certificate {{ $labels.name }} expires in less than 3 days.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-certmanagercertexpiressoon"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-certmanagercertexpiressoon"
           },
           "expr": "certmanager_certificate_expiration_timestamp_seconds - time() < 3*24*3600",
           "labels": {
@@ -92,7 +92,7 @@
           "alert": "CertManagerCertExpiresVerySoon",
           "annotations": {
             "message": "The certificate {{ $labels.name }} expires in less than 24 hours.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-certmanagercertexpiresverysoon"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-certmanagercertexpiresverysoon"
           },
           "expr": "certmanager_certificate_expiration_timestamp_seconds - time() < 24*3600",
           "labels": {
@@ -108,7 +108,7 @@
           "alert": "ElasticsearchHeapTooHigh",
           "annotations": {
             "message": "The heap usage of Elasticsearch node {{ $labels.name }} is over 90%.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-elasticsearchheaptoohigh"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-elasticsearchheaptoohigh"
           },
           "expr": "elasticsearch_jvm_memory_used_bytes{area=\"heap\"} / elasticsearch_jvm_memory_max_bytes{area=\"heap\"} > 0.9",
           "for": "15m",
@@ -126,7 +126,7 @@
           "alert": "ElasticsearchClusterUnavailable",
           "annotations": {
             "message": "The Elasticsearch cluster health endpoint does not respond to scrapes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-elasticsearchclusterunavailable"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-elasticsearchclusterunavailable"
           },
           "expr": "elasticsearch_cluster_health_up == 0",
           "for": "15m",
@@ -138,7 +138,7 @@
           "alert": "ElasticsearchClusterUnhealthy",
           "annotations": {
             "message": "The Elasticsearch cluster is not healthy.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-elasticsearchclusterunhealthy"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-elasticsearchclusterunhealthy"
           },
           "expr": "elasticsearch_cluster_health_status{color=\"green\"} == 0",
           "for": "15m",
@@ -150,7 +150,7 @@
           "alert": "ElasticsearchUnassignedShards",
           "annotations": {
             "message": "There are {{ $value }} unassigned shards in the Elasticsearch cluster.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-elasticsearchunassignedshards"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-elasticsearchunassignedshards"
           },
           "expr": "elasticsearch_cluster_health_unassigned_shards > 0",
           "for": "15m",
@@ -172,7 +172,7 @@
           "alert": "FluentbitManyFailedRetries",
           "annotations": {
             "message": "Fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` is experiencing an elevated failed retry rate.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-fluentbitmanyfailedretries"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-fluentbitmanyfailedretries"
           },
           "expr": "sum by (namespace, pod, node) (kube_pod_info) *\n  on (namespace, pod)\n  group_right (node)\n  rate(fluentbit_output_retries_failed_total[1m]) > 0\n",
           "for": "10m",
@@ -190,7 +190,7 @@
           "alert": "FluentbitManyOutputErrors",
           "annotations": {
             "message": "Fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` is experiencing an elevated output error rate.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-fluentbitmanyoutputerrors"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-fluentbitmanyoutputerrors"
           },
           "expr": "sum by (namespace, pod, node) (kube_pod_info) *\n  on (namespace, pod)\n  group_right (node)\n  rate(fluentbit_output_errors_total[1m]) > 0\n",
           "for": "10m",
@@ -208,7 +208,7 @@
           "alert": "FluentbitNotProcessingNewLogs",
           "annotations": {
             "message": "Fluentbit pod `{{ $labels.pod }}` on `{{ $labels.node }}` has not processed any new logs for the last 30 minutes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-fluentbitnotprocessingnewlogs"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-fluentbitnotprocessingnewlogs"
           },
           "expr": "sum by (namespace, pod, node) (kube_pod_info) *\n  on (namespace, pod)\n  group_right (node)\n  rate(fluentbit_output_proc_records_total[1m]) == 0\n",
           "for": "30m",
@@ -230,7 +230,7 @@
           "alert": "HelmReleaseNotDeployed",
           "annotations": {
             "message": "The Helm release `{{ $labels.release }}` (`{{ $labels.chart }}` chart in namespace `{{ $labels.exported_namespace }}`) in version {{ $labels.version }} has not been ready for more than 15 minutes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-helmreleasenotdeployed"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-helmreleasenotdeployed"
           },
           "expr": "helm_chart_info != 1",
           "for": "15m",
@@ -254,7 +254,7 @@
           "alert": "KubernetesApiserverDown",
           "annotations": {
             "message": "KubernetesApiserver has disappeared from Prometheus target discovery.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubernetesapiserverdown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubernetesapiserverdown"
           },
           "expr": "absent(up{job=\"apiserver\"} == 1)",
           "for": "15m",
@@ -266,7 +266,7 @@
           "alert": "KubeAPILatencyHigh",
           "annotations": {
             "message": "The API server has a 99th percentile latency of {{ $value }} seconds for {{ $labels.verb }} {{ $labels.resource }}.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeapilatencyhigh"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeapilatencyhigh"
           },
           "expr": "cluster_quantile:apiserver_request_duration_seconds:histogram_quantile{job=\"apiserver\",quantile=\"0.99\",subresource!=\"log\",verb!~\"^(?:LIST|WATCH|WATCHLIST|PROXY|CONNECT)$\"} > 1",
           "for": "10m",
@@ -278,7 +278,7 @@
           "alert": "KubeAPILatencyHigh",
           "annotations": {
             "message": "The API server has a 99th percentile latency of {{ $value }} seconds for {{ $labels.verb }} {{ $labels.resource }}.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeapilatencyhigh"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeapilatencyhigh"
           },
           "expr": "cluster_quantile:apiserver_request_duration_seconds:histogram_quantile{job=\"apiserver\",quantile=\"0.99\",subresource!=\"log\",verb!~\"^(?:LIST|WATCH|WATCHLIST|PROXY|CONNECT)$\"} > 4",
           "for": "10m",
@@ -290,7 +290,7 @@
           "alert": "KubeAPIErrorsHigh",
           "annotations": {
             "message": "API server is returning errors for {{ $value }}% of requests.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeapierrorshigh"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeapierrorshigh"
           },
           "expr": "sum(rate(apiserver_request_total{job=\"apiserver\",code=~\"^(?:5..)$\"}[5m])) without(instance, pod)\n  /\nsum(rate(apiserver_request_total{job=\"apiserver\"}[5m])) without(instance, pod) * 100 > 10\n",
           "for": "10m",
@@ -302,7 +302,7 @@
           "alert": "KubeAPIErrorsHigh",
           "annotations": {
             "message": "API server is returning errors for {{ $value }}% of requests.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeapierrorshigh"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeapierrorshigh"
           },
           "expr": "sum(rate(apiserver_request_total{job=\"apiserver\",code=~\"^(?:5..)$\"}[5m])) without(instance, pod)\n  /\nsum(rate(apiserver_request_total{job=\"apiserver\"}[5m])) without(instance, pod) * 100 > 5\n",
           "for": "10m",
@@ -314,7 +314,7 @@
           "alert": "KubeClientCertificateExpiration",
           "annotations": {
             "message": "A client certificate used to authenticate to the apiserver is expiring in less than 7 days.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeclientcertificateexpiration"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeclientcertificateexpiration"
           },
           "expr": "apiserver_client_certificate_expiration_seconds_count{job=\"apiserver\"} > 0\nand\nhistogram_quantile(0.01, sum by (job, instance, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job=\"apiserver\"}[5m]))) < 604800\n",
           "labels": {
@@ -331,7 +331,7 @@
           "alert": "KubeClientCertificateExpiration",
           "annotations": {
             "message": "A client certificate used to authenticate to the apiserver is expiring in less than 24 hours.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeclientcertificateexpiration"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeclientcertificateexpiration"
           },
           "expr": "apiserver_client_certificate_expiration_seconds_count{job=\"apiserver\"} > 0\nand\nhistogram_quantile(0.01, sum by (job, instance, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job=\"apiserver\"}[5m]))) < 86400\n",
           "labels": {
@@ -354,7 +354,7 @@
           "alert": "KubeletDown",
           "annotations": {
             "message": "Kubelet has disappeared from Prometheus target discovery.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeletdown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeletdown"
           },
           "expr": "absent(up{job=\"kubelet\"} == 1)",
           "for": "15m",
@@ -366,7 +366,7 @@
           "alert": "KubePersistentVolumeUsageCritical",
           "annotations": {
             "message": "The PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in namespace {{ $labels.namespace }} is only {{ printf \"%0.0f\" $value }}% free.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubepersistentvolumeusagecritical"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubepersistentvolumeusagecritical"
           },
           "expr": "100 * kubelet_volume_stats_available_bytes{job=\"kubelet\"}\n  /\nkubelet_volume_stats_capacity_bytes{job=\"kubelet\"}\n  < 3\n",
           "for": "1m",
@@ -378,7 +378,7 @@
           "alert": "KubePersistentVolumeFullInFourDays",
           "annotations": {
             "message": "Based on recent sampling, the PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in namespace {{ $labels.namespace }} is expected to fill up within four days. Currently {{ $value }} bytes are available.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubepersistentvolumefullinfourdays"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubepersistentvolumefullinfourdays"
           },
           "expr": "(\n  kubelet_volume_stats_used_bytes{job=\"kubelet\"}\n    /\n  kubelet_volume_stats_capacity_bytes{job=\"kubelet\"}\n) > 0.85\nand\npredict_linear(kubelet_volume_stats_available_bytes{job=\"kubelet\"}[6h], 4 * 24 * 3600) < 0\n",
           "for": "5m",
@@ -390,7 +390,7 @@
           "alert": "KubeletTooManyPods",
           "annotations": {
             "message": "Kubelet {{ $labels.instance }} is running {{ $value }} pods, close to the limit of 110.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubelettoomanypods"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubelettoomanypods"
           },
           "expr": "kubelet_running_pod_count{job=\"kubelet\"} > 110 * 0.9",
           "for": "15m",
@@ -402,7 +402,7 @@
           "alert": "KubeClientErrors",
           "annotations": {
             "message": "The kubelet on {{ $labels.instance }} is experiencing {{ printf \"%0.0f\" $value }}% errors.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeclienterrors"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeclienterrors"
           },
           "expr": "(sum(rate(rest_client_requests_total{code=~\"(5..|<error>)\",job=\"kubelet\"}[5m])) by (instance)\n  /\nsum(rate(rest_client_requests_total{job=\"kubelet\"}[5m])) by (instance))\n* 100 > 1\n",
           "for": "15m",
@@ -414,7 +414,7 @@
           "alert": "KubeClientErrors",
           "annotations": {
             "message": "The pod {{ $labels.namespace }}/{{ $labels.pod }} is experiencing {{ printf \"%0.0f\" $value }}% errors.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeclienterrors"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeclienterrors"
           },
           "expr": "(sum(rate(rest_client_requests_total{code=~\"(5..|<error>)\",job=\"pods\"}[5m])) by (namespace, pod)\n  /\nsum(rate(rest_client_requests_total{job=\"pods\"}[5m])) by (namespace, pod))\n* 100 > 1\n",
           "for": "15m",
@@ -426,7 +426,7 @@
           "alert": "KubeletRuntimeErrors",
           "annotations": {
             "message": "The kubelet on {{ $labels.instance }} is having an elevated error rate for container runtime operations.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeletruntimeerrors"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeletruntimeerrors"
           },
           "expr": "sum(rate(kubelet_runtime_operations_errors_total{job=\"kubelet\"}[5m])) by (instance) > 0.1\n",
           "for": "15m",
@@ -438,7 +438,7 @@
           "alert": "KubeletCGroupManagerDurationHigh",
           "annotations": {
             "message": "The kubelet's cgroup manager duration on {{ $labels.instance }} has been elevated ({{ printf \"%0.2f\" $value }}ms) for more than 15 minutes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeletcgroupmanagerlatencyhigh"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeletcgroupmanagerlatencyhigh"
           },
           "expr": "sum(rate(kubelet_cgroup_manager_duration_seconds{quantile=\"0.9\"}[5m])) by (instance) * 1000 > 1\n",
           "for": "15m",
@@ -450,7 +450,7 @@
           "alert": "KubeletPodWorkerDurationHigh",
           "annotations": {
             "message": "The kubelet's pod worker duration for {{ $labels.operation_type }} operations on {{ $labels.instance }} has been elevated ({{ printf \"%0.2f\" $value }}ms) for more than 15 minutes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeletpodworkerdurationhigh"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeletpodworkerdurationhigh"
           },
           "expr": "sum(rate(kubelet_pod_worker_duration_seconds{quantile=\"0.9\"}[5m])) by (instance, operation_type) * 1000 > 250\n",
           "for": "15m",
@@ -462,7 +462,7 @@
           "alert": "KubeVersionMismatch",
           "annotations": {
             "message": "There are {{ $value }} different versions of Kubernetes components running.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeversionmismatch"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeversionmismatch"
           },
           "expr": "count(count(kubernetes_build_info{job!=\"dns\"}) by (gitVersion)) > 1",
           "for": "1h",
@@ -479,7 +479,7 @@
           "alert": "KubeStateMetricsDown",
           "annotations": {
             "message": "KubeStateMetrics has disappeared from Prometheus target discovery.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubestatemetricsdown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubestatemetricsdown"
           },
           "expr": "absent(up{job=\"kube-state-metrics\"} == 1)",
           "for": "15m",
@@ -491,7 +491,7 @@
           "alert": "KubePodCrashLooping",
           "annotations": {
             "message": "Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) is restarting {{ printf \"%.2f\" $value }} times / 5 minutes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubepodcrashlooping"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubepodcrashlooping"
           },
           "expr": "rate(kube_pod_container_status_restarts_total{job=\"kube-state-metrics\"}[15m]) * 60 * 5 > 0",
           "for": "1h",
@@ -506,7 +506,7 @@
           "alert": "KubePodNotReady",
           "annotations": {
             "message": "Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than an hour.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubepodnotready"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubepodnotready"
           },
           "expr": "sum by (namespace, pod) (kube_pod_status_phase{job=\"kube-state-metrics\", phase=~\"Pending|Unknown\"}) > 0",
           "for": "30m",
@@ -523,7 +523,7 @@
           "alert": "KubeDeploymentGenerationMismatch",
           "annotations": {
             "message": "Deployment generation for {{ $labels.namespace }}/{{ $labels.deployment }} does not match, this indicates that the Deployment has failed but has not been rolled back.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubedeploymentgenerationmismatch"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubedeploymentgenerationmismatch"
           },
           "expr": "kube_deployment_status_observed_generation{job=\"kube-state-metrics\"}\n  !=\nkube_deployment_metadata_generation{job=\"kube-state-metrics\"}\n",
           "for": "15m",
@@ -535,7 +535,7 @@
           "alert": "KubeDeploymentReplicasMismatch",
           "annotations": {
             "message": "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has not matched the expected number of replicas for longer than an hour.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubedeploymentreplicasmismatch"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubedeploymentreplicasmismatch"
           },
           "expr": "kube_deployment_spec_replicas{job=\"kube-state-metrics\"}\n  !=\nkube_deployment_status_replicas_available{job=\"kube-state-metrics\"}\n",
           "for": "1h",
@@ -547,7 +547,7 @@
           "alert": "KubeStatefulSetReplicasMismatch",
           "annotations": {
             "message": "StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} has not matched the expected number of replicas for longer than 15 minutes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubestatefulsetreplicasmismatch"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubestatefulsetreplicasmismatch"
           },
           "expr": "kube_statefulset_status_replicas_ready{job=\"kube-state-metrics\"}\n  !=\nkube_statefulset_status_replicas{job=\"kube-state-metrics\"}\n",
           "for": "15m",
@@ -559,7 +559,7 @@
           "alert": "KubeStatefulSetGenerationMismatch",
           "annotations": {
             "message": "StatefulSet generation for {{ $labels.namespace }}/{{ $labels.statefulset }} does not match, this indicates that the StatefulSet has failed but has not been rolled back.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubestatefulsetgenerationmismatch"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubestatefulsetgenerationmismatch"
           },
           "expr": "kube_statefulset_status_observed_generation{job=\"kube-state-metrics\"}\n  !=\nkube_statefulset_metadata_generation{job=\"kube-state-metrics\"}\n",
           "for": "15m",
@@ -571,7 +571,7 @@
           "alert": "KubeStatefulSetUpdateNotRolledOut",
           "annotations": {
             "message": "StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} update has not been rolled out.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubestatefulsetupdatenotrolledout"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubestatefulsetupdatenotrolledout"
           },
           "expr": "max without (revision) (\n  kube_statefulset_status_current_revision{job=\"kube-state-metrics\"}\n    unless\n  kube_statefulset_status_update_revision{job=\"kube-state-metrics\"}\n)\n  *\n(\n  kube_statefulset_replicas{job=\"kube-state-metrics\"}\n    !=\n  kube_statefulset_status_replicas_updated{job=\"kube-state-metrics\"}\n)\n",
           "for": "15m",
@@ -583,7 +583,7 @@
           "alert": "KubeDaemonSetRolloutStuck",
           "annotations": {
             "message": "Only {{ $value }}% of the desired Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} are scheduled and ready.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubedaemonsetrolloutstuck"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubedaemonsetrolloutstuck"
           },
           "expr": "kube_daemonset_status_number_ready{job=\"kube-state-metrics\"}\n  /\nkube_daemonset_status_desired_number_scheduled{job=\"kube-state-metrics\"} * 100 < 100\n",
           "for": "15m",
@@ -595,7 +595,7 @@
           "alert": "KubeDaemonSetNotScheduled",
           "annotations": {
             "message": "{{ $value }} Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} are not scheduled.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubedaemonsetnotscheduled"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubedaemonsetnotscheduled"
           },
           "expr": "kube_daemonset_status_desired_number_scheduled{job=\"kube-state-metrics\"}\n  -\nkube_daemonset_status_current_number_scheduled{job=\"kube-state-metrics\"} > 0\n",
           "for": "10m",
@@ -607,7 +607,7 @@
           "alert": "KubeDaemonSetMisScheduled",
           "annotations": {
             "message": "{{ $value }} Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} are running where they are not supposed to run.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubedaemonsetmisscheduled"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubedaemonsetmisscheduled"
           },
           "expr": "kube_daemonset_status_number_misscheduled{job=\"kube-state-metrics\"} > 0",
           "for": "10m",
@@ -619,7 +619,7 @@
           "alert": "KubeCronJobRunning",
           "annotations": {
             "message": "CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} is taking more than 1h to complete.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubecronjobrunning"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubecronjobrunning"
           },
           "expr": "time() - kube_cronjob_next_schedule_time{job=\"kube-state-metrics\"} > 3600",
           "for": "1h",
@@ -631,7 +631,7 @@
           "alert": "KubeJobCompletion",
           "annotations": {
             "message": "Job {{ $labels.namespace }}/{{ $labels.job_name }} is taking more than one hour to complete.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubejobcompletion"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubejobcompletion"
           },
           "expr": "kube_job_spec_completions{job=\"kube-state-metrics\"} - kube_job_status_succeeded{job=\"kube-state-metrics\"} > 0",
           "for": "1h",
@@ -643,7 +643,7 @@
           "alert": "KubeJobFailed",
           "annotations": {
             "message": "Job {{ $labels.namespace }}/{{ $labels.job_name }} failed to complete.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubejobfailed"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubejobfailed"
           },
           "expr": "kube_job_status_failed{job=\"kube-state-metrics\"} > 0",
           "for": "1h",
@@ -655,7 +655,7 @@
           "alert": "KubeCPUOvercommit",
           "annotations": {
             "message": "Cluster has overcommitted CPU resource requests for namespaces.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubecpuovercommit"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubecpuovercommit"
           },
           "expr": "sum(kube_resourcequota{job=\"kube-state-metrics\", type=\"hard\", resource=\"requests.cpu\"})\n  /\nsum(node:node_num_cpu:sum)\n  > 1.5\n",
           "for": "5m",
@@ -667,7 +667,7 @@
           "alert": "KubeCPUOvercommit",
           "annotations": {
             "message": "Cluster has overcommitted CPU resource requests for pods and cannot tolerate node failure.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubecpuovercommit"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubecpuovercommit"
           },
           "expr": "sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)\n  /\nsum(node:node_num_cpu:sum)\n  >\n(count(node:node_num_cpu:sum)-1) / count(node:node_num_cpu:sum)\n",
           "for": "5m",
@@ -679,7 +679,7 @@
           "alert": "KubeMemOvercommit",
           "annotations": {
             "message": "Cluster has overcommitted memory resource requests for namespaces.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubememovercommit"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubememovercommit"
           },
           "expr": "sum(kube_resourcequota{job=\"kube-state-metrics\", type=\"hard\", resource=\"requests.memory\"})\n  /\nsum(node_memory_MemTotal_bytes{app=\"node-exporter\"})\n  > 1.5\n",
           "for": "5m",
@@ -691,7 +691,7 @@
           "alert": "KubeMemOvercommit",
           "annotations": {
             "message": "Cluster has overcommitted memory resource requests for pods and cannot tolerate node failure.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubememovercommit"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubememovercommit"
           },
           "expr": "sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)\n  /\nsum(node_memory_MemTotal_bytes)\n  >\n(count(node:node_num_cpu:sum)-1)\n  /\ncount(node:node_num_cpu:sum)\n",
           "for": "5m",
@@ -703,7 +703,7 @@
           "alert": "KubeQuotaExceeded",
           "annotations": {
             "message": "Namespace {{ $labels.namespace }} is using {{ printf \"%0.0f\" $value }}% of its {{ $labels.resource }} quota.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubequotaexceeded"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubequotaexceeded"
           },
           "expr": "100 * kube_resourcequota{job=\"kube-state-metrics\", type=\"used\"}\n  / ignoring(instance, job, type)\n(kube_resourcequota{job=\"kube-state-metrics\", type=\"hard\"} > 0)\n  > 90\n",
           "for": "15m",
@@ -715,7 +715,7 @@
           "alert": "KubePodOOMKilled",
           "annotations": {
             "message": "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 30 minutes.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubepodoomkilled"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubepodoomkilled"
           },
           "expr": "(kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 30m >= 2)\nand\nignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason=\"OOMKilled\"}[30m]) == 1\n",
           "for": "0m",
@@ -727,7 +727,7 @@
           "alert": "KubeNodeNotReady",
           "annotations": {
             "message": "{{ $labels.node }} has been unready for more than an hour.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubenodenotready"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubenodenotready"
           },
           "expr": "kube_node_status_condition{job=\"kube-state-metrics\",condition=\"Ready\",status=\"true\"} == 0",
           "for": "1h",
@@ -744,7 +744,7 @@
           "alert": "NodeFilesystemSpaceFillingUp",
           "annotations": {
             "message": "Filesystem on {{ $labels.device }} at {{ $labels.instance }} is predicted to run out of space within the next 24 hours.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodefilesystemspacefillingup"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodefilesystemspacefillingup"
           },
           "expr": "predict_linear(node_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"}[6h], 24*60*60) < 0\nand\nnode_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_size_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} < 0.4\nand\nnode_filesystem_readonly_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
@@ -756,7 +756,7 @@
           "alert": "NodeFilesystemSpaceFillingUp",
           "annotations": {
             "message": "Filesystem on {{ $labels.device }} at {{ $labels.instance }} is predicted to run out of space within the next 4 hours.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodefilesystemspacefillingup"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodefilesystemspacefillingup"
           },
           "expr": "predict_linear(node_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"}[6h], 4*60*60) < 0\nand\nnode_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_size_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} < 0.2\nand\nnode_filesystem_readonly_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
@@ -768,7 +768,7 @@
           "alert": "NodeFilesystemOutOfSpace",
           "annotations": {
             "message": "Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only {{ $value }}% available space left.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodefilesystemoutofspace"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodefilesystemoutofspace"
           },
           "expr": "node_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_size_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 5\nand\nnode_filesystem_readonly_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
@@ -780,7 +780,7 @@
           "alert": "NodeFilesystemOutOfSpace",
           "annotations": {
             "message": "Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only {{ $value }}% available space left.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodefilesystemoutofspace"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodefilesystemoutofspace"
           },
           "expr": "node_filesystem_avail_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_size_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 3\nand\nnode_filesystem_readonly_bytes{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
@@ -792,7 +792,7 @@
           "alert": "NodeFilesystemFilesFillingUp",
           "annotations": {
             "message": "Filesystem on {{ $labels.device }} at {{ $labels.instance }} is predicted to run out of files within the next 24 hours.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodefilesystemfilesfillingup"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodefilesystemfilesfillingup"
           },
           "expr": "predict_linear(node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"}[6h], 24*60*60) < 0\nand\nnode_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} < 0.4\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
@@ -804,7 +804,7 @@
           "alert": "NodeFilesystemFilesFillingUp",
           "annotations": {
             "message": "Filesystem on {{ $labels.device }} at {{ $labels.instance }} is predicted to run out of files within the next 4 hours.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodefilesystemfilesfillingup"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodefilesystemfilesfillingup"
           },
           "expr": "predict_linear(node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"}[6h], 4*60*60) < 0\nand\nnode_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} < 0.2\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
@@ -816,7 +816,7 @@
           "alert": "NodeFilesystemOutOfFiles",
           "annotations": {
             "message": "Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only {{ $value }}% available inodes left.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodefilesystemoutoffiles"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodefilesystemoutoffiles"
           },
           "expr": "node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 5\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
@@ -828,7 +828,7 @@
           "alert": "NodeFilesystemOutOfSpace",
           "annotations": {
             "message": "Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only {{ $value }}% available space left.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodefilesystemoutofspace"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodefilesystemoutofspace"
           },
           "expr": "node_filesystem_files_free{app=\"node-exporter\",fstype=~\"ext.|xfs\"} / node_filesystem_files{app=\"node-exporter\",fstype=~\"ext.|xfs\"} * 100 < 3\nand\nnode_filesystem_readonly{app=\"node-exporter\",fstype=~\"ext.|xfs\"} == 0\n",
           "for": "1h",
@@ -840,7 +840,7 @@
           "alert": "NodeNetworkReceiveErrs",
           "annotations": {
             "message": "{{ $labels.instance }} interface {{ $labels.device }} shows errors while receiving packets ({{ $value }} errors in two minutes).",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodenetworkreceiveerrs"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodenetworkreceiveerrs"
           },
           "expr": "increase(node_network_receive_errs_total[2m]) > 10",
           "for": "1h",
@@ -852,7 +852,7 @@
           "alert": "NodeNetworkTransmitErrs",
           "annotations": {
             "message": "{{ $labels.instance }} interface {{ $labels.device }} shows errors while transmitting packets ({{ $value }} errors in two minutes).",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-nodenetworktransmiterrs"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-nodenetworktransmiterrs"
           },
           "expr": "increase(node_network_transmit_errs_total[2m]) > 10",
           "for": "1h",
@@ -869,7 +869,7 @@
           "alert": "PromScrapeFailed",
           "annotations": {
             "message": "Prometheus failed to scrape a target {{ $labels.job }} / {{ $labels.instance }}.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-promscrapefailed"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-promscrapefailed"
           },
           "expr": "up != 1",
           "for": "15m",
@@ -886,7 +886,7 @@
           "alert": "PromBadConfig",
           "annotations": {
             "message": "Prometheus failed to reload config.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-prombadconfig"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-prombadconfig"
           },
           "expr": "prometheus_config_last_reload_successful{job=\"prometheus\"} == 0",
           "for": "15m",
@@ -904,7 +904,7 @@
           "alert": "PromAlertmanagerBadConfig",
           "annotations": {
             "message": "Alertmanager failed to reload config.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-promalertmanagerbadconfig"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-promalertmanagerbadconfig"
           },
           "expr": "alertmanager_config_last_reload_successful{job=\"alertmanager\"} == 0",
           "for": "10m",
@@ -922,7 +922,7 @@
           "alert": "PromAlertsFailed",
           "annotations": {
             "message": "Alertmanager failed to send an alert.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-promalertsfailed"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-promalertsfailed"
           },
           "expr": "sum(increase(alertmanager_notifications_failed_total{job=\"alertmanager\"}[5m])) by (namespace) > 0",
           "for": "5m",
@@ -940,7 +940,7 @@
           "alert": "PromRemoteStorageFailures",
           "annotations": {
             "message": "Prometheus failed to send {{ printf \"%.1f\" $value }}% samples.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-promremotestoragefailures"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-promremotestoragefailures"
           },
           "expr": "(rate(prometheus_remote_storage_failed_samples_total{job=\"prometheus\"}[1m]) * 100)\n  /\n(rate(prometheus_remote_storage_failed_samples_total{job=\"prometheus\"}[1m]) + rate(prometheus_remote_storage_succeeded_samples_total{job=\"prometheus\"}[1m]))\n  > 1\n",
           "for": "15m",
@@ -958,7 +958,7 @@
           "alert": "PromRuleFailures",
           "annotations": {
             "message": "Prometheus failed to evaluate {{ printf \"%.1f\" $value }} rules/sec.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-promrulefailures"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-promrulefailures"
           },
           "expr": "rate(prometheus_rule_evaluation_failures_total{job=\"prometheus\"}[1m]) > 0",
           "for": "15m",
@@ -981,7 +981,7 @@
           "alert": "ThanosSidecarDown",
           "annotations": {
             "message": "The Thanos sidecar in `{{ $labels.namespace }}/{{ $labels.pod }}` is down.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-thanossidecardown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-thanossidecardown"
           },
           "expr": "thanos_sidecar_prometheus_up != 1",
           "for": "5m",
@@ -993,7 +993,7 @@
           "alert": "ThanosSidecarNoHeartbeat",
           "annotations": {
             "message": "The Thanos sidecar in `{{ $labels.namespace }}/{{ $labels.pod }}` didn't send a heartbeat in {{ $value }} seconds.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-thanossidecardown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-thanossidecardown"
           },
           "expr": "time() - thanos_sidecar_last_heartbeat_success_time_seconds > 60",
           "for": "3m",
@@ -1005,7 +1005,7 @@
           "alert": "ThanosCompactorManyRetries",
           "annotations": {
             "message": "The Thanos compactor in `{{ $labels.namespace }}` is experiencing a high retry rate.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-thanoscompactormanyretries"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-thanoscompactormanyretries"
           },
           "expr": "sum(rate(thanos_compactor_retries_total[5m])) > 0.01",
           "for": "10m",
@@ -1020,7 +1020,7 @@
           "alert": "ThanosShipperManyDirSyncFailures",
           "annotations": {
             "message": "The Thanos shipper in `{{ $labels.namespace }}/{{ $labels.pod }}` is experiencing a high dir-sync failure rate.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-thanosshippermanydirsyncfailures"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-thanosshippermanydirsyncfailures"
           },
           "expr": "sum(rate(thanos_shipper_dir_sync_failures_total[5m])) > 0.01",
           "for": "10m",
@@ -1037,7 +1037,7 @@
           "alert": "ThanosManyPanicRecoveries",
           "annotations": {
             "message": "The Thanos component in `{{ $labels.namespace }}/{{ $labels.pod }}` is experiencing a panic recovery rate.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-thanosmanypanicrecoveries"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-thanosmanypanicrecoveries"
           },
           "expr": "sum(rate(thanos_grpc_req_panics_recovered_total[5m])) > 0.01",
           "for": "10m",
@@ -1049,7 +1049,7 @@
           "alert": "ThanosManyBlockLoadFailures",
           "annotations": {
             "message": "The Thanos store in `{{ $labels.namespace }}/{{ $labels.pod }}` is experiencing a many failed block loads.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-thanosmanyblockloadfailures"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-thanosmanyblockloadfailures"
           },
           "expr": "sum(rate(thanos_bucket_store_block_load_failures_total[5m])) > 0.01",
           "for": "10m",
@@ -1061,7 +1061,7 @@
           "alert": "ThanosManyBlockDropFailures",
           "annotations": {
             "message": "The Thanos store in `{{ $labels.namespace }}/{{ $labels.pod }}` is experiencing a many failed block drops.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-thanosmanyblockdropfailures"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-thanosmanyblockdropfailures"
           },
           "expr": "sum(rate(thanos_bucket_store_block_drop_failures_total[5m])) > 0.01",
           "for": "10m",
@@ -1078,7 +1078,7 @@
           "alert": "VeleroBackupTakesTooLong",
           "annotations": {
             "message": "Backup schedule {{ $labels.schedule }} has been taking more than 60min already.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-velerobackuptakestoolong"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-velerobackuptakestoolong"
           },
           "expr": "(velero_backup_attempt_total - velero_backup_success_total) > 0",
           "for": "60m",
@@ -1097,7 +1097,7 @@
           "alert": "VeleroNoRecentBackup",
           "annotations": {
             "message": "There has not been a successful backup for schedule {{ $labels.schedule }} in the last 24 hours.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-veleronorecentbackup"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-veleronorecentbackup"
           },
           "expr": "time() - velero_backup_last_successful_timestamp{schedule!=\"\"} > 3600*25",
           "labels": {
@@ -1121,7 +1121,7 @@
           "alert": "KubermaticAPIDown",
           "annotations": {
             "message": "KubermaticAPI has disappeared from Prometheus target discovery.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticapidown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubermaticapidown"
           },
           "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",role=\"kubermatic-api\"} == 1)",
           "for": "15m",
@@ -1139,7 +1139,7 @@
           "alert": "KubermaticAPITooManyErrors",
           "annotations": {
             "message": "Kubermatic API is returning a high rate of HTTP 5xx responses.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticapitoomanyerrors"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubermaticapitoomanyerrors"
           },
           "expr": "sum(rate(http_requests_total{role=\"kubermatic-api\",code=~\"5..\"}[5m])) > 0.1",
           "for": "15m",
@@ -1170,7 +1170,7 @@
           "alert": "KubermaticTooManyUnhandledErrors",
           "annotations": {
             "message": "Kubermatic controller manager in {{ $labels.namespace }} is experiencing too many errors.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermatictoomanyunhandlederrors"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubermatictoomanyunhandlederrors"
           },
           "expr": "sum(rate(kubermatic_controller_manager_unhandled_errors_total[5m])) > 0.01",
           "for": "10m",
@@ -1185,7 +1185,7 @@
           "alert": "KubermaticClusterDeletionTakesTooLong",
           "annotations": {
             "message": "Cluster {{ $labels.cluster }} is stuck in deletion for more than 30min.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticclusterdeletiontakestoolong"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubermaticclusterdeletiontakestoolong"
           },
           "expr": "(time() - max by (cluster) (kubermatic_cluster_deleted)) > 30*60",
           "for": "0m",
@@ -1205,7 +1205,7 @@
           "alert": "KubermaticAddonDeletionTakesTooLong",
           "annotations": {
             "message": "Addon {{ $labels.addon }} in cluster {{ $labels.cluster }} is stuck in deletion for more than 30min.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticaddondeletiontakestoolong"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubermaticaddondeletiontakestoolong"
           },
           "expr": "(time() - max by (cluster,addon) (kubermatic_addon_deleted)) > 30*60",
           "for": "0m",
@@ -1223,7 +1223,7 @@
           "alert": "KubermaticAddonTakesTooLongToReconcile",
           "annotations": {
             "message": "Addon {{ $labels.addon }} in cluster {{ $labels.cluster }} has no related resources created for more than 30min.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticaddonreconciliationtakestoolong"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubermaticaddonreconciliationtakestoolong"
           },
           "expr": "kubermatic_addon_reconcile_failed * on(cluster) group_left() kubermatic_cluster_created - kubermatic_addon_reconcile_failed * on(cluster) group_left() kubermatic_cluster_deleted > 0",
           "for": "30m",
@@ -1240,7 +1240,7 @@
           "alert": "KubermaticControllerManagerDown",
           "annotations": {
             "message": "KubermaticControllerManager has disappeared from Prometheus target discovery.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubermaticcontrollermanagerdown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubermaticcontrollermanagerdown"
           },
           "expr": "absent(up{job=\"pods\",namespace=\"kubermatic\",role=\"controller-manager\"} == 1)",
           "for": "15m",
@@ -1258,7 +1258,7 @@
           "alert": "OpenVPNServerDown",
           "annotations": {
             "message": "There is no healthy OpenVPN server in cluster {{ $labels.cluster }}.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-openvpnserverdown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-openvpnserverdown"
           },
           "expr": "absent(kube_deployment_status_replicas_available{cluster!=\"\",deployment=\"openvpn-server\"} > 0) and count(kubermatic_cluster_info) > 0",
           "for": "15m",
@@ -1270,7 +1270,7 @@
           "alert": "UserClusterPrometheusAbsent",
           "annotations": {
             "message": "There is no Prometheus in cluster {{ $labels.name }}.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-userclusterprometheusdisappeared"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-userclusterprometheusdisappeared"
           },
           "expr": "(\n  kubermatic_cluster_info * on (name) group_left\n  label_replace(up{job=\"clusters\"}, \"name\", \"$1\", \"namespace\", \"cluster-(.+)\")\n  or\n  kubermatic_cluster_info * 0\n) == 0\n",
           "for": "15m",
@@ -1297,7 +1297,7 @@
           "alert": "KubeControllerManagerDown",
           "annotations": {
             "message": "No healthy controller-manager pods exist inside the cluster.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubecontrollermanagerdown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubecontrollermanagerdown"
           },
           "expr": "absent(:ready_kube_controller_managers:sum) or :ready_kube_controller_managers:sum == 0",
           "for": "10m",
@@ -1314,7 +1314,7 @@
           "alert": "KubeSchedulerDown",
           "annotations": {
             "message": "No healthy scheduler pods exist inside the cluster.",
-            "runbook_url": "https://docs.kubermatic.com/kubermatic/master/monitoring/runbook/#alert-kubeschedulerdown"
+            "runbook_url": "https://docs.kubermatic.com/kubermatic/main/monitoring/runbook/#alert-kubeschedulerdown"
           },
           "expr": "absent(:ready_kube_schedulers:sum) or :ready_kube_schedulers:sum == 0",
           "for": "10m",
