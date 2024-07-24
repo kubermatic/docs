@@ -192,11 +192,11 @@ You can delete autoscaler from where you edit it above and select delete.
 
 ## Customize KKP Autoscaler
 
-You can customize the cluster autoscaler addon in order to override the cluster autoscaler deployment definition to set or pass the required flag(s) by following the instructions provided over [here](https://docs.kubermatic.com/kubermatic/v2.25/architecture/concept/kkp-concepts/addons/#custom-addons), if you are facing any of the below mentioned issues as described in the [cluster autoscaler FAQs](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md):
+You can customize the cluster autoscaler addon in order to override the cluster autoscaler deployment definition to set or pass the required flag(s) by following the instructions provided [in the Addons document]({{< relref "../../architecture/concept/kkp-concepts/addons/#custom-addons" >}}).
 
-* [My cluster is below minimum / above maximum number of nodes, but CA did not fix that! Why?](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#my-cluster-is-below-minimum--above-maximum-number-of-nodes-but-ca-did-not-fix-that-why)
+* [My cluster is below minimum / above maximum number of nodes, but CA did not fix that! Why?](https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#my-cluster-is-below-minimum--above-maximum-number-of-nodes-but-ca-did-not-fix-that-why)
 
-* [I'm running cluster with nodes in multiple zones for HA purposes. Is that supported by Cluster Autoscaler?](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler)
+* [I'm running cluster with nodes in multiple zones for HA purposes. Is that supported by Cluster Autoscaler?](https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler)
 
 
 ## Summary
