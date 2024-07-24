@@ -220,7 +220,7 @@ dex:
 {{% /tab %}}
 {{< /tabs >}}
 
-Additionally, Dex's own configuration is now more clearly separated from how Dex's Kubernetes manifests are configused. The following changes are required:
+Additionally, Dex's own configuration is now more clearly separated from how Dex's Kubernetes manifests are configured. The following changes are required:
 
 * In general, Dex's configuration is everything under `dex.config`.
 * `dex.config.issuer` has to be set explicitly (the old `oauth` Chart automatically set it), usually to `https://<dex host>/dex`, e.g. `https://kkp.example.com/dex`.
@@ -233,7 +233,7 @@ Additionally, Dex's own configuration is now more clearly separated from how Dex
 
 Finally, theming support has changed. The old `oauth` Helm chart allowed to inline certain assets, like logos, as base64-encoded blobs into the Helm values. This mechanism is not available in the new `dex` Helm chart and admins have to manually provision the desired theme. KKP's Dex chart will setup a `dex-theme-kkp` ConfigMap, which is mounted into Dex and then overlays files over the default theme that ships with Dex. To customize, create your own ConfigMap/Secret and adjust `dex.volumes`, `dex.volumeMounts` and `dex.config.frontend.theme` / `dex.config.frontend.dir` accordingly.
 
-Once you have prepared a new `values.yaml` with the updated configuration, remember to set `useNewDexChart` to `true` and then you're ready. The next time you run the KKP installer, it will install the `dex` Chart for you,but leave the `oauth` release untouched in your cluster. Note that you cannot have two Ingress objects with the same host names and paths, so if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).
+Once you have prepared a new `values.yaml` with the updated configuration, remember to set `useNewDexChart` to `true` and then you're ready. The next time you run the KKP installer, it will install the `dex` Chart for you, but leave the `oauth` release untouched in your cluster. Note that you cannot have two Ingress objects with the same host names and paths, so if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).
 
 Once you have verified that the new Dex installation is up and running, you can either
 
