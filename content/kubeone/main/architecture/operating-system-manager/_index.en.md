@@ -21,7 +21,7 @@ This has been the norm in KubeOne till KubeOne v1.4 and it works as expected. Al
 ## Machine Controller Limitations
 
 - Machine Controller expects **ALL** the supported user-data plugins to exist and be ready. User might only be interested in a subset of the available operating systems. For example, user might only want to work with `ubuntu`.
-- The user-data plugins have templates defined [in-code](https://github.com/kubermatic/machine-controller/blob/release/v1.59/pkg/userdata/ubuntu/provider.go#L137). Which is not ideal since code changes are required to update those templates. Then those code changes need to become a part of the subsequent releases for machine-controller and KubeOne. So we need a complete release cycle to ship those changes to customers.
+- The user-data plugins have templates defined [in-code](https://github.com/kubermatic/machine-controller/blob/v1.53.0/pkg/userdata/ubuntu/provider.go#L136). Which is not ideal since code changes are required to update those templates. Then those code changes need to become a part of the subsequent releases for machine-controller and KubeOne. So we need a complete release cycle to ship those changes to customers.
 - Managing configs for multiple cloud providers, OS flavors and OS versions, adds a lot of complexity and redundancy in machine-controller.
 - Since the templates are defined in-code, there is no way for an end user to customize them to suit their use-cases.
 - Each cloud provider sets some sort of limits for the size of `user-data`, machine won't be created in case of non-compliance. For example, at the time of writing this, AWS has set a [hard limit of 16KB](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-add-user-data.html).
