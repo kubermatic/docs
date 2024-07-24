@@ -149,4 +149,4 @@ switching to the upstream Kubernetes instead.
 [v1beta2]: {{< ref "../../../guides/api-migration" >}}
 [compatibility]: {{< ref "../../../architecture/compatibility" >}}
 [centos-eol]: https://www.centos.org/centos-linux-eol/
-[addons]: https://github.com/kubermatic/kubeone/tree/mai/addons
+[addons]: https://github.com/kubermatic/kubeone/tree/main/addons

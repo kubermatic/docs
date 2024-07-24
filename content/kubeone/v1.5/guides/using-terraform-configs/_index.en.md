@@ -182,7 +182,7 @@ If you modify variables and/or `output.tf` file after running
 may cause all resources to be recreated causing the **data loss**!
 {{% /notice %}}
 
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/mai/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
 [github-releases]: https://github.com/kubermatic/kubeone/releases
 [getting-kubeone]: {{< ref "../../getting-kubeone" >}}
 [configuring-credentials]: {{< ref "../credentials" >}}
