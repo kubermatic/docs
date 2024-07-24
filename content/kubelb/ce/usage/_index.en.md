@@ -16,7 +16,7 @@ For usage outside of KKP please follow the guide along.
 
 ### Usage
 
-This guide assumes that the KubeLB manager cluster has been configured by following the [installation guide](/kubelb/installation/).
+This guide assumes that the KubeLB manager cluster has been configured by following the [installation guide](/kubelb/ce/installation/).
 
 ### KubeLB Manager configuration
 

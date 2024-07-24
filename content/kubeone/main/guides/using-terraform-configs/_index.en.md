@@ -131,9 +131,11 @@ terraform plan
 {{% tab name="All providers" %}}
 If you agree with the proposed changes, run the `apply` command to create
 the infrastructure. You'll be asked to type `yes` to confirm your intention.
+
 ```bash
 terraform apply
 ```
+
 {{% /tab %}}
 
 {{% tab name="GCE" %}}
@@ -182,11 +184,11 @@ If you modify variables and/or `output.tf` file after running
 may cause all resources to be recreated causing the **data loss**!
 {{% /notice %}}
 
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/mai/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
 [github-releases]: https://github.com/kubermatic/kubeone/releases
 [getting-kubeone]: {{< ref "../../getting-kubeone" >}}
 [configuring-credentials]: {{< ref "../credentials" >}}
-[gobetween]: http://gobetween.io/
+[gobetween]: <http://gobetween.io/>
 [configuring-ssh]: {{< ref "../ssh" >}}
 [configuring-ssh-noagent]: {{< ref "../ssh#option-2-specify-private-key-in-the-terraform-output" >}}
 [infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure-management" >}}
