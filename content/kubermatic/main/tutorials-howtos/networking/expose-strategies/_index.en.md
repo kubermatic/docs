@@ -20,7 +20,7 @@ NodePort is the default expose strategy in KKP. With this strategy a k8s service
 exposed component (e.g. Kubernetes API Server) of each user cluster. This implies, that each apiserver will be
 exposed on a randomly assigned TCP port from the nodePort range configured for the seed cluster.
 
-![KKP NodePort](@/images/concepts/architecture/expose-np.png?classes=shadow,border)
+![KKP NodePort](@/architecture/concept/kkp-concepts/networking/images/expose-np.png?classes=shadow,border)
 
 
 Each cluster normally consumes 2 NodePorts (one for the apiserver + one for the worker-nodes to control-plane "tunnel"),
@@ -38,7 +38,7 @@ In the LoadBalancer expose strategy, a dedicated service of type LoadBalancer wi
 This strategy requires services of type LoadBalancer to be available on the Seed cluster and usually results into higher cost of cloud resources.
 However, this expose strategy supports more user clusters per Seed, and provides better ingress traffic isolation per user cluster.
 
-![KKP LoadBalancer](@/images/concepts/architecture/expose-lb.png?classes=shadow,border)
+![KKP LoadBalancer](@/architecture/concept/kkp-concepts/networking/images/expose-lb.png?classes=shadow,border)
 
 
 The port number on which the apiserver is exposed via the LoadBalancer service is still randomly allocated from the
@@ -48,7 +48,7 @@ NodePort range configured in the Seed cluster.
 The Tunneling expose strategy addresses both the scaling issues of the NodePort strategy and cost issues of the LoadBalancer strategy.
 With this strategy, the traffic is routed to the based on a combination of SNI and HTTP/2 tunnels by the nodeport-proxy.
 
-![KKP Tunneling](@/images/concepts/architecture/expose-tunnel.png?classes=shadow,border)
+![KKP Tunneling](@/architecture/concept/kkp-concepts/networking/images/expose-tunnel.png?classes=shadow,border)
 
 
 Another benefit of this expose strategy is that control plane components of each user cluster are always exposed
