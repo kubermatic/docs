@@ -24,7 +24,7 @@ by creating appropriate [RBAC](https://kubernetes.io/docs/reference/access-authn
 In order to demonstrate the feature we are going to need a working cluster. If you don't have one please check the [how to create a cluster](../../getting_started/create_cluster/) section.
 If the feature was enabled on your installation you should see a "Share cluster" button after navigating to "Cluster details" page.
 
-![Share cluster button](/kubermatic/v2.13/advanced/oidc-auth/share-cluster.png)
+![Share cluster button](/img/kubermatic/v2.13/advanced/oidc-auth/share-cluster.png)
 
 Right after clicking on the button you will see a modal window where you can copy the generated link to your clipboard.
 

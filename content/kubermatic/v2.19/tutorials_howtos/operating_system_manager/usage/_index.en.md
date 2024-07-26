@@ -34,7 +34,7 @@ spec:
 
 Create a new cluster from the dashboard and toggle **Operating System Manager** feature on.
 
-![Enable OSM during cluster creation](/img/kubermatic/master/tutorials/operating_system_manager/osm_dashboard.png?height=450px&classes=shadow,border "Enable OSM during cluster creation")
+![Enable OSM during cluster creation](/img/kubermatic/v2.19/tutorials/operating_system_manager/osm_dashboard.png?height=450px&classes=shadow,border "Enable OSM during cluster creation")
 
 **NOTE:** Once the cluster is created, OSM cannot be disabled or enabled.
 
@@ -55,12 +55,12 @@ spec:
 
 ### Provisioning User Cluster Using OSM
 
-Once KKP Operating System Manager(OSM) is enabled on seed and user cluster level, users have the possibility to provision user 
-clusters using OSM. To enable machine controller to pick up the right operating system profile, each machine deployment 
-needs to be annotated with the chosen profile. OSM ships default operating system profile by default, once the feature is 
+Once KKP Operating System Manager(OSM) is enabled on seed and user cluster level, users have the possibility to provision user
+clusters using OSM. To enable machine controller to pick up the right operating system profile, each machine deployment
+needs to be annotated with the chosen profile. OSM ships default operating system profile by default, once the feature is
 enabled on the user cluster, default OSPs will be available in the cluster namespace in the seed. For instance, if a users
 would like to enable osm provisioning for a machine that runs Ubuntu as an operating system, they should a specific annotation
-accordingly: 
+accordingly:
 
 ```yaml
 apiVersion: "cluster.k8s.io/v1alpha1"

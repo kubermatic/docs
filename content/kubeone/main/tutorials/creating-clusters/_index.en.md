@@ -626,9 +626,9 @@ cloudProvider:
 **Make sure to replace the placeholder values with real values in the
 cloud-config section.**
 
-In the [Kubermatic documentation](azure-sa-setup)
-you  can find more information regarding how to set up a service account.
-This service account is needed to proceed.
+In the [Kubermatic documentation][azure-sa-setup] you can find more information
+regarding how to set up a service account. This service account is needed to
+proceed.
 
 All required resources (VPCs, Resource Groups, Route Tables...) are created by
 Terraform out of the box. The resources are prefixed with your cluster name
