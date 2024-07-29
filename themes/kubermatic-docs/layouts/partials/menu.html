@@ -177,7 +177,7 @@
 {{ end }}
 
 {{- define "optionInDifferentVersion" -}}
-  {{- $ := .root -}}
+  {{- $root := .root -}}
   {{- $topSection := .topSection -}}
   {{- $version := .version -}}
 
@@ -185,13 +185,13 @@
   {{- $productPathPrefix := path.Join $topSection $version.release -}}
 
   <option
-    value="{{ template "findBestMatchInVersion" dict "root" $ "page" $.Page "product" $topSection "release" $version.release }}"
-    {{- if in $.RelPermalink $version.release }} selected{{ end -}}
+    value="{{ template "findBestMatchInVersion" dict "root" $root "page" $root.Page "product" $topSection "release" $version.release }}"
+    {{- if in $root.RelPermalink $version.release }} selected{{ end -}}
   >{{ $version.name }}</option>
 {{- end -}}
 
 {{- define "findBestMatchInVersion" -}}
-  {{- $ := .root -}}
+  {{- $root := .root -}}
   {{- $page := .page -}}
   {{- $topSection := .product -}}
   {{- $release := .release -}}
@@ -204,7 +204,7 @@
   {{- $absFilePath := path.Join $productPathPrefix $relFilePath -}}
 
   {{- if fileExists $absFilePath -}}
-    {{- ($.GetPage $absFilePath).RelPermalink -}}
+    {{- ($root.GetPage $absFilePath).RelPermalink -}}
   {{- else -}}
     {{/* If this is not a section, try the section instead */}}
     {{- if not $page.IsSection -}}
@@ -212,19 +212,19 @@
       {{- $absFilePathEn := path.Join $productPathPrefix $relFilePathEn -}}
 
       {{- if fileExists $absFilePathEn -}}
-        {{- ($.GetPage $absFilePathEn).RelPermalink -}}
+        {{- ($root.GetPage $absFilePathEn).RelPermalink -}}
       {{- else -}}
         {{/* Try the same thing again, but for non-localized products */}}
         {{- $relFilePath := path.Join (path.Dir $relFilePath) "_index.md" -}}
         {{- $absFilePath := path.Join $productPathPrefix $relFilePath -}}
         {{- if fileExists $relFilePath -}}
-          {{- ($.GetPage $absFilePath).RelPermalink -}}
+          {{- ($root.GetPage $absFilePath).RelPermalink -}}
         {{- else -}}
-          {{- template "walkSectionsUp" dict "root" $ "productPathPrefix" $productPathPrefix "start" $relFilePath -}}
+          {{- template "walkSectionsUp" dict "root" $root "productPathPrefix" $productPathPrefix "start" $relFilePath -}}
         {{- end -}}
       {{- end -}}
     {{- else -}}
-      {{- template "walkSectionsUp" dict "root" $ "productPathPrefix" $productPathPrefix "start" $relFilePath -}}
+      {{- template "walkSectionsUp" dict "root" $root "productPathPrefix" $productPathPrefix "start" $relFilePath -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
@@ -234,19 +234,19 @@
   and walks the path up until it finds a matching file in the productPathPrefix.
 */}}
 {{- define "walkSectionsUp" -}}
-  {{- $ := .root -}}
+  {{- $root := .root -}}
   {{- $productPathPrefix := .productPathPrefix -}}
   {{- $start := path.Dir .start -}}
   {{- $indexFile := path.Join $productPathPrefix $start "_index.en.md" -}}
 
   {{- if fileExists $indexFile -}}
-    {{- ($.GetPage $indexFile).RelPermalink -}}
+    {{- ($root.GetPage $indexFile).RelPermalink -}}
   {{- else -}}
     {{- $indexFile := path.Join $productPathPrefix $start "_index.md" -}}
     {{- if fileExists $indexFile -}}
-      {{- ($.GetPage $indexFile).RelPermalink -}}
+      {{- ($root.GetPage $indexFile).RelPermalink -}}
     {{- else -}}
-      {{- template "walkSectionsUp" dict "root" $ "productPathPrefix" $productPathPrefix "start" $start -}}
+      {{- template "walkSectionsUp" dict "root" $root "productPathPrefix" $productPathPrefix "start" $start -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
