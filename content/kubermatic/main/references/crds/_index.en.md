@@ -821,6 +821,8 @@ _Appears in:_
 | `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#conditionstatus-v1-core)_ | Status of the condition, one of True, False, Unknown. |
 | `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#time-v1-meta)_ | Last time we got an update on a given condition. |
 | `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#time-v1-meta)_ | Last time the condition transitioned from one status to another. |
+| `kubermaticVersion` _string_ | KubermaticVersion is the version of KKP that last _successfully_ reconciled this
+addon. |
 
 
 [Back to top](#top)
