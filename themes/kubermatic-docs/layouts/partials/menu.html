@@ -53,7 +53,7 @@
       {{with $product}}
         {{if .versions}}
           {{range .versions}}
-            {{if in $.RelPermalink .release}}
+            {{if in (split $.RelPermalink "/") .release}}
               {{$path := print "/" $topSection "/" .release}}
               {{$docVersion := $.Site.GetPage $path}}
               {{if eq .Site.Params.ordersectionsby "title"}}
@@ -186,7 +186,7 @@
 
   <option
     value="{{ template "findBestMatchInVersion" dict "root" $root "page" $root.Page "product" $topSection "release" $version.release }}"
-    {{- if in $root.RelPermalink $version.release }} selected{{ end -}}
+    {{if in (split $root.RelPermalink `/`) $version.release}} selected{{end}}
   >{{ $version.name }}</option>
 {{- end -}}
 
