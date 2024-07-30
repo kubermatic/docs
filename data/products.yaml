@@ -7,7 +7,7 @@ kubermatic:
   description: Automate multicloud, on-prem, and edge operations with a single management UI enabling you to deliver the cloud native transformation immediately.
   textName: KKP #used for displaying different title in product dropdown
   weight: 2
-  shareImage: img/share-kubermatic.jpg
+  shareImage: img/share-kubermatic.png
   versions:
     - release: main
       name: main
@@ -45,7 +45,7 @@ kubeone:
   title: KubeOne
   description: Automate operations of a single Kubernetes cluster on your chosen cloud, on-prem, or edge environment.
   weight: 1
-  shareImage: img/share-kubeone.jpg
+  shareImage: img/share-kubeone.png
   versions:
     - release: main
       name: main
@@ -80,7 +80,7 @@ kubelb:
   textName: KubeLB
   description: KubeLB is a tool to centrally manage load balancers across multicloud and on-prem environments.
   weight: 5
-  shareImage: img/share-kubelb.jpg
+  shareImage: img/share-kubelb.png
   versions:
     - release: ee
       name: Enterprise
@@ -94,4 +94,4 @@ kubelb:
 #   title: Kubermatic Developer Platform
 #   description: <TODO>
 #   weight: 6
-#   shareImage: img/share-developer-platform.jpg
+#   shareImage: img/share-developer-platform.png
