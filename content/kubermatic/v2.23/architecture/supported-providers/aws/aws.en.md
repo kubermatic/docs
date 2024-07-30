@@ -26,7 +26,8 @@ Ensure that the assigned policy contains at least the following permissions. Pol
             "Effect": "Allow",
             "Action": [
                 "iam:GetInstanceProfile",
-                "iam:ListInstanceProfiles"
+                "iam:ListInstanceProfiles",
+                "iam:TagInstanceProfile"
             ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/*"
         },
@@ -52,6 +53,7 @@ Ensure that the assigned policy contains at least the following permissions. Pol
                 "iam:CreateInstanceProfile",
                 "iam:DeleteInstanceProfile",
                 "iam:GetInstanceProfile",
+                "iam:TagInstanceProfile",
                 "iam:RemoveRoleFromInstanceProfile"
             ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/kubernetes-*"
