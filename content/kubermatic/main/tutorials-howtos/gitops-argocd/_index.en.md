@@ -6,12 +6,12 @@ linktitle = "GitOps via ArgoCD"
 +++
 
 {{% notice warning %}}
-Kubermatic officially does not have native GitOps support yet. This artical explains how you can kickstart that journey with ArgoCD right now. **Please use this setup in production at your own risk.**
+Kubermatic officially does not have native GitOps support yet. This article explains how you can kickstart that journey with ArgoCD right now. **Please use this setup in production at your own risk.**
 {{% /notice %}}
 
 
 ## Need of GitOps solution
-Kubermatic Kubernetes Platform is very versatile solution to create and manage Kuberntes clusters (user-clusters) across plethora of Cloud providers and on-prem virtualizaton platforms. But this flexibility also means that there are good amount of moving parts. Kubermatic Kubernetes Platform (KKP) provides various tools to manage user-clusters across various regions and cloud.
+Kubermatic Kubernetes Platform is very versatile solution to create and manage Kubernetes clusters (user-clusters) across plethora of Cloud providers and on-prem virtualizaton platforms. But this flexibility also means that there are good amount of moving parts. Kubermatic Kubernetes Platform (KKP) provides various tools to manage user-clusters across various regions and cloud.
 
 This is why, if we utilize a GitOps solution to manage KKP and it's upgrades, KKP administrator would have better peace of mind. While KKP installation does not come ready with a GitOps solution, we have provided [an unofficial component for ArgoCD](https://github.com/kubermatic/community-components/tree/master/ArgoCD-managed-seed) based KKP management.
 
@@ -59,7 +59,7 @@ We will install ArgoCD on both the clusters and we will install following compon
     1. Loki
 1. S3 like object storage - minio
 1. User-cluster mla components
-    1. Minio and Minio Lifecycle Mananger
+    1. Minio and Minio Lifecycle Manager
     1. Grafana
     1. Consul
     1. Cortex
@@ -77,7 +77,7 @@ We will install ArgoCD on both the clusters and we will install following compon
 
 Use kubeone to create 2 clusters in DEV env - master-seed combo (c1) and regular seed (c2). Steps below are generic to any kubeone installation. a) We create basic VMs in AWS using terraform and then b) Use kubeone to bootstrap the control plane on these VMs and then rollout worker node machines.
 
-**Note:** The sample code provided here to create kubernetes clusters uses single VM control-plane. This is NOT recommeded in any way as production. Always use HA control-plane for any production grade kubernetes installation.
+**Note:** The sample code provided here to create kubernetes clusters uses single VM control-plane. This is NOT recommended in any way as production. Always use HA control-plane for any production grade kubernetes installation.
 
 You should be looking at `terraform.tfvars` and `kubeone.yaml` files to customize these folder as per your needs.
 
