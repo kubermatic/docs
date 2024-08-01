@@ -1747,6 +1747,9 @@ _Appears in:_
 | `internalURL` _string_ | InternalName is the seed cluster internal absolute DNS name to the API server |
 | `adminToken` _string_ | AdminToken is the token for the kubeconfig, the user can download |
 | `ip` _string_ | IP is the external IP under which the apiserver is available |
+| `apiServerExternalAddress` _string_ | APIServerExternalAddress is the external address of the API server (IP or DNS name)
+This field is populated only when the API server service is of type LoadBalancer. If set, this address will be used in the
+kubeconfig for the user cluster that can be downloaded from the KKP UI. |
 
 
 [Back to top](#top)
@@ -2621,6 +2624,8 @@ of KKP, it will take this long to fix it. |
 If true it can't be over-written in the cluster configuration |
 | `kubelb` _[KubeLBDatacenterSettings](#kubelbdatacentersettings)_ | Optional: KubeLB holds the configuration for the kubeLB at the data center level.
 Only available in Enterprise Edition. |
+| `apiServerServiceType` _[ServiceType](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#servicetype-v1-core)_ | APIServerServiceType is the service type used for API Server service `apiserver-external` for the user clusters.
+By default, the type of service that will be used is determined by the `ExposeStrategy` used for the cluster. |
 
 
 [Back to top](#top)
