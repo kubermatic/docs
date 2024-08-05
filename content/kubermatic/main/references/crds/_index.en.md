@@ -1347,6 +1347,7 @@ _Appears in:_
 | `enabled` _boolean_ | Enabled will enable or disable audit logging. |
 | `policyPreset` _[AuditPolicyPreset](#auditpolicypreset)_ | Optional: PolicyPreset can be set to utilize a pre-defined set of audit policy rules. |
 | `sidecar` _[AuditSidecarSettings](#auditsidecarsettings)_ | Optional: Configures the fluent-bit sidecar deployed alongside kube-apiserver. |
+| `webhookBackend` _[AuditWebhookBackendSettings](#auditwebhookbackendsettings)_ | Optional: Configures the webhook backend for audit logs. |
 
 
 [Back to top](#top)
@@ -1399,6 +1400,26 @@ _Appears in:_
 | --- | --- |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#resourcerequirements-v1-core)_ |  |
 | `config` _[AuditSidecarConfiguration](#auditsidecarconfiguration)_ |  |
+
+
+[Back to top](#top)
+
+
+
+### AuditWebhookBackendSettings
+
+
+
+AuditWebhookBackendSettings configures webhook backend for audit logging functionality.
+
+_Appears in:_
+- [AuditLoggingSettings](#auditloggingsettings)
+- [DatacenterSpec](#datacenterspec)
+
+| Field | Description |
+| --- | --- |
+| `auditWebhookConfig` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#secretreference-v1-core)_ | Required : AuditWebhookConfig contains reference to secret holding the audit webhook config file |
+| `auditWebhookInitialBackoff` _string_ |  |
 
 
 [Back to top](#top)
@@ -2608,6 +2629,8 @@ given domains can make use of this datacenter. You can define multiple
 domains, e.g. "example.com", one of which must match the email domain
 exactly (i.e. "example.com" will not match "user@test.example.com"). |
 | `enforceAuditLogging` _boolean_ | Optional: EnforceAuditLogging enforces audit logging on every cluster within the DC,
+ignoring cluster-specific settings. |
+| `enforcedAuditWebhookSettings` _[AuditWebhookBackendSettings](#auditwebhookbackendsettings)_ | Optional: EnforcedAuditWebhookSettings allows admins to control webhook backend for audit logs of all the clusters within the DC,
 ignoring cluster-specific settings. |
 | `enforcePodSecurityPolicy` _boolean_ | Optional: EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC,
 ignoring cluster-specific settings. |
