@@ -22,7 +22,7 @@ The latest Ubuntu 22.04 AMI have IMDSv2 (the AWS instance metadata API) enabled 
 
 ### Solution
 
-A new machine-controller (MC) version ([v1.57.9] (https://github.com/kubermatic/machine-controller/releases/tag/v1.57.9)) has been released that can be configured into `KubermaticConfiguration`:
+A new machine-controller (MC) version ([v1.57.9](https://github.com/kubermatic/machine-controller/releases/tag/v1.57.9)) has been released that can be configured into `KubermaticConfiguration`:
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
