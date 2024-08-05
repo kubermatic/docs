@@ -9,6 +9,37 @@ weight = 25
 
 This page documents the list of known issues and possible work arounds/solutions.
 
+## Latest Ubuntu 22.04 image prevents creating new EBS volumes on AWS
+
+### Problem
+
+The latest Ubuntu 22.04 AMI (released on 30th July) prevents creating new EBS volumes on some AWS clusters.
+
+
+### Root Cause
+
+The latest Ubuntu 22.04 AMI have IMDSv2 (the AWS instance metadata API) enabled as a default, while the previous Ubuntu AMIs allowed both IMDS v2 and v1. By default, the limit of hops of PUT requests to metadata service is 2. However, the default settings provided by AWS are not compatible with the containerized environments (i.e. Kubernetes) since the instance metadata service is not reachable from the container network in case if further hops are required. At this time, it appears that only Cilium clusters are affected, and only if the CSI components are running on nodes that are using the latest Ubuntu AMI.
+
+### Solution
+
+A new machine-controller (MC) version ([v1.57.9](https://github.com/kubermatic/machine-controller/releases/tag/v1.57.9)) has been released that can be configured into `KubermaticConfiguration`:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  userCluster:
+    machineController:
+      imageTag: v1.57.9
+[...]
+```
+
+The updated MC version will be included in the next patch release (2.23.18).
+
+
 ## Recent Ubuntu 22.04 Image Fails to Bootstrap on Azure
 
 ### Problem
