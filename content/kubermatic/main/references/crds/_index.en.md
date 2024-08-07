@@ -5855,13 +5855,13 @@ _Appears in:_
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `useToken` _boolean_ |  |
-| `applicationCredentialID` _string_ |  |
-| `applicationCredentialSecret` _string_ |  |
+| `applicationCredentialID` _string_ | Application credential ID to authenticate in combination with an application credential secret (which is not the user's password). |
+| `applicationCredentialSecret` _string_ | Application credential secret (which is not the user's password) to authenticate in combination with an application credential ID. |
 | `username` _string_ |  |
 | `password` _string_ |  |
 | `project` _string_ | Project, formally known as tenant. |
 | `projectID` _string_ | ProjectID, formally known as tenantID. |
-| `domain` _string_ |  |
+| `domain` _string_ | Domain holds the name of the identity service (keystone) domain. |
 | `network` _string_ | Network holds the name of the internal network When specified, all worker nodes will be attached to this network. If not specified, a network, subnet & router will be created. |
 | `securityGroups` _string_ |  |
 | `floatingIPPool` _string_ | FloatingIPPool holds the name of the public network The public network is reachable from the outside world and should provide the pool of IP addresses to choose from. |
@@ -5889,9 +5889,9 @@ _Appears in:_
 | `password` _string_ |  |
 | `project` _string_ | project, formally known as tenant. |
 | `projectID` _string_ | project id, formally known as tenantID. |
-| `domain` _string_ |  |
-| `applicationCredentialID` _string_ |  |
-| `applicationCredentialSecret` _string_ |  |
+| `domain` _string_ | Domain holds the name of the identity service (keystone) domain. |
+| `applicationCredentialID` _string_ | Application credential ID to authenticate in combination with an application credential secret (which is not the user's password). |
+| `applicationCredentialSecret` _string_ | Application credential secret (which is not the user's password) to authenticate in combination with an application credential ID. |
 | `useToken` _boolean_ |  |
 | `token` _string_ | Used internally during cluster creation |
 | `network` _string_ | Network holds the name of the internal network
