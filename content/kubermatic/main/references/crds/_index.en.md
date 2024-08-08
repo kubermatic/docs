@@ -1601,6 +1601,27 @@ _Appears in:_
 
 
 
+### Baremetal
+
+
+
+
+
+_Appears in:_
+- [PresetSpec](#presetspec)
+
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
+configured datacenter. |
+| `tinkerbell` _[Tinkerbell](#tinkerbell)_ |  |
+
+
+[Back to top](#top)
+
+
+
 ### BaremetalCloudSpec
 
 
@@ -1609,6 +1630,14 @@ BaremetalCloudSpec specifies access data for a baremetal cluster.
 
 _Appears in:_
 - [CloudSpec](#cloudspec)
+
+| Field | Description |
+| --- | --- |
+| `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ |  |
+| `tinkerbell` _[TinkerbellCloudSpec](#tinkerbellcloudspec)_ |  |
+
+
+[Back to top](#top)
 
 
 
@@ -2743,6 +2772,13 @@ DatacenterSpecBaremetal describes a datacenter of baremetal nodes.
 _Appears in:_
 - [DatacenterSpec](#datacenterspec)
 
+| Field | Description |
+| --- | --- |
+| `tinkerbell` _[DatacenterSpecTinkerbell](#datacenterspectinkerbell)_ |  |
+
+
+[Back to top](#top)
+
 
 
 ### DatacenterSpecBringYourOwn
@@ -2943,6 +2979,17 @@ and networking features, see https://metal.equinix.com/developers/docs/locations
 
 
 [Back to top](#top)
+
+
+
+### DatacenterSpecTinkerbell
+
+_Underlying type:_ `[struct{Images TinkerbellImageSources "json:\"images,omitempty\""}](#struct{images-tinkerbellimagesources-"json:\"images,omitempty\""})`
+
+DatacenterSepcTinkerbell contains spec for tinkerbell provider.
+
+_Appears in:_
+- [DatacenterSpecBaremetal](#datacenterspecbaremetal)
 
 
 
@@ -5800,6 +5847,7 @@ OSVersions defines a map of OS version and the source to download the image.
 _Appears in:_
 - [ImageListWithVersions](#imagelistwithversions)
 - [KubeVirtHTTPSource](#kubevirthttpsource)
+- [TinkerbellHTTPSource](#tinkerbellhttpsource)
 
 
 
@@ -6136,6 +6184,7 @@ _Appears in:_
 | `hetzner` _[Hetzner](#hetzner)_ | Access data for Hetzner. |
 | `azure` _[Azure](#azure)_ | Access data for Microsoft Azure Cloud. |
 | `vsphere` _[VSphere](#vsphere)_ | Access data for vSphere. |
+| `baremetal` _[Baremetal](#baremetal)_ | Access data for Baremetal (Tinkerbell only for now). |
 | `aws` _[AWS](#aws)_ | Access data for Amazon Web Services(AWS) Cloud. |
 | `openstack` _[Openstack](#openstack)_ | Access data for OpenStack. |
 | `packet` _[Packet](#packet)_ | Access data for Packet Cloud. |
@@ -6287,6 +6336,7 @@ _Appears in:_
 - [Alibaba](#alibaba)
 - [Anexia](#anexia)
 - [Azure](#azure)
+- [Baremetal](#baremetal)
 - [Digitalocean](#digitalocean)
 - [EKS](#eks)
 - [GCP](#gcp)
@@ -6945,6 +6995,62 @@ The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "
 
 
 [Back to top](#top)
+
+
+
+### Tinkerbell
+
+
+
+
+
+_Appears in:_
+- [Baremetal](#baremetal)
+
+| Field | Description |
+| --- | --- |
+| `kubeconfig` _string_ | Kubeconfig is the cluster's kubeconfig file, encoded with base64. |
+
+
+[Back to top](#top)
+
+
+
+### TinkerbellCloudSpec
+
+
+
+
+
+_Appears in:_
+- [BaremetalCloudSpec](#baremetalcloudspec)
+
+| Field | Description |
+| --- | --- |
+| `kubeconfig` _string_ | The cluster's kubeconfig file, encoded with base64. |
+
+
+[Back to top](#top)
+
+
+
+### TinkerbellHTTPSource
+
+
+
+TinkerbellHTTPSource represents list of images and their versions that can be downloaded over HTTP.
+
+_Appears in:_
+- [TinkerbellImageSources](#tinkerbellimagesources)
+
+| Field | Description |
+| --- | --- |
+| `operatingSystems` _object (keys:OperatingSystem, values:[OSVersions](#osversions))_ | OperatingSystems represents list of supported operating-systems with their URLs. |
+
+
+[Back to top](#top)
+
+
 
 
 
