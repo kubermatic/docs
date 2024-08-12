@@ -4,17 +4,17 @@ date = 2023-10-27T10:07:15+02:00
 weight = 6
 +++
 
-## Working with KubeLB
+## Kubermatic Kubernetes Platform (Enterprise Edition Only)
 
-### Kubermatic Kubernetes Platform
+Starting with KKP v2.24, KubeLB Enterprise Edition is integrated into the Kubermatic Kubernetes Platform (KKP). This means that you can use KubeLB to provision load balancers for your KKP clusters. KKP will take care of configurations and deployments for you in the user cluster. Admins mainly need to create the KubeLB manager cluster and configure KKP to use it.
 
-Starting with KKP v2.24, KubeLB is integrated into the Kubermatic Kubernetes Platform (KKP). This means that you can use KubeLB to provision load balancers for your KKP clusters. KKP will take care of configurations and deployments for you in the user cluster. Admins mainly need to create the KubeLB manager cluster and configure KKP to use it.
+{{% notice note %}}
+To use KubeLB enterprise offering, you need to have a valid license. Please [contact sales](mailto:sales@kubermatic.com) for more information.
+{{% /notice %}}
 
-For usage outside of KKP please follow the guide along.
+## Usage
 
-### Usage
-
-This guide assumes that the KubeLB manager cluster has been configured by following the [installation guide](/kubelb/ee/installation/).
+For usage outside of KKP please follow the guide along. This guide assumes that the KubeLB manager cluster has been configured by following the [installation guide](../installation/).
 
 ### KubeLB Manager configuration
 
@@ -25,10 +25,10 @@ We then create a restricted service account in the tenant cluster that will be u
 This script can be used for creating the required RBAC and generating the kubeconfig:
 
 ```sh
-{{< readfile "kubelb/ee/data/create-kubelb-sa.sh" >}}
+{{< readfile "kubelb/v1.0/data/create-kubelb-sa.sh" >}}
 ```
 
-#### Manager Config
+#### Global Config
 
 We have a dedicated CRD `config` that can be used to manage configuration for KubeLB manager. The following is an example of a `config` CRD:
 
@@ -54,7 +54,7 @@ For CCM, during installation we need to provide the `kubeconfig` that we generat
 
 ### Propagate annotations from services to LoadBalancer
 
-KubeLB can propagate annotations from services in the consumer cluster to the LoadBalancers in the management cluster. This is useful for setting annotations that are required by the cloud provider to configure the LoadBalancers. For example, the `service.beta.kubernetes.io/aws-load-balancer-internal` annotation is used to create an internal LoadBalancer in AWS.
+KubeLB can propagate annotations from services in the tenant cluster to the LoadBalancers in the management cluster. This is useful for setting annotations that are required by the cloud provider to configure the LoadBalancers. For example, the `service.beta.kubernetes.io/aws-load-balancer-internal` annotation is used to create an internal LoadBalancer in AWS.
 
 Annotations are not propagated by default since tenants can make unwanted changes to the LoadBalancer configuration. Since each tenant is treated as a separate entity, the KubeLB manager cluster needs to be configured to allow the propagation of specific annotations.
 

@@ -1,33 +1,33 @@
 +++
-title = "Installation guide for KubeLB Enterprise Edition"
+title = "Install Kubermatic KubeLB Enterprise Edition"
+linkTitle = "Install Enterprise Edition"
 date = 2023-10-27T10:07:15+02:00
-weight = 6
+weight = 20
+enterprise = true
 +++
-
-## Installation
-
-### Prerequisites for KubeLB
 
 {{% notice note %}}
 To use KubeLB enterprise offering, you need to have a valid license.
 Please [contact sales](mailto:sales@kubermatic.com) for more information.
 {{% /notice %}}
 
-#### Consumer cluster
+## Requirements
+
+### Tenant cluster
 
 * KubeLB manager cluster API access.
 * Registered as a tenant in the KubeLB manager cluster.
 
-#### Load balancer cluster
+### Load balancer cluster
 
 * Service type `LoadBalancer` implementation. This can be a cloud solution or a self-managed implementation like [MetalLB](https://metallb.universe.tf).
-* Network access to the consumer cluster nodes with node port range (default: 30000-32767). This is required for the envoy proxy to be able to connect to the consumer cluster nodes.
+* Network access to the tenant cluster nodes with node port range (default: 30000-32767). This is required for the envoy proxy to be able to connect to the tenant cluster nodes.
 
-### Installation for KubeLB manager
+## Installation for KubeLB manager
 
 KubeLB manager is deployed as a Kubernetes application. It can be deployed using the KubeLB manager Helm chart in the following way:
 
-#### Prerequisites
+### Prerequisites
 
 * Create a namespace `kubelb` for the CCM to be deployed in.
 * Create `imagePullSecrets` for the chart to pull the image from the registry.
@@ -39,18 +39,16 @@ imagePullSecrets:
   - name: <imagePullSecretName>
 ```
 
-#### Install helm chart for KubeLB manager
-
 Now, we can install the helm chart:
 
 ```sh
 helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v0.7.0 --untardir "kubelb-manager" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.0.0 --untardir "kubelb-manager" --untar
 ## Create and update values.yaml with the required values.
 helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb -f values.yaml
 ```
 
-#### Values
+### KubeLB Manager Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -63,7 +61,7 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
-| image.tag | string | `"v0.7.0"` |  |
+| image.tag | string | `"v1.0.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.debug | bool | `false` |  |
 | kubelb.enableLeaderElection | bool | `true` |  |
@@ -105,9 +103,9 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 | serviceMonitor.enabled | bool | `false` |  |
 | tolerations | list | `[]` |  |
 
-### Installation for KubeLB CCM
+## Installation for KubeLB CCM
 
-#### Pre-requisites
+### Pre-requisites
 
 * Create a namespace `kubelb` for the CCM to be deployed in.
 * Create `imagePullSecrets` for the chart to pull the image from the registry.
@@ -124,18 +122,16 @@ kubelb:
     tenantName: <unique-identifier-for-tenant>
 ```
 
-#### Install helm chart for KubeLB CCM
-
 Now, we can install the helm chart:
 
 ```sh
 helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v0.7.0 --untardir "kubelb-ccm" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.0.0 --untardir "kubelb-ccm" --untar
 ## Create and update values.yaml with the required values.
 helm install kubelb-ccm kubelb-ccm/kubelb-ccm-ee --namespace kubelb -f values.yaml
 ```
 
-#### Values
+### KubeLB CCM Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -150,7 +146,7 @@ helm install kubelb-ccm kubelb-ccm/kubelb-ccm-ee --namespace kubelb -f values.ya
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm-ee"` |  |
-| image.tag | string | `"v0.7.0"` |  |
+| image.tag | string | `"v1.0.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` |  |
 | kubelb.enableLeaderElection | bool | `true` |  |

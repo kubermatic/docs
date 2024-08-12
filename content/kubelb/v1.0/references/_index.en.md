@@ -5,3 +5,8 @@ weight = 40
 +++
 
 This section contains a reference of the Kubermatic KubeLB Custom Resource Definitions.
+
+## Table of Content
+
+{{% children depth=5 %}}
+{{% /children %}}
