@@ -1,7 +1,7 @@
 +++
 title = "Installation"
 date = 2018-04-28T12:07:15+02:00
-weight = 15
+weight = 10
 +++
 
 This chapter offers guidance on how to install Kubelb.

@@ -1,7 +1,7 @@
 +++
 title = "Working with KubeLB"
 date = 2023-10-27T10:07:15+02:00
-weight = 6
+weight = 15
 +++
 
 ## Kubermatic Kubernetes Platform (Enterprise Edition Only)
