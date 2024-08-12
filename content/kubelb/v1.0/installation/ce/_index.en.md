@@ -1,15 +1,9 @@
 +++
-title = "Install Kubermatic KubeLB Enterprise Edition"
-linkTitle = "Install Enterprise Edition"
+title = "Install Kubermatic KubeLB Community Edition"
+linkTitle = "Install Community Edition"
 date = 2023-10-27T10:07:15+02:00
 weight = 20
-enterprise = true
 +++
-
-{{% notice note %}}
-To use KubeLB enterprise offering, you need to have a valid license.
-Please [contact sales](mailto:sales@kubermatic.com) for more information.
-{{% /notice %}}
 
 ## Requirements
 
@@ -27,25 +21,10 @@ Please [contact sales](mailto:sales@kubermatic.com) for more information.
 
 KubeLB manager is deployed as a Kubernetes application. It can be deployed using the KubeLB manager Helm chart in the following way:
 
-### Prerequisites
-
-* Create a namespace `kubelb` for the CCM to be deployed in.
-* Create `imagePullSecrets` for the chart to pull the image from the registry.
-
-At this point a minimal values.yaml should look like this:
-
-```yaml
-imagePullSecrets:
-  - name: <imagePullSecretName>
-```
-
-Now, we can install the helm chart:
-
 ```sh
-helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.0.0 --untardir "kubelb-manager" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.0.0 --untardir "kubelb-manager" --untar
 ## Create and update values.yaml with the required values.
-helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb -f values.yaml
+helm install kubelb-manager kubelb-manager/kubelb-manager --namespace kubelb -f values.yaml --create-namespace
 ```
 
 ### KubeLB Manager Values
@@ -60,7 +39,7 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 | autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
+| image.repository | string | `"quay.io/kubermatic/kubelb-manager"` |  |
 | image.tag | string | `"v1.0.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.debug | bool | `false` |  |
@@ -107,16 +86,21 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 
 ### Pre-requisites
 
-* Create a namespace `kubelb` for the CCM to be deployed in.
-* Create `imagePullSecrets` for the chart to pull the image from the registry.
-* The agent expects a `Secret` with a kubeconf file named `kubelb` to access the load balancer cluster. To create such run: `kubectl --namespace kubelb create secret generic kubelb-cluster --from-file=<path to kubelb kubeconf file>`. The name of secret can't be overridden using `.Values.kubelb.clusterSecretName`
+* Create a namespace **kubelb** for the CCM to be deployed in.
+* The agent expects a **Secret** with a kubeconf file named **kubelb** to access the load balancer cluster.
+  * First register the tenant in LB cluster by following [tenant registration]({{< relref "../../tutorials/01-tenants">}}) guidelines.
+  * Fetch the generated kubeconfig and create a secret by using the command:
+
+  ```sh
+  kubectl --namespace kubelb create secret generic kubelb-cluster --from-file=<path to kubelb kubeconf file>
+  ```
+
+* The name of secret can be overridden using `.Values.kubelb.clusterSecretName`
 * Update the `tenantName` in the `values.yaml` to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. This can be any unique string that follows [lower case RFC 1123](https://www.rfc-editor.org/rfc/rfc1123).
 
 At this point a minimal `values.yaml` should look like this:
 
 ```yaml
-imagePullSecrets:
-  - name: <imagePullSecretName>
 kubelb:
     clusterSecretName: kubelb-cluster
     tenantName: <unique-identifier-for-tenant>
@@ -125,10 +109,9 @@ kubelb:
 Now, we can install the helm chart:
 
 ```sh
-helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.0.0 --untardir "kubelb-ccm" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.0.0 --untardir "kubelb-ccm" --untar
 ## Create and update values.yaml with the required values.
-helm install kubelb-ccm kubelb-ccm/kubelb-ccm-ee --namespace kubelb -f values.yaml
+helm install kubelb-ccm kubelb-ccm/kubelb-ccm --namespace kubelb -f values.yaml
 ```
 
 ### KubeLB CCM Values
@@ -145,7 +128,7 @@ helm install kubelb-ccm kubelb-ccm/kubelb-ccm-ee --namespace kubelb -f values.ya
 | extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"quay.io/kubermatic/kubelb-ccm-ee"` |  |
+| image.repository | string | `"quay.io/kubermatic/kubelb-ccm"` |  |
 | image.tag | string | `"v1.0.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` |  |
