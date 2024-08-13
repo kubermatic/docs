@@ -10,8 +10,8 @@ KubeLB is an elastically scalable load balancer with a distributed data plane th
 
 In this chapter, you will find the following KubeLB specific terms:
 
-1. **Load Balancer Cluster** -- A Kubernetes cluster which is responsible for management of all the tenants and their data plane components. Requests for Layer 4 load balancer services are handled by the load balancer cluster.
-2. **Tenant Cluster** -- A Kubernetes cluster which acts as a consumer of the load balancer services. Workloads that need Layer 4 load balancing are created in the tenant cluster. The tenant cluster hosts the KubeLB Cloud Controller Manager (CCM) component which is responsible for propagating the load balancer configurations to the load balancer cluster.
+1. **Management Cluster/Load Balancing Cluster** -- A Kubernetes cluster which is responsible for management of all the tenants and their data plane components. Requests for Layer 4 load balancer services are handled by the management cluster.
+2. **Tenant Cluster** -- A Kubernetes cluster which acts as a consumer of the load balancer services. Workloads that need Layer 4 load balancing are created in the tenant cluster. The tenant cluster hosts the KubeLB Cloud Controller Manager (CCM) component which is responsible for propagating the load balancer configurations to the management cluster.
 
 ## Design and Architecture
 

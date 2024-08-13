@@ -1,8 +1,8 @@
 +++
 title = "Tenants"
-linkTitle = "1. Tenants"
+linkTitle = "2. Tenants"
 date = 2023-10-27T10:07:15+02:00
-weight = 1
+weight = 2
 +++
 
 ## Kubermatic Kubernetes Platform (Enterprise Edition Only)
