@@ -1,6 +1,6 @@
 +++
 title = "KubeLB Management Cluster Configuration"
-linkTitle = "Config"
+linkTitle = "Management Configuration"
 date = 2023-10-27T10:07:15+02:00
 weight = 1
 +++

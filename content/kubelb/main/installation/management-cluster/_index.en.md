@@ -186,11 +186,12 @@ Refer to [Ingress Setup]({{< relref "../../tutorials/ingress#setup" >}}) for mor
 
 #### Gateway API
 
-Refer to [Ingress Setup]({{< relref "../../tutorials/gatewayapi#setup" >}}) for more details.
+Refer to [Gateway API Setup]({{< relref "../../tutorials/gatewayapi#setup" >}}) for more details.
 
 ### Certificate Management(Enterprise Edition)
 
-Refer to [Ingress Setup]({{< relref "../../tutorials/security/cert-management#setup" >}}) for more details.
+Refer to [Certificate Management Setup]({{< relref "../../tutorials/security/cert-management#setup" >}}) for more details.
 
 ### DNS Management(Enterprise Edition)
 
+Refer to [DNS Management Setup]({{< relref "../../tutorials/security/dns#setup" >}}) for more details.
