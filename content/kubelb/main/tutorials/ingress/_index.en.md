@@ -106,7 +106,7 @@ spec:
                   fieldPath: metadata.namespace
 ```
 
-This will create an Ingress resource, a service and a deployment. KubeLB CCM will create a service of type `NodePort` against your service to ensure connectivity from the management cluster. Note that the class for ingress is `kubelb`, this is requried for KubeLB to manage the Ingress resources. This behavior can be changed however by following the [Ingress configuration](#configurations).
+This will create an Ingress resource, a service and a deployment. KubeLB CCM will create a service of type `NodePort` against your service to ensure connectivity from the management cluster. Note that the class for ingress is `kubelb`, this is required for KubeLB to manage the Ingress resources. This behavior can be changed however by following the [Ingress configuration](#configurations).
 
 ### Configurations
 

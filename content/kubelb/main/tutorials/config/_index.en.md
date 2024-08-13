@@ -26,7 +26,7 @@ kubelb:
   skipConfigGeneration: true
 ```
 
-This will de-couple the `config` from the helm chart and users can manage it separately. This is recommended since the coupling of `config` CRD with helm chart makes it dependant on the helm chart and the admin would need to upgrade the helm chart to update the `config` CRD.
+This will de-couple the `config` from the helm chart and users can manage it separately. This is recommended since the coupling of `config` CRD with helm chart makes it dependent on the helm chart and the admin would need to upgrade the helm chart to update the `config` CRD.
 
 **NOTE: The Config CR named `default` is mandatory for KubeLB manager to work.**
 
@@ -52,7 +52,7 @@ spec:
 
 These configurations are available at a global level and also at a tenant level. The tenant level configurations will override the global configurations for that tenant. It's important to configure these options at one of those levels since they perform essential functions for KubeLB.
 
-1. **Ingress.Class**: The class to use for Ingress resources for tenants in mangement cluster.
+1. **Ingress.Class**: The class to use for Ingress resources for tenants in management cluster.
 2. **GatewayAPI.Class**: The class to use for Gateway API resources for tenants in management cluster.
 3. **Certificates.DefaultClusterIssuer(EE)**: The default cluster issuer to use for certificate management.
 
@@ -74,7 +74,7 @@ spec:
   propagateAllAnnotations: true
 ```
 
-2. Propagate specifc annotations
+2. Propagate specific annotations
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1

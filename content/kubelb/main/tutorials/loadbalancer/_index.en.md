@@ -92,7 +92,7 @@ spec:
                   fieldPath: metadata.namespace
 ```
 
-This will create a service of type `LoadBalancer` and a deployment. KubeLB CCM will then propagate the request to mangement cluster, create a LoadBalancer CR there and retrieve the IP address allocated in the management cluster. Eventually the IP address will be assigned to the service in the tenant cluster.
+This will create a service of type `LoadBalancer` and a deployment. KubeLB CCM will then propagate the request to management cluster, create a LoadBalancer CR there and retrieve the IP address allocated in the management cluster. Eventually the IP address will be assigned to the service in the tenant cluster.
 
 ### Configurations
 
