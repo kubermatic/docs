@@ -43,6 +43,6 @@ KubeLB manager supports three different deployment topologies for envoy proxy:
 
 ## Installation
 
-See the [installation documentation]({{< relref "../installation/">}}) for more details on how to setup datacenters.
+See the [installation documentation]({{< relref "../installation/">}}) for more details on how to how to setup and install KubeLB.
 
 [1]: https://github.com/envoyproxy/envoy

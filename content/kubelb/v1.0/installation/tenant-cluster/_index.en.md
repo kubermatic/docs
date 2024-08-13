@@ -1,5 +1,5 @@
 +++
-title = "Install KubeLB CCM and setup tenant"
+title = "Install KubeLB CCM and setup Tenant Cluster"
 linkTitle = "Setup Tenant Cluster"
 date = 2023-10-27T10:07:15+02:00
 weight = 20
@@ -7,7 +7,7 @@ weight = 20
 
 ## Requirements
 
-* KubeLB management cluster kuberenetes API access.
+* KubeLB management cluster kubernetes API access.
 * Registered as a tenant in the KubeLB management cluster.
 
 ## Pre-requisites

@@ -168,7 +168,7 @@ helm install kubelb-manager kubelb-manager/kubelb-manager --namespace kubelb -f 
 The examples and tools shared below are for demonstration purposes, you can use any other tools or configurations as per your requirements.
 {{% /notice %}}
 
-Managment cluster is the place where all the components required for Layer 4 and Layer 7 load balancing are installed. The management cluster is responsible for managing the tenant clusters and their load balancing requests/configurations.
+Management cluster is the place where all the components required for Layer 4 and Layer 7 load balancing are installed. The management cluster is responsible for managing the tenant clusters and their load balancing requests/configurations.
 
 ### Layer 4 Load Balancing
 
@@ -200,13 +200,13 @@ This configures an address pool `extern` with an IP range from 10.10.255.200 to 
 
 Further reading: <https://metallb.universe.tf/configuration/_advanced_l2_configuration/>
 
-## Layer 7 Load Balancing
+### Layer 7 Load Balancing
 
 For Layer 7 load balancing, kubeLB supports both Ingress and Gateway API resources.
 
 Our default recommendation is to use Gateway API and use [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation. The features specific to Gateway API that will be built and consumed in KubeLB will be based on Envoy Gateway. Although this is not a strict binding and our consumers are free to use any Ingress or Gateway API implementation. The only limitation is that we only support native Kubernetes APIs i.e. Ingress and Gateway APIs. Provider specific APIs are not supported by KubeLB and will be completely ignored.
 
-### Ingress
+#### Ingress
 
 Although KubeLB supports Ingress, we strongly encourage you to use Gateway API instead as Ingress has been [feature frozen](https://kubernetes.io/docs/concepts/services-networking/ingress/#:~:text=Note%3A-,Ingress%20is%20frozen,-.%20New%20features%20are) in Kubernetes and all new development is happening in the Gateway API space. The biggest advantage of Gateway API is that it is a more flexible, has extensible APIs and is **multi-tenant compliant** by default. Ingress doesn't support multi-tenancy.
 
@@ -228,7 +228,7 @@ helm install nginx-ingress oci://ghcr.io/nginxinc/charts/nginx-ingress --version
 
 For details: <https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-helm/#installing-the-chart>
 
-### Gateway API
+#### Gateway API
 
 Gateway API targets three personas:
 
@@ -303,6 +303,8 @@ spec:
           ingressClassName: nginx
 ```
 
+The additional validation at the tenant level allows us to use a single instance of cert-manager for multiple tenants. Multiple cert-manager installations are not recommended and it's better to have a single instance of cert-manager for all tenants but different ClusterIssuers/Issuers for different tenants, if required.
+
 ### DNS Management(Enterprise Edition)
 
 Install [External-dns](https://bitnami.com/stack/external-dns/helm) to manage DNS records for the tenant clusters. DNS can be enabled/disabled at global or tenant level. For automation purposes, you can configure allowed domains for DNS per tenant.
@@ -325,3 +327,5 @@ spec:
 ```
 
 Users can then either use [external-dns annotations](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/annotations/annotations.md) or the annotation `kubelb.k8c.io/manage-dns: true` on their resources to automate DNS management.
+
+The additional validation at the tenant level allows us to use a single instance of external-dns for multiple tenants. Although, if required, external-dns can be installed per tenant as well.

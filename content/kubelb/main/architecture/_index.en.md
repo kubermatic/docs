@@ -34,7 +34,7 @@ For layer 4 load balancing `LoadBalancer` and for Layer 7 load balancing `Route`
 
 ### Manager
 
-The **KubeLB manager** is responsible for managing the data plane of it's tenants. The manager **registers** the tenant clusters as tenants, and then it receives the load balancer configurations from the CCM(s) in the form of `LoadBalancer` or `Route` CRDs. It then deploys the neccessary workloads according to the desired specification.
+The **KubeLB manager** is responsible for managing the data plane of it's tenants. The manager **registers** the tenant clusters as tenants, and then it receives the load balancer configurations from the CCM(s) in the form of `LoadBalancer` or `Route` CRDs. It then deploys the necessary workloads according to the desired specification.
 
 At its core, the KubeLB manager relies on [envoy proxy][1] to load balance the traffic. The manager is responsible for deploying the envoy proxy and configuring it to for each load balancer service per tenant, based on the envoy proxy deployment topology.
 
@@ -47,6 +47,6 @@ KubeLB manager supports three different deployment topologies for envoy proxy:
 
 ## Installation
 
-See the [installation documentation]({{< relref "../installation/">}}) for more details on how to setup datacenters.
+See the [installation documentation]({{< relref "../installation/">}}) for more details on how to setup and install KubeLB.
 
 [1]: https://github.com/envoyproxy/envoy
