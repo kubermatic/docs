@@ -8,4 +8,4 @@ processor:
     - "Quantity$"
     - "Fake$"
 render:
-  kubernetesVersion: "1.30"
+  kubernetesVersion: "1.31"
