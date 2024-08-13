@@ -1,6 +1,6 @@
 +++
 title = "Config"
-linkTitle = "1. Config"
+linkTitle = "Config"
 date = 2023-10-27T10:07:15+02:00
 weight = 1
 +++

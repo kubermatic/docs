@@ -31,6 +31,7 @@ KubeLB solves this problem by providing a centralized load balancer management s
 
 - [Introducing KubeLB](https://www.kubermatic.com/products/kubelb/)
 - [KubeLB Whitepaper](https://www.kubermatic.com/static/KubeLB-Cloud-Native-Multi-Tenant-Load-Balancer.pdf)
+- [KubeLB CE](https://github.com/kubermatic/kubelb)
 
 Visit [kubermatic.com](https://www.kubermatic.com/) for further information.
 

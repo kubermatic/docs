@@ -172,33 +172,7 @@ Management cluster is the place where all the components required for Layer 4 an
 
 ### Layer 4 Load Balancing
 
-For layer 4 load balancing, either the kubernetes cluster should be on a cloud, using it's CCM, that supports the `LoadBalancer` service type or a self-managed solution like [MetalLB](https://metallb.universe.tf) should be installed. [This guide](https://metallb.universe.tf/installation/#installation-with-helm) can be followed to install and configure MetalLB on the management cluster.
-
-A minimal configuration for MetalLB for demonstration purposes is as follows:
-
-```yaml
-apiVersion: metallb.io/v1beta1
-kind: L2Advertisement
-metadata:
-  name: extern
-  namespace: metallb-system
-spec:
-  ipAddressPools:
-    - extern
----
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: management-pool
-  namespace: metallb-system
-spec:
-  addresses:
-    - 10.10.255.200-10.10.255.250
-```
-
-This configures an address pool `extern` with an IP range from 10.10.255.200 to 10.10.255.250. This IP range can be used by the tenant clusters to allocate IP addresses for the `LoadBalancer` service type.
-
-Further reading: <https://metallb.universe.tf/configuration/_advanced_l2_configuration/>
+Refer to [Layer 4 Load Balancing Setup]({{< relref "../../tutorials/loadbalancer#setup" >}}) for more details.
 
 ### Layer 7 Load Balancing
 
@@ -208,124 +182,15 @@ Our default recommendation is to use Gateway API and use [Envoy Gateway](https:/
 
 #### Ingress
 
-Although KubeLB supports Ingress, we strongly encourage you to use Gateway API instead as Ingress has been [feature frozen](https://kubernetes.io/docs/concepts/services-networking/ingress/#:~:text=Note%3A-,Ingress%20is%20frozen,-.%20New%20features%20are) in Kubernetes and all new development is happening in the Gateway API space. The biggest advantage of Gateway API is that it is a more flexible, has extensible APIs and is **multi-tenant compliant** by default. Ingress doesn't support multi-tenancy.
-
-There are two modes in which Ingress can be setup in the management cluster:
-
-1. **Per tenant(Recommended)**: Install your controller with default configuration but scope it down to a specific namespace. This is the recommended approach as it allows you to have a single controller per tenant and the IP for ingress controller is not shared across tenants.
-
-```sh
-helm install nginx-ingress oci://ghcr.io/nginxinc/charts/nginx-ingress --version 1.3.1 \
-      --namespace tenant-shroud
-      -–set controller.scope.namespace=tenant-shroud
-```
-
-2. **Shared**: Install your controller with default configuration.
-
-```sh
-helm install nginx-ingress oci://ghcr.io/nginxinc/charts/nginx-ingress --version 1.3.1
-```
-
-For details: <https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-helm/#installing-the-chart>
+Refer to [Ingress Setup]({{< relref "../../tutorials/ingress#setup" >}}) for more details.
 
 #### Gateway API
 
-Gateway API targets three personas:
-
-1. Platform Provider: The Platform Provider is responsible for the overall environment that the cluster runs in, i.e. the cloud provider. The Platform Provider will interact with GatewayClass resources.
-2. Platform Operator: The Platform Operator is responsible for overall cluster administration. They manage policies, network access, application permissions and will interact with Gateway resources.
-3. Service Operator: The Service Operator is responsible for defining application configuration and service composition. They will interact with HTTPRoute and TLSRoute resources and other typical Kubernetes resources.
-
-Further reading: <https://gateway-api.sigs.k8s.io/#personas>
-
-In KubeLB, we treat the admins of management cluster as the Platform provider. Hence, they are responsible for creating the `GatewayClass` resource. Tenants are the Service Operators. For Platform Operator, this role could vary based on your configurations for the management cluster. In Enterprise edition, users can set the limit of Gateways to 0 to shift the role of "Platform Operator" to the "Platform Provider". In other case, by default, the Platform Operator role is assigned to the tenants.
-
-Install Envoy Gateway by following this [guide](https://gateway.envoyproxy.io/docs/install/install-helm/) or any other Gateway API implementation of your choice.
-
-Ensure that `GatewayClass` exists in the management cluster. A minimal configuration for GatewayClass is as follows:
-
-```yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: GatewayClass
-metadata:
-  name: eg
-spec:
-  controllerName: gateway.envoyproxy.io/gatewayclass-controller
-```
+Refer to [Ingress Setup]({{< relref "../../tutorials/gatewayapi#setup" >}}) for more details.
 
 ### Certificate Management(Enterprise Edition)
 
-Install [cert-manager](https://cert-manager.io/docs/installation/helm/) to manage certificates for your tenants. Certificate management can be enabled/disabled at global or tenant level. For automation purposes, you can configure allowed domains and default issuer for the certificates at the tenant level.
-
-```yaml
-apiVersion: kubelb.k8c.io/v1alpha1
-kind: Tenant
-metadata:
-  name: shroud
-spec:
-  # These domains are allowed to be used for Ingress, Gateway API, DNS, and certs.
-  allowedDomains:
-    - "kube.example.com"
-    - "*.kube.example.com"
-    - "*.shroud.example.com"
-  certificates:
-    # can also be configured in the `Config` resource at a global level.
-    # Default issuer to use if `kubelb.k8c.io/manage-certificates` annotation is added to the cluster.
-    defaultClusterIssuer: "letsencrypt-staging"
-    # If not empty, only the domains specified here will have automation for Certificates. Everything else will be ignored.
-    allowedDomains:
-    - "*.shroud.example.com"
-```
-
-Users can then either use [cert-manager annotations](https://cert-manager.io/docs/usage/ingress/) or the annotation `kubelb.k8c.io/manage-certificates: true` on their resources to automate certificate management.
-
-#### Cluster Issuer example
-
-```yaml
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-staging
-spec:
-  acme:
-    # You must replace this email address with your own.
-    # Let's Encrypt will use this to contact you about expiring
-    # certificates, and issues related to your account.
-    email: user@example.com
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      # Secret resource that will be used to store the account's private key.
-      name: example-issuer-account-key
-    # Add a single challenge solver, HTTP01 using nginx
-    solvers:
-    - http01:
-        ingress:
-          ingressClassName: nginx
-```
-
-The additional validation at the tenant level allows us to use a single instance of cert-manager for multiple tenants. Multiple cert-manager installations are not recommended and it's better to have a single instance of cert-manager for all tenants but different ClusterIssuers/Issuers for different tenants, if required.
+Refer to [Ingress Setup]({{< relref "../../tutorials/security/cert-management#setup" >}}) for more details.
 
 ### DNS Management(Enterprise Edition)
 
-Install [External-dns](https://bitnami.com/stack/external-dns/helm) to manage DNS records for the tenant clusters. DNS can be enabled/disabled at global or tenant level. For automation purposes, you can configure allowed domains for DNS per tenant.
-
-```yaml
-apiVersion: kubelb.k8c.io/v1alpha1
-kind: Tenant
-metadata:
-  name: shroud
-spec:
-  # These domains are allowed to be used for Ingress, Gateway API, DNS, and certs.
-  allowedDomains:
-    - "kube.example.com"
-    - "*.kube.example.com"
-    - "*.shroud.example.com"
-  dns:
-    # If not empty, only the domains specified here will have automation for DNS. Everything else will be ignored.
-    allowedDomains:
-    - "*.shroud.example.com"
-```
-
-Users can then either use [external-dns annotations](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/annotations/annotations.md) or the annotation `kubelb.k8c.io/manage-dns: true` on their resources to automate DNS management.
-
-The additional validation at the tenant level allows us to use a single instance of external-dns for multiple tenants. Although, if required, external-dns can be installed per tenant as well.

@@ -14,7 +14,7 @@ weight = 20
 
 * Create a namespace **kubelb** for the CCM to be deployed in.
 * The agent expects a **Secret** with a kubeconf file named **kubelb** to access the management/load balancing cluster.
-  * First register the tenant in LB cluster by following [tenant registration]({{< relref "../../tutorials/02-tenants">}}) guidelines.
+  * First register the tenant in LB cluster by following [tenant registration]({{< relref "../../tutorials/tenants">}}) guidelines.
   * Fetch the generated kubeconfig and create a secret by using the command:
 
   ```sh
