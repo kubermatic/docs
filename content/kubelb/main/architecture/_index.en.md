@@ -19,7 +19,6 @@ KubeLB follows the **hub and spoke** model in which the "Management Cluster" act
 
 For security and isolation, the tenants have no access to any native kubernetes resources in the management cluster. The tenants can only interact with the management cluster via the KubeLB CRDs. This ensures that they are not exceeding their access level and only perform controlled operations in the management cluster.
 
-<!-- TODO: Update the architecture diagram -->
 ![KubeLB Architecture](/img/kubelb/common/architecture.png "KubeLB Architecture")
 
 ## Components

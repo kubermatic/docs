@@ -2,7 +2,7 @@
 title = "KubeLB Community Edition CRD References"
 linkTitle = "Community Edition"
 date = 2024-03-06T12:00:00+02:00
-weight = 40
+weight = 60
 +++
 
 ## Packages

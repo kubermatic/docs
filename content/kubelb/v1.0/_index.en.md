@@ -20,7 +20,7 @@ There are solutions available like [MetalLB][2], [Cilium][3], etc. that solve th
 KubeLB solves this problem by providing a centralized load balancer management solution for Kubernetes clusters across multi-cloud and on-premise environments.
 
 [2]: https://metallb.universe.tf
-[3]: https://cilium.io/use-cases/load-
+[3]: https://cilium.io/use-cases/load-balancer/
 
 ## Table of Content
 

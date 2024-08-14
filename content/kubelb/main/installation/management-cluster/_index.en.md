@@ -33,7 +33,7 @@ imagePullSecrets:
 
 ```sh
 helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.0.0 --untardir "kubelb-manager" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.1.0 --untardir "kubelb-manager" --untar
 ## Create and update values.yaml with the required values.
 helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb -f values.yaml
 ```
@@ -48,20 +48,24 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| cert-manager.enabled | bool | `false` | Enable cert-manager. |
+| external-dns.enabled | bool | `false` | Enable External-DNS. |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
-| image.tag | string | `"v1.0.0"` |  |
+| image.tag | string | `"v1.1.0"` |  |
 | imagePullSecrets | list | `[]` |  |
-| kubelb.debug | bool | `false` |  |
+| kubelb.debug | bool | `true` |  |
+| kubelb.disableGatewayAPI | bool | `false` | disableGatewayAPI specifies whether to disable the Gateway API and Gateway Controllers. |
 | kubelb.enableLeaderElection | bool | `true` |  |
+| kubelb.enableTenantMigration | bool | `true` |  |
 | kubelb.envoyProxy.affinity | object | `{}` |  |
 | kubelb.envoyProxy.nodeSelector | object | `{}` |  |
 | kubelb.envoyProxy.replicas | int | `3` | The number of replicas for the Envoy Proxy deployment. |
 | kubelb.envoyProxy.resources | object | `{}` |  |
 | kubelb.envoyProxy.singlePodPerNode | bool | `true` | Deploy single pod per node. |
 | kubelb.envoyProxy.tolerations | list | `[]` |  |
-| kubelb.envoyProxy.topology | string | `"shared"` | Topology defines the deployment topology for Envoy Proxy. Valid values are: shared, dedicated, and global. |
+| kubelb.envoyProxy.topology | string | `"shared"` | Topology defines the deployment topology for Envoy Proxy. Valid values are: shared and global. |
 | kubelb.envoyProxy.useDaemonset | bool | `false` | Use DaemonSet for Envoy Proxy deployment instead of Deployment. |
 | kubelb.propagateAllAnnotations | bool | `false` | Propagate all annotations from the LB resource to the LB service. |
 | kubelb.propagatedAnnotations | object | `{}` | Allowed annotations that will be propagated from the LB resource to the LB service. |
@@ -77,8 +81,8 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 | rbac.allowProxyRole | bool | `true` |  |
 | rbac.enabled | bool | `true` |  |
 | replicaCount | int | `1` |  |
-| resources.limits.cpu | string | `"100m"` |  |
-| resources.limits.memory | string | `"128Mi"` |  |
+| resources.limits.cpu | string | `"500m"` |  |
+| resources.limits.memory | string | `"512Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"128Mi"` |  |
 | securityContext.allowPrivilegeEscalation | bool | `false` |  |
@@ -99,7 +103,7 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.0.0 --untardir "kubelb-manager" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.1.0 --untardir "kubelb-manager" --untar
 ## Create and update values.yaml with the required values.
 helm install kubelb-manager kubelb-manager/kubelb-manager --namespace kubelb -f values.yaml --create-namespace
 ```
@@ -114,20 +118,23 @@ helm install kubelb-manager kubelb-manager/kubelb-manager --namespace kubelb -f 
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| cert-manager.enabled | bool | `false` | Enable cert-manager. |
+| external-dns.enabled | bool | `false` | Enable External-DNS. |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"quay.io/kubermatic/kubelb-manager"` |  |
-| image.tag | string | `"v1.0.0"` |  |
+| image.tag | string | `"v1.1.0"` |  |
 | imagePullSecrets | list | `[]` |  |
-| kubelb.debug | bool | `false` |  |
+| kubelb.debug | bool | `true` |  |
+| kubelb.disableGatewayAPI | bool | `false` | disableGatewayAPI specifies whether to disable the Gateway API and Gateway Controllers. |
 | kubelb.enableLeaderElection | bool | `true` |  |
+| kubelb.enableTenantMigration | bool | `true` |  |
 | kubelb.envoyProxy.affinity | object | `{}` |  |
 | kubelb.envoyProxy.nodeSelector | object | `{}` |  |
 | kubelb.envoyProxy.replicas | int | `3` | The number of replicas for the Envoy Proxy deployment. |
 | kubelb.envoyProxy.resources | object | `{}` |  |
 | kubelb.envoyProxy.singlePodPerNode | bool | `true` | Deploy single pod per node. |
 | kubelb.envoyProxy.tolerations | list | `[]` |  |
-| kubelb.envoyProxy.topology | string | `"shared"` | Topology defines the deployment topology for Envoy Proxy. Valid values are: shared, dedicated, and global. |
+| kubelb.envoyProxy.topology | string | `"shared"` | Topology defines the deployment topology for Envoy Proxy. Valid values are: shared and global. |
 | kubelb.envoyProxy.useDaemonset | bool | `false` | Use DaemonSet for Envoy Proxy deployment instead of Deployment. |
 | kubelb.propagateAllAnnotations | bool | `false` | Propagate all annotations from the LB resource to the LB service. |
 | kubelb.propagatedAnnotations | object | `{}` | Allowed annotations that will be propagated from the LB resource to the LB service. |
@@ -143,8 +150,8 @@ helm install kubelb-manager kubelb-manager/kubelb-manager --namespace kubelb -f 
 | rbac.allowProxyRole | bool | `true` |  |
 | rbac.enabled | bool | `true` |  |
 | replicaCount | int | `1` |  |
-| resources.limits.cpu | string | `"100m"` |  |
-| resources.limits.memory | string | `"128Mi"` |  |
+| resources.limits.cpu | string | `"500m"` |  |
+| resources.limits.memory | string | `"512Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"128Mi"` |  |
 | securityContext.allowPrivilegeEscalation | bool | `false` |  |
