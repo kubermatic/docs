@@ -36,51 +36,51 @@ This document is work in progress and might not be in correct or up to date stat
 
 #### Urgent Upgrade Notes
 
-- Tenant registration has now been automated. The `Namespace` resource with `kubelb.k8c.io/managed-by: kubelb` is no longer used for tenant registration. Instead, the `Tenant` resource should be used. Automated migration are in place which would convert the `Namespace` resources to `Tenant` resources and no manual actions are required by the admins. ([#36](https://github.com/kubermatic/kubelb/pull/36), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik)) ([#32](https://github.com/kubermatic/kubelb/pull/32), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Dedicated topology for Envoy Proxy has been deprecated and would default to Shared, if used. ([#37](https://github.com/kubermatic/kubelb/pull/37), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
+- Tenant registration has now been automated. The `Namespace` resource with `kubelb.k8c.io/managed-by: kubelb` is no longer used for tenant registration. Instead, the `Tenant` resource should be used. Automated migration are in place which would convert the `Namespace` resources to `Tenant` resources and no manual actions are required by the admins. ([#36](https://github.com/kubermatic/kubelb/pull/36)) ([#32](https://github.com/kubermatic/kubelb/pull/32))
+- Dedicated topology for Envoy Proxy has been deprecated and would default to Shared, if used. ([#37](https://github.com/kubermatic/kubelb/pull/37))
 
 #### Deprecation
 
-- Dedicated topology for Envoy Proxy has been deprecated and would default to Shared, if used. ([#37](https://github.com/kubermatic/kubelb/pull/37), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
+- Dedicated topology for Envoy Proxy has been deprecated and would default to Shared, if used. ([#37](https://github.com/kubermatic/kubelb/pull/37))
 
 #### API Changes
 
-- Add new API for Routes; routes are used to define layer 7 that is application load balancing configurations ([#16](https://github.com/kubermatic/kubelb/pull/16), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Add new API for Tenants; tenant represent a consumer in the management cluster ([#32](https://github.com/kubermatic/kubelb/pull/32), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Add new API for SyncSecrets; syncsecret resource has been introduced that can be used to synchronize a secret from tenant to LB cluster ([#42](https://github.com/kubermatic/kubelb/pull/42), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
+- Add new API for Routes; routes are used to define layer 7 that is application load balancing configurations ([#16](https://github.com/kubermatic/kubelb/pull/16))
+- Add new API for Tenants; tenant represent a consumer in the management cluster ([#32](https://github.com/kubermatic/kubelb/pull/32))
+- Add new API for SyncSecrets; syncsecret resource has been introduced that can be used to synchronize a secret from tenant to LB cluster ([#42](https://github.com/kubermatic/kubelb/pull/42))
 
 #### Features
 
-- Support to limit KubeLB to manage LB services based on LoadBalancerClass ([#18](https://github.com/kubermatic/kubelb/pull/18), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Upgrade envoy proxy to v1.30.1 ([#19](https://github.com/kubermatic/kubelb/pull/19), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Support for Layer 7 Load Balancing of ingress resources. KubeLB now supports Ingress resources and can act as an ingress controller for it's distributed agents/consumers ([#22](https://github.com/kubermatic/kubelb/pull/22), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Support for Layer 7 Load Balancing of Gateway API resources. KubeLB now supports Gateway API resources and can act as a gateway API controller for it's distributed agents/consumers. Gateway, HTTPRoute, and GRPCRoute are the supported resources. ([#28](https://github.com/kubermatic/kubelb/pull/28), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Tenants can now be registered using the `Tenant` CRD. This would create all the necessary resources such as namespace, RBAC, etc. and additionally `kubelb-ccm-kubeconfig` secret that contains the tenant scoped kubeconfig, to be used by the kubeLB CCM. ([#32](https://github.com/kubermatic/kubelb/pull/32), [[@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik)])
-- Flags to enable/disable controllers for the CCM. This can be used to ignore resources like Ingress, GRPCRoute, HTTPRoute, Gateway in the CCM. ([#37](https://github.com/kubermatic/kubelb/pull/37), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Upgrade to Envoy Proxy v1.31.0. ([#37](https://github.com/kubermatic/kubelb/pull/37), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Add additional printer columns for loadbalancer and routes. ([#37](https://github.com/kubermatic/kubelb/pull/37), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Add option to disable Gateway API. ([#37](https://github.com/kubermatic/kubelb/pull/37), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Feature: fine-grained control over tenant and global configurations for components such as Ingress, Gateway API, LoadBalancer. ([#41](https://github.com/kubermatic/kubelb/pull/41), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Secret synchronizer controller can be enabled by the flag `enable-secret-synchronizer` for CCM. Enable automatically converting Secrets labeled with `kubelb.k8c.io/managed-by: kubelb` to SyncSecrets.  This controller requires elevated access to secrets in the tenant cluster to perform CRUD operations. ([#42](https://github.com/kubermatic/kubelb/pull/42), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Upgrade to Go 1.22.6. ([#48](https://github.com/kubermatic/kubelb/pull/48), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Tenant registration has now been automated. The `Namespace` resource with `kubelb.k8c.io/managed-by: kubelb` is no longer used for tenant registration. Instead, the `Tenant` resource should be used. Automated migration are in place which would convert the `Namespace` resources to `Tenant` resources and no manual actions are required by the admins. ([#36](https://github.com/kubermatic/kubelb/pull/36), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik)) ([#32](https://github.com/kubermatic/kubelb/pull/32), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
+- Support to limit KubeLB to manage LB services based on LoadBalancerClass ([#18](https://github.com/kubermatic/kubelb/pull/18))
+- Upgrade envoy proxy to v1.30.1 ([#19](https://github.com/kubermatic/kubelb/pull/19))
+- Support for Layer 7 Load Balancing of ingress resources. KubeLB now supports Ingress resources and can act as an ingress controller for it's distributed agents/consumers ([#22](https://github.com/kubermatic/kubelb/pull/22))
+- Support for Layer 7 Load Balancing of Gateway API resources. KubeLB now supports Gateway API resources and can act as a gateway API controller for it's distributed agents/consumers. Gateway, HTTPRoute, and GRPCRoute are the supported resources. ([#28](https://github.com/kubermatic/kubelb/pull/28))
+- Tenants can now be registered using the `Tenant` CRD. This would create all the necessary resources such as namespace, RBAC, etc. and additionally `kubelb-ccm-kubeconfig` secret that contains the tenant scoped kubeconfig, to be used by the kubeLB CCM. ([#32](https://github.com/kubermatic/kubelb/pull/32))
+- Flags to enable/disable controllers for the CCM. This can be used to ignore resources like Ingress, GRPCRoute, HTTPRoute, Gateway in the CCM. ([#37](https://github.com/kubermatic/kubelb/pull/37))
+- Upgrade to Envoy Proxy v1.31.0. ([#37](https://github.com/kubermatic/kubelb/pull/37))
+- Add additional printer columns for loadbalancer and routes. ([#37](https://github.com/kubermatic/kubelb/pull/37))
+- Add option to disable Gateway API. ([#37](https://github.com/kubermatic/kubelb/pull/37))
+- Feature: fine-grained control over tenant and global configurations for components such as Ingress, Gateway API, LoadBalancer. ([#41](https://github.com/kubermatic/kubelb/pull/41))
+- Secret synchronizer controller can be enabled by the flag `enable-secret-synchronizer` for CCM. Enable automatically converting Secrets labeled with `kubelb.k8c.io/managed-by: kubelb` to SyncSecrets.  This controller requires elevated access to secrets in the tenant cluster to perform CRUD operations. ([#42](https://github.com/kubermatic/kubelb/pull/42))
+- Upgrade to Go 1.22.6. ([#48](https://github.com/kubermatic/kubelb/pull/48))
+- Tenant registration has now been automated. The `Namespace` resource with `kubelb.k8c.io/managed-by: kubelb` is no longer used for tenant registration. Instead, the `Tenant` resource should be used. Automated migration are in place which would convert the `Namespace` resources to `Tenant` resources and no manual actions are required by the admins. ([#36](https://github.com/kubermatic/kubelb/pull/36)) ([#32](https://github.com/kubermatic/kubelb/pull/32))
 
 #### Design
 
-- Restructure repository and introduce internal package ([#8](https://github.com/kubermatic/kubelb/pull/8), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
+- Restructure repository and introduce internal package ([#8](https://github.com/kubermatic/kubelb/pull/8))
 
 #### Bug or Regression
 
-- Enable production configuration for logger ([#5](https://github.com/kubermatic/kubelb/pull/5), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Remove un-required validation for LB port protocol ([#14](https://github.com/kubermatic/kubelb/pull/14), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
+- Enable production configuration for logger ([#5](https://github.com/kubermatic/kubelb/pull/5))
+- Remove un-required validation for LB port protocol ([#14](https://github.com/kubermatic/kubelb/pull/14))
 
 #### Other (Cleanup, Flake, or Chore)
 
-- Upgrade to controller-runtime v0.18 ([#17](https://github.com/kubermatic/kubelb/pull/17), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Fix RBAC in helm charts for new APIs. ([#37](https://github.com/kubermatic/kubelb/pull/37), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Script to generate RBAC for tenant has been removed as the process has now been automated. ([#39](https://github.com/kubermatic/kubelb/pull/39), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Remove enovy-proxy finalizer from load balancers. ([#46](https://github.com/kubermatic/kubelb/pull/46), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
-- Scope down Gateway to routes from the same namespace. ([#45](https://github.com/kubermatic/kubelb/pull/45), [@ahmedwaleedmalik](https://github.com/ahmedwaleedmalik))
+- Upgrade to controller-runtime v0.18 ([#17](https://github.com/kubermatic/kubelb/pull/17))
+- Fix RBAC in helm charts for new APIs. ([#37](https://github.com/kubermatic/kubelb/pull/37))
+- Script to generate RBAC for tenant has been removed as the process has now been automated. ([#39](https://github.com/kubermatic/kubelb/pull/39))
+- Remove enovy-proxy finalizer from load balancers. ([#46](https://github.com/kubermatic/kubelb/pull/46))
+- Scope down Gateway to routes from the same namespace. ([#45](https://github.com/kubermatic/kubelb/pull/45))
 
 **Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.0.0...v1.1.0>
 
