@@ -19,6 +19,7 @@ KubeLB follows the **hub and spoke** model in which the "Management Cluster" act
 
 For security and isolation, the tenants have no access to any native kubernetes resources in the management cluster. The tenants can only interact with the management cluster via the KubeLB CRDs. This ensures that they are not exceeding their access level and only perform controlled operations in the management cluster.
 
+<!-- TODO: Needs to be updated -->
 ![KubeLB Architecture](/img/kubelb/common/architecture.png "KubeLB Architecture")
 
 ## Components
@@ -49,3 +50,8 @@ KubeLB manager supports three different deployment topologies for envoy proxy:
 See the [installation documentation]({{< relref "../installation/">}}) for more details on how to setup and install KubeLB.
 
 [1]: https://github.com/envoyproxy/envoy
+
+## Table of Content
+
+{{% children depth=5 %}}
+{{% /children %}}
