@@ -27,7 +27,9 @@ helm upgrade --install \
   --create-namespace \
   --version v1.15.2 \
   --set crds.enabled=true \
-  --set "extraArgs={--feature-gates=ExperimentalGatewayAPISupport=true}"
+  --set config.apiVersion="controller.config.cert-manager.io/v1alpha1" \
+  --set config.kind="ControllerConfiguration" \
+  --set config.enableGatewayAPI=true
 ```
 
 {{% /tab %}}
