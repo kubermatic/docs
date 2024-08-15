@@ -123,7 +123,7 @@
       {{ safeHTML .Params.head }}
       <li data-nav-id="{{ .RelPermalink }}" title="{{ .Title }}" class="dd-item
         {{ if .IsAncestor $currentNode }}parent{{ end }}
-        {{ with .File }}{{ $f := . }}{{ with $currentNode.File }}{{ if eq $f.UniqueID .UniqueID }}active{{ end }}{{ end }}{{ end }}
+        {{ with .File }}{{ $f := . }}{{ with $currentNode.File }}{{ if eq $f.UniqueID .UniqueID }}active parent{{ end }}{{ end }}{{ end }}
         {{ if .Params.alwaysopen }}parent{{ end }}
         ">
         <a href="{{ .RelPermalink }}">
