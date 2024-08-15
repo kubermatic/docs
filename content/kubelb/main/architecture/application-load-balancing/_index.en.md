@@ -14,16 +14,16 @@ KubeLB already had support for L4 load balancing and provisioning/managing load 
 
 ### Challenges
 
-Every Kubernetes cluster operates within its isolated network namespace, which offers several advantages. For instance, individual pods can be effortlessly accessed via unique IP addresses. Deploying your load balancing appliance such as nginx-ingress controller or Envoy Gateway would work seamlessly within the cluster because it would use the **ClusterIP** to route traffic from the external entry point i.e. LoadBalancer/NodePort service to the actual destination.
+Every Kubernetes cluster operates within its isolated network namespace, which offers several advantages. For instance, individual pods can be effortlessly accessed via unique IP addresses. Deploying your load balancing appliance such as nginx-ingress controller or Envoy Gateway would work seamlessly within the cluster because it would run as a pod inside your cluster and by gist, would have access to the same pod-level network as the rest. This enables the load balancing appliance to route and load balance traffic within the cluster.
 
-This introduces a limitation in KubeLB that the management cluster cannot directly route traffic from the load balancing appliance hosted on the management cluster to the tenant clusters. To achieve something like this, the LB cluster would need pod-level network access to ALL the consumer clusters. The options to achieve this are:
+However, external clusters, management cluster in our case, cannot have direct access to the pod-network of the tenant kubernetes clusters. This introduces a limitation in KubeLB that the management cluster cannot directly route traffic from the load balancing appliance hosted on the management cluster to the tenant clusters. To achieve something like this, the LB cluster would need pod-level network access to ALL the consumer clusters. The options to achieve this are:
 
 - Share the network routes of consumer clusters with the ingress controller server via BGP peering.
 - Leverage tools like Submariner, Cilium Cluster Mesh, to create stretched clusters.
 
 These are the options that we want to look into in the future but they do require significant effort and might not be possible to achieve in some cases since KubeLB is simply an "application" that runs in a Kubernetes Cluster. It doesn't, for now, depend or dictate the infrastructural requirements for that Kubernetes cluster.
 
-### Solution and the architecture
+### Solution
 
 Considering the limitations, we settled for using services of type `NodePort` to route traffic from the management cluster to the tenants. This offers high level of isolation since the only infrastructural requirement for this is to have network access to the tenant cluster nodes with node port range (default: 30000-32767). This is required for the envoy proxy to be able to connect to the tenant cluster nodes.
 

@@ -14,7 +14,7 @@ Solutions which are available e.g. MetalLB focus on a single cluster. There are 
 
 Another use case that was common was using something like F5 for load balancing. Managing and delegating it to individual clusters had massive administrative overheads.
 
-### Solution and the architecture
+### Solution
 
 KubeLB focuses on managing the load balancers from a centralized point. So instead of having appliances running on each individual clusters. An agent which is the `Cloud Controller Manager` is running on the tenant cluster that propagates all the load balancing request to the management cluster. KubeLB manager running in the management cluster is then responsible for provisioning the actual load balancers and routing traffic back to the tenant workloads.
 
