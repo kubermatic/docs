@@ -64,6 +64,7 @@ This document is work in progress and might not be in correct or up to date stat
 - Secret synchronizer controller can be enabled by the flag `enable-secret-synchronizer` for CCM. Enable automatically converting Secrets labeled with `kubelb.k8c.io/managed-by: kubelb` to SyncSecrets.  This controller requires elevated access to secrets in the tenant cluster to perform CRUD operations. ([#42](https://github.com/kubermatic/kubelb/pull/42))
 - Upgrade to Go 1.22.6. ([#48](https://github.com/kubermatic/kubelb/pull/48))
 - Tenant registration has now been automated. The `Namespace` resource with `kubelb.k8c.io/managed-by: kubelb` is no longer used for tenant registration. Instead, the `Tenant` resource should be used. Automated migration are in place which would convert the `Namespace` resources to `Tenant` resources and no manual actions are required by the admins. ([#36](https://github.com/kubermatic/kubelb/pull/36)) ([#32](https://github.com/kubermatic/kubelb/pull/32))
+- Upgrade to Go 1.23.0 ([#51](https://github.com/kubermatic/kubelb/pull/51))
 
 #### Design
 
