@@ -8,7 +8,47 @@ enterprise = true
 
 ## Setup
 
-Install [cert-manager](https://cert-manager.io/docs/installation/helm/) to manage certificates for your tenants. Certificate management can be enabled/disabled at global or tenant level. For automation purposes, you can configure allowed domains and default issuer for the certificates at the tenant level.
+### Install Cert-Manager
+
+Install [cert-manager](https://cert-manager.io) to manage certificates for your tenants.
+
+These are minimal examples to get you started quickly. Please refer to the documentation of [cert-manager](https://cert-manager.io/docs/installation/helm/) for further details and configurations.
+
+{{< tabs name="cert-manager" >}}
+{{% tab name="Gateway API" %}}
+
+For Gateway API, the feature gate to use Gateway APIs needs to be enabled:
+
+```bash
+helm repo add jetstack https://charts.jetstack.io --force-update
+helm upgrade --install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.15.2 \
+  --set crds.enabled=true \
+  --set "extraArgs={--feature-gates=ExperimentalGatewayAPISupport=true}"
+```
+
+{{% /tab %}}
+{{% tab name="Ingress" %}}
+
+```bash
+helm repo add jetstack https://charts.jetstack.io --force-update
+helm upgrade --install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.15.2 \
+  --set crds.enabled=true
+```
+
+{{% /tab %}}
+{{< /tabs >}}
+
+### Configure Tenant
+
+Certificate management can be enabled/disabled at global or tenant level. For automation purposes, you can configure allowed domains and default issuer for the certificates at the tenant level.
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1

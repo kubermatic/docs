@@ -7,11 +7,7 @@ weight = 2
 
 ## Kubermatic Kubernetes Platform (Enterprise Edition Only)
 
-Starting with KKP v2.24, KubeLB Enterprise Edition is integrated into the Kubermatic Kubernetes Platform (KKP). KKP will automatically register the new user cluster as a tenant in the LB cluster thus the steps provided below are not required for tenants that are using KKP.
-
-{{% notice note %}}
-To use KubeLB enterprise offering, you need to have a valid license. Please [contact sales](mailto:sales@kubermatic.com) for more information.
-{{% /notice %}}
+For details, go through [KKP integration details]({{< relref "../../tutorials/kkp">}})
 
 ## Usage
 

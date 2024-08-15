@@ -10,7 +10,9 @@ enterprise = true
 
 ### Install External-dns
 
-Install [External-dns](https://bitnami.com/stack/external-dns/helm) to manage DNS records for the tenant clusters. A sample configuration to use external-dns with AWS Route53 and domain <example.com> is shown below:
+Install [External-dns](https://bitnami.com/stack/external-dns/helm) to manage DNS records for the tenant clusters. A sample configuration to use external-dns with AWS Route53 and domain <example.com> is shown below.
+
+**This is just an example to give you a headstart. For more details on setting up external-dns for different providers, visit [Official Documentation](https://kubernetes-sigs.github.io/external-dns).**
 
 #### Values.yaml
 
@@ -33,6 +35,16 @@ extraVolumeMounts:
 env:
   - name: AWS_SHARED_CREDENTIALS_FILE
     value: /.aws/credentials
+
+# NOTE: Enable/Disable based on your requirements
+sources:
+  - service
+  - ingress
+  - gateway-httproute
+  - gateway-grpcroute
+  - gateway-tlsroute
+  - gateway-tcproute
+  - gateway-udproute
 ```
 
 #### Credentials secret
@@ -53,13 +65,11 @@ metadata:
 type: Opaque
 ```
 
-### Install helm chart
+#### Install helm chart
 
 ```sh
-helm install external-dns oci://registry-1.docker.io/bitnamicharts/external-dns -n external-dns
+helm install external-dns oci://registry-1.docker.io/bitnamicharts/external-dns -n external-dns --values values.yaml
 ```
-
-**This is just an example to give you a headstart. For more details on setting up external-dns for different providers, visit [Official Documentation](https://kubernetes-sigs.github.io/external-dns).
 
 ### Enable DNS automation
 

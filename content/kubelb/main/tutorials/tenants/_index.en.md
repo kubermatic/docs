@@ -9,11 +9,7 @@ Tenants represent the consumers of the load balancer services in the management 
 
 ## Kubermatic Kubernetes Platform (Enterprise Edition Only)
 
-Starting with KKP v2.24, KubeLB Enterprise Edition is integrated into the Kubermatic Kubernetes Platform (KKP). KKP will automatically register the new user cluster as a tenant in the LB cluster thus the steps provided below are not required for tenants that are using KKP.
-
-{{% notice note %}}
-To use KubeLB enterprise offering, you need to have a valid license. Please [contact sales](mailto:sales@kubermatic.com) for more information.
-{{% /notice %}}
+For details, go through [KKP integration details]({{< relref "../../tutorials/kkp">}})
 
 ## Usage
 
@@ -49,19 +45,21 @@ spec:
     allowedDomains:
       - "*.example.com"
   allowedDomains:
+    # All subdomains of example.com are allowed but at a single lower level. For example, kube.example.com, test.example.com, etc.
     - "*.example.com"
-    - "*.example2.com"
+    # All subdomains of kube.com are allowed but at any lower level. For example, example.kube.com, test.tenant1.prod.kube.com etc.
+    - "**.kube.com"
 ```
 
 With this CR we are creating a tenant named `shroud` with the following configurations:
 
-* `propagateAllAnnotations: true` - Propagate all annotations to the resources.
-* `loadBalancer.class: metallb.universe.tf/metallb` - The class to use for LoadBalancer resources for tenants in the management cluster.
-* `loadBalancer.limit: 10` - The limit of LoadBalancer resources that can be created by the tenant.
-* `ingress.class: nginx` - The class to use for Ingress resources for tenants in the management cluster.
-* `gatewayAPI.class: eg` - The class to use for Gateway API resources for tenants in the management cluster.
+* **propagateAllAnnotations: true** - Propagate all annotations to the resources.
+* **loadBalancer.class: metallb.universe.tf/metallb** - The class to use for LoadBalancer resources for tenants in the management cluster.
+* **loadBalancer.limit: 10** - The limit of LoadBalancer resources that can be created by the tenant.
+* **ingress.class: nginx** - The class to use for Ingress resources for tenants in the management cluster.
+* **gatewayAPI.class: eg** - The class to use for Gateway API resources for tenants in the management cluster.
 * For DNS configuration, we have allowed domains `*.example.com`.
 * For Certificates configuration, we have the default cluster issuer `letsencrypt-prod` and allowed domains `*.example.com`.
-* For Ingress and Gateway API, we have allowed domains `*.example.com` and `*.example2.com`.
+* For Ingress and Gateway API, we have allowed domains `*.example.com` and `**.kube.com`.
 
 **For more details and options, please go through [CRD References]({{< relref "../../references">}})**
