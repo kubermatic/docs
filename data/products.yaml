@@ -82,11 +82,10 @@ kubelb:
   weight: 5
   shareImage: img/share-kubelb.png
   versions:
-    - release: ee
-      name: Enterprise
-    - release: ce
-      name: Community
-
+    - release: main
+      name: main
+    - release: v1.0
+      name: v1.0
 # do not yet reveal KDP to the public
 # developer-platform:
 #   name: developer-platform
