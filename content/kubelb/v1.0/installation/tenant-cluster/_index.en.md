@@ -55,7 +55,6 @@ kubelb:
 ### Install the helm chart
 
 ```sh
-helm registry login quay.io --username ${REGISTRY_USER} --password ${REGISTRY_PASSWORD}
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.0.0 --untardir "kubelb-ccm" --untar
 ## Create and update values.yaml with the required values.
 helm install kubelb-ccm kubelb-ccm/kubelb-ccm-ee --namespace kubelb -f values.yaml
