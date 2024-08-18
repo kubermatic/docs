@@ -2944,6 +2944,10 @@ _Appears in:_
 | `images` _[ImageList](#imagelist)_ | Images to use for each supported operating system. |
 | `manageSecurityGroups` _boolean_ | Optional: Gets mapped to the "manage-security-groups" setting in the cloud config.
 This setting defaults to true. |
+| `loadBalancerProvider` _string_ | Optional: Gets mapped to the "lb-provider" setting in the cloud config.
+defaults to "" |
+| `loadBalancerMethod` _string_ | Optional: Gets mapped to the "lb-method" setting in the cloud config.
+defaults to "ROUND_ROBIN". |
 | `useOctavia` _boolean_ | Optional: Gets mapped to the "use-octavia" setting in the cloud config.
 use-octavia is enabled by default in CCM since v1.17.0, and disabled by
 default with the in-tree cloud provider. |
