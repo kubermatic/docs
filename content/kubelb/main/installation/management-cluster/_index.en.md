@@ -53,7 +53,7 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
 | image.tag | string | `"v1.1.0"` |  |
-| imagePullSecrets | list | `[]` |  |
+| imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
 | kubelb.debug | bool | `true` |  |
 | kubelb.disableGatewayAPI | bool | `false` | disableGatewayAPI specifies whether to disable the Gateway API and Gateway Controllers. |
 | kubelb.enableLeaderElection | bool | `true` |  |

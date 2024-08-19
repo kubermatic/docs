@@ -150,3 +150,7 @@ The following resources are supported in CE and EE version:
   - TLSRoute
 
 **For more details on how to use them and example, please refer to examples from [Envoy Gateway Documentation](https://gateway.envoyproxy.io/docs/tasks/)**
+
+### Limitations
+
+- ReferenceGrants, BackendTLSPolicy are not suported in KubeLB, yet.

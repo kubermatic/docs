@@ -15,21 +15,50 @@ Although KubeLB supports Ingress, we strongly encourage you to use Gateway API i
 
 There are two modes in which Ingress can be setup in the management cluster:
 
-1. **Per tenant(Recommended)**: Install your controller with default configuration but scope it down to a specific namespace. This is the recommended approach as it allows you to have a single controller per tenant and the IP for ingress controller is not shared across tenants.
+#### Per tenant(Recommended)
+
+Install your controller in the following way and scope it down to a specific namespace. This is the recommended approach as it allows you to have a single controller per tenant and the IP for ingress controller is not shared across tenants.
+
+Install the **Ingress Controller** in the tenant namespace. Replace **TENANT_NAME** with the name of the tenant. This has to be unique to ensure that any cluster level resource that is installed, doesn't create a conflict with existing resources. Following example is for a tenant named `shroud`:
 
 ```sh
-helm install nginx-ingress oci://ghcr.io/nginxinc/charts/nginx-ingress --version 1.3.1 \
-      --namespace tenant-shroud
-      -–set controller.scope.namespace=tenant-shroud
+TENANT_NAME=shroud
+TENANT_NAMESPACE=tenant-$TENANT_NAME
+
+helm upgrade --install ingress-nginx-${TENANT_NAME} ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ${TENANT_NAMESPACE} \
+  --create-namespace \
+  --set controller.scope.enabled=true \
+  --set controller.scope.namespace=${TENANT_NAMESPACE} \
+  --set controller.ingressClassResource.name=nginx-${TENANT_NAME}
 ```
 
-2. **Shared**: Install your controller with default configuration.
+For details: <https://kubernetes.github.io/ingress-nginx/#how-to-easily-install-multiple-instances-of-the-ingress-nginx-controller-in-the-same-cluster>
+
+The next step would be to configure the tenant to use the new ingress controller:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Tenant
+metadata:
+  name: ${TENANT_NAME}
+spec:
+  ingress:
+    class: "nginx-${TENANT_NAME}"
+```
+
+#### Shared
+
+Install your controller with default configuration.
 
 ```sh
-helm install nginx-ingress oci://ghcr.io/nginxinc/charts/nginx-ingress --version 1.3.1
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
 ```
 
-For details: <https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-helm/#installing-the-chart>
+For details: <https://kubernetes.github.io/ingress-nginx/deploy>
 
 ### Usage with KubeLB
 

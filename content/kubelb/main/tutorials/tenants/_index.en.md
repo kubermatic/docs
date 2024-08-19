@@ -5,7 +5,7 @@ date = 2023-10-27T10:07:15+02:00
 weight = 2
 +++
 
-Tenants represent the consumers of the load balancer services in the management cluster. They can be individual users, teams, or applications that have their workloads, access control, and quotas isolated by using the tenant concept in management cluster. Tenants are represented by the tenant CRD and have a dedicated namespace `tenant-<tenant-name>` in the management cluster.
+Tenants represent the consumers of the load balancer services in the management cluster. They can be individual users, teams, or applications that have their workloads, access control, and quotas isolated by using the tenant concept in management cluster. Tenants are represented by the tenant CRD and have a dedicated namespace `tenant-<tenant-name>` in the management cluster. Each Kubernetes cluster where the KubeLB CCM is running is considered a unique tenant. This demarcation is based on the fact that the endpoints, simply the Node IPs and node ports, are unique for each Kubernetes cluster.
 
 ## Kubermatic Kubernetes Platform (Enterprise Edition Only)
 
