@@ -148,12 +148,21 @@ helm install kubelb-ccm kubelb-ccm/kubelb-ccm --namespace kubelb -f values.yaml
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm"` |  |
-| image.tag | string | `"v1.0.0"` |  |
+| image.tag | string | `"v1.1.0"` |  |
 | imagePullSecrets | list | `[]` |  |
-| kubelb.clusterSecretName | string | `"kubelb-cluster"` |  |
-| kubelb.enableLeaderElection | bool | `true` |  |
-| kubelb.nodeAddressType | string | `"InternalIP"` |  |
-| kubelb.tenantName | string | `nil` |  |
+| kubelb.clusterSecretName | string | `"kubelb-cluster"` | Name of the secret that contains kubeconfig for the loadbalancer cluster |
+| kubelb.disableGRPCRouteController | bool | `false` | disableGRPCRouteController specifies whether to disable the GRPCRoute Controller. |
+| kubelb.disableGatewayAPI | bool | `false` | disableGatewayAPI specifies whether to disable the Gateway API and Gateway Controllers. |
+| kubelb.disableGatewayController | bool | `false` | disableGatewayController specifies whether to disable the Gateway Controller. |
+| kubelb.disableHTTPRouteController | bool | `false` | disableHTTPRouteController specifies whether to disable the HTTPRoute Controller. |
+| kubelb.disableIngressController | bool | `false` | disableIngressController specifies whether to disable the Ingress Controller. |
+| kubelb.enableLeaderElection | bool | `true` | Enable the leader election. |
+| kubelb.enableSecretSynchronizer | bool | `false` | Enable to automatically convert Secrets labelled with `kubelb.k8c.io/managed-by: kubelb` to Sync Secrets. This is used to sync secrets from tenants to the LB cluster in a controlled and secure way. |
+| kubelb.nodeAddressType | string | `"ExternalIP"` | Address type to use for routing traffic to node ports. Values are ExternalIP, InternalIP. |
+| kubelb.tenantName | string | `nil` | Name of the tenant, must be unique against a load balancer cluster. |
+| kubelb.useGatewayClass | bool | `true` | useGatewayClass specifies whether to target resources with `kubelb` gateway class or all resources. |
+| kubelb.useIngressClass | bool | `true` | useIngressClass specifies whether to target resources with `kubelb` ingress class or all resources. |
+| kubelb.useLoadBalancerClass | bool | `false` | useLoadBalancerClass specifies whether to target services of type LoadBalancer with `kubelb` load balancer class or all services of type LoadBalancer. |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
@@ -165,8 +174,8 @@ helm install kubelb-ccm kubelb-ccm/kubelb-ccm --namespace kubelb -f values.yaml
 | rbac.allowProxyRole | bool | `true` |  |
 | rbac.enabled | bool | `true` |  |
 | replicaCount | int | `1` |  |
-| resources.limits.cpu | string | `"100m"` |  |
-| resources.limits.memory | string | `"128Mi"` |  |
+| resources.limits.cpu | string | `"500m"` |  |
+| resources.limits.memory | string | `"512Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"128Mi"` |  |
 | securityContext.allowPrivilegeEscalation | bool | `false` |  |

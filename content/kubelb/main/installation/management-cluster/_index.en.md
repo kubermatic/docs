@@ -117,10 +117,9 @@ helm install kubelb-manager kubelb-manager/kubelb-manager --namespace kubelb -f 
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
-| cert-manager.enabled | bool | `false` | Enable cert-manager. |
-| external-dns.enabled | bool | `false` | Enable External-DNS. |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.repository | string | `"quay.io/kubermatic/kubelb-manager"` |  |
 | image.tag | string | `"v1.1.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.debug | bool | `true` |  |

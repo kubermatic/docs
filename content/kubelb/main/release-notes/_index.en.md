@@ -74,6 +74,7 @@ This document is work in progress and might not be in correct or up to date stat
 
 - Enable production configuration for logger ([#5](https://github.com/kubermatic/kubelb/pull/5))
 - Remove un-required validation for LB port protocol ([#14](https://github.com/kubermatic/kubelb/pull/14))
+- Fix status propagation and global topology ([#54](https://github.com/kubermatic/kubelb/pull/54))
 
 #### Other (Cleanup, Flake, or Chore)
 
