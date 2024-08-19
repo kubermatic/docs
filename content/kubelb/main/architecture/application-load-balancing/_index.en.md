@@ -40,10 +40,4 @@ For layer 7 requests, KubeLB will automatically create a `NodePort` service agai
 5. KubeLB CCM polls for the updated status of the Ingress, updates the status when available.
 6. KubeLB manager starts routing the traffic for your resource.
 
-<!-- TODO: Needs to be updated: Flow Diagram -->
-![KubeLB Architecture](/img/kubelb/common/architecture.png "KubeLB Architecture")
-
-### High Level Architecture
-
-<!-- TODO: Needs to be updated: Architecture Diagram -->
-![KubeLB Architecture](/img/kubelb/common/architecture.png "KubeLB Architecture")
+![KubeLB Architecture](/img/kubelb/v1.1/architecture.png?classes=shadow,border "KubeLB Architecture")

@@ -19,8 +19,7 @@ KubeLB follows the **hub and spoke** model in which the "Management Cluster" act
 
 For security and isolation, the tenants have no access to any native kubernetes resources in the management cluster. The tenants can only interact with the management cluster via the KubeLB CRDs. This ensures that they are not exceeding their access level and only perform controlled operations in the management cluster.
 
-<!-- TODO: Needs to be updated -->
-![KubeLB Architecture](/img/kubelb/common/architecture.png "KubeLB Architecture")
+![KubeLB Architecture](/img/kubelb/v1.1/kubelb-high-level-architecture.png?classes=shadow,border "KubeLB Architecture")
 
 ## Components
 
@@ -38,15 +37,6 @@ The **KubeLB manager** is responsible for managing the data plane of it's tenant
 
 At its core, the KubeLB manager relies on [envoy proxy][1] to load balance the traffic. The manager is responsible for deploying the envoy proxy and configuring it to for each load balancer service per tenant, based on the envoy proxy deployment topology.
 
-### Envoy Proxy Deployment Topology
-
-KubeLB manager supports two different deployment topologies for envoy proxy:
-
-1. **Shared (default)**: In this topology, a single envoy proxy is deployed per tenant cluster. All load balancer services in a particular tenant cluster are configured to use this envoy proxy. This is the default topology.
-2. **Global**: In this topology, a single envoy proxy is deployed per KubeLB manager. All load balancer services in all tenant clusters are configured to use this envoy proxy. Pitfalls: Due to a single envoy proxy deployment, service-level network access is required from the tenant namespace to the controller namespace.
-
-The consumers are not aware or affected by the topology. This is only an internal detail for the management cluster.
-
 ## Personas
 
 KubeLB targets the following personas:
@@ -59,7 +49,18 @@ Inspired from [Gateway API Personas](https://gateway-api.sigs.k8s.io/#personas).
 
 Service Operator and Platform Operator are the more or less the same persona in KubeLB and they are resposinble for defining the load balancer configurations in tenant cluster. Platform Provider is the "KubeLB provider" and manages the management cluster.
 
-## User experience
+## Concepts
+
+### Envoy Proxy Deployment Topology
+
+KubeLB manager supports two different deployment topologies for envoy proxy:
+
+1. **Shared (default)**: In this topology, a single envoy proxy is deployed per tenant cluster. All load balancer services in a particular tenant cluster are configured to use this envoy proxy. This is the default topology.
+2. **Global**: In this topology, a single envoy proxy is deployed per KubeLB manager. All load balancer services in all tenant clusters are configured to use this envoy proxy. Pitfalls: Due to a single envoy proxy deployment, service-level network access is required from the tenant namespace to the controller namespace.
+
+The consumers are not aware or affected by the topology. This is only an internal detail for the management cluster.
+
+### User experience
 
 One of the most vital consideration while designing KubeLB was the user experience. There should be least possible friction and divergance of how the workflows to manage Layer 4 and Layer 7 workloads used to work like before KubeLB.
 
@@ -67,7 +68,7 @@ All the end users need is to configure the CCM with there desired configuration 
 
 ### Kubernetes Class
 
-Class is a concept in Kubernetes that is used to mark the ownership of a resource. For example an Ingress with `class: nginx` will be owned by a controller that implements the IngressClass named `nginx`. We have the similar concept in services, ingresses, gateway API resources, etc. KubeLB leverages on this concept to provide a seamless experience to the users by simply filtering out and processing the resoruces that are owned by KubeLB, by default. This behavior can also be changed by overriding the CCM configuration.
+Class is a concept in Kubernetes that is used to mark the ownership of a resource. For example an Ingress with `class: nginx` will be owned by a controller that implements the IngressClass named `nginx`. We have the similar concept in services, ingresses, gateway API resources, etc. KubeLB leverages on this concept to provide a seamless experience to the users by simply filtering out and processing the resources that are owned by KubeLB, by default. This behavior can also be changed by overriding the CCM configuration.
 
 ## Installation
 

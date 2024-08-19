@@ -26,10 +26,4 @@ KubeLB focuses on managing the load balancers from a centralized point. So inste
 4. KubeLB CCM polls for the updated status of the service, updates the status when available.
 5. KubeLB manager starts routing the traffic for your resource.
 
-<!-- TODO: Needs to be updated: Flow Diagram -->
-![KubeLB Architecture](/img/kubelb/common/architecture.png "KubeLB Architecture")
-
-### High Level Architecture
-
-<!-- TODO: Needs to be updated: Architecture Diagram -->
 ![KubeLB Architecture](/img/kubelb/common/architecture.png "KubeLB Architecture")

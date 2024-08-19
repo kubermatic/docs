@@ -153,4 +153,4 @@ The following resources are supported in CE and EE version:
 
 ### Limitations
 
-- ReferenceGrants, BackendTLSPolicy are not suported in KubeLB, yet.
+- ReferenceGrants, BackendTLSPolicy are not supported in KubeLB, yet.
