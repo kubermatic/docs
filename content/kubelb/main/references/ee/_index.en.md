@@ -575,6 +575,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubelb.k8c.io/v1alpha1` | | |
 | `kind` _string_ | `SyncSecret` | | |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
+| `immutable` _boolean_ |  |  |  |
 | `data` _object (keys:string, values:integer array)_ |  |  |  |
 | `stringData` _object (keys:string, values:string)_ |  |  |  |
 | `type` _[SecretType](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#secrettype-v1-core)_ |  |  |  |

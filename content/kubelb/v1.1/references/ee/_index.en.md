@@ -1,8 +1,9 @@
 +++
-title = "KubeLB Community Edition CRD References"
-linkTitle = "Community Edition"
+title = "KubeLB Enterprise Edition CRD References"
+linkTitle = "Enterprise Edition"
 date = 2024-03-06T12:00:00+02:00
-weight = 60
+weight = 50
+enterprise = true
 +++
 
 ## Packages
@@ -87,6 +88,20 @@ _Appears in:_
 | `propagatedAnnotations` _map[string]string_ | PropagatedAnnotations defines the list of annotations(key-value pairs) that will be propagated to the LoadBalancer service. Keep the `value` field empty in the key-value pair to allow any value.<br />This will have a higher precedence than the annotations specified at the Config level. |  |  |
 | `propagateAllAnnotations` _boolean_ | PropagateAllAnnotations defines whether all annotations will be propagated to the LoadBalancer service. If set to true, PropagatedAnnotations will be ignored.<br />This will have a higher precedence than the value specified at the Config level. |  |  |
 
+#### CertificatesSettings
+
+CertificatesSettings defines the settings for the certificates.
+
+_Appears in:_
+
+- [TenantSpec](#tenantspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `disable` _boolean_ | Disable is a flag that can be used to disable certificate automation for a tenant. |  |  |
+| `defaultClusterIssuer` _string_ | DefaultClusterIssuer is the Cluster Issuer to use for the certificates by default. This is applied when the cluster issuer is not specified in the annotations on the resource itself. |  |  |
+| `allowedDomains` _string array_ | AllowedDomains is a list of allowed domains for automated Certificate management. Has a higher precedence than the value specified in the Config.<br />If empty, the value specified in `tenant.spec.allowedDomains` will be used.<br />Examples:<br />- ["*.example.com"] -> this allows subdomains at the root level such as example.com and test.example.com but won't allow domains at one level above like test.test.example.com<br />- ["**.example.com"] -> this allows all subdomains of example.com such as test.dns.example.com and dns.example.com<br />- ["example.com"] -> this allows only example.com<br />- ["**"] or ["*"] -> this allows all domains<br />Note: "**" was added as a special case to allow any levels of subdomains that come before it. "*" works for only 1 level. |  |  |
+
 #### Config
 
 Config is the object that represents the Config for the KubeLB management controller.
@@ -101,6 +116,31 @@ _Appears in:_
 | `kind` _string_ | `Config` | | |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
 | `spec` _[ConfigSpec](#configspec)_ |  |  |  |
+
+#### ConfigCertificatesSettings
+
+ConfigCertificatesSettings defines the global settings for the certificates.
+
+_Appears in:_
+
+- [ConfigSpec](#configspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `disable` _boolean_ | Disable is a flag that can be used to disable certificate automation globally for all the tenants. |  |  |
+| `defaultClusterIssuer` _string_ | DefaultClusterIssuer is the Cluster Issuer to use for the certificates by default. This is applied when the cluster issuer is not specified in the annotations on the resource itself. |  |  |
+
+#### ConfigDNSSettings
+
+ConfigDNSSettings defines the global settings for the DNS.
+
+_Appears in:_
+
+- [ConfigSpec](#configspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `disable` _boolean_ | Disable is a flag that can be used to disable DNS automation globally for all the tenants. |  |  |
 
 #### ConfigList
 
@@ -129,6 +169,21 @@ _Appears in:_
 | `loadBalancer` _[LoadBalancerSettings](#loadbalancersettings)_ |  |  |  |
 | `ingress` _[IngressSettings](#ingresssettings)_ |  |  |  |
 | `gatewayAPI` _[GatewayAPISettings](#gatewayapisettings)_ |  |  |  |
+| `dns` _[ConfigDNSSettings](#configdnssettings)_ |  |  |  |
+| `certificates` _[ConfigCertificatesSettings](#configcertificatessettings)_ |  |  |  |
+
+#### DNSSettings
+
+DNSSettings defines the settings for the DNS.
+
+_Appears in:_
+
+- [TenantSpec](#tenantspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `disable` _boolean_ | Disable is a flag that can be used to disable DNS automation for a tenant. |  |  |
+| `allowedDomains` _string array_ | AllowedDomains is a list of allowed domains for automated DNS management. Has a higher precedence than the value specified in the Config.<br />If empty, the value specified in `tenant.spec.allowedDomains` will be used.<br />Examples:<br />- ["*.example.com"] -> this allows subdomains at the root level such as example.com and test.example.com but won't allow domains at one level above like test.test.example.com<br />- ["**.example.com"] -> this allows all subdomains of example.com such as test.dns.example.com and dns.example.com<br />- ["example.com"] -> this allows only example.com<br />- ["**"] or ["*"] -> this allows all domains<br />Note: "**" was added as a special case to allow any levels of subdomains that come before it. "*" works for only 1 level. |  |  |
 
 #### EndpointAddress
 
@@ -204,6 +259,38 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `class` _string_ | Class is the class of the gateway API to use. This can be used to specify a specific gateway API implementation.<br />This has higher precedence than the value specified in the Config. |  |  |
 | `disable` _boolean_ | Disable is a flag that can be used to disable Gateway API for a tenant. |  |  |
+| `gateway` _[GatewaySettings](#gatewaysettings)_ |  |  |  |
+| `disableHTTPRoute` _boolean_ |  |  |  |
+| `disableGRPCRoute` _boolean_ |  |  |  |
+| `disableTCPRoute` _boolean_ |  |  |  |
+| `disableUDPRoute` _boolean_ |  |  |  |
+| `disableTLSRoute` _boolean_ |  |  |  |
+
+#### GatewayAPIsSettings
+
+_Appears in:_
+
+- [GatewayAPISettings](#gatewayapisettings)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `disableHTTPRoute` _boolean_ |  |  |  |
+| `disableGRPCRoute` _boolean_ |  |  |  |
+| `disableTCPRoute` _boolean_ |  |  |  |
+| `disableUDPRoute` _boolean_ |  |  |  |
+| `disableTLSRoute` _boolean_ |  |  |  |
+
+#### GatewaySettings
+
+GatewaySettings defines the settings for the gateway resource.
+
+_Appears in:_
+
+- [GatewayAPISettings](#gatewayapisettings)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `limit` _integer_ | Limit is the maximum number of gateways to create.<br />If a lower limit is set than the number of reources that exist, the limit will be disallow creation of new resources but will not delete existing resources. The reason behind this<br />is that it is not possible for KubeLB to know which resources are safe to remove. |  |  |
 
 #### IngressSettings
 
@@ -311,6 +398,7 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `class` _string_ | Class is the class of the load balancer to use.<br />This has higher precedence than the value specified in the Config. |  |  |
+| `limit` _integer_ | Limit is the maximum number of load balancers to create.<br />If a lower limit is set than the number of reources that exist, the limit will be disallow creation of new resources but will not delete existing resources. The reason behind this<br />is that it is not possible for KubeLB to know which resources are safe to remove. |  |  |
 | `disable` _boolean_ | Disable is a flag that can be used to disable L4 load balancing for a tenant. |  |  |
 
 #### LoadBalancerSpec
@@ -487,6 +575,7 @@ _Appears in:_
 | `apiVersion` _string_ | `kubelb.k8c.io/v1alpha1` | | |
 | `kind` _string_ | `SyncSecret` | | |
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
+| `immutable` _boolean_ |  |  |  |
 | `data` _object (keys:string, values:integer array)_ |  |  |  |
 | `stringData` _object (keys:string, values:string)_ |  |  |  |
 | `type` _[SecretType](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#secrettype-v1-core)_ |  |  |  |
@@ -544,6 +633,9 @@ _Appears in:_
 | `loadBalancer` _[LoadBalancerSettings](#loadbalancersettings)_ |  |  |  |
 | `ingress` _[IngressSettings](#ingresssettings)_ |  |  |  |
 | `gatewayAPI` _[GatewayAPISettings](#gatewayapisettings)_ |  |  |  |
+| `dns` _[DNSSettings](#dnssettings)_ |  |  |  |
+| `certificates` _[CertificatesSettings](#certificatessettings)_ |  |  |  |
+| `allowedDomains` _string array_ | List of allowed domains for the tenant. This is used to restrict the domains that can be used<br />for the tenant. If specified, applies on all the components such as Ingress, GatewayAPI, DNS, certificates, etc.<br />Examples:<br />- ["*.example.com"] -> this allows subdomains at the root level such as example.com and test.example.com but won't allow domains at one level above like test.test.example.com<br />- ["**.example.com"] -> this allows all subdomains of example.com such as test.dns.example.com and dns.example.com<br />- ["example.com"] -> this allows only example.com<br />- ["**"] or ["*"] -> this allows all domains<br />Note: "**" was added as a special case to allow any levels of subdomains that come before it. "*" works for only 1 level.<br />Default: value is ["**"] and all domains are allowed. | [**] |  |
 
 #### TenantStatus
 
