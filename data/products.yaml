@@ -84,6 +84,8 @@ kubelb:
   versions:
     - release: main
       name: main
+    - release: v1.1
+      name: v1.1
     - release: v1.0
       name: v1.0
 # do not yet reveal KDP to the public
