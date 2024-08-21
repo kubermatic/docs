@@ -20,7 +20,6 @@ KubeLB is available in two versions: Community and Enterprise.
 | Ingress                 | ✔️                        | ✔️                       |
 | Gateway API v1                  | ✔️                        | ✔️                       |
 | Bring your own secrets(certificates)                  | ✔️                        | ✔️                       |
-| MLA                | ✔️                        | ✔️                       |
 | Gateway API beta/alpha(TLS/TCP/UDP routes)                | ✔️                       | ❌                       |
 | Multiple Gateways                  | ✔️                        | ❌                        |
 | DNS automation                  | ✔️                        | ❌                       |
