@@ -62,4 +62,8 @@ With this CR we are creating a tenant named `shroud` with the following configur
 * For Certificates configuration, we have the default cluster issuer `letsencrypt-prod` and allowed domains `*.example.com`.
 * For Ingress and Gateway API, we have allowed domains `*.example.com` and `**.kube.com`.
 
+{{% notice info %}}
+The tenant name provided to the consumers is the name of the namespace that is created in the management cluster against the tenant CRD. So the tenant **shroud** will be represented by the namespace **tenant-shroud** in the management cluster. For the CCM, tenantName of **tenant-shroud** needs to be used.
+{{% /notice %}}
+
 **For more details and options, please go through [CRD References]({{< relref "../../references">}})**
