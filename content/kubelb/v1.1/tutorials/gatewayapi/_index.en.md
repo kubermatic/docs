@@ -19,6 +19,8 @@ In KubeLB, we treat the admins of management cluster as the Platform provider. H
 
 ### Setup
 
+{{% notice warning %}} Ensure that Gateway API is enabled for the cluster. Please set `kubelb.disableGatewayAPI` to `false` in the `values.yaml`. Gateway API has been disabled by default as due to missing Gateway API CRDs the controller will crash and won't start.{{% /notice %}}
+
 Kubermatic's default recommendation is to use Gateway API and use [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation. Install Envoy Gateway by following this [guide](https://gateway.envoyproxy.io/docs/install/install-helm/) or any other Gateway API implementation of your choice.
 
 Ensure that `GatewayClass` exists in the management cluster. A minimal configuration for GatewayClass is as follows:

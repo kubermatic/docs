@@ -4,10 +4,6 @@ date = 2024-03-15T00:00:00+01:00
 weight = 70
 +++
 
-{{% notice warning %}}
-This document is work in progress and might not be in correct or up to date state
-{{% /notice %}}
-
 ## Kubermatic KubeLB v1.1.0
 
 - [v1.1.0](#v110)
@@ -83,6 +79,7 @@ This document is work in progress and might not be in correct or up to date stat
 - Script to generate RBAC for tenant has been removed as the process has now been automated. ([#39](https://github.com/kubermatic/kubelb/pull/39))
 - Remove enovy-proxy finalizer from load balancers. ([#46](https://github.com/kubermatic/kubelb/pull/46))
 - Scope down Gateway to routes from the same namespace. ([#45](https://github.com/kubermatic/kubelb/pull/45))
+- Gateway API is disabled by default for CCM and manager. ([#55](https://github.com/kubermatic/kubelb/pull/55))
 
 **Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.0.0...v1.1.0>
 
