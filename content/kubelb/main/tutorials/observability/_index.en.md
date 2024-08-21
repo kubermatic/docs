@@ -9,9 +9,13 @@ KubeLB is a mission-critical component in the Kubernetes ecosystem, and its obse
 
 KubeLB in itself doesn't restrict the platform providers to certain observability tools. Since we are well aware that different customers will have different Monitoring, logging, alerting, and tracing etc. stacks deployed which are based on their  own requirements. Although it does offer Grafana dashboards that can be plugged into your existing monitoring stack.
 
-## Grafana Dashboard
+## Grafana Dashboard [WIP]
 
-[Grafana Dashboard](https://github.com/kubermatic/kubelb-ee/tree/release/v1.1/docs/dashboards)
+This is work in progress and can be tracked against [Monitoring and Alerting](https://github.com/kubermatic/kubelb/issues/56)
+
+## Alerting and Recording rules [WIP]
+
+This is work in progress and can be tracked against [Monitoring and Alerting](https://github.com/kubermatic/kubelb/issues/56)
 
 ## Recommended Tools
 

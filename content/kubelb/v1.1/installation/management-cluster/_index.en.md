@@ -12,7 +12,7 @@ weight = 20
 
 ## Installation for KubeLB manager
 
-{{% notice warning %}} In case if Gateway API needs to be disabled for the cluster. Please set `kubelb.disableGatewayAPI` to `true` in the `values.yaml`. This is required otherwise due to missing CRDs, kubelb will not be able to start. {{% /notice %}}
+{{% notice warning %}} In case if Gateway API needs to be enabled for the cluster. Please set `kubelb.disableGatewayAPI` to `false` in the `values.yaml`. Gateway API has been disabled by default as due to missing Gateway API CRDs the controller will crash and won't start. {{% /notice %}}
 
 {{< tabs name="KubeLB Manager" >}}
 {{% tab name="Enterprise Edition" %}}
@@ -55,7 +55,7 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 | image.tag | string | `"v1.1.0"` |  |
 | imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
 | kubelb.debug | bool | `true` |  |
-| kubelb.disableGatewayAPI | bool | `false` | disableGatewayAPI specifies whether to disable the Gateway API and Gateway Controllers. |
+| kubelb.disableGatewayAPI | bool | `true` | disableGatewayAPI specifies whether to disable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
 | kubelb.enableLeaderElection | bool | `true` |  |
 | kubelb.enableTenantMigration | bool | `true` |  |
 | kubelb.envoyProxy.affinity | object | `{}` |  |
@@ -123,7 +123,7 @@ helm install kubelb-manager kubelb-manager/kubelb-manager --namespace kubelb -f 
 | image.tag | string | `"v1.1.0"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.debug | bool | `true` |  |
-| kubelb.disableGatewayAPI | bool | `false` | disableGatewayAPI specifies whether to disable the Gateway API and Gateway Controllers. |
+| kubelb.disableGatewayAPI | bool | `true` | disableGatewayAPI specifies whether to disable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
 | kubelb.enableLeaderElection | bool | `true` |  |
 | kubelb.enableTenantMigration | bool | `true` |  |
 | kubelb.envoyProxy.affinity | object | `{}` |  |
