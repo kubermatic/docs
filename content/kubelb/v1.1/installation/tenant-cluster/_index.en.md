@@ -57,9 +57,9 @@ kubelb:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.1.0 --untardir "kubelb-ccm" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.1.0 --untardir "." --untar
 ## Create and update values.yaml with the required values.
-helm install kubelb-ccm kubelb-ccm/kubelb-ccm-ee --namespace kubelb -f values.yaml
+helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm-ee/values.yaml
 ```
 
 ### KubeLB CCM EE Values
@@ -128,9 +128,9 @@ helm install kubelb-ccm kubelb-ccm/kubelb-ccm-ee --namespace kubelb -f values.ya
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.1.0 --untardir "kubelb-ccm" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.1.0 --untardir "." --untar
 ## Create and update values.yaml with the required values.
-helm install kubelb-ccm kubelb-ccm/kubelb-ccm --namespace kubelb -f values.yaml
+helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/values.yaml
 ```
 
 ### KubeLB CCM Values

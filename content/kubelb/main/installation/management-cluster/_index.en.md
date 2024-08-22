@@ -32,9 +32,9 @@ imagePullSecrets:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.1.0 --untardir "kubelb-manager" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.1.0 --untardir "." --untar
 ## Create and update values.yaml with the required values.
-helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb -f values.yaml
+helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f kubelb-manager-ee/values.yaml
 ```
 
 ### KubeLB Manager EE Values
@@ -102,9 +102,9 @@ helm install kubelb-manager kubelb-manager/kubelb-manager-ee --namespace kubelb 
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.1.0 --untardir "kubelb-manager" --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.1.0 --untardir "." --untar
 ## Create and update values.yaml with the required values.
-helm install kubelb-manager kubelb-manager/kubelb-manager --namespace kubelb -f values.yaml --create-namespace
+helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubelb-manager/values.yaml
 ```
 
 ### KubeLB Manager CE Values
