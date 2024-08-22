@@ -25,6 +25,8 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 /kubecarrier/* / 301!
 
 # redirects for KubeLB's old structure to the new one introduced with v1.1 docs.
+/kubelb/ce/usage /kubelb/latest/tutorials/ 301!
+/kubelb/ee/usage /kubelb/latest/tutorials/ 301!
 /kubelb/ce/* /kubelb/latest/:splat 301!
 /kubelb/ee/* /kubelb/latest/:splat 301!
 
