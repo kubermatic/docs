@@ -105,6 +105,14 @@ Deprecated: use DefaultValuesBlock instead |
 | `defaultValuesBlock` _string_ | DefaultValuesBlock specifies default values for the UI which are passed to helm templating when creating an application. Comments are preserved. |
 | `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | DefaultDeployOptions holds the settings specific to the templating method used to deploy the application.
 These settings can be overridden in applicationInstallation. |
+| `defaultVersion` _string_ | DefaultVersion of the application to use, if not specified the latest available version will be used. |
+| `enforced` _boolean_ | Enforced specifies if the application is enforced to be installed on the user clusters. Enforced applications are
+installed/updated by KKP for the user clusters. Users are not allowed to update/delete them. KKP will revert the changes
+done by the application to the desired state specified in the ApplicationDefinition. |
+| `default` _boolean_ | Default specifies if the application should be installed by default when a new user cluster is created. Default applications are
+not enforced and users can update/delete them. KKP will only install them during cluster creation if the user didn't explicitly
+opt out from installing default applications. |
+| `selector` _[DefaultingSelector](#defaultingselector)_ | Selector is used to select the targeted user clusters for defaulting and enforcing applications. This is only used for default/enforced applications and ignored otherwise. |
 | `documentationURL` _string_ | DocumentationURL holds a link to official documentation of the Application
 Alternatively this can be a link to the Readme of a chart in a git repository |
 | `sourceURL` _string_ | SourceURL holds a link to the official source code mirror or git repository of the application |
@@ -322,6 +330,24 @@ _Appears in:_
 | --- | --- |
 | `version` _string_ | Version of the application (e.g. v1.2.3) |
 | `template` _[ApplicationTemplate](#applicationtemplate)_ | Template defines how application is installed (source provenance, Method...) |
+
+
+[Back to top](#top)
+
+
+
+### DefaultingSelector
+
+
+
+DefaultingSelector is used to select the targeted user clusters for defaulting and enforcing applications.
+
+_Appears in:_
+- [ApplicationDefinitionSpec](#applicationdefinitionspec)
+
+| Field | Description |
+| --- | --- |
+| `datacenters` _string array_ | Datacenters is a list of datacenters where the application can be installed. |
 
 
 [Back to top](#top)
