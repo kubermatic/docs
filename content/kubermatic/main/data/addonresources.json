@@ -73,7 +73,7 @@
               }
             },
             {
-              "containerName": "kube-rbac-proxy",
+              "containerName": "kube-rbac-proxy-http",
               "resources": {
                 "limits": {
                   "cpu": "40m",
