@@ -2164,7 +2164,6 @@ _Appears in:_
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplate`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
-| `clusterAnnotations` _object (keys:string, values:string)_ |  |
 | `clusterLabels` _object (keys:string, values:string)_ |  |
 | `inheritedClusterLabels` _object (keys:string, values:string)_ |  |
 | `credential` _string_ |  |
