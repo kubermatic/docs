@@ -2986,6 +2986,8 @@ MachineDeployments. |
 | `ipv6Enabled` _boolean_ | Optional: defines if the IPv6 is enabled for the datacenter |
 | `csiCinderTopologyEnabled` _boolean_ | Optional: configures enablement of topology support for the Cinder CSI Plugin.
 This requires Nova and Cinder to have matching availability zones configured. |
+| `enableConfigDrive` _boolean_ | Optional: enable a configuration drive that will be attached to the instance when it boots.
+The instance can mount this drive and read files from it to get information |
 
 
 [Back to top](#top)
