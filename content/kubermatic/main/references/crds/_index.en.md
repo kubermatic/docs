@@ -1336,6 +1336,25 @@ _Appears in:_
 
 
 
+### AnnotationSettings
+
+
+
+AnnotationSettings is the settings for the annotations.
+
+_Appears in:_
+- [SettingSpec](#settingspec)
+
+| Field | Description |
+| --- | --- |
+| `hiddenAnnotations` _string array_ | HiddenAnnotations are the annotations that are hidden from the user in the UI. |
+| `protectedAnnotations` _string array_ | ProtectedAnnotations are the annotations that are visible in the UI but cannot be added or modified by the user. |
+
+
+[Back to top](#top)
+
+
+
 ### AntiAffinityType
 
 _Underlying type:_ `string`
@@ -6945,6 +6964,7 @@ will be set for all projects that do not have a custom quota already set. EE-ver
 | `machineDeploymentOptions` _[MachineDeploymentOptions](#machinedeploymentoptions)_ |  |
 | `disableChangelogPopup` _boolean_ | DisableChangelogPopup disables the changelog popup in KKP dashboard. |
 | `staticLabels` _[StaticLabel](#staticlabel) array_ | StaticLabels are a list of labels that can be used for the clusters. |
+| `annotations` _[AnnotationSettings](#annotationsettings)_ | Annotations are the settings for the annotations in KKP UI. |
 
 
 [Back to top](#top)
