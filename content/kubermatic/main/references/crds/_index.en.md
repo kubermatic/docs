@@ -4503,6 +4503,9 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Controls whether kubeLB is deployed or not. |
+| `useLoadBalancerClass` _boolean_ | UseLoadBalancerClass is used to configure the use of load balancer class `kubelb` for kubeLB. If false, kubeLB will manage all load balancers in the
+user cluster irrespective of the load balancer class. |
+| `enableGatewayAPI` _boolean_ | EnableGatewayAPI is used to configure the use of gateway API for kubeLB. |
 
 
 [Back to top](#top)
@@ -4525,6 +4528,11 @@ _Appears in:_
 | `enforced` _boolean_ | Enforced is used to enforce kubeLB installation for all the user clusters belonging to this datacenter. Setting enforced to false will not uninstall kubeLB from the user clusters and it needs to be disabled manually. |
 | `nodeAddressType` _string_ | NodeAddressType is used to configure the address type from node, used for load balancing.
 Optional: Defaults to ExternalIP. |
+| `useLoadBalancerClass` _boolean_ | UseLoadBalancerClass is used to configure the use of load balancer class `kubelb` for kubeLB. If false, kubeLB will manage all load balancers in the
+user cluster irrespective of the load balancer class. |
+| `enableGatewayAPI` _boolean_ | EnableGatewayAPI is used to configure the use of gateway API for kubeLB. |
+| `enableSecretSynchronizer` _boolean_ | EnableSecretSynchronizer is used to configure the use of secret synchronizer for kubeLB. |
+| `disableIngressClass` _boolean_ | DisableIngressClass is used to disable the ingress class `kubelb` filter for kubeLB. |
 
 
 [Back to top](#top)
