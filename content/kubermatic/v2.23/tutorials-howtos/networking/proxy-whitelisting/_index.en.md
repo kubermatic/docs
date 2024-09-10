@@ -17,88 +17,235 @@ Resources pulled on machine controller nodes.
 
 ### kubelet - Binary
 
-The machine controller is downloading a few components to install the kubelet, see [download_binaries_script.go](https://github.com/kubermatic/machine-controller/blob/main/pkg/userdata/helper/download_binaries_script.go):
+The machine controller is downloading via the [OperatingSystemManager](https://docs.kubermatic.com/operatingsystemmanager) all components to setup a Kubernetes worker node. For operating system dedicated details see the [default OperatingSystemProfiles](https://github.com/kubermatic/operating-system-manager/tree/main/deploy/osps/default).
 
 ```bash
 # Binaries for the Kubernetes kubelet Get Downloaded From:
-https://storage.googleapis.com/kubernetes-release/release/
+https://dl.k8s.io
 
 # CNI Plugins
 https://github.com/containernetworking/plugins/releases/
 
-# KKP Health-Monitor Script
-# (Placed at pkg/userdata/scripts/health-monitor.sh)
-https://raw.githubusercontent.com/kubermatic/machine-controller/
+# CRI Tool: crictl
+https://github.com/kubernetes-sigs/cri-tools/releases
+
 ```
 
 ### kubelet - Docker Images
 
 After kubelet starts, it needs a few more images to work in a proper way:
 
+**`registry.k8s.io`**
+
+```bash
+#Kubernetes core components
+registry.k8s.io/autoscaling/addon-resizer
+registry.k8s.io/coredns/coredns
+registry.k8s.io/dns/k8s-dns-node-cache
+registry.k8s.io/etcd
+registry.k8s.io/kas-network-proxy/proxy-server
+registry.k8s.io/kube-apiserver
+registry.k8s.io/kube-controller-manager
+registry.k8s.io/kube-proxy
+registry.k8s.io/kube-scheduler
+registry.k8s.io/kube-state-metrics/kube-state-metrics
+registry.k8s.io/metrics-server/metrics-server
+registry.k8s.io/pause
+
+### CSI Storage
+registry.k8s.io/sig-storage/csi-attacher
+registry.k8s.io/sig-storage/csi-node-driver-registrar
+registry.k8s.io/sig-storage/csi-provisioner
+registry.k8s.io/sig-storage/csi-resizer
+registry.k8s.io/sig-storage/csi-snapshotter
+registry.k8s.io/sig-storage/livenessprobe
+registry.k8s.io/sig-storage/snapshot-controller
+registry.k8s.io/sig-storage/snapshot-validation-webhook
+
+### CCM provider images
+registry.k8s.io/provider-aws/cloud-controller-manager
+registry.k8s.io/provider-os/openstack-cloud-controller-manager
+registry.k8s.io/provider-os/cinder-csi-plugin
+registry.k8s.io/cloud-provider-gcp/cloud-controller-manager
+
+# Ingress
+registry.k8s.io/ingress-nginx/controller
+registry.k8s.io/ingress-nginx/kube-webhook-certgen
+```
+
 **`gcr.io`:**
 
 ```bash
-# ContainerLinux Requires the Hyperkube Image
-gcr.io/google_containers/hyperkube-amd64
-
-# DNS Node Cache
-gcr.io/google_containers/k8s-dns-node-cache
+# Helper
+gcr.io/kubebuilder/kube-rbac-proxy
 ```
 
-**`k8s.gcr.io`:**
+**`ghcr.io`**
 
 ```bash
-# Every kubelet Requires the Pause Container:
-k8s.gcr.io/pause
+# DEX OIDC Provider
+ghcr.io/dexidp/dex
 ```
 
 **`docker.io`:**
 
 ```bash
-# Calico Overlay
-calico/node
+#DigitalOcean CCM
+docker.io/digitalocean/digitalocean-cloud-controller-manager
 
-# DNS Addon
-coredns/coredns
+#Helper
+docker.io/d3fk/s3cmd
+docker.io/envoyproxy/envoy
+docker.io/envoyproxy/envoy-distroless
+docker.io/fluent/fluent-bit
+docker.io/library/alpine
+docker.io/library/busybox
+docker.io/library/memcached
+docker.io/library/nginx
+docker.io/nginxinc/nginx-unprivileged
+docker.io/restic/restic
+docker.io/velero/velero
 
-# Log Shipper Fluent-Bit
-fluent/fluent-bit
+#Canal
+docker.io/flannel/flannel
+
+#Monitoring
+docker.io/grafana/grafana
+docker.io/grafana/loki
+docker.io/grafana/promtail
+docker.io/grafana/agent
+docker.io/hashicorp/consul
+docker.io/jimmidyson/configmap-reload
+docker.io/prom/memcached-exporter
+docker.io/pryorda/vmware_exporter
+
+#Kubernetes Dashboard
+docker.io/kubernetesui/dashboard
+
 ```
 
 **`quay.io`:**
 
 ```bash
-# Util Container for Debugging or Custom Controller
+#Kubermatic Components
+quay.io/kubermatic/alertmanager-authorization-server
+quay.io/kubermatic/dashboard-ee
+quay.io/kubermatic/etcd-launcher
+quay.io/kubermatic/grafana-plugins
+quay.io/kubermatic/http-prober
+quay.io/kubermatic/kubelb-ccm-ee
+quay.io/kubermatic/kubermatic-ee
+quay.io/kubermatic/kubevirt-cloud-controller-manager
+quay.io/kubermatic/kubevirt-csi-driver
+quay.io/kubermatic/machine-controller
+quay.io/kubermatic/metering
+quay.io/kubermatic/nodeport-proxy
+quay.io/kubermatic/operating-system-manager
+quay.io/kubermatic/s3-exporter
+quay.io/kubermatic/telemetry-agent
 quay.io/kubermatic/util
+quay.io/kubermatic/vsoc-alerta
+quay.io/kubermatic/user-ssh-keys-agent
 
-# Prometheus Metrics Scraping
-quay.io/prometheus/node-exporter
+#CNI Canal
+quay.io/calico/kube-controllers
+quay.io/calico/node
+quay.io/calico/cni
 
-# Core Os Container
-quay.io/coreos/flannel
-quay.io/coreos/kube-rbac-proxy
-quay.io/coreos/container-linux-update-operator
+#CNI Cilium
+quay.io/cilium/certgen
+quay.io/cilium/cilium
+
+#Helper
+quay.io/brancz/kube-rbac-proxy
+quay.io/frrouting/frr
+quay.io/oauth2-proxy/oauth2-proxy
+
+#Monitoring
+quay.io/cortexproject/cortex
+quay.io/prometheus-operator/prometheus-config-reloader
+quay.io/prometheus-operator/prometheus-operator
+quay.io/prometheus/alertmanager
+quay.io/prometheus/blackbox-exporter
+quay.io/prometheus/node-export
+
+#CertManager
+quay.io/jetstack/cert-manager-cainjector
+quay.io/jetstack/cert-manager-controller
+quay.io/jetstack/cert-manager-webhook
+
+
+#KubeVirt
+quay.io/kubevirt/bridge-marker
+quay.io/kubevirt/cdi-apiserver
+quay.io/kubevirt/cdi-controller
+quay.io/kubevirt/cdi-importer
+quay.io/kubevirt/cdi-operator
+quay.io/kubevirt/cdi-uploadproxy
+quay.io/kubevirt/cluster-network-addons-operator
+quay.io/kubevirt/cni-default-plugins
+quay.io/kubevirt/kubemacpool
+quay.io/kubevirt/macvtap-cni
+quay.io/kubevirt/ovs-cni-plugin
+quay.io/kubevirt/virt-api
+quay.io/kubevirt/virt-controller
+quay.io/kubevirt/virt-handler
+quay.io/kubevirt/virt-launcher
+quay.io/kubevirt/virt-operator
+
+#MetalLB
+quay.io/metallb/speaker
+
+#Backup
+quay.io/minio/mc
+quay.io/minio/minio
+```
+
+**`public.ecr.aws`**
+
+```bash
+# AWS CSI Driver
+public.ecr.aws/ebs-csi-driver/aws-ebs-csi-driver
+public.ecr.aws/eks-distro/kubernetes-csi/*
+ public.ecr.aws/eks-distro/kubernetes-csi/external-attacher
+```
+
+**`mcr.microsoft.com`**
+
+```bash
+#Azure CCM Driver
+mcr.microsoft.com/oss/kubernetes/azure-cloud-controller-manager
+```
+
+**`projects.registry.vmware.com`**
+
+```bash
+#vCloud Director CCM
+projects.registry.vmware.com/vmware-cloud-director/cloud-director-named-disk-csi-driver
 ```
 
 ### OS Resources
-Additional to the kubelet dependencies, the [machine controller OS provider](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata) installs some os specific packages over cloud-init:
+Additional to the kubelet dependencies, the [OperatingSystemManager](https://docs.kubermatic.com/operatingsystemmanager) installs some operating-system-specific packages over cloud-init:
 
 #### CentOS 7/8
-Init script: [pkg/userdata/centos](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/centos)
+Init script: [osp-centos.yaml](https://github.com/kubermatic/operating-system-manager/blob/main/deploy/osps/default/osp-centos.yaml)
 
 - default yum repositories
 - docker yum repository: `download.docker.com/linux/centos`
 
-### CoreOS / Flatcar Linux
-Init script: [pkg/userdata/coreos](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/coreos), [pkg/userdata/flatcar](https://github.com/kubermatic/machine-controller/blob/main/pkg/userdata/flatcar)
+### Flatcar Linux
+Init script: [osp-flatcar-cloud-init.yaml](https://github.com/kubermatic/operating-system-manager/blob/main/deploy/osps/default/osp-flatcar-cloud-init.yaml)
 
 - no additional targets
 
-### Ubuntu 18.04/20.04
-Init script: [pkg/userdata/ubuntu](https://github.com/kubermatic/machine-controller/tree/main/pkg/userdata/ubuntu)
+### Ubuntu 20.04/22.04/24.04
+Init script: [osp-ubuntu.yaml](https://github.com/kubermatic/operating-system-manager/blob/main/deploy/osps/default/osp-ubuntu.yaml)
 
 - default apt repositories
 - docker apt repository: `download.docker.com/linux/ubuntu`
+
+### Other OS
+Other supported operating system details are visible by the dedicated [default OperatingSystemProfiles](https://github.com/kubermatic/operating-system-manager/tree/main/deploy/osps/default).
 
 # KKP Seed Cluster Setup
 
@@ -108,7 +255,7 @@ KKP interacts with the different cloud provider directly to provision the requir
 ### AWS
 API endpoint documentation: [AWS service endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html)
 
-KKP interact in several ways with different cloud provider, e.g.:
+KKP interacts in several ways with different cloud providers, e.g.:
 - creating EC2 instances
 - creating security groups
 - access instance profiles
@@ -169,6 +316,9 @@ releases.hashicorp.com
 
 ## kubeone binary
 https://github.com/kubermatic/kubeone/releases
+
+## kubeone tooling container
+quay.io/kubermatic-labs/kubeone-tooling
 ```
 
 ## cert-manager (if used)
@@ -176,12 +326,4 @@ For creating certificates with let's encrypt we need access:
 
 ```bash
 https://acme-v02.api.letsencrypt.org/directory
-```
-
-## EFK Logging Stack (if used)
-To download the elasticsearch artifacts (deprecated in flavor of Loki):
-
-```
-docker.elastic.co/elasticsearch/elasticsearch-oss
-docker.elastic.co/kibana/kibana-oss
 ```

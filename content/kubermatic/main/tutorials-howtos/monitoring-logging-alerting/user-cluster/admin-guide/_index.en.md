@@ -67,7 +67,7 @@ Additional options that can be used for the installation include:
 
 This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, The helm values for the MLA stack can be adjusted and the installer can be re-run to redeploy and reconfigure the components.
 
-This default installation will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatible srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatible Services](#setting-up-mla-with-existing-minio-or-other-s3-compatible-services).
+This default installation will deploy a MinIO instance which will be used by MLA components for storage. If you would like to reuse an existing MinIO instance in your cluster or other S3-compatible srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatible Services](#setting-up-mla-with-existing-minio-or-other-s3-compatible-services).
 
 #### Setup Seed Cluster Components for High Availability
 
@@ -91,7 +91,7 @@ Let's start with preparing the values.yaml for the IAP Helm Chart. A starting po
 - Set `grafana."grafana.ini".server.domain` to match the domain under which you want to expose Grafana (e.g. grafana.kkp.example.com)
 - Modify the base domain, seed name and Grafana prefix as described above (`grafana.seed-cluster-x.kkp.example.com` in `iap.deployments.grafana.ingress.host`).
 - Set `iap.deployments.grafana.client_secret` + `iap.deployments.grafana.encryption_key` and `iap.deployments.alertmanager.client_secret` + `iap.deployments.alertmanager.encryption_key` to the newly generated key values (they can be generated e.g. with `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`).
-- Configure how the users should be authenticated in `iap.deployments.grafana.config` and `iap.deployments.alertmanager.config` (e.g. modify `YOUR_GITHUB_ORG` and `YOUR_GITHUB_TEAM` placeholders). Please check the [OAuth Provider Configuration](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider/) for more details.
+- Configure how the users should be authenticated in `iap.deployments.grafana.config` and `iap.deployments.alertmanager.config` (e.g. modify `YOUR_GITHUB_ORG` and `YOUR_GITHUB_TEAM` placeholders). Please check the [OAuth Provider Configuration](https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/) for more details.
 - Make the corresponding changes for the Alertmanager config as well.
 
 It is also necessary to set up your infrastructure accordingly:
@@ -160,7 +160,7 @@ spec:
 
 There are several options in the KKP “Admin Panel” which are related to user cluster MLA, as shown on the picture below:
 
-![MLA Admin Panel](/img/kubermatic/main/monitoring/user_cluster/admin_panel.png)
+![MLA Admin Panel](admin-panel.png)
 
 **User Cluster Logging:**
 
@@ -260,6 +260,24 @@ By default, the MLA stack is configured to hold the logs and metrics in the obje
 - In the [loki Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/loki-distributed/values.yaml#L52), set `loki-distributed.loki.config.chunk_store_config.max_look_back_period` to the desired value (default: `168h` = 7 days).
 - In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/minio-lifecycle-mgr/values.yaml#L20), set `lifecycleMgr.buckets[name=loki].expirationDays` to the value used in the loki Helm chart + 1 day (default: `8d`).
 
+### Cortex Performance Tips
+
+Depending on the number of tenants (user clusters) and the data stored, the initial startup cleanup/maintenance operations can be very slow. This makes the `cortex-compactor` Pods potentially take multiple hours to become ready.
+
+If your compactor Pods are being restarted by Kubernetes, adjust the startupProbe via your `values.yaml` and for example give it much more time by increasing the `failureThreshold`:
+
+```yaml
+cortex:
+  compactor:
+    startupProbe:
+      # allow to fail up to 200x 30s = 1h40m for Cortex to start up
+      failureThreshold: 200
+      # wait 5 minutes before even beginning the probe
+      initialDelaySeconds: 300
+```
+
+*NB:* Remember that you must manually delete the current `cortex-compactor-0` Pod, as Kubernetes would only recreate it if and when the Pod would get ready.
+
 ### Setting up MLA with Existing MinIO or Other S3-compatible Services
 
 By default, a MinIO instance will also be deployed as the S3 storage backend for MLA components. It is also possible to use an existing MinIO instance in your cluster or any other S3-compatible services.
@@ -358,13 +376,13 @@ This chapter describes some potential problems that you may face in a KKP instal
 - Make sure you are switched to the proper Grafana Organization (see the “Switch between Grafana Organizations” section of this documentation)
 - Make sure that user cluster Monitoring / Logging is enabled for the user cluster (In KKP UI, you should see green checkboxes on the Cluster Page):
 
-![MLA UI - Cluster View](/img/kubermatic/main/monitoring/user_cluster/ui_cluster_view.png)
+![MLA UI - Cluster View](ui-cluster-view.png)
 
 **Metrics / Logs are not available in Grafana UI for some user cluster:**
 
 - Make sure that User Cluster Monitoring / Logging is enabled for the user cluster (In KKP UI, you should see green checkboxes on the Cluster Page):
 
-![MLA UI - Cluster View](/img/kubermatic/main/monitoring/user_cluster/ui_cluster_view.png)
+![MLA UI - Cluster View](ui-cluster-view.png)
 
 - Check that Monitoring / Logging Agent was deployed an is running in the user cluster:
 

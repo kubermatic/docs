@@ -1,0 +1,13 @@
+{
+  "1.2.17": "Audit logging is not enabled by default, it can be configured as described [here][audit-logging]",
+  "1.2.18": "Audit logging is not enabled by default, it can be configured as described [here][audit-logging]",
+  "1.2.19": "Audit logging is not enabled by default, it can be configured as described [here][audit-logging]",
+  "1.2.20": "Audit logging is not enabled by default, it can be configured as described [here][audit-logging]",
+  "1.2.28": "Encryption configuration can be enabled as described [here][encryption-providers]",
+  "1.2.29": "Encryption configuration can be enabled as described [here][encryption-providers]",
+  "3.1.1": "KubeOne can be configured with OIDC authentication as described [here][oidc]",
+  "3.1.2": "KubeOne can be configured with OIDC authentication as described [here][oidc]",
+  "3.1.3": "KubeOne can be configured with OIDC authentication as described [here][oidc]",
+  "3.2.1": "Audit logging is not enabled by default, it can be configured as described [here][audit-logging]",
+  "3.2.2": "Audit logging is not enabled by default, it can be configured as described [here][audit-logging]"
+}

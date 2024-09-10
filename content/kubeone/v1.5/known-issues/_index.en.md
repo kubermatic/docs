@@ -11,7 +11,7 @@ possible workarounds and recommendations.
 This list applies to KubeOne 1.5 releases. For earlier releases, please
 consult the [appropriate changelog][changelogs].
 
-[changelogs]: https://github.com/kubermatic/kubeone/tree/mai/CHANGELOG
+[changelogs]: https://github.com/kubermatic/kubeone/tree/main/CHANGELOG
 
 ## Pod connectivity is broken for Calico VXLAN clusters
 

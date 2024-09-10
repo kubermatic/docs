@@ -266,5 +266,5 @@ output "proxy" {
 }
 ```
 
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/mai/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
 [concepts-mc]: {{< ref "../../architecture/concepts#kubermatic-machine-controller" >}}

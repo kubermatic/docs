@@ -23,18 +23,18 @@ The following operating systems are currently supported by the default Operating
 | Azure | ✓ | ✓ | ✓ | x | ✓ | ✓ |
 | DigitalOcean  | ✓ | ✓ | x | x | x | ✓ |
 | Equinix Metal  | ✓ | ✓ | ✓ | x | x | ✓ |
-| Google Cloud Platform | ✓ | x | x | x | x | x |
+| Google Cloud Platform | ✓ | x | ✓ | x | x | x |
 | Hetzner | ✓ | x | x | x | x | ✓ |
 | KubeVirt | ✓ | ✓ | ✓ | x | ✓ | ✓ |
 | Nutanix | ✓ | ✓ | x | x | x | x |
 | Openstack | ✓ | ✓ | ✓ | x | ✓ | ✓ |
-| VMware Cloud Director | ✓ | x | x | x | x | x |
+| VMware Cloud Director | ✓ | x | ✓ | x | x | x |
 | VSphere | ✓ | ✓ | ✓ | x | ✓ | ✓ |
 
 ## Kubernetes Versions
 
 Currently supported K8S versions are:
 
+* 1.29
 * 1.28
 * 1.27
-* 1.26

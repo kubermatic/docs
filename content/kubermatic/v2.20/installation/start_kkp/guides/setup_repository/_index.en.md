@@ -80,7 +80,7 @@ gcloud iam service-accounts keys create --iam-account "${SERVICE_ACCOUNT_ID}" "$
 cat "${SERVICE_ACCOUNT_NAME}-sa-key.json"
 ```
 
-See [KubeOne documentation]({{< ref "../../../../../../kubeone/main/architecture/requirements/machine-controller/google-cloud/gcp/" >}}) for more details.
+See [KubeOne documentation]({{< ref "../../../../../../kubeone/main/architecture/requirements/machine-controller/google-cloud/" >}}) for more details.
 {{% /tab %}}
 {{% tab name="OpenStack" %}}
 Terraform provider will need to set the environment variables to access the OpenStack API.
@@ -91,7 +91,7 @@ See there related [KubeOne documentation]({{< ref "../../../../../../kubeone/mai
 Terraform provider will need to set the environment variables to access the vSphere instance.
 
 See there related [KubeOne documentation]({{< ref "../../../../../../kubeone/main/guides/credentials/#environment-variables" >}}), select vSphere tab and
-pay attention to the vSphere specific [permissions]({{< ref "../../../../../../kubeone/main/architecture/requirements/machine-controller/vsphere/vsphere/" >}}).
+pay attention to the vSphere specific [permissions]({{< ref "../../../../../../kubeone/main/architecture/requirements/machine-controller/vsphere/" >}}).
 {{% /tab %}}
 {{% /tabs %}}
 

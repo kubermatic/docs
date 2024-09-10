@@ -1,6 +1,6 @@
 +++
 title = "Kubernetes"
-date = 2020-09-16T20:07:15+02:00
+date = 2024-03-06T00:00:00+00:00
 weight = 1
 
 +++
@@ -14,22 +14,21 @@ support policy in the [Version Skew Policy document][upstream-supported-versions
 In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
-{{% notice warning %}}
-KubeOne 1.5 and 1.6 support only Kubernetes 1.22 and newer. Clusters running
-Kubernetes 1.21 or older must be upgraded with an older KubeOne release
-according to the table below.
-{{% /notice %}}
+| KubeOne \ Kubernetes | 1.31 | 1.30 | 1.29 | 1.28[^1] | 1.27[^2] |
+| -------------------- | ---- | ---- | ---- | -------- | -------- |
+| v1.9                 | ✓    | ✓    | ✓    | ✓        | ✓        |
+| v1.8.1               | -    | ✓    | ✓    | ✓        | ✓        |
+| v1.8                 | -    | -    | ✓    | ✓        | ✓        |
 
-| KubeOne version | 1.28  | 1.27  | 1.26  | 1.25  | 1.24[^1] |
-| --------------- | ----- | ----- | ----- | ----- | -------- |
-| v1.7            | -     | ✓     | ✓     | -     | -        |
-| v1.6            | -     | -     | ✓     | ✓     | ✓        |
+[^1]: Kubernetes 1.28 will be reaching End-of-Life (EOL) on 2024-10-28.
+We strongly recommend upgrading to a newer Kubernetes release as soon as possible.
 
-[^1]: Kubernetes 1.24 has reached End-of-Life (EOL) on 2023-07-28.
-We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
+[^2]: Kubernetes 1.27 has reached End-of-Life (EOL) and is not supported
+any longer. We strongly recommend upgrading to a newer supported Kubernetes release
+as soon as possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
-than the latest Kubernetes release. For example, with 1.27 being the latest
-release, we recommend running at least Kubernetes 1.26.
+than the latest Kubernetes release. For example, with 1.30 being the latest
+release, we recommend running at least Kubernetes 1.29.
 
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions

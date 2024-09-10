@@ -103,7 +103,7 @@ like:
 * [default-storage-class][default_storage_class]
 * [unattended-upgrades][unattended_upgrades]
 
-### Activate Embedded Eddons
+### Activate Embedded Addons
 
 To activate the embedded addons, the user needs to use the new [Addons API][addons-api].
 
@@ -124,7 +124,7 @@ addons:
 
 [Up to date (and possibly unreleased yet) list of addons.][addons-list-url]
 
-### Overriding Embedded Eddons
+### Overriding Embedded Addons
 
 Some of those embedded addons used to be written in Go structures form. Now
 KubeOne has them in YAML form so those addons are easier to maintain and to let

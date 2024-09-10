@@ -44,7 +44,7 @@ the cluster details.
 
 ## Limits
 
-![](/img/kubermatic/main/ui/interface_limits.png?height=250px&classes=shadow,border)
+![](/img/kubermatic/v2.22/ui/interface_limits.png?height=250px&classes=shadow,border)
 - ### [User Projects Limit](#user-projects-limit)
 
 - ### [Resource Filter](#resource-filter)

@@ -1,0 +1,9 @@
+{
+  "1.1.12": ["Pass", "KubeOne runs etcd cluster as containers and there is not a `etcd` user and group on the system"],
+  "1.2.9": ["Fail", "EventRateLimit admission control plugin in in Alpha state, please see [here][eventratelimit]. Supporting Alpha features is under consideration."],
+  "1.2.12": ["Fail", "SecurityContextDeny admission control plugin is deprecated as of [Kubernetes 1.27][securitycontextdeny], hence it is not enabled."],
+  "1.2.21": ["Pass","The timeout is set to 60 seconds by default. Setting this timeout limit to be too large can exhaust the API server resources making it prone to Denial-of-Service attack."],
+  "4.1.3": ["Pass", "KubeOne does not contain `/etc/kubernetes/proxy.conf` file"],
+  "4.1.4": ["Pass", "KubeOne does not contain `/etc/kubernetes/proxy.conf` file"],
+  "4.2.9": ["Pass", "`--tls-cert-file` and `--tls-private-key-file` options are provided to Kubelet"]
+}

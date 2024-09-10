@@ -55,7 +55,7 @@ After the secrets are created, the MLA stack can be deployed by using the helper
 
 This will deploy all MLA stack components with the default settings, which may be sufficient for smaller scale setups (several user clusters). If any customization is needed for any of the components, the steps in the helper script can be manually reproduced with tweaked Helm values. See the “Setup Customization” section for more information.
 
-Also, this will deploy a MinIO instance which will be used by MLA components for storage. If you would like to re-use an existing MinIO instance in your cluster or other S3-compatible srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatible Services](#setting-up-mla-with-existing-minio-or-other-s3-compatible-services).
+Also, this will deploy a MinIO instance which will be used by MLA components for storage. If you would like to reuse an existing MinIO instance in your cluster or other S3-compatible srevices from cloud providers, please refer to [Setting up MLA with Existing MinIO or Other S3-compatible Services](#setting-up-mla-with-existing-minio-or-other-s3-compatible-services).
 
 #### Setup Seed Cluster Components for High Availability
 
@@ -78,7 +78,7 @@ Let's start with preparing the values.yaml for the IAP Helm Chart. A starting po
 - Modify the base domain under which your KKP installation is available (`kkp.example.com` in `iap.oidc_issuer_url`).
 - Modify the base domain, seed name and Grafana prefix as described above (`grafana.seed-cluster-x.kkp.example.com` in `iap.deployments.grafana.ingress.host`).
 - Set `iap.deployments.grafana.client_secret` + `iap.deployments.grafana.encryption_key` and `iap.deployments.alertmanager.client_secret` + `iap.deployments.alertmanager.encryption_key` to the newly generated key values (they can be generated e.g. with `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`).
-- Configure how the users should be authenticated in `iap.deployments.grafana.config` and `iap.deployments.alertmanager.config` (e.g. modify `YOUR_GITHUB_ORG` and `YOUR_GITHUB_TEAM` placeholders). Please check the [OAuth Provider Configuration](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider/) for more details.
+- Configure how the users should be authenticated in `iap.deployments.grafana.config` and `iap.deployments.alertmanager.config` (e.g. modify `YOUR_GITHUB_ORG` and `YOUR_GITHUB_TEAM` placeholders). Please check the [OAuth Provider Configuration](https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/) for more details.
 - Make the corresponding changes for the Alertmanager config as well.
 
 It is also necessary to set up your infrastructure accordingly:

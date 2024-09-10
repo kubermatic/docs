@@ -1,6 +1,6 @@
 +++
 title = "v1beta2 API Reference"
-date = 2023-07-27T16:41:55+03:00
+date = 2024-08-15T09:52:25+01:00
 weight = 11
 +++
 ## v1beta2
@@ -10,7 +10,6 @@ weight = 11
 * [Addon](#addon)
 * [Addons](#addons)
 * [AzureSpec](#azurespec)
-* [BinaryAsset](#binaryasset)
 * [CNI](#cni)
 * [CanalSpec](#canalspec)
 * [CiliumSpec](#ciliumspec)
@@ -22,6 +21,8 @@ weight = 11
 * [ContainerdRegistry](#containerdregistry)
 * [ContainerdRegistryAuthConfig](#containerdregistryauthconfig)
 * [ContainerdTLSConfig](#containerdtlsconfig)
+* [ControlPlaneComponentConfig](#controlplanecomponentconfig)
+* [ControlPlaneComponents](#controlplanecomponents)
 * [ControlPlaneConfig](#controlplaneconfig)
 * [CoreDNS](#coredns)
 * [DNSConfig](#dnsconfig)
@@ -39,7 +40,6 @@ weight = 11
 * [HostConfig](#hostconfig)
 * [IPTables](#iptables)
 * [IPVSConfig](#ipvsconfig)
-* [ImageAsset](#imageasset)
 * [KubeOneCluster](#kubeonecluster)
 * [KubeProxyConfig](#kubeproxyconfig)
 * [KubeletConfig](#kubeletconfig)
@@ -64,6 +64,7 @@ weight = 11
 * [StaticAuditLogConfig](#staticauditlogconfig)
 * [StaticWorkersConfig](#staticworkersconfig)
 * [SystemPackages](#systempackages)
+* [TLSCipherSuites](#tlsciphersuites)
 * [VMwareCloudDirectorSpec](#vmwareclouddirectorspec)
 * [VersionConfig](#versionconfig)
 * [VsphereSpec](#vspherespec)
@@ -122,16 +123,6 @@ AzureSpec defines the Azure cloud provider
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-
-[Back to Group](#v1beta2)
-
-### BinaryAsset
-
-BinaryAsset is used to customize the URL of the binary asset
-
-| Field | Description | Scheme | Required |
-| ----- | ----------- | ------ | -------- |
-| url | URL from where to download the binary | string | false |
 
 [Back to Group](#v1beta2)
 
@@ -281,6 +272,29 @@ Configures containerd TLS for a registry
 
 [Back to Group](#v1beta2)
 
+### ControlPlaneComponentConfig
+
+
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| flags | Flags is a set of additional flags that will be passed to the control plane component. KubeOne internally configures some flags that are eseeential for the cluster to work. Those flags set by KubeOne will be merged with the ones specified in the configuration. In case of conflict the value provided by the user will be used. Usage of `feature-gates` is not allowed here, use `FeatureGates` field instead. IMPORTANT: Use of these flags is at the user's own risk, as KubeOne does not provide support for issues caused by invalid values and configurations. | map[string]string | false |
+| featureGates | FeatureGates is a map of additional feature gates that will be passed on to the control plane component. KubeOne internally configures some feature gates that are eseeential for the cluster to work. Those feature gates set by KubeOne will be merged with the ones specified in the configuration. In case of conflict the value provided by the user will be used. IMPORTANT: Use of these featureGates is at the user's own risk, as KubeOne does not provide support for issues caused by invalid values and configurations. | map[string]bool | false |
+
+[Back to Group](#v1beta2)
+
+### ControlPlaneComponents
+
+
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| controllerManager | ControllerManagerConfig configures the Kubernetes Controller Manager | *[ControlPlaneComponentConfig](#controlplanecomponentconfig) | false |
+| scheduler | Scheduler configures the Kubernetes Scheduler | *[ControlPlaneComponentConfig](#controlplanecomponentconfig) | false |
+| apiServer | APIServer configures the Kubernetes API Server | *[ControlPlaneComponentConfig](#controlplanecomponentconfig) | false |
+
+[Back to Group](#v1beta2)
+
 ### ControlPlaneConfig
 
 ControlPlaneConfig defines control plane nodes
@@ -413,6 +427,8 @@ GCESpec defines the GCE cloud provider
 | version | Version is --version flag of the `helm upgrade` command. Specify the exact chart version to use. If this is not specified, the latest version is used. | string | false |
 | releaseName | ReleaseName is [RELEASE] part of the `helm upgrade [RELEASE] [CHART]` command. Empty is defaulted to chart. | string | false |
 | namespace | Namespace is --namespace flag of the `helm upgrade` command. A namespace to use for a release. | string | true |
+| wait | Wait is --wait flag of the `helm install` command. | bool | false |
+| timeout | WaitTimeout --timeout flag of the `helm install` command. | metav1.Duration | false |
 | values | Values provide optional overrides of the helm values. | [][HelmValues](#helmvalues) | false |
 
 [Back to Group](#v1beta2)
@@ -440,7 +456,7 @@ HetznerSpec defines the Hetzner cloud provider
 
 ### HostConfig
 
-HostConfig describes a single control plane node.
+HostConfig describes a single control plane or worker node.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
@@ -450,6 +466,7 @@ HostConfig describes a single control plane node.
 | sshPort | SSHPort is port to connect ssh to. Default value is 22. | int | false |
 | sshUsername | SSHUsername is system login name. Default value is \"root\". | string | false |
 | sshPrivateKeyFile | SSHPrivateKeyFile is path to the file with PRIVATE AND CLEANTEXT ssh key. Default value is \"\". | string | false |
+| sshCertFile | SSHCertFile is path to the file with the certificate of the private key. Default value is \"\". | string | false |
 | sshHostPublicKey | SSHHostPublicKey if not empty, will be used to verify remote host public key | []byte | false |
 | sshAgentSocket | SSHAgentSocket path (or reference to the environment) to the SSH agent unix domain socket. Default value is \"env:SSH_AUTH_SOCK\". | string | false |
 | bastion | Bastion is an IP or hostname of the bastion (or jump) host to connect to. Default value is \"\". | string | false |
@@ -458,7 +475,7 @@ HostConfig describes a single control plane node.
 | bastionHostPublicKey | BastionHostPublicKey if not empty, will be used to verify bastion SSH public key | []byte | false |
 | hostname | Hostname is the hostname(1) of the host. Default value is populated at the runtime via running `hostname -f` command over ssh. | string | false |
 | isLeader | IsLeader indicates this host as a session leader. Default value is populated at the runtime. | bool | false |
-| taints | Taints are taints applied to nodes. Those taints are only applied when the node is being provisioned. If not provided (i.e. nil) for control plane nodes, it defaults to:\n  * For Kubernetes 1.23 and older: TaintEffectNoSchedule with key node-role.kubernetes.io/master\n  * For Kubernetes 1.24 and newer: TaintEffectNoSchedule with keys\n    node-role.kubernetes.io/control-plane and node-role.kubernetes.io/master\nExplicitly empty (i.e. []corev1.Taint{}) means no taints will be applied (this is default for worker nodes). | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#taint-v1-core) | false |
+| taints | Taints are taints applied to nodes. Those taints are only applied when the node is being provisioned. If not provided (i.e. nil) for control plane nodes, it defaults to TaintEffectNoSchedule with key\n    node-role.kubernetes.io/control-plane\nExplicitly empty (i.e. []corev1.Taint{}) means no taints will be applied (this is default for worker nodes). | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#taint-v1-core) | false |
 | labels | Labels to be used to apply (or remove, with minus symbol suffix, see more kubectl help label) labels to/from node | map[string]string | false |
 | kubelet | Kubelet | [KubeletConfig](#kubeletconfig) | false |
 | operatingSystem | OperatingSystem information, can be populated at the runtime. | OperatingSystemName | false |
@@ -489,17 +506,6 @@ IPVSConfig contains different options to configure IPVS kube-proxy mode
 
 [Back to Group](#v1beta2)
 
-### ImageAsset
-
-ImageAsset is used to customize the image repository and the image tag
-
-| Field | Description | Scheme | Required |
-| ----- | ----------- | ------ | -------- |
-| imageRepository | ImageRepository customizes the registry/repository | string | false |
-| imageTag | ImageTag customizes the image tag | string | false |
-
-[Back to Group](#v1beta2)
-
 ### KubeOneCluster
 
 KubeOneCluster is KubeOne Cluster API Schema
@@ -525,6 +531,8 @@ KubeOneCluster is KubeOne Cluster API Schema
 | systemPackages | SystemPackages configure kubeone behaviour regarding OS packages. | *[SystemPackages](#systempackages) | false |
 | registryConfiguration | RegistryConfiguration configures how Docker images are pulled from an image registry | *[RegistryConfiguration](#registryconfiguration) | false |
 | loggingConfig | LoggingConfig configures the Kubelet's log rotation | [LoggingConfig](#loggingconfig) | false |
+| tlsCipherSuites | TLSCipherSuites allows to configure TLS cipher suites for different components. See https://pkg.go.dev/crypto/tls#pkg-constants for possible values. | [TLSCipherSuites](#tlsciphersuites) | true |
+| controlPlaneComponents | ControlPlaneComponents configures the Kubernetes control plane components | *[ControlPlaneComponents](#controlplanecomponents) | false |
 
 [Back to Group](#v1beta2)
 
@@ -793,6 +801,18 @@ SystemPackages controls configurations of APT/YUM
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | configureRepositories | ConfigureRepositories (true by default) is a flag to control automatic configuration of kubeadm / docker repositories. | bool | false |
+
+[Back to Group](#v1beta2)
+
+### TLSCipherSuites
+
+
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| apiServer | APIServer is a list of TLS cipher suites to use in kube-apiserver. | []string | false |
+| etcd | Etcd is a list of TLS cipher suites to use in etcd. | []string | false |
+| kubelet | Kubelet is a list of TLS cipher suites to use in kubelet. | []string | false |
 
 [Back to Group](#v1beta2)
 

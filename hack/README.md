@@ -21,7 +21,7 @@ Usage:
   prepare-release.sh -p <PRODUCT> -v <VERSION>
 
 Flags:
-  -p    Product selection. One of 'kubermatic', 'kubeone', 'kubecarrier'. (env: PRODUCT)
+  -p    Product selection. One of 'kubermatic', 'kubeone'. (env: PRODUCT)
   -v    Version of the upcoming release. (env: VERSION)
   -k    Location of kubermatic/kubermatic working copy. (env: KUBERMATIC_DIR, default: '../kubermatic')
   -h    Print this help.

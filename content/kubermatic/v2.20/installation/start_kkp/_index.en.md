@@ -4,7 +4,7 @@ weight = 1
 
 +++
 
-![Kubermatic Kubernetes Platform logo](/img/KubermaticKubernetesPlatform-logo.jpg)
+![Kubermatic Kubernetes Platform logo](/img/logo-kubermatic.jpg)
 
 ## What is [start.kubermatic](https://start.kubermatic.com)?
 

@@ -1,5 +1,6 @@
 +++
 title = "Service Account Token Volume Projection"
+linktitle = "Token Volume Projection"
 date = 2021-01-21T13:05:00+02:00
 weight = 140
 
@@ -61,7 +62,7 @@ The following table summarizes the supported properties of the `ServiceAccountSe
 ### Example: Configuration using a Request to KKP API
 To configure the feature in an existing cluster, execute a `PATCH` request to URL:
 
-`https://<your-kubermatic-domain>/api/v1/projects/<project-id>/dc/<datacenter-name>/clusters/<cluster-id>` 
+`https://<your-kubermatic-domain>/api/v1/projects/<project-id>/dc/<datacenter-name>/clusters/<cluster-id>`
 
 with the following content:
 

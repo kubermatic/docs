@@ -10,7 +10,7 @@
   ],
   "swagger": "2.0",
   "info": {
-    "description": "This OpenAPI 2.0 specification describes the REST APIs used by the Kubermatic Kubernetes Platform Dashboard.\n\nKKP API is an **internal API** that is built primarily to complement the KKP dashboard. Our users are strongly advised to use Kubernetes APIs i.e. [KKP CRDs](https://docs.kubermatic.com/kubermatic/v2.22/references/crds/) to interact with and integrate KKP into their own platforms.\n\nSince KKP API is **not a public API**, users can expect breaking changes without any formal announcements.",
+    "description": "This OpenAPI 2.0 specification describes the REST APIs used by the Kubermatic Kubernetes Platform Dashboard.",
     "title": "Kubermatic Kubernetes Platform API",
     "version": "2.23"
   },
@@ -1583,6 +1583,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "Spec": {
+                  "$ref": "#/definitions/ProjectSpec"
+                },
                 "labels": {
                   "type": "object",
                   "additionalProperties": {
@@ -6550,6 +6553,55 @@
             }
           }
         }
+      },
+      "patch": {
+        "description": "Patch the given ApplicationDefinition",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "applications"
+        ],
+        "operationId": "patchApplicationDefinition",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AppDefName",
+            "name": "appdef_name",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Patch",
+            "in": "body",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationDefinition",
+            "schema": {
+              "$ref": "#/definitions/ApplicationDefinition"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/empty"
+          },
+          "403": {
+            "$ref": "#/responses/empty"
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
       }
     },
     "/api/v2/cni/{cni_plugin_type}/versions": {
@@ -7147,6 +7199,12 @@
             "x-go-name": "Disabled",
             "name": "disabled",
             "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Name",
+            "name": "name",
+            "in": "query"
           }
         ],
         "responses": {
@@ -7355,6 +7413,245 @@
         "responses": {
           "200": {
             "$ref": "#/responses/empty"
+          },
+          "401": {
+            "$ref": "#/responses/empty"
+          },
+          "403": {
+            "$ref": "#/responses/empty"
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/clusterbackupstoragelocation": {
+      "get": {
+        "description": "List cluster backup storage location for a given project",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "project"
+        ],
+        "operationId": "listClusterBackupStorageLocation",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ClusterBackupStorageLocation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ClusterBackupStorageLocation"
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/responses/empty"
+          },
+          "403": {
+            "$ref": "#/responses/empty"
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates a cluster backup storage location that will belong to the given project",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "project"
+        ],
+        "operationId": "createClusterBackupStorageLocation",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CbslBody"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ClusterBackupStorageLocation",
+            "schema": {
+              "$ref": "#/definitions/ClusterBackupStorageLocation"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/empty"
+          },
+          "403": {
+            "$ref": "#/responses/empty"
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/clusterbackupstoragelocation/{cbs_name}": {
+      "get": {
+        "description": "Gets a cluster backup storage location for a given project based on its name",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "project"
+        ],
+        "operationId": "getClusterBackupStorageLocation",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ClusterBackupStorageLocationName",
+            "name": "cbs_name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ClusterBackupStorageLocation",
+            "schema": {
+              "$ref": "#/definitions/ClusterBackupStorageLocation"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/empty"
+          },
+          "403": {
+            "$ref": "#/responses/empty"
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes a cluster backup storage location for a given project based on its name",
+        "tags": [
+          "project"
+        ],
+        "operationId": "deleteClusterBackupStorageLocation",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ClusterBackupStorageLocationName",
+            "name": "cbs_name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/empty"
+          },
+          "401": {
+            "$ref": "#/responses/empty"
+          },
+          "403": {
+            "$ref": "#/responses/empty"
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Patches a cluster backup storage location for a given project based on its name",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "project"
+        ],
+        "operationId": "patchClusterBackupStorageLocation",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ClusterBackupStorageLocationName",
+            "name": "cbs_name",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CbslBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ClusterBackupStorageLocation",
+            "schema": {
+              "$ref": "#/definitions/ClusterBackupStorageLocation"
+            }
           },
           "401": {
             "$ref": "#/responses/empty"
@@ -8430,6 +8727,61 @@
               "items": {
                 "$ref": "#/definitions/RoleBinding"
               }
+            }
+          },
+          "401": {
+            "$ref": "#/responses/empty"
+          },
+          "403": {
+            "$ref": "#/responses/empty"
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/clusters/{cluster_id}/clusterbackup/{cluster_backup}/downloadurl": {
+      "post": {
+        "description": "Creates and get download url for a backup that belong to the given cluster",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "project"
+        ],
+        "operationId": "postBackupDownloadUrl",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ClusterID",
+            "name": "cluster_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ClusterBackup",
+            "name": "cluster_backup",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "BackupDownloadUrl",
+            "schema": {
+              "$ref": "#/definitions/BackupDownloadUrl"
             }
           },
           "401": {
@@ -10358,6 +10710,61 @@
         }
       }
     },
+    "/api/v2/projects/{project_id}/clusters/{cluster_id}/machinedeployments/{machinedeployment_id}/joiningscript": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "project"
+        ],
+        "summary": "Gets a machine deployment joining script for the edge provider.",
+        "operationId": "getMachineDeploymentJoinScript",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ClusterID",
+            "name": "cluster_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "MachineDeploymentID",
+            "name": "machinedeployment_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JoiningScript",
+            "schema": {
+              "$ref": "#/definitions/JoiningScript"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/empty"
+          },
+          "403": {
+            "$ref": "#/responses/empty"
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
     "/api/v2/projects/{project_id}/clusters/{cluster_id}/machinedeployments/{machinedeployment_id}/nodes": {
       "get": {
         "produces": [
@@ -11232,6 +11639,48 @@
             "description": "AlibabaZoneList",
             "schema": {
               "$ref": "#/definitions/AlibabaZoneList"
+            }
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/clusters/{cluster_id}/providers/anexia/disk-types": {
+      "get": {
+        "description": "Lists disk-types from Anexia",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "anexia"
+        ],
+        "operationId": "listAnexiaDiskTypesNoCredentialsV2",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ClusterID",
+            "name": "cluster_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AnexiaDiskTypeList",
+            "schema": {
+              "$ref": "#/definitions/AnexiaDiskTypeList"
             }
           },
           "default": {
@@ -12885,6 +13334,51 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/VSphereTag"
+              }
+            }
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/clusters/{cluster_id}/providers/vsphere/vmgroups": {
+      "get": {
+        "description": "Lists VM groups from vsphere datacenter",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vsphere"
+        ],
+        "operationId": "listVSphereVMGroupsNoCredentials",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ClusterID",
+            "name": "cluster_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "VSphereVMGroup",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/VSphereVMGroup"
               }
             }
           },
@@ -16548,6 +17042,12 @@
             "x-go-name": "Disabled",
             "name": "disabled",
             "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Name",
+            "name": "name",
+            "in": "query"
           }
         ],
         "responses": {
@@ -17072,6 +17572,56 @@
             "description": "AlibabaZoneList",
             "schema": {
               "$ref": "#/definitions/AlibabaZoneList"
+            }
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/providers/anexia/disk-types": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "anexia"
+        ],
+        "summary": "Lists disk-types from Anexia.",
+        "operationId": "listProjectAnexiaDiskTypes",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "Token",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "Credential",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "Location",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AnexiaDiskTypeList",
+            "schema": {
+              "$ref": "#/definitions/AnexiaDiskTypeList"
             }
           },
           "default": {
@@ -21266,6 +21816,61 @@
         }
       }
     },
+    "/api/v2/projects/{project_id}/providers/vsphere/vmgroups": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vsphere"
+        ],
+        "summary": "Lists VM Groups from vSphere datacenter.",
+        "operationId": "listProjectVSphereVMGroups",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "Username",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "Password",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "DatacenterName",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "Credential",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "VSphereVMGroupList",
+            "schema": {
+              "$ref": "#/definitions/VSphereVMGroupList"
+            }
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
     "/api/v2/projects/{project_id}/providers/{provider_name}/presets": {
       "get": {
         "description": "Lists presets for the provider in a specific project",
@@ -21288,6 +21893,12 @@
             "type": "boolean",
             "x-go-name": "Disabled",
             "name": "disabled",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Name",
+            "name": "name",
             "in": "query"
           },
           {
@@ -22048,6 +22659,41 @@
             "description": "AzureVirtualNetworksList",
             "schema": {
               "$ref": "#/definitions/AzureVirtualNetworksList"
+            }
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/providers/baremetal/tinkerbell/dc/{dc}/images": {
+      "get": {
+        "description": "List Tinkerbell images",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "tinkerbell"
+        ],
+        "operationId": "listTinkerbellImages",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "DC",
+            "name": "dc",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TinkerbellImagesList",
+            "schema": {
+              "$ref": "#/definitions/TinkerbellImagesList"
             }
           },
           "default": {
@@ -23682,6 +24328,54 @@
         }
       }
     },
+    "/api/v2/providers/vsphere/vmgroups": {
+      "get": {
+        "description": "Lists VM Groups from vsphere datacenter",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "vsphere"
+        ],
+        "operationId": "listVSphereVMGroups",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Username",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "Password",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "DatacenterName",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "Credential",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "VSphereVMGroupList",
+            "schema": {
+              "$ref": "#/definitions/VSphereVMGroupList"
+            }
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
     "/api/v2/providers/{provider_name}/dc/{dc}/defaultcluster": {
       "get": {
         "produces": [
@@ -23793,6 +24487,12 @@
             "type": "boolean",
             "x-go-name": "Disabled",
             "name": "disabled",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Name",
+            "name": "name",
             "in": "query"
           },
           {
@@ -26451,12 +27151,30 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
+    "AnexiaDiskType": {
+      "type": "object",
+      "title": "AnexiaDiskType represents a object of Anexia Disk Type.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
+    },
+    "AnexiaDiskTypeList": {
+      "type": "array",
+      "title": "AnexiaDiskTypeList represents an array of Anexia Disk Types.",
+      "items": {
+        "$ref": "#/definitions/AnexiaDiskType"
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
+    },
     "AnexiaNodeSpec": {
       "description": "AnexiaNodeSpec anexia specific node settings",
       "type": "object",
       "required": [
         "vlanID",
-        "templateID",
         "cpus",
         "memory"
       ],
@@ -26487,6 +27205,16 @@
           "format": "int64",
           "x-go-name": "Memory"
         },
+        "template": {
+          "description": "Template instance template",
+          "type": "string",
+          "x-go-name": "Template"
+        },
+        "templateBuild": {
+          "description": "TemplateBuild instance template",
+          "type": "string",
+          "x-go-name": "TemplateBuild"
+        },
         "templateID": {
           "description": "TemplateID instance template",
           "type": "string",
@@ -26504,9 +27232,17 @@
       "type": "object",
       "title": "AnexiaTemplate represents a object of Anexia template.",
       "properties": {
+        "build": {
+          "type": "string",
+          "x-go-name": "Build"
+        },
         "id": {
           "type": "string",
           "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
         }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
@@ -26681,6 +27417,20 @@
       "type": "object",
       "title": "ApplicationDefinitionListItem is the object representing an ApplicationDefinitionListItem.",
       "properties": {
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Annotations"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Labels"
+        },
         "name": {
           "type": "string",
           "x-go-name": "Name"
@@ -26695,18 +27445,53 @@
       "type": "object",
       "title": "ApplicationDefinitionListItemSpec defines the desired state of ApplicationDefinitionListItemSpec.",
       "properties": {
+        "default": {
+          "description": "Default specifies if the application should be installed by default when a new user cluster is created. Default applications are\nnot enforced and users can update/delete them. KKP will only install them during cluster creation if the user didn't explicitly\nopt out from installing default applications.",
+          "type": "boolean",
+          "x-go-name": "Default"
+        },
+        "defaultVersion": {
+          "description": "DefaultVersion of the application to use, if not specified the latest available version will be used.",
+          "type": "string",
+          "x-go-name": "DefaultVersion"
+        },
         "description": {
           "description": "Description of the application. what is its purpose",
           "type": "string",
           "x-go-name": "Description"
         },
-        "labels": {
-          "description": "Labels can contain metadata about the application, such as the owner who manages it.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "x-go-name": "Labels"
+        "displayName": {
+          "description": "DisplayName is the name for the application that will be displayed in the UI.",
+          "type": "string",
+          "x-go-name": "DisplayName"
+        },
+        "documentationURL": {
+          "description": "DocumentationURL holds a link to official documentation of the Application\nAlternatively this can be a link to the Readme of a chart in a git repository",
+          "type": "string",
+          "x-go-name": "DocumentationURL"
+        },
+        "enforced": {
+          "description": "Enforced specifies if the application is enforced to be installed on the user clusters. Enforced applications are\ninstalled/updated by KKP for the user clusters. Users are not allowed to update/delete them. KKP will revert the changes\ndone by the application to the desired state specified in the ApplicationDefinition.",
+          "type": "boolean",
+          "x-go-name": "Enforced"
+        },
+        "logo": {
+          "description": "Logo of the Application as a base64 encoded svg",
+          "type": "string",
+          "x-go-name": "Logo"
+        },
+        "logoFormat": {
+          "description": "LogoFormat contains logo format of the configured Application. Options are \"svg+xml\" and \"png\"\n+kubebuilder:validation:Enum=svg+xml;png",
+          "type": "string",
+          "x-go-name": "LogoFormat"
+        },
+        "selector": {
+          "$ref": "#/definitions/DefaultingSelector"
+        },
+        "sourceURL": {
+          "description": "SourceURL holds a link to the official source code mirror or git repository of the application",
+          "type": "string",
+          "x-go-name": "SourceURL"
         }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
@@ -26715,19 +27500,67 @@
       "type": "object",
       "title": "ApplicationDefinitionSpec defines the desired state of ApplicationDefinition.",
       "properties": {
+        "default": {
+          "description": "Default specifies if the application should be installed by default when a new user cluster is created. Default applications are\nnot enforced and users can update/delete them. KKP will only install them during cluster creation if the user didn't explicitly\nopt out from installing default applications.\n+optional",
+          "type": "boolean",
+          "x-go-name": "Default"
+        },
         "defaultDeployOptions": {
           "$ref": "#/definitions/DeployOptions"
         },
         "defaultValues": {
           "$ref": "#/definitions/RawExtension"
         },
+        "defaultValuesBlock": {
+          "description": "DefaultValuesBlock specifies default values for the UI which are passed to helm templating when creating an application. Comments are preserved.",
+          "type": "string",
+          "x-go-name": "DefaultValuesBlock"
+        },
+        "defaultVersion": {
+          "description": "DefaultVersion of the application to use, if not specified the latest available version will be used.\n+optional",
+          "type": "string",
+          "x-go-name": "DefaultVersion"
+        },
         "description": {
           "description": "Description of the application. what is its purpose",
           "type": "string",
           "x-go-name": "Description"
         },
+        "displayName": {
+          "description": "DisplayName is the name for the application that will be displayed in the UI.",
+          "type": "string",
+          "x-go-name": "DisplayName"
+        },
+        "documentationURL": {
+          "description": "DocumentationURL holds a link to official documentation of the Application\nAlternatively this can be a link to the Readme of a chart in a git repository",
+          "type": "string",
+          "x-go-name": "DocumentationURL"
+        },
+        "enforced": {
+          "description": "Enforced specifies if the application is enforced to be installed on the user clusters. Enforced applications are\ninstalled/updated by KKP for the user clusters. Users are not allowed to update/delete them. KKP will revert the changes\ndone by the application to the desired state specified in the ApplicationDefinition.\n+optional",
+          "type": "boolean",
+          "x-go-name": "Enforced"
+        },
+        "logo": {
+          "description": "Logo of the Application as a base64 encoded svg",
+          "type": "string",
+          "x-go-name": "Logo"
+        },
+        "logoFormat": {
+          "description": "LogoFormat contains logo format of the configured Application. Options are \"svg+xml\" and \"png\"\n+kubebuilder:validation:Enum=svg+xml;png",
+          "type": "string",
+          "x-go-name": "LogoFormat"
+        },
         "method": {
           "$ref": "#/definitions/TemplateMethod"
+        },
+        "selector": {
+          "$ref": "#/definitions/DefaultingSelector"
+        },
+        "sourceURL": {
+          "description": "SourceURL holds a link to the official source code mirror or git repository of the application",
+          "type": "string",
+          "x-go-name": "SourceURL"
         },
         "versions": {
           "description": "Available version for this application",
@@ -26890,6 +27723,13 @@
       "type": "object",
       "title": "ApplicationInstallationListItem is the object representing an ApplicationInstallationListItem.",
       "properties": {
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Annotations"
+        },
         "creationTimestamp": {
           "type": "string",
           "x-go-name": "CreationTimestamp"
@@ -26968,6 +27808,11 @@
         },
         "values": {
           "$ref": "#/definitions/RawExtension"
+        },
+        "valuesBlock": {
+          "description": "ValuesBlock specifies values overrides that are passed to helm templating. Comments are preserved.",
+          "type": "string",
+          "x-go-name": "ValuesBlock"
         }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
@@ -27032,9 +27877,14 @@
           "$ref": "#/definitions/NamespaceSpec"
         },
         "values": {
-          "description": "Values describe overrides for manifest-rendering",
+          "description": "Values specify values overrides that are passed to helm templating. Comments are not preserved.\nDeprecated: Use ValuesBlock instead.",
           "type": "object",
           "x-go-name": "Values"
+        },
+        "valuesBlock": {
+          "description": "ValuesBlock specifies values overrides that are passed to helm templating. Comments are preserved.",
+          "type": "string",
+          "x-go-name": "ValuesBlock"
         }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
@@ -27079,6 +27929,9 @@
         },
         "sidecar": {
           "$ref": "#/definitions/AuditSidecarSettings"
+        },
+        "webhookBackend": {
+          "$ref": "#/definitions/AuditWebhookBackendSettings"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -27131,6 +27984,21 @@
         },
         "resources": {
           "$ref": "#/definitions/ResourceRequirements"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "AuditWebhookBackendSettings": {
+      "type": "object",
+      "title": "AuditWebhookBackendSettings configures webhook backend for audit logging functionality.",
+      "properties": {
+        "auditWebhookConfig": {
+          "$ref": "#/definitions/SecretReference"
+        },
+        "auditWebhookInitialBackoff": {
+          "description": "+kubebuilder:default=\"10s\"",
+          "type": "string",
+          "x-go-name": "AuditWebhookInitialBackoff"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -27505,6 +28373,15 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
+    "BackupConfig": {
+      "type": "object",
+      "properties": {
+        "backupStorageLocation": {
+          "$ref": "#/definitions/LocalObjectReference"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
     "BackupCredentials": {
       "description": "BackupCredentials contains credentials for etcd backups",
       "type": "object",
@@ -27545,6 +28422,17 @@
       "title": "BackupDestinationNames represents an list of backup destination names.",
       "items": {
         "type": "string"
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "BackupDownloadUrl": {
+      "type": "object",
+      "title": "BackupDownloadUrl is the object representing a Backup Download URL.",
+      "properties": {
+        "downloadURL": {
+          "type": "string",
+          "x-go-name": "DownloadURL"
+        }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
     },
@@ -27609,6 +28497,131 @@
     "BackupStatusPhase": {
       "type": "string",
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "BackupStorageLocationAccessMode": {
+      "description": "+kubebuilder:validation:Enum=ReadOnly;ReadWrite",
+      "type": "string",
+      "title": "BackupStorageLocationAccessMode represents the permissions for a BackupStorageLocation.",
+      "x-go-package": "github.com/vmware-tanzu/velero/pkg/apis/velero/v1"
+    },
+    "BackupStorageLocationPhase": {
+      "description": "+kubebuilder:validation:Enum=Available;Unavailable\n+kubebuilder:default=Unavailable",
+      "type": "string",
+      "title": "BackupStorageLocationPhase is the lifecycle phase of a Velero BackupStorageLocation.",
+      "x-go-package": "github.com/vmware-tanzu/velero/pkg/apis/velero/v1"
+    },
+    "BackupStorageLocationSpec": {
+      "description": "BackupStorageLocationSpec defines the desired state of a Velero BackupStorageLocation",
+      "type": "object",
+      "properties": {
+        "accessMode": {
+          "$ref": "#/definitions/BackupStorageLocationAccessMode"
+        },
+        "backupSyncPeriod": {
+          "$ref": "#/definitions/Duration"
+        },
+        "config": {
+          "description": "Config is for provider-specific configuration fields.\n+optional",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Config"
+        },
+        "credential": {
+          "$ref": "#/definitions/SecretKeySelector"
+        },
+        "default": {
+          "description": "Default indicates this location is the default backup storage location.\n+optional",
+          "type": "boolean",
+          "x-go-name": "Default"
+        },
+        "objectStorage": {
+          "$ref": "#/definitions/ObjectStorageLocation"
+        },
+        "provider": {
+          "description": "Provider is the provider of the backup storage.",
+          "type": "string",
+          "x-go-name": "Provider"
+        },
+        "validationFrequency": {
+          "$ref": "#/definitions/Duration"
+        }
+      },
+      "x-go-package": "github.com/vmware-tanzu/velero/pkg/apis/velero/v1"
+    },
+    "BackupStorageLocationStatus": {
+      "description": "BackupStorageLocationStatus defines the observed state of BackupStorageLocation",
+      "type": "object",
+      "properties": {
+        "accessMode": {
+          "$ref": "#/definitions/BackupStorageLocationAccessMode"
+        },
+        "lastSyncedRevision": {
+          "$ref": "#/definitions/UID"
+        },
+        "lastSyncedTime": {
+          "description": "LastSyncedTime is the last time the contents of the location were synced into\nthe cluster.\n+optional\n+nullable",
+          "type": "string",
+          "x-go-name": "LastSyncedTime"
+        },
+        "lastValidationTime": {
+          "description": "LastValidationTime is the last time the backup store location was validated\nthe cluster.\n+optional\n+nullable",
+          "type": "string",
+          "x-go-name": "LastValidationTime"
+        },
+        "message": {
+          "description": "Message is a message about the backup storage location's status.\n+optional",
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "phase": {
+          "$ref": "#/definitions/BackupStorageLocationPhase"
+        }
+      },
+      "x-go-package": "github.com/vmware-tanzu/velero/pkg/apis/velero/v1"
+    },
+    "Baremetal": {
+      "type": "object",
+      "properties": {
+        "datacenter": {
+          "description": "If datacenter is set, this preset is only applicable to the\nconfigured datacenter.",
+          "type": "string",
+          "x-go-name": "Datacenter"
+        },
+        "enabled": {
+          "description": "Only enabled presets will be available in the KKP dashboard.",
+          "type": "boolean",
+          "x-go-name": "Enabled"
+        },
+        "tinkerbell": {
+          "$ref": "#/definitions/Tinkerbell"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "BaremetalCloudSpec": {
+      "type": "object",
+      "title": "BaremetalCloudSpec specifies access data for a baremetal cluster.",
+      "properties": {
+        "credentialsReference": {
+          "$ref": "#/definitions/GlobalSecretKeySelector"
+        },
+        "tinkerbell": {
+          "$ref": "#/definitions/TinkerbellCloudSpec"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "BaremetalNodeSpec": {
+      "description": "BaremetalNodeSpec baremetal specific node settings",
+      "type": "object",
+      "properties": {
+        "tinkerbell": {
+          "$ref": "#/definitions/TinkerbellNodeSpec"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
     "BringYourOwnCloudSpec": {
       "type": "object",
@@ -27710,6 +28723,23 @@
       },
       "x-go-package": "github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1"
     },
+    "CbslBody": {
+      "type": "object",
+      "properties": {
+        "cbslSpec": {
+          "$ref": "#/definitions/BackupStorageLocationSpec"
+        },
+        "credentials": {
+          "$ref": "#/definitions/S3BackupCredentials"
+        },
+        "name": {
+          "description": "Name of the cluster backup",
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/ee/clusterbackup/storage-location"
+    },
     "CentOSSpec": {
       "type": "object",
       "title": "CentOSSpec contains CentOS specific settings.",
@@ -27754,6 +28784,9 @@
         "azure": {
           "$ref": "#/definitions/AzureCloudSpec"
         },
+        "baremetal": {
+          "$ref": "#/definitions/BaremetalCloudSpec"
+        },
         "bringyourown": {
           "$ref": "#/definitions/BringYourOwnCloudSpec"
         },
@@ -27764,6 +28797,9 @@
         },
         "digitalocean": {
           "$ref": "#/definitions/DigitaloceanCloudSpec"
+        },
+        "edge": {
+          "$ref": "#/definitions/EdgeCloudSpec"
         },
         "fake": {
           "$ref": "#/definitions/FakeCloudSpec"
@@ -27872,6 +28908,27 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
+    "ClusterBackupStorageLocation": {
+      "type": "object",
+      "title": "ClusterBackupStorageLocation is the object representing a Cluster Backup Storage Location.",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "x-go-name": "DisplayName"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "spec": {
+          "$ref": "#/definitions/BackupStorageLocationSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/BackupStorageLocationStatus"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
     "ClusterHealth": {
       "type": "object",
       "title": "ClusterHealth stores health information about the cluster's components.",
@@ -27960,7 +29017,7 @@
       "type": "object",
       "properties": {
         "coreDNSReplicas": {
-          "description": "CoreDNSReplicas is the number of desired pods of user cluster coredns deployment.",
+          "description": "CoreDNSReplicas is the number of desired pods of user cluster coredns deployment.\nDeprecated: This field should not be used anymore, use cluster.componentsOverride.coreDNS.replicas\ninstead. Only one of the two fields can be set at any time.",
           "type": "integer",
           "format": "int32",
           "x-go-name": "CoreDNSReplicas"
@@ -27977,7 +29034,7 @@
           "$ref": "#/definitions/IPVSConfiguration"
         },
         "konnectivityEnabled": {
-          "description": "Deprecated: KonnectivityEnabled enables konnectivity for controlplane to node network communication.\nAs OpenVPN will be removed in the future KKP versions, clusters with konnectivity disabled will not be supported.\nAll existing clusters with OpenVPN should migrate to the Konnectivity.",
+          "description": "Deprecated: KonnectivityEnabled enables konnectivity for controlplane to node network communication.\nKonnectivity is the only supported choice for controlplane to node network communication. This field is\ndefaulted to true and setting it to false is rejected. It will be removed in a future release.",
           "type": "boolean",
           "x-go-name": "KonnectivityEnabled"
         },
@@ -28176,6 +29233,9 @@
         "auditLogging": {
           "$ref": "#/definitions/AuditLoggingSettings"
         },
+        "backupConfig": {
+          "$ref": "#/definitions/BackupConfig"
+        },
         "cloud": {
           "$ref": "#/definitions/CloudSpec"
         },
@@ -28190,10 +29250,10 @@
           "type": "string",
           "x-go-name": "ContainerRuntime"
         },
-        "enableOperatingSystemManager": {
-          "description": "EnableOperatingSystemManager enables OSM which in-turn is responsible for creating and managing worker node configuration.",
+        "disableCsiDriver": {
+          "description": "Optional: DisableCSIDriver disables the installation of CSI driver on the cluster\nIf this is true at the data center then it can't be over-written in the cluster configuration",
           "type": "boolean",
-          "x-go-name": "EnableOperatingSystemManager"
+          "x-go-name": "DisableCSIDriver"
         },
         "enableUserSSHKeyAgent": {
           "description": "EnableUserSSHKeyAgent control whether the UserSSHKeyAgent will be deployed in the user cluster or not.\nIf it was enabled, the agent will be deployed and used to sync the user ssh keys, that the user attach\nto the created cluster. If the agent was disabled, it won't be deployed in the user cluster, thus after\nthe cluster creation any attached ssh keys won't be synced to the worker nodes. Once the agent is enabled/disabled\nit cannot be changed after the cluster is being created.",
@@ -28473,6 +29533,29 @@
     },
     "ConditionStatus": {
       "type": "string",
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "ConfigMapKeySelector": {
+      "description": "+structType=atomic",
+      "type": "object",
+      "title": "Selects a key from a ConfigMap.",
+      "properties": {
+        "key": {
+          "description": "The key to select.",
+          "type": "string",
+          "x-go-name": "Key"
+        },
+        "name": {
+          "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\n+optional\n+default=\"\"\n+kubebuilder:default=\"\"\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "optional": {
+          "description": "Specify whether the ConfigMap or its key must be defined\n+optional",
+          "type": "boolean",
+          "x-go-name": "Optional"
+        }
+      },
       "x-go-package": "k8s.io/api/core/v1"
     },
     "Constraint": {
@@ -28862,6 +29945,20 @@
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
+    "DNSConfig": {
+      "type": "object",
+      "title": "DNSConfig contains a machine's DNS configuration.",
+      "properties": {
+        "servers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Servers"
+        }
+      },
+      "x-go-package": "github.com/kubermatic/machine-controller/pkg/providerconfig/types"
+    },
     "Datacenter": {
       "type": "object",
       "title": "Datacenter is the object representing a Kubernetes infra datacenter.",
@@ -28910,6 +30007,9 @@
         "azure": {
           "$ref": "#/definitions/DatacenterSpecAzure"
         },
+        "baremetal": {
+          "$ref": "#/definitions/DatacenterSpecBaremetal"
+        },
         "bringyourown": {
           "$ref": "#/definitions/DatacenterSpecBringYourOwn"
         },
@@ -28921,6 +30021,11 @@
         "digitalocean": {
           "$ref": "#/definitions/DatacenterSpecDigitalocean"
         },
+        "disableCsiDriver": {
+          "description": "Optional: DisableCSIDriver disables the installation of CSI driver on every clusters within the DC\nIf true it can't be over-written in the cluster configuration",
+          "type": "boolean",
+          "x-go-name": "DisableCSIDriver"
+        },
         "enforceAuditLogging": {
           "description": "EnforceAuditLogging enforces audit logging on every cluster within the DC,\nignoring cluster-specific settings.",
           "type": "boolean",
@@ -28930,6 +30035,9 @@
           "description": "EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC,\nignoring cluster-specific settings",
           "type": "boolean",
           "x-go-name": "EnforcePodSecurityPolicy"
+        },
+        "enforcedAuditWebhookSettings": {
+          "$ref": "#/definitions/AuditWebhookBackendSettings"
         },
         "fake": {
           "$ref": "#/definitions/DatacenterSpecFake"
@@ -29051,6 +30159,16 @@
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
+    "DatacenterSpecBaremetal": {
+      "type": "object",
+      "title": "DatacenterSpecBaremetal describes a datacenter of baremetal nodes.",
+      "properties": {
+        "tinkerbell": {
+          "$ref": "#/definitions/DatacenterSpecTinkerbell"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
     "DatacenterSpecBringYourOwn": {
       "type": "object",
       "title": "DatacenterSpecBringYourOwn describes a datacenter our of bring your own nodes.",
@@ -29161,6 +30279,9 @@
             "$ref": "#/definitions/KubeVirtInfraStorageClass"
           },
           "x-go-name": "InfraStorageClasses"
+        },
+        "namespacedMode": {
+          "$ref": "#/definitions/NamespacedMode"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -29205,6 +30326,11 @@
           "type": "string",
           "x-go-name": "AvailabilityZone"
         },
+        "csiCinderTopologyEnabled": {
+          "description": "Optional: configures enablement of topology support for the Cinder CSI Plugin.\nThis requires Nova and Cinder to have matching availability zones configured.",
+          "type": "boolean",
+          "x-go-name": "CSICinderTopologyEnabled"
+        },
         "dnsServers": {
           "description": "Used for automatic network creation",
           "type": "array",
@@ -29212,6 +30338,11 @@
             "type": "string"
           },
           "x-go-name": "DNSServers"
+        },
+        "enableConfigDrive": {
+          "description": "Optional: enable a configuration drive that will be attached to the instance when it boots.\nThe instance can mount this drive and read files from it to get information",
+          "type": "boolean",
+          "x-go-name": "EnableConfigDrive"
         },
         "enabledFlavors": {
           "description": "Optional: List of enabled flavors for the given datacenter",
@@ -29238,6 +30369,16 @@
           "description": "Optional: defines if the IPv6 is enabled for the datacenter",
           "type": "boolean",
           "x-go-name": "IPv6Enabled"
+        },
+        "loadBalancerMethod": {
+          "description": "Optional: Gets mapped to the \"lb-method\" setting in the cloud config.\ndefaults to \"ROUND_ROBIN\".",
+          "type": "string",
+          "x-go-name": "LoadBalancerMethod"
+        },
+        "loadBalancerProvider": {
+          "description": "Optional: Gets mapped to the \"lb-provider\" setting in the cloud config.\ndefaults to \"\"",
+          "type": "string",
+          "x-go-name": "LoadBalancerProvider"
         },
         "manageSecurityGroups": {
           "description": "Optional: Gets mapped to the \"manage-security-groups\" setting in the cloud config.\nThis setting defaults to true.",
@@ -29281,6 +30422,16 @@
           "description": "Metros are facilities that are grouped together geographically and share capacity\nand networking features, see https://metal.equinix.com/developers/docs/locations/metros/",
           "type": "string",
           "x-go-name": "Metro"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "DatacenterSpecTinkerbell": {
+      "type": "object",
+      "title": "DatacenterSepcTinkerbell contains spec for tinkerbell provider.",
+      "properties": {
+        "images": {
+          "$ref": "#/definitions/TinkerbellImageSources"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -29371,6 +30522,21 @@
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "DefaultingSelector": {
+      "type": "object",
+      "title": "DefaultingSelector is used to select the targeted user clusters for defaulting and enforcing applications.",
+      "properties": {
+        "datacenters": {
+          "description": "Datacenters is a list of datacenters where the application can be installed.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Datacenters"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/apps.kubermatic/v1"
     },
     "DependencyCredentials": {
       "type": "object",
@@ -29993,6 +31159,55 @@
         "$ref": "#/definitions/EKSVPC"
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "EdgeCloudSpec": {
+      "type": "object",
+      "title": "EdgeCloudSpec specifies access data for an edge cluster.",
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "EdgeNodeSpec": {
+      "description": "EdgeNodeSpec specifies edge specific node settings",
+      "type": "object",
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
+    },
+    "EnvVar": {
+      "type": "object",
+      "title": "EnvVar represents an environment variable present in a Container.",
+      "properties": {
+        "name": {
+          "description": "Name of the environment variable. Must be a C_IDENTIFIER.",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "value": {
+          "description": "Variable references $(VAR_NAME) are expanded\nusing the previously defined environment variables in the container and\nany service environment variables. If a variable cannot be resolved,\nthe reference in the input string will be unchanged. Double $$ are reduced\nto a single $, which allows for escaping the $(VAR_NAME) syntax: i.e.\n\"$$(VAR_NAME)\" will produce the string literal \"$(VAR_NAME)\".\nEscaped references will never be expanded, regardless of whether the variable\nexists or not.\nDefaults to \"\".\n+optional",
+          "type": "string",
+          "x-go-name": "Value"
+        },
+        "valueFrom": {
+          "$ref": "#/definitions/EnvVarSource"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "EnvVarSource": {
+      "type": "object",
+      "title": "EnvVarSource represents a source for the value of an EnvVar.",
+      "properties": {
+        "configMapKeyRef": {
+          "$ref": "#/definitions/ConfigMapKeySelector"
+        },
+        "fieldRef": {
+          "$ref": "#/definitions/ObjectFieldSelector"
+        },
+        "resourceFieldRef": {
+          "$ref": "#/definitions/ResourceFieldSelector"
+        },
+        "secretKeyRef": {
+          "$ref": "#/definitions/SecretKeySelector"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
     },
     "ErrorDetails": {
       "type": "object",
@@ -31605,7 +32820,7 @@
           "$ref": "#/definitions/GitReference"
         },
         "remote": {
-          "description": "URL to the repository. Can be HTTP(s) (e.g. https://example.com/myrepo) or SSH (e.g. git://example.com[:port]/path/to/repo.git/)\n+kubebuilder:validation:MinLength=1",
+          "description": "URL to the repository. Can be HTTP(s) (e.g. https://example.com/myrepo) or\nSSH (e.g. git://example.com[:port]/path/to/repo.git/).\n+kubebuilder:validation:MinLength=1",
           "type": "string",
           "x-go-name": "Remote"
         }
@@ -31719,10 +32934,20 @@
           "type": "boolean",
           "x-go-name": "DisplayTermsOfService"
         },
+        "enableClusterBackups": {
+          "description": "EnableClusterBackups enables the Cluster Backup feature in the dashboard.",
+          "type": "boolean",
+          "x-go-name": "EnableClusterBackups"
+        },
         "enableDashboard": {
           "description": "EnableDashboard enables the link to the Kubernetes dashboard for a user cluster.",
           "type": "boolean",
           "x-go-name": "EnableDashboard"
+        },
+        "enableEtcdBackup": {
+          "description": "EnableEtcdBackup enables the etcd Backup feature in the dashboard.",
+          "type": "boolean",
+          "x-go-name": "EnableEtcdBackup"
         },
         "enableExternalClusterImport": {
           "type": "boolean",
@@ -31776,11 +33001,22 @@
           "type": "boolean",
           "x-go-name": "RestrictProjectDeletion"
         },
+        "staticLabels": {
+          "description": "StaticLabels are a list of labels that can be used for the clusters.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StaticLabel"
+          },
+          "x-go-name": "StaticLabels"
+        },
         "userProjectsLimit": {
           "description": "UserProjectsLimit is the maximum number of projects a user can create.",
           "type": "integer",
           "format": "int64",
           "x-go-name": "UserProjectsLimit"
+        },
+        "webTerminalOptions": {
+          "$ref": "#/definitions/WebTerminalOptions"
         }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
@@ -31867,8 +33103,18 @@
         "credentials": {
           "$ref": "#/definitions/HelmCredentials"
         },
+        "insecure": {
+          "description": "Insecure disables certificate validation when using an HTTPS registry. This setting has no\neffect when using a plaintext connection.",
+          "type": "boolean",
+          "x-go-name": "Insecure"
+        },
+        "plainHTTP": {
+          "description": "PlainHTTP will enable HTTP-only (i.e. unencrypted) traffic for oci:// URLs. By default HTTPS\nis used when communicating with an oci:// URL.",
+          "type": "boolean",
+          "x-go-name": "PlainHTTP"
+        },
         "url": {
-          "description": "URl of the helm repository.\nIt can be an HTTP(s) repository (e.g. https://localhost/myrepo) or on OCI repository (e.g. oci://localhost:5000/myrepo).\n+kubebuilder:validation:Pattern=\"^(http|https|oci)://.+\"",
+          "description": "URL of the Helm repository the following schemes are supported:\n\nhttp://example.com/myrepo (HTTP)\nhttps://example.com/myrepo (HTTPS)\noci://example.com:5000/myrepo (OCI, HTTPS by default, use plainHTTP to enable unencrypted HTTP)",
           "type": "string",
           "x-go-name": "URL"
         }
@@ -32055,7 +33301,7 @@
           "x-go-name": "CIDR"
         },
         "except": {
-          "description": "except is a slice of CIDRs that should not be included within an IPBlock\nValid examples are \"192.168.1.0/24\" or \"2001:db8::/64\"\nExcept values will be rejected if they are outside the cidr range\n+optional",
+          "description": "except is a slice of CIDRs that should not be included within an IPBlock\nValid examples are \"192.168.1.0/24\" or \"2001:db8::/64\"\nExcept values will be rejected if they are outside the cidr range\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -32098,6 +33344,10 @@
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
+    "InferFromVolumeFailurePolicy": {
+      "type": "string",
+      "x-go-package": "kubevirt.io/api/core/v1"
+    },
     "InstancetypeMatcher": {
       "type": "object",
       "title": "InstancetypeMatcher references a instancetype that is used to fill fields in the VMI template.",
@@ -32106,6 +33356,9 @@
           "description": "InferFromVolume lists the name of a volume that should be used to infer or discover the instancetype\nto be used through known annotations on the underlying resource. Once applied to the InstancetypeMatcher\nthis field is removed.\n\n+optional",
           "type": "string",
           "x-go-name": "InferFromVolume"
+        },
+        "inferFromVolumeFailurePolicy": {
+          "$ref": "#/definitions/InferFromVolumeFailurePolicy"
         },
         "kind": {
           "description": "Kind specifies which instancetype resource is referenced.\nAllowed values are: \"VirtualMachineInstancetype\" and \"VirtualMachineClusterInstancetype\".\nIf not specified, \"VirtualMachineClusterInstancetype\" is used by default.\n\n+optional",
@@ -32183,6 +33436,7 @@
           "$ref": "#/definitions/JSONSchemaPropsOrBool"
         },
         "allOf": {
+          "description": "+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/JSONSchemaProps"
@@ -32190,6 +33444,7 @@
           "x-go-name": "AllOf"
         },
         "anyOf": {
+          "description": "+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/JSONSchemaProps"
@@ -32210,6 +33465,7 @@
           "x-go-name": "Description"
         },
         "enum": {
+          "description": "+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/JSON"
@@ -32295,6 +33551,7 @@
           "x-go-name": "Nullable"
         },
         "oneOf": {
+          "description": "+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/JSONSchemaProps"
@@ -32320,6 +33577,7 @@
           "x-go-name": "Properties"
         },
         "required": {
+          "description": "+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -32349,7 +33607,7 @@
           "x-go-name": "XIntOrString"
         },
         "x-kubernetes-list-map-keys": {
-          "description": "x-kubernetes-list-map-keys annotates an array with the x-kubernetes-list-type `map` by specifying the keys used\nas the index of the map.\n\nThis tag MUST only be used on lists that have the \"x-kubernetes-list-type\"\nextension set to \"map\". Also, the values specified for this attribute must\nbe a scalar typed field of the child structure (no nesting is supported).\n\nThe properties specified must either be required or have a default value,\nto ensure those properties are present for all list items.\n\n+optional",
+          "description": "x-kubernetes-list-map-keys annotates an array with the x-kubernetes-list-type `map` by specifying the keys used\nas the index of the map.\n\nThis tag MUST only be used on lists that have the \"x-kubernetes-list-type\"\nextension set to \"map\". Also, the values specified for this attribute must\nbe a scalar typed field of the child structure (no nesting is supported).\n\nThe properties specified must either be required or have a default value,\nto ensure those properties are present for all list items.\n\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -32382,6 +33640,7 @@
       "type": "object",
       "properties": {
         "JSONSchemas": {
+          "description": "+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/JSONSchemaProps"
@@ -32412,6 +33671,7 @@
       "title": "JSONSchemaPropsOrStringArray represents a JSONSchemaProps or a string array.",
       "properties": {
         "Property": {
+          "description": "+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -32427,6 +33687,11 @@
       "type": "string",
       "title": "JSONSchemaURL represents a schema url.",
       "x-go-package": "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+    },
+    "JoiningScript": {
+      "description": "JoiningScript represent an encoded joining script for machines",
+      "type": "string",
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
     "Kind": {
       "type": "object",
@@ -32456,10 +33721,20 @@
       "type": "object",
       "title": "KubeLB contains settings for the kubeLB component as part of the cluster control plane. This component is responsible for managing load balancers.",
       "properties": {
+        "enableGatewayAPI": {
+          "description": "EnableGatewayAPI is used to configure the use of gateway API for kubeLB.",
+          "type": "boolean",
+          "x-go-name": "EnableGatewayAPI"
+        },
         "enabled": {
           "description": "Controls whether kubeLB is deployed or not.",
           "type": "boolean",
           "x-go-name": "Enabled"
+        },
+        "useLoadBalancerClass": {
+          "description": "UseLoadBalancerClass is used to configure the use of load balancer class `kubelb` for kubeLB. If false, kubeLB will manage all load balancers in the\nuser cluster irrespective of the load balancer class.",
+          "type": "boolean",
+          "x-go-name": "UseLoadBalancerClass"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -32467,6 +33742,21 @@
     "KubeLBDatacenterSettings": {
       "type": "object",
       "properties": {
+        "disableIngressClass": {
+          "description": "DisableIngressClass is used to disable the ingress class `kubelb` filter for kubeLB.",
+          "type": "boolean",
+          "x-go-name": "DisableIngressClass"
+        },
+        "enableGatewayAPI": {
+          "description": "EnableGatewayAPI is used to configure the use of gateway API for kubeLB.",
+          "type": "boolean",
+          "x-go-name": "EnableGatewayAPI"
+        },
+        "enableSecretSynchronizer": {
+          "description": "EnableSecretSynchronizer is used to configure the use of secret synchronizer for kubeLB.",
+          "type": "boolean",
+          "x-go-name": "EnableSecretSynchronizer"
+        },
         "enabled": {
           "description": "Enabled is used to enable/disable kubeLB for the datacenter. This is used to control whether installing kubeLB is allowed or not for the datacenter.",
           "type": "boolean",
@@ -32484,6 +33774,11 @@
           "description": "NodeAddressType is used to configure the address type from node, used for load balancing.\nOptional: Defaults to ExternalIP.\n+kubebuilder:validation:Enum=InternalIP;ExternalIP\n+kubebuilder:default=ExternalIP",
           "type": "string",
           "x-go-name": "NodeAddressType"
+        },
+        "useLoadBalancerClass": {
+          "description": "UseLoadBalancerClass is used to configure the use of load balancer class `kubelb` for kubeLB. If false, kubeLB will manage all load balancers in the\nuser cluster irrespective of the load balancer class.",
+          "type": "boolean",
+          "x-go-name": "UseLoadBalancerClass"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -33096,7 +34391,7 @@
       "type": "object",
       "properties": {
         "matchExpressions": {
-          "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.\n+optional",
+          "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/LabelSelectorRequirement"
@@ -33132,7 +34427,7 @@
           "$ref": "#/definitions/LabelSelectorOperator"
         },
         "values": {
-          "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.\n+optional",
+          "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -33147,7 +34442,7 @@
       "type": "object",
       "properties": {
         "name": {
-          "description": "Name of the referent.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Add other useful fields. apiVersion, kind, uid?\n+optional",
+          "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\n+optional\n+default=\"\"\n+kubebuilder:default=\"\"\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
           "type": "string",
           "x-go-name": "Name"
         }
@@ -33408,7 +34703,7 @@
           "x-go-name": "Namespaces"
         },
         "scope": {
-          "description": "Scope accepts *, Cluster, or Namespaced which determines if cluster-scoped and/or namesapced-scoped resources are selected. (defaults to *)",
+          "description": "Scope accepts *, Cluster, or Namespaced which determines if cluster-scoped and/or namespace-scoped resources are selected. (defaults to *)",
           "type": "string",
           "x-go-name": "Scope"
         }
@@ -33453,13 +34748,19 @@
           },
           "x-go-name": "ReportConfigurations"
         },
+        "retentionDays": {
+          "description": "RetentionDays is the number of days for which data should be kept in Prometheus. Default value is 90.",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RetentionDays"
+        },
         "storageClassName": {
-          "description": "StorageClassName is the name of the storage class that the metering prometheus instance uses to store metric data for reporting.",
+          "description": "StorageClassName is the name of the storage class that the metering Prometheus instance uses to store metric data for reporting.",
           "type": "string",
           "x-go-name": "StorageClassName"
         },
         "storageSize": {
-          "description": "StorageSize is the size of the storage class. Default value is 100Gi.",
+          "description": "StorageSize is the size of the storage class. Default value is 100Gi. Changing this value requires\nmanual deletion of the existing Prometheus PVC (and thereby removing all metering data).",
           "type": "string",
           "x-go-name": "StorageSize"
         }
@@ -33491,6 +34792,9 @@
       "description": "MeteringReportConfiguration holds report configuration",
       "type": "object",
       "properties": {
+        "format": {
+          "$ref": "#/definitions/MeteringReportFormat"
+        },
         "interval": {
           "description": "Interval defines the number of days consulted in the metering report.\nIgnored when `Monthly` is set to true",
           "type": "integer",
@@ -33522,6 +34826,12 @@
           "x-go-name": "Types"
         }
       },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "MeteringReportFormat": {
+      "description": "+kubebuilder:validation:Enum=csv;json",
+      "type": "string",
+      "title": "MeteringReportFormat maps directly to the values supported by the kubermatic-metering tool.",
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
     "MeteringReportURL": {
@@ -33669,6 +34979,34 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
+    "NamespacedMode": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "description": "Enabled indicates whether the single namespace mode is enabled or not.",
+          "type": "boolean",
+          "x-go-name": "Enabled"
+        },
+        "name": {
+          "description": "Namespace is the name of the namespace to be used, if not specified the default \"kubevirt-workload\" will be used.\n+kubebuilder:default=kubevirt-workload",
+          "type": "string",
+          "x-go-name": "Namespace"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "NamespacedName": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Namespace": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "k8s.io/apimachinery/pkg/types"
+    },
     "NetworkDefaults": {
       "type": "object",
       "title": "NetworkDefaults contains cluster network default settings.",
@@ -33733,7 +35071,7 @@
       "type": "object",
       "properties": {
         "ports": {
-          "description": "ports is a list of destination ports for outgoing traffic.\nEach item in this list is combined using a logical OR. If this field is\nempty or missing, this rule matches all ports (traffic not restricted by port).\nIf this field is present and contains at least one item, then this rule allows\ntraffic only if the traffic matches at least one port in the list.\n+optional",
+          "description": "ports is a list of destination ports for outgoing traffic.\nEach item in this list is combined using a logical OR. If this field is\nempty or missing, this rule matches all ports (traffic not restricted by port).\nIf this field is present and contains at least one item, then this rule allows\ntraffic only if the traffic matches at least one port in the list.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/NetworkPolicyPort"
@@ -33741,7 +35079,7 @@
           "x-go-name": "Ports"
         },
         "to": {
-          "description": "to is a list of destinations for outgoing traffic of pods selected for this rule.\nItems in this list are combined using a logical OR operation. If this field is\nempty or missing, this rule matches all destinations (traffic not restricted by\ndestination). If this field is present and contains at least one item, this rule\nallows traffic only if the traffic matches at least one item in the to list.\n+optional",
+          "description": "to is a list of destinations for outgoing traffic of pods selected for this rule.\nItems in this list are combined using a logical OR operation. If this field is\nempty or missing, this rule matches all destinations (traffic not restricted by\ndestination). If this field is present and contains at least one item, this rule\nallows traffic only if the traffic matches at least one item in the to list.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/NetworkPolicyPeer"
@@ -33756,7 +35094,7 @@
       "type": "object",
       "properties": {
         "from": {
-          "description": "from is a list of sources which should be able to access the pods selected for this rule.\nItems in this list are combined using a logical OR operation. If this field is\nempty or missing, this rule matches all sources (traffic not restricted by\nsource). If this field is present and contains at least one item, this rule\nallows traffic only if the traffic matches at least one item in the from list.\n+optional",
+          "description": "from is a list of sources which should be able to access the pods selected for this rule.\nItems in this list are combined using a logical OR operation. If this field is\nempty or missing, this rule matches all sources (traffic not restricted by\nsource). If this field is present and contains at least one item, this rule\nallows traffic only if the traffic matches at least one item in the from list.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/NetworkPolicyPeer"
@@ -33764,7 +35102,7 @@
           "x-go-name": "From"
         },
         "ports": {
-          "description": "ports is a list of ports which should be made accessible on the pods selected for\nthis rule. Each item in this list is combined using a logical OR. If this field is\nempty or missing, this rule matches all ports (traffic not restricted by port).\nIf this field is present and contains at least one item, then this rule allows\ntraffic only if the traffic matches at least one port in the list.\n+optional",
+          "description": "ports is a list of ports which should be made accessible on the pods selected for\nthis rule. Each item in this list is combined using a logical OR. If this field is\nempty or missing, this rule matches all ports (traffic not restricted by port).\nIf this field is present and contains at least one item, then this rule allows\ntraffic only if the traffic matches at least one port in the list.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/NetworkPolicyPort"
@@ -33814,7 +35152,7 @@
       "type": "object",
       "properties": {
         "egress": {
-          "description": "egress is a list of egress rules to be applied to the selected pods. Outgoing traffic\nis allowed if there are no NetworkPolicies selecting the pod (and cluster policy\notherwise allows the traffic), OR if the traffic matches at least one egress rule\nacross all of the NetworkPolicy objects whose podSelector matches the pod. If\nthis field is empty then this NetworkPolicy limits all outgoing traffic (and serves\nsolely to ensure that the pods it selects are isolated by default).\nThis field is beta-level in 1.8\n+optional",
+          "description": "egress is a list of egress rules to be applied to the selected pods. Outgoing traffic\nis allowed if there are no NetworkPolicies selecting the pod (and cluster policy\notherwise allows the traffic), OR if the traffic matches at least one egress rule\nacross all of the NetworkPolicy objects whose podSelector matches the pod. If\nthis field is empty then this NetworkPolicy limits all outgoing traffic (and serves\nsolely to ensure that the pods it selects are isolated by default).\nThis field is beta-level in 1.8\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/NetworkPolicyEgressRule"
@@ -33822,7 +35160,7 @@
           "x-go-name": "Egress"
         },
         "ingress": {
-          "description": "ingress is a list of ingress rules to be applied to the selected pods.\nTraffic is allowed to a pod if there are no NetworkPolicies selecting the pod\n(and cluster policy otherwise allows the traffic), OR if the traffic source is\nthe pod's local node, OR if the traffic matches at least one ingress rule\nacross all of the NetworkPolicy objects whose podSelector matches the pod. If\nthis field is empty then this NetworkPolicy does not allow any traffic (and serves\nsolely to ensure that the pods it selects are isolated by default)\n+optional",
+          "description": "ingress is a list of ingress rules to be applied to the selected pods.\nTraffic is allowed to a pod if there are no NetworkPolicies selecting the pod\n(and cluster policy otherwise allows the traffic), OR if the traffic source is\nthe pod's local node, OR if the traffic matches at least one ingress rule\nacross all of the NetworkPolicy objects whose podSelector matches the pod. If\nthis field is empty then this NetworkPolicy does not allow any traffic (and serves\nsolely to ensure that the pods it selects are isolated by default)\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/NetworkPolicyIngressRule"
@@ -33833,7 +35171,7 @@
           "$ref": "#/definitions/LabelSelector"
         },
         "policyTypes": {
-          "description": "policyTypes is a list of rule types that the NetworkPolicy relates to.\nValid options are [\"Ingress\"], [\"Egress\"], or [\"Ingress\", \"Egress\"].\nIf this field is not specified, it will default based on the existence of ingress or egress rules;\npolicies that contain an egress section are assumed to affect egress, and all policies\n(whether or not they contain an ingress section) are assumed to affect ingress.\nIf you want to write an egress-only policy, you must explicitly specify policyTypes [ \"Egress\" ].\nLikewise, if you want to write a policy that specifies that no egress is allowed,\nyou must specify a policyTypes value that include \"Egress\" (since such a policy would not include\nan egress section and would otherwise default to just [ \"Ingress\" ]).\nThis field is beta-level in 1.8\n+optional",
+          "description": "policyTypes is a list of rule types that the NetworkPolicy relates to.\nValid options are [\"Ingress\"], [\"Egress\"], or [\"Ingress\", \"Egress\"].\nIf this field is not specified, it will default based on the existence of ingress or egress rules;\npolicies that contain an egress section are assumed to affect egress, and all policies\n(whether or not they contain an ingress section) are assumed to affect ingress.\nIf you want to write an egress-only policy, you must explicitly specify policyTypes [ \"Egress\" ].\nLikewise, if you want to write a policy that specifies that no egress is allowed,\nyou must specify a policyTypes value that include \"Egress\" (since such a policy would not include\nan egress section and would otherwise default to just [ \"Ingress\" ]).\nThis field is beta-level in 1.8\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/PolicyType"
@@ -33856,6 +35194,28 @@
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "NetworkSpec": {
+      "description": "NetworkSpec machine static network configuration",
+      "type": "object",
+      "properties": {
+        "cidr": {
+          "type": "string",
+          "x-go-name": "CIDR"
+        },
+        "dns": {
+          "$ref": "#/definitions/DNSConfig"
+        },
+        "gateway": {
+          "type": "string",
+          "x-go-name": "Gateway"
+        },
+        "ipFamily": {
+          "type": "string",
+          "x-go-name": "IPFamily"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
     "Node": {
       "description": "Node represents a worker node that is part of a cluster",
@@ -33951,8 +35311,14 @@
         "azure": {
           "$ref": "#/definitions/AzureNodeSpec"
         },
+        "baremetal": {
+          "$ref": "#/definitions/BaremetalNodeSpec"
+        },
         "digitalocean": {
           "$ref": "#/definitions/DigitaloceanNodeSpec"
+        },
+        "edge": {
+          "$ref": "#/definitions/EdgeNodeSpec"
         },
         "gcp": {
           "$ref": "#/definitions/GCPNodeSpec"
@@ -33965,6 +35331,9 @@
         },
         "nutanix": {
           "$ref": "#/definitions/NutanixNodeSpec"
+        },
+        "opennebula": {
+          "$ref": "#/definitions/OpenNebulaNodeSpec"
         },
         "openstack": {
           "$ref": "#/definitions/OpenstackNodeSpec"
@@ -34179,6 +35548,9 @@
             "type": "string"
           },
           "x-go-name": "Labels"
+        },
+        "network": {
+          "$ref": "#/definitions/NetworkSpec"
         },
         "operatingSystem": {
           "$ref": "#/definitions/OperatingSystemSpec"
@@ -34740,6 +36112,24 @@
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
+    "ObjectFieldSelector": {
+      "description": "+structType=atomic",
+      "type": "object",
+      "title": "ObjectFieldSelector selects an APIVersioned field of an object.",
+      "properties": {
+        "apiVersion": {
+          "description": "Version of the schema the FieldPath is written in terms of, defaults to \"v1\".\n+optional",
+          "type": "string",
+          "x-go-name": "APIVersion"
+        },
+        "fieldPath": {
+          "description": "Path of the field to select in the specified API version.",
+          "type": "string",
+          "x-go-name": "FieldPath"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
     "ObjectMeta": {
       "description": "ObjectMeta defines the set of fields that objects returned from the API have",
       "type": "object",
@@ -34840,6 +36230,32 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
+    "ObjectStorageLocation": {
+      "type": "object",
+      "title": "ObjectStorageLocation specifies the settings necessary to connect to a provider's object storage.",
+      "properties": {
+        "bucket": {
+          "description": "Bucket is the bucket to use for object storage.",
+          "type": "string",
+          "x-go-name": "Bucket"
+        },
+        "caCert": {
+          "description": "CACert defines a CA bundle to use when verifying TLS connections to the provider.\n+optional",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "x-go-name": "CACert"
+        },
+        "prefix": {
+          "description": "Prefix is the path inside a bucket to use for Velero storage. Optional.\n+optional",
+          "type": "string",
+          "x-go-name": "Prefix"
+        }
+      },
+      "x-go-package": "github.com/vmware-tanzu/velero/pkg/apis/velero/v1"
+    },
     "OpaOptions": {
       "type": "object",
       "properties": {
@@ -34853,6 +36269,56 @@
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "OpenNebulaNodeSpec": {
+      "description": "OpenNebulaNodeSpec OpenNebula specific node settings",
+      "type": "object",
+      "properties": {
+        "cpu": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "CPU"
+        },
+        "datastore": {
+          "type": "string",
+          "x-go-name": "Datastore"
+        },
+        "diskSize": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DiskSize"
+        },
+        "enableVNC": {
+          "type": "boolean",
+          "x-go-name": "EnableVNC"
+        },
+        "image": {
+          "type": "string",
+          "x-go-name": "Image"
+        },
+        "memory": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Memory"
+        },
+        "network": {
+          "type": "string",
+          "x-go-name": "Network"
+        },
+        "vcpu": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "VCPU"
+        },
+        "vmTemplateExtra": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "VMTemplateExtra"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
     "OpenStack": {
       "type": "object",
@@ -34869,10 +36335,12 @@
       "type": "object",
       "properties": {
         "applicationCredentialID": {
+          "description": "Application credential ID to authenticate in combination with an application credential secret (which is not the user's password).",
           "type": "string",
           "x-go-name": "ApplicationCredentialID"
         },
         "applicationCredentialSecret": {
+          "description": "Application credential secret (which is not the user's password) to authenticate in combination with an application credential ID.",
           "type": "string",
           "x-go-name": "ApplicationCredentialSecret"
         },
@@ -34882,6 +36350,7 @@
           "x-go-name": "Datacenter"
         },
         "domain": {
+          "description": "Domain holds the name of the identity service (keystone) domain.",
           "type": "string",
           "x-go-name": "Domain"
         },
@@ -34954,17 +36423,25 @@
       "title": "OpenstackCloudSpec specifies access data to an OpenStack cloud.",
       "properties": {
         "applicationCredentialID": {
+          "description": "Application credential ID to authenticate in combination with an application credential secret (which is not the user's password).",
           "type": "string",
           "x-go-name": "ApplicationCredentialID"
         },
         "applicationCredentialSecret": {
+          "description": "Application credential secret (which is not the user's password) to authenticate in combination with an application credential ID.",
           "type": "string",
           "x-go-name": "ApplicationCredentialSecret"
+        },
+        "cinderTopologyEnabled": {
+          "description": "Flag to configure enablement of topology support for the Cinder CSI plugin.\nThis requires Nova and Cinder to have matching availability zones configured.\n+optional",
+          "type": "boolean",
+          "x-go-name": "CinderTopologyEnabled"
         },
         "credentialsReference": {
           "$ref": "#/definitions/GlobalSecretKeySelector"
         },
         "domain": {
+          "description": "Domain holds the name of the identity service (keystone) domain.",
           "type": "string",
           "x-go-name": "Domain"
         },
@@ -35543,7 +37020,7 @@
       "type": "object",
       "properties": {
         "nameservers": {
-          "description": "A list of DNS name server IP addresses.\nThis will be appended to the base nameservers generated from DNSPolicy.\nDuplicated nameservers will be removed.\n+optional",
+          "description": "A list of DNS name server IP addresses.\nThis will be appended to the base nameservers generated from DNSPolicy.\nDuplicated nameservers will be removed.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -35551,7 +37028,7 @@
           "x-go-name": "Nameservers"
         },
         "options": {
-          "description": "A list of DNS resolver options.\nThis will be merged with the base options generated from DNSPolicy.\nDuplicated entries will be removed. Resolution options given in Options\nwill override those that appear in the base DNSPolicy.\n+optional",
+          "description": "A list of DNS resolver options.\nThis will be merged with the base options generated from DNSPolicy.\nDuplicated entries will be removed. Resolution options given in Options\nwill override those that appear in the base DNSPolicy.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "$ref": "#/definitions/PodDNSConfigOption"
@@ -35559,7 +37036,7 @@
           "x-go-name": "Options"
         },
         "searches": {
-          "description": "A list of DNS search domains for host-name lookup.\nThis will be appended to the base search paths generated from DNSPolicy.\nDuplicated search paths will be removed.\n+optional",
+          "description": "A list of DNS search domains for host-name lookup.\nThis will be appended to the base search paths generated from DNSPolicy.\nDuplicated search paths will be removed.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -35591,7 +37068,7 @@
       "type": "object",
       "properties": {
         "apiGroups": {
-          "description": "APIGroups is the name of the APIGroup that contains the resources.  If multiple API groups are specified, any action requested against one of\nthe enumerated resources in any API group will be allowed. \"\" represents the core API group and \"*\" represents all API groups.\n+optional",
+          "description": "APIGroups is the name of the APIGroup that contains the resources.  If multiple API groups are specified, any action requested against one of\nthe enumerated resources in any API group will be allowed. \"\" represents the core API group and \"*\" represents all API groups.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -35599,7 +37076,7 @@
           "x-go-name": "APIGroups"
         },
         "nonResourceURLs": {
-          "description": "NonResourceURLs is a set of partial urls that a user should have access to.  *s are allowed, but only as the full, final step in the path\nSince non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding.\nRules can either apply to API resources (such as \"pods\" or \"secrets\") or non-resource URL paths (such as \"/api\"),  but not both.\n+optional",
+          "description": "NonResourceURLs is a set of partial urls that a user should have access to.  *s are allowed, but only as the full, final step in the path\nSince non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding.\nRules can either apply to API resources (such as \"pods\" or \"secrets\") or non-resource URL paths (such as \"/api\"),  but not both.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -35607,7 +37084,7 @@
           "x-go-name": "NonResourceURLs"
         },
         "resourceNames": {
-          "description": "ResourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed.\n+optional",
+          "description": "ResourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -35615,7 +37092,7 @@
           "x-go-name": "ResourceNames"
         },
         "resources": {
-          "description": "Resources is a list of resources this rule applies to. '*' represents all resources.\n+optional",
+          "description": "Resources is a list of resources this rule applies to. '*' represents all resources.\n+optional\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -35623,7 +37100,7 @@
           "x-go-name": "Resources"
         },
         "verbs": {
-          "description": "Verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. '*' represents all verbs.",
+          "description": "Verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. '*' represents all verbs.\n+listType=atomic",
           "type": "array",
           "items": {
             "type": "string"
@@ -35675,6 +37152,9 @@
           "description": "InferFromVolume lists the name of a volume that should be used to infer or discover the preference\nto be used through known annotations on the underlying resource. Once applied to the PreferenceMatcher\nthis field is removed.\n\n+optional",
           "type": "string",
           "x-go-name": "InferFromVolume"
+        },
+        "inferFromVolumeFailurePolicy": {
+          "$ref": "#/definitions/InferFromVolumeFailurePolicy"
         },
         "kind": {
           "description": "Kind specifies which preference resource is referenced.\nAllowed values are: \"VirtualMachinePreference\" and \"VirtualMachineClusterPreference\".\nIf not specified, \"VirtualMachineClusterPreference\" is used by default.\n\n+optional",
@@ -35765,6 +37245,9 @@
         },
         "name": {
           "$ref": "#/definitions/ProviderType"
+        },
+        "vmwareCloudDirector": {
+          "$ref": "#/definitions/VMwareCloudDirectorAPIPreset"
         }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
@@ -35787,6 +37270,9 @@
         },
         "azure": {
           "$ref": "#/definitions/Azure"
+        },
+        "baremetal": {
+          "$ref": "#/definitions/Baremetal"
         },
         "digitalocean": {
           "$ref": "#/definitions/Digitalocean"
@@ -35919,6 +37405,9 @@
           },
           "x-go-name": "Owners"
         },
+        "spec": {
+          "$ref": "#/definitions/ProjectSpec"
+        },
         "status": {
           "type": "string",
           "x-go-name": "Status"
@@ -35965,6 +37454,21 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
     },
+    "ProjectSpec": {
+      "type": "object",
+      "title": "ProjectSpec is a specification of a project.",
+      "properties": {
+        "allowedOperatingSystems": {
+          "description": "AllowedOperatingSystems defines a map of operating systems that can be used for the machines inside this project.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "x-go-name": "AllowedOperatingSystems"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
+    },
     "Protocol": {
       "description": "+enum",
       "type": "string",
@@ -35976,6 +37480,9 @@
       "properties": {
         "openStack": {
           "$ref": "#/definitions/OpenStack"
+        },
+        "vmwareCloudDirector": {
+          "$ref": "#/definitions/VMwareCloudDirectorSettings"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -36052,6 +37559,10 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
+    "PublicBaremetalCloudSpec": {
+      "type": "object",
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
+    },
     "PublicBringYourOwnCloudSpec": {
       "type": "object",
       "title": "PublicBringYourOwnCloudSpec is a public counterpart of apiv1.BringYourOwnCloudSpec.",
@@ -36073,6 +37584,9 @@
         "azure": {
           "$ref": "#/definitions/PublicAzureCloudSpec"
         },
+        "baremetal": {
+          "$ref": "#/definitions/PublicBaremetalCloudSpec"
+        },
         "bringyourown": {
           "$ref": "#/definitions/PublicBringYourOwnCloudSpec"
         },
@@ -36082,6 +37596,9 @@
         },
         "digitalocean": {
           "$ref": "#/definitions/PublicDigitaloceanCloudSpec"
+        },
+        "edge": {
+          "$ref": "#/definitions/PublicEdgeCloudSpec"
         },
         "fake": {
           "$ref": "#/definitions/PublicFakeCloudSpec"
@@ -36116,6 +37633,11 @@
     "PublicDigitaloceanCloudSpec": {
       "type": "object",
       "title": "PublicDigitaloceanCloudSpec is a public counterpart of apiv1.DigitaloceanCloudSpec.",
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
+    },
+    "PublicEdgeCloudSpec": {
+      "type": "object",
+      "title": "PublicEdgeCloudSpec is a public counterpart of apiv1.EdgeCloudSpec.",
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
     "PublicFakeCloudSpec": {
@@ -36255,6 +37777,19 @@
     "PublicVMwareCloudDirectorCloudSpec": {
       "type": "object",
       "title": "PublicVMwareCloudDirectorCloudSpec is a public counterpart of apiv1.VMwareCloudDirectorCloudSpec.",
+      "properties": {
+        "ovdcNetwork": {
+          "type": "string",
+          "x-go-name": "OVDCNetwork"
+        },
+        "ovdcNetworks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "OVDCNetworks"
+        }
+      },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
     "PublicVSphereCloudSpec": {
@@ -36398,6 +37933,31 @@
           "description": "Name must match the name of one entry in pod.spec.resourceClaims of\nthe Pod where this field is used. It makes that resource available\ninside a container.",
           "type": "string",
           "x-go-name": "Name"
+        },
+        "request": {
+          "description": "Request is the name chosen for a request in the referenced claim.\nIf empty, everything from the claim is made available, otherwise\nonly the result of this request.\n\n+optional",
+          "type": "string",
+          "x-go-name": "Request"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "ResourceFieldSelector": {
+      "description": "ResourceFieldSelector represents container resources (cpu, memory) and their output format\n+structType=atomic",
+      "type": "object",
+      "properties": {
+        "containerName": {
+          "description": "Container name: required for volumes, optional for env vars\n+optional",
+          "type": "string",
+          "x-go-name": "ContainerName"
+        },
+        "divisor": {
+          "$ref": "#/definitions/Quantity"
+        },
+        "resource": {
+          "description": "Required: resource to select",
+          "type": "string",
+          "x-go-name": "Resource"
         }
       },
       "x-go-package": "k8s.io/api/core/v1"
@@ -36761,7 +38321,7 @@
           "x-go-name": "Key"
         },
         "name": {
-          "description": "Name of the referent.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Add other useful fields. apiVersion, kind, uid?\n+optional",
+          "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\n+optional\n+default=\"\"\n+kubebuilder:default=\"\"\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
           "type": "string",
           "x-go-name": "Name"
         },
@@ -37107,6 +38667,32 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
+    "StaticLabel": {
+      "type": "object",
+      "title": "StaticLabel is a label that can be used for the clusters.",
+      "properties": {
+        "default": {
+          "type": "boolean",
+          "x-go-name": "Default"
+        },
+        "key": {
+          "type": "string",
+          "x-go-name": "Key"
+        },
+        "protected": {
+          "type": "boolean",
+          "x-go-name": "Protected"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Values"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
     "StorageClass": {
       "description": "StorageClass represents a Kubernetes StorageClass",
       "type": "object",
@@ -37125,6 +38711,17 @@
         "$ref": "#/definitions/StorageClass"
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "StorageType": {
+      "description": "ObjectStorage must be non-nil, since it is currently the only supported StorageType.",
+      "type": "object",
+      "title": "StorageType represents the type of storage that a backup location uses.",
+      "properties": {
+        "objectStorage": {
+          "$ref": "#/definitions/ObjectStorageLocation"
+        }
+      },
+      "x-go-package": "github.com/vmware-tanzu/velero/pkg/apis/velero/v1"
     },
     "Subject": {
       "description": "or a value for non-objects such as user and group names.\n+structType=atomic",
@@ -37226,6 +38823,96 @@
       "description": "+kubebuilder:validation:Enum=helm",
       "type": "string",
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/apps.kubermatic/v1"
+    },
+    "Tinkerbell": {
+      "type": "object",
+      "properties": {
+        "kubeconfig": {
+          "description": "Kubeconfig is the cluster's kubeconfig file, encoded with base64.",
+          "type": "string",
+          "x-go-name": "Kubeconfig"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "TinkerbellCloudSpec": {
+      "type": "object",
+      "properties": {
+        "kubeconfig": {
+          "description": "The cluster's kubeconfig file, encoded with base64.",
+          "type": "string",
+          "x-go-name": "Kubeconfig"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "TinkerbellHTTPSource": {
+      "type": "object",
+      "title": "TinkerbellHTTPSource represents list of images and their versions that can be downloaded over HTTP.",
+      "properties": {
+        "operatingSystems": {
+          "description": "OperatingSystems represents list of supported operating-systems with their URLs.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/OSVersions"
+          },
+          "x-go-name": "OperatingSystems"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "TinkerbellImageSourceType": {
+      "type": "string",
+      "title": "TinkerbellImageSourceType represents a Tinkerbell image source type.",
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "TinkerbellImageSources": {
+      "type": "object",
+      "title": "TinkerbellImageSources represents Operating System image sources for Tinkerbell.",
+      "properties": {
+        "http": {
+          "$ref": "#/definitions/TinkerbellHTTPSource"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "TinkerbellImages": {
+      "type": "object",
+      "title": "TinkerbellImages represents images with versions and their source.",
+      "properties": {
+        "operatingSystems": {
+          "$ref": "#/definitions/ImageListWithVersions"
+        },
+        "source": {
+          "$ref": "#/definitions/TinkerbellImageSourceType"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "TinkerbellImagesList": {
+      "type": "object",
+      "title": "TinkerbellImagesList represents list of available Tinkerbell images with their categories.",
+      "properties": {
+        "standard": {
+          "$ref": "#/definitions/TinkerbellImages"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "TinkerbellNodeSpec": {
+      "description": "TinkerbellNodeSpec tinkerbell specific node settings",
+      "type": "object",
+      "properties": {
+        "hardwareRef": {
+          "$ref": "#/definitions/NamespacedName"
+        },
+        "osImageUrl": {
+          "description": "OsImageUrl is the link for Operating System.",
+          "type": "string",
+          "x-go-name": "OsImageUrl"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
     "TopologySpreadConstraint": {
       "type": "object",
@@ -37445,9 +39132,17 @@
           "x-go-name": "Organization"
         },
         "ovdcNetwork": {
-          "description": "The name of organizational virtual data center network that will be associated with the VMs and vApp.",
+          "description": "The name of organizational virtual data center network that will be associated with the VMs and vApp.\nDeprecated: OVDCNetwork has been deprecated starting with KKP 2.25 and will be removed in KKP 2.27+. It is recommended to use OVDCNetworks instead.",
           "type": "string",
           "x-go-name": "OVDCNetwork"
+        },
+        "ovdcNetworks": {
+          "description": "OVDCNetworks is the list of organizational virtual data center networks that will be attached to the vApp and can be consumed the VMs.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "OVDCNetworks"
         },
         "password": {
           "description": "The VMware Cloud Director user password.",
@@ -37466,6 +39161,24 @@
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "VMwareCloudDirectorAPIPreset": {
+      "description": "VMwareCloudDirectorPreset represents a preset for VMware Cloud Director",
+      "type": "object",
+      "properties": {
+        "ovdcNetwork": {
+          "type": "string",
+          "x-go-name": "OVDCNetwork"
+        },
+        "ovdcNetworks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "OVDCNetworks"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
     },
     "VMwareCloudDirectorCSIConfig": {
       "type": "object",
@@ -37523,9 +39236,17 @@
           "x-go-name": "Organization"
         },
         "ovdcNetwork": {
-          "description": "The name of organizational virtual data center network that will be associated with the VMs and vApp.",
+          "description": "The name of organizational virtual data center network that will be associated with the VMs and vApp.\nDeprecated: OVDCNetwork has been deprecated starting with KKP 2.25 and will be removed in KKP 2.27+. It is recommended to use OVDCNetworks instead.",
           "type": "string",
           "x-go-name": "OVDCNetwork"
+        },
+        "ovdcNetworks": {
+          "description": "OVDCNetworks is the list of organizational virtual data center networks that will be attached to the vApp and can be consumed the VMs.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "OVDCNetworks"
         },
         "password": {
           "description": "The VMware Cloud Director user password.\n+optional",
@@ -37671,6 +39392,20 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
+    "VMwareCloudDirectorSettings": {
+      "type": "object",
+      "properties": {
+        "ipAllocationModes": {
+          "description": "IPAllocationModes are the allowed IP allocation modes for the VMware Cloud Director provider. If not set, all modes are allowed.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ipAllocationMode"
+          },
+          "x-go-name": "IPAllocationModes"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
     "VMwareCloudDirectorStorageProfile": {
       "type": "object",
       "title": "VMwareCloudDirectorStorageProfile represents a VMware Cloud Director storage profile.",
@@ -37713,7 +39448,7 @@
       "type": "object",
       "properties": {
         "basePath": {
-          "description": "BasePath configures a vCenter folder path that KKP will create an individual cluster folder in.\nIf it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path,\nthe BasePath part will be appended to the RootPath to construct the full path.",
+          "description": "BasePath configures a vCenter folder path that KKP will create an individual cluster folder in.\nIf it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path,\nthe BasePath part will be appended to the RootPath to construct the full path. For both cases,\nthe full folder structure needs to exist. KKP will only try to create the cluster folder.",
           "type": "string",
           "x-go-name": "BasePath"
         },
@@ -37773,7 +39508,7 @@
       "title": "VSphereCloudSpec specifies access data to VSphere cloud.",
       "properties": {
         "basePath": {
-          "description": "Optional: BasePath configures a vCenter folder path that KKP will create an individual cluster folder in.\nIf it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path,\nthe BasePath part will be appended to the RootPath (if set) to construct the full path.\n+optional",
+          "description": "Optional: BasePath configures a vCenter folder path that KKP will create an individual cluster folder in.\nIf it's an absolute path, the RootPath configured in the datacenter will be ignored. If it is a relative path,\nthe BasePath part will be appended to the RootPath to construct the full path. For both cases,\nthe full folder structure needs to exist. KKP will only try to create the cluster folder.\n+optional",
           "type": "string",
           "x-go-name": "BasePath"
         },
@@ -37940,6 +39675,10 @@
           "description": "Automatically create anti affinity rules for machines.",
           "type": "boolean",
           "x-go-name": "VMAntiAffinity"
+        },
+        "vmGroup": {
+          "type": "string",
+          "x-go-name": "VMGroup"
         }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
@@ -37989,6 +39728,25 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
     },
+    "VSphereVMGroup": {
+      "type": "object",
+      "title": "VSphereVMGroup is the object representing a vsphere VM Group.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
+    },
+    "VSphereVMGroupList": {
+      "type": "array",
+      "title": "VSphereVMGroupList represents an array of vSphere VM Groups.",
+      "items": {
+        "$ref": "#/definitions/VSphereVMGroup"
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
+    },
     "Validation": {
       "type": "object",
       "properties": {
@@ -38021,6 +39779,11 @@
           "description": "MessageExpression declares a CEL expression that evaluates to the validation failure message that is returned when this rule fails.\nSince messageExpression is used as a failure message, it must evaluate to a string.\nIf both message and messageExpression are present on a rule, then messageExpression will be used if validation\nfails. If messageExpression results in a runtime error, the runtime error is logged, and the validation failure message is produced\nas if the messageExpression field were unset. If messageExpression evaluates to an empty string, a string with only spaces, or a string\nthat contains line breaks, then the validation failure message will also be produced as if the messageExpression field were unset, and\nthe fact that messageExpression produced an empty string/string with only spaces/string with line breaks will be logged.\nmessageExpression has access to all the same variables as the rule; the only difference is the return type.",
           "type": "string",
           "x-go-name": "MessageExpression"
+        },
+        "optionalOldSelf": {
+          "description": "optionalOldSelf is used to opt a transition rule into evaluation\neven when the object is first created, or if the old object is\nmissing the value.\n\nWhen enabled `oldSelf` will be a CEL optional whose value will be\n`None` if there is no old value, or when the object is initially created.\n\nYou may check for presence of oldSelf using `oldSelf.hasValue()` and\nunwrap it after checking using `oldSelf.value()`. Check the CEL\ndocumentation for Optional types for more information:\nhttps://pkg.go.dev/github.com/google/cel-go/cel#OptionalTypes\n\nMay not be set unless `oldSelf` is used in `rule`.\n\n+featureGate=CRDValidationRatcheting\n+optional",
+          "type": "boolean",
+          "x-go-name": "OptionalOldSelf"
         },
         "reason": {
           "$ref": "#/definitions/FieldValueErrorReason"
@@ -38159,6 +39922,30 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
     },
+    "WebTerminalOptions": {
+      "type": "object",
+      "properties": {
+        "additionalEnvironmentVariables": {
+          "description": "AdditionalEnvironmentVariables are the additional environment variables that can be set for the Web Terminal.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnvVar"
+          },
+          "x-go-name": "AdditionalEnvironmentVariables"
+        },
+        "enableInternetAccess": {
+          "description": "EnableInternetAccess enables the Web Terminal feature to access the internet.",
+          "type": "boolean",
+          "x-go-name": "EnableInternetAccess"
+        },
+        "enabled": {
+          "description": "Enabled enables the Web Terminal feature for the user clusters.",
+          "type": "boolean",
+          "x-go-name": "Enabled"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
     "bcBody": {
       "type": "object",
       "properties": {
@@ -38270,6 +40057,11 @@
         }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/ee/group-project-binding/handler"
+    },
+    "ipAllocationMode": {
+      "description": "+kubebuilder:validation:Enum=DHCP;POOL",
+      "type": "string",
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
     "wrBody": {
       "type": "object",

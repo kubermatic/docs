@@ -135,7 +135,7 @@ Assuming that the KKP Dashboard pod name is `kubermatic-dashboard-5b96d7f5df-mkm
 using the below command:
 
 ```bash
-kubectl -n kubermatic cp ~/changelog.json kubermatic-dashboard-5b96d7f5df-mkmgh:/dist/assets/config 
+kubectl -n kubermatic cp ~/changelog.json kubermatic-dashboard-5b96d7f5df-mkmgh:/dist/assets/config
 ```
 
 ##### Docker
@@ -155,9 +155,9 @@ version of the application changes it will be automatically shown right after lo
 last seen version in the user object in order to avoid showing it every time after logging in when there was no version
 update. It is still possible to open it manually by using the `What's new` entry inside `Help & Support` panel.
 
-![Opening Changelog](/img/kubermatic/master/ui/opening_changelog.png?classes=shadow,border)
+![Opening Changelog](/img/kubermatic/v2.17/ui/opening_changelog.png?classes=shadow,border)
 
 An example changelog might look like the one below.
 
-![Changelog](/img/kubermatic/master/ui/changelog.png?classes=shadow,border)
+![Changelog](/img/kubermatic/v2.17/ui/changelog.png?classes=shadow,border)
 

@@ -6,8 +6,12 @@ date = 2021-09-06T12:00:00+02:00
 The CCM/CSI migration is used to migrate your clusters using legacy in-tree
 cloud provider (i.e. created **without** `.cloudProvider.external: true`)
 to external cloud controller managers (CCMs) and CSI drivers. The CCM/CSI
-migration process is currently supported **only** for **Azure**, **OpenStack**
-and **vSphere**.
+migration process is currently supported **only** for the following providers:
+
+* AWS
+* Azure
+* OpenStack
+* vSphere
 
 This guide provides the context on:
 
@@ -105,6 +109,7 @@ Make sure to familiarize yourself with requirements for external CCM and CSI
 drivers. Those requirements are provided by cloud providers and you can usually
 find them in the repositories for each components:
 
+* AWS: there are no special prerequisites for AWS CCM and CSI drivers
 * Azure: there are no special prerequisites for Azure CCM and CSI drivers
 * OpenStack:
   * [Required OpenStack services and cloudConfig properties for the external
@@ -142,7 +147,7 @@ cloudProvider:
 In addition to that, specific cloud providers might require additional
 configuration.
 
-#### Azure and OpenStack
+#### AWS, Azure and OpenStack
 
 In general, no addition configuration or changes are needed for Azure and
 OpenStack, but make sure to check the documents linked in the Migration

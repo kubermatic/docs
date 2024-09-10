@@ -64,7 +64,7 @@ There are two kinds of users in KKP: **admin** and **non-admin** users.
 
 **Admin** users can manage settings that impact the whole Kubermatic installation and users. For example, they can set default
 values for cluster creation, like the number of machine Deployment's replica or enforce some integrations, like
-[Monitoring and logging stack]({{< ref "../monitoring-logging-alerting/user-cluster/" >}}) on user clusters. All these settings are explained in detail in the [Administration chapter]({{< ref "../../tutorials-howtos/administration " >}}).
+[Monitoring and logging stack]({{< ref "../monitoring-logging-alerting/user-cluster/" >}}) on user clusters. All these settings are explained in detail in the [Administration chapter]({{< ref "../../tutorials-howtos/administration" >}}).
 Moreover, KKP admins have access to all projects.
 
 On the other hand, **non-admin** users only have access to the projects they are granted. The KKP role they are associated with

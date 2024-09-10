@@ -174,7 +174,7 @@ firewall rules, or images.
 
 ### Infrastructure For Worker Nodes
 
-The requirements for the worker istances are similar as for the control
+The requirements for the worker instances are similar as for the control
 plane instances:
 
 * All instances must satisfy the

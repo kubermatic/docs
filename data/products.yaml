@@ -2,15 +2,19 @@
 # The "weight" field is used for order the products on homepage
 kubermatic:
   name: Kubermatic
-  logo: "img/KubermaticKubernetesPlatform-logo.svg"
+  logo: "img/logo-kubermatic.svg"
   title: Kubermatic Kubernetes Platform
   description: Automate multicloud, on-prem, and edge operations with a single management UI enabling you to deliver the cloud native transformation immediately.
   textName: KKP #used for displaying different title in product dropdown
   weight: 2
-  shareImage: img/Docs-KKP-share.jpg
+  shareImage: img/share-kubermatic.png
   versions:
     - release: main
       name: main
+    - release: v2.25
+      name: v2.25
+    - release: v2.24
+      name: v2.24
     - release: v2.23
       name: v2.23
     - release: v2.22
@@ -37,14 +41,16 @@ kubermatic:
       name: v2.12
 kubeone:
   name: KubeOne
-  logo: "img/KubeOne-logo.svg"
+  logo: "/img/logo-kubeone.svg"
   title: KubeOne
   description: Automate operations of a single Kubernetes cluster on your chosen cloud, on-prem, or edge environment.
   weight: 1
-  shareImage: img/Docs-KubeOne-share.jpg
+  shareImage: img/share-kubeone.png
   versions:
     - release: main
       name: main
+    - release: v1.8
+      name: v1.8
     - release: v1.7
       name: v1.7
     - release: v1.6
@@ -59,22 +65,6 @@ kubeone:
       name: v1.2
     - release: v1.0
       name: v1.0
-kubecarrier:
-  name: KubeCarrier
-  logo: "img/KubeCarrier-logo.svg"
-  title: KubeCarrier
-  description: The operator of operators. Centrally manage all your services and applications across multiple clusters, clouds and regions with Kubernetes native API and tooling.
-  weight: 3
-  shareImage: img/Docs-KubeCarrier-share.jpg
-  versions:
-    - release: master
-      name: master
-    - release: v0.3
-      name: v0.3
-    - release: v0.2
-      name: v0.2
-    - release: v0.1
-      name: v0.1
 operatingsystemmanager:
   name: operatingsystemmanager
   logo: "/img/operatingsystemmanager/common/operating-system-manager-logo.png"
@@ -82,8 +72,7 @@ operatingsystemmanager:
   textName: Operating System Manager
   description: Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster.
   weight: 4
-  shareImage: img/Docs-OSM-share.jpg
-
+  shareImage: img/share-operatingsystemmanager.png
 kubelb:
   name: kubelb
   logo: "/img/kubelb/common/logo.png"
@@ -91,4 +80,19 @@ kubelb:
   textName: KubeLB
   description: KubeLB is a tool to centrally manage load balancers across multicloud and on-prem environments.
   weight: 5
-  shareImage: img/Docs-KubeLB-share.jpg
+  shareImage: img/share-kubelb.png
+  versions:
+    - release: main
+      name: main
+    - release: v1.1
+      name: v1.1
+    - release: v1.0
+      name: v1.0
+# do not yet reveal KDP to the public
+# developer-platform:
+#   name: developer-platform
+#   logo: "/img/developer-platform/common/logo.png"
+#   title: Kubermatic Developer Platform
+#   description: <TODO>
+#   weight: 6
+#   shareImage: img/share-developer-platform.png

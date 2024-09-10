@@ -251,7 +251,7 @@ Run the following command to install the prerequisites and the Kubernetes
 binaries:
 
 ```bash
-kubeone install --manifest kubeone.yaml -t tf.json --no-init
+kubeone apply --manifest kubeone.yaml -t tf.json --no-init
 ```
 
 ## Step 4 — Restore The Backup
@@ -318,11 +318,13 @@ the snapshot.
 {{% /notice %}}
 
 ```bash
+# NOTE: Nowadays, with latest kubeadm based kubernetes installations, docker is not installed out of the box on the control plane machines. If you do not have docker installed and only have ctr command available in the control plane node.. then follow commands after docker command
+
 sudo docker run --rm \
     -v $HOME/backup:/backup \
     -v /var/lib:/var/lib \
     -e ETCDCTL_API=3 \
-    k8s.gcr.io/etcd:3.4.3-0 \
+    k8s.gcr.io/etcd:3.5.9-0 \
     etcdctl \
     snapshot restore \
     --data-dir=/var/lib/etcd \
@@ -330,6 +332,38 @@ sudo docker run --rm \
     --initial-advertise-peer-urls=https://<<LEADER-PRIVATE-IP-ADDRESS>>:2380 \
     --initial-cluster=<<INSTANCE-HOSTNAME-FQDN>>=https://<<LEADER-PRIVATE-IP-ADDRESS>>:2380 \
     /backup/etcd-snapshot.db
+
+# Run same container as above but using ctr command
+# Ensure to pull the right image of etcd that you refer in ctr run subsequently
+sudo ctr image pull registry.k8s.io/etcd:3.5.9-0
+sudo ctr run --rm \
+    --mount type=bind,src=$HOME/backup,dst=/backup,options=rbind:ro \
+    --mount type=bind,src=/var/lib,dst=/var/lib,options=rbind:rw \
+    --env ETCDCTL_API=3 \
+    registry.k8s.io/etcd:3.5.9-0 \
+    sh etcdctl \
+    snapshot restore \
+    --data-dir=/var/lib/etcd \
+    --name=<<INSTANCE-HOSTNAME-FQDN>> \
+    --initial-advertise-peer-urls=https://<<LEADER-PRIVATE-IP-ADDRESS>>:2380 \
+    --initial-cluster=<<INSTANCE-HOSTNAME-FQDN>>=https://<<LEADER-PRIVATE-IP-ADDRESS>>:2380 \
+    /backup/etcd-snapshot.db
+
+# e.g.
+sudo ctr image pull registry.k8s.io/etcd:3.5.9-0
+sudo ctr run --rm \
+    --mount type=bind,src=$HOME/backup,dst=/backup,options=rbind:ro \
+    --mount type=bind,src=/var/lib,dst=/var/lib,options=rbind:rw \
+    --env ETCDCTL_API=3 \
+    registry.k8s.io/etcd:3.5.9-0 \
+    sh etcdctl \
+    snapshot restore \
+    --data-dir=/var/lib/etcd \
+    --name=dev-cp-1 \
+    --initial-advertise-peer-urls=https://10.5.0.1:2380 \
+    --initial-cluster=dev-cp-1=https://10.5.0.1:2380 \
+    /backup/etcd-snapshot.db
+
 ```
 
 After the command is done, etcd data will be in the place. Other nodes will get

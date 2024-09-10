@@ -12,12 +12,15 @@ spec:
       - node-exporter
       - kube-state-metrics
       - multus
-      - hubble
       - metallb
     # DebugLog enables more verbose logging.
     debugLog: false
     # DockerRepository is the repository containing the Kubermatic REST API image.
     dockerRepository: quay.io/kubermatic/dashboard
+    # DockerTagSuffix is appended to the KKP version used for referring to the custom Kubermatic API image.
+    # If left empty, either the `DockerTag` if specified or the original Kubermatic API Docker image tag will be used.
+    # With DockerTagSuffix the tag becomes <KKP_VERSION-SUFFIX> i.e. "v2.15.0-SUFFIX".
+    dockerTagSuffix: ""
     # PProfEndpoint controls the port the API should listen on to provide pprof
     # data. This port is never exposed from the container and only available via port-forwardings.
     pprofEndpoint: :6600
@@ -105,6 +108,8 @@ spec:
     # Domain is the base domain where the dashboard shall be available. Even with
     # a disabled Ingress, this must always be a valid hostname.
     domain: example.com
+    # NamespaceOverride need to be set if a different ingress-controller is used than the KKP default one.
+    namespaceOverride: ""
   # MasterController configures the master-controller-manager.
   masterController:
     # DebugLog enables more verbose logging.
@@ -217,12 +222,15 @@ spec:
           --secret_key=$SECRET_ACCESS_KEY \
           --host=$ENDPOINT \
           --host-bucket='%(bucket).'$ENDPOINT \
-          put /backup/snapshot.db s3://$BUCKET_NAME/$CLUSTER-$BACKUP_TO_CREATE
+          put /backup/snapshot.db.gz s3://$BUCKET_NAME/$CLUSTER-$BACKUP_TO_CREATE
       volumeMounts:
       - name: etcd-backup
         mountPath: /backup
     # DebugLog enables more verbose logging.
     debugLog: false
+    # DisabledCollectors contains a list of metrics collectors that should be disabled.
+    # Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None".
+    disabledCollectors: null
     # DockerRepository is the repository containing the Kubermatic seed-controller-manager image.
     dockerRepository: quay.io/kubermatic/kubermatic
     # MaximumParallelReconciles limits the number of cluster reconciliations
@@ -263,7 +271,7 @@ spec:
     dockerRepository: quay.io/kubermatic/dashboard
     # DockerTagSuffix is appended to the KKP version used for referring to the custom dashboard image.
     # If left empty, either the `DockerTag` if specified or the original dashboard Docker image tag will be used.
-    # With DockerTagSuffix the tag becomes <KKP_VERSION:SUFFIX> i.e. "v2.15.0-SUFFIX".
+    # With DockerTagSuffix the tag becomes <KKP_VERSION-SUFFIX> i.e. "v2.15.0-SUFFIX".
     dockerTagSuffix: ""
     # ExtraVolumeMounts allows to mount additional volumes into the UI container.
     extraVolumeMounts: null
@@ -361,12 +369,6 @@ spec:
         - apiVersion: kubermatic.k8c.io/v1
           kind: Addon
           metadata:
-            name: pod-security-policy
-            labels:
-              addons.kubermatic.io/ensure: true
-        - apiVersion: kubermatic.k8c.io/v1
-          kind: Addon
-          metadata:
             name: aws-node-termination-handler
             labels:
               addons.kubermatic.io/ensure: true
@@ -453,37 +455,36 @@ spec:
       # The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
       # The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm".
       helmRegistryConfigFile: null
-      # HelmRepository specifies OCI repository containing Helm charts of system Applications.
+      # HelmRepository specifies OCI repository containing Helm charts of system Applications e.g. oci://localhost:5000/myrepo.
       helmRepository: quay.io/kubermatic/helm-charts
   # Versions configures the available and default Kubernetes versions and updates.
   versions:
     # Default is the default version to offer users.
-    default: v1.27.6
+    default: v1.30.3
     # ExternalClusters contains the available and default Kubernetes versions and updates for ExternalClusters.
     externalClusters:
       aks:
         # Default is the default version to offer users.
-        default: v1.28
+        default: v1.30
         # Updates is a list of available upgrades.
         updates: null
         # Versions lists the available versions.
         versions:
+          - v1.30
+          - v1.29
           - v1.28
           - v1.27
-          - v1.26
-          - v1.25
       eks:
         # Default is the default version to offer users.
-        default: v1.28
+        default: v1.30
         # Updates is a list of available upgrades.
         updates: null
         # Versions lists the available versions.
         versions:
+          - v1.30
+          - v1.29
           - v1.28
           - v1.27
-          - v1.26
-          - v1.25
-          - v1.24
     # ProviderIncompatibilities lists all the Kubernetes version incompatibilities
     providerIncompatibilities:
       - # Condition is the cluster or datacenter condition that must be met to block a specific version
@@ -509,12 +510,12 @@ spec:
         version: '>= 1.26.0'
       - condition: inTreeProvider
         operation: CREATE
-        provider: vsphere
-        version: '>= 1.25.0'
+        provider: ""
+        version: '>= 1.29.0'
       - condition: inTreeProvider
         operation: UPGRADE
-        provider: vsphere
-        version: '>= 1.25.0'
+        provider: ""
+        version: '>= 1.29.0'
     # Updates is a list of available and automatic upgrades.
     # All 'to' versions must be configured in the version list for this orchestrator.
     # Each update may optionally be configured to be 'automatic: true', in which case the
@@ -532,28 +533,50 @@ spec:
         # for the worker nodes of all matching user clusters.
         automaticNodeUpdate: false
         # From is the version from which an update is allowed. Wildcards are allowed, e.g. "1.18.*".
-        from: 1.26.*
+        from: 1.27.*
         # To is the version to which an update is allowed.
         # Must be a valid version if `automatic` is set to true, e.g. "1.20.13".
         # Can be a wildcard otherwise, e.g. "1.20.*".
-        to: 1.26.*
-      - from: 1.26.*
-        to: 1.27.*
-      - from: 1.27.*
         to: 1.27.*
       - from: 1.27.*
         to: 1.28.*
       - from: 1.28.*
         to: 1.28.*
+      - from: 1.28.*
+        to: 1.29.*
+      - from: 1.29.*
+        to: 1.29.*
+      - from: 1.29.*
+        to: 1.30.*
+      - from: 1.30.*
+        to: 1.30.*
+      - from: 1.30.*
+        to: 1.31.*
+      - from: 1.31.*
+        to: 1.31.*
     # Versions lists the available versions.
     versions:
-      - v1.26.1
-      - v1.26.4
-      - v1.26.6
-      - v1.26.9
       - v1.27.3
       - v1.27.6
+      - v1.27.10
+      - v1.27.11
+      - v1.27.13
+      - v1.27.14
       - v1.28.2
+      - v1.28.5
+      - v1.28.6
+      - v1.28.7
+      - v1.28.9
+      - v1.28.11
+      - v1.28.12
+      - v1.29.0
+      - v1.29.1
+      - v1.29.2
+      - v1.29.4
+      - v1.29.6
+      - v1.29.7
+      - v1.30.3
+      - v1.31.0
   # VerticalPodAutoscaler configures the Kubernetes VPA integration.
   verticalPodAutoscaler:
     admissionController:
@@ -573,14 +596,14 @@ spec:
         # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         limits:
           cpu: 200m
-          memory: 128Mi
+          memory: 512Mi
         # Requests describes the minimum amount of compute resources required.
         # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
         # otherwise to an implementation-defined value. Requests cannot exceed Limits.
         # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         requests:
           cpu: 50m
-          memory: 32Mi
+          memory: 128Mi
     recommender:
       # DockerRepository is the repository containing the component's image.
       dockerRepository: registry.k8s.io/autoscaling/vpa-recommender
@@ -623,14 +646,14 @@ spec:
         # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         limits:
           cpu: 200m
-          memory: 128Mi
+          memory: 512Mi
         # Requests describes the minimum amount of compute resources required.
         # If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
         # otherwise to an implementation-defined value. Requests cannot exceed Limits.
         # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         requests:
           cpu: 50m
-          memory: 32Mi
+          memory: 128Mi
   # Webhook configures the webhook.
   webhook:
     # DebugLog enables more verbose logging.

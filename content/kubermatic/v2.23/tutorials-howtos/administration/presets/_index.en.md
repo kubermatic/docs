@@ -205,7 +205,7 @@ It is important to note that this is the project ID and not the "human-readable"
 ### Creating a Preset
 
 Presets can also be created via `kubectl`. As with any other Kubernetes resource, you will need to draft a YAML file
-for it and then create/apply it. The YAML example above can be re-used to start creating a `Preset` resource. For respective
+for it and then create/apply it. The YAML example above can be reused to start creating a `Preset` resource. For respective
 fields for each provider, check out the [PresetSpec CRD reference]({{< ref "../../../references/crds/#presetspec" >}}).
 
 Each provider implementation has different fields, but the `Preset` specification itself supports a few keys

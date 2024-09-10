@@ -176,5 +176,5 @@ can resolve it in one of the following ways:
 [compatibility]: {{< ref "../../../architecture/compatibility" >}}
 [centos-eol]: https://www.centos.org/centos-linux-eol/
 [addons-api]: {{< ref "../../../guides/addons" >}}
-[addons]: https://github.com/kubermatic/kubeone/tree/mai/addons
+[addons]: https://github.com/kubermatic/kubeone/tree/main/addons
 [addons-override]: {{< ref "../../../guides/addons#overriding-embedded-eddons" >}}

@@ -1,5 +1,6 @@
 +++
 title = "IAM and Role-Based Access Control"
+linktitle = "IAM and RBAC"
 date = 2020-04-02T12:07:15+02:00
 weight = 5
 
@@ -7,7 +8,7 @@ weight = 5
 
 KKP components use OpenID Connect (OIDC) protocol for authentication and RBAC for authorization.
 By default, KKP provides [Dex](#authentication-with-dex) as OIDC provider, but you can configure your own provider. For more information,
-please refer to the [OIDC provider]({{< ref "../../tutorials-howtos/OIDC-Provider-Configuration" >}}) chapter.
+please refer to the [OIDC provider]({{< ref "../../tutorials-howtos/oidc-provider-configuration" >}}) chapter.
 
 ## Authentication with Dex
 [Dex](https://dexidp.io/) is an identity service that uses OIDC to drive authentication for KKP components. It acts as a
@@ -64,7 +65,7 @@ There are two kinds of users in KKP: **admin** and **non-admin** users.
 
 **Admin** users can manage settings that impact the whole Kubermatic installation and users. For example, they can set default
 values for cluster creation, like the number of machine Deployment's replica or enforce some integrations, like
-[Monitoring and logging stack]({{< ref "../monitoring-logging-alerting/user-cluster/" >}}) on user clusters. All these settings are explained in detail in the [Administration chapter]({{< ref "../../tutorials-howtos/administration " >}}).
+[Monitoring and logging stack]({{< ref "../monitoring-logging-alerting/user-cluster/" >}}) on user clusters. All these settings are explained in detail in the [Administration chapter]({{< ref "../../tutorials-howtos/administration" >}}).
 Moreover, KKP admins have access to all projects.
 
 On the other hand, **non-admin** users only have access to the projects they are granted. The KKP role they are associated with

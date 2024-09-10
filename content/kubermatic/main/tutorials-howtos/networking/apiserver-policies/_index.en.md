@@ -55,6 +55,8 @@ This feature is available only for user clusters with the `LoadBalancer` [Expose
 
 When restricting access to the API server, it is important to allow IP ranges of the user cluster's worker nodes network (to allow kubelet to apiserver communication), IP ranges of the KKP main cluster's worker nodes (to allow access of the kubermatic-api for proper KKP dashboard operation) and KKP seed cluster's worker nodes too.
 
+Since Kubernetes in version v1.25, it is also needed to add Pod IP range of KKP seed cluster, because of the [change](https://github.com/kubernetes/kubernetes/pull/110289) to kube-proxy. KKP will add this range automatically, if was not already specified.
+
 {{% /notice %}}
 
 To restrict the access to the API server, set the `apiServerAllowedIPRanges` in the in the cluster spec, as shown in the example below:
@@ -69,8 +71,8 @@ spec:
 
 This can be also configured from the KKP UI, either during cluster creation, under the "Network Configuration" > "Advanced Network Configuration":
 
-![Allowed IP Ranges - Cluster Creation](/img/kubermatic/main/tutorials/networking/network_config_allowed_ip_ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Cluster Creation")
+![Allowed IP Ranges - Cluster Creation](network-config-allowed-ip-ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Cluster Creation")
 
 or in an existing cluster via the "Edit Cluster" dialog:
 
-![Allowed IP Ranges - Edit Cluster](/img/kubermatic/main/tutorials/networking/cluster_details_allowed_ip_ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Edit Cluster")
+![Allowed IP Ranges - Edit Cluster](cluster-details-allowed-ip-ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Edit Cluster")

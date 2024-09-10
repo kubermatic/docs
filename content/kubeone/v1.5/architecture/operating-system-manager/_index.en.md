@@ -52,4 +52,4 @@ For each MachineDeployment we have two types of configurations, which are stored
 1. **Bootstrap**: Configuration used for initially setting up the machine and fetching the provisioning configuration.
 2. **Provisioning**: Configuration with the actual `cloud-config` that is used to provision the worker machine.
 
-![Architecture](/img/kubeone/main/operating-system-manager/architecture.png?classes=shadow,border "Architecture")
+![Architecture](images/architecture.png "Architecture")

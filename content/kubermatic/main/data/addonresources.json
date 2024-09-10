@@ -1,24 +1,32 @@
 {
   "addons": [
     {
+      "addonName": "aws-node-termination-handler",
+      "resources": []
+    },
+    {
+      "addonName": "azure-cloud-node-manager",
+      "resources": []
+    },
+    {
       "addonName": "canal",
-      "resources": [
-        {
-          "kind": "DaemonSet",
-          "resourceName": "canal",
-          "filename": "canal.yaml",
-          "containers": [
-            {
-              "containerName": "calico-node",
-              "resources": {
-                "requests": {
-                  "cpu": "250m"
-                }
-              }
-            }
-          ]
-        }
-      ]
+      "resources": []
+    },
+    {
+      "addonName": "cluster-autoscaler",
+      "resources": []
+    },
+    {
+      "addonName": "csi",
+      "resources": []
+    },
+    {
+      "addonName": "default-storage-class",
+      "resources": []
+    },
+    {
+      "addonName": "hubble",
+      "resources": []
     },
     {
       "addonName": "kube-proxy",
@@ -26,7 +34,6 @@
         {
           "kind": "DaemonSet",
           "resourceName": "kube-proxy",
-          "filename": "daemonset.yaml",
           "containers": [
             {
               "containerName": "kube-proxy",
@@ -51,7 +58,6 @@
         {
           "kind": "Deployment",
           "resourceName": "kube-state-metrics",
-          "filename": "deployment.yaml",
           "containers": [
             {
               "containerName": "kube-state-metrics",
@@ -67,7 +73,7 @@
               }
             },
             {
-              "containerName": "kube-rbac-proxy",
+              "containerName": "kube-rbac-proxy-http",
               "resources": {
                 "limits": {
                   "cpu": "40m",
@@ -97,13 +103,11 @@
         {
           "kind": "Deployment",
           "resourceName": "controller",
-          "filename": "00_metallb.yaml",
           "containers": []
         },
         {
           "kind": "DaemonSet",
           "resourceName": "speaker",
-          "filename": "00_metallb.yaml",
           "containers": []
         }
       ]
@@ -114,7 +118,6 @@
         {
           "kind": "DaemonSet",
           "resourceName": "kube-multus-ds",
-          "filename": "daemonset.yaml",
           "containers": [
             {
               "containerName": "kube-multus",
@@ -139,7 +142,6 @@
         {
           "kind": "DaemonSet",
           "resourceName": "node-exporter",
-          "filename": "daemonset.yaml",
           "containers": [
             {
               "containerName": "node-exporter",
@@ -177,7 +179,6 @@
         {
           "kind": "Deployment",
           "resourceName": "openvpn-client",
-          "filename": "openvpn-client-dep.yaml",
           "containers": [
             {
               "containerName": "openvpn-client",

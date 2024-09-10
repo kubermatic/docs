@@ -91,7 +91,7 @@ The value for `.Values.kubermatic.auth.issuerCookieKey` can be randomly generate
 Note that `.Values.kubermatic.auth.caBundle` must contain OIDC provider's root CA certificates chain, see [Root CA certificates chain](#root-ca-certificates-chain) section that explains how to create the file.
 {{% /notice %}}
 
-`conifg.json` file for `kubermatic-dashboard` must contain `"share_kubeconfig":true`.
+`config.json` file for `kubermatic-dashboard` must contain `"share_kubeconfig":true`.
 You can set it by changing the `kubermatic.ui.config` entry in the `values.yaml` file. Afterwards, [update KKP](#update-kubermatic).
 
 ### Root CA Certificates Chain

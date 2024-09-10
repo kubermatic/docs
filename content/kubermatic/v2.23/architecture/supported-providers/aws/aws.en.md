@@ -2,7 +2,6 @@
 title = "AWS"
 date = 2018-09-20T12:12:15+02:00
 weight = 1
-
 +++
 
 The Amazon Web Services (AWS) account used to provision user cluster machines must fulfill a number of preconditions, listed below.
@@ -27,7 +26,8 @@ Ensure that the assigned policy contains at least the following permissions. Pol
             "Effect": "Allow",
             "Action": [
                 "iam:GetInstanceProfile",
-                "iam:ListInstanceProfiles"
+                "iam:ListInstanceProfiles",
+                "iam:TagInstanceProfile"
             ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/*"
         },
@@ -61,7 +61,7 @@ Ensure that the assigned policy contains at least the following permissions. Pol
             "Effect": "Allow",
             "Action": [
                 "ec2:*",
-                "iam:TagInstanceProfile",
+                "elasticloadbalancing:AddTags",
                 "elasticloadbalancing:CreateListener",
                 "elasticloadbalancing:CreateRule",
                 "elasticloadbalancing:CreateTargetGroup",

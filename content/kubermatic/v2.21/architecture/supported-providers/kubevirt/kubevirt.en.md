@@ -475,7 +475,7 @@ merged fields from the `VirtualMachineInstance` and provide deterministic behavi
 #### Basic Disk Configuration
 
 For the basic configuration, disk images are imported from a web server, via HTTP download,
-by specifying a URL when creating a cluster, at the `Inital Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
+by specifying a URL when creating a cluster, at the `Initial Nodes` step, in the `Primary Disk` section as shown in the screenshot below.
 
 ![Primary Disk](/img/kubermatic/v2.21/architecture/supported-providers/kubevirt/primary-disk.png)
 

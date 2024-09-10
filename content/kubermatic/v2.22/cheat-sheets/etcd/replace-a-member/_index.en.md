@@ -7,7 +7,7 @@ weight = 10
 
 ## Intro
 
-As the etcd gets managed by a StatefulSet with PVC's, replacing a member should mostly never needed.
+As the etcd gets managed by a StatefulSet with PVCs, replacing a member should mostly never needed.
 Scenarios though could be:
 
 - A PV of an etcd member got corrupted or even deleted

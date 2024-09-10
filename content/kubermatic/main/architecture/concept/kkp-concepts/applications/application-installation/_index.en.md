@@ -1,5 +1,6 @@
 +++
 title = "Application Installation"
+linktitle = "Installations"
 date = 2023-01-27T14:07:15+02:00
 weight = 2
 
@@ -24,13 +25,13 @@ spec:
     create: true
     labels:
       owner: "team-1"
-  values:
+  valuesBlock: |
     commonLabels:
       owner: "team-1"
 ```
 
-The `applicationRef` is a reference to the `applicationDefinition` that handles this installation.  
-The `.spec.namespace` defines in which namespace the application will be installed. If `.spec.namespace.create` is `true`, then it will ensure that the namespace exists and have the desired labels.  
+The `applicationRef` is a reference to the `applicationDefinition` that handles this installation.
+The `.spec.namespace` defines in which namespace the application will be installed. If `.spec.namespace.create` is `true`, then it will ensure that the namespace exists and have the desired labels.
 The `values` is a schemaless field that describes overrides for manifest-rendering (e.g. if the method is Helm, then this field contains the Helm values.)
 
 ## Application Life Cycle

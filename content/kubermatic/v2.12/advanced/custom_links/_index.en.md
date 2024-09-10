@@ -51,7 +51,7 @@ Let's assume that we have following configuration of the Dashboard:
 
 Application looks like this:
 
-![Clean state](/kubermatic/master/advanced/custom_links/clean.png)
+![Clean state](/img/kubermatic/v2.12/advanced/custom-links/clean.png)
 
 And we would like to add some links to the external services used by the team.
 
@@ -86,7 +86,7 @@ As a first step we need to change the application config:
 
 After applying the changes the application should look following:
 
-![Default icons](/img/kubermatic/master/advanced/custom_links/default_icons.png)
+![Default icons](/img/kubermatic/v2.12/advanced/custom-links/default-icons.png)
 
 As you can see icons from the default set were used. The services were recognized by the application that is looking
 for matches in labels and in the URL-s of provided links.
@@ -127,4 +127,4 @@ the application container and then displayed.
 
 After applying the changes the application should look following:
 
-![Custom icons](/img/kubermatic/master/advanced/custom_links/custom_icons.png)
+![Custom icons](/img/kubermatic/v2.12/advanced/custom-links/custom-icons.png)

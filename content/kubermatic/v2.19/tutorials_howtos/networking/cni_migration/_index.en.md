@@ -76,7 +76,7 @@ pod "dashboard-metrics-scraper-dd5d7666f-mzpxp" deleted
 pod "dashboard-metrics-scraper-dd5d7666f-vmqbp" deleted
 ```
 
-If you have the `cilium` CLI installed, you can now verify that all pods are manged by Cilium via `cilium status` (e.g. `Cluster Pods: 8/8 managed by Cilium`):
+If you have the `cilium` CLI installed, you can now verify that all pods are managed by Cilium via `cilium status` (e.g. `Cluster Pods: 8/8 managed by Cilium`):
 
 ```bash
 $ cilium status

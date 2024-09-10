@@ -80,7 +80,7 @@ The structure for Kubernetes and OpenShift versions is identical. Each contains
     updated to.
   * `automatic` (bool) controls whether an update is performed immediately after applying the
     configuration. This is useful for force updates in case of security patch releases.
-  * `automaticNodeUpgrade` (bool) controls whether worker nodes are updated as well. If this
+  * `automaticNodeUpdate` (bool) controls whether worker nodes are updated as well. If this
     is left to its default (false), only the controlplane will be updated. When set to true,
     it implies `automatic`.
 

@@ -61,6 +61,8 @@ type ClusterData struct {
 	// KubeVirtInfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for
 	// initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks)
 	KubeVirtInfraStorageClasses []kubermaticv1.KubeVirtInfraStorageClass
+	// DisableCSIDriver indicates if csi drivers (csi addon) is disabled for the user cluster or not.
+	DisableCSIDriver bool
 }
 
 // ClusterAddress stores access and address information of a cluster.
@@ -83,6 +85,11 @@ type ClusterAddress struct {
 	// IP is the external IP under which the apiserver is available
 	// +optional
 	IP string `json:"ip"`
+	// APIServerExternalAddress is the external address of the API server (IP or DNS name)
+	// This field is populated only when the API server service is of type LoadBalancer. If set, this address will be used in the
+	// kubeconfig for the user cluster that can be downloaded from the KKP UI.
+	// +optional
+	APIServerExternalAddress string `json:"apiServerExternalAddress,omitempty"`
 }
 
 type ClusterNetwork struct {
@@ -121,6 +128,9 @@ type CSIOptions struct {
 	// vmware Cloud Director
 	StorageProfile string
 	Filesystem     string
+
+	// openstack
+	CinderTopologyEnabled bool
 }
 
 type MLASettings struct {
@@ -133,6 +143,7 @@ type MLASettings struct {
 type Credentials struct {
 	AWS                 AWSCredentials
 	Azure               AzureCredentials
+	Baremetal           BaremetalCredentials
 	Digitalocean        DigitaloceanCredentials
 	GCP                 GCPCredentials
 	Hetzner             HetznerCredentials
@@ -158,6 +169,15 @@ type AzureCredentials struct {
 	SubscriptionID string
 	ClientID       string
 	ClientSecret   string
+}
+
+type BaremetalCredentials struct {
+	Tinkerbell TinkerbellCredentials
+}
+
+type TinkerbellCredentials struct {
+	// Admin kubeconfig for Tinkerbell cluster
+	Kubeconfig string
 }
 
 type DigitaloceanCredentials struct {

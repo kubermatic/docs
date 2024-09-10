@@ -54,6 +54,9 @@ spec:
         anexia:
           # LocationID the location of the region
           locationID: ""
+        # APIServerServiceType is the service type used for API Server service `apiserver-external` for the user clusters.
+        # By default, the type of service that will be used is determined by the `ExposeStrategy` used for the cluster.
+        apiServerServiceType: null
         # AWS configures an Amazon Web Services (AWS) datacenter.
         aws:
           # List of AMIs to use for a given operating system.
@@ -75,6 +78,25 @@ spec:
           # Region to use, for example "westeurope". A list of available regions can be
           # found at https://azure.microsoft.com/en-us/global-infrastructure/locations/
           location: ""
+        # Baremetal contains settings for baremetal clusters in datacenters.
+        baremetal:
+          tinkerbell:
+            # Images represents standard VM Image sources.
+            images:
+              # HTTP represents a http source.
+              http:
+                # OperatingSystems represents list of supported operating-systems with their URLs.
+                operatingSystems:
+                  centos:
+                    vX.Y: http://example.com/images/os.iso
+                  flatcar:
+                    vX.Y: http://example.com/images/os.iso
+                  rhel:
+                    vX.Y: http://example.com/images/os.iso
+                  rockylinux:
+                    vX.Y: http://example.com/images/os.iso
+                  ubuntu:
+                    vX.Y: http://example.com/images/os.iso
         # BringYourOwn contains settings for clusters using manually created
         # nodes via kubeadm.
         bringyourown: {}
@@ -86,12 +108,18 @@ spec:
         # Optional: DisableCSIDriver disables the installation of CSI driver on every clusters within the DC
         # If true it can't be over-written in the cluster configuration
         disableCsiDriver: false
+        # Edge contains settings for clusters using manually created
+        # nodes in edge envs.
+        edge: {}
         # Optional: EnforceAuditLogging enforces audit logging on every cluster within the DC,
         # ignoring cluster-specific settings.
         enforceAuditLogging: false
         # Optional: EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC,
         # ignoring cluster-specific settings.
         enforcePodSecurityPolicy: false
+        # Optional: EnforcedAuditWebhookSettings allows admins to control webhook backend for audit logs of all the clusters within the DC,
+        # ignoring cluster-specific settings.
+        enforcedAuditWebhookSettings: null
         # GCP configures a Google Cloud Platform (GCP) datacenter.
         gcp:
           # Region to use, for example "europe-west3", for a full list of regions see
@@ -161,15 +189,15 @@ spec:
               # OperatingSystems represents list of supported operating-systems with their URLs.
               operatingSystems:
                 centos:
-                  <<version>>: <<url>>
+                  vX.Y: http://example.com/images/os.iso
                 flatcar:
-                  <<version>>: <<url>>
+                  vX.Y: http://example.com/images/os.iso
                 rhel:
-                  <<version>>: <<url>>
+                  vX.Y: http://example.com/images/os.iso
                 rockylinux:
-                  <<version>>: <<url>>
+                  vX.Y: http://example.com/images/os.iso
                 ubuntu:
-                  <<version>>: <<url>>
+                  vX.Y: http://example.com/images/os.iso
           # Optional: InfraStorageClasses contains a list of KubeVirt infra cluster StorageClasses names
           # that will be used to initialise StorageClasses in the tenant cluster.
           # In the tenant cluster, the created StorageClass name will have as name:
@@ -181,6 +209,8 @@ spec:
               # storageclass.kubernetes.io/is-default-class : false
               isDefaultClass: true
               name: rook-ceph-block
+          # NamespacedMode represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
+          namespacedMode: null
         # Optional: MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc.
         machineFlavorFilter:
           # Include VMs with GPU
@@ -216,8 +246,14 @@ spec:
           authURL: ""
           # Used to configure availability zone.
           availabilityZone: ""
+          # Optional: configures enablement of topology support for the Cinder CSI Plugin.
+          # This requires Nova and Cinder to have matching availability zones configured.
+          csiCinderTopologyEnabled: false
           # Used for automatic network creation
           dnsServers: []
+          # Optional: enable a configuration drive that will be attached to the instance when it boots.
+          # The instance can mount this drive and read files from it to get information
+          enableConfigDrive: null
           # Optional: List of enabled flavors for the given datacenter
           enabledFlavors: []
           # Optional
@@ -234,6 +270,12 @@ spec:
             ubuntu: ""
           # Optional: defines if the IPv6 is enabled for the datacenter
           ipv6Enabled: false
+          # Optional: Gets mapped to the "lb-method" setting in the cloud config.
+          # defaults to "ROUND_ROBIN".
+          loadBalancerMethod: null
+          # Optional: Gets mapped to the "lb-provider" setting in the cloud config.
+          # defaults to ""
+          loadBalancerProvider: null
           # Optional: Gets mapped to the "manage-security-groups" setting in the cloud config.
           # This setting defaults to true.
           manageSecurityGroups: true
@@ -373,6 +415,8 @@ spec:
       replicas: 1
       resources: null
       tolerations: null
+    # CoreDNS configures CoreDNS deployed as part of the cluster control plane.
+    coreDNS: null
     # Etcd configures the etcd ring used to store Kubernetes data.
     etcd:
       # ClusterSize is the number of replicas created for etcd. This should be an
@@ -386,6 +430,8 @@ spec:
       # pods. Options are "preferred" (default) and "required". Please note that
       # enforcing anti-affinity via "required" can mean that pods are never scheduled.
       hostAntiAffinity: ""
+      # NodeSelector is a selector which restricts the set of nodes where etcd Pods can run.
+      nodeSelector: null
       # Resources allows to override the resource requirements for etcd Pods.
       resources: null
       # StorageClass is the Kubernetes StorageClass used for persistent storage
@@ -430,6 +476,8 @@ spec:
         # otherwise to an implementation-defined value. Requests cannot exceed Limits.
         # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         requests: null
+    # OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller).
+    operatingSystemManager: null
     # Prometheus configures the Prometheus instance deployed into the cluster control plane.
     prometheus:
       resources: null
@@ -451,6 +499,9 @@ spec:
       tolerations: null
     # UserClusterController configures the KKP usercluster-controller deployed as part of the cluster control plane.
     userClusterController: null
+  # DisabledCollectors contains a list of metrics collectors that should be disabled.
+  # Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None".
+  disabledCollectors: null
   # EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed;
   # if this is set, the new backup/restore controllers are enabled for this Seed.
   etcdBackupRestore: null
@@ -497,6 +548,8 @@ spec:
     # ReportConfigurations is a map of report configuration definitions.
     reports:
       weekly:
+        # Format is the file format of the generated report, one of "csv" or "json" (defaults to "csv").
+        format: ""
         # Interval defines the number of days consulted in the metering report.
         # Ignored when `Monthly` is set to true
         interval: 7
@@ -510,9 +563,12 @@ spec:
         schedule: 0 1 * * 6
         # Types of reports to generate. Available report types are cluster and namespace. By default, all types of reports are generated.
         type: null
-    # StorageClassName is the name of the storage class that the metering prometheus instance uses to store metric data for reporting.
+    # RetentionDays is the number of days for which data should be kept in Prometheus. Default value is 90.
+    retentionDays: 90
+    # StorageClassName is the name of the storage class that the metering Prometheus instance uses to store metric data for reporting.
     storageClassName: kubermatic-fast
-    # StorageSize is the size of the storage class. Default value is 100Gi.
+    # StorageSize is the size of the storage class. Default value is 100Gi. Changing this value requires
+    # manual deletion of the existing Prometheus PVC (and thereby removing all metering data).
     storageSize: 100Gi
   # Optional: MLA allows configuring seed level MLA (Monitoring, Logging & Alerting) stack settings.
   mla:

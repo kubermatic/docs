@@ -148,12 +148,30 @@ For infrastructure (e.g. VMs, tags and networking) provisioning actions of KKP i
       * Modify customization specification
       * Read customization specifications
   * vSphere Tagging
-    * Assign or Unassign vSphere Tag on Object
+      * Assign or Unassign vSphere Tag
+      * Assign or Unassign vSphere Tag on Object
+      * Create vSphere Tag
+      * Create vSphere Tag Category
+      * Delete vSphere Tag
+      * Delete vSphere Tag Category
+      * Edit vSphere Tag
+      * Edit vSphere Tag Category
+      * Modify UsedBy Field For Category
+      * Modify UsedBy Field For Tag
 ---
 
 ```
 $ govc role.ls k8c-user-vcenter
 Cns.Searchable
+InventoryService.Tagging.AttachTag
+InventoryService.Tagging.CreateCategory
+InventoryService.Tagging.CreateTag
+InventoryService.Tagging.DeleteCategory
+InventoryService.Tagging.DeleteTag
+InventoryService.Tagging.EditCategory
+InventoryService.Tagging.EditTag
+InventoryService.Tagging.ModifyUsedByForCategory
+InventoryService.Tagging.ModifyUsedByForTag
 InventoryService.Tagging.ObjectAttachable
 StorageProfile.View
 System.Anonymous
@@ -233,6 +251,8 @@ VirtualMachine.Inventory.CreateFromExisting
     * vApp
       * vApp application configuration
       * vApp instance configuration
+    * vSphere Tagging
+      * Assign or Unassign vSphere Tag on Object
 ---
 
 ```
@@ -245,6 +265,7 @@ Host.Config.Storage
 Host.Config.SystemManagement
 Host.Inventory.EditCluster
 Host.Local.ReconfigVM
+InventoryService.Tagging.ObjectAttachable
 Resource.AssignVMToPool
 Resource.ColdMigrate
 Resource.HotMigrate
@@ -258,23 +279,37 @@ VApp.InstanceConfig
 * Permissions
   * Network
     * Assign network
-
+  * vSphere Tagging
+    * Assign or Unassign vSphere Tag on Object
 ---
 
 ```
 $ govc role.ls k8c-network-attach
+InventoryService.Tagging.ObjectAttachable
 Network.Assign
+System.Anonymous
+System.Read
+System.View
 ```
 
 {{% /tab %}}
 {{% tab name="k8c-user-datastore-propagate" %}}
 ##### Role `k8c-user-datastore-propagate`
 * Granted at **datastore / datastore cluster** level, propagated
+* Also provides permission to create vSphere tags for a dedicated category, which are required by KKP seed controller manager
+* Please note below points about tagging.
+
+**Note**: If a category id is assigned to a user cluster, KKP would claim the ownership of any tags it creates. KKP would try to delete tags assigned to the cluster upon cluster deletion. Thus, make sure that the assigned category isn't shared across other lingering resources.
+
+**Note**: Tags can be attached to machine deployments regardless if the tags are created via KKP or not.
+If a tag was not attached to the user cluster, machine controller will only detach it.
 * Permissions
   * Datastore
     * Allocate space
     * Browse datastore
     * Low level file operations
+  * vSphere Tagging
+    * Assign or Unassign vSphere Tag on an Object
 
 ---
 
@@ -283,6 +318,10 @@ $ govc role.ls k8c-user-datastore-propagate
 Datastore.AllocateSpace
 Datastore.Browse
 Datastore.FileManagement
+InventoryService.Tagging.ObjectAttachable
+System.Anonymous
+System.Read
+System.View
 ```
 {{% /tab %}}
 {{% tab name="k8c-user-folder-propagate" %}}
@@ -302,8 +341,11 @@ Datastore.FileManagement
     * Interaction
     * Provisioning
     * Snapshot management
-  * vShere Tagging
-    * Assign or Unassign vSphere Tag on Object
+  * vSphere Tagging
+    * Assign or Unassign vSphere Tag
+    * Assign or Unassign vSphere Tag on an Object
+    * Create vSphere Tag
+    * Delete vSphere Tag
 
 ---
 
@@ -312,6 +354,9 @@ $ govc role.ls k8c-user-folder-propagate
 Folder.Create
 Folder.Delete
 Global.SetCustomField
+InventoryService.Tagging.CreateTag
+InventoryService.Tagging.DeleteTag
+InventoryService.Tagging.AttachTag
 InventoryService.Tagging.ObjectAttachable
 System.Anonymous
 System.Read
@@ -402,39 +447,6 @@ VirtualMachine.State.RevertToSnapshot
 
 ```
 {{% /tab %}}
-{{% tab name="k8c-user-tags" %}}
-
-**Note**: If a category id is assigned to a user cluster, KKP would claim the ownership of any tags
-it creates. KKP would try to delete tags assigned to the cluster upon cluster deletion. Thus, make sure that the assigned
-category isn't shared across other lingering resources.
-
-**Note**: Tags can be attached to machine deployments regardless if the tags are created via KKP or not.
-If a tag was not attached to the user cluster, machine controller will only detach it.
-
-##### Role `k8c-user-tags`
-* Granted at datacenter level, propagated
-* Provides permission to create vSphere tags for a dedicated category, which are required by KKP seed controller manager
-* Permissions
-  * vSphere Tagging
-    * Assign or Unassign vSphere Tag
-    * Assign or Unassign vSphere Tag on an Object
-    * Create vSphere Tag
-    * Delete vSphere Tag
-
----
-
-```
-$ govc role.ls k8c-user-tags
-InventoryService.Tagging.CreateTag
-InventoryService.Tagging.DeleteTag
-InventoryService.Tagging.AttachTag
-InventoryService.Tagging.ObjectAttachable
-System.Anonymous
-System.Read
-System.View
-```
-
-{{% /tab %}}
 {{< /tabs >}}
 
 
@@ -448,7 +460,7 @@ System.View
 
 
 
-The described permissions have been tested with vSphere 7.0.U2 and might be different for other vSphere versions.
+The described permissions have been tested with vSphere 8.0.2 and might be different for other vSphere versions.
 
 ## Datastores and Datastore Clusters
 

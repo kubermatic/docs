@@ -5,7 +5,6 @@ approvers:
   - sig-app-management
   - sig-cluster-management
   - sig-networking
-  - sig-virtualization
   - toschneck
   - themue
   - scheeles
@@ -15,6 +14,5 @@ reviewers:
   - sig-app-management
   - sig-cluster-management
   - sig-networking
-  - sig-virtualization
   - pso
   - scheeles

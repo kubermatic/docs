@@ -9,9 +9,6 @@ aliases:
     - csengerszabo
     - dakraus
     - dharapvj
-    - hc2p
-    - istvanr
-    - ivomarino
     - koksay
     - mfahlandt
     - mihiragrawal
@@ -19,30 +16,31 @@ aliases:
     - toschneck
   sig-api:
     - ahmedwaleedmalik
-    - pkprzekwas
     - simontheleg
+    - waseem826
   sig-app-management:
     - ahmedwaleedmalik
+    - archups
+    - cnvergence
+    - dharapvj
     - simontheleg
     - wurbanski
     - xrstf
   sig-cluster-management:
     - ahmedwaleedmalik
+    - cnvergence
     - embik
     - kron4eg
     - moadqassem
     - moelsayed
     - xmudrii
     - xrstf
+    - yaa110
   sig-networking:
     - cnvergence
     - moadqassem
-    - pkprzekwas
-    - wozniakjan
+    - yaa110
   sig-ui:
     - ahmadhamzh
     - ahmedwaleedmalik
     - waseem826
-  sig-virtualization:
-    - cnvergence
-    - wozniakjan

@@ -12,7 +12,7 @@ This chapter explains the installation procedure of KKP into a pre-existing Kube
 
 A full setup takes between 1-2 hours depending on your configuration and infrastructure provider.
 
-Expected skills and knowledge for the installation: moderate level of familiarity with cloud services (like AWS, Azure, GCP ore others) and familiarity with container and Kubernetes technologies, constructs, and configurations.
+Expected skills and knowledge for the installation: moderate level of familiarity with cloud services (like AWS, Azure, GCP or others) and familiarity with container and Kubernetes technologies, constructs, and configurations.
 
 ## Terminology
 
@@ -88,7 +88,7 @@ for Windows `zip` files are provided instead of `tar.gz` files.
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
-# VERSION=2.21.x
+# VERSION=2.23.x
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 ```
@@ -101,7 +101,7 @@ export ARCH=amd64
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
 # For specific version set it explicitly:
-# VERSION=2.21.x
+# VERSION=2.23.x
 wget "https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 tar -xzvf "kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 {{% /tab %}}
@@ -181,7 +181,7 @@ nginx:
 ```
 
 Make sure to include **32443** as port in all URLs both in `kubermatic.yaml` and `values.yaml`, e.g. the token issuer URL from `kubermatic.yaml`
-should now be `https://cluster.example.dev:32443/dex`.
+should now be `https://kkp.example.com:32443/dex`.
 
 ### Create a StorageClass
 

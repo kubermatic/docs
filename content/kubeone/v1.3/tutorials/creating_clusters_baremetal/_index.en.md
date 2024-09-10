@@ -13,7 +13,7 @@ This tutorial could be used in the following scenarios:
 * Provisioning a cluster on providers that are not [natively-supported][compatibility-providers] (e.g. on bare metal or edge).
 * Provisioning a cluster on a natively-supported provider, but you don't want to use Terraform.
 * Creating a Raspberry Pi cluster
-  
+
 If you are able to use a provider, have a look at the [creating clusters][creating-clusters] tutorial, as this is the recommended approach.
 
 ## Prerequisites
@@ -177,7 +177,7 @@ firewall rules, or images.
 
 ### Infrastructure For Worker Nodes
 
-The requirements for the worker istances are similar as for the control
+The requirements for the worker instances are similar as for the control
 plane instances:
 
 * All instances must satisfy the

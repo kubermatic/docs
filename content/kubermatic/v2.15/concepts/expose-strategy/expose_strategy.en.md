@@ -7,7 +7,7 @@ weight = 5
 
 # Overview
 
-The expose strategy defines how clusters manged by Kubermatic Kubernetes Platform (KKP) are made available to the outside world.
+The expose strategy defines how clusters managed by Kubermatic Kubernetes Platform (KKP) are made available to the outside world.
 
 **Note**: The expose strategy of a cluster can not be changed after its creation without rotating all
 of its nodes, as the `kubeconfig` of the `kubelet` will point to the wrong address.

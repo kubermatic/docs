@@ -66,7 +66,7 @@ in the [Infrastructure Management document][infrastructure-management].
 
 Below, you can find a diagram that shows how KubeOne works.
 
-{{< figure src="/img/kubeone/common/creating-clusters/architecture.png" height="577" width="750" alt="KubeOne architecture" >}}
+{{< figure src="images/architecture.png" height="577" width="750" alt="KubeOne architecture" >}}
 
 ## Default Configuration
 
@@ -455,7 +455,7 @@ described below.
 {{% tab name="GCP" %}}
 
 The Terraform config for GCP requires that the `project` variable is set to the
-name of the GCP Project that will be used for deploying a cluster.
+_ID_ of the GCP Project that will be used for deploying a cluster.
 
 #
 
@@ -505,7 +505,7 @@ resource_pool_name = "<resource-pool-name>"
 
 `template_name` is the name of the VM that will be used as a template for
 creating other VMs. It's expected that this VM already exists. Please check the
-[vSphere requirements document]({{< ref "../../architecture/requirements/machine-controller/vsphere/vsphere/" >}})
+[vSphere requirements document]({{< ref "../../architecture/requirements/machine-controller/vsphere/" >}})
 for more details.
 
 #
@@ -615,7 +615,7 @@ supported provider.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   aws: {}
   external: true
@@ -626,32 +626,14 @@ cloudProvider:
 **Make sure to replace the placeholder values with real values in the
 cloud-config section.**
 
-In the [Kubermatic documentation](azure-sa-setup)
-you  can find more information regarding how to set up a service account.
-This service account is needed to proceed.
+In the [Kubermatic documentation][azure-sa-setup] you can find more information
+regarding how to set up a service account. This service account is needed to
+proceed.
 
 All required resources (VPCs, Resource Groups, Route Tables...) are created by
 Terraform out of the box. The resources are prefixed with your cluster name
 defined in `terraform.tfvars` (Step 4), so you need to replace `<cluster-name>`
 with your cluster name in the cloud-config example below.
-
-**Warning:** due to Azure limitations, you can have only one Basic SKU Load
-Balancer per Availability Set. Since we already create a Basic SKU load
-balancer for the API server in the Availability Set used by control plane
-nodes, you can't create other load balancers in the same set. This also means
-that you can't create Kubernetes Load Balancer Services because the creation
-would fail due to the mentioned limit.
-
-To mitigate this, our Terraform configs will create a dedicated Availability
-Set to be used for worker nodes and Kubernetes Load Balancer Services. With
-that setup, all pods exposed via a Kubernetes Load Balancer Service must be
-scheduled on worker nodes. Scheduling pods on control plane nodes would make
-Azure CCM fail to find underlying instances and add them to the appropriate
-Azure load balancer because the newly-created load balancer and control plane
-nodes are in different availability sets.
-
-Please check the [Production Recommendations]({{< ref "../../cheat-sheets/production-recommendations" >}})
-document for more details.
 
 `external: true` instructs KubeOne to deploy the
 [Azure Cloud Controller Manager](https://github.com/kubernetes-sigs/cloud-provider-azure).
@@ -660,7 +642,7 @@ document for more details.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   azure: {}
   external: true
@@ -677,9 +659,10 @@ cloudProvider:
       "subnetName": "<cluster-name>-subnet",
       "routeTableName": "<cluster-name>-rt",
       "securityGroupName": "<cluster-name>-sg",
-      "primaryAvailabilitySetName": "<cluster-name>-avset-workers",
+      "primaryAvailabilitySetName": "<cluster-name>-avset",
       "useInstanceMetadata": true,
-      "loadBalancerSku": ""
+      "loadBalancerSku": "Standard",
+      "vmType": "standard"
     }
 ```
 
@@ -694,28 +677,33 @@ and fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   digitalocean: {}
   external: true
 ```
 
 {{% /tab %}}
+
 {{% tab name="GCE" %}}
-Setting `regional = true` in the cloud-config is required when control plane
-nodes are across multiple availability zones. We deploy control plane hosts
-in multiple AZs by default in our example Terraform configs.
+Setting `regional = true` and `multi-zone = true` in the cloud-config is
+required when control plane nodes are across multiple availability zones. We
+deploy control plane hosts in multiple AZs by default in our example Terraform
+configs.
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   gce: {}
+  external: true
   cloudConfig: |
     [global]
     regional = true
+    multi-zone = true
+    token-url = "nil"
 ```
 
 Due to how GCP LBs work, initial `terraform apply` requires variable `control_plane_target_pool_members_count` to be set
@@ -728,6 +716,7 @@ terraform apply -var=control_plane_target_pool_members_count=1
 Once initial `kubeone install` or `kubeone apply` is done, the `control_plane_target_pool_members_count` should not be
 used.
 {{% /tab %}}
+
 {{% tab name="Hetzner" %}}
 `external: true` instructs KubeOne to deploy the
 [Hetzner Cloud Controller Manager](https://github.com/hetznercloud/hcloud-cloud-controller-manager).
@@ -737,7 +726,7 @@ The Hetzner CCM fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   hetzner: {}
   external: true
@@ -755,7 +744,7 @@ replace the placeholder values.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.22.5'
+  kubernetes: '1.29.4'
 cloudProvider:
   nutanix: {}
 addons:
@@ -785,7 +774,7 @@ cloud-config section.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   openstack: {}
   external: true
@@ -807,7 +796,7 @@ cloudProvider:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   openstack: {}
   external: true
@@ -835,7 +824,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 
 cloudProvider:
   equinixmetal: {}
@@ -856,7 +845,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 
 cloudProvider:
   vmwareCloudDirector: {}
@@ -869,13 +858,13 @@ cloudProvider:
 
 **Make sure to replace the placeholder values with real values in the
 cloud-config and csi-config section. The `vsphere-ccm-credentials` Secret is created
-automatically by KubeOne as of v1.0.4.**
+automatically by KubeOne.**
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.25.6'
+  kubernetes: '1.29.4'
 cloudProvider:
   vsphere: {}
   external: true
@@ -923,21 +912,21 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne version | 1.26  | 1.25  | 1.24  | 1.23\* | 1.22\*\* | 1.21\*\* | 1.20\*\* |
-| --------------- | ----- | ----- | ----- | -------- | -------- | -------- | -------- |
-| v1.6            | ✓     | ✓     | ✓     | -        | -        | -        | -        |
-| v1.5            | -     | -     | ✓     | ✓        | ✓        | -        | -        |
-| v1.4            | -     | -     | -     | ✓        | ✓        | ✓        | ✓        |
+| KubeOne \ Kubernetes | 1.30 | 1.29 | 1.28 | 1.27[^1] | 1.26[^2] | 1.25[^2] |
+| -------------------- | ---- | ---- | ---- | -------- | -------- | -------- |
+| v1.8                 | -    | ✓    | ✓    | ✓        | -        | -        |
+| v1.7                 | -    | -    | -    | ✓        | ✓        | ✓        |
 
-\* Kubernetes 1.23 is scheduled to reach End-of-Life (EOL) on 2022-02-28.
-We strongly recommend upgrading to a supported Kubernetes release as soon as possible.
+[^1]: Kubernetes 1.27 will be reaching End-of-Life (EOL) on 2024-06-28.
+We strongly recommend upgrading to a newer Kubernetes release as soon as possible.
 
-\*\* Kubernetes 1.22, 1.21 and 1.20 have reached End-of-Life (EOL). We strongly
-recommend upgrading to a supported Kubernetes release as soon as possible.
+[^2]: Kubernetes 1.26 and 1.25 have reached End-of-Life (EOL) and are not supported
+any longer. We strongly recommend upgrading to a newer supported Kubernetes release
+as soon as possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
-than the latest Kubernetes release. For example, with 1.26 being the latest
-release, we recommend running at least Kubernetes 1.25.
+than the latest Kubernetes release. For example, with 1.30 being the latest
+release, we recommend running at least Kubernetes 1.29.
 
 Now, we're ready to provision the cluster! This is done by running the
 `kubeone apply` command and providing it the configuration manifest and the

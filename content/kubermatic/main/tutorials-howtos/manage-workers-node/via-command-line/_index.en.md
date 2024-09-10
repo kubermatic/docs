@@ -1,5 +1,6 @@
 +++
 title = "Manage Worker Nodes via CLI"
+linktitle = "Using the Command Line"
 date = 2020-01-08T12:07:15+02:00
 weight = 16
 +++

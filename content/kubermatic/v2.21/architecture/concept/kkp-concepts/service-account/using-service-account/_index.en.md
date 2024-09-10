@@ -14,7 +14,7 @@ a service account, you can add one in Kubermatic dashboard.
 
 ![Service Account](/img/kubermatic/v2.21/ui/serviceaccount_overview.png?classes=shadow,border "Service Account")
 
-Users can create many Service Accounts (SA) with unique names in the project scope. 
+Users can create many Service Accounts (SA) with unique names in the project scope.
 
 ![Create Service Account](/img/kubermatic/v2.21/ui/serviceaccount_add.png?classes=shadow,border "Create Service Account")
 
@@ -49,7 +49,7 @@ There are three basic access level groups:
  - list projects
  - get project details
  - get project SSH keys
- - list clusters 
+ - list clusters
  - get cluster details
  - get cluster resources details
 
@@ -71,7 +71,7 @@ Permissions for read-only actions that do not affect state, such as viewing.
 
  - create, edit & delete projects
  - manage members in project (UserProjectBinding)
- - mange service accounts
+ - manage service accounts
 
 Project managers are not allowed to interact with clusters.
 

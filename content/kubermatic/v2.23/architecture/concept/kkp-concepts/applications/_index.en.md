@@ -9,7 +9,7 @@ KKP Applications offer a seamless experience to add third-party applications int
 
 KKP Applications leverage established Kubernetes projects (e.g. helm) for templating manifests. This ensures compatibility within the Kubernetes ecosystem. For example, a list of community-developed charts can be found on [ArtifactHub's Helm Section](https://artifacthub.io/packages/search?kind=0&sort=relevance&page=1)
 
-![Example of an Application Catalogue](/img/kubermatic/common/applications/application-catalogue.png "Example of an Application Catalogue")
+![Example of an Application Catalogue](/img/kubermatic/v2.23/applications/application-catalogue.png "Example of an Application Catalogue")
 
 Currently, helm is exclusively supported as a templating method, but integrations with other templating engines are planned.
 Helm Applications can both be installed from helm registries directly or from a git repository.

@@ -50,7 +50,7 @@ For each cluster there are at least two OSC objects:
 
 OSCs are processed by controllers to eventually generate **secrets inside each user cluster**. These secrets are then consumed by worker nodes.
 
-![Architecture](/img/kubermatic/master/tutorials/operating_system_manager/architecture.png?classes=shadow,border "Architecture")
+![Architecture](/img/kubermatic/v2.19/tutorials/operating_system_manager/architecture.png?classes=shadow,border "Architecture")
 
 ### Air-gapped Environment
 
