@@ -702,6 +702,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `tenantID` _string_ | The Azure Active Directory Tenant used for the user cluster. |
@@ -748,6 +750,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. |
@@ -1206,6 +1210,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `accessKeyID` _string_ | The Access Key ID used to authenticate against Alibaba. |
@@ -1308,6 +1314,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `token` _string_ | Token is used to authenticate with the Anexia API. |
@@ -1483,6 +1491,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `tenantID` _string_ | The Azure Active Directory Tenant used for the user cluster. |
@@ -1658,6 +1668,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `tinkerbell` _[Tinkerbell](#tinkerbell)_ |  |
@@ -3159,6 +3171,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `token` _string_ | Token is used to authenticate with the DigitalOcean API. |
@@ -3199,6 +3213,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `accessKeyID` _string_ | The Access key ID used to authenticate against AWS. |
@@ -4008,6 +4024,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `serviceAccount` _string_ | ServiceAccount is the Google Service Account (JSON format), encoded with base64. |
@@ -4056,6 +4074,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `serviceAccount` _string_ |  |
@@ -4175,6 +4195,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `token` _string_ | Token is used to authenticate with the Hetzner API. |
@@ -5184,6 +5206,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `kubeconfig` _string_ | Kubeconfig is the cluster's kubeconfig file, encoded with base64. |
@@ -5761,6 +5785,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `proxyURL` _string_ | Optional: To configure a HTTP proxy to access Nutanix Prism Central. |
@@ -5971,6 +5997,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `useToken` _boolean_ |  |
@@ -6131,6 +6159,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `apiKey` _string_ |  |
@@ -6424,6 +6454,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 
@@ -7413,6 +7445,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `username` _string_ | The VMware Cloud Director user name. |
@@ -7506,6 +7540,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
+| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `username` _string_ | The vSphere user name. |
