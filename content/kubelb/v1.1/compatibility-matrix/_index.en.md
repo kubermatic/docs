@@ -10,4 +10,4 @@ We are only testing our software with specific versions of the components, we ar
 
 | KubeLB  | Gateway API  | Envoy Gateway | Kubernetes          |
 |-----------------------|-----------------------|-----------------------------|----------------------------|
-| v1.1.0                   | v1.1.0                  |  v1.1.0             | v1.27, v1.28, v1.29, v1.30, v1.31 |
+| v1.1                   | v1.1.0                  |  v1.1.0             | v1.27, v1.28, v1.29, v1.30, v1.31 |

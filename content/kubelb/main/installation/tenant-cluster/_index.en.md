@@ -57,7 +57,7 @@ kubelb:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.1.0 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.1.1 --untardir "." --untar
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm-ee/values.yaml
 ```
@@ -77,7 +77,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm-ee"` |  |
-| image.tag | string | `"v1.1.0"` |  |
+| image.tag | string | `"v1.1.1"` |  |
 | imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` | Name of the secret that contains kubeconfig for the loadbalancer cluster |
 | kubelb.disableGRPCRouteController | bool | `false` | disableGRPCRouteController specifies whether to disable the GRPCRoute Controller. |
@@ -128,7 +128,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.1.0 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.1.1 --untardir "." --untar
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/values.yaml
 ```
@@ -148,7 +148,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm"` |  |
-| image.tag | string | `"v1.1.0"` |  |
+| image.tag | string | `"v1.1.1"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` | Name of the secret that contains kubeconfig for the loadbalancer cluster |
 | kubelb.disableGRPCRouteController | bool | `false` | disableGRPCRouteController specifies whether to disable the GRPCRoute Controller. |

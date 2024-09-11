@@ -4,11 +4,22 @@ date = 2024-03-15T00:00:00+01:00
 weight = 70
 +++
 
-## Kubermatic KubeLB v1.1.0
+## Kubermatic KubeLB v1.1
 
 - [v1.1.0](#v110)
   - [Community Edition](#community-edition)
   - [Enterprise Edition](#enterprise-edition)
+- [v1.1.1](#v111)
+
+## v1.1.1
+
+**GitHub release: [v1.1.1](https://github.com/kubermatic/kubelb/releases/tag/v1.1.1)**
+
+### Bug or Regression
+
+- Fix a bug that prevented multiple load balancers from a single tenant to be routed correctly.([#62](https://github.com/kubermatic/kubelb/pull/62))
+
+**Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.1.0...v1.1.1>
 
 ## v1.1.0
 
