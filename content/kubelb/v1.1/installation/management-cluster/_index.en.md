@@ -32,7 +32,7 @@ imagePullSecrets:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.1.0 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.1.1 --untardir "." --untar
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f kubelb-manager-ee/values.yaml
 ```
@@ -52,7 +52,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
-| image.tag | string | `"v1.1.0"` |  |
+| image.tag | string | `"v1.1.1"` |  |
 | imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
 | kubelb.debug | bool | `true` |  |
 | kubelb.enableGatewayAPI | bool | `false` | enableGatewayAPI specifies whether to enable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
@@ -102,7 +102,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.1.0 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.1.1 --untardir "." --untar
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubelb-manager/values.yaml
 ```
@@ -120,7 +120,7 @@ helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubel
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager"` |  |
-| image.tag | string | `"v1.1.0"` |  |
+| image.tag | string | `"v1.1.1"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.debug | bool | `true` |  |
 | kubelb.enableGatewayAPI | bool | `false` | enableGatewayAPI specifies whether to enable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
