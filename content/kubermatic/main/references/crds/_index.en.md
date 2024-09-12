@@ -702,7 +702,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -750,7 +750,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -1210,7 +1210,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -1314,7 +1314,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -1491,7 +1491,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -1668,7 +1668,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -3171,7 +3171,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -3213,7 +3213,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -4024,7 +4024,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -4074,7 +4074,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -4195,7 +4195,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -5206,7 +5206,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -5785,7 +5785,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -5997,7 +5997,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -6159,7 +6159,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -6454,7 +6454,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -7445,7 +7445,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
@@ -7540,7 +7540,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | Only enabled presets will be available in the KKP dashboard. |
-| `isCutomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
+| `isCustomizable` _boolean_ | IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.
 NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on. |
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
