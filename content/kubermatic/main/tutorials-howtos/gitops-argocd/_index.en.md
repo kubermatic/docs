@@ -6,7 +6,7 @@ linktitle = "GitOps via ArgoCD"
 +++
 
 {{% notice warning %}}
-Kubermatic officially does not have native GitOps support yet. This article explains how you can kickstart that journey with ArgoCD right now. **Please use this setup in production at your own risk.**
+This is a Alpha version of Kubermatic management via GitOps which can become default way in future. This article explains how you can kickstart that journey with ArgoCD right now. **Please use this setup in production at your own risk.**
 {{% /notice %}}
 
 
@@ -260,11 +260,3 @@ We execute most of the below commands, unless noted otherwise, in 2nd shell wher
     1. Rollout KKP installer target again
     1. Create new git tag and push this new tag
     1. rollout argo-apps again and sync all apps on both seeds.
-
-
-## Further improvements which are on horizon
-1. Use Secrets folder (e.g. with git-crypt)
-1. Sync Presets
-1. Thanos Application
-1. Optional External-DNS app so that DNS entries can be done separately
-1. Run targets via Github Actions
