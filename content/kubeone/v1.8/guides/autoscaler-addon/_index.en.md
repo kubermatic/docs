@@ -42,11 +42,11 @@ addons:
   - name: cluster-autoscaler
 ```
 
-{{% notice note %}} 
+{{% notice note %}}
 
-If you're facing an issue where your [cluster is below the minimum or above the maximum number of nodes, but the cluster-autoscaler is not fixing it][enforce-node-group-min-size], you need to pass down the `CLUSTER_AUTOSCALER_ENFORCE_NODE_GROUP_MIN_SIZE` parameter to the cluster-autoscaler addon as shown below.
+If you're facing an issue where your [cluster is below the minimum or above the maximum number of nodes, but the cluster-autoscaler is not fixing it](https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#my-cluster-is-below-minimum--above-maximum-number-of-nodes-but-ca-did-not-fix-that-why), you need to pass down the `CLUSTER_AUTOSCALER_ENFORCE_NODE_GROUP_MIN_SIZE` parameter to the cluster-autoscaler addon as shown below.
 
-If you're running a cluster with nodes in the multiple zones for the HA purposes, consider setting the `CLUSTER_AUTOSCALER_BALANCE_SIMILAR_NODE_GROUP` parameter to `true` as shown below. For more information about this parameter, check the [Cluster Autoscaler FAQ][balance-similar-node-groups].
+If you're running a cluster with nodes in the multiple zones for the HA purposes, consider setting the `CLUSTER_AUTOSCALER_BALANCE_SIMILAR_NODE_GROUP` parameter to `true` as shown below. For more information about this parameter, check the [Cluster Autoscaler FAQ](https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler).
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
@@ -64,7 +64,7 @@ addons:
       CLUSTER_AUTOSCALER_ENFORCE_NODE_GROUP_MIN_SIZE: "true"
       CLUSTER_AUTOSCALER_BALANCE_SIMILAR_NODE_GROUP: "true"
 ```
-{{% /notice %}} 
+{{% /notice %}}
 
 ### (Optional) Step 2: Modifying the cluster-autoscaler addon
 
@@ -238,5 +238,3 @@ That is it! You have successfully deployed Kubernetes autoscaler on the KubeOne 
 [embedded-addons]: {{< ref "../../guides/addons/#overriding-embedded-eddons" >}}
 [ca-faq]: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md
 [ca-faq-what-is]: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-is-cluster-autoscaler
-[enforce-node-group-min-size]: https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#my-cluster-is-below-minimum--above-maximum-number-of-nodes-but-ca-did-not-fix-that-why
-[balance-similar-node-groups]: https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler
