@@ -5,6 +5,7 @@ weight = 70
 +++
 
 ## Expose Strategies
+
 This chapter describes the control plane expose strategies in the Kubermatic Kubernetes Platform (KKP).
 The expose strategy defines how the control plane components (e.g. Kubernetes API server) are exposed
 outside the seed cluster - to the worker nodes and the actual cluster users.
@@ -16,12 +17,12 @@ There are 3 different expose strategies in KKP: `NodePort`, `LoadBalancer` and `
 Different user clusters in KKP may be using different expose strategies at the same time.
 
 ### NodePort
+
 NodePort is the default expose strategy in KKP. With this strategy a k8s service of type NodePort is created for each
 exposed component (e.g. Kubernetes API Server) of each user cluster. This implies, that each apiserver will be
 exposed on a randomly assigned TCP port from the nodePort range configured for the seed cluster.
 
 ![KKP NodePort](@/architecture/concept/kkp-concepts/networking/images/expose-np.png?classes=shadow,border)
-
 
 Each cluster normally consumes 2 NodePorts (one for the apiserver + one for the worker-nodes to control-plane "tunnel"),
 which limits the number of total clusters per Seed based on the NodePort range configured in the Seed cluster.
@@ -34,22 +35,22 @@ number of listeners per load balancer is limited, which can limit the total numb
 if your platform doesn't support LoadBalancer services or if the front LoadBalancer service is not required.
 
 ### LoadBalancer
+
 In the LoadBalancer expose strategy, a dedicated service of type LoadBalancer will be created for each user cluster.
 This strategy requires services of type LoadBalancer to be available on the Seed cluster and usually results into higher cost of cloud resources.
 However, this expose strategy supports more user clusters per Seed, and provides better ingress traffic isolation per user cluster.
 
 ![KKP LoadBalancer](@/architecture/concept/kkp-concepts/networking/images/expose-lb.png?classes=shadow,border)
 
-
 The port number on which the apiserver is exposed via the LoadBalancer service is still randomly allocated from the
 NodePort range configured in the Seed cluster.
 
 ### Tunneling
+
 The Tunneling expose strategy addresses both the scaling issues of the NodePort strategy and cost issues of the LoadBalancer strategy.
 With this strategy, the traffic is routed to the based on a combination of SNI and HTTP/2 tunnels by the nodeport-proxy.
 
 ![KKP Tunneling](@/architecture/concept/kkp-concepts/networking/images/expose-tunnel.png?classes=shadow,border)
-
 
 Another benefit of this expose strategy is that control plane components of each user cluster are always exposed
 on fixed port numbers: `6443` for the apiserver and `8088` for the worker-nodes to control-plane "tunnel".
@@ -67,15 +68,17 @@ The following limitations apply to the Tunneling expose strategy:
   The default value of tunneling agent IP is `100.64.30.10`. The default value can be changed via the cluster API (`spec.clusterNetwork.tunnelingAgentIP`).
 
 ## Configuring the Expose Strategy
+
 The expose strategy can be configured at 3 levels:
 
- - globally,
- - on Seed level,
- - on User Cluster level.
+* globally,
+* on Seed level,
+* on User Cluster level.
 
 Seed level configuration overrides the global one, and user cluster level configuration overrides both.
 
 ### Global Configuration
+
 The expose strategy can be configured globally with the `KubermaticConfiguration` as follows:
 
 ```yaml
@@ -93,6 +96,7 @@ The valid values for the `exposeStrategy` are `NodePort` / `LoadBalancer` / `Tun
 **NOTE:** If the `exposeStrategy` is not specified in the `KubermaticConfiguration`, it would default to `NodePort`.
 
 ### Seed Level Configuration
+
 The expose strategy can be overridden at Seed level in the `Seed` CR, e.g.:
 
 ```yaml
@@ -107,6 +111,7 @@ spec:
 ```
 
 ### User Cluster Level Configuration
+
 The expose strategy can be also overridden on the user cluster level. To do that, configure the
 desired expose strategy in cluster's `spec.exposeStrategy` in the cluster API, for example:
 
@@ -147,6 +152,7 @@ spec:
 ```
 
 ## Migrating the Expose Strategy for Existing Clusters
+
 The expose strategy of a user cluster normally cannot be changed after the cluster creation.
 However, for experienced KKP administrators, it is still possible to migrate a user cluster from one expose strategy to another using some manual steps.
 
@@ -156,7 +162,8 @@ This procedure will cause temporary outage in the user cluster, so it should be 
 
 {{% /notice %}}
 
-#### Step 1:
+### Step 1
+
 In order to allow the expose strategy migration, the cluster first needs to be labeled with the `unsafe-expose-strategy-migration` label (e.g. `unsafe-expose-strategy-migration: "true"`).
 
 {{% notice warning %}}
@@ -170,13 +177,14 @@ lose connectivity to the cluster control plane upon updating the expose strategy
 in the next step will stop the ability to coordinate and properly terminate workloads on existing nodes. A planned shutdown
 might be desired to prevent potential data loss in your application stack.
 
-#### Step 2:
+### Step 2
+
 At this point, you are able to change the expose strategy of the cluster in the Cluster API.
 Change the Cluster `spec.exposeStrategy` to the desired version:
 
-- either using KKP API endpoint `/api/v2/projects/{project_id}/clusters/{cluster_id}`,
+* either using KKP API endpoint `/api/v2/projects/{project_id}/clusters/{cluster_id}`,
 
-- or by editing the cluster CR in the Seed Cluster (`kubectl edit cluster <cluster-name>`).
+* or by editing the cluster CR in the Seed Cluster (`kubectl edit cluster <cluster-name>`).
 
 {{% notice info %}}
 When migrating from the Tunneling expose strategy (to any other), it is also necessary to delete the `clusterNetwork.tunnelingAgentIP` in the cluster spec.
@@ -184,11 +192,13 @@ When migrating from the Tunneling expose strategy (to any other), it is also nec
 
 Now wait until control-plane components in the seed cluster redeploy.
 
-#### Step 3:
+### Step 3
+
 At this point, all existing kubeconfig files used to access the cluster are invalid and not working anymore.
 To access the cluster, download a new kubeconfig file.
 
-#### Step 4:
+### Step 4
+
 Perform a rolling restart of all machine deployments in the user cluster. All nodes need to be rotated so that
 kubelet running on the nodes starts using the new API server endpoint, and all workloads in the cluster do the
 same as well. This can be done from KKP UI, or using kubectl, e.g.:
