@@ -26,11 +26,33 @@ the user is asked for extending the terminal for more 30 minutes.
 
 ![Web Terminal sequence diagram](web-terminal-sequence-diagram.png?classes=shadow,border)
 
+## Additional Configuration
+
+`KubermaticSettings` CRD allows to configure additional options for the web terminal.
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticSettings
+metadata:
+  name: globalsettings
+...
+spec:
+  webTerminalOptions:
+    enabled: true
+    # Allow internet access from the web terminal
+    enableInternetAccess: true
+    # Additional environment variables that will be added to the web terminal pod
+    additionalEnvironmentVariables:
+      - name: "FOO"
+        value: "bar"
+```
+
 ## Troubleshooting
 
 ### Connection being closed after some time
 
 KKP nginx ingress controller is configured with 1 hour proxy timeout to support long-lasting connections of webterminal. In case that you use a different ingress controller in your setup, you may need to extend the timeouts for the `kubermatic` ingress - e.g. in case of nginx ingress controller, you can add these annotations to have a 1 hour "read" and "send" timeouts:
+
 ```
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
