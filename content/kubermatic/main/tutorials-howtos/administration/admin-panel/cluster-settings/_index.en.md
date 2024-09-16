@@ -9,6 +9,7 @@ Interface section in the Admin Panel allows user to control various cluster-rela
 can influence cluster creation, management and cleanup after deletion.
 
 ## Defaults Cluster Settings
+
 ![Defaults cluster settings](images/defaults-cluster-settings.png?classes=shadow,border)
 
 - ### [Cleanup on Cluster Deletion](#cleanup-on-cluster-deletion)
@@ -44,14 +45,13 @@ the cluster details.
 
 ![Cluster creation wizard initial nodes step](images/wizard-initial-nodes-step.png?classes=shadow,border)
 
-
 ## Limits
 
 ![Interface limits](images/interface-limits.png?classes=shadow,border)
+
 - ### [User Projects Limit](#user-projects-limit)
 
 - ### [Resource Filter](#resource-filter)
-
 
 ## User Projects Limit
 
@@ -69,3 +69,12 @@ only non-admin users.
 Resource Filter settings provide an easy way to control the size of machines used to create user clusters. The administrator
 can also control if selection of instances with GPU should be possible. Every node size that does not match the
 specified criteria will be filtered out and not displayed to the user.
+
+## Annotation settings
+
+![Annotation settings](images/annotation-settings.png?classes=shadow,border)
+
+Annotation settings provide an easy way to control annotations that are shown and managed using KKP dashboard. KKP admins can configure the following:
+
+- Hidden annotations: These annotations will not be shown to the user.
+- Protected annotations: These annotations will be shown to the user but they will not be able to modify them.
