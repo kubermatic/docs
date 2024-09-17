@@ -21,7 +21,8 @@ Permissions listed here are permission required by the Kubermatic machine-contro
             "Effect": "Allow",
             "Action": [
                 "iam:GetInstanceProfile",
-                "iam:ListInstanceProfiles"
+                "iam:ListInstanceProfiles",
+                "iam:TagInstanceProfile"
             ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:instance-profile/*"
         },
@@ -32,10 +33,12 @@ Permissions listed here are permission required by the Kubermatic machine-contro
                 "iam:DeleteRole",
                 "iam:DeleteRolePolicy",
                 "iam:GetRole",
+                "iam:GetRolePolicy",
                 "iam:ListAttachedRolePolicies",
                 "iam:ListRolePolicies",
                 "iam:PassRole",
-                "iam:PutRolePolicy"
+                "iam:PutRolePolicy",
+                "iam:TagRole"
             ],
             "Resource": "arn:aws:iam::YOUR_ACCOUNT_ID:role/YOUR_CLUSTER_NAME-*"
         },
@@ -54,10 +57,14 @@ Permissions listed here are permission required by the Kubermatic machine-contro
             "Effect": "Allow",
             "Action": [
                 "ec2:*",
+                "elasticloadbalancing:AddTags",
+                "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
+                "elasticloadbalancing:AttachLoadBalancerToSubnets",
                 "elasticloadbalancing:CreateListener",
                 "elasticloadbalancing:CreateRule",
                 "elasticloadbalancing:CreateTargetGroup",
                 "elasticloadbalancing:CreateLoadBalancer",
+                "elasticloadbalancing:CreateLoadBalancerListeners",
                 "elasticloadbalancing:ConfigureHealthCheck",
                 "elasticloadbalancing:DeleteListener",
                 "elasticloadbalancing:DeleteRule",
@@ -66,6 +73,7 @@ Permissions listed here are permission required by the Kubermatic machine-contro
                 "elasticloadbalancing:DeregisterTargets",
                 "elasticloadbalancing:DescribeListeners",
                 "elasticloadbalancing:DescribeRules",
+                "elasticloadbalancing:DescribeTags",
                 "elasticloadbalancing:DescribeTargetGroupAttributes",
                 "elasticloadbalancing:DescribeTargetGroups",
                 "elasticloadbalancing:DescribeTargetHealth",
