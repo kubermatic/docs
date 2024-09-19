@@ -9,14 +9,16 @@ Dashboard. Choose the place that suits you best, whether it is a sidebar, footer
 
 ![Admin Panel](images/custom-links.png?classes=shadow,border "Custom Links Settings")
 
-- ### [Managing Custom Links](#managing-custom-links)
-- ### [API Documentation](#api-documentation)
-- ### [Terms of Service](#terms-of-service)
-- ### [Demo Information](#demo-information)
-- ### [What's New](#whats-new)
+- [Managing Custom Links](#managing-custom-links)
+- [API Documentation](#api-documentation)
+- [Terms of Service](#terms-of-service)
+- [Demo Information](#demo-information)
+- [What's New](#whats-new)
 
 ## Managing Custom Links
+
 Custom links have following properties:
+
 - Label - label displayed next to the icon or in the tooltip if the link is located in the footer.
 - URL - target location of the custom link.
 - Icon - path of the icon inside or outside the container can be used, i.e. `/assets/images/icons/custom.png` or
@@ -28,6 +30,7 @@ Use the form to add and delete custom links visible in the KKP UI. The changes s
 performing any changes.
 
 ## API Documentation
+
 After enabling API documentation checkbox `API Documentation` link will be shown in the KKP UI help panel. It links to
 the KKP API documentation.
 
@@ -36,13 +39,16 @@ the KKP API documentation.
 ![API Documentation](images/api-docs.png?classes=shadow,border "API Documentation")
 
 ## Terms of Service
+
 After enabling terms of service checkbox `Terms of Service` link will be shown in the KKP UI footer. It links to the
 page with terms of use information.
 
 ## Demo Information
+
 After enabling demo information checkbox `Demo system` information will be shown in the KKP UI footer.
 
 ## What's New
+
 After enabling What's new checkbox `What's New` option will be shown in the KKP UI help panel. It opens a dialog which
 displays new features and breaking or action required changes in the current release.
 
