@@ -11,6 +11,10 @@ KubeLB is a Kubernetes native tool, responsible for centrally managing load bala
 
 Starting with KKP v2.24, KubeLB is integrated into the Kubermatic Kubernetes Platform (KKP). This means that you can use KubeLB to provision load balancers for your KKP clusters. KKP will take care of configurations and deployments for you in the user cluster. Admins mainly need to create the KubeLB management cluster and configure KKP to use it. For KubeLB management cluster and it's configuration please refer to the [KubeLB documentation]({{< ref "/kubelb" >}})
 
+{{% notice warning %}}
+For KubeLB v1.1 and above, you must be using KKP v2.26 or higher for proper integration. KubeLB v1.1 introduces `Tenant` API to manage tenants which is not supported below KKP v2.26.
+{{% /notice %}}
+
 KubeLB can be configured in the following way:
 
 * Create a secret with the key `kubeconfig` that contains the kubeconfig for the KubeLB management cluster.
