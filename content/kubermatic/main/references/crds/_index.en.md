@@ -101,7 +101,7 @@ _Appears in:_
 | `description` _string_ | Description of the application. what is its purpose |
 | `method` _[TemplateMethod](#templatemethod)_ | Method used to install the application |
 | `defaultValues` _[RawExtension](#rawextension)_ | DefaultValues specify default values for the UI which are passed to helm templating when creating an application. Comments are not preserved.
-Deprecated: use DefaultValuesBlock instead |
+Deprecated: Use DefaultValuesBlock instead. This field was deprecated in KKP 2.25 and will be removed in KKP 2.27+. |
 | `defaultValuesBlock` _string_ | DefaultValuesBlock specifies default values for the UI which are passed to helm templating when creating an application. Comments are preserved. |
 | `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | DefaultDeployOptions holds the settings specific to the templating method used to deploy the application.
 These settings can be overridden in applicationInstallation. |
@@ -218,7 +218,7 @@ _Appears in:_
 | `namespace` _[AppNamespaceSpec](#appnamespacespec)_ | Namespace describe the desired state of the namespace where application will be created. |
 | `applicationRef` _[ApplicationRef](#applicationref)_ | ApplicationRef is a reference to identify which Application should be deployed |
 | `values` _[RawExtension](#rawextension)_ | Values specify values overrides that are passed to helm templating. Comments are not preserved.
-Deprecated: Use ValuesBlock instead. |
+Deprecated: Use ValuesBlock instead. This field was deprecated in KKP 2.25 and will be removed in KKP 2.27+. |
 | `valuesBlock` _string_ | ValuesBlock specifies values overrides that are passed to helm templating. Comments are preserved. |
 | `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#duration-v1-meta)_ | ReconciliationInterval is the interval at which to force the reconciliation of the application. By default, Applications are only reconciled
 on changes on spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload
