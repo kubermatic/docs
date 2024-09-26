@@ -17,11 +17,6 @@ The Admin Panel is a place for the Kubermatic administrators where they can mana
 impact all Kubermatic users. Check out the
 [Admin Panel]({{< ref "../../../../tutorials-howtos/administration/admin-panel" >}}) section for more details.
 
-## Changelog
-Changelog feature allows informing users about all those new and shiny features, but also warn users about breaking
-or action required changes. Check out the
-[Changelog]({{< ref "../../../../cheat-sheets/changelog" >}}) section for more details.
-
 ## Theming
 Theme and customize the KKP Dashboard according to your needs, but be aware that theming capabilities are available in
 the Enterprise Edition only. Check out
