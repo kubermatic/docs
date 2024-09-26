@@ -12,7 +12,7 @@ This section explains how Kubernetes Vertical Pod Autoscaler helps in a scaling 
 Unlike HPA, VPA does not bundled with kubernetes itself. It must get installed in the cluster separately.
 
 ## KKP Components controllable via VPA
-KKP natively integrates VPA resource creation, reconcilation and management for all user-cluster control plane components. This allows these components to have optimal resource allocations - which can grow with growing cluster's needs. This reduces administration burden on KKP administrators.
+KKP natively integrates VPA resource creation, reconciliation and management for all user-cluster control plane components. This allows these components to have optimal resource allocations - which can grow with growing cluster's needs. This reduces administration burden on KKP administrators.
 
 Components controlled by VPA are:
 1. apiserver
@@ -35,7 +35,7 @@ spec:
   featureGates:
     VerticalPodAutoscaler: true
 ```
-This installs necesary VPA components in `kube-system` namespace of each seed. It also create VPA custom resources for each of the control-plane components as noted above.
+This installs necessary VPA components in `kube-system` namespace of each seed. It also create VPA custom resources for each of the control-plane components as noted above.
 
 ## Customizing VPA installation
 You can customize various aspects of VPA deployments themselves (i.e. admissionController, recommender and updater) via [KKP configuration](../../../tutorials-howtos/kkp-configuration/)
