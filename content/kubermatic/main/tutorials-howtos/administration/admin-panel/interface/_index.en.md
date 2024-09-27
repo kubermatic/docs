@@ -14,6 +14,7 @@ Interface section in the Admin Panel allows you to control various UI related se
 - [Disable Admin Kubeconfig](#disable-admin-kubeconfig)
 - [Enable Web Terminal](#enable-web-terminal)
 - [Enable Share Cluster](#enable-share-cluster)
+- [Enable Cluster Backup](#enable-cluster-backup)
 
 ## Enable External Clusters
 
@@ -75,3 +76,9 @@ option will appear in menu on the cluster details, and it can be used to share a
 ![Share Cluster](images/share-cluster.png?classes=shadow,border)
 
 Please visit [Share Clusters via Delegated OIDC Authentication]({{< ref "../../../oidc-provider-configuration/share-clusters-via-delegated-oidc-authentication" >}}) for more information about this feature.
+
+## Enable Cluster Backup
+
+Cluster backup feature can be enabled/disabled on the global level using the `Enable Cluster Backup` setting.
+
+![Enable Cluster Backup](images/enable-cluster-backup.png?classes=shadow,border)
