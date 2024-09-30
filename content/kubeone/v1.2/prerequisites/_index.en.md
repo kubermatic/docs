@@ -26,7 +26,7 @@ Make sure that you have:
 
 [getting-kubeone]: {{< ref "../getting_kubeone" >}}
 [kubeone-terraform-configs]: {{< ref "../concepts#example-terraform-configs" >}}
-[kubeone-terraform-integration]: {{< ref "../concepts#kubeone-terraform-intergration" >}}
+[kubeone-terraform-integration]: {{< ref "../concepts#kubeone-terraform-integration" >}}
 [install-terraform]: https://learn.hashicorp.com/terraform/getting-started/install.html
 [compatibility]: {{< ref "../compatibility_info#supported-terraform-versions" >}}
 [config-credentials]: {{< ref "./credentials" >}}

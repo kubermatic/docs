@@ -8,7 +8,7 @@ weight = 20
 {{% notice warning %}}
 This page documents a **manual** restore procedure in case the legacy backup controllers were used to create
 the backup object in question. KKP v2.24 has removed the legacy backup controllers. The current implementation
-supports [automated restores]({{< ref "../../../tutorials-howtos/etcd-backups/" >}}), so this procedure should 
+supports [automated restores]({{< ref "../../../tutorials-howtos/etcd-backups/" >}}), so this procedure should
 **not** be used. Use the restore functionality in KKP directly instead.
 {{% /notice %}}
 

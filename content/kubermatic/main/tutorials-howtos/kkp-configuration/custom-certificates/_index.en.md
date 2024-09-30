@@ -78,7 +78,7 @@ Re-deploy the `iap` Helm chart to perform the changes and update the `Certificat
 
 ### External
 
-If issuing certificates inside the cluster is not possible, static certificates can also be provided from 
+If issuing certificates inside the cluster is not possible, static certificates can also be provided from
 `Secret` resources. The cluster admin is responsible for renewing and updating them as needed. A TLS secret
 can be created via `kubectl` when certificate and private key are available:
 
@@ -181,7 +181,7 @@ spec:
   # master cluster and on all seeds, user clusters.
   caBundle:
     kind: ConfigMap
-    # name of the ConfigMap; e.g. 'ca-bundle-customized' if you created your CA bundle ConfigMap. 
+    # name of the ConfigMap; e.g. 'ca-bundle-customized' if you created your CA bundle ConfigMap.
     # must be in the same namespace as KKP.
     name: ca-bundle
 ```

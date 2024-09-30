@@ -57,7 +57,7 @@ helm upgrade --install --wait --timeout 300 --values values.yaml --namespace kub
 
 ##### Setting a Custom Docker Registry
 
-In case you want to set a custom registry for all addons, you can specify the `-overwrideRegistry` flag on the `kubermatic-controller-manager` or via the helm setting `kubermatic.controller.overwriteRegistry`.
+In case you want to set a custom registry for all addons, you can specify the `-overwriteRegistry` flag on the `kubermatic-controller-manager` or via the helm setting `kubermatic.controller.overwriteRegistry`.
 It will set the specified registry on all control plane components & addons.
 
 ### Accessible Addons
