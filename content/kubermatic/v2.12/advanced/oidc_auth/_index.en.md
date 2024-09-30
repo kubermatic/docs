@@ -78,7 +78,7 @@ This is best done by directly changing the entries in the corresponding `values.
 The value for `.Values.kubermatic.auth.issuerCookieKey` can be randomly generated (e.g. `openssl rand -hex 32`) and should have 32 or 64 bytes.
 {{% /notice %}}
 
-`kubermatic-controll-manager` must be run with the following flags:
+`kubermatic-controller-manager` must be run with the following flags:
 
 ```plaintext
 --feature-gates={{ .Values.kubermatic.controller.featureGates }}  # must contain "OpenIDAuthPlugin=true"
@@ -96,7 +96,7 @@ You can set it by changing the `kubermatic.ui.config` entry in the `values.yaml`
 
 ### Root CA Certificates Chain
 
-In order to verify OIDC provider's certificate in `kubermatic-controll-manager` when establishing TLS connection a public root CA certificate is required. Ideally the whole
+In order to verify OIDC provider's certificate in `kubermatic-controller-manager` when establishing TLS connection a public root CA certificate is required. Ideally the whole
 chain including all intermediary CAs certificates. Note that we expect that all certificates will be PEM encoded.
 
 For example if the certificate used by your provider was issued by Let's Encrypt. You can visit [Let's Encrypt](https://letsencrypt.org/certificates) to download the necessary certificates
