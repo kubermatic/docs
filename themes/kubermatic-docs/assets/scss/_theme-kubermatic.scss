@@ -615,7 +615,7 @@ h4, h5, h6 {
     color: red;
 }
 
-.products-toogle {
+.products-toggle {
     display: -webkit-flex;
     display: -moz-flex;
     display: -ms-flex;
@@ -626,17 +626,17 @@ h4, h5, h6 {
     margin-right: -5px;
 }
 
-.products-toogle-select {
+.products-toggle-select {
     position: relative;
     margin-left: 5px;
     margin-right: 5px;
 }
 
-.products-toogle-select:first-child {
+.products-toggle-select:first-child {
     flex: 1;
 }
 
-.products-toogle-select select {
+.products-toggle-select select {
     width: 100%;
     padding: 14px 35px 11px 15px;
     margin-bottom: 0;
@@ -654,7 +654,7 @@ h4, h5, h6 {
     appearance: none;
 }
 
-.products-toogle-select label {
+.products-toggle-select label {
     position: absolute;
     top: -9px;
     padding: 0 3px;
@@ -667,11 +667,11 @@ h4, h5, h6 {
     text-align: left;
 }
 
-.products-toogle-select:hover select {
+.products-toggle-select:hover select {
     border-color: var(--MAIN-ACCENT-color);
 }
 
-.products-toogle-select:hover label {
+.products-toggle-select:hover label {
     color: var(--MAIN-ACCENT-color);
 }
 
