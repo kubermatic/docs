@@ -29,7 +29,7 @@ which limits the number of total clusters per Seed based on the NodePort range c
 
 By default, the nodeport-proxy is enabled for this expose strategy. If services of type LoadBalancer are
 available in the Seed, all the services of all user clusters will be made available through a single LoadBalancer
-service in front of the nodeport-proxy. This approach however has a limitation on sme cloud platforms, where the
+service in front of the nodeport-proxy. This approach however has a limitation on some cloud platforms, where the
 number of listeners per load balancer is limited, which can limit the total number of user clusters per Seed even more.
 [The nodeport-proxy can be disabled](#disabling-nodeport-proxy-for-the-nodeport-expose-strategy)
 if your platform doesn't support LoadBalancer services or if the front LoadBalancer service is not required.
