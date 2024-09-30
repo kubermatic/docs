@@ -126,32 +126,32 @@ With this file prepared, we can now install all required charts:
 Output will be similar to this:
 ```bash
 INFO[0000] 🚀 Initializing installer…                     edition="Community Edition" version=X.Y
-INFO[0000] 🚦 Validating the provided configuration…     
-INFO[0000] ✅ Provided configuration is valid.           
-INFO[0000] 🚦 Validating existing installation…          
-INFO[0000] ✅ Existing installation is valid.            
-INFO[0000] 🛫 Deploying KKP Seed MLA Stack…              
-INFO[0000]    📦 Deploying Node Exporter ...             
-INFO[0006]    ✅ Success.                                
-INFO[0006]    📦 Deploying Kube State Metrics…           
-INFO[0022]    ✅ Success.                                
-INFO[0022]    📦 Deploying Grafana…                      
-INFO[0055]    ✅ Success.                                
-INFO[0055]    📦 Deploying Blackbox Exporter…            
-INFO[0064]    ✅ Success.                                
-INFO[0064]    📦 Deploying Alert Manager…                
-INFO[0074]    ✅ Success.                                
-INFO[0074]    📦 Deploying Prometheus…                   
-INFO[0075]    ✅ Success.                                
-INFO[0075]    📦 Deploying Helm Exporter…                
-INFO[0076]    ✅ Success.                                
-INFO[0076]    📦 Deploying Karma…                        
-INFO[0078]    ✅ Success.                                
-INFO[0078]    📦 Deploying Loki…                         
-INFO[0164]    ✅ Success.                                
-INFO[0164]    📦 Deploying Promtail…                     
-INFO[0166]    ✅ Success.                                
-INFO[0166] 🛬 Installation completed successfully. Time for a break, maybe? ☺ 
+INFO[0000] 🚦 Validating the provided configuration…
+INFO[0000] ✅ Provided configuration is valid.
+INFO[0000] 🚦 Validating existing installation…
+INFO[0000] ✅ Existing installation is valid.
+INFO[0000] 🛫 Deploying KKP Seed MLA Stack…
+INFO[0000]    📦 Deploying Node Exporter ...
+INFO[0006]    ✅ Success.
+INFO[0006]    📦 Deploying Kube State Metrics…
+INFO[0022]    ✅ Success.
+INFO[0022]    📦 Deploying Grafana…
+INFO[0055]    ✅ Success.
+INFO[0055]    📦 Deploying Blackbox Exporter…
+INFO[0064]    ✅ Success.
+INFO[0064]    📦 Deploying Alert Manager…
+INFO[0074]    ✅ Success.
+INFO[0074]    📦 Deploying Prometheus…
+INFO[0075]    ✅ Success.
+INFO[0075]    📦 Deploying Helm Exporter…
+INFO[0076]    ✅ Success.
+INFO[0076]    📦 Deploying Karma…
+INFO[0078]    ✅ Success.
+INFO[0078]    📦 Deploying Loki…
+INFO[0164]    ✅ Success.
+INFO[0164]    📦 Deploying Promtail…
+INFO[0166]    ✅ Success.
+INFO[0166] 🛬 Installation completed successfully. Time for a break, maybe? ☺
 ```
 
 ### Going Further

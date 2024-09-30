@@ -49,7 +49,7 @@ After enabling demo information checkbox `Demo system` information will be shown
 
 ## What's New
 
-After enabling What's new checkbox, `What's New` option will be shown in the KKP UI help panel. It links to release 
+After enabling What's new checkbox, `What's New` option will be shown in the KKP UI help panel. It links to release
 notes in the docs which displays new features and breaking or action required changes in the current release.
 
 ![Help Panel](@/images/ui/help-panel.png?classes=shadow,border "Help Panel")
