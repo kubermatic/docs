@@ -70,6 +70,15 @@ Resource Filter settings provide an easy way to control the size of machines use
 can also control if selection of instances with GPU should be possible. Every node size that does not match the
 specified criteria will be filtered out and not displayed to the user.
 
+## Static Labels
+
+![Static labels](images/statiic-labels.png?classes=shadow,border)
+
+Static labels are a list of labels that the admin can add. Users can select from these labels when creating a cluster during the cluster settings step.
+The admin can set these labels as either default or protected:
+- Default label: This label is automatically added, but the user can delete it.
+- Protected label: This label is automatically added and cannot be deleted by the user. 
+
 ## Annotation settings
 
 ![Annotation settings](images/annotation-settings.png?classes=shadow,border)
