@@ -93,7 +93,7 @@ input. It's recommended to create an `AddonConfig` for each accessible addon.
 KKP installations in the same cluster (which is not a recommended setup).
 {{% /notice %}}
 
-The following demonstrates an AddonConfig for the node-expoter addon. It configures a description and
+The following demonstrates an AddonConfig for the node-exporter addon. It configures a description and
 logo as well as some form fields (which in this case are not used by the addon itself).
 
 ```yaml
