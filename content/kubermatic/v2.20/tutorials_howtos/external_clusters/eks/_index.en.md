@@ -83,7 +83,7 @@ aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 
 #### Create kubeconfig file
 
-Now you can create kubeconfig file automatically ussing the following command:
+Now you can create kubeconfig file automatically using the following command:
 
 ```
 aws eks update-kubeconfig --region region-code --name cluster-name
