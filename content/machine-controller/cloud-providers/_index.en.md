@@ -30,6 +30,10 @@ labels:
   "kubernetesCluster": "my-cluster"
 ```
 
+## Anexia Engine
+
+Refer to the [Anexia Engine]({{< relref "./anexia" >}}) specific documentation.
+
 ## AWS
 
 `machine.spec.providerConfig.cloudProviderSpec`:
@@ -55,8 +59,8 @@ instanceType: "t2.micro"
 isSpotInstance: false
 # size of the root disk in gb
 diskSize: 50
-# root disk type (gp2, io1, st1, sc1, or standard)
-diskType: "gp2"
+# root disk type (gp2, gp3, io1, io2, st1, sc1, or standard)
+diskType: "io2"
 # IOPS for EBS volumes, required with diskType: io1
 diskIops: 500
 # enable EBS volume encryption
@@ -117,7 +121,7 @@ tags:
   "kubernetesCluster": "my-cluster"
 ```
 
-## Digitalocean
+## DigitalOcean
 
 `machine.spec.providerConfig.cloudProviderSpec`:
 
@@ -193,7 +197,7 @@ labels:
   "kubernetesCluster": "my-cluster"
 ```
 
-## Hetzner cloud
+## Hetzner Cloud
 
 `machine.spec.providerConfig.cloudProviderSpec`:
 
@@ -230,6 +234,8 @@ cpus: "1"
 memory: "2048M"
 ```
 
+See also the [KubeVirt documentation]({{< relref "./kubevirt" >}}).
+
 ## Linode
 
 {{% notice info %}}
@@ -253,6 +259,10 @@ private_networking: true
 tags:
 - "machine-controller"
 ```
+
+## Nutanix
+
+Refer to the [Nutanix]({{< relref "./nutanix" >}}) specific documentation.
 
 ## OpenNebula
 

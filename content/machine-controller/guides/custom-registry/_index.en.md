@@ -6,11 +6,11 @@ date = 2024-05-31T07:00:00+02:00
 Except for custom workload, the kubelet requires access to the "pause" container. This container is
 being used to keep the network namespace for each Pod alive.
 
-By default the image `k8s.gcr.io/pause:3.1` will be used. If that image won't be accessible from
+By default the image `registry.k8s.io/pause:3.10` will be used. If that image won't be accessible from
 the node, a custom image can be specified on the machine-controller:
 
 ```bash
--node-pause-image="192.168.1.1:5000/kubernetes/pause:3.1"
+-node-pause-image="192.168.1.1:5000/kubernetes/pause:3.10"
 ```
 
 ## Kubelet images

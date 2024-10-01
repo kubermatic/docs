@@ -7,14 +7,14 @@ This provider implementation is currently in **alpha** state.
 
 ## Supported Operating Systems
 
-Only flatcar linux is currently supported and you explicitly have to set the provisioning mechanism
+Only Flatcar Linux is currently supported and you explicitly have to set the provisioning mechanism
 to cloud-init by setting `machine.spec.providerSpec.value.operatingSystemSpec.provisioningUtility`
-to "cloud-init".
+to `cloud-init`.
 
-An example machine deployment can be found here:
+An example MachineDeployment can be found here:
 [examples/anexia-machinedeployment.yaml](https://github.com/kubermatic/machine-controller/blob/main/examples/anexia-machinedeployment.yaml):
 
-{{%expand "Sample machinedeployment.yaml"%}}
+{{%expand "Example machinedeployment.yaml"%}}
 ```yaml
 {{< render_external_code "https://raw.githubusercontent.com/kubermatic/machine-controller/main/examples/anexia-machinedeployment.yaml" >}}
 ```

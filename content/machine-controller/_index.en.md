@@ -9,14 +9,28 @@ date = 2024-05-31T07:00:00+02:00
 
 ### What Works
 
-- Creation of worker nodes on AWS, Digitalocean, OpenStack, Azure, Google Cloud Platform, Nutanix,
-  VMWare Cloud Director, VMWare vSphere, Hetzner Cloud and Kubevirt
-- Using Ubuntu, Flatcar, CentOS 7 or Rocky Linux 8 distributions
-  ([not all distributions work on all providers](/docs/operating-system.md))
+- Creation of worker nodes on…
+  - Alibaba Cloud
+  - AWS
+  - Azure
+  - DigitalOcean
+  - Google Cloud Platform
+  - HCloud (Hetzner Cloud)
+  - KubeVirt
+  - Nutanix
+  - OpenStack
+  - VMWare Cloud Director
+  - VMWare vSphere
+- Using any of these supported distributions ([not all distributions work on all providers](/docs/operating-system.md):
+  - Amazon Linux 2
+  - Flatcar Linux
+  - RockyLinux
+  - Ubuntu
 
 ### What Doesn't Work
 
-- Master creation (Not planned at the moment)
+- Creation of control plane nodes (not planned at the moment, consider using 3rd party tools like
+  [KKP](https://github.com/kubermatic/kubermatic) or [KubeOne](https://github.com/kubermatic/kubeone))
 
 ## Supported Kubernetes Versions
 
@@ -25,10 +39,10 @@ machine-controller tries to follow the Kubernetes version
 
 Currently supported Kubernetes versions are:
 
+- 1.31
 - 1.30
 - 1.29
 - 1.28
-- 1.27
 
 ## Community Providers
 
