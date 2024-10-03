@@ -2721,7 +2721,7 @@ ignoring cluster-specific settings. |
 | `enforcePodSecurityPolicy` _boolean_ | Optional: EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC,
 ignoring cluster-specific settings. |
 | `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#duration-v1-meta)_ | Optional: ProviderReconciliationInterval is the time that must have passed since a
-Cluster's status.lastProviderReconciliation to make the cliuster controller
+Cluster's status.lastProviderReconciliation to make the cluster controller
 perform an in-depth provider reconciliation, where for example missing security
 groups will be reconciled.
 Setting this too low can cause rate limits by the cloud provider, setting this
