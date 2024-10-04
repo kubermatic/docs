@@ -5211,6 +5211,8 @@ NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support f
 | `datacenter` _string_ | If datacenter is set, this preset is only applicable to the
 configured datacenter. |
 | `kubeconfig` _string_ | Kubeconfig is the cluster's kubeconfig file, encoded with base64. |
+| `vpcName` _string_ | VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt |
+| `subnetName` _string_ | SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC). |
 
 
 [Back to top](#top)
@@ -5239,6 +5241,8 @@ initialization of user cluster storage classes by the CSI driver kubevirt (hot p
 initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks.
 It contains also some flag specifying which one is the default one. |
 | `imageCloningEnabled` _boolean_ | ImageCloningEnabled flag enable/disable cloning for a cluster. |
+| `vpcName` _string_ | VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt. |
+| `subnetName` _string_ | SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC). |
 
 
 [Back to top](#top)
