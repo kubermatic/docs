@@ -7,213 +7,11 @@ date = 2024-05-31T07:00:00+02:00
 
 * 6.5
 * 6.7
-
-## Template VMs preparation
-
-To use the machine-controller to create machines on VMware vsphere, you must first create a VM to be
-used as a template.
-
-{{% notice info %}}
-`template VMs` in this document refers to regular VMs and not [VM Templates][vm_templates] according
-to vSphere terminology. The difference is quite subtle, but VM Templates are not supported yet by
-machine-controller.
-{{% /notice %}}
-
-### Create template VM from OVA
-
-To see where to locate the OVAs go to the OS specific section.
-
-#### WebUI procedure
-
-1. Go into the vSphere WebUI, select your datacenter, right click onto it and choose "Deploy OVF Template"
-1. Fill in the "URL" field with the appropriate url pointing to the `OVA` file
-1. Click through the dialog until "Select storage"
-1. Select the same storage you want to use for your machines
-1. Select the same network you want to use for your machines
-1. Leave everything in the "Customize Template" and "Ready to complete" dialog as it is
-1. Wait until the VM got fully imported and the "Snapshots" => "Create Snapshot" button is not grayed out anymore
-
-#### Command-line procedure
-
-Prerequisites:
-
-* [govc](https://github.com/vmware/govmomi/tree/main/govc): tested on version 0.37.2
-* [jq](https://stedolan.github.io/jq/)
-
-Procedure:
-
-1. Download the `OVA` for the targeted OS.
-
-    ```bash
-    curl -sL "${OVA_URL}" -O .
-    ```
-
-2. Extract the specs from the `OVA`:
-
-    ```bash
-    govc import.spec $(basename "${OVA_URL}") | jq -r > options.json
-    ```
-
-3. Edit the `options.json` file with your text editor of choice.
-
-    * Edit the `NetworkMapping` to point to the correct network.
-    * Make sure that `PowerOn` is set to `false`.
-    * Make sure that `MarkAsTemplate` is set to `false`.
-    * Verify the other properties and customize according to your needs.
-    e.g.
-
-    ```json
-    {
-      "DiskProvisioning": "flat",
-      "IPAllocationPolicy": "dhcpPolicy",
-      "IPProtocol": "IPv4",
-      "PropertyMapping": [
-        {
-          "Key": "guestinfo.hostname",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.flatcar.config.data",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.flatcar.config.url",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.flatcar.config.data.encoding",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.interface.0.name",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.interface.0.mac",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.interface.0.dhcp",
-          "Value": "no"
-        },
-        {
-          "Key": "guestinfo.interface.0.role",
-          "Value": "public"
-        },
-        {
-          "Key": "guestinfo.interface.0.ip.0.address",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.interface.0.route.0.gateway",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.interface.0.route.0.destination",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.dns.server.0",
-          "Value": ""
-        },
-        {
-          "Key": "guestinfo.dns.server.1",
-          "Value": ""
-        }
-      ],
-      "NetworkMapping": [
-        {
-          "Name": "VM Network",
-          "Network": "Kubermatic Default"
-        }
-      ],
-      "MarkAsTemplate": false,
-      "PowerOn": false,
-      "InjectOvfEnv": false,
-      "WaitForIP": false,
-      "Name": null
-    }
-    ```
-
-4. Create a VM from the `OVA`:
-
-    ```bash
-    govc import.ova -options=options.json $(basename "${OVA_URL}")
-    ```
-
-### Create template VM from qcow2
-
-Prerequisites:
-
-* vSphere (tested on version 6.7)
-* govc (tested on version 0.37.2)
-* qemu-img (tested on version 4.2.0)
-* curl or wget
-
-Procedure:
-
-1. Download the guest image in qcow2 format end export an environment variable
-   with the name of the file.
-
-    ```bash
-    # The URL below is just an example
-    image_url="https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-    image_name="$(basename -- "${image_url}" | sed 's/.qcow2$//g')"
-    curl -sL "${image_url}" -O .
-    ```
-
-2. Convert it to vmdk e.g.
-
-    ```bash
-    qemu-img convert -O vmdk -o subformat=streamOptimized "./${image_name}.qcow2" "${image_name}.vmdk"
-    ```
-
-3. Upload to vSphere using WebUI or GOVC:
-
-    Make sure to replace the parameters on the command below with the correct values specific to
-    your vSphere environment.
-
-    ```bash
-    govc import.vmdk -dc=dc-1 -pool=/dc-1/host/cl-1/Resources -ds=ds-1 "./${image_name}.vmdk"
-    ```
-
-4. Inflate the created disk (see [VMware documentation][inflate_thin_virtual_disks] for more details)
-
-    ```bash
-    govc datastore.disk.inflate -dc dc-1 -ds ds-1 "${image_name}/${image_name}.vmdk"
-    ```
-
-5. Create a new virtual machine using that image with vSphere WebUI.
-6. During the `Customize Hardware` step:
-    1. Remove the disk present by default
-    2. Click on `ADD NEW DEVICE`, select `Existing Hard Disk` and select the disk previously created.
-7. The vm is ready to be used by the `MachineController` by referencing its name in the field `.spec.template.spec.providerSpec.value.cloudProviderSpec.templateVMName` of the `MachineDeployment`.
-
-### OS images
-
-Information about supported OS versions can be found [here]({{< relref "../../operating-systems#supported-os-versions" >}}).
-
-#### Ubuntu
-
-Ubuntu OVA template can be foud at <https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.ova>.
-
-Follow [OVA](#create-template-vm-from-ova) template VM creation guide.
-
-#### RHEL
-
-Red Hat Enterprise Linux 8.x KVM Guest Image can be found at [Red Hat Customer Portal][rh_portal_rhel8].
-
-Follow [qcow2](#create-template-vm-from-qcow2) template VM creation guide.
-
-#### CentOS
-
-CentOS 7 image can be found at the following link: <https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2>.
-
-Follow [qcow2](#create-template-vm-from-qcow2) template VM creation guide.
+* 7.0
 
 ## Provider configuration
 
-vSphere provider accepts the following configuration parameters:
+The vSphere provider accepts the following configuration parameters:
 
 ```yaml
 # Can also be set via the env var 'VSPHERE_USERNAME' on the machine-controller
@@ -268,7 +66,37 @@ They do not influence the placement of persistent volumes used by Pods, that onl
 cloud configuration given to the Kubernetes cloud provider running in control plane.
 {{% /notice %}}
 
-[vm_templates]: https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.vm_admin.doc/GUID-F7BF0E6B-7C4F-4E46-8BBF-76229AEA7220.html?hWord=N4IghgNiBcIG4FsAEAXApggDhM6DOIAvkA
+## Template VMs preparation
+
+To use the machine-controller to create machines on VMware vSphere, you must first create a VM to be
+used as a template.
+
+{{% notice info %}}
+`template VMs` in this document refers to regular VMs and not VM Templates according
+to vSphere terminology. The difference is quite subtle, but VM Templates are not supported yet by
+machine-controller.
+{{% /notice %}}
+
+Information about supported OS versions can be found [here]({{< relref "../../operating-systems#supported-os-versions" >}}).
+
+### Ubuntu
+
+Ubuntu OVA templates can be foud at <https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64.ova>.
+
+Follow the dedicated [Ubuntu Template VM guide]({{< relref "./template-vm/ubuntu" >}}).
+
+### RHEL
+
+Red Hat Enterprise Linux 8.x KVM Guest Images can be found at [Red Hat Customer Portal][rh_portal_rhel8].
+
+Follow the generic [qcow2 guide]({{< relref "./template-vm/qcow2" >}}).
+
+### RockyLinux
+
+RockyLinux images can be found at the following link: <https://rockylinux.org/download>.
+
+Follow the dedicated [RockyLinux Template VM guide]({{< relref "./template-vm/rockylinux" >}}).
+
 [datastore]: https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.storage.doc/GUID-3CC7078E-9C30-402C-B2E1-2542BEE67E8F.html
 [datastore_cluster]: https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.resmgmt.doc/GUID-598DF695-107E-406B-9C95-0AF961FC227A.html
 [inflate_thin_virtual_disks]: https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.storage.doc/GUID-C371B88F-C407-4A69-8F3B-FA877D6955F8.html

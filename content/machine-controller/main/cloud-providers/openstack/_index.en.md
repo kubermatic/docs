@@ -1,5 +1,5 @@
 +++
-title = "OpenStack Images"
+title = "OpenStack"
 date = 2024-05-31T07:00:00+02:00
 +++
 
