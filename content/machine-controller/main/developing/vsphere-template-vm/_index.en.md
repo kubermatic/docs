@@ -1,14 +1,15 @@
 +++
 title = "Creating vSphere Template VMs"
+linkTitle = "vSphere Template VMs"
 date = 2022-10-31T12:00:00+02:00
 +++
 
 This guide describes how to create templates VMs for vSphere to be used with
-Terraform, Kubermatic KubeOne, and Kubermatic machine-controller. This is an
-umbrella document — we have a dedicated guide for each operating system:
+Terraform, machine-controller, and KubeOne and KKP. This is an umbrella
+document — we have a dedicated guide for each operating system:
 
+- [RockyLinux]({{< ref "./rockylinux/" >}})
 - [Ubuntu]({{< ref "./ubuntu/" >}})
-- [CentOS 7]({{< ref "./centos/" >}})
 
 Guides for other operating systems will be added in the future.
 
