@@ -1,0 +1,30 @@
++++
+title = "REST-API Reference"
+date = 2021-02-24T00:00:00
++++
+
+<div id="swagger-ui"></div>
+
+<link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
+<script src="swagger-ui-bundle.js" charset="UTF-8"> </script>
+<script src="swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
+<script>
+  window.onload = function () {
+    const ui = SwaggerUIBundle({
+      url: "swagger.json",
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIStandalonePreset
+      ],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl
+      ],
+      layout: "StandaloneLayout"
+    });
+    // End Swagger UI call region
+
+    window.ui = ui;
+  };
+</script>
