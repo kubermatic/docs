@@ -1,5 +1,5 @@
 +++
-title = "VMWare vSphere"
+title = "VMware vSphere"
 date = 2024-05-31T07:00:00+02:00
 +++
 
@@ -10,7 +10,7 @@ date = 2024-05-31T07:00:00+02:00
 
 ## Template VMs preparation
 
-To use the machine-controller to create machines on VMWare vsphere, you must first create a VM to be
+To use the machine-controller to create machines on VMware vsphere, you must first create a VM to be
 used as a template.
 
 {{% notice info %}}
@@ -177,7 +177,7 @@ Procedure:
     govc import.vmdk -dc=dc-1 -pool=/dc-1/host/cl-1/Resources -ds=ds-1 "./${image_name}.vmdk"
     ```
 
-4. Inflate the created disk (see vmware [documentation][inflate_thin_virtual_disks] for more details)
+4. Inflate the created disk (see [VMware documentation][inflate_thin_virtual_disks] for more details)
 
     ```bash
     govc datastore.disk.inflate -dc dc-1 -ds ds-1 "${image_name}/${image_name}.vmdk"

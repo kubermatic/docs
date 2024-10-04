@@ -19,8 +19,8 @@ date = 2024-05-31T07:00:00+02:00
   - KubeVirt
   - Nutanix
   - OpenStack
-  - VMWare Cloud Director
-  - VMWare vSphere
+  - VMware Cloud Director
+  - VMware vSphere
 - Using any of these supported distributions ([not all distributions work on all providers](/docs/operating-system.md):
   - Amazon Linux 2
   - Flatcar Linux
