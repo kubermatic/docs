@@ -13,15 +13,30 @@ weight = 20
 ## Pre-requisites
 
 * Create a namespace **kubelb** for the CCM to be deployed in.
-* The agent expects a **Secret** with a kubeconf file named **kubelb** to access the management/load balancing cluster.
+* The agent expects a **Secret** with a kubeconf file named **`kubelb`** to access the management/load balancing cluster.
   * First register the tenant in LB cluster by following [tenant registration]({{< relref "../../tutorials/tenants">}}) guidelines.
   * Fetch the generated kubeconfig and create a secret by using the command:
 
   ```sh
-  kubectl --namespace kubelb create secret generic kubelb-cluster --from-file=<path to kubelb kubeconf file>
+  #copy it file to name it kubelb
+  cp <path to kubelb kubeconf file> kubelb
+  kubectl --namespace kubelb create secret generic kubelb-cluster --from-file=kubelb
   ```
 
-* The name of secret can be overridden using `.Values.kubelb.clusterSecretName`
+* The name of secret can be overridden using `.Values.kubelb.clusterSecretName`, but the secret needs to be named `kubelb` and look like:
+  ```
+  kubectl get secrets -o yaml kubelb-cluster
+  ```
+  ```
+  apiVersion: v1
+  data:
+    kubelb: xxx-base64-encoded-xxx
+  kind: Secret
+  metadata:
+    name: kubelb-cluster
+    namespace: kubelb
+  type: Opaque
+  ```
 * Update the `tenantName` in the `values.yaml` to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. Tenants are registered in the management cluster by the Platform Provider and the name is prefixed with `tenant-`. So for example, a tenant named `my-tenant` will be registered as `tenant-my-tenant`.
 
 At this point a minimal `values.yaml` should look like this:
@@ -31,6 +46,25 @@ kubelb:
     clusterSecretName: kubelb-cluster
     tenantName: <unique-identifier-for-tenant>
 ```
+
+{{% notice info %}}
+
+**Important configurations for private clusters!**
+If your cluster only uses internal IPs for nodes (check the ollowing example output) you would need to change the value `kubelb.nodeAddressType` to `InternalIP`
+```bash
+kubectl get nodes -o wide
+```
+```
+NAME     STATUS   ROLES           AGE    VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE          KERNEL-VERSION       CONTAINER-RUNTIME
+node-x   Ready    control-plane   208d   v1.29.9   10.66.99.222   <none>        Ubuntu            5.15.0-121-generic   containerd://1.6.33
+```
+Adjust `values.yaml`:
+```yaml
+kubelb:
+  # -- Address type to use for routing traffic to node ports. Values are ExternalIP, InternalIP.
+  nodeAddressType: InternalIP
+```
+{{% /notice %}}
 
 ## Installation for KubeLB CCM
 
