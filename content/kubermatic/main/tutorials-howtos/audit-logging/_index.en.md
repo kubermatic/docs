@@ -127,3 +127,84 @@ For exiting clusters, you can go to the cluster page, edit your cluster and enab
 KKP also supports enabling Audit Logging on the datacenter level. In this case, the option is enforced on all user-clusters in the datacenter. The user-cluster level flag is ignored in this case.
 
 To enable this, you will need to edit your [datacenter definitions in a Seed]({{< ref "../../tutorials-howtos/administration/dynamic-data-centers/" >}}), and set `enforceAuditLogging` to `true` in the datacenter spec.
+
+## Webhook Backend For Audit Logs
+
+User clusters can be also be configured to send audit logs to a [webhook backend](https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/#webhook-backend), KKP admin needs to create kubernetes secret that holds the audit webhook backend configuration, on the seed cluster which can then be used to enable webhook backend at the cluster or the datacenter level.
+
+The Kubernetes api-server expects the webhook configuration file to have a format similar to [kubeconfig](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/).
+
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- name: audit-webhook
+  cluster:
+    server: http://<webhook-server>
+contexts:
+- name: audit-webhook
+  context:
+    cluster: audit-webhook
+    user: ""
+current-context: audit-webhook
+users: []
+preferences: {}
+```
+
+Once we have the audit webhook configuration we can base64 encode it and create the secret.
+
+```yaml
+apiVersion: v1
+data:
+  webhook.yaml: <base64 encoded audit webhook configuration>
+kind: Secret
+metadata:
+  name: audit-webhook-backend
+  namespace: cluster-e9s4w7jk6t
+type: Opaque
+```
+
+### User Cluster Level Audit Webhook Backend
+
+To enable webhook backend for an existing user cluster, first create the secret that has the webhook backend configuration in the cluster namespace `(cluster-<cluster-id>)` on the seed cluster & then edit the cluster from the KKP GUI to specify the secret.
+
+![Edit Cluster webhook backend](01-webhook-backend-cluster.png)
+
+### Datacenter Level Audit Webhook Backend
+
+Audit webhook backend can be enabled at the datacenter level as well, this enforces the audit webhook backend on all the user cluster in the datacenter, this can be done by specifying `enforcedAuditWebhookSettings` for the datacenter where we want enable webhook backend.
+
+```yaml
+enforcedAuditWebhookSettings:
+  auditWebhookConfig:
+    name: audit-webhook-backend-secret
+    namespace: kubermatic
+  auditWebhookInitialBackoff: 15s
+```
+
+Existing user clusters in the datacenter aren't update to enable the audit webhook backend, only the ones created after the webhook backend settings are applied on the datacenter comes up with audit webhook backend enabled.
+
+### Network Policy For Accessing Audit Webhook Backend Server
+
+The egress for the user cluster's Kubernetes api-server is restricted with the help of network policies therefore once the audit webhook backend is enabled a network policy also needs to be created for allowing the api-server egress to the webhook backend server. For example for a webhook backend server running on `172.31.43.54` on port `30001` the network policy may look like the one below.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: audit-webhook-allow
+  namespace: cluster-e9s4w7jk6t
+spec:
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 172.31.43.54/32
+    ports:
+    - protocol: TCP
+      port: 30001
+  podSelector:
+    matchLabels:
+      app: apiserver
+```
