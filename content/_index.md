@@ -2,6 +2,8 @@
 title = "Docs"
 description = "Learn more about KKP and KubeOne through the official Kubermatic documentation"
 
+This is a test
+
 [contribution]
 title = "How Do I Contribute To ...?"
 
