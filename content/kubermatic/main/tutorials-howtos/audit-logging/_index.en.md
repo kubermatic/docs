@@ -132,6 +132,38 @@ To enable this, you will need to edit your [datacenter definitions in a Seed]({{
 
 User clusters can be also be configured to send audit logs to a [webhook backend](https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/#webhook-backend), KKP admin needs to create kubernetes secret that holds the audit webhook backend configuration, on the seed cluster which can then be used to enable webhook backend at the cluster or the datacenter level.
 
+The Kubernetes api-server expects the webhook configuration file to have a format similar to [kubeconfig](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/).
+
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- name: audit-webhook
+  cluster:
+    server: http://<webhook-server>
+contexts:
+- name: audit-webhook
+  context:
+    cluster: audit-webhook
+    user: ""
+current-context: audit-webhook
+users: []
+preferences: {}
+```
+
+Once we have the audit webhook configuration we can base64 encode it and create the secret.
+
+```yaml
+apiVersion: v1
+data:
+  webhook.yaml: <base64 encoded audit webhook configuration>
+kind: Secret
+metadata:
+  name: audit-webhook-backend
+  namespace: cluster-e9s4w7jk6t
+type: Opaque
+```
+
 ### User Cluster Level Audit Webhook Backend
 
 To enable webhook backend for an existing user cluster, first create the secret that has the webhook backend configuration in the cluster namespace `(cluster-<cluster-id>)` on the seed cluster & then edit the cluster from the KKP GUI to specify the secret.
