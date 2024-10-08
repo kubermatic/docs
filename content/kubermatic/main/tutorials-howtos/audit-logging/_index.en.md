@@ -11,6 +11,7 @@ Audit logging is also a key requirement of the [Kubernetes CIS benchmark](https:
 For more details, you can refer to the [upstream documentation](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/).
 
 ## Kubermatic Kubernetes Platform (KKP) Support
+
 KKP provides two levels of support for the Audit Logging:
 
 * Audit Logging on user-cluster level
@@ -45,13 +46,13 @@ Enabling an audit policy preset on your user-cluster will override any manual ch
 
 The following presets are available right now:
 
-- `metadata`: Logs metadata for any request (matches the default policy configured when using no policy preset)
-- `minimal`: Is considered the bare minimum that allows to audit for key operations on the cluster. Logs the following operations:
-    - any modification to `Pods`, `Deployments`, `StatefulSets`, `DaemonSets` and `ReplicaSets` (complete request and response bodies)
-    - any access to Pods via shell (by using `exec` to spawn a process) or port-forwarding/proxy (complete request and response bodies)
-    - access to container logs (metadata only)
-    - any access (read, write or delete) to `Secrets` and `ConfigMaps` (metadata only, as the request body could include sensitive information)
-- `recommended`: Logs everything in `minimal` plus metadata for any other request. This is the most verbose audit policy preset, but is recommended due to its extended coverage of security recommendations like the CIS Benchmark
+* `metadata`: Logs metadata for any request (matches the default policy configured when using no policy preset)
+* `minimal`: Is considered the bare minimum that allows to audit for key operations on the cluster. Logs the following operations:
+  * any modification to `Pods`, `Deployments`, `StatefulSets`, `DaemonSets` and `ReplicaSets` (complete request and response bodies)
+  * any access to Pods via shell (by using `exec` to spawn a process) or port-forwarding/proxy (complete request and response bodies)
+  * access to container logs (metadata only)
+  * any access (read, write or delete) to `Secrets` and `ConfigMaps` (metadata only, as the request body could include sensitive information)
+* `recommended`: Logs everything in `minimal` plus metadata for any other request. This is the most verbose audit policy preset, but is recommended due to its extended coverage of security recommendations like the CIS Benchmark
 
 ## Custom Output Configuration
 
@@ -65,9 +66,9 @@ Configuration options are not validated before being passed to fluentbit, so it 
 
 The available options are:
 
-- `service`: Configures the [[SERVICE]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_section) section, enabling fine-tuning of fluentbit. Note that some options alter fluentbit's behaviour and can cause issues in some cases (for example, adjusting the `daemon` setting).
-- `filters`: Configures one or several [[FILTER]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_filter) sections. To match audit logs, put a `match: '*'` directive in your filter definition. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/filters) for available filters.
-- `outputs` Configures one or several [[OUTPUT]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_output) sections. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/outputs) for available outputs.
+* `service`: Configures the [[SERVICE]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_section) section, enabling fine-tuning of fluentbit. Note that some options alter fluentbit's behaviour and can cause issues in some cases (for example, adjusting the `daemon` setting).
+* `filters`: Configures one or several [[FILTER]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_filter) sections. To match audit logs, put a `match: '*'` directive in your filter definition. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/filters) for available filters.
+* `outputs` Configures one or several [[OUTPUT]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_output) sections. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/outputs) for available outputs.
 
 Since this setting is part of the cluster specification, you might have the requirement to avoid disclosing credentials used to access your log output targets (a company-wide logging system, for example). In those situations, it is recommended to set up a central forwarder in your seed cluster that is then used by fluentbit outputs. This is possible by e.g. setting up [fluentd](https://www.fluentd.org/) and using a [forward output](https://docs.fluentbit.io/manual/pipeline/outputs/forward).
 
