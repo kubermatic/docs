@@ -13,6 +13,7 @@ Presets give administrators the ability to predefine a set of provider informati
 the cluster creation process. Be aware that a single Preset can contain information about multiple providers.
 
 As an example let's see what kind of information can be set for the AWS provider.
+
 ```yaml
 aws:
   accessKeyID: '<accessKeyID>'
@@ -42,7 +43,6 @@ Preset list offers multiple options that allow Administrators to manage Presets.
     - Edit configure provider
 1. Show/Hide the Preset. Allows hiding Presets from the users and block new cluster creation based on them.
 1. A list of providers configured for the Preset.
-
 
 ### Creating a Preset
 
@@ -304,6 +304,26 @@ For AWS no root is required and we recommend the following IAM policy:
 }
 ```
 
-YOUR_ACCOUNT_ID is the account ID on AWS https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html
+YOUR_ACCOUNT_ID is the account ID on AWS <https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html>
 {{% /tab %}}
 {{< /tabs >}}
+
+## Customizable Presets
+
+Customizable presets are a type of presets that have the credentials obscured but allow the users to select other non-sensitive fields during the cluster creation process.
+
+{{% notice warning %}}
+Customizable presets are only supported for OpenStack.
+{{% /notice %}}
+
+As an example, for OpenStack you can have a preset in which the credentials are constant but during cluster creation the user can select the network, subnetwork and security group.
+
+To enable customizable presets you will need to set `isCustomizable: true` in the preset.
+
+![Creating a customizable preset](images/customizable-preset.png?classes=shadow,border&height=100)
+
+### Cluster creation with customizable presets
+
+When creating a cluster using a customizable preset, the user will be presented with a list of customizable fields.
+
+![Cluster creation with customizable presets](images/cluster-creation-customizable-presets.png?classes=shadow,border&height=100)
