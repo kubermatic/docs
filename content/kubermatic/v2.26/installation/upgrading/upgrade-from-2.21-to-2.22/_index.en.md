@@ -8,7 +8,7 @@ weight = 10
 Upgrading to KKP 2.22 is only supported from version 2.21. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from [2.20 to 2.21]({{< ref "../upgrade-from-2.20-to-2.21/" >}}) and then to 2.22). It is also strongly advised to be on the latest 2.21.x patch release before upgrading to 2.22.
 {{% /notice %}}
 
-This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.22. For the full list of changes in this release, please check out the [KKP changelog for v2.22](https://github.com/kubermatic/kubermatic/blob/release/v22.26/docs/changelogs/CHANGELOG-2.22.md). Please read the full document before proceeding with the upgrade.
+This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.22. For the full list of changes in this release, please check out the [KKP changelog for v2.22](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/changelogs/CHANGELOG-2.22.md). Please read the full document before proceeding with the upgrade.
 
 ## Pre-Upgrade Considerations
 
@@ -227,4 +227,4 @@ After finishing the upgrade, check out some of the new features that were added 
 - Support for Kubernetes 1.25 and 1.26 has been added and can be used to create or upgrade user clusters.
 - Various improvements to the look and feel of the Kubermatic Dashboard of your KKP instance.
 
-Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/release/v22.26/docs/changelogs/CHANGELOG-2.22.md) for a full list of changes.
+Check out the [changelog](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/changelogs/CHANGELOG-2.22.md) for a full list of changes.

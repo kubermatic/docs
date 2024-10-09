@@ -8,7 +8,7 @@ weight = 10
 Upgrading to KKP 2.25 is only supported from version 2.24. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from [2.23 to 2.24]({{< ref "../upgrade-from-2.23-to-2.24/" >}}) and then to 2.25). It is also strongly advised to be on the latest 2.24.x patch release before upgrading to 2.25.
 {{% /notice %}}
 
-This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.25. For the full list of changes in this release, please check out the [KKP changelog for v2.25](https://github.com/kubermatic/kubermatic/blob/release/v22.26/docs/changelogs/CHANGELOG-2.25.md). Please read the full document before proceeding with the upgrade.
+This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.25. For the full list of changes in this release, please check out the [KKP changelog for v2.25](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/changelogs/CHANGELOG-2.25.md). Please read the full document before proceeding with the upgrade.
 
 ## Pre-Upgrade Considerations
 
@@ -171,7 +171,7 @@ Of particular interest to the upgrade process is if the `ResourcesReconciled` co
 
 ### Deprecations and Removals
 
-Some functionality of KKP has been deprecated or removed with KKP 2.25. You should review the full [changelog](https://github.com/kubermatic/kubermatic/blob/release/v22.26/docs/changelogs/CHANGELOG-2.25.md) and adjust any automation or scripts that might be using deprecated fields or features. Below is a list of changes that might affect you:
+Some functionality of KKP has been deprecated or removed with KKP 2.25. You should review the full [changelog](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/changelogs/CHANGELOG-2.25.md) and adjust any automation or scripts that might be using deprecated fields or features. Below is a list of changes that might affect you:
 
 - The field `ovdcNetwork` in `cluster` and `preset` CRDs is considered deprecated for VMware Cloud Director and `ovdcNetworks` should be used instead ([#12996](https://github.com/kubermatic/kubermatic/pull/12996))
 - Some of high cardinality metrics were dropped from the User Cluster MLA prometheus. If your KKP installation was using some of those metrics for the custom Grafana dashboards for the user clusters, your dashboards might stop showing some of the charts ([#12756](https://github.com/kubermatic/kubermatic/pull/12756))

@@ -105,7 +105,7 @@ We allow to configure:
 * `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
   * Pass names of KubeVirt storage classes that can be used from user clusters.
 
-Refer to this [document](https://github.com/kubermatic/kubermatic/blob/release/v22.26/docs/zz_generated.seed.ce.yaml#L115)
+Refer to this [document](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/zz_generated.seed.ce.yaml#L115)
 for more details and configuration example.
 
 {{% notice warning %}}
@@ -220,7 +220,7 @@ We implemented a mechanism that will allow you to safely drain a bare-metal node
 After running a drain command the VMs running on the node along with their workload will be evicted to different nodes.
 
 {{% notice note %}}
-More details on the eviction implementation can be found [here](https://github.com/kubermatic/kubermatic/blob/release/v22.26/docs/proposals/kubevirt-workload-eviction.md).
+More details on the eviction implementation can be found [here](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/proposals/kubevirt-workload-eviction.md).
 {{% /notice %}}
 
 {{% notice warning %}}

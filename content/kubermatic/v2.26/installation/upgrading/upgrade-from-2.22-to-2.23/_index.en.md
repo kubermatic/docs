@@ -8,7 +8,7 @@ weight = 10
 Upgrading to KKP 2.23 is only supported from version 2.22. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from [2.21 to 2.22]({{< ref "../upgrade-from-2.21-to-2.22/" >}}) and then to 2.23). It is also strongly advised to be on the latest 2.22.x patch release before upgrading to 2.23.
 {{% /notice %}}
 
-This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.23. For the full list of changes in this release, please check out the [KKP changelog for v2.23](https://github.com/kubermatic/kubermatic/blob/release/v22.26/docs/changelogs/CHANGELOG-2.23.md). Please read the full document before proceeding with the upgrade.
+This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) to version 2.23. For the full list of changes in this release, please check out the [KKP changelog for v2.23](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/changelogs/CHANGELOG-2.23.md). Please read the full document before proceeding with the upgrade.
 
 ## Pre-Upgrade Considerations
 
