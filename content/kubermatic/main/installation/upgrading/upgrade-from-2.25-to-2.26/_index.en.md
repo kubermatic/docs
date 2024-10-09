@@ -142,7 +142,7 @@ velero:
 
 #### Kopia replaces restic
 
-The default file backup solution in Velero is now Kopia, replacing the previous implementation using restic. From a Velero user perspective this can be seen as an implementation detail and commands like `velero backup create` will continue to work as before. However, Kopia's data is stored in a new repository inside the backup storage location (for example if you used restic before and now switch to Kopia and use and S3 bucket for storage, you would end up with 3 directories in the bucket: `backups`, `restic` and `kopia`).
+The default file backup solution in Velero is now [Kopia](https://kopia.io/), replacing the previous implementation using [restic](https://restic.net/). From a Velero user perspective this can be seen as an implementation detail and commands like `velero backup create` will continue to work as before. However, Kopia's data is stored in a new repository inside the backup storage location (for example if you used restic before and now switch to Kopia and use and S3 bucket for storage, you would end up with 3 directories in the bucket: `backups`, `restic` and `kopia`).
 
 When migrating to Kopia, new backups will be made using it, but existing backups made using restic can still be restored. Once no old restic backups are required anymore, the `restic` directory in the backup storage can be deleted.
 
