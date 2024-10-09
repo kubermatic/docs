@@ -129,7 +129,7 @@ nginx v1.10 brings quite a few potentially breaking changes:
 
 The validation of username and password in the LDAP connector is much more strict now. Dex uses the [EscapeFilter](https://pkg.go.dev/gopkg.in/ldap.v1#EscapeFilter) function to check for special characters in credentials and prevent injections by denying such requests. Please ensure this is not an issue before upgrading.
 
-Additionally, the custom `oauth` Helm chart in KKP has been deprecated and will be replaced with a new Helm chart, `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex). Administrators are advised to begin migrating to the new chart as soon as possible.
+Additionally, the custom `oauth` Helm chart in KKP has been deprecated and will be replaced with a new Helm chart, `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex), in KKP 2.27.
 
 ##### Migration Procedure
 
