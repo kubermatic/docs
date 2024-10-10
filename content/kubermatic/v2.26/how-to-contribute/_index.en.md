@@ -6,7 +6,7 @@ weight = 61
 
 ## Contributing to KKP
 
-KKP is an open-source project to centrally manage the global automation of thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Therefore, contributors in different areas but not limited to project automation, code review, tooling, documentation, testing etc., for the holistic improvement of the KKP project is highly welcomed. Kubermatic projects are [Apache 2.0 licensed](https://github.com/kubermatic/kubermatic/blob/release/v22.26/LICENSE) and accept contributions via GitHub pull requests from interested contributors. This document outlines some of the conventions on development workflow, contributor's notes, contributing steps, contact points and other resources to make your contribution to the projects felicitous.
+KKP is an open-source project to centrally manage the global automation of thousands of Kubernetes clusters across multi-cloud, on-prem and edge with unparalleled density and resilience. Therefore, contributors in different areas but not limited to project automation, code review, tooling, documentation, testing etc., for the holistic improvement of the KKP project is highly welcomed. Kubermatic projects are [Apache 2.0 licensed](https://github.com/kubermatic/kubermatic/blob/release/v2.26/LICENSE) and accept contributions via GitHub pull requests from interested contributors. This document outlines some of the conventions on development workflow, contributor's notes, contributing steps, contact points and other resources to make your contribution to the projects felicitous.
 
 ## Contributor's Notes
 
@@ -14,7 +14,7 @@ There are few things to note when contributing to the KKP project, which are hig
 
 *   KKP project is hosted on GitHub; thus, GitHub knowledge is one of the essential pre-requisites
 *   The KKP documentation is written in markdown (.md) and located in the [docs repository](https://github.com/kubermatic/docs/tree/main/content/kubermatic)
-*   See [CONTRIBUTING.md](https://github.com/kubermatic/kubermatic/blob/release/v22.26/CONTRIBUTING.md) for instructions on the developer certificate of origin that we require
+*   See [CONTRIBUTING.md](https://github.com/kubermatic/kubermatic/blob/release/v2.26/CONTRIBUTING.md) for instructions on the developer certificate of origin that we require
 *   Familiarization with Hugo for building static site locally is suggested for documentation contribution
 *   Kubernetes knowledge is also recommended
 *   The KKP documentation is currently available only in English
@@ -22,10 +22,10 @@ There are few things to note when contributing to the KKP project, which are hig
 
 ## Steps in Contributing to KKP
 
-*   Please familiarise yourself with our [Code of Conduct](https://github.com/kubermatic/kubermatic/blob/release/v22.26/CODE_OF_CONDUCT.md)
+*   Please familiarise yourself with our [Code of Conduct](https://github.com/kubermatic/kubermatic/blob/release/v2.26/CODE_OF_CONDUCT.md)
 *   Check the [opened issues](https://github.com/kubermatic/kubermatic/issues) on our GitHub repo peradventure there might be anyone that will be of interest
 *   Fork the repository on GitHub
-*   Read the [README](https://github.com/kubermatic/kubermatic/blob/release/v22.26/README.md) for build and test instructions
+*   Read the [README](https://github.com/kubermatic/kubermatic/blob/release/v2.26/README.md) for build and test instructions
 
 ## Contribution Workflow
 

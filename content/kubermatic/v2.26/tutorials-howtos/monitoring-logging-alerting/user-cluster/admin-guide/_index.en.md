@@ -252,13 +252,13 @@ By default, the MLA stack is configured to hold the logs and metrics in the obje
 
 **For the metrics:**
 
-- In the [cortex Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v22.26/charts/mla/cortex/values.yaml#L208), set `cortex.config.limits.max_query_lookback` to the desired value (default: `168h` = 7 days).
-- In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v22.26/charts/mla/minio-lifecycle-mgr/values.yaml#L18), set `lifecycleMgr.buckets[name=cortex].expirationDays` to the value used in the cortex Helm chart + 1 day (default: `8d`).
+- In the [cortex Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v2.26/charts/mla/cortex/values.yaml#L208), set `cortex.config.limits.max_query_lookback` to the desired value (default: `168h` = 7 days).
+- In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v2.26/charts/mla/minio-lifecycle-mgr/values.yaml#L18), set `lifecycleMgr.buckets[name=cortex].expirationDays` to the value used in the cortex Helm chart + 1 day (default: `8d`).
 
 **For the logs:**
 
-- In the [loki Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v22.26/charts/mla/loki-distributed/values.yaml#L52), set `loki-distributed.loki.config.chunk_store_config.max_look_back_period` to the desired value (default: `168h` = 7 days).
-- In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v22.26/charts/mla/minio-lifecycle-mgr/values.yaml#L20), set `lifecycleMgr.buckets[name=loki].expirationDays` to the value used in the loki Helm chart + 1 day (default: `8d`).
+- In the [loki Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v2.26/charts/mla/loki-distributed/values.yaml#L52), set `loki-distributed.loki.config.chunk_store_config.max_look_back_period` to the desired value (default: `168h` = 7 days).
+- In the [minio-lifecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v2.26/charts/mla/minio-lifecycle-mgr/values.yaml#L20), set `lifecycleMgr.buckets[name=loki].expirationDays` to the value used in the loki Helm chart + 1 day (default: `8d`).
 
 ### Cortex Performance Tips
 
@@ -288,11 +288,11 @@ There are three Helm charts which are related to MinIO in MLA repository:
 - [minio-lifecycle-mgr](https://github.com/kubermatic/kubermatic/tree/release/v2.26/charts/mla/minio-lifecycle-mgr) is used to manage the lifecycle of the stored data, and to take care of data retention.
 
 If you want to disable the MinIO installation and use your existing MinIO instance or other S3 services, you need to:
-- Disable the Secret creation for MinIO in mla-secrets Helm chart. In the [mla-secrets Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v22.26/charts/mla/mla-secrets/values.yaml#L18), set `mlaSecrets.minio.enabled` to `false`.
+- Disable the Secret creation for MinIO in mla-secrets Helm chart. In the [mla-secrets Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v2.26/charts/mla/mla-secrets/values.yaml#L18), set `mlaSecrets.minio.enabled` to `false`.
 - Modify the S3 storage settings in `values.yaml` of other MLA components to use the existing MinIO instance or other S3 services:
-  - In [cortex Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v22.26/charts/mla/cortex/values.yaml), change the `cortex.config.ruler.storage.s3`, `cortex.config.alertmanager.storage.s3`, and `cortex.config.blocks_storage.s3` to point to your MinIO instance. Modify the `cortex.ruler.env`, `cortex.storage_gateway.env`, `cortex.ingester.env`, `cortex.querier.env` and `cortex.alertmanager.env` to get credentials from your Secret.
-  - In [loki Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v22.26/charts/mla/loki-distributed/values.yaml), change the `loki-distributed.storage_config.aws` and `loki-distributed.ruler.storage.s3` in the `loki-distributed.loki.config` to point to your MinIO instance or S3 service. Modify `extraEnvFrom` of `loki-distributed.tableManager`, `loki-distributed.ingester`, `loki-distributed.querier`, `loki-distributed.ruler` and `loki-distributed.compactor` to get credentials from your Secret.
-  - If you still want to use MinIO lifecycle manager to manage data retention for MLA data in your MinIO instance, in [minio-lefecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v22.26/charts/mla/minio-lifecycle-mgr/values.yaml), set `lifecycleMgr.minio.endpoint` and `lifecycleMgr.minio.secretName` to your MinIO endpoint and Secret.
+  - In [cortex Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v2.26/charts/mla/cortex/values.yaml), change the `cortex.config.ruler.storage.s3`, `cortex.config.alertmanager.storage.s3`, and `cortex.config.blocks_storage.s3` to point to your MinIO instance. Modify the `cortex.ruler.env`, `cortex.storage_gateway.env`, `cortex.ingester.env`, `cortex.querier.env` and `cortex.alertmanager.env` to get credentials from your Secret.
+  - In [loki Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v2.26/charts/mla/loki-distributed/values.yaml), change the `loki-distributed.storage_config.aws` and `loki-distributed.ruler.storage.s3` in the `loki-distributed.loki.config` to point to your MinIO instance or S3 service. Modify `extraEnvFrom` of `loki-distributed.tableManager`, `loki-distributed.ingester`, `loki-distributed.querier`, `loki-distributed.ruler` and `loki-distributed.compactor` to get credentials from your Secret.
+  - If you still want to use MinIO lifecycle manager to manage data retention for MLA data in your MinIO instance, in [minio-lefecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/release/v2.26/charts/mla/minio-lifecycle-mgr/values.yaml), set `lifecycleMgr.minio.endpoint` and `lifecycleMgr.minio.secretName` to your MinIO endpoint and Secret.
 - Use `--mla-skip-minio` or `--mla-skip-minio-lifecycle-mgr` flag when you execute `kubermatic-installer deploy usercluster-mla`. If you want to disable MinIO but still use MinIO lifecycle manager to take care of data retention, you can use `--mla-skip-minio` flag. Otherwise, you can use both flags to disable both MinIO and lifecycle manager. Please note that if you are redeploying the stack on existing cluster, you will have to manually uninstall MinIO and/or lifecycle manager. To do that, you can use commands: `helm uninstall --namespace mla minio` and `helm uninstall --namespace mla minio-lifecycle-mgr` accordingly.
 
 
@@ -316,7 +316,7 @@ data:
   example-dashboard.json: <your-dashboard-json-data>
 ```
 
-- Add dashboards to the User Cluster MLA Grafana Helm chart values. You can add dashboards into the `grafana.dashboards` section of the [values.yaml file](https://github.com/kubermatic/kubermatic/blob/release/v22.26/charts/mla/grafana/values.yaml#L41).
+- Add dashboards to the User Cluster MLA Grafana Helm chart values. You can add dashboards into the `grafana.dashboards` section of the [values.yaml file](https://github.com/kubermatic/kubermatic/blob/release/v2.26/charts/mla/grafana/values.yaml#L41).
 
 After the new dashboards are applied to the Seed Cluster, they will become available across all Grafana Organizations, and they can be found in the Grafana UI under Dashboards -> Manage.
 
