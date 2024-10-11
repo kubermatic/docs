@@ -15,7 +15,7 @@ date = 2024-05-31T07:00:00+02:00
   - Azure
   - DigitalOcean
   - Google Cloud Platform
-  - HCloud (Hetzner Cloud)
+  - Hetzner Cloud
   - KubeVirt
   - Nutanix
   - OpenStack
@@ -24,7 +24,8 @@ date = 2024-05-31T07:00:00+02:00
 - Using any of these supported distributions ([not all distributions work on all providers](/docs/operating-system.md):
   - Amazon Linux 2
   - Flatcar Linux
-  - RockyLinux
+  - RedHat Enterprise Linux (RHEL)
+  - Rocky Linux
   - Ubuntu
 
 ### What Doesn't Work
