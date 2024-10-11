@@ -1,11 +1,12 @@
 +++
 title = "Ubuntu Template VM"
+linkTitle = "Ubuntu"
 date = 2022-10-31T12:00:00+02:00
 +++
 
 This guide describes how to create a template VM for vSphere running Ubuntu.
-The template VM is supposed to be compatible with Terraform, Kubermatic KubeOne,
-and Kubermatic machine-controller.
+The template VM is supposed to be compatible with Terraform, machine-controller,
+KubeOne and KKP.
 
 This guide has been tested with Ubuntu 22.04 and vSphere 7.0. Using other
 versions of Ubuntu and/or vSphere might require some adjustments to the guide.
@@ -267,4 +268,4 @@ template VM for both Terraform and machine-controller.
 
 ## Known Issues
 
-* Internal Kubernetes endpoints unreachable on vSphere with Cilium/Canal on VMXNET3 adapter, see [this issue](../../../known-issues/#internal-kubernetes-endpoints-unreachable-on-vsphere-with-ciliumcanal) for more details and workaround.
+* Internal Kubernetes endpoints unreachable on vSphere with Cilium/Canal on VMXNET3 adapter, see [this issue](../../../../../kubeone/main/known-issues/#internal-kubernetes-endpoints-unreachable-on-vsphere-with-ciliumcanal) for more details and workaround.
