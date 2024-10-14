@@ -623,7 +623,7 @@ cloudProvider:
 **Make sure to replace the placeholder values with real values in the
 cloud-config section.**
 
-In the [Kubermatic documentation][azure-sa-setup]
+In the [Kubermatic documentation]({{< relref "../../architecture/requirements/machine-controller/azure" >}})
 you  can find more information regarding how to set up a service account.
 This service account is needed to proceed.
 
@@ -1064,5 +1064,4 @@ and recommendations.
 [unprovisioning-clusters]: {{< ref "../unprovisioning-clusters" >}}
 [production-recommendations]: {{< ref "../../cheat-sheets/production-recommendations" >}}
 [create-cluster-oidc]: {{< ref "../creating-clusters-oidc" >}}
-[azure-sa-setup]: {{< ref "../../architecture/requirements/machine-controller/azure" >}}
 [maintenance mode]: https://kubernetes.io/releases/patch-releases/#support-period
