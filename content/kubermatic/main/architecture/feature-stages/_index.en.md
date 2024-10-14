@@ -32,6 +32,7 @@ weight = 4
 
 - Users: All users
 - The feature is always enabled; you cannot disable it by a feature gate
+  - Some features which are meant to be optional (Optional Features) are an exception of this, and can still be disabled by default
 - Feature is considered production-ready
 - Support is guaranteed
 - All changes to the feature are backwards compatible with an automated migration path implemented where needed
