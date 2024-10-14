@@ -22,7 +22,7 @@ This page outlines how to install ArgoCD and team provided Apps to manage KKP se
 
 In order to setup and manage KKP using a GitOps solution, one must first know some basics about KKP. Following links could be useful to get that knowledge, if you are new to KKP.
 
-1. [KKP main documentation home](../../) For general overview. This documentation is quite vast and you should glance through this documentaion but focus on specific links below.
+1. [KKP main documentation home](../../) For general overview. This documentation is quite vast and you should glance through this documentation but focus on specific links below.
 1. [KKP Architecture, terminology and planning](../../architecture/)
 1. [Hardware requirements, firewall requirements](../../architecture/requirements/cluster-requirements/) and [supported cloud providers](../../architecture/supported-providers/) and [DNS requirements](../../installation/install-kkp-ce/#update-dns--tls)
 
@@ -31,7 +31,7 @@ We will install KKP along the way so, we do not need a running KKP installation.
 ## Introduction
 
 General concept of how KKP installations are and how ArgoCD will be deployed and what KKP components it will manage can be seen in below diagram.
-![Concept](@/images/tutorials/gitops-argocd/KKP-GitOps-ArgoCD.drawio.png "Concept - KKP GitOps using ArgoCD")
+![Concept](@/images/tutorials/gitops-argocd/kkp-gitops-argocd.png "Concept - KKP GitOps using ArgoCD")
 
 For the demonstration, 
 1. We will use 2 kubernetes clusters in AWS (created using Kubeone but they could be any Kubernetes clusters on any of the supported cloud / on-prem providers as long as they have a network path to reach each other)
