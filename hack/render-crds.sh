@@ -23,9 +23,9 @@ if [[ -z "$SOURCE" ]]; then
 fi
 
 which crd-ref-docs >/dev/null || {
-  echo "running go install github.com/elastic/crd-ref-docs@v0.0.12 in 5s... (ctrl-c to cancel)"
+  echo "running go install github.com/elastic/crd-ref-docs@v0.1.0 in 5s... (ctrl-c to cancel)"
   sleep 5
-  go install github.com/elastic/crd-ref-docs@v0.0.12
+  go install github.com/elastic/crd-ref-docs@v0.1.0
 }
 
 # get latest stable Kubernetes version
