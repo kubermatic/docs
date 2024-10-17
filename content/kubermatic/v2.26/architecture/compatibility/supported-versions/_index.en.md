@@ -28,11 +28,11 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version          | 1.29 | 1.28 | 1.27 | 1.26[^2] | 1.25[^2] | 1.24[^2] |
-| -------------------- | ---- | ---- | ---- | -------- | -------- | -------- |
-| 2.25.x               | ✓    | ✓    | ✓    | --       | --       | --       |
-| 2.24.x               | --   | ✓    | ✓    | ✓        | --       | --       |
-| 2.23.x               | --   | --   | ✓    | ✓        | ✓        | ✓        |
+| KKP version          | 1.31 | 1.30 | 1.29 | 1.28 | 1.27[^2] | 1.26[^2] |
+| -------------------- | -----| ---- | ---- | ---- | -------- | -------- |
+| 2.26.x               | ✓    |  ✓   | ✓    | ✓    | --       | --       |
+| 2.25.x               | --   | --   | ✓    | ✓    | ✓        | --       |
+| 2.24.x               | --   | --   | --   | ✓    | ✓        | ✓        |
 
 [^2]: Kubernetes releases below version 1.27 have reached End-of-Life (EOL). We strongly
 recommend upgrading to a supported Kubernetes release as soon as possible. Refer to the
@@ -40,16 +40,9 @@ recommend upgrading to a supported Kubernetes release as soon as possible. Refer
 releases.
 
 Upgrades from a previous Kubernetes version are generally supported whenever a version is
-marked as supported, for example KKP 2.19 supports updating clusters from Kubernetes 1.20 to 1.21.
+marked as supported, for example KKP 2.26 supports updating clusters from Kubernetes 1.30 to 1.31.
 
 ## Provider Incompatibilities
 
-KKP has some incompatibilities with cloud providers, e.g. because their in-tree cloud provider
-implementation has been removed from upstream Kubernetes. For KKP 2.26.x, the following incompatibilities
-apply:
-
-| Condition                          | Incompatible with Kubernetes | Notes                                                                                             |
-|------------------------------------|------------------------------|---------------------------------------------------------------------------------------------------|
-| vSphere + in-tree cloud provider   | >= 1.25                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/ccm-migration/" >}}). |
-| OpenStack + in-tree cloud provider | >= 1.26                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/ccm-migration/" >}}). |
-| AWS + in-tree cloud provider       | >= 1.27                      | Must be [migrated to external CCM first]({{< ref "../../../tutorials-howtos/ccm-migration/" >}}). |
+KKP may have incompatibilities with cloud providers, e.g. because their in-tree cloud provider
+implementation has been removed from upstream Kubernetes. For KKP 2.26.x, no provider incompatibilities exist.
