@@ -235,7 +235,7 @@ the `Seed` resource has been created.
 
 If you are using MinIO, a bucket needs to be created for cluster backups to be stored in. This can be done for example
 via a `Job` resource that spawns a `Pod` running the `mc` command against the freshly deployed MinIO service. Below you
-find an example `Job` definition. If you want to change the bucket name, replace `src/kkpbackup` with `src/YOUR_BUCKET_NAME`
+find an example `Job` definition. If you want to change the bucket name, replace `kkpbackup` with `YOUR_BUCKET_NAME`
 in the `args` part of the template.
 
 ```yaml
@@ -254,7 +254,7 @@ spec:
           args:
             - /bin/sh
             - -c
-            - mc --insecure config host add src http://minio.minio.svc.cluster.local:9000 "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" && mc --insecure mb src/kkpbackup
+            - mc --insecure config host add src http://minio.minio.svc.cluster.local:9000 "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" && mc --insecure mb kkpbackup
           env:
             - name: MINIO_ACCESS_KEY
               valueFrom:
