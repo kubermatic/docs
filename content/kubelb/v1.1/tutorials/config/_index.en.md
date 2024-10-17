@@ -32,6 +32,10 @@ This will de-couple the `config` from the helm chart and users can manage it sep
 
 ## Configuration Options
 
+{{% notice note %}}
+Tenant configuration has a higher precedence than the global configuration and overrides the global configuration values for the tenant if the fields are available in both the tenant and global configuration.
+{{% /notice %}}
+
 ### Essential configurations
 
 ```yaml
@@ -61,6 +65,8 @@ These configurations are available at a global level and also at a tenant level.
 KubeLB can propagate annotations from services, ingresses, gateway API objects etc. in the tenant cluster to the corresponding LoadBalancer or Route resources in the management cluster. This is useful for setting annotations that are required by the cloud provider to configure the LoadBalancers. For example, the `service.beta.kubernetes.io/aws-load-balancer-internal` annotation is used to create an internal LoadBalancer in AWS.
 
 Annotations are not propagated by default since tenants can make unwanted changes to the LoadBalancer configuration. Since each tenant is treated as a separate entity, the KubeLB manager cluster needs to be configured to allow the propagation of specific annotations.
+
+The annotation configuration set on the tenant level will override the global annotation configuration for that tenant.
 
 1. Propagate all annotations
 
