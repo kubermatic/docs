@@ -27,6 +27,7 @@ Kubermatic Kubernetes Platform supports a multitude of different cloud providers
 * Bare metal via KubeVirt
 * Hetzner
 * Edge (Experimental)
+* Baremetal (Experimental)
 
 **Tier 3**
 
