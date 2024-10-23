@@ -4234,6 +4234,8 @@ _Appears in:_
 | `isDefaultClass` _boolean_ | {{< unsafe >}}Optional: IsDefaultClass. If true, the created StorageClass in the tenant cluster will be annotated with:<br />storageclass.kubernetes.io/is-default-class : true<br />If missing or false, annotation will be:<br />storageclass.kubernetes.io/is-default-class : false{{< /unsafe >}} |
 | `volumeBindingMode` _[VolumeBindingMode](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#volumebindingmode-v1-storage)_ | {{< unsafe >}}VolumeBindingMode indicates how PersistentVolumeClaims should be provisioned and bound. When unset,<br />VolumeBindingImmediate is used.{{< /unsafe >}} |
 | `labels` _object (keys:string, values:string)_ | {{< unsafe >}}Labels is a map of string keys and values that can be used to organize and categorize<br />(scope and select) objects. May match selectors of replication controllers<br />and services.{{< /unsafe >}} |
+| `zones` _string array_ | {{< unsafe >}}Zones represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones<br />for increased availability{{< /unsafe >}} |
+| `regions` _string array_ | {{< unsafe >}}Regions represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters<br />to span multiple regions{{< /unsafe >}} |
 
 
 [Back to top](#top)
