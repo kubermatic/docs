@@ -60,7 +60,8 @@ velero:
   backupStorageLocations:
     aws:
       provider: aws
-      bucket: myclusterbackups
+      objectStorage:
+        bucket: myclusterbackups
       config:
         region: eu-west-1
 
@@ -114,8 +115,7 @@ velero:
     backupStorageLocation:
       - name: aws
         provider: aws
-        objectStorage:
-          bucket: myclusterbackups
+        bucket: myclusterbackups
         config:
           region: eu-west-1
 
