@@ -1,19 +1,19 @@
 +++
-title = "KKP Administration using GitOps via ArgoCD"
+title = "GitOps via ArgoCD"
 date = 2024-07-30T12:00:00+02:00
 weight = 56
 linktitle = "GitOps via ArgoCD"
 +++
 
 {{% notice warning %}}
-This is a Alpha version of Kubermatic management via GitOps which can become default way in future. This article explains how you can kickstart that journey with ArgoCD right now. **Please use this setup in production at your own risk.**
+This is a Alpha version of Kubermatic management via GitOps which can become the default way to manage KKP in future. This article explains how you can kickstart that journey with ArgoCD right now. But this feature can also change significantly and in backward incompatible ways. **Please use this setup in production at your own risk.**
 {{% /notice %}}
 
 
 ## Need of GitOps solution
 Kubermatic Kubernetes Platform is very versatile solution to create and manage Kubernetes clusters (user-clusters) across plethora of Cloud providers and on-prem virtualizaton platforms. But this flexibility also means that there are good amount of moving parts. Kubermatic Kubernetes Platform (KKP) provides various tools to manage user-clusters across various regions and cloud.
 
-This is why, if we utilize a GitOps solution to manage KKP and it's upgrades, KKP administrator would have better peace of mind. While KKP installation does not come ready with a GitOps solution, we have provided [an unofficial component for ArgoCD](https://github.com/kubermatic/community-components/tree/master/ArgoCD-managed-seed) based KKP management.
+This is why, if we utilize a GitOps solution to manage KKP and it's upgrades, KKP administrator would have better peace of mind. We have now provided [alpha release of ArgoCD based management of KKP master and seeds](https://github.com/kubermatic/kubermatic/tree/main/charts/gitops/kkp-argocd-apps).
 
 This page outlines how to install ArgoCD and team provided Apps to manage KKP seeds and their upgrades.
 
@@ -26,35 +26,35 @@ In order to setup and manage KKP using a GitOps solution, one must first know so
 1. [KKP Architecture, terminology and planning](../../architecture/)
 1. [Hardware requirements, firewall requirements](../../architecture/requirements/cluster-requirements/) and [supported cloud providers](../../architecture/supported-providers/) and [DNS requirements](../../installation/install-kkp-ce/#update-dns--tls)
 
-We will install KKP along the way so, we do not need a running KKP installation. But if you already have KKP installation running, you can still make use of this guide to onboard your existing KKP installation to ArgoCD. This might involve in directory re-organization though.
+We will install KKP along the way, so, we do not need a running KKP installation. But if you already have KKP installation running, you can still make use of this guide to onboard your existing KKP installation to ArgoCD. This might involve in directory re-organization, though.
 
 ## Introduction
 
-General concept of how KKP installations are and how ArgoCD will be deployed and what KKP components it will manage can be seen in below diagram.
+Below diagram shows the general concept of the setup. It shows how KKP installations and ArgoCD will be deployed and what KKP components will be managed by ArgoCD in each seed..
 ![Concept](@/images/tutorials/gitops-argocd/kkp-gitops-argocd.png "Concept - KKP GitOps using ArgoCD")
 
 For the demonstration, 
 1. We will use 2 kubernetes clusters in AWS (created using Kubeone but they could be any Kubernetes clusters on any of the supported cloud / on-prem providers as long as they have a network path to reach each other)
 1. Install KKP master on one cluster (c1) and also use this cluster as seed (master-seed combo cluster)
 1. Make 2nd cluster (c2) as dedicated seed
-1. ArgoCD will be installed in each of the seed (and master/seed) to manage the seed's KKP components
+1. ArgoCD will be installed in each of the seed (and master/seed) to manage the respective seed's KKP components
 
-A highlevel procedure to get ArgoCD to manage the seed would be as follows:
-1. Setup a kubernetes cluster to be used as master seed combo
-1. Install KKP helm chart and KKP ArgoCD Applications (another helm chart)
-1. Install KKP on the master seed
+A high-level procedure to get ArgoCD to manage the seed would be as follows:
+1. Setup a kubernetes cluster to be used as master (or master-seed combo)
+1. Install ArgoCD helm chart and KKP ArgoCD Applications helm chart
+1. Install KKP on the master seed using kubermatic-installer
 1. Setup DNS records and Git repository tag so that ArgoCD can sync
 1. Sync the applications
 1. Repeat the procedure for 2nd seed (except installation of KKP on the seed)
-1. Add kkp seed record in master seed config files so that seed cluster connects with master.
+1. Add kkp seed record in master seed config files so that master takes control of seed cluster.
 1. Commit, push and re-tag the above change so that you can add the seed to master via ArgoCD UI
 
-Folder and File Structure section in the [README.md of ArgoCD Apps Component](https://github.com/kubermatic/community-components/blob/master/ArgoCD-managed-seed/README.md) explains what files should be present for each seed in what folders and how to customize behavior of ArgoCD apps installation.
+Folder and File Structure section in the [README.md of ArgoCD Apps Component](https://github.com/kubermatic/kubermatic/blob/main/charts/gitops/kkp-argocd-apps/README.md) explains what files should be present for each seed in what folders and how to customize behavior of ArgoCD apps installation.
 
-**Note:** Configuring values for all the components of KKP is a humongous task. Also - each customer might like a different directory structure to manage KKP installation. This ArgoCD Apps based approach is an opinionated attempt to provide a standard structure that can be used in most of the customer installations. If you need different directory structure, refer to [README.md of ArgoCD Apps Component](https://github.com/kubermatic/community-components/blob/master/ArgoCD-managed-seed/README.md) to understand how you can customize this, if needed.
+**Note:** Configuring values for all the components of KKP is a humongous task. Also - each customer might like a different directory structure to manage KKP installation. This ArgoCD Apps based approach is an _opinionated attempt_ to provide a standard structure that can be used in most of the customer installations. If you need different directory structure, refer to [README.md of ArgoCD Apps Component](https://github.com/kubermatic/kubermatic/blob/main/charts/gitops/kkp-argocd-apps/README.md) to understand how you can customize this, if needed.
 
 ### ArgoCD Apps
-We will install ArgoCD on both the clusters and we will install following components on both clusters via ArgoCD. In non-GitOps scenario, some  of these components are managed via kubermatic-installer and rest are left to be managed by KKP administrator in master/seed clusters by themselves.
+We will install ArgoCD on both the clusters and we will install following components on both clusters via ArgoCD. In non-GitOps scenario, some of these components are managed via kubermatic-installer and rest are left to be managed by KKP administrator in master/seed clusters by themselves. With ArgoCD, except for kubermatic-operator, everything else can be managed via ArgoCD. Choice remains with KKP Administrator to include which apps to be managed by ArgoCD.
 
 1. Core KKP components
     1. DEX (in master)
@@ -87,6 +87,8 @@ We will install ArgoCD on both the clusters and we will install following compon
 1. Seed Extras - This is a generic ArgoCD app to deploy arbitrary resources not covered by above things and as per needs of KKP Admin.
 
 ## Installation
+
+> You can find same tutorial code with sample values in [this git repository](https://github.com/dharapvj/kkp-using-argocds). For ease of installation, a `Makefile` has been provided to just make commands easier to read. Internally, it just depends on helm, kubectl and kubermatic-installer binaries. But you will need to look at `make` target definitions in `Makefile` to adjust DNS names. While for the demo, provided files would work, you would need to look through each file under `dev` folder and customize the values as per your need.
 
 ### Setup two Kubernetes Clusters
 > This step install two Kubernetes clusters using Kubeone in AWS. You can skip this step, if you already have access to two kubernetes clusters.
@@ -143,16 +145,11 @@ export KUBECONFIG=$PWD/argodemo-dev-seed-kubeconfig  # adjust as per cluster nam
 
 This same folder structure can be further expanded to add kubeone installations for additional environments like staging and prod.
 
-### Installation of KKP with Argo Installation Steps
-For ease of installation, a `Makefile` has been provided to just make commands easier to read. Internally, it just depends on helm, kubectl and kubermatic-installer binaries. But you will need to look at `make` target definitions in `Makefile` to adjust DNS names.
-
-While for my demo, provided files would work, you would need to look through each file under `dev` folder and customize the values as per your need.
-
 ### Note about URLs:
-This demo codebase assumes `argodemo.lab.kubermatic.io` as base URL for KKP. KKP Dashboard is available at this URL. So master argocd, all master tools like prometheus, grafana, etc are accessible at `*.argodemo.lab.kubermatic.io`
-The seed need it's own DNS prefix which configured as `self.seed`. This prefix needs to be configured in Route53.
+The [demo codebase](https://github.com/dharapvj/kkp-using-argocds) assumes `argodemo.lab.kubermatic.io` as base URL for KKP. KKP Dashboard is available at this URL. So master argocd, all master tools like prometheus, grafana, etc are accessible at `*.argodemo.lab.kubermatic.io`
+The seed need it's own DNS prefix which configured as `self.seed`. This prefix needs to be configured in Route53 or similar DNS provider in your setup.
 
-Similarly, this demo creates 2nd seed named `india-seed`. Thus, 2nd seed's argocd, prometheus, grafana etc are accessible at `*.india.argodemo.lab.kubermatic.io`. And this seed's DNS prefix is `india.seed`.
+Similarly, the demo creates 2nd seed named `india-seed`. Thus, 2nd seed's argocd, prometheus, grafana etc are accessible at `*.india.argodemo.lab.kubermatic.io`. And this seed's DNS prefix is `india.seed`.
 
 These names would come handy to understand below references to them and customize these values as per your setup.
 
@@ -171,16 +168,16 @@ These names would come handy to understand below references to them and customiz
 1. ArgoCD syncs nginx ingress and cert-manager automatically
 1. Manually update the DNS records so that ArgoCD is accessible.
     ```shell
-    # Apply DNS record manually in AWS Route53
-    # load balancer details from k get svc -n nginx-ingress-controller nginx-ingress-controller
+    # Apply below DNS CNAME record manually in AWS Route53
     # argodemo.lab.kubermatic.io and *.argodemo.lab.kubermatic.io
-    # now you can access ArgoCD at https://argocd.argodemo.lab.kubermatic.io
+    # You can get load balancer details from `k get svc -n nginx-ingress-controller nginx-ingress-controller`
+    # After DNS setup, you can access ArgoCD at https://argocd.argodemo.lab.kubermatic.io
     ```
-1. Install KKP EE without helm-charts. If we want to finish the demo with separate seed, we will need Enterprise Edition KKP. You can run the demo with master-seed combo, you can use community edition of KKP.
+1. Install KKP EE without helm-charts. If you would want complete ArgoCD setup with separate seeds, we will need Enterprise Edition of KKP. You can run the demo with master-seed combo. For this,  community edition of KKP is sufficient.
     ```shell
     make install-kkp-dev
     ```
-1. Apply ClusterIssuer. Note: During the demo, we are using staging letsencrypt certificate provider. In real world, you should use production lets-encrypt certificate issuer. Just need to change the url in below.
+1. Apply ClusterIssuer. **Note:** For the demo, staging LetsEncrypt certificate provider is used. In real world production applications, you should use production LetsEncrypt certificate issuer. Just need to change the url in `dev/clusterIssuer.yaml` file.
     ```shell
     kubectl apply -f dev/clusterIssuer.yaml
     ```
@@ -188,7 +185,7 @@ These names would come handy to understand below references to them and customiz
     ```shell
     make create-long-lived-master-seed-kubeconfig
     # Above make target creates a file seed-ready-kube-config with base64 encoded kubeconfig
-    # Manually update the content of seed-ready-kube-config in the ./dev/demo-master/seed-kubeconfig-secret-self.yaml
+    # Manually update the content of seed-ready-kube-config in the `./dev/demo-master/seed-kubeconfig-secret-self.yaml`
     kubectl apply -f dev/demo-master/seed-kubeconfig-secret-self.yaml
     # commit changes to git and push latest changes in
     make push-git-tag-dev
@@ -197,11 +194,11 @@ These names would come handy to understand below references to them and customiz
 1. Seed DNS record AFTER seed has been added (needed for usercluster creation). Seed is added as part of ArgoCD apps reconciliation above
     ```shell
     # Apply DNS record manually in AWS Route53
-    # Loadbalancer details from k get svc -n kubermatic nodeport-proxy
     # *.self.seed.argodemo.lab.kubermatic.io
+    # Loadbalancer details from `k get svc -n kubermatic nodeport-proxy`
     ```
 1. Access KKP dashboard at https://argodemo.lab.kubermatic.io
-1. Now we can create user-clusters on this master-seed cluster
+1. Now you can create user-clusters on this master-seed cluster
 1. (only for staging letsencrypt) We need to provide the staging letsencrypt cert so that monitoring IAP components can work. For this, one needs to save the certificate issuer for `https://argodemo.lab.kubermatic.io/dex/` from browser / openssl and insert the certificate in `dev/common/custom-ca-bundle.yaml` for the secret `letsencrypt-staging-ca-cert` under key `ca.crt` in base64 encoded format. Post saving the file, commit the change to git and re-apply the tag via `make push-git-tag-dev` and sync the ArgoCD App .
 
 ### Installation of dedicated KKP seed
@@ -217,34 +214,36 @@ We execute most of the below commands, unless noted otherwise, in 2nd shell wher
     # get argocd admin password via below command
     kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
     ```
-1. Apply ClusterIssuer. Note: During the demo, we are using staging letsencrypt certificate provider. In real world, you should use production lets-encrypt certificate issuer. Just need to change the url in below.
+1. Apply ClusterIssuer. **Note:** For the demo, staging LetsEncrypt certificate provider is used. In real world production applications, you should use production LetsEncrypt certificate issuer. Just need to change the url in `dev/clusterIssuer.yaml` file.
     ```shell
     kubectl apply -f dev/clusterIssuer.yaml
     ```
 1. Add Seed nginx-ingress DNS record
     ```shell
-    # Apply DNS record manually in AWS Route53
+    # Apply below DNS CNAME record manually in AWS Route53
     # india.argodemo.lab.kubermatic.io and *.india.argodemo.lab.kubermatic.io
-    # now you can access ArgoCD at https://argocd.india.argodemo.lab.kubermatic.io
+    # You can get load balancer details from `k get svc -n nginx-ingress-controller nginx-ingress-controller`
+    # After DNS setup, you can access the seed ArgoCD at https://argocd.india.argodemo.lab.kubermatic.io
     ```
 1. Prepare kubeconfig of cluster-admin privileges so that it can be added as secret and then this cluster can be added as Seed in master cluster configuration
     ```shell
     make create-long-lived-seed-kubeconfig
     # Above make target creates a file seed-ready-kube-config with base64 encoded kubeconfig
-    # Manually update the content of seed-ready-kube-config in the ./dev/demo-master/seed-kubeconfig-secret-india.yaml
+    # Manually update the content of seed-ready-kube-config in the `./dev/demo-master/seed-kubeconfig-secret-india.yaml`
 
     # NOTE: export master kubeconfig for below operation
     kubectl apply -f dev/demo-master/seed-kubeconfig-secret-india.yaml
+    # commit changes to git and push latest changes in
+    make push-git-tag-dev
     ```
 1. Sync all apps in ArgoCD by accessing ArgoCD UI and syncing apps manually
 1. Add Seed nodeport proxy DNS record
     ```shell
     # Apply DNS record manually in AWS Route53
-    # Loadbalancer details from k get svc -n kubermatic nodeport-proxy
     # *.india.seed.argodemo.lab.kubermatic.io
+    # Loadbalancer details from `k get svc -n kubermatic nodeport-proxy`
     ```
 1. Now we can create user-clusters on this dedicated seed cluster as well.
-
 
 > NOTE: Sometimes, we get weird errors about timeouts. We need to restart node-local-dns daemonset and/or coredns / cluster-autoscaler deployment to resolve these errors.
 
