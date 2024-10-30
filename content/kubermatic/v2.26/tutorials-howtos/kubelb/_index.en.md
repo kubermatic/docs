@@ -57,13 +57,13 @@ spec:
           kubeconfig: nil
           # UseLoadBalancerClass is used to configure the use of load balancer class `kubelb` for kubeLB. If false, kubeLB will manage all load balancers in the
           # user cluster irrespective of the load balancer class.
-          UseLoadBalancerClass: false
+          useLoadBalancerClass: false
           # EnableGatewayAPI is used to configure the use of gateway API for kubeLB.
-          EnableGatewayAPI: false
+          enableGatewayAPI: false
           # EnableSecretSynchronizer is used to configure the use of secret synchronizer for kubeLB.
-          EnableSecretSynchronizer: false
+          enableSecretSynchronizer: false
           # DisableIngressClass is used to disable the ingress class `kubelb` filter for kubeLB.
-          DisableIngressClass: false
+          disableIngressClass: false
 
 ```
 
