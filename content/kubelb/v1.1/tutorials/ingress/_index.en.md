@@ -86,6 +86,11 @@ spec:
                   number: 3000
 ---
 apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: backend

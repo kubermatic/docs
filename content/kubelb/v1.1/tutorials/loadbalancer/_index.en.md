@@ -26,7 +26,7 @@ spec:
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: management-pool
+  name: extern
   namespace: metallb-system
 spec:
   addresses:
@@ -42,6 +42,11 @@ Further reading: <https://metallb.universe.tf/configuration/_advanced_l2_configu
 In the tenant cluster, create a service of type `LoadBalancer` and a deployment:
 
 ```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend
+---
 apiVersion: v1
 kind: Service
 metadata:
