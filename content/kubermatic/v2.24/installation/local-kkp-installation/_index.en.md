@@ -136,7 +136,7 @@ By default, KubeVirt is configured to use hardware virtualization. If this is no
 On Linux, KubeVirt uses the inode notify kernel subsystem `inotify` to watch for changes in certain files. Usually you shouldn't need to configure this but in case you can observe the `virt-handler` failing with
 
 ```
-kubectl log -nkubevirt ds/virt-handler
+kubectl logs -nkubevirt ds/virt-handler
 ...
 {"component":"virt-handler","level":"fatal","msg":"Failed to create an inotify watcher","pos":"cert-manager.go:105","reason":"too many open files","timestamp":"2023-06-22T09:58:24.284130Z"}
 ```
