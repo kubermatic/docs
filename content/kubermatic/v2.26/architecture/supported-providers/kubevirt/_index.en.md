@@ -16,7 +16,7 @@ weight = 5
 A Kubernetes cluster (KubeVirt infrastructure cluster), which consists of nodes that **have a hardware virtualization support** with at least:
 * 3 Bare Metal Server
 * CPUs: Minimum 8-core for testing; minimum 16-core or more for production
-* Memory:	Minimum 32 GB for testing; minimum 64 GB or more for production
+* Memory: Minimum 32 GB for testing; minimum 64 GB or more for production
 * Storage: Minimum 100 GB for testing; minimum 500 GB or more for production
 
 Software requirement:
