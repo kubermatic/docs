@@ -2689,6 +2689,7 @@ _Appears in:_
 | `customNetworkPolicies` _[CustomNetworkPolicy](#customnetworkpolicy) array_ | {{< unsafe >}}Optional: CustomNetworkPolicies allows to add some extra custom NetworkPolicies, that are deployed<br />in the dedicated infra KubeVirt cluster. They are added to the defaults.{{< /unsafe >}} |
 | `images` _[KubeVirtImageSources](#kubevirtimagesources)_ | {{< unsafe >}}Images represents standard VM Image sources.{{< /unsafe >}} |
 | `infraStorageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | {{< unsafe >}}Optional: InfraStorageClasses contains a list of KubeVirt infra cluster StorageClasses names<br />that will be used to initialise StorageClasses in the tenant cluster.<br />In the tenant cluster, the created StorageClass name will have as name:<br />kubevirt-<infra-storageClass-name>{{< /unsafe >}} |
+| `providerNetwork` _[ProviderNetwork](#providernetwork)_ | {{< unsafe >}}Optional: ProviderNetwork describes the infra cluster network fabric that is being used{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5886,6 +5887,17 @@ _Appears in:_
 
 
 
+### ProviderNetwork
+
+_Underlying type:_ `[struct{Name string "json:\"name\""; VPCs []VPC "json:\"vpcs,omitempty\""}](#struct{name-string-"json:\"name\"";-vpcs-[]vpc-"json:\"vpcs,omitempty\""})`
+
+ProviderNetwork describes the infra cluster network fabric that is being used.
+
+_Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
+
+
+
 ### ProviderPreset
 
 
@@ -6491,6 +6503,24 @@ _Appears in:_
 
 
 
+### Subnet
+
+
+
+Subnet a smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).
+
+_Appears in:_
+- [VPC](#vpc)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | {{< unsafe >}}{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### SubnetCIDR
 
 _Underlying type:_ `string`
@@ -6923,6 +6953,8 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
 
 
 
