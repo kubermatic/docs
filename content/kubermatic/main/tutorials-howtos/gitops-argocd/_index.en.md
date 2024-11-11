@@ -17,7 +17,6 @@ This is why, if we utilize a GitOps solution to manage KKP and it's upgrades, KK
 
 This page outlines how to install ArgoCD and team provided Apps to manage KKP seeds and their upgrades.
 
-
 ## Preparation
 
 In order to setup and manage KKP using a GitOps solution, one must first know some basics about KKP. Following links could be useful to get that knowledge, if you are new to KKP.
@@ -30,7 +29,7 @@ We will install KKP along the way, so, we do not need a running KKP installation
 
 ## Introduction
 
-Below diagram shows the general concept of the setup. It shows how KKP installations and ArgoCD will be deployed and what KKP components will be managed by ArgoCD in each seed..
+Below diagram shows the general concept of the setup. It shows how KKP installations and ArgoCD will be deployed and what KKP components will be managed by ArgoCD in each seed.
 ![Concept](@/images/tutorials/gitops-argocd/kkp-gitops-argocd.png "Concept - KKP GitOps using ArgoCD")
 
 For the demonstration, 
@@ -88,7 +87,7 @@ We will install ArgoCD on both the clusters and we will install following compon
 
 ## Installation
 
-> You can find same tutorial code with sample values in [this git repository](https://github.com/dharapvj/kkp-using-argocds). For ease of installation, a `Makefile` has been provided to just make commands easier to read. Internally, it just depends on helm, kubectl and kubermatic-installer binaries. But you will need to look at `make` target definitions in `Makefile` to adjust DNS names. While for the demo, provided files would work, you would need to look through each file under `dev` folder and customize the values as per your need.
+> You can find same tutorial code with sample values in [this git repository](https://github.com/dharapvj/kkp-using-argocd). For ease of installation, a `Makefile` has been provided to just make commands easier to read. Internally, it just depends on helm, kubectl and kubermatic-installer binaries. But you will need to look at `make` target definitions in `Makefile` to adjust DNS names. While for the demo, provided files would work, you would need to look through each file under `dev` folder and customize the values as per your need.
 
 ### Setup two Kubernetes Clusters
 > This step install two Kubernetes clusters using Kubeone in AWS. You can skip this step, if you already have access to two kubernetes clusters.
@@ -123,24 +122,8 @@ kubeone-install
 
 # Setup CP machines and other infra
 export AWS_PROFILE=<your AWS profile>
-cd kubeone-install/dev-master
-terraform init && terraform plan
-terraform apply -auto-approve
-terraform output -json > tf.json
-cd ../dev-seed
-terraform init && terraform plan
-terraform apply -auto-approve
-terraform output -json > tf.json
-
-# Apply kubeone and download kubeconfigs
-cd ../dev-master
-../kubeone apply -t . -m ./kubeone.yaml --verbose
-export KUBECONFIG=$PWD/argodemo-dev-master-kubeconfig # adjust as per cluster name
-
-# in another shell
-cd ../dev-seed
-../kubeone apply -t . -m ./kubeone.yaml --verbose
-export KUBECONFIG=$PWD/argodemo-dev-seed-kubeconfig  # adjust as per cluster name
+make k1-apply-master
+make k1-apply-seed
 ```
 
 This same folder structure can be further expanded to add kubeone installations for additional environments like staging and prod.
@@ -168,8 +151,11 @@ These names would come handy to understand below references to them and customiz
 1. ArgoCD syncs nginx ingress and cert-manager automatically
 1. Manually update the DNS records so that ArgoCD is accessible.
     ```shell
-    # Apply below DNS CNAME record manually in AWS Route53
-    # argodemo.lab.kubermatic.io and *.argodemo.lab.kubermatic.io
+    # Apply below DNS CNAME record manually in AWS Route53 for below:
+    #   argodemo.lab.kubermatic.io
+    #   *.argodemo.lab.kubermatic.io
+    #   grafana-user.self.seed.argodemo.lab.kubermatic.io
+    #   alertmanager-user.self.seed.argodemo.lab.kubermatic.io
     # You can get load balancer details from `k get svc -n nginx-ingress-controller nginx-ingress-controller`
     # After DNS setup, you can access ArgoCD at https://argocd.argodemo.lab.kubermatic.io
     ```
@@ -184,9 +170,6 @@ These names would come handy to understand below references to them and customiz
 1. Add seed for self (need manual update of kubeconfig in seed.yaml)
     ```shell
     make create-long-lived-master-seed-kubeconfig
-    # Above make target creates a file seed-ready-kube-config with base64 encoded kubeconfig
-    # Manually update the content of seed-ready-kube-config in the `./dev/demo-master/seed-kubeconfig-secret-self.yaml`
-    kubectl apply -f dev/demo-master/seed-kubeconfig-secret-self.yaml
     # commit changes to git and push latest changes in
     make push-git-tag-dev
     ```
@@ -221,18 +204,15 @@ We execute most of the below commands, unless noted otherwise, in 2nd shell wher
 1. Add Seed nginx-ingress DNS record
     ```shell
     # Apply below DNS CNAME record manually in AWS Route53
-    # india.argodemo.lab.kubermatic.io and *.india.argodemo.lab.kubermatic.io
+    #   *.india.argodemo.lab.kubermatic.io
+    #   grafana-user.india.seed.argodemo.lab.kubermatic.io
+    #   alertmanager-user.india.seed.argodemo.lab.kubermatic.io
     # You can get load balancer details from `k get svc -n nginx-ingress-controller nginx-ingress-controller`
     # After DNS setup, you can access the seed ArgoCD at https://argocd.india.argodemo.lab.kubermatic.io
     ```
 1. Prepare kubeconfig of cluster-admin privileges so that it can be added as secret and then this cluster can be added as Seed in master cluster configuration
     ```shell
     make create-long-lived-seed-kubeconfig
-    # Above make target creates a file seed-ready-kube-config with base64 encoded kubeconfig
-    # Manually update the content of seed-ready-kube-config in the `./dev/demo-master/seed-kubeconfig-secret-india.yaml`
-
-    # NOTE: export master kubeconfig for below operation
-    kubectl apply -f dev/demo-master/seed-kubeconfig-secret-india.yaml
     # commit changes to git and push latest changes in
     make push-git-tag-dev
     ```
