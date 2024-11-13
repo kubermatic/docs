@@ -79,7 +79,7 @@ If no external load balancer is provided for the setup, we recommend [KubeLB](ht
 As frontend IPAM solution and IP announcement, KubeLB could use on-premise non-multi-tenant LB implementations like Cilium or MetalLB in Layer 2 ARP or BGP mode. (Also commercial Kubernetes conform implementation like [F5 Big IP](https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/v1.0/#) would work). KubeLB will add the multi-tenant plus central DNS, Certificate and Ingress management. KubeLB deliver for each Kubernetes Cluster one tenant separated authentication token, what get used via the so called [KubeLB CCM](https://docs.kubermatic.com/kubelb/v1.1/installation/tenant-cluster/), what automatically get configured for KKP clusters. The KubeLB CCM is then handling service and node announcements.  For Setups where multi-tenant automated LB is not required, direct [MetalLB](https://metallb.universe.tf/) or [Cilium](https://docs.cilium.io/) setups could be used as well. For the best performance and stability of the platform, we recommend to talk with our consultants to advise you what is the best fit for your environment.
 
 
-### ******Layer 2 ARP Announcement**
+### **Layer 2 ARP Announcement**
 
 If you choose to use Layer 2 ARP Announcements, you require a set of usable IP addresses in the target Layer 2 network segment, that are not managed by DHCP (at least 2 for Kubermatic itself + your workload load balancers). For deeper information about how Layer 2 ARP works, take a look at [MetalLB in layer 2 mode](https://metallb.universe.tf/concepts/layer2/).  The role of this LB is different from e.g. go-between, which is only used to access the master clusters API server. Some Reference for the settings you find at:
 
