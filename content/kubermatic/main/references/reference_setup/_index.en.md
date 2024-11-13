@@ -407,8 +407,8 @@ Additional information about the usage of Open Stack within in Kubernetes you co
 
 - Host for Seed provisioning (KubeOne setup) needs to reach the base network (e.g. a bastion host) by SSH
 
-3. ## **Additional Requirements for Azure**
 
+## **Additional Requirements for Azure**
 
 ### **General Requirements**
 
