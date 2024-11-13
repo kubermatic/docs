@@ -127,9 +127,9 @@ For other Load Balancer scenarios we strongly recommend to use cloud environment
 
 Kubermatic requires DNS entries for NGINX and user clusters API servers. These have to be created after the Load Balancers, see [EE Installation - DNS Records](https://docs.kubermatic.com/kubermatic/main/installation/install-kkp-ce/#dns-records) and [EE Seed Cluster - DNS Records](https://docs.kubermatic.com/kubermatic/main/installation/install-kkp-ce/add-seed-cluster-ce/#dns-record).
 
-The NGINX server provides access to the Kubermatic UI and the logging and monitoring services (Prometheus, Kibana, etc.). It requires a DNS name like kubermatic.example.com and \*.kubermatic.example.com (e.g. for prometheus.kubermatic.example.com). Optional: if no wildcard DNS can be provided, dedicated DNS entries per exposed Service need to get entered (\~5 services).
+The NGINX server provides access to the Kubermatic UI and the logging and monitoring services (Prometheus, Kibana, etc.). It requires a DNS name like `kubermatic.example.com` and `\*.kubermatic.example.com` (e.g. for `prometheus.kubermatic.example.com`). Optional: if no wildcard DNS can be provided, dedicated DNS entries per exposed Service need to get entered (\~5 services).
 
-To access a user cluster via API, a wildcard DNS entry per seed cluster (in your case the master cluster is the only seed) has to be provided. E.g., \*.cluster-1.kubermatic.example.com. User clusters would be accessible via \[cluster-id].cluster-1.kubermatic.example.com. 
+To access a user cluster via API, a wildcard DNS entry per seed cluster (in your case the master cluster is the only seed) has to be provided. E.g., `\*.cluster-1.kubermatic.example.com`. User clusters would be accessible via `\[cluster-id].cluster-1.kubermatic.example.com`. 
 
 Optional: An alternative expose strategy Load Balancer can be chosen. Therefore, every control plane gets its own Load Balancer with an external IP, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/).
 
