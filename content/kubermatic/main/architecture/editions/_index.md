@@ -26,6 +26,7 @@ Kubermatic Kubernetes Platform (KKP) is an open-source product, and both the Com
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Equinix Metal (formerly Packet) | ✔ | ✔ | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VMware Cloud Director | ✔ | ✔ | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vSphere | ✔ | ✔ | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bare Metal (Tinkerbell) | ✔ | ✔ | |
 | **Kubernetes Providers** (External Clusters) | | | Clusters using these external cluster providers can be added to KKP.
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Google Kubernetes Engine (GKE) | ✔ | ✔ | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Azure Kubernetes Service (AKS) | ✔ | ✔ | |
