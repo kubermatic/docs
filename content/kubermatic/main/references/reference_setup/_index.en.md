@@ -99,7 +99,7 @@ It’s recommend to use BGP for IP announcement as BGP can handle failovers and 
 
 ## **Public/Private Cloud Load Balancers**
 
-For other Load Balancer scenarios we strongly recommend to use cloud environment specific Load Balancer what comes with the dedicated cloud CCM. This native cloud LBs can interact dynamically with Kubernetes to provide updates for service type Load Balancer or Ingress objects. For more detail see [Kubernetes - Services, Load Balancing, and Networking](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer).
+For other Load Balancer scenarios we strongly recommend to use cloud environment specific Load Balancer that comes with the dedicated cloud CCM. These native cloud LBs can interact dynamically with Kubernetes to provide updates for service type Load Balancer or Ingress objects. For more detail see [Kubernetes - Services, Load Balancing, and Networking](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer).
 
 \
 
