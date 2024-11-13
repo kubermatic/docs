@@ -116,7 +116,7 @@ For other Load Balancer scenarios we strongly recommend to use cloud environment
 
 - Check the more detailed requirements of the network at:
 
-  - [****KKP Documentation > Concepts > Networking****](https://docs.kubermatic.com/kubermatic/main/architecture/concept/kkp-concepts/networking) ****
+  - [****KKP Documentation > Concepts > Networking****](https://docs.kubermatic.com/kubermatic/main/architecture/concept/kkp-concepts/networking)
 
   - [****KKP Documentation > Networking > Control Plane Expose Strategy****](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/)
 
