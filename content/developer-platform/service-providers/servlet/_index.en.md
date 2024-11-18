@@ -18,15 +18,13 @@ The intended usecase follows roughly these steps:
    workspace. This service (not to be confused with Kubernetes services) reserves an API group
    in the organization for itself, like `databases.example.corp` (two `Services` must not register
    the same API group).
-2. After the `Service` is created, KDP will reconcile it and provide appropriate credentials
+2. After the `Service` is created, KDP will reconcile it, create an `APIExport` object and provide appropriate credentials
    for the Servlet (e.g. by creating a Kubernetes Secret with a preconfigured kubeconfig in it).
 3. A service owner will now take these credentials and the configured API group and use them
    to setup the Servlet. It is assumed that the service owner (i.e. the cluster-admin in a
    service cluster) wants to make some resources (usually CRDs) available to use inside of KDP.
 4. The service owner uses the Servlet Helm chart (or similar deployment technique) to install the
-   Servlet in their cluster. This in itself won't do much besides registering the Servlet in the
-   platform by setting a `status` on the Service object (there might also be a need to not just
-   have the `Service` object, but also a Servlet object).
+   Servlet in their cluster.
 5. To actually make resources available in the platform, the service owner now has to create a
    set of `PublishedResource` objects. The configuration happens from their point of view, meaning
    they define how to publish a CRD in the platform, defining renaming rules and other projection
@@ -34,7 +32,7 @@ The intended usecase follows roughly these steps:
 6. Once a `PublishedResource` is created in the service cluster, the Servlet will pick it up,
    find the referenced CRD, convert/project this CRD into an `APIResourceSchema` (ARS) for kcp and
    then create the ARS in org workspace.
-7. Finally the Servlet will take all `PublishedResources` and bundle them into a single `APIExport`
+7. Finally the Servlet will take all `PublishedResources` and bundle them into the pre-existing `APIExport`
    in the org workspace. This APIExport can then be bound in the org workspace itself (or later
    any sub workspaces (depending on permissions)) and be used there. The `APIExport` has the same
    name as the KDP `Service` the Servlet is working with.
@@ -142,12 +140,6 @@ This controller aggregates the `PublishedResources` and manages a single `APIExp
 
 This controller takes `PublishedResources`, projects and converts them and creates `APIResourceSchemas`
 in KDP.
-
-### register
-
-This controller updates the status on the KDP `Service` object, to let the system know that a Servlet
-has picked up the Service and is serving it. In the future this controller might also create/update
-a `Servlet` object, akin to how the Kubernetes kubelet creates and maintains a `Node` object.
 
 ### syncmanager
 

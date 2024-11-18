@@ -280,7 +280,11 @@ spec:
     name: "$remoteClusterName-$remoteNamespaceHash-$remoteNameHash"
 
   related:
-    - origin: service # service or platform
+      # unique name for this related resource. The name must be unique within one
+      # PublishedResource and is the key by which consumers (end users) can identify and consume the
+      # related resource. Common names are "connection-details" or "credentials".
+    - identifier: tls-secret
+      origin: service # service or platform
       kind: Secret # for now, only "Secret" and "ConfigMap" are supported;
                    # there is no GVK projection for related resources
 
