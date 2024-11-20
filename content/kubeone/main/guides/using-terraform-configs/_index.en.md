@@ -146,7 +146,7 @@ Due to how GCP LBs work, initial `terraform apply` requires variable
 terraform apply -var=control_plane_target_pool_members_count=1
 ```
 
-Once initial `kubeone install` or `kubeone apply` is done, the `control_plane_target_pool_members_count` should not be
+Once initial `kubeone apply` is done, the `control_plane_target_pool_members_count` should not be
 used.
 {{% /tab %}}
 
