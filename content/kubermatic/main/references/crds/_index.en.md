@@ -2690,6 +2690,7 @@ _Appears in:_
 | `images` _[KubeVirtImageSources](#kubevirtimagesources)_ | {{< unsafe >}}Images represents standard VM Image sources.{{< /unsafe >}} |
 | `infraStorageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | {{< unsafe >}}Optional: InfraStorageClasses contains a list of KubeVirt infra cluster StorageClasses names<br />that will be used to initialise StorageClasses in the tenant cluster.<br />In the tenant cluster, the created StorageClass name will have as name:<br />kubevirt-<infra-storageClass-name>{{< /unsafe >}} |
 | `providerNetwork` _[ProviderNetwork](#providernetwork)_ | {{< unsafe >}}Optional: ProviderNetwork describes the infra cluster network fabric that is being used{{< /unsafe >}} |
+| `ccmZoneAndRegionEnabled` _boolean_ | {{< unsafe >}}Optional: indicates if region and zone labels from the cloud provider should be fetched.{{< /unsafe >}} |
 
 
 [Back to top](#top)
