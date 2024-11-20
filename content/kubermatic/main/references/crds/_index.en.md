@@ -5889,7 +5889,7 @@ _Appears in:_
 
 ### ProviderNetwork
 
-_Underlying type:_ `[struct{Name string "json:\"name\""; VPCs []VPC "json:\"vpcs,omitempty\""}](#struct{name-string-"json:\"name\"";-vpcs-[]vpc-"json:\"vpcs,omitempty\""})`
+_Underlying type:_ `[struct{Name string "json:\"name\""; VPCs []VPC "json:\"vpcs,omitempty\""; NetworkPolicyEnabled bool "json:\"networkPolicyEnabled,omitempty\""}](#struct{name-string-"json:\"name\"";-vpcs-[]vpc-"json:\"vpcs,omitempty\"";-networkpolicyenabled-bool-"json:\"networkpolicyenabled,omitempty\""})`
 
 ProviderNetwork describes the infra cluster network fabric that is being used.
 
