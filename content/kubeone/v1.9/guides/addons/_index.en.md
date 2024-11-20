@@ -251,11 +251,11 @@ the [`addons`][addons] directory.
 [sprig]: https://github.com/Masterminds/sprig
 [sprig-docs]: http://masterminds.github.io/sprig/
 [sprig-b64enc]: http://masterminds.github.io/sprig/encoding.html
-[addons]: https://github.com/kubermatic/kubeone/tree/main/addons
+[addons]: https://github.com/kubermatic/kubeone/tree/release/v1.9/addons
 [addons-api]: {{< ref "../../references/kubeone-cluster-v1beta2/#addons" >}}
 [embed-docs]: https://pkg.go.dev/embed
-[addons-list-url]: https://github.com/kubermatic/kubeone/tree/main/addons
-[backups_restic]: https://github.com/kubermatic/kubeone/tree/main/addons/backups-restic
-[cluster_autoscaler]: https://github.com/kubermatic/kubeone/tree/main/addons/cluster-autoscaler
-[default_storage_class]: https://github.com/kubermatic/kubeone/tree/main/addons/default-storage-class
-[unattended_upgrades]: https://github.com/kubermatic/kubeone/tree/main/addons/unattended-upgrades
+[addons-list-url]: https://github.com/kubermatic/kubeone/tree/release/v1.9/addons
+[backups_restic]: https://github.com/kubermatic/kubeone/tree/release/v1.9/addons/backups-restic
+[cluster_autoscaler]: https://github.com/kubermatic/kubeone/tree/release/v1.9/addons/cluster-autoscaler
+[default_storage_class]: https://github.com/kubermatic/kubeone/tree/release/v1.9/addons/default-storage-class
+[unattended_upgrades]: https://github.com/kubermatic/kubeone/tree/release/v1.9/addons/unattended-upgrades
