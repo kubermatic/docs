@@ -8,68 +8,37 @@ weight = 99
 This page documents the list of known issues in Kubermatic KubeOne along with
 possible workarounds and recommendations.
 
-This list applies to KubeOne 1.8 release. For KubeOne 1.7, please consider
-the [v1.7 version of this document][known-issues-1.7]. For earlier releases,
+This list applies to KubeOne 1.9 release. For KubeOne 1.8, please consider
+the [v1.8 version of this document][known-issues-1.7]. For earlier releases,
 please consult the [appropriate changelog][changelogs].
 
-[known-issues-1.7]: {{< ref "../../v1.7/known-issues" >}}
+[known-issues-1.8]: {{< ref "../../v1.8/known-issues" >}}
 [changelogs]: https://github.com/kubermatic/kubeone/tree/main/CHANGELOG
 
-## AzureDisk and AzureFile CSI drivers are not supported on CentOS 7
+## Calico VXLAN Addon is not working properly
 
 |              |                                                   |
 |--------------|---------------------------------------------------|
-| Status       | Mitigation provided                               |
+| Status       | Under investigation                               |
 | Severity     | Low                                               |
-| GitHub issue | N/A                                               |
-
-### Who's affected by this issue?
-
-This issue affects only Azure clusters that are running CentOS 7.
-Other CentOS-like and RHEL-like distributions, such as Rocky Linux,
-are not affected.
+| GitHub issue | TBD                                               |
 
 ### Description
 
-Trying to mount a volume created using AzureDisk or AzureFile CSI driver
-results in an error saying that operation is not supported.
+We have discovered the the optional Calico VXLAN addon that we provide
+might not work in all setups. We're currently investigating this and will
+provide more information as we have them.
 
-### Mitigation
+This issue is considered low severity because this is an optional addon
+and you have to opt-in to use it as described in [this document][calico-addon].
+By default, KubeOne uses Canal CNI which is a separate addon and is confirmed
+to work properly on all supported providers and Kubernetes versions.
 
-Given that [CentOS 7 is reaching end-of-life (EOL) on June 30, 2024][centos],
-we strongly recommend migrating to another distribution.
+If you're using the optional Calico VXLAN addon, we recommend staying on your
+current Kubernetes version until we don't have more information about this
+issue.
 
-If this is not doable for you at the moment, we recommend:
-
-- Staying at KubeOne 1.7 until migrating to another supported distribution
-- Using KubeOne 1.8 with an older version of AzureDisk and AzureFile CSI drivers.
-  AzureDisk releases up to and including v1.28.5 and v1.29.2 are known to work
-  with CentOS 7.
-
-[centos]: https://www.redhat.com/en/topics/linux/centos-linux-eol
-
-## Cilium CNI is not working on clusters running CentOS 7
-
-|              |                                                   |
-|--------------|---------------------------------------------------|
-| Status       | Known Issue                                       |
-| Severity     | Low                                               |
-| GitHub issue | N/A                                               |
-
-### Description
-
-Cilium CNI is not supported on CentOS 7 because it's using too older kernel
-version which is not supported by Cilium itself. For more details, consider
-[the official Cilium documentation][cilium-requirements].
-
-[cilium-requirements]: https://docs.cilium.io/en/v1.13/operations/system_requirements/
-
-### Recommendation
-
-Please consider using an operating system with a newer kernel version, such
-as Ubuntu, Rocky Linux, and Flatcar. See
-[the official Cilium documentation][cilium-requirements] for a list of
-operating systems and versions supported by Cilium.
+[calico-addon]: {{< ref "../examples/addons-calico-vxlan" >}}
 
 ## Internal Kubernetes endpoints unreachable on vSphere with Cilium/Canal
 
@@ -77,7 +46,7 @@ operating systems and versions supported by Cilium.
 |--------------|---------------------------------------------------|
 | Status       | Workaround available                              |
 | Severity     | Low                                               |
-| GitHub issue | https://github.com/cilium/cilium/issues/21801 |
+| GitHub issue | https://github.com/cilium/cilium/issues/21801     |
 
 ### Description
 #### Symptoms
