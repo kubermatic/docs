@@ -66,7 +66,7 @@ those clusters to Kubernetes 1.26 as the OpenStack in-tree cloud provider has
 been removed in Kubernetes 1.26. You have to [migrate your OpenStack clusters
 to the external CCM/CSI as described here][ccm-migration].
 
-[ccm-migration]: {{< ref "../../../guides/ccm-csi-migration/" >}}
+[ccm-migration]: {{< ref "../../../../v1.8/guides/ccm-csi-migration/" >}}
 
 ## Other Notable Changes
 

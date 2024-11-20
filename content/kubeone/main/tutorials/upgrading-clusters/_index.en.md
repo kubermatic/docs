@@ -66,13 +66,6 @@ cluster regardless of what's specified in the KubeOne configuration manifest
 or Terraform state file.
 {{% /notice %}}
 
-{{% notice note %}}
-If you encounter any issue with the `apply` command or you want to force the
-upgrade process, you can run the upgrade command manually:
-`kubeone upgrade --manifest kubeone.yaml -t tf.json`.
-It’s recommended to use the `apply` command whenever it’s possible.
-{{% /notice %}}
-
 The `apply` command analyzes the given instances, verifies that there is
 Kubernetes running on those instances, runs the preflight checks, and offers
 you to upgrade the cluster if needed. You’ll be asked to confirm your intention
@@ -160,28 +153,22 @@ If the upgrade process fails, it's recommended to continue manually and resolve
 errors. In this case the `kubeone.io/upgrade-in-progress` label will prevent
 you from running KubeOne again but you can ignore it using the `--force` flag.
 
-## Changing Cluster Properties Using `kubeone upgrade`
+## Changing Cluster Properties Using `kubeone apply --force-upgrade`
 
 In case you want to change some of the cluster properties (e.g. enable a new
-feature), you can use the `upgrade` command to reconcile the changes.
-Modify your manifest to include the desired changes, but don't change the
-Kubernetes version (unless you want to upgrade the cluster), and then run the
-`upgrade` command with the `--force` flag:
-
-```bash
-kubeone upgrade --manifest kubeone.yaml -t tf.json --force
-```
-
-Alternatively, the `kubeone apply` command can be used as well:
+feature), you can use the `apply` command with the `--force-upgrade` flag to
+reconcile the changes. Modify your manifest to include the desired changes,
+but don't change the Kubernetes version (unless you want to upgrade the
+cluster), and then run the `apply` command with the `--force-upgrade` flag:
 
 ```bash
 kubeone apply --manifest kubeone.yaml -t tf.json --force-upgrade
 ```
 
-The `--force` flag instructs KubeOne to ignore the preflight errors, including
+The `--force-upgrade` flag instructs KubeOne to ignore the preflight errors, including
 the error saying that you're trying to upgrade to the already running version.
 At the upgrade time, KubeOne ensures that the actual cluster configuration
-matches the expected configuration, and therefore the `upgrade`
+matches the expected configuration, and therefore the `apply --force-upgrade`
 command can be used to modify cluster properties.
 
 [compatibility]: {{< ref "../../architecture/compatibility" >}}

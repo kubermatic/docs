@@ -67,7 +67,7 @@ is `false` or unset), you must migrate your clusters to the external CCM/CSI bef
 upgrading to Kubernetes 1.29. Please check [the documentation for more details about
 the CCM/CSI  migration][ccm-migration].
 
-[ccm-migration]: {{< ref "../../../guides/ccm-csi-migration/" >}}
+[ccm-migration]: {{< ref "../../../../v1.8/guides/ccm-csi-migration/" >}}
 
 ## ‘kured’ Has Been Removed From the ‘unattended-upgrades’ Addon
 

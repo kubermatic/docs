@@ -78,8 +78,8 @@ addons:
 The addons path is normalized on the runtime. If you provide a relative path,
 the path is relative to the KubeOne configuration file. This means that
 `./addons` will be parsed depending on the `kubeone` command you use:
-* `kubeone install -m config.yaml` - `./addons`
-* `kubeone install -m other/dir/config.yaml` - `./other/dir/addons/config.yaml`
+* `kubeone apply -m config.yaml` - `./addons`
+* `kubeone apply -m other/dir/config.yaml` - `./other/dir/addons/config.yaml`
 
 {{% notice note %}}
 Addons can be organized into subdirectories, but only one level of
@@ -207,10 +207,9 @@ or passed as parameter on the respective CCM addon):
 
 ## Reconciling Addons
 
-The addons are reconciled after initializing and joining the control plane
-nodes nodes when running `kubeone install`, `kubeone upgrade`, or
-`kubeone apply`. You can also reconcile addons after the cluster is provisioned
-by using `kubeone apply`.
+The addons are reconciled upon running `kubeone apply`. If the cluster is
+being provisioned for the first time, addons will be applied by the end of
+the provisioning process.
 
 ```bash
 kubeone apply --manifest kubeone.yaml -t .
