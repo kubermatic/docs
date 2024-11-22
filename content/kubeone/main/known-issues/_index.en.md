@@ -9,7 +9,7 @@ This page documents the list of known issues in Kubermatic KubeOne along with
 possible workarounds and recommendations.
 
 This list applies to KubeOne 1.9 release. For KubeOne 1.8, please consider
-the [v1.8 version of this document][known-issues-1.7]. For earlier releases,
+the [v1.8 version of this document][known-issues-1.8]. For earlier releases,
 please consult the [appropriate changelog][changelogs].
 
 [known-issues-1.8]: {{< ref "../../v1.8/known-issues" >}}
