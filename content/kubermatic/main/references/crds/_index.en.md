@@ -6458,7 +6458,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
 [Back to top](#top)
