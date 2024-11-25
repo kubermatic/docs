@@ -1,6 +1,6 @@
 +++
 title = "KubeVirt"
-date = 2021-02-01T14:46:15+02:00
+date = 2024-10-01T14:46:15+02:00
 weight = 5
 
 +++
@@ -14,37 +14,26 @@ weight = 5
 ### Requirements
 
 A Kubernetes cluster (KubeVirt infrastructure cluster), which consists of nodes that **have a hardware virtualization support** with at least:
-* 2 CPUs
-* 4GB of RAM
-* 30GB of storage.
+* 3 Bare Metal Server
+* CPUs: Minimum 8-core for testing; minimum 16-core or more for production
+* Memory: Minimum 32 GB for testing; minimum 64 GB or more for production
+* Storage: Minimum 100 GB for testing; minimum 500 GB or more for production
+
+Software requirement:
+* KubeOne with Canal = 1.7 or higher
+* KubeVirt = 1.2.2
+* Containerized Data Importer (CDI) = v1.60
 
 The cluster version must be in the scope of [supported KKP Kubernetes clusters]({{< ref "../../../tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions" >}})
-and it must have the following components installed:
-* KubeVirt >= 0.57 which supports the selected Kubernetes version.
-* Containerized Data Importer which supports the selected KubeVirt and Kubernetes versions.
-
-{{% notice note %}}
-We recommend to install the latest stable releases of both projects.
-{{% /notice %}}
-
-The setup has been successfully tested with:
-* CRI: containerd
-* CNI: Canal
-
-Other CRIs and CNIs should work too. However, they were not tested, so it is possible to discover issues.
-
-{{% notice note %}}
-To achieve the best possible performance it is recommended to run the setup on bare metal hosts with a hardware virtualization support.
-Additionally, make sure that your nodes have appropriate Qemu and KVM packages installed.
-{{% /notice %}}
+and it must be in the [KubeVirt Support Matrix](https://github.com/kubevirt/sig-release/blob/main/releases/k8s-support-matrix.md).
 
 ### Kubernetes And KubeVirt Installation
 
-We provide KubeOne, which can be used to set up a highly-available Kubernetes cluster on bare metal.
-Refer to the [KubeOne documentation]({{< ref "/kubeone/v1.5/tutorials/creating-clusters-baremetal/" >}}) for details on how to use it.
+First use KubeOne, to set up a highly-available Kubernetes cluster on bare metal.
+Refer to the [KubeOne documentation]({{< ref "/kubeone/latest/tutorials/creating-clusters-baremetal/" >}}) for details on how to use it.
 
 Follow [KubeVirt](https://kubevirt.io/user-guide/operations/installation/#installation) and [Containerized Data Importer](https://kubevirt.io/user-guide/operations/containerized_data_importer/#install-cdi)
-documentation to find out how to install them and learn about their requirements.
+documentation to find out how to install them.
 
 We require the following KubeVirt configuration:
 ```yaml
@@ -105,7 +94,7 @@ We allow to configure:
 * `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
   * Pass names of KubeVirt storage classes that can be used from user clusters.
 
-Refer to this [document](https://github.com/kubermatic/kubermatic/blob/main/docs/zz_generated.seed.ce.yaml#L115)
+Refer to this [document](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/zz_generated.seed.ce.yaml#L115)
 for more details and configuration example.
 
 {{% notice warning %}}
@@ -220,7 +209,7 @@ We implemented a mechanism that will allow you to safely drain a bare-metal node
 After running a drain command the VMs running on the node along with their workload will be evicted to different nodes.
 
 {{% notice note %}}
-More details on the eviction implementation can be found [here](https://github.com/kubermatic/kubermatic/blob/main/docs/proposals/kubevirt-workload-eviction.md).
+More details on the eviction implementation can be found [here](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/proposals/kubevirt-workload-eviction.md).
 {{% /notice %}}
 
 {{% notice warning %}}
