@@ -25,7 +25,7 @@ weight = 20
   ```
 
 * The name of secret can be overridden using `.Values.kubelb.clusterSecretName`, if required.
-* Update the `tenantName` in the `values.yaml` to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. Tenants are registered in the management cluster by the Platform Provider and the name is prefixed with `tenant-`. So for example, a tenant named `my-tenant` will be registered as `tenant-my-tenant`.
+* Update the `tenantName` in the `values.yaml` to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. Tenants are registered in the management cluster by the Platform Provider and the name is prefixed with `tenant-`. So for example, a tenant named `my-tenant` will be registered as `tenant-my-tenant`. **NOTE: We have an automation in place and both tenant name without and with `tenant-` prefix are supported.**
 
 At this point a minimal `values.yaml` should look like this:
 
