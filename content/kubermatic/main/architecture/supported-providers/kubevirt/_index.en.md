@@ -30,7 +30,7 @@ and it must be in the [KubeVirt Support Matrix](https://github.com/kubevirt/sig-
 ### Kubernetes And KubeVirt Installation
 
 First use KubeOne, to set up a highly-available Kubernetes cluster on bare metal.
-Refer to the [KubeOne documentation]({{< ref "/kubeone/latest/tutorials/creating-clusters-baremetal/" >}}) for details on how to use it.
+Refer to the [KubeOne documentation](/kubeone/latest/tutorials/creating-clusters-baremetal/) for details on how to use it.
 
 Follow [KubeVirt](https://kubevirt.io/user-guide/operations/installation/#installation) and [Containerized Data Importer](https://kubevirt.io/user-guide/operations/containerized_data_importer/#install-cdi)
 documentation to find out how to install them.
