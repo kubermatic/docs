@@ -20,7 +20,8 @@ A Kubernetes cluster (KubeVirt infrastructure cluster), which consists of nodes 
 * Storage: Minimum 100 GB for testing; minimum 500 GB or more for production
 
 Software requirement:
-* KubeOne with Canal = 1.7 or higher
+* KubeOne = 1.7 or higher
+* KubeOVN = 1.12 or higher or Canal = 3.26 or higher
 * KubeVirt = 1.2.2
 * Containerized Data Importer (CDI) = v1.60
 
