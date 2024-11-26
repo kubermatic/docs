@@ -149,6 +149,8 @@ spec:
         kubelb: null
         # Kubevirt configures a KubeVirt datacenter.
         kubevirt:
+          # Optional: indicates if region and zone labels from the cloud provider should be fetched.
+          ccmZoneAndRegionEnabled: null
           # Optional: CustomNetworkPolicies allows to add some extra custom NetworkPolicies, that are deployed
           # in the dedicated infra KubeVirt cluster. They are added to the defaults.
           customNetworkPolicies:
@@ -208,9 +210,24 @@ spec:
               # If missing or false, annotation will be:
               # storageclass.kubernetes.io/is-default-class : false
               isDefaultClass: true
+              # Labels is a map of string keys and values that can be used to organize and categorize
+              # (scope and select) objects. May match selectors of replication controllers
+              # and services.
+              labels: null
               name: rook-ceph-block
+              # Regions represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters
+              # to span multiple regions
+              regions: null
+              # VolumeBindingMode indicates how PersistentVolumeClaims should be provisioned and bound. When unset,
+              # VolumeBindingImmediate is used.
+              volumeBindingMode: null
+              # Zones represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones
+              # for increased availability
+              zones: null
           # NamespacedMode represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
           namespacedMode: null
+          # Optional: ProviderNetwork describes the infra cluster network fabric that is being used
+          providerNetwork: null
         # Optional: MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc.
         machineFlavorFilter:
           # Include VMs with GPU
@@ -313,7 +330,7 @@ spec:
           # and networking features, see https://metal.equinix.com/developers/docs/locations/metros/
           metro: ""
         # Optional: ProviderReconciliationInterval is the time that must have passed since a
-        # Cluster's status.lastProviderReconciliation to make the cliuster controller
+        # Cluster's status.lastProviderReconciliation to make the cluster controller
         # perform an in-depth provider reconciliation, where for example missing security
         # groups will be reconciled.
         # Setting this too low can cause rate limits by the cloud provider, setting this
@@ -480,7 +497,9 @@ spec:
     operatingSystemManager: null
     # Prometheus configures the Prometheus instance deployed into the cluster control plane.
     prometheus:
+      replicas: null
       resources: null
+      tolerations: null
     # Scheduler configures kube-scheduler settings.
     scheduler:
       leaderElection:

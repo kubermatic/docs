@@ -446,9 +446,9 @@ What happens if we update a `VirtualMachineInstancePreset` existing in the `defa
 - The updated `VirtualMachineInstancePreset` will be reconciled from the `default` namespace into the `cluster-xyz` namespace.
 Give it some time to be reconciled. The reconciliation interval is configurable (refer to `providerReconciliationInterval`
 in [Seed configuration]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster/" >}})
-- For all `VirtualMachineIsntances` already created, this will have no impact.
+- For all `VirtualMachineInstances` already created, this will have no impact.
 Please refer to [KubeVirt Preset documentation](https://kubevirt.io/user-guide/virtual_machines/presets/#updating-a-virtualmachineinstancepreset)
-- The update will then be effective for new `VirtualMachineIsntances`.
+- The update will then be effective for new `VirtualMachineInstances`.
 
 *Note 2:* Limitation of the list of reconciled fields.
 

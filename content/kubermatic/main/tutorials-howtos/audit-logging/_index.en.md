@@ -11,6 +11,7 @@ Audit logging is also a key requirement of the [Kubernetes CIS benchmark](https:
 For more details, you can refer to the [upstream documentation](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/).
 
 ## Kubermatic Kubernetes Platform (KKP) Support
+
 KKP provides two levels of support for the Audit Logging:
 
 * Audit Logging on user-cluster level
@@ -45,13 +46,13 @@ Enabling an audit policy preset on your user-cluster will override any manual ch
 
 The following presets are available right now:
 
-- `metadata`: Logs metadata for any request (matches the default policy configured when using no policy preset)
-- `minimal`: Is considered the bare minimum that allows to audit for key operations on the cluster. Logs the following operations:
-    - any modification to `Pods`, `Deployments`, `StatefulSets`, `DaemonSets` and `ReplicaSets` (complete request and response bodies)
-    - any access to Pods via shell (by using `exec` to spawn a process) or port-forwarding/proxy (complete request and response bodies)
-    - access to container logs (metadata only)
-    - any access (read, write or delete) to `Secrets` and `ConfigMaps` (metadata only, as the request body could include sensitive information)
-- `recommended`: Logs everything in `minimal` plus metadata for any other request. This is the most verbose audit policy preset, but is recommended due to its extended coverage of security recommendations like the CIS Benchmark
+* `metadata`: Logs metadata for any request (matches the default policy configured when using no policy preset)
+* `minimal`: Is considered the bare minimum that allows to audit for key operations on the cluster. Logs the following operations:
+  * any modification to `Pods`, `Deployments`, `StatefulSets`, `DaemonSets` and `ReplicaSets` (complete request and response bodies)
+  * any access to Pods via shell (by using `exec` to spawn a process) or port-forwarding/proxy (complete request and response bodies)
+  * access to container logs (metadata only)
+  * any access (read, write or delete) to `Secrets` and `ConfigMaps` (metadata only, as the request body could include sensitive information)
+* `recommended`: Logs everything in `minimal` plus metadata for any other request. This is the most verbose audit policy preset, but is recommended due to its extended coverage of security recommendations like the CIS Benchmark
 
 ## Custom Output Configuration
 
@@ -65,9 +66,9 @@ Configuration options are not validated before being passed to fluentbit, so it 
 
 The available options are:
 
-- `service`: Configures the [[SERVICE]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_section) section, enabling fine-tuning of fluentbit. Note that some options alter fluentbit's behaviour and can cause issues in some cases (for example, adjusting the `daemon` setting).
-- `filters`: Configures one or several [[FILTER]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_filter) sections. To match audit logs, put a `match: '*'` directive in your filter definition. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/filters) for available filters.
-- `outputs` Configures one or several [[OUTPUT]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_output) sections. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/outputs) for available outputs.
+* `service`: Configures the [[SERVICE]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_section) section, enabling fine-tuning of fluentbit. Note that some options alter fluentbit's behaviour and can cause issues in some cases (for example, adjusting the `daemon` setting).
+* `filters`: Configures one or several [[FILTER]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_filter) sections. To match audit logs, put a `match: '*'` directive in your filter definition. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/filters) for available filters.
+* `outputs` Configures one or several [[OUTPUT]](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_output) sections. See [fluentbit documentation](https://docs.fluentbit.io/manual/pipeline/outputs) for available outputs.
 
 Since this setting is part of the cluster specification, you might have the requirement to avoid disclosing credentials used to access your log output targets (a company-wide logging system, for example). In those situations, it is recommended to set up a central forwarder in your seed cluster that is then used by fluentbit outputs. This is possible by e.g. setting up [fluentd](https://www.fluentd.org/) and using a [forward output](https://docs.fluentbit.io/manual/pipeline/outputs/forward).
 
@@ -127,3 +128,84 @@ For exiting clusters, you can go to the cluster page, edit your cluster and enab
 KKP also supports enabling Audit Logging on the datacenter level. In this case, the option is enforced on all user-clusters in the datacenter. The user-cluster level flag is ignored in this case.
 
 To enable this, you will need to edit your [datacenter definitions in a Seed]({{< ref "../../tutorials-howtos/administration/dynamic-data-centers/" >}}), and set `enforceAuditLogging` to `true` in the datacenter spec.
+
+## Webhook Backend For Audit Logs
+
+User clusters can be also be configured to send audit logs to a [webhook backend](https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/#webhook-backend), KKP admin needs to create kubernetes secret that holds the audit webhook backend configuration, on the seed cluster which can then be used to enable webhook backend at the cluster or the datacenter level.
+
+The Kubernetes api-server expects the webhook configuration file to have a format similar to [kubeconfig](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/).
+
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+- name: audit-webhook
+  cluster:
+    server: http://<webhook-server>
+contexts:
+- name: audit-webhook
+  context:
+    cluster: audit-webhook
+    user: ""
+current-context: audit-webhook
+users: []
+preferences: {}
+```
+
+Once we have the audit webhook configuration we can base64 encode it and create the secret.
+
+```yaml
+apiVersion: v1
+data:
+  webhook.yaml: <base64 encoded audit webhook configuration>
+kind: Secret
+metadata:
+  name: audit-webhook-backend
+  namespace: cluster-e9s4w7jk6t
+type: Opaque
+```
+
+### User Cluster Level Audit Webhook Backend
+
+To enable webhook backend for an existing user cluster, first create the secret that has the webhook backend configuration in the cluster namespace `(cluster-<cluster-id>)` on the seed cluster & then edit the cluster from the KKP GUI to specify the secret.
+
+![Edit Cluster webhook backend](01-webhook-backend-cluster.png)
+
+### Datacenter Level Audit Webhook Backend
+
+Audit webhook backend can be enabled at the datacenter level as well, this enforces the audit webhook backend on all the user cluster in the datacenter, this can be done by specifying `enforcedAuditWebhookSettings` for the datacenter where we want enable webhook backend.
+
+```yaml
+enforcedAuditWebhookSettings:
+  auditWebhookConfig:
+    name: audit-webhook-backend-secret
+    namespace: kubermatic
+  auditWebhookInitialBackoff: 15s
+```
+
+Existing user clusters in the datacenter aren't update to enable the audit webhook backend, only the ones created after the webhook backend settings are applied on the datacenter comes up with audit webhook backend enabled.
+
+### Network Policy For Accessing Audit Webhook Backend Server
+
+The egress for the user cluster's Kubernetes api-server is restricted with the help of network policies therefore once the audit webhook backend is enabled a network policy also needs to be created for allowing the api-server egress to the webhook backend server. For example for a webhook backend server running on `172.31.43.54` on port `30001` the network policy may look like the one below.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: audit-webhook-allow
+  namespace: cluster-e9s4w7jk6t
+spec:
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 172.31.43.54/32
+    ports:
+    - protocol: TCP
+      port: 30001
+  podSelector:
+    matchLabels:
+      app: apiserver
+```

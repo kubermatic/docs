@@ -188,8 +188,8 @@
       {{end}}
     </ul>
     {{end}}
-    {{with .childs}}
-    <ul class="mobile-menu-childs">
+    {{with .children}}
+    <ul class="mobile-menu-children">
       {{range .}}
         <li>
           <a href="{{(print $baseWebsiteUrl .url) | relURL}}"{{if in .url "/#"}} class="menu-item-anchor"{{end}}>{{.title}}</a>

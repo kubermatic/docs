@@ -10,6 +10,21 @@ weight = 70
   - [Community Edition](#community-edition)
   - [Enterprise Edition](#enterprise-edition)
 - [v1.1.1](#v111)
+- [v1.1.2](#v112)
+
+## v1.1.2
+
+**GitHub release: [v1.1.2](https://github.com/kubermatic/kubelb/releases/tag/v1.1.2)**
+
+### Bug or Regression
+
+- Annotation configuration for tenant has a higher precedence than the global annotation configuration. ([#66](https://github.com/kubermatic/kubelb/pull/66))
+
+#### Other (Cleanup, Flake, or Chore)
+
+- Use `quay.io/brancz/kube-rbac-proxy` to fetch kube-rbac-proxy. ([#65](https://github.com/kubermatic/kubelb/pull/65))
+
+**Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.1.1...v1.1.2>
 
 ## v1.1.1
 

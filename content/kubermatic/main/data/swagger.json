@@ -12,7 +12,7 @@
   "info": {
     "description": "This OpenAPI 2.0 specification describes the REST APIs used by the Kubermatic Kubernetes Platform Dashboard.",
     "title": "Kubermatic Kubernetes Platform API",
-    "version": "2.23"
+    "version": "2.27"
   },
   "paths": {
     "/api/projects/{project_id}/clusters/{cluster_id}/sshkeys/{key_id}": {
@@ -12334,11 +12334,6 @@
             "name": "cluster_id",
             "in": "path",
             "required": true
-          },
-          {
-            "type": "string",
-            "name": "DatacenterName",
-            "in": "header"
           }
         ],
         "responses": {
@@ -12430,6 +12425,48 @@
             "description": "StorageClassList",
             "schema": {
               "$ref": "#/definitions/StorageClassList"
+            }
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/clusters/{cluster_id}/providers/kubevirt/vpcs": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "kubevirt"
+        ],
+        "summary": "List Subnets for a VPC associated with a cluster.",
+        "operationId": "listKubeVirtSubnetsNoCredentials",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ClusterID",
+            "name": "cluster_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KubeVirtSubnetList",
+            "schema": {
+              "$ref": "#/definitions/KubeVirtSubnetList"
             }
           },
           "default": {
@@ -15576,7 +15613,7 @@
           {
             "type": "string",
             "x-go-name": "Action",
-            "description": "The Action is used to check if to `Delete` the cluster:\nboth the actual cluter from the provider\nand the respective KKP cluster object\nBy default the cluster will `Disconnect` which means the KKP cluster object will be deleted,\ncluster still exists on the provider, but is no longer connected/imported in KKP",
+            "description": "The Action is used to check if to `Delete` the cluster:\nboth the actual cluster from the provider\nand the respective KKP cluster object\nBy default the cluster will `Disconnect` which means the KKP cluster object will be deleted,\ncluster still exists on the provider, but is no longer connected/imported in KKP",
             "name": "action",
             "in": "header"
           }
@@ -19971,6 +20008,11 @@
             "type": "string",
             "name": "Credential",
             "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "DatacenterName",
+            "in": "header"
           }
         ],
         "responses": {
@@ -20016,6 +20058,11 @@
             "type": "string",
             "name": "Credential",
             "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "DatacenterName",
+            "in": "header"
           }
         ],
         "responses": {
@@ -20023,6 +20070,111 @@
             "description": "StorageClassList",
             "schema": {
               "$ref": "#/definitions/StorageClassList"
+            }
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/providers/kubevirt/subnets": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "kubevirt"
+        ],
+        "summary": "Lists available subnets in the KubeVirt cluster.",
+        "operationId": "listProjectKubevirtSubnets",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "Kubeconfig",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "Credential",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "DatacenterName",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "VPCName",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KubeVirtSubnetList",
+            "schema": {
+              "$ref": "#/definitions/KubeVirtSubnetList"
+            }
+          },
+          "default": {
+            "description": "errorResponse",
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/providers/kubevirt/vpcs": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "kubevirt"
+        ],
+        "summary": "Lists available VPCs in the Kubevirt cluster.",
+        "operationId": "listProjectKubevirtVPCs",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ProjectID",
+            "name": "project_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "Kubeconfig",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "Credential",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "DatacenterName",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KubeVirtVPCList",
+            "schema": {
+              "$ref": "#/definitions/KubeVirtVPCList"
             }
           },
           "default": {
@@ -23460,6 +23612,11 @@
             "type": "string",
             "name": "Credential",
             "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "DatacenterName",
+            "in": "header"
           }
         ],
         "responses": {
@@ -23497,6 +23654,11 @@
           {
             "type": "string",
             "name": "Credential",
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "name": "DatacenterName",
             "in": "header"
           }
         ],
@@ -30342,6 +30504,9 @@
         },
         "namespacedMode": {
           "$ref": "#/definitions/NamespacedMode"
+        },
+        "providerNetwork": {
+          "$ref": "#/definitions/ProviderNetwork"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -34249,12 +34414,77 @@
           "type": "boolean",
           "x-go-name": "IsDefaultClass"
         },
+        "labels": {
+          "description": "Labels is a map of string keys and values that can be used to organize and categorize\n(scope and select) objects. May match selectors of replication controllers\nand services.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Labels"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "regions": {
+          "description": "Regions represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters\nto span multiple regions",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Regions"
+        },
+        "volumeBindingMode": {
+          "$ref": "#/definitions/VolumeBindingMode"
+        },
+        "zones": {
+          "description": "Zones represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones\nfor increased availability",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Zones"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
+    "KubeVirtSubnet": {
+      "type": "object",
+      "title": "KubeVirtSubnet represents a KubeVirt Subnet.",
+      "properties": {
         "name": {
           "type": "string",
           "x-go-name": "Name"
         }
       },
-      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "KubeVirtSubnetList": {
+      "type": "array",
+      "title": "KubeVirtSubnetList represents an array of KubeVirt Subnets.",
+      "items": {
+        "$ref": "#/definitions/KubeVirtSubnet"
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "KubeVirtVPC": {
+      "type": "object",
+      "title": "KubeVirtVPC represents a KubeVirt VPC.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "KubeVirtVPCList": {
+      "type": "array",
+      "title": "KubeVirtVPCList represents an array of KubeVirt VPCs.",
+      "items": {
+        "$ref": "#/definitions/KubeVirtVPC"
+      },
+      "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
     },
     "KubermaticVersions": {
       "type": "object",
@@ -34302,6 +34532,16 @@
           "description": "Kubeconfig is the cluster's kubeconfig file, encoded with base64.",
           "type": "string",
           "x-go-name": "Kubeconfig"
+        },
+        "subnetName": {
+          "description": "SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).",
+          "type": "string",
+          "x-go-name": "SubnetName"
+        },
+        "vpcName": {
+          "description": "VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt",
+          "type": "string",
+          "x-go-name": "VPCName"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -34350,6 +34590,16 @@
             "$ref": "#/definitions/KubeVirtInfraStorageClass"
           },
           "x-go-name": "StorageClasses"
+        },
+        "subnetName": {
+          "description": "SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).",
+          "type": "string",
+          "x-go-name": "SubnetName"
+        },
+        "vpcName": {
+          "description": "VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt.",
+          "type": "string",
+          "x-go-name": "VPCName"
         }
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
@@ -34460,6 +34710,11 @@
             "$ref": "#/definitions/SecondaryDisks"
           },
           "x-go-name": "SecondaryDisks"
+        },
+        "subnet": {
+          "description": "Subnet is the name of the subnet to use for the VM.",
+          "type": "string",
+          "x-go-name": "Subnet"
         },
         "topologySpreadConstraints": {
           "description": "TopologySpreadConstraints describes topology spread constraints for VMs.",
@@ -37642,6 +37897,24 @@
       },
       "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
     },
+    "ProviderNetwork": {
+      "type": "object",
+      "title": "ProviderNetwork describes the infra cluster network fabric that is being used.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "vpcs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VPC"
+          },
+          "x-go-name": "VPCs"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
     "ProviderPreset": {
       "type": "object",
       "properties": {
@@ -38911,6 +39184,17 @@
       },
       "x-go-package": "k8s.io/api/rbac/v1"
     },
+    "Subnet": {
+      "type": "object",
+      "title": "Subnet a smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
     "SubnetCIDR": {
       "description": "SubnetCIDR is used to store IPv4/IPv6 CIDR.",
       "type": "string",
@@ -39609,6 +39893,24 @@
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v1"
     },
+    "VPC": {
+      "description": "VPC  is a virtual network dedicated to a single tenant within a KubeVirt, where the resources in the VPC\nis isolated from any other resources within the KubeVirt infra cluster.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "subnets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subnet"
+          },
+          "x-go-name": "Subnets"
+        }
+      },
+      "x-go-package": "k8c.io/kubermatic/v2/pkg/apis/kubermatic/v1"
+    },
     "VSphere": {
       "type": "object",
       "properties": {
@@ -40064,6 +40366,12 @@
         }
       },
       "x-go-package": "k8c.io/dashboard/v2/pkg/api/v2"
+    },
+    "VolumeBindingMode": {
+      "description": "+enum",
+      "type": "string",
+      "title": "VolumeBindingMode indicates how PersistentVolumeClaims should be bound.",
+      "x-go-package": "k8s.io/api/storage/v1"
     },
     "VpcConfigRequest": {
       "type": "object",

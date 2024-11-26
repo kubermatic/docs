@@ -13,15 +13,18 @@ weight = 20
 ## Pre-requisites
 
 * Create a namespace **kubelb** for the CCM to be deployed in.
-* The agent expects a **Secret** with a kubeconf file named **kubelb** to access the management/load balancing cluster.
+* The agent expects a **Secret** with a kubeconf file named **`kubelb`** to access the management/load balancing cluster.
   * First register the tenant in LB cluster by following [tenant registration]({{< relref "../../tutorials/tenants">}}) guidelines.
-  * Fetch the generated kubeconfig and create a secret by using the command:
+  * Fetch the generated kubeconfig and create a secret by using these command:
 
   ```sh
-  kubectl --namespace kubelb create secret generic kubelb-cluster --from-file=<path to kubelb kubeconf file>
+  #  Replace with the tenant name
+  TENANT_NAME=tenant-shroud
+  KUBELB_KUBECONFIG=$(kubectl get secret kubelb-ccm-kubeconfig -n $TENANT_NAME --template={{.data.kubelb}})
+  kubectl --namespace kubelb create secret generic kubelb-cluster --from-literal=kubelb="$(echo $KUBELB_KUBECONFIG | base64 -d)"
   ```
 
-* The name of secret can be overridden using `.Values.kubelb.clusterSecretName`
+* The name of secret can be overridden using `.Values.kubelb.clusterSecretName`, if required.
 * Update the `tenantName` in the `values.yaml` to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. Tenants are registered in the management cluster by the Platform Provider and the name is prefixed with `tenant-`. So for example, a tenant named `my-tenant` will be registered as `tenant-my-tenant`.
 
 At this point a minimal `values.yaml` should look like this:
@@ -31,6 +34,30 @@ kubelb:
     clusterSecretName: kubelb-cluster
     tenantName: <unique-identifier-for-tenant>
 ```
+
+{{% notice info %}}
+
+**Important configurations for private clusters!**
+If your cluster only uses internal IPs for nodes (check the ollowing example output) you would need to change the value `kubelb.nodeAddressType` to `InternalIP`
+
+```bash
+kubectl get nodes -o wide
+```
+
+```
+NAME     STATUS   ROLES           AGE    VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE          KERNEL-VERSION       CONTAINER-RUNTIME
+node-x   Ready    control-plane   208d   v1.29.9   10.66.99.222   <none>        Ubuntu            5.15.0-121-generic   containerd://1.6.33
+```
+
+Adjust `values.yaml`:
+
+```yaml
+kubelb:
+  # -- Address type to use for routing traffic to node ports. Values are ExternalIP, InternalIP.
+  nodeAddressType: InternalIP
+```
+
+{{% /notice %}}
 
 ## Installation for KubeLB CCM
 
@@ -57,7 +84,7 @@ kubelb:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.1.1 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.1.2 --untardir "." --untar
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm-ee/values.yaml
 ```
@@ -77,7 +104,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm-ee"` |  |
-| image.tag | string | `"v1.1.1"` |  |
+| image.tag | string | `"v1.1.2"` |  |
 | imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` | Name of the secret that contains kubeconfig for the loadbalancer cluster |
 | kubelb.disableGRPCRouteController | bool | `false` | disableGRPCRouteController specifies whether to disable the GRPCRoute Controller. |
@@ -128,7 +155,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.1.1 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.1.2 --untardir "." --untar
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/values.yaml
 ```
@@ -148,7 +175,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm"` |  |
-| image.tag | string | `"v1.1.1"` |  |
+| image.tag | string | `"v1.1.2"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` | Name of the secret that contains kubeconfig for the loadbalancer cluster |
 | kubelb.disableGRPCRouteController | bool | `false` | disableGRPCRouteController specifies whether to disable the GRPCRoute Controller. |

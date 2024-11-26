@@ -34,7 +34,7 @@ For KKP 2.25 several charts for user cluster MLA (`loki-distributed` and `cortex
 
 The default values shipped with KKP have been updated accordingly:
 
-- [`values.yaml` for `loki-distributed`](https://github.com/kubermatic/kubermatic/blob/v2.25.0/charts/mla/loki-distributed/values.yaml) 
+- [`values.yaml` for `loki-distributed`](https://github.com/kubermatic/kubermatic/blob/v2.25.0/charts/mla/loki-distributed/values.yaml)
 - [`values.yaml` for `cortex`](https://github.com/kubermatic/kubermatic/blob/v2.25.0/charts/mla/cortex/values.yaml)
 
 If the `values.yaml` shipped by default in KKP have been copied / modified to be used for passing configuration, the modifications need to be migrated to the new structure before upgrading the user cluster MLA stack. Full upstream values are linked from each default values shipped by KKP.

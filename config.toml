@@ -77,7 +77,7 @@ url = "https://twitter.com/Kubermatic"
 class = "fab fa-twitter"
 
 [[params.socials]]
-url = "https://github.com/kubermatic/"
+url = "https://github.com/kubermatic"
 class = "fab fa-github"
 
 [[params.socials]]

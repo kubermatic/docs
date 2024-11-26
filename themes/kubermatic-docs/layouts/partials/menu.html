@@ -9,10 +9,10 @@
   {{ $versionLabel := .Site.Params.versionLabel }}
   <div id="header-wrapper">
     {{with sort $products ".weight"}}
-    <div class="products-toogle">
-      <div class="products-toogle-select">
+    <div class="products-toggle">
+      <div class="products-toggle-select">
         {{with $sectionLabel}}
-        <label for="product-select" class="products-toogle-label">{{.}}</label>
+        <label for="product-select" class="products-toggle-label">{{.}}</label>
         {{end}}
         <select id="product-select" onchange="location = this.value;">
           {{range .}}
@@ -29,9 +29,9 @@
       </div>
       {{with $product}}
         {{if .versions}}
-        <div class="products-toogle-select">
+        <div class="products-toggle-select">
           {{with $versionLabel}}
-          <label for="version-select" class="products-toogle-label">{{.}}</label>
+          <label for="version-select" class="products-toggle-label">{{.}}</label>
           {{end}}
           <select id="version-select" onchange="location = this.value;">
             {{range .versions}}

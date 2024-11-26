@@ -21,7 +21,7 @@ You can add an existing Kubernetes cluster and then manage it using KKP.
 ![Select Provider](/img/kubermatic/v2.21/tutorials/external_clusters/connect.png "Select Provider")
 
 - Provide Credentials in either of the below mentioned ways:
-    - Select a pre-created preset which stores the provider specific credentials. 
+    - Select a pre-created preset which stores the provider specific credentials.
 
     - Manually enter the credentials `Access Key ID`, `Secret Access Key` and select `Region`
 
@@ -159,7 +159,7 @@ aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 
 #### Create kubeconfig file
 
-Now you can create kubeconfig file automatically ussing the following command:
+Now you can create kubeconfig file automatically using the following command:
 
 ```
 aws eks update-kubeconfig --region region-code --name cluster-name

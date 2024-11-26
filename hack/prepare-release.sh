@@ -41,11 +41,8 @@ do
 done
 
 # Check mandatory parameters
-[[ $VERSION ]] ||
-  (usage; exit 1)
-
-[[ $PRODUCT =~ ^(kubermatic|kubeone)$ ]] ||
-  (usage; exit 1)
+[[ $VERSION ]] || (usage; exit 1)
+[[ $PRODUCT =~ ^(kubermatic|kubeone)$ ]] || (usage; exit 1)
 
 PRIMARY_BRANCH=main
 
@@ -57,14 +54,12 @@ cp -R content/$PRODUCT/{$PRIMARY_BRANCH,$VERSION}
 cp -R data/$PRODUCT/{$PRIMARY_BRANCH,$VERSION}
 
 # Update component versions only when preparing docs for KKP release
-if [[ $PRODUCT == 'kubermatic' ]]
-then
-  sed -i --regexp-extended "s/9.9.9-dev/${VERSION#v}.0/g" content/kubermatic/${VERSION}/architecture/compatibility/KKP-components-versioning/_index.en.md
+if [[ $PRODUCT == 'kubermatic' ]]; then
+  sed -i --regexp-extended "s/9.9.9-dev/${VERSION#v}.0/g" content/kubermatic/${VERSION}/architecture/compatibility/kkp-components-versioning/_index.en.md
 fi
 
 # Update references
-grep --recursive --files-with-matches "${PRODUCT}/$PRIMARY_BRANCH" -- "content/${PRODUCT}/${VERSION}" | while read -r f
-do
+grep --recursive --files-with-matches "${PRODUCT}/$PRIMARY_BRANCH" -- "content/${PRODUCT}/${VERSION}" | while read -r f; do
   tmpfile=$(mktemp)
   sed --regexp-extended "s/(${PRODUCT}\/)$PRIMARY_BRANCH/\1${VERSION}/g" "$f" > $tmpfile
   mv $tmpfile "$f"
