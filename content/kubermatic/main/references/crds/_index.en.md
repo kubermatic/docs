@@ -28,6 +28,7 @@ searchExclude = true
 AppNamespaceSpec describe the desired state of the namespace where application will be created.
 
 _Appears in:_
+- [ApplicationDefinitionSpec](#applicationdefinitionspec)
 - [ApplicationInstallationSpec](#applicationinstallationspec)
 
 | Field | Description |
@@ -99,6 +100,7 @@ _Appears in:_
 | `method` _[TemplateMethod](#templatemethod)_ | {{< unsafe >}}Method used to install the application{{< /unsafe >}} |
 | `defaultValues` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#rawextension-runtime-pkg)_ | {{< unsafe >}}DefaultValues specify default values for the UI which are passed to helm templating when creating an application. Comments are not preserved.<br />Deprecated: Use DefaultValuesBlock instead. This field was deprecated in KKP 2.25 and will be removed in KKP 2.27+.{{< /unsafe >}} |
 | `defaultValuesBlock` _string_ | {{< unsafe >}}DefaultValuesBlock specifies default values for the UI which are passed to helm templating when creating an application. Comments are preserved.{{< /unsafe >}} |
+| `defaultNamespace` _[AppNamespaceSpec](#appnamespacespec)_ | {{< unsafe >}}DefaultNamespace specifies the default namespace which is used if a referencing ApplicationInstallation has no target namespace defined.<br />If unset, the name of the ApplicationDefinition is being used instead.{{< /unsafe >}} |
 | `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | {{< unsafe >}}DefaultDeployOptions holds the settings specific to the templating method used to deploy the application.<br />These settings can be overridden in applicationInstallation.{{< /unsafe >}} |
 | `defaultVersion` _string_ | {{< unsafe >}}DefaultVersion of the application to use, if not specified the latest available version will be used.{{< /unsafe >}} |
 | `enforced` _boolean_ | {{< unsafe >}}Enforced specifies if the application is enforced to be installed on the user clusters. Enforced applications are<br />installed/updated by KKP for the user clusters. Users are not allowed to update/delete them. KKP will revert the changes<br />done by the application to the desired state specified in the ApplicationDefinition.{{< /unsafe >}} |
