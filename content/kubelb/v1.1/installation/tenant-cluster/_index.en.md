@@ -24,8 +24,21 @@ weight = 20
   kubectl --namespace kubelb create secret generic kubelb-cluster --from-literal=kubelb="$(echo $KUBELB_KUBECONFIG | base64 -d)"
   ```
 
-* The name of secret can be overridden using `.Values.kubelb.clusterSecretName`, if required.
-* Update the `tenantName` in the `values.yaml` to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. Tenants are registered in the management cluster by the Platform Provider and the name is prefixed with `tenant-`. So for example, a tenant named `my-tenant` will be registered as `tenant-my-tenant`.
+* The name of secret can be overridden using `.Values.kubelb.clusterSecretName`, if required. If not the secret needs to be named `kubelb` and look like:
+  ```
+  kubectl get secrets -o yaml kubelb-cluster
+  ```
+  ```
+  apiVersion: v1
+  data:
+    kubelb: xxx-base64-encoded-xxx
+  kind: Secret
+  metadata:
+    name: kubelb-cluster
+    namespace: kubelb
+  type: Opaque
+  ```
+* Update the `tenantName` in the `values.yaml` to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. Tenants are registered in the management cluster by the Platform Provider and the name is prefixed with `tenant-`. So for example, a tenant named `my-tenant` will be registered as `tenant-my-tenant`. **NOTE: We have an automation in place and both tenant name without and with `tenant-` prefix are supported.**
 
 At this point a minimal `values.yaml` should look like this:
 
@@ -38,7 +51,7 @@ kubelb:
 {{% notice info %}}
 
 **Important configurations for private clusters!**
-If your cluster only uses internal IPs for nodes (check the ollowing example output) you would need to change the value `kubelb.nodeAddressType` to `InternalIP`
+If your cluster only uses internal IPs for nodes (check the following example output) you would need to change the value `kubelb.nodeAddressType` to `InternalIP`:
 
 ```bash
 kubectl get nodes -o wide
