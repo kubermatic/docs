@@ -15,9 +15,24 @@ Starting with KKP v2.24, KubeLB is integrated into the Kubermatic Kubernetes Pla
 For KKP v2.26 or higher, your KubeLB management cluster must be using KubeLB v1.1 or higher for proper integration. KubeLB v1.1 introduces `Tenant` API to manage tenants which is not supported below KKP v2.26.
 {{% /notice %}}
 
+## Configuration
+
 KubeLB can be configured in the following way:
 
-* Create a secret with the key `kubeconfig` that contains the kubeconfig for the KubeLB management cluster.
+* Generate a Kubeconfig for the KubeLB management cluster by following the instructions [here](https://docs.kubermatic.com/kubelb/latest/tutorials/kkp).
+* (Optional: If you didn't create kubeconfig via the instructions above) Create a secret with the key `kubeconfig` that contains the kubeconfig for the KubeLB management cluster like this:
+
+```yaml
+apiVersion: v1
+data:
+  kubelb: xxx-base64-encoded-xxx
+kind: Secret
+metadata:
+  name: kubelb-management-cluster
+  namespace: kubermatic
+type: Opaque
+```
+
 * Configure `Seed` as follows:
 
 ```yaml
