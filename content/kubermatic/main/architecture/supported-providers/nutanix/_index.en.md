@@ -27,7 +27,6 @@ When creating a user cluster via UI or API, these settings can be adjusted if ne
 Images to create VMs from need to be provided and can be configured in the datacenter spec when configuring a `Seed` to include a Nutanix `Datacenter`. The following OS images are tested and supported:
 
 - [Ubuntu 20.04 (focal)](https://cloud-images.ubuntu.com/focal/current/)
-- [CentOS 7](https://cloud.centos.org/centos/7/images/)
 
 ## Credentials and Permissions
 

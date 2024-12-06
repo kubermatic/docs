@@ -15,26 +15,24 @@ The following operating systems are currently supported by Kubermatic:
 * RHEL beginning with 8.0 (support is cloud provider-specific)
 * Flatcar (Stable channel)
 * Rocky Linux beginning with 8.0
-* CentOS beginning with 7.4 excluding stream versions
 * Amazon Linux 2
-
+**Note:** CentOS was removed as a supported OS in KKP 2.26.3
+ 
 This table shows the combinations of operating systems and cloud providers that KKP supports:
 
-|                       | Ubuntu | CentOS | Flatcar | RHEL | Amazon Linux 2 | Rocky Linux |
+|                       | Ubuntu | Flatcar | RHEL | Amazon Linux 2 | Rocky Linux |
 |-----------------------|--------|--------|---------|------|----------------|-------------|
-| AWS                   | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Azure                 | ✓ | ✓ | ✓ | ✓ | x | ✓ |
-| Digitalocean          | ✓ | ✓ | x | x | x | ✓ |
-| Edge                  | ✓ | x | x | x | x | x |
-| Equinix Metal         | ✓ | ✓ | ✓ | x | x | ✓ |
-| Google Cloud Platform | ✓ | x | ✓ | x | x | x |
-| Hetzner               | ✓ | x[^1] | x | x | x | ✓ |
-| KubeVirt              | ✓ | ✓ | ✓ | ✓ | x | ✓ |
-| Nutanix               | ✓ | ✓ | x | x | x | x |
-| Openstack             | ✓ | ✓ | ✓ | ✓ | x | ✓ |
-| VMware Cloud Director | ✓ | x | ✓ | x | x | x |
-| VSphere               | ✓ | ✓ | ✓ | ✓ | x | ✓ |
+| AWS                   | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Azure                 | ✓ | ✓ | ✓ | x | ✓ |
+| Digitalocean          | ✓ | x | x | x | ✓ |
+| Edge                  | ✓ | x | x | x | x |
+| Equinix Metal         | ✓ | ✓ | x | x | ✓ |
+| Google Cloud Platform | ✓ | ✓ | x | x | x |
+| Hetzner               | ✓ | x | x | x | ✓ |
+| KubeVirt              | ✓ | ✓ | ✓ | x | ✓ |
+| Nutanix               | ✓ | x | x | x | x |
+| Openstack             | ✓ | ✓ | ✓ | x | ✓ |
+| VMware Cloud Director | ✓ | ✓ | x | x | x |
+| VSphere               | ✓ | ✓ | ✓ | x | ✓ |
 
 There could be more in the future since change is constant. This page will constantly be updated each time there is a new supported operating system.
-
-[^1]: Hetzner stopped supporting CentOS 7 in January 2024.

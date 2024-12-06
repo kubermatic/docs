@@ -17,7 +17,6 @@ When creating worker nodes for a user cluster, the user can specify an existing 
 
 ### Supported Operating Systems
 
-* CentOS beginning with 7.4 excluding stream versions [qcow2](https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2)
 * Ubuntu 20.04 [ova](https://cloud-images.ubuntu.com/releases/20.04/release/ubuntu-20.04-server-cloudimg-amd64.ova)
 * Ubuntu 22.04 [ova](https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64.ova)
 * Flatcar (Stable channel) [ova](https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_vmware_ova.ova)
@@ -35,7 +34,7 @@ When creating worker nodes for a user cluster, the user can specify an existing 
 
 ### Importing the QCOW2
 
-1. Convert it to vmdk: `qemu-img convert -f qcow2 -O vmdk CentOS-7-x86_64-GenericCloud.qcow2 CentOS-7-x86_64-GenericCloud.vmdk`
+1. Convert it to vmdk: `qemu-img convert -f qcow2 -O vmdk Ubuntu-7-x86_64-GenericCloud.qcow2 Ubuntu-7-x86_64-GenericCloud.vmdk`
 1. Upload it to a Datastore of your vSphere installation
 1. Create a new virtual machine that uses the uploaded vmdk as rootdisk
 
@@ -227,7 +226,7 @@ VirtualMachine.Inventory.CreateFromExisting
 {{% tab name="k8c-user-cluster-propagate" %}}
 * Role `k8c-user-cluster-propagate`
   * Granted at **cluster** level, propagated
-  * Needed for upload of `cloud-init.iso` (Ubuntu and CentOS) or defining the Ignition config into Guestinfo (CoreOS)
+  * Needed for upload of `cloud-init.iso` (Ubuntu) or defining the Ignition config into Guestinfo (CoreOS)
   * Permissions
     * AutoDeploy
       * Rule

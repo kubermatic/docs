@@ -86,7 +86,7 @@ as the hard drive.
 
 Go to vCenter and create a new Virtual Machine. You can name and place the
 VM however you prefer. When asked about compatibility, choose the latest
-available compatibility level. For Guest OS, choose Linux and CentOS 9 (64bit).
+available compatibility level. For Guest OS, choose Linux (64bit).
 
 When asked to customize the hardware, you should take the following steps:
 
