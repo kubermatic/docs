@@ -69,7 +69,6 @@ Example specs for different providers:
         # Those are default images for nodes which will be shown in the Dashboard.
         images:
           ubuntu: "Ubuntu 18.04"
-          centos: "CentOS 7"
           coreos: "CoreOS"
         # Enforce the creation of floating IP's for new nodes
         # Available since v2.9.0
@@ -104,8 +103,6 @@ Example specs for different providers:
         images:
           # Must be Ubuntu 18.04, defaults to https://aws.amazon.com/marketplace/pp/B07CQ33QKV
           ubuntu: "ami-07e101c2aebc37691"
-          # Must be CentOS 7, defaults to https://aws.amazon.com/marketplace/pp/B00O7WM7QW
-          centos: "ami-02eac2c0129f6376b"
         # Region to use for nodes
         region: us-east-1
 
@@ -135,7 +132,6 @@ Example specs for different providers:
         rootPath: "/Datacenter/vm/foo"
         templates:
           ubuntu: "ubuntu-template"
-          centos: "centos-template"
           coreos: "coreos-template"
       requiredEmails:
       - "kubermatic.com"

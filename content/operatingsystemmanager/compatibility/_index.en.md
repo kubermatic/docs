@@ -12,24 +12,23 @@ The following operating systems are currently supported by the default Operating
 * RHEL beginning with 8.0 (support is cloud provider-specific)
 * Flatcar (Stable channel)
 * Rocky Linux beginning with 8.0
-* CentOS beginning with 7.4 excluding stream versions
 * Amazon Linux 2
 
 ## Operating System
 
-|   | Ubuntu | CentOS | Flatcar | Amazon Linux 2 | RHEL | Rocky Linux |
-|---|---|---|---|---|---|---|
-| AWS | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Azure | ✓ | ✓ | ✓ | x | ✓ | ✓ |
-| DigitalOcean  | ✓ | ✓ | x | x | x | ✓ |
-| Equinix Metal  | ✓ | ✓ | ✓ | x | x | ✓ |
-| Google Cloud Platform | ✓ | x | ✓ | x | x | x |
-| Hetzner | ✓ | x | x | x | x | ✓ |
-| KubeVirt | ✓ | ✓ | ✓ | x | ✓ | ✓ |
-| Nutanix | ✓ | ✓ | x | x | x | x |
-| Openstack | ✓ | ✓ | ✓ | x | ✓ | ✓ |
-| VMware Cloud Director | ✓ | x | ✓ | x | x | x |
-| VSphere | ✓ | ✓ | ✓ | x | ✓ | ✓ |
+|   | Ubuntu | Flatcar | Amazon Linux 2 | RHEL | Rocky Linux |
+|---|---|---|---|---|---|
+| AWS | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Azure | ✓ | ✓ | x | ✓ | ✓ |
+| DigitalOcean  | ✓ |  x | x | x | ✓ |
+| Equinix Metal  | ✓ | ✓ | x | x | ✓ |
+| Google Cloud Platform | ✓ | ✓ | x | x | x |
+| Hetzner | ✓ | x | x | x | ✓ |
+| KubeVirt | ✓ | ✓ | x | ✓ | ✓ |
+| Nutanix | ✓ | x | x | x | x |
+| Openstack | ✓ | ✓ | x | ✓ | ✓ |
+| VMware Cloud Director | ✓ | ✓ | x | x | x |
+| VSphere | ✓ | ✓ | x | ✓ | ✓ |
 
 ## Kubernetes Versions
 

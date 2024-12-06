@@ -227,11 +227,6 @@ projects.registry.vmware.com/vmware-cloud-director/cloud-director-named-disk-csi
 ### OS Resources
 Additional to the kubelet dependencies, the [OperatingSystemManager](https://docs.kubermatic.com/operatingsystemmanager) installs some operating-system-specific packages over cloud-init:
 
-#### CentOS 7/8
-Init script: [osp-centos.yaml](https://github.com/kubermatic/operating-system-manager/blob/main/deploy/osps/default/osp-centos.yaml)
-
-- default yum repositories
-- docker yum repository: `download.docker.com/linux/centos`
 
 ### Flatcar Linux
 Init script: [osp-flatcar-cloud-init.yaml](https://github.com/kubermatic/operating-system-manager/blob/main/deploy/osps/default/osp-flatcar-cloud-init.yaml)
@@ -296,10 +291,6 @@ apt.kubernetes.io
 azure.archive.ubuntu.com
 # security packages ubuntu
 security.ubuntu.com
-
-# centos
-packages.cloud.google.com/yum
-download.docker.com/linux/centos
 
 # CoreOS / Flatcar Linux
 storage.googleapis.com/kubernetes-release/release

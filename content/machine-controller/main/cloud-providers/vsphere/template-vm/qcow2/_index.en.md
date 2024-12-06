@@ -27,8 +27,8 @@ but VM Templates are not supported yet by machine-controller.
 
     ```bash
     # The URL below is just an example
-    image_url="https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-    image_name="$(basename -- "${image_url}" | sed 's/.qcow2$//g')"
+    image_url="https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64-disk-kvm.img"
+    image_name="$(basename -- "${image_url}" | sed 's/.img$//g')"
     curl -sL "${image_url}" -O .
     ```
 

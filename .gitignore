@@ -16,3 +16,6 @@
 
 .env
 node_modules
+
+# vscode related files
+.vscode/
