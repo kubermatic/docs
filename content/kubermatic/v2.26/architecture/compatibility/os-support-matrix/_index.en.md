@@ -16,7 +16,10 @@ The following operating systems are currently supported by Kubermatic:
 * Flatcar (Stable channel)
 * Rocky Linux beginning with 8.0
 * Amazon Linux 2
-**Note:** CentOS was removed as a supported OS in KKP 2.26.3
+
+{{% notice warning %}}
+CentOS was removed as a supported OS in KKP 2.26.3
+{{% /notice %}}
  
 This table shows the combinations of operating systems and cloud providers that KKP supports:
 
