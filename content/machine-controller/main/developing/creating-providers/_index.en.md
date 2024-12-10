@@ -100,7 +100,7 @@ all information) alternatively can be passed via an environment variable. Accord
 used `providerconfig.ConfigVarResolver` do support this.
 
 For creation of new machines the support of the possible information has to be checked. The
-machine-controller supports _CentOS_, _Flatcar_ and _Ubuntu_. In case one or more aren't supported
+machine-controller supports _Flatcar_ and _Ubuntu_. In case one or more aren't supported
 by the cloud infrastructure the error `providerconfig.ErrOSNotSupported` has to be returned.
 
 ## Integrate provider into the machine-controller

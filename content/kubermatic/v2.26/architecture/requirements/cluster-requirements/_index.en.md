@@ -12,7 +12,6 @@ The Master Cluster hosts the KKP components and might also act as a seed cluster
 * Six or more machines running one of:
   * Ubuntu 20.04+
   * Debian 10
-  * CentOS 7
   * RHEL 7
   * Flatcar
 * 4 GB or more of RAM per machine (any less will leave little room for your apps)
@@ -25,7 +24,6 @@ The User Cluster is a Kubernetes cluster created and managed by KKP. The exact r
 * One or more machines running one of:
   * Ubuntu 20.04+
   * Debian 10
-  * CentOS 7
   * RHEL 7
   * Flatcar
 * 2 GB or more of RAM per machine (any less will leave little room for your apps)

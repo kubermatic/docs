@@ -36,24 +36,22 @@ Dual-stack [specifics & limitations of individual cloud-providers](#cloud-provid
 ## Compatibility Matrix
 The following table lists the provider / operating system combinations compatible with dual-stack clusters on KKP:
 
-|                             | Ubuntu | CentOS 7 | Flatcar | RHEL | Rocky Linux |
+|                             | Ubuntu | Flatcar | RHEL | Rocky Linux |
 |-----------------------------|--------|----------|---------|------|-------------|
-| Amazon Web Services (AWS)   | ✓      | x        | ✓       | ✓    | ✓           |
-| Microsoft Azure             | ✓      | ✓        | ✓       | ✓    | ✓           |
-| DigitalOcean                | ✓      | ✓        | -       | -    | ✓ *         |
-| Equinix Metal               | ✓      | ✓        | ✓ *     | -    | ✓ *         |
-| Google Cloud Platform (GCP) | ✓      | -        | -       | -    | -           |
-| Hetzner                     | ✓      | ✓        | -       | -    | ✓           |
-| Openstack                   | ✓      | x        | ✓       | ✓    | ✓           |
-| VMware vSphere              | ✓      | -        | -       | -    | -           |
+| Amazon Web Services (AWS)   | ✓      | ✓       | ✓    | ✓           |
+| Microsoft Azure             | ✓      | ✓       | ✓    | ✓           |
+| DigitalOcean                | ✓      | -       | -    | ✓ *         |
+| Equinix Metal               | ✓      | ✓ *     | -    | ✓ *         |
+| Google Cloud Platform (GCP) | ✓      | -       | -    | -           |
+| Hetzner                     | ✓      | -       | -    | ✓           |
+| Openstack                   | ✓      | ✓       | ✓    | ✓           |
+| VMware vSphere              | ✓      | -       | -    | -           |
 
 
 **NOTES:**
 
 - A hyphen(`-`) denotes that the operating system is available / not tested on the given platform.
 - An asterisk (`*`) denotes a minor issue described in [specifics & limitations of individual cloud-providers](#cloud-provider-specifics-and-limitations).
-- Cilium CNI is not compatible with CentOS 7 on any platform.
-- CentOS 8 is past end of life, so it was not tested.
 
 
 ## Enabling Dual-Stack Networking for a User Cluster
@@ -126,8 +124,6 @@ Limitations:
 applied on their network interfaces (can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
 - Dual-Stack services of type `LoadBalancer` are not yet supported by AWS cloud-controller-manager. Only `NodePort` services can be used
 to expose services outside the cluster via IPv6.
-- CentOS 7 has issues getting default route even though the interface gets the public IPv6 address. Restarting networking stack helps but is not reliable.
-Please also see the [Centos Limitations](#centos--rhel--rocky-linux) section.
 
 Related issues:
  - https://github.com/kubermatic/kubermatic/issues/9899
@@ -290,8 +286,8 @@ In case of such an incompatibility, the worker nodes would miss the IPv6 address
 These cases can be still addressed by introducing of custom Operating System Profile with proper OS- and environment-
 specific configuration (see [Operating System Manager]({{< relref "../../operating-system-manager/" >}}) docs).
 
-### CentOS / RHEL / Rocky Linux
-CentOS, RHEL & Rocky Linux provide an extensive set of IPv6 settings for NetworkManager (see "Table 22. ipv6 setting" in the
+### RHEL / Rocky Linux
+RHEL & Rocky Linux provide an extensive set of IPv6 settings for NetworkManager (see "Table 22. ipv6 setting" in the
 [NetworkManager ifcfg-rh settings plugin docs](https://developer-old.gnome.org/NetworkManager/unstable/nm-settings-ifcfg-rh.html)).
 Depending on the IPv6 assignment method used in the datacenter, you may need the proper combination
 of them - e.g. `IPV6INIT`, `IPV6_AUTOCONF`, `IPV6_DEFROUTE`, `DHCPV6C`, etc.
