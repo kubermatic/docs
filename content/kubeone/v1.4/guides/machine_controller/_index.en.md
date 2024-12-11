@@ -58,7 +58,7 @@ kubectl apply -f machines.yaml
 
 Some examples of possible machine deployment yamls can be found in Machine-controller [examples directory](https://github.com/kubermatic/machine-controller/tree/master/examples)
 
-Otherwise, you can also define MachineDeployment objects directly in the KubeOne Configuration Manifest, under `dynamicWorkers` key. 
+Otherwise, you can also define MachineDeployment objects directly in the KubeOne Configuration Manifest, under `dynamicWorkers` key.
 You can run `kubeone config print --full` for an example configuration.
 
 ## Creating Additional Worker Nodes
@@ -139,7 +139,7 @@ kubectl scale -n kube-system machinedeployment <machinedeployment-name> --replic
 ```
 
 ```bash
-# Scalding down
+# Scaling down
 kubectl scale -n kube-system machinedeployment <machinedeployment-name> --replicas=2
 ```
 
@@ -147,7 +147,7 @@ Scaling down to zero is useful when you want to "temporarily" delete worker
 nodes, i.e. have the ability to easily recreate them by scaling up.
 
 ```bash
-# Scalding down
+# Scaling down
 kubectl scale -n kube-system machinedeployment <machinedeployment-name> --replicas=0
 ```
 
