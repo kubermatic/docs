@@ -2569,6 +2569,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `location` _string_ | {{< unsafe >}}Region to use, for example "westeurope". A list of available regions can be<br />found at https://azure.microsoft.com/en-us/global-infrastructure/locations/{{< /unsafe >}} |
+| `images` _[ImageList](#imagelist)_ | {{< unsafe >}}Images to use for each supported operating system{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4069,6 +4070,7 @@ ImageList defines a map of operating system and the image to use.
 
 _Appears in:_
 - [DatacenterSpecAWS](#datacenterspecaws)
+- [DatacenterSpecAzure](#datacenterspecazure)
 - [DatacenterSpecNutanix](#datacenterspecnutanix)
 - [DatacenterSpecOpenstack](#datacenterspecopenstack)
 - [DatacenterSpecVMwareCloudDirector](#datacenterspecvmwareclouddirector)
