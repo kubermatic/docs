@@ -45,6 +45,7 @@ addons:
         resticPassword: "<some-secret-value-here>"
         s3Bucket: "s3:s3.amazonaws.com/<backup-bucket-name>"
         awsDefaultRegion: "<default-AWS-region>"
+        insecure: "false"
 ```
 
 Original [addon source][backups-addon-src] can be found in kubeone repository.
