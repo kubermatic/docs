@@ -127,7 +127,7 @@ kubectl scale -n kube-system machinedeployment <machinedeployment-name> --replic
 ```
 
 ```bash
-# Scalding down
+# Scaling down
 kubectl scale -n kube-system machinedeployment <machinedeployment-name> --replicas=2
 ```
 
@@ -135,7 +135,7 @@ Scaling down to zero is useful when you want to "temporarily" delete worker
 nodes, i.e. have the ability to easily recreate them by scaling up.
 
 ```bash
-# Scalding down
+# Scaling down
 kubectl scale -n kube-system machinedeployment <machinedeployment-name> --replicas=0
 ```
 
