@@ -45,13 +45,15 @@ addons:
         resticPassword: "<some-secret-value-here>"
         s3Bucket: "s3:s3.amazonaws.com/<backup-bucket-name>"
         awsDefaultRegion: "<default-AWS-region>"
+        commonFlags:
+          --insecure-tls
 ```
 
 Original [addon source][backups-addon-src] can be found in kubeone repository.
 
 Credentials are fetched automatically via the `AWS_ACCESS_KEY_ID` and
 `AWS_SECRET_ACCESS_KEY` environment variables. If you want to use non-default
-credentials, update the `s3-credentials` secret
+credentials, update the `kubeone-backups-credentials` secret
 (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys).
 
 [backups-addon-src]: https://raw.githubusercontent.com/kubermatic/kubeone/main/addons/backups-restic/backups-restic.yaml
