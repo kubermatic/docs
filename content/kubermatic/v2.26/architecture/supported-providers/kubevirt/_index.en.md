@@ -94,6 +94,11 @@ We allow to configure:
   * Set this field according to [supported operating systems]({{< ref "../../compatibility/os-support-matrix/" >}}) to make sure that users can select operating systems for their VMs.
 * `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
   * Pass names of KubeVirt storage classes that can be used from user clusters.
+* `namespacedMode(experimental):` - represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
+
+{{% notice warning %}}
+The `namespacedMode` feature is highly experimental and should never be used in production environments. Additionally, enabling this mode in an existing KubeVirt setup utilized by KKP can cause serious issues, such as storage and networking incompatibilities.
+{{% /notice %}}
 
 Refer to this [document](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/zz_generated.seed.ce.yaml#L115)
 for more details and configuration example.
