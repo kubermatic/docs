@@ -1314,6 +1314,24 @@ _Appears in:_
 
 
 
+### ApplicationsConfiguration
+
+
+
+ApplicationsConfiguration contains configuration for default Applications configuration settings.
+
+_Appears in:_
+- [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `namespace` _string_ | {{< unsafe >}}Namespace is the namespace which is set as the default for applications installed via ui<br />If left empty the default for the application installation namespace is the name of the resource itself{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### AuditLoggingSettings
 
 
@@ -4631,6 +4649,7 @@ _Appears in:_
 | `overwriteRegistry` _string_ | {{< unsafe >}}OverwriteRegistry specifies a custom Docker registry which will be used for all images<br />used for user clusters (user cluster control plane + addons). This also applies to<br />the KubermaticDockerRepository and DNATControllerDockerRepository fields.{{< /unsafe >}} |
 | `addons` _[KubermaticAddonsConfiguration](#kubermaticaddonsconfiguration)_ | {{< unsafe >}}Addons controls the optional additions installed into each user cluster.{{< /unsafe >}} |
 | `systemApplications` _[SystemApplicationsConfiguration](#systemapplicationsconfiguration)_ | {{< unsafe >}}SystemApplications contains configuration for system Applications (such as CNI).{{< /unsafe >}} |
+| `applications` _[ApplicationsConfiguration](#applicationsconfiguration)_ | {{< unsafe >}}Applications contains configuration for default Application settings. This is an ee-only feature.{{< /unsafe >}} |
 | `nodePortRange` _string_ | {{< unsafe >}}NodePortRange is the port range for user clusters - this must match the NodePort<br />range of the seed cluster.{{< /unsafe >}} |
 | `monitoring` _[KubermaticUserClusterMonitoringConfiguration](#kubermaticuserclustermonitoringconfiguration)_ | {{< unsafe >}}Monitoring can be used to fine-tune to in-cluster Prometheus.{{< /unsafe >}} |
 | `disableApiserverEndpointReconciling` _boolean_ | {{< unsafe >}}DisableAPIServerEndpointReconciling can be used to toggle the `--endpoint-reconciler-type` flag for<br />the Kubernetes API server.{{< /unsafe >}} |
