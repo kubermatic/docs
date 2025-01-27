@@ -611,6 +611,10 @@ _Appears in:_
 - [KubermaticSettingList](#kubermaticsettinglist)
 - [MLAAdminSetting](#mlaadminsetting)
 - [MLAAdminSettingList](#mlaadminsettinglist)
+- [PolicyBinding](#policybinding)
+- [PolicyBindingList](#policybindinglist)
+- [PolicyTemplate](#policytemplate)
+- [PolicyTemplateList](#policytemplatelist)
 - [Preset](#preset)
 - [PresetList](#presetlist)
 - [Project](#project)
@@ -5715,6 +5719,189 @@ _Appears in:_
 
 
 
+### PolicyBinding
+
+
+
+PolicyBinding binds a PolicyTemplate to specific clusters/projects and
+optionally enables or disables it (if the template is not enforced).
+
+_Appears in:_
+- [PolicyBindingList](#policybindinglist)
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `PolicyBinding`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[PolicyBindingSpec](#policybindingspec)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `status` _[PolicyBindingStatus](#policybindingstatus)_ | {{< unsafe >}}{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### PolicyBindingList
+
+
+
+PolicyBindingList is a list of PolicyBinding objects.
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `PolicyBindingList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[PolicyBinding](#policybinding) array_ | {{< unsafe >}}Items refers to the list of PolicyBinding objects{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### PolicyBindingSpec
+
+
+
+PolicyBindingSpec describes how and where to apply the referenced PolicyTemplate.
+
+_Appears in:_
+- [PolicyBinding](#policybinding)
+
+| Field | Description |
+| --- | --- |
+| `policyTemplateRef` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectreference-v1-core)_ | {{< unsafe >}}PolicyTemplateRef references the PolicyTemplate by name{{< /unsafe >}} |
+| `namespacedPolicy` _boolean_ | {{< unsafe >}}NamespacedPolicy is a boolean to indicate if the policy binding is namespaced{{< /unsafe >}} |
+| `scope` _string_ | {{< unsafe >}}Scope specifies the scope of the policy.<br />Can be one of: global, project, or cluster{{< /unsafe >}} |
+| `target` _[PolicyTargetSpec](#policytargetspec)_ | {{< unsafe >}}Target specifies which clusters/projects to apply the policy to{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### PolicyBindingStatus
+
+
+
+PolicyBindingStatus is the status of the policy binding.
+
+_Appears in:_
+- [PolicyBinding](#policybinding)
+
+| Field | Description |
+| --- | --- |
+| `observedGeneration` _integer_ | {{< unsafe >}}ObservedGeneration is the generation observed by the controller.{{< /unsafe >}} |
+| `conditions` _[Condition](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#condition-v1-meta) array_ | {{< unsafe >}}Conditions represents the latest available observations of the policy binding's current state{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### PolicyTargetSpec
+
+
+
+PolicyTargetSpec indicates how to select projects/clusters in Kubermatic.
+
+_Appears in:_
+- [PolicyBindingSpec](#policybindingspec)
+
+| Field | Description |
+| --- | --- |
+| `projects` _[ResourceSelector](#resourceselector)_ | {{< unsafe >}}Projects is a list of projects to apply the policy to{{< /unsafe >}} |
+| `clusters` _[ResourceSelector](#resourceselector)_ | {{< unsafe >}}Clusters is a list of clusters to apply the policy to{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### PolicyTemplate
+
+
+
+PolicyTemplate defines a reusable blueprint of a Kyverno policy.
+
+_Appears in:_
+- [PolicyTemplateList](#policytemplatelist)
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `PolicyTemplate`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[PolicyTemplateSpec](#policytemplatespec)_ | {{< unsafe >}}{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### PolicyTemplateList
+
+
+
+PolicyTemplateList is a list of PolicyTemplate objects.
+
+
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `kubermatic.k8c.io/v1`
+| `kind` _string_ | `PolicyTemplateList`
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `items` _[PolicyTemplate](#policytemplate) array_ | {{< unsafe >}}Items refers to the list of PolicyTemplate objects{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### PolicyTemplateSpec
+
+
+
+
+
+_Appears in:_
+- [PolicyTemplate](#policytemplate)
+
+| Field | Description |
+| --- | --- |
+| `title` _string_ | {{< unsafe >}}Title is the title of the policy, specified as an annotation in the Kyverno policy{{< /unsafe >}} |
+| `description` _string_ | {{< unsafe >}}Description is the description of the policy, specified as an annotation in the Kyverno policy{{< /unsafe >}} |
+| `category` _string_ | {{< unsafe >}}Category is the category of the policy, specified as an annotation in the Kyverno policy{{< /unsafe >}} |
+| `severity` _string_ | {{< unsafe >}}Severity indicates the severity level of the policy{{< /unsafe >}} |
+| `visibility` _string_ | {{< unsafe >}}Visibility specifies where the policy is visible.<br /><br />Can be one of: global, project, or cluster{{< /unsafe >}} |
+| `projectID` _string_ | {{< unsafe >}}ProjectID is the ID of the project for which the policy template is created<br /><br />Relevant only for project visibility policies{{< /unsafe >}} |
+| `default` _boolean_ | {{< unsafe >}}Default determines whether we apply the policy (create policy binding){{< /unsafe >}} |
+| `enforced` _boolean_ | {{< unsafe >}}Enforced indicates whether this policy is mandatory<br /><br />If true, this policy is mandatory<br />A PolicyBinding referencing it cannot disable it{{< /unsafe >}} |
+| `rules` _[Rule](#rule) array_ | {{< unsafe >}}Rules is a list of Rule instances. A Policy contains multiple rules and<br />each rule can validate, mutate, or generate resources.{{< /unsafe >}} |
+| `applyRules` _[ApplyRulesType](#applyrulestype)_ | {{< unsafe >}}ApplyRules controls how rules in a policy are applied. Rule are processed in<br />the order of declaration. When set to `One` processing stops after a rule has<br />been applied i.e. the rule matches and results in a pass, fail, or error. When<br />set to `All` all rules in the policy are processed. The default is `All`.{{< /unsafe >}} |
+| `failurePolicy` _[FailurePolicyType](#failurepolicytype)_ | {{< unsafe >}}Deprecated, use failurePolicy under the webhookConfiguration instead.{{< /unsafe >}} |
+| `validationFailureAction` _[ValidationFailureAction](#validationfailureaction)_ | {{< unsafe >}}Deprecated, use validationFailureAction under the validate rule instead.{{< /unsafe >}} |
+| `validationFailureActionOverrides` _[ValidationFailureActionOverride](#validationfailureactionoverride) array_ | {{< unsafe >}}Deprecated, use validationFailureActionOverrides under the validate rule instead.{{< /unsafe >}} |
+| `emitWarning` _boolean_ | {{< unsafe >}}EmitWarning enables API response warnings for mutate policy rules or validate policy rules with validationFailureAction set to Audit.<br />Enabling this option will extend admission request processing times. The default value is "false".{{< /unsafe >}} |
+| `admission` _boolean_ | {{< unsafe >}}Admission controls if rules are applied during admission.<br />Optional. Default value is "true".{{< /unsafe >}} |
+| `background` _boolean_ | {{< unsafe >}}Background controls if rules are applied to existing resources during a background scan.<br />Optional. Default value is "true". The value must be set to "false" if the policy rule<br />uses variables that are only available in the admission review request (e.g. user name).{{< /unsafe >}} |
+| `schemaValidation` _boolean_ | {{< unsafe >}}Deprecated.{{< /unsafe >}} |
+| `webhookTimeoutSeconds` _integer_ | {{< unsafe >}}Deprecated, use webhookTimeoutSeconds under webhookConfiguration instead.{{< /unsafe >}} |
+| `mutateExistingOnPolicyUpdate` _boolean_ | {{< unsafe >}}Deprecated, use mutateExistingOnPolicyUpdate under the mutate rule instead{{< /unsafe >}} |
+| `generateExistingOnPolicyUpdate` _boolean_ | {{< unsafe >}}Deprecated, use generateExisting instead{{< /unsafe >}} |
+| `generateExisting` _boolean_ | {{< unsafe >}}Deprecated, use generateExisting under the generate rule instead{{< /unsafe >}} |
+| `useServerSideApply` _boolean_ | {{< unsafe >}}UseServerSideApply controls whether to use server-side apply for generate rules<br />If is set to "true" create & update for generate rules will use apply instead of create/update.<br />Defaults to "false" if not specified.{{< /unsafe >}} |
+| `webhookConfiguration` _[WebhookConfiguration](#webhookconfiguration)_ | {{< unsafe >}}WebhookConfiguration specifies the custom configuration for Kubernetes admission webhookconfiguration.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### PreAllocatedDataVolume
 
 
@@ -6102,6 +6289,26 @@ _Appears in:_
 | --- | --- |
 | `globalUsage` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}GlobalUsage is holds the current usage of resources for all seeds.{{< /unsafe >}} |
 | `localUsage` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}LocalUsage is holds the current usage of resources for the local seed.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### ResourceSelector
+
+
+
+ResourceSelector is a struct that contains the label selector, name, and selectAll fields.
+
+_Appears in:_
+- [PolicyTargetSpec](#policytargetspec)
+
+| Field | Description |
+| --- | --- |
+| `labelSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#labelselector-v1-meta)_ | {{< unsafe >}}LabelSelector is a label selector to select the resources (projects/clusters){{< /unsafe >}} |
+| `name` _string array_ | {{< unsafe >}}Name is a list of names to select the resources (projects/clusters){{< /unsafe >}} |
+| `selectAll` _boolean_ | {{< unsafe >}}SelectAll is a boolean to select all the resources (projects/clusters) from cluster admins.{{< /unsafe >}} |
 
 
 [Back to top](#top)
