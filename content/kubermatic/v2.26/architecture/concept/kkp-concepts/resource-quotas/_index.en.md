@@ -116,7 +116,7 @@ Furthermore, a project quota widget of the active project is visible in the dash
 ## Some Additional Information
 
 {{% notice note %}}
-**Note:** If multiple nodes are created in the same time there is a possibility of a race happening and the quota being exceeded.
+**Note:** If multiple nodes are created at the same time there is a possibility of a race happening and the quota being exceeded.
 As an example, there is a quota which CPU is filled 3/5, a user creates a cluster with 2 nodes, both using 2 CPU. There is a possibility
 of a race happening between calculating and adding the quota for the first machine and the second machine being created. So
 the end result could be that both nodes get created, and the quota ends up exceeded 7/5.
@@ -137,7 +137,7 @@ Nodes which join the cluster using other means than through KKP are not supporte
 
 ## Default Project Resource Quotas
 
-It is possible to set the a default resource quota for all projects which do not have a quota already set.
+It is possible to set the default resource quota for all projects which do not have a quota already set.
 
 In the KKP's KubermaticSettings `globalsettings` resource, there is a field in `spec.defaultQuota` through which
 default project resource quotas can be managed:
