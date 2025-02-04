@@ -25,7 +25,7 @@ The regular user with owner or editor privileges can create template in project 
 The admin user can create a template for every project in every scope. Template in `global` scope can be created only by admins.
 
 ## Credentials
-Creating cluster from the template requires credentials to authenticate with the cloud provider. During template creation
+Creating a cluster from the template requires credentials to authenticate with the cloud provider. During template creation,
 the credentials are stored in the secret which is assigned to the cluster template. The credential secret is independent.
 It's just a copy of credentials specified manually by the user or taken from the preset. Any credentials update must be
 processed on the cluster template.
@@ -33,5 +33,5 @@ processed on the cluster template.
 ## Creating and Using Templates
 Cluster templates can be created from scratch to pre-define the cluster configuration. The whole process is done in the UI wizard for the cluster creation.
 
-During the cluster creation process, the end user can pick template and specify the desired number of cluster instances.
-The cluster template doesn't create any link to the clusters. They work independently.
+During the cluster creation process, the end user can pick a template and specify the desired number of cluster instances.
+The cluster template doesn't create any links to the clusters. They work independently.

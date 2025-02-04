@@ -8,4 +8,4 @@ weight = 20
 
 ## KKP Security
 
-The information on this section entails how to ensure the security of your KKP deployments. It also include how to enable Pod Security Policy as well as securing your system services.
+The information on this section entails how to ensure the security of your KKP deployments. It also includes how to enable Pod Security Policy as well as securing your system services.

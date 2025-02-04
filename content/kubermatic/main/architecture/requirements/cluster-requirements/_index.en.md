@@ -49,7 +49,7 @@ If you have more than one network adapter, and your Kubernetes components are no
 ## Check Required Ports
 
 Please ensure that all nodes in a user cluster can communicate without restriction to ensure functionality of CNI/CSI and Kubernetes itself.
-In addition, user cluster nodes must be able to connect to the Seed cluster's nodeport-proxy. This depends on the [expose strategy]({{< ref "../../../tutorials-howtos/networking/expose-strategies" >}}.
+In addition, user cluster nodes must be able to connect to the Seed cluster's nodeport-proxy. This depends on the [expose strategy]({{< ref "../../../tutorials-howtos/networking/expose-strategies" >}}).
 
 It is recommended to make yourself familiar with the [concept of networking]({{< ref "../../../architecture/concept/kkp-concepts/networking" >}}) in KKP.
 
