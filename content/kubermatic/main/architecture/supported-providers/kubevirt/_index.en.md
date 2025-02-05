@@ -94,7 +94,10 @@ We allow to configure:
   * Set this field according to [supported operating systems]({{< ref "../../compatibility/os-support-matrix/" >}}) to make sure that users can select operating systems for their VMs.
 * `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
   * Pass names of KubeVirt storage classes that can be used from user clusters.
-* `namespacedMode(experimental):` - represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
+* `namespacedMode(experimental)` - Represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
+* `vmEvictionStrategy` - Indicates the strategy to follow when a node drain occurs. If not set the default value is External and the VM will be protected by a PDB. Currently, we only support two strategies, `External` or `LiveMigrate`.
+  * `LiveMigrate`: the VirtualMachineInstance will be migrated instead of being shutdown.
+  * `External`: the VirtualMachineInstance will be protected by a PDB and `vmi.Status.EvacuationNodeName` will be set on eviction. This is mainly useful for machine-controller which needs a way for VMI's to be blocked from eviction, yet inform machine-controller that eviction has been called on the VMI, so it can handle tearing the VMI down.
 
 {{% notice warning %}}
 The `namespacedMode` feature is highly experimental and should never be used in production environments. Additionally, enabling this mode in an existing KubeVirt setup utilized by KKP can cause serious issues, such as storage and networking incompatibilities.
