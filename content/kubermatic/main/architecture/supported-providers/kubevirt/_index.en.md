@@ -88,6 +88,7 @@ We allow to configure:
 * `customNetworkPolicies` - Network policies that are deployed on the infrastructure cluster (where VMs run).
   * Check [Network Policy documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource) to see available options in the spec.
   * Also check a [common services connectivity issue](#i-created-a-load-balancer-service-on-a-user-cluster-but-services-outside-cannot-reach-it) that can be solved by a custom network policy.
+* `ccmZoneAndRegionEnabled` - Indicates if region and zone labels from the cloud provider should be fetched. This field is enabled by default and should be disabled if the infra kubeconfig that is provided for KKP has no permission to access cluster role resources such as node objects.
 * `dnsConfig` and `dnsPolicy` - DNS config and policy which are set up on a guest. Defaults to `ClusterFirst`.
   * You should set those fields when you suffer from DNS loop or collision issue. [Refer to this section for more details.](#i-discovered-a-dns-collision-on-my-cluster-why-does-it-happen)
 * `images` - Images for Virtual Machines that are selectable from KKP dashboard.
