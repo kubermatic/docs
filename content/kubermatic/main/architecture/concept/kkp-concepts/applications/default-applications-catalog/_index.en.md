@@ -9,7 +9,7 @@ weight = 3
 
 Here is the list of the applications that come as part of the Default Applications Catalog offering from the KKP(EE) installation.
 
-* [AIKit]({{< ref "./aikit" >}})
+* [AIKit]({{< ref "./aikit/" >}})
 * [ArgoCD]({{< ref "./argocd/" >}})
 * [cert-manager]({{< ref "./cert-manager/" >}})
 * [Falco]({{< ref "./falco/" >}})
