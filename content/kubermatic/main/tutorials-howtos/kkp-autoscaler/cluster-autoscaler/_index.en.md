@@ -19,7 +19,13 @@ The Kubernetes Autoscaler in the KKP User cluster automatically scaled up/down w
 
 ## Installing Kubernetes Autoscaler on User Cluster
 
-You can install Kubernetes autoscaler on a running User cluster using the KKP addon mechanism, which is already built into the KKP Cluster dashboard.
+You can install the Kubernetes autoscaler on a running User cluster either by using the KKP addon mechanism or the KKP application which is part of the default catalog in enterprise edition. Both are already built into the KKP Cluster dashboard.
+
+### Installing kubernetes autoscaler as an application
+
+The kubernetes autoscaler is from kkp version 2.27 part of the [Default Applications Catalog]({{<ref "../../../architecture/concept/kkp-concepts/applications/default-applications-catalog/" >}}) offering from the KKP(EE) installation.
+
+### Installing kubernetes autoscaler as an addon [DEPRECATED]
 
 **Step 1**
 
