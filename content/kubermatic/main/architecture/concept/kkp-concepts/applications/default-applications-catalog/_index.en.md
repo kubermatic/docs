@@ -11,6 +11,7 @@ Here is the list of the applications that come as part of the Default Applicatio
 
 * [ArgoCD]({{< ref "./argocd/" >}})
 * [cert-manager]({{< ref "./cert-manager/" >}})
+* [Cluster-Autoscaler]({{< ref "./cluster-autoscaler/" >}})
 * [Falco]({{< ref "./falco/" >}})
 * [Flux2]({{< ref "./flux2/" >}})
 * [K8sGPT]({{< ref "./k8sgpt/" >}})
