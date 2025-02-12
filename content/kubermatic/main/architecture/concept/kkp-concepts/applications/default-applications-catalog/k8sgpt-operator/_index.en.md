@@ -8,7 +8,7 @@ weight = 11
 +++
 
 # What is K8sGPT-Operator?
-This Operator is designed to enable K8sGPT within a Kubernetes cluster. 
+This operator is designed to enable K8sGPT within a Kubernetes cluster. 
 
 It will allow you to create a custom resource that defines the behaviour and scope of a managed K8sGPT workload. 
 
