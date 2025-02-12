@@ -1,8 +1,8 @@
 +++
-title = "K8sGPT Application"
-linkTitle = "K8sGPT"
+title = "K8sGPT-Operator Application"
+linkTitle = "K8sGPT-Operator"
 enterprise = true
-date = 2024-01-16T12:57:00+02:00
+date = 2025-02-12T16:19:55+02:00
 weight = 11
 
 +++
