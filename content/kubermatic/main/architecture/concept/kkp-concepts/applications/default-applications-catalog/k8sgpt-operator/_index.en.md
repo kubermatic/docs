@@ -33,4 +33,4 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Application Values for K8sGPT-Operator Application](03-applicationvalues-k8sgpt-operator-app.png)
 
-To further configure the values.yaml, find more information under the [K8sGPT Helm chart](https://github.com/k8sgpt-ai/k8sgpt-operator/tree/main/chart/operator)
+To further configure the values.yaml, find more information under the [K8sGPT-Operator Helm chart](https://github.com/k8sgpt-ai/k8sgpt-operator/tree/main/chart/operator)
