@@ -7,21 +7,21 @@ weight = 1
 
 +++
 
-# What is AIKit?
+## What is AIKit?
+
 AIKit is a comprehensive platform to quickly get started to host, deploy, build and fine-tune large language models (LLMs).
 
 AIKit offers two main capabilities:
 
-**Inference**: AIKit uses LocalAI, which supports a wide range of inference capabilities and formats. LocalAI provides a drop-in replacement REST API that is OpenAI API compatible, so you can use any OpenAI API compatible client, such as Kubectl AI, Chatbot-UI and many more, to send requests to open LLMs!
+**1. Inference**: AIKit uses LocalAI, which supports a wide range of inference capabilities and formats. LocalAI provides a drop-in replacement REST API that is OpenAI API compatible, so you can use any OpenAI API compatible client, such as Kubectl AI, Chatbot-UI and many more, to send requests to open LLMs!
 
-**Fine Tuning**: AIKit offers an extensible fine tuning interface. It supports Unsloth for fast, memory efficient, and easy fine-tuning experience.
+**2. Fine Tuning**: AIKit offers an extensible fine tuning interface. It supports Unsloth for fast, memory efficient, and easy fine-tuning experience.
 
 For more information on AIKit, please refer to the [official documentation](https://sozercan.github.io/aikit/docs/)
 
-# How to deploy?
+## How to deploy?
 
-AIKit is available as part of the KKP's default application catalog. 
-It can be deployed to the user cluster either during the cluster creation or after the cluster is ready (existing cluster) from the Applications tab via UI.
+AIKit is available as part of the KKP's default application catalog. It can be deployed to the user cluster either during the cluster creation or after the cluster is ready (existing cluster) from the Applications tab via UI.
 
 * Select the AIKit application from the Application Catalog.
 
@@ -35,4 +35,4 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Application Values for AIKit Application](03-applicationvalues-aikit-app.png)
 
-To further configure the values.yaml, find more information on the [AIKit Helm Chart Configuration](https://github.com/sozercan/aikit/tree/main/charts/aikit)
+To further configure the `values.yaml`, find more information on the [AIKit Helm Chart Configuration](https://github.com/sozercan/aikit/tree/v0.16.0/charts/aikit)
