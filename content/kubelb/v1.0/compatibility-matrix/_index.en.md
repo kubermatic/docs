@@ -10,5 +10,4 @@ We are only testing our software with specific versions of the components, we ar
 
 | KubeLB | Kubermatic Kubernetes Platform | Gateway API | Envoy Gateway | Kubernetes |
 |--------|-------------------------------|-------------|---------------|------------|
-| v1.1   | v2.26, v2.27                 | v1.1.0      | v1.1.0        | v1.27+     |
 | v1.0   | v2.24, v2.25                 | Not Supported| Not Supported | v1.27+     |
