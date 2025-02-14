@@ -112,6 +112,22 @@ You can skip this step by pointing the command to a local directory that contain
 If a [custom addons image]({{< ref "../../architecture/concept/kkp-concepts/addons/#custom-addons" >}}) is used,
 you should pass the `--addons-image` flag instead to reference a non-standard addon image to extract images from.
 
+### Mirroring Images with KubermaticConfiguration
+
+The `mirrorImages` field in the `KubermaticConfiguration` allows you to specify additional container images to mirror during the `kubermatic-installer mirror-images` command, simplifying air-gapped setups.
+
+Example:
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+spec:
+  mirrorImages:
+    - nginx:1.21.6
+    - quay.io/kubermatic/kubelb-manager-ee:v1.1.0
+```
+
 ## Configuring KKP
 
 After having mirrored all required container images, it's time to adjust the KKP configuration
