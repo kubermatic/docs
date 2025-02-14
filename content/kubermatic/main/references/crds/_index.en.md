@@ -2734,6 +2734,7 @@ _Appears in:_
 | `providerNetwork` _[ProviderNetwork](#providernetwork)_ | {{< unsafe >}}Optional: ProviderNetwork describes the infra cluster network fabric that is being used{{< /unsafe >}} |
 | `ccmZoneAndRegionEnabled` _boolean_ | {{< unsafe >}}Optional: indicates if region and zone labels from the cloud provider should be fetched.{{< /unsafe >}} |
 | `vmEvictionStrategy` _[EvictionStrategy](#evictionstrategy)_ | {{< unsafe >}}VMEvictionStrategy describes the strategy to follow when a node drain occurs. If not set the default<br />value is External and the VM will be protected by a PDB.{{< /unsafe >}} |
+| `csiDriverOperator` _[KubeVirtCSIDriverOperator](#kubevirtcsidriveroperator)_ | {{< unsafe >}}CSIDriverOperator configures the kubevirt csi driver operator in the user cluster such as the csi driver images overwriting.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4252,6 +4253,7 @@ _Appears in:_
 KubeVirtCSIDriverOperator contains the different configurations for the kubevirt csi driver operator in the user cluster.
 
 _Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
 - [KubevirtCloudSpec](#kubevirtcloudspec)
 
 | Field | Description |
