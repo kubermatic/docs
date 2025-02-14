@@ -4245,6 +4245,24 @@ _Appears in:_
 
 
 
+### KubeVirtCSIDriverOperator
+
+
+
+KubeVirtCSIDriverOperator contains the different configurations for the kubevirt csi driver operator in the user cluster.
+
+_Appears in:_
+- [KubevirtCloudSpec](#kubevirtcloudspec)
+
+| Field | Description |
+| --- | --- |
+| `overwriteRegistry` _string_ | {{< unsafe >}}OverwriteRegistry overwrite the images registry that the operator pulls.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 
 
 ### KubeVirtImageSources
@@ -4844,6 +4862,7 @@ _Appears in:_
 | `imageCloningEnabled` _boolean_ | {{< unsafe >}}ImageCloningEnabled flag enable/disable cloning for a cluster.{{< /unsafe >}} |
 | `vpcName` _string_ | {{< unsafe >}}VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt.{{< /unsafe >}} |
 | `subnetName` _string_ | {{< unsafe >}}SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).{{< /unsafe >}} |
+| `csiDriverOperator` _[KubeVirtCSIDriverOperator](#kubevirtcsidriveroperator)_ | {{< unsafe >}}CSIDriverOperator configures the kubevirt csi driver operator.{{< /unsafe >}} |
 
 
 [Back to top](#top)
