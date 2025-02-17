@@ -4461,6 +4461,7 @@ _Appears in:_
 | `versions` _[KubermaticVersioningConfiguration](#kubermaticversioningconfiguration)_ | {{< unsafe >}}Versions configures the available and default Kubernetes versions and updates.{{< /unsafe >}} |
 | `verticalPodAutoscaler` _[KubermaticVPAConfiguration](#kubermaticvpaconfiguration)_ | {{< unsafe >}}VerticalPodAutoscaler configures the Kubernetes VPA integration.{{< /unsafe >}} |
 | `proxy` _[KubermaticProxyConfiguration](#kubermaticproxyconfiguration)_ | {{< unsafe >}}Proxy allows to configure Kubermatic to use proxies to talk to the<br />world outside of its cluster.{{< /unsafe >}} |
+| `mirrorImages` _string array_ | {{< unsafe >}}MirrorImages is a list of container images that will be mirrored with the `kubermatic-installer  mirror-images` command.<br />Each entry should be in the format "repository:tag".{{< /unsafe >}} |
 
 
 [Back to top](#top)
