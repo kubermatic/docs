@@ -99,6 +99,8 @@ We allow to configure:
 * `vmEvictionStrategy` - Indicates the strategy to follow when a node drain occurs. If not set the default value is External and the VM will be protected by a PDB. Currently, we only support two strategies, `External` or `LiveMigrate`.
   * `LiveMigrate`: the VirtualMachineInstance will be migrated instead of being shutdown.
   * `External`: the VirtualMachineInstance will be protected by a PDB and `vmi.Status.EvacuationNodeName` will be set on eviction. This is mainly useful for machine-controller which needs a way for VMI's to be blocked from eviction, yet inform machine-controller that eviction has been called on the VMI, so it can handle tearing the VMI down.
+* `csiDriverOperator` - Contains the KubeVirt CSI Driver Operator configurations, where users can override the default configurations of the csi driver.
+  *  `overwriteRegistry`: overwrite the images registry for the csi driver daemonset that runs in the user cluster.
 
 {{% notice warning %}}
 The `namespacedMode` feature is highly experimental and should never be used in production environments. Additionally, enabling this mode in an existing KubeVirt setup utilized by KKP can cause serious issues, such as storage and networking incompatibilities.
