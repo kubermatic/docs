@@ -52,6 +52,7 @@ velero:
   backupsEnabled: true
   snapshotsEnabled: true
 ```
+
 Additionally, the node-agent daemonset is now disabled by default. If you were using volume backups (velero.snapshotsEnabled: true), you also need to enable it. This ensures volume backups function as expected.
 
 ```yaml
@@ -61,11 +62,13 @@ velero:
 
 ### K8sgpt-operator
 
-K8sgpt-operator has been introduced to replace the now deprecated `k8sgpt(non-operator)` application. K8sgpt application will be removed in the future releases.
+K8sgpt-operator has been introduced to replace the now deprecated `k8sgpt(non-operator)` application. The k8sgpt application will be removed in the future releases.
 
 ### Environment Variable Change for Equinix Metal
 
 KKP now uses `METAL_` environment variables instead of `PACKET_` for machine-controller and KubeOne. Ensure any configurations referencing PACKET_ variables are updated accordingly.
+
+In general this should not require any actions on the administrator part.
 
 ### API Changes
 
@@ -73,7 +76,7 @@ KKP now uses `METAL_` environment variables instead of `PACKET_` for machine-con
   * Added `spec.componentsOverride.prometheus` to allow overriding Prometheus replicas and tolerations.
 
 * Container Image Tagging 
-  * Change Tagged KKP releases will no longer tag KKP images twice (with the Git tag and the Git hash), but only once with the Git tag. This ensures that existing hash-based container images do not suddenly change when a Git tag is set and the release job is run. Users of tagged KKP releases are not affected by this change.
+  * Tagged KKP releases will no longer tag KKP images twice (with the Git tag and the Git hash), but only once with the Git tag. This ensures that existing hash-based container images do not suddenly change when a Git tag is set and the release job is run. Users of tagged KKP releases are not affected by this change.
 
 ## Upgrade Procedure
 
