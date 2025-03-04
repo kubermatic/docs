@@ -94,13 +94,24 @@ We allow to configure:
 * `images` - Images for Virtual Machines that are selectable from KKP dashboard.
   * Set this field according to [supported operating systems]({{< ref "../../compatibility/os-support-matrix/" >}}) to make sure that users can select operating systems for their VMs.
 * `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
-  * Pass names of KubeVirt storage classes that can be used from user clusters.
+  * `isDefaultClass` - If true, the created StorageClass in the tenant cluster will be annotated with.
+  * `labels` - Is a map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services.
+  * `regions` - Represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters to span multiple regions.
+  * `volumeBindingMode` - indicates how PersistentVolumeClaims should be provisioned and bound. When unset, VolumeBindingImmediate is used.
+  * `volumeProvisioner` - The field specifies whether a storage class will be utilized by the infra cluster csi driver where the Containerized Data Importer (CDI) can use to create VM disk images or by the KubeVirt CSI Driver to provision volumes in the user cluster. If not specified, the storage class can be used as a VM disk image or user clusters volumes.
+    * `infra-csi-driver` - When set in the infraStorageClass, the storage class can be listed in the UI while creating the machine deployments and won't be available in the user cluster.
+    * `kubevirt-csi-driver` - When set in the infraStorageClass, the storage class won't be listed in the UI and will be available in the user cluster.
+  * `zones` - Represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones for increased availability.
 * `namespacedMode(experimental)` - Represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
 * `vmEvictionStrategy` - Indicates the strategy to follow when a node drain occurs. If not set the default value is External and the VM will be protected by a PDB. Currently, we only support two strategies, `External` or `LiveMigrate`.
   * `LiveMigrate`: the VirtualMachineInstance will be migrated instead of being shutdown.
   * `External`: the VirtualMachineInstance will be protected by a PDB and `vmi.Status.EvacuationNodeName` will be set on eviction. This is mainly useful for machine-controller which needs a way for VMI's to be blocked from eviction, yet inform machine-controller that eviction has been called on the VMI, so it can handle tearing the VMI down.
 * `csiDriverOperator` - Contains the KubeVirt CSI Driver Operator configurations, where users can override the default configurations of the csi driver.
   *  `overwriteRegistry`: overwrite the images registry for the csi driver daemonset that runs in the user cluster.
+
+{{% notice note %}}
+The `infraStorageClasses` pass names of KubeVirt storage classes that can be used from user clusters.
+{{% /notice %}}
 
 {{% notice warning %}}
 The `namespacedMode` feature is highly experimental and should never be used in production environments. Additionally, enabling this mode in an existing KubeVirt setup utilized by KKP can cause serious issues, such as storage and networking incompatibilities.
