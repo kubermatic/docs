@@ -19,6 +19,8 @@ In KubeLB, we treat the admins of management cluster as the Platform provider. H
 
 ### Setup
 
+{{% notice warning %}} Ensure that Gateway API is enabled for the cluster. Please set `kubelb.enableGatewayAPI` to `true` in the `values.yaml`. Gateway API has been disabled by default as due to missing Gateway API CRDs the controller will crash and won't start. {{% /notice %}}
+
 Kubermatic's default recommendation is to use Gateway API and use [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation. Install Envoy Gateway by following this [guide](https://gateway.envoyproxy.io/docs/install/install-helm/) or any other Gateway API implementation of your choice.
 
 Ensure that `GatewayClass` exists in the management cluster. A minimal configuration for GatewayClass is as follows:
@@ -32,11 +34,44 @@ spec:
   controllerName: gateway.envoyproxy.io/gatewayclass-controller
 ```
 
+#### KubeLB Manager Configuration
+
+Update the KubeLB Manager configuration to use the Gateway Class name as `eg` either at a Global or Tenant level:
+
+#### Global
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+  namespace: kubelb
+spec:
+  gatewayAPI:
+    # Name of the Gateway Class.
+    class: "eg"
+```
+
+#### Tenant
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Tenant
+metadata:
+  name: shroud
+spec:
+  gatewayAPI:
+    # Name of the Gateway Class.
+    class: "eg"
+```
+
+**Leave it empty if you named your Gateway Class as `kubelb`**
+
 ### Usage with KubeLB
 
 #### Gateway resource
 
-Once you have created the GatewayClass, the next resource that is required is the Gateway.  In Enterprise edition, users can set the limit of Gateways to 0 to shift the role of "Platform Operator" to the "Platform Provider". In other case, by default, the Platform Operator role is assigned to the tenants. By setting the limit to 0, Gateways are supposed to be created in the management cluster by the Platform Provider. Otherwise this resource below should be created by the tenants.
+Once you have created the GatewayClass, the next resource that is required is the Gateway. For CE version, the Gateway needs to be created in the tenant cluster. However, in Enterprise edition, the Gateway can exist in the management cluster or the tenant cluster.  In Enterprise edition, users can set the limit of Gateways to 0 to shift the role of "Platform Operator" to the "Platform Provider". Otherwise, by default, the Platform Operator role is assigned to the tenants.
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -51,7 +86,7 @@ spec:
       port: 80
 ```
 
-If created in the management cluster directly then the `gatewayClassName` should be set to the gateway class configured in the management cluster. When created in tenant cluster since the decision of the gateway class is made by the management cluster, the `gatewayClassName` should be set to `kubelb`.
+It is recommended to create the Gateway in tenant cluster directly since the Gateway Object needs to be modified regularly to attach new routes etc. In cases where the Gateway exists in management cluster, set the `use-gateway-class` argument for CCM to false.
 
 {{% notice warning %}}
 Community Edition only one gateway is allowed per tenant and that has to be named `kubelb`.
