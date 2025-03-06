@@ -180,8 +180,7 @@ metadata:
   namespace: kubelb
 spec:
   gatewayAPI:
-    # The class to use for Ingress resources in the management cluster
-    class: "nginx"
+    class: "eg"
     disable: false
     # Enterprise Edition Only
     gateway:

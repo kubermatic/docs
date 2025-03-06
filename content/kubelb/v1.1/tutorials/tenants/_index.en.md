@@ -19,7 +19,7 @@ For details, go through [KKP integration details]({{< relref "../../tutorials/kk
 
 For usage outside of KKP please follow the guide along. This guide assumes that the KubeLB manager cluster has been configured by following the [installation guide](../../installation/).
 
-### KubeLB Manager configuration
+### KubeLB Tenant
 
 With KubeLB v1.1, the process to register a new tenant has been simplified. Instead of running scripts to register a new tenant, the user can now create a `Tenant` CRD.
 
