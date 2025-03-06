@@ -2204,7 +2204,7 @@ _Appears in:_
 | `nodePortProxyEnvoy` _[NodeportProxyComponent](#nodeportproxycomponent)_ | {{< unsafe >}}NodePortProxyEnvoy configures the per-cluster nodeport-proxy-envoy that is deployed if<br />the `LoadBalancer` expose strategy is used. This is not effective if a different expose<br />strategy is configured.{{< /unsafe >}} |
 | `konnectivityProxy` _[KonnectivityProxySettings](#konnectivityproxysettings)_ | {{< unsafe >}}KonnectivityProxy configures konnectivity-server and konnectivity-agent components.{{< /unsafe >}} |
 | `userClusterController` _[ControllerSettings](#controllersettings)_ | {{< unsafe >}}UserClusterController configures the KKP usercluster-controller deployed as part of the cluster control plane.{{< /unsafe >}} |
-| `operatingSystemManager` _[ControllerSettings](#controllersettings)_ | {{< unsafe >}}OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller).{{< /unsafe >}} |
+| `operatingSystemManager` _[OSMControllerSettings](#osmcontrollersettings)_ | {{< unsafe >}}OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller).{{< /unsafe >}} |
 | `coreDNS` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}CoreDNS configures CoreDNS deployed as part of the cluster control plane.{{< /unsafe >}} |
 
 
@@ -2414,6 +2414,7 @@ _Appears in:_
 
 _Appears in:_
 - [ComponentSettings](#componentsettings)
+- [OSMControllerSettings](#osmcontrollersettings)
 
 | Field | Description |
 | --- | --- |
@@ -2910,6 +2911,7 @@ _Appears in:_
 - [APIServerSettings](#apiserversettings)
 - [ComponentSettings](#componentsettings)
 - [ControllerSettings](#controllersettings)
+- [OSMControllerSettings](#osmcontrollersettings)
 
 | Field | Description |
 | --- | --- |
@@ -4896,6 +4898,7 @@ _Appears in:_
 
 _Appears in:_
 - [ControllerSettings](#controllersettings)
+- [OSMControllerSettings](#osmcontrollersettings)
 
 | Field | Description |
 | --- | --- |
@@ -5521,6 +5524,28 @@ _Appears in:_
 | `experimentalEnableMutation` _boolean_ | {{< unsafe >}}Optional: Enables experimental mutation in Gatekeeper.{{< /unsafe >}} |
 | `controllerResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Optional: ControllerResources is the resource requirements for user cluster gatekeeper controller.{{< /unsafe >}} |
 | `auditResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Optional: AuditResources is the resource requirements for user cluster gatekeeper audit.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### OSMControllerSettings
+
+
+
+
+
+_Appears in:_
+- [ComponentSettings](#componentsettings)
+
+| Field | Description |
+| --- | --- |
+| `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+| `leaderElection` _[LeaderElectionSettings](#leaderelectionsettings)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `proxy` _[ProxySettings](#proxysettings)_ | {{< unsafe >}}ProxySettings defines optional flags for OperatingSystemManager deployment to allow<br />setting specific proxy configurations for specific user clusters.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6215,6 +6240,7 @@ and nodes.
 
 _Appears in:_
 - [NodeSettings](#nodesettings)
+- [OSMControllerSettings](#osmcontrollersettings)
 - [SeedSpec](#seedspec)
 
 | Field | Description |
