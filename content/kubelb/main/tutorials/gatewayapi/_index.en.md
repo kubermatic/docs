@@ -71,7 +71,7 @@ spec:
 
 #### Gateway resource
 
-Once you have created the GatewayClass, the next resource that is required is the Gateway. For CE version, the Gateway needs to be created in the user cluster. However, in Enterprise edition, the Gateway can exist in the management cluster or the user cluster.  In Enterprise edition, users can set the limit of Gateways to 0 to shift the role of "Platform Operator" to the "Platform Provider". Otherwise, by default, the Platform Operator role is assigned to the tenants.
+Once you have created the GatewayClass, the next resource that is required is the Gateway. For CE version, the Gateway needs to be created in the tenant cluster. However, in Enterprise edition, the Gateway can exist in the management cluster or the tenant cluster.  In Enterprise edition, users can set the limit of Gateways to 0 to shift the role of "Platform Operator" to the "Platform Provider". Otherwise, by default, the Platform Operator role is assigned to the tenants.
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -86,7 +86,7 @@ spec:
       port: 80
 ```
 
-It is recommended to create the Gateway in user cluster directly since the Gateway Object needs to be modified regularly to attach new routes etc. In cases where the Gateway exists in management cluster, set the `use-gateway-class` argument for CCM to false.
+It is recommended to create the Gateway in tenant cluster directly since the Gateway Object needs to be modified regularly to attach new routes etc. In cases where the Gateway exists in management cluster, set the `use-gateway-class` argument for CCM to false.
 
 {{% notice warning %}}
 Community Edition only one gateway is allowed per tenant and that has to be named `kubelb`.
