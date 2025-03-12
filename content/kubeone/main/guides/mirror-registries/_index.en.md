@@ -105,7 +105,7 @@ docker.io registry introduced pretty low rate limits for unauthenticated request
 
 ### Configuring Public Pull-through Caching Proxy
 
-Google has launched cached public images proxy [mirror.gcr.io](https://cloud.google.com/artifact-registry/docs/pull-cached-dockerhub-images). Let's configure that one.
+Google has launched caching public images proxy [mirror.gcr.io](https://cloud.google.com/artifact-registry/docs/pull-cached-dockerhub-images). Let's configure that one.
 
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
