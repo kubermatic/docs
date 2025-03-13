@@ -46,7 +46,7 @@ spec:
         git:
           path: charts/prometheus
           ref:
-            branch: master
+            branch: main
           remote: https://github.com/prometheus-community/helm-charts
     version: 0.0.0-dev
 ```
@@ -242,6 +242,7 @@ spec:
 ```
 
 ## ApplicationDefinition Reference
+
 **The following is an example of ApplicationDefinition, showing all the possible options**.
 
 ```yaml

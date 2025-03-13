@@ -42,7 +42,7 @@ spec:
         git:
           path: charts/prometheus
           ref:
-            branch: master
+            branch: main
           remote: https://github.com/prometheus-community/helm-charts
     version: 0.0.0-dev
 ```
