@@ -34,7 +34,7 @@ spec:
             docker.io:
               # List of registry mirrors to use
               mirrors:
-                - mirror.gcr.io```
+                - mirror.gcr.io
 ```
 
 See more for the [full example of Seed][seed-example] with comments and all possible
