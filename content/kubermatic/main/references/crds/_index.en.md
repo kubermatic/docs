@@ -4181,6 +4181,7 @@ _Appears in:_
 | --- | --- |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources configure limits/requests for Konnectivity components.{{< /unsafe >}} |
 | `keepaliveTime` _string_ | {{< unsafe >}}KeepaliveTime represents a duration of time to check if the transport is still alive.<br />The option is propagated to agents and server.<br />Defaults to 1m.{{< /unsafe >}} |
+| `args` _string array_ | {{< unsafe >}}Args configures arguments (flags) for the Konnectivity deployments.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6517,7 +6518,7 @@ _Appears in:_
 
 
 
-Seed is the type representing a Seed cluster. Seed clusters host the the control planes
+Seed is the type representing a Seed cluster. Seed clusters host the control planes
 for KKP user clusters.
 
 _Appears in:_
@@ -6624,7 +6625,7 @@ _Appears in:_
 
 
 
-The spec for a seed cluster.
+SeedSpec represents the spec for a seed cluster.
 
 _Appears in:_
 - [Seed](#seed)
