@@ -35,7 +35,7 @@ of provided software and therefore releases updates regularly that also include 
 | monitoring/grafana             | 10.4.1                         |
 | monitoring/helm-exporter       | 1.2.16                         |
 | monitoring/karma               | 0.120                          |
-| monitoring/kube-state-metrics  | 2.12.0                         |
+| monitoring/kube-state-metrics  | 2.15.0                         |
 | monitoring/node-exporter       | 1.7.0                          |
 | monitoring/prometheus          | 2.51.1                         |
 | nginx-ingress-controller       | 1.11.2                         |
