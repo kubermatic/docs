@@ -56,6 +56,7 @@ For dex this has some implications. With this configuration a token is generated
 ## API server Overload Leading to Instability in Seed due to Konnectivity
 
 Issue: https://github.com/kubermatic/kubermatic/issues/13321
+
 Status: Fixed
 
 An issue has been identified where the overloaded API server of a user cluster managed by a Seed can impact the stability of API servers in all other user clusters managed by the same Seed.
