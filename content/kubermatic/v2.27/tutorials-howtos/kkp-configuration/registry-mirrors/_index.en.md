@@ -9,7 +9,7 @@ weight = 8
 
 `docker.io` registry introduced pretty low rate limits for unauthenticated
 requests. To ensure uninterrupted workloads it's possible to configure the
-`Seed` in a way that docker.io registry will be used throguth the caching proxy.
+`Seed` in a way that docker.io registry will be used through the caching proxy.
 
 ### Configuring Public Pull-through Caching Proxy
 
