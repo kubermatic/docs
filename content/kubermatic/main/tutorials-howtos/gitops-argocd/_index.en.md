@@ -11,7 +11,7 @@ This is an Alpha version of Kubermatic management via GitOps which can become th
 
 
 ## Need of GitOps solution
-Kubermatic Kubernetes Platform is a versatile solution to create and manage Kubernetes clusters (user-clusters) a plethora of cloud providers and on-prem virtualizaton platforms. But this flexibility also means that there is a good amount of moving parts. KKP provides various tools to manage user-clusters across various regions and cloudss.
+Kubermatic Kubernetes Platform is a versatile solution to create and manage Kubernetes clusters (user-clusters) a plethora of cloud providers and on-prem virtualizaton platforms. But this flexibility also means that there is a good amount of moving parts. KKP provides various tools to manage user-clusters across various regions and clouds.
 
 This is why, if we utilize a GitOps solution to manage KKP and its upgrades, KKP administrators would have better peace of mind. We have now provided [an alpha release of ArgoCD based management of KKP master and seeds](https://github.com/kubermatic/kubermatic/tree/main/charts/gitops/kkp-argocd-apps).
 
