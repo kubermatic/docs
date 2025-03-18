@@ -11,6 +11,17 @@ weight = 70
   - [Enterprise Edition](#enterprise-edition)
 - [v1.1.1](#v111)
 - [v1.1.2](#v112)
+- [v1.1.3](#v113)
+
+## v1.1.3
+
+**GitHub release: [v1.1.3](https://github.com/kubermatic/kubelb/releases/tag/v1.1.3)**
+
+### Bug or Regression
+
+- Fix a bug where service annotations were not being propagated. ([#82](https://github.com/kubermatic/kubelb/pull/82))
+
+**Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.1.2...v1.1.3>
 
 ## v1.1.2
 
