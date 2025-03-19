@@ -1,5 +1,5 @@
 +++
-title = "Upgrading to KKP 2.28"
+title = "[DRAFT] Upgrading to KKP 2.28"
 date = 2025-03-17T00:00:00+02:00
 weight = 10
 +++
@@ -20,19 +20,23 @@ This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) 
 Please review [known issues]({{< ref "../../../architecture/known-issues/" >}}) before upgrading to understand if any issues might affect you.
 {{% /notice %}}
 
-### Node Exporter 1.9 (Seed MLA)
+### Node Exporter Upgrade (Seed MLA)
 
-KKP 2.28 removes the custom Helm chart and instead now reuses the official [upstream chart](https://prometheus-community.github.io/helm-charts).
+KKP 2.28 removes the custom Helm chart for Node Exporter and instead now reuses the official [upstream Helm chart](https://prometheus-community.github.io/helm-charts).
 
-##### Migration Procedure
+#### Migration Procedure
 
-The top-level key `nodeExporter` is replaced with `node-exporter`, the `values.yaml` should be updated for this change before proceeding with the upgrade.
+The following actions are required for migration before performing the upgrade:
+- Replace the top-level key `nodeExporter` with `node-exporter` in the `values.yaml`
+- The key `nodeExporter.rbacProxy` is being removed. For adjusting the kubeRBACProxy container configuration, kindly adjust the values under `node-exporter.kubeRBACProxy` key in `values.yaml` for any customization in place.
 
-The key `nodeExporter.rbacProxy` is being removed. For adjusting the kubeRBACProxy container configuration, kindly adjust the values under `node-exporter.kubeRBACProxy` key in `values.yaml` for any customization in place.
+Once the above adjustments are done and if you are using it to deploy the Seed MLA components which includes node-exporter, then the KKP `kubermatic-installer` command can be used to perform the migration/upgrade of the existing node-exporter setup to the upstream node-exporter helm chart
 
-Migration will be taken care by `kubermatic-installer`, if you are using it to deploy the `seed-mla` components which includes node-exporter.
+```bash
+./kubermatic-installer deploy seed-mla --helm-values values.yaml
+```
 
-Note: Below action required only if you are installing it in GitOps way, before upgrading you must delete the existing Helm release.
+**Note: The action below is only required if you are installing MLA using GitOps. Before upgrading, you must delete the existing Helm release.**
 
 ```bash
 helm --namespace monitoring delete node-exporter
