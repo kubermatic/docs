@@ -28,9 +28,9 @@ KKP 2.28 removes the custom Helm chart for Node Exporter and instead now reuses 
 
 The following actions are required for migration before performing the upgrade:
 - Replace the top-level key `nodeExporter` with `node-exporter` in the `values.yaml`
-- The key `nodeExporter.rbacProxy` is being removed. For adjusting the kubeRBACProxy container configuration, kindly adjust the values under `node-exporter.kubeRBACProxy` key in `values.yaml` for any customization in place.
+- The key `nodeExporter.rbacProxy` has been removed.  Use `node-exporter.kubeRBACProxy` instead to configure kube-rbac-proxy.
 
-Once the above adjustments are done and if you are using it to deploy the Seed MLA components which includes node-exporter, then the KKP `kubermatic-installer` command can be used to perform the migration/upgrade of the existing node-exporter setup to the upstream node-exporter helm chart
+Once the above adjustments have been made. If you are using `kubermatic-installer` for the Seed MLA installation, then it will take care of removing the resources for the deprecated node-exporter with the new upstream one by itself.
 
 ```bash
 ./kubermatic-installer deploy seed-mla --helm-values values.yaml
