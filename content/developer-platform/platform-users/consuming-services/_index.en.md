@@ -54,7 +54,7 @@ with [kcp on the Command Line]({{< relref "../../tutorials/kcp-command-line" >}}
 
 First you need to get the kubeconfig for accessing your kcp workspaces. Once you have set your
 kubeconfig up, make sure you're in the correct namespace by using
-`kubectl ws <path to your workspace>`. Using `kubectl ws .` if you're unsure where you're at.
+`kubectl ws <path to your workspace>`. Use `kubectl ws .` if you're unsure where you're at.
 
 To enable a Service, use `kcp bind apiexport` and specify the path to and name of the `APIExport`.
 
@@ -63,7 +63,7 @@ To enable a Service, use `kcp bind apiexport` and specify the path to and name o
 kubectl kcp bind apiexport root:my-org:my.fancy.api
 ```
 
-Without the plugin, you can create an `APIBinding` manually, simple `kubectl apply` this:
+Without the plugin, you can create an `APIBinding` manually, simply `kubectl apply` this:
 
 ```yaml
 apiVersion: apis.kcp.io/v1alpha1

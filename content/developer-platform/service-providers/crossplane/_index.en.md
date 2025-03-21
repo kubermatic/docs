@@ -7,7 +7,7 @@ weight = 2
 The guide describes the process of making a resource (usually defined by a CustomResourceDefinition)
 of one Kubernetes cluster (the "service cluster" or "local cluster") available for use in the KDP
 platform (the "platform cluster" or "KDP workspaces"). This involves setting up a KDP Service and
-then installing the KDP Servlet and defining `PublishedResources` in the local cluster.
+then installing the kcp api-syncagent and defining `PublishedResources` in the local cluster.
 
 All of the documentation and API types are worded and named from the perspective of a service owner,
 the person(s) who own a service and want to make it available to consumers in the KDP platform.
@@ -57,7 +57,7 @@ However, you will most likely apply more configuration and use features describe
 
 ### Filtering
 
-The Servlet can be instructed to only work on a subset of resources in the KDP platform. This
+The api-syncagent can be instructed to only work on a subset of resources in the KDP platform. This
 can be restricted by namespace and/or label selector.
 
 ```yaml
@@ -87,8 +87,8 @@ can be projected, i.e. changed between the local service cluster and the KDP pla
 for example rename `Certificate` from cert-manager to `Zertifikat` inside the platform.
 
 Note that the API group of all published resources is always changed to the one defined in the
-KDP `Service` object (meaning 1 Servlet serves all the published resources under the same API group).
-That is why changing the API group cannot be configured in the projection.
+KDP `Service` object (meaning 1 api-syncagent serves all the published resources under the same API
+group). That is why changing the API group cannot be configured in the projection.
 
 Besides renaming the Kind and Version, dependent fields like Plural, ShortNames and Categories
 can be adjusted to fit the desired naming scheme in the platform. The Plural name is computed
@@ -121,9 +121,9 @@ objects. To change the contents, use external solutions like Crossplane to trans
 
 ### Naming
 
-Since the Servlet ingests resources from many different Kubernetes clusters (workspaces) and combines
-them onto a single cluster, resources have to be renamed to prevent collisions and also follow the
-conventions of whatever tooling ultimately processes the resources locally.
+Since the api-syncagent ingests resources from many different Kubernetes clusters (workspaces) and
+combines them onto a single cluster, resources have to be renamed to prevent collisions and also
+follow the conventions of whatever tooling ultimately processes the resources locally.
 
 The renaming is configured in `spec.naming`. In there, renaming patterns are configured, where
 pre-defined placeholders can be used, for example `foo-$placeholder`. The following placeholders
@@ -169,10 +169,10 @@ work as the source of truth.
 
 At the moment, only `ConfigMaps` and `Secrets` are allowed related resource kinds.
 
-For each related resource, the servlet needs to be told the name/namespace. This is done by selecting
-a field in the main resource (for a `Certificate` this would mean `spec.secretName`). Both name and
-namespace need to be part of the main object (or be fixed values, like a hardcoded `kube-system`
-namespace).
+For each related resource, the api-syncagent needs to be told the name/namespace. This is done by
+selecting a field in the main resource (for a `Certificate` this would mean `spec.secretName`). Both
+name and namespace need to be part of the main object (or be fixed values, like a hardcoded
+`kube-system` namespace).
 
 The path expressions for name and namespace are evaluated against the main object on either side
 to determine their values. So if you had a `Certificate` in your workspace with
@@ -180,7 +180,7 @@ to determine their values. So if you had a `Certificate` in your workspace with
 rewritten/mutated `spec.secretName = "jk23h4wz47329rz2r72r92-cert"` (e.g. to prevent naming
 collisions), the expression `spec.secretName` would yield `"my-cert"` for the name in the workspace
 and `"jk...."` as the name on the service cluster. Once the object exists with that name on the
-originating side, the servlet will begin to sync it to the other side.
+originating side, the api-syncagent will begin to sync it to the other side.
 
 ```yaml
 apiVersion: services.kdp.k8c.io/v1alpha1
@@ -215,7 +215,7 @@ spec:
           path: spec.secretName
 
         # namespace part is optional; if not configured,
-        # servlet assumes the same namespace as the owning resource
+        # api-syncagent assumes the same namespace as the owning resource
         #
         # namespace:
         #   path: spec.secretName
@@ -238,7 +238,7 @@ spec:
 
 This combination of `Service` and `PublishedResource` make cert-manager certificates available in
 kcp. The `Service` needs to be created in a workspace, most likely in an organization workspace.
-The `PublishedResource` is created wherever the Servlet and cert-manager are running.
+The `PublishedResource` is created wherever the api-syncagent and cert-manager are running.
 
 ```yaml
 apiVersion: core.kdp.k8c.io/v1alpha1
@@ -284,7 +284,7 @@ spec:
           # annotation).
           path: spec.secretName
         # namespace part is optional; if not configured,
-        # servlet assumes the same namespace as the owning resource
+        # api-syncagent assumes the same namespace as the owning resource
         # namespace:
         #   path: spec.secretName
         #   regex:
@@ -299,25 +299,25 @@ The following sections go into more details of the behind the scenes magic.
 ### Synchronization
 
 Even though the whole configuration is written from the standpoint of the service owner, the actual
-synchronization logic considers the platform side as the canonical source of truth. The Servlet
+synchronization logic considers the platform side as the canonical source of truth. The api-syncagent
 continuously tries to make the local objects look like the ones in the platform, while pushing
 status updates back into the platform (if the given `PublishedResource` (i.e. CRD) has a `status`
 subresource enabled).
 
 ### Local <-> Remote Connection
 
-The Servlet tries to keep KDP-related metadata on the service cluster, away from the consumers. This
-is both to prevent vandalism and to hide implementation details.
+The api-syncagent tries to keep KDP-related metadata on the service cluster, away from the consumers.
+This is both to prevent vandalism and to hide implementation details.
 
 To ensure stability against future changes, once KDP has determined how a local object should be
 named, it will remember this decision in its metadata. This is so that on future reconciliations,
 the (potentially costly, but probably not) renaming logic does not need to be applied again. This
-allows the Servlet to change defaults and also allows the service owner to make changes to the
+allows the api-syncagent to change defaults and also allows the service owner to make changes to the
 naming rules without breaking existing objects.
 
 Since we do not want to store metadata on the platform side, we instead rely on label selectors on
 the local objects. Each local object has a label for the remote cluster name, namespace and object
-name, and when trying to find the matching local object, the Servlet simply does a label-based
+name, and when trying to find the matching local object, the api-syncagent simply does a label-based
 search.
 
 There is currently no sync-related metadata available on source objects, as this would either be
@@ -338,10 +338,10 @@ The sync loop can be divided into 5 parts:
 
 #### Phase 1: Find the Local Object
 
-For this, as mentioned in the connection chapter above, the Servlet tries to follow label selectors
-on the local cluster. This helps prevent cluttering with consumer workspaces with KDP metadata.
-If no object is found to match the labels, that's fine and the loop will continue with phase 2,
-in which a possible Conflict error (if labels broke) is handled gracefully.
+For this, as mentioned in the connection chapter above, the api-syncagent tries to follow label
+selectors on the local cluster. This helps prevent cluttering with consumer workspaces with KDP
+metadata. If no object is found to match the labels, that's fine and the loop will continue with
+phase 2, in which a possible Conflict error (if labels broke) is handled gracefully.
 
 The remote object in the workspace becomes the `source object` and its local equivalent is called
 the `destination object`.
@@ -349,9 +349,9 @@ the `destination object`.
 #### Phase 2: Handle Deletion
 
 A finalizer is used in the platform workspaces to prevent orphans in the service cluster side. This
-is the only real evidence in the platform side that the Servlet is even doing things. When a remote
-(source) object is deleted, the corresponding local object is deleted as well. Once the local object
-is gone, the finalizer is removed from the source object.
+is the only real evidence in the platform side that the api-syncagent is even doing things. When a
+remote (source) object is deleted, the corresponding local object is deleted as well. Once the local
+object is gone, the finalizer is removed from the source object.
 
 #### Phase 3: Ensure Object Existence
 
@@ -384,7 +384,7 @@ After we followed through with these steps, both the source and destination obje
 can continue with phase 4.
 
 Resource adoption happens when creation of the initial local object fails. This can happen when labels
-get mangled. If such a conflict happens, the Servlet will "adopt" the existing local object by
+get mangled. If such a conflict happens, the api-syncagent will "adopt" the existing local object by
 adding / fixing the labels on it, so that for the next reconciliation it will be found and updated.
 
 #### Phase 4: Content Synchronization
@@ -396,13 +396,14 @@ should actually be called "all top-level elements besides `apiVersion`, `kind`, 
 `metadata`, but still including some labels and annotations"; so if you were to publish RBAC objects,
 the syncer would include `roleRef` field, for example).
 
-To allow proper patch generation, a `last-known-state` annotation is kept on the local object. This
-functions just like the one kubectl uses and is required for the Servlet to properly detect changes
-made by mutation webhooks.
+To allow proper patch generation, the last known state of an object is stored in a dedicated Secret.
+This functions just like the one kubectl uses and is required for the api-syncagent to properly detect
+changes made by mutation webhooks, but uses a Secret instead of annotations because state needs to
+be kept for more objects (like related resources) and not always on the destination objects.
 
 If the published resource (CRD) has a `status` subresource enabled (not just a `status` field in its
-scheme, it must be a real subresource), then the Servlet will copy the status from the local object
-back up to the remote (source) object.
+scheme, it must be a real subresource), then the api-syncagent will copy the status from the local
+object back up to the remote (source) object.
 
 #### Phase 5: Sync Related Resources
 
@@ -424,11 +425,11 @@ including all required Crossplane [providers][crossplane/docs/providers] and
 
 ## Overview
 
-The KDP [Servlet]({{< relref "../servlet" >}}) is responsible for synchronizing objects from KDP to
-the local service cluster where the service provider is in charge of processing these synchronized
-objects to provide the actual functionality of a service. One possibility is to leverage Crossplane
-to create new abstractions and custom APIs, which can be published to KDP and consumed by platform
-users.
+The [api-syncagent]({{< relref "../api-syncagent" >}}) is responsible for synchronizing objects from
+KDP to the local service cluster where the service provider is in charge of processing these
+synchronized objects to provide the actual functionality of a service. One possibility is to leverage
+Crossplane to create new abstractions and custom APIs, which can be published to KDP and consumed by
+platform users.
 
 > [!NOTE]
 > While this guide is not intended to be a comprehensive Crossplane guide, it is useful to be aware
@@ -900,7 +901,7 @@ spec:
 EOF
 ```
 
-And done! The Servlet will pick up the `PublishedResource` object, set up the corresponding kcp
+And done! The api-syncagent will pick up the `PublishedResource` object, set up the corresponding kcp
 `APIExport` and `APIResourceSchema` and begin syncing objects from KDP to your service cluster.
 
 For more information, see the guide on [publishing resources]({{< relref "../publish-resources" >}}).

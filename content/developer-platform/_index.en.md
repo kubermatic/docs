@@ -16,9 +16,9 @@ KDP offers a central control plane for IDPs by providing an API backbone that al
 service provider) and consume (as platform user) **services**. KDP itself does **not** host the
 actual workloads providing such services (e.g. if a database service is offered, the underlying
 PostgreSQL pods are not hosted in KDP) and instead delegates this to so-called **service clusters**.
-A component called [**servlet**]({{< relref "service-providers/servlet" >}}) is installed onto service
-clusters which allows service providers (who own the service clusters) to publish APIs from their
-service cluster onto KDP's central platform.
+A component called [**api-syncagent**]({{< relref "service-providers/api-syncagent" >}}) is installed
+onto service clusters which allows service providers (who own the service clusters) to publish APIs
+from their service cluster onto KDP's central platform.
 
 KDP is based on [kcp](https://kcp.io), a CNCF Sandbox project to run many lightweight "logical"
 clusters. Each of them acts as an independent Kubernetes API server to platform users and is called

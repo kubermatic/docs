@@ -1,14 +1,11 @@
 +++
-title = "The KDP Servlet"
-linkTitle = "The Servlet"
+title = "The API Sync Agent"
 weight = 3
 +++
 
-The Servlet is the component in KDP responsible for integrating external Kubernetes clusters.
+The api-syncagent is the component in KDP responsible for integrating external Kubernetes clusters.
 It runs on a cluster, is configured with KDP credentials and will then synchronize data out
 of KDP (i.e. out of kcp workspaces) onto the local cluster, and vice versa.
-
-The name Servlet is an obvious reference to the "kubelet" in a regular Kubernetes cluster.
 
 ## High-level Overview
 
@@ -18,27 +15,28 @@ The intended usecase follows roughly these steps:
    workspace. This service (not to be confused with Kubernetes services) reserves an API group
    in the organization for itself, like `databases.example.corp` (two `Services` must not register
    the same API group).
-2. After the `Service` is created, KDP will reconcile it, create an `APIExport` object and provide appropriate credentials
-   for the Servlet (e.g. by creating a Kubernetes Secret with a preconfigured kubeconfig in it).
+2. After the `Service` is created, KDP will reconcile it, create an `APIExport` object and provide
+   appropriate credentials for the api-syncagent (e.g. by creating a Kubernetes Secret with a
+   preconfigured kubeconfig in it).
 3. A service owner will now take these credentials and the configured API group and use them
-   to setup the Servlet. It is assumed that the service owner (i.e. the cluster-admin in a
+   to setup the api-syncagent. It is assumed that the service owner (i.e. the cluster-admin in a
    service cluster) wants to make some resources (usually CRDs) available to use inside of KDP.
-4. The service owner uses the Servlet Helm chart (or similar deployment technique) to install the
-   Servlet in their cluster.
+4. The service owner uses the api-syncagent Helm chart (or similar deployment technique) to install
+   the agent in their cluster.
 5. To actually make resources available in the platform, the service owner now has to create a
    set of `PublishedResource` objects. The configuration happens from their point of view, meaning
    they define how to publish a CRD in the platform, defining renaming rules and other projection
    settings.
-6. Once a `PublishedResource` is created in the service cluster, the Servlet will pick it up,
+6. Once a `PublishedResource` is created in the service cluster, the agent will pick it up,
    find the referenced CRD, convert/project this CRD into an `APIResourceSchema` (ARS) for kcp and
    then create the ARS in org workspace.
-7. Finally the Servlet will take all `PublishedResources` and bundle them into the pre-existing `APIExport`
-   in the org workspace. This APIExport can then be bound in the org workspace itself (or later
-   any sub workspaces (depending on permissions)) and be used there. The `APIExport` has the same
-   name as the KDP `Service` the Servlet is working with.
-8. kcp automatically provides a virtual workspace for the `APIExport` and this is what the Servlet
+7. Finally the api-syncagent will take all `PublishedResources` and bundle them into the pre-existing
+   `APIExport` in the org workspace. This APIExport can then be bound in the org workspace itself
+   (or later any sub workspaces (depending on permissions)) and be used there. The `APIExport` has
+   the same name as the KDP `Service` the agent is working with.
+8. kcp automatically provides a virtual workspace for the `APIExport` and this is what the agent
    then uses to watch all objects for the relevant resources in the platform (i.e. in all workspaces).
-9. The Servlet will now begin to synchronize objects back and forth between the service cluster
+9. The api-syncagent will now begin to synchronize objects back and forth between the service cluster
    and KDP.
 
 ## Details
@@ -59,25 +57,25 @@ acquire the certificate and create a Kubernetes `Secret`, which will have to be 
 a kcp workspace, where the certificate originated from). So the source of truth can also be, for
 auxiliary resources, on the service cluster.
 
-### Servlet Naming
+### Agent Naming
 
-Each Servlet must have a name, like "tom" or "mary". The FQ name for a Servlet is
-`<servletname>.<service apigroup>`, so if the user in KDP had created a new `Service` named
-`databases.examplecorp`, the name of the Servlet that serves this Service (sic) could be
+Each agent must have a name, like "tom" or "mary". The FQ name for an agent is
+`<agentname>.<service apigroup>`, so if the user in KDP had created a new `Service` named
+`databases.examplecorp`, the name of the agent that serves this Service (sic) could be
 `tom.databases.examplecorp`.
 
 ### Uniqueness
 
-A single `Service` in KDP must only be processed by exactly 1 Servlet. There is currently no mechanism
-planned to subdivide a `Service` into chunks, where multiple service clusters (and therefore multiple
-Servlets) could process each chunk.
+A single `Service` in KDP must only be processed by exactly 1 api-syncagent. There is currently no
+mechanism planned to subdivide a `Service` into chunks, where multiple service clusters (and therefore
+multiple agents) could process each chunk.
 
-Later the Servlet might be extended with Label Selectors, alternatively they might also "claim" any
+Later the agent might be extended with Label Selectors, alternatively they might also "claim" any
 object by annotating it in the kcp workspace. These things are not yet worked out, so for now we have
 this 1:1 restriction.
 
-Servlets make use of leader election, so it's perfectly fine to have multiple Servlet replicas, as
-long as only one them is leader and actually doing work.
+api-syncagents make use of leader election, so it's perfectly fine to have multiple agent replicas,
+as long as only one them is leader and actually doing work.
 
 ### kcp-awareness
 
@@ -86,13 +84,13 @@ aware of the workspace information. This however is neither well tested upstream
 require shard-admin permissions to behave like this work regular kcp workspaces. The controller-runtime
 fork's kcp-awareness is really more geared towards working in virtual workspaces.
 
-Because of this the Servlet needs to get a kubeconfig to KDP that already points to the org's
+Because of this the api-syncagent needs to get a kubeconfig to KDP that already points to the org's
 workspace (i.e. the `server` already contains a `/clusters/root:myorg` path). The basic controllers
-in the Servlet then treat this as a plain ol', regular Kubernetes cluster (no kcp-awareness).
+in the agent then treat this as a plain ol', regular Kubernetes cluster (no kcp-awareness).
 
-To this end, the Servlet will, upon startup, try to access the `cluster` object in the target
+To this end, the agent will, upon startup, try to access the `cluster` object in the target
 workspace. This is to resolve the cluster name (e.g. `root:myorg`) into a logicalcluster name (e.g.
-`gibd3r1sh`). The Servlet has to know which logicalcluster the target workspace represents in order
+`gibd3r1sh`). The agent has to know which logicalcluster the target workspace represents in order
 to query resources properly.
 
 Only the controllers that are later responsible for interacting with the virtual workspace are
@@ -105,15 +103,15 @@ projected (i.e. renamed), so a `kubermatic.k8c.io/v1 Cluster` can become a
 `cloud.examplecorp/v1 KubernetesCluster`.
 
 In addition to projecting (mapping) the GVK, the `PublishedResource` also contains optional naming
-rules, which influence how the local objects that the Servlet is creating are named.
+rules, which influence how the local objects that the api-syncagent is creating are named.
 
-As a single Servlet serves a single Service, the API group used in KDP is the same for all
+As a single agent serves a single Service, the API group used in KDP is the same for all
 `PublishedResources`. It's the API group configured in the KDP `Service` inside the platform (created
 in step 1 in the overview above).
 
 To prevent chaos, `PublishedResources` are immutable: handling the case that a PR first wants to
 publish `kubermatic.k8c.io/v1 Cluster` and then suddenly `kubermatic.k8c.io/v1 User` resources would
-mean to re-sync and cleanup everything in all affected kcp workspaces. The Servlet would need to be
+mean to re-sync and cleanup everything in all affected kcp workspaces. The agent would need to be
 able to delete and recreate objects to follow this GVK change, which is a level of complexity we
 simply do not want to deal with at this point in time. Also, `APIResourceSchemas` are immutable
 themselves.
@@ -128,7 +126,7 @@ An `APIExport` in kcp combines multiple `APIResourceSchemas` (ARS). Each ARS is 
 
 To prevent data loss, ARS are never removed from an `APIExport`. We simply do not have enough
 experience to really know what happens when an ARS would suddenly become unavailable. To prevent
-damage and confusion, the Servlet will only ever add new ARS to the one `APIExport` it manages.
+damage and confusion, the api-syncagent will only ever add new ARS to the one `APIExport` it manages.
 
 ## Controllers
 
