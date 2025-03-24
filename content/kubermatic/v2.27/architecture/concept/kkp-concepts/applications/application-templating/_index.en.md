@@ -21,7 +21,9 @@ Go snippet shows the available information:
 
 ### A practical example
 
-Let's take nginx ingress controller as an example to demonstrate how to use predefined values and also injecting helm variables for values which are wrapped by a `tpl` function inside the chart. Here is an example application definition which configures two configmap values rendered by helm. One with the cluster name passed from pre-defined values and the other one uses a helm variable to set the release namespace as a value.
+Let's take nginx ingress controller as an example to demonstrate how to use predefined values.
+
+#### Example Applicationdefintion
 
 ```yaml
 apiVersion: apps.kubermatic.k8c.io/v1
@@ -50,4 +52,16 @@ spec:
 
 The available pre-defined variables can be accessed as normal go template variables with `.Cluster` as the parent object.
 
-To use helm variables which are wrapped by a `tpl` function inside the helm chart it is required to wrap these ones with go template brackets.
+Additionally if the upstream chart is using [helms native tpl function](https://helm.sh/docs/howto/charts_tips_and_tricks/#using-the-tpl-function) (see example below) double curly bracket syntax can be used to escape these values to be injected later in helm value context.
+
+The syntax of Helm's native tpl function for a helm chart template file would look like this for the above application definition:
+
+```yaml
+{{- if .Values.tcp -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+...
+data: {{ tpl (toYaml .Values.tcp) . | nindent 2 }}
+{{- end }}
+```
