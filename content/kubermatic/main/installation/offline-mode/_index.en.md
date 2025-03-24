@@ -128,6 +128,67 @@ spec:
     - quay.io/kubermatic/kubelb-manager-ee:v1.1.0
 ```
 
+## Mirroring Binaries 
+
+The `kubermatic-installer mirror-binaries` command is designed to **mirror and host essential binaries** required by the Operating System Profiles for provisioning user clusters in **offline/airgapped environments**. This includes critical components like:  
+- **Kubernetes binaries**: `kubeadm`, `kubelet`, `kubectl`  
+- **CNI plugins** (e.g., bridge, ipvlan, loopback, macvlan, etc)  
+- **CRI tools** (e.g., `crictl`)  
+- Tar packages and checksums for integrity verification  
+
+### Key Features:  
+
+1. **Mirrors Original Domain Structure**:  
+  Binaries are stored in the **exact directory hierarchy** as their original domains (e.g., `containernetworking/plugins/releases/v1.5.1/...`). This allows **DNS-based redirection** of domains like `github.com` or `k8s.gcr.io` to your local/offline server, ensuring the OSP fetches binaries from the mirrored paths **without URL reconfiguration** or **Operating System Profile** changes.  
+
+### Example Workflow:  
+
+```bash
+./kubermatic-installer mirror-binaries \
+  --config config.yaml \
+  --architectures=amd64 \ # allows you to specify a comma-separated list of CPU architectures
+  --output-dir /var/www/html  # Local directory to host mirrored binaries
+
+INFO[0000] 🚀 Starting mirroring for architecture: amd64 
+INFO[0007] ✅ CNI plugins download complete for amd64.   
+INFO[0011] ✅ CRI tools download complete for all available Kubernetes versions (amd64). 
+INFO[0033] ✅ Kube binaries download complete for all available Kubernetes versions (amd64). 
+INFO[0033] ✅ Finished loading images.      
+```
+
+### Example of the Directory Structure: 
+
+```
+.
+├── containernetworking          # CNI plugins (Container Network Interface)
+│   └── plugins
+│       └── releases
+│           └── download
+│               └── v1.5.1       # CNI plugins version
+│                   ├── cni-plugins-linux-amd64-v1.5.1.tgz      # Binary tarball
+│                   └── cni-plugins-linux-amd64-v1.5.1.tgz.sha256  # Checksum
+│
+├── kubernetes-sigs              # CRI tools (Container Runtime Interface)
+│   └── cri-tools
+│       └── releases
+│           └── download
+│               └── v1.29.0      # CRI tools version
+│                   ├── crictl-v1.29.0-linux-amd64.tar.gz       # Binary tarball
+│                   └── crictl-v1.29.0-linux-amd64.tar.gz.sha256  # Checksum
+│
+└── release                      # Kubernetes core components
+    └── v1.29.0                  # Kubernetes version
+        └── bin
+            └── linux
+                └── amd64
+                    ├── kubeadm          # Kubernetes cluster bootstrapping tool
+                    ├── kubeadm.sha256   # Checksum
+                    ├── kubectl          # Kubernetes CLI
+                    ├── kubectl.sha256
+                    ├── kubelet          # Kubernetes node agent
+                    └── kubelet.sha256
+```
+
 ## Configuring KKP
 
 After having mirrored all required container images, it's time to adjust the KKP configuration
