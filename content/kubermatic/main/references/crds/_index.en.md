@@ -523,11 +523,25 @@ _Appears in:_
 | `lastDeployed` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}LastDeployed is when the release was last deployed.{{< /unsafe >}} |
 | `deleted` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Deleted tracks when this object was deleted.{{< /unsafe >}} |
 | `description` _string_ | {{< unsafe >}}Description is human-friendly "log entry" about this release.{{< /unsafe >}} |
-| `status` _[Status](#status)_ | {{< unsafe >}}Status is the current state of the release.{{< /unsafe >}} |
+| `status` _[HelmReleaseStatus](#helmreleasestatus)_ | {{< unsafe >}}Status is the current state of the release.{{< /unsafe >}} |
 | `notes` _string_ | {{< unsafe >}}Notes is  the rendered templates/NOTES.txt if available.{{< /unsafe >}} |
 
 
 [Back to top](#top)
+
+
+
+### HelmReleaseStatus
+
+_Underlying type:_ `string`
+
+HelmReleaseStatus is the status of a Helm release. This type mirrors
+helm/pkg/release/v1.Status, but was copied here to avoid a very costly dependency.
+Since this field is only used in the status of an App, no user should ever
+have to set it manually.
+
+_Appears in:_
+- [HelmReleaseInfo](#helmreleaseinfo)
 
 
 
