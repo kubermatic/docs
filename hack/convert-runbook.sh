@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 cd $(dirname $0)/..
 
 SOURCE="${GOPATH}/src/k8c.io/kubermatic/charts/monitoring/prometheus/rules/src"
