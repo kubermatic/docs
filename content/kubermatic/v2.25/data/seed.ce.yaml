@@ -237,6 +237,12 @@ spec:
             ubuntu: ""
           # Optional: defines if the IPv6 is enabled for the datacenter
           ipv6Enabled: false
+          # Optional: Gets mapped to the "lb-method" setting in the cloud config.
+          # defaults to "ROUND_ROBIN".
+          loadBalancerMethod: null
+          # Optional: Gets mapped to the "lb-provider" setting in the cloud config.
+          # defaults to ""
+          loadBalancerProvider: null
           # Optional: Gets mapped to the "manage-security-groups" setting in the cloud config.
           # This setting defaults to true.
           manageSecurityGroups: true
@@ -376,6 +382,8 @@ spec:
       replicas: 1
       resources: null
       tolerations: null
+    # CoreDNS configures CoreDNS deployed as part of the cluster control plane.
+    coreDNS: null
     # Etcd configures the etcd ring used to store Kubernetes data.
     etcd:
       # ClusterSize is the number of replicas created for etcd. This should be an
@@ -435,6 +443,8 @@ spec:
         # otherwise to an implementation-defined value. Requests cannot exceed Limits.
         # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         requests: null
+    # OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller).
+    operatingSystemManager: null
     # Prometheus configures the Prometheus instance deployed into the cluster control plane.
     prometheus:
       resources: null
@@ -499,6 +509,8 @@ spec:
     # ReportConfigurations is a map of report configuration definitions.
     reports:
       weekly:
+        # Format is the file format of the generated report, one of "csv" or "json" (defaults to "csv").
+        format: ""
         # Interval defines the number of days consulted in the metering report.
         # Ignored when `Monthly` is set to true
         interval: 7

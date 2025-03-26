@@ -449,12 +449,12 @@ spec:
       # The Secret must exist in the namespace where KKP is installed (default is "kubermatic").
       # The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm".
       helmRegistryConfigFile: null
-      # HelmRepository specifies OCI repository containing Helm charts of system Applications.
+      # HelmRepository specifies OCI repository containing Helm charts of system Applications e.g. oci://localhost:5000/myrepo.
       helmRepository: quay.io/kubermatic/helm-charts
   # Versions configures the available and default Kubernetes versions and updates.
   versions:
     # Default is the default version to offer users.
-    default: v1.28.7
+    default: v1.28.9
     # ExternalClusters contains the available and default Kubernetes versions and updates for ExternalClusters.
     externalClusters:
       aks:
@@ -547,13 +547,16 @@ spec:
       - v1.27.6
       - v1.27.10
       - v1.27.11
+      - v1.27.13
       - v1.28.2
       - v1.28.5
       - v1.28.6
       - v1.28.7
+      - v1.28.9
       - v1.29.0
       - v1.29.1
       - v1.29.2
+      - v1.29.4
   # VerticalPodAutoscaler configures the Kubernetes VPA integration.
   verticalPodAutoscaler:
     admissionController:
