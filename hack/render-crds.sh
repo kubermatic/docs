@@ -5,19 +5,25 @@ set -euo pipefail
 cd $(dirname $0)/..
 
 SOURCE="${SOURCE:-}"
-OUTPUT_VERSION="${OUTPUT_VERSION:-main}"
+KKP_RELEASE="${KKP_RELEASE:-main}"
 
 if [[ -z "$SOURCE" ]]; then
   gopath="$(go env GOPATH)"
   SOURCE="$gopath/src/k8c.io/kubermatic/sdk/apis"
 
   if ! [ -d "$SOURCE" ]; then
-    # legacy path before we set the path_alias on the sync job
-    SOURCE="$gopath/src/github.com/kubermatic/kubermatic/sdk/apis"
+    # legacy path before KKP 2.28 got its new SDK
+    SOURCE="$gopath/src/k8c.io/kubermatic/pkg/apis"
 
     if ! [ -d "$SOURCE" ]; then
-      echo "\$SOURCE not set and KKP not automatically found."
-      exit 1
+      # legacy path before we set the path_alias on the sync job;
+      # this can be removed sometime in 2026
+      SOURCE="$gopath/src/github.com/kubermatic/kubermatic/pkg/apis"
+
+      if ! [ -d "$SOURCE" ]; then
+        echo "\$SOURCE not set and KKP not automatically found."
+        exit 1
+      fi
     fi
   fi
 fi
@@ -48,4 +54,4 @@ $(go env GOPATH)/bin/crd-ref-docs \
   --renderer markdown \
   --templates-dir hack/crd-templates \
   --config "$configFile" \
-  --output-path content/kubermatic/${OUTPUT_VERSION}/references/crds/_index.en.md
+  --output-path "content/kubermatic/$KKP_RELEASE/references/crds/_index.en.md"
