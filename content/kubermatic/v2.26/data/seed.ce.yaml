@@ -65,7 +65,6 @@ spec:
           # to define the AMIs statically.
           images:
             amzn2: ""
-            centos: ""
             flatcar: ""
             rhel: ""
             rockylinux: ""
@@ -87,8 +86,6 @@ spec:
               http:
                 # OperatingSystems represents list of supported operating-systems with their URLs.
                 operatingSystems:
-                  centos:
-                    vX.Y: http://example.com/images/os.iso
                   flatcar:
                     vX.Y: http://example.com/images/os.iso
                   rhel:
@@ -146,6 +143,8 @@ spec:
           network: ""
         # Kubevirt configures a KubeVirt datacenter.
         kubevirt:
+          # Optional: indicates if region and zone labels from the cloud provider should be fetched.
+          ccmZoneAndRegionEnabled: null
           # Optional: CustomNetworkPolicies allows to add some extra custom NetworkPolicies, that are deployed
           # in the dedicated infra KubeVirt cluster. They are added to the defaults.
           customNetworkPolicies:
@@ -185,8 +184,6 @@ spec:
             http:
               # OperatingSystems represents list of supported operating-systems with their URLs.
               operatingSystems:
-                centos:
-                  vX.Y: http://example.com/images/os.iso
                 flatcar:
                   vX.Y: http://example.com/images/os.iso
                 rhel:
@@ -205,9 +202,24 @@ spec:
               # If missing or false, annotation will be:
               # storageclass.kubernetes.io/is-default-class : false
               isDefaultClass: true
+              # Labels is a map of string keys and values that can be used to organize and categorize
+              # (scope and select) objects. May match selectors of replication controllers
+              # and services.
+              labels: null
               name: rook-ceph-block
+              # Regions represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters
+              # to span multiple regions
+              regions: null
+              # VolumeBindingMode indicates how PersistentVolumeClaims should be provisioned and bound. When unset,
+              # VolumeBindingImmediate is used.
+              volumeBindingMode: null
+              # Zones represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones
+              # for increased availability
+              zones: null
           # NamespacedMode represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
           namespacedMode: null
+          # Optional: ProviderNetwork describes the infra cluster network fabric that is being used
+          providerNetwork: null
         # Optional: MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc.
         machineFlavorFilter:
           # Include VMs with GPU
@@ -230,7 +242,6 @@ spec:
           # Images to use for each supported operating system
           images:
             amzn2: ""
-            centos: ""
             flatcar: ""
             rhel: ""
             rockylinux: ""
@@ -260,7 +271,6 @@ spec:
           # Images to use for each supported operating system.
           images:
             amzn2: ""
-            centos: ""
             flatcar: ""
             rhel: ""
             rockylinux: ""
@@ -296,7 +306,6 @@ spec:
         # Optional: DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system.
         operatingSystemProfiles:
           amzn2: ""
-          centos: ""
           flatcar: ""
           rhel: ""
           rockylinux: ""
@@ -334,7 +343,6 @@ spec:
           # define at least one template.
           templates:
             amzn2: ""
-            centos: ""
             flatcar: ""
             rhel: ""
             rockylinux: ""
@@ -378,7 +386,6 @@ spec:
           # See: https://github.com/kubermatic/machine-controller/blob/master/docs/vsphere.md#template-vms-preparation
           templates:
             amzn2: ""
-            centos: ""
             flatcar: ""
             rhel: ""
             rockylinux: ""

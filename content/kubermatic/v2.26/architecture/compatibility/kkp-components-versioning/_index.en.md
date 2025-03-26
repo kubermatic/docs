@@ -14,8 +14,8 @@ of provided software and therefore releases updates regularly that also include 
 | ------------------------------ | ------------------------------ |
 | backup/velero                  | 1.14.0                         |
 | cert-manager                   | 1.15.1                         |
-| iap                            | 7.6.0                          |
-| kubermatic-operator            | 2.26.0                      |
+| iap                            | 7.7.0                          |
+| kubermatic-operator            | 9.9.9-dev                      |
 | local-kubevirt                 | 1.1.1                          |
 | logging/loki                   | 2.9.6                          |
 | logging/promtail               | 2.9.3                          |
@@ -36,7 +36,7 @@ of provided software and therefore releases updates regularly that also include 
 | monitoring/kube-state-metrics  | 2.12.0                         |
 | monitoring/node-exporter       | 1.7.0                          |
 | monitoring/prometheus          | 2.51.1                         |
-| nginx-ingress-controller       | 1.11.2                         |
+| nginx-ingress-controller       | 1.11.5                         |
 | oauth                          | 2.39.1                         |
 | s3-exporter                    | 0.7.1                          |
 | telemetry                      | 0.5.2                          |
