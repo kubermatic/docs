@@ -4,6 +4,8 @@ set -euo pipefail
 
 cd $(dirname $0)/..
 
+KKP_RELEASE="${KKP_RELEASE:-main}"
+
 SOURCE="${GOPATH}/src/k8c.io/kubermatic/charts/monitoring/prometheus/rules/src"
 
 # merge all files and convert to JSON,
@@ -21,4 +23,4 @@ yq eval-all '. as $item ireduce ({}; . *+ $item)' ${SOURCE}/*/*.yaml -o json | \
       select (.rules | length > 0)
     ]
   }" \
-  > data/kubermatic/main/runbook.json
+  > data/kubermatic/$KKP_RELEASE/runbook.json
