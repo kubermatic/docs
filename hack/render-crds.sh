@@ -9,11 +9,11 @@ OUTPUT_VERSION="${OUTPUT_VERSION:-main}"
 
 if [[ -z "$SOURCE" ]]; then
   gopath="$(go env GOPATH)"
-  SOURCE="$gopath/src/k8c.io/kubermatic/pkg/apis"
+  SOURCE="$gopath/src/k8c.io/kubermatic/sdk/apis"
 
   if ! [ -d "$SOURCE" ]; then
     # legacy path before we set the path_alias on the sync job
-    SOURCE="$gopath/src/github.com/kubermatic/kubermatic/pkg/apis"
+    SOURCE="$gopath/src/github.com/kubermatic/kubermatic/sdk/apis"
 
     if ! [ -d "$SOURCE" ]; then
       echo "\$SOURCE not set and KKP not automatically found."

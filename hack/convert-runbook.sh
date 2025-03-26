@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 cd $(dirname $0)/..
 
-SOURCE="${GOPATH}/src/github.com/kubermatic/kubermatic/charts/monitoring/prometheus/rules/src"
+SOURCE="${GOPATH}/src/k8c.io/kubermatic/charts/monitoring/prometheus/rules/src"
 
 # merge all files and convert to JSON,
 # filter out rules that are not alerts,
