@@ -1783,6 +1783,24 @@ _Appears in:_
 
 
 
+### ClusterBackupOptions
+
+
+
+
+
+_Appears in:_
+- [SettingSpec](#settingspec)
+
+| Field | Description |
+| --- | --- |
+| `defaultChecksumAlgorithm` _string_ | {{< unsafe >}}DefaultChecksumAlgorithm allows setting a default checksum algorithm used by Velero for uploading objects to S3.<br /><br />Optional{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### ClusterBackupStorageLocation
 
 
@@ -6758,6 +6776,7 @@ _Appears in:_
 | `staticLabels` _[StaticLabel](#staticlabel) array_ | {{< unsafe >}}StaticLabels are a list of labels that can be used for the clusters.{{< /unsafe >}} |
 | `annotations` _[AnnotationSettings](#annotationsettings)_ | {{< unsafe >}}Annotations are the settings for the annotations in KKP UI.{{< /unsafe >}} |
 | `announcements` _object (keys:string, values:[Announcement](#announcement))_ | {{< unsafe >}}The announcement feature allows administrators to broadcast important messages to all users.{{< /unsafe >}} |
+| `clusterBackupOptions` _[ClusterBackupOptions](#clusterbackupoptions)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
 [Back to top](#top)
