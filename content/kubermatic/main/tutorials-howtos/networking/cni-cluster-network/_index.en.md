@@ -52,7 +52,7 @@ As of Cilium version `1.13.0`, Cilium in KKP is deployed [as a System Applicatio
 
 Before opting for Cilium CNI, please verify that your worker nodes' Linux distributions is known to work well with Cilium based on the [Linux Distribution Compatibility List](https://docs.cilium.io/en/stable/operations/system-requirements/#linux-distribution-compatibility-considerations).
 
-The most of the Cilium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#other-cluster-network-configuration). Please note that this option is available only if [Konnectivity](#konnectivity) is enabled.
+The most of the Cilium CNI features can be utilized when the `ebpf` Proxy Mode is used (Cilium `kube-proxy-replacement` is enabled). This can be done by selecting `ebpf` for `Proxy Mode` in the [Cluster Network Configuration](#cluster-network-configuration-in-kkp-api). Please note that this option is available only if [Konnectivity](#konnectivity) is enabled.
 
 **NOTE:** IPVS kube-proxy mode is not recommended with Cilium CNI due to [a known issue]({{< relref "../../../architecture/known-issues/" >}}#2-connectivity-issue-in-pod-to-nodeport-service-in-cilium--ipvs-proxy-mode).
 
