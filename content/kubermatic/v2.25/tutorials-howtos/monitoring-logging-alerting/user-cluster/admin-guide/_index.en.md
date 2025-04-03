@@ -228,7 +228,16 @@ For larger scales, you will may start with tweaking the following:
 - Cortex Ingester replicas (cortex values.yaml - `cortex.ingester.replicas`) - default 3
 - Cortex Ingester volume sizes (cortex values.yaml - `cortex.ingester.persistentVolume.size`) - default 10Gi
 - Loki Ingester replicas (loki values.yaml - `loki-distributed.ingester.replicas`) - default 3
-- Loki Ingester volume sizes (loki values.yaml - `loki-distributed.ingester.persistentVolume.size`) - default 10Gi
+- Loki Ingester Storage as follows:
+```yaml
+loki-distributed:
+  ingester:
+    persistence:
+      claims:
+        - name: data
+          size: 250Gi # <---- your storage size here
+          storageClass: kubermatic-fast
+```
 
 For more details about configuring these components in an HA manner, you can review the following links:
 
