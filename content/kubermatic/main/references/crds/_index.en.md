@@ -5133,6 +5133,26 @@ _Appears in:_
 
 
 
+### ManagementProxySettings
+
+
+
+
+
+_Appears in:_
+- [SeedSpec](#seedspec)
+
+| Field | Description |
+| --- | --- |
+| `proxyHost` _string_ | {{< unsafe >}}If set, the proxy will be used{{< /unsafe >}} |
+| `proxyPort` _integer_ | {{< unsafe >}}the proxies port to be used{{< /unsafe >}} |
+| `proxyProtocol` _string_ | {{< unsafe >}}the protocol to use ("http", "https", and "socks5" schemes are supported){{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### Match
 
 
@@ -6667,6 +6687,7 @@ _Appears in:_
 | `oidcProviderConfiguration` _[OIDCProviderConfiguration](#oidcproviderconfiguration)_ | {{< unsafe >}}OIDCProviderConfiguration allows to configure OIDC provider at the Seed level.{{< /unsafe >}} |
 | `kubelb` _[KubeLBSettings](#kubelbsettings)_ | {{< unsafe >}}KubeLB holds the configuration for the kubeLB at the Seed level. This component is responsible for managing load balancers.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
 | `disabledCollectors` _[MetricsCollector](#metricscollector) array_ | {{< unsafe >}}DisabledCollectors contains a list of metrics collectors that should be disabled.<br />Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None".{{< /unsafe >}} |
+| `managementProxySettings` _[ManagementProxySettings](#managementproxysettings)_ | {{< unsafe >}}ManagementProxySettings can be used if the KubeAPI of the user clusters<br />will not be directly available from kkp and a proxy in between should be used{{< /unsafe >}} |
 
 
 [Back to top](#top)
