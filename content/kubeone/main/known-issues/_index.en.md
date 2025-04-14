@@ -8,37 +8,12 @@ weight = 99
 This page documents the list of known issues in Kubermatic KubeOne along with
 possible workarounds and recommendations.
 
-This list applies to KubeOne 1.9 release. For KubeOne 1.8, please consider
-the [v1.8 version of this document][known-issues-1.8]. For earlier releases,
+This list applies to KubeOne 1.10 release. For KubeOne 1.9, please consider
+the [v1.9 version of this document][known-issues-1.9]. For earlier releases,
 please consult the [appropriate changelog][changelogs].
 
-[known-issues-1.8]: {{< ref "../../v1.8/known-issues" >}}
+[known-issues-1.9]: {{< ref "../../v1.9/known-issues" >}}
 [changelogs]: https://github.com/kubermatic/kubeone/tree/main/CHANGELOG
-
-## Calico VXLAN Addon is not working properly
-
-|              |                                                   |
-|--------------|---------------------------------------------------|
-| Status       | Under investigation                               |
-| Severity     | Low                                               |
-| GitHub issue | TBD                                               |
-
-### Description
-
-We have discovered the the optional Calico VXLAN addon that we provide
-might not work in all setups. We're currently investigating this and will
-provide more information as we have them.
-
-This issue is considered low severity because this is an optional addon
-and you have to opt-in to use it as described in [this document][calico-addon].
-By default, KubeOne uses Canal CNI which is a separate addon and is confirmed
-to work properly on all supported providers and Kubernetes versions.
-
-If you're using the optional Calico VXLAN addon, we recommend staying on your
-current Kubernetes version until we don't have more information about this
-issue.
-
-[calico-addon]: {{< ref "../examples/addons-calico-vxlan" >}}
 
 ## Internal Kubernetes endpoints unreachable on vSphere with Cilium/Canal
 
