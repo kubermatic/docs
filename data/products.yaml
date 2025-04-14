@@ -53,6 +53,8 @@ kubeone:
   versions:
     - release: main
       name: main
+    - release: v1.10
+      name: v1.10
     - release: v1.9
       name: v1.9
     - release: v1.8
