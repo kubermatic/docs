@@ -12,6 +12,27 @@ weight = 70
 - [v1.1.1](#v111)
 - [v1.1.2](#v112)
 - [v1.1.3](#v113)
+- [v1.1.4](#v114)
+
+## v1.1.4
+
+**GitHub release: [v1.1.4](https://github.com/kubermatic/kubelb/releases/tag/v1.1.4)**
+
+### Features
+
+- KubeLB will now automatically add `tenant-` prefix to cluster/tenant name if it was not provided by the user. ([#75](https://github.com/kubermatic/kubelb/pull/75))
+
+### Bug or Regression
+
+- Fix an issue with KubeLB not respecting the already allocated NodePort in the management cluster for load balancers with large amount of open Nodeports. ([#91](https://github.com/kubermatic/kubelb/pull/91))
+- Before removing RBAC for tenant, ensure that all routes, load balancers, and syncsecrets are cleaned up. ([#92](https://github.com/kubermatic/kubelb/pull/92))
+- Don't modify IngressClassName if it's not set in the configuration. ([#88](https://github.com/kubermatic/kubelb/pull/88))
+
+### Other (Cleanup, Flake, or Chore)
+
+- Sort IPs in `addresses` Endpoint to reduce updates. ([#93](https://github.com/kubermatic/kubelb/pull/93))
+
+**Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.1.3...v1.1.4>
 
 ## v1.1.3
 
