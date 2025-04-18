@@ -30,18 +30,54 @@ The following actions are required for migration before performing the upgrade:
 - Replace the top-level key `nodeExporter` with `node-exporter` in the `values.yaml`
 - The key `nodeExporter.rbacProxy` has been removed.  Use `node-exporter.kubeRBACProxy` instead to configure kube-rbac-proxy.
 
-Once the above adjustments have been made. If you are using `kubermatic-installer` for the Seed MLA installation, then it will take care of removing the resources for the deprecated node-exporter with the new upstream one by itself.
+Once the above adjustments have been made, you can do the seed-mla installation.
+
+If you are using `kubermatic-installer` for the Seed MLA installation, then it will take care of removing the resources for the deprecated node-exporter helm-chart and installing the new upstream based helm-chart by itself.
 
 ```bash
 ./kubermatic-installer deploy seed-mla --helm-values values.yaml
 ```
 
-**Note: The action below is only required if you are installing MLA using GitOps. Before upgrading, you must delete the existing Helm release.**
+If you are installing MLA using GitOps / Manual way using HelmCLI, before upgrading, you must delete the existing delete the existing Helm release before doing the upgrade.
 
 ```bash
 helm --namespace monitoring delete node-exporter
 ```
-Afterwards you can install the new release from the chart.
+Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
+
+### Alertmanager Upgrade (Seed MLA)
+
+KKP 2.28 removes the custom Helm chart for Alertmanager and instead now reuses the official [upstream Helm chart](https://prometheus-community.github.io/helm-charts).
+
+#### Migration Procedure
+
+For new alertmanager chart to work, kkp admin should review and upgrade the `values.yaml` file to adjust the keys of values as per the upstream chart requirements.
+
+Under `alertmanager` key in `values.yaml`, make following changes:
+
+- `replicas` --> `replicaCount`
+- `storageClass` --> `persistence.storageClass`
+- `storageSize` --> `persistence.size`
+- `resources.alertmanager` --> `resources`
+- `resources.reloader` --> `configmapReload.resources`
+- `affinity.podAntiAffinity` --> replaced by podAntiAffinity preset called `soft` (which is a default in new KKP alertmanager chart). So you can simply remove the podAntiAffinity block from your values.yaml if you are ok with `soft` podAntiAffinity.
+
+As part of KKP upgrade of monitoring components, the installer will remove the statefulset and then run the helm chart upgrade command.
+
+Once the above adjustments have been made, you can do the seed-mla installation.
+
+If you are using `kubermatic-installer` for the Seed MLA installation, then it will take care of removing the resources for the deprecated Alertmanager helm-chart and installing the new upstream based helm-chart by itself.
+
+```bash
+./kubermatic-installer deploy seed-mla --helm-values values.yaml
+```
+
+If you are installing MLA using GitOps / Manual way using HelmCLI, before upgrading, you must delete the existing Alertmanager STS manually before doing the upgrade.
+
+```bash
+kubectl delete -n monitoring alertmanager
+```
+Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
 
 
 ## Upgrade Procedure
