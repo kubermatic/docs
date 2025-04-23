@@ -222,7 +222,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 name: bm-cluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.3'
 cloudProvider:
   none: {}
 
@@ -233,7 +233,7 @@ controlPlane:
       sshUsername: root
       sshPrivateKeyFile: '/home/me/.ssh/id_rsa'
       taints:
-        - key: "node-role.kubernetes.io/master"
+        - key: "node-role.kubernetes.io/control-plane"
           effect: "NoSchedule"
 
 staticWorkers:
