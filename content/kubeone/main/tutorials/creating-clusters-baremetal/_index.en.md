@@ -135,8 +135,8 @@ The following infrastructure requirements **must** be satisfied to successfully
 provision a Kubernetes cluster using KubeOne:
 
 * You need the appropriate number of instances dedicated for the control plane
-  * You need **even** number of instances with a minimum of **three** instances
-    for the Highly-Available control plane
+  * You need an **odd** number of instances with a minimum of **three** instances
+    for the highly-available control plane
   * If you decide to use a single-node control plane instead, one instance is
     enough, however, highly-available control plane is highly advised,
     especially in the production environments
