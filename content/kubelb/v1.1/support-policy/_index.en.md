@@ -24,5 +24,5 @@ What is not covered:
 - Issues related to misconfigured Ingress or Gateway API resources.
 
 {{% notice info %}}
-**For a formal detailed support policy tailored based on your subscription and support plan, [get in touch with Kubermatic](mailto:sales@kubermatic.com)**
+**Discover our enterprise-grade support offerings and customized solutions for your organization's needs. [Contact our solutions team](mailto:sales@kubermatic.com) to explore how we can help ensure your success.**
 {{% /notice %}}
