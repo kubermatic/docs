@@ -8,7 +8,13 @@ Currently, we don't have any hard dependencies on certain components and their v
 
 We are only testing our software with specific versions of the components, we are not enforcing these versions but these are the ones tested. It should work with other versions of Kubernetes, Gateway API, and Envoy Gateway as well, but we can't guarantee it.
 
-| KubeLB | Kubermatic Kubernetes Platform | Gateway API | Envoy Gateway | Kubernetes |
-|--------|-------------------------------|-------------|---------------|------------|
-| v1.1   | v2.26, v2.27                 | v1.1.0      | v1.1.0        | v1.27+     |
-| v1.0   | v2.24, v2.25                 | Not Supported| Not Supported | v1.27+     |
+**KubeLB support [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) for Ingress resources. [Envoy Gateway](https://gateway.envoyproxy.io/) is supported for Gateway API resources. While other products might work for Ingress and Gateway API resources, we are not testing them and can't guarantee the compatibility.**
+
+| KubeLB | Kubermatic Kubernetes Platform | Gateway API | Envoy Gateway | NGINX Ingress | Kubernetes |
+|--------|-------------------------------|-------------|---------------|-------------------------|------------|
+| v1.1   | v2.26, v2.27                 | v1.1.0      | v1.1.0        | v1.10.0+                  | v1.27+     |
+| v1.0   | v2.24, v2.25                 | Not Supported| Not Supported | v1.10.0+                  | v1.27+     |
+
+## Support Policy
+
+For support policy, please refer to the [KubeLB Support Policy](../support-policy/)

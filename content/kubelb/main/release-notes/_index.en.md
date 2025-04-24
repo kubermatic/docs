@@ -1,7 +1,7 @@
 +++
 title = "Release Notes"
 date = 2024-03-15T00:00:00+01:00
-weight = 70
+weight = 60
 +++
 
 {{% notice warning %}}
