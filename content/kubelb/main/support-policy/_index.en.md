@@ -12,16 +12,15 @@ The enterprise edition, backed by an active subscription for [KubeLB](https://ww
 
 As a default, our support covers the following:
 
-- Bug reports
-- Feature requests
-- Documentation issues
 - Debugging for issues related to KubeLB
+- Enhancing documentation
+- Fixing bugs that block the usage of the platform
 
 What is not covered:
 
 - Issues related to the underlying Kubernetes cluster and infrastructure.
 - Custom configurations for the underlying product suite including ingress-nginx, Envoy Gateway, External DNS, and Cert Manager. KubeLB only provides you with sane default configurations and an integration for those products.
-- Issues related to misconfigured Ingress or Gateway API resources.
+- Issues related to misconfigured Ingress or Gateway API resources by the KubeLB users(tenant clusters). For example, misconfigured TLS certificates or missing hostnames in the Ingress or HTTPRoute resources.
 
 {{% notice info %}}
 **Discover our enterprise-grade support offerings and customized solutions for your organization's needs. [Contact our solutions team](mailto:sales@kubermatic.com) to explore how we can help ensure your success.**
