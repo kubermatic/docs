@@ -55,7 +55,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `apps.kubermatic.k8c.io/v1`
 | `kind` _string_ | `ApplicationDefinition`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ApplicationDefinitionSpec](#applicationdefinitionspec)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -75,7 +75,7 @@ ApplicationDefinitionList contains a list of ApplicationDefinition.
 | --- | --- |
 | `apiVersion` _string_ | `apps.kubermatic.k8c.io/v1`
 | `kind` _string_ | `ApplicationDefinitionList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ApplicationDefinition](#applicationdefinition) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -96,7 +96,7 @@ _Appears in:_
 | --- | --- |
 | `description` _string_ | {{< unsafe >}}Description of the application. what is its purpose{{< /unsafe >}} |
 | `method` _[TemplateMethod](#templatemethod)_ | {{< unsafe >}}Method used to install the application{{< /unsafe >}} |
-| `defaultValues` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#rawextension-runtime-pkg)_ | {{< unsafe >}}DefaultValues specify default values for the UI which are passed to helm templating when creating an application. Comments are not preserved.<br />Deprecated: use DefaultValuesBlock instead{{< /unsafe >}} |
+| `defaultValues` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#rawextension-runtime-pkg)_ | {{< unsafe >}}DefaultValues specify default values for the UI which are passed to helm templating when creating an application. Comments are not preserved.<br />Deprecated: use DefaultValuesBlock instead{{< /unsafe >}} |
 | `defaultValuesBlock` _string_ | {{< unsafe >}}DefaultValuesBlock specifies default values for the UI which are passed to helm templating when creating an application. Comments are preserved.{{< /unsafe >}} |
 | `defaultDeployOptions` _[DeployOptions](#deployoptions)_ | {{< unsafe >}}DefaultDeployOptions holds the settings specific to the templating method used to deploy the application.<br />These settings can be overridden in applicationInstallation.{{< /unsafe >}} |
 | `documentationURL` _string_ | {{< unsafe >}}DocumentationURL holds a link to official documentation of the Application<br />Alternatively this can be a link to the Readme of a chart in a git repository{{< /unsafe >}} |
@@ -123,7 +123,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `apps.kubermatic.k8c.io/v1`
 | `kind` _string_ | `ApplicationInstallation`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ApplicationInstallationSpec](#applicationinstallationspec)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `status` _[ApplicationInstallationStatus](#applicationinstallationstatus)_ | {{< unsafe >}}{{< /unsafe >}} |
 
@@ -143,9 +143,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
-| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
-| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transit from one status to another.{{< /unsafe >}} |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
+| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transit from one status to another.{{< /unsafe >}} |
 | `reason` _string_ | {{< unsafe >}}(brief) reason for the condition's last transition.{{< /unsafe >}} |
 | `message` _string_ | {{< unsafe >}}Human readable message indicating details about last transition.{{< /unsafe >}} |
 | `observedGeneration` _integer_ | {{< unsafe >}}observedGeneration represents the .metadata.generation that the condition was set based upon.<br />For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date<br />with respect to the current state of the instance.{{< /unsafe >}} |
@@ -179,7 +179,7 @@ ApplicationInstallationList is a list of ApplicationInstallations.
 | --- | --- |
 | `apiVersion` _string_ | `apps.kubermatic.k8c.io/v1`
 | `kind` _string_ | `ApplicationInstallationList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ApplicationInstallation](#applicationinstallation) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -200,9 +200,9 @@ _Appears in:_
 | --- | --- |
 | `namespace` _[AppNamespaceSpec](#appnamespacespec)_ | {{< unsafe >}}Namespace describe the desired state of the namespace where application will be created.{{< /unsafe >}} |
 | `applicationRef` _[ApplicationRef](#applicationref)_ | {{< unsafe >}}ApplicationRef is a reference to identify which Application should be deployed{{< /unsafe >}} |
-| `values` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#rawextension-runtime-pkg)_ | {{< unsafe >}}Values specify values overrides that are passed to helm templating. Comments are not preserved.<br />Deprecated: Use ValuesBlock instead.{{< /unsafe >}} |
+| `values` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#rawextension-runtime-pkg)_ | {{< unsafe >}}Values specify values overrides that are passed to helm templating. Comments are not preserved.<br />Deprecated: Use ValuesBlock instead.{{< /unsafe >}} |
 | `valuesBlock` _string_ | {{< unsafe >}}ValuesBlock specifies values overrides that are passed to helm templating. Comments are preserved.{{< /unsafe >}} |
-| `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#duration-v1-meta)_ | {{< unsafe >}}ReconciliationInterval is the interval at which to force the reconciliation of the application. By default, Applications are only reconciled<br />on changes on spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload<br />deployed by the application, nothing will happen until the application CR change.<br /><br />Setting a value greater than zero force reconciliation even if no changes occurred on application CR.<br />Setting a value equal to 0 disables the force reconciliation of the application (default behavior).<br />Setting this too low can cause a heavy load and may disrupt your application workload depending on the template method.{{< /unsafe >}} |
+| `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#duration-v1-meta)_ | {{< unsafe >}}ReconciliationInterval is the interval at which to force the reconciliation of the application. By default, Applications are only reconciled<br />on changes on spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload<br />deployed by the application, nothing will happen until the application CR change.<br /><br />Setting a value greater than zero force reconciliation even if no changes occurred on application CR.<br />Setting a value equal to 0 disables the force reconciliation of the application (default behavior).<br />Setting this too low can cause a heavy load and may disrupt your application workload depending on the template method.{{< /unsafe >}} |
 | `deployOptions` _[DeployOptions](#deployoptions)_ | {{< unsafe >}}DeployOptions holds the settings specific to the templating method used to deploy the application.{{< /unsafe >}} |
 
 
@@ -369,10 +369,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `method` _[GitAuthMethod](#gitauthmethod)_ | {{< unsafe >}}Authentication method. Either password or token or ssh-key.<br />if method is password then username and password must be defined.<br />if method is token then token must be defined.<br />if method is ssh-key then ssh-key must be defined.{{< /unsafe >}} |
-| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretkeyselector-v1-core)_ | {{< unsafe >}}Username holds the ref and key in the secret for the username credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
-| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretkeyselector-v1-core)_ | {{< unsafe >}}Password holds the ref and key in the secret for the Password credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
-| `token` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretkeyselector-v1-core)_ | {{< unsafe >}}Token holds the ref and key in the secret for the token credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
-| `sshKey` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretkeyselector-v1-core)_ | {{< unsafe >}}SSHKey holds the ref and key in the secret for the SshKey credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
+| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}Username holds the ref and key in the secret for the username credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
+| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}Password holds the ref and key in the secret for the Password credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
+| `token` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}Token holds the ref and key in the secret for the token credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
+| `sshKey` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}SSHKey holds the ref and key in the secret for the SshKey credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -432,9 +432,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretkeyselector-v1-core)_ | {{< unsafe >}}Username holds the ref and key in the secret for the username credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
-| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretkeyselector-v1-core)_ | {{< unsafe >}}Password holds the ref and key in the secret for the Password credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
-| `registryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretkeyselector-v1-core)_ | {{< unsafe >}}RegistryConfigFile holds the ref and key in the secret for the registry credential file. The value is dockercfg<br />file that follows the same format rules as ~/.docker/config.json<br />The The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
+| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}Username holds the ref and key in the secret for the username credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
+| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}Password holds the ref and key in the secret for the Password credential.<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
+| `registryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}RegistryConfigFile holds the ref and key in the secret for the registry credential file. The value is dockercfg<br />file that follows the same format rules as ~/.docker/config.json<br />The The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to helm or git{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -453,7 +453,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `wait` _boolean_ | {{< unsafe >}}Wait corresponds to the --wait flag on Helm cli.<br />if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as timeout{{< /unsafe >}} |
-| `timeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#duration-v1-meta)_ | {{< unsafe >}}Timeout corresponds to the --timeout flag on Helm cli.<br />time to wait for any individual Kubernetes operation.{{< /unsafe >}} |
+| `timeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#duration-v1-meta)_ | {{< unsafe >}}Timeout corresponds to the --timeout flag on Helm cli.<br />time to wait for any individual Kubernetes operation.{{< /unsafe >}} |
 | `atomic` _boolean_ | {{< unsafe >}}Atomic corresponds to the --atomic flag on Helm cli.<br />if set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of failed upgrade.{{< /unsafe >}} |
 | `enableDNS` _boolean_ | {{< unsafe >}}EnableDNS  corresponds to the --enable-dns flag on Helm cli.<br />enable DNS lookups when rendering templates.<br />if you enable this flag, you have to verify that helm template function 'getHostByName' is not being used in a chart to disclose any information you do not want to be passed to DNS servers.(c.f. CVE-2023-25165){{< /unsafe >}} |
 
@@ -494,9 +494,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `firstDeployed` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}FirstDeployed is when the release was first deployed.{{< /unsafe >}} |
-| `lastDeployed` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}LastDeployed is when the release was last deployed.{{< /unsafe >}} |
-| `deleted` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Deleted tracks when this object was deleted.{{< /unsafe >}} |
+| `firstDeployed` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}FirstDeployed is when the release was first deployed.{{< /unsafe >}} |
+| `lastDeployed` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}LastDeployed is when the release was last deployed.{{< /unsafe >}} |
+| `deleted` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Deleted tracks when this object was deleted.{{< /unsafe >}} |
 | `description` _string_ | {{< unsafe >}}Description is human-friendly "log entry" about this release.{{< /unsafe >}} |
 | `status` _[Status](#status)_ | {{< unsafe >}}Status is the current state of the release.{{< /unsafe >}} |
 | `notes` _string_ | {{< unsafe >}}Notes is  the rendered templates/NOTES.txt if available.{{< /unsafe >}} |
@@ -638,8 +638,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
 | `endpointReconcilingDisabled` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
 | `nodePortRange` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 
@@ -722,7 +722,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Addon`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AddonSpec](#addonspec)_ | {{< unsafe >}}Spec describes the desired addon state.{{< /unsafe >}} |
 | `status` _[AddonStatus](#addonstatus)_ | {{< unsafe >}}Status contains information about the reconciliation status.{{< /unsafe >}} |
 
@@ -742,9 +742,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
-| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
-| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transitioned from one status to another.{{< /unsafe >}} |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
+| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transitioned from one status to another.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -778,7 +778,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AddonConfig`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AddonConfigSpec](#addonconfigspec)_ | {{< unsafe >}}Spec describes the configuration of an addon.{{< /unsafe >}} |
 
 
@@ -798,7 +798,7 @@ AddonConfigList is a list of addon configs.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AddonConfigList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[AddonConfig](#addonconfig) array_ | {{< unsafe >}}Items refers to the list of AddonConfig objects.{{< /unsafe >}} |
 
 
@@ -862,7 +862,7 @@ AddonList is a list of addons.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AddonList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[Addon](#addon) array_ | {{< unsafe >}}Items refers to the list of the cluster addons.{{< /unsafe >}} |
 
 
@@ -882,8 +882,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ | {{< unsafe >}}Name defines the name of the addon to install{{< /unsafe >}} |
-| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectreference-v1-core)_ | {{< unsafe >}}Cluster is the reference to the cluster the addon should be installed in{{< /unsafe >}} |
-| `variables` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#rawextension-runtime-pkg)_ | {{< unsafe >}}Variables is free form data to use for parsing the manifest templates{{< /unsafe >}} |
+| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}Cluster is the reference to the cluster the addon should be installed in{{< /unsafe >}} |
+| `variables` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#rawextension-runtime-pkg)_ | {{< unsafe >}}Variables is free form data to use for parsing the manifest templates{{< /unsafe >}} |
 | `requiredResourceTypes` _[GroupVersionKind](#groupversionkind) array_ | {{< unsafe >}}RequiredResourceTypes allows to indicate that this addon needs some resource type before it<br />can be installed. This can be used to indicate that a specific CRD and/or extension<br />apiserver must be installed before this addon can be installed. The addon will not<br />be installed until that resource is served.{{< /unsafe >}} |
 | `isDefault` _boolean_ | {{< unsafe >}}IsDefault indicates whether the addon is installed because it was configured in<br />the default addon section in the KubermaticConfiguration. User-installed addons<br />must not set this field to true, as extra default Addon objects (that are not in<br />the KubermaticConfiguration) will be garbage-collected.{{< /unsafe >}} |
 
@@ -923,7 +923,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AdmissionPlugin`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AdmissionPluginSpec](#admissionpluginspec)_ | {{< unsafe >}}Spec describes an admission plugin name and in which k8s version it is supported.{{< /unsafe >}} |
 
 
@@ -943,7 +943,7 @@ AdmissionPluginList is the type representing a AdmissionPluginList.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AdmissionPluginList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[AdmissionPlugin](#admissionplugin) array_ | {{< unsafe >}}Items refers to the list of Admission Plugins{{< /unsafe >}} |
 
 
@@ -983,7 +983,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Alertmanager`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AlertmanagerSpec](#alertmanagerspec)_ | {{< unsafe >}}Spec describes the configuration of the Alertmanager.{{< /unsafe >}} |
 | `status` _[AlertmanagerStatus](#alertmanagerstatus)_ | {{< unsafe >}}Status stores status information about the Alertmanager.{{< /unsafe >}} |
 
@@ -1003,8 +1003,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}LastUpdated stores the last successful time when the configuration was successfully applied{{< /unsafe >}} |
-| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of whether the configuration was applied, one of True, False{{< /unsafe >}} |
+| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}LastUpdated stores the last successful time when the configuration was successfully applied{{< /unsafe >}} |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of whether the configuration was applied, one of True, False{{< /unsafe >}} |
 | `errorMessage` _string_ | {{< unsafe >}}ErrorMessage contains a default error message in case the configuration could not be applied.<br />Will be reset if the error was resolved and condition becomes True{{< /unsafe >}} |
 
 
@@ -1024,7 +1024,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AlertmanagerList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[Alertmanager](#alertmanager) array_ | {{< unsafe >}}Items refers to the list of Alertmanager objects.{{< /unsafe >}} |
 
 
@@ -1043,7 +1043,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `configSecret` _[LocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#localobjectreference-v1-core)_ | {{< unsafe >}}ConfigSecret refers to the Secret in the same namespace as the Alertmanager object,<br />which contains configuration for this Alertmanager.{{< /unsafe >}} |
+| `configSecret` _[LocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#localobjectreference-v1-core)_ | {{< unsafe >}}ConfigSecret refers to the Secret in the same namespace as the Alertmanager object,<br />which contains configuration for this Alertmanager.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -1122,7 +1122,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AllowedRegistry`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[AllowedRegistrySpec](#allowedregistryspec)_ | {{< unsafe >}}Spec describes the desired state for an allowed registry.{{< /unsafe >}} |
 
 
@@ -1142,7 +1142,7 @@ AllowedRegistryList specifies a list of allowed registries.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `AllowedRegistryList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[AllowedRegistry](#allowedregistry) array_ | {{< unsafe >}}Items refers to the list of the allowed registries.{{< /unsafe >}} |
 
 
@@ -1294,7 +1294,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `config` _[AuditSidecarConfiguration](#auditsidecarconfiguration)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -1376,7 +1376,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `backupStorageLocation` _[LocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#localobjectreference-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `backupStorageLocation` _[LocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#localobjectreference-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -1396,7 +1396,7 @@ _Appears in:_
 | --- | --- |
 | `endpoint` _string_ | {{< unsafe >}}Endpoint is the API endpoint to use for backup and restore.{{< /unsafe >}} |
 | `bucketName` _string_ | {{< unsafe >}}BucketName is the bucket name to use for backup and restore.{{< /unsafe >}} |
-| `credentials` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretreference-v1-core)_ | {{< unsafe >}}Credentials hold the ref to the secret with backup credentials{{< /unsafe >}} |
+| `credentials` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretreference-v1-core)_ | {{< unsafe >}}Credentials hold the ref to the secret with backup credentials{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -1414,16 +1414,16 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `scheduledTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}ScheduledTime will always be set when the BackupStatus is created, so it'll never be nil{{< /unsafe >}} |
+| `scheduledTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}ScheduledTime will always be set when the BackupStatus is created, so it'll never be nil{{< /unsafe >}} |
 | `backupName` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 | `jobName` _string_ | {{< unsafe >}}{{< /unsafe >}} |
-| `backupStartTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `backupFinishedTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `backupStartTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `backupFinishedTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `backupPhase` _[BackupStatusPhase](#backupstatusphase)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `backupMessage` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 | `deleteJobName` _string_ | {{< unsafe >}}{{< /unsafe >}} |
-| `deleteStartTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `deleteFinishedTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `deleteStartTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `deleteFinishedTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `deletePhase` _[BackupStatusPhase](#backupstatusphase)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `deleteMessage` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 
@@ -1567,7 +1567,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Cluster`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ClusterSpec](#clusterspec)_ | {{< unsafe >}}Spec describes the desired cluster state.{{< /unsafe >}} |
 | `status` _[ClusterStatus](#clusterstatus)_ | {{< unsafe >}}Status contains reconciliation information for the cluster.{{< /unsafe >}} |
 
@@ -1612,7 +1612,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterBackupStorageLocation`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[BackupStorageLocationSpec](#backupstoragelocationspec)_ | {{< unsafe >}}Spec is a Velero BSL spec{{< /unsafe >}} |
 | `status` _[BackupStorageLocationStatus](#backupstoragelocationstatus)_ | {{< unsafe >}}{{< /unsafe >}} |
 
@@ -1633,7 +1633,7 @@ ClusterBackupStorageLocationList is a list of ClusterBackupStorageLocations.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterBackupStorageLocationList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ClusterBackupStorageLocation](#clusterbackupstoragelocation) array_ | {{< unsafe >}}Items is a list of EtcdBackupConfig objects.{{< /unsafe >}} |
 
 
@@ -1652,10 +1652,10 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
 | `kubermaticVersion` _string_ | {{< unsafe >}}KubermaticVersion current kubermatic version.{{< /unsafe >}} |
-| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
-| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transit from one status to another.{{< /unsafe >}} |
+| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transit from one status to another.{{< /unsafe >}} |
 | `reason` _string_ | {{< unsafe >}}(brief) reason for the condition's last transition.{{< /unsafe >}} |
 | `message` _string_ | {{< unsafe >}}Human readable message indicating details about last transition.{{< /unsafe >}} |
 
@@ -1720,7 +1720,7 @@ ClusterList specifies a list of user clusters.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[Cluster](#cluster) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -1785,7 +1785,7 @@ _Appears in:_
 | `version` _[Semver](#semver)_ | {{< unsafe >}}Version defines the wanted version of the control plane.{{< /unsafe >}} |
 | `cloud` _[CloudSpec](#cloudspec)_ | {{< unsafe >}}Cloud contains information regarding the cloud provider that<br />is responsible for hosting the cluster's workload.{{< /unsafe >}} |
 | `containerRuntime` _string_ | {{< unsafe >}}ContainerRuntime to use, i.e. `docker` or `containerd`. By default `containerd` will be used.{{< /unsafe >}} |
-| `imagePullSecret` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretreference-v1-core)_ | {{< unsafe >}}Optional: ImagePullSecret references a secret with container registry credentials. This is passed to the machine-controller which sets the registry credentials on node level.{{< /unsafe >}} |
+| `imagePullSecret` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretreference-v1-core)_ | {{< unsafe >}}Optional: ImagePullSecret references a secret with container registry credentials. This is passed to the machine-controller which sets the registry credentials on node level.{{< /unsafe >}} |
 | `cniPlugin` _[CNIPluginSettings](#cnipluginsettings)_ | {{< unsafe >}}Optional: CNIPlugin refers to the spec of the CNI plugin used by the Cluster.{{< /unsafe >}} |
 | `clusterNetwork` _[ClusterNetworkingConfig](#clusternetworkingconfig)_ | {{< unsafe >}}Optional: ClusterNetwork specifies the different networking parameters for a cluster.{{< /unsafe >}} |
 | `machineNetworks` _[MachineNetworkingConfig](#machinenetworkingconfig) array_ | {{< unsafe >}}Optional: MachineNetworks is the list of the networking parameters used for IPAM.{{< /unsafe >}} |
@@ -1834,9 +1834,9 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `address` _[ClusterAddress](#clusteraddress)_ | {{< unsafe >}}Address contains the IPs/URLs to access the cluster control plane.{{< /unsafe >}} |
-| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Deprecated: LastUpdated contains the timestamp at which the cluster was last modified.<br />It is kept only for KKP 2.20 release to not break the backwards-compatibility and not being set for KKP higher releases.{{< /unsafe >}} |
+| `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Deprecated: LastUpdated contains the timestamp at which the cluster was last modified.<br />It is kept only for KKP 2.20 release to not break the backwards-compatibility and not being set for KKP higher releases.{{< /unsafe >}} |
 | `extendedHealth` _[ExtendedClusterHealth](#extendedclusterhealth)_ | {{< unsafe >}}ExtendedHealth exposes information about the current health state.<br />Extends standard health status for new states.{{< /unsafe >}} |
-| `lastProviderReconciliation` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}LastProviderReconciliation is the time when the cloud provider resources<br />were last fully reconciled (during normal cluster reconciliation, KKP does<br />not re-check things like security groups, networks etc.).{{< /unsafe >}} |
+| `lastProviderReconciliation` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}LastProviderReconciliation is the time when the cloud provider resources<br />were last fully reconciled (during normal cluster reconciliation, KKP does<br />not re-check things like security groups, networks etc.).{{< /unsafe >}} |
 | `namespaceName` _string_ | {{< unsafe >}}NamespaceName defines the namespace the control plane of this cluster is deployed in.{{< /unsafe >}} |
 | `versions` _[ClusterVersionsStatus](#clusterversionsstatus)_ | {{< unsafe >}}Versions contains information regarding the current and desired versions<br />of the cluster control plane and worker nodes.{{< /unsafe >}} |
 | `userName` _string_ | {{< unsafe >}}Deprecated: UserName contains the name of the owner of this cluster.<br />This field is not actively used and will be removed in the future.{{< /unsafe >}} |
@@ -1878,7 +1878,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplate`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `clusterLabels` _object (keys:string, values:string)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `inheritedClusterLabels` _object (keys:string, values:string)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `credential` _string_ | {{< unsafe >}}{{< /unsafe >}} |
@@ -1903,7 +1903,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplateInstance`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ClusterTemplateInstanceSpec](#clustertemplateinstancespec)_ | {{< unsafe >}}Spec specifies the data for cluster instances.{{< /unsafe >}} |
 
 
@@ -1923,7 +1923,7 @@ ClusterTemplateInstanceList specifies a list of cluster template instances.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplateInstanceList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ClusterTemplateInstance](#clustertemplateinstance) array_ | {{< unsafe >}}Items refers to the list of ClusterTemplateInstance objects.{{< /unsafe >}} |
 
 
@@ -1964,7 +1964,7 @@ ClusterTemplateList specifies a list of cluster templates.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ClusterTemplateList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ClusterTemplate](#clustertemplate) array_ | {{< unsafe >}}Items refers to the list of the ClusterTemplate objects.{{< /unsafe >}} |
 
 
@@ -2066,7 +2066,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Constraint`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ConstraintSpec](#constraintspec)_ | {{< unsafe >}}Spec describes the desired state for the constraint.{{< /unsafe >}} |
 
 
@@ -2086,7 +2086,7 @@ ConstraintList specifies a list of constraints.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ConstraintList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[Constraint](#constraint) array_ | {{< unsafe >}}Items is a list of Gatekeeper Constraints{{< /unsafe >}} |
 
 
@@ -2106,7 +2106,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `providers` _string array_ | {{< unsafe >}}Providers is a list of cloud providers to which the Constraint applies to. Empty means all providers are selected.{{< /unsafe >}} |
-| `labelSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#labelselector-v1-meta)_ | {{< unsafe >}}LabelSelector selects the Clusters to which the Constraint applies based on their labels{{< /unsafe >}} |
+| `labelSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta)_ | {{< unsafe >}}LabelSelector selects the Clusters to which the Constraint applies based on their labels{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -2149,7 +2149,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ConstraintTemplate`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ConstraintTemplateSpec](#constrainttemplatespec)_ | {{< unsafe >}}Spec specifies the gatekeeper constraint template and KKP related spec.{{< /unsafe >}} |
 
 
@@ -2169,7 +2169,7 @@ ConstraintTemplateList specifies a list of constraint templates.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ConstraintTemplateList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ConstraintTemplate](#constrainttemplate) array_ | {{< unsafe >}}Items refers to the list of ConstraintTemplate objects.{{< /unsafe >}} |
 
 
@@ -2189,7 +2189,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `providers` _string array_ | {{< unsafe >}}Providers is a list of cloud providers to which the Constraint Template applies to. Empty means all providers are selected.{{< /unsafe >}} |
-| `labelSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#labelselector-v1-meta)_ | {{< unsafe >}}LabelSelector selects the Clusters to which the Constraint Template applies based on their labels{{< /unsafe >}} |
+| `labelSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta)_ | {{< unsafe >}}LabelSelector selects the Clusters to which the Constraint Template applies based on their labels{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -2248,8 +2248,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
 | `leaderElection` _[LeaderElectionSettings](#leaderelectionsettings)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -2361,7 +2361,7 @@ _Appears in:_
 | `requiredEmails` _string array_ | {{< unsafe >}}Optional: When defined, only users with an e-mail address on the<br />given domains can make use of this datacenter. You can define multiple<br />domains, e.g. "example.com", one of which must match the email domain<br />exactly (i.e. "example.com" will not match "user@test.example.com").{{< /unsafe >}} |
 | `enforceAuditLogging` _boolean_ | {{< unsafe >}}Optional: EnforceAuditLogging enforces audit logging on every cluster within the DC,<br />ignoring cluster-specific settings.{{< /unsafe >}} |
 | `enforcePodSecurityPolicy` _boolean_ | {{< unsafe >}}Optional: EnforcePodSecurityPolicy enforces pod security policy plugin on every clusters within the DC,<br />ignoring cluster-specific settings.{{< /unsafe >}} |
-| `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#duration-v1-meta)_ | {{< unsafe >}}Optional: ProviderReconciliationInterval is the time that must have passed since a<br />Cluster's status.lastProviderReconciliation to make the cliuster controller<br />perform an in-depth provider reconciliation, where for example missing security<br />groups will be reconciled.<br />Setting this too low can cause rate limits by the cloud provider, setting this<br />too high means that *if* a resource at a cloud provider is removed/changed outside<br />of KKP, it will take this long to fix it.{{< /unsafe >}} |
+| `providerReconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#duration-v1-meta)_ | {{< unsafe >}}Optional: ProviderReconciliationInterval is the time that must have passed since a<br />Cluster's status.lastProviderReconciliation to make the cliuster controller<br />perform an in-depth provider reconciliation, where for example missing security<br />groups will be reconciled.<br />Setting this too low can cause rate limits by the cloud provider, setting this<br />too high means that *if* a resource at a cloud provider is removed/changed outside<br />of KKP, it will take this long to fix it.{{< /unsafe >}} |
 | `operatingSystemProfiles` _[OperatingSystemProfileList](#operatingsystemprofilelist)_ | {{< unsafe >}}Optional: DefaultOperatingSystemProfiles specifies the OperatingSystemProfiles to use for each supported operating system.{{< /unsafe >}} |
 | `machineFlavorFilter` _[MachineFlavorFilter](#machineflavorfilter)_ | {{< unsafe >}}Optional: MachineFlavorFilter is used to filter out allowed machine flavors based on the specified resource limits like CPU, Memory, and GPU etc.{{< /unsafe >}} |
 | `disableCsiDriver` _boolean_ | {{< unsafe >}}Optional: DisableCSIDriver disables the installation of CSI driver on every clusters within the DC<br />If true it can't be over-written in the cluster configuration{{< /unsafe >}} |
@@ -2537,7 +2537,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dnsPolicy` _string_ | {{< unsafe >}}DNSPolicy represents the dns policy for the pod. Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst',<br />'Default' or 'None'. Defaults to "ClusterFirst". DNS parameters given in DNSConfig will be merged with the<br />policy selected with DNSPolicy.{{< /unsafe >}} |
-| `dnsConfig` _[PodDNSConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#poddnsconfig-v1-core)_ | {{< unsafe >}}DNSConfig represents the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS<br />configuration based on DNSPolicy.{{< /unsafe >}} |
+| `dnsConfig` _[PodDNSConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#poddnsconfig-v1-core)_ | {{< unsafe >}}DNSConfig represents the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS<br />configuration based on DNSPolicy.{{< /unsafe >}} |
 | `enableDefaultNetworkPolicies` _boolean_ | {{< unsafe >}}Optional: EnableDefaultNetworkPolicies enables deployment of default network policies like cluster isolation.<br />Defaults to true.{{< /unsafe >}} |
 | `customNetworkPolicies` _[CustomNetworkPolicy](#customnetworkpolicy) array_ | {{< unsafe >}}Optional: CustomNetworkPolicies allows to add some extra custom NetworkPolicies, that are deployed<br />in the dedicated infra KubeVirt cluster. They are added to the defaults.{{< /unsafe >}} |
 | `images` _[KubeVirtImageSources](#kubevirtimagesources)_ | {{< unsafe >}}Images represents standard VM Image sources.{{< /unsafe >}} |
@@ -2704,8 +2704,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -2838,7 +2838,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdBackupConfig`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[EtcdBackupConfigSpec](#etcdbackupconfigspec)_ | {{< unsafe >}}Spec describes details of an Etcd backup.{{< /unsafe >}} |
 | `status` _[EtcdBackupConfigStatus](#etcdbackupconfigstatus)_ | {{< unsafe >}}{{< /unsafe >}} |
 
@@ -2858,9 +2858,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
-| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
-| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transit from one status to another.{{< /unsafe >}} |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
+| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transit from one status to another.{{< /unsafe >}} |
 | `reason` _string_ | {{< unsafe >}}(brief) reason for the condition's last transition.{{< /unsafe >}} |
 | `message` _string_ | {{< unsafe >}}Human readable message indicating details about last transition.{{< /unsafe >}} |
 
@@ -2894,7 +2894,7 @@ EtcdBackupConfigList is a list of etcd backup configs.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdBackupConfigList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[EtcdBackupConfig](#etcdbackupconfig) array_ | {{< unsafe >}}Items is a list of EtcdBackupConfig objects.{{< /unsafe >}} |
 
 
@@ -2914,7 +2914,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ | {{< unsafe >}}Name defines the name of the backup<br />The name of the backup file in S3 will be <cluster>-<backup name><br />If a schedule is set (see below), -<timestamp> will be appended.{{< /unsafe >}} |
-| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectreference-v1-core)_ | {{< unsafe >}}Cluster is the reference to the cluster whose etcd will be backed up{{< /unsafe >}} |
+| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}Cluster is the reference to the cluster whose etcd will be backed up{{< /unsafe >}} |
 | `schedule` _string_ | {{< unsafe >}}Schedule is a cron expression defining when to perform<br />the backup. If not set, the backup is performed exactly<br />once, immediately.{{< /unsafe >}} |
 | `keep` _integer_ | {{< unsafe >}}Keep is the number of backups to keep around before deleting the oldest one<br />If not set, defaults to DefaultKeptBackupsCount. Only used if Schedule is set.{{< /unsafe >}} |
 | `destination` _string_ | {{< unsafe >}}Destination indicates where the backup will be stored. The destination name must correspond to a destination in<br />the cluster's Seed.Spec.EtcdBackupRestore.{{< /unsafe >}} |
@@ -2976,7 +2976,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdRestore`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[EtcdRestoreSpec](#etcdrestorespec)_ | {{< unsafe >}}Spec describes details of an etcd restore.{{< /unsafe >}} |
 | `status` _[EtcdRestoreStatus](#etcdrestorestatus)_ | {{< unsafe >}}{{< /unsafe >}} |
 
@@ -2997,7 +2997,7 @@ EtcdRestoreList is a list of etcd restores.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `EtcdRestoreList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[EtcdRestore](#etcdrestore) array_ | {{< unsafe >}}Items is the list of the Etcd restores.{{< /unsafe >}} |
 
 
@@ -3028,7 +3028,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ | {{< unsafe >}}Name defines the name of the restore<br />The name of the restore file in S3 will be <cluster>-<restore name><br />If a schedule is set (see below), -<timestamp> will be appended.{{< /unsafe >}} |
-| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectreference-v1-core)_ | {{< unsafe >}}Cluster is the reference to the cluster whose etcd will be backed up{{< /unsafe >}} |
+| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}Cluster is the reference to the cluster whose etcd will be backed up{{< /unsafe >}} |
 | `backupName` _string_ | {{< unsafe >}}BackupName is the name of the backup to restore from{{< /unsafe >}} |
 | `backupDownloadCredentialsSecret` _string_ | {{< unsafe >}}BackupDownloadCredentialsSecret is the name of a secret in the cluster-xxx namespace containing<br />credentials needed to download the backup{{< /unsafe >}} |
 | `destination` _string_ | {{< unsafe >}}Destination indicates where the backup was stored. The destination name should correspond to a destination in<br />the cluster's Seed.Spec.EtcdBackupRestore. If empty, it will use the legacy destination configured in Seed.Spec.BackupRestore{{< /unsafe >}} |
@@ -3050,7 +3050,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `phase` _[EtcdRestorePhase](#etcdrestorephase)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `restoreTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `restoreTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -3070,8 +3070,8 @@ _Appears in:_
 | --- | --- |
 | `clusterSize` _integer_ | {{< unsafe >}}ClusterSize is the number of replicas created for etcd. This should be an<br />odd number to guarantee consensus, e.g. 3, 5 or 7.{{< /unsafe >}} |
 | `storageClass` _string_ | {{< unsafe >}}StorageClass is the Kubernetes StorageClass used for persistent storage<br />which stores the etcd WAL and other data persisted across restarts. Defaults to<br />`kubermatic-fast` (the global default).{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources allows to override the resource requirements for etcd Pods.{{< /unsafe >}} |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allows to override the scheduling tolerations for etcd Pods.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources allows to override the resource requirements for etcd Pods.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allows to override the scheduling tolerations for etcd Pods.{{< /unsafe >}} |
 | `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on etcd<br />pods. Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that pods are never scheduled.{{< /unsafe >}} |
 | `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on etcd<br />pods. Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that pods are never scheduled.{{< /unsafe >}} |
 | `nodeSelector` _object (keys:string, values:string)_ | {{< unsafe >}}NodeSelector is a selector which restricts the set of nodes where etcd Pods can run.{{< /unsafe >}} |
@@ -3188,7 +3188,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ExternalCluster`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ExternalClusterSpec](#externalclusterspec)_ | {{< unsafe >}}Spec describes the desired cluster state.{{< /unsafe >}} |
 | `status` _[ExternalClusterStatus](#externalclusterstatus)_ | {{< unsafe >}}Status contains reconciliation information for the cluster.{{< /unsafe >}} |
 
@@ -3358,7 +3358,7 @@ ExternalClusterList specifies a list of external kubernetes clusters.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ExternalClusterList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ExternalCluster](#externalcluster) array_ | {{< unsafe >}}Items holds the list of the External Kubernetes cluster.{{< /unsafe >}} |
 
 
@@ -3582,7 +3582,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `GroupProjectBinding`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[GroupProjectBindingSpec](#groupprojectbindingspec)_ | {{< unsafe >}}Spec describes an oidc group binding to a project.{{< /unsafe >}} |
 
 
@@ -3602,7 +3602,7 @@ GroupProjectBindingList is a list of group project bindings.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `GroupProjectBindingList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[GroupProjectBinding](#groupprojectbinding) array_ | {{< unsafe >}}Items holds the list of the group and project bindings.{{< /unsafe >}} |
 
 
@@ -3716,7 +3716,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `IPAMAllocation`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[IPAMAllocationSpec](#ipamallocationspec)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -3736,7 +3736,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `IPAMAllocationList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[IPAMAllocation](#ipamallocation) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -3780,7 +3780,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `IPAMPool`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[IPAMPoolSpec](#ipampoolspec)_ | {{< unsafe >}}Spec describes the Multi-Cluster IP Address Management (IPAM) configuration for KKP user clusters.{{< /unsafe >}} |
 
 
@@ -3837,7 +3837,7 @@ configuration for KKP user clusters.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `IPAMPoolList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[IPAMPool](#ipampool) array_ | {{< unsafe >}}Items holds the list of IPAM pool objects.{{< /unsafe >}} |
 
 
@@ -3961,7 +3961,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources configure limits/requests for Konnectivity components.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources configure limits/requests for Konnectivity components.{{< /unsafe >}} |
 | `keepaliveTime` _string_ | {{< unsafe >}}KeepaliveTime represents a duration of time to check if the transport is still alive.<br />The option is propagated to agents and server.<br />Defaults to 1m.{{< /unsafe >}} |
 
 
@@ -3999,7 +3999,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectreference-v1-core)_ | {{< unsafe >}}Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster.{{< /unsafe >}} |
+| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster.{{< /unsafe >}} |
 | `enabled` _boolean_ | {{< unsafe >}}Enabled is used to enable/disable kubeLB for the datacenter. This is used to control whether installing kubeLB is allowed or not for the datacenter.{{< /unsafe >}} |
 | `enforced` _boolean_ | {{< unsafe >}}Enforced is used to enforce kubeLB installation for all the user clusters belonging to this datacenter. Setting enforced to false will not uninstall kubeLB from the user clusters and it needs to be disabled manually.{{< /unsafe >}} |
 | `nodeAddressType` _string_ | {{< unsafe >}}NodeAddressType is used to configure the address type from node, used for load balancing.<br />Optional: Defaults to ExternalIP.{{< /unsafe >}} |
@@ -4021,7 +4021,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectreference-v1-core)_ | {{< unsafe >}}Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster.{{< /unsafe >}} |
+| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4082,7 +4082,7 @@ _Appears in:_
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the Kubermatic REST API image.{{< /unsafe >}} |
 | `accessibleAddons` _string array_ | {{< unsafe >}}AccessibleAddons is a list of addons that should be enabled in the API.{{< /unsafe >}} |
 | `pprofEndpoint` _string_ | {{< unsafe >}}PProfEndpoint controls the port the API should listen on to provide pprof<br />data. This port is never exposed from the container and only available via port-forwardings.{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 | `debugLog` _boolean_ | {{< unsafe >}}DebugLog enables more verbose logging.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the API deployment.{{< /unsafe >}} |
 
@@ -4150,7 +4150,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `KubermaticConfiguration`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[KubermaticConfigurationSpec](#kubermaticconfigurationspec)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `status` _[KubermaticConfigurationStatus](#kubermaticconfigurationstatus)_ | {{< unsafe >}}{{< /unsafe >}} |
 
@@ -4171,7 +4171,7 @@ KubermaticConfigurationList is a collection of KubermaticConfigurations.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `KubermaticConfigurationList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[KubermaticConfiguration](#kubermaticconfiguration) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -4190,7 +4190,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `caBundle` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#typedlocalobjectreference-v1-core)_ | {{< unsafe >}}CABundle references a ConfigMap in the same namespace as the KubermaticConfiguration.<br />This ConfigMap must contain a ca-bundle.pem with PEM-encoded certificates. This bundle<br />automatically synchronized into each seed and each usercluster. APIGroup and Kind are<br />currently ignored.{{< /unsafe >}} |
+| `caBundle` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#typedlocalobjectreference-v1-core)_ | {{< unsafe >}}CABundle references a ConfigMap in the same namespace as the KubermaticConfiguration.<br />This ConfigMap must contain a ca-bundle.pem with PEM-encoded certificates. This bundle<br />automatically synchronized into each seed and each usercluster. APIGroup and Kind are<br />currently ignored.{{< /unsafe >}} |
 | `imagePullSecret` _string_ | {{< unsafe >}}ImagePullSecret is used to authenticate against Docker registries.{{< /unsafe >}} |
 | `auth` _[KubermaticAuthConfiguration](#kubermaticauthconfiguration)_ | {{< unsafe >}}Auth defines keys and URLs for Dex. These must be defined unless the HeadlessInstallation<br />feature gate is set, which will disable the UI/API and its need for an OIDC provider entirely.{{< /unsafe >}} |
 | `featureGates` _object (keys:string, values:boolean)_ | {{< unsafe >}}FeatureGates are used to optionally enable certain features.{{< /unsafe >}} |
@@ -4245,7 +4245,7 @@ _Appears in:_
 | `className` _string_ | {{< unsafe >}}ClassName is the Ingress resource's class name, used for selecting the appropriate<br />ingress controller.{{< /unsafe >}} |
 | `namespaceOverride` _string_ | {{< unsafe >}}NamespaceOverride need to be set if a different ingress-controller is used than the KKP default one.{{< /unsafe >}} |
 | `disable` _boolean_ | {{< unsafe >}}Disable will prevent an Ingress from being created at all. This is mostly useful<br />during testing. If the Ingress is disabled, the CertificateIssuer setting can also<br />be left empty, as no Certificate resource will be created.{{< /unsafe >}} |
-| `certificateIssuer` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#typedlocalobjectreference-v1-core)_ | {{< unsafe >}}CertificateIssuer is the name of a cert-manager Issuer or ClusterIssuer (default)<br />that will be used to acquire the certificate for the configured domain.<br />To use a namespaced Issuer, set the Kind to "Issuer" and manually create the<br />matching Issuer in Kubermatic's namespace.<br />Setting an empty name disables the automatic creation of certificates and disables<br />the TLS settings on the Kubermatic Ingress.{{< /unsafe >}} |
+| `certificateIssuer` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#typedlocalobjectreference-v1-core)_ | {{< unsafe >}}CertificateIssuer is the name of a cert-manager Issuer or ClusterIssuer (default)<br />that will be used to acquire the certificate for the configured domain.<br />To use a namespaced Issuer, set the Kind to "Issuer" and manually create the<br />matching Issuer in Kubermatic's namespace.<br />Setting an empty name disables the automatic creation of certificates and disables<br />the TLS settings on the Kubermatic Ingress.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4266,7 +4266,7 @@ _Appears in:_
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the Kubermatic master-controller-manager image.{{< /unsafe >}} |
 | `projectsMigrator` _[KubermaticProjectsMigratorConfiguration](#kubermaticprojectsmigratorconfiguration)_ | {{< unsafe >}}ProjectsMigrator configures the migrator for user projects.{{< /unsafe >}} |
 | `pprofEndpoint` _string_ | {{< unsafe >}}PProfEndpoint controls the port the master-controller-manager should listen on to provide pprof<br />data. This port is never exposed from the container and only available via port-forwardings.{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 | `debugLog` _boolean_ | {{< unsafe >}}DebugLog enables more verbose logging.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the master-controller-manager.{{< /unsafe >}} |
 
@@ -4333,7 +4333,7 @@ _Appears in:_
 | `backupCleanupContainer` _string_ | {{< unsafe >}}Deprecated: BackupCleanupContainer is the container used for removing expired backups from the storage location.<br />This field is a no-op and is no longer used. The old backup controller it was used for has been<br />removed. Do not set this field.{{< /unsafe >}} |
 | `maximumParallelReconciles` _integer_ | {{< unsafe >}}MaximumParallelReconciles limits the number of cluster reconciliations<br />that are active at any given time.{{< /unsafe >}} |
 | `pprofEndpoint` _string_ | {{< unsafe >}}PProfEndpoint controls the port the seed-controller-manager should listen on to provide pprof<br />data. This port is never exposed from the container and only available via port-forwardings.{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 | `debugLog` _boolean_ | {{< unsafe >}}DebugLog enables more verbose logging.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the seed-controller-manager.{{< /unsafe >}} |
 
@@ -4357,7 +4357,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `KubermaticSetting`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[SettingSpec](#settingspec)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -4377,7 +4377,7 @@ KubermaticSettingList is a list of settings.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `KubermaticSettingList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[KubermaticSetting](#kubermaticsetting) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -4400,10 +4400,10 @@ _Appears in:_
 | `dockerTag` _string_ | {{< unsafe >}}DockerTag is used to overwrite the dashboard Docker image tag and is only for development<br />purposes. This field must not be set in production environments. If DockerTag is specified then<br />DockerTagSuffix will be ignored.<br />---{{< /unsafe >}} |
 | `dockerTagSuffix` _string_ | {{< unsafe >}}DockerTagSuffix is appended to the KKP version used for referring to the custom dashboard image.<br />If left empty, either the `DockerTag` if specified or the original dashboard Docker image tag will be used.<br />With DockerTagSuffix the tag becomes <KKP_VERSION:SUFFIX> i.e. "v2.15.0-SUFFIX".{{< /unsafe >}} |
 | `config` _string_ | {{< unsafe >}}Config sets flags for various dashboard features.{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the UI deployment.{{< /unsafe >}} |
-| `extraVolumeMounts` _[VolumeMount](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#volumemount-v1-core) array_ | {{< unsafe >}}ExtraVolumeMounts allows to mount additional volumes into the UI container.{{< /unsafe >}} |
-| `extraVolumes` _[Volume](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#volume-v1-core) array_ | {{< unsafe >}}ExtraVolumes allows to mount additional volumes into the UI container.{{< /unsafe >}} |
+| `extraVolumeMounts` _[VolumeMount](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#volumemount-v1-core) array_ | {{< unsafe >}}ExtraVolumeMounts allows to mount additional volumes into the UI container.{{< /unsafe >}} |
+| `extraVolumes` _[Volume](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#volume-v1-core) array_ | {{< unsafe >}}ExtraVolumes allows to mount additional volumes into the UI container.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4474,7 +4474,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the component's image.{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4536,7 +4536,7 @@ _Appears in:_
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the Kubermatic webhook image.{{< /unsafe >}} |
 | `pprofEndpoint` _string_ | {{< unsafe >}}PProfEndpoint controls the port the webhook should listen on to provide pprof<br />data. This port is never exposed from the container and only available via port-forwardings.{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 | `debugLog` _boolean_ | {{< unsafe >}}DebugLog enables more verbose logging.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the webhook.{{< /unsafe >}} |
 
@@ -4674,7 +4674,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `MLAAdminSetting`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[MLAAdminSettingSpec](#mlaadminsettingspec)_ | {{< unsafe >}}Spec describes the cluster-specific administrator settings for KKP user cluster MLA<br />(monitoring, logging & alerting) stack.{{< /unsafe >}} |
 
 
@@ -4695,7 +4695,7 @@ user cluster MLA (monitoring, logging & alerting) stack.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `MLAAdminSettingList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[MLAAdminSetting](#mlaadminsetting) array_ | {{< unsafe >}}Items holds the list of the cluster-specific administrative settings<br />for KKP user cluster MLA.{{< /unsafe >}} |
 
 
@@ -4737,8 +4737,8 @@ _Appears in:_
 | --- | --- |
 | `monitoringEnabled` _boolean_ | {{< unsafe >}}MonitoringEnabled is the flag for enabling monitoring in user cluster.{{< /unsafe >}} |
 | `loggingEnabled` _boolean_ | {{< unsafe >}}LoggingEnabled is the flag for enabling logging in user cluster.{{< /unsafe >}} |
-| `monitoringResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}MonitoringResources is the resource requirements for user cluster prometheus.{{< /unsafe >}} |
-| `loggingResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}LoggingResources is the resource requirements for user cluster promtail.{{< /unsafe >}} |
+| `monitoringResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}MonitoringResources is the resource requirements for user cluster prometheus.{{< /unsafe >}} |
+| `loggingResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}LoggingResources is the resource requirements for user cluster promtail.{{< /unsafe >}} |
 | `monitoringReplicas` _integer_ | {{< unsafe >}}MonitoringReplicas is the number of desired pods of user cluster prometheus deployment.{{< /unsafe >}} |
 
 
@@ -4842,8 +4842,8 @@ _Appears in:_
 | `scope` _string_ | {{< unsafe >}}Scope accepts *, Cluster, or Namespaced which determines if cluster-scoped and/or namespace-scoped resources are selected. (defaults to *){{< /unsafe >}} |
 | `namespaces` _string array_ | {{< unsafe >}}Namespaces is a list of namespace names. If defined, a constraint will only apply to resources in a listed namespace.{{< /unsafe >}} |
 | `excludedNamespaces` _string array_ | {{< unsafe >}}ExcludedNamespaces is a list of namespace names. If defined, a constraint will only apply to resources not in a listed namespace.{{< /unsafe >}} |
-| `labelSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#labelselector-v1-meta)_ | {{< unsafe >}}LabelSelector is a standard Kubernetes label selector.{{< /unsafe >}} |
-| `namespaceSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#labelselector-v1-meta)_ | {{< unsafe >}}NamespaceSelector  is a standard Kubernetes namespace selector. If defined, make sure to add Namespaces to your<br />configs.config.gatekeeper.sh object to ensure namespaces are synced into OPA{{< /unsafe >}} |
+| `labelSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta)_ | {{< unsafe >}}LabelSelector is a standard Kubernetes label selector.{{< /unsafe >}} |
+| `namespaceSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta)_ | {{< unsafe >}}NamespaceSelector  is a standard Kubernetes namespace selector. If defined, make sure to add Namespaces to your<br />configs.config.gatekeeper.sh object to ensure namespaces are synced into OPA{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4987,7 +4987,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the component's image.{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 | `loadBalancerService` _[EnvoyLoadBalancerService](#envoyloadbalancerservice)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -5032,7 +5032,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the component's image.{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5055,8 +5055,8 @@ _Appears in:_
 | `envoy` _[NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)_ | {{< unsafe >}}Envoy configures the Envoy application itself.{{< /unsafe >}} |
 | `envoyManager` _[NodeportProxyComponent](#nodeportproxycomponent)_ | {{< unsafe >}}EnvoyManager configures the Kubermatic-internal Envoy manager.{{< /unsafe >}} |
 | `updater` _[NodeportProxyComponent](#nodeportproxycomponent)_ | {{< unsafe >}}Updater configures the component responsible for updating the LoadBalancer<br />service.{{< /unsafe >}} |
-| `ipFamilyPolicy` _[IPFamilyPolicy](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#ipfamilypolicy-v1-core)_ | {{< unsafe >}}IPFamilyPolicy configures the IP family policy for the LoadBalancer service.{{< /unsafe >}} |
-| `ipFamilies` _[IPFamily](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#ipfamily-v1-core) array_ | {{< unsafe >}}IPFamilies configures the IP families to use for the LoadBalancer service.{{< /unsafe >}} |
+| `ipFamilyPolicy` _[IPFamilyPolicy](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#ipfamilypolicy-v1-core)_ | {{< unsafe >}}IPFamilyPolicy configures the IP family policy for the LoadBalancer service.{{< /unsafe >}} |
+| `ipFamilies` _[IPFamily](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#ipfamily-v1-core) array_ | {{< unsafe >}}IPFamilies configures the IP families to use for the LoadBalancer service.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5225,8 +5225,8 @@ _Appears in:_
 | `enabled` _boolean_ | {{< unsafe >}}Enables OPA Gatekeeper integration.{{< /unsafe >}} |
 | `webhookTimeoutSeconds` _integer_ | {{< unsafe >}}The timeout in seconds that is set for the Gatekeeper validating webhook admission review calls.<br />Defaults to `10` (seconds).{{< /unsafe >}} |
 | `experimentalEnableMutation` _boolean_ | {{< unsafe >}}Optional: Enables experimental mutation in Gatekeeper.{{< /unsafe >}} |
-| `controllerResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Optional: ControllerResources is the resource requirements for user cluster gatekeeper controller.{{< /unsafe >}} |
-| `auditResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}Optional: AuditResources is the resource requirements for user cluster gatekeeper audit.{{< /unsafe >}} |
+| `controllerResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Optional: ControllerResources is the resource requirements for user cluster gatekeeper controller.{{< /unsafe >}} |
+| `auditResources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}Optional: AuditResources is the resource requirements for user cluster gatekeeper audit.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5497,7 +5497,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Preset`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[PresetSpec](#presetspec)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -5519,7 +5519,7 @@ PresetList is the type representing a PresetList.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `PresetList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[Preset](#preset) array_ | {{< unsafe >}}List of presets{{< /unsafe >}} |
 
 
@@ -5578,7 +5578,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Project`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ProjectSpec](#projectspec)_ | {{< unsafe >}}Spec describes the configuration of the project.{{< /unsafe >}} |
 | `status` _[ProjectStatus](#projectstatus)_ | {{< unsafe >}}Status holds the current status of the project.{{< /unsafe >}} |
 
@@ -5601,7 +5601,7 @@ ProjectList is a collection of projects.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ProjectList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[Project](#project) array_ | {{< unsafe >}}Items is the list of the projects.{{< /unsafe >}} |
 
 
@@ -5771,7 +5771,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ResourceQuota`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[ResourceQuotaSpec](#resourcequotaspec)_ | {{< unsafe >}}Spec describes the desired state of the resource quota.{{< /unsafe >}} |
 | `status` _[ResourceQuotaStatus](#resourcequotastatus)_ | {{< unsafe >}}Status holds the current state of the resource quota.{{< /unsafe >}} |
 
@@ -5792,7 +5792,7 @@ ResourceQuotaList is a collection of resource quotas.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `ResourceQuotaList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ResourceQuota](#resourcequota) array_ | {{< unsafe >}}Items is the list of the resource quotas.{{< /unsafe >}} |
 
 
@@ -5851,7 +5851,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `RuleGroup`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[RuleGroupSpec](#rulegroupspec)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -5871,7 +5871,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `RuleGroupList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[RuleGroup](#rulegroup) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -5892,7 +5892,7 @@ _Appears in:_
 | --- | --- |
 | `isDefault` _boolean_ | {{< unsafe >}}IsDefault indicates whether the ruleGroup is default{{< /unsafe >}} |
 | `ruleGroupType` _[RuleGroupType](#rulegrouptype)_ | {{< unsafe >}}RuleGroupType is the type of this ruleGroup applies to. It can be `Metrics` or `Logs`.{{< /unsafe >}} |
-| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectreference-v1-core)_ | {{< unsafe >}}Cluster is the reference to the cluster the ruleGroup should be created in. All fields<br />except for the name are ignored.{{< /unsafe >}} |
+| `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}Cluster is the reference to the cluster the ruleGroup should be created in. All fields<br />except for the name are ignored.{{< /unsafe >}} |
 | `data` _integer array_ | {{< unsafe >}}Data contains the RuleGroup data. Ref: https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/#rule_group{{< /unsafe >}} |
 
 
@@ -5965,7 +5965,7 @@ _Appears in:_
 | --- | --- |
 | `name` _string_ | {{< unsafe >}}Identifier of a key, used in various places to refer to the key.{{< /unsafe >}} |
 | `value` _string_ | {{< unsafe >}}Value contains a 32-byte random key that is base64 encoded. This is the key used<br />for encryption. Can be generated via `head -c 32 /dev/urandom \| base64`, for example.{{< /unsafe >}} |
-| `secretRef` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretkeyselector-v1-core)_ | {{< unsafe >}}Instead of passing the sensitive encryption key via the `value` field, a secret can be<br />referenced. The key of the secret referenced here needs to hold a key equivalent to the `value` field.{{< /unsafe >}} |
+| `secretRef` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}Instead of passing the sensitive encryption key via the `value` field, a secret can be<br />referenced. The key of the secret referenced here needs to hold a key equivalent to the `value` field.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5986,7 +5986,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `Seed`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[SeedSpec](#seedspec)_ | {{< unsafe >}}Spec describes the configuration of the Seed cluster.{{< /unsafe >}} |
 | `status` _[SeedStatus](#seedstatus)_ | {{< unsafe >}}Status holds the runtime information of the Seed cluster.{{< /unsafe >}} |
 
@@ -6006,9 +6006,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
-| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
-| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transit from one status to another.{{< /unsafe >}} |
+| `status` _[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#conditionstatus-v1-core)_ | {{< unsafe >}}Status of the condition, one of True, False, Unknown.{{< /unsafe >}} |
+| `lastHeartbeatTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time we got an update on a given condition.{{< /unsafe >}} |
+| `lastTransitionTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}Last time the condition transit from one status to another.{{< /unsafe >}} |
 | `reason` _string_ | {{< unsafe >}}(brief) reason for the condition's last transition.{{< /unsafe >}} |
 | `message` _string_ | {{< unsafe >}}Human readable message indicating details about last transition.{{< /unsafe >}} |
 
@@ -6042,7 +6042,7 @@ SeedDatacenterList is the type representing a SeedDatacenterList.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `SeedList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[Seed](#seed) array_ | {{< unsafe >}}List of seeds{{< /unsafe >}} |
 
 
@@ -6092,7 +6092,7 @@ _Appears in:_
 | --- | --- |
 | `country` _string_ | {{< unsafe >}}Optional: Country of the seed as ISO-3166 two-letter code, e.g. DE or UK.<br />For informational purposes in the Kubermatic dashboard only.{{< /unsafe >}} |
 | `location` _string_ | {{< unsafe >}}Optional: Detailed location of the cluster, like "Hamburg" or "Datacenter 7".<br />For informational purposes in the Kubermatic dashboard only.{{< /unsafe >}} |
-| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectreference-v1-core)_ | {{< unsafe >}}A reference to the Kubeconfig of this cluster. The Kubeconfig must<br />have cluster-admin privileges. This field is mandatory for every<br />seed, even if there are no datacenters defined yet.{{< /unsafe >}} |
+| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}A reference to the Kubeconfig of this cluster. The Kubeconfig must<br />have cluster-admin privileges. This field is mandatory for every<br />seed, even if there are no datacenters defined yet.{{< /unsafe >}} |
 | `datacenters` _object (keys:string, values:[Datacenter](#datacenter))_ | {{< unsafe >}}Datacenters contains a map of the possible datacenters (DCs) in this seed.<br />Each DC must have a globally unique identifier (i.e. names must be unique<br />across all seeds).{{< /unsafe >}} |
 | `seedDNSOverwrite` _string_ | {{< unsafe >}}Optional: This can be used to override the DNS name used for this seed.<br />By default the seed name is used.{{< /unsafe >}} |
 | `nodeportProxy` _[NodeportProxyConfig](#nodeportproxyconfig)_ | {{< unsafe >}}NodeportProxy can be used to configure the NodePort proxy service that is<br />responsible for making user-cluster control planes accessible from the outside.{{< /unsafe >}} |
@@ -6227,7 +6227,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6276,7 +6276,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `helmRepository` _string_ | {{< unsafe >}}HelmRepository specifies OCI repository containing Helm charts of system Applications e.g. oci://localhost:5000/myrepo.{{< /unsafe >}} |
-| `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#secretkeyselector-v1-core)_ | {{< unsafe >}}HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file.<br />The value is dockercfg file that follows the same format rules as ~/.docker/config.json<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm".{{< /unsafe >}} |
+| `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file.<br />The value is dockercfg file that follows the same format rules as ~/.docker/config.json<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm".{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6340,7 +6340,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `User`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[UserSpec](#userspec)_ | {{< unsafe >}}Spec describes a KKP user.{{< /unsafe >}} |
 | `status` _[UserStatus](#userstatus)_ | {{< unsafe >}}Status holds the information about the KKP user.{{< /unsafe >}} |
 
@@ -6361,7 +6361,7 @@ UserList is a list of users.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[User](#user) array_ | {{< unsafe >}}Items is the list of KKP users.{{< /unsafe >}} |
 
 
@@ -6383,7 +6383,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserProjectBinding`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[UserProjectBindingSpec](#userprojectbindingspec)_ | {{< unsafe >}}Spec describes a KKP user and project binding.{{< /unsafe >}} |
 
 
@@ -6403,7 +6403,7 @@ UserProjectBindingList is a list of KKP user and project bindings.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserProjectBindingList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[UserProjectBinding](#userprojectbinding) array_ | {{< unsafe >}}Items is the list of KKP user and project bindings.{{< /unsafe >}} |
 
 
@@ -6444,7 +6444,7 @@ _Appears in:_
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserSSHKey`
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[SSHKeySpec](#sshkeyspec)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -6464,7 +6464,7 @@ UserSSHKeyList specifies a users UserSSHKey.
 | --- | --- |
 | `apiVersion` _string_ | `kubermatic.k8c.io/v1`
 | `kind` _string_ | `UserSSHKeyList`
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[UserSSHKey](#usersshkey) array_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -6533,7 +6533,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `lastSeen` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `lastSeen` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#time-v1-meta)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
 [Back to top](#top)
