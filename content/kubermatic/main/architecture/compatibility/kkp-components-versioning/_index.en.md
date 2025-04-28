@@ -13,7 +13,7 @@ of provided software and therefore releases updates regularly that also include 
 | KKP Components                 | Version                        |
 | ------------------------------ | ------------------------------ |
 | backup/velero                  | 1.14.0                         |
-| cert-manager                   | 1.15.1                         |
+| cert-manager                   | 1.16.5                         |
 | dex                            | 2.41.1                         |
 | gitops/kkp-argocd-apps         | 1.16.1                         |
 | iap                            | 7.8.2                          |
