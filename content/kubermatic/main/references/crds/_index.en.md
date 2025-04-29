@@ -2773,6 +2773,7 @@ _Appears in:_
 | `ccmZoneAndRegionEnabled` _boolean_ | {{< unsafe >}}Optional: indicates if region and zone labels from the cloud provider should be fetched.{{< /unsafe >}} |
 | `vmEvictionStrategy` _[EvictionStrategy](#evictionstrategy)_ | {{< unsafe >}}VMEvictionStrategy describes the strategy to follow when a node drain occurs. If not set the default<br />value is External and the VM will be protected by a PDB.{{< /unsafe >}} |
 | `csiDriverOperator` _[KubeVirtCSIDriverOperator](#kubevirtcsidriveroperator)_ | {{< unsafe >}}CSIDriverOperator configures the kubevirt csi driver operator in the user cluster such as the csi driver images overwriting.{{< /unsafe >}} |
+| `matchSubnetAndStorageLocation` _boolean_ | {{< unsafe >}}Optional: MatchSubnetAndStorageLocation if set to true, the region and zone of the subnet and storage class must match. For<br />example, if the storage class has the region `eu` and zone was `central`, the subnet must be in the same region and zone.<br />otherwise KKP will reject the creation of the machine deployment and eventually the cluster.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6890,6 +6891,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `name` _string_ | {{< unsafe >}}{{< /unsafe >}} |
+| `zones` _string array_ | {{< unsafe >}}Zones represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones<br />for increased availability{{< /unsafe >}} |
+| `regions` _string array_ | {{< unsafe >}}Regions represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters<br />to span multiple regions{{< /unsafe >}} |
 
 
 [Back to top](#top)
