@@ -183,7 +183,7 @@ Refer to [Layer 4 Load Balancing Setup]({{< relref "../../tutorials/loadbalancer
 
 For Layer 7 load balancing, kubeLB supports both Ingress and Gateway API resources.
 
-Our default recommendation is to use Gateway API and use [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation. The features specific to Gateway API that will be built and consumed in KubeLB will be based on Envoy Gateway. Although this is not a strict binding and our consumers are free to use any Ingress or Gateway API implementation. The only limitation is that we only support native Kubernetes APIs i.e. Ingress and Gateway APIs. Provider specific APIs are not supported by KubeLB and will be completely ignored.
+Our default recommendation is to use Gateway API and use [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation. The features specific to Gateway API that will be built and consumed in KubeLB will be based on Envoy Gateway. While KubeLB supports integration with any Ingress or Gateway API implementation, the only limitation is that we only support native Kubernetes APIs i.e. Ingress and Gateway APIs. Provider specific APIs are not supported by KubeLB and will be completely ignored. Also, we are only testing KubeLB with Envoy Gateway and Nginx Ingress, we can't guarantee the compatibility with other Gateway API or Ingress implementations.
 
 #### Ingress
 

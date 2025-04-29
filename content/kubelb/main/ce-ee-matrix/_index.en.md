@@ -25,3 +25,11 @@ KubeLB is available in two versions: Community and Enterprise.
 | DNS automation                  | ✔️                        | ❌                       |
 | Certificate Management                  | ✔️                        | ❌                       |
 | Limits for LoadBalancers, Gateways                 | ✔️                        | ❌                       |
+
+{{% notice note %}}
+KubeLB support [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) for **Ingress** resources. [Envoy Gateway](https://gateway.envoyproxy.io/) is supported for **Gateway API** resources. While other products might work for Ingress and Gateway API resources, we are not testing them and can't guarantee the compatibility.
+{{% /notice %}}
+
+## Support Policy
+
+For support policy, please refer to the [KubeLB Support Policy](../support-policy/).
