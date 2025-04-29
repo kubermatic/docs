@@ -23,6 +23,32 @@ kubectl krew install oidc-login
 choco install kubelogin
 ```
 
+## Update KKP Settings
+
+When the plugin is executed, it starts the local server at port 8000 or 18000 by default. You need to register the following redirect URIs to the provider:
+
+```text
+http://localhost:8000
+http://localhost:18000 (used if port 8000 is already in use)
+```
+
+To achieve this, below lines need to be added to the issuer configuration (most likely `kubermaticIssuer`):
+
+```yaml
+## kubermatic values.yaml
+      - id: kubermaticIssuer
+        name: KubermaticIssuer
+        secret: xxx
+        RedirectURIs:
+          - https://kkp.example.com/api/v1/kubeconfig
+          - https://kkp.example.com/api/v2/dashboard/login
+          - https://kkp.example.com/api/v2/kubeconfig/secret
+          - http://localhost:8000   # -> add this line
+          - http://localhost:18000  # -> add this line
+```
+
+You need to add the last 2 lines, and run the `kubermatic-installer`.
+
 ## Usage with KKP
 
 Currently, KKP allows you to download a kubeconfig file proxied by the OIDC provider, when the [OIDC Kubeconfig](https://docs.kubermatic.com/kubermatic/v2.27/tutorials-howtos/administration/admin-panel/interface/#enable-oidc-kubeconfig) is enabled.
@@ -40,7 +66,7 @@ users:
   user:
     auth-provider:
       config:
-        client-id: exampleIssuer
+        client-id: kubermaticIssuer
         client-secret: xxx
         id-token:  xxx
         idp-issuer-url: https://kkp.example.com/dex
@@ -63,7 +89,7 @@ users:
           - oidc-login
           - get-token
           - --oidc-issuer-url=https://kkp.example.com/dex
-          - --oidc-client-id=exampleIssuer
+          - --oidc-client-id=kubermaticIssuer
           - --oidc-client-secret=xxx
           - --oidc-extra-scope=email
         command: kubectl
