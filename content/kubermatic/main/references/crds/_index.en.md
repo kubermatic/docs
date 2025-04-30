@@ -3206,6 +3206,8 @@ _Appears in:_
 | --- | --- |
 | `destinations` _object (keys:string, values:[BackupDestination](#backupdestination))_ | {{< unsafe >}}Destinations stores all the possible destinations where the backups for the Seed can be stored. If not empty,<br />it enables automatic backup and restore for the seed.{{< /unsafe >}} |
 | `defaultDestination` _string_ | {{< unsafe >}}DefaultDestination marks the default destination that will be used for the default etcd backup config which is<br />created for every user cluster. Has to correspond to a destination in Destinations.<br />If removed, it removes the related default etcd backup configs.{{< /unsafe >}} |
+| `backupInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#duration-v1-meta)_ | {{< unsafe >}}BackupInterval defines the time duration between consecutive etcd backups.<br />Must be a valid time.Duration string format. Only takes effect when backup scheduling is enabled.{{< /unsafe >}} |
+| `backupCount` _integer_ | {{< unsafe >}}BackupCount specifies the maximum number of backups to retain (defaults to DefaultKeptBackupsCount).<br />Oldest backups are automatically deleted when this limit is exceeded. Only applies when Schedule is configured.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4636,6 +4638,8 @@ _Appears in:_
 | `debugLog` _boolean_ | {{< unsafe >}}DebugLog enables more verbose logging.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the seed-controller-manager.{{< /unsafe >}} |
 | `disabledCollectors` _[MetricsCollector](#metricscollector) array_ | {{< unsafe >}}DisabledCollectors contains a list of metrics collectors that should be disabled.<br />Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None".{{< /unsafe >}} |
+| `backupInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#duration-v1-meta)_ | {{< unsafe >}}BackupInterval defines the time duration between consecutive etcd backups.<br />Must be a valid time.Duration string format. Only takes effect when backup scheduling is enabled.{{< /unsafe >}} |
+| `backupCount` _integer_ | {{< unsafe >}}BackupCount specifies the maximum number of backups to retain (defaults to DefaultKeptBackupsCount).<br />Oldest backups are automatically deleted when this limit is exceeded. Only applies when Schedule is configured.{{< /unsafe >}} |
 
 
 [Back to top](#top)
