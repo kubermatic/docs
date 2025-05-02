@@ -23,7 +23,7 @@ Kubernetes Audit Logging is optional and is not enabled by default, since it req
 
 Audit logs, if enabled, are emitted by a sidecar container called `audit-logs` in the `kubernetes-apiserver` Pods on the [Seed Cluster]({{< ref "../../architecture/#seed-cluster" >}}) in your cluster namespace. Setting up [the MLA stack on Master / Seed]({{< ref "../monitoring-logging-alerting/master-seed/installation" >}}) will allow storing the audit logs alongside other Pod logs collected by the MLA stack.
 
-if you do not choose an [audit policy preset](#audit-policy-presets), KKP will set up a minimal [audit policy](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy) for you.
+If you do not choose an [audit policy preset](#audit-policy-presets), KKP will set up a minimal [audit policy](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy) for you.
 This file is stored in a ConfigMap named `audit-config` on the [Seed Cluster]({{< ref "../../architecture/#seed-cluster" >}}) in your cluster namespace. To modify the default policy, you can edit this ConfigMap using `kubectl`:
 
 ```bash
@@ -131,7 +131,7 @@ To enable this, you will need to edit your [datacenter definitions in a Seed]({{
 
 ## Webhook Backend For Audit Logs
 
-User clusters can be also be configured to send audit logs to a [webhook backend](https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/#webhook-backend), KKP admin needs to create kubernetes secret that holds the audit webhook backend configuration, on the seed cluster which can then be used to enable webhook backend at the cluster or the datacenter level.
+User clusters can also be configured to send audit logs to a [webhook backend](https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/#webhook-backend), KKP admin needs to create kubernetes secret that holds the audit webhook backend configuration, on the seed cluster which can then be used to enable webhook backend at the cluster or the datacenter level.
 
 The Kubernetes api-server expects the webhook configuration file to have a format similar to [kubeconfig](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/).
 
@@ -152,7 +152,7 @@ users: []
 preferences: {}
 ```
 
-Once we have the audit webhook configuration we can base64 encode it and create the secret.
+Once we have the audit webhook configuration, we can base64 encode it and create the secret.
 
 ```yaml
 apiVersion: v1
@@ -173,7 +173,7 @@ To enable webhook backend for an existing user cluster, first create the secret 
 
 ### Datacenter Level Audit Webhook Backend
 
-Audit webhook backend can be enabled at the datacenter level as well, this enforces the audit webhook backend on all the user cluster in the datacenter, this can be done by specifying `enforcedAuditWebhookSettings` for the datacenter where we want enable webhook backend.
+Audit webhook backend can be enabled at the datacenter level as well. This enforces the audit webhook backend on all the user clusters in the datacenter. This can be done by specifying `enforcedAuditWebhookSettings` for the datacenter where we want to enable webhook backend.
 
 ```yaml
 enforcedAuditWebhookSettings:
@@ -183,11 +183,11 @@ enforcedAuditWebhookSettings:
   auditWebhookInitialBackoff: 15s
 ```
 
-Existing user clusters in the datacenter aren't update to enable the audit webhook backend, only the ones created after the webhook backend settings are applied on the datacenter comes up with audit webhook backend enabled.
+Existing user clusters in the datacenter aren't updated to enable the audit webhook backend, only the ones created after the webhook backend settings are applied on the datacenter come up with audit webhook backend enabled.
 
 ### Network Policy For Accessing Audit Webhook Backend Server
 
-The egress for the user cluster's Kubernetes api-server is restricted with the help of network policies therefore once the audit webhook backend is enabled a network policy also needs to be created for allowing the api-server egress to the webhook backend server. For example for a webhook backend server running on `172.31.43.54` on port `30001` the network policy may look like the one below.
+The egress for the user cluster's Kubernetes api-server is restricted with the help of network policies; therefore, once the audit webhook backend is enabled, a network policy also needs to be created to allow the api-server egress to the webhook backend server. For example, for a webhook backend server running on `172.31.43.54` on port `30001` the network policy may look like the one below.
 
 ```yaml
 apiVersion: networking.k8s.io/v1
