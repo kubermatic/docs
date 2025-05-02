@@ -3326,6 +3326,7 @@ _Appears in:_
 | `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on etcd<br />pods. Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that pods are never scheduled.{{< /unsafe >}} |
 | `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on etcd<br />pods. Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that pods are never scheduled.{{< /unsafe >}} |
 | `nodeSelector` _object (keys:string, values:string)_ | {{< unsafe >}}NodeSelector is a selector which restricts the set of nodes where etcd Pods can run.{{< /unsafe >}} |
+| `quotaBackendGb` _integer_ | {{< unsafe >}}QuotaBackendGB is the maximum backend size of etcd in GB (0 means use etcd default).<br /><br />For more details, please see https://etcd.io/docs/v3.5/op-guide/maintenance/{{< /unsafe >}} |
 
 
 [Back to top](#top)
