@@ -2774,6 +2774,8 @@ _Appears in:_
 | `vmEvictionStrategy` _[EvictionStrategy](#evictionstrategy)_ | {{< unsafe >}}VMEvictionStrategy describes the strategy to follow when a node drain occurs. If not set the default<br />value is External and the VM will be protected by a PDB.{{< /unsafe >}} |
 | `csiDriverOperator` _[KubeVirtCSIDriverOperator](#kubevirtcsidriveroperator)_ | {{< unsafe >}}CSIDriverOperator configures the kubevirt csi driver operator in the user cluster such as the csi driver images overwriting.{{< /unsafe >}} |
 | `matchSubnetAndStorageLocation` _boolean_ | {{< unsafe >}}Optional: MatchSubnetAndStorageLocation if set to true, the region and zone of the subnet and storage class must match. For<br />example, if the storage class has the region `eu` and zone was `central`, the subnet must be in the same region and zone.<br />otherwise KKP will reject the creation of the machine deployment and eventually the cluster.{{< /unsafe >}} |
+| `disableDefaultInstanceTypes` _boolean_ | {{< unsafe >}}DisableDefaultInstanceTypes prevents KKP from automatically creating default instance types.<br />(standard-2, standard-4, standard-8) in KubeVirt environments.{{< /unsafe >}} |
+| `disableDefaultPreferences` _boolean_ | {{< unsafe >}}DisableKubermaticPreferences prevents KKP from setting default KubeVirt preferences.{{< /unsafe >}} |
 
 
 [Back to top](#top)
