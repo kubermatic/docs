@@ -5323,6 +5323,20 @@ _Appears in:_
 
 
 
+
+
+### NetworkPolicyMode
+
+_Underlying type:_ `string`
+
+NetworkPolicyMode maps directly to the values supported by the kubermatic network policy mode for kubevirt
+worker nodes in kube-ovn environments.
+
+_Appears in:_
+- [NetworkPolicy](#networkpolicy)
+
+
+
 ### NetworkRanges
 
 
@@ -6246,7 +6260,7 @@ _Appears in:_
 
 ### ProviderNetwork
 
-_Underlying type:_ `[struct{Name string "json:\"name\""; VPCs []VPC "json:\"vpcs,omitempty\""; NetworkPolicyEnabled bool "json:\"networkPolicyEnabled,omitempty\""}](#struct{name-string-"json:\"name\"";-vpcs-[]vpc-"json:\"vpcs,omitempty\"";-networkpolicyenabled-bool-"json:\"networkpolicyenabled,omitempty\""})`
+_Underlying type:_ `[struct{Name string "json:\"name\""; VPCs []VPC "json:\"vpcs,omitempty\""; NetworkPolicyEnabled bool "json:\"networkPolicyEnabled,omitempty\""; NetworkPolicy *NetworkPolicy "json:\"networkPolicy,omitempty\""}](#struct{name-string-"json:\"name\"";-vpcs-[]vpc-"json:\"vpcs,omitempty\"";-networkpolicyenabled-bool-"json:\"networkpolicyenabled,omitempty\"";-networkpolicy-*networkpolicy-"json:\"networkpolicy,omitempty\""})`
 
 ProviderNetwork describes the infra cluster network fabric that is being used.
 
