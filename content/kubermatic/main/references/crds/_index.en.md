@@ -7236,6 +7236,7 @@ _Appears in:_
 | `name` _string_ | {{< unsafe >}}Name is the full name of this user.{{< /unsafe >}} |
 | `email` _string_ | {{< unsafe >}}Email is the email address of this user. Emails must be globally unique across<br />all KKP users.{{< /unsafe >}} |
 | `admin` _boolean_ | {{< unsafe >}}IsAdmin defines whether this user is an administrator with additional permissions.<br />Admins can for example see all projects and clusters in the KKP dashboard.{{< /unsafe >}} |
+| `isGlobalViewer` _boolean_ | {{< unsafe >}}IsGlobalViewer defines whether this user is a global viewer with read-only access across the KKP dashboard.<br />GlobalViewer can for example see all projects and clusters in the KKP dashboard.{{< /unsafe >}} |
 | `groups` _string array_ | {{< unsafe >}}Groups holds the information to which groups the user belongs to. Set automatically when logging in to the<br />KKP API, and used by the KKP API.{{< /unsafe >}} |
 | `project` _string_ | {{< unsafe >}}Project is the name of the project that this service account user is tied to. This<br />field is only applicable to service accounts and regular users must not set this field.{{< /unsafe >}} |
 | `settings` _[UserSettings](#usersettings)_ | {{< unsafe >}}Settings contains both user-configurable and system-owned configuration for the<br />KKP dashboard.{{< /unsafe >}} |
