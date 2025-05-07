@@ -5900,6 +5900,8 @@ _Appears in:_
 
 
 
+
+
 ### PolicyBindingList
 
 
@@ -5932,9 +5934,8 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `policyTemplateRef` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}PolicyTemplateRef references the PolicyTemplate by name{{< /unsafe >}} |
-| `namespacedPolicy` _boolean_ | {{< unsafe >}}NamespacedPolicy is a boolean to indicate if the policy binding is namespaced{{< /unsafe >}} |
-| `scope` _string_ | {{< unsafe >}}Scope specifies the scope of the policy.<br />Can be one of: global, project, or cluster{{< /unsafe >}} |
-| `target` _[PolicyTargetSpec](#policytargetspec)_ | {{< unsafe >}}Target specifies which clusters/projects to apply the policy to{{< /unsafe >}} |
+| `enabled` _boolean_ | {{< unsafe >}}Enabled controls whether the policy defined by the template should be actively applied to the cluster.<br /><br />Relevant only if the referenced PolicyTemplate has spec.enforced=false.{{< /unsafe >}} |
+| `namespaceSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta)_ | {{< unsafe >}}NamespaceSelector specifies which namespaces the Kyverno Policy resource(s) should be created in<br /><br />Relevant only if Template.NamespacedPolicy is true.<br />If Template.NamespacedPolicy is true and this selector is omitted, no Kyverno Policy resources will be created.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5953,26 +5954,9 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `observedGeneration` _integer_ | {{< unsafe >}}ObservedGeneration is the generation observed by the controller.{{< /unsafe >}} |
+| `templateEnforced` _boolean_ | {{< unsafe >}}TemplateEnforced reflects the value of `spec.enforced` from PolicyTemplate{{< /unsafe >}} |
+| `active` _boolean_ | {{< unsafe >}}Active reflects whether the Kyverno policy exists and is active in this User Cluster.{{< /unsafe >}} |
 | `conditions` _[Condition](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#condition-v1-meta) array_ | {{< unsafe >}}Conditions represents the latest available observations of the policy binding's current state{{< /unsafe >}} |
-
-
-[Back to top](#top)
-
-
-
-### PolicyTargetSpec
-
-
-
-PolicyTargetSpec indicates how to select projects/clusters in Kubermatic.
-
-_Appears in:_
-- [PolicyBindingSpec](#policybindingspec)
-
-| Field | Description |
-| --- | --- |
-| `projects` _[ResourceSelector](#resourceselector)_ | {{< unsafe >}}Projects is a list of projects to apply the policy to{{< /unsafe >}} |
-| `clusters` _[ResourceSelector](#resourceselector)_ | {{< unsafe >}}Clusters is a list of clusters to apply the policy to{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6037,12 +6021,35 @@ _Appears in:_
 | `severity` _string_ | {{< unsafe >}}Severity indicates the severity level of the policy{{< /unsafe >}} |
 | `visibility` _string_ | {{< unsafe >}}Visibility specifies where the policy is visible.<br /><br />Can be one of: global, project, or cluster{{< /unsafe >}} |
 | `projectID` _string_ | {{< unsafe >}}ProjectID is the ID of the project for which the policy template is created<br /><br />Relevant only for project visibility policies{{< /unsafe >}} |
-| `default` _boolean_ | {{< unsafe >}}Default determines whether we apply the policy (create policy binding){{< /unsafe >}} |
+| `default` _boolean_ | {{< unsafe >}}Default determines whether we apply the policy (create policy binding) by default{{< /unsafe >}} |
 | `enforced` _boolean_ | {{< unsafe >}}Enforced indicates whether this policy is mandatory<br /><br />If true, this policy is mandatory<br />A PolicyBinding referencing it cannot disable it{{< /unsafe >}} |
+| `namespacedPolicy` _boolean_ | {{< unsafe >}}NamespacedPolicy dictates the type of Kyverno resource to be created in this User Cluster.{{< /unsafe >}} |
+| `target` _[PolicyTemplateTarget](#policytemplatetarget)_ | {{< unsafe >}}Target allows selection of projects and clusters where this template applies,<br />If 'Target' itself is omitted, the scope defaults based on 'Visibility' and 'ProjectID':{{< /unsafe >}} |
 | `policySpec` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#rawextension-runtime-pkg)_ | {{< unsafe >}}PolicySpec is the policy spec of the Kyverno Policy we want to apply on the cluster.<br /><br />The structure of this spec should follow the rules defined in Kyverno<br />[Writing Policies Docs](https://kyverno.io/docs/writing-policies/).<br /><br />For example, a simple policy spec could be defined as:<br /><br />   policySpec:<br />     validationFailureAction: Audit<br />     background: true<br />     rules:<br />     - name: check-for-labels<br />       match:<br />         any:<br />         - resources:<br />             kinds:<br />             - Pod<br />       validate:<br />         message: "The label `app.kubernetes.io/name` is required."<br />         pattern:<br />           metadata:<br />             labels:<br />               app.kubernetes.io/name: "?*"<br /><br />There are also further examples of Kyverno policies in the<br />[Kyverno Policies Examples](https://kyverno.io/policies/).{{< /unsafe >}} |
 
 
 [Back to top](#top)
+
+
+
+### PolicyTemplateTarget
+
+
+
+PolicyTemplateTarget allows specifying label selectors for Projects and Clusters.
+
+_Appears in:_
+- [PolicyTemplateSpec](#policytemplatespec)
+
+| Field | Description |
+| --- | --- |
+| `projectSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta)_ | {{< unsafe >}}ProjectSelector filters KKP Projects based on their labels.{{< /unsafe >}} |
+| `clusterSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta)_ | {{< unsafe >}}ClusterSelector filters individual KKP Cluster resources based on their labels.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
 
 
 
@@ -6434,26 +6441,6 @@ _Appears in:_
 | --- | --- |
 | `globalUsage` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}GlobalUsage is holds the current usage of resources for all seeds.{{< /unsafe >}} |
 | `localUsage` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}LocalUsage is holds the current usage of resources for the local seed.{{< /unsafe >}} |
-
-
-[Back to top](#top)
-
-
-
-### ResourceSelector
-
-
-
-ResourceSelector is a struct that contains the label selector, name, and selectAll fields.
-
-_Appears in:_
-- [PolicyTargetSpec](#policytargetspec)
-
-| Field | Description |
-| --- | --- |
-| `labelSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta)_ | {{< unsafe >}}LabelSelector is a label selector to select the resources (projects/clusters){{< /unsafe >}} |
-| `name` _string array_ | {{< unsafe >}}Name is a list of names to select the resources (projects/clusters){{< /unsafe >}} |
-| `selectAll` _boolean_ | {{< unsafe >}}SelectAll is a boolean to select all the resources (projects/clusters) from cluster admins.{{< /unsafe >}} |
 
 
 [Back to top](#top)
