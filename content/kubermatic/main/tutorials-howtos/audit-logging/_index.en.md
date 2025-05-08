@@ -97,6 +97,42 @@ spec:
 
 This configures the fluentbit sidecar to flush incoming audit logs every 10 seconds, filters them by a string (`user@example.com`) and writes them to a manually deployed fluentd service available in-cluster.
 
+### Environment Variables in Audit Logging Configuration
+
+KKP supports the use of environment variables in audit logging sidecar configurations. 
+This allows for more dynamic configurations without hardcoding values. 
+Environment variables can be referenced in the configuration using the `${VARIABLE_NAME}` syntax.
+
+By default, KKP automatically sets the `CLUSTER_ID` environment variable with the value of the cluster's name. 
+You can use additional environment variables by specifying them in the `extraEnvs` field in the `AuditSidecarSettings`, as follows:
+
+```yaml
+# Cluster spec snippet, not a complete configuration
+spec:
+  auditLogging:
+    enabled: true
+    sidecar:
+      extraEnvs:
+        - name: ENVIRONMENT
+          value: production
+      config:
+        service:
+            Flush: 10
+        filters:
+          - Name: grep
+            Match: *
+            Regex: "${ENVIRONMENT}"
+          - Match: *
+            Name: record_modifier
+            Record: usercluster ${CLUSTER_ID}
+        outputs:
+          - Name: stdout
+            Match: *
+```
+
+In this example, the environment variables `ENVIRONMENT` and `CLUSTER_ID` are expanded in the fluent-bit configuration, 
+making it easier to reuse configurations across different clusters or environments.
+
 ### Audit Logs Source Identification
 
 Depending on your architecture, it might be advisable to use the sidecar configuration options to enrich logs with metadata, e.g. the cluster name. This is likely necessary to differentiate the source of your audit logs in a central storage location. This can be done via a filter plugin, like this:
@@ -106,12 +142,10 @@ Depending on your architecture, it might be advisable to use the sidecar configu
 filters:
   - Name: record_modifier
     Match: *
-    Record: cluster <CLUSTER ID>
+    Record: usercluster ${CLUSTER_ID}
 ```
 
-Replace `<CLUSTER ID>` with the ID of your cluster.
-
-Future KKP releases may add an environment variable to automatically get the cluster ID or even enrich records with this information by default.
+The `${CLUSTER_ID}` environment variable is automatically set to the ID of your cluster by KKP.
 
 ## User Cluster Level Audit Logging
 
