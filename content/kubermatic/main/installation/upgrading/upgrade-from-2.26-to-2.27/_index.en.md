@@ -76,7 +76,7 @@ The custom `oauth` Helm chart in KKP has been deprecated and will be replaced wi
 
 Administrators are advised to begin migrating to the new chart as soon as possible.
 
-##### Migration Procedure
+#### Migration Procedure
 
 Most importantly, with this change the Kubernetes namespace where Dex is installed is also changed. Previously we installed Dex into the `oauth` namespace, but the new chart is meant to be installed into the `dex` namespace. This is the default the KKP installer will choose; if you install KKP manually you could place Dex into any namespace.
 
