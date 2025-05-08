@@ -6736,7 +6736,7 @@ _Appears in:_
 | `kubelb` _[KubeLBSettings](#kubelbsettings)_ | {{< unsafe >}}KubeLB holds the configuration for the kubeLB at the Seed level. This component is responsible for managing load balancers.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
 | `disabledCollectors` _[MetricsCollector](#metricscollector) array_ | {{< unsafe >}}DisabledCollectors contains a list of metrics collectors that should be disabled.<br />Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None".{{< /unsafe >}} |
 | `managementProxySettings` _[ManagementProxySettings](#managementproxysettings)_ | {{< unsafe >}}ManagementProxySettings can be used if the KubeAPI of the user clusters<br />will not be directly available from kkp and a proxy in between should be used{{< /unsafe >}} |
-| `defaultAPIServerAllowedIPRanges` _string array_ | {{< unsafe >}}DefaultAPIServerAllowedIPRanges specifies CIDR ranges allowed to access user cluster API servers.{{< /unsafe >}} |
+| `defaultAPIServerAllowedIPRanges` _string array_ | {{< unsafe >}}DefaultAPIServerAllowedIPRanges defines a set of CIDR ranges that are **always appended**<br />to the API server's allowed IP ranges for all user clusters in this Seed. These ranges<br />provide a security baseline that cannot be overridden by cluster-specific configurations.{{< /unsafe >}} |
 
 
 [Back to top](#top)
