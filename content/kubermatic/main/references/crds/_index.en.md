@@ -1417,7 +1417,7 @@ _Appears in:_
 | --- | --- |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `config` _[AuditSidecarConfiguration](#auditsidecarconfiguration)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `extraEnvs` _[EnvVar](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#envvar-v1-core) array_ | {{< unsafe >}}ExtraEnvs are the additional environment variables that can be set for the audit logging sidecar.<br />Additional environment variables can be set and passed to the AuditSidecarConfiguration field<br />to allow passing variables to the fluent-bit configuration.<br />Only, `Value` field is supported for the environment variables; `ValueFrom` field is not supported.<br />By default, `CLUSTER_NAME` is set as an environment variable in the audit-logging sidecar.{{< /unsafe >}} |
+| `extraEnvs` _[EnvVar](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#envvar-v1-core) array_ | {{< unsafe >}}ExtraEnvs are the additional environment variables that can be set for the audit logging sidecar.<br />Additional environment variables can be set and passed to the AuditSidecarConfiguration field<br />to allow passing variables to the fluent-bit configuration.<br />Only, `Value` field is supported for the environment variables; `ValueFrom` field is not supported.<br />By default, `CLUSTER_ID` is set as an environment variable in the audit-logging sidecar.{{< /unsafe >}} |
 
 
 [Back to top](#top)
