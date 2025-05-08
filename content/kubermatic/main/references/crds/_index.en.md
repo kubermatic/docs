@@ -2019,6 +2019,7 @@ _Appears in:_
 | `debugLog` _boolean_ | {{< unsafe >}}Enables more verbose logging in KKP's user-cluster-controller-manager.{{< /unsafe >}} |
 | `disableCsiDriver` _boolean_ | {{< unsafe >}}Optional: DisableCSIDriver disables the installation of CSI driver on the cluster<br />If this is true at the data center then it can't be over-written in the cluster configuration{{< /unsafe >}} |
 | `backupConfig` _[BackupConfig](#backupconfig)_ | {{< unsafe >}}Optional: BackupConfig contains the configuration options for managing the Cluster Backup Velero integration feature.{{< /unsafe >}} |
+| `kyverno` _[KyvernoSettings](#kyvernosettings)_ | {{< unsafe >}}Kyverno holds the configuration for the Kyverno policy management component.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4918,6 +4919,24 @@ _Appears in:_
 | `vpcName` _string_ | {{< unsafe >}}VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt.{{< /unsafe >}} |
 | `subnetName` _string_ | {{< unsafe >}}SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).{{< /unsafe >}} |
 | `csiDriverOperator` _[KubeVirtCSIDriverOperator](#kubevirtcsidriveroperator)_ | {{< unsafe >}}CSIDriverOperator configures the kubevirt csi driver operator.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### KyvernoSettings
+
+
+
+KyvernoSettings contains settings for the Kyverno component as part of the cluster control plane. This component is responsible for policy management.
+
+_Appears in:_
+- [ClusterSpec](#clusterspec)
+
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | {{< unsafe >}}Controls whether Kyverno is deployed or not.{{< /unsafe >}} |
 
 
 [Back to top](#top)
