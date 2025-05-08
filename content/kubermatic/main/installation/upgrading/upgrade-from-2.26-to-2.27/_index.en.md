@@ -180,6 +180,31 @@ Finally, theming support has changed. The old `oauth` Helm chart allowed to inli
 
 Once you have prepared a new `values.yaml` with the updated configuration, remember to set `useNewDexChart` to `true` and then you're ready. The next time you run the KKP installer, it will install the `dex` Chart for you, but leave the `oauth` release untouched in your cluster. Note that you cannot have two Ingress objects with the same host names and paths, so if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).
 
+{{% notice warning %}}
+If you need to temporarily use a different hostname for a new Dex installation (`kkp.example.com/dex2`), you must configure the UI to use this new URL as the `oidc_provider_url`. 
+
+**For Operator-based installations:** (using `kubermatic configuration`):  
+If you are installing KKP using the operator (`kubermatic configuration`) modify the configuration file to include:
+
+```yaml
+spec:
+  # Ensure the URL (e.g. kkp.example.com/dex2) includes /auth path.
+  config: |
+    {
+      "oidc_provider_url": "https://kkp.example.com/dex2/auth" 
+    }
+```
+
+**For Manual installations:**
+For manual installations, simply update the `config.json` file with the new OIDC provider URL:
+
+```json
+{
+  "oidc_provider_url": "https://kkp.example.com/dex2/auth "
+}
+```
+{{% /notice %}}
+
 Once you have verified that the new Dex installation is up and running, you can either
 
 * point KKP to the new Dex installation (if its new URL is meant to be permanent) by changing the `tokenIssuer` in the `KubermaticConfiguration`, or
