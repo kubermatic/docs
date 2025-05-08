@@ -103,7 +103,7 @@ KKP supports the use of environment variables in audit logging sidecar configura
 This allows for more dynamic configurations without hardcoding values. 
 Environment variables can be referenced in the configuration using the `${VARIABLE_NAME}` syntax.
 
-By default, KKP automatically sets the `CLUSTER_NAME` environment variable with the value of the cluster's name. 
+By default, KKP automatically sets the `CLUSTER_ID` environment variable with the value of the cluster's name. 
 You can use additional environment variables by specifying them in the `extraEnvs` field in the `AuditSidecarSettings`, as follows:
 
 ```yaml
@@ -124,13 +124,13 @@ spec:
             Regex: "${ENVIRONMENT}"
           - Match: *
             Name: record_modifier
-            Record: usercluster ${CLUSTER_NAME}
+            Record: usercluster ${CLUSTER_ID}
         outputs:
           - Name: stdout
             Match: *
 ```
 
-In this example, the environment variables `ENVIRONMENT` and `CLUSTER_NAME` are expanded in the fluent-bit configuration, 
+In this example, the environment variables `ENVIRONMENT` and `CLUSTER_ID` are expanded in the fluent-bit configuration, 
 making it easier to reuse configurations across different clusters or environments.
 
 ### Audit Logs Source Identification
@@ -142,10 +142,10 @@ Depending on your architecture, it might be advisable to use the sidecar configu
 filters:
   - Name: record_modifier
     Match: *
-    Record: usercluster ${CLUSTER_NAME}
+    Record: usercluster ${CLUSTER_ID}
 ```
 
-The `${CLUSTER_NAME}` environment variable is automatically set to the ID of your cluster by KKP.
+The `${CLUSTER_ID}` environment variable is automatically set to the ID of your cluster by KKP.
 
 ## User Cluster Level Audit Logging
 
