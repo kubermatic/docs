@@ -81,6 +81,26 @@ or in an existing cluster via the "Edit Cluster" dialog:
 
 ![Allowed IP Ranges - Edit Cluster](cluster-details-allowed-ip-ranges.png?height=400px&classes=shadow,border "Allowed IP Ranges - Edit Cluster")
 
+## Seed-Level API Server IP Ranges Whitelisting
+
+The `defaultAPIServerAllowedIPRanges` field in the Seed specification allows administrators to define a **global set of CIDR ranges** that are **automatically appended** to the allowed IP ranges for all user cluster API servers within that Seed. These ranges act as a security baseline to:  
+- Ensure KKP components (e.g., seed-manager, dashboard) retain access to cluster APIs  
+- Enforce organizational IP restrictions across all clusters in the Seed  
+- Prevent accidental misconfigurations in cluster-specific settings  
+
+```yaml
+apiVersion: kubermatic.k8s.io/v1
+kind: Seed
+metadata:
+  name: my-seed
+spec:
+  defaultAPIServerAllowedIPRanges:
+    - 203.0.113.0/24
+    - 2001:db8::/32
+```
+
+In this example, all user clusters in `my-seed` will allow API access from `203.0.113.0/24` and `2001:db8::/32`, in addition to any CIDRs specified at the individual cluster level.  
+
 ## API Server Service Type
 
 By default, the service type for API Server is determined by the expose strategy used. When using the `LoadBalancer` strategy, the service type is `LoadBalancer`. When using the `NodePort` strategy, the service type is `NodePort`.
