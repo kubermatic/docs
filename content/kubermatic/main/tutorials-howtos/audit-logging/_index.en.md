@@ -163,6 +163,32 @@ KKP also supports enabling Audit Logging on the datacenter level. In this case, 
 
 To enable this, you will need to edit your [datacenter definitions in a Seed]({{< ref "../../tutorials-howtos/administration/dynamic-data-centers/" >}}), and set `enforceAuditLogging` to `true` in the datacenter spec.
 
+## Seed Level Audit Logging
+
+Centrally define audit logging for **user-clusters** (via `auditLogging` in the Seed spec). Configure sidecar settings , webhook backends, and policy presets. Enforce datacenter-level controls with `EnforceAuditLogging` (mandatory logging) and `EnforcedAuditWebhookSettings` (override user-cluster webhook configs).  
+
+**Example**:  
+```yaml  
+spec:  
+  auditLogging:  
+    enabled: true  
+    webhookBackend:  
+      auditWebhookConfig:
+        name: audit-webhook-backend-secret
+        namespace: kubermatic
+      auditWebhookInitialBackoff: 15s 
+        sidecar:  
+      config:  
+        service:  
+          Flush: 10  # Flush interval (seconds)  
+        filters:  
+          - Name: grep  
+            Regex: "user@example.com"  # Filter sensitive data  
+        outputs:  
+          - Name: forward  
+            Host: "fluentd.audit-forward.svc.cluster.local"  # Forward logs  
+```
+
 ## Webhook Backend For Audit Logs
 
 User clusters can also be configured to send audit logs to a [webhook backend](https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/#webhook-backend), KKP admin needs to create kubernetes secret that holds the audit webhook backend configuration, on the seed cluster which can then be used to enable webhook backend at the cluster or the datacenter level.
