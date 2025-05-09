@@ -1358,6 +1358,7 @@ AuditLoggingSettings configures audit logging functionality.
 
 _Appears in:_
 - [ClusterSpec](#clusterspec)
+- [SeedSpec](#seedspec)
 
 | Field | Description |
 | --- | --- |
@@ -6737,6 +6738,7 @@ _Appears in:_
 | `disabledCollectors` _[MetricsCollector](#metricscollector) array_ | {{< unsafe >}}DisabledCollectors contains a list of metrics collectors that should be disabled.<br />Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None".{{< /unsafe >}} |
 | `managementProxySettings` _[ManagementProxySettings](#managementproxysettings)_ | {{< unsafe >}}ManagementProxySettings can be used if the KubeAPI of the user clusters<br />will not be directly available from kkp and a proxy in between should be used{{< /unsafe >}} |
 | `defaultAPIServerAllowedIPRanges` _string array_ | {{< unsafe >}}DefaultAPIServerAllowedIPRanges defines a set of CIDR ranges that are **always appended**<br />to the API server's allowed IP ranges for all user clusters in this Seed. These ranges<br />provide a security baseline that cannot be overridden by cluster-specific configurations.{{< /unsafe >}} |
+| `auditLogging` _[AuditLoggingSettings](#auditloggingsettings)_ | {{< unsafe >}}Optional: AuditLogging empowers admins to centrally configure Kubernetes API audit logging for all user clusters in the seed (https://kubernetes.io/docs/tasks/debug-application-cluster/audit/ ).{{< /unsafe >}} |
 
 
 [Back to top](#top)
