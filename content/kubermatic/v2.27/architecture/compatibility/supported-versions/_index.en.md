@@ -28,11 +28,11 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version          | 1.31 | 1.30 | 1.29 | 1.28 | 1.27[^2] | 1.26[^2] |
+| KKP version          | 1.32 |1.31 | 1.30 | 1.29[^2] | 1.28[^2] | 1.27[^2] |
 | -------------------- | -----| ---- | ---- | ---- | ---------| -------- |
 | 2.27.x               | ✓    |  ✓   | ✓    | ✓    | --       | --       |
-| 2.26.x               | ✓    |  ✓   | ✓    | ✓    | --       | --       |
-| 2.25.x               | --   | --   | ✓    | ✓    | ✓        | --       |
+| 2.26.x               | --   | ✓    |  ✓   | ✓    | ✓    | --       |
+| 2.25.x               | --   | --   | --   | ✓    | ✓    | ✓        |
 
 [^2]: Kubernetes releases below version 1.27 have reached End-of-Life (EOL). We strongly
 recommend upgrading to a supported Kubernetes release as soon as possible. Refer to the
