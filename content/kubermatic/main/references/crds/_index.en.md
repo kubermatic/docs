@@ -1389,7 +1389,7 @@ _Appears in:_
 
 
 AuditSidecarConfiguration defines custom configuration for the fluent-bit sidecar deployed with a kube-apiserver.
-Also see https://docs.fluentbit.io/manual/v/1.8/administration/configuring-fluent-bit/configuration-file.
+Also see https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file.
 
 _Appears in:_
 - [AuditSidecarSettings](#auditsidecarsettings)
