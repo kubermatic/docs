@@ -15,12 +15,17 @@ weight = 20
 * Create a namespace **kubelb** for the CCM to be deployed in.
 * The agent expects a **Secret** with a kubeconf file named **`kubelb`** to access the management/load balancing cluster.
   * First register the tenant in LB cluster by following [tenant registration]({{< relref "../../tutorials/tenants">}}) guidelines.
-  * Fetch the generated kubeconfig and create a secret by using these command:
+  * Fetch the generated kubeconfig and create a secret from the management cluster by using these command:
 
   ```sh
+  # Replace with the tenant cluster kubeconfig path
+  TENANT_KUBECONFIG=~/.kube/<tenant-cluster>
   #  Replace with the tenant name
   TENANT_NAME=tenant-shroud
   KUBELB_KUBECONFIG=$(kubectl get secret kubelb-ccm-kubeconfig -n $TENANT_NAME --template={{.data.kubelb}})
+  # At this point we have the kubeconfig in base64 encoded format.
+  # Switch the context to the Tenant cluster
+  export KUBECONFIG=$TENANT_KUBECONFIG
   kubectl --namespace kubelb create secret generic kubelb-cluster --from-literal=kubelb="$(echo $KUBELB_KUBECONFIG | base64 -d)"
   ```
 
@@ -102,7 +107,7 @@ kubelb:
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.1.4 --untardir "." --untar
 ## Create and update values.yaml with the required values.
-helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm-ee/values.yaml
+helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm-ee/values.yaml --create-namespace
 ```
 
 ### KubeLB CCM EE Values
@@ -173,7 +178,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.1.4 --untardir "." --untar
 ## Create and update values.yaml with the required values.
-helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/values.yaml
+helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/values.yaml --create-namespace
 ```
 
 ### KubeLB CCM Values
