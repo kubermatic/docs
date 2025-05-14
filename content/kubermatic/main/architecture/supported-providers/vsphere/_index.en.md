@@ -112,10 +112,24 @@ Datastore.AllocateSpace
 Datastore.FileManagement
 ```
 {{% /tab %}}
+{{% tab name="k8c-ccm-storage-cns" %}}
+##### Role `k8c-ccm-storage-cns`
+* Granted at **vcenter** level, not propagated
+* Permissions
+  * CNS
+    * Searchable
+---
+
+```
+$ govc role.ls k8c-ccm-storage-cns
+Cns.Searchable
+```
+{{% /tab %}}
 {{% tab name="Read-only (predefined)" %}}
 ##### Role `Read-only` (predefined)
 * Granted at ..., **not** propagated
   * Datacenter
+  * All hosts where the nodes VMs reside.
 
 ---
 
