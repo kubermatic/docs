@@ -5808,10 +5808,11 @@ OperatingSystemManager configures the image repo and the tag version for osm dep
 _Appears in:_
 - [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
 
-| Field | Description |
-| --- | --- |
-| `imageRepository` _string_ | {{< unsafe >}}ImageRepository is used to override the OperatingSystemManager image repository.<br />It is recommended to use this field only for development, tests and PoC purposes. For production environments.<br />it is not recommended, to use this field due to compatibility with the overall KKP stack.{{< /unsafe >}} |
-| `imageTag` _string_ | {{< unsafe >}}ImageTag is used to override the OperatingSystemManager image.<br />It is recommended to use this field only for development, tests and PoC purposes. For production environments.<br />it is not recommended, to use this field due to compatibility with the overall KKP stack.{{< /unsafe >}} |
+| Field                                          | Description                                                                                                                                                                                                                                                                                                                      |
+|------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `imageRepository` _string_                     | {{< unsafe >}}ImageRepository is used to override the OperatingSystemManager image repository.<br />It is recommended to use this field only for development, tests and PoC purposes. For production environments.<br />it is not recommended, to use this field due to compatibility with the overall KKP stack.{{< /unsafe >}} |
+| `imageTag` _string_                            | {{< unsafe >}}ImageTag is used to override the OperatingSystemManager image.<br />It is recommended to use this field only for development, tests and PoC purposes. For production environments.<br />it is not recommended, to use this field due to compatibility with the overall KKP stack.{{< /unsafe >}}                   |
+| `disableDefaultOperatingSystemProfiles` _bool_ | {{< unsafe >}}Setting this property to true, would disable the creation of OSMs default OSPs.<br />Users would need to provide a CustomOperatingSystemProfile to configure user clusters worker nodes.{{< /unsafe >}}                                                                                                            |
 
 
 [Back to top](#top)
