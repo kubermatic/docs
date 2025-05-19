@@ -4279,6 +4279,25 @@ _Appears in:_
 
 
 
+### KubeLBSeedSettings
+
+
+
+
+
+_Appears in:_
+- [SeedSpec](#seedspec)
+
+| Field | Description |
+| --- | --- |
+| `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster.{{< /unsafe >}} |
+| `enableForAllDatacenters` _boolean_ | {{< unsafe >}}EnableForAllDatacenters is used to enable kubeLB for all the datacenters belonging to this seed.<br />This is only used to control whether installing kubeLB is allowed or not for the datacenter.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### KubeLBSettings
 
 
@@ -4287,7 +4306,7 @@ _Appears in:_
 
 _Appears in:_
 - [KubeLBDatacenterSettings](#kubelbdatacentersettings)
-- [SeedSpec](#seedspec)
+- [KubeLBSeedSettings](#kubelbseedsettings)
 
 | Field | Description |
 | --- | --- |
@@ -6735,7 +6754,7 @@ _Appears in:_
 | `metering` _[MeteringConfiguration](#meteringconfiguration)_ | {{< unsafe >}}Metering configures the metering tool on user clusters across the seed.{{< /unsafe >}} |
 | `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | {{< unsafe >}}EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed;<br />if this is set, the new backup/restore controllers are enabled for this Seed.{{< /unsafe >}} |
 | `oidcProviderConfiguration` _[OIDCProviderConfiguration](#oidcproviderconfiguration)_ | {{< unsafe >}}OIDCProviderConfiguration allows to configure OIDC provider at the Seed level.{{< /unsafe >}} |
-| `kubelb` _[KubeLBSettings](#kubelbsettings)_ | {{< unsafe >}}KubeLB holds the configuration for the kubeLB at the Seed level. This component is responsible for managing load balancers.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
+| `kubelb` _[KubeLBSeedSettings](#kubelbseedsettings)_ | {{< unsafe >}}KubeLB holds the configuration for the kubeLB at the Seed level. This component is responsible for managing load balancers.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
 | `disabledCollectors` _[MetricsCollector](#metricscollector) array_ | {{< unsafe >}}DisabledCollectors contains a list of metrics collectors that should be disabled.<br />Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None".{{< /unsafe >}} |
 | `managementProxySettings` _[ManagementProxySettings](#managementproxysettings)_ | {{< unsafe >}}ManagementProxySettings can be used if the KubeAPI of the user clusters<br />will not be directly available from kkp and a proxy in between should be used{{< /unsafe >}} |
 | `defaultAPIServerAllowedIPRanges` _string array_ | {{< unsafe >}}DefaultAPIServerAllowedIPRanges defines a set of CIDR ranges that are **always appended**<br />to the API server's allowed IP ranges for all user clusters in this Seed. These ranges<br />provide a security baseline that cannot be overridden by cluster-specific configurations.{{< /unsafe >}} |
