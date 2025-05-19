@@ -48,6 +48,8 @@ spec:
 
   # KubeLB configuration
   kubelb:
+    # Set to true to enable KubeLB for all the datacenters belong to this seed. This will not install KubeLB for the user clusters, has to be configured at the cluster level.
+    enableForAllDatacenters: false
     kubeconfig:
       name: kubelb-management-cluster
       namespace: kubermatic
