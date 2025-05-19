@@ -4947,6 +4947,28 @@ _Appears in:_
 
 
 
+### KyvernoPolicyNamespace
+
+
+
+KyvernoPolicyNamespace specifies the namespace to deploy the Kyverno Policy into.
+This is relevant only if a Kyverno Policy resource is created because a Kyverno Policy is namespaced.
+For Kyverno ClusterPolicy, this field is ignored.
+
+_Appears in:_
+- [PolicyBindingSpec](#policybindingspec)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | {{< unsafe >}}Name is the name of the namespace to deploy the Kyverno Policy into.{{< /unsafe >}} |
+| `labels` _object (keys:string, values:string)_ | {{< unsafe >}}Labels to apply to this namespace.{{< /unsafe >}} |
+| `annotations` _object (keys:string, values:string)_ | {{< unsafe >}}Annotations to apply to this namespace.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### KyvernoSettings
 
 
@@ -5977,8 +5999,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `policyTemplateRef` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#objectreference-v1-core)_ | {{< unsafe >}}PolicyTemplateRef references the PolicyTemplate by name{{< /unsafe >}} |
-| `enabled` _boolean_ | {{< unsafe >}}Enabled controls whether the policy defined by the template should be actively applied to the cluster.<br /><br />Relevant only if the referenced PolicyTemplate has spec.enforced=false.{{< /unsafe >}} |
-| `namespaceSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta)_ | {{< unsafe >}}NamespaceSelector specifies which namespaces the Kyverno Policy resource(s) should be created in<br /><br />Relevant only if Template.NamespacedPolicy is true.<br />If Template.NamespacedPolicy is true and this selector is omitted, no Kyverno Policy resources will be created.{{< /unsafe >}} |
+| `kyvernoPolicyNamespace` _[KyvernoPolicyNamespace](#kyvernopolicynamespace)_ | {{< unsafe >}}KyvernoPolicyNamespace specifies the Kyverno namespace to deploy the Kyverno Policy into.<br /><br />Relevant only if the referenced PolicyTemplate has spec.enforced=false.<br />If Template.NamespacedPolicy is true and this field is omitted, no Kyverno Policy resources will be created.{{< /unsafe >}} |
 
 
 [Back to top](#top)
