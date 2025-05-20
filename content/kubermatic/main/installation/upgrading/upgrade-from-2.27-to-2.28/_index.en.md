@@ -136,9 +136,18 @@ Of particular interest to the upgrade process is if the `ResourcesReconciled` co
 
 ### Deprecations and Removals
 
-<!--
-Mention any deprecations and removals here.
--->
+#### Azure Basic Load Balancer Deprecation and Upgrade Guidance 
+
+On **September 30, 2025**, Azure will deprecate the Basic Load Balancer. After this date, Basic Load Balancers will no longer be supported, and their functionality may be impacted, potentially leading to service disruptions.
+
+This retirement affects all customers using the Azure Basic Load Balancer SKU, with one key exception: **Azure Cloud Services (extended support) deployments**. 
+If you have Basic Load Balancers deployed within Azure Cloud Services (extended support), these deployments will not be affected by this retirement, and no action is required for these specific instances.
+
+For more details about this deprecation, please refer to the official Azure announcement: 
+[https://azure.microsoft.com/en-us/updates?id=azure-basic-load-balancer-will-be-retired-on-30-september-2025-upgrade-to-standard-load-balancer](https://azure.microsoft.com/en-us/updates?id=azure-basic-load-balancer-will-be-retired-on-30-september-2025-upgrade-to-standard-load-balancer)
+
+The Azure team has created an upgrade guideline, including required scripts to automate the migration process. 
+Please refer to the official documentation for detailed upgrade instructions: [https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-basic-upgrade-guidance#upgrade-using-automated-scripts-recommended](https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-basic-upgrade-guidance#upgrade-using-automated-scripts-recommended)
 
 ## Next Steps
 
