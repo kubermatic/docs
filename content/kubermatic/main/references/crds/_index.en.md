@@ -4535,6 +4535,7 @@ _Appears in:_
 | `verticalPodAutoscaler` _[KubermaticVPAConfiguration](#kubermaticvpaconfiguration)_ | {{< unsafe >}}VerticalPodAutoscaler configures the Kubernetes VPA integration.{{< /unsafe >}} |
 | `proxy` _[KubermaticProxyConfiguration](#kubermaticproxyconfiguration)_ | {{< unsafe >}}Proxy allows to configure Kubermatic to use proxies to talk to the<br />world outside of its cluster.{{< /unsafe >}} |
 | `mirrorImages` _string array_ | {{< unsafe >}}MirrorImages is a list of container images that will be mirrored with the `kubermatic-installer  mirror-images` command.<br />Each entry should be in the format "repository:tag".{{< /unsafe >}} |
+| `systemApplications` _[SystemApplicationOptions](#systemapplicationoptions)_ | {{< unsafe >}}SystemApplications contains configuration for system applications.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6987,6 +6988,25 @@ SubnetCIDR is used to store IPv4/IPv6 CIDR.
 _Appears in:_
 - [IPAMAllocationSpec](#ipamallocationspec)
 - [IPAMPoolDatacenterSettings](#ipampooldatacentersettings)
+
+
+
+### SystemApplicationOptions
+
+
+
+
+
+_Appears in:_
+- [KubermaticConfigurationSpec](#kubermaticconfigurationspec)
+
+| Field | Description |
+| --- | --- |
+| `disable` _boolean_ | {{< unsafe >}}Disable is used to disable the installation of system application definitions in the master cluster.{{< /unsafe >}} |
+| `applications` _string array_ | {{< unsafe >}}Applications is a list of system application definition names that should be installed in the master cluster.<br />If not set, the default system applications will be installed.{{< /unsafe >}} |
+
+
+[Back to top](#top)
 
 
 
