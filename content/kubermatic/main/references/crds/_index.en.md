@@ -4247,7 +4247,7 @@ _Appears in:_
 | --- | --- |
 | `enabled` _boolean_ | {{< unsafe >}}Controls whether kubeLB is deployed or not.{{< /unsafe >}} |
 | `useLoadBalancerClass` _boolean_ | {{< unsafe >}}UseLoadBalancerClass is used to configure the use of load balancer class `kubelb` for kubeLB. If false, kubeLB will manage all load balancers in the<br />user cluster irrespective of the load balancer class.{{< /unsafe >}} |
-| `enableGatewayAPI` _boolean_ | {{< unsafe >}}EnableGatewayAPI is used to configure the use of gateway API for kubeLB.{{< /unsafe >}} |
+| `enableGatewayAPI` _boolean_ | {{< unsafe >}}EnableGatewayAPI is used to enable Gateway API for KubeLB. Once enabled, KKP installs the Gateway API CRDs for the user cluster.{{< /unsafe >}} |
 | `extraArgs` _object (keys:string, values:string)_ | {{< unsafe >}}ExtraArgs are additional arbitrary flags to pass to the kubeLB CCM for the user cluster.{{< /unsafe >}} |
 
 
@@ -4271,7 +4271,7 @@ _Appears in:_
 | `enforced` _boolean_ | {{< unsafe >}}Enforced is used to enforce kubeLB installation for all the user clusters belonging to this datacenter. Setting enforced to false will not uninstall kubeLB from the user clusters and it needs to be disabled manually.{{< /unsafe >}} |
 | `nodeAddressType` _string_ | {{< unsafe >}}NodeAddressType is used to configure the address type from node, used for load balancing.<br />Optional: Defaults to ExternalIP.{{< /unsafe >}} |
 | `useLoadBalancerClass` _boolean_ | {{< unsafe >}}UseLoadBalancerClass is used to configure the use of load balancer class `kubelb` for kubeLB. If false, kubeLB will manage all load balancers in the<br />user cluster irrespective of the load balancer class.{{< /unsafe >}} |
-| `enableGatewayAPI` _boolean_ | {{< unsafe >}}EnableGatewayAPI is used to configure the use of gateway API for kubeLB.{{< /unsafe >}} |
+| `enableGatewayAPI` _boolean_ | {{< unsafe >}}EnableGatewayAPI is used to configure the use of gateway API for kubeLB.<br />When this option is enabled for the user cluster, KKP installs the Gateway API CRDs for the user cluster.{{< /unsafe >}} |
 | `enableSecretSynchronizer` _boolean_ | {{< unsafe >}}EnableSecretSynchronizer is used to configure the use of secret synchronizer for kubeLB.{{< /unsafe >}} |
 | `disableIngressClass` _boolean_ | {{< unsafe >}}DisableIngressClass is used to disable the ingress class `kubelb` filter for kubeLB.{{< /unsafe >}} |
 | `extraArgs` _object (keys:string, values:string)_ | {{< unsafe >}}ExtraArgs are additional arbitrary flags to pass to the kubeLB CCM for the user cluster. These args are propagated to all the user clusters unless overridden at a cluster level.{{< /unsafe >}} |
