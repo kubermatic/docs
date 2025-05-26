@@ -6974,6 +6974,7 @@ _Appears in:_
 | `name` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 | `zones` _string array_ | {{< unsafe >}}Zones represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones<br />for increased availability{{< /unsafe >}} |
 | `regions` _string array_ | {{< unsafe >}}Regions represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters<br />to span multiple regions{{< /unsafe >}} |
+| `cidr` _string_ | {{< unsafe >}}CIDR is the subnet IPV4 CIDR.{{< /unsafe >}} |
 
 
 [Back to top](#top)
