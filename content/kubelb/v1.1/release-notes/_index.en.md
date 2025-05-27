@@ -13,6 +13,21 @@ weight = 60
 - [v1.1.2](#v112)
 - [v1.1.3](#v113)
 - [v1.1.4](#v114)
+- [v1.1.5](#v115)
+
+## v1.1.5
+
+**GitHub release: [v1.1.5](https://github.com/kubermatic/kubelb/releases/tag/v1.1.5)**
+
+### Bug or Regression
+
+- Update health checks for envoy upstream endpoint ([#103](https://github.com/kubermatic/kubelb/pull/103)):
+  - UDP health checking has been removed due to limited support from Envoy.
+  - TCP health checking has been updated to perform a connect-only health check.
+
+### Other (Cleanup, Flake, or Chore)
+
+- Envoy: `no_traffic_interval` for upstream endpoints health check has been reduced to 5s from the default of 60s. Envoy will start sending health checks to a new cluster after 5s now. ([#93](https://github.com/kubermatic/kubelb/pull/106))
 
 ## v1.1.4
 
