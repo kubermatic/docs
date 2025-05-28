@@ -1445,6 +1445,66 @@ _Appears in:_
 
 
 
+### AuthorizationConfig
+
+
+
+
+
+_Appears in:_
+- [ClusterSpec](#clusterspec)
+
+| Field | Description |
+| --- | --- |
+| `enabledModes` _string array_ | {{< unsafe >}}Optional: List of enabled Authorization modes (by default 'Node,RBAC')<br />Important: order matters{{< /unsafe >}} |
+| `authorizationWebhookConfiguration` _[AuthorizationWebhookConfiguration](#authorizationwebhookconfiguration)_ | {{< unsafe >}}Contains the settings for the AuthorizationWebhook if EnabledModes contains Webhook{{< /unsafe >}} |
+| `authorizationConfigurationFile` _[AuthorizationConfigurationFile](#authorizationconfigurationfile)_ | {{< unsafe >}}Configuration options for mounting the authorization config file from a secret{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### AuthorizationConfigurationFile
+
+
+
+
+
+_Appears in:_
+- [AuthorizationConfig](#authorizationconfig)
+
+| Field | Description |
+| --- | --- |
+| `secretName` _string_ | {{< unsafe >}}The secret containing the authorizaion configuration{{< /unsafe >}} |
+| `secretKey` _string_ | {{< unsafe >}}The secret Key containing the AuthorizationConfig k8s object{{< /unsafe >}} |
+| `secretMountPath` _string_ | {{< unsafe >}}the path were the secret should be mounted, by default '/etc/kubernetes/authorization-configs'{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### AuthorizationWebhookConfiguration
+
+
+
+
+
+_Appears in:_
+- [AuthorizationConfig](#authorizationconfig)
+
+| Field | Description |
+| --- | --- |
+| `secretName` _string_ | {{< unsafe >}}The secret containing the webhook configuration{{< /unsafe >}} |
+| `secretKey` _string_ | {{< unsafe >}}The secret Key inside the secret{{< /unsafe >}} |
+| `webhookVersion` _string_ | {{< unsafe >}}the Webhook Version, by default "v1"{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### Azure
 
 
@@ -2021,6 +2081,7 @@ _Appears in:_
 | `disableCsiDriver` _boolean_ | {{< unsafe >}}Optional: DisableCSIDriver disables the installation of CSI driver on the cluster<br />If this is true at the data center then it can't be over-written in the cluster configuration{{< /unsafe >}} |
 | `backupConfig` _[BackupConfig](#backupconfig)_ | {{< unsafe >}}Optional: BackupConfig contains the configuration options for managing the Cluster Backup Velero integration feature.{{< /unsafe >}} |
 | `kyverno` _[KyvernoSettings](#kyvernosettings)_ | {{< unsafe >}}Kyverno holds the configuration for the Kyverno policy management component.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
+| `authorizationConfig` _[AuthorizationConfig](#authorizationconfig)_ | {{< unsafe >}}Optional: AuthorizationConfig to configure the apiserver authorization modes. This feature is in technical preview right now{{< /unsafe >}} |
 
 
 [Back to top](#top)
