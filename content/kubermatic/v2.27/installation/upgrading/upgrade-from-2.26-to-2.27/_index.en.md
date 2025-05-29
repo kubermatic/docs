@@ -180,8 +180,34 @@ Finally, theming support has changed. The old `oauth` Helm chart allowed to inli
 
 Once you have prepared a new `values.yaml` with the updated configuration, remember to set `useNewDexChart` to `true` and then you're ready. The next time you run the KKP installer, it will install the `dex` Chart for you, but leave the `oauth` release untouched in your cluster. Note that you cannot have two Ingress objects with the same host names and paths, so if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).
 
-{{% notice warning %}}
 #### Important: Update OIDC Provider URL for Hostname Changes
+Before configuring the UI to use the new URL, ensure that the new Dex installation is healthy by checking that the pods are running and the logs show no suspicious errors.
+
+```bash 
+# To check the pods.
+kubectl get pods -n dex
+# To check the logs 
+kubectl get logs -n dex deploy/dex 
+```
+Next, verify the OpenID configuration by running:
+
+```bash
+curl -v https://kkp.example.com/dex2/.well-known/openid-configuration
+```
+
+You should see a response similar to:
+
+```json
+{
+  "issuer": "https://kkp.securinets.tn/dex2",
+  "authorization_endpoint": "https://kkp.securinets.tn/dex2/auth",
+  "token_endpoint": "https://kkp.securinets.tn/dex2/token",
+  "jwks_uri": "https://kkp.securinets.tn/dex2/keys",
+  "userinfo_endpoint": "https://kkp.securinets.tn/dex2/userinfo",
+  ...
+}
+```
+
 Whether you need to temporarily use a different hostname (e.g., `kkp.example.com/dex2`) or permanently update the URL, you must configure the UI to use the new URL as the new OIDC Provider URL.
 
 **For Operator-based installations:**
@@ -190,21 +216,12 @@ If you are installing KKP using the operator (`kubermatic configuration`) modify
 ```yaml
 spec:
   # Ensure the URL (e.g. kkp.example.com/dex2) includes /auth path.
-  config: |
-    {
-      "oidc_provider_url": "https://kkp.example.com/dex2/auth" 
-    }
+  ui:
+    config: |
+      {
+        "oidc_provider_url": "https://kkp.example.com/dex2/auth" 
+      }
 ```
-
-**For Manual installations:**
-For manual installations, simply update the `config.json` file with the new OIDC provider URL:
-
-```json
-{
-  "oidc_provider_url": "https://kkp.example.com/dex2/auth "
-}
-```
-{{% /notice %}}
 
 Once you have verified that the new Dex installation is up and running, you can either
 
