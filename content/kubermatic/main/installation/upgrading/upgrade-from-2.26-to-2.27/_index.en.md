@@ -76,7 +76,7 @@ The custom `oauth` Helm chart in KKP has been deprecated and will be replaced wi
 
 Administrators are advised to begin migrating to the new chart as soon as possible.
 
-##### Migration Procedure
+#### Migration Procedure
 
 Most importantly, with this change the Kubernetes namespace where Dex is installed is also changed. Previously we installed Dex into the `oauth` namespace, but the new chart is meant to be installed into the `dex` namespace. This is the default the KKP installer will choose; if you install KKP manually you could place Dex into any namespace.
 
@@ -95,7 +95,7 @@ To begin the migration, create a new `values.yaml` section for Dex (both old and
   * `host` and `path` are gone, instead admins will have to manually define their Ingress configuration
   * `scheme` is likewise gone and admins have to configure the `tls` section in the Ingress configuration
 
-{{< tabs name="CCM/CSI User Roles" >}}
+{{< tabs name="Dex Helm Chart values" >}}
 {{% tab name="old oauth Chart" %}}
 ```yaml
 dex:
@@ -179,6 +179,49 @@ Additionally, Dex's own configuration is now more clearly separated from how Dex
 Finally, theming support has changed. The old `oauth` Helm chart allowed to inline certain assets, like logos, as base64-encoded blobs into the Helm values. This mechanism is not available in the new `dex` Helm chart and admins have to manually provision the desired theme. KKP's Dex chart will setup a `dex-theme-kkp` ConfigMap, which is mounted into Dex and then overlays files over the default theme that ships with Dex. To customize, create your own ConfigMap/Secret and adjust `dex.volumes`, `dex.volumeMounts` and `dex.config.frontend.theme` / `dex.config.frontend.dir` accordingly.
 
 Once you have prepared a new `values.yaml` with the updated configuration, remember to set `useNewDexChart` to `true` and then you're ready. The next time you run the KKP installer, it will install the `dex` Chart for you, but leave the `oauth` release untouched in your cluster. Note that you cannot have two Ingress objects with the same host names and paths, so if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).
+
+#### Important: Update OIDC Provider URL for Hostname Changes
+Before configuring the UI to use the new URL, ensure that the new Dex installation is healthy by checking that the pods are running and the logs show no suspicious errors.
+
+```bash 
+# To check the pods.
+kubectl get pods -n dex
+# To check the logs 
+kubectl get logs -n dex deploy/dex 
+```
+Next, verify the OpenID configuration by running:
+
+```bash
+curl -v https://kkp.example.com/dex2/.well-known/openid-configuration
+```
+
+You should see a response similar to:
+
+```json
+{
+  "issuer": "https://kkp.securinets.tn/dex2",
+  "authorization_endpoint": "https://kkp.securinets.tn/dex2/auth",
+  "token_endpoint": "https://kkp.securinets.tn/dex2/token",
+  "jwks_uri": "https://kkp.securinets.tn/dex2/keys",
+  "userinfo_endpoint": "https://kkp.securinets.tn/dex2/userinfo",
+  ...
+}
+```
+
+Whether you need to temporarily use a different hostname (e.g., `kkp.example.com/dex2`) or permanently update the URL, you must configure the UI to use the new URL as the new OIDC Provider URL.
+
+**For Operator-based installations:**
+If you are installing KKP using the operator (`kubermatic configuration`) modify the configuration file to include:
+
+```yaml
+spec:
+  # Ensure the URL (e.g. kkp.example.com/dex2) includes /auth path.
+  ui:
+    config: |
+      {
+        "oidc_provider_url": "https://kkp.example.com/dex2/auth" 
+      }
+```
 
 Once you have verified that the new Dex installation is up and running, you can either
 
