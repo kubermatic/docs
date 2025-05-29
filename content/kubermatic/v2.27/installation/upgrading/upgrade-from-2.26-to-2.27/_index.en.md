@@ -95,7 +95,7 @@ To begin the migration, create a new `values.yaml` section for Dex (both old and
   * `host` and `path` are gone, instead admins will have to manually define their Ingress configuration
   * `scheme` is likewise gone and admins have to configure the `tls` section in the Ingress configuration
 
-{{< tabs name="CCM/CSI User Roles" >}}
+{{< tabs name="Dex Helm Chart values" >}}
 {{% tab name="old oauth Chart" %}}
 ```yaml
 dex:

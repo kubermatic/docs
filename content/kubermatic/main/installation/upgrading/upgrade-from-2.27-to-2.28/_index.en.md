@@ -108,7 +108,7 @@ $ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status
 Of particular interest to the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight. If the upgrade is stuck, try `kubectl -n kubermatic describe seed <seed name>` to see what exactly is keeping the KKP Operator from updating the Seed cluster.
 
 
-### Dex Mirgration
+### Dex Migration
 
 The custom `oauth` Helm chart in KKP has been deprecated and will be replaced with a new Helm chart, `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex).
 
@@ -133,7 +133,7 @@ To begin the migration, create a new `values.yaml` section for Dex (both old and
   * `host` and `path` are gone, instead admins will have to manually define their Ingress configuration
   * `scheme` is likewise gone and admins have to configure the `tls` section in the Ingress configuration
 
-{{< tabs name="CCM/CSI User Roles" >}}
+{{< tabs name="Dex Helm Chart values" >}}
 {{% tab name="old oauth Chart" %}}
 ```yaml
 dex:
