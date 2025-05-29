@@ -17,7 +17,7 @@ proxy's authentication entirely.
 ## Configuration
 
 Dex can then be configured to use external authentication sources like GitHub's or Google's OAuth endpoint, LDAP or
-OpenID Connect. For this to work you have to configure both Dex (the `dex` Helm chart) and OAuth2-Proxy
+OpenID Connect. For this to work you have to configure both Dex (the `oauth` Helm chart) and OAuth2-Proxy
 (called "IAP", Identity-Aware Proxy) in your Helm `values.yaml`.
 
 ### Dex
@@ -33,41 +33,36 @@ A sample configuration for Prometheus and Alertmanager could look like this:
 ```yaml
 dex:
   ingress:
-    hosts:
-      - host: kkp.example.com
-        paths:
-          - path: /dex
-            pathType: ImplementationSpecific
-            
-  config:
-    staticClients:
-    # keep the KKP client for the login to the KKP dashboard
-    - id: kubermatic
-      # ...
+    host: kkp.example.com
 
-    # new client used for authenticating Prometheus
-    - id: prometheus # a unique identifier
-      name: Prometheus
-      secret: <generate random secret key here>
-      RedirectURIs:
-      - 'https://prometheus.kkp.example.com/oauth/callback'
+  clients:
+   # keep the KKP client for the login to the KKP dashboard
+  - id: kubermatic
+    # ...
 
-    # new client used for authenticating Alertmanager
-    - id: alertmanager # a unique identifier
-      name: Alertmanager
-      secret: <generate another random secret key here>
-      RedirectURIs:
-      - 'https://alertmanager.kkp.example.com/oauth/callback'
+  # new client used for authenticating Prometheus
+  - id: prometheus # a unique identifier
+    name: Prometheus
+    secret: <generate random secret key here>
+    RedirectURIs:
+    - 'https://prometheus.kkp.example.com/oauth/callback'
+
+  # new client used for authenticating Alertmanager
+  - id: alertmanager # a unique identifier
+    name: Alertmanager
+    secret: <generate another random secret key here>
+    RedirectURIs:
+    - 'https://alertmanager.kkp.example.com/oauth/callback'
 ```
 
-Each service should have its own credentials (i.e. a different `secret` for every client). Re-deploying the `dex` chart
+Each service should have its own credentials (i.e. a different `secret` for every client). Re-deploying the `oauth` chart
 with Helm will now prepare Dex to act as an authentication provider, but there is no OAuth2-Proxy yet to make use of
 this:
 
 **Helm 3**
 
 ```bash
-helm --namespace dex upgrade --install --wait --values /path/to/your/helm-values.yaml dex charts/dex/
+helm --namespace oauth upgrade --install --wait --values /path/to/your/helm-values.yaml oauth charts/oauth/
 ```
 
 ### OAuth2-Proxy (IAP)
