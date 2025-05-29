@@ -100,17 +100,18 @@ spec:
     issuerRedirectURL: https://example.com/api/v1/kubeconfig
 ```
 
-These values must match the configuration used for the `oauth` Helm chart (Dex). Define
+These values must match the configuration used for the `dex` Helm chart (Dex). Define
 the new `issuerClientID` in Dex by editing your `values.yaml` used for setting Dex up:
 
 ```yaml
 dex:
-  clients:
-  - id: kubermaticIssuer
-    name: Kubermatic OIDC Issuer
-    secret: "" # put the value of issuerClientSecret here
-    RedirectURIs:
-    - https://example.com/api/v1/kubeconfig # issuerRedirectURL
+  config:
+    staticClients:
+    - id: kubermaticIssuer
+      name: Kubermatic OIDC Issuer
+      secret: "" # put the value of issuerClientSecret here
+      RedirectURIs:
+      - https://example.com/api/v1/kubeconfig # issuerRedirectURL
 ```
 
 ## Root CA Certificates Chain
@@ -125,12 +126,12 @@ OIDC provider.
 
 ## Update KKP
 
-After all values are set up, it's time to update the KKP master cluster. Update the `oauth` chart first:
+After all values are set up, it's time to update the KKP master cluster. Update the `dex` chart first:
 
 **Helm 3**
 
 ```bash
-helm --namespace oauth upgrade --install --wait --values values.yaml oauth charts/oauth/
+helm --namespace dex upgrade --install --wait --values values.yaml dex charts/dex/
 ```
 
 Now that the issuer is available, update the `KubermaticConfiguration`:

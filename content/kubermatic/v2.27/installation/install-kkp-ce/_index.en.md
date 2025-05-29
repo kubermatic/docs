@@ -127,7 +127,7 @@ The release archive hosted on GitHub contains examples for both of the configura
 `kubermatic.example.yaml`). It's a good idea to take them as a starting point and add more options as necessary.
 
 {{% notice note %}}
-Fresh installations default to the upstream Dex chart (`/dex`) with `useNewDexChart: true` (set in `values.example.yaml`), replacing the legacy `/oauth` endpoint.
+Fresh installations default to the upstream Dex chart (`dex`) with `useNewDexChart: true` (set in `values.example.yaml`), replacing the legacy `oauth` chart.
 {{% /notice %}}
 
 The key items to consider while preparing your configuration files are described in the table below.
