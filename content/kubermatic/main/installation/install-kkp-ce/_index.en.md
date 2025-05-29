@@ -126,14 +126,18 @@ Both files will include secret data, so make sure to securely store them (e.g. i
 The release archive hosted on GitHub contains examples for both of the configuration files (`values.example.yaml` and
 `kubermatic.example.yaml`). It's a good idea to take them as a starting point and add more options as necessary.
 
+{{% notice note %}}
+Fresh installations default to the upstream Dex chart (`dex`) with `useNewDexChart: true` (set in `values.example.yaml`), replacing the legacy `oauth` chart.
+{{% /notice %}}
+
 The key items to consider while preparing your configuration files are described in the table below.
 
 | Description                                                                          | YAML Paths and File                                                                         |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| The base domain under which KKP shall be accessible (e.g. `kkp.example.com`). | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.host` (`values.yaml`); also adjust `.dex.clients[*].RedirectURIs` (`values.yaml`) according to your domain. |
+| The base domain under which KKP shall be accessible (e.g. `kkp.example.com`). | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.hosts[0].host` and `dex.ingress.tls[0].hosts[0]` (`values.yaml`); also adjust `.dex.config.staticClients[*].RedirectURIs` (`values.yaml`) according to your domain. |
 | The certificate issuer for KKP (KKP requires it since the dashboard and Dex are accessible only via HTTPS); by default cert-manager is used, but you have to reference an issuer that you need to create later on. | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`) |
-| For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.clients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`); this needs to be equal to `.dex.clients[name=="kubermaticIssuer"].secret` (`values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
-| To authenticate via an external identity provider, you need to set up connectors in Dex. Check out [the Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required, but highly recommended for multi-user installations. | `.dex.connectors` (`values.yaml`; not included in example file) |
+| For proper authentication, shared secrets must be configured between Dex and KKP. Likewise, Dex uses yet another random secret to encrypt cookies stored in the users' browsers. | `.dex.config.staticClients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`); this needs to be equal to `.dex.config.staticClients[name=="kubermaticIssuer"].secret` (`values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
+| To authenticate via an external identity provider, you need to set up connectors in Dex. Check out [the Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required, but highly recommended for multi-user installations. | `.dex.config.connectors` (`values.yaml`; commented in example file) |
 | The expose strategy which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [the expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy, if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
 | Telemetry used to track the KKP and k8s cluster usage, uuid field is required and will print an error message when that entry is missing. | `.telemetry.uuid` (`values.yaml`) |
 
