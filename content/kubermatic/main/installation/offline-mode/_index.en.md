@@ -136,9 +136,13 @@ The `kubermatic-installer mirror-binaries` command is designed to **mirror and h
 - **CRI tools** (e.g., `crictl`)  
 - Tar packages and checksums for integrity verification  
 
+{{% notice info %}}
+The default output directory (`/usr/share/nginx/html/`) requires root permissions. To avoid running the command as root, specify a custom directory using the `--output-dir` flag. For offline scenarios, it is recommended to run this command on a dedicated system, as such environments often rely on a central server to host container images and binaries. This ensures all required files are mirrored directly to the filesystem for centralized offline access. Alternatively, you can bundle the mirrored files into a container for easier distribution.
+{{% /notice %}}
+
 ### Key Features:  
 
-1. **Mirrors Original Domain Structure**:  
+**Mirrors Original Domain Structure**:  
   Binaries are stored in the **exact directory hierarchy** as their original domains (e.g., `containernetworking/plugins/releases/v1.5.1/...`). This allows **DNS-based redirection** of domains like `github.com` or `k8s.gcr.io` to your local/offline server, ensuring the OSP fetches binaries from the mirrored paths **without URL reconfiguration** or **Operating System Profile** changes.  
 
 ### Example Workflow:  
@@ -155,6 +159,13 @@ INFO[0011] ✅ CRI tools download complete for all available Kubernetes versions
 INFO[0033] ✅ Kube binaries download complete for all available Kubernetes versions (amd64). 
 INFO[0033] ✅ Finished loading images.      
 ```
+
+### Important Notes and Recommendations: 
+
+- Default Output Directory Requires root permission, to avoid running as root, specify a custom directory using `--output-dir`
+
+- *Offline Scenarios*: In most offline scenarios, a dedicated system is required to host both container images and binaries. It is recommended to run this command on that dedicated system, as it mirrors the binaries directly to the filesystem. This ensures all required files are centrally available for offline use.
+
 
 ### Example of the Directory Structure: 
 
