@@ -142,7 +142,7 @@ The default output directory (`/usr/share/nginx/html/`) requires root permission
 
 ### Key Features
 
-#### Mirrors Original Domain Structure**:  
+#### Mirrors Original Domain Structure:  
   Binaries are stored in the **exact directory hierarchy** as their original domains (e.g., `containernetworking/plugins/releases/v1.5.1/...`). This allows **DNS-based redirection** of domains like `github.com` or `k8s.gcr.io` to your local/offline server, ensuring the OSP fetches binaries from the mirrored paths **without URL reconfiguration** or **Operating System Profile** changes.  
 
 ### Example Workflow
