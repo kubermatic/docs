@@ -137,7 +137,7 @@ The `kubermatic-installer mirror-binaries` command is designed to **mirror and h
 - Tar packages and checksums for integrity verification  
 
 {{% notice info %}}
-The default output directory (`/usr/share/nginx/html/`) requires root permissions. To avoid running the command as root, specify a custom directory using the `--output-dir` flag. For offline scenarios, it is recommended to run this command on a dedicated system, as such environments often rely on a central server to host container images and binaries. This ensures all required files are mirrored directly to the filesystem for centralized offline access. Alternatively, you can bundle the mirrored files into a container for easier distribution.
+The default output directory (`/usr/share/nginx/html/`) requires root permissions. To avoid running the command as root, specify a custom directory using the `--output-dir` flag. For offline scenarios, it is recommended to run this command on a dedicated system, as such environments often rely on a central server to host container images and binaries, as it mirrors the files directly to the filesystem. Alternatively, you can bundle the mirrored files into a container for easier distribution.
 {{% /notice %}}
 
 ### Key Features:  
