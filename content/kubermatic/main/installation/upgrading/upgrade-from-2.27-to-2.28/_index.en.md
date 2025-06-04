@@ -27,6 +27,7 @@ KKP 2.28 removes the custom Helm chart for Node Exporter and instead now reuses 
 #### Migration Procedure
 
 The following actions are required for migration before performing the upgrade:
+
 - Replace the top-level key `nodeExporter` with `node-exporter` in the `values.yaml`
 - The key `nodeExporter.rbacProxy` has been removed.  Use `node-exporter.kubeRBACProxy` instead to configure kube-rbac-proxy.
 
@@ -43,6 +44,7 @@ If you are installing MLA using GitOps / Manual way using Helm CLI, before upgra
 ```bash
 helm --namespace monitoring delete node-exporter
 ```
+
 Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
 
 ### Blackbox Exporter Upgrade (Seed MLA)
@@ -52,6 +54,7 @@ KKP 2.28 removes the custom Helm chart for Blackbox Exporter and instead now reu
 #### Migration Procedure
 
 The following actions are required for migration before performing the upgrade:
+
 - Replace the top-level key `blackboxExporter` with `blackbox-exporter` in the `values.yaml`
 - Any custom modules should be moved from `blackboxExporter.modules` to `blackbox-exporter.config.modules`.
 
@@ -68,6 +71,7 @@ If you are installing MLA using GitOps / Manual way using Helm CLI, before upgra
 ```bash
 helm --namespace monitoring delete blackbox-exporter
 ```
+
 Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
 
 ### Alertmanager Upgrade (Seed MLA)
@@ -102,8 +106,8 @@ If you are installing MLA using GitOps / Manual way using HelmCLI, before upgrad
 ```bash
 kubectl delete -n monitoring alertmanager
 ```
-Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
 
+Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
 
 ## Upgrade Procedure
 
@@ -132,34 +136,34 @@ $ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status
 
 Of particular interest to the upgrade process is if the `ResourcesReconciled` condition succeeded and if the `versions.kubermatic` field is showing the target KKP version. If this is not the case yet, the upgrade is still in flight. If the upgrade is stuck, try `kubectl -n kubermatic describe seed <seed name>` to see what exactly is keeping the KKP Operator from updating the Seed cluster.
 
-
 ### Dex Migration
 
-The custom `oauth` Helm chart in KKP has been deprecated and will be replaced with a new Helm chart, `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex).
+The custom `oauth` Helm chart in KKP was deprecated in 2.27 and has been removed in 2.28. `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex) has replaced it.
 
 Administrators are advised to begin migrating to the new chart as soon as possible.
 
 #### Migration Procedure
 
-Most importantly, with this change the Kubernetes namespace where Dex is installed is also changed. Previously we installed Dex into the `oauth` namespace, but the new chart is meant to be installed into the `dex` namespace. This is the default the KKP installer will choose; if you install KKP manually you could place Dex into any namespace.
+With 2.28, the KKP installer will install the new `dex` Helm chart into the `dex` namespace, instead of the old `oauth` namespace. This ensures that the old `oauth` chart remains intact and is not removed by KKP, which could result in downtimes.
 
-Because the namespace changes, both old and new Dex can temporarily live side-by-side in your cluster. This allows administrators to verify their configuration changes before migration over to the new Dex instances.
+This is the default namespace that the KKP installer will choose. If you install KKP manually you could place Dex into any namespace.
 
 To begin the migration, create a new `values.yaml` section for Dex (both old and new chart use `dex` as the top-level key in the YAML file) and migrate your existing configuration as follows:
 
-* `dex.replicas` is now `dex.replicaCount`
-* `dex.env` is now `dex.envVars`
-* `dex.extraVolumes` is now `dex.volumes`
-* `dex.extraVolumeMounts` is now `dex.volumeMounts`
-* `dex.certIssuer` has been removed, admins must manually set the necessary annotations on the
+- `dex.replicas` is now `dex.replicaCount`
+- `dex.env` is now `dex.envVars`
+- `dex.extraVolumes` is now `dex.volumes`
+- `dex.extraVolumeMounts` is now `dex.volumeMounts`
+- `dex.certIssuer` has been removed, admins must manually set the necessary annotations on the
   ingress to integrate with cert-manager.
-* `dex.ingress` has changed internally:
-  * `class` is now `className` (the value "non-existent" is not supported anymore, use the `dex.ingress.enabled` field instead)
-  * `host` and `path` are gone, instead admins will have to manually define their Ingress configuration
-  * `scheme` is likewise gone and admins have to configure the `tls` section in the Ingress configuration
+- `dex.ingress` has changed internally:
+  - `class` is now `className` (the value "non-existent" is not supported anymore, use the `dex.ingress.enabled` field instead)
+  - `host` and `path` are gone, instead admins will have to manually define their Ingress configuration
+  - `scheme` is likewise gone and admins have to configure the `tls` section in the Ingress configuration
 
 {{< tabs name="Dex Helm Chart values" >}}
 {{% tab name="old oauth Chart" %}}
+
 ```yaml
 dex:
   replicas: 2
@@ -188,14 +192,12 @@ dex:
     name: letsencrypt-prod
     kind: ClusterIssuer
 ```
+
 {{% /tab %}}
 
 {{% tab name="new dex Chart" %}}
-```yaml
-# Tell the KKP installer to install the new dex Chart into the
-# "dex" namespace, instead of the old oauth Chart.
-useNewDexChart: true
 
+```yaml
 dex:
   replicaCount: 2
 
@@ -225,33 +227,36 @@ dex:
           # above.
           - "kkp.example.com"
 ```
+
 {{% /tab %}}
 {{< /tabs >}}
 
 Additionally, Dex's own configuration is now more clearly separated from how Dex's Kubernetes manifests are configured. The following changes are required:
 
-* In general, Dex's configuration is everything under `dex.config`.
-* `dex.config.issuer` has to be set explicitly (the old `oauth` Chart automatically set it), usually to `https://<dex host>/dex`, e.g. `https://kkp.example.com/dex`.
-* `dex.connectors` is now `dex.config.connectors`
-* `dex.expiry` is now `dex.config.expiry`
-* `dex.frontend` is now `dex.config.frontend`
-* `dex.grpc` is now `dex.config.grpc`
-* `dex.clients` is now `dex.config.staticClients`
-* `dex.staticPasswords` is now `dex.config.staticPasswords` (when using static passwords, you also have to set `dex.config.enablePasswordDB` to `true`)
+- In general, Dex's configuration is everything under `dex.config`.
+- `dex.config.issuer` has to be set explicitly (the old `oauth` Chart automatically set it), usually to `https://<dex host>/dex`, e.g. `https://kkp.example.com/dex`.
+- `dex.connectors` is now `dex.config.connectors`
+- `dex.expiry` is now `dex.config.expiry`
+- `dex.frontend` is now `dex.config.frontend`
+- `dex.grpc` is now `dex.config.grpc`
+- `dex.clients` is now `dex.config.staticClients`
+- `dex.staticPasswords` is now `dex.config.staticPasswords` (when using static passwords, you also have to set `dex.config.enablePasswordDB` to `true`)
 
 Finally, theming support has changed. The old `oauth` Helm chart allowed to inline certain assets, like logos, as base64-encoded blobs into the Helm values. This mechanism is not available in the new `dex` Helm chart and admins have to manually provision the desired theme. KKP's Dex chart will setup a `dex-theme-kkp` ConfigMap, which is mounted into Dex and then overlays files over the default theme that ships with Dex. To customize, create your own ConfigMap/Secret and adjust `dex.volumes`, `dex.volumeMounts` and `dex.config.frontend.theme` / `dex.config.frontend.dir` accordingly.
 
-Once you have prepared a new `values.yaml` with the updated configuration, remember to set `useNewDexChart` to `true` and then you're ready. The next time you run the KKP installer, it will install the `dex` Chart for you, but leave the `oauth` release untouched in your cluster. Note that you cannot have two Ingress objects with the same host names and paths, so if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).
+**Note that you cannot have two Ingress objects with the same host names and paths. So if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).**
 
 #### Important: Update OIDC Provider URL for Hostname Changes
+
 Before configuring the UI to use the new URL, ensure that the new Dex installation is healthy by checking that the pods are running and the logs show no suspicious errors.
 
-```bash 
+```bash
 # To check the pods.
 kubectl get pods -n dex
-# To check the logs 
-kubectl get logs -n dex deploy/dex 
+# To check the logs
+kubectl get logs -n dex deploy/dex
 ```
+
 Next, verify the OpenID configuration by running:
 
 ```bash
@@ -282,31 +287,30 @@ spec:
   ui:
     config: |
       {
-        "oidc_provider_url": "https://kkp.example.com/dex2/auth" 
+        "oidc_provider_url": "https://kkp.example.com/dex2/auth"
       }
 ```
 
 Once you have verified that the new Dex installation is up and running, you can either
 
-* point KKP to the new Dex installation (if its new URL is meant to be permanent) by changing the `tokenIssuer` in the `KubermaticConfiguration`, or
-* delete the old `oauth` release (`helm -n oauth delete oauth`) and then re-deploy the new Dex release, but with the same host+path as the old `oauth` chart used, so that no further changes are necessary in downstream components like KKP. This will incur a short downtime, while no Ingress exists for the issuer URL configured in KKP.
-
+- point KKP to the new Dex installation (if its new URL is meant to be permanent) by changing the `tokenIssuer` in the `KubermaticConfiguration`, or
+- delete the old `oauth` release (`helm -n oauth delete oauth`) and then re-deploy the new Dex release, but with the same host+path as the old `oauth` chart used, so that no further changes are necessary in downstream components like KKP. This will incur a short downtime, while no Ingress exists for the issuer URL configured in KKP.
 
 ## Post-Upgrade Considerations
 
 ### Deprecations and Removals
 
-#### Azure Basic Load Balancer Deprecation and Upgrade Guidance 
+#### Azure Basic Load Balancer Deprecation and Upgrade Guidance
 
 On **September 30, 2025**, Azure will deprecate the Basic Load Balancer. After this date, Basic Load Balancers will no longer be supported, and their functionality may be impacted, potentially leading to service disruptions.
 
-This retirement affects all customers using the Azure Basic Load Balancer SKU, with one key exception: **Azure Cloud Services (extended support) deployments**. 
+This retirement affects all customers using the Azure Basic Load Balancer SKU, with one key exception: **Azure Cloud Services (extended support) deployments**.
 If you have Basic Load Balancers deployed within Azure Cloud Services (extended support), these deployments will not be affected by this retirement, and no action is required for these specific instances.
 
-For more details about this deprecation, please refer to the official Azure announcement: 
+For more details about this deprecation, please refer to the official Azure announcement:
 [https://azure.microsoft.com/en-us/updates?id=azure-basic-load-balancer-will-be-retired-on-30-september-2025-upgrade-to-standard-load-balancer](https://azure.microsoft.com/en-us/updates?id=azure-basic-load-balancer-will-be-retired-on-30-september-2025-upgrade-to-standard-load-balancer)
 
-The Azure team has created an upgrade guideline, including required scripts to automate the migration process. 
+The Azure team has created an upgrade guideline, including required scripts to automate the migration process.
 Please refer to the official documentation for detailed upgrade instructions: [https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-basic-upgrade-guidance#upgrade-using-automated-scripts-recommended](https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-basic-upgrade-guidance#upgrade-using-automated-scripts-recommended)
 
 ## Next Steps

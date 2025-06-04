@@ -84,6 +84,7 @@ for Windows `zip` files are provided instead of `tar.gz` files.
 
 {{< tabs name="Download the installer" >}}
 {{% tab name="Linux" %}}
+
 ```bash
 # For latest version:
 VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/kubermatic/releases/latest -o /dev/null | sed -e 's|.*/v||')
@@ -92,8 +93,10 @@ VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/k
 wget https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 tar -xzvf kubermatic-ce-v${VERSION}-linux-amd64.tar.gz
 ```
+
 {{% /tab %}}
 {{% tab name="MacOS" %}}
+
 ```bash
 # Determine your macOS processor architecture type
 # Replace 'amd64' with 'arm64' if using an Apple Silicon (M1) Mac.
@@ -105,6 +108,7 @@ VERSION=$(curl -w '%{url_effective}' -I -L -s -S https://github.com/kubermatic/k
 wget "https://github.com/kubermatic/kubermatic/releases/download/v${VERSION}/kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 tar -xzvf "kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 ```
+
 {{% /tab %}}
 {{< /tabs >}}
 
@@ -126,10 +130,6 @@ Both files will include secret data, so make sure to securely store them (e.g. i
 The release archive hosted on GitHub contains examples for both of the configuration files (`values.example.yaml` and
 `kubermatic.example.yaml`). It's a good idea to take them as a starting point and add more options as necessary.
 
-{{% notice note %}}
-Fresh installations default to the upstream Dex chart (`dex`) with `useNewDexChart: true` (set in `values.example.yaml`), replacing the legacy `oauth` chart.
-{{% /notice %}}
-
 The key items to consider while preparing your configuration files are described in the table below.
 
 | Description                                                                          | YAML Paths and File                                                                         |
@@ -140,7 +140,6 @@ The key items to consider while preparing your configuration files are described
 | To authenticate via an external identity provider, you need to set up connectors in Dex. Check out [the Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required, but highly recommended for multi-user installations. | `.dex.config.connectors` (`values.yaml`; commented in example file) |
 | The expose strategy which controls how control plane components of a User Cluster are exposed to worker nodes and users. See [the expose strategy documentation]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}) for available options. Defaults to `NodePort` strategy, if not set. | `.spec.exposeStrategy` (`kubermatic.yaml`; not included in example file) |
 | Telemetry used to track the KKP and k8s cluster usage, uuid field is required and will print an error message when that entry is missing. | `.telemetry.uuid` (`values.yaml`) |
-
 
 There are many more options, but these are essential to get a minimal system up and running. A full reference of all options can be found in the [KubermaticConfiguration Reference]({{< relref "../../references/crds/#kubermaticconfigurationspec" >}}). The secret keys
 mentioned above can be generated using any password generator or on the shell using
@@ -153,6 +152,7 @@ notices that some are missing, for example:
 ```
 
 Output will be similar to this:
+
 ```bash
 INFO[15:15:20] 🛫 Initializing installer…                     edition="Community Edition" version=v2.21.2
 INFO[15:15:20] 🚦 Validating the provided configuration…
@@ -278,7 +278,7 @@ like so:
 ```
 
 {{% notice warning %}}
-If you get an error about Helm being too old, download the most recent version from https://helm.sh/ and either
+If you get an error about Helm being too old, download the most recent version from <https://helm.sh/> and either
 replace your system's Helm installation or specify the path to the Helm 3 binary via `--helm-binary ...` (for
 example `./kubermatic-installer deploy .... --helm-binary /home/me/Downloads/helm-3.3.1`)
 {{% /notice %}}
@@ -377,6 +377,7 @@ kubectl -n nginx-ingress-controller get services
 ```
 
 Output will be similar to this:
+
 ```bash
 #NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
 #nginx-ingress-controller   LoadBalancer   10.47.248.232   1.2.3.4        80:32014/TCP,443:30772/TCP   449d
@@ -457,6 +458,7 @@ watch kubectl -n kubermatic get certificates
 ```
 
 Output will be similar to this:
+
 ```bash
 #NAME         READY   SECRET           AGE
 #kubermatic   True    kubermatic-tls   1h
