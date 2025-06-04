@@ -3490,6 +3490,7 @@ _Appears in:_
 | `operatingSystemManager` _[HealthStatus](#healthstatus)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `kubernetesDashboard` _[HealthStatus](#healthstatus)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `kubelb` _[HealthStatus](#healthstatus)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `kyverno` _[HealthStatus](#healthstatus)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
 [Back to top](#top)
