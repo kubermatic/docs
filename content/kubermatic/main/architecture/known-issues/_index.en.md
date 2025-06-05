@@ -87,7 +87,7 @@ spec:
   defaultComponentSettings:
     konnectivityProxy:
       # Args configures arguments (flags) for the Konnectivity deployments.
-      args: ["--xfr-channel-size", "20"]
+      args: ["--xfr-channel-size=20"]
 ```
 
 This sets `--xfr-channel-size=20` flag for Konnectivity Server, which runs as a sidecar to the Kubernetes API server.
@@ -100,15 +100,15 @@ An example configuration is shown below:
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
-kind: Seed
+kind: Cluster
 metadata:
-  name: <<exampleseed>>
+  name: <<examplecluster>>
   namespace: kubermatic
 spec:
   componentsOverride:
     konnectivityProxy:
       # Args configures arguments (flags) for the Konnectivity deployments.
-      args: ["--xfr-channel-size", "300"]
+      args: ["--xfr-channel-size=300"]
 ```
 
 This sets `--xfr-channel-size=300` flag for Konnectivity Agent, which runs on the user cluster.
