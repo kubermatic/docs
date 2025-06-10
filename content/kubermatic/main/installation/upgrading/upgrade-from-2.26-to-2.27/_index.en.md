@@ -78,6 +78,10 @@ Administrators are advised to begin migrating to the new chart as soon as possib
 
 #### Migration Procedure
 
+{{% notice warning %}}
+After migrating to Dex, users may encounter login issues due to invalid tokens. To resolve, clear browser cookies for the application domain and log in again.
+{{% /notice %}}
+
 Most importantly, with this change the Kubernetes namespace where Dex is installed is also changed. Previously we installed Dex into the `oauth` namespace, but the new chart is meant to be installed into the `dex` namespace. This is the default the KKP installer will choose; if you install KKP manually you could place Dex into any namespace.
 
 Because the namespace changes, both old and new Dex can temporarily live side-by-side in your cluster. This allows administrators to verify their configuration changes before migration over to the new Dex instances.
@@ -199,11 +203,11 @@ You should see a response similar to:
 
 ```json
 {
-  "issuer": "https://kkp.securinets.tn/dex2",
-  "authorization_endpoint": "https://kkp.securinets.tn/dex2/auth",
-  "token_endpoint": "https://kkp.securinets.tn/dex2/token",
-  "jwks_uri": "https://kkp.securinets.tn/dex2/keys",
-  "userinfo_endpoint": "https://kkp.securinets.tn/dex2/userinfo",
+  "issuer": "https://kkp.example.com/dex2",
+  "authorization_endpoint": "https://kkp.example.com/dex2/auth",
+  "token_endpoint": "https://kkp.example.com/dex2/token",
+  "jwks_uri": "https://kkp.example.com/dex2/keys",
+  "userinfo_endpoint": "https://kkp.example.com/dex2/userinfo",
   ...
 }
 ```
