@@ -144,6 +144,10 @@ Administrators are advised to begin migrating to the new chart as soon as possib
 
 #### Migration Procedure
 
+{{% notice warning %}}
+After migrating to Dex, users may encounter login issues due to invalid tokens. To resolve, clear browser cookies for the application domain and log in again.
+{{% /notice %}}
+
 With 2.28, the KKP installer will install the new `dex` Helm chart into the `dex` namespace, instead of the old `oauth` namespace. This ensures that the old `oauth` chart remains intact and is not removed by KKP, which could result in downtimes.
 
 This is the default namespace that the KKP installer will choose. If you install KKP manually you could place Dex into any namespace.
@@ -267,11 +271,11 @@ You should see a response similar to:
 
 ```json
 {
-  "issuer": "https://kkp.securinets.tn/dex2",
-  "authorization_endpoint": "https://kkp.securinets.tn/dex2/auth",
-  "token_endpoint": "https://kkp.securinets.tn/dex2/token",
-  "jwks_uri": "https://kkp.securinets.tn/dex2/keys",
-  "userinfo_endpoint": "https://kkp.securinets.tn/dex2/userinfo",
+  "issuer": "https://kkp.example.com/dex2",
+  "authorization_endpoint": "https://kkp.example.com/dex2/auth",
+  "token_endpoint": "https://kkp.example.com/dex2/token",
+  "jwks_uri": "https://kkp.example.com/dex2/keys",
+  "userinfo_endpoint": "https://kkp.example.com/dex2/userinfo",
   ...
 }
 ```
