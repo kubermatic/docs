@@ -127,6 +127,22 @@ Additionally you can also customize the Backup Sync Period which will be used to
 
 When "Import Backup" button is clicked, a new Backup Storage Location is created in the target user cluster where `prefix` value is set to the selected directory path. Backups in the selected directory should appear automatically after the Backup Sync Period and then those backups can be downloaded or restored as required.
 
+#### Uploading Backups
+
+KKP UI supports uploading backups to supported S3 providers. An "Upload Backups" button has been added on Backups page.
+
+![Upload Backups](images/upload-backups-button.png?classes=shadow,border "Upload Backups")
+
+After clicking "Upload Backups" button, a dialog is shown where user can select the Backup Storage Location to upload backups.
+
+![Upload Backups Dialog](images/upload-backups-dialog.png?classes=shadow,border "Upload Backups Dialog")
+
+By default, the KKP UI uploads backups to a directory named after the current Project ID. Users can specify a subdirectory name, which will be created within the Project ID directory.
+After that, users must select the Backup and Kopia files to be uploaded in the designated directories on S3. In order to simplify the process, user can upload entire directories containing these files.
+Backup and Kopia files will be uploaded inside `backups` and `kopia` directories respectively. Since Velero requires the Kopia files to sync backups, its important that files are uploaded in their respective directories.
+
+KKP UI will use multipart upload for files larger than the 100MB size and maximum allowed file size is 1TB. Its important that the dashboard window and upload backups dialog are kept open until all files have finished uploading. If the dialog or window is closed prematurely then this may result in unfinished multipart uploads which can incur additional cloud storage charges.
+After all files have been uploaded successfully, user can follow the instructions mentioned above for Importing External Backups.
 
 ### Security Consideration
 KKP administrators and project owners/editors should be carefully plan the backup storage strategy of projects and user clusters.
