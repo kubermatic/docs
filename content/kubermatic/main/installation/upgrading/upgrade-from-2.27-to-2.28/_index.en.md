@@ -104,10 +104,15 @@ If you are using `kubermatic-installer` for the Seed MLA installation, then it w
 If you are installing MLA using GitOps / Manual way using HelmCLI, before upgrading, you must delete the existing Alertmanager STS manually before doing the upgrade.
 
 ```bash
-kubectl delete -n monitoring alertmanager
+kubectl -n monitoring delete statefulset alertmanager
 ```
 
 Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
+
+Finally, cleanup the leftover PVC resources from old helm chart installation.
+```bash
+kubectl delete pvc -n monitoring -l app=alertmanager
+```
 
 ## Upgrade Procedure
 
