@@ -18,26 +18,27 @@ All App functionality resides in the Applications Tab, from which a new Applicat
 
 An application catalog will be displayed. If no Applications are being displayed, please contact your KKP administrator to [create an Application Catalog]({{< relref "../create-application-catalog/" >}})
 
-![Application Catalog](@/images/applications/default-applications-catalog.png "Application Catalog")
+![Application Catalog](@/images/applications/default-applications-catalog.png?classes=shadow,border "Application Catalog")
 
 After choosing an Application, its installation can be further customized.
 
-![Application Settings](@/images/applications/application-settings.png "Application Settings")
+![Application Settings](@/images/applications/application-settings.png?classes=shadow,border "Application Settings")
 
-![Application Values](@/images/applications/application-values.png "Application Values")
+![Application Values](@/images/applications/application-values.png?classes=shadow,border "Application Values")
 
 The following can be customized:
 
-- `Version` -> The version of the Application that should be displayed
-- `Namespace` -> The namespace the workload should be installed in. If the namespace does not exist, KKP will automatically create it
-- `Name` -> The name of the Application
+- `Version` -> The version of the Application that should be displayed.
+- `Application Installation Namespace` -> The namespace where application installation will be created.
+- `Name` -> The name of the Application.
+- `Application Resources Namespace` -> The namespace where application resources will be deployed.
 - `Values` -> Value override for Installation. This will be left-merged with the default values of your Application.
 
-The combination of Namespace and Name must be unique within your cluster.
+The combination of Application Resources Namespace and Name must be unique within your cluster.
 
 After you have selected your customizations, the installation-status of your Application can be viewed in the Applications Tab.
 
-![Application Installation Status](@/images/applications/application-status.png "Application Installation Status")
+![Application Installation Status](@/images/applications/application-status.png?classes=shadow,border "Application Installation Status")
 
 ### Creating a New Cluster With Applications
 
