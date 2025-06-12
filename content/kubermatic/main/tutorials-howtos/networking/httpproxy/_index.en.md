@@ -97,11 +97,11 @@ spec:
         noProxy: "127.0.0.1,localhost,.local,.local.,kubernetes,.default,.svc, 169.254.20.10, 172.25.0.0/16, 10.240.16.0/20, kkp.example.com"
 ```
 
-### User Cluster Components
+### User Cluster
 
 For more granular control, proxy settings can be configured at a user cluster level. This allows overriding the more general proxy settings defined at the seed's datacenter level for a specific cluster.
 
-his is particularly useful when a specific cluster requires different proxy rules than the default ones applied to all other clusters in the same datacenter.
+This is particularly useful when a specific cluster requires different proxy rules than the default ones applied to all other clusters in the same datacenter.
 
 **Note** that the cluster-level proxy configuration takes precedence over the node-level settings for the OSM component.
 
