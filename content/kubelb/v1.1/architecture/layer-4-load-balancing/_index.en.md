@@ -22,7 +22,7 @@ KubeLB focuses on managing the load balancers from a centralized point. So inste
 
 1. Developer creates a service of type LoadBalancer.
 2. After validation, KubeLB CCM will propagate these resources from the tenant to LB cluster using the `LoadBalancer` CRD.
-3. The manage then copies/creates the corresponding resources in the teanat namespace in the management cluster.
+3. KubeLB manager then copies/creates the corresponding resources in the tenant namespace in the management cluster.
 4. KubeLB CCM polls for the updated status of the service, updates the status when available.
 5. KubeLB manager starts routing the traffic for your resource.
 
