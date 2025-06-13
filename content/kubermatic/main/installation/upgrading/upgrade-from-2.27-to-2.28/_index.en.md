@@ -150,7 +150,7 @@ Administrators are advised to begin migrating to the new chart as soon as possib
 #### Migration Procedure
 
 {{% notice warning %}}
-After migrating to Dex, users may encounter login issues due to invalid tokens. To resolve, clear browser cookies for the application domain and log in again.
+After migrating to Dex, users may encounter login issues due to invalid tokens. To resolve, clear browser cookies for the application domain and log in again. Additionally, restart the `kubermatic-api` to ensure proper initialization and synchronization with the new Dex configuration.
 {{% /notice %}}
 
 With 2.28, the KKP installer will install the new `dex` Helm chart into the `dex` namespace, instead of the old `oauth` namespace. This ensures that the old `oauth` chart remains intact and is not removed by KKP, which could result in downtimes.
