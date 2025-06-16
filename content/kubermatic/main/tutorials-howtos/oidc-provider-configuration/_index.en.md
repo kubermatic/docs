@@ -107,6 +107,12 @@ spec:
         "oidc_logout_url": "https://keycloak.kubermatic.test/auth/realms/test/protocol/openid-connect/logout"
       }
 ```
+{{% notice note %}}
+  When the user token size exceeds the browser's cookie size limit (e.g., when the user is a member of many groups), the token is split across multiple cookies to ensure proper authentication. 
+
+  External tools outside of KKP (e.g., Kubernetes Dashboard, Grafana, Prometheus) are not supported with multi-cookie tokens.
+{{% /notice %}}
+
 
 ### Seed Configuration
 
