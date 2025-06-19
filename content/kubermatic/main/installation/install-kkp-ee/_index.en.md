@@ -57,9 +57,7 @@ spec:
     }
 ```
 
-
 Follow the CE install guide as normal, the remaining steps apply equally to the Enterprise Edition.
-
 
 ### Pre-Defined Application Catalog
 
@@ -68,16 +66,41 @@ The catalog provides an easy solution to make use of upstream helm charts after 
 
 ![Example of the default Application Catalog](@/images/applications/default-applications-catalog.png "Example of the default Application Catalog")
 
-In order to deploy pre-defined Application Catalog, add the `--deploy-default-app-catalog` when running the kubermatic installer.
+In order to deploy pre-defined Application Catalog, KKP admins can enable the default application catalog by setting in the `KubermaticConfiguration` resource.
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  applications:
+    defaultApplicationCatalog:
+      enable: true
+```
 
 {{% notice info %}}
 In order to maintain upgrade compatibility, deploying the default-app-catalog will overwrite any prior [default ApplicationDefinitions](https://github.com/kubermatic/kubermatic/tree/main/pkg/ee/default-application-catalog/applicationdefinitions).
 {{% /notice %}}
 
-The installer also supports the `--limit-apps` flag, which accepts a comma-separated list of ApplicationDefinition names to restrict which applications are installed during setup. If the flag is not provided or the list is empty, all available AppDefinitions will be installed, provided the default app catalog is enabled.
+In KKP, admins can also limit the applications that are installed during setup. If the "applications" field is left empty, all applications will be installed.
 
-Example: `--deploy-default-app-catalog --limit-apps=argocd,trivy,metallb`
-This way, only the ApplicationDefinitions for ArgoCD, Trivy, and MetalLB will be installed.
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  applications:
+    defaultApplicationCatalog:
+      enable: true
+      applications:
+        - argocd
+        - trivy
+        - metallb
+```
 
 The following are optional supported apps. To limit execution, pass one or more of these exact names to the `--limit-apps` flag: `aikit,argocd,cert-manager,falco,flux2,k8sgpt-operator,kube-vip,kubevirt,metallb,nginx,nvidia-gpu-operator,trivy,trivy-operator`
 
