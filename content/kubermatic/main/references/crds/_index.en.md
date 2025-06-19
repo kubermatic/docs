@@ -2987,6 +2987,25 @@ _Appears in:_
 
 
 
+### DefaultApplicationCatalogConfiguration
+
+
+
+DefaultApplicationCatalogConfiguration contains configuration for default Applications from the ee catalog.
+
+_Appears in:_
+- [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `helmRepository` _string_ | {{< unsafe >}}HelmRepository specifies OCI repository containing Helm charts of Applications from the default application catalog e.g. oci://localhost:5000/myrepo.{{< /unsafe >}} |
+| `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file.<br />The value is dockercfg file that follows the same format rules as ~/.docker/config.json<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm".{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### DefaultProjectResourceQuota
 
 
@@ -4825,6 +4844,7 @@ _Appears in:_
 | `overwriteRegistry` _string_ | {{< unsafe >}}OverwriteRegistry specifies a custom Docker registry which will be used for all images<br />used for user clusters (user cluster control plane + addons). This also applies to<br />the KubermaticDockerRepository and DNATControllerDockerRepository fields.{{< /unsafe >}} |
 | `addons` _[KubermaticAddonsConfiguration](#kubermaticaddonsconfiguration)_ | {{< unsafe >}}Addons controls the optional additions installed into each user cluster.{{< /unsafe >}} |
 | `systemApplications` _[SystemApplicationsConfiguration](#systemapplicationsconfiguration)_ | {{< unsafe >}}SystemApplications contains configuration for system Applications (such as CNI).{{< /unsafe >}} |
+| `defaultApplicationCatalog` _[DefaultApplicationCatalogConfiguration](#defaultapplicationcatalogconfiguration)_ | {{< unsafe >}}DefaultApplicationCatalog contains configuration for default Applications from the ee catalog.{{< /unsafe >}} |
 | `applications` _[ApplicationsConfiguration](#applicationsconfiguration)_ | {{< unsafe >}}Applications contains configuration for default Application settings.{{< /unsafe >}} |
 | `nodePortRange` _string_ | {{< unsafe >}}NodePortRange is the port range for user clusters - this must match the NodePort<br />range of the seed cluster.{{< /unsafe >}} |
 | `monitoring` _[KubermaticUserClusterMonitoringConfiguration](#kubermaticuserclustermonitoringconfiguration)_ | {{< unsafe >}}Monitoring can be used to fine-tune to in-cluster Prometheus.{{< /unsafe >}} |
