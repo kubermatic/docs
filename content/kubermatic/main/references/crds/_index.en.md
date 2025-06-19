@@ -1321,6 +1321,25 @@ _Appears in:_
 
 
 
+### ApplicationDefinitionsConfiguration
+
+
+
+
+
+_Appears in:_
+- [KubermaticConfigurationSpec](#kubermaticconfigurationspec)
+
+| Field | Description |
+| --- | --- |
+| `systemApplications` _[SystemApplicationsSettings](#systemapplicationssettings)_ | {{< unsafe >}}SystemApplications contains configuration for system applications.{{< /unsafe >}} |
+| `defaultApplicationCatalog` _[DefaultApplicationCatalogSettings](#defaultapplicationcatalogsettings)_ | {{< unsafe >}}DefaultApplicationCatalog contains configuration for the default application catalog.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### ApplicationSettings
 
 
@@ -2987,17 +3006,19 @@ _Appears in:_
 
 
 
-### DefaultApplicationCatalogConfiguration
+### DefaultApplicationCatalogSettings
 
 
 
-DefaultApplicationCatalogConfiguration contains configuration for default Applications from the ee catalog.
+
 
 _Appears in:_
-- [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
+- [ApplicationDefinitionsConfiguration](#applicationdefinitionsconfiguration)
 
 | Field | Description |
 | --- | --- |
+| `enable` _boolean_ | {{< unsafe >}}Enable is used to enable the installation of application definitions in the master cluster.{{< /unsafe >}} |
+| `applications` _string array_ | {{< unsafe >}}Applications is a list of application definition names that should be installed in the master cluster.<br />If not set, all the applications from the catalog are installed.{{< /unsafe >}} |
 | `helmRepository` _string_ | {{< unsafe >}}HelmRepository specifies OCI repository containing Helm charts of Applications from the default application catalog e.g. oci://localhost:5000/myrepo.{{< /unsafe >}} |
 | `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file.<br />The value is dockercfg file that follows the same format rules as ~/.docker/config.json<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm".{{< /unsafe >}} |
 
@@ -4618,7 +4639,7 @@ _Appears in:_
 | `verticalPodAutoscaler` _[KubermaticVPAConfiguration](#kubermaticvpaconfiguration)_ | {{< unsafe >}}VerticalPodAutoscaler configures the Kubernetes VPA integration.{{< /unsafe >}} |
 | `proxy` _[KubermaticProxyConfiguration](#kubermaticproxyconfiguration)_ | {{< unsafe >}}Proxy allows to configure Kubermatic to use proxies to talk to the<br />world outside of its cluster.{{< /unsafe >}} |
 | `mirrorImages` _string array_ | {{< unsafe >}}MirrorImages is a list of container images that will be mirrored with the `kubermatic-installer  mirror-images` command.<br />Each entry should be in the format "repository:tag".{{< /unsafe >}} |
-| `systemApplications` _[SystemApplicationOptions](#systemapplicationoptions)_ | {{< unsafe >}}SystemApplications contains configuration for system applications.{{< /unsafe >}} |
+| `applications` _[ApplicationDefinitionsConfiguration](#applicationdefinitionsconfiguration)_ | {{< unsafe >}}Applications contains configuration for Application settings.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4844,7 +4865,6 @@ _Appears in:_
 | `overwriteRegistry` _string_ | {{< unsafe >}}OverwriteRegistry specifies a custom Docker registry which will be used for all images<br />used for user clusters (user cluster control plane + addons). This also applies to<br />the KubermaticDockerRepository and DNATControllerDockerRepository fields.{{< /unsafe >}} |
 | `addons` _[KubermaticAddonsConfiguration](#kubermaticaddonsconfiguration)_ | {{< unsafe >}}Addons controls the optional additions installed into each user cluster.{{< /unsafe >}} |
 | `systemApplications` _[SystemApplicationsConfiguration](#systemapplicationsconfiguration)_ | {{< unsafe >}}SystemApplications contains configuration for system Applications (such as CNI).{{< /unsafe >}} |
-| `defaultApplicationCatalog` _[DefaultApplicationCatalogConfiguration](#defaultapplicationcatalogconfiguration)_ | {{< unsafe >}}DefaultApplicationCatalog contains configuration for default Applications from the ee catalog.{{< /unsafe >}} |
 | `applications` _[ApplicationsConfiguration](#applicationsconfiguration)_ | {{< unsafe >}}Applications contains configuration for default Application settings.{{< /unsafe >}} |
 | `nodePortRange` _string_ | {{< unsafe >}}NodePortRange is the port range for user clusters - this must match the NodePort<br />range of the seed cluster.{{< /unsafe >}} |
 | `monitoring` _[KubermaticUserClusterMonitoringConfiguration](#kubermaticuserclustermonitoringconfiguration)_ | {{< unsafe >}}Monitoring can be used to fine-tune to in-cluster Prometheus.{{< /unsafe >}} |
@@ -7076,25 +7096,6 @@ _Appears in:_
 
 
 
-### SystemApplicationOptions
-
-
-
-
-
-_Appears in:_
-- [KubermaticConfigurationSpec](#kubermaticconfigurationspec)
-
-| Field | Description |
-| --- | --- |
-| `disable` _boolean_ | {{< unsafe >}}Disable is used to disable the installation of system application definitions in the master cluster.{{< /unsafe >}} |
-| `applications` _string array_ | {{< unsafe >}}Applications is a list of system application definition names that should be installed in the master cluster.<br />If not set, the default system applications will be installed.{{< /unsafe >}} |
-
-
-[Back to top](#top)
-
-
-
 ### SystemApplicationsConfiguration
 
 
@@ -7108,6 +7109,25 @@ _Appears in:_
 | --- | --- |
 | `helmRepository` _string_ | {{< unsafe >}}HelmRepository specifies OCI repository containing Helm charts of system Applications e.g. oci://localhost:5000/myrepo.{{< /unsafe >}} |
 | `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#secretkeyselector-v1-core)_ | {{< unsafe >}}HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file.<br />The value is dockercfg file that follows the same format rules as ~/.docker/config.json<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm".{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### SystemApplicationsSettings
+
+
+
+
+
+_Appears in:_
+- [ApplicationDefinitionsConfiguration](#applicationdefinitionsconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `disable` _boolean_ | {{< unsafe >}}Disable is used to disable the installation of system application definitions in the master cluster.{{< /unsafe >}} |
+| `applications` _string array_ | {{< unsafe >}}Applications is a list of application definition names that should be installed in the master cluster.<br />If not set, all the applications from the catalog are installed.{{< /unsafe >}} |
 
 
 [Back to top](#top)
