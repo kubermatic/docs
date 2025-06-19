@@ -74,6 +74,13 @@ In order to deploy pre-defined Application Catalog, add the `--deploy-default-ap
 In order to maintain upgrade compatibility, deploying the default-app-catalog will overwrite any prior [default ApplicationDefinitions](https://github.com/kubermatic/kubermatic/tree/main/pkg/ee/default-application-catalog/applicationdefinitions).
 {{% /notice %}}
 
+The installer also supports the `--limit-apps` flag, which accepts a comma-separated list of ApplicationDefinition names to restrict which applications are installed during setup. If the flag is not provided or the list is empty, all available AppDefinitions will be installed, provided the default app catalog is enabled.
+
+Example: `--deploy-default-app-catalog --limit-apps=argocd,trivy,metallb`
+This way, only the ApplicationDefinitions for ArgoCD, Trivy, and MetalLB will be installed.
+
+The following are optional supported apps. To limit execution, pass one or more of these exact names to the `--limit-apps` flag: `aikit,argocd,cert-manager,falco,flux2,k8sgpt-operator,kube-vip,kubevirt,metallb,nginx,nvidia-gpu-operator,trivy,trivy-operator`
+
 ### Next Steps
 
 * [Add a Seed cluster]({{< ref "./add-seed-cluster" >}}) to start creating user clusters.
