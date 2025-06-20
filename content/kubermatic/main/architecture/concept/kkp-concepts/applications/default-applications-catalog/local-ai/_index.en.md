@@ -9,7 +9,7 @@ weight = 1
 
 ## What is Local AI?
 
-LocalAI is an open-source alternative to OpenAI’s API, designed to run AI models on your own hardware.
+LocalAI is an open-source alternative to OpenAI’s API, designed to run AI models on your own hardware. LocalAI act as a drop-in replacement REST API that's compatible with OpenAI (Elevenlabs, Anthropic... ) API specifications for local AI inferencing. It allows you to run LLMs, generate images, audio (and not only) locally or on-prem with consumer grade hardware, supporting multiple model families.
 
 ## How to deploy?
 
