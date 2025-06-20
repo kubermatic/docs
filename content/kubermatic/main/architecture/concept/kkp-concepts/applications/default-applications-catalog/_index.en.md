@@ -18,6 +18,7 @@ Here is the list of the applications that come as part of the Default Applicatio
 * [K8sGPT-Operator]({{< ref "./k8sgpt-operator/" >}})
 * [KubeVIP]({{< ref "./kube-vip/" >}})
 * [KubeVirt]({{< ref "./kubevirt/" >}})
+* [LocalAI]({{< ref "./local-ai/" >}})
 * [MetalLB]({{< ref "./metallb/" >}})
 * [Nginx]({{< ref "./nginx/" >}})
 * [Trivy]({{< ref "./trivy/" >}})
