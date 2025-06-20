@@ -184,6 +184,13 @@ Finally, theming support has changed. The old `oauth` Helm chart allowed to inli
 
 Once you have prepared a new `values.yaml` with the updated configuration, remember to set `useNewDexChart` to `true` and then you're ready. The next time you run the KKP installer, it will install the `dex` Chart for you, but leave the `oauth` release untouched in your cluster. Note that you cannot have two Ingress objects with the same host names and paths, so if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).
 
+**Restarting Kubermatic API After Dex Migration**:
+If you choose to delete the `oauth` chart and immediately switch to the new `dex` chart without using a different hostname, it is recommended to restart the `kubermatic-api` to ensure proper functionality. You can do this by running the following command:
+
+```bash
+kubectl rollout restart deploy kubermatic-api -n kubermatic
+```
+
 #### Important: Update OIDC Provider URL for Hostname Changes
 Before configuring the UI to use the new URL, ensure that the new Dex installation is healthy by checking that the pods are running and the logs show no suspicious errors.
 

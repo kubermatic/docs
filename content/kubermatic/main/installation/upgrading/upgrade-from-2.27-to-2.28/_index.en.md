@@ -104,10 +104,15 @@ If you are using `kubermatic-installer` for the Seed MLA installation, then it w
 If you are installing MLA using GitOps / Manual way using HelmCLI, before upgrading, you must delete the existing Alertmanager STS manually before doing the upgrade.
 
 ```bash
-kubectl delete -n monitoring alertmanager
+kubectl -n monitoring delete statefulset alertmanager
 ```
 
 Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
+
+Finally, cleanup the leftover PVC resources from old helm chart installation.
+```bash
+kubectl delete pvc -n monitoring -l app=alertmanager
+```
 
 ## Upgrade Procedure
 
@@ -249,6 +254,13 @@ Additionally, Dex's own configuration is now more clearly separated from how Dex
 Finally, theming support has changed. The old `oauth` Helm chart allowed to inline certain assets, like logos, as base64-encoded blobs into the Helm values. This mechanism is not available in the new `dex` Helm chart and admins have to manually provision the desired theme. KKP's Dex chart will setup a `dex-theme-kkp` ConfigMap, which is mounted into Dex and then overlays files over the default theme that ships with Dex. To customize, create your own ConfigMap/Secret and adjust `dex.volumes`, `dex.volumeMounts` and `dex.config.frontend.theme` / `dex.config.frontend.dir` accordingly.
 
 **Note that you cannot have two Ingress objects with the same host names and paths. So if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).**
+
+**Restarting Kubermatic API After Dex Migration**:
+If you choose to delete the `oauth` chart and immediately switch to the new `dex` chart without using a different hostname, it is recommended to restart the `kubermatic-api` to ensure proper functionality. You can do this by running the following command:
+
+```bash
+kubectl rollout restart deploy kubermatic-api -n kubermatic
+```
 
 #### Important: Update OIDC Provider URL for Hostname Changes
 

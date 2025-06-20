@@ -8,7 +8,7 @@ This document explains the architecture for Layer 7 or Application Layer Load Ba
 
 ## Background
 
-With Kubelb, we want to build a product that can manage the data plane of a fleet of clusters(tenants) from a centralized point. Providing Layer 4 and Layer 7 load balancing capabilities through a single platform.
+With KubeLB, we want to build a product that can manage the data plane of a fleet of clusters(tenants) from a centralized point. Providing Layer 4 and Layer 7 load balancing capabilities through a single platform.
 
 KubeLB already had support for L4 load balancing and provisioning/managing load balancers for kubernetes clusters from a central cluster. With v1.1, we want to extend this functionality to managing Application level load balancing including DNS management, TLS management and termination, and other aspects.
 
@@ -36,7 +36,7 @@ For layer 7 requests, KubeLB will automatically create a `NodePort` service agai
 1. Developer creates a deployment, service, and Ingress.
 2. KubeLB evaluates if the service is of type ClusterIP and generates a NodePort service against it.
 3. After validation, KubeLB CCM will propagate these resources from the tenant to LB cluster using the `Route` CRD.
-4. The manager then copies/creates the corresponding resources in the teanat namespace in the management cluster.
+4. KubeLB manager then copies/creates the corresponding resources in the tenant namespace in the management cluster.
 5. KubeLB CCM polls for the updated status of the Ingress, updates the status when available.
 6. KubeLB manager starts routing the traffic for your resource.
 

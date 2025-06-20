@@ -31,7 +31,7 @@ It watches for changes in Kubernetes services, and nodes, and then generates the
 
 The `KubeLB manager` is responsible for deploying and configuring the actual load balancers. The manager **registers** the tenant clusters as tenants, and then it receives the load balancer configurations from the CCM(s) in the form of `LoadBalancer` CRD. It then deploys a load balancer and configures it according to the desired specification.
 
-At its core, the KubeLB manager relies on [envoy proxy][1] to load balance the traffic. The manager is responsible for deploying the envoy proxy and configuring it to for each load balancer service per tenant, based on the envoy proxy deployment topology.
+At its core, the KubeLB manager relies on [envoy proxy][1] to load balance the traffic. The manager is responsible for deploying the envoy proxy and configuring it for each load balancer service per tenant, based on the envoy proxy deployment topology.
 
 ### Envoy Proxy Deployment Topology
 

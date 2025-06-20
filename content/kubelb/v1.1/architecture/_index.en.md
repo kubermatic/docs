@@ -35,7 +35,7 @@ For layer 4 load balancing `LoadBalancer` and for Layer 7 load balancing `Route`
 
 The **KubeLB manager** is responsible for managing the data plane of it's tenants. The manager **registers** the tenant clusters as tenants, and then it receives the load balancer configurations from the CCM(s) in the form of `LoadBalancer` or `Route` CRDs. It then deploys the necessary workloads according to the desired specification.
 
-At its core, the KubeLB manager relies on [envoy proxy][1] to load balance the traffic. The manager is responsible for deploying the envoy proxy and configuring it to for each load balancer service per tenant, based on the envoy proxy deployment topology.
+At its core, the KubeLB manager relies on [envoy proxy][1] to load balance the traffic. The manager is responsible for deploying the envoy proxy and configuring it for each load balancer service per tenant, based on the envoy proxy deployment topology.
 
 ## Personas
 
@@ -47,7 +47,7 @@ KubeLB targets the following personas:
 
 Inspired from [Gateway API Personas](https://gateway-api.sigs.k8s.io/#personas).
 
-Service Operator and Platform Operator are the more or less the same persona in KubeLB and they are resposinble for defining the load balancer configurations in tenant cluster. Platform Provider is the "KubeLB provider" and manages the management cluster.
+Service Operator and Platform Operator are the more or less the same persona in KubeLB and they are responsible for defining the load balancer configurations in tenant cluster. Platform Provider is the "KubeLB provider" and manages the management cluster.
 
 ## Concepts
 
