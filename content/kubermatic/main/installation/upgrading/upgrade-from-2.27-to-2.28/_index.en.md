@@ -1,12 +1,8 @@
 +++
-title = "[DRAFT] Upgrading to KKP 2.28"
+title = "Upgrading to KKP 2.28"
 date = 2025-03-17T00:00:00+02:00
 weight = 10
 +++
-
-{{% notice warning %}}
-This is a draft document for an unreleased version of KKP. The information contained here is subject to change and should not be used for production upgrades.
-{{% /notice %}}
 
 {{% notice note %}}
 Upgrading to KKP 2.28 is only supported from version 2.27. Do not attempt to upgrade from versions prior to that and apply the upgrade step by step over minor versions instead (e.g. from [2.26 to 2.27]({{< ref "../upgrade-from-2.26-to-2.27/" >}}) and then to 2.28). It is also strongly advised to be on the latest 2.27.x patch release before upgrading to 2.28.
