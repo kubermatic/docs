@@ -53,6 +53,7 @@ The following actions are required for migration before performing the upgrade:
 
 - Replace the top-level key `blackboxExporter` with `blackbox-exporter` in the `values.yaml`
 - Any custom modules should be moved from `blackboxExporter.modules` to `blackbox-exporter.config.modules`.
+- The image specification is broken down from `blackboxExporter.image.repository` to `blackbox-exporter.image.registry` and `blackbox-exporter.image.repository`. Where `registry` is to specify the top level registry domain (i.e. quay.io) and `repository` specifies the image namespace and image name (i.e. prometheus/blackbox-exporter)
 
 Once the above adjustments have been made, you can do the seed-mla installation.
 
