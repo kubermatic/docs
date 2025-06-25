@@ -75,6 +75,42 @@ Afterwards you can install the new release from the chart using Helm CLI or usin
 
 KKP 2.28 removes the custom Helm chart for Alertmanager and instead now reuses the official [upstream Helm chart](https://prometheus-community.github.io/helm-charts).
 
+#### Migration Procedure
+
+For new alertmanager chart to work, kkp admin should review and upgrade the `values.yaml` file to adjust the keys of values as per the upstream chart requirements.
+
+Under `alertmanager` key in `values.yaml`, make following changes:
+
+- `replicas` --> `replicaCount`
+- `storageClass` --> `persistence.storageClass`
+- `storageSize` --> `persistence.size`
+- `resources.alertmanager` --> `resources`
+- `resources.reloader` --> `configmapReload.resources`
+- `affinity.podAntiAffinity` --> replaced by podAntiAffinity preset called `soft` (which is a default in new KKP alertmanager chart). So you can simply remove the podAntiAffinity block from your values.yaml if you are ok with `soft` podAntiAffinity.
+
+As part of KKP upgrade of monitoring components, the installer will remove the statefulset and then run the helm chart upgrade command.
+
+Once the above adjustments have been made, you can do the seed-mla installation.
+
+If you are using `kubermatic-installer` for the Seed MLA installation, then it will take care of removing the resources for the deprecated Alertmanager helm-chart and installing the new upstream based helm-chart by itself.
+
+```bash
+./kubermatic-installer deploy seed-mla --helm-values values.yaml
+```
+
+If you are installing MLA using GitOps / Manual way using HelmCLI, before upgrading, you must delete the existing Alertmanager STS manually before doing the upgrade.
+
+```bash
+kubectl -n monitoring delete statefulset alertmanager
+```
+
+Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
+
+Finally, cleanup the leftover PVC resources from old helm chart installation.
+```bash
+kubectl delete pvc -n monitoring -l app=alertmanager
+```
+
 ### Dex Migration
 
 The custom `oauth` Helm chart in KKP was deprecated in 2.27 and has been removed in 2.28. `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex) has replaced it.
@@ -245,43 +281,6 @@ Once you have verified that the new Dex installation is up and running, you can 
 
 - point KKP to the new Dex installation (if its new URL is meant to be permanent) by changing the `tokenIssuer` in the `KubermaticConfiguration`, or
 - delete the old `oauth` release (`helm -n oauth delete oauth`) and then re-deploy the new Dex release, but with the same host+path as the old `oauth` chart used, so that no further changes are necessary in downstream components like KKP. This will incur a short downtime, while no Ingress exists for the issuer URL configured in KKP.
-
-
-#### Migration Procedure
-
-For new alertmanager chart to work, kkp admin should review and upgrade the `values.yaml` file to adjust the keys of values as per the upstream chart requirements.
-
-Under `alertmanager` key in `values.yaml`, make following changes:
-
-- `replicas` --> `replicaCount`
-- `storageClass` --> `persistence.storageClass`
-- `storageSize` --> `persistence.size`
-- `resources.alertmanager` --> `resources`
-- `resources.reloader` --> `configmapReload.resources`
-- `affinity.podAntiAffinity` --> replaced by podAntiAffinity preset called `soft` (which is a default in new KKP alertmanager chart). So you can simply remove the podAntiAffinity block from your values.yaml if you are ok with `soft` podAntiAffinity.
-
-As part of KKP upgrade of monitoring components, the installer will remove the statefulset and then run the helm chart upgrade command.
-
-Once the above adjustments have been made, you can do the seed-mla installation.
-
-If you are using `kubermatic-installer` for the Seed MLA installation, then it will take care of removing the resources for the deprecated Alertmanager helm-chart and installing the new upstream based helm-chart by itself.
-
-```bash
-./kubermatic-installer deploy seed-mla --helm-values values.yaml
-```
-
-If you are installing MLA using GitOps / Manual way using HelmCLI, before upgrading, you must delete the existing Alertmanager STS manually before doing the upgrade.
-
-```bash
-kubectl -n monitoring delete statefulset alertmanager
-```
-
-Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
-
-Finally, cleanup the leftover PVC resources from old helm chart installation.
-```bash
-kubectl delete pvc -n monitoring -l app=alertmanager
-```
 
 ## Upgrade Procedure
 
