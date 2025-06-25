@@ -25,7 +25,9 @@ KKP 2.28 removes the custom Helm chart for Node Exporter and instead now reuses 
 The following actions are required for migration before performing the upgrade:
 
 - Replace the top-level key `nodeExporter` with `node-exporter` in the `values.yaml`
+- When using a mirror container registry, set `node-exporter.image.registry` and `node-exporter.image.repository` to configure the node-exporter image.
 - The key `nodeExporter.rbacProxy` has been removed.  Use `node-exporter.kubeRBACProxy` instead to configure kube-rbac-proxy.
+- When using a mirror container registry, set `node-exporter.kubeRBACProxy.image.registry` and `node-exporter.kubeRBACProxy.image.repository` to configure the kube-rbac-proxy image.
 
 Once the above adjustments have been made, you can do the seed-mla installation.
 
