@@ -25,9 +25,9 @@ KKP 2.28 removes the custom Helm chart for Node Exporter and instead now reuses 
 The following actions are required for migration before performing the upgrade:
 
 - Replace the top-level key `nodeExporter` with `node-exporter` in the `values.yaml`
-- When using a mirror container registry, set `node-exporter.image.registry` and `node-exporter.image.repository` to configure the node-exporter image.
+- The image specification is broken down from  `node-exporter.image.registry` and `node-exporter.image.repository` to configure the node-exporter image. Where `registry` is to specify the top level registry domain (i.e. quay.io) and `repository` specifies the image namespace and image name (i.e. prometheus/node-exporter).
 - The key `nodeExporter.rbacProxy` has been removed.  Use `node-exporter.kubeRBACProxy` instead to configure kube-rbac-proxy.
-- When using a mirror container registry, set `node-exporter.kubeRBACProxy.image.registry` and `node-exporter.kubeRBACProxy.image.repository` to configure the kube-rbac-proxy image.
+- The image specification is broken down to `node-exporter.kubeRBACProxy.image.registry` and `node-exporter.kubeRBACProxy.image.repository` to configure the kube-rbac-proxy image. Where `registry` is to specify the top level registry domain (i.e. quay.io) and `repository` specifies the image namespace and image name (i.e. brancz/kube-rbac-proxy).
 
 Once the above adjustments have been made, you can do the seed-mla installation.
 
@@ -89,6 +89,8 @@ Under `alertmanager` key in `values.yaml`, make following changes:
 - `resources.alertmanager` --> `resources`
 - `resources.reloader` --> `configmapReload.resources`
 - `affinity.podAntiAffinity` --> replaced by podAntiAffinity preset called `soft` (which is a default in new KKP alertmanager chart). So you can simply remove the podAntiAffinity block from your values.yaml if you are ok with `soft` podAntiAffinity.
+- `host` --> `baseURL`
+- `configReloaderImage.repository` --> `configmapReload.image.repository`
 
 As part of KKP upgrade of monitoring components, the installer will remove the statefulset and then run the helm chart upgrade command.
 
