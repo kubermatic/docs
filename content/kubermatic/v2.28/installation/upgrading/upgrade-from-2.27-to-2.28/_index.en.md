@@ -115,6 +115,32 @@ Finally, cleanup the leftover PVC resources from old helm chart installation.
 kubectl delete pvc -n monitoring -l app=alertmanager
 ```
 
+### Kube State Metrics Upgrade (Seed MLA)
+
+KKP 2.28 removes the custom Helm chart for Kube State Metrics and instead now reuses the official [upstream Helm chart](https://prometheus-community.github.io/helm-charts).
+
+#### Migration Procedure
+
+The following actions are required for migration before performing the upgrade:
+
+- Replace the top-level key `kubeStateMetrics` with `kube-state-metrics` in the `values.yaml`
+- The image specification is broken down from  `kube-state-metrics.image.registry` and `kube-state-metrics.image.repository` to configure the kube-state-metrics image. Where `registry` is to specify the top level registry domain (i.e. registry.k8s.io) and `repository` specifies the image namespace and image name (i.e. kube-state-metrics/kube-state-metrics).
+- `resizer` has been removed.
+
+Once the above adjustments have been made, you can do the seed-mla installation.
+
+If you are using `kubermatic-installer` for the Seed MLA installation, then it will take care of removing the resources for the deprecated kube-state-metrics helm-chart and installing the new upstream based helm-chart by itself.
+
+```bash
+./kubermatic-installer deploy seed-mla --helm-values values.yaml
+```
+
+If you are installing MLA using GitOps / Manual way using Helm CLI, before upgrading, you must delete the existing Helm release before doing the upgrade.
+
+```bash
+helm --namespace monitoring delete kube-state-metrics
+```
+
 ### Dex Migration
 
 The custom `oauth` Helm chart in KKP was deprecated in 2.27 and has been removed in 2.28. `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex) has replaced it.
