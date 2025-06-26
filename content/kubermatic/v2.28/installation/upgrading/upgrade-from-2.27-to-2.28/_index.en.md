@@ -25,7 +25,9 @@ KKP 2.28 removes the custom Helm chart for Node Exporter and instead now reuses 
 The following actions are required for migration before performing the upgrade:
 
 - Replace the top-level key `nodeExporter` with `node-exporter` in the `values.yaml`
+- The image specification is broken down from  `node-exporter.image.registry` and `node-exporter.image.repository` to configure the node-exporter image. Where `registry` is to specify the top level registry domain (i.e. quay.io) and `repository` specifies the image namespace and image name (i.e. prometheus/node-exporter).
 - The key `nodeExporter.rbacProxy` has been removed.  Use `node-exporter.kubeRBACProxy` instead to configure kube-rbac-proxy.
+- The image specification is broken down to `node-exporter.kubeRBACProxy.image.registry` and `node-exporter.kubeRBACProxy.image.repository` to configure the kube-rbac-proxy image. Where `registry` is to specify the top level registry domain (i.e. quay.io) and `repository` specifies the image namespace and image name (i.e. brancz/kube-rbac-proxy).
 
 Once the above adjustments have been made, you can do the seed-mla installation.
 
@@ -87,6 +89,8 @@ Under `alertmanager` key in `values.yaml`, make following changes:
 - `resources.alertmanager` --> `resources`
 - `resources.reloader` --> `configmapReload.resources`
 - `affinity.podAntiAffinity` --> replaced by podAntiAffinity preset called `soft` (which is a default in new KKP alertmanager chart). So you can simply remove the podAntiAffinity block from your values.yaml if you are ok with `soft` podAntiAffinity.
+- `host` --> `baseURL`
+- `configReloaderImage.repository` --> `configmapReload.image.repository`
 
 As part of KKP upgrade of monitoring components, the installer will remove the statefulset and then run the helm chart upgrade command.
 
@@ -109,6 +113,32 @@ Afterwards you can install the new release from the chart using Helm CLI or usin
 Finally, cleanup the leftover PVC resources from old helm chart installation.
 ```bash
 kubectl delete pvc -n monitoring -l app=alertmanager
+```
+
+### Kube State Metrics Upgrade (Seed MLA)
+
+KKP 2.28 removes the custom Helm chart for Kube State Metrics and instead now reuses the official [upstream Helm chart](https://prometheus-community.github.io/helm-charts).
+
+#### Migration Procedure
+
+The following actions are required for migration before performing the upgrade:
+
+- Replace the top-level key `kubeStateMetrics` with `kube-state-metrics` in the `values.yaml`
+- The image specification is broken down from  `kube-state-metrics.image.registry` and `kube-state-metrics.image.repository` to configure the kube-state-metrics image. Where `registry` is to specify the top level registry domain (i.e. registry.k8s.io) and `repository` specifies the image namespace and image name (i.e. kube-state-metrics/kube-state-metrics).
+- `resizer` has been removed.
+
+Once the above adjustments have been made, you can do the seed-mla installation.
+
+If you are using `kubermatic-installer` for the Seed MLA installation, then it will take care of removing the resources for the deprecated kube-state-metrics helm-chart and installing the new upstream based helm-chart by itself.
+
+```bash
+./kubermatic-installer deploy seed-mla --helm-values values.yaml
+```
+
+If you are installing MLA using GitOps / Manual way using Helm CLI, before upgrading, you must delete the existing Helm release before doing the upgrade.
+
+```bash
+helm --namespace monitoring delete kube-state-metrics
 ```
 
 ### Dex Migration
