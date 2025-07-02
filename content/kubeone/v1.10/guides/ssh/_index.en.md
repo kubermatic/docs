@@ -102,3 +102,4 @@ instances and bastion host:
 * `AllowTcpForwarding` is either not present or set to `yes`
 * `PermitOpen` is either not present or set to `any`
 * `PermitTunnel` is either not present or set to `yes`
+* `DisableForwarding` is either not present or set to `no`
