@@ -108,6 +108,8 @@ We allow to configure:
   * `External`: the VirtualMachineInstance will be protected by a PDB and `vmi.Status.EvacuationNodeName` will be set on eviction. This is mainly useful for machine-controller which needs a way for VMI's to be blocked from eviction, yet inform machine-controller that eviction has been called on the VMI, so it can handle tearing the VMI down.
 * `csiDriverOperator` - Contains the KubeVirt CSI Driver Operator configurations, where users can override the default configurations of the csi driver.
   *  `overwriteRegistry`: overwrite the images registry for the csi driver daemonset that runs in the user cluster. 
+* `matchSubnetAndStorageLocation` - If set to true, the region and zone of the subnet and storage class must match. For example, if the storage class has the region `eu` and zone was `central`, the subnet must be in the same region and zone, otherwise KKP will reject the creation of the machine deployment and eventually the cluster.
+* `ccmLoadBalancerEnabled` - Indicates if KubeVirt CCM should create and manage the clusters load balancers. When set to `false`, the CCM won't react to any load balancer created in the cluster. The default value is set to `true`.  
 
 {{% notice note %}}
 The `infraStorageClasses` pass names of KubeVirt storage classes that can be used from user clusters.
