@@ -53,7 +53,7 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, Nutanix, OpenStack, Equinix Metal, VMware Cloud Director, and
+Hetzner Cloud, Nutanix, OpenStack, VMware Cloud Director, and
 VMware vSphere), and we will use it in this tutorial. If your provider
 is not supported (e.g. bare-metal), you can check the
 [KubeOne Static Workers][static-workers] feature for more information about the
@@ -112,7 +112,7 @@ you're not required to keep to them.
 ```shell
 ...
 Kubermatic KubeOne has been installed into /usr/local/bin/kubeone
-Terraform example configs, addons, and helper scripts have been downloaded into the ./kubeone_1.4.0_linux_amd64 directory
+Terraform example configs, addons, and helper scripts have been downloaded into the ./kubeone_1.11.0_linux_amd64 directory
 ```
 
 You can confirm that KubeOne has been installed successfully by running the
@@ -132,25 +132,7 @@ manually, but you can check out the
 
 First, visit the [Terraform download page][download-terraform] and grab the
 link for the latest version for your platform and architecture.
-KubeOne requires Terraform 1.0 or newer. You can download it from the
-browser, or use `cURL` such as:
-
-```shell
-curl -LO https://releases.hashicorp.com/terraform/1.1.3/terraform_1.1.3_linux_amd64.zip
-```
-
-Once you download the archive, unzip it:
-
-```shell
-unzip terraform_1.1.3_linux_amd64.zip
-```
-
-Finally, move the unpacked `terraform` binary to somewhere in your `PATH`.
-We'll use `/usr/local/bin` for the purposes of this tutorial:
-
-```shell
-mv terraform /usr/local/bin
-```
+KubeOne requires Terraform 1.0 or newer.
 
 After that is done, Terraform is ready to be used. You can run
 `terraform version` to check is it properly installed. If you see an error,
@@ -345,19 +327,6 @@ for more details.
 #
 
 {{% /tab %}}
-{{% tab name="Equinix Metal" %}}
-You need an [API Access Token](https://metal.equinix.com/developers/docs/integrations/devops/)
-for Terraform to create the infrastructure, machine-controller to create worker
-nodes, and for Equinix Metal Cloud Controller Manager.
-
-| Environment Variable | Description       |
-| -------------------- | ----------------- |
-| `METAL_AUTH_TOKEN`  | Equinix Metal auth token |
-| `METAL_PROJECT_ID`  | Equinix Metal project ID |
-
-#
-
-{{% /tab %}}
 {{% tab name="VMware Cloud Director" %}}
 The following environment variables are needed by machine-controller for
 creating the worker nodes.
@@ -415,7 +384,7 @@ created while installing KubeOne in the Step 1. For example (the directory
 name depends on the latest KubeOne version):
 
 ```shell
-cd ./kubeone_1.4.0_linux_amd64/examples/terraform
+cd ./kubeone_1.11.0_linux_amd64/examples/terraform
 ```
 
 In this directory, you can find a subdirectory for each supported provider.
@@ -614,8 +583,10 @@ supported provider.
 ```yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
+
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
+
 cloudProvider:
   aws: {}
   external: true
@@ -642,7 +613,7 @@ with your cluster name in the cloud-config example below.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
 cloudProvider:
   azure: {}
   external: true
@@ -677,7 +648,7 @@ and fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
 cloudProvider:
   digitalocean: {}
   external: true
@@ -695,7 +666,7 @@ configs.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
 cloudProvider:
   gce: {}
   external: true
@@ -726,7 +697,7 @@ The Hetzner CCM fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
 cloudProvider:
   hetzner: {}
   external: true
@@ -744,7 +715,7 @@ replace the placeholder values.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
 cloudProvider:
   nutanix: {}
 addons:
@@ -774,7 +745,7 @@ cloud-config section.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
 cloudProvider:
   openstack: {}
   external: true
@@ -796,7 +767,7 @@ cloudProvider:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
 cloudProvider:
   openstack: {}
   external: true
@@ -811,31 +782,6 @@ cloudProvider:
 ```
 
 {{% /tab %}}
-{{% tab name="Equinix Metal" %}}
-`external: true` instructs KubeOne to deploy the
-[Equinix Metal Cloud Controller Manager](https://github.com/equinix/cloud-provider-equinix-metal).
-The Equinix Metal CCM fetches information about nodes from the API.
-
-**It’s important to provide custom clusterNetwork settings in order to avoid
-colliding with the Equinix Metal private network which is `10.0.0.0/8`.**
-
-```yaml
-apiVersion: kubeone.k8c.io/v1beta2
-kind: KubeOneCluster
-
-versions:
-  kubernetes: '1.29.4'
-
-cloudProvider:
-  equinixmetal: {}
-  external: true
-
-clusterNetwork:
-  podSubnet: "192.168.0.0/16"
-  serviceSubnet: "172.16.0.0/12"
-```
-
-{{% /tab %}}
 {{% tab name="VMware Cloud Director" %}}
 
 **External CCM is currently not supported on VMware Cloud Director.**
@@ -845,7 +791,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
 
 cloudProvider:
   vmwareCloudDirector: {}
@@ -864,7 +810,7 @@ automatically by KubeOne.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.33.2'
 cloudProvider:
   vsphere: {}
   external: true
@@ -912,17 +858,18 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne \ Kubernetes | 1.32 | 1.31 | 1.30 | 1.29[^1] |
-| -------------------- | ---- | ---- | ---- | -------- |
-| v1.10                | ✓    | ✓    | ✓    | -        |
-| v1.9                 | -    | ✓    | ✓    | ✓        |
+| KubeOne \ Kubernetes | 1.33 | 1.32 | 1.31 | 1.30 | 1.29[^1] |
+| -------------------- | ---- | ---- | ---- | -----| -------- |
+| v1.11                | ✓   | ✓   | ✓   | -    | -        |
+| v1.10                | -    | ✓   | ✓   | ✓   | -        |
+| v1.9                 | -    | -    | ✓   | ✓   | ✓       |
 
 [^1]: Kubernetes 1.29 has reached End-of-Life (EOL) and is not supported any longer.
 We strongly recommend upgrading to a newer supported Kubernetes release as soon as possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
-than the latest Kubernetes release. For example, with 1.32 being the latest
-release, we recommend running at least Kubernetes 1.31.
+than the latest Kubernetes release. For example, with 1.33 being the latest
+release, we recommend running at least Kubernetes 1.32.
 
 Now, we're ready to provision the cluster! This is done by running the
 `kubeone apply` command and providing it the configuration manifest and the
@@ -1067,7 +1014,7 @@ and recommendations.
 [machine-controller]: {{< ref "../../guides/machine-controller" >}}
 [getting-kubeone]: {{< ref "../../getting-kubeone" >}}
 [install-terraform]: https://learn.hashicorp.com/tutorials/terraform/install-cli
-[download-terraform]: https://www.terraform.io/downloads.html
+[download-terraform]: https://developer.hashicorp.com/terraform/install
 [terraform-configs]: {{< ref "../../guides/using-terraform-configs" >}}
 [cluster-reconciliation]: {{< ref "../../architecture/cluster-reconciliation" >}}
 [access-clusters]: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/

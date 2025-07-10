@@ -60,7 +60,7 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, Nutanix, OpenStack, Equinix Metal, and VMware vSphere), and is covered in [Creating a Kubernetes cluster tutorial][creating-clusters].
+Hetzner Cloud, Nutanix, OpenStack, and VMware vSphere), and is covered in [Creating a Kubernetes cluster tutorial][creating-clusters].
 
 This tutorial focuses on bare metal without the usage of any provider to create the required infrastructure.
 Therefore, you need to create the required infrastructure on your own.
@@ -260,10 +260,11 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne \ Kubernetes | 1.32 | 1.31 | 1.30 | 1.29[^1] |
-| -------------------- | ---- | ---- | ---- | -------- |
-| v1.10                | ✓    | ✓    | ✓    | -        |
-| v1.9                 | -    | ✓    | ✓    | ✓        |
+| KubeOne \ Kubernetes | 1.33 | 1.32 | 1.31 | 1.30 | 1.29[^1] |
+| -------------------- | ---- | ---- | ---- | -----| -------- |
+| v1.11                | ✓   | ✓   | ✓   | -    | -        |
+| v1.10                | -    | ✓   | ✓   | ✓   | -        |
+| v1.9                 | -    | -    | ✓   | ✓   | ✓       |
 
 [^1]: Kubernetes 1.29 has reached End-of-Life (EOL) and is not supported any longer.
 We strongly recommend upgrading to a newer supported Kubernetes release as soon as possible.

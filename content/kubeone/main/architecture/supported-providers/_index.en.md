@@ -17,7 +17,6 @@ KubeOne supports the following cloud providers:
 - AWS
 - Azure
 - DigitalOcean
-- Equinix Metal
 - GCP
 - Hetzner Cloud
 - Nutanix

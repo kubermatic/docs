@@ -83,25 +83,6 @@ image loader script or [the mirror registries][mirror-registries] feature.
 
 [mirror-registries]: {{< ref "../mirror-registries" >}}
 
-### Packet to Equinix Metal rebranding
-
-Packet has got rebranded to Equinix Metal. We have changed the name of the
-cloud provider from `packet` to `equinixmetal`.
-
-```yaml
-# v1beta1 API
-cloudProvider:
-  packet: {}
-
-# v1beta2 API
-cloudProvider:
-  equinixmetal: {}
-```
-
-Additionally, we also support `METAL_AUTH_TOKEN` and `METAL_PROJECT_ID`
-environment variables in addition to `PACKET_API_KEY` and `PACKET_PROJECT_ID`,
-which will be removed after the deprecation period.
-
 ### Added features
 
 The new API version also introduces many new features. We recommend checking

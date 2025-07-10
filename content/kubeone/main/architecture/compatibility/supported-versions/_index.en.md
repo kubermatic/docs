@@ -1,6 +1,6 @@
 +++
 title = "Kubernetes"
-date = 2024-03-06T00:00:00+00:00
+date = 2025-07-10T00:00:00+00:00
 weight = 1
 
 +++
@@ -15,10 +15,10 @@ In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
 | KubeOne \ Kubernetes | 1.33 | 1.32 | 1.31 | 1.30 | 1.29[^1] |
-| -------------------- | ---- | ---- | ---- | ---- | -------- |
-| v1.11                | ✓    | ✓    | ✓    | -    |    -     |
-| v1.10                | -    | ✓    | ✓    | ✓    |    -     |
-| v1.9                 | -    | -    | ✓    | ✓    |    ✓     |
+| -------------------- | ---- | ---- | ---- | -----| -------- |
+| v1.11                | ✓   | ✓   | ✓   | -    | -        |
+| v1.10                | -    | ✓   | ✓   | ✓   | -        |
+| v1.9                 | -    | -    | ✓   | ✓   | ✓       |
 
 [^1]: Kubernetes 1.29 has reached End-of-Life (EOL) and is not supported any longer.
 We strongly recommend upgrading to a newer supported Kubernetes release as soon as possible.
