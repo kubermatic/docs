@@ -215,6 +215,26 @@ For instance, you could avoid creation of Virtual Machines on database nodes etc
 Note that you can specify a `Node Affinity Preset Key` and leave `Node Affinity Preset Values` empty to constrain the VM to run on KubeVirt infra nodes that have a specific label key (whatever the values are).
 {{% /notice %}}
 
+## Network Policy Mode
+
+KKP supports two modes of network policies created in the kubevirt infra cluster when namespaced mode is enabled in enterprise edition. This mode can be configured per provider network in the seed spec `.spec.kubevirt.providerNetwork`. Supported values are `allow` and `deny`.
+
+For instance, if you want to configure `deny` mode then you would have to set:
+
+```yaml
+providerNetwork:
+  - name: default
+    vpcs:
+    - name: ovn-cluster
+    networkPolicy:
+      enabled: true
+      mode: deny
+```
+
+{{% notice warning %}}
+Since all traffic except between worker nodes and traffic between them and the control plane is denied by default when using `deny` mode please take care to configure required nameservers and sources for images and packages for the virtual machines properly by using `customNetworkPolicies` and `nameservers` in the kubevirt datacenter spec.
+{{% /notice %}}
+
 ## Frequently Asked Questions
 
 ### How can I add a new Virtual Machine template?
