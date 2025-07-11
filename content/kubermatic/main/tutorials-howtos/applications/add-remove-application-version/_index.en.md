@@ -63,7 +63,7 @@ spec:
 Users will now be able to reference this version in their `ApplicationInstallation`. For additional details, see the [update an application guide]({{< ref "../update-application" >}}).
 
 {{% notice warning %}}
-Do not replace one version with another, as it will be perceived as a **deletion** by the application installation controller leading to **deletion of all `ApplicationInstallation` using this version.**
+Do not replace one version with another, as it will be perceived as a **deletion** by the application installation controller, leading to **deletion of all `ApplicationInstallation` using this version.**
 For more details, see how to delete a version from an `ApplicationDefinition`.
 {{% /notice %}}
 
@@ -82,7 +82,7 @@ Once the deprecation period is over, delete the version from the `ApplicationDef
 This deprecation policy is an example and may have to be adapted to your organization's needs.
 {{% /notice %}}
 
-The best way to achieve that is using the [gatekepper / opa integration]({{< ref "../../opa-integration" >}}) to create a `ConstraintTemplate` and two [Default Constraints]({{< ref "../../opa-integration#default-constraints" >}}) (one for each point of the deprecation policy)
+The best way to achieve that is using the [Gatekeeper / OPA integration]({{< ref "../../opa-integration" >}}) to create a `ConstraintTemplate` and two [Default Constraints]({{< ref "../../opa-integration#default-constraints" >}}) (one for each point of the deprecation policy)
 
 **Example Kubermatic Constraint Template to deprecate a version:**
 ```yaml
@@ -100,7 +100,7 @@ spec:
         openAPIV3Schema:
           properties:
             allowEdit:
-              description: allow edit of existing application using deprecated version
+              description: allow editing of the existing application using the deprecated version
               type: boolean
             name:
               description: The name of the application to depreciate.
@@ -125,10 +125,10 @@ spec:
           msg := sprintf("application `%v` in version `%v` is deprecated. Please upgrade to the next version", [input.parameters.name, input.parameters.version])
         }
 
-      # reject upgrade to the deprecated version but allow edit application that currently use the deprecated version
+      # reject upgrade to the deprecated version but allow editing the application that currently uses the deprecated version
       violation[{"msg": msg, "details": {}}] {
         is_operation("UPDATE")
-        # when removing finilizer on applicationInstallation an Update event is sent.
+        # when removing finalizer on ApplicationInstallation an Update event is sent.
         not input.review.object.metadata.deletionTimestamp
 
         appRef := input.review.object.spec.applicationRef
@@ -242,9 +242,9 @@ status:
   - enforcementAction: warn
     kind: ApplicationInstallation
     message: application `apache` in version `9.2.9` is deprecated. Please upgrade
-      to next version
+      to the next version
     name: my-apache
     namespace: default
 ```
 
-*note: the number of violations on the status is limited to 20. There are more ways to collect violations. Please refer to the official [Gatekeeper audit documentation](https://open-policy-agent.github.io/gatekeeper/website/docs/audit)*
+*note: The number of violations on the status is limited to 20. There are more ways to collect violations. Please refer to the official [Gatekeeper audit documentation](https://open-policy-agent.github.io/gatekeeper/website/docs/audit)*
