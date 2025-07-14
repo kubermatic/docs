@@ -2101,6 +2101,7 @@ _Appears in:_
 | `backupConfig` _[BackupConfig](#backupconfig)_ | {{< unsafe >}}Optional: BackupConfig contains the configuration options for managing the Cluster Backup Velero integration feature.{{< /unsafe >}} |
 | `kyverno` _[KyvernoSettings](#kyvernosettings)_ | {{< unsafe >}}Kyverno holds the configuration for the Kyverno policy management component.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
 | `authorizationConfig` _[AuthorizationConfig](#authorizationconfig)_ | {{< unsafe >}}Optional: AuthorizationConfig to configure the apiserver authorization modes. This feature is in technical preview right now{{< /unsafe >}} |
+| `containerRuntimeOpts` _[ContainerRuntimeOpts](#containerruntimeopts)_ | {{< unsafe >}}ContainerRuntimeOpts defines optional configuration options to configure container-runtime<br />that is going to be used in the user cluster.<br />This will not configure node level settings for container runtime used in user clusters; its only being used<br />to configure container runtime settings of a particular user cluster.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -2508,6 +2509,7 @@ _Appears in:_
 ContainerRuntimeContainerd defines containerd container runtime registries configs.
 
 _Appears in:_
+- [ContainerRuntimeOpts](#containerruntimeopts)
 - [NodeSettings](#nodesettings)
 
 | Field | Description |
@@ -2518,6 +2520,44 @@ _Appears in:_
 [Back to top](#top)
 
 
+
+### ContainerRuntimeOpts
+
+
+
+ContainerRuntimeOpts represents a set of options to configure container-runtime binary used in nodes.
+
+_Appears in:_
+- [ClusterSpec](#clusterspec)
+- [NodeSettings](#nodesettings)
+
+| Field | Description |
+| --- | --- |
+| `insecureRegistries` _string array_ | {{< unsafe >}}Optional: These image registries will be configured as insecure<br />on the container runtime.{{< /unsafe >}} |
+| `registryMirrors` _string array_ | {{< unsafe >}}Optional: These image registries will be configured as registry mirrors<br />on the container runtime.{{< /unsafe >}} |
+| `pauseImage` _string_ | {{< unsafe >}}Optional: Translates to --pod-infra-container-image on the kubelet.<br />If not set, the kubelet will default it.{{< /unsafe >}} |
+| `containerdRegistryMirrors` _[ContainerRuntimeContainerd](#containerruntimecontainerd)_ | {{< unsafe >}}Optional: ContainerdRegistryMirrors configure registry mirrors endpoints. Can be used multiple times to specify multiple mirrors.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### ContainerdRegistry
+
+
+
+ContainerdRegistry defines endpoints and security for given container registry.
+
+_Appears in:_
+- [ContainerRuntimeContainerd](#containerruntimecontainerd)
+
+| Field | Description |
+| --- | --- |
+| `mirrors` _string array_ | {{< unsafe >}}List of registry mirrors to use{{< /unsafe >}} |
+
+
+[Back to top](#top)
 
 
 
