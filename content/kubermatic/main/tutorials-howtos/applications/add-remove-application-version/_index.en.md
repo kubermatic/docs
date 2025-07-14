@@ -247,4 +247,4 @@ status:
     namespace: default
 ```
 
-*note: The number of violations on the status is limited to 20. There are more ways to collect violations. Please refer to the official [Gatekeeper audit documentation](https://open-policy-agent.github.io/gatekeeper/website/docs/audit)*
+*Note: the number of violations on the status is limited to 20. There are more ways to collect violations. Please refer to the official [Gatekeeper audit documentation](https://open-policy-agent.github.io/gatekeeper/website/docs/audit)*
