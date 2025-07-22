@@ -7020,6 +7020,7 @@ _Appears in:_
 | `userProjectsLimit` _integer_ | {{< unsafe >}}UserProjectsLimit is the maximum number of projects a user can create.{{< /unsafe >}} |
 | `restrictProjectCreation` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
 | `restrictProjectDeletion` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
+| `restrictProjectModification` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
 | `enableExternalClusterImport` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
 | `cleanupOptions` _[CleanupOptions](#cleanupoptions)_ | {{< unsafe >}}CleanupOptions control what happens when a cluster is deleted via the dashboard.{{< /unsafe >}} |
 | `opaOptions` _[OpaOptions](#opaoptions)_ | {{< unsafe >}}{{< /unsafe >}} |
