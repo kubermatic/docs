@@ -1,6 +1,6 @@
 +++
 title = "Kubermatic Release Process"
-date = 2025-07-22-T15:00:00+01:00
+date = 2025-07-22T11:07:15+02:00
 weight = 80
 +++
 
