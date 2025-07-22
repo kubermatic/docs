@@ -1,5 +1,5 @@
 +++
-title = "Kubermatic Release Process"
+title = "Release Process"
 date = 2025-07-22T11:07:15+02:00
 weight = 80
 +++
@@ -93,8 +93,3 @@ Effective upgrade management is crucial for Kubermatic users. This section detai
   * API Versions: Kubermatic generally adheres to the Kubernetes API versioning policy. Stable API versions are guaranteed to be backward compatible. Beta API versions may introduce breaking changes, and alpha API versions offer no compatibility guarantees. Users should be aware of the API versions they are utilizing.  
   * Components: While best efforts are made, some internal component changes in minor releases might not be fully backward compatible. Refer to release notes for specific component compatibility details.  
   * Configuration: Configuration schemas may evolve with minor releases. Tools and documentation will be provided to assist with configuration migration.  
-* Guidance on Rollbacks:  
-  * Kubermatic Products are designed with upgradeability in mind. While rollbacks are generally not recommended due to the complexity of distributed systems, in certain scenarios, a limited rollback may be possible for the Kubermatic control plane components.  
-  * User Cluster Rollbacks: Rolling back user clusters is highly complex and generally not supported once an upgrade has been initiated and significant changes applied.  
-  * Backup Strategy: A robust backup and recovery strategy for your Kubermatic Product installation and user cluster etcd instances is paramount before any significant upgrade. This is your primary mechanism for disaster recovery.  
-  * Documentation: Specific rollback procedures, if supported for certain components, will be detailed in the Kubermatic Product documentation for the respective release.
