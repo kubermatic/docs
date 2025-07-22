@@ -6,7 +6,7 @@ weight = 100
 +++
 
 {{% notice warning %}}
-This feature is in an early stage and considered a **preview feature**. It is **not recommended** to enable this for production environments due to potential data loss.
+This feature is considered a **Beta**. Enabling it can potentially cause data loss.
 {{% /notice %}}
 
 To secure sensitive data stored in Kubernetes resources (e.g. `Secrets`), that data can be encrypted at rest. In Kubernetes this means that data is encrypted while stored in etcd and is only decrypted when the resource is requested via a Kubernetes API request.
