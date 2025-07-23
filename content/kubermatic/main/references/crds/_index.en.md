@@ -2322,6 +2322,7 @@ _Appears in:_
 | `userClusterController` _[ControllerSettings](#controllersettings)_ | {{< unsafe >}}UserClusterController configures the KKP usercluster-controller deployed as part of the cluster control plane.{{< /unsafe >}} |
 | `operatingSystemManager` _[OSMControllerSettings](#osmcontrollersettings)_ | {{< unsafe >}}OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller).{{< /unsafe >}} |
 | `coreDNS` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}CoreDNS configures CoreDNS deployed as part of the cluster control plane.{{< /unsafe >}} |
+| `kubeStateMetrics` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}KubeStateMetrics configures kube-state-metrics settings deployed by the monitoring controller.{{< /unsafe >}} |
 
 
 [Back to top](#top)
