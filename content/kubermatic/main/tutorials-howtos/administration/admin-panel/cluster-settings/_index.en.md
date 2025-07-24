@@ -49,9 +49,17 @@ the cluster details.
 
 ![Interface limits](images/interface-limits.png?classes=shadow,border)
 
+- ### [Project Restrictions](#project-restrictions)
+
 - ### [User Projects Limit](#user-projects-limit)
 
 - ### [Resource Filter](#resource-filter)
+
+## Project Restrictions
+
+![Project restrictions](images/project-restrictions.png?classes=shadow,border)
+
+Project Restrictions settings allow the administrator to control if regular users should be allowed to create, delete or edit projects.
 
 ## User Projects Limit
 
