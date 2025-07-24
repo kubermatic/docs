@@ -129,15 +129,17 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 | imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` | Name of the secret that contains kubeconfig for the loadbalancer cluster |
 | kubelb.disableGRPCRouteController | bool | `false` | disableGRPCRouteController specifies whether to disable the GRPCRoute Controller. |
-| kubelb.enableGatewayAPI | bool | `false` | enableGatewayAPI specifies whether to enable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
 | kubelb.disableGatewayController | bool | `false` | disableGatewayController specifies whether to disable the Gateway Controller. |
 | kubelb.disableHTTPRouteController | bool | `false` | disableHTTPRouteController specifies whether to disable the HTTPRoute Controller. |
 | kubelb.disableIngressController | bool | `false` | disableIngressController specifies whether to disable the Ingress Controller. |
 | kubelb.disableTCPRouteController | bool | `false` | disableTCPRouteController specifies whether to disable the TCPRoute Controller. |
 | kubelb.disableTLSRouteController | bool | `false` | disableTLSRouteController specifies whether to disable the TLSRoute Controller. |
 | kubelb.disableUDPRouteController | bool | `false` | disableUDPRouteController specifies whether to disable the UDPRoute Controller. |
+| kubelb.enableGatewayAPI | bool | `false` | enableGatewayAPI specifies whether to enable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
 | kubelb.enableLeaderElection | bool | `true` | Enable the leader election. |
 | kubelb.enableSecretSynchronizer | bool | `false` | Enable to automatically convert Secrets labelled with `kubelb.k8c.io/managed-by: kubelb` to Sync Secrets. This is used to sync secrets from tenants to the LB cluster in a controlled and secure way. |
+| kubelb.gatewayAPICRDsChannel | string | `"experimental"` | gatewayAPICRDsChannel specifies the channel for the Gateway API CRDs. Options are `standard` and `experimental`. |
+| kubelb.installGatewayAPICRDs | bool | `false` | installGatewayAPICRDs Installs and manages the Gateway API CRDs using gateway crd controller. |
 | kubelb.nodeAddressType | string | `"ExternalIP"` | Address type to use for routing traffic to node ports. Values are ExternalIP, InternalIP. |
 | kubelb.tenantName | string | `nil` | Name of the tenant, must be unique against a load balancer cluster. |
 | kubelb.useGatewayClass | bool | `true` | useGatewayClass specifies whether to target resources with `kubelb` gateway class or all resources. |
@@ -200,12 +202,14 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 | imagePullSecrets | list | `[]` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` | Name of the secret that contains kubeconfig for the loadbalancer cluster |
 | kubelb.disableGRPCRouteController | bool | `false` | disableGRPCRouteController specifies whether to disable the GRPCRoute Controller. |
-| kubelb.enableGatewayAPI | bool | `false` | enableGatewayAPI specifies whether to enable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
 | kubelb.disableGatewayController | bool | `false` | disableGatewayController specifies whether to disable the Gateway Controller. |
 | kubelb.disableHTTPRouteController | bool | `false` | disableHTTPRouteController specifies whether to disable the HTTPRoute Controller. |
 | kubelb.disableIngressController | bool | `false` | disableIngressController specifies whether to disable the Ingress Controller. |
+| kubelb.enableGatewayAPI | bool | `false` | enableGatewayAPI specifies whether to enable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
 | kubelb.enableLeaderElection | bool | `true` | Enable the leader election. |
 | kubelb.enableSecretSynchronizer | bool | `false` | Enable to automatically convert Secrets labelled with `kubelb.k8c.io/managed-by: kubelb` to Sync Secrets. This is used to sync secrets from tenants to the LB cluster in a controlled and secure way. |
+| kubelb.gatewayAPICRDsChannel | string | `"standard"` | gatewayAPICRDsChannel specifies the channel for the Gateway API CRDs. Options are `standard` and `experimental`. |
+| kubelb.installGatewayAPICRDs | bool | `false` | installGatewayAPICRDs Installs and manages the Gateway API CRDs using gateway crd controller. |
 | kubelb.nodeAddressType | string | `"ExternalIP"` | Address type to use for routing traffic to node ports. Values are ExternalIP, InternalIP. |
 | kubelb.tenantName | string | `nil` | Name of the tenant, must be unique against a load balancer cluster. |
 | kubelb.useGatewayClass | bool | `true` | useGatewayClass specifies whether to target resources with `kubelb` gateway class or all resources. |
@@ -245,36 +249,36 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 
 ### Install Gateway API CRDs
 
-At this point, the KubeLB CCM should be installed and running in the tenant cluster. Next steps are to install the Gateway API CRDs in the cluster. This is required to use the Gateway API resources in the tenant cluster.
+Starting from KubeLB v1.2.0, the Gateway API CRDs can be installed using the `installGatewayAPICRDs` flag.
 
 {{< tabs name="Gateway APIs" >}}
 {{% tab name="Enterprise Edition" %}}
 
-Use the Experimental channel to install the CRDs:
-
-```sh
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/experimental-install.yaml
+```yaml
+imagePullSecrets:
+  - name: <imagePullSecretName>
+kubelb:
+    clusterSecretName: kubelb-cluster
+    tenantName: <unique-identifier-for-tenant>
+    # This will install the experimental channel of the Gateway API CRDs
+    installGatewayAPICRDs: true
+    enableGatewayAPI: true
 ```
 
 For more details: [Experimental Install](https://gateway-api.sigs.k8s.io/guides/#install-experimental-channel)
 {{% /tab %}}
 {{% tab name="Community Edition" %}}
 
-Use the Standard channel to install the CRDs:
-
-```sh
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
+```yaml
+kubelb:
+    clusterSecretName: kubelb-cluster
+    tenantName: <unique-identifier-for-tenant>
+    # This will install the standard channel of the Gateway API CRDs
+    installGatewayAPICRDs: true
+    enableGatewayAPI: true
 ```
 
 For more details: [Standard Install](https://gateway-api.sigs.k8s.io/guides/#install-standard-channel)
 
 {{% /tab %}}
 {{< /tabs >}}
-
-{{% notice info %}}
-Due to the following reasons this has been left as a manual step and we haven't added these CRDs to the KubeLB Manager chart, for automated installation:
-
-* We can't have optional CRDs in a helm chart.
-* Installing it through the helm chart would result in the existing CRDs in the tenant cluster to be overwritten. Which is not the desired behavior.
-
-{{% /notice %}}
