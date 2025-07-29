@@ -18,7 +18,7 @@ the content of the file based on the attached user ssh keys.
 The agent is deployed to the user clusters by default and it is not possible to change whether to deploy it or not once
 the cluster has been created. The reason behind that is, once the agent is deployed after the cluster is created, any
 previously added ssh keys in the worker nodes(except the keys that have been added during the cluster creation) will be
-deleted. If the user was can disable the agent after the cluster creation, any pre-existing keys won't be cleaned up.
+deleted. If the user disables the agent after the cluster creation, any pre-existing keys won't be cleaned up.
 Due to the previously mentioned reasons, the agent state cannot be changed once the cluster is created. If users decide
 to disable the agent(during cluster creation), they should take care of adding ssh keys to the worker nodes by themselves.
 
@@ -26,6 +26,16 @@ to disable the agent(during cluster creation), they should take care of adding s
 During the user cluster creation steps(at the second step), the users have the possibility to add a user ssh key and it
 is not affected by the agent, whether it was deployed or not.
 
+## Disable user SSH Key Agent feature
+To disable the User SSH Key Agent feature completely, enable the following feature flag in the Kubermatic configuration:
+
+```yaml
+spec:
+  featureGates:
+    DisableUserSSHKey: true
+```
+
+When this feature flag is enabled, the User SSH Key Agent will be disabled. The SSH Keys page and all SSH key options in the cluster view will also be hidden from the dashboard.
 ## Migration
 Starting from KKP 2.16.0 on-wards, it was made possible to enable and disable the user ssh key agent during cluster creation. Users can
 enable the agent in KKP dashboard as it is mentioned above, or by enabling the newly added `enableUserSSHKeyAgent: true`

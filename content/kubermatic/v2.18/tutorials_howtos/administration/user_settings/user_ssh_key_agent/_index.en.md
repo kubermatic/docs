@@ -19,7 +19,7 @@ the content of the file based on the attached user ssh keys.
 The agent is deployed to the user clusters by default and it is not possible to change whether to deploy it or not once 
 the cluster has been created. The reason behind that is, once the agent is deployed after the cluster is created, any 
 previously added ssh keys in the worker nodes(except the keys that have been added during the cluster creation) will be 
-deleted. If the user was can disable the agent after the cluster creation, any pre-existing keys won't be cleaned up.
+deleted. If the user disables the agent after the cluster creation, any pre-existing keys won’t be cleaned up.
 Due to the previously mentioned reasons, the agent state cannot be changed once the cluster is created. If users decide 
 to disable the agent(during cluster creation), they should take care of adding ssh keys to the worker nodes by themselves.
 
