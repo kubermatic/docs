@@ -62,6 +62,26 @@ tags:
   tagKey: tagValue
 ```
 
+### Multiple Networks
+
+Instances can be attached to multiple networks by specifying a list under the `networks` key.
+
+```yaml
+networks:
+  - core-network
+  - secondary-network
+```
+
+The first entry in the list is treated as the **primary network**, which is used for associating Floating IPs.
+
+Alternatively, you can configure it like this:
+
+```yaml
+network: core-network
+networks:
+  - secondary-network
+```
+
 ## Upload supported images to OpenStack
 
 There is a script in the machine-controller repository to upload all supported
