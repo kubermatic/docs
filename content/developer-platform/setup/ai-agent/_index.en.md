@@ -76,3 +76,18 @@ Adjust the values according to your environment. Remember to use the same host a
 
 Once the pod is running, you can use it in the frontend.
 
+A purple button should be visible in the form to create a new service object within a workspace.
+
+![Button for AI Agent](ai-agent-button.png)
+
+Then, once clicked, a text field will be visible were you can describe how you want your resource to be.
+
+Here is an example after writing a prompt and clicking on `Generate`:
+
+![Example prompt](ai-agent-prompt-example.png)
+
+After a few seconds you should get the result:
+
+![AI Agent response](ai-agent-example-response.png)
+
+You can then edit and modify if you like. You also do not have to worry about getting a wrong schema since it is getting validated in the backend. You can be sure there are no hallucinated fields nor missing required fields.
