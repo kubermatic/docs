@@ -135,6 +135,50 @@ Provider specific fields will be available to fill out, same as during the Prese
 
 ![Second step of editing a provider preset](@/images/ui/edit-provider-second-step.png?height=500px&classes=shadow,border)
 
+### Deleting a Preset
+
+To delete a preset, select the dotted menu on the Preset list entry and choose the `Delete Preset` option.
+
+{{% notice warning %}}
+Deleting a preset is **permanent** and will remove the entire preset and any associated provider configurations.
+{{% /notice %}}
+
+
+![Delete Preset Option](images/delete-preset-action-item.png)
+
+{{% notice info %}}
+The system displays a confirmation message that differs depending on whether the preset is associated with any resources:
+{{% /notice %}}
+
+
+**For presets with no associations:**
+- Simple confirmation message asking if you want to delete the preset permanently and has no associations with existing preset.
+
+![Delete Preset with no associations](images/delete-preset-with-no-associations.png)
+
+**For presets with associations:**
+
+Displays a warning showing the number of associated clusters and cluster templates.
+
+{{% notice warning %}}
+Before deleting this preset, use **View Linkages** to check which clusters and templates are using it.
+{{% /notice %}}
+
+![Delete Preset with associations](images/delete-preset-warning.png)
+
+{{% notice info %}}
+Deleting a preset is a permanent action that only administrators can perform.
+{{% /notice %}}
+
+### Viewing Preset Linkages
+
+To view which clusters and cluster templates are using a preset, select **View Linkages** from the dotted menu.
+
+The linkages view dialog displays associated clusters and templates, providing direct links for easy navigation. This option is only available when the preset has associated resources.
+
+![View Preset Linkages](images/view-preset-linkages.png)
+
+
 ### Showing/Hiding Providers Inside the Preset {#show-hide-provider-inside-the-preset}
 
 Open `Edit Preset` option through dotted menu on the Preset list entry.
@@ -145,6 +189,7 @@ This dialog allows managing the Preset status on a per-provider basis. In case o
 be hidden/shown instead of hiding the whole Preset it can be managed here.
 
 ![Showing or hiding specific providers inside the preset dialog](@/images/ui/edit-preset-dialog.png?height=400px&classes=shadow,border)
+
 
 ## Managing Presets via kubectl
 
