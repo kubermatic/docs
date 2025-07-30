@@ -152,7 +152,7 @@ The system displays a confirmation message that differs depending on whether the
 
 
 **For presets with no associations:**
-- Simple confirmation message asking if you want to delete the preset permanently and has no assoications with existing preset.
+- Simple confirmation message asking if you want to delete the preset permanently and has no associations with existing preset.
 
 ![Delete Preset with no associations](images/delete-preset-with-no-associations.png)
 
