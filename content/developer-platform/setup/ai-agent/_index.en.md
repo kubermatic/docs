@@ -11,7 +11,7 @@ The Kubermatic Developer Platform AI Agent is a specialized assistant that helps
 
 Before installing the AI Agent, ensure you have:
 
-- A running KDP installation on your kubernetes cluster
+- A running KDP installation on your Kubernetes cluster
 - OpenAI API key for the language model capabilities
 - OIDC provider configured (same one used by KDP)
 
@@ -19,7 +19,7 @@ Before installing the AI Agent, ensure you have:
 
 The AI Agent is deployed using Helm. Follow these steps to install it:
 
-### Step 1: Prepare the Configuration
+### 1: Prepare the Configuration
 
 Create a `values.yaml` file with your specific configuration:
 
@@ -43,7 +43,7 @@ aiAgent:
 
   ingress:
     create: false
-    host: kdpd.example.com
+    host: kdp.example.com # this should be main domain configured for KDP
     class: nginx
     scheme: https
     prefix: /ai-agent(/|$)(.*)
@@ -66,13 +66,31 @@ aiAgent:
 
 ```
 
-Adjust the values according to your environment. Remember to use the same host as the dashboard to avoid CORS errors.
+Adjust the values according to your environment.
 
-### Step 2: Install with Helm
+### 2: Install with Helm
 
-### Step 3: Verify the Installation
+```
+helm upgrade \
+  --install \
+  --namespace <namespace> \ # if you are using an Issuer (namespaced), remember to use the same namespace here
+  --version <kdp_version> \
+  --values <your_values_path> \
+  --set-string "ai-agent.image.tag=v<kdp_version>" \
+  <release_name> <chart_path>
+```
 
-**Note:** To use the AI Agent through the Dashboard UI you need to set up the environment variable `next_public_enable_generate_spec` to `true` in the dashboard values.yaml.
+### 4: Configure the Dashboard
+
+To make the AI Agent accessible from the KDP Dashboard, you need to update the `values.yaml` file for your **dashboard deployment**. You'll need to set two environment variables within your dashboard's configuration.
+
+First, enable the AI Agent feature in the UI by setting the environment variable `next_public_enable_generate_spec` to `"true"`.
+
+Second, tell the frontend where the AI Agent backend is located by setting the environment variable `next_public_spec_generator_url` to your agent's URL (for example, `"https://kdp.example.com/ai-agent/"`).
+
+**Important:** To avoid CORS errors, the URL for `next_public_spec_generator_url` must use the same host as your main KDP dashboard (and in general the main kdp domain). The path (`/ai-agent/` in this example) must also match the `ingress.prefix` you configured in the AI Agent's `values.yaml` in Step 1.
+
+### 5: Verify the Installation
 
 Once the pod is running, you can use it in the frontend.
 
