@@ -19,7 +19,7 @@ Before installing the AI Agent, ensure you have:
 
 The AI Agent is deployed using Helm. Follow these steps to install it:
 
-### 1: Prepare the Configuration
+### Prepare the Configuration
 
 Create a `values.yaml` file with your specific configuration:
 
@@ -68,7 +68,7 @@ aiAgent:
 
 Adjust the values according to your environment.
 
-### 2: Install with Helm
+### Install with Helm
 
 ```
 helm upgrade \
@@ -80,7 +80,7 @@ helm upgrade \
   <release_name> <chart_path>
 ```
 
-### 4: Configure the Dashboard
+### Configure the Dashboard
 
 To make the AI Agent accessible from the KDP Dashboard, you need to update the `values.yaml` file for your **dashboard deployment**. You'll need to set two environment variables within your dashboard's configuration.
 
@@ -90,7 +90,7 @@ Second, tell the frontend where the AI Agent backend is located by setting the e
 
 **Important:** To avoid CORS errors, the URL for `next_public_spec_generator_url` must use the same host as your main KDP dashboard (and in general the main kdp domain). The path (`/ai-agent/` in this example) must also match the `ingress.prefix` you configured in the AI Agent's `values.yaml` in Step 1.
 
-### 5: Verify the Installation
+### Verify the Installation
 
 Once the pod is running, you can use it in the frontend.
 
