@@ -8,7 +8,7 @@ weight = 2
 
 An `ApplicationInstallation` is an instance of an ApplicationDefinition to be installed into a user cluster.
 It abstracts the complexities of acquiring application deployment sources (e.g., Kubernetes manifests, Helm charts) and deploying them to the cluster. 
-This means users can install and utilize applications without needing deep Kubernetes expertise.
+This means users can install and utilize applications without requiring deep Kubernetes expertise.
 
 ## Anatomy of an Application
 
