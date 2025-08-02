@@ -25,7 +25,9 @@ KubeLB can be configured in the following way:
 ```yaml
 apiVersion: v1
 data:
-  kubelb: xxx-base64-encoded-xxx
+  # You can use `base64 -w0 kubelb-management-kubeconfig` to encode the
+  # kubeconfig properly for inserting into this Secret.
+  kubeconfig: <base64 encoded kubeconfig>
 kind: Secret
 metadata:
   name: kubelb-management-cluster
