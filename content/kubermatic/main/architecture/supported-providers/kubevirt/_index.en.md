@@ -108,6 +108,8 @@ We allow to configure:
   * `External`: the VirtualMachineInstance will be protected by a PDB and `vmi.Status.EvacuationNodeName` will be set on eviction. This is mainly useful for machine-controller which needs a way for VMI's to be blocked from eviction, yet inform machine-controller that eviction has been called on the VMI, so it can handle tearing the VMI down.
 * `csiDriverOperator` - Contains the KubeVirt CSI Driver Operator configurations, where users can override the default configurations of the csi driver.
   *  `overwriteRegistry`: overwrite the images registry for the csi driver daemonset that runs in the user cluster. 
+* `enableDedicatedCPUs` (deprecated) - Represents the configuration for virtual machine cpu assignment by using `domain.cpu` when set to `true` or using `resources.requests` and `resources.limits` when set to `false` which is the default
+* `usePodResourcesCPU` - Represents the new way of configuring for cpu assignment virtual machine by using `domain.cpu` when set to `false` which is the default or using `resources.requests` and `resources.limits` when set to `true`
 
 {{% notice note %}}
 The `infraStorageClasses` pass names of KubeVirt storage classes that can be used from user clusters.
@@ -115,6 +117,14 @@ The `infraStorageClasses` pass names of KubeVirt storage classes that can be use
 
 {{% notice warning %}}
 The `namespacedMode` feature is highly experimental and should never be used in production environments. Additionally, enabling this mode in an existing KubeVirt setup utilized by KKP can cause serious issues, such as storage and networking incompatibilities.
+{{% /notice %}}
+
+{{% notice warning %}}
+The `enableDedicatedCPUs` feature takes only effect for new created machines. If you want to use this feature for existing machine deployments you need to rotate the machines after updating this value in seed kubevirt provider spec.
+{{% /notice %}}
+
+{{% notice warning %}}
+The `usePodResourcesCPU` feature will replace `enableDedicatedCPUs` flag. In the time of deprecation both are taking effect but the new value will have more priority. When `enableDedicatedCPUs` is set to `false` which is also the default value, you need to set `usePodResourcesCPU` to `true` to keep the same behaviour as before for new created machines. If `enableDedicatedCPUs` was set to `true` nothing needs to be changed.
 {{% /notice %}}
 
 Refer to this [document](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/zz_generated.seed.ce.yaml#L115)
