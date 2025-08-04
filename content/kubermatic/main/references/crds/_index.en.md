@@ -6437,6 +6437,7 @@ _Appears in:_
 | --- | --- |
 | `name` _string_ | {{< unsafe >}}Name is the human-readable name given to the project.{{< /unsafe >}} |
 | `allowedOperatingSystems` _[allowedOperatingSystems](#allowedoperatingsystems)_ | {{< unsafe >}}AllowedOperatingSystems defines a map of operating systems that can be used for the machines inside this project.{{< /unsafe >}} |
+| `defaultTenantSpec` _[TenantSpec](#tenantspec)_ | {{< unsafe >}}DefaultTenantSpec{{< /unsafe >}} |
 
 
 [Back to top](#top)
