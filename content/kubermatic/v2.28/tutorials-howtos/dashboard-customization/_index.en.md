@@ -131,3 +131,39 @@ assume that we have downloaded a `light.css` file and will be preparing a new th
     ```
 
 That's it. After restarting the application, theme picker in the `Account` view should show your new `Solar` theme.
+
+
+## Setting Custom Postfix for the Page Title
+
+You can add a custom postfix to the page title from the UI config in the KubermaticConfiguration CRD on the master cluster.
+
+Add the `postfix_page_title` field under `spec.ui.config` as shown below:
+
+```bash
+kubectl -n kubermatic get kubermaticconfigurations
+# NAME         AGE
+# kubermatic   2h
+
+kubectl -n kubermatic get kubermaticconfiguration kubermatic -o yaml
+# apiVersion: kubermatic.k8c.io/v1
+# kind: KubermaticConfiguration
+# metadata:
+#   finalizers:
+#   - operator.kubermatic.io/cleanup
+#   name: kubermatic
+#   namespace: kubermatic
+# spec:
+#   ...
+#   ui:
+#     config: |
+#       {
+#         ...
+#         "postfix_page_title": "Kubermatic Kubernetes Platform",
+#         ...
+#       }
+#   ...
+```
+
+After adding the postfix_page_title, you will see the postfix displayed in the browser tab title.
+
+![Page Title](@/images/ui/page-title.png?classes=shadow,border "Page title")
