@@ -1800,7 +1800,7 @@ _Appears in:_
 | `aws` _[AWSCloudSpec](#awscloudspec)_ | {{< unsafe >}}AWS defines the configuration data of the Amazon Web Services(AWS) cloud provider.{{< /unsafe >}} |
 | `azure` _[AzureCloudSpec](#azurecloudspec)_ | {{< unsafe >}}Azure defines the configuration data of the Microsoft Azure cloud.{{< /unsafe >}} |
 | `openstack` _[OpenstackCloudSpec](#openstackcloudspec)_ | {{< unsafe >}}Openstack defines the configuration data of an OpenStack cloud.{{< /unsafe >}} |
-| `packet` _[PacketCloudSpec](#packetcloudspec)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Packet defines the configuration data of a Packet / Equinix Metal cloud.{{< /unsafe >}} |
+| `packet` _[PacketCloudSpec](#packetcloudspec)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Packet defines the configuration data of a Packet / Equinix Metal cloud.<br />NOOP.{{< /unsafe >}} |
 | `hetzner` _[HetznerCloudSpec](#hetznercloudspec)_ | {{< unsafe >}}Hetzner defines the configuration data of the Hetzner cloud.{{< /unsafe >}} |
 | `vsphere` _[VSphereCloudSpec](#vspherecloudspec)_ | {{< unsafe >}}VSphere defines the configuration data of the vSphere.{{< /unsafe >}} |
 | `gcp` _[GCPCloudSpec](#gcpcloudspec)_ | {{< unsafe >}}GCP defines the configuration data of the Google Cloud Platform(GCP).{{< /unsafe >}} |
@@ -2677,7 +2677,7 @@ _Appears in:_
 | `aws` _[DatacenterSpecAWS](#datacenterspecaws)_ | {{< unsafe >}}AWS configures an Amazon Web Services (AWS) datacenter.{{< /unsafe >}} |
 | `azure` _[DatacenterSpecAzure](#datacenterspecazure)_ | {{< unsafe >}}Azure configures an Azure datacenter.{{< /unsafe >}} |
 | `openstack` _[DatacenterSpecOpenstack](#datacenterspecopenstack)_ | {{< unsafe >}}Openstack configures an Openstack datacenter.{{< /unsafe >}} |
-| `packet` _[DatacenterSpecPacket](#datacenterspecpacket)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Packet configures an Equinix Metal datacenter.{{< /unsafe >}} |
+| `packet` _[DatacenterSpecPacket](#datacenterspecpacket)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Packet configures an Equinix Metal datacenter.<br />NOOP.{{< /unsafe >}} |
 | `hetzner` _[DatacenterSpecHetzner](#datacenterspechetzner)_ | {{< unsafe >}}Hetzner configures a Hetzner datacenter.{{< /unsafe >}} |
 | `vsphere` _[DatacenterSpecVSphere](#datacenterspecvsphere)_ | {{< unsafe >}}VSphere configures a VMware vSphere datacenter.{{< /unsafe >}} |
 | `vmwareclouddirector` _[DatacenterSpecVMwareCloudDirector](#datacenterspecvmwareclouddirector)_ | {{< unsafe >}}VMwareCloudDirector configures a VMware Cloud Director datacenter.{{< /unsafe >}} |
@@ -2969,9 +2969,7 @@ _Appears in:_
 
 
 
-Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.
-This provider is no longer supported. Migrate your configurations away from "packet" immediately.
-DatacenterSpecPacket describes a Packet datacenter.
+NOOP.
 
 _Appears in:_
 - [DatacenterSpec](#datacenterspec)
@@ -3739,7 +3737,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `providerName` _string_ | {{< unsafe >}}The name of the cloud provider used, one of<br />"aws", "azure", "digitalocean", "gcp",<br />"hetzner", "nutanix", "openstack", "packet", "vsphere" KubeOne natively-supported providers{{< /unsafe >}} |
+| `providerName` _string_ | {{< unsafe >}}The name of the cloud provider used, one of<br />"aws", "azure", "digitalocean", "gcp",<br />"hetzner", "nutanix", "openstack", "vsphere" KubeOne natively-supported providers{{< /unsafe >}} |
 | `region` _string_ | {{< unsafe >}}The cloud provider region in which the cluster resides.<br />This field is used only to display information.{{< /unsafe >}} |
 | `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `sshReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | {{< unsafe >}}{{< /unsafe >}} |
@@ -6036,6 +6034,7 @@ _Appears in:_
 
 Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.
 This provider is no longer supported. Migrate your configurations away from "packet" immediately.
+NOOP.
 
 _Appears in:_
 - [PresetSpec](#presetspec)
@@ -6058,9 +6057,7 @@ _Appears in:_
 
 
 
-Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.
-This provider is no longer supported. Migrate your configurations away from "packet" immediately.
-PacketCloudSpec specifies access data to a Packet cloud.
+NOOP.
 
 _Appears in:_
 - [CloudSpec](#cloudspec)
@@ -6348,7 +6345,7 @@ _Appears in:_
 | `baremetal` _[Baremetal](#baremetal)_ | {{< unsafe >}}Access data for Baremetal (Tinkerbell only for now).{{< /unsafe >}} |
 | `aws` _[AWS](#aws)_ | {{< unsafe >}}Access data for Amazon Web Services(AWS) Cloud.{{< /unsafe >}} |
 | `openstack` _[Openstack](#openstack)_ | {{< unsafe >}}Access data for OpenStack.{{< /unsafe >}} |
-| `packet` _[Packet](#packet)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Access data for Packet Cloud.{{< /unsafe >}} |
+| `packet` _[Packet](#packet)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Access data for Packet Cloud.<br />NOOP.{{< /unsafe >}} |
 | `gcp` _[GCP](#gcp)_ | {{< unsafe >}}Access data for Google Cloud Platform(GCP).{{< /unsafe >}} |
 | `kubevirt` _[Kubevirt](#kubevirt)_ | {{< unsafe >}}Access data for KuberVirt.{{< /unsafe >}} |
 | `alibaba` _[Alibaba](#alibaba)_ | {{< unsafe >}}Access data for Alibaba Cloud.{{< /unsafe >}} |
