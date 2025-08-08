@@ -43,6 +43,47 @@ These resources can be either created via the UI (see below) or via `kubectl` di
 It is also possible to do one-time backups (snapshots). The only change to the YAML example above for snapshots is omitting the
 `schedule` key.
 
+### Global/Seed Level Configuration 
+
+In **Kubermatic Kubernetes Platform (KKP)**, you can configure backup settings (`backupInterval` and `backupCount`) at two levels:
+
+1. **Global Level** (KubermaticConfiguration): Defines default values for all Seeds.
+2. **Seed Level** (Seed CRD): Overrides the global settings for a specific Seed.
+
+The **Seed-level configuration takes precedence** over the global KubermaticConfiguration. This allows fine-grained control over backup behavior for individual Seeds.
+
+#### **1. Global Configuration (KubermaticConfiguration)**
+The global settings apply to all Seeds unless overridden by a Seed's configuration. These are defined in the `KubermaticConfiguration` CRD under `spec.seedController`:
+
+```yaml
+apiVersion:  kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  seedController:
+    backupInterval: 20m  # Default: 20 minutes
+    backupCount: 20      # Default: 20 backups retained
+```
+
+---
+
+#### **2. Seed-Level Configuration (Seed CRD)**
+Each Seed can override the global settings using the `etcdBackupRestore` field in the `Seed` CRD. These values take precedence over the global configuration:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: Seed
+metadata:
+  name: example-seed
+  namespace: kubermatic
+spec:
+  etcdBackupRestore:
+    backupInterval: 15m   # Overrides global backupInterval
+    backupCount: 10       # Overrides global backupCount
+```
+
 ### Creating a Backup Schedule
 
 EtcdBackups and Restores are project resources, and you can manage them in the Project view.
