@@ -37,36 +37,58 @@ This guide assumes that:
 If you don't have an image registry, you can check out the
 [Docker Registry][docker-reg-guide] as a possible solution.
 
-## Preloading Images
+## Mirroring Images with `kubeone mirror-images`
 
-Another prerequisites for this guide to work is that your image registry has
-all images needed for your cluster to work preloaded.
+KubeOne provides a built-in command `kubeone mirror-images` to simplify mirroring all required images (Kubernetes core components, CNI plugins, etc.) to your private registry. This command replaces the older `image-loader.sh` script and supports advanced filtering and multi-version mirroring.
 
-To make this task easier, we provide the image loader script that:
+### Prerequisites
 
-* pulls all images used by components deployed by KubeOne (CNI,
-  metrics-server...) and Kubeadm (Kubernetes core components and CoreDNS)
-* re-tag those images so the image registry (e.g. `docker.io`) is replaced
-  with the image registry provided by the user
-* push re-tagged images to your (mirror) image registry
+1. **Registry Setup**: Ensure your registry is accessible by all cluster nodes and supports TLS if using containerd.
+2. **Authentication**: The registry must allow unauthenticated access (support for credentials is planned for future releases).
+3. **KubeOne CLI**: Use KubeOne v1.5.0 or newer.
 
-The image loader script (`image-loader.sh`) comes in the KubeOne release
-archive, under the `hack` directory. It can also be found on [GitHub in the
-`hack` directory][img-loader]. If you're downloading the script from GitHub,
-it's recommended to switch to the appropriate tag depending on which KubeOne
-version you're using.
+### Usage
 
-Once you have downloaded the script, you can run it in the following way.
-Make sure to replace `KUBERNETES_VERSION` with the Kubernetes version you plan
-to use (without the `v` prefix), as well as, replace the `TARGET_REGISTRY` with
-the address to your image registry.
+The `kubeone mirror-images` command pulls, re-tags, and pushes images to your registry. Use the following syntax:
 
-```
-KUBERNETES_VERSION=1.29.4 TARGET_REGISTRY=127.0.0.1:5000 ./image-loader.sh
+```bash
+kubeone mirror-images \
+  [--filter base,optional,control-plane] \
+  [--kubernetes-versions v1.29.4,v1.28.8] \
+  [--insecure]  # Allow pushing to insecure registries (HTTP) \
+  --registry <your-registry> 
 ```
 
-The preloading process can take a several minutes, depending on your
-connection speed.
+#### Key Flags:
+- `--filter`: Select image groups (comma-separated):
+  - `base`: Core images (OSM, DNS Cache, Calico, Machine-Controller).
+  - `optional`: Add-ons like CCMs and CSI Drivers.
+  - `control-plane`: Only Kubernetes core components (kube-apiserver, etcd, etc.).
+- `--kubernetes-versions`: Specify versions (comma-separated). If omitted, **all KubeOne-supported versions are mirrored**.
+- `--insecure`: Skip TLS verification for registries using HTTP (useful for local/insecure setups).
+
+### Examples
+
+#### 1. Mirror All Base Images for Specific Versions
+```bash
+kubeone mirror-images \
+  --filter base \
+  --kubernetes-versions v1.29.4,v1.28.8 \
+  registry.example.com:5000 
+```
+
+#### 2. Mirror Only Control-Plane Images For All Supported Versions
+```bash
+kubeone mirror-images \
+  --filter control-plane \
+  registry.example.com:5000
+```
+
+### Benefits of `kubeone mirror-images`
+- **Simpler Workflow**: No need to manually download or manage scripts.
+- **Multi-Version Support**: Mirror images for multiple Kubernetes versions in one command.
+- **Granular Control**: Use filters to mirror only the images you need.
+- **Automated Retagging**: Handles registry prefixes (e.g., `docker.io` → `registry.example.com`).
 
 ## Overriding Image Registries
 
