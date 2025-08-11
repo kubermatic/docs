@@ -55,7 +55,7 @@ This automates the process of obtaining and renewing TLS certificates from Let's
 Save the following content to a file named `cluster-issuer.yaml`, and change the value of the `email` field to your email address:
 
 ```yaml
-{{< readfile "developer-platform/get-started/quickstart/data/letsencrypt.cluster-issuer.yaml" >}}
+{{< readfile "developer-platform/setup/quickstart/data/letsencrypt.cluster-issuer.yaml" >}}
 ```
 
 Create the _ClusterIssuer_ by applying the manifest:
@@ -73,7 +73,7 @@ The provided configuration creates an initial admin user and prepares Dex for th
 Save the following content to a file named `dex.values.yaml`:
 
 ```yaml
-{{< readfile "developer-platform/get-started/quickstart/data/dex.values.yaml" >}}
+{{< readfile "developer-platform/setup/quickstart/data/dex.values.yaml" >}}
 ```
 
 Before deploying Dex, you need to replace the following placeholder variables in the `dex.values.yaml` file with your own values:
@@ -111,7 +111,7 @@ It's configured to use Dex for authenticating user requests.
 Save the following content to a file named `kcp.values.yaml`:
 
 ```yaml
-{{< readfile "developer-platform/get-started/quickstart/data/kcp.values.yaml" >}}
+{{< readfile "developer-platform/setup/quickstart/data/kcp.values.yaml" >}}
 ```
 
 Before deploying kcp, you need to replace the following placeholder variables in the `kcp.values.yaml` file with your own values:
@@ -137,7 +137,7 @@ It connects to the kcp control plane and includes a one-time bootstrap job that 
 Save the following content to a file named `kdp.values.yaml`:
 
 ```yaml
-{{< readfile "developer-platform/get-started/quickstart/data/kdp.values.yaml" >}}
+{{< readfile "developer-platform/setup/quickstart/data/kdp.values.yaml" >}}
 ```
 
 Before deploying KDP, you need to replace the following placeholder variables in the `kdp.values.yaml` file with your own values:
@@ -165,7 +165,7 @@ It's configured to use Dex for user login and connects to kcp, providing develop
 Save the following content to a file named `kdp-dashboard.values.yaml`:
 
 ```yaml
-{{< readfile "developer-platform/get-started/quickstart/data/kdp-dashboard.values.yaml" >}}
+{{< readfile "developer-platform/setup/quickstart/data/kdp-dashboard.values.yaml" >}}
 ```
 
 Before deploying the KDP dashboard, you need to replace the following placeholder variables in the `kdp-dashboard.values.yaml` file with your own values:
