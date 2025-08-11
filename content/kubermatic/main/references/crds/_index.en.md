@@ -2538,6 +2538,7 @@ _Appears in:_
 | `registryMirrors` _string array_ | {{< unsafe >}}Optional: These image registries will be configured as registry mirrors<br />on the container runtime.{{< /unsafe >}} |
 | `pauseImage` _string_ | {{< unsafe >}}Optional: Translates to --pod-infra-container-image on the kubelet.<br />If not set, the kubelet will default it.{{< /unsafe >}} |
 | `containerdRegistryMirrors` _[ContainerRuntimeContainerd](#containerruntimecontainerd)_ | {{< unsafe >}}Optional: ContainerdRegistryMirrors configure registry mirrors endpoints. Can be used multiple times to specify multiple mirrors.{{< /unsafe >}} |
+| `enableNonRootDeviceOwnership` _boolean_ | {{< unsafe >}}Optional: EnableNonRootDeviceOwnership enables the non-root device ownership feature in the container runtime.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5608,6 +5609,7 @@ _Appears in:_
 | `registryMirrors` _string array_ | {{< unsafe >}}Optional: These image registries will be configured as registry mirrors<br />on the container runtime.{{< /unsafe >}} |
 | `pauseImage` _string_ | {{< unsafe >}}Optional: Translates to --pod-infra-container-image on the kubelet.<br />If not set, the kubelet will default it.{{< /unsafe >}} |
 | `containerdRegistryMirrors` _[ContainerRuntimeContainerd](#containerruntimecontainerd)_ | {{< unsafe >}}Optional: ContainerdRegistryMirrors configure registry mirrors endpoints. Can be used multiple times to specify multiple mirrors.{{< /unsafe >}} |
+| `enableNonRootDeviceOwnership` _boolean_ | {{< unsafe >}}Optional: EnableNonRootDeviceOwnership enables the non-root device ownership feature in the container runtime.{{< /unsafe >}} |
 
 
 [Back to top](#top)
