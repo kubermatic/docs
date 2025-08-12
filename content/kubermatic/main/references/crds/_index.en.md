@@ -1518,6 +1518,8 @@ _Appears in:_
 | `secretName` _string_ | {{< unsafe >}}The secret containing the webhook configuration{{< /unsafe >}} |
 | `secretKey` _string_ | {{< unsafe >}}The secret Key inside the secret{{< /unsafe >}} |
 | `webhookVersion` _string_ | {{< unsafe >}}the Webhook Version, by default "v1"{{< /unsafe >}} |
+| `cacheAuthorizedTTL` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#duration-v1-meta)_ | {{< unsafe >}}Optional: The duration to cache authorization decisions for successful authorization webhook calls.{{< /unsafe >}} |
+| `cacheUnauthorizedTTL` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#duration-v1-meta)_ | {{< unsafe >}}Optional: The duration to cache authorization decisions for failed authorization webhook calls.{{< /unsafe >}} |
 
 
 [Back to top](#top)
