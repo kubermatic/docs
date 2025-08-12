@@ -123,7 +123,7 @@ After you've replaced all the placeholders, deploy the kcp Helm chart:
 ```bash
 $ helm upgrade --install kcp kcp \
     --repo=https://kcp-dev.github.io/helm-charts \
-    --version=0.12.0 \
+    --version=0.11.1 \
     --create-namespace \
     --namespace=kdp-system \
     --values=kcp.values.yaml
@@ -145,7 +145,8 @@ Before deploying KDP, you need to replace the following placeholder variables in
 * `<PULL_CREDENTIALS>`
 * `<DOMAIN>`
 
-With all placeholders replaced, deploy the KDP Helm chart:
+With all placeholders replaced, deploy the KDP Helm chart.
+Use your email address as the username and the license key you received as the password to log into the Helm registry.
 
 ```bash
 $ helm registry login quay.io
@@ -186,7 +187,8 @@ $ cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32
 
 Copy and paste the output as the value for `<SESSION_ENCRYPTION_KEY>`.
 
-Now that all placeholders are replaced, deploy the KDP dashboard Helm chart:
+Now that all placeholders are replaced, deploy the KDP dashboard Helm chart.
+To log into the Helm registry, again use your email address as the username and the license key you received as the password.
 
 ```bash
 $ helm registry login quay.io
