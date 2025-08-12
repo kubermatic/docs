@@ -44,6 +44,7 @@ Below is a description of each value you need to provide.
 * `<EMAIL_ADDRESS>`: Your email address, used by Let's Encrypt to send notifications about your TLS certificate status.
 * `<PULL_CREDENTIALS>`: A base64-encoded password or token for the quay.io container registry. This is required for you to get access to the KDP Helm charts and container images.
 * `<DOMAIN>`: The primary public domain name you will use to access your KDP installation (e.g., kdp.my-company.com). You must own this domain and be able to configure its DNS records.
+* `<ADMIN_PASSWORD_HASH>`: A generated bcrypt hash of the password you choose for the initial admin user.
 * `<OIDC_CLIENT_SECRET>`: A randomly generated, secure string that acts as a password for the KDP dashboard to authenticate with the Dex identity provider.
 * `<SESSION_ENCRYPTION_KEY>`: A second, unique random string used by the KDP dashboard itself to encrypt user session cookies, adding another layer of security.
 
@@ -79,7 +80,20 @@ Save the following content to a file named `dex.values.yaml`:
 Before deploying Dex, you need to replace the following placeholder variables in the `dex.values.yaml` file with your own values:
 
 * `<DOMAIN>`
+* `<ADMIN_PASSWORD_HASH>`
 * `<OIDC_CLIENT_SECRET>`
+
+For the initial admin user, you must provide your own password as bcrypt hash in `<ADMIN_PASSWORD_HASH>`.
+To create this hash, you can use the `htpasswd` utility, which is part of the Apache web server tools and available on most Linux distributions (you may need to install a package like "apache2-utils" or "httpd-tools").
+
+Choose a strong password and run the following command in your terminal, replacing YOUR_PASSWORD with the password you've selected:
+
+```bash
+$ echo 'YOUR_PASSWORD' | htpasswd -inBC 10 admin | cut -d: -f2
+```
+
+Copy the entire output string (it will start with `$2a$` or `$2y$`) and paste it as the value for `<ADMIN_PASSWORD_HASH>` in your `dex.values.yaml` file.
+Remember to save the plain-text password you chose in a secure location, as you will need it to log in to the KDP dashboard.
 
 The `<OIDC_CLIENT_SECRET>` placeholder must be replaced with a long, random string that the KDP dashboard and kubelogin use to securely communicate with Dex.
 You can generate a secure, random string with the following command:
@@ -227,10 +241,10 @@ kcp-front-proxy   LoadBalancer   10.240.20.65    99f1093e45d6482d95a0c22c4a2bd05
 
 Congratulations, your KDP installation is now complete! Once your DNS records have propagated, you can access the dashboard by navigating your web browser to the URL you configured (`https://dashboard.<DOMAIN>`).
 
-You will be redirected to the Dex login page and you can use the default administrative credentials that were created during the setup:
+You will be redirected to the Dex login page and you can use the administrative credentials that were created during the setup:
 
-* **Username**: admin
-* **Password**: password
+* **Username**: `admin`
+* **Password**: The password you chose in step [Deploy Dex](#deploy-dex)
 
 After logging in, you will be taken to the KDP dashboard, where you can begin exploring your platform. Welcome to KDP!
 
