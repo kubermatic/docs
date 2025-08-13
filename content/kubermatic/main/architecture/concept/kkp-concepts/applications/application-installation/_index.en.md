@@ -37,19 +37,23 @@ The `.spec.namespace` defines in which namespace the application will be install
 The `values` is a schemaless field that describes overrides for manifest-rendering (e.g., if the method is Helm, then this field contains the Helm values.)
 
 ## Application Life Cycle
+
 It mainly composes of 2 steps: download the application's source and install or upgrade the application. You can monitor these steps thanks to the conditions in the applicationInstallation's status.
 
 - `ManifestsRetrieved` condition indicates if the application's source has been correctly downloaded.
 - `Ready` condition indicates the installation / upgrade status. It can have four states:
+
   - `{status: "Unknown", reason: "InstallationInProgress"}`: meaning the application installation / upgrade is in progress.
   - `{status: "True", reason: "InstallationSuccessful"}`: meaning the application installation / upgrade was successful.
   - `{status: "False", reason: "InstallationFailed"}`:  meaning the installation / upgrade has failed.
   - `{status: "False", reason: "InstallationFailedRetriesExceeded"}`:  meaning the max number of retries was exceeded.
 
 ### Helm additional information
+
 If the [templating method]({{< ref "../application-definition#templating-method" >}}) is `Helm`, then additional information regarding the install or upgrade is provided under `.status.helmRelease`.
 
 Example:
+
 ```yaml
 status:
   [...]
@@ -83,12 +87,15 @@ status:
 ```
 
 ## Advanced Configuration
+
 This section is relevant to advanced users. However, configuring advanced parameters may impact performance, load, and workload stability. Consequently, it must be treated carefully.
 
 ### Periodic Reconciliation
+
 By default, Applications are only reconciled on changes in the spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload deployed by the application, nothing will happen until the `ApplicationInstallation` CR changes.
 
 You can periodically force the reconciliation of the application by setting `.spec.reconciliationInterval`:
+
 - a value greater than zero forces reconciliation even if no changes occurred on application CR.
 - a value equal to 0 disables the force reconciliation of the application (default behavior).
 
@@ -99,20 +106,23 @@ Setting this too low can cause a heavy load and disrupt your application workloa
 The application will not be reconciled if the maximum number of retries is exceeded.
 
 ### Customize Deployment
+
 You can tune how the application will be installed by setting `.spec.deployOptions`.
 The options depend on the template method (i.e., `.spec.method`) of the `ApplicationDefinition`.
 
 *Note: if `deployOptions` is not set, then it uses the default defined at the `ApplicationDefinition` level (`.spec.defaultDeployOptions`)*
 
 #### Customize Deployment for Helm Method
+
 You may tune how Helm deploys the application with the following options:
 
-* `atomic`: corresponds to the `--atomic` flag on Helm CLI. If set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of a failed upgrade.
-* `wait`: corresponds to the `--wait` flag on Helm CLI. If set, will wait until all Pods, PVCs, Services, and a minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as `--timeout`
-* `timeout`: corresponds to the `--timeout` flag on Helm CLI. It's time to wait for any individual Kubernetes operation.
-* `enableDNS`: corresponds to the `-enable-dns ` flag on Helm CLI. It enables DNS lookups when rendering templates. If you enable this flag, you have to verify that the Helm template function 'getHostByName' is not being used in a chart to disclose any information you do not want to be passed to DNS servers. (c.f. [CVE-2023-25165](https://github.com/helm/helm/security/advisories/GHSA-pwcw-6f5g-gxf8))
+- `atomic`: corresponds to the `--atomic` flag on Helm CLI. If set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of a failed upgrade.
+- `wait`: corresponds to the `--wait` flag on Helm CLI. If set, will wait until all Pods, PVCs, Services, and a minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as `--timeout`
+- `timeout`: corresponds to the `--timeout` flag on Helm CLI. It's time to wait for any individual Kubernetes operation.
+- `enableDNS`: corresponds to the `-enable-dns ` flag on Helm CLI. It enables DNS lookups when rendering templates. If you enable this flag, you have to verify that the Helm template function 'getHostByName' is not being used in a chart to disclose any information you do not want to be passed to DNS servers. (c.f. [CVE-2023-25165](https://github.com/helm/helm/security/advisories/GHSA-pwcw-6f5g-gxf8))
 
 Example:
+
 ```yaml
 apiVersion: apps.kubermatic.k8c.io/v1
 kind: ApplicationInstallation
@@ -133,6 +143,7 @@ If it reaches the max number of retries (hardcoded to 5), then the ApplicationIn
 This behavior reduces the load on the cluster and avoids an infinite loop that disrupts the workload.
 
 ## ApplicationInstallation Reference
+
 **The following is an example of ApplicationInstallation, showing all the possible options**.
 
 ```yaml
