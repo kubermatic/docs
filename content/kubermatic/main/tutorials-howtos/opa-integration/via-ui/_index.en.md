@@ -14,6 +14,7 @@ As an admin, you will find a few options in the `Admin Panel`. You can access th
 ![Access Admin Panel](@/images/ui/admin-panel.png?classes=shadow,border "Accessing the Admin Panel")
 
 In here you can see the `OPA Options` with two checkboxes attached.
+
 - `Enable by Default`: Set the `OPA Integration` checkbox on cluster creation to enabled by default.
 - `Enforce`: Enable to make users unable to edit the checkbox.
 
@@ -30,12 +31,12 @@ Here you navigate to the OPA menu and then to Default Constraints.
 ## Cluster Details View
 
 The cluster details view is extended by some more information if OPA is enabled.
+
 - `OPA Integration` in the top area is indicating if OPA is enabled or not.
 - `OPA Gatekeeper Controller` and `OPA Gatekeeper Audit` provide information about the status of those controllers.
 - `OPA Constraints` and `OPA Gatekeeper Config` are added to the tab menu on the bottom. More details are in the following sections.
 
 ![Cluster Details View](@/images/ui/opa-cluster-view.png?classes=shadow,border "Cluster Details View")
-
 
 ## Activating OPA
 
@@ -69,6 +70,7 @@ Spec is the only field that needs to be filled with a yaml.
 ![Add Constraint Template](@/images/ui/opa-admin-add-ct.png?classes=shadow,border&height=350px "Constraint Template Add Dialog")
 
 The following example requires all labels that are described by the constraint to be present:
+
 ```yaml
 crd:
   spec:
@@ -116,6 +118,7 @@ To add a new constraint click on the `+ Add Constraint` icon on the right. A new
 ![Add Constraints Dialog](@/images/ui/opa-add-constraint.png?classes=shadow,border "Add Constraints Dialog")
 
 The following example will make sure that the gatekeeper label is defined on all namespaces, if you are using the `K8sRequiredLabels` constraint template from above:
+
 ```yaml
 match:
   kinds:
@@ -238,9 +241,7 @@ In Admin View to disable Default Constraints, click on the green button under `O
 Kubermatic adds a label `disabled: true` to the Disabled Constraint
 ![Disabled Default Constraint](@/images/ui/default-constraint-default-true.png?height=400px&classes=shadow,border "Disabled Default Constraint")
 
-
 ![Disabled Default Constraint](@/images/ui/disabled-default-constraint-cluster-view.png?classes=shadow,border "Disabled Default Constraint")
-
 
 Enable the constraint by clicking the same button
 ![Enable Default Constraint](@/images/ui/disabled-default-constraint.png?classes=shadow,border "Enable Default Constraint")
@@ -287,7 +288,8 @@ Click on this button to create a config. A new dialog will appear, where you can
 ![Add Gatekeeper Config](@/images/ui/opa-add-config.png?height=350px&classes=shadow,border "Add Gatekeeper Config")
 
 The following example will dynamically update what objects are synced:
-```
+
+```yaml
 sync:
   syncOnly:
     - group: ""

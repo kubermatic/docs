@@ -15,15 +15,15 @@ LocalAI is an open-source alternative to OpenAI’s API, designed to run AI mode
 
 Local AI is available as part of the KKP's default application catalog. It can be deployed to the user cluster either during the cluster creation or after the cluster is ready (existing cluster) from the Applications tab via UI.
 
-* Select the Local AI application from the Application Catalog.
+- Select the Local AI application from the Application Catalog.
 
 ![Select Local AI Application](01-select-local-ai-app.png)
 
-* Under the Settings section, select and provide appropriate details and click `-> Next` button.
+- Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for Local AI Application](02-settings-local-ai-app.png)
 
-* Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the LocalAI application to the user cluster.
+- Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the LocalAI application to the user cluster.
 
 ![Application Values for LocalAI Application](03-applicationvalues-local-ai-app.png)
 

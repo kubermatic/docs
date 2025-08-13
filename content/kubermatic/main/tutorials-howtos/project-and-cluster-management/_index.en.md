@@ -21,13 +21,11 @@ You can assign key-label pairs to your projects. These will be inherited by the 
 
 After you click `Save`, the project will be created. If you click on it now, you will see options for adding clusters, managing project members, service accounts and SSH keys.
 
-
 ### Delete a Project
 
 To delete a project, move the cursor over the line with the project name and click the trash bucket icon.
 
 ![Delete Project](images/project-delete.png?classes=shadow,border "Delete Project")
-
 
 ### Add an SSH Key
 
@@ -40,7 +38,6 @@ This will create a pop up. Enter a unique name and paste the complete content of
 ![Add SSH Key Dialog](images/sshkeys-add-dialog.png?classes=shadow,border "Add SSH Key Dialog")
 
 After you click on `Add SSH key`, your key will be created and you can now add it to clusters in the same project.
-
 
 ## Manage Clusters
 
@@ -67,7 +64,6 @@ When done, click Next to continue to the next step.
 Disabling the User SSH Key Agent at this point can not be reverted after the cluster creation, which means that ssh key management after creation for this cluster will have to be done manually. More info in [`User SSH Key Agent`]({{< ref "../../tutorials-howtos/administration/user-settings/user-ssh-key-agent" >}})
 
 ![General Cluster Settings](images/wizard-step-2.png?classes=shadow,border "General Cluster Settings")
-
 
 In the next step of the installer, enter the credentials for the chosen provider. A good option is to use [Presets]({{< ref "../administration/presets/" >}}) instead putting in credentials for every cluster creation:
 
@@ -125,7 +121,6 @@ To confirm the deletion, type the name of the cluster into the text box:
 ![Confirmation dialog for Cluster Deletion](images/delete-cluster.png?classes=shadow,border "Confirmation dialog for Cluster Deletion")
 
 The cluster will switch into deletion state afterwards, and will be removed from the list when the deletion succeeds.
-
 
 ## Add a New Machine Deployment
 

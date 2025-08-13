@@ -44,7 +44,7 @@ Its dedicated controller runs in the **seed** cluster, in user cluster namespace
 For each cluster there are at least two OSC objects:
 
 1. **Bootstrap**: OSC used for initial configuration of machine and to fetch the provisioning OSC object.
-2. **Provisioning**: OSC with the actual cloud-config that provision the worker node.
+1. **Provisioning**: OSC with the actual cloud-config that provision the worker node.
 
 OSCs are processed by controllers to eventually generate **secrets inside each user cluster**. These secrets are then consumed by worker nodes.
 

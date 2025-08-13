@@ -53,7 +53,7 @@ spec:
 
 KKP nginx ingress controller is configured with 1 hour proxy timeout to support long-lasting connections of webterminal. In case that you use a different ingress controller in your setup, you may need to extend the timeouts for the `kubermatic` ingress - e.g. in case of nginx ingress controller, you can add these annotations to have a 1 hour "read" and "send" timeouts:
 
-```
+```yaml
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 ```

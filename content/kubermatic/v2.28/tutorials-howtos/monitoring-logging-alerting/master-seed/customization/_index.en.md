@@ -9,10 +9,10 @@ This chapter describes the customization of the KKP [Master / Seed Monitoring, L
 
 When it comes to monitoring, no approach fits all use cases. It's expected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
 
-* customer-cluster Prometheus
-* seed-cluster Prometheus
-* alertmanager rules
-* Grafana dashboards
+- customer-cluster Prometheus
+- seed-cluster Prometheus
+- alertmanager rules
+- Grafana dashboards
 
 You will want to familiarize yourself with the [Installation of the Master / Seed MLA Stack]({{< relref "../installation/" >}}) before reading any further.
 
@@ -148,12 +148,14 @@ prometheus:
 Managing the `ruleFiles` is also the way to disable the predefined rules by just removing the applicable item from the list. You can also keep the list completely empty to disable any and all alerts.
 
 ### Long-term metrics storage
+
 By default, the seed prometheus is configured to store 1 days worth of metrics.
 It can be customized via overriding `prometheus.tsdb.retentionTime` field in `values.yaml` used for chart installation.
 
 If you would like to store the metrics for longer term, typically other solutions like Thanos are used. Thanos integration is a more involved process. Please read more about [thanos integration]({{< relref "./thanos.md" >}}).
 
 ## Alertmanager
+
 Alertmanager configuration can be tweaked via `values.yaml` like so:
 
 ```yaml
@@ -175,6 +177,7 @@ alertmanager:
           - channel: '#alerting'
             send_resolved: true
 ```
+
 Please review the [Alertmanager Configuration Guide](https://prometheus.io/docs/alerting/latest/configuration/) for detailed configuration syntax.
 
 You can review the [Alerting Runbook]({{< relref "../../../../cheat-sheets/alerting-runbook" >}}) for a reference of alerts that Kubermatic Kubernetes Platform (KKP) monitoring setup can fire, alongside a short description and steps to debug.
@@ -183,9 +186,9 @@ You can review the [Alerting Runbook]({{< relref "../../../../cheat-sheets/alert
 
 Customizing Grafana entails three different aspects:
 
-* Datasources (like Prometheus, InfluxDB, ...)
-* Dashboard providers (telling Grafana where to load dashboards from)
-* Dashboards themselves
+- Datasources (like Prometheus, InfluxDB, ...)
+- Dashboard providers (telling Grafana where to load dashboards from)
+- Dashboards themselves
 
 In all cases, you have two general approaches: Either take the Grafana Helm chart and place additional files into the existing directory structure or leave the Helm chart as-is and use the `values.yaml` and your own ConfigMaps/Secrets to hold your customizations. This is very similar to how customizing the seed-level Prometheus works, so if you read that chapter, you will feel right at home.
 

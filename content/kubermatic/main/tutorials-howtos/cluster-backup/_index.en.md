@@ -30,7 +30,6 @@ The `ClusterBackupStorageLocation` resource is a simple wrapper for Velero's [Ba
 
 When Custer Backup is enabled for a user cluster, KKP will deploy a managed instance of Velero on the user cluster, and propagate the required Velero `BackupStorageLocation` to the user cluster, with a special prefix to avoid collisions with other user clusters that could be using the same storage.
 
-
 ![Create ClusterBackupStorageLocation](images/create-cbsl.png?classes=shadow,border "Create ClusterBackupStorageLocation")
 
 For simplicity, the KKP UI requires the minimal required values to enabled a working Velero Backup Storage Location. If further parameters are needed, they can be added by editing the `ClusterBackupStorageLocation` resources on the Seed cluster:
@@ -46,12 +45,13 @@ The KKP control plane nodes need to have access to S3 endpoint defined in the St
 {{% /notice %}}
 
 #### Enabling Backup for User Clusters
+
 Cluster Backup can be used for existing clusters and newly created ones. When creating a new user cluster, you can enable the `Cluster Backup` option in the cluster creation wizard. Once enabled, you will be required to assign the Backup Storage Location that you have created previously.
 
 ![Enable Backup for New Clusters](images/enable-backup-new-cluster.png?classes=shadow,border "Enable Backup for New Clusters")
 
-
 For existing clusters, you can edit the cluster to assign the required Cluster Backup Location:
+
 ![Edit Existing Cluster](images/enable-backup-edit-cluster.png?classes=shadow,border "Edit Existing Cluster")
 
 {{% notice note %}}
@@ -63,16 +63,17 @@ Currently, KKP support defining a single storage location per cluster. The stora
 {{% /notice %}}
 
 #### Configuring Backups and Schedules
+
 Using the KKP UI, you can configure one-time backups that run as soon as they are defined, or recurring backup schedules that run at specific intervals.
 
 Using the user cluster Kubernetes API, you can also create these resources using the Velero command line tool. They should show up automatically on the KKP UI once created.
 
 ##### One-time Backups
+
 As with the `CBSL`, KKP UI allows the user to set the minimal required options to create a backup configuration. Since the backup process is started immediately after creation, it's not possible to edit it via the Kubernetes API. If you need to customize your backup further, you should use a Schedule.
 
 To configure a new one-time backup, go to the Backups list, select the cluster you would like to create the backup for from the drop-down list, and click `Create Cluster Backup`.
 ![Create Backup](images/create-backup.png?classes=shadow,border "Create Backup")
-
 
 You can select the Namespaces that you want to include in this backup configuration from the dropdown list. Note that this list of Namespaces is directly fetched from your cluster, so you need to create the Namespaces before configuring the backup.
 
@@ -83,20 +84,23 @@ Backing up Persistent Volume data to S3 backend can be resource intensive, espec
 {{% /notice %}}
 
 ##### Scheduled Backups
+
 Creating scheduled backups is almost identical to one-time backups. Configuration is available from the "Schedules" submenu, selecting your user cluster and clicking `Create Backup Schedule`.
 
 For schedules, you also need to add a cron-style schedule to perform the backups.
 
 ![Create Backup Schedule](images/create-schedule.png?classes=shadow,border "Create Backup Schedule")
 
-
 ##### Downloading Backups
+
 KKP UI provides a convenient button to download backups. You can simply go to the "Backups" list, select a user cluster and a specific backup, then click the "Download Backup" button.
+
 {{% notice note %}}
 The S3 endpoint defined in the Cluster Backup Storage Location must be accessible to the device used to download the backup.
 {{% /notice %}}
 
 #### Performing Restores
+
 To restore a specific backup, go to the Backups page, select your cluster and find the required backup. Click on the `Restore Backup` button.
 
 Velero restores backups by creating a `Restore` API resource on the clusters and then reconciles it.
@@ -145,6 +149,7 @@ KKP UI will use multipart upload for files larger than the 100MB size and maximu
 After all files have been uploaded successfully, user can follow the instructions mentioned above for Importing External Backups.
 
 ### Security Consideration
+
 KKP administrators and project owners/editors should be carefully plan the backup storage strategy of projects and user clusters.
 
 Velero Backup is not currently designed with multi-tenancy in mind. While the upstream project is working on that, it's not there yet. As a result, Velero is expected to be managed by the cluster administrator who has full access to Velero resources as well as the backup storage backend.
