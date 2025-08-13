@@ -34,6 +34,7 @@ OSM can be configured using the following command line flags:
 | `bootstrap-token-service-account-name` | string | false | `""` | When set use the service account token from this SA as bootstrap token instead of creating a temporary one. Passed in `namespace/name` format. |
 | `worker-count` | int | false | `10` | Number of workers which process reconciliation in parallel. |
 | `ca-bundle` | string | false | `""` | Path to a file containing all PEM-encoded CA certificates. Will be used for Kubernetes CA certificates. |
+| `device-ownership-from-security-context` | bool | false | `false` | Containerd setting for whether non-root users should be allowed to use devices on the node. |
 
 ## Configuring Operating System Profile
 
