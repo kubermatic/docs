@@ -17,12 +17,13 @@ KKP’s Baremetal provider uses Tinkerbell to automate the setup and management 
 With Tinkerbell, the provisioning process is driven by workflows that ensure each server is configured according to the desired specifications. Whether you are managing servers in a single location or across multiple data centers, Tinkerbell provides a reliable and automated way to manage your physical infrastructure, making it as easy to handle as cloud-based resources.
 
 ## Requirement
+
 To successfully use the KKP Baremetal provider with Tinkerbell, ensure the following:
 
-* **Tinkerbell Cluster**: A working Tinkerbell cluster must be in place.
-* **Direct Access to Servers**: You must have access to your bare-metal servers, allowing you to provision and manage them.
-* **Network Connectivity**: Establish a network connection between the API server of Tinkerbell cluster and the KKP seed cluster. This allows the Kubermatic Machine Controller to communicate with the Tinkerbell stack.
-* **Tinkerbell Hardware Objects**: Create Hardware Objects within Tinkerbell that represent each bare-metal server you want to provision as a worker node in your Kubernetes cluster.
+- **Tinkerbell Cluster**: A working Tinkerbell cluster must be in place.
+- **Direct Access to Servers**: You must have access to your bare-metal servers, allowing you to provision and manage them.
+- **Network Connectivity**: Establish a network connection between the API server of Tinkerbell cluster and the KKP seed cluster. This allows the Kubermatic Machine Controller to communicate with the Tinkerbell stack.
+- **Tinkerbell Hardware Objects**: Create Hardware Objects within Tinkerbell that represent each bare-metal server you want to provision as a worker node in your Kubernetes cluster.
 
 ## Usage
 
@@ -53,9 +54,9 @@ In Tinkerbell, Hardware Objects represent your physical bare-metal servers. To s
 
 Before proceeding, ensure you gather the following information for each server:
 
-* **Disk Devices**: Specify the available disk devices, including bootable storage.
-* **Network Interfaces**: Define the network interfaces available on the server, including MAC addresses and interface names.
-* **Network Configuration**: Configure the IP addresses, gateways, and DNS settings for the server's network setup.
+- **Disk Devices**: Specify the available disk devices, including bootable storage.
+- **Network Interfaces**: Define the network interfaces available on the server, including MAC addresses and interface names.
+- **Network Configuration**: Configure the IP addresses, gateways, and DNS settings for the server's network setup.
 
 It’s essential to allow PXE booting and workflows for the provisioning process. This is done by ensuring the following settings in the hardware spec object:
 
@@ -68,6 +69,7 @@ netboot:
 This configuration allows Tinkerbell to initiate network booting and enables iPXE to start the provisioning workflow for your bare-metal server.
 
 This is an example for Hardware Object Configuration
+
 ```yaml
 apiVersion: tinkerbell.org/v1alpha1
 kind: Hardware
@@ -118,10 +120,10 @@ Once the MachineDeployment is created and reconciled, the provisioning workflow 
 
 The Machine Controller generates the necessary actions for this workflow, which are then executed on the bare-metal server by the `tink-worker` container. The key actions include:
 
-* **Wiping the Disk Devices**: All existing data on the disk will be erased to prepare for the new OS installation.
-* **Installing the Operating System**: The specified OS image (e.g., Ubuntu 20.04 or 22.04) will be installed on the server.
-* **Network Configuration**: The server’s network settings will be configured based on the Hardware Object and the defined network settings.
-* **Cloud-init Propagation**: The Operating System Manager (OSM) will propagate the cloud-init settings to the node to ensure proper configuration of the OS and related services.
+- **Wiping the Disk Devices**: All existing data on the disk will be erased to prepare for the new OS installation.
+- **Installing the Operating System**: The specified OS image (e.g., Ubuntu 20.04 or 22.04) will be installed on the server.
+- **Network Configuration**: The server’s network settings will be configured based on the Hardware Object and the defined network settings.
+- **Cloud-init Propagation**: The Operating System Manager (OSM) will propagate the cloud-init settings to the node to ensure proper configuration of the OS and related services.
 
 Once the provisioning workflow is complete, the bare-metal server will be fully operational as a worker node in the Kubernetes cluster.
 

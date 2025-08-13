@@ -9,15 +9,18 @@ Get information on how to get the most ouf of the Kubermatic Dashboard, the offi
 ![Admin Panel](dashboard.png?height=400px&classes=shadow,border "Kubermatic Dashboard")
 
 ## Preparing New Themes
+
 A set of [tutorials]({{< ref "./theming" >}}) that will teach you how to prepare custom themes and apply
 them to be used by the KKP Dashboard.
 
 ## Admin Panel
+
 The Admin Panel is a place for the Kubermatic administrators where they can manage the global settings that directly
 impact all Kubermatic users. Check out the
 [Admin Panel]({{< ref "../../../../tutorials-howtos/administration/admin-panel" >}}) section for more details.
 
 ## Theming
+
 Theme and customize the KKP Dashboard according to your needs, but be aware that theming capabilities are available in
 the Enterprise Edition only. Check out
 [Customizing the Dashboard]({{< ref "../../../../tutorials-howtos/dashboard-customization" >}}) section

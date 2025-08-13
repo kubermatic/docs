@@ -11,23 +11,26 @@ By default, KKP provides [Dex](#authentication-with-dex) as OIDC provider, but y
 please refer to the [OIDC provider]({{< ref "../../tutorials-howtos/oidc-provider-configuration" >}}) chapter.
 
 ## Authentication with Dex
+
 [Dex](https://dexidp.io/) is an identity service that uses OIDC to drive authentication for KKP components. It acts as a
 portal to other identity providers through [connectors](https://dexidp.io/docs/connectors/). This lets Dex defer
 authentication to these connectors. Multiple connectors may be configured at the same time. Most popular are:
-* [GitHub](https://dexidp.io/docs/connectors/github/)
-* [Google](https://dexidp.io/docs/connectors/google/)
-* [LDAP](https://dexidp.io/docs/connectors/ldap/)
-* [Microsoft](https://dexidp.io/docs/connectors/microsoft/)
-* [OAuth 2.0](https://dexidp.io/docs/connectors/oauth/)
-* [OpenID Connect](https://dexidp.io/docs/connectors/oidc/)
-* [SAML2.0](https://dexidp.io/docs/connectors/saml/)
+
+- [GitHub](https://dexidp.io/docs/connectors/github/)
+- [Google](https://dexidp.io/docs/connectors/google/)
+- [LDAP](https://dexidp.io/docs/connectors/ldap/)
+- [Microsoft](https://dexidp.io/docs/connectors/microsoft/)
+- [OAuth 2.0](https://dexidp.io/docs/connectors/oauth/)
+- [OpenID Connect](https://dexidp.io/docs/connectors/oidc/)
+- [SAML2.0](https://dexidp.io/docs/connectors/saml/)
 
 Check out the [Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers and how to setup their configuration.
 
 To configure Dex connectors, edit `.dex.connectors` in the `values.yaml`
 
 Example to update or set up Github connector:
-```
+
+```yaml
 dex:
     ingress:
     [...]
@@ -50,17 +53,18 @@ And apply the changes to the cluster:
 ```
 
 ## Authorization
+
 Authorization is managed at multiple levels to ensure users only have access to authorized resources. KKP uses its own
 authorization system to control access to various resources within the platform, including projects and clusters.
 Administrators and project owners define and manage these policies and provide specific access control rules for users
 and groups.
-
 
 The Kubernetes Role-Based Access Control (RBAC) system is also used to control access to user cluster level resources,
 such as namespaces, pods, and services. Please refer to [Cluster Access]({{< ref "../../tutorials-howtos/cluster-access" >}})
 to configure RBAC.
 
 ### Kubermatic Kubernetes Platform (KKP) Users
+
 There are two kinds of users in KKP: **admin** and **non-admin** users.
 
 **Admin** users can manage settings that impact the whole Kubermatic installation and users. For example, they can set default

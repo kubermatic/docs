@@ -66,7 +66,6 @@ A helpful shortcut, we recommend our KubeOne tooling container, which contains a
 
 Kubermatic exposes an NGINX server and user clusters API servers via Load Balancers. Therefore, KKP is using the native Kubernetes Service Type `LoadBalancer` implementation. More details about the different expose points you find at the next chapter “DHCP/Networking”
 
-
 ### **On-Premise/Bring-your-own Load Balancer**
 
 If no external load balancer is provided for the setup, we recommend [KubeLB](https://docs.kubermatic.com/kubelb) for Multi-Tenant Load Balancing.
@@ -74,7 +73,6 @@ If no external load balancer is provided for the setup, we recommend [KubeLB](ht
 [![](kubelb.png)](https://docs.kubermatic.com/kubelb/v1.1/architecture/)
 
 As frontend IPAM solution and IP announcement, KubeLB could use on-premise non-multi-tenant LB implementations like Cilium or MetalLB in Layer 2 ARP or BGP mode. (Also commercial Kubernetes conform implementation like [F5 Big IP](https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/v1.0/#) would work). KubeLB will add the multi-tenant plus central DNS, Certificate and Ingress management. KubeLB deliver for each Kubernetes Cluster one tenant separated authentication token, what get used via the so called [KubeLB CCM](https://docs.kubermatic.com/kubelb/v1.1/installation/tenant-cluster/), what automatically get configured for KKP clusters. The KubeLB CCM is then handling service and node announcements. For Setups where multi-tenant automated LB is not required, direct [MetalLB](https://metallb.universe.tf/) or [Cilium](https://docs.cilium.io/) setups could be used as well. For the best performance and stability of the platform, we recommend to talk with our consultants to advise you what is the best fit for your environment.
-
 
 #### **Layer 2 ARP Announcement**
 
@@ -84,7 +82,6 @@ If you choose to use Layer 2 ARP Announcements, you require a set of usable IP a
 
 - [Cilium L2 Announcements](https://docs.cilium.io/en/stable/network/l2-announcements/)
 
-
 #### **BGP Advertisement (recommended)**
 
 It’s recommend to use BGP for IP announcement as BGP can handle failovers and Kubernetes node updates way better as the L2 Announcement. Also, BGP supports dedicated load balancing hashing algorithm, for more information see [MetalLB in BGP Mode](https://metallb.io/concepts/bgp/). A load balancer in BGP mode advertises each allocated IP to the configured peers with no additional BGP attributes. The peer router(s) will receive one /32 route for each service IP, with the BGP localpref set to zero and no BGP communities. For the different configurations take a look at the reference settings at:
@@ -92,7 +89,6 @@ It’s recommend to use BGP for IP announcement as BGP can handle failovers and 
 - [MetalLB BGP Configuration](https://metallb.io/configuration/_advanced_bgp_configuration/)
 
 - [Cilium BGP Control Plane](https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane/)
-
 
 ### **Public/Private Cloud Load Balancers**
 
@@ -123,7 +119,6 @@ The NGINX server provides access to the Kubermatic UI and the logging and monito
 To access a user cluster via API, a wildcard DNS entry per seed cluster (in your case, the master cluster is the only seed) has to be provided. E.g., `*.seed.kubermatic.example.com`. User clusters would be accessible via `cluster-id.seed.kubermatic.example.com`.
 
 Optional: An alternative expose strategy Load Balancer can be chosen. Therefore, every control plane gets its own Load Balancer with an external IP, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/).
-
 
 ### **Example of DNS Entries for KKP Services**
 
@@ -222,8 +217,8 @@ For each Cloud Provider, there will be some requirements and Todo’s (e.g. crea
 In the following section, you find SOME examples of setups, that don’t need to match 100% to your use case. Please reach out to your technical contact person at Kubermatic, who could provide you with a tailored technical solution for your use case.
 {{< tabs name="Cloud Provider Specifics" >}}
 
-
 {{% tab name="Azure" %}}
+
 ### **Additional Requirements for Azure**
 
 #### **General Requirements**
@@ -254,7 +249,6 @@ Azure Account described at [Kubermatic Docs > Supported Provider > Azure](https:
 
   - Ensure to share the needed parameter of [Azure - machine.spec.providerConfig.cloudProviderSpec](https://github.com/kubermatic/machine-controller/blob/main/docs/cloud-provider.md#azure)
 
-
 #### **Integration Option to existing KKP**
 
 ##### Option I - Workers only in Azure
@@ -268,7 +262,6 @@ Azure Account described at [Kubermatic Docs > Supported Provider > Azure](https:
 - Existing seed cluster(s) need to reach [Azure API endpoints](https://docs.microsoft.com/en-us/rest/api/azure/) for the machine provisioning
 
 - Application traffic gets exposed at Azure workers (Cloud LBs)
-
 
 ##### Option II - Additional Seed at Azure + Worker in Azure
 
@@ -293,8 +286,8 @@ Azure Account described at [Kubermatic Docs > Supported Provider > Azure](https:
 - Host for Seed provisioning (KubeOne setup) needs to reach the Azure network VMs by SSH
 {{% /tab %}}
 
-
 {{% tab name="vSphere" %}}
+
 ### **Cloud Provider vSphere**
 
 #### **Access to vSphere API**
@@ -305,16 +298,13 @@ For dynamic provisioning of nodes, Kubermatic needs access to the vSphere API en
 
 - Alternative for managing via terraform [kubermatic-vsphere-permissions-terraform](https://github.com/kubermatic-labs/kubermatic-vsphere-permissions-terraform) (outdated)
 
-
 #### **User Cluster / Network separation**
 
 The separation and multi-tenancy of KKP and their created user clusters is highly dependent on the provided network and user management of the vSphere Infrastructure. Due to the individuality of such setups, it’s recommended to create a dedicated concept per installation together with Kubermatic engineering team. Please provide at least one separate network CIDR and technical vSphere user for the management components and each expected tenant.
 
-
 #### **Routable virtual IPs (for metalLB)**
 
 To set up Kubermatic behind [MetalLB](https://metallb.universe.tf/), we need a few routable address ranges. This could be sliced into one CIDR. The CIDR should be routed to the target network, but not used for machines.
-
 
 #### **Master/Seed Cluster(s)**
 
@@ -324,11 +314,9 @@ CIDR for
 
 - Node-Port-Proxy: 1 IP (if expose strategy NodePort or Tunneling), multiple IPs at expose strategy LoadBalancer (for each cluster one IP)
 
-
 #### **User Cluster**
 
 Depending on the concept of how the application workload gets exposed, IPs need to be reserved for exposing the workload at the user cluster side. As a recommendation, at least one virtual IP need is needed e.g. the [MetalLB user cluster addon](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/ipam/#metallb-addon-integration) + NGINX ingress. Note: during the provisioning of the user cluster, the IP must be entered for the MetalLB addon or you need to configure a [Multi-Cluster IPAM Pool](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/ipam/). On manual IP configuration, the user must ensure that there will be no IP conflict.
-
 
 #### **(if no DHCP) Machine CIDRs**
 
@@ -342,7 +330,6 @@ Depending on the target network setup, we need ranges for:
 
 To provide a “cloud native” experience to the end user of KKP, we recommend the usage of a DHCP at all layers, otherwise, the management layer (master/seed cluster) could not breathe with the autoscaler.
 
-
 #### **Integration**
 
 ##### Option I - Workers only in vSphere Datacenter(s)
@@ -354,7 +341,6 @@ To provide a “cloud native” experience to the end user of KKP, we recommend 
 - Existing seed cluster(s) need to reach their attached vSphere API endpoints for the machine provisioning, see [Seed - Datacenter vSphere Spec](https://docs.kubermatic.com/kubermatic/main/references/crds/#datacenterspecvsphere)
 
 - Application traffic get exposed at vSphere workers by the chosen ingress/load balancing solution
-
 
 ##### Option II - Additional Seed at vSphere Datacenter(s)
 
@@ -378,8 +364,8 @@ To provide a “cloud native” experience to the end user of KKP, we recommend 
 {{% /tab %}}
 
 {{% tab name="OpenStack" %}}
-### **Cloud Provider OpenStack**
 
+### **Cloud Provider OpenStack**
 
 #### **Access to OpenStack API**
 
@@ -392,7 +378,6 @@ For dynamic provisioning of nodes, Kubermatic needs access to the OpenStack API 
 - Project ID
 
 - User / Password or Application Credential ID / Secret
-
 
 #### **User Cluster / Network separation**
 
@@ -416,7 +401,6 @@ The separation and multi-tenancy of KKP and their created user clusters is depen
 
 - OpenStack user or application credentials
 
-
 #### **Further Information**
 
 Additional information about the usage of Open Stack within in Kubernetes you could find at:
@@ -439,7 +423,6 @@ Additional information about the usage of Open Stack within in Kubernetes you co
 
   - OpenStack Cloud Controller Manager: <https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/openstack-cloud-controller-manager/using-openstack-cloud-controller-manager.md>
 
-
 #### **Integration**
 
 ##### Option I - Workers only in OpenStack Datacenter(s)
@@ -451,7 +434,6 @@ Additional information about the usage of Open Stack within in Kubernetes you co
 - Existing seed cluster(s) need to reach their attached OpenStack API endpoints for the machine provisioning, see [Seed - Datacenter OpenStack Spec](https://docs.kubermatic.com/kubermatic/main/references/crds/#datacenterspecopenstack)
 
 - Application traffic get exposed at OpenStack workers by the chosen ingress/load balancing solution
-
 
 ##### Option II - Additional Seed at vSphere Datacenter(s)
 

@@ -43,15 +43,16 @@ The following steps should be done in the **seed cluster** for each vSphere
 user cluster.
 
 <!-- Field selectors are not working here (kubectl returns an error) -->
+
 First, get all user clusters and filter vSphere user clusters using `grep`:
 
-```shell
+```bash
 kubectl --kubeconfig=<seed-cluster-kubeconfig> get clusters | grep vsphere
 ```
 
 You should get output similar to the following:
 
-```
+```bash
 NAME         HUMANREADABLENAME         OWNER                    VERSION   PROVIDER   DATACENTER          PHASE         PAUSED   AGE
 s8kkpcccfq   focused-spence            test@kubermatic.com      1.23.8    vsphere    your-dc             Running       false    16h
 ```
@@ -60,14 +61,14 @@ s8kkpcccfq   focused-spence            test@kubermatic.com      1.23.8    vspher
 `s8kkpcccfq`) and inspect the vSphere CSI cloud-config to check value of
 the `cluster-id` field.
 
-```shell
+```bash
 kubectl --kubeconfig=<seed-cluster-kubeconfig> get configmap -n cluster-<cluster-name> cloud-config-csi -o yaml
 ```
 
 The following excerpt shows the most important part of the output. You need to
 locate the `cluster-id` field under the `[Global]` group.
 
-```
+```yaml
 apiVersion: v1
 data:
   config: |+
@@ -102,8 +103,9 @@ The second approach assumes changing `cluster-id` without stopping the CSI
 driver. This approach is **not documented** by VMware, however, it worked in
 our environment. In this case, there's no significant downtime. Since this
 approach is not documented by VMware, we **heavily advise** that you:
-   - follow the first approach
-   - if you decide to follow this approach, make sure to extensively test it in
+
+  * follow the first approach
+  * if you decide to follow this approach, make sure to extensively test it in
      a staging/testing environment before applying it in the production
 
 ### Approach 1 (recommended)
@@ -141,7 +143,7 @@ user cluster.
 First, pause affected user clusters by running the following command in the
 **seed cluster** for **each affected** user cluster:
 
-```shell
+```bash
 clusterPatch='{"spec":{"pause":true,"features":{"vsphereCSIClusterID":true}}}'
 kubectl --kubeconfig=<seed-cluster> patch cluster <cluster-name-1> --type=merge -p $clusterPatch
 ...
@@ -151,7 +153,7 @@ kubectl --kubeconfig=<seed-cluster> patch cluster <cluster-name-n> --type=merge 
 Once done, scale down the vSphere CSI driver deployment in **each affected user
 cluster**:
 
-```shell
+```bash
 kubectl --kubeconfig=<user-cluster-1> scale deployment -n kube-system vsphere-csi-controller --replicas=0
 ...
 kubectl --kubeconfig=<user-cluster-n> scale deployment -n kube-system vsphere-csi-controller --replicas=0
@@ -190,13 +192,13 @@ config and update the Secret.
 The following command reads the config stored in the Secret, decodes it and then
 saves it to a file called `cloud-config-csi`:
 
-```shell
+```bash
 kubectl --kubeconfig=<user-cluster-kubeconfig> get secret -n kube-system cloud-config-csi -o=jsonpath='{.data.config}' | base64 -d > cloud-config-csi
 ```
 
 Open the `cloud-config-csi` file in some text editor:
 
-```shell
+```bash
 vi cloud-config-csi
 ```
 
@@ -205,7 +207,7 @@ locate the `cluster-id` field under the `[Global]` group, and replace
 `<vsphere-compute-cluster>` with the name of your user cluster (e.g.
 `s8kkpcccfq`).
 
-```
+```yaml
 [Global]
 user              = "username"
 password          = "password"
@@ -218,13 +220,13 @@ cluster-id        = "<vsphere-compute-cluster>"
 
 Save the file, exit your editor, and then encode the file:
 
-```shell
+```bash
 cat cloud-config-csi | base64 -w0
 ```
 
 Copy the encoded output and run the following `kubectl edit` command:
 
-```shell
+```bash
 kubectl --kubeconfig=<user-cluster-kubeconfig> edit secret -n kube-system cloud-config-csi
 ```
 
@@ -268,7 +270,7 @@ the `cluster-id` value to the name of the user cluster. Run the following
 `kubectl edit` command. Replace `<cluster-name>` in the command with the name of
 user cluster (e.g. `s8kkpcccfq`).
 
-```shell
+```bash
 kubectl --kubeconfig=<seed-cluster-kubeconfig> edit configmap -n cluster-<cluster-name> cloud-config-csi
 ```
 
@@ -303,7 +305,7 @@ to vSphere to de-register all volumes.
 cluster. The `vsphereCSIClusterID` feature flag enabled at the beginning ensures
 that your `cluster-id` changes are persisted once the clusters are unpaused.
 
-```shell
+```bash
 clusterPatch='{"spec":{"pause":false}}'
 kubectl patch cluster <cluster-name-1> --type=merge -p $clusterPatch
 ...
@@ -351,7 +353,7 @@ Start with patching the Cluster object for **each affected** user clusters to
 enable the `vsphereCSIClusterID` feature flag. Enabling this feature flag
 automatically changes the `cluster-id` value to the cluster name.
 
-```shell
+```bash
 clusterPatch='{"spec":{"features":{"vsphereCSIClusterID":true}}}'
 kubectl patch cluster <cluster-name-1> --type=merge -p $clusterPatch
 ...
@@ -375,7 +377,7 @@ the seed cluster **AND** the `cloud-config-csi` Secret in the user cluster
 the ConfigMap in the user cluster namespace in seed cluster, and the second
 commands reads the config from the Secret in the user cluster.
 
-```shell
+```bash
 kubectl --kubeconfig=<seed-cluster-kubeconfig> get configmap -n cluster-<cluster-name> cloud-config-csi
 kubectl --kubeconfig=<user-cluster-kubeconfig> get secret -n kube-system cloud-config-csi -o jsonpath='{.data.config}' | base64 -d
 ```
@@ -383,7 +385,7 @@ kubectl --kubeconfig=<user-cluster-kubeconfig> get secret -n kube-system cloud-c
 Both the Secret and the ConfigMap should have config with `cluster-id` set to
 the user cluster name (e.g. `s8kkpcccfq`).
 
-```
+```yaml
 [Global]
 user              = "username"
 password          = "password"
@@ -402,7 +404,7 @@ to the next section.
 Finally, restart the vSphere CSI controller pods in the **each affected user
 cluster** to put those changes in the effect:
 
-```shell
+```bash
 kubectl --kubeconfig=<user-cluster-kubeconfig-1> delete pods -n kube-system -l app=vsphere-csi-controller
 ...
 kubectl --kubeconfig=<user-cluster-kubeconfig-n> delete pods -n kube-system -l app=vsphere-csi-controller

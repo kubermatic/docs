@@ -24,22 +24,22 @@ In general, we recommend the usage of Applications for workloads running inside 
 
 Default addons are installed in each user-cluster in KKP. The default addons are:
 
-* [Canal](https://github.com/projectcalico/canal): policy based networking for cloud native applications
-* [Dashboard](https://github.com/kubernetes/dashboard): General-purpose web UI for Kubernetes clusters
-* [kube-proxy](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/): Kubernetes network proxy
-* [rbac](https://kubernetes.io/docs/reference/access-authn-authz/rbac/): Kubernetes Role-Based Access Control, needed for
+- [Canal](https://github.com/projectcalico/canal): policy based networking for cloud native applications
+- [Dashboard](https://github.com/kubernetes/dashboard): General-purpose web UI for Kubernetes clusters
+- [kube-proxy](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/): Kubernetes network proxy
+- [rbac](https://kubernetes.io/docs/reference/access-authn-authz/rbac/): Kubernetes Role-Based Access Control, needed for
   [TLS node bootstrapping](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/)
-* [OpenVPN client](https://openvpn.net/index.php/open-source/overview.html): virtual private network (VPN). Lets the control
+- [OpenVPN client](https://openvpn.net/index.php/open-source/overview.html): virtual private network (VPN). Lets the control
   plan access the Pod & Service network. Required for functionality like `kubectl proxy` & `kubectl port-forward`.
-* pod-security-policy: Policies to configure KKP access when PSPs are enabled
-* default-storage-class: A cloud provider specific StorageClass
-* kubeadm-configmap & kubelet-configmap: A set of ConfigMaps used by kubeadm
+- pod-security-policy: Policies to configure KKP access when PSPs are enabled
+- default-storage-class: A cloud provider specific StorageClass
+- kubeadm-configmap & kubelet-configmap: A set of ConfigMaps used by kubeadm
 
 Installation and configuration of these addons is done by 2 controllers which are part of the KKP
 seed-controller-manager:
 
-* `addon-installer-controller`: Ensures a given set of addons will be installed in all clusters
-* `addon-controller`: Templates the addons & applies the manifests in the user clusters
+- `addon-installer-controller`: Ensures a given set of addons will be installed in all clusters
+- `addon-controller`: Templates the addons & applies the manifests in the user clusters
 
 The KKP binaries come with a `kubermatic-installer` tool, which can output a full default
 `KubermaticConfiguration` (`kubermatic-installer print`). This will also include the default configuration for addons and can serve as
@@ -86,7 +86,7 @@ regular addons, which are always installed and cannot be removed by the user). I
 and accessible, then it will be installed in the user-cluster, but also be visible to the user, who can manage
 it from the KKP dashboard like the other accessible addons. The accessible addons are:
 
-* [node-exporter](https://github.com/prometheus/node_exporter): Exports metrics from the node
+- [node-exporter](https://github.com/prometheus/node_exporter): Exports metrics from the node
 
 Accessible addons can be managed in the UI from the cluster details view:
 
@@ -256,6 +256,7 @@ spec:
 ```
 
 There is a short explanation of the single `formSpec` fields:
+
 - `displayName` is the name that is displayed in the UI as the control label.
 - `internalName` is the name used internally. It can be referenced with template variables (see the description below).
 - `required` indicates if the control should be required in the UI.
@@ -317,7 +318,7 @@ the exact templating syntax.
 KKP injects an instance of the `TemplateData` struct into each template. The following
 Go snippet shows the available information:
 
-```
+```plaintext
 {{< readfile "kubermatic/v2.28/data/addondata.go" >}}
 ```
 

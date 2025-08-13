@@ -74,10 +74,12 @@ When this option is selected, the user cluster will be left without any CNI, and
 When deploying your own CNI, please make sure you pass proper pods & services CIDRs to your CNI configuration - matching with the KKP user-cluster level configuration in the [Advanced Network Configuration](#advanced-network-configuration).
 
 ### Deploying CNI as a System Application
+
 As of Cilium version `1.13.0`, Cilium CNI is deployed as a "System Application" instead of KKP Addon (as it is the case for older Cilium versions and all Canal CNI versions).
 Apart from internally relying on KKP's [Applications]({{< relref "../../applications" >}}) infrastructure rather than [Addons]({{< relref "../../../architecture/concept/kkp-concepts/addons" >}}) infrastructure, it provides the users with full flexibility of CNI feature usage and configuration.
 
 #### Editing the CNI Configuration During Cluster Creation
+
 When creating a new user cluster via KKP UI, it is possible to specify Helm values used to deploy the CNI via the "Edit CNI Values" button at the bottom of the "Advanced Network Configuration" section on the step 2 of the cluster creation wizard:
 
 ![Edit CNI Values](images/edit-cni-app-values.png?classes=shadow,border "Edit CNI Values")
@@ -88,6 +90,7 @@ Please note that the final Helm values applied in the user cluster will be autom
 This option is also available when creating cluster templates and the CNI configuration saved in the cluster template is automatically applied to all clusters created from the template.
 
 #### Editing the CNI Configuration in Existing Cluster
+
 In an existing cluster, the CNI configuration can be edited in two ways: via KKP UI, or by editing CNI `ApplicationInstallation` in the user cluster.
 
 For editing CNI configuration via KKP UI, navigate to the "Applications" tab on the cluster details page, switch the "Show System Applications" toggle, and click on the "Edit Application" button of the CNI. After that a new dialog window with currently applied CNI Helm values will be open and allow their modification.
@@ -95,22 +98,28 @@ For editing CNI configuration via KKP UI, navigate to the "Applications" tab on 
 ![Edit CNI Application](images/edit-cni-app.png?classes=shadow,border "Edit CNI Application")
 
 The other option is to edit the CNI `ApplicationInstallation` in the user cluster directly, e.g. like this for the Cilium CNI:
+
 ```bash
 kubectl edit ApplicationInstallation cilium -n kube-system
 ```
+
 and edit the configuration in ApplicationInstallation's `spec.values`.
 
 This approach can be used e.g. to turn specific CNI features on or off, or modify arbitrary CNI configuration. Please note that some parts of the CNI configuration (e.g. pod CIDR etc.) is managed by KKP, and its change will not be allowed, or may be overwritten upon next reconciliation of the ApplicationInstallation.
 
 #### Changing the Default CNI Configuration
+
 The default CNI configuration that will be used to deploy CNI in new KKP user clusters can be defined at two places:
+
  - in a cluster template, if the cluster is being created from a template (which takes precedence over the next option),
  - in the CNI ApplicationDefinition's `spec.defaultValues` in the KKP master cluster (editable e.g. via `kubectl edit ApplicationDefinition cilium`).
 
 #### CNI Helm Chart Source
+
 The Helm charts used to deploy CNI are hosted in a Kubermatic OCI registry (`oci://quay.io/kubermatic/helm-charts`). This registry needs to be accessible from the KKP Seed cluster to allow successful CNI deployment. In setups with restricted Internet connectivity, a different (e.g. private) OCI registry source for the CNI charts can be configured in `KubermaticConfiguration` (`spec.systemApplications.helmRepository` and `spec.systemApplications.helmRegistryConfigFile`).
 
 To mirror a Helm chart into a private OCI repository, you can use the helm CLI, e.g.:
+
 ```bash
 CHART_VERSION=1.13.0
 helm pull oci://quay.io/kubermatic/helm-charts/cilium --version ${CHART_VERSION}
@@ -118,10 +127,12 @@ helm push cilium-${CHART_VERSION}.tgz oci://<registry>/<repository>/
 ```
 
 #### Upgrading Cilium CNI to Cilium 1.13.0 / Downgrading
+
 For user clusters originally created with the Cilium CNI version lower than `1.13.0` (which was managed by the Addons mechanism rather than Applications), the migration to the management via Applications infra happens automatically during the CNI version upgrade to `1.13.0`.
 
 During the upgrade, if the Hubble Addon was installed in the cluster before, the Addon will be automatically removed, as Hubble is now enabled by default.
 If there are such clusters in your KKP installation, it is important to preserve the following part of the configuration in the [default configuration](#changing-the-default-cni-configuration) of the ApplicationInstallation:
+
 ```bash
   hubble:
     tls:
@@ -158,36 +169,45 @@ Some newer Kubernetes versions may not be compatible with already deprecated CNI
 Again, please note that it is not a good practice to keep the clusters on an old CNI version and try to upgrade as soon as new CNI version is available next time.
 
 ## IPv4 / IPv4 + IPv6 (Dual Stack)
+
 This option allows for switching between IPv4-only and IPv4+IPv6 (dual-stack) networking in the user cluster.
 This feature is described in detail on an individual page: [Dual-Stack Networking]({{< relref "../dual-stack/" >}}).
 
 ## Advanced Network Configuration
+
 After Clicking on the "Advanced Networking Configuration" button in the cluster creation wizard, several more network
 configuration options are shown to the user:
 
 ![Cluster Settings - Advanced Network Configuration](images/ui-cluster-networking-advanced.png?classes=shadow,border "Cluster Settings - Network Configuration")
 
 ### Proxy Mode
+
 Configures kube-proxy mode for k8s services. Can be set to `ipvs`, `iptables` or `ebpf` (`ebpf` is available only if Cilium CNI is selected and [Konnectivity](#konnectivity) is enabled).
 Defaults to `ipvs` for Canal CNI clusters and `ebpf` / `iptables` (based on whether Konnectivity is enabled or not) for Cilium CNI clusters.
 Note that IPVS kube-proxy mode is not recommended with Cilium CNI due to [a known issue]({{< relref "../../../architecture/known-issues/" >}}#2-connectivity-issue-in-pod-to-nodeport-service-in-cilium--ipvs-proxy-mode).
 
 ### Pods CIDR
+
 The network range from which POD networks are allocated. Defaults to `[172.25.0.0/16]` (or `[172.26.0.0/16]` for Kubevirt clusters, `[172.25.0.0/16, fd01::/48]` for `IPv4+IPv6` ipFamily).
 
 ### Services CIDR
+
 The network range from which service VIPs are allocated. Defaults to `[10.240.16.0/20]` (or `[10.241.0.0/20]` for Kubevirt clusters, `[10.240.16.0/20, fd02::/120]` for `IPv4+IPv6` ipFamily).
 
 ### Node CIDR Mask Size
+
 The mask size (prefix length) used to allocate a node-specific pod subnet within the provided Pods CIDR. It has to be larger than the provided Pods CIDR prefix length.
 
 ### Allowed IP Range for NodePorts
+
 IP range from which NodePort access to the worker nodes will be allowed. Defaults to `0.0.0.0/0` (allowed from anywhere). This option is available only for some cloud providers that support it.
 
 ### Node Local DNS Cache
+
 Enables NodeLocal DNS Cache - caching DNS server running on each worker node in the cluster.
 
 ### Konnectivity
+
 Konnectivity provides TCP level proxy for the control plane (seed cluster) to worker nodes (user cluster) communication. It is based on the upstream [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserver-network-proxy/) project and is aimed to be the replacement of the older KKP-specific solution based on OpenVPN and network address translation. Since the old solution was facing several limitations, it has been replaced with Konnectivity and will be removed in future KKP releases.
 
 {{% notice warning %}}

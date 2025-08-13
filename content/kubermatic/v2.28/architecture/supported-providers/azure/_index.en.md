@@ -25,7 +25,7 @@ az account show --query id -o json
 
 Create a role that is used by the service account.
 
-```
+```text
 az role definition create --role-definition '{
     "Name": "Kubermatic",
     "Description": "Manage VM and Networks as well to manage Resource Groups and Tags",
@@ -47,7 +47,7 @@ Get your Tenant ID
 az account show --query tenantId -o json
 ```
 
-create a new app with
+Create a new app with
 
 ```bash
 az ad sp create-for-rbac --role="Kubermatic" --scopes="/subscriptions/********-****-****-****-************"
@@ -73,6 +73,7 @@ Enter provider credentials using the values from step "Prepare Azure Environment
   - `Subscription ID`: your subscription ID
 
 ### Resources cleanup
+
 During the machines cleanup, if KKP's Machine-Controller failed to delete the Cloud Provider instance and the user deleted
 that instance manually, Machine-Controller won't be able to delete any referenced resources to that machine, such as Public
 IPs, Disks and NICs. In that case, the user should cleanup those resources manually due to the fact that, Azure won't cleanup

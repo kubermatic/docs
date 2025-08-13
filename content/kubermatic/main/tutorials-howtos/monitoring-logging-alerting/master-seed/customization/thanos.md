@@ -8,12 +8,15 @@ weight = 20
 This page explains how we can integrate [Thanos](https://thanos.io/) long term storage of metrics with KKP seed Prometheus
 
 ## Pre-requisites
+
 1. Helm is installed.
 1. KKP v2.22.4+ is installed in the cluster.
 1. KKP Prometheus chart has been deployed in each seed where you want to store long term metrics
 
 ## Integration steps
+
 Below page outlines
+
 1. Installation of Thanos components in your Kubernetes cluster via Helm chart
 1. Customization of KKP Prometheus chart to augment Prometheus pod with Thanos sidecar
 1. Customization of KKP Prometheus chart values to monitor and get alerts for Thanos components
@@ -21,6 +24,7 @@ Below page outlines
 ## Install thanos chart
 
 You can install the Thanos Helm chart from Bitnami chart repository
+
 ```shell
 HELM_EXPERIMENTAL_OCI=1 helm upgrade --install thanos \
   --namespace monitoring --create-namespace\
@@ -30,6 +34,7 @@ HELM_EXPERIMENTAL_OCI=1 helm upgrade --install thanos \
 ```
 
 ### Basic Thanos Customization file
+
 You can configure Thanos to store the metrics in any s3 compatible storage as well as many other popular cloud storage solutions.
 
 Below yaml snippet uses Azure Blob storage configuration. You can refer to all [supported object storage configurations](https://thanos.io/tip/thanos/storage.md/#supported-clients).
@@ -57,7 +62,6 @@ metrics:
 storegateway:
   enabled: true
 ```
-
 
 ## Augment prometheus to use Thanos sidecar
 
@@ -142,12 +146,12 @@ prometheus:
         mountPath: /etc/thanos
 ```
 
-
 ## Add scraping and alerting rules to monitor thanos itself
 
 To monitor Thanos effectively, we must scrape the Thanos components and define some Prometheus alerting rules to get notified when Thanos is not working correctly. Below sections outline changes in `prometheus` section of `values.yaml` to enable such scraping and alerting for Thanos components.
 
 ### Scraping config
+
 Add below `scraping` configuration to scrape the Thanos sidecar as well as various Thanos components deployed via helm chart.
 
 ```yaml
@@ -183,6 +187,7 @@ prometheus:
 ```
 
 ### Alerting Rules
+
 Add Below configmap and then refer this configMap in KKP Prometheus chart's `values.yaml` customization
 
 ```yaml
@@ -197,6 +202,7 @@ prometheus:
 ````
 
 The configmap
+
 ```yaml
 apiVersion: v1
 kind: ConfigMap

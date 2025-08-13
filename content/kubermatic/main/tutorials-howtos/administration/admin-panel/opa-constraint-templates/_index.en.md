@@ -10,6 +10,7 @@ Constraint Templates allow you to declare new Constraints. They are intended to 
 The Constraint Templates view under OPA menu in Admin Panel allows adding, editing and deleting Constraint Templates.
 
 ## Adding Constraint Templates
+
 Constraint Templates can be added after clicking on the `+ Add Constraint Template` icon in the top right corner of the view.
 
 ![Add Constraint Template](@/images/ui/opa-admin-add-ct.png?classes=shadow,border&height=350px "Constraint Template Add Dialog")
@@ -45,9 +46,11 @@ targets:
 ```
 
 ## Editing Constraint Templates
+
 Constraint Templates can be edited after clicking on the pencil icon that appears when hovering over one of the rows. The form is identical to the one from creation.
 
 ## Deleting Constraint Templates
+
 Constraint Templates can be deleted after clicking on the trash icon that appears when hovering over one of the rows. Please note, that the deletion of a Constraint Template will also delete all Constraints that are assigned to it.
 
 ![Delete Constraint Template](@/images/ui/opa-admin-delete-ct.png?classes=shadow,border&height=200 "Constraint Template Delete Dialog")

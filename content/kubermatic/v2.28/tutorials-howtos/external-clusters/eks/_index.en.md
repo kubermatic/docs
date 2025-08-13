@@ -42,6 +42,7 @@ You should see the list of all available clusters in the region specified. Selec
 ![Select EKS cluster](@/images/tutorials/external-clusters/select-eks-cluster.png "Select EKS cluster")
 
 ## Create EKS Preset
+
 Admin can create a preset on a KKP cluster using KKP `Admin Panel`.
 This Preset can then be used to Create/Import an EKS cluster.
 
@@ -61,7 +62,7 @@ This Preset can then be used to Create/Import an EKS cluster.
 
 ![Choose EKS Preset](@/images/tutorials/external-clusters/choose-akspreset.png "Choose EKS Preset")
 
--  Enter EKS credentials and Click on `Create` button.
+- Enter EKS credentials and Click on `Create` button.
 
 ![Enter Credentials](@/images/tutorials/external-clusters/enter-eks-credentials-preset.png "Enter Credentials")
 
@@ -151,7 +152,7 @@ Example:
 
 `~/.aws/credentials`
 
-```
+```bash
 [default]
 aws_access_key_id=AKIAIOSFODNN7EXAMPLE
 aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
@@ -161,7 +162,7 @@ aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 
 Now you can create kubeconfig file automatically using the following command:
 
-```
+```bash
 aws eks update-kubeconfig --region region-code --name cluster-name
 ```
 

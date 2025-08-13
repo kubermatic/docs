@@ -12,12 +12,12 @@ API and flexibly control how the user cluster etcd ring is started.
 - **v2.19.0**: Peer TLS connections have been added to etcd-launcher.
 - **v2.22.0**: `EtcdLauncher` feature gate is enabled by default in `KubermaticConfiguration`.
 
-
 ## Comparison to static etcd
 
 Prior to v2.15.0, user cluster etcd ring was based on a static StatefulSet with 3 pods running the etcd ring nodes.
 
 With `etcd-launcher`, the etcd `StatefulSet` is updated to include:
+
 - An init container that is responsible for copying the etcd-launcher into the main etcd pod.
 - Additional environment variables used by the etcd-launcher and etcdctl binary for simpler operations.
 - A liveness probe to improve stability.
@@ -58,6 +58,7 @@ spec:
 If the feature gate was disabled explicitly, etcd Launcher can still be configured for individual user clusters.
 
 ### Enabling etcd Launcher
+
 In this mode, the feature is only enabled for a specific user cluster. This can be done by editing the object cluster and
 enabling the feature gate for `etcdLauncher`:
 

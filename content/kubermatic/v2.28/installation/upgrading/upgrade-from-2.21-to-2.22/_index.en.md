@@ -21,7 +21,7 @@ container runtime in KKP 2.22 is therefore containerd. As such, the upgrade will
 with Docker as container runtime.
 
 It is necessary to migrate **existing clusters and cluster templates** to containerd before proceeding. This can be done either via the Kubermatic Dashboard
-or with `kubectl`. On the Dashboard, just edit the cluster or cluster template, change the _Container Runtime_ field to `containerd` and save your changes.
+or with `kubectl`. On the Dashboard, just edit the cluster or cluster template, change the *Container Runtime* field to `containerd` and save your changes.
 
 ![Change Container Runtime](upgrade-container-runtime.png?classes=shadow,border&height=200 "Change Container Runtime")
 
@@ -68,8 +68,8 @@ Before starting the upgrade, make sure your KKP Master and Seed clusters are hea
 
 Download the latest 2.22.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.21 available and already adjusted for any 2.22 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
-```sh
-$ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
+```bash
+./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
 
 # example output for a successful upgrade
 INFO[0000] 🚀 Initializing installer…                     edition="Enterprise Edition" version=v2.22.0
@@ -120,8 +120,8 @@ Upgrading seed clusters is no longer necessary in KKP 2.22, unless you are runni
 
 You can follow the upgrade process by either supervising the Pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
-```sh
-$ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
+```bash
+kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
 kubermatic - {"clusters":5,"conditions":{"ClusterInitialized":{"lastHeartbeatTime":"2023-02-16T10:53:34Z","message":"All KKP CRDs have been installed successfully.","reason":"CRDsUpdated","status":"True"},"KubeconfigValid":{"lastHeartbeatTime":"2023-02-14T16:50:09Z","reason":"KubeconfigValid","status":"True"},"ResourcesReconciled":{"lastHeartbeatTime":"2023-02-14T16:50:14Z","reason":"ReconcilingSuccess","status":"True"}},"phase":"Healthy","versions":{"cluster":"v1.24.10","kubermatic":"v2.22.0"}}
 ```
 
@@ -183,7 +183,7 @@ If a custom values file is required and is ready for use, `kubermatic-installer`
 uncomment the command flags that you need (e.g. `--helm-values` if you have a `mlavalues.yaml` to pass and `--mla-include-iap` if you are
 using IAP for MLA; both flags are optional).
 
-```sh
+```bash
 ./kubermatic-installer deploy usercluster-mla \
   # uncomment if you are providing non-standard values
   # --helm-values mlavalues.yaml \
@@ -193,7 +193,6 @@ using IAP for MLA; both flags are optional).
 ```
 
 ## Post-Upgrade Considerations
-
 
 ### KubeVirt Migration
 

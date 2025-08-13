@@ -15,7 +15,7 @@ Data will either be encrypted with static encryption keys or via envelope encryp
 
 ## Important Notes
 
-- Data is only encrypted _at rest_ and not when requested by users with sufficient RBAC to access it. This means that the output of `kubectl get secret <secret> -o yaml` (or similar commands/actions) remains unencrypted and is only base64-encoded. Proper RBAC management is mandatory to secure secret data at all stages.
+- Data is only encrypted *at rest* and not when requested by users with sufficient RBAC to access it. This means that the output of `kubectl get secret <secret> -o yaml` (or similar commands/actions) remains unencrypted and is only base64-encoded. Proper RBAC management is mandatory to secure secret data at all stages.
 - Due to multiple revisions of data existing in etcd, [etcd backups]({{< ref "../etcd-backups/" >}}) might contain previous revisions of a resource that are unencrypted if the etcd backup is taken less than five minutes after data has been encrypted. Previous revisions are compacted every five minutes by `kube-apiserver`.
 
 ## Configuring Encryption at Rest
@@ -70,7 +70,7 @@ spec:
           value: ynCl8otobs5NuHu$3TLghqwFXVpv6N//SE6ZVTimYok=
 ```
 
-```
+```yaml
 # snippet for referencing a secret
 spec:
   encryptionConfiguration:
@@ -95,8 +95,8 @@ Once configured, encryption at rest can be disabled via setting `spec.encryption
 
 Since encryption at rest needs to reconfigure the control plane and re-encrypt existing data in a user cluster, applying changes to the encryption configuration can take a while. Encryption status can be queried via `kubectl`:
 
-```sh
-$ kubectl get cluster <Cluster ID> -o jsonpath="{.status.encryption.phase}"
+```bash
+kubectl get cluster <Cluster ID> -o jsonpath="{.status.encryption.phase}"
 Active
 ```
 
@@ -130,7 +130,6 @@ spec:
 This will configure the contents of `encryption-key-2022-02` as secondary encryption key. Secondary keys allow to decrypt data that is not encrypted with the primary key. This needs to be done so all control plane components can decrypt data once the key is rotated to be the primary key and is thus used to encrypt resources. KKP will rotate involved components, but will not run a re-encryption job, as data in etcd does not need to be encrypted again for this update.
 
 After control plane components have been rotated, switch the position of the two keys in the `keys` array. The given example will look like this:
-
 
 ```yaml
 # only a snippet, not valid on its own!

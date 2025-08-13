@@ -60,6 +60,7 @@ alertmanager_config: |
       title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
       text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
 ```
+
 Don’t forget to add the Slack Webhook URL that you have generated in the previous setup to `slack_api_url`,
 change the slack channel under `slack_configs` to the channel that you are going to use and save it by clicking **Edit** button:
 

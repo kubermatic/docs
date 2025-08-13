@@ -25,11 +25,13 @@ Unlike the [Master / Seed Cluster MLA stack]({{< ref "../master-seed/">}}), it i
 ![Monitoring architecture diagram](architecture.png)
 
 ### User Cluster Components
+
 When User Cluster MLA is enabled in a KKP user cluster, it automatically deploys two components into it - Prometheus and Loki Promtail. These components are configured to stream (remote write) the logs and metrics into backends running in the Seed Cluster (Cortex for metrics and Loki-Distributed for logs). The connection between the user cluster components and Seed cluster components is secured by HTTPS with mutual TLS certificate authentication.
 
 This makes the MLA setup in user clusters very simple and low footprint, as no MLA data is stored in the user clusters and user clusters are not involved when doing data lookups. Data of all user clusters can be accessed from a central place (Grafana UI) in the Seed Cluster.
 
 ### Seed Cluster Components
+
 As mentioned above, metrics and logs data from all user clusters are streamed into their Seed Cluster, where they are processed and stored in a long term object store (Minio). Data can be looked up in a multi-tenant Grafana instance which is running in the Seed, and provides each user a view to metrics and logs of all clusters which they have privileges to access in the KKP platform.
 
 **MLA Gateway**:
@@ -47,4 +49,5 @@ The backend for processing, storing and retrieving metrics data from user Cluste
 The backend for processing, storing and retrieving logs data from user Cluster Clusters is based on the [Loki](https://grafana.com/docs/loki/latest/) - distributed deployment. It allows horizontal scalability of individual Loki components that can be fine-tuned to fit any use-case. For more details about Loki architecture, please refer to the [Loki Architecture](https://grafana.com/docs/loki/latest/architecture/) documentation.
 
 ## Installation
+
 Please follow the [User Cluster MLA Stack Admin Guide]({{< relref "../../../tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/" >}}).

@@ -4,7 +4,6 @@ date = 2025-07-22T11:07:15+02:00
 weight = 80
 +++
 
-
 ## Kubermatic Release Process
 
 This document provides comprehensive information about the Kubermatic release process, outlining release types, cadence, upgrade paths, and artifact delivery mechanisms. This guide is intended for technical users and system administrators managing Kubermatic deployments.

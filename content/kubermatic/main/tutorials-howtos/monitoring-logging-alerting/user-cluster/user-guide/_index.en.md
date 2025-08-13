@@ -19,6 +19,7 @@ Users can enable monitoring and logging independently, and also can disable or e
 ## Enabling MLA Addons in a User Cluster
 
 KKP provides several addons for user clusters, that can be helpful when the User Cluster Monitoring feature is enabled, namely:
+
 - **node-exporter** addon: exposes hardware and OS metrics of worker nodes to Prometheus,
 - **kube-state-metrics** addon: exposes cluster-level metrics of Kubernetes API objects (like pods, deployments, etc.) to Prometheus.
 
@@ -54,16 +55,17 @@ The metric endpoints exposed via annotations will be automatically discovered by
 
 The following annotations are supported:
 
-| Annotation                | Example value | Description
-| ------------------------- | ------------- | ------------
-| prometheus.io/scrape      | `"true"`      | Only scrape pods / service endpoints that have a value of `true`
-| prometheus.io/scrape-slow | `"true"`      | The same as `prometheus.io/scrape`, but will scrape metrics in longer intervals (5 minutes)
-| prometheus.io/path        | `/metrics`    |  Overrides the metrics path, the default is `/metrics`
-| prometheus.io/port        | `"8080"`      | Scrape the pod / service endpoints on the indicated port
+| Annotation                | Example value | Description                                                                                 |
+| ------------------------- | ------------- | --------------------------------------------------------------------------------------------|
+| prometheus.io/scrape      | `"true"`      | Only scrape pods / service endpoints that have a value of `true`                            |
+| prometheus.io/scrape-slow | `"true"`      | The same as `prometheus.io/scrape`, but will scrape metrics in longer intervals (5 minutes) |
+| prometheus.io/path        | `/metrics`    | Overrides the metrics path, the default is `/metrics`                                       |
+| prometheus.io/port        | `"8080"`      | Scrape the pod / service endpoints on the indicated port                                    |
 
 For more information on exact scraping configuration and annotations, reference the user cluster Grafana Agent configuration in the `monitoring-agent` ConfigMap (`kubectl get configmap monitoring-agent -n mla-system -oyaml`) against the prometheus documentation for [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config) and [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config).
 
 ### Extending Scrape Config
+
 It is also possible to extend User Cluster Grafana Agent with custom `scrape_config` targets. This can be achieved by adding ConfigMaps with a pre-defined name prefix `monitoring-scraping` in the `mla-system` namespace in the user cluster. For example, a file `example.yaml` which contains customized scrape configs can look like the following:
 
 ```yaml
@@ -158,17 +160,17 @@ As described on the [User Cluster MLA Stack Architecture]({{< relref "../../../.
 
 **monitoring-agent**:
 
-| Resource | Requests | Limits
-| -------- | -------- | ------
-| CPU      | 100m     | 1
-| Memory   | 256Mi    | 4Gi
+| Resource | Requests | Limits |
+| -------- | -------- | -------|
+| CPU      | 100m     | 1      |
+| Memory   | 256Mi    | 4Gi    |
 
 **logging-agent**:
 
-| Resource | Requests | Limits
-| -------- | -------- | ------
-| CPU      | 50m      | 200m
-| Memory   | 64Mi     | 128Mi
+| Resource | Requests | Limits |
+| -------- | -------- | -------|
+| CPU      | 50m      | 200m   |
+| Memory   | 64Mi     | 128Mi  |
 
 Non-default resource requests & limits for user cluster Prometheus and Loki Promtail can be configured via KKP API endpoint for managing clusters (`/api/v2/projects/{project_id}/clusters/{cluster_id}`):
 

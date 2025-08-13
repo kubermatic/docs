@@ -13,6 +13,7 @@ Please read this blog post to learn how to migrate your clusters to be able to u
 
 You can check the operating system from the KKP dashboard (machine deployments list) or over kubectl commands,
 for instance:
+
 * `kubectl get machines -nkube-system`
 * `kubectl get nodes -owide`.
 
@@ -32,6 +33,7 @@ With the new deployment, you can then migrate the containers to the newly create
 Additionally, it is a good idea to consider a pod disruption budget for each application you want to transfer to other nodes.
 
 Example PDB resource:
+
 ```yaml
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
@@ -43,6 +45,7 @@ spec:
     matchLabels:
       app: nginx
 ```
+
 Find more information [here](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/).
 
 ## Do I Have to Rely on the Kubermatic Eviction Mechanism?

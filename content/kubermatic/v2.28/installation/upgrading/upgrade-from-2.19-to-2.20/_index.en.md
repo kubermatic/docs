@@ -20,13 +20,13 @@ Migrating to KKP 2.20 requires a downtime of all reconciling and includes restar
 
 The general migration procedure is as follows:
 
-* Shutdown KKP controllers/dashboard/API.
-* Create duplicate of all KKP resources in the new API groups.
-* Adjust the owner references in the new resources.
-* Remove finalizers and owner references from old objects.
-* Delete old objects.
-* Deploy new KKP 2.20 Operator.
-* The operator will reconcile and restart the remaining KKP controllers, dashboard and API.
+- Shutdown KKP controllers/dashboard/API.
+- Create duplicate of all KKP resources in the new API groups.
+- Adjust the owner references in the new resources.
+- Remove finalizers and owner references from old objects.
+- Delete old objects.
+- Deploy new KKP 2.20 Operator.
+- The operator will reconcile and restart the remaining KKP controllers, dashboard and API.
 
 {{% notice note %}}
 Creating clones of, for example, Secrets in a cluster namespace will lead to new resource versions on those cloned Secrets. These new resource versions will affect Deployments like the kube-apiserver once KKP is restarted and reconciles. This will in turn cause all Deployments/StatefulSets to rotate.
@@ -52,11 +52,11 @@ tar xzf kubermatic-ce-v2.20.0-linux-amd64.tar.gz
 
 Before the migration can begin, a number of preflight checks need to happen first:
 
-* No KKP resource must be marked as deleted.
-* The new CRD files must be available on disk.
-* All seed clusters must be reachable.
-* Deprecated features which were removed in KKP 2.20 must not be used anymore.
-* (only before actual migration) No KKP controllers/webhooks must be running.
+- No KKP resource must be marked as deleted.
+- The new CRD files must be available on disk.
+- All seed clusters must be reachable.
+- Deprecated features which were removed in KKP 2.20 must not be used anymore.
+- (only before actual migration) No KKP controllers/webhooks must be running.
 
 The first step is to get the kubeconfig file for the KKP **master** cluster. Set the `KUBECONFIG` variable pointing to it:
 
@@ -199,12 +199,12 @@ When you're ready, start the migration:
 
 The installer will now
 
-* perform the same preflight checks as the `preflight` command, plus it checks that no KKP controllers are running,
-* create a backup of all KKP resources per seed cluster,
-* install the new CRDs,
-* migrate all KKP resources,
-* adjust the owner references and
-* optionally remove the old resources if `--remove-old-resources` was given (this can be done manually at any time later on).
+- perform the same preflight checks as the `preflight` command, plus it checks that no KKP controllers are running,
+- create a backup of all KKP resources per seed cluster,
+- install the new CRDs,
+- migrate all KKP resources,
+- adjust the owner references and
+- optionally remove the old resources if `--remove-old-resources` was given (this can be done manually at any time later on).
 
 {{% notice note %}}
 The command is idempotent and can be interrupted and restarted at any time. It will have to go through already migrated resources again, though.

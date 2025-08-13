@@ -23,15 +23,15 @@ For more information on AIKit, please refer to the [official documentation](http
 
 AIKit is available as part of the KKP's default application catalog. It can be deployed to the user cluster either during the cluster creation or after the cluster is ready (existing cluster) from the Applications tab via UI.
 
-* Select the AIKit application from the Application Catalog.
+- Select the AIKit application from the Application Catalog.
 
 ![Select AIKit Application](01-select-application-aikit-app.png)
 
-* Under the Settings section, select and provide appropriate details and click `-> Next` button.
+- Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for AIKit Application](02-settings-aikit-app.png)
 
-* Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the AIKit application to the user cluster.
+- Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the AIKit application to the user cluster.
 
 ![Application Values for AIKit Application](03-applicationvalues-aikit-app.png)
 

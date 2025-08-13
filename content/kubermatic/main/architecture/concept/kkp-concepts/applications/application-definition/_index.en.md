@@ -8,8 +8,9 @@ weight = 1
 
 An `ApplicationDefinition` represents a single Application and contains all its versions. It holds the necessary information to install an application.
 Two types of information are required to install an application:
-* How to download the application's source (i.e Kubernetes manifest, helm chart...). We refer to this as `source`.
-* How to render (i.e. templating) the application's source to install it into user-cluster. We refer to this as`templating method`.
+
+- How to download the application's source (i.e Kubernetes manifest, helm chart...). We refer to this as `source`.
+- How to render (i.e. templating) the application's source to install it into user-cluster. We refer to this as`templating method`.
 
 Each version can have a different `source` (`.spec.version[].template.source`) but share the same `templating method` (`.spec.method`).
 Here is the minimal example of `ApplicationDefinition`. More advanced configurations are described in subsequent paragraphs.
@@ -43,13 +44,17 @@ spec:
 In this example, the `ApplicationDefinition` allows the installation of two versions of apache using the [helm method](#helm-method). Notice that one source originates from a [Helm repository](#helm-source) and the other from a [git repository](#git-source)
 
 ## Templating Method
+
 Templating Method describes how the Kubernetes manifests are being packaged and rendered.
 
 ### Helm Method
+
 This method use [Helm](https://helm.sh/docs/) to install, upgrade and uninstall the application into the user-cluster.
 
 ## Templating Source
+
 ### Helm Source
+
 The Helm Source allows downloading the application's source from a Helm [HTTP repository](https://helm.sh/docs/topics/chart_repository/) or an [OCI repository](https://helm.sh/blog/storing-charts-in-oci/#helm).
 The following parameters are required:
 
@@ -57,8 +62,8 @@ The following parameters are required:
 - `chartName` -> Name of the chart within the repository
 - `chartVersion` -> Version of the chart; corresponds to the chartVersion field
 
-
 **Example of Helm source with HTTP repository:**
+
 ```yaml
 - template:
     source:
@@ -69,6 +74,7 @@ The following parameters are required:
 ```
 
 **Example of Helm source with OCI repository:**
+
 ```yaml
 - template:
     source:
@@ -77,11 +83,12 @@ The following parameters are required:
         chartVersion: 1.13.0-rc5
         url: oci://quay.io/kubermatic/helm-charts
 ```
+
 For private git repositories, please check the [working with private registries](#working-with-private-registries) section.
 
 Currently, the best way to obtain `chartName` and `chartVersion` for an HTTP repository is to make use of `helm search`:
 
-```sh
+```bash
 # initial preparation
 helm repo add <repo-name> <repo-url>
 helm repo update
@@ -99,9 +106,11 @@ helm search repo prometheus-community/prometheus --versions --version ">=15"
 For OCI repositories, there is currently [no native helm search](https://github.com/helm/helm/issues/9983). Instead, you have to rely on the capabilities of your OCI registry. For example, harbor supports searching for helm-charts directly [in their UI](https://goharbor.io/docs/2.4.0/working-with-projects/working-with-images/managing-helm-charts/#list-charts).
 
 ### Git Source
+
 The Git source allows you to download the application's source from a Git repository.
 
 **Example of Git Source:**
+
 ```yaml
 - template:
     source:
@@ -121,7 +130,6 @@ The Git source allows you to download the application's source from a Git reposi
 
 For private git repositories, please check the [working with private registries](#working-with-private-registries) section.
 
-
 ## Working With Private Registries
 
 For private registries, the Applications Feature supports storing credentials in Kubernetes secrets in the KKP master and referencing the secrets in your ApplicationDefinitions.
@@ -134,67 +142,68 @@ In order for the controller to sync your secrets, they must be annotated with `a
 ### Git Repositories
 
 KKP supports three types of authentication for git repositories:
-* `password`: authenticate with a username and password.
-* `Token`: authenticate with a Bearer token
-* `SSH-Key`: authenticate with an ssh private key.
+
+- `password`: authenticate with a username and password.
+- `Token`: authenticate with a Bearer token
+- `SSH-Key`: authenticate with an ssh private key.
 
 Their setup is comparable:
 
 1. Create a secret containing our credentials
+   ```bash
+    # inside KKP master
 
-```sh
-# inside KKP master
+    # user-pass
+    kubectl create secret -n <kkp-install-namespace> generic --from-literal=pass=<password> --from-literal=user=<username> <secret-name>
 
-# user-pass
-kubectl create secret -n <kkp-install-namespace> generic --from-literal=pass=<password> --from-literal=user=<username> <secret-name>
+    # token
+    kubectl create secret -n <kkp-install-namespace> generic --from-literal=token=<token> <secret-name>
 
-# token
-kubectl create secret -n <kkp-install-namespace> generic --from-literal=token=<token> <secret-name>
+    # ssh-key
+    kubectl create secret -n <kkp-install-namespace> generic --from-literal=sshKey=<private-ssh-key> <secret-name>
 
-# ssh-key
-kubectl create secret -n <kkp-install-namespace> generic --from-literal=sshKey=<private-ssh-key> <secret-name>
+    # after creation, annotate
+    kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="git"
+   ```
 
-# after creation, annotate
-kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="git"
-```
+1. Reference the secret in the ApplicationDefinition
+   ```yaml
+    spec:
+      versions:
+        - template:
+            source:
+              git:
+                path: <path-inside-git-repo>
+                ref:
+                  branch: <branch>
+                remote: <server-url> # for ssh-key, an ssh url must be chosen (e.g. git@example.com/repo.git)
+                credentials:
+                  method: <password || token || ssh-key>
+                  # user-pass
+                  username:
+                    key: user
+                    name: <secret-name>
+                  password:
+                    key: pass
+                    name: <secret-name>
+                  # token
+                  token:
+                    key: token
+                    name: <secret-name>
+                  # ssh-key
+                  sshKey:
+                    key: sshKey
+                    name: <secret-name>
+   ```
 
-2. Reference the secret in the ApplicationDefinition
-
-```yaml
-spec:
-  versions:
-    - template:
-        source:
-          git:
-            path: <path-inside-git-repo>
-            ref:
-              branch: <branch>
-            remote: <server-url> # for ssh-key, an ssh url must be chosen (e.g. git@example.com/repo.git)
-            credentials:
-              method: <password || token || ssh-key>
-              # user-pass
-              username:
-                key: user
-                name: <secret-name>
-              password:
-                key: pass
-                name: <secret-name>
-              # token
-              token:
-                key: token
-                name: <secret-name>
-              # ssh-key
-              sshKey:
-                key: sshKey
-                name: <secret-name>
-```
 #### Compatibility Warning
 
 Be aware that all authentication methods may be available on your git server. More and more servers disable the authentication with username and password.
 More over on some providers like GitHub, to authenticate with an access token, you must use `password` method instead of `token`.
 
 Example of secret to authenticate with [GitHub access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#using-a-token-on-the-command-line):
-```sh
+
+```bash
 kubectl create secret -n <kkp-install-namespace> generic --from-literal=pass=<github-access-token> --from-literal=user=<username> <secret-name>
 ```
 
@@ -205,73 +214,71 @@ For other providers, please refer to their official documentation.
 [Helm OCI registries](https://helm.sh/docs/topics/registries/#enabling-oci-support) are being accessed using a JSON configuration similar to the `~/.docker/config.json` on the local machine. It should be noted, that all OCI server urls need to be prefixed with `oci://`.
 
 1. Create a secret containing our credentials
+   ```bash
+    # inside KKP master
+    kubectl create secret -n <kkp-install-namespace> docker-registry  --docker-server=<server> --docker-username=<user> --docker-password=<password> <secret-name>
+    kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="helm"
 
-```sh
-# inside KKP master
-kubectl create secret -n <kkp-install-namespace> docker-registry  --docker-server=<server> --docker-username=<user> --docker-password=<password> <secret-name>
-kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="helm"
+    # example
+    kubectl create secret -n kubermatic docker-registry --docker-server=harbor.example.com/my-project --docker-username=someuser --docker-password=somepaswword oci-cred
+    kubectl annotate secret oci-cred apps.kubermatic.k8c.io/secret-type="helm"
+   ```
 
-# example
-kubectl create secret -n kubermatic docker-registry --docker-server=harbor.example.com/my-project --docker-username=someuser --docker-password=somepaswword oci-cred
-kubectl annotate secret oci-cred apps.kubermatic.k8c.io/secret-type="helm"
-```
-
-2. Reference the secret in the ApplicationDefinition
-
-```yaml
-spec:
-  versions:
-    - template:
-        source:
-          helm:
-            chartName: examplechart
-            chartVersion: 0.1.0
-            credentials:
-              registryConfigFile:
-                key: .dockerconfigjson # `kubectl create secret docker-registry` stores by default the creds under this key
-                name: <secret-name>
-            url: <server>
-```
+1. Reference the secret in the ApplicationDefinition
+   ```yaml
+    spec:
+      versions:
+        - template:
+            source:
+              helm:
+                chartName: examplechart
+                chartVersion: 0.1.0
+                credentials:
+                  registryConfigFile:
+                    key: .dockerconfigjson # `kubectl create secret docker-registry` stores by default the creds under this key
+                    name: <secret-name>
+                url: <server>
+   ```
 
 ### Helm Userpass Registries
 
 To use KKP Applications with a helm [userpass auth](https://helm.sh/docs/topics/registries/#auth) registry, you can configure the following:
 
 1. Create a secret containing our credentials
+   ```bash
+    # inside KKP master
+    kubectl create secret -n <kkp-install-namespace> generic --from-literal=pass=<password> --from-literal=user=<username> <secret-name>
+    kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="helm"
+   ```
 
-```sh
-# inside KKP master
-kubectl create secret -n <kkp-install-namespace> generic --from-literal=pass=<password> --from-literal=user=<username> <secret-name>
-kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="helm"
-```
-
-2. Reference the secret in the ApplicationDefinition
-
-```yaml
-spec:
-  versions:
-    - template:
-        source:
-          helm:
-            chartName: examplechart
-            chartVersion: 0.1.0
-            credentials:
-              password:
-                key: pass
-                name: <secret-name>
-              username:
-                key: user
-                name: <secret-name>
-            url: <server>
-```
+1. Reference the secret in the ApplicationDefinition
+   ```yaml
+    spec:
+      versions:
+        - template:
+            source:
+              helm:
+                chartName: examplechart
+                chartVersion: 0.1.0
+                credentials:
+                  password:
+                    key: pass
+                    name: <secret-name>
+                  username:
+                    key: user
+                    name: <secret-name>
+                url: <server>
+   ```
 
 ### Templating Credentials
+
 There is a particular case where credentials may be needed at the templating stage to render the manifests. For example, if the template method is `helm` and the source is git. To install the chart into the user cluster, we have to build the chart dependencies.
 These dependencies may be hosted on a private registry requiring authentication.
 
 You can specify the templating credentials by settings `.spec.version[].template.templateCredentials`. It works the same way as source credentials.
 
 **Example of template credentials:**
+
 ```yaml
 spec:
   versions:
@@ -293,7 +300,9 @@ spec:
 ```
 
 ## Advanced Configuration
+
 ### Default Values
+
 The `.spec.defaultValuesBlock` field describes overrides for manifest-rendering in UI when creating an application. For example if the method is Helm, then this field contains the Helm values.
 
 **Example for helm values**
@@ -308,20 +317,23 @@ spec:
 ```
 
 ### Customize Deployment
+
 You can tune how the application will be installed by setting `.spec.defaultDeployOptions`.
 The options depend on the template method (i.e. `.spec.method`).
 
-*note: `defaultDeployOptions` can be overridden at `ApplicationInstallation` level by settings `.spec.deployOptions`*
+*Note: `defaultDeployOptions` can be overridden at `ApplicationInstallation` level by settings `.spec.deployOptions`*
 
 #### Customize Deployment For Helm Method
+
 You may tune how Helm deploys the application with the following options:
 
-* `atomic`: corresponds to the `--atomic` flag on Helm CLI. If set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of failed upgrade.
-* `wait`: corresponds to the `--wait` flag on Helm CLI. If set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as `--timeout`
-* `timeout`: corresponds to the `--timeout` flag on Helm CLI. It's time to wait for any individual Kubernetes operation.
-* `enableDNS`: corresponds to the `-enable-dns ` flag on Helm CLI. It enables DNS lookups when rendering templates. if you enable this flag, you have to verify that helm template function 'getHostByName' is not being used in a chart to disclose any information you do not want to be passed to DNS servers.(c.f. [CVE-2023-25165](https://github.com/helm/helm/security/advisories/GHSA-pwcw-6f5g-gxf8))
+- `atomic`: corresponds to the `--atomic` flag on Helm CLI. If set, the installation process deletes the installation on failure; the upgrade process rolls back changes made in case of failed upgrade.
+- `wait`: corresponds to the `--wait` flag on Helm CLI. If set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as `--timeout`
+- `timeout`: corresponds to the `--timeout` flag on Helm CLI. It's time to wait for any individual Kubernetes operation.
+- `enableDNS`: corresponds to the `-enable-dns ` flag on Helm CLI. It enables DNS lookups when rendering templates. if you enable this flag, you have to verify that helm template function 'getHostByName' is not being used in a chart to disclose any information you do not want to be passed to DNS servers.(c.f. [CVE-2023-25165](https://github.com/helm/helm/security/advisories/GHSA-pwcw-6f5g-gxf8))
 
 Example:
+
 ```yaml
 apiVersion: apps.kubermatic.k8c.io/v1
 kind: ApplicationDefinition
@@ -335,11 +347,11 @@ spec:
       timeout: "5m"
 ```
 
-*note: if `atomic` is true, then wait must be true. If `wait` is true then `timeout` must be defined.*
-
+*Note: if `atomic` is true, then wait must be true. If `wait` is true then `timeout` must be defined.*
 
 ## ApplicationDefinition Reference
-**The following is an example of ApplicationDefinition, showing all the possible options**.
+
+**The following is an example of ApplicationDefinition, showing all the possible options**
 
 ```yaml
 {{< readfile "kubermatic/main/data/applicationDefinition.yaml" >}}

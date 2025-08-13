@@ -32,10 +32,11 @@ When working with Grafana please keep in mind, that **ALL CHANGES** done using t
 
 Depending on how user clusters are used, disk usage for Prometheus can vary greatly. As the operator you should however plan for
 
-* 100 MiB used by the seed-level Prometheus for each user cluster
-* 50-300 MiB used by the user-level Prometheus, depending on its WAL size.
+- 100 MiB used by the seed-level Prometheus for each user cluster
+- 50-300 MiB used by the user-level Prometheus, depending on its WAL size.
 
 These values can also vary, if you tweak the retention periods.
 
 ## Installation
+
 Please follow the [Installation of the Master / Seed MLA Stack Guide]({{< relref "../../../tutorials-howtos/monitoring-logging-alerting/master-seed/installation/" >}}).

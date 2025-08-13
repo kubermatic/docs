@@ -8,12 +8,14 @@ This guide describes the setup for configuring Cilium Cluster Mesh between 2 KKP
 running with Cilium CNI.
 
 ## Versions
+
 This guide was made for the following versions of KKP and Cilium:
 
 - KKP 2.22.0
 - Cilium 1.13.0
 
 ## Prerequisites
+
 Before proceeding, please review that your intended setup meets
 the [Prerequisites for Cilium Cluster Mesh](https://docs.cilium.io/en/latest/network/clustermesh/clustermesh/#prerequisites).
 
@@ -25,11 +27,13 @@ Especially, keep in mind that nodes in all clusters must have IP connectivity be
 ## Deployment Steps
 
 ### 1. Create 2 KKP User Clusters with non-overlapping pod CIDRs
+
 Create 2 user clusters with Cilium CNI and `ebpf` proxy mode (necessary to have Cluster Mesh working also for cluster-ingress traffic via LoadBalancer or NodePort services). The clusters need to have non-overlapping pod CIDRs, so at least one of them needs to have the `spec.clusterNetwork.pods.cidrBlocks` set to a non-default value (e.g. `172.26.0.0/16`).
 
 We will be referring to these clusters as `Cluster 1` and `Cluster 2` in this guide.
 
 ### 2. Enable Cluster Mesh in the Cluster 1
+
 **In Cluster 1**, edit the Cilium ApplicationInstallation values (via UI, or `kubectl edit ApplicationInstallation cilium -n kube-system`),
 and add the following snippet to it:
 
@@ -50,24 +54,29 @@ clustermesh:
 ```
 
 ### 3. Retrieve Cluster Mesh data from the Cluster 1
+
 **In Cluster 1**, retrieve the information necessary for the next steps:
 
 Retrieve CA cert & key:
-```
+
+```bash
 kubectl get secret cilium-ca -n kube-system -o yaml
 ```
 
 Retrieve clustermesh-apiserver external IP:
-```
+
+```bash
 kubectl get svc clustermesh-apiserver -n kube-system
 ```
 
 Retrieve clustermesh-apiserver remote certs:
-```
+
+```bash
 kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
 ```
 
 ### 4. Enable Cluster Mesh in the Cluster 2
+
 **In Cluster 2**, the Cilium ApplicationInstallation values, and add the following snippet to it
 (after replacing the values below the lines with comments with the actual values retrieved in the previous step):
 
@@ -105,19 +114,23 @@ clustermesh:
 ```
 
 ### 5. Retrieve Cluster Mesh data from the Cluster 2
+
 **In Cluster 2**, retrieve the information necessary for the next steps:
 
 Retrieve clustermesh-apiserver external IP:
-```shell
+
+```bash
 kubectl get svc clustermesh-apiserver -n kube-system
 ```
 
 Retrieve clustermesh-apiserver remote certs:
-```shell
+
+```bash
 kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
 ```
 
 ### 6. Update Cluster Mesh config in the Cluster 1
+
 **In Cluster 1**, update the Cilium ApplicationInstallation values, and add the following clustermesh config with cluster-2 details into it:
 
 ```yaml
@@ -151,21 +164,25 @@ clustermesh:
 ```
 
 ### 7. Allow traffic between worker nodes of different clusters
+
 If any firewalling is in place between the worker nodes in different clusters, the following ports need to be allowed between them:
 
 - UDP 8472 (VXLAN)
 - TCP 4240 (HTTP health checks)
 
 ### 8. Check Cluster Mesh status
+
 At this point, check Cilium health status in each cluster with:
-```shell
+
+```bash
 kubectl exec -it cilium-<pod-id> -n kube-system -- cilium-health status
 ```
 
 It should show all local and remote cluster's nodes and not show any errors. It may take a few minutes until things settle down since the last configuration.
 
 Example output:
-```
+
+```yaml
 Nodes:
   cluster-1/f5m2nzcb4z-worker-p7m58g-7f44796457-wv5fq (localhost):
     Host connectivity to 10.0.0.2:
@@ -184,11 +201,12 @@ Nodes:
 ```
 
 In case of errors, check again for firewall settings mentioned in the previous point. It may also help to manually restart:
+
 - first `clustermesh-apiserver` pods in each cluster,
 - then `cilium` agent pods in each cluster.
 
-
 ## Example Cross-Cluster Application Deployment With Failover / Migration
+
 After Cilium Cluster Mesh has been set up, it is possible to use global services across the meshed clusters.
 
 In this example, we will deploy a global deployment into 2 clusters, where each cluster will be acting a failover for the other. Normally, all traffic will be handled by backends in the local cluster. Only in case of no local backends, it will be handled by backends running in the other cluster. That will be true for local (pod-to-service) traffic, as well as ingress traffic provided by LoadBalancer services in each cluster.
@@ -218,6 +236,7 @@ spec:
 ```
 
 Now, in each cluster, lets create a service of type LoadBalancer with the necessary annotations:
+
 - `io.cilium/global-service: "true"`
 - `io.cilium/service-affinity: "local"`
 
@@ -242,12 +261,14 @@ spec:
 ```
 
 The list of backends for a service can be checked with:
-```shell
+
+```bash
 kubectl exec -it cilium-<pod-id> -n kube-system -- cilium service list --clustermesh-affinity
 ```
 
 Example output:
-```
+
+```bash
 ID   Frontend                Service Type   Backend
 16   10.240.27.208:80        ClusterIP      1 => 172.25.0.160:80 (active) (preferred)
                                             2 => 172.25.0.12:80 (active) (preferred)
@@ -258,13 +279,14 @@ ID   Frontend                Service Type   Backend
 At this point, the service should be available in both clusters, either locally or via assigned external IP of the `nginx-deployment` service.
 
 Let's scale the number of nginx replicas in one of the clusters (let's say Cluster 1) to 0:
-```shell
+
+```bash
 kubectl scale deployment nginx-deployment --replicas=0
 ```
 
 The number of backends for the service has been lowered down to 2, and only lists remote backends in the `cilium service list` output:
 
-```
+```bash
 ID   Frontend                Service Type   Backend
 16   10.240.27.208:80        ClusterIP      1 => 172.26.0.31:80 (active)
                                             2 => 172.26.0.196:80 (active)

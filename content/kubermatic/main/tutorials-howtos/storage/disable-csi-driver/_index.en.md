@@ -11,7 +11,7 @@ KKP installs the CSI drivers on user clusters that have the external CCM enabled
 
 To disable the CSI driver installation for all user clusters in a data center the admin needs to set ` disableCsiDriver: true` in the data center spec in the seed resource.
 
-```
+```yaml
 apiVersion: kubermatic.k8c.io/v1
 kind: Seed
 metadata:
@@ -38,7 +38,7 @@ This will not impact the clusters which were created prior to enabling this opti
 
 To disable the CSI driver installation for a user cluster, admin needs to set `disableCsiDriver: true` in the cluster spec, this is possible only if it is not disabled at the data center.
 
-```
+```yaml
 apiVersion: kubermatic.k8c.io/v1
 kind: Cluster
 metadata:
