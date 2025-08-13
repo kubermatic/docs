@@ -32,17 +32,20 @@ A regression in KKP v2.26.0 caused the floatingIPPool field in OpenStack cluster
 
 If your OpenStack clusters use a floating IP pool other than the default, you may need to manually update Cluster objects after upgrading to v2.27.
 
-* Action Required:
-  *  After the upgrade, check your OpenStack clusters and manually reset the correct floating IP pool if needed.
-  *  Example command to check the floating IP pool
-  ```sh
-  kubectl get clusters -o jsonpath="{.items[*].spec.cloud.openstack.floatingIPPool}"
-  ```
-  * If incorrect, manually edit the Cluster object:
-  ```sh
-  kubectl edit cluster <cluster-name> 
-  ```
+- Action Required:
+  - After the upgrade, check your OpenStack clusters and manually reset the correct floating IP pool if needed.
+  - Example command to check the floating IP pool
   
+    ```bash
+    kubectl get clusters -o jsonpath="{.items[*].spec.cloud.openstack.floatingIPPool}"
+    ```
+  
+  - If incorrect, manually edit the Cluster object:
+
+    ```bash
+    kubectl edit cluster <cluster-name> 
+    ```
+
 ### Velero Configuration Changes
 
 By default, Velero backups and snapshots are turned off. If you were using Velero for etcd backups and/or volume backups, you must explicitly enable them in your values.yaml file.
@@ -88,19 +91,20 @@ Because the namespace changes, both old and new Dex can temporarily live side-by
 
 To begin the migration, create a new `values.yaml` section for Dex (both old and new chart use `dex` as the top-level key in the YAML file) and migrate your existing configuration as follows:
 
-* `dex.replicas` is now `dex.replicaCount`
-* `dex.env` is now `dex.envVars`
-* `dex.extraVolumes` is now `dex.volumes`
-* `dex.extraVolumeMounts` is now `dex.volumeMounts`
-* `dex.certIssuer` has been removed, admins must manually set the necessary annotations on the
+- `dex.replicas` is now `dex.replicaCount`
+- `dex.env` is now `dex.envVars`
+- `dex.extraVolumes` is now `dex.volumes`
+- `dex.extraVolumeMounts` is now `dex.volumeMounts`
+- `dex.certIssuer` has been removed, admins must manually set the necessary annotations on the
   ingress to integrate with cert-manager.
-* `dex.ingress` has changed internally:
-  * `class` is now `className` (the value "non-existent" is not supported anymore, use the `dex.ingress.enabled` field instead)
-  * `host` and `path` are gone, instead admins will have to manually define their Ingress configuration
-  * `scheme` is likewise gone and admins have to configure the `tls` section in the Ingress configuration
+- `dex.ingress` has changed internally:
+  - `class` is now `className` (the value "non-existent" is not supported anymore, use the `dex.ingress.enabled` field instead)
+  - `host` and `path` are gone, instead admins will have to manually define their Ingress configuration
+  - `scheme` is likewise gone and admins have to configure the `tls` section in the Ingress configuration
 
 {{< tabs name="Dex Helm Chart values" >}}
 {{% tab name="old oauth Chart" %}}
+
 ```yaml
 dex:
   replicas: 2
@@ -129,9 +133,11 @@ dex:
     name: letsencrypt-prod
     kind: ClusterIssuer
 ```
+
 {{% /tab %}}
 
 {{% tab name="new dex Chart" %}}
+
 ```yaml
 # Tell the KKP installer to install the new dex Chart into the
 # "dex" namespace, instead of the old oauth Chart.
@@ -166,19 +172,20 @@ dex:
           # above.
           - "kkp.example.com"
 ```
+
 {{% /tab %}}
 {{< /tabs >}}
 
 Additionally, Dex's own configuration is now more clearly separated from how Dex's Kubernetes manifests are configured. The following changes are required:
 
-* In general, Dex's configuration is everything under `dex.config`.
-* `dex.config.issuer` has to be set explicitly (the old `oauth` Chart automatically set it), usually to `https://<dex host>/dex`, e.g. `https://kkp.example.com/dex`.
-* `dex.connectors` is now `dex.config.connectors`
-* `dex.expiry` is now `dex.config.expiry`
-* `dex.frontend` is now `dex.config.frontend`
-* `dex.grpc` is now `dex.config.grpc`
-* `dex.clients` is now `dex.config.staticClients`
-* `dex.staticPasswords` is now `dex.config.staticPasswords` (when using static passwords, you also have to set `dex.config.enablePasswordDB` to `true`)
+- In general, Dex's configuration is everything under `dex.config`.
+- `dex.config.issuer` has to be set explicitly (the old `oauth` Chart automatically set it), usually to `https://<dex host>/dex`, e.g. `https://kkp.example.com/dex`.
+- `dex.connectors` is now `dex.config.connectors`
+- `dex.expiry` is now `dex.config.expiry`
+- `dex.frontend` is now `dex.config.frontend`
+- `dex.grpc` is now `dex.config.grpc`
+- `dex.clients` is now `dex.config.staticClients`
+- `dex.staticPasswords` is now `dex.config.staticPasswords` (when using static passwords, you also have to set `dex.config.enablePasswordDB` to `true`)
 
 Finally, theming support has changed. The old `oauth` Helm chart allowed to inline certain assets, like logos, as base64-encoded blobs into the Helm values. This mechanism is not available in the new `dex` Helm chart and admins have to manually provision the desired theme. KKP's Dex chart will setup a `dex-theme-kkp` ConfigMap, which is mounted into Dex and then overlays files over the default theme that ships with Dex. To customize, create your own ConfigMap/Secret and adjust `dex.volumes`, `dex.volumeMounts` and `dex.config.frontend.theme` / `dex.config.frontend.dir` accordingly.
 
@@ -192,6 +199,7 @@ kubectl rollout restart deploy kubermatic-api -n kubermatic
 ```
 
 #### Important: Update OIDC Provider URL for Hostname Changes
+
 Before configuring the UI to use the new URL, ensure that the new Dex installation is healthy by checking that the pods are running and the logs show no suspicious errors.
 
 ```bash 
@@ -200,6 +208,7 @@ kubectl get pods -n dex
 # To check the logs 
 kubectl get logs -n dex deploy/dex 
 ```
+
 Next, verify the OpenID configuration by running:
 
 ```bash
@@ -236,16 +245,16 @@ spec:
 
 Once you have verified that the new Dex installation is up and running, you can either
 
-* point KKP to the new Dex installation (if its new URL is meant to be permanent) by changing the `tokenIssuer` in the `KubermaticConfiguration`, or
-* delete the old `oauth` release (`helm -n oauth delete oauth`) and then re-deploy the new Dex release, but with the same host+path as the old `oauth` chart used, so that no further changes are necessary in downstream components like KKP. This will incur a short downtime, while no Ingress exists for the issuer URL configured in KKP.
+- point KKP to the new Dex installation (if its new URL is meant to be permanent) by changing the `tokenIssuer` in the `KubermaticConfiguration`, or
+- delete the old `oauth` release (`helm -n oauth delete oauth`) and then re-deploy the new Dex release, but with the same host+path as the old `oauth` chart used, so that no further changes are necessary in downstream components like KKP. This will incur a short downtime, while no Ingress exists for the issuer URL configured in KKP.
 
 ### API Changes
 
-* New Prometheus Overrides
-  * Added `spec.componentsOverride.prometheus` to allow overriding Prometheus replicas and tolerations.
+- New Prometheus Overrides
+  - Added `spec.componentsOverride.prometheus` to allow overriding Prometheus replicas and tolerations.
 
-* Container Image Tagging 
-  * Tagged KKP releases will no longer tag KKP images twice (with the Git tag and the Git hash), but only once with the Git tag. This ensures that existing hash-based container images do not suddenly change when a Git tag is set and the release job is run. Users of tagged KKP releases are not affected by this change.
+- Container Image Tagging 
+  - Tagged KKP releases will no longer tag KKP images twice (with the Git tag and the Git hash), but only once with the Git tag. This ensures that existing hash-based container images do not suddenly change when a Git tag is set and the release job is run. Users of tagged KKP releases are not affected by this change.
 
 ## Upgrade Procedure
 
@@ -255,8 +264,8 @@ Before starting the upgrade, make sure your KKP Master and Seed clusters are hea
 
 Download the latest 2.27.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.27 available and already adjusted for any 2.27 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
-```sh
-$ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
+```bash
+./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
 
 # example output for a successful upgrade
 INFO[0000] 🚀 Initializing installer…                     edition="Enterprise Edition" version=v2.27.0
@@ -307,8 +316,8 @@ Upgrading seed clusters is not necessary, unless you are running the `minio` Hel
 
 You can follow the upgrade process by either supervising the Pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
-```sh
-$ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
+```bash
+kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
 kubermatic - {"clusters":5,"conditions":{"ClusterInitialized":{"lastHeartbeatTime":"2025-02-20T10:53:34Z","message":"All KKP CRDs have been installed successfully.","reason":"CRDsUpdated","status":"True"},"KubeconfigValid":{"lastHeartbeatTime":"2025-02-20T16:50:09Z","reason":"KubeconfigValid","status":"True"},"ResourcesReconciled":{"lastHeartbeatTime":"2025-02-20T16:50:14Z","reason":"ReconcilingSuccess","status":"True"}},"phase":"Healthy","versions":{"cluster":"v1.29.13","kubermatic":"v2.27.0"}}
 ```
 
@@ -320,13 +329,13 @@ Of particular interest to the upgrade process is if the `ResourcesReconciled` co
 
 Some functionality of KKP has been deprecated or removed with KKP 2.27. You should review the full [changelog](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.27.md) and adjust any automation or scripts that might be using deprecated fields or features. Below is a list of changes that might affect you:
 
-* The custom `oauth` Helm chart in KKP has been deprecated and will be replaced with a new Helm chart, `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex), in KKP 2.27.
+- The custom `oauth` Helm chart in KKP has been deprecated and will be replaced with a new Helm chart, `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex), in KKP 2.27.
 
-* Canal v3.19 and v3.20 addons have been removed.
+- Canal v3.19 and v3.20 addons have been removed.
 
-* kubermatic-installer `--docker-binary` flag has been removed from the kubermatic-installer `mirror-images` subcommand.
+- kubermatic-installer `--docker-binary` flag has been removed from the kubermatic-installer `mirror-images` subcommand.
 
-* The `K8sgpt` non-operator application has been deprecated and replaced by the `K8sgpt-operator`. The old application will be removed in future releases.
+- The `K8sgpt` non-operator application has been deprecated and replaced by the `K8sgpt-operator`. The old application will be removed in future releases.
 
 ## Next Steps
 

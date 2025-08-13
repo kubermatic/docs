@@ -11,7 +11,8 @@ Log into Kubermatic Kubernetes Platform (KKP), then [create and connect to the c
 We are using a [hello-world app](https://github.com/GoogleCloudPlatform/kubernetes-engine-samples/tree/master/hello-app) whose image is available at gcr.io/google-samples/node-hello:1.0.
 
 First, create a Deployment:
-```
+
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,29 +39,34 @@ spec:
 ```bash
 kubectl apply -f load-balancer-example.yaml
 ```
+
 To expose the Deployment, create a Service object of type LoadBalancer.
+
 ```bash
 kubectl expose deployment hello-world --type=LoadBalancer --name=my-service
 ```
+
 Now you need to find out the external IP of that service.
 
 ```bash
 kubectl get services my-service
 ```
+
 The response on AWS should look like this:
 
-```
+```bash
 NAME         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
 my-service   LoadBalancer   10.240.29.100   <external-ip>   8080:30574/TCP   19m
 ```
+
 If you curl against that external IP:
 
 ```bash
 curl <external-ip>:8080
 ```
 
-you should get this response:
+You should get this response:
 
-```
+```bash
 Hello Kubernetes!
 ```

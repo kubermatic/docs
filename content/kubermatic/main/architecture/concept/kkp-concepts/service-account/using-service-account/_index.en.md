@@ -37,35 +37,39 @@ You can also change a token name. It is possible to delete a service account tok
 You can see when a token was created and when will expire.
 
 ## Using Service Accounts with KKP
+
 You can control service account access in your project by provided groups.
 There are three basic access level groups:
+
  - viewers
  - editors
  - project managers
 
-#### Viewers
+### Viewers
 
 **A viewer can:**
- - list projects
- - get project details
- - get project SSH keys
- - list clusters
- - get cluster details
- - get cluster resources details
+
+- list projects
+- get project details
+- get project SSH keys
+- list clusters
+- get cluster details
+- get cluster resources details
 
 Permissions for read-only actions that do not affect state, such as viewing.
+
  - viewers are not allowed to interact with service accounts (User)
  - viewers are not allowed to interact with members of a project (UserProjectBinding)
 
-
-#### Editors
+### Editors
 
 **All viewer permissions, plus permissions to create, edit & delete cluster**
- - editors are not allowed to delete a project
- - editors are not allowed to interact with members of a project (UserProjectBinding)
- - editors are not allowed to interact with service accounts (User)
 
-#### Project Managers
+- editors are not allowed to delete a project
+- editors are not allowed to interact with members of a project (UserProjectBinding)
+- editors are not allowed to interact with service accounts (User)
+
+### Project Managers
 
 **The `project managers` is service account specific group. Which allows**
 
@@ -90,6 +94,6 @@ Authorization: Bearer aaa.bbb.ccc
 
 You can also use `curl` command to reach API endpoint:
 
-```
+```bash
 curl -i -H "Accept: application/json" -H "Authorization: Bearer aaa.bbb.ccc" -X GET http://localhost:8080/api/v2/projects/jnpllgp66z/clusters
 ```

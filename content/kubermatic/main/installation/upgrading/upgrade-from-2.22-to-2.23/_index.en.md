@@ -32,31 +32,31 @@ The JSON file contains a `format` key. If the output looks like
 {"version":"1","format":"xl-single","id":"5dc676ac-92f3-4c19-81d0-2304b366293c","xl":{"version":"3","this":"888f699a-2f22-402a-9e49-2e0fc9abd5c5","sets":[["888f699a-2f22-402a-9e49-2e0fc9abd5c5"]],"distributionAlgo":"SIPMOD+PARITY"}}
 ```
 
-you're good to go, no migration required. However if you receive
+You're good to go, no migration required. However if you receive
 
 ```json
 {"version":"1","format":"fs","id":"baa787b5-43b6-4bcb-b1d7-acf46bcc0a05","fs":{"version":"2"}}
 ```
 
-you must either
+You must either
 
-* migrate according to the [migration guide](https://min.io/docs/minio/container/operations/install-deploy-manage/migrate-fs-gateway.html), which effectively involves setting up a second MinIO and copying each file over, or
-* wipe your MinIO's storage (e.g. by deleting the PVC, see below), or
-* pin the MinIO version to the last version that supports `fs`, which is `RELEASE.2022-10-24T18-35-07Z`, using the Helm values file (set `minio.image.tag=RELEASE.2022-10-24T18-35-07Z`).
+- migrate according to the [migration guide](https://min.io/docs/minio/container/operations/install-deploy-manage/migrate-fs-gateway.html), which effectively involves setting up a second MinIO and copying each file over, or
+- wipe your MinIO's storage (e.g. by deleting the PVC, see below), or
+- pin the MinIO version to the last version that supports `fs`, which is `RELEASE.2022-10-24T18-35-07Z`, using the Helm values file (set `minio.image.tag=RELEASE.2022-10-24T18-35-07Z`).
 
 The KKP installer will, when installing the seed dependencies, perform an automated check and will refuse to upgrade if the existing MinIO volume uses the old `fs` driver.
 
 If the contents of MinIO is expendable, instead of migrating it's also possible to wipe (**deleting all data**) MinIO's storage entirely. There are several ways to go about this, for example:
 
 ```bash
-$ kubectl --namespace minio scale deployment/minio --replicas=0
+kubectl --namespace minio scale deployment/minio --replicas=0
 #deployment.apps/minio scaled
 
-$ kubectl --namespace minio delete pvc minio-data
+kubectl --namespace minio delete pvc minio-data
 #persistentvolumeclaim "minio-data" deleted
 
 # re-install MinIO chart manually
-$ helm --namespace minio upgrade minio ./charts/minio --values myhelmvalues.yaml
+helm --namespace minio upgrade minio ./charts/minio --values myhelmvalues.yaml
 #Release "minio" has been upgraded. Happy Helming!
 #NAME: minio
 #LAST DEPLOYED: Mon Jul 24 13:40:51 2023
@@ -65,7 +65,7 @@ $ helm --namespace minio upgrade minio ./charts/minio --values myhelmvalues.yaml
 #REVISION: 2
 #TEST SUITE: None
 
-$ kubectl --namespace minio scale deployment/minio --replicas=1
+kubectl --namespace minio scale deployment/minio --replicas=1
 #deployment.apps/minio scaled
 ```
 
@@ -97,8 +97,8 @@ Before starting the upgrade, make sure your KKP Master and Seed clusters are hea
 
 Download the latest 2.23.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.22 available and already adjusted for any 2.23 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
-```sh
-$ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
+```bash
+./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
 
 # example output for a successful upgrade
 INFO[0000] 🚀 Initializing installer…                     edition="Enterprise Edition" version=v2.23.0
@@ -152,12 +152,13 @@ A breaking change in the `minio` Helm chart shipped in KKP v2.23.0 has been iden
 Upgrading seed cluster is not necessary unless User Cluster MLA has been installed. All other KKP components on the seed will be upgraded automatically.
 
 <!-- TODO(embik): put back in place after issue above is fixed -->
+
 <!-- Upgrading seed clusters is not necessary, unless you are running the `minio` Helm chart or User Cluster MLA as distributed by KKP on them. They will be automatically upgraded by KKP components.-->
 
 You can follow the upgrade process by either supervising the Pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
-```sh
-$ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
+```bash
+kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
 kubermatic - {"clusters":5,"conditions":{"ClusterInitialized":{"lastHeartbeatTime":"2023-02-16T10:53:34Z","message":"All KKP CRDs have been installed successfully.","reason":"CRDsUpdated","status":"True"},"KubeconfigValid":{"lastHeartbeatTime":"2023-02-14T16:50:09Z","reason":"KubeconfigValid","status":"True"},"ResourcesReconciled":{"lastHeartbeatTime":"2023-02-14T16:50:14Z","reason":"ReconcilingSuccess","status":"True"}},"phase":"Healthy","versions":{"cluster":"v1.24.10","kubermatic":"v2.23.0"}}
 ```
 
