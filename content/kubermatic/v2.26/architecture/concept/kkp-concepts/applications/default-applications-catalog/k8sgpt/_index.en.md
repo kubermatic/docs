@@ -25,7 +25,7 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select K8sGPT Application](01-select-application-k8sgpt-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for K8sGPT Application](02-settings-k8sgpt-app.png)
 

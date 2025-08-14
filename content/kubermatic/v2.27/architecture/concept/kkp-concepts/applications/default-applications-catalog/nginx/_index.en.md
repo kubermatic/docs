@@ -22,7 +22,7 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select Nginx Application](01-select-application-nginx-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for Nginx Application](02-settings-nginx-app.png)
 

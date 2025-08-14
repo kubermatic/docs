@@ -26,7 +26,7 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select cert-manager Application](01-select-application-cert-manager-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for cert-manager Application](02-settings-cert-manager-app.png)
 

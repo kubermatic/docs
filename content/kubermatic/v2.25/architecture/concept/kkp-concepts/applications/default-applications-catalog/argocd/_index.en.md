@@ -30,7 +30,7 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select ArgoCD Application](01-select-application-argocd-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for ArgoCD Application](02-settings-argocd-app.png)
 

@@ -22,7 +22,7 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select Kube-VIP Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/01-select-application-kube-vip-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for Kube-VIP Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/02-settings-kube-vip-app.png)
 

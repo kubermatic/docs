@@ -23,7 +23,7 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select MetalLB Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/01-select-application-metallb-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for MetalLB Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/02-settings-metallb-app.png)
 
