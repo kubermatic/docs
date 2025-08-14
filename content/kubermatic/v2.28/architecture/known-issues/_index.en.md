@@ -112,3 +112,42 @@ spec:
 ```
 
 This sets `--xfr-channel-size=300` flag for Konnectivity Agent, which runs on the user cluster.
+
+## Workaround for the Bitnami registry changes if upgrade is not possible
+
+Customers who are completely unable to upgrade to KKP patch version 2.28.2 or above, may use a workaround.
+This should be treated as a last resort method and comes with downsides on future upgrades. Specifically, with the patch releases, we are also moving to mirrored helm-charts to ensure stability and independence going forward. This workaround will not migrate to the mirrored charts, it will only switch images.
+
+Workaround in detail:
+
+1. Add the following to your mla values.yaml at the top level:
+
+  ```yaml
+  cortex:
+    memcached-blocks-index:
+      image:
+        registry: quay.io
+        repository: kubermatic-mirror/images/memcached
+      metrics:
+        image:
+          registry: quay.io
+          repository: kubermatic-mirror/images/memcached-exporter
+    memcached-blocks:
+      image:
+        registry: quay.io
+        repository: kubermatic-mirror/images/memcached
+      metrics:
+        image:
+          registry: quay.io
+          repository: kubermatic-mirror/images/memcached-exporter
+    memcached-blocks-metadata:
+      image:
+        registry: quay.io
+        repository: kubermatic-mirror/images/memcached
+      metrics:
+        image:
+          registry: quay.io
+          repository: kubermatic-mirror/images/memcached-exporter
+  ```
+
+2. Re-run the mla installation process in accordance with the [official documentation](../../tutorials-howtos//monitoring-logging-alerting//user-cluster/admin-guide/#installing-mla-stack-in-a-seed-cluster) with a kubermatic installer matching your current KKP version.
