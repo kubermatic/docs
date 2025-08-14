@@ -4,7 +4,6 @@ date = 2019-11-13T12:07:15+02:00
 weight = 70
 +++
 
-
 Using kubectl requires the installation of kubectl on your system as well as downloading of kubeconfig on the cluster UI page.
 See the [Official kubectl Install Instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/) for a tutorial on how to install kubectl on your system. Once you have installed it, download the kubeconfig. The below steps will guide you on how to download a kubeconfig.
 
@@ -20,9 +19,7 @@ Users in the groups `Owner` and `Editor` have an admin token in their kubeconfig
 
 ![Revoke the token](revoke-token-dialog.png?classes=shadow,border "Revoke the token")
 
-
 Once you have installed the kubectl and downloaded the kubeconfig, change into the download directory and export it to your environment:
-
 
 ```bash
 $ export KUBECONFIG=$PWD/kubeconfig-admin-czmg7r2sxm

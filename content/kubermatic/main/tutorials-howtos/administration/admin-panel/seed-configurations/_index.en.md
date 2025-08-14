@@ -4,7 +4,6 @@ date = 2023-02-20
 weight = 20
 +++
 
-
 The Seed Configurations page in the Admin Panel allows administrators to see Seeds available in the KKP instance. This page presents Seed's utilization broken down into Providers and Datacenters.
 
 {{% notice note %}}
@@ -14,7 +13,6 @@ The Seed Configuration section is a readonly view page. This page does not provi
 ### Seed Configurations
 
 ![Seed Configurations](images/seed-confgurations.png?classes=shadow,border "Seed Configurations List View")
-
 
 ### Seed Details
 

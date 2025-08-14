@@ -29,7 +29,6 @@ You can add an existing Hetzner KubeOne cluster and then manage it using KKP.
 
     - Manually enter the credentials `Token` used to create the KubeOne cluster you are importing.
 
-
 ![Hetzner credentials](@/images/tutorials/kubeone-clusters/hetzner-credentials-step.png "Hetzner credentials")
 
 - Review provided settings and click `Import KubeOne Cluster`.

@@ -15,7 +15,7 @@ the exact templating syntax.
 KKP injects an instance of the `TemplateData` struct into each template. The following
 Go snippet shows the available information:
 
-```
+```text
 {{< readfile "kubermatic/main/data/applicationdata.go" >}}
 ```
 
