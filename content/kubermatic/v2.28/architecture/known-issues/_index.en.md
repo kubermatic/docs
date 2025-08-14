@@ -92,23 +92,43 @@ spec:
 
 This sets `--xfr-channel-size=20` flag for Konnectivity Server, which runs as a sidecar to the Kubernetes API server.
 
-#### Updating Konnectivity Agent
+## Workaround for the Bitnami registry changes if upgrade is not possible
 
-To update the Konnectivity Agent configuration, the Cluster's `componentsOverride` must be updated.
-The new `args` field is available under `spec.componentsOverride.konnectivityProxy`. 
-An example configuration is shown below:
+Customers who are completely unable to upgrade to a newer KKP version may use a workaround.
+This should be treated as a last resort method and comes with downsides on future upgrades. Specifically, with the patch releases, we are also moving to mirrored helm-charts to ensure stability and independence going forward. This workaround will not migrate to the mirrored charts, it will only switch images. 
+
+Workaround in detail:
+
+1. Add the following to your mla values.yaml at the top level:
 
 ```yaml
-apiVersion: kubermatic.k8c.io/v1
-kind: Cluster
-metadata:
-  name: <<examplecluster>>
-  namespace: kubermatic
-spec:
-  componentsOverride:
-    konnectivityProxy:
-      # Args configures arguments (flags) for the Konnectivity deployments.
-      args: ["--xfr-channel-size=300"]
+cortex:
+  memcached-blocks-index:
+    image:
+      registry: quay.io
+      repository: kubermatic-mirror/images/memcached
+    metrics:
+      image:
+        registry: quay.io
+        repository: kubermatic-mirror/images/memcached-exporter
+  memcached-blocks:
+    image:
+      registry: quay.io
+      repository: kubermatic-mirror/images/memcached
+    metrics:
+      image:
+        registry: quay.io
+        repository: kubermatic-mirror/images/memcached-exporter
+  memcached-blocks-metadata:
+    image:
+      registry: quay.io
+      repository: kubermatic-mirror/images/memcached
+    metrics:
+      image:
+        registry: quay.io
+        repository: kubermatic-mirror/images/memcached-exporter
 ```
 
-This sets `--xfr-channel-size=300` flag for Konnectivity Agent, which runs on the user cluster.
+2. Re-run the mla installation process in accordance with the official documentation with a kubermatic installer matching your current KKP version https://docs.kubermatic.com/kubermatic/v2.28/tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/#installing-mla-stack-in-a-seed-cluster
+
+
