@@ -30,6 +30,6 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select KubeVirt Application](01-select-application-kubevirt-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for KubeVirt Application](02-settings-kubevirt-app.png)

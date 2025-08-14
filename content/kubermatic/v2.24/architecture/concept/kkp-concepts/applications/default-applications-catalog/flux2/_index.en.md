@@ -28,7 +28,7 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select Flux2 Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/01-select-application-flux2-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for Flux2 Application](/img/kubermatic/v2.24/architecture/concepts/applications/default-applications-catalog/02-settings-flux2-app.png)
 

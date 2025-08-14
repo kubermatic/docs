@@ -21,7 +21,7 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select Nvidia GPU Operator Application](01-select-application-nvidia-gpu-operator-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for Nvidia GPU Operator Application](02-settings-nvidia-gpu-operator-app.png)
 
