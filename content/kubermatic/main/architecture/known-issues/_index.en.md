@@ -15,6 +15,7 @@ This page documents the list of known issues and possible work arounds/solutions
 
 For oidc authentication to user cluster there is always the same issuer used. This leads to invalidation of refresh tokens when a new authentication happens with the same user because existing refresh tokens for the same user/client pair are invalidated when a new one is requested.
 
+
 ### Root Cause
 
 By default it is only possible to have one refresh token per user/client pair in dex for security reasons. There is an open issue regarding this in the [upstream repository](https://github.com/dexidp/dex/issues/981). The refresh token has by default also no expiration set. This is useful to stay logged in over a longer time because the id_token can be refreshed unless the refresh token is invalidated.
@@ -54,7 +55,7 @@ For dex this has some implications. With this configuration a token is generated
 
 ## API server Overload Leading to Instability in Seed due to Konnectivity
 
-Issue: <https://github.com/kubermatic/kubermatic/issues/13321>
+Issue: https://github.com/kubermatic/kubermatic/issues/13321
 
 Status: Fixed
 
@@ -73,7 +74,7 @@ The newly introduced `args` field in KKP v2.28.0 for configuring Konnectivity de
 #### Updating Konnectivity Server
 
 To update the Konnectivity Server configuration, the Seed's `defaultComponentSettings` must be updated.
-The new `args` field is available under `spec.defaultComponentSettings.konnectivityProxy`.
+The new `args` field is available under `spec.defaultComponentSettings.konnectivityProxy`. 
 An example configuration is shown below:
 
 ```yaml
@@ -94,7 +95,7 @@ This sets `--xfr-channel-size=20` flag for Konnectivity Server, which runs as a 
 #### Updating Konnectivity Agent
 
 To update the Konnectivity Agent configuration, the Cluster's `componentsOverride` must be updated.
-The new `args` field is available under `spec.componentsOverride.konnectivityProxy`.
+The new `args` field is available under `spec.componentsOverride.konnectivityProxy`. 
 An example configuration is shown below:
 
 ```yaml
@@ -111,42 +112,3 @@ spec:
 ```
 
 This sets `--xfr-channel-size=300` flag for Konnectivity Agent, which runs on the user cluster.
-
-## Workaround for the Bitnami registry changes if upgrade is not possible
-
-Customers who are completely unable to upgrade to KKP versions 2.28.2 or above, may use a workaround.
-This should be treated as a last resort method and comes with downsides on future upgrades. Specifically, with the patch releases, we are also moving to mirrored helm-charts to ensure stability and independence going forward. This workaround will not migrate to the mirrored charts, it will only switch images.
-
-Workaround in detail:
-
-1. Add the following to your mla values.yaml at the top level:
-
-  ```yaml
-  cortex:
-    memcached-blocks-index:
-      image:
-        registry: quay.io
-        repository: kubermatic-mirror/images/memcached
-      metrics:
-        image:
-          registry: quay.io
-          repository: kubermatic-mirror/images/memcached-exporter
-    memcached-blocks:
-      image:
-        registry: quay.io
-        repository: kubermatic-mirror/images/memcached
-      metrics:
-        image:
-          registry: quay.io
-          repository: kubermatic-mirror/images/memcached-exporter
-    memcached-blocks-metadata:
-      image:
-        registry: quay.io
-        repository: kubermatic-mirror/images/memcached
-      metrics:
-        image:
-          registry: quay.io
-          repository: kubermatic-mirror/images/memcached-exporter
-  ```
-
-2. Re-run the mla installation process in accordance with the [official documentation](../../tutorials-howtos//monitoring-logging-alerting//user-cluster/admin-guide/#installing-mla-stack-in-a-seed-cluster) with a kubermatic installer matching your current KKP version.
