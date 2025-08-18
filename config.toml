@@ -54,7 +54,7 @@ themeVariant = "kubermatic"
 # Force to have /en/my-page and /fr/my-page routes, even for default language.
 # defaultContentLanguageInSubdir = true
 baseWebsiteUrl = "https://www.kubermatic.com"
-cookiefirstBanner = "e938558d-78b5-4f1b-b574-cd5dfde73684"
+cookiefirstScript = "https://consent.cookiefirst.com/sites/docs.kubermatic.com-e938558d-78b5-4f1b-b574-cd5dfde73684/consent.js"
 titleSuffix = "Kubermatic Documentation"
 slackJoinLink = "https://join.slack.com/t/kubermatic-community/shared_invite/zt-1jtex2o9f-fpaDZ2ytX7FmDaNOHqljIg"
 enableTOC = true
