@@ -56,6 +56,6 @@ presubmits:
           resources:
             requests:
               cpu: 200m
-              memory: 128Mi
+              memory: 512Mi
             limits:
-              memory: 1Gi
+              memory: 2Gi
