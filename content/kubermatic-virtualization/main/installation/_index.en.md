@@ -71,7 +71,7 @@ After specifying the number of nodes, you will be prompted to configure each nod
 2. **Username**: The username used to access the node via SSH.
 3. **SSH Key Path**: The path to the SSH private key file used to authenticate with the node.
 
-![Kubermatic Virtualization - Node Configuration](./assets/4-node-config.png)
+![Kubermatic Virtualization - Node Configuration](./assets/4-node-config-page.png)
 
 Repeat this process for each node until all nodes are configured.
 
