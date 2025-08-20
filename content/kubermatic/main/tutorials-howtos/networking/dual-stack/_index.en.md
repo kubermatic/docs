@@ -25,7 +25,6 @@ KKP supports dual-stack networking for KKP-managed user clusters for the followi
  - Microsoft Azure
  - BYO / kubeadm
  - DigitalOcean
- - Equinix Metal
  - Google Cloud Platform (GCP)
  - Hetzner
  - OpenStack
@@ -41,7 +40,6 @@ The following table lists the provider / operating system combinations compatibl
 | Amazon Web Services (AWS)   | ✓      | ✓       | ✓    | ✓           |
 | Microsoft Azure             | ✓      | ✓       | ✓    | ✓           |
 | DigitalOcean                | ✓      | -       | -    | ✓ *         |
-| Equinix Metal               | ✓      | ✓ *     | -    | ✓ *         |
 | Google Cloud Platform (GCP) | ✓      | -       | -    | -           |
 | Hetzner                     | ✓      | -       | -    | ✓           |
 | Openstack                   | ✓      | ✓       | ✓    | ✓           |
@@ -194,19 +192,6 @@ published in k8s API (`kubectl describe nodes`). This can be work-arounded by re
 
 Related issues:
 - https://github.com/kubermatic/kubermatic/issues/8847
-
-### Equinix Metal
-Dual-stack feature is available automatically for all new user clusters in Equinix Metal.
-
-Limitations:
-- Services of type `LoadBalancer` are not yet supported in KKP on Equinix Metal (not even for IPv4-only clusters).
-- On some operating systems (e.g. Rocky Linux, Flatcar) IPv6 address assignment on the node may take longer time during the node provisioning.
-In that case, the IPv6 address may not be detected when the kubelet starts, and because of that, worker nodes may not have their IPv6 IP addresses
-published in k8s API (`kubectl describe nodes`). This can be work-arounded by restarting the kubelet manually / rebooting the node.
-
-Related issues:
-- https://github.com/kubermatic/kubermatic/issues/10648
-- https://github.com/equinix/cloud-provider-equinix-metal/issues/179
 
 ### Google Cloud Platform (GCP)
 Dual-stack feature is available automatically for all new user clusters in GCP. Please note however,

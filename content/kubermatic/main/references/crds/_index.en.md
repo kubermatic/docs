@@ -1802,7 +1802,7 @@ _Appears in:_
 | `aws` _[AWSCloudSpec](#awscloudspec)_ | {{< unsafe >}}AWS defines the configuration data of the Amazon Web Services(AWS) cloud provider.{{< /unsafe >}} |
 | `azure` _[AzureCloudSpec](#azurecloudspec)_ | {{< unsafe >}}Azure defines the configuration data of the Microsoft Azure cloud.{{< /unsafe >}} |
 | `openstack` _[OpenstackCloudSpec](#openstackcloudspec)_ | {{< unsafe >}}Openstack defines the configuration data of an OpenStack cloud.{{< /unsafe >}} |
-| `packet` _[PacketCloudSpec](#packetcloudspec)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Packet defines the configuration data of a Packet / Equinix Metal cloud.<br />NOOP.{{< /unsafe >}} |
+| `packet` _[PacketCloudSpec](#packetcloudspec)_ | {{< unsafe >}}**Deprecated**: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Packet defines the configuration data of a Packet / Equinix Metal cloud.<br />NOOP.{{< /unsafe >}} |
 | `hetzner` _[HetznerCloudSpec](#hetznercloudspec)_ | {{< unsafe >}}Hetzner defines the configuration data of the Hetzner cloud.{{< /unsafe >}} |
 | `vsphere` _[VSphereCloudSpec](#vspherecloudspec)_ | {{< unsafe >}}VSphere defines the configuration data of the vSphere.{{< /unsafe >}} |
 | `gcp` _[GCPCloudSpec](#gcpcloudspec)_ | {{< unsafe >}}GCP defines the configuration data of the Google Cloud Platform(GCP).{{< /unsafe >}} |

@@ -13,7 +13,6 @@ Kubermatic Kubernetes Platform supports a multitude of different cloud providers
 
 * AWS (excluding AWS GovCloud and China Cloud)
 * Azure (excluding GovCloud and China Cloud)
-* Equinix Metal
 * GCP (excluding GovCloud and China Cloud)
 * vSphere beginning with v6.5
 * OpenStack (Releases with maintenance or extended maintenance)
