@@ -25,7 +25,6 @@ You can also enable or disable it after creation from the **Edit Cluster** dialo
 
 ![edit cluster](images/enable-kyverno-edit-cluster.png?classes=shadow,border "Edit Cluster")
 
-
 ## Policy Templates Admin View
 
 Admins can manage global policy templates directly from the **Kyverno Policies** page in the **Admin Panel.**
@@ -61,4 +60,3 @@ This page displays a list of all applied policies. You can also create a policy 
 ![add policy binding](images/add-policy-binding.png?classes=shadow,border "Add Policy Binding")
 
 You can choose a template from the list of all available templates. Note that templates already applied will not be available.
-

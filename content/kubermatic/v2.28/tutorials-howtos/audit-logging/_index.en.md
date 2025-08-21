@@ -167,7 +167,8 @@ To enable this, you will need to edit your [datacenter definitions in a Seed]({{
 
 Centrally define audit logging for **user-clusters** (via `auditLogging` in the Seed spec). Configure sidecar settings , webhook backends, and policy presets. Enforce datacenter-level controls with `EnforceAuditLogging` (mandatory logging) and `EnforcedAuditWebhookSettings` (override user-cluster webhook configs).  
 
-**Example**:  
+**Example**:
+
 ```yaml  
 spec:  
   auditLogging:  
