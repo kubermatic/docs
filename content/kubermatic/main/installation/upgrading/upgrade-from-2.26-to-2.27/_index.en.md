@@ -64,6 +64,12 @@ velero:
 
 K8sgpt-operator has been introduced to replace the now deprecated `k8sgpt(non-operator)` application. The k8sgpt application will be removed in the future releases.
 
+### Environment Variable Change for Equinix Metal
+
+KKP now uses `METAL_` environment variables instead of `PACKET_` for machine-controller and KubeOne. Ensure any configurations referencing PACKET_ variables are updated accordingly.
+
+In general this should not require any actions on the administrator part.
+
 ### Dex v2.42
 
 The custom `oauth` Helm chart in KKP has been deprecated and will be replaced with a new Helm chart, `dex`, which is based on the [official upstream chart](https://github.com/dexidp/helm-charts/tree/master/charts/dex).
