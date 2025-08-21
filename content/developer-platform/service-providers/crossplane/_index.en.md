@@ -22,11 +22,11 @@ platform users.
 > While this guide is not intended to be a comprehensive Crossplane guide, it is useful to be aware
 > of the most common terms:
 >
-> * **Providers** are pluggable building blocks to provision and manage resources via a third-party API (e.g. AWS provider)
-> * **Managed resources** (MRs) are representations of actual, provider-specific resources (e.g. EC2 instance)
-> * **Composite resource definitions** (XRDs) are Crossplane-specific definitions of API resources (similar to CRDs)
-> * **Composite resources** (XRs) and **Claims** are Crossplane-specific custom resources created from XRD objects (similar to CRs)
-> * **Compositions** are Crossplane-specific templates for transforming a XR object into one or more MR object(s)
+> - **Providers** are pluggable building blocks to provision and manage resources via a third-party API (e.g. AWS provider)
+> - **Managed resources** (MRs) are representations of actual, provider-specific resources (e.g. EC2 instance)
+> - **Composite resource definitions** (XRDs) are Crossplane-specific definitions of API resources (similar to CRDs)
+> - **Composite resources** (XRs) and **Claims** are Crossplane-specific custom resources created from XRD objects (similar to CRs)
+> - **Compositions** are Crossplane-specific templates for transforming a XR object into one or more MR object(s)
 
 This guide will show you how to install Crossplane and all required providers on a service cluster
 and provide a stripped-down `Certificate` resource in KDP. While we ultimately use cert-manager to
@@ -59,7 +59,7 @@ helm upgrade crossplane crossplane \
 Once the installation is done, verify the status with the following command:
 
 ```bash
-$ kubectl get pods --namespace=crossplane-system
+kubectl get pods --namespace=crossplane-system
 NAME                                       READY   STATUS    RESTARTS   AGE
 crossplane-6494656b8b-bflcf                1/1     Running   0          45s
 crossplane-rbac-manager-8458557cdd-sls58   1/1     Running   0          45s
@@ -103,7 +103,7 @@ EOF
 Once the provider is installed, verify the provider status with the following command:
 
 ```bash
-$ kubectl get providers crossplane-provider-kubernetes
+kubectl get providers crossplane-provider-kubernetes
 NAME                             INSTALLED   HEALTHY   PACKAGE                                                          AGE
 crossplane-provider-kubernetes   True        True      xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.11.1   104s
 ```
@@ -164,9 +164,9 @@ Crossplane specific `Certificate` object.
 Create and apply the following three manifests to your service cluster (you can safely ignore the
 misleading warnings from Crossplane regarding the validation of the composition). This will
 
-* bootstrap a cert-manager `ClusterIssuer` named "default-ca",
-* create a Crossplane `CompositeResourceDefinition` that defines our `Certificate` resource (which exposes only the requested common name),
-* create a Crossplane `Composition` that uses cert-manager and the created "default-ca" to issue the requested certificate
+- bootstrap a cert-manager `ClusterIssuer` named "default-ca",
+- create a Crossplane `CompositeResourceDefinition` that defines our `Certificate` resource (which exposes only the requested common name),
+- create a Crossplane `Composition` that uses cert-manager and the created "default-ca" to issue the requested certificate
 
 ```bash
 kubectl apply --filename=cluster-issuer.yaml
@@ -212,6 +212,7 @@ spec:
   ca:
     secretName: default-ca
 ```
+
 </details>
 
 <details>
@@ -257,6 +258,7 @@ spec:
                       type: string
                       minLength: 1
 ```
+
 </details>
 
 <details>
@@ -365,13 +367,14 @@ spec:
           fromConnectionSecretKey: tls.key
   writeConnectionSecretsToNamespace: crossplane-system
 ```
+
 </details>
 
 Afterwards verify the status of the composite resource definition and the composition with the
 following command:
 
 ```bash
-$ kubectl get compositeresourcedefinitions,compositions
+kubectl get compositeresourcedefinitions,compositions
 NAME                            ESTABLISHED   OFFERED   AGE
 xcertificates.pki.xaas.k8c.io   True          True      10s
 
@@ -446,7 +449,7 @@ graph RL
 If everything worked out, you should get all relevant objects with the following command:
 
 ```bash
-$ kubectl get claim,composite,managed,certificate
+kubectl get claim,composite,managed,certificate
 NAME                                          SYNCED   READY   CONNECTION-SECRET   AGE
 certificate.pki.xaas.k8c.io/www-example-com   True     True    www-example-com     21m
 

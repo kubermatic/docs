@@ -17,40 +17,40 @@ Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 
 To follow this guide, you need:
 
-* an existing Kubernetes cluster with at least 3 nodes
-* a running CSI driver with a default storage class
-* a running [cert-manager][cert-manager/docs/installation] installation
-* an running ingress controller (for this guide, the [NGINX ingress controller][ingress-nginx/docs/installation] is required)
-* [kubectl][k8s/docs/tools/installation] and [Helm][helm/docs/installation] (version 3) installed locally
+- an existing Kubernetes cluster with at least 3 nodes
+- a running CSI driver with a default storage class
+- a running [cert-manager][cert-manager/docs/installation] installation
+- an running ingress controller (for this guide, the [NGINX ingress controller][ingress-nginx/docs/installation] is required)
+- [kubectl][k8s/docs/tools/installation] and [Helm][helm/docs/installation] (version 3) installed locally
 
 ## Installation
 
 The installation is divided into five main steps, each deploying a core component of KDP.
 You will perform the following tasks:
 
-* **Set up certificates**: First, you will configure a cert-manager issuer to automatically obtain and renew TLS certificates from Let's Encrypt.
+- **Set up certificates**: First, you will configure a cert-manager issuer to automatically obtain and renew TLS certificates from Let's Encrypt.
 
-* **Deploy an identity provider**: Next, you will deploy Dex to handle user authentication, creating a central login service for both the KDP dashboard and command-line access.
+- **Deploy an identity provider**: Next, you will deploy Dex to handle user authentication, creating a central login service for both the KDP dashboard and command-line access.
 
-* **Deploy kcp**: You will deploy kcp, the core engine that enables multi-tenancy by providing isolated, secure workspaces for your users.
+- **Deploy kcp**: You will deploy kcp, the core engine that enables multi-tenancy by providing isolated, secure workspaces for your users.
 
-* **Deploy KDP**: Afterwards, you will install the main KDP controllers that connect to kcp and manage the platform's resources.
+- **Deploy KDP**: Afterwards, you will install the main KDP controllers that connect to kcp and manage the platform's resources.
 
-* **Launch the KDP dashboard**: Finally, you will deploy the KDP dashboard, the primary graphical interface for developers to interact with the platform and manage their service objects.
+- **Launch the KDP dashboard**: Finally, you will deploy the KDP dashboard, the primary graphical interface for developers to interact with the platform and manage their service objects.
 
 Throughout this guide, you will need to replace several placeholder variables in the Helm values files. 
 Below is a description of each value you need to provide.
 
-* `<EMAIL_ADDRESS>`: Your email address, used by Let's Encrypt to send notifications about your TLS certificate status.
-* `<PULL_CREDENTIALS>`: A base64-encoded password or token for the quay.io container registry. This is required for you to get access to the KDP Helm charts and container images.
-* `<DOMAIN>`: The primary public domain name you will use to access your KDP installation (e.g., kdp.my-company.com). You must own this domain and be able to configure its DNS records.
-* `<ADMIN_PASSWORD_HASH>`: A generated bcrypt hash of the password you choose for the initial admin user.
-* `<OIDC_CLIENT_SECRET>`: A randomly generated, secure string that acts as a password for the KDP dashboard to authenticate with the Dex identity provider.
-* `<SESSION_ENCRYPTION_KEY>`: A second, unique random string used by the KDP dashboard itself to encrypt user session cookies, adding another layer of security.
+- `<EMAIL_ADDRESS>`: Your email address, used by Let's Encrypt to send notifications about your TLS certificate status.
+- `<PULL_CREDENTIALS>`: A base64-encoded password or token for the quay.io container registry. This is required for you to get access to the KDP Helm charts and container images.
+- `<DOMAIN>`: The primary public domain name you will use to access your KDP installation (e.g., kdp.my-company.com). You must own this domain and be able to configure its DNS records.
+- `<ADMIN_PASSWORD_HASH>`: A generated bcrypt hash of the password you choose for the initial admin user.
+- `<OIDC_CLIENT_SECRET>`: A randomly generated, secure string that acts as a password for the KDP dashboard to authenticate with the Dex identity provider.
+- `<SESSION_ENCRYPTION_KEY>`: A second, unique random string used by the KDP dashboard itself to encrypt user session cookies, adding another layer of security.
 
 ### Create ClusterIssuer
 
-First, you need to create a _ClusterIssuer_ named `letsencrypt-prod` for cert-manager.
+First, you need to create a *ClusterIssuer* named `letsencrypt-prod` for cert-manager.
 This automates the process of obtaining and renewing TLS certificates from Let's Encrypt, ensuring all web-facing components like the Dex login page and the KDP dashboard are served securely over HTTPS.
 
 Save the following content to a file named `cluster-issuer.yaml`, and change the value of the `email` field to your email address:
@@ -59,10 +59,10 @@ Save the following content to a file named `cluster-issuer.yaml`, and change the
 {{< readfile "developer-platform/setup/quickstart/data/letsencrypt.cluster-issuer.yaml" >}}
 ```
 
-Create the _ClusterIssuer_ by applying the manifest:
+Create the *ClusterIssuer* by applying the manifest:
 
 ```bash
-$ kubectl apply -f ./cluster-issuer.yaml
+kubectl apply -f ./cluster-issuer.yaml
 ```
 
 ### Deploy Dex
@@ -79,9 +79,9 @@ Save the following content to a file named `dex.values.yaml`:
 
 Before deploying Dex, you need to replace the following placeholder variables in the `dex.values.yaml` file with your own values:
 
-* `<DOMAIN>`
-* `<ADMIN_PASSWORD_HASH>`
-* `<OIDC_CLIENT_SECRET>`
+- `<DOMAIN>`
+- `<ADMIN_PASSWORD_HASH>`
+- `<OIDC_CLIENT_SECRET>`
 
 For the initial admin user, you must provide your own password as bcrypt hash in `<ADMIN_PASSWORD_HASH>`.
 To create this hash, you can use the `htpasswd` utility, which is part of the Apache web server tools and available on most Linux distributions (you may need to install a package like "apache2-utils" or "httpd-tools").
@@ -89,7 +89,7 @@ To create this hash, you can use the `htpasswd` utility, which is part of the Ap
 Choose a strong password and run the following command in your terminal, replacing YOUR_PASSWORD with the password you've selected:
 
 ```bash
-$ echo 'YOUR_PASSWORD' | htpasswd -inBC 10 admin | cut -d: -f2
+echo 'YOUR_PASSWORD' | htpasswd -inBC 10 admin | cut -d: -f2
 ```
 
 Copy the entire output string (it will start with `$2a$` or `$2y$`) and paste it as the value for `<ADMIN_PASSWORD_HASH>` in your `dex.values.yaml` file.
@@ -99,7 +99,7 @@ The `<OIDC_CLIENT_SECRET>` placeholder must be replaced with a long, random stri
 You can generate a secure, random string with the following command:
 
 ```bash
-$ cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32
+cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32
 ```
 
 This will output a random string that you can copy and paste as the value for `<OIDC_CLIENT_SECRET>`.
@@ -108,7 +108,7 @@ Save the value for later use when you deploy the KDP dashboard.
 Once you've replaced all placeholders, deploy the Dex Helm chart:
 
 ```bash
-$ helm upgrade --install dex dex \
+helm upgrade --install dex dex \
     --repo=https://charts.dexidp.io \
     --version=0.23.0 \
     --create-namespace \
@@ -130,12 +130,12 @@ Save the following content to a file named `kcp.values.yaml`:
 
 Before deploying kcp, you need to replace the following placeholder variables in the `kcp.values.yaml` file with your own values:
 
-* `<DOMAIN>`
+- `<DOMAIN>`
 
 After you've replaced all the placeholders, deploy the kcp Helm chart:
 
 ```bash
-$ helm upgrade --install kcp kcp \
+helm upgrade --install kcp kcp \
     --repo=https://kcp-dev.github.io/helm-charts \
     --version=0.11.1 \
     --create-namespace \
@@ -156,15 +156,15 @@ Save the following content to a file named `kdp.values.yaml`:
 
 Before deploying KDP, you need to replace the following placeholder variables in the `kdp.values.yaml` file with your own values:
 
-* `<PULL_CREDENTIALS>`
-* `<DOMAIN>`
+- `<PULL_CREDENTIALS>`
+- `<DOMAIN>`
 
 With all placeholders replaced, deploy the KDP Helm chart.
 Use your email address as the username and the license key you received as the password to log into the Helm registry.
 
 ```bash
-$ helm registry login quay.io
-$ helm upgrade --install kdp \
+helm registry login quay.io
+helm upgrade --install kdp \
     oci://quay.io/kubermatic/helm-charts/developer-platform \
     --version=0.9.0 \
     --create-namespace \
@@ -185,10 +185,10 @@ Save the following content to a file named `kdp-dashboard.values.yaml`:
 
 Before deploying the KDP dashboard, you need to replace the following placeholder variables in the `kdp-dashboard.values.yaml` file with your own values:
 
-* `<PULL_CREDENTIALS>`
-* `<DOMAIN>`
-* `<OIDC_CLIENT_SECRET>`
-* `<SESSION_ENCRYPTION_KEY>`
+- `<PULL_CREDENTIALS>`
+- `<DOMAIN>`
+- `<OIDC_CLIENT_SECRET>`
+- `<SESSION_ENCRYPTION_KEY>`
 
 The `<OIDC_CLIENT_SECRET>` placeholder **must** be replaced with the value generated in step "Deploy Dex" and configured in the `dex.values.yaml` file.
 
@@ -196,7 +196,7 @@ The `<SESSION_ENCRYPTION_KEY>` placeholder must - similar to the OIDC client sec
 You can use the same command, to generate a secure, random string:
 
 ```bash
-$ cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32
+cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32
 ```
 
 Copy and paste the output as the value for `<SESSION_ENCRYPTION_KEY>`.
@@ -205,8 +205,8 @@ Now that all placeholders are replaced, deploy the KDP dashboard Helm chart.
 To log into the Helm registry, again use your email address as the username and the license key you received as the password.
 
 ```bash
-$ helm registry login quay.io
-$ helm upgrade --install kdp-dashboard \
+helm registry login quay.io
+helm upgrade --install kdp-dashboard \
     oci://quay.io/kubermatic/helm-charts/developer-platform-dashboard \
     --version=0.9.0 \
     --create-namespace \
@@ -224,15 +224,16 @@ First, create three DNS records that direct traffic for the Dex login page (`log
 Assuming you installed the NGINX ingress controller into the `ingress-nginx` namespace, use the following command to the retrieve the external IP address or DNS name of the load balancer (in column "EXTERNAL-IP"):
 
 ```bash
-$ kubectl --namespace=ingress-nginx get service ingress-nginx-controller
+kubectl --namespace=ingress-nginx get service ingress-nginx-controller
 NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP                                                    PORT(S)                      AGE
 ingress-nginx-controller   LoadBalancer   10.47.248.232   4cdd93dfab834ed9a78858c7f2633380.eu-west-1.elb.amazonaws.com   80:30807/TCP,443:30184/TCP   449d
 ```
-Second, create a DNS record specifically for kcp (`internal.<DOMAIN>`) that points to the external IP address or DNS name of the dedicated load balancer for the kcp _Service_.
+
+Second, create a DNS record specifically for kcp (`internal.<DOMAIN>`) that points to the external IP address or DNS name of the dedicated load balancer for the kcp *Service*.
 Use the following command to the retrieve the external IP address or DNS name of kcp's load balancer:
 
 ```bash
-$ kubectl --namespace=kdp-system get service kcp-front-proxy
+kubectl --namespace=kdp-system get service kcp-front-proxy
 NAME              TYPE           CLUSTER-IP      EXTERNAL-IP                                                    PORT(S)             AGE
 kcp-front-proxy   LoadBalancer   10.240.20.65    99f1093e45d6482d95a0c22c4a2bd056.eu-west-1.elb.amazonaws.com   8443:30295/TCP      381d
 ```
@@ -243,8 +244,8 @@ Congratulations, your KDP installation is now complete! Once your DNS records ha
 
 You will be redirected to the Dex login page and you can use the administrative credentials that were created during the setup:
 
-* **Username**: `admin`
-* **Password**: The password you chose in step [Deploy Dex](#deploy-dex)
+- **Username**: `admin`
+- **Password**: The password you chose in step [Deploy Dex](#deploy-dex)
 
 After logging in, you will be taken to the KDP dashboard, where you can begin exploring your platform. Welcome to KDP!
 

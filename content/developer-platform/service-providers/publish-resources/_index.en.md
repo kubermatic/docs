@@ -14,7 +14,7 @@ the person(s) who own a service and want to make it available to consumers in th
 ## High-level Overview
 
 A "service" in KDP comprises a set of resources within a single Kubernetes API group. It doesn't
-need to be _all_ of the resources in that group, service owners are free and encouraged to only make
+need to be *all* of the resources in that group, service owners are free and encouraged to only make
 a subset of resources (i.e. a subset of CRDs) available for use in the platform.
 
 For each of the CRDs on the service cluster that should be published, the service owner creates a
@@ -117,6 +117,7 @@ spec:
 Consumers (end users) in the platform would then ultimately see projected names only. Note that GVK
 projection applies only to the synced object itself and has no effect on the contents of these
 objects. To change the contents, use external solutions like Crossplane to transform objects.
+
 <!-- To change the contents, use *Mutations*. -->
 
 ### (Re-)Naming
@@ -129,12 +130,12 @@ The renaming is configured in `spec.naming`. In there, renaming patterns are con
 pre-defined placeholders can be used, for example `foo-$placeholder`. The following placeholders
 are available:
 
-* `$remoteClusterName` – the KDP workspace's cluster name (e.g. "1084s8ceexsehjm2")
-* `$remoteNamespace` – the original namespace used by the consumer inside the KDP workspace
-* `$remoteNamespaceHash` – first 20 hex characters of the SHA-1 hash of `$remoteNamespace`
-* `$remoteName` – the original name of the object inside the KDP workspace (rarely used to construct
+- `$remoteClusterName` – the KDP workspace's cluster name (e.g. "1084s8ceexsehjm2")
+- `$remoteNamespace` – the original namespace used by the consumer inside the KDP workspace
+- `$remoteNamespaceHash` – first 20 hex characters of the SHA-1 hash of `$remoteNamespace`
+- `$remoteName` – the original name of the object inside the KDP workspace (rarely used to construct
   local namespace names)
-* `$remoteNameHash` – first 20 hex characters of the SHA-1 hash of `$remoteName`
+- `$remoteNameHash` – first 20 hex characters of the SHA-1 hash of `$remoteName`
 
 If nothing is configured, the default ensures that no collisions will happen: Each workspace in
 the platform will create a namespace on the local cluster, with a combination of namespace and
@@ -160,10 +161,10 @@ These can be configured in a number of way in the `PublishedResource`.
 
 Configuration happens `spec.mutation` and there are two fields:
 
-* `spec` contains the mutation rules when syncing the desired state (often in `spec`, but can also
+- `spec` contains the mutation rules when syncing the desired state (often in `spec`, but can also
   be other top-level fields) from the remote side to the local side. Use this to apply defaulting,
   normalising, and enforcing rules.
-* `status` contains the mutation rules when syncing the `status` subresource back from the local
+- `status` contains the mutation rules when syncing the `status` subresource back from the local
   cluster up into the platform. Use this to normalize names and values (e.g. if you rewrote
   `.spec.secretName` from `"foo"` to `"dfkbssbfh"`, make sure the status does not "leak" this name
   by accident).
@@ -401,10 +402,10 @@ Note that fields like `generation` or `resourceVersion` are not relevant for any
 The sync loop can be divided into 5 parts:
 
 1. find the local object
-2. handle deletion
-3. ensure the destination object exists
-4. ensure the destination object's content matches the source object
-5. synchronize related resources the same way (repeat 1-4 for each related resource)
+1. handle deletion
+1. ensure the destination object exists
+1. ensure the destination object's content matches the source object
+1. synchronize related resources the same way (repeat 1-4 for each related resource)
 
 #### Phase 1: Find the Local Object
 
@@ -481,6 +482,6 @@ well. The only difference is that the source side can be either remote (workspac
 (service cluster).
 
 Since the Sync Agent tries its best to keep sync-related data out of kcp workspaces, the last known
-state for related resources is _not_ kept together with the destination object in the kcp workspaces.
+state for related resources is *not* kept together with the destination object in the kcp workspaces.
 Instead all known states (from the main object and all related resources) is kept in a single Secret
 on the service cluster side.
