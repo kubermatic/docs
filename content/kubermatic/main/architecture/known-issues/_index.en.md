@@ -7,7 +7,7 @@ weight = 25
 
 ## Overview
 
-This page documents the list of known issues and possible work arounds/solutions.
+This page documents the list of known issues and possible workarounds/solutions.
 
 ## Oidc refresh tokens are invalidated when the same user/client id pair is authenticated multiple times
 
@@ -45,7 +45,12 @@ The following yaml snippet is an example how to configure an oidc connector to k
             - email
             - offline_access
           # Workaround to support multiple user_id/client_id pairs concurrently
-          userIDKey: jti
+          # Configurable key for user ID look up
+          # Default: id
+          userIDKey: <<userIDValue>>
+          # Optional: Configurable key for user name look up
+          # Default: user_name
+          userNameKey: <<userNameValue>>
 ```
 
 #### external provider
