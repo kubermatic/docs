@@ -22,6 +22,8 @@ dashboard:
     backend:
       frontProxyURL: https://api.<DOMAIN>
     features:
+      aiAgent:
+        enabled: false
       kubeconfigDownload:
         enabled: true
         serverCA: /app/_config/user-kubeconfig/ca.crt
