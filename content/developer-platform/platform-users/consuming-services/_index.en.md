@@ -29,10 +29,10 @@ offered to add it to the organization.
 
 Note that every Service shows:
 
-* its main title (the human-readable name of a Service, like "Certificate Management")
-* its internal name (ultimately the name of the Kubernetes `Service` object you would need to
+- its main title (the human-readable name of a Service, like "Certificate Management")
+- its internal name (ultimately the name of the Kubernetes `Service` object you would need to
   manually enable the service using `kubectl`)
-* a short description
+- a short description
 
 Check out [Your First Service]({{< relref "../../tutorials/your-first-service/" >}}) if you want to publish services by yourself.
 
@@ -102,5 +102,5 @@ spec:
 Rejecting a claim will severely impact a Service, if not even break it. Consult with the Service's
 documentation or the service owner if rejecting a claim is supported.
 
-When you _change into_ (`kubctl ws …`) a different workspace, kubectl will inform you if there are
+When you *change into* (`kubctl ws …`) a different workspace, kubectl will inform you if there are
 outstanding permission claims that you need to accept or reject.

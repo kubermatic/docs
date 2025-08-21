@@ -31,15 +31,15 @@ Create a file with a similar content (you most likely want to change the name, a
 group under which your published resources will be made available) and create it in a kcp workspace
 of your choice:
 
-```sh
+```bash
 # use the kcp kubeconfig
-$ export KUBECONFIG=/path/to/kcp.kubeconfig
+export KUBECONFIG=/path/to/kcp.kubeconfig
 
 # nativagate to the workspace where the APIExport should exist
-$ kubectl ws :workspace:you:want:to:create:it
+kubectl ws :workspace:you:want:to:create:it
 
 # create it
-$ kubectl create --filename apiexport.yaml
+kubectl create --filename apiexport.yaml
 apiexport/test.example.com created
 ```
 
@@ -57,8 +57,8 @@ Make sure that the kubeconfig points to the right workspace (not necessarily the
 
 This can be done via a command like this:
 
-```sh
-$ kubectl create secret generic kcp-kubeconfig \
+```bash
+kubectl create secret generic kcp-kubeconfig \
   --namespace kcp-system \
   --from-file "kubeconfig=admin.kubeconfig"
 ```
@@ -88,7 +88,7 @@ kcpKubeconfig: kcp-kubeconfig
 
 Once this `values.yaml` file is prepared, install a recent development build of the Sync Agent:
 
-```sh
+```bash
 helm repo add kcp https://kcp-dev.github.io/helm-charts
 helm repo update
 
@@ -156,11 +156,11 @@ the RBAC rules that grant the Agent access.
 
 The Sync Agent needs to
 
-* manage its `APIExport`,
-* manage `APIResourceSchemas` and
-* access the virtual workspace for its `APIExport`.
+- manage its `APIExport`,
+- manage `APIResourceSchemas` and
+- access the virtual workspace for its `APIExport`.
 
-This can be achieved by applying RBAC like this _in the workspace where the `APIExport` resides_:
+This can be achieved by applying RBAC like this *in the workspace where the `APIExport` resides*:
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
