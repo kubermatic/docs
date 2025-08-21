@@ -15,28 +15,28 @@ The intended usecase follows roughly these steps:
    workspace. This service (not to be confused with Kubernetes services) reserves an API group
    in the organization for itself, like `databases.example.corp` (two `Services` must not register
    the same API group).
-2. After the `Service` is created, KDP will reconcile it, create an `APIExport` object and provide
+1. After the `Service` is created, KDP will reconcile it, create an `APIExport` object and provide
    appropriate credentials for the api-syncagent (e.g. by creating a Kubernetes Secret with a
    preconfigured kubeconfig in it).
-3. A service owner will now take these credentials and the configured API group and use them
+1. A service owner will now take these credentials and the configured API group and use them
    to setup the api-syncagent. It is assumed that the service owner (i.e. the cluster-admin in a
    service cluster) wants to make some resources (usually CRDs) available to use inside of KDP.
-4. The service owner uses the api-syncagent Helm chart (or similar deployment technique) to install
+1. The service owner uses the api-syncagent Helm chart (or similar deployment technique) to install
    the agent in their cluster.
-5. To actually make resources available in the platform, the service owner now has to create a
+1. To actually make resources available in the platform, the service owner now has to create a
    set of `PublishedResource` objects. The configuration happens from their point of view, meaning
    they define how to publish a CRD in the platform, defining renaming rules and other projection
    settings.
-6. Once a `PublishedResource` is created in the service cluster, the agent will pick it up,
+1. Once a `PublishedResource` is created in the service cluster, the agent will pick it up,
    find the referenced CRD, convert/project this CRD into an `APIResourceSchema` (ARS) for kcp and
    then create the ARS in org workspace.
-7. Finally the api-syncagent will take all `PublishedResources` and bundle them into the pre-existing
+1. Finally the api-syncagent will take all `PublishedResources` and bundle them into the pre-existing
    `APIExport` in the org workspace. This APIExport can then be bound in the org workspace itself
    (or later any sub workspaces (depending on permissions)) and be used there. The `APIExport` has
    the same name as the KDP `Service` the agent is working with.
-8. kcp automatically provides a virtual workspace for the `APIExport` and this is what the agent
+1. kcp automatically provides a virtual workspace for the `APIExport` and this is what the agent
    then uses to watch all objects for the relevant resources in the platform (i.e. in all workspaces).
-9. The api-syncagent will now begin to synchronize objects back and forth between the service cluster
+1. The api-syncagent will now begin to synchronize objects back and forth between the service cluster
    and KDP.
 
 ## Details
@@ -49,7 +49,7 @@ with making their CRDs available in KDP (i.e. "publish" them).
 
 However the actual data flow later will work in the opposite direction: users creating objects inside
 their kcp workspaces serve as the source of truth. From there they are synced down to the service
-cluster, which is doing the projection of the `PublishedResource` _in reverse_.
+cluster, which is doing the projection of the `PublishedResource` *in reverse*.
 
 Of course additional, auxiliary (related) objects could originate on the service cluster. For example
 if you create a Certificate object in a kcp workspace and it's synced down, cert-manager will then

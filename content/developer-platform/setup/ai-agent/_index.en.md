@@ -56,9 +56,9 @@ aiAgent:
 
 Before deploying the KDP dashboard, you need to replace the following placeholder variables in the `ai-agent.values.yaml` file with your own values:
 
-* `<OPEN_API_KEY>`
-* `<DOMAIN>`
-* `<OIDC_CLIENT_SECRET>`
+- `<OPEN_API_KEY>`
+- `<DOMAIN>`
+- `<OIDC_CLIENT_SECRET>`
 
 The `<OIDC_CLIENT_SECRET>` placeholder **must** be replaced with the value set in Dex and configured in the `dex.values.yaml` file.
 
@@ -68,8 +68,8 @@ Now that all placeholders are replaced, deploy the KDP AI Agent Helm chart.
 To log into the Helm registry, use your email address as the username and the license key you received as the password.
 
 ```bash
-$ helm registry login quay.io
-$ helm upgrade --install kdp-ai-agent \
+helm registry login quay.io
+helm upgrade --install kdp-ai-agent \
     oci://quay.io/kubermatic/helm-charts/developer-platform-ai-agent \
     --version=0.9.0 \
     --create-namespace \
