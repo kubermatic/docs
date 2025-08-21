@@ -23,7 +23,6 @@ The datacenter structure contains the following fields:
     - `aws` -- Cloud-specific configuration for AWS DCs.
     - `azure` -- Cloud-specific configuration for Azure DCs.
     - `openstack` -- Cloud-specific configuration for Openstack DCs.
-    - `packet` -- Cloud-specific configuration for Packet DCs.
     - `gcp` -- Cloud-specific configuration for GCP DCs.
     - `hetzner` -- Cloud-specific configuration for Hetzner DCs.
     - `vsphere` -- Cloud-specific configuration for vSphere DCs.
@@ -158,17 +157,6 @@ Example specs for different providers:
         region: europe-west3
         zoneSuffixes:
         - c
-
-  #==================================
-  #============= Packet =============
-  #==================================
-  packet-ams1:
-    location: "Packet AMS1 (Amsterdam)"
-    country: NL
-    spec:
-      packet:
-        facilities:
-        - ams1
 
   #==================================
   #============= Alibaba ============
