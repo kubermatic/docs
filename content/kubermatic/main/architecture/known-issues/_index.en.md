@@ -7,7 +7,7 @@ weight = 25
 
 ## Overview
 
-This page documents the list of known issues and possible work arounds/solutions.
+This page documents the list of known issues and possible workarounds/solutions.
 
 ## Oidc refresh tokens are invalidated when the same user/client id pair is authenticated multiple times
 
@@ -32,17 +32,25 @@ The following yaml snippet is an example how to configure an oidc connector to k
 
 ```yaml
     connectors:
-      - config:
+      - id: oidc
+        name: OIDC
+        type: Google
+        config:
           clientID: <client_id>
           clientSecret: <client_secret>
-          orgs:
-          - name: <github_organization>
-          redirectURI: https://kubermatic.test/dex/callback
-        id: github
-        name: GitHub
-        type: github
-        userIDKey: jti
-        userNameKey: email
+          redirectURI: https://kkp.example.com/dex/callback
+          scopes:
+            - openid
+            - profile
+            - email
+            - offline_access
+          # Workaround to support multiple user_id/client_id pairs concurrently
+          # Configurable key for user ID look up
+          # Default: id
+          userIDKey: <<userIDValue>>
+          # Optional: Configurable key for user name look up
+          # Default: user_name
+          userNameKey: <<userNameValue>>
 ```
 
 #### external provider
