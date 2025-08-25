@@ -254,3 +254,8 @@ After logging in, you will be taken to the KDP dashboard, where you can begin ex
 [k8s/docs/tools/installation]: https://kubernetes.io/docs/tasks/tools/#kubectl
 [kcp/chart/readme]: https://github.com/kcp-dev/helm-charts/tree/main/charts/kcp
 [kubelogin/src/readme]: https://github.com/int128/kubelogin
+
+
+### Extensions
+
+If you want to install the KDP AI Agent, which helps you generate yaml files for resources from descriptions in natural language, follow [these instructions](../ai-agent/_index.en.md).
