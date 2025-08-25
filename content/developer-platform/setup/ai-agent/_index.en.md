@@ -121,13 +121,6 @@ $ helm upgrade --install kdp-dashboard \
     --values=kdp-dashboard.values.yaml
 ```
 
-After this you will need to delete the pod for the dashboard manually for it to be redeployed and pick up the new values. You can find them by the label `app.kubernetes.io/name: kdp-dashboard` and delete with.
-
-```bash
-kubectl delete pods -l app.kubernetes.io/name=kdp-dashboard -n kdp-system
-```
-
-
 ### Verify the Installation
 
 Once the pods start, you can use the AI Agent in the frontend.
