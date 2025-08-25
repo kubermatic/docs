@@ -16,6 +16,26 @@ This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) 
 Please review [known issues]({{< ref "../../../architecture/known-issues/" >}}) before upgrading to understand if any issues might affect you.
 {{% /notice %}}
 
+### Kubevirt CSI driver operator version upgrade
+
+KKP 2.28 bumps up the Kubevirt CSI driver operator version, due to some breaking upstream changes the operator pod will start to crash on existing user clusters and we will observe below mentioned error in the logs.
+
+```
+ kubevirt-csi-driver.go:120] cannot infer infra vm namespace
+```
+
+#### Migration Procedure
+
+To avoid the above issue we need to add an annotation on all the worker nodes of all the existing kubevirt user clusters.
+
+```
+export ClusterID=<user-cluster-id>
+
+kubectl annotate node --all "cluster.x-k8s.io/cluster-namespace=cluster-${ClusterID}" --overwrite
+
+```
+If rotating the worker nodes of each user cluster is not an issue then rotating the worker nodes of all the user clusters after KKP upgrade also fixes the issue. There are no issue on cluster created after KKP upgrade.
+
 ### Node Exporter Upgrade (Seed MLA)
 
 KKP 2.28 removes the custom Helm chart for Node Exporter and instead now reuses the official [upstream Helm chart](https://prometheus-community.github.io/helm-charts).
