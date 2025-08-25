@@ -220,10 +220,3 @@ spec:
 {{% notice note %}}
 For more example, check out [this demo gpu-test{1,2,3,4,5}.yaml examples](https://github.com/kubernetes-sigs/dra-example-driver/tree/main/demo).
 {{% /notice %}}
-
-
-## Additional Resources
-
-- [Kubernetes DRA Documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/)
-- [Set Up DRA in a Cluster](https://kubernetes.io/docs/tasks/configure-pod-container/assign-resources/set-up-dra-cluster/)
-- [KKP Documentation](https://docs.kubermatic.com/)
