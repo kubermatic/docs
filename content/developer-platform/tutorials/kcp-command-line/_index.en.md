@@ -57,7 +57,7 @@ kubectl ws my-subworkspace
 
 ## API Management
 
-A KDP Service is reconciled into an `APIExport`. To use this API, you have to _bind to_ it. Binding
+A KDP Service is reconciled into an `APIExport`. To use this API, you have to *bind to* it. Binding
 involves creating a matching (= same name) `APIBinding` in the workspace where the API should be
 made available.
 

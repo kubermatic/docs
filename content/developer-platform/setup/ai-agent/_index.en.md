@@ -70,7 +70,7 @@ Adjust the values according to your environment.
 
 ### Install with Helm
 
-```
+```bash
 helm upgrade \
   --install \
   --namespace <namespace> \ # if you are using an Issuer (namespaced), remember to use the same namespace here
