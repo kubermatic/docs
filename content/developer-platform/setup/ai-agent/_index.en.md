@@ -45,7 +45,7 @@ aiAgent:
     openai_api_key: "<OPEN_API_KEY>"  # OpenAI API key for the language model
 
   ingress:
-    create: false
+    create: true
     host: ai-agent.<DOMAIN>
     certIssuer:
       kind: ClusterIssuer
