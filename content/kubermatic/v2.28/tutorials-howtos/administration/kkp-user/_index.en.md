@@ -10,7 +10,7 @@ When a user authenticates for the first time at the Dashboard, an internal User 
 
 Example User representation:
 
-```
+```yaml
 apiVersion: kubermatic.k8c.io/v1
 kind: User
 metadata:
@@ -22,13 +22,13 @@ spec:
   name: Jane Doe
 ```
 
-# Initial Admin
+## Initial Admin
 
-After the installation of Kubermatic Kubernetes Platform the first account that authenticates at the Dashboard is elected as an admin.
+After the installation of Kubermatic Kubernetes Platform, the first account that authenticates at the Dashboard is elected as an admin.
 
 The account is then capable of setting admin permissions via the [dashboard]({{< ref "../admin-panel/administrators" >}}) .
 
-# Granting Admin Permission via kubectl
+## Granting Admin Permission via kubectl
 
 Make sure the account logged in once at the Kubermatic Dashboard.
 

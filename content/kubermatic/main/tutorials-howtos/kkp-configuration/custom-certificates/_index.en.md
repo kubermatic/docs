@@ -18,7 +18,7 @@ Changes to the CA bundle are automatically reconciled across these locations. If
 is invalid, no further reconciliation happens, so if the master cluster's CA bundle breaks,
 seed clusters are not affected.
 
-Do note that the CA bundle configured in KKP is usually _the only_ source of CA certificates
+Do note that the CA bundle configured in KKP is usually *the only* source of CA certificates
 for all of these components, meaning that no certificates are mounted from any of the Seed
 cluster host systems.
 
@@ -82,8 +82,8 @@ If issuing certificates inside the cluster is not possible, static certificates 
 `Secret` resources. The cluster admin is responsible for renewing and updating them as needed. A TLS secret
 can be created via `kubectl` when certificate and private key are available:
 
-```sh
-$ kubectl create secret tls tls-secret --cert=tls.cert --key=tls.key
+```bash
+kubectl create secret tls tls-secret --cert=tls.cert --key=tls.key
 ```
 
 Going forward, it is assumed that proper certificates have already been created and now need to be configured into KKP.
@@ -186,7 +186,6 @@ spec:
     name: ca-bundle
 ```
 
-
 ### KKP
 
 The KKP Operator manages a single `Ingress` for the KKP API/dashboard. This by default includes setting up
@@ -220,7 +219,6 @@ for details on the format for certificate `Secrets`.
 If the static certificate is signed by a private CA, it is necessary to add that private CA to the [CA bundle](#ca-bundle)
 used by KKP. Otherwise, components will not be able to properly communicate with each other.
 {{% /notice %}}
-
 
 #### User Cluster
 

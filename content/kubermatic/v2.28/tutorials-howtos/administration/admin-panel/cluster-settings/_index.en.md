@@ -4,7 +4,6 @@ date = 2020-02-10T11:07:15+02:00
 weight = 20
 +++
 
-
 Interface section in the Admin Panel allows user to control various cluster-related settings. They
 can influence cluster creation, management and cleanup after deletion.
 
@@ -41,7 +40,7 @@ This section controls the default number of initial Machine Deployment replicas.
 in the cluster creation wizard on the Initial Nodes step and also on the add/edit machine deployment dialog on
 the cluster details.
 
-#### Cluster Creation Wizard - Initial Nodes Step
+### Cluster Creation Wizard - Initial Nodes Step
 
 ![Cluster creation wizard initial nodes step](images/wizard-initial-nodes-step.png?classes=shadow,border)
 
@@ -76,6 +75,7 @@ specified criteria will be filtered out and not displayed to the user.
 
 Static labels are a list of labels that the admin can add. Users can select from these labels when creating a cluster during the cluster settings step.
 The admin can set these labels as either default or protected:
+
 - Default label: This label is automatically added, but the user can delete it.
 - Protected label: This label is automatically added and cannot be deleted by the user. 
 

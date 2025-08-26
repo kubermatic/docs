@@ -29,7 +29,6 @@ You can add an existing DigitalOcean KubeOne cluster and then manage it using KK
 
     - Manually enter the credentials `Token` used to create the KubeOne cluster you are importing.
 
-
 ![DigitalOcean credentials](@/images/tutorials/kubeone-clusters/digitalocean-credentials-step.png "DigitalOcean credentials")
 
 - Review provided settings and click `Import KubeOne Cluster`.

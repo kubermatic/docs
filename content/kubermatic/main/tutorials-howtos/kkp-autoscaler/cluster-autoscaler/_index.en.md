@@ -14,8 +14,8 @@ Kubernetes Cluster Autoscaler is a tool that automatically adjusts the size of t
 
 The Kubernetes Autoscaler in the KKP User cluster automatically scaled up/down when one of the following conditions is satisfied:
 
-* Some pods failed to run in the cluster due to insufficient resources.
-* There are nodes in the cluster that have been underutilised for an extended period (10 minutes by default) and can place their Pods on other existing nodes.
+- Some pods failed to run in the cluster due to insufficient resources.
+- There are nodes in the cluster that have been underutilised for an extended period (10 minutes by default) and can place their Pods on other existing nodes.
 
 ## Installing Kubernetes Autoscaler on User Cluster
 
@@ -31,18 +31,19 @@ It is possible to migrate from cluster autoscaler addon to app. For that it is r
 
 ### Installing kubernetes autoscaler as an addon [DEPRECATED]
 
-**Step 1**
+#### Step 1
 
 Create a KKP User cluster by selecting your project on the dashboard and click on "Create Cluster". More details can be found on the official [documentation]({{< ref "../../project-and-cluster-management/" >}}) page.
 
-**Step 2**
+#### Step 2
 
 When the User cluster is ready, check the pods in the `kube-system` namespace to know if any autoscaler is running.
 
 ![KKP Dashboard](../images/kkp-autoscaler-dashboard.png?classes=shadow,border "KKP Dashboard")
 
 ```bash
-$ kubectl get pods -n kube-system
+kubectl get pods -n kube-system
+
 NAME                               READY     STATUS       RESTARTS    AGE
 canal-gq9gc                        2/2       Running      0           21m
 canal-tnms8                        2/2       Running      0           21m
@@ -55,48 +56,40 @@ node-local-dns-4p8jr               1/1       Running      0           21m
 
 As shown above, the cluster autoscaler is not part of the running Kubernetes components within the namespace.
 
-**Step 3**
+#### Step 3
 
 Add the Autoscaler to the User cluster under the addon section on the dashboard by clicking on the Addons and then `Install Addon.`
 
 ![Add Addon](../images/add-autoscaler-addon.png?classes=shadow,border "Add Addon")
 
-
 Select Cluster Autoscaler:
-
 
 ![Select Autoscaler](../images/select-autoscaler.png?classes=shadow,border "Select Autoscaler")
 
-
 Select install:
-
 
 ![Select Install](../images/install-autoscaler.png?classes=shadow,border "Select Install")
 
-
-
 ![Installation Confirmation](../images/autoscaler-confirmation.png?classes=shadow,border "Installation Confirmation")
 
-
-**Step 4**
+#### Step 4
 
 Go over to the cluster and check the pods in the `kube-system` namespace using the `kubectl` command.
 
 ```bash
-$ kubectl get pods -n kube-system
-NAME                                    READY           STATUS      RESTARTS    AGE
-canal-gq9gc                            	2/2     	      Running   	0           32m
-canal-tnms8                           	2/2     	      Running   	0           33m
-cluster-autoscaler-58c6c755bb-9g6df   	1/1     	      Running   	0           39s
-coredns-666448b887-s8wv8              	1/1     	      Running   	0           36m
-coredns-666448b887-vldzz              	1/1     	      Running  		0           36m
+kubectl get pods -n kube-system
+
+NAME                                   READY   STATUS    RESTARTS  AGE
+canal-gq9gc                            2/2     Running   0         32m
+canal-tnms8                            2/2     Running   0         33m
+cluster-autoscaler-58c6c755bb-9g6df    1/1     Running   0         39s
+coredns-666448b887-s8wv8               1/1     Running   0         36m
+coredns-666448b887-vldzz               1/1     Running   0         36m
 ```
 
 As shown above, the cluster autoscaler has been provisioned and running.
 
-
 ## Annotating MachineDeployments for Autoscaling
-
 
 The Cluster Autoscaler only considers MachineDeployment with valid annotations. The annotations are used to control the minimum and the maximum number of replicas per MachineDeployment. You don't need to apply those annotations to all MachineDeployment objects, but only on MachineDeployments that Cluster Autoscaler should consider. Annotations can be set either using the KKP Dashboard or manually with kubectl.
 
@@ -120,26 +113,26 @@ cluster.k8s.io/cluster-api-autoscaler-node-group-max-size - the maximum number o
 
 You can apply the annotations to MachineDeployments once the User cluster is provisioned and the MachineDeployments are created and running by following the steps below.
 
-**Step 1**
+#### Step 1
 
 Run the following kubectl command to check the available MachineDeployments:
 
 ```bash
-$ kubectl get machinedeployments -n kube-system
+kubectl get machinedeployments -n kube-system
 
 NAME                        AGE  DELETED REPLICAS AVAILABLEREPLICAS PROVIDER  OS    VERSION
 test-cluster-worker-v5drmq 3h56m            2             2           aws    ubuntu 1.19.9
 test-cluster-worker-pndqd  3h59m            1             1           aws    ubuntu 1.19.9
 ```
 
-**Step 2**
+ Step 2
 
-The annotation command will be used with one of the MachineDeployments above to annotate the desired MachineDeployments.  In this case, the  `test-cluster-worker-v5drmq` will be annotated, and the minimum and maximum will be set.
+  The annotation command will be used with one of the MachineDeployments above to annotate the desired MachineDeployments.  In this case, the  `test-cluster-worker-v5drmq` will be annotated, and the minimum and maximum will be set.
 
 ### Minimum Annotation
 
 ```bash
-$ kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
+kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-min-size="1"
 
 machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ```
@@ -147,18 +140,18 @@ machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ### Maximum Annotation
 
 ```bash
-$ kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="5"
+kubectl annotate machinedeployment -n kube-system test-cluster-worker-v5drmq cluster.k8s.io/cluster-api-autoscaler-node-group-max-size="5"
 
 machinedeployment.cluster.k8s.io/test-cluster-worker-v5drmq annotated
 ```
 
-
-**Step 3**
+#### Step 3
 
 Check the MachineDeployment description:
 
 ```bash
-$ kubectl describe machinedeployments -n kube-system test-cluster-worker-v5drmq
+kubectl describe machinedeployments -n kube-system test-cluster-worker-v5drmq
+
 Name:         test-cluster-worker-v5drmq
 Namespace:    kube-system
 Labels:       <none>
@@ -189,25 +182,21 @@ To edit KKP Autoscaler, click on the three dots in front of the Cluster Autoscal
 
 ![Edit Autoscaler](../images/edit-autoscaler.png?classes=shadow,border "Edit Autoscaler")
 
-
 ## Delete KKP Autoscaler
 
 You can delete autoscaler from where you edit it above and select delete.
 
 ![Delete Autoscaler](../images/delete-autoscaler.png?classes=shadow,border "Delete Autoscaler")
 
-
- Once it has been deleted, you can check the cluster to ensure that the cluster autoscaler has been deleted using the command `kubectl get pods -n kube-system`.
-
+Once it has been deleted, you can check the cluster to ensure that the cluster autoscaler has been deleted using the command `kubectl get pods -n kube-system`.
 
 ## Customize KKP Autoscaler
 
 You can customize the cluster autoscaler addon in order to override the cluster autoscaler deployment definition to set or pass the required flag(s) by following the instructions provided [in the Addons document]({{< relref "../../../architecture/concept/kkp-concepts/addons/#custom-addons" >}}).
 
-* [My cluster is below minimum / above maximum number of nodes, but CA did not fix that! Why?](https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#my-cluster-is-below-minimum--above-maximum-number-of-nodes-but-ca-did-not-fix-that-why)
+- [My cluster is below minimum / above maximum number of nodes, but CA did not fix that! Why?](https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#my-cluster-is-below-minimum--above-maximum-number-of-nodes-but-ca-did-not-fix-that-why)
 
-* [I'm running cluster with nodes in multiple zones for HA purposes. Is that supported by Cluster Autoscaler?](https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler)
-
+- [I'm running cluster with nodes in multiple zones for HA purposes. Is that supported by Cluster Autoscaler?](https://github.com/kubernetes/autoscaler/blob/aff50d773e42f95baaae300f27e3b2e9cba1ea1b/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler)
 
 ## Summary
 
@@ -215,5 +204,5 @@ That is it! You have successfully deployed a Kubernetes Autoscaler on a KKP Clus
 
 ## Learn More
 
-* Read more on [Kubernetes autoscaler here](https://github.com/kubernetes/autoscaler/blob/main/cluster-autoscaler/FAQ.md#what-is-cluster-autoscaler).
-* You can easily provision a Kubernetes User Cluster using [KKP here]({{< relref "../../../tutorials-howtos/project-and-cluster-management/" >}})
+- Read more on [Kubernetes autoscaler here](https://github.com/kubernetes/autoscaler/blob/main/cluster-autoscaler/FAQ.md#what-is-cluster-autoscaler).
+- You can easily provision a Kubernetes User Cluster using [KKP here]({{< relref "../../../tutorials-howtos/project-and-cluster-management/" >}})

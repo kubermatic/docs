@@ -13,7 +13,8 @@ The Kubermatic Kubernetes Platform manages the Kubernetes API server by setting 
 list of admission control plugins to be enabled during cluster creation.
 
 In the current version, the default ones are:
-```
+
+```bash
 NamespaceLifecycle
 NodeRestriction
 LimitRanger
@@ -39,6 +40,7 @@ They can be selected in the UI wizard.
 ![Admission Plugin Selection](@/images/ui/admission-plugins.png?height=400px&classes=shadow,border "Admission Plugin Selection")
 
 ### PodNodeSelector Configuration
+
 Selecting the `PodNodeSelector` plugin expands an additional view for the plugin-specific configuration.
 
 ![PodNodeSelector Admission Plugin Configuration](@/images/ui/admission-plugin-configuration.png?classes=shadow,border "PodNodeSelector Admission Plugin Configuration")

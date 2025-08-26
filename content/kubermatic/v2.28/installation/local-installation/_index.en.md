@@ -80,7 +80,6 @@ tar -xzvf "kubermatic-${KUBERMATIC_EDITION}-v${VERSION}-darwin-${ARCH}.tar.gz"
 You can find more information regarding the download instructions in the [CE installation guide](../install-kkp-ce/#download-the-installer) or [EE installation guide](../install-kkp-ee/#download-the-installer).
 
 **2. Provide the image pull secret (EE)**
-
 This step is only required if you are using the enterprise edition installer. Replace `${AUTH_TOKEN}` with the Docker authentication JSON provided by Kubermatic and run the following command:
 
 ```bash
@@ -135,8 +134,8 @@ By default, KubeVirt is configured to use hardware virtualization. If this is no
 
 On Linux, KubeVirt uses the inode notify kernel subsystem `inotify` to watch for changes in certain files. Usually you shouldn't need to configure this but in case you can observe the `virt-handler` failing with
 
-```
-kubectl log -nkubevirt ds/virt-handler
+```bash
+kubectl log -n kubevirt ds/virt-handler
 ...
 {"component":"virt-handler","level":"fatal","msg":"Failed to create an inotify watcher","pos":"cert-manager.go:105","reason":"too many open files","timestamp":"2023-06-22T09:58:24.284130Z"}
 ```

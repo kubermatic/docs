@@ -31,6 +31,7 @@ spec:
             url: https://charts.bitnami.com/bitnami
       version: 9.2.9
 ```
+
 And want to make the new version `9.2.11` available. Then, all you have to do is to add the new version as described below:
 
 ```yaml
@@ -60,6 +61,7 @@ spec:
             url: https://charts.bitnami.com/bitnami
       version: 9.2.11
 ```
+
 Users will now be able to reference this version in their `ApplicationInstallation`. For additional details, see the [update an application guide]({{< ref "../update-application" >}}).
 
 {{% notice warning %}}
@@ -68,11 +70,14 @@ For more details, see how to delete a version from an `ApplicationDefinition`.
 {{% /notice %}}
 
 ## How to delete a version from an ApplicationDefinition
+
 Deleting a version from `ApplicationDefinition` will trigger the deletion of all `ApplicationInstallations` that reference this version! It guarantees that only desired versions are installed in user clusters, which is helpful if a version contains a critical security breach.
 Under normal circumstances, we recommend following the deprecation policy to delete a version.
 
 ### Deprecation policy
+
 Our recommended deprecation policy is as follows:
+
 * stop the user from creating or upgrading to the deprecated version. But let them edit the application using a deprecated version (it may be needed for operational purposes).
 * notify the user running this version that it's deprecated.
 
@@ -85,6 +90,7 @@ This deprecation policy is an example and may have to be adapted to your organiz
 The best way to achieve that is using the [Gatekeeper / OPA integration]({{< ref "../../opa-integration" >}}) to create a `ConstraintTemplate` and two [Default Constraints]({{< ref "../../opa-integration#default-constraints" >}}) (one for each point of the deprecation policy)
 
 **Example Kubermatic Constraint Template to deprecate a version:**
+
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
 kind: ConstraintTemplate
@@ -191,8 +197,8 @@ spec:
 
 If users try to create an  `ApplicationInstallation` using the deprecation version, they will get the following error message:
 
-```
-$ kubectl create -f app.yaml
+```bash
+kubectl create -f app.yaml
 Error from server ([deprecate-app-apache-9-2-9] application `apache` in version `9.2.9` is deprecated. Please upgrade to next version): error when creating "app.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [deprecate-app-apache-9-2-9] application `apache` in version `9.2.9` is deprecated. Please upgrade to the next version
 ```
 
@@ -223,17 +229,19 @@ spec:
   selector:
     labelSelector: {}
 ```
+
 This constraint will raise a warning if a user tries to create, edit, or upgrade to the deprecated version:
 
-```
-$ kubectl edit applicationInstallation  my-apache
+```bash
+kubectl edit applicationInstallation  my-apache
+
 Warning: [warn-app-apache-9-2-9] application `apache` in version `9.2.9` is deprecated. Please upgrade to the next version
 applicationinstallation.apps.kubermatic.k8c.io/my-apache edited
 ```
 
 We can see which applications are using the deprecated version by looking at the constraint status.
 
-```
+```bash
 status:
   [...]
   auditTimestamp: "2023-01-23T14:55:47Z"

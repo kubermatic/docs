@@ -29,9 +29,9 @@ about the cluster relationships.
 
 In this chapter, you will find the following KKP-specific terms:
 
-* **Master Cluster** -- A Kubernetes cluster which is responsible for storing central information about users, projects and SSH keys. It hosts the KKP master components and might also act as a seed cluster.
-* **Seed Cluster** -- A Kubernetes cluster which is responsible for hosting the control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd and more) of a User Cluster.
-* **User Cluster** -- A Kubernetes cluster created and managed by KKP, hosting applications managed by users.
+- **Master Cluster** -- A Kubernetes cluster which is responsible for storing central information about users, projects and SSH keys. It hosts the KKP master components and might also act as a seed cluster.
+- **Seed Cluster** -- A Kubernetes cluster which is responsible for hosting the control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd and more) of a User Cluster.
+- **User Cluster** -- A Kubernetes cluster created and managed by KKP, hosting applications managed by users.
 
 ## Overview
 
@@ -82,6 +82,7 @@ a separate storage class with a different location/security level. The following
 
 {{< tabs name="StorageClass Creation" >}}
 {{% tab name="AWS" %}}
+
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -91,8 +92,10 @@ provisioner: kubernetes.io/aws-ebs
 parameters:
   type: sc1
 ```
+
 {{% /tab %}}
 {{% tab name="Azure" %}}
+
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -103,8 +106,10 @@ parameters:
   kind: Managed
   storageaccounttype: Standard_LRS
 ```
+
 {{% /tab %}}
 {{% tab name="GCP" %}}
+
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -114,8 +119,10 @@ provisioner: kubernetes.io/gce-pd
 parameters:
   type: pd-ssd
 ```
+
 {{% /tab %}}
 {{% tab name="vSphere" %}}
+
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -123,8 +130,10 @@ metadata:
   name: kubermatic-backup
 provisioner: csi.vsphere.vmware.com
 ```
+
 {{% /tab %}}
 {{% tab name="Other Providers" %}}
+
 For other providers, please refer to the respective CSI driver documentation. It should guide you through setting up a `StorageClass`. Ensure that the `StorageClass` you create is named `kubermatic-backup`. The final resource should look something like this:
 
 ```yaml
@@ -139,6 +148,7 @@ parameters:
   parameter1: value1
   parameter2: value2
 ```
+
 {{% /tab %}}
 {{< /tabs >}}
 
@@ -369,7 +379,7 @@ Key considerations for creating your `Seed` resource are:
 
 ### Configure Datacenters
 
-Each `Seed` has a map of so-called _Datacenters_ (under `.spec.datacenters`), which define the cloud
+Each `Seed` has a map of so-called *Datacenters* (under `.spec.datacenters`), which define the cloud
 provider locations that User Clusters can be deployed to. Every datacenter name is globally unique in a KKP setup.
 Users will select from a list of datacenters when creating User Clusters and their clusters will
 automatically get scheduled to the seed that defines that datacenter.
@@ -380,6 +390,7 @@ datacenters:
 
 {{< tabs name="Datacenter Examples" >}}
 {{% tab name="AWS" %}}
+
 ```yaml
 # Datacenter for AWS 'eu-central-1' region
 aws-eu-central-1a:
@@ -396,8 +407,10 @@ aws-eu-west-1a:
     aws:
       region: eu-west-1
 ```
+
 {{% /tab %}}
 {{% tab name="Azure" %}}
+
 ```yaml
 # Datacenter for Azure 'westeurope' location
 azure-westeurope:
@@ -407,8 +420,10 @@ azure-westeurope:
     azure:
       location: westeurope
 ```
+
 {{% /tab %}}
 {{% tab name="GCP" %}}
+
 ```yaml
 # Datacenter for GCP 'europe-west3' region
 # this is configured to use three availability zones and spread cluster resources across them
@@ -421,8 +436,10 @@ gce-eu-west-3:
       regional: true
       zoneSuffixes: [a,b,c]
 ```
+
 {{% /tab %}}
 {{% tab name="vSphere" %}}
+
 ```yaml
 # Datacenter for a vSphere setup available under https://vsphere.hamburg.example.com
 vsphere-hamburg:
@@ -438,10 +455,13 @@ vsphere-hamburg:
       templates:
         ubuntu: ubuntu-20.04-server-cloudimg-amd64
 ```
+
 {{% /tab %}}
 {{% tab name="Other Providers" %}}
+
 For additional providers supported by KKP, please check out our [DatacenterSpec CRD documentation]({{< ref "../../../references/crds/#datacenterspec" >}})
 for the respective provider you want to use.
+
 {{% /tab %}}
 {{< /tabs >}}
 
@@ -535,6 +555,7 @@ kubectl apply -f seed-with-secret.yaml
 #Secret/kubeconfig-kubermatic created.
 #Seed/kubermatic created.
 ```
+
 You can watch the progress by using `kubectl` and `watch` on the master cluster:
 
 ```bash
@@ -543,7 +564,7 @@ watch kubectl -n kubermatic get seeds
 #kubermatic       0          Hamburg     v2.21.2                  v1.24.8             Healthy   5m
 ```
 
-Watch the `PHASE` column until it shows "_Healthy_". If it does not after a couple of minutes, you can check
+Watch the `PHASE` column until it shows "*Healthy*". If it does not after a couple of minutes, you can check
 the `kubermatic` namespace on the new seed cluster and verify if there are any Pods showing signs of issues:
 
 ```bash
