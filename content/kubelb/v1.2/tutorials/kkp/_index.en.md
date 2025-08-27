@@ -1,7 +1,7 @@
 +++
 title = "Kubermatic Kubernetes Platform Integration"
 date = 2023-10-27T10:07:15+02:00
-weight = 15
+weight = 9
 enterprise = true
 +++
 

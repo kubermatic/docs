@@ -2,7 +2,7 @@
 title = "Observability"
 linkTitle = "Observability"
 date = 2023-10-27T10:07:15+02:00
-weight = 7
+weight = 8
 +++
 
 KubeLB is a mission-critical component in the Kubernetes ecosystem, and its observability is crucial for ensuring the stability and reliability of the platform. This guide will walk you through the steps to enable and configure observability for KubeLB.
