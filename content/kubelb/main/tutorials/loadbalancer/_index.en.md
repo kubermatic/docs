@@ -99,6 +99,38 @@ spec:
 
 This will create a service of type `LoadBalancer` and a deployment. KubeLB CCM will then propagate the request to management cluster, create a LoadBalancer CR there and retrieve the IP address allocated in the management cluster. Eventually the IP address will be assigned to the service in the tenant cluster.
 
+### Load Balancer Hostname Support
+
+KubeLB now supports assigning a hostname directly to the LoadBalancer resource. This is helpful for simpler configurations where no special routing rules are required for your Ingress or HTTPRoute resources.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  name: test-lb-hostname
+  namespace: tenant-dkrqjswsgk
+  annotations:
+    kubelb.k8c.io/request-wildcard-domain: "true"
+spec:
+  # hostname: test.example.com
+  endpoints:
+    - addresses:
+        - ip: 91.99.112.254
+      ports:
+        - name: 8080-tcp
+          port: 31632
+          protocol: TCP
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+  type: ClusterIP
+```
+
+This will create a LoadBalancer resource with the hostname `test.example.com` that can forward traffic to the IP address `91.99.112.254` on port `31632`. The `kubelb.k8c.io/request-wildcard-domain: "true"` annotation is used to request a wildcard domain for the hostname. Otherwise `spec.hostname` can also be used to explicitly set the hostname.
+
+Please take a look at [DNS Automation](../security/dns/#enable-dns-automation) for more details on how to configure DNS for the hostname.
+
 ### Configurations
 
 KubeLB CCM helm chart can be used to further configure the CCM. Some essential options are:
