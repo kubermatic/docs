@@ -148,3 +148,5 @@ After a few seconds you should get the result:
 You can then edit and modify if you like, from the form or directly in the YAML. 
 
 You also do not have to worry about getting a wrong schema since it is getting validated in the backend. You can be sure there are no hallucinated fields nor missing required fields.
+
+**Note:** Please be sure to check the values and the YAML in general before submitting. AI can make mistakes.
