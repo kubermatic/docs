@@ -37,7 +37,7 @@ go install github.com/kubermatic/kubelb-cli@v0.1.0
 
 ### Configuration
 
-KubeLB CLI needs the tenant scoped kubeconfig and the tenant name to be configured either via environmnent variables or through the CLI flags. Enviornment variables are preferred as you don't have to specify them for each command.
+KubeLB CLI needs the tenant scoped kubeconfig and the tenant name to be configured either via environment variables or through the CLI flags. Environment variables are preferred as you don't have to specify them for each command.
 
 ```bash
 export KUBECONFIG=/path/to/kubeconfig
