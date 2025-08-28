@@ -52,7 +52,7 @@ spec:
 
 Update values.yaml for KubeLB manager chart to enable the ingress-nginx addon.
 
-```sh
+```yaml
 kubelb-addons:
   enabled: true
   ingress-nginx:
