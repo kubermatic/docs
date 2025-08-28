@@ -88,6 +88,8 @@ spec:
     connectionManagerURL: "https://connection-manager.example.com"
 ```
 
+**NOTE: Apart from this the Gateway or Ingress should be configured to manage DNS for the tunnel. Please refer to the [DNS](../../tutorials/security/dns/#enable-dns-automation) documentation for more details.**
+
 ### Provisioning Tunnels
 
 Tunnels are created either using the `kubelb expose 1313` command or the `kubelb tunnel create` command.

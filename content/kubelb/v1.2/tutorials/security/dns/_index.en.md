@@ -92,11 +92,65 @@ spec:
     wildcardDomain: "*.apps.example.com"
     # Allow tenants to specify explicit hostnames for Load balancers and tunnels(in EE Edition)
     allowExplicitHostnames: false
+  gatewayAPI:
+    class: "eg"
+    defaultGateway:
+      name: "default"
+      namespace: "kubelb"
 ```
 
 Users can then either use [external-dns annotations](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/annotations/annotations.md) or the annotation `kubelb.k8c.io/manage-dns: true` on their resources to automate DNS management.
 
 The additional validation at the tenant level allows us to use a single instance of external-dns for multiple tenants. Although, if required, external-dns can be installed per tenant as well.
+
+#### Configure Gateway
+
+Gateway resource needs to be configured for this automation to work. For example, if you are using Gateway API, you can configure the Gateway resource to manage DNS as follows:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: default
+  namespace: kubelb
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  gatewayClassName: eg
+  listeners:
+    ## HTTP listener to solve DNS challenge for cert-manager
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+    - protocol: HTTPS
+      port: 443
+      name: https
+      hostname: "*.apps.example.com"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: eg-https
+    # Required in EE for tunneling
+    - protocol: HTTPS
+      port: 443
+      name: https-connection-manager
+      hostname: "connection-manager.example.com"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: eg-https-connection-manager
+```
 
 ## Usage
 
