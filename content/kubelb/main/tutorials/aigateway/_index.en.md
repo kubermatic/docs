@@ -1,11 +1,11 @@
 +++
-title = "AI Gateway"
-linkTitle = "AI Gateway"
+title = "AI & MCP Gateway"
+linkTitle = "AI & MCP Gateway"
 date = 2023-10-27T10:07:15+02:00
 weight = 7
 +++
 
-This tutorial will guide you through setting up an AI Gateway using KubeLB with KGateway to securely manage Large Language Model (LLM) requests.
+This tutorial will guide you through setting up an AI and MCP Gateway using KubeLB with KGateway to securely manage Large Language Model (LLM) requests and MCP tool servers.
 
 ## Overview
 
@@ -236,4 +236,4 @@ For advanced configurations and features:
 - [KGateway AI Setup Documentation](https://kgateway.dev/docs/ai/setup/)
 - [KGateway Authentication Guide](https://kgateway.dev/docs/ai/auth/)
 - [Prompt Guards and Security](https://kgateway.dev/docs/ai/prompt-guards/)
-- [Multiple LLM Providers](https://kgateway.dev/docs/ai/providers/)
+- [Multiple LLM Providers](https://kgateway.dev/docs/ai/cloud-providers/)
