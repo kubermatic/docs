@@ -4,9 +4,9 @@ date = 2024-03-15T00:00:00+01:00
 weight = 60
 +++
 
-## Kubermatic KubeLB v1.1
+## Kubermatic KubeLB v1.2
 
-- [v1.2.0](#v110)
+- [v1.2.0](#v120)
   - [Community Edition](#community-edition)
   - [Enterprise Edition](#enterprise-edition)
 
