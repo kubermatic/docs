@@ -1321,6 +1321,43 @@ _Appears in:_
 
 
 
+### ApplicationCatalogLimit
+
+
+
+
+
+_Appears in:_
+- [CatalogManagerConfiguration](#catalogmanagerconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `metadataSelector` _[ApplicationDefinitionMetadataSelector](#applicationdefinitionmetadataselector)_ | {{< unsafe >}}MetadataSelector defines criteria for selecting ApplicationDefinitions based on their metadata attributes.<br />For example, to select ApplicationDefinitions with a specific support tier (e.g., 'gold'),<br />specify that tier here.<br />When multiple tiers are specified, the Application Catalog Manager uses additive logic<br />to determine which ApplicationDefinitions to retrieve from the OCI registry.{{< /unsafe >}} |
+| `nameSelector` _string array_ | {{< unsafe >}}NameSelector defines criteria for selecting ApplicationDefinitions by name.<br />Each name must correspond to an ApplicationDefinition's `metadata.name` field.<br />When multiple names are specified, the Application Catalog Manager uses additive logic<br />to retrieve all matching ApplicationDefinitions from the OCI registry.<br />Example: Specifying ['nginx', 'cert-manager'] will retrieve only those specific ApplicationDefinitions.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### ApplicationDefinitionMetadataSelector
+
+
+
+
+
+_Appears in:_
+- [ApplicationCatalogLimit](#applicationcataloglimit)
+
+| Field | Description |
+| --- | --- |
+| `tiers` _string array_ | {{< unsafe >}}Tiers specifies the support tiers to filter ApplicationDefinitions.<br />ApplicationDefinitions matching any of the specified tiers will be selected.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### ApplicationDefinitionsConfiguration
 
 
@@ -1334,6 +1371,7 @@ _Appears in:_
 | --- | --- |
 | `systemApplications` _[SystemApplicationsSettings](#systemapplicationssettings)_ | {{< unsafe >}}SystemApplications contains configuration for system applications.{{< /unsafe >}} |
 | `defaultApplicationCatalog` _[DefaultApplicationCatalogSettings](#defaultapplicationcatalogsettings)_ | {{< unsafe >}}DefaultApplicationCatalog contains configuration for the default application catalog.{{< /unsafe >}} |
+| `catalogManager` _[CatalogManagerConfiguration](#catalogmanagerconfiguration)_ | {{< unsafe >}}CatalogManager configures the Application Catalog CatalogManager, which is responsible for managing ApplicationDefinitions<br />in the cluster from specified OCI registries.<br />Note: The Application Catalog CatalogManager requires its feature flag to be enabled as it is currently in beta.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -1760,6 +1798,26 @@ Possible values are `canal`, `cilium` or `none`.
 
 _Appears in:_
 - [CNIPluginSettings](#cnipluginsettings)
+
+
+
+### CatalogManagerConfiguration
+
+
+
+
+
+_Appears in:_
+- [ApplicationDefinitionsConfiguration](#applicationdefinitionsconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `logLevel` _string_ | {{< unsafe >}}LogLevel specifies the logging verbosity level for the Application Catalog Manager.{{< /unsafe >}} |
+| `registrySettings` _[RegistrySettings](#registrysettings)_ | {{< unsafe >}}RegistrySettings configures the OCI registry from which the Application Catalog Manager<br />retrieves ApplicationDefinition manifests.{{< /unsafe >}} |
+| `limit` _[ApplicationCatalogLimit](#applicationcataloglimit)_ | {{< unsafe >}}Limit defines filtering criteria for ApplicationDefinitions to be reconciled from the OCI registry.<br />When undefined, all ApplicationDefinitions from the registry are pulled and reconciled.<br />When defined, only ApplicationDefinitions matching the specified criteria are processed.{{< /unsafe >}} |
+
+
+[Back to top](#top)
 
 
 
@@ -6562,6 +6620,46 @@ _Underlying type:_ `string`
 _Appears in:_
 - [NodeSettings](#nodesettings)
 - [ProxySettings](#proxysettings)
+
+
+
+### RegistryCredentials
+
+
+
+
+
+_Appears in:_
+- [RegistrySettings](#registrysettings)
+
+| Field | Description |
+| --- | --- |
+| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#secretkeyselector-v1-core)_ | {{< unsafe >}}Username references the secret containing the registry username credential.<br />The referenced Secret must exist in the KKP installation namespace (default: "kubermatic").{{< /unsafe >}} |
+| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#secretkeyselector-v1-core)_ | {{< unsafe >}}Password references the secret containing the registry password credential.<br />The referenced Secret must exist in the KKP installation namespace (default: "kubermatic").{{< /unsafe >}} |
+| `registryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#secretkeyselector-v1-core)_ | {{< unsafe >}}RegistryConfigFile references the secret containing the Docker registry configuration file.<br />The value must be a dockercfg file following the same format as ~/.docker/config.json.<br />The referenced Secret must exist in the KKP installation namespace (default: "kubermatic").{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### RegistrySettings
+
+
+
+
+
+_Appears in:_
+- [CatalogManagerConfiguration](#catalogmanagerconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `registryURL` _string_ | {{< unsafe >}}RegistryURL specifies the OCI registry URL where ApplicationDefinitions are stored.<br />Example: oci://localhost:5000/myrepo{{< /unsafe >}} |
+| `tag` _string_ | {{< unsafe >}}Tag specifies the version tag for ApplicationDefinitions in the OCI registry.<br />Example: v1.0.0{{< /unsafe >}} |
+| `credentials` _[RegistryCredentials](#registrycredentials)_ | {{< unsafe >}}Credentials optionally references a secret containing Helm registry authentication credentials.<br />Either username/password or registryConfigFile can be specified, but not both.{{< /unsafe >}} |
+
+
+[Back to top](#top)
 
 
 
