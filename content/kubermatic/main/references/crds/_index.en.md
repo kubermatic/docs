@@ -1815,6 +1815,28 @@ _Appears in:_
 | `logLevel` _string_ | {{< unsafe >}}LogLevel specifies the logging verbosity level for the Application Catalog Manager.{{< /unsafe >}} |
 | `registrySettings` _[RegistrySettings](#registrysettings)_ | {{< unsafe >}}RegistrySettings configures the OCI registry from which the Application Catalog Manager<br />retrieves ApplicationDefinition manifests.{{< /unsafe >}} |
 | `limit` _[ApplicationCatalogLimit](#applicationcataloglimit)_ | {{< unsafe >}}Limit defines filtering criteria for ApplicationDefinitions to be reconciled from the OCI registry.<br />When undefined, all ApplicationDefinitions from the registry are pulled and reconciled.<br />When defined, only ApplicationDefinitions matching the specified criteria are processed.{{< /unsafe >}} |
+| `image` _[CatalogManagerImageConfiguration](#catalogmanagerimageconfiguration)_ | {{< unsafe >}}Image configures the container image for the application-catalog manager.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#duration-v1-meta)_ | {{< unsafe >}}ReconciliationInterval is the interval at which application-catalog manager reconcile ApplicationDefinitions.<br />By default, ApplicationsDefinitions are reconciled at every 10 minutes.<br />Setting a value equal to 0 disables the force reconciliation of the default Application Catalog.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### CatalogManagerImageConfiguration
+
+
+
+CatalogManagerImageConfiguration configures the container image settings.
+
+_Appears in:_
+- [CatalogManagerConfiguration](#catalogmanagerconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `repository` _string_ | {{< unsafe >}}Repository is used to override the application-catalog manager image repository.<br />The default value is "quay.io/kubermatic/application-catalog-manager"{{< /unsafe >}} |
+| `tag` _string_ | {{< unsafe >}}Tag is used to override the application-catalog manager image tag.{{< /unsafe >}} |
 
 
 [Back to top](#top)
