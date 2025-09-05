@@ -8,7 +8,6 @@ Through the Backup Destinations settings you can enable and configure the new et
 
 ![Backup Destinations](images/backup-destinations.png?classes=shadow,border "Backup Destinations Settings View")
 
-
 ### Etcd Backup Settings
 
 Setting a Bucket and Endpoint for a Seed turns on the automatic etcd Backups and Restore feature, for that Seed only. For now,
@@ -44,13 +43,13 @@ For security reasons, the API/UI does not offer a way to get the current credent
 
 To see how to make backups and restore your cluster, check the [Etcd Backup and Restore Tutorial]({{< ref "../../../etcd-backups" >}}).
 
-
 ### Default Backups
 
 Since 2.20, default destinations are required if the automatic etcd backups are configured. A default EtcdBackupConfig
 is created for all the user clusters in the Seed. It has to be a destination that is present in the backup destination list for that Seed.
 
 Example Seed with default destination:
+
 ```yaml
 ...
   etcdBackupRestore:
@@ -66,6 +65,7 @@ Example Seed with default destination:
 ```
 
 Default EtcdBackupConfig that is created:
+
 ```yaml
 ...
   spec:

@@ -7,7 +7,8 @@ weight = 1
 
 +++
 
-# What is ArgoCD?
+## What is ArgoCD?
+
 ArgoCD is a declarative, GitOps continuous delivery tool for Kubernetes.
 
 ArgoCD follows the GitOps pattern of using Git repositories as the source of truth for defining the desired application state. Kubernetes manifests can be specified in several ways:
@@ -18,23 +19,22 @@ ArgoCD follows the GitOps pattern of using Git repositories as the source of tru
 - Plain directory of YAML/json manifests
 - Any custom config management tool configured as a config management plugin
 
-
 For more information on the ArgoCD, please refer to the [official documentation](https://argoproj.github.io/cd/)
 
-# How to deploy?
+## How to deploy?
 
 ArgoCD is available as part of the KKP's default application catalog.
 It can be deployed to the user cluster either during the cluster creation or after the cluster is ready(existing cluster) from the Applications tab via UI.
 
-* Select the ArgoCD application from the Application Catalog.
+- Select the ArgoCD application from the Application Catalog.
 
 ![Select ArgoCD Application](01-select-application-argocd-app.png)
 
-* Under the Settings section, select and provide appropriate details and click `-> Next` button.
+- Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for ArgoCD Application](02-settings-argocd-app.png)
 
-* Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the ArgoCD application to the user cluster.
+- Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the ArgoCD application to the user cluster.
 
 ![Application Values for ArgoCD Application](03-applicationvalues-argocd-app.png)
 

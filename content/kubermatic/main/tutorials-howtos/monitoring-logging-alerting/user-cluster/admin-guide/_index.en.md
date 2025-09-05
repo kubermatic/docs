@@ -36,16 +36,16 @@ For specific information about estimating the resource usage, please refer to [C
 
 Some key parameters to consider are:
 
-* The number of active series
-* Sampling rate
-* The rate at which series are added and removed
-* How compressible the time-series data are
+- The number of active series
+- Sampling rate
+- The rate at which series are added and removed
+- How compressible the time-series data are
 
 Other parameters which can become important if you have particularly high values:
 
-* Number of different series under one metric name
-* Number of labels per series
-* Rate and complexity of queries
+- Number of different series under one metric name
+- Number of labels per series
+- Rate and complexity of queries
 
 ### Installing MLA Stack in a Seed Cluster
 
@@ -58,6 +58,7 @@ kubermatic-installer deploy usercluster-mla --config <kubermatic.yaml> --helm-va
 ```
 
 Additional options that can be used for the installation include:
+
 ```bash
 --mla-force-secrets                (UserCluster MLA) force reinstallation of mla-secrets Helm chart
 --mla-include-iap                  (UserCluster MLA) Include Identity-Aware Proxy installation
@@ -183,7 +184,9 @@ There are several options in the KKP “Admin Panel” which are related to user
 - Seed name and the base domain under which KKP is running will be appended to it, e.g. for prefix `grafana` the final URL would be `https://grafana.<seed-name>.<kkp-domain>`.
 
 ### Addons Configuration
+
 KKP provides several addons for user clusters, that can be helpful when the User Cluster Monitoring feature is enabled, namely:
+
 - **node-exporter** addon: exposes hardware and OS metrics of worker nodes to Prometheus,
 - **kube-state-metrics** addon: exposes cluster-level metrics of Kubernetes API objects (like pods, deployments, etc.) to Prometheus.
 
@@ -196,7 +199,9 @@ addons are part of the KKP default accessible addons, so they should be availabl
 administrator has changed it.
 
 ### Enabling alerts for MLA stack in a Seed
+
 To enable alerts in seed cluster for user cluster MLA stack(cortex and loki) , update the `values.yaml` used for installation of [Master / Seed MLA stack]({{< relref "../../master-seed/installation/" >}}). Add the following line under `prometheus.ruleFiles` label:
+
 ```yaml
 - /etc/prometheus/rules/usercluster-mla-*.yaml
 ```
@@ -229,6 +234,7 @@ For larger scales, you will may start with tweaking the following:
 - Cortex Ingester volume sizes (cortex values.yaml - `cortex.ingester.persistentVolume.size`) - default 10Gi
 - Loki Ingester replicas (loki values.yaml - `loki-distributed.ingester.replicas`) - default 3
 - Loki Ingester Storage as follows:
+
 ```yaml
 loki-distributed:
   ingester:
@@ -292,18 +298,19 @@ cortex:
 By default, a MinIO instance will also be deployed as the S3 storage backend for MLA components. It is also possible to use an existing MinIO instance in your cluster or any other S3-compatible services.
 
 There are three Helm charts which are related to MinIO in MLA repository:
+
 - [mla-secrets](https://github.com/kubermatic/kubermatic/tree/main/charts/mla/mla-secrets) is used to create and manage MinIO and Grafana credentials Secrets.
 - [minio](https://github.com/kubermatic/kubermatic/tree/main/charts/mla/minio) is used to deploy MinIO instance in Kubernetes cluster.
 - [minio-lifecycle-mgr](https://github.com/kubermatic/kubermatic/tree/main/charts/mla/minio-lifecycle-mgr) is used to manage the lifecycle of the stored data, and to take care of data retention.
 
 If you want to disable the MinIO installation and use your existing MinIO instance or other S3 services, you need to:
+
 - Disable the Secret creation for MinIO in mla-secrets Helm chart. In the [mla-secrets Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/mla-secrets/values.yaml#L18), set `mlaSecrets.minio.enabled` to `false`.
 - Modify the S3 storage settings in `values.yaml` of other MLA components to use the existing MinIO instance or other S3 services:
   - In [cortex Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/cortex/values.yaml), change the `cortex.config.ruler_storage.s3`, `cortex.config.alertmanager_storage.s3`, and `cortex.config.blocks_storage.s3` to point to your existing MinIO instance or other S3 service. Modify the  `cortex.alertmanager.env`, `cortex.ingester.env`, `cortex.querier.env`,  `cortex.ruler.env` and `cortex.storage_gateway.env` to get credentials from your Secret.
   - In [loki Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/loki-distributed/values.yaml), change the `storageConfig.aws` and `ruler.storage.s3` in the `loki-distributed.loki.config` to point to your MinIO instance or S3 service. Modify `extraEnvFrom` of `loki-distributed.compactor`, `loki-distributed.ingester`, `loki-distributed.querier`, `loki-distributed.ruler` and `loki-distributed.tableManager` to get credentials from your Secret.
   - If you still want to use MinIO lifecycle manager to manage data retention for MLA data in your MinIO instance, in [minio-lefecycle-mgr Helm chart values.yaml](https://github.com/kubermatic/kubermatic/blob/main/charts/mla/minio-lifecycle-mgr/values.yaml), set `lifecycleMgr.minio.endpoint` and `lifecycleMgr.minio.secretName` to your MinIO endpoint and Secret.
 - Use `--mla-skip-minio` or `--mla-skip-minio-lifecycle-mgr` flag when you execute `kubermatic-installer deploy usercluster-mla`. If you want to disable MinIO but still use MinIO lifecycle manager to take care of data retention, you can use `--mla-skip-minio` flag. Otherwise, you can use both flags to disable both MinIO and lifecycle manager. Please note that if you are redeploying the stack on existing cluster, you will have to manually uninstall MinIO and/or lifecycle manager. To do that, you can use commands: `helm uninstall --namespace mla minio` and `helm uninstall --namespace mla minio-lifecycle-mgr` accordingly.
-
 
 ### Managing Grafana Dashboards
 
@@ -356,25 +363,25 @@ By default, no rate-limiting is applied. Configuring the rate-limiting options w
 
 For **metrics**, the following rate-limiting options are supported as part of the `monitoringRateLimits`:
 
-| Option               | Direction  | Enforced by | Description
-| -------------------- | -----------| ----------- | ----------------------------------------------------------------------
-| `ingestionRate`      | Write path | Cortex      | Ingestion rate limit in samples per second (Cortex `ingestion_rate`).
-| `ingestionBurstSize` | Write path | Cortex      | Maximum number of series per metric (Cortex `max_series_per_metric`).
-| `maxSeriesPerMetric` | Write path | Cortex      | Maximum number of series per this user cluster (Cortex `max_series_per_user`).
-| `maxSeriesTotal`     | Write path | Cortex      | Maximum number of series per this user cluster (Cortex `max_series_per_user`).
-| `queryRate`          | Read path  | MLA Gateway | Query request rate limit per second (NGINX `rate` in `r/s`).
-| `queryBurstSize`     | Read path  | MLA Gateway | Query burst size in number of requests (NGINX `burst`).
-| `maxSamplesPerQuery` | Read path  | Cortex      | Maximum number of samples during a query (Cortex `max_samples_per_query`).
-| `maxSeriesPerQuery`  | Read path  | Cortex      | Maximum number of timeseries during a query (Cortex `max_series_per_query`).
+| Option               | Direction  | Enforced by | Description                                                                     |
+| -------------------- | -----------| ----------- | --------------------------------------------------------------------------------|
+| `ingestionRate`      | Write path | Cortex      | Ingestion rate limit in samples per second (Cortex `ingestion_rate`).           |
+| `ingestionBurstSize` | Write path | Cortex      | Maximum number of series per metric (Cortex `max_series_per_metric`).           |
+| `maxSeriesPerMetric` | Write path | Cortex      | Maximum number of series per this user cluster (Cortex `max_series_per_user`).  |
+| `maxSeriesTotal`     | Write path | Cortex      | Maximum number of series per this user cluster (Cortex `max_series_per_user`).  |
+| `queryRate`          | Read path  | MLA Gateway | Query request rate limit per second (NGINX `rate` in `r/s`).                    |
+| `queryBurstSize`     | Read path  | MLA Gateway | Query burst size in number of requests (NGINX `burst`).                         |
+| `maxSamplesPerQuery` | Read path  | Cortex      | Maximum number of samples during a query (Cortex `max_samples_per_query`).      |
+| `maxSeriesPerQuery`  | Read path  | Cortex      | Maximum number of timeseries during a query (Cortex `max_series_per_query`).    |
 
 For **logs**, the following rate-limiting options are supported as part of the `loggingRateLimits`:
 
-| Option               | Direction  | Enforced by | Description
-| -------------------- | -----------| ----------- | ----------------------------------------------------------------------
-| `ingestionRate`      | Write path | MLA Gateway | Ingestion rate limit in requests per second (NGINX `rate` in `r/s`).
-| `ingestionBurstSize` | Write path | MLA Gateway | Ingestion burst size in number of requests (NGINX `burst`).
-| `queryRate`          | Read path  | MLA Gateway | Query request rate limit per second (NGINX `rate` in `r/s`).
-| `queryBurstSize`     | Read path  | MLA Gateway | Query burst size in number of requests (NGINX `burst`).
+| Option               | Direction  | Enforced by | Description                                                           |
+| -------------------- | -----------| ----------- | ----------------------------------------------------------------------|
+| `ingestionRate`      | Write path | MLA Gateway | Ingestion rate limit in requests per second (NGINX `rate` in `r/s`).  |
+| `ingestionBurstSize` | Write path | MLA Gateway | Ingestion burst size in number of requests (NGINX `burst`).           |
+| `queryRate`          | Read path  | MLA Gateway | Query request rate limit per second (NGINX `rate` in `r/s`).          |
+| `queryBurstSize`     | Read path  | MLA Gateway | Query burst size in number of requests (NGINX `burst`).               |
 
 ## Debugging
 
@@ -400,6 +407,7 @@ kubectl get pods -n mla-system
 ```
 
 Output will be similar to this:
+
 ```bash
 NAME                                READY   STATUS    RESTARTS   AGE
 monitoring-agent-68f7485456-jj7v6   1/1     Running   0          11m
@@ -414,6 +422,7 @@ kubectl get pods -n cluster-cxfmstjqkw | grep mla-gateway
 ```
 
 Output will be similar to this:
+
 ```bash
 mla-gateway-6dd8c68d67-knmq7                  1/1     Running   0          22m
 ```
@@ -479,6 +488,7 @@ To incorporate the helm-charts upgrade, follow the below steps:
 ### Upgrade Loki to version 2.4.0
 
 Add the following configuration inside `loki.config` key, under `ingester` label in the Loki's `values.yaml` file:
+
 ```yaml
 wal:
   dir: /var/loki/wal
@@ -489,11 +499,13 @@ wal:
 Statefulset `store-gateway` refers to a headless service called `cortex-store-gateway-headless`, however, due to a bug in the upstream helm-chart(v0.5.0), the `cortex-store-gateway-headless` doesn’t exist at all, and headless service is named `cortex-store-gateway`, which is not used by the statefulset. Because `cortex-store-gateway` is not referred at all, we can safely delete it, and do helm upgrade to fix the issue (Refer to this [pull-request](https://github.com/cortexproject/cortex-helm-chart/pull/166) for details).
 
 Delete the existing `cortex-store-gateway` service by running the below command:
+
 ```bash
 kubectl delete svc cortex-store-gateway -n mla
 ```
 
 After doing the above-mentioned steps, MLA stack can be upgraded using the Kubermatic Installer:
+
 ```bash
 kubermatic-installer deploy usercluster-mla --config <kubermatic.yaml> --helm-values <mlavalues.yaml>
 ```
