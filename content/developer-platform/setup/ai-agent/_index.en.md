@@ -46,7 +46,8 @@ aiAgent:
 
   ingress:
     create: true
-    host: ai-agent.<DOMAIN>
+    host: <DOMAIN> # Use same domain as the frontend to avoid CORS errors
+    prefix: /ai-agent(/|$)(.*)
     certIssuer:
       kind: ClusterIssuer
       name: letsencrypt-prod
@@ -76,20 +77,6 @@ $ helm upgrade --install kdp-ai-agent \
     --values=ai-agent.values.yaml
 ```
 
-### Configure DNS record
-
-You need to create a DNS record pointing to the load balancer of your Kubernetes cluster.
-
-Create a DNS record that directs traffic from `ai-agent.<DOMAIN>` to your cluster's NGINX ingress controller.
-
-Assuming you installed the NGINX ingress controller into the `ingress-nginx` namespace, use the following command to the retrieve the external IP address or DNS name of the load balancer (in column "EXTERNAL-IP"):
-
-```bash
-$ kubectl --namespace=ingress-nginx get service ingress-nginx-controller
-NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP                                                    PORT(S)                      AGE
-ingress-nginx-controller   LoadBalancer   10.47.248.232   4cdd93dfab834ed9a78858c7f2633380.eu-west-1.elb.amazonaws.com   80:30807/TCP,443:30184/TCP   449d
-```
-
 ### Configure the Dashboard
 
 To make the AI Agent accessible from the KDP Dashboard, you need to update the `values.yaml` file for your **dashboard deployment**. Assuming you followed the quickstart, this file would be `kdp-dashboard.values.yaml`.
@@ -103,7 +90,7 @@ dashboard:
     features:
       aiAgent:
         enabled: true
-        generatorURL: ai-agent.<DOMAIN>
+        generatorURL: <DOMAIN>/ai-agent/ # same domain as the host
 ```
 
 
