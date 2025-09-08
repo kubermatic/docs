@@ -50,7 +50,7 @@ presubmits:
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
-        - image: quay.io/kubermatic/remark-lint:1.0.0
+        - image: quay.io/kubermatic/remark-lint:2.0.0
           command:
             - "./hack/ci/lint-markdown.sh"
           resources:
