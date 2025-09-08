@@ -1,4 +1,4 @@
-FROM node:12.11-alpine
+FROM node:20.19.5-alpine
 LABEL maintainer="Kubermatic <support@kubermatic.com>"
 
 ENV PATH "$PATH:/app/node_modules/.bin/"
