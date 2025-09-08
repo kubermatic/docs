@@ -82,10 +82,6 @@ spec:
     securityGroups:
     routerID:
     subnetID:
-  packet:
-    apiKey:
-    projectId:
-    billingCycle:
   vsphere:
     username:
     password:

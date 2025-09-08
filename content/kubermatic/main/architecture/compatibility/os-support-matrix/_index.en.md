@@ -26,7 +26,6 @@ This table shows the combinations of operating systems and cloud providers that 
 | Azure                 | ✓ | ✓ | ✓ | x | ✓ |
 | Digitalocean          | ✓ | x | x | x | ✓ |
 | Edge                  | ✓ | x | x | x | x |
-| Equinix Metal         | ✓ | ✓ | x | x | ✓ |
 | Google Cloud Platform | ✓ | ✓ | x | x | x |
 | Hetzner               | ✓ | x | x | x | ✓ |
 | KubeVirt              | ✓ | ✓ | ✓ | x | ✓ |

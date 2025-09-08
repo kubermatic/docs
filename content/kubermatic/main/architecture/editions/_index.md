@@ -23,7 +23,6 @@ Kubermatic Kubernetes Platform (KKP) is an open-source product, and both the Com
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KubeVirt | ✔ | ✔ | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nutanix | ✔ | ✔ | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenStack | ✔ | ✔ | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Equinix Metal (formerly Packet) | ✔ | ✔ | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VMware Cloud Director | ✔ | ✔ | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vSphere | ✔ | ✔ | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bare Metal (Tinkerbell) | ✔ | ✔ | |
