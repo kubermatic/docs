@@ -13,6 +13,7 @@ staging environment for testing before.
 {{% /notice %}}
 
 ## Requirement
+
 To leverage KKP's edge capabilities, you'll need to:
 
 * Provide Target Devices: Identify the edge devices you want to function as worker nodes within your Kubermatic user cluster.

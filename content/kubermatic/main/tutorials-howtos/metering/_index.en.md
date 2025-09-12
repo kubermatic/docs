@@ -28,11 +28,11 @@ work properly the s3 endpoint needs to be available from the browser.
 
 ### Prerequisites
 
-* S3 bucket
+- S3 bucket
   - Any S3-compatible endpoint can be used
   - The bucket is required to store report csv files
   - Should be available via browser
-* Administrator access to dashboard
+- Administrator access to dashboard
   - Administrator access can be gained by
     - asking other administrators to follow the instructions for [Adding administrators][adding-administrators] via the dashboard
     - or by using `kubectl` to give a user admin access. Please refer to the [Admin Panel][admin-panel]
@@ -74,7 +74,6 @@ according to your wishes.
     [Kubernetes Docs][k8s-meaning-of-memory] for a more thorough explanation of valid values
   - When choosing a volume size, please take into consideration that old usage data files will not
     be deleted automatically
-
 
 In the end it is possible to create different report schedules.
 Click on **Create Schedule**, to open the Schedule configuration dialog.

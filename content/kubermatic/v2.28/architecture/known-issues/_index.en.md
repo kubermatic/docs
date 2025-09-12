@@ -15,7 +15,6 @@ This page documents the list of known issues and possible workarounds/solutions.
 
 For oidc authentication to user cluster there is always the same issuer used. This leads to invalidation of refresh tokens when a new authentication happens with the same user because existing refresh tokens for the same user/client pair are invalidated when a new one is requested.
 
-
 ### Root Cause
 
 By default it is only possible to have one refresh token per user/client pair in dex for security reasons. There is an open issue regarding this in the [upstream repository](https://github.com/dexidp/dex/issues/981). The refresh token has by default also no expiration set. This is useful to stay logged in over a longer time because the id_token can be refreshed unless the refresh token is invalidated.
@@ -26,7 +25,7 @@ One example would be to download a kubeconfig of one cluster and then of another
 
 You can either change this in dex configuration by setting `userIDKey` to `jti` in the connector section or you could configure an other oidc provider which supports multiple refresh tokens per user-client pair like keycloak does by default.
 
-#### dex
+#### Dex
 
 The following yaml snippet is an example how to configure an oidc connector to keep the refresh tokens.
 
@@ -53,17 +52,17 @@ The following yaml snippet is an example how to configure an oidc connector to k
           userNameKey: <<userNameValue>>
 ```
 
-#### external provider
+#### External provider
 
 For an explanation how to configure an other oidc provider than dex take a look at [oidc-provider-configuration]({{< ref "../../tutorials-howtos/oidc-provider-configuration" >}}).
 
-### security implications regarding dex solution
+### Security implications regarding dex solution
 
 For dex this has some implications. With this configuration a token is generated for each user session. The number of objects stored in kubernetes regarding refresh tokens has no limit anymore. The principle that one refresh belongs to one user/client pair is a security consideration which would be ignored in that case. The only way to revoke a refresh token is then to do it via grpc api which is not exposed by default or by manually deleting the related refreshtoken resource in the kubernetes cluster.
 
 ## API server Overload Leading to Instability in Seed due to Konnectivity
 
-Issue: https://github.com/kubermatic/kubermatic/issues/13321
+Issue: <https://github.com/kubermatic/kubermatic/issues/13321>
 
 Status: Fixed
 
