@@ -59,7 +59,6 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
         ]
       }
     ```
-
 - Run the application using `npm start`, open the `Account` view under `User settings`, select your new theme and update `custom.scss` according to your needs.
   It is possible to override basically everything inside this theme file. In example if you want to change background color of a `mat-form-field` do this:
   ```scss
@@ -122,7 +121,7 @@ assume that we have downloaded a `light.css` file and will be preparing a new th
 - Rename `light.css` to `solar.css`.
 - Update `solar.css` file according to your needs. Anything in the file can be changed or new rules can be added.
    In case you are changing colors, remember to update it in the whole file.
-- Mount new `solar.css` file to `dist/assets/themes` directory inside the application container. **Make sure not to override whole irectory.**
+- Mount new `solar.css` file to `dist/assets/themes` directory inside the application container. **Make sure not to override whole directory.**
 - Update `config.json` file inside `dist/config` directory and register the new theme.
 
     ```json
