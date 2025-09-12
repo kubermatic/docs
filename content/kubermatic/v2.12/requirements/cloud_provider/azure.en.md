@@ -17,7 +17,7 @@ Login to Azure with [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view
 az login
 ```
 
-This command will open in your default browser a window where you can authenticate. After you succefull logged in get your subscription ID.
+This command will open in your default browser a window where you can authenticate. After you successfully logged in get your subscription ID.
 
 ```bash
 az account show --query id -o json

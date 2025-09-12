@@ -5,7 +5,7 @@ presubmits:
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
-        - image: quay.io/kubermatic/build:go-1.22-node-18-kind-0.21-2
+        - image: quay.io/kubermatic/build:go-1.25-node-22-kind-0.30-4
           command:
             - make
           args:
@@ -21,7 +21,7 @@ presubmits:
     clone_uri: "ssh://git@github.com/kubermatic/docs.git"
     spec:
       containers:
-        - image: quay.io/kubermatic/build:go-1.22-node-18-kind-0.21-2
+        - image: quay.io/kubermatic/build:go-1.25-node-22-kind-0.30-4
           command:
             - "./hack/verify-filenames.sh"
           resources:

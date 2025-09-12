@@ -93,12 +93,12 @@ cluster backups.
 
 ## Installation
 
-The Kubermatic Installler is the recommended way to setup new seed clusters. A manual installation is possible, however
+The Kubermatic Installer is the recommended way to setup new seed clusters. A manual installation is possible, however
 more work needs to be done.
 
 ### Using the Installer
 
-Similar to how the master cluster can be installed with the installler, run the `deploy` command. You still need to
+Similar to how the master cluster can be installed with the installer, run the `deploy` command. You still need to
 manually ensure that the StorageClass you configured for Minio exists already.
 
 ```bash
