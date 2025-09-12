@@ -98,7 +98,7 @@ kubeone apply --manifest kubeone.yaml --credentials credentials.yaml
 
 docker.io registry introduced pretty low rate limits for unauthenticated requests. There are few workarounds:
 
-* Buy docker subscribtion.
+* Buy docker subscription.
   How to use docker.io credentials is covered in the [section above][using-credentials].
 * Setup own pull-through caching proxy.
 * Use public pull-through caching proxy.
