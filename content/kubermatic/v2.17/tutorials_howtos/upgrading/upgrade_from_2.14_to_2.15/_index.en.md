@@ -174,7 +174,7 @@ for the available settings, in addition to these changes:
 
 A few examples can be found in the relevant [code change in KKP](https://github.com/kubermatic/kubermatic/pull/5777/files).
 
-To prevent issues with Helm re-using IAP deployment config values from a previous release, it can be helpful to purge and
+To prevent issues with Helm reusing IAP deployment config values from a previous release, it can be helpful to purge and
 reinstall the chart:
 
 **Helm 3**
