@@ -209,7 +209,7 @@ _Appears in:_
 | `applicationRef` _[ApplicationRef](#applicationref)_ | {{< unsafe >}}ApplicationRef is a reference to identify which Application should be deployed{{< /unsafe >}} |
 | `values` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#rawextension-runtime-pkg)_ | {{< unsafe >}}Values specify values overrides that are passed to helm templating. Comments are not preserved.<br />Deprecated: Use ValuesBlock instead. This field was deprecated in KKP 2.25 and will be removed in KKP 2.27+.{{< /unsafe >}} |
 | `valuesBlock` _string_ | {{< unsafe >}}ValuesBlock specifies values overrides that are passed to helm templating. Comments are preserved.{{< /unsafe >}} |
-| `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#duration-v1-meta)_ | {{< unsafe >}}ReconciliationInterval is the interval at which to force the reconciliation of the application. By default, Applications are only reconciled<br />on changes on spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload<br />deployed by the application, nothing will happen until the application CR change.<br /><br />Setting a value greater than zero force reconciliation even if no changes occurred on application CR.<br />Setting a value equal to 0 disables the force reconciliation of the application (default behavior).<br />Setting this too low can cause a heavy load and may disrupt your application workload depending on the template method.{{< /unsafe >}} |
+| `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#duration-v1-meta)_ | {{< unsafe >}}ReconciliationInterval is the interval at which to force the reconciliation of the application. By default, Applications are only reconciled<br />on changes on spec, annotations, or the parent application definition. Meaning that if the user manually deletes the workload<br />deployed by the application, nothing will happen until the application CR change.<br />Setting a value greater than zero force reconciliation even if no changes occurred on application CR.<br />Setting a value equal to 0 disables the force reconciliation of the application (default behavior).<br />Setting this too low can cause a heavy load and may disrupt your application workload depending on the template method.{{< /unsafe >}} |
 | `deployOptions` _[DeployOptions](#deployoptions)_ | {{< unsafe >}}DeployOptions holds the settings specific to the templating method used to deploy the application.{{< /unsafe >}} |
 
 
@@ -416,7 +416,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `branch` _string_ | {{< unsafe >}}Branch to checkout. Only the last commit of the branch will be checkout in order to reduce the amount of data to download.{{< /unsafe >}} |
-| `commit` _string_ | {{< unsafe >}}Commit SHA in a Branch to checkout.<br /><br />It must be used in conjunction with branch field.{{< /unsafe >}} |
+| `commit` _string_ | {{< unsafe >}}Commit SHA in a Branch to checkout.<br />It must be used in conjunction with branch field.{{< /unsafe >}} |
 | `tag` _string_ | {{< unsafe >}}Tag to check out.<br />It can not be used in conjunction with commit or branch.{{< /unsafe >}} |
 
 
@@ -556,7 +556,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `url` _string_ | {{< unsafe >}}URL of the Helm repository the following schemes are supported:<br /><br />* http://example.com/myrepo (HTTP)<br />* https://example.com/myrepo (HTTPS)<br />* oci://example.com:5000/myrepo (OCI, HTTPS by default, use plainHTTP to enable unencrypted HTTP){{< /unsafe >}} |
+| `url` _string_ | {{< unsafe >}}URL of the Helm repository the following schemes are supported:<br />* http://example.com/myrepo (HTTP)<br />* https://example.com/myrepo (HTTPS)<br />* oci://example.com:5000/myrepo (OCI, HTTPS by default, use plainHTTP to enable unencrypted HTTP){{< /unsafe >}} |
 | `insecure` _boolean_ | {{< unsafe >}}Insecure disables certificate validation when using an HTTPS registry. This setting has no<br />effect when using a plaintext connection.{{< /unsafe >}} |
 | `plainHTTP` _boolean_ | {{< unsafe >}}PlainHTTP will enable HTTP-only (i.e. unencrypted) traffic for oci:// URLs. By default HTTPS<br />is used when communicating with an oci:// URL.{{< /unsafe >}} |
 | `chartName` _string_ | {{< unsafe >}}Name of the Chart.{{< /unsafe >}} |
@@ -1875,7 +1875,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `defaultChecksumAlgorithm` _string_ | {{< unsafe >}}DefaultChecksumAlgorithm allows setting a default checksum algorithm used by Velero for uploading objects to S3.<br /><br />Optional{{< /unsafe >}} |
+| `defaultChecksumAlgorithm` _string_ | {{< unsafe >}}DefaultChecksumAlgorithm allows setting a default checksum algorithm used by Velero for uploading objects to S3.<br />Optional{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -2412,7 +2412,7 @@ _Appears in:_
 | `constraintType` _string_ | {{< unsafe >}}ConstraintType specifies the type of gatekeeper constraint that the constraint applies to{{< /unsafe >}} |
 | `disabled` _boolean_ | {{< unsafe >}}Disabled  is the flag for disabling OPA constraints{{< /unsafe >}} |
 | `match` _[Match](#match)_ | {{< unsafe >}}Match contains the constraint to resource matching data{{< /unsafe >}} |
-| `parameters` _[Parameters](#parameters)_ | {{< unsafe >}}Parameters specifies the parameters used by the constraint template REGO.<br />It supports both the legacy rawJSON parameters, in which all the parameters are set in a JSON string, and regular<br />parameters like in Gatekeeper Constraints.<br />If rawJSON is set, during constraint syncing to the user cluster, the other parameters are ignored<br />Example with rawJSON parameters:<br /><br />parameters:<br />  rawJSON: '\{"labels":["gatekeeper"]\}'<br /><br />And with regular parameters:<br /><br />parameters:<br />  labels: ["gatekeeper"]{{< /unsafe >}} |
+| `parameters` _[Parameters](#parameters)_ | {{< unsafe >}}Parameters specifies the parameters used by the constraint template REGO.<br />It supports both the legacy rawJSON parameters, in which all the parameters are set in a JSON string, and regular<br />parameters like in Gatekeeper Constraints.<br />If rawJSON is set, during constraint syncing to the user cluster, the other parameters are ignored<br />Example with rawJSON parameters:<br />parameters:<br />  rawJSON: '\{"labels":["gatekeeper"]\}'<br />And with regular parameters:<br />parameters:<br />  labels: ["gatekeeper"]{{< /unsafe >}} |
 | `selector` _[ConstraintSelector](#constraintselector)_ | {{< unsafe >}}Selector specifies the cluster selection filters{{< /unsafe >}} |
 | `enforcementAction` _string_ | {{< unsafe >}}EnforcementAction defines the action to take in response to a constraint being violated.<br />By default, EnforcementAction is set to deny as the default behavior is to deny admission requests with any violation.{{< /unsafe >}} |
 
@@ -3436,7 +3436,7 @@ _Appears in:_
 | `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on etcd<br />pods. Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that pods are never scheduled.{{< /unsafe >}} |
 | `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on etcd<br />pods. Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that pods are never scheduled.{{< /unsafe >}} |
 | `nodeSelector` _object (keys:string, values:string)_ | {{< unsafe >}}NodeSelector is a selector which restricts the set of nodes where etcd Pods can run.{{< /unsafe >}} |
-| `quotaBackendGb` _integer_ | {{< unsafe >}}QuotaBackendGB is the maximum backend size of etcd in GB (0 means use etcd default).<br /><br />For more details, please see https://etcd.io/docs/v3.5/op-guide/maintenance/{{< /unsafe >}} |
+| `quotaBackendGb` _integer_ | {{< unsafe >}}QuotaBackendGB is the maximum backend size of etcd in GB (0 means use etcd default).<br />For more details, please see https://etcd.io/docs/v3.5/op-guide/maintenance/{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4511,7 +4511,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the Kubermatic REST API image.{{< /unsafe >}} |
-| `dockerTag` _string_ | {{< unsafe >}}DockerTag is used to overwrite the Kubermatic API Docker image tag and is only for development<br />purposes. This field must not be set in production environments. If DockerTag is specified then<br />DockerTagSuffix will be ignored.<br />---{{< /unsafe >}} |
+| `dockerTag` _string_ | {{< unsafe >}}DockerTag is used to overwrite the Kubermatic API Docker image tag and is only for development<br />purposes. This field must not be set in production environments. If DockerTag is specified then<br />DockerTagSuffix will be ignored.{{< /unsafe >}} |
 | `dockerTagSuffix` _string_ | {{< unsafe >}}DockerTagSuffix is appended to the KKP version used for referring to the custom Kubermatic API image.<br />If left empty, either the `DockerTag` if specified or the original Kubermatic API Docker image tag will be used.<br />With DockerTagSuffix the tag becomes <KKP_VERSION-SUFFIX> i.e. "v2.15.0-SUFFIX".{{< /unsafe >}} |
 | `accessibleAddons` _string array_ | {{< unsafe >}}AccessibleAddons is a list of addons that should be enabled in the API.{{< /unsafe >}} |
 | `pprofEndpoint` _string_ | {{< unsafe >}}PProfEndpoint controls the port the API should listen on to provide pprof<br />data. This port is never exposed from the container and only available via port-forwardings.{{< /unsafe >}} |
@@ -4835,7 +4835,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the Kubermatic dashboard image.{{< /unsafe >}} |
-| `dockerTag` _string_ | {{< unsafe >}}DockerTag is used to overwrite the dashboard Docker image tag and is only for development<br />purposes. This field must not be set in production environments. If DockerTag is specified then<br />DockerTagSuffix will be ignored.<br />---{{< /unsafe >}} |
+| `dockerTag` _string_ | {{< unsafe >}}DockerTag is used to overwrite the dashboard Docker image tag and is only for development<br />purposes. This field must not be set in production environments. If DockerTag is specified then<br />DockerTagSuffix will be ignored.{{< /unsafe >}} |
 | `dockerTagSuffix` _string_ | {{< unsafe >}}DockerTagSuffix is appended to the KKP version used for referring to the custom dashboard image.<br />If left empty, either the `DockerTag` if specified or the original dashboard Docker image tag will be used.<br />With DockerTagSuffix the tag becomes <KKP_VERSION-SUFFIX> i.e. "v2.15.0-SUFFIX".{{< /unsafe >}} |
 | `config` _string_ | {{< unsafe >}}Config sets flags for various dashboard features.{{< /unsafe >}} |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
@@ -5917,16 +5917,16 @@ _Appears in:_
 | `applicationCredentialSecret` _string_ | {{< unsafe >}}Application credential secret (which is not the user's password) to authenticate in combination with an application credential ID.{{< /unsafe >}} |
 | `useToken` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
 | `token` _string_ | {{< unsafe >}}Used internally during cluster creation{{< /unsafe >}} |
-| `network` _string_ | {{< unsafe >}}Network holds the name of the internal network<br />When specified, all worker nodes will be attached to this network. If not specified, a network, subnet & router will be created.<br /><br />Note that the network is internal if the "External" field is set to false{{< /unsafe >}} |
+| `network` _string_ | {{< unsafe >}}Network holds the name of the internal network<br />When specified, all worker nodes will be attached to this network. If not specified, a network, subnet & router will be created.<br />Note that the network is internal if the "External" field is set to false{{< /unsafe >}} |
 | `securityGroups` _string_ | {{< unsafe >}}SecurityGroups is the name of the security group (only supports a singular security group) that will be used for Machines in the cluster.<br />If this field is left empty, a default security group will be created and used.{{< /unsafe >}} |
 | `nodePortsAllowedIPRange` _string_ | {{< unsafe >}}A CIDR range that will be used to allow access to the node port range in the security group to. Only applies if<br />the security group is generated by KKP and not preexisting.<br />If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere.{{< /unsafe >}} |
 | `nodePortsAllowedIPRanges` _[NetworkRanges](#networkranges)_ | {{< unsafe >}}Optional: CIDR ranges that will be used to allow access to the node port range in the security group to. Only applies if<br />the security group is generated by KKP and not preexisting.<br />If NodePortsAllowedIPRange nor NodePortsAllowedIPRanges is set, the node port range can be accessed from anywhere.{{< /unsafe >}} |
-| `floatingIPPool` _string_ | {{< unsafe >}}FloatingIPPool holds the name of the public network<br />The public network is reachable from the outside world<br />and should provide the pool of IP addresses to choose from.<br /><br />When specified, all worker nodes will receive a public ip from this floating ip pool<br /><br />Note that the network is external if the "External" field is set to true{{< /unsafe >}} |
+| `floatingIPPool` _string_ | {{< unsafe >}}FloatingIPPool holds the name of the public network<br />The public network is reachable from the outside world<br />and should provide the pool of IP addresses to choose from.<br />When specified, all worker nodes will receive a public ip from this floating ip pool<br />Note that the network is external if the "External" field is set to true{{< /unsafe >}} |
 | `routerID` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 | `subnetID` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 | `ipv6SubnetID` _string_ | {{< unsafe >}}IPv6SubnetID holds the ID of the subnet used for IPv6 networking.<br />If not provided, a new subnet will be created if IPv6 is enabled.{{< /unsafe >}} |
 | `ipv6SubnetPool` _string_ | {{< unsafe >}}IPv6SubnetPool holds the name of the subnet pool used for creating new IPv6 subnets.<br />If not provided, the default IPv6 subnet pool will be used.{{< /unsafe >}} |
-| `useOctavia` _boolean_ | {{< unsafe >}}Whether or not to use Octavia for LoadBalancer type of Service<br />implementation instead of using Neutron-LBaaS.<br />Attention:Openstack CCM use Octavia as default load balancer<br />implementation since v1.17.0<br /><br />Takes precedence over the 'use_octavia' flag provided at datacenter<br />level if both are specified.{{< /unsafe >}} |
+| `useOctavia` _boolean_ | {{< unsafe >}}Whether or not to use Octavia for LoadBalancer type of Service<br />implementation instead of using Neutron-LBaaS.<br />Attention:Openstack CCM use Octavia as default load balancer<br />implementation since v1.17.0<br />Takes precedence over the 'use_octavia' flag provided at datacenter<br />level if both are specified.{{< /unsafe >}} |
 | `enableIngressHostname` _boolean_ | {{< unsafe >}}Enable the `enable-ingress-hostname` cloud provider option on the Openstack CCM. Can only be used with the<br />external CCM and might be deprecated and removed in future versions as it is considered a workaround for the PROXY<br />protocol to preserve client IPs.{{< /unsafe >}} |
 | `ingressHostnameSuffix` _string_ | {{< unsafe >}}Set a specific suffix for the hostnames used for the PROXY protocol workaround that is enabled by EnableIngressHostname.<br />The suffix is set to `nip.io` by default. Can only be used with the external CCM and might be deprecated and removed in<br />future versions as it is considered a workaround only.{{< /unsafe >}} |
 | `cinderTopologyEnabled` _boolean_ | {{< unsafe >}}Flag to configure enablement of topology support for the Cinder CSI plugin.<br />This requires Nova and Cinder to have matching availability zones configured.{{< /unsafe >}} |
@@ -6104,7 +6104,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `policyTemplateRef` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectreference-v1-core)_ | {{< unsafe >}}PolicyTemplateRef references the PolicyTemplate by name{{< /unsafe >}} |
-| `kyvernoPolicyNamespace` _[KyvernoPolicyNamespace](#kyvernopolicynamespace)_ | {{< unsafe >}}KyvernoPolicyNamespace specifies the Kyverno namespace to deploy the Kyverno Policy into.<br /><br />Relevant only if the referenced PolicyTemplate has spec.enforced=false.<br />If Template.NamespacedPolicy is true and this field is omitted, no Kyverno Policy resources will be created.{{< /unsafe >}} |
+| `kyvernoPolicyNamespace` _[KyvernoPolicyNamespace](#kyvernopolicynamespace)_ | {{< unsafe >}}KyvernoPolicyNamespace specifies the Kyverno namespace to deploy the Kyverno Policy into.<br />Relevant only if the referenced PolicyTemplate has spec.enforced=false.<br />If Template.NamespacedPolicy is true and this field is omitted, no Kyverno Policy resources will be created.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6188,13 +6188,13 @@ _Appears in:_
 | `description` _string_ | {{< unsafe >}}Description is the description of the policy, specified as an annotation in the Kyverno policy{{< /unsafe >}} |
 | `category` _string_ | {{< unsafe >}}Category is the category of the policy, specified as an annotation in the Kyverno policy{{< /unsafe >}} |
 | `severity` _string_ | {{< unsafe >}}Severity indicates the severity level of the policy{{< /unsafe >}} |
-| `visibility` _string_ | {{< unsafe >}}Visibility specifies where the policy is visible.<br /><br />Can be one of: global, project, or cluster{{< /unsafe >}} |
-| `projectID` _string_ | {{< unsafe >}}ProjectID is the ID of the project for which the policy template is created<br /><br />Relevant only for project visibility policies{{< /unsafe >}} |
+| `visibility` _string_ | {{< unsafe >}}Visibility specifies where the policy is visible.<br />Can be one of: global, project, or cluster{{< /unsafe >}} |
+| `projectID` _string_ | {{< unsafe >}}ProjectID is the ID of the project for which the policy template is created<br />Relevant only for project visibility policies{{< /unsafe >}} |
 | `default` _boolean_ | {{< unsafe >}}Default determines whether we apply the policy (create policy binding) by default{{< /unsafe >}} |
-| `enforced` _boolean_ | {{< unsafe >}}Enforced indicates whether this policy is mandatory<br /><br />If true, this policy is mandatory<br />A PolicyBinding referencing it cannot disable it{{< /unsafe >}} |
+| `enforced` _boolean_ | {{< unsafe >}}Enforced indicates whether this policy is mandatory<br />If true, this policy is mandatory<br />A PolicyBinding referencing it cannot disable it{{< /unsafe >}} |
 | `namespacedPolicy` _boolean_ | {{< unsafe >}}NamespacedPolicy dictates the type of Kyverno resource to be created in this User Cluster.{{< /unsafe >}} |
 | `target` _[PolicyTemplateTarget](#policytemplatetarget)_ | {{< unsafe >}}Target allows selection of projects and clusters where this template applies,<br />If 'Target' itself is omitted, the scope defaults based on 'Visibility' and 'ProjectID':{{< /unsafe >}} |
-| `policySpec` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#rawextension-runtime-pkg)_ | {{< unsafe >}}PolicySpec is the policy spec of the Kyverno Policy we want to apply on the cluster.<br /><br />The structure of this spec should follow the rules defined in Kyverno<br />[Writing Policies Docs](https://kyverno.io/docs/writing-policies/).<br /><br />For example, a simple policy spec could be defined as:<br /><br />   policySpec:<br />     validationFailureAction: Audit<br />     background: true<br />     rules:<br />     - name: check-for-labels<br />       match:<br />         any:<br />         - resources:<br />             kinds:<br />             - Pod<br />       validate:<br />         message: "The label `app.kubernetes.io/name` is required."<br />         pattern:<br />           metadata:<br />             labels:<br />               app.kubernetes.io/name: "?*"<br /><br />There are also further examples of Kyverno policies in the<br />[Kyverno Policies Examples](https://kyverno.io/policies/).{{< /unsafe >}} |
+| `policySpec` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#rawextension-runtime-pkg)_ | {{< unsafe >}}PolicySpec is the policy spec of the Kyverno Policy we want to apply on the cluster.<br />The structure of this spec should follow the rules defined in Kyverno<br />[Writing Policies Docs](https://kyverno.io/docs/writing-policies/).<br />For example, a simple policy spec could be defined as:<br />   policySpec:<br />     validationFailureAction: Audit<br />     background: true<br />     rules:<br />     - name: check-for-labels<br />       match:<br />         any:<br />         - resources:<br />             kinds:<br />             - Pod<br />       validate:<br />         message: "The label `app.kubernetes.io/name` is required."<br />         pattern:<br />           metadata:<br />             labels:<br />               app.kubernetes.io/name: "?*"<br />There are also further examples of Kyverno policies in the<br />[Kyverno Policies Examples](https://kyverno.io/policies/).{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -7203,8 +7203,8 @@ _Appears in:_
 | --- | --- |
 | `from` _string_ | {{< unsafe >}}From is the version from which an update is allowed. Wildcards are allowed, e.g. "1.18.*".{{< /unsafe >}} |
 | `to` _string_ | {{< unsafe >}}To is the version to which an update is allowed.<br />Must be a valid version if `automatic` is set to true, e.g. "1.20.13".<br />Can be a wildcard otherwise, e.g. "1.20.*".{{< /unsafe >}} |
-| `automatic` _boolean_ | {{< unsafe >}}Automatic controls whether this update is executed automatically<br />for the control plane of all matching user clusters.<br />---{{< /unsafe >}} |
-| `automaticNodeUpdate` _boolean_ | {{< unsafe >}}Automatic controls whether this update is executed automatically<br />for the worker nodes of all matching user clusters.<br />---{{< /unsafe >}} |
+| `automatic` _boolean_ | {{< unsafe >}}Automatic controls whether this update is executed automatically<br />for the control plane of all matching user clusters.{{< /unsafe >}} |
+| `automaticNodeUpdate` _boolean_ | {{< unsafe >}}Automatic controls whether this update is executed automatically<br />for the worker nodes of all matching user clusters.{{< /unsafe >}} |
 
 
 [Back to top](#top)
