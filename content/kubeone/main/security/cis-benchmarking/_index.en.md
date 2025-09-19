@@ -10,37 +10,16 @@ In this document, information how it can be run on a Kubernetes cluster created 
 
 ## Tooling
 
-[kube-bench](https://github.com/aquasecurity/kube-bench) is used to create the assessment.
+[Trivy](https://github.com/aquasecurity/trivy) is the tool used to run the benchmark.
 
 ### Installation
 
-{{% notice note %}}
-There are [multiple ways](https://github.com/aquasecurity/kube-bench/blob/main/docs/running.md) to run `kube-bench`. Below method describes how it's running via logging to a master and worker node to run it.
-{{% /notice %}}
+To install trivy, follow the instructions [here](https://trivy.dev/latest/getting-started/installation/).
+
+### Running the Benchmark
 
 ```bash
-# make sure you run those commands as root user:
-KUBE_BENCH_VERSION="0.7.2"
-KUBE_BENCH_URL="https://github.com/aquasecurity/kube-bench/releases/download/v${KUBE_BENCH_VERSION}/kube-bench_${KUBE_BENCH_VERSION}_linux_amd64.tar.gz"
-
-mkdir /root/kube-bench
-cd /root/kube-bench
-curl -L ${KUBE_BENCH_URL} -o kube-bench_${KUBE_BENCH_VERSION}_linux_amd64.tar.gz
-tar xvf kube-bench_${KUBE_BENCH_VERSION}_linux_amd64.tar.gz
-```
-
-### Run on controlplane node
-
-```bash
-cd /root/kube-bench
-./kube-bench -D ./cfg/ run --targets=controlplane,master,etcd,node --benchmark=cis-1.8
-```
-
-### Run on a worker node
-
-```bash
-cd /root/kube-bench
-./kube-bench -D ./cfg/ run --targets=node --benchmark=cis-1.8
+trivy k8s --compliance=k8s-cis-1.23 --report summary --timeout=1h --tolerations node-role.kubernetes.io/control-plane="":NoSchedule
 ```
 
 ## Table of Content

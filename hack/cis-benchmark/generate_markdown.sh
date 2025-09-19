@@ -80,7 +80,7 @@ echo "## Testing Methodology"
 echo ""
 echo "### Running the Benchmark"
 echo ""
-echo "[Trivy](https://github.com/aquasecurity/trivy) was used to run the benchmark. Trivy runs [kube-bench](https://github.com/aquasecurity/kube-bench) under the hood and checks if the cluster meets the CIS Kubernetes Benchmark."
+echo "[Trivy](https://github.com/aquasecurity/trivy) was used to run the benchmark."
 echo ""
 echo '```bash'
 echo "trivy k8s --compliance=k8s-$BENCHMARK_ID --report summary --timeout=1h --tolerations node-role.kubernetes.io/control-plane=\"\":NoSchedule"
