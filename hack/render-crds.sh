@@ -29,9 +29,18 @@ if [[ -z "$SOURCE" ]]; then
 fi
 
 which crd-ref-docs >/dev/null || {
-  echo "running go install github.com/elastic/crd-ref-docs@v0.2.0 in 5s... (ctrl-c to cancel)"
-  sleep 5
-  go install github.com/elastic/crd-ref-docs@v0.2.0
+  goversion=$(go version | awk '{print $3}' | sed 's/go//')
+  gomajorversion=$(echo "$goversion" | awk -F'.' '{print $2}')
+  requiredmajorversion=24
+  if [ $gomajorversion -lt $requiredmajorversion ]; then
+    echo "running go install github.com/elastic/crd-ref-docs@v0.1.0 in 5s... (ctrl-c to cancel)"
+    sleep 5
+    go install github.com/elastic/crd-ref-docs@v0.1.0
+  else
+    echo "running go install github.com/elastic/crd-ref-docs@v0.2.0 in 5s... (ctrl-c to cancel)"
+    sleep 5
+    go install github.com/elastic/crd-ref-docs@v0.2.0
+  fi
 }
 
 # get latest stable Kubernetes version
