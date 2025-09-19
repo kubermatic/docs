@@ -148,6 +148,8 @@ jq -r '.SummaryControls[] | @json' "$JSON_FILE" | while read -r control_json; do
     echo ""
     echo "#### $ID: $NAME"
     echo ""
+    echo "**Severity:** $SEVERITY"
+    echo ""
 
     # Determine pass/fail status
     if [ "$TOTAL_FAIL" = "null" ]; then
