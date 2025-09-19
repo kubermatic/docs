@@ -28,12 +28,12 @@ Before this addon can be deployed in a KKP user cluster, the KKP installation ha
 as an [accessible addon](../#accessible-addons). This needs to be done by the KKP installation administrator,
 once per KKP installation.
 
-* Request the KKP addon Docker image with Kubeflow Addon matching your KKP version from Kubermatic
+- Request the KKP addon Docker image with Kubeflow Addon matching your KKP version from Kubermatic
   (or [build it yourself](../#creating-a-docker-image) from the [Flowmatic repository](https://github.com/kubermatic/flowmatic)).
-* Configure KKP - edit  `KubermaticConfiguration` as follows:
-  * modify `spec.userClusters.addons.kubernetes.dockerRepository` to point to the provided addon Docker image repository,
-  * add `kubeflow` into `spec.api.accessibleAddons`.
-* Apply the [AddonConfig from the Flowmatic repository](https://raw.githubusercontent.com/kubermatic/flowmatic/master/addon/addonconfig.yaml) in your KKP installation.
+- Configure KKP - edit  `KubermaticConfiguration` as follows:
+  - modify `spec.userClusters.addons.kubernetes.dockerRepository` to point to the provided addon Docker image repository,
+  - add `kubeflow` into `spec.api.accessibleAddons`.
+- Apply the [AddonConfig from the Flowmatic repository](https://raw.githubusercontent.com/kubermatic/flowmatic/master/addon/addonconfig.yaml) in your KKP installation.
 
 ### Kubeflow prerequisites
 
@@ -66,7 +66,8 @@ For a LoadBalancer service, an external IP address will be assigned by the cloud
 This address can be retrieved by reviewing the `istio-ingressgateway` Service in `istio-system` Namespace, e.g.:
 
 ```bash
-$ kubectl get service istio-ingressgateway -n istio-system
+kubectl get service istio-ingressgateway -n istio-system
+
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP
 istio-ingressgateway   LoadBalancer   10.240.28.214   a286f5a47e9564e43ab4165039e58e5e-1598660756.eu-central-1.elb.amazonaws.com
 ```
@@ -162,33 +163,33 @@ This section contains a list of known issues in different Kubeflow components:
 
 **Kubermatic Kubernetes Platform**
 
-* Not all GPU instances of various providers can be started from the KKP UI:
+- Not all GPU instances of various providers can be started from the KKP UI:
    <https://github.com/kubermatic/kubermatic/issues/6433>
 
 **Istio RBAC in Kubeflow:**
 
-* If enabled, this issue can be hit in the pipelines:
+- If enabled, this issue can be hit in the pipelines:
    <https://github.com/kubeflow/pipelines/issues/4976>
 
 **Kubeflow UI issues:**
 
-* Error by adding notebook server: 500 Internal Server Error:
+- Error by adding notebook server: 500 Internal Server Error:
    <https://github.com/kubeflow/kubeflow/issues/5518>
-* Experiment run status shows as unknown:
+- Experiment run status shows as unknown:
    <https://github.com/kubeflow/pipelines/issues/4972>
 
 **Kale Pipeline:**
 
-* "Namespace is empty" exception:
+- "Namespace is empty" exception:
    <https://github.com/kubeflow-kale/kale/issues/210>
 
 **NVIDIA GPU Operator**
 
-* Please see the official NVIDIA GPU documentation for known limitations:
+- Please see the official NVIDIA GPU documentation for known limitations:
    <https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/release-notes.html#operator-known-limitations>
 
 **AMD GPU Support**
 
-* The latest AMD GPU -enabled instances in AWS ([EC2 G4ad](https://aws.amazon.com/blogs/aws/new-amazon-ec2-g4ad-instances-featuring-amd-gpus-for-graphics-workloads/))
+- The latest AMD GPU -enabled instances in AWS ([EC2 G4ad](https://aws.amazon.com/blogs/aws/new-amazon-ec2-g4ad-instances-featuring-amd-gpus-for-graphics-workloads/))
    featuring Radeon Pro V520 GPUs do not seem to be working with Kubeflow (yet). The GPUs are successfully attached
    to the pods but the notebook runtime does not seem to recognize them.

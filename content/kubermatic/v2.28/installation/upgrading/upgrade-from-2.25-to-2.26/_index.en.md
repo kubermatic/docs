@@ -26,8 +26,8 @@ Beginning with KKP 2.26, Helm chart versions now use strict semvers without a le
 
 KKP 2.26 ships a lot of major version upgrades for the Helm charts, most notably
 
-* Loki & Promtail v2.5 to v2.9.x
-* Grafana 9.x to 10.4.x
+- Loki & Promtail v2.5 to v2.9.x
+- Grafana 9.x to 10.4.x
 
 Some of these updates require manual intervention or at least checking whether a given KKP system is affected by upstream changes. Please read the following sections carefully before beginning the upgrade.
 
@@ -41,17 +41,18 @@ Due to labelling changes, and in-place upgrade of Velero is not possible. It's r
 
 The switch to the upstream Helm chart requires adjusting the `values.yaml` used to install Velero. Most existing settings have a 1:1 representation in the new chart:
 
-* `velero.podAnnotations` is now `velero.annotations`
-* `velero.serverFlags` is now `velero.configuration.*` (each CLI flag is its own field in the YAML file, e.g. `serverFlags:["--log-format=json"]` would become `configuration.logFormat: "json"`)
-* `velero.uploaderType` is now `velero.configuration.uploaderType`; note that the default has changed from restic to Kopia, see the next section below for more information.
-* `velero.credentials` is now `velero.credentials.*`
-* `velero.schedulesPath` is not available anymore, since putting additional files into a Helm chart before installing it is a rather unusual process. Instead, specify the desired schedules directly inside the `values.yaml` in `velero.schedules`
-* `velero.backupStorageLocations` is now `velero.configuration.backupStorageLocation`
-* `velero.volumeSnapshotLocations` is now `velero.configuration.volumeSnapshotLocation`
-* `velero.defaultVolumeSnapshotLocations` is now `velero.configuration.defaultBackupStorageLocation`
+- `velero.podAnnotations` is now `velero.annotations`
+- `velero.serverFlags` is now `velero.configuration.*` (each CLI flag is its own field in the YAML file, e.g. `serverFlags:["--log-format=json"]` would become `configuration.logFormat: "json"`)
+- `velero.uploaderType` is now `velero.configuration.uploaderType`; note that the default has changed from restic to Kopia, see the next section below for more information.
+- `velero.credentials` is now `velero.credentials.*`
+- `velero.schedulesPath` is not available anymore, since putting additional files into a Helm chart before installing it is a rather unusual process. Instead, specify the desired schedules directly inside the `values.yaml` in `velero.schedules`
+- `velero.backupStorageLocations` is now `velero.configuration.backupStorageLocation`
+- `velero.volumeSnapshotLocations` is now `velero.configuration.volumeSnapshotLocation`
+- `velero.defaultVolumeSnapshotLocations` is now `velero.configuration.defaultBackupStorageLocation`
 
 {{< tabs name="Velero Helm Chart Upgrades" >}}
 {{% tab name="old Velero Chart" %}}
+
 ```yaml
 velero:
   podAnnotations:
@@ -89,9 +90,11 @@ velero:
 
   schedulesPath: schedules/*
 ```
+
 {{% /tab %}}
 
 {{% tab name="new Velero Chart" %}}
+
 ```yaml
 velero:
   annotations:
@@ -136,6 +139,7 @@ velero:
         aws_access_key_id=itsme
         aws_secret_access_key=andthisismypassword
 ```
+
 {{% /tab %}}
 {{< /tabs >}}
 
@@ -155,15 +159,15 @@ If you decide to switch to Kopia and do not need the restic repository anymore, 
 
 The configuration syntax for cert-manager has changed slightly.
 
-* Breaking: If you have `.featureGates` value set in `values.yaml`, the features defined there will no longer be passed to cert-manager webhook, only to cert-manager controller. Use the `webhook.featureGates` field instead to define features to be enabled on webhook.
-* Potentially breaking: Webhook validation of CertificateRequest resources is stricter now: all `KeyUsages` and `ExtendedKeyUsages` must be defined directly in the CertificateRequest resource, the encoded CSR can never contain more usages that defined there.
+- Breaking: If you have `.featureGates` value set in `values.yaml`, the features defined there will no longer be passed to cert-manager webhook, only to cert-manager controller. Use the `webhook.featureGates` field instead to define features to be enabled on webhook.
+- Potentially breaking: Webhook validation of CertificateRequest resources is stricter now: all `KeyUsages` and `ExtendedKeyUsages` must be defined directly in the CertificateRequest resource, the encoded CSR can never contain more usages that defined there.
 
 ### oauth2-proxy (IAP) 7.6
 
 This upgrade includes one breaking change:
 
-* A change to how auth routes are evaluated using the flags `skip-auth-route`/`skip-auth-regex`: the new behaviour uses the regex you specify to evaluate the full path including query parameters. For more details please read the [detailed PR description](https://github.com/oauth2-proxy/oauth2-proxy/issues/2271).
-* The environment variable `OAUTH2_PROXY_GOOGLE_GROUP` has been deprecated in favor of `OAUTH2_PROXY_GOOGLE_GROUPS`. Next major release will remove this option.
+- A change to how auth routes are evaluated using the flags `skip-auth-route`/`skip-auth-regex`: the new behaviour uses the regex you specify to evaluate the full path including query parameters. For more details please read the [detailed PR description](https://github.com/oauth2-proxy/oauth2-proxy/issues/2271).
+- The environment variable `OAUTH2_PROXY_GOOGLE_GROUP` has been deprecated in favor of `OAUTH2_PROXY_GOOGLE_GROUPS`. Next major release will remove this option.
 
 ### Loki & Promtail 2.9 (Seed MLA)
 
@@ -171,16 +175,16 @@ The Loki upgrade from 2.5 to 2.9 might be the most significant bump in this KKP 
 
 Before upgrading, review your `values.yaml` for Loki, as a number of syntax changes were made:
 
-* Most importantly, `loki.config` is now a templated string that aggregates many other individual values specified in `loki`, for example `loki.tableManager` gets rendered into `loki.config.table_manager`, and `loki.loki.schemaConfig` gets rendered into `loki.config.schema_config`. To follow these changes, if you have `loki.config` in your `values.yaml`, rename it to `loki.loki`. Ideally you should not need to manually override the templating string in `loki.config` from the upstream chart anymore. Additionally, some values are moved out or renamed slightly:
-  * `loki.config.schema_config` becomes `loki.loki.schemaConfig`
-  * `loki.config.table_manager` becomes `loki.tableManager` (sic)
-  * `loki.config.server` was removed, if you need to specify something, use `loki.loki.server`
-* The base volume path for the Loki PVC was changed from `/data/loki` to `/var/loki`.
-* Configuration for the default image has changed, there is no `loki.image.repository` field anymore, it's now `loki.image.registry` and `loki.image.repository`.
-* `loki.affinity` is now a templated string and enabled by default; if you use multiple Loki replicas, your cluster needs to have multiple nodes to host these pods.
-* All fields related to the Loki pod (`loki.tolerations`, `loki.resources`, `loki.nodeSelector` etc.) were moved below `loki.singleBinary`.
-* Self-monitoring, Grafana Agent and selftests are disabled by default now, reducing the default resource requirements for the logging stack.
-* `loki.singleBinary.persistence.enableStatefulSetAutoDeletePVC` is set to `false` to ensure that when the StatefulSet is deleted, the PVCs will not also be deleted. This allows for easier upgrades in the
+- Most importantly, `loki.config` is now a templated string that aggregates many other individual values specified in `loki`, for example `loki.tableManager` gets rendered into `loki.config.table_manager`, and `loki.loki.schemaConfig` gets rendered into `loki.config.schema_config`. To follow these changes, if you have `loki.config` in your `values.yaml`, rename it to `loki.loki`. Ideally you should not need to manually override the templating string in `loki.config` from the upstream chart anymore. Additionally, some values are moved out or renamed slightly:
+  - `loki.config.schema_config` becomes `loki.loki.schemaConfig`
+  - `loki.config.table_manager` becomes `loki.tableManager` (sic)
+  - `loki.config.server` was removed, if you need to specify something, use `loki.loki.server`
+- The base volume path for the Loki PVC was changed from `/data/loki` to `/var/loki`.
+- Configuration for the default image has changed, there is no `loki.image.repository` field anymore, it's now `loki.image.registry` and `loki.image.repository`.
+- `loki.affinity` is now a templated string and enabled by default; if you use multiple Loki replicas, your cluster needs to have multiple nodes to host these pods.
+- All fields related to the Loki pod (`loki.tolerations`, `loki.resources`, `loki.nodeSelector` etc.) were moved below `loki.singleBinary`.
+- Self-monitoring, Grafana Agent and selftests are disabled by default now, reducing the default resource requirements for the logging stack.
+- `loki.singleBinary.persistence.enableStatefulSetAutoDeletePVC` is set to `false` to ensure that when the StatefulSet is deleted, the PVCs will not also be deleted. This allows for easier upgrades in the
 future, but if you scale down Loki, you would have to manually deleted the leftover PVCs.
 
 ### Alertmanager 0.27 (Seed MLA)
@@ -205,39 +209,39 @@ Afterwards you can install the new release from the chart.
 
 As is typical for kube-state-metrics, the upgrade simple, but the devil is in the details. There were many minor changes since v2.8, please review [the changelog](https://github.com/kubernetes/kube-state-metrics/releases) carefully if you built upon metrics provided by kube-state-metrics:
 
-* The deprecated experimental VerticalPodAutoscaler metrics are no longer supported, and have been removed. It's recommend to use CustomResourceState metrics to gather metrics from custom resources like the Vertical Pod Autoscaler.
-* Label names were regulated to adhere with OTel-Prometheus standards, so existing label names that do not follow the same may be replaced by the ones that do. Please refer to [the PR](https://github.com/kubernetes/kube-state-metrics/pull/2004) for more details.
-* Label and annotation metrics aren't exposed by default anymore to reduce the memory usage of the default configuration of kube-state-metrics. Before this change, they used to only include the name and namespace of the objects which is not relevant to users not opting in these metrics.
+- The deprecated experimental VerticalPodAutoscaler metrics are no longer supported, and have been removed. It's recommend to use CustomResourceState metrics to gather metrics from custom resources like the Vertical Pod Autoscaler.
+- Label names were regulated to adhere with OTel-Prometheus standards, so existing label names that do not follow the same may be replaced by the ones that do. Please refer to [the PR](https://github.com/kubernetes/kube-state-metrics/pull/2004) for more details.
+- Label and annotation metrics aren't exposed by default anymore to reduce the memory usage of the default configuration of kube-state-metrics. Before this change, they used to only include the name and namespace of the objects which is not relevant to users not opting in these metrics.
 
 ### node-exporter 1.7 (Seed MLA)
 
 This new version comes with a few minor backwards-incompatible changes:
 
-* metrics of offline CPUs in CPU collector were removed
-* bcache cache_readaheads_totals metrics were removed
-* ntp collector was deprecated
-* supervisord collector was deprecated
+- metrics of offline CPUs in CPU collector were removed
+- bcache cache_readaheads_totals metrics were removed
+- ntp collector was deprecated
+- supervisord collector was deprecated
 
 ### Prometheus 2.51 (Seed MLA)
 
 Prometheus had many improvements and some changes to the remote-write functionality that might affect you:
 
-* Remote-write:
-  * raise default samples per send to 2,000
-  * respect `Retry-After` header on 5xx errors
-  * error `storage.ErrTooOldSample` is now generating HTTP error 400 instead of HTTP error 500
-* Scraping:
-  * Do experimental timestamp alignment even if tolerance is bigger than 1% of scrape interval
+- Remote-write:
+  - raise default samples per send to 2,000
+  - respect `Retry-After` header on 5xx errors
+  - error `storage.ErrTooOldSample` is now generating HTTP error 400 instead of HTTP error 500
+- Scraping:
+  - Do experimental timestamp alignment even if tolerance is bigger than 1% of scrape interval
 
 ### nginx-ingress-controller 1.10
 
 nginx v1.10 brings quite a few potentially breaking changes:
 
-* does not support chroot image (this will be fixed on a future minor patch release)
-* dropped Opentracing and zipkin modules, just Opentelemetry is supported as of this release
-* dropped support for PodSecurityPolicy
-* dropped support for GeoIP (legacy), only GeoIP2 is supported
-* The automatically generated `NetworkPolicy` from nginx 1.9.3 is now disabled by default, refer to https://github.com/kubernetes/ingress-nginx/pull/10238 for more information.
+- does not support chroot image (this will be fixed on a future minor patch release)
+- dropped Opentracing and zipkin modules, just Opentelemetry is supported as of this release
+- dropped support for PodSecurityPolicy
+- dropped support for GeoIP (legacy), only GeoIP2 is supported
+- The automatically generated `NetworkPolicy` from nginx 1.9.3 is now disabled by default, refer to <https://github.com/kubernetes/ingress-nginx/pull/10238> for more information.
 
 ### Dex 2.40
 
@@ -253,8 +257,8 @@ Before starting the upgrade, make sure your KKP Master and Seed clusters are hea
 
 Download the latest 2.26.x release archive for the correct edition (`ce` for Community Edition, `ee` for Enterprise Edition) from [the release page](https://github.com/kubermatic/kubermatic/releases) and extract it locally on your computer. Make sure you have the `values.yaml` you used to deploy KKP 2.26 available and already adjusted for any 2.26 changes (also see [Pre-Upgrade Considerations](#pre-upgrade-considerations)), as you need to pass it to the installer. The `KubermaticConfiguration` is no longer necessary (unless you are adjusting it), as the KKP operator will use its in-cluster representation. From within the extracted directory, run the installer:
 
-```sh
-$ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
+```bash
+./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
 
 # example output for a successful upgrade
 INFO[0000] 🚀 Initializing installer…                     edition="Enterprise Edition" version=v2.26.0
@@ -305,8 +309,8 @@ Upgrading seed clusters is not necessary, unless you are running the `minio` Hel
 
 You can follow the upgrade process by either supervising the Pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
-```sh
-$ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
+```bash
+kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
 kubermatic - {"clusters":5,"conditions":{"ClusterInitialized":{"lastHeartbeatTime":"2024-03-11T10:53:34Z","message":"All KKP CRDs have been installed successfully.","reason":"CRDsUpdated","status":"True"},"KubeconfigValid":{"lastHeartbeatTime":"2024-03-11T16:50:09Z","reason":"KubeconfigValid","status":"True"},"ResourcesReconciled":{"lastHeartbeatTime":"2024-03-11T16:50:14Z","reason":"ReconcilingSuccess","status":"True"}},"phase":"Healthy","versions":{"cluster":"v1.27.11","kubermatic":"v2.25.0"}}
 ```
 

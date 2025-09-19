@@ -7,8 +7,10 @@ weight = 7
 
 This section describes how to add, create and manage Kubernetes clusters known as external clusters in KKP.
 You can create a new cluster or import/connect an existing cluster.
+
 - Import: You can import a cluster via credentials. Imported Cluster can be viewed and edited.
   Supported Providers:
+
   - Azure Kubernetes Service (AKS)
   - Amazon Elastic Kubernetes Service (EKS)
   - Google Kubernetes Engine (GKE)
@@ -22,6 +24,7 @@ Every cluster update is performed only by the cloud provider client. There is no
 ## Prerequisites
 
 The following requirements must be met to add an external Kubernetes cluster:
+
  - The external Kubernetes cluster must already exist before you begin the import/connect process. Please refer to the cloud provider documentation for instructions.
  - The external Kubernetes cluster must be accessible using kubectl to get the information needed to add that cluster.
  - Make sure the cluster kubeconfig or provider credentials have sufficient rights to manage the cluster (get, list, upgrade,get kubeconfig)
@@ -66,7 +69,7 @@ KKP allows creating a Kubernetes cluster on AKS/GKE/EKS and import it as an Exte
 
 ![External Cluster List](@/images/tutorials/external-clusters/externalcluster-list.png "External Cluster List")
 
-## Delete Cluster:
+## Delete Cluster
 
 {{% notice info %}}
 Delete operation is not allowed for imported clusters.
@@ -109,12 +112,10 @@ You can `Disconnect` an external cluster by clicking on the disconnect icon next
 
 ![Disconnect Dialog](@/images/tutorials/external-clusters/disconnect.png "Disconnect Dialog")
 
-
 ## Delete Cluster
 
 {{% notice info %}}
 Delete Cluster displays information in case nodes are attached
 {{% /notice %}}
-
 
 ![Delete External Cluster](@/images/tutorials/external-clusters/delete-external-cluster-dialog.png "Delete External Cluster")

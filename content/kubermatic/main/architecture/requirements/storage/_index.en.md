@@ -6,7 +6,7 @@ weight = 15
 
 +++
 
-Running KKP requires at least one persistent storage layer that can be accessed via a Kubernetes [CSI driver](https://kubernetes-csi.github.io/docs/drivers.html). The Kubermatic Installer attempts to discover pre-existing CSI drivers for known cloud providers to create a suitable _kubermatic-fast_ `StorageClass`.
+Running KKP requires at least one persistent storage layer that can be accessed via a Kubernetes [CSI driver](https://kubernetes-csi.github.io/docs/drivers.html). The Kubermatic Installer attempts to discover pre-existing CSI drivers for known cloud providers to create a suitable *kubermatic-fast* `StorageClass`.
 
 In particular for setups in private datacenters, setting up a dedicated storage layer might be necessary to reach adequate performance. Make sure to configure and install the corresponding CSI driver (from the list linked above) for your storage solution onto the KKP Seed clusters before installing KKP.
 

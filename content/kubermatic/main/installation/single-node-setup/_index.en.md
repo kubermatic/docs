@@ -18,7 +18,7 @@ In this **Get Started with KKP** guide, we will be using AWS Cloud as our underl
 ## Prerequisites
 
 1. [Terraform >v1.0.0](https://www.terraform.io/downloads)
-2. [KubeOne](https://github.com/kubermatic/kubeone/releases)
+1. [KubeOne](https://github.com/kubermatic/kubeone/releases)
 
 ## Download the Repository
 
@@ -95,18 +95,18 @@ export KUBECONFIG=$PWD/aws/<cluster_name>-kubeconfig
 
 ## Validate the KKP Master Setup
 
-* Get the LoadBalancer External IP by following command.
+- Get the LoadBalancer External IP by following command.
 
   ```bash
   kubectl get svc -n ingress-nginx
   ```
 
-* Update DNS mapping with External IP of the nginx ingress controller service. In case of AWS, the CNAME record mapping for $TODO_DNS with External IP should be created.
+- Update DNS mapping with External IP of the nginx ingress controller service. In case of AWS, the CNAME record mapping for $TODO_DNS with External IP should be created.
 
-* Nginx Ingress Controller Load Balancer configuration - Add the node to backend pool manually.
+- Nginx Ingress Controller Load Balancer configuration - Add the node to backend pool manually.
   > **Known Issue**: Should be supported in the future as part of Feature request[#1822](https://github.com/kubermatic/kubeone/issues/1822)
 
-* Verify the Kubermatic resources and certificates
+- Verify the Kubermatic resources and certificates
 
   ```bash
   kubectl -n kubermatic get deployments,pods
@@ -122,5 +122,6 @@ export KUBECONFIG=$PWD/aws/<cluster_name>-kubeconfig
 
 Finally, you should be able to login to KKP dashboard!
 
-Login to https://$TODO_DNS/
+Login to <https://$TODO_DNS/>
+
 > Use username/password configured as part of Kubermatic configuration.

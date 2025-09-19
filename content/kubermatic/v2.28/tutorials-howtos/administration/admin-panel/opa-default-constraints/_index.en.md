@@ -17,7 +17,7 @@ To add a new default constraint click on the `+Add Default Constraint` icon on t
 
 ![Create Default Constraint](@/images/ui/create-default-constraint-dialog.png?height=300px&classes=shadow,border "Create Default Constraint")
 
-```
+```yaml
 constraintType: K8sPSPAllowPrivilegeEscalationContainer
 match:
   kinds:
@@ -60,7 +60,7 @@ In case of no filtering applied Default Constraints are synced to all User Clust
 for example, Admin wants to apply a policy only on clusters with the provider as `aws` and label selector as `filtered:true`
 To enable this add the following selectors in the constraint spec for the above use case.
 
-```
+```yaml
 selector:
   providers:
     - aws
@@ -89,7 +89,6 @@ Kubermatic adds a label `disabled: true` to the Disabled Constraint
 Disabled Constraint in the Applied cluster View
 disabled-default-constraint-cluster-view.png
 ![Disabled Default Constraint](@/images/ui/disabled-default-constraint-cluster-view.png?classes=shadow,border "Disabled Default Constraint")
-
 
 Enable the constraint by clicking the same button
 ![Enable Default Constraint](@/images/ui/disabled-default-constraint.png?classes=shadow,border "Enable Default Constraint")

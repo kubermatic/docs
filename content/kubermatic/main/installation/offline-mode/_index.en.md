@@ -23,13 +23,13 @@ without Docker.
 
 There are a number of sources for container images used in a KKP setup:
 
-* The container images used by KKP itself (e.g. `quay.io/kubermatic/kubermatic`)
-* The images used by the various Helm charts used to deploy KKP (nginx, cert-manager,
+- The container images used by KKP itself (e.g. `quay.io/kubermatic/kubermatic`)
+- The images used by the various Helm charts used to deploy KKP (nginx, cert-manager,
   Grafana, ...)
-* The images used for creating a user cluster control plane (the Kubernetes apiserver,
+- The images used for creating a user cluster control plane (the Kubernetes apiserver,
   scheduler, metrics-server, ...).
-* The images referenced by cluster [Addons]({{< ref "../../architecture/concept/kkp-concepts/addons/" >}}).
-* The images referenced in system [Applications]({{< ref "../../tutorials-howtos/applications/" >}}).
+- The images referenced by cluster [Addons]({{< ref "../../architecture/concept/kkp-concepts/addons/" >}}).
+- The images referenced in system [Applications]({{< ref "../../tutorials-howtos/applications/" >}}).
 
 To make it easier to collect all required images, the `kubermatic-installer mirror-images` utility is provided.
 It will scan KKP source code and Helm charts included in a KKP release to determine all images that need to be mirrored.
@@ -93,7 +93,6 @@ pass `--registry-prefix 'docker.io'` to `kubermatic-installer mirror-images`.
 
 ### Addons
 
-
 Note that by default, `kubermatic-installer mirror-images` will determine the addons container image
 based on the `KubermaticConfiguration` file, pull it down and then extract the addon manifests from
 the image, so that it can then scan them for container images to mirror.
@@ -117,6 +116,7 @@ you should pass the `--addons-image` flag instead to reference a non-standard ad
 The `mirrorImages` field in the `KubermaticConfiguration` allows you to specify additional container images to mirror during the `kubermatic-installer mirror-images` command, simplifying air-gapped setups.
 
 Example:
+
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
 kind: KubermaticConfiguration
@@ -130,7 +130,8 @@ spec:
 
 ## Mirroring Binaries 
 
-The `kubermatic-installer mirror-binaries` command is designed to **mirror and host essential binaries** required by the Operating System Profiles for provisioning user clusters in **offline/airgapped environments**. This includes critical components like:  
+The `kubermatic-installer mirror-binaries` command is designed to **mirror and host essential binaries** required by the Operating System Profiles for provisioning user clusters in **offline/airgapped environments**. This includes critical components like:
+
 - **Kubernetes binaries**: `kubeadm`, `kubelet`, `kubectl`  
 - **CNI plugins** (e.g., bridge, ipvlan, loopback, macvlan, etc)  
 - **CRI tools** (e.g., `crictl`)  
@@ -142,7 +143,8 @@ The default output directory (`/usr/share/nginx/html/`) requires root permission
 
 ### Key Features
 
-#### Mirrors Original Domain Structure:  
+#### Mirrors Original Domain Structure
+
   Binaries are stored in the **exact directory hierarchy** as their original domains (e.g., `containernetworking/plugins/releases/v1.5.1/...`). This allows **DNS-based redirection** of domains like `github.com` or `k8s.gcr.io` to your local/offline server, ensuring the OSP fetches binaries from the mirrored paths **without URL reconfiguration** or **Operating System Profile** changes.  
 
 ### Example Workflow
@@ -162,7 +164,7 @@ INFO[0033] ✅ Finished loading images.
 
 ### Example of the Directory Structure
 
-```
+```bash
 .
 ├── containernetworking          # CNI plugins (Container Network Interface)
 │   └── plugins
@@ -248,6 +250,7 @@ kubectl -n kubermatic get seeds
 ```
 
 Output will be similar to this:
+
 ```bash
 #NAME        AGE
 #hamburg     143d

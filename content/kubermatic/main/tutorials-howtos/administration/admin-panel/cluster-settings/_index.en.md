@@ -4,7 +4,6 @@ date = 2025-07-24T09:45:00+05:00
 weight = 20
 +++
 
-
 Interface section in the Admin Panel allows user to control various cluster-related settings. They
 can influence cluster creation, management and cleanup after deletion.
 

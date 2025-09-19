@@ -29,6 +29,7 @@ needed a mechanism to allow users to migrate their clusters to the out-of-tree i
 ### Support and Prerequisites
 
 The CCM/CSI migration is supported for the following providers:
+
 * Amazon Web Services (AWS)
 * OpenStack
   * [Required OpenStack services and cloudConfig properties for the external CCM][openstack-ccm-reqs]

@@ -225,32 +225,38 @@ projects.registry.vmware.com/vmware-cloud-director/cloud-director-named-disk-csi
 ```
 
 ### OS Resources
+
 Additional to the kubelet dependencies, the [OperatingSystemManager](https://docs.kubermatic.com/operatingsystemmanager) installs some operating-system-specific packages over cloud-init:
 
-
 ### Flatcar Linux
+
 Init script: [osp-flatcar-cloud-init.yaml](https://github.com/kubermatic/operating-system-manager/blob/main/deploy/osps/default/osp-flatcar-cloud-init.yaml)
 
 - no additional targets
 
 ### Ubuntu 20.04/22.04/24.04
+
 Init script: [osp-ubuntu.yaml](https://github.com/kubermatic/operating-system-manager/blob/main/deploy/osps/default/osp-ubuntu.yaml)
 
 - default apt repositories
 - docker apt repository: `download.docker.com/linux/ubuntu`
 
 ### Other OS
+
 Other supported operating system details are visible by the dedicated [default OperatingSystemProfiles](https://github.com/kubermatic/operating-system-manager/tree/main/deploy/osps/default).
 
 # KKP Seed Cluster Setup
 
 ## Cloud Provider API Endpoints
+
 KKP interacts with the different cloud provider directly to provision the required infrastructure to manage Kubernetes clusters:
 
 ### AWS
+
 API endpoint documentation: [AWS service endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html)
 
 KKP interacts in several ways with different cloud providers, e.g.:
+
 - creating EC2 instances
 - creating security groups
 - access instance profiles
@@ -263,7 +269,9 @@ ec2.eu-central-1.amazonaws.com
 ```
 
 ### Azure
+
 API endpoint documentation: [Azure API Docs - Request URI](https://docs.microsoft.com/en-us/rest/api/azure/#request-uri)
+
 ```bash
 # Resource Manager API
 management.azure.com
@@ -275,8 +283,8 @@ login.microsoftonline.com
 ```
 
 ### vSphere
-API Endpoint URL of all targeted vCenters specified in [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}}), e.g. `vcenter.example.com`.
 
+API Endpoint URL of all targeted vCenters specified in [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.endpoint`]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}}), e.g. `vcenter.example.com`.
 
 ## KubeOne Seed Cluster Setup
 
@@ -299,7 +307,9 @@ github.com/containernetworking/plugins/releases/download
 # gobetween (if used, e.g. at vsphere terraform setup)
 github.com/yyyar/gobetween/releases
 ```
+
 **At installer host / bastion server**:
+
 ```bash
 ## terraform modules
 registry.terraform.io
@@ -313,6 +323,7 @@ quay.io/kubermatic-labs/kubeone-tooling
 ```
 
 ## cert-manager (if used)
+
 For creating certificates with let's encrypt we need access:
 
 ```bash

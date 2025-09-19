@@ -20,21 +20,20 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
     - `name` - refers to the theme file name stored inside `assets/themes` directory.
     - `displayName` - will be used by the theme picker available in the `Account` view to display a new theme.
     - `isDark` - defines the icon to be used by the theme picker (sun/moon).
-    ```json
-    {
-      "openstack": {
-        "wizard_use_default_user": false
-      },
-      "themes": [
-        {
-          "name": "custom",
-          "displayName": "Custom",
-          "isDark": false
-        }
-      ]
-    }
-    ```
-
+      ```json
+      {
+        "openstack": {
+          "wizard_use_default_user": false
+        },
+        "themes": [
+          {
+            "name": "custom",
+            "displayName": "Custom",
+            "isDark": false
+          }
+        ]
+      }
+      ```
 - Make sure that theme is registered in the `angular.json` file before running the application locally. It is done for `custom` theme by default.
 - Run the application using `npm start`, open the `Account` view under `User settings`, select your new theme and update `custom.scss` according to your needs.
   It is possible to override basically everything inside this theme file. In example if you want to change background color of a `mat-form-field` do this:
