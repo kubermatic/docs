@@ -1,6 +1,7 @@
 +++
 title = "CIS Benchmarking"
 date = 2024-03-06T12:00:00+02:00
+weight = 10
 +++
 
 [CIS Benchmark for Kubernetes](https://www.cisecurity.org/benchmark/kubernetes) is a guide that consists of secure configuration guidelines and best practices developed for Kubernetes.
@@ -12,6 +13,7 @@ In this document, information how it can be run on a Kubernetes cluster created 
 [kube-bench](https://github.com/aquasecurity/kube-bench) is used to create the assessment.
 
 ### Installation
+
 {{% notice note %}}
 There are [multiple ways](https://github.com/aquasecurity/kube-bench/blob/main/docs/running.md) to run `kube-bench`. Below method describes how it's running via logging to a master and worker node to run it.
 {{% /notice %}}
@@ -40,3 +42,8 @@ cd /root/kube-bench
 cd /root/kube-bench
 ./kube-bench -D ./cfg/ run --targets=node --benchmark=cis-1.8
 ```
+
+## Table of Content
+
+{{% children depth=5 %}}
+{{% /children %}}

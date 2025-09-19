@@ -1,39 +1,24 @@
 # How to create CIS Benchmark Results
 
-## Running kube-bench
+## Running trivy
 
-kube-bench is deployed on the master node, and run this way:
+Trivy uses kube-bench under the hood to run the benchmark. To install trivy, follow the instructions [here](https://trivy.dev/latest/getting-started/installation/).
+
+Once installed, you can run the benchmark with the following command:
 
 ```bash
-# make sure you run those commands as root user:
-mkdir /root/kube-bench
-cd /root/kube-bench
-VERSION="0.7.3"
-
-curl -L https://github.com/aquasecurity/kube-bench/releases/download/v${VERSION}/kube-bench_${VERSION}_linux_amd64.tar.gz \
-  -o kube-bench_${VERSION}_linux_amd64.tar.gz
-tar xvf kube-bench_${VERSION}_linux_amd64.tar.gz
-
-cd /root/kube-bench
-./kube-bench -D ./cfg/ run --targets=controlplane,master,etcd,node --benchmark=cis-1.8 --json --outputfile master.json
+trivy k8s --compliance=k8s-cis-1.23 --report summary --timeout=1h --tolerations node-role.kubernetes.io/control-plane="":NoSchedule --format json --output result.json
 ```
 
-It outputs the example [master.json](./master.json) file.
+It outputs the example [result.json](./result.json) file.
 
-## Running the script
+## Converting JSON to Markdown
 
-The python script does not require any additional libraries. 
+Trivy generates a JSON file which is not very readable. Although we have an option to generate a "table" as well, it has the same issue.
 
-Before you start, you need to check these 2 files:
-
-> In case you use a different version than cis-1.8, you need to create those files, and  pay attention to the control/audit numbers.
-
-- [configurable_controls_cis-${VERSION}.json](./configurable_controls_cis-1.8.json): This file contains some details about some features that are not enabled by a default installation, but KubeOne supports them. e.g. audit logging, oidc, ...
-- [additional_details_cis-${VERSION}.json](./additional_details_cis-1.8.json): This file contains some explanation for controls that are in `Warn` or `Fail` state in the benchmark output file. 
-
-When you are sure that this configuration is correct, just run the script:
+Therefore, we use a script to convert the JSON to Markdown.
 
 ```bash
-# python create_md.py <KUBEONE_VERSION> <KUBERNETES_VERSION>
-python create_md.py 1.7.3 1.27.10 > /path/to/_index.en.md
+# ./generate_markdown.sh <KUBEONE_VERSION> <KUBERNETES_VERSION> <TRIVY_OUTPUT_JSON_FILE>
+./generate_markdown.sh 1.11.0 1.33.4 result.json > /path/to/_index.en.md
 ```
