@@ -49,19 +49,19 @@ assume that we have downloaded a `light.css` file and will be preparing a new th
    In case you are changing colors, remember to update it in the whole file.
 1. Mount new `solar.css` file to `dist/assets/themes` directory inside the application container. **Make sure not to override whole directory.**
 1. Update `config.json` file inside `dist/config` directory and register the new theme.
-   ```json
-      {
-        "openstack": {
-          "wizard_use_default_user": false
-        },
-        "themes": [
-          {
-            "name": "solar",
-            "displayName": "Solar",
-            "isDark": true
-          }
-        ]
-      }
-   ```
+    ```json
+    {
+      "openstack": {
+        "wizard_use_default_user": false
+      },
+      "themes": [
+        {
+          "name": "solar",
+          "displayName": "Solar",
+          "isDark": true
+        }
+      ]
+    }
+    ```
 
 That's it. After restarting the application, theme picker in the `Account` view should show your new `Solar` theme.

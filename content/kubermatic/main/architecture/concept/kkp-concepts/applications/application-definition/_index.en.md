@@ -150,7 +150,7 @@ KKP supports three types of authentication for git repositories:
 Their setup is comparable:
 
 1. Create a secret containing our credentials
-   ```bash
+    ```bash
     # inside KKP master
 
     # user-pass
@@ -164,10 +164,10 @@ Their setup is comparable:
 
     # after creation, annotate
     kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="git"
-   ```
+    ```
 
 1. Reference the secret in the ApplicationDefinition
-   ```yaml
+    ```yaml
     spec:
       versions:
         - template:
@@ -194,7 +194,7 @@ Their setup is comparable:
                   sshKey:
                     key: sshKey
                     name: <secret-name>
-   ```
+    ```
 
 #### Compatibility Warning
 
@@ -214,7 +214,7 @@ For other providers, please refer to their official documentation.
 [Helm OCI registries](https://helm.sh/docs/topics/registries/#enabling-oci-support) are being accessed using a JSON configuration similar to the `~/.docker/config.json` on the local machine. It should be noted, that all OCI server urls need to be prefixed with `oci://`.
 
 1. Create a secret containing our credentials
-   ```bash
+    ```bash
     # inside KKP master
     kubectl create secret -n <kkp-install-namespace> docker-registry  --docker-server=<server> --docker-username=<user> --docker-password=<password> <secret-name>
     kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="helm"
@@ -222,10 +222,10 @@ For other providers, please refer to their official documentation.
     # example
     kubectl create secret -n kubermatic docker-registry --docker-server=harbor.example.com/my-project --docker-username=someuser --docker-password=somepaswword oci-cred
     kubectl annotate secret oci-cred apps.kubermatic.k8c.io/secret-type="helm"
-   ```
+    ```
 
 1. Reference the secret in the ApplicationDefinition
-   ```yaml
+    ```yaml
     spec:
       versions:
         - template:
@@ -238,21 +238,21 @@ For other providers, please refer to their official documentation.
                     key: .dockerconfigjson # `kubectl create secret docker-registry` stores by default the creds under this key
                     name: <secret-name>
                 url: <server>
-   ```
+    ```
 
 ### Helm Userpass Registries
 
 To use KKP Applications with a helm [userpass auth](https://helm.sh/docs/topics/registries/#auth) registry, you can configure the following:
 
 1. Create a secret containing our credentials
-   ```bash
+    ```bash
     # inside KKP master
     kubectl create secret -n <kkp-install-namespace> generic --from-literal=pass=<password> --from-literal=user=<username> <secret-name>
     kubectl annotate secret <secret-name> apps.kubermatic.k8c.io/secret-type="helm"
-   ```
+    ```
 
 1. Reference the secret in the ApplicationDefinition
-   ```yaml
+    ```yaml
     spec:
       versions:
         - template:
@@ -268,7 +268,7 @@ To use KKP Applications with a helm [userpass auth](https://helm.sh/docs/topics/
                     key: user
                     name: <secret-name>
                 url: <server>
-   ```
+    ```
 
 ### Templating Credentials
 

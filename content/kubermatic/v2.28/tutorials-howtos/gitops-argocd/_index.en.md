@@ -145,44 +145,44 @@ These names would come handy to understand the references below to them and cust
 
 1. Install ArgoCD and all the ArgoCD Apps
    ```shell
-    cd <root directory of this repo>
-    make deploy-argo-dev-master deploy-argo-apps-dev-master
-    # get ArgoCD admin password via below command
-    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+   cd <root directory of this repo>
+   make deploy-argo-dev-master deploy-argo-apps-dev-master
+   # get ArgoCD admin password via below command
+   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
    ```
 1. Create a git tag with right label. The `make` target creates a git tag with a pre-configured name: `dev-kkp-<kkp-version>` and pushes it to your git repository. This way, when you want to upgrade KKP version, you just need to update the KKP version at the top of Makefile and run this make target again.
    ```shell
-    make push-git-tag-dev
+   make push-git-tag-dev
    ```
 1. ArgoCD syncs nginx ingress and cert-manager automatically
 1. Manually update the DNS records so that ArgoCD is accessible. (In the demo, this step is automated via external-dns app)
    ```shell
-    # Apply the DNS CNAME record below manually in AWS Route53:
-    #   argodemo.lab.kubermatic.io
-    #   *.argodemo.lab.kubermatic.io
-    #   grafana-user.self.seed.argodemo.lab.kubermatic.io
-    #   alertmanager-user.self.seed.argodemo.lab.kubermatic.io
-    # You can get load balancer details from `k get svc -n nginx-ingress-controller nginx-ingress-controller`
-    # After DNS setup, you can access ArgoCD at https://argocd.argodemo.lab.kubermatic.io
+   # Apply the DNS CNAME record below manually in AWS Route53:
+   #   argodemo.lab.kubermatic.io
+   #   *.argodemo.lab.kubermatic.io
+   #   grafana-user.self.seed.argodemo.lab.kubermatic.io
+   #   alertmanager-user.self.seed.argodemo.lab.kubermatic.io
+   # You can get load balancer details from `k get svc -n nginx-ingress-controller nginx-ingress-controller`
+   # After DNS setup, you can access ArgoCD at https://argocd.argodemo.lab.kubermatic.io
    ```
 1. Install KKP EE without Helm charts. If you would want a complete ArgoCD setup with separate seeds, we will need Enterprise Edition of KKP. You can run the demo with master-seed combo. For this, community edition of KKP is sufficient.
    ```shell
-    make install-kkp-dev
+   make install-kkp-dev
    ```
 1. Add Seed CR for seed called `self`
 
    ```shell
-    make create-long-lived-master-seed-kubeconfig
-    # commit changes to git and push latest changes
-    make push-git-tag-dev
+   make create-long-lived-master-seed-kubeconfig
+   # commit changes to git and push latest changes
+   make push-git-tag-dev
    ```
 1. Wait for all apps to sync in ArgoCD (depending on setup - you can choose to sync all apps manually. In the demo, all apps are configured to sync automatically.)
 1. Add Seed DNS record AFTER seed has been added (needed for usercluster creation). Seed is added as part of ArgoCD apps reconciliation above (In the demo, this step is automated via external-dns app)
 
    ```shell
-    # Apply DNS record manually in AWS Route53
-    # *.self.seed.argodemo.lab.kubermatic.io
-    # Loadbalancer details from `k get svc -n kubermatic nodeport-proxy`
+   # Apply DNS record manually in AWS Route53
+   # *.self.seed.argodemo.lab.kubermatic.io
+   # Loadbalancer details from `k get svc -n kubermatic nodeport-proxy`
    ```
 1. Access KKP dashboard at <https://argodemo.lab.kubermatic.io>
 1. Now you can create user-clusters on this master-seed cluster
@@ -197,36 +197,36 @@ We execute most of the commands below, unless noted otherwise, in a 2nd shell wh
 
 1. Install ArgoCD and all the ArgoCD Apps
    ```shell
-    cd <root directory of this repo>
-    make deploy-argo-dev-seed deploy-argo-apps-dev-seed
-    # get ArgoCD admin password via below command
-    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+   cd <root directory of this repo>
+   make deploy-argo-dev-seed deploy-argo-apps-dev-seed
+   # get ArgoCD admin password via below command
+   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
    ```
 1. Add Seed nginx-ingress DNS record (In the demo, this step is automated via external-dns app)
 
    ```shell
-    # Apply below DNS CNAME record manually in AWS Route53
-    #   *.india.argodemo.lab.kubermatic.io
-    #   grafana-user.india.seed.argodemo.lab.kubermatic.io
-    #   alertmanager-user.india.seed.argodemo.lab.kubermatic.io
-    # You can get load balancer details from `k get svc -n nginx-ingress-controller nginx-ingress-controller`
-    # After DNS setup, you can access the seed ArgoCD at https://argocd.india.argodemo.lab.kubermatic.io
+   # Apply below DNS CNAME record manually in AWS Route53
+   #   *.india.argodemo.lab.kubermatic.io
+   #   grafana-user.india.seed.argodemo.lab.kubermatic.io
+   #   alertmanager-user.india.seed.argodemo.lab.kubermatic.io
+   # You can get load balancer details from `k get svc -n nginx-ingress-controller nginx-ingress-controller`
+   # After DNS setup, you can access the seed ArgoCD at https://argocd.india.argodemo.lab.kubermatic.io
    ```
 
 1. Prepare kubeconfig with cluster-admin privileges so that it can be added as secret and then this cluster can be added as Seed in master cluster configuration
 
    ```shell
-    make create-long-lived-seed-kubeconfig
-    # commit changes to git and push latest changes in
-    make push-git-tag-dev
+   make create-long-lived-seed-kubeconfig
+   # commit changes to git and push latest changes in
+   make push-git-tag-dev
    ```
 1. Sync all apps in ArgoCD by accessing ArgoCD UI and syncing apps manually
 1. Add Seed nodeport proxy DNS record
 
    ```shell
-    # Apply DNS record manually in AWS Route53
-    # *.india.seed.argodemo.lab.kubermatic.io
-    # Loadbalancer details from `k get svc -n kubermatic nodeport-proxy`
+   # Apply DNS record manually in AWS Route53
+   # *.india.seed.argodemo.lab.kubermatic.io
+   # Loadbalancer details from `k get svc -n kubermatic nodeport-proxy`
    ```
 
 1. Now we can create user-clusters on this dedicated seed cluster as well.

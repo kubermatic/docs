@@ -45,7 +45,7 @@ To use custom OperatingSystemProfiles, users can do the following:
 
 1. Create their `CustomOperatingSystemProfile` resource on the seed cluster in the `kubermatic` namespace. These resources will be automatically synced to the `kube-system` namespace of the user-clusters.
 
-   ```yaml
+    ```yaml
     apiVersion: operatingsystemmanager.k8c.io/v1alpha1
     kind: CustomOperatingSystemProfile
     metadata:
@@ -99,7 +99,7 @@ To use custom OperatingSystemProfiles, users can do the following:
               inline:
                 encoding: b64
                 data: echo "hello world"
-   ```
+    ```
 
 1. Create `OperatingSystemProfile` resources in the `kube-system` namespace of the user cluster, after cluster creation.
 
