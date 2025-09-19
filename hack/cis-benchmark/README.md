@@ -2,7 +2,7 @@
 
 ## Running trivy
 
-Trivy uses kube-bench under the hood to run the benchmark. To install trivy, follow the instructions [here](https://trivy.dev/latest/getting-started/installation/).
+To install trivy, follow the instructions [here](https://trivy.dev/latest/getting-started/installation/).
 
 Once installed, you can run the benchmark with the following command:
 

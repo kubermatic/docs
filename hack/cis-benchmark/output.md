@@ -15,7 +15,7 @@ This guide corresponds to the following versions of KubeOne, CIS Benchmarks, and
 
 ### Running the Benchmark
 
-[Trivy](https://github.com/aquasecurity/trivy) was used to run the benchmark. Trivy runs [kube-bench](https://github.com/aquasecurity/kube-bench) under the hood and checks if the cluster meets the CIS Kubernetes Benchmark.
+[Trivy](https://github.com/aquasecurity/trivy) was used to run the benchmark.
 
 ```bash
 trivy k8s --compliance=k8s-cis-1.23 --report summary --timeout=1h --tolerations node-role.kubernetes.io/control-plane="":NoSchedule
@@ -32,7 +32,6 @@ Each control in the CIS Kubernetes Benchmark was evaluated. These are the possib
 🔵 **Pass (Additional Configuration Required):** The cluster passes the audit/control outlined in the benchmark with some extra configuration. The documentation is provided.
 
 🔴 **Fail:** The audit/control will be fixed in a future KubeOne release.
-
 
 ## Control Type: Control Plane Components
 
@@ -1063,6 +1062,6 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 [audit-logging]: {{< ref "../../../tutorials/creating-clusters-oidc/#audit-logging" >}}
 [encryption-providers]: {{< ref "../../../guides/encryption-providers/" >}}
 [oidc]: {{< ref "../../../tutorials/creating-clusters-oidc/" >}}
-[anon-req]: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#anonymous-requests
-[eventratelimit]: https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit
-[securitycontextdeny]: https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#securitycontextdeny
+[anon-req]: <https://kubernetes.io/docs/reference/access-authn-authz/authentication/#anonymous-requests>
+[eventratelimit]: <https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit>
+[securitycontextdeny]: <https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#securitycontextdeny>
