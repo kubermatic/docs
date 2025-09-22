@@ -1,15 +1,17 @@
 +++
-title = "Benchmark on Kubernetes 1.33 with KubeOne 1.11.2"
-date = 2025-09-19T16:39:34+02:00
+title = "Benchmark on Kubernetes 1.33 with KKP 2.28.3"
+date = 2025-09-22T18:43:06+02:00
 +++
 
-This guide helps you evaluate the security of a Kubernetes cluster created using KubeOne against each control in the CIS Kubernetes Benchmark.
+This guide helps you evaluate the security of a Kubernetes cluster created using KKP against each control in the CIS Kubernetes Benchmark.
 
-This guide corresponds to the following versions of KubeOne, CIS Benchmarks, and Kubernetes:
+Please note: It is impossible to inspect the master nodes of managed clusters since from within the cluster(kubeconfig) one does not have access to such nodes. So for KKP, we can only check the worker nodes.
 
-| KubeOne Version  | Kubernetes Version | CIS Benchmark Version |
+This guide corresponds to the following versions of KKP, CIS Benchmarks, and Kubernetes:
+
+| KKP Version  | Kubernetes Version | CIS Benchmark Version |
 | ---------------- | ------------------ | --------------------- |
-| 1.11.2               | 1.33.4                 | CIS-1.23                    |
+| 2.28.3               | 1.33.5                 | CIS-1.23                    |
 
 ## Testing Methodology
 
@@ -31,7 +33,7 @@ Each control in the CIS Kubernetes Benchmark was evaluated. These are the possib
 
 🔵 **Pass (Additional Configuration Required):** The cluster passes the audit/control outlined in the benchmark with some extra configuration. The documentation is provided.
 
-🔴 **Fail:** The audit/control will be fixed in a future KubeOne release.
+🔴 **Fail:** The audit/control will be fixed in a future KKP release.
 
 ## Control Type: Control Plane Components
 
@@ -129,9 +131,7 @@ Each control in the CIS Kubernetes Benchmark was evaluated. These are the possib
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -213,9 +213,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -287,9 +285,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -305,9 +301,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -339,9 +333,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -365,9 +357,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -375,9 +365,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -385,9 +373,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -395,9 +381,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -453,9 +437,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -497,9 +479,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -619,7 +599,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -653,7 +633,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -761,7 +741,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -777,9 +757,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** CRITICAL
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -817,7 +795,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -827,7 +805,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -837,7 +815,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -865,7 +843,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -873,9 +851,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -893,7 +869,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -903,7 +879,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -913,7 +889,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -923,7 +899,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -933,7 +909,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -943,7 +919,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -961,7 +937,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -969,7 +945,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🟢 Pass
+**Result:** 🔴 Fail
+
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -1033,9 +1011,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -1045,7 +1021,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+_The issue is under investigation to provide a fix in a future KKP release_
 
 ---
 
@@ -1056,12 +1032,3 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 **Result:** 🟢 Pass
 
 ---
-
-## References
-
-[audit-logging]: {{< ref "../../../tutorials/creating-clusters-oidc/#audit-logging" >}}
-[encryption-providers]: {{< ref "../../../guides/encryption-providers/" >}}
-[oidc]: {{< ref "../../../tutorials/creating-clusters-oidc/" >}}
-[anon-req]: <https://kubernetes.io/docs/reference/access-authn-authz/authentication/#anonymous-requests>
-[eventratelimit]: <https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit>
-[securitycontextdeny]: <https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#securitycontextdeny>

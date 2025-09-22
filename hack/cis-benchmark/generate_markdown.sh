@@ -3,15 +3,23 @@
 set -e
 
 # Check arguments
-if [ $# -lt 2 ]; then
-    echo "Usage: $0 <KUBEONE_VERSION> <KUBERNETES_PATCH_VERSION> [JSON_FILE]" >&2
-    echo "Example: $0 1.11.0 1.33.4 result.json" >&2
+if [ $# -lt 3 ]; then
+    echo "Usage: $0 <PRODUCT> <PRODUCT_VERSION> <KUBERNETES_PATCH_VERSION> [JSON_FILE]" >&2
+    echo "Example: $0 KubeOne 1.11.0 1.33.4 result.json" >&2
+    echo "Example: $0 KKP 2.25.0 1.33.4 result.json" >&2
     exit 1
 fi
 
-KUBEONE_VERSION="$1"
-KUBERNETES_PATCH_VERSION="$2"
-JSON_FILE="${3:-result.json}"
+PRODUCT="$1"
+PRODUCT_VERSION="$2"
+KUBERNETES_PATCH_VERSION="$3"
+JSON_FILE="${4:-result.json}"
+
+# Validate product parameter
+if [ "$PRODUCT" != "KubeOne" ] && [ "$PRODUCT" != "KKP" ]; then
+    echo "Error: PRODUCT must be either 'KubeOne' or 'KKP'" >&2
+    exit 1
+fi
 
 # Check if JSON file exists
 if [ ! -f "$JSON_FILE" ]; then
@@ -64,17 +72,21 @@ BENCHMARK_ID_UPPER=$(echo "$BENCHMARK_ID" | tr '[:lower:]' '[:upper:]')
 
 # Print header
 echo "+++"
-echo "title = \"Benchmark on Kubernetes $KUBERNETES_VERSION with KubeOne $KUBEONE_VERSION\""
+echo "title = \"Benchmark on Kubernetes $KUBERNETES_VERSION with $PRODUCT $PRODUCT_VERSION\""
 echo "date = $(date +%Y-%m-%dT%H:%M:%S+02:00)"
 echo "+++"
 echo ""
-echo "This guide helps you evaluate the security of a Kubernetes cluster created using KubeOne against each control in the CIS Kubernetes Benchmark."
+echo "This guide helps you evaluate the security of a Kubernetes cluster created using $PRODUCT against each control in the CIS Kubernetes Benchmark."
+if [ "$PRODUCT" = "KKP" ]; then
+    echo ""
+    echo "Please note: It is impossible to inspect the master nodes of managed clusters since from within the cluster(kubeconfig) one does not have access to such nodes. So for KKP, we can only check the worker nodes."
+fi
 echo ""
-echo "This guide corresponds to the following versions of KubeOne, CIS Benchmarks, and Kubernetes:"
+echo "This guide corresponds to the following versions of $PRODUCT, CIS Benchmarks, and Kubernetes:"
 echo ""
-echo "| KubeOne Version  | Kubernetes Version | CIS Benchmark Version |"
+echo "| $PRODUCT Version  | Kubernetes Version | CIS Benchmark Version |"
 echo "| ---------------- | ------------------ | --------------------- |"
-echo "| $KUBEONE_VERSION               | $KUBERNETES_PATCH_VERSION                 | $BENCHMARK_ID_UPPER                    |"
+echo "| $PRODUCT_VERSION               | $KUBERNETES_PATCH_VERSION                 | $BENCHMARK_ID_UPPER                    |"
 echo ""
 echo "## Testing Methodology"
 echo ""
@@ -96,7 +108,7 @@ echo "🟢 **Pass:** The cluster passes the audit/control outlined in the benchm
 echo ""
 echo "🔵 **Pass (Additional Configuration Required):** The cluster passes the audit/control outlined in the benchmark with some extra configuration. The documentation is provided."
 echo ""
-echo "🔴 **Fail:** The audit/control will be fixed in a future KubeOne release."
+echo "🔴 **Fail:** The audit/control will be fixed in a future $PRODUCT release."
 echo ""
 
 # Function to get control type (manual/automated)
@@ -163,22 +175,9 @@ jq -r '.SummaryControls[] | @json' "$JSON_FILE" | while read -r control_json; do
         # Fail
         echo "**Result:** 🔴 Fail"
         echo ""
-        echo "_The issue is under investigation to provide a fix in a future KubeOne release_"
+        echo "_The issue is under investigation to provide a fix in a future $PRODUCT release_"
     fi
 
     echo ""
     echo "---"
 done
-
-# Print references section
-cat << 'EOF'
-
-## References
-
-[audit-logging]: {{< ref "../../../tutorials/creating-clusters-oidc/#audit-logging" >}}
-[encryption-providers]: {{< ref "../../../guides/encryption-providers/" >}}
-[oidc]: {{< ref "../../../tutorials/creating-clusters-oidc/" >}}
-[anon-req]: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#anonymous-requests
-[eventratelimit]: https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit
-[securitycontextdeny]: https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#securitycontextdeny
-EOF
