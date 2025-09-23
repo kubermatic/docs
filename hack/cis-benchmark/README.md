@@ -19,6 +19,7 @@ Trivy generates a JSON file which is not very readable. Although we have an opti
 Therefore, we use a script to convert the JSON to Markdown.
 
 ```bash
-# ./generate_markdown.sh <KUBEONE_VERSION> <KUBERNETES_VERSION> <TRIVY_OUTPUT_JSON_FILE>
-./generate_markdown.sh 1.11.0 1.33.4 result.json > /path/to/_index.en.md
+# ./generate_markdown.sh <PRODUCT> <PRODUCT_VERSION> <KUBERNETES_PATCH_VERSION> <TRIVY_OUTPUT_JSON_FILE>
+./generate_markdown.sh KubeOne 1.11.0 1.33.4 result.json > /path/to/_index.en.md
+./generate_markdown.sh KKP 2.25.0 1.33.4 result.json > /path/to/_index.en.md
 ```
