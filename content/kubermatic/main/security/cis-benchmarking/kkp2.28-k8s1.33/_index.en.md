@@ -1,6 +1,6 @@
 +++
 title = "Benchmark on Kubernetes 1.33 with KKP 2.28.3"
-date = 2025-09-23T13:22:14+02:00
+date = 2025-09-19T09:00:00+02:00
 +++
 
 This guide helps you evaluate the security of a Kubernetes cluster created using KKP against each control in the CIS Kubernetes Benchmark.
