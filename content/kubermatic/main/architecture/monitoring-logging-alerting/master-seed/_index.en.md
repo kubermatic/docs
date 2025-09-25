@@ -11,31 +11,31 @@ It uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prome
 
 ## Overview
 
-There is a single Prometheus service in each seed cluster's `monitoring` namespace, which is responsible for monitoring the cluster's components (like the KKP controller manager) and serves as the main datasource for the accompanying Grafana service. Besides that there is a Prometheus inside each user cluster namespace, which in turn monitors the Kubernetes control plane (apiserver, controller manager, etcd cluster etc.) of that user cluster. The seed-level Prometheus scrapes all the user cluster Prometheus instances and combines their metrics for creating the dashboards in Grafana.
+There is a single Prometheus service in each seed cluster's `monitoring` namespace, which is responsible for monitoring the cluster's components (like the KKP controller manager) and serves as the main datasource for the accompanying Grafana service. Besides that there is a Prometheus inside each user cluster namespace, which in turn monitors the Kubernetes control plane (apiserver, controller manager, etcd cluster, etc.) of that user cluster. The seed-level Prometheus scrapes all the user cluster Prometheus instances and combines their metrics to create the dashboards in Grafana.
 
-Along the seed-level Prometheus, there is a single alertmanager running in the seed, which *all* Prometheus instances are using to relay their alerts (i.e. the Prometheus inside the user clusters send their alerts to the seed cluster's alertmanager).
+Along the seed-level Prometheus, there is a single alertmanager running in the seed, which *all* Prometheus instances are using to relay their alerts (i.e., the Prometheus that monitors a user cluster from its namespace within the seed sends its alerts to the seed cluster's alertmanager).
 
 ![Monitoring architecture diagram](architecture.png)
 
 ## Federation
 
-The seed-level Prometheus uses Prometheus' native federation mechanism to scrape the user cluster Prometheus instances. To prevent excessive amount of data in the seed, it will however only scrape a few selected metrics, namely those labelled with `kubermatic=federate`.
+The seed-level Prometheus uses Prometheus' native federation mechanism to scrape the user cluster Prometheus instances. To prevent an excessive amount of data in the seed, it will, however, only scrape a few selected metrics, namely those labelled with `kubermatic=federate`.
 
 The last of these options is used for pre-aggregated metrics, which combine highly detailed time series (like from etcd) into smaller, easier to handle metrics that can be readily used inside Grafana.
 
 ## Grafana
 
 In a default KKP installation, we ship Grafana as *readonly* metrics dashboard.
-When working with Grafana please keep in mind, that **ALL CHANGES** done using the Grafana UI (like adding datasources, etc.) **WILL NOT BE PERSISTED**. Dashboards, graphs, datasources, etc. will be defined using the Helm chart.
+When working with Grafana, please keep in mind that **ALL CHANGES** done using the Grafana UI (like adding datasources, etc.) **WILL NOT BE PERSISTED**. Dashboards, graphs, datasources, etc. will be defined using the Helm chart.
 
 ## Storage Requirements
 
-Depending on how user clusters are used, disk usage for Prometheus can vary greatly. As the operator you should however plan for
+Depending on how user clusters are used, disk usage for Prometheus can vary greatly. As the operator, you should however plan for
 
 - 100 MiB used by the seed-level Prometheus for each user cluster
 - 50-300 MiB used by the user-level Prometheus, depending on its WAL size.
 
-These values can also vary, if you tweak the retention periods.
+These values can also vary if you tweak the retention periods.
 
 ## Installation
 
