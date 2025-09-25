@@ -13,7 +13,7 @@ It uses [Prometheus](https://prometheus.io) and its [Alertmanager](https://prome
 
 There is a single Prometheus service in each seed cluster's `monitoring` namespace, which is responsible for monitoring the cluster's components (like the KKP controller manager) and serves as the main datasource for the accompanying Grafana service. Besides that there is a Prometheus inside each user cluster namespace, which in turn monitors the Kubernetes control plane (apiserver, controller manager, etcd cluster, etc.) of that user cluster. The seed-level Prometheus scrapes all the user cluster Prometheus instances and combines their metrics to create the dashboards in Grafana.
 
-Along the seed-level Prometheus, there is a single alertmanager running in the seed, which *all* Prometheus instances are using to relay their alerts (i.e., the Prometheus that monitors a user cluster from its namespace within the seed sends its alerts to the seed cluster's alertmanager).
+Along the seed-level Prometheus, there is a single Alertmanager running in the seed, which *all* Prometheus instances are using to relay their alerts (i.e., the Prometheus that monitors a user cluster from its namespace within the seed sends its alerts to the seed cluster's Alertmanager).
 
 ![Monitoring architecture diagram](architecture.png)
 
