@@ -7,20 +7,21 @@ weight = 20
 
 This chapter describes the customization of the KKP [Master / Seed Monitoring, Logging & Alerting Stack]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/_index.en.md" >}}).
 
-When it comes to monitoring, no approach fits all use cases. It's expected that you will want to adjust things to your needs, and this page describes the various places where customizations can be applied. In broad terms, four main areas are discussed:
+Monitoring configurations are highly dependent on the specific use case. This guide details the available customization options for the MLA stack. Customizations are available for four main areas:
 
 - User-cluster Prometheus
 - Seed-cluster Prometheus
 - Alertmanager rules
 - Grafana dashboards
 
-You will want to familiarize yourself with the [Installation of the Master / Seed MLA Stack]({{< relref "../installation/" >}}) before reading any further.
+Familiarity with the [Installation of the Master / Seed MLA Stack]({{< relref "../installation/" >}}) is recommended before proceeding.
 
 ## User Cluster Prometheus
 
 Each user cluster is monitored by a dedicated Prometheus instance that runs within its namespace on the seed cluster.
 This instance is responsible for collecting metrics from the user cluster's control plane. 
-It's important to note that the scope of this Prometheus is limited to the control plane of the user cluster; hence it does not collect metrics from applications or workloads running inside the user cluster.
+
+**Note**: The scope of this Prometheus is limited to the user cluster's control plane. It does not collect metrics from applications or workloads running inside the user cluster.
 
 While the lifecycle of this Prometheus is managed automatically by KKP, you can still add custom rules.
 
@@ -28,11 +29,11 @@ To do so, specify your desired rules in the KubermaticConfiguration custom resou
 
 ### Rules
 
-KKP comes with the default rules; however, new custom rules can be added, or the default set can be disabled.
+KKP provides a default set of rules. However, new custom rules can be added, or the default set can be disabled.
 
 #### Custom rules
 
-To add custom rules, they must be defined as a YAML-formatted string under the `spec.monitoring.customRules` field.
+Custom rules can be added by defining them as a YAML-formatted string under the `spec.monitoring.customRules` field.
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
@@ -136,7 +137,7 @@ This Prometheus is primarily used to collect metrics from the user clusters and 
 
 ### Labels
 
-To specify additional labels that are sent to the Alertmanager whenever an alert occurs, you can add an `externalLabels` element to your `values.yaml` and list your desired labels there:
+Additional labels can be sent to Alertmanager with each alert. These are specified by adding an `externalLabels` element to the `values.yaml` file:
 
 ```yaml
 prometheus:
@@ -152,8 +153,8 @@ Rules include recording rules (for precomputing expensive queries) and alerts. T
 
 #### values.yaml
 
-You can add our own rules by adding them to the `values.yaml` like so:
-
+Custom rules can be added directly to the `values.yaml` file:
+ 
 ```yaml
 prometheus:
   rules:
@@ -171,11 +172,11 @@ prometheus:
             severity: critical
 ```
 
-This will lead to them being written to a dedicated `_customrules.yaml` and included in Prometheus. Use this approach if you only have a few rules that you'd like to add.
+This will lead to them being written to a dedicated `_customrules.yaml` and included in Prometheus. This approach is recommended for adding a small number of rules.
 
 #### Extending the Helm Chart
 
-If you have more than a couple of rules, you can also place new YAML files inside the `rules/` directory before you deploy the Helm chart. They will be included as you would expect. To prevent maintenance headaches further down the road, you should never change the existing files inside the chart. If you need to get rid of the predefined rules, see the next section on how to achieve it.
+For larger sets of rules, new YAML files can be placed inside the `rules/` directory before the Helm chart is deployed. These files will be included automatically. They will be included as you would expect. To ensure future compatibility and prevent update conflicts, existing files within the chart should not be modified. The method for disabling predefined rules is described in the next section.
 
 #### Custom ConfigMaps/Secrets
 
@@ -209,7 +210,7 @@ If you would like to store the metrics for the long term, typically other soluti
 
 ## Alertmanager
 
-Alertmanager configuration can be tweaked via `values.yaml` like so:
+The Alertmanager configuration can be modified in the `values.yaml` file:
 
 ```yaml
 alertmanager:
@@ -360,7 +361,7 @@ kubeStateMetrics:
                   ready: [status, conditions, "[type=Ready]", status]
 ```
 
-Along with this, the RBAC rules also need to be updated to allow kube-state-metrics to perform the necessary operations on the custom resource(s).
+Additionally, the RBAC rules must be updated to allow kube-state-metrics to perform the necessary operations on the custom resource(s).
 
 ```yaml
 kubeStateMetrics:
