@@ -82,34 +82,61 @@ spec:
 
 ### Scraping Configs
 
-Custom scraping configs can be specified by adding the corresponding entries beneath the `clusterNamespacePrometheus.scrapingConfigs` key in the `values.yaml`:
+The scraping behavior of Prometheus can be customized. New scraping configurations can be added, and the default configurations can be disabled.
+
+#### Add Custom Scraping Configurations
+
+Custom scraping configurations can be specified by adding them under the `spec.monitoring.customScrapingConfigs` field.
 
 ```yaml
-clusterNamespacePrometheus:
-  scrapingConfigs:
-  - job_name: 'schnitzel'
-    kubernetes_sd_configs:
-    - role: pod
-    relabel_configs:
-    - source_labels: [__meta_kubernetes_pod_annotation_kubermatic_scrape]
-      action: keep
-      regex: true
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: <<mykubermatic>>
+  namespace: kubermatic
+spec:
+    # Monitoring can be used to fine-tune to in-cluster Prometheus.
+    monitoring:
+      # CustomScrapingConfigs can be used to inject custom scraping rules. This must be a
+      # YAML-formatted string containing an array of scrape configurations as documented
+      # on https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config.
+      # This value is treated as a Go template, which allows to inject dynamic values like
+      # the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus
+      # and the documentation for more information on the available fields.
+      customScrapingConfigs: |
+        - job_name: 'schnitzel'
+          kubernetes_sd_configs:
+            - role: pod
+          relabel_configs:
+            - source_labels: [__meta_kubernetes_pod_annotation_kubermatic_scrape]
+              action: keep
+              regex: true
 ```
 
-Also, the default KKP scraping configs can be disabled in the same way:
+#### Disable Default Scraping Configurations
+
+The default scraping configurations provided by KKP can be disabled. This is accomplished by setting the `spec.monitoring.disableDefaultScrapingConfigs` flag to `true`.
 
 ```yaml
-clusterNamespacePrometheus:
-  disableDefaultScrapingConfigs: true
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: <<mykubermatic>>
+  namespace: kubermatic
+spec:
+    # Monitoring can be used to fine-tune to in-cluster Prometheus.
+    monitoring:
+      # DisableDefaultScrapingConfigs disables the default scraping targets.
+      disableDefaultScrapingConfigs: true
 ```
 
 ## Seed Cluster Prometheus
 
-This Prometheus is primarily used to collect metrics from the customer clusters and then provide those to Grafana. In contrast to the Prometheus mentioned above, this one is deployed via a [Helm](https://helm.sh) chart and you can use Helm's native customization options.
+This Prometheus is primarily used to collect metrics from the user clusters and then provide those to Grafana. In contrast to the Prometheus mentioned above, this one is deployed via a [Helm](https://helm.sh) chart, and you can use Helm's native customization options.
 
 ### Labels
 
-To specify additional labels that are sent to the alertmanager whenever an alert occurs, you can add an `externalLabels` element to your `values.yaml` and list your desired labels there:
+To specify additional labels that are sent to the Alertmanager whenever an alert occurs, you can add an `externalLabels` element to your `values.yaml` and list your desired labels there:
 
 ```yaml
 prometheus:
@@ -148,7 +175,7 @@ This will lead to them being written to a dedicated `_customrules.yaml` and incl
 
 #### Extending the Helm Chart
 
-If you have more than a couple of rules, you can also place new YAML files inside the `rules/` directory before you deploy the Helm chart. They will be included as you would expect. To prevent maintenance headaches further down the road you should never change the existing files inside the chart. If you need to get rid of the predefined rules, see the next section on how to achieve it.
+If you have more than a couple of rules, you can also place new YAML files inside the `rules/` directory before you deploy the Helm chart. They will be included as you would expect. To prevent maintenance headaches further down the road, you should never change the existing files inside the chart. If you need to get rid of the predefined rules, see the next section on how to achieve it.
 
 #### Custom ConfigMaps/Secrets
 
@@ -162,7 +189,7 @@ prometheus:
     configMap: example-rules
 ```
 
-After mounting the files into the pod you need to make sure that Prometheus loads them by extending the `ruleFiles` list:
+After mounting the files into the pod, you need to make sure that Prometheus loads them by extending the `ruleFiles` list:
 
 ```yaml
 prometheus:
@@ -175,10 +202,10 @@ Managing the `ruleFiles` is also the way to disable the predefined rules by just
 
 ### Long-term metrics storage
 
-By default, the seed prometheus is configured to store 1 days worth of metrics.
-It can be customized via overriding `prometheus.tsdb.retentionTime` field in `values.yaml` used for chart installation.
+By default, the seed Prometheus is configured to store 1 day's worth of metrics.
+It can be customized via overriding the `prometheus.tsdb.retentionTime` field in `values.yaml` used for chart installation.
 
-If you would like to store the metrics for longer term, typically other solutions like Thanos are used. Thanos integration is a more involved process. Please read more about [thanos integration]({{< relref "./thanos.md" >}}).
+If you would like to store the metrics for the long term, typically other solutions like Thanos are used. Thanos integration is a more involved process. Please read more about [Thanos integration]({{< relref "./thanos.md" >}}).
 
 ## Alertmanager
 
@@ -266,7 +293,7 @@ grafana:
         type: file
 ```
 
-Customizing the providers is especially important if you want to also add your own dashboards. You can point the `options.path` path to a newly mounted volume to load dashboards from (see below).
+Customizing the providers is especially important if you also want to add your own dashboards. You can point the `options.path` path to a newly mounted volume to load dashboards from (see below).
 
 ### Dashboards
 
@@ -333,7 +360,7 @@ kubeStateMetrics:
                   ready: [status, conditions, "[type=Ready]", status]
 ```
 
-Along with this, the rbac rules also needs to be update to allow kube-state-metrics perform the necessary operations on the custom resource(s).
+Along with this, the RBAC rules also need to be updated to allow kube-state-metrics to perform the necessary operations on the custom resource(s).
 
 ```yaml
 kubeStateMetrics:
@@ -346,4 +373,4 @@ kubeStateMetrics:
         verbs: [ "list", "watch" ]
 ```
 
-For configuring more custom resources, refer the [example kube-state-metrics-config.yaml](https://github.com/fluxcd/flux2-monitoring-example/blob/main/monitoring/controllers/kube-prometheus-stack/kube-state-metrics-config.yaml).
+For configuring more custom resources, refer to the [example kube-state-metrics-config.yaml](https://github.com/fluxcd/flux2-monitoring-example/blob/main/monitoring/controllers/kube-prometheus-stack/kube-state-metrics-config.yaml).
