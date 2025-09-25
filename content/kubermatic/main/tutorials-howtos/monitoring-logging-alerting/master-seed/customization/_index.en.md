@@ -7,22 +7,21 @@ weight = 20
 
 This chapter describes the customization of the KKP [Master / Seed Monitoring, Logging & Alerting Stack]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/_index.en.md" >}}).
 
-When it comes to monitoring, no approach fits all use cases. It's expected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
+When it comes to monitoring, no approach fits all use cases. It's expected that you will want to adjust things to your needs, and this page describes the various places where customizations can be applied. In broad terms, four main areas are discussed:
 
-- customer-cluster Prometheus
-- seed-cluster Prometheus
-- alertmanager rules
+- User-cluster Prometheus
+- Seed-cluster Prometheus
+- Alertmanager rules
 - Grafana dashboards
 
 You will want to familiarize yourself with the [Installation of the Master / Seed MLA Stack]({{< relref "../installation/" >}}) before reading any further.
 
 ## User Cluster Prometheus
 
-The basic source of metrics is the Prometheus inside each user cluster namespace. It will track the customer clusters control plane (**IMPORTANT:** it is NOT responsible for the components running in the customer clusters themselves.)
+Each user cluster is monitored by a dedicated Prometheus instance that runs within its namespace on the seed cluster.
+This instance is responsible for collecting metrics from the user cluster's control plane. It's important to note that its scope does not extend to the applications running within the user cluster.
 
-This Prometheus is deployed as part of Kubermatic Kubernetes Platform's (KKP) cluster creation, which means you cannot directly affect its deployment.
-
-Therefore to still allow customization of rules, KKP provides the possibility to specify rules as part of the `values.yaml` which gets fed to the KKP chart.
+While the lifecycle of this Prometheus is managed automatically by KKP, you can still add custom rules. To do so, specify your desired rules in the KKP chart's `values.yaml` file.
 
 ### Rules
 
