@@ -19,38 +19,65 @@ You will want to familiarize yourself with the [Installation of the Master / See
 ## User Cluster Prometheus
 
 Each user cluster is monitored by a dedicated Prometheus instance that runs within its namespace on the seed cluster.
-This instance is responsible for collecting metrics from the user cluster's control plane. It's important to note that its scope does not extend to the applications running within the user cluster.
+This instance is responsible for collecting metrics from the user cluster's control plane. 
+It's important to note that the scope of this Prometheus is limited to the control plane of the user cluster; hence it does not collect metrics from applications or workloads running inside the user cluster.
 
-While the lifecycle of this Prometheus is managed automatically by KKP, you can still add custom rules. To do so, specify your desired rules in the KKP chart's `values.yaml` file.
+While the lifecycle of this Prometheus is managed automatically by KKP, you can still add custom rules.
+
+To do so, specify your desired rules in the KubermaticConfiguration custom resource.
 
 ### Rules
 
-Custom rules can be added beneath the `clusterNamespacePrometheus.rules` key:
+KKP comes with the default rules; however, new custom rules can be added, or the default set can be disabled.
+
+#### Custom rules
+
+To add custom rules, they must be defined as a YAML-formatted string under the `spec.monitoring.customRules` field.
 
 ```yaml
-kubermatic:
-  clusterNamespacePrometheus:
-    disableDefaultRules: false
-    rules:
-      groups:
-      - name: my-custom-group
-        rules:
-        - alert: MyCustomAlert
-          annotations:
-            message: Something happened in {{ $labels.namespace }}
-          expr: |
-            sum(rate(machine_controller_errors_total[5m])) by (namespace) > 0.01
-          for: 10m
-          labels:
-            severity: warning
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: <<mykubermatic>>
+  namespace: kubermatic
+spec:
+    # Monitoring can be used to fine-tune to in-cluster Prometheus.
+    monitoring:
+      # CustomRules can be used to inject custom recording and alerting rules. This field
+      # must be a YAML-formatted string with a `group` element at its root, as documented
+      # on https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/.
+      # This value is treated as a Go template, which allows to inject dynamic values like
+      # the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus
+      # and the documentation for more information on the available fields.
+      customRules: |
+        groups:
+          - name: my-custom-group
+            rules:
+              - alert: MyCustomAlert
+                annotations:
+                  message: Something happened in {{ $labels.namespace }}
+                expr: |
+                  sum(rate(machine_controller_errors_total[5m])) by (namespace) > 0.01
+                for: 10m
+                labels:
+                  severity: warning        
 ```
 
-If you'd like to disable the default rules coming with KKP itself, you can specify the `disableDefaultRules` flag:
+#### Disable the default rules
+
+The default rules provided by KKP can be disabled by setting the `spec.monitoring.disableDefaultRules` flag to `true`.
 
 ```yaml
-kubermatic:
-  clusterNamespacePrometheus:
-    disableDefaultRules: false
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: <<mykubermatic>>
+  namespace: kubermatic
+spec:
+    # Monitoring can be used to fine-tune to in-cluster Prometheus.
+    monitoring:
+      # DisableDefaultRules disables the recording and alerting rules.
+      disableDefaultRules: true
 ```
 
 ### Scraping Configs
