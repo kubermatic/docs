@@ -202,7 +202,7 @@ Managing the `ruleFiles` is also the way to disable the predefined rules by just
 
 ### Long-term metrics storage
 
-By default, the seed Prometheus is configured to store 1 day's worth of metrics.
+By default, the seed Prometheus is configured to store 15 day's worth of metrics.
 It can be customized via overriding the `prometheus.tsdb.retentionTime` field in `values.yaml` used for chart installation.
 
 If you would like to store the metrics for the long term, typically other solutions like Thanos are used. Thanos integration is a more involved process. Please read more about [Thanos integration]({{< relref "./thanos.md" >}}).
