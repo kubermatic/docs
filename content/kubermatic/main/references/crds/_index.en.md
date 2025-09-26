@@ -1882,7 +1882,6 @@ _Appears in:_
 | `aws` _[AWSCloudSpec](#awscloudspec)_ | {{< unsafe >}}AWS defines the configuration data of the Amazon Web Services(AWS) cloud provider.{{< /unsafe >}} |
 | `azure` _[AzureCloudSpec](#azurecloudspec)_ | {{< unsafe >}}Azure defines the configuration data of the Microsoft Azure cloud.{{< /unsafe >}} |
 | `openstack` _[OpenstackCloudSpec](#openstackcloudspec)_ | {{< unsafe >}}Openstack defines the configuration data of an OpenStack cloud.{{< /unsafe >}} |
-| `packet` _[PacketCloudSpec](#packetcloudspec)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Packet defines the configuration data of a Packet / Equinix Metal cloud.<br />NOOP.{{< /unsafe >}} |
 | `hetzner` _[HetznerCloudSpec](#hetznercloudspec)_ | {{< unsafe >}}Hetzner defines the configuration data of the Hetzner cloud.{{< /unsafe >}} |
 | `vsphere` _[VSphereCloudSpec](#vspherecloudspec)_ | {{< unsafe >}}VSphere defines the configuration data of the vSphere.{{< /unsafe >}} |
 | `gcp` _[GCPCloudSpec](#gcpcloudspec)_ | {{< unsafe >}}GCP defines the configuration data of the Google Cloud Platform(GCP).{{< /unsafe >}} |
@@ -2760,7 +2759,6 @@ _Appears in:_
 | `aws` _[DatacenterSpecAWS](#datacenterspecaws)_ | {{< unsafe >}}AWS configures an Amazon Web Services (AWS) datacenter.{{< /unsafe >}} |
 | `azure` _[DatacenterSpecAzure](#datacenterspecazure)_ | {{< unsafe >}}Azure configures an Azure datacenter.{{< /unsafe >}} |
 | `openstack` _[DatacenterSpecOpenstack](#datacenterspecopenstack)_ | {{< unsafe >}}Openstack configures an Openstack datacenter.{{< /unsafe >}} |
-| `packet` _[DatacenterSpecPacket](#datacenterspecpacket)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Packet configures an Equinix Metal datacenter.<br />NOOP.{{< /unsafe >}} |
 | `hetzner` _[DatacenterSpecHetzner](#datacenterspechetzner)_ | {{< unsafe >}}Hetzner configures a Hetzner datacenter.{{< /unsafe >}} |
 | `vsphere` _[DatacenterSpecVSphere](#datacenterspecvsphere)_ | {{< unsafe >}}VSphere configures a VMware vSphere datacenter.{{< /unsafe >}} |
 | `vmwareclouddirector` _[DatacenterSpecVMwareCloudDirector](#datacenterspecvmwareclouddirector)_ | {{< unsafe >}}VMwareCloudDirector configures a VMware Cloud Director datacenter.{{< /unsafe >}} |
@@ -3047,23 +3045,6 @@ _Appears in:_
 [Back to top](#top)
 
 
-
-### DatacenterSpecPacket
-
-
-
-NOOP.
-
-_Appears in:_
-- [DatacenterSpec](#datacenterspec)
-
-| Field | Description |
-| --- | --- |
-| `facilities` _string array_ | {{< unsafe >}}The list of enabled facilities, for example "ams1", for a full list of available<br />facilities see https://metal.equinix.com/developers/docs/locations/facilities/{{< /unsafe >}} |
-| `metro` _string_ | {{< unsafe >}}Metros are facilities that are grouped together geographically and share capacity<br />and networking features, see https://metal.equinix.com/developers/docs/locations/metros/{{< /unsafe >}} |
-
-
-[Back to top](#top)
 
 
 
@@ -6115,50 +6096,6 @@ _Appears in:_
 
 
 
-### Packet
-
-
-
-Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.
-This provider is no longer supported. Migrate your configurations away from "packet" immediately.
-NOOP.
-
-_Appears in:_
-- [PresetSpec](#presetspec)
-
-| Field | Description |
-| --- | --- |
-| `enabled` _boolean_ | {{< unsafe >}}Only enabled presets will be available in the KKP dashboard.{{< /unsafe >}} |
-| `isCustomizable` _boolean_ | {{< unsafe >}}IsCustomizable marks a preset as editable on the KKP UI; Customizable presets still have the credentials obscured on the UI, but other fields that are not considered private are displayed during cluster creation. Users can then update those fields, if required.<br />NOTE: This is only supported for OpenStack Cloud Provider in KKP 2.26. Support for other providers will be added later on.{{< /unsafe >}} |
-| `datacenter` _string_ | {{< unsafe >}}If datacenter is set, this preset is only applicable to the<br />configured datacenter.{{< /unsafe >}} |
-| `apiKey` _string_ | {{< unsafe >}}{{< /unsafe >}} |
-| `projectID` _string_ | {{< unsafe >}}{{< /unsafe >}} |
-| `billingCycle` _string_ | {{< unsafe >}}{{< /unsafe >}} |
-
-
-[Back to top](#top)
-
-
-
-### PacketCloudSpec
-
-
-
-NOOP.
-
-_Appears in:_
-- [CloudSpec](#cloudspec)
-
-| Field | Description |
-| --- | --- |
-| `credentialsReference` _[GlobalSecretKeySelector](#globalsecretkeyselector)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `apiKey` _string_ | {{< unsafe >}}{{< /unsafe >}} |
-| `projectID` _string_ | {{< unsafe >}}{{< /unsafe >}} |
-| `billingCycle` _string_ | {{< unsafe >}}{{< /unsafe >}} |
-
-
-[Back to top](#top)
-
 
 
 ### Parameters
@@ -6432,7 +6369,6 @@ _Appears in:_
 | `baremetal` _[Baremetal](#baremetal)_ | {{< unsafe >}}Access data for Baremetal (Tinkerbell only for now).{{< /unsafe >}} |
 | `aws` _[AWS](#aws)_ | {{< unsafe >}}Access data for Amazon Web Services(AWS) Cloud.{{< /unsafe >}} |
 | `openstack` _[Openstack](#openstack)_ | {{< unsafe >}}Access data for OpenStack.{{< /unsafe >}} |
-| `packet` _[Packet](#packet)_ | {{< unsafe >}}Deprecated: The Packet / Equinix Metal provider is deprecated and will be REMOVED IN VERSION 2.29.<br />This provider is no longer supported. Migrate your configurations away from "packet" immediately.<br />Access data for Packet Cloud.<br />NOOP.{{< /unsafe >}} |
 | `gcp` _[GCP](#gcp)_ | {{< unsafe >}}Access data for Google Cloud Platform(GCP).{{< /unsafe >}} |
 | `kubevirt` _[Kubevirt](#kubevirt)_ | {{< unsafe >}}Access data for KuberVirt.{{< /unsafe >}} |
 | `alibaba` _[Alibaba](#alibaba)_ | {{< unsafe >}}Access data for Alibaba Cloud.{{< /unsafe >}} |
@@ -6597,7 +6533,6 @@ _Appears in:_
 - [Kubevirt](#kubevirt)
 - [Nutanix](#nutanix)
 - [Openstack](#openstack)
-- [Packet](#packet)
 - [VMwareCloudDirector](#vmwareclouddirector)
 - [VSphere](#vsphere)
 
