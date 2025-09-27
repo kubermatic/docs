@@ -7,83 +7,137 @@ weight = 20
 
 This chapter describes the customization of the KKP [Master / Seed Monitoring, Logging & Alerting Stack]({{< relref "../../../../architecture/monitoring-logging-alerting/master-seed/_index.en.md" >}}).
 
-When it comes to monitoring, no approach fits all use cases. It's expected that you will want to adjust things to your needs and this page describes the various places where customizations can be applied. In broad terms, there are four main areas that are discussed:
+Monitoring configurations are highly dependent on the specific use case. This guide details the available customization options for the MLA stack. Customizations are available for four main areas:
 
-- customer-cluster Prometheus
-- seed-cluster Prometheus
-- alertmanager rules
+- User-cluster Prometheus
+- Seed-cluster Prometheus
+- Alertmanager rules
 - Grafana dashboards
 
-You will want to familiarize yourself with the [Installation of the Master / Seed MLA Stack]({{< relref "../installation/" >}}) before reading any further.
+Familiarity with the [Installation of the Master / Seed MLA Stack]({{< relref "../installation/" >}}) is recommended before proceeding.
 
 ## User Cluster Prometheus
 
-The basic source of metrics is the Prometheus inside each user cluster namespace. It will track the customer clusters control plane (**IMPORTANT:** it is NOT responsible for the components running in the customer clusters themselves.)
+Each user cluster is monitored by a dedicated Prometheus instance that runs within its namespace on the seed cluster.
+This instance is responsible for collecting metrics from the user cluster's control plane. 
 
-This Prometheus is deployed as part of Kubermatic Kubernetes Platform's (KKP) cluster creation, which means you cannot directly affect its deployment.
+**Note**: The scope of this Prometheus is limited to the user cluster's control plane. It does not collect metrics from applications or workloads running inside the user cluster.
 
-Therefore to still allow customization of rules, KKP provides the possibility to specify rules as part of the `values.yaml` which gets fed to the KKP chart.
+While the lifecycle of this Prometheus is managed automatically by KKP, you can still add custom rules.
+
+To do so, specify your desired rules in the KubermaticConfiguration custom resource.
 
 ### Rules
 
-Custom rules can be added beneath the `clusterNamespacePrometheus.rules` key:
+KKP provides a default set of rules. However, new custom rules can be added, or the default set can be disabled.
+
+#### Custom rules
+
+Custom rules can be added by defining them as a YAML-formatted string under the `spec.monitoring.customRules` field.
 
 ```yaml
-kubermatic:
-  clusterNamespacePrometheus:
-    disableDefaultRules: false
-    rules:
-      groups:
-      - name: my-custom-group
-        rules:
-        - alert: MyCustomAlert
-          annotations:
-            message: Something happened in {{ $labels.namespace }}
-          expr: |
-            sum(rate(machine_controller_errors_total[5m])) by (namespace) > 0.01
-          for: 10m
-          labels:
-            severity: warning
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: <<mykubermatic>>
+  namespace: kubermatic
+spec:
+    # Monitoring can be used to fine-tune to in-cluster Prometheus.
+    monitoring:
+      # CustomRules can be used to inject custom recording and alerting rules. This field
+      # must be a YAML-formatted string with a `group` element at its root, as documented
+      # on https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/.
+      # This value is treated as a Go template, which allows to inject dynamic values like
+      # the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus
+      # and the documentation for more information on the available fields.
+      customRules: |
+        groups:
+          - name: my-custom-group
+            rules:
+              - alert: MyCustomAlert
+                annotations:
+                  message: Something happened in {{ $labels.namespace }}
+                expr: |
+                  sum(rate(machine_controller_errors_total[5m])) by (namespace) > 0.01
+                for: 10m
+                labels:
+                  severity: warning        
 ```
 
-If you'd like to disable the default rules coming with KKP itself, you can specify the `disableDefaultRules` flag:
+#### Disable the default rules
+
+The default rules provided by KKP can be disabled by setting the `spec.monitoring.disableDefaultRules` flag to `true`.
 
 ```yaml
-kubermatic:
-  clusterNamespacePrometheus:
-    disableDefaultRules: false
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: <<mykubermatic>>
+  namespace: kubermatic
+spec:
+    # Monitoring can be used to fine-tune to in-cluster Prometheus.
+    monitoring:
+      # DisableDefaultRules disables the recording and alerting rules.
+      disableDefaultRules: true
 ```
 
 ### Scraping Configs
 
-Custom scraping configs can be specified by adding the corresponding entries beneath the `clusterNamespacePrometheus.scrapingConfigs` key in the `values.yaml`:
+The scraping behavior of Prometheus can be customized. New scraping configurations can be added, and the default configurations can be disabled.
+
+#### Add Custom Scraping Configurations
+
+Custom scraping configurations can be specified by adding them under the `spec.monitoring.customScrapingConfigs` field.
 
 ```yaml
-clusterNamespacePrometheus:
-  scrapingConfigs:
-  - job_name: 'schnitzel'
-    kubernetes_sd_configs:
-    - role: pod
-    relabel_configs:
-    - source_labels: [__meta_kubernetes_pod_annotation_kubermatic_scrape]
-      action: keep
-      regex: true
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: <<mykubermatic>>
+  namespace: kubermatic
+spec:
+    # Monitoring can be used to fine-tune to in-cluster Prometheus.
+    monitoring:
+      # CustomScrapingConfigs can be used to inject custom scraping rules. This must be a
+      # YAML-formatted string containing an array of scrape configurations as documented
+      # on https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config.
+      # This value is treated as a Go template, which allows to inject dynamic values like
+      # the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus
+      # and the documentation for more information on the available fields.
+      customScrapingConfigs: |
+        - job_name: 'schnitzel'
+          kubernetes_sd_configs:
+            - role: pod
+          relabel_configs:
+            - source_labels: [__meta_kubernetes_pod_annotation_kubermatic_scrape]
+              action: keep
+              regex: true
 ```
 
-Also, the default KKP scraping configs can be disabled in the same way:
+#### Disable Default Scraping Configurations
+
+The default scraping configurations provided by KKP can be disabled. This is accomplished by setting the `spec.monitoring.disableDefaultScrapingConfigs` flag to `true`.
 
 ```yaml
-clusterNamespacePrometheus:
-  disableDefaultScrapingConfigs: true
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: <<mykubermatic>>
+  namespace: kubermatic
+spec:
+    # Monitoring can be used to fine-tune to in-cluster Prometheus.
+    monitoring:
+      # DisableDefaultScrapingConfigs disables the default scraping targets.
+      disableDefaultScrapingConfigs: true
 ```
 
 ## Seed Cluster Prometheus
 
-This Prometheus is primarily used to collect metrics from the customer clusters and then provide those to Grafana. In contrast to the Prometheus mentioned above, this one is deployed via a [Helm](https://helm.sh) chart and you can use Helm's native customization options.
+This Prometheus is primarily used to collect metrics from the user clusters and then provide those to Grafana. In contrast to the Prometheus mentioned above, this one is deployed via a [Helm](https://helm.sh) chart, and you can use Helm's native customization options.
 
 ### Labels
 
-To specify additional labels that are sent to the alertmanager whenever an alert occurs, you can add an `externalLabels` element to your `values.yaml` and list your desired labels there:
+Additional labels can be sent to Alertmanager with each alert. These are specified by adding an `externalLabels` element to the `values.yaml` file:
 
 ```yaml
 prometheus:
@@ -99,8 +153,8 @@ Rules include recording rules (for precomputing expensive queries) and alerts. T
 
 #### values.yaml
 
-You can add our own rules by adding them to the `values.yaml` like so:
-
+Custom rules can be added directly to the `values.yaml` file:
+ 
 ```yaml
 prometheus:
   rules:
@@ -118,11 +172,11 @@ prometheus:
             severity: critical
 ```
 
-This will lead to them being written to a dedicated `_customrules.yaml` and included in Prometheus. Use this approach if you only have a few rules that you'd like to add.
+This will lead to them being written to a dedicated `_customrules.yaml` and included in Prometheus. This approach is recommended for adding a small number of rules.
 
 #### Extending the Helm Chart
 
-If you have more than a couple of rules, you can also place new YAML files inside the `rules/` directory before you deploy the Helm chart. They will be included as you would expect. To prevent maintenance headaches further down the road you should never change the existing files inside the chart. If you need to get rid of the predefined rules, see the next section on how to achieve it.
+For larger sets of rules, new YAML files can be placed inside the `rules/` directory before the Helm chart is deployed. These files will be included automatically. They will be included as you would expect. To ensure future compatibility and prevent update conflicts, existing files within the chart should not be modified. The method for disabling predefined rules is described in the next section.
 
 #### Custom ConfigMaps/Secrets
 
@@ -136,7 +190,7 @@ prometheus:
     configMap: example-rules
 ```
 
-After mounting the files into the pod you need to make sure that Prometheus loads them by extending the `ruleFiles` list:
+After mounting the files into the pod, you need to make sure that Prometheus loads them by extending the `ruleFiles` list:
 
 ```yaml
 prometheus:
@@ -149,14 +203,14 @@ Managing the `ruleFiles` is also the way to disable the predefined rules by just
 
 ### Long-term metrics storage
 
-By default, the seed prometheus is configured to store 1 days worth of metrics.
-It can be customized via overriding `prometheus.tsdb.retentionTime` field in `values.yaml` used for chart installation.
+By default, the seed Prometheus is configured to store 15 day's worth of metrics.
+It can be customized via overriding the `prometheus.tsdb.retentionTime` field in `values.yaml` used for chart installation.
 
-If you would like to store the metrics for longer term, typically other solutions like Thanos are used. Thanos integration is a more involved process. Please read more about [thanos integration]({{< relref "./thanos.md" >}}).
+If you would like to store the metrics for the long term, typically other solutions like Thanos are used. Thanos integration is a more involved process. Please read more about [Thanos integration]({{< relref "./thanos.md" >}}).
 
 ## Alertmanager
 
-Alertmanager configuration can be tweaked via `values.yaml` like so:
+The Alertmanager configuration can be modified in the `values.yaml` file:
 
 ```yaml
 alertmanager:
@@ -240,7 +294,7 @@ grafana:
         type: file
 ```
 
-Customizing the providers is especially important if you want to also add your own dashboards. You can point the `options.path` path to a newly mounted volume to load dashboards from (see below).
+Customizing the providers is especially important if you also want to add your own dashboards. You can point the `options.path` path to a newly mounted volume to load dashboards from (see below).
 
 ### Dashboards
 
@@ -307,7 +361,7 @@ kubeStateMetrics:
                   ready: [status, conditions, "[type=Ready]", status]
 ```
 
-Along with this, the rbac rules also needs to be update to allow kube-state-metrics perform the necessary operations on the custom resource(s).
+Additionally, the RBAC rules must be updated to allow kube-state-metrics to perform the necessary operations on the custom resource(s).
 
 ```yaml
 kubeStateMetrics:
@@ -320,4 +374,4 @@ kubeStateMetrics:
         verbs: [ "list", "watch" ]
 ```
 
-For configuring more custom resources, refer the [example kube-state-metrics-config.yaml](https://github.com/fluxcd/flux2-monitoring-example/blob/main/monitoring/controllers/kube-prometheus-stack/kube-state-metrics-config.yaml).
+For configuring more custom resources, refer to the [example kube-state-metrics-config.yaml](https://github.com/fluxcd/flux2-monitoring-example/blob/main/monitoring/controllers/kube-prometheus-stack/kube-state-metrics-config.yaml).
