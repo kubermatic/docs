@@ -33,7 +33,7 @@ kubeone.yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'   ## kubernetes version
+  kubernetes: '1.31.13'   ## kubernetes version
 cloudProvider:  ## This field is sourced automatically if terraform is used for the cluster
   aws: {}
 addons:
@@ -52,7 +52,7 @@ If you're running a cluster with nodes in the multiple zones for the HA purposes
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'   ## kubernetes version
+  kubernetes: '1.31.13'   ## kubernetes version
 cloudProvider:  ## This field is sourced automatically if terraform is used for the cluster
   aws: {}
 addons:
