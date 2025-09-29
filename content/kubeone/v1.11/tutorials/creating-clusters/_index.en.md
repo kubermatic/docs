@@ -585,7 +585,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 
 cloudProvider:
   aws: {}
@@ -613,7 +613,7 @@ with your cluster name in the cloud-config example below.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   azure: {}
   external: true
@@ -648,7 +648,7 @@ and fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   digitalocean: {}
   external: true
@@ -666,7 +666,7 @@ configs.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   gce: {}
   external: true
@@ -697,7 +697,7 @@ The Hetzner CCM fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   hetzner: {}
   external: true
@@ -715,7 +715,7 @@ replace the placeholder values.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   nutanix: {}
 addons:
@@ -745,7 +745,7 @@ cloud-config section.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   openstack: {}
   external: true
@@ -767,7 +767,7 @@ cloudProvider:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   openstack: {}
   external: true
@@ -791,7 +791,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 
 cloudProvider:
   vmwareCloudDirector: {}
@@ -810,7 +810,7 @@ automatically by KubeOne.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   vsphere: {}
   external: true
