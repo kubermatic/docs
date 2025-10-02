@@ -5195,6 +5195,28 @@ _Appears in:_
 
 
 
+### LBClass
+
+
+
+
+
+_Appears in:_
+- [LoadBalancerClass](#loadbalancerclass)
+
+| Field | Description |
+| --- | --- |
+| `floatingNetworkID` _string_ | {{< unsafe >}}FloatingNetworkID is the external network used to create floating IP for the load balancer VIP.{{< /unsafe >}} |
+| `floatingSubnetID` _string_ | {{< unsafe >}}FloatingSubnetID is the external network subnet used to create floating IP for the load balancer VIP.{{< /unsafe >}} |
+| `floatingSubnet` _string_ | {{< unsafe >}}FloatingSubnet is a name pattern for the external network subnet used to create floating IP for the load balancer VIP.{{< /unsafe >}} |
+| `floatingSubnetTags` _string_ | {{< unsafe >}}FloatingSubnetTags is a comma separated list of tags for the external network subnet used to create floating IP for the load balancer VIP.{{< /unsafe >}} |
+| `networkID` _string_ | {{< unsafe >}}NetworkID is the ID of the Neutron network on which to create load balancer VIP, not needed if subnet-id is set.{{< /unsafe >}} |
+| `subnetID` _string_ | {{< unsafe >}}SubnetID is the ID of the Neutron subnet on which to create load balancer VIP.{{< /unsafe >}} |
+| `memberSubnetID` _string_ | {{< unsafe >}}MemberSubnetID is the ID of the Neutron network on which to create the members of the load balancer.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
 
 
 ### LBSKU
@@ -5232,12 +5254,21 @@ _Appears in:_
 
 ### LoadBalancerClass
 
-_Underlying type:_ `[struct{Name string "json:\"name\""; Config LBClass "json:\"config\""}](#struct{name-string-"json:\"name\"";-config-lbclass-"json:\"config\""})`
+
 
 
 
 _Appears in:_
 - [DatacenterSpecOpenstack](#datacenterspecopenstack)
+- [OpenstackCloudSpec](#openstackcloudspec)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | {{< unsafe >}}Name is the name of the load balancer class.{{< /unsafe >}} |
+| `config` _[LBClass](#lbclass)_ | {{< unsafe >}}Config is the configuration for the specified LoadBalancerClass section in the cloud config.{{< /unsafe >}} |
+
+
+[Back to top](#top)
 
 
 
@@ -6037,6 +6068,7 @@ _Appears in:_
 | `enableIngressHostname` _boolean_ | {{< unsafe >}}Enable the `enable-ingress-hostname` cloud provider option on the Openstack CCM. Can only be used with the<br />external CCM and might be deprecated and removed in future versions as it is considered a workaround for the PROXY<br />protocol to preserve client IPs.{{< /unsafe >}} |
 | `ingressHostnameSuffix` _string_ | {{< unsafe >}}Set a specific suffix for the hostnames used for the PROXY protocol workaround that is enabled by EnableIngressHostname.<br />The suffix is set to `nip.io` by default. Can only be used with the external CCM and might be deprecated and removed in<br />future versions as it is considered a workaround only.{{< /unsafe >}} |
 | `cinderTopologyEnabled` _boolean_ | {{< unsafe >}}Flag to configure enablement of topology support for the Cinder CSI plugin.<br />This requires Nova and Cinder to have matching availability zones configured.{{< /unsafe >}} |
+| `loadBalancerClasses` _[LoadBalancerClass](#loadbalancerclass) array_ | {{< unsafe >}}List of LoadBalancerClass configurations to be used for the OpenStack cloud provider.{{< /unsafe >}} |
 
 
 [Back to top](#top)
