@@ -29,3 +29,15 @@ It can be deployed to the user cluster either during the cluster creation or aft
 - Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the Nvidia GPU Operator application to the user cluster.
 
 To further configure the values.yaml, find more information on the [Nvidia GPU Operator Helm chart documentation](https://github.com/NVIDIA/gpu-operator/)
+
+## AI Conformance
+
+To support AI workloads, Kubermatic Kubernetes Platform uses the NVIDIA GPU Operator to automatically expose GPU information through node labels.
+
+Once the operator is installed, it discovers the GPUs available on your cluster nodes and applies a set of descriptive labels.
+
+These labels provide useful details about the hardware, such as the GPU product name and the installed CUDA driver and runtime versions.
+
+You can view these labels on the Nodes page.
+
+![GPU Labels on Node](03-node-labels.png)
