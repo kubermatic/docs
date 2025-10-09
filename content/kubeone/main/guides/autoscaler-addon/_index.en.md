@@ -146,9 +146,9 @@ Run the following kubectl command to inspect the available Machinedeployments:
 ```bash
 $ kubectl get machinedeployments -n kube-system
 NAME       		        REPLICAS   AVAILABLE-REPLICAS   PROVIDER       OS     KUBELET  AGE
-kb-cluster-eu-west-3a      1            1                 aws        ubuntu   1.20.4   10h
-kb-cluster-eu-west-3b      1            1                 aws        ubuntu   1.20.4   10h
-kb-cluster-eu-west-3c      1            1                 aws        ubuntu   1.20.4   10h
+kb-cluster-eu-west-3a      1            1                 aws        ubuntu   1.34.1   10h
+kb-cluster-eu-west-3b      1            1                 aws        ubuntu   1.34.1   10h
+kb-cluster-eu-west-3c      1            1                 aws        ubuntu   1.34.1   10h
 ```
 
 ### Step 2: Annotate Machinedeployments
