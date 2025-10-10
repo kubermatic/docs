@@ -54,7 +54,7 @@ The `kubeone mirror-images` command pulls, re-tags, and pushes images to your re
 ```bash
 kubeone mirror-images \
   [--filter base,optional,control-plane] \
-  [--kubernetes-versions v1.29.4,v1.28.8] \
+  [--kubernetes-versions v1.34.1,v1.33.5] \
   [--insecure]  # Allow pushing to insecure registries (HTTP) \
   --registry <your-registry> 
 ```
@@ -73,7 +73,7 @@ kubeone mirror-images \
 ```bash
 kubeone mirror-images \
   --filter base \
-  --kubernetes-versions v1.29.4,v1.28.8 \
+  --kubernetes-versions v1.34.1,v1.33.5 \
   registry.example.com:5000 
 ```
 

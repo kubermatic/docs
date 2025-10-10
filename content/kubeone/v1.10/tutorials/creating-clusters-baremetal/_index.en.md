@@ -297,11 +297,11 @@ INFO[11:37:28 CEST] Determine operating system…
 INFO[11:37:30 CEST] Running host probes…
 The following actions will be taken:
 Run with --verbose flag for more information.
-  + initialize control plane node "ip-172-31-220-51.eu-west-3.compute.internal" (172.31.220.51) using 1.20.4
-  + join control plane node "ip-172-31-221-177.eu-west-3.compute.internal" (172.31.221.177) using 1.20.4
-  + join control plane node "ip-172-31-222-48.eu-west-3.compute.internal" (172.31.222.48) using 1.20.4
-  + join worker node "ip-172-31-223-103.eu-west-3.compute.internal" (172.31.223.103) using 1.20.4
-  + join worker node "ip-172-31-224-178.eu-west-3.compute.internal" (172.31.224.178) using 1.20.4
+  + initialize control plane node "ip-172-31-220-51.eu-west-3.compute.internal" (172.31.220.51) using 1.32.9
+  + join control plane node "ip-172-31-221-177.eu-west-3.compute.internal" (172.31.221.177) using 1.32.9
+  + join control plane node "ip-172-31-222-48.eu-west-3.compute.internal" (172.31.222.48) using 1.32.9
+  + join worker node "ip-172-31-223-103.eu-west-3.compute.internal" (172.31.223.103) using 1.32.9
+  + join worker node "ip-172-31-224-178.eu-west-3.compute.internal" (172.31.224.178) using 1.32.9
 
 Do you want to proceed (yes/no):
 ```
@@ -355,11 +355,11 @@ You should see output such as the following one.
 
 ```
 NAME                                           STATUS   ROLES    AGE   VERSION
-ip-172-31-220-51.eu-west-3.compute.internal    Ready    master   43m   v1.20.4
-ip-172-31-221-177.eu-west-3.compute.internal   Ready    master   42m   v1.20.4
-ip-172-31-222-48.eu-west-3.compute.internal    Ready    master   41m   v1.20.4
-ip-172-31-223-103.eu-west-3.compute.internal   Ready    <none>   38m   v1.20.4
-ip-172-31-224-178.eu-west-3.compute.internal   Ready    <none>   38m   v1.20.4
+ip-172-31-220-51.eu-west-3.compute.internal    Ready    master   43m   v1.32.9
+ip-172-31-221-177.eu-west-3.compute.internal   Ready    master   42m   v1.32.9
+ip-172-31-222-48.eu-west-3.compute.internal    Ready    master   41m   v1.32.9
+ip-172-31-223-103.eu-west-3.compute.internal   Ready    <none>   38m   v1.32.9
+ip-172-31-224-178.eu-west-3.compute.internal   Ready    <none>   38m   v1.32.9
 ```
 
 ## Conclusion
