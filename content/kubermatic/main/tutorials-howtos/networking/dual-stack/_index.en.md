@@ -121,8 +121,6 @@ that the VPC and subnets used to host the worker nodes need to be dual-stack ena
 
 Limitations:
 
-- In the Clusters with control plane version < 1.24, Worker nodes do not have their IPv6 IP addresses published in k8s API (`kubectl describe nodes`), but have them physically
-applied on their network interfaces (can be seen after SSH-ing to the node). Because of this, pods in the host network namespace do not have IPv6 address assigned.
 - Dual-Stack services of type `LoadBalancer` are not yet supported by AWS cloud-controller-manager. Only `NodePort` services can be used
 to expose services outside the cluster via IPv6.
 
@@ -130,6 +128,7 @@ Related issues:
 
  - <https://github.com/kubermatic/kubermatic/issues/9899>
  - <https://github.com/kubernetes/cloud-provider-aws/issues/477>
+ - <https://github.com/kubernetes/cloud-provider-aws/issues/1219>
 
 Docs:
 
@@ -141,16 +140,6 @@ Dual-stack feature is available automatically for all new user clusters in Azure
 used to host the worker nodes needs to be dual-stack enabled - i.e. must have both IPv4 and IPv6 CIDR assigned. In case
 that you are not using a pre-created VNet, but leave the VNet creation on KKP, it will automatically create a dual-stack
 VNet for your dual-stack user clusters.
-
-Limitations:
-
-- Dual-Stack services of type `LoadBalancer` are not yet supported by Azure cloud-controller-manager. Only `NodePort` services can be used
-to expose services outside the cluster via IPv6.
-
-Related issues:
-
- - <https://github.com/kubernetes-sigs/cloud-provider-azure/issues/814>
- - <https://github.com/kubernetes-sigs/cloud-provider-azure/issues/1831>
 
 Docs:
 
@@ -169,7 +158,7 @@ command and use its output in the next step.
 - Create a yaml file with kubeadm `JoinConfiguration`, e.g. `kubeadm-join-config.yaml` with the content similar to this:
 
 ```yaml
-apiVersion: kubeadm.k8s.io/v1beta3
+apiVersion: kubeadm.k8s.io/v1beta4
 kind: JoinConfiguration
 discovery:
   bootstrapToken:
@@ -201,14 +190,9 @@ Dual-stack feature is available automatically for all new user clusters in Digit
 
 Limitations:
 
-- Services of type `LoadBalancer` are not yet supported in KKP on DigitalOcean (not even for IPv4-only clusters).
+- If two address families are specified in service's spec.ipFamilies of type `LoadBalancer`, DigitalOcean CCM will create only one IPv4 or IPv6 load balancer - based on the first specified address family.
 - On some operating systems (e.g. Rocky Linux) IPv6 address assignment on the node may take longer time during the node provisioning.
-In that case, the IPv6 address may not be detected when the kubelet starts, and because of that, worker nodes may not have their IPv6 IP addresses
-published in k8s API (`kubectl describe nodes`). This can be work-arounded by restarting the kubelet manually / rebooting the node.
-
-Related issues:
-
-- <https://github.com/kubermatic/kubermatic/issues/8847>
+In that case, the IPv6 address may not be detected when the kubelet starts, and because of that, worker nodes may not have their IPv6 IP addresses published in k8s API (`kubectl describe nodes`). This can be work-arounded by restarting the kubelet manually / rebooting the node.
 
 ### Google Cloud Platform (GCP)
 
@@ -265,9 +249,8 @@ specified and the default IPv6 subnet pool does not exist, the IPv6 subnet will 
 
 Limitations:
 
-- Dual-Stack services of type `LoadBalancer` are not yet supported by the OpenStack cloud-controller-manager. The initial work has been
-finished as part of <https://github.com/kubernetes/cloud-provider-openstack/pull/1901> and should be released as of
-Kubernetes version 1.25.
+- Initial support for Dual-Stack services of type `LoadBalancer` by the OpenStack cloud-controller-manager is available via <https://github.com/kubernetes/cloud-provider-openstack/pull/1901>. However, this implementation has a limitation: If two address families are specified in service's spec.ipFamilies, OCCM will create only one IPv4 or IPv6 load balancer - based on the first specified address family.
+- Full dual-stack support to create services of type `LoadBalancer` is not yet planned <https://github.com/kubernetes/cloud-provider-openstack/issues/1937> by the OpenStack cloud-controller-manager.
 
 Related Issues:
 
