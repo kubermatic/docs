@@ -32,7 +32,14 @@ One of the foundational steps in setting up Kubermatic Virtualization is definin
 - **DNS Server**: Provide the DNS server address to ensure proper name resolution for your workloads.
 - **Gateway IP**: Define the gateway IP to facilitate network routing and connectivity.
 
+{{% notice warning %}}
+
+When setting up your network configuration, it is crucial to provide a working DNS server address to ensure proper name resolution for your virtual machines and containerized workloads, as failure to do so can result in issues like the inability to resolve domain names, failed connections to external services, or degraded functionality due to unresolved hostnames; if you do not have an internal DNS server configured, it is recommended to use a public and trusted DNS server such as Google Public DNS (`8.8.8.8` or `8.8.4.4`) or Cloudflare DNS (`1.1.1.1` or `1.0.0.1`) to ensure smooth operation and connectivity for your workloads.
+
+{{% /notice %}}
+
 ![Kubermatic Virtualization Network Configuration](./assets/1-network-page.png)
+
 
 ---
 
@@ -43,6 +50,12 @@ In this step, you can enable Kubermatic Virtualization’s default Load Balancer
 #### **Key Steps**
 - **Enable MetalLB**: Toggle the checkbox to enable the Load Balancer service.
 - **Define IP Range**: If MetalLB is enabled, specify the IP range that will be used by the Load Balancer.
+
+{{% notice warning %}}
+
+When defining the IP range for MetalLB, ensure that the range is valid and exists within your network infrastructure. This range will be reserved for load balancer IP addresses, and any misconfiguration or overlap with existing IPs can lead to network conflicts, service disruptions, or inaccessible workloads. Always verify the availability and uniqueness of the IP range before proceeding.
+
+{{% /notice %}}
 
 ![Kubermatic Virtualization Load Balancer Configuration](./assets/2-lb-page.png)
 
