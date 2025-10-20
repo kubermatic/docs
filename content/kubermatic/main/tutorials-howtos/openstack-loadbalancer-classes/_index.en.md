@@ -79,7 +79,7 @@ member-subnet-id = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
 When you create a cluster template that includes LoadBalancer class definitions, these configurations are persisted within the template and will be applied automatically to any cluster created from it.
 
 {{% notice note %}}
-Note: While LoadBalancer classes themselves are not visible in the Dashboard UI during cluster creation from a template, they are stored and can be inspected in the cluster template Custom Resource (CRD).
+Note: LoadBalancer classes are not displayed in the Dashboard UI when creating a cluster from a template, but they are saved and can be viewed in the ClusterTemplate Custom Resource Definition (CRD).
 {{% /notice %}}
 
 Retrieve and review the configurations in your cluster template as follows (replace `CLUSTER_TEMPLATE_ID` with your template's identifier):
