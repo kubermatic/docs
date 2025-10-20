@@ -120,7 +120,7 @@ The Helm charts used to deploy CNI are hosted in a Kubermatic OCI registry (`oci
 To mirror a Helm chart into a private OCI repository, you can use the helm CLI, e.g.:
 
 ```bash
-CHART_VERSION=1.16.9
+CHART_VERSION=1.18.2
 helm pull oci://quay.io/kubermatic/helm-charts/cilium --version ${CHART_VERSION}
 helm push cilium-${CHART_VERSION}.tgz oci://<registry>/<repository>/
 ```
