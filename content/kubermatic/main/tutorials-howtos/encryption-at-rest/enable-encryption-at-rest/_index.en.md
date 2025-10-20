@@ -86,7 +86,7 @@ kubectl get cluster <Cluster_ID> -o jsonpath="{.status.encryption.phase}"
 
 ## Disable Encryption At Rest
 
-{{< figure src="enable-disable-encryption-at-rest/diable-encryption-at-rest.png" width="500" class="shadow border" alt="Already Status Active" >}}
+{{< figure src="enable-disable-encryption-at-rest/disable-encryption-at-rest.png" width="500" class="shadow border" alt="Already Status Active" >}}
 
 {{% notice note %}}
 To disable Encryption at Rest, you must uncheck the "Encryption at Rest" option and then click **Save Changes**. Simply toggling the checkbox does not immediately disable encryption; changes are only applied after saving.
