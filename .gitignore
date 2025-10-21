@@ -4,6 +4,7 @@
 
 # IDE specific files
 .idea/
+.history/
 
 # Hugo
 .hugo_build.lock

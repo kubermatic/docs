@@ -22,9 +22,34 @@ installation you will see a "Share cluster" button after navigating to "Cluster 
 
 ![Share cluster button](@/images/ui/cluster-details-top.png?classes=shadow,border "Share cluster button")
 
-Right after clicking on the button you will see a modal window where you can copy the generated link to your clipboard.
+When you click the Share button, the Share Cluster dialog appears. From there, you can choose the Kubeconfig authentication method — either KKP API or OIDC-kubelogin.
 
 ![Share cluster dialog](@/images/ui/share.png?classes=shadow,border "Share cluster dialog")
+
+The OIDC-kubelogin plugin starts a local server on port 8000 or 18000 by default.
+To use the OIDC-kubelogin option, you need to register the following redirect URIs with your OIDC provider:
+
+```text
+http://localhost:8000
+http://localhost:18000 (used if port 8000 is already in use)
+```
+
+To achieve this, add the following lines to your issuer configuration (most likely `kubermaticIssuer`):
+
+```yaml
+## kubermatic values.yaml
+      - id: kubermaticIssuer
+        name: KubermaticIssuer
+        secret: xxx
+        RedirectURIs:
+          - https://kkp.example.com/api/v1/kubeconfig
+          - https://kkp.example.com/api/v2/dashboard/login
+          - https://kkp.example.com/api/v2/kubeconfig/secret
+          - http://localhost:8000   # -> add this line
+          - http://localhost:18000  # -> add this line
+```
+
+Make sure to include the last two lines to enable local authentication via the OIDC-kubelogin plugin.
 
 You can now share this link with anyone that can access the KKP UI. After login, that person will get a download link for a
 `kubeconfig`.
