@@ -1,6 +1,6 @@
 +++
 title = "Known Issues"
-date = 2022-07-22T12:22:15+02:00
+date = 2025-10-22T12:00:00+02:00
 weight = 25
 
 +++
@@ -9,7 +9,47 @@ weight = 25
 
 This page documents the list of known issues and possible workarounds/solutions.
 
-## Oidc refresh tokens are invalidated when the same user/client id pair is authenticated multiple times
+## Cilium 1.18 fails installation on older Ubuntu 22.04 kernels on OpenStack-based clusters
+
+_**Affected Components**_: Cilium 1.18.x deployed as a system application on User Clusters
+
+_**Affected OS Image**_: `Ubuntu 22.04.1 LTS (GNU/Linux 5.15.0-47-generic x86_64)`
+
+### Problem
+
+Clusters running on Ubuntu 22.04 nodes with the kernel version `5.15.0-47-generic experience` Cilium pod failures. During initialization, the Cilium agent is unable to load certain eBPF programs (`tail_nodeport_nat_egress_ipv4`) into the kernel due to a verifier bug in older kernel versions.
+The kernel verifier will report:
+
+```bash
+error="attaching cilium_host: loading eBPF collection into the kernel: 
+program tail_nodeport_nat_egress_ipv4: load program: 
+permission denied: 1074: (71) r1 = *(u8 *)(r2 +23): R2 invalid mem access 'inv' (665 line(s) omitted)"
+```
+
+Because of this issue we have `cilium-agent` failing, and `hubble-generate-certs` jobs timing out when attempting to create the CA secrets in the specified namespace. 
+
+### Root Cause
+
+`Ubuntu’s 5.15.0-47 kernel` (and older builds) lacks critical eBPF verifier precision propagation fixes. Cilium 1.18 has datapath programs that depend on these verifier improvements.
+
+### Workarounds
+
+1. Upgrade the kernel on Ubuntu 22.04 nodes:
+
+  ```bash
+  sudo apt update && sudo apt upgrade -y && sudo reboot
+  ```
+
+  The node will boot into **5.15.0-160-generic**, and Cilium starts successfully.
+
+2. On cluster creation in KKP, enable the option to `Upgrade system on first boot`.
+3. Switch OpenStack worker image (in your data center provider options) from kubermatic-ubuntu (22.04) to Ubuntu 24.04 LTS (6.8.x kernel).
+
+### Planned resolution
+
+Future Kubermatic images for OpenStack will default to Ubuntu 24.04 to ensure compatibility with newer Cilium releases.
+
+## OIDC refresh tokens are invalidated when the same user/client id pair is authenticated multiple times
 
 ### Problem
 

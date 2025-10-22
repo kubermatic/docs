@@ -114,6 +114,4 @@ Some functionality of KKP has been deprecated or removed with KKP 2.29. You shou
 
 ## Next Steps
 
-<!--
-Mention next steps here.
--->
+- Try out Kubernetes 1.34, the latest Kubernetes release shipping with this version of KKP.
