@@ -11,11 +11,41 @@ To download the kubeconfig, navigate to `Clusters` and select the correct cluste
 
 ![Download config button in the top right corner](cluster-details-btn.png?classes=shadow,border "Download config button in the top right corner")
 
+After clicking on the button, a download kubeconfig dialog will be opened.
+You can choose the Kubeconfig authentication method — either KKP API or OIDC-kubelogin.
+
+![Download kubeconfig](@/images/ui/download-kubeconfig.png?classes=shadow,border "Download kubeconfig")
+
+The OIDC-kubelogin plugin starts a local server on port 8000 or 18000 by default.
+To use the OIDC-kubelogin option, you need to register the following redirect URIs with your OIDC provider:
+
+```text
+http://localhost:8000
+http://localhost:18000 (used if port 8000 is already in use)
+```
+
+To achieve this, add the following lines to your issuer configuration (most likely `kubermaticIssuer`):
+
+```yaml
+## kubermatic values.yaml
+      - id: kubermaticIssuer
+        name: KubermaticIssuer
+        secret: xxx
+        RedirectURIs:
+          - https://kkp.example.com/api/v1/kubeconfig
+          - https://kkp.example.com/api/v2/dashboard/login
+          - https://kkp.example.com/api/v2/kubeconfig/secret
+          - http://localhost:8000   # -> add this line
+          - http://localhost:18000  # -> add this line
+```
+
+Make sure to include the last two lines to enable local authentication via the OIDC-kubelogin plugin.
+
 You can revoke access for already downloaded kubeconfigs by revoking the token on the cluster detail page. To do so, click on the three-dot settings icon on the right to see the option `Revoke Token`:
 
 ![Select Revoke Token](revoke-token-cluster.png?classes=shadow,border "Select Revoke Token")
 
-Users in the groups `Owner` and `Editor` have an admin token in their kubeconfig. Users in the group `Viewer` have a viewer token. Revoking the token for a user group means the kubeconfig becomes unusable for users in this group and they need to download it again. Using `kubectl` with the invalid kubeconfig will result in an error message. You can see which group every project member belongs to on the `Members` page.
+Users in the groups `Owner` and `Editor` have an admin token in their kubeconfig. Users in the group `Viewer` have a viewer token. Revoking the token for a user group means the kubeconfig becomes unusable for users in this group and they need to download it again. Using `kubectl` with an invalid kubeconfig will result in an error message. You can see which group every project member belongs to on the `Members` page.
 
 ![Revoke the token](revoke-token-dialog.png?classes=shadow,border "Revoke the token")
 
@@ -25,5 +55,5 @@ Once you have installed the kubectl and downloaded the kubeconfig, change into t
 $ export KUBECONFIG=$PWD/kubeconfig-admin-czmg7r2sxm
 $ kubectl version
 Client Version: version.Info{Major:"1", Minor:"13", GitVersion:"v1.13.0", GitCommit:"...", GitTreeState:"clean", BuildDate:"...", GoVersion:"go1.11.2", Compiler:"gc", Platform:"darwin/amd64"}
-Server Version: version.Info{Major:"1", Minor:"14", GitVersion:"v1.14.8", GitCommit:"...", GitTreeState:"clean", BuildDate:"...", GoVersion:"go1.12.10", Compiler:"gc", Platform:"linux/amd64}
+Server Version: version.Info{Major:"1", Minor:"14", GitVersion:"v1.14.8", GitCommit:"...", GitTreeState:"clean", BuildDate:"...", GoVersion:"go1.12.10", Compiler:"gc", Platform:"linux/amd64"}
 ```
