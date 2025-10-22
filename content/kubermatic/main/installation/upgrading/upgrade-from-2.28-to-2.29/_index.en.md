@@ -16,7 +16,7 @@ This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) 
 Please review [known issues]({{< ref "../../../architecture/known-issues/" >}}) before upgrading to understand if any issues might affect you.
 {{% /notice %}}
 
-### Alloy Helm Chart Integration and Promtail Removal
+### Alloy Helm Chart Integration and Promtail Removal (Seed MLA)
 
 KKP 2.29 fully replaces Promtail with the Grafana Alloy for log shipping in seed clusters. When upgrading, the installer will remove Promtail if it was previously installed. **Alloy is now the only supported log shipper for seed cluster logs.**
 
@@ -110,7 +110,7 @@ Of particular interest to the upgrade process is if the `ResourcesReconciled` co
 
 Some functionality of KKP has been deprecated or removed with KKP 2.29. You should review the full [changelog](https://github.com/kubermatic/kubermatic/blob/main/docs/changelogs/CHANGELOG-2.29.md) and adjust any automation or scripts that might be using deprecated fields or features. Below is a list of changes that might affect you:
 
-- Promtail has been removed as a log shipper for seed clusters in favor of the Grafana Alloy Helm chart. Please ensure you have migrated to Alloy before upgrading, as Promtail will be uninstalled during the upgrade process.
+- **Promtail Removal**: As mentioned in the [Pre-Upgrade Considerations](#pre-upgrade-considerations), Promtail has been removed in favor of Grafana Alloy for log shipping in seed clusters. Ensure that any references to Promtail in your documentation or automation are updated accordingly.
 
 ## Next Steps
 

@@ -9,7 +9,7 @@ weight = 25
 
 This page documents the list of known issues and possible workarounds/solutions.
 
-## Cilium 1.18 fails installation on older Ubuntu 22.04 kernels on OpenStack-based clusters
+## Cilium 1.18 fails installation on older Ubuntu 22.04 kernels
 
 _**Affected Components**_: Cilium 1.18.x deployed as a system application on User Clusters
 
@@ -17,7 +17,7 @@ _**Affected OS Image**_: `Ubuntu 22.04.1 LTS (GNU/Linux 5.15.0-47-generic x86_64
 
 ### Problem
 
-Clusters running on Ubuntu 22.04 nodes with the kernel version `5.15.0-47-generic experience` Cilium pod failures. During initialization, the Cilium agent is unable to load certain eBPF programs (`tail_nodeport_nat_egress_ipv4`) into the kernel due to a verifier bug in older kernel versions.
+Clusters running on Ubuntu 22.04 nodes with the kernel version `5.15.0-47-generic` experience Cilium pod failures. During initialization, the Cilium agent is unable to load certain eBPF programs (`tail_nodeport_nat_egress_ipv4`) into the kernel due to a verifier bug in older kernel versions.
 The kernel verifier will report:
 
 ```bash
@@ -43,13 +43,13 @@ Because of this issue we have `cilium-agent` failing, and `hubble-generate-certs
   The node will boot into **5.15.0-160-generic**, and Cilium starts successfully.
 
 2. On cluster creation in KKP, enable the option to `Upgrade system on first boot`.
-3. Switch OpenStack worker image (in your data center provider options) from kubermatic-ubuntu (22.04) to Ubuntu 24.04 LTS (6.8.x kernel).
+3. For OpenStack, switch worker image (in your data center provider options) from kubermatic-ubuntu (22.04) to Ubuntu 24.04 LTS (6.8.x kernel).
 
 ### Planned resolution
 
-Future Kubermatic images for OpenStack will default to Ubuntu 24.04 to ensure compatibility with newer Cilium releases.
+Future Kubermatic images will default to Ubuntu 24.04 to ensure compatibility with newer Cilium releases.
 
-## OIDC refresh tokens are invalidated when the same user/client id pair is authenticated multiple times
+## OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times
 
 ### Problem
 
