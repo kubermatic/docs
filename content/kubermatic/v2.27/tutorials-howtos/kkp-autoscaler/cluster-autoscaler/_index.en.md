@@ -23,7 +23,7 @@ You can install the Kubernetes autoscaler on a running User cluster either by us
 
 ### Installing kubernetes autoscaler as an application
 
-The kubernetes autoscaler is from kkp version 2.27 part of the [Default Applications Catalog]({{<ref "../../../architecture/concept/kkp-concepts/applications/default-applications-catalog/" >}}) offering from the KKP(EE) installation.
+The kubernetes autoscaler is from KKP version 2.27 part of the [Default Applications Catalog]({{<ref "../../../architecture/concept/kkp-concepts/applications/default-applications-catalog/" >}}) offering from the KKP(EE) installation.
 
 ### Migrating from Addon to Application
 

@@ -6,5 +6,5 @@ weight = 7
 
 This section details how various autoscalers have been integrated in KKP.
 
-* Cluster Autoscaler (as Addon/Application) [integration](./cluster-autoscaler/) for user clusters
+* Cluster Autoscaler (as Application) [integration](./cluster-autoscaler/) for user clusters
 * Vertical Pod Autoscaler [integration](./vertical-pod-autoscaler/) as Feature for user-cluster control plane components
