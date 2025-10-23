@@ -26,7 +26,7 @@ program tail_nodeport_nat_egress_ipv4: load program:
 permission denied: 1074: (71) r1 = *(u8 *)(r2 +23): R2 invalid mem access 'inv' (665 line(s) omitted)"
 ```
 
-Because of this issue we have `cilium-agent` failing, and `hubble-generate-certs` jobs timing out when attempting to create the CA secrets in the specified namespace. 
+Because of this issue we have `cilium-agent` failing, and `hubble-generate-certs` jobs timing out when attempting to create the CA secrets in the specified namespace.
 
 ### Root Cause
 
@@ -34,7 +34,8 @@ Because of this issue we have `cilium-agent` failing, and `hubble-generate-certs
 
 ### Workarounds
 
-1. Upgrade the kernel on Ubuntu 22.04 nodes:
+1. On cluster creation in KKP, enable the option to `Upgrade system on first boot`. For existing clusters we can edit the machine deployment and enable the `Upgrade system on first boot` option.
+2. Upgrade the kernel on Ubuntu 22.04 nodes:
 
   ```bash
   sudo apt update && sudo apt upgrade -y && sudo reboot
@@ -42,7 +43,6 @@ Because of this issue we have `cilium-agent` failing, and `hubble-generate-certs
 
   The node will boot into **5.15.0-160-generic**, and Cilium starts successfully.
 
-2. On cluster creation in KKP, enable the option to `Upgrade system on first boot`.
 3. For OpenStack, switch worker image (in your data center provider options) from kubermatic-ubuntu (22.04) to Ubuntu 24.04 LTS (6.8.x kernel).
 
 ### Planned resolution
