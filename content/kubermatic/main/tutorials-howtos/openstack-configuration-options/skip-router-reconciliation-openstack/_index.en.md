@@ -1,7 +1,7 @@
 +++
 title = "Skip router reconciliation - Openstack"
 date = 2025-10-09T10:07:15+02:00
-weight = 15
+weight = 3
 +++
 
 # Disabling Router Reconciliation in OpenStack Clusters
@@ -14,7 +14,7 @@ You can disable router reconciliation in **two ways**:
 When creating or editing an OpenStack cluster in the Kubermatic Dashboard, simply enable the “Skip Router Reconciliation” checkbox under the Cluster Settings section.
 This prevents the controller from creating or modifying routers automatically for this cluster.
 
-![Skip Router Reconciliation Openstack](skip-router-os.png)
+![Skip Router Reconciliation Openstack](./images/skip-router-os.png?classes=shadow,border, "Skip Router Reconciliation Openstack")
 
 
 ## 2. Using an Annotation on the Cluster Object
