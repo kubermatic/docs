@@ -11,11 +11,12 @@ KKP supports a multitude of operating systems. One of the unique features of KKP
 
 The following operating systems are currently supported by Kubermatic:
 
-* Ubuntu 20.04, 22.04 and 24.04
-* RHEL beginning with 8.0 (support is cloud provider-specific)
-* Flatcar (Stable channel)
-* Rocky Linux beginning with 8.0
-* Amazon Linux 2
+- Ubuntu 20.04, 22.04 and 24.04
+- RHEL beginning with 8.0 (support is cloud provider-specific)
+- Flatcar (Stable channel)
+- Rocky Linux beginning with 8.0
+- Amazon Linux 2
+
 **Note:** CentOS was removed as a supported OS in KKP 2.26.3
 
 This table shows the combinations of operating systems and cloud providers that KKP supports:

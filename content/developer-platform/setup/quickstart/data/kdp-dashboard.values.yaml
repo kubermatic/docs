@@ -1,0 +1,45 @@
+# kdp-dashboard.values.yaml
+dashboard:
+  imagePullSecret: |-
+    {
+      "auths": {
+        "quay.io": {
+          "auth": "<PULL_CREDENTIALS>",
+          "email": ""
+        }
+      }
+    }
+
+  config:
+    app:
+      baseURL: https://dashboard.<DOMAIN>
+    authentication:
+      encryptionKey: <SESSION_ENCRYPTION_KEY>
+      oidc:
+        clientID: kdp-kubelogin
+        clientSecret: <OIDC_CLIENT_SECRET>
+        issuerURL: https://login.<DOMAIN>
+    backend:
+      frontProxyURL: https://api.<DOMAIN>
+    features:
+      aiAgent:
+        enabled: false
+      kubeconfigDownload:
+        enabled: true
+        serverCA: /app/_config/user-kubeconfig/ca.crt
+        serverURL: https://internal.<DOMAIN>:8443
+
+  ingress:
+    create: true
+    host: dashboard.<DOMAIN>
+    certIssuer:
+      kind: ClusterIssuer
+      name: letsencrypt-prod
+
+  extraVolumeMounts:
+    - name: user-kubeconfig-ca
+      mountPath: /app/_config/user-kubeconfig
+      secretName: kcp-ca
+      items:
+        - key: tls.crt
+          path: ca.crt

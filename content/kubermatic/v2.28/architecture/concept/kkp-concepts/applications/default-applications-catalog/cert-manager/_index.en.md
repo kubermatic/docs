@@ -7,7 +7,7 @@ weight = 3
 
 +++
 
-# What is cert-manager?
+## What is cert-manager?
 
 cert-manager adds certificates and certificate issuers as resource types in Kubernetes clusters. It simplifies the process of obtaining, renewing and using certificates.
 
@@ -17,20 +17,20 @@ It will ensure certificates are valid and up to date, and attempt to renew certi
 
 For more information on the cert-manager, please refer to the [official documentation](https://cert-manager.io/)
 
-# How to deploy?
+## How to deploy?
 
 cert-manager is available as part of the KKP's default application catalog.
 It can be deployed to the user cluster either during the cluster creation or after the cluster is ready(existing cluster) from the Applications tab via UI.
 
-* Select the cert-manager application from the Application Catalog.
+- Select the cert-manager application from the Application Catalog.
 
 ![Select cert-manager Application](01-select-application-cert-manager-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+- Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for cert-manager Application](02-settings-cert-manager-app.png)
 
-* Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the cert-manager application to the user cluster.
+- Under the Application values page section, check the default values and add values if any required to be configured explicitly. Finally click on the `+ Add Application` to deploy the cert-manager application to the user cluster.
 
 ![Application Values for cert-manager Application](03-applicationvalues-cert-manager-app.png)
 

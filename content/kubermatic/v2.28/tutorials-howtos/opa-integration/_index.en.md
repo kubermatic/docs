@@ -17,7 +17,6 @@ policy engine.
 More info about OPA and Gatekeeper can be read from their docs and tutorials, but the general idea is that by using the
 Constraint Template CRD the users can create rule templates whose parameters are then filled out by the corresponding Constraints.
 
-
 ## How to activate OPA Integration on your Cluster
 
 The integration is specific per user cluster, meaning that it is activated by a flag in the cluster spec.
@@ -44,6 +43,7 @@ Constraint Templates are managed by the Kubermatic platform admins. Kubermatic i
 Kubermatic CT's which designated controllers to reconcile to the seed and to user cluster with activated OPA integration as Gatekeeper CT's.
 
 Example of a Kubermatic Constraint Template:
+
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
 kind: ConstraintTemplate
@@ -94,7 +94,6 @@ Constraints need to be associated with a Constraint Template.
 To add a new constraint click on the `+ Add Constraint` icon on the right at the bottom of cluster view. A new dialog will appear, where you can specify the name, the constraint template, and the spec:
 Spec is the only field that needs to be filled with a yaml.
 
-
 ![Add Constraints Dialog](@/images/ui/opa-add-constraint.png?height=350px&classes=shadow,border "Add Constraints Dialog")
 
 `Note: You can now manage Default Constraints from the Admin Panel.`
@@ -134,6 +133,7 @@ Kubermatic operator/admin creates a Constraint in the admin panel, it gets propa
 The following example is regarding `Restricting escalation to root privileges` in Pod Security Policy but implemented as Constraints and Constraint Templates with Gatekeeper.
 
 Constraint Templates
+
 ```yaml
 crd:
   spec:
@@ -169,6 +169,7 @@ selector:
 ```
 
 Constraint
+
 ```yaml
 constraintType: K8sPSPAllowPrivilegeEscalationContainer
 match:
@@ -291,6 +292,7 @@ selector:
     matchLabels:
       filtered: 'true'
 ```
+
 ### Deleting Default Constraint
 
 Deleting Default Constraint causes all related Constraints on the user clusters to be deleted as well.
@@ -316,6 +318,7 @@ OPA matches these prefixes with the Pods container `image` field and if it match
 They are cluster-scoped and reside in the KKP Master cluster.
 
 Example of a AllowedRegistry:
+
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
 kind: AllowedRegistry
@@ -396,7 +399,8 @@ For the existing `allowedregistry` [Default Constraint]({{< ref "#default-constr
 
 When a user tries to create a Pod with an image coming from a registry that is not prefixed by one of the AllowedRegistries,
 they will get a similar error:
-```
+
+```bash
 container <unwanted> has an invalid image registry <unwanted.registry/unwanted>, allowed image registries are ["quay.io"]
 ```
 
@@ -419,7 +423,7 @@ You can manage the config in the user cluster view, per user cluster.
 OPA integration on a user cluster can simply be removed by disabling the OPA Integration flag on the Cluster object.
 Be advised that this action removes all Constraint Templates, Constraints, and Config related to the cluster.
 
-**Exempting Namespaces**
+### Exempting Namespaces
 
 `gatekeeper-system` and `kube-system` namespace are by default entirely exempted from Gatekeeper webhook which means they are exempted from the Admission Webhook and Auditing.
 

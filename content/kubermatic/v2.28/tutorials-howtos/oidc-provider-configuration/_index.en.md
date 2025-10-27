@@ -108,6 +108,12 @@ spec:
       }
 ```
 
+{{% notice note %}}
+  When the user token size exceeds the browser's cookie size limit (e.g., when the user is a member of many groups), the token is split across multiple cookies to ensure proper authentication. 
+
+  External tools outside of KKP (e.g., Kubernetes Dashboard, Grafana, Prometheus) are not supported with multi-cookie tokens.
+{{% /notice %}}
+
 ### Seed Configuration
 
 In some cases a Seed may require an independent OIDC provider. For this reason a `Seed` CRD contains relevant fields under `spec.oidcProviderConfiguration`. Filling those fields results in overwriting a configuration from `KubermaticConfiguration` CRD. The following snippet presents an example of `Seed` CRD configuration:
@@ -132,7 +138,5 @@ reconfigure the components accordingly. After a few seconds the new pods should 
 running.
 
 {{% notice note %}}
-If you are using _Keycloak_ as a custom OIDC provider, make sure that you set the option `Implicit Flow Enabled: On`
-on the `kubermatic` and `kubermaticIssuer` clients. Without this option, you won't be properly
-redirected to the login page.
+If you are using *Keycloak* as a custom OIDC provider, make sure that you set the option `Implicit Flow Enabled: On` on the `kubermatic` and `kubermaticIssuer` clients. Without this option, you won't be properly redirected to the login page.
 {{% /notice %}}

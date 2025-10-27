@@ -585,7 +585,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 
 cloudProvider:
   aws: {}
@@ -613,7 +613,7 @@ with your cluster name in the cloud-config example below.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   azure: {}
   external: true
@@ -648,7 +648,7 @@ and fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   digitalocean: {}
   external: true
@@ -666,7 +666,7 @@ configs.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   gce: {}
   external: true
@@ -697,7 +697,7 @@ The Hetzner CCM fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   hetzner: {}
   external: true
@@ -715,7 +715,7 @@ replace the placeholder values.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   nutanix: {}
 addons:
@@ -745,7 +745,7 @@ cloud-config section.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   openstack: {}
   external: true
@@ -767,7 +767,7 @@ cloudProvider:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   openstack: {}
   external: true
@@ -791,7 +791,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 
 cloudProvider:
   vmwareCloudDirector: {}
@@ -810,7 +810,7 @@ automatically by KubeOne.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.33.2'
+  kubernetes: '1.34.1'
 cloudProvider:
   vsphere: {}
   external: true
@@ -858,18 +858,18 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne \ Kubernetes | 1.33 | 1.32 | 1.31 | 1.30 | 1.29[^1] |
+| KubeOne \ Kubernetes | 1.34 | 1.33 | 1.32 | 1.31 | 1.30[^1] |
 | -------------------- | ---- | ---- | ---- | -----| -------- |
-| v1.11                | ✓   | ✓   | ✓   | -    | -        |
-| v1.10                | -    | ✓   | ✓   | ✓   | -        |
-| v1.9                 | -    | -    | ✓   | ✓   | ✓       |
+| v1.12                | ✓   | ✓   | ✓   | -    | -        |
+| v1.11                | -    | ✓   | ✓   | ✓   | -        |
+| v1.10                 | -    | -    | ✓   | ✓   | ✓       |
 
-[^1]: Kubernetes 1.29 has reached End-of-Life (EOL) and is not supported any longer.
+[^1]: Kubernetes 1.30 has reached End-of-Life (EOL) and is not supported any longer.
 We strongly recommend upgrading to a newer supported Kubernetes release as soon as possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
-than the latest Kubernetes release. For example, with 1.33 being the latest
-release, we recommend running at least Kubernetes 1.32.
+than the latest Kubernetes release. For example, with 1.34 being the latest
+release, we recommend running at least Kubernetes 1.33.
 
 Now, we're ready to provision the cluster! This is done by running the
 `kubeone apply` command and providing it the configuration manifest and the
@@ -897,9 +897,9 @@ INFO[11:37:28 CEST] Determine operating system…
 INFO[11:37:30 CEST] Running host probes…
 The following actions will be taken:
 Run with --verbose flag for more information.
-        + initialize control plane node "ip-172-31-220-51.eu-west-3.compute.internal" (172.31.220.51) using 1.20.4
-        + join control plane node "ip-172-31-221-177.eu-west-3.compute.internal" (172.31.221.177) using 1.20.4
-        + join control plane node "ip-172-31-222-48.eu-west-3.compute.internal" (172.31.222.48) using 1.20.4
+        + initialize control plane node "ip-172-31-220-51.eu-west-3.compute.internal" (172.31.220.51) using 1.34.1
+        + join control plane node "ip-172-31-221-177.eu-west-3.compute.internal" (172.31.221.177) using 1.34.1
+        + join control plane node "ip-172-31-222-48.eu-west-3.compute.internal" (172.31.222.48) using 1.34.1
         + ensure machinedeployment "marko-1-eu-west-3a" with 1 replica(s) exists
         + ensure machinedeployment "marko-1-eu-west-3b" with 1 replica(s) exists
         + ensure machinedeployment "marko-1-eu-west-3c" with 1 replica(s) exists
@@ -977,12 +977,12 @@ cluster.
 
 ```
 NAME                                           STATUS   ROLES    AGE   VERSION
-ip-172-31-220-166.eu-west-3.compute.internal   Ready    <none>   38m   v1.20.4
-ip-172-31-220-51.eu-west-3.compute.internal    Ready    master   43m   v1.20.4
-ip-172-31-221-177.eu-west-3.compute.internal   Ready    master   42m   v1.20.4
-ip-172-31-221-18.eu-west-3.compute.internal    Ready    <none>   38m   v1.20.4
-ip-172-31-222-211.eu-west-3.compute.internal   Ready    <none>   38m   v1.20.4
-ip-172-31-222-48.eu-west-3.compute.internal    Ready    master   41m   v1.20.4
+ip-172-31-220-166.eu-west-3.compute.internal   Ready    <none>   38m   v1.34.1
+ip-172-31-220-51.eu-west-3.compute.internal    Ready    master   43m   v1.34.1
+ip-172-31-221-177.eu-west-3.compute.internal   Ready    master   42m   v1.34.1
+ip-172-31-221-18.eu-west-3.compute.internal    Ready    <none>   38m   v1.34.1
+ip-172-31-222-211.eu-west-3.compute.internal   Ready    <none>   38m   v1.34.1
+ip-172-31-222-48.eu-west-3.compute.internal    Ready    master   41m   v1.34.1
 ```
 
 ## Conclusion

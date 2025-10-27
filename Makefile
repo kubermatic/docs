@@ -1,4 +1,4 @@
-CODESPELL_IMAGE ?= quay.io/kubermatic/build:go-1.24-node-20-kind-0.27-1
+CODESPELL_IMAGE ?= quay.io/kubermatic/build:go-1.25-node-22-kind-0.30-4
 CODESPELL_BIN := $(shell which codespell)
 DOCKER_BIN := $(shell which docker)
 
@@ -8,7 +8,7 @@ preview:
 		--name kubermatic-docs \
 		-p 1313:1313 \
 		-w /docs \
-		-v `pwd`:/docs quay.io/kubermatic/hugo:0.119.0-0 \
+		-v `pwd`:/docs quay.io/kubermatic/hugo:0.150.0-0 \
 		hugo server -D -F --bind 0.0.0.0
 
 .PHONY: runbook

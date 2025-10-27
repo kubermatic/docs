@@ -39,8 +39,7 @@ recommend upgrading to a supported Kubernetes release as soon as possible. Refer
 [Kubernetes website](https://kubernetes.io/releases/) for more information on the supported
 releases.
 
-Upgrades from a previous Kubernetes version are generally supported whenever a version is
-marked as supported, for example KKP 2.27 supports updating clusters from Kubernetes 1.30 to 1.31.
+Upgrades from a previous Kubernetes version are generally supported whenever a version is marked as supported, for example KKP 2.27 supports updating clusters from Kubernetes 1.30 to 1.31.
 
 ## Provider Incompatibilities
 

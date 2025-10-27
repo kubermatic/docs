@@ -10,6 +10,7 @@ Resource Quotas in KKP allow administrators to set quotas on the amount of resou
 subject which is supported is Project, so the resource quotas currently limit the amount of resources that can be used project-wide.
 
 The resources in question are the resources of the user cluster:
+
 - CPU - the cumulated CPU used by the nodes on all clusters.
 - Memory - the cumulated RAM used by the nodes on all clusters.
 - Storage - the cumulated disk size of the nodes on all clusters.
@@ -21,12 +22,12 @@ This feature is available in the EE edition only.
 That one just controls the size of the machines suggested to users in the KKP Dashboard during the cluster creation.
 {{% /notice %}}
 
-
 ## Setting up Resource Quotas
 
 The resource quotas are managed by administrators either through the KKP UI/API or through the Resource Quota CRDs.
 
 Example ResourceQuota:
+
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
 kind: ResourceQuota
@@ -53,6 +54,7 @@ set in the ResourceQuota is done automatically by the API.
 ## Calculating Quota Usage
 
 The ResourceQuota has 2 status fields:
+
 - `globalUsage` which shows the resource usage across all seeds
 - `localUsage` which shows the resource usage on the local seed
 
@@ -97,7 +99,6 @@ resulting K8s Node `.status.capacity`.
 | vSphere               | CPUs (set in Machine spec)                                                             | MemoryMB (from Machine spec)                                                            | DiskSizeGB (from Machine spec)                         |
 | Anexia                | CPUs (set in Machine spec)                                                             | Memory  (from Machine spec)                                                             | DiskSize  (from Machine spec)                          |
 | VMWare Cloud Director | CPU * CPUCores (Machine spec)                                                          | MemoryMB (from Machine spec)                                                            | DiskSizeGB (from Machine spec)                         |
-
 
 ## Enforcing Quotas
 

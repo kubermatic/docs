@@ -43,6 +43,7 @@ Validation performed will only check if the credentials have `Read` access.
 ![Select AKS cluster](@/images/tutorials/external-clusters/select-aks-cluster.png "Select AKS cluster")
 
 ## Create AKS Preset
+
 Admin can create a preset on a KKP cluster using KKP `Admin Panel`.
 This Preset can then be used to Create/Import an AKS cluster.
 
@@ -62,7 +63,7 @@ This Preset can then be used to Create/Import an AKS cluster.
 
 ![Choose AKS Preset](@/images/tutorials/external-clusters/choose-akspreset.png "Choose AKS Preset")
 
--  Enter AKS credentials and Click on `Create` button.
+- Enter AKS credentials and Click on `Create` button.
 
 !["Enter Credentials](@/images/tutorials/external-clusters/enter-aks-credentials-preset.png "Enter Credentials")
 
@@ -137,7 +138,7 @@ Navigate to the cluster overview, scroll down to machine deployments and click o
 
 ![Update AKS Machine Deployment](@/images/tutorials/external-clusters/delete-md.png "Delete AKS Machine Deployment")
 
-## Cluster State:
+## Cluster State
 
 {{% notice info %}}
 `Provisioning State` is used to indicate AKS Cluster State

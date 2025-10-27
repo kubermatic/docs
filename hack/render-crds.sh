@@ -6,6 +6,7 @@ cd $(dirname $0)/..
 
 SOURCE="${SOURCE:-}"
 KKP_RELEASE="${KKP_RELEASE:-main}"
+CRD_REF_VERSION=v0.2.0
 
 if [[ -z "$SOURCE" ]]; then
   gopath="$(go env GOPATH)"
@@ -28,10 +29,15 @@ if [[ -z "$SOURCE" ]]; then
   fi
 fi
 
+
 which crd-ref-docs >/dev/null || {
-  echo "running go install github.com/elastic/crd-ref-docs@v0.1.0 in 5s... (ctrl-c to cancel)"
-  sleep 5
-  go install github.com/elastic/crd-ref-docs@v0.1.0
+  goversion=$(go version | awk '{print $3}' | sed 's/go//')
+  gomajorversion=$(echo "$goversion" | awk -F'.' '{print $2}')
+  requiredmajorversion=24
+  if [ $gomajorversion -lt $requiredmajorversion ]; then
+    CRD_REF_VERSION=v0.1.0
+  fi
+
 }
 
 # get latest stable Kubernetes version
@@ -48,8 +54,10 @@ configFile=hack/crd-ref-docs.yaml
 # Version of Kubernetes to use when generating links to Kubernetes API documentation.
 yq --inplace ".render.kubernetesVersion = \"$currentRelease\"" "$configFile"
 
-$(go env GOPATH)/bin/crd-ref-docs \
-  --source-path "$SOURCE" \
+echo "running go run github.com/elastic/crd-ref-docs@$CRD_REF_VERSION in 5s... (ctrl-c to cancel)"
+sleep 5
+CRD_REF_BIN="go run github.com/elastic/crd-ref-docs@$CRD_REF_VERSION"
+$CRD_REF_BIN --source-path "$SOURCE" \
   --max-depth 10 \
   --renderer markdown \
   --templates-dir hack/crd-templates \

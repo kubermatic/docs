@@ -26,7 +26,6 @@ You can add an existing vSphere KubeOne cluster and then manage it using KKP.
 
 - Enter the credentials `Username`, `Password`, and `ServerURL` used to create the KubeOne cluster you are importing.
 
-
 ![vSphere credentials](@/images/tutorials/kubeone-clusters/vsphere-credentials-step.png "vSphere credentials")
 
 - Review provided settings and click `Import KubeOne Cluster`.

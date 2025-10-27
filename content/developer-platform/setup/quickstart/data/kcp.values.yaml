@@ -1,0 +1,30 @@
+# kcp.values.yaml
+externalHostname: "internal.<DOMAIN>"
+externalPort: "8443"
+
+kcpFrontProxy:
+  service:
+    type: LoadBalancer
+  additionalPathMappings:
+    - path: /services/organization/
+      backend: https://kdp-virtual-workspaces:6444
+      backend_server_ca: /etc/kcp/tls/ca/tls.crt
+      proxy_client_cert: /etc/kcp-front-proxy/requestheader-client/tls.crt
+      proxy_client_key: /etc/kcp-front-proxy/requestheader-client/tls.key
+    - path: /services/service/
+      backend: https://kdp-virtual-workspaces:6444
+      backend_server_ca: /etc/kcp/tls/ca/tls.crt
+      proxy_client_cert: /etc/kcp-front-proxy/requestheader-client/tls.crt
+      proxy_client_key: /etc/kcp-front-proxy/requestheader-client/tls.key
+  extraFlags:
+    - '--cors-allowed-origins=localhost,dashboard.<DOMAIN>$'
+    - '--authentication-drop-groups=system:kcp:logical-cluster-admin'
+
+oidc:
+  enabled: true
+  issuerUrl: https://login.<DOMAIN>
+  clientId: kdp-kubelogin
+  groupClaim: groups
+  usernameClaim: email
+  usernamePrefix: 'oidc:'
+  groupsPrefix: 'oidc:'

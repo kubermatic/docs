@@ -41,6 +41,7 @@ Validation performed will only check if the credentials have `Read` access.
 {{% /notice %}}
 
 ## Create GKE Preset
+
 Admin can create a preset on a KKP cluster using KKP `Admin Panel`.
 This Preset can then be used to Create/Import an GKE cluster.
 
@@ -60,7 +61,7 @@ This Preset can then be used to Create/Import an GKE cluster.
 
 ![Choose EKS Preset](@/images/tutorials/external-clusters/choose-akspreset.png "Choose GKE Preset")
 
--  Enter GKE credentials and Click on `Create` button.
+- Enter GKE credentials and Click on `Create` button.
 
 ![Enter Credentials](@/images/tutorials/external-clusters/enter-gke-credentials-preset.png "Enter Credentials")
 
@@ -136,25 +137,24 @@ The KKP platform allows getting kubeconfig file for the GKE cluster.
 
 ![Get GKE kubeconfig](@/images/tutorials/external-clusters/gke-kubeconfig.png "Get cluster kubeconfig")
 
-
 The end-user must be aware that the kubeconfig expires after some short period of time. To mitigate this disadvantage you
 can extend the kubeconfig for the provider information and use exported JSON with the service account for the authentication.
 
-
 Add `name: gcp` for the users:
 
-```
+```bash
 users:
 - name: gke_kubermatic-dev_europe-central2-a_test
   user:
     auth-provider:
       name: gcp
 ```
+
 Provide authentication credentials to your application code by setting the environment variable GOOGLE_APPLICATION_CREDENTIALS.
 This variable applies only to your current shell session. If you want the variable to apply to future shell sessions,
 set the variable in your shell startup file, for example in the `~/.bashrc` or `~/.profile` file.
 
-```
+```bash
 export GOOGLE_APPLICATION_CREDENTIALS="KEY_PATH"
 ```
 
@@ -162,6 +162,6 @@ Replace `KEY_PATH` with the path of the JSON file that contains your service acc
 
 For example:
 
-```
+```bash
 export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file.json"
 ```
