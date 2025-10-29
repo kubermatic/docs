@@ -65,3 +65,15 @@ If you'd like more detailed, technical steps (for example, changing scrape inter
 
 - [NVIDIA GPU Operator on GitHub](https://github.com/NVIDIA/gpu-operator)
 - [dcgm-exporter on GitHub](https://github.com/NVIDIA/dcgm-exporter)
+
+## AI Conformance
+
+To support AI workloads, Kubermatic Kubernetes Platform uses the NVIDIA GPU Operator to automatically expose GPU information through node labels.
+
+Once the operator is installed, it discovers the GPUs available on your cluster nodes and applies a set of descriptive labels.
+
+These labels provide useful details about the hardware, such as the GPU product name and the installed CUDA driver and runtime versions.
+
+You can view these labels on the Nodes page.
+
+![GPU Labels on Node](03-node-labels.png)
