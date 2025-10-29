@@ -1,7 +1,7 @@
 +++
 title = "OpenStack LoadBalancer Classes"
 date = 2025-10-20
-weight = 11
+weight = 1
 +++
 
 This guide provides a comprehensive overview of configuring and managing OpenStack LoadBalancer Classes in Kubermatic Kubernetes Platform (KKP).
@@ -20,11 +20,11 @@ LoadBalancer Classes can be defined during the creation of an OpenStack cluster:
 2. Choose **OpenStack** as your cloud provider.
 3. Within the cluster configuration section, select **Configure LoadBalancer Classes**.
 
-![Add LoadBalancer Class](images/openstack-configure-classes.png?classes=shadow,border "Add LoadBalancer Class")
+![Add LoadBalancer Class](./images/openstack-configure-classes.png?classes=shadow,border "Add LoadBalancer Class")
 
 The LoadBalancer Classes dialog enables you to add and configure multiple classes:
 
-![Configure LoadBalancer Classes](images/openstack-modal.png?classes=shadow,border "Configure LoadBalancer Classes Dialog")
+![Configure LoadBalancer Classes](./images/openstack-modal.png?classes=shadow,border "Configure LoadBalancer Classes Dialog")
 
 ### Adding a LoadBalancer Class
 
@@ -44,11 +44,11 @@ From within the configuration dialog, you have the following management capabili
 - **Remove Configuration**: Delete any existing LoadBalancer class.
 
 
-![Configure LoadBalancer Classes](images/added-classes.png?classes=shadow,border "Configured LoadBalancer Classes")
+![Configure LoadBalancer Classes](./images/added-classes.png?classes=shadow,border "Configured LoadBalancer Classes")
 
 The **total** number of defined classes is always displayed for reference.
 
-![Configured Classes](images/configured-count.png?classes=shadow,border "Number of Configured Classes")
+![Configured Classes](./images/configured-count.png?classes=shadow,border "Number of Configured Classes")
 
 {{% notice note %}}
 If there are any inconsistencies in your LoadBalancer configurations—for example, due to changes in OpenStack presets, credentials, or datacenter selection—**all LoadBalancer class definitions will be automatically cleared**. This is to ensure configuration consistency and prevent conflicts. Please double-check your configurations after making such changes.
