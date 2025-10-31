@@ -17,3 +17,4 @@ This section provides guides on networking in KKP:
 - [**Multi-Cluster IP Address Management (IPAM)**]({{< relref "./ipam/" >}})
 - [**Cilium Cluster Mesh on KKP**]({{< relref "./cilium-cluster-mesh/" >}})
 - [**Using HTTP Proxy with KKP**]({{< relref "./httpproxy/" >}})
+- [**AI Inference Routing with Gateway API Inference Extension in KKP Clusters**]({{< relref "./ai-inference-routing/" >}})
