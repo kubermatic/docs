@@ -33,7 +33,7 @@ kubeone.yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'   ## kubernetes version
+  kubernetes: '1.34.1'   ## kubernetes version
 cloudProvider:  ## This field is sourced automatically if terraform is used for the cluster
   aws: {}
 addons:
@@ -52,7 +52,7 @@ If you're running a cluster with nodes in the multiple zones for the HA purposes
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'   ## kubernetes version
+  kubernetes: '1.34.1'   ## kubernetes version
 cloudProvider:  ## This field is sourced automatically if terraform is used for the cluster
   aws: {}
 addons:
@@ -146,9 +146,9 @@ Run the following kubectl command to inspect the available Machinedeployments:
 ```bash
 $ kubectl get machinedeployments -n kube-system
 NAME       		        REPLICAS   AVAILABLE-REPLICAS   PROVIDER       OS     KUBELET  AGE
-kb-cluster-eu-west-3a      1            1                 aws        ubuntu   1.20.4   10h
-kb-cluster-eu-west-3b      1            1                 aws        ubuntu   1.20.4   10h
-kb-cluster-eu-west-3c      1            1                 aws        ubuntu   1.20.4   10h
+kb-cluster-eu-west-3a      1            1                 aws        ubuntu   1.34.1   10h
+kb-cluster-eu-west-3b      1            1                 aws        ubuntu   1.34.1   10h
+kb-cluster-eu-west-3c      1            1                 aws        ubuntu   1.34.1   10h
 ```
 
 ### Step 2: Annotate Machinedeployments

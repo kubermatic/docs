@@ -615,7 +615,7 @@ supported provider.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 cloudProvider:
   aws: {}
   external: true
@@ -642,7 +642,7 @@ with your cluster name in the cloud-config example below.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 cloudProvider:
   azure: {}
   external: true
@@ -677,7 +677,7 @@ and fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 cloudProvider:
   digitalocean: {}
   external: true
@@ -695,7 +695,7 @@ configs.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 cloudProvider:
   gce: {}
   external: true
@@ -726,7 +726,7 @@ The Hetzner CCM fetches information about nodes from the API.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 cloudProvider:
   hetzner: {}
   external: true
@@ -744,7 +744,7 @@ replace the placeholder values.
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 cloudProvider:
   nutanix: {}
 addons:
@@ -774,7 +774,7 @@ cloud-config section.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 cloudProvider:
   openstack: {}
   external: true
@@ -796,7 +796,7 @@ cloudProvider:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 cloudProvider:
   openstack: {}
   external: true
@@ -824,7 +824,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 
 cloudProvider:
   equinixmetal: {}
@@ -845,7 +845,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 
 cloudProvider:
   vmwareCloudDirector: {}
@@ -864,7 +864,7 @@ automatically by KubeOne.**
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: '1.29.4'
+  kubernetes: '1.32.9'
 cloudProvider:
   vsphere: {}
   external: true
@@ -950,9 +950,9 @@ INFO[11:37:28 CEST] Determine operating system…
 INFO[11:37:30 CEST] Running host probes…
 The following actions will be taken:
 Run with --verbose flag for more information.
-        + initialize control plane node "ip-172-31-220-51.eu-west-3.compute.internal" (172.31.220.51) using 1.20.4
-        + join control plane node "ip-172-31-221-177.eu-west-3.compute.internal" (172.31.221.177) using 1.20.4
-        + join control plane node "ip-172-31-222-48.eu-west-3.compute.internal" (172.31.222.48) using 1.20.4
+        + initialize control plane node "ip-172-31-220-51.eu-west-3.compute.internal" (172.31.220.51) using 1.32.9
+        + join control plane node "ip-172-31-221-177.eu-west-3.compute.internal" (172.31.221.177) using 1.32.9
+        + join control plane node "ip-172-31-222-48.eu-west-3.compute.internal" (172.31.222.48) using 1.32.9
         + ensure machinedeployment "marko-1-eu-west-3a" with 1 replica(s) exists
         + ensure machinedeployment "marko-1-eu-west-3b" with 1 replica(s) exists
         + ensure machinedeployment "marko-1-eu-west-3c" with 1 replica(s) exists
@@ -1030,12 +1030,12 @@ cluster.
 
 ```
 NAME                                           STATUS   ROLES    AGE   VERSION
-ip-172-31-220-166.eu-west-3.compute.internal   Ready    <none>   38m   v1.20.4
-ip-172-31-220-51.eu-west-3.compute.internal    Ready    master   43m   v1.20.4
-ip-172-31-221-177.eu-west-3.compute.internal   Ready    master   42m   v1.20.4
-ip-172-31-221-18.eu-west-3.compute.internal    Ready    <none>   38m   v1.20.4
-ip-172-31-222-211.eu-west-3.compute.internal   Ready    <none>   38m   v1.20.4
-ip-172-31-222-48.eu-west-3.compute.internal    Ready    master   41m   v1.20.4
+ip-172-31-220-166.eu-west-3.compute.internal   Ready    <none>   38m   v1.32.9
+ip-172-31-220-51.eu-west-3.compute.internal    Ready    master   43m   v1.32.9
+ip-172-31-221-177.eu-west-3.compute.internal   Ready    master   42m   v1.32.9
+ip-172-31-221-18.eu-west-3.compute.internal    Ready    <none>   38m   v1.32.9
+ip-172-31-222-211.eu-west-3.compute.internal   Ready    <none>   38m   v1.32.9
+ip-172-31-222-48.eu-west-3.compute.internal    Ready    master   41m   v1.32.9
 ```
 
 ## Conclusion

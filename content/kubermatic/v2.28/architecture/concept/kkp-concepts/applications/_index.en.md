@@ -15,6 +15,7 @@ Currently, helm is exclusively supported as a templating method, but integration
 Helm Applications can both be installed from helm registries directly or from a git repository.
 
 ## Concepts
+
 KKP manages Applications using two key mechanisms: [ApplicationDefinitions]({{< ref "./application-definition" >}}) and [ApplicationInstallations]({{< ref "./application-installation" >}}).
 
 `ApplicationDefinitions` are managed by KKP Admins and contain all the necessary information for an application's installation.

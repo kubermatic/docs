@@ -32,6 +32,7 @@ AWS node termination handler is deployed with any aws user cluster created by KK
 cluster once the spot instance is interrupted.
 
 ## AWS Spot Instances Creation
+
 To create a user cluster which runs some spot instance machines, the user can specify the machine type whether it's a spot
 instance or not at the step number four (Initial Nodes). A checkbox that has the label "Spot Instance" should be checked.
 

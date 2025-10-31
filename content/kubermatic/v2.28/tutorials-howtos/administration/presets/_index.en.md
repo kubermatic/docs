@@ -38,9 +38,9 @@ Preset list offers multiple options that allow Administrators to manage Presets.
 
 1. Create a new Preset
 1. Manage existing Preset
-    - Edit Preset (allows showing/hiding specific providers)
-    - Add a new provider to the Preset
-    - Edit configure provider
+   1. Edit Preset (allows showing/hiding specific providers)
+   1. Add a new provider to the Preset
+   1. Edit configure provider
 1. Show/Hide the Preset. Allows hiding Presets from the users and block new cluster creation based on them.
 1. A list of providers configured for the Preset.
 
@@ -72,7 +72,7 @@ All configured providers will be available on this step and only a single provid
 
 #### Step 3: Settings
 
-The _Settings_ step will vary depending on the provider selected in the previous step. In our example, we have selected
+The *Settings* step will vary depending on the provider selected in the previous step. In our example, we have selected
 an AWS provider.
 
 ![Third step of creating a preset](images/create-preset-third-step.png?height=500px&classes=shadow,border)

@@ -24,6 +24,11 @@ function ensure_valid_filenames_dir() {
       continue
     fi
 
+    # KubeLB CLI reference files are auto-generated and exempt
+    if [[ "$entry" =~ content/kubelb/.*/cli/references/ ]]; then
+      continue
+    fi
+
     if [[ "$entry" =~ [A-Z_] ]]; then
       echo "  ❌ $entry"
       EXIT_CODE=1

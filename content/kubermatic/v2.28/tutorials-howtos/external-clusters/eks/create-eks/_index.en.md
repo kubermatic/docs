@@ -39,11 +39,13 @@ Supported kubernetes versions 1.21.0, 1.22.0, 1.23.0, 1.24.0 currently available
 ## Configure the Cluster
 
 ### Basic Settings
+
 - Name: Provide a unique name for your cluster
 - Kubernetes Version: Select the Kubernetes version for this cluster.
 - Cluster Service Role: Select the IAM role to allow the Kubernetes control plane to manage AWS resources on your behalf. This property cannot be changed after the cluster is created.
 
 ### Networking
+
 - VPC: Select a VPC to use for your EKS cluster resources
 
 - Subnets: Choose the subnets in your VPC where the control plane may place elastic network interfaces (ENIs) to facilitate communication with your cluster.
@@ -62,6 +64,7 @@ Both Subnet and Security Groups list depends on chosen VPC.
 - Add NodeGroup configurations:
 
 ### Basic Settings
+
 - Name: Assign a unique name for this node group.
   The node group name should begin with letter or digit and can have any of the following characters: the set of Unicode letters, digits, hyphens and underscores. Maximum length of 63.
 - Kubernetes Version: Cluster Control Plane Version is prefilled.
@@ -69,11 +72,14 @@ Both Subnet and Security Groups list depends on chosen VPC.
 - Disk Size: Select the size of the attached EBS volume for each node.
 
 ### Networking
+
 - VPC: VPC of the cluster is pre-filled.
 - Subnet: Specify the subnets in your VPC where your nodes will run.
 
 ### Autoscaling
+
 Node group scaling configuration:
+
 - Desired Size: Set the desired number of nodes that the group should launch with initially.
 - Max Count: Set the maximum number of nodes that the group can scale out to.
 - Min Count: Set the minimum number of nodes that the group can scale in to.

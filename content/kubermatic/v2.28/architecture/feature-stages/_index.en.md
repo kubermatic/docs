@@ -15,7 +15,6 @@ weight = 4
 - The whole feature can be revoked immediately and without notice
 - Recommended only for testing and providing feedback
 
-
 ## Beta / Technical Preview
 
 - Targeted users: experienced KKP administrators
@@ -26,7 +25,6 @@ weight = 4
   - When this happens, we will provide instructions for migrating to the next version, which can require manual work and/or downtime
 - The whole feature can still be revoked, but with prior notice and respecting a deprecation cycle
 - Recommended for only non-business-critical uses, testing usability, performance, and compatibility in real-world environments
-
 
 ## General Availability (GA)
 

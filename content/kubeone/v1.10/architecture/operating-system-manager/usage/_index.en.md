@@ -13,7 +13,7 @@ To fallback to legacy user-data from Machine Controller, we can disable OSM for 
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.29.4
+  kubernetes: 1.32.9
 addons:
   enable: true
 operatingSystemManager:
@@ -163,7 +163,7 @@ The variable `initial_machinedeployment_operating_system_profile` can also be co
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: "1.29.4"
+  kubernetes: "1.32.9"
 cloudProvider:
   aws: {}
 addons:

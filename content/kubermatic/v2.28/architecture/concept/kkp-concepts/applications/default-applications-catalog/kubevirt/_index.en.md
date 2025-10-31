@@ -7,7 +7,7 @@ weight = 10
 
 +++
 
-# What is KubeVirt?
+## What is KubeVirt?
 
 KubeVirt is a virtual machine management add-on for Kubernetes. Its aim is to provide a common ground for virtualization solutions on top of Kubernetes.
 
@@ -21,15 +21,15 @@ As of today KubeVirt can be used to declaratively:
 
 For more information on the KubeVirt, please refer to the [official documentation](https://kubevirt.io/)
 
-# How to deploy?
+## How to deploy?
 
 KubeVirt is available as part of the KKP's default application catalog.
 It can be deployed to the user cluster either during the cluster creation or after the cluster is ready(existing cluster) from the Applications tab via UI.
 
-* Select the KubeVirt application from the Application Catalog.
+- Select the KubeVirt application from the Application Catalog.
 
 ![Select KubeVirt Application](01-select-application-kubevirt-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+- Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for KubeVirt Application](02-settings-kubevirt-app.png)

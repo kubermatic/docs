@@ -13,7 +13,6 @@ The [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-st
 
 This section explains how the connection between user clusters and the control plane is established, as well as the general networking concept in KKP.
 
-
 ![KKP Network](images/network.png?classes=shadow,border "This diagram illustrates the necessary connections for KKP.")
 
 The following diagrams illustrate all available [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-strategies" >}}) available in KKP.
@@ -33,11 +32,11 @@ Any port numbers marked with * are overridable, so you will need to ensure any c
 ** Default port range for [NodePort Services](https://kubernetes.io/docs/concepts/services-networking/service/).
 All ports listed are using TCP.
 
-#### Worker Nodes
+### Worker Nodes
 
 Worker nodes in user clusters must have full connectivity to each other to ensure the functionality of various components, including different Container Network Interfaces (CNIs) and Container Storage Interfaces (CSIs) supported by KKP.
 
-#### API Server
+### API Server
 
 For each user cluster, an API server is deployed in the Seed and exposed depending on the chosen expose strategy.
 Its purpose is not only to make the apiserver accessible to users, but also to ensure the proper functioning of the cluster.
@@ -46,7 +45,7 @@ In addition, the apiserver is used for [in-cluster API](https://kubernetes.io/do
 
 In Tunneling mode, to forward traffic to the correct apiserver, an envoy proxy is deployed on each node, serving as an endpoint for the Kubernetes cluster service to proxy traffic to the apiserver.
 
-#### Kubernetes Konnectivity proxy
+### Kubernetes Konnectivity proxy
 
 To enable Kubernetes to work properly, parts of the control plane need to be connected to the internal Kubernetes cluster network.
 This is done via the [konnectivity proxy](https://kubernetes.io/docs/tasks/extend-kubernetes/setup-konnectivity/), which is deployed for each cluster.

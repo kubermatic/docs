@@ -41,7 +41,7 @@ It can be deployed to the user cluster either during the cluster creation or aft
 
 ![Select Trivy Application](01-select-application-trivy-app.png)
 
-* Under the Settings section, select and provide appropriate details and clck `-> Next` button.
+* Under the Settings section, select and provide appropriate details and click `-> Next` button.
 
 ![Settings for Trivy Application](02-settings-trivy-app.png)
 

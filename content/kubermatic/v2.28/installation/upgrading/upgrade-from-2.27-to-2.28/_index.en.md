@@ -16,6 +16,26 @@ This guide will walk you through upgrading Kubermatic Kubernetes Platform (KKP) 
 Please review [known issues]({{< ref "../../../architecture/known-issues/" >}}) before upgrading to understand if any issues might affect you.
 {{% /notice %}}
 
+### Kubevirt CSI driver operator version upgrade
+
+KKP 2.28 bumps up the Kubevirt CSI driver operator version, due to some breaking upstream changes the operator pod will start to crash on existing user clusters and we will observe below mentioned error in the logs.
+
+```
+ kubevirt-csi-driver.go:120] cannot infer infra vm namespace
+```
+
+#### Migration Procedure
+
+To avoid the above issue we need to add an annotation on all the worker nodes of all the existing kubevirt user clusters.
+
+```
+export ClusterID=<user-cluster-id>
+
+kubectl annotate node --all "cluster.x-k8s.io/cluster-namespace=cluster-${ClusterID}" --overwrite
+
+```
+If rotating the worker nodes of each user cluster is not an issue then rotating the worker nodes of all the user clusters after KKP upgrade also fixes the issue. There are no issue on cluster created after KKP upgrade.
+
 ### Node Exporter Upgrade (Seed MLA)
 
 KKP 2.28 removes the custom Helm chart for Node Exporter and instead now reuses the official [upstream Helm chart](https://prometheus-community.github.io/helm-charts).
@@ -111,6 +131,7 @@ kubectl -n monitoring delete statefulset alertmanager
 Afterwards you can install the new release from the chart using Helm CLI or using your favourite GitOps tool.
 
 Finally, cleanup the leftover PVC resources from old helm chart installation.
+
 ```bash
 kubectl delete pvc -n monitoring -l app=alertmanager
 ```
@@ -253,9 +274,9 @@ Additionally, Dex's own configuration is now more clearly separated from how Dex
 
 Finally, theming support has changed. The old `oauth` Helm chart allowed to inline certain assets, like logos, as base64-encoded blobs into the Helm values. This mechanism is not available in the new `dex` Helm chart and admins have to manually provision the desired theme. KKP's Dex chart will setup a `dex-theme-kkp` ConfigMap, which is mounted into Dex and then overlays files over the default theme that ships with Dex. To customize, create your own ConfigMap/Secret and adjust `dex.volumes`, `dex.volumeMounts` and `dex.config.frontend.theme` / `dex.config.frontend.dir` accordingly.
 
-**Note that you cannot have two Ingress objects with the same host names and paths. So if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).**
+**Note** that you cannot have two Ingress objects with the same host names and paths. So if you install the new Dex in parallel to the old one, you will have to temporarily use a different hostname (e.g. `kkp.example.com/dex` for the old one and `kkp.example.com/dex2` for the new Dex installation).
 
-**Restarting Kubermatic API After Dex Migration**:
+**Restarting Kubermatic API After Dex Migration:**
 If you choose to delete the `oauth` chart and immediately switch to the new `dex` chart without using a different hostname, it is recommended to restart the `kubermatic-api` to ensure proper functionality. You can do this by running the following command:
 
 ```bash
@@ -331,7 +352,7 @@ Upgrading seed clusters is not necessary, unless you are running the `minio` Hel
 
 You can follow the upgrade process by either supervising the Pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
-```sh
+```bash
 $ kubectl get seeds -A -o jsonpath="{range .items[*]}{.metadata.name} - {.status}{'\n'}{end}"
 
 # Place holder for output
@@ -351,10 +372,10 @@ This retirement affects all customers using the Azure Basic Load Balancer SKU, w
 If you have Basic Load Balancers deployed within Azure Cloud Services (extended support), these deployments will not be affected by this retirement, and no action is required for these specific instances.
 
 For more details about this deprecation, please refer to the official Azure announcement:
-[https://azure.microsoft.com/en-us/updates?id=azure-basic-load-balancer-will-be-retired-on-30-september-2025-upgrade-to-standard-load-balancer](https://azure.microsoft.com/en-us/updates?id=azure-basic-load-balancer-will-be-retired-on-30-september-2025-upgrade-to-standard-load-balancer)
+<https://azure.microsoft.com/en-us/updates?id=azure-basic-load-balancer-will-be-retired-on-30-september-2025-upgrade-to-standard-load-balancer>
 
 The Azure team has created an upgrade guideline, including required scripts to automate the migration process.
-Please refer to the official documentation for detailed upgrade instructions: [https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-basic-upgrade-guidance#upgrade-using-automated-scripts-recommended](https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-basic-upgrade-guidance#upgrade-using-automated-scripts-recommended)
+Please refer to the official documentation for detailed upgrade instructions: <https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-basic-upgrade-guidance#upgrade-using-automated-scripts-recommended>
 
 ## Next Steps
 
