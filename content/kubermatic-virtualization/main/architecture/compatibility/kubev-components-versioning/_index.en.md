@@ -18,4 +18,6 @@ on security and reliability of provided software and therefore releases updates 
 |              Kyverno              | v1.14.4 |
 |           Cert Manager            | v1.18.2 |
 |              MetalLB              | v0.15.2 |
+|             Multus CNI            | v4.2.2  |
+|             Longhorn              | v1.9.1  |
 
