@@ -17,7 +17,7 @@ of provided software and therefore releases updates regularly that also include 
 | dex                            | 2.44.0                         |
 | gitops/kkp-argocd-apps         | 1.16.1                         |
 | iap                            | 7.8.2                          |
-| kubermatic-operator            | 2.29.0                      |
+| kubermatic-operator            | 9.9.9-dev                      |
 | local-kubevirt                 | 1.1.1                          |
 | logging/alloy                  | 1.9.2                          |
 | logging/loki                   | 2.9.6                          |
