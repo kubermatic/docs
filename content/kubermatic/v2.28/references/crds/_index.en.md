@@ -6877,7 +6877,7 @@ _Appears in:_
 | `proxySettings` _[ProxySettings](#proxysettings)_ | {{< unsafe >}}Optional: ProxySettings can be used to configure HTTP proxy settings on the<br />worker nodes in user clusters. However, proxy settings on nodes take precedence.{{< /unsafe >}} |
 | `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | {{< unsafe >}}Optional: ExposeStrategy explicitly sets the expose strategy for this seed cluster, if not set, the default provided by the master is used.{{< /unsafe >}} |
 | `mla` _[SeedMLASettings](#seedmlasettings)_ | {{< unsafe >}}Optional: MLA allows configuring seed level MLA (Monitoring, Logging & Alerting) stack settings.{{< /unsafe >}} |
-| `defaultComponentSettings` _[ComponentSettings](#componentsettings)_ | {{< unsafe >}}DefaultComponentSettings are default values to set for newly created clusters.<br />Deprecated: Use DefaultClusterTemplate instead.{{< /unsafe >}} |
+| `defaultComponentSettings` _[ComponentSettings](#componentsettings)_ | {{< unsafe >}}DefaultComponentSettings are default values to set for newly created clusters.{{< /unsafe >}} |
 | `defaultClusterTemplate` _string_ | {{< unsafe >}}DefaultClusterTemplate is the name of a cluster template of scope "seed" that is used<br />to default all new created clusters{{< /unsafe >}} |
 | `metering` _[MeteringConfiguration](#meteringconfiguration)_ | {{< unsafe >}}Metering configures the metering tool on user clusters across the seed.{{< /unsafe >}} |
 | `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | {{< unsafe >}}EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed;<br />if this is set, the new backup/restore controllers are enabled for this Seed.{{< /unsafe >}} |
