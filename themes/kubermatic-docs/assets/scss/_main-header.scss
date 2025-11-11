@@ -441,15 +441,8 @@
     line-height: 1.125;
     z-index: 1;
     transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    &:before {
-      content: "";
-      display: inline-block;
-      width: 24px;
-      height: 17px;
+    svg {
       margin-right: 20px;
-      background-image: url('/img/menu/mobile-menu-arrow.svg');
-      background-repeat: no-repeat;
-      background-size: cover;
     }
     &.hide {
       opacity: 0;

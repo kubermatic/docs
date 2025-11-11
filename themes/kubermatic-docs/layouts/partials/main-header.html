@@ -81,7 +81,7 @@
                   <div class="menu-panel-group">
                     {{with $title}}<span class="menu-panel-url">{{.}}</span>{{end}}
                     {{with .summary}}
-                      <p class="menu-panel-summary">{{.}}</p>
+                      <p class="menu-panel-summary">{{. | markdownify}}</p>
                     {{end}}
                     {{with .columns}}
                     <div class="menu-columns">
@@ -150,7 +150,7 @@
     {{$id := 0}}
     {{with $.Site.Data.mobileMenu.items}}
     <div id="mobile-menu" class="mobile-menu">
-      <button class="pos-rel hide menu-btn-back" aria-hidden="true">Menu items</button>
+      <button class="pos-rel hide menu-btn-back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17"><g fill="none" fill-rule="evenodd" stroke="#262626" stroke-linecap="round" stroke-width="2"><path stroke-linejoin="round" d="M23 8.657H3"/><path d="M9.195 1 1.866 8.33l7.33 7.327"/></g></svg>Menu items</button>
       <ul class="mobile-menu-list">
       {{range .}}
         {{template "create-mobile-menu-tree" dict "node" . "id" $id}}
@@ -188,7 +188,7 @@
       {{end}}
     </ul>
     {{end}}
-    {{with .children}}
+    {{with .childs}}
     <ul class="mobile-menu-children">
       {{range .}}
         <li>
@@ -266,7 +266,7 @@
           showSubMenuPanel(panelId);
           prevPanels.push([currentPanelId, menuGroupButton.textContent]);
           currentPanelId = panelId;
-          backButton.textContent = menuGroupButton.textContent;
+          backButton.lastChild.data = menuGroupButton.textContent;
           backButton.classList.remove('hide');
         });
       });
@@ -275,7 +275,7 @@
         var currentPanel = prevPanels.pop();
         hideSubMenuPanel(currentPanelId);
         currentPanelId = currentPanel[0];
-        backButton.textContent = prevPanels.length ? prevPanels[prevPanels.length - 1][1] : "Menu items";
+        backButton.lastChild.data = prevPanels.length ? prevPanels[prevPanels.length - 1][1] : "Menu items";
         if (!prevPanels.length)
           backButton.classList.add('hide');
       });

@@ -4,7 +4,7 @@ items:
     - title: Kubermatic Kubernetes Platform
       url: /products/kubermatic-kubernetes-platform/
       caption: Products
-      children:
+      childs:
       - title: Features
         url: /products/kubermatic-kubernetes-platform/features/
       - title: Why Kubermatic
@@ -15,6 +15,10 @@ items:
       url: /products/kubermatic-kubeone/
     - title: Kubermatic KubeLB
       url: /products/kubelb/
+    - title: Kubermatic Virtualization
+      url: /products/kubermatic-virtualization/
+    - title: Kubermatic Developer Platform
+      url: /products/kubermatic-developer-platform/
     - title: Kubermatic Kubernetes Subscription
       url: /products/kubermatic-kubernetes-subscription/
     - title: Managed Kubermatic Kubernetes Platform
