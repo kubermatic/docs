@@ -16,7 +16,7 @@ of provided software and therefore releases updates regularly that also include 
 | cert-manager                   | 1.17.4                         |
 | dex                            | 2.44.0                         |
 | gitops/kkp-argocd-apps         | 1.16.1                         |
-| iap                            | 7.8.2                          |
+| iap                            | 7.13.0                         |
 | kubermatic-operator            | 9.9.9-dev                      |
 | local-kubevirt                 | 1.1.1                          |
 | logging/alloy                  | 1.9.2                          |
