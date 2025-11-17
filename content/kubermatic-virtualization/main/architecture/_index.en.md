@@ -6,9 +6,9 @@ weight = 5
 +++
 
 ## Architecture Overview
-Kubermatic-Virtualization (Kube-V) is an advanced platform engineered to construct private cloud infrastructures founded 
+Kubermatic-Virtualization is an advanced platform engineered to construct private cloud infrastructures founded 
 entirely on Kubernetes. Its core design principle is the seamless integration of Kubernetes-native workloads (containers) 
-and traditional virtualized workloads (Virtual Machines - VMs) under a unified management umbrella. Kube-V achieves this 
+and traditional virtualized workloads (Virtual Machines - VMs) under a unified management umbrella. Kubermatic-Virtualization achieves this 
 by building upon Kubernetes as its foundational layer and incorporating KubeVirt to orchestrate and manage VMs alongside 
 containerized applications.
 
@@ -32,7 +32,7 @@ an operational and isolated ecosystem, through subnets and network policies.
 
 ### CSI Drivers
 A standardized interface that allows Kubernetes to connect to various storage systems, providing persistent storage for
-VMs and containers. Kube-V is agnostic about the storage of the underlying infrastructure where any CSI driver can be 
+VMs and containers. Kubermatic-Virtualization is agnostic about the storage of the underlying infrastructure where any CSI driver can be 
 used to enabling dynamic provisioning, attachment, and management of persistent volumes for VMs and Pods.
 
 ![Kubermatic-Virtualization](kube-v-architecture.png)

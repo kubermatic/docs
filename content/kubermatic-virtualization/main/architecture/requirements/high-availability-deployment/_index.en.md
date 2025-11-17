@@ -6,8 +6,7 @@ weight = 15
 
 ## High-Availability Deployment
 
-The hardware foundation for Kubermatic Virtualization is multi-faceted, encompassing requirements for the Kubermatic  
-Virtualization (Kube-V) management layer, the KubeVirt infrastructure nodes that host virtual machines, in addition to 
+The hardware foundation for Kubermatic Virtualization is multi-faceted, encompassing requirements for the Kubermatic-Virtualization management layer, the KubeVirt infrastructure nodes that host virtual machines, in addition to 
 various services that are running as part of the ecosystem.
 
 ### Control Plane Nodes
@@ -54,7 +53,7 @@ migration can significantly reduce network saturation on tenant workloads during
 * Connectivity: Full and unrestricted network connectivity is paramount between all host nodes. Firewalls and security 
 groups must be configured to permit all necessary Kubernetes control plane traffic, KubeVirt communication, and KubeV-specific 
 inter-cluster communication.
-* DNS: DNS resolution is crucial for the Kube-V environment, enabling all nodes to find each other and external services. 
+* DNS: DNS resolution is crucial for the Kubermatic-Virtualization environment, enabling all nodes to find each other and external services. 
 A potential conflict can arise if both the KubeVirt infrastructure and guest user clusters 
 use NodeLocal DNSCache with the same default IP address, leading to DNS resolution issues for guest VMs. This can be 
 mitigated by adjusting the dnsConfig and dnsPolicy of the guest VMs.

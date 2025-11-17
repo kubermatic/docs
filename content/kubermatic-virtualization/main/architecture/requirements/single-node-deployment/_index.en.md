@@ -6,8 +6,7 @@ weight = 15
 
 ## Single Node Deployment
 
-The hardware foundation for Kubermatic Virtualization is multi-faceted, encompassing requirements for the Kubermatic  
-Virtualization (Kube-V) management layer, the KubeVirt infrastructure node that host virtual machines, in addition to
+The hardware foundation for Kubermatic Virtualization is multi-faceted, encompassing requirements for the Kubermatic-Virtualization management layer, the KubeVirt infrastructure node that host virtual machines, in addition to
 various services that are running as part of the ecosystem.
 
 ###  Host Configuration
@@ -36,7 +35,7 @@ Kubermatic Virtualization. This includes considerations for IP addressing, DNS, 
 
 * High-bandwidth, low-latency connections: 1 Gbps NICs are a minimum; 10 Gbps or higher is recommended for performance-sensitive
   workloads.
-* DNS: DNS resolution is crucial for the Kube-V environment, enabling all nodes to find each other and external services.
+* DNS: DNS resolution is crucial for the Kubermatic-Virtualization environment, enabling all nodes to find each other and external services.
   A potential conflict can arise if both the KubeVirt infrastructure and guest user clusters
   use NodeLocal DNSCache with the same default IP address, leading to DNS resolution issues for guest VMs. This can be
   mitigated by adjusting the dnsConfig and dnsPolicy of the guest VMs.

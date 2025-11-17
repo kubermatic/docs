@@ -3,8 +3,8 @@ title = ""
 date = 2025-07-18T16:06:34+02:00
 +++
 
-## What is Kubermatic Virtualization (Kube-V)?
-Kubermatic Virtualization (Kube-V) provides a unified platform that enables organizations to seamlessly orchestrate and manage both traditional virtual machines (VMs) and modern containerized applications.
+## What is Kubermatic Virtualization?
+Kubermatic Virtualization (Kubermatic-Virtualization) provides a unified platform that enables organizations to seamlessly orchestrate and manage both traditional virtual machines (VMs) and modern containerized applications.
 
 It extends the powerful automation and operational benefits of Kubernetes to your VM-based workloads, allowing for a more consistent and efficient approach to infrastructure management.
 
