@@ -125,7 +125,7 @@ kubermatic-virtualization:
   name: kubermatic-virtualization
   logo: "img/logo-kubermatic.svg"
   title: Kubermatic-Virtualization
-  textName: Kube-V
+  textName: Kubermatic Virtualization
   description: Seamlessly modernize your infrastructure by building your private cloud entirely with Kubernetes.
   weight: 1
   shareImage: img/share-kubermatic.png
