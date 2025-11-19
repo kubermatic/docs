@@ -15,7 +15,7 @@ Dynamic Resource Allocation (DRA) is a Kubernetes feature that provides a flexib
 ## Prerequisites for DRA Features
 
 - Kubernetes version 1.30 (Alpha) / 1.32 (Beta) or higher required for DRA features
-- KKP version 2.25 or higher
+- KKP version 2.29 or higher
 
 ## Enabling DRA in Kubernetes
 
