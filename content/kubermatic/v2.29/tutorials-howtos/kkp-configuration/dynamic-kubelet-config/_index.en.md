@@ -13,9 +13,9 @@ Dynamic kubelet configuration allows for live reconfiguration of some or all nod
 
 ### See Also
 
-* <https://kubernetes.io/blog/2018/07/11/dynamic-kubelet-configuration/></li>
-* <https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/></li>
-* <https://github.com/kubernetes/enhancements/issues/281></li>
+* https://kubernetes.io/blog/2018/07/11/dynamic-kubelet-configuration/
+* https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/
+* https://github.com/kubernetes/enhancements/issues/281
 
 ### Enabling
 
