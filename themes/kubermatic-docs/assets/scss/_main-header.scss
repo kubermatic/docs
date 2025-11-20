@@ -111,7 +111,9 @@
   transition: .3s ease;
 }
 .menu-item .menu-item_btn:hover {
-  background: #00D9D2;
+  background-color: #0081ae;
+  color: #fff;
+  border-color: #0081ae;
 }
 .menu-item .menu-item_btn {
   box-sizing: border-box;
@@ -119,13 +121,14 @@
   align-items: center;
   justify-content: center;
   padding: 0 14px;
-  border: 2px solid #00D9D2;
+  background-color: #ffad05;
+  border: 2px solid #ffad05;
   border-radius: 3px;
   height: 44px;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  color: #FFFFFF;
+  color: #001128;
   text-decoration: none;
   transition: .2s ease;
 }
@@ -274,16 +277,17 @@
   justify-content: center;
   border-radius: 3px;
   font-size: 20px;
-  color: #FFFFFF;
+  color: #001128;
   text-decoration: none;
   height: 50px;
   padding: 0 14px;
-  border: 2px solid #00D9D2;
-  background: rgba(0,0,0,0.2);
+  background-color: #ffad05;
+  border: 2px solid #ffad05;
   transition: .2s ease;
   &:hover {
-    background: #00D9D2;
+    background-color: #0081ae;
     color: #fff;
+    border-color: #0081ae;
   }
 }
 

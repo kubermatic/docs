@@ -132,7 +132,7 @@ items:
             text: Empower Developers and Accelerate Innovation
             noArrowIcon: true
             panel:
-              summary: Maximize developer productivity and accelerate innovation with Kubermatic Developer Platform (KDP). Powered by Kubernetes API and based on <a href="https://www.cncf.io/projects/kcp/">CNCF Sandbox project kcp</a>, our cutting-edge internal developer platform enables the seamless creation and management of services backed by a centralized catalog.
+              summary: Maximize developer productivity and accelerate innovation with Kubermatic Developer Platform (KDP). Powered by Kubernetes API and based on [CNCF Sandbox project kcp](https://www.cncf.io/projects/kcp/), our cutting-edge internal developer platform enables the seamless creation and management of services backed by a centralized catalog.
               image: /img/menu/kubermatic-developer-platform.jpg
               columns:
                 - column:
