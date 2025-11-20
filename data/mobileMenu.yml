@@ -4,7 +4,7 @@ items:
     - title: Kubermatic Kubernetes Platform
       url: /products/kubermatic-kubernetes-platform/
       caption: Products
-      childs:
+      children:
       - title: Features
         url: /products/kubermatic-kubernetes-platform/features/
       - title: Why Kubermatic
