@@ -25,12 +25,11 @@ Apart from these, KKP also supports [Multus-CNI addon]({{< relref "../multus/" >
 
 The following table lists the versions of individual CNIs supported by KKP:
 
-| KKP version | Canal                              | Cilium                                 |
-|-------------|------------------------------------|----------------------------------------|
-| `v2.26.x`   | `v3.28`, `v3.27`, `v3.26`          | `v1.15.x`, `v1.14.x`, `v1.13.x`        |
-| `v2.25.x`   | `v3.27`, `v3.26`, `v3.25`          | `v1.14.x`, `v1.13.x`                   |
-| `v2.24.x`   | `v3.26`, `v3.25`, `v3.24`          | `v1.14.x`, `v1.13.x`, `v1.12`, `v1.11` |
-| `v2.23.x`   | `v3.25`, `v3.24`, `v3.23`          | `v1.13.x`, `v1.12`, `v1.11`            |
+| KKP version | Canal                     | Cilium                                       |
+|-------------|------------------------------------|-------------------------------------------------------|
+| `v2.29.x`   | `v3.28`, `v3.29`, `v3.30` | `1.15.x`, `1.16.x`, `1.17.x`, `1.18.x`      |
+| `v2.28.x`   | `v3.27`, `v3.28`, `v3.29` | `1.14.x`, `1.15.x`, `1.16.x`      |
+| `v2.27.x`   | `v3.27`, `v3.28`, `v3.29`          | `1.14.x`, `1.15.x`, `1.16.x`               |
 
 The desired CNI type and version can be selected at the cluster creation time - on the Cluster Settings page, as shown below:
 
@@ -121,7 +120,7 @@ The Helm charts used to deploy CNI are hosted in a Kubermatic OCI registry (`oci
 To mirror a Helm chart into a private OCI repository, you can use the helm CLI, e.g.:
 
 ```bash
-CHART_VERSION=1.13.0
+CHART_VERSION=1.18.2
 helm pull oci://quay.io/kubermatic/helm-charts/cilium --version ${CHART_VERSION}
 helm push cilium-${CHART_VERSION}.tgz oci://<registry>/<repository>/
 ```
