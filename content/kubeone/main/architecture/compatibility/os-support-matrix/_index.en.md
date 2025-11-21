@@ -9,15 +9,7 @@ weight = 3
 
 The following operating systems are supported:
 
-* Ubuntu 20.04 (Focal)
-* Ubuntu 22.04 (Jammy Jellyfish)
 * Ubuntu 24.04 (Noble Numbat)
-* Rocky Linux 8
-* RHEL 8.0, 8.1, 8.2, 8.3, 8.4
+* Rocky Linux 9
+* RHEL 9
 * Flatcar
-* Amazon Linux 2
-
-{{% notice warning %}}
-The minimum kernel version for Kubernetes 1.32 clusters is 4.19. Some operating system versions, such as RHEL 8,
-do not meet this requirement and therefore do not support Kubernetes 1.32 or newer.
-{{% /notice %}}
