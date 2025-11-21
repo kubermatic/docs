@@ -22,6 +22,9 @@ enableRobotsTXT = true
 home = ["HTML", "Search", "Redirects"]
 section = ["HTML"]
 
+[markup.goldmark.renderer]
+  unsafe = true
+
 [params]
 googleTagManager = "GTM-PHMNDW2"
 # Prefix URL to edit current page. Will display an "Edit this page" button on top right hand corner of every page.

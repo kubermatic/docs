@@ -174,8 +174,7 @@ kubectl apply --filename=definition.yaml
 kubectl apply --filename=composition.yaml
 ```
 
-<details>
-  <summary>cluster-issuer.yaml</summary>
+{{< details summary="cluster-issuer.yaml" >}}
 
 ```yaml
 ---
@@ -213,10 +212,9 @@ spec:
     secretName: default-ca
 ```
 
-</details>
+{{< /details >}}
 
-<details>
-  <summary>definition.yaml</summary>
+{{< details summary="definition.yaml" >}}
 
 ```yaml
 apiVersion: apiextensions.crossplane.io/v1
@@ -259,10 +257,9 @@ spec:
                       minLength: 1
 ```
 
-</details>
+{{< /details >}}
 
-<details>
-  <summary>composition.yaml</summary>
+{{< details summary="composition.yaml" >}}
 
 ```yaml
 apiVersion: apiextensions.crossplane.io/v1
@@ -368,7 +365,7 @@ spec:
   writeConnectionSecretsToNamespace: crossplane-system
 ```
 
-</details>
+{{< /details >}}
 
 Afterwards verify the status of the composite resource definition and the composition with the
 following command:

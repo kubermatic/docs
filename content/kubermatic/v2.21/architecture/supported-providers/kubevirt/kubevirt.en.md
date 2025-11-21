@@ -183,8 +183,7 @@ spec:
 
 1- **Usage of Pod Affinity Preset**
 
-<details>
-  <summary>With the following *MachineDeployment* specification</summary>
+{{< details summary="With the following *MachineDeployment* specification" >}}
 
 ```yaml
 kind: MachineDeployment
@@ -199,12 +198,13 @@ spec:
               podAffinityPreset: "hard" # or "soft"
 // ....
 ```
-</details>
+
+{{< /details >}}
 
 The following *VirtualMachine* specification will be generated
 - with affinity type *"hard"*:
-<details>
- <summary>VirtualMachine* specification</summary>
+
+{{< details summary="*VirtualMachine* specification" >}}
 
 ```yaml
 kind: VirtualMachine
@@ -223,11 +223,12 @@ spec:
                 md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
             topologyKey: kubernetes.io/hostname
 ```
-</details>
+
+{{< /details >}}
 
 - with affinity type *"soft"*:
-<details>
- <summary>VirtualMachine* specification</summary>
+
+{{< details summary="*VirtualMachine* specification" >}}
 
 ```yaml
 kind: VirtualMachine
@@ -246,12 +247,12 @@ spec:
                 md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
             topologyKey: kubernetes.io/hostname
 ```
-</details>
+
+{{< /details >}}
 
 2- **Usage of Pod Anti Affinity Preset**
 
-<details>
-  <summary>With the following *MachineDeployment* specification</summary>
+{{< details summary="With the following *MachineDeployment* specification" >}}
 
 ```yaml
 kind: MachineDeployment
@@ -266,12 +267,13 @@ spec:
               podAntiAffinityPreset: "hard" # or "soft"
 // ....
 ```
-</details>
+
+{{< /details >}}
 
 The following *VirtualMachine* specification will be generated
 - with affinity type *"hard"*:
-<details>
- <summary>VirtualMachine* specification</summary>
+
+{{< details summary="*VirtualMachine* specification" >}}
 
 ```yaml
 kind: VirtualMachine
@@ -290,11 +292,12 @@ spec:
                 md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
             topologyKey: kubernetes.io/hostname
 ```
-</details>
+
+{{< /details >}}
 
 - with affinity type *"soft"*:
-<details>
- <summary>VirtualMachine* specification</summary>
+
+{{< details summary="*VirtualMachine* specification" >}}
 
 ```yaml
 kind: VirtualMachine
@@ -313,12 +316,12 @@ spec:
                 md: qqbxz6vqxl-worker-bjqdtt # label common to all VirtualMachines belonging to the same MachineDeployment
             topologyKey: kubernetes.io/hostname
 ```
-</details>
+
+{{< /details >}}
 
 3- **Usage of Node Affinity Preset**
 
-<details>
-  <summary>With the following *MachineDeployment* specification</summary>
+{{< details summary="With the following *MachineDeployment* specification" >}}
 
 ```yaml
 kind: MachineDeployment
@@ -336,13 +339,13 @@ spec:
                 values:
                   - bar
 ```
-</details>
+
+{{< /details >}}
 
 The following *VirtualMachine* specification will be generated
 - with affinity type *"hard"*:
 
-<details>
- <summary>VirtualMachine* specification</summary>
+{{< details summary="*VirtualMachine* specification" >}}
 
 ```yaml
 kind: VirtualMachine
@@ -363,11 +366,12 @@ spec:
                 values:
                 - bar
 ```
-</details>
+
+{{< /details >}}
 
 - with affinity type *"soft"*:
-<details>
-  <summary>VirtualMachine* specification</summary>
+
+{{< details summary="*VirtualMachine* specification" >}}
 
  ```yaml
 kind: VirtualMachine
@@ -388,7 +392,7 @@ spec:
                 values:
                 - bar
 ```
-</details>
+{{< /details >}}
 
 ---
 
