@@ -109,12 +109,12 @@ items:
                       url: /products/kubermatic-kubeone/cloud/#digitalocean
                     - title: Equinix Metal
                       url: /products/kubermatic-kubeone/cloud/#equinix-metal
-          - title: Kubermatic KubeLB
+          - title: Kubermatic Load Balancer
             url: /products/kubelb/
             text: Cloud Native Multi-Tenant Load Balancing
             noArrowIcon: true
             panel:
-              summary: Welcome to KubeLB, the next-generation application delivery platform designed for cloud-native architectures. As cloud-native have evolved, KubeLB offers a multi-tenancy approach to load balancing, providing seamless scalability, security, and management for distributed applications and teams.
+              summary: Welcome to Kubermatic Load Balancer, the next-generation application delivery platform designed for cloud-native architectures. As cloud-native have evolved, Kubermatic Load Balancer offers a multi-tenancy approach to load balancing, providing seamless scalability, security, and management for distributed applications and teams.
               image: /img/menu/kubelb.jpg
               columns:
                 - column:

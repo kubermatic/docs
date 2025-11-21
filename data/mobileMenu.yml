@@ -13,7 +13,7 @@ items:
         url: /products/kubermatic-kubernetes-platform/why-kubermatic/#integrations
     - title: Kubermatic KubeOne
       url: /products/kubermatic-kubeone/
-    - title: Kubermatic KubeLB
+    - title: Kubermatic Load Balancer
       url: /products/kubelb/
     - title: Kubermatic Virtualization
       url: /products/kubermatic-virtualization/
