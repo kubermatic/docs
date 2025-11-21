@@ -2404,6 +2404,7 @@ _Appears in:_
 | `operatingSystemManager` _[OSMControllerSettings](#osmcontrollersettings)_ | {{< unsafe >}}OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller).{{< /unsafe >}} |
 | `coreDNS` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}CoreDNS configures CoreDNS deployed as part of the cluster control plane.{{< /unsafe >}} |
 | `kubeStateMetrics` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}KubeStateMetrics configures kube-state-metrics settings deployed by the monitoring controller.{{< /unsafe >}} |
+| `machineController` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}MachineController configures the Kubermatic machine-controller deployment.{{< /unsafe >}} |
 
 
 [Back to top](#top)
