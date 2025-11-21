@@ -1052,7 +1052,7 @@ _Appears in:_
 | `useEventRateLimitAdmissionPlugin` _boolean_ |  |
 | `enableUserSSHKeyAgent` _boolean_ | EnableUserSSHKeyAgent control whether the UserSSHKeyAgent will be deployed in the user cluster or not. If it was enabled, the agent will be deployed and used to sync the user ssh keys, that the user attach to the created cluster. If the agent was disabled, it won't be deployed in the user cluster, thus after the cluster creation any attached ssh keys won't be synced to the worker nodes. Once the agent is enabled/disabled it cannot be changed after the cluster is being created. |
 | `enableOperatingSystemManager` _boolean_ | EnableOperatingSystemManager enables OSM which in-turn is responsible for creating and managing worker node configuration |
-| `podNodeSelectorAdmissionPluginConfig` _object (keys:string, values:string)_ | PodNodeSelectorAdmissionPluginConfig provides the configuration for the PodNodeSelector. It's used by the backend to create a configuration file for this plugin. The key:value from the map is converted to the namespace:<node-selectors-labels> in the file. The format in a file: podNodeSelectorPluginConfig:  clusterDefaultNodeSelector: <node-selectors-labels>  namespace1: <node-selectors-labels>  namespace2: <node-selectors-labels> |
+| `podNodeSelectorAdmissionPluginConfig` _object (keys:string, values:string)_ | PodNodeSelectorAdmissionPluginConfig provides the configuration for the PodNodeSelector. It's used by the backend to create a configuration file for this plugin. The key:value from the map is converted to the namespace:\<node-selectors-labels\> in the file. The format in a file: podNodeSelectorPluginConfig:  clusterDefaultNodeSelector: \<node-selectors-labels\>  namespace1: \<node-selectors-labels\>  namespace2: \<node-selectors-labels\> |
 | `eventRateLimitConfig` _[EventRateLimitConfig](#eventratelimitconfig)_ | EventRateLimitConfig allows configuring the EventRateLimit admission plugin (if enabled via useEventRateLimitAdmissionPlugin) to create limits on Kubernetes event generation. The EventRateLimit plugin is capable of comparing incoming Events to several configured buckets based on the type of event rate limit. |
 | `admissionPlugins` _string array_ | AdmissionPlugins provides the ability to pass arbitrary names of admission plugins to kube-apiserver |
 | `auditLogging` _[AuditLoggingSettings](#auditloggingsettings)_ |  |
@@ -1988,7 +1988,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `name` _string_ | Name defines the name of the backup The name of the backup file in S3 will be <cluster>-<backup name> If a schedule is set (see below), -<timestamp> will be appended. |
+| `name` _string_ | Name defines the name of the backup The name of the backup file in S3 will be \<cluster\>-\<backup name\> If a schedule is set (see below), -\<timestamp\> will be appended. |
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectreference-v1-core)_ | Cluster is the reference to the cluster whose etcd will be backed up |
 | `schedule` _string_ | Schedule is a cron expression defining when to perform the backup. If not set, the backup is performed exactly once, immediately. |
 | `keep` _integer_ | Keep is the number of backups to keep around before deleting the oldest one If not set, defaults to DefaultKeptBackupsCount. Only used if Schedule is set. |
@@ -2091,7 +2091,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `name` _string_ | Name defines the name of the restore The name of the restore file in S3 will be <cluster>-<restore name> If a schedule is set (see below), -<timestamp> will be appended. |
+| `name` _string_ | Name defines the name of the restore The name of the restore file in S3 will be \<cluster\>-\<restore name\> If a schedule is set (see below), -\<timestamp\> will be appended. |
 | `cluster` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#objectreference-v1-core)_ | Cluster is the reference to the cluster whose etcd will be backed up |
 | `backupName` _string_ | BackupName is the name of the backup to restore from |
 | `backupDownloadCredentialsSecret` _string_ | BackupDownloadCredentialsSecret is the name of a secret in the cluster-xxx namespace containing credentials needed to download the backup |
