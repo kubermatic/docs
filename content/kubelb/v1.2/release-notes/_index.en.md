@@ -9,8 +9,35 @@ weight = 60
 - [v1.2.0](#v120)
   - [Community Edition](#community-edition)
   - [Enterprise Edition](#enterprise-edition)
+- [v1.2.1](#v121)
 
-**Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.1.0...v1.2.0>
+## v1.2.1
+
+**GitHub release: [v1.2.1](https://github.com/kubermatic/kubelb/releases/tag/v1.2.1)**
+
+### Features
+
+- HTTP2 and TCP keep-alive have been configured for Envoy Proxy. This circumvents an issue where a drop in connection from the envoy proxy -> envoy XDS left the envoy proxy in a dead/blocked state. ([#164](https://github.com/kubermatic/kubelb/pull/164))
+- Configure health checks for Envoy Proxy upstream endpoints. ([#153](https://github.com/kubermatic/kubelb/pull/153))
+  - Add startup-, liveness, and readiness probes to tenant envoy-proxy
+  - Enable Prometheus metrics for tenant envoy-proxy
+- Upgrade to Envoy Gateway v1.5.4. ([#155](https://github.com/kubermatic/kubelb/pull/155))
+- KubeLB addons v0.2.0 has been released. ([#155](https://github.com/kubermatic/kubelb/pull/155))
+- Log level for CCM and KubeLB can now be configured using helm charts. ([#152](https://github.com/kubermatic/kubelb/pull/152))
+
+### Bug or Regression
+
+- Skip nodes that are not ready from upstream address pool. ([#166](https://github.com/kubermatic/kubelb/pull/166))
+- Fix a bug where resource names, specially for services, were not being truncated properly to avoid 63 character limit from Kubernetes. ([#159](https://github.com/kubermatic/kubelb/pull/159))
+- KubeLB will retain annotations on generated/propagated resources like service, Ingress, Gateway API objects if they were added either manually or by external controllers. ([#170](https://github.com/kubermatic/kubelb/pull/170))
+- [CE Only] Remove namespace from parentRefs for Gateway API resources. ([#157](https://github.com/kubermatic/kubelb/pull/157))
+- [EE Only] Fix a bug where the gateway would not be created if the namespace was not found.
+
+#### Other (Cleanup, Flake, or Chore)
+
+- Annotate KubeLB created envoy-proxies with well-known labels. ([#173](https://github.com/kubermatic/kubelb/pull/173))
+
+**Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.2.0...v1.2.1>
 
 ## v1.2.0
 

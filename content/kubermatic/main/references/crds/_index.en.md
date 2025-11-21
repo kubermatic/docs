@@ -2404,6 +2404,7 @@ _Appears in:_
 | `operatingSystemManager` _[OSMControllerSettings](#osmcontrollersettings)_ | {{< unsafe >}}OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller).{{< /unsafe >}} |
 | `coreDNS` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}CoreDNS configures CoreDNS deployed as part of the cluster control plane.{{< /unsafe >}} |
 | `kubeStateMetrics` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}KubeStateMetrics configures kube-state-metrics settings deployed by the monitoring controller.{{< /unsafe >}} |
+| `machineController` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}MachineController configures the Kubermatic machine-controller deployment.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4462,6 +4463,25 @@ _Appears in:_
 
 
 
+### KubeLBConfiguration
+
+
+
+KubeLBConfiguration configures KubeLB.
+
+_Appears in:_
+- [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `imageRepository` _string_ | {{< unsafe >}}ImageRepository is used to override the KubeLB image repository.<br />It is only for development, tests and PoC purposes. This field must not be set in production environments.{{< /unsafe >}} |
+| `imageTag` _string_ | {{< unsafe >}}ImageTag is used to override the KubeLB image.<br />It is only for development, tests and PoC purposes. This field must not be set in production environments.<br />KKP is responsible for deploying KubeLB along with it's CRDs, RBAC, etc. The tag here is only for the KubeLB CCM container image.<br />Thus if you are using official KubeLB image, upgrades to newer minor or major version of KubeLB is not supported and only patch versions should be adjusted.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### KubeLBDatacenterSettings
 
 
@@ -4976,6 +4996,7 @@ _Appears in:_
 | `apiserverReplicas` _integer_ | {{< unsafe >}}APIServerReplicas configures the replica count for the API-Server deployment inside user clusters.{{< /unsafe >}} |
 | `machineController` _[MachineControllerConfiguration](#machinecontrollerconfiguration)_ | {{< unsafe >}}MachineController configures the Machine Controller{{< /unsafe >}} |
 | `operatingSystemManager` _[OperatingSystemManager](#operatingsystemmanager)_ | {{< unsafe >}}OperatingSystemManager configures the image repo and the tag version for osm deployment.{{< /unsafe >}} |
+| `kubelb` _[KubeLBConfiguration](#kubelbconfiguration)_ | {{< unsafe >}}KubeLB configures the kubeLB component.{{< /unsafe >}} |
 
 
 [Back to top](#top)

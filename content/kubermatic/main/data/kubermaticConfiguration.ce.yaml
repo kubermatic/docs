@@ -30,7 +30,7 @@ spec:
       # Claims lists the names of resources, defined in spec.resourceClaims,
       # that are used by this container.
 
-      # This is an alpha field and requires enabling the
+      # This field depends on the
       # DynamicResourceAllocation feature gate.
 
       # This field is immutable. It can only be set for containers.
@@ -102,7 +102,7 @@ spec:
         # Claims lists the names of resources, defined in spec.resourceClaims,
         # that are used by this container.
 
-        # This is an alpha field and requires enabling the
+        # This field depends on the
         # DynamicResourceAllocation feature gate.
 
         # This field is immutable. It can only be set for containers.
@@ -218,7 +218,7 @@ spec:
       # Claims lists the names of resources, defined in spec.resourceClaims,
       # that are used by this container.
 
-      # This is an alpha field and requires enabling the
+      # This field depends on the
       # DynamicResourceAllocation feature gate.
 
       # This field is immutable. It can only be set for containers.
@@ -345,7 +345,7 @@ spec:
       # Claims lists the names of resources, defined in spec.resourceClaims,
       # that are used by this container.
 
-      # This is an alpha field and requires enabling the
+      # This field depends on the
       # DynamicResourceAllocation feature gate.
 
       # This field is immutable. It can only be set for containers.
@@ -383,7 +383,7 @@ spec:
       # Claims lists the names of resources, defined in spec.resourceClaims,
       # that are used by this container.
 
-      # This is an alpha field and requires enabling the
+      # This field depends on the
       # DynamicResourceAllocation feature gate.
 
       # This field is immutable. It can only be set for containers.
@@ -496,6 +496,17 @@ spec:
     etcdLauncherDockerRepository: quay.io/kubermatic/etcd-launcher
     # EtcdVolumeSize configures the volume size to use for each etcd pod inside user clusters.
     etcdVolumeSize: 5Gi
+    # KubeLB configures the kubeLB component.
+    kubelb:
+      # ImageRepository is used to override the KubeLB image repository.
+      # It is only for development, tests and PoC purposes. This field must not be set in production environments.
+      imageRepository: ""
+      # ImageTag is used to override the KubeLB image.
+      # It is only for development, tests and PoC purposes. This field must not be set in production environments.
+
+      # KKP is responsible for deploying KubeLB along with it's CRDs, RBAC, etc. The tag here is only for the KubeLB CCM container image.
+      # Thus if you are using official KubeLB image, upgrades to newer minor or major version of KubeLB is not supported and only patch versions should be adjusted.
+      imageTag: ""
     # KubermaticDockerRepository is the repository containing the Kubermatic user-cluster-controller-manager image.
     kubermaticDockerRepository: quay.io/kubermatic/kubermatic
     # MachineController configures the Machine Controller
@@ -562,7 +573,7 @@ spec:
   # Versions configures the available and default Kubernetes versions and updates.
   versions:
     # Default is the default version to offer users.
-    default: v1.33.5
+    default: v1.33.6
     # ExternalClusters contains the available and default Kubernetes versions and updates for ExternalClusters.
     externalClusters:
       aks:
@@ -635,17 +646,21 @@ spec:
       - v1.31.10
       - v1.31.11
       - v1.31.13
+      - v1.31.14
       - v1.32.1
       - v1.32.3
       - v1.32.4
       - v1.32.6
       - v1.32.7
       - v1.32.9
+      - v1.32.10
       - v1.33.0
       - v1.33.2
       - v1.33.3
       - v1.33.5
+      - v1.33.6
       - v1.34.1
+      - v1.34.2
   # VerticalPodAutoscaler configures the Kubernetes VPA integration.
   verticalPodAutoscaler:
     admissionController:
@@ -656,7 +671,7 @@ spec:
         # Claims lists the names of resources, defined in spec.resourceClaims,
         # that are used by this container.
 
-        # This is an alpha field and requires enabling the
+        # This field depends on the
         # DynamicResourceAllocation feature gate.
 
         # This field is immutable. It can only be set for containers.
@@ -681,7 +696,7 @@ spec:
         # Claims lists the names of resources, defined in spec.resourceClaims,
         # that are used by this container.
 
-        # This is an alpha field and requires enabling the
+        # This field depends on the
         # DynamicResourceAllocation feature gate.
 
         # This field is immutable. It can only be set for containers.
@@ -706,7 +721,7 @@ spec:
         # Claims lists the names of resources, defined in spec.resourceClaims,
         # that are used by this container.
 
-        # This is an alpha field and requires enabling the
+        # This field depends on the
         # DynamicResourceAllocation feature gate.
 
         # This field is immutable. It can only be set for containers.
@@ -739,7 +754,7 @@ spec:
       # Claims lists the names of resources, defined in spec.resourceClaims,
       # that are used by this container.
 
-      # This is an alpha field and requires enabling the
+      # This field depends on the
       # DynamicResourceAllocation feature gate.
 
       # This field is immutable. It can only be set for containers.

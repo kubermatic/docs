@@ -14,6 +14,28 @@ weight = 60
 - [v1.1.3](#v113)
 - [v1.1.4](#v114)
 - [v1.1.5](#v115)
+- [v1.1.6](#v116)
+
+## v1.1.6
+
+**GitHub release: [v1.1.6](https://github.com/kubermatic/kubelb/releases/tag/v1.1.6)**
+
+### Features
+
+- Health Checks for Envoy Proxy have been introduced. ([#165](https://github.com/kubermatic/kubelb/pull/165))
+  - HTTP2 and TCP keep-alive have been configured for Envoy Proxy. This circumvents an issue where a drop in connection from the envoy proxy -> envoy XDS left the envoy proxy in a dead/blocked state.
+  - Startup, liveness, and readiness probes have been added to tenant envoy-proxy
+  - Prometheus metrics have been enabled for tenant envoy-proxy
+
+### Bug or Regression
+
+- KubeLB will retain annotations on generated/propagated resources like service, Ingress, Gateway API objects if they were added either manually or by external controllers. ([#170](https://github.com/kubermatic/kubelb/pull/170))
+- Skip nodes that are not ready from upstream address pool. ([#167](https://github.com/kubermatic/kubelb/pull/167))
+- Fix a bug where resource names, specially for services, were not being truncated properly to avoid 63 character limit from Kubernetes. ([#160](https://github.com/kubermatic/kubelb/pull/160))
+- [CE Only] Remove namespace from parentRefs for Gateway API resources. ([#156](https://github.com/kubermatic/kubelb/pull/156))
+- [EE Only] Fix a bug where the gateway would not be created if the namespace was not found.
+
+**Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.1.5...v1.1.6>
 
 ## v1.1.5
 
@@ -28,6 +50,8 @@ weight = 60
 ### Other (Cleanup, Flake, or Chore)
 
 - Envoy: `no_traffic_interval` for upstream endpoints health check has been reduced to 5s from the default of 60s. Envoy will start sending health checks to a new cluster after 5s now. ([#93](https://github.com/kubermatic/kubelb/pull/106))
+
+**Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.1.4...v1.1.5>
 
 ## v1.1.4
 

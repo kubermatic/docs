@@ -11,6 +11,8 @@ kubermatic:
   versions:
     - release: main
       name: main
+    - release: v2.29
+      name: v2.29
     - release: v2.28
       name: v2.28
     - release: v2.27
@@ -119,3 +121,22 @@ machine-controller:
   versions:
     - release: main
       name: main
+kubermatic-virtualization:
+  name: kubermatic-virtualization
+  logo: "img/logo-kubermatic.svg"
+  title: Kubermatic-Virtualization
+  textName: Kubermatic Virtualization
+  description: Seamlessly modernize your infrastructure by building your private cloud entirely with Kubernetes.
+  weight: 1
+  shareImage: img/share-kubermatic.png
+  versions:
+    - release: main
+      name: main
+# do not yet reveal KDP to the public
+# developer-platform:
+#   name: developer-platform
+#   logo: "/img/developer-platform/common/logo.png"
+#   title: Kubermatic Developer Platform
+#   description: <TODO>
+#   weight: 6
+#   shareImage: img/share-developer-platform.png

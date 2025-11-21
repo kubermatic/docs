@@ -6,3 +6,8 @@ chapter = true
 +++
 
 # Security
+
+## Table of Content
+
+{{% children depth=5 %}}
+{{% /children %}}
