@@ -42,6 +42,7 @@ metadata:
   name: <<mykubermatic>>
   namespace: kubermatic
 spec:
+  userCluster:
     # Monitoring can be used to fine-tune to in-cluster Prometheus.
     monitoring:
       # CustomRules can be used to inject custom recording and alerting rules. This field
@@ -56,7 +57,7 @@ spec:
             rules:
               - alert: MyCustomAlert
                 annotations:
-                  message: Something happened in {{ $labels.namespace }}
+                  message: Something happened in {{`{{ $labels.namespace }}`}}
                 expr: |
                   sum(rate(machine_controller_errors_total[5m])) by (namespace) > 0.01
                 for: 10m
