@@ -1,6 +1,6 @@
 items:
   - title: Products
-    url: /products/kubermatic-kubernetes-platform/
+    url: /#products
     class: menu-groups menu-groups--products
     sections:
       - title: Products
@@ -109,12 +109,31 @@ items:
                       url: /products/kubermatic-kubeone/cloud/#digitalocean
                     - title: Equinix Metal
                       url: /products/kubermatic-kubeone/cloud/#equinix-metal
-          - title: Kubermatic KubeLB
+          - title: Kubermatic Load Balancer
             url: /products/kubelb/
             text: Cloud Native Multi-Tenant Load Balancing
             noArrowIcon: true
             panel:
+              summary: Welcome to Kubermatic Load Balancer, the next-generation application delivery platform designed for cloud-native architectures. As cloud-native have evolved, Kubermatic Load Balancer offers a multi-tenancy approach to load balancing, providing seamless scalability, security, and management for distributed applications and teams.
               image: /img/menu/kubelb.jpg
+              columns:
+                - column:
+          - title: Kubermatic Virtualization
+            url: /products/kubermatic-virtualization/
+            text: Seamlessly build your private cloud entirely with Kubernetes
+            noArrowIcon: true
+            panel:
+              summary: Simplify your operations and streamline your infrastructure with a platform that integrates Kubernetes and virtualized workloads. Enjoy enhanced networking and storage capabilities to fully support your organization's cloud needs.
+              image: /img/menu/kubermatic-virtualization.jpg
+              columns:
+                - column:
+          - title: Kubermatic Developer Platform
+            url: /products/kubermatic-developer-platform/
+            text: Empower Developers and Accelerate Innovation
+            noArrowIcon: true
+            panel:
+              summary: Maximize developer productivity and accelerate innovation with Kubermatic Developer Platform (KDP). Powered by Kubernetes API and based on [CNCF Sandbox project kcp](https://www.cncf.io/projects/kcp/), our cutting-edge internal developer platform enables the seamless creation and management of services backed by a centralized catalog.
+              image: /img/menu/kubermatic-developer-platform.jpg
               columns:
                 - column:
           - title: Kubermatic Kubernetes Subscription
@@ -233,6 +252,10 @@ items:
           - title: Kubernetes for 5G
             url: /solutions/5g/
             text: Run 5G from the data center to the cloud to the edge
+          - title: AI infrastructure platform
+            url: /products/kubermatic-kubernetes-platform/ai-native-infrastructure-platform-by-kkp/
+          - title: Application backups
+            url: /products/kubermatic-kubernetes-platform/backups/
   - title: Services
     url: /services/
     footer: false

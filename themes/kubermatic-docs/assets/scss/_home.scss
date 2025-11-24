@@ -70,8 +70,9 @@
   border-radius: 3px;
   &:hover {
     .tile-btn {
-      background-color: var(--MAIN-ACCENT-HOVER-color);
+      background-color: var(--MAIN-ACCENT-color);
       color: var(--WHITE-color);
+      border-color: var(--MAIN-ACCENT-color);
     }
   }
 }
@@ -106,10 +107,11 @@
   box-sizing: border-box;
   display: inline-block;
   padding: 6px 11px;
-  border: 2px solid var(--MAIN-ACCENT-HOVER-color);
+  background-color: var(--GOLD-color);
+  border: 2px solid var(--GOLD-color);
   border-radius: 3px;
   text-align: center;
-  color: var(--MAIN-TEXT-color);
+  color: var(--MAIN-HEADER-color);
   transition: .3s ease;
   text-decoration: none;
 }
