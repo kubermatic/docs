@@ -76,6 +76,7 @@ metadata:
   name: <<mykubermatic>>
   namespace: kubermatic
 spec:
+  userCluster:
     # Monitoring can be used to fine-tune to in-cluster Prometheus.
     monitoring:
       # DisableDefaultRules disables the recording and alerting rules.
@@ -97,6 +98,7 @@ metadata:
   name: <<mykubermatic>>
   namespace: kubermatic
 spec:
+  userCluster:
     # Monitoring can be used to fine-tune to in-cluster Prometheus.
     monitoring:
       # CustomScrapingConfigs can be used to inject custom scraping rules. This must be a
@@ -126,6 +128,7 @@ metadata:
   name: <<mykubermatic>>
   namespace: kubermatic
 spec:
+  userCluster:
     # Monitoring can be used to fine-tune to in-cluster Prometheus.
     monitoring:
       # DisableDefaultScrapingConfigs disables the default scraping targets.
