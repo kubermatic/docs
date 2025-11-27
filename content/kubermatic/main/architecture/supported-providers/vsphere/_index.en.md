@@ -42,6 +42,22 @@ When creating worker nodes for a user cluster, the user can specify an existing 
 Modifications like network, disk size, etc. must be done in the ova template before creating a worker node from it.
 If user clusters have dedicated networks, all user clusters therefore need a custom template.
 
+#### Improving Disk Performance with Multiple PV-SCSI Controllers
+
+For better I/O performance in vSphere environments, it is recommended to configure your worker node template with multiple **Paravirtual SCSI (PV-SCSI) controllers**.  
+This allows the vSphere CSI driver to distribute additional datastores across different controllers, reducing contention and improving throughput.
+
+##### Steps
+
+1. When creating the VM template, add **3 additional PV-SCSI controllers** (in addition to the default one).
+2. Ensure all controllers are set to **Paravirtual** mode.
+3. Assign the boot disk to the first controller; CSI-provisioned volumes will automatically use the others.
+
+##### References
+
+- GitHub Issue: [Is it safe to use VMs configured with multiple SCSI controllers?](https://github.com/kubernetes-sigs/vsphere-csi-driver/issues/633)
+- VMware KB: [VMware recommends implementing multiple SCSI controllers](https://knowledge.broadcom.com/external/article/392848/vms-with-multiple-vmdks-report-high-disk.html#:~:text=VMware%20recommends%20implementing%20multiple%20SCSI%20controllers)
+
 ## VM Folder
 
 During creation of a user cluster Kubermatic Kubernetes Platform (KKP) creates a dedicated VM folder in the root path on the Datastore (Defined in the [seed cluster `spec.datacenters.EXAMPLEDC.vsphere.datastore`]({{< ref "../../../tutorials-howtos/project-and-cluster-management/seed-cluster" >}})).
