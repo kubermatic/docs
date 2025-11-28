@@ -5,6 +5,10 @@ weight = 11
 
 +++
 
+{{% notice warning %}}
+OPA (Open Policy Agent) has been deprecated in KKP 2.28 and will be removed in a future release. [Kyverno]({{< ref "../kyverno-policies/" >}}) has replaced it as an Enterprise Edition feature for policy management.
+{{% /notice %}}
+
 This manual explains how Kubermatic integrates with OPA and how to use it.
 
 ## OPA
