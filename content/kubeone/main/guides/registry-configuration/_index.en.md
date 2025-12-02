@@ -16,23 +16,14 @@ have access to the original registries (e.g. you're having an offline setup)
 or if you want to workaround Docker Hub pull limits. To accomplish this, this
 guide uses the [RegistryConfiguration API][regconfig-api].
 
-{{% notice note %}}
-The RegistryConfiguration API can currently only override all image registries,
-including non-Docker registries such as `k8s.gcr.io` and `quay.io`. We're
-planning to extend the functionality in KubeOne 1.4 to allow overriding only
-`docker.io` registry.
-{{% /notice %}}
-
 ## Prerequisites
 
 This guide assumes that:
 
-* you have an image registry up and running
-* all your nodes in the cluster can access the image registry
-* the image registry allows unauthenticated access (support for providing
-  image registry credentials is planned for KubeOne 1.4)
-* if you're using containerd for your cluster, the image registry must support
-  TLS
+* You have an image registry up and running
+* All your nodes in the cluster can access the image registry
+* The image registry allows unauthenticated access (support for providing image registry credentials is planned for KubeOne 1.4)
+* If you're using containerd for your cluster, the image registry must support TLS
 
 If you don't have an image registry, you can check out the
 [Docker Registry][docker-reg-guide] as a possible solution.
@@ -56,7 +47,7 @@ kubeone mirror-images \
   [--filter base,optional,control-plane] \
   [--kubernetes-versions v1.34.1,v1.33.5] \
   [--insecure]  # Allow pushing to insecure registries (HTTP) \
-  --registry <your-registry> 
+  --registry <your-registry>
 ```
 
 #### Key Flags:
@@ -74,7 +65,7 @@ kubeone mirror-images \
 kubeone mirror-images \
   --filter base \
   --kubernetes-versions v1.34.1,v1.33.5 \
-  registry.example.com:5000 
+  registry.example.com:5000
 ```
 
 #### 2. Mirror Only Control-Plane Images For All Supported Versions
@@ -117,20 +108,13 @@ option is not supported, i.e. your image registry **must** support the TLS
 access.
 {{% /notice %}}
 
-With this done, you can reconcile your cluster by running `kubeone apply`.
+With this done, you can reconcile your cluster by running `kubeone apply --force-upgrade`.
 
 ## Known Issues
 
-Kubeadm uses different semantics for overriding the CoreDNS image registry.
-The image that will be used for CoreDNS depends on the Kubernetes version:
+Kubeadm uses `<your-registry>/coredns:<tag>` semantics for overriding the CoreDNS image registry from Kubernetes 1.22+ release.
 
-* for 1.21 => `<your-registry>/coredns/coredns:<tag>` will be used as the
-  CoreDNS image
-* for all other release (including 1.22+) => `<your-registry>/coredns:<tag>`
-  will be used as the CoreDNS image
-
-The image loader script that comes with KubeOne 1.3.3 or newer has been fixed
-to specially address this case. If you're using a custom solution for
+The image loader script that comes with KubeOne has addressed this case. If you're using a custom solution for
 preloading images, please make sure to handle this case as appropriate.
 
 ## Alternatives
@@ -141,25 +125,8 @@ possible alternatives that should be used **ONLY** in the case when you are
 **NOT** able to use the approach described above.
 {{% /notice %}}
 
-{{% notice note %}}
-We plan on introducing a new registry mirrors functionality in KubeOne 1.4 as
-an alternative to the overwrite registry functionality. The new functionality
-will be able to override only specific registries such as `docker.io`.
-{{% /notice %}}
-
-The alternative to the RegistryConfiguration API if you don't want to override
-image registry for all images is to change the YAML manifests used by KubeOne
-to deploy the desired component. This can be done by overriding the appropriate
-embedded addon which deploys the desired component, as described in the
-[Addons document][override-addons].
-
-{{% notice warning %}}
-If you're overriding addons, you **MUST** manually update the desired addons
-when updating KubeOne, or otherwise, you might end up with a non-working
-cluster.
-{{% /notice %}}
+As an alternative, you can follow the [Using Mirror Registries]({{< ref "../mirror-registries" >}}) guide.
 
 [regconfig-api]: {{< ref "../../references/kubeone-cluster-v1beta2#registryconfiguration" >}}
 [docker-reg-guide]: https://docs.docker.com/registry/
 [img-loader]: https://github.com/kubermatic/kubeone/blob/main/hack/image-loader.sh
-[override-addons]: {{< ref "../addons#overriding-embedded-eddons" >}}

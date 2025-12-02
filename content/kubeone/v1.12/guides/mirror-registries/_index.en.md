@@ -5,15 +5,6 @@ date = 2021-12-01T12:00:00+02:00
 
 ## Introduction
 
-{{% notice warning %}}
-The ContainerRegistry API is available only starting with KubeOne 1.4 and
-newer. Additionally, Docker supports only configuring the mirror registry for
-`docker.io` images. As an alternative, you can follow the
-[Overwriting Image Registries guide]({{< ref "../registry-configuration" >}})
-guide, however it's considered as legacy. We recommend upgrading to KubeOne 1.4
-and migrating to containerd.
-{{% /notice %}}
-
 This guide describes how to use mirror registries for images deployed by
 KubeOne (Kubernetes core components, CNI plugins...). This is useful if don't
 have access to the original registries (e.g. you're having an offline setup)
@@ -24,8 +15,8 @@ guide uses the [ContainerRegistry API][containerreg-api].
 
 This guide assumes that:
 
-* you have an image registry up and running
-* all your nodes in the cluster can access the image registry
+* You have an image registry up and running
+* All your nodes in the cluster can access the image registry
 
 If you don't have an image registry, you can check out the
 [Docker Registry][docker-reg-guide] as a possible solution.
@@ -43,7 +34,7 @@ stanza to your KubeOne configuration file, such as:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.32.4
+  kubernetes: 1.34.1
 cloudProvider:
   aws: {}
 containerRuntime:
@@ -112,7 +103,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: 1.32.4
+  kubernetes: 1.34.1
 
 containerRuntime:
   containerd:
@@ -121,6 +112,10 @@ containerRuntime:
         mirrors:
         - mirror.gcr.io
 ```
+
+## Alternatives
+
+As an alternative, you can follow the [Overwriting Image Registries]({{< ref "../registry-configuration" >}}) guide, however it's considered as legacy.
 
 [containerreg-api]: {{< ref "../../references/kubeone-cluster-v1beta2#containerruntimecontainerd" >}}
 [containerruntime-containerd]: {{< ref "../../references/kubeone-cluster-v1beta2#containerruntimecontainerd" >}}

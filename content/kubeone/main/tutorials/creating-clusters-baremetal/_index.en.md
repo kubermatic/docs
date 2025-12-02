@@ -260,18 +260,18 @@ In the following table, you can find a list of supported Kubernetes version
 for latest KubeOne versions (you can run `kubeone version` to find the version
 that you're running).
 
-| KubeOne \ Kubernetes | 1.33 | 1.32 | 1.31 | 1.30 | 1.29[^1] |
+| KubeOne \ Kubernetes | 1.34 | 1.33 | 1.32 | 1.31 | 1.30[^1] |
 | -------------------- | ---- | ---- | ---- | -----| -------- |
-| v1.11                | ✓   | ✓   | ✓   | -    | -        |
-| v1.10                | -    | ✓   | ✓   | ✓   | -        |
-| v1.9                 | -    | -    | ✓   | ✓   | ✓       |
+| v1.12                | ✓   | ✓   | ✓   | -    | -        |
+| v1.11                | -    | ✓   | ✓   | ✓   | -        |
+| v1.10                 | -    | -    | ✓   | ✓   | ✓       |
 
-[^1]: Kubernetes 1.29 has reached End-of-Life (EOL) and is not supported any longer.
+[^1]: Kubernetes 1.30 has reached End-of-Life (EOL) and is not supported any longer.
 We strongly recommend upgrading to a newer supported Kubernetes release as soon as possible.
 
 We recommend using a Kubernetes release that's not older than one minor release
-than the latest Kubernetes release. For example, with 1.32 being the latest
-release, we recommend running at least Kubernetes 1.31.
+than the latest Kubernetes release. For example, with 1.34 being the latest
+release, we recommend running at least Kubernetes 1.33.
 
 Now, we're ready to provision the cluster! This is done by running the
 `kubeone apply` command and providing it the configuration manifest.
