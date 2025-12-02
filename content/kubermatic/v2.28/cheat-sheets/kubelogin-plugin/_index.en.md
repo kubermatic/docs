@@ -8,7 +8,7 @@ In this document, we will describe the using [kubelogin plugin](https://github.c
 
 `kubelogin` is a kubectl plugin for Kubernetes OpenID Connect (OIDC) authentication, also known as `kubectl oidc-login`.
 
-## Installation
+## Client Installation
 
 Install the latest release from Homebrew, Krew, Chocolatey or GitHub Releases.
 
@@ -23,7 +23,7 @@ kubectl krew install oidc-login
 choco install kubelogin
 ```
 
-## Update KKP Settings
+## Initial Setup for kubelogin support: Configure KKP Settings
 
 When the plugin is executed, it starts the local server at port 8000 or 18000 by default. You need to register the following redirect URIs to the provider:
 

@@ -1,8 +1,10 @@
 +++
-title = "Using kubectl"
-date = 2019-11-13T12:07:15+02:00
+title = "Using kubectl & kubelogin"
+date = 2025-11-18T12:07:15+02:00
 weight = 70
 +++
+
+## User Cluster kubeconfig Access
 
 Using kubectl requires the installation of kubectl on your system as well as downloading of kubeconfig on the cluster UI page.
 See the [Official kubectl Install Instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/) for a tutorial on how to install kubectl on your system. Once you have installed it, download the kubeconfig. The below steps will guide you on how to download a kubeconfig.
@@ -12,11 +14,23 @@ To download the kubeconfig, navigate to `Clusters` and select the correct cluste
 ![Download config button in the top right corner](cluster-details-btn.png?classes=shadow,border "Download config button in the top right corner")
 
 After clicking on the button, a download kubeconfig dialog will be opened.
-You can choose the Kubeconfig authentication method — either KKP API or OIDC-kubelogin.
+You can choose the Kubeconfig OIDC authentication method — either KKP API or OIDC-kubelogin.
 
 ![Download kubeconfig](@/images/ui/download-kubeconfig.png?classes=shadow,border "Download kubeconfig")
 
-The OIDC-kubelogin plugin starts a local server on port 8000 or 18000 by default.
+After you downloaded the kubeconfig file `kubeconfig-YOUR-CLUSTER-ID`, you can connect e.g. via CLI:
+```bash
+export KUBECONFIG=~/Downloads/kubeconfig-YOUR-CLUSTER-ID
+kubectl get nodes
+```
+
+If you are using the kubelogin plugin, the authentication screen will appear on the first usage of `kubectl` and your authentication token is expired. The redirect of the plugin will bring you to the OIDC login window to ensure your authentication:
+![oidc-authentication-window.png](oidc-authentication-window.png)
+
+
+## Initial KKP Configuration for kubelogin support
+
+As the OIDC-kubelogin plugin starts a local server on port 8000 or 18000 by default.
 To use the OIDC-kubelogin option, you need to register the following redirect URIs with your OIDC provider:
 
 ```text
@@ -41,6 +55,8 @@ To achieve this, add the following lines to your issuer configuration (most like
 
 Make sure to include the last two lines to enable local authentication via the OIDC-kubelogin plugin.
 
+## Access Token Revoke Option
+
 You can revoke access for already downloaded kubeconfigs by revoking the token on the cluster detail page. To do so, click on the three-dot settings icon on the right to see the option `Revoke Token`:
 
 ![Select Revoke Token](revoke-token-cluster.png?classes=shadow,border "Select Revoke Token")
@@ -49,11 +65,3 @@ Users in the groups `Owner` and `Editor` have an admin token in their kubeconfig
 
 ![Revoke the token](revoke-token-dialog.png?classes=shadow,border "Revoke the token")
 
-Once you have installed the kubectl and downloaded the kubeconfig, change into the download directory and export it to your environment:
-
-```bash
-$ export KUBECONFIG=$PWD/kubeconfig-admin-czmg7r2sxm
-$ kubectl version
-Client Version: version.Info{Major:"1", Minor:"13", GitVersion:"v1.13.0", GitCommit:"...", GitTreeState:"clean", BuildDate:"...", GoVersion:"go1.11.2", Compiler:"gc", Platform:"darwin/amd64"}
-Server Version: version.Info{Major:"1", Minor:"14", GitVersion:"v1.14.8", GitCommit:"...", GitTreeState:"clean", BuildDate:"...", GoVersion:"go1.12.10", Compiler:"gc", Platform:"linux/amd64"}
-```
