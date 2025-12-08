@@ -313,6 +313,7 @@ For AWS no root is required and we recommend the following IAM policy:
         "iam:GetRole",
         "iam:ListAttachedRolePolicies",
         "iam:ListRolePolicies",
+        "iam:PassRole",
         "iam:PutRolePolicy",
         "iam:TagRole"
       ],
@@ -336,6 +337,7 @@ For AWS no root is required and we recommend the following IAM policy:
         "ec2:DescribeRouteTables",
         "ec2:DescribeSecurityGroups",
         "ec2:DescribeSubnets",
+        "ec2:DescribeVpcAttribute",
         "ec2:DescribeVpcs",
         "ec2:RunInstances",
         "ec2:TerminateInstances"
