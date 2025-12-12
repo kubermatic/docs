@@ -9,10 +9,10 @@ running with Cilium CNI.
 
 ## Versions
 
-This guide was made for the following versions of KKP and Cilium:
+This guide should work for the following versions of KKP and Cilium:
 
-- KKP 2.22.0
-- Cilium 1.13.0
+- KKP 2.27+
+- Cilium 1.15+
 
 ## Prerequisites
 
@@ -26,13 +26,13 @@ Especially, keep in mind that nodes in all clusters must have IP connectivity be
 
 ## Deployment Steps
 
-### 1. Create 2 KKP User Clusters with non-overlapping pod CIDRs
+### Create 2 KKP User Clusters with non-overlapping pod CIDRs
 
 Create 2 user clusters with Cilium CNI and `ebpf` proxy mode (necessary to have Cluster Mesh working also for cluster-ingress traffic via LoadBalancer or NodePort services). The clusters need to have non-overlapping pod CIDRs, so at least one of them needs to have the `spec.clusterNetwork.pods.cidrBlocks` set to a non-default value (e.g. `172.26.0.0/16`).
 
 We will be referring to these clusters as `Cluster 1` and `Cluster 2` in this guide.
 
-### 2. Enable Cluster Mesh in the Cluster 1
+### Enable Cluster Mesh in the Cluster 1
 
 **In Cluster 1**, edit the Cilium ApplicationInstallation values (via UI, or `kubectl edit ApplicationInstallation cilium -n kube-system`),
 and add the following snippet to it:
@@ -53,7 +53,7 @@ clustermesh:
       type: LoadBalancer
 ```
 
-### 3. Retrieve Cluster Mesh data from the Cluster 1
+### Retrieve Cluster Mesh data from the Cluster 1
 
 **In Cluster 1**, retrieve the information necessary for the next steps:
 
@@ -75,7 +75,7 @@ Retrieve clustermesh-apiserver remote certs:
 kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
 ```
 
-### 4. Enable Cluster Mesh in the Cluster 2
+### Enable Cluster Mesh in the Cluster 2
 
 **In Cluster 2**, the Cilium ApplicationInstallation values, and add the following snippet to it
 (after replacing the values below the lines with comments with the actual values retrieved in the previous step):
@@ -100,20 +100,23 @@ clustermesh:
         cert: "<base64-encoded-cert>"
         # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 1
         key: "<base64-encoded-key>"
+        # ca.crt from clustermesh-apiserver-remote-cert secret in Cluster 1
+        caCert: "<base64-encoded-cacert>"
   apiserver:
     tls:
       auto:
         method: cronJob
-      ca:
-        # ca.crt from the cilium-ca secret in Cluster 1
-        cert: "<base64-encoded-cert>"
-        # ca.key from the cilium-ca secret in Cluster 1
-        key: "<base64-encoded-key>"
     service:
       type: LoadBalancer
+tls:
+  ca:
+    # ca.crt from the cilium-ca secret in Cluster 1
+    cert: "<base64-encoded-cert>"
+    # ca.key from the cilium-ca secret in Cluster 1
+    key: "<base64-encoded-key>"
 ```
 
-### 5. Retrieve Cluster Mesh data from the Cluster 2
+### Retrieve Cluster Mesh data from the Cluster 2
 
 **In Cluster 2**, retrieve the information necessary for the next steps:
 
@@ -129,7 +132,7 @@ Retrieve clustermesh-apiserver remote certs:
 kubectl get secret clustermesh-apiserver-remote-cert -n kube-system -o yaml
 ```
 
-### 6. Update Cluster Mesh config in the Cluster 1
+### Update Cluster Mesh config in the Cluster 1
 
 **In Cluster 1**, update the Cilium ApplicationInstallation values, and add the following clustermesh config with cluster-2 details into it:
 
@@ -150,27 +153,30 @@ clustermesh:
         cert: "<base64-encoded-cert>"
         # tls.key from clustermesh-apiserver-remote-cert secret in Cluster 2
         key: "<base64-encoded-key>"
+        # ca.crt from clustermesh-apiserver-remote-cert secret in Cluster 2
+        caCert: "<base64-encoded-cacert>"
   apiserver:
     tls:
       auto:
         method: cronJob
-      ca:
-        # ca.crt from the cilium-ca secret in Cluster 1 (important - not Cluster 2)
-        cert: "<base64-encoded-cert>"
-        # ca.key from the cilium-ca secret in Cluster 1 (important - not Cluster 2)
-        key: "<base64-encoded-key>"
     service:
       type: LoadBalancer
+tls:
+  ca:
+    # ca.crt from the cilium-ca secret in Cluster 1 (important - not Cluster 2)
+    cert: "<base64-encoded-cert>"
+    # ca.key from the cilium-ca secret in Cluster 1 (important - not Cluster 2)
+    key: "<base64-encoded-key>"
 ```
 
-### 7. Allow traffic between worker nodes of different clusters
+### Allow traffic between worker nodes of different clusters
 
 If any firewalling is in place between the worker nodes in different clusters, the following ports need to be allowed between them:
 
 - UDP 8472 (VXLAN)
 - TCP 4240 (HTTP health checks)
 
-### 8. Check Cluster Mesh status
+### Check Cluster Mesh status
 
 At this point, check Cilium health status in each cluster with:
 
