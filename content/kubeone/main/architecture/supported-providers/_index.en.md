@@ -19,6 +19,7 @@ KubeOne supports the following cloud providers:
 - DigitalOcean
 - GCP
 - Hetzner Cloud
+- KubeVirt
 - Nutanix
 - OpenStack
 - VMware Cloud Director
