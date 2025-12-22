@@ -57,12 +57,6 @@ clustermesh:
 
 **In Cluster 1**, retrieve the information necessary for the next steps:
 
-Retrieve CA cert & key:
-
-```bash
-kubectl get secret cilium-ca -n kube-system -o yaml
-```
-
 Retrieve clustermesh-apiserver external IP:
 
 ```bash
@@ -108,12 +102,6 @@ clustermesh:
         method: cronJob
     service:
       type: LoadBalancer
-tls:
-  ca:
-    # ca.crt from the cilium-ca secret in Cluster 1
-    cert: "<base64-encoded-cert>"
-    # ca.key from the cilium-ca secret in Cluster 1
-    key: "<base64-encoded-key>"
 ```
 
 ### Retrieve Cluster Mesh data from the Cluster 2
@@ -161,17 +149,11 @@ clustermesh:
         method: cronJob
     service:
       type: LoadBalancer
-tls:
-  ca:
-    # ca.crt from the cilium-ca secret in Cluster 1 (important - not Cluster 2)
-    cert: "<base64-encoded-cert>"
-    # ca.key from the cilium-ca secret in Cluster 1 (important - not Cluster 2)
-    key: "<base64-encoded-key>"
 ```
 
 ### Allow traffic between worker nodes of different clusters
 
-If any firewalling is in place between the worker nodes in different clusters, the following ports need to be allowed between them:
+If any firewall is in place between the worker nodes in different clusters, the following ports need to be allowed between them:
 
 - UDP 8472 (VXLAN)
 - TCP 4240 (HTTP health checks)
