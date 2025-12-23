@@ -1,5 +1,5 @@
 +++
-title = "Kyverno Policies (Beta)"
+title = "Kyverno Policies"
 date = 2025-06-11T12:00:00+02:00
 weight = 16
 enterprise = true
