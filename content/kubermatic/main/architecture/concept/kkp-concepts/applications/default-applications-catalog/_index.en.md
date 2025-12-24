@@ -16,6 +16,7 @@ Here is the list of the applications that come as part of the Default Applicatio
 * [Falco]({{< ref "./falco/" >}})
 * [Flux2]({{< ref "./flux2/" >}})
 * [K8sGPT-Operator]({{< ref "./k8sgpt-operator/" >}})
+* [Kubernetes MCP Server]({{< ref "./kubernetes-mcp-server/" >}})
 * [KubeVIP]({{< ref "./kube-vip/" >}})
 * [KubeVirt]({{< ref "./kubevirt/" >}})
 * [Kueue]({{< ref "./kueue/" >}})
