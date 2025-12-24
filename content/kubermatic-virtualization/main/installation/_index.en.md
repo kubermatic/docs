@@ -6,7 +6,7 @@ weight = 5
 
 ## Kubermatic Virtualization Installation Overview
 
-The **Kubermatic Virtualization** Installer offers multiple installation methods for deploying a **Kubermatic Virtualization** stack, enabling users to select the approach that best aligns with their operational preferences. You can choose between a guided, interactive installation or a fully automated, GitOps-driven workflow. Both methods also support **offline mode**, making them suitable for fully offline environments or air-gapped environements.
+The **Kubermatic Virtualization** Installer offers multiple installation methods for deploying a **Kubermatic Virtualization** stack, enabling users to select the approach that best aligns with their operational preferences. You can choose between a guided, interactive installation or a fully automated, GitOps-driven workflow. Both methods also support **offline mode**, making them suitable for fully offline environments or air-gapped environments.
 
 ## Interactive TUI Installation
 
