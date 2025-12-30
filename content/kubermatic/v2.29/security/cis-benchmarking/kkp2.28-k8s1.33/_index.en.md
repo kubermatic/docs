@@ -283,13 +283,41 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 ### 5.2. Pod Security Standards
 
+KKP applies Pod Security Admission (PSA) labels to user cluster namespaces to enforce security standards:
+
+**Privileged System Namespaces:**
+
+| Namespace | enforce | audit | warn | Description |
+|-----------|---------|-------|------|-------------|
+| kube-system | privileged | baseline | privileged | Kubernetes core components (CNI, CSI, node-local-dns) |
+| kube-public | privileged | baseline | privileged | Kubernetes public resources |
+| kube-node-lease | privileged | baseline | privileged | Node heartbeat leases |
+| cloud-init-settings | privileged | baseline | privileged | KKP cloud-init configuration |
+
+**Namespaces using baseline enforcement:**
+
+| Namespace | enforce | audit | warn | Description |
+|-----------|---------|-------|------|-------------|
+| default | baseline | baseline | baseline | User workloads |
+| kubernetes-dashboard | baseline | baseline | baseline | KKP dashboard service |
+
+{{% notice note %}}
+Privileged system namespaces contain components (CNI, CSI, node-local-dns) that need hostNetwork, hostPath volumes, and elevated capabilities to function. Baseline-enforced namespaces block dangerous pod configurations while allowing standard workloads.
+{{% /notice %}}
+
+To verify compliance for namespaces using baseline enforcement:
+
+```bash
+trivy k8s --include-namespaces default,kubernetes-dashboard --compliance=k8s-cis-1.23 --report summary
+```
+
 #### 5.2.2: Minimize the admission of privileged containers
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Baseline-enforced namespaces (default, kubernetes-dashboard) block privileged containers. Privileged system namespaces need it for CNI (cilium), CSI drivers, and node-local-dns._
 
 ---
 
@@ -313,9 +341,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Baseline-enforced namespaces block hostNetwork. Privileged system namespaces need hostNetwork for CNI (cilium) and node-local-dns._
 
 ---
 
@@ -323,9 +351,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Workloads in baseline-enforced namespaces (dashboard-metrics-scraper) set `allowPrivilegeEscalation: false`. Components in privileged system namespaces may not have this restriction._
 
 ---
 
@@ -333,9 +361,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Workloads in baseline-enforced namespaces set `runAsNonRoot: true` and run as non-root users. Components in privileged system namespaces may run as root._
 
 ---
 
@@ -343,9 +371,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Baseline-enforced namespaces drop NET_RAW. Components in privileged system namespaces (CNI) require this capability._
 
 ---
 
@@ -353,9 +381,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Workloads in baseline-enforced namespaces drop all capabilities with `capabilities.drop: ["ALL"]`. Components in privileged system namespaces require various capabilities._
 
 ---
 
@@ -363,9 +391,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Workloads in baseline-enforced namespaces drop all capabilities. Components in privileged system namespaces require various capabilities._
 
 ---
 
@@ -381,9 +409,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Baseline-enforced namespaces do not use hostPath volumes. Components in privileged system namespaces (CNI, CSI) require hostPath for node-level operations._
 
 ---
 
@@ -391,9 +419,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Baseline-enforced namespaces do not use hostPorts. Some components in privileged system namespaces may require hostPorts._
 
 ---
 
