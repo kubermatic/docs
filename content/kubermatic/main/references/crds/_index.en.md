@@ -2778,6 +2778,7 @@ _Appears in:_
 | `disableCsiDriver` _boolean_ | {{< unsafe >}}Optional: DisableCSIDriver disables the installation of CSI driver on every clusters within the DC<br />If true it can't be over-written in the cluster configuration{{< /unsafe >}} |
 | `kubelb` _[KubeLBDatacenterSettings](#kubelbdatacentersettings)_ | {{< unsafe >}}Optional: KubeLB holds the configuration for the kubeLB at the data center level.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
 | `apiServerServiceType` _[ServiceType](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#servicetype-v1-core)_ | {{< unsafe >}}APIServerServiceType is the service type used for API Server service `apiserver-external` for the user clusters.<br />By default, the type of service that will be used is determined by the `ExposeStrategy` used for the cluster.{{< /unsafe >}} |
+| `kyverno` _[KyvernoConfigurations](#kyvernoconfigurations)_ | {{< unsafe >}}Kyverno configures the Kyverno policy engine settings at the datacenter level.<br />These settings override seed and global configuration and apply to all user clusters<br />in this datacenter.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4997,6 +4998,7 @@ _Appears in:_
 | `machineController` _[MachineControllerConfiguration](#machinecontrollerconfiguration)_ | {{< unsafe >}}MachineController configures the Machine Controller{{< /unsafe >}} |
 | `operatingSystemManager` _[OperatingSystemManager](#operatingsystemmanager)_ | {{< unsafe >}}OperatingSystemManager configures the image repo and the tag version for osm deployment.{{< /unsafe >}} |
 | `kubelb` _[KubeLBConfiguration](#kubelbconfiguration)_ | {{< unsafe >}}KubeLB configures the kubeLB component.{{< /unsafe >}} |
+| `kyverno` _[KyvernoConfigurations](#kyvernoconfigurations)_ | {{< unsafe >}}Kyverno configures the Kyverno policy engine settings at the global level.<br />These settings apply to all user clusters unless overridden at seed or datacenter level.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5170,6 +5172,26 @@ _Appears in:_
 | `vpcName` _string_ | {{< unsafe >}}VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt.{{< /unsafe >}} |
 | `subnetName` _string_ | {{< unsafe >}}SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).{{< /unsafe >}} |
 | `csiDriverOperator` _[KubeVirtCSIDriverOperator](#kubevirtcsidriveroperator)_ | {{< unsafe >}}CSIDriverOperator configures the kubevirt csi driver operator.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### KyvernoConfigurations
+
+
+
+
+
+_Appears in:_
+- [DatacenterSpec](#datacenterspec)
+- [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
+- [SeedSpec](#seedspec)
+
+| Field | Description |
+| --- | --- |
+| `enforced` _boolean_ | {{< unsafe >}}Enforced indicates whether Kyverno enablement is mandatory at cluster.<br />When set to true at Datacenter, Seed, or KubermaticConfiguration level, user clusters under that scope<br />must have Kyverno enabled and cannot disable it.<br />If it is set to true, the Kyverno becomes enforced at this level, and will be deployed to user clusters under the scope.<br />If it is set to false, Kyverno is not enforced at this level.<br />If nil, no Kyverno enforcement preference is declared.<br />For example, if Kyverno is enforced at the Seed level, setting this to false at the Datacenter level makes the Datacenter not enforce Kyverno,<br />though other clusters in the Seed will still have Kyverno enforced.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -7041,6 +7063,7 @@ _Appears in:_
 | `managementProxySettings` _[ManagementProxySettings](#managementproxysettings)_ | {{< unsafe >}}ManagementProxySettings can be used if the KubeAPI of the user clusters<br />will not be directly available from kkp and a proxy in between should be used{{< /unsafe >}} |
 | `defaultAPIServerAllowedIPRanges` _string array_ | {{< unsafe >}}DefaultAPIServerAllowedIPRanges defines a set of CIDR ranges that are **always appended**<br />to the API server's allowed IP ranges for all user clusters in this Seed. These ranges<br />provide a security baseline that cannot be overridden by cluster-specific configurations.{{< /unsafe >}} |
 | `auditLogging` _[AuditLoggingSettings](#auditloggingsettings)_ | {{< unsafe >}}Optional: AuditLogging empowers admins to centrally configure Kubernetes API audit logging for all user clusters in the seed (https://kubernetes.io/docs/tasks/debug-application-cluster/audit/ ).{{< /unsafe >}} |
+| `kyverno` _[KyvernoConfigurations](#kyvernoconfigurations)_ | {{< unsafe >}}Kyverno configures the Kyverno policy engine settings at the seed level.<br />These settings apply to all user clusters in this seed.{{< /unsafe >}} |
 
 
 [Back to top](#top)
