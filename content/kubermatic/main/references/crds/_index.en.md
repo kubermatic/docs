@@ -5811,6 +5811,7 @@ _Appears in:_
 | --- | --- |
 | `hideErrors` _boolean_ | {{< unsafe >}}HideErrors will silence error notifications for the dashboard.{{< /unsafe >}} |
 | `hideErrorEvents` _boolean_ | {{< unsafe >}}HideErrorEvents will silence error events for the dashboard.{{< /unsafe >}} |
+| `enableThrottling` _boolean_ | {{< unsafe >}}EnableThrottling limits the frequency of notifications to prevent noise.{{< /unsafe >}} |
 
 
 [Back to top](#top)
