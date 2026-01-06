@@ -40,8 +40,8 @@ See [Cloud Providers]({{< ref "../references/cloud-providers/" >}}) for detailed
 Machine-controller supports:
 - Ubuntu (20.04, 22.04, 24.04 LTS)
 - Flatcar Container Linux
-- RHEL 8.x
-- Rocky Linux 8.5+
+- RHEL 8.x, 9.x
+- Rocky Linux 8.x, 9.x
 - Amazon Linux 2
 
 Support varies by cloud provider. See the [OS support matrix]({{< ref "../references/operating-systems/" >}}) for details.

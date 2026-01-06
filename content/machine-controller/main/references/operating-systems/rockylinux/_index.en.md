@@ -33,8 +33,8 @@ Rocky Linux is **not supported** on: Google Cloud Platform, Hetzner Cloud, Nutan
 
 Machine-controller officially supports:
 
-- **Rocky Linux 8.5+** (recommended)
-- **Rocky Linux 9.x** (newer versions)
+- **Rocky Linux 8.x** (stable)
+- **Rocky Linux 9.x** (latest)
 
 ## Configuration
 
