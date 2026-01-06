@@ -115,8 +115,8 @@ operatingsystemmanager:
   shareImage: img/share-operatingsystemmanager.png
 machine-controller:
   name: machine-controller
-  title: machine-controller
-  textName: machine-controller
+  title: Machine Controller
+  textName: Machine Controller
   description: Manage machines at cloud providers using a declarative Kubernetes API, compatible with the Kubernetes cluster-autoscaler.
   weight: 6
   shareImage: img/share-machine-controller.png
