@@ -33,7 +33,7 @@ KKP provides a default set of rules. However, new custom rules can be added, or 
 
 #### Custom rules
 
-Custom rules can be added by defining them as a YAML-formatted string under the `spec.monitoring.customRules` field.
+Custom rules can be added by defining them as a YAML-formatted string under the `spec.userCluster.monitoring.customRules` field.
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
@@ -88,7 +88,7 @@ The scraping behavior of Prometheus can be customized. New scraping configuratio
 
 #### Add Custom Scraping Configurations
 
-Custom scraping configurations can be specified by adding them under the `spec.monitoring.customScrapingConfigs` field.
+Custom scraping configurations can be specified by adding them under the `spec.userCluster.monitoring.customScrapingConfigs` field.
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
