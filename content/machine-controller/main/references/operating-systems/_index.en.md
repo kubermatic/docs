@@ -34,7 +34,7 @@ Flatcar is a minimal, container-optimized Linux distribution designed for runnin
 
 Enterprise-grade Linux distribution from Red Hat.
 
-- **Versions**: 8.x
+- **Versions**: 8.x, 9.x
 - **Support**: AWS, Azure, GCP, KubeVirt, OpenStack, vSphere
 - **Provisioning**: cloud-init
 - **Best for**: Enterprise environments requiring Red Hat support
@@ -45,7 +45,7 @@ Enterprise-grade Linux distribution from Red Hat.
 
 Community-driven enterprise OS, 100% bug-for-bug compatible with RHEL.
 
-- **Versions**: 8.5+
+- **Versions**: 8.x, 9.x
 - **Support**: AWS, Azure, DigitalOcean, Equinix Metal, KubeVirt, OpenStack, vSphere
 - **Provisioning**: cloud-init
 - **Best for**: RHEL compatibility without subscription costs
