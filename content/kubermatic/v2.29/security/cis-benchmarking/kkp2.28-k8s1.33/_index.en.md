@@ -235,13 +235,19 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 ### 5.1. RBAC and Service Accounts
 
+KKP user clusters have specific RBAC configurations that are required for cluster operation. The following controls show failures due to architectural decisions that enable multi-cloud support in the clusters.
+
 #### 5.1.1: Ensure that the cluster-admin role is only used where required
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Expected Fail (Architectural Requirement)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+The following ClusterRoleBindings to `cluster-admin` are present by design:
+
+- `cluster-admin` - Default Kubernetes binding for `system:masters` group
+- `cloud-controller-manager` - Required for cloud provider integration (multiple cloud providers).
+- `<cluster-id>:cluster-admin` - KKP cluster owner access.
 
 ---
 
@@ -249,9 +255,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Expected Fail (Architectural Requirement)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_KKP cluster owners and editors have full access to secrets as part of their administrative role. This is by design to allow cluster management._
 
 ---
 
@@ -259,9 +265,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Expected Fail (Architectural Requirement)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_KKP uses wildcard permissions for cluster owners (`system:kubermatic:owners`) and editors (`system:kubermatic:editors`) ClusterRoles. This is an intentional design decision to provide full cluster management capabilities to authorized users._
 
 ---
 
