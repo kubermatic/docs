@@ -353,7 +353,7 @@ _Baseline-enforced namespaces block hostNetwork. Privileged system namespaces ne
 
 **Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_Workloads in baseline-enforced namespaces (dashboard-metrics-scraper) set `allowPrivilegeEscalation: false`. Components in privileged system namespaces may not have this restriction._
+_Workloads in baseline-enforced namespaces set `allowPrivilegeEscalation: false`. Components in privileged system namespaces require privilege escalation._
 
 ---
 
@@ -363,7 +363,7 @@ _Workloads in baseline-enforced namespaces (dashboard-metrics-scraper) set `allo
 
 **Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_Workloads in baseline-enforced namespaces set `runAsNonRoot: true` and run as non-root users. Components in privileged system namespaces may run as root._
+_Workloads in baseline-enforced namespaces set `runAsNonRoot: true` and run as non-root users. Components in privileged system namespaces run as root._
 
 ---
 
@@ -421,7 +421,7 @@ _Baseline-enforced namespaces do not use hostPath volumes. Components in privile
 
 **Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_Baseline-enforced namespaces do not use hostPorts. Some components in privileged system namespaces may require hostPorts._
+_Baseline-enforced namespaces do not use hostPorts. Components in privileged system namespaces require hostPorts._
 
 ---
 
@@ -493,9 +493,9 @@ _Baseline-enforced namespaces do not use hostPorts. Some components in privilege
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Baseline-Enforced Namespaces) / Expected Fail (Privileged System Namespaces)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_Workloads in baseline-enforced namespaces (default, kubernetes-dashboard) have security contexts applied with runAsNonRoot, allowPrivilegeEscalation: false, and capabilities dropped. Components in privileged system namespaces require elevated privileges._
 
 ---
 
