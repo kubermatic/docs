@@ -1030,6 +1030,24 @@ _Appears in:_
 
 
 
+### AdmissionPluginsConfiguration
+
+
+
+AdmissionPluginsConfiguration contains global settings for admission plugins.
+
+_Appears in:_
+- [KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `eventRateLimit` _[EventRateLimitPluginConfiguration](#eventratelimitpluginconfiguration)_ | {{< unsafe >}}EventRateLimit configures the EventRateLimit admission plugin.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### Alertmanager
 
 
@@ -3557,6 +3575,7 @@ More info: https://kubernetes.io/docs/reference/access-authn-authz/admission-con
 
 _Appears in:_
 - [ClusterSpec](#clusterspec)
+- [EventRateLimitPluginConfiguration](#eventratelimitpluginconfiguration)
 
 | Field | Description |
 | --- | --- |
@@ -3584,6 +3603,32 @@ _Appears in:_
 | `qps` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
 | `burst` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
 | `cacheSize` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### EventRateLimitPluginConfiguration
+
+
+
+EventRateLimitPluginConfiguration configures the EventRateLimit admission plugin at global level.
+
+Enforcement modes:
+  - Enforced=true: Plugin must be enabled; config cannot be overridden by users
+  - Enabled=true: Plugin enabled by default for new clusters, users can disable
+  - DefaultConfig: Applied when plugin is enabled and cluster has no config
+    (always applied when Enforced=true, overwriting user config)
+
+_Appears in:_
+- [AdmissionPluginsConfiguration](#admissionpluginsconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `enabled` _boolean_ | {{< unsafe >}}Enabled indicates whether EventRateLimit should be enabled by default for new clusters.{{< /unsafe >}} |
+| `enforced` _boolean_ | {{< unsafe >}}Enforced indicates whether EventRateLimit enablement is mandatory.{{< /unsafe >}} |
+| `defaultConfig` _[EventRateLimitConfig](#eventratelimitconfig)_ | {{< unsafe >}}DefaultConfig provides default configuration values for the EventRateLimit plugin.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4999,6 +5044,7 @@ _Appears in:_
 | `operatingSystemManager` _[OperatingSystemManager](#operatingsystemmanager)_ | {{< unsafe >}}OperatingSystemManager configures the image repo and the tag version for osm deployment.{{< /unsafe >}} |
 | `kubelb` _[KubeLBConfiguration](#kubelbconfiguration)_ | {{< unsafe >}}KubeLB configures the kubeLB component.{{< /unsafe >}} |
 | `kyverno` _[KyvernoConfigurations](#kyvernoconfigurations)_ | {{< unsafe >}}Kyverno configures the Kyverno policy engine settings at the global level.<br />These settings apply to all user clusters unless overridden at seed or datacenter level.{{< /unsafe >}} |
+| `admissionPlugins` _[AdmissionPluginsConfiguration](#admissionpluginsconfiguration)_ | {{< unsafe >}}AdmissionPlugins configures global admission plugin settings for all user clusters.{{< /unsafe >}} |
 
 
 [Back to top](#top)
