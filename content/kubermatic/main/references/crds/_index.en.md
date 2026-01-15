@@ -1418,6 +1418,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `insecureSkipTLSVerify` _boolean_ | {{< unsafe >}}InsecureSkipTLSVerify allows connecting to the OCI registry without verifying<br />the server's TLS certificate.<br />This should only be used in development or testing environments.{{< /unsafe >}} |
+| `plainHTTP` _boolean_ | {{< unsafe >}}PlainHTTP allows using an unencrypted HTTP connection when accessing the OCI registry<br />instead of HTTPS.<br />This is intended for local or air-gapped setups where HTTPS is not available.{{< /unsafe >}} |
 | `namespace` _string_ | {{< unsafe >}}Namespace is the namespace which is set as the default for applications installed via ui<br />If left empty the default for the application installation namespace is the name of the resource itself{{< /unsafe >}} |
 
 
@@ -6727,6 +6729,27 @@ _Appears in:_
 
 
 
+### RegistryConnectionConfig
+
+
+
+RegistryConnectionConfig contains options that control how connections
+to OCI registries are established.
+
+_Appears in:_
+- [ApplicationsConfiguration](#applicationsconfiguration)
+- [SystemApplicationsConfiguration](#systemapplicationsconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `insecureSkipTLSVerify` _boolean_ | {{< unsafe >}}InsecureSkipTLSVerify allows connecting to the OCI registry without verifying<br />the server's TLS certificate.<br />This should only be used in development or testing environments.{{< /unsafe >}} |
+| `plainHTTP` _boolean_ | {{< unsafe >}}PlainHTTP allows using an unencrypted HTTP connection when accessing the OCI registry<br />instead of HTTPS.<br />This is intended for local or air-gapped setups where HTTPS is not available.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### RegistryCredentials
 
 
@@ -7354,6 +7377,8 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
+| `insecureSkipTLSVerify` _boolean_ | {{< unsafe >}}InsecureSkipTLSVerify allows connecting to the OCI registry without verifying<br />the server's TLS certificate.<br />This should only be used in development or testing environments.{{< /unsafe >}} |
+| `plainHTTP` _boolean_ | {{< unsafe >}}PlainHTTP allows using an unencrypted HTTP connection when accessing the OCI registry<br />instead of HTTPS.<br />This is intended for local or air-gapped setups where HTTPS is not available.{{< /unsafe >}} |
 | `helmRepository` _string_ | {{< unsafe >}}HelmRepository specifies OCI repository containing Helm charts of system Applications e.g. oci://localhost:5000/myrepo.{{< /unsafe >}} |
 | `helmRegistryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#secretkeyselector-v1-core)_ | {{< unsafe >}}HelmRegistryConfigFile optionally holds the ref and key in the secret for the OCI registry credential file.<br />The value is dockercfg file that follows the same format rules as ~/.docker/config.json<br />The Secret must exist in the namespace where KKP is installed (default is "kubermatic").<br />The Secret must be annotated with `apps.kubermatic.k8c.io/secret-type:` set to "helm".{{< /unsafe >}} |
 
