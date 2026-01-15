@@ -2423,6 +2423,7 @@ _Appears in:_
 | `coreDNS` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}CoreDNS configures CoreDNS deployed as part of the cluster control plane.{{< /unsafe >}} |
 | `kubeStateMetrics` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}KubeStateMetrics configures kube-state-metrics settings deployed by the monitoring controller.{{< /unsafe >}} |
 | `machineController` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}MachineController configures the Kubermatic machine-controller deployment.{{< /unsafe >}} |
+| `envoyAgent` _[DaemonSetSettings](#daemonsetsettings)_ | {{< unsafe >}}EnvoyAgent configures the envoy-agent deployed in the usercluster.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -2735,6 +2736,25 @@ CustomNetworkPolicy contains a name and the Spec of a NetworkPolicy.
 
 _Appears in:_
 - [DatacenterSpecKubevirt](#datacenterspeckubevirt)
+
+
+
+### DaemonSetSettings
+
+
+
+
+
+_Appears in:_
+- [ComponentSettings](#componentsettings)
+
+| Field | Description |
+| --- | --- |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+
+
+[Back to top](#top)
 
 
 
