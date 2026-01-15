@@ -43,9 +43,7 @@ Each control in the CIS Kubernetes Benchmark was evaluated. These are the possib
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KKP release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -77,9 +75,7 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KKP release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -185,9 +181,9 @@ _The issue is under investigation to provide a fix in a future KKP release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Expected Fail (Architectural Requirement)
 
-_The issue is under investigation to provide a fix in a future KKP release_
+_The `--hostname-override` flag is used to ensure consistent node naming across all cloud providers, matching the KKP machine deployment naming pattern. This is required for proper node identification by Cloud Controller Managers._
 
 ---
 
