@@ -13,10 +13,6 @@
       "resources": []
     },
     {
-      "addonName": "cluster-autoscaler",
-      "resources": []
-    },
-    {
       "addonName": "csi",
       "resources": []
     },
