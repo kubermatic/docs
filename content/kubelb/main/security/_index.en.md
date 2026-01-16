@@ -223,4 +223,4 @@ trivy image quay.io/kubermatic/kubelb-manager:v1.3.0
 
 ## Vulnerability Reporting
 
-See [Vulnerability Reporting]({{< relref "vulnerability-reporting" >}}) for security disclosure process.
+See [Vulnerability Reporting]({{< relref "./vulnerability-reporting" >}}) for security disclosure process.

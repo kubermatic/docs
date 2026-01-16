@@ -11,7 +11,7 @@ KubeLB in itself doesn't restrict the platform providers to certain observabilit
 
 ## Metrics
 
-KubeLB exposes Prometheus metrics for monitoring the health and performance of the load balancers. See the [Metrics]({{< relref "metrics" >}}) section for detailed documentation on available metrics for both Community Edition and Enterprise Edition.
+KubeLB exposes Prometheus metrics for monitoring the health and performance of the load balancers. See the [Metrics]({{< relref "./metrics" >}}) section for detailed documentation on available metrics for both Community Edition and Enterprise Edition.
 
 ## Grafana Dashboard
 
