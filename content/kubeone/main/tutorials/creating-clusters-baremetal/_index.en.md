@@ -211,7 +211,7 @@ and more. To see possible configuration options reference, you can run `kubeone 
 
 For clusters running on providers that are not natively-supported (e.g. bare metal), we need to set the `cloudProvider` to `none: {}`.
 In order to prevent KubeOne from deploying the Kubermatic machine-controller, which requires a cloud provider, set `machineController` to `deploy: false`.
-Next, we need to define our control plane and worker nodes, referenced as [staticWorkers][static-workers], in the KubeOneCluster configuration.
+Next, we need to define our control plane and worker nodes, referenced as [staticWorkers][static-nodes], in the KubeOneCluster configuration.
 Furthermore, the `apiEndpoint` needs to be set to a load balancer or the first control plane node.
 You can find more information about load balancing at [HA load balancing][ha-load-balancing].
 
@@ -385,7 +385,7 @@ and recommendations.
   worker nodes in [the following guide][machine-controller]
 
 [compatibility-providers]: {{< ref "../../architecture/supported-providers/" >}}
-[static-workers]: {{< ref "../../guides/static-workers" >}}
+[static-nodes]: {{< ref "../../guides/static-nodes" >}}
 [creating-clusters]: {{< ref "../creating-clusters" >}}
 [infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure-management" >}}
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server

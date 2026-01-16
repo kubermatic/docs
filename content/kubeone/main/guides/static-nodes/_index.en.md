@@ -1,17 +1,17 @@
 +++
-title = "Static Workers"
+title = "Static Nodes"
 date = 2020-04-15T12:00:00+02:00
 +++
 
-KubeOne Static Workers are worker nodes provisioned by KubeOne using kubeadm.
-Similar to the control plane nodes, it's expected that the user will create
-and maintain instances for static worker nodes.
+KubeOne Static Nodes are nodes provisioned by KubeOne using kubeadm.
+In this case, similar to the control plane nodes, it's expected that 
+the user will create and maintain instances for static worker nodes.
 
 This is useful in cases where the infrastructure provider is not
 [natively-supported][supported-providers]. In this case, KubeOne will use the
 static worker nodes provided in the KubeOne Configuration Manifest.
 
-Static Workers Nodes are defined similarly to the control plane hosts,
+Static Worker Nodes are defined similarly to the control plane hosts,
 but they have their own API field called `staticWorkers`:
 
 ```yaml

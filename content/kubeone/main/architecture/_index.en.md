@@ -25,7 +25,7 @@ and Kubermatic machine-controller.
 
 For officially supported providers, the worker nodes are managed by using the
 Kubermatic machine-controller based on the Cluster-API. For other providers,
-the worker nodes can be managed by using KubeOne Static Workers feature.
+the worker nodes can be managed by using KubeOne Static Nodes feature.
 
 This approach allows us to manage clusters on any infrastructure, is it
 cloud, on-prem, baremetal, Edge, or IoT.
@@ -48,7 +48,7 @@ the initial infrastructure, and the machine-controller support.
 2 [Kubermatic Machine Controller][machine-controller] and [Kubermatic Operating System Manager][operating-system-manager] are available
 only for [officially supported providers][supported-providers]. For non-officially
 supported providers, you can provision machines manually using KubeOne's
-[Static Workers feature][static-workers].
+[Static Nodes feature][static-nodes].
 
 [kubeadm]: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/
 [concepts]: {{< ref "./concepts" >}}
@@ -57,4 +57,4 @@ supported providers, you can provision machines manually using KubeOne's
 [terraform-configs]: {{< ref "./" >}}
 [machine-controller]: <https://github.com/kubermatic/machine-controller>
 [operating-system-manager]: <https://github.com/kubermatic/operating-system-manager>
-[static-workers]: {{< ref "../guides/static-workers" >}}
+[static-nodes]: {{< ref "../guides/static-nodes" >}}
