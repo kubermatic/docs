@@ -18,10 +18,10 @@ KubeLB is available in two versions: Community and Enterprise.
 | Feature                       | EE (Enterprise Edition) | CE (Community Edition) |
 |-------------------------------|--------------------------|-------------------------|
 | Ingress                 | ✔️                        | ✔️                       |
-| Gateway API v1                  | ✔️                        | ✔️                       |
+| Gateway API                  | ✔️                        | ◐ (Basic only)                       |
 | Bring your own secrets(certificates)                  | ✔️                        | ✔️                       |
 | Tunneling support through CLI | ✔️ | ❌ |
-| Gateway API beta/alpha(TLS/TCP/UDP routes)                | ✔️                       | ❌                       |
+| Gateway API Policies & Experimental features                 | ✔️                       | ❌                       |
 | Multiple Gateways                  | ✔️                        | ❌                        |
 | DNS automation                  | ✔️                        | ❌                       |
 | Certificate Management                  | ✔️                        | ❌                       |
@@ -35,6 +35,25 @@ KubeLB supports the following products for Ingress and Gateway API resources:
 
 While other products might work for Ingress and Gateway API resources, we are not testing them and can't guarantee the compatibility.
 {{% /notice %}}
+
+## Supported Gateway API Features
+
+### Community Edition
+
+- Gateway (Single Instance per tenant)
+- HTTPRoute
+- GRPCRoute
+
+### Enterprise Edition
+
+- Gateway (Multiple Instances per tenant with limit support)
+- HTTPRoute
+- GRPCRoute
+- TCPRoute
+- UDPRoute
+- TLSRoute
+- ClientTrafficPolicy (Envoy Gateway)
+- BackendTrafficPolicy (Envoy Gateway)
 
 ## Support Policy
 

@@ -145,6 +145,25 @@ _Appears in:_
 | `defaultClusterIssuer` _string_ | DefaultClusterIssuer is the Cluster Issuer to use for the certificates by default. This is applied when the cluster issuer is not specified in the annotations on the resource itself. |  |  |
 | `allowedDomains` _string array_ | AllowedDomains is a list of allowed domains for automated Certificate management. Has a higher precedence than the value specified in the Config.<br />If empty, the value specified in `tenant.spec.allowedDomains` will be used.<br />Examples:<br />- ["_.example.com"] -> this allows subdomains at the root level such as example.com and test.example.com but won't allow domains at one level above like test.test.example.com<br />- ["**.example.com"] -> this allows all subdomains of example.com such as test.dns.example.com and dns.example.com<br />- ["example.com"] -> this allows only example.com<br />- ["**"] or ["_"] -> this allows all domains<br />Note: "**" was added as a special case to allow any levels of subdomains that come before it. "*" works for only 1 level. |  |  |
 
+#### CircuitBreaker
+
+CircuitBreaker defines the Circuit Breaker configuration for Envoy clusters.
+Circuit breakers prevent cascading failures by limiting connections/requests to upstream clusters. For more info: <https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking>
+
+_Appears in:_
+
+- [ConfigSpec](#configspec)
+- [TenantSpec](#tenantspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `maxConnections` _integer_ | MaxConnections is the maximum number of connections that Envoy will establish to all endpoints in the cluster.<br />If not specified, the default is 1024. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
+| `maxPendingRequests` _integer_ | MaxPendingRequests is the maximum number of pending requests that Envoy will queue to the cluster.<br />If not specified, the default is 1024. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
+| `maxParallelRequests` _integer_ | MaxParallelRequests is the maximum number of parallel requests that Envoy will make to the cluster.<br />This is applicable to HTTP/2 and gRPC connections.<br />If not specified, the default is 1024. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
+| `maxParallelRetries` _integer_ | MaxParallelRetries is the maximum number of parallel retries that Envoy will make to the cluster.<br />If not specified, the default is 3. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
+| `maxRequestsPerConnection` _integer_ | MaxRequestsPerConnection is the maximum number of requests that Envoy will make over a single connection<br />to the cluster. If not specified, there is no limit. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
+| `perEndpoint` _[PerEndpointCircuitBreaker](#perendpointcircuitbreaker)_ | PerEndpoint configures circuit breaker thresholds that apply to individual endpoints rather than the whole cluster. |  |  |
+
 #### Config
 
 Config is the object that represents the Config for the KubeLB management controller.
@@ -220,6 +239,7 @@ _Appears in:_
 | `dns` _[ConfigDNSSettings](#configdnssettings)_ |  |  |  |
 | `certificates` _[ConfigCertificatesSettings](#configcertificatessettings)_ |  |  |  |
 | `tunnel` _[TunnelSettings](#tunnelsettings)_ |  |  |  |
+| `circuitBreaker` _[CircuitBreaker](#circuitbreaker)_ | CircuitBreaker defines the default circuit breaker configuration for all Envoy clusters.<br />These settings can be overridden at the Tenant level. |  |  |
 
 #### DNSSettings
 
@@ -284,6 +304,39 @@ _Appears in:_
 | `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#toleration-v1-core) array_ | Tolerations is used to schedule Envoy Proxy pods on nodes with matching taints. |  |  |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#resourcerequirements-v1-core)_ | Resources defines the resource requirements for Envoy Proxy. |  |  |
 | `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#affinity-v1-core)_ | Affinity is used to schedule Envoy Proxy pods on nodes with matching affinity. |  |  |
+| `image` _string_ | Image defines the Envoy Proxy image to use. |  |  |
+| `gracefulShutdown` _[EnvoyProxyGracefulShutdown](#envoyproxygracefulshutdown)_ | GracefulShutdown defines the graceful shutdown configuration for Envoy Proxy. |  |  |
+| `overloadManager` _[EnvoyProxyOverloadManager](#envoyproxyoverloadmanager)_ | OverloadManager defines the overload manager configuration for Envoy XDS bootstrap. |  |  |
+
+#### EnvoyProxyGracefulShutdown
+
+EnvoyProxyGracefulShutdown defines the graceful shutdown configuration for Envoy Proxy
+
+_Appears in:_
+
+- [EnvoyProxy](#envoyproxy)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `disabled` _boolean_ | Disabled controls whether graceful shutdown is disabled |  |  |
+| `drainTimeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta)_ | DrainTimeout is the maximum time to wait for connections to drain.<br />Defaults to 60s. Must be less than TerminationGracePeriodSeconds. | 60s |  |
+| `minDrainDuration` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta)_ | MinDrainDuration is the minimum time to wait before checking connection count.<br />This prevents premature termination. Defaults to 5s. | 5s |  |
+| `terminationGracePeriodSeconds` _integer_ | TerminationGracePeriodSeconds is the grace period for pod termination.<br />Must be greater than DrainTimeout. Defaults to 300s. | 300 | Minimum: 30 <br /> |
+| `shutdownManagerImage` _string_ | ShutdownManagerImage is the Docker image for the shutdown-manager sidecar.<br />Defaults to "docker.io/envoyproxy/gateway:v1.3.0" | docker.io/envoyproxy/gateway:v1.3.0 |  |
+
+#### EnvoyProxyOverloadManager
+
+EnvoyProxyOverloadManager defines the overload manager configuration for Envoy XDS
+
+_Appears in:_
+
+- [EnvoyProxy](#envoyproxy)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `enabled` _boolean_ | Enabled controls whether overload manager is enabled |  |  |
+| `maxActiveDownstreamConnections` _integer_ | MaxActiveDownstreamConnections is the maximum number of active downstream connections for the Envoy. |  |  |
+| `maxHeapSizeBytes` _integer_ | MaxHeapSizeBytes is the maximum heap size for the Envoy in bytes. On reaching the limit, the Envoy will start to reject new connections. |  |  |
 
 #### EnvoyProxyTopology
 
@@ -319,6 +372,8 @@ _Appears in:_
 | `disableTCPRoute` _boolean_ |  |  |  |
 | `disableUDPRoute` _boolean_ |  |  |  |
 | `disableTLSRoute` _boolean_ |  |  |  |
+| `disableBackendTrafficPolicy` _boolean_ |  |  |  |
+| `disableClientTrafficPolicy` _boolean_ |  |  |  |
 
 #### GatewayAPIsSettings
 
@@ -333,6 +388,8 @@ _Appears in:_
 | `disableTCPRoute` _boolean_ |  |  |  |
 | `disableUDPRoute` _boolean_ |  |  |  |
 | `disableTLSRoute` _boolean_ |  |  |  |
+| `disableBackendTrafficPolicy` _boolean_ |  |  |  |
+| `disableClientTrafficPolicy` _boolean_ |  |  |  |
 
 #### GatewaySettings
 
@@ -507,6 +564,18 @@ _Appears in:_
 | `service` _[ServiceStatus](#servicestatus)_ | Service contains the current status of the LB service. |  |  |
 | `hostname` _[HostnameStatus](#hostnamestatus)_ | Hostname contains the status for hostname resources. |  |  |
 
+#### PerEndpointCircuitBreaker
+
+PerEndpointCircuitBreaker defines circuit breaker thresholds that apply to individual endpoints.
+
+_Appears in:_
+
+- [CircuitBreaker](#circuitbreaker)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `maxConnections` _integer_ | MaxConnections is the maximum number of connections that Envoy will establish to a single endpoint.<br />If not specified, the default is 1024. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
+
 #### ResourceState
 
 _Appears in:_
@@ -598,7 +667,7 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `endpoints` _[LoadBalancerEndpoints](#loadbalancerendpoints) array_ | Sets of addresses and ports that comprise an exposed user service on a cluster. |  | MinItems: 1 <br /> |
+| `endpoints` _[LoadBalancerEndpoints](#loadbalancerendpoints) array_ | Sets of addresses and ports that comprise an exposed user service on a cluster.<br />This field is required for Routes that represent traffic-forwarding resources (Ingress, Gateway routes).<br />It is optional for policy resources like BackendTrafficPolicy. |  |  |
 | `source` _[RouteSource](#routesource)_ | Source contains the information about the source of the route. This is used when the route is created from external sources. |  |  |
 
 #### RouteStatus
@@ -716,6 +785,7 @@ _Appears in:_
 | `dns` _[DNSSettings](#dnssettings)_ |  |  |  |
 | `certificates` _[CertificatesSettings](#certificatessettings)_ |  |  |  |
 | `tunnel` _[TenantTunnelSettings](#tenanttunnelsettings)_ |  |  |  |
+| `circuitBreaker` _[CircuitBreaker](#circuitbreaker)_ | CircuitBreaker defines the circuit breaker configuration for this tenant's Envoy clusters.<br />Overrides Config-level settings. |  |  |
 | `allowedDomains` _string array_ | List of allowed domains for the tenant. This is used to restrict the domains that can be used<br />for the tenant. If specified, applies on all the components such as Ingress, GatewayAPI, DNS, certificates, etc.<br />Examples:<br />- ["_.example.com"] -> this allows subdomains at the root level such as example.com and test.example.com but won't allow domains at one level above like test.test.example.com<br />- ["**.example.com"] -> this allows all subdomains of example.com such as test.dns.example.com and dns.example.com<br />- ["example.com"] -> this allows only example.com<br />- ["**"] or ["_"] -> this allows all domains<br />Note: "**" was added as a special case to allow any levels of subdomains that come before it. "*" works for only 1 level.<br />Default: value is ["**"] and all domains are allowed. | [**] |  |
 
 #### TenantState

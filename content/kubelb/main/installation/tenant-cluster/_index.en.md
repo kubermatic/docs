@@ -113,7 +113,7 @@ kubelb:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.2.1 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.3.0 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-ccm-ee/crds/
 ## Create and update values.yaml with the required values.
@@ -133,11 +133,18 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 | extraVolumeMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
+| grafana.dashboards.annotations | object | `{}` | Additional annotations for dashboard ConfigMaps |
+| grafana.dashboards.enabled | bool | `false` | Enable Grafana dashboard ConfigMaps for automatic provisioning via sidecar |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm-ee"` |  |
-| image.tag | string | `"v1.2.1"` |  |
+| image.tag | string | `"v1.3.0"` |  |
 | imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
+| kubeRbacProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
+| kubeRbacProxy.image.repository | string | `"quay.io/brancz/kube-rbac-proxy"` |  |
+| kubeRbacProxy.image.tag | string | `"v0.20.1"` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` | Name of the secret that contains kubeconfig for the loadbalancer cluster |
+| kubelb.disableBackendTrafficPolicyController | bool | `false` | disableBackendTrafficPolicyController specifies whether to disable the BackendTrafficPolicy Controller. |
+| kubelb.disableClientTrafficPolicyController | bool | `false` | disableClientTrafficPolicyController specifies whether to disable the ClientTrafficPolicy Controller. |
 | kubelb.disableGRPCRouteController | bool | `false` | disableGRPCRouteController specifies whether to disable the GRPCRoute Controller. |
 | kubelb.disableGatewayController | bool | `false` | disableGatewayController specifies whether to disable the Gateway Controller. |
 | kubelb.disableHTTPRouteController | bool | `false` | disableHTTPRouteController specifies whether to disable the HTTPRoute Controller. |
@@ -156,6 +163,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 | kubelb.useGatewayClass | bool | `true` | useGatewayClass specifies whether to target resources with `kubelb` gateway class or all resources. |
 | kubelb.useIngressClass | bool | `true` | useIngressClass specifies whether to target resources with `kubelb` ingress class or all resources. |
 | kubelb.useLoadBalancerClass | bool | `false` | useLoadBalancerClass specifies whether to target services of type LoadBalancer with `kubelb` load balancer class or all services of type LoadBalancer. |
+| metrics.port | int | `9445` | Port where the CCM exposes metrics |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
@@ -189,14 +197,14 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.2.1 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.3.0 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-ccm/crds/
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/values.yaml --create-namespace
 ```
 
-### KubeLB CCM Values
+### KubeLB CCM CE Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -209,10 +217,15 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 | extraVolumeMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
+| grafana.dashboards.annotations | object | `{}` | Additional annotations for dashboard ConfigMaps |
+| grafana.dashboards.enabled | bool | `false` | Enable Grafana dashboard ConfigMaps for automatic provisioning via sidecar |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm"` |  |
-| image.tag | string | `"v1.2.1"` |  |
+| image.tag | string | `"v1.3.0"` |  |
 | imagePullSecrets | list | `[]` |  |
+| kubeRbacProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
+| kubeRbacProxy.image.repository | string | `"quay.io/brancz/kube-rbac-proxy"` |  |
+| kubeRbacProxy.image.tag | string | `"v0.20.1"` |  |
 | kubelb.clusterSecretName | string | `"kubelb-cluster"` | Name of the secret that contains kubeconfig for the loadbalancer cluster |
 | kubelb.disableGRPCRouteController | bool | `false` | disableGRPCRouteController specifies whether to disable the GRPCRoute Controller. |
 | kubelb.disableGatewayController | bool | `false` | disableGatewayController specifies whether to disable the Gateway Controller. |
@@ -229,6 +242,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 | kubelb.useGatewayClass | bool | `true` | useGatewayClass specifies whether to target resources with `kubelb` gateway class or all resources. |
 | kubelb.useIngressClass | bool | `true` | useIngressClass specifies whether to target resources with `kubelb` ingress class or all resources. |
 | kubelb.useLoadBalancerClass | bool | `false` | useLoadBalancerClass specifies whether to target services of type LoadBalancer with `kubelb` load balancer class or all services of type LoadBalancer. |
+| metrics.port | int | `9445` | Port where the CCM exposes metrics |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
