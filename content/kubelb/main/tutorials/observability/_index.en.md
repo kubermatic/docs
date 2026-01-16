@@ -2,20 +2,26 @@
 title = "Observability"
 linkTitle = "Observability"
 date = 2023-10-27T10:07:15+02:00
-weight = 8
+weight = 7
 +++
 
 KubeLB is a mission-critical component in the Kubernetes ecosystem, and its observability is crucial for ensuring the stability and reliability of the platform. This guide will walk you through the steps to enable and configure observability for KubeLB.
 
 KubeLB in itself doesn't restrict the platform providers to certain observability tools. Since we are well aware that different customers will have different Monitoring, logging, alerting, and tracing etc. stacks deployed which are based on their  own requirements. Although it does offer Grafana dashboards that can be plugged into your existing monitoring stack.
 
-## Grafana Dashboard [WIP]
+## Metrics
 
-This is work in progress and can be tracked against [Monitoring and Alerting](https://github.com/kubermatic/kubelb/issues/56)
+KubeLB exposes Prometheus metrics for monitoring the health and performance of the load balancers. See the [Metrics]({{< relref "metrics" >}}) section for detailed documentation on available metrics for both Community Edition and Enterprise Edition.
 
-## Alerting and Recording rules [WIP]
+## Grafana Dashboard
 
-This is work in progress and can be tracked against [Monitoring and Alerting](https://github.com/kubermatic/kubelb/issues/56)
+KubeLB provides pre-built Grafana dashboards for monitoring. These dashboards are located in the `dashboards` directory within the Helm charts and can be imported into your existing Grafana instance.
+
+You can find the dashboards in the [kubelb Helm chart](https://github.com/kubermatic/kubelb/tree/main/charts/kubelb-manager/dashboards).
+
+## Traffic Flow Visibility
+
+For environments requiring centralized visibility into traffic flow (source/destination tracking), [Hubble UI](https://docs.cilium.io/en/stable/gettingstarted/hubble_setup/) is recommended when using Cilium as the CNI on the KubeLB cluster. Hubble provides a service map and real-time traffic flow visualization, making it easy to track callers and destinations across the cluster.
 
 ## Recommended Tools
 

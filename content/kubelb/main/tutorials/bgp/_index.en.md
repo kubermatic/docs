@@ -2,7 +2,7 @@
 title = "Layer 4 Load balancing with BGP"
 linkTitle = "BGP Support"
 date = 2025-08-27T10:07:15+02:00
-weight = 6
+weight = 10
 +++
 
 In Management Cluster, KubeLB offloads the provisioning of the the actual load balancers to the load balancing appliance that is being used. This can be the CCM in case of a cloud provider or a self-managed solution like [MetalLB](https://metallb.universe.tf), [Cilium Load Balancer](https://cilium.io/use-cases/load-balancer/) or any other solution.

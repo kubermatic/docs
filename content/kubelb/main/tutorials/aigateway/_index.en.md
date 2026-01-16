@@ -2,7 +2,7 @@
 title = "AI & MCP Gateway"
 linkTitle = "AI & MCP Gateway"
 date = 2023-10-27T10:07:15+02:00
-weight = 7
+weight = 6
 +++
 
 This tutorial will guide you through setting up an AI and MCP Gateway using KubeLB with KGateway to securely manage Large Language Model (LLM) requests and MCP tool servers.

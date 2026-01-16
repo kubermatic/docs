@@ -1,6 +1,6 @@
 +++
-title = "Layer 4 Load balancing"
-linkTitle = "Layer 4 Load balancing"
+title = "TCP/UDP Load Balancing"
+linkTitle = "TCP/UDP Load Balancing"
 date = 2023-10-27T10:07:15+02:00
 weight = 3
 +++
