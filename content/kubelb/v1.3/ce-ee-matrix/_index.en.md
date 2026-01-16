@@ -45,7 +45,7 @@ KubeLB is available in two editions:
 - **Ingress**: [ingress-nginx](https://kubernetes.github.io/ingress-nginx/)
 - **Gateway API**: [Envoy Gateway](https://gateway.envoyproxy.io/)
 
-Other implementations may work but are not tested.
+While other products might work for Ingress and Gateway API resources, we are not testing them and can't guarantee the compatibility.
 {{% /notice %}}
 
 ## Supported Gateway API Features
