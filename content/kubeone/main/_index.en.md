@@ -57,7 +57,7 @@ upgrade, or scale your worker nodes using kubectl.
 Check out the [Quick Start]({{< ref "./quick-start" >}}) section to learn how to
 deploy a cluster in minutes.
 
-You can also customize the installation, check out the [Creating a Kubernetes Cluster]({{< ref "./kubeone/main/tutorials/creating-clusters/" >}})  to learn how to install KubeOne and get started with it. If you want to learn more about how KubeOne works, you can check out the Concepts and the 
+You can also customize the installation, check out the [Creating a Kubernetes Cluster]({{< ref "./tutorials/creating-clusters/" >}}) to learn how to install KubeOne and get started with it. If you want to learn more about how KubeOne works, you can check out the Concepts and the 
 [Architecture][architecture]documents.
 
 ## Getting Involved
