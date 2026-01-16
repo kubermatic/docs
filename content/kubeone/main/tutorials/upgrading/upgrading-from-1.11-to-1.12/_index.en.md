@@ -31,8 +31,8 @@ The minimum kernel version for Kubernetes 1.32 clusters is 4.19. It's recommende
 
 ### RHEL-like 8
 
-RockyLinux 8 and RHEL 8 are not supported anymore because of their too old kernel version fall off minimal required
-version by Kubernetes.
+RockyLinux 8 and RHEL 8 are not supported anymore because of their too old kernel version falling below the minimum
+required version by Kubernetes.
 
 ## Removals
 
