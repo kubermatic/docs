@@ -187,9 +187,11 @@ The following resources are supported in CE and EE version:
   - TCPRoute
   - UDPRoute
   - TLSRoute
+  - [ClientTrafficPolicy]({{< relref "./client-traffic-policy" >}})
+  - [BackendTrafficPolicy]({{< relref "./backend-traffic-policy" >}})
 
 **For more details on how to use them and example, please refer to examples from [Envoy Gateway Documentation](https://gateway.envoyproxy.io/docs/tasks/)**
 
 ### Limitations
 
-- ReferenceGrants, BackendTLSPolicy are not supported in KubeLB, yet.
+- ReferenceGrants, BackendTLSPolicy are not supported in KubeLB, yet. If you would like to use these features, please open an issue on [GitHub](https://github.com/kubermatic/kubelb/issues) to help us prioritize them.
