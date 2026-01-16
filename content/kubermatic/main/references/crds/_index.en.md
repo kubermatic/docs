@@ -3623,9 +3623,9 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `qps` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `burst` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `cacheSize` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
+| `qps` _integer_ | {{< unsafe >}}QPS is the queries per second allowed for this limit type.{{< /unsafe >}} |
+| `burst` _integer_ | {{< unsafe >}}Burst is the maximum burst size for this limit type.{{< /unsafe >}} |
+| `cacheSize` _integer_ | {{< unsafe >}}CacheSize is the size of the LRU cache for this limit type.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -3655,6 +3655,8 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
 
 
 
