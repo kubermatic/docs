@@ -18,14 +18,22 @@ weight = 60
 
 #### Supply Chain Security
 
-KubeLB v1.3 introduces comprehensive supply chain security measures aligned with industry standards and regulatory requirements:
+KubeLB v1.3 introduces comprehensive supply chain security for both CE and EE:
 
-- **Artifact Signing**: All container images, binaries, and Helm charts are cryptographically signed using [Sigstore Cosign](https://github.com/sigstore/cosign) with keyless signing. Customers can verify artifact integrity and provenance before deployment.
-- **Software Bill of Materials (SBOM)**: Every release includes SBOMs in SPDX format (ISO/IEC 5962:2021) attached to all Docker images as OCI artifacts with signed attestations.
-- **Automated Vulnerability Scanning**: All PRs are scanned for vulnerabilities before merge. Container images undergo Trivy scanning at release time, with HIGH/CRITICAL vulnerabilities blocking releases.
-- **Dependency Management**: Dependabot continuously monitors dependencies for known vulnerabilities with automated update PRs.
+- **SBOM Generation**: SPDX format (ISO/IEC 5962:2021) SBOMs for all binaries and container images
+- **Keyless Artifact Signing**: [Sigstore Cosign](https://github.com/sigstore/cosign) signatures for binaries, images, and Helm charts
+- **SBOM Attestation**: Signed SBOM attestations via Cosign
+- **Immutable Releases**: Release artifacts cannot be modified after publication
+- **Vulnerability Scanning**: Automated scanning in PRs and release pipeline (HIGH/CRITICAL block releases)
+- **Dependency Monitoring**: Dependabot tracks and updates vulnerable dependencies
 
-These measures ensure compliance with NTIA Minimum Elements, Executive Order 14028 (software supply chain security), and SLSA (Supply-chain Levels for Software Artifacts) guidelines.
+**CE Additional Features:**
+
+- [OpenSSF Scorecard](https://securityscorecards.dev/) for security health metrics
+- GitHub dependency graph
+- GitHub attestations and provenance publishing
+
+These measures ensure compliance with NTIA Minimum Elements, Executive Order 14028, and SLSA guidelines. See [Supply Chain Security]({{< ref "/kubelb/main/security" >}}) for verification commands.
 
 #### Community Edition(CE)
 
@@ -76,7 +84,6 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 - Circuit breakers for Envoy Clusters can now be configured at Global or Tenant level.
 - Support for Envoy Gateway's BackendTrafficPolicy.
 - Support for Envoy Gateway's ClientTrafficPolicy.
-- Supply Chain Security for KubeLB Enterprise Edition.
 
 #### EE Bug or Regression
 
