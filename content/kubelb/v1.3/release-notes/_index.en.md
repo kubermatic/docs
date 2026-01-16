@@ -33,7 +33,7 @@ KubeLB v1.3 introduces comprehensive supply chain security for both CE and EE:
 - GitHub dependency graph
 - GitHub attestations and provenance publishing
 
-These measures ensure compliance with NTIA Minimum Elements, Executive Order 14028, and SLSA guidelines. See [Supply Chain Security]({{< ref "/kubelb/main/security" >}}) for verification commands.
+These measures ensure compliance with NTIA Minimum Elements, Executive Order 14028, and SLSA guidelines. See [Supply Chain Security]({{< ref "/kubelb/v1.3/security" >}}) for verification commands.
 
 #### Community Edition(CE)
 

@@ -1,12 +1,11 @@
 +++
-title = "KubeLB Enterprise Edition CRD References"
-linkTitle = "Enterprise Edition"
+title = "KubeLB Community Edition CRD References"
+linkTitle = "Community Edition"
 date = 2024-03-06T12:00:00+02:00
-weight = 50
-enterprise = true
+weight = 60
 +++
 
-**Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/main/api/ee/kubelb.k8c.io/v1alpha1)**
+**Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/release/v1.3/api/ce/kubelb.k8c.io/v1alpha1)**
 
 ## Packages
 
@@ -32,8 +31,6 @@ Package v1alpha1 contains API Schema definitions for the kubelb.k8c.io v1alpha1 
 - [TenantList](#tenantlist)
 - [TenantState](#tenantstate)
 - [TenantStateList](#tenantstatelist)
-- [Tunnel](#tunnel)
-- [TunnelList](#tunnellist)
 
 #### Addresses
 
@@ -133,23 +130,6 @@ _Appears in:_
 
 #### CertificatesSettings
 
-CertificatesSettings defines the settings for the certificates.
-
-_Appears in:_
-
-- [TenantSpec](#tenantspec)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `disable` _boolean_ | Disable is a flag that can be used to disable certificate automation for a tenant. |  |  |
-| `defaultClusterIssuer` _string_ | DefaultClusterIssuer is the Cluster Issuer to use for the certificates by default. This is applied when the cluster issuer is not specified in the annotations on the resource itself. |  |  |
-| `allowedDomains` _string array_ | AllowedDomains is a list of allowed domains for automated Certificate management. Has a higher precedence than the value specified in the Config.<br />If empty, the value specified in `tenant.spec.allowedDomains` will be used.<br />Examples:<br />- ["_.example.com"] -> this allows subdomains at the root level such as example.com and test.example.com but won't allow domains at one level above like test.test.example.com<br />- ["**.example.com"] -> this allows all subdomains of example.com such as test.dns.example.com and dns.example.com<br />- ["example.com"] -> this allows only example.com<br />- ["**"] or ["_"] -> this allows all domains<br />Note: "**" was added as a special case to allow any levels of subdomains that come before it. "*" works for only 1 level. |  |  |
-
-#### CircuitBreaker
-
-CircuitBreaker defines the Circuit Breaker configuration for Envoy clusters.
-Circuit breakers prevent cascading failures by limiting connections/requests to upstream clusters. For more info: <https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking>
-
 _Appears in:_
 
 - [ConfigSpec](#configspec)
@@ -157,12 +137,7 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `maxConnections` _integer_ | MaxConnections is the maximum number of connections that Envoy will establish to all endpoints in the cluster.<br />If not specified, the default is 1024. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
-| `maxPendingRequests` _integer_ | MaxPendingRequests is the maximum number of pending requests that Envoy will queue to the cluster.<br />If not specified, the default is 1024. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
-| `maxParallelRequests` _integer_ | MaxParallelRequests is the maximum number of parallel requests that Envoy will make to the cluster.<br />This is applicable to HTTP/2 and gRPC connections.<br />If not specified, the default is 1024. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
-| `maxParallelRetries` _integer_ | MaxParallelRetries is the maximum number of parallel retries that Envoy will make to the cluster.<br />If not specified, the default is 3. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
-| `maxRequestsPerConnection` _integer_ | MaxRequestsPerConnection is the maximum number of requests that Envoy will make over a single connection<br />to the cluster. If not specified, there is no limit. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
-| `perEndpoint` _[PerEndpointCircuitBreaker](#perendpointcircuitbreaker)_ | PerEndpoint configures circuit breaker thresholds that apply to individual endpoints rather than the whole cluster. |  |  |
+| `defaultClusterIssuer` _string_ | DefaultClusterIssuer is the Cluster Issuer to use for the certificates by default. This is only used for load balancer hostname. |  |  |
 
 #### Config
 
@@ -179,19 +154,6 @@ _Appears in:_
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
 | `spec` _[ConfigSpec](#configspec)_ |  |  |  |
 
-#### ConfigCertificatesSettings
-
-ConfigCertificatesSettings defines the global settings for the certificates.
-
-_Appears in:_
-
-- [ConfigSpec](#configspec)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `disable` _boolean_ | Disable is a flag that can be used to disable certificate automation globally for all the tenants. |  |  |
-| `defaultClusterIssuer` _string_ | DefaultClusterIssuer is the Cluster Issuer to use for the certificates by default. This is applied when the cluster issuer is not specified in the annotations on the resource itself. |  |  |
-
 #### ConfigDNSSettings
 
 ConfigDNSSettings defines the global settings for DNS management and automation.
@@ -202,11 +164,10 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `disable` _boolean_ | Disable is a flag that can be used to disable DNS automation globally for all the tenants. |  |  |
-| `wildcardDomain` _string_ | WildcardDomain is the domain that will be used as the base domain to create wildcard DNS records for DNS resources.<br />This is only used for determining the hostname for LoadBalancer and Tunnel resources. |  |  |
-| `allowExplicitHostnames` _boolean_ | AllowExplicitHostnames is a flag that can be used to allow explicit hostnames to be used for DNS resources.<br />This is only used when LoadBalancer.Spec.Hostname or Tunnel.Spec.Hostname is set. |  |  |
-| `useDNSAnnotations` _boolean_ | UseDNSAnnotations is a flag that can be used to add DNS annotations to DNS resources.<br />This is only used when LoadBalancer.Spec.Hostname or Tunnel.Spec.Hostname is set. |  |  |
-| `useCertificateAnnotations` _boolean_ | UseCertificateAnnotations is a flag that can be used to add Certificate annotations to Certificate resources.<br />This is only used when LoadBalancer.Spec.Hostname or Tunnel.Spec.Hostname is set. |  |  |
+| `wildcardDomain` _string_ | WildcardDomain is the domain that will be used as the base domain to create wildcard DNS records for DNS resources.<br />This is only used for determining the hostname for LoadBalancer resources at LoadBalancer.Spec.Hostname. |  |  |
+| `allowExplicitHostnames` _boolean_ | AllowExplicitHostnames is a flag that can be used to allow explicit hostnames to be used for DNS resources.<br />This is only used when LoadBalancer.Spec.Hostname is set. |  |  |
+| `useDNSAnnotations` _boolean_ | UseDNSAnnotations is a flag that can be used to add DNS annotations to DNS resources.<br />This is only used when LoadBalancer.Spec.Hostname is set. |  |  |
+| `useCertificateAnnotations` _boolean_ | UseCertificateAnnotations is a flag that can be used to add Certificate annotations to Certificate resources.<br />This is only used when LoadBalancer.Spec.Hostname is set. |  |  |
 
 #### ConfigList
 
@@ -237,13 +198,11 @@ _Appears in:_
 | `ingress` _[IngressSettings](#ingresssettings)_ |  |  |  |
 | `gatewayAPI` _[GatewayAPISettings](#gatewayapisettings)_ |  |  |  |
 | `dns` _[ConfigDNSSettings](#configdnssettings)_ |  |  |  |
-| `certificates` _[ConfigCertificatesSettings](#configcertificatessettings)_ |  |  |  |
-| `tunnel` _[TunnelSettings](#tunnelsettings)_ |  |  |  |
-| `circuitBreaker` _[CircuitBreaker](#circuitbreaker)_ | CircuitBreaker defines the default circuit breaker configuration for all Envoy clusters.<br />These settings can be overridden at the Tenant level. |  |  |
+| `certificates` _[CertificatesSettings](#certificatessettings)_ |  |  |  |
 
 #### DNSSettings
 
-DNSSettings defines the tenant specific settings for DNS management and automation.
+DNSSettings defines the settings for DNS management and automation.
 
 _Appears in:_
 
@@ -251,12 +210,10 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `disable` _boolean_ | Disable is a flag that can be used to disable DNS automation for a tenant. |  |  |
-| `allowedDomains` _string array_ | AllowedDomains is a list of allowed domains for automated DNS management. Has a higher precedence than the value specified in the Config.<br />If empty, the value specified in `tenant.spec.allowedDomains` will be used.<br />Examples:<br />- ["_.example.com"] -> this allows subdomains at the root level such as example.com and test.example.com but won't allow domains at one level above like test.test.example.com<br />- ["**.example.com"] -> this allows all subdomains of example.com such as test.dns.example.com and dns.example.com<br />- ["example.com"] -> this allows only example.com<br />- ["**"] or ["_"] -> this allows all domains<br />Note: "**" was added as a special case to allow any levels of subdomains that come before it. "*" works for only 1 level. |  |  |
-| `wildcardDomain` _string_ | WildcardDomain is the domain that will be used as the base domain to create wildcard DNS records for DNS resources.<br />This is only used for determining the hostname for LoadBalancer and Tunnel resources. |  |  |
-| `allowExplicitHostnames` _boolean_ | AllowExplicitHostnames is a flag that can be used to allow explicit hostnames to be used for DNS resources.<br />This is only used when LoadBalancer.Spec.Hostname or Tunnel.Spec.Hostname is set. |  |  |
-| `useDNSAnnotations` _boolean_ | UseDNSAnnotations is a flag that can be used to add DNS annotations to DNS resources.<br />This is only used when LoadBalancer.Spec.Hostname or Tunnel.Spec.Hostname is set. |  |  |
-| `useCertificateAnnotations` _boolean_ | UseCertificateAnnotations is a flag that can be used to add Certificate annotations to Certificate resources.<br />This is only used when LoadBalancer.Spec.Hostname or Tunnel.Spec.Hostname is set. |  |  |
+| `wildcardDomain` _string_ | WildcardDomain is the domain that will be used as the base domain to create wildcard DNS records for DNS resources.<br />This is only used for determining the hostname for LoadBalancer resources at LoadBalancer.Spec.Hostname. |  |  |
+| `allowExplicitHostnames` _boolean_ | AllowExplicitHostnames is a flag that can be used to allow explicit hostnames to be used for DNS resources.<br />This is only used when LoadBalancer.Spec.Hostname is set. |  |  |
+| `useDNSAnnotations` _boolean_ | UseDNSAnnotations is a flag that can be used to add DNS annotations to DNS resources.<br />This is only used when LoadBalancer.Spec.Hostname is set. |  |  |
+| `useCertificateAnnotations` _boolean_ | UseCertificateAnnotations is a flag that can be used to add Certificate annotations to Certificate resources.<br />This is only used when LoadBalancer.Spec.Hostname is set. |  |  |
 
 #### EndpointAddress
 
@@ -306,7 +263,7 @@ _Appears in:_
 | `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#affinity-v1-core)_ | Affinity is used to schedule Envoy Proxy pods on nodes with matching affinity. |  |  |
 | `image` _string_ | Image defines the Envoy Proxy image to use. |  |  |
 | `gracefulShutdown` _[EnvoyProxyGracefulShutdown](#envoyproxygracefulshutdown)_ | GracefulShutdown defines the graceful shutdown configuration for Envoy Proxy. |  |  |
-| `overloadManager` _[EnvoyProxyOverloadManager](#envoyproxyoverloadmanager)_ | OverloadManager defines the overload manager configuration for Envoy XDS bootstrap. |  |  |
+| `overloadManager` _[EnvoyProxyOverloadManager](#envoyproxyoverloadmanager)_ | OverloadManager defines the overload manager configuration for Envoy XDS. |  |  |
 
 #### EnvoyProxyGracefulShutdown
 
@@ -364,44 +321,8 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `class` _string_ | Class is the class of the gateway API to use. This can be used to specify a specific gateway API implementation.<br />This has higher precedence than the value specified in the Config. |  |  |
+| `defaultGateway` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectreference-v1-core)_ | DefaultGateway is the default gateway reference to use for the tenant. This is only used for load balancer hostname. |  |  |
 | `disable` _boolean_ | Disable is a flag that can be used to disable Gateway API for a tenant. |  |  |
-| `defaultGateway` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectreference-v1-core)_ | DefaultGateway is the default gateway reference to use for the tenant. This is only used for load balancer hostname and tunneling. |  |  |
-| `gateway` _[GatewaySettings](#gatewaysettings)_ |  |  |  |
-| `disableHTTPRoute` _boolean_ |  |  |  |
-| `disableGRPCRoute` _boolean_ |  |  |  |
-| `disableTCPRoute` _boolean_ |  |  |  |
-| `disableUDPRoute` _boolean_ |  |  |  |
-| `disableTLSRoute` _boolean_ |  |  |  |
-| `disableBackendTrafficPolicy` _boolean_ |  |  |  |
-| `disableClientTrafficPolicy` _boolean_ |  |  |  |
-
-#### GatewayAPIsSettings
-
-_Appears in:_
-
-- [GatewayAPISettings](#gatewayapisettings)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `disableHTTPRoute` _boolean_ |  |  |  |
-| `disableGRPCRoute` _boolean_ |  |  |  |
-| `disableTCPRoute` _boolean_ |  |  |  |
-| `disableUDPRoute` _boolean_ |  |  |  |
-| `disableTLSRoute` _boolean_ |  |  |  |
-| `disableBackendTrafficPolicy` _boolean_ |  |  |  |
-| `disableClientTrafficPolicy` _boolean_ |  |  |  |
-
-#### GatewaySettings
-
-GatewaySettings defines the settings for the gateway resource.
-
-_Appears in:_
-
-- [GatewayAPISettings](#gatewayapisettings)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `limit` _integer_ | Limit is the maximum number of gateways to create.<br />If a lower limit is set than the number of reources that exist, the limit will be disallow creation of new resources but will not delete existing resources. The reason behind this<br />is that it is not possible for KubeLB to know which resources are safe to remove. |  |  |
 
 #### HostnameStatus
 
@@ -521,7 +442,6 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `class` _string_ | Class is the class of the load balancer to use.<br />This has higher precedence than the value specified in the Config. |  |  |
-| `limit` _integer_ | Limit is the maximum number of load balancers to create.<br />If a lower limit is set than the number of reources that exist, the limit will be disallow creation of new resources but will not delete existing resources. The reason behind this<br />is that it is not possible for KubeLB to know which resources are safe to remove. |  |  |
 | `disable` _boolean_ | Disable is a flag that can be used to disable L4 load balancing for a tenant. |  |  |
 
 #### LoadBalancerSpec
@@ -536,7 +456,7 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `endpoints` _[LoadBalancerEndpoints](#loadbalancerendpoints) array_ | Sets of addresses and ports that comprise an exposed user service on a cluster. |  | MinItems: 1 <br /> |
 | `ports` _[LoadBalancerPort](#loadbalancerport) array_ | The list of ports that are exposed by the load balancer service.<br />only needed for layer 4 |  |  |
-| `hostname` _string_ | Hostname is the domain name at which the load balancer service will be accessible.<br />When hostname is set, KubeLB will create a route(ingress or httproute) for the service, and expose it with TLS on the given hostname. |  |  |
+| `hostname` _string_ | Hostname is the domain name at which the load balancer service will be accessible.<br />When hostname is set, KubeLB will create a route(ingress or httproute) for the service, and expose it with TLS on the given hostname. Currently, only HTTP protocol is supported |  |  |
 | `type` _[ServiceType](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#servicetype-v1-core)_ | type determines how the Service is exposed. Defaults to ClusterIP. Valid<br />options are ExternalName, ClusterIP, NodePort, and LoadBalancer.<br />"ExternalName" maps to the specified externalName.<br />"ClusterIP" allocates a cluster-internal IP address for load-balancing to<br />endpoints. Endpoints are determined by the selector or if that is not<br />specified, by manual construction of an Endpoints object. If clusterIP is<br />"None", no virtual IP is allocated and the endpoints are published as a<br />set of endpoints rather than a stable IP.<br />"NodePort" builds on ClusterIP and allocates a port on every node which<br />routes to the clusterIP.<br />"LoadBalancer" builds on NodePort and creates an<br />external load-balancer (if supported in the current cloud) which routes<br />to the clusterIP.<br />More info: <https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types> | ClusterIP |  |
 
 #### LoadBalancerState
@@ -548,7 +468,6 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `disable` _boolean_ |  |  |  |
-| `limit` _integer_ |  |  |  |
 
 #### LoadBalancerStatus
 
@@ -563,18 +482,6 @@ _Appears in:_
 | `loadBalancer` _[LoadBalancerStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#loadbalancerstatus-v1-core)_ | LoadBalancer contains the current status of the load-balancer,<br />if one is present. |  |  |
 | `service` _[ServiceStatus](#servicestatus)_ | Service contains the current status of the LB service. |  |  |
 | `hostname` _[HostnameStatus](#hostnamestatus)_ | Hostname contains the status for hostname resources. |  |  |
-
-#### PerEndpointCircuitBreaker
-
-PerEndpointCircuitBreaker defines circuit breaker thresholds that apply to individual endpoints.
-
-_Appears in:_
-
-- [CircuitBreaker](#circuitbreaker)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `maxConnections` _integer_ | MaxConnections is the maximum number of connections that Envoy will establish to a single endpoint.<br />If not specified, the default is 1024. |  | Maximum: 4.294967295e+09 <br />Minimum: 0 <br /> |
 
 #### ResourceState
 
@@ -667,7 +574,7 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `endpoints` _[LoadBalancerEndpoints](#loadbalancerendpoints) array_ | Sets of addresses and ports that comprise an exposed user service on a cluster.<br />This field is required for Routes that represent traffic-forwarding resources (Ingress, Gateway routes).<br />It is optional for policy resources like BackendTrafficPolicy. |  |  |
+| `endpoints` _[LoadBalancerEndpoints](#loadbalancerendpoints) array_ | Sets of addresses and ports that comprise an exposed user service on a cluster. |  | MinItems: 1 <br /> |
 | `source` _[RouteSource](#routesource)_ | Source contains the information about the source of the route. This is used when the route is created from external sources. |  |  |
 
 #### RouteStatus
@@ -784,9 +691,6 @@ _Appears in:_
 | `gatewayAPI` _[GatewayAPISettings](#gatewayapisettings)_ |  |  |  |
 | `dns` _[DNSSettings](#dnssettings)_ |  |  |  |
 | `certificates` _[CertificatesSettings](#certificatessettings)_ |  |  |  |
-| `tunnel` _[TenantTunnelSettings](#tenanttunnelsettings)_ |  |  |  |
-| `circuitBreaker` _[CircuitBreaker](#circuitbreaker)_ | CircuitBreaker defines the circuit breaker configuration for this tenant's Envoy clusters.<br />Overrides Config-level settings. |  |  |
-| `allowedDomains` _string array_ | List of allowed domains for the tenant. This is used to restrict the domains that can be used<br />for the tenant. If specified, applies on all the components such as Ingress, GatewayAPI, DNS, certificates, etc.<br />Examples:<br />- ["_.example.com"] -> this allows subdomains at the root level such as example.com and test.example.com but won't allow domains at one level above like test.test.example.com<br />- ["**.example.com"] -> this allows all subdomains of example.com such as test.dns.example.com and dns.example.com<br />- ["example.com"] -> this allows only example.com<br />- ["**"] or ["_"] -> this allows all domains<br />Note: "**" was added as a special case to allow any levels of subdomains that come before it. "*" works for only 1 level.<br />Default: value is ["**"] and all domains are allowed. | [**] |  |
 
 #### TenantState
 
@@ -836,9 +740,7 @@ _Appears in:_
 | `version` _[Version](#version)_ |  |  |  |
 | `lastUpdated` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#time-v1-meta)_ |  |  |  |
 | `conditions` _[Condition](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#condition-v1-meta) array_ |  |  |  |
-| `tunnel` _[TunnelState](#tunnelstate)_ |  |  |  |
 | `loadBalancer` _[LoadBalancerState](#loadbalancerstate)_ |  |  |  |
-| `allowedDomains` _string array_ |  |  |  |
 
 #### TenantStatus
 
@@ -847,131 +749,6 @@ TenantStatus defines the observed state of Tenant
 _Appears in:_
 
 - [Tenant](#tenant)
-
-#### TenantTunnelSettings
-
-TenantTunnelSettings defines the settings for the tunnel.
-
-_Appears in:_
-
-- [TenantSpec](#tenantspec)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `limit` _integer_ | Limit is the maximum number of tunnels to create.<br />If a lower limit is set than the number of reources that exist, the limit will be disallow creation of new resources but will not delete existing resources. The reason behind this<br />is that it is not possible for KubeLB to know which resources are safe to remove. |  |  |
-| `disable` _boolean_ | Disable is a flag that can be used to disable tunneling for a tenant. |  |  |
-
-#### Tunnel
-
-Tunnel is the Schema for the tunnels API
-
-_Appears in:_
-
-- [TunnelList](#tunnellist)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `apiVersion` _string_ | `kubelb.k8c.io/v1alpha1` | | |
-| `kind` _string_ | `Tunnel` | | |
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
-| `spec` _[TunnelSpec](#tunnelspec)_ |  |  |  |
-| `status` _[TunnelStatus](#tunnelstatus)_ |  |  |  |
-
-#### TunnelList
-
-TunnelList contains a list of Tunnel
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `apiVersion` _string_ | `kubelb.k8c.io/v1alpha1` | | |
-| `kind` _string_ | `TunnelList` | | |
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
-| `items` _[Tunnel](#tunnel) array_ |  |  |  |
-
-#### TunnelPhase
-
-_Underlying type:_ _string_
-
-TunnelPhase represents the phase of tunnel
-
-_Appears in:_
-
-- [TunnelStatus](#tunnelstatus)
-
-| Field | Description |
-| --- | --- |
-| `Pending` | TunnelPhasePending means the tunnel is being provisioned<br /> |
-| `Ready` | TunnelPhaseReady means the tunnel is ready to accept connections<br /> |
-| `Failed` | TunnelPhaseFailed means the tunnel provisioning failed<br /> |
-| `Terminating` | TunnelPhaseTerminating means the tunnel is being terminated<br /> |
-
-#### TunnelResources
-
-TunnelResources contains references to resources created for the tunnel
-
-_Appears in:_
-
-- [TunnelStatus](#tunnelstatus)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `serviceName` _string_ | ServiceName is the name of the service created for this tunnel |  |  |
-| `routeRef` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectreference-v1-core)_ | RouteRef is a reference to the route (HTTPRoute or Ingress) created for this tunnel |  |  |
-
-#### TunnelSettings
-
-TunnelSettings defines the global settings for Tunnel resources.
-
-_Appears in:_
-
-- [ConfigSpec](#configspec)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `limit` _integer_ | Limit is the maximum number of tunnels to create.<br />If a lower limit is set than the number of reources that exist, the limit will be disallow creation of new resources but will not delete existing resources. The reason behind this<br />is that it is not possible for KubeLB to know which resources are safe to remove. |  |  |
-| `connectionManagerURL` _string_ | ConnectionManagerURL is the URL of the connection manager service that handles tunnel connections.<br />This is required if tunneling is enabled.<br />For example: "<https://con.example.com>" |  |  |
-| `disable` _boolean_ | Disable indicates whether tunneling feature should be disabled. |  |  |
-
-#### TunnelSpec
-
-TunnelSpec defines the desired state of Tunnel
-
-_Appears in:_
-
-- [Tunnel](#tunnel)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `hostname` _string_ | Hostname is the hostname of the tunnel. If not specified, the hostname will be generated by KubeLB. |  |  |
-
-#### TunnelState
-
-_Appears in:_
-
-- [TenantStateStatus](#tenantstatestatus)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `disable` _boolean_ |  |  |  |
-| `limit` _integer_ |  |  |  |
-| `connectionManagerURL` _string_ |  |  |  |
-
-#### TunnelStatus
-
-TunnelStatus defines the observed state of Tunnel
-
-_Appears in:_
-
-- [Tunnel](#tunnel)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `hostname` _string_ | Hostname contains the actual hostname assigned to the tunnel |  |  |
-| `url` _string_ | URL contains the full URL to access the tunnel |  |  |
-| `connectionManagerURL` _string_ | ConnectionManagerURL contains the URL that clients should use to establish tunnel connections |  |  |
-| `phase` _[TunnelPhase](#tunnelphase)_ | Phase represents the current phase of the tunnel |  |  |
-| `resources` _[TunnelResources](#tunnelresources)_ | Resources contains references to the resources created for this tunnel |  |  |
-| `conditions` _[Condition](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#condition-v1-meta) array_ | Conditions represents the current conditions of the tunnel |  |  |
 
 #### UpstreamService
 

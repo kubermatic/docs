@@ -17,7 +17,7 @@ KubeLB exposes Prometheus metrics for monitoring the health and performance of t
 
 KubeLB provides pre-built Grafana dashboards for monitoring. These dashboards are located in the `dashboards` directory within the Helm charts and can be imported into your existing Grafana instance.
 
-You can find the dashboards in the [kubelb Helm chart](https://github.com/kubermatic/kubelb/tree/main/charts/kubelb-manager/dashboards).
+You can find the dashboards in the [kubelb Helm chart](https://github.com/kubermatic/kubelb/tree/release/v1.3/charts/kubelb-manager/dashboards).
 
 ## Traffic Flow Visibility
 
