@@ -33,16 +33,16 @@ KubeLB v1.3 introduces comprehensive supply chain security for both CE and EE:
 - GitHub dependency graph
 - GitHub attestations and provenance publishing
 
-These measures ensure compliance with NTIA Minimum Elements, Executive Order 14028, and SLSA guidelines. See [Supply Chain Security]({{< ref "/kubelb/v1.3/security" >}}) for verification commands.
+These measures ensure compliance with NTIA Minimum Elements, Executive Order 14028, and SLSA guidelines. See [Supply Chain Security]({{< relref "../security" >}}) for verification commands.
 
-#### Community Edition(CE)
+#### Community Edition (CE)
 
 - **Observability**: Prometheus metrics are now available for CCM, Manager, and Envoy Control Plane. Grafana dashboards have been introduced for monitoring KubeLB components.
 - **Graceful Envoy Shutdown**: Envoy Proxy now gracefully drains listeners before termination to avoid downtimes.
 - **Overload Manager**: Configurable overload manager and global connection limits using custom Envoy bootstrap.
 - **Custom Envoy Image**: Users can now specify a custom Envoy Proxy image through the EnvoyProxy configuration.
 
-#### Enterprise Edition(EE)
+#### Enterprise Edition (EE)
 
 - **Circuit Breakers**: Configurable circuit breakers for Envoy Clusters at Global or Tenant level.
 - **Traffic Policies**: Support for Envoy Gateway's BackendTrafficPolicy and ClientTrafficPolicy.

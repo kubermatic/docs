@@ -20,7 +20,7 @@ KubeLB v1.3 provides supply chain security for both Community Edition (CE) and E
 - GitHub dependency graph
 - GitHub attestations and provenance publishing
 
-These features are not available in Enterprise Edition since the repository is private.
+These features require a public GitHub repository.
 
 ## Editions
 
