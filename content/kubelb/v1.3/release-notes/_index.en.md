@@ -38,6 +38,7 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 #### Community Edition (CE)
 
 - **Observability**: Prometheus metrics are now available for CCM, Manager, and Envoy Control Plane. Grafana dashboards have been introduced for monitoring KubeLB components.
+- **Revamped E2E Tests**: E2E tests have been revamped to use the chainsaw  framework and are now running in a CI/CD pipeline.
 - **Graceful Envoy Shutdown**: Envoy Proxy now gracefully drains listeners before termination to avoid downtimes.
 - **Overload Manager**: Configurable overload manager and global connection limits using custom Envoy bootstrap.
 - **Custom Envoy Image**: Users can now specify a custom Envoy Proxy image through the EnvoyProxy configuration.
@@ -52,8 +53,10 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 
 #### Features
 
+- Add supply chain security: signing, SBOMs, and security documentation. ([#220](https://github.com/kubermatic/kubelb/pull/220))
 - Prometheus metrics for CCM, Manager, and Envoy Control Plane. ([#203](https://github.com/kubermatic/kubelb/pull/203))
 - Grafana dashboards for KubeLB with support for metrics scraping through prometheus annotations or ServiceMonitors. ([#204](https://github.com/kubermatic/kubelb/pull/204))
+- Overhaul e2e testing infrastructure with Chainsaw framework, adding comprehensive Layer 4/7 test coverage. ([#217](https://github.com/kubermatic/kubelb/pull/217))
 - Upgrade to Gateway API v1.4. ([#199](https://github.com/kubermatic/kubelb/pull/199))
 - Upgrade to Envoy Gateway v1.5.4. ([#148](https://github.com/kubermatic/kubelb/pull/148))
 - Configuring overload manager and global connection limits using a custom Envoy bootstrap. ([#198](https://github.com/kubermatic/kubelb/pull/198))
