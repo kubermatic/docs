@@ -4859,6 +4859,24 @@ _Appears in:_
 
 
 
+### KubermaticGatewayConfiguration
+
+
+
+KubermaticGatewayConfiguration configures the Gateway API integration.
+
+_Appears in:_
+- [KubermaticIngressConfiguration](#kubermaticingressconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `className` _string_ | {{< unsafe >}}ClassName is the GatewayClass to use.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### KubermaticIngressConfiguration
 
 
@@ -4875,6 +4893,7 @@ _Appears in:_
 | `namespaceOverride` _string_ | {{< unsafe >}}NamespaceOverride need to be set if a different ingress-controller is used than the KKP default one.{{< /unsafe >}} |
 | `disable` _boolean_ | {{< unsafe >}}Disable will prevent an Ingress from being created at all. This is mostly useful<br />during testing. If the Ingress is disabled, the CertificateIssuer setting can also<br />be left empty, as no Certificate resource will be created.{{< /unsafe >}} |
 | `certificateIssuer` _[TypedLocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#typedlocalobjectreference-v1-core)_ | {{< unsafe >}}CertificateIssuer is the name of a cert-manager Issuer or ClusterIssuer (default)<br />that will be used to acquire the certificate for the configured domain.<br />To use a namespaced Issuer, set the Kind to "Issuer" and manually create the<br />matching Issuer in Kubermatic's namespace.<br />Setting an empty name disables the automatic creation of certificates and disables<br />the TLS settings on the Kubermatic Ingress.{{< /unsafe >}} |
+| `gateway` _[KubermaticGatewayConfiguration](#kubermaticgatewayconfiguration)_ | {{< unsafe >}}Gateway configures Gateway API mode as nginx-ingress-controller replacement.<br />When enabled via `kubermatic-operator` flag, Gateway and HTTPRoute resources<br />are managed by kubermatic-operator, instead of Ingress.{{< /unsafe >}} |
 
 
 [Back to top](#top)
