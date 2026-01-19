@@ -81,12 +81,12 @@ Instances for worker nodes can be managed in two ways:
 
 * using [Kubermatic machine-controller][machine-controller], which creates and
   provisions instances, and joins them a cluster, automatically
-* using KubeOne Static Workers, by using the preferred tooling to create
+* using KubeOne Static Nodes, by using the preferred tooling to create
   instances (e.g. Terraform) and then provision them using KubeOne
 
 Using Kubermatic machine-controller is highly advised if your provider is
 [officially-supported][supported-providers].
-Otherwise, [KubeOne Static Workers][static-workers] are recommended instead.
+Otherwise, [KubeOne Static Nodes][static-nodes] are recommended instead.
 More details about the machine-controller and the Cluster-API can be found in
 the [Concepts][concepts] document.
 
@@ -164,7 +164,7 @@ The needed `output.tf` file already comes with all our
 [supported-os]: {{< ref "../../compatibility/os-support-matrix/" >}}
 [terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
 [machine-controller]: https://github.com/kubermatic/machine-controller
-[static-workers]: {{< ref "../../../guides/static-workers" >}}
+[static-nodes]: {{< ref "../../../guides/static-nodes" >}}
 [concepts]: {{< ref "../../concepts#kubermatic-machine-controller" >}}
 [concepts-md]: {{< ref "../../concepts#machinedeployments" >}}
 [concepts-mc]: {{< ref "../../concepts#kubermatic-machine-controller" >}}

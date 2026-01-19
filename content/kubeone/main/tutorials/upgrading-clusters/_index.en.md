@@ -14,7 +14,7 @@ connects to nodes over SSH and runs commands needed to upgrade the node.
 
 Worker nodes managed by Kubermatic machine-controller are upgraded using
 the rolling-upgrade strategy, i.e. the old nodes are replaced with the new
-ones. KubeOne Static Workers are upgraded in-place, similar to the control
+ones. KubeOne Static Nodes are upgraded in-place, similar to the control
 plane nodes.
 
 ## Prerequisites

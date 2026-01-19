@@ -14,11 +14,11 @@ Instances for worker nodes can be managed in two ways:
 
 * using [Kubermatic machine-controller][machine-controller], which creates and
   provisions instances, and joins them a cluster, automatically
-* using KubeOne Static Workers, by using the preferred tooling to create
+* using KubeOne Static Nodes, by using the preferred tooling to create
   instances and then provision them using KubeOne
 
 Using Kubermatic machine-controller is highly advised if your provider is
-[officially supported][supported-providers]. Otherwise, KubeOne Static Workers
+[officially supported][supported-providers]. Otherwise, KubeOne Static Nodes
 are recommended instead.
 
 Additional information about the infrastructure management, such as what are
@@ -59,7 +59,7 @@ information about the cluster including:
 * SSH parameters (username, port, key)
 * bastion/jump host parameters if bastion is used
 * information needed to generate the MachineDeployment objects which define
-  worker nodes; for more information, see [terraform worker reference][terraform-integration-workers].
+  worker nodes; for more information, see [terraform worker reference][terraform-integration-nodes].
 
 All you need to do to utilize the integration is to ensure that you have
 the appropriate `output.tf` file along with your other Terraform files. It's
@@ -169,4 +169,4 @@ MachineSets/Machines and allow advanced use cases such as rolling updates.
 [cluster-api-book]: https://cluster-api.sigs.k8s.io/
 [cluster-provisioning]: {{< ref "#cluster-provisioning-and-management" >}}
 [operating-system-manager]: https://github.com/kubermatic/operating-system-manager
-[terraform-integration-workers]: {{< ref "../../references/terraform-integration/#kubeone_workers-reference" >}}
+[terraform-integration-nodes]: {{< ref "../../references/terraform-integration/#kubeone_nodes-reference" >}}

@@ -56,7 +56,7 @@ The first approach is recommended if your provider is
 Hetzner Cloud, Nutanix, OpenStack, VMware Cloud Director, and
 VMware vSphere), and we will use it in this tutorial. If your provider
 is not supported (e.g. bare-metal), you can check the
-[KubeOne Static Workers][static-workers] feature for more information about the
+[KubeOne Static Nodes][static-nodes] feature for more information about the
 second approach.
 
 The example Terraform configs that we'll be using satisfy all infrastructure
@@ -1007,7 +1007,7 @@ and recommendations.
   worker nodes in [the following guide][machine-controller]
 
 [compatibility-providers]: {{< ref "../../architecture/supported-providers/" >}}
-[static-workers]: {{< ref "../../guides/static-workers" >}}
+[static-nodes]: {{< ref "../../guides/static-nodes" >}}
 [infrastructure-management]: {{< ref "../../architecture/requirements/infrastructure-management" >}}
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server
 [nodelocaldns]: https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/

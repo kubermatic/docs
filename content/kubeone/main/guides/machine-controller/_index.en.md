@@ -29,7 +29,7 @@ ones, or scale them up and down, using a single kubectl command.
 Kubermatic machine-controller works only with
 [natively-supported][supported-providers] providers. If your provider is
 natively-supported, we highly recommend using machine-controller. Otherwise,
-you can use [KubeOne Static Workers][static-workers].
+you can use [KubeOne Static Nodes][static-nodes].
 
 For the required permissions of the machine-controller checkout the [machine-controller][machine-controller-requirements] requirements.
 
@@ -160,7 +160,7 @@ otherwise, your changes can get overwritten the next time you run KubeOne.
 [cluster-api]: {{< ref "../../architecture/concepts#cluster-api" >}}
 [machine-deployments]: {{< ref "../../architecture/concepts#machinedeployments" >}}
 [supported-providers]: {{< ref "../../architecture/supported-providers/" >}}
-[static-workers]: {{< ref "../static-workers" >}}
+[static-nodes]: {{< ref "../static-nodes" >}}
 [terraform-integration]: {{< ref "../../architecture/requirements/infrastructure-management/#terraform-integration" >}}
 [terraform-integration-workers]: {{< ref "../../references/terraform-integration/#kubeone_workers-reference" >}}
 [machine-controller-requirements]: {{< ref "../../architecture/requirements/machine-controller" >}}
