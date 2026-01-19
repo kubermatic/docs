@@ -54,10 +54,10 @@ upgrade, or scale your worker nodes using kubectl.
 
 ## Getting Started
 
-Check out the Getting Started section to learn how to install KubeOne and get
-started with it. If you want to learn more about how KubeOne works, you can
-check out the Concepts and the [Architecture][architecture]
-documents.
+Check out the [Quick Start][quick-start] section to learn how to deploy a cluster in minutes. You can also customize the
+installation, check out the [Creating a Kubernetes Cluster][creating-clusters] to learn how to install KubeOne and get
+started with it. If you want to learn more about how KubeOne works, you can check out the Concepts and the
+[Architecture][architecture] documents.
 
 ## Getting Involved
 
@@ -79,4 +79,6 @@ features, connect with us over the forums or Slack:
 [contributing-guide]: {{< ref "./tutorials/how-to-contribute-to-kubeone" >}}
 [slack-kubeone]: https://kubernetes.slack.com/messages/CNEV2UMT7
 [slack-k8s]: http://slack.k8s.io/
+[creating-clusters]: {{< ref "./tutorials/creating-clusters/" >}}
+[quick-start]: {{< ref "./quick-start" >}}
 [forums]: https://forum.kubermatic.com/
