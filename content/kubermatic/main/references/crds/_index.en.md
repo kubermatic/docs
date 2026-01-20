@@ -2130,7 +2130,7 @@ _Appears in:_
 | `nodeCidrMaskSizeIPv4` _integer_ | {{< unsafe >}}NodeCIDRMaskSizeIPv4 is the mask size used to address the nodes within provided IPv4 Pods CIDR.<br />It has to be larger than the provided IPv4 Pods CIDR. Defaults to 24.{{< /unsafe >}} |
 | `nodeCidrMaskSizeIPv6` _integer_ | {{< unsafe >}}NodeCIDRMaskSizeIPv6 is the mask size used to address the nodes within provided IPv6 Pods CIDR.<br />It has to be larger than the provided IPv6 Pods CIDR. Defaults to 64.{{< /unsafe >}} |
 | `dnsDomain` _string_ | {{< unsafe >}}Domain name for services.{{< /unsafe >}} |
-| `proxyMode` _string_ | {{< unsafe >}}ProxyMode defines the kube-proxy mode ("ipvs" / "iptables" / "ebpf").<br />Defaults to "ipvs". "ebpf" disables kube-proxy and requires CNI support.{{< /unsafe >}} |
+| `proxyMode` _string_ | {{< unsafe >}}ProxyMode defines the kube-proxy mode ("ipvs" / "iptables" / "ebpf" / "nftables").<br />Defaults to "ipvs". "ebpf" disables kube-proxy and requires CNI support.{{< /unsafe >}} |
 | `ipvs` _[IPVSConfiguration](#ipvsconfiguration)_ | {{< unsafe >}}IPVS defines kube-proxy ipvs configuration options{{< /unsafe >}} |
 | `nodeLocalDNSCacheEnabled` _boolean_ | {{< unsafe >}}NodeLocalDNSCacheEnabled controls whether the NodeLocal DNS Cache feature is enabled.<br />Defaults to true.{{< /unsafe >}} |
 | `coreDNSReplicas` _integer_ | {{< unsafe >}}CoreDNSReplicas is the number of desired pods of user cluster coredns deployment.<br />Deprecated: This field should not be used anymore, use cluster.componentsOverride.coreDNS.replicas<br />instead. Only one of the two fields can be set at any time.{{< /unsafe >}} |
