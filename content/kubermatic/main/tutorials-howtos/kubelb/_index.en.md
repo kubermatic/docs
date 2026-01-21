@@ -103,3 +103,21 @@ spec:
 This can be enabled using the KKP dashboard as well.
 
 ![Enable KubeLB during cluster creation](kubelb-dashboard.png?classes=shadow,border "Enable KubeLB during cluster creation")
+
+### Tenant defaulting at Project level
+
+KubeLB Tenant Spec can be defaulted in the related `Project` as follows:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: Project
+metadata:
+  name: 2msp2ww6gw
+spec:
+...
+  defaultTenantSpec:
+    ...
+...
+```
+
+The options for configuring default values for a kubelb tenant can be viewed in [kubelb tenant api specification](https://docs.kubermatic.com/kubelb/v1.1/references/ee/#tenantspec).
