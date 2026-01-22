@@ -123,8 +123,25 @@ With this file prepared, we can now install all required charts:
 
 **Kubermatic Installer**
 
+> **Note – Multiple Helm values files**  
+> The `kubermatic-installer` accepts **multiple** Helm values files by **repeating** the `--helm-values` flag:
+> 
+> ```bash
+> ./kubermatic-installer deploy <stack> \
+>   --config kubermatic.yaml \
+>   --helm-values values/defaults.yaml \
+>   --helm-values values/<env>.yaml \
+>   --helm-values values/secrets.yaml
+> ```
+> 
+> **Order matters:** Later files **override** earlier ones. Maps are merged recursively, **lists are replaced** (Helm semantics).  
+> The legacy single-file input remains supported for backward compatibility.
+
 ```bash
-./kubermatic-installer deploy seed-mla --helm-values values.yaml
+./kubermatic-installer deploy seed-mla \
+  --helm-values values/defaults.yaml \
+  --helm-values values/seed-mla.yaml \
+  --helm-values values/secrets.yaml
 ```
 
 Output will be similar to this:
