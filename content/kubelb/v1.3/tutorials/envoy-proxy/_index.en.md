@@ -2,7 +2,7 @@
 title = "Envoy Proxy Configuration"
 linkTitle = "Envoy Proxy"
 date = 2025-01-16T10:00:00+02:00
-weight = 9
+weight = 12
 +++
 
 KubeLB uses [Envoy](https://www.envoyproxy.io/) as its data plane to handle traffic routing, load balancing, and protocol management. The Envoy proxy instances are automatically deployed and configured by KubeLB based on your service requirements.

@@ -2,7 +2,7 @@
 title = "Security"
 linkTitle = "Security"
 date = 2023-10-27T10:07:15+02:00
-weight = 8
+weight = 10
 +++
 
 This is a guide towards managing DNS, TLS, and other security-related configurations in KubeLB.
