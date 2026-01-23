@@ -16,6 +16,10 @@ weight = 60
 
 ### Highlights
 
+#### Web Application Firewall (WAF)
+
+With v1.3, KubeLB has introduced Web Application Firewall (WAF) capabilities as an Enterprise Edition (EE) **alpha** feature. With KubeLb WAF, you can protect your applications from SQL injection, XSS, and other injection attacks without application changes from a single point of control.
+
 #### Supply Chain Security
 
 KubeLB v1.3 introduces comprehensive supply chain security for both CE and EE:
@@ -45,6 +49,7 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 
 #### Enterprise Edition (EE)
 
+- **Web Application Firewall (WAF)**: Introduces Web Application Firewall (WAF) capabilities as an Enterprise Edition (EE) **alpha** feature.
 - **Circuit Breakers**: Configurable circuit breakers for Envoy Clusters at Global or Tenant level.
 - **Traffic Policies**: Support for Envoy Gateway's BackendTrafficPolicy and ClientTrafficPolicy.
 - **Metrics**: Additional metrics for Connection Manager and EE components.
