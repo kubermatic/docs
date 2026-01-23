@@ -1,0 +1,230 @@
++++
+title = "Web Application Firewall (Alpha)"
+linkTitle = "Web Application Firewall"
+date = 2026-01-23T10:00:00+02:00
+weight = 7
+enterprise = true
++++
+
+KubeLB provides Web Application Firewall (WAF) capabilities using the [Coraza WASM filter](https://github.com/corazawaf/coraza-proxy-wasm). It inspects Layer 7 HTTP traffic at the Envoy Proxy level and blocks malicious requests using [OWASP Core Rule Set (CRS)](https://coreruleset.org/docs/) — protecting against SQL injection, XSS, and other injection attacks without application changes.
+
+{{% notice note %}}
+WAF is currently an **alpha** feature available in Enterprise Edition only. It is not recommended for production use.
+{{% /notice %}}
+
+## Why WAF?
+
+- SQL injection, XSS, and command injection attacks blocked at the gateway before reaching backends
+- OWASP CRS provides battle-tested rule sets out of the box
+- No application code changes required — protection applied at infrastructure level
+- Per-route or global policies with label-based multi-tenant targeting
+
+## Supported Routes
+
+| Route Type | Supported |
+|-----------|-----------|
+| HTTPRoute | Yes |
+| GRPCRoute | Yes |
+| LoadBalancer (Layer 4) | No |
+| TCPRoute / UDPRoute / TLSRoute | No |
+
+WAF operates at Layer 7 only and bypasses Layer 4 traffic.
+
+## WAFPolicy CRD
+
+To manage WAF policies, you can use the `WAFPolicy` CRD which is a **cluster-scoped** resource. The following is an example of a `WAFPolicy` CRD:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: WAFPolicy
+metadata:
+  name: global-waf
+spec:
+  directives:
+    - "SecRuleEngine On"
+    - "SecRequestBodyAccess On"
+    - "SecRequestBodyLimit 13107200"
+    - "Include @crs-setup-conf"
+    - "Include @owasp_crs/*.conf"
+```
+
+## Targeting
+
+Three mutually exclusive targeting modes:
+
+1. **`targetRef`** — Target a specific route by name/namespace/kind
+2. **`targetSelector`** — Match routes by label selector (checks both Route CR labels and embedded source route labels; Route CR labels win on conflict)
+3. **Neither** — Global default applying to ALL Layer 7 routes
+
+In terms of precedence, `targetRef` has higher precedence than `targetSelector`. Global default is only applicable if no targeting is specified. Within the same precedence level: **oldest policy wins** (by `creationTimestamp`). Equal timestamps: alphabetically-first name wins.
+
+## Default Directives
+
+When `directives` is empty or omitted, OWASP CRS defaults are applied:
+
+```
+SecRuleEngine On
+SecRequestBodyAccess On
+SecRequestBodyLimit 13107200
+Include @crs-setup-conf
+Include @owasp_crs/*.conf
+```
+
+This enables full OWASP CRS in blocking mode with a 12.5MB request body limit.
+
+## Examples
+
+### Basic WAF — OWASP CRS Defaults
+
+Target a specific HTTPRoute with default OWASP rules:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: WAFPolicy
+metadata:
+  name: basic-waf
+spec:
+  targetRef:
+    kind: HTTPRoute
+    name: my-app
+```
+
+### Global Default — All Layer 7 Routes
+
+Apply WAF to every HTTPRoute and GRPCRoute (no targeting fields):
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: WAFPolicy
+metadata:
+  name: global-waf
+spec:
+  directives:
+    - "SecRuleEngine On"
+    - "SecRequestBodyAccess On"
+    - "SecRequestBodyLimit 13107200"
+    - "Include @crs-setup-conf"
+    - "Include @owasp_crs/*.conf"
+```
+
+### Detection-Only Mode
+
+Log malicious requests without blocking — useful for initial rollout:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: WAFPolicy
+metadata:
+  name: detect-only
+spec:
+  targetRef:
+    kind: HTTPRoute
+    name: my-app
+  directives:
+    - "SecRuleEngine DetectionOnly"
+    - "SecRequestBodyAccess On"
+    - "Include @crs-setup-conf"
+    - "Include @owasp_crs/*.conf"
+```
+
+### Label-Based Targeting — Multi-Tenant
+
+Protect all routes belonging to a specific tenant:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: WAFPolicy
+metadata:
+  name: tenant-a-waf
+spec:
+  targetSelector:
+    matchLabels:
+      kubelb.k8c.io/tenant-name: tenant-a
+  directives:
+    - "SecRuleEngine On"
+    - "SecRequestBodyAccess On"
+    - "Include @crs-setup-conf"
+    - "Include @owasp_crs/*.conf"
+```
+
+Or target multiple tenants with `matchExpressions`:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: WAFPolicy
+metadata:
+  name: multi-tenant-waf
+spec:
+  targetSelector:
+    matchExpressions:
+      - key: kubelb.k8c.io/tenant-name
+        operator: In
+        values: ["tenant-a", "tenant-b"]
+```
+
+### GRPCRoute with Custom Rules
+
+Apply custom SecLang rules to a gRPC service:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: WAFPolicy
+metadata:
+  name: grpc-waf
+spec:
+  targetRef:
+    kind: GRPCRoute
+    name: my-grpc-service
+    namespace: tenant-name
+  directives:
+    - "SecRuleEngine On"
+    - "SecRequestBodyAccess Off"
+    - 'SecRule REQUEST_HEADERS "@detectSQLi" "id:900001,phase:1,deny,status:403,msg:SQLi in header"'
+```
+
+## Monitoring
+
+| Metric | Type | Labels | Description |
+|--------|------|--------|-------------|
+| `kubelb_manager_waf_policies` | Gauge | namespace, status | Count of valid/invalid policies |
+| `kubelb_manager_waf_routes_protected` | Gauge | namespace | Routes with active WAF protection |
+| `kubelb_manager_waf_routes_blocked` | Gauge | namespace | Routes blocked due to fail-closed |
+| `kubelb_manager_waf_filter_failures_total` | Counter | namespace, failure_mode | WAF filter creation failures |
+| `kubelb_manager_waf_policy_reconcile_total` | Counter | name, result | Policy reconciliation attempts |
+| `kubelb_manager_waf_policy_reconcile_duration_seconds` | Histogram | name | Reconciliation duration |
+
+## Glboal Settings for WAF
+
+WAF behavior can be customized globally via the `Config` CRD under `spec.waf`:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+  namespace: kubelb
+spec:
+  waf:
+    # Custom WASM init container image for the Coraza binary
+    # Defaults to KubeLB manager image which has the Coraza WASM binary embedded.
+    wasmInitContainerImage: "registry.example.com/custom-coraza-wasm:v1"
+    # Skip directive validation at reconciliation time
+    skipValidation: false
+```
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `wasmInitContainerImage` | string | (built-in) | Override the Coraza WASM binary init container image |
+| `skipValidation` | bool | `false` | Skip SecLang directive validation during reconciliation |
+
+{{% notice note %}}
+The Coraza WASM binary is embedded in the KubeLB manager image by default. The init container copies it to a shared volume mounted read-only by Envoy at `/etc/envoy/wasm`. Only override `wasmInitContainerImage` if you need a custom build.
+{{% /notice %}}
+
+## Further Reading
+
+- [Coraza WAF](https://coraza.io/)
+- [coraza-proxy-wasm](https://github.com/corazawaf/coraza-proxy-wasm)
+- [OWASP Core Rule Set](https://coreruleset.org/docs/)
+- [ModSecurity SecLang Reference](https://github.com/owasp-modsecurity/ModSecurity/wiki/Reference-Manual-(v3.x))
+- [Envoy WASM Filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/wasm_filter)
