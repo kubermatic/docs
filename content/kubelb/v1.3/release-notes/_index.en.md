@@ -66,7 +66,9 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 - Upgrade to Envoy Gateway v1.5.4. ([#148](https://github.com/kubermatic/kubelb/pull/148))
 - Configuring overload manager and global connection limits using a custom Envoy bootstrap. ([#198](https://github.com/kubermatic/kubelb/pull/198))
 - Gracefully shutdown Envoy Proxy and drain listeners before Envoy Proxy is terminated to avoid downtimes. ([#194](https://github.com/kubermatic/kubelb/pull/194))
+- TCP listeners have been replaced with HTTP listeners for HTTP traffic i.e. Ingress, HTTPRoute, GRPCRoute. ([#240](https://github.com/kubermatic/kubelb/pull/240))
 - KubeLB is now built using Go 1.25.5. ([#191](https://github.com/kubermatic/kubelb/pull/191))
+- KubeLB is now built using Go 1.25.6. ([#238](https://github.com/kubermatic/kubelb/pull/238))
 - Introduces a new `Image` field in the EnvoyProxy configuration to allow users to specify a custom Envoy Proxy image. ([#195](https://github.com/kubermatic/kubelb/pull/195))
 - Upgrade to Envoy Proxy v1.36.4. ([#197](https://github.com/kubermatic/kubelb/pull/197))
 - Upgrade addons: Envoy Gateway v1.6.1, Cert Manager v1.19.2, External DNS v1.20.0, MetalLB v0.15.3, KGateway v2.1.2. ([#202](https://github.com/kubermatic/kubelb/pull/202))
@@ -79,6 +81,7 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 #### Other (Cleanup, Flake, or Chore)
 
 - Update kube-rbac-proxy to v0.20.1. ([#205](https://github.com/kubermatic/kubelb/pull/205))
+- Bump addons in kubelb-manager to v0.3.0. ([#234](https://github.com/kubermatic/kubelb/pull/234))
 - Automated migration from namespace to tenant resources has been removed. ([#190](https://github.com/kubermatic/kubelb/pull/190))
 
 **Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.2.0...v1.3.0>
