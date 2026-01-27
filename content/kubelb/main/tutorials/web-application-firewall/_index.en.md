@@ -36,6 +36,17 @@ This infrastructure-first approach shifts WAF management from developers to Plat
 
 WAF operates at Layer 7 only and bypasses Layer 4 traffic.
 
+## Enable WAF
+
+WAF has been introduced as an Alpha feature in KubeLB v1.3. Due to the nature/stage of the feature, it is disabled by default. To enable WAF, you need to set the `kubelb.enableWAF` flag to `true` in the `values.yaml` file.
+
+In future, when the feature is promoted to Beta, the flag will be removed and WAF will be enabled by default.
+
+```yaml
+kubelb:
+  enableWAF: true
+```
+
 ## WAFPolicy CRD
 
 To manage WAF policies, you can use the `WAFPolicy` CRD which is a **cluster-scoped** resource. The following is an example of a `WAFPolicy` CRD:
