@@ -76,6 +76,7 @@ This creates ConfigMaps with the `grafana_dashboard: "1"` label, which the Grafa
 - **KubeLB / Overview** — High-level system health, resource distribution, error tracking
 - **KubeLB / Manager** — Resource inventory, reconciliation rates and latency
 - **KubeLB / Envoy Control Plane** — xDS resources, gRPC connections, cache performance, snapshot management
+- **KubeLB / Envoy Proxy** — Envoy proxy health, metrics, configuration, and traffic flow
 
 **kubelb-ccm chart:**
 

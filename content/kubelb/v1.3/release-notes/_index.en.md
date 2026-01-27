@@ -61,6 +61,7 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 - Add supply chain security: signing, SBOMs, and security documentation. ([#220](https://github.com/kubermatic/kubelb/pull/220))
 - Prometheus metrics for CCM, Manager, and Envoy Control Plane. ([#203](https://github.com/kubermatic/kubelb/pull/203))
 - Grafana dashboards for KubeLB with support for metrics scraping through prometheus annotations or ServiceMonitors. ([#204](https://github.com/kubermatic/kubelb/pull/204))
+- Grafana dashboard for Envoy Proxy monitoring. ([#246](https://github.com/kubermatic/kubelb/pull/246))
 - Overhaul e2e testing infrastructure with Chainsaw framework, adding comprehensive Layer 4/7 test coverage. ([#217](https://github.com/kubermatic/kubelb/pull/217))
 - Upgrade to Gateway API v1.4. ([#199](https://github.com/kubermatic/kubelb/pull/199))
 - Upgrade to Envoy Gateway v1.5.4. ([#148](https://github.com/kubermatic/kubelb/pull/148))
