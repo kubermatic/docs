@@ -6,7 +6,7 @@ weight = 50
 enterprise = true
 +++
 
-**Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/main/api/ee/kubelb.k8c.io/v1alpha1)**
+**Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/release/v1.2/api/ee/kubelb.k8c.io/v1alpha1)**
 
 ## Packages
 

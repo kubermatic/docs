@@ -5,7 +5,7 @@ date = 2024-03-06T12:00:00+02:00
 weight = 60
 +++
 
-**Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/main/api/ce/kubelb.k8c.io/v1alpha1)**
+**Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/release/v1.2/api/ce/kubelb.k8c.io/v1alpha1)**
 
 ## Packages
 
