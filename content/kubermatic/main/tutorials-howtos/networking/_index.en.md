@@ -19,3 +19,4 @@ This section provides guides on networking in KKP:
 - [**Cilium Cluster Mesh on KKP**]({{< relref "./cilium-cluster-mesh/" >}})
 - [**Using HTTP Proxy with KKP**]({{< relref "./httpproxy/" >}})
 - [**AI Inference Routing with Gateway API Inference Extension in KKP Clusters**]({{< relref "./ai-inference-routing/" >}})
+- [**Gateway API Migration Guide**]({{< relref "./gateway-api-migration/" >}})
