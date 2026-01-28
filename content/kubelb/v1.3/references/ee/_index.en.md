@@ -6,7 +6,7 @@ weight = 50
 enterprise = true
 +++
 
-**Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/release/v1.3/api/ee/kubelb.k8c.io/v1alpha1)**
+**Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/main/api/ee/kubelb.k8c.io/v1alpha1)**
 
 ## Packages
 
@@ -34,6 +34,8 @@ Package v1alpha1 contains API Schema definitions for the kubelb.k8c.io v1alpha1 
 - [TenantStateList](#tenantstatelist)
 - [Tunnel](#tunnel)
 - [TunnelList](#tunnellist)
+- [WAFPolicy](#wafpolicy)
+- [WAFPolicyList](#wafpolicylist)
 
 #### Addresses
 
@@ -240,6 +242,7 @@ _Appears in:_
 | `certificates` _[ConfigCertificatesSettings](#configcertificatessettings)_ |  |  |  |
 | `tunnel` _[TunnelSettings](#tunnelsettings)_ |  |  |  |
 | `circuitBreaker` _[CircuitBreaker](#circuitbreaker)_ | CircuitBreaker defines the default circuit breaker configuration for all Envoy clusters.<br />These settings can be overridden at the Tenant level. |  |  |
+| `waf` _[WAFSettings](#wafsettings)_ | WAF defines WAF-related settings. |  |  |
 
 #### DNSSettings
 
@@ -1002,3 +1005,107 @@ _Appears in:_
 | `gitCommit` _string_ |  |  |  |
 | `buildDate` _string_ |  |  |  |
 | `edition` _string_ |  |  |  |
+
+#### WAFFailureMode
+
+_Underlying type:_ _string_
+
+WAFFailureMode defines how routes behave when WAF filter creation fails.
+
+_Validation:_
+
+- Enum: [Open Closed]
+
+_Appears in:_
+
+- [WAFPolicySpec](#wafpolicyspec)
+
+| Field | Description |
+| --- | --- |
+| `Open` | WAFFailureModeOpen allows traffic through without WAF protection if filter fails.<br /> |
+| `Closed` | WAFFailureModeClosed blocks traffic if WAF filter cannot be applied.<br /> |
+
+#### WAFPolicy
+
+WAFPolicy defines Web Application Firewall policy for L7 routes.
+Applies to HTTPRoute, GRPCRoute, and Ingress resources.
+
+_Appears in:_
+
+- [WAFPolicyList](#wafpolicylist)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `apiVersion` _string_ | `kubelb.k8c.io/v1alpha1` | | |
+| `kind` _string_ | `WAFPolicy` | | |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
+| `spec` _[WAFPolicySpec](#wafpolicyspec)_ |  |  |  |
+| `status` _[WAFPolicyStatus](#wafpolicystatus)_ |  |  |  |
+
+#### WAFPolicyList
+
+WAFPolicyList contains a list of WAFPolicy.
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `apiVersion` _string_ | `kubelb.k8c.io/v1alpha1` | | |
+| `kind` _string_ | `WAFPolicyList` | | |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
+| `items` _[WAFPolicy](#wafpolicy) array_ |  |  |  |
+
+#### WAFPolicySpec
+
+WAFPolicySpec defines the desired state of WAFPolicy.
+Exactly one targeting method must be used: targetRef, targetSelector, or neither (global default).
+Setting both targetRef and targetSelector is invalid.
+Feature stage: Alpha
+
+_Appears in:_
+
+- [WAFPolicy](#wafpolicy)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `targetRef` _[WAFTargetRef](#waftargetref)_ | TargetRef identifies a specific route by name and optionally namespace.<br />Mutually exclusive with TargetSelector. |  |  |
+| `targetSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#labelselector-v1-meta)_ | TargetSelector selects routes or HTTPRoute/GRPCRoute resources by label.<br />It checks whether the route has the labels or the labels of the HTTPRoute/GRPCRoute resource. In case of a<br />conflict, the labels of the Route resource takes precedence.<br />Mutually exclusive with TargetRef. |  |  |
+| `directives` _string array_ | Directives contains SecLang/ModSecurity directives passed to Coraza.<br />Reference: <https://coraza.io/docs/seclang/directives/><br />If empty, the following OWASP CRS defaults are applied:<br />  - SecRuleEngine On<br />  - SecRequestBodyAccess On<br />  - SecRequestBodyLimit 13107200<br />  - Include @crs-setup-conf<br />  - Include @owasp_crs/*.conf |  |  |
+| `failureMode` _[WAFFailureMode](#waffailuremode)_ | FailureMode defines behavior when WAF filter creation fails.<br />- Closed: Block traffic if WAF cannot be applied (default)<br />- Open: Allow traffic without WAF protection | Closed | Enum: [Open Closed] <br /> |
+
+#### WAFPolicyStatus
+
+WAFPolicyStatus defines the observed state of WAFPolicy.
+
+_Appears in:_
+
+- [WAFPolicy](#wafpolicy)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `conditions` _[Condition](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#condition-v1-meta) array_ | Conditions describe the current state of the WAFPolicy. |  |  |
+
+#### WAFSettings
+
+WAFSettings defines settings for the WAF (Web Application Firewall).
+
+_Appears in:_
+
+- [ConfigSpec](#configspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `wasmInitContainerImage` _string_ | WASMInitContainerImage overrides the image used for the WASM init container.<br />If empty, defaults to the kubelb-manager image detected at runtime. |  |  |
+| `skipValidation` _boolean_ | SkipValidation skips directive validation for WAFPolicies.<br />When true, all WAFPolicies are marked as valid without parsing. |  |  |
+
+#### WAFTargetRef
+
+WAFTargetRef identifies a route by name.
+
+_Appears in:_
+
+- [WAFPolicySpec](#wafpolicyspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `group` _string_ | Group is the API group of the target resource. | gateway.networking.k8s.io |  |
+| `namespace` _string_ | Namespace is the management cluster namespace (e.g., tenant-primary).<br />If omitted, matches across all namespaces. |  |  |
+| `name` _string_ | Name is the name of the target resource which could either be the name of the resource in management cluster<br />that is generated by KubeLB or the `kubelb.k8c.io/origin-name` that is the original name of the resource in the tenant cluster. |  | MinLength: 1 <br /> |
