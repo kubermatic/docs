@@ -247,7 +247,7 @@ These NGINX annotations are converted to native Gateway API features:
 
 ### Envoy Gateway Policy Generation
 
-For policy generation, we only support Envoy Gateway as the target Gateway API implementation. The converter auto-creates **SecurityPolicy** and **BackendTrafficPolicy** resources. **ClientTrafficPolicy** is not auto-created becaue it targets Gateway, this results in it being applied to all listeners on the Gateway and that can cause issues for other HTTPRoutes on the same Gateway. Annotations requiring ClientTrafficPolicy generate warnings instead.
+For policy generation, we only support Envoy Gateway as the target Gateway API implementation. The converter auto-creates **SecurityPolicy** and **BackendTrafficPolicy** resources. **ClientTrafficPolicy** is not auto-created because it targets Gateway, this results in it being applied to all listeners on the Gateway and that can cause issues for other HTTPRoutes on the same Gateway. Annotations requiring ClientTrafficPolicy generate warnings instead.
 
 Policy generation is enabled by default in both standalone and integrated modes, and can be disabled by configuring the values.yaml with:
 
