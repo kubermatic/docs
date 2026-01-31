@@ -7,6 +7,12 @@ weight = 5
 
 This tutorial will guide you through the process of setting up Layer 7 load balancing with Ingress.
 
+{{% notice warning %}}
+**ingress-nginx has been deprecated by the Kubernetes community and will not have any new releases after March 2026. We strongly encourage you to migrate to Gateway API as soon as possible.**
+
+For more details please refer to the [Ingress to Gateway API Migration]({{< relref "../../ingress-to-gateway-api/" >}}) page.
+{{% /notice %}}
+
 Kubermatic's default recommendation is to use Gateway API and use [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation. The features specific to Gateway API that will be built and consumed in KubeLB will be based on Envoy Gateway. Although this is not a strict binding and our consumers are free to use any Ingress or Gateway API implementation. The only limitation is that we only support native Kubernetes APIs i.e. Ingress and Gateway APIs. Provider specific APIs are not supported by KubeLB and will be completely ignored.
 
 Although KubeLB supports Ingress, we strongly encourage you to use Gateway API instead as Ingress has been [feature frozen](https://kubernetes.io/docs/concepts/services-networking/ingress/#:~:text=Note%3A-,Ingress%20is%20frozen,-.%20New%20features%20are) in Kubernetes and all new development is happening in the Gateway API space. The biggest advantage of Gateway API is that it is a more flexible, has extensible APIs and is **multi-tenant compliant** by default. Ingress doesn't support multi-tenancy.

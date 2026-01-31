@@ -20,6 +20,17 @@ weight = 60
 
 With v1.3, KubeLB has introduced Web Application Firewall (WAF) capabilities as an Enterprise Edition (EE) **alpha** feature. With KubeLb WAF, you can protect your applications from SQL injection, XSS, and other injection attacks without application changes from a single point of control.
 
+#### Ingress to Gateway API Migration
+
+Introducing **experimental** automated conversion from Ingress to Gateway API resources:
+
+- Covers essential ingress-nginx annotations
+- Includes automatic Envoy Gateway policy generation for CORS, auth, timeouts, and rate limits. BackendTrafficPolicy, SecurityPolicy are generated against corresponding Ingress annotations by the converter
+- Warnings for resources that require manual migration
+- Standalone mode has been introduced for converter; this allows users to only run converter using KubeLB CCM without any other CCM feature. This is helpful when KubeLB is only deployed for this Ingress to Gateway API migration
+
+For more details please refer to the [KubeLB Ingress to Gateway API Converter]({{< relref "../ingress-to-gateway-api/kubelb-automation" >}}) page.
+
 #### Supply Chain Security
 
 KubeLB v1.3 introduces comprehensive supply chain security for both CE and EE:
@@ -41,6 +52,7 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 
 #### Community Edition (CE)
 
+- **Ingress to Gateway API Migration (Experimental)**: Introduces automated conversion from Ingress to Gateway API resources. For more details please refer to the [KubeLB Ingress to Gateway API Converter]({{< relref "../ingress-to-gateway-api/kubelb-automation" >}}) page.
 - **Observability**: Prometheus metrics are now available for CCM, Manager, and Envoy Control Plane. Grafana dashboards have been introduced for monitoring KubeLB components.
 - **Revamped E2E Tests**: E2E tests have been revamped to use the chainsaw  framework and are now running in a CI/CD pipeline.
 - **Graceful Envoy Shutdown**: Envoy Proxy now gracefully drains listeners before termination to avoid downtimes.
@@ -58,6 +70,7 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 
 #### Features
 
+- Introduces automated conversion from Ingress to Gateway API resources. ([#249](https://github.com/kubermatic/kubelb/pull/249))
 - Add supply chain security: signing, SBOMs, and security documentation. ([#220](https://github.com/kubermatic/kubelb/pull/220))
 - Prometheus metrics for CCM, Manager, and Envoy Control Plane. ([#203](https://github.com/kubermatic/kubelb/pull/203))
 - Grafana dashboards for KubeLB with support for metrics scraping through prometheus annotations or ServiceMonitors. ([#204](https://github.com/kubermatic/kubelb/pull/204))
@@ -93,6 +106,7 @@ These measures ensure compliance with NTIA Minimum Elements, Executive Order 140
 
 #### EE Features
 
+- Web Application Firewall (WAF) capabilities as an **alpha** feature.
 - Circuit breakers for Envoy Clusters can now be configured at Global or Tenant level.
 - Support for Envoy Gateway's BackendTrafficPolicy.
 - Support for Envoy Gateway's ClientTrafficPolicy.
