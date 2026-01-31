@@ -210,7 +210,7 @@ Your existing cert-manager ClusterIssuer for Ingress likely won't work with Gate
 | `ingressConversion.enabled` | `false` | Enables the converter. When true, Ingress resources are watched and converted to HTTPRoute/GRPCRoute. |
 | `ingressConversion.standaloneMode` | `false` | Run only the converter without KubeLB load balancing. Disables all other controllers including Ingress, Gateway, and Service controllers. Useful for clusters not using KubeLB. |
 | `ingressConversion.gatewayName` | `kubelb` | Name of the Gateway resource that converted HTTPRoutes will reference in their `parentRefs`. The converter creates this Gateway automatically. |
-| `ingressConversion.gatewayNamespace` | `""` | Namespace where the Gateway is created. When empty, the Gateway is created in the same namespace as each HTTPRoute. |
+| `ingressConversion.gatewayNamespace` | `kubelb` | Namespace where the shared Gateway is created. This is required and must be set to a valid namespace. |
 | `ingressConversion.gatewayClass` | `kubelb` | GatewayClass that the created Gateway references. Must match an existing GatewayClass in your cluster (e.g., `eg`). |
 | `ingressConversion.ingressClass` | `""` | Filter which Ingresses to convert. Only Ingresses with this class (via `spec.ingressClassName` or `kubernetes.io/ingress.class` annotation) are processed. When empty, all Ingresses are converted. |
 | `ingressConversion.domainReplace` | `""` | Source domain suffix to find in Ingress hostnames. Must be used with `domainSuffix`. Example: with `domainReplace=example.com` and `domainSuffix=new.io`, `app.example.com` becomes `app.new.io`. |
