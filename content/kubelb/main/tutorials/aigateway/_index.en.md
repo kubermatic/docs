@@ -85,7 +85,7 @@ spec:
         from: All
 ```
 
-2. Deploy a GatewayParameters resource to enable the AI extension:
+1. Deploy a GatewayParameters resource to enable the AI extension:
 
 ```yaml
 apiVersion: gateway.kgateway.dev/v1alpha1
@@ -227,13 +227,13 @@ spec:
 
 Similar to the AI Gateway, you can also use agentgateway to can connect to one or multiple MCP servers in any environment.
 
-Please follow this guide to setup the MCP Gateway: [MCP Gateway](https://kgateway.dev/docs/agentgateway/mcp/)
+Please follow this guide to setup the MCP Gateway: [MCP Gateway](https://agentgateway.dev/docs/kubernetes/latest/mcp/)
 
 ## Further Reading
 
 For advanced configurations and features:
 
-- [KGateway AI Setup Documentation](https://kgateway.dev/docs/ai/setup/)
-- [KGateway Authentication Guide](https://kgateway.dev/docs/ai/auth/)
-- [Prompt Guards and Security](https://kgateway.dev/docs/ai/prompt-guards/)
-- [Multiple LLM Providers](https://kgateway.dev/docs/ai/cloud-providers/)
+- [KGateway AI Setup Documentation](https://kgateway.dev/docs/envoy/latest/ai/setup/)
+- [KGateway Authentication Guide](https://kgateway.dev/docs/envoy/latest/ai/auth/)
+- [Prompt Guards and Security](https://kgateway.dev/docs/envoy/latest/ai/prompt-guards/)
+- [Multiple LLM Providers](https://kgateway.dev/docs/envoy/latest/ai/cloud-providers/)

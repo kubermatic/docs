@@ -19,6 +19,12 @@ WAF is currently an **alpha** feature available in Enterprise Edition only. It i
 - No application code changes required — protection applied at infrastructure level
 - Per-route or global policies with label-based multi-tenant targeting
 
+## WAF with KubeLB  vs. Other Self-Hosted Solutions
+
+KubeLB centralizes WAF policy management across your entire fleet of clusters from a single control plane. Apply policies globally, per-tenant, or to specific routes, giving you granular control over security posture without touching application code.
+
+This infrastructure-first approach shifts WAF management from developers to Platform Operators and Infrastructure Engineers, who can now secure entire fleets with consistent policies. Application teams retain the flexibility to enable WAF protection for their services, creating a clear separation of concerns while maintaining operational agility.
+
 ## Supported Routes
 
 | Route Type | Supported |
@@ -29,6 +35,17 @@ WAF is currently an **alpha** feature available in Enterprise Edition only. It i
 | TCPRoute / UDPRoute / TLSRoute | No |
 
 WAF operates at Layer 7 only and bypasses Layer 4 traffic.
+
+## Enable WAF
+
+WAF has been introduced as an Alpha feature in KubeLB v1.3. Due to the nature/stage of the feature, it is disabled by default. To enable WAF, you need to set the `kubelb.enableWAF` flag to `true` in the `values.yaml` file.
+
+In future, when the feature is promoted to Beta, the flag will be removed and WAF will be enabled by default.
+
+```yaml
+kubelb:
+  enableWAF: true
+```
 
 ## WAFPolicy CRD
 
@@ -71,6 +88,42 @@ Include @owasp_crs/*.conf
 ```
 
 This enables full OWASP CRS in blocking mode with a 12.5MB request body limit.
+
+## Application Developers Enabling WAF for Applications
+
+Platform administrators can pre-create `WAFPolicy` resources with `targetSelector` matching specific labels, making WAF protection available to application developers without granting them direct access to WAF policies.
+
+Application developers can then enable WAF protection for their routes by simply adding the matching label to their `HTTPRoute` or `GRPCRoute` resources. This self-service approach maintains security boundaries while giving developers control over when to enable protection for their applications.
+
+**Example workflow:**
+
+1. **Admin creates a WAFPolicy** with label-based targeting in management cluster:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: WAFPolicy
+metadata:
+  name: standard-waf
+spec:
+  targetSelector:
+    matchLabels:
+      security.kubelb.io/waf: enabled
+```
+
+1. **Developer enables WAF** by adding the label to their HTTPRoute in tenant cluster:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-app
+  labels:
+    security.kubelb.io/waf: enabled  # Enables WAF protection
+spec:
+  # ... route configuration
+```
+
+The WAF policy automatically applies to any route with matching labels, enabling developers to opt-in to security protection without requiring policy creation permissions.
 
 ## Examples
 
@@ -182,17 +235,6 @@ spec:
     - 'SecRule REQUEST_HEADERS "@detectSQLi" "id:900001,phase:1,deny,status:403,msg:SQLi in header"'
 ```
 
-## Monitoring
-
-| Metric | Type | Labels | Description |
-|--------|------|--------|-------------|
-| `kubelb_manager_waf_policies` | Gauge | namespace, status | Count of valid/invalid policies |
-| `kubelb_manager_waf_routes_protected` | Gauge | namespace | Routes with active WAF protection |
-| `kubelb_manager_waf_routes_blocked` | Gauge | namespace | Routes blocked due to fail-closed |
-| `kubelb_manager_waf_filter_failures_total` | Counter | namespace, failure_mode | WAF filter creation failures |
-| `kubelb_manager_waf_policy_reconcile_total` | Counter | name, result | Policy reconciliation attempts |
-| `kubelb_manager_waf_policy_reconcile_duration_seconds` | Histogram | name | Reconciliation duration |
-
 ## Glboal Settings for WAF
 
 WAF behavior can be customized globally via the `Config` CRD under `spec.waf`:
@@ -212,14 +254,20 @@ spec:
     skipValidation: false
 ```
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `wasmInitContainerImage` | string | (built-in) | Override the Coraza WASM binary init container image |
-| `skipValidation` | bool | `false` | Skip SecLang directive validation during reconciliation |
-
 {{% notice note %}}
 The Coraza WASM binary is embedded in the KubeLB manager image by default. The init container copies it to a shared volume mounted read-only by Envoy at `/etc/envoy/wasm`. Only override `wasmInitContainerImage` if you need a custom build.
 {{% /notice %}}
+
+## Monitoring
+
+| Metric | Type | Labels | Description |
+|--------|------|--------|-------------|
+| `kubelb_manager_waf_policies` | Gauge | namespace, status | Count of valid/invalid policies |
+| `kubelb_manager_waf_routes_protected` | Gauge | namespace | Routes with active WAF protection |
+| `kubelb_manager_waf_routes_blocked` | Gauge | namespace | Routes blocked due to fail-closed |
+| `kubelb_manager_waf_filter_failures_total` | Counter | namespace, failure_mode | WAF filter creation failures |
+| `kubelb_manager_waf_policy_reconcile_total` | Counter | name, result | Policy reconciliation attempts |
+| `kubelb_manager_waf_policy_reconcile_duration_seconds` | Histogram | name | Reconciliation duration |
 
 ## Further Reading
 
