@@ -94,6 +94,7 @@ Learn more in the [Supply Chain Security documentation]({{< relref "../security"
 
 #### Bug or Regression
 
+- Routes should create unique services instead of shared services. ([#250](https://github.com/kubermatic/kubelb/pull/250))
 - Fix backendRef namespace normalization for routes. ([#207](https://github.com/kubermatic/kubelb/pull/207))
 
 #### Other (Cleanup, Flake, or Chore)
