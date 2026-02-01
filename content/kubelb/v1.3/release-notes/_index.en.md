@@ -20,6 +20,8 @@ weight = 60
 
 With v1.3, KubeLB has introduced Web Application Firewall (WAF) capabilities as an Enterprise Edition (EE) **alpha** feature. With KubeLb WAF, you can protect your applications from SQL injection, XSS, and other injection attacks without application changes from a single point of control.
 
+Learn more in the [KubeLB WAF tutorial]({{< relref"../tutorials/web-application-firewall" >}}).
+
 #### Ingress to Gateway API Migration
 
 Introducing **experimental** automated conversion from Ingress to Gateway API resources:
@@ -29,7 +31,7 @@ Introducing **experimental** automated conversion from Ingress to Gateway API re
 - Warnings for resources that require manual migration
 - Standalone mode has been introduced for converter; this allows users to only run converter using KubeLB CCM without any other CCM feature. This is helpful when KubeLB is only deployed for this Ingress to Gateway API migration
 
-For more details please refer to the [KubeLB Ingress to Gateway API Converter]({{< relref "../ingress-to-gateway-api/kubelb-automation" >}}) page.
+Learn more in the [KubeLB Ingress to Gateway API Converter how-to]({{< relref "../ingress-to-gateway-api/kubelb-automation" >}}).
 
 #### Supply Chain Security
 
@@ -42,7 +44,7 @@ KubeLB v1.3 introduces comprehensive supply chain security for both CE and EE:
 - **Vulnerability Scanning**: Automated scanning in PRs and release pipeline (HIGH/CRITICAL block releases)
 - **Dependency Monitoring**: Dependabot tracks and updates vulnerable dependencies
 
-**CE Additional Features:**
+Community Edition Additional Features:
 
 - [OpenSSF Scorecard](https://securityscorecards.dev/) for security health metrics
 - GitHub dependency graph
@@ -50,21 +52,23 @@ KubeLB v1.3 introduces comprehensive supply chain security for both CE and EE:
 
 These measures ensure compliance with NTIA Minimum Elements, Executive Order 14028, and SLSA guidelines. See [Supply Chain Security]({{< relref "../security" >}}) for verification commands.
 
+Learn more in the [Supply Chain Security documentation]({{< relref "../security" >}}).
+
 #### Community Edition (CE)
 
-- **Ingress to Gateway API Migration (Experimental)**: Introduces automated conversion from Ingress to Gateway API resources. For more details please refer to the [KubeLB Ingress to Gateway API Converter]({{< relref "../ingress-to-gateway-api/kubelb-automation" >}}) page.
-- **Observability**: Prometheus metrics are now available for CCM, Manager, and Envoy Control Plane. Grafana dashboards have been introduced for monitoring KubeLB components.
-- **Revamped E2E Tests**: E2E tests have been revamped to use the chainsaw  framework and are now running in a CI/CD pipeline.
-- **Graceful Envoy Shutdown**: Envoy Proxy now gracefully drains listeners before termination to avoid downtimes.
-- **Overload Manager**: Configurable overload manager and global connection limits using custom Envoy bootstrap.
-- **Custom Envoy Image**: Users can now specify a custom Envoy Proxy image through the EnvoyProxy configuration.
+- **[Ingress to Gateway API Migration]({{< relref "../ingress-to-gateway-api/kubelb-automation" >}}) (Experimental)**: Automated conversion from Ingress to Gateway API resources.
+- **[Observability]({{< relref "../tutorials/observability" >}})**: Prometheus metrics for CCM, Manager, and Envoy Control Plane. Grafana dashboards for monitoring KubeLB components.
+- **Revamped E2E Tests**: E2E tests revamped to use chainsaw framework, now running in CI/CD pipeline.
+- **[Graceful Envoy Shutdown]({{< relref "../tutorials/envoy-proxy/graceful-shutdown" >}})**: Envoy Proxy gracefully drains listeners before termination to avoid downtimes.
+- **[Overload Manager]({{< relref "../tutorials/envoy-proxy/overload-manager" >}})**: Configurable overload manager and global connection limits using custom Envoy bootstrap.
+- **[Custom Envoy Image]({{< relref "../references/ce#envoyproxy" >}})**: Custom Envoy Proxy image through the EnvoyProxy configuration.
 
 #### Enterprise Edition (EE)
 
-- **Web Application Firewall (WAF)**: Introduces Web Application Firewall (WAF) capabilities as an Enterprise Edition (EE) **alpha** feature.
-- **Circuit Breakers**: Configurable circuit breakers for Envoy Clusters at Global or Tenant level.
-- **Traffic Policies**: Support for Envoy Gateway's BackendTrafficPolicy and ClientTrafficPolicy.
-- **Metrics**: Additional metrics for Connection Manager and EE components.
+- **[Web Application Firewall]({{< relref "../tutorials/web-application-firewall" >}}) (WAF)**: WAF capabilities as an **alpha** feature.
+- **[Circuit Breakers]({{< relref "../tutorials/envoy-proxy/circuit-breakers" >}})**: Configurable circuit breakers for Envoy Clusters at Global or Tenant level.
+- **[Traffic Policies]({{< relref "../tutorials/gatewayapi/backend-traffic-policy" >}})**: Support for Envoy Gateway's [BackendTrafficPolicy]({{< relref "../tutorials/gatewayapi/backend-traffic-policy" >}}) and [ClientTrafficPolicy]({{< relref "../tutorials/gatewayapi/client-traffic-policy" >}}).
+- **[Metrics]({{< relref "../tutorials/observability/metrics-and-dashboards/" >}})**: Additional metrics for Connection Manager and EE components.
 
 ### Community Edition
 
