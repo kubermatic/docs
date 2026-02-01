@@ -18,9 +18,9 @@ weight = 60
 
 #### Web Application Firewall (WAF)
 
-With v1.3, KubeLB has introduced Web Application Firewall (WAF) capabilities as an Enterprise Edition (EE) **alpha** feature. With KubeLb WAF, you can protect your applications from SQL injection, XSS, and other injection attacks without application changes from a single point of control.
+With v1.3, KubeLB has introduced Web Application Firewall (WAF) capabilities as an Enterprise Edition (EE) **alpha** feature. With KubeLB WAF, you can protect your applications from SQL injection, XSS, and other injection attacks without application changes from a single point of control.
 
-Learn more in the [KubeLB WAF tutorial]({{< relref"../tutorials/web-application-firewall" >}}).
+Learn more in the [KubeLB WAF tutorial]({{< relref "../tutorials/web-application-firewall" >}}).
 
 #### Ingress to Gateway API Migration
 
@@ -50,7 +50,7 @@ Community Edition Additional Features:
 - GitHub dependency graph
 - GitHub attestations and provenance publishing
 
-These measures ensure compliance with NTIA Minimum Elements, Executive Order 14028, and SLSA guidelines. See [Supply Chain Security]({{< relref "../security" >}}) for verification commands.
+These measures ensure compliance with NTIA Minimum Elements, Executive Order 14028, and SLSA guidelines.
 
 Learn more in the [Supply Chain Security documentation]({{< relref "../security" >}}).
 
