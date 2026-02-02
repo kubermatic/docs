@@ -24,7 +24,7 @@ Learn more in the [KubeLB WAF tutorial]({{< relref "../tutorials/web-application
 
 #### Ingress to Gateway API Migration
 
-Introducing **experimental** automated conversion from Ingress to Gateway API resources:
+Introducing automated conversion from Ingress to Gateway API resources **[Beta Feature]**:
 
 - Covers essential ingress-nginx annotations
 - Includes automatic Envoy Gateway policy generation for CORS, auth, timeouts, and rate limits. BackendTrafficPolicy, SecurityPolicy are generated against corresponding Ingress annotations by the converter
@@ -56,7 +56,7 @@ Learn more in the [Supply Chain Security documentation]({{< relref "../security"
 
 #### Community Edition (CE)
 
-- **[Ingress to Gateway API Migration]({{< relref "../ingress-to-gateway-api/kubelb-automation" >}}) (Experimental)**: Automated conversion from Ingress to Gateway API resources.
+- **[Ingress to Gateway API Migration]({{< relref "../ingress-to-gateway-api/kubelb-automation" >}}) (Beta)**: Automated conversion from Ingress to Gateway API resources.
 - **[Observability]({{< relref "../tutorials/observability" >}})**: Prometheus metrics for CCM, Manager, and Envoy Control Plane. Grafana dashboards for monitoring KubeLB components.
 - **Revamped E2E Tests**: E2E tests revamped to use chainsaw framework, now running in CI/CD pipeline.
 - **[Graceful Envoy Shutdown]({{< relref "../tutorials/envoy-proxy/graceful-shutdown" >}})**: Envoy Proxy gracefully drains listeners before termination to avoid downtimes.
