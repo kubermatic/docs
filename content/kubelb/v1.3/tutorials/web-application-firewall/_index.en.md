@@ -61,6 +61,7 @@ kind: WAFPolicy
 metadata:
   name: global-waf
 spec:
+  global: true
   directives:
     - "SecRuleEngine On"
     - "SecRequestBodyAccess On"
@@ -75,9 +76,11 @@ Three mutually exclusive targeting modes:
 
 1. **`targetRef`** — Target a specific route by name/namespace/kind
 2. **`targetSelector`** — Match routes by label selector (checks both Route CR labels and embedded source route labels; Route CR labels win on conflict)
-3. **Neither** — Global default applying to ALL Layer 7 routes
+3. **`global: true`** — Apply to ALL Layer 7 routes for ALL tenants
 
-In terms of precedence, `targetRef` has higher precedence than `targetSelector`. Global default is only applicable if no targeting is specified. Within the same precedence level: **oldest policy wins** (by `creationTimestamp`). Equal timestamps: alphabetically-first name wins.
+Policies without any targeting (`global`, `targetRef`, or `targetSelector`) are **ignored**.
+
+In terms of precedence, `targetRef` has higher precedence than `targetSelector`, which has higher precedence than `global`. Within the same precedence level: **oldest policy wins** (by `creationTimestamp`). Equal timestamps: alphabetically-first name wins.
 
 ## Default Directives
 
@@ -148,7 +151,7 @@ spec:
 
 ### Global Default — All Layer 7 Routes
 
-Apply WAF to every HTTPRoute and GRPCRoute (no targeting fields):
+Apply WAF to every HTTPRoute and GRPCRoute using `global: true`:
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -156,6 +159,7 @@ kind: WAFPolicy
 metadata:
   name: global-waf
 spec:
+  global: true
   directives:
     - "SecRuleEngine On"
     - "SecRequestBodyAccess On"

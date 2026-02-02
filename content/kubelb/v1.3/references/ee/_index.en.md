@@ -1056,8 +1056,8 @@ WAFPolicyList contains a list of WAFPolicy.
 #### WAFPolicySpec
 
 WAFPolicySpec defines the desired state of WAFPolicy.
-Exactly one targeting method must be used: targetRef, targetSelector, or neither (global default).
-Setting both targetRef and targetSelector is invalid.
+Exactly one targeting method must be used: targetRef, targetSelector, or global.
+Setting multiple targeting methods is invalid. Policies without any targeting are ignored.
 Feature stage: Alpha
 
 _Appears in:_
@@ -1066,8 +1066,9 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `targetRef` _[WAFTargetRef](#waftargetref)_ | TargetRef identifies a specific route by name and optionally namespace.<br />Mutually exclusive with TargetSelector. |  |  |
-| `targetSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#labelselector-v1-meta)_ | TargetSelector selects routes or HTTPRoute/GRPCRoute resources by label.<br />It checks whether the route has the labels or the labels of the HTTPRoute/GRPCRoute resource. In case of a<br />conflict, the labels of the Route resource takes precedence.<br />Mutually exclusive with TargetRef. |  |  |
+| `global` _boolean_ | Global when set to true applies this policy to all routes for all tenants within a KubeLB installation.<br />Mutually exclusive with TargetRef and TargetSelector.<br />Policies without global, targetRef, or targetSelector are ignored. |  |  |
+| `targetRef` _[WAFTargetRef](#waftargetref)_ | TargetRef identifies a specific route by name and optionally namespace.<br />Mutually exclusive with Global and TargetSelector. |  |  |
+| `targetSelector` _[LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#labelselector-v1-meta)_ | TargetSelector selects routes or HTTPRoute/GRPCRoute resources by label.<br />It checks whether the route has the labels or the labels of the HTTPRoute/GRPCRoute resource. In case of a<br />conflict, the labels of the Route resource takes precedence.<br />Mutually exclusive with Global and TargetRef. |  |  |
 | `directives` _string array_ | Directives contains SecLang/ModSecurity directives passed to Coraza.<br />Reference: <https://coraza.io/docs/seclang/directives/><br />If empty, the following OWASP CRS defaults are applied:<br />  - SecRuleEngine On<br />  - SecRequestBodyAccess On<br />  - SecRequestBodyLimit 13107200<br />  - Include @crs-setup-conf<br />  - Include @owasp_crs/*.conf |  |  |
 | `failureMode` _[WAFFailureMode](#waffailuremode)_ | FailureMode defines behavior when WAF filter creation fails.<br />- Closed: Block traffic if WAF cannot be applied (default)<br />- Open: Allow traffic without WAF protection | Closed | Enum: [Open Closed] <br /> |
 
