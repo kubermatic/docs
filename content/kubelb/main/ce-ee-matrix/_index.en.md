@@ -15,7 +15,7 @@ KubeLB is available in two editions:
 
 ## Feature Matrix
 
-| Feature | CE | EE |
+| Feature | Community Edition | Enterprise Edition |
 |---------|:--:|:--:|
 | **Load Balancing** |||
 | TCP/UDP Load Balancing | ✔️ | ✔️ |
@@ -25,7 +25,10 @@ KubeLB is available in two editions:
 | TCPRoute, UDPRoute, TLSRoute | ❌ | ✔️ |
 | Multiple Gateways per tenant | ❌ | ✔️ |
 | Traffic Policies (Client/Backend) | ❌ | ✔️ |
+| **Security** |||
+| Web Application Firewall (Alpha) | ❌ | ✔️ |
 | **Management** |||
+| Ingress to Gateway API Migration (Beta) | ✔️ | ✔️ |
 | Bring your own certificates | ✔️ | ✔️ |
 | DNS automation | ❌ | ✔️ |
 | Certificate management | ❌ | ✔️ |
