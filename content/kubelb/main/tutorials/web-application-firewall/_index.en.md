@@ -47,6 +47,10 @@ kubelb:
   enableWAF: true
 ```
 
+## Demonstration
+
+![WAF Demo](/img/kubelb/common/waf/demo.gif?classes=shadow,border "WAF Demo")
+
 ## WAFPolicy CRD
 
 To manage WAF policies, you can use the `WAFPolicy` CRD which is a **cluster-scoped** resource. The following is an example of a `WAFPolicy` CRD:
@@ -57,6 +61,7 @@ kind: WAFPolicy
 metadata:
   name: global-waf
 spec:
+  global: true
   directives:
     - "SecRuleEngine On"
     - "SecRequestBodyAccess On"
@@ -71,9 +76,11 @@ Three mutually exclusive targeting modes:
 
 1. **`targetRef`** — Target a specific route by name/namespace/kind
 2. **`targetSelector`** — Match routes by label selector (checks both Route CR labels and embedded source route labels; Route CR labels win on conflict)
-3. **Neither** — Global default applying to ALL Layer 7 routes
+3. **`global: true`** — Apply to ALL Layer 7 routes for ALL tenants
 
-In terms of precedence, `targetRef` has higher precedence than `targetSelector`. Global default is only applicable if no targeting is specified. Within the same precedence level: **oldest policy wins** (by `creationTimestamp`). Equal timestamps: alphabetically-first name wins.
+Policies without any targeting (`global`, `targetRef`, or `targetSelector`) are **ignored**.
+
+In terms of precedence, `targetRef` has higher precedence than `targetSelector`, which has higher precedence than `global`. Within the same precedence level: **oldest policy wins** (by `creationTimestamp`). Equal timestamps: alphabetically-first name wins.
 
 ## Default Directives
 
@@ -144,7 +151,7 @@ spec:
 
 ### Global Default — All Layer 7 Routes
 
-Apply WAF to every HTTPRoute and GRPCRoute (no targeting fields):
+Apply WAF to every HTTPRoute and GRPCRoute using `global: true`:
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -152,6 +159,7 @@ kind: WAFPolicy
 metadata:
   name: global-waf
 spec:
+  global: true
   directives:
     - "SecRuleEngine On"
     - "SecRequestBodyAccess On"
@@ -235,7 +243,7 @@ spec:
     - 'SecRule REQUEST_HEADERS "@detectSQLi" "id:900001,phase:1,deny,status:403,msg:SQLi in header"'
 ```
 
-## Glboal Settings for WAF
+## Global Settings for WAF
 
 WAF behavior can be customized globally via the `Config` CRD under `spec.waf`:
 
@@ -256,6 +264,29 @@ spec:
 
 {{% notice note %}}
 The Coraza WASM binary is embedded in the KubeLB manager image by default. The init container copies it to a shared volume mounted read-only by Envoy at `/etc/envoy/wasm`. Only override `wasmInitContainerImage` if you need a custom build.
+{{% /notice %}}
+
+## Policy Update Behavior
+
+When you create, update, or delete a WAFPolicy, KubeLB propagates the configuration to Envoy immediately. However, how quickly these changes affect live traffic depends on HTTP connection lifecycle.
+
+| Connection State | Behavior |
+|-----------------|----------|
+| New connections | Use updated WAF configuration immediately |
+| Existing connections | Continue using previous configuration until connection closes |
+
+HTTP/2 and keep-alive connections are reused for multiple requests. These connections close naturally after an idle timeout (default: 60 seconds), at which point subsequent requests use the updated configuration.
+
+During the brief window after a policy change, requests arriving over existing connections may be processed with the previous WAF rules while new connections use the updated rules. This is standard Envoy behavior and not a security concern — existing connections continue enforcing their original WAF policy until they close.
+
+{{% notice tip %}}
+**Testing tip:** When validating WAF policy changes in development, force each request to open a new connection:
+
+```bash
+curl -H "Connection: close" https://your-app.example.com/test
+```
+
+This ensures every request uses the latest WAF configuration, useful for verifying policy changes take effect.
 {{% /notice %}}
 
 ## Monitoring

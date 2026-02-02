@@ -53,7 +53,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 | external-dns.enabled | bool | `false` | Enable External-DNS. |
 | fullnameOverride | string | `""` |  |
 | grafana.dashboards.annotations | object | `{}` | Additional annotations for dashboard ConfigMaps |
-| grafana.dashboards.enabled | bool | `false` | Enable Grafana dashboard ConfigMaps for automatic provisioning via sidecar |
+| grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: <https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster> |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
 | image.tag | string | `"v1.3.0"` |  |
@@ -66,6 +66,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 | kubelb.disableEnvoyGatewayFeatures | bool | `false` | disableEnvoyGatewayFeatures disables Envoy Gateway support for BackendTrafficPolicy and ClientTrafficPolicy. Use this if you're using a Gateway API implementation other than Envoy Gateway. |
 | kubelb.enableGatewayAPI | bool | `false` | enableGatewayAPI specifies whether to enable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
 | kubelb.enableLeaderElection | bool | `true` |  |
+| kubelb.enableWAF | bool | `false` | [Alpha Feature] enableWAF enables the WAF controller for Web Application Firewall policy validation. WAF is an alpha feature and is disabled by default. |
 | kubelb.envoyProxy.affinity | object | `{}` |  |
 | kubelb.envoyProxy.gracefulShutdown.disabled | bool | `false` | Disable graceful shutdown (default: false) |
 | kubelb.envoyProxy.nodeSelector | object | `{}` |  |
@@ -111,6 +112,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 | podLabels | object | `{}` |  |
 | podSecurityContext.runAsNonRoot | bool | `true` |  |
 | podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
+| priorityClassName | string | `""` | PriorityClassName for the manager pod (e.g., "system-cluster-critical") |
 | rbac.allowLeaderElectionRole | bool | `true` |  |
 | rbac.allowMetricsReaderRole | bool | `true` |  |
 | rbac.allowProxyRole | bool | `true` |  |
@@ -157,7 +159,7 @@ helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubel
 | autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
 | fullnameOverride | string | `""` |  |
 | grafana.dashboards.annotations | object | `{}` | Additional annotations for dashboard ConfigMaps |
-| grafana.dashboards.enabled | bool | `false` | Enable Grafana dashboard ConfigMaps for automatic provisioning via sidecar |
+| grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: <https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster> |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager"` |  |
 | image.tag | string | `"v1.3.0"` |  |
