@@ -10,6 +10,41 @@ weight = 60
   - [Community Edition](#community-edition)
   - [Enterprise Edition](#enterprise-edition)
 - [v1.2.1](#v121)
+- [v1.2.2](#v122)
+
+## v1.2.2
+
+**GitHub release: [v1.2.2](https://github.com/kubermatic/kubelb/releases/tag/v1.2.2)**
+
+### Security
+
+Updated kubelb-addons chart to v0.2.1 with dependency bumps and security fixes([#259](https://github.com/kubermatic/kubelb/pull/259)):
+
+#### ingress-nginx 4.13.0 → 4.13.3
+
+- [CVE-2026-1580](https://github.com/kubernetes/kubernetes/issues/136677) - auth-method nginx configuration injection
+- [CVE-2026-24512](https://github.com/kubernetes/kubernetes/issues/136678) - rules.http.paths.path nginx configuration injection
+- [CVE-2026-24513](https://github.com/kubernetes/kubernetes/issues/136679) - auth-url protection bypass
+- [CVE-2026-24514](https://github.com/kubernetes/kubernetes/issues/136680) - Admission Controller denial of service
+
+#### envoy-gateway 1.5.4 → 1.5.8
+
+- [CVE-2025-64527](https://github.com/envoyproxy/envoy/releases/tag/v1.35.7), [CVE-2025-66220](https://github.com/envoyproxy/envoy/releases/tag/v1.35.7), [CVE-2025-64763](https://github.com/envoyproxy/envoy/releases/tag/v1.35.7) - EnvoyProxy vulnerabilities fixed in v1.35.7
+- [CVE-2026-22771](https://gateway.envoyproxy.io/news/releases/notes/v1.5.7/) - Arbitrary code execution through EnvoyExtensionPolicy Lua scripts
+
+#### cert-manager v1.18.2 → v1.18.5
+
+- [CVE-2025-61727](https://github.com/cert-manager/cert-manager/releases/tag/v1.18.4), [CVE-2025-61729](https://github.com/cert-manager/cert-manager/releases/tag/v1.18.4) - Go runtime vulnerabilities
+- [GHSA-gx3x-vq4p-mhhv](https://github.com/cert-manager/cert-manager/security/advisories/GHSA-gx3x-vq4p-mhhv) - DoS via malformed DNS response
+- 9 additional Go CVEs fixed in v1.18.3
+
+#### References
+
+- [Envoy Gateway v1.5.6](https://gateway.envoyproxy.io/news/releases/notes/v1.5.6/)
+- [Envoy Gateway v1.5.7](https://gateway.envoyproxy.io/news/releases/notes/v1.5.7/)
+- [Envoy Gateway v1.5.8](https://gateway.envoyproxy.io/news/releases/notes/v1.5.8/)
+- [cert-manager v1.18.5](https://github.com/cert-manager/cert-manager/releases/tag/v1.18.5)
+- [ingress-nginx v1.13.3](https://github.com/kubernetes/ingress-nginx/releases/tag/controller-v1.13.3)
 
 ## v1.2.1
 
