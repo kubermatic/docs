@@ -40,8 +40,6 @@ Updated kubelb-addons chart to v0.2.1 with dependency bumps and security fixes([
 
 #### References
 
-- [Envoy Gateway v1.5.6](https://gateway.envoyproxy.io/news/releases/notes/v1.5.6/)
-- [Envoy Gateway v1.5.7](https://gateway.envoyproxy.io/news/releases/notes/v1.5.7/)
 - [Envoy Gateway v1.5.8](https://gateway.envoyproxy.io/news/releases/notes/v1.5.8/)
 - [cert-manager v1.18.5](https://github.com/cert-manager/cert-manager/releases/tag/v1.18.5)
 - [ingress-nginx v1.13.3](https://github.com/kubernetes/ingress-nginx/releases/tag/controller-v1.13.3)
