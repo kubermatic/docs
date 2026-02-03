@@ -32,7 +32,7 @@ imagePullSecrets:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.2.1 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.2.2 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-manager-ee/crds/
 ## Create and update values.yaml with the required values.
@@ -54,7 +54,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
-| image.tag | string | `"v1.2.1"` |  |
+| image.tag | string | `"v1.2.2"` |  |
 | imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
 | kkpintegration.rbac | bool | `false` | Create RBAC for KKP integration. |
 | kubelb.debug | bool | `true` |  |
@@ -130,7 +130,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.2.1 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.2.2 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-manager/crds/
 ## Create and update values.yaml with the required values.
@@ -150,7 +150,7 @@ helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubel
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager"` |  |
-| image.tag | string | `"v1.2.1"` |  |
+| image.tag | string | `"v1.2.2"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kkpintegration.rbac | bool | `false` | Create RBAC for KKP integration. |
 | kubelb.debug | bool | `true` |  |
