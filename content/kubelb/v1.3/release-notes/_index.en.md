@@ -26,6 +26,8 @@ Updated kubelb-addons chart to v0.3.1 with dependency bumps and security fixes([
 - [CVE-2026-24513](https://github.com/kubernetes/kubernetes/issues/136679) - auth-url protection bypass
 - [CVE-2026-24514](https://github.com/kubernetes/kubernetes/issues/136680) - Admission Controller denial of service
 
+Reference: [[Security Advisory] Multiple issues in ingress-nginx](https://groups.google.com/a/kubernetes.io/g/dev/c/9RYJrB8e8ts/m/SCatUN2AAQAJ)
+
 #### envoy-gateway 1.6.2 → 1.6.3
 
 - [CVE-2025-0913](https://nvd.nist.gov/vuln/detail/CVE-2025-0913) - Use-after-free in c-ares DNS resolver
