@@ -66,13 +66,15 @@ kubelb:
 
 In standalone mode, you don't need `tenantName` or `clusterSecretName`.
 
-### Prerequisites (Standalone Mode)
+### Prerequisites
 
-Before running the converter in standalone mode, set up your Gateway API implementation:
+Before running the converter, set up your environment for Gateway API and Envoy Gateway:
 
 **1. Install Envoy Gateway**
 
-Follow the [Envoy Gateway installation guide](https://gateway.envoyproxy.io/docs/tasks/quickstart/) to install it in your cluster.
+Follow the [Envoy Gateway installation guide](https://gateway.envoyproxy.io/docs/tasks/quickstart/) to install it in your cluster. This is required to ensure that Gateway API CRDs and Envoy Gateway CRDs are installed in the cluster.
+
+In integrated mode, this should be installed only once in the Management Cluster. In standalone mode, this should be installed in each tenant cluster since KubeLB load balancing and controllers are disabled in standalone mode.
 
 **2. Create a GatewayClass**
 
@@ -85,9 +87,21 @@ spec:
   controllerName: gateway.envoyproxy.io/gatewayclass-controller
 ```
 
+In integrated mode, this should be created in the Management Cluster and in standalone mode, this should be created in each tenant cluster.
+
 Make sure the `gatewayClass` in your values matches this name.
 
-**3. (Optional) Pre-create a Gateway**
+**3. (Integrated Mode Only) Create SecurityPolicy CRD**
+
+SecurityPolicy is not installed by KubeLB itself and needs to be installed manually in the tenant cluster:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/envoyproxy/gateway/refs/tags/v1.6.3/charts/gateway-helm/crds/generated/gateway.envoyproxy.io_securitypolicies.yaml
+```
+
+Since in standalone mode, we install Envoy Gateway in each tenant cluster, the SecurityPolicy CRD will be installed automatically by the Envoy Gateway Helm Chart.
+
+**4. (Optional) Pre-create a Gateway**
 
 The converter creates a Gateway automatically. If you need custom parameters (specific listeners, infrastructure settings, etc.), create it yourself first:
 
