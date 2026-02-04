@@ -1,7 +1,7 @@
 +++
 title = "kubelb loadbalancer"
-date = 2025-08-27T00:00:00+01:00
-weight = 60
+date = 2026-02-04T00:00:00+00:00
+weight = 30
 +++
 
 ## kubelb loadbalancer
@@ -38,3 +38,4 @@ Manage KubeLB load balancer configurations
 * [kubelb loadbalancer delete](../kubelb_loadbalancer_delete)	 - Delete a load balancer
 * [kubelb loadbalancer get](../kubelb_loadbalancer_get)	 - Get a load balancer
 * [kubelb loadbalancer list](../kubelb_loadbalancer_list)	 - List load balancers
+

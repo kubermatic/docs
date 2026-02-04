@@ -2,7 +2,7 @@
 title = "Cert Manager Migration"
 linkTitle = "Cert Manager"
 date = 2026-01-30T00:00:00+01:00
-weight = 2
+weight = 3
 +++
 
 Cert Manager is the de-facto tool for managing certificates in Kubernetes. It's a great tool and has been an essential part of the Kubernetes ecosystem.
