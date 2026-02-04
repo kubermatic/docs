@@ -238,14 +238,12 @@ metadata:
   name: generate-my-custom-report
   namespace: kubermatic
 spec:
-  selector:
-    matchLabels:
-      report-name: my-custom-report
   template:
     metadata:
       labels:
         report-name: my-custom-report
     spec:
+      restartPolicy: OnFailure
       containers:
         - name: metering
           # verify in your KKP setup which metering version ships with your KKP, e.g. by looking
@@ -253,18 +251,18 @@ spec:
           #
           #   kubectl --namespace kubermatic get cronjobs --selector "app.kubernetes.io/component=metering" -o yaml | grep image
           image: quay.io/kubermatic/metering:___
-          command:
-            - /metering
           args:
             - --ca-bundle=/opt/ca-bundle/ca-bundle.pem
             - --prometheus-api=http://metering-prometheus.kubermatic.svc
             # specify a unique name in order not to interfere with the regular scheduled reports
             - --output-dir=kubermatic-my-custom-report
             # specify the prefix name, which is usually the name of the seed cluster
-            - --output-prefix=seed-name
-            # specify the date range for your report; --start is the older of the two timestamps,
-            # for example --start=2023-04-01T00:00:00Z to --end=2023-05-01T00:00:00Z; note that you
-            # have to specify the date including time and timezone.
+            - --output-prefix=<<SEED_NAME>>
+            # specify the output format (csv or json)
+            - --output-format=csv
+            # specify the date range for your report; --start is the older of the two timestamps.
+            # Example: --start=2023-04-01T00:00:00Z --end=2023-05-01T00:00:00Z
+            # Note: you must specify the date including time and timezone in RFC3339 format.
             - --start=<RFC3339-formatted date>
             - --end=<RFC3339-formatted date>
             # specify the report(s) you want generated

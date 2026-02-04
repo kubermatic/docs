@@ -28,11 +28,11 @@ work properly the s3 endpoint needs to be available from the browser.
 
 ### Prerequisites
 
-* S3 bucket
+- S3 bucket
   - Any S3-compatible endpoint can be used
   - The bucket is required to store report csv files
   - Should be available via browser
-* Administrator access to dashboard
+- Administrator access to dashboard
   - Administrator access can be gained by
     - asking other administrators to follow the instructions for [Adding administrators][adding-administrators] via the dashboard
     - or by using `kubectl` to give a user admin access. Please refer to the [Admin Panel][admin-panel]
@@ -74,7 +74,6 @@ according to your wishes.
     [Kubernetes Docs][k8s-meaning-of-memory] for a more thorough explanation of valid values
   - When choosing a volume size, please take into consideration that old usage data files will not
     be deleted automatically
-
 
 In the end it is possible to create different report schedules.
 Click on **Create Schedule**, to open the Schedule configuration dialog.
@@ -239,14 +238,12 @@ metadata:
   name: generate-my-custom-report
   namespace: kubermatic
 spec:
-  selector:
-    matchLabels:
-      report-name: my-custom-report
   template:
     metadata:
       labels:
         report-name: my-custom-report
     spec:
+      restartPolicy: OnFailure
       containers:
         - name: metering
           # verify in your KKP setup which metering version ships with your KKP, e.g. by looking
@@ -254,18 +251,18 @@ spec:
           #
           #   kubectl --namespace kubermatic get cronjobs --selector "app.kubernetes.io/component=metering" -o yaml | grep image
           image: quay.io/kubermatic/metering:___
-          command:
-            - /metering
           args:
             - --ca-bundle=/opt/ca-bundle/ca-bundle.pem
             - --prometheus-api=http://metering-prometheus.kubermatic.svc
             # specify a unique name in order not to interfere with the regular scheduled reports
             - --output-dir=kubermatic-my-custom-report
             # specify the prefix name, which is usually the name of the seed cluster
-            - --output-prefix=seed-name
-            # specify the date range for your report; --start is the older of the two timestamps,
-            # for example --start=2023-04-01T00:00:00Z to --end=2023-05-01T00:00:00Z; note that you
-            # have to specify the date including time and timezone.
+            - --output-prefix=<<SEED_NAME>>
+            # specify the output format (csv or json)
+            - --output-format=csv
+            # specify the date range for your report; --start is the older of the two timestamps.
+            # Example: --start=2023-04-01T00:00:00Z --end=2023-05-01T00:00:00Z
+            # Note: you must specify the date including time and timezone in RFC3339 format.
             - --start=<RFC3339-formatted date>
             - --end=<RFC3339-formatted date>
             # specify the report(s) you want generated
