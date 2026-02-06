@@ -1,7 +1,7 @@
 +++
 title = "kubelb tunnel delete"
-date = 2025-08-27T00:00:00+01:00
-weight = 130
+date = 2026-02-04T00:00:00+00:00
+weight = 50
 +++
 
 ## kubelb tunnel delete
@@ -51,3 +51,4 @@ kubelb tunnel delete my-app --tenant=mytenant --kubeconfig=./kubeconfig
 ### SEE ALSO
 
 * [kubelb tunnel](../kubelb_tunnel)	 - Manage secure tunnels to expose local services
+

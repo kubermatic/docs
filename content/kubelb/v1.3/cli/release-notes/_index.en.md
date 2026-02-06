@@ -4,66 +4,25 @@ date = 2024-03-15T00:00:00+01:00
 weight = 40
 +++
 
-{{% notice warning %}}
-This document is work in progress and might not be in correct or up to date state
-{{% /notice %}}
+## Kubermatic KubeLB CLI  v0.2.0
 
-## Kubermatic KubeLB v1.x.x
+- [Kubermatic KubeLB CLI  v0.2.0](#kubermatic-kubelb-cli--v020)
+- [v0.2.0](#v020)
+  - [Highlights](#highlights)
+  - [Features](#features)
 
-- [v1.x.x](#v1xx)
-  - [Community Edition](#community-edition)
-  - [Enterprise Edition](#enterprise-edition)
+## v0.2.0
 
-## v1.x.x
-
-**GitHub release: [v1.x.x](https://github.com/kubermatic/kubelb/releases/tag/v1.x.x)**
+**GitHub release: [v0.2.0](https://github.com/kubermatic/kubelb-cli/releases/tag/v0.2.0)**
 
 ### Highlights
 
-#### Community Edition(CE)
+KubeLB CLI v0.2.0 introduces built-in tooling for migrating Ingress resources to Gateway API. As a **beta** feature, it supports migrating Ingress resources to Gateway API resources through a command-line interface and a web dashboard.
 
-_content_
+We support ingress-nginx as the source Ingress controller and Envoy Gateway as the target Gateway API implementation, for now.
 
-#### Enterprise Edition(EE)
+Learn more in the [Ingress to Gateway API CLI documentation]({{< relref "../ingress-to-gateway-api" >}}).
 
-_content_
+### Features
 
-### Community Edition
-
-#### Urgent Upgrade Notes
-
-_content_
-
-#### Deprecation
-
-_content_
-
-#### API Changes
-
-_content_
-
-#### Features
-
-_content_
-
-#### Design
-
-_content_
-
-#### Bug or Regression
-
-_content_
-
-#### Other (Cleanup, Flake, or Chore)
-
-_content_
-
-**Full Changelog**: <https://github.com/kubermatic/kubelb/compare/v1.0.0...v1.x.x>
-
-### Enterprise Edition
-
-**Enterprise Edition includes everything from Community Edition and more. The release notes below are for changes specific to just the Enterprise Edition.**
-
-#### EE Features
-
-_content_
+- Add Ingress to Gateway API conversion CLI and web dashboard. ([#21](https://github.com/kubermatic/kubelb-cli/pull/21))

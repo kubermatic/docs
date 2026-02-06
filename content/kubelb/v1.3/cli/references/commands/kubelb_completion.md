@@ -1,7 +1,7 @@
 +++
 title = "kubelb completion"
-date = 2025-08-27T00:00:00+01:00
-weight = 200
+date = 2026-02-04T00:00:00+00:00
+weight = 30
 +++
 
 ## kubelb completion
@@ -12,6 +12,7 @@ Generate the autocompletion script for the specified shell
 
 Generate the autocompletion script for kubelb for the specified shell.
 See each sub-command's help for details on how to use the generated script.
+
 
 ### Options
 
@@ -34,8 +35,9 @@ See each sub-command's help for details on how to use the generated script.
 
 ### SEE ALSO
 
-* [kubelb](../kubelb)  - KubeLB CLI - Manage load balancers and create secure tunnels
-* [kubelb completion bash](../kubelb_completion_bash)  - Generate the autocompletion script for bash
-* [kubelb completion fish](../kubelb_completion_fish)  - Generate the autocompletion script for fish
-* [kubelb completion powershell](../kubelb_completion_powershell)  - Generate the autocompletion script for powershell
-* [kubelb completion zsh](../kubelb_completion_zsh)  - Generate the autocompletion script for zsh
+* [kubelb](../kubelb)	 - KubeLB CLI - Manage load balancers and create secure tunnels
+* [kubelb completion bash](../kubelb_completion_bash)	 - Generate the autocompletion script for bash
+* [kubelb completion fish](../kubelb_completion_fish)	 - Generate the autocompletion script for fish
+* [kubelb completion powershell](../kubelb_completion_powershell)	 - Generate the autocompletion script for powershell
+* [kubelb completion zsh](../kubelb_completion_zsh)	 - Generate the autocompletion script for zsh
+

@@ -1,7 +1,7 @@
 +++
 title = "kubelb completion zsh"
-date = 2025-08-27T00:00:00+01:00
-weight = 240
+date = 2026-02-04T00:00:00+00:00
+weight = 50
 +++
 
 ## kubelb completion zsh
@@ -15,23 +15,24 @@ Generate the autocompletion script for the zsh shell.
 If shell completion is not already enabled in your environment you will need
 to enable it.  You can execute the following once:
 
- echo "autoload -U compinit; compinit" >> ~/.zshrc
+	echo "autoload -U compinit; compinit" >> ~/.zshrc
 
 To load completions in your current shell session:
 
- source <(kubelb completion zsh)
+	source <(kubelb completion zsh)
 
 To load completions for every new session, execute once:
 
-#### Linux
+#### Linux:
 
- kubelb completion zsh > "${fpath[1]}/_kubelb"
+	kubelb completion zsh > "${fpath[1]}/_kubelb"
 
-#### macOS
+#### macOS:
 
- kubelb completion zsh > $(brew --prefix)/share/zsh/site-functions/_kubelb
+	kubelb completion zsh > $(brew --prefix)/share/zsh/site-functions/_kubelb
 
 You will need to start a new shell for this setup to take effect.
+
 
 ```
 kubelb completion zsh [flags]
@@ -59,4 +60,5 @@ kubelb completion zsh [flags]
 
 ### SEE ALSO
 
-* [kubelb completion](../kubelb_completion)  - Generate the autocompletion script for the specified shell
+* [kubelb completion](../kubelb_completion)	 - Generate the autocompletion script for the specified shell
+

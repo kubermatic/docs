@@ -1,7 +1,7 @@
 +++
 title = "kubelb tunnel connect"
-date = 2025-08-27T00:00:00+01:00
-weight = 115
+date = 2026-02-04T00:00:00+00:00
+weight = 50
 +++
 
 ## kubelb tunnel connect
@@ -14,6 +14,7 @@ Connect to an existing tunnel to start forwarding traffic.
 
 This command establishes a secure connection to the tunnel and forwards
 traffic from the tunnel to your local service.
+
 
 ```
 kubelb tunnel connect NAME [flags]
@@ -47,4 +48,5 @@ kubelb tunnel connect my-app --port 8080 --tenant=mytenant
 
 ### SEE ALSO
 
-* [kubelb tunnel](../kubelb_tunnel)  - Manage secure tunnels to expose local services
+* [kubelb tunnel](../kubelb_tunnel)	 - Manage secure tunnels to expose local services
+

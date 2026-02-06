@@ -1,7 +1,7 @@
 +++
 title = "kubelb tunnel"
-date = 2025-08-27T00:00:00+01:00
-weight = 100
+date = 2026-02-04T00:00:00+00:00
+weight = 30
 +++
 
 ## kubelb tunnel
@@ -39,3 +39,4 @@ Create and manage secure tunnels to expose local services through the KubeLB inf
 * [kubelb tunnel delete](../kubelb_tunnel_delete)	 - Delete a tunnel
 * [kubelb tunnel get](../kubelb_tunnel_get)	 - Get a tunnel
 * [kubelb tunnel list](../kubelb_tunnel_list)	 - List tunnels
+

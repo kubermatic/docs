@@ -32,7 +32,7 @@ KubeLB CLI is currently available for Linux, macOS, and Windows.
 If you have Go installed, you can also build the binary from the source code using the following command:
 
 ```bash
-go install github.com/kubermatic/kubelb-cli@v0.1.0
+go install github.com/kubermatic/kubelb-cli@v0.2.0
 ```
 
 ### Configuration

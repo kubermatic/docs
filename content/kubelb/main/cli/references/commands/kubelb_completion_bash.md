@@ -1,7 +1,7 @@
 +++
 title = "kubelb completion bash"
-date = 2025-08-27T00:00:00+01:00
-weight = 210
+date = 2026-02-04T00:00:00+00:00
+weight = 50
 +++
 
 ## kubelb completion bash
@@ -17,19 +17,20 @@ If it is not installed already, you can install it via your OS's package manager
 
 To load completions in your current shell session:
 
- source <(kubelb completion bash)
+	source <(kubelb completion bash)
 
 To load completions for every new session, execute once:
 
-#### Linux
+#### Linux:
 
- kubelb completion bash > /etc/bash_completion.d/kubelb
+	kubelb completion bash > /etc/bash_completion.d/kubelb
 
-#### macOS
+#### macOS:
 
- kubelb completion bash > $(brew --prefix)/etc/bash_completion.d/kubelb
+	kubelb completion bash > $(brew --prefix)/etc/bash_completion.d/kubelb
 
 You will need to start a new shell for this setup to take effect.
+
 
 ```
 kubelb completion bash
@@ -57,4 +58,5 @@ kubelb completion bash
 
 ### SEE ALSO
 
-* [kubelb completion](../kubelb_completion)  - Generate the autocompletion script for the specified shell
+* [kubelb completion](../kubelb_completion)	 - Generate the autocompletion script for the specified shell
+

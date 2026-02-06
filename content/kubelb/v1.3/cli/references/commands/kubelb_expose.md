@@ -1,6 +1,6 @@
 +++
 title = "kubelb expose"
-date = 2025-08-27T00:00:00+01:00
+date = 2026-02-04T00:00:00+00:00
 weight = 30
 +++
 
@@ -16,14 +16,12 @@ This is a convenience command that creates a tunnel with an auto-generated
 name and immediately connects to it.
 
 Examples:
-
-# Expose port 8080 with auto-generated tunnel name
-
+  # Expose port 8080 with auto-generated tunnel name
   kubelb expose 8080
 
-# Expose port 3000 with custom hostname
-
+  # Expose port 3000 with custom hostname
   kubelb expose 3000 --hostname api.example.com
+
 
 ```
 kubelb expose PORT [flags]
@@ -59,4 +57,5 @@ kubelb expose 8080 --tenant=mytenant
 
 ### SEE ALSO
 
-* [kubelb](../kubelb)  - KubeLB CLI - Manage load balancers and create secure tunnels
+* [kubelb](../kubelb)	 - KubeLB CLI - Manage load balancers and create secure tunnels
+

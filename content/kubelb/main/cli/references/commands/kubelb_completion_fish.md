@@ -1,7 +1,7 @@
 +++
 title = "kubelb completion fish"
-date = 2025-08-27T00:00:00+01:00
-weight = 220
+date = 2026-02-04T00:00:00+00:00
+weight = 50
 +++
 
 ## kubelb completion fish
@@ -14,13 +14,14 @@ Generate the autocompletion script for the fish shell.
 
 To load completions in your current shell session:
 
- kubelb completion fish | source
+	kubelb completion fish | source
 
 To load completions for every new session, execute once:
 
- kubelb completion fish > ~/.config/fish/completions/kubelb.fish
+	kubelb completion fish > ~/.config/fish/completions/kubelb.fish
 
 You will need to start a new shell for this setup to take effect.
+
 
 ```
 kubelb completion fish [flags]
@@ -48,4 +49,5 @@ kubelb completion fish [flags]
 
 ### SEE ALSO
 
-* [kubelb completion](../kubelb_completion)  - Generate the autocompletion script for the specified shell
+* [kubelb completion](../kubelb_completion)	 - Generate the autocompletion script for the specified shell
+
