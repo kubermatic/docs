@@ -3,6 +3,17 @@ title = "OpenStack"
 date = 2024-05-31T07:00:00+02:00
 +++
 
+## Configuration Options
+
+An example `MachineDeployment` can be found here:
+[examples/openstack-machinedeployment.yaml](https://github.com/kubermatic/machine-controller/blob/main/examples/openstack-machinedeployment.yaml)
+
+{{%expand "Sample machinedeployment.yaml"%}}
+```yaml
+{{< render_external_code "https://raw.githubusercontent.com/kubermatic/machine-controller/main/examples/openstack-machinedeployment.yaml" >}}
+```
+{{%/expand%}}
+
 ## Provider configuration
 
 The OpenStack provider accepts the following configuration parameters:
@@ -29,17 +40,20 @@ projectID: ""
 tenantName: ""
 # tenant Id (deprecated, should use projectID)
 tenantID: ""
-# image to use (currently only ubuntu is supported)
+# image to use
 image: "Ubuntu 18.04 amd64"
 # instance flavor
 flavor: ""
+# UUID of the server group
+# used to configure affinity or anti-affinity of the VM instances relative to hypervisor
+serverGroup: ""
 # additional security groups.
-# a default security group will be created which node-to-node communication
+# a default security group will be created for node-to-node communication
 securityGroups:
   - "external-ssh"
 # the name of the subnet to use
 subnet: ""
-# [not implemented] the floating ip pool to use. When set a floating ip will be assigned o the instance
+# the floating IP pool to use. When set a floating IP will be assigned to the instance
 floatingIpPool: ""
 # the availability zone to create the instance in
 availabilityZone: ""
@@ -51,9 +65,11 @@ network: ""
 computeAPIVersion: ""
 # set trust-device-path flag for kubelet
 trustDevicePath: false
-# set root disk size
+# Optional, if set, the rootDisk will be a volume. If not, the rootDisk
+# will be on ephemeral storage and its size will be derived from the flavor
 rootDiskSizeGB: 50
-# set root disk volume type
+# Optional, only applied if rootDiskSizeGB is set.
+# Sets the volume type of the root disk.
 rootDiskVolumeType: ""
 # set node-volume-attach-limit flag for cloud-config
 nodeVolumeAttachLimit: 20
@@ -95,5 +111,5 @@ By default all images will be named `machine-controller-${OS_NAME}`. The image
 names can be overwritten using environment variables:
 
 ```bash
-UBUNTU_IMAGE_NAME="ubuntu"./hack/setup-openstack-images.sh
+UBUNTU_IMAGE_NAME="ubuntu" ./hack/setup-openstack-images.sh
 ```
