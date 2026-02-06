@@ -24,8 +24,8 @@ of provided software and therefore releases updates regularly that also include 
 | logging/loki                   | 2.9.6                          |
 | minio                          | RELEASE.2023-05-04T21-44-30Z   |
 | mla/alertmanager-proxy         | 0.3.3                          |
-| mla/consul                     | 1.14.2                         |
-| mla/cortex                     | 1.14.1                         |
+| mla/consul                     | 1.22.2                         |
+| mla/cortex                     | 1.20.0                         |
 | mla/grafana                    | 10.2.2                         |
 | mla/loki-distributed           | 2.9.2                          |
 | mla/minio-lifecycle-mgr        | 0.1.0                          |
