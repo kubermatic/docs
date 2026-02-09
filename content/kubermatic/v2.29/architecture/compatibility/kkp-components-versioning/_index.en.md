@@ -15,6 +15,7 @@ of provided software and therefore releases updates regularly that also include 
 | backup/velero                  | 1.14.0                         |
 | cert-manager                   | 1.17.4                         |
 | dex                            | 2.44.0                         |
+| envoy-gateway-controller       | 1.6.1                          |
 | gitops/kkp-argocd-apps         | 1.16.1                         |
 | iap                            | 7.13.0                         |
 | kubermatic-operator            | 9.9.9-dev                      |
