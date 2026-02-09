@@ -1,7 +1,7 @@
 +++
 title = "kubelb completion powershell"
-date = 2025-08-27T00:00:00+01:00
-weight = 230
+date = 2026-02-04T00:00:00+00:00
+weight = 50
 +++
 
 ## kubelb completion powershell
@@ -14,10 +14,11 @@ Generate the autocompletion script for powershell.
 
 To load completions in your current shell session:
 
- kubelb completion powershell | Out-String | Invoke-Expression
+	kubelb completion powershell | Out-String | Invoke-Expression
 
 To load completions for every new session, add the output of the above command
 to your powershell profile.
+
 
 ```
 kubelb completion powershell [flags]
@@ -45,4 +46,5 @@ kubelb completion powershell [flags]
 
 ### SEE ALSO
 
-* [kubelb completion](../kubelb_completion)  - Generate the autocompletion script for the specified shell
+* [kubelb completion](../kubelb_completion)	 - Generate the autocompletion script for the specified shell
+

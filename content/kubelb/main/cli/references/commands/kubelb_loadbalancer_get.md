@@ -1,7 +1,7 @@
 +++
 title = "kubelb loadbalancer get"
-date = 2025-08-27T00:00:00+01:00
-weight = 80
+date = 2026-02-04T00:00:00+00:00
+weight = 50
 +++
 
 ## kubelb loadbalancer get
@@ -11,6 +11,7 @@ Get a load balancer
 ### Synopsis
 
 Retrieve a load balancer by ID and output it's complete YAML specification.
+
 
 ```
 kubelb loadbalancer get ID [flags]
@@ -43,4 +44,5 @@ kubelb loadbalancer get nginx-loadbalancer --tenant=mytenant --kubeconfig=./kube
 
 ### SEE ALSO
 
-* [kubelb loadbalancer](../kubelb_loadbalancer)  - Manage KubeLB load balancers
+* [kubelb loadbalancer](../kubelb_loadbalancer)	 - Manage KubeLB load balancers
+

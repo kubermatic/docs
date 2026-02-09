@@ -2,7 +2,7 @@
 title = "External DNS Migration"
 linkTitle = "External DNS"
 date = 2026-01-30T00:00:00+01:00
-weight = 3
+weight = 4
 +++
 
 External DNS automates DNS record management by watching Kubernetes resources and creating corresponding DNS entries. It's widely used alongside Ingress controllers.

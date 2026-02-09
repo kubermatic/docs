@@ -1,7 +1,7 @@
 +++
 title = "kubelb loadbalancer create"
-date = 2025-08-27T00:00:00+01:00
-weight = 70
+date = 2026-02-04T00:00:00+00:00
+weight = 50
 +++
 
 ## kubelb loadbalancer create
@@ -15,18 +15,15 @@ Create a new HTTP load balancer with the specified endpoints.
 The load balancer supports HTTP routing and hostname-based access.
 
 Examples:
-
-# Create HTTP load balancer with random hostname
-
+  # Create HTTP load balancer with random hostname
   kubelb lb create my-app --endpoints 10.0.1.1:8080
 
-# Create HTTP load balancer with custom hostname
-
+  # Create HTTP load balancer with custom hostname
   kubelb lb create my-app --endpoints 10.0.1.1:8080 --hostname app.example.com
 
-# Create HTTP load balancer without a route
-
+  # Create HTTP load balancer without a route
   kubelb lb create my-app --endpoints 10.0.1.1:8080 --route=false
+
 
 ```
 kubelb loadbalancer create NAME [flags]
@@ -66,4 +63,5 @@ kubelb loadbalancer create my-app --endpoints 10.0.1.1:8080,10.0.1.2:8080 --tena
 
 ### SEE ALSO
 
-* [kubelb loadbalancer](../kubelb_loadbalancer)  - Manage KubeLB load balancers
+* [kubelb loadbalancer](../kubelb_loadbalancer)	 - Manage KubeLB load balancers
+
