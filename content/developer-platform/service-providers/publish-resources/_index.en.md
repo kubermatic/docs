@@ -21,8 +21,8 @@ For each of the CRDs on the service cluster that should be published, the servic
 `PublishedResource` object, which will contain both which CRD to publish, as well as numerous other
 important settings that influence the behaviour around handling the CRD.
 
-When publishing a resource (CRD), exactly one version is published. All others are ignored from the
-standpoint of the resource synchronization logic.
+When publishing a resource (CRD), one or more versions can be published (though publishing a single
+version is most common, as kcp does not yet support version conversion).
 
 All published resources together form the KDP Service. When a service is enabled in a workspace
 (i.e. it is bound to it), users can manage objects for the projected resources described by the
@@ -49,7 +49,7 @@ spec:
   resource:
     kind: Certificate
     apiGroup: cert-manager.io
-    version: v1
+    versions: [v1]
 ```
 
 However, you will most likely apply more configuration and use features described below.
@@ -86,9 +86,10 @@ For stronger separation of concerns and to enable whitelabelling of services, th
 can be projected, i.e. changed between the local service cluster and the KDP platform. You could
 for example rename `Certificate` from cert-manager to `Zertifikat` inside the platform.
 
-Note that the API group of all published resources is always changed to the one defined in the
-KDP `Service` object (meaning 1 api-syncagent serves all the selected published resources under the
-same API group). That is why changing the API group cannot be configured in the projection.
+Note that since api-syncagent v0.3.0, the API group is **no longer automatically renamed**. If you
+want to change the API group (e.g. to match the KDP `Service`'s API group), you must explicitly
+configure it in the projection. This applies even if all published resources should share the same
+API group.
 
 Besides renaming the Kind and Version, dependent fields like Plural, ShortNames and Categories
 can be adjusted to fit the desired naming scheme in the platform. The Plural name is computed
@@ -106,6 +107,7 @@ metadata:
 spec:
   resource: ...
   projection:
+    group: certificates.example.corp # explicit group projection (required since v0.3.0)
     version: v1beta1
     kind: Zertifikat
     plural: Zertifikate
@@ -126,16 +128,18 @@ Since the api-syncagent ingests resources from many different Kubernetes cluster
 combines them onto a single cluster, resources have to be renamed to prevent collisions and also
 follow the conventions of whatever tooling ultimately processes the resources locally.
 
-The renaming is configured in `spec.naming`. In there, renaming patterns are configured, where
-pre-defined placeholders can be used, for example `foo-$placeholder`. The following placeholders
-are available:
+The renaming is configured in `spec.naming`. Since api-syncagent v0.3.0, naming patterns use
+**Go templates** (the older `$variable` syntax is deprecated but still functional). The following
+template variables and functions are available:
 
-- `$remoteClusterName` – the KDP workspace's cluster name (e.g. "1084s8ceexsehjm2")
-- `$remoteNamespace` – the original namespace used by the consumer inside the KDP workspace
-- `$remoteNamespaceHash` – first 20 hex characters of the SHA-1 hash of `$remoteNamespace`
-- `$remoteName` – the original name of the object inside the KDP workspace (rarely used to construct
-  local namespace names)
-- `$remoteNameHash` – first 20 hex characters of the SHA-1 hash of `$remoteName`
+- `{{ .ClusterName }}` – the KDP workspace's cluster name (e.g. "1084s8ceexsehjm2")
+- `{{ .Object.metadata.namespace }}` – the original namespace used by the consumer inside the KDP workspace
+- `{{ .Object.metadata.name }}` – the original name of the object inside the KDP workspace
+- `{{ ... | sha3short }}` – first 20 hex characters of the SHA-3 hash (replaces the old SHA-1 based `$...Hash` variables)
+- `{{ ... | shortHash }}` – SHA-1 hash (only for backwards compatibility with pre-v0.3.0 naming)
+
+Refer to the [api-syncagent templating documentation](https://docs.kcp.io/api-syncagent/v0.3/publish-resources/templating/)
+for the full list of available template objects and functions.
 
 If nothing is configured, the default ensures that no collisions will happen: Each workspace in
 the platform will create a namespace on the local cluster, with a combination of namespace and
@@ -149,10 +153,16 @@ metadata:
 spec:
   resource: ...
   naming:
-    # This is the implicit default configuration.
-    namespace: "$remoteClusterName"
-    name: "cert-$remoteNamespaceHash-$remoteNameHash"
+    # This is the implicit default configuration (since v0.3.0).
+    namespace: "{{ .ClusterName }}"
+    name: "{{ .Object.metadata.namespace | sha3short }}-{{ .Object.metadata.name | sha3short }}"
 ```
+
+{{% notice note %}}
+The older `$variable` syntax (e.g. `$remoteClusterName`, `$remoteNamespaceHash`) is deprecated
+since v0.3.0. Existing configurations using this syntax will continue to work, but new configurations
+should use Go templates. Note that the default hash function changed from SHA-1 to SHA-3.
+{{% /notice %}}
 
 ### Mutation
 
@@ -235,7 +245,8 @@ cluster (i.e. you cannot express "sync all Secrets"). While the main published r
 always workspace->service cluster, related resources can originate on either side and so either can
 work as the source of truth.
 
-At the moment, only `ConfigMaps` and `Secrets` are allowed related resource kinds.
+At the moment, only `ConfigMaps` and `Secrets` are supported as related resource kinds. Support
+for arbitrary resource kinds is available starting with api-syncagent v0.5.0.
 
 For each related resource, the api-syncagent needs to be told the name/namespace. This is done by
 selecting a field in the main resource (for a `Certificate` this would mean `spec.secretName`).
@@ -259,49 +270,36 @@ spec:
   resource:
     kind: Certificate
     apiGroup: cert-manager.io
-    version: v1
+    versions: [v1]
 
   naming:
     # this is where our CA and Issuer live in this example
     namespace: kube-system
-    # need to adjust it to prevent collions (normally clustername is the namespace)
-    name: "$remoteClusterName-$remoteNamespaceHash-$remoteNameHash"
+    # need to adjust it to prevent collisions (normally clustername is the namespace)
+    name: "{{ .ClusterName }}-{{ .Object.metadata.namespace | sha3short }}-{{ .Object.metadata.name | sha3short }}"
 
   related:
-      # unique name for this related resource. The name must be unique within one
+      # unique name for this related resource. The identifier must be unique within one
       # PublishedResource and is the key by which consumers (end users) can identify and consume the
       # related resource. Common names are "connection-details" or "credentials".
     - identifier: tls-secret
       origin: service # service or platform
-      kind: Secret # for now, only "Secret" and "ConfigMap" are supported;
-                   # there is no GVK projection for related resources
+      kind: Secret
 
       # configure where in the parent object we can find
       # the name/namespace of the related resource (the child)
-      reference:
-        name:
+      object:
+        reference:
           # This path is evaluated in both the local and remote objects, to figure out
-          # the local and remote names for the related object. This saves us from having
-          # to remember mutated fields before their mutation (similar to the last-known
-          # annotation).
+          # the local and remote names for the related object.
           path: spec.secretName
 
         # namespace part is optional; if not configured,
         # Sync Agent assumes the same namespace as the owning resource
         #
         # namespace:
-        #   path: spec.secretName
-        #   regex:
-        #     pattern: '...'
-        #     replacement: '...'
-        #
-        # to inject static values, select a meaningless string value
-        # and leave the pattern empty
-        #
-        # namespace:
-        #   path: metadata.uid
-        #   regex:
-        #     replacement: kube-system
+        #   reference:
+        #     path: spec.secretNamespace
 ```
 
 ## Examples
@@ -333,35 +331,25 @@ spec:
   resource:
     kind: Certificate
     apiGroup: cert-manager.io
-    version: v1
+    versions: [v1]
+
+  projection:
+    group: certificates.example.corp
 
   naming:
     # this is where our CA and Issuer live in this example
     namespace: kube-system
-    # need to adjust it to prevent collions (normally clustername is the namespace)
-    name: "$remoteClusterName-$remoteNamespaceHash-$remoteNameHash"
+    # need to adjust it to prevent collisions (normally clustername is the namespace)
+    name: "{{ .ClusterName }}-{{ .Object.metadata.namespace | sha3short }}-{{ .Object.metadata.name | sha3short }}"
 
   related:
-    - origin: service # service or kcp
-      kind: Secret # for now, only "Secret" and "ConfigMap" are supported;
-                   # there is no GVK projection for related resources
+    - identifier: tls-secret
+      origin: service
+      kind: Secret
 
-      # configure where in the parent object we can find
-      # the name/namespace of the related resource (the child)
-      reference:
-        name:
-          # This path is evaluated in both the local and remote objects, to figure out
-          # the local and remote names for the related object. This saves us from having
-          # to remember mutated fields before their mutation (similar to the last-known
-          # annotation).
+      object:
+        reference:
           path: spec.secretName
-        # namespace part is optional; if not configured,
-        # Sync Agent assumes the same namespace as the owning resource
-        # namespace:
-        #   path: spec.secretName
-        #   regex:
-        #     pattern: '...'
-        #     replacement: '...'
 ```
 
 ## Technical Details

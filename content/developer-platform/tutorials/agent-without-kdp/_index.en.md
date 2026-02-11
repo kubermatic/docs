@@ -86,13 +86,15 @@ agentName: unique-test
 kcpKubeconfig: kcp-kubeconfig
 ```
 
-Once this `values.yaml` file is prepared, install a recent development build of the Sync Agent:
+Once this `values.yaml` file is prepared, install the Sync Agent:
 
 ```bash
 helm repo add kcp https://kcp-dev.github.io/helm-charts
 helm repo update
 
 helm install kcp-api-syncagent kcp/api-syncagent \
+  --version 0.3.0 \
+  --set image.tag=v0.3.0 \
   --values values.yaml \
   --namespace kcp-system
 ```

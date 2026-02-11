@@ -9,7 +9,7 @@ Authorization (authZ) in KDP closely resembles
 [Kubernetes RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) since KDP uses kcp
 as its API control plane. Besides the "standard" RBAC of Kubernetes, kcp implements concepts specific
 to its multi-workspace nature. See
-[upstream documentation](https://docs.kcp.io/kcp/v0.22/concepts/authorization/) for them.
+[upstream documentation](https://docs.kcp.io/kcp/v0.30/concepts/authorization/) for them.
 
 ## Cross-workspace RBAC propagation
 
