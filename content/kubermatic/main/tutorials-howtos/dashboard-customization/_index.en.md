@@ -5,51 +5,114 @@ weight = 10
 
 +++
 
-This manual explains multiple approaches to add custom themes to the application. It also describes how to add and enable multiple themes for the ui.
+The KKP Dashboard supports white-labeling through a `branding` configuration block and custom CSS themes. Branding configuration covers most customization needs (logo, colors, fonts, page title, etc.) without building from source. For deeper visual changes, custom SCSS/CSS themes are available.
 
-Here are some quick links to the different chapters:
+- [Branding Configuration]({{< ref "#branding-configuration" >}})
+- [Custom Themes]({{< ref "#custom-themes" >}})
+  - [Modifying Available Themes]({{< ref "#modifying-available-themes" >}})
+  - [Creating a Theme With Source Access]({{< ref "#creating-a-theme-with-source-access" >}})
+  - [Creating a Theme Without Source Access]({{< ref "#creating-a-theme-without-source-access" >}})
 
-- [Modifying Available Themes]({{< ref "#modifying-available-themes" >}})
-- [Disabling Theming Functionality]({{< ref "#disabling-theming-functionality" >}})
-- [Possible Customizing Approaches]({{< ref "#possible-customizing-approaches" >}})
-  - [Preparing a New Theme With Access to the Sources]({{< ref "#customizing-the-application-sources" >}})
-  - [Preparing a New Theme Without Access to the Sources]({{< ref "#customizing-the-application-sources-inside-custom-container" >}})
+## Branding Configuration
 
-## Modifying Available Themes
+Branding is configured via the `KubermaticConfiguration` CRD under `spec.ui.config`. Add a `branding` object to `config.json`:
 
-Currently, the application offers two themes by default, light and dark. There is also an option to choose system theme and let the application choose dark/light theme based
-on the user's operating system theme. Each user can specify a theme to use in the `Account` view which is accessible from the user menu under `User Settings`:
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  ui:
+    config: |
+      {
+        "branding": {
+          "product_name": "Chelsea Cloud",
+          "product_url": "https://chelsea.cloud/",
+          "postfix_page_title": "Chelsea Cloud",
+          "tagline": "Your Cloud, Your Rules",
+          "logo_url": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/kubernetes.svg",
+          "logo_dark_url": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/kubernetes.svg",
+          "favicon_url": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/kubernetes.svg",
+          "background_url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80",
+          "custom_css_url": "",
+          "font_url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+          "font_family": "'Inter', helvetica, arial, sans-serif",
+          "hide_version": true,
+          "hide_documentation_links": true,
+          "colors": {
+            "primary": "#0052cc",
+            "secondary": "#00b8d9",
+            "header_bg": "#1a1a2e",
+            "header_text": "#ffffff"
+          }
+        }
+      }
+```
+
+All fields are optional. Unset fields fall back to KKP defaults. Changes take effect after saving the CRD (no pod restart required).
+
+{{% notice info %}}
+URL fields like `logo_url`, `favicon_url`, `background_url`, and `custom_css_url` also accept relative file paths. If hosting assets on the internet is not possible, mount the files into the dashboard container and reference them by path (e.g. `assets/branding/logo.svg`). Use `extraVolumes` and `extraVolumeMounts` in the KubermaticConfiguration to mount the files.
+{{% /notice %}}
+
+### Branding Field Reference
+
+| Field | Type | Description |
+|---|---|---|
+| `product_name` | string | Product name shown in sidebar and browser tab |
+| `product_url` | string | URL linked from the product name |
+| `postfix_page_title` | string | Appended to browser tab title |
+| `tagline` | string | Tagline shown on the front page |
+| `logo_url` | string | Logo URL (light theme) |
+| `logo_dark_url` | string | Logo URL (dark theme; falls back to `logo_url`) |
+| `favicon_url` | string | Custom favicon URL |
+| `background_url` | string | Background image URL for login/front page |
+| `custom_css_url` | string | URL to a custom CSS stylesheet for advanced overrides |
+| `font_url` | string | URL to an external font (e.g. Google Fonts CSS link) |
+| `font_family` | string | CSS `font-family` value applied globally |
+| `hide_version` | bool | Hide version info from the UI footer |
+| `hide_documentation_links` | bool | Hide all KKP documentation links from the UI |
+| `colors` | object | Color overrides (see below) |
+
+### Color Fields (`branding.colors`)
+
+| Field | Type | Description |
+|---|---|---|
+| `primary` | string | Primary brand color (hex, e.g. `#1a73e8`) |
+| `secondary` | string | Secondary/accent color (hex) |
+| `header_bg` | string | Header background color (hex) |
+| `header_text` | string | Header text color (hex) |
+
+## Custom Themes
+
+The dashboard ships with light and dark themes. Users select a theme in **User Settings > Account**:
 
 ![User Settings](@/images/ui/user-settings.png?classes=shadow,border "User Settings")
 
-### Disabling Theming Functionality
+### Modifying Available Themes
 
-In order to disable theming options for all users and enforce using only the default theme, set
-`enforced_theme` property in the application `config.json` file to the name of the theme that should be enforced (i.e. `light`).
+Light, dark, and system (OS-based) themes are available by default. To force a single theme for all users, set `enforced_theme` in `config.json` to the desired theme name (e.g. `light`):
 
-## Possible Customizing Approaches
+```yaml
+spec:
+  ui:
+    config: |
+      {
+        "enforced_theme": "light"
+      }
+```
 
-There are two possible approaches of preparing custom themes. They all rely on the same functionality. It all depends on user access to the application code in order
-to prepare and quickly test the new theme before using it in the official deployment.
+### Creating a Theme With Source Access
 
-### Preparing a New Theme With Access to the Sources
+This approach uses SCSS and lets you test themes locally before deploying.
 
-This approach gives user the possibility to reuse already defined code, work with `scss` instead of `css`
-and quickly test your new theme before uploading it to the official deployment.
+1. Create `src/assets/themes/custom.scss` using `light.scss` or `dark.scss` as a base.
+2. Register the theme in `src/assets/config/config.json`:
 
-All available themes can be found inside `src/assets/themes` directory. Follow the below steps to prepare a new custom theme:
-
-- Create a new `scss` theme file inside `src/assets/themes` directory called `custom.scss`. This is only a temporary name that can be changed later.
-- As a base reuse code from one of the default themes, either `light.scss` or `dark.scss`.
-- Register a new style in `src/assets/config/config.json` similar to how it's done for `light` and `dark` themes. As the `name` use `custom`.
-  - `name` - refers to the theme file name stored inside `assets/themes` directory.
-  - `displayName` - will be used by the theme picker available in the `Account` view to display a new theme.
-  - `isDark` - defines the icon to be used by the theme picker (sun/moon).
     ```json
     {
-      "openstack": {
-        "wizard_use_default_user": false
-      },
       "themes": [
         {
           "name": "custom",
@@ -59,47 +122,42 @@ All available themes can be found inside `src/assets/themes` directory. Follow t
       ]
     }
     ```
-- Run the application using `npm start`, open the `Account` view under `User settings`, select your new theme and update `custom.scss` according to your needs.
-  It is possible to override basically everything inside this theme file. In example if you want to change background color of a `mat-form-field` do this:
-  ```scss
-  .mat-form-field {
-    background-color: red;
-  }
-  ```
-  **TIP:** As currently selected theme name is saved inside user settings, change it back to one of the default themes before uploading your theme to the official deployment.
-- Once your new theme is ready run `npm run build:themes`. It should create a `dist-themes` directory inside Kubermatic Kubernetes Platform (KKP) Dashboard directory with compiled `css` files of all themes
-  stored inside `src/assets/themes` directory. Now you can rename your `custom.css` theme file to some other name, i.e. `solar.css`.
+
+   - `name` — matches the SCSS filename (without extension) in `assets/themes`.
+   - `displayName` — label shown in the theme picker.
+   - `isDark` — controls the picker icon (sun/moon).
+3. Run `npm start`, switch to the new theme under **User Settings**, and iterate on `custom.scss`. Any CSS rule can be overridden:
+
+    ```scss
+    .mat-form-field {
+      background-color: red;
+    }
+    ```
+
+   {{% notice tip %}}Switch back to a default theme before deploying, since the selected theme is stored in user settings.{{% /notice %}}
+4. Run `npm run build:themes` — this creates compiled CSS files in `dist-themes/`. Rename `custom.css` to your final name (e.g. `solar.css`).
 
 ![Themes dir](@/images/ui/themes-dir.png?classes=shadow,border "Themes dir")
 
-- Now, update the `config.json` in [KubermaticSettings]({{< relref "../../references/crds/#kubermaticuiconfiguration" >}}) CR used by `Kubermatic Dashboard` Deployment and register the new theme same as it was done earlier.
-  Make sure that `name` entry corresponds to the name of your theme file (without the `css` suffix).
-- As the last step, mount your custom CSS theme file to the `dist/assets/themes` directory. To do so, specify `extraVolumes` and `extraVolumeMounts` in the [KubermaticSettings]({{< relref "../../references/crds/#kubermaticuiconfiguration" >}}) CR. Make sure not to override whole directory as default themes are required by the application.
-- After application restart, theme picker should show your new theme.
+1. Update `config.json` in the [KubermaticConfiguration]({{< relref "../../references/crds/#kubermaticuiconfiguration" >}}) to register the new theme (use the filename without `.css` as `name`).
+2. Mount the CSS file into `dist/assets/themes` using `extraVolumes` and `extraVolumeMounts` in the [KubermaticConfiguration]({{< relref "../../references/crds/#kubermaticuiconfiguration" >}}). Do not replace the entire directory — default themes are required.
+3. Restart the dashboard pod. The new theme appears in the theme picker.
 
 ![Theme picker](@/images/ui/custom-theme.png?classes=shadow,border "Theme picker")
 
-### Preparing a New Theme Without Access to the Sources
+### Creating a Theme Without Source Access
 
-In this case the easiest way of preparing a new theme is to download one of the existing themes light/dark. This can be done in a few different ways.
-We'll describe here two possible ways of downloading enabled themes.
+Download an existing compiled theme (light or dark) and modify the CSS directly.
 
-#### Download Theme Using the Browser
+#### Download via Browser
 
-- Open KKP UI
-- Open `Developer tools` and navigate to `Sources` tab.
-- There should be a CSS file of a currently selected theme available to be downloaded inside `assts/themes` directory.
+Open the KKP UI, go to **Developer Tools > Sources**, and download the active theme CSS from `assets/themes`.
 
 ![Dev tools](@/images/ui/developer-tools.png?classes=shadow,border "Dev tools")
 
-#### Download Themes Directly From the KKP Dashboard container
-
-Assuming that you know how to exec into the container and copy resources from/to it, themes can be simply copied over to your machine
-from the running KKP Dashboard container. They are stored inside the container in `dist/assets/themes` directory.
+#### Download from Container
 
 ##### Kubernetes
-
-Assuming that the KKP Dashboard pod name is `kubermatic-dashboard-5b96d7f5df-mkmgh` you can copy themes to your `${HOME}/themes` directory using below command:
 
 ```bash
 kubectl -n kubermatic cp kubermatic-dashboard-5b96d7f5df-mkmgh:/dist/assets/themes ~/themes
@@ -107,28 +165,19 @@ kubectl -n kubermatic cp kubermatic-dashboard-5b96d7f5df-mkmgh:/dist/assets/them
 
 ##### Docker
 
-Assuming that the KKP Dashboard container name is `kubermatic-dashboard` you can copy themes to your `${HOME}/themes` directory using below command:
-
 ```bash
 docker cp kubermatic-dashboard:/dist/assets/themes/. ~/themes
 ```
 
-#### Using Compiled Theme to Prepare a New Theme
+#### Using the Compiled Theme
 
-Once you have a base theme file ready, we can use it to prepare a new theme. To easier understand the process, let's
-assume that we have downloaded a `light.css` file and will be preparing a new theme called `solar.css`.
-
-- Rename `light.css` to `solar.css`.
-- Update `solar.css` file according to your needs. Anything in the file can be changed or new rules can be added.
-   In case you are changing colors, remember to update it in the whole file.
-- Mount new `solar.css` file to `dist/assets/themes` directory inside the application container. **Make sure not to override whole directory.**
-- Update `config.json` file inside `dist/config` directory and register the new theme.
+1. Rename the downloaded file (e.g. `light.css` to `solar.css`).
+2. Edit `solar.css` as needed. Any CSS rule can be changed or added; if modifying colors, update all occurrences.
+3. Mount `solar.css` into `dist/assets/themes` in the dashboard container. Do not replace the entire directory.
+4. Register the theme in `config.json`:
 
     ```json
     {
-      "openstack": {
-        "wizard_use_default_user": false
-      },
       "themes": [
         {
           "name": "solar",
@@ -139,39 +188,4 @@ assume that we have downloaded a `light.css` file and will be preparing a new th
     }
     ```
 
-That's it. After restarting the application, theme picker in the `Account` view should show your new `Solar` theme.
-
-## Setting Custom Postfix for the Page Title
-
-You can add a custom postfix to the page title from the UI config in the KubermaticConfiguration CRD on the master cluster.
-
-Add the `postfix_page_title` field under `spec.ui.config` as shown below:
-
-```bash
-kubectl -n kubermatic get kubermaticconfigurations
-# NAME         AGE
-# kubermatic   2h
-
-kubectl -n kubermatic get kubermaticconfiguration kubermatic -o yaml
-# apiVersion: kubermatic.k8c.io/v1
-# kind: KubermaticConfiguration
-# metadata:
-#   finalizers:
-#   - operator.kubermatic.io/cleanup
-#   name: kubermatic
-#   namespace: kubermatic
-# spec:
-#   ...
-#   ui:
-#     config: |
-#       {
-#         ...
-#         "postfix_page_title": "Kubermatic Kubernetes Platform",
-#         ...
-#       }
-#   ...
-```
-
-After adding the postfix_page_title, you will see the postfix displayed in the browser tab title.
-
-![Page Title](@/images/ui/page-title.png?classes=shadow,border "Page title")
+5. Restart the dashboard. The new theme appears in the theme picker under **User Settings > Account**.
