@@ -12,9 +12,9 @@ to cloud-init by setting `machine.spec.providerSpec.value.operatingSystemSpec.pr
 to `cloud-init`.
 
 An example MachineDeployment can be found here:
-[examples/anexia-machinedeployment.yaml](https://github.com/kubermatic/machine-controller/blob/main/examples/anexia-machinedeployment.yaml):
+[examples/anexia-machinedeployment.yaml](https://github.com/kubermatic/machine-controller/blob/main/examples/anexia-machinedeployment.yaml)
 
-{{%expand "Example machinedeployment.yaml"%}}
+{{%expand "Sample machinedeployment.yaml"%}}
 ```yaml
 {{< render_external_code "https://raw.githubusercontent.com/kubermatic/machine-controller/main/examples/anexia-machinedeployment.yaml" >}}
 ```
