@@ -5812,8 +5812,35 @@ _Appears in:_
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the component's image.{{< /unsafe >}} |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
-| `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the nodeport-proxy-envoy deployment.<br />If unset, 3 replicas are used.{{< /unsafe >}} |
+| `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the nodeport-proxy-envoy deployment.<br />Defaults to 3.{{< /unsafe >}} |
 | `loadBalancerService` _[EnvoyLoadBalancerService](#envoyloadbalancerservice)_ | {{< unsafe >}}{{< /unsafe >}} |
+| `connectionSettings` _[NodePortProxyEnvoyConnectionSettings](#nodeportproxyenvoyconnectionsettings)_ | {{< unsafe >}}ConnectionSettings configures idle timeout and TCP keepalive settings for<br />the nodeport-proxy Envoy listeners and upstream clusters.<br />Zero values keep Envoy defaults (no KKP override).{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### NodePortProxyEnvoyConnectionSettings
+
+
+
+
+
+_Appears in:_
+- [NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)
+
+| Field | Description |
+| --- | --- |
+| `sniListenerIdleTimeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#duration-v1-meta)_ | {{< unsafe >}}SNIListenerIdleTimeout bounds how long inactive :6443 SNI listener<br />downstream connections are kept open.<br />Set to 0 to keep Envoy default behavior. If set, value must be >= 1s.{{< /unsafe >}} |
+| `tunnelingConnectionIdleTimeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#duration-v1-meta)_ | {{< unsafe >}}TunnelingConnectionIdleTimeout bounds how long inactive :8088 tunneling<br />listener downstream connections are kept open.<br />Set to 0 to keep Envoy default behavior. If set, value must be >= 1s.{{< /unsafe >}} |
+| `tunnelingStreamIdleTimeout` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#duration-v1-meta)_ | {{< unsafe >}}TunnelingStreamIdleTimeout bounds how long inactive HTTP/2 CONNECT streams<br />on the tunneling listener are kept open.<br />Set to 0 to keep Envoy default behavior. If set, value must be >= 1s.{{< /unsafe >}} |
+| `downstreamTCPKeepaliveTime` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#duration-v1-meta)_ | {{< unsafe >}}DownstreamTCPKeepaliveTime configures the idle time before the first TCP<br />keepalive probe is sent on downstream listener sockets.<br />Set to 0 to leave unset. If set, value must be >= 1s.{{< /unsafe >}} |
+| `downstreamTCPKeepaliveInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#duration-v1-meta)_ | {{< unsafe >}}DownstreamTCPKeepaliveInterval configures the interval between TCP<br />keepalive probes on downstream listener sockets.<br />Set to 0 to leave unset. If set, value must be >= 1s.{{< /unsafe >}} |
+| `downstreamTCPKeepaliveProbes` _integer_ | {{< unsafe >}}DownstreamTCPKeepaliveProbes is the number of unanswered TCP keepalive<br />probes before considering downstream listener sockets dead.<br />Set to 0 to leave unset.{{< /unsafe >}} |
+| `upstreamTCPKeepaliveTime` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#duration-v1-meta)_ | {{< unsafe >}}UpstreamTCPKeepaliveTime configures the idle time before the first TCP<br />keepalive probe is sent on upstream cluster sockets.<br />Set to 0 to leave unset. If set, value must be >= 1s.{{< /unsafe >}} |
+| `upstreamTCPKeepaliveInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#duration-v1-meta)_ | {{< unsafe >}}UpstreamTCPKeepaliveInterval configures the interval between TCP keepalive<br />probes on upstream cluster sockets.<br />Set to 0 to leave unset. If set, value must be >= 1s.{{< /unsafe >}} |
+| `upstreamTCPKeepaliveProbes` _integer_ | {{< unsafe >}}UpstreamTCPKeepaliveProbes is the number of unanswered TCP keepalive<br />probes before considering upstream cluster sockets dead.<br />Set to 0 to leave unset.{{< /unsafe >}} |
 
 
 [Back to top](#top)
