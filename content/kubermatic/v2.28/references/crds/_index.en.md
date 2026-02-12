@@ -5545,6 +5545,7 @@ _Appears in:_
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the component's image.{{< /unsafe >}} |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the nodeport-proxy-envoy deployment.<br />If unset, 3 replicas are used.{{< /unsafe >}} |
 | `loadBalancerService` _[EnvoyLoadBalancerService](#envoyloadbalancerservice)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
