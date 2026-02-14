@@ -52,7 +52,7 @@ helm upgrade crossplane crossplane \
   --create-namespace \
   --namespace=crossplane-system \
   --repo=https://charts.crossplane.io/stable \
-  --version=1.15.0 \
+  --version=1.20.0 \
   --wait
 ```
 
@@ -94,7 +94,7 @@ metadata:
   labels:
     app.kubernetes.io/component: provider
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.11.1
+  package: xpkg.crossplane.io/crossplane-contrib/provider-kubernetes:v0.17.1
   runtimeConfigRef:
     name: crossplane-provider-kubernetes
 EOF
@@ -105,7 +105,7 @@ Once the provider is installed, verify the provider status with the following co
 ```bash
 kubectl get providers crossplane-provider-kubernetes
 NAME                             INSTALLED   HEALTHY   PACKAGE                                                          AGE
-crossplane-provider-kubernetes   True        True      xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.11.1   104s
+crossplane-provider-kubernetes   True        True      xpkg.crossplane.io/crossplane-contrib/provider-kubernetes:v0.17.1   104s
 ```
 
 With the `provider-kubernetes` in place, we assign the provider-specific service account
@@ -150,7 +150,7 @@ helm upgrade cert-manager cert-manager \
   --install --create-namespace \
   --namespace=cert-manager \
   --repo=https://charts.jetstack.io \
-  --version=v1.14.2 \
+  --version=v1.18.2 \
   --set=installCRDs=true \
   --wait
 ```
@@ -467,24 +467,25 @@ simply applying the following manifest to the service cluster.
 
 ```bash
 kubectl apply --filename=- <<'EOF'
-apiVersion: services.kdp.k8c.io/v1alpha1
+apiVersion: syncagent.kcp.io/v1alpha1
 kind: PublishedResource
 metadata:
   name: v1alpha1.certificate.pki.xaas.k8c.io
 spec:
   naming:
-    name: $remoteName
-    namespace: certs-$remoteClusterName-$remoteNamespaceHash
+    name: "{{ .Object.metadata.name }}"
+    namespace: "certs-{{ .ClusterName }}-{{ .Object.metadata.namespace | sha3short }}"
   related:
-    - kind: Secret
+    - identifier: tls-secret
+      kind: Secret
       origin: service
-      reference:
-        name:
+      object:
+        reference:
           path: spec.writeConnectionSecretToRef.name
   resource:
     apiGroup: pki.xaas.k8c.io
     kind: Certificate
-    version: v1alpha1
+    versions: [v1alpha1]
 EOF
 ```
 
@@ -493,8 +494,8 @@ And done! The api-syncagent will pick up the `PublishedResource` object, set up 
 
 For more information, see the guide on [publishing resources]({{< relref "../publish-resources" >}}).
 
-[cert-manager/github/chart]: https://github.com/cert-manager/cert-manager/tree/v1.14.2/deploy/charts/cert-manager
+[cert-manager/github/chart]: https://github.com/cert-manager/cert-manager/tree/v1.18.2/deploy/charts/cert-manager
 [crossplane/docs/providers]: https://docs.crossplane.io/latest/concepts/providers/
 [crossplane/docs/configurations]: https://docs.crossplane.io/latest/concepts/packages/
-[crossplane/github/chart]: https://github.com/crossplane/crossplane/tree/v1.15.0/cluster/charts/crossplane
+[crossplane/github/chart]: https://github.com/crossplane/crossplane/tree/v1.20.0/cluster/charts/crossplane
 [upbound/marketplace/configurations]: https://marketplace.upbound.io/configurations

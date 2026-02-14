@@ -20,7 +20,7 @@ To follow this guide, you need:
 - an existing Kubernetes cluster with at least 3 nodes
 - a running CSI driver with a default storage class
 - a running [cert-manager][cert-manager/docs/installation] installation
-- an running ingress controller (for this guide, the [NGINX ingress controller][ingress-nginx/docs/installation] is required)
+- a running ingress controller or Gateway API implementation (this guide uses the [NGINX ingress controller][ingress-nginx/docs/installation], but a [Gateway API][gateway-api/docs] controller like [Contour][contour/docs] is also supported)
 - [kubectl][k8s/docs/tools/installation] and [Helm][helm/docs/installation] (version 3) installed locally
 
 ## Installation
@@ -64,6 +64,22 @@ Create the *ClusterIssuer* by applying the manifest:
 ```bash
 kubectl apply -f ./cluster-issuer.yaml
 ```
+
+{{% notice tip %}}
+**Gateway API alternative:** If you use a Gateway API controller (e.g. Contour) instead of NGINX Ingress, replace the `http01` solver with a `gatewayHTTPRoute` solver:
+
+```yaml
+solvers:
+  - http01:
+      gatewayHTTPRoute:
+        parentRefs:
+          - name: my-gateway
+            namespace: gateway-system
+        serviceType: ClusterIP
+```
+
+You will also need to set `enableGatewayAPI: true` in your cert-manager configuration and use `HTTPRoute` resources instead of `Ingress` for Dex and the Dashboard.
+{{% /notice %}}
 
 ### Deploy Dex
 
@@ -137,7 +153,7 @@ After you've replaced all the placeholders, deploy the kcp Helm chart:
 ```bash
 helm upgrade --install kcp kcp \
     --repo=https://kcp-dev.github.io/helm-charts \
-    --version=0.11.1 \
+    --version=0.14.0 \
     --create-namespace \
     --namespace=kdp-system \
     --values=kcp.values.yaml
@@ -219,15 +235,17 @@ helm upgrade --install kdp-dashboard \
 In order to finalize the installation and make your KDP instance accessible, you must create four records in your DNS provider.
 These records point the hostnames you configured earlier to the correct load balancers of your Kubernetes cluster.
 
-First, create three DNS records that direct traffic for the Dex login page (`login.<DOMAIN>`), the public API endpoint (`api.<DOMAIN>`), and the KDP dashboard (`dashboard.<DOMAIN>`) to your cluster's NGINX ingress controller.
+First, create three DNS records that direct traffic for the Dex login page (`login.<DOMAIN>`), the public API endpoint (`api.<DOMAIN>`), and the KDP dashboard (`dashboard.<DOMAIN>`) to your cluster's ingress controller or Gateway load balancer.
 
-Assuming you installed the NGINX ingress controller into the `ingress-nginx` namespace, use the following command to the retrieve the external IP address or DNS name of the load balancer (in column "EXTERNAL-IP"):
+If you use the **NGINX ingress controller**, retrieve its external IP or DNS name (assuming it's installed into the `ingress-nginx` namespace):
 
 ```bash
 kubectl --namespace=ingress-nginx get service ingress-nginx-controller
 NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP                                                    PORT(S)                      AGE
 ingress-nginx-controller   LoadBalancer   10.47.248.232   4cdd93dfab834ed9a78858c7f2633380.eu-west-1.elb.amazonaws.com   80:30807/TCP,443:30184/TCP   449d
 ```
+
+If you use a **Gateway API** controller instead, point these DNS records to the external IP of your Gateway's load balancer service (e.g. `kubectl get service -n <gateway-namespace> <envoy-service>`).
 
 Second, create a DNS record specifically for kcp (`internal.<DOMAIN>`) that points to the external IP address or DNS name of the dedicated load balancer for the kcp *Service*.
 Use the following command to the retrieve the external IP address or DNS name of kcp's load balancer:
@@ -252,6 +270,8 @@ After logging in, you will be taken to the KDP dashboard, where you can begin ex
 [cert-manager/docs/installation]: https://cert-manager.io/docs/installation/helm/
 [helm/docs/installation]: https://helm.sh/docs/intro/install/
 [ingress-nginx/docs/installation]: https://kubernetes.github.io/ingress-nginx/deploy/
+[gateway-api/docs]: https://gateway-api.sigs.k8s.io/
+[contour/docs]: https://projectcontour.io/docs/
 [k8s/docs/tools/installation]: https://kubernetes.io/docs/tasks/tools/#kubectl
 [kcp/chart/readme]: https://github.com/kcp-dev/helm-charts/tree/main/charts/kcp
 [kubelogin/src/readme]: https://github.com/int128/kubelogin
