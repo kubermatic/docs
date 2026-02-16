@@ -46,6 +46,65 @@ AFTER migration (after uninstalling nginx):
 The `nginx-ingress-controller` pods remain running after migration but have no effect because the Ingress resource is deleted.
 Kubermatic is not going to delete Ingress LoadBalancer service from the cluster, instead it will only delete Ingress resources during migration.
 
+## DNS and IP Considerations
+
+During migration, your cluster will have two LoadBalancer Services:
+
+- **nginx-ingress-controller**: Service in `nginx-ingress-controller` namespace with IP like `203.0.113.50`
+- **envoy-gateway-controller**: Service in `envoy-gateway-controller` namespace with a **different IP** like `203.0.113.51`
+
+The Envoy Gateway creates a NEW LoadBalancer with a different IP address. This means:
+
+1. **DNS must be updated** to point to the new Envoy Gateway IP
+2. **There is a downtime window** during DNS propagation if not planned carefully
+3. **The old nginx IP remains active** until you uninstall nginx-ingress-controller
+
+To minimize or eliminate downtime, we suggest following DNS cutover strategies:
+
+**Option A - Blue-Green:**
+
+- Deploy Gateway alongside existing Ingress
+- Test thoroughly with direct IP access
+- Switch DNS to Gateway IP
+- Keep Ingress running for rollback
+
+**Option B - Gradual Migration:**
+
+- Lower DNS TTL (e.g., 60s) before migration
+- Switch one hostname at a time
+- Monitor traffic and errors
+- Increase TTL after stabilization
+
+### Preserving Your LoadBalancer IP
+
+If you need to maintain the same IP address during migration (for example, if your IP is whitelisted in firewalls or you want to avoid DNS changes), you can configure Envoy Gateway to use a static LoadBalancer IP.
+
+```yaml
+envoyProxy:
+  service:
+    patch:
+      type: StrategicMerge
+      value:
+        spec:
+          loadBalancerIP: "203.0.113.50"  # Your reserved static IP
+```
+
+{{% notice warning %}}
+
+*Note* that if the IP is already in use, the Service creation will fail.
+
+{{% /notice %}}
+
+
+{{% notice note %}}
+
+Not all cloud providers support `loadBalancerIP`.
+The example here is just for demonstratation.
+
+Check full Envoy Gateway documentation for details.
+
+{{% /notice %}}
+
 ## How the Migration Works
 
 The migration is designed to be explicit and safe. There is no automatic switching that could surprise you during an upgrade.
@@ -198,15 +257,72 @@ The HTTPRoute should display:
 
 These confirm that the Gateway is operational and actively routing traffic through the defined HTTPRoutes.
 
-**Step 4: Test access to the Kubermatic dashboard and API**
-Verify that everything works as before.
+**Step 4: Update DNS records**
 
-**Step 5: Uninstall `nginx-ingress-controller` (optional but recommended)**
+After verifying the Gateway is operational, update your DNS records to ensure that the Gateway's IP is available.
+
+**Step 5: Test access to the Kubermatic dashboard and API**
+
+Verify that everything works as before with the new DNS resolution.
+
+**Step 6: Uninstall `nginx-ingress-controller` (optional but recommended)**
+
 ```bash
 helm uninstall nginx-ingress-controller -n nginx-ingress-controller
 ```
 
 Please note that both `nginx-ingress-controller` and `envoy-gateway-controller` are running - so, if `nginx-ingress-controller` is not being used, consider uninstalling it.
+
+### Migration Workflow
+
+For production environments where downtime must be minimized, we suggest adopting DNS cutover strategies.
+The following is an example scenario:
+
+1. Lower DNS TTL,
+2. Wait for the old TTL to expire
+3. **Run migration with `--skip-ingress-cleanup`**:
+
+```bash
+kubermatic-installer deploy master \
+   --config kubermaticConfiguration.yaml \
+   --migrate-gateway-api \
+   --skip-ingress-cleanup
+```
+
+4. **Verify Gateway is ready**:
+```bash
+# Wait for Programmed: true
+kubectl get gateway -n kubermatic
+```
+
+5. **Test the new Gateway directly** using its IP:
+```bash
+GATEWAY_IP=$(kubectl get gateway -n kubermatic -o jsonpath='{.status.addresses[0].value}')
+curl -k --resolve kkp.example.com:443:$GATEWAY_IP https://kkp.example.com/api/v1/projects
+```
+
+6. **Update DNS** to point to the new Gateway IP and wait for DNS propagation
+
+7. **Verify traffic flows through new Gateway**:
+
+```bash
+curl -k https://kkp.example.com/api/v1/projects
+```
+
+8. **Clean up old Ingress resources**:
+
+```bash
+kubectl delete ingress -n kubermatic kubermatic
+kubectl delete ingress -n dex dex
+```
+
+9. **Uninstall nginx-ingress-controller**:
+
+```bash
+helm uninstall nginx-ingress-controller -n nginx-ingress-controller
+```
+
+10. **Raise DNS TTL** back to normal (e.g., 3600 seconds)
 
 The Gateway API mode can be configured through the KubermaticConfiguration resource.
 Under the `ingress` section, there is a `gateway` subsection where you can specify the GatewayClass to use.
