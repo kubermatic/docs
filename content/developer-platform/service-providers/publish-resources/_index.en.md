@@ -14,7 +14,7 @@ the person(s) who own a service and want to make it available to consumers in th
 ## High-level Overview
 
 A "service" in KDP comprises a set of resources within a single Kubernetes API group. It doesn't
-need to be *all* of the resources in that group, service owners are free and encouraged to only make
+need to be _all_ of the resources in that group, service owners are free and encouraged to only make
 a subset of resources (i.e. a subset of CRDs) available for use in the platform.
 
 For each of the CRDs on the service cluster that should be published, the service owner creates a
@@ -154,8 +154,8 @@ spec:
   resource: ...
   naming:
     # This is the implicit default configuration (since v0.3.0).
-    namespace: "{{ .ClusterName }}"
-    name: "{{ .Object.metadata.namespace | sha3short }}-{{ .Object.metadata.name | sha3short }}"
+    namespace: '{{ .ClusterName }}'
+    name: '{{ .Object.metadata.namespace | sha3short }}-{{ .Object.metadata.name | sha3short }}'
 ```
 
 {{% notice note %}}
@@ -201,8 +201,8 @@ spec:
 
 ```yaml
 regex:
-  path: "json.path[expression]"
-  pattern: "(.+)"
+  path: 'json.path[expression]'
+  pattern: '(.+)'
   replacement: "foo-\\1"
 ```
 
@@ -213,8 +213,8 @@ usual path, without a leading dot.
 
 ```yaml
 template:
-  path: "json.path[expression]"
-  template: "{{ .LocalObject.ObjectMeta.Namespace }}"
+  path: 'json.path[expression]'
+  template: '{{ .LocalObject.ObjectMeta.Namespace }}'
 ```
 
 This mutation applies a Go template expression to a single value inside the document. JSON path is the
@@ -224,7 +224,7 @@ usual path, without a leading dot.
 
 ```yaml
 delete:
-  path: "json.path[expression]"
+  path: 'json.path[expression]'
 ```
 
 This mutation simply removes the value at the given path from the document. JSON path is the
@@ -276,12 +276,12 @@ spec:
     # this is where our CA and Issuer live in this example
     namespace: kube-system
     # need to adjust it to prevent collisions (normally clustername is the namespace)
-    name: "{{ .ClusterName }}-{{ .Object.metadata.namespace | sha3short }}-{{ .Object.metadata.name | sha3short }}"
+    name: '{{ .ClusterName }}-{{ .Object.metadata.namespace | sha3short }}-{{ .Object.metadata.name | sha3short }}'
 
   related:
-      # unique name for this related resource. The identifier must be unique within one
-      # PublishedResource and is the key by which consumers (end users) can identify and consume the
-      # related resource. Common names are "connection-details" or "credentials".
+    # unique name for this related resource. The identifier must be unique within one
+    # PublishedResource and is the key by which consumers (end users) can identify and consume the
+    # related resource. Common names are "connection-details" or "credentials".
     - identifier: tls-secret
       origin: service # service or platform
       kind: Secret
@@ -294,12 +294,24 @@ spec:
           # the local and remote names for the related object.
           path: spec.secretName
 
-        # namespace part is optional; if not configured,
-        # Sync Agent assumes the same namespace as the owning resource
-        #
-        # namespace:
-        #   reference:
-        #     path: spec.secretNamespace
+      # namespace part is optional; if not configured,
+      # Sync Agent assumes the same namespace as the owning resource
+      #
+      # namespace:
+      #   reference:
+      #     path: spec.secretNamespace
+      #     regex:
+      #       pattern: '...'
+      #       replacement: '...'
+      #
+      # to inject static values, select a meaningless string value
+      # and leave the pattern empty
+      #
+      # namespace:
+      #   reference
+      #     path: metadata.uid
+      #     regex:
+      #       replacement: kube-system
 ```
 
 ## Examples
@@ -340,7 +352,7 @@ spec:
     # this is where our CA and Issuer live in this example
     namespace: kube-system
     # need to adjust it to prevent collisions (normally clustername is the namespace)
-    name: "{{ .ClusterName }}-{{ .Object.metadata.namespace | sha3short }}-{{ .Object.metadata.name | sha3short }}"
+    name: '{{ .ClusterName }}-{{ .Object.metadata.namespace | sha3short }}-{{ .Object.metadata.name | sha3short }}'
 
   related:
     - identifier: tls-secret
@@ -350,6 +362,14 @@ spec:
       object:
         reference:
           path: spec.secretName
+      # namespace part is optional; if not configured,
+      # Sync Agent assumes the same namespace as the owning resource
+      # namespace:
+      #   reference
+      #     path: spec.secretName
+      #     regex:
+      #       pattern: '...'
+      #       replacement: '...'
 ```
 
 ## Technical Details
@@ -470,6 +490,6 @@ well. The only difference is that the source side can be either remote (workspac
 (service cluster).
 
 Since the Sync Agent tries its best to keep sync-related data out of kcp workspaces, the last known
-state for related resources is *not* kept together with the destination object in the kcp workspaces.
+state for related resources is _not_ kept together with the destination object in the kcp workspaces.
 Instead all known states (from the main object and all related resources) is kept in a single Secret
 on the service cluster side.
