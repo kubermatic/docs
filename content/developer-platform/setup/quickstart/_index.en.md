@@ -25,7 +25,7 @@ To follow this guide, you need:
 
 ## Installation
 
-The installation is divided into five main steps, each deploying a core component of KDP.
+The installation is divided into six main steps, each deploying a core component of KDP.
 You will perform the following tasks:
 
 - **Set up certificates**: First, you will configure a cert-manager issuer to automatically obtain and renew TLS certificates from Let's Encrypt.
@@ -36,7 +36,9 @@ You will perform the following tasks:
 
 - **Deploy KDP**: Afterwards, you will install the main KDP controllers that connect to kcp and manage the platform's resources.
 
-- **Launch the KDP dashboard**: Finally, you will deploy the KDP dashboard, the primary graphical interface for developers to interact with the platform and manage their service objects.
+- **Launch the KDP dashboard**: You will deploy the KDP dashboard, the primary graphical interface for developers to interact with the platform and manage their service objects.
+
+- **Deploy the KDP AI Agent**: Finally, you will deploy the AI Agent, which provides AI-powered features within the dashboard — generating Kubernetes resource specs and customizing resource creation forms from natural language prompts.
 
 Throughout this guide, you will need to replace several placeholder variables in the Helm values files.
 Below is a description of each value you need to provide.
@@ -47,6 +49,7 @@ Below is a description of each value you need to provide.
 - `<ADMIN_PASSWORD_HASH>`: A generated bcrypt hash of the password you choose for the initial admin user.
 - `<OIDC_CLIENT_SECRET>`: A randomly generated, secure string that acts as a password for the KDP dashboard to authenticate with the Dex identity provider.
 - `<SESSION_ENCRYPTION_KEY>`: A second, unique random string used by the KDP dashboard itself to encrypt user session cookies, adding another layer of security.
+- `<OPENAI_API_KEY>`: An API key from OpenAI, required by the KDP AI Agent for its AI-powered features (spec generation and UI schema generation).
 
 ### Create ClusterIssuer
 
@@ -112,87 +115,30 @@ dashboard:
     create: false
 ```
 
-Then create a `Gateway` with HTTPS listeners for each hostname, annotated so cert-manager provisions the TLS certificates automatically:
+Then create a `Gateway` with HTTPS listeners for each hostname, annotated so cert-manager provisions the TLS certificates automatically.
+Save the following content to a file named `gateway.yaml`:
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: shared-gateway
-  namespace: <GATEWAY_NAMESPACE>
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-spec:
-  gatewayClassName: <GATEWAY_CLASS>
-  listeners:
-    - name: https-login
-      protocol: HTTPS
-      port: 443
-      hostname: login.<DOMAIN>
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: dex-tls-gw
-            kind: Secret
-      allowedRoutes:
-        namespaces:
-          from: All
-    - name: https-dashboard
-      protocol: HTTPS
-      port: 443
-      hostname: dashboard.<DOMAIN>
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: dashboard-tls-gw
-            kind: Secret
-      allowedRoutes:
-        namespaces:
-          from: All
+{ { < readfile "developer-platform/setup/quickstart/data/gateway.yaml" > } }
 ```
 
-Finally, create `HTTPRoute` resources to route traffic to Dex and the Dashboard:
+Replace `<GATEWAY_NAMESPACE>`, `<GATEWAY_CLASS>`, and `<DOMAIN>` with your values, then apply:
+
+```bash
+kubectl apply -f ./gateway.yaml
+```
+
+Finally, create `HTTPRoute` resources to route traffic to Dex and the Dashboard.
+Save the following content to a file named `http-routes.yaml`:
 
 ```yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: dex
-  namespace: kdp-system
-spec:
-  hostnames:
-    - login.<DOMAIN>
-  parentRefs:
-    - name: shared-gateway
-      namespace: <GATEWAY_NAMESPACE>
-  rules:
-    - backendRefs:
-        - name: dex
-          port: 5556
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: kdp-dashboard
-  namespace: kdp-system
-spec:
-  hostnames:
-    - dashboard.<DOMAIN>
-  parentRefs:
-    - name: shared-gateway
-      namespace: <GATEWAY_NAMESPACE>
-  rules:
-    - backendRefs:
-        - name: kdp-dashboard
-          port: 3000
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+{ { < readfile "developer-platform/setup/quickstart/data/http-routes.yaml" > } }
+```
+
+Replace `<GATEWAY_NAMESPACE>` and `<DOMAIN>`, then apply:
+
+```bash
+kubectl apply -f ./http-routes.yaml
 ```
 
 Note that the kcp API (`internal.<DOMAIN>`) is **not** routed through the Gateway — it uses its own dedicated `LoadBalancer` service and does not need an HTTPRoute.
@@ -355,6 +301,77 @@ helm upgrade --install kdp-dashboard \
     --values=kdp-dashboard.values.yaml
 ```
 
+### Deploy KDP AI Agent
+
+The KDP AI Agent is a backend service that powers AI-driven features in the KDP dashboard.
+It uses OpenAI to provide two capabilities: **spec generation**, which converts natural language prompts into properly structured Kubernetes resource YAML, and **UI schema generation**, which produces custom [RJSF](https://rjsf-team.github.io/react-jsonschema-form/) UI schemas that tailor the dashboard's resource creation forms based on a prompt.
+
+Before proceeding, ensure you have an OpenAI API key.
+
+Save the following content to a file named `ai-agent.values.yaml`:
+
+```yaml
+{
+  {
+    < readfile "developer-platform/setup/quickstart/data/ai-agent.values.yaml" >,
+  },
+}
+```
+
+Replace the following placeholder variables:
+
+- `<PULL_CREDENTIALS>`
+- `<DOMAIN>`
+- `<OIDC_CLIENT_SECRET>` (same value as in the Dex and Dashboard configuration)
+- `<OPENAI_API_KEY>`
+
+Deploy the AI Agent Helm chart:
+
+```bash
+helm registry login quay.io
+helm upgrade --install kdp-ai-agent \
+    oci://quay.io/kubermatic/helm-charts/developer-platform-ai-agent \
+    --version=0.9.0 \
+    --create-namespace \
+    --namespace=kdp-system \
+    --values=ai-agent.values.yaml
+```
+
+The AI Agent is served under the same domain as the dashboard (`dashboard.<DOMAIN>/ai-agent/`) to avoid CORS issues.
+The NGINX Ingress uses a regex path and rewrite rule to forward requests to the AI Agent service.
+
+{{% notice tip %}}
+**Gateway API alternative:** If you use a Gateway API controller, disable the AI Agent's built-in Ingress and create an `HTTPRoute` with a URL rewrite instead:
+
+```yaml
+# ai-agent.values.yaml
+aiAgent:
+  ingress:
+    create: false
+```
+
+Then add the following `HTTPRoute` alongside your existing Dex and Dashboard routes.
+Save the following content to a file named `ai-agent.http-route.yaml`:
+
+```yaml
+{
+  {
+    < readfile "developer-platform/setup/quickstart/data/ai-agent.http-route.yaml" >,
+  },
+}
+```
+
+Replace `<GATEWAY_NAMESPACE>` and `<DOMAIN>`, then apply:
+
+```bash
+kubectl apply -f ./ai-agent.http-route.yaml
+```
+
+This rewrites `/ai-agent/...` to `/...` before forwarding to the AI Agent service, matching the behavior of the NGINX rewrite rule.
+{{% /notice %}}
+
+For more details, see the [AI Agent documentation](../ai-agent/_index.en.md).{{< ref "../ai-agent" >}}
+
 ### Configure DNS records
 
 In order to finalize the installation and make your KDP instance accessible, you must create four records in your DNS provider.
@@ -401,7 +418,3 @@ After logging in, you will be taken to the KDP dashboard, where you can begin ex
 [k8s/docs/tools/installation]: https://kubernetes.io/docs/tasks/tools/#kubectl
 [kcp/chart/readme]: https://github.com/kcp-dev/helm-charts/tree/main/charts/kcp
 [kubelogin/src/readme]: https://github.com/int128/kubelogin
-
-### Extensions
-
-If you want to install the KDP AI Agent, which helps you generate yaml files for resources from descriptions in natural language, follow [these instructions](../ai-agent/_index.en.md).{{< ref "../ai-agent" >}}
