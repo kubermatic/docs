@@ -142,9 +142,10 @@ kubectl apply -f ./http-routes.yaml
 ```
 
 Note that the kcp API (`internal.<DOMAIN>`) is **not** routed through the Gateway — it uses its own dedicated `LoadBalancer` service and does not need an HTTPRoute.
-If you want to additionally expose kcp through the Gateway (e.g. as `api.<DOMAIN>`), you will need an extra Gateway listener, an HTTPRoute pointing to `kcp-front-proxy:8443`, and a `BackendTLSPolicy` for the TLS backend.
 
-For the DNS records step, point `login.<DOMAIN>` and `dashboard.<DOMAIN>` to the Gateway's load balancer IP instead of the NGINX ingress controller.
+The public API endpoint (`api.<DOMAIN>`) is handled separately: the KDP chart creates an NGINX Ingress for it by default. If you are fully replacing NGINX Ingress with a Gateway API controller, you should disable the KDP chart's built-in Ingress (set `kdp.frontProxy.publicDomain` to empty) and create an additional Gateway HTTPS listener and HTTPRoute for `api.<DOMAIN>` pointing to `kcp-front-proxy:8443`, along with a `BackendTLSPolicy` for the TLS backend connection.
+
+For the DNS records step, point `login.<DOMAIN>`, `api.<DOMAIN>`, and `dashboard.<DOMAIN>` to the Gateway's load balancer IP instead of the NGINX ingress controller.
 
 {{% /notice %}}
 
@@ -374,11 +375,19 @@ For more details, see the [AI Agent documentation](../ai-agent/_index.en.md).{{<
 
 ### Configure DNS records
 
-In order to finalize the installation and make your KDP instance accessible, you must create four records in your DNS provider.
-These records point the hostnames you configured earlier to the correct load balancers of your Kubernetes cluster.
+In order to finalize the installation and make your KDP instance accessible, you must create four DNS records in your DNS provider.
+Each record points one of the hostnames you configured to the correct load balancer in your Kubernetes cluster.
 
-First, create three DNS records that direct traffic for the Dex login page (`login.<DOMAIN>`), the public API endpoint (`api.<DOMAIN>`), and the KDP dashboard (`dashboard.<DOMAIN>`) to your cluster's ingress controller or Gateway load balancer.
+The following table summarizes the records:
 
+| Hostname             | Points to                       | Purpose                                                           |
+| -------------------- | ------------------------------- | ----------------------------------------------------------------- |
+| `login.<DOMAIN>`     | Ingress controller / Gateway LB | Dex identity provider login page                                  |
+| `api.<DOMAIN>`       | Ingress controller / Gateway LB | Public API endpoint (reverse proxy to kcp, used by the dashboard) |
+| `dashboard.<DOMAIN>` | Ingress controller / Gateway LB | KDP dashboard web interface                                       |
+| `internal.<DOMAIN>`  | kcp `LoadBalancer` service      | Direct kcp API access (used by kubectl and the api-syncagent)     |
+
+The first three records should all point to the same ingress controller or Gateway load balancer.
 If you use the **NGINX ingress controller**, retrieve its external IP or DNS name (assuming it's installed into the `ingress-nginx` namespace):
 
 ```bash
@@ -387,16 +396,30 @@ NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP           
 ingress-nginx-controller   LoadBalancer   10.47.248.232   4cdd93dfab834ed9a78858c7f2633380.eu-west-1.elb.amazonaws.com   80:30807/TCP,443:30184/TCP   449d
 ```
 
-If you use a **Gateway API** controller instead, point these DNS records to the external IP of your Gateway's load balancer service (e.g. `kubectl get service -n <gateway-namespace> <envoy-service>`).
+If you use a **Gateway API** controller instead, point `login.<DOMAIN>` and `dashboard.<DOMAIN>` to the external IP of your Gateway's load balancer service (e.g. `kubectl get service -n <gateway-namespace> <envoy-service>`).
+Note that `api.<DOMAIN>` is created as an NGINX Ingress by the KDP chart.
+If you are fully replacing NGINX Ingress with a Gateway API controller, you will need to disable the KDP chart's built-in Ingress (set `kdp.frontProxy.publicDomain` to empty) and create an additional Gateway listener and HTTPRoute for `api.<DOMAIN>` pointing to `kcp-front-proxy:8443`.
 
-Second, create a DNS record specifically for kcp (`internal.<DOMAIN>`) that points to the external IP address or DNS name of the dedicated load balancer for the kcp _Service_.
-Use the following command to the retrieve the external IP address or DNS name of kcp's load balancer:
+The fourth record, `internal.<DOMAIN>`, points to kcp's dedicated `LoadBalancer` service (not the ingress controller).
+Use the following command to retrieve the external IP address or DNS name of kcp's load balancer:
 
 ```bash
 kubectl --namespace=kdp-system get service kcp-front-proxy
 NAME              TYPE           CLUSTER-IP      EXTERNAL-IP                                                    PORT(S)             AGE
 kcp-front-proxy   LoadBalancer   10.240.20.65    99f1093e45d6482d95a0c22c4a2bd056.eu-west-1.elb.amazonaws.com   8443:30295/TCP      381d
 ```
+
+### Verify the installation
+
+Before accessing the dashboard, verify that all components are running:
+
+```bash
+kubectl --namespace=kdp-system get pods
+```
+
+You should see pods for `dex`, `kcp`, `kdp-controller-manager`, `kdp-virtual-workspaces`, `kdp-dashboard`, and `kdp-ai-agent` in a **Running** state.
+The `kdp-bootstrap` job should show as **Completed**.
+If any pod is stuck in `CrashLoopBackOff` or `Pending`, inspect its logs with `kubectl --namespace=kdp-system logs <pod-name>` for troubleshooting.
 
 ### Access the dashboard
 
@@ -408,6 +431,16 @@ You will be redirected to the Dex login page and you can use the administrative 
 - **Password**: The password you chose in step [Deploy Dex](#deploy-dex)
 
 After logging in, you will be taken to the KDP dashboard, where you can begin exploring your platform. Welcome to KDP!
+
+## Next steps
+
+Now that your platform is running, here are a few things to try:
+
+- **Use kubectl with kcp**: Download a kubeconfig from the dashboard (available in the workspace context menu) or set one up manually using the [kcp kubectl plugin](https://docs.kcp.io/kcp/v0.30/concepts/kubectl-kcp-plugin/). See [kcp on the Command Line]({{< relref "../../tutorials/kcp-command-line" >}}) for a walkthrough.
+- **Create your first service**: Follow the [Your First Service]({{< relref "../../tutorials/your-first-service" >}}) tutorial to register a KDP Service and make custom APIs available to your users.
+- **Add users and configure RBAC**: Invite team members via the dashboard and set up roles. See [RBAC in KDP]({{< relref "../../platform-users/rbac" >}}) for details on the role propagation model.
+- **Set up the api-syncagent**: If you have external Kubernetes clusters with CRDs you want to expose in KDP, install the [api-syncagent]({{< relref "../../service-providers/api-syncagent" >}}) and define `PublishedResource` objects to start syncing.
+- **Monitor KDP**: The KDP exporter exposes Prometheus metrics on port 8385 and supports `ServiceMonitor` for Prometheus Operator. Enable it via `kdp.exporter.serviceMonitor.enabled: true` in the KDP Helm values.
 
 [cert-manager/docs/installation]: https://cert-manager.io/docs/installation/helm/
 [helm/docs/installation]: https://helm.sh/docs/intro/install/
