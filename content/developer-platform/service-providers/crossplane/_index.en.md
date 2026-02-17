@@ -18,15 +18,16 @@ synchronized objects to provide the actual functionality of a service. One possi
 Crossplane to create new abstractions and custom APIs, which can be published to KDP and consumed by
 platform users.
 
-> [!NOTE]
-> While this guide is not intended to be a comprehensive Crossplane guide, it is useful to be aware
-> of the most common terms:
->
-> - **Providers** are pluggable building blocks to provision and manage resources via a third-party API (e.g. AWS provider)
-> - **Managed resources** (MRs) are representations of actual, provider-specific resources (e.g. EC2 instance)
-> - **Composite resource definitions** (XRDs) are Crossplane-specific definitions of API resources (similar to CRDs)
-> - **Composite resources** (XRs) and **Claims** are Crossplane-specific custom resources created from XRD objects (similar to CRs)
-> - **Compositions** are Crossplane-specific templates for transforming a XR object into one or more MR object(s)
+{{% notice note %}}
+While this guide is not intended to be a comprehensive Crossplane guide, it is useful to be aware
+of the most common terms:
+
+- **Providers** are pluggable building blocks to provision and manage resources via a third-party API (e.g. AWS provider)
+- **Managed resources** (MRs) are representations of actual, provider-specific resources (e.g. EC2 instance)
+- **Composite resource definitions** (XRDs) are Crossplane-specific definitions of API resources (similar to CRDs)
+- **Composite resources** (XRs) and **Claims** are Crossplane-specific custom resources created from XRD objects (similar to CRs)
+- **Compositions** are Crossplane-specific templates for transforming a XR object into one or more MR object(s)
+{{% /notice %}}
 
 This guide will show you how to install Crossplane and all required providers on a service cluster
 and provide a stripped-down `Certificate` resource in KDP. While we ultimately use cert-manager to
@@ -34,11 +35,12 @@ provide the actual TLS certificates, we will expose only a very limited number o
 cert-manager `Certificate` to the platform users - in fact a single field to set the desired common
 name.
 
-> [!NOTE]
-> The [Upbound marketplace][upbound/marketplace/configurations] provides a list of available
-> configuration packages (reusable packages of compositions and XRDs), but at the time of writing
-> no suitable configuration package that relies only on the Kubernetes / Helm provider and works
-> out of the box was available.
+{{% notice note %}}
+The [Upbound marketplace][upbound/marketplace/configurations] provides a list of available
+configuration packages (reusable packages of compositions and XRDs), but at the time of writing
+no suitable configuration package that relies only on the Kubernetes / Helm provider and works
+out of the box was available.
+{{% /notice %}}
 
 ## Install Crossplane
 
