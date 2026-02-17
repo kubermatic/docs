@@ -59,11 +59,7 @@ This automates the process of obtaining and renewing TLS certificates from Let's
 Save the following content to a file named `cluster-issuer.yaml`, and change the value of the `email` field to your email address:
 
 ```yaml
-{
-  {
-    < readfile "developer-platform/setup/quickstart/data/letsencrypt.cluster-issuer.yaml" >,
-  },
-}
+{{< readfile "developer-platform/setup/quickstart/data/letsencrypt.cluster-issuer.yaml" >}}
 ```
 
 Create the _ClusterIssuer_ by applying the manifest:
@@ -119,7 +115,7 @@ Then create a `Gateway` with HTTPS listeners for each hostname, annotated so cer
 Save the following content to a file named `gateway.yaml`:
 
 ```yaml
-{ { < readfile "developer-platform/setup/quickstart/data/gateway.yaml" > } }
+{{< readfile "developer-platform/setup/quickstart/data/gateway.yaml" >}}
 ```
 
 Replace `<GATEWAY_NAMESPACE>`, `<GATEWAY_CLASS>`, and `<DOMAIN>` with your values, then apply:
@@ -132,7 +128,7 @@ Finally, create `HTTPRoute` resources to route traffic to Dex and the Dashboard.
 Save the following content to a file named `http-routes.yaml`:
 
 ```yaml
-{ { < readfile "developer-platform/setup/quickstart/data/http-routes.yaml" > } }
+{{< readfile "developer-platform/setup/quickstart/data/http-routes.yaml" >}}
 ```
 
 Replace `<GATEWAY_NAMESPACE>` and `<DOMAIN>`, then apply:
@@ -158,7 +154,7 @@ The provided configuration creates an initial admin user and prepares Dex for th
 Save the following content to a file named `dex.values.yaml`:
 
 ```yaml
-{ { < readfile "developer-platform/setup/quickstart/data/dex.values.yaml" > } }
+{{< readfile "developer-platform/setup/quickstart/data/dex.values.yaml" >}}
 ```
 
 Before deploying Dex, you need to replace the following placeholder variables in the `dex.values.yaml` file with your own values:
@@ -209,7 +205,7 @@ It's configured to use Dex for authenticating user requests.
 Save the following content to a file named `kcp.values.yaml`:
 
 ```yaml
-{ { < readfile "developer-platform/setup/quickstart/data/kcp.values.yaml" > } }
+{{< readfile "developer-platform/setup/quickstart/data/kcp.values.yaml" >}}
 ```
 
 Before deploying kcp, you need to replace the following placeholder variables in the `kcp.values.yaml` file with your own values:
@@ -235,7 +231,7 @@ It connects to the kcp control plane and includes a one-time bootstrap job that 
 Save the following content to a file named `kdp.values.yaml`:
 
 ```yaml
-{ { < readfile "developer-platform/setup/quickstart/data/kdp.values.yaml" > } }
+{{< readfile "developer-platform/setup/quickstart/data/kdp.values.yaml" >}}
 ```
 
 Before deploying KDP, you need to replace the following placeholder variables in the `kdp.values.yaml` file with your own values:
@@ -264,11 +260,7 @@ It's configured to use Dex for user login and connects to kcp, providing develop
 Save the following content to a file named `kdp-dashboard.values.yaml`:
 
 ```yaml
-{
-  {
-    < readfile "developer-platform/setup/quickstart/data/kdp-dashboard.values.yaml" >,
-  },
-}
+{{< readfile "developer-platform/setup/quickstart/data/kdp-dashboard.values.yaml" >}}
 ```
 
 Before deploying the KDP dashboard, you need to replace the following placeholder variables in the `kdp-dashboard.values.yaml` file with your own values:
@@ -312,11 +304,7 @@ Before proceeding, ensure you have an OpenAI API key.
 Save the following content to a file named `ai-agent.values.yaml`:
 
 ```yaml
-{
-  {
-    < readfile "developer-platform/setup/quickstart/data/ai-agent.values.yaml" >,
-  },
-}
+{{< readfile "developer-platform/setup/quickstart/data/ai-agent.values.yaml" >}}
 ```
 
 Replace the following placeholder variables:
@@ -355,11 +343,7 @@ Then add the following `HTTPRoute` alongside your existing Dex and Dashboard rou
 Save the following content to a file named `ai-agent.http-route.yaml`:
 
 ```yaml
-{
-  {
-    < readfile "developer-platform/setup/quickstart/data/ai-agent.http-route.yaml" >,
-  },
-}
+{{< readfile "developer-platform/setup/quickstart/data/ai-agent.http-route.yaml" >}}
 ```
 
 Replace `<GATEWAY_NAMESPACE>` and `<DOMAIN>`, then apply:
@@ -371,7 +355,7 @@ kubectl apply -f ./ai-agent.http-route.yaml
 This rewrites `/ai-agent/...` to `/...` before forwarding to the AI Agent service, matching the behavior of the NGINX rewrite rule.
 {{% /notice %}}
 
-For more details, see the [AI Agent documentation](../ai-agent/_index.en.md).{{< ref "../ai-agent" >}}
+For more details, see the [AI Agent documentation]({{< relref "../ai-agent" >}}).
 
 ### Configure DNS records
 
