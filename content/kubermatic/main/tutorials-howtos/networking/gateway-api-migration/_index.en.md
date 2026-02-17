@@ -153,21 +153,73 @@ To migrate from nginx-ingress-controller to Gateway API:
 **Step 1: Update your Helm values file**
 ```yaml
 migrateGatewayAPI: true
+
+# Dex configurations for Gateway API mode
+# When migrateGatewayAPI is true, ingress must be disabled
+# and httpRoute must be configured with your domain
 dex:
   ingress:
-    enabled: true
+    enabled: false  # MUST be false when using Gateway API
+httpRoute:
+  gatewayName: kubermatic
+  gatewayNamespace: kubermatic
+  domain: "kkp.example.com"  # Replace with your domain
+  timeout: 3600s
+
+# cert-manager helm chart needs to be configured to work
+# with Gateway API resources.
+cert-manager:
+   config:
+   apiVersion: controller.config.cert-manager.io/v1alpha1
+   kind: ControllerConfiguration
+   enableGatewayAPI: true
+```
+
+```
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: kubermatic
+spec:
+  gatewayClassName: kubermatic-envoy-gateway
+  listeners:
+  - hostname: 'grafana.my-kkp.example.com'
+    name: https-grafana
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - group: core
+        kind: Secret
+        name: grafana-tls
+      mode: Terminate
+  - hostname: 'my-kkp.example.com'
+    name: https-kubermatic
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - group: core
+        kind: Secret
+        name: kubermatic-tls
+      - group: core
+        kind: Secret
+        name: dex-tls
+      mode: Terminate
 ```
 
 **Step 2: Run the kubermatic-installer with the migration flag**
 ```bash
-kubermatic-installer deploy master --migrate-gateway-api [other options]
+kubermatic-installer deploy kubermatic-master --migrate-gateway-api [other options]
 ```
 
 _Conditional step_, by default, `kubermatic-installer` automatically deletes the old Ingress resource after migration to prevent conflicts.
 If you want to skip this automatic cleanup (for example, to manually verify before cleanup), use the `--skip-ingress-cleanup` flag:
 
 ```bash
-kubermatic-installer deploy master --migrate-gateway-api --skip-ingress-cleanup [other options]
+kubermatic-installer deploy kubermatic-master --migrate-gateway-api --skip-ingress-cleanup [other options]
 ```
 
 When cleanup is skipped, both Ingress and Gateway resources will coexist. You can manually delete the Ingress resources to prevent routing conflicts:
@@ -258,7 +310,7 @@ dex:
 
 **Step 2: Run installer without the migration flag**
 ```bash
-kubermatic-installer deploy master [other options]
+kubermatic-installer deploy kubermatic-master [other options]
 ```
 
 This will deploy `nginx-ingress-controller` (if it was uninstalled) and the operator will recreate the Ingress resource.
