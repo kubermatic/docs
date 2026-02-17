@@ -24,7 +24,7 @@ dashboard:
     features:
       aiAgent:
         enabled: true
-        generatorURL: dashboard.<DOMAIN>/ai-agent/
+        generatorURL: https://dashboard.<DOMAIN>/ai-agent/
       kubeconfigDownload:
         enabled: true
         serverCA: /app/_config/user-kubeconfig/ca.crt

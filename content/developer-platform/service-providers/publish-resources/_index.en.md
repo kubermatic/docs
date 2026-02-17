@@ -308,7 +308,7 @@ spec:
       # and leave the pattern empty
       #
       # namespace:
-      #   reference
+      #   reference:
       #     path: metadata.uid
       #     regex:
       #       replacement: kube-system
@@ -365,7 +365,7 @@ spec:
       # namespace part is optional; if not configured,
       # Sync Agent assumes the same namespace as the owning resource
       # namespace:
-      #   reference
+      #   reference:
       #     path: spec.secretName
       #     regex:
       #       pattern: '...'
