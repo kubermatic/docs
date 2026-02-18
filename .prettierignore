@@ -1,0 +1,3 @@
+# Hugo content files contain shortcodes (e.g. {{< readfile >}}) that Prettier
+# misinterprets as JavaScript objects and reformats, breaking Hugo rendering.
+content/**/*.md
