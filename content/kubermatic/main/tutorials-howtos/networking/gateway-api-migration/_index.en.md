@@ -184,7 +184,7 @@ In KubermaticConfiguration, set `HTTPRouteGatewaySync` feature gate to `true`, a
 {{% notice note %}}
 
 The following feature gate is only needed if cert-manager is in use in order to manage TLS certificates.
-Please check [Automatic Certificate Provisioning](#automatic-certificate-provisioning) section for details about cert-manager migration .
+Please check [Automatic Certificate Provisioning](#automatic-certificate-provisioning) section for details about cert-manager migration.
 
 {{% /notice %}}
 
