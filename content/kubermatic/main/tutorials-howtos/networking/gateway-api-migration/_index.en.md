@@ -171,10 +171,10 @@ httpRoute:
 # with Gateway API resources.
 # Note: this is only needed if cert-manager is being used.
 cert-manager:
-   config:
-   apiVersion: controller.config.cert-manager.io/v1alpha1
-   kind: ControllerConfiguration
-   enableGatewayAPI: true
+  config:
+  apiVersion: controller.config.cert-manager.io/v1alpha1
+  kind: ControllerConfiguration
+  enableGatewayAPI: true
 ```
 
 If *cert-manager* is being used to provision certificates, a new feature flag is needed to allow
