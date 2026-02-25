@@ -8,6 +8,8 @@ enterprise = true
 
 **Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/release/v1.3/api/ee/kubelb.k8c.io/v1alpha1)**
 
+# API Reference
+
 ## Packages
 
 - [kubelb.k8c.io/v1alpha1](#kubelbk8ciov1alpha1)
@@ -272,7 +274,7 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `ip` _string_ | The IP of this endpoint.<br />May not be loopback (127.0.0.0/8), link-local (169.254.0.0/16),<br />or link-local multicast ((224.0.0.0/24). |  | MinLength: 7 <br /> |
+| `ip` _string_ | The IP of the endpoint. This can be an IPv4 or IPv6 address.<br />The IP address must not be IP CIDR, Loopback (127.0.0.0/8), link-local (169.254.0.0/16), or link-local multicast ((224.0.0.0/24) addresses. |  |  |
 | `hostname` _string_ | The Hostname of this endpoint |  |  |
 
 #### EndpointPort
@@ -310,6 +312,7 @@ _Appears in:_
 | `image` _string_ | Image defines the Envoy Proxy image to use. |  |  |
 | `gracefulShutdown` _[EnvoyProxyGracefulShutdown](#envoyproxygracefulshutdown)_ | GracefulShutdown defines the graceful shutdown configuration for Envoy Proxy. |  |  |
 | `overloadManager` _[EnvoyProxyOverloadManager](#envoyproxyoverloadmanager)_ | OverloadManager defines the overload manager configuration for Envoy XDS bootstrap. |  |  |
+| `maxEndpointsPerCluster` _integer_ | MaxEndpointsPerCluster limits the number of upstream endpoint addresses per Envoy cluster.<br />When set to a positive value, only the first N endpoints are included in the xDS as upstream addresses.<br />Defaults to 0, which means no limit. |  |  |
 
 #### EnvoyProxyGracefulShutdown
 
@@ -541,6 +544,7 @@ _Appears in:_
 | `ports` _[LoadBalancerPort](#loadbalancerport) array_ | The list of ports that are exposed by the load balancer service.<br />only needed for layer 4 |  |  |
 | `hostname` _string_ | Hostname is the domain name at which the load balancer service will be accessible.<br />When hostname is set, KubeLB will create a route(ingress or httproute) for the service, and expose it with TLS on the given hostname. |  |  |
 | `type` _[ServiceType](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#servicetype-v1-core)_ | type determines how the Service is exposed. Defaults to ClusterIP. Valid<br />options are ExternalName, ClusterIP, NodePort, and LoadBalancer.<br />"ExternalName" maps to the specified externalName.<br />"ClusterIP" allocates a cluster-internal IP address for load-balancing to<br />endpoints. Endpoints are determined by the selector or if that is not<br />specified, by manual construction of an Endpoints object. If clusterIP is<br />"None", no virtual IP is allocated and the endpoints are published as a<br />set of endpoints rather than a stable IP.<br />"NodePort" builds on ClusterIP and allocates a port on every node which<br />routes to the clusterIP.<br />"LoadBalancer" builds on NodePort and creates an<br />external load-balancer (if supported in the current cloud) which routes<br />to the clusterIP.<br />More info: <https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types> | ClusterIP |  |
+| `externalTrafficPolicy` _[ServiceExternalTrafficPolicy](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#serviceexternaltrafficpolicy-v1-core)_ | externalTrafficPolicy denotes if this Service desires to route external traffic to<br />node-local or cluster-wide endpoints. "Local" preserves the client source IP and avoids<br />a second hop for LoadBalancer and Nodeport type services, but risks potentially imbalanced<br />traffic spreading. "Cluster" obscures the client source IP and may cause a second hop to<br />another node, but should have good overall load-spreading. |  |  |
 
 #### LoadBalancerState
 

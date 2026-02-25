@@ -135,6 +135,8 @@ spec:
     # Immutable, cannot be changed after configuration.
     topology: shared
     useDaemonset: false
+    # Enterprise Edition only. Maximum endpoints per cluster in xDS snapshot. 0 = no limit.
+    maxEndpointsPerCluster: 10
     singlePodPerNode: false
     nodeSelector:
       kubernetes.io/os: linux
