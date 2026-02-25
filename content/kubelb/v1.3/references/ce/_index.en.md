@@ -7,8 +7,6 @@ weight = 60
 
 **Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/release/v1.3/api/ce/kubelb.k8c.io/v1alpha1)**
 
-# API Reference
-
 ## Packages
 
 - [kubelb.k8c.io/v1alpha1](#kubelbk8ciov1alpha1)

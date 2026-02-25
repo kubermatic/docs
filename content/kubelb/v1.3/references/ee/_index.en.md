@@ -8,8 +8,6 @@ enterprise = true
 
 **Source: [kubelb.k8c.io/v1alpha1](https://github.com/kubermatic/kubelb/tree/release/v1.3/api/ee/kubelb.k8c.io/v1alpha1)**
 
-# API Reference
-
 ## Packages
 
 - [kubelb.k8c.io/v1alpha1](#kubelbk8ciov1alpha1)
@@ -301,7 +299,7 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `topology` _[EnvoyProxyTopology](#envoyproxytopology)_ | Topology defines the deployment topology for Envoy Proxy. Valid values are: shared and global.<br />DEPRECATION NOTICE: The value "dedicated" is deprecated and will be removed in a future release. Dedicated topology will now default to shared topology. | shared | Enum: [shared dedicated global] <br /> |
+| `topology` _[EnvoyProxyTopology](#envoyproxytopology)_ | Topology defines the deployment topology for Envoy Proxy. The only supported value is: shared.<br />DEPRECATION NOTICE: The values "dedicated" and "global" are deprecated and will be removed in a future release. They will now default to shared topology. | shared | Enum: [shared dedicated global] <br /> |
 | `useDaemonset` _boolean_ | UseDaemonset defines whether Envoy Proxy will run as daemonset. By default, Envoy Proxy will run as deployment.<br />If set to true, Replicas will be ignored. |  |  |
 | `replicas` _integer_ | Replicas defines the number of replicas for Envoy Proxy. This field is ignored if UseDaemonset is set to true. | 3 | Minimum: 1 <br /> |
 | `singlePodPerNode` _boolean_ | SinglePodPerNode defines whether Envoy Proxy pods will be spread across nodes. This ensures that multiple replicas are not running on the same node. |  |  |
@@ -313,6 +311,7 @@ _Appears in:_
 | `gracefulShutdown` _[EnvoyProxyGracefulShutdown](#envoyproxygracefulshutdown)_ | GracefulShutdown defines the graceful shutdown configuration for Envoy Proxy. |  |  |
 | `overloadManager` _[EnvoyProxyOverloadManager](#envoyproxyoverloadmanager)_ | OverloadManager defines the overload manager configuration for Envoy XDS bootstrap. |  |  |
 | `maxEndpointsPerCluster` _integer_ | MaxEndpointsPerCluster limits the number of upstream endpoint addresses per Envoy cluster.<br />When set to a positive value, only the first N endpoints are included in the xDS as upstream addresses.<br />Defaults to 0, which means no limit. |  |  |
+| `imagePullSecrets` _[LocalObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#localobjectreference-v1-core) array_ | ImagePullSecrets is a list of references to secrets in the same namespace to use for pulling the Envoy Proxy image.<br />If not set, imagePullSecrets are auto-detected from the manager pod. |  |  |
 
 #### EnvoyProxyGracefulShutdown
 
