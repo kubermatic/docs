@@ -9,8 +9,6 @@ Ubuntu is the most widely supported operating system across all cloud providers 
 
 Machine-controller officially supports and tests the following Ubuntu LTS versions:
 
-- **Ubuntu 20.04 LTS** (Focal Fossa)
-- **Ubuntu 22.04 LTS** (Jammy Jellyfish)  
 - **Ubuntu 24.04 LTS** (Noble Numbat)
 
 ## Cloud Provider Support
@@ -89,8 +87,8 @@ cloudProviderSpec:
   # Default Ubuntu image (recommended)
   imageReference:
     publisher: "Canonical"
-    offer: "0001-com-ubuntu-server-jammy"
-    sku: "22_04-lts-gen2"
+    offer: "ubuntu-24_04-lts"
+    sku: "server-gen1"
     version: "latest"
 ```
 
@@ -101,14 +99,14 @@ Google Cloud Platform provides Ubuntu images:
 ```yaml
 cloudProviderSpec:
   # Use default Ubuntu image
-  # machine-controller will select: ubuntu-2204-lts
+  # machine-controller will select: ubuntu-2404-lts
 ```
 
 For custom images:
 
 ```yaml
 cloudProviderSpec:
-  customImage: "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20231030"
+  customImage: "projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20250101"
 ```
 
 ### Hetzner Cloud
@@ -118,7 +116,7 @@ Hetzner provides Ubuntu images:
 ```yaml
 cloudProviderSpec:
   # The image name is automatically selected
-  # Available: ubuntu-20.04, ubuntu-22.04, ubuntu-24.04
+  # Available: ubuntu-24.04
 ```
 
 ### DigitalOcean
@@ -128,7 +126,7 @@ DigitalOcean provides Ubuntu images:
 ```yaml
 cloudProviderSpec:
   # Image slug is automatically determined based on Ubuntu version
-  # Available: ubuntu-20-04-x64, ubuntu-22-04-x64
+  # Available: ubuntu-24-04-x64
 ```
 
 ### vSphere
@@ -228,7 +226,7 @@ curl https://packages.cloud.google.com
 
 ## Best Practices
 
-1. **Use LTS Versions**: Stick to LTS versions for production workloads (20.04, 22.04, 24.04)
+1. **Use LTS Version**: Use 24.04 LTS for production workloads
 2. **Disable Auto-Updates**: Control updates through MachineDeployment rolling updates
 3. **Use Latest Images**: Keep cloud provider images up to date for security patches
 4. **Test Before Production**: Test new Ubuntu versions in staging before production
@@ -249,20 +247,20 @@ To upgrade Ubuntu versions:
 Example:
 
 ```bash
-# Scale up new Ubuntu 22.04 deployment
-kubectl scale machinedeployment ubuntu-22-workers --replicas=3 -n kube-system
+# Scale up new Ubuntu 24.04 deployment
+kubectl scale machinedeployment ubuntu-24-workers --replicas=3 -n kube-system
 
 # Wait for new nodes to be ready
 kubectl get nodes -w
 
 # Cordon old nodes
-kubectl cordon -l ubuntu-version=20.04
+kubectl cordon -l ubuntu-version=old
 
 # Drain old nodes
-kubectl drain -l ubuntu-version=20.04 --ignore-daemonsets --delete-emptydir-data
+kubectl drain -l ubuntu-version=old --ignore-daemonsets --delete-emptydir-data
 
 # Scale down old deployment
-kubectl scale machinedeployment ubuntu-20-workers --replicas=0 -n kube-system
+kubectl scale machinedeployment ubuntu-old-workers --replicas=0 -n kube-system
 ```
 
 ## Resources

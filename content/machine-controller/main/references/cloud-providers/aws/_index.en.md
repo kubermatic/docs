@@ -350,10 +350,10 @@ Leave the `ami` field empty to let machine-controller auto-select the appropriat
 ### Finding Ubuntu AMIs
 
 ```bash
-# Latest Ubuntu 22.04 LTS
+# Latest Ubuntu 24.04 LTS
 aws ec2 describe-images \
   --owners 099720109477 \
-  --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" \
+  --filters "Name=name,Values=ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*" \
   --query 'Images | sort_by(@, &CreationDate) | [-1].[ImageId,Name]' \
   --output table --region us-east-1
 ```

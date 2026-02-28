@@ -15,7 +15,7 @@ Amazon Linux 2 provides:
 - **Systemd**: Uses systemd for service management
 
 {{% notice warning %}}
-Amazon Linux 2 support ends on June 30, 2025. Consider migrating to Amazon Linux 2023 or other distributions for new deployments.
+**Amazon Linux 2 has reached End of Life as of June 30, 2025.** It no longer receives security updates from AWS. Migrate to Amazon Linux 2023, Ubuntu 24.04, or another supported distribution immediately. This operating system should not be used for new deployments.
 {{% /notice %}}
 
 ## Cloud Provider Support
@@ -400,7 +400,7 @@ spec:
             distUpgradeOnBoot: false
             disableAutoUpdate: true
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## Best Practices

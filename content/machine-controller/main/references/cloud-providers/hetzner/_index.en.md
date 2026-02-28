@@ -78,7 +78,7 @@ cloudProviderSpec:
   # datacenter: "fsn1-dc14"
   
   # Image (optional, auto-selected based on OS)
-  # image: "ubuntu-22.04"
+  # image: "ubuntu-24.04"
   
   # Networks (optional)
   networks:

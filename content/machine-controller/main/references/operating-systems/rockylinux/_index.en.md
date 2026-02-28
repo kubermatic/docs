@@ -31,9 +31,8 @@ Rocky Linux is **not supported** on: Google Cloud Platform, Hetzner Cloud, Nutan
 
 ## Supported Versions
 
-Machine-controller officially supports:
+OSM officially supports:
 
-- **Rocky Linux 8.x** (stable)
 - **Rocky Linux 9.x** (latest)
 
 ## Configuration
@@ -86,7 +85,7 @@ Rocky Linux provides official AMIs:
 ```yaml
 cloudProviderSpec:
   # Specify Rocky Linux AMI
-  ami: "ami-xxxxx"  # Rocky Linux 8 AMI for your region
+  ami: "ami-xxxxx"  # Rocky Linux 9 AMI for your region
   
   region: "us-east-1"
   instanceType: "t3.medium"
@@ -96,7 +95,7 @@ To find Rocky Linux AMIs:
 ```bash
 aws ec2 describe-images \
   --owners 792107900819 \
-  --filters "Name=name,Values=Rocky-8-EC2-Base-*" \
+  --filters "Name=name,Values=Rocky-9-EC2-*" \
   --query 'Images[*].[ImageId,Name,CreationDate]' \
   --output table
 ```
@@ -108,9 +107,9 @@ Rocky Linux images are available in Azure Marketplace:
 ```yaml
 cloudProviderSpec:
   imageReference:
-    publisher: "erockyenterprisesoftwarefoundationinc1653071250513"
-    offer: "rockylinux"
-    sku: "rocky-linux-8"
+    publisher: "resf"
+    offer: "rockylinux-x86_64"
+    sku: "9-base"
     version: "latest"
 ```
 
@@ -131,7 +130,7 @@ For OpenStack, upload a Rocky Linux cloud image:
 
 1. Download Rocky Linux cloud image:
    ```bash
-   wget https://download.rockylinux.org/pub/rocky/8/images/x86_64/Rocky-8-GenericCloud-Base.latest.x86_64.qcow2
+   wget https://download.rockylinux.org/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud-Base.latest.x86_64.qcow2
    ```
 
 2. Upload to OpenStack Glance:
@@ -139,14 +138,14 @@ For OpenStack, upload a Rocky Linux cloud image:
    openstack image create \
      --disk-format qcow2 \
      --container-format bare \
-     --file Rocky-8-GenericCloud-Base.latest.x86_64.qcow2 \
-     rocky-linux-8
+     --file Rocky-9-GenericCloud-Base.latest.x86_64.qcow2 \
+     rocky-linux-9
    ```
 
 3. Reference in MachineDeployment:
    ```yaml
    cloudProviderSpec:
-     image: "rocky-linux-8"
+     image: "rocky-linux-9"
    ```
 
 ### vSphere
@@ -159,7 +158,7 @@ For vSphere, prepare a Rocky Linux template VM:
 4. Use as template in MachineDeployment:
    ```yaml
    cloudProviderSpec:
-     templateVMName: "rocky-linux-8-template"
+      templateVMName: "rocky-linux-9-template"
    ```
 
 See the [vSphere Rocky Linux Template Guide]({{< relref "../../cloud-providers/vsphere/template-vm/rockylinux/" >}}).
@@ -407,22 +406,22 @@ spec:
             instanceType: "t3.medium"
             vpcId: "vpc-xxxxx"
             subnetId: "subnet-xxxxx"
-            ami: "ami-xxxxx"  # Rocky Linux 8 AMI
+            ami: "ami-xxxxx"  # Rocky Linux 9 AMI
             diskSize: 50
             tags:
               KubernetesCluster: "my-cluster"
-              OS: "rocky-linux-8"
+              OS: "rocky-linux-9"
           operatingSystem: "rockylinux"
           operatingSystemSpec:
             distUpgradeOnBoot: false
             disableAutoUpdate: true
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## Best Practices
 
-1. **Use Latest Minor Version**: Stay current with Rocky 8.x updates
+1. **Use Latest Minor Version**: Stay current with Rocky 9.x updates
 2. **Disable Auto-Updates**: Control updates through MachineDeployment rolling updates
 3. **Keep SELinux Enforcing**: Don't disable SELinux in production
 4. **Monitor Security Updates**: Subscribe to Rocky Linux security mailing list

@@ -81,7 +81,7 @@ Information about supported OS versions can be found [here]({{< relref "../../op
 
 ### Ubuntu
 
-Ubuntu OVA templates can be foud at <https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64.ova>.
+Ubuntu OVA templates can be foud at <https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.ova>.
 
 Follow the dedicated [Ubuntu Template VM guide]({{< relref "./template-vm/ubuntu" >}}).
 

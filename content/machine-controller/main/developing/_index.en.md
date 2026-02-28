@@ -10,7 +10,7 @@ This section provides guidance for developers who want to contribute to machine-
 
 ### Prerequisites
 
-- Go 1.21 or later
+- Go 1.25 or later
 - Docker
 - kubectl
 - Access to a Kubernetes cluster (local or cloud)
@@ -90,10 +90,7 @@ machine-controller/
 │   │   ├── machine/       # Machine controller
 │   │   ├── machineset/    # MachineSet controller
 │   │   └── machinedeployment/ # MachineDeployment controller
-│   ├── userdata/          # OS provisioning logic
-│   │   ├── ubuntu/
-│   │   ├── flatcar/
-│   │   └── ...
+│   ├── sdk/               # SDK module
 │   └── providerconfig/    # Provider configuration utilities
 ├── examples/              # Example manifests
 ├── test/                  # Test suites
@@ -113,42 +110,6 @@ Quick overview:
 3. Register the provider in `pkg/cloudprovider/provider.go`
 4. Add example manifest to `examples/`
 5. Add tests in `test/e2e/provisioning/`
-
-## Adding Operating System Support
-
-To add support for a new operating system:
-
-1. **Create userdata package**: `pkg/userdata/<os-name>/`
-
-```go
-package myos
-
-import (
-    "github.com/kubermatic/machine-controller/pkg/userdata/plugin"
-)
-
-// Provider implements the userdata.Provider interface
-type Provider struct{}
-
-func (p *Provider) UserData(req plugin.UserDataRequest) (string, error) {
-    // Generate cloud-init or ignition config
-    return cloudInitConfig, nil
-}
-```
-
-2. **Register the OS provider**: In `pkg/userdata/manager.go`
-
-```go
-import "github.com/kubermatic/machine-controller/pkg/userdata/myos"
-
-func init() {
-    Register("myos", &myos.Provider{})
-}
-```
-
-3. **Add tests**: Create test cases in `pkg/userdata/myos/myos_test.go`
-
-4. **Update documentation**: Add OS to the support matrix
 
 ## Code Style and Standards
 

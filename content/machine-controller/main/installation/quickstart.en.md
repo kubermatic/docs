@@ -1,5 +1,5 @@
 +++
-title = "Installation"
+title = "Quick Start"
 date = 2024-05-31T07:00:00+02:00
 weight = 5
 +++
@@ -8,7 +8,7 @@ weight = 5
 
 Before installing machine-controller, ensure you have:
 
-- A running Kubernetes cluster (version 1.20 or higher)
+- A running Kubernetes cluster
 - `kubectl` configured to access your cluster
 - Appropriate cloud provider credentials
 - Cluster admin permissions

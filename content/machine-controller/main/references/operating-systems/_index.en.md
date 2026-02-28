@@ -12,7 +12,7 @@ Machine-controller supports multiple operating systems across various cloud prov
 
 Ubuntu is the most widely supported and recommended operating system for machine-controller.
 
-- **Versions**: 20.04 LTS, 22.04 LTS, 24.04 LTS
+- **Versions**: 24.04 LTS
 - **Support**: All cloud providers
 - **Provisioning**: cloud-init
 - **Best for**: General purpose workloads, widest compatibility
@@ -34,7 +34,7 @@ Flatcar is a minimal, container-optimized Linux distribution designed for runnin
 
 Enterprise-grade Linux distribution from Red Hat.
 
-- **Versions**: 8.x, 9.x
+- **Versions**: 9.x
 - **Support**: AWS, Azure, GCP, KubeVirt, OpenStack, vSphere
 - **Provisioning**: cloud-init
 - **Best for**: Enterprise environments requiring Red Hat support
@@ -45,7 +45,7 @@ Enterprise-grade Linux distribution from Red Hat.
 
 Community-driven enterprise OS, 100% bug-for-bug compatible with RHEL.
 
-- **Versions**: 8.x, 9.x
+- **Versions**: 9.x
 - **Support**: AWS, Azure, DigitalOcean, Equinix Metal, KubeVirt, OpenStack, vSphere
 - **Provisioning**: cloud-init
 - **Best for**: RHEL compatibility without subscription costs
@@ -60,7 +60,7 @@ AWS-optimized Linux distribution (AWS only).
 - **Support**: AWS only
 - **Provisioning**: cloud-init
 - **Best for**: AWS-specific workloads
-- **Note**: Support ends June 30, 2025
+- **Note**: ⚠️ **End of Life** — reached EOL June 30, 2025
 
 [Read the Amazon Linux 2 guide →]({{< relref "./amazonlinux" >}})
 
@@ -137,11 +137,11 @@ The table below lists the OS versions validated in our automated tests. Machine-
 
 |   | Supported Versions |
 |---|----------|
-| Ubuntu | 20.04 LTS, 22.04 LTS, 24.04 LTS |
+| Ubuntu | 24.04 LTS |
 | Flatcar | Stable, Beta, Alpha channels |
-| RHEL | 8.x |
-| Rocky Linux | 8.5+ |
-| Amazon Linux 2 | 2.x (EOL: June 30, 2025) |
+| RHEL | 9.x |
+| Rocky Linux | 9.x |
+| Amazon Linux 2 | 2.x (**EOL: June 30, 2025**) |
 
 ## Provisioning Methods
 
@@ -234,7 +234,7 @@ spec:
             distUpgradeOnBoot: false
             disableAutoUpdate: true
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## Migration Between Operating Systems

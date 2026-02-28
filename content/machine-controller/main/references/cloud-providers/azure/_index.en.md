@@ -137,8 +137,8 @@ cloudProviderSpec:
   # Option 1: Use marketplace image (recommended)
   imageReference:
     publisher: "Canonical"
-    offer: "0001-com-ubuntu-server-jammy"
-    sku: "22_04-lts-gen2"
+    offer: "ubuntu-24_04-lts"
+    sku: "server-gen1"
     version: "latest"
   
   # Option 2: Use custom image
@@ -195,8 +195,8 @@ spec:
             assignPublicIP: false
             imageReference:
               publisher: "Canonical"
-              offer: "0001-com-ubuntu-server-jammy"
-              sku: "22_04-lts-gen2"
+              offer: "ubuntu-24_04-lts"
+              sku: "server-gen1"
               version: "latest"
             tenantID:
               secretKeyRef:
@@ -328,9 +328,9 @@ spec:
             subnetName: "worker-subnet"
             vmSize: "Standard_D2s_v3"
             imageReference:
-              publisher: "erockyenterprisesoftwarefoundationinc1653071250513"
-              offer: "rockylinux"
-              sku: "rocky-linux-8"
+              publisher: "resf"
+              offer: "rockylinux-x86_64"
+              sku: "9-base"
               version: "latest"
             assignPublicIP: false
             tags:

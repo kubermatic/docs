@@ -38,11 +38,10 @@ See [Cloud Providers]({{< ref "../references/cloud-providers/" >}}) for detailed
 ### What operating systems are supported?
 
 Machine-controller supports:
-- Ubuntu (20.04, 22.04, 24.04 LTS)
+- Ubuntu (24.04 LTS)
 - Flatcar Container Linux
-- RHEL 8.x, 9.x
-- Rocky Linux 8.x, 9.x
-- Amazon Linux 2
+- RHEL 9.x
+- Rocky Linux 9.x
 
 Support varies by cloud provider. See the [OS support matrix]({{< ref "../references/operating-systems/" >}}) for details.
 
@@ -110,7 +109,7 @@ kubectl patch machinedeployment <name> -n kube-system --type merge -p '
     "template": {
       "spec": {
         "versions": {
-          "kubelet": "1.29.0"
+          "kubelet": "<YOUR-UPGRADED-KUBERNETES-VERSION>"
         }
       }
     }

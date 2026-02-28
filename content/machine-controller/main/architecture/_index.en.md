@@ -63,33 +63,33 @@ Represents a single worker node. Contains:
 ## Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     Kubernetes API Server                    │
-└─────────────────────────────────────────────────────────────┘
-                            ▲
-                            │
-                            │ Watch/Update
-                            │
 ┌──────────────────────────────────────────────────────────────┐
-│                    Machine Controller                         │
+│                     Kubernetes API Server                     │
+└──────────────────────────────────────────────────────────────┘
+                             ▲
+                             │
+                             │ Watch/Update
+                             │
+┌──────────────────────────────────────────────────────────────┐
+│                      Machine Controller                      │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
 │  │ MachineDepl. │  │  MachineSet  │  │   Machine    │       │
 │  │ Controller   │─▶│  Controller  │─▶│  Controller  │       │
 │  └──────────────┘  └──────────────┘  └──────────────┘       │
-│                                              │                │
+│                                              │               │
 └──────────────────────────────────────────────┼───────────────┘
                                                │
                                                │ Cloud API
                                                ▼
-                        ┌─────────────────────────────────────┐
-                        │     Cloud Provider (AWS, Azure,     │
-                        │   GCP, Hetzner, OpenStack, etc.)    │
-                        └─────────────────────────────────────┘
+                        ┌──────────────────────────────────────┐
+                        │     Cloud Provider (AWS, Azure,      │
+                        │   GCP, Hetzner, OpenStack, etc.)     │
+                        └──────────────────────────────────────┘
                                                │
                                                ▼
-                        ┌─────────────────────────────────────┐
-                        │    Cloud Instances (Worker Nodes)   │
-                        └─────────────────────────────────────┘
+                        ┌──────────────────────────────────────┐
+                        │    Cloud Instances (Worker Nodes)    │
+                        └──────────────────────────────────────┘
 ```
 
 ## Reconciliation Loop
@@ -203,11 +203,10 @@ Machine-controller supports multiple operating systems through a unified provisi
 
 ### Supported Operating Systems
 
-- Ubuntu (20.04, 22.04, 24.04 LTS)
+- Ubuntu (24.04 LTS)
 - Flatcar Container Linux
-- RHEL (Red Hat Enterprise Linux) 8.x
-- Rocky Linux 8.5+
-- Amazon Linux 2
+- RHEL (Red Hat Enterprise Linux) 9.x
+- Rocky Linux 9.x
 
 See [Operating Systems]({{< ref "../references/operating-systems/" >}}) for the support matrix.
 

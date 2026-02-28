@@ -14,7 +14,7 @@ It is recommended to first familiarize yourself with the [architecture documenta
 
 Before installing machine-controller, ensure you have:
 
-- A running Kubernetes cluster (version 1.31 or later)
+- A running Kubernetes cluster
 - `kubectl` configured to access your cluster
 - Cluster admin permissions
 - [cert-manager](https://cert-manager.io/) installed (for webhook certificates)
@@ -27,7 +27,8 @@ Before installing machine-controller, ensure you have:
 machine-controller uses webhooks that require TLS certificates. Install cert-manager to automatically manage these certificates:
 
 ```bash
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.2/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.2/cert-manager.crds.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.2/cert-manager.yaml
 ```
 
 Wait for cert-manager to be ready:
