@@ -18,7 +18,6 @@ Ubuntu is supported on all machine-controller cloud providers:
 - AWS
 - Azure
 - DigitalOcean
-- Equinix Metal
 - Google Cloud Platform
 - Hetzner Cloud
 - KubeVirt

@@ -27,7 +27,6 @@ Machine-controller supports:
 - KubeVirt
 - Nutanix
 - OpenStack
-- Equinix Metal
 - VMware Cloud Director
 - VMware vSphere
 - Alibaba Cloud
@@ -399,7 +398,7 @@ See cloud provider documentation for exact IAM policies/roles needed.
 Update the image version:
 ```bash
 kubectl set image deployment/machine-controller \
-  machine-controller=quay.io/kubermatic/machine-controller:v1.59.0 \
+  machine-controller=quay.io/kubermatic/machine-controller:<LATEST-VERSION> \
   -n kube-system
 ```
 

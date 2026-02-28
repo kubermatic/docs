@@ -64,20 +64,20 @@ Represents a single worker node. Contains:
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│                     Kubernetes API Server                     │
+│                     Kubernetes API Server                    │
 └──────────────────────────────────────────────────────────────┘
                              ▲
                              │
                              │ Watch/Update
                              │
-┌──────────────────────────────────────────────────────────────┐
-│                      Machine Controller                      │
+┌─────────────────────────────────────────────────────────────┐
+│                      Machine Controller                     │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
 │  │ MachineDepl. │  │  MachineSet  │  │   Machine    │       │
 │  │ Controller   │─▶│  Controller  │─▶│  Controller  │       │
 │  └──────────────┘  └──────────────┘  └──────────────┘       │
-│                                              │               │
-└──────────────────────────────────────────────┼───────────────┘
+│                                              │              │
+└──────────────────────────────────────────────┼──────────────┘
                                                │
                                                │ Cloud API
                                                ▼
@@ -181,7 +181,6 @@ Currently implemented providers:
 - KubeVirt
 - Nutanix
 - OpenStack
-- Equinix Metal
 - VMware Cloud Director
 - VMware vSphere
 - Alibaba Cloud

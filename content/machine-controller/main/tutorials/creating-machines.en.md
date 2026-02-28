@@ -60,7 +60,7 @@ spec:
           operatingSystemSpec:
             distUpgradeOnBoot: false
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Apply the MachineDeployment
@@ -130,7 +130,7 @@ kubectl patch machinedeployment my-workers -n kube-system --type merge -p '
     "template": {
       "spec": {
         "versions": {
-          "kubelet": "1.29.0"
+          "kubelet": "<YOUR-UPGRADED-KUBERNETES-VERSION>"
         }
       }
     }

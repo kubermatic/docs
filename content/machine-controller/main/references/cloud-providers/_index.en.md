@@ -37,7 +37,7 @@ spec:
           operatingSystemSpec:
             # OS-specific configuration here
       versions:
-        kubelet: "1.33.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## Supported Cloud Providers

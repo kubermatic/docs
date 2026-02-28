@@ -218,7 +218,7 @@ spec:
           operatingSystemSpec:
             distUpgradeOnBoot: false
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Spot Instance Workers
@@ -259,7 +259,7 @@ spec:
               WorkloadType: "batch"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### High-Performance I/O Workers
@@ -299,46 +299,7 @@ spec:
               WorkloadType: "database"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
-```
-
-### Amazon Linux 2 Workers
-
-```yaml
-apiVersion: cluster.k8s.io/v1alpha1
-kind: MachineDeployment
-metadata:
-  name: aws-al2-workers
-  namespace: kube-system
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      name: aws-al2-workers
-  template:
-    metadata:
-      labels:
-        name: aws-al2-workers
-    spec:
-      providerSpec:
-        value:
-          cloudProvider: "aws"
-          cloudProviderSpec:
-            region: "us-east-1"
-            availabilityZone: "us-east-1a"
-            vpcId: "vpc-0123456789abcdef0"
-            subnetId: "subnet-0123456789abcdef0"
-            instanceType: "t3.medium"
-            diskSize: 50
-            diskType: "gp3"
-            instanceProfile: "KubernetesWorkerProfile"
-            tags:
-              KubernetesCluster: "my-cluster"
-          operatingSystem: "amzn2"
-          operatingSystemSpec:
-            distUpgradeOnBoot: false
-      versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## AMI Selection
@@ -356,17 +317,6 @@ aws ec2 describe-images \
   --filters "Name=name,Values=ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*" \
   --query 'Images | sort_by(@, &CreationDate) | [-1].[ImageId,Name]' \
   --output table --region us-east-1
-```
-
-### Finding Amazon Linux 2 AMIs
-
-```bash
-# Using Systems Manager Parameter Store
-aws ssm get-parameter \
-  --name /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
-  --region us-east-1 \
-  --query 'Parameter.Value' \
-  --output text
 ```
 
 ## Network Configuration

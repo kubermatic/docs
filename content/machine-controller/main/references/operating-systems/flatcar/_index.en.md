@@ -19,14 +19,14 @@ Flatcar is supported on the following cloud providers:
 
 - ✓ AWS
 - ✓ Azure
-- ✓ Equinix Metal
 - ✓ Google Cloud Platform
 - ✓ KubeVirt
 - ✓ OpenStack
+- ✓ VMware Cloud Director
 - ✓ vSphere
 
 {{% notice info %}}
-Flatcar is **not supported** on: DigitalOcean, Hetzner Cloud, Nutanix, VMware Cloud Director
+Flatcar is **not supported** on: DigitalOcean, Hetzner Cloud, Nutanix
 {{% /notice %}}
 
 ## Configuration
@@ -125,18 +125,6 @@ Google Cloud Platform provides Flatcar images:
 cloudProviderSpec:
   # Use Flatcar stable image
   customImage: "projects/kinvolk-public/global/images/family/flatcar-stable"
-```
-
-### Equinix Metal
-
-Equinix Metal provides Flatcar as an operating system option:
-
-```yaml
-cloudProviderSpec:
-  operatingSystem: "flatcar_stable"
-  # Or use beta/alpha channels
-  # operatingSystem: "flatcar_beta"
-  # operatingSystem: "flatcar_alpha"
 ```
 
 ### OpenStack
@@ -404,7 +392,7 @@ spec:
             disableAutoUpdate: false
             provisioningUtility: "ignition"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## Resources

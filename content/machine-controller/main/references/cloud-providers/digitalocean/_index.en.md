@@ -154,7 +154,7 @@ spec:
           operatingSystemSpec:
             distUpgradeOnBoot: false
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### High-Memory Workers
@@ -194,7 +194,7 @@ spec:
               - "high-memory"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Workers with Backups Enabled
@@ -233,7 +233,7 @@ spec:
               - "worker"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Rocky Linux Workers
@@ -271,7 +271,7 @@ spec:
               - "worker"
           operatingSystem: "rockylinux"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## Droplet Sizes

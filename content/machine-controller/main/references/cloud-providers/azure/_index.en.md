@@ -220,7 +220,7 @@ spec:
           operatingSystemSpec:
             distUpgradeOnBoot: false
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Multi-Zone Deployment
@@ -259,7 +259,7 @@ spec:
               kubernetesCluster: "my-cluster"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### High-Performance Workers
@@ -297,7 +297,7 @@ spec:
               workloadType: "compute-intensive"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Rocky Linux Workers
@@ -337,7 +337,7 @@ spec:
               kubernetesCluster: "my-cluster"
           operatingSystem: "rockylinux"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## VM Sizes

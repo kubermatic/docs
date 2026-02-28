@@ -29,6 +29,7 @@ Kubernetes provides powerful abstractions for managing containerized workloads, 
 
 - **Creation of worker nodes** on the following cloud providers:
   - Alibaba Cloud
+  - Anexia
   - AWS
   - Azure
   - DigitalOcean
@@ -44,7 +45,6 @@ Kubernetes provides powerful abstractions for managing containerized workloads, 
   - Vultr
 
 - **Operating System Support**: Multiple Linux distributions are supported:
-  - Amazon Linux 2
   - Flatcar Linux
   - RedHat Enterprise Linux (RHEL)
   - Rocky Linux
@@ -60,10 +60,10 @@ machine-controller follows the Kubernetes [version support policy][3] as closely
 
 Currently supported Kubernetes versions:
 
+- 1.35
 - 1.34
 - 1.33
 - 1.32
-- 1.31
 
 [3]: https://kubernetes.io/docs/setup/release/version-skew-policy/
 
@@ -73,6 +73,7 @@ Some cloud providers implemented in machine-controller have been graciously cont
 
 **Community-supported providers:**
 
+- Anexia
 - Linode
 - Vultr
 - OpenNebula

@@ -204,7 +204,7 @@ spec:
           operatingSystemSpec:
             distUpgradeOnBoot: false
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Preemptible (Spot) Instances
@@ -242,7 +242,7 @@ spec:
               workload: "batch"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### High-Performance SSD Workers
@@ -279,7 +279,7 @@ spec:
               workload: "database"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Flatcar Workers
@@ -316,7 +316,7 @@ spec:
               kubernetesCluster: "my-cluster"
           operatingSystem: "flatcar"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## Machine Types

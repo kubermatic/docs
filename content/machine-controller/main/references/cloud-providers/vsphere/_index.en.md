@@ -87,7 +87,7 @@ Follow the dedicated [Ubuntu Template VM guide]({{< relref "./template-vm/ubuntu
 
 ### RHEL
 
-Red Hat Enterprise Linux 8.x KVM Guest Images can be found at [Red Hat Customer Portal][rh_portal_rhel8].
+Red Hat Enterprise Linux 9.x KVM Guest Images can be found at [Red Hat Customer Portal][rh_portal_rhel9].
 
 Follow the generic [qcow2 guide]({{< relref "./template-vm/qcow2" >}}).
 
@@ -100,4 +100,4 @@ Follow the dedicated [RockyLinux Template VM guide]({{< relref "./template-vm/ro
 [datastore]: https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.storage.doc/GUID-3CC7078E-9C30-402C-B2E1-2542BEE67E8F.html
 [datastore_cluster]: https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.resmgmt.doc/GUID-598DF695-107E-406B-9C95-0AF961FC227A.html
 [inflate_thin_virtual_disks]: https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.storage.doc/GUID-C371B88F-C407-4A69-8F3B-FA877D6955F8.html
-[rh_portal_rhel8]: https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.1/x86_64/product-software
+[rh_portal_rhel9]: https://access.redhat.com/downloads/content/479/ver=/rhel---9/9.0/x86_64/product-software

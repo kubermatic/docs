@@ -24,7 +24,7 @@ Ubuntu is the most widely supported and recommended operating system for machine
 Flatcar is a minimal, container-optimized Linux distribution designed for running containerized workloads.
 
 - **Versions**: Stable, Beta, Alpha channels
-- **Support**: AWS, Azure, Equinix Metal, GCP, KubeVirt, OpenStack, vSphere
+- **Support**: AWS, Azure, GCP, KubeVirt, OpenStack, VMware Cloud Director, vSphere
 - **Provisioning**: Ignition (or cloud-init)
 - **Best for**: Immutable infrastructure, container-focused deployments
 
@@ -46,39 +46,26 @@ Enterprise-grade Linux distribution from Red Hat.
 Community-driven enterprise OS, 100% bug-for-bug compatible with RHEL.
 
 - **Versions**: 9.x
-- **Support**: AWS, Azure, DigitalOcean, Equinix Metal, KubeVirt, OpenStack, vSphere
+- **Support**: AWS, Azure, DigitalOcean, KubeVirt, OpenStack, vSphere
 - **Provisioning**: cloud-init
 - **Best for**: RHEL compatibility without subscription costs
 
 [Read the Rocky Linux guide →]({{< relref "./rockylinux" >}})
 
-### [Amazon Linux 2]({{< relref "./amazonlinux" >}})
-
-AWS-optimized Linux distribution (AWS only).
-
-- **Versions**: 2.x
-- **Support**: AWS only
-- **Provisioning**: cloud-init
-- **Best for**: AWS-specific workloads
-- **Note**: ⚠️ **End of Life** — reached EOL June 30, 2025
-
-[Read the Amazon Linux 2 guide →]({{< relref "./amazonlinux" >}})
-
 ## Cloud Provider Compatibility Matrix
 
-|   | Ubuntu | Flatcar | RHEL | Amazon Linux 2 | Rocky Linux |
-|---|---|---|---|---|---|
-| AWS | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Azure | ✓ | ✓ | ✓ | ✗ | ✓ |
-| DigitalOcean  | ✓ | ✗ | ✗ | ✗ | ✓ |
-| Equinix Metal | ✓ | ✓ | ✗ | ✗ | ✓ |
-| Google Cloud Platform | ✓ | ✓ | ✗ | ✗ | ✗ |
-| Hetzner Cloud | ✓ | ✗ | ✗ | ✗ | ✓ |
-| KubeVirt | ✓ | ✓ | ✓ | ✗ | ✓ |
-| Nutanix | ✓ | ✗ | ✗ | ✗ | ✗ |
-| OpenStack | ✓ | ✓ | ✓ | ✗ | ✓ |
-| VMware Cloud Director | ✓ | ✗ | ✗ | ✗ | ✗ |
-| vSphere | ✓ | ✓ | ✓ | ✗ | ✓ |
+|   | Ubuntu | Flatcar | RHEL | Rocky Linux |
+|---|---|---|---|---|
+| AWS | ✓ | ✓ | ✓ | ✓ |
+| Azure | ✓ | ✓ | ✓ | ✓ |
+| DigitalOcean  | ✓ | ✗ | ✗ | ✓ |
+| Google Cloud Platform | ✓ | ✓ | ✗ | ✗ |
+| Hetzner Cloud | ✓ | ✗ | ✗ | ✓ |
+| KubeVirt | ✓ | ✓ | ✓ | ✓ |
+| Nutanix | ✓ | ✗ | ✗ | ✗ |
+| OpenStack | ✓ | ✓ | ✓ | ✓ |
+| VMware Cloud Director | ✓ | ✓ | ✗ | ✗ |
+| vSphere | ✓ | ✓ | ✓ | ✓ |
 
 **Legend:** ✓ = Supported, ✗ = Not supported
 
@@ -94,7 +81,7 @@ spec:
     spec:
       providerSpec:
         value:
-          operatingSystem: "ubuntu"  # or: flatcar, rhel, rockylinux, amzn2
+          operatingSystem: "ubuntu"  # or: flatcar, rhel, rockylinux
           operatingSystemSpec:
             # OS-specific configuration
             distUpgradeOnBoot: false
@@ -107,7 +94,6 @@ spec:
 - `flatcar` - Flatcar Container Linux
 - `rhel` - Red Hat Enterprise Linux
 - `rockylinux` - Rocky Linux
-- `amzn2` - Amazon Linux 2
 
 ### Operating System Spec Options
 
@@ -141,7 +127,6 @@ The table below lists the OS versions validated in our automated tests. Machine-
 | Flatcar | Stable, Beta, Alpha channels |
 | RHEL | 9.x |
 | Rocky Linux | 9.x |
-| Amazon Linux 2 | 2.x (**EOL: June 30, 2025**) |
 
 ## Provisioning Methods
 
@@ -152,7 +137,6 @@ Most operating systems use **cloud-init** for provisioning:
 - Ubuntu
 - RHEL
 - Rocky Linux
-- Amazon Linux 2
 - Flatcar (optional)
 
 Cloud-init handles:
@@ -197,12 +181,6 @@ Consider the following factors:
 - You need enterprise-grade stability
 - You're migrating from CentOS
 - You prefer community-driven development
-
-### Use Amazon Linux 2 if:
-- You're exclusively on AWS
-- You want AWS-optimized performance
-- You need tight AWS service integration
-- You're already using AL2
 
 ## Complete Example
 

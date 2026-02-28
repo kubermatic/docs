@@ -122,7 +122,7 @@ To upgrade machine-controller to a newer version:
 
 ```bash
 kubectl set image deployment/machine-controller \
-  machine-controller=quay.io/kubermatic/machine-controller:v1.59.0 \
+  machine-controller=quay.io/kubermatic/machine-controller:<LATEST-VERSION> \
   -n kube-system
 ```
 

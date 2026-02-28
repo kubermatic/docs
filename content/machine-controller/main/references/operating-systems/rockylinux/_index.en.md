@@ -20,7 +20,6 @@ Rocky Linux is supported on the following cloud providers:
 - ✓ AWS
 - ✓ Azure
 - ✓ DigitalOcean
-- ✓ Equinix Metal
 - ✓ KubeVirt
 - ✓ OpenStack
 - ✓ vSphere

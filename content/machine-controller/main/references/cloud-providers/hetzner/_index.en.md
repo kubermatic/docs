@@ -134,7 +134,7 @@ spec:
           operatingSystemSpec:
             distUpgradeOnBoot: false
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Workers with Private Network
@@ -171,7 +171,7 @@ spec:
               kubernetesCluster: "my-cluster"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### High-Performance Workers
@@ -207,7 +207,7 @@ spec:
               workload: "compute-intensive"
           operatingSystem: "ubuntu"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ### Rocky Linux Workers
@@ -242,7 +242,7 @@ spec:
               kubernetesCluster: "my-cluster"
           operatingSystem: "rockylinux"
       versions:
-        kubelet: "1.28.0"
+        kubelet: "<YOUR-KUBERNETES-VERSION>"
 ```
 
 ## Server Types
