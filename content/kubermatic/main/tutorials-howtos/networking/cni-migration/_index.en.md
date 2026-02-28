@@ -142,7 +142,7 @@ helm template cilium cilium/cilium --version 1.11.0 --namespace kube-system | ku
 
 If you migrated your cluster from Canal CNI to Cilium CNI, you may want to change the kube-proxy mode of the cluster.
 As the `ipvs` kube-proxy mode is not recommended with Cilium CNI due to [a known issue]({{< relref "../../../architecture/known-issues/" >}}#2-connectivity-issue-in-pod-to-nodeport-service-in-cilium--ipvs-proxy-mode),
-we strongly recommend migrating to `ebpf` or `iptables` proxy mode after Canal -> Cilium migration.
+we strongly recommend migrating to `ebpf`, `iptables` or `nftables` proxy mode after Canal -> Cilium migration.
 
 Note that `ebpf` is allowed only for Cilium CNI if [Konnectivity]({{< relref "../cni-cluster-network/" >}}#konnectivity) is enabled.
 
@@ -163,7 +163,7 @@ At this point, you are able to change the proxy mode in the Cluster API. Change 
 When switching to/from ebpf, wait until all Cilium pods are redeployed (you will notice a restart of all Cilium pods).
 It can take up to 5 minutes until this happens.
 
-When switching between `ipvs` and `iptables`, wait until your change is reflected in the `kube-proxy` configmap in the
+When switching between `ipvs`, `iptables` and `nftables`, wait until your change is reflected in the `kube-proxy` configmap in the
 `kube-system` namespace in the user cluster, e.g. by observing it with the following command:
 
 ```bash
