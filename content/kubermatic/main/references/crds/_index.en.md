@@ -3017,6 +3017,7 @@ _Appears in:_
 | `customNetworkPolicies` _[CustomNetworkPolicy](#customnetworkpolicy) array_ | {{< unsafe >}}Optional: CustomNetworkPolicies allows to add some extra custom NetworkPolicies, that are deployed<br />in the dedicated infra KubeVirt cluster. They are added to the defaults.{{< /unsafe >}} |
 | `images` _[KubeVirtImageSources](#kubevirtimagesources)_ | {{< unsafe >}}Images represents standard VM Image sources.{{< /unsafe >}} |
 | `infraStorageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | {{< unsafe >}}Optional: InfraStorageClasses contains a list of KubeVirt infra cluster StorageClasses names<br />that will be used to initialise StorageClasses in the tenant cluster.<br />In the tenant cluster, the created StorageClass name will have as name:<br />kubevirt-<infra-storageClass-name>{{< /unsafe >}} |
+| `infraVolumeSnapshotClasses` _[KubeVirtInfraVolumeSnapshotClass](#kubevirtinfravolumesnapshotclass) array_ | {{< unsafe >}}Optional: InfraVolumeSnapshotClasses contains a list of KubeVirt infra cluster VolumeSnapshotClasses names used<br />to initialise VolumeSnapshotClasses in the tenant cluster.{{< /unsafe >}} |
 | `providerNetwork` _[ProviderNetwork](#providernetwork)_ | {{< unsafe >}}Optional: ProviderNetwork describes the infra cluster network fabric that is being used{{< /unsafe >}} |
 | `ccmZoneAndRegionEnabled` _boolean_ | {{< unsafe >}}Optional: indicates if region and zone labels from the cloud provider should be fetched.{{< /unsafe >}} |
 | `ccmLoadBalancerEnabled` _boolean_ | {{< unsafe >}}Optional: indicates if the ccm should create and manage the clusters load balancers.{{< /unsafe >}} |
@@ -4681,6 +4682,27 @@ _Appears in:_
 
 
 
+### KubeVirtInfraVolumeSnapshotClass
+
+
+
+
+
+_Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
+- [KubevirtCloudSpec](#kubevirtcloudspec)
+
+| Field | Description |
+| --- | --- |
+| `infraVolumeSnapshotClass` _string_ | {{< unsafe >}}InfraVolumeSnapshotClass of the volume snapshot class to use on the infrastructure cluster.{{< /unsafe >}} |
+| `isDefaultClass` _boolean_ | {{< unsafe >}}Optional: IsDefaultClass. If true, the created VolumeSnapshotClass in the tenant cluster will be annotated with:<br />snapshot.storage.kubernetes.io/is-default-class: true<br />If missing or false, annotation will be:<br />snapshot.storage.kubernetes.io/is-default-class: false{{< /unsafe >}} |
+| `deletionPolicy` _string_ | {{< unsafe >}}Optional: DeletionPolicy defines how the VolumeSnapshotClass should be deleted. Defaults to Delete.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### KubeVirtVolumeProvisioner
 
 _Underlying type:_ `string`
@@ -5258,6 +5280,7 @@ _Appears in:_
 | `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ | {{< unsafe >}}Custom Images are a good example of this use case.{{< /unsafe >}} |
 | `infraStorageClasses` _string array_ | {{< unsafe >}}Deprecated: in favor of StorageClasses.<br />InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for<br />initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks){{< /unsafe >}} |
 | `storageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | {{< unsafe >}}StorageClasses is a list of storage classes from KubeVirt infra cluster that are used for<br />initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks.<br />It contains also some flag specifying which one is the default one.{{< /unsafe >}} |
+| `volumeSnapshotClasses` _[KubeVirtInfraVolumeSnapshotClass](#kubevirtinfravolumesnapshotclass) array_ | {{< unsafe >}}VolumeSnapshotClasses defines a list of volume snapshot classes for the infrastructure cluster.{{< /unsafe >}} |
 | `imageCloningEnabled` _boolean_ | {{< unsafe >}}ImageCloningEnabled flag enable/disable cloning for a cluster.{{< /unsafe >}} |
 | `vpcName` _string_ | {{< unsafe >}}VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt.{{< /unsafe >}} |
 | `subnetName` _string_ | {{< unsafe >}}SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).{{< /unsafe >}} |
