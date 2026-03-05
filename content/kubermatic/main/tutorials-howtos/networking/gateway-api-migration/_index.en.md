@@ -46,65 +46,6 @@ AFTER migration (after uninstalling nginx):
 The `nginx-ingress-controller` pods remain running after migration but have no effect because the Ingress resource is deleted.
 Kubermatic is not going to delete Ingress LoadBalancer service from the cluster, instead it will only delete Ingress resources during migration.
 
-## DNS and IP Considerations
-
-During migration, your cluster will have two LoadBalancer Services:
-
-- **nginx-ingress-controller**: Service in `nginx-ingress-controller` namespace with IP like `203.0.113.50`
-- **envoy-gateway-controller**: Service in `envoy-gateway-controller` namespace with a **different IP** like `203.0.113.51`
-
-The Envoy Gateway creates a NEW LoadBalancer with a different IP address. This means:
-
-1. **DNS must be updated** to point to the new Envoy Gateway IP
-2. **There is a downtime window** during DNS propagation if not planned carefully
-3. **The old nginx IP remains active** until you uninstall nginx-ingress-controller
-
-To minimize or eliminate downtime, we suggest following DNS cutover strategies:
-
-**Option A - Blue-Green:**
-
-- Deploy Gateway alongside existing Ingress
-- Test thoroughly with direct IP access
-- Switch DNS to Gateway IP
-- Keep Ingress running for rollback
-
-**Option B - Gradual Migration:**
-
-- Lower DNS TTL (e.g., 60s) before migration
-- Switch one hostname at a time
-- Monitor traffic and errors
-- Increase TTL after stabilization
-
-### Preserving Your LoadBalancer IP
-
-If you need to maintain the same IP address during migration (for example, if your IP is whitelisted in firewalls or you want to avoid DNS changes), you can configure Envoy Gateway to use a static LoadBalancer IP.
-
-```yaml
-envoyProxy:
-  service:
-    patch:
-      type: StrategicMerge
-      value:
-        spec:
-          loadBalancerIP: "203.0.113.50"  # Your reserved static IP
-```
-
-{{% notice warning %}}
-
-*Note* that if the IP is already in use, the Service creation will fail.
-
-{{% /notice %}}
-
-
-{{% notice note %}}
-
-Not all cloud providers support `loadBalancerIP`.
-The example here is just for demonstratation.
-
-Check full Envoy Gateway documentation for details.
-
-{{% /notice %}}
-
 ## How the Migration Works
 
 The migration is designed to be explicit and safe. There is no automatic switching that could surprise you during an upgrade.
@@ -278,14 +219,12 @@ If you want to skip this automatic cleanup (for example, to manually verify befo
 kubermatic-installer deploy kubermatic-master --migrate-gateway-api --skip-ingress-cleanup [other options]
 ```
 
-When cleanup is skipped, both Ingress and Gateway resources will coexist. You can manually delete the Ingress resources to prevent routing conflicts:
+When cleanup is skipped, both Ingress and Gateway resources will coexist. This is useful for zero-downtime migration with automatic fallback during DNS propagation.
 
 ```bash
-# beforehand, please verify the migration at Step 3
 kubectl delete ingress -n kubermatic kubermatic
 kubectl delete ingress -n dex dex
 ```
-
 #### Verify the migration
 
 ```bash
@@ -319,6 +258,73 @@ Verify that everything works as before with the new DNS resolution.
 ```bash
 helm uninstall nginx-ingress-controller -n nginx-ingress-controller
 ```
+
+## DNS and IP Considerations
+
+During migration, your cluster will have two LoadBalancer Services:
+
+- **nginx-ingress-controller**: Service in `nginx-ingress-controller` namespace with IP like `203.0.113.50`
+- **envoy-gateway-controller**: Service in `envoy-gateway-controller` namespace with a **different IP** like `203.0.113.51`
+
+The Envoy Gateway creates a NEW LoadBalancer with a different IP address. This means:
+
+1. **DNS must be updated** to point to the new Envoy Gateway IP
+2. **There is a downtime window** during DNS propagation if not planned carefully
+3. **The old nginx IP remains active** until you uninstall nginx-ingress-controller
+
+To minimize or eliminate downtime, we suggest following DNS cutover strategies:
+
+**Option A - Blue-Green:**
+
+- Deploy Gateway alongside existing Ingress
+- Test thoroughly with direct IP access
+- Switch DNS to Gateway IP
+- Keep Ingress running for rollback
+
+**Option B - Gradual Migration:**
+
+- Lower DNS TTL (e.g., 60s) before migration
+- Switch one hostname at a time
+- Monitor traffic and errors
+- Increase TTL after stabilization
+
+For example, if your LoadBalancer IP changes between nginx and Envoy Gateway, or you want a gradual cutover with automatic fallback, the following explains a sample migration approach:
+1. Run migration with `--skip-ingress-cleanup`
+2. Verify Gateway is programmed and HTTPRoutes are accepted ( see [Verify the migration](#verify-the-migration) below)
+3. If LoadBalancer IP changed: Update DNS records to point to the new IP
+4. Wait for DNS propagation and verify end-to-end traffic through Gateway
+5. Once verified, delete old Ingress resources
+
+### Preserving Your LoadBalancer IP
+
+If you need to maintain the same IP address during migration (for example, if your IP is whitelisted in firewalls or you want to avoid DNS changes), you can configure Envoy Gateway to use a static LoadBalancer IP.
+
+```yaml
+envoyProxy:
+  service:
+    patch:
+      type: StrategicMerge
+      value:
+        spec:
+          loadBalancerIP: "203.0.113.50"  # Your reserved static IP
+```
+
+{{% notice warning %}}
+
+*Note* that if the IP is already in use, the Service creation will fail.
+
+{{% /notice %}}
+
+
+{{% notice note %}}
+
+Not all cloud providers support `loadBalancerIP`.
+The example here is just for demonstratation.
+
+Check full Envoy Gateway documentation for details.
+
+{{% /notice %}}
+
 
 ## Automatic Certificate Provisioning
 
