@@ -34,7 +34,7 @@ This guide demonstrates how to restore your cluster to the normal state
 ## Symptoms
 
 * A control plane Node has disappeared from the
-  `kubectl get node --selector node-role.kubernetes.io/master` output
+  `kubectl get node --selector node-role.kubernetes.io/control-plane` output
 * A control plane instance has grave but unknown issues (i.e. hardware
   issues) but it's still in running state
 * A control plane instance is in terminated state
@@ -65,7 +65,7 @@ case and we need to let etcd ring know that dead etcd member is gone forever
 First of all, check your Nodes
 
 ```bash
-kubectl get node --selector node-role.kubernetes.io/master -o wide
+kubectl get node --selector node-role.kubernetes.io/control-plane -o wide
 ```
 
 Failed control plane node will be displayed as NotReady or even absent from the
@@ -76,25 +76,10 @@ eventually).
 
 Even when a control plane node is absent, there are still other alive nodes,
 that contain healthy etcd ring members. Exec into the shell of one of those
-alive etcd containers:
+alive etcd containers, with the used certificates mounted, to be able to communicate with etcd ring:
 
 ```bash
-kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> sh
-```
-
-Setup client TLS authentication in order to be able to communicate with etcd:
-
-```bash
-export ETCDCTL_API=3
-export ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt
-export ETCDCTL_CERT=/etc/kubernetes/pki/etcd/healthcheck-client.crt
-export ETCDCTL_KEY=/etc/kubernetes/pki/etcd/healthcheck-client.key
-```
-
-Retrieve currently known members list:
-
-```bash
-etcdctl member list
+kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key member list
 ```
 
 Example output:
@@ -116,14 +101,14 @@ looking for to remove.
 To remove dead etcd member:
 
 ```bash
-etcdctl member remove 6713c8f2e74fb553
+kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key member remove 6713c8f2e74fb553
 Member 6713c8f2e74fb553 removed from cluster 4ec111e0dee094c3
 ```
 
 Now, members list should display only 2 members.
 
 ```bash
-etcdctl member list
+kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key member list
 ```
 
 Example output:
@@ -133,7 +118,6 @@ Example output:
 2e39cf93b81fb7ed, started, ip-172-31-153-246.eu-west-3.compute.internal, https://172.31.153.246:2380, https://172.31.153.246:2379, false
 ```
 
-Exit the shell in the etcd pod.
 
 ## Create A Fresh Instance Replacement
 
