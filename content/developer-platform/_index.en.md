@@ -23,11 +23,12 @@ from their service cluster onto KDP's central platform.
 KDP is based on [kcp](https://kcp.io), a CNCF Sandbox project to run many lightweight "logical"
 clusters. Each of them acts as an independent Kubernetes API server to platform users and is called
 a "Workspace". Workspaces are organized in a tree hierarchy, so there is a `root` workspace that has
-child workspaces, and those can have child workspaces, and so on. In KDP, platform users own a certain
-part of the workspace hierarchy (maybe just a single workspace, maybe a whole sub tree) and
-self-manage those parts of the hierarchy that they own. This includes assigning permissions to
-delegate certain tasks and subscribing to service APIs. Platform users can therefore "mix and match"
-what APIs they want to have available in their workspaces to only consume the right services.
+child workspaces, and those can have child workspaces, and so on. In KDP, **organizations** own a
+top-level workspace, and within an organization, users can create **projects** (nested workspaces)
+to structure their resources. Projects can themselves contain sub-projects, enabling flexible
+multi-tenancy. This includes assigning permissions to delegate certain tasks and subscribing to
+service APIs. Platform users can therefore "mix and match" what APIs they want to have available in
+their workspaces to only consume the right services.
 
 KDP is an automation/DevOps/GitOps-friendly product and is "API-driven". Since it exposes
 Kubernetes-style APIs it can be used with a lot of existing tooling (e.g. `kubectl` works to manage
@@ -40,6 +41,10 @@ Service APIs are not pre-defined by KDP, and as such are subject to API design i
 installation. Crossplane on the service cluster can be used to provide abstraction APIs that are then
 reconciled to more complex resource bundles. The level of abstraction in an API is up to service
 providers and will vary from setup to setup.
+
+## Architecture
+
+![KDP Architecture](kdp-architecture.png?classes=shadow,border "KDP reference architecture showing the control plane, workspace hierarchy, and service clusters")
 
 ## Personas
 

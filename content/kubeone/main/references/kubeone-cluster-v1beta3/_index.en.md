@@ -1,6 +1,6 @@
 +++
 title = "v1beta3 API Reference"
-date = 2025-12-10T15:13:37+02:00
+date = 2026-03-04T16:21:13+02:00
 weight = 11
 +++
 ## v1beta3
@@ -32,6 +32,7 @@ weight = 11
 * [DynamicWorkerConfig](#dynamicworkerconfig)
 * [EncryptionProviders](#encryptionproviders)
 * [EquinixMetalSpec](#equinixmetalspec)
+* [EtcdConfig](#etcdconfig)
 * [ExternalCNISpec](#externalcnispec)
 * [Features](#features)
 * [GCESpec](#gcespec)
@@ -186,6 +187,7 @@ CiliumSpec defines the Cilium CNI plugin
 | ----- | ----------- | ------ | -------- |
 | kubeProxyReplacement | KubeProxyReplacement defines weather cilium relies on underlying Kernel support to replace kube-proxy functionality by eBPF (strict), or disables a subset of those features so cilium does not bail out if the kernel support is missing (disabled). default is false | bool | true |
 | enableHubble | EnableHubble to deploy Hubble relay and UI default value is false | bool | true |
+| enableL2Announcements | EnableL2Announcements enables the Layer 2 announcement feature for the Cilium CNI plugin. If not set, Cilium will use its default behavior. | bool | true |
 
 [Back to Group](#v1beta3)
 
@@ -314,6 +316,7 @@ Configures containerd TLS for a registry
 | controllerManager | ControllerManagerConfig configures the Kubernetes Controller Manager | *[ControlPlaneComponentConfig](#controlplanecomponentconfig) | false |
 | scheduler | Scheduler configures the Kubernetes Scheduler | *[ControlPlaneComponentConfig](#controlplanecomponentconfig) | false |
 | apiServer | APIServer configures the Kubernetes API Server | *[ControlPlaneComponentConfig](#controlplanecomponentconfig) | false |
+| etcd | Etcd configures the etcd | *[EtcdConfig](#etcdconfig) | false |
 
 [Back to Group](#v1beta3)
 
@@ -397,6 +400,18 @@ EquinixMetalSpec defines the Equinix Metal cloud provider
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
+
+[Back to Group](#v1beta3)
+
+### EtcdConfig
+
+EtcdConfig
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| quotaBackendBytes | QuotaBackendBytes is the maximum backend size in bytes for etcd. Default 0 means etcd's default (2GiB). | int64 | false |
+| autoCompactionRetention | AutoCompactionRetention is the duration for automatic compaction. Empty or 0 means disabled. | string | false |
+| autoCompactionMode | AutoCompactionMode is the mode for automatic compaction (`periodic` or `revision`).  Empty means `periodic`. | EtcdAutoCompactionMode | false |
 
 [Back to Group](#v1beta3)
 

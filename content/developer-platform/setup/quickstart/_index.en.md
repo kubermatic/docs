@@ -20,12 +20,12 @@ To follow this guide, you need:
 - an existing Kubernetes cluster with at least 3 nodes
 - a running CSI driver with a default storage class
 - a running [cert-manager][cert-manager/docs/installation] installation
-- an running ingress controller (for this guide, the [NGINX ingress controller][ingress-nginx/docs/installation] is required)
+- a running ingress controller or Gateway API implementation (this guide uses the [NGINX ingress controller][ingress-nginx/docs/installation], but a [Gateway API][gateway-api/docs] controller like [Envoy Gateway][envoy-gateway/docs] or [Contour][contour/docs] is also supported)
 - [kubectl][k8s/docs/tools/installation] and [Helm][helm/docs/installation] (version 3) installed locally
 
 ## Installation
 
-The installation is divided into five main steps, each deploying a core component of KDP.
+The installation is divided into six main steps, each deploying a core component of KDP.
 You will perform the following tasks:
 
 - **Set up certificates**: First, you will configure a cert-manager issuer to automatically obtain and renew TLS certificates from Let's Encrypt.
@@ -36,9 +36,11 @@ You will perform the following tasks:
 
 - **Deploy KDP**: Afterwards, you will install the main KDP controllers that connect to kcp and manage the platform's resources.
 
-- **Launch the KDP dashboard**: Finally, you will deploy the KDP dashboard, the primary graphical interface for developers to interact with the platform and manage their service objects.
+- **Launch the KDP dashboard**: You will deploy the KDP dashboard, the primary graphical interface for developers to interact with the platform and manage their service objects.
 
-Throughout this guide, you will need to replace several placeholder variables in the Helm values files. 
+- **Deploy the KDP AI Agent**: Finally, you will deploy the AI Agent, which provides AI-powered features within the dashboard — generating Kubernetes resource specs and customizing resource creation forms from natural language prompts.
+
+Throughout this guide, you will need to replace several placeholder variables in the Helm values files.
 Below is a description of each value you need to provide.
 
 - `<EMAIL_ADDRESS>`: Your email address, used by Let's Encrypt to send notifications about your TLS certificate status.
@@ -47,10 +49,11 @@ Below is a description of each value you need to provide.
 - `<ADMIN_PASSWORD_HASH>`: A generated bcrypt hash of the password you choose for the initial admin user.
 - `<OIDC_CLIENT_SECRET>`: A randomly generated, secure string that acts as a password for the KDP dashboard to authenticate with the Dex identity provider.
 - `<SESSION_ENCRYPTION_KEY>`: A second, unique random string used by the KDP dashboard itself to encrypt user session cookies, adding another layer of security.
+- `<OPENAI_API_KEY>`: An API key from OpenAI, required by the KDP AI Agent for its AI-powered features (spec generation and UI schema generation).
 
 ### Create ClusterIssuer
 
-First, you need to create a *ClusterIssuer* named `letsencrypt-prod` for cert-manager.
+First, you need to create a _ClusterIssuer_ named `letsencrypt-prod` for cert-manager.
 This automates the process of obtaining and renewing TLS certificates from Let's Encrypt, ensuring all web-facing components like the Dex login page and the KDP dashboard are served securely over HTTPS.
 
 Save the following content to a file named `cluster-issuer.yaml`, and change the value of the `email` field to your email address:
@@ -59,11 +62,88 @@ Save the following content to a file named `cluster-issuer.yaml`, and change the
 {{< readfile "developer-platform/setup/quickstart/data/letsencrypt.cluster-issuer.yaml" >}}
 ```
 
-Create the *ClusterIssuer* by applying the manifest:
+Create the _ClusterIssuer_ by applying the manifest:
 
 ```bash
 kubectl apply -f ./cluster-issuer.yaml
 ```
+
+{{% notice tip %}}
+**Gateway API alternative:** If you use a Gateway API controller (e.g. [Envoy Gateway][envoy-gateway/docs] or [Contour][contour/docs]) instead of NGINX Ingress, you need to make three changes:
+
+**1. Enable Gateway API support in cert-manager.** When installing cert-manager, set `enableGatewayAPI: true` in its controller configuration so it can manage TLS certificates for Gateway listeners:
+
+```yaml
+# cert-manager Helm values
+config:
+  enableGatewayAPI: true
+```
+
+**2. Replace the `http01` solver with a `gatewayHTTPRoute` solver** in the ClusterIssuer, pointing to your Gateway:
+
+```yaml
+solvers:
+  - http01:
+      gatewayHTTPRoute:
+        parentRefs:
+          - name: shared-gateway
+            namespace: <GATEWAY_NAMESPACE>
+        serviceType: ClusterIP
+```
+
+**3. Deploy Dex and the Dashboard without their built-in Ingress resources** and create `HTTPRoute` resources instead.
+Since neither the Dex nor the KDP Dashboard Helm chart natively creates `HTTPRoute` resources, you must disable their Ingress and provide the routing yourself.
+
+Disable Ingress in the Dex values:
+
+```yaml
+# dex.values.yaml
+ingress:
+  enabled: false
+```
+
+Disable Ingress in the KDP Dashboard values:
+
+```yaml
+# kdp-dashboard.values.yaml
+dashboard:
+  ingress:
+    create: false
+```
+
+Then create a `Gateway` with HTTPS listeners for each hostname, annotated so cert-manager provisions the TLS certificates automatically.
+Save the following content to a file named `gateway.yaml`:
+
+```yaml
+{{< readfile "developer-platform/setup/quickstart/data/gateway.yaml" >}}
+```
+
+Replace `<GATEWAY_NAMESPACE>`, `<GATEWAY_CLASS>`, and `<DOMAIN>` with your values, then apply:
+
+```bash
+kubectl apply -f ./gateway.yaml
+```
+
+Finally, create `HTTPRoute` resources to route traffic to Dex and the Dashboard.
+Save the following content to a file named `http-routes.yaml`:
+
+```yaml
+{{< readfile "developer-platform/setup/quickstart/data/http-routes.yaml" >}}
+```
+
+Replace `<GATEWAY_NAMESPACE>` and `<DOMAIN>`, then apply:
+
+```bash
+kubectl apply -f ./http-routes.yaml
+```
+
+Note that the kcp API (`internal.<DOMAIN>`) is **not** routed through the Gateway — it uses its own dedicated `LoadBalancer` service and does not need an HTTPRoute.
+
+The public API endpoint (`api.<DOMAIN>`) is handled separately: the KDP chart creates an NGINX Ingress for it by default. If you are fully replacing NGINX Ingress with a Gateway API controller, you should disable the KDP chart's built-in Ingress (set `kdp.frontProxy.publicDomain` to empty) and create an additional Gateway HTTPS listener and HTTPRoute for `api.<DOMAIN>` pointing to `kcp-front-proxy:8443`, along with a `BackendTLSPolicy` for the TLS backend connection.
+
+For the DNS records step, point `login.<DOMAIN>`, `api.<DOMAIN>`, and `dashboard.<DOMAIN>` to the Gateway's load balancer IP instead of the NGINX ingress controller.
+
+{{% /notice %}}
 
 ### Deploy Dex
 
@@ -137,7 +217,7 @@ After you've replaced all the placeholders, deploy the kcp Helm chart:
 ```bash
 helm upgrade --install kcp kcp \
     --repo=https://kcp-dev.github.io/helm-charts \
-    --version=0.11.1 \
+    --version=0.14.0 \
     --create-namespace \
     --namespace=kdp-system \
     --values=kcp.values.yaml
@@ -214,14 +294,85 @@ helm upgrade --install kdp-dashboard \
     --values=kdp-dashboard.values.yaml
 ```
 
+### Deploy KDP AI Agent
+
+The KDP AI Agent is a backend service that powers AI-driven features in the KDP dashboard.
+It uses OpenAI to provide two capabilities: **spec generation**, which converts natural language prompts into properly structured Kubernetes resource YAML, and **UI schema generation**, which produces custom [RJSF](https://rjsf-team.github.io/react-jsonschema-form/) UI schemas that tailor the dashboard's resource creation forms based on a prompt.
+
+Before proceeding, ensure you have an OpenAI API key.
+
+Save the following content to a file named `ai-agent.values.yaml`:
+
+```yaml
+{{< readfile "developer-platform/setup/quickstart/data/ai-agent.values.yaml" >}}
+```
+
+Replace the following placeholder variables:
+
+- `<PULL_CREDENTIALS>`
+- `<DOMAIN>`
+- `<OIDC_CLIENT_SECRET>` (same value as in the Dex and Dashboard configuration)
+- `<OPENAI_API_KEY>`
+
+Deploy the AI Agent Helm chart:
+
+```bash
+helm registry login quay.io
+helm upgrade --install kdp-ai-agent \
+    oci://quay.io/kubermatic/helm-charts/developer-platform-ai-agent \
+    --version=0.9.0 \
+    --create-namespace \
+    --namespace=kdp-system \
+    --values=ai-agent.values.yaml
+```
+
+The AI Agent is served under the same domain as the dashboard (`dashboard.<DOMAIN>/ai-agent/`) to avoid CORS issues.
+The NGINX Ingress uses a regex path and rewrite rule to forward requests to the AI Agent service.
+
+{{% notice tip %}}
+**Gateway API alternative:** If you use a Gateway API controller, disable the AI Agent's built-in Ingress and create an `HTTPRoute` with a URL rewrite instead:
+
+```yaml
+# ai-agent.values.yaml
+aiAgent:
+  ingress:
+    create: false
+```
+
+Then add the following `HTTPRoute` alongside your existing Dex and Dashboard routes.
+Save the following content to a file named `ai-agent.http-route.yaml`:
+
+```yaml
+{{< readfile "developer-platform/setup/quickstart/data/ai-agent.http-route.yaml" >}}
+```
+
+Replace `<GATEWAY_NAMESPACE>` and `<DOMAIN>`, then apply:
+
+```bash
+kubectl apply -f ./ai-agent.http-route.yaml
+```
+
+This rewrites `/ai-agent/...` to `/...` before forwarding to the AI Agent service, matching the behavior of the NGINX rewrite rule.
+{{% /notice %}}
+
+For more details, see the [AI Agent documentation]({{< relref "../ai-agent" >}}).
+
 ### Configure DNS records
 
-In order to finalize the installation and make your KDP instance accessible, you must create four records in your DNS provider.
-These records point the hostnames you configured earlier to the correct load balancers of your Kubernetes cluster.
+In order to finalize the installation and make your KDP instance accessible, you must create four DNS records in your DNS provider.
+Each record points one of the hostnames you configured to the correct load balancer in your Kubernetes cluster.
 
-First, create three DNS records that direct traffic for the Dex login page (`login.<DOMAIN>`), the public API endpoint (`api.<DOMAIN>`), and the KDP dashboard (`dashboard.<DOMAIN>`) to your cluster's NGINX ingress controller.
+The following table summarizes the records:
 
-Assuming you installed the NGINX ingress controller into the `ingress-nginx` namespace, use the following command to the retrieve the external IP address or DNS name of the load balancer (in column "EXTERNAL-IP"):
+| Hostname             | Points to                       | Purpose                                                           |
+| -------------------- | ------------------------------- | ----------------------------------------------------------------- |
+| `login.<DOMAIN>`     | Ingress controller / Gateway LB | Dex identity provider login page                                  |
+| `api.<DOMAIN>`       | Ingress controller / Gateway LB | Public API endpoint (reverse proxy to kcp, used by the dashboard) |
+| `dashboard.<DOMAIN>` | Ingress controller / Gateway LB | KDP dashboard web interface                                       |
+| `internal.<DOMAIN>`  | kcp `LoadBalancer` service      | Direct kcp API access (used by kubectl and the api-syncagent)     |
+
+The first three records should all point to the same ingress controller or Gateway load balancer.
+If you use the **NGINX ingress controller**, retrieve its external IP or DNS name (assuming it's installed into the `ingress-nginx` namespace):
 
 ```bash
 kubectl --namespace=ingress-nginx get service ingress-nginx-controller
@@ -229,14 +380,30 @@ NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP           
 ingress-nginx-controller   LoadBalancer   10.47.248.232   4cdd93dfab834ed9a78858c7f2633380.eu-west-1.elb.amazonaws.com   80:30807/TCP,443:30184/TCP   449d
 ```
 
-Second, create a DNS record specifically for kcp (`internal.<DOMAIN>`) that points to the external IP address or DNS name of the dedicated load balancer for the kcp *Service*.
-Use the following command to the retrieve the external IP address or DNS name of kcp's load balancer:
+If you use a **Gateway API** controller instead, point `login.<DOMAIN>` and `dashboard.<DOMAIN>` to the external IP of your Gateway's load balancer service (e.g. `kubectl get service -n <gateway-namespace> <envoy-service>`).
+Note that `api.<DOMAIN>` is created as an NGINX Ingress by the KDP chart.
+If you are fully replacing NGINX Ingress with a Gateway API controller, you will need to disable the KDP chart's built-in Ingress (set `kdp.frontProxy.publicDomain` to empty) and create an additional Gateway listener and HTTPRoute for `api.<DOMAIN>` pointing to `kcp-front-proxy:8443`.
+
+The fourth record, `internal.<DOMAIN>`, points to kcp's dedicated `LoadBalancer` service (not the ingress controller).
+Use the following command to retrieve the external IP address or DNS name of kcp's load balancer:
 
 ```bash
 kubectl --namespace=kdp-system get service kcp-front-proxy
 NAME              TYPE           CLUSTER-IP      EXTERNAL-IP                                                    PORT(S)             AGE
 kcp-front-proxy   LoadBalancer   10.240.20.65    99f1093e45d6482d95a0c22c4a2bd056.eu-west-1.elb.amazonaws.com   8443:30295/TCP      381d
 ```
+
+### Verify the installation
+
+Before accessing the dashboard, verify that all components are running:
+
+```bash
+kubectl --namespace=kdp-system get pods
+```
+
+You should see pods for `dex`, `kcp`, `kdp-controller-manager`, `kdp-virtual-workspaces`, `kdp-dashboard`, and `kdp-ai-agent` in a **Running** state.
+The `kdp-bootstrap` job should show as **Completed**.
+If any pod is stuck in `CrashLoopBackOff` or `Pending`, inspect its logs with `kubectl --namespace=kdp-system logs <pod-name>` for troubleshooting.
 
 ### Access the dashboard
 
@@ -249,14 +416,22 @@ You will be redirected to the Dex login page and you can use the administrative 
 
 After logging in, you will be taken to the KDP dashboard, where you can begin exploring your platform. Welcome to KDP!
 
+## Next steps
+
+Now that your platform is running, here are a few things to try:
+
+- **Use kubectl with kcp**: Download a kubeconfig from the dashboard (available in the workspace context menu) or set one up manually using the [kcp kubectl plugin](https://docs.kcp.io/kcp/v0.30/concepts/kubectl-kcp-plugin/). See [kcp on the Command Line]({{< relref "../../tutorials/kcp-command-line" >}}) for a walkthrough.
+- **Create your first service**: Follow the [Your First Service]({{< relref "../../tutorials/your-first-service" >}}) tutorial to register a KDP Service and make custom APIs available to your users.
+- **Add users and configure RBAC**: Invite team members via the dashboard and set up roles. See [RBAC in KDP]({{< relref "../../platform-users/rbac" >}}) for details on the role propagation model.
+- **Set up the api-syncagent**: If you have external Kubernetes clusters with CRDs you want to expose in KDP, install the [api-syncagent]({{< relref "../../service-providers/api-syncagent" >}}) and define `PublishedResource` objects to start syncing.
+- **Monitor KDP**: The KDP exporter exposes Prometheus metrics on port 8385 and supports `ServiceMonitor` for Prometheus Operator. Enable it via `kdp.exporter.serviceMonitor.enabled: true` in the KDP Helm values.
+
 [cert-manager/docs/installation]: https://cert-manager.io/docs/installation/helm/
 [helm/docs/installation]: https://helm.sh/docs/intro/install/
 [ingress-nginx/docs/installation]: https://kubernetes.github.io/ingress-nginx/deploy/
+[gateway-api/docs]: https://gateway-api.sigs.k8s.io/
+[contour/docs]: https://projectcontour.io/docs/
+[envoy-gateway/docs]: https://gateway.envoyproxy.io/
 [k8s/docs/tools/installation]: https://kubernetes.io/docs/tasks/tools/#kubectl
 [kcp/chart/readme]: https://github.com/kcp-dev/helm-charts/tree/main/charts/kcp
 [kubelogin/src/readme]: https://github.com/int128/kubelogin
-
-
-### Extensions
-
-If you want to install the KDP AI Agent, which helps you generate yaml files for resources from descriptions in natural language, follow [these instructions](../ai-agent/_index.en.md).

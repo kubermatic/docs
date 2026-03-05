@@ -209,24 +209,73 @@ kubectl delete ingress -n dex dex
 
 To migrate from nginx-ingress-controller to Gateway API:
 
-**Step 1: Update your Helm values file**
+### Update Helm values file and KubermaticConfiguration
+
 ```yaml
 migrateGatewayAPI: true
+
+# Dex configurations for Gateway API mode
+# When migrateGatewayAPI is true, ingress must be disabled
+# and httpRoute must be configured with your domain
 dex:
   ingress:
-    enabled: true
+    enabled: false  # MUST be false when using Gateway API
+httpRoute:
+  gatewayName: kubermatic
+  gatewayNamespace: kubermatic
+  domain: "kkp.example.com"  # Replace with your domain
+  timeout: 3600s
+
+# cert-manager helm chart needs to be configured to work
+# with Gateway API resources.
+# Note: this is only needed if cert-manager is being used.
+cert-manager:
+  config:
+    apiVersion: controller.config.cert-manager.io/v1alpha1
+    kind: ControllerConfiguration
+    enableGatewayAPI: true
 ```
 
-**Step 2: Run the kubermatic-installer with the migration flag**
+If *cert-manager* is being used to provision certificates, a new feature flag is needed to allow
+cert-manager to provision certificates.
+In KubermaticConfiguration, set `HTTPRouteGatewaySync` feature gate to `true`, as follows:
+
+{{% notice note %}}
+
+The following feature gate is only needed if cert-manager is in use in order to manage TLS certificates.
+Please check [Automatic Certificate Provisioning](#automatic-certificate-provisioning) section for details about cert-manager migration.
+
+{{% /notice %}}
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  # simplified for brevity
+  #
+  # *add* the following feature gate to KubermaticConfiguration
+  featureGates:
+    HTTPRouteGatewaySync: true
+```
+
+In KubermaticConfiguration, under the `ingress` section, there is a `gateway` subsection where you can specify the GatewayClass to use.
+The default value is `kubermatic-envoy-gateway`, which corresponds to the GatewayClass installed by the Envoy Gateway chart.
+
+Most installations will not need to change this setting. However, if you have a custom GatewayClass or want to use a different implementation of Gateway API, you can specify it here.
+
+### Run the kubermatic-installer with the migration flag
 ```bash
-kubermatic-installer deploy master --migrate-gateway-api [other options]
+kubermatic-installer deploy kubermatic-master --migrate-gateway-api [other options]
 ```
 
 _Conditional step_, by default, `kubermatic-installer` automatically deletes the old Ingress resource after migration to prevent conflicts.
 If you want to skip this automatic cleanup (for example, to manually verify before cleanup), use the `--skip-ingress-cleanup` flag:
 
 ```bash
-kubermatic-installer deploy master --migrate-gateway-api --skip-ingress-cleanup [other options]
+kubermatic-installer deploy kubermatic-master --migrate-gateway-api --skip-ingress-cleanup [other options]
 ```
 
 When cleanup is skipped, both Ingress and Gateway resources will coexist. You can manually delete the Ingress resources to prevent routing conflicts:
@@ -237,7 +286,7 @@ kubectl delete ingress -n kubermatic kubermatic
 kubectl delete ingress -n dex dex
 ```
 
-**Step 3: Verify the migration**
+#### Verify the migration
 
 ```bash
 kubectl get gateway -n kubermatic -o yaml
@@ -271,64 +320,66 @@ Verify that everything works as before with the new DNS resolution.
 helm uninstall nginx-ingress-controller -n nginx-ingress-controller
 ```
 
-Please note that both `nginx-ingress-controller` and `envoy-gateway-controller` are running - so, if `nginx-ingress-controller` is not being used, consider uninstalling it.
+## Automatic Certificate Provisioning
 
-### Migration Workflow
+When using Gateway API with cert-manager, you can enable automatic certificate provisioning for KKP components such as Grafana, Dex, and Prometheus.
+This is handled by the HTTPRoute-Gateway sync controller, which watches HTTPRoutes and dynamically configures HTTPS listeners on the Gateway with explicit hostnames.
 
-For production environments where downtime must be minimized, we suggest adopting DNS cutover strategies.
-The following is an example scenario:
+### Background
 
-1. Lower DNS TTL,
-2. Wait for the old TTL to expire
-3. **Run migration with `--skip-ingress-cleanup`**:
+This controller is a workaround for a current limitation in cert-manager. cert-manager requires Gateway listeners to have explicit hostnames to automatically create Certificate resources.
+However, KKP uses a shared Gateway model where multiple HTTPRoutes from different namespaces attach to a single Gateway without explicit listener hostnames.
 
-```bash
-kubermatic-installer deploy master \
-   --config kubermaticConfiguration.yaml \
-   --migrate-gateway-api \
-   --skip-ingress-cleanup
+For more details on this constraint, see the upstream cert-manager issue: [cert-manager/cert-manager#7473](https://github.com/cert-manager/cert-manager/issues/7473).
+
+Once this issue is resolved by the cert-manager project, this controller will no longer be necessary; thus, this feature gate will be no-op once the upstream fix is released and stable.
+
+### How It Works
+
+cert-manager requires Gateway listeners to have explicit hostnames to automatically create Certificate resources.
+KKP uses a shared Gateway model where multiple HTTPRoutes from different namespaces attach to a single Gateway. The HTTPRoute-Gateway sync controller bridges this gap by:
+
+1. Watching HTTPRoutes in configured namespaces (default: `monitoring`, `mla`)
+2. Extracting unique hostnames from those HTTPRoutes
+3. Creating HTTPS listeners with explicit hostnames on the Gateway
+4. Referencing the expected certificate Secret for each listener
+
+This allows cert-manager to detect the listeners and automatically issue certificates for each hostname.
+
+
+### Certificate Naming Convention
+
+The controller uses a deterministic naming convention for certificates:
+
+- Certificate/Secret names follow the pattern: `<namespace>-<httproute-name>`
+- For example, an HTTPRoute named `grafana-iap` in the `mla` namespace creates a secret named `mla-grafana-iap`
+
+When multiple HTTPRoutes share the same hostname, the first HTTPRoute (sorted by namespace, then name) determines the certificate name.
+
+### Listener Naming Convention
+
+Dynamic HTTPS listeners are named based on the hostname:
+
+- Regular hostnames: sanitized version (e.g., `grafana-lab-kubermatic-io` for `grafana.lab.kubermatic.io`)
+- Wildcard hostnames: prefixed with `w-` (e.g., `w-example-com` for `*.example.com`)
+
+### Gateway Annotations
+
+The controller only processes the Gateway if it contains cert-manager annotations. 
+
+```yaml
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # or
+    cert-manager.io/issuer: my-issuer
 ```
 
-4. **Verify Gateway is ready**:
-```bash
-# Wait for Programmed: true
-kubectl get gateway -n kubermatic
-```
+### Limitations
 
-5. **Test the new Gateway directly** using its IP:
-```bash
-GATEWAY_IP=$(kubectl get gateway -n kubermatic -o jsonpath='{.status.addresses[0].value}')
-curl -k --resolve kkp.example.com:443:$GATEWAY_IP https://kkp.example.com/api/v1/projects
-```
-
-6. **Update DNS** to point to the new Gateway IP and wait for DNS propagation
-
-7. **Verify traffic flows through new Gateway**:
-
-```bash
-curl -k https://kkp.example.com/api/v1/projects
-```
-
-8. **Clean up old Ingress resources**:
-
-```bash
-kubectl delete ingress -n kubermatic kubermatic
-kubectl delete ingress -n dex dex
-```
-
-9. **Uninstall nginx-ingress-controller**:
-
-```bash
-helm uninstall nginx-ingress-controller -n nginx-ingress-controller
-```
-
-10. **Raise DNS TTL** back to normal (e.g., 3600 seconds)
-
-The Gateway API mode can be configured through the KubermaticConfiguration resource.
-Under the `ingress` section, there is a `gateway` subsection where you can specify the GatewayClass to use.
-The default value is `kubermatic-envoy-gateway`, which corresponds to the GatewayClass installed by the Envoy Gateway chart.
-
-Most installations will not need to change this setting. However, if you have a custom GatewayClass or want to use a different implementation of Gateway API, you can specify it here.
+- Maximum 64 listeners per Gateway (including core `http` and `https` listeners)
+- The controller preserves the core `http` and `https` listeners and only adds dynamic HTTPS listeners
+- If you reach the listener limit, the controller logs an error and stops adding new listeners
 
 ## Traffic Policy Configuration
 
@@ -347,9 +398,12 @@ The migration affects the following Ingress resources during migration:
 - Kubermatic Ingress (`kubermatic/kubermatic`): Migrated to Gateway and HTTPRoute resources
 - Dex Ingress (`dex/dex`): Deleted during migration to prevent conflicts
 
-Other components that use Ingress resources are not affected at this time. This includes MLA monitoring components and IAP components. These will continue to use Ingress resources even after you enable Gateway API mode.
+Components that use HTTPRoute resources (such as MLA monitoring components and IAP components) can leverage the HTTPRoute-Gateway sync controller for automatic certificate provisioning when the `HTTPRouteGatewaySync` feature gate is enabled.
+These components create HTTPRoute resources that attach to the shared Gateway, and the sync controller ensures the Gateway has the necessary HTTPS listeners for cert-manager.
 
-**Note**: Dex authentication is automatically migrated when you enable Gateway API mode. The Dex Helm chart creates an HTTPRoute resource instead of an Ingress resource when `migrateGatewayAPI: true` is set in the Helm values. This HTTPRoute references the Kubermatic Gateway, allowing Dex to remain accessible through the same domain.
+**Note**: Dex authentication is automatically migrated when you enable Gateway API mode.
+The Dex Helm chart creates an HTTPRoute resource instead of an Ingress resource when `migrateGatewayAPI: true` is set in the Helm values.
+This HTTPRoute references the Kubermatic Gateway, allowing Dex to remain accessible through the same domain.
 
 Ensure your Dex deployment includes the following configuration:
 
@@ -361,7 +415,7 @@ Ensure your Dex deployment includes the following configuration:
 
 To rollback to `nginx-ingress-controller`:
 
-**Step 1: Update Helm values**
+1. Update Helm values
 ```yaml
 # kubermatic-operator/values.yaml
 migrateGatewayAPI: false
@@ -372,9 +426,9 @@ dex:
     enabled: true
 ```
 
-**Step 2: Run installer without the migration flag**
+2. Run installer without the migration flag
 ```bash
-kubermatic-installer deploy master [other options]
+kubermatic-installer deploy kubermatic-master [other options]
 ```
 
 This will deploy `nginx-ingress-controller` (if it was uninstalled) and the operator will recreate the Ingress resource.
@@ -430,6 +484,41 @@ For routes that are not working as expected, verify that the Kubermatic namespac
 This label allows HTTPRoutes in that namespace to attach to the Gateway.
 
 You should also verify that the backend services exist and are healthy. The kubermatic-api and kubermatic-dashboard services should both be present in the Kubermatic namespace.
+
+### HTTPRoute-Gateway Sync Controller Issues
+
+If automatic certificate provisioning is not working, check the following:
+
+1. **Verify the feature gate is enabled**:
+```bash
+kubectl get deployment -n kubermatic kubermatic-master-controller-manager -o jsonpath='{.spec.template.spec.containers[0].args}' | grep HTTPRouteGatewaySync
+```
+Should show `--feature-gates=HTTPRouteGatewaySync=true`.
+
+2. **Check watched namespaces**:
+```bash
+kubectl get deployment -n kubermatic kubermatic-master-controller-manager -o jsonpath='{.spec.template.spec.containers[0].args}' | grep httproute-watch-namespaces
+```
+Verify that the namespaces containing your HTTPRoutes are in the list.
+
+3. **Verify Gateway has cert-manager annotations**:
+```bash
+kubectl get gateway -n kubermatic -o jsonpath='{.metadata.annotations}'
+```
+Should show either `cert-manager.io/cluster-issuer` or `cert-manager.io/issuer`.
+
+4. **Check HTTPRoute parent references**:
+```bash
+kubectl get httproute -n <namespace> <name> -o yaml
+```
+Verify that `spec.parentRefs` correctly references the Kubermatic Gateway.
+
+5. **Check controller logs**:
+```bash
+kubectl logs -n kubermatic -l app.kubermatic.io/component=master-controller-manager | grep -i kkp-httproute-gateway-sync
+```
+
+6. **Verify listener limit**: If you have many HTTPRoutes with unique hostnames, you may reach the 64 listener limit. Check the controller logs for "listener limit reached" errors.
 
 ## Quick Verification Commands
 
