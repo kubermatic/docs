@@ -304,7 +304,6 @@ spec:
               - kind: Gateway
                 name: kubermatic
                 namespace: kubermatic
-                sectionName: http
 ```
 
 The key differences are:
@@ -313,7 +312,6 @@ The key differences are:
 |---------|-------------|
 | `http01.ingress.ingressClassName: nginx` | `http01.gatewayHTTPRoute.parentRefs` with Gateway reference |
 | No namespace required | Gateway namespace required |
-| No listener reference required | `sectionName` must reference an HTTP listener on the Gateway |
 
 {{% notice warning %}}
 Gateway API does **not** support wildcard certificates with HTTP01 challenge. For wildcard certificates (e.g., `*.example.com`), you must use DNS01 challenge instead.
