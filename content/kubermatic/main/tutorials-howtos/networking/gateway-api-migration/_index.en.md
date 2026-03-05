@@ -74,17 +74,21 @@ When you enable the migration, the following sequence occurs:
 4. `kubermatic-installer` verifies that the Gateway is fully operational:
    - Gateway has valid addresses assigned
    - Gateway is in Programmed status
-   - All listeners are programmed
    - HTTPRoutes are attached to listeners
    This verification ensures the new Gateway is ready to serve traffic before proceeding.
 
-5. Once the Gateway is ready, the `kubermatic-installer` removes Ingress resources to prevent conflicts between the old Ingress and the new Gateway resources:
+5. Once the Gateway is ready, the `kubermatic-installer` removes Ingress resources to prevent conflicts between the old Ingress and the new Gateway resources (unless `--skip-ingress-cleanup` flag is specified in `kubermatic-installer`):
    - Deletes the Kubermatic Ingress resource (`kubermatic/kubermatic`)
    - Deletes the Dex Ingress resource (`dex/dex`) if it exists
 
-IMPORTANT: The installer does NOT uninstall the `nginx-ingress-controller` Helm release.
+{{% notice note %}}
+
+The kubermatic-installer does *NOT* uninstall the `nginx-ingress-controller` Helm release.
+
 After migration, both `nginx-ingress-controller` and `envoy-gateway-controller` will be running in your cluster.
 You must manually uninstall nginx-ingress-controller when you are ready. Only Ingress resources (`kubermatic/kubermatic` and `dex/dex`) are deleted.
+
+{{% /notice %}}
 
 ### The Operator Behavior
 
@@ -127,8 +131,6 @@ By default, the installer performs the following cleanup steps:
 1. **Verifies Gateway readiness**: When migrating to Gateway API, the installer waits up to 5 minutes for the Gateway to become fully operational before removing old resources. This verification includes:
    - Gateway has valid addresses assigned
    - Gateway is in Programmed status (confirming Envoy has successfully configured it)
-   - All Gateway listeners are programmed and ready
-   - At least one HTTPRoute is attached to each listener
 
 2. **Deletes Ingress resources**: When migrating to Gateway API, the installer deletes the following Ingress resources:
    - Kubermatic Ingress (`kubermatic/kubermatic`)
@@ -139,12 +141,17 @@ This cleanup prevents routing conflicts between old and new resources.
 You can control this behavior with the `--skip-ingress-cleanup` flag.
 When set, the installer will not try to delete old resources, allowing you to manually verify the migration before cleanup.
 
-**Important**: If you use `--skip-ingress-cleanup`, both Kubermatic and Dex Ingress resources will remain. You must manually delete them afterward:
+{{% notice note %}}
+
+If `--skip-ingress-cleanup` is set to true, both Kubermatic and Dex Ingress resources will remain along with HTTPRoutes.
+Those Ingress resources need to be deleted afterwards.
 
 ```bash
 kubectl delete ingress -n kubermatic kubermatic
 kubectl delete ingress -n dex dex
 ```
+
+{{% /notice %}}
 
 ## Migration Steps
 
@@ -177,16 +184,12 @@ cert-manager:
     enableGatewayAPI: true
 ```
 
-If *cert-manager* is being used to provision certificates, a new feature flag is needed to allow
-cert-manager to provision certificates.
-In KubermaticConfiguration, set `HTTPRouteGatewaySync` feature gate to `true`, as follows:
-
 {{% notice note %}}
 
-The following feature gate is only needed if cert-manager is in use in order to manage TLS certificates.
-Please check [Automatic Certificate Provisioning](#automatic-certificate-provisioning) section for details about cert-manager migration.
+If *cert-manager* is being used to provision certificates, a new feature gate, `HTTPRouteGatewaySync` is needed to allow
+cert-manager to provision certificates.
 
-{{% /notice %}}
+The `HTTPRouteGatewaySync` feature gate is only needed if the cert-manager is in use in order to manage TLS certificates.
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
@@ -202,10 +205,9 @@ spec:
     HTTPRouteGatewaySync: true
 ```
 
-In KubermaticConfiguration, under the `ingress` section, there is a `gateway` subsection where you can specify the GatewayClass to use.
-The default value is `kubermatic-envoy-gateway`, which corresponds to the GatewayClass installed by the Envoy Gateway chart.
+> Please check [Automatic Certificate Provisioning](#automatic-certificate-provisioning) section for details about cert-manager migration.
 
-Most installations will not need to change this setting. However, if you have a custom GatewayClass or want to use a different implementation of Gateway API, you can specify it here.
+{{% /notice %}}
 
 ### Run the kubermatic-installer with the migration flag
 ```bash
@@ -219,12 +221,9 @@ If you want to skip this automatic cleanup (for example, to manually verify befo
 kubermatic-installer deploy kubermatic-master --migrate-gateway-api --skip-ingress-cleanup [other options]
 ```
 
-When cleanup is skipped, both Ingress and Gateway resources will coexist. This is useful for zero-downtime migration with automatic fallback during DNS propagation.
+When cleanup is skipped, both Ingress and Gateway resources will coexist.
+This is useful for zero-downtime migration with automatic fallback during DNS propagation.
 
-```bash
-kubectl delete ingress -n kubermatic kubermatic
-kubectl delete ingress -n dex dex
-```
 #### Verify the migration
 
 ```bash
