@@ -260,6 +260,92 @@ helm uninstall nginx-ingress-controller -n nginx-ingress-controller
 When using Gateway API with cert-manager, you can enable automatic certificate provisioning for KKP components such as Grafana, Dex, and Prometheus.
 This is handled by the HTTPRoute-Gateway sync controller, which watches HTTPRoutes and dynamically configures HTTPS listeners on the Gateway with explicit hostnames.
 
+### ClusterIssuer Migration for HTTP01 Challenge
+
+If you use cert-manager with HTTP01 challenge, your existing ClusterIssuers need updates to work with Gateway API.
+The HTTP01 solver configuration changes from referencing `ingress` to referencing `gatewayHTTPRoute`.
+
+**Before (Ingress):**
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx
+```
+
+**After (Gateway API):**
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - kind: Gateway
+                name: kubermatic
+                namespace: kubermatic
+                sectionName: http
+```
+
+The key differences are:
+
+| Ingress | Gateway API |
+|---------|-------------|
+| `http01.ingress.ingressClassName: nginx` | `http01.gatewayHTTPRoute.parentRefs` with Gateway reference |
+| No namespace required | Gateway namespace required |
+| No listener reference required | `sectionName` must reference an HTTP listener on the Gateway |
+
+{{% notice warning %}}
+Gateway API does **not** support wildcard certificates with HTTP01 challenge. For wildcard certificates (e.g., `*.example.com`), you must use DNS01 challenge instead.
+{{% /notice %}}
+
+**DNS01 Challenge (unchanged):**
+
+If you use DNS01 challenge, no ClusterIssuer changes are required. The configuration remains the same:
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production-dns
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-dns-account-key
+    solvers:
+      - dns01:
+          route53:
+            region: eu-central-1
+            accessKeyIDSecretRef:
+              name: route53-credentials
+              key: access-key-id
+            secretAccessKeySecretRef:
+              name: route53-credentials
+              key: secret-access-key
+```
+
 ### Background
 
 This controller is a workaround for a current limitation in cert-manager. cert-manager requires Gateway listeners to have explicit hostnames to automatically create Certificate resources.
