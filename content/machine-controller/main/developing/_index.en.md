@@ -76,27 +76,36 @@ make e2e-test
 ```
 machine-controller/
 ├── cmd/                    # Main applications
-│   └── machine-controller/ # Controller binary
+│   ├── machine-controller/ # Controller binary
+│   └── webhook/            # Admission webhook
 ├── pkg/
-│   ├── apis/              # API definitions (CRDs)
-│   ├── cloudprovider/     # Cloud provider implementations
-│   │   ├── provider/      # Individual provider packages
+│   ├── admission/          # Admission handlers
+│   ├── cloudprovider/      # Cloud provider implementations
+│   │   ├── provider/       # Individual provider packages
 │   │   │   ├── aws/
 │   │   │   ├── azure/
 │   │   │   ├── hetzner/
 │   │   │   └── ...
-│   │   └── types/         # Common provider types
-│   ├── controller/        # Controller logic
-│   │   ├── machine/       # Machine controller
-│   │   ├── machineset/    # MachineSet controller
+│   │   └── types/          # Common provider types
+│   ├── controller/         # Controller logic
+│   │   ├── machine/        # Machine controller
+│   │   ├── machineset/     # MachineSet controller
 │   │   └── machinedeployment/ # MachineDeployment controller
-│   ├── sdk/               # SDK module
-│   └── providerconfig/    # Provider configuration utilities
-├── examples/              # Example manifests
-├── test/                  # Test suites
-│   ├── e2e/              # End-to-end tests
-│   └── tools/            # Test utilities
-└── Makefile              # Build automation
+│   ├── health/             # Health check utilities
+│   ├── migrations/         # Migration handlers
+│   ├── node/               # Node utilities
+│   └── rhsm/               # RHEL subscription manager
+├── sdk/                    # SDK module (separate Go module)
+│   ├── apis/               # API definitions (CRDs)
+│   ├── bootstrap/          # Bootstrap utilities
+│   ├── cloudprovider/      # Cloud provider interfaces
+│   ├── providerconfig/     # Provider configuration utilities
+│   └── userdata/           # User data generation
+├── examples/               # Example manifests
+├── test/                   # Test suites
+│   ├── e2e/               # End-to-end tests
+│   └── tools/             # Test utilities
+└── Makefile               # Build automation
 ```
 
 ## Adding a New Cloud Provider

@@ -129,7 +129,7 @@ cloudProviderSpec:
   # Custom image (optional)
   customImage: ""
   # e.g., "projects/PROJECT_ID/global/images/IMAGE_NAME"
-  # or "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
+  # or "projects/ubuntu-os-cloud/global/images/family/ubuntu-2404-lts"
   
   # Network configuration
   network: "default"
@@ -403,11 +403,11 @@ gcloud compute networks subnets update SUBNET_NAME \
 # List Ubuntu images
 gcloud compute images list \
   --project=ubuntu-os-cloud \
-  --filter="family:ubuntu-2204-lts" \
+  --filter="family:ubuntu-2404-lts" \
   --format="table(name,family,creationTimestamp)"
 
 # Use in MachineDeployment
-customImage: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
+customImage: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2404-lts"
 ```
 
 ### Find Flatcar Images

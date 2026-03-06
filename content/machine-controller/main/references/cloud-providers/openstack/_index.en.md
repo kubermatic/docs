@@ -41,7 +41,7 @@ tenantName: ""
 # tenant Id (deprecated, should use projectID)
 tenantID: ""
 # image to use
-image: "Ubuntu 18.04 amd64"
+image: "Ubuntu 24.04"
 # instance flavor
 flavor: ""
 # UUID of the server group
