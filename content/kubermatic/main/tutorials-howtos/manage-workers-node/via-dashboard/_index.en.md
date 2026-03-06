@@ -15,8 +15,11 @@ In the popup dialog you can now change the worker nodes.
 
 ![Machine deployment overview with opened edit modal](@/images/ui/md-edit-dialog1.png?height=350px&classes=shadow,border "Machine deployment overview with opened edit modal")
 
-## Edit Labels and Taints
+## Edit Labels, Taints and Annotations
 
 If you scroll down in the dialog, you can also edit node labels and taints.
 
 ![Machine deployment overview with opened edit modal](@/images/ui/md-edit-dialog2.png?height=350px&classes=shadow,border "Machine deployment overview with opened edit modal")
+
+
+![Machine deployment overview with opened edit modal](@/images/ui/md-edit-dialog3.png?height=350px&classes=shadow,border "Machine deployment overview with opened edit modal")

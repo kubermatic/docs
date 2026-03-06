@@ -52,7 +52,7 @@ The admin panel allows KKP administrators to manage the global settings that imp
 
 ### Manage Worker Nodes via the UI or the CLI
 
-Worker nodes can be managed [via the KKP web dashboard]({{< ref "./tutorials-howtos/manage-workers-node/via-ui/" >}}). Once you have installed kubectl, you can also manage them [via CLI]({{< ref "./tutorials-howtos/manage-workers-node/via-command-line" >}}) to automate the creation, deletion, and upgrade of nodes.
+Worker nodes can be managed [via the KKP web dashboard]({{< ref "./tutorials-howtos/manage-workers-node/via-dashboard/" >}}). Once you have installed kubectl, you can also manage them [via CLI]({{< ref "./tutorials-howtos/manage-workers-node/via-command-line" >}}) to automate the creation, deletion, and upgrade of nodes.
 
 ### Monitoring, Logging & Alerting
 
