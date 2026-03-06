@@ -132,10 +132,22 @@ In the popup you can then choose the number of nodes (replicas), kubelet version
 
 ## Edit the Machine Deployment
 
-To add or delete a worker node you can easily edit the machine deployment in your cluster. Navigate to the cluster overview, scroll down to `Machine Deployments` and click on the edit icon next to the machine deployment you want to edit:
+To modify an existing machine deployment, navigate to the cluster overview, scroll down to the `Machine Deployments` section and click the edit icon next to the machine deployment you want to edit:
 
 ![Machine deployment overview with highlighted edit button](images/machine-deployment-edit.png?classes=shadow,border "Machine deployment overview with highlighted edit button")
 
-In the popup dialog you can now in- or decrease the number of worker nodes which are managed by this machine deployment, as well as their operating system, used image etc.:
+The edit dialog allows you to adjust the following settings for your machine deployment:
 
-![Machine deployment overview with opened edit modal](images/machine-deployment-edit-dialog.png?classes=shadow,border "Machine deployment overview with opened edit modal")
+- **Replicas**: Increase or decrease the number of worker nodes managed by this machine deployment. If you have the [Cluster Autoscaler]({{< ref "../../tutorials-howtos/kkp-autoscaler/cluster-autoscaler/" >}}) enabled, scaling is handled automatically based on workload demand.
+- **Kubelet Version**: Update the kubelet version running on the worker nodes, for example when performing a rolling upgrade of your cluster.
+- **Operating System**: Change the operating system used for new worker nodes. See [Operating Systems Support]({{< ref "../../tutorials-howtos/kkp-os-support/" >}}) for the list of supported operating systems, and [Limit Allowed Operating Systems]({{< ref "../../tutorials-howtos/administration/limit-allowed-operating-systems/" >}}) to restrict available options.
+- **Machine Image**: Select or update the machine image (AMI, disk image, etc.) used by the cloud provider for provisioning nodes.
+- **Node Labels and Taints**: Assign [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) and [taints](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to control pod scheduling. For detailed instructions, see [Manage Worker Nodes via Dashboard]({{< ref "../../tutorials-howtos/manage-workers-node/via-dashboard/" >}}).
+
+![Machine deployment edit dialog – basic settings](images/machine-deployment-edit-dialog-v1.png?classes=shadow,border "Machine deployment edit dialog – basic settings")
+
+![Machine deployment edit dialog – advanced settings](images/machine-deployment-edit-dialog-v2.png?classes=shadow,border "Machine deployment edit dialog – advanced settings")
+
+{{% notice tip %}}
+You can also manage machine deployments via the command line. See [Manage Worker Nodes via CLI]({{< ref "../../tutorials-howtos/manage-workers-node/via-command-line/" >}}) for details.
+{{% /notice %}}
