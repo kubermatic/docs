@@ -8,31 +8,31 @@ The page provides an overview for the supported operating systems on various clo
 
 The following operating systems are currently supported by the default OperatingSystemProfiles:
 
-* Ubuntu 20.04 and 22.04
-* RHEL beginning with 8.0 (support is cloud provider-specific)
+* Ubuntu 24.04
+* RHEL 9.x (support is cloud provider-specific)
 * Flatcar (Stable channel)
-* Rocky Linux beginning with 8.0
-* Amazon Linux 2
+* Rocky Linux 9.x
 
 ## Operating System
 
-|                       | Ubuntu | Flatcar | Amazon Linux 2 | RHEL | Rocky Linux |
-| --------------------- | ------ | ------- | -------------- | ---- | ----------- |
-| AWS                   | ✓      | ✓       | ✓              | ✓    | ✓           |
-| Azure                 | ✓      | ✓       | x              | ✓    | ✓           |
-| DigitalOcean          | ✓      | x       | x              | x    | ✓           |
-| Google Cloud Platform | ✓      | ✓       | x              | x    | x           |
-| Hetzner               | ✓      | x       | x              | x    | ✓           |
-| KubeVirt              | ✓      | ✓       | x              | ✓    | ✓           |
-| Nutanix               | ✓      | x       | x              | x    | x           |
-| Openstack             | ✓      | ✓       | x              | ✓    | ✓           |
-| VMware Cloud Director | ✓      | ✓       | x              | x    | x           |
-| VSphere               | ✓      | ✓       | x              | ✓    | ✓           |
+|                       | Ubuntu | Flatcar | RHEL | Rocky Linux |
+| --------------------- | ------ | ------- | ---- | ----------- |
+| AWS                   | ✓      | ✓       | ✓    | ✓           |
+| Azure                 | ✓      | ✓       | ✓    | ✓           |
+| DigitalOcean          | ✓      | x       | x    | ✓           |
+| Google Cloud Platform | ✓      | ✓       | x    | x           |
+| Hetzner               | ✓      | x       | x    | ✓           |
+| KubeVirt              | ✓      | ✓       | ✓    | ✓           |
+| Nutanix               | ✓      | x       | x    | x           |
+| Openstack             | ✓      | ✓       | ✓    | ✓           |
+| VMware Cloud Director | ✓      | ✓       | x    | x           |
+| VSphere               | ✓      | ✓       | ✓    | ✓           |
 
 ## Kubernetes Versions
 
 Currently supported K8S versions are:
 
+- 1.35
 - 1.34
 - 1.33
 - 1.32
