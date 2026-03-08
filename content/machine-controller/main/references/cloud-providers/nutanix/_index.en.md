@@ -8,7 +8,7 @@ create `Machines`.
 
 ## Prerequisites
 
-The `nutanix` provider assumes several things to be pre-existing. You need:
+The `nutanix` provider assumes several things to be preexisting. You need:
 
 - Credentials and access information for a Nutanix Prism Central instance (endpoint, port, username
   and password).

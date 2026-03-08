@@ -28,21 +28,21 @@ these migrations.
 In the following table you can find the supported Kubernetes versions for the
 current KKP version.
 
-| KKP version          | 1.35 |  1.34 |1.33 | 1.32 | 1.31[^2] | 1.30[^2]  |
-| -------------------- | -----|-----|-----|-----| ---- | ---- |
-| 2.30.x               | ✓    | ✓    |  ✓    |  ✓   | --    | --    |
-| 2.29.x               | --   | ✓    |  ✓    |  ✓   | ✓    | --    |
-| 2.28.x               | --   | --   | ✓    |  ✓    |  ✓   | ✓    |
+| KKP version          | 1.35 | 1.34 | 1.33 | 1.32 | 1.31 | 1.30 |
+| -------------------- | ---- | ---- | ---- | ---- | ---- | ---- |
+| 2.30.x               | ✓    | ✓    | ✓    | ✓    | --   | --   |
+| 2.29.x               | --   | ✓    | ✓    | ✓    | ✓    | --   |
+| 2.28.x               | --   | --   | ✓    | ✓    | ✓    | ✓    |
 
-[^2]: Kubernetes releases below version 1.31 have reached End-of-Life (EOL). We strongly
+[^2]: Kubernetes releases below version 1.32 have reached End-of-Life (EOL). We strongly
 recommend upgrading to a supported Kubernetes release as soon as possible. Refer to the
 [Kubernetes website](https://kubernetes.io/releases/) for more information on the supported
 releases.
 
 Upgrades from a previous Kubernetes version are generally supported whenever a version is
-marked as supported, for example KKP 2.28 supports updating clusters from Kubernetes 1.32 to 1.33.
+marked as supported, for example KKP 2.29 supports updating clusters from Kubernetes 1.32 to 1.33.
 
 ## Provider Incompatibilities
 
 KKP may have incompatibilities with cloud providers, e.g. because their in-tree cloud provider
-implementation has been removed from upstream Kubernetes. For KKP 2.27.x, no provider incompatibilities exist.
+implementation has been removed from upstream Kubernetes. For KKP 2.30.x, no provider incompatibilities exist.

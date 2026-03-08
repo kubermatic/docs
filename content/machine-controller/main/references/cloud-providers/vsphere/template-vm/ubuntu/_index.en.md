@@ -8,7 +8,7 @@ This guide describes how to create a template VM for vSphere running Ubuntu.
 The template VM is supposed to be compatible with Terraform, machine-controller,
 KubeOne and KKP.
 
-This guide has been tested with Ubuntu 22.04 and vSphere 7.0. Using other
+This guide has been tested with Ubuntu 24.04 and vSphere 7.0. Using other
 versions of Ubuntu and/or vSphere might require some adjustments to the guide.
 Concretely speaking, older Ubuntu versions might come with cloud-init not
 compatible with vSphere and vApp. This might require taking addition steps to
@@ -40,7 +40,7 @@ export GOVC_INSECURE=false # set to true if you don't have a valid/trusted certi
 export GOVC_DATASTORE="<datastore-name>"
 ```
 
-## Downloading an Ubuntu 22.04 VM
+## Downloading an Ubuntu 24.04 VM
 
 Ubuntu has dedicated [cloud images] built to be used on cloud platforms and
 hypervisors such as vSphere. We'll use an OVA cloud image because it provides
@@ -48,16 +48,16 @@ the best compatibility with vSphere. OVA provides preinstalled Ubuntu VM that
 can be uploaded to vSphere and used as such. That being said, you don't need
 to install Ubuntu manually, that's already done for you.
 
-The [following directory on the cloud images website][cloud-images-jammy]
-contains the latest images for Ubuntu 22.04 (Jammy Jellyfish). Find and download
+The [following directory on the cloud images website][cloud-images-noble]
+contains the latest images for Ubuntu 24.04 (Noble Numbat). Find and download
 an OVA image from that directory or use the `curl` command below. The image
-should be named something like `jammy-server-cloudimg-amd64.ova`. It's
+should be named something like `noble-server-cloudimg-amd64.ova`. It's
 recommended to verify checksums, but we'll omit that because of brevity.
 
 You can download the image using curl:
 
 ```shell
-curl -LO https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.ova
+curl -LO https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.ova
 ```
 
 ## Preparing Configuration for the VM
@@ -70,7 +70,7 @@ The easiest way to extract the config is using `govc`. The following command
 will save the VM config to a file called `config.json`:
 
 ```shell
-govc import.spec jammy-server-cloudimg-amd64.ova > config.json
+govc import.spec noble-server-cloudimg-amd64.ova > config.json
 ```
 
 Edit the `config.json` file in a text editor of your choice:
@@ -125,13 +125,13 @@ That can be done using `govc` or via vCenter. We'll use `govc` for purposes
 of this guide:
 
 ```bash
-govc import.ova --options config.json jammy-server-cloudimg-amd64.ova
+govc import.ova --options config.json noble-server-cloudimg-amd64.ova
 ```
 
 That might take a few minutes depending on your internet connection speed.
 After upload is done, you should be able to see a newly-created VM in the
 vCenter. Note the VM name as we will use it later — it should be something
-along `jammy-server-cloudimg-amd64`.
+along `noble-server-cloudimg-amd64`.
 
 Once the VM is uploaded, you'll need to upgrade the VM compatibility to version
 15 or newer (it's recommended to use the latest version). Go to vCenter, find
@@ -264,7 +264,7 @@ The VM configuration is now completely done and the VM can be used as a
 template VM for both Terraform and machine-controller.
 
 [cloud images]: https://cloud-images.ubuntu.com/
-[cloud-images-jammy]: https://cloud-images.ubuntu.com/jammy/current/
+[cloud-images-noble]: https://cloud-images.ubuntu.com/noble/current/
 
 ## Known Issues
 

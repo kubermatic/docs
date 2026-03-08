@@ -1343,15 +1343,16 @@ _Appears in:_
 
 
 
-
+ApplicationCatalogLimit defines filtering criteria for ApplicationDefinitions.
+Deprecated: This type is deprecated and serves no purpose. It is preserved for backward compatibility.
 
 _Appears in:_
 - [CatalogManagerConfiguration](#catalogmanagerconfiguration)
 
 | Field | Description |
 | --- | --- |
-| `metadataSelector` _[ApplicationDefinitionMetadataSelector](#applicationdefinitionmetadataselector)_ | {{< unsafe >}}MetadataSelector defines criteria for selecting ApplicationDefinitions based on their metadata attributes.<br />For example, to select ApplicationDefinitions with a specific support tier (e.g., 'gold'),<br />specify that tier here.<br />When multiple tiers are specified, the Application Catalog Manager uses additive logic<br />to determine which ApplicationDefinitions to retrieve from the OCI registry.{{< /unsafe >}} |
-| `nameSelector` _string array_ | {{< unsafe >}}NameSelector defines criteria for selecting ApplicationDefinitions by name.<br />Each name must correspond to an ApplicationDefinition's `metadata.name` field.<br />When multiple names are specified, the Application Catalog Manager uses additive logic<br />to retrieve all matching ApplicationDefinitions from the OCI registry.<br />Example: Specifying ['nginx', 'cert-manager'] will retrieve only those specific ApplicationDefinitions.{{< /unsafe >}} |
+| `metadataSelector` _[ApplicationDefinitionMetadataSelector](#applicationdefinitionmetadataselector)_ | {{< unsafe >}}MetadataSelector defines criteria for selecting ApplicationDefinitions based on their metadata attributes.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
+| `nameSelector` _string array_ | {{< unsafe >}}NameSelector defines criteria for selecting ApplicationDefinitions by name.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -1362,14 +1363,15 @@ _Appears in:_
 
 
 
-
+ApplicationDefinitionMetadataSelector defines metadata-based selection criteria for ApplicationDefinitions.
+Deprecated: This type is deprecated and serves no purpose. It is preserved for backward compatibility.
 
 _Appears in:_
 - [ApplicationCatalogLimit](#applicationcataloglimit)
 
 | Field | Description |
 | --- | --- |
-| `tiers` _string array_ | {{< unsafe >}}Tiers specifies the support tiers to filter ApplicationDefinitions.<br />ApplicationDefinitions matching any of the specified tiers will be selected.{{< /unsafe >}} |
+| `tiers` _string array_ | {{< unsafe >}}Tiers specifies the support tiers to filter ApplicationDefinitions.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -1389,7 +1391,7 @@ _Appears in:_
 | --- | --- |
 | `systemApplications` _[SystemApplicationsSettings](#systemapplicationssettings)_ | {{< unsafe >}}SystemApplications contains configuration for system applications.{{< /unsafe >}} |
 | `defaultApplicationCatalog` _[DefaultApplicationCatalogSettings](#defaultapplicationcatalogsettings)_ | {{< unsafe >}}DefaultApplicationCatalog contains configuration for the default application catalog.{{< /unsafe >}} |
-| `catalogManager` _[CatalogManagerConfiguration](#catalogmanagerconfiguration)_ | {{< unsafe >}}CatalogManager configures the Application Catalog CatalogManager, which is responsible for managing ApplicationDefinitions<br />in the cluster from specified OCI registries.<br />Note: The Application Catalog CatalogManager requires its feature flag to be enabled as it is currently in beta.{{< /unsafe >}} |
+| `catalogManager` _[CatalogManagerConfiguration](#catalogmanagerconfiguration)_ | {{< unsafe >}}CatalogManager configures the Application Catalog Manager, which is responsible for managing ApplicationDefinitions<br />from ApplicationCatalog custom resources.<br />When the ExternalApplicationCatalogManager feature gate is enabled, KKP deploys the application-catalog-manager<br />and application-catalog-webhook, which work together to reconcile ApplicationDefinition CRs from ApplicationCatalog CRs.<br />Note: The Application Catalog Manager requires its feature flag to be enabled.<br />Once the ExternalApplicationCatalogManager feature gate is enabled,<br />kubermaticconfiguration.spec.applications.defaultApplicationCatalog field becomes no-op,<br />as the responsibility of ApplicationDefinitions is delegated to the new ApplicationCatalog Cr.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -1832,12 +1834,15 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `logLevel` _string_ | {{< unsafe >}}LogLevel specifies the logging verbosity level for the Application Catalog Manager.{{< /unsafe >}} |
-| `registrySettings` _[RegistrySettings](#registrysettings)_ | {{< unsafe >}}RegistrySettings configures the OCI registry from which the Application Catalog Manager<br />retrieves ApplicationDefinition manifests.{{< /unsafe >}} |
-| `limit` _[ApplicationCatalogLimit](#applicationcataloglimit)_ | {{< unsafe >}}Limit defines filtering criteria for ApplicationDefinitions to be reconciled from the OCI registry.<br />When undefined, all ApplicationDefinitions from the registry are pulled and reconciled.<br />When defined, only ApplicationDefinitions matching the specified criteria are processed.{{< /unsafe >}} |
+| `logLevel` _string_ | {{< unsafe >}}LogLevel specifies the logging verbosity level for the application-catalog manager.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
+| `registrySettings` _[RegistrySettings](#registrysettings)_ | {{< unsafe >}}RegistrySettings configures the OCI registry from which ApplicationDefinition manifests are retrieved.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
+| `limit` _[ApplicationCatalogLimit](#applicationcataloglimit)_ | {{< unsafe >}}Limit defines filtering criteria for ApplicationDefinitions to be reconciled.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.<br />Deprecated: This field is deprecated. Use ManagerSettings.Resources instead.{{< /unsafe >}} |
 | `image` _[CatalogManagerImageConfiguration](#catalogmanagerimageconfiguration)_ | {{< unsafe >}}Image configures the container image for the application-catalog manager.{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `apps` _string array_ | {{< unsafe >}}Apps is a list of application definition names that should be installed in the master cluster.<br />If not set, all the applications from the catalog are installed.{{< /unsafe >}} |
 | `reconciliationInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#duration-v1-meta)_ | {{< unsafe >}}ReconciliationInterval is the interval at which application-catalog manager reconcile ApplicationDefinitions.<br />By default, ApplicationsDefinitions are reconciled at every 10 minutes.<br />Setting a value equal to 0 disables the force reconciliation of the default Application Catalog.{{< /unsafe >}} |
+| `managerSettings` _[CatalogManagerSettings](#catalogmanagersettings)_ | {{< unsafe >}}ManagerSettings configures the application-catalog manager deployment settings.{{< /unsafe >}} |
+| `webhookSettings` _[CatalogWebhookSettings](#catalogwebhooksettings)_ | {{< unsafe >}}WebhookSettings configures the application-catalog webhook deployment settings.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -1857,6 +1862,48 @@ _Appears in:_
 | --- | --- |
 | `repository` _string_ | {{< unsafe >}}Repository is used to override the application-catalog manager image repository.<br />The default value is "quay.io/kubermatic/application-catalog-manager"{{< /unsafe >}} |
 | `tag` _string_ | {{< unsafe >}}Tag is used to override the application-catalog manager image tag.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### CatalogManagerSettings
+
+
+
+CatalogManagerSettings configures the application-catalog manager deployment.
+This component reconciles ApplicationDefinition CRs from ApplicationCatalog CRs
+when the ExternalApplicationCatalogManager feature gate is enabled.
+
+_Appears in:_
+- [CatalogManagerConfiguration](#catalogmanagerconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage for application-catalog manager deployment.{{< /unsafe >}} |
+| `logLevel` _string_ | {{< unsafe >}}LogLevel specifies the logging verbosity level for the application-catalog manager.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### CatalogWebhookSettings
+
+
+
+CatalogWebhookSettings configures the application-catalog webhook deployment.
+This component validates and mutates ApplicationCatalog and ApplicationDefinition CRs
+when the ExternalApplicationCatalogManager feature gate is enabled.
+
+_Appears in:_
+- [CatalogManagerConfiguration](#catalogmanagerconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage for application-catalog webhook deployment.{{< /unsafe >}} |
+| `logLevel` _string_ | {{< unsafe >}}LogLevel specifies the logging verbosity level for the application-catalog webhook.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -3017,6 +3064,7 @@ _Appears in:_
 | `customNetworkPolicies` _[CustomNetworkPolicy](#customnetworkpolicy) array_ | {{< unsafe >}}Optional: CustomNetworkPolicies allows to add some extra custom NetworkPolicies, that are deployed<br />in the dedicated infra KubeVirt cluster. They are added to the defaults.{{< /unsafe >}} |
 | `images` _[KubeVirtImageSources](#kubevirtimagesources)_ | {{< unsafe >}}Images represents standard VM Image sources.{{< /unsafe >}} |
 | `infraStorageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | {{< unsafe >}}Optional: InfraStorageClasses contains a list of KubeVirt infra cluster StorageClasses names<br />that will be used to initialise StorageClasses in the tenant cluster.<br />In the tenant cluster, the created StorageClass name will have as name:<br />kubevirt-<infra-storageClass-name>{{< /unsafe >}} |
+| `infraVolumeSnapshotClasses` _[KubeVirtInfraVolumeSnapshotClass](#kubevirtinfravolumesnapshotclass) array_ | {{< unsafe >}}Optional: InfraVolumeSnapshotClasses contains a list of KubeVirt infra cluster VolumeSnapshotClasses names used<br />to initialise VolumeSnapshotClasses in the tenant cluster.{{< /unsafe >}} |
 | `providerNetwork` _[ProviderNetwork](#providernetwork)_ | {{< unsafe >}}Optional: ProviderNetwork describes the infra cluster network fabric that is being used{{< /unsafe >}} |
 | `ccmZoneAndRegionEnabled` _boolean_ | {{< unsafe >}}Optional: indicates if region and zone labels from the cloud provider should be fetched.{{< /unsafe >}} |
 | `ccmLoadBalancerEnabled` _boolean_ | {{< unsafe >}}Optional: indicates if the ccm should create and manage the clusters load balancers.{{< /unsafe >}} |
@@ -4681,6 +4729,27 @@ _Appears in:_
 
 
 
+### KubeVirtInfraVolumeSnapshotClass
+
+
+
+
+
+_Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
+- [KubevirtCloudSpec](#kubevirtcloudspec)
+
+| Field | Description |
+| --- | --- |
+| `infraVolumeSnapshotClass` _string_ | {{< unsafe >}}InfraVolumeSnapshotClass of the volume snapshot class to use on the infrastructure cluster.{{< /unsafe >}} |
+| `isDefaultClass` _boolean_ | {{< unsafe >}}Optional: IsDefaultClass. If true, the created VolumeSnapshotClass in the tenant cluster will be annotated with:<br />snapshot.storage.kubernetes.io/is-default-class: true<br />If missing or false, annotation will be:<br />snapshot.storage.kubernetes.io/is-default-class: false{{< /unsafe >}} |
+| `deletionPolicy` _string_ | {{< unsafe >}}Optional: DeletionPolicy defines how the VolumeSnapshotClass should be deleted. Defaults to Delete.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### KubeVirtVolumeProvisioner
 
 _Underlying type:_ `string`
@@ -5258,6 +5327,7 @@ _Appears in:_
 | `preAllocatedDataVolumes` _[PreAllocatedDataVolume](#preallocateddatavolume) array_ | {{< unsafe >}}Custom Images are a good example of this use case.{{< /unsafe >}} |
 | `infraStorageClasses` _string array_ | {{< unsafe >}}Deprecated: in favor of StorageClasses.<br />InfraStorageClasses is a list of storage classes from KubeVirt infra cluster that are used for<br />initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks){{< /unsafe >}} |
 | `storageClasses` _[KubeVirtInfraStorageClass](#kubevirtinfrastorageclass) array_ | {{< unsafe >}}StorageClasses is a list of storage classes from KubeVirt infra cluster that are used for<br />initialization of user cluster storage classes by the CSI driver kubevirt (hot pluggable disks.<br />It contains also some flag specifying which one is the default one.{{< /unsafe >}} |
+| `volumeSnapshotClasses` _[KubeVirtInfraVolumeSnapshotClass](#kubevirtinfravolumesnapshotclass) array_ | {{< unsafe >}}VolumeSnapshotClasses defines a list of volume snapshot classes for the infrastructure cluster.{{< /unsafe >}} |
 | `imageCloningEnabled` _boolean_ | {{< unsafe >}}ImageCloningEnabled flag enable/disable cloning for a cluster.{{< /unsafe >}} |
 | `vpcName` _string_ | {{< unsafe >}}VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt.{{< /unsafe >}} |
 | `subnetName` _string_ | {{< unsafe >}}SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).{{< /unsafe >}} |
@@ -6803,16 +6873,17 @@ _Appears in:_
 
 
 
-
+RegistryCredentials holds authentication credentials for Helm registry.
+Deprecated: This type is deprecated and serves no purpose. It is preserved for backward compatibility.
 
 _Appears in:_
 - [RegistrySettings](#registrysettings)
 
 | Field | Description |
 | --- | --- |
-| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#secretkeyselector-v1-core)_ | {{< unsafe >}}Username references the secret containing the registry username credential.<br />The referenced Secret must exist in the KKP installation namespace (default: "kubermatic").{{< /unsafe >}} |
-| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#secretkeyselector-v1-core)_ | {{< unsafe >}}Password references the secret containing the registry password credential.<br />The referenced Secret must exist in the KKP installation namespace (default: "kubermatic").{{< /unsafe >}} |
-| `registryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#secretkeyselector-v1-core)_ | {{< unsafe >}}RegistryConfigFile references the secret containing the Docker registry configuration file.<br />The value must be a dockercfg file following the same format as ~/.docker/config.json.<br />The referenced Secret must exist in the KKP installation namespace (default: "kubermatic").{{< /unsafe >}} |
+| `username` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#secretkeyselector-v1-core)_ | {{< unsafe >}}Username references the secret containing the registry username credential.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
+| `password` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#secretkeyselector-v1-core)_ | {{< unsafe >}}Password references the secret containing the registry password credential.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
+| `registryConfigFile` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#secretkeyselector-v1-core)_ | {{< unsafe >}}RegistryConfigFile references the secret containing the Docker registry configuration file.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6823,16 +6894,17 @@ _Appears in:_
 
 
 
-
+RegistrySettings configures the OCI registry from which ApplicationDefinitions are retrieved.
+Deprecated: This type is deprecated and serves no purpose. It is preserved for backward compatibility.
 
 _Appears in:_
 - [CatalogManagerConfiguration](#catalogmanagerconfiguration)
 
 | Field | Description |
 | --- | --- |
-| `registryURL` _string_ | {{< unsafe >}}RegistryURL specifies the OCI registry URL where ApplicationDefinitions are stored.<br />Example: oci://localhost:5000/myrepo{{< /unsafe >}} |
-| `tag` _string_ | {{< unsafe >}}Tag specifies the version tag for ApplicationDefinitions in the OCI registry.<br />Example: v1.0.0{{< /unsafe >}} |
-| `credentials` _[RegistryCredentials](#registrycredentials)_ | {{< unsafe >}}Credentials optionally references a secret containing Helm registry authentication credentials.<br />Either username/password or registryConfigFile can be specified, but not both.{{< /unsafe >}} |
+| `registryURL` _string_ | {{< unsafe >}}RegistryURL specifies the OCI registry URL where ApplicationDefinitions are stored.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
+| `tag` _string_ | {{< unsafe >}}Tag specifies the version tag for ApplicationDefinitions in the OCI registry.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
+| `credentials` _[RegistryCredentials](#registrycredentials)_ | {{< unsafe >}}Credentials optionally references a secret containing Helm registry authentication credentials.<br />Deprecated: This field is deprecated and serves no purpose. It is preserved for backward compatibility.{{< /unsafe >}} |
 
 
 [Back to top](#top)
