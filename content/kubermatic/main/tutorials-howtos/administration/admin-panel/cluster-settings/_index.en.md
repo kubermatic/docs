@@ -15,6 +15,7 @@ can influence cluster creation, management and cleanup after deletion.
 - [Machine Deployment](#machine-deployment)
 - [Static Labels](#static-labels)
 - [Annotation Settings](#annotation-settings)
+- [EventRateLimit Configuration](#eventratelimit-configuration)
 
 ### Cleanup on Cluster Deletion
 
@@ -58,6 +59,25 @@ Annotation settings provide an easy way to control annotations that are shown an
 
 - **Hidden annotations**: These annotations will not be shown to the user.
 - **Protected annotations**: These annotations will be shown to the user, but they will not be able to modify them.
+
+### EventRateLimit Configuration
+
+EventRateLimit configuration allows cluster administrators to set default event rate limit values for any combination of the four supported event rate limit types: `Server` (cluster-wide), `Namespace` (per-namespace), `User` (per-user), and `SourceAndObject` (per-source and object). Admins can select which limit types to configure and set their respective values.
+
+![Event Rate Limit](images/event-rate-limit-admin.png?classes=shadow,border)
+
+
+For each selected event rate limit type, the configuration provides two options:
+
+- **Default**: When enabled, the configured values will be used as defaults for new user clusters, but users can modify them.
+- **Enforce**: When enabled, the configured values will be applied and locked, preventing users from modifying these settings.
+
+For each limit type, admins can specify:
+
+- **QPS**: Queries per second limit (default: `50`)
+- **Burst**: Maximum events per second (default: `100`)
+- **Cache Size**: Number of cached buckets (default: `4096`)
+
 
 ## Limits
 

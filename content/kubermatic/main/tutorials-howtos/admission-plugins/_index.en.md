@@ -52,7 +52,7 @@ Every pod in the `development` namespace will inherit the `clusterDefaultNodeSel
 
 ### EventRateLimit Configuration
 
-[EventRateLimit](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit) is an admission plugin that sets up limits for `Events` being published to the Kubernetes API. KKP supports setting up limits on a per-namespace basis so no namespace can overwhelm the Kubernetes API with a high number of events.
+[EventRateLimit](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#eventratelimit) is an admission plugin that sets up limits for `Events` being published to the Kubernetes API. from Version 2.30 KKP supports all four event rate limit types: `Server` (cluster-wide), `Namespace` (per-namespace), `User` (per-user), and `SourceAndObject` (per-source and object), allowing for comprehensive event rate limiting across your cluster.
 
 Selecting the `EventRateLimit` plugin expands an additional view for the plugin-specific configuration.
 
@@ -60,9 +60,13 @@ Selecting the `EventRateLimit` plugin expands an additional view for the plugin-
 
 The available fields for the configuration are:
 
-- **QPS**: The allowed "queries per second". This determines whether an incoming `Event` request is allowed or not for the respective bucket (in this case, buckets are created per namespace) within one second if the burst budget is exhausted. Unused QPS are added to the burst budget. Defaults to `50`.
+- **QPS**: The allowed "queries per second". This determines whether an incoming `Event` request is allowed or not within one second if the burst budget is exhausted. Unused QPS are added to the burst budget. Defaults to `50`.
 - **Burst**: The maximum allowed events created within a second. Once the burst budget is exhausted, the QPS determine whether an `Event` is accepted or not. Each second, the unused QPS are added back to the budget, up to the limit set by this field. Defaults to `100`.
 - **Cache Size**: The number of buckets that are stored in an LRU cache. If a bucket is removed from the cache because it is not used for any request, the next request for it will reset the bucket's burst budget and add it back to the LRU cache. Defaults to `4096`.
+
+Cluster administrators can now manage these event rate limit values globally and set default values for each limit type, enabling flexible and consistent event rate limit enforcement across your cluster.
+
+For more information on configuring default and enforced EventRateLimit values from the admin panel, see [EventRateLimit Configuration]({{< relref \"../administration/admin-panel/cluster-settings/#eventratelimit-configuration\" >}}) in the Admin Panel documentation.
 
 ## Custom Admission Plugins
 
