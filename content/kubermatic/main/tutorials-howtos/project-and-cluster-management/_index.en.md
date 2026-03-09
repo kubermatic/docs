@@ -136,17 +136,9 @@ To modify an existing machine deployment, navigate to the cluster overview, scro
 
 ![Machine deployment overview with highlighted edit button](images/machine-deployment-edit.png?classes=shadow,border "Machine deployment overview with highlighted edit button")
 
-The edit dialog allows you to adjust the following settings for your machine deployment:
+In the popup dialog you can adjust various settings of your machine deployment, such as the number of worker nodes, operating system, machine image, and more:
 
-- **Replicas**: Increase or decrease the number of worker nodes managed by this machine deployment. If you have the [Cluster Autoscaler]({{< ref "../../tutorials-howtos/kkp-autoscaler/cluster-autoscaler/" >}}) enabled, scaling is handled automatically based on workload demand.
-- **Kubelet Version**: Update the kubelet version running on the worker nodes, for example when performing a rolling upgrade of your cluster.
-- **Operating System**: Change the operating system used for new worker nodes. See [Operating Systems Support]({{< ref "../../tutorials-howtos/kkp-os-support/" >}}) for the list of supported operating systems, and [Limit Allowed Operating Systems]({{< ref "../../tutorials-howtos/administration/limit-allowed-operating-systems/" >}}) to restrict available options.
-- **Machine Image**: Select or update the machine image (AMI, disk image, etc.) used by the cloud provider for provisioning nodes.
-- **Node Labels and Taints**: Assign [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) and [taints](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to control pod scheduling. For detailed instructions, see [Manage Worker Nodes via Dashboard]({{< ref "../../tutorials-howtos/manage-workers-node/via-dashboard/" >}}).
-
-![Machine deployment edit dialog – basic settings](images/machine-deployment-edit-dialog-v1.png?classes=shadow,border "Machine deployment edit dialog – basic settings")
-
-![Machine deployment edit dialog – advanced settings](images/machine-deployment-edit-dialog-v2.png?classes=shadow,border "Machine deployment edit dialog – advanced settings")
+![Machine deployment edit dialog](images/machine-deployment-edit-dialog.png?classes=shadow,border "Machine deployment edit dialog")
 
 {{% notice tip %}}
 You can also manage machine deployments via the command line. See [Manage Worker Nodes via CLI]({{< ref "../../tutorials-howtos/manage-workers-node/via-command-line/" >}}) for details.
