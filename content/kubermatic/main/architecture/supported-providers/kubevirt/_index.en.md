@@ -105,6 +105,9 @@ We allow to configure:
     - `infra-csi-driver` - When set in the infraStorageClass, the storage class can be listed in the UI while creating the machine deployments and won't be available in the user cluster.
     - `kubevirt-csi-driver` - When set in the infraStorageClass, the storage class won't be listed in the UI and will be available in the user cluster.
   - `zones` - Represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones for increased availability.
+  - `infraVolumeSnapshotClass` - Name of the `VolumeSnapshotClass` from the KubeVirt infrastructure cluster.
+  - `isDefaultClass` - Optional. If set to `true`, the corresponding class in user clusters is annotated as default. Defaults to `false`.
+  - `deletionPolicy` - Optional. Deletion policy set on the corresponding class in user clusters. Defaults to `Delete`.
 - `namespacedMode(experimental)` - Represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
 - `vmEvictionStrategy` - Indicates the strategy to follow when a node drain occurs. If not set the default value is External and the VM will be protected by a PDB. Currently, we only support two strategies, `External` or `LiveMigrate`.
   - `LiveMigrate`: the VirtualMachineInstance will be migrated instead of being shutdown.
@@ -116,6 +119,10 @@ We allow to configure:
 
 {{% notice note %}}
 The `infraStorageClasses` pass names of KubeVirt storage classes that can be used from user clusters.
+{{% /notice %}}
+
+{{% notice note %}}
+For each entry in `infraVolumeSnapshotClasses`, KKP creates a corresponding `VolumeSnapshotClass` in every user cluster of that KubeVirt datacenter.
 {{% /notice %}}
 
 {{% notice warning %}}
@@ -162,6 +169,97 @@ Follow the official [Grafana documentation](https://grafana.com/docs/grafana/lat
 ) to learn how to import the dashboard.
 
 ## Advanced Settings
+
+## Persistent Volume Snapshots
+
+Persistent volume snapshots are supported for workloads running on KubeVirt user clusters through the CSI driver.
+
+{{% notice note %}}
+The KubeVirt CSI snapshot feature is currently a beta feature in KKP.
+{{% /notice %}}
+
+{{% notice warning %}}
+Snapshot support is currently available only for KubeVirt clusters running in `namespacedMode`.
+{{% /notice %}}
+
+{{% notice note %}}
+Disk resizing is currently not configured through KKP for KubeVirt CSI storage. It can still be used in user clusters by manually creating and shipping the required CSI/storage configurations to those clusters.
+{{% /notice %}}
+
+### Configure VolumeSnapshotClasses Propagation
+
+Define your `VolumeSnapshotClass` objects in the KubeVirt infrastructure cluster and reference them in the KKP datacenter spec using `infraVolumeSnapshotClasses`.
+
+For each referenced class, KKP creates a corresponding `VolumeSnapshotClass` in every user cluster.
+
+```yaml
+spec:
+  kubevirt:
+    infraVolumeSnapshotClasses:
+      - infraVolumeSnapshotClass: csi-ceph-rbdplugin-snapclass
+        isDefaultClass: true
+        deletionPolicy: Delete
+      - infraVolumeSnapshotClass: csi-ceph-rbdplugin-snapclass-retain
+        deletionPolicy: Retain
+```
+
+Field meanings:
+
+- `infraVolumeSnapshotClass`: Name reference to an existing `VolumeSnapshotClass` in the KubeVirt infrastructure cluster.
+- `isDefaultClass`: Optional. Marks the propagated class as default in user clusters. Defaults to `false`.
+- `deletionPolicy`: Optional. Snapshot deletion policy for the propagated class. Defaults to `Delete`.
+
+### Create A PVC Snapshot Via Kubernetes APIs
+
+Use a user cluster kubeconfig and create a `VolumeSnapshot` that points to your PVC and propagated `VolumeSnapshotClass`.
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: my-pvc-snapshot
+  namespace: default
+spec:
+  volumeSnapshotClassName: csi-ceph-rbdplugin-snapclass
+  source:
+    persistentVolumeClaimName: my-pvc
+```
+
+Apply and verify:
+
+```bash
+kubectl apply -f volumesnapshot.yaml
+kubectl get volumesnapshot -n default
+kubectl describe volumesnapshot my-pvc-snapshot -n default
+```
+
+### Create A PVC Snapshot Via Kubermatic User Cluster Interfaces
+
+From the Kubermatic dashboard, open your user cluster and download the user cluster kubeconfig. Then use the same Kubernetes API flow shown above (`kubectl apply/get/describe`) against that cluster.
+
+### Required RBAC
+
+The minimum RBAC permissions required for snapshot creation and inspection are:
+
+- `snapshot.storage.k8s.io/volumesnapshots`: `get`, `create`, `delete`
+- `persistentvolumeclaims`: `get`, `list`, `watch`
+
+Example Role:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: volume-snapshot-user
+  namespace: default
+rules:
+  - apiGroups: ["snapshot.storage.k8s.io"]
+    resources: ["volumesnapshots"]
+    verbs: ["get", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch"]
+```
 
 ### Virtual Machine Templating
 
