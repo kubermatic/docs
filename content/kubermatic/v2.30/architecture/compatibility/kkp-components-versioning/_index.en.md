@@ -18,7 +18,7 @@ of provided software and therefore releases updates regularly that also include 
 | envoy-gateway-controller       | 1.6.1                          |
 | gitops/kkp-argocd-apps         | 1.16.1                         |
 | iap                            | 7.14.2                         |
-| kubermatic-operator            | 2.30.0                      |
+| kubermatic-operator            | 9.9.9-dev                      |
 | local-kubevirt                 | 1.1.1                          |
 | logging/alloy                  | 1.9.2                          |
 | logging/loki                   | 2.9.6                          |
