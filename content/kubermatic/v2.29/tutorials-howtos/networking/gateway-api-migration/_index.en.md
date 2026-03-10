@@ -74,17 +74,21 @@ When you enable the migration, the following sequence occurs:
 4. `kubermatic-installer` verifies that the Gateway is fully operational:
    - Gateway has valid addresses assigned
    - Gateway is in Programmed status
-   - All listeners are programmed
    - HTTPRoutes are attached to listeners
    This verification ensures the new Gateway is ready to serve traffic before proceeding.
 
-5. Once the Gateway is ready, the `kubermatic-installer` removes Ingress resources to prevent conflicts between the old Ingress and the new Gateway resources:
+5. Once the Gateway is ready, the `kubermatic-installer` removes Ingress resources to prevent conflicts between the old Ingress and the new Gateway resources (unless `--skip-ingress-cleanup` flag is specified in `kubermatic-installer`):
    - Deletes the Kubermatic Ingress resource (`kubermatic/kubermatic`)
    - Deletes the Dex Ingress resource (`dex/dex`) if it exists
 
-IMPORTANT: The installer does NOT uninstall the `nginx-ingress-controller` Helm release.
+{{% notice note %}}
+
+The kubermatic-installer does *NOT* uninstall the `nginx-ingress-controller` Helm release.
+
 After migration, both `nginx-ingress-controller` and `envoy-gateway-controller` will be running in your cluster.
 You must manually uninstall nginx-ingress-controller when you are ready. Only Ingress resources (`kubermatic/kubermatic` and `dex/dex`) are deleted.
+
+{{% /notice %}}
 
 ### The Operator Behavior
 
@@ -127,8 +131,6 @@ By default, the installer performs the following cleanup steps:
 1. **Verifies Gateway readiness**: When migrating to Gateway API, the installer waits up to 5 minutes for the Gateway to become fully operational before removing old resources. This verification includes:
    - Gateway has valid addresses assigned
    - Gateway is in Programmed status (confirming Envoy has successfully configured it)
-   - All Gateway listeners are programmed and ready
-   - At least one HTTPRoute is attached to each listener
 
 2. **Deletes Ingress resources**: When migrating to Gateway API, the installer deletes the following Ingress resources:
    - Kubermatic Ingress (`kubermatic/kubermatic`)
@@ -139,12 +141,17 @@ This cleanup prevents routing conflicts between old and new resources.
 You can control this behavior with the `--skip-ingress-cleanup` flag.
 When set, the installer will not try to delete old resources, allowing you to manually verify the migration before cleanup.
 
-**Important**: If you use `--skip-ingress-cleanup`, both Kubermatic and Dex Ingress resources will remain. You must manually delete them afterward:
+{{% notice note %}}
+
+If `--skip-ingress-cleanup` is set to true, both Kubermatic and Dex Ingress resources will remain along with HTTPRoutes.
+Those Ingress resources need to be deleted afterwards.
 
 ```bash
 kubectl delete ingress -n kubermatic kubermatic
 kubectl delete ingress -n dex dex
 ```
+
+{{% /notice %}}
 
 ## Migration Steps
 
@@ -177,16 +184,12 @@ cert-manager:
     enableGatewayAPI: true
 ```
 
-If *cert-manager* is being used to provision certificates, a new feature flag is needed to allow
-cert-manager to provision certificates.
-In KubermaticConfiguration, set `HTTPRouteGatewaySync` feature gate to `true`, as follows:
-
 {{% notice note %}}
 
-The following feature gate is only needed if cert-manager is in use in order to manage TLS certificates.
-Please check [Automatic Certificate Provisioning](#automatic-certificate-provisioning) section for details about cert-manager migration.
+If *cert-manager* is being used to provision certificates, a new feature gate, `HTTPRouteGatewaySync` is needed to allow
+cert-manager to provision certificates.
 
-{{% /notice %}}
+The `HTTPRouteGatewaySync` feature gate is only needed if the cert-manager is in use in order to manage TLS certificates.
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
@@ -202,10 +205,9 @@ spec:
     HTTPRouteGatewaySync: true
 ```
 
-In KubermaticConfiguration, under the `ingress` section, there is a `gateway` subsection where you can specify the GatewayClass to use.
-The default value is `kubermatic-envoy-gateway`, which corresponds to the GatewayClass installed by the Envoy Gateway chart.
+> Please check [Automatic Certificate Provisioning](#automatic-certificate-provisioning) section for details about cert-manager migration.
 
-Most installations will not need to change this setting. However, if you have a custom GatewayClass or want to use a different implementation of Gateway API, you can specify it here.
+{{% /notice %}}
 
 ### Run the kubermatic-installer with the migration flag
 ```bash
@@ -219,13 +221,8 @@ If you want to skip this automatic cleanup (for example, to manually verify befo
 kubermatic-installer deploy kubermatic-master --migrate-gateway-api --skip-ingress-cleanup [other options]
 ```
 
-When cleanup is skipped, both Ingress and Gateway resources will coexist. You can manually delete the Ingress resources to prevent routing conflicts:
-
-```bash
-# beforehand, please verify the migration at Step 3
-kubectl delete ingress -n kubermatic kubermatic
-kubectl delete ingress -n dex dex
-```
+When cleanup is skipped, both Ingress and Gateway resources will coexist.
+This is useful for zero-downtime migration with automatic fallback during DNS propagation.
 
 #### Verify the migration
 
@@ -247,18 +244,175 @@ The HTTPRoute should display:
 
 These confirm that the Gateway is operational and actively routing traffic through the defined HTTPRoutes.
 
-### Uninstall `nginx-ingress-controller` (optional but recommended)
+**Step 4: Update DNS records**
 
-Please note that both `nginx-ingress-controller` and `envoy-gateway-controller` are running - so, if `nginx-ingress-controller` is not being used, consider uninstalling it.
+After verifying the Gateway is operational, update your DNS records to ensure that the Gateway's IP is available.
+
+**Step 5: Test access to the Kubermatic dashboard and API**
+
+Verify that everything works as before with the new DNS resolution.
+
+**Step 6: Uninstall `nginx-ingress-controller` (optional but recommended)**
 
 ```bash
 helm uninstall nginx-ingress-controller -n nginx-ingress-controller
 ```
 
+## DNS and IP Considerations
+
+During migration, your cluster will have two LoadBalancer Services:
+
+- **nginx-ingress-controller**: Service in `nginx-ingress-controller` namespace with IP like `203.0.113.50`
+- **envoy-gateway-controller**: Service in `envoy-gateway-controller` namespace with a **different IP** like `203.0.113.51`
+
+The Envoy Gateway creates a NEW LoadBalancer with a different IP address. This means:
+
+1. **DNS must be updated** to point to the new Envoy Gateway IP
+2. **There is a downtime window** during DNS propagation if not planned carefully
+3. **The old nginx IP remains active** until you uninstall nginx-ingress-controller
+
+To minimize or eliminate downtime, we suggest following DNS cutover strategies:
+
+**Option A - Blue-Green:**
+
+- Deploy Gateway alongside existing Ingress
+- Test thoroughly with direct IP access
+- Switch DNS to Gateway IP
+- Keep Ingress running for rollback
+
+**Option B - Gradual Migration:**
+
+- Lower DNS TTL (e.g., 60s) before migration
+- Switch one hostname at a time
+- Monitor traffic and errors
+- Increase TTL after stabilization
+
+For example, if your LoadBalancer IP changes between nginx and Envoy Gateway, or you want a gradual cutover with automatic fallback, the following explains a sample migration approach:
+1. Run migration with `--skip-ingress-cleanup`
+2. Verify Gateway is programmed and HTTPRoutes are accepted ( see [Verify the migration](#verify-the-migration) below)
+3. If LoadBalancer IP changed: Update DNS records to point to the new IP
+4. Wait for DNS propagation and verify end-to-end traffic through Gateway
+5. Once verified, delete old Ingress resources
+
+### Preserving Your LoadBalancer IP
+
+If you need to maintain the same IP address during migration (for example, if your IP is whitelisted in firewalls or you want to avoid DNS changes), you can configure Envoy Gateway to use a static LoadBalancer IP.
+
+```yaml
+envoyProxy:
+  service:
+    patch:
+      type: StrategicMerge
+      value:
+        spec:
+          loadBalancerIP: "203.0.113.50"  # Your reserved static IP
+```
+
+{{% notice warning %}}
+
+*Note* that if the IP is already in use, the Service creation will fail.
+
+{{% /notice %}}
+
+
+{{% notice note %}}
+
+Not all cloud providers support `loadBalancerIP`.
+The example here is just for demonstratation.
+
+Check full Envoy Gateway documentation for details.
+
+{{% /notice %}}
+
+
 ## Automatic Certificate Provisioning
 
 When using Gateway API with cert-manager, you can enable automatic certificate provisioning for KKP components such as Grafana, Dex, and Prometheus.
 This is handled by the HTTPRoute-Gateway sync controller, which watches HTTPRoutes and dynamically configures HTTPS listeners on the Gateway with explicit hostnames.
+
+### ClusterIssuer Migration for HTTP01 Challenge
+
+If you use cert-manager with HTTP01 challenge, your existing ClusterIssuers need updates to work with Gateway API.
+The HTTP01 solver configuration changes from referencing `ingress` to referencing `gatewayHTTPRoute`.
+
+**Before (Ingress):**
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx
+```
+
+**After (Gateway API):**
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - kind: Gateway
+                name: kubermatic
+                namespace: kubermatic
+```
+
+The key differences are:
+
+| Ingress | Gateway API |
+|---------|-------------|
+| `http01.ingress.ingressClassName: nginx` | `http01.gatewayHTTPRoute.parentRefs` with Gateway reference |
+| No namespace required | Gateway namespace required |
+
+{{% notice warning %}}
+Gateway API does **not** support wildcard certificates with HTTP01 challenge. For wildcard certificates (e.g., `*.example.com`), you must use DNS01 challenge instead.
+{{% /notice %}}
+
+**DNS01 Challenge (unchanged):**
+
+If you use DNS01 challenge, no ClusterIssuer changes are required. The configuration remains the same:
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production-dns
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-dns-account-key
+    solvers:
+      - dns01:
+          route53:
+            region: eu-central-1
+            accessKeyIDSecretRef:
+              name: route53-credentials
+              key: access-key-id
+            secretAccessKeySecretRef:
+              name: route53-credentials
+              key: secret-access-key
+```
 
 ### Background
 
