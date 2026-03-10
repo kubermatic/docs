@@ -212,13 +212,30 @@ a suitable `StorageClass` and is therefore still recommended to use.
 Similar to how the Master Cluster can be installed with the installer, run the `deploy kubermatic-seed` command. You still need to
 manually ensure that the StorageClass you configured for MinIO exists already.
 
+> **Note – Multiple Helm values files**  
+> The `kubermatic-installer` accepts **multiple** Helm values files by **repeating** the `--helm-values` flag:
+> 
+> ```bash
+> ./kubermatic-installer deploy <stack> \
+>   --config kubermatic.yaml \
+>   --helm-values values/defaults.yaml \
+>   --helm-values values/<env>.yaml \
+>   --helm-values values/secrets.yaml
+> ```
+> 
+> **Order matters:** Later files **override** earlier ones. Maps are merged recursively, **lists are replaced** (Helm semantics).  
+> The legacy single-file input remains supported for backward compatibility.
+
 ```bash
 export KUBECONFIG=/path/to/seed-cluster/kubeconfig
 ./kubermatic-installer deploy kubermatic-seed \
   # uncomment the line below after updating it to your respective provider; remove flag if provider is not supported or cluster is shared with master (see above)
   # --storageclass aws \
   --config kubermatic.yaml \
-  --helm-values values.yaml
+  --helm-values values/defaults.yaml \
+  --helm-values values/seed.yaml \
+  --helm-values values/secrets.yaml
+
 ```
 
 The command above will take care of installing/updating the CRDs, setting up MinIO and the S3-exporter and attempts

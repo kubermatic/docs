@@ -148,8 +148,26 @@ mentioned above can be generated using any password generator or on the shell us
 Kubermatic Installer will suggest some properly generated secrets for you when it
 notices that some are missing, for example:
 
+> **Note – Multiple Helm values files**  
+> The `kubermatic-installer` accepts **multiple** Helm values files by **repeating** the `--helm-values` flag:
+> 
+> ```bash
+> ./kubermatic-installer deploy <stack> \
+>   --config kubermatic.yaml \
+>   --helm-values values/defaults.yaml \
+>   --helm-values values/<env>.yaml \
+>   --helm-values values/secrets.yaml
+> ```
+> 
+> **Order matters:** Later files **override** earlier ones. Maps are merged recursively, **lists are replaced** (Helm semantics).  
+> The legacy single-file input remains supported for backward compatibility.
+
 ```bash
-./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
+./kubermatic-installer deploy \
+  --config kubermatic.yaml \
+  --helm-values values/defaults.yaml \
+  --helm-values values/prod.yaml \
+  --helm-values values/secrets.yaml
 ```
 
 Output will be similar to this:
@@ -276,6 +294,7 @@ like so:
   # --storageclass aws \
   --config kubermatic.yaml \
   --helm-values values.yaml
+  # If necessary, add additional --helm-values, see note above.
 ```
 
 {{% notice warning %}}
