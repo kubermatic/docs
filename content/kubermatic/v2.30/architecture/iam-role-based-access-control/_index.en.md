@@ -48,8 +48,28 @@ dex:
 
 And apply the changes to the cluster:
 
+
+> **Note – Multiple Helm values files**  
+> The `kubermatic-installer` accepts **multiple** Helm values files by **repeating** the `--helm-values` flag:
+> 
+> ```bash
+> ./kubermatic-installer deploy <stack> \
+>   --config kubermatic.yaml \
+>   --helm-values values/defaults.yaml \
+>   --helm-values values/<env>.yaml \
+>   --helm-values values/secrets.yaml
+> ```
+> 
+> **Order matters:** Later files **override** earlier ones. Maps are merged recursively, **lists are replaced** (Helm semantics).  
+> The legacy single-file input remains supported for backward compatibility.
+
+
 ```bash
-./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
+./kubermatic-installer deploy \
+  --config kubermatic.yaml \
+  --helm-values values/defaults.yaml \
+  --helm-values values/dex.yaml \
+  --helm-values values/secrets.yaml
 ```
 
 ## Authorization

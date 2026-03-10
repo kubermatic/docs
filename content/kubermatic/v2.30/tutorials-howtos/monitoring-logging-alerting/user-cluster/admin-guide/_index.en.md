@@ -53,8 +53,26 @@ Other parameters which can become important if you have particularly high values
 
 The MLA stack can be deployed by using the Kubermatic Installer:
 
+> **Note – Multiple Helm values files**  
+> The `kubermatic-installer` accepts **multiple** Helm values files by **repeating** the `--helm-values` flag:
+> 
+> ```bash
+> ./kubermatic-installer deploy <stack> \
+>   --config kubermatic.yaml \
+>   --helm-values values/defaults.yaml \
+>   --helm-values values/<env>.yaml \
+>   --helm-values values/secrets.yaml
+> ```
+> 
+> **Order matters:** Later files **override** earlier ones. Maps are merged recursively, **lists are replaced** (Helm semantics).  
+> The legacy single-file input remains supported for backward compatibility.
+
 ```bash
-kubermatic-installer deploy usercluster-mla --config <kubermatic.yaml> --helm-values <mlavalues.yaml>
+kubermatic-installer deploy usercluster-mla \
+  --config kubermatic.yaml \
+  --helm-values values/defaults.yaml \
+  --helm-values values/mla.yaml \
+  --helm-values values/secrets.yaml
 ```
 
 Additional options that can be used for the installation include:
@@ -118,6 +136,7 @@ dex:
 At this point, we can install the IAP Helm chart into the mla namespace as follows:
 
 ```bash
+# If necessary, add additional --helm-values, see note above.
 kubermatic-installer deploy usercluster-mla --config <kubermatic.yaml> --helm-values <mlavalues.yaml> --mla-include-iap
 ```
 
@@ -507,5 +526,6 @@ kubectl delete svc cortex-store-gateway -n mla
 After doing the above-mentioned steps, MLA stack can be upgraded using the Kubermatic Installer:
 
 ```bash
+# If necessary, add additional --helm-values, see note above.
 kubermatic-installer deploy usercluster-mla --config <kubermatic.yaml> --helm-values <mlavalues.yaml>
 ```
