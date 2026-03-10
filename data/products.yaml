@@ -11,6 +11,8 @@ kubermatic:
   versions:
     - release: main
       name: main
+    - release: v2.30
+      name: v2.30
     - release: v2.29
       name: v2.29
     - release: v2.28
@@ -117,8 +119,8 @@ operatingsystemmanager:
   shareImage: img/share-operatingsystemmanager.png
 machine-controller:
   name: machine-controller
-  title: machine-controller
-  textName: machine-controller
+  title: Machine Controller
+  textName: Machine Controller
   description: Manage machines at cloud providers using a declarative Kubernetes API, compatible with the Kubernetes cluster-autoscaler.
   weight: 6
   shareImage: img/share-machine-controller.png
