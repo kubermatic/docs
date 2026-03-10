@@ -102,10 +102,10 @@ Below is the suggested schedule configuration, categorized by backup job, freque
 
 ## References for KubeOne cluster backup and restore
 
-If KKP master and seed cluster lifecylce management is being done by KubeOne, you may find further information regarding backup strategies for KubeOne on the following links:
+If KKP master and seed cluster lifecycle management is being done by KubeOne, you may find further information regarding backup strategies for KubeOne on the following links:
 
-[Backups Addon in KubeOne](../kubeone/main/examples/addons-backup/)
-[KubeOne Manual Cluster Recovery](../kubeone/main/guides/manual-cluster-recovery/)
-[KubeOne Manual Cluster Repair](../kubeone/main/guides/manual-cluster-repair/)
+* [Backups Addon in KubeOne](../kubeone/main/examples/addons-backup/)
+* [KubeOne Manual Cluster Recovery](../kubeone/main/guides/manual-cluster-recovery/)
+* [KubeOne Manual Cluster Repair](../kubeone/main/guides/manual-cluster-repair/)
 
 
