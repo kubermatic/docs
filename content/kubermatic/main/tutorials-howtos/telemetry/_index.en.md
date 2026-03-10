@@ -31,8 +31,26 @@ The `schedule` is in Cron format, please check [Cron format](https://en.wikipedi
 
 Then you can use the Kubermatic installer to install KKP by using the following command:
 
+> **Note – Multiple Helm values files**  
+> The `kubermatic-installer` accepts **multiple** Helm values files by **repeating** the `--helm-values` flag:
+> 
+> ```bash
+> ./kubermatic-installer deploy <stack> \
+>   --config kubermatic.yaml \
+>   --helm-values values/defaults.yaml \
+>   --helm-values values/<env>.yaml \
+>   --helm-values values/secrets.yaml
+> ```
+> 
+> **Order matters:** Later files **override** earlier ones. Maps are merged recursively, **lists are replaced** (Helm semantics).  
+> The legacy single-file input remains supported for backward compatibility.
+
 ```bash
-./kubermatic-installer deploy --config kubermatic.yaml --helm-values values.yaml
+./kubermatic-installer deploy \
+  --config kubermatic.yaml \
+  --helm-values values/defaults.yaml \
+  --helm-values values/telemetry.yaml \
+  --helm-values values/secrets.yaml
 ```
 
 After this command finishes, a CronJob will be created in the `telemetry-system` namespace on the master cluster. The CronJob includes the following components:
@@ -53,7 +71,12 @@ helm --namespace telemetry-system upgrade --atomic --create-namespace --install 
 If you don’t want to send usage data to us to improve our product, or your KKP will be running in offline mode which doesn’t have access to the public Telemetry endpoint, you can disable it by using `--disable-telemetry` flag as following:
 
 ```bash
-./kubermatic-installer deploy --disable-telemetry --config kubermatic.yaml --helm-values values.yaml
+./kubermatic-installer deploy \
+  --disable-telemetry \
+  --config kubermatic.yaml \
+  --helm-values values/defaults.yaml \
+  --helm-values values/telemetry.yaml \
+  --helm-values values/secrets.yaml
 ```
 
 ## Data that Telemetry Collects
