@@ -44,7 +44,7 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 * An etcd "ring" can tolerate the loss of up to (N-1)/2 nodes and remain healthy. However, if more nodes are lost, the database must be restored from a backup. A snapshot from a single member of the etcd ring is sufficient to restore the entire cluster.
 * The Public Key Infrastructure (PKI) encompasses the Certificate Authority (CA), certificates, and keys required for Kubernetes authentication. Backing up the PKI is equally critical for a swift recovery.
 * We recommend backing up etcd snapshots and the PKI every 30 minutes and storing these backups outside the cluster.
-* A Kubernetes cronjob should handle this process: it runs every 30 minutes, collects the PKI data, captures an etcd snapshot, and uses the `restic` command-line tool to upload the data to the cluster-internal MinIO storage.
+* A Kubernetes cronjob should handle this process: it runs every 30 minutes, collects the PKI data, captures an etcd snapshot, and can use the `restic` command-line tool to upload the data to the cluster-internal MinIO storage.
 
 #### Kubernetes Objects
 * While etcd and PKI backups are sufficient for restoring a broken cluster within the same environment, it is often necessary to restore a previous state within an otherwise functional cluster, or to migrate a previous state to an entirely new cluster.
@@ -54,9 +54,9 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 #### MLA Data
 * All Monitoring, Logging, and Alerting (MLA) configurations, including alerts and dashboards, are stored as infrastructure-as-code within the platform owner's codebase.
 * Therefore, only the Prometheus database requires backing up. To balance performance and usability, we recommend backing up the database every 6 hours.
-* Velero, in conjunction with its `restic` integration, is utilized for this task.
+* Velero, in conjunction with its `restic` integration, can be utilized for this task.
 * Velero extracts a dump of the Prometheus database and securely syncs it to the cluster-internal MinIO datastore.
-* This process can be seamlessly integrated into the standard 6-hour Velero backup cycle.
+* This process can be seamlessly integrated into the standard Velero backup cycle.
 
 ### User Clusters
 
