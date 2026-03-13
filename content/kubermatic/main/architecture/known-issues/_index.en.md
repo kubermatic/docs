@@ -180,3 +180,4 @@ As long as there are PersistentVolumes and Services of type LoadBalancer within 
 
 1. Make sure the user cluster has a MachineDeployment, Machines and corresponding healthy nodes before deleting it.
 2. Download the user cluster's kubeconfig before deleting the user cluster and add a new MachineDeployment (e.g. by copying it from another cluster that was created using the same settings). Please be aware that you can neither download the kubeconfig nor create a new MachineDeployment via the KKP Dashboard anymore once user cluster deletion was started!
+3. Ask your platform administrator to remove the `kubermatic.k8c.io/cleanup-in-cluster-pv` and `kubermatic.k8c.io/cleanup-in-cluster-lb` finalizers from your `Cluster` resource within the seed cluster and clean up the corresponding cloud provider resources (e.g. AWS EBS volume) manually.
