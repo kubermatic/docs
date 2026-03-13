@@ -220,7 +220,7 @@ via `--set` when using Helm.
 {{% /notice %}}
 
 Likewise, carefully go through the [KubermaticConfiguration]({{< ref "../../tutorials-howtos/kkp-configuration" >}})
-and adjust the `dockerRepository` fields:
+and adjust the `dockerRepository` fields and the Helm-related registry settings shown below:
 
 ```yaml
 spec:
@@ -231,6 +231,26 @@ spec:
   ui:
     dockerRepository: 172.20.0.2:5000/kubermatic/dashboard
   # etc.
+  # Overwrite the OCI Helm repository/registry that should be used to install applications
+  applications:
+    defaultApplicationCatalog:
+      helmRepository: oci://172.20.0.2:5000/kubermatic/charts
+      helmRegistryConfigFile: # optional
+        # refers to a k8s Secret within the KKP installation Namespace, annotated with apps.kubermatic.k8c.io/secret-type: helm
+        name: helmregistry-secret
+        key: .dockerconfigjson
+  userCluster:
+    applications:
+      insecureSkipTLSVerify: false # applies to spec.applications.defaultApplicationCatalog.helmRepository
+      plainHTTP: false             # applies to spec.applications.defaultApplicationCatalog.helmRepository
+    systemApplications:
+      helmRepository: oci://172.20.0.2:5000/kubermatic/charts
+      insecureSkipTLSVerify: false
+      plainHTTP: false
+      helmRegistryConfigFile: # optional
+        # refers to a k8s Secret within the KKP installation Namespace, annotated with apps.kubermatic.k8c.io/secret-type: helm
+        name: helmregistry-secret
+        key: .dockerconfigjson
 ```
 
 Re-apply the updated configuration to make the KKP Operator reconcile the setup:
@@ -238,6 +258,9 @@ Re-apply the updated configuration to make the KKP Operator reconcile the setup:
 ```bash
 kubectl apply -f mykubermatic.yaml
 ```
+
+An alternative to overwriting the application Helm repository within the KubermaticConfiguration is to configure the Helm repository within a separate ApplicationCatalog resource.
+For more information, see the [Application Catalog Manager Guide]({{< ref "../../tutorials-howtos/applications/application-catalog-manager" >}}).
 
 ### Worker Nodes Behind a Proxy
 
