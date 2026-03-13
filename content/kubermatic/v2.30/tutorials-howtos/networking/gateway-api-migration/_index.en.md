@@ -437,13 +437,27 @@ This allows cert-manager to detect the listeners and automatically issue certifi
 
 ### Configuring Watched Namespaces
 
-The controller watches HTTPRoutes only in namespaces specified by the `-httproute-watch-namespaces` flag on the master-controller-manager. The default value is `mla,monitoring`.
+The controller watches HTTPRoutes only in namespaces specified by the `-httproute-watch-namespaces` flag on the kubermatic-operator.
+The default value is `mla,monitoring`.
 
-To add additional namespaces (such as `dex` for Dex on a separate domain), update the flag:
+To add additional namespaces (such as `dex` for Dex on a separate domain), update the configuration:
 
-```
+{{< tabs name="Configure watched namespaces" >}}
+{{% tab name="CLI flag" %}}
+```bash
 -httproute-watch-namespaces=mla,monitoring,dex
 ```
+{{% /tab %}}
+{{% tab name="Helm values" %}}
+```yaml
+kubermaticOperator:
+  httpRouteWatchNamespaces:
+    - monitoring
+    - mla
+    - dex
+```
+{{% /tab %}}
+{{< /tabs >}}
 
 See [Dex on a Separate Domain](#dex-on-a-separate-domain) for a complete example of configuring Dex with its own hostname.
 
@@ -514,7 +528,7 @@ Ensure your Dex deployment includes the following configuration:
 
 ### Dex on a Separate Domain
 
-If you run Dex on a different domain than KKP (for example, `auth.example.com` instead of `kkp.example.com`), the Gateway needs an additional HTTPS listener for the Dex domain. The HTTPRoute-Gateway sync controller can handle this, but requires additional configuration.
+If you run Dex on a different domain than KKP (for example, `auth.example.com` instead of `kkp.example.com`), the Gateway needs an additional HTTPS listener for the Dex domain. The httproute-gateway-sync controller can handle this, but requires additional configuration.
 
 By default, the controller only watches HTTPRoutes in the `mla` and `monitoring` namespaces. To enable automatic listener creation for Dex, you must add the `dex` namespace to the watched namespaces list.
 
@@ -535,13 +549,25 @@ spec:
 
 **Step 2: Configure watched namespaces to include dex**
 
-The `-httproute-watch-namespaces` flag on the master-controller-manager controls which namespaces are watched. To include Dex, the flag must contain the `dex` namespace:
+The `-httproute-watch-namespaces` flag on the kubermatic-operator controls which namespaces are watched.
+To include Dex, the flag must contain the `dex` namespace:
 
-```
+{{< tabs name="Configure watched namespaces" >}}
+{{% tab name="CLI flag" %}}
+```bash
 -httproute-watch-namespaces=mla,monitoring,dex
 ```
-
-If you use the kubermatic-installer, this can be configured through Helm values. Check your deployment configuration to ensure the `dex` namespace is included.
+{{% /tab %}}
+{{% tab name="Helm values" %}}
+```yaml
+kubermaticOperator:
+  httpRouteWatchNamespaces:
+    - monitoring
+    - mla
+    - dex
+```
+{{% /tab %}}
+{{< /tabs >}}
 
 **Step 3: Configure Dex HTTPRoute with the separate domain**
 
@@ -561,14 +587,15 @@ httpRoute:
 **What happens:**
 
 1. The Dex Helm chart creates an HTTPRoute in the `dex` namespace with hostname `auth.example.com`
-2. The HTTPRoute-Gateway sync controller detects this HTTPRoute
+2. The http-gateway-sync controller detects this HTTPRoute
 3. The controller adds an HTTPS listener to the Gateway for `auth.example.com`
 4. cert-manager creates a TLS certificate and stores it as a secret named `dex-dex` in the `kubermatic` namespace
 
 The certificate secret follows the naming pattern `<namespace>-<httproute-name>`, so the Dex HTTPRoute creates a secret named `dex-dex` (not `dex-tls`).
 
 {{% notice note %}}
-The HTTPRoute-Gateway sync controller was originally built for MLA components like Grafana and Alertmanager. It works for Dex as well, but requires explicitly adding the `dex` namespace to the watched namespaces configuration.
+The httproute-gateway-sync controller was originally built for MLA components like Grafana and Alertmanager.
+It works for Dex as well, but requires explicitly adding the `dex` namespace to the watched namespaces configuration.
 {{% /notice %}}
 
 ## Rolling Back
