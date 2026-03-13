@@ -159,3 +159,24 @@ spec:
 ```
 
 This sets `--xfr-channel-size=300` flag for Konnectivity Agent, which runs on the user cluster.
+
+## Deadlock on user cluster deletion when PersistentVolume/LoadBalancer Service exists but no MachineDeployments
+
+Issue: <https://github.com/kubermatic/kubermatic/issues/15500>
+
+### Problem
+
+When deleting a user cluster that doesn't have any MachineDeployments while there is still a PersistentVolume or Service of type LoadBalancer, the cluster remains in terminating state infinitely.
+
+### Root cause
+
+Resources that require custom clean up logic by a Kubernetes controller have a finalizer attached, preventing them from being deleted immediately without proper clean up.
+To clean up those resources, a corresponding Kubernetes controller must run within the cluster and for that it needs a Machine to run on.
+For example a PersistentVolume needs to be finalized by the CSI controller in order to be deleted.
+If that doesn't happen, the resource remains in terminating state infinitely due to the Kubernetes finalizer not being removed from the resource.
+As long as there are PersistentVolumes and Services of type LoadBalancer within a user cluster, its deletion does not complete.
+
+### Workarounds
+
+1. Make sure the user cluster has a MachineDeployment, Machines and corresponding healthy nodes before deleting it.
+2. Download the user cluster's kubeconfig before deleting the user cluster and add a new MachineDeployment (e.g. by copying it from another cluster that was created using the same settings). Please be aware that you can neither download the kubeconfig nor create a new MachineDeployment via the KKP Dashboard anymore once user cluster deletion was started!
