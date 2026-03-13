@@ -168,7 +168,7 @@ Issue: <https://github.com/kubermatic/kubermatic/issues/15500>
 
 When deleting a user cluster that doesn't have any MachineDeployments while there is still a PersistentVolume or Service of type LoadBalancer, the cluster remains in terminating state infinitely.
 
-### Root cause
+### Root Cause
 
 Resources that require custom clean up logic by a Kubernetes controller have a finalizer attached, preventing them from being deleted immediately without proper clean up.
 To clean up those resources, a corresponding Kubernetes controller must run within the cluster and for that it needs a Machine to run on.
