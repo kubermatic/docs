@@ -19,6 +19,8 @@ items:
       url: /products/kubermatic-virtualization/
     - title: Kubermatic Developer Platform
       url: /products/kubermatic-developer-platform/
+    - title: Conformance EE
+      url: /conformance-ee/main/
     - title: Kubermatic Kubernetes Subscription
       url: /products/kubermatic-kubernetes-subscription/
     - title: Managed Kubermatic Kubernetes Platform

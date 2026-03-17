@@ -136,6 +136,14 @@ items:
               image: /img/menu/kubermatic-developer-platform.jpg
               columns:
                 - column:
+          - title: Conformance EE
+            url: /conformance-ee/main/
+            text: Automated end-to-end conformance testing for KKP
+            noArrowIcon: true
+            panel:
+              summary: Conformance EE is an automated end-to-end conformance test framework for Kubermatic Kubernetes Platform. It combinatorially generates, runs, and reports thousands of test scenarios across cloud providers, Kubernetes versions, and OS distributions.
+              columns:
+                - column:
           - title: Kubermatic Kubernetes Subscription
             url: /products/kubermatic-kubernetes-subscription/
             text: Upstream Kubernetes support

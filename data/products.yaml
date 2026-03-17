@@ -140,6 +140,17 @@ kubermatic-virtualization:
       name: main
     - release: v1.0.0
       name: v1.0.0
+conformance-ee:
+  name: conformance-ee
+  logo: "img/logo-kubermatic.svg"
+  title: Conformance EE
+  textName: Conformance EE
+  description: Automated end-to-end conformance test framework for Kubermatic Kubernetes Platform, generating and running thousands of test scenarios across cloud providers.
+  weight: 7
+  shareImage: img/share-kubermatic.png
+  versions:
+    - release: main
+      name: main
 # do not yet reveal KDP to the public
 # developer-platform:
 #   name: developer-platform
