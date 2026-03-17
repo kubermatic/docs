@@ -25,6 +25,8 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 
 ## Recommended backup and disaster recovery strategy
 
+Here is an [example implementation](https://github.com/kubermatic/community-components/tree/master/components/rclone-s3-syncer).
+
 ### Infrastructure
 * Control plane VMs must be backed up regularly (ideally daily) at the virtual machine level.
 * Backups must be exact clones of the VMs, including copies of all attached volumes.
@@ -40,6 +42,7 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 * Aggregating all backup data in a cluster-internal datastore before external synchronization provides significant benefits regarding redundancy, performance, and ease of use.
 
 #### etcd / PKI
+* Check the documentation of KKP's [etcd backup feature.](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/etcd-backups/)
 * The etcd database contains the complete state of a Kubernetes cluster. 
 * An etcd "ring" can tolerate the loss of up to (N-1)/2 nodes and remain healthy. However, if more nodes are lost, the database must be restored from a backup. A snapshot from a single member of the etcd ring is sufficient to restore the entire cluster.
 * The Public Key Infrastructure (PKI) encompasses the Certificate Authority (CA), certificates, and keys required for Kubernetes authentication. Backing up the PKI is equally critical for a swift recovery.
@@ -49,14 +52,14 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 #### Kubernetes Objects
 * While etcd and PKI backups are sufficient for restoring a broken cluster within the same environment, it is often necessary to restore a previous state within an otherwise functional cluster, or to migrate a previous state to an entirely new cluster.
 * This is where Velero excels. Velero captures a snapshot of all objects within the cluster, enabling targeted state restoration (similar to executing `kubectl get <crd> <crd-name> -o yaml > my-object.yaml`).
-* Velero is recommended to run, for example, every 6 hours.
+* Velero is recommended to run, for example, every 6 hours. Defaults are already set, you can see our [Velero chart](https://github.com/kubermatic/kubermatic/tree/main/charts/backup/velero).
 
 #### MLA Data
 * All Monitoring, Logging, and Alerting (MLA) configurations, including alerts and dashboards, are stored as infrastructure-as-code within the platform owner's codebase.
 * Therefore, only the Prometheus database requires backing up. To balance performance and usability, we recommend backing up the database every 6 hours.
 * Velero, in conjunction with its `restic` integration, can be utilized for this task.
 * Velero extracts a dump of the Prometheus database and securely syncs it to the cluster-internal MinIO datastore.
-* This process can be seamlessly integrated into the standard Velero backup cycle.
+* This process can be seamlessly integrated into the standard Velero backup cycle. Defaults are already set, you can see our [Velero chart](https://github.com/kubermatic/kubermatic/tree/main/charts/backup/velero).
 
 ### User Clusters
 
@@ -75,7 +78,6 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 #### Data Replication
 * Furthermore, we recommend designing any stateful application with built-in replication mechanisms. Storage should be replicated across multiple nodes, and ideally, across different datacenters or availability zones.
 
----
 
 ## Backup Schedule
 
@@ -83,13 +85,15 @@ Below is the suggested schedule configuration, categorized by backup job, freque
 
 | Backup Job | Schedule | TTL |
 | :--- | :--- | :--- |
-| KKP master control plane VM backups | Once daily | 3 days |
+| KKP master control plane VM backups * | Once daily | 3 days |
 | MLA data (KKP master cluster objects + Prometheus data) | Every 6 hours | 168 hours (7 days) |
 | KKP master etcd and PKI | Every 30 minutes | 24 hours |
+| KKP seed etcd and PKI | Every 30 minutes | 24 hours |
 | User-cluster control-planes | Every 20 minutes | Last 20 (~6.5 hours) |
 | Cluster-internal backups | Every 30 minutes | Configured via External Storage Provider |
 
----
+`*` If you have etcd restic snapshot on KubeOne, this is not required.
+
 
 ## Process
 
