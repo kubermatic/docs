@@ -20,7 +20,7 @@ We propose a multi-layered approach to backups. Backing up the underlying virtua
 
 Furthermore, at the application layer, Kubernetes tools — most notably Velero — are utilized to maintain low RPO and RTO for application state and functionality.
 
-<img width="2240" height="1914" alt="kkp_backup" src="kkp_backup_edited.png" />
+<img width="2240" height="1914" alt="kkp_backup" src="kkpbackup.png" />
 
 
 ## Recommended backup and disaster recovery strategy
