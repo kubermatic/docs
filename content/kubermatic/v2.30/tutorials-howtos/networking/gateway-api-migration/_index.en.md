@@ -168,11 +168,11 @@ migrateGatewayAPI: true
 dex:
   ingress:
     enabled: false  # MUST be false when using Gateway API
-httpRoute:
-  gatewayName: kubermatic
-  gatewayNamespace: kubermatic
-  domain: "kkp.example.com"  # Replace with your domain
-  timeout: 3600s
+  httpRoute:
+    gatewayName: kubermatic
+    gatewayNamespace: kubermatic
+    domain: "kkp.example.com"  # Replace with your domain
+    timeout: 3600s
 
 # cert-manager helm chart needs to be configured to work
 # with Gateway API resources.
