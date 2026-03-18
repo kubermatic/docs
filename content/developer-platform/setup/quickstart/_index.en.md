@@ -229,8 +229,8 @@ The KDP controller manager authenticates to kcp using client certificates signed
 By default, the kcp front-proxy only trusts its own `kcp-front-proxy-client-ca`.
 You need to create a combined CA bundle so that the front-proxy trusts certificates from both CAs.
 
-Both CA Secrets (`kcp-front-proxy-client-ca` and `kcp-client-ca`) are created by the kcp Helm chart you just installed.
-Wait for them to become available, then combine them into a single Secret:
+Both CA cert-manager `Certificate` resources (`kcp-front-proxy-client-ca` and `kcp-client-ca`) and their corresponding Secrets are created by the kcp Helm chart you just installed.
+Wait for the Certificates to become Ready, then read their Secrets and combine the CA data into a single Secret:
 
 ```bash
 kubectl --namespace=kdp-system wait --timeout=120s --for=condition=Ready \
