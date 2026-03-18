@@ -176,7 +176,7 @@ cosign verify-blob --bundle checksums.txt.sigstore.json checksums.txt \
 
 ## v1.3.6
 
-**Skipped due to vulnerabilites found in Go 1.25 in our release process**
+**Skipped due to vulnerabilities found in Go 1.25 in our release process**
 
 ## v1.3.5
 
