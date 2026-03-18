@@ -25,8 +25,6 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 
 ## Recommended backup and disaster recovery strategy
 
-Here is an [example implementation](https://github.com/kubermatic/community-components/tree/master/components/rclone-s3-syncer).
-
 ### Infrastructure
 * Control plane VMs must be backed up regularly (ideally daily) at the virtual machine level.
 * Backups must be exact clones of the VMs, including copies of all attached volumes.
@@ -38,7 +36,7 @@ Here is an [example implementation](https://github.com/kubermatic/community-comp
 
 #### MinIO
 * MinIO serves as a cluster-internal, central datastore for all Kubernetes system-related backups.
-* All data stored within MinIO should be synchronized every 30 minutes to an external object storage solution (e.g., Azure Blob Storage, AWS S3) via a Kubernetes cronjob. This process utilizes the `rclone` command-line tool, which enables delta synchronization to S3-compatible datastores.
+* All data stored within MinIO should be synchronized every 30 minutes to an external object storage solution (e.g., Azure Blob Storage, AWS S3) via a Kubernetes cronjob. This process utilizes the `rclone` command-line tool, which enables delta synchronization to S3-compatible datastores. Here is an [example implementation](https://github.com/kubermatic/community-components/tree/master/components/rclone-s3-syncer).
 * Aggregating all backup data in a cluster-internal datastore before external synchronization provides significant benefits regarding redundancy, performance, and ease of use.
 
 #### etcd / PKI
