@@ -32,7 +32,7 @@ You will perform the following tasks:
 
 - **Deploy an identity provider**: Next, you will deploy Dex to handle user authentication, creating a central login service for both the KDP dashboard and command-line access.
 
-- **Deploy kcp**: You will deploy kcp, the core engine that enables multi-tenancy by providing isolated, secure workspaces for your users.
+- **Deploy kcp**: You will deploy kcp, the core engine that enables multi-tenancy by providing isolated, secure workspaces for your users. This includes bundling the client CA certificates so that the kcp front-proxy trusts client certificates issued by the KDP controller manager.
 
 - **Deploy KDP**: Afterwards, you will install the main KDP controllers that connect to kcp and manage the platform's resources.
 
@@ -223,9 +223,73 @@ helm upgrade --install kcp kcp \
     --values=kcp.values.yaml
 ```
 
+#### Bundle the front-proxy client CAs
+
+The KDP controller manager authenticates to kcp using client certificates signed by the `kcp-client-ca` Certificate Authority.
+By default, the kcp front-proxy only trusts its own `kcp-front-proxy-client-ca`.
+You need to create a combined CA bundle so that the front-proxy trusts certificates from both CAs.
+
+Both CA Secrets (`kcp-front-proxy-client-ca` and `kcp-client-ca`) are created by the kcp Helm chart you just installed.
+Wait for them to become available, then combine them into a single Secret:
+
+```bash
+kubectl --namespace=kdp-system wait --timeout=120s --for=condition=Ready \
+    certificates kcp-front-proxy-client-ca kcp-client-ca
+
+FP_CLIENT_CA=$(kubectl --namespace=kdp-system \
+  get secret kcp-front-proxy-client-ca -o jsonpath='{.data.tls\.crt}' | base64 -d)
+KCP_CLIENT_CA=$(kubectl --namespace=kdp-system \
+  get secret kcp-client-ca -o jsonpath='{.data.tls\.crt}' | base64 -d)
+
+COMBINED_CA=$(printf '%s\n%s' "$FP_CLIENT_CA" "$KCP_CLIENT_CA")
+kubectl --namespace=kdp-system \
+  create secret generic kcp-front-proxy-combined-client-ca \
+  --from-literal=tls.crt="$COMBINED_CA" \
+  --dry-run=client -o yaml | kubectl apply -f -
+```
+
+Now update the `kcpFrontProxy` section in your `kcp.values.yaml` to mount the combined CA and override the client CA file.
+Add `extraVolumes`, `extraVolumeMounts`, and the `--client-ca-file` flag to your existing `extraFlags`:
+
+```yaml
+# Add these keys to the existing kcpFrontProxy section in kcp.values.yaml
+kcpFrontProxy:
+  extraVolumes:
+    - name: combined-client-ca
+      secret:
+        secretName: kcp-front-proxy-combined-client-ca
+  extraVolumeMounts:
+    - name: combined-client-ca
+      mountPath: /etc/kcp-front-proxy/combined-client-ca
+  extraFlags:
+    # ... keep your existing extraFlags and add:
+    - '--client-ca-file=/etc/kcp-front-proxy/combined-client-ca/tls.crt'
+```
+
+Upgrade kcp with the updated values:
+
+```bash
+helm upgrade --install kcp kcp \
+    --repo=https://kcp-dev.github.io/helm-charts \
+    --version=0.14.0 \
+    --namespace=kdp-system \
+    --values=kcp.values.yaml
+```
+
+Wait for the front-proxy pods to become ready before proceeding:
+
+```bash
+kubectl --namespace=kdp-system wait --timeout=120s --for=condition=Ready \
+    --selector=app.kubernetes.io/component=front-proxy,app.kubernetes.io/name=kcp pods
+```
+
+{{% notice note %}}
+If the CA certificates are ever rotated (e.g., after a kcp reinstall), you need to re-create the combined CA Secret and restart the front-proxy pods.
+{{% /notice %}}
+
 ### Deploy KDP
 
-Finally, you'll deploy the main KDP application.
+Next, you'll deploy the main KDP application.
 It connects to the kcp control plane and includes a one-time bootstrap job that grants the admin user full administrative rights, allowing them to manage the entire platform.
 
 Save the following content to a file named `kdp.values.yaml`:
