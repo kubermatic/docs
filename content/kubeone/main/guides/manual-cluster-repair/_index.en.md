@@ -79,7 +79,7 @@ that contain healthy etcd ring members. Exec into the shell of one of those
 alive etcd containers, with the used certificates mounted, to be able to communicate with etcd ring:
 
 ```bash
-kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key member list
+kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> etcdctl member list
 ```
 
 Example output:
@@ -101,14 +101,14 @@ looking for to remove.
 To remove dead etcd member:
 
 ```bash
-kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key member remove 6713c8f2e74fb553
+kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> etcdctl member remove 6713c8f2e74fb553
 Member 6713c8f2e74fb553 removed from cluster 4ec111e0dee094c3
 ```
 
 Now, members list should display only 2 members.
 
 ```bash
-kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key member list
+kubectl -n kube-system exec -it etcd-<ALIVE-HOSTNAME> etcdctl member list
 ```
 
 Example output:
