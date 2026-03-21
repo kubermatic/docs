@@ -30,6 +30,34 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 /kubelb/ce/* /kubelb/latest/:splat 301!
 /kubelb/ee/* /kubelb/latest/:splat 301!
 
+# redirects for machine-controller restructuring
+# Old direct file paths to new directory structure
+/machine-controller/main/architecture.en /machine-controller/main/architecture/ 301!
+/machine-controller/main/installation.en /machine-controller/main/installation/quickstart/ 301!
+/machine-controller/main/getting-started.en /machine-controller/main/installation/getting-started/ 301!
+/machine-controller/main/usage.en /machine-controller/main/tutorials/creating-machines/ 301!
+/machine-controller/main/faq.en /machine-controller/main/support/faq/ 301!
+/machine-controller/main/troubleshooting.en /machine-controller/main/support/troubleshooting/ 301!
+
+# Cloud providers moved to references
+/machine-controller/main/cloud-providers/* /machine-controller/main/references/cloud-providers/:splat 301!
+
+# Operating systems moved to references
+/machine-controller/main/operating-systems/* /machine-controller/main/references/operating-systems/:splat 301!
+
+# Cloud provider file to directory redirects
+/machine-controller/main/references/cloud-providers/aws.en /machine-controller/main/references/cloud-providers/aws/ 301!
+/machine-controller/main/references/cloud-providers/azure.en /machine-controller/main/references/cloud-providers/azure/ 301!
+/machine-controller/main/references/cloud-providers/digitalocean.en /machine-controller/main/references/cloud-providers/digitalocean/ 301!
+/machine-controller/main/references/cloud-providers/gcp.en /machine-controller/main/references/cloud-providers/gcp/ 301!
+/machine-controller/main/references/cloud-providers/hetzner.en /machine-controller/main/references/cloud-providers/hetzner/ 301!
+
+# Operating system file to directory redirects
+/machine-controller/main/references/operating-systems/amazonlinux.en /machine-controller/main/references/operating-systems/amazonlinux/ 301!
+/machine-controller/main/references/operating-systems/flatcar.en /machine-controller/main/references/operating-systems/flatcar/ 301!
+/machine-controller/main/references/operating-systems/rockylinux.en /machine-controller/main/references/operating-systems/rockylinux/ 301!
+/machine-controller/main/references/operating-systems/ubuntu.en /machine-controller/main/references/operating-systems/ubuntu/ 301!
+
 {{- /* # Generate the redirects to stable version of the products */ -}}
 {{- $products := .Site.Data.products -}}
 {{- range $productName, $val := $products -}}
