@@ -17,10 +17,11 @@ weight = 60
 - [v1.3.6](#v136)
 - [v1.3.7](#v137)
 - [v1.3.8](#v138)
+- [v1.3.9](#v139)
 
-## v1.3.8
+## v1.3.9
 
-**GitHub release: [v1.3.8](https://github.com/kubermatic/kubelb/releases/tag/v1.3.8)**
+**GitHub release: [v1.3.9](https://github.com/kubermatic/kubelb/releases/tag/v1.3.9)**
 
 ### Bug or Regression
 
@@ -30,7 +31,7 @@ weight = 60
 
 #### Community Edition
 
-For Community Edition, the release artifacts are available on [GitHub Releases](https://github.com/kubermatic/kubelb/releases/tag/v1.3.8).
+For Community Edition, the release artifacts are available on [GitHub Releases](https://github.com/kubermatic/kubelb/releases/tag/v1.3.9).
 
 #### Enterprise Edition
 
@@ -42,13 +43,13 @@ For Community Edition, the release artifacts are available on [GitHub Releases](
 docker login quay.io -u <username> -p <password>
 
 # kubelb manager
-docker pull quay.io/kubermatic/kubelb-manager-ee:v1.3.8
+docker pull quay.io/kubermatic/kubelb-manager-ee:v1.3.9
 
 # ccm
-docker pull quay.io/kubermatic/kubelb-ccm-ee:v1.3.8
+docker pull quay.io/kubermatic/kubelb-ccm-ee:v1.3.9
 
 # connection-manager
-docker pull quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.8
+docker pull quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.9
 ```
 
 </details>
@@ -58,10 +59,10 @@ docker pull quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.8
 
 ```bash
 # kubelb-manager
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version v1.3.8
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version v1.3.9
 
 # kubelb-ccm
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version v1.3.8
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version v1.3.9
 
 # kubelb-addons
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-addons --version v0.3.2
@@ -82,34 +83,34 @@ oras login quay.io -u <username> -p <password>
 
 ## kubelb-manager
 SBOM_DIGEST=$(oras discover --format json --artifact-type application/spdx+json \
-  quay.io/kubermatic/kubelb-manager-ee:v1.3.8 | jq -r '.referrers[0].digest')
+  quay.io/kubermatic/kubelb-manager-ee:v1.3.9 | jq -r '.referrers[0].digest')
 oras pull quay.io/kubermatic/kubelb-manager-ee@${SBOM_DIGEST} --output sbom/
 
 ## kubelb-ccm
 SBOM_DIGEST=$(oras discover --format json --artifact-type application/spdx+json \
-  quay.io/kubermatic/kubelb-ccm-ee:v1.3.8 | jq -r '.referrers[0].digest')
+  quay.io/kubermatic/kubelb-ccm-ee:v1.3.9 | jq -r '.referrers[0].digest')
 oras pull quay.io/kubermatic/kubelb-ccm-ee@${SBOM_DIGEST} --output sbom/
 
 ## kubelb-connection-manager
 SBOM_DIGEST=$(oras discover --format json --artifact-type application/spdx+json \
-  quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.8 | jq -r '.referrers[0].digest')
+  quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.9 | jq -r '.referrers[0].digest')
 oras pull quay.io/kubermatic/kubelb-connection-manager-ee@${SBOM_DIGEST} --output sbom/
 ```
 
 **Verify SBOM attestation:**
 
 ```bash
-cosign verify-attestation quay.io/kubermatic/kubelb-manager-ee:v1.3.8 \
+cosign verify-attestation quay.io/kubermatic/kubelb-manager-ee:v1.3.9 \
   --type spdxjson \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 
-cosign verify-attestation quay.io/kubermatic/kubelb-ccm-ee:v1.3.8 \
+cosign verify-attestation quay.io/kubermatic/kubelb-ccm-ee:v1.3.9 \
   --type spdxjson \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 
-cosign verify-attestation quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.8 \
+cosign verify-attestation quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.9 \
   --type spdxjson \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
@@ -123,15 +124,15 @@ cosign verify-attestation quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.8
 **Docker images:**
 
 ```bash
-cosign verify quay.io/kubermatic/kubelb-manager-ee:v1.3.8 \
+cosign verify quay.io/kubermatic/kubelb-manager-ee:v1.3.9 \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 
-cosign verify quay.io/kubermatic/kubelb-ccm-ee:v1.3.8 \
+cosign verify quay.io/kubermatic/kubelb-ccm-ee:v1.3.9 \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 
-cosign verify quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.8 \
+cosign verify quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.9 \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 ```
@@ -139,11 +140,11 @@ cosign verify quay.io/kubermatic/kubelb-connection-manager-ee:v1.3.8 \
 **Helm charts:**
 
 ```bash
-cosign verify quay.io/kubermatic/helm-charts/kubelb-manager-ee:v1.3.8 \
+cosign verify quay.io/kubermatic/helm-charts/kubelb-manager-ee:v1.3.9 \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 
-cosign verify quay.io/kubermatic/helm-charts/kubelb-ccm-ee:v1.3.8 \
+cosign verify quay.io/kubermatic/helm-charts/kubelb-ccm-ee:v1.3.9 \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 
@@ -169,6 +170,10 @@ cosign verify-blob --bundle checksums.txt.sigstore.json checksums.txt \
 - [ORAS](https://oras.land) - OCI Registry As Storage
 
 </details>
+
+## v1.3.8
+
+**Skipped due to vulnerabilities found in Go dependencies in our release process**
 
 ## v1.3.7
 
