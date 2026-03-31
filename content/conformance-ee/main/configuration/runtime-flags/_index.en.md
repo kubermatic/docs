@@ -4,7 +4,7 @@ date = 2026-03-17T10:07:15+02:00
 weight = 20
 +++
 
-In addition to the YAML configuration file, Conformance EE supports command-line flags for controlling test execution behavior.
+In addition to the YAML configuration file, Conformance EE supports command-line flags for controlling test execution behavior. These flags can be passed via the Job spec's `args` field when deploying in-cluster.
 
 ## Flags Reference
 
@@ -20,38 +20,38 @@ In addition to the YAML configuration file, Conformance EE supports command-line
 
 ### Test Specific Datacenters
 
-```bash
-./e2e.test --datacenters=dc-1,dc-2
+```
+--datacenters=dc-1,dc-2
 ```
 
 ### Test Specific Kubernetes Versions
 
-```bash
-./e2e.test --kube-versions=1.31,1.32
+```
+--kube-versions=1.31,1.32
 ```
 
 ### Debug Mode (Keep Clusters)
 
 When debugging test failures, use `--skip-cluster-deletion` to keep clusters alive for investigation:
 
-```bash
-./e2e.test --skip-cluster-deletion
+```
+--skip-cluster-deletion
 ```
 
 ### Reuse Existing Clusters
 
 If clusters from a previous run are still available, skip creation:
 
-```bash
-./e2e.test --skip-cluster-creation
+```
+--skip-cluster-creation
 ```
 
 ### Upgrade and Test
 
 Upgrade existing clusters to the next Kubernetes version before running tests:
 
-```bash
-./e2e.test --update-clusters --skip-cluster-creation
+```
+--update-clusters --skip-cluster-creation
 ```
 
 ## Ginkgo Flags
@@ -69,12 +69,12 @@ Since Conformance EE uses Ginkgo v2, all standard Ginkgo flags are also availabl
 
 ### Example: Run Only Canal CNI Tests
 
-```bash
-./e2e.test --ginkgo.focus="canal"
+```
+--ginkgo.focus="canal"
 ```
 
 ### Example: Run 8 Parallel Nodes
 
-```bash
-./e2e.test --ginkgo.nodes=8
+```
+--ginkgo.nodes=8
 ```

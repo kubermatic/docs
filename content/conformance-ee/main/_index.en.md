@@ -7,7 +7,7 @@ description = "Learn how to use Kubermatic Conformance EE to automatically gener
 
 ## What is Conformance EE?
 
-[Conformance EE](https://github.com/kubermatic/conformance-ee) is a project by Kubermatic that provides an automated end-to-end conformance test framework for **Kubermatic Kubernetes Platform (KKP) Enterprise Edition**. It automatically generates, runs, and reports thousands of test scenarios by combinatorially applying configuration modifiers to cloud provider clusters and machine deployments.
+*Conformance EE* is a project by Kubermatic that provides an automated end-to-end conformance test framework for **Kubermatic Kubernetes Platform (KKP) Enterprise Edition**. It automatically generates, runs, and reports thousands of test scenarios by combinatorially applying configuration modifiers to cloud provider clusters and machine deployments.
 
 ## Motivation and Background
 
@@ -39,7 +39,6 @@ Conformance EE solves this by:
 
 ## Further Information
 
-- [Conformance EE GitHub Repository](https://github.com/kubermatic/conformance-ee)
 - [Kubermatic Kubernetes Platform](https://www.kubermatic.com/products/kubermatic-kubernetes-platform/)
 
 Visit [kubermatic.com](https://www.kubermatic.com/) for further information.

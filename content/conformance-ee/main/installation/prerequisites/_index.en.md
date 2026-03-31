@@ -12,7 +12,7 @@ Before installing Conformance EE, ensure the following prerequisites are met.
 
 Conformance EE is designed to test clusters managed by **Kubermatic Kubernetes Platform (KKP) Enterprise Edition**. You need:
 
-- A running KKP installation (v2.25+)
+- A running KKP installation (v2.30+)
 - Access to the KKP API (admin or project-level credentials)
 - A configured seed cluster with at least one cloud provider datacenter
 
@@ -20,7 +20,7 @@ Conformance EE is designed to test clusters managed by **Kubermatic Kubernetes P
 
 A Kubernetes cluster is required to run Conformance EE as a Job:
 
-- Kubernetes v1.27+
+- Kubernetes v1.30+
 - `cluster-admin` privileges (or ability to create ClusterRoleBindings)
 - Sufficient resources to run the conformance tester pod
 
@@ -33,19 +33,28 @@ Currently, the following cloud providers are supported:
 | KubeVirt | Supported |
 
 {{% notice note %}}
-Additional providers can be added by implementing the `Provider` interface. See the [architecture documentation]({{< ref "../../architecture/" >}}) for details.
+Additional providers may be supported in future releases.
 {{% /notice %}}
+
+### Enterprise Edition Subscription
+
+Access to Conformance EE requires a valid **Kubermatic Enterprise Edition subscription**. This includes:
+
+- Registry credentials for pulling the container image and downloading binaries
+- Access to the `quay.io/kubermatic/conformance-ee` OCI registry
+
+[Contact our solutions team](mailto:sales@kubermatic.com) if you need access.
 
 ### Tools
 
-For local development and building:
+The following tools are needed to work with Conformance EE:
 
 | Tool | Version | Purpose |
-|------|---------|---------|
-| Go | 1.25+ | Building the conformance tester binary |
-| Docker | 20.10+ | Building the container image |
+|------|---------|--------|
+| kubermatic-ee-downloader | latest | Downloading the conformance-tester binary |
 | kubectl | v1.27+ | Interacting with Kubernetes clusters |
-| Ginkgo | v2.28+ | Running tests locally (optional) |
+
+The `kubermatic-ee-downloader` is available for **Linux**, **Darwin (macOS)**, and **Windows** with support for both **amd64** and **arm64** architectures. See the [Container Image & Binary]({{< ref "../container-image/" >}}) page for download instructions.
 
 ## Network Access
 

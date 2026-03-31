@@ -36,7 +36,7 @@ While JUnit XML is only available after the suite completes, the ConfigMap repor
 
 ### How It Works
 
-After each spec on any Ginkgo node, `UpsertSpecReport()` patches a shared Kubernetes ConfigMap using JSON merge patches. This is safe for concurrent writes from multiple Ginkgo nodes.
+After each spec on any Ginkgo node, results are patched into a shared Kubernetes ConfigMap using JSON merge patches. This is safe for concurrent writes from multiple Ginkgo nodes.
 
 ### ConfigMap Naming
 
@@ -82,4 +82,4 @@ The reporter uses Kubernetes JSON merge patches (`MergePatchType`) which are saf
 
 ### Size Limits
 
-ConfigMaps in Kubernetes have a 1 MiB size limit. At suite completion, `PostProcessingSuite` reads all JUnit XML files and pushes them into the same ConfigMap, respecting this limit.
+ConfigMaps in Kubernetes have a 1 MiB size limit. At suite completion, all JUnit XML files from the reports directory are pushed into the same ConfigMap, respecting this limit.

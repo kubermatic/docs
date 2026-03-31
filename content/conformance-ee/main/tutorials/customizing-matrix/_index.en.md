@@ -93,7 +93,7 @@ excludeDistributions:
 For runtime filtering without changing the config file, use Ginkgo label filters:
 
 ```bash
-./e2e.test --ginkgo.label-filter="kubevirt && canal"
+--ginkgo.label-filter="kubevirt && canal"
 ```
 
 ## Estimating Matrix Size
@@ -101,7 +101,7 @@ For runtime filtering without changing the config file, use Ginkgo label filters
 Use `--ginkgo.dry-run` to see all generated scenarios without executing them:
 
 ```bash
-./e2e.test --ginkgo.dry-run --ginkgo.v
+--ginkgo.dry-run --ginkgo.v
 ```
 
 This lists every spec that would run, helping you estimate the size of your test matrix and verify your filters are working correctly.

@@ -41,20 +41,6 @@ Discovered from the KubeVirt infrastructure cluster:
 | `kubevirt-vpc-subnet`    | Subnet CRDs per VPC                           | Network subnet |
 | `kubevirt-storage-class` | StorageClasses from infra cluster              | Storage class |
 
-## Modifier Type
+## How Modifiers Work
 
-```go
-type MachineSpecModifier[T any] struct {
-    Name   string
-    Group  string
-    Modify func(spec T)
-}
-
-type DatacenterSetting struct {
-    Name     string
-    Group    string
-    Modifier func(dc *kubermaticv1.Datacenter)
-}
-```
-
-Each modifier follows the same pattern as cluster modifiers: a **Name** for human identification, a **Group** for exclusive selection, and a **Modify**/**Modifier** function for spec mutation.
+Each modifier follows the same pattern as cluster modifiers: a **Name** for human identification, a **Group** for exclusive selection, and a modify function for spec mutation.

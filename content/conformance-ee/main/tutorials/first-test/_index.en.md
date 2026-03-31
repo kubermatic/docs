@@ -49,13 +49,7 @@ Start with a minimal configuration to verify your setup works before expanding t
 
 ## Step 2: Launch the Interactive TUI
 
-Run the conformance tester binary:
-
-```bash
-./conformance-tester
-```
-
-The TUI will walk you through selecting your environment, providing credentials, and choosing which tests to run.
+Run the Conformance EE container with the TUI entrypoint. The TUI will walk you through selecting your environment, providing credentials, and choosing which tests to run.
 
 ## Step 3: Monitor Test Progress
 

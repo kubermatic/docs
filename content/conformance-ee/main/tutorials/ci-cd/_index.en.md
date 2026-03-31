@@ -8,15 +8,7 @@ This guide covers integrating Conformance EE into your CI/CD pipeline.
 
 ## GitHub Actions
 
-Conformance EE provides a built-in GitHub Actions workflow for building and pushing the container image. You can extend this to also run conformance tests.
-
-### Image Build Workflow
-
-The project includes a workflow at `.github/workflows/build-and-push.yaml` that:
-
-1. Triggers on git tag push (`v*`)
-2. Builds the multi-stage Docker image
-3. Pushes to `quay.io/kubermatic/conformance-ee` with version and `latest` tags
+Conformance EE container images are automatically built and published on each tagged release.
 
 ### Running Tests in CI
 

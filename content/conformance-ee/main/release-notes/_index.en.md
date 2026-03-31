@@ -10,10 +10,9 @@ This document is work in progress and might not be in a correct or up-to-date st
 
 ## Conformance EE Releases
 
-Release artifacts are published to:
+Release artifacts are published as container images:
 
 - **Container Image**: `quay.io/kubermatic/conformance-ee`
-- **Source Code**: [GitHub Releases](https://github.com/kubermatic/conformance-ee/releases)
 
 ### Latest (main)
 

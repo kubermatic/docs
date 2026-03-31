@@ -8,9 +8,9 @@ This matrix reflects the tested combinations of Conformance EE with Kubermatic K
 
 ## Component Compatibility
 
-| Conformance EE | KKP Version | Kubernetes | Go | Ginkgo |
-|----------------|-------------|------------|----|--------|
-| main | v2.30 | v1.31, v1.32 | 1.25 | v2.28.1 |
+| Conformance EE | KKP Version | Kubernetes | Ginkgo |
+|----------------|-------------|------------|--------|
+| main | v2.30 | v1.31, v1.32 | v2.28.1 |
 
 ## Supported Cloud Providers
 
@@ -32,7 +32,4 @@ This matrix reflects the tested combinations of Conformance EE with Kubermatic K
 | Dependency | Version |
 |------------|---------|
 | Kubermatic SDK | v2.30.0 |
-| k8s.io/client-go | v0.35.2 |
 | KubeVirt API | v1.3.1 |
-| Bubble Tea | v1.3.10 |
-| Gomega | v1.39.0 |

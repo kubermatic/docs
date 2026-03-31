@@ -30,24 +30,16 @@ Cluster modifiers define the configuration axes for Kubernetes clusters created 
 
 ## Deduplication
 
-Cluster modifiers are deduplicated using SHA-256 hashing. Two modifier combinations that produce the same effective `ClusterSpec` will share the same cluster, avoiding redundant cluster creation.
+Cluster modifiers are deduplicated using SHA-256 hashing. Two modifier combinations that produce the same effective cluster spec will share the same cluster, avoiding redundant cluster creation.
 
 Some groups are **excluded from the dedup hash** because they don't change the cluster's functional behavior:
 
 - `update-window` — Maintenance windows don't affect cluster behavior
 - `oidc` — OIDC is orthogonal to the provider/version matrix
 
-## Modifier Type
-
-```go
-type CloudSpecModifier struct {
-    Name   string
-    Group  string
-    Modify func(spec *kubermaticv1.CloudSpec)
-}
-```
+## How Modifiers Work
 
 Each modifier has:
 - **Name**: Human-readable description (e.g., "with cni plugin set to canal")
-- **Group**: Exclusive selection axis
-- **Modify**: Function that mutates the cluster spec
+- **Group**: Exclusive selection axis — only one modifier per group is active per cluster
+- **Modify function**: Applies the configuration change to the cluster spec

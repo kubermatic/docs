@@ -8,64 +8,64 @@ Conformance EE is a Ginkgo v2-based test framework that follows a three-phase pa
 
 ## High-Level Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Ginkgo Test Suite                            │
-│   provider/kubevirt/provider_suite_test.go                     │
-│   provider/kubevirt/provider_kubevirt_test.go                  │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │ calls
-                       ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                  build.GetTableEntries()                        │
-│   Combinatorially generates all test scenarios                  │
-│   Deduplicates using SHA-256 of sanitized cluster specs         │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │ uses
-          ┌────────────┼────────────┐
-          ▼            ▼            ▼
-    ┌──────────┐ ┌──────────┐ ┌──────────────┐
-    │settings/ │ │options/  │ │build/        │
-    │cluster.go│ │options.go│ │provider/     │
-    │kubevirt  │ │          │ │kubevirt.go   │
-    └──────────┘ └──────────┘ └──────────────┘
-
-                  Parallel Ginkgo nodes
-          ┌─────────────────────────────────┐
-          │  Node 1     Node 2  ...  Node N │
-          │  cluster/   utils/              │
-          │  ensure.go  provider_suite_     │
-          │  update.go  utils.go            │
-          └─────────────────────────────────┘
-
-                  Reporting
-          ┌─────────────────────────────────┐
-          │  utils/junit_reporter.go        │
-          │  utils/reports_configmap.go     │
-          └─────────────────────────────────┘
-```
+<div style="text-align: center">
+<pre>
+┌───────────────────────────────────┐
+│         Ginkgo Test Suite         │
+└─────────────────┬─────────────────┘
+      │ calls
+▼
+┌───────────────────────────────────┐
+│       Scenario Generator          │
+│  Combinatorially generates all    │
+│  test scenarios & deduplicates    │
+│  using SHA-256                    │
+└──────┬──────────┬──────────┬──────┘
+│          │          │
+▼          ▼          ▼
+ ┌──────────┐ ┌────────┐ ┌──────────┐
+ │ Settings │ │ Config │ │ Provider │
+ │& Modifi- │ │        │ │Discovery │
+ │  ers     │ │        │ │          │
+ └────┬─────┘ └───┬────┘ └────┬─────┘
+│           │           │
+└───────────┼───────────┘
+▼
+┌───────────────────────────────────┐
+│      Parallel Ginkgo Nodes        │
+│  Node 1    Node 2    ...  Node N  │
+└─────────────────┬─────────────────┘
+│
+▼
+┌───────────────────────────────────┐
+│           Reporting               │
+│  JUnit XML  │  ConfigMap Live     │
+│  Reports    │  Reports            │
+└───────────────────────────────────┘
+</pre>
+</div>
 
 ## Three-Phase Pattern
 
 ### 1. Build Phase
 
-The `build.GetTableEntries()` function generates the complete scenario matrix before any test spec runs:
+The scenario generator produces the complete test matrix before any test spec runs:
 
-1. **Discover Infrastructure** — Calls the provider's `DiscoverDefaultDatacenterSettings()` to enumerate VPCs, subnets, storage classes, instance types, etc. from the live infrastructure cluster.
+1. **Discover Infrastructure** — Queries the cloud provider to enumerate VPCs, subnets, storage classes, instance types, etc. from the live infrastructure cluster.
 2. **Generate Cluster Specs** — Combinatorially applies cluster modifiers (CNI, proxy mode, expose strategy, etc.) and datacenter modifiers (network, storage class).
-3. **Deduplicate Cluster Specs** — Serializes each sanitized `ClusterSpec` to JSON, hashes with SHA-256, and uses a `(dcHash[:6], specHash[:6], k8sVersion)` key to identify truly distinct clusters.
+3. **Deduplicate Cluster Specs** — Serializes each sanitized cluster spec, hashes with SHA-256, and uses a composite key to identify truly distinct clusters.
 4. **Generate Machine Specs** — For each unique cluster, combinatorially applies machine modifiers (CPU, memory, disk, OS distribution, image source, DNS policy, eviction strategy, etc.).
 5. **Deduplicate Machine Specs** — Same SHA-256 approach applied to machine specs.
 
-The result is a `map[string]*Scenario` where each key is a cluster dedup key and each `Scenario` contains the cluster spec plus all machines to test against it.
+The result is a deduplicated map of scenarios where each entry contains the cluster spec plus all machines to test against it.
 
 ### 2. Execute Phase
 
 Test scenarios are executed in parallel across Ginkgo nodes:
 
-- **Suite Setup** (`SynchronizedBeforeSuite`): Expensive one-time operations (project creation, cluster setup) run only on the first parallel Ginkgo node. Results are shared via `[]byte` to all nodes.
+- **Suite Setup**: Expensive one-time operations (project creation, cluster setup) run only on the first parallel Ginkgo node. Results are shared to all nodes.
 - **Spec Execution**: Each Ginkgo node picks up specs from the scenario table and runs the full machine deployment lifecycle.
-- **Suite Teardown** (`SynchronizedAfterSuite`): Cluster deletion and report publishing run only on the first node after all others finish.
+- **Suite Teardown**: Cluster deletion and report publishing run only on the first node after all others finish.
 
 ### 3. Report Phase
 
@@ -74,26 +74,50 @@ Test scenarios are executed in parallel across Ginkgo nodes:
 
 ## Components
 
-### Scenario Generator (`build/`)
+### Scenario Generator
 
-The scenario generator is the core engine that produces the test matrix. It uses 100 concurrent workers to parallelize cluster and machine spec generation:
+The scenario generator is the core engine that produces the test matrix. It uses concurrent workers to parallelize cluster and machine spec generation:
 
-```
-Discover Infrastructure
-    ↓ (VPCs, subnets, storage classes, instance types)
-Generate Cluster Specs
-    ↓ (apply 28 cluster modifiers across 17 groups)
-Deduplicate Cluster Specs
-    ↓ (SHA-256 hash: dcNameHash[:6] + specHash[:6] + k8sVersion)
-For Each Unique Cluster:
-    Generate Machine Specs
-        ↓ (apply machine modifiers: CPU, memory, disk, OS, DNS, etc.)
-    Deduplicate Machine Specs
-        ↓ (SHA-256 hash of sanitized spec + machineName)
-Return Map[clusterDedupKey]*Scenario
-```
+<div style="text-align: center">
+<pre>
+┌─────────────────────────────────────┐
+│     Discover Infrastructure         │
+│  (VPCs, subnets, storage classes)   │
+└──────────────────┬──────────────────┘
+│
+▼
+┌─────────────────────────────────────┐
+│     Generate Cluster Specs          │
+│  (28 modifiers across 17 groups)    │
+└──────────────────┬──────────────────┘
+│
+▼
+┌─────────────────────────────────────┐
+│     Deduplicate Cluster Specs       │
+│  (SHA-256 hash)                     │
+└──────────────────┬──────────────────┘
+│
+▼
+For Each Unique Cluster
+│
+┌────────────┴────────────┐
+│                         │
+▼                         ▼
+┌───────────────────┐  ┌────────────────────┐
+│  Generate Machine │  │ Deduplicate Machine│
+│  Specs            │─▶│ Specs              │
+│  (CPU, memory,    │  │ (SHA-256 hash)     │
+│   disk, OS, DNS)  │  │                    │
+└───────────────────┘  └──────────┬─────────┘
+                        │
+                        ▼
+                        ┌─────────────────────┐
+                        │ Return Scenario Map │
+                        └─────────────────────┘
+</pre>
+</div>
 
-### Cluster Lifecycle Manager (`cluster/`)
+### Cluster Lifecycle Manager
 
 Handles the full lifecycle of KKP clusters:
 
@@ -101,14 +125,14 @@ Handles the full lifecycle of KKP clusters:
 - **Upgrade**: Patch Kubernetes version, wait for reconciliation, re-run health checks
 - **Deletion**: Delete with 25 min timeout, wait for cleanup finalizer-based PV/LB deletion
 
-### Machine Deployment Manager (`utils/`)
+### Machine Deployment Manager
 
 Manages machine deployments within user clusters:
 
-- **Setup**: Create `MachineDeployment`, attach OSP annotations, wait for node references, label nodes, wait for Ready state and pod readiness
+- **Setup**: Create MachineDeployment, attach OSP annotations, wait for node references, label nodes, wait for Ready state and pod readiness
 - **Update**: Patch kubelet version, wait for rollout, verify new nodes
 
-### Interactive TUI (`ui/`)
+### Interactive TUI
 
 A Bubble Tea-based terminal interface that guides users through:
 
@@ -118,7 +142,7 @@ A Bubble Tea-based terminal interface that guides users through:
 4. Kubernetes version, distribution, datacenter, and modifier selection
 5. Test execution and live monitoring
 
-### Deployment Engine (`deploy/`)
+### Deployment Engine
 
 Creates Kubernetes resources for in-cluster test execution:
 
@@ -127,35 +151,3 @@ Creates Kubernetes resources for in-cluster test execution:
 - ConfigMap for provider configuration
 - Secret for kubeconfig credentials
 - Job definition with mounted config and credentials
-
-## Directory Structure
-
-```
-conformance-ee/
-├── cmd/                    # CLI entry point
-│   └── main.go
-├── deploy/                 # Kubernetes deployment utilities
-│   └── kubernetes.go
-├── tests/                  # Core test framework
-│   ├── build/              # Scenario generation engine
-│   │   ├── build.go        # GetTableEntries(), worker pools
-│   │   ├── scenario.go     # Entry point for scenario generation
-│   │   ├── types.go        # Core types (Scenario, clusterJob)
-│   │   ├── labels.go       # Ginkgo label helpers
-│   │   ├── provider.go     # Provider-agnostic building
-│   │   └── provider/       # Provider implementations
-│   ├── cluster/            # Cluster lifecycle
-│   │   ├── ensure.go       # Creation and health validation
-│   │   └── update.go       # Version upgrade logic
-│   ├── options/            # Configuration loading
-│   │   └── options.go      # YAML config and runtime options
-│   ├── settings/           # Modifier definitions
-│   │   ├── types.go        # Core modifier types
-│   │   ├── cluster.go      # 28 cluster modifiers
-│   │   └── kubevirt.go     # KubeVirt machine/DC modifiers
-│   ├── utils/              # Test utilities and reporters
-│   └── provider/kubevirt/  # Ginkgo test suite
-├── ui/                     # Interactive TUI
-├── Dockerfile.ginkgo       # Multi-stage Docker build
-└── go.mod                  # Go module dependencies
-```
