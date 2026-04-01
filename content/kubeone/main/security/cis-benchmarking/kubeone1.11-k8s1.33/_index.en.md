@@ -339,9 +339,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -365,9 +363,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Additional Configuration Required)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 
@@ -375,9 +373,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Additional Configuration Required)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 
@@ -385,9 +383,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Additional Configuration Required)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 
@@ -395,9 +393,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Additional Configuration Required)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 
@@ -453,9 +451,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Additional Configuration Required)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** Encryption configuration can be enabled as described [here][encryption-providers]
 
 ---
 
@@ -497,9 +495,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -587,7 +583,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** Manual check required
+**Result:** 🔵 Pass (Additional Configuration Required)
+
+**Details:** KubeOne can be configured with OIDC authentication as described [here][oidc]
 
 ---
 
@@ -597,7 +595,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** Manual check required
+**Result:** 🔵 Pass (Additional Configuration Required)
+
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 
@@ -605,7 +605,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** Manual check required
+**Result:** 🔵 Pass (Additional Configuration Required)
+
+**Details:** Audit logging is not enabled by default, it can be configured as described [here][audit-logging]
 
 ---
 
@@ -815,9 +817,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🔵 Pass (Expected Behavior)
 
 ---
 
@@ -825,9 +825,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🔵 Pass (Expected Behavior)
 
 ---
 
@@ -835,9 +833,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🔵 Pass (Expected Behavior)
 
 ---
 
