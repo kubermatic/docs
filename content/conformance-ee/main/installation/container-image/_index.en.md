@@ -43,6 +43,13 @@ List available tools:
 kubermatic-ee-downloader list
 ```
 
+Example output:
+
+```
+TOOL               VERSIONS    OS                      ARCH        DESCRIPTION
+conformance-tester latest-cli linux,darwin,windows    amd64,arm64 Kubermatic conformance cli
+```
+
 Download the conformance-tester binary:
 
 ```bash
@@ -53,7 +60,7 @@ Download a specific version to a custom directory:
 
 ```bash
 kubermatic-ee-downloader get conformance-tester \
-  --tag v1.2.0 \
+  --version v1.2.0 \
   --output /usr/local/bin
 ```
 
@@ -71,10 +78,13 @@ kubermatic-ee-downloader get conformance-tester \
 |------|-------|-------------|
 | `--username` | `-u` | Registry username |
 | `--password` | `-p` | Registry password |
-| `--tag` | `-t` | Artifact tag (default: `latest`) |
-| `--registry` | `-r` | Override OCI registry |
-| `--output` | `-o` | Output directory (default: `.`) |
 | `--verbose` | `-v` | Enable verbose logging |
+| `--version` | `-V` | Tool version (default: tool-specific or "latest") |
+| `--arch` | | Target architecture (e.g. amd64, arm64) |
+| `--os` | | Target operating system (e.g. linux, darwin, windows) |
+| `--registry` | `-r` | Override OCI registry (default: tool's registry) |
+| `--output` | `-o` | Output directory (default: `.`) |
+| `--output` | `-o` | Output directory (default: `.`) |
 
 ## Container Image
 
