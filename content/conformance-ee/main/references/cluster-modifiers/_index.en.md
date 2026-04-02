@@ -21,7 +21,7 @@ Cluster modifiers define the configuration axes for Kubernetes clusters created 
 | `node-local-dns`   | enabled, disabled                              | Node-local DNS cache |
 | `k8s-dashboard`    | enabled, disabled                              | Kubernetes Dashboard |
 | `pod-node-selector`| enabled, disabled                              | PodNodeSelector admission controller |
-| `event-rate-limit` | enabled, disabled                              | EventRateLimit admission controller |
+| `event-rate-limit` | disabled, server-only, namespace-only, all-limit-types | EventRateLimit admission controller |
 | `csi-driver`       | enabled, disabled                              | CSI driver integration |
 | `update-window`    | configured, none                               | Maintenance window (excluded from dedup) |
 | `oidc`             | disabled                                       | OIDC configuration (excluded from dedup) |
