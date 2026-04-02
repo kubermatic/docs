@@ -52,9 +52,10 @@ imageSources:
   flatcar:
     "3374.2.2": "docker://quay.io/kubermatic-virt-disks/flatcar:3374.2.2"
 
-# Operating System Profile annotations
+# Operating System Profile annotations (distro → OSP name)
 ospAnnotations:
-  "k8c.io/operating-system-profile": "osp-ubuntu"
+  ubuntu: "osp-ubuntu"
+  flatcar: "osp-flatcar"
 
 # Custom DNS nameservers
 nameservers:
@@ -170,6 +171,18 @@ When no `imageSources` are configured, the following defaults are used:
 | flatcar      | 3374.2.2 | `docker://quay.io/kubermatic-virt-disks/flatcar:3374.2.2` |
 | rockylinux   | 8        | `docker://quay.io/kubermatic-virt-disks/rocky:8`      |
 | rockylinux   | 9        | `docker://quay.io/kubermatic-virt-disks/rocky:9`      |
+
+### OSP Annotations
+
+```yaml
+ospAnnotations:
+  ubuntu: "osp-ubuntu-offline"
+  flatcar: "osp-flatcar-offline"
+```
+
+Maps OS distribution names to custom [Operating System Profile](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/operating-system-manager/usage/#using-custom-operatingsystemprofiles) names. When set, the annotation `k8c.io/operating-system-profile` is added to the `MachineDeployment` for that distribution.
+
+Each key must be the distribution name (e.g. `ubuntu`, `flatcar`, `rhel`, `rockylinux`) — the same names used in `enableDistributions`. Different distributions can reference different OSP names, which is essential for air-gapped environments where each OS requires its own offline package configuration.
 
 ### Node Settings
 
