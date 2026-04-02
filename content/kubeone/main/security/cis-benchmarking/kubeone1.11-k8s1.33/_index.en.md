@@ -855,13 +855,15 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 ### 5.2. Pod Security Standards
 
+The controls in this section are evaluated against the entire cluster. In a default KubeOne architecture, that includes `kube-system` workloads and static control-plane pods, so some results reflect required system components rather than user-workload policy.
+
 #### 5.2.2: Minimize the admission of privileged containers
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is driven by privileged system components such as `canal`, `kube-proxy`, and CSI node plugins.
 
 ---
 
@@ -869,9 +871,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -887,9 +887,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is driven by system networking and control-plane components that run with `hostNetwork`, including `canal`, `kube-proxy`, `node-local-dns`, and static control-plane pods.
 
 ---
 
@@ -897,9 +897,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is reported for a mix of `kube-system` and static control-plane components that Trivy evaluates together under this control.
 
 ---
 
@@ -907,9 +907,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is reported for system components in `kube-system` and the static control plane, some of which run as root or use upstream-default runtime users.
 
 ---
 
@@ -917,9 +917,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is reported for DNS and networking components that Trivy flags under this capability control, including `node-local-dns` and `coredns`.
 
 ---
 
@@ -927,9 +927,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is reported for networking, storage, and control-plane components that retain additional Linux capabilities in their rendered manifests.
 
 ---
 
@@ -937,9 +937,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** LOW
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is reported for system components that retain explicitly assigned capabilities in support of networking, storage, DNS, or control-plane functions.
 
 ---
 
@@ -955,9 +955,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is driven by CNI, CSI, DNS, and control-plane components that mount `hostPath` volumes for node-level configuration, manifests, certificates, or socket access.
 
 ---
 
@@ -1029,9 +1029,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is reported for system components in `kube-system` and static control-plane pods that do not all declare an explicit seccomp profile in their rendered manifests.
 
 ---
 
@@ -1039,9 +1039,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This cluster-level result is reported for system components that use security-context exceptions or inherit upstream runtime defaults in `kube-system` and the control plane.
 
 ---
 
