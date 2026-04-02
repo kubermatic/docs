@@ -12,7 +12,7 @@ Conformance EE container images are automatically built and published on each ta
 
 ### Running Tests in CI
 
-Create a workflow that runs conformance tests against your KKP installation:
+Create a workflow that runs conformance tests against your KKP installation. The example below downloads the downloader binary, uses it to fetch the conformance-tester, and then deploys the in-cluster Job:
 
 ```yaml
 name: Conformance Tests
@@ -21,11 +21,20 @@ on:
     - cron: '0 2 * * 1'  # Weekly on Monday at 2 AM
   workflow_dispatch:
 
+env:
+  DOWNLOADER_VERSION: v1.0.0  # kubermatic-ee-downloader release tag
+
 jobs:
   conformance:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Download kubermatic-ee-downloader
+        run: |
+          curl -sL -o kubermatic-ee-downloader \
+            "https://github.com/kubermatic/kubermatic-ee-downloader/releases/download/${DOWNLOADER_VERSION}/kubermatic-downloader_linux_amd64"
+          chmod +x kubermatic-ee-downloader
 
       - name: Set up kubeconfig
         run: |

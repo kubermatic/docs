@@ -1,12 +1,46 @@
 +++
-title = "Runtime Flags"
+title = "Runtime Options"
 date = 2026-03-17T10:07:15+02:00
 weight = 20
 +++
 
-In addition to the YAML configuration file, Conformance EE supports command-line flags for controlling test execution behavior. These flags can be passed via the Job spec's `args` field when deploying in-cluster.
+Beyond the YAML configuration file, Conformance EE provides additional runtime options.
 
-## Flags Reference
+## Interactive Mode (CLI)
+
+The `conformance-tester` CLI is the recommended way to run Conformance EE. After downloading the binary via `kubermatic-ee-downloader`, launch it:
+
+```bash
+./conformance-tester
+```
+
+The interactive TUI guides you through all runtime decisions:
+
+| Step | Description |
+|------|-------------|
+| Environment | Choose between deploying locally or to an existing cluster |
+| Kubeconfig | Select a kubeconfig source (from `KUBECONFIG` env, default path, or custom file) |
+| Provider | Choose the cloud provider to test |
+| Kubernetes Versions | Select which Kubernetes versions to include |
+| OS Distributions | Pick OS distributions and image sources |
+| Datacenters | Choose target datacenters |
+| Cluster Settings | Configure CNI, proxy mode, expose strategy, and other cluster modifiers |
+| Machine Settings | Configure CPU, memory, disk, and other machine modifiers |
+| Review & Deploy | Review the generated test matrix and deploy |
+
+All selections made in the TUI are translated into a configuration file and deployed automatically.
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `CONFORMANCE_TESTER_CONFIG_FILE` | Path to the YAML configuration file (used in automated/in-cluster mode) |
+| `KUBECONFIG` | Path to the kubeconfig file (the TUI auto-detects this) |
+| `HIDE_PRESET_CREDENTIALS` | Set to `true` to mask credential values in the TUI |
+
+## In-Cluster Flags
+
+When running Conformance EE as a Kubernetes Job (see [In-Cluster Deployment]({{< ref "../../installation/deployment/" >}})), additional flags can be passed in the Job spec's `args` field to control test execution:
 
 | Flag | Default | Description |
 |------|---------|-------------|
@@ -15,66 +49,35 @@ In addition to the YAML configuration file, Conformance EE supports command-line
 | `--skip-cluster-creation` | `false` | Skip cluster creation; use existing clusters |
 | `--skip-cluster-deletion` | `false` | Keep clusters after tests (useful for debugging) |
 | `--update-clusters` | `false` | Upgrade existing clusters before running tests |
+| `--verbose-logs` | `false` | Show additional log output from test code |
 
-## Usage Examples
+### Examples
 
-### Test Specific Datacenters
+Test specific datacenters:
 
-```
---datacenters=dc-1,dc-2
-```
-
-### Test Specific Kubernetes Versions
-
-```
---kube-versions=1.31,1.32
+```yaml
+args:
+  - --datacenters=dc-1,dc-2
 ```
 
-### Debug Mode (Keep Clusters)
+Keep clusters alive for debugging:
 
-When debugging test failures, use `--skip-cluster-deletion` to keep clusters alive for investigation:
-
-```
---skip-cluster-deletion
-```
-
-### Reuse Existing Clusters
-
-If clusters from a previous run are still available, skip creation:
-
-```
---skip-cluster-creation
+```yaml
+args:
+  - --skip-cluster-deletion
 ```
 
-### Upgrade and Test
+Reuse existing clusters from a previous run:
 
-Upgrade existing clusters to the next Kubernetes version before running tests:
-
-```
---update-clusters --skip-cluster-creation
-```
-
-## Ginkgo Flags
-
-Since Conformance EE uses Ginkgo v2, all standard Ginkgo flags are also available:
-
-| Flag | Description |
-|------|-------------|
-| `--ginkgo.v` | Verbose output |
-| `--ginkgo.nodes=N` | Number of parallel Ginkgo nodes |
-| `--ginkgo.focus="pattern"` | Run only specs matching the regex pattern |
-| `--ginkgo.skip="pattern"` | Skip specs matching the regex pattern |
-| `--ginkgo.label-filter="expression"` | Filter specs by Ginkgo labels |
-| `--ginkgo.dry-run` | List all specs without executing them |
-
-### Example: Run Only Canal CNI Tests
-
-```
---ginkgo.focus="canal"
+```yaml
+args:
+  - --skip-cluster-creation
 ```
 
-### Example: Run 8 Parallel Nodes
+Upgrade existing clusters before testing:
 
-```
---ginkgo.nodes=8
+```yaml
+args:
+  - --update-clusters
+  - --skip-cluster-creation
 ```

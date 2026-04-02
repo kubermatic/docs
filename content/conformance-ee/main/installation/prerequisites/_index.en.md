@@ -52,7 +52,6 @@ The following tools are needed to work with Conformance EE:
 | Tool | Version | Purpose |
 |------|---------|--------|
 | kubermatic-ee-downloader | latest | Downloading the conformance-tester binary |
-| kubectl | v1.27+ | Interacting with Kubernetes clusters |
 
 The `kubermatic-ee-downloader` is available for **Linux**, **Darwin (macOS)**, and **Windows** with support for both **amd64** and **arm64** architectures. See the [Container Image & Binary]({{< ref "../container-image/" >}}) page for download instructions.
 

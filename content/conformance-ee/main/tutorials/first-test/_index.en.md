@@ -12,7 +12,8 @@ Before starting, ensure you have:
 
 - A running KKP installation with at least one KubeVirt datacenter configured
 - A kubeconfig with access to the KKP seed cluster
-- The Conformance EE container image pulled or built locally
+- The `kubermatic-ee-downloader` tool ([download]({{< ref "../../installation/container-image/#getting-kubermatic-ee-downloader" >}}))
+- The conformance-tester binary downloaded via `kubermatic-ee-downloader get conformance-tester`
 
 ## Step 1: Create a Minimal Configuration
 
@@ -47,9 +48,21 @@ reportsRoot: /reports
 Start with a minimal configuration to verify your setup works before expanding the test matrix.
 {{% /notice %}}
 
-## Step 2: Launch the Interactive TUI
+## Step 2: Download and Launch the Interactive TUI
 
-Run the Conformance EE container with the TUI entrypoint. The TUI will walk you through selecting your environment, providing credentials, and choosing which tests to run.
+Download the conformance-tester binary using the `kubermatic-ee-downloader`:
+
+```bash
+kubermatic-ee-downloader get conformance-tester --output .
+```
+
+Then launch the TUI:
+
+```bash
+./conformance-tester
+```
+
+The TUI will walk you through selecting your environment, providing credentials, and choosing which tests to run.
 
 ## Step 3: Monitor Test Progress
 

@@ -88,20 +88,24 @@ excludeDistributions:
   - rhel
 ```
 
-## Using Ginkgo Label Filters
+## Filtering at Runtime (In-Cluster)
 
-For runtime filtering without changing the config file, use Ginkgo label filters:
+When running as a Kubernetes Job, you can further narrow the test scope using runtime flags in the Job spec's `args` without changing the config file:
 
-```bash
---ginkgo.label-filter="kubevirt && canal"
+```yaml
+args:
+  - --datacenters=dc-1
+  - --kube-versions=1.31
 ```
 
 ## Estimating Matrix Size
 
-Use `--ginkgo.dry-run` to see all generated scenarios without executing them:
+To preview all generated scenarios without executing them, use a dry-run. When running in-cluster, add the following to the Job spec's `args`:
 
-```bash
---ginkgo.dry-run --ginkgo.v
+```yaml
+args:
+  - --ginkgo.dry-run
+  - --ginkgo.v
 ```
 
 This lists every spec that would run, helping you estimate the size of your test matrix and verify your filters are working correctly.

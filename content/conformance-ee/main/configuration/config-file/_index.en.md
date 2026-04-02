@@ -4,7 +4,9 @@ date = 2026-03-17T10:07:15+02:00
 weight = 10
 +++
 
-The primary configuration is a YAML file that controls which providers, Kubernetes versions, OS distributions, and resource sizes are included in the test matrix.
+When running Conformance EE interactively via the `conformance-tester` CLI, configuration is handled through the TUI. For automated or in-cluster deployments, you provide a YAML configuration file that controls which providers, Kubernetes versions, OS distributions, and resource sizes are included in the test matrix.
+
+The configuration file path is set via the `CONFORMANCE_TESTER_CONFIG_FILE` environment variable.
 
 ## Full Configuration Reference
 
@@ -87,7 +89,7 @@ providers:
   - kubevirt
 ```
 
-Specifies which cloud providers to test. Each provider must have a corresponding implementation in the `build/provider/` directory.
+Specifies which cloud providers to test.
 
 | Provider | Status |
 |----------|--------|
