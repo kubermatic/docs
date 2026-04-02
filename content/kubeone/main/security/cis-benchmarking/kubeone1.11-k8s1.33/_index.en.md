@@ -855,8 +855,6 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 ### 5.2. Pod Security Standards
 
-### 5.2. Pod Security Standards
-
 The controls in this section are evaluated against the entire cluster. In a default KubeOne architecture, that includes `kube-system` workloads and static control-plane pods, so some results reflect required system components rather than user-workload policy.
 
 #### 5.2.2: Minimize the admission of privileged containers
