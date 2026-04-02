@@ -619,9 +619,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** This control passes on control-plane nodes and fails only on static worker nodes, where kubeadm-created kubelet systemd drop-ins such as `10-kubeadm.conf` keep upstream-default permissions until KubeOne reconciles them after bootstrap.
 
 ---
 
@@ -653,9 +653,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
-
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Result:** 🟢 Pass
 
 ---
 
@@ -687,7 +685,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🟢 Pass
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
+
+**Details:** This control passes on control-plane nodes and fails only on static worker nodes, where Trivy reports `/var/lib/kubelet/config.yaml` with upstream-default permissions until KubeOne reconciles it after bootstrap.
 
 ---
 
@@ -761,9 +761,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** KubeOne-managed nodes set this argument as part of OSM node identity handling, so this control is expected to be reported by the cluster-wide scan.
 
 ---
 
@@ -779,9 +779,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** CRITICAL
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** KubeOne configures kubelet serving certificates through bootstrap and rotation with `serverTLSBootstrap: true` instead of explicit static arguments.
 
 ---
 
