@@ -10,7 +10,7 @@ This matrix reflects the tested combinations of Conformance EE with Kubermatic K
 
 | Conformance EE | KKP Version | Kubernetes | Ginkgo |
 |----------------|-------------|------------|--------|
-| main | v2.30 | v1.31, v1.32 | v2.28.1 |
+| main | v2.30 | v1.32, v1.33, v1.34, v1.35 | v2.28.1 |
 
 ## Supported Cloud Providers
 
