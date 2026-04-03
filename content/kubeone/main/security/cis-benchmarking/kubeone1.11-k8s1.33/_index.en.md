@@ -131,7 +131,7 @@ Each control in the CIS Kubernetes Benchmark was evaluated. These are the possib
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** KubeOne inherits kubeadm local-etcd defaults, where `/var/lib/etcd` is created with `root:root` ownership instead of `etcd:etcd`, so this control remains a documented CIS hardening gap.
 
 ---
 
@@ -215,7 +215,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔴 Fail
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** KubeOne currently relies on unauthenticated API server health checks on `/healthz`, so this control remains a documented hardening gap.
 
 ---
 
@@ -287,9 +287,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** HIGH
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Additional Configuration Required)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** EventRateLimit is not enabled by default. It can be enabled in the KubeOne manifest with `features.eventRateLimit.enable: true` and `features.eventRateLimit.config.configFilePath`.
 
 ---
 
@@ -305,9 +305,9 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Severity:** MEDIUM
 
-**Result:** 🔴 Fail
+**Result:** 🔵 Pass (Additional Configuration Required)
 
-_The issue is under investigation to provide a fix in a future KubeOne release_
+**Details:** AlwaysPullImages is not enabled by default. It can be enabled in the KubeOne manifest with `features.alwaysPullImages.enable: true`.
 
 ---
 
