@@ -41,6 +41,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 
 ### KubeLB Manager EE Values
 
+<!-- helm-values-kubelb-manager-ee start -->
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
@@ -133,6 +134,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 | serviceAccount.name | string | `""` |  |
 | serviceMonitor.enabled | bool | `false` |  |
 | tolerations | list | `[]` |  |
+<!-- helm-values-kubelb-manager-ee end -->
 
 {{% /tab %}}
 {{% tab name="Community Edition" %}}
@@ -149,6 +151,7 @@ helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubel
 
 ### KubeLB Manager CE Values
 
+<!-- helm-values-kubelb-manager start -->
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
@@ -211,6 +214,7 @@ helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubel
 | serviceAccount.name | string | `""` |  |
 | serviceMonitor.enabled | bool | `false` |  |
 | tolerations | list | `[]` |  |
+<!-- helm-values-kubelb-manager end -->
 
 {{% /tab %}}
 {{< /tabs >}}
