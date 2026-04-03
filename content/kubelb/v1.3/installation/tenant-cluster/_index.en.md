@@ -122,6 +122,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 
 ### KubeLB CCM EE Values
 
+<!-- helm-values-kubelb-ccm-ee start -->
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
@@ -204,6 +205,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 | serviceAccount.name | string | `""` |  |
 | serviceMonitor.enabled | bool | `false` |  |
 | tolerations | list | `[]` |  |
+<!-- helm-values-kubelb-ccm-ee end -->
 
 {{% /tab %}}
 {{% tab name="Community Edition" %}}
@@ -220,6 +222,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 
 ### KubeLB CCM CE Values
 
+<!-- helm-values-kubelb-ccm start -->
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
@@ -296,6 +299,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 | serviceAccount.name | string | `""` |  |
 | serviceMonitor.enabled | bool | `false` |  |
 | tolerations | list | `[]` |  |
+<!-- helm-values-kubelb-ccm end -->
 
 {{% /tab %}}
 {{< /tabs >}}
