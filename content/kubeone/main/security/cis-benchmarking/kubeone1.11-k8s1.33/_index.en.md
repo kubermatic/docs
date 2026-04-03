@@ -621,7 +621,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-**Details:** This control passes on control-plane nodes and fails only on static worker nodes, where kubeadm-created kubelet systemd drop-ins such as `10-kubeadm.conf` keep upstream-default permissions until KubeOne reconciles them after bootstrap.
+**Details:** This control passes on control-plane nodes and fails only on static worker nodes, where kubeadm-created kubelet systemd drop-ins such as `10-kubeadm.conf` keep `0644` permissions.
 
 ---
 
@@ -687,7 +687,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-**Details:** This control passes on control-plane nodes and fails only on static worker nodes, where Trivy reports `/var/lib/kubelet/config.yaml` with upstream-default permissions until KubeOne reconciles it after bootstrap.
+**Details:** This control passes on control-plane nodes and fails only on static worker nodes, where Trivy reports `/var/lib/kubelet/config.yaml` with `0644` permissions.
 
 ---
 
@@ -781,7 +781,7 @@ _The issue is under investigation to provide a fix in a future KubeOne release_
 
 **Result:** 🔵 Pass (Expected Cluster-Level Result)
 
-**Details:** KubeOne configures kubelet serving certificates through bootstrap and rotation with `serverTLSBootstrap: true` instead of explicit static arguments.
+**Details:** KubeOne configures kubelet serving certificates through bootstrap with `serverTLSBootstrap: true`.
 
 ---
 
