@@ -109,8 +109,12 @@ Set the resource allocation and runtime options for test clusters:
 - **Cluster Name** — prefix used for all created clusters
 - **Machine Deployment** — number of worker nodes and resource sizes (CPU, memory, disk)
 - **Test Options** — parallel test runners, test focus/skip filters
-- **Registry** — optional mirror for pulling test images
 - **Results** — output directory for JUnit XML reports
+- **Registry** — optional credentials for pulling the conformance test image. If left empty, the default Docker credentials from `~/.docker/config.json` are used.
+
+{{% notice tip %}}
+Run `docker login` beforehand to store your Kubermatic Enterprise registry credentials.
+{{% /notice %}}
 
 ![Cluster Configuration](../images/9.png)
 
