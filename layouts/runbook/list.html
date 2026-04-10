@@ -4,7 +4,7 @@
 
 {{ $version := path.Base (index (findRE "^([^/]+)/([^/]+)/" .File.Dir) 0) }}
 
-{{ range (index .Site.Data.kubermatic $version).runbook.groups }}
+{{ range (index hugo.Data.kubermatic $version).runbook.groups }}
   <h3 id="group-{{ urlize .name }}">Group {{ .name }}</h3>
   <div class="runbook-group">
     {{ range .rules }}

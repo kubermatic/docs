@@ -1,5 +1,5 @@
 [build.environment]
-HUGO_VERSION = "0.150.0"
+HUGO_VERSION = "0.159.1"
 
 [context.production]
 command = "hugo --minify"
