@@ -4799,6 +4799,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `className` _string_ | {{< unsafe >}}ClassName is the GatewayClass to use.{{< /unsafe >}} |
+| `infrastructureAnnotations` _object (keys:string, values:string)_ | {{< unsafe >}}InfrastructureAnnotations configures Gateway.spec.infrastructure.annotations on the<br />operator-managed Gateway so the Gateway implementation can propagate them to the<br />generated infrastructure resources.{{< /unsafe >}} |
 
 
 [Back to top](#top)
