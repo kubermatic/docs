@@ -2,7 +2,7 @@
   {{ $currentNode := . }}
   {{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
   {{ $topSection := .FirstSection.Section }}
-  {{ $products := $.Site.Data.products }}
+  {{ $products := hugo.Data.products }}
   {{ $product := index $products $topSection }}
 
   {{ $sectionLabel := .Site.Params.sectionLabel }}

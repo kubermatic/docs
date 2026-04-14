@@ -2,7 +2,7 @@
 {{$logo := .Site.Params.mainLogo}}
 {{$hideMenu := .Params.landingPage}}
 
-{{$menuItems := where $.Site.Data.mainMenu.items "hide" "!=" true}}
+{{$menuItems := where hugo.Data.mainMenu.items "hide" "!=" true}}
 <header class="main-header fixed" id="header">
   <nav class="nav-bar flex-wrapper">
     {{if $logo}}
@@ -148,7 +148,7 @@
     </div>
 
     {{$id := 0}}
-    {{with $.Site.Data.mobileMenu.items}}
+    {{with hugo.Data.mobileMenu.items}}
     <div id="mobile-menu" class="mobile-menu">
       <button class="pos-rel hide menu-btn-back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17"><g fill="none" fill-rule="evenodd" stroke="#262626" stroke-linecap="round" stroke-width="2"><path stroke-linejoin="round" d="M23 8.657H3"/><path d="M9.195 1 1.866 8.33l7.33 7.327"/></g></svg>Menu items</button>
       <ul class="mobile-menu-list">

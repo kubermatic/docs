@@ -1,4 +1,4 @@
-{{$products := .Site.Data.products}}
+{{$products := hugo.Data.products}}
 {{$versions := (index $products .Section).versions | default dict}}
 
 <!DOCTYPE html>

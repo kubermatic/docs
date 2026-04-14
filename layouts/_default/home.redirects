@@ -59,7 +59,7 @@ https://cranky-newton-4e6ed2.netlify.com/* https://docs.kubermatic.com/:splat 30
 /machine-controller/main/references/operating-systems/ubuntu.en /machine-controller/main/references/operating-systems/ubuntu/ 301!
 
 {{- /* # Generate the redirects to stable version of the products */ -}}
-{{- $products := .Site.Data.products -}}
+{{- $products := hugo.Data.products -}}
 {{- range $productName, $val := $products -}}
 {{- if .versions -}}
 {{- $release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release -}}
