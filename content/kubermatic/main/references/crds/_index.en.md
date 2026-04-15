@@ -4941,6 +4941,44 @@ _Appears in:_
 | --- | --- |
 | `className` _string_ | {{< unsafe >}}ClassName is the GatewayClass to use.{{< /unsafe >}} |
 | `infrastructureAnnotations` _object (keys:string, values:string)_ | {{< unsafe >}}InfrastructureAnnotations configures Gateway.spec.infrastructure.annotations on the<br />operator-managed Gateway so the Gateway implementation can propagate them to the<br />generated infrastructure resources.{{< /unsafe >}} |
+| `tls` _[KubermaticGatewayTLSConfiguration](#kubermaticgatewaytlsconfiguration)_ | {{< unsafe >}}TLS configures TLS for the operator-managed default Gateway.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### KubermaticGatewaySecretReference
+
+
+
+KubermaticGatewaySecretReference references a TLS Secret for the operator-managed default Gateway.
+
+_Appears in:_
+- [KubermaticGatewayTLSConfiguration](#kubermaticgatewaytlsconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | {{< unsafe >}}Name is the name of the TLS Secret.{{< /unsafe >}} |
+| `namespace` _string_ | {{< unsafe >}}Namespace is the namespace of the TLS Secret. If unset, the Gateway namespace is used.<br />Cross-namespace references require a Gateway API ReferenceGrant in the target namespace.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### KubermaticGatewayTLSConfiguration
+
+
+
+KubermaticGatewayTLSConfiguration configures TLS for the operator-managed default Gateway.
+
+_Appears in:_
+- [KubermaticGatewayConfiguration](#kubermaticgatewayconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `secretRef` _[KubermaticGatewaySecretReference](#kubermaticgatewaysecretreference)_ | {{< unsafe >}}SecretRef references an existing TLS Secret that should be used by the<br />default HTTPS listener. When hostname-specific HTTPS listeners are synced<br />for watched HTTPRoutes, the referenced certificate must cover all served<br />hostnames, for example via a wildcard or SAN certificate.{{< /unsafe >}} |
 
 
 [Back to top](#top)
