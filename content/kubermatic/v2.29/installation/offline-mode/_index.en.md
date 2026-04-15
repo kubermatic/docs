@@ -271,20 +271,16 @@ spec:
         # Configure the address of the proxy
         # It will be configured on all worker nodes. It results in the HTTP_PROXY & HTTPS_PROXY
         # environment variables being set.
-        http_proxy: "http://172.20.0.2:3128"
+        httpProxy: "http://172.20.0.2:3128"
 
         # Worker nodes require access to a Docker registry; in case it is only accessible using
         # plain HTTP or it uses a self-signed certificate, it must be listed here.
-        insecure_registries:
+        insecureRegistries:
           - "172.20.0.2:5000"
 
         # The kubelet requires the pause image; if it's only accessible using a private registry,
         # the image name must be configured here.
-        pause_image: "172.20.0.2:5000/kubernetes/pause:3.1"
-
-        # ContainerLinux requires the hyperkube image; if it's only accessible using a private
-        # registry, the image name must be configured here.
-        hyperkube_image: "172.20.0.2:5000/kubernetes/hyperkube-amd64"
+        pauseImage: "172.20.0.2:5000/kubernetes/pause:3.1"
 ```
 
 Edit your Seed either using `kubectl edit` or editing a local file and applying it with `kubectl apply`. From then
