@@ -5397,6 +5397,24 @@ _Appears in:_
 
 
 
+### KyvernoControllerSettings
+
+
+
+KyvernoControllerSettings configures resource requirements for a Kyverno controller.
+
+_Appears in:_
+- [KyvernoSettings](#kyvernosettings)
+
+| Field | Description |
+| --- | --- |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#resourcerequirements-v1-core)_ | {{< unsafe >}}Optional: Resources is the resource requirements for the Kyverno controller.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### KyvernoPolicyNamespace
 
 
@@ -5431,6 +5449,10 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enabled` _boolean_ | {{< unsafe >}}Controls whether Kyverno is deployed or not.{{< /unsafe >}} |
+| `admissionController` _[KyvernoControllerSettings](#kyvernocontrollersettings)_ | {{< unsafe >}}Optional: AdmissionController configures the Kyverno admission controller.{{< /unsafe >}} |
+| `backgroundController` _[KyvernoControllerSettings](#kyvernocontrollersettings)_ | {{< unsafe >}}Optional: BackgroundController configures the Kyverno background controller.{{< /unsafe >}} |
+| `cleanupController` _[KyvernoControllerSettings](#kyvernocontrollersettings)_ | {{< unsafe >}}Optional: CleanupController configures the Kyverno cleanup controller.{{< /unsafe >}} |
+| `reportsController` _[KyvernoControllerSettings](#kyvernocontrollersettings)_ | {{< unsafe >}}Optional: ReportsController configures the Kyverno reports controller.{{< /unsafe >}} |
 
 
 [Back to top](#top)
