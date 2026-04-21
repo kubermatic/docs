@@ -113,7 +113,7 @@ kubelb:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.3.9 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.3.10 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-ccm-ee/crds/
 ## Create and update values.yaml with the required values.
@@ -123,6 +123,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 ### KubeLB CCM EE Values
 
 <!-- helm-values-kubelb-ccm-ee start -->
+
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
@@ -135,7 +136,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 | extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | grafana.dashboards.annotations | object | `{}` | Additional annotations for dashboard ConfigMaps |
-| grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: <https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster> |
+| grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm-ee"` |  |
 | image.tag | string | `"v1.3.9"` |  |
@@ -213,7 +214,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.3.9 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.3.10 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-ccm/crds/
 ## Create and update values.yaml with the required values.
@@ -223,6 +224,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 ### KubeLB CCM CE Values
 
 <!-- helm-values-kubelb-ccm start -->
+
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
@@ -235,10 +237,10 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 | extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | grafana.dashboards.annotations | object | `{}` | Additional annotations for dashboard ConfigMaps |
-| grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: <https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster> |
+| grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm"` |  |
-| image.tag | string | `"v1.3.9"` |  |
+| image.tag | string | `"v1.3.10"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubeRbacProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
 | kubeRbacProxy.image.repository | string | `"quay.io/brancz/kube-rbac-proxy"` |  |
