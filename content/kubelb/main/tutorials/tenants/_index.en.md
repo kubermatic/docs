@@ -71,3 +71,30 @@ The tenant name provided to the consumers is the name of the namespace that is c
 {{% /notice %}}
 
 **For more details and options, please go through [CRD References]({{< relref "../../references">}})**
+
+## Per-Tenant Envoy Proxy Sizing
+
+The global `Config.spec.envoyProxy` block sets defaults for every tenant's data plane. A tenant can independently size its Envoy Proxy by setting `replicas` and `resources` under `spec.envoyProxy` on its `Tenant` CR.
+
+{{% notice note %}}
+Fields set under `Tenant.spec.envoyProxy` take precedence over the matching fields in `Config.spec.envoyProxy`. `replicas` is ignored when `Config.spec.envoyProxy.useDaemonset` is `true`.
+{{% /notice %}}
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Tenant
+metadata:
+  name: shroud
+spec:
+  envoyProxy:
+    replicas: 3
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+```
+
+See [Configure Envoy Proxy]({{< relref "../config#configure-envoy-proxy" >}}) for the global defaults that these overrides replace.
