@@ -22,7 +22,7 @@ kubelb:
   enableGatewayAPI: true
   debug: true
   envoyProxy:
-    # -- Topology defines the deployment topology for Envoy Proxy. Valid values are: shared, dedicated, and global.
+    # -- Topology defines the deployment topology for Envoy Proxy. Only `shared` is supported in v1.4.
     topology: shared
     # -- The number of replicas for the Envoy Proxy deployment.
     replicas: 1
