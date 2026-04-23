@@ -131,6 +131,39 @@ This will create a LoadBalancer resource with the hostname `test.example.com` th
 
 Please take a look at [DNS Automation](../security/dns/#enable-dns-automation) for more details on how to configure DNS for the hostname.
 
+### Per-Service Load Balancer Policy
+
+{{% notice note %}}
+Enterprise Edition only. Available from KubeLB v1.4.
+{{% /notice %}}
+
+Annotate a Service of `type: LoadBalancer` with `kubelb.k8c.io/lb-policy` to select the Envoy load balancing policy for just that service. The same annotation on an Ingress, Gateway, HTTPRoute, or GRPCRoute applies to the corresponding L7 Route.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo
+  annotations:
+    kubelb.k8c.io/lb-policy: LeastRequest
+spec:
+  type: LoadBalancer
+  selector:
+    app: echo
+  ports:
+    - port: 80
+      targetPort: 8080
+```
+
+Valid values are `RoundRobin`, `LeastRequest`, and `Random`.
+
+Precedence (highest first):
+
+1. Per-resource annotation on the Service/Ingress/Gateway/HTTPRoute/GRPCRoute (`kubelb.k8c.io/lb-policy`)
+2. Tenant `spec.loadBalancerPolicy`
+3. Config `spec.loadBalancerPolicy`
+4. Default: `RoundRobin`
+
 ### Configurations
 
 KubeLB CCM helm chart can be used to further configure the CCM. Some essential options are:
