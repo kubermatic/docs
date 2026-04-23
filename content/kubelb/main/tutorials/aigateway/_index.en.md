@@ -5,43 +5,22 @@ date = 2023-10-27T10:07:15+02:00
 weight = 6
 +++
 
-This tutorial will guide you through setting up an AI and MCP Gateway using KubeLB with KGateway to securely manage Large Language Model (LLM) requests and MCP tool servers.
+This tutorial walks through setting up an AI, MCP, and Agent-to-Agent (A2A) Gateway with KubeLB using [agentgateway](https://agentgateway.dev).
 
 ## Overview
 
-KubeLB leverages [KGateway](https://kgateway.dev/), a CNCF Sandbox project (accepted March 2025), to provide advanced AI Gateway capabilities. KGateway is built on Envoy and implements the Kubernetes Gateway API specification, offering:
+agentgateway is an Envoy-based data plane that implements the Kubernetes Gateway API and adds first-class support for LLM traffic, Model Context Protocol (MCP) servers, and Agent-to-Agent (A2A) connectivity. Enabled as an addon in the `kubelb-addons` chart, it lets the management cluster terminate AI/agent traffic.
 
-- **AI Workload Protection**: Secure applications, models, and data from inappropriate access
-- **LLM Traffic Management**: Intelligent routing to LLM providers with load balancing based on model metrics
-- **Prompt Engineering**: System-level prompt enrichment and guards
-- **Multi-Provider Support**: Works with OpenAI, Anthropic, Google Gemini, Mistral, and local models like Ollama
-- **Model Context Protocol (MCP) Gateway**: Federates MCP tool servers into a single, secure endpoint
-- **Advanced Security**: Authentication, authorization, rate limiting tailored for AI workloads
+Refer to the upstream [agentgateway documentation](https://agentgateway.dev/docs/) for the complete feature set (provider list, prompt guards, inference routing, rate limiting, observability, etc.). This page only covers enabling the addon and a minimal end-to-end example.
 
-### Key Features
+## Prerequisites
 
-#### AI-Specific Capabilities
-
-- **Prompt Guards**: Protect against prompt injection and data leakage
-- **Model Failover**: Automatic failover between LLM providers
-- **Function Calling**: Support for LLM function/tool calling
-- **AI Observability**: Detailed metrics and tracing for AI requests
-- **Semantic Caching**: Cache responses based on semantic similarity
-- **Token-Based Rate Limiting**: Control costs with token consumption limits
-
-#### Gateway API Inference Extension
-
-KGateway supports the Gateway API Inference Extension which introduces:
-
-- `InferenceModel` CRD: Define LLM models and their endpoints
-- `InferencePool` CRD: Group models for load balancing and failover
-- Intelligent endpoint picking based on model performance metrics
+- A management cluster with KubeLB manager installed. See [Setup Management Cluster]({{< relref "../../installation/management-cluster" >}}).
+- Gateway API CRDs installed (`kubelb.enableGatewayAPI: true` in the manager values).
 
 ## Setup
 
-### Step 1: Enable KGateway AI Extension
-
-Update values.yaml for KubeLB manager chart to enable KGateway with AI capabilities:
+Enable the addon in `values.yaml` for the KubeLB manager chart:
 
 ```yaml
 kubelb:
@@ -49,191 +28,170 @@ kubelb:
 
 kubelb-addons:
   enabled: true
-
-  kgateway:
+  agentgateway:
     enabled: true
-    gateway:
-      aiExtension:
-        enabled: true
 ```
 
-### Step 2: Create Gateway Specific Resources
+Apply the chart. The addon installs the agentgateway control plane and the `AgentgatewayBackend` CRD (API group `agentgateway.dev/v1alpha1`).
 
-1. Deploy a Gateway resource to handle AI traffic:
+{{% notice note %}}
+Enabling the addon installs the `AgentgatewayBackend` CRD and registers the `agentgateway` GatewayClass that subsequent examples reference.
+{{% /notice %}}
+
+### Create the Gateway
+
+Provision a Gateway that uses the `agentgateway` GatewayClass. The proxy Deployment and Service are created automatically from this resource.
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: ai-gateway
+  name: agentgateway-proxy
   namespace: kubelb
-  labels:
-    app: ai-gateway
 spec:
-  gatewayClassName: kgateway
-  infrastructure:
-    parametersRef:
-      name: ai-gateway
-      group: gateway.kgateway.dev
-      kind: GatewayParameters
+  gatewayClassName: agentgateway
   listeners:
-  - protocol: HTTP
-    port: 8080
-    name: http
-    allowedRoutes:
-      namespaces:
-        from: All
+    - name: http
+      protocol: HTTP
+      port: 8080
+      allowedRoutes:
+        namespaces:
+          from: All
 ```
 
-1. Deploy a GatewayParameters resource to enable the AI extension:
+## OpenAI Example
 
-```yaml
-apiVersion: gateway.kgateway.dev/v1alpha1
-kind: GatewayParameters
-metadata:
-  name: ai-gateway
-  namespace: kubelb
-  labels:
-    app: ai-gateway
-spec:
-  kube:
-    aiExtension:
-      enabled: true
-      ports:
-      - name: ai-monitoring
-        containerPort: 9092
-      image:
-        registry: cr.kgateway.dev/kgateway-dev
-        repository: kgateway-ai-extension
-        tag: v2.1.0-main
-    service:
-      type: LoadBalancer
-```
+This example routes requests to OpenAI through agentgateway using the `AgentgatewayBackend` CRD.
 
-## OpenAI Integration Example
-
-This example shows how to set up secure access to OpenAI through the AI Gateway.
-
-### Step 1: Store OpenAI API Key
-
-Create a Kubernetes secret with your OpenAI API key:
+### Store the API Key
 
 ```bash
 export OPENAI_API_KEY="sk-..."
 
 kubectl create secret generic openai-secret \
-  --from-literal=Authorization="Bearer ${OPENAI_API_KEY}" \
-  --namespace kubelb
+  --namespace kubelb \
+  --from-literal=Authorization="${OPENAI_API_KEY}"
 ```
 
-### Step 2: Create Backend Configuration
+The literal key must be `Authorization` with the raw API key as its value; agentgateway prepends the `Bearer ` prefix when forwarding requests to OpenAI.
 
-Define an AI Backend that uses the secret for authentication:
+### Define the Backend
 
 ```yaml
-apiVersion: gateway.kgateway.dev/v1alpha1
-kind: Backend
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayBackend
 metadata:
   name: openai
   namespace: kubelb
 spec:
-  type: AI
   ai:
-    llm:
-      provider:
-        openai:
-          authToken:
-            kind: SecretRef
-            secretRef:
-              name: openai-secret
-              namespace: kubelb
-          model: "gpt-3.5-turbo"
+    provider:
+      openai:
+        model: gpt-3.5-turbo
+  policies:
+    auth:
+      secretRef:
+        name: openai-secret
 ```
 
-### Step 3: Create HTTPRoute
-
-Route traffic to the OpenAI backend:
+### Route Traffic to the Backend
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: openai-route
+  name: openai
   namespace: kubelb
 spec:
   parentRefs:
-    - name: ai-gateway
+    - name: agentgateway-proxy
       namespace: kubelb
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /openai
-    filters:
-    - type: URLRewrite
-      urlRewrite:
-        path:
-          type: ReplaceFullPath
-          replaceFullPath: /v1/chat/completions
-    backendRefs:
-    - name: openai
-      namespace: kubelb
-      group: gateway.kgateway.dev
-      kind: Backend
+    - backendRefs:
+        - name: openai
+          namespace: kubelb
+          group: agentgateway.dev
+          kind: AgentgatewayBackend
 ```
 
-### Step 4: Test the Configuration
+agentgateway automatically rewrites incoming requests to OpenAI's `/v1/chat/completions` endpoint.
 
-Get the Gateway's external IP:
+### Test the Route
 
-```bash
-kubectl get gateway ai-gateway -n kubelb
-export GATEWAY_IP=$(kubectl get svc -n kubelb ai-gateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-```
-
-Send a test request:
+Get the Gateway address, then send a chat-completion request:
 
 ```bash
-curl -X POST "http://${GATEWAY_IP}/openai" \
+export GATEWAY_IP=$(kubectl get gateway agentgateway-proxy -n kubelb \
+  -o jsonpath='{.status.addresses[0].value}')
+
+curl "http://${GATEWAY_IP}:8080/v1/chat/completions" \
   -H "Content-Type: application/json" \
   -d '{
     "messages": [
-      {"role": "user", "content": "Hello, how are you?"}
+      {"role": "system", "content": "You are helpful."},
+      {"role": "user", "content": "Hello"}
     ]
   }'
 ```
 
-## Rate Limiting (Optional)
-
-Add rate limiting to control costs and prevent abuse:
-
-```yaml
-apiVersion: gateway.kgateway.dev/v1alpha1
-kind: RateLimitPolicy
-metadata:
-  name: openai-ratelimit
-  namespace: kubelb
-spec:
-  targetRef:
-    kind: HTTPRoute
-    name: openai-route
-    namespace: kubelb
-  limits:
-    - requests: 100
-      unit: hour
-```
+For additional providers (Anthropic, Gemini, Mistral, Ollama, etc.), failover, prompt guards, and token-based rate limiting, see the [LLM consumption guide](https://agentgateway.dev/docs/kubernetes/latest/llm/).
 
 ## MCP Gateway
 
-Similar to the AI Gateway, you can also use agentgateway to can connect to one or multiple MCP servers in any environment.
+agentgateway can federate one or more Model Context Protocol (MCP) servers behind a single endpoint. The same `AgentgatewayBackend` CRD is used, with an `mcp` spec instead of `ai`:
 
-Please follow this guide to setup the MCP Gateway: [MCP Gateway](https://agentgateway.dev/docs/kubernetes/latest/mcp/)
+```yaml
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayBackend
+metadata:
+  name: mcp-backend
+  namespace: kubelb
+spec:
+  mcp:
+    targets:
+      - name: mcp-target
+        backendRef:
+          name: mcp-website-fetcher
+        port: 80
+        protocol: SSE
+```
+
+`backendRef.name` must resolve to a Kubernetes Service in the same namespace as the `AgentgatewayBackend`. Attach the backend to the Gateway with an `HTTPRoute` scoped to the `/mcp` path prefix so MCP traffic is not routed to an LLM or other backend:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mcp
+  namespace: kubelb
+spec:
+  parentRefs:
+    - name: agentgateway-proxy
+      namespace: kubelb
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /mcp
+      backendRefs:
+        - name: mcp-backend
+          namespace: kubelb
+          group: agentgateway.dev
+          kind: AgentgatewayBackend
+```
+
+For static vs. dynamic targets, virtual MCP aggregation, tool-level access control, JWT auth, and rate limiting, see the [MCP connectivity guide](https://agentgateway.dev/docs/kubernetes/latest/mcp/).
+
+## Agent-to-Agent (A2A)
+
+agentgateway also proxies Agent-to-Agent (A2A) traffic for connecting AI agents through the gateway. See the [Agent connectivity guide](https://agentgateway.dev/docs/kubernetes/latest/agent/) for configuration.
 
 ## Further Reading
 
-For advanced configurations and features:
-
-- [KGateway AI Setup Documentation](https://kgateway.dev/docs/envoy/latest/ai/setup/)
-- [KGateway Authentication Guide](https://kgateway.dev/docs/envoy/latest/ai/auth/)
-- [Prompt Guards and Security](https://kgateway.dev/docs/envoy/latest/ai/prompt-guards/)
-- [Multiple LLM Providers](https://kgateway.dev/docs/envoy/latest/ai/cloud-providers/)
+- [agentgateway documentation](https://agentgateway.dev/docs/)
+- [Gateway setup](https://agentgateway.dev/docs/kubernetes/latest/setup/)
+- [LLM providers](https://agentgateway.dev/docs/kubernetes/latest/llm/providers/)
+- [MCP connectivity](https://agentgateway.dev/docs/kubernetes/latest/mcp/)
+- [Agent connectivity](https://agentgateway.dev/docs/kubernetes/latest/agent/)
+- [Security](https://agentgateway.dev/docs/kubernetes/latest/security/)
+- [Observability](https://agentgateway.dev/docs/kubernetes/latest/observability/)

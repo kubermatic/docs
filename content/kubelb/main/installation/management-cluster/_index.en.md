@@ -290,19 +290,12 @@ kubelb-addons:
       - gateway-tcproute
       - gateway-udproute
 
-  ## AI and Agent2Agent Gateways Integration
-  # KGateway CRDs
-  kgateway-crds:
+  ## AI, MCP and Agent2Agent Gateways Integration
+  agentgateway-crds:
     enabled: true
 
-  # KGateway
-  kgateway:
+  agentgateway:
     enabled: true
-    gateway:
-      aiExtension:
-        enabled: true
-    agentgateway:
-      enabled: true
 
 ```
 

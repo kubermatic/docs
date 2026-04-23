@@ -65,7 +65,7 @@ You will find:
 | `artifacts.txt` | Union of `images.txt` + `charts.txt` (oci:// stripped) — the default input for `mirror-images.sh`. This includes all the artifacts(images, charts) shipped or used by KubeLB |
 | `images.txt` | Every container image (manager + CCM + all addons) |
 | `images-core.txt` | Manager + CCM + connection-manager + Envoy data plane (no addons) |
-| `images-<addon>.txt` | Per-addon images: `cert-manager`, `envoy-gateway`, `external-dns`, `ingress-nginx`, `kgateway`, `metallb` |
+| `images-<addon>.txt` | Per-addon images: `agentgateway`, `cert-manager`, `envoy-gateway`, `external-dns`, `ingress-nginx`, `metallb` |
 | `charts.txt` | The three OCI Helm charts as `oci://` references |
 | `mirror-images.sh` | Copies every artifact in `artifacts.txt` to a target registry using `crane` |
 
@@ -182,7 +182,7 @@ helm install kubelb-ccm \
 ## Step 6: Install the KubeLB Addons
 
 The `kubelb-addons` chart bundles upstream community charts (`ingress-nginx`,
-`envoy-gateway`, `cert-manager`, `external-dns`, `metallb`, `kgateway`). The
+`envoy-gateway`, `cert-manager`, `external-dns`, `metallb`, `agentgateway`). The
 published OCI chart ships with air-gap patches already applied to each addon's
 templates, so the same `global.imageRegistry` value flows through to every
 addon image:
@@ -214,9 +214,9 @@ kubectl get pods --all-namespaces \
 ```
 
 Every line in the output should start with `mirror.internal/`. If any line
-starts with `quay.io/`, `docker.io/`, `registry.k8s.io/`, `gcr.io/`, `ghcr.io/`
-or `cr.kgateway.dev/`, that container will fail to pull once the cluster is
-fully air-gapped. Fix the override before disconnecting.
+starts with `quay.io/`, `docker.io/`, `registry.k8s.io/`, `gcr.io/`,
+`ghcr.io/` or `cr.agentgateway.dev/`, that container will fail to pull once
+the cluster is fully air-gapped. Fix the override before disconnecting.
 
 You can perform the same check against rendered output before applying:
 
