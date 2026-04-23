@@ -1,5 +1,5 @@
 +++
-title = "Web Application Firewall (Alpha)"
+title = "Web Application Firewall (Beta)"
 linkTitle = "Web Application Firewall"
 date = 2026-01-23T10:00:00+02:00
 weight = 7
@@ -9,7 +9,7 @@ enterprise = true
 KubeLB provides Web Application Firewall (WAF) capabilities using the [Coraza WASM filter](https://github.com/corazawaf/coraza-proxy-wasm). It inspects Layer 7 HTTP traffic at the Envoy Proxy level and blocks malicious requests using [OWASP Core Rule Set (CRS)](https://coreruleset.org/docs/) — protecting against SQL injection, XSS, and other injection attacks without application changes.
 
 {{% notice note %}}
-WAF is currently an **alpha** feature available in Enterprise Edition only. It is not recommended for production use.
+WAF is a **beta** feature available in Enterprise Edition only. Suitable for non-critical production workloads; observe WAF metrics (see [Monitoring](#monitoring)) before rolling out broadly.
 {{% /notice %}}
 
 ## Why WAF?
@@ -38,9 +38,7 @@ WAF operates at Layer 7 only and bypasses Layer 4 traffic.
 
 ## Enable WAF
 
-WAF has been introduced as an Alpha feature in KubeLB v1.3. Due to the nature/stage of the feature, it is disabled by default. To enable WAF, you need to set the `kubelb.enableWAF` flag to `true` in the `values.yaml` file.
-
-In future, when the feature is promoted to Beta, the flag will be removed and WAF will be enabled by default.
+WAF was introduced as Alpha in KubeLB v1.3 and promoted to Beta in v1.4. It remains disabled by default — set `kubelb.enableWAF: true` in `values.yaml` to turn it on. The flag is expected to be removed when WAF reaches GA, with WAF enabled by default at that point.
 
 ```yaml
 kubelb:

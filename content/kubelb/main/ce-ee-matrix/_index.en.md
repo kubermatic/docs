@@ -26,7 +26,7 @@ KubeLB is available in two editions:
 | Multiple Gateways per tenant | ❌ | ✔️ |
 | Traffic Policies (Client/Backend) | ❌ | ✔️ |
 | **Security** |||
-| Web Application Firewall (Alpha) | ❌ | ✔️ |
+| Web Application Firewall (Beta) | ❌ | ✔️ |
 | **Management** |||
 | Ingress to Gateway API Migration (Beta) | ✔️ | ✔️ |
 | Bring your own certificates | ✔️ | ✔️ |
