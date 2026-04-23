@@ -152,6 +152,62 @@ spec:
 
 This will create an Ingress resource, a service and a deployment. KubeLB CCM will create a service of type `NodePort` against your service to ensure connectivity from the management cluster. Note that the class for ingress is `kubelb`, this is required for KubeLB to manage the Ingress resources. This behavior can be changed however by following the [Ingress configuration](#configurations).
 
+### HTTPS or gRPC Backends
+
+The `nginx.ingress.kubernetes.io/backend-protocol` annotation tells KubeLB how the tenant-cluster backend speaks to the upstream proxy. When set to `HTTPS` or `GRPCS`, KubeLB routes the traffic through a raw TCP passthrough listener on Envoy so the TLS handshake opened by the upstream ingress controller (for example nginx-ingress with `backend-protocol: HTTPS`) reaches the backend intact.
+
+{{% notice info %}}
+Behavior in KubeLB v1.4: Previously KubeLB always fronted Ingress traffic with an HTTP Connection Manager listener, which interpreted the TLS ClientHello from the upstream nginx controller as HTTP and returned 502. KubeLB v1.4 forces a TCP passthrough listener for Ingresses that explicitly declare a TLS backend protocol.
+{{% /notice %}}
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: kubelb
+  rules:
+    - host: "demo.example.com"
+      http:
+        paths:
+          - path: /backend
+            pathType: Exact
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  ports:
+    - name: https
+      port: 8443
+      targetPort: 8443
+  selector:
+    app: backend
+  type: ClusterIP
+```
+
+KubeLB inspects the annotation value case-insensitively. The values that flip the listener to TCP passthrough are:
+
+- `HTTPS` — the upstream controller terminates client TLS and re-encrypts to the backend.
+- `GRPCS` — same as `HTTPS`, for gRPC over TLS.
+
+Any other value (including the default `HTTP` and plain `GRPC`) keeps the HTTP listener so L7 features such as header manipulation and WAF continue to apply. The `nginx.ingress.kubernetes.io/ssl-passthrough: "true"` annotation on an Ingress also forces the TCP passthrough listener.
+
+This applies to Ingress resources only. HTTPRoute and GRPCRoute always use an HTTP listener; configure TLS to the backend via `BackendTLSPolicy`.
+
+Because the listener operates at L4, Envoy-level L7 features (header-based routing, rewrites, WAF, request-level metrics) are not available for these Ingresses. The traffic is forwarded verbatim to the backend.
+
+For re-encrypting plaintext traffic from Envoy to a TLS-enabled backend (as opposed to passing an already-encrypted stream through), use the L4 backend TLS feature instead; see [Backend TLS]({{< relref "../backend-tls" >}}). The two mechanisms are independent: `backend-protocol: HTTPS` is for Ingress when the upstream L7 proxy already terminates client TLS and re-encrypts to the backend, whereas `BackendTLSPolicy` configures TLS on the LoadBalancer/Route tier.
+
 ### Configurations
 
 KubeLB CCM helm chart can be used to further configure the CCM. Some essential options are:
