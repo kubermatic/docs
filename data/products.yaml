@@ -140,6 +140,8 @@ kubermatic-virtualization:
   versions:
     - release: main
       name: main
+    - release: v1.1.0
+      name: v1.1.0
     - release: v1.0.0
       name: v1.0.0
 conformance-ee:
