@@ -60,7 +60,7 @@ Namespace is associated with.
   - Access Control: Network policies and security rules.
   - NAT Control: Network Address Translation settings.
 
-Here is an example of a VPC definition:
+Here is an example of a Subnet definition:
 ```yaml
 apiVersion: kubeovn.io/v1
 kind: Subnet
