@@ -53,12 +53,11 @@ Service Operator and Platform Operator are the more or less the same persona in 
 
 ### Envoy Proxy Deployment Topology
 
-KubeLB manager supports two different deployment topologies for envoy proxy:
+KubeLB manager deploys envoy proxy using the **shared** topology: a single envoy proxy is deployed per tenant cluster, and all load balancer services in that tenant cluster are routed through it.
 
-1. **Shared (default)**: In this topology, a single envoy proxy is deployed per tenant cluster. All load balancer services in a particular tenant cluster are configured to use this envoy proxy. This is the default topology.
-2. **Global**: In this topology, a single envoy proxy is deployed per KubeLB manager. All load balancer services in all tenant clusters are configured to use this envoy proxy. Pitfalls: Due to a single envoy proxy deployment, service-level network access is required from the tenant namespace to the controller namespace.
-
-The consumers are not aware or affected by the topology. This is only an internal detail for the management cluster.
+{{% notice warning %}}
+The `global` Envoy Proxy topology available in KubeLB v1.3 and earlier has been removed in v1.4. Existing installations using `global` must migrate to `shared` before upgrading; update `Config.spec.envoyProxy.topology` (or the corresponding tenant-level override) to `shared`.
+{{% /notice %}}
 
 ### User experience
 
