@@ -70,6 +70,25 @@ With this CR we are creating a tenant named `shroud` with the following configur
 The tenant name provided to the consumers is the name of the namespace that is created in the management cluster against the tenant CRD. So the tenant **shroud** will be represented by the namespace **tenant-shroud** in the management cluster. For the CCM, tenantName of **tenant-shroud** needs to be used.
 {{% /notice %}}
 
+### Load Balancer Policy
+
+{{% notice note %}}
+Enterprise Edition only. Available from KubeLB v1.4.
+{{% /notice %}}
+
+Set `spec.loadBalancerPolicy` on the Tenant to override the global [Load Balancer Policy]({{< relref "../config#configure-load-balancer-policy" >}}) for this tenant's Envoy clusters.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Tenant
+metadata:
+  name: shroud
+spec:
+  loadBalancerPolicy: Random
+```
+
+Valid values are `RoundRobin`, `LeastRequest`, and `Random`. For a per-service override, use the [`kubelb.k8c.io/lb-policy` annotation]({{< relref "../loadbalancer#per-service-load-balancer-policy" >}}).
+
 **For more details and options, please go through [CRD References]({{< relref "../../references">}})**
 
 ## Per-Tenant Envoy Proxy Sizing

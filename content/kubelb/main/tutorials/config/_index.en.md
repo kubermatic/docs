@@ -180,6 +180,33 @@ spec:
     limit: 5
 ```
 
+### Configure Load Balancer Policy
+
+{{% notice note %}}
+Enterprise Edition only. Available from KubeLB v1.4.
+{{% /notice %}}
+
+KubeLB passes this value through to the Envoy cluster `lb_policy` for every LoadBalancer and Route it manages, affecting both L4 (Service `type: LoadBalancer`) and L7 (Ingress, Gateway API) traffic.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+  namespace: kubelb
+spec:
+  # default: RoundRobin
+  loadBalancerPolicy: LeastRequest
+```
+
+Valid values:
+
+* `RoundRobin` (default when unset)
+* `LeastRequest`
+* `Random`
+
+This setting can be overridden per tenant (see [Load Balancer Policy]({{< relref "../tenants#load-balancer-policy" >}})) or per service via annotation (see [Per-Service Load Balancer Policy]({{< relref "../loadbalancer#per-service-load-balancer-policy" >}})).
+
 ### Configure Ingress Options
 
 ```yaml
