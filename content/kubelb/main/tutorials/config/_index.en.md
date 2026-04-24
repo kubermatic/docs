@@ -28,7 +28,9 @@ kubelb:
 
 This will de-couple the `config` from the helm chart and users can manage it separately. This is recommended since the coupling of `config` CRD with helm chart makes it dependent on the helm chart and the admin would need to upgrade the helm chart to update the `config` CRD.
 
-**NOTE: The Config CR named `default` is mandatory for KubeLB manager to work.**
+{{% notice note %}}
+As of KubeLB v1.4, the manager starts without a `Config` CR and serves sensible defaults (shared Envoy topology, 3 replicas). Creating a `Config` named `default` is still recommended for most setups — features that depend on specific fields (for example, Ingress/Gateway API class, DNS automation, propagated annotations) remain disabled until the corresponding keys are set.
+{{% /notice %}}
 
 ## Configuration Options
 
