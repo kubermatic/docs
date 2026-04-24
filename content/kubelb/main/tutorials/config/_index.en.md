@@ -161,6 +161,8 @@ spec:
               - linux
 ```
 
+These values act as defaults for every tenant. To override them for a specific tenant, see [Per-Tenant Envoy Proxy Sizing]({{< relref "../tenants#per-tenant-envoy-proxy-sizing" >}}).
+
 ### Configure LoadBalancer Options
 
 ```yaml
