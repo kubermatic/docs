@@ -244,7 +244,7 @@ Exactly one option must be set. If the section is omitted, `none` is applied as 
 
 ### Longhorn
 
-[Longhorn](https://longhorn.io/)  provides distributed block storage backed by node-local disks. It is the recommended storage backend for VM persistent disks in KubeV.
+[Longhorn](https://longhorn.io/)  provides distributed block storage backed by node-local disks. It is the default storage backend for VM persistent disks in KubeV.
 
 ```yaml
 storage:
