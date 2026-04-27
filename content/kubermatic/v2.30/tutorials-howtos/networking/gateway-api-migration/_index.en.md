@@ -124,7 +124,7 @@ The `kubermatic-installer` handles cleanup during the migration process.
 
 > Please note that `kubermatic-operator` does not automatically delete resources from the other mode at runtime.
 The deletion of old resources are being handled by `kubermatic-installer` at deployment time.
-If the installar is not used to manage Kubermatic operations, old resources need to be deleted manually.
+If the installer is not used to manage Kubermatic operations, old resources need to be deleted manually.
 
 By default, the installer performs the following cleanup steps:
 
@@ -244,15 +244,15 @@ The HTTPRoute should display:
 
 These confirm that the Gateway is operational and actively routing traffic through the defined HTTPRoutes.
 
-**Step 4: Update DNS records**
+#### Update DNS records
 
-After verifying the Gateway is operational, update your DNS records to ensure that the Gateway's IP is available.
+After verifying the Gateway is operational, update your DNS records to point to the new Gateway IP address.
 
-**Step 5: Test access to the Kubermatic dashboard and API**
+#### Test access to the Kubermatic dashboard and API
 
 Verify that everything works as before with the new DNS resolution.
 
-**Step 6: Uninstall `nginx-ingress-controller` (optional but recommended)**
+#### Uninstall nginx-ingress-controller (optional but recommended)
 
 ```bash
 helm uninstall nginx-ingress-controller -n nginx-ingress-controller
@@ -318,7 +318,7 @@ envoyProxy:
 {{% notice note %}}
 
 Not all cloud providers support `loadBalancerIP`.
-The example here is just for demonstratation.
+The example here is just for demonstration.
 
 Check full Envoy Gateway documentation for details.
 
@@ -435,6 +435,32 @@ KKP uses a shared Gateway model where multiple HTTPRoutes from different namespa
 
 This allows cert-manager to detect the listeners and automatically issue certificates for each hostname.
 
+### Configuring Watched Namespaces
+
+The controller watches HTTPRoutes only in namespaces specified by the `-httproute-watch-namespaces` flag on the kubermatic-operator.
+The default value is `mla,monitoring`.
+
+To add additional namespaces (such as `dex` for Dex on a separate domain), update the configuration:
+
+{{< tabs name="Configure watched namespaces" >}}
+{{% tab name="CLI flag" %}}
+```bash
+-httproute-watch-namespaces=mla,monitoring,dex
+```
+{{% /tab %}}
+{{% tab name="Helm values" %}}
+```yaml
+kubermaticOperator:
+  httpRouteWatchNamespaces:
+    - monitoring
+    - mla
+    - dex
+```
+{{% /tab %}}
+{{< /tabs >}}
+
+See [Dex on a Separate Domain](#dex-on-a-separate-domain) for a complete example of configuring Dex with its own hostname.
+
 
 ### Certificate Naming Convention
 
@@ -499,6 +525,78 @@ Ensure your Dex deployment includes the following configuration:
 - `migrateGatewayAPI: true` in Dex Helm values
 - `ingress.enabled: false` (to avoid creating a conflicting Ingress)
 - `httpRoute.gatewayName` and `httpRoute.gatewayNamespace` correctly reference the Kubermatic Gateway
+
+### Dex on a Separate Domain
+
+If you run Dex on a different domain than KKP (for example, `auth.example.com` instead of `kkp.example.com`), the Gateway needs an additional HTTPS listener for the Dex domain. The httproute-gateway-sync controller can handle this, but requires additional configuration.
+
+By default, the controller only watches HTTPRoutes in the `mla` and `monitoring` namespaces. To enable automatic listener creation for Dex, you must add the `dex` namespace to the watched namespaces list.
+
+**Step 1: Enable the HTTPRouteGatewaySync feature gate**
+
+Add the feature gate to your KubermaticConfiguration:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  featureGates:
+    HTTPRouteGatewaySync: true
+```
+
+**Step 2: Configure watched namespaces to include dex**
+
+The `-httproute-watch-namespaces` flag on the kubermatic-operator controls which namespaces are watched.
+To include Dex, the flag must contain the `dex` namespace:
+
+{{< tabs name="Configure watched namespaces" >}}
+{{% tab name="CLI flag" %}}
+```bash
+-httproute-watch-namespaces=mla,monitoring,dex
+```
+{{% /tab %}}
+{{% tab name="Helm values" %}}
+```yaml
+kubermaticOperator:
+  httpRouteWatchNamespaces:
+    - monitoring
+    - mla
+    - dex
+```
+{{% /tab %}}
+{{< /tabs >}}
+
+**Step 3: Configure Dex HTTPRoute with the separate domain**
+
+Update your Dex Helm values to use the separate domain:
+
+```yaml
+migrateGatewayAPI: true
+dex:
+  ingress:
+    enabled: false
+httpRoute:
+  gatewayName: kubermatic
+  gatewayNamespace: kubermatic
+  domain: "auth.example.com"  # Your Dex domain (different from KKP domain)
+```
+
+**What happens:**
+
+1. The Dex Helm chart creates an HTTPRoute in the `dex` namespace with hostname `auth.example.com`
+2. The http-gateway-sync controller detects this HTTPRoute
+3. The controller adds an HTTPS listener to the Gateway for `auth.example.com`
+4. cert-manager creates a TLS certificate and stores it as a secret named `dex-dex` in the `kubermatic` namespace
+
+The certificate secret follows the naming pattern `<namespace>-<httproute-name>`, so the Dex HTTPRoute creates a secret named `dex-dex` (not `dex-tls`).
+
+{{% notice note %}}
+The httproute-gateway-sync controller was originally built for MLA components like Grafana and Alertmanager.
+It works for Dex as well, but requires explicitly adding the `dex` namespace to the watched namespaces configuration.
+{{% /notice %}}
 
 ## Rolling Back
 
