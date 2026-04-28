@@ -592,7 +592,7 @@ Verify that the namespaces containing your HTTPRoutes are in the list.
 
 3. **Verify Gateway has cert-manager annotations**:
 ```bash
-kubectl get gateway -n kubermatic -o jsonpath='{.metadata.annotations}'
+kubectl get gateway -n kubermatic kubermatic -o jsonpath='{.metadata.annotations}'
 ```
 Should show either `cert-manager.io/cluster-issuer` or `cert-manager.io/issuer`.
 
