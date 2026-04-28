@@ -5,7 +5,7 @@ date = 2026-01-16T00:00:00+02:00
 weight = 25
 +++
 
-KubeLB v1.3 provides supply chain security for both Community Edition (CE) and Enterprise Edition (EE):
+Starting from v1.3, KubeLB provides supply chain security for both Community Edition (CE) and Enterprise Edition (EE):
 
 - **SBOM Generation**: SPDX format SBOMs for all binaries and container images
 - **Keyless Artifact Signing**: Cosign signatures for binaries, images, and Helm charts

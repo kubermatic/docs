@@ -27,12 +27,14 @@ KubeLB is available in two editions:
 | Traffic Policies (Client/Backend) | ❌ | ✔️ |
 | **Security** |||
 | Web Application Firewall (Beta) | ❌ | ✔️ |
+| Airgap & Offline Support | ❌ | ✔️ |
 | **Management** |||
 | Ingress to Gateway API Migration (Beta) | ✔️ | ✔️ |
 | Bring your own certificates | ✔️ | ✔️ |
 | DNS automation | ❌ | ✔️ |
 | Certificate management | ❌ | ✔️ |
 | Gateway/LoadBalancer limits | ❌ | ✔️ |
+| Load Balancing Policies | ❌ | ✔️ |
 | CLI tunneling | ❌ | ✔️ |
 | **Observability** |||
 | Prometheus metrics | ✔️ | ✔️ |

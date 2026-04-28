@@ -7,7 +7,7 @@ enterprise = true
 
 ## Kubermatic Kubernetes Platform (Enterprise Edition Only)
 
-Starting with KKP v2.24, KubeLB Enterprise Edition is integrated into the Kubermatic Kubernetes Platform (KKP). This means that you can use KubeLB to provision load balancers for your KKP clusters. KKP will take care of configurations and deployments for you in the user cluster. Admins mainly need to create the KubeLB manager cluster and configure KKP to use it.
+KubeLB Enterprise Edition is integrated into the Kubermatic Kubernetes Platform (KKP). This means that you can use KubeLB to provision load balancers for your KKP clusters. KKP will take care of configurations and deployments for you in the user cluster. Admins mainly need to create the KubeLB manager cluster and configure KKP to use it.
 
 ## Prerequisites
 
@@ -19,14 +19,14 @@ To configure KubeLB for KKP, you first need a KubeLB management cluster and its 
 kkpintegration.rbac: true
 ```
 
-2. Install the [kubectl-view-serviceaccount-kubeconfig](https://github.com/superbrothers/kubectl-view-serviceaccount-kubeconfig-plugin?tab=readme-ov-file#install-the-plugin) plugin.
-3. Use the following command to generate a Kubeconfig for the service account `kubelb-manager` in the `kubelb` namespace:
+1. Install the [kubectl-view-serviceaccount-kubeconfig](https://github.com/superbrothers/kubectl-view-serviceaccount-kubeconfig-plugin?tab=readme-ov-file#install-the-plugin) plugin.
+2. Use the following command to generate a Kubeconfig for the service account `kubelb-manager` in the `kubelb` namespace:
 
 ```bash
 kubectl view-serviceaccount-kubeconfig kubelb-kkp -n kubelb --admin
 ```
 
-4. Use the output of the previous command to create a file `kubelb-secret.yaml` with the required secret:
+1. Use the output of the previous command to create a file `kubelb-secret.yaml` with the required secret:
 
 ```bash
 kubectl create secret generic kubelb-management-cluster \
@@ -35,7 +35,7 @@ kubectl create secret generic kubelb-management-cluster \
   --dry-run=client -o yaml > kubelb-secret.yaml
 ```
 
-5. Apply the file `kubelb-secret.yaml` to the `kubermatic` namespace in your KKP cluster.
+1. Apply the file `kubelb-secret.yaml` to the `kubermatic` namespace in your KKP cluster.
 
 ```bash
 kubectl apply -f kubelb-secret.yaml
