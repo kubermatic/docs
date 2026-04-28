@@ -19,14 +19,14 @@ To configure KubeLB for KKP, you first need a KubeLB management cluster and its 
 kkpintegration.rbac: true
 ```
 
-1. Install the [kubectl-view-serviceaccount-kubeconfig](https://github.com/superbrothers/kubectl-view-serviceaccount-kubeconfig-plugin?tab=readme-ov-file#install-the-plugin) plugin.
-2. Use the following command to generate a Kubeconfig for the service account `kubelb-manager` in the `kubelb` namespace:
+2. Install the [kubectl-view-serviceaccount-kubeconfig](https://github.com/superbrothers/kubectl-view-serviceaccount-kubeconfig-plugin?tab=readme-ov-file#install-the-plugin) plugin.
+3. Use the following command to generate a Kubeconfig for the service account `kubelb-manager` in the `kubelb` namespace:
 
 ```bash
 kubectl view-serviceaccount-kubeconfig kubelb-kkp -n kubelb --admin
 ```
 
-1. Use the output of the previous command to create a file `kubelb-secret.yaml` with the required secret:
+4. Use the output of the previous command to create a file `kubelb-secret.yaml` with the required secret:
 
 ```bash
 kubectl create secret generic kubelb-management-cluster \
@@ -35,7 +35,7 @@ kubectl create secret generic kubelb-management-cluster \
   --dry-run=client -o yaml > kubelb-secret.yaml
 ```
 
-1. Apply the file `kubelb-secret.yaml` to the `kubermatic` namespace in your KKP cluster.
+5. Apply the file `kubelb-secret.yaml` to the `kubermatic` namespace in your KKP cluster.
 
 ```bash
 kubectl apply -f kubelb-secret.yaml
