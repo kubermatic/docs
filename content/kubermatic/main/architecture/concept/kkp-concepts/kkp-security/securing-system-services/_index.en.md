@@ -161,6 +161,9 @@ It's possible to use a different authentication provider than Dex. Please refer 
 [OIDC provider]({{< ref "../../../../../tutorials-howtos/oidc-provider-configuration" >}}) chapter for more information on how to configure
 KKP and OAuth2-Proxy accordingly.
 
+Alternatively, if you want to configure a different or additional JWT identity provider for your user cluster API server(s), you can define an [AuthenticationConfiguration](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration) file within a Kubernetes Secret and refer to it within the Seed's `spec.authenticationConfiguration` or, to configure it per datacenter, within the Seed's `spec.datacenters.spec.authenticationConfiguration` or within the Cluster's `spec.authenticationConfiguration` directly.
+The AuthenticationConfiguration precedence order is as follows: 1. Cluster, 2. Datacenter, 3. Seed.
+
 ## Security Considerations
 
 The IAP does not protect services against access from within the cluster. Sensitive services should therefore
