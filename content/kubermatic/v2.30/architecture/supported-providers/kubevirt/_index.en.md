@@ -239,7 +239,7 @@ From the Kubermatic dashboard, open your user cluster and download the user clus
 
 ### Required RBAC
 
-The minimum RBAC permissions required for snapshot creation and inspection are:
+The minimum RBAC permissions required for snapshot creation and volume expansion inspection are:
 
 - `snapshot.storage.k8s.io/volumesnapshots`: `get`, `create`, `delete`
 - `persistentvolumeclaims`: `get`, `list`, `watch`
@@ -259,6 +259,39 @@ rules:
   - apiGroups: [""]
     resources: ["persistentvolumeclaims"]
     verbs: ["get", "list", "watch"]
+```
+
+- `persistentvolumes`: `get`, `list`, `watch`
+
+{{% notice note %}}
+Since `PersistentVolumes` are cluster-scoped, KKP cannot create or manage them; KKP lacks the necessary permissions for cluster-wide resources, particularly RBAC-related ones. Consequently, KubeVirt admins must handle the creation of these permissions and manually assign them to the appropriate
+namespaced service account (specifically kubevirt-csi for the KubeVirt CSI driver).
+{{% /notice %}}
+
+Example ClusterRole and ClusterRoleBinding:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubevirt-csi-cluster
+rules:
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["get", "watch", "list"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubevirt-csi-cluster-binding
+roleRef:
+  kind: ClusterRole
+  name: kubevirt-csi-cluster
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: kubevirt-csi
+  namespace: tenant-abc
 ```
 
 ### Virtual Machine Templating
