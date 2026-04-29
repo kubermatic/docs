@@ -1,0 +1,24 @@
+{{- /* Decodes all HTML entities (named and numeric) from a string.
+       Hugo's htmlUnescape only handles some named entities, so we also
+       manually replace numeric and remaining named entities.
+       IMPORTANT: &amp; must be replaced LAST to avoid double-decoding. */ -}}
+{{- $s := . | htmlUnescape -}}
+{{- $s = replace $s "&#34;" "\"" -}}
+{{- $s = replace $s "&#39;" "'" -}}
+{{- $s = replace $s "&#43;" "+" -}}
+{{- $s = replace $s "&#160;" " " -}}
+{{- $s = replace $s "&#60;" "<" -}}
+{{- $s = replace $s "&#62;" ">" -}}
+{{- $s = replace $s "&quot;" "\"" -}}
+{{- $s = replace $s "&lt;" "<" -}}
+{{- $s = replace $s "&gt;" ">" -}}
+{{- $s = replace $s "&rsquo;" "\u2019" -}}
+{{- $s = replace $s "&lsquo;" "\u2018" -}}
+{{- $s = replace $s "&rdquo;" "\u201D" -}}
+{{- $s = replace $s "&ldquo;" "\u201C" -}}
+{{- $s = replace $s "&hellip;" "\u2026" -}}
+{{- $s = replace $s "&mdash;" "\u2014" -}}
+{{- $s = replace $s "&ndash;" "\u2013" -}}
+{{- $s = replace $s "&#38;" "&" -}}
+{{- $s = replace $s "&amp;" "&" -}}
+{{- return $s -}}

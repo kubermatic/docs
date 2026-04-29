@@ -1,0 +1,11 @@
+{{- if not (partial "llms-is-excluded.txt" .) -}}
+{{- $segments := split (strings.TrimPrefix "/" (strings.TrimSuffix "/" .RelPermalink)) "/" -}}
+{{- if le (len $segments) 3 -}}
+# {{ .Title | default .Name | plainify }}
+{{ with .Description | default .Params.description }}
+> {{ . }}
+{{ end }}
+{{ partial "llms-decode-entities.txt" .Plain }}
+{{ partial "llms-full-content.txt" . }}
+{{- end -}}
+{{- end -}}

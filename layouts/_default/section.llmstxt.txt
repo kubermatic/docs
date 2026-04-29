@@ -1,0 +1,25 @@
+{{- if not (partial "llms-is-excluded.txt" .) -}}
+{{- $title := .Title | default .Name | plainify -}}
+{{- $pageCount := partial "llms-page-count.txt" . -}}
+{{- $segments := split (strings.TrimPrefix "/" (strings.TrimSuffix "/" .RelPermalink)) "/" -}}
+# {{ $title }}
+{{ with .Description | default .Params.description }}
+> {{ . }}
+{{ end }}
+> Last updated: {{ .Lastmod.Format "2006-01-02" }}
+{{- if ge (len $segments) 2 }}
+> Version: {{ index $segments 1 }}
+{{- end }}
+> Pages: {{ $pageCount }}
+{{- $llmsFullURL := "" -}}
+{{- with .OutputFormats.Get "LLMsFullTxt" -}}
+  {{- $llmsFullURL = .Permalink -}}
+{{- end -}}
+{{- with $llmsFullURL }}
+## About this section
+
+- [{{ $title }} — Full Content]({{ . }})
+{{ end }}
+## Pages
+{{ partial "llms-list-pages.txt" . }}
+{{- end -}}
