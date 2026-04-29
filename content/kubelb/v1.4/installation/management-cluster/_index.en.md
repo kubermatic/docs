@@ -1,0 +1,306 @@
++++
+title = "Install KubeLB Manager and setup Management Cluster"
+linkTitle = "Setup Management Cluster"
+date = 2023-10-27T10:07:15+02:00
+weight = 20
++++
+
+## Requirements
+
+* Service type `LoadBalancer` implementation. This can be a cloud solution or a self-managed implementation like [MetalLB](https://metallb.universe.tf).
+* Network access to the tenant cluster nodes with node port range (default: 30000-32767). This is required for the envoy proxy to be able to connect to the tenant cluster nodes.
+
+## Installation for KubeLB manager
+
+{{% notice warning %}} In case if Gateway API needs to be enabled for the cluster. Please set `kubelb.enableGatewayAPI` to `true` in the `values.yaml`. This is required otherwise due to missing CRDs, kubelb will not be able to start. {{% /notice %}}
+
+{{< tabs name="KubeLB Manager" >}}
+{{% tab name="Enterprise Edition" %}}
+
+### Prerequisites
+
+* Create a namespace **kubelb** for the CCM to be deployed in.
+* Create **imagePullSecrets** for the chart to pull the image from the registry in kubelb namespace.
+
+At this point a minimal values.yaml should look like this:
+
+```yaml
+imagePullSecrets:
+  - name: <imagePullSecretName>
+```
+
+### Install the helm chart
+
+```sh
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.4.0 --untardir "." --untar
+## Apply CRDs
+kubectl apply -f kubelb-manager-ee/crds/
+## Create and update values.yaml with the required values.
+helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f kubelb-manager-ee/values.yaml --create-namespace
+```
+
+### KubeLB Manager EE Values
+
+<!-- helm-values-kubelb-manager-ee start -->
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` |  |
+| autoscaling.enabled | bool | `false` |  |
+| autoscaling.maxReplicas | int | `10` |  |
+| autoscaling.minReplicas | int | `1` |  |
+| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| fullnameOverride | string | `""` |  |
+| grafana.dashboards.annotations | object | `{}` | Additional annotations for dashboard ConfigMaps |
+| grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster |
+| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.repository | string | `"quay.io/kubermatic/kubelb-manager"` |  |
+| image.tag | string | `"v1.3.5"` |  |
+| imagePullSecrets | list | `[]` |  |
+| kkpintegration.rbac | bool | `false` | Create RBAC for KKP integration. |
+| kubeRbacProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
+| kubeRbacProxy.image.repository | string | `"quay.io/brancz/kube-rbac-proxy"` |  |
+| kubeRbacProxy.image.tag | string | `"v0.20.1"` |  |
+| kubelb.debug | bool | `true` |  |
+| kubelb.enableGatewayAPI | bool | `false` | enableGatewayAPI specifies whether to enable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
+| kubelb.enableLeaderElection | bool | `true` |  |
+| kubelb.envoyProxy.affinity | object | `{}` |  |
+| kubelb.envoyProxy.gracefulShutdown.disabled | bool | `false` | Disable graceful shutdown (default: false) |
+| kubelb.envoyProxy.nodeSelector | object | `{}` |  |
+| kubelb.envoyProxy.podMonitor.enabled | bool | `false` | Create PodMonitor resources for Envoy Proxy pods to enable Prometheus Operator scraping. |
+| kubelb.envoyProxy.replicas | int | `2` | The number of replicas for the Envoy Proxy deployment. |
+| kubelb.envoyProxy.resources | object | `{}` |  |
+| kubelb.envoyProxy.singlePodPerNode | bool | `true` | Deploy single pod per node. |
+| kubelb.envoyProxy.tolerations | list | `[]` |  |
+| kubelb.envoyProxy.topology | string | `"shared"` | Topology defines the deployment topology for Envoy Proxy. Only "shared" is supported. "dedicated" and "global" are deprecated and will default to shared. |
+| kubelb.envoyProxy.useDaemonset | bool | `false` | Use DaemonSet for Envoy Proxy deployment instead of Deployment. |
+| kubelb.logLevel | string | `"info"` | To configure the verbosity of logging. Can be one of 'debug', 'info', 'error', 'panic' or any integer value > 0 which corresponds to custom debug levels of increasing verbosity. |
+| kubelb.propagateAllAnnotations | bool | `false` | Propagate all annotations from the LB resource to the LB service. |
+| kubelb.propagatedAnnotations | object | `{}` | Allowed annotations that will be propagated from the LB resource to the LB service. |
+| kubelb.skipConfigGeneration | bool | `true` | Set to false to enable the generation of the Config CR. Set to true to skip the generation of the Config CR. Useful when the config CR needs to be managed manually. |
+| metrics.port | int | `9443` | Port where the manager exposes metrics (includes both manager and envoycp metrics) |
+| nameOverride | string | `""` |  |
+| nodeSelector | object | `{}` |  |
+| podAnnotations | object | `{}` |  |
+| podLabels | object | `{}` |  |
+| podSecurityContext.runAsNonRoot | bool | `true` |  |
+| podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
+| rbac.allowLeaderElectionRole | bool | `true` |  |
+| rbac.allowMetricsReaderRole | bool | `true` |  |
+| rbac.allowProxyRole | bool | `true` |  |
+| rbac.enabled | bool | `true` |  |
+| replicaCount | int | `1` |  |
+| resources.limits.cpu | string | `"500m"` |  |
+| resources.limits.memory | string | `"512Mi"` |  |
+| resources.requests.cpu | string | `"100m"` |  |
+| resources.requests.memory | string | `"128Mi"` |  |
+| securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| securityContext.runAsUser | int | `65532` |  |
+| service.port | int | `8001` |  |
+| service.protocol | string | `"TCP"` |  |
+| service.type | string | `"ClusterIP"` |  |
+| serviceAccount.annotations | object | `{}` |  |
+| serviceAccount.create | bool | `true` |  |
+| serviceAccount.name | string | `""` |  |
+| serviceMonitor.enabled | bool | `false` |  |
+| tolerations | list | `[]` |  |
+<!-- helm-values-kubelb-manager-ee end -->
+
+{{% /tab %}}
+{{% tab name="Community Edition" %}}
+
+### Install the helm chart
+
+```sh
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.4.0 --untardir "." --untar
+## Apply CRDs
+kubectl apply -f kubelb-manager/crds/
+## Create and update values.yaml with the required values.
+helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubelb-manager/values.yaml --create-namespace
+```
+
+### KubeLB Manager CE Values
+
+<!-- helm-values-kubelb-manager start -->
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` |  |
+| autoscaling.enabled | bool | `false` |  |
+| autoscaling.maxReplicas | int | `10` |  |
+| autoscaling.minReplicas | int | `1` |  |
+| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| fullnameOverride | string | `""` |  |
+| grafana.dashboards.annotations | object | `{}` | Additional annotations for dashboard ConfigMaps |
+| grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster |
+| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.repository | string | `"quay.io/kubermatic/kubelb-manager"` |  |
+| image.tag | string | `"v1.4.0"` |  |
+| imagePullSecrets | list | `[]` |  |
+| kkpintegration.rbac | bool | `false` | Create RBAC for KKP integration. |
+| kubeRbacProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
+| kubeRbacProxy.image.repository | string | `"quay.io/brancz/kube-rbac-proxy"` |  |
+| kubeRbacProxy.image.tag | string | `"v0.20.1"` |  |
+| kubelb.debug | bool | `true` |  |
+| kubelb.enableGatewayAPI | bool | `false` | enableGatewayAPI specifies whether to enable the Gateway API and Gateway Controllers. By default Gateway API is disabled since without Gateway APIs installed the controller cannot start. |
+| kubelb.enableLeaderElection | bool | `true` |  |
+| kubelb.envoyProxy.affinity | object | `{}` |  |
+| kubelb.envoyProxy.gracefulShutdown.disabled | bool | `false` | Disable graceful shutdown (default: false) |
+| kubelb.envoyProxy.nodeSelector | object | `{}` |  |
+| kubelb.envoyProxy.podMonitor.enabled | bool | `false` | Create PodMonitor resources for Envoy Proxy pods to enable Prometheus Operator scraping. |
+| kubelb.envoyProxy.replicas | int | `2` | The number of replicas for the Envoy Proxy deployment. |
+| kubelb.envoyProxy.resources | object | `{}` |  |
+| kubelb.envoyProxy.singlePodPerNode | bool | `true` | Deploy single pod per node. |
+| kubelb.envoyProxy.tolerations | list | `[]` |  |
+| kubelb.envoyProxy.topology | string | `"shared"` | Topology defines the deployment topology for Envoy Proxy. Only "shared" is supported. "dedicated" and "global" are deprecated and will default to shared. |
+| kubelb.envoyProxy.useDaemonset | bool | `false` | Use DaemonSet for Envoy Proxy deployment instead of Deployment. |
+| kubelb.logLevel | string | `"info"` | To configure the verbosity of logging. Can be one of 'debug', 'info', 'error', 'panic' or any integer value > 0 which corresponds to custom debug levels of increasing verbosity. |
+| kubelb.propagateAllAnnotations | bool | `false` | Propagate all annotations from the LB resource to the LB service. |
+| kubelb.propagatedAnnotations | object | `{}` | Allowed annotations that will be propagated from the LB resource to the LB service. |
+| kubelb.skipConfigGeneration | bool | `true` | Set to false to enable the generation of the Config CR. Set to true to skip the generation of the Config CR. Useful when the config CR needs to be managed manually. |
+| metrics.port | int | `9443` | Port where the manager exposes metrics (includes both manager and envoycp metrics) |
+| nameOverride | string | `""` |  |
+| nodeSelector | object | `{}` |  |
+| podAnnotations | object | `{}` |  |
+| podLabels | object | `{}` |  |
+| podSecurityContext.runAsNonRoot | bool | `true` |  |
+| podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
+| rbac.allowLeaderElectionRole | bool | `true` |  |
+| rbac.allowMetricsReaderRole | bool | `true` |  |
+| rbac.allowProxyRole | bool | `true` |  |
+| rbac.enabled | bool | `true` |  |
+| replicaCount | int | `1` |  |
+| resources.limits.cpu | string | `"500m"` |  |
+| resources.limits.memory | string | `"512Mi"` |  |
+| resources.requests.cpu | string | `"100m"` |  |
+| resources.requests.memory | string | `"128Mi"` |  |
+| securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| securityContext.runAsUser | int | `65532` |  |
+| service.port | int | `8001` |  |
+| service.protocol | string | `"TCP"` |  |
+| service.type | string | `"ClusterIP"` |  |
+| serviceAccount.annotations | object | `{}` |  |
+| serviceAccount.create | bool | `true` |  |
+| serviceAccount.name | string | `""` |  |
+| serviceMonitor.enabled | bool | `false` |  |
+| tolerations | list | `[]` |  |
+<!-- helm-values-kubelb-manager end -->
+
+{{% /tab %}}
+{{< /tabs >}}
+
+## Setup the management cluster
+
+{{% notice note %}}
+The examples and tools shared below are for demonstration purposes, you can use any other tools or configurations as per your requirements.
+{{% /notice %}}
+
+Management cluster acts as the dataplane and central control plane for all your load balancing configurations. It is the place where all the components required for Layer 4 and Layer 7 load balancing, AI Gateways, MCP Gateways, Agent2Agent Gateways, and API Gateways etc. are deployed. The management cluster is multi-tenant by design which makes it a perfect for managing a fleet of clusters in a scalable, robust, and secure way.
+
+KubeLB has introduced an addons chart to simplify the installation of the required components for the management cluster. The chart is already part of the KubeLB manager chart and can be installed by setting the `kubelb-addons.enabled` to `true` in the values.yaml.
+
+```yaml
+kubelb:
+  enableGatewayAPI: true
+  debug: true
+
+## Addon configuration
+kubelb-addons:
+  enabled: true
+
+  gatewayClass:
+    create: true
+
+  # Ingress Nginx
+  ingress-nginx:
+    enabled: false
+    controller:
+      service:
+        externalTrafficPolicy: Local
+
+  # Envoy Gateway
+  envoy-gateway:
+    enabled: true
+
+  # Cert Manager
+  cert-manager:
+    enabled: true
+    crds:
+      enabled: true
+    config:
+      apiVersion: controller.config.cert-manager.io/v1alpha1
+      kind: ControllerConfiguration
+      enableGatewayAPI: true
+
+  # External DNS
+  external-dns:
+    domainFilters:
+      - example.com
+    extraVolumes:
+      - name: credentials
+        secret:
+          secretName: route53-credentials
+    extraVolumeMounts:
+      - name: credentials
+        mountPath: /.aws
+        readOnly: true
+    env:
+      - name: AWS_SHARED_CREDENTIALS_FILE
+        value: /.aws/credentials
+    txtOwnerId: kubelb-example-aws
+    registry: txt
+    provider: aws
+    policy: sync
+    sources:
+      - service
+      - ingress
+      - gateway-httproute
+      - gateway-grpcroute
+      - gateway-tlsroute
+      - gateway-tcproute
+      - gateway-udproute
+
+  ## AI, MCP and Agent2Agent Gateways Integration
+  agentgateway-crds:
+    enabled: true
+
+  agentgateway:
+    enabled: true
+
+```
+
+### Custom Image Registry
+
+The `kubelb-addons` chart honors `global.imageRegistry` and `global.imagePullSecrets` and propagates both to every addon subchart (ingress-nginx, envoy-gateway, cert-manager, external-dns, metallb, agentgateway). Set them on the top-level install to route all addon images through a private mirror and attach a pull secret, without editing each subchart's own values. See the [Air-Gap Installation]({{< relref "../../tutorials/airgap-installation" >}}) guide for the full end-to-end mirroring workflow; the same flags apply to non-airgap setups pulling from a company registry.
+
+### TCP/UDP Load Balancing (Layer 4)
+
+Refer to [Layer 4 Load Balancing Setup]({{< relref "../../tutorials/loadbalancer#setup" >}}) for more details.
+
+### Application Layer Load Balancing (Layer 7)
+
+For Application layer load balancing, **kubeLB supports both Ingress and Gateway API resources**.
+
+Our default recommendation is to use Gateway API and use [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation. Most of the upcoming and current features that KubeLB will focus on will prioritize Gateway API instead of Ingress. With Envoy Gateway being the product that we'll actively support, test, and base our features on.
+
+While KubeLB supports integration with any Ingress or Gateway API implementation, the only limitation is that we only support native Kubernetes APIs i.e. Ingress and Gateway APIs. Provider specific APIs are not supported by KubeLB and will be completely ignored. Also, we are only testing KubeLB with Envoy Gateway and Nginx Ingress, we can't guarantee the compatibility with other Gateway API or Ingress implementations.
+
+#### Ingress
+
+Refer to [Ingress Setup]({{< relref "../../tutorials/ingress#setup" >}}) for more details.
+
+#### Gateway API
+
+Refer to [Gateway API Setup]({{< relref "../../tutorials/gatewayapi#setup" >}}) for more details.
+
+### Certificate Management(Enterprise Edition)
+
+Refer to [Certificate Management Setup]({{< relref "../../tutorials/security/cert-management#setup" >}}) for more details.
+
+### DNS Management(Enterprise Edition)
+
+Refer to [DNS Management Setup]({{< relref "../../tutorials/security/dns#setup" >}}) for more details.
