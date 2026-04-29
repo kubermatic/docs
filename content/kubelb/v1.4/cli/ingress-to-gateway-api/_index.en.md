@@ -39,7 +39,7 @@ Your target cluster needs Gateway API CRDs installed. The easiest way is to inst
 
 ```bash
 # Install Envoy Gateway (includes Gateway API + policy CRDs)
-helm install eg oci://docker.io/envoyproxy/gateway-helm --version v1.4.1 -n envoy-gateway-system --create-namespace
+helm install eg oci://docker.io/envoyproxy/gateway-helm --version v1.3.0 -n envoy-gateway-system --create-namespace
 ```
 
 {{% notice tip %}}
