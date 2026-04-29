@@ -39,12 +39,41 @@ Install the dashboard from the Kubermatic OCI registry:
 ```bash
 helm upgrade kubelb-dashboard \
   oci://quay.io/kubermatic/helm-charts/kubelb-dashboard \
-  --version 0.1.0 \
+  --version v1.0.0 \
   --namespace kubelb --create-namespace --install
 ```
 
 The dashboard is deployed alongside the KubeLB Manager in the `kubelb`
 namespace on the management cluster.
+
+## Expose via HTTPRoute
+
+Enable the chart's built-in HTTPRoute (Gateway API v1) with `--set` flags. It
+is independent of `ingress.enabled` — both may be on simultaneously.
+
+```bash
+helm install kubelb-dashboard oci://quay.io/kubermatic/helm-charts/kubelb-dashboard \
+  --set httpRoute.enabled=true \
+  --set httpRoute.parentRefs[0].name=kubelb \
+  --set httpRoute.parentRefs[0].namespace=kubelb \
+  --set httpRoute.hostnames[0]=app.example.com
+```
+
+Equivalent `values.yaml`:
+
+```yaml
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: kubelb
+      namespace: kubelb
+  hostnames:
+    - app.example.com
+```
+
+`parentRefs` must point at an existing Gateway. Omitting `httpRoute.rules`
+routes PathPrefix `/` to the dashboard Service on `service.port`; override
+`rules` for custom matches or backends.
 
 ## Expose via Ingress
 
@@ -76,10 +105,9 @@ For TLS termination, pair the Ingress with
 [cert-manager](https://cert-manager.io) and populate `ingress.tls` and
 `ingress.annotations` accordingly.
 
-## Optional OIDC Authentication
+## OIDC Authentication
 
-OIDC is off by default. The underlying API reads the following environment
-variables:
+OIDC is off by default. The underlying API reads the following environment variables:
 
 | Variable             | Required | Default                                      | Description                                               |
 | -------------------- | -------- | -------------------------------------------- | --------------------------------------------------------- |
