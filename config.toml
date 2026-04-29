@@ -5,6 +5,7 @@ title = "Kubermatic Docs"
 disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 enableRobotsTXT = true
+enableGitInfo = true
 
 [outputFormats]
   [outputFormats.Search]
@@ -17,10 +18,21 @@ enableRobotsTXT = true
     mediaType = "application/octet-stream"
     isPlainText = true
     notAlternative = true
+  [outputFormats.LLMsTxt]
+    baseName = "llms"
+    mediaType = "text/plain"
+    isPlainText = true
+    notAlternative = true
+  [outputFormats.LLMsFullTxt]
+    baseName = "llms-full"
+    mediaType = "text/plain"
+    isPlainText = true
+    notAlternative = true
 
 [outputs]
-home = ["HTML", "Search", "Redirects"]
-section = ["HTML"]
+home = ["HTML", "Search", "Redirects", "LLMsTxt"]
+section = ["HTML", "LLMsTxt", "LLMsFullTxt"]
+page = ["HTML"]
 
 [markup.goldmark.renderer]
   unsafe = true

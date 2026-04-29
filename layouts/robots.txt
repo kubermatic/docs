@@ -8,3 +8,4 @@ User-agent: *
 Disallow:
 
 Sitemap: {{"sitemap.xml" | absURL}}
+Llms-txt: {{"llms.txt" | absURL}}

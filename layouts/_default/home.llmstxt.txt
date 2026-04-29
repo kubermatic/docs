@@ -1,0 +1,29 @@
+# {{ .Site.Title }}
+
+> {{ .Site.Params.description }}
+
+> Last updated: {{ now.Format "2006-01-02" }}
+> Products: {{ len (where (sort hugo.Data.products ".weight") "name" "!=" "") }}
+
+## Products
+{{ range (sort hugo.Data.products ".weight") }}
+{{- $key := urlize .name -}}
+{{- $values := . -}}
+{{- $url := "" -}}
+{{- if .versions -}}
+  {{- $url = (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release -}}
+{{- end -}}
+{{- $pagePath := cond (ne $url "") (printf "/%s/%s" $key $url) (printf "/%s" $key) -}}
+{{- with $.Site.GetPage $pagePath -}}
+  {{- if not (partial "llms-is-excluded.txt" .) -}}
+  {{- $llmsURL := "" -}}
+  {{- with .OutputFormats.Get "LLMsTxt" -}}
+    {{- $llmsURL = .Permalink -}}
+  {{- end -}}
+  {{- if $llmsURL -}}
+    {{- $title := $values.title | default $values.name }}
+- [{{ $title }}]({{ $llmsURL }}): {{ $values.description }}
+{{ end -}}
+{{- end -}}
+{{- end -}}
+{{- end }}
