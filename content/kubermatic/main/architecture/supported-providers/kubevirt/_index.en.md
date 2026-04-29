@@ -175,7 +175,7 @@ Follow the official [Grafana documentation](https://grafana.com/docs/grafana/lat
 Persistent volume snapshots are supported for workloads running on KubeVirt user clusters through the CSI driver.
 
 {{% notice note %}}
-The KubeVirt CSI snapshot feature is currently a beta feature in KKP.
+The KubeVirt CSI snapshot and volume expansion features are currently beta features in KKP.
 {{% /notice %}}
 
 {{% notice warning %}}
