@@ -1344,6 +1344,7 @@ _Appears in:_
 
 
 ApplicationCatalogLimit defines filtering criteria for ApplicationDefinitions.
+
 Deprecated: This type is deprecated and serves no purpose. It is preserved for backward compatibility.
 
 _Appears in:_
@@ -1364,6 +1365,7 @@ _Appears in:_
 
 
 ApplicationDefinitionMetadataSelector defines metadata-based selection criteria for ApplicationDefinitions.
+
 Deprecated: This type is deprecated and serves no purpose. It is preserved for backward compatibility.
 
 _Appears in:_
@@ -1518,6 +1520,27 @@ _Appears in:_
 | --- | --- |
 | `auditWebhookConfig` _[SecretReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#secretreference-v1-core)_ | {{< unsafe >}}Required : AuditWebhookConfig contains reference to secret holding the audit webhook config file{{< /unsafe >}} |
 | `auditWebhookInitialBackoff` _string_ | {{< unsafe >}}{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### AuthenticationConfiguration
+
+
+
+
+
+_Appears in:_
+- [ClusterSpec](#clusterspec)
+- [DatacenterSpec](#datacenterspec)
+- [SeedSpec](#seedspec)
+
+| Field | Description |
+| --- | --- |
+| `secretName` _string_ | {{< unsafe >}}Name of the Secret containing the AuthenticationConfiguration.{{< /unsafe >}} |
+| `secretKey` _string_ | {{< unsafe >}}Name of the Secret key containing the AuthenticationConfiguration.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -2223,7 +2246,8 @@ _Appears in:_
 | `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | {{< unsafe >}}ExposeStrategy is the strategy used to expose a cluster control plane.{{< /unsafe >}} |
 | `apiServerAllowedIPRanges` _[NetworkRanges](#networkranges)_ | {{< unsafe >}}Optional: APIServerAllowedIPRanges is a list of IP ranges allowed to access the API server.<br />Applicable only if the expose strategy of the cluster is LoadBalancer.<br />If not configured, access to the API server is unrestricted.{{< /unsafe >}} |
 | `componentsOverride` _[ComponentSettings](#componentsettings)_ | {{< unsafe >}}Optional: Component specific overrides that allow customization of control plane components.{{< /unsafe >}} |
-| `oidc` _[OIDCSettings](#oidcsettings)_ | {{< unsafe >}}Optional: OIDC specifies the OIDC configuration parameters for enabling authentication mechanism for the cluster.{{< /unsafe >}} |
+| `oidc` _[OIDCSettings](#oidcsettings)_ | {{< unsafe >}}Optional: OIDC specifies the OIDC configuration parameters for enabling authentication mechanism for the cluster.<br />Deprecated: Specify authenticationConfiguration instead. This field is still supported for backward compatibility.{{< /unsafe >}} |
+| `authenticationConfiguration` _[AuthenticationConfiguration](#authenticationconfiguration)_ | {{< unsafe >}}Optional: AuthenticationConfiguration points to a Secret containing the AuthenticationConfiguration for the k8s api-server.{{< /unsafe >}} |
 | `features` _object (keys:string, values:boolean)_ | {{< unsafe >}}A map of optional or early-stage features that can be enabled for the user cluster.<br />Some feature gates cannot be disabled after being enabled.<br />The available feature gates vary based on KKP version, Kubernetes version and Seed configuration.<br />Please consult the KKP documentation for specific feature gates.{{< /unsafe >}} |
 | `updateWindow` _[UpdateWindow](#updatewindow)_ | {{< unsafe >}}Optional: UpdateWindow configures automatic update systems to respect a maintenance window for<br />applying OS updates to nodes. This is only respected on Flatcar nodes currently.{{< /unsafe >}} |
 | `usePodSecurityPolicyAdmissionPlugin` _boolean_ | {{< unsafe >}}Enables the admission plugin `PodSecurityPolicy`. This plugin is deprecated by Kubernetes.{{< /unsafe >}} |
@@ -2865,6 +2889,7 @@ _Appears in:_
 | `disableCsiDriver` _boolean_ | {{< unsafe >}}Optional: DisableCSIDriver disables the installation of CSI driver on every clusters within the DC<br />If true it can't be over-written in the cluster configuration{{< /unsafe >}} |
 | `kubelb` _[KubeLBDatacenterSettings](#kubelbdatacentersettings)_ | {{< unsafe >}}Optional: KubeLB holds the configuration for the kubeLB at the data center level.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
 | `apiServerServiceType` _[ServiceType](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#servicetype-v1-core)_ | {{< unsafe >}}APIServerServiceType is the service type used for API Server service `apiserver-external` for the user clusters.<br />By default, the type of service that will be used is determined by the `ExposeStrategy` used for the cluster.{{< /unsafe >}} |
+| `authenticationConfiguration` _[AuthenticationConfiguration](#authenticationconfiguration)_ | {{< unsafe >}}AuthenticationConfiguration allows to refer to a Secret that holds the AuthenticationConfiguration that should be applied to all user clusters in the seed by default.{{< /unsafe >}} |
 | `kyverno` _[KyvernoConfigurations](#kyvernoconfigurations)_ | {{< unsafe >}}Kyverno configures the Kyverno policy engine settings at the datacenter level.<br />These settings override seed and global configuration and apply to all user clusters<br />in this datacenter.{{< /unsafe >}} |
 
 
@@ -6935,6 +6960,7 @@ _Appears in:_
 
 
 RegistryCredentials holds authentication credentials for Helm registry.
+
 Deprecated: This type is deprecated and serves no purpose. It is preserved for backward compatibility.
 
 _Appears in:_
@@ -6956,6 +6982,7 @@ _Appears in:_
 
 
 RegistrySettings configures the OCI registry from which ApplicationDefinitions are retrieved.
+
 Deprecated: This type is deprecated and serves no purpose. It is preserved for backward compatibility.
 
 _Appears in:_
@@ -7332,6 +7359,7 @@ _Appears in:_
 | `metering` _[MeteringConfiguration](#meteringconfiguration)_ | {{< unsafe >}}Metering configures the metering tool on user clusters across the seed.{{< /unsafe >}} |
 | `etcdBackupRestore` _[EtcdBackupRestore](#etcdbackuprestore)_ | {{< unsafe >}}EtcdBackupRestore holds the configuration of the automatic etcd backup restores for the Seed;<br />if this is set, the new backup/restore controllers are enabled for this Seed.{{< /unsafe >}} |
 | `oidcProviderConfiguration` _[OIDCProviderConfiguration](#oidcproviderconfiguration)_ | {{< unsafe >}}OIDCProviderConfiguration allows to configure OIDC provider at the Seed level.{{< /unsafe >}} |
+| `authenticationConfiguration` _[AuthenticationConfiguration](#authenticationconfiguration)_ | {{< unsafe >}}AuthenticationConfiguration allows to refer to a Secret that holds the AuthenticationConfiguration that should be applied to all user clusters in the seed by default.{{< /unsafe >}} |
 | `kubelb` _[KubeLBSeedSettings](#kubelbseedsettings)_ | {{< unsafe >}}KubeLB holds the configuration for the kubeLB at the Seed level. This component is responsible for managing load balancers.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
 | `disabledCollectors` _[MetricsCollector](#metricscollector) array_ | {{< unsafe >}}DisabledCollectors contains a list of metrics collectors that should be disabled.<br />Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None".{{< /unsafe >}} |
 | `managementProxySettings` _[ManagementProxySettings](#managementproxysettings)_ | {{< unsafe >}}ManagementProxySettings can be used if the KubeAPI of the user clusters<br />will not be directly available from kkp and a proxy in between should be used{{< /unsafe >}} |
