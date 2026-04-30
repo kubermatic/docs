@@ -1,12 +1,12 @@
 {{- /* Hierarchical partial: list only direct children of the current section.
        Context: a page (section).
-       Skips excluded pages (see llms-is-excluded partial).
+       Skips excluded pages (see llms/is-excluded partial).
        Skips pages without main content.
        For child sections within depth limit (≤3 URL segments), links to their llms-full.txt.
        For child sections beyond depth limit, links to their llms.txt index.
        For single pages, lists title and description as plain text. */ -}}
 {{- range .Pages -}}
-  {{- if not (partial "llms-is-excluded.txt" .) -}}
+  {{- if not (partial "llms/is-excluded.txt" .) -}}
     {{- if .Plain -}}
     {{- if .IsSection -}}
       {{- $segments := split (strings.TrimPrefix "/" (strings.TrimSuffix "/" .RelPermalink)) "/" -}}

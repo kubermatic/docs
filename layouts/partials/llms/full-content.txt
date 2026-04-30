@@ -4,7 +4,7 @@
        Outputs each page as a markdown section with heading + content.
        Uses .Plain to resolve shortcodes and produce clean text. */ -}}
 {{- range .Pages -}}
-  {{- if not (partial "llms-is-excluded.txt" .) -}}
+  {{- if not (partial "llms/is-excluded.txt" .) -}}
     {{- if .Plain -}}
       {{- with .Title }}
 
@@ -12,10 +12,10 @@
 
 ## {{ . | plainify }}
 {{ end -}}
-{{ partial "llms-decode-entities.txt" .Plain | safeHTML }}
+{{ partial "llms/decode-entities.txt" .Plain | safeHTML }}
 {{ end -}}
     {{- if .IsSection -}}
-      {{- partial "llms-full-content.txt" . -}}
+      {{- partial "llms/full-content.txt" . -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}

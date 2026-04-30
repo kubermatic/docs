@@ -15,7 +15,7 @@
 {{- end -}}
 {{- $pagePath := cond (ne $url "") (printf "/%s/%s" $key $url) (printf "/%s" $key) -}}
 {{- with $.Site.GetPage $pagePath -}}
-  {{- if not (partial "llms-is-excluded.txt" .) -}}
+  {{- if not (partial "llms/is-excluded.txt" .) -}}
   {{- $llmsURL := "" -}}
   {{- with .OutputFormats.Get "LLMsTxt" -}}
     {{- $llmsURL = .Permalink -}}

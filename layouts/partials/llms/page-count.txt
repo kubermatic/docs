@@ -2,12 +2,12 @@
        Context: a section page. */ -}}
 {{- $count := 0 -}}
 {{- range .Pages -}}
-  {{- if not (partial "llms-is-excluded.txt" .) -}}
+  {{- if not (partial "llms/is-excluded.txt" .) -}}
     {{- if .Plain -}}
       {{- $count = add $count 1 -}}
     {{- end -}}
     {{- if .IsSection -}}
-      {{- $count = add $count (partial "llms-page-count.txt" .) -}}
+      {{- $count = add $count (partial "llms/page-count.txt" .) -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
