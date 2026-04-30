@@ -28,11 +28,16 @@ enableGitInfo = true
     mediaType = "text/plain"
     isPlainText = true
     notAlternative = true
+  [outputFormats.Markdown]
+    baseName = "index"
+    mediaType = "text/markdown"
+    isPlainText = true
+    notAlternative = true
 
 [outputs]
-home = ["HTML", "Search", "Redirects", "LLMsTxt"]
-section = ["HTML", "LLMsTxt", "LLMsFullTxt"]
-page = ["HTML"]
+home = ["HTML", "Search", "Redirects", "LLMsTxt", "Markdown"]
+section = ["HTML", "LLMsTxt", "LLMsFullTxt", "Markdown"]
+page = ["HTML", "Markdown"]
 
 [markup.goldmark.renderer]
   unsafe = true
