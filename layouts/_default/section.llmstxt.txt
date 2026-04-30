@@ -2,6 +2,7 @@
 {{- $title := .Title | default .Name | plainify -}}
 {{- $pageCount := partial "llms/page-count.txt" . -}}
 {{- $segments := split (strings.TrimPrefix "/" (strings.TrimSuffix "/" .RelPermalink)) "/" -}}
+{{- if gt $pageCount 0 -}}
 # {{ $title }}
 {{ with .Description | default .Params.description }}
 > {{ . }}
@@ -22,4 +23,5 @@
 {{ end }}
 ## Pages
 {{ partial "llms/list-pages.txt" . }}
+{{- end -}}
 {{- end -}}
