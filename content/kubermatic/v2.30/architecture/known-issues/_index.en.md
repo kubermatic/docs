@@ -9,6 +9,42 @@ weight = 25
 
 This page documents the list of known issues and possible workarounds/solutions.
 
+## Flatcar Stable 4593.2.0 nodes fail to join cluster
+
+_**Affected Components**_: Operating System Manager, Machine Controller
+
+_**Affected OS Image**_: Flatcar Stable 4593.2.0 (BUILD_ID 2026-04-14-0823) and newer
+
+Issue: [kubermatic/operating-system-manager#589](https://github.com/kubermatic/operating-system-manager/issues/589)
+
+### Problem
+
+When provisioning Flatcar nodes on Stable 4593.2.0 or newer, nodes may fail to join the cluster. The bootstrap script fails due to a change in Flatcar's filesystem layout that makes `/etc/environment` read-only. See the issue linked above for details.
+
+### Possible Workarounds
+
+1. Pin the Flatcar image to a pre-4593.2.0 version in the MachineDeployment by setting the image ID field for your provider (e.g. `cloudProviderSpec.ami` for AWS). Also set `operatingSystemSpec.disableAutoUpdate: true` to prevent auto-upgrade:
+
+   ```yaml
+   apiVersion: cluster.k8s.io/v1alpha1
+   kind: MachineDeployment
+   spec:
+     template:
+       spec:
+         providerSpec:
+           value:
+             cloudProvider: aws
+             cloudProviderSpec:
+               ami: ami-xxxxxxxxxxxxxxxxx
+             operatingSystem: flatcar
+             operatingSystemSpec:
+               disableAutoUpdate: true
+   ```
+
+### Planned resolution
+
+A fix in Operating System Manager ([kubermatic/operating-system-manager#589](https://github.com/kubermatic/operating-system-manager/issues/589)) is in progress.
+
 ## Cilium 1.18 fails installation on older Ubuntu 22.04 kernels
 
 _**Affected Components**_: Cilium 1.18.x deployed as a system application on User Clusters
