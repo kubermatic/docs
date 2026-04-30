@@ -8,5 +8,5 @@ url: {{ .Permalink }}
 {{ with .Description | default .Params.description }}
 > {{ . }}
 {{ end }}
-{{ .RenderShortcodes }}
+{{ partial "llms-decode-entities.txt" .Plain }}
 {{- end -}}
