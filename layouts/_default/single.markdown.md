@@ -1,4 +1,4 @@
-{{- if not .Params.sitemapexclude -}}
+{{- if not (partial "llms/is-excluded.txt" .) -}}
 ---
 title: {{ .Title | plainify }}
 url: {{ .Permalink }}
