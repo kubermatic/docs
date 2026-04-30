@@ -1,6 +1,5 @@
 +++
 title = "Kubermatic Developer Platform"
-sitemapexclude = true
 +++
 
 KDP (Kubermatic Developer Platform) is a new Kubermatic product in development that targets the IDP
