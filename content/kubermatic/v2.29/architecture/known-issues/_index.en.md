@@ -9,6 +9,42 @@ weight = 25
 
 This page documents the list of known issues and possible workarounds/solutions.
 
+## Flatcar Stable 4593.2.0 nodes fail to join cluster
+
+_**Affected Components**_: Operating System Manager, Machine Controller
+
+_**Affected OS Image**_: Flatcar Stable 4593.2.0 (BUILD_ID 2026-04-14-0823) and newer
+
+Issue: [kubermatic/operating-system-manager#589](https://github.com/kubermatic/operating-system-manager/issues/589)
+
+### Problem
+
+When provisioning Flatcar nodes on Stable 4593.2.0 or newer, nodes may fail to join the cluster. The bootstrap script fails due to a change in Flatcar's filesystem layout that makes `/etc/environment` read-only. See the issue linked above for details.
+
+### Possible Workarounds
+
+1. Pin the Flatcar image to a pre-4593.2.0 version in the MachineDeployment by setting the image ID field for your provider (e.g. `cloudProviderSpec.ami` for AWS). Also set `operatingSystemSpec.disableAutoUpdate: true` to prevent auto-upgrade:
+
+   ```yaml
+   apiVersion: cluster.k8s.io/v1alpha1
+   kind: MachineDeployment
+   spec:
+     template:
+       spec:
+         providerSpec:
+           value:
+             cloudProvider: aws
+             cloudProviderSpec:
+               ami: ami-xxxxxxxxxxxxxxxxx
+             operatingSystem: flatcar
+             operatingSystemSpec:
+               disableAutoUpdate: true
+   ```
+
+### Planned resolution
+
+A fix in Operating System Manager ([kubermatic/operating-system-manager#589](https://github.com/kubermatic/operating-system-manager/issues/589)) is in progress.
+
 ## Cilium 1.18 fails installation on older Ubuntu 22.04 kernels
 
 _**Affected Components**_: Cilium 1.18.x deployed as a system application on User Clusters
@@ -159,3 +195,25 @@ spec:
 ```
 
 This sets `--xfr-channel-size=300` flag for Konnectivity Agent, which runs on the user cluster.
+
+## Deadlock on user cluster deletion when PersistentVolume/LoadBalancer Service exists but no MachineDeployments
+
+Issue: <https://github.com/kubermatic/kubermatic/issues/15500>
+
+### Problem
+
+When deleting a user cluster that doesn't have any MachineDeployments while there is still a PersistentVolume or Service of type LoadBalancer, the cluster remains in terminating state infinitely.
+
+### Root Cause
+
+Resources that require custom clean up logic by a Kubernetes controller have a finalizer attached, preventing them from being deleted immediately without proper clean up.
+To clean up those resources, a corresponding Kubernetes controller must run within the cluster and for that it needs a Machine to run on.
+For example a PersistentVolume needs to be finalized by the CSI controller in order to be deleted.
+If that doesn't happen, the resource remains in terminating state infinitely due to the Kubernetes finalizer not being removed from the resource.
+As long as there are PersistentVolumes and Services of type LoadBalancer within a user cluster, its deletion does not complete.
+
+### Workarounds
+
+1. Make sure the user cluster has a MachineDeployment, Machines and corresponding healthy nodes before deleting it.
+2. Download the user cluster's kubeconfig before deleting the user cluster and add a new MachineDeployment (e.g. by copying it from another cluster that was created using the same settings). Please be aware that you can neither download the kubeconfig nor create a new MachineDeployment via the KKP Dashboard anymore once user cluster deletion was started!
+3. Ask your platform administrator to remove the `kubermatic.k8c.io/cleanup-in-cluster-pv` and `kubermatic.k8c.io/cleanup-in-cluster-lb` finalizers from your `Cluster` resource within the seed cluster and clean up the corresponding cloud provider resources (e.g. AWS EBS volume) manually.
