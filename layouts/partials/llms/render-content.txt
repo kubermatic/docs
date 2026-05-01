@@ -1,0 +1,62 @@
+{{- /* Hybrid content renderer for LLM/MD output.
+       For pages that require network fetching (render_external_markdown/code),
+       falls back to .Plain (HTML-stripped text).
+       For all other pages, processes .RawContent with regex transformations
+       to preserve native markdown formatting, especially fenced code blocks.
+       Context: a single page.
+       Outputs content directly (no return value). */ -}}
+
+{{- $raw := .RawContent -}}
+
+{{- /* Detect pages requiring network-fetched content */ -}}
+{{- $needsRender := or (strings.Contains $raw "render_external_markdown") (strings.Contains $raw "render_external_code") -}}
+{{- if $needsRender -}}
+{{- partial "llms/decode-entities.txt" .Plain | safeHTML -}}
+{{- else -}}
+
+{{- $s := $raw -}}
+
+{{- /* 1. Strip children shortcode — navigation only, no real content */ -}}
+{{- $s = replaceRE `\{\{[%<] *children[^}]*[%>]\}\}` "" $s -}}
+
+{{- /* 2. Inline readfile shortcodes — output raw file content.
+          The shortcode is typically placed inside a fenced code block in the source
+          markdown, so no extra wrapping is added here. */ -}}
+{{- range findRE `\{\{< *readfile "[^"]+"[^>]*>\}\}` $s -}}
+  {{- $match := . -}}
+  {{- $path := replaceRE `\{\{< *readfile "([^"]+)"[^>]*>\}\}` "$1" $match -}}
+  {{- with readFile $path -}}
+    {{- $s = replace $s $match (. | strings.TrimRight "\n") -}}
+  {{- else -}}
+    {{- $s = replace $s $match "" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* 3. Convert notice shortcodes to labelled blockquotes.
+          Types: note, warning, tip, info */ -}}
+{{- $s = replaceRE `(?s)\{\{% notice (\w+)[^%]*%\}\}\s*(.*?)\s*\{\{% /notice %\}\}` "\n> **$1:** $2\n" $s -}}
+
+{{- /* 4. Strip tabs wrapper; convert tab names to level-4 headings */ -}}
+{{- $s = replaceRE `\{\{< *tabs [^>]*>\}\}` "" $s -}}
+{{- $s = replaceRE `\{\{< */tabs *>\}\}` "" $s -}}
+{{- $s = replaceRE `\{\{% tab name="([^"]+)"[^%]*%\}\}` "\n#### $1\n\n" $s -}}
+{{- $s = replaceRE `\{\{% /tab *%\}\}` "" $s -}}
+
+{{- /* 5. Convert details shortcodes to heading + content */ -}}
+{{- $s = replaceRE `\{\{< *details summary="([^"]+)"[^>]*>\}\}` "\n#### $1\n\n" $s -}}
+{{- $s = replaceRE `\{\{< */details *>\}\}` "" $s -}}
+
+{{- /* 6. Resolve ref/relref in links: [text]({{< ref "path" >}}) → [text](path) */ -}}
+{{- $s = replaceRE `\{\{< *rel?ref "([^"]+)"[^>]*>\}\}` "$1" $s -}}
+
+{{- /* 7. Replace current_version with actual version string from URL */ -}}
+{{- $pathParts := split .RelPermalink "/" -}}
+{{- if gt (len $pathParts) 2 -}}
+  {{- $s = replace $s "{{< current_version >}}" (index $pathParts 2) -}}
+{{- end -}}
+
+{{- /* 8. Strip any remaining unhandled shortcode tags (self-closing and wrappers) */ -}}
+{{- $s = replaceRE `\{\{[<%][^}]*[%>]\}\}` "" $s -}}
+
+{{ $s | safeHTML }}
+{{- end -}}

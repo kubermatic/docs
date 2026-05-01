@@ -3,6 +3,6 @@
 {{ with .Description | default .Params.description }}
 > {{ . }}
 {{ end }}
-{{ partial "llms/decode-entities.txt" .Plain }}
+{{ partial "llms/render-content.txt" . }}
 {{ partial "llms/full-content.txt" . }}
 {{- end -}}

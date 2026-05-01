@@ -5,14 +5,14 @@
        Uses .Plain to resolve shortcodes and produce clean text. */ -}}
 {{- range .Pages -}}
   {{- if not (partial "llms/is-excluded.txt" .) -}}
-    {{- if .Plain -}}
+    {{- if .RawContent -}}
       {{- with .Title }}
 
 ---
 
 ## {{ . | plainify }}
 {{ end -}}
-{{ partial "llms/decode-entities.txt" .Plain | safeHTML }}
+{{ partial "llms/render-content.txt" . }}
 {{ end -}}
     {{- if .IsSection -}}
       {{- partial "llms/full-content.txt" . -}}

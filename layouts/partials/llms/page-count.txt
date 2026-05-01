@@ -3,7 +3,7 @@
 {{- $count := 0 -}}
 {{- range .Pages -}}
   {{- if not (partial "llms/is-excluded.txt" .) -}}
-    {{- if .Plain -}}
+    {{- if .RawContent -}}
       {{- $count = add $count 1 -}}
     {{- end -}}
     {{- if .IsSection -}}
