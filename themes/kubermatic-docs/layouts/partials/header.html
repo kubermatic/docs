@@ -64,6 +64,18 @@
             {{end}}
           {{end}}
         {{end}}
+        {{if and $versions (gt (len $versions) 1)}}
+          {{$product := index $products .Section}}
+          {{$supported := $product.supportedReleases | default 0}}
+          {{range $i, $v := $versions}}
+            {{$autoEol := and (gt $supported 0) (gt $i $supported)}}
+            {{if and (or $v.eol $autoEol) (in (split $.RelPermalink "/") $v.release)}}
+              {{with $.Site.GetPage (printf "/%s/%s" $.Section (index $versions 1).release)}}
+              <div class="noticebar">You're viewing documentation for an older version of {{$product.title}} that has reached End of Life (EOL). Please use <a href="{{.RelPermalink}}" class="noticebar-link">an official release</a> version</div>
+              {{end}}
+            {{end}}
+          {{end}}
+        {{end}}
         <div id="overlay"></div>
         <div class="padding highlightable">
         <div class="top-bar">
