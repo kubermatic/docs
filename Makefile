@@ -1,4 +1,4 @@
-CODESPELL_IMAGE ?= quay.io/kubermatic/build:go-1.25-node-22-kind-0.30-8
+CODESPELL_IMAGE ?= quay.io/kubermatic/build:go-1.26-node-22-kind-0.31-2
 CODESPELL_BIN := $(shell which codespell)
 DOCKER_BIN := $(shell which docker)
 
