@@ -114,10 +114,21 @@ kind: Project
 metadata:
   name: 2msp2ww6gw
 spec:
-...
   defaultTenantSpec:
-    ...
-...
+    # Whether all annotations should propagate to the LoadBalancer service
+    propagateAllAnnotations: false
+    # Specific annotations to propagate to the LoadBalancer service
+    propagatedAnnotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    # Default annotations set on load balancing resources if not already present
+    defaultAnnotations:
+      service:
+        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+      ingress:
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Restrict allowed domains across all tenant components
+    allowedDomains:
+      - example.com
 ```
 
-The options for configuring default values for a kubelb tenant can be viewed in [kubelb tenant api specification](https://docs.kubermatic.com/kubelb/main/references/ee/#tenantspec).
+The options for configuring default values for a kubelb tenant can be viewed in [kubelb tenant api specification](https://docs.kubermatic.com/kubelb/v1.2/references/ee/#tenantspec).
