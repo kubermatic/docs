@@ -58,12 +58,14 @@
 {{- $s = replaceRE `\{\{< *(?:rel)?ref \\?"([^"\\]+)\\?"[^>]*>\}\}` "$1" $s -}}
 
 {{- /* 8. Resolve relative markdown links to absolute URLs.
-          After step 7, relref-based paths are plain relative paths (e.g. ../../tutorials/kkp).
+          After step 7, ref/relref shortcodes are plain relative paths (e.g. ../../tutorials/kkp).
           Plain relative links (e.g. ../../installation/) are also still relative at this point.
           AI parsers cannot resolve relative paths without knowing the base URL, so we convert
-          all [text](../path) and [text](../../path) links to absolute URLs here.
-          We use manual path resolution (not Hugo's relref) to avoid REF_NOT_FOUND errors for
-          relative links that point to non-page resources (images, PDFs, etc.). */ -}}
+          them to absolute URLs here using manual path resolution (not Hugo's relref) to avoid
+          REF_NOT_FOUND errors for links pointing to non-page resources (images, PDFs, etc.).
+          Two link forms are handled:
+            a) Inline links:              [text](../path)
+            b) Reference definitions:     [id]: ../path   */ -}}
 {{- $siteBase := strings.TrimSuffix "/" .Site.BaseURL -}}
 {{- $baseParts := slice -}}
 {{- range split (strings.TrimSuffix "/" .RelPermalink) "/" -}}
@@ -71,34 +73,45 @@
     {{- $baseParts = $baseParts | append . -}}
   {{- end -}}
 {{- end -}}
+{{- /* 8a. Inline links: [text](../path) */ -}}
 {{- range findRE `\[([^\]]*)\]\((\.\.?/[^)]*)\)` $s -}}
   {{- $fullMatch := . -}}
   {{- $linkText := replaceRE `\[([^\]]*)\]\((\.\.?/[^)]*)\)` "$1" . -}}
   {{- $href := replaceRE `\[([^\]]*)\]\((\.\.?/[^)]*)\)` "$2" . -}}
-  {{- /* Split anchor fragment from path */ -}}
   {{- $anchor := replaceRE `^[^#]*` "" $href -}}
   {{- $href = replaceRE `#.*$` "" $href -}}
-  {{- /* Preserve trailing slash */ -}}
   {{- $trailingSlash := "" -}}
-  {{- if strings.HasSuffix $href "/" -}}
-    {{- $trailingSlash = "/" -}}
-  {{- end -}}
-  {{- /* Resolve path segments against the page's directory */ -}}
+  {{- if strings.HasSuffix $href "/" -}}{{- $trailingSlash = "/" -}}{{- end -}}
   {{- $parts := slice -}}
-  {{- range $baseParts -}}
-    {{- $parts = $parts | append . -}}
-  {{- end -}}
+  {{- range $baseParts -}}{{- $parts = $parts | append . -}}{{- end -}}
   {{- range split $href "/" -}}
     {{- if eq . ".." -}}
-      {{- if gt (len $parts) 0 -}}
-        {{- $parts = first (sub (len $parts) 1) $parts -}}
-      {{- end -}}
+      {{- if gt (len $parts) 0 -}}{{- $parts = first (sub (len $parts) 1) $parts -}}{{- end -}}
     {{- else if and (ne . ".") (ne . "") -}}
       {{- $parts = $parts | append . -}}
     {{- end -}}
   {{- end -}}
-  {{- $absURL := printf "%s/%s%s%s" $siteBase (delimit $parts "/") $trailingSlash $anchor -}}
-  {{- $s = replace $s $fullMatch (printf "[%s](%s)" $linkText $absURL) -}}
+  {{- $s = replace $s $fullMatch (printf "[%s](%s/%s%s%s)" $linkText $siteBase (delimit $parts "/") $trailingSlash $anchor) -}}
+{{- end -}}
+{{- /* 8b. Reference definitions: [id]: ../path */ -}}
+{{- range findRE `\[[^\]]+\]: *(\.\.?/[^\s]+)` $s -}}
+  {{- $fullMatch := . -}}
+  {{- $id := replaceRE `\[([^\]]+)\]: *(\.\.?/[^\s]+)` "$1" . -}}
+  {{- $href := replaceRE `\[([^\]]+)\]: *(\.\.?/[^\s]+)` "$2" . -}}
+  {{- $anchor := replaceRE `^[^#]*` "" $href -}}
+  {{- $href = replaceRE `#.*$` "" $href -}}
+  {{- $trailingSlash := "" -}}
+  {{- if strings.HasSuffix $href "/" -}}{{- $trailingSlash = "/" -}}{{- end -}}
+  {{- $parts := slice -}}
+  {{- range $baseParts -}}{{- $parts = $parts | append . -}}{{- end -}}
+  {{- range split $href "/" -}}
+    {{- if eq . ".." -}}
+      {{- if gt (len $parts) 0 -}}{{- $parts = first (sub (len $parts) 1) $parts -}}{{- end -}}
+    {{- else if and (ne . ".") (ne . "") -}}
+      {{- $parts = $parts | append . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $s = replace $s $fullMatch (printf "[%s]: %s/%s%s%s" $id $siteBase (delimit $parts "/") $trailingSlash $anchor) -}}
 {{- end -}}
 
 {{- /* 9. Replace current_version with actual version string from URL */ -}}
