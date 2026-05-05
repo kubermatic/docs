@@ -7,7 +7,7 @@
        For single pages, lists title and description as plain text. */ -}}
 {{- range .Pages -}}
   {{- if not (partial "llms/is-excluded.txt" .) -}}
-    {{- if .Plain -}}
+    {{- if .RawContent -}}
     {{- if .IsSection -}}
       {{- $childCount := partial "llms/page-count.txt" . -}}
       {{- $desc := .Description | default .Params.description | default "" -}}

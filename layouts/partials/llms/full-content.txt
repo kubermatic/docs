@@ -2,7 +2,7 @@
        Context: a page (section or single).
        Skips excluded pages and pages without content.
        Outputs each page as a markdown section with heading + content.
-       Uses .Plain to resolve shortcodes and produce clean text. */ -}}
+       Uses .RawContent via render-content.txt partial. */ -}}
 {{- range .Pages -}}
   {{- if not (partial "llms/is-excluded.txt" .) -}}
     {{- if .RawContent -}}
