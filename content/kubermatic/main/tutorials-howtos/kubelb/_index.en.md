@@ -120,4 +120,4 @@ spec:
 ...
 ```
 
-The options for configuring default values for a kubelb tenant can be viewed in [kubelb tenant api specification](https://docs.kubermatic.com/kubelb/v1.1/references/ee/#tenantspec).
+The options for configuring default values for a kubelb tenant can be viewed in [kubelb tenant api specification](https://docs.kubermatic.com/kubelb/main/references/ee/#tenantspec).
