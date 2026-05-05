@@ -1,9 +1,0 @@
-{{- if not (partial "llms/is-excluded.txt" .) -}}
-{{- if .RawContent }}
-# {{ .Title | default .Name | plainify }}
-{{ with .Description | default .Params.description }}
-> {{ . }}
-{{ end }}
-{{ partial "llms/render-content.txt" . }}
-{{- end -}}
-{{- end -}}
