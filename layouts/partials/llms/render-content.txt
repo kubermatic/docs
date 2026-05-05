@@ -53,16 +53,61 @@
 {{- $s = replaceRE `\{\{< *details summary="([^"]+)"[^>]*>\}\}` "\n#### $1\n\n" $s -}}
 {{- $s = replaceRE `\{\{< */details *>\}\}` "" $s -}}
 
-{{- /* 7. Resolve ref/relref in links: [text]({{< ref "path" >}}) → [text](path) */ -}}
-{{- $s = replaceRE `\{\{< *rel?ref "([^"]+)"[^>]*>\}\}` "$1" $s -}}
+{{- /* 7. Resolve ref/relref in links: [text]({{< ref "path" >}}) → [text](path)
+          Also handles malformed shortcodes with escaped quotes: {{< ref \"path\" >}} */ -}}
+{{- $s = replaceRE `\{\{< *(?:rel)?ref \\?"([^"\\]+)\\?"[^>]*>\}\}` "$1" $s -}}
 
-{{- /* 8. Replace current_version with actual version string from URL */ -}}
+{{- /* 8. Resolve relative markdown links to absolute URLs.
+          After step 7, relref-based paths are plain relative paths (e.g. ../../tutorials/kkp).
+          Plain relative links (e.g. ../../installation/) are also still relative at this point.
+          AI parsers cannot resolve relative paths without knowing the base URL, so we convert
+          all [text](../path) and [text](../../path) links to absolute URLs here.
+          We use manual path resolution (not Hugo's relref) to avoid REF_NOT_FOUND errors for
+          relative links that point to non-page resources (images, PDFs, etc.). */ -}}
+{{- $siteBase := strings.TrimSuffix "/" .Site.BaseURL -}}
+{{- $baseParts := slice -}}
+{{- range split (strings.TrimSuffix "/" .RelPermalink) "/" -}}
+  {{- if ne . "" -}}
+    {{- $baseParts = $baseParts | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- range findRE `\[([^\]]*)\]\((\.\.?/[^)]*)\)` $s -}}
+  {{- $fullMatch := . -}}
+  {{- $linkText := replaceRE `\[([^\]]*)\]\((\.\.?/[^)]*)\)` "$1" . -}}
+  {{- $href := replaceRE `\[([^\]]*)\]\((\.\.?/[^)]*)\)` "$2" . -}}
+  {{- /* Split anchor fragment from path */ -}}
+  {{- $anchor := replaceRE `^[^#]*` "" $href -}}
+  {{- $href = replaceRE `#.*$` "" $href -}}
+  {{- /* Preserve trailing slash */ -}}
+  {{- $trailingSlash := "" -}}
+  {{- if strings.HasSuffix $href "/" -}}
+    {{- $trailingSlash = "/" -}}
+  {{- end -}}
+  {{- /* Resolve path segments against the page's directory */ -}}
+  {{- $parts := slice -}}
+  {{- range $baseParts -}}
+    {{- $parts = $parts | append . -}}
+  {{- end -}}
+  {{- range split $href "/" -}}
+    {{- if eq . ".." -}}
+      {{- if gt (len $parts) 0 -}}
+        {{- $parts = first (sub (len $parts) 1) $parts -}}
+      {{- end -}}
+    {{- else if and (ne . ".") (ne . "") -}}
+      {{- $parts = $parts | append . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $absURL := printf "%s/%s%s%s" $siteBase (delimit $parts "/") $trailingSlash $anchor -}}
+  {{- $s = replace $s $fullMatch (printf "[%s](%s)" $linkText $absURL) -}}
+{{- end -}}
+
+{{- /* 9. Replace current_version with actual version string from URL */ -}}
 {{- $pathParts := split .RelPermalink "/" -}}
 {{- if gt (len $pathParts) 2 -}}
   {{- $s = replace $s "{{< current_version >}}" (index $pathParts 2) -}}
 {{- end -}}
 
-{{- /* 9. Strip any remaining unhandled shortcode tags (self-closing and wrappers) */ -}}
+{{- /* 10. Strip any remaining unhandled shortcode tags (self-closing and wrappers) */ -}}
 {{- $s = replaceRE `\{\{[<%][^}]*[%>]\}\}` "" $s -}}
 
 {{ $s | safeHTML }}
