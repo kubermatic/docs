@@ -683,9 +683,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+| `replicas` _integer_ | {{< unsafe >}}Replicas allows to override the number of desired Pods for the Deployment.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources allows to override the resource requirements.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allows to override the scheduling tolerations for Pods.{{< /unsafe >}} |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
 | `endpointReconcilingDisabled` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
 | `nodePortRange` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 
@@ -1335,7 +1337,15 @@ AntiAffinityType is the type of anti-affinity that should be used. Can be "prefe
 or "required".
 
 _Appears in:_
+- [APIServerSettings](#apiserversettings)
+- [ControllerSettings](#controllersettings)
+- [DeploymentSettings](#deploymentsettings)
 - [EtcdStatefulSetSettings](#etcdstatefulsetsettings)
+- [KonnectivityProxySettings](#konnectivityproxysettings)
+- [NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)
+- [NodeportProxyComponent](#nodeportproxycomponent)
+- [OSMControllerSettings](#osmcontrollersettings)
+- [StatefulSetSettings](#statefulsetsettings)
 
 
 
@@ -2749,9 +2759,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+| `replicas` _integer_ | {{< unsafe >}}Replicas allows to override the number of desired Pods for the Deployment.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources allows to override the resource requirements.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allows to override the scheduling tolerations for Pods.{{< /unsafe >}} |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
 | `leaderElection` _[LeaderElectionSettings](#leaderelectionsettings)_ | {{< unsafe >}}{{< /unsafe >}} |
 
 
@@ -3279,9 +3291,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+| `replicas` _integer_ | {{< unsafe >}}Replicas allows to override the number of desired Pods for the Deployment.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources allows to override the resource requirements.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allows to override the scheduling tolerations for Pods.{{< /unsafe >}} |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4579,6 +4593,8 @@ _Appears in:_
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources configure limits/requests for Konnectivity components.{{< /unsafe >}} |
 | `keepaliveTime` _string_ | {{< unsafe >}}KeepaliveTime represents a duration of time to check if the transport is still alive.<br />The option is propagated to agents and server.<br />Defaults to 1m.{{< /unsafe >}} |
 | `args` _string array_ | {{< unsafe >}}Args configures arguments (flags) for the Konnectivity deployments.{{< /unsafe >}} |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5968,6 +5984,8 @@ _Appears in:_
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the component's image.{{< /unsafe >}} |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the nodeport-proxy-envoy deployment.<br />Defaults to 3.{{< /unsafe >}} |
 | `loadBalancerService` _[EnvoyLoadBalancerService](#envoyloadbalancerservice)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `connectionSettings` _[NodePortProxyEnvoyConnectionSettings](#nodeportproxyenvoyconnectionsettings)_ | {{< unsafe >}}ConnectionSettings configures idle timeout and TCP keepalive settings for<br />the nodeport-proxy Envoy listeners and upstream clusters.<br />Zero values keep Envoy defaults (no KKP override).{{< /unsafe >}} |
@@ -6042,6 +6060,8 @@ _Appears in:_
 | --- | --- |
 | `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the component's image.{{< /unsafe >}} |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6254,9 +6274,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+| `replicas` _integer_ | {{< unsafe >}}Replicas allows to override the number of desired Pods for the Deployment.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources allows to override the resource requirements.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allows to override the scheduling tolerations for Pods.{{< /unsafe >}} |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
 | `leaderElection` _[LeaderElectionSettings](#leaderelectionsettings)_ | {{< unsafe >}}{{< /unsafe >}} |
 | `proxy` _[ProxySettings](#proxysettings)_ | {{< unsafe >}}ProxySettings defines optional flags for OperatingSystemManager deployment to allow<br />setting specific proxy configurations for specific user clusters.{{< /unsafe >}} |
 
@@ -7495,9 +7517,11 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `replicas` _integer_ | {{< unsafe >}}{{< /unsafe >}} |
-| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}{{< /unsafe >}} |
-| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}{{< /unsafe >}} |
+| `replicas` _integer_ | {{< unsafe >}}Replicas allows to override the number of desired Pods for the StatefulSet.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources allows to override the resource requirements.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allows to override the scheduling tolerations for Pods.{{< /unsafe >}} |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
 
 
 [Back to top](#top)
