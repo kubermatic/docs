@@ -93,6 +93,7 @@ kubelb:
   description: KubeLB is a tool to centrally manage load balancers across multicloud and on-prem environments.
   weight: 3
   shareImage: img/share-kubelb.png
+  supportedReleases: 3
   versions:
     - release: main
       name: main
