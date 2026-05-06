@@ -1,0 +1,22 @@
+{{- /* Returns true if a page should be excluded from llms.txt outputs.
+       Excluded when:
+       - .Draft is true, OR
+       - .Params.sitemapexclude is true, OR
+       - The page does not belong to the most recent product version
+         (2nd in the versions list from products.yaml, or 1st if only one). */ -}}
+{{- $excluded := or .Draft .Params.sitemapexclude -}}
+{{- if not $excluded -}}
+  {{- with index hugo.Data.products .Section -}}
+    {{- if .versions -}}
+      {{- $latestVersion := cond (gt (len .versions) 1) (index .versions 1).release (index .versions 0).release -}}
+      {{- $pathParts := split $.RelPermalink "/" -}}
+      {{- if gt (len $pathParts) 2 -}}
+        {{- $pageVersion := index $pathParts 2 -}}
+        {{- if ne $pageVersion $latestVersion -}}
+          {{- $excluded = true -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $excluded -}}

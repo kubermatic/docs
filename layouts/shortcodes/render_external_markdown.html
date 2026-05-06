@@ -2,5 +2,5 @@
 {{- with resources.GetRemote $urlToRender (dict "headers" (dict "Cache-Control" "no-cache")) -}}
   {{- $.Page.RenderString .Content -}}
 {{- else -}}
-  {{- errorf "Unable to get remote resource %q" (.Get 0) -}}
+  {{- warnf "Unable to get remote resource %q" (.Get 0) -}}
 {{- end -}}

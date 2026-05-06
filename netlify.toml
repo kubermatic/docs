@@ -12,3 +12,8 @@ directory = "functions"
 
 [functions."deploy-succeeded"]
 included_files = ["public/search.json"]
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Link = '''</llms.txt>; rel="llms-txt", </sitemap.xml>; rel="sitemap", </search.json>; rel="search"'''

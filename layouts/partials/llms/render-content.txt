@@ -1,0 +1,126 @@
+{{- /* Hybrid content renderer for LLM/MD output.
+       Processes .RawContent with regex transformations to preserve native
+       markdown formatting (fenced code blocks, headings, links, etc.).
+       External content (render_external_markdown/code) is fetched at build
+       time via resources.GetRemote and inlined directly.
+       Context: a single page.
+       Outputs content directly (no return value). */ -}}
+
+{{- $s := .RawContent -}}
+
+{{- /* 1. Strip children shortcode — navigation only, no real content */ -}}
+{{- $s = replaceRE `\{\{[%<] *children[^}]*[%>]\}\}` "" $s -}}
+
+{{- /* 2. Inline readfile shortcodes — output raw file content.
+          The shortcode is typically placed inside a fenced code block in the
+          source markdown, so no extra wrapping is added here. */ -}}
+{{- range findRE `\{\{< *readfile "[^"]+"[^>]*>\}\}` $s -}}
+  {{- $match := . -}}
+  {{- $path := replaceRE `\{\{< *readfile "([^"]+)"[^>]*>\}\}` "$1" $match -}}
+  {{- with readFile $path -}}
+    {{- $s = replace $s $match (. | strings.TrimRight "\n") -}}
+  {{- else -}}
+    {{- $s = replace $s $match "" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* 3. Inline render_external_markdown / render_external_code: fetch the remote
+          resource and embed its content directly. Both shortcodes produce raw
+          content (markdown or code) that is already wrapped appropriately by
+          the surrounding source markdown, so no extra wrapping is added. */ -}}
+{{- range findRE `\{\{< *render_external(?:_markdown|_code) "[^"]+"[^>]*>\}\}` $s -}}
+  {{- $match := . -}}
+  {{- $url := replaceRE `\{\{< *render_external(?:_markdown|_code) "([^"]+)"[^>]*>\}\}` "$1" $match -}}
+  {{- with resources.GetRemote $url (dict "headers" (dict "Cache-Control" "no-cache")) -}}
+    {{- $s = replace $s $match (.Content | strings.TrimRight "\n") -}}
+  {{- else -}}
+    {{- warnf "llms/render-content: failed to fetch %s" $url -}}
+    {{- $s = replace $s $match "" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* 4. Convert notice shortcodes to labelled blockquotes.
+          Types: note, warning, tip, info */ -}}
+{{- $s = replaceRE `(?s)\{\{% notice (\w+)[^%]*%\}\}\s*(.*?)\s*\{\{% /notice %\}\}` "\n> **$1:** $2\n" $s -}}
+
+{{- /* 5. Strip tabs wrapper; convert tab names to level-4 headings */ -}}
+{{- $s = replaceRE `\{\{< *tabs [^>]*>\}\}` "" $s -}}
+{{- $s = replaceRE `\{\{< */tabs *>\}\}` "" $s -}}
+{{- $s = replaceRE `\{\{% tab name="([^"]+)"[^%]*%\}\}` "\n#### $1\n\n" $s -}}
+{{- $s = replaceRE `\{\{% /tab *%\}\}` "" $s -}}
+
+{{- /* 6. Convert details shortcodes to heading + content */ -}}
+{{- $s = replaceRE `\{\{< *details summary="([^"]+)"[^>]*>\}\}` "\n#### $1\n\n" $s -}}
+{{- $s = replaceRE `\{\{< */details *>\}\}` "" $s -}}
+
+{{- /* 7. Resolve ref/relref in links: [text]({{< ref "path" >}}) → [text](path)
+          Also handles malformed shortcodes with escaped quotes: {{< ref \"path\" >}} */ -}}
+{{- $s = replaceRE `\{\{< *(?:rel)?ref \\?"([^"\\]+)\\?"[^>]*>\}\}` "$1" $s -}}
+
+{{- /* 8. Resolve relative markdown links to absolute URLs.
+          After step 7, ref/relref shortcodes are plain relative paths (e.g. ../../tutorials/kkp).
+          Plain relative links (e.g. ../../installation/) are also still relative at this point.
+          AI parsers cannot resolve relative paths without knowing the base URL, so we convert
+          them to absolute URLs here using manual path resolution (not Hugo's relref) to avoid
+          REF_NOT_FOUND errors for links pointing to non-page resources (images, PDFs, etc.).
+          Two link forms are handled:
+            a) Inline links:              [text](../path)
+            b) Reference definitions:     [id]: ../path   */ -}}
+{{- $siteBase := strings.TrimSuffix "/" .Site.BaseURL -}}
+{{- $baseParts := slice -}}
+{{- range split (strings.TrimSuffix "/" .RelPermalink) "/" -}}
+  {{- if ne . "" -}}
+    {{- $baseParts = $baseParts | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- /* 8a. Inline links: [text](../path) */ -}}
+{{- range findRE `\[([^\]]*)\]\((\.\.?/[^)]*)\)` $s -}}
+  {{- $fullMatch := . -}}
+  {{- $linkText := replaceRE `\[([^\]]*)\]\((\.\.?/[^)]*)\)` "$1" . -}}
+  {{- $href := replaceRE `\[([^\]]*)\]\((\.\.?/[^)]*)\)` "$2" . -}}
+  {{- $anchor := replaceRE `^[^#]*` "" $href -}}
+  {{- $href = replaceRE `#.*$` "" $href -}}
+  {{- $trailingSlash := "" -}}
+  {{- if strings.HasSuffix $href "/" -}}{{- $trailingSlash = "/" -}}{{- end -}}
+  {{- $parts := slice -}}
+  {{- range $baseParts -}}{{- $parts = $parts | append . -}}{{- end -}}
+  {{- range split $href "/" -}}
+    {{- if eq . ".." -}}
+      {{- if gt (len $parts) 0 -}}{{- $parts = first (sub (len $parts) 1) $parts -}}{{- end -}}
+    {{- else if and (ne . ".") (ne . "") -}}
+      {{- $parts = $parts | append . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $s = replace $s $fullMatch (printf "[%s](%s/%s%s%s)" $linkText $siteBase (delimit $parts "/") $trailingSlash $anchor) -}}
+{{- end -}}
+{{- /* 8b. Reference definitions: [id]: ../path */ -}}
+{{- range findRE `\[[^\]]+\]: *(\.\.?/[^\s]+)` $s -}}
+  {{- $fullMatch := . -}}
+  {{- $id := replaceRE `\[([^\]]+)\]: *(\.\.?/[^\s]+)` "$1" . -}}
+  {{- $href := replaceRE `\[([^\]]+)\]: *(\.\.?/[^\s]+)` "$2" . -}}
+  {{- $anchor := replaceRE `^[^#]*` "" $href -}}
+  {{- $href = replaceRE `#.*$` "" $href -}}
+  {{- $trailingSlash := "" -}}
+  {{- if strings.HasSuffix $href "/" -}}{{- $trailingSlash = "/" -}}{{- end -}}
+  {{- $parts := slice -}}
+  {{- range $baseParts -}}{{- $parts = $parts | append . -}}{{- end -}}
+  {{- range split $href "/" -}}
+    {{- if eq . ".." -}}
+      {{- if gt (len $parts) 0 -}}{{- $parts = first (sub (len $parts) 1) $parts -}}{{- end -}}
+    {{- else if and (ne . ".") (ne . "") -}}
+      {{- $parts = $parts | append . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $s = replace $s $fullMatch (printf "[%s]: %s/%s%s%s" $id $siteBase (delimit $parts "/") $trailingSlash $anchor) -}}
+{{- end -}}
+
+{{- /* 9. Replace current_version with actual version string from URL */ -}}
+{{- $pathParts := split .RelPermalink "/" -}}
+{{- if gt (len $pathParts) 2 -}}
+  {{- $s = replace $s "{{< current_version >}}" (index $pathParts 2) -}}
+{{- end -}}
+
+{{- /* 10. Strip any remaining unhandled shortcode tags (self-closing and wrappers) */ -}}
+{{- $s = replaceRE `\{\{[<%][^}]*[%>]\}\}` "" $s -}}
+
+{{ $s | safeHTML }}

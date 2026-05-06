@@ -1,0 +1,8 @@
+{{- if not (partial "llms/is-excluded.txt" .) -}}
+# {{ .Title | default .Name | plainify }}
+{{ with .Description | default .Params.description }}
+> {{ . }}
+{{ end }}
+{{ partial "llms/render-content.txt" . }}
+{{ partial "llms/full-content.txt" . }}
+{{- end -}}
