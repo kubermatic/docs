@@ -6783,7 +6783,7 @@ _Appears in:_
 | --- | --- |
 | `name` _string_ | {{< unsafe >}}Name is the human-readable name given to the project.{{< /unsafe >}} |
 | `allowedOperatingSystems` _[allowedOperatingSystems](#allowedoperatingsystems)_ | {{< unsafe >}}AllowedOperatingSystems defines a map of operating systems that can be used for the machines inside this project.{{< /unsafe >}} |
-| `defaultTenantSpec` _[TenantSpec](#tenantspec)_ | {{< unsafe >}}DefaultTenantSpec{{< /unsafe >}} |
+| `defaultTenantSpec` _[RawExtension](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#rawextension-runtime-pkg)_ | {{< unsafe >}}DefaultTenantSpec is an opaque KubeLB Tenant Spec passed through to the<br />kubelb management cluster as-is. This can be used to override the default<br />Tenant Spec that is used for all Tenants created for this project. This is useful for<br />users who want to use custom features of KubeLB that are not exposed by the default Tenant Spec.<br />The default Tenant Spec is defined in the KubeLB documentation and can be found<br />here: https://docs.kubermatic.com/kubelb/latest/references/ee/#tenantspec.{{< /unsafe >}} |
 
 
 [Back to top](#top)
