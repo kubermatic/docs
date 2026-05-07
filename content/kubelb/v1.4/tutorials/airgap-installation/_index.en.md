@@ -51,7 +51,7 @@ The `kubelb-manager-ee` Helm chart ships a self-contained mirror bundle under
 
 ```bash
 # Pick the version you want to install.
-VERSION=v1.4.0
+VERSION=v1.4.2
 
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee \
   --version ${VERSION} --untar
@@ -104,10 +104,10 @@ The mirror layout looks like this:
 
 | Source | Mirror destination |
 |--------|--------------------|
-| `quay.io/kubermatic/kubelb-manager-ee:v1.3.5` | `mirror.internal/kubermatic/kubelb-manager-ee:v1.3.5` |
+| `quay.io/kubermatic/kubelb-manager-ee:v1.4.2` | `mirror.internal/kubermatic/kubelb-manager-ee:v1.4.2` |
 | `quay.io/jetstack/cert-manager-controller:v1.20.2` | `mirror.internal/jetstack/cert-manager-controller:v1.20.2` |
 | `registry.k8s.io/ingress-nginx/controller:v1.15.1` | `mirror.internal/ingress-nginx/controller:v1.15.1` |
-| `oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee:v1.3.5` | `oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee:v1.3.5` |
+| `oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee:v1.4.2` | `oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee:v1.4.2` |
 
 If you would rather drive `crane` yourself or feed the lists to a different
 tool (Harbor replication, Artifactory remote, [`hauler`](https://hauler.dev)),
@@ -140,7 +140,7 @@ Install the manager chart on the management cluster, pointing it at the mirror:
 ```bash
 helm install kubelb-manager \
   oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee \
-  --version v1.3.5 \
+  --version v1.4.2 \
   --namespace kubelb --create-namespace \
   --set global.imageRegistry=mirror.internal \
   --set global.imagePullSecrets[0].name=mirror-creds
@@ -157,7 +157,7 @@ GitOps tool), pull and untar the chart first and apply `crds/` before
 
 ```bash
 helm pull oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee \
-  --version v1.3.5 --untar
+  --version v1.4.2 --untar
 kubectl apply -f kubelb-manager-ee/crds/
 ```
 
@@ -171,7 +171,7 @@ the `mirror-creds` pull secret created in Step 3.
 ```bash
 helm install kubelb-ccm \
   oci://mirror.internal/kubermatic/helm-charts/kubelb-ccm-ee \
-  --version v1.3.5 \
+  --version v1.4.2 \
   --namespace kubelb --create-namespace \
   --set global.imageRegistry=mirror.internal \
   --set global.imagePullSecrets[0].name=mirror-creds \
