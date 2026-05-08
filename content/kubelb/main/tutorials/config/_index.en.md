@@ -82,7 +82,11 @@ spec:
   propagateAllAnnotations: true
 ```
 
+Keys listed in `deniedAnnotations` are still excluded — see [Deny annotations](#3-deny-annotations) below.
+
 #### 2. Propagate specific annotations
+
+Keys in `propagatedAnnotations` support shell-style glob patterns (`*`, `?`, `[abc]`), which is useful for allowing a whole family of controller annotations at once.
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -92,13 +96,36 @@ metadata:
   namespace: kubelb
 spec:
   propagatedAnnotations:
-    # If the key is empty, any value can be configured for propagation.
-    metalb.universe.tf/allow-shared-ip: ""
-    # Since the value is explicitly provided, only this value will be allowed for propagation.
+    # If the value is empty, any value is allowed for this key.
+    metallb.universe.tf/allow-shared-ip: ""
+    # If the value is non-empty, it is treated as a comma-separated list of permitted exact values.
     metallb.universe.tf/loadBalancerIPs: "8.8.8.8"
+    # Glob patterns match all keys under a prefix.
+    nginx.ingress.kubernetes.io/*: ""
 ```
 
-#### 3. Default annotations
+#### 3. Deny annotations
+
+`deniedAnnotations` is a list of key patterns that are excluded from propagation. Deny rules **always take precedence** over `propagatedAnnotations` and `propagateAllAnnotations`, so this is the right place to enforce hard exclusions (sensitive keys, controller-internal keys, etc.). Patterns support the same shell-style glob syntax as `propagatedAnnotations`.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+  namespace: kubelb
+spec:
+  propagateAllAnnotations: true
+  deniedAnnotations:
+    - "kubernetes.io/last-applied-configuration"
+    - "internal.company.io/*"
+```
+
+{{% notice note %}}
+`defaultAnnotations` are not subject to deny rules — they represent explicit administrator intent and are merged in last without being filtered.
+{{% /notice %}}
+
+#### 4. Default annotations
 
 Default annotations for resources that KubeLB generates in the management cluster can also be configured. This is useful for setting annotations that are required by the cloud provider to configure the LoadBalancers. For example, the `service.beta.kubernetes.io/aws-load-balancer-internal` annotation is used to create an internal LoadBalancer in AWS.
 
