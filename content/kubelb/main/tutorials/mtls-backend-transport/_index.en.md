@@ -8,7 +8,7 @@ enterprise = true
 
 ## Overview
 
-KubeLB can encrypt TCP backend traffic between the management cluster and tenant clusters with mutual TLS (mTLS). When enabled, KubeLB deploys a tenant-local Envoy proxy and routes management-to-tenant backend traffic through it.
+KubeLB can encrypt backend traffic between the management cluster and tenant clusters with mutual TLS (mTLS). When enabled, KubeLB deploys a tenant-local Envoy proxy and routes management-to-tenant backend traffic through it.
 
 Default `Direct` mode:
 
@@ -16,7 +16,7 @@ Default `Direct` mode:
 Client -> KubeLB Envoy -> tenant node:NodePort -> backend pod
 ```
 
-`MTLS` mode for TCP:
+`MTLS` mode:
 
 ```text
 Client -> KubeLB Envoy
@@ -29,7 +29,7 @@ Application teams keep using the same Kubernetes resources: `LoadBalancer` Servi
 Use this feature when the management and tenant clusters communicate across a network path where backend traffic should not be plaintext.
 
 {{% notice warning %}}
-This feature encrypts TCP backend transport only. UDP is not encrypted; see [UDP behavior](#udp-behavior).
+UDPRoute uses an alpha CONNECT-UDP tunnel over the same mTLS tenant proxy port; see [UDP behavior](#udp-behavior).
 {{% /notice %}}
 
 ## Enable mTLS backend transport
@@ -109,7 +109,7 @@ If a manually created certificate Secret conflicts with the KubeLB-managed one, 
 
 ## Supported traffic
 
-TCP traffic is encrypted between management Envoy and the tenant proxy for:
+Traffic is encrypted between management Envoy and the tenant proxy for:
 
 - `LoadBalancer` Services with TCP ports.
 - `Ingress`.
@@ -117,20 +117,21 @@ TCP traffic is encrypted between management Envoy and the tenant proxy for:
 - `GRPCRoute`.
 - `TCPRoute`.
 - `TLSRoute`.
+- `UDPRoute`.
 
 The tenant proxy forwards traffic to the backend Kubernetes Service inside the tenant cluster.
 
 ### UDP behavior
 
-UDP is not encrypted by this feature. In `MTLS` mode, UDP traffic can still use the tenant proxy hop for topology consistency, but it remains plaintext. During convergence, KubeLB may temporarily keep the direct UDP NodePort path until the tenant proxy Service has published its UDP NodePort mapping.
+In `MTLS` mode, UDPRoute traffic is tunneled with CONNECT-UDP over the existing mTLS tenant proxy TCP port. The tenant proxy Service does not expose per-backend UDP NodePorts.
 
-If UDP payloads are sensitive, use a node-level encrypted tunnel such as WireGuard or IPsec, application-layer encryption, or keep those UDP workloads on `Direct` mode.
+CONNECT-UDP and raw UDP-over-HTTP tunneling are alpha Envoy features. Validate workload-specific MTU, burst, stream-count, and idle-timeout behavior before using it for production UDP traffic.
 
 ## Network requirements
 
 The management cluster must be able to reach tenant cluster nodes on Kubernetes NodePort ranges.
 
-In `MTLS` mode, the tenant cluster exposes `kubelb-tenant-envoy` as a `NodePort` Service in the tenant `kubelb` namespace. Management Envoy connects to tenant node addresses and the assigned NodePorts.
+In `MTLS` mode, the tenant cluster exposes `kubelb-tenant-envoy` as a `NodePort` Service in the tenant `kubelb` namespace. Management Envoy connects to tenant node addresses and the assigned NodePort. TCP backends and UDPRoute tunnels share the same tenant proxy port.
 
 Check the tenant proxy Service:
 
