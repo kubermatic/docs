@@ -32,6 +32,10 @@ spec:
   propagatedAnnotations: null
   # Propagate all annotations to the resources.
   propagateAllAnnotations: true
+  # Exclude these annotation key patterns regardless of propagateAllAnnotations / propagatedAnnotations.
+  # Patterns support shell-style globs.
+  deniedAnnotations:
+    - "internal.company.io/*"
   loadBalancer:
     class: "metallb.universe.tf/metallb"
     # Enterprise Edition Only
@@ -58,6 +62,7 @@ spec:
 With this CR we are creating a tenant named `shroud` with the following configurations:
 
 * **propagateAllAnnotations: true** - Propagate all annotations to the resources.
+* **deniedAnnotations** - Annotation key patterns to exclude from propagation. Deny rules always take precedence over `propagateAllAnnotations` and `propagatedAnnotations`. See [Annotation Settings]({{< relref "../config#annotation-settings" >}}) for details.
 * **loadBalancer.class: metallb.universe.tf/metallb** - The class to use for LoadBalancer resources for tenants in the management cluster.
 * **loadBalancer.limit: 10** - The limit of LoadBalancer resources that can be created by the tenant.
 * **ingress.class: nginx** - The class to use for Ingress resources for tenants in the management cluster.
