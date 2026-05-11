@@ -39,7 +39,7 @@ Install the dashboard from the Kubermatic OCI registry:
 ```bash
 helm upgrade kubelb-dashboard \
   oci://quay.io/kubermatic/helm-charts/kubelb-dashboard \
-  --version v1.0.0 \
+  --version v1.0.1 \
   --namespace kubelb --create-namespace --install
 ```
 
