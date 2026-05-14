@@ -4822,6 +4822,11 @@ _Appears in:_
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 | `debugLog` _boolean_ | {{< unsafe >}}DebugLog enables more verbose logging.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the API deployment.{{< /unsafe >}} |
+| `nodeSelector` _object (keys:string, values:string)_ | {{< unsafe >}}NodeSelector restricts the set of nodes the component pods can run on.{{< /unsafe >}} |
+| `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#affinity-v1-core)_ | {{< unsafe >}}Affinity describes pod scheduling affinity rules for the component.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allow the component pods to schedule onto nodes with matching taints.{{< /unsafe >}} |
+| `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#topologyspreadconstraint-v1-core) array_ | {{< unsafe >}}TopologySpreadConstraints describes how the component pods should be spread<br />across topology domains (e.g. zones, nodes).{{< /unsafe >}} |
+| `priorityClassName` _string_ | {{< unsafe >}}PriorityClassName indicates the component pods' priority class.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5066,6 +5071,11 @@ _Appears in:_
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 | `debugLog` _boolean_ | {{< unsafe >}}DebugLog enables more verbose logging.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the master-controller-manager.{{< /unsafe >}} |
+| `nodeSelector` _object (keys:string, values:string)_ | {{< unsafe >}}NodeSelector restricts the set of nodes the component pods can run on.{{< /unsafe >}} |
+| `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#affinity-v1-core)_ | {{< unsafe >}}Affinity describes pod scheduling affinity rules for the component.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allow the component pods to schedule onto nodes with matching taints.{{< /unsafe >}} |
+| `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#topologyspreadconstraint-v1-core) array_ | {{< unsafe >}}TopologySpreadConstraints describes how the component pods should be spread<br />across topology domains (e.g. zones, nodes).{{< /unsafe >}} |
+| `priorityClassName` _string_ | {{< unsafe >}}PriorityClassName indicates the component pods' priority class.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5136,6 +5146,11 @@ _Appears in:_
 | `disabledCollectors` _[MetricsCollector](#metricscollector) array_ | {{< unsafe >}}DisabledCollectors contains a list of metrics collectors that should be disabled.<br />Acceptable values are "Addon", "Cluster", "ClusterBackup", "Project", and "None".{{< /unsafe >}} |
 | `backupInterval` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#duration-v1-meta)_ | {{< unsafe >}}BackupInterval defines the time duration between consecutive etcd backups.<br />Must be a valid time.Duration string format. Only takes effect when backup scheduling is enabled.{{< /unsafe >}} |
 | `backupCount` _integer_ | {{< unsafe >}}BackupCount specifies the maximum number of backups to retain (defaults to DefaultKeptBackupsCount).<br />Oldest backups are automatically deleted when this limit is exceeded. Only applies when Schedule is configured.{{< /unsafe >}} |
+| `nodeSelector` _object (keys:string, values:string)_ | {{< unsafe >}}NodeSelector restricts the set of nodes the component pods can run on.{{< /unsafe >}} |
+| `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#affinity-v1-core)_ | {{< unsafe >}}Affinity describes pod scheduling affinity rules for the component.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allow the component pods to schedule onto nodes with matching taints.{{< /unsafe >}} |
+| `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#topologyspreadconstraint-v1-core) array_ | {{< unsafe >}}TopologySpreadConstraints describes how the component pods should be spread<br />across topology domains (e.g. zones, nodes).{{< /unsafe >}} |
+| `priorityClassName` _string_ | {{< unsafe >}}PriorityClassName indicates the component pods' priority class.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5204,6 +5219,11 @@ _Appears in:_
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the UI deployment.{{< /unsafe >}} |
 | `extraVolumeMounts` _[VolumeMount](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#volumemount-v1-core) array_ | {{< unsafe >}}ExtraVolumeMounts allows to mount additional volumes into the UI container.{{< /unsafe >}} |
 | `extraVolumes` _[Volume](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#volume-v1-core) array_ | {{< unsafe >}}ExtraVolumes allows to mount additional volumes into the UI container.{{< /unsafe >}} |
+| `nodeSelector` _object (keys:string, values:string)_ | {{< unsafe >}}NodeSelector restricts the set of nodes the component pods can run on.{{< /unsafe >}} |
+| `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#affinity-v1-core)_ | {{< unsafe >}}Affinity describes pod scheduling affinity rules for the component.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allow the component pods to schedule onto nodes with matching taints.{{< /unsafe >}} |
+| `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#topologyspreadconstraint-v1-core) array_ | {{< unsafe >}}TopologySpreadConstraints describes how the component pods should be spread<br />across topology domains (e.g. zones, nodes).{{< /unsafe >}} |
+| `priorityClassName` _string_ | {{< unsafe >}}PriorityClassName indicates the component pods' priority class.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -5343,6 +5363,11 @@ _Appears in:_
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources describes the requested and maximum allowed CPU/memory usage.{{< /unsafe >}} |
 | `debugLog` _boolean_ | {{< unsafe >}}DebugLog enables more verbose logging.{{< /unsafe >}} |
 | `replicas` _integer_ | {{< unsafe >}}Replicas sets the number of pod replicas for the webhook.{{< /unsafe >}} |
+| `nodeSelector` _object (keys:string, values:string)_ | {{< unsafe >}}NodeSelector restricts the set of nodes the component pods can run on.{{< /unsafe >}} |
+| `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#affinity-v1-core)_ | {{< unsafe >}}Affinity describes pod scheduling affinity rules for the component.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allow the component pods to schedule onto nodes with matching taints.{{< /unsafe >}} |
+| `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#topologyspreadconstraint-v1-core) array_ | {{< unsafe >}}TopologySpreadConstraints describes how the component pods should be spread<br />across topology domains (e.g. zones, nodes).{{< /unsafe >}} |
+| `priorityClassName` _string_ | {{< unsafe >}}PriorityClassName indicates the component pods' priority class.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6479,6 +6504,32 @@ _Underlying type:_ `RawMessage`
 
 _Appears in:_
 - [ConstraintSpec](#constraintspec)
+
+
+
+### PodSchedulingConfigurations
+
+
+
+PodSchedulingConfigurations controls pod scheduling configurations.
+
+_Appears in:_
+- [KubermaticAPIConfiguration](#kubermaticapiconfiguration)
+- [KubermaticMasterControllerConfiguration](#kubermaticmastercontrollerconfiguration)
+- [KubermaticSeedControllerConfiguration](#kubermaticseedcontrollerconfiguration)
+- [KubermaticUIConfiguration](#kubermaticuiconfiguration)
+- [KubermaticWebhookConfiguration](#kubermaticwebhookconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `nodeSelector` _object (keys:string, values:string)_ | {{< unsafe >}}NodeSelector restricts the set of nodes the component pods can run on.{{< /unsafe >}} |
+| `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#affinity-v1-core)_ | {{< unsafe >}}Affinity describes pod scheduling affinity rules for the component.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allow the component pods to schedule onto nodes with matching taints.{{< /unsafe >}} |
+| `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#topologyspreadconstraint-v1-core) array_ | {{< unsafe >}}TopologySpreadConstraints describes how the component pods should be spread<br />across topology domains (e.g. zones, nodes).{{< /unsafe >}} |
+| `priorityClassName` _string_ | {{< unsafe >}}PriorityClassName indicates the component pods' priority class.{{< /unsafe >}} |
+
+
+[Back to top](#top)
 
 
 
