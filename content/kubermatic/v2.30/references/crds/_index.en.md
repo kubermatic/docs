@@ -4928,6 +4928,25 @@ _Appears in:_
 
 
 
+### KubermaticExternalGatewayReference
+
+
+
+KubermaticExternalGatewayReference references a user-managed Gateway.
+
+_Appears in:_
+- [KubermaticGatewayConfiguration](#kubermaticgatewayconfiguration)
+
+| Field | Description |
+| --- | --- |
+| `name` _string_ | {{< unsafe >}}Name is the name of the Gateway.{{< /unsafe >}} |
+| `namespace` _string_ | {{< unsafe >}}Namespace is the namespace of the Gateway. If unset, the KubermaticConfiguration namespace is used.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### KubermaticGatewayConfiguration
 
 
@@ -4940,6 +4959,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `className` _string_ | {{< unsafe >}}ClassName is the GatewayClass to use.{{< /unsafe >}} |
+| `externalGateway` _[KubermaticExternalGatewayReference](#kubermaticexternalgatewayreference)_ | {{< unsafe >}}ExternalGateway references a user-managed Gateway. When configured,<br />kubermatic-operator does not create the default Gateway and only points<br />managed HTTPRoutes at this Gateway. The reference must not resolve to an<br />operator-managed Gateway. A Gateway with a KubermaticConfiguration controller<br />ownerReference is considered operator-managed; remove stale ownerReferences<br />before reusing a former managed Gateway as external. ClassName,<br />InfrastructureAnnotations, TLS, and spec.ingress.certificateIssuer must<br />not be set when this field is set.{{< /unsafe >}} |
 | `infrastructureAnnotations` _object (keys:string, values:string)_ | {{< unsafe >}}InfrastructureAnnotations configures Gateway.spec.infrastructure.annotations on the<br />operator-managed Gateway so the Gateway implementation can propagate them to the<br />generated infrastructure resources.{{< /unsafe >}} |
 | `tls` _[KubermaticGatewayTLSConfiguration](#kubermaticgatewaytlsconfiguration)_ | {{< unsafe >}}TLS configures TLS for the operator-managed default Gateway.{{< /unsafe >}} |
 
@@ -8112,6 +8132,5 @@ _Appears in:_
 
 
 [Back to top](#top)
-
 
 
