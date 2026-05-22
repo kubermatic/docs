@@ -35,10 +35,10 @@ export KUBEV_PASSWORD=<your-password>
 
 ### Running the Downloader
 
-You can check what tools and versions provided by the downloader 
+You can check what tools and versions provided by the downloader
 
 ```bash
-kubermatic-ee-downloader list
+./kubermatic-ee-downloader list
 TOOL                        VERSIONS                         OS                       ARCH           DESCRIPTION
 conformance-tester          latest-cli, v2.30.0-beta.1-cli   linux, darwin, windows   amd64, arm64   Kubermatic conformance cli
 kubermatic-virtualization   latest, v1.1.0                   linux                    amd64          Kubermatic Virtualization installer
@@ -47,7 +47,7 @@ kubermatic-virtualization   latest, v1.1.0                   linux              
 Once your credentials are set, run the downloader to retrieve and install the latest release of Kubermatic Virtualization:
 
 ```bash
-kubermatic-ee-downloader get kubermatic-virtualization --username $USERNAME --password $PASSWORD
+./kubermatic-ee-downloader get kubermatic-virtualization --username $KUBEV_USERNAME --password $KUBEV_PASSWORD
 ```
 
 The downloader will authenticate, pull the latest binary artifact from the OCI registry, and install it in the current working directory. A successful run produces output similar to the following:
@@ -66,5 +66,5 @@ Once complete, the `kubermatic-virtualization` binary is ready to use in your cu
 By default, the downloader fetches the latest available release. If you need a specific version, use the `--version` (or `-V`) flag:
 
 ```bash
-kubermatic-ee-downloader --username $USERNAME --password $PASSWORD --version v1.1.0
+./kubermatic-ee-downloader --username $KUBEV_USERNAME --password $KUBEV_PASSWORD --version v1.1.0
 ```
