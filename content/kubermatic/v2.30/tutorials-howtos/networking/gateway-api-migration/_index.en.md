@@ -138,15 +138,6 @@ Before enabling `spec.ingress.gateway.externalGateway`, make sure the external G
 
 At minimum, the external Gateway must allow HTTPRoutes from the `kubermatic` namespace for the KKP dashboard and API, and from the `dex` namespace for Dex. If you use IAP, MLA, or other charts that create HTTPRoutes, the Gateway must also allow those namespaces.
 
-Existing Gateway API CRDs are not replaced by KKP. If Gateway API CRDs were installed by another controller or an older platform setup, verify that they serve the `v1` API version before enabling an external Gateway. CRDs that only serve older versions such as `v1beta1` are not sufficient, because KKP creates and watches Gateway API resources through `gateway.networking.k8s.io/v1`.
-
-```bash
-kubectl get crd gatewayclasses.gateway.networking.k8s.io gateways.gateway.networking.k8s.io httproutes.gateway.networking.k8s.io \
-  -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{range .spec.versions[*]}{.name}{" served="}{.served}{" "}{end}{"\n"}{end}'
-```
-
-Each CRD must list `v1 served=true`. The storage version does not need to be `v1`; the important requirement is that `v1` is served by the Kubernetes API server.
-
 For example, a permissive listener can allow routes from all namespaces:
 
 ```yaml
@@ -777,6 +768,8 @@ kubectl get gateway -n networking platform-gateway -o yaml
 If the installer fails with `external Gateway is operator-managed`, the referenced Gateway still has a `KubermaticConfiguration` controller owner reference. Use a different Gateway, or remove that controller owner reference only after confirming the Gateway is no longer managed by `kubermatic-operator`.
 
 If the installer or operator reports that there are no matches for `GatewayClass`, `Gateway`, or `HTTPRoute` in `gateway.networking.k8s.io/v1`, check the installed Gateway API CRDs. This usually means the cluster has older CRDs that only serve `v1beta1`. Upgrade the Gateway API CRDs so they serve `v1`, then rerun the installer.
+
+If you switch from a user-managed Gateway controller back to the KKP-managed Gateway and the installer fails with `ValidatingAdmissionPolicy 'safe-upgrades.gateway.networking.k8s.io'`, the cluster likely still has newer Gateway API CRDs or admission policy from the external Gateway installation. Remove or manually reconcile the external Gateway CRDs and admission policy before rerunning the installer.
 
 If the KKP route works but Dex, IAP, MLA, or monitoring routes are not accepted, check the external Gateway listener `allowedRoutes` policy. Helm-managed HTTPRoutes render a single parent reference and can become unavailable if the external Gateway does not allow their namespaces.
 
