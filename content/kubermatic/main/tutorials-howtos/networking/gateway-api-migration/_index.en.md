@@ -307,18 +307,6 @@ curl -I https://kkp.example.com/dex/healthz
 
 Use `http://` instead of `https://` if TLS is not configured yet.
 
-### Local kind Considerations
-
-The local `kind` installation uses fixed NodePorts for the default Envoy data plane. If you create a second Gateway that uses the same EnvoyProxy configuration while the managed Gateway still exists, the second Envoy Service can fail because the NodePorts are already allocated. The external Gateway can then remain without an address or stay `Programmed=False`.
-
-For local BYO Gateway testing, use one of the following approaches:
-
-- Create a separate GatewayClass and EnvoyProxy for the external Gateway with distinct NodePorts.
-- Use a local load balancer implementation such as MetalLB instead of fixed NodePorts.
-- Test on a cluster with real LoadBalancer support.
-
-After the managed Gateway is removed, the external Gateway can use the host-mapped NodePorts normally.
-
 ## What You Need to Know
 
 ### Two Controllers Will Run Temporarily
