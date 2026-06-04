@@ -26,7 +26,7 @@ of provided software and therefore releases updates regularly that also include 
 | mla/alertmanager-proxy         | 0.3.3                          |
 | mla/consul                     | 1.22.2                         |
 | mla/cortex                     | 1.20.0                         |
-| mla/grafana                    | 10.2.2                         |
+| mla/grafana                    | 13.0.1                         |
 | mla/loki-distributed           | 2.9.2                          |
 | mla/minio-lifecycle-mgr        | 0.1.0                          |
 | mla/minio                      | RELEASE.2023-04-28T18-11-17Z   |
