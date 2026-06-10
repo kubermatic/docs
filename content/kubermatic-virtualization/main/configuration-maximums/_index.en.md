@@ -123,13 +123,18 @@ namespace + one subnet + five firewall policies + one running VM) while two pair
 canary VMs ping each other continuously, one pair on the same host and one pair across hosts.
 
 **Result: ~80 ± 10 active tenants** on the reference cluster, validated across three runs (±12 %
-variance). The measured curve: cross-host VM-to-VM tail (p99) latency held steady at
-**1.5–1.75 ms** from 10 up to **70 tenants** (healthy zero-load baseline ~0.8 ms); at **80
-tenants** it jumped to **6.9 ms** within that single batch of ten, and from 90 to 120 tenants it
-stayed in the **3–8 ms** band. The second validation run reproduced the same cliff at **90
-tenants** (cross-host 1.57 ms → 6.7 ms, same-host 1.6 ms → 5.3 ms), and the third tripped at 90
-as well (~3.5 ms sustained) — a reproducible ~4× degradation at ~80–90 tenants, not a one-off
-spike.
+variance). The measured cross-host VM-to-VM tail (p99) latency, step by step:
+
+| Stage | Active tenants | Cross-host p99 latency |
+|---|---:|---|
+| Baseline — empty cluster, no tenant workload | 0 | **~0.8 ms** |
+| Steady — tenants onboarding, latency flat | 10 – 70 | **1.5 – 1.75 ms** |
+| Cliff — the jump happens within one batch of ten | **80** | **6.9 ms** |
+| Degraded — every batch after the cliff | 90 – 120 | **3 – 8 ms** (worst observed ~8.4 ms) |
+
+The two repeat runs reproduced the same shape: both hit the cliff at **90 tenants** (one jumping
+1.57 ms → 6.7 ms, the other settling ~3.5 ms sustained). A reproducible ~4× degradation at
+~80–90 tenants — not a one-off spike.
 
 The key sizing insight: **empty subnets and dormant firewall policies are essentially free.**
 Ingredient-isolation runs showed bundles *without* a VM scale 5–7× further before any signal.
