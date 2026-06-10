@@ -61,23 +61,27 @@ engineering reference at the bottom of this page.
 
 ## Validated maximums
 
-| Capability | Validated maximum | What it means |
+Capabilities are named by their actual Kubermatic Virtualization / Kubernetes resource; the first
+line of each description gives the platform-neutral concept for readers coming from other
+virtualization stacks.
+
+| Capability (KubeV resource) | Validated maximum | What it means |
 |---|---|---|
-| **Network tenants per cluster** | **10,000** | Independent routing + IP-space domains, each with its own router, isolated by default. Reached the configured cap fully functional with no strain — real ceiling is higher. |
-| **Subnets per cluster** | **11,822** | Layer-3 subnets, all programmed in the network control plane. Verified live at this count: a pod in a fresh subnet got an IP and pinged its gateway with 0 % loss. |
-| **Subnets per network tenant** | **8,001** | Subnets within one tenant. Reached the configured cap fully programmed with no strain. |
-| **Firewall policies per namespace** | **30,001** (≈ 175,000 enforced rules) | Stateful firewall policies in one namespace (a logical tenant scope). Each policy compiles to ~6 enforced rules in the network data plane; enforcement was active throughout the run. |
-| **Firewall policies cluster-wide** | **25,101** (≈ 150,000 enforced rules) | Firewall policies across all namespaces with live enforcement. The cluster showed no strain at this count (re-validation of the stop condition in progress). |
-| **Security groups per cluster** | **5,606** | Reusable label-based scopes that firewall rules attach to. Bounded by a network-controller stability issue at higher counts (fix tracked upstream), not by the cluster itself. |
-| **Routable services per cluster** | **1,001** | Load-balanced service addresses, each verified reachable with live backends. Reached the configured cap with no strain. |
-| **Static routes per network tenant** | **3,830** | Manually configured next-hop routes on one tenant's router (measured with an earlier methodology — see engineering notes). |
-| **Network interfaces per VM** | **32** | Secondary network interfaces attachable to a single VM. |
-| **vCPUs per VM** | **94** | Bounded by the worker host's 96 physical cores minus a small hypervisor reserve. |
-| **Memory per VM** | **180 GiB** | Validated boot; bounded by worker host RAM (251 GiB). |
-| **Container workloads per worker host** | **1,185** | Pods one worker host schedules concurrently. Reached the kubelet `--max-pods=1200` ceiling — 11× the stock default. |
-| **Concurrent connections per host** | **150,000+ tested** (capacity ~3.1 M) | Active tracked network flows, zero drops, at under 2 % of the per-host tracking capacity — large headroom remains. |
-| **Pod-to-pod latency** | same-host **167 µs** · cross-host **532 µs** | Round-trip average, 0 % packet loss, freshly-booted cluster. |
-| **Active tenants before latency degrades** | **~80 ± 10** | Tenants onboarded simultaneously (each = namespace + subnet + 5 firewall policies + 1 running VM) before VM-to-VM tail latency jumps ~4× from sub-millisecond. Validated across three runs. The per-VM datapath state drives this limit. |
+| **VPCs per cluster** | **10,000** | **Network tenants per cluster.** Independent routing + IP-space domains, each with its own router, isolated by default. Reached the configured cap fully functional with no strain — real ceiling is higher. |
+| **Subnets per cluster** | **11,822** | **Layer-3 subnets cluster-wide.** All programmed in the network control plane. Verified live at this count: a pod in a fresh subnet got an IP and pinged its gateway with 0 % loss. |
+| **Subnets per VPC** | **8,001** | **Subnets within one network tenant.** Reached the configured cap fully programmed with no strain. |
+| **NetworkPolicies per namespace** | **30,001** (≈ 175,000 enforced rules) | **Stateful firewall policies inside one namespace** (a logical tenant scope). Each policy compiles to ~6 enforced rules in the network data plane; enforcement was active throughout the run. |
+| **NetworkPolicies per cluster** | **25,101** (≈ 150,000 enforced rules) | **Stateful firewall policies across all namespaces**, with live enforcement. The cluster showed no strain at this count (re-validation of the stop condition in progress). |
+| **SecurityGroups per cluster** | **5,606** | **Reusable firewall scopes.** Label-based scope objects that firewall rules attach to. Bounded by a network-controller stability issue at higher counts (fix tracked upstream), not by the cluster itself. |
+| **Services per cluster** | **1,001** | **Routable, load-balanced service addresses** (each Service backed by live endpoints and verified reachable). Reached the configured cap with no strain. |
+| **Static routes per VPC** | **3,830** | **Next-hop routes on one tenant's router**, manually configured (measured with an earlier methodology — see engineering notes). |
+| **NICs per VM** | **32** | **Secondary network interfaces on a single virtual machine** (KubeVirt). |
+| **vCPUs per VM** | **94** | **Virtual CPUs on a single VM.** Bounded by the worker host's 96 physical cores minus a small hypervisor reserve. |
+| **Memory per VM** | **180 GiB** | **RAM on a single VM** (validated boot). Bounded by worker host RAM (251 GiB). |
+| **Pods per worker node** | **1,185** | **Container workloads one host schedules concurrently.** Reached the kubelet `--max-pods=1200` ceiling — 11× the stock default. |
+| **Tracked connections per host** | **150,000+ tested** (capacity ~3.1 M) | **Concurrent network flows** a worker host tracks at once — zero drops, at under 2 % of the per-host tracking capacity. Large headroom remains. |
+| **Pod-to-pod latency** | same-host **167 µs** · cross-host **532 µs** | **Network round-trip floor** between two workloads (average, 0 % packet loss, freshly-booted cluster). |
+| **Active tenants per cluster** | **~80 ± 10** | **Simultaneously active tenants before latency degrades.** Each tenant = namespace + subnet + 5 NetworkPolicies + 1 running VM; at the limit, VM-to-VM tail latency jumps ~4× from sub-millisecond. Validated across three runs. The per-VM datapath state drives this limit. |
 
 {{% notice note %}}
 **Not listed as rows:** bandwidth/priority (QoS) policies and secondary-network templates apply
@@ -95,16 +99,16 @@ For readers comparing platforms: per capability, the validated ceiling, **why th
 and the component that would give out first. A run that stopped at its configured cap with no
 strain means the real ceiling is above the listed number.
 
-| Capability | Validated ceiling | Stopped by | Limiting component | Published comparable* | Run |
+| Capability (KubeV resource) | Validated ceiling | Stopped by | Limiting component | Published comparable* | Run |
 |---|---:|---|---|---:|---|
-| Network tenants / cluster | 10,000 | configured cap — no strain | etcd database size was nearest its budget (~77 %) | ~4,000 | 2026-06-08, 1 h 06 m |
+| VPCs / cluster | 10,000 | configured cap — no strain | etcd database size was nearest its budget (~77 %) | ~4,000 | 2026-06-08, 1 h 06 m |
 | Subnets / cluster | 11,822 | controller finished programming this many within the post-cap settle window | network-controller programming throughput | ~5,000 | 2026-06-09, 5 h 28 m |
-| Subnets / tenant | 8,001 | configured cap — no strain | none approached | ~5,000 | 2026-06-10, 3 h 06 m |
-| Firewall policies / namespace | 30,001 (175,246 rules) | configured cap — no strain | none approached; rule programming kept pace throughout | ~100,000 rules | 2026-06-10, 1 h 08 m |
-| Firewall policies / cluster | 25,101 (150,613 rules) | test-harness connectivity loss — **no cluster strain**; re-validation in progress | under investigation (possible data-plane saturation near 150 k rules) | ~100,000 rules | 2026-06-09, 27 m |
-| Security groups / cluster | 5,606 | network-controller instability at higher counts (upstream fix tracked) | network-controller stability | ~10,000 | 2026-06-10, 2 h 07 m |
-| Routable services / cluster | 1,001 | configured cap — no strain | pod-wiring throughput at higher counts | ~10,000 | 2026-06-10, 13 m |
-| Static routes / tenant | 3,830 | configured cap (earlier methodology) | network-controller programming cadence | ~4,000 | 2026-05-05 |
+| Subnets / VPC | 8,001 | configured cap — no strain | none approached | ~5,000 | 2026-06-10, 3 h 06 m |
+| NetworkPolicies / namespace | 30,001 (175,246 rules) | configured cap — no strain | none approached; rule programming kept pace throughout | ~100,000 rules | 2026-06-10, 1 h 08 m |
+| NetworkPolicies / cluster | 25,101 (150,613 rules) | test-harness connectivity loss — **no cluster strain**; re-validation in progress | under investigation (possible data-plane saturation near 150 k rules) | ~100,000 rules | 2026-06-09, 27 m |
+| SecurityGroups / cluster | 5,606 | network-controller instability at higher counts (upstream fix tracked) | network-controller stability | ~10,000 | 2026-06-10, 2 h 07 m |
+| Services / cluster | 1,001 | configured cap — no strain | pod-wiring throughput at higher counts | ~10,000 | 2026-06-10, 13 m |
+| Static routes / VPC | 3,830 | configured cap (earlier methodology) | network-controller programming cadence | ~4,000 | 2026-05-05 |
 
 \* Published configuration-maximum of a comparable enterprise virtualization platform, for sizing
 orientation only.
