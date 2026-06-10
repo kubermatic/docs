@@ -80,16 +80,16 @@ the technical reference below.
 | **vCPUs per VM** | **94** | **Virtual CPUs on a single VM** |
 | **Memory per VM** | **180 GiB** | **RAM on a single VM** |
 | **Pods per worker node** | **1,185** | **Container workloads one host schedules concurrently** |
-| **Tracked connections per host** | **150,000+ tested** (capacity ~3.1 M) | **Concurrent network flows a worker host tracks at once** |
-| **Pod-to-pod latency** | same-host **167 µs** · cross-host **532 µs** | **Network round-trip floor between two workloads** |
-| **Active tenants per cluster** | **~80 ± 10** | **Simultaneously active tenants before latency degrades** |
+| **Pod-to-pod latency** | same-host **167 µs** · cross-host **532 µs** | **Best-case network round-trip on an idle cluster** |
 
 {{% notice note %}}
 **Not listed as rows:** bandwidth/priority (QoS) policies and secondary-network templates apply
 per-pod/per-VM rather than as standalone cluster objects — their practical bound is pod capacity
-(see *Container workloads per worker host*), so a standalone count would be misleading.
+(see *Pods per worker node*), so a standalone count would be misleading.
 **VMs per worker host** is being re-validated on the current cluster shape and will be added once
 the dedicated run lands.
+**How many tenants fit before workloads slow down (~80 ± 10)** is a degradation result, not a
+capacity maximum — see [When does it get slow?](#when-does-it-get-slow-degradation) below.
 {{% /notice %}}
 
 ---
