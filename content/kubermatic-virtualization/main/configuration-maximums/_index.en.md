@@ -61,27 +61,28 @@ engineering reference at the bottom of this page.
 
 ## Validated maximums
 
-Capabilities are named by their actual Kubermatic Virtualization / Kubernetes resource; the first
-line of each description gives the platform-neutral concept for readers coming from other
-virtualization stacks.
+Capabilities are named by their actual Kubermatic Virtualization / Kubernetes resource; the
+*What it means* column gives the platform-neutral concept for readers coming from other
+virtualization stacks. Full detail per capability — stop reason, limiting component, run date —
+is in the technical reference below.
 
 | Capability (KubeV resource) | Validated maximum | What it means |
 |---|---|---|
-| **VPCs per cluster** | **10,000** | **Network tenants per cluster.** Independent routing + IP-space domains, each with its own router, isolated by default. Reached the configured cap fully functional with no strain — real ceiling is higher. |
-| **Subnets per cluster** | **11,822** | **Layer-3 subnets cluster-wide.** All programmed in the network control plane. Verified live at this count: a pod in a fresh subnet got an IP and pinged its gateway with 0 % loss. |
-| **Subnets per VPC** | **8,001** | **Subnets within one network tenant.** Reached the configured cap fully programmed with no strain. |
-| **NetworkPolicies per namespace** | **30,001** (≈ 175,000 enforced rules) | **Stateful firewall policies inside one namespace** (a logical tenant scope). Each policy compiles to ~6 enforced rules in the network data plane; enforcement was active throughout the run. |
-| **NetworkPolicies per cluster** | **25,101** (≈ 150,000 enforced rules) | **Stateful firewall policies across all namespaces**, with live enforcement. The cluster showed no strain at this count (re-validation of the stop condition in progress). |
-| **SecurityGroups per cluster** | **5,606** | **Reusable firewall scopes.** Label-based scope objects that firewall rules attach to. Bounded by a network-controller stability issue at higher counts (fix tracked upstream), not by the cluster itself. |
-| **Services per cluster** | **1,001** | **Routable, load-balanced service addresses** (each Service backed by live endpoints and verified reachable). Reached the configured cap with no strain. |
-| **Static routes per VPC** | **3,830** | **Next-hop routes on one tenant's router**, manually configured (measured with an earlier methodology — see engineering notes). |
-| **NICs per VM** | **32** | **Secondary network interfaces on a single virtual machine** (KubeVirt). |
-| **vCPUs per VM** | **94** | **Virtual CPUs on a single VM.** Bounded by the worker host's 96 physical cores minus a small hypervisor reserve. |
-| **Memory per VM** | **180 GiB** | **RAM on a single VM** (validated boot). Bounded by worker host RAM (251 GiB). |
-| **Pods per worker node** | **1,185** | **Container workloads one host schedules concurrently.** Reached the kubelet `--max-pods=1200` ceiling — 11× the stock default. |
-| **Tracked connections per host** | **150,000+ tested** (capacity ~3.1 M) | **Concurrent network flows** a worker host tracks at once — zero drops, at under 2 % of the per-host tracking capacity. Large headroom remains. |
-| **Pod-to-pod latency** | same-host **167 µs** · cross-host **532 µs** | **Network round-trip floor** between two workloads (average, 0 % packet loss, freshly-booted cluster). |
-| **Active tenants per cluster** | **~80 ± 10** | **Simultaneously active tenants before latency degrades.** Each tenant = namespace + subnet + 5 NetworkPolicies + 1 running VM; at the limit, VM-to-VM tail latency jumps ~4× from sub-millisecond. Validated across three runs. The per-VM datapath state drives this limit. |
+| **VPCs per cluster** | **10,000** | **Network tenants per cluster** |
+| **Subnets per cluster** | **11,822** | **Layer-3 subnets cluster-wide** |
+| **Subnets per VPC** | **8,001** | **Subnets within one network tenant** |
+| **NetworkPolicies per namespace** | **30,001** (≈ 175,000 enforced rules) | **Stateful firewall policies inside one namespace** |
+| **NetworkPolicies per cluster** | **25,101** (≈ 150,000 enforced rules) | **Stateful firewall policies across all namespaces** |
+| **SecurityGroups per cluster** | **5,606** | **Reusable firewall scopes** |
+| **Services per cluster** | **1,001** | **Routable, load-balanced service addresses** |
+| **Static routes per VPC** | **3,830** | **Next-hop routes on one tenant's router** |
+| **NICs per VM** | **32** | **Secondary network interfaces on a single virtual machine** |
+| **vCPUs per VM** | **94** | **Virtual CPUs on a single VM** |
+| **Memory per VM** | **180 GiB** | **RAM on a single VM** |
+| **Pods per worker node** | **1,185** | **Container workloads one host schedules concurrently** |
+| **Tracked connections per host** | **150,000+ tested** (capacity ~3.1 M) | **Concurrent network flows a worker host tracks at once** |
+| **Pod-to-pod latency** | same-host **167 µs** · cross-host **532 µs** | **Network round-trip floor between two workloads** |
+| **Active tenants per cluster** | **~80 ± 10** | **Simultaneously active tenants before latency degrades** |
 
 {{% notice note %}}
 **Not listed as rows:** bandwidth/priority (QoS) policies and secondary-network templates apply
