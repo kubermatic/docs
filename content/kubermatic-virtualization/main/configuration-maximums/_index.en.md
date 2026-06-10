@@ -63,8 +63,8 @@ engineering reference at the bottom of this page.
 
 Capabilities are named by their actual Kubermatic Virtualization / Kubernetes resource; the
 *What it means* column gives the platform-neutral concept for readers coming from other
-virtualization stacks. Full detail per capability — stop reason, limiting component, run date —
-is in the technical reference below.
+virtualization stacks. Full detail per capability — stop reason and limiting component — is in
+the technical reference below.
 
 | Capability (KubeV resource) | Validated maximum | What it means |
 |---|---|---|
@@ -100,16 +100,16 @@ For readers comparing platforms: per capability, the validated ceiling, **why th
 and the component that would give out first. A run that stopped at its configured cap with no
 strain means the real ceiling is above the listed number.
 
-| Capability (KubeV resource) | Validated ceiling | Stopped by | Limiting component | Published comparable* | Run |
-|---|---:|---|---|---:|---|
-| VPCs / cluster | 10,000 | configured cap — no strain | etcd database size was nearest its budget (~77 %) | ~4,000 | 2026-06-08, 1 h 06 m |
-| Subnets / cluster | 11,822 | controller finished programming this many within the post-cap settle window | network-controller programming throughput | ~5,000 | 2026-06-09, 5 h 28 m |
-| Subnets / VPC | 8,001 | configured cap — no strain | none approached | ~5,000 | 2026-06-10, 3 h 06 m |
-| NetworkPolicies / namespace | 30,001 (175,246 rules) | configured cap — no strain | none approached; rule programming kept pace throughout | ~100,000 rules | 2026-06-10, 1 h 08 m |
-| NetworkPolicies / cluster | 25,101 (150,613 rules) | test-harness connectivity loss — **no cluster strain**; re-validation in progress | under investigation (possible data-plane saturation near 150 k rules) | ~100,000 rules | 2026-06-09, 27 m |
-| SecurityGroups / cluster | 5,606 | network-controller instability at higher counts (upstream fix tracked) | network-controller stability | ~10,000 | 2026-06-10, 2 h 07 m |
-| Services / cluster | 1,001 | configured cap — no strain | pod-wiring throughput at higher counts | ~10,000 | 2026-06-10, 13 m |
-| Static routes / VPC | 3,830 | configured cap (earlier methodology) | network-controller programming cadence | ~4,000 | 2026-05-05 |
+| Capability (KubeV resource) | Validated ceiling | Stopped by | Limiting component | Published comparable* |
+|---|---:|---|---|---:|
+| VPCs / cluster | 10,000 | configured cap — no strain | etcd database size was nearest its budget (~77 %) | ~4,000 |
+| Subnets / cluster | 11,822 | controller finished programming this many within the post-cap settle window | network-controller programming throughput | ~5,000 |
+| Subnets / VPC | 8,001 | configured cap — no strain | none approached | ~5,000 |
+| NetworkPolicies / namespace | 30,001 (175,246 rules) | configured cap — no strain | none approached; rule programming kept pace throughout | ~100,000 rules |
+| NetworkPolicies / cluster | 25,101 (150,613 rules) | test-harness connectivity loss — **no cluster strain**; re-validation in progress | under investigation (possible data-plane saturation near 150 k rules) | ~100,000 rules |
+| SecurityGroups / cluster | 5,606 | network-controller instability at higher counts (upstream fix tracked) | network-controller stability | ~10,000 |
+| Services / cluster | 1,001 | configured cap — no strain | pod-wiring throughput at higher counts | ~10,000 |
+| Static routes / VPC | 3,830 | configured cap (earlier methodology) | network-controller programming cadence | ~4,000 |
 
 \* Published configuration-maximum of a comparable enterprise virtualization platform, for sizing
 orientation only.
