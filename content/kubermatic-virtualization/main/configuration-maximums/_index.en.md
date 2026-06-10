@@ -72,7 +72,7 @@ the technical reference below.
 | **Subnets per cluster** | **11,822** | **Layer-3 subnets cluster-wide** |
 | **Subnets per VPC** | **8,001** | **Subnets within one network tenant** |
 | **NetworkPolicies per namespace** | **30,001** (≈ 175,000 enforced rules) | **Stateful firewall policies inside one namespace** |
-| **NetworkPolicies per cluster** | **25,101** (≈ 150,000 enforced rules) | **Stateful firewall policies across all namespaces** |
+| **NetworkPolicies per cluster** | **120,001** (≈ 355,000 enforced rules) | **Stateful firewall policies across all namespaces** |
 | **SecurityGroups per cluster** | **5,606** | **Reusable firewall scopes** |
 | **Services per cluster** | **1,001** | **Routable, load-balanced service addresses** |
 | **Static routes per VPC** | **3,830** | **Next-hop routes on one tenant's router** |
@@ -106,7 +106,7 @@ strain means the real ceiling is above the listed number.
 | Subnets / cluster | 11,822 | controller finished programming this many within the post-cap settle window | network-controller programming throughput | ~5,000 |
 | Subnets / VPC | 8,001 | configured cap — no strain | none approached | ~5,000 |
 | NetworkPolicies / namespace | 30,001 (175,246 rules) | configured cap — no strain | none approached; rule programming kept pace throughout | ~100,000 rules |
-| NetworkPolicies / cluster | 25,101 (150,613 rules) | test-harness connectivity loss — **no cluster strain**; re-validation in progress | under investigation (possible data-plane saturation near 150 k rules) | ~100,000 rules |
+| NetworkPolicies / cluster | 120,001 (355,469 rules) | configured cap — no strain | none approached; an independent bystander probe watched the cluster's API virtual IP throughout — zero failures in ~4 h | ~100,000 rules |
 | SecurityGroups / cluster | 5,606 | network-controller instability at higher counts (upstream fix tracked) | network-controller stability | ~10,000 |
 | Services / cluster | 1,001 | configured cap — no strain | pod-wiring throughput at higher counts | ~10,000 |
 | Static routes / VPC | 3,830 | configured cap (earlier methodology) | network-controller programming cadence | ~4,000 |
@@ -490,11 +490,11 @@ parameters used → what actually stopped the run → result and headroom.
 |---|---|
 | **Creates** | same policy shape spread across 10 namespaces, 21 enforcing pods |
 | **Programmed =** | OVN ACL entries, NB leader |
-| **Functional verify** | enforcement via the selected pods; ACL programming kept up at ~930 policies/min push rate (zero lag: 150,613 ACLs at 25.1 k policies) |
-| **Parameters** | cap 120,000 · initialBatch 50 · growth ×1.5 · batchPause 5 s |
-| **Stop trigger** | the benchmark Job pod lost its route to the apiserver service VIP (10.96.0.1) at ~150 k ACLs — **not** a distress probe, **no** control-plane strain (northd ~1,700 m / 3,600 m, ovn-central ~3.1 / 14.4 GiB); the cluster recovered fully once creation stopped |
-| **Result** | **25,101 policies / 150,613 ACLs programmed** · 2026-06-09 · 27 m |
-| **Caveats** | the stop is ambiguous — real data-plane saturation near 150 k ACLs vs a one-off node-level hiccup. **Re-validation run in progress** (same cap, plus a bystander pod monitoring the apiserver VIP throughout); this row will be finalized from that run |
+| **Functional verify** | enforcement via the selected pods; ACL programming kept pace — 355,469 ACLs settled after the controller catch-up at the cap |
+| **Parameters** | cap 120,000 · initialBatch 50 · growth ×1.5 (batch capped at 500) · batchPause 5 s · plus an independent bystander pod probing the apiserver service VIP (10.96.0.1) every 10 s for the whole run |
+| **Stop trigger** | configured cap, no distress — steady ~13.4 s per 500-policy batch (~2,200 policies/min) for the full push; bystander VIP probe recorded **zero failures in 1,459 samples (~4 h)** |
+| **Result** | **120,001 policies / 355,469 ACLs settled** · 2026-06-10 · 4 h 0 m |
+| **Caveats** | an earlier attempt (2026-06-09) ended at 25,101 when the benchmark pod itself lost its route to the apiserver VIP with the cluster healthy; this re-run with the bystander monitor proved that stop was a one-off node-level hiccup, **not** a data-plane wall — 355 k ACLs programmed with the VIP path clean throughout. The ACL-to-policy ratio falls at scale (~6 per policy at 25 k → ~3 at 120 k) as rules consolidate at the port-group level |
 
 #### securityGroupsPerCluster — security groups
 
@@ -578,7 +578,7 @@ The numbers above are **not reproducible on stock component limits**. What was t
 |---|---|
 | Network tenants (VPCs) | etcd DB size (77 % of its danger line at 10 k; everything else < 50 %) |
 | Subnets | network-controller programming throughput; before tuning, per-node `ovs-ovn` memory (1 Gi OOM at ~7.7 k) |
-| Firewall policies | none observed up to 175 k ACLs; a possible data-plane wall near 150 k ACLs is under re-validation |
+| Firewall policies | none observed up to 355 k ACLs cluster-wide (cap-bound; the suspected ~150 k-ACL data-plane wall was disproved by the re-validation run) |
 | Security groups | kube-ovn-controller stability (concurrent-map data race at 20 k-SG load — upstream bug) |
 | Services | pod-wiring throughput (every functional VIP needs a Ready backend pod) |
 | Static routes | controller programming cadence (drift between requested and programmed) |
@@ -591,8 +591,9 @@ The numbers above are **not reproducible on stock component limits**. What was t
   and static routes are wall-bound; everything else published here is cap- or window-bound.
 - **Catch-up-window-bound numbers understate.** subnetsPerCluster's 11,822 is where programming
   settled within a 3 h window — not a wall. A longer window or a faster controller raises it.
-- **Firewall-policies-cluster-wide stop is ambiguous** — re-validation run in progress (bystander
-  VIP monitor); the row will be finalized from it.
+- **Firewall-policies-cluster-wide was re-validated (2026-06-10).** An earlier run's stop at
+  25,101 was the benchmark pod losing its own network, not the cluster; the re-run with an
+  independent bystander probe reached the full 120 k cap cleanly.
 - **Security groups carry an upstream bug caveat** — the ceiling is a kube-ovn 1.14.30 stability
   bound, not an OVN capacity bound.
 - **QoS policies and network-attachment templates have no standalone row by design.** Both are
@@ -617,6 +618,7 @@ The numbers above are **not reproducible on stock component limits**. What was t
 | northd CPU trip at 120 % of a core | it tripped on compile spikes — a whole campaign of ceilings was false-low (e.g. "250 VPCs") | recalibrated to 360 % sustained | the same test then passed 1,000+ VPCs with a flat settled curve |
 | Single-resource degradation cliffs | ±40–50 % batch-to-batch noise; the "cliffs" did not reproduce | moved degradation to realistic tenant bundles | a clean 4× cliff at ~80 tenants, 3-run variance ±12 % |
 | Canary read a cached VM IP; service probe tripped on one sample | "no degradation" was actually *no measurement*; services swung 412 vs 1,553 run-to-run | stale-IP guard, median-of-3 baselines, 3-consecutive-failure trips | probe failures now mean something; noise stopped publishing itself |
+| A cluster-wide policy run died mid-push with the cluster healthy | the benchmark pod itself had lost its network — the harness was the victim, not the cluster | re-ran with an independent bystander pod probing the cluster's API virtual IP every 10 s | 25,101 → 120,001 policies (full cap; zero probe failures in ~4 h) |
 
 ## Glossary
 
