@@ -2,10 +2,7 @@
 title = "Configuration Maximums"
 date = 2026-06-10T09:00:00+02:00
 weight = 7
-chapter = true
 +++
-
-# Configuration Maximums
 
 This page lists the **validated configuration maximums** of a Kubermatic Virtualization
 (KubeV) cluster — how many virtual machines, networks, firewall policies, subnets, routes and
