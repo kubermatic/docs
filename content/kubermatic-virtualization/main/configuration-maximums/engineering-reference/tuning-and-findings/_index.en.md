@@ -23,7 +23,7 @@ The published numbers are **not reproducible on stock component limits**. What w
 |---|---|
 | Network tenants (VPCs) | etcd DB size (77 % of its danger line at 10 k; everything else < 50 %) |
 | Subnets | network-controller programming throughput; before tuning, per-node `ovs-ovn` memory (1 Gi OOM at ~7.7 k) |
-| Firewall policies | none observed up to 355 k ACLs cluster-wide (cap-bound; the suspected ~150 k-ACL data-plane wall was disproved by the re-validation run) |
+| Firewall policies | none observed up to 355 k ACLs cluster-wide (cap-bound) |
 | Security groups | kube-ovn-controller stability (concurrent-map data race at 20 k-SG load — upstream bug) |
 | Services | pod-wiring throughput (every functional VIP needs a Ready backend pod) |
 | Static routes | controller programming cadence (drift between requested and programmed) |
@@ -58,7 +58,7 @@ The published numbers are **not reproducible on stock component limits**. What w
 | Firewall probe on a port no rule allowed | 100 % apparent enforcement failure at tiny counts | added the probe port to every policy's allow-list | false ceiling removed; the real enforcement ceiling became measurable |
 | Probes that could not reach their metrics endpoint reported "healthy" | three blind probes silently vouched for the cluster | fail-closed: an unreadable probe reports *unknown* | no more false confidence; one invalid probe removed entirely |
 | northd CPU trip at 120 % of a core | it tripped on compile spikes — a whole campaign of ceilings was false-low (e.g. "250 VPCs") | recalibrated to 360 % sustained | the same test then passed 1,000+ VPCs with a flat settled curve |
-| Single-resource degradation cliffs | ±40–50 % batch-to-batch noise; the "cliffs" did not reproduce | moved degradation to realistic tenant bundles | a clean 4× cliff at ~80 tenants, 3-run variance ±12 % |
-| The ~80-tenant cliff itself | measured while per-node networking agents were memory-starved (crash-looping multus, 1 Gi per-node OVN agent) and the bundle's firewall policies never enforced | resourced the agents, made the policies enforce, adopted the dual stop rule (2 ms floor AND 4× own baseline) + probe-lost abort | the cliff vanished: flat latency through 120 tenants / 600 VMs (7.5× more VMs than the old cliff point) — degradation point above 120 |
+| Single-resource degradation cliffs | ±40–50 % batch-to-batch noise; the "cliffs" did not reproduce | moved degradation to realistic tenant bundles | a clean, reproducible bundle-level signal |
+| Tenant-scale latency cliff with memory-starved node agents | per-node networking agents under default limits (crash-looping multus, 1 Gi per-node OVN agent) produced a 4× latency cliff at ~80 tenants that looked architectural | resourced the agents per the tuning baseline; firewall policies made to actually enforce | flat latency through 120 tenants / 600 VMs — the cliff was infrastructure starvation, not a platform limit |
 | Canary read a cached VM IP; service probe tripped on one sample | "no degradation" was actually *no measurement*; services swung 412 vs 1,553 run-to-run | stale-IP guard, median-of-3 baselines, 3-consecutive-failure trips | probe failures now mean something; noise stopped publishing itself |
 | A cluster-wide policy run died mid-push with the cluster healthy | the benchmark pod itself had lost its network — the harness was the victim, not the cluster | re-ran with an independent bystander pod probing the cluster's API virtual IP every 10 s | 25,101 → 120,001 policies (full cap; zero probe failures in ~4 h) |

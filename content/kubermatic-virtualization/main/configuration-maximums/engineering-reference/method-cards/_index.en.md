@@ -82,7 +82,7 @@ parameters used → what actually stopped the run → result and headroom.
 | **Stop trigger** | controller-stability-bound: kube-ovn-controller hit `fatal error: concurrent map read and map write` (a Go data race — crash, not OOM; 15 restarts) under the 20 k-SG reconcile load, capping settled programming |
 | **Result** | **5,606 port-groups programmed** (20,001 CRs accepted) · 2026-06-10 · 2 h 07 m |
 | **Peak vs danger line** | ovn-central / northd / etcd all healthy — the crash is in the kube-ovn controller, which the probes do not yet watch |
-| **Caveats** | a kube-ovn 1.14.30 stability bug at scale (upstream report planned), not a fundamental OVN limit; programming decelerated 119→24 PGs/min; below the vSphere 10 k comparable for now |
+| **Caveats** | a kube-ovn 1.14.30 stability bug at scale, not a fundamental OVN limit; programming decelerated 119→24 PGs/min; below the vSphere 10 k comparable |
 
 ## serviceEndpointsPerCluster — routable services
 
@@ -130,6 +130,6 @@ parameters used → what actually stopped the run → result and headroom.
 |---|---|
 | **Creates** | N tenant bundles. Small bundle (published): 1 namespace + 2 subnets + 5 VMs + 10 **enforcing** firewall policies (they select the VM's launcher pod) + 2 services + 1 security group per tenant |
 | **Measures** | canary VM-to-VM p99 latency at every settled batch boundary (same-node pair + cross-node cross-VPC pair; light HTTP probe, median of 3 passes per boundary; baseline = median of 3 at identical intensity, both legs required) |
-| **Stop trigger** | DUAL rule (2026-06-12): p99 > 2 ms floor AND > 4× this cluster's own baseline, each sustained 3 consecutive boundaries. Probe-lost abort: 3 consecutive empty measurements invalidate the run |
-| **Result** | **flat through 120 tenants / 600 VMs (run cap)** · 2026-06-12 · cross-host p99 406–488 µs vs 430 µs baseline, all 24 boundaries measured — *confirmed*; degradation point above 120, higher-cap run scheduled. (Historical: ~80 ± 10 on the 2026-05-08 pre-upgrade cluster — superseded; see degradation methodology) |
-| **Caveats** | idle VMs do not stress the data plane (a traffic-load variant is future work); per-boundary running-VM count not yet recorded in the curve (post-run VM phase audit used instead) |
+| **Stop trigger** | DUAL rule: p99 > 2 ms floor AND > 4× this cluster's own baseline, each sustained 3 consecutive boundaries. Probe-lost abort: 3 consecutive empty measurements invalidate the run |
+| **Result** | **flat through 120 tenants / 600 VMs (run cap)** — cross-host p99 406–488 µs vs 430 µs baseline, all 24 boundaries measured — *confirmed*; degradation point above 120 |
+| **Caveats** | idle VMs do not stress the data plane (a traffic-load variant is future work); per-boundary running-VM count not yet recorded in the curve |
