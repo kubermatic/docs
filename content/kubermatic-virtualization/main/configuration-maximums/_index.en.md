@@ -33,8 +33,7 @@ not as a hard product limit.
 
 ## Test environment
 
-All numbers in this section were measured on the reference cluster `superman` unless noted
-otherwise.
+All numbers in this section were measured on the reference cluster unless noted otherwise.
 
 | Property | Value |
 |---|---|
