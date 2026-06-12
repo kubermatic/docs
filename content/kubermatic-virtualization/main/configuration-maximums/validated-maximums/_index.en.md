@@ -31,8 +31,9 @@ per-pod/per-VM rather than as standalone cluster objects — their practical bou
 (see *Pods per worker node*), so a standalone count would be misleading.
 **VMs per worker host** is being re-validated on the current cluster shape and will be added once
 the dedicated run lands.
-**How many tenants fit before workloads slow down (~80 ± 10)** is a degradation result, not a
-capacity maximum — see [Degradation]({{< ref "../degradation" >}}).
+**How many tenants fit before workloads slow down** is a degradation result, not a capacity
+maximum — current validation: no slowdown through 120 tenants (600 running VMs), see
+[Degradation]({{< ref "../degradation" >}}).
 {{% /notice %}}
 
 ## Technical reference
@@ -64,5 +65,5 @@ Full per-test readings, parameters and stop triggers:
 orientation only.
 
 VM-to-VM latency **under tenant load** is a degradation measurement, not a capacity ceiling —
-the staged observations (0.8 ms baseline → 6.9 ms at the ~80-tenant cliff) live on the
+the current result (flat 406–488 µs cross-host through 120 tenants / 600 VMs) lives on the
 [Degradation]({{< ref "../degradation" >}}) page.

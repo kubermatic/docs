@@ -128,8 +128,8 @@ parameters used → what actually stopped the run → result and headroom.
 
 | | |
 |---|---|
-| **Creates** | N tenant bundles. Published-number bundle (2026-05-08): 1 namespace + 1 subnet + 5 firewall policies + 1 running VM. Go-forward Small bundle: 2 subnets + 5 VMs + 10 policies + 2 services + 1 security group per tenant |
-| **Measures** | canary VM-to-VM p99 latency per batch (same-node pair + cross-node pair; ping; median-of-3 baseline; p99 = avg + 2.33 × mdev) |
-| **Stop trigger** | published number: sustained +5 % drift (the observed cliff was an unmistakable 4× jump). Go-forward: absolute p99 > 2 ms, 3 consecutive samples |
-| **Result** | **~80 ± 10 bundles** · 2026-05-08 · three runs, ±12 % variance — *confirmed* |
-| **Caveats** | idle VMs do not stress the data plane (a traffic-load variant is future work); the canary SSH/latency probe under heavy load is the known weak point (guards added; the 2 ms Small-bundle re-validation run is scheduled and currently *expected (theory)*) |
+| **Creates** | N tenant bundles. Small bundle (published): 1 namespace + 2 subnets + 5 VMs + 10 **enforcing** firewall policies (they select the VM's launcher pod) + 2 services + 1 security group per tenant |
+| **Measures** | canary VM-to-VM p99 latency at every settled batch boundary (same-node pair + cross-node cross-VPC pair; light HTTP probe, median of 3 passes per boundary; baseline = median of 3 at identical intensity, both legs required) |
+| **Stop trigger** | DUAL rule (2026-06-12): p99 > 2 ms floor AND > 4× this cluster's own baseline, each sustained 3 consecutive boundaries. Probe-lost abort: 3 consecutive empty measurements invalidate the run |
+| **Result** | **flat through 120 tenants / 600 VMs (run cap)** · 2026-06-12 · cross-host p99 406–488 µs vs 430 µs baseline, all 24 boundaries measured — *confirmed*; degradation point above 120, higher-cap run scheduled. (Historical: ~80 ± 10 on the 2026-05-08 pre-upgrade cluster — superseded; see degradation methodology) |
+| **Caveats** | idle VMs do not stress the data plane (a traffic-load variant is future work); per-boundary running-VM count not yet recorded in the curve (post-run VM phase audit used instead) |
