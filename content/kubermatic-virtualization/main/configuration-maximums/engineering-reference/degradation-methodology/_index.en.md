@@ -4,12 +4,11 @@ date = 2026-06-11T09:00:00+02:00
 weight = 2
 +++
 
-**Why bundles, not single resources.** Single-resource degradation cliffs ("~7,000 VPCs",
-"~13,000 firewall policies") did not survive careful re-measurement: refined re-runs (2026-05-11,
-median-of-3 baselines + statistical p99) showed batch-to-batch drift of ±40–50 % swamping any
-signal — the "cliffs" were noise. Bundles of resources with a **running VM** produced a clean,
-reproducible 4× cliff, because a VM creates real datapath state (port binding, conntrack, NAT)
-while empty subnets and dormant policies cost almost nothing.
+**Why bundles, not single resources.** Single-resource degradation cannot be measured reliably:
+batch-to-batch drift of ±40–50 % in the latency probe swamps any single-resource signal, so a
+"cliff" read from one resource type alone is noise. Bundles of resources with a **running VM**
+produce a clean, reproducible 4× cliff, because a VM creates real datapath state (port binding,
+conntrack, NAT) while empty subnets and dormant policies cost almost nothing.
 
 **Canary topology.** Two always-on probe pairs: a same-node VM pair and a cross-node pair (a
 cross-VPC variant exists — traffic crosses the OVN datapath, conntrack and the VPC peering, the
@@ -37,7 +36,7 @@ published answer becomes "the cluster ran out of capacity before customers felt 
 runs (trip at 90 / 120 / 140 bundles; the underlying cliff sits at ~80–90 in each trace; variance
 ±12 %). Bundle = 1 namespace + 1 subnet + 5 firewall policies + 1 running VM; the trip criterion
 was sustained +5 % drift over baseline, and the observed cliff was a 4× p99 jump within one batch.
-Ingredient isolation (same date): bundles *without* the VM tripped only at 550–575
+Ingredient isolation (measured separately): bundles *without* the VM tripped only at 550–575
 (noise-bound — essentially free); bundles with **5 VMs** each tripped at 70 bundles (~350 VMs,
 cliff ~40) — VM density dominates. The go-forward method (Small bundle: 2 subnets / 5 VMs /
 10 firewall policies / 2 services / 1 security group per tenant; absolute 2 ms p99 SLO) is

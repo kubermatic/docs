@@ -10,7 +10,7 @@ The published numbers are **not reproducible on stock component limits**. What w
 
 | Component | Stock | Tuned | Why |
 |---|---|---|---|
-| ovn-central (deployment) | cpu 4 / mem 8 Gi | cpu 4 / mem 16 Gi | headroom for NB/SB DB growth at high object counts. Limits must never exceed control-plane node RAM: a 2026-05-03 misconfig (24 Gi limit on 7.6 GiB nodes) OOM-cascaded the control plane — 10 h outage. The cp nodes were later resized to 24 GiB, which is what makes 16 Gi safe |
+| ovn-central (deployment) | cpu 4 / mem 8 Gi | cpu 4 / mem 16 Gi | headroom for NB/SB DB growth at high object counts. **Limits must never exceed control-plane node RAM** — an over-sized limit lets ovn-central grow past physical memory and the kernel OOM-kills the control-plane node (apiserver and etcd included). 16 Gi is safe on 24 GiB control-plane nodes; scale the limit to your nodes |
 | ovn-central probes | timeout 45 s | timeout 300 s, failureThreshold 10 | DB replay after a pod restart exceeds 45 s at high object counts — prevents kubelet killing pods mid-replay |
 | kube-ovn-controller | cpu 2 / mem 4 Gi | cpu 8 / mem 8 Gi | workqueue drain at high object counts (runs on 251 GiB workers) |
 | ovs-ovn (DaemonSet, every node) | cpu 2 / mem 1 Gi | cpu 4 / mem 8 Gi | each node's `ovn-controller` holds the **whole cluster's** logical-flow set; the 1 Gi stock limit OOM-killed it at ~7.7 k subnets — the real per-node datapath wall before the bump |
@@ -36,9 +36,6 @@ The published numbers are **not reproducible on stock component limits**. What w
   and static routes are wall-bound; everything else published here is cap- or window-bound.
 - **Catch-up-window-bound numbers understate.** subnetsPerCluster's 11,822 is where programming
   settled within a 3 h window — not a wall. A longer window or a faster controller raises it.
-- **Firewall-policies-cluster-wide was re-validated (2026-06-10).** An earlier run's stop at
-  25,101 was the benchmark pod losing its own network, not the cluster; the re-run with an
-  independent bystander probe reached the full 120 k cap cleanly.
 - **Security groups carry an upstream bug caveat** — the ceiling is a kube-ovn 1.14.30 stability
   bound, not an OVN capacity bound.
 - **QoS policies and network-attachment templates have no standalone row by design.** Both are

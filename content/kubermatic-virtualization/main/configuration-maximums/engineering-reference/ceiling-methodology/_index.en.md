@@ -9,13 +9,13 @@ weight = 1
 > vSphere comparable. The run stops cleanly at the cap, or earlier if a real distress signal
 > trips. We report "validated to N — fully functional, no distress."
 
-**Why this definition.** We previously published API-accepted counts. A controlled experiment on
-2026-06-08 showed why that is deceptive: a run pushed **92,046 subnets** into the API, but the
-network controller had **programmed only ~4,000** of them into OVN by the time it was cancelled —
-a pod in subnet #5,000 would never have received an IP. The API accepts nearly unlimited objects;
-only the *programmed* count describes capacity a customer can use. This mirrors the NSX/Broadcom
-configuration-maximums methodology ("tested and supported", control-plane-bound numbers), so the
-vSphere comparison reads like-for-like.
+**Why this definition.** API-accepted counts are deceptive: the API accepts nearly unlimited
+objects, while the network controller programs them into OVN far more slowly. In a controlled
+measurement, **92,046 subnets** were accepted by the API while only **~4,000** of them were
+programmed — a pod in subnet #5,000 would never have received an IP. Only the *programmed* count
+describes capacity a customer can use. This mirrors the NSX/Broadcom configuration-maximums
+methodology ("tested and supported", control-plane-bound numbers), so the vSphere comparison
+reads like-for-like.
 
 **The run loop:**
 
@@ -29,8 +29,8 @@ temporary pods and tests real connectivity; `ko trace` proves allow/drop decisio
 datapath pipeline).
 
 **Hygiene.** Full cleanup of all benchmark objects before every run, so one test's leftovers
-cannot skew the next test's baseline. Programmed counts are read from the OVN northbound **leader**
-(followers return 0 — an early parser read followers and reported zero).
+cannot skew the next test's baseline. Programmed counts are read from the OVN northbound
+**leader** (followers return 0).
 
 ## Distress probes
 
@@ -47,25 +47,15 @@ taken 10 s apart:
 | ovs-ovn memory (worst pod per node) | 80 % of the DaemonSet limit (8 GiB → ~6.6 GiB) | each node's `ovn-controller` holds the whole cluster's logical-flow set; an OOM-kill here is a per-node datapath wall — no pod on that node can wire until it recovers |
 | kube-ovn-controller restarts | ≥ 1 new restart above the run-start baseline | the controller crashed or was killed mid-run — programming throughput from that run is no longer trustworthy (a Go data race at 20 k security groups produced exactly this) |
 
-Probe history that shaped this list:
+Probe design notes:
 
-- **Fail-closed redesign (2026-06-05).** Three probes were silently returning "healthy" because
-  their metrics endpoints are unreachable on this kube-ovn build. A probe that cannot read now
-  reports *unknown* and the run flags it — it never pretends health.
-- **`kubeovn-reconcile-errors` removed (2026-06-08)** — false-tripped security groups at 125
-  objects.
-- **ovn-northd threshold recalibrated (2026-06-07)** from 120 % to 360 % sustained. The old line
-  tripped on per-batch compile *spikes*, not steady saturation, and produced a campaign of
-  false-low ceilings (e.g. "250 VPCs"); the recalibrated threshold passed 1,000+ VPCs with a flat
-  settled curve.
-- **Gaps closed (2026-06-12).** The two previously missing probes now exist and are active in
-  every run: a per-node `ovs-ovn` **memory** probe (the ~7.7 k subnet OOM wall of 2026-06-09 was
-  found manually; the probe watches the worst pod across all nodes against the DaemonSet limit)
-  and a **kube-ovn-controller restart/crash** probe (the security-group data-race crash — 15
-  restarts — was invisible to every earlier probe; this one baselines pre-existing restart counts
-  at run start and trips on any new restart). Both were validated two ways before first use: a
-  forced-trip run (threshold set below idle usage — the probe stopped the run with the worst pod
-  named in the stop reason) and a full 10,000-VPC ceiling re-run where they sampled for the entire
-  hour with zero false trips and an identical settled count to the pre-probe baseline run. Both
-  thresholds are tunable per run via `distressOverrides` (`ovsOvnMemoryPct`,
-  `kubeovnControllerRestarts`).
+- **Fail-closed.** A probe that cannot read its metric reports *unknown* and the run flags it —
+  it never pretends health.
+- **Sustained, not spiky.** The ovn-northd CPU threshold targets steady compile saturation;
+  per-batch compile *spikes* are expected and are judged only at the settled batch boundary, so a
+  transient spike cannot end a run.
+- **Restart baseline.** The kube-ovn-controller restart probe baselines pre-existing restart
+  counts at run start and trips only on *new* restarts, so leftover counts from past incidents on
+  a live cluster never trip a run.
+- **Tunable.** Every threshold can be overridden per run via `distressOverrides` (e.g.
+  `ovsOvnMemoryPct`, `kubeovnControllerRestarts`, `ovnCentralMemoryPct`).
