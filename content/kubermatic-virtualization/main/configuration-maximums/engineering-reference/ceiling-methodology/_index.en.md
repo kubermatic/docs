@@ -19,22 +19,7 @@ vSphere comparison reads like-for-like.
 
 **The run loop:**
 
-```
-1. CREATE a batch of objects (e.g. 50 subnets).
-2. WAIT for the controller to program them (checked in the OVN
-   northbound DB — not just etcd).
-3. SETTLE so ovn-northd finishes compiling.
-4. MEASURE 3 samples, 10 s apart — one blip is transient,
-   three in a row is real.
-5. EVALUATE:
-   - distress probe tripped?  STOP — that's the real wall.
-   - cap reached?             STOP — record "validated to N".
-   - otherwise grow the batch and repeat.
-6. CATCH-UP WAIT: after the cap, give the controller a settle
-   window to finish programming the backlog; the published
-   number is the SETTLED programmed count.
-7. FUNCTIONAL SPOT-CHECK at the top count.
-```
+![Ceiling-test run loop](./assets/ceiling-test-run-loop.png)
 
 **Functional verification.** Per resource: a throwaway network-debug pod (`netshoot`) is dropped
 into a freshly created subnet and must get an IP and ping its gateway; a service VIP must answer
@@ -59,6 +44,8 @@ taken 10 s apart:
 | Control-plane node memory | 90 % | kernel OOM-kills pods (apiserver risk) |
 | ovn-northd CPU | 360 % of one core, sustained | steady compile saturation — new-workload programming lags |
 | Southbound-DB size | watched for services runs | OVN load-balancer table growth |
+| ovs-ovn memory (worst pod per node) | 80 % of the DaemonSet limit (8 GiB → ~6.6 GiB) | each node's `ovn-controller` holds the whole cluster's logical-flow set; an OOM-kill here is a per-node datapath wall — no pod on that node can wire until it recovers |
+| kube-ovn-controller restarts | ≥ 1 new restart above the run-start baseline | the controller crashed or was killed mid-run — programming throughput from that run is no longer trustworthy (a Go data race at 20 k security groups produced exactly this) |
 
 Probe history that shaped this list:
 
@@ -71,6 +58,14 @@ Probe history that shaped this list:
   tripped on per-batch compile *spikes*, not steady saturation, and produced a campaign of
   false-low ceilings (e.g. "250 VPCs"); the recalibrated threshold passed 1,000+ VPCs with a flat
   settled curve.
-- **Known gaps (honest list):** there is not yet a per-node `ovs-ovn` memory probe (the ~7.7 k
-  subnet OOM wall was found manually) nor a kube-ovn-controller restart/crash probe (the
-  security-group data-race crash was found manually). Both are planned.
+- **Gaps closed (2026-06-12).** The two previously missing probes now exist and are active in
+  every run: a per-node `ovs-ovn` **memory** probe (the ~7.7 k subnet OOM wall of 2026-06-09 was
+  found manually; the probe watches the worst pod across all nodes against the DaemonSet limit)
+  and a **kube-ovn-controller restart/crash** probe (the security-group data-race crash — 15
+  restarts — was invisible to every earlier probe; this one baselines pre-existing restart counts
+  at run start and trips on any new restart). Both were validated two ways before first use: a
+  forced-trip run (threshold set below idle usage — the probe stopped the run with the worst pod
+  named in the stop reason) and a full 10,000-VPC ceiling re-run where they sampled for the entire
+  hour with zero false trips and an identical settled count to the pre-probe baseline run. Both
+  thresholds are tunable per run via `distressOverrides` (`ovsOvnMemoryPct`,
+  `kubeovnControllerRestarts`).
