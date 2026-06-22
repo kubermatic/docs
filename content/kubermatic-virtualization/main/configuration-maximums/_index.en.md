@@ -4,23 +4,18 @@ date = 2026-06-10T09:00:00+02:00
 weight = 7
 +++
 
-This section lists the **validated configuration maximums** of a Kubermatic Virtualization
-(KubeV) cluster — how many virtual machines, networks, firewall policies, subnets, routes and
-similar objects a cluster reliably handles.
-
-Every number in this section comes from an actual benchmark run against a live reference cluster
-using the **ConfigMax** tool, a benchmark harness that ships with Kubermatic Virtualization. It
-discovers limits by pushing a growing workload at the cluster and watching for the point where the
-cluster pushes back. Nothing here is a paper estimate — each value was measured, and each value was
-verified to be *functional*, not merely stored.
+This section answers a sizing question: how many objects — virtual machines, networks,
+firewall policies, subnets, services, routes — can one Kubermatic Virtualization (KubeV)
+cluster reliably run? Every number was measured on a live reference cluster with the
+**ConfigMax** benchmark tool and verified to actually work — none are paper estimates.
 
 {{% notice note %}}
-These maximums describe **one specific cluster shape** (listed below). A larger cluster scales
-higher; a smaller cluster scales proportionally lower. Use these numbers as a sizing reference,
-not as a hard product limit.
+These maximums describe **one specific cluster shape** (the reference cluster, below). A
+larger cluster scales higher, a smaller one lower. Use them as a sizing reference, not a
+hard product limit.
 {{% /notice %}}
 
-## What's in this section
+## Pages in this section
 
 - [Validated maximums]({{< ref "./validated-maximums" >}}) — **start here.** The headline "how
   many can I run" table, plus the technical breakdown of what limits each one.
@@ -31,9 +26,20 @@ not as a hard product limit.
 - [Engineering reference]({{< ref "./engineering-reference" >}}) — the "how we measured it":
   methodology, per-test method cards, and the cluster tuning behind the numbers.
 
-## Test environment
+## Key terms
 
-All numbers in this section were measured on the reference cluster unless noted otherwise.
+| Term | What it means |
+|---|---|
+| **Validated maximum** | A count the cluster reached *and* that we confirmed still works — not just "the API accepted it." |
+| **Functionally verified** | At that count, the objects do their job: a new VM gets an IP and pings out, a service answers with live backends, a firewall rule actually blocks traffic. |
+| **Cap-bound** | The run hit our configured limit before the cluster showed any strain. Read it as "at least N" — the true ceiling is higher. |
+| **Capacity** | How many of an object fit. This is the *Validated maximums* page. |
+| **Degradation** | How many tenants run before workloads feel slow. A separate test — never mixed with capacity. |
+| **Per tenant / per namespace** | The number applies to one tenant scope; cluster-wide totals are listed separately. |
+
+## Reference cluster
+
+All numbers were measured here unless noted otherwise.
 
 | Property | Value |
 |---|---|
@@ -47,21 +53,5 @@ All numbers in this section were measured on the reference cluster unless noted 
 | Container runtime | containerd 1.7.29 |
 | Storage | Longhorn (default) |
 
-Network components were tuned for scale testing; the full tuning baseline is listed in the
+Network components were tuned for scale testing; the full tuning baseline is in the
 [engineering reference]({{< ref "./engineering-reference/tuning-and-findings" >}}).
-
-## How to read these numbers
-
-- **Every count is fully programmed and functionally verified.** A number in this section means
-  the objects exist in the network control plane *and* demonstrably work — a pod in a freshly
-  created subnet gets an IP address and pings its gateway, a service address answers with live
-  backends, a firewall policy actually enforces. It does **not** mean "the API stored this many
-  objects" — storage alone says nothing about whether the objects function.
-- **Cap-bound numbers are lower bounds.** Runs push to a deliberately high configured cap. Where
-  the cap was reached with the cluster showing no strain, read the value as "validated to at least
-  N" — the real ceiling is higher.
-- **Two questions, two kinds of number.** *Capacity* answers "how many of these objects fit."
-  *Degradation* answers "how many tenants fit before running workloads feel slowness." They are
-  different tests and are never mixed.
-- **Per-tenant vs. cluster-wide.** Numbers that say "per tenant" or "per namespace" describe one
-  tenant scope; cluster-wide totals are listed separately.
