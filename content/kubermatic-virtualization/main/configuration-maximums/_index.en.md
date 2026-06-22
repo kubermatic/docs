@@ -37,6 +37,7 @@ All numbers in this section were measured on the reference cluster unless noted 
 
 | Property | Value |
 |---|---|
+| Kubermatic Virtualization | v1.1.0 |
 | Worker hosts | 3 × 96 cores / 251 GiB RAM |
 | Control-plane hosts | 3 × 12 vCPU / 24 GiB RAM |
 | Kubernetes | v1.34.3 (kubeadm) |
