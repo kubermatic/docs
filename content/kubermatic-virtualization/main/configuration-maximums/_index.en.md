@@ -22,14 +22,14 @@ not as a hard product limit.
 
 ## What's in this section
 
-- [Validated maximums]({{< ref "./validated-maximums" >}}) — the headline capacity table, plus a
-  per-capability technical reference (why each run stopped, which component limits it).
-- [Degradation]({{< ref "./degradation" >}}) — how many tenants fit before running workloads feel
-  slowness.
-- [Running ConfigMax]({{< ref "./running-configmax" >}}) — run the benchmark against your own
-  cluster, via the in-cluster operator or the CLI binary.
-- [Engineering reference]({{< ref "./engineering-reference" >}}) — measurement methodology, distress
-  probes, per-test method cards, cluster tuning and findings.
+- [Validated maximums]({{< ref "./validated-maximums" >}}) — **start here.** The headline "how
+  many can I run" table, plus the technical breakdown of what limits each one.
+- [Degradation]({{< ref "./degradation" >}}) — the other limit: how many tenants you can pack
+  before running workloads start to feel slow (capacity says *fits*, this says *still fast*).
+- [Running ConfigMax]({{< ref "./running-configmax" >}}) — reproduce any of these numbers on
+  your own cluster, via the in-cluster operator or the CLI binary.
+- [Engineering reference]({{< ref "./engineering-reference" >}}) — the "how we measured it":
+  methodology, per-test method cards, and the cluster tuning behind the numbers.
 
 ## Test environment
 
