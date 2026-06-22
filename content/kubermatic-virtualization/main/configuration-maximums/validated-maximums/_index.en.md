@@ -26,28 +26,41 @@ the [technical reference](#technical-reference) below.
 | **Pod-to-pod latency** | same-host **167 µs** · cross-host **532 µs** | **Best-case network round-trip on an idle cluster** |
 
 {{% notice note %}}
-**Not listed as rows:** bandwidth/priority (QoS) policies and secondary-network templates apply
-per-pod/per-VM rather than as standalone cluster objects — their practical bound is pod capacity
-(see *Pods per worker node*), so a standalone count would be misleading.
-**VMs per worker host** is being re-validated on the current cluster shape and will be added once
-the dedicated run lands.
-**How many tenants fit before workloads slow down** is a degradation result, not a capacity
-maximum — current validation: no slowdown through 120 tenants (600 running VMs), see
-[Degradation]({{< ref "../degradation" >}}).
+**Deliberately not given a row:**
+- **QoS (bandwidth/priority) policies and secondary-network templates** — these attach per
+  pod/VM, so their real limit is pod capacity (*Pods per worker node*), not a standalone count.
+- **VMs per worker host** — being re-validated on the current cluster shape; added once that run lands.
+- **Tenants before workloads slow down** — a degradation result, not a capacity maximum. See
+  [Degradation]({{< ref "../degradation" >}}) (no slowdown through 120 tenants / 600 running VMs).
 {{% /notice %}}
+
+## How each maximum was found
+
+Every count comes from the same routine, run by the **ConfigMax** tool against a freshly
+cleaned reference cluster:
+
+1. **Push.** Create the object in growing batches (50, then ×1.5 each round) until a stop
+   condition hits.
+2. **Check it works.** After each batch, verify the objects are *functional*, not just stored —
+   a pod in a new subnet gets an IP and pings its gateway, a service answers with a live
+   backend, a firewall rule actually blocks traffic.
+3. **Watch the cluster.** Sample the control plane against fixed danger lines — etcd database at
+   80 % of quota, `ovn-central` memory at 85 %, control-plane host memory at 90 %, sustained
+   `ovn-northd` CPU saturation.
+4. **Stop, and record why** (the *Stopped by* column below):
+   - **a danger line is crossed** — the cluster is straining; the count just before is the ceiling;
+   - **the object stops working** — a new one can't be programmed or verified in time;
+   - **the configured cap is reached with no strain** — the real ceiling is *higher*, so the number is a lower bound.
+
+The published maximum is the highest count that was both reached **and** verified working. The
+technical table adds, per capability, the component that gave out first and its peak readings at
+the ceiling. Full per-test parameters:
+[method cards]({{< ref "../engineering-reference/method-cards" >}}).
 
 ## Technical reference
 
-For readers comparing platforms: per capability, the validated ceiling, **why the run stopped**,
-the component that would give out first, and **what was actually measured at the ceiling** —
-the run date and the peak component readings against their danger lines, so a technical reader
-can see what the cluster was doing the moment each number was recorded. A run that stopped at
-its configured cap with no strain means the real ceiling is above the listed number.
-
-Danger lines used by every run: etcd database at 80 % of its quota; `ovn-central` memory at
-85 % of its limit; control-plane host memory at 90 %; sustained `ovn-northd` CPU saturation.
-Full per-test readings, parameters and stop triggers:
-[per-test method cards]({{< ref "../engineering-reference/method-cards" >}}).
+Per capability: the validated ceiling, why the run stopped, the component that would give out
+first, and its peak readings the moment the number was recorded.
 
 | Capability (KubeV resource) | Validated ceiling | Stopped by | Limiting component | Measured at the ceiling (run date · duration) | Published comparable* |
 |---|---:|---|---|---|---:|
