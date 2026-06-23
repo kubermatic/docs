@@ -9,6 +9,10 @@ Capabilities are named by their actual Kubermatic Virtualization / Kubernetes re
 virtualization stacks. Full detail per capability — stop reason and limiting component — is in
 the [technical reference](#technical-reference) below.
 
+Most of these numbers are **validated lower bounds**: the run reached a configured cap with the
+cluster showing no strain, so the real ceiling is higher. Where a number is a genuine hard limit,
+the *Stopped by* column in the [technical reference](#technical-reference) says so.
+
 | Capability (KubeV resource) | Validated maximum | What it means |
 |---|---|---|
 | **VPCs per cluster** | **10,000** | **Network tenants per cluster** |
