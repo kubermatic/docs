@@ -62,6 +62,11 @@ the ceiling. Full per-test parameters:
 Per capability: the validated ceiling, why the run stopped, the component that would give out
 first, and what was observed at that point.
 
+Want the raw numbers behind "what was observed" — etcd database size, `ovn-central` memory,
+`ovn-northd` CPU and control-plane host memory at each ceiling? Every run's per-component
+readings against their danger lines are in the
+[per-test method cards]({{< ref "../engineering-reference/method-cards" >}}).
+
 | Capability (KubeV resource) | Validated ceiling | Stopped by | Limiting component | At the ceiling |
 |---|---:|---|---|---|
 | VPCs / cluster | 10,000 | configured cap — no strain | etcd database size was nearest its budget (~77 %) | Nothing was strained: the busiest component, the etcd database, sat at only 77 % of its budget, so plenty of headroom remained. |
