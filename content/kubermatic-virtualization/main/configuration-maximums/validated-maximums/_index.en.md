@@ -53,29 +53,26 @@ cleaned reference cluster:
    - **the configured cap is reached with no strain** — the real ceiling is *higher*, so the number is a lower bound.
 
 The published maximum is the highest count that was both reached **and** verified working. The
-technical table adds, per capability, the component that gave out first and its peak readings at
+technical table adds, per capability, the component that gave out first and what was observed at
 the ceiling. Full per-test parameters:
 [method cards]({{< ref "../engineering-reference/method-cards" >}}).
 
 ## Technical reference
 
 Per capability: the validated ceiling, why the run stopped, the component that would give out
-first, and its peak readings the moment the number was recorded.
+first, and what was observed at that point.
 
-| Capability (KubeV resource) | Validated ceiling | Stopped by | Limiting component | Measured at the ceiling (run date · duration) | Published comparable* |
-|---|---:|---|---|---|---:|
-| VPCs / cluster | 10,000 | configured cap — no strain | etcd database size was nearest its budget (~77 %) | etcd DB 1,227 MB of the ~1,600 MB danger line (**77 %**) · ovn-central memory 2.0 of 14.4 GiB · ovn-northd CPU 1.6 of 3.6 cores · control-plane host memory 31 % of the 90 % line · new-VPC provisioning latency ~10 ms (CR flips Ready near-instantly — the programmed logical-router count is the authoritative signal) (2026-06-08 · 1 h 06 m) |  ~4,000 |
-| Subnets / cluster | 11,822 | controller finished programming this many within the post-cap settle window | kube-ovn-controller programming throughput | ovn-northd CPU ≤ 2.2 of 3.6 cores · ovn-central memory ≤ 4.2 of 14.4 GiB · control-plane host memory ≤ 44 % of 90 % · per-host ovs-ovn memory flat ~256 MiB of 8 GiB · live latency check at 11.8 k subnets: a pod dropped into a fresh subnet got its IP and pinged its gateway at **0.57 ms RTT, 0 % loss** (2026-06-09 · 5 h 28 m) | ~5,000 |
-| Subnets / VPC | 8,001 | configured cap — no strain | none approached | ovn-central memory ≤ 4.3 of 14.4 GiB · control-plane host memory ≤ 46 % of 90 % · programming sustained 46–48 subnets/min with no late slowdown · same gateway-ping datapath verify pattern as subnets-per-cluster (2026-06-10 · 3 h 06 m) | ~5,000 |
-| NetworkPolicies / namespace | 30,001 (175,246 rules) | configured cap — no strain | none approached; rule programming kept pace throughout | ovn-central memory ≤ 5 of 14.4 GiB · enforced-rule (ACL) programming kept pace the whole run (~5.8 ACLs per policy, no backlog) · ovn-northd and kube-ovn-controller healthy (2026-06-10 · 1 h 08 m) | ~100,000 rules |
-| NetworkPolicies / cluster | 120,001 (355,469 rules) | configured cap — no strain | none approached; an independent bystander probe watched the cluster's API virtual IP throughout — zero failures in ~4 h | steady 13.4 s per 500-policy batch (~2,200 policies/min) for the entire 3.5 h push · bystander probe on the cluster API virtual IP: **0 failures in 1,459 samples (~4 h)** · no component neared a danger line (2026-06-10 · 4 h 00 m) | ~100,000 rules |
-| SecurityGroups / cluster | 5,606 | kube-ovn-controller instability at higher counts (upstream fix tracked) | kube-ovn-controller stability | ovn-central, ovn-northd and etcd all healthy — kube-ovn-controller itself crashed under the 20,000-object reconcile load (concurrent map read/write race, 15 restarts: **this is the wall**) · port-group programming decelerated 119 → 24/min (2026-06-10 · 2 h 07 m) | ~10,000 |
-| Services / cluster | 1,001 | configured cap — no strain | pod-wiring throughput at higher counts | backend pods 0 → 1,005 Ready during the run · OVN load-balancer VIPs climbed 35 → 953 → **1,001 settled** (every VIP answered with a live backend) · no strain (2026-06-10 · 13 m) | ~10,000 |
-| Static routes / VPC | 3,830 | configured cap (earlier methodology) | kube-ovn-controller programming cadence | earlier methodology: stop rule was programmed-vs-requested route drift > max(200, 25 %); modern component readings not captured for this run (2026-05-05 · 1 h 04 m) | ~4,000 |
-| Pod-to-pod latency (idle cluster) | same-host **167 µs** · cross-host **532 µs** avg RTT | n/a — direct measurement, not a push run | data-plane state: with ~14,000 leftover subnets present the same measurement read 1.84 ms cross-host — datapath cost scales with logical-object count, which is why every run starts from a fully cleaned cluster | same-host avg 167 µs (min 71 µs, max 2.17 ms) · cross-host avg 532 µs (min 369 µs, max 3.69 ms) · 0 % packet loss, direct ICMP between pods (2026-05-06 · freshly-booted cluster) | n/a |
-
-\* Published configuration-maximum of a comparable enterprise virtualization platform, for sizing
-orientation only.
+| Capability (KubeV resource) | Validated ceiling | Stopped by | Limiting component | At the ceiling |
+|---|---:|---|---|---|
+| VPCs / cluster | 10,000 | configured cap — no strain | etcd database size was nearest its budget (~77 %) | Nothing was strained: the busiest component, the etcd database, sat at only 77 % of its budget, so plenty of headroom remained. |
+| Subnets / cluster | 11,822 | controller finished programming this many within the post-cap settle window | kube-ovn-controller programming throughput | Every component stayed well below its danger line. A pod placed in a fresh subnet got its IP and pinged its gateway at 0.57 ms with no packet loss — proof the subnets actually worked, not just existed. |
+| Subnets / VPC | 8,001 | configured cap — no strain | none approached | No component came close to a danger line, and subnets kept being created at a steady 46–48 per minute with no slowdown. |
+| NetworkPolicies / namespace | 30,001 (175,246 rules) | configured cap — no strain | none approached; rule programming kept pace throughout | Nothing was strained, and the firewall rules were programmed as fast as the policies were created (~5.8 rules per policy, no backlog). |
+| NetworkPolicies / cluster | 120,001 (355,469 rules) | configured cap — no strain | none approached; an independent bystander probe watched the cluster's API virtual IP throughout — zero failures | No component came near a danger line. Policies were added at a steady ~2,200 per minute, and a separate probe confirmed the cluster's API stayed reachable the whole time — zero failures. |
+| SecurityGroups / cluster | 5,606 | kube-ovn-controller instability at higher counts (upstream fix tracked) | kube-ovn-controller stability | etcd, ovn-central and ovn-northd all stayed healthy. The wall was the kube-ovn controller itself, which crashed repeatedly under the load (15 restarts) — a known bug being fixed upstream. |
+| Services / cluster | 1,001 | configured cap — no strain | pod-wiring throughput at higher counts | Backend pods came up to 1,005 Ready and every service address answered with a live backend, with nothing on the cluster strained. |
+| Static routes / VPC | 3,830 | configured cap (earlier methodology) | kube-ovn-controller programming cadence | Measured with an earlier method — detailed component readings weren't captured for this run. |
+| Pod-to-pod latency (idle cluster) | same-host **167 µs** · cross-host **532 µs** avg RTT | n/a — direct measurement, not a push run | data-plane state: with ~14,000 leftover subnets present the same measurement read 1.84 ms cross-host — datapath cost scales with logical-object count, which is why every run starts from a fully cleaned cluster | A direct pod-to-pod ping on an idle cluster: ~167 µs within a host, ~532 µs across hosts, no packet loss. |
 
 VM-to-VM latency **under tenant load** is a degradation measurement, not a capacity ceiling —
 the current result (flat 406–488 µs cross-host through 120 tenants / 600 VMs) lives on the
