@@ -14,8 +14,8 @@ the [technical reference](#technical-reference) below.
 | **VPCs per cluster** | **10,000** | **Network tenants per cluster** |
 | **Subnets per cluster** | **11,822** | **Layer-3 subnets cluster-wide** |
 | **Subnets per VPC** | **8,001** | **Subnets within one network tenant** |
-| **NetworkPolicies per namespace** | **30,001** (≈ 175,000 enforced rules) | **Stateful firewall policies inside one namespace** |
-| **NetworkPolicies per cluster** | **120,001** (≈ 355,000 enforced rules) | **Stateful firewall policies across all namespaces** |
+| **NetworkPolicies per namespace** | **30,001** (≈ 175,000 enforced rules <sup>†</sup>) | **Stateful firewall policies inside one namespace** |
+| **NetworkPolicies per cluster** | **120,001** (≈ 355,000 enforced rules <sup>†</sup>) | **Stateful firewall policies across all namespaces** |
 | **SecurityGroups per cluster** | **5,606** | **Reusable firewall scopes** |
 | **Services per cluster** | **1,001** | **Routable, load-balanced service addresses** |
 | **Static routes per VPC** | **3,830** | **Next-hop routes on one tenant's router** |
@@ -25,9 +25,9 @@ the [technical reference](#technical-reference) below.
 | **Pods per worker node** | **1,185** | **Container workloads one host schedules concurrently** |
 | **Pod-to-pod latency** | same-host **167 µs** · cross-host **532 µs** | **Best-case network round-trip on an idle cluster** |
 
-*Enforced rules* (shown for the firewall rows) are the low-level allow/deny entries each
-NetworkPolicy compiles into inside the network — one policy expands to several (~5.8 here). The
-policy count is what you manage; the rule count is the real enforcement load on the cluster.
+<sup>†</sup> **Enforced rules** — the low-level allow/deny entries each NetworkPolicy compiles into
+inside the network; one policy expands to several (~5.8 here). The policy count is what you
+define and manage; the rule count is the real enforcement load on the cluster.
 
 {{% notice note %}}
 **Deliberately not given a row:**
