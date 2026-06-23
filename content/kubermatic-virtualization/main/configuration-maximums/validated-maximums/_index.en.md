@@ -25,6 +25,10 @@ the [technical reference](#technical-reference) below.
 | **Pods per worker node** | **1,185** | **Container workloads one host schedules concurrently** |
 | **Pod-to-pod latency** | same-host **167 µs** · cross-host **532 µs** | **Best-case network round-trip on an idle cluster** |
 
+*Enforced rules* (shown for the firewall rows) are the low-level allow/deny entries each
+NetworkPolicy compiles into inside the network — one policy expands to several (~5.8 here). The
+policy count is what you manage; the rule count is the real enforcement load on the cluster.
+
 {{% notice note %}}
 **Deliberately not given a row:**
 - **QoS (bandwidth/priority) policies and secondary-network templates** — these attach per
