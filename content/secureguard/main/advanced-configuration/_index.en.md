@@ -1,6 +1,6 @@
 +++
 title = "Advanced Configuration"
-date = 2026-06-13T09:00:01+02:00
+date = 2026-06-13T09:00:02+02:00
 weight = 7
 description = "Enterprise configuration for SecureGuard — custom OIDC identity providers, RBAC via impersonation, multi-cluster deployments, the ESO version catalog, and short-lived remote tokens."
 sitemapexclude = true
