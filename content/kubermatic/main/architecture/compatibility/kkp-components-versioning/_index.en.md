@@ -20,7 +20,7 @@ of provided software and therefore releases updates regularly that also include 
 | iap                            | 7.14.2                         |
 | kubermatic-operator            | 9.9.9-dev                      |
 | local-kubevirt                 | 1.1.1                          |
-| logging/alloy                  | 1.9.2                          |
+| logging/alloy                  | 1.17.0                         |
 | logging/loki                   | 3.6.7                          |
 | minio                          | RELEASE.2023-05-04T21-44-30Z   |
 | mla/alertmanager-proxy         | 0.3.3                          |
