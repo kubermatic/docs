@@ -114,6 +114,9 @@ developer-platform:
   description: Provision and manage all services from a single centralized catalog - powered by Kubernetes-style APIs.
   weight: 4
   shareImage: img/share-developer-platform.png
+  versions:
+    - release: v0.9.0
+      name: v0.9.0
 operatingsystemmanager:
   name: operatingsystemmanager
   logo: "/img/operatingsystemmanager/common/operating-system-manager-logo.png"
