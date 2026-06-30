@@ -52,7 +52,7 @@
         {{- $llmsURL = replaceRE (printf `\/%s\/` $url) "/latest/" $llmsURL -}}
       {{- end -}}
     {{- end }}
-- [{{ $title }}]({{ $llmsURL }})
+- {{ $llmsURL }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
