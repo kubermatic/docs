@@ -1,0 +1,866 @@
+{
+  "kkpVersion": "2.30.0",
+  "benchmark": "cis-1.12",
+  "kubeBenchVersion": "v0.15.0",
+  "clusters": [
+    {
+      "name": "k8c-16e771-248a8d-1-34-5",
+      "k8sVersion": "1.34.5",
+      "specKeys": [
+        "spec-de9eafc8945d68bff882eb7816ebe844"
+      ],
+      "results": [
+        {
+          "id": "4.1.1",
+          "title": "Ensure that the kubelet service file permissions are set to 600 or more restrictive (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the below command (based on the file location on your system) on the each worker node.\nFor example, chmod 600 /etc/systemd/system/kubelet.service\n",
+          "audit": "/bin/sh -c 'if test -e /etc/systemd/system/kubelet.service; then stat -c permissions=%a /etc/systemd/system/kubelet.service; fi' "
+        },
+        {
+          "id": "4.1.10",
+          "title": "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the following command (using the config file location identified in the Audit step)\nchown root:root /var/lib/kubelet/kubeconfig\n",
+          "audit": "/bin/sh -c 'if test -e /var/lib/kubelet/kubeconfig; then stat -c %U:%G /var/lib/kubelet/kubeconfig; fi' "
+        },
+        {
+          "id": "4.1.2",
+          "title": "Ensure that the kubelet service file ownership is set to root:root (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the below command (based on the file location on your system) on the each worker node.\nFor example,\nchown root:root /etc/systemd/system/kubelet.service\n",
+          "audit": "/bin/sh -c \"if test -e /etc/systemd/system/kubelet.service; then stat -c %U:%G /etc/systemd/system/kubelet.service; else echo \\\"File not found\\\"; fi\""
+        },
+        {
+          "id": "4.1.3",
+          "title": "If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the below command (based on the file location on your system) on the each worker node.\nFor example,\nchmod 600 /var/lib/kubelet/kubeconfig\n",
+          "audit": "/bin/sh -c 'if test -e /var/lib/kubelet/kubeconfig; then stat -c permissions=%a /var/lib/kubelet/kubeconfig; fi' "
+        },
+        {
+          "id": "4.1.4",
+          "title": "If proxy kubeconfig file exists ensure ownership is set to root:root (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the below command (based on the file location on your system) on the each worker node.\nFor example, chown root:root /var/lib/kubelet/kubeconfig\n",
+          "audit": "/bin/sh -c 'if test -e /var/lib/kubelet/kubeconfig; then stat -c %U:%G /var/lib/kubelet/kubeconfig; fi' "
+        },
+        {
+          "id": "4.1.5",
+          "title": "Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the below command (based on the file location on your system) on the each worker node.\nFor example,\nchmod 600 /etc/kubernetes/kubelet.conf\n",
+          "audit": "/bin/sh -c 'if test -e /etc/kubernetes/kubelet.conf; then stat -c permissions=%a /etc/kubernetes/kubelet.conf; fi' "
+        },
+        {
+          "id": "4.1.6",
+          "title": "Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the below command (based on the file location on your system) on the each worker node.\nFor example,\nchown root:root /etc/kubernetes/kubelet.conf\n",
+          "audit": "/bin/sh -c 'if test -e /etc/kubernetes/kubelet.conf; then stat -c %U:%G /etc/kubernetes/kubelet.conf; fi' "
+        },
+        {
+          "id": "4.1.7",
+          "title": "Ensure that the certificate authorities file permissions are set to 644 or more restrictive (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the following command to modify the file permissions of the\n--client-ca-file chmod 644 \u003cfilename\u003e\n",
+          "audit": "CAFILE=$(ps -ef | grep kubelet | grep -v apiserver | grep -- --client-ca-file= | awk -F '--client-ca-file=' '{print $2}' | awk '{print $1}' | uniq)\nif test -z $CAFILE; then CAFILE=/etc/kubernetes/pki/ca.crt; fi\nif test -e $CAFILE; then stat -c permissions=%a $CAFILE; fi\n"
+        },
+        {
+          "id": "4.1.8",
+          "title": "Ensure that the client certificate authorities file ownership is set to root:root (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the following command to modify the ownership of the --client-ca-file.\nchown root:root \u003cfilename\u003e\n",
+          "audit": "CAFILE=$(ps -ef | grep kubelet | grep -v apiserver | grep -- --client-ca-file= | awk -F '--client-ca-file=' '{print $2}' | awk '{print $1}' | uniq)\nif test -z $CAFILE; then CAFILE=/etc/kubernetes/pki/ca.crt; fi\nif test -e $CAFILE; then stat -c %U:%G $CAFILE; fi\n"
+        },
+        {
+          "id": "4.1.9",
+          "title": "If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Run the following command (using the config file location identified in the Audit step)\nchmod 600 /var/lib/kubelet/kubeconfig\n",
+          "audit": "/bin/sh -c 'if test -e /var/lib/kubelet/kubeconfig; then stat -c permissions=%a /var/lib/kubelet/kubeconfig; fi' "
+        },
+        {
+          "id": "4.2.1",
+          "title": "Ensure that the --anonymous-auth argument is set to false (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "FAIL",
+          "finalStatus": "ExpectedFail",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to set `authentication: anonymous: enabled` to\n`false`.\nIf using executable arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nset the below parameter in KUBELET_SYSTEM_PODS_ARGS variable.\n`--anonymous-auth=false`\nBased on your system, restart the kubelet service. For example,\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet",
+          "matchedException": {
+            "id": "4.2.1",
+            "category": "Scanner Detection Gap",
+            "reason": "KKP worker nodes configure kubelet via --config=/etc/kubernetes/kubelet.conf\nrather than command-line flags. kube-bench resolves $kubeletconf from a\nbuilt-in path list that does not include /etc/kubernetes/kubelet.conf, so it\nfalls back to /var/lib/kubelet/config.yaml (absent on KKP workers) and cannot\nread authentication.anonymous.enabled from the config file. The setting IS\ncorrectly set to false in the kubelet config; this is a scanner detection\nfailure, not a real misconfiguration.\nKubelet config in KKP OSPs:\n  https://github.com/kubermatic/operating-system-manager/tree/main/deploy/osps/default\nSee: https://github.com/aquasecurity/kube-bench/issues/852\n     https://github.com/aquasecurity/kube-bench/issues/1973\n"
+          }
+        },
+        {
+          "id": "4.2.10",
+          "title": "Ensure that the --rotate-certificates argument is not set to false (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to add the line `rotateCertificates` to `true` or\nremove it altogether to use the default value.\nIf using command line arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nremove --rotate-certificates=false argument from the KUBELET_CERTIFICATE_ARGS\nvariable.\nBased on your system, restart the kubelet service. For example,\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.11",
+          "title": "Verify that the RotateKubeletServerCertificate argument is set to true (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Edit the kubelet service file /etc/systemd/system/kubelet.service\non each worker node and set the below parameter in KUBELET_CERTIFICATE_ARGS variable.\n--feature-gates=RotateKubeletServerCertificate=true\nBased on your system, restart the kubelet service. For example:\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.12",
+          "title": "Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to set `tlsCipherSuites` to\nTLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384\nor to a subset of these values.\nIf using executable arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nset the --tls-cipher-suites parameter as follows, or to a subset of these values.\n--tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384\nBased on your system, restart the kubelet service. For example:\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.13",
+          "title": "Ensure that a limit is set on pod PIDs (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Decide on an appropriate level for this parameter and set it,\neither via the --pod-max-pids command line parameter or the PodPidsLimit configuration file setting.\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.14",
+          "title": "Ensure that the --seccomp-default parameter is set to true (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Set the parameter, either via the --seccomp-default command line parameter or the\nseccompDefault configuration file setting.\nBy default the seccomp profile is not enabled.\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.2",
+          "title": "Ensure that the --authorization-mode argument is not set to AlwaysAllow (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "FAIL",
+          "finalStatus": "ExpectedFail",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to set `authorization.mode` to Webhook. If\nusing executable arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nset the below parameter in KUBELET_AUTHZ_ARGS variable.\n--authorization-mode=Webhook\nBased on your system, restart the kubelet service. For example,\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet",
+          "matchedException": {
+            "id": "4.2.2",
+            "category": "Scanner Detection Gap",
+            "reason": "Same root cause as 4.2.1: kube-bench cannot resolve $kubeletconf to\n/etc/kubernetes/kubelet.conf on KKP workers, so authorization.mode cannot\nbe read from the config file. The kubelet is correctly configured with\nauthorization mode Webhook; this is a false positive.\nKubelet config in KKP OSPs:\n  https://github.com/kubermatic/operating-system-manager/tree/main/deploy/osps/default\nSee: https://github.com/aquasecurity/kube-bench/issues/852\n     https://github.com/aquasecurity/kube-bench/issues/1973\n"
+          }
+        },
+        {
+          "id": "4.2.3",
+          "title": "Ensure that the --client-ca-file argument is set as appropriate (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "FAIL",
+          "finalStatus": "ExpectedFail",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to set `authentication.x509.clientCAFile` to\nthe location of the client CA file.\nIf using command line arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nset the below parameter in KUBELET_AUTHZ_ARGS variable.\n--client-ca-file=\u003cpath/to/client-ca-file\u003e\nBased on your system, restart the kubelet service. For example,\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet",
+          "matchedException": {
+            "id": "4.2.3",
+            "category": "Scanner Detection Gap",
+            "reason": "Same root cause as 4.2.1: kube-bench cannot resolve $kubeletconf to\n/etc/kubernetes/kubelet.conf on KKP workers, so authentication.x509.clientCAFile\ncannot be read from the config file. The client CA file is correctly set;\nthis is a false positive.\nKubelet config in KKP OSPs:\n  https://github.com/kubermatic/operating-system-manager/tree/main/deploy/osps/default\nSee: https://github.com/aquasecurity/kube-bench/issues/852\n     https://github.com/aquasecurity/kube-bench/issues/1973\n"
+          }
+        },
+        {
+          "id": "4.2.4",
+          "title": "Verify that if defined, the --read-only-port argument is set to 0 (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to set `readOnlyPort` to 0.\nIf using command line arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nset the below parameter in KUBELET_SYSTEM_PODS_ARGS variable.\n--read-only-port=0\nBased on your system, restart the kubelet service. For example,\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.5",
+          "title": "Ensure that the --streaming-connection-idle-timeout argument is not set to 0 (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to set `streamingConnectionIdleTimeout` to a\nvalue other than 0.\nIf using command line arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nset the below parameter in KUBELET_SYSTEM_PODS_ARGS variable.\n--streaming-connection-idle-timeout=5m\nBased on your system, restart the kubelet service. For example,\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.6",
+          "title": "Ensure that the --make-iptables-util-chains argument is set to true (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to set `makeIPTablesUtilChains` to `true`.\nIf using command line arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nremove the --make-iptables-util-chains argument from the\nKUBELET_SYSTEM_PODS_ARGS variable.\nBased on your system, restart the kubelet service. For example:\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.7",
+          "title": "Ensure that the --hostname-override argument is not set (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Edit the kubelet service file /etc/systemd/system/kubelet.service\non each worker node and remove the --hostname-override argument from the\nKUBELET_SYSTEM_PODS_ARGS variable.\nBased on your system, restart the kubelet service. For example,\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.8",
+          "title": "Ensure that the eventRecordQPS argument is set to a level which ensures appropriate event capture (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to set `eventRecordQPS` to an appropriate level.\nIf using command line arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nset the below parameter in KUBELET_SYSTEM_PODS_ARGS variable.\nBased on your system, restart the kubelet service. For example,\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.2.9",
+          "title": "Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate (Manual)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "If using a Kubelet config file, edit the file to set `tlsCertFile` to the location\nof the certificate file to use to identify this Kubelet, and `tlsPrivateKeyFile`\nto the location of the corresponding private key file.\nIf using command line arguments, edit the kubelet service file\n/etc/systemd/system/kubelet.service on each worker node and\nset the below parameters in KUBELET_CERTIFICATE_ARGS variable.\n--tls-cert-file=\u003cpath/to/tls-certificate-file\u003e\n--tls-private-key-file=\u003cpath/to/tls-key-file\u003e\nBased on your system, restart the kubelet service. For example,\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n",
+          "audit": "/bin/ps -fC kubelet"
+        },
+        {
+          "id": "4.3.1",
+          "title": "Ensure that the kube-proxy metrics service is bound to localhost (Automated)",
+          "profile": "worker-nodes",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "nodes": [
+            "k8c-16e771-2-71eaa944-6b59c9dc95-hh7zc"
+          ],
+          "remediation": "Modify or remove any values which bind the metrics service to a non-localhost address.\nThe default value is 127.0.0.1:10249.\n",
+          "audit": "/bin/ps -fC kube-proxy"
+        },
+        {
+          "id": "5.1.1",
+          "title": "Ensure that the cluster-admin role is only used where required (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Identify all clusterrolebindings to the cluster-admin role. Check if they are used and\nif they need this role or if they could use a role with fewer privileges.\nWhere possible, first bind users to a lower privileged role and then remove the\nclusterrolebinding to the cluster-admin role : kubectl delete clusterrolebinding [name]\nCondition: is_compliant is false if rolename is not cluster-admin and rolebinding is cluster-admin.\n",
+          "audit": "kubectl get clusterrolebindings -o=custom-columns=NAME:.metadata.name,ROLE:.roleRef.name,SUBJECT:.subjects[*].name --no-headers | while read -r role_name role_binding subject\ndo\n  if [[ \"${role_name}\" != \"cluster-admin\" \u0026\u0026 \"${role_binding}\" == \"cluster-admin\" ]]; then\n    is_compliant=\"false\"\n  else\n    is_compliant=\"true\"\n  fi;\n  echo \"**role_name: ${role_name} role_binding: ${role_binding} subject: ${subject} is_compliant: ${is_compliant}\"\ndone\n",
+          "matchedException": {
+            "id": "5.1.1",
+            "category": "KKP Operator Requirement",
+            "reason": "cluster-admin, cloud-controller-manager, and cluster owner bindings are\nrequired by KKP design for cluster lifecycle management.\n"
+          }
+        },
+        {
+          "id": "5.1.10",
+          "title": "Minimize access to the proxy sub-resource of nodes (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Where possible, remove access to the proxy sub-resource of node objects.\n"
+        },
+        {
+          "id": "5.1.11",
+          "title": "Minimize access to the approval sub-resource of certificatesigningrequests objects (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Where possible, remove access to the approval sub-resource of certificatesigningrequests objects.\n"
+        },
+        {
+          "id": "5.1.12",
+          "title": "Minimize access to webhook configuration objects (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Where possible, remove access to the validatingwebhookconfigurations or mutatingwebhookconfigurations objects\n"
+        },
+        {
+          "id": "5.1.13",
+          "title": "Minimize access to the service account token creation (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Where possible, remove access to the token sub-resource of serviceaccount objects.\n"
+        },
+        {
+          "id": "5.1.2",
+          "title": "Minimize access to secrets (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Where possible, remove get, list and watch access to Secret objects in the cluster.\n",
+          "audit": "echo \"canGetListWatchSecretsAsSystemAuthenticated: $(kubectl auth can-i get,list,watch secrets --all-namespaces --as=system:authenticated)\"",
+          "matchedException": {
+            "id": "5.1.2",
+            "category": "KKP Operator Requirement",
+            "reason": "KKP administrators require full secret access in kubermatic-system for\ncluster management operations.\n"
+          }
+        },
+        {
+          "id": "5.1.3",
+          "title": "Minimize wildcard use in Roles and ClusterRoles (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Where possible replace any use of wildcards [\"*\"] in roles and clusterroles with specific\nobjects or actions.\nCondition: role_is_compliant is false if [\"*\"] is found in rules.\nCondition: clusterrole_is_compliant is false if [\"*\"] is found in rules.\n",
+          "audit": "# Check Roles\nkubectl get roles --all-namespaces -o custom-columns=ROLE_NAMESPACE:.metadata.namespace,ROLE_NAME:.metadata.name --no-headers | while read -r role_namespace role_name\ndo\n  role_rules=$(kubectl get role -n \"${role_namespace}\" \"${role_name}\" -o=json | jq -c '.rules')\n  if echo \"${role_rules}\" | grep -q \"\\[\\\"\\*\\\"\\]\"; then\n    role_is_compliant=\"false\"\n  else\n    role_is_compliant=\"true\"\n  fi;\n  echo \"**role_name: ${role_name} role_namespace: ${role_namespace} role_rules: ${role_rules} role_is_compliant: ${role_is_compliant}\"\ndone\n\n# Check ClusterRoles\nkubectl get clusterroles -o custom-columns=CLUSTERROLE_NAME:.metadata.name --no-headers | while read -r clusterrole_name\ndo\n  clusterrole_rules=$(kubectl get clusterrole \"${clusterrole_name}\" -o=json | jq -c '.rules')\n  if echo \"${clusterrole_rules}\" | grep -q \"\\[\\\"\\*\\\"\\]\"; then\n    clusterrole_is_compliant=\"false\"\n  else\n    clusterrole_is_compliant=\"true\"\n  fi;\necho \"**clusterrole_name: ${clusterrole_name} clusterrole_rules: ${clusterrole_rules} clusterrole_is_compliant: ${clusterrole_is_compliant}\"\ndone\n",
+          "matchedException": {
+            "id": "5.1.3",
+            "category": "KKP Operator Requirement",
+            "reason": "Owner and editor roles intentionally use wildcard permissions to support\nthe full range of cluster management operations required by KKP.\n"
+          }
+        },
+        {
+          "id": "5.1.4",
+          "title": "Minimize access to create pods (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Where possible, remove create access to pod objects in the cluster.\n",
+          "audit": "echo \"canCreatePodsAsSystemAuthenticated: $(kubectl auth can-i create pods --all-namespaces --as=system:authenticated)\"\n"
+        },
+        {
+          "id": "5.1.5",
+          "title": "Ensure that default service accounts are not actively used (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Create explicit service accounts wherever a Kubernetes workload requires specific access\nto the Kubernetes API server.\nModify the configuration of each default service account to include this value\n`automountServiceAccountToken: false`.\n",
+          "audit": "kubectl get serviceaccount --all-namespaces --field-selector metadata.name=default -o=json | jq -r '.items[] | \" namespace: \\(.metadata.namespace), kind: \\(.kind), name: \\(.metadata.name), automountServiceAccountToken: \\(.automountServiceAccountToken | if . == null then \"notset\" else . end )\"' | xargs -L 1\n",
+          "matchedException": {
+            "id": "5.1.5",
+            "category": "KKP Operator Requirement",
+            "reason": "KKP operators mount default service accounts in kubermatic-system by\ndesign.\n"
+          }
+        },
+        {
+          "id": "5.1.6",
+          "title": "Ensure that Service Account Tokens are only mounted where necessary (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Modify the definition of ServiceAccounts and Pods which do not need to mount service\naccount tokens to disable it, with `automountServiceAccountToken: false`.\nIf both the ServiceAccount and the Pod's .spec specify a value for automountServiceAccountToken, the Pod spec takes precedence.\nCondition: Pod is_compliant to true when\n  - ServiceAccount is automountServiceAccountToken: false and Pod is automountServiceAccountToken: false or notset\n  - ServiceAccount is automountServiceAccountToken: true notset and Pod is automountServiceAccountToken: false\n",
+          "audit": "kubectl get pods --all-namespaces -o custom-columns=POD_NAMESPACE:.metadata.namespace,POD_NAME:.metadata.name,POD_SERVICE_ACCOUNT:.spec.serviceAccount,POD_IS_AUTOMOUNTSERVICEACCOUNTTOKEN:.spec.automountServiceAccountToken --no-headers | while read -r pod_namespace pod_name pod_service_account pod_is_automountserviceaccounttoken\ndo\n  # Retrieve automountServiceAccountToken's value for ServiceAccount and Pod, set to notset if null or \u003cnone\u003e.\n  svacc_is_automountserviceaccounttoken=$(kubectl get serviceaccount -n \"${pod_namespace}\" \"${pod_service_account}\" -o json | jq -r '.automountServiceAccountToken' | sed -e 's/\u003cnone\u003e/notset/g' -e 's/null/notset/g')\n  pod_is_automountserviceaccounttoken=$(echo \"${pod_is_automountserviceaccounttoken}\" | sed -e 's/\u003cnone\u003e/notset/g' -e 's/null/notset/g')\n  if [ \"${svacc_is_automountserviceaccounttoken}\" = \"false\" ] \u0026\u0026 ( [ \"${pod_is_automountserviceaccounttoken}\" = \"false\" ] || [ \"${pod_is_automountserviceaccounttoken}\" = \"notset\" ] ); then\n    is_compliant=\"true\"\n  elif [ \"${svacc_is_automountserviceaccounttoken}\" = \"true\" ] \u0026\u0026 [ \"${pod_is_automountserviceaccounttoken}\" = \"false\" ]; then\n    is_compliant=\"true\"\n  else\n    is_compliant=\"false\"\n  fi\n  echo \"**namespace: ${pod_namespace} pod_name: ${pod_name} service_account: ${pod_service_account} pod_is_automountserviceaccounttoken: ${pod_is_automountserviceaccounttoken} svacc_is_automountServiceAccountToken: ${svacc_is_automountserviceaccounttoken} is_compliant: ${is_compliant}\"\ndone\n"
+        },
+        {
+          "id": "5.1.7",
+          "title": "Avoid use of system:masters group (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Remove the system:masters group from all users in the cluster.\n"
+        },
+        {
+          "id": "5.1.8",
+          "title": "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Where possible, remove the impersonate, bind and escalate rights from subjects.\n"
+        },
+        {
+          "id": "5.1.9",
+          "title": "Minimize access to create persistent volumes (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Where possible, remove create access to PersistentVolume objects in the cluster.\n"
+        },
+        {
+          "id": "5.2.1",
+          "title": "Ensure that the cluster has at least one active policy control mechanism in place (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Ensure that either Pod Security Admission or an external policy control system is in place\nfor every namespace which contains user workloads.\n"
+        },
+        {
+          "id": "5.2.10",
+          "title": "Minimize the admission of Windows HostProcess containers (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the\nadmission of containers that have `.securityContext.windowsOptions.hostProcess` set to `true`.\n",
+          "matchedException": {
+            "id": "5.2.10",
+            "category": "System Component Requirement",
+            "reason": "Capability assignment is restricted in baseline namespaces but system\ncomponents require specific capabilities to function.\n"
+          }
+        },
+        {
+          "id": "5.2.11",
+          "title": "Minimize the admission of HostPath volumes (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the\nadmission of containers with `hostPath` volumes.\n"
+        },
+        {
+          "id": "5.2.12",
+          "title": "Minimize the admission of containers which use HostPorts (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the\nadmission of containers which use `hostPort` sections.\n",
+          "matchedException": {
+            "id": "5.2.12",
+            "category": "System Component Requirement",
+            "reason": "HostPath volumes are blocked in baseline namespaces but required in system\nnamespaces by CNI plugins and CSI drivers.\n"
+          }
+        },
+        {
+          "id": "5.2.2",
+          "title": "Minimize the admission of privileged containers (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the\nadmission of privileged containers.\nAudit: the audit list all pods' containers to retrieve their .securityContext.privileged value.\nCondition: is_compliant is false if container's `.securityContext.privileged` is set to `true`.\nDefault: by default, there are no restrictions on the creation of privileged containers.\n",
+          "audit": "kubectl get pods --all-namespaces -o custom-columns=POD_NAME:.metadata.name,POD_NAMESPACE:.metadata.namespace --no-headers | while read -r pod_name pod_namespace\ndo\n  # Retrieve container(s) for each Pod.\n  kubectl get pod \"${pod_name}\" --namespace \"${pod_namespace}\" -o json | jq -c '.spec.containers[]' | while read -r container\n  do\n    # Retrieve container's name.\n    container_name=$(echo ${container} | jq -r '.name')\n    # Retrieve container's .securityContext.privileged value.\n    container_privileged=$(echo ${container} | jq -r '.securityContext.privileged' | sed -e 's/null/notset/g')\n    if [ \"${container_privileged}\" = \"false\" ] || [ \"${container_privileged}\" = \"notset\" ] ; then\n      echo \"***pod_name: ${pod_name} container_name: ${container_name} pod_namespace: ${pod_namespace} is_container_privileged: ${container_privileged} is_compliant: true\"\n    else\n      echo \"***pod_name: ${pod_name} container_name: ${container_name} pod_namespace: ${pod_namespace} is_container_privileged: ${container_privileged} is_compliant: false\"\n    fi\n  done\ndone\n",
+          "matchedException": {
+            "id": "5.2.2",
+            "category": "System Component Requirement",
+            "reason": "Privileged containers are blocked in baseline namespaces but permitted in\nsystem namespaces (kube-system, kubermatic-system) where CNI and CSI\ndrivers require elevated privileges.\n"
+          }
+        },
+        {
+          "id": "5.2.3",
+          "title": "Minimize the admission of containers wishing to share the host process ID namespace (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the\nadmission of `hostPID` containers.\nAudit: the audit retrieves each Pod' spec.hostPID.\nCondition: is_compliant is false if Pod's spec.hostPID is set to `true`.\nDefault: by default, there are no restrictions on the creation of hostPID containers.\n",
+          "audit": "kubectl get pods --all-namespaces -o custom-columns=POD_NAME:.metadata.name,POD_NAMESPACE:.metadata.namespace --no-headers | while read -r pod_name pod_namespace\ndo\n  # Retrieve spec.hostPID for each pod.\n  pod_hostpid=$(kubectl get pod \"${pod_name}\" --namespace \"${pod_namespace}\" -o jsonpath='{.spec.hostPID}' 2\u003e/dev/null)\n  if [ -z \"${pod_hostpid}\" ]; then\n    pod_hostpid=\"false\"\n    echo \"***pod_name: ${pod_name} pod_namespace: ${pod_namespace} is_pod_hostpid: ${pod_hostpid} is_compliant: true\"\n  else\n    echo \"***pod_name: ${pod_name} pod_namespace: ${pod_namespace} is_pod_hostpid: ${pod_hostpid} is_compliant: false\"\n  fi\ndone\n"
+        },
+        {
+          "id": "5.2.4",
+          "title": "Minimize the admission of containers wishing to share the host IPC namespace (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "PASS",
+          "finalStatus": "Pass",
+          "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the\nadmission of `hostIPC` containers.\nAudit: the audit retrieves each Pod' spec.IPC.\nCondition: is_compliant is false if Pod's spec.hostIPC is set to `true`.\nDefault: by default, there are no restrictions on the creation of hostIPC containers.\n",
+          "audit": "kubectl get pods --all-namespaces -o custom-columns=POD_NAME:.metadata.name,POD_NAMESPACE:.metadata.namespace --no-headers | while read -r pod_name pod_namespace\ndo\n  # Retrieve spec.hostIPC for each pod.\n  pod_hostipc=$(kubectl get pod \"${pod_name}\" --namespace \"${pod_namespace}\" -o jsonpath='{.spec.hostIPC}' 2\u003e/dev/null)\n  if [ -z \"${pod_hostipc}\" ]; then\n    pod_hostipc=\"false\"\n    echo \"***pod_name: ${pod_name} pod_namespace: ${pod_namespace} is_pod_hostipc: ${pod_hostipc} is_compliant: true\"\n  else\n    echo \"***pod_name: ${pod_name} pod_namespace: ${pod_namespace} is_pod_hostipc: ${pod_hostipc} is_compliant: false\"\n  fi\ndone\n"
+        },
+        {
+          "id": "5.2.5",
+          "title": "Minimize the admission of containers wishing to share the host network namespace (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the\nadmission of `hostNetwork` containers.\nAudit: the audit retrieves each Pod' spec.hostNetwork.\nCondition: is_compliant is false if Pod's spec.hostNetwork is set to `true`.\nDefault: by default, there are no restrictions on the creation of hostNetwork containers.\n",
+          "audit": "kubectl get pods --all-namespaces -o custom-columns=POD_NAME:.metadata.name,POD_NAMESPACE:.metadata.namespace --no-headers | while read -r pod_name pod_namespace\ndo\n  # Retrieve spec.hostNetwork for each pod.\n  pod_hostnetwork=$(kubectl get pod \"${pod_name}\" --namespace \"${pod_namespace}\" -o jsonpath='{.spec.hostNetwork}' 2\u003e/dev/null)\n  if [ -z \"${pod_hostnetwork}\" ]; then\n    pod_hostnetwork=\"false\"\n    echo \"***pod_name: ${pod_name} pod_namespace: ${pod_namespace} is_pod_hostnetwork: ${pod_hostnetwork} is_compliant: true\"\n  else\n    echo \"***pod_name: ${pod_name} pod_namespace: ${pod_namespace} is_pod_hostnetwork: ${pod_hostnetwork} is_compliant: false\"\n  fi\ndone\n",
+          "matchedException": {
+            "id": "5.2.5",
+            "category": "System Component Requirement",
+            "reason": "Host network access is blocked in baseline namespaces but required in\nsystem namespaces for CNI plugins and DNS components.\n"
+          }
+        },
+        {
+          "id": "5.2.6",
+          "title": "Minimize the admission of containers with allowPrivilegeEscalation (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the\nadmission of containers with `.securityContext.allowPrivilegeEscalation` set to `true`.\nAudit: the audit retrieves each Pod's container(s) `.securityContext.allowPrivilegeEscalation`.\nCondition: is_compliant is false if container's `.securityContext.allowPrivilegeEscalation` is set to `true`.\nDefault: If notset, privilege escalation is allowed (default to true). However if PSP/PSA is used with a `restricted` profile,\nprivilege escalation is explicitly disallowed unless configured otherwise.\n",
+          "audit": "kubectl get pods --all-namespaces -o custom-columns=POD_NAME:.metadata.name,POD_NAMESPACE:.metadata.namespace --no-headers | while read -r pod_name pod_namespace\ndo\n  # Retrieve container(s) for each Pod.\n  kubectl get pod \"${pod_name}\" --namespace \"${pod_namespace}\" -o json | jq -c '.spec.containers[]' | while read -r container\n  do\n    # Retrieve container's name\n    container_name=$(echo ${container} | jq -r '.name')\n    # Retrieve container's .securityContext.allowPrivilegeEscalation\n    container_allowprivesc=$(echo ${container} | jq -r '.securityContext.allowPrivilegeEscalation' | sed -e 's/null/notset/g')\n    if [ \"${container_allowprivesc}\" = \"false\" ] || [ \"${container_allowprivesc}\" = \"notset\" ]; then\n      echo \"***pod_name: ${pod_name} container_name: ${container_name} pod_namespace: ${pod_namespace} is_container_allowprivesc: ${container_allowprivesc} is_compliant: true\"\n    else\n      echo \"***pod_name: ${pod_name} container_name: ${container_name} pod_namespace: ${pod_namespace} is_container_allowprivesc: ${container_allowprivesc} is_compliant: false\"\n    fi\n  done\ndone\n",
+          "matchedException": {
+            "id": "5.2.6",
+            "category": "System Component Requirement",
+            "reason": "Privilege escalation is restricted in baseline namespaces but required in\nsystem namespaces for certain KKP and Kubernetes system components.\n"
+          }
+        },
+        {
+          "id": "5.2.7",
+          "title": "Minimize the admission of root containers (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Create a policy for each namespace in the cluster, ensuring that either `MustRunAsNonRoot`\nor `MustRunAs` with the range of UIDs not including 0, is set.\n",
+          "matchedException": {
+            "id": "5.2.7",
+            "category": "System Component Requirement",
+            "reason": "Non-root enforcement is applied in baseline namespaces but system\nnamespaces run containers as root where required by upstream components.\n"
+          }
+        },
+        {
+          "id": "5.2.8",
+          "title": "Minimize the admission of containers with the NET_RAW capability (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the\nadmission of containers with the `NET_RAW` capability.\n",
+          "matchedException": {
+            "id": "5.2.8",
+            "category": "System Component Requirement",
+            "reason": "NET_RAW capability is dropped in baseline namespaces but required by CNI\nplugins running in system namespaces.\n"
+          }
+        },
+        {
+          "id": "5.2.9",
+          "title": "Minimize the admission of containers with capabilities assigned (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "PassWithConditions",
+          "remediation": "Review the use of capabilities in applications running on your cluster. Where a\nnamespace contains applications which do not require any Linux capabilities to operate\nconsider adding a policy which forbids the admission of containers which do not drop all\ncapabilities.\n",
+          "matchedException": {
+            "id": "5.2.9",
+            "category": "System Component Requirement",
+            "reason": "Added capabilities are restricted in baseline namespaces but system\ncomponents (CNI, CSI, KKP operators) require specific capabilities.\n"
+          }
+        },
+        {
+          "id": "5.3.1",
+          "title": "Ensure that the CNI in use supports NetworkPolicies (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "If the CNI plugin in use does not support network policies, consideration should be given to\nmaking use of a different plugin, or finding an alternate mechanism for restricting traffic\nin the Kubernetes cluster.\n"
+        },
+        {
+          "id": "5.3.2",
+          "title": "Ensure that all Namespaces have NetworkPolicies defined (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Follow the documentation and create NetworkPolicy objects as you need them.\n"
+        },
+        {
+          "id": "5.4.1",
+          "title": "Prefer using Secrets as files over Secrets as environment variables (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "If possible, rewrite application code to read Secrets from mounted secret files, rather than\nfrom environment variables.\n"
+        },
+        {
+          "id": "5.4.2",
+          "title": "Consider external secret storage (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Refer to the Secrets management options offered by your cloud provider or a third-party\nsecrets management solution.\n"
+        },
+        {
+          "id": "5.5.1",
+          "title": "Configure Image Provenance using ImagePolicyWebhook admission controller (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Follow the Kubernetes documentation and setup image provenance.\n"
+        },
+        {
+          "id": "5.6.1",
+          "title": "Create administrative boundaries between resources using namespaces (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Follow the documentation and create namespaces for objects in your deployment as you need\nthem.\n"
+        },
+        {
+          "id": "5.6.2",
+          "title": "Ensure that the seccomp profile is set to docker/default in your Pod definitions (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Use `securityContext` to enable the docker/default seccomp profile in your pod definitions.\nAn example is as below:\n  securityContext:\n    seccompProfile:\n      type: RuntimeDefault\n"
+        },
+        {
+          "id": "5.6.3",
+          "title": "Apply SecurityContext to your Pods and Containers (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Follow the Kubernetes documentation and apply SecurityContexts to your Pods. For a\nsuggested list of SecurityContexts, you may refer to the CIS Security Benchmark for Docker\nContainers.\n"
+        },
+        {
+          "id": "5.6.4",
+          "title": "The default namespace should not be used (Manual)",
+          "profile": "policies",
+          "severity": "UNKNOWN",
+          "rawStatus": "WARN",
+          "finalStatus": "Warn",
+          "remediation": "Ensure that namespaces are created to allow for appropriate segregation of Kubernetes\nresources and that all new resources are created in a specific namespace.\n"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "ExpectedFail": 3,
+    "Pass": 18,
+    "PassWithConditions": 12,
+    "Warn": 26
+  },
+  "score": {
+    "weighted": 0.559322033898305,
+    "unweighted": 0.559322033898305
+  },
+  "exceptions": [
+    {
+      "id": "4.2.1",
+      "category": "Scanner Detection Gap",
+      "reason": "KKP worker nodes configure kubelet via --config=/etc/kubernetes/kubelet.conf\nrather than command-line flags. kube-bench resolves $kubeletconf from a\nbuilt-in path list that does not include /etc/kubernetes/kubelet.conf, so it\nfalls back to /var/lib/kubelet/config.yaml (absent on KKP workers) and cannot\nread authentication.anonymous.enabled from the config file. The setting IS\ncorrectly set to false in the kubelet config; this is a scanner detection\nfailure, not a real misconfiguration.\nKubelet config in KKP OSPs:\n  https://github.com/kubermatic/operating-system-manager/tree/main/deploy/osps/default\nSee: https://github.com/aquasecurity/kube-bench/issues/852\n     https://github.com/aquasecurity/kube-bench/issues/1973\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "4.2.2",
+      "category": "Scanner Detection Gap",
+      "reason": "Same root cause as 4.2.1: kube-bench cannot resolve $kubeletconf to\n/etc/kubernetes/kubelet.conf on KKP workers, so authorization.mode cannot\nbe read from the config file. The kubelet is correctly configured with\nauthorization mode Webhook; this is a false positive.\nKubelet config in KKP OSPs:\n  https://github.com/kubermatic/operating-system-manager/tree/main/deploy/osps/default\nSee: https://github.com/aquasecurity/kube-bench/issues/852\n     https://github.com/aquasecurity/kube-bench/issues/1973\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "4.2.3",
+      "category": "Scanner Detection Gap",
+      "reason": "Same root cause as 4.2.1: kube-bench cannot resolve $kubeletconf to\n/etc/kubernetes/kubelet.conf on KKP workers, so authentication.x509.clientCAFile\ncannot be read from the config file. The client CA file is correctly set;\nthis is a false positive.\nKubelet config in KKP OSPs:\n  https://github.com/kubermatic/operating-system-manager/tree/main/deploy/osps/default\nSee: https://github.com/aquasecurity/kube-bench/issues/852\n     https://github.com/aquasecurity/kube-bench/issues/1973\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.1.1",
+      "category": "KKP Operator Requirement",
+      "reason": "cluster-admin, cloud-controller-manager, and cluster owner bindings are\nrequired by KKP design for cluster lifecycle management.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.1.2",
+      "category": "KKP Operator Requirement",
+      "reason": "KKP administrators require full secret access in kubermatic-system for\ncluster management operations.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.1.3",
+      "category": "KKP Operator Requirement",
+      "reason": "Owner and editor roles intentionally use wildcard permissions to support\nthe full range of cluster management operations required by KKP.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.1.5",
+      "category": "KKP Operator Requirement",
+      "reason": "KKP operators mount default service accounts in kubermatic-system by\ndesign.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.2.10",
+      "category": "System Component Requirement",
+      "reason": "Capability assignment is restricted in baseline namespaces but system\ncomponents require specific capabilities to function.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.2.12",
+      "category": "System Component Requirement",
+      "reason": "HostPath volumes are blocked in baseline namespaces but required in system\nnamespaces by CNI plugins and CSI drivers.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.2.2",
+      "category": "System Component Requirement",
+      "reason": "Privileged containers are blocked in baseline namespaces but permitted in\nsystem namespaces (kube-system, kubermatic-system) where CNI and CSI\ndrivers require elevated privileges.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.2.5",
+      "category": "System Component Requirement",
+      "reason": "Host network access is blocked in baseline namespaces but required in\nsystem namespaces for CNI plugins and DNS components.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.2.6",
+      "category": "System Component Requirement",
+      "reason": "Privilege escalation is restricted in baseline namespaces but required in\nsystem namespaces for certain KKP and Kubernetes system components.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.2.7",
+      "category": "System Component Requirement",
+      "reason": "Non-root enforcement is applied in baseline namespaces but system\nnamespaces run containers as root where required by upstream components.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.2.8",
+      "category": "System Component Requirement",
+      "reason": "NET_RAW capability is dropped in baseline namespaces but required by CNI\nplugins running in system namespaces.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    },
+    {
+      "id": "5.2.9",
+      "category": "System Component Requirement",
+      "reason": "Added capabilities are restricted in baseline namespaces but system\ncomponents (CNI, CSI, KKP operators) require specific capabilities.\n",
+      "clusters": [
+        "k8c-16e771-248a8d-1-34-5"
+      ]
+    }
+  ],
+  "generated": "2026-06-30T09:57:40.478733328Z"
+}
