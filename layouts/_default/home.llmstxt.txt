@@ -1,12 +1,13 @@
+{{- $products := sort hugo.Data.products ".weight" -}}
 # {{ .Site.Title }}
 
 > {{ .Site.Params.description }}
 
 > Last updated: {{ now.Format "2006-01-02" }}
-> Products: {{ len (where (sort hugo.Data.products ".weight") "name" "!=" "") }}
+> Products: {{ len (where $products "name" "!=" "") }}
 
 ## Products
-{{ range (sort hugo.Data.products ".weight") }}
+{{ range $products }}
 {{- $key := urlize .name -}}
 {{- $values := . -}}
 {{- $url := "" -}}
@@ -28,8 +29,8 @@
 {{- end -}}
 {{- end }}
 
-## Full version of docs per product
-{{ range (sort hugo.Data.products ".weight") }}
+## Full and current documentation for each product
+{{ range $products }}
 {{- $key := urlize .name -}}
 {{- $values := . -}}
 {{- $url := "" -}}
@@ -44,7 +45,13 @@
     {{- $llmsURL = .Permalink -}}
   {{- end -}}
   {{- if $llmsURL -}}
-    {{- $title := $values.title | default $values.name }}
+    {{- $title := $values.title | default $values.name -}}
+    {{- $versionParts := split $url "." -}}
+    {{- if and $versionParts (index $versionParts 0) -}}
+      {{- if hasPrefix (index $versionParts 0) "v" -}}
+        {{- $llmsURL = replaceRE (printf `\/%s\/` $url) "/latest/" $llmsURL -}}
+      {{- end -}}
+    {{- end }}
 - [{{ $title }}]({{ $llmsURL }})
 {{- end -}}
 {{- end -}}
