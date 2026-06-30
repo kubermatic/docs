@@ -169,3 +169,15 @@ conformance-ee:
 #   description: <TODO>
 #   weight: 6
 #   shareImage: img/share-developer-platform.png
+# SecureGuard is still in development - do not yet reveal to the public.
+# The content tree exists under content/secureguard/ and is reachable via direct
+# link only (excluded from sitemap and search). Uncomment this block to publish.
+# secureguard:
+#   name: secureguard
+#   title: SecureGuard
+#   textName: SecureGuard
+#   description: <TODO>
+#   weight: 8
+#   versions:
+#     - release: main
+#       name: main
