@@ -9,7 +9,6 @@ Starting from v1.14, KubeOne provides supply chain security for the KubeOne CLI 
 - **SBOM Generation**: SPDX-JSON SBOMs for each platform binary
 - **Keyless Artifact Signing**: Cosign keyless signatures for the release checksum file
 - **Immutable Releases**: Release artifacts cannot be modified after publication
-- **Vulnerability Scanning**: govulncheck runs on every pull request
 - **Dependency Monitoring**: Dependabot tracks and updates vulnerable Go dependencies
 
 ## Release Artifacts
@@ -104,19 +103,7 @@ jq '.packages | length' kubeone_1.14.0_linux_amd64.sbom.spdx.json
 
 ## Vulnerability Scanning
 
-### Automated Scanning
-
-Every pull request against the `main` branch runs [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck), which performs call-graph analysis to detect vulnerabilities in reachable code paths. HIGH and CRITICAL vulnerabilities block merging.
-
 [Dependabot](https://github.com/dependabot) monitors Go module dependencies and opens automated PRs for vulnerable dependency updates.
-
-### Local Scanning
-
-Run govulncheck locally against the KubeOne source:
-
-```bash
-go run golang.org/x/vuln/cmd/govulncheck@latest ./...
-```
 
 ## How Signing Works
 
@@ -135,4 +122,3 @@ The `--certificate-identity-regexp` flag in the verification command pins the ex
 
 - [Cosign](https://github.com/sigstore/cosign) — Artifact signing and verification
 - [Syft](https://github.com/anchore/syft) — SBOM generation
-- [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck) — Go vulnerability scanner
