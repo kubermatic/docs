@@ -6378,6 +6378,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enforceCustomDisk` _boolean_ | {{< unsafe >}}EnforceCustomDisk will enforce the custom disk option for machines for the dashboard.{{< /unsafe >}} |
+| `enableImageDiscovery` _boolean_ | {{< unsafe >}}EnableImageDiscovery enables listing the OpenStack project's images (matched by their<br />os_distro metadata) in the dashboard's image dropdown.{{< /unsafe >}} |
 
 
 [Back to top](#top)
