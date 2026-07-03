@@ -177,7 +177,7 @@ conformance-ee:
 #   title: SecureGuard
 #   textName: SecureGuard
 #   description: <TODO>
-#   weight: 8
+#   weight: 10
 #   versions:
 #     - release: main
 #       name: main
