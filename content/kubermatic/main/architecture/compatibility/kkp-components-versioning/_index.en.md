@@ -19,6 +19,7 @@ of provided software and therefore releases updates regularly that also include 
 | gitops/kkp-argocd-apps         | 1.16.1                         |
 | iap                            | 7.14.2                         |
 | kubermatic-operator            | 9.9.9-dev                      |
+| local-kube-ovn                 | 1.15.9                         |
 | local-kubevirt                 | 1.1.1                          |
 | logging/alloy                  | 1.17.0                         |
 | logging/loki                   | 3.6.7                          |
