@@ -31,7 +31,7 @@ helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
 ```
 
 - **Dex** provides OIDC authentication.
-- **OpenBao** provides a Vault-compatible secret backend (standalone/production mode by default).
+- **OpenBao** provides a Vault-compatible secret backend. By default it deploys as a **3-node integrated-Raft HA cluster that is automatically initialized and unsealed** — no manual `operator init`/unseal step is required (see [Self-Initialization](#openbao-self-initialization--unsealing)).
 - **ESO** manages external secrets, connected to OpenBao via Kubernetes auth.
 - **OpenBao UI** will be available by default at `:30820/ui` (NodePort) or via Ingress.
 
@@ -101,8 +101,9 @@ The **SG Agent** and **Federation** are opt-in. Without `sgAgent.enabled=true` t
 **Automatic wiring** (each can be disabled):
 
 - **Session secret** — `auth.sessionSecret` is auto-generated on first install and kept stable across upgrades if left empty. Set it explicitly when running multiple releases that must share sessions.
-- **Dex → OpenBao login** (`openbao.oidc.enabled`, default `true`) — a post-install Job configures OpenBao's OIDC auth method so users can log in to the OpenBao UI with the same Dex identity.
-- **Kubernetes auth for ESO** (`openbao.kubernetesAuth.enabled`, default `true`) — a post-install Job enables OpenBao's `kubernetes` auth method and creates the `eso-role` bound to the ESO ServiceAccount.
+- **OpenBao self-initialization** (`openbao.init.enabled`, default `true`) — an ordered post-install/upgrade hook Job (weight 0) runs `operator init`, unseals every Raft node, enables the Kubernetes auth method, and creates a chart admin role — then **revokes the root token** (it is never persisted). The Shamir unseal key shares are stored in the `<release>-openbao-keys` Secret. See [Self-Initialization](#openbao-self-initialization--unsealing).
+- **Kubernetes auth for ESO** (`openbao.kubernetesAuth.enabled`, default `true`) — a post-install Job (weight 5) configures the KV v2 engine, the ESO read policy, and the `eso-role` bound to the ESO ServiceAccount. Under self-init it authenticates via the chart admin role (no root token exists).
+- **Dex → OpenBao login** (`openbao.oidc.enabled`, default `true`) — a post-install Job (weight 10) configures OpenBao's OIDC auth method so users can log in to the OpenBao UI with the same Dex identity, also via the chart admin role.
 - **Default ClusterSecretStore** (`eso.vaultSecretStore.enabled`, default `true`) — when both ESO and OpenBao are enabled, the chart creates a ready-to-use `ClusterSecretStore` named `openbao-backend` pointing at the bundled OpenBao (KV v2).
 - **Projected SA tokens** — `serviceAccount.tokenExpirationSeconds` (default `3600`) controls the lifetime of the proxy/agent tokens; the kubelet rotates them automatically.
 
@@ -110,9 +111,7 @@ The **SG Agent** and **Federation** are opt-in. Without `sgAgent.enabled=true` t
 
 ## Dev Mode for Testing
 
-By default, OpenBao starts in `standalone` (production-oriented) mode, meaning it writes to persistent storage and requires manual initialization and unsealing.
-
-For local development or testing, you can enable `dev` mode, where secrets are stored in-memory, automatically unsealed, but lost upon restart:
+By default OpenBao runs as a 3-node Raft HA cluster that the chart initializes and unseals for you. For local development or testing you usually don't want three replicas or persistent state — enable `dev` mode instead, where OpenBao runs as a single in-memory node that is automatically unsealed but loses all data on restart:
 
 ```bash
 helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
@@ -125,6 +124,16 @@ helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
 Dev mode is intended only for local testing. Secrets are stored in-memory and will be lost when the pod restarts. Do not use dev mode in production.
 {{% /notice %}}
 
+If you want persistent storage but only a single node (e.g. a small staging cluster), run the standalone `file` backend instead of Raft HA:
+
+```bash
+helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
+  --namespace secureguard-system \
+  --create-namespace \
+  --set openbao.server.standalone.enabled=true \
+  --set openbao.server.ha.enabled=false
+```
+
 ---
 
 ## Production Hardening
@@ -133,32 +142,81 @@ When moving to production, several configurations MUST be applied to ensure a se
 
 ### High Availability (HA)
 
-Enable High Availability with Raft integrated storage and increase the replica count (typically 3 or 5).
-
-Example `values-production.yaml` snippet:
-```yaml
-openbao:
-  server:
-    ha:
-      enabled: true
-      replicas: 3
-```
-
-### Automatic Unsealing
-In production, you should not manually unseal the OpenBao cluster every time a pod restarts. Configure an auto-unseal mechanism such as AWS KMS, GCP KMS, Transit, or Azure Key Vault.
+High Availability with Raft integrated storage is the **chart default**: OpenBao runs as a 3-node cluster, each replica keeping its own copy of the data (no external Consul/etcd needed). Use an odd replica count (3 or 5) so leader elections always have a quorum, and size the data storage for your secret volume.
 
 ```yaml
 openbao:
   server:
     ha:
       enabled: true
-      replicas: 3
-    seal:
-      type: awskms
-      config:
-        region: eu-west-1
-        kms_key_id: "alias/openbao-unseal"
+      replicas: 3       # odd number for quorum
+      raft:
+        enabled: true
+    dataStorage:
+      enabled: true
+      size: 20Gi
 ```
+
+### OpenBao Self-Initialization & Unsealing
+
+A freshly deployed OpenBao is **sealed** and must be initialized and unsealed before it can serve secrets. The chart automates this so no manual `operator init`/unseal is required (`openbao.init.enabled`, default `true`):
+
+- A weight-0 post-install/upgrade hook Job runs `operator init` on the leader, unseals every Raft node, bootstraps Kubernetes auth + a chart admin role, and then **revokes the root token** — it is used once in memory and never persisted.
+- The Shamir unseal **key shares** are stored in the `<release>-openbao-keys` Secret (`keyShares: 5`, `keyThreshold: 3` by default).
+
+{{% notice warning %}}
+**Back up the `<release>-openbao-keys` Secret.** Without the unseal keys you cannot unseal OpenBao and your secrets are unrecoverable. For break-glass admin access (the root token is gone), run `bao operator generate-root` using the stored key shares.
+{{% /notice %}}
+
+```yaml
+openbao:
+  init:
+    enabled: true        # self-init + unseal (default)
+    keyShares: 5
+    keyThreshold: 3
+    # secretName: ""     # defaults to <release>-openbao-keys
+```
+
+**Restart behavior (Shamir seal).** With the default Shamir seal, a pod that restarts comes back **sealed**. The init hook re-unseals every node on each `helm upgrade`; to also re-unseal automatically between upgrades, enable the periodic sweep:
+
+```yaml
+openbao:
+  init:
+    unsealCronJob:
+      enabled: true
+      schedule: "*/5 * * * *"
+```
+
+### Automatic Unsealing with a KMS (higher security)
+
+For the strongest posture — survives restarts with no unseal key shares stored in a Secret — use **KMS auto-unseal** instead of Shamir self-init. Disable the init Job and add a `seal` stanza to the Raft config so OpenBao unseals itself against your cloud KMS on every start:
+
+```yaml
+openbao:
+  server:
+    ha:
+      enabled: true
+      replicas: 3
+      raft:
+        enabled: true
+        config: |
+          ui = true
+          listener "tcp" { tls_disable = 1
+            address = "[::]:8200" cluster_address = "[::]:8201" }
+          storage "raft" { path = "/openbao/data"
+            retry_join { leader_api_addr = "http://<rel>-openbao-0.<rel>-openbao-internal:8200" }
+            retry_join { leader_api_addr = "http://<rel>-openbao-1.<rel>-openbao-internal:8200" }
+            retry_join { leader_api_addr = "http://<rel>-openbao-2.<rel>-openbao-internal:8200" } }
+          seal "awskms" {
+            region     = "eu-west-1"
+            kms_key_id = "alias/openbao-unseal"
+          }
+          service_registration "kubernetes" {}
+  init:
+    enabled: false       # KMS unseals automatically; no self-init Job or key-shares Secret
+```
+
+OpenBao also supports `gcpckms`, `azurekeyvault`, and `transit` seal types — swap the `seal` stanza accordingly.
 
 ### Ingress & TLS
 Ensure that traffic to the SecureGuard dashboard, the proxy, and OpenBao is encrypted via TLS. The chart provides **three independent ingress blocks**: `ingress` (dashboard + proxy), `dexIngress` (Dex, exposed at `/dex` on the dashboard host), and `openbaoIngress` (OpenBao UI/API on its own hostname). Configure Ingress annotations to use a tool like cert-manager for automatic certificate provisioning.

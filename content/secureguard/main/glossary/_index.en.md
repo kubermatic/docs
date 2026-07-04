@@ -106,9 +106,12 @@ theme; within each group they build on each other.
 - **Auth Method** — How a user or machine proves its identity to OpenBao. ESO
   uses the **Kubernetes** auth method (it presents a ServiceAccount token).
 - **Sealing / Unsealing** — A sealed OpenBao knows where its encrypted data is
-  but **can't decrypt it** until it's "unsealed" with the master key. Production
-  setups use **Auto-Unseal** (e.g. AWS KMS) so pods unseal themselves on
-  restart. See [OpenBao Basics]({{< ref "../openbao-basics/" >}}).
+  but **can't decrypt it** until it's "unsealed" with the master key. By default
+  SecureGuard **self-initializes** OpenBao: the chart runs `operator init`,
+  unseals every node, and stores the Shamir key shares in the
+  `<release>-openbao-keys` Secret (back it up). For restart-resilient production,
+  use **KMS Auto-Unseal** (e.g. AWS KMS) so pods unseal themselves on restart.
+  See [OpenBao Basics]({{< ref "../openbao-basics/" >}}).
 - **Dynamic Secrets** — Credentials OpenBao generates on demand with a built-in
   expiry (TTL), instead of storing a static value.
 - **Audit Device** — OpenBao's logging of every read/write, for compliance.
@@ -183,6 +186,7 @@ theme; within each group they build on each other.
 - **High Availability (HA)** — Running multiple replicas so the service survives
   a node or pod failure.
 - **Raft / Integrated Storage** — OpenBao's built-in clustered storage used for
-  HA.
+  HA. The bundled OpenBao runs as a 3-node Raft cluster by default, with no
+  external Consul/etcd dependency.
 - **Stale secret** — A synced Secret that hasn't refreshed within its expected
   interval — the dashboard flags these so you can investigate.

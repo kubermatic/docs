@@ -49,9 +49,10 @@ It handles:
 
 ## Understanding Unsealing & High Availability
 
-By default, an OpenBao server starts in a **Sealed** state. It knows where to find the encrypted data, but it does not know how to decrypt it because it lacks the master key.
+By default, an OpenBao server starts in a **Sealed** state. It knows where to find the encrypted data, but it does not know how to decrypt it because it lacks the master key. There are three ways to unseal it:
 
-*   **Manual Unsealing**: Requires multiple operators to independently enter shards of the master key. This is secure but impractical for cloud-native orchestration (e.g., if a pod simply restarts).
-*   **Auto-Unseal**: In production SecureGuard setups, OpenBao is configured with an Auto-Unseal mechanism (like AWS KMS or Azure Key Vault). When the pod starts, it automatically reaches out to the KMS to retrieve the key and decrypts itself, enabling seamless cluster scaling and recovery.
+*   **Automated Self-Initialization (SecureGuard default)**: The chart runs `operator init` for you, splits the master key into Shamir key shares, unseals every node, and stores the key shares in the `<release>-openbao-keys` Kubernetes Secret — so no manual bootstrap is needed after `helm install`. The one-time root token is revoked immediately after setup and never persisted. **Back up that Secret**: it is the only way to unseal the cluster (or, for break-glass admin, to run `bao operator generate-root`). With this Shamir seal, a restarted pod comes back sealed and is re-unsealed on the next `helm upgrade` (or by an optional periodic CronJob).
+*   **Manual Unsealing**: Requires multiple operators to independently enter shards of the master key. This is the most controlled but impractical for cloud-native orchestration (e.g., if a pod simply restarts).
+*   **KMS Auto-Unseal**: OpenBao is configured with a cloud KMS (AWS KMS, GCP KMS, Azure Key Vault, or Transit). When a pod starts it reaches out to the KMS to decrypt itself — so it survives restarts with **no key shares stored in a Secret**. This is the higher-security production option; see [Installation → Automatic Unsealing with a KMS]({{< ref "../installation/#automatic-unsealing-with-a-kms-higher-security" >}}).
 
-When clustered for **High Availability (HA)** using Integrated Raft Storage, only one OpenBao node is the "Active" node processing writes, while the others serve as "Standbys". If the active node fails, another node instantly takes over, guaranteeing virtually zero downtime for your secret synchronization.
+The bundled OpenBao runs as a **3-node cluster with Integrated Raft Storage** by default. Only one node is the "Active" node processing writes, while the others serve as "Standbys". If the active node fails, another node instantly takes over, guaranteeing virtually zero downtime for your secret synchronization. Raft keeps each node's data in its own storage with no external Consul/etcd dependency.

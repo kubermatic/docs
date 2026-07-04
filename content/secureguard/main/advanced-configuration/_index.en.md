@@ -359,9 +359,9 @@ For detailed RBAC configuration, see the [Security Hardening Guide]({{< ref "../
 
 ## Storage Backends
 
-While the default SecureGuard chart can deploy OpenBao with integrated Raft storage for HA, you can alternatively configure OpenBao to use external storage backends if mandated by your infrastructure team.
+The bundled OpenBao deploys as a **3-node integrated-Raft (HA) cluster by default** — each replica keeps its own copy of the data with no external storage dependency. This is the recommended backend for modern deployments.
 
-OpenBao supports various storage backends, although Integrated Storage (Raft) is highly recommended for modern deployments. If required, you can configure PostgreSQL, Consul, or cloud-specific storage (e.g., AWS DynamoDB, GCP Spanner) by modifying the `openbao.server.ha.config` block.
+If your infrastructure team mandates a different backend, OpenBao also supports PostgreSQL, Consul, or cloud-specific storage (e.g., AWS DynamoDB, GCP Spanner). Configure it — along with a KMS `seal` stanza for auto-unseal — by editing the `openbao.server.ha.raft.config` HCL block (see [Installation → OpenBao Self-Initialization & Unsealing]({{< ref "../installation/#openbao-self-initialization--unsealing" >}})).
 
 ## Monitoring
 

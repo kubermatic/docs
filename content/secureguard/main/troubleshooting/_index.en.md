@@ -50,20 +50,25 @@ Managing a distributed secret synchronization engine involves dealing with netwo
 ## OpenBao Issues
 
 ### OpenBao Pods are Running but Not Ready
-- **Cause**: By default in production, OpenBao starts in a sealed state and cannot read or write data until unsealed.
+- **Cause**: OpenBao starts in a sealed state and cannot read or write data until unsealed. With the default Shamir seal, a restarted pod comes back sealed.
 - **Resolution**:
   1. Check the vault status:
      ```bash
      kubectl exec -it secureguard-openbao-0 -n secureguard-system -- bao status
      ```
   2. Look for `Sealed: true`.
-  3. If you do not have Auto-Unseal configured, you must manually provide the unseal keys generated during initialization:
+  3. **With self-initialization (default):** the key shares are in the `<release>-openbao-keys` Secret and the init hook re-unseals every node on the next `helm upgrade`. To re-unseal immediately without an upgrade, either enable the periodic sweep (`openbao.init.unsealCronJob.enabled=true`) or unseal manually with the stored shares:
      ```bash
+     # Retrieve the key shares (newline-separated) from the Secret
+     kubectl get secret secureguard-openbao-keys -n secureguard-system \
+       -o jsonpath='{.data.keys}' | base64 -d
+     # Then feed the threshold number of shares to the sealed pod
      kubectl exec -it secureguard-openbao-0 -n secureguard-system -- bao operator unseal <key_1>
      kubectl exec -it secureguard-openbao-0 -n secureguard-system -- bao operator unseal <key_2>
      kubectl exec -it secureguard-openbao-0 -n secureguard-system -- bao operator unseal <key_3>
      ```
-  4. Once the threshold is met, the pod will become ready. It is strongly recommended to configure [Auto-Unseal]({{< ref "../installation/#automatic-unsealing" >}}) for production.
+  4. **With KMS auto-unseal**, pods unseal themselves on start — a stuck `Sealed: true` points to a KMS connectivity/permission problem; check the pod logs and your cloud KMS access.
+  5. Once the threshold is met, the pod will become ready. For restart-resilient production, prefer [KMS auto-unseal]({{< ref "../installation/#automatic-unsealing-with-a-kms-higher-security" >}}).
 
 ## ESO Synchronization Issues
 

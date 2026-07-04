@@ -37,7 +37,15 @@ helm rollback secureguard --namespace secureguard-system
 **CRITICAL:** Before performing any upgrade, especially one that bumps the OpenBao major/minor version, you MUST take a snapshot of the OpenBao integrated storage (Raft). Failure to do so risks catastrophic data loss if the upgrade fails.
 {{% /notice %}}
 
-1.  Authenticate to OpenBao with a privileged token:
+{{% notice info %}}
+**Also back up the unseal-keys Secret.** With the default self-initialization, the Shamir unseal key shares live in the `<release>-openbao-keys` Secret. A Raft snapshot is useless without the keys to unseal a restored cluster, so back up both together:
+
+```bash
+kubectl get secret secureguard-openbao-keys -n secureguard-system -o yaml > openbao-keys-backup.yaml
+```
+{{% /notice %}}
+
+1.  Authenticate to OpenBao with a privileged token. Under self-initialization the root token was revoked after bootstrap, so obtain a break-glass token via `bao operator generate-root` (using the stored unseal keys) or use a token from a configured auth method:
     ```bash
     kubectl exec -it secureguard-openbao-0 -n secureguard-system -- /bin/sh
     bao login <root-or-admin-token>
@@ -61,7 +69,7 @@ If an upgrade corrupts the OpenBao data or you need to recover to a known-good s
     ```bash
     kubectl cp ./vault_backup_2026-06-13.snap secureguard-system/secureguard-openbao-0:/tmp/restore.snap
     ```
-2.  Authenticate and restore:
+2.  Authenticate and restore (the self-init root token is revoked — use a break-glass token from `bao operator generate-root`, or a token from a configured auth method):
     ```bash
     kubectl exec -it secureguard-openbao-0 -n secureguard-system -- /bin/sh
     bao login <root-or-admin-token>
@@ -81,8 +89,9 @@ Test the restore procedure regularly on a scratch cluster — a backup that has 
 When Helm updates the OpenBao StatefulSet image version, Kubernetes will perform a rolling restart of the OpenBao pods.
 
 *   **HA Clusters (Raft)**: The rolling restart must be monitored carefully. When a pod restarts, it will trigger leader election. Ensure that the cluster remains quorate during the roll.
-*   **Auto-Unseal**: If you have configured Auto-Unseal (e.g., AWS KMS), the pods will automatically unseal and rejoin the cluster upon starting.
-*   **Manual Unseal**: If you are *not* using Auto-Unseal, the pods will restart into a `Sealed` state. You must manually execute the `bao operator unseal` commands on each newly started pod *before* the StatefulSet controller proceeds to restart the next pod. This requires active operator intervention during the `helm upgrade`.
+*   **Shamir self-init (default)**: A restarted pod comes back **sealed**. The self-initialization hook Job re-runs on every `helm upgrade` and re-unseals every node automatically, so a normal upgrade recovers on its own. Between upgrades, a crashed or rescheduled pod stays sealed until the next upgrade — enable `openbao.init.unsealCronJob.enabled=true` for automatic periodic re-unseal, or switch to KMS auto-unseal for full restart resilience.
+*   **KMS Auto-Unseal**: If you have configured KMS auto-unseal (`openbao.init.enabled=false` + a `seal` stanza), the pods will automatically unseal and rejoin the cluster upon starting — no operator intervention needed.
+*   **Fully manual unseal**: If you run without self-init or KMS, you must manually execute the `bao operator unseal` commands on each newly started pod *before* the StatefulSet controller proceeds to the next one.
 
 ### Upgrading the External Secrets Operator (ESO) CRDs
 
@@ -110,4 +119,21 @@ The SG Agent Controller (`agent/`) is a Go controller-runtime binary deployed as
 
 ## Version-Specific Notes
 
-Version-specific migration guides are published here as releases ship. Currently there are none — all `0.x` upgrades follow the general path above. Always check the release notes of the exact chart version you are moving to.
+Always check the release notes of the exact chart version you are moving to.
+
+### 0.3.0 — OpenBao Raft HA + self-initialization (breaking)
+
+The bundled OpenBao default changed from a single-node `file` backend to a **3-node integrated-Raft HA cluster** that is **automatically initialized and unsealed** by a post-install/upgrade hook Job.
+
+- **New installs** need no action — OpenBao initializes, unseals, and stores its Shamir key shares in the `<release>-openbao-keys` Secret automatically. **Back up that Secret.**
+- **To keep the previous single-node behavior**, pin it explicitly before upgrading:
+  ```yaml
+  openbao:
+    server:
+      standalone:
+        enabled: true
+      ha:
+        enabled: false
+  ```
+- **For restart-resilient production**, prefer KMS auto-unseal (`openbao.init.enabled=false` + a `seal` stanza) — no key shares are stored in a Secret. See [Installation → OpenBao Self-Initialization & Unsealing]({{< ref "../installation/#openbao-self-initialization--unsealing" >}}).
+- The root token is **revoked** after bootstrap and never persisted; use `bao operator generate-root` with the stored unseal keys for break-glass admin.
