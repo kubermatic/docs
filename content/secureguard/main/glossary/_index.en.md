@@ -80,9 +80,11 @@ theme; within each group they build on each other.
   most often.
 - **PushSecret** — The reverse direction: takes an existing Kubernetes Secret
   and **pushes it up** into an external provider for safekeeping.
-- **ReloaderConfig** — Tells the bundled **Reloader** controller to **restart
-  workloads** (Deployments, StatefulSets, DaemonSets) automatically when a
-  secret they use changes.
+- **ReloaderConfig** — Wires a **notification source** (a Secret/ConfigMap
+  change, a cloud event, a Vault audit event, a webhook, or a TCP socket) to a
+  **trigger destination** (roll out a Deployment, or reconcile an ExternalSecret
+  / PushSecret / WorkflowRunTemplate). Makes secret delivery event-driven instead
+  of poll-based. Provided by the bundled **Reloader** companion project.
 - **ESODeployment** — Describes how ESO itself should be **installed/upgraded**
   on a target cluster. The SG Agent acts on it.
 - **ESOVersion** — One entry in the operator-curated **catalog of ESO releases**

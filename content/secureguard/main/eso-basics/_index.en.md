@@ -57,7 +57,12 @@ The reverse flow. Often, components *inside* Kubernetes generate credentials (e.
 In addition to the four upstream ESO CRDs, the SecureGuard stack works with these resources:
 
 ### ReloaderConfig
-A cluster-scoped resource (`reloader.external-secrets.io/v1alpha1`, kind `Config`) that configures event-driven workload reloading. When a synced Kubernetes Secret changes, the **Reloader** controller triggers rolling restarts of dependent Deployments, StatefulSets, or DaemonSets. Reloader is an ESO companion project that SecureGuard bundles as an optional Helm sub-chart (`reloader.enabled`) and can also deploy to target clusters via an `ESODeployment`'s `reloader` block.
+A cluster-scoped resource (`reloader.external-secrets.io/v1alpha1`, kind `Config`) that makes secret delivery **event-driven** instead of poll-based. Each config wires one or more **notification sources** to one or more **trigger destinations**:
+
+- **Notification sources** — a Kubernetes `Secret` or `ConfigMap` change, a cloud event (GCP Pub/Sub, AWS SQS, Azure Event Grid), a HashiCorp Vault audit-log event, a generic webhook, or a TCP socket.
+- **Trigger destinations** — roll out a **Deployment**, or make an **ExternalSecret** / **PushSecret** reconcile immediately, or a **WorkflowRunTemplate**.
+
+Typical uses: restart a Deployment the moment its Secret rotates, or trigger ESO to re-fetch on a cloud event or webhook rather than waiting for the next `refreshInterval`. Reloader is an [External Secrets companion project](https://external-secrets.github.io/reloader/) that SecureGuard bundles as an optional Helm sub-chart (`reloader.enabled`) and can also deploy to target clusters via an `ESODeployment`'s `reloader` block.
 
 ### ESODeployment
 A namespaced SecureGuard resource (`deploy.secureguard.io/v1alpha1`) managed by the SG Agent Controller. It defines the desired ESO installation state for a target cluster, including version, namespace, component configuration, and replica counts.

@@ -54,7 +54,7 @@ You manage steps 1–2 from the SecureGuard dashboard. New to the terms above? S
 - **Centralized Management:** Provides a single source of truth across all environments and clusters.
 - **Multi-Cluster Support:** Manage ESO deployments across clusters via the SG Agent Controller and ESODeployment CRDs.
 - **Federation (optional):** Serve secrets to remote clusters over mTLS without exposing the backend stores — via a standalone broker and the `fedclient` consumer.
-- **ReloaderConfig:** Event-driven workload reloading when synced secrets change.
+- **ReloaderConfig (optional):** Event-driven rotation — roll out a Deployment or trigger ESO to reconcile in response to a Secret/ConfigMap change, cloud event, or webhook, instead of waiting for the next poll.
 - **Developer First:** Built-in React dashboard for visualizing and managing the secret sync lifecycle.
 - **Zero-Knowledge Security:** Secret values are redacted at the proxy layer — they never reach the browser.
 

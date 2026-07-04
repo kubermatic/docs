@@ -7,7 +7,7 @@ description = "Deploy Kubermatic SecureGuard across managed, bring-your-own-prov
 
 Kubermatic SecureGuard is designed to be highly flexible, offering several deployment modes depending on your existing infrastructure and production requirements.
 
-SecureGuard ships with **OpenBao** (Vault-compatible secret engine), **Dex** (OIDC provider), **ESO**, and **Reloader** (automatic workload restarts on secret changes) as optional Helm sub-charts. Each component can be toggled independently via the Helm values file (`openbao.enabled`, `dex.enabled`, `eso.enabled`, `reloader.enabled`).
+SecureGuard ships with **OpenBao** (Vault-compatible secret engine), **Dex** (OIDC provider), **ESO**, and **Reloader** (event-driven rotation — trigger Deployment rollouts or ESO reconciles from Secret/ConfigMap changes, cloud events, or webhooks) as optional Helm sub-charts. Each component can be toggled independently via the Helm values file (`openbao.enabled`, `dex.enabled`, `eso.enabled`, `reloader.enabled`).
 
 {{% notice note %}}
 **OpenBao is optional and opinionated.** It's bundled so teams without a vault get a complete stack out of the box, but SecureGuard is **provider-agnostic** — it manages ESO, and ESO supports many backends (AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and others). If you already have a secrets backend, disable OpenBao (`--set openbao.enabled=false`) and point your `SecretStore`s at your provider. Dex is similarly optional if you already run an OIDC provider.
@@ -90,7 +90,7 @@ Beyond installing the components, the chart performs several pieces of automatio
 | Dex OIDC provider | `dex.enabled` | `true` |
 | OpenBao | `openbao.enabled` | `true` |
 | External Secrets Operator | `eso.enabled` | `true` |
-| Reloader (workload restarts) | `reloader.enabled` | `false` |
+| Reloader (event-driven rotation) | `reloader.enabled` | `false` |
 | **SG Agent Controller** (multi-cluster ESO lifecycle, heartbeats) | `sgAgent.enabled` | **`false`** |
 | **Federation broker** (cross-cluster secret serving) | `federation.enabled` | **`false`** |
 

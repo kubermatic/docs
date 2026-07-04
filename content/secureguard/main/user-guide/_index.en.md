@@ -167,13 +167,12 @@ your ExternalSecrets), not edited by hand in the dashboard.
 
 ## ReloaderConfigs
 
-ReloaderConfigs trigger automatic workload restarts when synced secrets change.
-On the **Reloaders** page you can **view** all ReloaderConfigs and their status,
-and **delete** one. They are created with `kubectl` / GitOps and specify:
+ReloaderConfigs make secret delivery **event-driven**: they wire notification **sources** to trigger **destinations**, so a change propagates the instant it happens instead of on ESO's next poll. On the **Reloaders** page you can **view** all ReloaderConfigs and their status, open a detail view (with **Notification Sources** and **Trigger Destinations** tabs), and **delete** one. They are created with `kubectl` / GitOps and specify:
 
-- **Target workload** (Deployment, StatefulSet, or DaemonSet)
-- **Secret references** to watch
-- **Reload strategy** (rolling restart vs. annotation bump)
+- **Notification sources** — what to listen to: a Kubernetes `Secret` or `ConfigMap` change, a cloud event (GCP Pub/Sub, AWS SQS, Azure Event Grid), a HashiCorp Vault audit-log event, a generic webhook, or a TCP socket.
+- **Trigger destinations** — what to act on: roll out a **Deployment**, or make an **ExternalSecret** / **PushSecret** reconcile immediately, or a **WorkflowRunTemplate**.
+
+Common patterns: restart a Deployment when its Secret rotates, or trigger ESO to re-fetch on a cloud event/webhook rather than waiting for `refreshInterval`. See the [External Secrets Reloader docs](https://external-secrets.github.io/reloader/) for the full source/destination catalog.
 
 ## ESODeployments
 
@@ -193,7 +192,7 @@ The guided form validates as you type and covers:
 - **Scope** — cluster-wide or restricted to specific target namespaces (with optional exclusions; system namespaces are filtered out)
 - **High availability** — replica count
 - **Image & update schedule** — custom image repository and an optional cron schedule for automated image updates
-- **Deploy Reloader** — optionally co-deploy the Reloader controller for automatic workload restarts
+- **Deploy Reloader** — optionally co-deploy the Reloader controller for event-driven rotation (see [ReloaderConfigs](#reloaderconfigs))
 
 A **Form ↔ YAML** toggle lets you switch to a full YAML editor at any point — the round-trip is lossless, so YAML keys the form doesn't know about are preserved.
 
