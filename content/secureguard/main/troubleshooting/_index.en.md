@@ -26,6 +26,14 @@ Managing a distributed secret synchronization engine involves dealing with netwo
   2. Ensure the `redirect_uri` configured in your IDP (GitHub, Google, etc.) exactly matches the Dex callback URL.
   3. Verify that clock drift hasn't caused token validation failures (ensure NTP is synced across nodes).
 
+### Lost or Unknown Static Admin Password
+- **Cause**: The Helm chart auto-generates the static admin password — it is never `admin`.
+- **Resolution**: Retrieve it from the release Secret:
+  ```bash
+  kubectl get secret <release>-dex-admin -n secureguard-system \
+    -o jsonpath='{.data.password}' | base64 -d && echo
+  ```
+
 ### Proxy Pod Crash-Loops on Startup (`OIDC_ISSUER_URL is required`)
 - **Cause**: Authentication is mandatory — the proxy refuses to start without an OIDC issuer. There is no "auth disabled" mode (the old `AUTH_ENABLED` flag was removed).
 - **Resolution**: Set `OIDC_ISSUER_URL` (and the other `OIDC_*` / `SESSION_SECRET` env) on the proxy. With the bundled Dex, this is the in-cluster issuer, e.g. `http://<release>-dex.<namespace>.svc.cluster.local:5556/dex`.
@@ -113,6 +121,67 @@ When an `ExternalSecret` fails to sync, ESO will update the `status` block of th
   1. Verify the upload response included the expected context names.
   2. Check proxy logs for errors during per-cluster Secret creation.
   3. Confirm the per-cluster Secret exists and carries the discovery label: `kubectl get secrets -n secureguard-system -l secureguard.io/cluster-kubeconfig=true`. In-cluster, the proxy watches these Secrets via an informer, so new registrations appear without a pod restart.
+
+### Kubeconfig Upload Rejected at Registration
+- **Cause**: The proxy replaces the uploaded credential with a short-lived minted token. A credential that cannot provision the remote ServiceAccount (e.g. a narrowly scoped bearer token) is rejected — there is no "store as-is" mode.
+- **Resolution**: Upload a kubeconfig whose credential can create ServiceAccounts, ClusterRoles, and bindings on the target cluster (typically cluster-admin, used exactly once). Exec-plugin credentials (EKS/GKE/AKS) are stored unchanged. See [Short-Lived Remote-Cluster Tokens]({{< ref "../advanced-configuration/#short-lived-remote-cluster-tokens" >}}).
+
+## ESODeployment & SG Agent Issues
+
+### ESODeployment Pages Are Empty / Nothing Reconciles
+- **Cause**: The SG Agent Controller is **disabled by default** (`sgAgent.enabled: false`).
+- **Resolution**: Enable it: `helm upgrade ... --set sgAgent.enabled=true`, then confirm the agent pod is running.
+
+### ESODeployment Stuck in `Error` with a `Conflict` Condition
+- **Cause**: Two deployments claim the same effective cluster/namespaces (`NamespaceOverlap` or `MultipleClusterScope` are blocking).
+- **Resolution**: Inspect the condition (`kubectl describe esodeployment <name>`), then delete or re-scope one of the conflicting deployments. See [Conflict Detection]({{< ref "../advanced-configuration/#conflict-detection" >}}).
+
+### ESODeployment Stuck in `Deploying`
+- **Cause**: The agent cannot reach the target cluster, or the ESO version/image cannot be pulled there.
+- **Resolution**:
+  1. Check the cluster's health on the Clusters page (or `/api/clusters/{id}/health`).
+  2. Check agent logs: `kubectl logs -l app.kubernetes.io/component=sg-agent -n secureguard-system`.
+  3. On the target cluster, inspect the ESO pods/events in the deployment namespace (image pull errors, RBAC denials).
+
+### Unexpected Read-Only `eso-ext-*` Deployment Appeared
+- **Cause**: Not an error — the agent discovered an ESO installation it doesn't manage and represents it as an external, read-only ESODeployment.
+- **Resolution**: Nothing to fix. To bring the installation under SecureGuard management, remove the external install and create a managed ESODeployment.
+
+### SG Agent Badge Shows "Stale"
+- **Cause**: The agent's heartbeat for that cluster is older than expected — agent pod down, leader election stuck, or the cluster unreachable.
+- **Resolution**:
+  1. Check the agent pod and its logs.
+  2. Check `kubectl get sgagents` — `lastHeartbeat` shows when the cluster last reported.
+  3. Test the cluster connection from the Clusters page.
+
+## Federation Issues
+
+Federation errors are deterministic — the broker returns a distinct status per failure, and `fedclient` maps them to [exit codes]({{< ref "../federation/#cli-reliability-version-retries-exit-codes" >}}).
+
+### `401 Unauthenticated` (fedclient exit code `11`)
+- **Cause**: The workload token is invalid, expired, or carries the wrong audience; or the broker doesn't trust the token's issuer.
+- **Resolution**:
+  1. Verify the token's audience matches the broker's expected audiences (`federation.audiences`, default `secureguard-federation`) and the projected volume's `audience`.
+  2. Confirm the issuer is listed under `FederationServer.spec.trustedIssuers` with the correct `issuerURL`.
+  3. Off-cluster: a file-based token has no kubelet to rotate it and simply expires — switch to `--token-source=kube`.
+
+### `401` with OIDC Discovery Errors in Broker Logs
+- **Cause**: The broker cannot fetch the issuer's OIDC discovery document or JWKS — wrong CA or missing anonymous discovery access.
+- **Resolution**:
+  1. For private-CA / cluster-API-server issuers, set `trustedIssuers[].caBundle` (for an API server, its `kube-root-ca.crt`).
+  2. Grant the issuer cluster's `system:service-account-issuer-discovery` ClusterRole to `system:unauthenticated` so the broker's anonymous discovery requests succeed.
+
+### `403 Forbidden` (exit code `13`)
+- **Cause**: Authentication succeeded, but no `FederationAuthorization` allows this identity to read this store/key (deny-by-default).
+- **Resolution**: Create or extend a `FederationAuthorization` whose `identity.kubernetes.issuer`/`serviceAccount` match the caller and whose `allow[].store`/`keys` globs cover the requested key.
+
+### `404 Not Found` (exit code `14`)
+- **Cause**: The store name in the URL is not in `FederationServer.spec.exposedStores`, or the key doesn't exist in the backing store.
+- **Resolution**: Check `exposedStores[].name` spelling and, for the interim resolver, that the backing Kubernetes Secret exists in the `secretStoreRef.namespace`.
+
+### Broker Pod Not Starting
+- **Cause**: TLS is mandatory — the broker requires a server certificate Secret.
+- **Resolution**: Set `federation.tls.secretName` to an existing TLS Secret; check broker logs for certificate path errors.
 
 ## Debugging Tips
 
