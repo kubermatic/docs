@@ -205,7 +205,7 @@ spec:
   latest: true           # marks the recommended/default selection
   deprecated: false      # when true, hidden from new deployments
   releaseDate: "2026-05-04"
-  minKubeVersion: "1.23"
+  minKubeVersion: "1.23"   # minimum Kubernetes version of the *target* cluster for this ESO release
   notes: Latest stable release.
 ```
 
@@ -230,11 +230,12 @@ If you prefer to manage ESO installations manually, you can deploy ESO independe
 
 1.  Ensure the Management OpenBao API (`https://openbao.secureguard.yourcompany.com`) is reachable from the Target cluster nodes.
 2.  Configure Kubernetes authentication in OpenBao for the Target cluster. This requires setting up a Kubernetes Auth Role in the central OpenBao instance that trusts the Service Account tokens issued by the Target cluster's API server.
-3.  Deploy ESO to the Target Cluster:
+3.  Deploy ESO to the Target Cluster (pin a supported **2.x** release — see the [version catalog](#eso-version-catalog-esoversion-crd)):
     ```bash
     helm install external-secrets external-secrets/external-secrets \
       --namespace external-secrets \
       --create-namespace \
+      --version 2.6.0 \
       --set installCRDs=true
     ```
 4.  Create a `ClusterSecretStore` in the Target cluster pointing to the Central OpenBao URL.
@@ -254,16 +255,26 @@ This creates per-cluster Secrets and optionally registers an SGAgent CR. See the
 
 ## Proxy Configuration
 
-The backend proxy is configured via environment variables. See the [API Reference — Environment Variables](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md#environment-variables) for the complete list.
+The backend proxy is configured via environment variables. The Helm chart sets these from your values; the full list below is useful for custom deployments and debugging.
 
-### Key Configuration Options
+### Environment Variables
 
 | Variable | Default | Description |
 |---|---|---|
 | `OIDC_ISSUER_URL` | — (**required**) | Dex/OIDC issuer URL — the proxy exits if unset (auth is mandatory) |
+| `OIDC_CLIENT_ID` | `secureguard` | OIDC client ID |
+| `OIDC_CLIENT_SECRET` | — | OIDC client secret |
+| `OIDC_REDIRECT_URI` | `http://localhost:30080/api/auth/callback` | OAuth2 callback URL |
+| `DEX_PUBLIC_URL` | — | External Dex URL for browser redirects (when it differs from the in-cluster issuer URL) |
+| `SESSION_SECRET` | — (**required**) | Secret for signing session cookies. Must be stable across restarts and shared by all replicas — the proxy refuses to start without it. The Helm chart auto-generates a stable value if `auth.sessionSecret` is left empty |
 | `PORT` | `3001` | Proxy listen port |
-| `DEFAULT_CONTEXT` | current-context | Default kubeconfig context |
-| `POD_NAMESPACE` | `default` | Namespace for per-cluster Secrets |
+| `DEFAULT_CONTEXT` | current-context | Default kubeconfig context for `/api/kube/*` |
+| `POD_NAMESPACE` | `default` | Namespace watched for per-cluster kubeconfig Secrets |
+| `KUBECONFIG` | — | Path to a kubeconfig file (local development only; in-cluster the proxy discovers clusters from labeled Secrets instead) |
+| `REMOTE_TOKEN_DIR` | `$TMPDIR/secureguard-tokens` | Writable directory for the rotating per-cluster token files (see below) |
+| `ALLOWED_ORIGIN` | unset | Exact origin allowed for cross-origin (CORS) API access. Unset: no CORS headers are sent and browsers enforce the same-origin policy |
+| `COOKIE_SECURE` | auto | Force the `Secure` cookie flag on (`true`) or off (`false`); by default it is derived from the redirect URI scheme |
+| `LOG_LEVEL` | `info` | Log verbosity: `debug`, `info`, `warn`, or `error` (structured JSON logs on stderr) |
 
 ### Route Allowlist
 
@@ -345,11 +356,41 @@ OpenBao supports various storage backends, although Integrated Storage (Raft) is
 
 ## Monitoring
 
-SecureGuard does not currently expose a Prometheus `/metrics` endpoint. Monitoring is achieved through Kubernetes-native observability:
+All SecureGuard Go components expose **Prometheus metrics**:
 
-- **Pod health**: The proxy exposes a `/healthz` endpoint used for liveness and readiness probes
-- **Cluster health**: The `/api/clusters/{id}/health` endpoint checks connectivity to each cluster's API server
-- **Logs**: The proxy and agent use Go's standard `log` package, outputting structured logs to stdout
-- **Kubernetes events**: Use the Event Stream page in the dashboard or `kubectl get events` for real-time activity
+- **Proxy** — `/metrics` on the main listen port (unauthenticated, no session required):
 
-For comprehensive monitoring, integrate with your existing observability stack by collecting pod logs and Kubernetes events.
+  | Metric | Type | Description |
+  |---|---|---|
+  | `secureguard_proxy_requests_total` | counter | Kubernetes API proxy requests by cluster and upstream status code |
+  | `secureguard_proxy_upstream_duration_seconds` | histogram | Upstream Kubernetes API request duration by cluster |
+  | `secureguard_proxy_allowlist_rejections_total` | counter | Requests rejected by the route allowlist |
+  | `secureguard_proxy_secret_redactions_total` | counter | Secret responses redacted before reaching the browser, by kind |
+  | `secureguard_proxy_managed_clusters` | gauge | Clusters currently registered |
+  | `secureguard_proxy_token_refreshers` | gauge | Active per-cluster short-lived token refreshers |
+
+- **SG Agent** — controller-runtime metrics on `:8082` (`-metrics-addr`), health probes on `:8081` (`-health-addr`).
+- **Federation broker** — metrics on `:8080` (`-metrics-addr`), health probes on `:8081` (`-health-addr`), both plaintext and separate from the TLS serving port.
+
+### Scraping with the Prometheus Operator
+
+The Helm chart creates headless metrics Services (`metrics.enabled`, default `true`) and can generate `ServiceMonitor` / `PodMonitor` resources for the Prometheus Operator:
+
+```yaml
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true        # requires the monitoring.coreos.com/v1 CRDs
+    interval: 30s
+    scrapeTimeout: 10s
+  # Alternative for setups that scrape pods directly:
+  podMonitor:
+    enabled: false
+```
+
+### Other Observability Signals
+
+- **Pod health**: the proxy exposes `/healthz`; agent and federation expose `/healthz` and `/readyz` on their health ports — all used for liveness/readiness probes.
+- **Cluster health**: the `/api/clusters/{id}/health` endpoint checks connectivity to each cluster's API server (surfaced as the status dot in the dashboard).
+- **Logs**: all components emit structured JSON logs to stdout/stderr. Verbosity is controlled via `LOG_LEVEL` on the proxy and the `logLevel` Helm values (`sgAgent.logLevel`, `federation.logLevel`).
+- **Kubernetes events**: use the Event Stream page in the dashboard or `kubectl get events` for real-time activity.

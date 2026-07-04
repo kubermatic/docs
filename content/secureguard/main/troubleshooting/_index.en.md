@@ -58,7 +58,7 @@ Managing a distributed secret synchronization engine involves dealing with netwo
      kubectl exec -it secureguard-openbao-0 -n secureguard-system -- bao operator unseal <key_2>
      kubectl exec -it secureguard-openbao-0 -n secureguard-system -- bao operator unseal <key_3>
      ```
-  4. Once the threshold is met, the pod will become ready. It is strongly recommended to configure [Auto-Unseal]({{< ref "../installation/" >}}) for production.
+  4. Once the threshold is met, the pod will become ready. It is strongly recommended to configure [Auto-Unseal]({{< ref "../installation/#automatic-unsealing" >}}) for production.
 
 ## ESO Synchronization Issues
 
@@ -112,10 +112,10 @@ When an `ExternalSecret` fails to sync, ESO will update the `status` block of th
 - **Resolution**:
   1. Verify the upload response included the expected context names.
   2. Check proxy logs for errors during per-cluster Secret creation.
-  3. If using init container mode, the proxy pod may need a restart to pick up new Secrets.
+  3. Confirm the per-cluster Secret exists and carries the discovery label: `kubectl get secrets -n secureguard-system -l secureguard.io/cluster-kubeconfig=true`. In-cluster, the proxy watches these Secrets via an informer, so new registrations appear without a pod restart.
 
 ## Debugging Tips
 
 - **Event Stream**: Use the Event Stream page in the dashboard to see real-time Kubernetes events across all managed resources.
-- **Proxy Debug Logging**: Set the proxy's log level to debug for verbose output. The proxy uses Go's standard `log` package — check pod logs with `kubectl logs`.
+- **Proxy Debug Logging**: Set the `LOG_LEVEL=debug` environment variable on the proxy for verbose output (structured JSON logs) — see [Proxy Configuration]({{< ref "../advanced-configuration/#environment-variables" >}}). The agent and federation broker have equivalent `logLevel` Helm values. Check pod logs with `kubectl logs`.
 - **Sync Error Drawer**: Click on any failed ExternalSecret in the dashboard to open the Sync Error Drawer, which shows detailed error messages and remediation hints.

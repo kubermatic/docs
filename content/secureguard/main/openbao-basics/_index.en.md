@@ -17,7 +17,7 @@ Unfamiliar with a term below (KV engine, auth method, unsealing)? The [Glossary]
 {{% /notice %}}
 
 {{% notice note %}}
-**OpenBao is optional — it's an opinionated default, not a requirement.** SecureGuard bundles OpenBao so teams **without** an existing vault get a complete stack out of the box. If you already run a secrets backend, you don't need OpenBao at all: SecureGuard manages **ESO**, and ESO works with many providers — AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [others](https://external-secrets.io/latest/provider/aws-secrets-manager/). Just point your `SecretStore`/`ClusterSecretStore` resources at your provider and disable the bundled OpenBao (`--set openbao.enabled=false`). The rest of this page applies only if you choose to use OpenBao as your backend.
+**OpenBao is optional — it's an opinionated default, not a requirement.** SecureGuard bundles OpenBao so teams **without** an existing vault get a complete stack out of the box. If you already run a secrets backend, you don't need OpenBao at all: SecureGuard manages **ESO**, and ESO works with many providers — AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [others](https://external-secrets.io/latest/introduction/stability-support/). Just point your `SecretStore`/`ClusterSecretStore` resources at your provider and disable the bundled OpenBao (`--set openbao.enabled=false`). The rest of this page applies only if you choose to use OpenBao as your backend.
 {{% /notice %}}
 
 ## What is OpenBao?

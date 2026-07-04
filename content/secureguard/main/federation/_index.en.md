@@ -181,7 +181,7 @@ spec:
 For a cluster's API-server issuer, the CA is its `kube-root-ca.crt` ConfigMap,
 and the broker's anonymous discovery requests need the
 `system:service-account-issuer-discovery` ClusterRole granted (e.g. to
-`system:unauthenticated`). The cluster-e2e exercises exactly this path.
+`system:unauthenticated`).
 
 ## Consuming from a remote cluster (stock ESO)
 
@@ -252,7 +252,7 @@ in-memory volume the app reads:
 ```yaml
 initContainers:
   - name: fetch-secret
-    image: quay.io/kubermatic/secureguard-fedclient:latest
+    image: quay.io/kubermatic/secureguard-fedclient:v0.2.0   # pin to a release tag, never :latest
     args:
       - --server=https://federation.central.example:8443
       - --store=prod-vault

@@ -29,7 +29,7 @@ SecureGuard answers both by combining three open-source tools and putting a frie
 - **SecureGuard's dashboard** is the **control room** — it lets you see and manage all of this without memorizing `kubectl` commands, and **without ever exposing the secret values themselves** (the dashboard shows `••••••••`, never the real value).
 
 {{% notice note %}}
-**OpenBao is optional.** It's our **opinionated default** so teams without a vault get a complete, batteries-included stack out of the box. But SecureGuard is **provider-agnostic**: ESO supports many backends (AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [more](https://external-secrets.io/latest/provider/aws-secrets-manager/)). If you already have a vault, point your `SecretStore`s at it and disable the bundled OpenBao (`--set openbao.enabled=false`). Everything else works the same.
+**OpenBao is optional.** It's our **opinionated default** so teams without a vault get a complete, batteries-included stack out of the box. But SecureGuard is **provider-agnostic**: ESO supports many backends (AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [more](https://external-secrets.io/latest/introduction/stability-support/)). If you already have a vault, point your `SecretStore`s at it and disable the bundled OpenBao (`--set openbao.enabled=false`). Everything else works the same.
 {{% /notice %}}
 
 > **Analogy:** Think of OpenBao as a bank vault, ESO as the armored truck that delivers cash to ATMs (your apps), and SecureGuard as the security desk with the camera monitors — you can watch and direct everything, but you can't reach into the vault and pull the cash out through the monitor.

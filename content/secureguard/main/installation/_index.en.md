@@ -10,7 +10,7 @@ private = true
 
 Kubermatic SecureGuard is designed to be highly flexible, offering several deployment modes depending on your existing infrastructure and production requirements.
 
-SecureGuard ships with **OpenBao** (Vault-compatible secret engine), **Dex** (OIDC provider), and **ESO** as optional Helm sub-charts. Each component can be toggled independently via the Helm values file.
+SecureGuard ships with **OpenBao** (Vault-compatible secret engine), **Dex** (OIDC provider), **ESO**, and **Reloader** (automatic workload restarts on secret changes) as optional Helm sub-charts. Each component can be toggled independently via the Helm values file (`openbao.enabled`, `dex.enabled`, `eso.enabled`, `reloader.enabled`).
 
 {{% notice note %}}
 **OpenBao is optional and opinionated.** It's bundled so teams without a vault get a complete stack out of the box, but SecureGuard is **provider-agnostic** — it manages ESO, and ESO supports many backends (AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and others). If you already have a secrets backend, disable OpenBao (`--set openbao.enabled=false`) and point your `SecretStore`s at your provider. Dex is similarly optional if you already run an OIDC provider.
@@ -22,7 +22,7 @@ SecureGuard ships with **OpenBao** (Vault-compatible secret engine), **Dex** (OI
 
 ## Deployment Modes
 
-SecureGuard's Helm chart bundles all necessary Custom Resource Definitions (CRDs) and sub-chart dependencies (OpenBao, Dex, ESO).
+SecureGuard's Helm chart bundles all necessary Custom Resource Definitions (CRDs) and sub-chart dependencies (OpenBao, Dex, ESO, Reloader).
 
 ### 1. Managed (Default)
 In this mode, all components are installed automatically by the SecureGuard Helm chart. This is recommended for clusters that do not already have an established secret manager.
@@ -41,7 +41,7 @@ helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
 ### 2. Bring Your Own Provider (External Vault, AWS, GCP, Azure, …)
 
 You don't have to use the bundled OpenBao. SecureGuard manages ESO, and ESO can
-talk to any of its [supported providers](https://external-secrets.io/latest/provider/aws-secrets-manager/).
+talk to any of its [supported providers](https://external-secrets.io/latest/introduction/stability-support/).
 Disable the bundled OpenBao and point your `SecretStore`/`ClusterSecretStore`
 resources at your own backend.
 
@@ -70,7 +70,7 @@ for AWS, Workload Identity for GCP). The dashboard, proxy, and ESO behave
 identically regardless of which provider you choose.*
 
 ### 3. Bring Your Own ESO
-If your target clusters already have the External Secrets Operator installed and managed by another platform team, you can instruct SecureGuard to deploy only the UI and Proxy, skipping the ESO installation.
+If your target clusters already have the External Secrets Operator installed and managed by another platform team, disable the bundled ESO sub-chart. The dashboard and proxy still work with the existing ESO installation — SecureGuard simply skips installing its own.
 
 ```bash
 helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
@@ -78,6 +78,8 @@ helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
   --create-namespace \
   --set eso.enabled=false
 ```
+
+*Note: This only disables the ESO sub-chart. Dex and OpenBao still deploy according to their own toggles (`dex.enabled`, `openbao.enabled`) — combine flags as needed for your environment. The [SG Agent]({{< ref "../architecture/" >}}) also auto-discovers externally installed ESO instances on managed clusters and surfaces them read-only in the dashboard.*
 
 ---
 
@@ -164,12 +166,12 @@ The SecureGuard Helm chart includes templates for RBAC, network policies, and re
 
 ### RBAC
 
-The chart provisions a dedicated `ServiceAccount`, `ClusterRole`, and `ClusterRoleBinding` (see [`k8s/rbac.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/rbac.yaml)). The ClusterRole grants the proxy read access to the Kubernetes resources it manages (ExternalSecrets, SecretStores, Secrets, Events, etc.) and nothing more. Review and restrict these permissions further if your deployment does not use all SecureGuard features.
+The chart provisions a dedicated `ServiceAccount`, `ClusterRole`, and `ClusterRoleBinding` for each component. The proxy's ClusterRole deliberately grants **no standing read access** to ExternalSecrets, SecretStores, or Secrets: every Kubernetes API request is impersonated as the logged-in user, so what each user can see and do is governed by the RBAC bound to *their* user/groups — not by the proxy's own permissions. The proxy itself holds only the `impersonate` verb plus narrow bookkeeping permissions (SGAgent registration and per-cluster kubeconfig Secret access). See [User Authorization]({{< ref "../advanced-configuration/#user-authorization-rbac-via-impersonation" >}}) and [RBAC Configuration]({{< ref "../security-hardening/#rbac-configuration" >}}).
 
 ```yaml
-rbac:
+serviceAccount:
   create: true
-  # Set to false if you manage RBAC externally
+  # Set to false and provide `name` if you manage the ServiceAccount externally
 ```
 
 ### Network Policies
