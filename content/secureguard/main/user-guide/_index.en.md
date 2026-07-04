@@ -3,9 +3,6 @@ title = "User Guide"
 date = 2026-06-13T09:00:00+02:00
 weight = 6
 description = "A feature-by-feature tour of the SecureGuard dashboard — managing ExternalSecrets, stores, push secrets, clusters, and federation from a read-mostly control room."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 This guide walks you through the key features of the SecureGuard dashboard. It assumes you have a running deployment (see [Getting Started]({{< ref "../getting-started/" >}})) and are logged in.

@@ -3,9 +3,6 @@ title = "Getting Started"
 date = 2026-06-13T09:00:00+02:00
 weight = 1
 description = "Quickly deploy Kubermatic SecureGuard in a local or development environment and watch your first secret sync end-to-end."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 This guide will walk you through quickly deploying Kubermatic SecureGuard in a local or development environment. This deployment bundles OpenBao (in dev mode), the Dex OIDC provider, External Secrets Operator (ESO), and the SecureGuard dashboard UI.

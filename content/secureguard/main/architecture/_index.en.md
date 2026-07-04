@@ -3,9 +3,6 @@ title = "Architecture & Security Model"
 date = 2026-06-13T09:00:00+02:00
 weight = 2
 description = "Component architecture, authentication flow, multi-cluster routing, and the zero-knowledge security model behind Kubermatic SecureGuard."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 Kubermatic SecureGuard is engineered with security and multi-layered protection as its core design principles. This document describes the component architecture, authentication flow, multi-cluster routing, and the zero-knowledge security model.

@@ -3,9 +3,6 @@ title = "OpenBao Basics"
 date = 2026-06-13T09:00:00+02:00
 weight = 4
 description = "Understand OpenBao — the open-source, production-grade secrets vault bundled with Kubermatic SecureGuard — including secret engines, auth methods, and unsealing."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 [OpenBao](https://openbao.org/) is the open-source, production-grade secrets management backend at the heart of Kubermatic SecureGuard. It was forked from HashiCorp Vault to provide a completely open, community-driven cryptographic engine.

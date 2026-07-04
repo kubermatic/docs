@@ -3,14 +3,7 @@ title = "Kubermatic SecureGuard"
 date = 2026-06-13T09:00:00+02:00
 weight = 8
 description = "Protect and manage secrets with open-source transparency — a Kubernetes-native secrets management platform built on OpenBao and the External Secrets Operator."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
-
-{{% notice warning %}}
-SecureGuard is currently under active development. This documentation is a preview and is not yet publicly announced. Content is subject to change.
-{{% /notice %}}
 
 **Protect and manage secrets with open-source transparency.**
 

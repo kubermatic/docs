@@ -3,9 +3,6 @@ title = "Federation — Cross-Cluster Secret Distribution"
 date = 2026-06-13T09:00:00+02:00
 weight = 8
 description = "Serve secret data to many clusters from a central SecureGuard instance over mTLS without exposing the backend secret stores — the federation broker, CRDs, fedclient, and resolution modes."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 Federation lets a central SecureGuard instance serve secret data to many

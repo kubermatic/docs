@@ -3,9 +3,6 @@ title = "Installation & Deployment"
 date = 2026-06-13T09:00:00+02:00
 weight = 3
 description = "Deploy Kubermatic SecureGuard across managed, bring-your-own-provider, and bring-your-own-ESO modes, with production hardening guidance."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 Kubermatic SecureGuard is designed to be highly flexible, offering several deployment modes depending on your existing infrastructure and production requirements.

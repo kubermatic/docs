@@ -3,9 +3,6 @@ title = "Upgrade Guides"
 date = 2026-06-13T09:00:00+02:00
 weight = 10
 description = "Best practices for upgrading SecureGuard components — OpenBao snapshots, ESO CRD upgrades, and rolling updates for the UI, proxy, and SG Agent."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 Keeping SecureGuard updated ensures you have the latest security patches for OpenBao, Dex, ESO, and the UI components. This guide outlines the best practices for upgrading a production deployment.

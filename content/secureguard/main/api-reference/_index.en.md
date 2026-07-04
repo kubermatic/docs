@@ -3,9 +3,6 @@ title = "API Reference"
 date = 2026-06-13T09:00:00+02:00
 weight = 13
 description = "REST API of the SecureGuard backend proxy — authentication endpoints, cluster management, the Kubernetes API proxy, the route allowlist, and error semantics."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 The SecureGuard backend proxy exposes a REST API that mediates **all** Kubernetes API access. The dashboard communicates exclusively with these endpoints — the browser never contacts the Kubernetes API server directly. The same endpoints can be used for scripted integrations (e.g. registering clusters from CI).

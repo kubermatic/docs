@@ -3,9 +3,6 @@ title = "Glossary"
 date = 2026-06-13T09:00:00+02:00
 weight = 12
 description = "Plain-language definitions of every key term used across the SecureGuard documentation — from secrets and vaults to ESO resources, OIDC, and federation."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 Plain-language definitions of the terms used throughout the SecureGuard docs.

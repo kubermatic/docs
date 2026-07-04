@@ -3,9 +3,6 @@ title = "Security Hardening Guide"
 date = 2026-06-13T09:00:00+02:00
 weight = 9
 description = "Production security best practices for SecureGuard — TLS, OIDC/Dex hardening, RBAC via impersonation, network policies, container security, CSP, and supply-chain controls."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 This guide covers security best practices for deploying SecureGuard in production environments. SecureGuard manages Kubernetes Secrets and external secret provider credentials — a security lapse can expose API keys, database passwords, TLS certificates, and cloud provider credentials.

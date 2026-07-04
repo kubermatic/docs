@@ -3,9 +3,6 @@ title = "Troubleshooting & FAQ"
 date = 2026-06-13T09:00:00+02:00
 weight = 11
 description = "Common operational issues and resolutions for SecureGuard — dashboard access, authentication, OpenBao sealing, ESO sync errors, proxy 403s, and multi-cluster connectivity."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 Managing a distributed secret synchronization engine involves dealing with network connectivity, authentication tokens, and vault states. This guide covers common operational issues and how to resolve them.
