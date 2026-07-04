@@ -48,7 +48,7 @@ Managing a distributed secret synchronization engine involves dealing with netwo
        --namespace <ns> --as <your-email> --as-group <your-group>
      ```
   3. Ensure Dex emits a `groups` claim if you bind to groups (group-based RBAC won't work otherwise).
-  4. Verify the proxy's own service account holds the `impersonate` verb on `users`/`groups` (included in `k8s/rbac.yaml` and the Helm chart); without it, impersonation itself returns `403`.
+  4. Verify the proxy's own service account holds the `impersonate` verb on `users`/`groups` (included in the Helm chart's RBAC templates); without it, impersonation itself returns `403`.
 
 ## OpenBao Issues
 
@@ -104,7 +104,7 @@ When an `ExternalSecret` fails to sync, ESO will update the `status` block of th
 - **Resolution**:
   1. Check proxy logs: `kubectl logs -l app.kubernetes.io/name=secureguard-proxy -n secureguard-system`
   2. Verify the `KUBECONFIG` environment variable points to a valid kubeconfig file.
-  3. For in-cluster deployments, ensure the ServiceAccount has the correct RBAC permissions (see `k8s/rbac.yaml`).
+  3. For in-cluster deployments, ensure the ServiceAccount has the correct RBAC permissions (provisioned by the Helm chart's RBAC templates).
 
 ## Multi-Cluster Issues
 

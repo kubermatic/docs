@@ -1,7 +1,7 @@
 +++
 title = "External Secrets Operator (ESO) Basics"
 date = 2026-06-13T09:00:00+02:00
-weight = 4
+weight = 5
 description = "How the External Secrets Operator synchronizes secrets from OpenBao (and other providers) into native Kubernetes Secrets within SecureGuard."
 sitemapexclude = true
 searchexclude = true

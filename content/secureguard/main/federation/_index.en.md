@@ -91,7 +91,7 @@ spec:
         - api/stripe
 ```
 
-Sample manifests live in [`k8s/samples/federation/`](https://github.com/kubermatic/secureguard/blob/main/k8s/samples/federation/).
+The CR examples above are complete — apply them with `kubectl apply` on the hub cluster.
 
 ## Deploying the broker
 
@@ -274,7 +274,6 @@ volumes:
             path: token
 ```
 
-Full example: [`docs/examples/fedclient-sidecar.yaml`](https://github.com/kubermatic/secureguard/blob/main/docs/examples/fedclient-sidecar.yaml).
 `fedclient` exits with a [distinct code per broker outcome](#cli-reliability-version-retries-exit-codes)
 and never logs the token or the secret value; it can also be used as a one-shot
 CLI for debugging (`--insecure` for dev TLS).

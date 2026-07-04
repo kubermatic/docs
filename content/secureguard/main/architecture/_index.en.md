@@ -138,7 +138,7 @@ The proxy and the SG Agent run under **separate** service accounts so each holds
 - **`secureguard-proxy`** — `impersonate` on users/groups, `create` on SGAgents, and management of per-cluster kubeconfig Secrets in its own namespace. It has **no** standing read/write on ESO resources (that flows through impersonation).
 - **`secureguard-agent`** — the controller/deployer permissions: SGAgent and ESODeployment reconcile (plus `/status`), and the resources the deployer creates when installing ESO into target namespaces (Deployments, ServiceAccounts, Namespaces, ClusterRoles, RoleBindings), events, and leader-election Leases.
 
-Both are defined in [`k8s/rbac.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/rbac.yaml) and [`charts/secureguard/templates/rbac.yaml`](https://github.com/kubermatic/secureguard/blob/main/charts/secureguard/templates/rbac.yaml).
+Both are provisioned by the Helm chart's RBAC templates; the proxy rule set is shown in full in [Security Hardening → Least-privilege service accounts]({{< ref "../security-hardening/#least-privilege-service-accounts" >}}).
 
 ## Multi-Cluster Routing
 

@@ -132,7 +132,7 @@ Dev mode is intended only for local testing. Secrets are stored in-memory and wi
 
 ## Production Hardening
 
-When moving to production, several configurations MUST be applied to ensure a secure, resilient platform.
+When moving to production, several configurations MUST be applied to ensure a secure, resilient platform. This section covers the availability-oriented settings; for the full security checklist (authentication, RBAC, container security, CSP), work through the [Security Hardening guide]({{< ref "../security-hardening/" >}}).
 
 ### High Availability (HA)
 
@@ -188,7 +188,16 @@ The chart ships a `values-production.yaml` with a production-oriented starting p
 {{% /notice %}}
 
 ### Tenant Isolation
-For multi-tenant environments, the recommendation is deploying distinct secrets management vaults to limit the blast radius. You can deploy multiple, namespace-scoped instances of OpenBao behind the SecureGuard dashboard, isolating teams at the infrastructure level.
+For multi-tenant environments, the recommendation is deploying distinct secrets management vaults to limit the blast radius. You can deploy multiple, namespace-scoped instances of OpenBao behind the SecureGuard dashboard, isolating teams at the infrastructure level. For lighter-weight, policy-level isolation within a single instance, OpenBao's namespace feature is an alternative — see [OpenBao Basics]({{< ref "../openbao-basics/" >}}).
+
+### OpenBao UI Exposure
+The bundled OpenBao ships with its web UI enabled. In production, either serve it only via an authenticated, TLS-terminated ingress (`openbaoIngress`) or disable it entirely:
+
+```yaml
+openbao:
+  ui:
+    enabled: false
+```
 
 ---
 
@@ -216,6 +225,8 @@ networkPolicy:
   # Restricts proxy ingress to the Ingress controller
   # Restricts proxy egress to the Kubernetes API server and OpenBao
 ```
+
+For the full policy details and a custom-policy example, see [Security Hardening → Network Policies]({{< ref "../security-hardening/#network-policies" >}}).
 
 ### Resource Limits
 

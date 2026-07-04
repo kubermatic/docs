@@ -1,7 +1,7 @@
 +++
 title = "OpenBao Basics"
 date = 2026-06-13T09:00:00+02:00
-weight = 5
+weight = 4
 description = "Understand OpenBao — the open-source, production-grade secrets vault bundled with Kubermatic SecureGuard — including secret engines, auth methods, and unsealing."
 sitemapexclude = true
 searchexclude = true
@@ -48,7 +48,7 @@ Within the SecureGuard ecosystem, OpenBao acts purely as the **Central Vault**.
 It handles:
 1.  **Encryption**: Ensuring all secrets are encrypted both in transit and at rest using industry-standard encryption (AES-256-GCM for storage, TLS 1.2+ for transit).
 2.  **RBAC (Role-Based Access Control)**: Enforcing strict least-privilege policies. You define *who* (which OIDC group or which Kubernetes Service Account) can read *what* paths.
-3.  **Multi-Tenancy**: Through its namespace features, OpenBao allows large organizations to isolate teams. "Team A" vault paths are completely invisible to "Team B".
+3.  **Multi-Tenancy**: Through its namespace features, OpenBao allows large organizations to isolate teams. "Team A" vault paths are completely invisible to "Team B". For stronger, infrastructure-level isolation, you can instead run one OpenBao instance per tenant — see [Installation → Tenant Isolation]({{< ref "../installation/#tenant-isolation" >}}).
 
 ## Understanding Unsealing & High Availability
 

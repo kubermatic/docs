@@ -1,6 +1,6 @@
 +++
 title = "Advanced Configuration"
-date = 2026-06-13T09:00:04+02:00
+date = 2026-06-13T09:00:00+02:00
 weight = 7
 description = "Enterprise configuration for SecureGuard — custom OIDC identity providers, RBAC via impersonation, multi-cluster deployments, the ESO version catalog, and short-lived remote tokens."
 sitemapexclude = true
@@ -58,7 +58,7 @@ This means **what a user can see and do in the dashboard is exactly what their K
 ### Prerequisites
 
 1. **Dex must emit a `groups` claim.** Group-based RBAC only works if your connector is configured to return groups (e.g. GitHub `orgs`/`teams`, an LDAP `groupSearch`, or an OIDC `groups` scope). Without it, bind roles to individual user emails instead.
-2. **The proxy service account needs the `impersonate` verb** on `users` and `groups`. The bundled Helm chart and [`k8s/rbac.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/rbac.yaml) already include this rule:
+2. **The proxy service account needs the `impersonate` verb** on `users` and `groups`. The bundled Helm chart already includes this rule:
    ```yaml
    - apiGroups: [""]
      resources: ["users", "groups"]
@@ -234,11 +234,7 @@ Behaviour in the dashboard:
   are rejected by the route allowlist. Curate the catalog with `kubectl apply`
   or via the SG Agent, which holds manage permissions on `esoversions`.
 
-A starter catalog (`v2.0.0`–`v2.6.0`) ships in
-[`k8s/samples/eso-deployments/esoversions.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/samples/eso-deployments/esoversions.yaml), and the CRD lives in
-[`k8s/esoversion-crd.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/esoversion-crd.yaml). If the catalog is empty or unreachable, the form falls
-back to the version already set on the resource (so editing existing deployments
-still works).
+A starter catalog covering `v2.0.0`–`v2.6.0` ships with the SecureGuard release manifests — apply one `ESOVersion` CR per release you want to offer, following the example above. If the catalog is empty or unreachable, the form falls back to the version already set on the resource (so editing existing deployments still works).
 
 ### Manual Multi-Cluster Setup
 
@@ -317,9 +313,9 @@ self-renewing token so nothing long-lived is ever stored:
    token file under `REMOTE_TOKEN_DIR`. The proxy transport re-reads the file per
    request. The agent does the same for clusters it talks to.
 
-This RBAC lives on the **remote** cluster and is created by code
-(`proxy/internal/remotebootstrap`) — it is intentionally **not** in the
-management-cluster `k8s/rbac.yaml`. The management-cluster proxy/agent
+This RBAC lives on the **remote** cluster and is created programmatically at
+registration — it is intentionally **not** part of the management-cluster RBAC
+templates. The management-cluster proxy/agent
 ServiceAccounts do **not** need `create` on `serviceaccounts/token`, because
 their own management-cluster identity is the kubelet-projected token, and all
 minting happens against the remote cluster with the remote SA's self-granted

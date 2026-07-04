@@ -60,7 +60,8 @@ theme; within each group they build on each other.
   them as environment variables or mounted files.
 - **CRD (Custom Resource Definition)** — A way to teach Kubernetes about new
   object types beyond its built-ins. `ExternalSecret`, `SecretStore`,
-  `PushSecret`, `ESODeployment`, and `SGAgent` are all CRDs.
+  `PushSecret`, `ESODeployment`, `ESOVersion`, `SGAgent`, `FederationServer`,
+  and `FederationAuthorization` are all CRDs.
 - **CR (Custom Resource)** — An actual instance of a CRD (e.g. *one specific*
   `ExternalSecret` named `db-creds`).
 - **Operator / Controller** — A program that watches CRs and makes the cluster
@@ -82,10 +83,13 @@ theme; within each group they build on each other.
   most often.
 - **PushSecret** — The reverse direction: takes an existing Kubernetes Secret
   and **pushes it up** into an external provider for safekeeping.
-- **ReloaderConfig** — Tells SecureGuard to **restart workloads** (Deployments,
-  StatefulSets, DaemonSets) automatically when a secret they use changes.
+- **ReloaderConfig** — Tells the bundled **Reloader** controller to **restart
+  workloads** (Deployments, StatefulSets, DaemonSets) automatically when a
+  secret they use changes.
 - **ESODeployment** — Describes how ESO itself should be **installed/upgraded**
   on a target cluster. The SG Agent acts on it.
+- **ESOVersion** — One entry in the operator-curated **catalog of ESO releases**
+  the dashboard offers when creating an ESODeployment.
 - **SGAgent** — Represents a connected cluster's agent and its **heartbeat**
   (is it alive and reporting?).
 - **Provider** — The external system a store talks to: OpenBao/Vault, AWS
