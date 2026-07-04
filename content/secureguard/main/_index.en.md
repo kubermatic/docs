@@ -80,7 +80,7 @@ Not sure which doc to read first? Pick the path that matches you:
 | **Just want to try it locally** | [Getting Started]({{< ref "/secureguard/main/getting-started/" >}}) | [User Guide]({{< ref "/secureguard/main/user-guide/" >}}) |
 | **A developer using the dashboard day-to-day** | [User Guide]({{< ref "/secureguard/main/user-guide/" >}}) | [Glossary]({{< ref "/secureguard/main/glossary/" >}}) |
 | **An operator deploying to production** | [Installation]({{< ref "/secureguard/main/installation/" >}}) | [Security Hardening]({{< ref "/secureguard/main/security-hardening/" >}}), [Advanced Configuration]({{< ref "/secureguard/main/advanced-configuration/" >}}) |
-| **Integrating or debugging the API** | [Architecture]({{< ref "/secureguard/main/architecture/" >}}) | [API Reference](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md) |
+| **Integrating or debugging the API** | [Architecture]({{< ref "/secureguard/main/architecture/" >}}) | [API Reference]({{< ref "/secureguard/main/api-reference/" >}}) |
 
 {{% notice tip %}}
 Keep the [Glossary]({{< ref "/secureguard/main/glossary/" >}}) open in a tab. Whenever a term like *ESO*, *SecretStore*, *CRD*, *OIDC*, or *unsealing* is unclear, it's defined there in one line.

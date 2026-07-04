@@ -174,7 +174,7 @@ the proxy's route allowlist, and the editing experience reflects that:
   PushSecrets, and ReloaderConfigs.
 
 This keeps version-controlled resources as the source of truth and keeps the
-browser's write surface small. See the [route allowlist](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md#route-allowlist)
+browser's write surface small. See the [route allowlist]({{< ref "../api-reference/#route-allowlist" >}})
 for the exact permitted operations.
 
 ## Namespace Context

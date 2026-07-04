@@ -34,17 +34,19 @@ dashboard then lets you watch, troubleshoot, and run targeted actions on them.
 | **Federation (Server / Authorization)** | ✅ | — | — | — | — |
 
 {{% notice note %}}
-**Why so read-only?** Each thing the browser can do must be explicitly allowed by the proxy's [route allowlist](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md#route-allowlist). Keeping the surface small is a deliberate security choice — see [Architecture → Security Model]({{< ref "../architecture/#the-security-model" >}}). To create the resources marked "—" above, use `kubectl apply` or GitOps.
+**Why so read-only?** Each thing the browser can do must be explicitly allowed by the proxy's [route allowlist]({{< ref "../api-reference/#route-allowlist" >}}). Keeping the surface small is a deliberate security choice — see [Architecture → Security Model]({{< ref "../architecture/#the-security-model" >}}). To create the resources marked "—" above, use `kubectl apply` or GitOps.
 {{% /notice %}}
 
 ## Dashboard Overview
 
 The Dashboard page provides an at-a-glance view of your secrets management posture:
 
-- **Sync Status Breakdown** — How many ExternalSecrets are synced, pending, or errored
+- **Sync Status Breakdown** — How many ExternalSecrets are synced, pending, errored, or **stale** (see [stale detection](#stale-detection) below)
+- **Infrastructure Metrics** — When the SG Agent is enabled: ESO Deployments running/errored and SG Agents healthy/unhealthy
 - **Provider Distribution** — Which external secret providers are in use across your stores
 - **Recent Sync Errors** — The latest failures with direct links to affected resources
-- **Namespace Breakdown** — Resource distribution across namespaces
+- **External Store Links** — Deep links to the admin consoles of the providers in use (OpenBao UI, AWS/GCP/Azure consoles)
+- **Cluster & Namespace Breakdown** — Resource distribution across clusters and namespaces
 
 ## Managing ExternalSecrets
 
@@ -53,17 +55,28 @@ The Dashboard page provides an at-a-glance view of your secrets management postu
 Navigate to **External Secrets** in the sidebar. The table shows all ExternalSecrets across your selected namespace(s) with:
 
 - **Name** and **Namespace**
-- **Sync Status** — `Synced` (green), `Pending` (amber), or `Error` (red)
+- **Sync Status** — `Synced` (green), `Pending` (amber), `Error` (red), or `Stale`
 - **Secret Store** — Which SecretStore or ClusterSecretStore the secret references
 - **Last Synced** — Timestamp of the most recent successful sync
 - **Refresh Interval** — How often ESO polls the external provider
+
+Use the search box and the **Status** / **SecretStore** filters to narrow the list.
+
+### Stale Detection
+
+An ExternalSecret is flagged **Stale** when its last successful sync is older than **twice its `refreshInterval`** — a sign that ESO is running but silently failing to refresh (provider unreachable, credentials expiring, controller wedged). Stale secrets get their own dashboard metric and list filter so they don't hide behind a green `Synced` condition.
 
 Click any row to open the detail view, which includes:
 - Full resource metadata
 - Status conditions with timestamps
 - Sync history timeline
+- Key mappings (`spec.data` / `spec.dataFrom`) and target template
 - The complete resource as **read-only YAML** (you can copy it, but not edit it here)
 - The target Kubernetes Secret (with values displayed as `••••••••`)
+
+### Debugging a Failed Sync (Sync Error Drawer)
+
+For an errored ExternalSecret, the detail view offers a **Debug** action that opens the **Sync Error Drawer**: a side panel combining the resource's condition timeline, related Kubernetes events, and **remediation hints** — pattern-matched suggestions for common failures (e.g. access denied → check the provider policy attached to the store's role). This is usually the fastest path from a red badge to a root cause without leaving the browser.
 
 ### Creating an ExternalSecret
 
@@ -167,12 +180,39 @@ and **delete** one. They are created with `kubectl` / GitOps and specify:
 
 ## ESODeployments
 
-ESODeployments manage the ESO operator lifecycle across clusters:
+ESODeployments manage the ESO operator lifecycle across clusters — the one resource with a full **create/edit form** in the dashboard:
 
 1. Navigate to **ESO Deployments**
 2. View the status of ESO installations across your connected clusters
 3. Create or update ESODeployments to install, upgrade, or remove ESO from target clusters
-4. Monitor deployment phases: `Deploying`, `Running`, `Upgrading`, `Error`
+4. Monitor deployment phases: `Deploying`, `Running`, `Upgrading`, `Deleting`, `Error`, and `Discovered` (see below)
+
+### The Create/Edit Form
+
+The guided form validates as you type and covers:
+
+- **Target cluster** and installation **namespace**
+- **ESO version** — picked from the operator-curated [ESO Version Catalog]({{< ref "../advanced-configuration/#eso-version-catalog-esoversion-crd" >}}), newest first, with the `latest`-flagged release preselected
+- **Scope** — cluster-wide or restricted to specific target namespaces (with optional exclusions; system namespaces are filtered out)
+- **High availability** — replica count
+- **Image & update schedule** — custom image repository and an optional cron schedule for automated image updates
+- **Deploy Reloader** — optionally co-deploy the Reloader controller for automatic workload restarts
+
+A **Form ↔ YAML** toggle lets you switch to a full YAML editor at any point — the round-trip is lossless, so YAML keys the form doesn't know about are preserved.
+
+### Conflict Pre-Validation
+
+Before you submit, the form checks the new deployment against existing ESODeployments on the same effective cluster and warns about:
+
+- **Namespace overlap** — two namespaced deployments targeting the same namespace
+- **Multiple cluster-scoped deployments** on one cluster
+- **Cluster scope covering a namespaced deployment**
+
+The SG Agent performs the same checks server-side and surfaces violations as a `Conflict` condition on the resource — blocking (`Error`) or advisory (`Warning`) depending on severity.
+
+### Externally Installed ESO (Discovered)
+
+The SG Agent periodically scans connected clusters for ESO installations **it didn't deploy** (e.g. installed by another platform team). These appear as read-only `eso-ext-*` ESODeployments in the `Discovered` phase with `managementMode: external`, showing the discovered image and replica count. SecureGuard never modifies them — they exist so the dashboard shows the complete picture. To adopt such a cluster, remove the external installation and create a managed ESODeployment for it.
 
 ## Federation
 
@@ -192,38 +232,47 @@ proxy. Federation is opt-in and disabled by default. For setup, the broker, the
 
 ## Event Stream
 
-The **Event Stream** page shows real-time Kubernetes events related to ESO resources. Use it for:
+The **Event Stream** page shows a live feed of Kubernetes events related to ESO resources, aggregated across all selected clusters. Use it for:
 
 - Monitoring sync activity across all ExternalSecrets
 - Spotting error patterns in real-time
 - Debugging failed syncs without needing `kubectl`
 
+Controls: filter by **Type** (Normal/Warning) and **Reason**, **Pause/Resume** the feed, and **Clear** the buffer. Each event links to its involved object's detail page. The feed polls every 10 seconds and keeps the most recent 500 events.
+
 ## Relationship Visualization
 
-The **Visualization** page renders an interactive graph showing relationships between:
+The **Visualization** page renders your secret-syncing topology in two views:
 
-- ExternalSecrets → SecretStores / ClusterSecretStores
-- ExternalSecrets → target Kubernetes Secrets
-- PushSecrets → source Kubernetes Secrets
+- **Graph view** — an interactive, auto-laid-out graph of clusters, SecretStores/ClusterSecretStores, ExternalSecrets, target Kubernetes Secrets, and ESODeployments. Zoom, pan, rotate the layout, auto-arrange, and use the minimap for orientation.
+- **List view** — the same relationships as expandable per-cluster trees: each store expands to show its referencing ExternalSecrets and their target Secrets.
 
-Click any node to navigate to its detail page. Use the controls to zoom, pan, and re-layout the graph.
+Click any node to navigate to its detail page. Both views respect the global cluster and namespace selectors.
 
 ## Multi-Cluster Management
 
 ### Cluster Selector
 
-The **cluster selector** in the top bar lets you scope the view to a specific cluster or view resources across all clusters.
+The **cluster selector** in the top bar lets you scope the view to a specific cluster or view resources across all clusters. In "All Clusters" mode the dashboard queries every registered cluster in parallel and tags each row with its origin cluster. The selection is persisted in the URL (`?cluster=...`), so filtered views are shareable and bookmarkable.
 
 ### Adding Clusters
 
-1. Navigate to **Clusters** (the Cluster Management page)
-2. Click **Upload Kubeconfig** and select a kubeconfig file
-3. Each context in the kubeconfig becomes a new cluster
-4. Optionally register an SGAgent for the cluster
+Navigate to **Clusters** (the Cluster Management page) and click **Add Cluster**. A three-step wizard walks you through registration:
 
-### Cluster Health
+1. **Configure** — Choose a cluster name (lowercase RFC 1123), an environment label, and whether to register an **SG Agent** for the cluster. Registering an agent enables heartbeat health reporting and ESO lifecycle management (ESODeployments) on that cluster; without it, the cluster is view-only through the proxy.
+2. **Setup** — The wizard generates the exact `kubectl` commands to run against the target cluster: they create a dedicated least-privilege, read-only ServiceAccount for SecureGuard. Use **Copy All Commands** and run them with cluster-admin rights on the target.
+3. **Upload** — Drag-and-drop or select the kubeconfig. Each context becomes a registered cluster.
 
-The Cluster Management page shows the health status of all connected clusters. Unhealthy clusters are flagged with the reason (unreachable, auth expired, etc.).
+On upload, the proxy immediately replaces the kubeconfig's credential with a **short-lived, self-renewing token** — the uploaded credential is never persisted. See [Short-Lived Remote-Cluster Tokens]({{< ref "../advanced-configuration/#short-lived-remote-cluster-tokens" >}}).
+
+### Cluster Health & Day-2 Actions
+
+The Cluster Management page shows the health of all connected clusters, their environment, an **SG Agent badge** (active / stale / none) with the last heartbeat, and per-cluster actions:
+
+- **Test Connection** — Run an on-demand connectivity check against the cluster's API server.
+- **Delete Cluster** — Deregister a cluster (with confirmation). This removes the per-cluster kubeconfig Secret from the management cluster; the **management cluster itself cannot be deleted**. Resources on the remote cluster are not touched — clean up the remote ServiceAccount manually if you're decommissioning the integration.
+
+Unhealthy clusters are flagged with the reason (unreachable, auth expired, etc.). The cluster detail page additionally shows the SG Agent's status conditions and the ESODeployments targeting that cluster.
 
 ## Namespace Filtering
 

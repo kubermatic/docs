@@ -83,6 +83,34 @@ helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
 
 ---
 
+## What the Chart Deploys (and Wires Up)
+
+Beyond installing the components, the chart performs several pieces of automation worth knowing about:
+
+| Component / behaviour | Value | Default |
+|---|---|---|
+| Dashboard UI + backend proxy | (always deployed) | — |
+| Dex OIDC provider | `dex.enabled` | `true` |
+| OpenBao | `openbao.enabled` | `true` |
+| External Secrets Operator | `eso.enabled` | `true` |
+| Reloader (workload restarts) | `reloader.enabled` | `false` |
+| **SG Agent Controller** (multi-cluster ESO lifecycle, heartbeats) | `sgAgent.enabled` | **`false`** |
+| **Federation broker** (cross-cluster secret serving) | `federation.enabled` | **`false`** |
+
+{{% notice note %}}
+The **SG Agent** and **Federation** are opt-in. Without `sgAgent.enabled=true` there are no ESODeployment reconciliation, heartbeats, or ESO auto-discovery — the related dashboard pages stay empty. See [Multi-Cluster Deployments]({{< ref "../advanced-configuration/#multi-cluster-deployments" >}}) and the [Federation guide]({{< ref "../federation/" >}}).
+{{% /notice %}}
+
+**Automatic wiring** (each can be disabled):
+
+- **Session secret** — `auth.sessionSecret` is auto-generated on first install and kept stable across upgrades if left empty. Set it explicitly when running multiple releases that must share sessions.
+- **Dex → OpenBao login** (`openbao.oidc.enabled`, default `true`) — a post-install Job configures OpenBao's OIDC auth method so users can log in to the OpenBao UI with the same Dex identity.
+- **Kubernetes auth for ESO** (`openbao.kubernetesAuth.enabled`, default `true`) — a post-install Job enables OpenBao's `kubernetes` auth method and creates the `eso-role` bound to the ESO ServiceAccount.
+- **Default ClusterSecretStore** (`eso.vaultSecretStore.enabled`, default `true`) — when both ESO and OpenBao are enabled, the chart creates a ready-to-use `ClusterSecretStore` named `openbao-backend` pointing at the bundled OpenBao (KV v2).
+- **Projected SA tokens** — `serviceAccount.tokenExpirationSeconds` (default `3600`) controls the lifetime of the proxy/agent tokens; the kubelet rotates them automatically.
+
+---
+
 ## Dev Mode for Testing
 
 By default, OpenBao starts in `standalone` (production-oriented) mode, meaning it writes to persistent storage and requires manual initialization and unsealing.
@@ -136,7 +164,7 @@ openbao:
 ```
 
 ### Ingress & TLS
-Ensure that traffic to the SecureGuard dashboard, the proxy, and OpenBao is encrypted via TLS. Configure Ingress annotations to use a tool like cert-manager for automatic certificate provisioning.
+Ensure that traffic to the SecureGuard dashboard, the proxy, and OpenBao is encrypted via TLS. The chart provides **three independent ingress blocks**: `ingress` (dashboard + proxy), `dexIngress` (Dex, exposed at `/dex` on the dashboard host), and `openbaoIngress` (OpenBao UI/API on its own hostname). Configure Ingress annotations to use a tool like cert-manager for automatic certificate provisioning.
 
 ```yaml
 ingress:
@@ -154,6 +182,10 @@ ingress:
       hosts:
         - secureguard.yourdomain.com
 ```
+
+{{% notice tip %}}
+The chart ships a `values-production.yaml` with a production-oriented starting point: 2 replicas, ingress + TLS enabled, NetworkPolicies and PodDisruptionBudgets on, OpenBao with persistent data/audit storage, and required-secret placeholders (`auth.sessionSecret`, `auth.oidc.clientSecret`). Use it as the base for your own values file.
+{{% /notice %}}
 
 ### Tenant Isolation
 For multi-tenant environments, the recommendation is deploying distinct secrets management vaults to limit the blast radius. You can deploy multiple, namespace-scoped instances of OpenBao behind the SecureGuard dashboard, isolating teams at the infrastructure level.

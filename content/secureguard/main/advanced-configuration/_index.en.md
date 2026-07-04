@@ -187,6 +187,22 @@ The controller will:
 **Only ESO 2.x is supported.** `esoVersion` must be `v2.0.0` or newer; the end-of-life 0.x line is no longer offered. The set of versions the dashboard presents is driven by the **ESO Version Catalog** (see below), not a hardcoded list.
 {{% /notice %}}
 
+### Conflict Detection
+
+The agent validates every ESODeployment against the others targeting the same effective cluster and reports violations as a `Conflict` condition (also shown as a printer column in `kubectl get esodeployments`):
+
+| Conflict | Severity | Meaning |
+|---|---|---|
+| `MultipleClusterScope` | Error (blocking) | Two cluster-scoped ESO installations on one cluster |
+| `NamespaceOverlap` | Error (blocking) | Two namespaced deployments claim the same namespace |
+| `ClusterScopeCoversNamespaced` | Warning (advisory) | A cluster-scoped deployment already covers a namespaced one |
+
+Blocking conflicts keep the resource in the `Error` phase until resolved. The dashboard's create/edit form runs the same checks client-side, so most conflicts are caught before the resource is ever submitted.
+
+### Discovery of Externally Installed ESO
+
+Every 60 seconds the agent scans connected clusters for ESO installations it does not manage (e.g. installed directly by another team). Each one is represented as a **read-only** ESODeployment named `eso-ext-<cluster>` with `managementMode: external` and phase `Discovered`, recording the discovered image and replica count. SecureGuard never modifies external installations — the CRs exist so the dashboard reflects reality and conflict detection can take them into account.
+
 ### ESO Version Catalog (ESOVersion CRD)
 
 The ESO versions offered in the dashboard's ESODeployment create/edit form are
@@ -251,7 +267,7 @@ curl -X POST http://localhost:3001/api/clusters/kubeconfig \
   -F "clusterName=prod-us-east"
 ```
 
-This creates per-cluster Secrets and optionally registers an SGAgent CR. See the [API Reference](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md) for details.
+This creates per-cluster Secrets and optionally registers an SGAgent CR. See the [API Reference]({{< ref "../api-reference/" >}}) for details.
 
 ## Proxy Configuration
 
@@ -278,7 +294,7 @@ The backend proxy is configured via environment variables. The Helm chart sets t
 
 ### Route Allowlist
 
-The proxy only forwards Kubernetes API paths explicitly listed in `proxy/internal/proxy/routes.go`. If you add a new CRD and need dashboard access, you must add the corresponding path patterns to the allowlist. See [API Reference — Route Allowlist](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md#route-allowlist) for the current list.
+The proxy only forwards Kubernetes API paths explicitly listed in `proxy/internal/proxy/routes.go`. If you add a new CRD and need dashboard access, you must add the corresponding path patterns to the allowlist. See [API Reference — Route Allowlist]({{< ref "../api-reference/#route-allowlist" >}}) for the current list.
 
 ### Short-Lived Remote-Cluster Tokens
 
