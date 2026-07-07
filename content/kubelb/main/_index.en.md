@@ -17,21 +17,21 @@ Kubernetes does not offer any implementation for load balancers and in turn reli
 
 There are solutions available like [MetalLB][2], [Cilium][3], etc. that solve this issue. However, these solutions are focused on a single cluster where you have to deploy the application in the same cluster where you want the load balancers. This is not ideal for multi-cluster environments since you have to configure load balancing for each cluster separately, which makes IP address management not trivial.
 
-For application load balancing, we have the same case where an external application like [nginx-ingress][4], [envoy gateway][5], needs to be deployed in the cluster. To further secure traffic, additional tools are required for managing DNS, TLS certificates, Web Application Firewall, etc.
+For application load balancing, we have the same case where an external application like [nginx-ingress][4] or [Envoy Gateway][5] needs to be deployed in the cluster. To further secure traffic, additional tools are required for managing DNS, TLS certificates, Web Application Firewall, etc.
 
-KubeLB solves this problem by providing a centralized management solution that can manage the data plane for multiple Kubernetes clusters across multi-cloud and on-premise environments. This enables you to manage fleet of Kubernetes clusters in a centralized way, ensuring security compliance, enforcing policies, and providing a consistent experience for developers.
+KubeLB solves this problem with a centralized management cluster that runs the data plane for multiple Kubernetes clusters across multi-cloud and on-premise environments. Load balancing for a whole fleet of clusters is configured and enforced in one place, with a consistent experience for developers.
 
 [2]: https://metallb.universe.tf
 [3]: https://cilium.io/use-cases/load-balancer/
 [4]: https://kubernetes.github.io/ingress-nginx/
 [5]: https://gateway.envoyproxy.io/
 
-## Table of Content
+## Table of Contents
 
 {{% children depth=5 %}}
 {{% /children %}}
 
-## Further Information
+## Further Reading
 
 - [Introducing KubeLB](https://www.kubermatic.com/products/kubelb/)
 - [KubeLB Whitepaper](https://www.kubermatic.com/static/KubeLB-Cloud-Native-Multi-Tenant-Load-Balancer.pdf)

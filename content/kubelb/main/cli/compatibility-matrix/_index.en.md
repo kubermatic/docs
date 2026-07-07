@@ -1,10 +1,10 @@
 +++
-title = "Compatibility Matrix"
+title = "CLI Compatibility Matrix"
 date = 2025-08-27T00:00:00+01:00
 weight = 30
 +++
 
-KubeLB CLI uses Kubernetes management cluster that has KubeLB installed as it's source of truth for the load balancing configurations.
+KubeLB CLI uses the Kubernetes management cluster that has KubeLB installed as its source of truth for the load balancing configurations.
 
 Since it has been introduced alongside KubeLB v1.2, it has a hard dependency for the KubeLB management cluster to be at least v1.2.
 

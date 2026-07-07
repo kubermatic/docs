@@ -10,7 +10,7 @@ This chapter offers guidance on how to install KubeLB and setup the tenant and m
 It is also recommended to first make yourself familiar with our [architecture documentation]({{< ref "../architecture/" >}}).
 {{% /notice %}}
 
-## Table of Content
+## Table of Contents
 
 {{% children depth=5 %}}
 {{% /children %}}

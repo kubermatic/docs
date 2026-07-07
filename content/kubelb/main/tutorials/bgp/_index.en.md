@@ -7,7 +7,7 @@ weight = 11
 
 In Management Cluster, KubeLB offloads the provisioning of the the actual load balancers to the load balancing appliance that is being used. This can be the CCM in case of a cloud provider or a self-managed solution like [MetalLB](https://metallb.universe.tf), [Cilium Load Balancer](https://cilium.io/use-cases/load-balancer/) or any other solution.
 
-Due to this generic nature, KubeLB can be used with any load balancing appliance and the underlying route advertisement protocol such as BGP, OSPF, L2, are all supported. This tutorial will focus on [BGP](https://networklessons.com/bgp/introduction-to-bgp) but it assumes that the underlying infrastructure of your Kubernetes cluster is already configured to support BGP.
+KubeLB therefore works with any load balancing appliance, regardless of the route advertisement protocol it uses (BGP, OSPF, L2, etc.). This tutorial focuses on [BGP](https://networklessons.com/bgp/introduction-to-bgp) and assumes that the underlying infrastructure of your Kubernetes cluster is already configured to support it.
 
 ## Setup
 
@@ -47,7 +47,7 @@ This configures an address pool `extern` with an IP range from 10.10.255.200 to 
 
 Afterwards you can follow the [Layer 4 Load balancing](../loadbalancer#usage-with-kubelb) tutorial to create a `LoadBalancer` service in the tenant cluster.
 
-### Further reading
+### Further Reading
 
 - [MetalLB BGP Configuration](https://metallb.universe.tf/configuration/_advanced_bgp_configuration/)
 - [MetalLB BGP Usage](https://metallb.universe.tf/usage/#bgp)

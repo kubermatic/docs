@@ -5,11 +5,11 @@ date = 2023-10-27T10:07:15+02:00
 weight = 3
 +++
 
-This tutorial will guide you through the process of setting up a Layer 4 LoadBalancer using KubeLB.
+Set up Layer 4 (TCP/UDP) load balancing with KubeLB.
 
 ### Setup
 
-For layer 4 load balancing, either the kubernetes cluster should be on a cloud, using it's CCM, that supports the `LoadBalancer` service type or a self-managed solution like [MetalLB](https://metallb.universe.tf) should be installed. [This guide](https://metallb.universe.tf/installation/#installation-with-helm) can be followed to install and configure MetalLB on the management cluster.
+For layer 4 load balancing, either the Kubernetes cluster should be on a cloud, using its CCM, that supports the `LoadBalancer` service type or a self-managed solution like [MetalLB](https://metallb.universe.tf) should be installed. [This guide](https://metallb.universe.tf/installation/#installation-with-helm) can be followed to install and configure MetalLB on the management cluster.
 
 A minimal configuration for MetalLB for demonstration purposes is as follows:
 
@@ -33,9 +33,7 @@ spec:
     - 10.10.255.200-10.10.255.250
 ```
 
-This configures an address pool `extern` with an IP range from 10.10.255.200 to 10.10.255.250. This IP range can be used by the tenant clusters to allocate IP addresses for the `LoadBalancer` service type.
-
-Further reading: <https://metallb.universe.tf/configuration/_advanced_l2_configuration/>
+This configures an address pool `extern` with an IP range from 10.10.255.200 to 10.10.255.250. This IP range can be used by the tenant clusters to allocate IP addresses for the `LoadBalancer` service type. For more options, see the [MetalLB L2 configuration documentation](https://metallb.universe.tf/configuration/_advanced_l2_configuration/).
 
 ### Usage with KubeLB
 
@@ -99,9 +97,48 @@ spec:
 
 This will create a service of type `LoadBalancer` and a deployment. KubeLB CCM will then propagate the request to management cluster, create a LoadBalancer CR there and retrieve the IP address allocated in the management cluster. Eventually the IP address will be assigned to the service in the tenant cluster.
 
+### Session Persistence
+
+Set `sessionAffinity: ClientIP` on the Service in the tenant cluster to route requests from the same client IP to the same backend endpoint. The CCM translates this to `spec.persistence.type: SourceIP` on the LoadBalancer resource in the management cluster; when creating LoadBalancer resources directly, set the field yourself:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  name: sticky
+spec:
+  persistence:
+    type: SourceIP
+```
+
+{{% notice note %}}
+Persistence is based on the source IP as observed by the KubeLB Envoy proxy. Behind a NAT gateway or another proxy, multiple clients can share one observed IP and will be pinned to the same endpoint.
+{{% /notice %}}
+
+### Hostname Endpoints
+
+Endpoint addresses can reference a DNS hostname instead of an IP. This is useful when the backend has no stable IP. Envoy resolves the hostname continuously (strict DNS), so the endpoint follows DNS changes. If both `ip` and `hostname` are set, `ip` wins.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  name: dns-backend
+spec:
+  endpoints:
+    - addresses:
+        - hostname: backend.internal.example.com
+      ports:
+        - port: 31632
+          protocol: TCP
+  ports:
+    - port: 8080
+      protocol: TCP
+```
+
 ### Load Balancer Hostname Support
 
-KubeLB now supports assigning a hostname directly to the LoadBalancer resource. This is helpful for simpler configurations where no special routing rules are required for your Ingress or HTTPRoute resources.
+KubeLB supports assigning a hostname directly to the LoadBalancer resource. This is helpful for simpler configurations where no special routing rules are required for your Ingress or HTTPRoute resources.
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1

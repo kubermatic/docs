@@ -2,7 +2,7 @@
 title = "KubeLB Dashboard"
 linkTitle = "Dashboard"
 date = 2026-04-23T10:00:00+02:00
-weight = 25
+weight = 28
 description = "Web UI for KubeLB — browse tenants, LoadBalancers, Routes, and WAF policies across your fleet."
 +++
 

@@ -2,7 +2,7 @@
 title = "Backend TLS Re-encryption"
 linkTitle = "Backend TLS"
 date = 2026-04-23T10:00:00+02:00
-weight = 4
+weight = 6
 enterprise = true
 +++
 
@@ -119,7 +119,7 @@ KubeLB does not set an SNI value on the upstream connection. Backends that requi
 - **Connection resets / TLS alerts with a "plain" backend** — the backend does not speak TLS on the target port. Remove the annotations or switch the backend to TLS.
 - **Changes to the CA Secret are not picked up** — the Envoy configuration is regenerated on `LoadBalancer` reconcile. Trigger a reconcile by updating the Service (for example, re-applying the annotation) if rotation does not propagate immediately.
 
-## Further reading
+## Further Reading
 
 - [Envoy upstream TLS (`UpstreamTlsContext`)](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/tls.proto#extensions-transport-sockets-tls-v3-upstreamtlscontext)
 - [Gateway API `BackendTLSPolicy`](https://gateway-api.sigs.k8s.io/api-types/backendtlspolicy/) — KubeLB does not consume `BackendTLSPolicy`, but readers looking for the upstream Gateway API spec may find it useful.

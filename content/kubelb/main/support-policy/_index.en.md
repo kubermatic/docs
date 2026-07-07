@@ -6,7 +6,7 @@ weight = 40
 
 KubeLB has an open-source community edition and an enterprise edition. The community edition is free to use and is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
-The enterprise edition, backed by an active subscription for [KubeLB](https://www.kubermatic.com/products/kubelb/), provides comprehensive enterprise-grade support, guaranteed SLAs, priority issue resolution, and direct access to our expert engineering team. Our enterprise customers benefit from personalized technical guidance, architectural consulting, and our commitment to their production success.
+The enterprise edition requires an active [KubeLB subscription](https://www.kubermatic.com/products/kubelb/), which includes SLA-backed support from the Kubermatic engineering team.
 
 ## Enterprise Edition Support
 
@@ -23,5 +23,5 @@ What is not covered:
 - Issues related to misconfigured Ingress or Gateway API resources by the KubeLB users(tenant clusters). For example, misconfigured TLS certificates or missing hostnames in the Ingress or HTTPRoute resources.
 
 {{% notice info %}}
-**Discover our enterprise-grade support offerings and customized solutions for your organization's needs. [Contact our solutions team](mailto:sales@kubermatic.com) to explore how we can help ensure your success.**
+For support offerings beyond the defaults above, [contact the Kubermatic sales team](mailto:sales@kubermatic.com).
 {{% /notice %}}

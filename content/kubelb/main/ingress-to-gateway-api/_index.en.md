@@ -5,7 +5,7 @@ date = 2026-01-30T00:00:00+01:00
 weight = 33
 +++
 
-This guide helps you migrate from Kubernetes Ingress to Gateway API. Whether you're managing a single cluster or operating at scale with KubeLB, through this guide you will be able to understand what's changing, why it's changing and what you need to do to migrate.
+This guide helps you migrate from Kubernetes Ingress to Gateway API: what's changing, why, and what you need to do.
 
 ## Why Migrate?
 

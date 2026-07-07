@@ -44,12 +44,12 @@ export KUBECONFIG=/path/to/kubeconfig
 export TENANT_NAME=my-tenant
 ```
 
-## Table of Content
+## Table of Contents
 
 {{% children depth=5 %}}
 {{% /children %}}
 
-## Further Information
+## Further Reading
 
 - [Introducing KubeLB](https://www.kubermatic.com/products/kubelb/)
 - [KubeLB Whitepaper](https://www.kubermatic.com/static/KubeLB-Cloud-Native-Multi-Tenant-Load-Balancer.pdf)

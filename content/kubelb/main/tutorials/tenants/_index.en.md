@@ -66,13 +66,17 @@ With this CR we are creating a tenant named `shroud` with the following configur
 * **loadBalancer.class: metallb.universe.tf/metallb** - The class to use for LoadBalancer resources for tenants in the management cluster.
 * **loadBalancer.limit: 10** - The limit of LoadBalancer resources that can be created by the tenant.
 * **ingress.class: nginx** - The class to use for Ingress resources for tenants in the management cluster.
-* **gatewayAPI.class: eg** - The class to use for Gateway API resources for tenants in the management cluster.
+* **gatewayAPI.class: eg** - The class to use for Gateway API resources for tenants in the management cluster. To use more than one gateway class per tenant, see [Gateway Class Mappings]({{< relref "../gatewayapi#gateway-class-mappings-enterprise-edition-only" >}}) (Enterprise Edition only).
 * For DNS configuration, we have allowed domains `*.example.com`.
 * For Certificates configuration, we have the default cluster issuer `letsencrypt-prod` and allowed domains `*.example.com`.
 * For Ingress and Gateway API, we have allowed domains `*.example.com` and `**.kube.com`.
 
 {{% notice info %}}
 The tenant name provided to the consumers is the name of the namespace that is created in the management cluster against the tenant CRD. So the tenant **shroud** will be represented by the namespace **tenant-shroud** in the management cluster. For the CCM, tenantName of **tenant-shroud** needs to be used.
+{{% /notice %}}
+
+{{% notice tip %}}
+When a resource requests a hostname outside `allowedDomains`, the corresponding `Route` in the management cluster is rejected: its `Accepted` condition is set to `False` with reason `DomainNotAllowed`, and a Warning event is emitted. If a hostname does not come up, check the Route's conditions and events with `kubectl describe`.
 {{% /notice %}}
 
 ### Load Balancer Policy

@@ -1,11 +1,11 @@
 +++
-title = "Bring your own Secrets"
-linkTitle = "Bring your own Secrets"
+title = "Bring Your Own Secrets"
+linkTitle = "Bring Your Own Secrets"
 date = 2023-10-27T10:07:15+02:00
 weight = 6
 +++
 
-To propagate secrets from tenant to management cluster. KubeLB has introduced a custom resource `SyncSecret` which is merely a wrapper over the native Kubernetes secret. The custom resource helps us ensure that we are not exposing any secrets from the LB cluster to the tenants.
+To propagate secrets from the tenant to the management cluster, KubeLB provides the custom resource `SyncSecret`, a wrapper over the native Kubernetes secret. It ensures that no secrets from the management cluster are exposed to the tenants.
 
 ## SyncSecret Example
 

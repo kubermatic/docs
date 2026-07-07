@@ -7,7 +7,7 @@ weight = 10
 
 This is a guide towards managing DNS, TLS, and other security-related configurations in KubeLB.
 
-## Table of Content
+## Table of Contents
 
 {{% children depth=5 %}}
 {{% /children %}}
