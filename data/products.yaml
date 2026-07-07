@@ -49,12 +49,27 @@ kubermatic:
       name: v2.13
     - release: v2.12
       name: v2.12
+kubermatic-virtualization:
+  name: kubermatic-virtualization
+  logo: "img/logo-kubermatic.svg"
+  title: Kubermatic-Virtualization
+  textName: Kubermatic Virtualization
+  description: Seamlessly modernize your infrastructure by building your private cloud entirely with Kubernetes.
+  weight: 2
+  shareImage: img/share-kubermatic.png
+  versions:
+    - release: main
+      name: main
+    - release: v1.1.0
+      name: v1.1.0
+    - release: v1.0.0
+      name: v1.0.0
 kubeone:
   name: KubeOne
   logo: "/img/logo-kubeone.svg"
   title: KubeOne
   description: Automate operations of a single Kubernetes cluster on your chosen cloud, on-prem, or edge environment.
-  weight: 2
+  weight: 3
   shareImage: img/share-kubeone.png
   versions:
     - release: main
@@ -91,7 +106,7 @@ kubelb:
   title: KubeLB
   textName: KubeLB
   description: KubeLB is a tool to centrally manage load balancers across multicloud and on-prem environments.
-  weight: 3
+  weight: 4
   shareImage: img/share-kubelb.png
   supportedReleases: 3
   versions:
@@ -112,7 +127,7 @@ developer-platform:
   logo: "/img/developer-platform/common/logo.svg"
   title: Kubermatic Developer Platform
   description: Provision and manage all services from a single centralized catalog - powered by Kubernetes-style APIs.
-  weight: 4
+  weight: 5
   shareImage: img/share-developer-platform.png
   versions:
     - release: v0.9.0
@@ -123,42 +138,25 @@ operatingsystemmanager:
   title: Operating System Manager
   textName: Operating System Manager
   description: Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster.
-  weight: 5
+  weight: 6
   shareImage: img/share-operatingsystemmanager.png
 machine-controller:
   name: machine-controller
   title: Machine Controller
   textName: Machine Controller
   description: Manage machines at cloud providers using a declarative Kubernetes API, compatible with the Kubernetes cluster-autoscaler.
-  weight: 6
+  weight: 7
   shareImage: img/share-machine-controller.png
   versions:
     - release: main
       name: main
-kubermatic-virtualization:
-  name: kubermatic-virtualization
-  logo: "img/logo-kubermatic.svg"
-  title: Kubermatic-Virtualization
-  textName: Kubermatic Virtualization
-  description: Seamlessly modernize your infrastructure by building your private cloud entirely with Kubernetes.
-  weight: 1
-  shareImage: img/share-kubermatic.png
-  versions:
-    - release: main
-      name: main
-    - release: v1.2.0
-      name: v1.2.0
-    - release: v1.1.0
-      name: v1.1.0
-    - release: v1.0.0
-      name: v1.0.0
 conformance-ee:
   name: conformance-ee
   logo: "img/logo-kubermatic.svg"
   title: Conformance EE
   textName: Conformance EE
   description: Automated end-to-end conformance test framework for Kubermatic Kubernetes Platform, generating and running thousands of test scenarios across cloud providers.
-  weight: 7
+  weight: 8
   shareImage: img/share-kubermatic.png
   versions:
     - release: main
@@ -169,7 +167,7 @@ conformance-ee:
 #   logo: "/img/developer-platform/common/logo.png"
 #   title: Kubermatic Developer Platform
 #   description: <TODO>
-#   weight: 6
+#   weight: 9
 #   shareImage: img/share-developer-platform.png
 # SecureGuard is still in development - do not yet reveal to the public.
 # The content tree exists under content/secureguard/ and is reachable via direct
@@ -179,7 +177,7 @@ conformance-ee:
 #   title: SecureGuard
 #   textName: SecureGuard
 #   description: <TODO>
-#   weight: 8
+#   weight: 10
 #   versions:
 #     - release: main
 #       name: main
