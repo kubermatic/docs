@@ -9,7 +9,7 @@ KubeLB uses [Envoy](https://www.envoyproxy.io/) as its data plane to handle traf
 
 This section covers advanced Envoy proxy configurations that can be applied through the global `Config` CRD in the management cluster. These settings allow you to fine-tune Envoy's behavior for production workloads.
 
-## Table of Content
+## Table of Contents
 
 {{% children depth=5 %}}
 {{% /children %}}

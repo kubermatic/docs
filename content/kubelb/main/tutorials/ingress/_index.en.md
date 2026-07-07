@@ -5,7 +5,7 @@ date = 2023-10-27T10:07:15+02:00
 weight = 5
 +++
 
-This tutorial will guide you through the process of setting up Layer 7 load balancing with Ingress.
+Set up Layer 7 load balancing with Ingress.
 
 {{% notice warning %}}
 **ingress-nginx has been deprecated by the Kubernetes community and will not have any new releases after March 2026. We strongly encourage you to migrate to Gateway API as soon as possible.**

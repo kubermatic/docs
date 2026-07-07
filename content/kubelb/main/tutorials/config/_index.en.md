@@ -19,7 +19,7 @@ spec:
     topology: shared
 ```
 
-Users can skip creation  of **Config** object via helm by applying the following modification to the **values.yaml** file for the helm chart:
+To skip creation of the **Config** object via helm, apply the following modification to the **values.yaml** file for the helm chart:
 
 ```yaml
 kubelb:
@@ -64,7 +64,7 @@ These configurations are available at a global level and also at a tenant level.
 
 ### Annotation Settings
 
-KubeLB can propagate annotations from services, ingresses, gateway API objects etc. in the tenant cluster to the corresponding LoadBalancer or Route resources in the management cluster. This is useful for setting annotations that are required by the cloud provider to configure the LoadBalancers. For example, the `service.beta.kubernetes.io/aws-load-balancer-internal` annotation is used to create an internal LoadBalancer in AWS.
+KubeLB can propagate annotations from services, ingresses, Gateway API objects etc. in the tenant cluster to the corresponding LoadBalancer or Route resources in the management cluster. This is useful for setting annotations that are required by the cloud provider to configure the LoadBalancers. For example, the `service.beta.kubernetes.io/aws-load-balancer-internal` annotation is used to create an internal LoadBalancer in AWS.
 
 Annotations are not propagated by default since tenants can make unwanted changes to the LoadBalancer configuration. Since each tenant is treated as a separate entity, the KubeLB manager cluster needs to be configured to allow the propagation of specific annotations.
 
@@ -138,14 +138,15 @@ metadata:
 spec:
   defaultAnnotations:
     service:
-      service.beta.kubernetes.io/aws-load-balancer-internal: true
+      service.beta.kubernetes.io/aws-load-balancer-internal: "true"
     ingress:
       kubernetes.io/ingress.class: "nginx"
-    gatewayapi:
-      kubernetes.io/ingress.class: "eg"
+    # Valid resource keys: all, service, ingress, gateway, httproute, grpcroute, tcproute, udproute, tlsroute
+    gateway:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
     # Will be applied to all resources such as Ingress, Gateway API resources, services, etc.
     all:
-      internal: true
+      internal: "true"
 ```
 
 ### Configure Envoy Proxy
@@ -169,7 +170,7 @@ spec:
       kubernetes.io/os: linux
     tolerations:
       - effect: NoSchedule
-      operator: Exists
+        operator: Exists
     # Can be used to configure requests/limits for envoy proxy
     resources:
       requests:
@@ -268,7 +269,7 @@ spec:
       namespace: "envoy-gateway"
     # Enterprise Edition Only (all the below options are only available in Enterprise Edition)
     gateway:
-      limits: 10
+      limit: 10
     disableHTTPRoute: false
     disableGRPCRoute: false
     disableTCPRoute: false

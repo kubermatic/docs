@@ -24,6 +24,7 @@ KubeLB is available in two editions:
 | HTTPRoute, GRPCRoute | ✔️ | ✔️ |
 | TCPRoute, UDPRoute, TLSRoute | ❌ | ✔️ |
 | Multiple Gateways per tenant | ❌ | ✔️ |
+| Multiple Gateway classes per tenant (class mappings) | ❌ | ✔️ |
 | Traffic Policies (Client/Backend) | ❌ | ✔️ |
 | **Security** |||
 | Web Application Firewall (Beta) | ❌ | ✔️ |
@@ -31,8 +32,8 @@ KubeLB is available in two editions:
 | **Management** |||
 | Ingress to Gateway API Migration (Beta) | ✔️ | ✔️ |
 | Bring your own certificates | ✔️ | ✔️ |
-| DNS automation | ❌ | ✔️ |
-| Certificate management | ❌ | ✔️ |
+| DNS automation | ✔️ ¹ | ✔️ |
+| Certificate management | ✔️ ¹ | ✔️ |
 | Gateway/LoadBalancer limits | ❌ | ✔️ |
 | Load Balancing Policies | ❌ | ✔️ |
 | CLI tunneling | ❌ | ✔️ |
@@ -43,6 +44,8 @@ KubeLB is available in two editions:
 | Artifact signing (Cosign) | ✔️ | ✔️ |
 | SBOMs | ✔️ | ✔️ |
 | Vulnerability scanning | ✔️ | ✔️ |
+
+¹ In Community Edition, DNS records and certificates for load balancer hostnames are managed by annotating the generated resources for [external-dns](https://github.com/kubernetes-sigs/external-dns) and [cert-manager](https://cert-manager.io) (`useDNSAnnotations` / `useCertificateAnnotations`). Enterprise Edition adds managed DNS and certificates with per-tenant allowed domains, wildcard domains, and tunnel hostnames.
 
 {{% notice note %}}
 **Supported implementations:**

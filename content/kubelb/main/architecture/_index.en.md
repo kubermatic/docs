@@ -4,7 +4,7 @@ date = 2023-10-27T10:07:15+02:00
 weight = 5
 +++
 
-KubeLB is an elastically scalable load balancer with a distributed data plane that can span, serve, and scale with apps across various on-premise and cloud locations. The distributed data plane empowers customers to obtain application affinity at the application microservice levels, thus significantly enhancing the overall application performance. In addition, the clean separation of planes also enables the creation of a unified, centralized control plane that significantly alleviates the operational complexity associated with integrating, operating, and managing each ADC appliance across locations individually.
+KubeLB separates the control plane from the data plane: a central management cluster holds the load balancing configuration and runs the data plane (Envoy Proxy) for many tenant clusters, while a lightweight agent in each tenant cluster reports what needs to be load balanced. This page explains the components involved and how they interact.
 
 ## Terminology
 
@@ -23,19 +23,19 @@ For security and isolation, the tenants have no access to any native kubernetes 
 
 ## Components
 
-KubeLB comprises of two components:
+KubeLB consists of two components:
 
 ### Cloud Controller Manager
 
-The **KubeLB CCM** is deployed in the tenant clusters and acts as an `agent` that watches for changes in layer 4 and layer 7 load balancing components in the tenant cluster. Such as nodes, secrets, services, ingresses, Gateway API etc. Based on it's configuration and what's allowed, it processes and propagates the required resources to the `manager` cluster.
+The **KubeLB CCM** is deployed in the tenant clusters and acts as an `agent` that watches for changes in layer 4 and layer 7 load balancing components in the tenant cluster, such as nodes, secrets, services, ingresses, and Gateway API resources. Based on its configuration and what's allowed, it processes and propagates the required resources to the `manager` cluster.
 
 For layer 4 load balancing `LoadBalancer` and for Layer 7 load balancing `Route` CRDs are used.
 
 ### Manager
 
-The **KubeLB manager** is responsible for managing the data plane of it's tenants. The manager **registers** the tenant clusters as tenants, and then it receives the load balancer configurations from the CCM(s) in the form of `LoadBalancer` or `Route` CRDs. It then deploys the necessary workloads according to the desired specification.
+The **KubeLB manager** is responsible for managing the data plane of its tenants. The manager **registers** the tenant clusters as tenants, and then it receives the load balancer configurations from the CCM(s) in the form of `LoadBalancer` or `Route` CRDs. It then deploys the necessary workloads according to the desired specification.
 
-At its core, the KubeLB manager relies on [envoy proxy][1] to load balance the traffic. The manager is responsible for deploying the envoy proxy and configuring it for each load balancer service per tenant, based on the envoy proxy deployment topology.
+At its core, the KubeLB manager relies on [Envoy Proxy][1] to load balance the traffic. The manager is responsible for deploying Envoy Proxy and configuring it for each load balancer service per tenant, based on the Envoy Proxy deployment topology.
 
 ## Personas
 
@@ -45,15 +45,15 @@ KubeLB targets the following personas:
 2. Platform Operator: The Platform Operator is responsible for overall cluster administration. They manage policies, network access, application permissions and will interact with Gateway resources.
 3. Service Operator: The Service Operator is responsible for defining application configuration and service composition. They will interact with HTTPRoute and TLSRoute resources and other typical Kubernetes resources.
 
-Inspired from [Gateway API Personas](https://gateway-api.sigs.k8s.io/#personas).
+Inspired by [Gateway API Personas](https://gateway-api.sigs.k8s.io/#personas).
 
-Service Operator and Platform Operator are the more or less the same persona in KubeLB and they are responsible for defining the load balancer configurations in tenant cluster. Platform Provider is the "KubeLB provider" and manages the management cluster.
+Service Operator and Platform Operator are more or less the same persona in KubeLB and they are responsible for defining the load balancer configurations in tenant cluster. Platform Provider is the "KubeLB provider" and manages the management cluster.
 
 ## Concepts
 
 ### Envoy Proxy Deployment Topology
 
-KubeLB manager deploys envoy proxy using the **shared** topology: a single envoy proxy is deployed per tenant cluster, and all load balancer services in that tenant cluster are routed through it.
+KubeLB manager deploys Envoy Proxy using the **shared** topology: a single Envoy Proxy is deployed per tenant cluster, and all load balancer services in that tenant cluster are routed through it.
 
 {{% notice warning %}}
 The `global` Envoy Proxy topology available in KubeLB v1.3 and earlier has been removed in v1.4. Existing installations using `global` must migrate to `shared` before upgrading; update `Config.spec.envoyProxy.topology` (or the corresponding tenant-level override) to `shared`.
@@ -61,13 +61,11 @@ The `global` Envoy Proxy topology available in KubeLB v1.3 and earlier has been 
 
 ### User experience
 
-One of the most vital consideration while designing KubeLB was the user experience. There should be least possible friction and divergance of how the workflows to manage Layer 4 and Layer 7 workloads used to work like before KubeLB.
-
-All the end users need is to configure the CCM with there desired configuration and the CCM will take care of the rest. With default configuration, all you need is to use the Class **kubelb** for your resources instead of a provider specific class that the users used to have before.
+Existing workflows for managing Layer 4 and Layer 7 workloads should keep working with as little change as possible. Once the CCM is configured, the only difference for end users is to use the class **kubelb** for their resources instead of a provider-specific class.
 
 ### Kubernetes Class
 
-Class is a concept in Kubernetes that is used to mark the ownership of a resource. For example an Ingress with `class: nginx` will be owned by a controller that implements the IngressClass named `nginx`. We have the similar concept in services, ingresses, gateway API resources, etc. KubeLB leverages on this concept to provide a seamless experience to the users by simply filtering out and processing the resources that are owned by KubeLB, by default. This behavior can also be changed by overriding the CCM configuration.
+Class is a concept in Kubernetes that is used to mark the ownership of a resource. For example, an Ingress with `class: nginx` will be owned by a controller that implements the IngressClass named `nginx`. The same concept exists for services and Gateway API resources. By default, KubeLB only processes resources that carry its class; this behavior can be changed by overriding the CCM configuration.
 
 ## Installation
 
@@ -75,7 +73,7 @@ See the [installation documentation]({{< relref "../installation/">}}) for more 
 
 [1]: https://github.com/envoyproxy/envoy
 
-## Table of Content
+## Table of Contents
 
 {{% children depth=5 %}}
 {{% /children %}}

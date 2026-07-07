@@ -15,15 +15,11 @@ WAF is a **beta** feature available in Enterprise Edition only. Suitable for non
 ## Why WAF?
 
 - SQL injection, XSS, and command injection attacks blocked at the gateway before reaching backends
-- OWASP CRS provides battle-tested rule sets out of the box
+- OWASP CRS rule sets enabled by default
 - No application code changes required — protection applied at infrastructure level
 - Per-route or global policies with label-based multi-tenant targeting
 
-## WAF with KubeLB  vs. Other Self-Hosted Solutions
-
-KubeLB centralizes WAF policy management across your entire fleet of clusters from a single control plane. Apply policies globally, per-tenant, or to specific routes, giving you granular control over security posture without touching application code.
-
-This infrastructure-first approach shifts WAF management from developers to Platform Operators and Infrastructure Engineers, who can now secure entire fleets with consistent policies. Application teams retain the flexibility to enable WAF protection for their services, creating a clear separation of concerns while maintaining operational agility.
+Unlike a WAF deployed per cluster, KubeLB manages WAF policies for the whole fleet from the management cluster: platform operators apply policies globally, per tenant, or per route, and application teams can still opt individual services in or out.
 
 ## Supported Routes
 

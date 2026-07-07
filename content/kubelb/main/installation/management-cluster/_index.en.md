@@ -2,7 +2,7 @@
 title = "Install KubeLB Manager and setup Management Cluster"
 linkTitle = "Setup Management Cluster"
 date = 2023-10-27T10:07:15+02:00
-weight = 20
+weight = 10
 +++
 
 ## Requirements
@@ -32,7 +32,7 @@ imagePullSecrets:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.3.9 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.4.2 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-manager-ee/crds/
 ## Create and update values.yaml with the required values.
@@ -142,7 +142,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.3.9 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.4.2 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-manager/crds/
 ## Create and update values.yaml with the required values.
@@ -225,7 +225,7 @@ helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubel
 The examples and tools shared below are for demonstration purposes, you can use any other tools or configurations as per your requirements.
 {{% /notice %}}
 
-Management cluster acts as the dataplane and central control plane for all your load balancing configurations. It is the place where all the components required for Layer 4 and Layer 7 load balancing, AI Gateways, MCP Gateways, Agent2Agent Gateways, and API Gateways etc. are deployed. The management cluster is multi-tenant by design which makes it a perfect for managing a fleet of clusters in a scalable, robust, and secure way.
+The management cluster acts as the data plane and central control plane for all your load balancing configurations. All the components required for Layer 4 and Layer 7 load balancing, AI Gateways, MCP Gateways, Agent2Agent Gateways, API Gateways etc. are deployed here. The management cluster is multi-tenant and can serve a whole fleet of clusters.
 
 KubeLB has introduced an addons chart to simplify the installation of the required components for the management cluster. The chart is already part of the KubeLB manager chart and can be installed by setting the `kubelb-addons.enabled` to `true` in the values.yaml.
 

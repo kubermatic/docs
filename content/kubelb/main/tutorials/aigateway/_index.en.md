@@ -9,7 +9,7 @@ This tutorial walks through setting up an AI, MCP, and Agent-to-Agent (A2A) Gate
 
 ## Overview
 
-agentgateway is an Envoy-based data plane that implements the Kubernetes Gateway API and adds first-class support for LLM traffic, Model Context Protocol (MCP) servers, and Agent-to-Agent (A2A) connectivity. Enabled as an addon in the `kubelb-addons` chart, it lets the management cluster terminate AI/agent traffic.
+agentgateway is an Envoy-based data plane that implements the Kubernetes Gateway API and adds native support for LLM traffic, Model Context Protocol (MCP) servers, and Agent-to-Agent (A2A) connectivity. Enabled as an addon in the `kubelb-addons` chart, it lets the management cluster terminate AI/agent traffic.
 
 Refer to the upstream [agentgateway documentation](https://agentgateway.dev/docs/) for the complete feature set (provider list, prompt guards, inference routing, rate limiting, observability, etc.). This page only covers enabling the addon and a minimal end-to-end example.
 

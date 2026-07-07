@@ -188,7 +188,7 @@ spec:
 Be aware of these limitations when migrating external-dns to Gateway API.
 {{% /notice %}}
 
-We didn't find any significant limitations during our migrations and testing. Everything worked as expected and seamlessly. Although, some things to be aware of:
+Things to be aware of:
 
 ### IP Address Resolution
 

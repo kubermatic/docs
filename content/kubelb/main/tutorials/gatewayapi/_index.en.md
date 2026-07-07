@@ -5,17 +5,15 @@ date = 2023-10-27T10:07:15+02:00
 weight = 4
 +++
 
-This tutorial will guide you through the process of setting up Layer 7 load balancing with Gateway API.
+Set up Layer 7 load balancing with the Gateway API.
 
-Gateway API targets three personas:
+Gateway API targets three [personas](https://gateway-api.sigs.k8s.io/#personas):
 
 1. Platform Provider: The Platform Provider is responsible for the overall environment that the cluster runs in, i.e. the cloud provider. The Platform Provider will interact with GatewayClass resources.
 2. Platform Operator: The Platform Operator is responsible for overall cluster administration. They manage policies, network access, application permissions and will interact with Gateway resources.
 3. Service Operator: The Service Operator is responsible for defining application configuration and service composition. They will interact with HTTPRoute and TLSRoute resources and other typical Kubernetes resources.
 
-Further reading: <https://gateway-api.sigs.k8s.io/#personas>
-
-In KubeLB, we treat the admins of management cluster as the Platform provider. Hence, they are responsible for creating the `GatewayClass` resource. Tenants are the Service Operators. For Platform Operator, this role could vary based on your configurations for the management cluster. In Enterprise edition, users can set the limit of Gateways to 0 to shift the role of "Platform Operator" to the "Platform Provider". In other case, by default, the Platform Operator role is assigned to the tenants.
+In KubeLB, the admins of the management cluster are the Platform Provider, responsible for creating the `GatewayClass` resource. Tenants are the Service Operators. The Platform Operator role depends on how the management cluster is configured: by default it is assigned to the tenants; in Enterprise Edition, setting the Gateway limit to 0 shifts it to the Platform Provider.
 
 ### Setup
 
@@ -71,11 +69,33 @@ spec:
 
 **Leave it empty if you named your Gateway Class as `kubelb`**
 
+#### Gateway Class Mappings (Enterprise Edition Only)
+
+A tenant is not limited to a single gateway class. `classMappings` maps gateway class names used in the tenant cluster (`source`) to gateway class names in the management cluster (`target`). Mappings can be set globally on the `Config` and overridden per tenant; a tenant mapping replaces a global mapping with the same `source`. Up to 32 mappings are allowed per resource.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Tenant
+metadata:
+  name: shroud
+spec:
+  gatewayAPI:
+    classMappings:
+      - source: internal
+        target: eg-internal
+      - source: public
+        target: eg-public
+```
+
+With this configuration, a Gateway created in the tenant cluster with `gatewayClassName: internal` is provisioned in the management cluster with the `eg-internal` class. Gateways using a class that has no mapping fall back to `gatewayAPI.class` (tenant first, then global).
+
+The CCM watches Gateways whose class is either listed in the `kubelb.gatewayClasses` helm value (default: `kubelb`) or appears as a `source` in the effective mappings. This only applies when `useGatewayClass` is enabled; with `useGatewayClass: false` the CCM processes all Gateways regardless of class. The effective mappings for a tenant are published in `TenantState.status.gatewayAPI.classMappings`.
+
 ### Usage with KubeLB
 
 #### Gateway resource
 
-Once you have created the GatewayClass, the next resource that is required is the Gateway. For CE version, the Gateway needs to be created in the tenant cluster. However, in Enterprise edition, the Gateway can exist in the management cluster or the tenant cluster.  In Enterprise edition, users can set the limit of Gateways to 0 to shift the role of "Platform Operator" to the "Platform Provider". Otherwise, by default, the Platform Operator role is assigned to the tenants.
+Once you have created the GatewayClass, the next resource that is required is the Gateway. In Community Edition, the Gateway needs to be created in the tenant cluster. In Enterprise Edition, the Gateway can exist in either the management cluster or the tenant cluster.
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -93,7 +113,7 @@ spec:
 It is recommended to create the Gateway in tenant cluster directly since the Gateway Object needs to be modified regularly to attach new routes etc. In cases where the Gateway exists in management cluster, set the `use-gateway-class` argument for CCM to false.
 
 {{% notice warning %}}
-Community Edition only one gateway is allowed per tenant and that has to be named `kubelb`.
+In Community Edition, only one Gateway is allowed per tenant and it must be named `kubelb`.
 {{% /notice %}}
 
 #### HTTPRoute resource

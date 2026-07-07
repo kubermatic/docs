@@ -2,7 +2,7 @@
 title = "DNS Management"
 linkTitle = "DNS Management"
 date = 2023-10-27T10:07:15+02:00
-weight = 1
+weight = 2
 enterprise = true
 +++
 
@@ -10,7 +10,7 @@ enterprise = true
 
 ### Install External-dns
 
-We leverage [External-dns](https://bitnami.com/stack/external-dns/helm) to manage DNS records for the tenant clusters.
+KubeLB uses [external-dns](https://github.com/kubernetes-sigs/external-dns) to manage DNS records for the tenant clusters.
 
 **This is just an example to give you a headstart. For more details on setting up external-dns for different providers, visit [Official Documentation](https://kubernetes-sigs.github.io/external-dns).**
 
