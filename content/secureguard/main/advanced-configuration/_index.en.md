@@ -39,6 +39,27 @@ dex:
 ```
 *Note: You must create an OAuth application in GitHub to obtain the Client ID and Secret, and ensure the `redirectURI` matches your Dex ingress.*
 
+### Skipping the Dex consent screen for the dashboard
+
+The SecureGuard dashboard is a **first-party** OIDC client, so the interactive
+"Grant access?" approval screen Dex shows after upstream login adds friction
+without a security benefit here. Skip it by setting `oauth2.skipApprovalScreen`
+in the Dex config — anything you put under `dex.config` passes straight through
+to Dex:
+
+```yaml
+dex:
+  config:
+    oauth2:
+      skipApprovalScreen: true
+```
+
+{{% notice note %}}
+This applies to every client Dex serves. Only enable it when the clients Dex
+serves are first-party (the bundled `secureguard` client, and the OpenBao UI if
+you use the bundled OpenBao).
+{{% /notice %}}
+
 ## User Authorization (RBAC via Impersonation)
 
 Authentication is **mandatory** in SecureGuard, and authorization is delegated entirely to Kubernetes RBAC. The backend proxy authenticates to the Kubernetes API as its own service account and then **impersonates the logged-in user** on every request, using two headers derived from the user's OIDC token:

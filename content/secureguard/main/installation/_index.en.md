@@ -265,7 +265,13 @@ A freshly deployed OpenBao is **sealed** and must be initialized and unsealed be
 - The Shamir unseal **key shares** are stored in the `<release>-openbao-keys` Secret (`keyShares: 5`, `keyThreshold: 3` by default).
 
 {{% notice warning %}}
-**Back up the `<release>-openbao-keys` Secret.** Without the unseal keys you cannot unseal OpenBao and your secrets are unrecoverable. For break-glass admin access (the root token is gone), run `bao operator generate-root` using the stored key shares.
+**Back up the `<release>-openbao-keys` Secret — immediately after the first install, as a day-one step.** Without the unseal keys you cannot unseal OpenBao and your secrets are unrecoverable. Copy it out of the cluster to your organization's secrets manager / offline escrow (do **not** leave the only copy in the same cluster it protects), then verify you can read it back:
+
+```bash
+kubectl get secret <release>-openbao-keys -n secureguard-system -o yaml > openbao-keys.backup.yaml
+```
+
+For break-glass admin access (the root token is revoked after init and never persisted), run `bao operator generate-root` using the stored key shares.
 {{% /notice %}}
 
 ```yaml
