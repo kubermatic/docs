@@ -266,6 +266,41 @@ curl -X POST http://localhost:3001/api/clusters/kubeconfig \
 
 This creates per-cluster Secrets and optionally registers an SGAgent CR. See the [API Reference]({{< ref "../api-reference/" >}}) for details.
 
+**How registration is stored and discovered.** Each uploaded cluster becomes a
+Secret in the SecureGuard namespace carrying the discovery label
+`secureguard.io/cluster-kubeconfig=true`, with the connection details under a
+well-known data key. The proxy watches these labeled Secrets via an informer, so
+newly registered clusters appear without a pod restart. You can list them with:
+
+```bash
+kubectl get secrets -n secureguard-system -l secureguard.io/cluster-kubeconfig=true
+```
+
+{{% notice note %}}
+**Register the management/local cluster too.** The cluster SecureGuard runs in is
+not special-cased — for it to appear in the cluster selector and be targetable
+like any other, register it as well (upload its in-cluster kubeconfig / context).
+If you only register remote targets, the dashboard's local-cluster views can
+come up empty.
+{{% /notice %}}
+
+{{% notice warning %}}
+**Credential constraints.** At registration the proxy provisions a
+least-privilege ServiceAccount on the remote cluster and stores only a
+short-lived, self-renewing token (see [Short-Lived Remote-Cluster Tokens](#short-lived-remote-cluster-tokens)) — it never persists your uploaded credential as-is. As a result:
+
+- **Bearer tokens** and **exec-plugin** credentials (EKS/GKE/AKS `exec` blocks)
+  are supported.
+- **OIDC `auth-provider` kubeconfigs are not consumable by the proxy** and are
+  rejected at registration — the client-go OIDC auth-provider plugin is not
+  available server-side. Convert to a bearer token or an `exec` credential
+  before uploading.
+- The uploaded credential must be able to create ServiceAccounts, ClusterRoles,
+  and bindings on the target (typically cluster-admin, used exactly once).
+
+See [Kubeconfig Upload Rejected at Registration]({{< ref "../troubleshooting/#kubeconfig-upload-rejected-at-registration" >}}) in Troubleshooting.
+{{% /notice %}}
+
 ## Proxy Configuration
 
 The backend proxy is configured via environment variables. The Helm chart sets these from your values; the full list below is useful for custom deployments and debugging.
