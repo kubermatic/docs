@@ -165,6 +165,40 @@ The **SG Agent** and **Federation** are opt-in. Without `sgAgent.enabled=true` t
 
 ---
 
+## Install Order (DNS & TLS)
+
+On a cloud cluster the ingress load-balancer address only exists **after** the
+chart is installed, and cert-manager can only issue a certificate once DNS
+resolves to that address. Follow this order for a first install with ingress +
+TLS enabled:
+
+1. **Install the chart** with ingress enabled and your hostname(s) set (see the
+   [Ingress & TLS](#ingress--tls) values). The dashboard, Dex, and OpenBao come
+   up, but TLS is not valid yet.
+2. **Read the load-balancer address** the ingress controller was assigned:
+   ```bash
+   kubectl get ingress -n secureguard-system
+   kubectl get svc -n <ingress-controller-namespace> \
+     -o jsonpath='{.items[*].status.loadBalancer.ingress[*].hostname}{"\n"}'
+   ```
+3. **Create the wildcard DNS record** (e.g. `*.secureguard.example.com`)
+   pointing at that hostname/IP. Wait for it to propagate.
+4. **cert-manager issues `secureguard-tls`.** Once DNS resolves, the ACME
+   HTTP-01/DNS-01 challenge completes and the certificate Secret becomes `Ready`:
+   ```bash
+   kubectl get certificate -n secureguard-system
+   ```
+5. **Log in** at `https://secureguard.example.com`.
+
+{{% notice info %}}
+No component restart is required between these steps. The proxy performs OIDC
+discovery against Dex with automatic retry/back-off, so it **self-heals** once
+the certificate is issued and Dex becomes reachable over HTTPS — you do not need
+to restart the proxy after `secureguard-tls` goes `Ready`.
+{{% /notice %}}
+
+---
+
 ## Dev Mode for Testing
 
 By default OpenBao runs as a 3-node Raft HA cluster that the chart initializes and unseals for you. For local development or testing you usually don't want three replicas or persistent state — enable `dev` mode instead, where OpenBao runs as a single in-memory node that is automatically unsealed but loses all data on restart:
@@ -189,6 +223,16 @@ helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
   --set openbao.server.standalone.enabled=true \
   --set openbao.server.ha.enabled=false
 ```
+
+{{% notice tip %}}
+**Node sizing.** Even the default (non-dev) install schedules a fair number of
+pods — dashboard + proxy, Dex, three OpenBao replicas, and the ESO
+controller/webhook/cert-controller — plus the init/config hook Jobs. For a
+local `kind`/minikube walkthrough, prefer dev mode (single in-memory OpenBao,
+no PVCs) on a node with at least ~4 vCPU / 8 GiB free; the full Raft HA default
+additionally needs a working `StorageClass` and enough headroom for three
+persistent OpenBao replicas.
+{{% /notice %}}
 
 ---
 
