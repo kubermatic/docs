@@ -153,6 +153,10 @@ A central principle of SecureGuard is centralized governance. You deploy the cor
 1.  **Management Cluster**: Runs OpenBao, SecureGuard Dashboard, Backend Proxy, SG Agent Controller, and Dex.
 2.  **Target Clusters**: Run the External Secrets Operator (ESO), deployed and managed by the SG Agent Controller via `ESODeployment` CRDs.
 
+{{% notice warning %}}
+**RBAC is per-cluster and impersonated — a user needs bindings on _every_ cluster they touch, including targets.** The proxy impersonates the logged-in user on the API server of whichever cluster a request targets (see [User Authorization](#user-authorization-rbac-via-impersonation)). A user who is bound on the management cluster but has **no** Role/ClusterRole binding on a target cluster can select that cluster in the dashboard but sees only `403 Forbidden` for its ExternalSecrets, SecretStores, and Secrets. Create the equivalent bindings for the user/groups on each target cluster — the management-cluster binding does not carry over.
+{{% /notice %}}
+
 ### Automated Multi-Cluster Setup (ESODeployment)
 
 The SG Agent Controller automates ESO deployment to target clusters. Create an `ESODeployment` resource on the management cluster:
