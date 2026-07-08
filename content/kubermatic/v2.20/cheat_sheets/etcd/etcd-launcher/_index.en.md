@@ -89,7 +89,7 @@ Once the cluster object is updated, The etcd StatefulSet will start updating the
 It is not possible to disable etcd-launcher since v2.19.0, as the upgrade of peer connections to TLS changes membership information of the etcd ring.
 
 ## Etcd Launcher Features
-Enabling etcd-launcher enables cluster operators to perform several operational tasks that were not possible before. With the the v2.15.0 releases, etcd-launcher provides the following capabilities:
+Enabling etcd-launcher enables cluster operators to perform several operational tasks that were not possible before. With the v2.15.0 releases, etcd-launcher provides the following capabilities:
 
 ### Scaling user cluster etcd ring
 Prior to version v2.15.0, the user cluster etcd ring ran as a simple and static 3-node ring. With etcd-launcher enabled, it's now possible to resize the etcd ring to increase capacity and/or availability for user clusters.

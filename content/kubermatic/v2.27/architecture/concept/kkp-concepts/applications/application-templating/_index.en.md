@@ -23,7 +23,7 @@ Go snippet shows the available information:
 
 Let's take nginx ingress controller as an example to demonstrate how to use predefined values.
 
-#### Example Applicationdefintion
+#### Example ApplicationDefinition
 
 ```yaml
 apiVersion: apps.kubermatic.k8c.io/v1
