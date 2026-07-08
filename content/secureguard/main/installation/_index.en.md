@@ -14,8 +14,64 @@ SecureGuard ships with **OpenBao** (Vault-compatible secret engine), **Dex** (OI
 {{% /notice %}}
 
 ## Prerequisites
-- A Kubernetes cluster (v1.27 or newer recommended)
-- `helm` v3 CLI installed
+
+A local `kubectl` + `helm` v3 CLI and a Kubernetes cluster (v1.27 or newer
+recommended) are the minimum. For any non-local install you also need the
+platform pieces below — a bare cluster is **not** enough to reach a working,
+TLS-terminated login.
+
+### Cluster & tooling
+- A Kubernetes cluster (v1.27 or newer recommended).
+- `kubectl` and `helm` v3 CLIs installed and pointed at the cluster.
+- **Registry pull credentials** — SecureGuard's images are served from a
+  **private** Quay repository. Without a pull secret the pods stay in
+  `ImagePullBackOff` and `kubectl describe pod` shows `401 Unauthorized`. Create
+  a docker-registry Secret and reference it:
+  ```bash
+  kubectl create secret docker-registry secureguard-pull \
+    --namespace secureguard-system \
+    --docker-server=quay.io \
+    --docker-username='<robot-user>' \
+    --docker-password='<robot-token>'
+  ```
+  ```yaml
+  # values.yaml — reaches the first-party pods (and, via global, OpenBao + ESO)
+  imagePullSecrets:
+    - name: secureguard-pull
+  global:
+    imagePullSecrets:
+      - name: secureguard-pull
+  ```
+  See the pull-secret keys in
+  [`values.yaml`](https://github.com/kubermatic/secureguard/blob/main/charts/secureguard/values.yaml)
+  (`imagePullSecrets`, `global.imagePullSecrets`, and per–sub-chart
+  `dex.imagePullSecrets` / `reloader.imagePullSecrets`) for mirrored/air-gapped
+  registries.
+
+### Ingress, DNS & TLS (non-local installs)
+- **An ingress controller and an `IngressClass`** (e.g. ingress-nginx). Set
+  `ingress.className` to a class that exists in the cluster — the chart does not
+  install a controller for you.
+- **cert-manager plus a `ClusterIssuer`** (or a pre-created TLS Secret). The
+  ingress examples below reference `cert-manager.io/cluster-issuer`; that issuer
+  must already exist, or certificates never get issued and the browser sees TLS
+  errors.
+- **Wildcard DNS** for your SecureGuard host(s), pointed at the ingress
+  controller's load-balancer address. Dex is served at `/dex` on the dashboard
+  host and OpenBao on its own hostname, so a wildcard (e.g.
+  `*.secureguard.example.com`) is the simplest fit. See
+  [Install Order (DNS & TLS)](#install-order-dns--tls) for the exact sequence.
+
+### Storage (stateful, non-dev installs)
+- **A default `StorageClass`** (or an explicit `openbao.server.dataStorage.storageClass`).
+  Production OpenBao runs as a Raft HA cluster and each replica needs a
+  PersistentVolume; without a usable StorageClass the OpenBao pods stay
+  `Pending`.
+- **Size the volume up front.** Some StorageClasses (notably AWS EBS `gp2`/`gp3`
+  with the default provisioner settings) do **not** support online volume
+  expansion, so a PVC created too small cannot be grown in place later — pick a
+  headroom-generous `openbao.server.dataStorage.size` at install time, or use a
+  StorageClass with `allowVolumeExpansion: true`.
 
 ## Deployment Modes
 
