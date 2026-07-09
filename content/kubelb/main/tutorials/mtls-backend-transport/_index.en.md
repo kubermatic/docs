@@ -70,6 +70,24 @@ Tenants do not need a separate setting. The tenant CCM discovers the effective m
 Switching between `Direct` and `MTLS` changes the backend traffic path. Plan it like a network topology change and validate tenant traffic after rollout.
 {{% /notice %}}
 
+### Confirm the mode change on an existing installation
+
+Switching the mode re-plumbs the tenant dataplane and briefly disrupts tenant traffic. On an installation with existing tenants, KubeLB holds the mode change until the `Config` carries a confirmation annotation with the target mode:
+
+```bash
+kubectl --context <management> -n kubelb annotate config default \
+  kubelb.k8c.io/confirm-backend-transport-change=MTLS --overwrite
+```
+
+Until the change is confirmed, tenants keep running the previous mode and each `TenantState` reports the `BackendTransportChangePending` condition:
+
+```bash
+kubectl --context <management> -n <tenant-namespace> \
+  get tenantstate default -o jsonpath='{.status.conditions[?(@.type=="BackendTransportChangePending")].message}{"\n"}'
+```
+
+The annotation is compared against the target mode and becomes inert after the change is applied. Remove it afterwards or leave it in place until the next mode change. New tenants always receive the configured mode without confirmation.
+
 ## Verify the rollout
 
 Check the tenant state in the management cluster:
@@ -103,7 +121,7 @@ KubeLB manages the certificate lifecycle for this transport:
 - A management Envoy client certificate.
 - A tenant proxy server certificate.
 
-The management Envoy and tenant Envoy validate each other with tenant-specific identities and use TLS 1.3 for TCP connections. Certificate rotation is automatic and does not normally require a tenant proxy pod restart.
+The management Envoy and tenant Envoy validate each other with tenant-specific identities and use TLS 1.3 for TCP connections. Certificate rotation is automatic and does not normally require a tenant proxy pod restart. Intermediate CA rotation is two-phase: KubeLB distributes the new trust bundle first and re-signs leaf certificates after a short propagation grace, so new connections keep working during rotation.
 
 If a manually created certificate Secret conflicts with the KubeLB-managed one, KubeLB refuses to overwrite it and reports `BackendCertificateConflict` on the affected `Tenant`.
 
@@ -154,7 +172,7 @@ These changes may roll tenant proxy pods:
 - KubeLB upgrades that change tenant proxy bootstrap configuration.
 - Pod-template-level settings such as image, node selector, tolerations, or image pull secrets.
 
-KubeLB does not use active TCP health checks from management Envoy to the tenant proxy for mTLS backend clusters. Instead, management Envoy uses passive outlier detection after real request failures. `TenantProxyReady` reports DaemonSet readiness, not application health.
+Management Envoy runs active TCP health checks against the tenant proxy through the mTLS transport at a 60-second interval. A passing probe validates node reachability, certificates, and SNI routing for the backend. Between probes, passive outlier detection ejects tenant proxy endpoints after real request failures. `TenantProxyReady` reports DaemonSet readiness, not application health.
 
 ## Metrics to watch
 
@@ -218,6 +236,13 @@ kubectl --context <tenant> -n kubelb \
 
 ## Disable mTLS backend transport
 
+Confirm the mode change on the `Config`:
+
+```bash
+kubectl --context <management> -n kubelb annotate config default \
+  kubelb.k8c.io/confirm-backend-transport-change=Direct --overwrite
+```
+
 Switch back to `Direct`:
 
 ```bash
@@ -227,4 +252,4 @@ helm upgrade kubelb oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee \
   --set kubelb.backendTransport.mode=Direct
 ```
 
-The CCM cleans up tenant proxy resources after the effective mode changes. Plan for a brief traffic path change while traffic moves back to direct tenant NodePort routing.
+Without the annotation, tenants keep running `MTLS` and `TenantState` reports `BackendTransportChangePending`. After the change is confirmed, the CCM cleans up tenant proxy resources. Plan for a brief traffic path change while traffic moves back to direct tenant NodePort routing.
