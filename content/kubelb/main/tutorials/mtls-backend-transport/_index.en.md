@@ -8,6 +8,10 @@ enterprise = true
 
 ## Overview
 
+{{% notice info %}}
+mTLS backend transport is a **Beta / Technical Preview** feature (see [Kubermatic feature stages](https://docs.kubermatic.com/kubermatic/main/architecture/feature-stages/)). It is safe to enable and supported; the configuration surface may still change between releases with migration instructions. The stage applies to the feature as a whole, including the CONNECT-UDP tunnel.
+{{% /notice %}}
+
 KubeLB can encrypt backend traffic between the management cluster and tenant clusters with mutual TLS (mTLS). When enabled, KubeLB deploys a tenant-local Envoy proxy and routes management-to-tenant backend traffic through it.
 
 Default `Direct` mode:
@@ -29,7 +33,7 @@ Application teams keep using the same Kubernetes resources: `LoadBalancer` Servi
 Use this feature when the management and tenant clusters communicate across a network path where backend traffic should not be plaintext.
 
 {{% notice warning %}}
-UDPRoute uses an alpha CONNECT-UDP tunnel over the same mTLS tenant proxy port; see [UDP behavior](#udp-behavior).
+UDPRoute uses a CONNECT-UDP tunnel over the same mTLS tenant proxy port; see [UDP behavior](#udp-behavior).
 {{% /notice %}}
 
 ## Enable mTLS backend transport
@@ -143,7 +147,7 @@ The tenant proxy forwards traffic to the backend Kubernetes Service inside the t
 
 In `MTLS` mode, UDPRoute traffic is tunneled with CONNECT-UDP over the existing mTLS tenant proxy TCP port. The tenant proxy Service does not expose per-backend UDP NodePorts.
 
-CONNECT-UDP and raw UDP-over-HTTP tunneling are alpha Envoy features. Validate workload-specific MTU, burst, stream-count, and idle-timeout behavior before using it for production UDP traffic.
+Envoy marks CONNECT-UDP and raw UDP-over-HTTP tunneling as alpha upstream. Validate workload-specific MTU, burst, stream-count, and idle-timeout behavior before using it for production UDP traffic.
 
 ## Network requirements
 
