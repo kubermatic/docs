@@ -194,6 +194,69 @@ spec:
             value: /
 ```
 
+### Cross-namespace references with ReferenceGrants (Enterprise Edition)
+
+By default, a route in one namespace can point its `backendRefs` at a Service in another namespace, and a Gateway can pick up a TLS certificate `Secret` from wherever it likes. That is convenient, but it also means anyone who can create a route can reach across namespace boundaries inside their cluster. If you run untrusted or semi-trusted teams side by side in the same tenant, you probably want them to opt in to those references rather than getting them for free.
+
+The Gateway API answers this with the [ReferenceGrant](https://gateway-api.sigs.k8s.io/api-types/referencegrant/): the owner of the *target* namespace publishes a grant that says "I allow references of this kind, coming from that namespace." KubeLB can enforce those grants for you.
+
+Enforcement is off by default, so upgrading changes nothing until you ask for it. Turn it on with `enforceReferenceGrants`, either globally on the `Config` or per tenant (the tenant value wins):
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Tenant
+metadata:
+  name: shroud
+spec:
+  gatewayAPI:
+    enforceReferenceGrants: true
+```
+
+With enforcement on, KubeLB checks every cross-namespace reference before it ever leaves the tenant cluster. This covers `backendRefs` on all route kinds (HTTPRoute, GRPCRoute, TCPRoute, TLSRoute, UDPRoute, including `requestMirror` filters) and the TLS `certificateRefs` on your Gateways. A reference that no grant permits is quietly dropped: its Service is never synced to the management cluster, the route (or Gateway listener) reports `ResolvedRefs: False` with reason `RefNotPermitted`, and a warning event lands on the source object so the person who wrote the route can see exactly what got cut and why.
+
+```mermaid
+flowchart LR
+  subgraph tenant["Tenant cluster"]
+    R["HTTPRoute / GRPCRoute / TCP / TLS / UDP / Gateway"]
+    G["ReferenceGrants (target namespace)"]
+    CCM
+  end
+  subgraph mgmt["Management cluster"]
+    TS["TenantState<br/>enforceReferenceGrants"]
+    RT["Route + Service copies"]
+  end
+  TS -->|toggle| CCM
+  R --> CCM
+  G -->|permitted?| CCM
+  CCM -->|"granted refs only"| RT
+  CCM -->|"ResolvedRefs=False / RefNotPermitted<br/>+ warning event"| R
+```
+
+To let an HTTPRoute in `team-a` talk to a Service in `team-b`, the owner of `team-b` creates a grant in their own namespace:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-team-a-routes
+  namespace: team-b
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: team-a
+  to:
+    # Omitting `name` allows every Service in team-b; set it to gate a single Service.
+    - group: ""
+      kind: Service
+```
+
+The moment that grant exists, KubeLB re-evaluates the affected routes and traffic starts flowing. Delete it, and the reference is revoked on the next reconcile. The same pattern works for a Gateway reaching a TLS `Secret` in another namespace — the grant's `from` kind becomes `Gateway` and its `to` kind becomes `Secret`.
+
+{{% notice note %}}
+When a backend reference is denied, KubeLB drops it from the route rather than serving 503s for that backend's share of traffic, which is a small deviation from the Gateway API spec. In practice this means traffic is spread across the remaining allowed backends of the rule; if every backend in a rule is denied, the rule ends up with nothing to route to and the gateway returns 503. Cross-namespace TLS `Secret`s additionally have to carry the `kubelb.k8c.io/managed-by: kubelb` label to be synced at all — a grant authorizes the reference, but the label is what tells KubeLB to mirror the secret.
+{{% /notice %}}
+
 ### Support
 
 The following resources are supported in CE and EE version:
@@ -209,9 +272,10 @@ The following resources are supported in CE and EE version:
   - TLSRoute
   - [ClientTrafficPolicy]({{< relref "./client-traffic-policy" >}})
   - [BackendTrafficPolicy]({{< relref "./backend-traffic-policy" >}})
+  - [ReferenceGrant enforcement](#cross-namespace-references-with-referencegrants-enterprise-edition)
 
 **For more details on how to use them and example, please refer to examples from [Envoy Gateway Documentation](https://gateway.envoyproxy.io/docs/tasks/)**
 
 ### Limitations
 
-- ReferenceGrants, BackendTLSPolicy are not supported in KubeLB, yet. If you would like to use these features, please open an issue on [GitHub](https://github.com/kubermatic/kubelb/issues) to help us prioritize them.
+- BackendTLSPolicy is not supported in KubeLB, yet. If you would like to use this feature, please open an issue on [GitHub](https://github.com/kubermatic/kubelb/issues) to help us prioritize it.
