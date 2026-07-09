@@ -40,7 +40,7 @@ After that you can proceed as usual.
 
 ## Notes
 Please note that KKP has no way to clean up clusters after a trust relationship has been removed.
-You should assure that all resources managed by KKP have been shut down before removing access.
+You should ensure that all resources managed by KKP have been shut down before removing access.
 
 [aws-docs-assume-role]: https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
 [aws-docs-how-to-trust-policies]: https://aws.amazon.com/blogs/security/how-to-use-trust-policies-with-iam-roles/
