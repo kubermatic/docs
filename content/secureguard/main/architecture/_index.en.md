@@ -3,9 +3,6 @@ title = "Architecture & Security Model"
 date = 2026-06-13T09:00:00+02:00
 weight = 2
 description = "Component architecture, authentication flow, multi-cluster routing, and the zero-knowledge security model behind Kubermatic SecureGuard."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 Kubermatic SecureGuard is engineered with security and multi-layered protection as its core design principles. This document describes the component architecture, authentication flow, multi-cluster routing, and the zero-knowledge security model.
@@ -138,7 +135,7 @@ The proxy and the SG Agent run under **separate** service accounts so each holds
 - **`secureguard-proxy`** — `impersonate` on users/groups, `create` on SGAgents, and management of per-cluster kubeconfig Secrets in its own namespace. It has **no** standing read/write on ESO resources (that flows through impersonation).
 - **`secureguard-agent`** — the controller/deployer permissions: SGAgent and ESODeployment reconcile (plus `/status`), and the resources the deployer creates when installing ESO into target namespaces (Deployments, ServiceAccounts, Namespaces, ClusterRoles, RoleBindings), events, and leader-election Leases.
 
-Both are defined in [`k8s/rbac.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/rbac.yaml) and [`charts/secureguard/templates/rbac.yaml`](https://github.com/kubermatic/secureguard/blob/main/charts/secureguard/templates/rbac.yaml).
+Both are provisioned by the Helm chart's RBAC templates; the proxy rule set is shown in full in [Security Hardening → Least-privilege service accounts]({{< ref "../security-hardening/#least-privilege-service-accounts" >}}).
 
 ## Multi-Cluster Routing
 
@@ -174,7 +171,7 @@ the proxy's route allowlist, and the editing experience reflects that:
   PushSecrets, and ReloaderConfigs.
 
 This keeps version-controlled resources as the source of truth and keeps the
-browser's write surface small. See the [route allowlist](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md#route-allowlist)
+browser's write surface small. See the [route allowlist]({{< ref "../api-reference/#route-allowlist" >}})
 for the exact permitted operations.
 
 ## Namespace Context

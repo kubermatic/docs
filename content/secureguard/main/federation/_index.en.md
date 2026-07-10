@@ -3,9 +3,6 @@ title = "Federation — Cross-Cluster Secret Distribution"
 date = 2026-06-13T09:00:00+02:00
 weight = 8
 description = "Serve secret data to many clusters from a central SecureGuard instance over mTLS without exposing the backend secret stores — the federation broker, CRDs, fedclient, and resolution modes."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 Federation lets a central SecureGuard instance serve secret data to many
@@ -91,7 +88,7 @@ spec:
         - api/stripe
 ```
 
-Sample manifests live in [`k8s/samples/federation/`](https://github.com/kubermatic/secureguard/blob/main/k8s/samples/federation/).
+The CR examples above are complete — apply them with `kubectl apply` on the hub cluster.
 
 ## Deploying the broker
 
@@ -181,7 +178,7 @@ spec:
 For a cluster's API-server issuer, the CA is its `kube-root-ca.crt` ConfigMap,
 and the broker's anonymous discovery requests need the
 `system:service-account-issuer-discovery` ClusterRole granted (e.g. to
-`system:unauthenticated`). The cluster-e2e exercises exactly this path.
+`system:unauthenticated`).
 
 ## Consuming from a remote cluster (stock ESO)
 
@@ -252,7 +249,7 @@ in-memory volume the app reads:
 ```yaml
 initContainers:
   - name: fetch-secret
-    image: quay.io/kubermatic/secureguard-fedclient:latest
+    image: quay.io/kubermatic/secureguard-fedclient:v0.2.0   # pin to a release tag, never :latest
     args:
       - --server=https://federation.central.example:8443
       - --store=prod-vault
@@ -274,7 +271,6 @@ volumes:
             path: token
 ```
 
-Full example: [`docs/examples/fedclient-sidecar.yaml`](https://github.com/kubermatic/secureguard/blob/main/docs/examples/fedclient-sidecar.yaml).
 `fedclient` exits with a [distinct code per broker outcome](#cli-reliability-version-retries-exit-codes)
 and never logs the token or the secret value; it can also be used as a one-shot
 CLI for debugging (`--insecure` for dev TLS).

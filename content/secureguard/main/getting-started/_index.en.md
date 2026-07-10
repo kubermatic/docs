@@ -3,9 +3,6 @@ title = "Getting Started"
 date = 2026-06-13T09:00:00+02:00
 weight = 1
 description = "Quickly deploy Kubermatic SecureGuard in a local or development environment and watch your first secret sync end-to-end."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 This guide will walk you through quickly deploying Kubermatic SecureGuard in a local or development environment. This deployment bundles OpenBao (in dev mode), the Dex OIDC provider, External Secrets Operator (ESO), and the SecureGuard dashboard UI.
@@ -42,9 +39,12 @@ Before you begin, ensure you have the following installed:
    helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
      --namespace secureguard-system \
      --create-namespace \
-     --set openbao.server.dev.enabled=true \
-     --version 0.2.0 # replace with latest from the releases page
+     --set openbao.server.dev.enabled=true
    ```
+
+   Omitting `--version` installs the latest published chart. To pin a specific
+   release, add `--version <chart-version>` — see the
+   [Upgrade Guides]({{< ref "../upgrade-guides/" >}}) before moving between versions.
 
 2. **Verify the Deployment**
    Ensure all pods have started and are reporting `Running` status:
@@ -67,10 +67,31 @@ Once the deployment is up, you need to access the SecureGuard dashboard.
    Open your browser and navigate to `http://localhost:8080`.
 
 3. **Logging In via Dex**
-   Authentication is mandatory, so you are redirected to the Dex OIDC login page. The local dev deployment provisions a static admin user — email `admin@secureguard.local`, password `admin` — bound to `cluster-admin`. **Change these immediately for any non-local deployment.**
+   Authentication is mandatory, so you are redirected to the Dex OIDC login page. The Helm chart provisions a static admin user with the email `admin@secureguard.local` and an **auto-generated password**. Retrieve it from the `<release>-dex-admin` Secret:
+
+   ```bash
+   kubectl get secret secureguard-dex-admin \
+     -n secureguard-system \
+     -o jsonpath='{.data.password}' | base64 -d && echo
+   ```
+
+   The same command is printed in the Helm chart's post-install notes. For any non-local deployment, disable the static admin and connect a real identity provider instead — see [Static Admin User]({{< ref "../security-hardening/#static-admin-user" >}}).
 
    {{% notice note %}}
    Access is enforced per user: the proxy impersonates the logged-in user on every Kubernetes API request, so what you can see and do is governed by the RBAC bound to your user/groups. A user with no bindings can log in but sees `403` errors until granted access — see [User Authorization]({{< ref "../advanced-configuration/#user-authorization-rbac-via-impersonation" >}}).
+   {{% /notice %}}
+
+4. **Grant the Admin User Access**
+   The chart intentionally ships **no RBAC bindings for dashboard users** — without one, even the static admin sees only `403` errors. For this local walkthrough, bind `cluster-admin` to the static admin user:
+
+   ```bash
+   kubectl create clusterrolebinding secureguard-local-admin \
+     --clusterrole=cluster-admin \
+     --user=admin@secureguard.local
+   ```
+
+   {{% notice warning %}}
+   `cluster-admin` is acceptable only for a throwaway local cluster. For real deployments, create least-privilege Roles/ClusterRoles per team — see [User Authorization]({{< ref "../advanced-configuration/#user-authorization-rbac-via-impersonation" >}}).
    {{% /notice %}}
 
 ### Understanding the Security Model Basics

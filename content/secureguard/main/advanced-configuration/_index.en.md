@@ -1,11 +1,8 @@
 +++
 title = "Advanced Configuration"
-date = 2026-06-13T09:00:04+02:00
+date = 2026-06-13T09:00:00+02:00
 weight = 7
 description = "Enterprise configuration for SecureGuard — custom OIDC identity providers, RBAC via impersonation, multi-cluster deployments, the ESO version catalog, and short-lived remote tokens."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 For enterprise environments, SecureGuard offers extensive configuration options targeting High Availability (HA), advanced authentication, and multi-cluster setups.
@@ -42,6 +39,27 @@ dex:
 ```
 *Note: You must create an OAuth application in GitHub to obtain the Client ID and Secret, and ensure the `redirectURI` matches your Dex ingress.*
 
+### Skipping the Dex consent screen for the dashboard
+
+The SecureGuard dashboard is a **first-party** OIDC client, so the interactive
+"Grant access?" approval screen Dex shows after upstream login adds friction
+without a security benefit here. Skip it by setting `oauth2.skipApprovalScreen`
+in the Dex config — anything you put under `dex.config` passes straight through
+to Dex:
+
+```yaml
+dex:
+  config:
+    oauth2:
+      skipApprovalScreen: true
+```
+
+{{% notice note %}}
+This applies to every client Dex serves. Only enable it when the clients Dex
+serves are first-party (the bundled `secureguard` client, and the OpenBao UI if
+you use the bundled OpenBao).
+{{% /notice %}}
+
 ## User Authorization (RBAC via Impersonation)
 
 Authentication is **mandatory** in SecureGuard, and authorization is delegated entirely to Kubernetes RBAC. The backend proxy authenticates to the Kubernetes API as its own service account and then **impersonates the logged-in user** on every request, using two headers derived from the user's OIDC token:
@@ -58,7 +76,7 @@ This means **what a user can see and do in the dashboard is exactly what their K
 ### Prerequisites
 
 1. **Dex must emit a `groups` claim.** Group-based RBAC only works if your connector is configured to return groups (e.g. GitHub `orgs`/`teams`, an LDAP `groupSearch`, or an OIDC `groups` scope). Without it, bind roles to individual user emails instead.
-2. **The proxy service account needs the `impersonate` verb** on `users` and `groups`. The bundled Helm chart and [`k8s/rbac.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/rbac.yaml) already include this rule:
+2. **The proxy service account needs the `impersonate` verb** on `users` and `groups`. The bundled Helm chart already includes this rule:
    ```yaml
    - apiGroups: [""]
      resources: ["users", "groups"]
@@ -156,6 +174,10 @@ A central principle of SecureGuard is centralized governance. You deploy the cor
 1.  **Management Cluster**: Runs OpenBao, SecureGuard Dashboard, Backend Proxy, SG Agent Controller, and Dex.
 2.  **Target Clusters**: Run the External Secrets Operator (ESO), deployed and managed by the SG Agent Controller via `ESODeployment` CRDs.
 
+{{% notice warning %}}
+**RBAC is per-cluster and impersonated — a user needs bindings on _every_ cluster they touch, including targets.** The proxy impersonates the logged-in user on the API server of whichever cluster a request targets (see [User Authorization](#user-authorization-rbac-via-impersonation)). A user who is bound on the management cluster but has **no** Role/ClusterRole binding on a target cluster can select that cluster in the dashboard but sees only `403 Forbidden` for its ExternalSecrets, SecretStores, and Secrets. Create the equivalent bindings for the user/groups on each target cluster — the management-cluster binding does not carry over.
+{{% /notice %}}
+
 ### Automated Multi-Cluster Setup (ESODeployment)
 
 The SG Agent Controller automates ESO deployment to target clusters. Create an `ESODeployment` resource on the management cluster:
@@ -187,6 +209,22 @@ The controller will:
 **Only ESO 2.x is supported.** `esoVersion` must be `v2.0.0` or newer; the end-of-life 0.x line is no longer offered. The set of versions the dashboard presents is driven by the **ESO Version Catalog** (see below), not a hardcoded list.
 {{% /notice %}}
 
+### Conflict Detection
+
+The agent validates every ESODeployment against the others targeting the same effective cluster and reports violations as a `Conflict` condition (also shown as a printer column in `kubectl get esodeployments`):
+
+| Conflict | Severity | Meaning |
+|---|---|---|
+| `MultipleClusterScope` | Error (blocking) | Two cluster-scoped ESO installations on one cluster |
+| `NamespaceOverlap` | Error (blocking) | Two namespaced deployments claim the same namespace |
+| `ClusterScopeCoversNamespaced` | Warning (advisory) | A cluster-scoped deployment already covers a namespaced one |
+
+Blocking conflicts keep the resource in the `Error` phase until resolved. The dashboard's create/edit form runs the same checks client-side, so most conflicts are caught before the resource is ever submitted.
+
+### Discovery of Externally Installed ESO
+
+Every 60 seconds the agent scans connected clusters for ESO installations it does not manage (e.g. installed directly by another team). Each one is represented as a **read-only** ESODeployment named `eso-ext-<cluster>` with `managementMode: external` and phase `Discovered`, recording the discovered image and replica count. SecureGuard never modifies external installations — the CRs exist so the dashboard reflects reality and conflict detection can take them into account.
+
 ### ESO Version Catalog (ESOVersion CRD)
 
 The ESO versions offered in the dashboard's ESODeployment create/edit form are
@@ -205,7 +243,7 @@ spec:
   latest: true           # marks the recommended/default selection
   deprecated: false      # when true, hidden from new deployments
   releaseDate: "2026-05-04"
-  minKubeVersion: "1.23"
+  minKubeVersion: "1.23"   # minimum Kubernetes version of the *target* cluster for this ESO release
   notes: Latest stable release.
 ```
 
@@ -218,11 +256,7 @@ Behaviour in the dashboard:
   are rejected by the route allowlist. Curate the catalog with `kubectl apply`
   or via the SG Agent, which holds manage permissions on `esoversions`.
 
-A starter catalog (`v2.0.0`–`v2.6.0`) ships in
-[`k8s/samples/eso-deployments/esoversions.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/samples/eso-deployments/esoversions.yaml), and the CRD lives in
-[`k8s/esoversion-crd.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/esoversion-crd.yaml). If the catalog is empty or unreachable, the form falls
-back to the version already set on the resource (so editing existing deployments
-still works).
+A starter catalog covering `v2.0.0`–`v2.6.0` ships with the SecureGuard release manifests — apply one `ESOVersion` CR per release you want to offer, following the example above. If the catalog is empty or unreachable, the form falls back to the version already set on the resource (so editing existing deployments still works).
 
 ### Manual Multi-Cluster Setup
 
@@ -230,11 +264,12 @@ If you prefer to manage ESO installations manually, you can deploy ESO independe
 
 1.  Ensure the Management OpenBao API (`https://openbao.secureguard.yourcompany.com`) is reachable from the Target cluster nodes.
 2.  Configure Kubernetes authentication in OpenBao for the Target cluster. This requires setting up a Kubernetes Auth Role in the central OpenBao instance that trusts the Service Account tokens issued by the Target cluster's API server.
-3.  Deploy ESO to the Target Cluster:
+3.  Deploy ESO to the Target Cluster (pin a supported **2.x** release — see the [version catalog](#eso-version-catalog-esoversion-crd)):
     ```bash
     helm install external-secrets external-secrets/external-secrets \
       --namespace external-secrets \
       --create-namespace \
+      --version 2.6.0 \
       --set installCRDs=true
     ```
 4.  Create a `ClusterSecretStore` in the Target cluster pointing to the Central OpenBao URL.
@@ -250,24 +285,69 @@ curl -X POST http://localhost:3001/api/clusters/kubeconfig \
   -F "clusterName=prod-us-east"
 ```
 
-This creates per-cluster Secrets and optionally registers an SGAgent CR. See the [API Reference](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md) for details.
+This creates per-cluster Secrets and optionally registers an SGAgent CR. See the [API Reference]({{< ref "../api-reference/" >}}) for details.
+
+**How registration is stored and discovered.** Each uploaded cluster becomes a
+Secret in the SecureGuard namespace carrying the discovery label
+`secureguard.io/cluster-kubeconfig=true`, with the connection details under a
+well-known data key. The proxy watches these labeled Secrets via an informer, so
+newly registered clusters appear without a pod restart. You can list them with:
+
+```bash
+kubectl get secrets -n secureguard-system -l secureguard.io/cluster-kubeconfig=true
+```
+
+{{% notice note %}}
+**Register the management/local cluster too.** The cluster SecureGuard runs in is
+not special-cased — for it to appear in the cluster selector and be targetable
+like any other, register it as well (upload its in-cluster kubeconfig / context).
+If you only register remote targets, the dashboard's local-cluster views can
+come up empty.
+{{% /notice %}}
+
+{{% notice warning %}}
+**Credential constraints.** At registration the proxy provisions a
+least-privilege ServiceAccount on the remote cluster and stores only a
+short-lived, self-renewing token (see [Short-Lived Remote-Cluster Tokens](#short-lived-remote-cluster-tokens)) — it never persists your uploaded credential as-is. As a result:
+
+- **Bearer tokens** and **exec-plugin** credentials (EKS/GKE/AKS `exec` blocks)
+  are supported.
+- **OIDC `auth-provider` kubeconfigs are not consumable by the proxy** and are
+  rejected at registration — the client-go OIDC auth-provider plugin is not
+  available server-side. Convert to a bearer token or an `exec` credential
+  before uploading.
+- The uploaded credential must be able to create ServiceAccounts, ClusterRoles,
+  and bindings on the target (typically cluster-admin, used exactly once).
+
+See [Kubeconfig Upload Rejected at Registration]({{< ref "../troubleshooting/#kubeconfig-upload-rejected-at-registration" >}}) in Troubleshooting.
+{{% /notice %}}
 
 ## Proxy Configuration
 
-The backend proxy is configured via environment variables. See the [API Reference — Environment Variables](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md#environment-variables) for the complete list.
+The backend proxy is configured via environment variables. The Helm chart sets these from your values; the full list below is useful for custom deployments and debugging.
 
-### Key Configuration Options
+### Environment Variables
 
 | Variable | Default | Description |
 |---|---|---|
 | `OIDC_ISSUER_URL` | — (**required**) | Dex/OIDC issuer URL — the proxy exits if unset (auth is mandatory) |
+| `OIDC_CLIENT_ID` | `secureguard` | OIDC client ID |
+| `OIDC_CLIENT_SECRET` | — | OIDC client secret |
+| `OIDC_REDIRECT_URI` | `http://localhost:30080/api/auth/callback` | OAuth2 callback URL |
+| `DEX_PUBLIC_URL` | — | External Dex URL for browser redirects (when it differs from the in-cluster issuer URL) |
+| `SESSION_SECRET` | — (**required**) | Secret for signing session cookies. Must be stable across restarts and shared by all replicas — the proxy refuses to start without it. The Helm chart auto-generates a stable value if `auth.sessionSecret` is left empty |
 | `PORT` | `3001` | Proxy listen port |
-| `DEFAULT_CONTEXT` | current-context | Default kubeconfig context |
-| `POD_NAMESPACE` | `default` | Namespace for per-cluster Secrets |
+| `DEFAULT_CONTEXT` | current-context | Default kubeconfig context for `/api/kube/*` |
+| `POD_NAMESPACE` | `default` | Namespace watched for per-cluster kubeconfig Secrets |
+| `KUBECONFIG` | — | Path to a kubeconfig file (local development only; in-cluster the proxy discovers clusters from labeled Secrets instead) |
+| `REMOTE_TOKEN_DIR` | `$TMPDIR/secureguard-tokens` | Writable directory for the rotating per-cluster token files (see below) |
+| `ALLOWED_ORIGIN` | unset | Exact origin allowed for cross-origin (CORS) API access. Unset: no CORS headers are sent and browsers enforce the same-origin policy |
+| `COOKIE_SECURE` | auto | Force the `Secure` cookie flag on (`true`) or off (`false`); by default it is derived from the redirect URI scheme |
+| `LOG_LEVEL` | `info` | Log verbosity: `debug`, `info`, `warn`, or `error` (structured JSON logs on stderr) |
 
 ### Route Allowlist
 
-The proxy only forwards Kubernetes API paths explicitly listed in `proxy/internal/proxy/routes.go`. If you add a new CRD and need dashboard access, you must add the corresponding path patterns to the allowlist. See [API Reference — Route Allowlist](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md#route-allowlist) for the current list.
+The proxy only forwards Kubernetes API paths explicitly listed in `proxy/internal/proxy/routes.go`. If you add a new CRD and need dashboard access, you must add the corresponding path patterns to the allowlist. See [API Reference — Route Allowlist]({{< ref "../api-reference/#route-allowlist" >}}) for the current list.
 
 ### Short-Lived Remote-Cluster Tokens
 
@@ -290,9 +370,9 @@ self-renewing token so nothing long-lived is ever stored:
    token file under `REMOTE_TOKEN_DIR`. The proxy transport re-reads the file per
    request. The agent does the same for clusters it talks to.
 
-This RBAC lives on the **remote** cluster and is created by code
-(`proxy/internal/remotebootstrap`) — it is intentionally **not** in the
-management-cluster `k8s/rbac.yaml`. The management-cluster proxy/agent
+This RBAC lives on the **remote** cluster and is created programmatically at
+registration — it is intentionally **not** part of the management-cluster RBAC
+templates. The management-cluster proxy/agent
 ServiceAccounts do **not** need `create` on `serviceaccounts/token`, because
 their own management-cluster identity is the kubelet-projected token, and all
 minting happens against the remote cluster with the remote SA's self-granted
@@ -339,17 +419,47 @@ For detailed RBAC configuration, see the [Security Hardening Guide]({{< ref "../
 
 ## Storage Backends
 
-While the default SecureGuard chart can deploy OpenBao with integrated Raft storage for HA, you can alternatively configure OpenBao to use external storage backends if mandated by your infrastructure team.
+The bundled OpenBao deploys as a **3-node integrated-Raft (HA) cluster by default** — each replica keeps its own copy of the data with no external storage dependency. This is the recommended backend for modern deployments.
 
-OpenBao supports various storage backends, although Integrated Storage (Raft) is highly recommended for modern deployments. If required, you can configure PostgreSQL, Consul, or cloud-specific storage (e.g., AWS DynamoDB, GCP Spanner) by modifying the `openbao.server.ha.config` block.
+If your infrastructure team mandates a different backend, OpenBao also supports PostgreSQL, Consul, or cloud-specific storage (e.g., AWS DynamoDB, GCP Spanner). Configure it — along with a KMS `seal` stanza for auto-unseal — by editing the `openbao.server.ha.raft.config` HCL block (see [Installation → OpenBao Self-Initialization & Unsealing]({{< ref "../installation/#openbao-self-initialization--unsealing" >}})).
 
 ## Monitoring
 
-SecureGuard does not currently expose a Prometheus `/metrics` endpoint. Monitoring is achieved through Kubernetes-native observability:
+All SecureGuard Go components expose **Prometheus metrics**:
 
-- **Pod health**: The proxy exposes a `/healthz` endpoint used for liveness and readiness probes
-- **Cluster health**: The `/api/clusters/{id}/health` endpoint checks connectivity to each cluster's API server
-- **Logs**: The proxy and agent use Go's standard `log` package, outputting structured logs to stdout
-- **Kubernetes events**: Use the Event Stream page in the dashboard or `kubectl get events` for real-time activity
+- **Proxy** — `/metrics` on the main listen port (unauthenticated, no session required):
 
-For comprehensive monitoring, integrate with your existing observability stack by collecting pod logs and Kubernetes events.
+  | Metric | Type | Description |
+  |---|---|---|
+  | `secureguard_proxy_requests_total` | counter | Kubernetes API proxy requests by cluster and upstream status code |
+  | `secureguard_proxy_upstream_duration_seconds` | histogram | Upstream Kubernetes API request duration by cluster |
+  | `secureguard_proxy_allowlist_rejections_total` | counter | Requests rejected by the route allowlist |
+  | `secureguard_proxy_secret_redactions_total` | counter | Secret responses redacted before reaching the browser, by kind |
+  | `secureguard_proxy_managed_clusters` | gauge | Clusters currently registered |
+  | `secureguard_proxy_token_refreshers` | gauge | Active per-cluster short-lived token refreshers |
+
+- **SG Agent** — controller-runtime metrics on `:8082` (`-metrics-addr`), health probes on `:8081` (`-health-addr`).
+- **Federation broker** — metrics on `:8080` (`-metrics-addr`), health probes on `:8081` (`-health-addr`), both plaintext and separate from the TLS serving port.
+
+### Scraping with the Prometheus Operator
+
+The Helm chart creates headless metrics Services (`metrics.enabled`, default `true`) and can generate `ServiceMonitor` / `PodMonitor` resources for the Prometheus Operator:
+
+```yaml
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true        # requires the monitoring.coreos.com/v1 CRDs
+    interval: 30s
+    scrapeTimeout: 10s
+  # Alternative for setups that scrape pods directly:
+  podMonitor:
+    enabled: false
+```
+
+### Other Observability Signals
+
+- **Pod health**: the proxy exposes `/healthz`; agent and federation expose `/healthz` and `/readyz` on their health ports — all used for liveness/readiness probes.
+- **Cluster health**: the `/api/clusters/{id}/health` endpoint checks connectivity to each cluster's API server (surfaced as the status dot in the dashboard).
+- **Logs**: all components emit structured JSON logs to stdout/stderr. Verbosity is controlled via `LOG_LEVEL` on the proxy and the `logLevel` Helm values (`sgAgent.logLevel`, `federation.logLevel`).
+- **Kubernetes events**: use the Event Stream page in the dashboard or `kubectl get events` for real-time activity.

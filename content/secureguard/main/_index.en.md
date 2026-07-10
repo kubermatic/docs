@@ -3,14 +3,7 @@ title = "Kubermatic SecureGuard"
 date = 2026-06-13T09:00:00+02:00
 weight = 8
 description = "Protect and manage secrets with open-source transparency — a Kubernetes-native secrets management platform built on OpenBao and the External Secrets Operator."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
-
-{{% notice warning %}}
-SecureGuard is currently under active development. This documentation is a preview and is not yet publicly announced. Content is subject to change.
-{{% /notice %}}
 
 **Protect and manage secrets with open-source transparency.**
 
@@ -29,7 +22,7 @@ SecureGuard answers both by combining three open-source tools and putting a frie
 - **SecureGuard's dashboard** is the **control room** — it lets you see and manage all of this without memorizing `kubectl` commands, and **without ever exposing the secret values themselves** (the dashboard shows `••••••••`, never the real value).
 
 {{% notice note %}}
-**OpenBao is optional.** It's our **opinionated default** so teams without a vault get a complete, batteries-included stack out of the box. But SecureGuard is **provider-agnostic**: ESO supports many backends (AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [more](https://external-secrets.io/latest/provider/aws-secrets-manager/)). If you already have a vault, point your `SecretStore`s at it and disable the bundled OpenBao (`--set openbao.enabled=false`). Everything else works the same.
+**OpenBao is optional.** It's our **opinionated default** so teams without a vault get a complete, batteries-included stack out of the box. But SecureGuard is **provider-agnostic**: ESO supports many backends (AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [more](https://external-secrets.io/latest/introduction/stability-support/)). If you already have a vault, point your `SecretStore`s at it and disable the bundled OpenBao (`--set openbao.enabled=false`). Everything else works the same.
 {{% /notice %}}
 
 > **Analogy:** Think of OpenBao as a bank vault, ESO as the armored truck that delivers cash to ATMs (your apps), and SecureGuard as the security desk with the camera monitors — you can watch and direct everything, but you can't reach into the vault and pull the cash out through the monitor.
@@ -61,7 +54,7 @@ You manage steps 1–2 from the SecureGuard dashboard. New to the terms above? S
 - **Centralized Management:** Provides a single source of truth across all environments and clusters.
 - **Multi-Cluster Support:** Manage ESO deployments across clusters via the SG Agent Controller and ESODeployment CRDs.
 - **Federation (optional):** Serve secrets to remote clusters over mTLS without exposing the backend stores — via a standalone broker and the `fedclient` consumer.
-- **ReloaderConfig:** Event-driven workload reloading when synced secrets change.
+- **ReloaderConfig (optional):** Event-driven rotation — roll out a Deployment or trigger ESO to reconcile in response to a Secret/ConfigMap change, cloud event, or webhook, instead of waiting for the next poll.
 - **Developer First:** Built-in React dashboard for visualizing and managing the secret sync lifecycle.
 - **Zero-Knowledge Security:** Secret values are redacted at the proxy layer — they never reach the browser.
 
@@ -80,7 +73,7 @@ Not sure which doc to read first? Pick the path that matches you:
 | **Just want to try it locally** | [Getting Started]({{< ref "/secureguard/main/getting-started/" >}}) | [User Guide]({{< ref "/secureguard/main/user-guide/" >}}) |
 | **A developer using the dashboard day-to-day** | [User Guide]({{< ref "/secureguard/main/user-guide/" >}}) | [Glossary]({{< ref "/secureguard/main/glossary/" >}}) |
 | **An operator deploying to production** | [Installation]({{< ref "/secureguard/main/installation/" >}}) | [Security Hardening]({{< ref "/secureguard/main/security-hardening/" >}}), [Advanced Configuration]({{< ref "/secureguard/main/advanced-configuration/" >}}) |
-| **Integrating or debugging the API** | [Architecture]({{< ref "/secureguard/main/architecture/" >}}) | [API Reference](https://github.com/kubermatic/secureguard/blob/main/docs/api-reference.md) |
+| **Integrating or debugging the API** | [Architecture]({{< ref "/secureguard/main/architecture/" >}}) | [API Reference]({{< ref "/secureguard/main/api-reference/" >}}) |
 
 {{% notice tip %}}
 Keep the [Glossary]({{< ref "/secureguard/main/glossary/" >}}) open in a tab. Whenever a term like *ESO*, *SecretStore*, *CRD*, *OIDC*, or *unsealing* is unclear, it's defined there in one line.

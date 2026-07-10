@@ -1,11 +1,8 @@
 +++
 title = "OpenBao Basics"
 date = 2026-06-13T09:00:00+02:00
-weight = 5
+weight = 4
 description = "Understand OpenBao — the open-source, production-grade secrets vault bundled with Kubermatic SecureGuard — including secret engines, auth methods, and unsealing."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 [OpenBao](https://openbao.org/) is the open-source, production-grade secrets management backend at the heart of Kubermatic SecureGuard. It was forked from HashiCorp Vault to provide a completely open, community-driven cryptographic engine.
@@ -17,7 +14,7 @@ Unfamiliar with a term below (KV engine, auth method, unsealing)? The [Glossary]
 {{% /notice %}}
 
 {{% notice note %}}
-**OpenBao is optional — it's an opinionated default, not a requirement.** SecureGuard bundles OpenBao so teams **without** an existing vault get a complete stack out of the box. If you already run a secrets backend, you don't need OpenBao at all: SecureGuard manages **ESO**, and ESO works with many providers — AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [others](https://external-secrets.io/latest/provider/aws-secrets-manager/). Just point your `SecretStore`/`ClusterSecretStore` resources at your provider and disable the bundled OpenBao (`--set openbao.enabled=false`). The rest of this page applies only if you choose to use OpenBao as your backend.
+**OpenBao is optional — it's an opinionated default, not a requirement.** SecureGuard bundles OpenBao so teams **without** an existing vault get a complete stack out of the box. If you already run a secrets backend, you don't need OpenBao at all: SecureGuard manages **ESO**, and ESO works with many providers — AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [others](https://external-secrets.io/latest/introduction/stability-support/). Just point your `SecretStore`/`ClusterSecretStore` resources at your provider and disable the bundled OpenBao (`--set openbao.enabled=false`). The rest of this page applies only if you choose to use OpenBao as your backend.
 {{% /notice %}}
 
 ## What is OpenBao?
@@ -48,13 +45,14 @@ Within the SecureGuard ecosystem, OpenBao acts purely as the **Central Vault**.
 It handles:
 1.  **Encryption**: Ensuring all secrets are encrypted both in transit and at rest using industry-standard encryption (AES-256-GCM for storage, TLS 1.2+ for transit).
 2.  **RBAC (Role-Based Access Control)**: Enforcing strict least-privilege policies. You define *who* (which OIDC group or which Kubernetes Service Account) can read *what* paths.
-3.  **Multi-Tenancy**: Through its namespace features, OpenBao allows large organizations to isolate teams. "Team A" vault paths are completely invisible to "Team B".
+3.  **Multi-Tenancy**: Through its namespace features, OpenBao allows large organizations to isolate teams. "Team A" vault paths are completely invisible to "Team B". For stronger, infrastructure-level isolation, you can instead run one OpenBao instance per tenant — see [Installation → Tenant Isolation]({{< ref "../installation/#tenant-isolation" >}}).
 
 ## Understanding Unsealing & High Availability
 
-By default, an OpenBao server starts in a **Sealed** state. It knows where to find the encrypted data, but it does not know how to decrypt it because it lacks the master key.
+By default, an OpenBao server starts in a **Sealed** state. It knows where to find the encrypted data, but it does not know how to decrypt it because it lacks the master key. There are three ways to unseal it:
 
-*   **Manual Unsealing**: Requires multiple operators to independently enter shards of the master key. This is secure but impractical for cloud-native orchestration (e.g., if a pod simply restarts).
-*   **Auto-Unseal**: In production SecureGuard setups, OpenBao is configured with an Auto-Unseal mechanism (like AWS KMS or Azure Key Vault). When the pod starts, it automatically reaches out to the KMS to retrieve the key and decrypts itself, enabling seamless cluster scaling and recovery.
+*   **Automated Self-Initialization (SecureGuard default)**: The chart runs `operator init` for you, splits the master key into Shamir key shares, unseals every node, and stores the key shares in the `<release>-openbao-keys` Kubernetes Secret — so no manual bootstrap is needed after `helm install`. The one-time root token is revoked immediately after setup and never persisted. **Back up that Secret**: it is the only way to unseal the cluster (or, for break-glass admin, to run `bao operator generate-root`). With this Shamir seal, a restarted pod comes back sealed and is re-unsealed on the next `helm upgrade` (or by an optional periodic CronJob).
+*   **Manual Unsealing**: Requires multiple operators to independently enter shards of the master key. This is the most controlled but impractical for cloud-native orchestration (e.g., if a pod simply restarts).
+*   **KMS Auto-Unseal**: OpenBao is configured with a cloud KMS (AWS KMS, GCP KMS, Azure Key Vault, or Transit). When a pod starts it reaches out to the KMS to decrypt itself — so it survives restarts with **no key shares stored in a Secret**. This is the higher-security production option; see [Installation → Automatic Unsealing with a KMS]({{< ref "../installation/#automatic-unsealing-with-a-kms-higher-security" >}}).
 
-When clustered for **High Availability (HA)** using Integrated Raft Storage, only one OpenBao node is the "Active" node processing writes, while the others serve as "Standbys". If the active node fails, another node instantly takes over, guaranteeing virtually zero downtime for your secret synchronization.
+The bundled OpenBao runs as a **3-node cluster with Integrated Raft Storage** by default. Only one node is the "Active" node processing writes, while the others serve as "Standbys". If the active node fails, another node instantly takes over, guaranteeing virtually zero downtime for your secret synchronization. Raft keeps each node's data in its own storage with no external Consul/etcd dependency.

@@ -1,11 +1,8 @@
 +++
 title = "External Secrets Operator (ESO) Basics"
 date = 2026-06-13T09:00:00+02:00
-weight = 4
+weight = 5
 description = "How the External Secrets Operator synchronizes secrets from OpenBao (and other providers) into native Kubernetes Secrets within SecureGuard."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 The [External Secrets Operator](https://external-secrets.io/) (ESO) is the second pillar of Kubermatic SecureGuard. While OpenBao acts as the secure storage vault, ESO acts as the intelligent delivery mechanism.
@@ -17,7 +14,7 @@ New to the terms below (CRD, SecretStore, namespace)? See the [Glossary]({{< ref
 {{% /notice %}}
 
 {{% notice note %}}
-**A note on providers:** These docs use **OpenBao** as the running example because it's SecureGuard's bundled default, but ESO is **provider-agnostic**. The same `SecretStore` → `ExternalSecret` flow works with AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [many others](https://external-secrets.io/latest/provider/aws-secrets-manager/) — only the `SecretStore`'s `provider` block changes. Wherever you read "OpenBao" below, you can substitute your provider of choice.
+**A note on providers:** These docs use **OpenBao** as the running example because it's SecureGuard's bundled default, but ESO is **provider-agnostic**. The same `SecretStore` → `ExternalSecret` flow works with AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, HashiCorp Vault, and [many others](https://external-secrets.io/latest/introduction/stability-support/) — only the `SecretStore`'s `provider` block changes. Wherever you read "OpenBao" below, you can substitute your provider of choice.
 {{% /notice %}}
 
 ## What is ESO?
@@ -55,18 +52,23 @@ It specifies:
 ### 4. PushSecret
 The reverse flow. Often, components *inside* Kubernetes generate credentials (e.g., a database operator generates a root password). A `PushSecret` allows you to take an existing Kubernetes `Secret` and automatically push it upstream into OpenBao for safe, centralized storage and auditing.
 
-## SecureGuard Custom Resources
+## SecureGuard & Companion Custom Resources
 
-In addition to the upstream ESO CRDs, SecureGuard introduces custom resources:
+In addition to the four upstream ESO CRDs, the SecureGuard stack works with these resources:
 
 ### ReloaderConfig
-A cluster-scoped resource that configures event-driven workload reloading. When a synced Kubernetes Secret changes, the ReloaderConfig triggers rolling restarts of dependent Deployments, StatefulSets, or DaemonSets.
+A cluster-scoped resource (`reloader.external-secrets.io/v1alpha1`, kind `Config`) that makes secret delivery **event-driven** instead of poll-based. Each config wires one or more **notification sources** to one or more **trigger destinations**:
+
+- **Notification sources** — a Kubernetes `Secret` or `ConfigMap` change, a cloud event (GCP Pub/Sub, AWS SQS, Azure Event Grid), a HashiCorp Vault audit-log event, a generic webhook, or a TCP socket.
+- **Trigger destinations** — roll out a **Deployment**, or make an **ExternalSecret** / **PushSecret** reconcile immediately, or a **WorkflowRunTemplate**.
+
+Typical uses: restart a Deployment the moment its Secret rotates, or trigger ESO to re-fetch on a cloud event or webhook rather than waiting for the next `refreshInterval`. Reloader is an [External Secrets companion project](https://external-secrets.github.io/reloader/) that SecureGuard bundles as an optional Helm sub-chart (`reloader.enabled`) and can also deploy to target clusters via an `ESODeployment`'s `reloader` block.
 
 ### ESODeployment
-A namespaced resource managed by the SG Agent Controller. It defines the desired ESO installation state for a target cluster, including version, namespace, component configuration, and replica counts.
+A namespaced SecureGuard resource (`deploy.secureguard.io/v1alpha1`) managed by the SG Agent Controller. It defines the desired ESO installation state for a target cluster, including version, namespace, component configuration, and replica counts.
 
 ### SGAgent
-A cluster-scoped resource representing an agent registered with the central SecureGuard dashboard. SGAgents maintain heartbeat health status for connected clusters.
+A cluster-scoped SecureGuard resource (`agent.secureguard.io/v1alpha1`) representing an agent registered with the central SecureGuard dashboard. SGAgents maintain heartbeat health status for connected clusters.
 
 ## Synchronization & Rotation
 

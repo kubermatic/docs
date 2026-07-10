@@ -3,9 +3,6 @@ title = "Security Hardening Guide"
 date = 2026-06-13T09:00:00+02:00
 weight = 9
 description = "Production security best practices for SecureGuard — TLS, OIDC/Dex hardening, RBAC via impersonation, network policies, container security, CSP, and supply-chain controls."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 This guide covers security best practices for deploying SecureGuard in production environments. SecureGuard manages Kubernetes Secrets and external secret provider credentials — a security lapse can expose API keys, database passwords, TLS certificates, and cloud provider credentials.
@@ -23,26 +20,17 @@ SecureGuard operates on a **zero-knowledge** principle for secret values:
 
 ### Ingress TLS
 
-Always terminate TLS at the ingress layer. Use cert-manager for automatic certificate provisioning:
+Always terminate TLS at the ingress layer — base ingress configuration is covered in [Installation → Ingress & TLS]({{< ref "../installation/#ingress--tls" >}}). For hardening, additionally force HTTPS redirects so no session cookie ever travels over plaintext:
 
 ```yaml
 ingress:
-  enabled: true
-  className: "nginx"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-  hosts:
-    - host: secureguard.yourdomain.com
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls:
-    - secretName: secureguard-tls
-      hosts:
-        - secureguard.yourdomain.com
 ```
+
+Apply the same to `dexIngress` and `openbaoIngress` if you expose Dex or the OpenBao UI.
 
 ### Internal TLS
 
@@ -62,7 +50,7 @@ kubectl get secret <release>-dex-admin -n <namespace> -o jsonpath='{.data.passwo
 ```
 
 {{% notice warning %}}
-**Local development and CI only:** the raw dev manifest [`k8s/dex.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/dex.yaml) hardcodes static passwords for `admin@secureguard.local` and `viewer@secureguard.local` (bcrypt hash of `admin`). These credentials exist **solely for kind-based local development and CI** (`scripts/deploy-dev-dashboard.sh`) and are **never** used by the Helm chart. Do not deploy `k8s/dex.yaml` to any shared or production cluster.
+**Local development and CI only:** the raw dev manifests in the source repository (`k8s/dex.yaml`) hardcode static passwords for `admin@secureguard.local` and `viewer@secureguard.local` (bcrypt hash of `admin`). These credentials exist **solely for kind-based local development and CI** and are **never** used by the Helm chart. Do not deploy the raw dev manifests to any shared or production cluster.
 {{% /notice %}}
 
 For any non-local deployment, either set a strong `dex.staticAdmin.password` explicitly, or disable the static admin entirely (`dex.staticAdmin.enabled: false`) and federate to a production IDP (see below).
@@ -105,7 +93,7 @@ A user with no RBAC bindings can log in but gets `403 Forbidden` on every resour
 
 ### Least-privilege service accounts
 
-The proxy and the SG Agent run under **separate** service accounts (see [`k8s/rbac.yaml`](https://github.com/kubermatic/secureguard/blob/main/k8s/rbac.yaml) / [`charts/secureguard/templates/rbac.yaml`](https://github.com/kubermatic/secureguard/blob/main/charts/secureguard/templates/rbac.yaml)):
+The proxy and the SG Agent run under **separate** service accounts, provisioned by the Helm chart's RBAC templates:
 
 ```yaml
 # Proxy: only impersonation + SGAgent registration (per-cluster kubeconfig
@@ -198,17 +186,7 @@ securityContext:
 
 ### Resource Limits
 
-Always set resource requests and limits to prevent resource exhaustion:
-
-```yaml
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 500m
-    memory: 256Mi
-```
+Always set resource requests and limits to prevent resource exhaustion — see [Installation → Resource Limits]({{< ref "../installation/#resource-limits" >}}) for the per-component values.
 
 ### Image Pinning
 
@@ -224,6 +202,10 @@ Configure CSP headers to prevent XSS and data exfiltration. When using nginx for
 ```nginx
 add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none';" always;
 ```
+
+{{% notice tip %}}
+The Google Fonts entries exist for the default typography. For air-gapped or maximally locked-down deployments, self-host the fonts and drop the external `fonts.googleapis.com` / `fonts.gstatic.com` sources from the policy.
+{{% /notice %}}
 
 ## Supply Chain Security
 

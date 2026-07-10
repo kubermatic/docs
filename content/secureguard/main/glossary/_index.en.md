@@ -3,9 +3,6 @@ title = "Glossary"
 date = 2026-06-13T09:00:00+02:00
 weight = 12
 description = "Plain-language definitions of every key term used across the SecureGuard documentation — from secrets and vaults to ESO resources, OIDC, and federation."
-sitemapexclude = true
-searchexclude = true
-private = true
 +++
 
 Plain-language definitions of the terms used throughout the SecureGuard docs.
@@ -60,7 +57,8 @@ theme; within each group they build on each other.
   them as environment variables or mounted files.
 - **CRD (Custom Resource Definition)** — A way to teach Kubernetes about new
   object types beyond its built-ins. `ExternalSecret`, `SecretStore`,
-  `PushSecret`, `ESODeployment`, and `SGAgent` are all CRDs.
+  `PushSecret`, `ESODeployment`, `ESOVersion`, `SGAgent`, `FederationServer`,
+  and `FederationAuthorization` are all CRDs.
 - **CR (Custom Resource)** — An actual instance of a CRD (e.g. *one specific*
   `ExternalSecret` named `db-creds`).
 - **Operator / Controller** — A program that watches CRs and makes the cluster
@@ -82,10 +80,15 @@ theme; within each group they build on each other.
   most often.
 - **PushSecret** — The reverse direction: takes an existing Kubernetes Secret
   and **pushes it up** into an external provider for safekeeping.
-- **ReloaderConfig** — Tells SecureGuard to **restart workloads** (Deployments,
-  StatefulSets, DaemonSets) automatically when a secret they use changes.
+- **ReloaderConfig** — Wires a **notification source** (a Secret/ConfigMap
+  change, a cloud event, a Vault audit event, a webhook, or a TCP socket) to a
+  **trigger destination** (roll out a Deployment, or reconcile an ExternalSecret
+  / PushSecret / WorkflowRunTemplate). Makes secret delivery event-driven instead
+  of poll-based. Provided by the bundled **Reloader** companion project.
 - **ESODeployment** — Describes how ESO itself should be **installed/upgraded**
   on a target cluster. The SG Agent acts on it.
+- **ESOVersion** — One entry in the operator-curated **catalog of ESO releases**
+  the dashboard offers when creating an ESODeployment.
 - **SGAgent** — Represents a connected cluster's agent and its **heartbeat**
   (is it alive and reporting?).
 - **Provider** — The external system a store talks to: OpenBao/Vault, AWS
@@ -105,9 +108,12 @@ theme; within each group they build on each other.
 - **Auth Method** — How a user or machine proves its identity to OpenBao. ESO
   uses the **Kubernetes** auth method (it presents a ServiceAccount token).
 - **Sealing / Unsealing** — A sealed OpenBao knows where its encrypted data is
-  but **can't decrypt it** until it's "unsealed" with the master key. Production
-  setups use **Auto-Unseal** (e.g. AWS KMS) so pods unseal themselves on
-  restart. See [OpenBao Basics]({{< ref "../openbao-basics/" >}}).
+  but **can't decrypt it** until it's "unsealed" with the master key. By default
+  SecureGuard **self-initializes** OpenBao: the chart runs `operator init`,
+  unseals every node, and stores the Shamir key shares in the
+  `<release>-openbao-keys` Secret (back it up). For restart-resilient production,
+  use **KMS Auto-Unseal** (e.g. AWS KMS) so pods unseal themselves on restart.
+  See [OpenBao Basics]({{< ref "../openbao-basics/" >}}).
 - **Dynamic Secrets** — Credentials OpenBao generates on demand with a built-in
   expiry (TTL), instead of storing a static value.
 - **Audit Device** — OpenBao's logging of every read/write, for compliance.
@@ -182,6 +188,7 @@ theme; within each group they build on each other.
 - **High Availability (HA)** — Running multiple replicas so the service survives
   a node or pod failure.
 - **Raft / Integrated Storage** — OpenBao's built-in clustered storage used for
-  HA.
+  HA. The bundled OpenBao runs as a 3-node Raft cluster by default, with no
+  external Consul/etcd dependency.
 - **Stale secret** — A synced Secret that hasn't refreshed within its expected
   interval — the dashboard flags these so you can investigate.
