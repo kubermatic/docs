@@ -273,6 +273,7 @@ The following resources are supported in CE and EE version:
   - [ClientTrafficPolicy]({{< relref "./client-traffic-policy" >}})
   - [BackendTrafficPolicy]({{< relref "./backend-traffic-policy" >}})
   - [ReferenceGrant enforcement](#cross-namespace-references-with-referencegrants-enterprise-edition)
+  - [Backend pools]({{< relref "./backend-pools" >}})
 
 **For more details on how to use them and example, please refer to examples from [Envoy Gateway Documentation](https://gateway.envoyproxy.io/docs/tasks/)**
 
