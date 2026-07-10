@@ -36,6 +36,7 @@ KubeLB is available in two editions:
 | Certificate management | ✔️ ¹ | ✔️ |
 | Gateway/LoadBalancer limits | ❌ | ✔️ |
 | Load Balancing Policies | ❌ | ✔️ |
+| Gateway API backend pools | ❌ | ✔️ |
 | CLI tunneling | ❌ | ✔️ |
 | **Observability** |||
 | Prometheus metrics | ✔️ | ✔️ |
