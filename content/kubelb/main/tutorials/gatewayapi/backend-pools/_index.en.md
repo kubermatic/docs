@@ -27,9 +27,9 @@ Add the same annotation to each existing `LoadBalancer`. The value is the pool I
 apiVersion: kubelb.k8c.io/v1alpha1
 kind: LoadBalancer
 metadata:
-  name: 1002-vdi-q-01
+  name: example-app-01
   annotations:
-    kubelb.k8c.io/backend-pool: 1002-vdi-q
+    kubelb.k8c.io/backend-pool: example-app
 spec:
   upstreamTLS:
     policy: Insecure
@@ -38,16 +38,16 @@ spec:
 apiVersion: kubelb.k8c.io/v1alpha1
 kind: LoadBalancer
 metadata:
-  name: 1002-vdi-q-02
+  name: example-app-02
   annotations:
-    kubelb.k8c.io/backend-pool: 1002-vdi-q
+    kubelb.k8c.io/backend-pool: example-app
 spec:
   upstreamTLS:
     policy: Insecure
   # Keep the existing endpoints and ports.
 ```
 
-KubeLB creates `kubelb-pool-1002-vdi-q` as a headless Service and keeps its EndpointSlices in sync. **Do not create or manage those resources yourself.**
+KubeLB creates `kubelb-pool-example-app` as a headless Service and keeps its EndpointSlices in sync. **Do not create or manage those resources yourself.**
 
 Point the `HTTPRoute` at the generated pool Service:
 
@@ -55,7 +55,7 @@ Point the `HTTPRoute` at the generated pool Service:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: 1002-vdi-q
+  name: example-app
 spec:
   # parentRefs, hostnames, and matches omitted
   rules:
@@ -66,7 +66,7 @@ spec:
         cookieConfig:
           lifetimeType: Permanent
       backendRefs:
-        - name: kubelb-pool-1002-vdi-q
+        - name: kubelb-pool-example-app
           port: 443
 ```
 
@@ -80,12 +80,12 @@ Attach an Envoy Gateway `BackendTrafficPolicy` to the route. Setting `panicThres
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: BackendTrafficPolicy
 metadata:
-  name: 1002-vdi-q
+  name: example-app
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
-      name: 1002-vdi-q
+      name: example-app
   loadBalancer:
     type: LeastRequest
   healthCheck:
@@ -115,13 +115,13 @@ kind: Service
 metadata:
   name: backend-01
   annotations:
-    kubelb.k8c.io/backend-pool: 1002-vdi-q
+    kubelb.k8c.io/backend-pool: example-app
 spec:
   type: LoadBalancer
   # selector and ports omitted
 ```
 
-The CCM copies the annotation to the generated `LoadBalancer`. The tenant `HTTPRoute` still references `kubelb-pool-1002-vdi-q`; no pool Service is needed in the tenant cluster.
+The CCM copies the annotation to the generated `LoadBalancer`. The tenant `HTTPRoute` still references `kubelb-pool-example-app`; no pool Service is needed in the tenant cluster.
 
 ## Before You Apply
 
