@@ -126,6 +126,81 @@ spec:
 
 The WAF policy automatically applies to any route with matching labels, enabling developers to opt-in to security protection without requiring policy creation permissions.
 
+## Tenant-Managed WAF Policies
+
+Everything above is authored by the platform operator in the management cluster. Tenants can also manage their own WAF rules directly from their cluster, with no access to the management cluster or to any admin policy.
+
+A tenant creates a namespaced `TenantWAFPolicy` in their own cluster. KubeLB syncs it up, validates it, and applies it only to that tenant's routes. Because it is bound to the tenant's own namespace, a tenant policy can never reach another tenant or the cluster-wide baseline. The whole feature is opt-in and stays under the operator's control: nothing tenant-authored takes effect unless you enable it.
+
+### Enable tenant policies
+
+Turn it on globally in the `Config` CRD, then optionally tune or disable it per tenant. `Tenant` settings win over `Config`.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+  namespace: kubelb
+spec:
+  waf:
+    enableTenantPolicies: true    # off by default
+    # Optional guardrails:
+    # enforceFailureMode: Closed  # pin failureMode for every tenant policy
+    # tenantPolicyLimit: 10       # max policies per tenant
+    # maxDirectivesPerPolicy: 64
+    # maxDirectiveLength: 1024
+---
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Tenant
+metadata:
+  name: tenant-a
+spec:
+  waf:
+    disableTenantPolicies: false  # opt this one tenant out
+    limit: 5
+```
+
+### Author a policy (tenant side)
+
+In the tenant cluster, a developer creates a `TenantWAFPolicy`. It reads like a trimmed-down `WAFPolicy`: use `targetRef` or `targetSelector` to pick routes, or `default: true` to cover every route the tenant owns. There is no cluster-wide `global` for tenants by design.
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: TenantWAFPolicy
+metadata:
+  name: my-waf
+  namespace: my-app
+spec:
+  default: true
+  directives:
+    - "SecRuleEngine On"
+    - "Include @crs-setup-conf"
+    - "Include @owasp_crs/*.conf"
+```
+
+The policy's status is mirrored back into the tenant cluster, so developers can see whether it was accepted, rejected, or gated off without ever looking at the management cluster.
+
+### Guardrails
+
+Tenant input is untrusted, so directives run through a strict allowlist before they reach Envoy. Anything that reads files, fetches remote rules, writes logs, or spawns processes (`SecRemoteRules`, filesystem `Include`, `SecAuditLog`, `exec`, `setenv`, and friends) is rejected, and a tenant cannot remove or disable the operator's rules. Request body limits and rule counts are capped by the `Config` values above. A policy that trips any of these is marked invalid and simply never applied; traffic keeps flowing under whatever admin policy is in place.
+
+### How admin and tenant policies combine
+
+Admin and tenant policies are two independent layers. A route can pick up one of each, and when it does, both run as separate WAF engines chained back to back: admin first, tenant second. A request is blocked if either engine blocks it, so a tenant can only add protection on top of the operator's baseline, never weaken it.
+
+| Admin policy | Tenant policy | Result |
+|---|---|---|
+| Matches the route (`global`, `targetRef`, or `targetSelector`) | None | Admin rules only |
+| None | Matches the route | Tenant rules only, in the tenant's namespace |
+| Matches | Matches | Both enforced; blocked if either one matches |
+| Blocks a request | Tries to turn its engine off | Still blocked by the admin engine |
+| None | Set, but the operator hasn't enabled tenant policies | Ignored, status `TenantWAFDisabled` |
+| None | Uses a forbidden directive or exceeds a limit | Rejected, status `TenantWAFInvalid` / `TenantWAFLimitExceeded` |
+| Targets tenant A's route | Tenant B `default: true` | No effect on tenant A |
+
+`failureMode` behaves exactly as it does for admin policies, and an operator can pin it for every tenant with `enforceFailureMode` on the `Config` or `Tenant`.
+
 ## Examples
 
 ### Basic WAF — OWASP CRS Defaults
