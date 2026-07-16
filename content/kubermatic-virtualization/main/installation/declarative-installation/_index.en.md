@@ -129,7 +129,7 @@ kubevirt:
 
 The KubeV web dashboard is optional and disabled by default. Enable it by adding a `dashboard` section to your configuration file.
 
-The dashboard images are hosted on a private registry — credentials are required before `kubev apply` will proceed. Provide them either inline in the config file or via environment variables before running the command:
+KubeV images are hosted on a private registry — credentials are required for every installation, as the controller-manager is always deployed. Provide them either as the top-level `imagePullSecret` field in the config file or via environment variables before running the command:
 
 ```bash
 # Option A — environment variables
@@ -137,23 +137,22 @@ export KUBEV_USERNAME=myuser
 export KUBEV_PASSWORD=mypassword
 kubev apply -f cluster.yaml
 
-# Option B — inline in cluster.yaml
-dashboard:
-  enabled: true
-  imagePullSecret: |
-    {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
+# Option B — top-level field in cluster.yaml
+imagePullSecret: |
+  {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
 ```
 
-If neither is provided and the dashboard is enabled, `kubev apply` fails the pre-flight check before making any cluster changes.
+Setting `dashboard.imagePullSecret` is still supported and overrides the top-level field for the dashboard components only.
 
 The dashboard supports three authentication modes: `none`, `basic`, and `oidc`. The simplest way to get started is `none` — the dashboard is accessible without a login, suitable for private networks during initial setup:
 
 ```yaml
+imagePullSecret: |
+  {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
+
 dashboard:
   enabled: true
   dashboardURL: "https://dashboard.example.com"
-  imagePullSecret: |
-    {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
   auth:
     none: {}
 ```
