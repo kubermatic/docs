@@ -1,0 +1,25 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kdp-ai-agent
+  namespace: kdp-system
+spec:
+  hostnames:
+    - dashboard.<DOMAIN>
+  parentRefs:
+    - name: shared-gateway
+      namespace: <GATEWAY_NAMESPACE>
+  rules:
+    - backendRefs:
+        - name: kdp-ai-agent
+          port: 8000
+      matches:
+        - path:
+            type: PathPrefix
+            value: /ai-agent
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
