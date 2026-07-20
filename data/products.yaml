@@ -134,6 +134,8 @@ developer-platform:
   versions:
     - release: v0.9.0
       name: v0.9.0
+    - release: v1.1
+      name: v1.1
     - release: v1.0
       name: v1.0
 operatingsystemmanager:
