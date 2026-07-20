@@ -22,7 +22,8 @@ For each of the CRDs on the service cluster that should be published, the servic
 important settings that influence the behaviour around handling the CRD.
 
 When publishing a resource (CRD), one or more versions can be published (though publishing a single
-version is most common, as kcp does not yet support version conversion).
+version is most common, as the api-syncagent does not configure version conversion for published
+CRDs).
 
 All published resources together form the KDP Service. When a service is enabled in a workspace
 (i.e. it is bound to it), users can manage objects for the projected resources described by the
@@ -133,7 +134,8 @@ The renaming is configured in `spec.naming`. Since api-syncagent v0.3.0, naming 
 template variables and functions are available:
 
 - `{{ .ClusterName }}` – the KDP workspace's internal cluster identifier (e.g. "1084s8ceexsehjm2")
-- `{{ .ClusterPath }}` – the KDP workspace path (e.g. "root:customer:projectx")
+- `{{ .ClusterPath }}` – the KDP workspace path (e.g. "root:customer:projectx"); requires
+  `spec.enableWorkspacePaths: true` on the `PublishedResource`
 - `{{ .Object.metadata.namespace }}` – the original namespace used by the consumer inside the KDP workspace
 - `{{ .Object.metadata.name }}` – the original name of the object inside the KDP workspace
 - `{{ ... | sha3short }}` – first 20 hex characters of the SHA-3 hash (replaces the old SHA-1 based `$...Hash` variables)
@@ -424,10 +426,9 @@ updated, making the change immediately available to all consumers.
 
 Publishing multiple versions is considerably more work: Kubernetes requires all versions of a CRD to
 be **losslessly convertible** to each other, which without CEL-based conversion or a conversion
-webhook is practically impossible. **kcp currently supports neither** — it has no CEL conversions,
-and the api-syncagent has no way to configure a conversion webhook (running one close to the kcp
-shards is out of scope and a trust concern for kcp operators). Avoid multiple versions unless you
-really need them.
+webhook is practically impossible. While kcp itself supports conversion webhooks, the api-syncagent
+never sets `spec.conversion.*` on the CRDs it publishes, so no conversion is configured in practice
+(and kcp has no CEL-based conversion). Avoid multiple versions unless you really need them.
 
 When publishing multiple versions:
 
