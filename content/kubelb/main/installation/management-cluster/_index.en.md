@@ -303,6 +303,52 @@ kubelb-addons:
 
 The `kubelb-addons` chart honors `global.imageRegistry` and `global.imagePullSecrets` and propagates both to every addon subchart (ingress-nginx, envoy-gateway, cert-manager, external-dns, metallb, agentgateway). Set them on the top-level install to route all addon images through a private mirror and attach a pull secret, without editing each subchart's own values. See the [Air-Gap Installation]({{< relref "../../tutorials/airgap-installation" >}}) guide for the full end-to-end mirroring workflow; the same flags apply to non-airgap setups pulling from a company registry.
 
+### Client Header Size Limits
+
+Envoy rejects requests whose combined client headers exceed **60 KiB** with a `431 Request Header Fields Too Large` response. Workloads that carry large `Authorization`/JWT tokens, long cookies, or many tracing headers can hit this limit.
+
+An L7 request passes through two Envoy hops: the Envoy Gateway edge proxy, and then KubeLB's own managed Envoy. Both must allow the larger headers, otherwise the request is rejected at whichever hop still enforces the 60 KiB default.
+
+KubeLB's managed Envoy limits are set on the `Config` resource under `spec.envoyProxy.headerLimits`:
+
+```yaml
+apiVersion: kubelb.k8c.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+  namespace: kubelb
+spec:
+  envoyProxy:
+    headerLimits:
+      # Max request header block size in KiB. Range (0, 8192]. Defaults to 8192.
+      maxRequestHeadersKb: 8192
+      # Max number of request headers. Defaults to 4096.
+      maxRequestHeadersCount: 4096
+      # Max upstream response header block size in KiB. Range (0, 8192]. Defaults to 8192.
+      maxResponseHeadersKb: 8192
+```
+
+All three fields default to Envoy's maximum, so out of the box KubeLB's managed Envoy never rejects headers the edge already accepted. Lower them if you want the managed Envoy to enforce a smaller cap.
+
+The Envoy Gateway edge is not managed by KubeLB. Raise its limit yourself on the `EnvoyProxy` resource that your `GatewayClass` references, for example with a bootstrap runtime layer:
+
+```yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: kubelb-proxy-config
+  namespace: kubelb
+spec:
+  bootstrap:
+    type: Merge
+    value: |
+      layered_runtime:
+        layers:
+        - name: header-limits
+          static_layer:
+            envoy.reloadable_features.max_request_headers_size_kb: 96
+```
+
 ### TCP/UDP Load Balancing (Layer 4)
 
 Refer to [Layer 4 Load Balancing Setup]({{< relref "../../tutorials/loadbalancer#setup" >}}) for more details.
