@@ -30,11 +30,34 @@ Before beginning, ensure you have:
 
 The declarative installation uses a YAML configuration file following the Kubermatic Virtualization API schema. This file serves as the single source of truth for your cluster's desired state.
 
+### Image Pull Secret
+
+KubeV images are hosted on a private registry, so registry credentials are **required for every installation** — the controller-manager is always deployed and pulls from it. A single secret covers all components (controller-manager, api-server, and the optional dashboard). Provide it in one of two ways:
+
+**Option 1 — the top-level `imagePullSecret` field** in the config file (used in the examples below):
+
+```yaml
+imagePullSecret: |
+  {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
+```
+
+**Option 2 — environment variables** before running `kubev apply`, so nothing is stored in the file:
+
+```bash
+export KUBEV_USERNAME=myuser
+export KUBEV_PASSWORD=mypassword
+kubev apply -f cluster.yaml
+```
+
 ### Minimal Configuration Example
 
 ```yaml
 apiVersion: virtualization.k8c.io/v1alpha1
 kind: KubeVCluster
+
+# required — see "Image Pull Secret" above
+imagePullSecret: |
+  {"auths":{"quay.io":{"auth":"..."}}}
 
 networkConfiguration:
   dnsServerIP: "8.8.8.8"
@@ -60,6 +83,10 @@ storage:
 ```yaml
 apiVersion: virtualization.k8c.io/v1alpha1
 kind: KubeVCluster
+
+# required — see "Image Pull Secret" above
+imagePullSecret: |
+  {"auths":{"quay.io":{"auth":"..."}}}
 
 # Network configuration defines the fundamental connectivity layer
 networkConfiguration:
@@ -129,31 +156,12 @@ kubevirt:
 
 The KubeV web dashboard is optional and disabled by default. Enable it by adding a `dashboard` section to your configuration file.
 
-The dashboard images are hosted on a private registry — credentials are required before `kubev apply` will proceed. Provide them either inline in the config file or via environment variables before running the command:
-
-```bash
-# Option A — environment variables
-export KUBEV_USERNAME=myuser
-export KUBEV_PASSWORD=mypassword
-kubev apply -f cluster.yaml
-
-# Option B — inline in cluster.yaml
-dashboard:
-  enabled: true
-  imagePullSecret: |
-    {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
-```
-
-If neither is provided and the dashboard is enabled, `kubev apply` fails the pre-flight check before making any cluster changes.
-
 The dashboard supports three authentication modes: `none`, `basic`, and `oidc`. The simplest way to get started is `none` — the dashboard is accessible without a login, suitable for private networks during initial setup:
 
 ```yaml
 dashboard:
   enabled: true
   dashboardURL: "https://dashboard.example.com"
-  imagePullSecret: |
-    {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
   auth:
     none: {}
 ```
@@ -173,6 +181,10 @@ Create a YAML configuration file (e.g., `cluster.yaml`) with your cluster specif
 cat > cluster.yaml <<EOF
 apiVersion: virtualization.k8c.io/v1alpha1
 kind: KubeVCluster
+
+# required — see "Image Pull Secret" above
+imagePullSecret: |
+  {"auths":{"quay.io":{"auth":"..."}}}
 
 networkConfiguration:
   dnsServerIP: "8.8.8.8"
