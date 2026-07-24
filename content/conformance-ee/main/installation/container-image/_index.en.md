@@ -40,7 +40,7 @@ Credentials are resolved in the following order:
 List available tools:
 
 ```bash
-kubermatic-ee-downloader list
+./kubermatic-ee-downloader list
 ```
 
 Example output:
@@ -53,13 +53,13 @@ conformance-tester latest-cli linux,darwin,windows    amd64,arm64 Kubermatic con
 Download the conformance-tester binary:
 
 ```bash
-kubermatic-ee-downloader get conformance-tester
+./kubermatic-ee-downloader get conformance-tester
 ```
 
 Download a specific version to a custom directory:
 
 ```bash
-kubermatic-ee-downloader get conformance-tester \
+./kubermatic-ee-downloader get conformance-tester \
   --version v1.2.0 \
   --output /usr/local/bin
 ```
@@ -67,7 +67,7 @@ kubermatic-ee-downloader get conformance-tester \
 With explicit registry credentials:
 
 ```bash
-kubermatic-ee-downloader get conformance-tester \
+./kubermatic-ee-downloader get conformance-tester \
   --username <your-username> \
   --password <your-password>
 ```
