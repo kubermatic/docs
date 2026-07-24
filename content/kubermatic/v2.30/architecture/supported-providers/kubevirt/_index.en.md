@@ -88,34 +88,36 @@ Currently, it is not recommended to use local or any topology constrained storag
 Once you have Kubernetes with all needed components, the last thing is to configure KubeVirt datacenter on seed.
 
 We allow to configure:
-- `customNetworkPolicies` - Network policies that are deployed on the infrastructure cluster (where VMs run).
-  - Check [Network Policy documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource) to see available options in the spec.
-  - Also check a [common services connectivity issue](#i-created-a-load-balancer-service-on-a-user-cluster-but-services-outside-cannot-reach-it) that can be solved by a custom network policy.
-- `ccmZoneAndRegionEnabled` - Indicates if region and zone labels from the cloud provider should be fetched. This field is enabled by default and should be disabled if the infra kubeconfig that is provided for KKP has no permission to access cluster role resources such as node objects.
-- `dnsConfig` and `dnsPolicy` - DNS config and policy which are set up on a guest. Defaults to `ClusterFirst`.
-  - You should set those fields when you suffer from DNS loop or collision issue. [Refer to this section for more details.](#i-discovered-a-dns-collision-on-my-cluster-why-does-it-happen)
-- `images` - Images for Virtual Machines that are selectable from KKP dashboard.
-  - Set this field according to [supported operating systems]({{< ref "../../compatibility/os-support-matrix/" >}}) to make sure that users can select operating systems for their VMs.
-- `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
-  - `isDefaultClass` - If true, the created StorageClass in the tenant cluster will be annotated with.
-  - `labels` - Is a map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services.
-  - `regions` - Represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters to span multiple regions.
-  - `volumeBindingMode` - indicates how PersistentVolumeClaims should be provisioned and bound. When unset, VolumeBindingImmediate is used.
-  - `volumeProvisioner` - The field specifies whether a storage class will be utilized by the infra cluster csi driver where the Containerized Data Importer (CDI) can use to create VM disk images or by the KubeVirt CSI Driver to provision volumes in the user cluster. If not specified, the storage class can be used as a VM disk image or user clusters volumes.
-    - `infra-csi-driver` - When set in the infraStorageClass, the storage class can be listed in the UI while creating the machine deployments and won't be available in the user cluster.
-    - `kubevirt-csi-driver` - When set in the infraStorageClass, the storage class won't be listed in the UI and will be available in the user cluster.
-  - `zones` - Represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones for increased availability.
-  - `infraVolumeSnapshotClass` - Name of the `VolumeSnapshotClass` from the KubeVirt infrastructure cluster.
-  - `isDefaultClass` - Optional. If set to `true`, the corresponding class in user clusters is annotated as default. Defaults to `false`.
-  - `deletionPolicy` - Optional. Deletion policy set on the corresponding class in user clusters. Defaults to `Delete`.
-- `namespacedMode(experimental)` - Represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
-- `vmEvictionStrategy` - Indicates the strategy to follow when a node drain occurs. If not set the default value is External and the VM will be protected by a PDB. Currently, we only support two strategies, `External` or `LiveMigrate`.
-  - `LiveMigrate`: the VirtualMachineInstance will be migrated instead of being shutdown.
-  - `External`: the VirtualMachineInstance will be protected by a PDB and `vmi.Status.EvacuationNodeName` will be set on eviction. This is mainly useful for machine-controller which needs a way for VMI's to be blocked from eviction, yet inform machine-controller that eviction has been called on the VMI, so it can handle tearing the VMI down.
-- `csiDriverOperator` - Contains the KubeVirt CSI Driver Operator configurations, where users can override the default configurations of the csi driver.
-  -  `overwriteRegistry`: overwrite the images registry for the csi driver daemonset that runs in the user cluster. 
-- `enableDedicatedCPUs` (deprecated) - Represents the configuration for virtual machine cpu assignment by using `domain.cpu` when set to `true` or using `resources.requests` and `resources.limits` when set to `false` which is the default
-- `usePodResourcesCPU` - Represents the new way of configuring for cpu assignment virtual machine by using `domain.cpu` when set to `false` which is the default or using `resources.requests` and `resources.limits` when set to `true`
+* `customNetworkPolicies` - Network policies that are deployed on the infrastructure cluster (where VMs run).
+  * Check [Network Policy documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource) to see available options in the spec.
+  * Also check a [common services connectivity issue](#i-created-a-load-balancer-service-on-a-user-cluster-but-services-outside-cannot-reach-it) that can be solved by a custom network policy.
+* `ccmZoneAndRegionEnabled` - Indicates if region and zone labels from the cloud provider should be fetched. This field is enabled by default and should be disabled if the infra kubeconfig that is provided for KKP has no permission to access cluster role resources such as node objects.
+* `dnsConfig` and `dnsPolicy` - DNS config and policy which are set up on a guest. Defaults to `ClusterFirst`.
+  * You should set those fields when you suffer from DNS loop or collision issue. [Refer to this section for more details.](#i-discovered-a-dns-collision-on-my-cluster-why-does-it-happen)
+* `images` - Images for Virtual Machines that are selectable from KKP dashboard.
+  * Set this field according to [supported operating systems]({{< ref "../../compatibility/os-support-matrix/" >}}) to make sure that users can select operating systems for their VMs.
+* `infraStorageClasses` - Storage classes that are initialized on user clusters that end users can work with.
+  * `isDefaultClass` - If true, the created StorageClass in the tenant cluster will be annotated with.
+  * `labels` - Is a map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services.
+  * `regions` - Represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters to span multiple regions.
+  * `volumeBindingMode` - indicates how PersistentVolumeClaims should be provisioned and bound. When unset, VolumeBindingImmediate is used.
+  * `volumeProvisioner` - The field specifies whether a storage class will be utilized by the infra cluster csi driver where the Containerized Data Importer (CDI) can use to create VM disk images or by the KubeVirt CSI Driver to provision volumes in the user cluster. If not specified, the storage class can be used as a VM disk image or user clusters volumes.
+    * `infra-csi-driver` - When set in the infraStorageClass, the storage class can be listed in the UI while creating the machine deployments and won't be available in the user cluster.
+    * `kubevirt-csi-driver` - When set in the infraStorageClass, the storage class won't be listed in the UI and will be available in the user cluster.
+  * `zones` - Represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones for increased availability.
+  * `infraVolumeSnapshotClass` - Name of the `VolumeSnapshotClass` from the KubeVirt infrastructure cluster.
+  * `isDefaultClass` - Optional. If set to `true`, the corresponding class in user clusters is annotated as default. Defaults to `false`.
+  * `deletionPolicy` - Optional. Deletion policy set on the corresponding class in user clusters. Defaults to `Delete`.
+* `namespacedMode(experimental)` - Represents the configuration for enabling the single namespace mode for all user-clusters in the KubeVirt datacenter.
+* `vmEvictionStrategy` - Indicates the strategy to follow when a node drain occurs. If not set the default value is External and the VM will be protected by a PDB. Currently, we only support two strategies, `External` or `LiveMigrate`.
+  * `LiveMigrate`: the VirtualMachineInstance will be migrated instead of being shutdown.
+  * `External`: the VirtualMachineInstance will be protected by a PDB and `vmi.Status.EvacuationNodeName` will be set on eviction. This is mainly useful for machine-controller which needs a way for VMI's to be blocked from eviction, yet inform machine-controller that eviction has been called on the VMI, so it can handle tearing the VMI down.
+* `csiDriverOperator` - Contains the KubeVirt CSI Driver Operator configurations, where users can override the default configurations of the csi driver.
+  *  `overwriteRegistry`: overwrite the images registry for the csi driver daemonset that runs in the user cluster. 
+* `enableDedicatedCPUs` (deprecated) - Represents the configuration for virtual machine cpu assignment by using `domain.cpu` when set to `true` or using `resources.requests` and `resources.limits` when set to `false` which is the default
+* `usePodResourcesCPU` - Represents the new way of configuring for cpu assignment virtual machine by using `domain.cpu` when set to `false` which is the default or using `resources.requests` and `resources.limits` when set to `true`
+* `matchSubnetAndStorageLocation` - If set to true, the region and zone of the subnet and storage class must match. For example, if the storage class has the region `eu` and zone was `central`, the subnet must be in the same region and zone, otherwise KKP will reject the creation of the machine deployment and eventually the cluster.
+* `ccmLoadBalancerEnabled` - Indicates if KubeVirt CCM should create and manage the clusters load balancers. When set to `false`, the CCM won't react to any load balancer created in the cluster. The default value is set to `true`.  
 
 {{% notice note %}}
 The `infraStorageClasses` pass names of KubeVirt storage classes that can be used from user clusters.
