@@ -119,8 +119,7 @@ reconciliation but does **not** remove already-published artifacts.
 
 ## Authoring in the dashboard
 
-The dashboard provides a visual Blueprint builder: a resource-graph editor where you add
-services as nodes and wire their fields together, plus an **AI assistant** panel (see
+The dashboard provides a visual Blueprint builder with an **AI assistant** panel (see
 [Building Blueprints with AI](#building-blueprints-with-ai) below). Published Blueprints get a
 detail page with an **Overview**, the **Description**, and a **Resource Graph** you can inspect
 either as a diagram or as the underlying RGD YAML.
@@ -176,8 +175,9 @@ composes the services you meant, with the field wiring and defaults you want, be
 {{% /notice %}}
 
 {{% notice note %}}
-The AI assistant requires the platform's AI backend to be configured by the operator. When it is
-not, the panel is unavailable and you author resource graphs manually. The same backend powers
+The AI assistant requires an OpenAI-compatible model configured by the operator on the dashboard
+deployment (`api.config.openaiKey` and `api.config.openaiModel`). When it is not configured the
+panel is unavailable and you author resource graphs manually. The same backend powers
 [AI-Generated Forms]({{< relref "../generated-forms" >}}).
 {{% /notice %}}
 
