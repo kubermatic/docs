@@ -119,11 +119,12 @@ reconciliation but does **not** remove already-published artifacts.
 
 ## Authoring in the dashboard
 
-The dashboard provides a visual Blueprint builder: a resource-graph editor where you add
-services as nodes and wire their fields together, plus an **AI assistant** panel (see
-[Building Blueprints with AI](#building-blueprints-with-ai) below). Published Blueprints get a
-detail page with an **Overview**, the **Description**, and a **Resource Graph** you can inspect
-either as a diagram or as the underlying RGD YAML.
+In the dashboard you author a Blueprint by editing its resource graph as **YAML**, helped by an
+**AI assistant** panel (see [Building Blueprints with AI](#building-blueprints-with-ai) below)
+that drafts and edits that YAML for you. The dependencies between the composed services are
+shown as a **read-only** graph; you cannot build the graph by dragging nodes. Published
+Blueprints get a detail page with an **Overview**, the **Description**, and a **Resource Graph**
+you can inspect either as that read-only diagram or as the underlying RGD YAML.
 
 ![Blueprint detail — resource graph](blueprint-detail-graph.png?classes=shadow,border "Blueprint detail page: overview and the resource graph diagram")
 
@@ -136,11 +137,11 @@ backing the Blueprint:
 
 Writing a kro `ResourceGraphDefinition` by hand means knowing the exact kind, `apiVersion`,
 fields and CEL wiring of every service you compose, plus kro's `SimpleSchema` grammar for the
-knobs you expose. The **AI assistant** in the Blueprint builder lets you describe the outcome
-in plain language and drafts that graph for you.
+knobs you expose. The **AI assistant** in the dashboard's Blueprint editor lets you describe the
+outcome in plain language and drafts that YAML for you.
 
 <!-- TODO: screenshot — AI assistant panel open beside the graph editor, with a prompt typed in -->
-![Blueprint builder — AI assistant](blueprint-ai-assistant.png?classes=shadow,border "The AI assistant panel in the Blueprint builder")
+![Blueprint editor — AI assistant](blueprint-ai-assistant.png?classes=shadow,border "The AI assistant panel in the dashboard's Blueprint editor")
 
 **What it's grounded in.** The assistant is given the services currently **bound in your
 workspace** as its only building blocks, each with its real schema. It composes *only* those
@@ -154,7 +155,7 @@ The assistant works in three modes:
 
 | Mode | When | What it does |
 |------|------|--------------|
-| **Create** | Empty builder | Drafts a new resource graph from your description. |
+| **Create** | Empty editor | Drafts a new resource graph from your description. |
 | **Edit** | Existing graph | Applies your request as a *minimal* change, preserving unrelated resources and fields. |
 | **Fix with AI** | Validation failed | Takes the current graph plus the controller's validation errors and proposes a minimal repair, without redesigning the graph. |
 
@@ -163,11 +164,11 @@ storage-size setting"* — against a workspace where a `PostgresInstance` servic
 drafts a graph with a `size` knob on the Blueprint's own schema wired into both child
 databases, much like the [OrderApp Databases](#authoring-a-blueprintdefinition) example above.
 
-**Review before publishing.** The output is a **draft** loaded into the builder; nothing is
+**Review before publishing.** The output is a **draft** loaded into the editor; nothing is
 published automatically. It goes through exactly the same lifecycle as a hand-written graph
 (`Draft → Validating → Valid`) before you set `spec.published: true`, and it is checked to be
 structurally well-formed (valid kro spec, single-pipe `SimpleSchema` markers, resources limited
-to your bound services) before it ever reaches the builder.
+to your bound services) before it ever reaches the editor.
 
 {{% notice warning %}}
 The assistant can make mistakes. The structural checks and Blueprint validation catch malformed
@@ -176,9 +177,10 @@ composes the services you meant, with the field wiring and defaults you want, be
 {{% /notice %}}
 
 {{% notice note %}}
-The AI assistant requires the platform's AI backend to be configured by the operator. When it is
-not, the panel is unavailable and you author resource graphs manually. The same backend powers
-[AI-Generated Forms]({{< relref "../generated-forms" >}}).
+The AI assistant requires an OpenAI-compatible model configured by the operator on the dashboard
+deployment (`api.config.openaiKey` and `api.config.openaiModel`). When it is not configured the
+panel is unavailable and you author resource graphs manually. The same backend powers
+the [UI Builder]({{< relref "../ui-builder" >}}).
 {{% /notice %}}
 
 ## Blueprint logos
@@ -191,4 +193,4 @@ ConfigMaps. Set it through the dashboard's Blueprint editor.
 - [Consuming Blueprints]({{< relref "../../platform-users/consuming-blueprints" >}}) — the platform-user side.
 - [Publishing Resources]({{< relref "../publish-resources" >}}) — how the composed services are published in the first place.
 - [Consuming Services]({{< relref "../../platform-users/consuming-services" >}}) — binding services (a prerequisite for composing them).
-- [AI-Generated Forms]({{< relref "../generated-forms" >}}) — the other AI-assisted authoring feature.
+- [UI Builder]({{< relref "../ui-builder" >}}) — the other AI-assisted authoring feature.
