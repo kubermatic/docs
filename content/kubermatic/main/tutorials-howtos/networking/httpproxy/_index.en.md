@@ -157,12 +157,7 @@ The configured values are shown in the **NETWORK CONFIGURATION** part of the wiz
 
 The proxy settings can also be changed after the cluster has been created. Open the cluster details page, choose **Edit Cluster** and update the **Node Egress Proxy** fields.
 
-<figure>
-  <img src="images/edit-cluster-proxy.png" width="560" style="height: auto;" title="Node Egress Proxy in the edit cluster dialog" alt="Node Egress Proxy in the edit cluster dialog">
-  <figcaption>
-    <h4>Node Egress Proxy in the edit cluster dialog</h4>
-  </figcaption>
-</figure>
+![Node Egress Proxy in the edit cluster dialog](images/edit-cluster-proxy.png?classes=shadow,border "Node Egress Proxy in the edit cluster dialog")
 
 
 
