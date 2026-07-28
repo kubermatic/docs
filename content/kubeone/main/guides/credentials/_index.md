@@ -294,6 +294,32 @@ For Docker Hub you need to name the registry key `registry-1.docker.io`. Just
 `docker.io` will not work.
 {{% /notice %}}
 
+### customSecrets
+
+Besides the provider credentials known to KubeOne, you can provide arbitrary,
+user-defined secrets under the `customSecrets` key. Values placed here are
+made available to [addon]({{< ref "../addons/" >}}) templates -- both
+built-in and custom addons -- as `.CustomCredentials.<<KEY>>`, so you no
+longer have to pass secrets through `kubeone.yaml`'s `Addon.Params`, which is
+typically committed to version control and not meant for secrets.
+
+Example:
+```yaml
+customSecrets: |
+  MY_APP_TOKEN: "<<MY_APP_TOKEN>>"
+  ANOTHER_KEY: "<<ANOTHER_VALUE>>"
+```
+
+The values can then be referenced in an addon manifest, for example:
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-app-secret
+stringData:
+  token: "{{ .CustomCredentials.MY_APP_TOKEN }}"
+```
+
 ## Environment Variables in the Configuration Manifest
 
 KubeOne can source values for supported fields in the configuration manifest
