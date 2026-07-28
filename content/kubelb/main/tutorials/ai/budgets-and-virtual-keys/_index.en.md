@@ -125,15 +125,14 @@ status:
       windowStart: "2026-07-22T00:00:00Z"
 ```
 
-This needs a Prometheus that scrapes the agentgateway proxy. Point KubeLB at yours; it does not run one:
+This needs a Prometheus that scrapes the agentgateway proxy. Point KubeLB at yours with `Config.spec.prometheus` (top level, not under `ai`; the same connection serves other manager features that read metrics); it does not run one:
 
 ```yaml
 spec:
-  ai:
-    prometheus:
-      url: http://prometheus-operated.monitoring.svc:9090
-      # bearerTokenSecretRef: {name: prom-token, key: token}   # optional
-      # caCertSecretRef: {name: prom-ca, key: ca.crt}          # optional
+  prometheus:
+    url: http://prometheus-operated.monitoring.svc:9090
+    # bearerTokenSecretRef: {name: prom-token, key: token}   # optional
+    # caCertSecretRef: {name: prom-ca, key: ca.crt}          # optional
 ```
 
 Without `prometheus` configured, provisioning and Day budgets work as before, but no key reports spend and the tenant's `TenantState` carries `AISpendMeteringDisabled=True` so the gap is visible instead of silent.
