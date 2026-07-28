@@ -86,7 +86,7 @@ image loader script or [the mirror registries][mirror-registries] feature.
 ### Added features
 
 The new API version also introduces many new features. We recommend checking
-[the KubeOne 1.4.0 release changelog][changelog] for more information about the
+[the KubeOne release changelog][changelog] for more information about the
 new features.
 
-[changelog]: https://github.com/kubermatic/kubeone/blob/main/CHANGELOG.md#v140---2022-02-16
+[changelog]: https://github.com/kubermatic/kubeone/blob/main/CHANGELOG/CHANGELOG-1.14.md

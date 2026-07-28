@@ -130,4 +130,4 @@ As an alternative, you can follow the [Using Mirror Registries]({{< ref "../mirr
 
 [regconfig-api]: {{< ref "../../references/kubeone-cluster-v1beta2#registryconfiguration" >}}
 [docker-reg-guide]: https://docs.docker.com/registry/
-[img-loader]: https://github.com/kubermatic/kubeone/blob/main/hack/image-loader.sh
+[img-loader]: https://github.com/kubermatic/kubeone/blob/v1.14.0/hack/image-loader.sh

@@ -21,10 +21,10 @@ output "kubeone_hosts" {}
 # Contains templates for generating the MachineDeployment objects.
 # More information about Cluster-API, machine-controller, and
 # MachineDeployments can be found in the Concepts document:
-#   https://docs.kubermatic.com/kubeone/main/architecture/concepts/#kubermatic-machine-controller
+#   https://docs.kubermatic.com/kubeone/v1.14.0/architecture/concepts/#kubermatic-machine-controller
 # Example MachineDeployment manifests for each supported provider can be found
 # in the machine-controller repository:
-#   https://github.com/kubermatic/machine-controller/tree/main/examples
+#   https://github.com/kubermatic/machine-controller/tree/v1.14.0/examples
 output "kubeone_workers" {}
 
 # Contains optional information about static workers hosts, such as IP addresses,
@@ -70,7 +70,7 @@ output "kubeone_hosts" {
       # Cloud provider name.
       # KubeOne Terraform integration works only for natively-supported
       # providers:
-      #   https://docs.kubermatic.com/kubeone/main/architecture/compatibility/
+      #   https://docs.kubermatic.com/kubeone/v1.14.0/architecture/compatibility/
       # The cloud provider name is defined by the KubeOne API.
       # You can run kubeone config print --full and refer to the
       # cloudProvider section for the list of cloud provider names
@@ -157,14 +157,14 @@ output "kubeone_workers" {
         # AWS CloudProviderSpec.
         # In the machine-controller repository, you can find example manifests
         # from where you can take cloudProviderSpec:
-        #   https://github.com/kubermatic/machine-controller/tree/main/examples
+        #   https://github.com/kubermatic/machine-controller/tree/v1.14.0/examples
         # You shouldn't include the information about credentials
         # as credentials are configured automatically by KubeOne as environment
         # variables in the machine-controller pod.
         cloudProviderSpec = {
           # provider specific fields:
           # see example under `cloudProviderSpec` section at:
-          # https://github.com/kubermatic/machine-controller/blob/main/examples/aws-machinedeployment.yaml
+          # https://github.com/kubermatic/machine-controller/blob/v1.14.0/examples/aws-machinedeployment.yaml
           region           = var.aws_region
           ami              = local.ami
           availabilityZone = local.zoneA
@@ -266,5 +266,5 @@ output "proxy" {
 }
 ```
 
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/v1.14.0/examples/terraform
 [concepts-mc]: {{< ref "../../architecture/concepts#kubermatic-machine-controller" >}}

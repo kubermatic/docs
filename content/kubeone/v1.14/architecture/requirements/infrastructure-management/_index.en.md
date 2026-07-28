@@ -3,7 +3,7 @@ title = "Infrastructure Management"
 date = 2021-02-10T12:00:00+02:00
 weight = 2
 aliases = [
- "/kubeone/main/architecture/infrastructure_management/"
+ "/kubeone/v1.14/architecture/infrastructure_management/"
 ]
 +++
 
@@ -155,14 +155,14 @@ check our [example Terraform configs][terraform-configs-github] and the
 The needed `output.tf` file already comes with all our
 [example Terraform configs][terraform-configs-github].
 
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/v1.14.0/examples/terraform
 {{% /notice %}}
 
 [kubeadm-sysreq]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin
 [ssh]: {{< ref "../../../guides/ssh#sshd-requirements-on-instances" >}}
 [supported-providers]: {{< ref "../../supported-providers/" >}}
 [supported-os]: {{< ref "../../compatibility/os-support-matrix/" >}}
-[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/main/examples/terraform
+[terraform-configs-github]: https://github.com/kubermatic/kubeone/tree/v1.14.0/examples/terraform
 [machine-controller]: https://github.com/kubermatic/machine-controller
 [static-nodes]: {{< ref "../../../guides/static-nodes" >}}
 [concepts]: {{< ref "../../concepts#kubermatic-machine-controller" >}}
