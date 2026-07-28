@@ -77,9 +77,6 @@ Selecting a different operating system re-runs the discovery and updates the lis
 
 ![Image Discovery For Flatcar](./images/image-discovery-flatcar.png?classes=shadow,border "Image Discovery For Flatcar")
 
-**RHEL**
-
-![Image Discovery For RHEL](./images/image-discovery-rhel.png?classes=shadow,border "Image Discovery For RHEL")
 
 ## How Images Are Matched To An Operating System
 
