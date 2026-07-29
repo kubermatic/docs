@@ -13,10 +13,12 @@ We are only testing our software with specific versions of the components, we ar
 
 | KubeLB | Kubermatic Kubernetes Platform | Gateway API | Envoy Gateway | NGINX Ingress | Kubernetes |
 |--------|-------------------------------|-------------|---------------|-------------------------|------------|
-| v1.4   | v2.29, v2.30               | v1.5.0+      | v1.6.0+       | v1.10.0+                  | v1.27+     |
+| v1.4   | v2.29, v2.30               | v1.6.x      | v1.8.x       | v1.10.0+                  | v1.27+     |
 | v1.3   | v2.27, v2.28, v2.29, v2.30               | v1.4.0+      | v1.5.0+       | v1.10.0+                  | v1.27+     |
 | v1.2   | v2.27, v2.28, v2.29                | v1.3.0      | v1.3.0+       | v1.10.0+                  | v1.27+     |
 
+The Kubernetes version requirement is informational; the KubeLB Helm charts do not enforce a `kubeVersion` constraint.
+
 ## Support Policy
 
-For support policy, please refer to the [KubeLB Support Policy](../support-policy/)
+For the support policy, see the [KubeLB Support Policy](../support-policy/)

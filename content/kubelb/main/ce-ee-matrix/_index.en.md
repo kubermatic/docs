@@ -21,14 +21,24 @@ KubeLB is available in two editions:
 | **Load Balancing** |||
 | TCP/UDP Load Balancing | ✔️ | ✔️ |
 | Ingress | ✔️ | ✔️ |
+| Envoy timeout configuration | ❌ | ✔️ |
+| Active health checks | ❌ | ✔️ |
+| Circuit breakers | ❌ | ✔️ |
+| Backend TLS re-encryption (upstream TLS) | ❌ | ✔️ |
+| Per-tenant Envoy resource sizing | ❌ | ✔️ |
+| Node address capping (`maxNodeAddressCount` / `nodeAddressLabelSelector`) | ❌ | ✔️ |
 | **Gateway API** |||
 | HTTPRoute, GRPCRoute | ✔️ | ✔️ |
 | TCPRoute, UDPRoute, TLSRoute | ❌ | ✔️ |
 | Multiple Gateways per tenant | ❌ | ✔️ |
 | Multiple Gateway classes per tenant (class mappings) | ❌ | ✔️ |
 | Traffic Policies (Client/Backend) | ❌ | ✔️ |
+| AI & MCP Gateway (virtual keys, budgets) | ❌ | ✔️ |
 | **Security** |||
 | Web Application Firewall (Beta) | ❌ | ✔️ |
+| Tenant self-service WAF policies (TenantWAFPolicy) | ❌ | ✔️ |
+| mTLS backend transport | ❌ | ✔️ |
+| Automated network policies | ❌ | ✔️ |
 | Airgap & Offline Support | ❌ | ✔️ |
 | **Management** |||
 | Ingress to Gateway API Migration (Beta) | ✔️ | ✔️ |
@@ -42,6 +52,8 @@ KubeLB is available in two editions:
 | **Observability** |||
 | Prometheus metrics | ✔️ | ✔️ |
 | Grafana dashboards | ✔️ | ✔️ |
+| Insights | ❌ | ✔️ |
+| Prometheus alert rules | ❌ | ✔️ |
 | **Supply Chain Security** |||
 | Artifact signing (Cosign) | ✔️ | ✔️ |
 | SBOMs | ✔️ | ✔️ |
