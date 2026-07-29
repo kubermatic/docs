@@ -1,7 +1,9 @@
 +++
 title = "KubeLB Dashboards"
 linkTitle = "KubeLB"
+date = 2026-07-29T00:00:00+02:00
 weight = 10
+aliases = ["/kubelb/main/tutorials/observability/metrics-and-dashboards/kubelb/"]
 +++
 
 KubeLB ships four Grafana dashboards covering the core components. These are provisioned from the `kubelb-manager` and `kubelb-ccm` Helm charts when `grafana.dashboards.enabled=true`.
@@ -34,7 +36,7 @@ Detailed view of the KubeLB Manager component responsible for reconciling LoadBa
 
 ## KubeLB / Envoy Control Plane
 
-Monitors the xDS control plane that manages Envoy proxy configuration.
+Monitors the xDS control plane that manages Envoy Proxy configuration.
 
 **Key panels:**
 
@@ -42,7 +44,7 @@ Monitors the xDS control plane that manages Envoy proxy configuration.
 - gRPC connection count and request/response rates by type URL
 - Snapshot generation duration and update frequency
 - Cache hit/miss ratios
-- Envoy proxy deployment lifecycle (creates/deletes)
+- Envoy Proxy deployment lifecycle (creates/deletes)
 
 {{< figure src="/img/kubelb/common/monitoring/kubelb-envoy-control-plane.png" alt="KubeLB Envoy Control Plane Dashboard" title="KubeLB Envoy Control Plane Dashboard" >}}
 

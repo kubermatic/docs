@@ -1,17 +1,18 @@
 +++
 title = "Kubermatic Kubernetes Platform Integration"
+linkTitle = "KKP Integration"
 date = 2023-10-27T10:07:15+02:00
-weight = 8
+description = "Enable and configure KubeLB for user clusters in the Kubermatic Kubernetes Platform."
+weight = 50
 enterprise = true
+aliases = ["/kubelb/main/tutorials/kkp/"]
 +++
 
-## Kubermatic Kubernetes Platform (Enterprise Edition Only)
-
-KubeLB Enterprise Edition is integrated into the Kubermatic Kubernetes Platform (KKP). This means that you can use KubeLB to provision load balancers for your KKP clusters. KKP will take care of configurations and deployments for you in the user cluster. Admins mainly need to create the KubeLB manager cluster and configure KKP to use it.
+KubeLB Enterprise Edition is integrated into the Kubermatic Kubernetes Platform (KKP), so KubeLB can provision load balancers for KKP clusters. KKP handles configuration and deployment in the user cluster. Admins mainly need to create the KubeLB management cluster and configure KKP to use it.
 
 ## Prerequisites
 
-To configure KubeLB for KKP, you first need a KubeLB management cluster and its Kubeconfig. KubeLB requires access to certain resources like Tenants, LoadBalancer, Routes, etc. for the KKP integration to work. Instead of using admin Kubeconfig, we can use a Kubeconfig with the necessary RBAC permissions to access the required resources.
+To configure KubeLB for KKP, you first need a KubeLB management cluster and its Kubeconfig. The KKP integration requires access to certain resources like Tenants, LoadBalancer, and Routes. Instead of the admin Kubeconfig, use a Kubeconfig with the necessary RBAC permissions to access the required resources.
 
 1. Create a KubeLB management cluster with the following settings in the `values.yaml` file for the `kubelb-management` chart:
 
@@ -41,8 +42,8 @@ kubectl create secret generic kubelb-management-cluster \
 kubectl apply -f kubelb-secret.yaml
 ```
 
-For further configuration, please refer to the [official KKP documentation](https://docs.kubermatic.com/kubermatic/latest/tutorials-howtos/kubelb).
+For further configuration, see the [official KKP documentation](https://docs.kubermatic.com/kubermatic/latest/tutorials-howtos/kubelb).
 
 {{% notice note %}}
-To use KubeLB enterprise offering, you need to have a valid license. Please [contact sales](mailto:sales@kubermatic.com) for more information.
+The KubeLB Enterprise offering requires a valid license. [Contact sales](mailto:sales@kubermatic.com) for more information.
 {{% /notice %}}

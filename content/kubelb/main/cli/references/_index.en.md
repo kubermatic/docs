@@ -1,6 +1,7 @@
 +++
 title = "References"
 date = 2024-03-06T12:00:00+02:00
+description = "Reference for KubeLB CLI commands and flags."
 weight = 50
 +++
 
@@ -38,3 +39,8 @@ to expose local services through the KubeLB infrastructure.
 * [kubelb status](commands/kubelb_status)  - Display current status of KubeLB
 * [kubelb tunnel](commands/kubelb_tunnel)  - Manage secure tunnels to expose local services
 * [kubelb version](commands/kubelb_version)  - Print the version information
+
+## Table of Contents
+
+{{% children depth=1 %}}
+{{% /children %}}

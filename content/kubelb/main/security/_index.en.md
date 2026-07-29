@@ -2,7 +2,8 @@
 title = "Supply Chain Security"
 linkTitle = "Supply Chain Security"
 date = 2026-01-16T00:00:00+02:00
-weight = 25
+description = "SBOMs, signed artifacts, attestations, and vulnerability scanning for KubeLB releases."
+weight = 40
 +++
 
 Starting from v1.3, KubeLB provides supply chain security for both Community Edition (CE) and Enterprise Edition (EE):
@@ -218,9 +219,14 @@ trivy image quay.io/kubermatic/kubelb-manager:v1.3.0
 
 ## Tools
 
-- [Cosign](https://github.com/sigstore/cosign) — Artifact signing and verification
-- [ORAS](https://oras.land) — OCI Registry As Storage
+- [Cosign](https://github.com/sigstore/cosign): artifact signing and verification
+- [ORAS](https://oras.land): OCI Registry As Storage
 
 ## Vulnerability Reporting
 
-See [Vulnerability Reporting]({{< relref "./vulnerability-reporting" >}}) for security disclosure process.
+See [Vulnerability Reporting]({{< relref "./vulnerability-reporting" >}}) for the security disclosure process.
+
+## Table of Contents
+
+{{% children depth=1 %}}
+{{% /children %}}

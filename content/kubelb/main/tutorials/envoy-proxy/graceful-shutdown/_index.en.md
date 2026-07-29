@@ -5,7 +5,7 @@ date = 2025-01-16T10:00:00+02:00
 weight = 1
 +++
 
-Graceful shutdown ensures Envoy proxy instances drain existing connections before terminating, preventing connection drops during pod rollouts, scaling events, or cluster upgrades.
+Graceful shutdown drains existing connections from Envoy Proxy instances before termination. This prevents connection drops during pod rollouts, scaling events, and cluster upgrades.
 
 ## Why Graceful Shutdown?
 
@@ -15,7 +15,7 @@ Without graceful shutdown, when an Envoy pod terminates:
 - In-flight requests may fail
 - Clients experience errors during deployments
 
-With graceful shutdown enabled (default), the shutdown manager sidecar intercepts SIGTERM signals and orchestrates a controlled drain process, allowing existing connections to complete.
+With graceful shutdown enabled (default), the shutdown manager sidecar intercepts SIGTERM signals and runs a controlled drain process so existing connections can complete.
 
 ## Configuration
 

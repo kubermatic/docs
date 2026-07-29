@@ -3,10 +3,11 @@ title = "Budgets & Virtual Keys"
 linkTitle = "Budgets & Virtual Keys"
 date = 2026-07-23T10:00:00+02:00
 weight = 2
+enterprise = true
 description = "Self-service API keys as Kubernetes objects, token and dollar budgets per tenant and per key, live spend in the key's status, and predictable behavior when a limit trips."
 +++
 
-Nobody enjoys asking the platform team for an API key. With KubeLB, a tenant doesn't have to: a key is a Kubernetes object in their own cluster. Create it, wait a few seconds, read the Secret that appears next to it. Delete the object and the key stops working everywhere. The platform team sets the guardrails once; after that, key lifecycle is entirely in the tenant's hands.
+Tenants issue their own API keys as Kubernetes objects in their own clusters. Creating a `VirtualKey` produces a Secret next to it within a few seconds; deleting the object revokes the key everywhere. The platform team sets the limits once, and key lifecycle stays with the tenant.
 
 {{% notice info %}}
 Virtual keys, budgets, and metering are Enterprise Edition features. Setting up the gateway itself is covered in [AI & MCP Gateway]({{% relref "../gateway/" %}}).
@@ -35,7 +36,7 @@ spec:
   disabled: false           # kill switch: revoke the key, keep the material
 ```
 
-KubeLB generates the key material centrally, attaches it to the shared gateway, and syncs it back down as a Secret next to the object. The status tells you when it's ready:
+KubeLB generates the key material centrally, attaches it to the shared gateway, and syncs it back down as a Secret next to the object. The status reports when the key is ready:
 
 ```yaml
 status:
@@ -54,14 +55,14 @@ Point any OpenAI-compatible SDK at the gateway with the key from the Secret:
 client = OpenAI(base_url="http://<gateway-address>/v1", api_key=key)
 ```
 
-That's the whole client-side story. No provider credentials, no custom SDK.
+No provider credentials or custom SDK are required on the client side.
 
 ### Revoking, disabling, expiry
 
-Three ways a key stops working, each for a different situation:
+A key stops working in three ways:
 
-- **Delete the VirtualKey.** The key is revoked and the synced Secret is removed. For keys you're done with.
-- **Set `disabled: true`.** The key is revoked but the material is kept, so flipping it back restores the same key with no application redeploy. For incident response.
+- **Delete the VirtualKey.** The key is revoked and the synced Secret is removed. Use this for keys that are no longer needed.
+- **Set `disabled: true`.** The key is revoked but the material is kept, so setting it back to `false` restores the same key with no application redeploy. Use this for incident response.
 - **Let it expire.** `expiresAfter` defaults to, and is capped by, the tenant's `maxTTL`. The phase flips to `Expired` and authentication stops.
 
 ## Budgets
@@ -101,21 +102,21 @@ spec:
 
 And each key can carry its own budgets, as long as they fit inside the tenant's (shown above). `defaultKeyBudgets` gives every key an independent copy of the listed budgets; keys do not share them.
 
-When a budget trips, `onExceed` decides what happens: `Block` rejects requests with 429 until the window resets, `Throttle` degrades traffic to `throttleRequestsPerMinute` instead of cutting it off, and `Notify` lets traffic flow and only raises the flag through status and metrics. `alertThresholdPercent` warns before the cliff, at the percentage you pick.
+When a budget trips, `onExceed` decides what happens: `Block` rejects requests with 429 until the window resets, `Throttle` degrades traffic to `throttleRequestsPerMinute` instead of cutting it off, and `Notify` lets traffic flow and only reports the overrun through status and metrics. `alertThresholdPercent` raises a warning at the configured percentage of the budget.
 
-### What enforcement can and cannot do
+### Enforcement semantics
 
-Read this part before you promise anyone hard caps:
+Budget enforcement has the following limitations:
 
-- Enforcement is post-hoc. Token counts come from provider responses, so the request that crosses the budget completes, and the one after it is rejected. Streamed responses are counted when the stream ends. Budgets are guardrails, not prepaid cards.
-- Day windows are enforced inline by the global rate-limit service, and only when `spec.ai.rateLimitService` is set and the `ratelimit` + `valkey` addons run. Without them, a tenant with a Day budget gets `AIBudgetUnenforceable=True` on its `TenantState`, and Day traffic flows uncapped. The condition is loud on purpose.
+- Enforcement is post-hoc. Token counts come from provider responses, so the request that crosses the budget completes, and the one after it is rejected. Streamed responses are counted when the stream ends. A budget can therefore be exceeded by up to one request; it is not a hard prepaid cap.
+- Day windows are enforced inline by the global rate-limit service, and only when `spec.ai.rateLimitService` is set and the `ratelimit` and `valkey` addons run. Without them, a tenant with a Day budget gets `AIBudgetUnenforceable=True` on its `TenantState`, and Day traffic flows uncapped.
 - Week and Month windows are metered but not inline-enforced in this release.
 - `usd` budgets (a decimal string like `"99.50"`) need the model cost catalog on the data plane. Without it, only token budgets are enforceable.
-- Both `tokens` and `usd` set? Whichever runs out first wins.
+- If both `tokens` and `usd` are set, whichever limit is exhausted first applies.
 
 ## Watching spend
 
-Tenants can't reach the management cluster's Prometheus, so KubeLB brings the number to them: the manager reads each key's consumption and writes it into the `VirtualKey` status, which is mirrored down to the tenant cluster.
+Tenants cannot reach the management cluster's Prometheus. The manager therefore reads each key's consumption and writes it into the `VirtualKey` status, which is mirrored down to the tenant cluster.
 
 ```yaml
 status:
@@ -125,7 +126,7 @@ status:
       windowStart: "2026-07-22T00:00:00Z"
 ```
 
-This needs a Prometheus that scrapes the agentgateway proxy. Point KubeLB at yours with `Config.spec.prometheus` (top level, not under `ai`; the same connection serves other manager features that read metrics); it does not run one:
+Spend reporting requires a Prometheus instance that scrapes the agentgateway proxy; KubeLB does not run one. Configure the connection with `Config.spec.prometheus` (top level, not under `ai`; the same connection serves other manager features that read metrics):
 
 ```yaml
 spec:
@@ -135,7 +136,7 @@ spec:
     # caCertSecretRef: {name: prom-ca, key: ca.crt}          # optional
 ```
 
-Without `prometheus` configured, provisioning and Day budgets work as before, but no key reports spend and the tenant's `TenantState` carries `AISpendMeteringDisabled=True` so the gap is visible instead of silent.
+Without `prometheus` configured, provisioning and Day budgets work as before, but no key reports spend and the tenant's `TenantState` carries `AISpendMeteringDisabled=True` to make the gap visible.
 
 ## When a request is rejected
 
@@ -143,14 +144,14 @@ Client applications see exactly two error shapes at the gateway:
 
 | Status | Cause | Headers |
 | --- | --- | --- |
-| 401 | Missing or unknown key, revoked/expired key | — |
+| 401 | Missing or unknown key, revoked/expired key | None |
 | 429 | Day budget or per-key rate limit exhausted | `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset`, `Retry-After` |
 
-The `RateLimit-*` headers describe the most exhausted limit. `RateLimit-Reset` and `Retry-After` both carry the seconds until that window resets, so stock retry middleware, including the OpenAI SDKs, backs off for the right amount of time instead of hammering a closed door. Successful responses carry the informative `RateLimit-*` variants too, which means a client can see its remaining budget on every call without any extra endpoint.
+The `RateLimit-*` headers describe the most exhausted limit. `RateLimit-Reset` and `Retry-After` both carry the seconds until that window resets, so stock retry middleware, including the OpenAI SDKs, backs off for the correct amount of time. Successful responses also carry the informative `RateLimit-*` variants, so a client can read its remaining budget on every call without an extra endpoint.
 
 ## Showback for the platform team
 
-Every request is attributed with `tenant_id` and `key_id`, in Prometheus metrics and in the gateway's access logs, with identical labels in both. Metrics answer "what happened"; the logs are there so a billing-grade pipeline can be built later without relabeling anything.
+Every request is attributed with `tenant_id` and `key_id`, in Prometheus metrics and in the gateway's access logs, with identical labels in both. The identical labels allow a billing pipeline to be built on the access logs later without relabeling.
 
 The `kubelb-addons` chart can render recording rules (`aiRecordingRules.enabled`) that pre-aggregate the raw series into a stable contract:
 

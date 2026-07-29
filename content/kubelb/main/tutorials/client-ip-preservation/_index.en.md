@@ -2,23 +2,23 @@
 title = "Client IP Preservation"
 linkTitle = "Client IP Preservation"
 date = 2025-01-16T10:00:00+02:00
-weight = 13
+weight = 6
 +++
 
-Preserving the original client IP address is critical for logging, rate-limiting, access control lists, and compliance. KubeLB's multi-cluster proxy architecture introduces up to three SNAT (Source Network Address Translation) hops that can replace the real client IP with internal addresses. This guide explains how to preserve client IP at each hop.
+Preserving the original client IP address supports logging, rate limiting, access control lists, and compliance. KubeLB's multi-cluster proxy architecture introduces up to three SNAT (Source Network Address Translation) hops that can replace the real client IP with internal addresses. This guide explains how to preserve the client IP at each hop.
 
 ## Understanding SNAT in KubeLB
 
 Traffic flowing through KubeLB passes through three potential SNAT points:
 
-```
+```text
 Client → [SNAT#1] Cloud LB / kube-proxy → Envoy Pod → [SNAT#2] New TCP connection → Tenant Node:NodePort → [SNAT#3] kube-proxy → Backend Pod
 ```
 
 | SNAT Point | Cause | Solution |
 |------------|-------|----------|
 | **SNAT#1** | kube-proxy on management cluster NATs traffic to Envoy pod | `externalTrafficPolicy: Local` on tenant Service (propagated to Envoy Service) |
-| **SNAT#2** | Envoy opens a new upstream TCP connection — source becomes Envoy pod IP | Proxy Protocol v2 (L4 TCP) or X-Forwarded-For header (L7 HTTP) |
+| **SNAT#2** | Envoy opens a new upstream TCP connection; source becomes Envoy pod IP | Proxy Protocol v2 (L4 TCP) or X-Forwarded-For header (L7 HTTP) |
 | **SNAT#3** | kube-proxy on tenant cluster NATs NodePort traffic to backend pod | `externalTrafficPolicy: Local` on tenant backend Service |
 
 ## Strongly Recommended: Cilium DSR on Management Cluster
@@ -38,7 +38,7 @@ KubeLB automatically propagates `externalTrafficPolicy` from the tenant Service 
 
 ## Layer 4: Proxy Protocol v2
 
-For Layer 4 (TCP) services, Envoy can prepend a [Proxy Protocol v2](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) header on upstream connections. This header carries the original client IP, allowing the backend to extract it even though Envoy opened a new TCP connection (SNAT#2).
+For Layer 4 (TCP) services, Envoy can prepend a [Proxy Protocol v2](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) header on upstream connections. This header carries the original client IP, so the backend can extract it even though Envoy opened a new TCP connection (SNAT#2).
 
 ### How to Enable
 
@@ -80,7 +80,7 @@ server {
 
 **HAProxy:**
 
-```
+```text
 listen my-service
     bind *:5000 accept-proxy
 ```
@@ -105,6 +105,6 @@ For Gateway API users who need to tune client IP detection (e.g., when multiple 
 
 ## Known Limitations
 
-- **UDP**: There is no Proxy Protocol equivalent for UDP. SNAT#2 is unavoidable for UDP traffic — the backend will see Envoy's pod IP as the source.
+- **UDP**: There is no Proxy Protocol equivalent for UDP. SNAT#2 is unavoidable for UDP traffic; the backend sees Envoy's pod IP as the source.
 - **Proxy Protocol requires backend support**: Non-PP-aware applications will break when receiving proxy protocol v2 headers. This is why proxy protocol v2 is opt-in via annotation.
-- **`externalTrafficPolicy: Local` routing constraint**: Traffic is only routed to nodes running Envoy pods. This is the standard pattern for ingress controllers and cloud LB health checks automatically avoid nodes without Envoy pods.
+- **`externalTrafficPolicy: Local` routing constraint**: Traffic is only routed to nodes running Envoy pods. This is the standard pattern for ingress controllers; cloud LB health checks automatically avoid nodes without Envoy pods.

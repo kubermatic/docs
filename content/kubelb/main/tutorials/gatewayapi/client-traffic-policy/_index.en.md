@@ -6,7 +6,7 @@ weight = 4
 enterprise = true
 +++
 
-ClientTrafficPolicy is an Envoy Gateway extension that configures how Envoy Proxy behaves with downstream clients—the connections coming into the proxy from external clients or services.
+ClientTrafficPolicy is an Envoy Gateway extension that configures how Envoy Proxy behaves with downstream clients: the connections coming into the proxy from external clients or services.
 
 ## Use Cases
 
@@ -26,7 +26,7 @@ KubeLB synchronizes ClientTrafficPolicy resources from tenant clusters to the ma
 1. Create a ClientTrafficPolicy in your tenant cluster
 2. Reference your Gateway in the policy's `targetRef`
 3. KubeLB CCM syncs the policy to the management cluster
-4. Envoy Gateway applies the configuration to the Envoy proxy
+4. Envoy Gateway applies the configuration to the Envoy Proxy
 
 ## Example: Basic ClientTrafficPolicy
 

@@ -12,7 +12,7 @@ enterprise = true
 
 Install [cert-manager](https://cert-manager.io) to manage certificates for your tenants.
 
-These are minimal examples to get you started quickly. Please refer to the documentation of [cert-manager](https://cert-manager.io/docs/installation/helm/) for further details and configurations.
+These are minimal examples. See the [cert-manager documentation](https://cert-manager.io/docs/installation/helm/) for further details and configuration.
 
 {{< tabs name="cert-manager" >}}
 {{% tab name="Gateway API" %}}
@@ -77,12 +77,12 @@ spec:
     - "*.shroud.example.com"
 ```
 
-Users can then either use [cert-manager annotations](https://cert-manager.io/docs/usage/ingress/) or the annotation `kubelb.k8c.io/manage-certificates: true` on their resources to automate certificate management.
+Use [cert-manager annotations](https://cert-manager.io/docs/usage/ingress/) or the annotation `kubelb.k8c.io/manage-certificates: true` on the resources to automate certificate management.
 
 ### Cluster Issuer example
 
 {{% notice info %}}
-Due to multi-tenancy, it's recommended to use DNS challenge for certificate management. Gateway API has a limitation and doesn't support wildcard domains with HTTP01 challenge. Similarly, for Ingress, unless you are using single ingress installation for all tenants, you will need to create a separate ClusterIssuer for each tenant. Same is the case for Gateway API since it needs the Gateway name to resolve the certificate challenges.
+Due to multi-tenancy, it's recommended to use the DNS challenge for certificate management. Gateway API does not support wildcard domains with the HTTP01 challenge. For Ingress, unless a single ingress installation serves all tenants, a separate ClusterIssuer is required for each tenant. The same applies to Gateway API, since it needs the Gateway name to resolve the certificate challenges.
 {{% /notice %}}
 
 #### Example for DNS challenge with AWS Route53
@@ -164,11 +164,11 @@ spec:
 {{% /tab %}}
 {{< /tabs >}}
 
-The additional validation at the tenant level allows us to use a single instance of cert-manager for multiple tenants. Multiple cert-manager installations are not recommended and it's better to have a single instance of cert-manager for all tenants but different ClusterIssuers/Issuers for different tenants, if required.
+The additional validation at the tenant level allows a single instance of cert-manager to serve multiple tenants. Multiple cert-manager installations are not recommended; use a single instance for all tenants with different ClusterIssuers/Issuers per tenant if required.
 
 ## Usage
 
-In tenant cluster, create the following resources. Based on your requirements:
+In the tenant cluster, create one of the following, based on your requirements:
 
 1. Use cert-manager with known issuer:
 
@@ -256,6 +256,6 @@ type: kubernetes.io/tls
 ---
 ```
 
-This will then sync the secret to the management cluster in a secure way. Refer to [Bring your own Certificates]({{< relref "../secrets" >}}) for more details.
+This syncs the secret to the management cluster. See [Bring Your Own Secrets]({{< relref "../secrets" >}}) for details.
 
-**For more use cases, view [cert-manager documentation](https://cert-manager.io/docs/usage/gateway/)**
+For more use cases, see the [cert-manager documentation](https://cert-manager.io/docs/usage/gateway/).

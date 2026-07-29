@@ -6,7 +6,7 @@ weight = 4
 enterprise = true
 +++
 
-Endpoint limiting reduces health-check fan-out by capping the number of upstream endpoints Envoy tracks per cluster. In large clusters, the combination of nodes, Envoy replicas, and LoadBalancers creates excessive health-check traffic — for example, 30 nodes with 3 Envoy replicas and 10 LoadBalancers produces 900 TCP health checks every 5 seconds.
+Endpoint limiting reduces health-check fan-out by capping the number of upstream endpoints Envoy tracks per cluster. In large clusters, the combination of nodes, Envoy replicas, and LoadBalancers creates excessive health-check traffic. For example, 30 nodes with 3 Envoy replicas and 10 LoadBalancers produce 900 TCP health checks every 5 seconds.
 
 ## Approaches
 

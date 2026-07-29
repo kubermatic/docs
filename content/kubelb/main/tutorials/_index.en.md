@@ -7,12 +7,7 @@ weight = 20
 chapter = true
 +++
 
-
-# Guides
-
-Get familiar with KubeLB and read step-by-step instructions to handle important scenarios
-
 ## Table of Contents
 
-{{% children depth=5 %}}
+{{% children depth=2 %}}
 {{% /children %}}

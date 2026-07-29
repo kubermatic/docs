@@ -5,10 +5,12 @@ date = 2023-10-27T10:07:15+02:00
 weight = 10
 +++
 
-## Requirements
+## Prerequisites
 
 * Service type `LoadBalancer` implementation. This can be a cloud solution or a self-managed implementation like [MetalLB](https://metallb.universe.tf).
-* Network access to the tenant cluster nodes with node port range (default: 30000-32767). This is required for the envoy proxy to be able to connect to the tenant cluster nodes.
+* Network access to the tenant cluster nodes with node port range (default: 30000-32767). This is required for the envoy proxy to be able to connect to the tenant cluster nodes. With the mTLS backend transport mode (Enterprise Edition), the proxies instead connect to the tenant proxy on its NodePort, or on the fixed port 15443 when it is exposed through a LoadBalancer service.
+
+See [Requirements]({{< relref "../requirements" >}}) for the full port and resource sizing reference.
 
 ## Installation for KubeLB manager
 
@@ -32,7 +34,7 @@ imagePullSecrets:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.4.2 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.4.3 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-manager-ee/crds/
 ## Create and update values.yaml with the required values.
@@ -142,7 +144,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.4.2 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.4.3 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-manager/crds/
 ## Create and update values.yaml with the required values.
@@ -218,6 +220,21 @@ helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubel
 
 {{% /tab %}}
 {{< /tabs >}}
+
+## Verify the installation
+
+Check that the manager is running:
+
+```bash
+kubectl get pods -n kubelb
+```
+
+```text
+NAME                              READY   STATUS    RESTARTS   AGE
+kubelb-manager-6d95d7f45d-xz2lp   2/2     Running   0          1m
+```
+
+The `kubelb-manager` pod must be in `Running` state. Envoy proxy pods appear in the tenant namespaces later, once tenants are registered and load balancers are created.
 
 ## Setup the management cluster
 
@@ -301,7 +318,7 @@ kubelb-addons:
 
 ### Custom Image Registry
 
-The `kubelb-addons` chart honors `global.imageRegistry` and `global.imagePullSecrets` and propagates both to every addon subchart (ingress-nginx, envoy-gateway, cert-manager, external-dns, metallb, agentgateway). Set them on the top-level install to route all addon images through a private mirror and attach a pull secret, without editing each subchart's own values. See the [Air-Gap Installation]({{< relref "../../tutorials/airgap-installation" >}}) guide for the full end-to-end mirroring workflow; the same flags apply to non-airgap setups pulling from a company registry.
+The `kubelb-addons` chart honors `global.imageRegistry` and `global.imagePullSecrets` and propagates both to every addon subchart (ingress-nginx, envoy-gateway, cert-manager, external-dns, metallb, agentgateway). Set them on the top-level install to route all addon images through a private mirror and attach a pull secret, without editing each subchart's own values. See the [Air-Gap Installation]({{< relref "../air-gap" >}}) guide for the full end-to-end mirroring workflow; the same flags apply to non-airgap setups pulling from a company registry.
 
 ### Client Header Size Limits
 

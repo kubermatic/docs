@@ -9,7 +9,7 @@ description = "Learn how you can use KubeLB CLI to provision Load Balancers and 
 
 ## KubeLB CLI
 
-KubeLB CLI is a command line tool that has been introduced to complement KubeLB and make it easier to manage load balancing configurations for multiple tenants in Kube and non-Kube based environments.
+KubeLB CLI is a command line tool that complements KubeLB and manages load balancing configurations for multiple tenants in Kubernetes and non-Kubernetes environments.
 
 The source code is open source and available at [kubermatic/kubelb-cli](https://github.com/kubermatic/kubelb-cli).
 
@@ -21,7 +21,7 @@ KubeLB CLI is currently in beta feature stage and is not yet ready for productio
 
 ### Manual Installation
 
-Users can download the pre-compiled binaries from the [releases page](https://github.com/kubermatic/kubelb-cli/releases) for their system and copy them to the desired location.
+Download the pre-compiled binary for your system from the [releases page](https://github.com/kubermatic/kubelb-cli/releases) and copy it to the desired location.
 
 {{% notice note %}}
 KubeLB CLI is currently available for Linux, macOS, and Windows.
@@ -29,7 +29,7 @@ KubeLB CLI is currently available for Linux, macOS, and Windows.
 
 ### Install using `go install`
 
-If you have Go installed, you can also build the binary from the source code using the following command:
+With Go installed, build the binary from source:
 
 ```bash
 go install github.com/kubermatic/kubelb-cli@v0.2.0
@@ -48,15 +48,3 @@ export TENANT_NAME=my-tenant
 
 {{% children depth=5 %}}
 {{% /children %}}
-
-## Further Reading
-
-- [Introducing KubeLB](https://www.kubermatic.com/products/kubelb/)
-- [KubeLB Whitepaper](https://www.kubermatic.com/static/KubeLB-Cloud-Native-Multi-Tenant-Load-Balancer.pdf)
-- [KubeLB - GitHub Repository](https://github.com/kubermatic/kubelb)
-
-Visit [kubermatic.com](https://www.kubermatic.com/) for further information.
-
-{{% notice tip %}}
-For latest updates follow us on Twitter [@Kubermatic](https://twitter.com/Kubermatic)
-{{% /notice %}}

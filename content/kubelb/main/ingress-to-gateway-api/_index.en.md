@@ -2,35 +2,32 @@
 title = "Ingress to Gateway API Migration"
 linkTitle = "Ingress to Gateway API"
 date = 2026-01-30T00:00:00+01:00
-weight = 33
+description = "Why and how to migrate from Kubernetes Ingress to Gateway API, with tooling and assessment guidance."
+weight = 25
 +++
 
-This guide helps you migrate from Kubernetes Ingress to Gateway API: what's changing, why, and what you need to do.
+This guide covers migrating from Kubernetes Ingress to Gateway API: what is changing, why, and what you need to do.
 
 ## Why Migrate?
 
 ### Ingress is Frozen
 
-Kubernetes Ingress API has been stable since v1.19 (2020) and is now feature-frozen. With [Gateway API v1.0 graduating to GA in October 2023](https://kubernetes.io/blog/2023/10/31/gateway-api-ga/), the Kubernetes community has officially designated it as the successor to Ingress. Gateway API is designed to address Ingress limitations while remaining implementation-agnostic.
+The Kubernetes Ingress API has been stable since v1.19 (2020) and is feature-frozen. With [Gateway API v1.0 graduating to GA in October 2023](https://kubernetes.io/blog/2023/10/31/gateway-api-ga/), the Kubernetes community designated it as the successor to Ingress. New features are no longer added to Ingress; development effort goes into Gateway API, which addresses Ingress limitations while remaining implementation-agnostic.
 
-This means that new features are not being added to Ingress and all the development effort is going into Gateway API.
+### ingress-nginx Retirement
 
-### Ingress NGINX Retirement
-
-Ingress NGINX is the most popular and widely deployed Ingress controller. Everyone who has worked with Kubernetes at some point has used it or at least heard of it. It's a great controller and has been an essential part of the Kubernetes ecosystem.
-
-However, the Kubernetes SIG Network and Security Response Committee [announced](https://groups.google.com/a/kubernetes.io/g/dev/c/rxtrKvT_Q8E) that [ingress-nginx](https://github.com/kubernetes/ingress-nginx) will enter retirement mode with best-effort maintenance until **March 2026**. After that date:
+ingress-nginx is the most widely deployed Ingress controller. The Kubernetes SIG Network and Security Response Committee [announced](https://groups.google.com/a/kubernetes.io/g/dev/c/rxtrKvT_Q8E) that [ingress-nginx](https://github.com/kubernetes/ingress-nginx) will enter retirement mode with best-effort maintenance until **March 2026**. After that date:
 
 - No new releases
 - No security patches
 - No bug fixes
 
-This applies specifically to the community ingress-nginx controller, not the Ingress API itself. However, as the most widely deployed Ingress controller, this timeline creates urgency for migration planning.
+This applies to the community ingress-nginx controller, not the Ingress API itself. Because ingress-nginx is so widely deployed, this timeline makes migration planning urgent.
 
 {{% notice note %}}
 Other ingress controllers (Traefik, HAProxy, etc.) may continue support, but the ecosystem is converging on Gateway API.
 
-This article is also quite important to read: [Ingress NGINX: Statement from the Kubernetes Steering and Security Response Committees](https://kubernetes.io/blog/2026/01/29/ingress-nginx-statement/)
+See also: [Ingress NGINX: Statement from the Kubernetes Steering and Security Response Committees](https://kubernetes.io/blog/2026/01/29/ingress-nginx-statement/)
 {{% /notice %}}
 
 ### Gateway API Advantages
@@ -45,8 +42,6 @@ This article is also quite important to read: [Ingress NGINX: Statement from the
 | **Portability** | Vendor annotations | Standardized API |
 
 ## Core Concepts Mapping
-
-Understanding the conceptual shift is essential before migrating resources.
 
 ### Resource Hierarchy
 
@@ -64,11 +59,11 @@ IngressClass          →          GatewayClass
 
 ## Migration Strategy
 
-The migration from Ingress to Gateway API is unfortunately not a one-shot, straight forward process. There are complications involved based on how complex your current setup with Ingress is and you might end up hitting some roadblocks. Thus, we believe that it shouldn't be taken as a one-time effort, you should evaluate your current setup and plan for the migration accordingly.
+Migrating from Ingress to Gateway API is not a one-shot process. The effort depends on how complex your current Ingress setup is, and you may hit roadblocks. Evaluate your setup and plan the migration accordingly.
 
 ### Before You Start
 
-Before starting migration, assess these critical areas:
+Assess these areas:
 
 #### Load Balancer IP Changes
 
@@ -109,23 +104,21 @@ When the same hostname exists on both Ingress and Gateway:
 
 #### Certificate Continuity
 
-Your existing TLS certs won't carry over to Gateway resources. You'll need cert-manager to issue new ones. If you want to avoid downtime during validation, use DNS01 challenges. One shortcut: if your Gateway is in the same namespace as your Ingress, they can share the same Secret.
+Existing TLS certificates do not carry over to Gateway resources; cert-manager must issue new ones. To avoid downtime during validation, use DNS01 challenges. If your Gateway is in the same namespace as your Ingress, both can share the same Secret.
 
 #### Traffic During Migration
 
-You can't gradually shift traffic percentages between Ingress and Gateway. There is no support for canary deployments between Ingress and Gateway. DNS is your switch—it's all or nothing per hostname. Test thoroughly before flipping.
+You cannot gradually shift traffic percentages between Ingress and Gateway, and there is no canary support between them. DNS is the switch, and it is all or nothing per hostname. Test thoroughly before flipping.
 
 ## Migration Options
 
 ### Option 1: KubeLB [Beta]
 
-Realising the urgency of the situation, we have decided to build a migration tool that will help you migrate your Ingress resources to Gateway API. This tool will be available as a part of KubeLB and will be free to use. It will be open source and will be available on GitHub.
+KubeLB includes a migration tool that converts Ingress resources to Gateway API. It is free to use and open source.
 
-Due to the limitations discussed above, we *strongly advise* you to not use this tool in your production environments directly. Instead, you should use it first in testing/staging environments and make sure that everything works for you. Identify limitations, and resources that couldn't be successfully migrated using this tool and manually migrate them.
+Do not use this tool directly in production. Run it first in testing/staging environments, verify the results, identify resources that could not be migrated, and migrate those manually.
 
-For more details please refer to the [KubeLB Ingress to Gateway API Converter](kubelb-automation) page.
-
-KubeLB deals with the key assessment points discussed above including DNS Cutover Strategy, Overlapping Hostnames, Certificate Continuity etc. It offers a way to add a suffix to all your new Gateway resources to avoid conflicts with your existing Ingress resources. You can then verify the new Gateway resources are working as expected and then flip the DNS to the new Gateway IP.
+The tool covers the assessment points above, including DNS cutover strategy, overlapping hostnames, and certificate continuity. It can add a suffix to all new Gateway resources to avoid conflicts with existing Ingress resources. Verify the new Gateway resources work as expected, then flip DNS to the new Gateway IP.
 
 Supported Ingress controllers:
 
@@ -135,13 +128,13 @@ Supported Gateway API implementations:
 
 - Envoy Gateway
 
-We might expand this to cover other Ingress controllers and Gateway API implementations in the future. But for now, we are focusing only on these two.
+See the [KubeLB Ingress to Gateway API Converter](kubelb-automation) page for detailed documentation.
 
-Detailed documentation is available on the [KubeLB Ingress to Gateway API Converter](kubelb-automation) page.
+For an interactive workflow, the KubeLB CLI and its local web dashboard can list, preview, and convert Ingresses step by step; see the [CLI & Dashboard guide]({{< relref "../cli/ingress-to-gateway-api" >}}).
 
 ### Option 2: Manual Migration
 
-Official community tools like [ingress2gateway](https://github.com/kubernetes-sigs/ingress2gateway) can be used to migrate your Ingress resources to Gateway API. While KubeLB focuses strictly on Ingress conversion and only handles annotations for ingress-nginx, ingress2gateway can be used to migrate other Ingress controllers to Gateway API.
+The community tool [ingress2gateway](https://github.com/kubernetes-sigs/ingress2gateway) migrates Ingress resources to Gateway API. While KubeLB handles annotations for ingress-nginx only, ingress2gateway supports additional Ingress controllers.
 
 Supported providers:
 
@@ -154,7 +147,7 @@ Supported providers:
 - nginx
 - openapi
 
-For more details please refer to the [ingress2gateway](https://github.com/kubernetes-sigs/ingress2gateway) repository.
+See the [ingress2gateway](https://github.com/kubernetes-sigs/ingress2gateway) repository.
 
 ## Ingress to HTTPRoute Conversion
 
@@ -234,15 +227,18 @@ spec:
 
 ## Tooling Migration
 
-When migrating to Gateway API, your supporting tools also need updates. We learnt some lessons ourselves since we built KubeLB that supports both Ingress and Gateway API. And we want to share them with you to help you avoid the same mistakes we made.
+Supporting tools also need updates when migrating to Gateway API. The following pages cover how to adapt cert-manager and external-dns configurations:
 
-The following sections cover how to adapt cert-manager and external-dns configurations.
+- [cert-manager Migration](cert-manager)
+- [external-dns Migration](external-dns)
 
-- [Cert Manager Migration](cert-manager)
-- [External DNS Migration](external-dns)
+## ingress-nginx Support in KubeLB
 
-## Ingress-nginx support in KubeLB
+KubeLB is not dropping Ingress support, and ingress-nginx remains supported. We encourage users to migrate to Gateway API as soon as possible.
 
-KubeLB is not dropping Ingress support and ingress-nginx will still be supported. However, we highly encourage our users to migrate to Gateway API as soon as possible.
+KubeLB will patch and upgrade the ingress-nginx controller while updates are available upstream. Once upstream support ends, KubeLB will ship the last available ingress-nginx release.
 
-We will patch/upgrade the ingress-nginx controller when updates are available for it. But eventually since upstream will stop supporting it, we will be left with no choice but to ship whatever version/release of ingress-nginx is available at the time.
+## Table of Contents
+
+{{% children depth=1 %}}
+{{% /children %}}

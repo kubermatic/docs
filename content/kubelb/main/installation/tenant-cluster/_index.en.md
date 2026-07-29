@@ -5,16 +5,16 @@ date = 2023-10-27T10:07:15+02:00
 weight = 20
 +++
 
-## Requirements
+## Prerequisites
 
 * KubeLB management cluster kubernetes API access.
 * Registered as a tenant in the KubeLB management cluster.
 
-## Pre-requisites
+See [Requirements]({{< relref "../requirements" >}}) for the full port and resource sizing reference.
 
 * Create a namespace **kubelb** for the CCM to be deployed in.
 * The agent expects a **Secret** with a kubeconf file named **`kubelb`** to access the management/load balancing cluster.
-  * First register the tenant in LB cluster by following [tenant registration]({{< relref "../../tutorials/tenants">}}) guidelines.
+  * First register the tenant in the management cluster by following [tenant registration]({{< relref "../../tutorials/tenants">}}) guidelines.
   * Fetch the generated kubeconfig and create a secret from the management cluster by using these command:
 
   ```sh
@@ -74,7 +74,7 @@ Adjust `values.yaml`:
 
 ```yaml
 kubelb:
-  # -- Address type to use for routing traffic to node ports. Values are ExternalIP, InternalIP.
+  # -- Address type to use for routing traffic to node ports. Values are ExternalIP, InternalIP, or Hostname.
   nodeAddressType: InternalIP
 ```
 
@@ -113,7 +113,7 @@ kubelb:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.4.2 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.4.3 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-ccm-ee/crds/
 ## Create and update values.yaml with the required values.
@@ -213,7 +213,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.4.2 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.4.3 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-ccm/crds/
 ## Create and update values.yaml with the required values.
@@ -303,6 +303,21 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/va
 
 {{% /tab %}}
 {{< /tabs >}}
+
+## Verify the installation
+
+Check that the CCM is running:
+
+```bash
+kubectl get pods -n kubelb
+```
+
+```text
+NAME                          READY   STATUS    RESTARTS   AGE
+kubelb-ccm-7c9f7d6b8d-4qk2n   2/2     Running   0          1m
+```
+
+The `kubelb-ccm` pod must be in `Running` state before load balancer services are reconciled.
 
 ## Setup the tenant cluster
 

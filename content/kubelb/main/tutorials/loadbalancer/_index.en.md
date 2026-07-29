@@ -2,14 +2,14 @@
 title = "TCP/UDP Load Balancing"
 linkTitle = "TCP/UDP Load Balancing"
 date = 2023-10-27T10:07:15+02:00
-weight = 3
+weight = 2
 +++
 
 Set up Layer 4 (TCP/UDP) load balancing with KubeLB.
 
-### Setup
+## Setup
 
-For layer 4 load balancing, either the Kubernetes cluster should be on a cloud, using its CCM, that supports the `LoadBalancer` service type or a self-managed solution like [MetalLB](https://metallb.universe.tf) should be installed. [This guide](https://metallb.universe.tf/installation/#installation-with-helm) can be followed to install and configure MetalLB on the management cluster.
+For Layer 4 load balancing, either the Kubernetes cluster should be on a cloud, using its CCM, that supports the `LoadBalancer` service type or a self-managed solution like [MetalLB](https://metallb.universe.tf) should be installed. [This guide](https://metallb.universe.tf/installation/#installation-with-helm) can be followed to install and configure MetalLB on the management cluster.
 
 A minimal configuration for MetalLB for demonstration purposes is as follows:
 
@@ -35,7 +35,7 @@ spec:
 
 This configures an address pool `extern` with an IP range from 10.10.255.200 to 10.10.255.250. This IP range can be used by the tenant clusters to allocate IP addresses for the `LoadBalancer` service type. For more options, see the [MetalLB L2 configuration documentation](https://metallb.universe.tf/configuration/_advanced_l2_configuration/).
 
-### Usage with KubeLB
+## Usage with KubeLB
 
 In the tenant cluster, create a service of type `LoadBalancer` and a deployment:
 
@@ -97,7 +97,7 @@ spec:
 
 This will create a service of type `LoadBalancer` and a deployment. KubeLB CCM will then propagate the request to management cluster, create a LoadBalancer CR there and retrieve the IP address allocated in the management cluster. Eventually the IP address will be assigned to the service in the tenant cluster.
 
-### Session Persistence
+## Session Persistence
 
 Set `sessionAffinity: ClientIP` on the Service in the tenant cluster to route requests from the same client IP to the same backend endpoint. The CCM translates this to `spec.persistence.type: SourceIP` on the LoadBalancer resource in the management cluster; when creating LoadBalancer resources directly, set the field yourself:
 
@@ -112,10 +112,10 @@ spec:
 ```
 
 {{% notice note %}}
-Persistence is based on the source IP as observed by the KubeLB Envoy proxy. Behind a NAT gateway or another proxy, multiple clients can share one observed IP and will be pinned to the same endpoint.
+Persistence is based on the source IP as observed by the KubeLB Envoy Proxy. Behind a NAT gateway or another proxy, multiple clients can share one observed IP and will be pinned to the same endpoint.
 {{% /notice %}}
 
-### Hostname Endpoints
+## Hostname Endpoints
 
 Endpoint addresses can reference a DNS hostname instead of an IP. This is useful when the backend has no stable IP. Envoy resolves the hostname continuously (strict DNS), so the endpoint follows DNS changes. If both `ip` and `hostname` are set, `ip` wins.
 
@@ -136,7 +136,7 @@ spec:
       protocol: TCP
 ```
 
-### Load Balancer Hostname Support
+## Load Balancer Hostname Support
 
 KubeLB supports assigning a hostname directly to the LoadBalancer resource. This is helpful for simpler configurations where no special routing rules are required for your Ingress or HTTPRoute resources.
 
@@ -166,9 +166,9 @@ spec:
 
 This will create a LoadBalancer resource with the hostname `test.example.com` that can forward traffic to the IP address `91.99.112.254` on port `31632`. The `kubelb.k8c.io/request-wildcard-domain: "true"` annotation is used to request a wildcard domain for the hostname. Otherwise `spec.hostname` can also be used to explicitly set the hostname.
 
-Please take a look at [DNS Automation](../security/dns/#enable-dns-automation) for more details on how to configure DNS for the hostname.
+See [DNS Automation](../security/dns/#enable-dns-automation) for configuring DNS for the hostname.
 
-### Per-Service Load Balancer Policy
+## Per-Service Load Balancer Policy
 
 {{% notice note %}}
 Enterprise Edition only. Available from KubeLB v1.4.
@@ -201,9 +201,9 @@ Precedence (highest first):
 3. Config `spec.loadBalancerPolicy`
 4. Default: `RoundRobin`
 
-### Configurations
+## Configurations
 
-KubeLB CCM helm chart can be used to further configure the CCM. Some essential options are:
+Configure the CCM through the KubeLB CCM helm chart. Common options:
 
 ```yaml
 kubelb:

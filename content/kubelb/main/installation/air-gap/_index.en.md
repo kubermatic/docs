@@ -2,8 +2,10 @@
 title = "Air-Gap Installation"
 linkTitle = "Air-Gap Installation"
 date = 2026-04-16T10:07:15+02:00
-weight = 14
+description = "Install KubeLB Enterprise Edition in clusters without internet access by mirroring images and charts to a private OCI registry."
+weight = 30
 enterprise = true
+aliases = ["/kubelb/main/tutorials/airgap-installation/"]
 +++
 
 ## Overview
@@ -51,7 +53,7 @@ The `kubelb-manager-ee` Helm chart ships a self-contained mirror bundle under
 
 ```bash
 # Pick the version you want to install.
-VERSION=v1.4.0
+VERSION=v1.4.3
 
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee \
   --version ${VERSION} --untar
@@ -64,8 +66,10 @@ You will find:
 |------|----------|
 | `artifacts.txt` | Union of `images.txt` + `charts.txt` (oci:// stripped) — the default input for `mirror-images.sh`. This includes all the artifacts(images, charts) shipped or used by KubeLB |
 | `images.txt` | Every container image (manager + CCM + all addons) |
-| `images-core.txt` | Manager + CCM + connection-manager + Envoy data plane (no addons) |
+| `images-core.txt` | Images rendered from the manager and CCM charts (manager, CCM, connection-manager, kube-rbac-proxy) plus the runtime images referenced in code (Envoy proxy, Envoy Gateway shutdown manager); no addons |
 | `images-<addon>.txt` | Per-addon images: `agentgateway`, `cert-manager`, `envoy-gateway`, `external-dns`, `ingress-nginx`, `metallb` |
+| `images-valkey.txt` | Valkey images, required for the AI budget rate-limit path |
+| `images-ratelimit.txt` | Envoy rate-limit service images, required for the AI budget rate-limit path |
 | `charts.txt` | The three OCI Helm charts as `oci://` references |
 | `mirror-images.sh` | Copies every artifact in `artifacts.txt` to a target registry using `crane` |
 
@@ -104,14 +108,14 @@ The mirror layout looks like this:
 
 | Source | Mirror destination |
 |--------|--------------------|
-| `quay.io/kubermatic/kubelb-manager-ee:v1.3.5` | `mirror.internal/kubermatic/kubelb-manager-ee:v1.3.5` |
+| `quay.io/kubermatic/kubelb-manager-ee:v1.4.3` | `mirror.internal/kubermatic/kubelb-manager-ee:v1.4.3` |
 | `quay.io/jetstack/cert-manager-controller:v1.20.2` | `mirror.internal/jetstack/cert-manager-controller:v1.20.2` |
 | `registry.k8s.io/ingress-nginx/controller:v1.15.1` | `mirror.internal/ingress-nginx/controller:v1.15.1` |
-| `oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee:v1.3.5` | `oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee:v1.3.5` |
+| `oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee:v1.4.3` | `oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee:v1.4.3` |
 
 If you would rather drive `crane` yourself or feed the lists to a different
 tool (Harbor replication, Artifactory remote, [`hauler`](https://hauler.dev)),
-the `*.txt` files are stable, deterministic inputs — there is nothing
+the `*.txt` files are stable, deterministic inputs. There is nothing
 `mirror-images.sh` specific about them.
 
 ## Step 3: Create the image pull secret
@@ -140,7 +144,7 @@ Install the manager chart on the management cluster, pointing it at the mirror:
 ```bash
 helm install kubelb-manager \
   oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee \
-  --version v1.3.5 \
+  --version v1.4.3 \
   --namespace kubelb --create-namespace \
   --set global.imageRegistry=mirror.internal \
   --set global.imagePullSecrets[0].name=mirror-creds
@@ -151,13 +155,34 @@ the manager binary, `kube-rbac-proxy`, the connection-manager, the Envoy proxy
 data plane and the Envoy Gateway shutdown manager. `global.imagePullSecrets` is
 propagated to every pod spec the chart and the manager controllers create.
 
+### How the runtime rewrite works
+
+The chart passes `global.imageRegistry` to the manager binary as the
+`--image-registry` flag. At runtime the manager rewrites the Envoy proxy,
+shutdown-manager, and WAF WASM init-container images before creating pods:
+the first path segment is stripped when it contains a dot or a colon (i.e.
+when it is a registry host), and the mirror registry is prepended. For
+example, `docker.io/envoyproxy/envoy:distroless-v1.36.4` becomes
+`mirror.internal/envoyproxy/envoy:distroless-v1.36.4`, but
+`cr.agentgateway.dev/controller:v1.3.1` becomes
+`mirror.internal/controller:v1.3.1` because `controller` is the whole
+repository path. Your mirror layout must account for this: images always end
+up at `<mirror>/<path-without-registry-host>`. The rewrite applies to
+explicitly overridden image values too, so overrides only need to exist in
+the mirror at the matching path.
+
+The WAF WASM init container defaults to the detected manager pod image, which
+is already mirrored. If you override it via `kubelb.waf.wasmInitContainerImage`,
+the override is still passed through the same runtime rewrite, so the image
+must exist in your mirror at the rewritten path.
+
 If you need to install CRDs separately (for example, to manage them with a
 GitOps tool), pull and untar the chart first and apply `crds/` before
 `helm install`:
 
 ```bash
 helm pull oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee \
-  --version v1.3.5 --untar
+  --version v1.4.3 --untar
 kubectl apply -f kubelb-manager-ee/crds/
 ```
 
@@ -171,13 +196,27 @@ the `mirror-creds` pull secret created in Step 3.
 ```bash
 helm install kubelb-ccm \
   oci://mirror.internal/kubermatic/helm-charts/kubelb-ccm-ee \
-  --version v1.3.5 \
+  --version v1.4.3 \
   --namespace kubelb --create-namespace \
   --set global.imageRegistry=mirror.internal \
   --set global.imagePullSecrets[0].name=mirror-creds \
   --set kubelb.clusterSecretName=kubelb-cluster \
   --set kubelb.tenantName=<unique-identifier-for-tenant>
 ```
+
+When the mTLS backend transport mode is enabled, the CCM also creates the
+tenant proxy DaemonSet on the tenant cluster. Its images come from
+`kubelb.tenantProxy.envoy.image` and `kubelb.tenantProxy.shutdownManager.image`
+in the `kubelb-ccm` chart (defaults: `docker.io/envoyproxy/envoy` and
+`docker.io/envoyproxy/gateway`). Both are covered by `images-core.txt` and are
+rewritten through `global.imageRegistry`, so they must be present in your
+mirror at `envoyproxy/envoy` and `envoyproxy/gateway`. If you override either
+value, the override must resolve through the mirror as well.
+
+{{% notice note %}}
+The Gateway API CRDs are embedded in the binary, so setting
+`kubelb.installGatewayAPICRDs: true` needs no network access.
+{{% /notice %}}
 
 ## Step 6: Install the KubeLB Addons
 
@@ -190,7 +229,7 @@ addon image:
 ```bash
 helm install kubelb-addons \
   oci://mirror.internal/kubermatic/helm-charts/kubelb-addons \
-  --version v0.3.2 \
+  --version v0.4.0 \
   --namespace kubelb \
   --set global.imageRegistry=mirror.internal \
   --set global.imagePullSecrets[0].name=mirror-creds \
@@ -218,11 +257,15 @@ starts with `quay.io/`, `docker.io/`, `registry.k8s.io/`, `gcr.io/`,
 `ghcr.io/` or `cr.agentgateway.dev/`, that container will fail to pull once
 the cluster is fully air-gapped. Fix the override before disconnecting.
 
+To verify the mirror itself, the `kubermatic/kubelb-ee` repository ships a
+`make verify-image-list-remote` target that regenerates the image lists and
+checks with `crane` that every listed artifact exists in the registries.
+
 You can perform the same check against rendered output before applying:
 
 ```bash
 helm template kubelb-addons oci://mirror.internal/kubermatic/helm-charts/kubelb-addons \
-  --version v0.3.2 \
+  --version v0.4.0 \
   -f addons-airgap-values.yaml \
   | grep -E '^\s*image:' | sort -u
 ```
@@ -241,7 +284,7 @@ namespace.
 
 Re-render with `helm template ... --set global.imageRegistry=mirror.internal | grep image:`
 to find the offender. If a specific image is not getting rewritten, file an
-issue against `kubermatic/kubelb-ee` — the air-gap patch for that addon
+issue against `kubermatic/kubelb-ee`; the air-gap patch for that addon
 chart needs an update.
 
 ### Manager-created Envoy proxy pods pull from `docker.io`
@@ -249,6 +292,9 @@ chart needs an update.
 The Envoy data plane and the Envoy Gateway shutdown manager are exposed on the
 manager chart as `kubelb.envoyProxy.image` and
 `kubelb.envoyProxy.gracefulShutdown.shutdownManagerImage`. They are rewritten
-automatically when `global.imageRegistry` is set on the manager chart. If you
-have overridden either value explicitly, make sure your override already points
-at the mirror — explicit values bypass the global rewrite.
+automatically at runtime when `global.imageRegistry` is set on the manager
+chart, including explicitly overridden values. If a rewritten image fails to
+pull, the mirror is missing the image at the rewritten path (see "How the
+runtime rewrite works" in Step 4). The same applies to the CCM chart values
+`kubelb.tenantProxy.envoy.image` and `kubelb.tenantProxy.shutdownManager.image`
+used by the mTLS tenant proxy.

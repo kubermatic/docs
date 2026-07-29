@@ -3,19 +3,24 @@ title = "AI & MCP Gateway"
 linkTitle = "AI & MCP Gateway"
 date = 2026-07-23T10:00:00+02:00
 weight = 1
+enterprise = true
 aliases = ["/kubelb/main/tutorials/aigateway/"]
 description = "Set up the multi-tenant AI gateway: one OpenAI-compatible endpoint, provider credentials that never leave the management cluster, and a data plane that also speaks MCP and A2A."
 +++
 
-Every team in your organization wants to call an LLM. As the platform operator, you have two options: hand each team a raw provider key and lose track of it forever, or put a gateway you control between them and the provider. This page sets up the second option.
-
-With the AI gateway enabled, tenants call one OpenAI-compatible endpoint using keys they issue themselves. The real provider credentials (OpenAI, Anthropic, Azure, Bedrock, ...) exist only in the management cluster. Budgets, metering, and attribution come with it; those are covered in [Budgets & Virtual Keys]({{% relref "../budgets-and-virtual-keys/" %}}).
+The KubeLB AI gateway is a centrally managed, OpenAI-compatible endpoint between tenant workloads and LLM providers. Tenants call the gateway with keys they issue themselves. The real provider credentials (OpenAI, Anthropic, Azure, Bedrock, ...) exist only in the management cluster. Budgets, metering, and attribution are covered in [Budgets & Virtual Keys]({{% relref "../budgets-and-virtual-keys/" %}}).
 
 {{% notice info %}}
 The multi-tenant layer (virtual keys, budgets, metering) is an Enterprise Edition feature. The agentgateway addon itself and the [direct data-plane usage](#direct-data-plane-usage-mcp-and-a2a) below work in both editions.
 {{% /notice %}}
 
 The data plane is [agentgateway](https://agentgateway.dev), an Envoy-based proxy built for LLM traffic, Model Context Protocol (MCP) servers, and Agent-to-Agent (A2A) connectivity. It ships as an addon in the `kubelb-addons` chart; KubeLB configures it, but you can also drive it directly.
+
+## Prerequisites
+
+- A KubeLB management cluster installed with the `kubelb-manager` chart and the bundled `kubelb-addons` chart.
+- Gateway API support enabled in the manager (`kubelb.enableGatewayAPI: true`).
+- An Enterprise Edition license for the multi-tenant layer (virtual keys, budgets, metering).
 
 ## Enabling
 
@@ -39,7 +44,7 @@ kubelb-addons:
     enabled: true
 ```
 
-Nothing happens yet. The manager reconciles only once `spec.ai.enabled` is set on the `Config`, so an upgrade with the flag on changes nothing until you opt in:
+The chart flags alone have no effect. The manager reconciles only once `spec.ai.enabled` is set on the `Config`, so an upgrade with the flag on changes nothing until you opt in:
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -136,7 +141,7 @@ With `spec.ai.enabled`, the manager renders and solely owns these objects in the
 Do not hand-edit them; the manager reverts your changes on the next reconcile.
 
 {{% notice warning %}}
-agentgateway merges policies field by field, but a singular field (`apiKeyAuthentication`, `rateLimit`, `jwtAuthentication`, `mcp`) set by two policies on the same target does not compose: one of the two is silently dropped, while both still report `Attached: True`. There is no error and no log line. Do not attach your own `AgentgatewayPolicy` that sets one of those fields to the `kubelb-ai` Gateway. Policies that set different fields, such as `authorization` rules or `jwtAuthentication` on your own routes, merge with the managed policy and are safe.
+agentgateway merges policies field by field, but a singular field (`apiKeyAuthentication`, `rateLimit`, `jwtAuthentication`, `mcp`) set by two policies on the same target does not compose: one of the two is silently dropped, with no error and no log line, while both still report `Attached: True`. Do not attach your own `AgentgatewayPolicy` that sets one of those fields to the `kubelb-ai` Gateway. Policies that set different fields, such as `authorization` rules or `jwtAuthentication` on your own routes, merge with the managed policy and are safe.
 {{% /notice %}}
 
 Key Secrets survive a disable: turning AI off for a tenant or globally preserves the `ai-keys-*` Secrets, so re-enabling does not re-issue anyone's keys. They are removed only when the `Tenant` resource itself is deleted.
@@ -199,7 +204,7 @@ agentgateway also proxies A2A traffic for connecting AI agents through the gatew
 
 ## Air-gapped environments
 
-All AI gateway images (agentgateway proxy and controller, rate-limit service, valkey) are digest-pinned in the image lists shipped with each release, and the addon subcharts honour `global.imageRegistry`. See [Air-Gapped Installation]({{< relref "../../airgap-installation" >}}).
+All AI gateway images (agentgateway proxy and controller, rate-limit service, valkey) are digest-pinned in the image lists shipped with each release, and the addon subcharts honour `global.imageRegistry`. See [Air-Gapped Installation]({{< relref "../../../installation/air-gap" >}}).
 
 ## Further reading
 

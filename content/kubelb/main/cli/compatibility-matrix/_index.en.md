@@ -6,10 +6,10 @@ weight = 30
 
 KubeLB CLI uses the Kubernetes management cluster that has KubeLB installed as its source of truth for the load balancing configurations.
 
-Since it has been introduced alongside KubeLB v1.2, it has a hard dependency for the KubeLB management cluster to be at least v1.2.
+Introduced alongside KubeLB v1.2, the CLI requires the KubeLB management cluster to be at least v1.2.
 
 {{% notice note %}}
-KubeLB CLI is currently in beta feature stage and is not yet ready for production use. We are actively working on the feature set and taking feedback from the community and our customers to improve the CLI.
+KubeLB CLI is in beta and not yet ready for production use.
 {{% /notice %}}
 
 | KubeLB CLI | KubeLB Management Cluster |
@@ -18,4 +18,4 @@ KubeLB CLI is currently in beta feature stage and is not yet ready for productio
 
 ## Support Policy
 
-For support policy, please refer to the [KubeLB Support Policy](../../support-policy/)
+See the [KubeLB Support Policy](../../support-policy/).

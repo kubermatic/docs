@@ -1,6 +1,7 @@
 +++
 title = "Architecture"
 date = 2023-10-27T10:07:15+02:00
+description = "How KubeLB separates the control plane from the data plane across a management cluster and tenant clusters."
 weight = 5
 +++
 
@@ -8,16 +9,16 @@ KubeLB separates the control plane from the data plane: a central management clu
 
 ## Terminology
 
-In this chapter, you will find the following KubeLB specific terms:
+This chapter uses the following KubeLB-specific terms:
 
-1. **Management Cluster/Load balancing Cluster** -- A Kubernetes cluster which is responsible for management of all the tenants and their data plane components. Requests for Layer 4 and Layer 7 load balancing are handled by the management cluster.
-2. **Tenant Cluster** -- A Kubernetes cluster which acts as a consumer of the load balancer services. Workloads that need Layer 4 or Layer 7 load balancing are created in the tenant cluster. The tenant cluster hosts the KubeLB Cloud Controller Manager (CCM) component which is responsible for propagating the load balancer configurations to the management cluster. Each Kubernetes cluster where the KubeLB CCM is running is considered a unique tenant. This demarcation is based on the fact that the endpoints, simply the Node IPs and node ports, are unique for each Kubernetes cluster.
+1. **Management Cluster** (also called the load balancing cluster): A Kubernetes cluster responsible for managing all tenants and their data plane components. Requests for Layer 4 and Layer 7 load balancing are handled by the management cluster.
+2. **Tenant Cluster**: A Kubernetes cluster that consumes the load balancer services. Workloads that need Layer 4 or Layer 7 load balancing are created in the tenant cluster. The tenant cluster hosts the KubeLB Cloud Controller Manager (CCM), which propagates the load balancer configurations to the management cluster. Each Kubernetes cluster where the KubeLB CCM runs is a unique tenant, because its endpoints (the node IPs and node ports) are unique to that cluster.
 
 ## Design and Architecture
 
-KubeLB follows the **hub and spoke** model in which the "Management Cluster" acts as the hub and the "Tenant Clusters" act as the spokes. The information flow is from the tenant clusters to the management cluster. The agent running in the tenant cluster watches for nodes, services, ingresses, and Gateway API etc. resources and then propagates the configuration to the management cluster. The management cluster then deploys the load balancer and configures it according to the desired specification. Management cluster then uses Envoy Proxy to route traffic to the appropriate endpoints i.e. the node ports open on the nodes of the tenant cluster.
+KubeLB follows the **hub and spoke** model: the management cluster is the hub and the tenant clusters are the spokes. Information flows from the tenant clusters to the management cluster. The agent running in the tenant cluster watches nodes, services, ingresses, and Gateway API resources and propagates the configuration to the management cluster. The management cluster deploys the load balancer, configures it according to the desired specification, and uses Envoy Proxy to route traffic to the appropriate endpoints, the node ports open on the nodes of the tenant cluster.
 
-For security and isolation, the tenants have no access to any native kubernetes resources in the management cluster. The tenants can only interact with the management cluster via the KubeLB CRDs. This ensures that they are not exceeding their access level and only perform controlled operations in the management cluster.
+For security and isolation, tenants have no access to native Kubernetes resources in the management cluster. They interact with it only through the KubeLB CRDs, which limits them to controlled operations within their access level.
 
 ![KubeLB Architecture](/img/kubelb/v1.1/kubelb-high-level-architecture.png?classes=shadow,border "KubeLB Architecture")
 
@@ -27,9 +28,9 @@ KubeLB consists of two components:
 
 ### Cloud Controller Manager
 
-The **KubeLB CCM** is deployed in the tenant clusters and acts as an `agent` that watches for changes in layer 4 and layer 7 load balancing components in the tenant cluster, such as nodes, secrets, services, ingresses, and Gateway API resources. Based on its configuration and what's allowed, it processes and propagates the required resources to the `manager` cluster.
+The **KubeLB CCM** is deployed in the tenant clusters and acts as an agent that watches for changes in Layer 4 and Layer 7 load balancing components in the tenant cluster, such as nodes, secrets, services, ingresses, and Gateway API resources. Based on its configuration and what is allowed, it processes and propagates the required resources to the management cluster.
 
-For layer 4 load balancing `LoadBalancer` and for Layer 7 load balancing `Route` CRDs are used.
+Layer 4 load balancing uses the `LoadBalancer` CRD; Layer 7 load balancing uses the `Route` CRD.
 
 ### Manager
 
@@ -67,13 +68,13 @@ Existing workflows for managing Layer 4 and Layer 7 workloads should keep workin
 
 Class is a concept in Kubernetes that is used to mark the ownership of a resource. For example, an Ingress with `class: nginx` will be owned by a controller that implements the IngressClass named `nginx`. The same concept exists for services and Gateway API resources. By default, KubeLB only processes resources that carry its class; this behavior can be changed by overriding the CCM configuration.
 
-## Installation
-
-See the [installation documentation]({{< relref "../installation/">}}) for more details on how to setup and install KubeLB.
-
-[1]: https://github.com/envoyproxy/envoy
-
 ## Table of Contents
 
 {{% children depth=5 %}}
 {{% /children %}}
+
+## Installation
+
+See the [installation documentation]({{< relref "../installation/">}}) for how to set up and install KubeLB.
+
+[1]: https://github.com/envoyproxy/envoy
