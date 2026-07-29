@@ -15,6 +15,7 @@ Some checks need a feature to be meaningful. A WAF check on an installation with
 | AI | `Config.spec.ai.enabled` |
 | SpendData | `Config.spec.prometheus`, without which no key reports its spend |
 | EnvoyCache | The manager's own xDS snapshot cache |
+| MTLS | `Config.spec.backendTransport.mode: MTLS`, or a tenant still running that dataplane |
 
 ## KLB001
 
@@ -171,3 +172,13 @@ The tenant has admitted traffic configuration that never reached the Envoy contr
 Check the manager logs for the Envoy control plane controller and this tenant's namespace. The configuration exists and was admitted, so the gap sits between admission and the snapshot.
 
 This check reads the cache in the manager replica that ran the sweep. The control plane runs on every replica, so a clean result means that replica's view is complete rather than the whole fleet's.
+
+## KLB022
+
+`mtls-rotation-stuck` · security · high · needs MTLS
+
+A backend transport certificate entered its rotation window and was never reissued. Reissue is automatic once a certificate is within 30 days of expiry, so material this old means the rotation itself is stuck, and on expiry the tenant proxy and the management Envoy stop trusting each other. Certificates issued in the last two days are left alone, since the controller has not had its daily pass over them yet.
+
+Reissue is automatic, so this is not configuration you set. Check that the manager still has RBAC to write Secrets, and whether the `Tenant` reports `BackendCertificateConflict`, which means a tenant proxy `SyncSecret` the manager does not own is blocking the write. Otherwise capture the manager logs for the tenant proxy certificate controller along with `kubelb_manager_mtls_certificate_rotation_failures_total` and open a support case.
+
+The root CA is reported differently: it rotates by standing up a successor rather than being reissued in place, so it is only a finding when that successor is missing.
