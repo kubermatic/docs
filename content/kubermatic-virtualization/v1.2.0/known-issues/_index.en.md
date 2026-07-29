@@ -16,7 +16,9 @@ applies to, so you can quickly tell whether your environment is affected.
 underlying defect is present in KubeVirt v1.6.4 and newer.
 **Scope:** Flatcar Linux worker nodes only. Ubuntu and other cloud-init based
 operating systems are **not** affected.
-**Status:** Upstream fix open, not yet released. Workaround available (see below).
+**Status:** Upstream KubeVirt fix open, not yet released. The machine-controller
+workaround is released (v1.66.1, backported to v1.65.5) and bundled in KKP
+v2.30.6 and newer (see below).
 
 ### Problem
 
@@ -45,16 +47,62 @@ data itself is generated and written to disk correctly.
 
 KubeVirt exposes a per-VM annotation, `kubevirt.io/placePCIDevicesOnRootComplex`,
 that disables the extra hotplug-port reservation and therefore skips the second
-domain write, so the `-fw_cfg` argument is preserved.
+domain write, so the `-fw_cfg` argument is preserved on Flatcar nodes.
 
 machine-controller sets this annotation automatically for Flatcar machines as of
-[kubermatic/machine-controller#2057](https://github.com/kubermatic/machine-controller/pull/2057).
-Deploy a machine-controller version that includes this change and recreate the
-affected Flatcar nodes.
+[kubermatic/machine-controller#2057](https://github.com/kubermatic/machine-controller/pull/2057),
+released in machine-controller v1.66.1 and backported to v1.65.5.
 
-If you cannot update machine-controller yet, add the annotation manually to the
-Flatcar worker pool's `MachineDeployment` in the user cluster (namespace
-`kube-system`) and roll the nodes:
+#### Upgrade KKP to a release that bundles the fix (recommended)
+
+Kubermatic Kubernetes Platform (KKP) v2.30.6 and newer ship machine-controller
+v1.65.5, which sets the annotation for you. Upgrade KKP and recreate the affected
+Flatcar nodes.
+
+#### Pin the machine-controller image
+
+If you run a KKP v2.30.x release older than v2.30.6 and cannot upgrade yet, pin
+machine-controller to the release containing the fix in your
+`KubermaticConfiguration`:
+
+```yaml
+spec:
+  userCluster:
+    machineController:
+      imageTag: v1.65.5
+```
+
+Remove this override once you upgrade to a KKP release that already bundles the
+fix.
+
+On KKP v2.29.x and v2.28.x the fix is not part of the bundled machine-controller
+line (v1.64.x and v1.62.x respectively). Set the annotation manually instead, as
+described below.
+
+#### Set the annotation manually
+
+If you can neither upgrade nor pin machine-controller, set the annotation
+`kubevirt.io/placePCIDevicesOnRootComplex` to `"true"` yourself, using one of the
+options below.
+
+**Existing user cluster (affected MachineDeployment)**
+
+Patch the `MachineDeployment` in the user cluster (namespace `kube-system`), then
+recreate the Flatcar nodes:
+
+```bash
+kubectl -n kube-system patch machinedeployment <flatcar-worker-pool> --type merge \
+  -p '{"spec":{"template":{"metadata":{"annotations":{"kubevirt.io/placePCIDevicesOnRootComplex":"true"}}}}}'
+```
+
+The annotation only takes effect on newly created machines, so existing Flatcar
+nodes must be recreated for the fix to apply.
+
+**New user cluster / MachineDeployment**
+
+Add the annotation under `spec.template.metadata.annotations` at creation time,
+either in the `MachineDeployment` YAML, or directly from the KKP dashboard during
+user cluster or MachineDeployment creation:
 
 ```yaml
 apiVersion: cluster.k8s.io/v1alpha1
@@ -69,9 +117,8 @@ spec:
         kubevirt.io/placePCIDevicesOnRootComplex: "true"
 ```
 
-Note: the annotation must sit on `spec.template.metadata.annotations` (this is
-what reaches the VM). It only takes effect on newly created machines, so
-existing Flatcar nodes must be recreated for the fix to apply.
+**Note:** The annotation must sit on `spec.template.metadata.annotations`, not the
+MD's top-level metadata. This is what reaches the VM.
 
 ### Limitations and trade-offs
 
