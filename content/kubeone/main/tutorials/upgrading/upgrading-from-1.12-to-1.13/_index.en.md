@@ -1,5 +1,5 @@
 +++
-title = "Upgrading from KubeOne 1.12 to 1.13"
+title = "Upgrading from 1.12 to 1.13"
 date = 2026-04-09T12:00:00+02:00
 +++
 

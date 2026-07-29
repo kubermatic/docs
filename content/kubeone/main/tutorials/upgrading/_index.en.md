@@ -8,3 +8,8 @@ chapter = true
 # Upgrading
 
 This section contains important upgrade notes you should read before upgrading Kubermatic KubeOne to the next minor version.
+
+## Table of Content
+
+{{% children depth=5 %}}
+{{% /children %}}
