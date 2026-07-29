@@ -3110,6 +3110,7 @@ _Appears in:_
 | `matchSubnetAndStorageLocation` _boolean_ | {{< unsafe >}}Optional: MatchSubnetAndStorageLocation if set to true, the region and zone of the subnet and storage class must match. For<br />example, if the storage class has the region `eu` and zone was `central`, the subnet must be in the same region and zone.<br />otherwise KKP will reject the creation of the machine deployment and eventually the cluster.{{< /unsafe >}} |
 | `disableDefaultInstanceTypes` _boolean_ | {{< unsafe >}}DisableDefaultInstanceTypes prevents KKP from automatically creating default instance types.<br />(standard-2, standard-4, standard-8) in KubeVirt environments.{{< /unsafe >}} |
 | `disableDefaultPreferences` _boolean_ | {{< unsafe >}}DisableKubermaticPreferences prevents KKP from setting default KubeVirt preferences.{{< /unsafe >}} |
+| `nodeDefaults` _[KubeVirtNodeDefaults](#kubevirtnodedefaults)_ | {{< unsafe >}}Optional: NodeDefaults sets the default CPU, memory and primary disk size for KubeVirt worker<br />nodes in this datacenter. These defaults are used to pre-fill the "Custom Configuration" node<br />form in the dashboard when an instance type is not selected, and are applied server-side to<br />machine deployments that do not already specify a value. They have no effect once an instance<br />type is chosen, as instance types already determine CPU and memory.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4790,6 +4791,17 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+### KubeVirtNodeDefaults
+
+_Underlying type:_ `[struct{CPUs string "json:\"cpus,omitempty\""; Memory string "json:\"memory,omitempty\""; PrimaryDiskSize string "json:\"primaryDiskSize,omitempty\""}](#struct{cpus-string-"json:\"cpus,omitempty\"";-memory-string-"json:\"memory,omitempty\"";-primarydisksize-string-"json:\"primarydisksize,omitempty\""})`
+
+KubeVirtNodeDefaults describes the default CPU, memory and primary disk size for KubeVirt worker nodes.
+
+_Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
 
 
 
