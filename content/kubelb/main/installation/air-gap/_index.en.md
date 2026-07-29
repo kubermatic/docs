@@ -2,8 +2,10 @@
 title = "Air-Gap Installation"
 linkTitle = "Air-Gap Installation"
 date = 2026-04-16T10:07:15+02:00
-weight = 14
+description = "Install KubeLB Enterprise Edition in clusters without internet access by mirroring images and charts to a private OCI registry."
+weight = 30
 enterprise = true
+aliases = ["/kubelb/main/tutorials/airgap-installation/"]
 +++
 
 ## Overview

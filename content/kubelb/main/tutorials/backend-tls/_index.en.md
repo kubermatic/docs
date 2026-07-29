@@ -2,7 +2,7 @@
 title = "Backend TLS Re-encryption"
 linkTitle = "Backend TLS"
 date = 2026-04-23T10:00:00+02:00
-weight = 6
+weight = 40
 enterprise = true
 +++
 

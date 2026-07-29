@@ -2,7 +2,7 @@
 title = "Ingress"
 linkTitle = "Ingress"
 date = 2023-10-27T10:07:15+02:00
-weight = 5
+weight = 4
 +++
 
 Set up Layer 7 load balancing with Ingress.

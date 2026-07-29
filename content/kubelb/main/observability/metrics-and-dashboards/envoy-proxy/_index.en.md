@@ -1,7 +1,9 @@
 +++
 title = "Envoy Proxy Dashboard"
 linkTitle = "Envoy Proxy"
+date = 2026-07-29T00:00:00+02:00
 weight = 20
+aliases = ["/kubelb/main/tutorials/observability/metrics-and-dashboards/envoy-proxy/"]
 +++
 
 The **KubeLB / Envoy Proxy** Grafana dashboard monitors the Envoy proxy instances managed by KubeLB. It is provisioned from the `kubelb-manager` Helm chart when `grafana.dashboards.enabled=true`.
@@ -86,4 +88,4 @@ For environments using Envoy Gateway and Gateway APIs, the [Gateway Observabilit
 
 ## Related
 
-- [Envoy Proxy Configuration]({{< relref "../../../envoy-proxy" >}}) — configure proxy topology, TLS, and advanced settings
+- [Envoy Proxy Configuration]({{< relref "../../../tutorials/envoy-proxy" >}}) — configure proxy topology, TLS, and advanced settings

@@ -1,7 +1,9 @@
 +++
 title = "Release Notes"
 date = 2024-03-15T00:00:00+01:00
+description = "Release history for KubeLB with notable changes in each version."
 weight = 60
+aliases = ["/kubelb/main/cli/release-notes/"]
 +++
 
 {{% notice warning %}}

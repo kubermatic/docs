@@ -1,7 +1,10 @@
 +++
 title = "Metrics & Dashboards"
 linkTitle = "Metrics & Dashboards"
+date = 2026-07-29T00:00:00+02:00
+description = "Enable Prometheus metrics scraping for KubeLB components and provision the bundled Grafana dashboards."
 weight = 10
+aliases = ["/kubelb/main/tutorials/observability/metrics-and-dashboards/"]
 +++
 
 This section covers how to enable metrics scraping for KubeLB components and set up Grafana dashboards.
@@ -105,4 +108,9 @@ The following dashboard subpages provide detailed descriptions:
 - [KubeLB Dashboards]({{< relref "./kubelb" >}}) — Overview, Manager, EnvoyCP, and CCM dashboards
 - [Envoy Proxy Dashboard]({{< relref "./envoy-proxy" >}}) — Envoy proxy monitoring and metrics
 
-For the full list of exposed Prometheus metrics, see the [Metric References]({{< relref "./references" >}}).
+For the full list of exposed Prometheus metrics, see the [Metric References]({{< relref "../metric-references" >}}).
+
+## Table of Contents
+
+{{% children depth=1 %}}
+{{% /children %}}

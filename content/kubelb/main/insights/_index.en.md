@@ -2,7 +2,8 @@
 title = "Insights"
 linkTitle = "Insights"
 date = 2026-07-29T10:00:00+02:00
-weight = 27
+description = "Deterministic configuration checks that surface problems across tenants as Insight objects."
+weight = 37
 +++
 
 The management cluster sees every tenant's effective configuration, every route, every policy and every budget. Insights is the part of KubeLB that reads all of it and tells you what is wrong.
@@ -172,3 +173,8 @@ The engine evaluates the whole registry every three minutes, and immediately whe
 Because the sweep is idempotent, a manager restart changes nothing. Triage lives on the objects, `firstSeen` is preserved, and the next sweep re-derives the rest.
 
 One limit worth knowing: the engine reads the xDS cache in its own process, and the control plane runs on every manager replica while the sweep runs only on the leader. Findings about the dataplane therefore describe the replica that observed them, and say so.
+
+## Table of Contents
+
+{{% children depth=1 %}}
+{{% /children %}}

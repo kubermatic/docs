@@ -1,7 +1,9 @@
 +++
 title = "Metric References"
-linkTitle = "References"
+linkTitle = "Metric References"
+date = 2026-07-29T00:00:00+02:00
 weight = 30
+aliases = ["/kubelb/main/tutorials/observability/metrics-and-dashboards/references/"]
 +++
 
 Complete Prometheus metric tables for KubeLB components, organized by edition.

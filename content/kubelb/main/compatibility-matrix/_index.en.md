@@ -1,7 +1,8 @@
 +++
 title = "Compatibility Matrix"
 date = 2024-03-15T00:00:00+01:00
-weight = 35
+description = "Tested version combinations of KubeLB, KKP, Gateway API, Envoy Gateway, NGINX Ingress, and Kubernetes."
+weight = 10
 +++
 
 Currently, we don't have any hard dependencies on certain components and their versions. This matrix is here to reflect any changes in the compatibility matrix of the components we are using.

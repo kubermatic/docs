@@ -1,7 +1,9 @@
 +++
 title = "Traffic Flow Visibility"
 linkTitle = "Traffic Flow"
+date = 2026-07-29T00:00:00+02:00
 weight = 20
+aliases = ["/kubelb/main/tutorials/observability/traffic-flow/"]
 +++
 
 For environments requiring centralized visibility into traffic flow — source/destination tracking, service maps, and real-time request tracing — KubeLB integrates with existing service mesh and CNI observability tools.

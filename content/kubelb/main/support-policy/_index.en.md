@@ -1,7 +1,8 @@
 +++
 title = "Support Policy"
 date = 2024-03-15T00:00:00+01:00
-weight = 40
+description = "What Enterprise Edition support covers, what it does not, and how community support works."
+weight = 45
 +++
 
 KubeLB has an open-source community edition and an enterprise edition. The community edition is free to use and is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).

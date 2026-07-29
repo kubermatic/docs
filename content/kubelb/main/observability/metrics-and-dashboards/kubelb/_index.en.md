@@ -1,7 +1,9 @@
 +++
 title = "KubeLB Dashboards"
 linkTitle = "KubeLB"
+date = 2026-07-29T00:00:00+02:00
 weight = 10
+aliases = ["/kubelb/main/tutorials/observability/metrics-and-dashboards/kubelb/"]
 +++
 
 KubeLB ships four Grafana dashboards covering the core components. These are provisioned from the `kubelb-manager` and `kubelb-ccm` Helm charts when `grafana.dashboards.enabled=true`.

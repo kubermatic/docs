@@ -2,7 +2,9 @@
 title = "KubeLB Management Cluster Configuration"
 linkTitle = "Management Configuration"
 date = 2023-10-27T10:07:15+02:00
-weight = 1
+description = "Configure the KubeLB manager in the management cluster through the Config CRD."
+weight = 40
+aliases = ["/kubelb/main/tutorials/config/"]
 +++
 
 We have a dedicated CRD `config` that can be used to manage configuration for KubeLB manager in management cluster. The following is an example of a `config` CRD:
@@ -191,7 +193,7 @@ spec:
               - linux
 ```
 
-These values act as defaults for every tenant. To override them for a specific tenant, see [Per-Tenant Envoy Proxy Sizing]({{< relref "../tenants#per-tenant-envoy-proxy-sizing" >}}).
+These values act as defaults for every tenant. To override them for a specific tenant, see [Per-Tenant Envoy Proxy Sizing]({{< relref "../../tutorials/tenants#per-tenant-envoy-proxy-sizing" >}}).
 
 ### Configure LoadBalancer Options
 
@@ -235,7 +237,7 @@ Valid values:
 * `LeastRequest`
 * `Random`
 
-This setting can be overridden per tenant (see [Load Balancer Policy]({{< relref "../tenants#load-balancer-policy" >}})) or per service via annotation (see [Per-Service Load Balancer Policy]({{< relref "../loadbalancer#per-service-load-balancer-policy" >}})).
+This setting can be overridden per tenant (see [Load Balancer Policy]({{< relref "../../tutorials/tenants#load-balancer-policy" >}})) or per service via annotation (see [Per-Service Load Balancer Policy]({{< relref "../../tutorials/loadbalancer#per-service-load-balancer-policy" >}})).
 
 ### Configure Ingress Options
 

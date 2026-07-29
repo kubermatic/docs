@@ -1,7 +1,8 @@
 +++
 title = "Community vs Enterprise Edition"
 date = 2024-03-15T00:00:00+01:00
-weight = 10
+description = "Feature comparison between the free Community Edition and the subscription-based Enterprise Edition."
+weight = 8
 +++
 
 KubeLB is available in two editions:

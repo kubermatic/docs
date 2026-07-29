@@ -2,7 +2,7 @@
 title = "Web Application Firewall (Beta)"
 linkTitle = "Web Application Firewall"
 date = 2026-01-23T10:00:00+02:00
-weight = 7
+weight = 30
 enterprise = true
 +++
 

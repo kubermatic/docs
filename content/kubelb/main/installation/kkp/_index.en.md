@@ -1,8 +1,11 @@
 +++
 title = "Kubermatic Kubernetes Platform Integration"
+linkTitle = "KKP Integration"
 date = 2023-10-27T10:07:15+02:00
-weight = 8
+description = "Enable and configure KubeLB for user clusters in the Kubermatic Kubernetes Platform."
+weight = 50
 enterprise = true
+aliases = ["/kubelb/main/tutorials/kkp/"]
 +++
 
 ## Kubermatic Kubernetes Platform (Enterprise Edition Only)

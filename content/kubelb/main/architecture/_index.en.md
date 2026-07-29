@@ -1,6 +1,7 @@
 +++
 title = "Architecture"
 date = 2023-10-27T10:07:15+02:00
+description = "How KubeLB separates the control plane from the data plane across a management cluster and tenant clusters."
 weight = 5
 +++
 
@@ -67,13 +68,13 @@ Existing workflows for managing Layer 4 and Layer 7 workloads should keep workin
 
 Class is a concept in Kubernetes that is used to mark the ownership of a resource. For example, an Ingress with `class: nginx` will be owned by a controller that implements the IngressClass named `nginx`. The same concept exists for services and Gateway API resources. By default, KubeLB only processes resources that carry its class; this behavior can be changed by overriding the CCM configuration.
 
+## Table of Contents
+
+{{% children depth=5 %}}
+{{% /children %}}
+
 ## Installation
 
 See the [installation documentation]({{< relref "../installation/">}}) for more details on how to setup and install KubeLB.
 
 [1]: https://github.com/envoyproxy/envoy
-
-## Table of Contents
-
-{{% children depth=5 %}}
-{{% /children %}}

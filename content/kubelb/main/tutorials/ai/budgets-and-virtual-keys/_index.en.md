@@ -3,6 +3,7 @@ title = "Budgets & Virtual Keys"
 linkTitle = "Budgets & Virtual Keys"
 date = 2026-07-23T10:00:00+02:00
 weight = 2
+enterprise = true
 description = "Self-service API keys as Kubernetes objects, token and dollar budgets per tenant and per key, live spend in the key's status, and predictable behavior when a limit trips."
 +++
 

@@ -2,7 +2,7 @@
 title = "TCP/UDP Load Balancing"
 linkTitle = "TCP/UDP Load Balancing"
 date = 2023-10-27T10:07:15+02:00
-weight = 3
+weight = 2
 +++
 
 Set up Layer 4 (TCP/UDP) load balancing with KubeLB.

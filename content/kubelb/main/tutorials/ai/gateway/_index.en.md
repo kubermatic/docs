@@ -3,6 +3,7 @@ title = "AI & MCP Gateway"
 linkTitle = "AI & MCP Gateway"
 date = 2026-07-23T10:00:00+02:00
 weight = 1
+enterprise = true
 aliases = ["/kubelb/main/tutorials/aigateway/"]
 description = "Set up the multi-tenant AI gateway: one OpenAI-compatible endpoint, provider credentials that never leave the management cluster, and a data plane that also speaks MCP and A2A."
 +++
@@ -199,7 +200,7 @@ agentgateway also proxies A2A traffic for connecting AI agents through the gatew
 
 ## Air-gapped environments
 
-All AI gateway images (agentgateway proxy and controller, rate-limit service, valkey) are digest-pinned in the image lists shipped with each release, and the addon subcharts honour `global.imageRegistry`. See [Air-Gapped Installation]({{< relref "../../airgap-installation" >}}).
+All AI gateway images (agentgateway proxy and controller, rate-limit service, valkey) are digest-pinned in the image lists shipped with each release, and the addon subcharts honour `global.imageRegistry`. See [Air-Gapped Installation]({{< relref "../../../installation/air-gap" >}}).
 
 ## Further reading
 

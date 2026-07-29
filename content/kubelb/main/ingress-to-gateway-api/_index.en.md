@@ -2,7 +2,8 @@
 title = "Ingress to Gateway API Migration"
 linkTitle = "Ingress to Gateway API"
 date = 2026-01-30T00:00:00+01:00
-weight = 33
+description = "Why and how to migrate from Kubernetes Ingress to Gateway API, with tooling and assessment guidance."
+weight = 25
 +++
 
 This guide helps you migrate from Kubernetes Ingress to Gateway API: what's changing, why, and what you need to do.
@@ -139,6 +140,8 @@ We might expand this to cover other Ingress controllers and Gateway API implemen
 
 Detailed documentation is available on the [KubeLB Ingress to Gateway API Converter](kubelb-automation) page.
 
+For an interactive workflow, the KubeLB CLI and its local web dashboard can list, preview, and convert Ingresses step by step; see the [CLI & Dashboard guide]({{< relref "../cli/ingress-to-gateway-api" >}}).
+
 ### Option 2: Manual Migration
 
 Official community tools like [ingress2gateway](https://github.com/kubernetes-sigs/ingress2gateway) can be used to migrate your Ingress resources to Gateway API. While KubeLB focuses strictly on Ingress conversion and only handles annotations for ingress-nginx, ingress2gateway can be used to migrate other Ingress controllers to Gateway API.
@@ -246,3 +249,8 @@ The following sections cover how to adapt cert-manager and external-dns configur
 KubeLB is not dropping Ingress support and ingress-nginx will still be supported. However, we highly encourage our users to migrate to Gateway API as soon as possible.
 
 We will patch/upgrade the ingress-nginx controller when updates are available for it. But eventually since upstream will stop supporting it, we will be left with no choice but to ship whatever version/release of ingress-nginx is available at the time.
+
+## Table of Contents
+
+{{% children depth=1 %}}
+{{% /children %}}

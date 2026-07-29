@@ -2,7 +2,7 @@
 title = "Client IP Preservation"
 linkTitle = "Client IP Preservation"
 date = 2025-01-16T10:00:00+02:00
-weight = 13
+weight = 6
 +++
 
 Preserving the original client IP address is critical for logging, rate-limiting, access control lists, and compliance. KubeLB's multi-cluster proxy architecture introduces up to three SNAT (Source Network Address Translation) hops that can replace the real client IP with internal addresses. This guide explains how to preserve client IP at each hop.

@@ -2,7 +2,8 @@
 title = "Gateway API"
 linkTitle = "Gateway API"
 date = 2023-10-27T10:07:15+02:00
-weight = 4
+description = "Set up Layer 7 load balancing with the Gateway API and Envoy Gateway."
+weight = 3
 +++
 
 Set up Layer 7 load balancing with the Gateway API.
@@ -280,3 +281,8 @@ The following resources are supported in CE and EE version:
 ### Limitations
 
 - BackendTLSPolicy is not supported in KubeLB, yet. If you would like to use this feature, please open an issue on [GitHub](https://github.com/kubermatic/kubelb/issues) to help us prioritize it.
+
+## Table of Contents
+
+{{% children depth=1 %}}
+{{% /children %}}

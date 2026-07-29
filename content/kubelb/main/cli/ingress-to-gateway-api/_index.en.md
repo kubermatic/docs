@@ -3,6 +3,7 @@ title = "Ingress to Gateway API"
 linkTitle = "Ingress to Gateway API"
 date = 2026-02-04T00:00:00+01:00
 weight = 15
+aliases = ["/kubelb/main/ingress-to-gateway-api/cli-and-dashboard/"]
 +++
 
 {{% notice warning %}}

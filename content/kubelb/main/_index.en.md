@@ -19,7 +19,7 @@ There are solutions available like [MetalLB][2], [Cilium][3], etc. that solve th
 
 For application load balancing, we have the same case where an external application like [nginx-ingress][4] or [Envoy Gateway][5] needs to be deployed in the cluster. To further secure traffic, additional tools are required for managing DNS, TLS certificates, Web Application Firewall, etc.
 
-KubeLB solves this problem with a centralized management cluster that runs the data plane for multiple Kubernetes clusters across multi-cloud and on-premise environments. Load balancing for a whole fleet of clusters is configured and enforced in one place, with a consistent experience for developers.
+KubeLB solves this problem with a centralized management cluster that runs the data plane for multiple Kubernetes clusters across multi-cloud and on-premise environments. Load balancing for a whole fleet of clusters is configured and enforced in one place, with a consistent experience for developers. Air-gapped environments without internet access are supported in the Enterprise Edition; see the [Air-Gap Installation]({{< relref "./installation/air-gap" >}}) guide.
 
 [2]: https://metallb.universe.tf
 [3]: https://cilium.io/use-cases/load-balancer/
@@ -28,7 +28,7 @@ KubeLB solves this problem with a centralized management cluster that runs the d
 
 ## Table of Contents
 
-{{% children depth=5 %}}
+{{% children depth=1 %}}
 {{% /children %}}
 
 ## Further Reading
