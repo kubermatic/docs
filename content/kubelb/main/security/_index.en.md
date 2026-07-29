@@ -47,7 +47,7 @@ These features are not available in Enterprise Edition since the repository is p
 # Login required for EE images
 docker login quay.io
 
-cosign verify quay.io/kubermatic/kubelb-manager-ee:v1.3.0 \
+cosign verify quay.io/kubermatic/kubelb-manager-ee:v1.4.3 \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 ```
@@ -56,7 +56,7 @@ cosign verify quay.io/kubermatic/kubelb-manager-ee:v1.3.0 \
 {{% tab name="Community Edition" %}}
 
 ```bash
-cosign verify quay.io/kubermatic/kubelb-manager:v1.3.0 \
+cosign verify quay.io/kubermatic/kubelb-manager:v1.4.3 \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 ```
@@ -70,7 +70,7 @@ cosign verify quay.io/kubermatic/kubelb-manager:v1.3.0 \
 {{% tab name="Enterprise Edition" %}}
 
 ```bash
-cosign verify quay.io/kubermatic/helm-charts/kubelb-manager-ee:v1.3.0 \
+cosign verify quay.io/kubermatic/helm-charts/kubelb-manager-ee:v1.4.3 \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 ```
@@ -79,7 +79,7 @@ cosign verify quay.io/kubermatic/helm-charts/kubelb-manager-ee:v1.3.0 \
 {{% tab name="Community Edition" %}}
 
 ```bash
-cosign verify quay.io/kubermatic/helm-charts/kubelb-manager:v1.3.0 \
+cosign verify quay.io/kubermatic/helm-charts/kubelb-manager:v1.4.3 \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 ```
@@ -108,8 +108,8 @@ cosign verify-blob --bundle checksums.txt.sigstore.json checksums.txt \
 
 ```bash
 # Download from GitHub release
-curl -LO https://github.com/kubermatic/kubelb/releases/download/v1.3.0/checksums.txt
-curl -LO https://github.com/kubermatic/kubelb/releases/download/v1.3.0/checksums.txt.sigstore.json
+curl -LO https://github.com/kubermatic/kubelb/releases/download/v1.4.3/checksums.txt
+curl -LO https://github.com/kubermatic/kubelb/releases/download/v1.4.3/checksums.txt.sigstore.json
 
 cosign verify-blob --bundle checksums.txt.sigstore.json checksums.txt \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb/.github/workflows/release.yml@refs/tags/v.*" \
@@ -136,7 +136,7 @@ oras login quay.io
 
 # Discover and pull SBOM
 SBOM_DIGEST=$(oras discover --format json --artifact-type application/spdx+json \
-  quay.io/kubermatic/kubelb-manager-ee:v1.3.0 | jq -r '.referrers[0].digest')
+  quay.io/kubermatic/kubelb-manager-ee:v1.4.3 | jq -r '.referrers[0].digest')
 oras pull quay.io/kubermatic/kubelb-manager-ee@${SBOM_DIGEST} --output sbom/
 ```
 
@@ -145,7 +145,7 @@ oras pull quay.io/kubermatic/kubelb-manager-ee@${SBOM_DIGEST} --output sbom/
 
 ```bash
 SBOM_DIGEST=$(oras discover --format json --artifact-type application/spdx+json \
-  quay.io/kubermatic/kubelb-manager:v1.3.0 | jq -r '.referrers[0].digest')
+  quay.io/kubermatic/kubelb-manager:v1.4.3 | jq -r '.referrers[0].digest')
 oras pull quay.io/kubermatic/kubelb-manager@${SBOM_DIGEST} --output sbom/
 ```
 
@@ -158,7 +158,7 @@ oras pull quay.io/kubermatic/kubelb-manager@${SBOM_DIGEST} --output sbom/
 {{% tab name="Enterprise Edition" %}}
 
 ```bash
-cosign verify-attestation quay.io/kubermatic/kubelb-manager-ee:v1.3.0 \
+cosign verify-attestation quay.io/kubermatic/kubelb-manager-ee:v1.4.3 \
   --type spdxjson \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-ee/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
@@ -168,7 +168,7 @@ cosign verify-attestation quay.io/kubermatic/kubelb-manager-ee:v1.3.0 \
 {{% tab name="Community Edition" %}}
 
 ```bash
-cosign verify-attestation quay.io/kubermatic/kubelb-manager:v1.3.0 \
+cosign verify-attestation quay.io/kubermatic/kubelb-manager:v1.4.3 \
   --type spdxjson \
   --certificate-identity-regexp="^https://github.com/kubermatic/kubelb/.github/workflows/release.yml@refs/tags/v.*" \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
@@ -196,7 +196,7 @@ Release assets (requires repository access):
 
 ```bash
 # All SBOMs are available in the GitHub release assets. Please refer to the GitHub release page for the latest version.
-curl -LO https://github.com/kubermatic/kubelb/releases/download/v1.3.0/kubelb_v1.3.0_linux_amd64.sbom.spdx.json
+curl -LO https://github.com/kubermatic/kubelb/releases/download/v1.4.3/kubelb_v1.4.3_linux_amd64.sbom.spdx.json
 ```
 
 {{% /tab %}}
@@ -214,7 +214,7 @@ KubeLB enforces automated vulnerability scanning:
 Scan locally:
 
 ```bash
-trivy image quay.io/kubermatic/kubelb-manager:v1.3.0
+trivy image quay.io/kubermatic/kubelb-manager:v1.4.3
 ```
 
 ## Tools
