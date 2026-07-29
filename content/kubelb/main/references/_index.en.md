@@ -5,7 +5,7 @@ description = "Reference documentation for the KubeLB Custom Resource Definition
 weight = 50
 +++
 
-This section contains a reference of the Kubermatic KubeLB Custom Resource Definitions.
+Reference documentation for the Kubermatic KubeLB Custom Resource Definitions.
 
 ## Table of Contents
 

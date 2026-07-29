@@ -7,7 +7,7 @@ weight = 40
 aliases = ["/kubelb/main/tutorials/config/"]
 +++
 
-We have a dedicated CRD `config` that can be used to manage configuration for KubeLB manager in management cluster. The following is an example of a `config` CRD:
+The `Config` CRD manages the configuration of the KubeLB manager in the management cluster. Example:
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -28,10 +28,10 @@ kubelb:
   skipConfigGeneration: true
 ```
 
-This will de-couple the `config` from the helm chart and users can manage it separately. This is recommended since the coupling of `config` CRD with helm chart makes it dependent on the helm chart and the admin would need to upgrade the helm chart to update the `config` CRD.
+This decouples the `Config` from the helm chart so it can be managed separately. This is recommended; otherwise the helm chart must be upgraded to update the `Config` CRD.
 
 {{% notice note %}}
-As of KubeLB v1.4, the manager starts without a `Config` CR and serves sensible defaults (shared Envoy topology, 3 replicas). Creating a `Config` named `default` is still recommended for most setups — features that depend on specific fields (for example, Ingress/Gateway API class, DNS automation, propagated annotations) remain disabled until the corresponding keys are set.
+As of KubeLB v1.4, the manager starts without a `Config` CR and serves sensible defaults (shared Envoy topology, 3 replicas). Creating a `Config` named `default` is still recommended for most setups: features that depend on specific fields (for example, Ingress/Gateway API class, DNS automation, propagated annotations) remain disabled until the corresponding keys are set.
 {{% /notice %}}
 
 ## Configuration Options
@@ -58,7 +58,7 @@ spec:
     defaultClusterIssuer: "letsencrypt-prod"
 ```
 
-These configurations are available at a global level and also at a tenant level. The tenant level configurations will override the global configurations for that tenant. It's important to configure these options at one of those levels since they perform essential functions for KubeLB.
+These options are available at both global and tenant level; tenant values override global values. Configure them at one of those levels, since core KubeLB functions depend on them.
 
 1. **Ingress.Class**: The class to use for Ingress resources for tenants in management cluster.
 2. **GatewayAPI.Class**: The class to use for Gateway API resources for tenants in management cluster.
@@ -68,7 +68,7 @@ These configurations are available at a global level and also at a tenant level.
 
 KubeLB can propagate annotations from services, ingresses, Gateway API objects etc. in the tenant cluster to the corresponding LoadBalancer or Route resources in the management cluster. This is useful for setting annotations that are required by the cloud provider to configure the LoadBalancers. For example, the `service.beta.kubernetes.io/aws-load-balancer-internal` annotation is used to create an internal LoadBalancer in AWS.
 
-Annotations are not propagated by default since tenants can make unwanted changes to the LoadBalancer configuration. Since each tenant is treated as a separate entity, the KubeLB manager cluster needs to be configured to allow the propagation of specific annotations.
+Annotations are not propagated by default since tenants can make unwanted changes to the LoadBalancer configuration. Since each tenant is treated as a separate entity, the KubeLB management cluster needs to be configured to allow the propagation of specific annotations.
 
 The annotation configuration set on the tenant level will override the global annotation configuration for that tenant.
 
@@ -84,7 +84,7 @@ spec:
   propagateAllAnnotations: true
 ```
 
-Keys listed in `deniedAnnotations` are still excluded — see [Deny annotations](#3-deny-annotations) below.
+Keys listed in `deniedAnnotations` are still excluded; see [Deny annotations](#3-deny-annotations) below.
 
 #### 2. Propagate specific annotations
 
@@ -124,7 +124,7 @@ spec:
 ```
 
 {{% notice note %}}
-`defaultAnnotations` are not subject to deny rules — they represent explicit administrator intent and are merged in last without being filtered.
+`defaultAnnotations` are not subject to deny rules: they represent explicit administrator intent and are merged in last without being filtered.
 {{% /notice %}}
 
 #### 4. Default annotations
@@ -153,7 +153,7 @@ spec:
 
 ### Configure Envoy Proxy
 
-Sample configuration, inflated with values for demonstration purposes only. All of the values are optional and have sane defaults. For more details check [CRD References]({{< relref "../../references">}})
+Sample configuration with demonstration values. All values are optional and have sane defaults. For details, see [CRD References]({{< relref "../../references">}}).
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -173,7 +173,7 @@ spec:
     tolerations:
       - effect: NoSchedule
         operator: Exists
-    # Can be used to configure requests/limits for envoy proxy
+    # Can be used to configure requests/limits for Envoy Proxy
     resources:
       requests:
         cpu: 100m
@@ -181,7 +181,7 @@ spec:
       limits:
         cpu: 200m
         memory: 256Mi
-    # Configure affinity for envoy proxy
+    # Configure affinity for Envoy Proxy
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -296,4 +296,4 @@ spec:
     allowExplicitHostnames: false
 ```
 
-**For more details and options, please go through [CRD References]({{< relref "../../references">}})**
+See [CRD References]({{< relref "../../references">}}) for all options.

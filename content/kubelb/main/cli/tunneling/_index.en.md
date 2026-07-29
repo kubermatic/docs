@@ -5,17 +5,15 @@ weight = 10
 enterprise = true
 +++
 
-Tunneling allows users to tunnel locally running applications on their workstations or inside VMs and expose them over the internet without worrying about firewalls, NAT, DNS, and certificate issues. It is a great way to expose your local services to the internet without having to worry about the complexities of setting up a load balancer and a DNS record.
+Tunneling exposes applications running on local workstations or VMs over the internet without firewall, NAT, DNS, or certificate configuration. KubeLB CLI exposes the workload over a secure tunnel with TLS certificates and a DNS record.
 
-KubeLB CLI will expose the workload on secure tunnel with TLS certificates and a DNS record.
-
-These tunnels are designed to be reusable and hence have their own dedicated API type in KubeLB i.e. `Tunnel`. Once a tunnel is created, it's registered with the KubeLB management cluster and can be connected to using the `kubelb tunnel connect` command.
+Tunnels are reusable and have a dedicated API type in KubeLB, `Tunnel`. Once created, a tunnel is registered with the KubeLB management cluster and can be connected to with the `kubelb tunnel connect` command.
 
 ## Tunnels
 
 ### Tunnel Configuration
 
-To enable tunneling, you need to configure KubeLB management cluster to expose connection management API. The values.yaml file can be modified like this:
+To enable tunneling, configure the KubeLB management cluster to expose the connection management API. The API can be exposed through either an HTTPRoute (`tunnel.connectionManager.httpRoute`) or an Ingress (`tunnel.connectionManager.ingress`); Gateway API is preferred. In the example below, replace `connection-manager.example.com` with the domain the connection manager should be reachable at, `*.apps.example.com` with the wildcard domain used for tunnel hostnames, and the `cert-manager.io/cluster-issuer` annotation with your issuer:
 
 ```yaml
 kubelb:
@@ -65,9 +63,7 @@ kubelb:
               - connection-manager-ingress.example.com
 ```
 
-You can either use Ingress or HTTPRoute to expose the connection management API. Gateway API is the preferred way to expose the API. In this example `*.apps.example.com` is used as a wildard domain for these tunnels, you can use any other domain you want.
-
-Afterwards, you need to configure the connection manager URL at the Config or Tenant level:
+Then configure the connection manager URL at the Config or Tenant level:
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -88,7 +84,9 @@ spec:
     connectionManagerURL: "https://connection-manager.example.com"
 ```
 
-**NOTE: Apart from this the Gateway or Ingress should be configured to manage DNS for the tunnel. Please refer to the [DNS](../../tutorials/security/dns/#enable-dns-automation) documentation for more details.**
+{{% notice note %}}
+The Gateway or Ingress must also be configured to manage DNS for the tunnel. See the [DNS](../../tutorials/security/dns/#enable-dns-automation) documentation.
+{{% /notice %}}
 
 ### Provisioning Tunnels
 
@@ -100,28 +98,20 @@ kubelb expose 1313
 
 ![Demo animation](/img/kubelb/v1.2/tunneling.gif?classes=shadow,border "Tunneling Demo")
 
-This will create a tunnel with a generated hostname and will forward traffic to the port `1313` on the local machine. The Ingress point for this traffic is KubeLB's management cluster and hence the traffic is secure and encrypted.
+This creates a tunnel with a generated hostname and forwards traffic to port `1313` on the local machine. The ingress point for this traffic is KubeLB's management cluster, so the traffic is encrypted.
 
-An alternative way to create a tunnel is to use the `kubelb tunnel create` command.
+Alternatively, create a tunnel with the `kubelb tunnel create` command:
 
 ```bash
 kubelb tunnel create my-app --port 1313
 ```
 
-This will create a tunnel with a generated hostname and can be used through the `kubelb tunnel connect` command.
+This creates a tunnel with a generated hostname that can be connected to later.
 
 ```bash
 kubelb tunnel connect my-app --port 1313
 ```
 
-This will connect to the tunnel and forward traffic to the port `1313` on the local machine. The Ingress point for this traffic is KubeLB's management cluster and hence the traffic is secure and encrypted.
+This will connect to the tunnel and forward traffic to the port `1313` on the local machine.
 
-## Further actions
-
-Further actions include:
-
-- Deleting the tunnel
-- Getting the tunnel details
-- Listing all the tunnels
-
-For more information, please refer to the [Tunnel API](../../references/api/tunnel/) documentation.
+For deleting, inspecting, and listing tunnels, see the [Tunnel API](../../references/api/tunnel/) documentation.

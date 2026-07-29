@@ -6,27 +6,32 @@ description = "Deterministic configuration checks that surface problems across t
 weight = 37
 +++
 
-The management cluster sees every tenant's effective configuration, every route, every policy and every budget. Insights is the part of KubeLB that reads all of it and tells you what is wrong.
+The management cluster holds every tenant's effective configuration, routes, policies and budgets. Insights evaluates all of it and reports configuration problems across the fleet.
 
-Findings are `Insight` objects. One per problem, in the namespace of the tenant it concerns, readable with `kubectl` and manageable through GitOps like anything else in the cluster.
+Each finding is one `Insight` object in the namespace of the tenant it concerns, readable with `kubectl` and manageable through GitOps like any other cluster resource.
 
 ```bash
 kubectl get insights -A
 ```
 
-```
+```text
 NAMESPACE     NAME              CHECK    SEVERITY   STATE   AGE
 kubelb        klb002-9f31ab04   KLB002   high       Open    4m
 tenant-acme   klb014-3fa2c81b   KLB014   high       Open    4m
 ```
 
-Every check is a plain function of cluster state. The same configuration always produces the same findings, and no finding means the check ran and passed. Nothing is sampled, and no model is involved.
+Checks are deterministic functions of cluster state: the same configuration always produces the same findings, and the absence of a finding means the check ran and passed. Nothing is sampled and no model is involved.
 
-Insights are for the platform operator. They live in tenant namespaces but are not part of the tenant RBAC allowlist, so tenants never see fleet-relative judgements about their configuration.
+Insights are for the platform operator. They live in tenant namespaces but are not part of the tenant RBAC allowlist, so tenants do not see fleet-relative judgements about their configuration.
+
+## Prerequisites
+
+- A KubeLB management cluster running a manager version that includes the insights engine. The engine is enabled by default.
+- Optional: a Prometheus that scrapes the manager for the [posture score](#posture-score), [metrics and alerts](#metrics-and-alerts).
 
 ## What it catches
 
-Most checks look at one tenant. The interesting ones need the whole fleet, which is why they can only run here:
+Most checks examine a single tenant. Others compare tenants across the whole fleet, which only the management cluster can do:
 
 - Two tenants claiming the same hostname. Both believe they own it, and neither cluster can see the other.
 - A tenant whose certificate request was silently dropped because the hostname sits outside its allowed domains. From inside that tenant cluster it looks like cert-manager is broken.
@@ -44,7 +49,7 @@ kubelb:
   enableInsights: false
 ```
 
-Leaving it on is quiet. Checks declare the features they need, so an installation without the WAF or the AI gateway skips those checks rather than reporting everything they cover as broken. Several other checks compare tenants against each other and stay silent unless one differs from its peers. The rest wait out an age or usage threshold. A healthy installation reports nothing.
+Checks declare the features they need, so an installation without the WAF or the AI gateway skips those checks instead of reporting everything they cover as broken. Several checks compare tenants against each other and stay silent unless one differs from its peers; others only fire after an age or usage threshold. A healthy installation reports nothing.
 
 ## Reading a finding
 
@@ -87,7 +92,7 @@ kubectl get insights -A -l kubelb.k8c.io/insight-severity=high
 
 ## Triage
 
-`spec.triage` is yours. The engine reads it and never writes it, so your decision survives sweeps, manager restarts and a GitOps re-apply.
+Triage is recorded in `spec.triage`. The engine reads it and never writes it, so your decision survives sweeps, manager restarts and a GitOps re-apply.
 
 ```yaml
 spec:
@@ -103,7 +108,7 @@ spec:
 | `Snoozed` | Hidden until `snoozeUntil`, then it reopens by itself. `snoozeUntil` is required. |
 | `Dismissed` | Closed for good. `reason` is required: `working_as_intended`, `accepted_risk`, `false_positive`, `low_priority` or `other`. |
 
-Dismissal survives re-detection. A dismissed finding that keeps reproducing stays dismissed, which is what dismissal means in a fleet where an unusual tenant configuration is often deliberate.
+Dismissal survives re-detection: a dismissed finding that keeps reproducing stays dismissed. In a fleet, an unusual tenant configuration is often deliberate.
 
 `status.state` combines your triage with what the checks currently see. When a check stops detecting a finding, the engine sets `Fixed` with a timestamp and deletes the object a day later. `Fixed` is always machine-observed. If the problem returns, the same object reopens with its original `firstSeen`, so a flapping configuration reads as one long-lived issue rather than a series of new ones.
 
@@ -123,7 +128,7 @@ spec:
       - KLB010
 ```
 
-Its findings are deleted rather than marked fixed, because a check that did not run has concluded nothing. The same applies to a check whose feature is unavailable, such as the WAF checks on an installation running without `--enable-waf`. Those are skipped and counted, never reported as passing.
+Findings of a disabled check are deleted rather than marked fixed, since a check that did not run has not verified anything. The same applies to a check whose feature is unavailable, such as the WAF checks on an installation running without `--enable-waf`: those checks are skipped and counted, not reported as passing.
 
 Prefer dismissing individual findings. A dismissal keeps the check working for everything else it covers.
 
@@ -131,14 +136,14 @@ Prefer dismissing individual findings. A dismissal keeps the check working for e
 
 Alongside the findings, KubeLB scores what it examined:
 
-```
+```text
 kubelb_manager_posture_score{tenant="acme", category="security"}  0.83
 kubelb_manager_posture_score{tenant="acme", category=""}          0.91
 ```
 
 The empty category is the tenant's overall score, so you can rank tenants without adding up categories. The formula is the share of examined objects with no problem, counting high-severity findings in full and lower-severity ones at half:
 
-```
+```text
 passing / (passing + high + 0.5 * low)
 ```
 
@@ -162,9 +167,9 @@ kubelb:
     perFindingMetrics: true
 ```
 
-With `prometheusRule.enabled`, the chart ships four alerts: a critical finding that survives several sweeps, a tenant posture below 60% for an hour, a check that panicked, and a sweep loop that stopped. The `KubeLB / Insights` Grafana dashboard covers fleet posture, a tenant league table ordered worst first, and a table ranking checks by how many findings they account for.
+With `prometheusRule.enabled`, the chart ships four alerts: a critical finding that survives several sweeps, a tenant posture below 60% for an hour, a check that panicked, and a sweep loop that stopped. The `KubeLB / Insights` Grafana dashboard shows fleet posture, tenants ordered by posture score, and checks ranked by how many findings they account for.
 
-Events are emitted when a finding opens, is fixed, or reopens. Never on every sweep.
+Kubernetes events are emitted when a finding opens, is fixed, or reopens, not on every sweep.
 
 ## How the sweep works
 
@@ -172,7 +177,7 @@ The engine evaluates the whole registry every three minutes, and immediately whe
 
 Because the sweep is idempotent, a manager restart changes nothing. Triage lives on the objects, `firstSeen` is preserved, and the next sweep re-derives the rest.
 
-One limit worth knowing: the engine reads the xDS cache in its own process, and the control plane runs on every manager replica while the sweep runs only on the leader. Findings about the dataplane therefore describe the replica that observed them, and say so.
+One limitation: the engine reads the xDS cache in its own process, and the control plane runs on every manager replica while the sweep runs only on the leader. Findings about the dataplane therefore describe the replica that observed them, and say so.
 
 ## Table of Contents
 

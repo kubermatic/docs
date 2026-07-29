@@ -84,67 +84,17 @@ When thresholds are exceeded:
 1. Envoy adds `x-envoy-overloaded` header to responses
 2. New requests receive HTTP 503 (Service Unavailable)
 3. Existing in-flight requests continue to completion
-4. Circuit opens immediately—no gradual degradation
+4. The circuit opens immediately, with no gradual degradation
 
 Monitor for `x-envoy-overloaded` headers to detect when circuit breakers are triggering.
 
-## Example: High-Traffic Global Defaults
+## Sizing Examples
 
-For platforms expecting heavy traffic across all tenants:
+The same fields are tuned per scenario; only the values change:
 
-```yaml
-apiVersion: kubelb.k8c.io/v1alpha1
-kind: Config
-metadata:
-  name: default
-  namespace: kubelb
-spec:
-  circuitBreaker:
-    maxConnections: 100000
-    maxPendingRequests: 50000
-    maxParallelRequests: 100000
-    maxParallelRetries: 50
-    perEndpoint:
-      maxConnections: 2000
-```
-
-## Example: Resource-Constrained Tenant
-
-For tenants with limited upstream capacity:
-
-```yaml
-apiVersion: kubelb.k8c.io/v1alpha1
-kind: Tenant
-metadata:
-  name: small-tenant
-  namespace: kubelb
-spec:
-  circuitBreaker:
-    maxConnections: 500
-    maxPendingRequests: 250
-    maxParallelRequests: 500
-    maxParallelRetries: 3
-    maxRequestsPerConnection: 100
-```
-
-## Example: gRPC/HTTP2 Optimization
-
-For tenants using primarily gRPC or HTTP/2 with multiplexed connections:
-
-```yaml
-apiVersion: kubelb.k8c.io/v1alpha1
-kind: Tenant
-metadata:
-  name: grpc-tenant
-  namespace: kubelb
-spec:
-  circuitBreaker:
-    maxConnections: 1000
-    maxPendingRequests: 10000
-    # Higher parallel requests due to multiplexing
-    maxParallelRequests: 50000
-    maxParallelRetries: 10
-```
+- **High-traffic global defaults** (`Config`): `maxConnections: 100000`, `maxPendingRequests: 50000`, `maxParallelRequests: 100000`, `maxParallelRetries: 50`, `perEndpoint.maxConnections: 2000`.
+- **Resource-constrained tenant** (`Tenant`): `maxConnections: 500`, `maxPendingRequests: 250`, `maxParallelRequests: 500`, `maxParallelRetries: 3`, `maxRequestsPerConnection: 100`.
+- **gRPC/HTTP2 tenant** (`Tenant`): keep `maxConnections` low (for example 1000) and `maxParallelRequests` high (for example 50000), because requests are multiplexed over few connections; `maxPendingRequests: 10000`, `maxParallelRetries: 10`.
 
 ## Monitoring
 

@@ -22,14 +22,14 @@ KubeLB defaults are tuned for these workloads, and every field is overridable pe
 
 Timeouts can be set at four levels. Resolution per-field, with later levels overriding earlier ones:
 
-1. **Built-in defaults** — applied when no override is set anywhere.
-2. **`Config` CRD** (`spec.timeouts`) — cluster-wide default for all tenants.
-3. **`Tenant` CRD** (`spec.timeouts`) — overrides Config for a single tenant.
-4. **`Route` / `LoadBalancer` CRD** (`spec.timeouts`) — overrides Tenant and Config for one resource.
+1. **Built-in defaults**: applied when no override is set anywhere.
+2. **`Config` CRD** (`spec.timeouts`): cluster-wide default for all tenants.
+3. **`Tenant` CRD** (`spec.timeouts`): overrides Config for a single tenant.
+4. **`Route` / `LoadBalancer` CRD** (`spec.timeouts`): overrides Tenant and Config for one resource.
 
-Each field is merged independently. Setting `Tenant.spec.timeouts.tcpIdle` does not clear `Config.spec.timeouts.connect` — the `connect` value still applies.
+Each field is merged independently. Setting `Tenant.spec.timeouts.tcpIdle` does not clear `Config.spec.timeouts.connect`; the `connect` value still applies.
 
-A value of `0s` is **not** "inherit". It is "disable that timeout" — Envoy semantics. Leave the field unset to inherit from the next tier.
+A value of `0s` does **not** mean "inherit". Following Envoy semantics, it disables that timeout. Leave the field unset to inherit from the next tier.
 
 ## Configuration Fields
 
@@ -206,7 +206,7 @@ spec:
 
 ## Behavior Change from Earlier Releases
 
-Two defaults shifted from upstream Envoy values to streaming-friendly ones. **No action is required if the new defaults work for your workloads** — but if a deployment relied on requests being capped at 15 seconds, or on idle HTTP connections being recycled every 60 seconds, you must opt back in:
+Two defaults shifted from upstream Envoy values to streaming-friendly ones. No action is required if the new defaults work for your workloads. If a deployment relied on requests being capped at 15 seconds, or on idle HTTP connections being recycled every 60 seconds, opt back in:
 
 | Field | Previous Default | Current Default |
 |-------|------------------|-----------------|
@@ -261,7 +261,7 @@ Config.spec.timeouts.<field>
 built-in default                     (fallback)
 ```
 
-A `nil` value at any level falls through. A `0s` value at any level disables the timeout — it does not fall through.
+A `nil` value at any level falls through. A `0s` value at any level disables the timeout; it does not fall through.
 
 ## Further Reading
 

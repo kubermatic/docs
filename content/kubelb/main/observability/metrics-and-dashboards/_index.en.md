@@ -78,7 +78,7 @@ Dashboard JSON files are located in the `dashboards/` directory within each Helm
 - [kubelb-manager dashboards](https://github.com/kubermatic/kubelb/tree/release/v1.3/charts/kubelb-manager/dashboards)
 - [kubelb-ccm dashboards](https://github.com/kubermatic/kubelb/tree/release/v1.3/charts/kubelb-ccm/dashboards)
 
-Import these via the Grafana UI (**Dashboards > Import**) or API. All dashboards use a `datasource` template variable — select your Prometheus data source after import.
+Import these via the Grafana UI (**Dashboards > Import**) or API. All dashboards use a `datasource` template variable; select your Prometheus data source after import.
 
 ### Example: kube-prometheus-stack
 
@@ -105,8 +105,8 @@ helm upgrade kubelb kubelb-manager \
 
 The following dashboard subpages provide detailed descriptions:
 
-- [KubeLB Dashboards]({{< relref "./kubelb" >}}) — Overview, Manager, EnvoyCP, and CCM dashboards
-- [Envoy Proxy Dashboard]({{< relref "./envoy-proxy" >}}) — Envoy proxy monitoring and metrics
+- [KubeLB Dashboards]({{< relref "./kubelb" >}}): Overview, Manager, EnvoyCP, and CCM dashboards
+- [Envoy Proxy Dashboard]({{< relref "./envoy-proxy" >}}): Envoy Proxy monitoring and metrics
 
 For the full list of exposed Prometheus metrics, see the [Metric References]({{< relref "../metric-references" >}}).
 

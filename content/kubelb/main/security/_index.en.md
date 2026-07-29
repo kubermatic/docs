@@ -219,12 +219,12 @@ trivy image quay.io/kubermatic/kubelb-manager:v1.3.0
 
 ## Tools
 
-- [Cosign](https://github.com/sigstore/cosign) — Artifact signing and verification
-- [ORAS](https://oras.land) — OCI Registry As Storage
+- [Cosign](https://github.com/sigstore/cosign): artifact signing and verification
+- [ORAS](https://oras.land): OCI Registry As Storage
 
 ## Vulnerability Reporting
 
-See [Vulnerability Reporting]({{< relref "./vulnerability-reporting" >}}) for security disclosure process.
+See [Vulnerability Reporting]({{< relref "./vulnerability-reporting" >}}) for the security disclosure process.
 
 ## Table of Contents
 

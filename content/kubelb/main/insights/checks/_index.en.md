@@ -5,7 +5,7 @@ date = 2026-07-29T10:00:00+02:00
 weight = 10
 +++
 
-Every check the insights engine runs. Check IDs are permanent: findings, the `kubelb.k8c.io/insight-check` label, `Config.spec.insights.disabledChecks` and these links all use them.
+This catalog lists every check the insights engine runs. Check IDs are permanent: findings, the `kubelb.k8c.io/insight-check` label, `Config.spec.insights.disabledChecks` and these links all use them.
 
 Some checks need a feature to be meaningful. A WAF check on an installation without the WAF would report every route as unprotected, so instead it is skipped and counted in `kubelb_manager_insights_checks_skipped_total`.
 
@@ -62,7 +62,7 @@ A budget asks for `onExceed: Throttle`, which this release does not enforce inli
 
 `ai-unbudgeted-tenant` · cost · high · needs AI
 
-A tenant can use the AI gateway with no budget at all. Its token and dollar spend is unlimited, and you find out when the provider bill arrives.
+A tenant can use the AI gateway with no budget at all. Its token and dollar spend is unlimited and surfaces only on the provider bill.
 
 Set budgets on the `Tenant`, or `spec.ai.defaultBudgets` on the `Config` to cover every tenant that does not set its own.
 
@@ -78,7 +78,7 @@ Set `spec.ai.virtualKeys.maxTTL` on the `Tenant` or `Config` so keys expire by d
 
 `ai-key-rejected` · hygiene · low · needs AI
 
-A tenant's key has been stuck in `Rejected` for more than a day, usually because the tenant key quota is full or the key's budgets exceed the tenant's. The tenant is waiting for a key that will never provision itself.
+A tenant's key has been stuck in `Rejected` for more than a day, usually because the tenant key quota is full or the key's budgets exceed the tenant's. The key will not provision without intervention.
 
 Read the key's `Accepted` condition, then raise the tenant's `virtualKeys.limit`, fix the budgets, or delete the key.
 
@@ -86,7 +86,7 @@ Read the key's `Accepted` condition, then raise the tenant's `virtualKeys.limit`
 
 `deprecated-proxy-topology` · hygiene · info
 
-`spec.envoyProxy.topology` is `dedicated` or `global`. Both are deprecated and already behave as `shared`, so nothing is wrong with your traffic today. The field only accepts a change back to `shared`, so leaving it will fail a future upgrade.
+`spec.envoyProxy.topology` is `dedicated` or `global`. Both are deprecated and already behave as `shared`, so traffic is unaffected today. The field only accepts a change back to `shared`, so leaving it in place will fail a future upgrade.
 
 ## KLB011
 
@@ -120,7 +120,7 @@ Decide which tenant owns the hostname and change the other. To prevent it recurr
 
 `cert-annotations-stripped` · security · high
 
-A tenant asked for a certificate and KubeLB removed the cert-manager annotations, because certificate automation is disabled for the tenant or the hostname falls outside `spec.certificates.allowedDomains`. No certificate is issued and nothing says why. From inside the tenant cluster this looks like cert-manager is broken.
+A tenant asked for a certificate and KubeLB removed the cert-manager annotations, because certificate automation is disabled for the tenant or the hostname falls outside `spec.certificates.allowedDomains`. No certificate is issued and no error is reported. From inside the tenant cluster this looks like cert-manager is broken.
 
 Add the hostname to the tenant's certificate `allowedDomains`, clear `spec.certificates.disable`, or tell the tenant the hostname is not permitted. Dismiss with `working_as_intended` when the refusal is deliberate and the tenant knows.
 
@@ -144,7 +144,7 @@ Set `spec.waf.enforceFailureMode` on the `Tenant`, or on the `Config` for the fl
 
 `quota-headroom` · reliability · medium or high
 
-A tenant is at 80% of a limit, or 95% for the higher severity. Past the limit, new resources are refused with nothing but a controller log to explain it, and the tenant sees no error in its own cluster.
+A tenant is at 80% of a limit, or 95% for the higher severity. Past the limit, new resources are refused with only a controller log to explain the refusal, and the tenant sees no error in its own cluster.
 
 Raise the limit on the `Tenant` or `Config`, or have the tenant remove what it no longer uses.
 
@@ -152,9 +152,9 @@ Raise the limit on the `Tenant` or `Config`, or have the tenant remove what it n
 
 `ai-budget-threshold-crossed` · cost · high · needs AI and SpendData
 
-A key has spent past the `alertThresholdPercent` its budget asks for. Depending on `onExceed`, the next step is a hard stop mid-window.
+A key has spent past the `alertThresholdPercent` its budget defines. Depending on `onExceed`, the exhausted budget can hard-stop the key mid-window.
 
-Raise the budget, or tell the tenant before the cap trips.
+Raise the budget, or notify the tenant before the cap trips.
 
 ## KLB020
 

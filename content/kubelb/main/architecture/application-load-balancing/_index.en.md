@@ -4,40 +4,33 @@ date = 2023-10-27T10:07:15+02:00
 weight = 10
 +++
 
-This document explains the architecture for Layer 7 or Application Layer Load Balancing support in KubeLB.
+This document explains the architecture for Layer 7 (application layer) load balancing in KubeLB.
 
 ## Background
 
-With KubeLB, we want to build a product that can manage the data plane of a fleet of clusters(tenants) from a centralized point. Providing Layer 4 and Layer 7 load balancing capabilities through a single platform.
-
-KubeLB already had support for L4 load balancing and provisioning/managing load balancers for kubernetes clusters from a central cluster. With v1.1, we want to extend this functionality to managing Application level load balancing including DNS management, TLS management and termination, and other aspects.
+KubeLB manages the data plane of a fleet of tenant clusters from a central management cluster, providing Layer 4 and Layer 7 load balancing through a single platform. Layer 7 support, introduced in v1.1, covers application-level load balancing including DNS management and TLS management and termination.
 
 ### Challenges
 
-Every Kubernetes cluster operates within its own isolated network: individual pods can be reached directly via unique IP addresses. A load balancing appliance such as the nginx-ingress controller or Envoy Gateway works within the cluster because it runs as a pod and shares the pod-level network, so it can route and load balance traffic inside the cluster.
+Every Kubernetes cluster operates within its own isolated network: individual pods can be reached directly via unique IP addresses. A load balancing appliance such as the ingress-nginx controller or Envoy Gateway works within the cluster because it runs as a pod and shares the pod-level network, so it can route and load balance traffic inside the cluster.
 
-However, external clusters, management cluster in our case, cannot have direct access to the pod-network of the tenant kubernetes clusters. This introduces a limitation in KubeLB that the management cluster cannot directly route traffic from the load balancing appliance hosted on the management cluster to the tenant clusters. To achieve something like this, the LB cluster would need pod-level network access to ALL the consumer clusters. The options to achieve this are:
-
-- Share the network routes of consumer clusters with the ingress controller server via BGP peering.
-- Use tools like Submariner or Cilium Cluster Mesh to create stretched clusters.
-
-These are the options that we want to look into in the future but they do require significant effort and might not be possible to achieve in some cases since KubeLB is simply an "application" that runs in a Kubernetes Cluster. It doesn't, for now, depend or dictate the infrastructural requirements for that Kubernetes cluster.
+The management cluster has no direct access to the pod network of the tenant clusters, so it cannot route traffic from its load balancing appliance directly to tenant pods. That would require pod-level network access from the management cluster to all tenant clusters, for example by sharing tenant network routes via BGP peering, or by creating stretched clusters with tools like Submariner or Cilium Cluster Mesh. KubeLB does not take this approach: it is an application running in a Kubernetes cluster and does not dictate infrastructure requirements for that cluster.
 
 ### Solution
 
-Considering the limitations, we settled for using services of type `NodePort` to route traffic from the management cluster to the tenants. This offers a high level of isolation since the only infrastructural requirement is network access from the management cluster to the tenant cluster nodes on the node port range (default: 30000-32767), which Envoy Proxy needs to connect to the tenant cluster nodes.
+KubeLB routes traffic from the management cluster to the tenants through services of type `NodePort`. This preserves isolation: the only infrastructural requirement is network access from the management cluster to the tenant cluster nodes on the node port range (default: 30000-32767), which Envoy Proxy needs to connect to the tenant cluster nodes.
 
-This is already a requirement for Layer 4 load balancing so we are not adding any new requirements specifically for this use case. This also means that no additional infrastructural level or network level modifications need to be made to your existing management or tenant clusters.
+This is already a requirement for Layer 4 load balancing, so Layer 7 support adds no new requirements and no network-level changes to existing management or tenant clusters.
 
-For layer 7 requests, KubeLB automatically creates a `NodePort` service against your `ClusterIP` service, so no manual action is required. The user experience remains the same as if the load balancing appliance were installed within their own cluster.
+For Layer 7 requests, KubeLB automatically creates a `NodePort` service against your `ClusterIP` service; no manual action is required. The user experience remains the same as if the load balancing appliance were installed in the tenant cluster.
 
 ### Lifecycle of a request
 
 1. Developer creates a deployment, service, and Ingress.
 2. KubeLB evaluates if the service is of type ClusterIP and generates a NodePort service against it.
-3. After validation, KubeLB CCM will propagate these resources from the tenant to LB cluster using the `Route` CRD.
-4. KubeLB manager then copies/creates the corresponding resources in the tenant namespace in the management cluster.
-5. KubeLB CCM polls for the updated status of the Ingress, updates the status when available.
-6. KubeLB manager starts routing the traffic for your resource.
+3. After validation, the KubeLB CCM propagates these resources from the tenant to the management cluster using the `Route` CRD.
+4. The KubeLB manager copies/creates the corresponding resources in the tenant namespace in the management cluster.
+5. The KubeLB CCM polls for the updated status of the Ingress and updates the status when available.
+6. The KubeLB manager starts routing the traffic for your resource.
 
 ![KubeLB Architecture](/img/kubelb/v1.1/layer7-architecture.png?classes=shadow,border "KubeLB Architecture")

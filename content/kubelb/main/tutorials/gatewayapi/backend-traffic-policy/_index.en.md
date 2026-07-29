@@ -6,7 +6,7 @@ weight = 5
 enterprise = true
 +++
 
-BackendTrafficPolicy is an Envoy Gateway extension that configures connection behavior, resilience, and performance optimizations between Envoy Proxy and upstream backends—the services that Envoy routes traffic to.
+BackendTrafficPolicy is an Envoy Gateway extension that configures connection behavior, resilience, and performance optimizations between Envoy Proxy and upstream backends: the services that Envoy routes traffic to.
 
 ## Use Cases
 

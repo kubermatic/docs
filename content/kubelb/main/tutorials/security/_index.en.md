@@ -6,7 +6,7 @@ description = "Manage DNS, TLS certificates, secrets, and network policies for K
 weight = 20
 +++
 
-This is a guide towards managing DNS, TLS, and other security-related configurations in KubeLB.
+This section covers DNS, TLS, and other security-related configuration in KubeLB.
 
 ## Table of Contents
 

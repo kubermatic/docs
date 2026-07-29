@@ -3,21 +3,33 @@ title = "KubeLB Dashboard"
 linkTitle = "Dashboard"
 date = 2026-04-23T10:00:00+02:00
 weight = 28
-description = "Web UI for KubeLB — browse tenants, LoadBalancers, and Routes, watch live service traffic, view per-proxy metrics, and manage WAF policies across your fleet."
+description = "Web UI for KubeLB: browse tenants, LoadBalancers, and Routes, view traffic and per-proxy metrics, and manage WAF policies."
 +++
 
 ## Overview
 
 KubeLB Dashboard is the web UI for KubeLB. A single chart and binary cover both
-Community and Enterprise editions — the edition is detected internally at
-runtime, so there is no separate EE build. Source code and upstream
-documentation live at [kubermatic/kubelb-dashboard](https://github.com/kubermatic/kubelb-dashboard).
+Community and Enterprise editions; there is no separate EE build. Source code
+and upstream documentation are at
+[kubermatic/kubelb-dashboard](https://github.com/kubermatic/kubelb-dashboard).
 
-Beyond browsing tenants, LoadBalancers, Routes, and Gateway API resources, the
-dashboard can render a [live traffic graph](#traffic-view-hubble), [per-proxy
-metrics](#metrics-prometheus), and [Kubernetes events](#events) on detail pages.
-Enterprise Edition adds [WAF policy management](#waf-policies-enterprise-edition)
-and a read-only [AI &amp; MCP gateway](#ai--mcp-gateways-enterprise-edition) view.
+The dashboard browses tenants, LoadBalancers, Routes, and Gateway API
+resources, and renders a [live traffic graph](#traffic-view-hubble),
+[per-proxy metrics](#metrics-prometheus), and [Kubernetes events](#events) on
+detail pages. Enterprise Edition adds
+[WAF policy management](#waf-policies-enterprise-edition) and a read-only
+[AI &amp; MCP gateway](#ai--mcp-gateways-enterprise-edition) view.
+
+## Prerequisites
+
+- A running KubeLB management cluster with the KubeLB Manager installed; see
+  the [installation guide]({{< relref "../installation" >}}). The dashboard is
+  deployed alongside the manager in the `kubelb` namespace.
+- A Gateway (Gateway API) or Ingress controller on the management cluster to
+  expose the dashboard.
+- Optional: a Hubble Relay for the [Traffic view](#traffic-view-hubble) and a
+  Prometheus that scrapes the KubeLB Envoy proxies for the
+  [Metrics tab](#metrics-prometheus).
 
 ## Screenshots
 
@@ -61,7 +73,7 @@ namespace on the management cluster.
 ## Expose via HTTPRoute
 
 Enable the chart's built-in HTTPRoute (Gateway API v1) with `--set` flags. It
-is independent of `ingress.enabled` — both may be on simultaneously.
+is independent of `ingress.enabled`; both may be enabled simultaneously.
 
 ```bash
 helm install kubelb-dashboard oci://quay.io/kubermatic/helm-charts/kubelb-dashboard \
@@ -119,11 +131,10 @@ For TLS termination, pair the Ingress with
 
 ## Editions
 
-A single chart and image serve both editions. The edition is detected at runtime
-by probing for the `wafpolicies` CRD (present in Enterprise Edition, absent in
-Community Edition) — there is nothing to configure. On Community Edition the
-Enterprise-only navigation entries and detail-page sections are hidden; on
-Enterprise Edition they appear automatically.
+The edition is detected at runtime by probing for the `wafpolicies` CRD, which
+is present in Enterprise Edition and absent in Community Edition. On Community
+Edition the Enterprise-only navigation entries and detail-page sections are
+hidden; on Enterprise Edition they appear automatically.
 
 | Capability                                    | Community | Enterprise |
 | --------------------------------------------- | :-------: | :--------: |
@@ -161,8 +172,8 @@ port, set an explicit address and supply the certificate material through the
 
 ## Metrics (Prometheus)
 
-The **Metrics** tab on an Envoy Proxy detail page surfaces per-proxy metrics —
-request rate, 5xx errors, p99 latency, and active connections — computed from
+The **Metrics** tab on an Envoy Proxy detail page shows per-proxy metrics
+(request rate, 5xx errors, p99 latency, and active connections) computed from
 the Envoy series scraped by Prometheus.
 
 ![Per-proxy metrics](/img/kubelb/common/dashboard/metrics.png?classes=shadow,border "Per-proxy metrics on an Envoy Proxy detail page")
@@ -176,7 +187,7 @@ metrics:
 
 Metrics are **capability-gated**: if Prometheus is unreachable or does not expose
 the Envoy series, the metrics panels are hidden. The API templates all PromQL
-server-side from a fixed set of named queries — the browser never sends raw
+server-side from a fixed set of named queries. The browser never sends raw
 PromQL, so the dashboard cannot be used as an open Prometheus proxy.
 
 ## Observability Auto-Discovery
@@ -187,26 +198,26 @@ branch and ships in a future release; the `traffic.autoDiscover` and
 `metrics.autoDiscover` values are no-ops on older dashboard images.
 {{% /notice %}}
 
-When `traffic.hubbleRelayAddress` and `metrics.prometheusUrl` are left empty, the
-API discovers the in-cluster observability backends itself, so the Traffic and
-Metrics views work with **zero configuration**:
+When `traffic.hubbleRelayAddress` and `metrics.prometheusUrl` are left empty,
+the API discovers the in-cluster observability backends itself:
 
-- **Hubble Relay** — the API looks for a Service labelled `k8s-app=hubble-relay`
+- **Hubble Relay**: the API looks for a Service labelled `k8s-app=hubble-relay`
   in any namespace, falling back to a Service named `hubble-relay` in
   `kube-system` or `cilium`. A relay on port `443` is treated as mTLS and its
   client certificates are loaded from the `hubble-relay-client-certs` Secret.
-- **Prometheus** — the API probes well-known Prometheus (and VictoriaMetrics)
-  Service locations and selects the first one that actually exposes the Envoy
-  series the metrics panels need.
+- **Prometheus**: the API probes well-known Prometheus and VictoriaMetrics
+  Service locations and selects the first one that exposes the Envoy series
+  the metrics panels need.
 
-Discovery goes through **Services only** (never Pods), so it needs no RBAC beyond
+Discovery goes through Services only, never Pods, so it needs no RBAC beyond
 what the chart already grants (cluster-wide read on `services`, `secrets`, and
-`namespaces`). An explicitly configured address always wins over discovery. While
-a source stays unavailable, the API re-checks every 5 minutes, so a cluster that
-installs Prometheus or Hubble later is picked up without a restart.
+`namespaces`). An explicitly configured address always wins over discovery.
+While a source stays unavailable, the API re-checks every 5 minutes, so a
+cluster that installs Prometheus or Hubble later is picked up without a
+restart.
 
-Auto-discovery is on by default. Turn it off to pin the dashboard to explicitly
-configured endpoints only:
+Auto-discovery is enabled by default. To pin the dashboard to explicitly
+configured endpoints, disable it:
 
 ```yaml
 traffic:
@@ -233,9 +244,8 @@ watch:
   enabled: true
 ```
 
-Watch is disabled by default; enable it per deployment once validated against
-your cluster. If a watch stream fails, the dashboard automatically falls back to
-polling.
+Enable watch streaming per deployment once validated against your cluster. If
+a watch stream fails, the dashboard falls back to polling.
 
 ## Read-Only Mode
 
@@ -255,8 +265,8 @@ generated ClusterRole is additionally narrowed to read-only verbs
 On clusters running the agentgateway addon, an **AI Gateway** view lists
 `AgentgatewayBackend` resources read-only. It surfaces the configured LLM
 providers and models (OpenAI, Anthropic, Gemini, Mistral, Ollama) and any
-federated MCP tool servers. Provider and auth credentials are shown by **name
-only** — secret values are never displayed.
+federated MCP tool servers. Provider and auth credentials are shown by name
+only; secret values are never displayed.
 
 This view is gated on discovery of the `agentgatewaybackends.agentgateway.dev`
 CRD. Because the addon is Enterprise-only, its presence already implies
@@ -307,17 +317,17 @@ of the values file.
 
 ## Kubernetes API Access
 
-The dashboard proxies requests to the Kubernetes API through the API server, and
-by default only an **allowlist** of paths is permitted — the resource groups the
-dashboard actually renders (`kubelb.k8c.io`, `apps`, `networking.k8s.io`, the
+The dashboard proxies requests to the Kubernetes API through the API server.
+By default only an allowlist of paths is permitted: the resource groups the
+dashboard renders (`kubelb.k8c.io`, `apps`, `networking.k8s.io`, the
 Gateway API groups, `agentgateway.dev`, and core `namespaces`/`services`/
 `secrets`/`events`), plus CRD discovery. Pod `exec`, `attach`, `portforward`,
 and `proxy` subresources are always blocked, as are paths containing `..` or
 `%`.
 
-The allowlist is on by default and is the recommended posture. It can be
-disabled with the `KUBE_PROXY_ALLOWLIST_DISABLED=true`
-[environment variable](#environment-variable-reference) — do this only when you
+The allowlist is the recommended posture. It can be disabled with the
+`KUBE_PROXY_ALLOWLIST_DISABLED=true`
+[environment variable](#environment-variable-reference); do this only when you
 deliberately need broader proxy access, since it removes a defense-in-depth
 boundary.
 
@@ -379,9 +389,3 @@ kubeconfig:
 `kubeconfig.key` is the key inside the Secret that holds the kubeconfig file
 (default `kubeconfig`). Leave `kubeconfig.existingSecret` empty to use the
 in-cluster service account.
-
-## Further Reading
-
-- [kubermatic/kubelb-dashboard](https://github.com/kubermatic/kubelb-dashboard) — dashboard repository and README
-- [kubelb-dashboard Helm chart README](https://github.com/kubermatic/kubelb-dashboard/blob/main/charts/kubelb-dashboard/README.md) — full values reference
-- [KubeLB Manager installation]({{< relref "../installation" >}}) — install the management cluster the dashboard connects to

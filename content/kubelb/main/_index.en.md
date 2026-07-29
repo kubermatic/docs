@@ -9,7 +9,7 @@ description = "Learn how you can use Kubermatic KubeLB to centrally provision an
 
 ## What is KubeLB?
 
-KubeLB is a project by Kubermatic, it is a Kubernetes native tool, responsible for centrally managing Layer 4 and 7 load balancing configurations for Kubernetes clusters across multi-cloud and on-premise environments.
+KubeLB is a Kubernetes-native tool by Kubermatic that centrally manages Layer 4 and Layer 7 load balancing configurations for Kubernetes clusters across multi-cloud and on-premise environments.
 
 ## Motivation and Background
 
@@ -17,7 +17,7 @@ Kubernetes does not offer any implementation for load balancers and in turn reli
 
 There are solutions available like [MetalLB][2], [Cilium][3], etc. that solve this issue. However, these solutions are focused on a single cluster where you have to deploy the application in the same cluster where you want the load balancers. This is not ideal for multi-cluster environments since you have to configure load balancing for each cluster separately, which makes IP address management not trivial.
 
-For application load balancing, we have the same case where an external application like [nginx-ingress][4] or [Envoy Gateway][5] needs to be deployed in the cluster. To further secure traffic, additional tools are required for managing DNS, TLS certificates, Web Application Firewall, etc.
+Application load balancing has the same constraint: an external application like [ingress-nginx][4] or [Envoy Gateway][5] needs to be deployed in the cluster, and securing traffic requires further tools to manage DNS, TLS certificates, and web application firewalls.
 
 KubeLB solves this problem with a centralized management cluster that runs the data plane for multiple Kubernetes clusters across multi-cloud and on-premise environments. Load balancing for a whole fleet of clusters is configured and enforced in one place, with a consistent experience for developers. Air-gapped environments without internet access are supported in the Enterprise Edition; see the [Air-Gap Installation]({{< relref "./installation/air-gap" >}}) guide.
 

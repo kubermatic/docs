@@ -53,8 +53,8 @@ The controller creates the following policies in each tenant namespace. Names ar
 | `kubelb-allow-dns-egress` | Allow DNS resolution via `kube-system` on port 53 (UDP/TCP). |
 | `kubelb-allow-xds-egress` | Allow xDS control-plane communication to the manager on port 8001/TCP. |
 | `kubelb-allow-metrics-ingress` | Allow Prometheus metrics scraping on port 19001/TCP. |
-| `kubelb-allow-envoy-ingress` | Allow all ingress to Envoy proxy pods so LoadBalancer traffic can reach them. |
-| `kubelb-allow-envoy-egress` | Allow all egress from Envoy proxy pods so they can reach tenant NodePorts. |
+| `kubelb-allow-envoy-ingress` | Allow all ingress to Envoy Proxy pods so LoadBalancer traffic can reach them. |
+| `kubelb-allow-envoy-egress` | Allow all egress from Envoy Proxy pods so they can reach tenant NodePorts. |
 
 Each generated policy carries the labels `app.kubernetes.io/managed-by=kubelb` and `kubelb.k8c.io/network-policy=true`, and a `kubelb.k8c.io/description` annotation.
 

@@ -5,7 +5,7 @@ date = 2025-01-16T10:00:00+02:00
 weight = 2
 +++
 
-The Overload Manager protects Envoy proxy instances from resource exhaustion by taking protective actions when memory or connection limits are reached, preventing OOMKills and cascading failures.
+The Overload Manager protects Envoy Proxy instances from resource exhaustion by taking protective actions when memory or connection limits are reached. This prevents OOMKills and cascading failures.
 
 ## Why Overload Manager?
 
@@ -96,52 +96,12 @@ spec:
       maxActiveDownstreamConnections: 50000
 ```
 
-## Example: Memory-Constrained Environment
+## Sizing Examples
 
-For environments with limited memory:
+The configuration shape is identical across environments; only the values change:
 
-```yaml
-apiVersion: kubelb.k8c.io/v1alpha1
-kind: Config
-metadata:
-  name: default
-  namespace: kubelb
-spec:
-  envoyProxy:
-    resources:
-      requests:
-        memory: 256Mi
-      limits:
-        memory: 512Mi
-    overloadManager:
-      enabled: true
-      maxHeapSizeBytes: 402653184  # 384MB (~75% of limit)
-      maxActiveDownstreamConnections: 10000
-```
-
-## Example: High-Traffic Environment
-
-For environments expecting heavy traffic:
-
-```yaml
-apiVersion: kubelb.k8c.io/v1alpha1
-kind: Config
-metadata:
-  name: default
-  namespace: kubelb
-spec:
-  envoyProxy:
-    replicas: 5
-    resources:
-      requests:
-        memory: 2Gi
-      limits:
-        memory: 4Gi
-    overloadManager:
-      enabled: true
-      maxHeapSizeBytes: 3221225472  # 3GB
-      maxActiveDownstreamConnections: 100000
-```
+- **Memory-constrained**: memory limit `512Mi`, `maxHeapSizeBytes: 402653184` (384MB, ~75% of the limit), `maxActiveDownstreamConnections: 10000`.
+- **High-traffic**: 5 replicas, memory limit `4Gi`, `maxHeapSizeBytes: 3221225472` (3GB), `maxActiveDownstreamConnections: 100000`.
 
 ## Further Reading
 

@@ -10,11 +10,11 @@ aliases = ["/kubelb/main/ingress-to-gateway-api/cli-and-dashboard/"]
 **Beta Feature:** The Ingress conversion tools are provided on a best-effort basis. Not all NGINX annotations have Gateway API equivalents. Test thoroughly in non-production environments first.
 {{% /notice %}}
 
-KubeLB CLI ships with two interactive interfaces for migrating Ingress resources to Gateway API: a **command-line workflow** and a **web dashboard**. Both use the same conversion engine and [configuration](#configuration), producing identical results regardless of which you choose.
+KubeLB CLI ships with two interfaces for migrating Ingress resources to Gateway API: a **command-line workflow** and a **web dashboard**. Both use the same conversion engine and [configuration](#configuration) and produce identical results.
 
-**CLI** is ideal for scripting, CI/CD pipelines, and targeted operations from the terminal. **Dashboard** shines when you want a visual overview of your migration landscape, side-by-side YAML comparison, or point-and-click batch operations.
+Use the CLI for scripting, CI/CD pipelines, and targeted operations from the terminal. Use the dashboard for a visual overview of the migration, side-by-side YAML comparison, or batch operations.
 
-For background on why you should migrate and the overall strategy, see the [Ingress to Gateway API Migration]({{< relref "../../ingress-to-gateway-api/" >}}) guide. For the Helm-based automated approach, see [Automated Conversion with KubeLB]({{< relref "../../ingress-to-gateway-api/kubelb-automation/" >}}).
+For background on why to migrate and the overall strategy, see the [Ingress to Gateway API Migration]({{< relref "../../ingress-to-gateway-api/" >}}) guide. For the Helm-based automated approach, see [Automated Conversion with KubeLB]({{< relref "../../ingress-to-gateway-api/kubelb-automation/" >}}).
 
 ## Prerequisites
 
@@ -53,11 +53,11 @@ Check the [Configuration](#configuration) table below and set options via enviro
 
 ## CLI Workflow
 
-The `kubelb ingress` command group provides everything for a step-by-step migration. The typical flow is: **list** your Ingresses, **inspect** individual ones with **get**, **preview** the converted output, and **convert** when satisfied.
+The `kubelb ingress` command group covers the migration step by step: **list** your Ingresses, **inspect** individual ones with **get**, **preview** the converted output, and **convert** when satisfied.
 
 ### List Ingresses
 
-See what you're working with. The `list` command shows all Ingress resources alongside their conversion status:
+The `list` command shows all Ingress resources alongside their conversion status:
 
 ```bash
 # List ingresses in a specific namespace
@@ -84,7 +84,7 @@ Status values: `converted`, `partial`, `pending`, `failed`, `skipped`, `new`.
 
 ### Preview Conversions
 
-The most important step -- always preview before converting. This shows exactly what Gateway API resources would be created without touching the cluster:
+Always preview before converting. Preview shows the Gateway API resources that would be created without touching the cluster:
 
 ```bash
 # Preview a single ingress
@@ -97,7 +97,7 @@ kubelb ingress preview --all -n default
 kubelb ingress preview -A
 ```
 
-Output includes any conversion warnings followed by the generated YAML: Gateway, HTTPRoutes, GRPCRoutes, and Envoy Gateway policies (if applicable). Review the warnings carefully -- they indicate annotations that need manual follow-up.
+Output includes any conversion warnings followed by the generated YAML: Gateway, HTTPRoutes, GRPCRoutes, and Envoy Gateway policies (if applicable). Review the warnings carefully; they indicate annotations that need manual follow-up.
 
 ### Convert Ingresses
 
@@ -163,21 +163,11 @@ This opens a local web server at `http://localhost:8080`. Use `--addr :3000` for
 
 ## Support
 
-Supported Ingress controllers:
-
-- ingress-nginx
-
-Supported Gateway API implementations:
-
-- Envoy Gateway
-
-We might expand this to cover other Ingress controllers and Gateway API implementations in the future. But for now, we are focusing only on these two.
-
-For more details, please refer to the [KubeLB Ingress to Gateway API Converter]({{< relref "../../ingress-to-gateway-api/kubelb-automation#what-gets-converted" >}}) guide.
+The conversion tools support ingress-nginx as the source controller and Envoy Gateway as the target implementation; see [supported controllers]({{< relref "../../ingress-to-gateway-api/#option-1-kubelb-beta" >}}) and the [KubeLB Ingress to Gateway API Converter]({{< relref "../../ingress-to-gateway-api/kubelb-automation#what-gets-converted" >}}) guide.
 
 ## Configuration
 
-The ingress conversion commands only need a `KUBECONFIG` -- no tenant name or KubeLB backend connection. All conversion behavior is controlled through these options, settable as flags or environment variables:
+The ingress conversion commands only need a `KUBECONFIG`; no tenant name or KubeLB backend connection is required. All conversion behavior is controlled through these options, settable as flags or environment variables:
 
 | Flag | Env Var | Default | Description |
 |------|---------|---------|-------------|
@@ -205,4 +195,4 @@ For details on which annotations are converted and how policies are generated, s
 | **Requires** | Kubeconfig only | Kubeconfig only | KubeLB deployment |
 | **Rollback** | Delete resources manually | Delete from UI | Remove annotations, delete resources |
 
-A common approach: start with the **Dashboard** or CLI to assess your landscape, and enable **Automation** for ongoing conversion of new Ingresses using KubeLB Helm chart.
+A common approach: start with the dashboard or CLI to assess the migration, then enable automation through the KubeLB Helm chart for ongoing conversion of new Ingresses.

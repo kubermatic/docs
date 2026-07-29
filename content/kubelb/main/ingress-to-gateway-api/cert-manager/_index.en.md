@@ -5,9 +5,7 @@ date = 2026-01-30T00:00:00+01:00
 weight = 3
 +++
 
-Cert Manager is the de-facto tool for managing certificates in Kubernetes. It's a great tool and has been an essential part of the Kubernetes ecosystem.
-
-When migrating from Ingress to Gateway API, cert-manager requires configuration changes and your existing ClusterIssuers may need updates.
+cert-manager is the de-facto tool for managing certificates in Kubernetes. When migrating from Ingress to Gateway API, cert-manager requires configuration changes and your existing ClusterIssuers may need updates.
 
 ## Installation
 
@@ -124,7 +122,7 @@ spec:
 
 ## Annotation Handling
 
-Cert-manager annotations work similarly on both Ingress and Gateway resources. The only difference is that the annotations are applied to the Gateway resource instead of the Ingress resource.
+cert-manager annotations work the same on both resource types; apply them to the Gateway resource instead of the Ingress resource.
 
 | Ingress Annotation | Gateway Annotation | Notes |
 |--------------------|-------------------|-------|
@@ -230,7 +228,7 @@ HTTP01 solver requires explicit Gateway reference with `parentRefs`. Unlike Ingr
 
 ### Certificate Ownership
 
-With Ingress, cert-manager creates and manages the Certificate resource automatically. With Gateway API, the same applies but the Certificate is associated with the Gateway, not individual routes.
+cert-manager creates and manages the Certificate resource automatically in both cases. With Gateway API, the Certificate is associated with the Gateway, not individual routes.
 
 ### Multiple Gateways
 

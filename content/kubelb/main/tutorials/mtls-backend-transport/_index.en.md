@@ -12,7 +12,7 @@ enterprise = true
 mTLS backend transport is a **Beta / Technical Preview** feature (see [Kubermatic feature stages](https://docs.kubermatic.com/kubermatic/main/architecture/feature-stages/)). It is safe to enable and supported; the configuration surface may still change between releases with migration instructions. The stage applies to the feature as a whole, including the CONNECT-UDP tunnel.
 {{% /notice %}}
 
-KubeLB can encrypt backend traffic between the management cluster and tenant clusters with mutual TLS (mTLS). When enabled, KubeLB deploys a tenant-local Envoy proxy and routes management-to-tenant backend traffic through it.
+KubeLB can encrypt backend traffic between the management cluster and tenant clusters with mutual TLS (mTLS). When enabled, KubeLB deploys a tenant-local Envoy Proxy and routes management-to-tenant backend traffic through it.
 
 Default `Direct` mode:
 
@@ -24,7 +24,7 @@ Client -> KubeLB Envoy -> tenant node:NodePort -> backend pod
 
 ```text
 Client -> KubeLB Envoy
-       -- TLS 1.3 with mutual authentication -->
+       -> [TLS 1.3 with mutual authentication]
        -> kubelb-tenant-envoy -> backend Service -> backend pod
 ```
 
@@ -35,6 +35,18 @@ Use this feature when the management and tenant clusters communicate across a ne
 {{% notice warning %}}
 UDPRoute uses a CONNECT-UDP tunnel over the same mTLS tenant proxy port; see [UDP behavior](#udp-behavior).
 {{% /notice %}}
+
+## Prerequisites
+
+- A KubeLB Enterprise Edition license; the feature ships in the `kubelb-manager-ee` chart.
+- The management cluster must be able to reach tenant cluster nodes on Kubernetes NodePort ranges. In `MTLS` mode with the default `NodePort` Service type, the tenant cluster exposes `kubelb-tenant-envoy` as a `NodePort` Service in the tenant `kubelb` namespace, and management Envoy connects to tenant node addresses on the assigned NodePort. TCP backends and UDPRoute tunnels share the same tenant proxy port. With `tenantProxy.serviceType: LoadBalancer` (see [Tenant proxy and UDP configuration](#tenant-proxy-and-udp-configuration)), the management cluster must instead reach the tenant proxy's load balancer address on the fixed port 15443.
+
+Check the tenant proxy Service:
+
+```bash
+kubectl --context <tenant> -n kubelb \
+  get service kubelb-tenant-envoy -o wide
+```
 
 ## Enable mTLS backend transport
 
@@ -145,22 +157,29 @@ The tenant proxy forwards traffic to the backend Kubernetes Service inside the t
 
 ### UDP behavior
 
-In `MTLS` mode, UDPRoute traffic is tunneled with CONNECT-UDP over the existing mTLS tenant proxy TCP port. The tenant proxy Service does not expose per-backend UDP NodePorts.
+In `MTLS` mode, UDPRoute traffic is tunneled with CONNECT-UDP over the existing mTLS tenant proxy TCP port. The tenant proxy Service does not expose per-backend UDP NodePorts. To keep UDP on plain NodePorts instead, set `backendTransport.udp.mode: Direct` (see below).
 
 Envoy marks CONNECT-UDP and raw UDP-over-HTTP tunneling as alpha upstream. Validate workload-specific MTU, burst, stream-count, and idle-timeout behavior before using it for production UDP traffic.
 
-## Network requirements
+## Tenant proxy and UDP configuration
 
-The management cluster must be able to reach tenant cluster nodes on Kubernetes NodePort ranges.
+The MTLS topology can be tuned on the `Config` resource under `spec.backendTransport`:
 
-In `MTLS` mode, the tenant cluster exposes `kubelb-tenant-envoy` as a `NodePort` Service in the tenant `kubelb` namespace. Management Envoy connects to tenant node addresses and the assigned NodePort. TCP backends and UDPRoute tunnels share the same tenant proxy port.
-
-Check the tenant proxy Service:
-
-```bash
-kubectl --context <tenant> -n kubelb \
-  get service kubelb-tenant-envoy -o wide
+```yaml
+spec:
+  backendTransport:
+    mode: MTLS
+    tenantProxy:
+      serviceType: NodePort   # NodePort (default) or LoadBalancer
+      workload: DaemonSet     # DaemonSet (default) or Deployment
+      # replicas: 2           # Deployment only
+    udp:
+      mode: Tunnel            # Tunnel (default) or Direct
 ```
+
+- `tenantProxy.serviceType`: With `NodePort` (default), the CCM publishes tenant node addresses plus the allocated NodePort. With `LoadBalancer`, the CCM publishes the Service's load balancer ingress IPs or hostnames, and the management Envoy dials the fixed tenant proxy port 15443 instead of a NodePort.
+- `tenantProxy.workload`: `DaemonSet` (default) runs one proxy per node. `Deployment` runs a fixed number of replicas (`tenantProxy.replicas`, default 2) spread across nodes; the CCM then publishes only the node addresses that host proxy pods, so the management Envoy never dials a node without a local proxy.
+- `udp.mode`: `Tunnel` (default) wraps each UDP session in CONNECT-UDP over the encrypted tenant proxy port. `Direct` is an escape hatch that keeps UDP on plain, unencrypted per-service NodePorts for workloads sensitive to the tunnel's MTU overhead or to Envoy's upstream CONNECT-UDP maturity.
 
 ## Operations
 
@@ -237,6 +256,8 @@ kubectl --context <tenant> -n kubelb \
   exec ds/kubelb-tenant-envoy -c envoy -- \
   wget -qO- http://localhost:19000/clusters
 ```
+
+Port 19000 is the tenant proxy's Envoy admin interface; the mTLS listener that receives backend traffic listens on port 15443.
 
 ## Disable mTLS backend transport
 

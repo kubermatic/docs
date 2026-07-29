@@ -6,13 +6,13 @@ weight = 20
 aliases = ["/kubelb/main/tutorials/observability/metrics-and-dashboards/envoy-proxy/"]
 +++
 
-The **KubeLB / Envoy Proxy** Grafana dashboard monitors the Envoy proxy instances managed by KubeLB. It is provisioned from the `kubelb-manager` Helm chart when `grafana.dashboards.enabled=true`.
+The **KubeLB / Envoy Proxy** Grafana dashboard monitors the Envoy Proxy instances managed by KubeLB. It is provisioned from the `kubelb-manager` Helm chart when `grafana.dashboards.enabled=true`.
 
 ## Dashboard Overview
 
 **Key panels:**
 
-- Envoy proxy health and uptime
+- Envoy Proxy health and uptime
 - Upstream and downstream connection counts
 - HTTP request rates, latency distributions, and error ratios
 - Cluster and listener configuration state
@@ -22,7 +22,7 @@ The **KubeLB / Envoy Proxy** Grafana dashboard monitors the Envoy proxy instance
 
 ## Envoy Proxy Metrics
 
-The Envoy proxies managed by KubeLB expose their own Prometheus metrics on port `19001` at `/stats/prometheus`. These pods are pre-configured with Prometheus scraping annotations and provide detailed insight into upstream/downstream connections, HTTP request statistics, and cluster health.
+The Envoy Proxy instances managed by KubeLB expose their own Prometheus metrics on port `19001` at `/stats/prometheus`. These pods are pre-configured with Prometheus scraping annotations and provide detailed insight into upstream/downstream connections, HTTP request statistics, and cluster health.
 
 For a full reference of available Envoy metrics, see the [Envoy Statistics Overview](https://www.envoyproxy.io/docs/envoy/latest/operations/stats_overview).
 
@@ -72,7 +72,7 @@ kubectl get podmonitor -A -l app.kubernetes.io/managed-by=kubelb
 
 Expected output lists one `envoy-proxy` PodMonitor per tenant namespace:
 
-```
+```text
 NAMESPACE      NAME           AGE
 tenant-alice   envoy-proxy    1m
 tenant-bob     envoy-proxy    1m
@@ -88,4 +88,4 @@ For environments using Envoy Gateway and Gateway APIs, the [Gateway Observabilit
 
 ## Related
 
-- [Envoy Proxy Configuration]({{< relref "../../../tutorials/envoy-proxy" >}}) — configure proxy topology, TLS, and advanced settings
+- [Envoy Proxy Configuration]({{< relref "../../../tutorials/envoy-proxy" >}}): configure proxy topology, TLS, and advanced settings
