@@ -39,7 +39,7 @@ UDPRoute uses a CONNECT-UDP tunnel over the same mTLS tenant proxy port; see [UD
 ## Prerequisites
 
 - A KubeLB Enterprise Edition license; the feature ships in the `kubelb-manager-ee` chart.
-- The management cluster must be able to reach tenant cluster nodes on Kubernetes NodePort ranges. In `MTLS` mode with the default `NodePort` Service type, the tenant cluster exposes `kubelb-tenant-envoy` as a `NodePort` Service in the tenant `kubelb` namespace, and management Envoy connects to tenant node addresses on the assigned NodePort. TCP backends and UDPRoute tunnels share the same tenant proxy port. With `tenantProxy.serviceType: LoadBalancer` (see [Tenant proxy and UDP configuration](#tenant-proxy-and-udp-configuration)), the management cluster must instead reach the tenant proxy's load balancer address on the fixed port 15443.
+- The management cluster must be able to reach tenant cluster nodes on Kubernetes NodePort ranges. In `MTLS` mode with the default `NodePort` Service type, the tenant cluster exposes `kubelb-tenant-envoy` as a `NodePort` Service in the tenant `kubelb` namespace, and management Envoy connects to tenant node addresses on the assigned NodePort. TCP backends and UDPRoute tunnels share the same tenant proxy port. With `tenantProxy.serviceType: LoadBalancer` (see [Tenant proxy and UDP configuration](#tenant-proxy-and-udp-configuration)), the management cluster must instead reach the tenant proxy's load balancer address on the fixed port 15443. With static addresses configured on the CCM (see [Tenant-side exposure overrides](#tenant-side-exposure-overrides)), the management cluster must reach those addresses on the configured port.
 
 Check the tenant proxy Service:
 
@@ -180,6 +180,28 @@ spec:
 - `tenantProxy.serviceType`: With `NodePort` (default), the CCM publishes tenant node addresses plus the allocated NodePort. With `LoadBalancer`, the CCM publishes the Service's load balancer ingress IPs or hostnames, and the management Envoy dials the fixed tenant proxy port 15443 instead of a NodePort.
 - `tenantProxy.workload`: `DaemonSet` (default) runs one proxy per node. `Deployment` runs a fixed number of replicas (`tenantProxy.replicas`, default 2) spread across nodes; the CCM then publishes only the node addresses that host proxy pods, so the management Envoy never dials a node without a local proxy.
 - `udp.mode`: `Tunnel` (default) wraps each UDP session in CONNECT-UDP over the encrypted tenant proxy port. `Direct` is an escape hatch that keeps UDP on plain, unencrypted per-service NodePorts for workloads sensitive to the tunnel's MTU overhead or to Envoy's upstream CONNECT-UDP maturity.
+
+### Tenant-side exposure overrides
+
+How the tenant proxy is reachable is a property of the tenant cluster's network, so it can also be configured on the KubeLB CCM chart. CCM-side settings take precedence over the `Config` projection above:
+
+```yaml
+kubelb:
+  tenantProxy:
+    # Override the Service type (NodePort or LoadBalancer). Empty follows
+    # the management cluster Config.
+    serviceType: ""
+    # Static IPs or hostnames published as the tenant proxy dial target
+    # instead of node or load balancer addresses.
+    staticAddresses: []
+    # Port dialed together with staticAddresses.
+    staticPort: 15443
+```
+
+- `serviceType`: same semantics as `tenantProxy.serviceType` on the `Config` resource, decided by the tenant cluster operator instead of the management cluster.
+- `staticAddresses`: for tenant proxies fronted by an appliance, NAT, or a user-managed DNS record that the Service status cannot know about. The CCM publishes these addresses verbatim (with `staticPort`) and the management Envoy dials them directly; hostnames are resolved by the management Envoy via DNS. The management cluster must be able to reach every listed address on `staticPort`, and the address must forward to the tenant proxy Service.
+
+Mutual TLS certificate verification is based on per-tenant SANs, not on the dialed address, so static addresses and DNS names require no certificate changes.
 
 ## Operations
 
