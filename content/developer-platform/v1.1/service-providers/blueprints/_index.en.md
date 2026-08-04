@@ -1,5 +1,5 @@
 +++
-title = "Blueprints"
+title = "Blueprints (Beta)"
 weight = 3
 +++
 
