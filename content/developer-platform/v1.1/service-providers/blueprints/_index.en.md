@@ -9,6 +9,11 @@ publishable kind. Instead of asking platform users to create a `PostgresInstance
 Blueprint — for example a `WebappStack` or a pair of databases — publishes it to the service
 catalog, and users then create a single object that fans out into all the composed children.
 
+{{% notice note %}}
+Blueprints are currently in beta. The API and user experience may change before general
+availability.
+{{% /notice %}}
+
 This guide is written for the **Blueprint author** (a platform engineer or service owner).
 For consuming a published Blueprint, see
 [Consuming Blueprints]({{< relref "../../platform-users/consuming-blueprints" >}}).
