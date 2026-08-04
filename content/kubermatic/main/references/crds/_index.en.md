@@ -7565,6 +7565,7 @@ _Appears in:_
 | `enableEtcdBackup` _boolean_ | {{< unsafe >}}EnableEtcdBackup enables the etcd Backup feature in the dashboard.{{< /unsafe >}} |
 | `disableAdminKubeconfig` _boolean_ | {{< unsafe >}}DisableAdminKubeconfig disables the admin kubeconfig functionality on the dashboard.{{< /unsafe >}} |
 | `disabledAuditWebhookBackendDCs` _string array_ | {{< unsafe >}}DisabledAuditWebhookBackendDCs is the list of datacenters for which the Audit Webhook Backend<br />option is disabled in the dashboard.{{< /unsafe >}} |
+| `adminGroups` _string array_ | {{< unsafe >}}AdminGroups is the list of OIDC group names whose members are automatically<br />granted KKP administrator privileges. Matching against the user's groups<br />(populated at login) is exact and case-sensitive. Removing a group demotes<br />only users whose admin status was granted via these groups. EE-version only.{{< /unsafe >}} |
 | `userProjectsLimit` _integer_ | {{< unsafe >}}UserProjectsLimit is the maximum number of projects a user can create.{{< /unsafe >}} |
 | `restrictProjectCreation` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
 | `restrictProjectDeletion` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
