@@ -1,5 +1,5 @@
 +++
-title = "Blueprints"
+title = "Blueprints (Beta)"
 weight = 3
 +++
 
@@ -8,6 +8,11 @@ publishable kind. Instead of asking platform users to create a `PostgresInstance
 `Repository` and an `App` separately and wire them together, a platform engineer authors one
 Blueprint — for example a `WebappStack` or a pair of databases — publishes it to the service
 catalog, and users then create a single object that fans out into all the composed children.
+
+{{% notice note %}}
+Blueprints are currently in beta. The API and user experience may change before general
+availability.
+{{% /notice %}}
 
 This guide is written for the **Blueprint author** (a platform engineer or service owner).
 For consuming a published Blueprint, see
@@ -119,10 +124,12 @@ reconciliation but does **not** remove already-published artifacts.
 
 ## Authoring in the dashboard
 
-The dashboard provides a visual Blueprint builder: a resource-graph editor, an **AI
-assistant** panel, and a **Fix with AI** action that repairs an invalid graph. Published
-Blueprints get a detail page with an **Overview**, the **Description**, and a **Resource
-Graph** you can inspect either as a diagram or as the underlying RGD YAML.
+In the dashboard you author a Blueprint by editing its resource graph as **YAML**, helped by an
+**AI assistant** panel (see [Building Blueprints with AI](#building-blueprints-with-ai) below)
+that drafts and edits that YAML for you. The dependencies between the composed services are
+shown as a **read-only** graph; you cannot build the graph by dragging nodes. Published
+Blueprints get a detail page with an **Overview**, the **Description**, and a **Resource Graph**
+you can inspect either as that read-only diagram or as the underlying RGD YAML.
 
 ![Blueprint detail — resource graph](blueprint-detail-graph.png?classes=shadow,border "Blueprint detail page: overview and the resource graph diagram")
 
@@ -130,6 +137,56 @@ Switching the Resource Graph panel to **YAML** shows the kro `ResourceGraphDefin
 backing the Blueprint:
 
 ![Blueprint detail — RGD YAML](blueprint-detail-yaml.png?classes=shadow,border "Blueprint detail page: the ResourceGraphDefinition YAML")
+
+### Building Blueprints with AI
+
+Writing a kro `ResourceGraphDefinition` by hand means knowing the exact kind, `apiVersion`,
+fields and CEL wiring of every service you compose, plus kro's `SimpleSchema` grammar for the
+knobs you expose. The **AI assistant** in the dashboard's Blueprint editor lets you describe the
+outcome in plain language and drafts that YAML for you.
+
+<!-- TODO: screenshot — AI assistant panel open beside the graph editor, with a prompt typed in -->
+![Blueprint editor — AI assistant](blueprint-ai-assistant.png?classes=shadow,border "The AI assistant panel in the dashboard's Blueprint editor")
+
+**What it's grounded in.** The assistant is given the services currently **bound in your
+workspace** as its only building blocks, each with its real schema. It composes *only* those
+kinds, and this is enforced: if a draft references a kind that isn't one of your bound services,
+it is rejected rather than shown. This is the same constraint you would hit authoring by hand —
+a Blueprint can only compose services that resolve in the workspace. Alongside the graph the
+assistant also proposes catalog metadata (title, description, category) that pre-fills the
+Blueprint's `catalogMetadata`.
+
+The assistant works in three modes:
+
+| Mode | When | What it does |
+|------|------|--------------|
+| **Create** | Empty editor | Drafts a new resource graph from your description. |
+| **Edit** | Existing graph | Applies your request as a *minimal* change, preserving unrelated resources and fields. |
+| **Fix with AI** | Validation failed | Takes the current graph plus the controller's validation errors and proposes a minimal repair, without redesigning the graph. |
+
+**Example.** The prompt *"Two PostgreSQL databases, a primary and a replica, that share one
+storage-size setting"* — against a workspace where a `PostgresInstance` service is bound —
+drafts a graph with a `size` knob on the Blueprint's own schema wired into both child
+databases, much like the [OrderApp Databases](#authoring-a-blueprintdefinition) example above.
+
+**Review before publishing.** The output is a **draft** loaded into the editor; nothing is
+published automatically. It goes through exactly the same lifecycle as a hand-written graph
+(`Draft → Validating → Valid`) before you set `spec.published: true`, and it is checked to be
+structurally well-formed (valid kro spec, single-pipe `SimpleSchema` markers, resources limited
+to your bound services) before it ever reaches the editor.
+
+{{% notice warning %}}
+The assistant can make mistakes. The structural checks and Blueprint validation catch malformed
+or unresolvable graphs, but they do not know your *intent* — read the draft and confirm it
+composes the services you meant, with the field wiring and defaults you want, before publishing.
+{{% /notice %}}
+
+{{% notice note %}}
+The AI assistant requires an OpenAI-compatible model configured by the operator on the dashboard
+deployment (`api.config.openaiKey` and `api.config.openaiModel`). When it is not configured the
+panel is unavailable and you author resource graphs manually. The same backend powers
+the [UI Builder]({{< relref "../ui-builder" >}}).
+{{% /notice %}}
 
 ## Blueprint logos
 
@@ -141,3 +198,4 @@ ConfigMaps. Set it through the dashboard's Blueprint editor.
 - [Consuming Blueprints]({{< relref "../../platform-users/consuming-blueprints" >}}) — the platform-user side.
 - [Publishing Resources]({{< relref "../publish-resources" >}}) — how the composed services are published in the first place.
 - [Consuming Services]({{< relref "../../platform-users/consuming-services" >}}) — binding services (a prerequisite for composing them).
+- [UI Builder]({{< relref "../ui-builder" >}}) — the other AI-assisted authoring feature.
