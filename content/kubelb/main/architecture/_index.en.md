@@ -14,17 +14,22 @@ This chapter uses the following KubeLB-specific terms:
 1. **Management Cluster** (also called the load balancing cluster): A Kubernetes cluster responsible for managing all tenants and their data plane components. Requests for Layer 4 and Layer 7 load balancing are handled by the management cluster.
 2. **Tenant Cluster**: A Kubernetes cluster that consumes the load balancer services. Workloads that need Layer 4 or Layer 7 load balancing are created in the tenant cluster. The tenant cluster hosts the KubeLB Cloud Controller Manager (CCM), which propagates the load balancer configurations to the management cluster. Each Kubernetes cluster where the KubeLB CCM runs is a unique tenant, because its endpoints (the node IPs and node ports) are unique to that cluster.
 
-## Design and Architecture
+## Design and architecture
 
-KubeLB follows the **hub and spoke** model: the management cluster is the hub and the tenant clusters are the spokes. Information flows from the tenant clusters to the management cluster. The agent running in the tenant cluster watches nodes, services, ingresses, and Gateway API resources and propagates the configuration to the management cluster. The management cluster deploys the load balancer, configures it according to the desired specification, and uses Envoy Proxy to route traffic to the appropriate endpoints, the node ports open on the nodes of the tenant cluster.
+KubeLB follows a **hub-and-spoke** model: the management cluster is the hub and tenant clusters are the spokes.
+
+1. The KubeLB CCM in each tenant cluster watches nodes, Services, Ingresses, Secrets, and Gateway API resources.
+2. The CCM validates relevant resources and synchronizes the desired state to the tenant's namespace in the management cluster.
+3. The KubeLB manager reconciles that state into load balancer infrastructure and Envoy configuration.
+4. Envoy routes external traffic to NodePort endpoints in the tenant cluster.
 
 For security and isolation, tenants have no access to native Kubernetes resources in the management cluster. They interact with it only through the KubeLB CRDs, which limits them to controlled operations within their access level.
 
-![KubeLB Architecture](/img/kubelb/v1.1/kubelb-high-level-architecture.png?classes=shadow,border "KubeLB Architecture")
+![A management cluster runs KubeLB Manager and Envoy for multiple tenant clusters, while a KubeLB CCM in each tenant cluster synchronizes desired state and status.](/img/kubelb/v1.1/kubelb-high-level-architecture.png?classes=shadow,border "KubeLB management and tenant cluster architecture")
 
 ## Components
 
-KubeLB consists of two components:
+KubeLB has two control-plane components:
 
 ### Cloud Controller Manager
 
@@ -38,21 +43,21 @@ The **KubeLB manager** is responsible for managing the data plane of its tenants
 
 At its core, the KubeLB manager relies on [Envoy Proxy][1] to load balance the traffic. The manager is responsible for deploying Envoy Proxy and configuring it for each load balancer service per tenant, based on the Envoy Proxy deployment topology.
 
-## Personas
+## Personas and responsibilities
 
-KubeLB targets the following personas:
+KubeLB uses the following personas, based on the [Gateway API persona model](https://gateway-api.sigs.k8s.io/concepts/roles-and-personas/):
 
-1. Platform Provider: The Platform Provider is responsible for the overall environment that the cluster runs in, i.e. the cloud provider. The Platform Provider will interact with GatewayClass resources.
-2. Platform Operator: The Platform Operator is responsible for overall cluster administration. They manage policies, network access, application permissions and will interact with Gateway resources.
-3. Service Operator: The Service Operator is responsible for defining application configuration and service composition. They will interact with HTTPRoute and TLSRoute resources and other typical Kubernetes resources.
+| Persona | Scope | Primary responsibilities | Typical resources |
+| --- | --- | --- | --- |
+| Platform Provider | Management cluster and underlying infrastructure | Operates KubeLB, provides load balancing infrastructure, and defines available implementations | `GatewayClass`, KubeLB `Config`, `Tenant` |
+| Platform Operator | Tenant-cluster platform | Manages shared networking, policies, permissions, and application entry points | `Gateway`, policy resources, namespaces |
+| Service Operator | Application workloads | Defines how application traffic is matched, secured, and routed to Services | `HTTPRoute`, `GRPCRoute`, `TCPRoute`, `TLSRoute`, `Service` |
 
-Inspired by [Gateway API Personas](https://gateway-api.sigs.k8s.io/#personas).
-
-Service Operator and Platform Operator are more or less the same persona in KubeLB and they are responsible for defining the load balancer configurations in tenant cluster. Platform Provider is the "KubeLB provider" and manages the management cluster.
+One team may perform both the Platform Operator and Service Operator roles, but the responsibilities and permissions remain distinct. The Platform Provider operates the management cluster; the other roles work primarily in tenant clusters.
 
 ## Concepts
 
-### Envoy Proxy Deployment Topology
+### Envoy Proxy deployment topology
 
 KubeLB manager deploys Envoy Proxy using the **shared** topology: a single Envoy Proxy is deployed per tenant cluster, and all load balancer services in that tenant cluster are routed through it.
 
@@ -64,11 +69,11 @@ The `global` Envoy Proxy topology available in KubeLB v1.3 and earlier has been 
 
 Existing workflows for managing Layer 4 and Layer 7 workloads should keep working with as little change as possible. Once the CCM is configured, the only difference for end users is to use the class **kubelb** for their resources instead of a provider-specific class.
 
-### Kubernetes Class
+### Kubernetes classes
 
-Class is a concept in Kubernetes that is used to mark the ownership of a resource. For example, an Ingress with `class: nginx` will be owned by a controller that implements the IngressClass named `nginx`. The same concept exists for services and Gateway API resources. By default, KubeLB only processes resources that carry its class; this behavior can be changed by overriding the CCM configuration.
+A Kubernetes class identifies the controller responsible for a resource. For example, an Ingress that references the `nginx` IngressClass is handled by the controller that implements that class. Equivalent class-selection mechanisms exist for Services and Gateway API resources. By default, KubeLB processes only resources that select its class; CCM configuration can change this behavior.
 
-## Table of Contents
+## Related architecture pages
 
 {{% children depth=5 %}}
 {{% /children %}}

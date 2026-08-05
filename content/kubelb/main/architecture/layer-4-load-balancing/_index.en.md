@@ -1,6 +1,7 @@
 +++
 title = "Layer 4 Load Balancing"
 date = 2023-10-27T10:07:15+02:00
+description = "How KubeLB provisions centralized TCP and UDP load balancing for tenant-cluster Services."
 weight = 5
 +++
 
@@ -18,10 +19,10 @@ KubeLB manages load balancers from a centralized point instead of running applia
 
 ### Lifecycle of a request
 
-1. Developer creates a service of type LoadBalancer.
-2. After validation, the KubeLB CCM propagates these resources from the tenant to the management cluster using the `LoadBalancer` CRD.
-3. The KubeLB manager copies/creates the corresponding resources in the tenant namespace in the management cluster.
-4. The KubeLB CCM polls for the updated status of the service and updates the status when available.
-5. The KubeLB manager starts routing the traffic for your resource.
+1. A Service Operator creates a Service of type `LoadBalancer` in a tenant cluster.
+2. The KubeLB CCM validates the Service and synchronizes a `LoadBalancer` resource to the tenant's namespace in the management cluster.
+3. The KubeLB manager reconciles the required infrastructure and Envoy configuration.
+4. The CCM mirrors the assigned address and readiness status back to the original Service.
+5. Traffic enters through the assigned address and is forwarded to NodePort endpoints in the tenant cluster.
 
-![KubeLB Architecture](/img/kubelb/common/architecture.png "KubeLB Architecture")
+![A LoadBalancer Service is synchronized by KubeLB CCM to the management cluster, where KubeLB Manager configures Envoy while the CCM mirrors assigned status to the tenant cluster.](/img/kubelb/common/architecture.png "KubeLB Layer 4 request lifecycle")
