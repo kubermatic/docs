@@ -206,7 +206,7 @@ else a consumer does with it is ordinary service consumption.
 The entry's title, category and description come from the `spec.catalogMetadata` you set on the
 `BlueprintDefinition`; the badge and the logo are added by the dashboard.
 
-![OrderApp Databases in the service catalog](blueprint-service-catalog.png?classes=shadow,border&height=200 "The OrderApp Databases Blueprint in the service catalog, listed as a service and marked with a Blueprint badge")
+<img src="blueprint-service-catalog.png" alt="OrderApp Databases in the service catalog" title="The OrderApp Databases Blueprint in the service catalog, listed as a service and marked with a Blueprint badge" width="600" height="275">
 
 For the consumer's side of this — enabling the entry and creating an instance — see
 [Consuming Blueprints]({{< relref "../../platform-users/consuming-blueprints" >}}).
