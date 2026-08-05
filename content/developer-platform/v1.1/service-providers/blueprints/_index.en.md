@@ -3,7 +3,7 @@ title = "Blueprints (Beta)"
 weight = 3
 +++
 
-A **Blueprint** composes several already-published KDP services into a single new,
+A **Blueprint** composes several already-published KDP services into a single new service,
 publishable kind. Instead of asking platform users to create a `PostgresInstance`, a
 `Repository` and an `App` separately and wire them together, a platform engineer authors one
 Blueprint — for example a `WebappStack` or a pair of databases — publishes it to the service
@@ -113,8 +113,10 @@ spec:
 ```
 
 Apply it with `kubectl apply -f` in the workspace where the composed services are bound.
-Once the object is `Valid` and `published`, the Blueprint appears in the service catalog and
-consumers can bind it.
+Once the object is `Valid` and `published`, the Blueprint **appears in the service catalog as
+just another service** — the same entry, the same **Add to Organization** flow, the same
+`APIBinding`. Consumers never have to know it is a composition: they enable it and create one
+object, exactly as they would for a single service.
 
 {{% notice note %}}
 `spec.version` participates in the published schema's identity. Bumping it publishes a new
@@ -192,6 +194,22 @@ the [UI Builder]({{< relref "../ui-builder" >}}).
 
 A Blueprint can carry a logo for the catalog; the dashboard stores Blueprint logos in
 ConfigMaps. Set it through the dashboard's Blueprint editor.
+
+## Service Catalog
+
+Publishing a Blueprint places it **in the service catalog as a service**. The generated
+`Service` object *is* the catalog entry, and it sits next to the regular services: the same
+card, the same search and category filters, the same **Add to Organization** button. The only
+visible difference is a **Blueprint** badge marking the entry as a composition — everything
+else a consumer does with it is ordinary service consumption.
+
+The entry's title, category and description come from the `spec.catalogMetadata` you set on the
+`BlueprintDefinition`; the badge and the logo are added by the dashboard.
+
+![OrderApp Databases in the service catalog](blueprint-service-catalog.png?classes=shadow,border&height=200 "The OrderApp Databases Blueprint in the service catalog, listed as a service and marked with a Blueprint badge")
+
+For the consumer's side of this — enabling the entry and creating an instance — see
+[Consuming Blueprints]({{< relref "../../platform-users/consuming-blueprints" >}}).
 
 ## Related topics
 
