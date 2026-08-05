@@ -19,7 +19,7 @@ alongside regular services, marked with a **Blueprint** badge. Each entry shows 
 category and description — for example an "OrderApp Databases" Blueprint that provisions two
 PostgreSQL databases at once.
 
-![Blueprint in the Service Catalog](blueprint-service-catalog.png?classes=shadow,border&height=200 "Service catalog search results showing the OrderApp Databases entry marked with a Blueprint badge")
+![Blueprint in the Service Catalog](blueprint-service-catalog.png?classes=shadow,border&height=150 "Service catalog search results showing the OrderApp Databases entry marked with a Blueprint badge")
 
 ## Enabling a Blueprint
 
@@ -52,6 +52,11 @@ and a replica) defined by the Blueprint — you do not create them yourself.
 Here is our new instance:
 
 <img src="blueprint-new-instance.png" alt="New Blueprint instance" title="The OrderApp Databases resource objects list in the dashboard, showing the myorder-app-dev DatabaseOrderapp instance as ready" width="802" height="241">
+
+The composed children appear under the service that provides them — here the two
+`PostgresInstance` objects, a primary and a replica, both ready:
+
+<img src="blueprint-children.png" alt="Children created by the Blueprint" title="The Database Management Systems resource objects list, showing the myorder-app-dev-primary and myorder-app-dev-replica PostgresInstance children created by the Blueprint" width="934" height="284">
 
 ## Checking status
 
