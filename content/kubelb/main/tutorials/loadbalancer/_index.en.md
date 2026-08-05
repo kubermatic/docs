@@ -2,6 +2,7 @@
 title = "TCP/UDP Load Balancing"
 linkTitle = "TCP/UDP Load Balancing"
 date = 2023-10-27T10:07:15+02:00
+description = "Set up Layer 4 TCP and UDP load balancing with Kubernetes LoadBalancer Services."
 weight = 2
 +++
 
@@ -209,7 +210,7 @@ Configure the CCM through the KubeLB CCM helm chart. Common options:
 kubelb:
   # Use ExternalIP or InternalIP in the management cluster to route traffic back to the node ports of the tenant cluster.
   nodeAddressType: ExternalIP
-  # This can be enabled to use KubeLB in a cluster where another load balancer provider is already running. When enabled, kubeLB will only manage
+  # This can be enabled to use KubeLB in a cluster where another load balancer provider is already running. When enabled, KubeLB will only manage
   # services of type LoadBalancer that are using the `kubelb` LoadBalancerClass.
   useLoadBalancerClass: false
 ```

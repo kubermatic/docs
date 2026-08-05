@@ -2,6 +2,7 @@
 title = "Backend Traffic Policy"
 linkTitle = "Backend Traffic Policy"
 date = 2025-01-16T10:00:00+02:00
+description = "Synchronize Envoy Gateway BackendTrafficPolicy resources to configure retries, timeouts, and upstream behavior."
 weight = 5
 enterprise = true
 +++

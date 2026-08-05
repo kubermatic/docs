@@ -9,7 +9,7 @@ description = "Web UI for KubeLB: browse tenants, LoadBalancers, and Routes, vie
 ## Overview
 
 KubeLB Dashboard is the web UI for KubeLB. A single chart and binary cover both
-Community and Enterprise editions; there is no separate EE build. Source code
+Community Edition and Enterprise Edition; there is no separate EE build. Source code
 and upstream documentation are at
 [kubermatic/kubelb-dashboard](https://github.com/kubermatic/kubelb-dashboard).
 

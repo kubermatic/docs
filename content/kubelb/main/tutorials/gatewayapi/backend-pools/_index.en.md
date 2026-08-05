@@ -2,6 +2,7 @@
 title = "Backend Pools"
 linkTitle = "Backend Pools"
 date = 2026-07-10T00:00:00+05:00
+description = "Combine multiple KubeLB load balancers behind one HTTPRoute with health-aware failover and session affinity."
 weight = 6
 enterprise = true
 +++

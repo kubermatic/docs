@@ -1,6 +1,7 @@
 +++
 title = "Community Edition"
 linkTitle = "Community Edition"
+description = "Prometheus metric reference for KubeLB Community Edition components."
 date = 2026-07-29T00:00:00+02:00
 weight = 10
 aliases = ["/kubelb/main/tutorials/observability/metrics-and-dashboards/references/ce/"]

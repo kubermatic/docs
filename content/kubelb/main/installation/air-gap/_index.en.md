@@ -18,9 +18,9 @@ KubeLB charts are configured to pull every image from that mirror.
 What is supported:
 
 - Registry rewrite for charts and images across the entire stack: manager, CCM, connection-manager,
-  Envoy proxy data plane, and all addons, etc.
+  Envoy Proxy data plane, and all addons, etc.
 - A single `imagePullSecret` propagated to manager, CCM, connection-manager and
-  all addon workloads, including manager-created Envoy proxy pods.
+  all addon workloads, including manager-created Envoy Proxy pods.
 - A self-contained mirror bundle shipped inside the `kubelb-manager-ee` Helm
   chart at `airgapped/`. Everything you need to mirror is in there, including a script that uses `crane` to copy all images and charts to your mirror in one shot.
 
@@ -66,7 +66,7 @@ You will find:
 |------|----------|
 | `artifacts.txt` | Union of `images.txt` + `charts.txt` (oci:// stripped) — the default input for `mirror-images.sh`. This includes all the artifacts(images, charts) shipped or used by KubeLB |
 | `images.txt` | Every container image (manager + CCM + all addons) |
-| `images-core.txt` | Images rendered from the manager and CCM charts (manager, CCM, connection-manager, kube-rbac-proxy) plus the runtime images referenced in code (Envoy proxy, Envoy Gateway shutdown manager); no addons |
+| `images-core.txt` | Images rendered from the manager and CCM charts (manager, CCM, connection-manager, kube-rbac-proxy) plus the runtime images referenced in code (Envoy Proxy, Envoy Gateway shutdown manager); no addons |
 | `images-<addon>.txt` | Per-addon images: `agentgateway`, `cert-manager`, `envoy-gateway`, `external-dns`, `ingress-nginx`, `metallb` |
 | `images-valkey.txt` | Valkey images, required for the AI budget rate-limit path |
 | `images-ratelimit.txt` | Envoy rate-limit service images, required for the AI budget rate-limit path |
@@ -151,14 +151,14 @@ helm install kubelb-manager \
 ```
 
 `global.imageRegistry` rewrites every image referenced by the chart, including
-the manager binary, `kube-rbac-proxy`, the connection-manager, the Envoy proxy
+the manager binary, `kube-rbac-proxy`, the connection-manager, the Envoy Proxy
 data plane and the Envoy Gateway shutdown manager. `global.imagePullSecrets` is
 propagated to every pod spec the chart and the manager controllers create.
 
 ### How the runtime rewrite works
 
 The chart passes `global.imageRegistry` to the manager binary as the
-`--image-registry` flag. At runtime the manager rewrites the Envoy proxy,
+`--image-registry` flag. At runtime the manager rewrites the Envoy Proxy,
 shutdown-manager, and WAF WASM init-container images before creating pods:
 the first path segment is stripped when it contains a dot or a colon (i.e.
 when it is a registry host), and the mirror registry is prepended. For
@@ -276,7 +276,7 @@ helm template kubelb-addons oci://mirror.internal/kubermatic/helm-charts/kubelb-
 
 The `mirror-creds` pull secret is missing from a namespace where KubeLB schedules
 workloads. The CCM install only puts it in `kubelb`. If you have set
-`kubelb.namespace` or the manager creates Envoy proxy pods in a different
+`kubelb.namespace` or the manager creates Envoy Proxy pods in a different
 namespace, copy the secret there too, or re-run Step 3 with the additional
 namespace.
 
@@ -287,7 +287,7 @@ to find the offender. If a specific image is not getting rewritten, file an
 issue against `kubermatic/kubelb-ee`; the air-gap patch for that addon
 chart needs an update.
 
-### Manager-created Envoy proxy pods pull from `docker.io`
+### Manager-created Envoy Proxy pods pull from `docker.io`
 
 The Envoy data plane and the Envoy Gateway shutdown manager are exposed on the
 manager chart as `kubelb.envoyProxy.image` and

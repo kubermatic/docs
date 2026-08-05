@@ -2,6 +2,7 @@
 title = "Endpoint Limiting"
 linkTitle = "Endpoint Limiting"
 date = 2025-01-16T10:00:00+02:00
+description = "Limit Envoy upstream endpoints to reduce health-check fan-out in large KubeLB environments."
 weight = 4
 enterprise = true
 +++

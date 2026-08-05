@@ -1,7 +1,8 @@
 +++
-title = "Cert Manager Migration"
-linkTitle = "Cert Manager"
+title = "cert-manager Migration"
+linkTitle = "cert-manager"
 date = 2026-01-30T00:00:00+01:00
+description = "Update cert-manager to issue certificates for Gateway API resources during an Ingress migration."
 weight = 3
 +++
 

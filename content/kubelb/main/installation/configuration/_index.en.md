@@ -2,12 +2,12 @@
 title = "KubeLB Management Cluster Configuration"
 linkTitle = "Management Configuration"
 date = 2023-10-27T10:07:15+02:00
-description = "Configure the KubeLB manager in the management cluster through the Config CRD."
+description = "Configure KubeLB Manager in the management cluster through the Config CRD."
 weight = 40
 aliases = ["/kubelb/main/tutorials/config/"]
 +++
 
-The `Config` CRD manages the configuration of the KubeLB manager in the management cluster. Example:
+The `Config` CRD manages KubeLB Manager configuration in the management cluster. Example:
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -208,7 +208,7 @@ spec:
     # The class to use for LB service in the management cluster
     class: "metallb.universe.tf/metallb"
     disable: false
-    # Enterprise Edition Only
+    # Enterprise Edition only
     limit: 5
 ```
 
@@ -269,7 +269,7 @@ spec:
     defaultGateway:
       name: "default"
       namespace: "envoy-gateway"
-    # Enterprise Edition Only (all the below options are only available in Enterprise Edition)
+    # All options below are available in Enterprise Edition only.
     gateway:
       limit: 10
     disableHTTPRoute: false

@@ -1,7 +1,8 @@
 +++
-title = "External DNS Migration"
-linkTitle = "External DNS"
+title = "external-dns Migration"
+linkTitle = "external-dns"
 date = 2026-01-30T00:00:00+01:00
+description = "Configure external-dns to manage records for Gateway API resources during an Ingress migration."
 weight = 4
 +++
 

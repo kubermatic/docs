@@ -2,6 +2,7 @@
 title = "Circuit Breakers"
 linkTitle = "Circuit Breakers"
 date = 2025-01-16T10:00:00+02:00
+description = "Configure global and per-tenant Envoy circuit-breaker thresholds to protect upstream services."
 weight = 3
 enterprise = true
 +++

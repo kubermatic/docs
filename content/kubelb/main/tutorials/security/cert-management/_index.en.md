@@ -2,13 +2,14 @@
 title = "Certificate Management"
 linkTitle = "Certificate Management"
 date = 2023-10-27T10:07:15+02:00
+description = "Automate tenant TLS certificates with cert-manager and KubeLB Enterprise Edition."
 weight = 1
 enterprise = true
 +++
 
 ## Setup
 
-### Install Cert-Manager
+### Install cert-manager
 
 Install [cert-manager](https://cert-manager.io) to manage certificates for your tenants.
 
@@ -17,7 +18,7 @@ These are minimal examples. See the [cert-manager documentation](https://cert-ma
 {{< tabs name="cert-manager" >}}
 {{% tab name="Gateway API" %}}
 
-Update values.yaml for KubeLB manager chart to enable the cert-manager addon.
+Update `values.yaml` for the KubeLB Manager chart to enable the cert-manager addon.
 
 ```yaml
 kubelb-addons:
@@ -35,7 +36,7 @@ kubelb-addons:
 {{% /tab %}}
 {{% tab name="Ingress" %}}
 
-Update values.yaml for KubeLB manager chart to enable the cert-manager addon.
+Update `values.yaml` for the KubeLB Manager chart to enable the cert-manager addon.
 
 ```yaml
 kubelb-addons:

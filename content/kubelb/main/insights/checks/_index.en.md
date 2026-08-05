@@ -2,6 +2,7 @@
 title = "Check Catalog"
 linkTitle = "Check Catalog"
 date = 2026-07-29T10:00:00+02:00
+description = "Reference for KubeLB Insights checks, prerequisites, findings, and remediation."
 weight = 10
 +++
 

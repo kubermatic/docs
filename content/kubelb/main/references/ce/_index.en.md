@@ -1,6 +1,7 @@
 +++
 title = "KubeLB Community Edition CRD References"
 linkTitle = "Community Edition"
+description = "Custom Resource Definition reference for KubeLB Community Edition."
 date = 2024-04-06T12:00:00+02:00
 weight = 10
 +++

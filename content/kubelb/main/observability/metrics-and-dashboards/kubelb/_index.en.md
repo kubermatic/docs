@@ -2,6 +2,7 @@
 title = "KubeLB Dashboards"
 linkTitle = "KubeLB"
 date = 2026-07-29T00:00:00+02:00
+description = "Overview of the Grafana dashboards for KubeLB Manager, CCM, controllers, and fleet health."
 weight = 10
 aliases = ["/kubelb/main/tutorials/observability/metrics-and-dashboards/kubelb/"]
 +++

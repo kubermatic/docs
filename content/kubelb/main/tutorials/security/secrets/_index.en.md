@@ -1,7 +1,8 @@
 +++
 title = "Bring Your Own Secrets"
-linkTitle = "Bring Your Own Secrets"
+linkTitle = "Secrets"
 date = 2023-10-27T10:07:15+02:00
+description = "Synchronize selected Kubernetes Secrets from tenant clusters to the KubeLB management cluster."
 weight = 4
 +++
 

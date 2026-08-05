@@ -2,6 +2,7 @@
 title = "Timeouts"
 linkTitle = "Timeouts"
 date = 2026-05-05T10:00:00+02:00
+description = "Configure HTTP and TCP timeouts globally, per tenant, or per route for KubeLB traffic."
 weight = 5
 enterprise = true
 +++

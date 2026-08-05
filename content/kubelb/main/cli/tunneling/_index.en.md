@@ -1,6 +1,7 @@
 +++
 title = "Tunneling"
 date = 2025-08-27T00:00:00+01:00
+description = "Expose local applications through reusable, TLS-secured KubeLB tunnels."
 weight = 10
 enterprise = true
 +++
