@@ -4,7 +4,7 @@ weight = 4
 +++
 
 A **Blueprint** is a ready-made composition of several KDP services, published as a single
-kind. From a platform user's point of view it behaves like any other service: you enable it
+kind. From a **platform user's point of view it behaves like any other service**: you enable it
 in your organization, then create one object — and KDP provisions all the underlying
 resources the Blueprint composes.
 
@@ -19,7 +19,7 @@ alongside regular services, marked with a **Blueprint** badge. Each entry shows 
 category and description — for example an "OrderApp Databases" Blueprint that provisions two
 PostgreSQL databases at once.
 
-<!-- TODO(screenshot): service catalog showing a Blueprint badge. -->
+<img src="blueprint-service-catalog.png" alt="Blueprint in the Service Catalog" title="Service catalog search results showing the OrderApp Databases entry marked with a Blueprint badge" width="728" height="334">
 
 ## Enabling a Blueprint
 
@@ -32,7 +32,8 @@ workspace.
 ## Creating an instance
 
 Once bound, create a single object of the synthesized kind. You only fill in the Blueprint's
-own fields (its `schema`); KDP expands them into the composed children behind the scenes.
+own fields (its `schema`); KDP expands them into the composed children behind the scenes. You
+can do this through the dashboard UI, exactly as for an ordinary service.
 
 ```yaml
 apiVersion: database.orderapp.blueprints.kdp.k8c.io/v1alpha1
@@ -48,7 +49,14 @@ spec:
 Applying this one object causes KDP to create the two `PostgresInstance` children (a primary
 and a replica) defined by the Blueprint — you do not create them yourself.
 
-<!-- TODO(screenshot): dashboard create-instance form for a Blueprint. -->
+Here is our new instance:
+
+<img src="blueprint-new-instance.png" alt="New Blueprint instance" title="The OrderApp Databases resource objects list in the dashboard, showing the myorder-app-dev DatabaseOrderapp instance as ready" width="802" height="241">
+
+The composed children appear under the service that provides them — here the two
+`PostgresInstance` objects, a primary and a replica, both ready:
+
+<img src="blueprint-children.png" alt="Children created by the Blueprint" title="The Database Management Systems resource objects list, showing the myorder-app-dev-primary and myorder-app-dev-replica PostgresInstance children created by the Blueprint" width="802" height="244">
 
 ## Checking status
 
