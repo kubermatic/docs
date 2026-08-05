@@ -2,14 +2,25 @@
 title = "Kubermatic KubeLB"
 date = 2023-10-27T10:07:15+02:00
 weight = 6
-description = "Learn how you can use Kubermatic KubeLB to centrally provision and manage load balancers across multiple cloud and on-premise environments."
+description = "Learn how KubeLB centralizes multi-tenant Layer 4 and Layer 7 load balancing for Kubernetes clusters across cloud, on-premises, and bare-metal environments."
 +++
 
 ![KubeLB logo](/img/kubelb/common/logo.png?classes=logo-height)
 
 ## What is KubeLB?
 
-KubeLB is a project by Kubermatic, it is a Kubernetes native tool, responsible for centrally managing Layer 4 and 7 load balancing configurations for Kubernetes clusters across multi-cloud and on-premise environments.
+KubeLB is a Kubernetes-native, multi-tenant load-balancing platform by Kubermatic. It centralizes Layer 4 and Layer 7 traffic management for fleets of Kubernetes clusters across cloud, on-premises, and bare-metal environments.
+
+A management cluster runs the load-balancing data plane, while KubeLB Cloud Controller Manager (CCM) agents connect tenant clusters and propagate their requested configuration. Workloads continue to use Kubernetes APIs: Services of type `LoadBalancer` for Layer 4, and Ingress or Gateway API resources for Layer 7.
+
+## Start Here
+
+- [Understand the architecture]({{< relref "./architecture/" >}}) and how the management and tenant clusters interact.
+- [Check compatibility]({{< relref "./compatibility-matrix/" >}}) and [compare Community and Enterprise features]({{< relref "./ce-ee-matrix/" >}}) before choosing a deployment.
+- [Install KubeLB]({{< relref "./installation/" >}}), starting with the management cluster and then connecting tenant clusters.
+- Expose workloads with a [Layer 4 `LoadBalancer` Service]({{< relref "./tutorials/loadbalancer/" >}}), [Ingress]({{< relref "./tutorials/ingress/" >}}), or the [Gateway API]({{< relref "./tutorials/gatewayapi/" >}}).
+- [Migrate from Ingress to the Gateway API]({{< relref "./ingress-to-gateway-api/" >}}) with KubeLB automation, the CLI, or the dashboard.
+- Operate KubeLB with the [dashboard]({{< relref "./dashboard/" >}}), review [security guidance]({{< relref "./security/" >}}), and check the [release notes]({{< relref "./release-notes/" >}}).
 
 ## Motivation and Background
 

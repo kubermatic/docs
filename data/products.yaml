@@ -109,7 +109,7 @@ kubelb:
   logo: "/img/kubelb/common/logo.png"
   title: KubeLB
   textName: KubeLB
-  description: KubeLB is a tool to centrally manage load balancers across multicloud and on-prem environments.
+  description: Centralize multi-tenant Layer 4 and Layer 7 load balancing for Kubernetes clusters across cloud, on-premises, and bare-metal environments.
   weight: 4
   shareImage: img/share-kubelb.png
   supportedReleases: 3
