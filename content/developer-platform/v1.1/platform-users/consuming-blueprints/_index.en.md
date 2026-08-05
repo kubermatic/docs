@@ -19,7 +19,7 @@ alongside regular services, marked with a **Blueprint** badge. Each entry shows 
 category and description — for example an "OrderApp Databases" Blueprint that provisions two
 PostgreSQL databases at once.
 
-<!-- TODO(screenshot): service catalog showing a Blueprint badge. -->
+![Blueprint in the Service Catalog](blueprint-service-catalog.png?classes=shadow,border&height=200 "Service catalog search results showing the OrderApp Databases entry marked with a Blueprint badge")
 
 ## Enabling a Blueprint
 
