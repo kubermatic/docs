@@ -1,6 +1,6 @@
 +++
-title = "Install KubeLB Manager and setup Management Cluster"
-linkTitle = "Setup Management Cluster"
+title = "Install KubeLB Manager and set up the management cluster"
+linkTitle = "Set Up Management Cluster"
 date = 2023-10-27T10:07:15+02:00
 weight = 10
 +++
@@ -12,26 +12,26 @@ weight = 10
 
 See [Requirements]({{< relref "../requirements" >}}) for the full port and resource sizing reference.
 
-## Installation for KubeLB manager
+## Install KubeLB Manager
 
-{{% notice warning %}} In case if Gateway API needs to be enabled for the cluster. Please set `kubelb.enableGatewayAPI` to `true` in the `values.yaml`. This is required otherwise due to missing CRDs, kubelb will not be able to start. {{% /notice %}}
+{{% notice warning %}} If you enable Gateway API support, install its CRDs first and set `kubelb.enableGatewayAPI` to `true` in `values.yaml`. Without the CRDs, KubeLB Manager cannot start. {{% /notice %}}
 
 {{< tabs name="KubeLB Manager" >}}
 {{% tab name="Enterprise Edition" %}}
 
 ### Prerequisites
 
-* Create a namespace **kubelb** for the CCM to be deployed in.
-* Create **imagePullSecrets** for the chart to pull the image from the registry in kubelb namespace.
+* Create a `kubelb` namespace for KubeLB Manager.
+* Create the required `imagePullSecrets` in that namespace so the chart can pull Enterprise Edition images.
 
-At this point a minimal values.yaml should look like this:
+A minimal `values.yaml` looks like this:
 
 ```yaml
 imagePullSecrets:
   - name: <imagePullSecretName>
 ```
 
-### Install the helm chart
+### Install the Helm chart
 
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.4.3 --untardir "." --untar
@@ -141,7 +141,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 {{% /tab %}}
 {{% tab name="Community Edition" %}}
 
-### Install the helm chart
+### Install the Helm chart
 
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.4.3 --untardir "." --untar
@@ -236,7 +236,7 @@ kubelb-manager-6d95d7f45d-xz2lp   2/2     Running   0          1m
 
 The `kubelb-manager` pod must be in `Running` state. Envoy proxy pods appear in the tenant namespaces later, once tenants are registered and load balancers are created.
 
-## Setup the management cluster
+## Set up the management cluster
 
 {{% notice note %}}
 The examples and tools shared below are for demonstration purposes, you can use any other tools or configurations as per your requirements.

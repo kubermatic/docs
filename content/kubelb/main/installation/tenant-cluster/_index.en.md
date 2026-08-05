@@ -1,41 +1,41 @@
 +++
-title = "Install KubeLB CCM and setup Tenant Cluster"
-linkTitle = "Setup Tenant Cluster"
+title = "Install KubeLB CCM and set up the tenant cluster"
+linkTitle = "Set Up Tenant Cluster"
 date = 2023-10-27T10:07:15+02:00
 weight = 20
 +++
 
 ## Prerequisites
 
-* KubeLB management cluster kubernetes API access.
-* Registered as a tenant in the KubeLB management cluster.
+* Access to the Kubernetes API of the KubeLB management cluster.
+* A tenant registered in the KubeLB management cluster.
 
 See [Requirements]({{< relref "../requirements" >}}) for the full port and resource sizing reference.
 
-* Create a namespace **kubelb** for the CCM to be deployed in.
-* The agent expects a **Secret** with a kubeconf file named **`kubelb`** to access the management/load balancing cluster.
-  * First register the tenant in the management cluster by following [tenant registration]({{< relref "../../tutorials/tenants">}}) guidelines.
-  * Fetch the generated kubeconfig and create a secret from the management cluster by using these command:
+* Create a `kubelb` namespace for KubeLB CCM.
+* KubeLB CCM expects a Secret named `kubelb-cluster` by default. Its `kubelb` data key must contain the kubeconfig for the management cluster.
+  * First register the tenant by following the [tenant registration]({{< relref "../../tutorials/tenants">}}) guide.
+  * Fetch the generated kubeconfig from the management cluster, switch to the tenant cluster, and create the Secret:
 
   ```sh
   # Replace with the tenant cluster kubeconfig path
   TENANT_KUBECONFIG=~/.kube/<tenant-cluster>
-  #  Replace with the tenant name
+  # Replace with the tenant name
   TENANT_NAME=tenant-shroud
-  KUBELB_KUBECONFIG=$(kubectl get secret kubelb-ccm-kubeconfig -n $TENANT_NAME --template={{.data.kubelb}})
-  # At this point we have the kubeconfig in base64 encoded format.
-  # Switch the context to the Tenant cluster
-  export KUBECONFIG=$TENANT_KUBECONFIG
-  kubectl --namespace kubelb create secret generic kubelb-cluster --from-literal=kubelb="$(echo $KUBELB_KUBECONFIG | base64 -d)"
+  KUBELB_KUBECONFIG_B64=$(kubectl get secret kubelb-ccm-kubeconfig --namespace "$TENANT_NAME" --template='{{ .data.kubelb }}')
+  # Switch to the tenant cluster.
+  export KUBECONFIG="$TENANT_KUBECONFIG"
+  kubectl --namespace kubelb create secret generic kubelb-cluster \
+    --from-literal=kubelb="$(printf '%s' "$KUBELB_KUBECONFIG_B64" | base64 -d)"
   ```
 
-* The name of secret can be overridden using `.Values.kubelb.clusterSecretName`, if required. If not the secret needs to be named `kubelb` and look like:
+* Override the Secret name with `.Values.kubelb.clusterSecretName` if required. Otherwise, the Secret is named `kubelb-cluster` and looks like this:
 
-  ```
-  kubectl get secrets -o yaml kubelb-cluster
+  ```sh
+  kubectl get secret kubelb-cluster --namespace kubelb -o yaml
   ```
 
-  ```
+  ```yaml
   apiVersion: v1
   data:
     kubelb: xxx-base64-encoded-xxx
@@ -46,20 +46,19 @@ See [Requirements]({{< relref "../requirements" >}}) for the full port and resou
   type: Opaque
   ```
 
-* Update the `tenantName` in the `values.yaml` to a unique identifier for the tenant. This is used to identify the tenant in the manager cluster. Tenants are registered in the management cluster by the Platform Provider and the name is prefixed with `tenant-`. So for example, a tenant named `my-tenant` will be registered as `tenant-my-tenant`. **NOTE: We have an automation in place and both tenant name without and with `tenant-` prefix are supported.**
+* Set `tenantName` in `values.yaml` to the tenant's unique identifier. The management cluster stores tenant namespaces with a `tenant-` prefix; for example, `my-tenant` becomes `tenant-my-tenant`. KubeLB accepts the name with or without this prefix.
 
 At this point a minimal `values.yaml` should look like this:
 
 ```yaml
 kubelb:
-    clusterSecretName: kubelb-cluster
-    tenantName: <unique-identifier-for-tenant>
+  clusterSecretName: kubelb-cluster
+  tenantName: <unique-identifier-for-tenant>
 ```
 
 {{% notice info %}}
 
-**Important configurations for private clusters!**
-If your cluster only uses internal IPs for nodes (check the following example output) you would need to change the value `kubelb.nodeAddressType` to `InternalIP`:
+**Private clusters:** If the tenant nodes do not have external IP addresses, set `kubelb.nodeAddressType` to `InternalIP`.
 
 ```bash
 kubectl get nodes -o wide
@@ -80,9 +79,9 @@ kubelb:
 
 {{% /notice %}}
 
-## Installation for KubeLB CCM
+## Install KubeLB CCM
 
-{{% notice warning %}} In case if Gateway API needs to be enabled for the cluster. Please set the following fields in the `values.yaml`. This is required otherwise due to missing CRDs, kubelb will not be able to start.
+{{% notice warning %}} To enable Gateway API support, set both fields below in `values.yaml`. KubeLB CCM cannot start with Gateway API enabled unless the CRDs are installed.
 
 ```yaml
 kubelb:
@@ -110,7 +109,7 @@ kubelb:
     tenantName: <unique-identifier-for-tenant>
 ```
 
-### Install the helm chart
+### Install the Helm chart
 
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.4.3 --untardir "." --untar
@@ -210,7 +209,7 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 {{% /tab %}}
 {{% tab name="Community Edition" %}}
 
-### Install the helm chart
+### Install the Helm chart
 
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.4.3 --untardir "." --untar
@@ -319,7 +318,7 @@ kubelb-ccm-7c9f7d6b8d-4qk2n   2/2     Running   0          1m
 
 The `kubelb-ccm` pod must be in `Running` state before load balancer services are reconciled.
 
-## Setup the tenant cluster
+## Set up the tenant cluster
 
 ### Install Gateway API CRDs
 
