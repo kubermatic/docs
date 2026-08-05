@@ -42,7 +42,7 @@ dex:
   config:
     staticClients:
     # keep the KKP client for the login to the KKP dashboard
-    - id: kubermatic
+    - id: kubermaticIssuer
       # ...
 
     # new client used for authenticating Prometheus
