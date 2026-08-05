@@ -4,7 +4,7 @@ weight = 4
 +++
 
 A **Blueprint** is a ready-made composition of several KDP services, published as a single
-kind. From a platform user's point of view it behaves like any other service: you enable it
+kind. From a **platform user's point of view it behaves like any other service**: you enable it
 in your organization, then create one object — and KDP provisions all the underlying
 resources the Blueprint composes.
 
