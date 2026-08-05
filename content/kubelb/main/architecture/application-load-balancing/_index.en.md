@@ -1,6 +1,7 @@
 +++
 title = "Application Load Balancing"
 date = 2023-10-27T10:07:15+02:00
+description = "How KubeLB provides centralized Layer 7 routing, DNS, and TLS for tenant-cluster applications."
 weight = 10
 +++
 
@@ -8,7 +9,7 @@ This document explains the architecture for Layer 7 (application layer) load bal
 
 ## Background
 
-KubeLB manages the data plane of a fleet of tenant clusters from a central management cluster, providing Layer 4 and Layer 7 load balancing through a single platform. Layer 7 support, introduced in v1.1, covers application-level load balancing including DNS management and TLS management and termination.
+KubeLB manages the data plane for a fleet of tenant clusters from a central management cluster. Layer 7 capabilities include application routing, DNS management, and TLS certificate management and termination.
 
 ### Challenges
 
@@ -26,11 +27,11 @@ For Layer 7 requests, KubeLB automatically creates a `NodePort` service against 
 
 ### Lifecycle of a request
 
-1. Developer creates a deployment, service, and Ingress.
-2. KubeLB evaluates if the service is of type ClusterIP and generates a NodePort service against it.
-3. After validation, the KubeLB CCM propagates these resources from the tenant to the management cluster using the `Route` CRD.
-4. The KubeLB manager copies/creates the corresponding resources in the tenant namespace in the management cluster.
-5. The KubeLB CCM polls for the updated status of the Ingress and updates the status when available.
-6. The KubeLB manager starts routing the traffic for your resource.
+1. A Service Operator creates a workload, a `ClusterIP` Service, and an Ingress or Gateway API route in a tenant cluster.
+2. The KubeLB CCM validates the resources and ensures that a NodePort Service exposes the backend to the management cluster.
+3. The CCM synchronizes a `Route` resource and its dependencies to the tenant's namespace in the management cluster.
+4. The KubeLB manager reconciles the required Envoy, DNS, and certificate configuration.
+5. The CCM mirrors the assigned address and readiness status back to the original tenant resource.
+6. Envoy accepts external traffic and forwards it to the tenant cluster's NodePort endpoints.
 
-![KubeLB Architecture](/img/kubelb/v1.1/layer7-architecture.png?classes=shadow,border "KubeLB Architecture")
+![An Ingress or Gateway API route is synchronized from a tenant cluster to the management cluster, where KubeLB configures Envoy, DNS, and TLS before routing traffic back to tenant NodePorts.](/img/kubelb/v1.1/layer7-architecture.png?classes=shadow,border "KubeLB Layer 7 request lifecycle")
