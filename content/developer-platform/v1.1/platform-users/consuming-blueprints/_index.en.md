@@ -32,7 +32,8 @@ workspace.
 ## Creating an instance
 
 Once bound, create a single object of the synthesized kind. You only fill in the Blueprint's
-own fields (its `schema`); KDP expands them into the composed children behind the scenes.
+own fields (its `schema`); KDP expands them into the composed children behind the scenes. You
+can do this through the dashboard UI, exactly as for an ordinary service.
 
 ```yaml
 apiVersion: database.orderapp.blueprints.kdp.k8c.io/v1alpha1
@@ -48,7 +49,9 @@ spec:
 Applying this one object causes KDP to create the two `PostgresInstance` children (a primary
 and a replica) defined by the Blueprint — you do not create them yourself.
 
-<!-- TODO(screenshot): dashboard create-instance form for a Blueprint. -->
+Here is our new instance:
+
+<img src="blueprint-new-instance.png" alt="New Blueprint instance" title="The OrderApp Databases resource objects list in the dashboard, showing the myorder-app-dev DatabaseOrderapp instance as ready" width="802" height="241">
 
 ## Checking status
 
