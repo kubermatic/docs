@@ -2,6 +2,7 @@
 title = "Envoy Proxy Dashboard"
 linkTitle = "Envoy Proxy"
 date = 2026-07-29T00:00:00+02:00
+description = "Monitor KubeLB-managed Envoy Proxy health, connections, request performance, and configuration in Grafana."
 weight = 20
 aliases = ["/kubelb/main/tutorials/observability/metrics-and-dashboards/envoy-proxy/"]
 +++

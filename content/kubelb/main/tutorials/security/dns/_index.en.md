@@ -2,19 +2,20 @@
 title = "DNS Management"
 linkTitle = "DNS Management"
 date = 2023-10-27T10:07:15+02:00
+description = "Automate tenant DNS records with external-dns and KubeLB Enterprise Edition."
 weight = 2
 enterprise = true
 +++
 
 ## Setup
 
-### Install External-dns
+### Install external-dns
 
 KubeLB uses [external-dns](https://github.com/kubernetes-sigs/external-dns) to manage DNS records for the tenant clusters.
 
 This is a minimal example. See the [external-dns documentation](https://kubernetes-sigs.github.io/external-dns) for setup with other providers.
 
-Update the values.yaml for KubeLB manager chart to enable the external-dns addon.
+Update `values.yaml` for the KubeLB Manager chart to enable the external-dns addon.
 
 ```yaml
 kubelb-addons:

@@ -112,7 +112,7 @@ You cannot gradually shift traffic percentages between Ingress and Gateway, and 
 
 ## Migration Options
 
-### Option 1: KubeLB [Beta]
+### Option 1: KubeLB (Beta)
 
 KubeLB includes a migration tool that converts Ingress resources to Gateway API. It is free to use and open source.
 

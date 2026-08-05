@@ -1,12 +1,13 @@
 +++
-title = "Automated Conversion with KubeLB [Beta]"
-linkTitle = "KubeLB Automation"
+title = "Automated Conversion with KubeLB (Beta)"
+linkTitle = "Automated Conversion"
 date = 2026-01-30T00:00:00+01:00
+description = "Continuously convert ingress-nginx resources to Gateway API with KubeLB's Beta migration controller."
 weight = 1
 +++
 
 {{% notice warning %}}
-**Beta Feature:** This converter is provided on a best-effort basis. Not all NGINX annotations have Gateway API equivalents. Test thoroughly in non-production environments first. Some configurations will require manual intervention.
+**Feature stage: Beta / Technical Preview.** Not all ingress-nginx annotations have Gateway API equivalents. Use the converter for non-business-critical migrations, validate every generated resource, and expect some configurations to require manual changes.
 {{% /notice %}}
 
 KubeLB can automatically convert Ingress resources to Gateway API. It watches your Ingresses and creates the equivalent HTTPRoutes and GRPCRoutes.

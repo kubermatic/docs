@@ -14,7 +14,7 @@ In KubeLB, the admins of the management cluster are the Platform Provider, respo
 
 Kubermatic's default recommendation is to use Gateway API and use [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation. Install Envoy Gateway by following this [guide](https://gateway.envoyproxy.io/docs/install/install-helm/) or any other Gateway API implementation of your choice.
 
-Update values.yaml for KubeLB manager chart to enable the Gateway API addon.
+Update `values.yaml` for the KubeLB Manager chart to enable the Gateway API addon.
 
 ```yaml
 kubelb:
@@ -64,7 +64,7 @@ spec:
 
 **Leave it empty if you named your Gateway Class as `kubelb`**
 
-### Gateway Class Mappings (Enterprise Edition Only)
+### Gateway Class Mappings (Enterprise Edition only)
 
 A tenant is not limited to a single gateway class. `classMappings` maps gateway class names used in the tenant cluster (`source`) to gateway class names in the management cluster (`target`). Mappings can be set globally on the `Config` and overridden per tenant; a tenant mapping replaces a global mapping with the same `source`. Up to 32 mappings are allowed per resource.
 

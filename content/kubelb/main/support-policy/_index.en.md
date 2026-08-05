@@ -5,9 +5,9 @@ description = "What Enterprise Edition support covers, what it does not, and how
 weight = 45
 +++
 
-KubeLB has an open-source community edition and an enterprise edition. The community edition is free to use and is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+KubeLB Community Edition is free to use and licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
-The enterprise edition requires an active [KubeLB subscription](https://www.kubermatic.com/products/kubelb/), which includes SLA-backed support from the Kubermatic engineering team.
+Enterprise Edition requires an active [KubeLB subscription](https://www.kubermatic.com/products/kubelb/), which includes SLA-backed support from the Kubermatic engineering team.
 
 ## Enterprise Edition Support
 

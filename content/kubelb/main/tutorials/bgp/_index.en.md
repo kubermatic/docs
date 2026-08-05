@@ -1,7 +1,8 @@
 +++
-title = "Layer 4 Load balancing with BGP"
-linkTitle = "BGP Support"
+title = "Layer 4 Load Balancing with BGP"
+linkTitle = "BGP"
 date = 2025-08-27T10:07:15+02:00
+description = "Advertise Layer 4 load balancer addresses with BGP by integrating KubeLB with MetalLB."
 weight = 5
 +++
 
@@ -11,7 +12,7 @@ KubeLB therefore works with any load balancing appliance, regardless of the rout
 
 ## Setup
 
-We'll use [MetalLB](https://metallb.universe.tf) with BGP for this tutorial. Update the values.yaml file for KubeLB manager to enable metallb:
+We'll use [MetalLB](https://metallb.universe.tf) with BGP for this tutorial. Update `values.yaml` for KubeLB Manager to enable MetalLB:
 
 ```yaml
 kubelb-addons:

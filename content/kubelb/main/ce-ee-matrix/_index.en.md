@@ -7,8 +7,8 @@ weight = 8
 
 KubeLB is available in two editions:
 
-- **Community Edition (CE)**: Free, open source version that is available to the public. The CE is stable, production ready software available at <https://github.com/kubermatic/kubelb>
-- **Enterprise Edition (EE)**: Only available through an active subscription. In addition to the commercial support, SLAs for the product, the EE version contains a larger feature set in comparison to the CE version.
+- **Community Edition (CE):** Free, open source, and production-ready. Source code is available at <https://github.com/kubermatic/kubelb>.
+- **Enterprise Edition (EE):** Available with an active subscription. EE adds commercially supported features and product SLAs.
 
 {{% notice note %}}
 [Get in touch with Kubermatic](mailto:sales@kubermatic.com) to find out more about the KubeLB Enterprise offering.
@@ -37,9 +37,9 @@ KubeLB is available in two editions:
 | **Security** |||
 | Web Application Firewall (Beta) | ❌ | ✔️ |
 | Tenant self-service WAF policies (TenantWAFPolicy) | ❌ | ✔️ |
-| mTLS backend transport | ❌ | ✔️ |
+| mTLS backend transport (Beta) | ❌ | ✔️ |
 | Automated network policies | ❌ | ✔️ |
-| Airgap & Offline Support | ❌ | ✔️ |
+| Air-gapped and offline support | ❌ | ✔️ |
 | **Management** |||
 | Ingress to Gateway API Migration (Beta) | ✔️ | ✔️ |
 | Bring your own certificates | ✔️ | ✔️ |
@@ -48,7 +48,7 @@ KubeLB is available in two editions:
 | Gateway/LoadBalancer limits | ❌ | ✔️ |
 | Load Balancing Policies | ❌ | ✔️ |
 | Gateway API backend pools | ❌ | ✔️ |
-| CLI tunneling | ❌ | ✔️ |
+| CLI tunneling (Beta) | ❌ | ✔️ |
 | **Observability** |||
 | Prometheus metrics | ✔️ | ✔️ |
 | Grafana dashboards | ✔️ | ✔️ |

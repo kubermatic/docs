@@ -2,6 +2,7 @@
 title = "Ingress"
 linkTitle = "Ingress"
 date = 2023-10-27T10:07:15+02:00
+description = "Set up Layer 7 load balancing with Kubernetes Ingress and plan migration to Gateway API."
 weight = 4
 +++
 
@@ -56,7 +57,7 @@ spec:
 
 ### Shared
 
-Update values.yaml for KubeLB manager chart to enable the ingress-nginx addon.
+Update `values.yaml` for the KubeLB Manager chart to enable the ingress-nginx addon.
 
 ```yaml
 kubelb-addons:

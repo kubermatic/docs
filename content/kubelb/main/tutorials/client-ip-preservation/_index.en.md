@@ -2,6 +2,7 @@
 title = "Client IP Preservation"
 linkTitle = "Client IP Preservation"
 date = 2025-01-16T10:00:00+02:00
+description = "Preserve original client IP addresses across KubeLB's multi-cluster Layer 4 and Layer 7 traffic paths."
 weight = 6
 +++
 

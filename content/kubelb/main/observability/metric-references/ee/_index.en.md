@@ -1,6 +1,7 @@
 +++
 title = "Enterprise Edition"
 linkTitle = "Enterprise Edition"
+description = "Prometheus metric reference for KubeLB Enterprise Edition components."
 date = 2026-07-29T00:00:00+02:00
 weight = 20
 enterprise = true

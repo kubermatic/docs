@@ -2,6 +2,7 @@
 title = "Traffic Flow Visibility"
 linkTitle = "Traffic Flow"
 date = 2026-07-29T00:00:00+02:00
+description = "Use Hubble or Kiali to visualize traffic through KubeLB and its tenant backends."
 weight = 20
 aliases = ["/kubelb/main/tutorials/observability/traffic-flow/"]
 +++

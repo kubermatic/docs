@@ -2,6 +2,7 @@
 title = "Automated Network Policies"
 linkTitle = "Network Policies"
 date = 2026-04-23T10:00:00+02:00
+description = "Generate tenant-isolation NetworkPolicies from global defaults and per-tenant overrides."
 weight = 3
 enterprise = true
 +++
@@ -49,7 +50,7 @@ The controller creates the following policies in each tenant namespace. Names ar
 | --- | --- |
 | `kubelb-deny-all-ingress` | Default deny all ingress traffic to tenant namespace. |
 | `kubelb-allow-same-namespace` | Allow pod-to-pod traffic within the tenant namespace. |
-| `kubelb-allow-manager-ingress` | Allow ingress from the KubeLB manager namespace. |
+| `kubelb-allow-manager-ingress` | Allow ingress from the KubeLB Manager namespace. |
 | `kubelb-allow-dns-egress` | Allow DNS resolution via `kube-system` on port 53 (UDP/TCP). |
 | `kubelb-allow-xds-egress` | Allow xDS control-plane communication to the manager on port 8001/TCP. |
 | `kubelb-allow-metrics-ingress` | Allow Prometheus metrics scraping on port 19001/TCP. |

@@ -2,6 +2,7 @@
 title = "Backend TLS Re-encryption"
 linkTitle = "Backend TLS"
 date = 2026-04-23T10:00:00+02:00
+description = "Encrypt Layer 4 connections from KubeLB's Envoy Proxy to TLS-enabled backend services."
 weight = 40
 enterprise = true
 +++

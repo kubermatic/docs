@@ -2,6 +2,7 @@
 title = "Client Traffic Policy"
 linkTitle = "Client Traffic Policy"
 date = 2025-01-16T10:00:00+02:00
+description = "Synchronize Envoy Gateway ClientTrafficPolicy resources to configure downstream connections and TLS."
 weight = 4
 enterprise = true
 +++

@@ -2,6 +2,7 @@
 title = "Graceful Shutdown"
 linkTitle = "Graceful Shutdown"
 date = 2025-01-16T10:00:00+02:00
+description = "Drain Envoy Proxy connections during pod termination to prevent request failures during rollouts."
 weight = 1
 +++
 

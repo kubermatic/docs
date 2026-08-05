@@ -2,6 +2,7 @@
 title = "Health Checks"
 linkTitle = "Health Checks"
 date = 2026-07-22T10:00:00+02:00
+description = "Configure TCP, HTTP, and gRPC active health checks across KubeLB configuration levels."
 weight = 6
 enterprise = true
 +++

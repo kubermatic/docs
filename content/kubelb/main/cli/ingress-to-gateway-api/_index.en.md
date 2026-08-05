@@ -2,12 +2,13 @@
 title = "Ingress to Gateway API"
 linkTitle = "Ingress to Gateway API"
 date = 2026-02-04T00:00:00+01:00
+description = "Assess, preview, and convert Ingress resources to Gateway API with KubeLB CLI or its local dashboard."
 weight = 15
 aliases = ["/kubelb/main/ingress-to-gateway-api/cli-and-dashboard/"]
 +++
 
 {{% notice warning %}}
-**Beta Feature:** The Ingress conversion tools are provided on a best-effort basis. Not all NGINX annotations have Gateway API equivalents. Test thoroughly in non-production environments first.
+**Feature stage: Beta / Technical Preview.** Not all ingress-nginx annotations have Gateway API equivalents. Use these tools for non-business-critical migrations and validate every conversion before applying it.
 {{% /notice %}}
 
 KubeLB CLI ships with two interfaces for migrating Ingress resources to Gateway API: a **command-line workflow** and a **web dashboard**. Both use the same conversion engine and [configuration](#configuration) and produce identical results.

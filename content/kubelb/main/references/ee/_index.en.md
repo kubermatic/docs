@@ -1,6 +1,7 @@
 +++
 title = "KubeLB Enterprise Edition CRD References"
 linkTitle = "Enterprise Edition"
+description = "Custom Resource Definition reference for KubeLB Enterprise Edition."
 date = 2024-03-06T12:00:00+02:00
 weight = 20
 enterprise = true

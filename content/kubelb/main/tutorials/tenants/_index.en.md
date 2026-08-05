@@ -2,6 +2,7 @@
 title = "Tenants"
 linkTitle = "Tenants"
 date = 2023-10-27T10:07:15+02:00
+description = "Register KubeLB tenants and configure per-tenant load-balancing, DNS, certificate, and quota settings."
 weight = 1
 +++
 
@@ -11,7 +12,7 @@ Tenants are the consumers of the load balancer services in the management cluste
 Tenant configuration has a higher precedence than the global configuration and overrides the global configuration values for the tenant if the fields are available in both the tenant and global configuration.
 {{% /notice %}}
 
-## Kubermatic Kubernetes Platform (Enterprise Edition Only)
+## Kubermatic Kubernetes Platform (Enterprise Edition only)
 
 For details, go through [KKP integration details]({{< relref "../../installation/kkp">}})
 
@@ -38,13 +39,13 @@ spec:
     - "internal.company.io/*"
   loadBalancer:
     class: "metallb.universe.tf/metallb"
-    # Enterprise Edition Only
+    # Enterprise Edition only
     limit: 10
   ingress:
     class: "nginx"
   gatewayAPI:
     class: "eg"
-  # All of the below configurations are Enterprise Edition Only
+  # All configurations below are available in Enterprise Edition only.
   dns:
     allowedDomains:
       - "*.example.com"

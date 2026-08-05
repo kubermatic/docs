@@ -2,6 +2,7 @@
 title = "Overload Manager"
 linkTitle = "Overload Manager"
 date = 2025-01-16T10:00:00+02:00
+description = "Protect Envoy Proxy instances from memory and connection exhaustion with overload actions."
 weight = 2
 +++
 

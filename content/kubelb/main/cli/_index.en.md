@@ -2,7 +2,7 @@
 title = "KubeLB CLI"
 date = 2025-08-27T10:07:15+02:00
 weight = 30
-description = "Learn how you can use KubeLB CLI to provision Load Balancers and tunnels to expose local workloads"
+description = "Use KubeLB CLI to provision load balancers, create secure tunnels, and migrate Ingress resources to Gateway API."
 +++
 
 ![KubeLB CLI](/img/kubelb/common/logo.png?classes=logo-height)
@@ -14,7 +14,7 @@ KubeLB CLI is a command line tool that complements KubeLB and manages load balan
 The source code is open source and available at [kubermatic/kubelb-cli](https://github.com/kubermatic/kubelb-cli).
 
 {{% notice note %}}
-KubeLB CLI is currently in beta feature stage and is not yet ready for production use. We are actively working on the feature set and taking feedback from the community and our customers to improve the CLI.
+**Feature stage: Beta / Technical Preview.** KubeLB CLI is supported for non-business-critical use, but its commands and configuration may change between releases. Test workflows before adopting them broadly.
 {{% /notice %}}
 
 ## Installation
