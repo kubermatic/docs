@@ -1,6 +1,7 @@
 +++
 title = "Web Application Firewall (Beta)"
 linkTitle = "Web Application Firewall"
+description = "Protect KubeLB Layer 7 routes with centrally managed Coraza and OWASP Core Rule Set policies."
 date = 2026-01-23T10:00:00+02:00
 weight = 30
 enterprise = true
@@ -19,9 +20,9 @@ Unlike a WAF deployed per cluster, KubeLB manages WAF policies for the whole fle
 - KubeLB Enterprise Edition.
 - Gateway API support enabled in the manager (`kubelb.enableGatewayAPI: true`). WAF applies to Layer 7 Gateway API routes (`HTTPRoute`, `GRPCRoute`) served by Envoy Proxy.
 
-## Supported Routes
+## Supported routes
 
-| Route Type | Supported |
+| Resource or route type | Supported |
 |-----------|-----------|
 | HTTPRoute | Yes |
 | GRPCRoute | Yes |
@@ -45,7 +46,7 @@ kubelb:
 
 ## WAFPolicy CRD
 
-To manage WAF policies, you can use the `WAFPolicy` CRD which is a **cluster-scoped** resource. The following is an example of a `WAFPolicy` CRD:
+Manage fleet-wide WAF policies with the cluster-scoped `WAFPolicy` CRD:
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -64,7 +65,7 @@ spec:
 
 ## Targeting
 
-Three mutually exclusive targeting modes:
+Each `WAFPolicy` uses one of three mutually exclusive targeting modes:
 
 1. **`targetRef`**: Target a specific route by name/namespace/kind
 2. **`targetSelector`**: Match routes by label selector (checks both Route CR labels and embedded source route labels; Route CR labels win on conflict)
@@ -186,6 +187,27 @@ Tenant input is untrusted, so directives run through a strict allowlist before t
 ### How admin and tenant policies combine
 
 Admin and tenant policies are two independent layers. A route can pick up one of each, and when it does, both run as separate WAF engines chained back to back: admin first, tenant second. A request is blocked if either engine blocks it, so a tenant can only add protection on top of the operator's baseline, never weaken it.
+
+```mermaid
+flowchart TB
+  subgraph selection["Policy resolution"]
+    direction LR
+    AdminPolicy["Admin WAFPolicy<br/>global · selector · targetRef"] --> AdminMatch["Resolve matching<br/>admin policy"]
+    TenantPolicy["TenantWAFPolicy<br/>default · selector · targetRef"] --> TenantMatch["Validate guardrails<br/>and resolve"]
+  end
+
+  subgraph traffic["Request path"]
+    direction LR
+    Request["Layer 7 request"] --> AdminEngine["Admin Coraza engine<br/>when matched"]
+    AdminEngine -->|"allow"| TenantEngine["Tenant Coraza engine<br/>when matched"]
+    TenantEngine -->|"allow"| Upstream["Upstream Service"]
+    AdminEngine -->|"block"| Block["Blocked response"]
+    TenantEngine -->|"block"| Block
+  end
+
+  AdminMatch -.->|"configure"| AdminEngine
+  TenantMatch -.->|"configure"| TenantEngine
+```
 
 | Admin policy | Tenant policy | Result |
 |---|---|---|
