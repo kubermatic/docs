@@ -68,11 +68,11 @@ Kubermatic exposes an NGINX server and user clusters API servers via Load Balanc
 
 ### On-Premise/Bring-your-own Load Balancer
 
-If no external load balancer is provided for the setup, we recommend [KubeLB](https://docs.kubermatic.com/kubelb) for Multi-Tenant Load Balancing.
+If no external load balancer is provided for the setup, we recommend [KubeLB](https://docs.kubermatic.com/kubelb/latest/) for Multi-Tenant Load Balancing.
 
-[![](kubelb.png)](https://docs.kubermatic.com/kubelb/v1.1/architecture/)
+[![](kubelb.png)](https://docs.kubermatic.com/kubelb/latest/architecture/)
 
-As frontend IPAM solution and IP announcement, KubeLB could use on-premise non-multi-tenant LB implementations like Cilium or MetalLB in Layer 2 ARP or BGP mode (Commercial Kubernetes-conform implementations like [F5 Big IP](https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/v1.0/#) would also work). KubeLB will add the multi-tenancy as well as central DNS, Certificate and Ingress management. KubeLB delivers one tenant-separated authentication token for each Kubernetes Cluster, which gets used via the so-called [KubeLB CCM](https://docs.kubermatic.com/kubelb/v1.1/installation/tenant-cluster/), which gets configured automatically for KKP clusters. The KubeLB CCM is then handling service and node announcements. For setups where multi-tenant automated LB is not required, direct [MetalLB](https://metallb.universe.tf/) or [Cilium](https://docs.cilium.io/) setups could be used as well. For the best performance and stability of the platform, we recommend talking to our consultants who may help you with finding the best fit for your environment.
+As frontend IPAM solution and IP announcement, KubeLB could use on-premise non-multi-tenant LB implementations like Cilium or MetalLB in Layer 2 ARP or BGP mode (Commercial Kubernetes-conform implementations like [F5 Big IP](https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/v1.0/#) would also work). KubeLB will add the multi-tenancy as well as central DNS, Certificate and Ingress management. KubeLB delivers one tenant-separated authentication token for each Kubernetes Cluster, which gets used via the so-called [KubeLB CCM](https://docs.kubermatic.com/kubelb/latest/installation/tenant-cluster/), which gets configured automatically for KKP clusters. The KubeLB CCM is then handling service and node announcements. For setups where multi-tenant automated LB is not required, direct [MetalLB](https://metallb.universe.tf/) or [Cilium](https://docs.cilium.io/) setups could be used as well. For the best performance and stability of the platform, we recommend talking to our consultants who may help you with finding the best fit for your environment.
 
 #### Layer 2 ARP Announcement
 
