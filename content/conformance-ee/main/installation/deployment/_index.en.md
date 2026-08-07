@@ -11,7 +11,7 @@ Conformance EE is designed to run as a Kubernetes Job inside a cluster with acce
 The simplest way to deploy is using the interactive terminal UI. First, download the conformance-tester binary using the `kubermatic-ee-downloader`:
 
 ```bash
-kubermatic-ee-downloader get conformance-tester --output .
+./kubermatic-ee-downloader get conformance-tester --output .
 ```
 
 Then launch the TUI:
