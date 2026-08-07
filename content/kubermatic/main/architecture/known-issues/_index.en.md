@@ -221,3 +221,40 @@ As long as there are PersistentVolumes and Services of type LoadBalancer within 
 1. Make sure the user cluster has a MachineDeployment, Machines and corresponding healthy nodes before deleting it.
 2. Download the user cluster's kubeconfig before deleting the user cluster and add a new MachineDeployment (e.g. by copying it from another cluster that was created using the same settings). Please be aware that you can neither download the kubeconfig nor create a new MachineDeployment via the KKP Dashboard anymore once user cluster deletion was started!
 3. Ask your platform administrator to remove the `kubermatic.k8c.io/cleanup-in-cluster-pv` and `kubermatic.k8c.io/cleanup-in-cluster-lb` finalizers from your `Cluster` resource within the seed cluster and clean up the corresponding cloud provider resources (e.g. AWS EBS volume) manually.
+
+## Flatcar worker nodes fail to bootstrap on KubeVirt infrastructure (Ignition not applied)
+
+_**Affected Components**_: Machine Controller, KubeVirt provider (Kubermatic Virtualization)
+
+_**Affected OS Image**_: Flatcar Linux worker nodes provisioned on KubeVirt v1.6.4 and newer (shipped with Kubermatic Virtualization v1.2.0). Ubuntu and other cloud-init based operating systems are **not** affected.
+
+Issue: [kubevirt/kubevirt#16901](https://github.com/kubevirt/kubevirt/issues/16901)
+
+### Problem
+
+Flatcar-based user-cluster worker VMs start and receive an IP address, but they never receive their Ignition configuration. As a result the node never joins the user cluster. Ubuntu worker pools on the same infrastructure provision normally.
+
+### Root Cause
+
+Flatcar receives its provisioning config through a QEMU firmware-config argument (`-fw_cfg name=opt/com.coreos/config`) in the `qemu:commandline` section of the VM's libvirt domain. Starting with KubeVirt v1.6.4, the PCIe-hotplug port reservation rewrites the libvirt domain a second time; that XML round-trip drops the `qemu:commandline` block, and with it the `-fw_cfg` argument that carries Flatcar's Ignition payload. This is an upstream KubeVirt defect, not a Kubermatic or machine-controller bug — the Ignition data itself is generated correctly.
+
+### Workaround
+
+Set the KubeVirt annotation `kubevirt.io/placePCIDevicesOnRootComplex: "true"` on the Flatcar worker pool. machine-controller sets it automatically for Flatcar machines as of [kubermatic/machine-controller#2057](https://github.com/kubermatic/machine-controller/pull/2057), released in machine-controller v1.66.1 and backported to v1.65.5. machine-controller v1.66.1 is the version bundled with this KKP release, so no extra configuration is required — recreate the affected Flatcar nodes so they are created with the annotation.
+
+If your installation still runs a machine-controller version that predates the fix, pin it in your `KubermaticConfiguration`, staying within the machine-controller minor your KKP release bundles (v1.65.5 for KKP v2.30.x):
+
+```yaml
+spec:
+  userCluster:
+    machineController:
+      imageTag: v1.65.5
+```
+
+Remove the override once you run a KKP release that already bundles the fix.
+
+Alternatively, set the annotation manually on the Flatcar worker pool's `MachineDeployment` under `spec.template.metadata.annotations` (namespace `kube-system`) and recreate the nodes. The annotation only takes effect on newly created machines. See the [Kubermatic Virtualization known issues](https://docs.kubermatic.com/kubermatic-virtualization/main/known-issues/) page for the full steps, the patch command, and trade-offs.
+
+### Planned resolution
+
+Tracked upstream in [kubevirt/kubevirt#18460](https://github.com/kubevirt/kubevirt/pull/18460). The workaround can be removed once the fix ships in the KubeVirt version bundled with Kubermatic Virtualization.
