@@ -91,11 +91,15 @@ Future Kubermatic images will default to Ubuntu 24.04 to ensure compatibility wi
 
 For oidc authentication to user cluster there is always the same issuer used. This leads to invalidation of refresh tokens when a new authentication happens with the same user because existing refresh tokens for the same user/client pair are invalidated when a new one is requested.
 
+Up to KKP 2.30 this affected kubeconfig downloads, the web terminal and the Kubernetes Dashboard. Since KKP 2.31 the KKP dashboard login uses the same OIDC client (`kubermaticIssuer`) and also obtains a refresh token, so dashboard sessions are affected as well.
+
 ### Root Cause
 
 By default it is only possible to have one refresh token per user/client pair in dex for security reasons. There is an open issue regarding this in the [upstream repository](https://github.com/dexidp/dex/issues/981). The refresh token has by default also no expiration set. This is useful to stay logged in over a longer time because the id_token can be refreshed unless the refresh token is invalidated.
 
 One example would be to download a kubeconfig of one cluster and then of another with the same user. You should only be able to use the first kubeconfig until the id_token expires because the refresh token was already invalidated by the download of the second one.
+
+The same applies between the KKP dashboard and the other flows: logging into the dashboard and then downloading a kubeconfig leaves the dashboard with an invalidated refresh token, and logging into the dashboard again invalidates the refresh token stored in a previously downloaded kubeconfig.
 
 ### Solution
 

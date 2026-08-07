@@ -2,26 +2,26 @@
 title = "KubeLB CLI"
 date = 2025-08-27T10:07:15+02:00
 weight = 30
-description = "Learn how you can use KubeLB CLI to provision Load Balancers and tunnels to expose local workloads"
+description = "Use KubeLB CLI to provision load balancers, create secure tunnels, and migrate Ingress resources to Gateway API."
 +++
 
 ![KubeLB CLI](/img/kubelb/common/logo.png?classes=logo-height)
 
 ## KubeLB CLI
 
-KubeLB CLI is a command line tool that has been introduced to complement KubeLB and make it easier to manage load balancing configurations for multiple tenants in Kube and non-Kube based environments.
+KubeLB CLI is a command line tool that complements KubeLB and manages load balancing configurations for multiple tenants in Kubernetes and non-Kubernetes environments.
 
 The source code is open source and available at [kubermatic/kubelb-cli](https://github.com/kubermatic/kubelb-cli).
 
 {{% notice note %}}
-KubeLB CLI is currently in beta feature stage and is not yet ready for production use. We are actively working on the feature set and taking feedback from the community and our customers to improve the CLI.
+**Feature stage: Beta / Technical Preview.** KubeLB CLI is supported for non-business-critical use, but its commands and configuration may change between releases. Test workflows before adopting them broadly.
 {{% /notice %}}
 
 ## Installation
 
 ### Manual Installation
 
-Users can download the pre-compiled binaries from the [releases page](https://github.com/kubermatic/kubelb-cli/releases) for their system and copy them to the desired location.
+Download the pre-compiled binary for your system from the [releases page](https://github.com/kubermatic/kubelb-cli/releases) and copy it to the desired location.
 
 {{% notice note %}}
 KubeLB CLI is currently available for Linux, macOS, and Windows.
@@ -29,7 +29,7 @@ KubeLB CLI is currently available for Linux, macOS, and Windows.
 
 ### Install using `go install`
 
-If you have Go installed, you can also build the binary from the source code using the following command:
+With Go installed, build the binary from source:
 
 ```bash
 go install github.com/kubermatic/kubelb-cli@v0.2.0
@@ -44,19 +44,7 @@ export KUBECONFIG=/path/to/kubeconfig
 export TENANT_NAME=my-tenant
 ```
 
-## Table of Content
+## Table of Contents
 
 {{% children depth=5 %}}
 {{% /children %}}
-
-## Further Information
-
-- [Introducing KubeLB](https://www.kubermatic.com/products/kubelb/)
-- [KubeLB Whitepaper](https://www.kubermatic.com/static/KubeLB-Cloud-Native-Multi-Tenant-Load-Balancer.pdf)
-- [KubeLB - GitHub Repository](https://github.com/kubermatic/kubelb)
-
-Visit [kubermatic.com](https://www.kubermatic.com/) for further information.
-
-{{% notice tip %}}
-For latest updates follow us on Twitter [@Kubermatic](https://twitter.com/Kubermatic)
-{{% /notice %}}

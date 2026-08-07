@@ -3110,6 +3110,7 @@ _Appears in:_
 | `matchSubnetAndStorageLocation` _boolean_ | {{< unsafe >}}Optional: MatchSubnetAndStorageLocation if set to true, the region and zone of the subnet and storage class must match. For<br />example, if the storage class has the region `eu` and zone was `central`, the subnet must be in the same region and zone.<br />otherwise KKP will reject the creation of the machine deployment and eventually the cluster.{{< /unsafe >}} |
 | `disableDefaultInstanceTypes` _boolean_ | {{< unsafe >}}DisableDefaultInstanceTypes prevents KKP from automatically creating default instance types.<br />(standard-2, standard-4, standard-8) in KubeVirt environments.{{< /unsafe >}} |
 | `disableDefaultPreferences` _boolean_ | {{< unsafe >}}DisableKubermaticPreferences prevents KKP from setting default KubeVirt preferences.{{< /unsafe >}} |
+| `nodeDefaults` _[KubeVirtNodeDefaults](#kubevirtnodedefaults)_ | {{< unsafe >}}Optional: NodeDefaults sets the default CPU, memory and primary disk size for KubeVirt worker<br />nodes in this datacenter. These defaults are used to pre-fill the "Custom Configuration" node<br />form in the dashboard when an instance type is not selected, and are applied server-side to<br />machine deployments that do not already specify a value. They have no effect once an instance<br />type is chosen, as instance types already determine CPU and memory.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4764,6 +4765,8 @@ _Appears in:_
 | `zones` _string array_ | {{< unsafe >}}Zones represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones<br />for increased availability{{< /unsafe >}} |
 | `regions` _string array_ | {{< unsafe >}}Regions represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters<br />to span multiple regions{{< /unsafe >}} |
 | `volumeProvisioner` _[KubeVirtVolumeProvisioner](#kubevirtvolumeprovisioner)_ | {{< unsafe >}}VolumeProvisioner The **Provider** field specifies whether a storage class will be utilized by the Containerized<br />Data Importer (CDI) to create VM disk images and/or by the KubeVirt CSI Driver to provision volumes in the<br />infrastructure cluster. If no storage class in the seed object has this value set, the storage class will be used<br />for both purposes: CDI will create VM disk images, and the CSI driver will provision and attach volumes in the user<br />cluster. However, if the value is set to `kubevirt-csi-driver`, the storage class cannot be used by CDI for VM disk<br />image creation.{{< /unsafe >}} |
+| `reclaimPolicy` _string_ | {{< unsafe >}}ReclaimPolicy controls the reclaimPolicy for dynamically provisioned PersistentVolumes of this storage class.<br />Defaults to Delete.{{< /unsafe >}} |
+| `allowVolumeExpansion` _boolean_ | {{< unsafe >}}AllowVolumeExpansion shows whether the storage class allow volume expand.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4788,6 +4791,17 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+### KubeVirtNodeDefaults
+
+_Underlying type:_ `[struct{CPUs string "json:\"cpus,omitempty\""; Memory string "json:\"memory,omitempty\""; PrimaryDiskSize string "json:\"primaryDiskSize,omitempty\""}](#struct{cpus-string-"json:\"cpus,omitempty\"";-memory-string-"json:\"memory,omitempty\"";-primarydisksize-string-"json:\"primarydisksize,omitempty\""})`
+
+KubeVirtNodeDefaults describes the default CPU, memory and primary disk size for KubeVirt worker nodes.
+
+_Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
 
 
 
@@ -6376,6 +6390,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enforceCustomDisk` _boolean_ | {{< unsafe >}}EnforceCustomDisk will enforce the custom disk option for machines for the dashboard.{{< /unsafe >}} |
+| `enableImageDiscovery` _boolean_ | {{< unsafe >}}EnableImageDiscovery enables listing the OpenStack project's images (matched by their<br />os_distro metadata) in the dashboard's image dropdown.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -7549,6 +7564,8 @@ _Appears in:_
 | `enableClusterBackup` _boolean_ | {{< unsafe >}}EnableClusterBackup enables the Cluster Backup feature in the dashboard.{{< /unsafe >}} |
 | `enableEtcdBackup` _boolean_ | {{< unsafe >}}EnableEtcdBackup enables the etcd Backup feature in the dashboard.{{< /unsafe >}} |
 | `disableAdminKubeconfig` _boolean_ | {{< unsafe >}}DisableAdminKubeconfig disables the admin kubeconfig functionality on the dashboard.{{< /unsafe >}} |
+| `disabledAuditWebhookBackendDCs` _string array_ | {{< unsafe >}}DisabledAuditWebhookBackendDCs is the list of datacenters for which the Audit Webhook Backend<br />option is disabled in the dashboard.{{< /unsafe >}} |
+| `adminGroups` _string array_ | {{< unsafe >}}AdminGroups is the list of OIDC group names whose members are automatically<br />granted KKP administrator privileges. Matching against the user's groups<br />(populated at login) is exact and case-sensitive. Removing a group demotes<br />only users whose admin status was granted via these groups. EE-version only.{{< /unsafe >}} |
 | `userProjectsLimit` _integer_ | {{< unsafe >}}UserProjectsLimit is the maximum number of projects a user can create.{{< /unsafe >}} |
 | `restrictProjectCreation` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
 | `restrictProjectDeletion` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |

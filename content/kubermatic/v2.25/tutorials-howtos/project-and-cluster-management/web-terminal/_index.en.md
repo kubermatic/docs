@@ -16,7 +16,7 @@ After enabling it, a button will appear on the top right side of the user cluste
 
 ## How it works
 
-After KKP UI establishes a websocket connection with the the KKP API, webterminal-related Kubernetes resources are deployed in the user cluster.
+After KKP UI establishes a websocket connection with the KKP API, webterminal-related Kubernetes resources are deployed in the user cluster.
 These are responsible for executing the commands (pod), managing expiration, cleanup and network policy.
 
 Then, the API starts streaming terminal commands from the UI to the Web Terminal pod deployed in the user cluster.

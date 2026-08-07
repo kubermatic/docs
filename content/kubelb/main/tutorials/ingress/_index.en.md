@@ -2,26 +2,27 @@
 title = "Ingress"
 linkTitle = "Ingress"
 date = 2023-10-27T10:07:15+02:00
-weight = 5
+description = "Set up Layer 7 load balancing with Kubernetes Ingress and plan migration to Gateway API."
+weight = 4
 +++
 
-This tutorial will guide you through the process of setting up Layer 7 load balancing with Ingress.
+Set up Layer 7 load balancing with Ingress.
 
 {{% notice warning %}}
 **ingress-nginx has been deprecated by the Kubernetes community and will not have any new releases after March 2026. We strongly encourage you to migrate to Gateway API as soon as possible.**
 
-For more details please refer to the [Ingress to Gateway API Migration]({{< relref "../../ingress-to-gateway-api/" >}}) page.
+See the [Ingress to Gateway API Migration]({{< relref "../../ingress-to-gateway-api/" >}}) page for details.
 {{% /notice %}}
 
-Kubermatic's default recommendation is to use Gateway API and use [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation. The features specific to Gateway API that will be built and consumed in KubeLB will be based on Envoy Gateway. Although this is not a strict binding and our consumers are free to use any Ingress or Gateway API implementation. The only limitation is that we only support native Kubernetes APIs i.e. Ingress and Gateway APIs. Provider specific APIs are not supported by KubeLB and will be completely ignored.
+Kubermatic's default recommendation is to use Gateway API with [Envoy Gateway](https://gateway.envoyproxy.io/) as the Gateway API implementation, and Gateway API features built into KubeLB are based on Envoy Gateway. This is not a strict binding; any Ingress or Gateway API implementation can be used. KubeLB supports only the native Kubernetes APIs, Ingress and Gateway API. Provider-specific APIs are not supported and are ignored.
 
-Although KubeLB supports Ingress, we strongly encourage you to use Gateway API instead as Ingress has been [feature frozen](https://kubernetes.io/docs/concepts/services-networking/ingress/#:~:text=Note%3A-,Ingress%20is%20frozen,-.%20New%20features%20are) in Kubernetes and all new development is happening in the Gateway API space. The biggest advantage of Gateway API is that it is a more flexible, has extensible APIs and is **multi-tenant compliant** by default. Ingress doesn't support multi-tenancy.
+Although KubeLB supports Ingress, use Gateway API instead where possible: Ingress is [feature frozen](https://kubernetes.io/docs/concepts/services-networking/ingress/#:~:text=Note%3A-,Ingress%20is%20frozen,-.%20New%20features%20are) in Kubernetes and new development happens in Gateway API. Gateway API is more flexible, has extensible APIs, and supports multi-tenancy by default; Ingress does not.
 
-### Setup
+## Setup
 
-There are two modes in which Ingress can be setup in the management cluster:
+There are two modes in which Ingress can be set up in the management cluster:
 
-#### Per tenant(Recommended)
+### Per tenant (Recommended)
 
 Install your controller in the following way and scope it down to a specific namespace. This is the recommended approach as it allows you to have a single controller per tenant and the IP for ingress controller is not shared across tenants.
 
@@ -54,9 +55,9 @@ spec:
     class: "nginx-${TENANT_NAME}"
 ```
 
-#### Shared
+### Shared
 
-Update values.yaml for KubeLB manager chart to enable the ingress-nginx addon.
+Update `values.yaml` for the KubeLB Manager chart to enable the ingress-nginx addon.
 
 ```yaml
 kubelb-addons:
@@ -70,7 +71,7 @@ kubelb-addons:
 
 For details: <https://kubernetes.github.io/ingress-nginx/deploy>
 
-### Usage with KubeLB
+## Usage with KubeLB
 
 In the tenant cluster, create the following resources:
 
@@ -150,11 +151,11 @@ spec:
                   fieldPath: metadata.namespace
 ```
 
-This will create an Ingress resource, a service and a deployment. KubeLB CCM will create a service of type `NodePort` against your service to ensure connectivity from the management cluster. Note that the class for ingress is `kubelb`, this is required for KubeLB to manage the Ingress resources. This behavior can be changed however by following the [Ingress configuration](#configurations).
+This creates an Ingress resource, a service, and a deployment. KubeLB CCM creates a service of type `NodePort` against the service so the management cluster can reach it. The ingress class is `kubelb`; this is required for KubeLB to manage the Ingress resources and can be changed via the [configuration](#configurations) below.
 
-### Configurations
+## Configurations
 
-KubeLB CCM helm chart can be used to further configure the CCM. Some essential options are:
+Configure the CCM through the KubeLB CCM helm chart. Common options:
 
 ```yaml
 kubelb:

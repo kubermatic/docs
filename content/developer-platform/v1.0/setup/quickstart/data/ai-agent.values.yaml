@@ -1,0 +1,27 @@
+# ai-agent.values.yaml
+aiAgent:
+  imagePullSecret: |-
+    {
+      "auths": {
+        "quay.io": {
+          "auth": "<PULL_CREDENTIALS>",
+          "email": ""
+        }
+      }
+    }
+
+  config:
+    oidc:
+      clientID: kdp-kubelogin
+      clientSecret: <OIDC_CLIENT_SECRET>
+      issuerURL: https://login.<DOMAIN>
+    kubernetes_api_url: https://api.<DOMAIN>
+    openai_api_key: "<OPENAI_API_KEY>"
+
+  ingress:
+    create: true
+    host: dashboard.<DOMAIN>
+    prefix: /ai-agent(/|$)(.*)
+    certIssuer:
+      kind: ClusterIssuer
+      name: letsencrypt-prod

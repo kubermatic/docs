@@ -1,17 +1,18 @@
 +++
-title = "Layer 4 Load balancing with BGP"
-linkTitle = "BGP Support"
+title = "Layer 4 Load Balancing with BGP"
+linkTitle = "BGP"
 date = 2025-08-27T10:07:15+02:00
-weight = 11
+description = "Advertise Layer 4 load balancer addresses with BGP by integrating KubeLB with MetalLB."
+weight = 5
 +++
 
-In Management Cluster, KubeLB offloads the provisioning of the the actual load balancers to the load balancing appliance that is being used. This can be the CCM in case of a cloud provider or a self-managed solution like [MetalLB](https://metallb.universe.tf), [Cilium Load Balancer](https://cilium.io/use-cases/load-balancer/) or any other solution.
+In the management cluster, KubeLB offloads provisioning of the actual load balancers to the load balancing appliance in use. This can be the CCM in case of a cloud provider or a self-managed solution like [MetalLB](https://metallb.universe.tf), [Cilium Load Balancer](https://cilium.io/use-cases/load-balancer/) or any other solution.
 
-Due to this generic nature, KubeLB can be used with any load balancing appliance and the underlying route advertisement protocol such as BGP, OSPF, L2, are all supported. This tutorial will focus on [BGP](https://networklessons.com/bgp/introduction-to-bgp) but it assumes that the underlying infrastructure of your Kubernetes cluster is already configured to support BGP.
+KubeLB therefore works with any load balancing appliance, regardless of the route advertisement protocol it uses (BGP, OSPF, L2, etc.). This tutorial focuses on [BGP](https://networklessons.com/bgp/introduction-to-bgp) and assumes that the underlying infrastructure of your Kubernetes cluster is already configured to support it.
 
 ## Setup
 
-We'll use [MetalLB](https://metallb.universe.tf) with BGP for this tutorial. Update the values.yaml file for KubeLB manager to enable metallb:
+We'll use [MetalLB](https://metallb.universe.tf) with BGP for this tutorial. Update `values.yaml` for KubeLB Manager to enable MetalLB:
 
 ```yaml
 kubelb-addons:
@@ -43,11 +44,11 @@ spec:
   - extern
 ```
 
-This configures an address pool `extern` with an IP range from 10.10.255.200 to 10.10.255.250. This IP range can be used by the tenant clusters to allocate IP addresses for the `LoadBalancer` service type.
+This creates an address pool `extern` covering 10.10.255.200 to 10.10.255.250, from which tenant clusters allocate IP addresses for `LoadBalancer` services.
 
-Afterwards you can follow the [Layer 4 Load balancing](../loadbalancer#usage-with-kubelb) tutorial to create a `LoadBalancer` service in the tenant cluster.
+Then follow the [Layer 4 Load balancing](../loadbalancer#usage-with-kubelb) tutorial to create a `LoadBalancer` service in the tenant cluster.
 
-### Further reading
+## Further Reading
 
 - [MetalLB BGP Configuration](https://metallb.universe.tf/configuration/_advanced_bgp_configuration/)
 - [MetalLB BGP Usage](https://metallb.universe.tf/usage/#bgp)

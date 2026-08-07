@@ -82,7 +82,7 @@ In this mode, to disable etcd-launcher, you can simply remove the feature flag f
 
 
 # Etcd Launcher Features
-Enabling etcd-launcher enables cluster operators to perform several operational tasks that were not possible before. With the the v2.15.0 releases, etcd-launcher provides the following capabilities:
+Enabling etcd-launcher enables cluster operators to perform several operational tasks that were not possible before. With the v2.15.0 releases, etcd-launcher provides the following capabilities:
 
 ## Scaling user cluster etcd ring
 Prior to version v2.15.0, the user cluster etcd ring ran as a simple and static 3-node ring. With etcd-launcher enabled, it's now possible to resize the etcd ring to increase capacity and/or availability for user clusters.

@@ -2,13 +2,14 @@
 title = "Backend TLS Re-encryption"
 linkTitle = "Backend TLS"
 date = 2026-04-23T10:00:00+02:00
-weight = 4
+description = "Encrypt Layer 4 connections from KubeLB's Envoy Proxy to TLS-enabled backend services."
+weight = 40
 enterprise = true
 +++
 
 ## Overview
 
-By default, KubeLB's Envoy proxy forwards traffic to backend endpoints over plain TCP. When a backend also serves TLS (for example, an `nginx` pod listening on `443` with its own certificate), the plaintext connection from Envoy to the backend fails the TLS handshake. Backend TLS re-encryption instructs Envoy to open a TLS connection on the upstream leg, so traffic stays encrypted end-to-end from client to backend pod.
+By default, KubeLB's Envoy Proxy forwards traffic to backend endpoints over plain TCP. When a backend also serves TLS (for example, an `nginx` pod listening on `443` with its own certificate), the plaintext connection from Envoy to the backend fails the TLS handshake. Backend TLS re-encryption instructs Envoy to open a TLS connection on the upstream leg, so traffic stays encrypted end-to-end from client to backend pod.
 
 This feature is scoped to Layer 4 `LoadBalancer` Services. Layer 7 resources (`Ingress`, `HTTPRoute`, `GRPCRoute`) do not use these annotations; for HTTPS backends behind an Ingress, see the TLS passthrough behavior triggered by `nginx.ingress.kubernetes.io/backend-protocol: HTTPS` covered in the [Ingress tutorial]({{< relref "../ingress" >}}).
 
@@ -112,14 +113,14 @@ KubeLB does not set an SNI value on the upstream connection. Backends that requi
 
 ## Troubleshooting
 
-- **`caSecretRef is required for Verify policy`** in the manager log — `backend-tls-policy: Verify` was set but `backend-tls-ca-secret` was not. Envoy falls back to plain TCP for the cluster.
-- **`failed to get CA secret`** — the Secret named by the annotation does not exist in the tenant namespace on the management cluster. Create it there directly; the CCM does not copy arbitrary Secrets from the tenant cluster.
-- **`secret <name> missing 'ca.crt' key`** — the Secret exists but does not contain a `ca.crt` entry. Rename the key or re-create the Secret with `kubectl create secret generic <name> --from-file=ca.crt=<path>`.
-- **Handshake fails with `certificate verify failed`** — the backend certificate is not signed by the CA in the Secret, or the chain is incomplete. Include intermediates in `ca.crt`.
-- **Connection resets / TLS alerts with a "plain" backend** — the backend does not speak TLS on the target port. Remove the annotations or switch the backend to TLS.
-- **Changes to the CA Secret are not picked up** — the Envoy configuration is regenerated on `LoadBalancer` reconcile. Trigger a reconcile by updating the Service (for example, re-applying the annotation) if rotation does not propagate immediately.
+- **`caSecretRef is required for Verify policy`** in the manager log: `backend-tls-policy: Verify` was set but `backend-tls-ca-secret` was not. Envoy falls back to plain TCP for the cluster.
+- **`failed to get CA secret`**: the Secret named by the annotation does not exist in the tenant namespace on the management cluster. Create it there directly; the CCM does not copy arbitrary Secrets from the tenant cluster.
+- **`secret <name> missing 'ca.crt' key`**: the Secret exists but does not contain a `ca.crt` entry. Rename the key or re-create the Secret with `kubectl create secret generic <name> --from-file=ca.crt=<path>`.
+- **Handshake fails with `certificate verify failed`**: the backend certificate is not signed by the CA in the Secret, or the chain is incomplete. Include intermediates in `ca.crt`.
+- **Connection resets / TLS alerts with a "plain" backend**: the backend does not speak TLS on the target port. Remove the annotations or switch the backend to TLS.
+- **Changes to the CA Secret are not picked up**: the Envoy configuration is regenerated on `LoadBalancer` reconcile. Trigger a reconcile by updating the Service (for example, re-applying the annotation) if rotation does not propagate immediately.
 
-## Further reading
+## Further Reading
 
 - [Envoy upstream TLS (`UpstreamTlsContext`)](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/tls.proto#extensions-transport-sockets-tls-v3-upstreamtlscontext)
-- [Gateway API `BackendTLSPolicy`](https://gateway-api.sigs.k8s.io/api-types/backendtlspolicy/) — KubeLB does not consume `BackendTLSPolicy`, but readers looking for the upstream Gateway API spec may find it useful.
+- [Gateway API `BackendTLSPolicy`](https://gateway-api.sigs.k8s.io/api-types/backendtlspolicy/): KubeLB does not consume `BackendTLSPolicy`, but the upstream Gateway API spec may be useful reference.

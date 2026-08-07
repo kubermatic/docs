@@ -2,19 +2,20 @@
 title = "DNS Management"
 linkTitle = "DNS Management"
 date = 2023-10-27T10:07:15+02:00
-weight = 1
+description = "Automate tenant DNS records with external-dns and KubeLB Enterprise Edition."
+weight = 2
 enterprise = true
 +++
 
 ## Setup
 
-### Install External-dns
+### Install external-dns
 
-We leverage [External-dns](https://bitnami.com/stack/external-dns/helm) to manage DNS records for the tenant clusters.
+KubeLB uses [external-dns](https://github.com/kubernetes-sigs/external-dns) to manage DNS records for the tenant clusters.
 
-**This is just an example to give you a headstart. For more details on setting up external-dns for different providers, visit [Official Documentation](https://kubernetes-sigs.github.io/external-dns).**
+This is a minimal example. See the [external-dns documentation](https://kubernetes-sigs.github.io/external-dns) for setup with other providers.
 
-Update the values.yaml for KubeLB manager chart to enable the external-dns addon.
+Update `values.yaml` for the KubeLB Manager chart to enable the external-dns addon.
 
 ```yaml
 kubelb-addons:
@@ -99,13 +100,13 @@ spec:
       namespace: "kubelb"
 ```
 
-Users can then either use [external-dns annotations](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/annotations/annotations.md) or the annotation `kubelb.k8c.io/manage-dns: true` on their resources to automate DNS management.
+Use [external-dns annotations](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/annotations/annotations.md) or the annotation `kubelb.k8c.io/manage-dns: true` on the resources to automate DNS management.
 
-The additional validation at the tenant level allows us to use a single instance of external-dns for multiple tenants. Although, if required, external-dns can be installed per tenant as well.
+The additional validation at the tenant level allows a single instance of external-dns to serve multiple tenants. If required, external-dns can also be installed per tenant.
 
 #### Configure Gateway
 
-Gateway resource needs to be configured for this automation to work. For example, if you are using Gateway API, you can configure the Gateway resource to manage DNS as follows:
+The Gateway resource must be configured for this automation to work. With Gateway API, configure it as follows:
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1

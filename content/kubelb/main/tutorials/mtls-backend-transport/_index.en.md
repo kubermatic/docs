@@ -1,27 +1,37 @@
 +++
 title = "mTLS Backend Transport"
 linkTitle = "mTLS Backend Transport"
+description = "Encrypt KubeLB backend traffic between management and tenant clusters with mutual TLS."
 date = 2026-05-07T10:00:00+02:00
-weight = 15
+weight = 45
 enterprise = true
 +++
 
 ## Overview
 
-KubeLB can encrypt backend traffic between the management cluster and tenant clusters with mutual TLS (mTLS). When enabled, KubeLB deploys a tenant-local Envoy proxy and routes management-to-tenant backend traffic through it.
+{{% notice info %}}
+mTLS backend transport is a **Beta / Technical Preview** feature (see [Kubermatic feature stages](https://docs.kubermatic.com/kubermatic/main/architecture/feature-stages/)). It is safe to enable and supported; the configuration surface may still change between releases with migration instructions. The stage applies to the feature as a whole, including the CONNECT-UDP tunnel.
+{{% /notice %}}
 
-Default `Direct` mode:
+KubeLB can encrypt backend traffic between the management cluster and tenant clusters with mutual TLS (mTLS). When enabled, KubeLB deploys a tenant-local Envoy Proxy and routes management-to-tenant backend traffic through it.
 
-```text
-Client -> KubeLB Envoy -> tenant node:NodePort -> backend pod
-```
+```mermaid
+flowchart TB
+  subgraph direct["Direct mode"]
+    direction LR
+    DC["Client"] --> DM["KubeLB Envoy<br/>management cluster"]
+    DM -->|"Plain backend connection"| DN["Tenant node<br/>NodePort"]
+    DN --> DB["Backend Service + pod"]
+  end
 
-`MTLS` mode:
+  subgraph mtls["mTLS mode"]
+    direction LR
+    MC["Client"] --> MM["KubeLB Envoy<br/>management cluster"]
+    MM -->|"TLS 1.3 + mutual authentication"| TP["Tenant Envoy<br/>tenant cluster"]
+    TP --> MB["Backend Service + pod"]
+  end
 
-```text
-Client -> KubeLB Envoy
-       -- TLS 1.3 with mutual authentication -->
-       -> kubelb-tenant-envoy -> backend Service -> backend pod
+  DB ~~~ MC
 ```
 
 Application teams keep using the same Kubernetes resources: `LoadBalancer` Services, `Ingress`, and Gateway API routes. The backend transport change is handled by KubeLB.
@@ -29,8 +39,23 @@ Application teams keep using the same Kubernetes resources: `LoadBalancer` Servi
 Use this feature when the management and tenant clusters communicate across a network path where backend traffic should not be plaintext.
 
 {{% notice warning %}}
-UDPRoute uses an alpha CONNECT-UDP tunnel over the same mTLS tenant proxy port; see [UDP behavior](#udp-behavior).
+UDPRoute uses a CONNECT-UDP tunnel over the same mTLS tenant proxy port; see [UDP behavior](#udp-behavior).
 {{% /notice %}}
+
+## Prerequisites
+
+- A KubeLB Enterprise Edition license; the feature ships in the `kubelb-manager-ee` chart.
+- The management cluster must be able to reach the tenant proxy. The required destination depends on how the proxy is exposed:
+  - **NodePort (default):** tenant node addresses on the assigned NodePort. TCP backends and UDPRoute tunnels share this port.
+  - **LoadBalancer:** the tenant proxy load balancer address on TCP port `15443`. See [Tenant proxy and UDP configuration](#tenant-proxy-and-udp-configuration).
+  - **Static addresses:** every address configured on the CCM, using its configured port. See [Tenant-side exposure overrides](#tenant-side-exposure-overrides).
+
+Check the tenant proxy Service:
+
+```bash
+kubectl --context <tenant> -n kubelb \
+  get service kubelb-tenant-envoy -o wide
+```
 
 ## Enable mTLS backend transport
 
@@ -70,6 +95,24 @@ Tenants do not need a separate setting. The tenant CCM discovers the effective m
 Switching between `Direct` and `MTLS` changes the backend traffic path. Plan it like a network topology change and validate tenant traffic after rollout.
 {{% /notice %}}
 
+### Confirm the mode change on an existing installation
+
+Switching the mode re-plumbs the tenant dataplane and briefly disrupts tenant traffic. On an installation with existing tenants, KubeLB holds the mode change until the `Config` carries a confirmation annotation with the target mode:
+
+```bash
+kubectl --context <management> -n kubelb annotate config default \
+  kubelb.k8c.io/confirm-backend-transport-change=MTLS --overwrite
+```
+
+Until the change is confirmed, tenants keep running the previous mode and each `TenantState` reports the `BackendTransportChangePending` condition:
+
+```bash
+kubectl --context <management> -n <tenant-namespace> \
+  get tenantstate default -o jsonpath='{.status.conditions[?(@.type=="BackendTransportChangePending")].message}{"\n"}'
+```
+
+The annotation is compared against the target mode and becomes inert after the change is applied. Remove it afterwards or leave it in place until the next mode change. New tenants always receive the configured mode without confirmation.
+
 ## Verify the rollout
 
 Check the tenant state in the management cluster:
@@ -103,7 +146,7 @@ KubeLB manages the certificate lifecycle for this transport:
 - A management Envoy client certificate.
 - A tenant proxy server certificate.
 
-The management Envoy and tenant Envoy validate each other with tenant-specific identities and use TLS 1.3 for TCP connections. Certificate rotation is automatic and does not normally require a tenant proxy pod restart.
+The management Envoy and tenant Envoy validate each other with tenant-specific identities and use TLS 1.3 for TCP connections. Certificate rotation is automatic and does not normally require a tenant proxy pod restart. Intermediate CA rotation is two-phase: KubeLB distributes the new trust bundle first and re-signs leaf certificates after a short propagation grace, so new connections keep working during rotation.
 
 If a manually created certificate Secret conflicts with the KubeLB-managed one, KubeLB refuses to overwrite it and reports `BackendCertificateConflict` on the affected `Tenant`.
 
@@ -123,22 +166,51 @@ The tenant proxy forwards traffic to the backend Kubernetes Service inside the t
 
 ### UDP behavior
 
-In `MTLS` mode, UDPRoute traffic is tunneled with CONNECT-UDP over the existing mTLS tenant proxy TCP port. The tenant proxy Service does not expose per-backend UDP NodePorts.
+In `MTLS` mode, UDPRoute traffic is tunneled with CONNECT-UDP over the existing mTLS tenant proxy TCP port. The tenant proxy Service does not expose per-backend UDP NodePorts. To keep UDP on plain NodePorts instead, set `backendTransport.udp.mode: Direct` (see below).
 
-CONNECT-UDP and raw UDP-over-HTTP tunneling are alpha Envoy features. Validate workload-specific MTU, burst, stream-count, and idle-timeout behavior before using it for production UDP traffic.
+Envoy marks CONNECT-UDP and raw UDP-over-HTTP tunneling as alpha upstream. Validate workload-specific MTU, burst, stream-count, and idle-timeout behavior before using it for production UDP traffic.
 
-## Network requirements
+## Tenant proxy and UDP configuration
 
-The management cluster must be able to reach tenant cluster nodes on Kubernetes NodePort ranges.
+The MTLS topology can be tuned on the `Config` resource under `spec.backendTransport`:
 
-In `MTLS` mode, the tenant cluster exposes `kubelb-tenant-envoy` as a `NodePort` Service in the tenant `kubelb` namespace. Management Envoy connects to tenant node addresses and the assigned NodePort. TCP backends and UDPRoute tunnels share the same tenant proxy port.
-
-Check the tenant proxy Service:
-
-```bash
-kubectl --context <tenant> -n kubelb \
-  get service kubelb-tenant-envoy -o wide
+```yaml
+spec:
+  backendTransport:
+    mode: MTLS
+    tenantProxy:
+      serviceType: NodePort   # NodePort (default) or LoadBalancer
+      workload: DaemonSet     # DaemonSet (default) or Deployment
+      # replicas: 2           # Deployment only
+    udp:
+      mode: Tunnel            # Tunnel (default) or Direct
 ```
+
+- `tenantProxy.serviceType`: With `NodePort` (default), the CCM publishes tenant node addresses plus the allocated NodePort. With `LoadBalancer`, the CCM publishes the Service's load balancer ingress IPs or hostnames, and the management Envoy dials the fixed tenant proxy port 15443 instead of a NodePort.
+- `tenantProxy.workload`: `DaemonSet` (default) runs one proxy per node. `Deployment` runs a fixed number of replicas (`tenantProxy.replicas`, default 2) spread across nodes; the CCM then publishes only the node addresses that host proxy pods, so the management Envoy never dials a node without a local proxy.
+- `udp.mode`: `Tunnel` (default) wraps each UDP session in CONNECT-UDP over the encrypted tenant proxy port. `Direct` is an escape hatch that keeps UDP on plain, unencrypted per-service NodePorts for workloads sensitive to the tunnel's MTU overhead or to Envoy's upstream CONNECT-UDP maturity.
+
+### Tenant-side exposure overrides
+
+How the tenant proxy is reachable is a property of the tenant cluster's network, so it can also be configured on the KubeLB CCM chart. CCM-side settings take precedence over the `Config` projection above:
+
+```yaml
+kubelb:
+  tenantProxy:
+    # Override the Service type (NodePort or LoadBalancer). Empty follows
+    # the management cluster Config.
+    serviceType: ""
+    # Static IPs or hostnames published as the tenant proxy dial target
+    # instead of node or load balancer addresses.
+    staticAddresses: []
+    # Port dialed together with staticAddresses.
+    staticPort: 15443
+```
+
+- `serviceType`: same semantics as `tenantProxy.serviceType` on the `Config` resource, decided by the tenant cluster operator instead of the management cluster.
+- `staticAddresses`: for tenant proxies fronted by an appliance, NAT, or a user-managed DNS record that the Service status cannot know about. The CCM publishes these addresses verbatim (with `staticPort`) and the management Envoy dials them directly; hostnames are resolved by the management Envoy via DNS. The management cluster must be able to reach every listed address on `staticPort`, and the address must forward to the tenant proxy Service.
+
+Mutual TLS certificate verification is based on per-tenant SANs, not on the dialed address, so static addresses and DNS names require no certificate changes.
 
 ## Operations
 
@@ -154,7 +226,7 @@ These changes may roll tenant proxy pods:
 - KubeLB upgrades that change tenant proxy bootstrap configuration.
 - Pod-template-level settings such as image, node selector, tolerations, or image pull secrets.
 
-KubeLB does not use active TCP health checks from management Envoy to the tenant proxy for mTLS backend clusters. Instead, management Envoy uses passive outlier detection after real request failures. `TenantProxyReady` reports DaemonSet readiness, not application health.
+Management Envoy runs active TCP health checks against the tenant proxy through the mTLS transport at a 60-second interval. A passing probe validates node reachability, certificates, and SNI routing for the backend. Between probes, passive outlier detection ejects tenant proxy endpoints after real request failures. `TenantProxyReady` reports DaemonSet readiness, not application health.
 
 ## Metrics to watch
 
@@ -216,7 +288,16 @@ kubectl --context <tenant> -n kubelb \
   wget -qO- http://localhost:19000/clusters
 ```
 
+Port 19000 is the tenant proxy's Envoy admin interface; the mTLS listener that receives backend traffic listens on port 15443.
+
 ## Disable mTLS backend transport
+
+Confirm the mode change on the `Config`:
+
+```bash
+kubectl --context <management> -n kubelb annotate config default \
+  kubelb.k8c.io/confirm-backend-transport-change=Direct --overwrite
+```
 
 Switch back to `Direct`:
 
@@ -227,4 +308,4 @@ helm upgrade kubelb oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee \
   --set kubelb.backendTransport.mode=Direct
 ```
 
-The CCM cleans up tenant proxy resources after the effective mode changes. Plan for a brief traffic path change while traffic moves back to direct tenant NodePort routing.
+Without the annotation, tenants keep running `MTLS` and `TenantState` reports `BackendTransportChangePending`. After the change is confirmed, the CCM cleans up tenant proxy resources. Plan for a brief traffic path change while traffic moves back to direct tenant NodePort routing.

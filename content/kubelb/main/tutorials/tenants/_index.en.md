@@ -2,26 +2,27 @@
 title = "Tenants"
 linkTitle = "Tenants"
 date = 2023-10-27T10:07:15+02:00
-weight = 2
+description = "Register KubeLB tenants and configure per-tenant load-balancing, DNS, certificate, and quota settings."
+weight = 1
 +++
 
-Tenants represent the consumers of the load balancer services in the management cluster. They can be individual users, teams, or applications that have their workloads, access control, and quotas isolated by using the tenant concept in management cluster. Tenants are represented by the tenant CRD and have a dedicated namespace `tenant-<tenant-name>` in the management cluster. Each Kubernetes cluster where the KubeLB CCM is running is considered a unique tenant. This demarcation is based on the fact that the endpoints, simply the Node IPs and node ports, are unique for each Kubernetes cluster.
+Tenants are the consumers of the load balancer services in the management cluster: individual users, teams, or applications whose workloads, access control, and quotas are isolated per tenant. Each tenant is represented by the `Tenant` CRD and has a dedicated namespace `tenant-<tenant-name>` in the management cluster. Each Kubernetes cluster running the KubeLB CCM is a unique tenant; see [Architecture]({{< relref "../../architecture/" >}}) for details.
 
 {{% notice note %}}
 Tenant configuration has a higher precedence than the global configuration and overrides the global configuration values for the tenant if the fields are available in both the tenant and global configuration.
 {{% /notice %}}
 
-## Kubermatic Kubernetes Platform (Enterprise Edition Only)
+## Kubermatic Kubernetes Platform (Enterprise Edition only)
 
-For details, go through [KKP integration details]({{< relref "../../tutorials/kkp">}})
+For details, go through [KKP integration details]({{< relref "../../installation/kkp">}})
 
 ## Usage
 
-For usage outside of KKP please follow the guide along. This guide assumes that the KubeLB manager cluster has been configured by following the [installation guide](../../installation/).
+For usage outside of KKP, follow this guide. It assumes that the KubeLB management cluster has been configured by following the [installation guide](../../installation/).
 
 ### KubeLB Tenant
 
-With KubeLB v1.1, the process to register a new tenant has been simplified. Instead of running scripts to register a new tenant, the user can now create a `Tenant` CRD.
+Since KubeLB v1.1, register a new tenant by creating a `Tenant` CRD.
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -38,13 +39,13 @@ spec:
     - "internal.company.io/*"
   loadBalancer:
     class: "metallb.universe.tf/metallb"
-    # Enterprise Edition Only
+    # Enterprise Edition only
     limit: 10
   ingress:
     class: "nginx"
   gatewayAPI:
     class: "eg"
-  # All of the below configurations are Enterprise Edition Only
+  # All configurations below are available in Enterprise Edition only.
   dns:
     allowedDomains:
       - "*.example.com"
@@ -59,20 +60,24 @@ spec:
     - "**.kube.com"
 ```
 
-With this CR we are creating a tenant named `shroud` with the following configurations:
+This creates a tenant named `shroud` with the following configuration:
 
 * **propagateAllAnnotations: true** - Propagate all annotations to the resources.
-* **deniedAnnotations** - Annotation key patterns to exclude from propagation. Deny rules always take precedence over `propagateAllAnnotations` and `propagatedAnnotations`. See [Annotation Settings]({{< relref "../config#annotation-settings" >}}) for details.
+* **deniedAnnotations** - Annotation key patterns to exclude from propagation. Deny rules always take precedence over `propagateAllAnnotations` and `propagatedAnnotations`. See [Annotation Settings]({{< relref "../../installation/configuration#annotation-settings" >}}) for details.
 * **loadBalancer.class: metallb.universe.tf/metallb** - The class to use for LoadBalancer resources for tenants in the management cluster.
 * **loadBalancer.limit: 10** - The limit of LoadBalancer resources that can be created by the tenant.
 * **ingress.class: nginx** - The class to use for Ingress resources for tenants in the management cluster.
-* **gatewayAPI.class: eg** - The class to use for Gateway API resources for tenants in the management cluster.
-* For DNS configuration, we have allowed domains `*.example.com`.
-* For Certificates configuration, we have the default cluster issuer `letsencrypt-prod` and allowed domains `*.example.com`.
-* For Ingress and Gateway API, we have allowed domains `*.example.com` and `**.kube.com`.
+* **gatewayAPI.class: eg** - The class to use for Gateway API resources for tenants in the management cluster. To use more than one gateway class per tenant, see [Gateway Class Mappings]({{< relref "../gatewayapi#gateway-class-mappings-enterprise-edition-only" >}}) (Enterprise Edition only).
+* For DNS, the allowed domain is `*.example.com`.
+* For certificates, the default cluster issuer is `letsencrypt-prod` and the allowed domain is `*.example.com`.
+* For Ingress and Gateway API, the allowed domains are `*.example.com` and `**.kube.com`.
 
 {{% notice info %}}
 The tenant name provided to the consumers is the name of the namespace that is created in the management cluster against the tenant CRD. So the tenant **shroud** will be represented by the namespace **tenant-shroud** in the management cluster. For the CCM, tenantName of **tenant-shroud** needs to be used.
+{{% /notice %}}
+
+{{% notice tip %}}
+When a resource requests a hostname outside `allowedDomains`, the corresponding `Route` in the management cluster is rejected: its `Accepted` condition is set to `False` with reason `DomainNotAllowed`, and a Warning event is emitted. If a hostname does not come up, check the Route's conditions and events with `kubectl describe`.
 {{% /notice %}}
 
 ### Load Balancer Policy
@@ -81,7 +86,7 @@ The tenant name provided to the consumers is the name of the namespace that is c
 Enterprise Edition only. Available from KubeLB v1.4.
 {{% /notice %}}
 
-Set `spec.loadBalancerPolicy` on the Tenant to override the global [Load Balancer Policy]({{< relref "../config#configure-load-balancer-policy" >}}) for this tenant's Envoy clusters.
+Set `spec.loadBalancerPolicy` on the Tenant to override the global [Load Balancer Policy]({{< relref "../../installation/configuration#configure-load-balancer-policy" >}}) for this tenant's Envoy clusters.
 
 ```yaml
 apiVersion: kubelb.k8c.io/v1alpha1
@@ -94,7 +99,7 @@ spec:
 
 Valid values are `RoundRobin`, `LeastRequest`, and `Random`. For a per-service override, use the [`kubelb.k8c.io/lb-policy` annotation]({{< relref "../loadbalancer#per-service-load-balancer-policy" >}}).
 
-**For more details and options, please go through [CRD References]({{< relref "../../references">}})**
+See [CRD References]({{< relref "../../references">}}) for all options.
 
 ## Per-Tenant Envoy Proxy Sizing
 
@@ -121,4 +126,4 @@ spec:
         memory: 512Mi
 ```
 
-See [Configure Envoy Proxy]({{< relref "../config#configure-envoy-proxy" >}}) for the global defaults that these overrides replace.
+See [Configure Envoy Proxy]({{< relref "../../installation/configuration#configure-envoy-proxy" >}}) for the global defaults that these overrides replace.

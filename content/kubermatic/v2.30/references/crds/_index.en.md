@@ -4723,6 +4723,8 @@ _Appears in:_
 | `zones` _string array_ | {{< unsafe >}}Zones represent a logical failure domain. It is common for Kubernetes clusters to span multiple zones<br />for increased availability{{< /unsafe >}} |
 | `regions` _string array_ | {{< unsafe >}}Regions represents a larger domain, made up of one or more zones. It is uncommon for Kubernetes clusters<br />to span multiple regions{{< /unsafe >}} |
 | `volumeProvisioner` _[KubeVirtVolumeProvisioner](#kubevirtvolumeprovisioner)_ | {{< unsafe >}}VolumeProvisioner The **Provider** field specifies whether a storage class will be utilized by the Containerized<br />Data Importer (CDI) to create VM disk images and/or by the KubeVirt CSI Driver to provision volumes in the<br />infrastructure cluster. If no storage class in the seed object has this value set, the storage class will be used<br />for both purposes: CDI will create VM disk images, and the CSI driver will provision and attach volumes in the user<br />cluster. However, if the value is set to `kubevirt-csi-driver`, the storage class cannot be used by CDI for VM disk<br />image creation.{{< /unsafe >}} |
+| `reclaimPolicy` _string_ | {{< unsafe >}}ReclaimPolicy controls the reclaimPolicy for dynamically provisioned PersistentVolumes of this storage class.<br />Defaults to Delete.{{< /unsafe >}} |
+| `allowVolumeExpansion` _boolean_ | {{< unsafe >}}AllowVolumeExpansion shows whether the storage class allow volume expand.{{< /unsafe >}} |
 
 
 [Back to top](#top)

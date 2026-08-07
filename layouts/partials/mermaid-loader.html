@@ -1,0 +1,19 @@
+{{- /* Loads mermaid once per page, renders every .mermaid block, then wires the
+       click-to-expand lightbox. Emitted by both the ```mermaid codeblock hook
+       and the mermaid shortcode; the window flag keeps it to a single run. */ -}}
+<script type="module">
+  if (!window.__mermaidInit) {
+    window.__mermaidInit = true;
+    await new Promise((resolve, reject) => {
+      const tag = document.createElement("script");
+      tag.src = "{{ "mermaid/mermaid-11.16.0.min.js" | relURL }}";
+      tag.onload = resolve;
+      tag.onerror = reject;
+      document.head.appendChild(tag);
+    });
+    mermaid.initialize({ startOnLoad: false, theme: "neutral" });
+    await mermaid.run({ querySelector: ".mermaid" });
+    const { initMermaidLightbox } = await import("{{ "js/mermaid-lightbox.js" | relURL }}");
+    initMermaidLightbox();
+  }
+</script>

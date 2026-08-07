@@ -1,21 +1,23 @@
 +++
-title = "Compatibility Matrix"
+title = "CLI Compatibility Matrix"
+linkTitle = "Compatibility"
 date = 2025-08-27T00:00:00+01:00
+description = "Supported KubeLB CLI and management-cluster version combinations."
 weight = 30
 +++
 
-KubeLB CLI uses Kubernetes management cluster that has KubeLB installed as it's source of truth for the load balancing configurations.
+KubeLB CLI uses the Kubernetes management cluster that has KubeLB installed as its source of truth for the load balancing configurations.
 
-Since it has been introduced alongside KubeLB v1.2, it has a hard dependency for the KubeLB management cluster to be at least v1.2.
+Introduced alongside KubeLB v1.2, the CLI requires the KubeLB management cluster to be at least v1.2.
 
 {{% notice note %}}
-KubeLB CLI is currently in beta feature stage and is not yet ready for production use. We are actively working on the feature set and taking feedback from the community and our customers to improve the CLI.
+**Feature stage: Beta / Technical Preview.** Use KubeLB CLI for non-business-critical workflows and validate compatibility before upgrading.
 {{% /notice %}}
 
-| KubeLB CLI | KubeLB Management Cluster |
+| KubeLB CLI | KubeLB management cluster |
 |------------|---------------------------|
 | v0.1.0     | v1.2+                     |
 
 ## Support Policy
 
-For support policy, please refer to the [KubeLB Support Policy](../../support-policy/)
+See the [KubeLB Support Policy](../../support-policy/).

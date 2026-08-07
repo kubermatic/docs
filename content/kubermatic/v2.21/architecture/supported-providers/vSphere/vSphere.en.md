@@ -411,7 +411,7 @@ It's also possible to create the roles by a terraform script. The following repo
 Starting from version 2.21, KKP supports the creation of Tags and Tag Categories. However, this feature requires access
 for vSphere tagging permissions. Users can create a default tag category and assign it in vSphere datacenter configs
 in the seed object, then, either they use pre-created tag categories and assign it on seed level and then it gets passed
-to user clusters, or they permit KKP to create and manage it's own tags and tag catehories.
+to user clusters, or they permit KKP to create and manage its own tags and tag categories.
 
 ## Datastores and Datastore Clusters
 

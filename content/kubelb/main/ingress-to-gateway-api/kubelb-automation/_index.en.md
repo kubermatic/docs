@@ -1,15 +1,16 @@
 +++
-title = "Automated Conversion with KubeLB [Beta]"
-linkTitle = "KubeLB Automation"
+title = "Automated Conversion with KubeLB (Beta)"
+linkTitle = "Automated Conversion"
 date = 2026-01-30T00:00:00+01:00
+description = "Continuously convert ingress-nginx resources to Gateway API with KubeLB's Beta migration controller."
 weight = 1
 +++
 
 {{% notice warning %}}
-**Beta Feature:** This converter is provided on a best-effort basis. Not all NGINX annotations have Gateway API equivalents. Test thoroughly in non-production environments first. Some configurations will require manual intervention.
+**Feature stage: Beta / Technical Preview.** Not all ingress-nginx annotations have Gateway API equivalents. Use the converter for non-business-critical migrations, validate every generated resource, and expect some configurations to require manual changes.
 {{% /notice %}}
 
-KubeLB can automatically convert your Ingress resources to Gateway API. Point it at your Ingresses, and it creates the equivalent HTTPRoutes and GRPCRoutes for you.
+KubeLB can automatically convert Ingress resources to Gateway API. It watches your Ingresses and creates the equivalent HTTPRoutes and GRPCRoutes.
 
 {{% notice info %}}
 **Supported Controllers:** Currently, the converter only supports **ingress-nginx** as the source Ingress controller. Gateway API resources (HTTPRoute, GRPCRoute, Gateway) are converted in a generic manner and work with any implementation. However, policy generation (SecurityPolicy, BackendTrafficPolicy) is only supported for **Envoy Gateway**. Support for other controllers may be added in the future.
@@ -23,7 +24,7 @@ KubeLB can automatically convert your Ingress resources to Gateway API. Point it
 4. It manages a Gateway resource with listeners for your TLS hosts
 5. Status annotations on your Ingress tell you what happened
 
-The created routes persist even after you delete the source Ingress, allowing you to migrate gradually and delete Ingresses at your own pace.
+The created routes persist even after you delete the source Ingress, so you can migrate gradually and delete Ingresses at your own pace.
 
 ## Getting Started
 
@@ -44,12 +45,12 @@ kubelb:
     gatewayClass: kubelb
 ```
 
-With integrated mode, KubeLB handles everything for you:
+In integrated mode:
 
-- **No Gateway setup required per tenant cluster** — KubeLB manages the Gateway lifecycle, GatewayClass, and all CRDs. No need to install Envoy Gateway separately in each tenant cluster. Envoy Gateway is installed in the manager cluster.
-- **Policy support out of the box** — Envoy Gateway policies (ClientTrafficPolicy, BackendTrafficPolicy) work automatically since KubeLB's manager cluster has the CRDs installed.
-- **Centralized traffic management** — Converted routes are synced to the manager cluster where KubeLB serves traffic using its Layer 7 load balancing capabilities.
-- **Multi-tenant ready** — Each tenant cluster can run the converter independently while KubeLB handles traffic routing centrally.
+- KubeLB manages the Gateway lifecycle, GatewayClass, and all CRDs. Envoy Gateway is installed once in the management cluster, not in each tenant cluster.
+- Envoy Gateway policies (ClientTrafficPolicy, BackendTrafficPolicy) work automatically since the management cluster has the CRDs installed.
+- Converted routes are synced to the management cluster, where KubeLB serves traffic using its Layer 7 load balancing.
+- Each tenant cluster can run the converter independently while KubeLB handles traffic routing centrally.
 
 #### Standalone Mode
 
@@ -99,7 +100,7 @@ SecurityPolicy is not installed by KubeLB itself and needs to be installed manua
 kubectl apply -f https://raw.githubusercontent.com/envoyproxy/gateway/refs/tags/v1.6.3/charts/gateway-helm/crds/generated/gateway.envoyproxy.io_securitypolicies.yaml
 ```
 
-Since in standalone mode, we install Envoy Gateway in each tenant cluster, the SecurityPolicy CRD will be installed automatically by the Envoy Gateway Helm Chart.
+In standalone mode, Envoy Gateway is installed in each tenant cluster, so the Envoy Gateway Helm chart installs the SecurityPolicy CRD automatically.
 
 **4. (Optional) Pre-create a Gateway**
 
@@ -131,7 +132,7 @@ Review the [Configuration Options](#all-configuration-options) before installing
 {{% tab name="Community Edition" %}}
 
 ```sh
-helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.3.9 --namespace kubelb -f values.yaml --create-namespace
+helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.4.3 --namespace kubelb -f values.yaml --create-namespace
 ```
 
 {{% notice info %}}
@@ -142,7 +143,7 @@ helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-cc
 {{% tab name="Enterprise Edition" %}}
 
 ```sh
-helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.3.9 --namespace kubelb -f values.yaml --create-namespace
+helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.4.3 --namespace kubelb -f values.yaml --create-namespace
 ```
 
 {{% notice info %}}
@@ -172,11 +173,11 @@ kubectl get httproutes -l kubelb.k8c.io/source-ingress=my-app.default
 
 The status will be one of:
 
-- `converted` — Everything worked
-- `partial` — Some routes worked, others didn't
-- `pending` — Routes created but Gateway controller hasn't accepted them yet
-- `skipped` — Ingress uses unsupported features (like canary)
-- `failed` — Something went wrong
+- `converted`: Everything worked
+- `partial`: Some routes worked, others didn't
+- `pending`: Routes created but Gateway controller hasn't accepted them yet
+- `skipped`: Ingress uses unsupported features (like canary)
+- `failed`: Something went wrong
 
 ## Customizing Behavior
 
@@ -217,7 +218,7 @@ ingressConversion:
 ```
 
 {{% notice tip %}}
-Your existing cert-manager ClusterIssuer for Ingress likely won't work with Gateway API out of the box. See [Cert Manager Migration](cert-manager) for details.
+Your existing cert-manager ClusterIssuer for Ingress likely won't work with Gateway API without changes. See [cert-manager Migration](cert-manager) for details.
 {{% /notice %}}
 
 ### All Configuration Options
@@ -269,7 +270,7 @@ ingressConversion:
 
 **Disabling secret sync:**
 
-If you manage TLS secrets separately using different workflows or cert-manager can generate them for new domains. It's recommended to disable the secret sync and manage TLS secrets separately:
+If you manage TLS secrets through separate workflows, or cert-manager can generate them for the new domains, disable the secret sync:
 
 ```yaml
 ingressConversion:
@@ -308,7 +309,7 @@ These NGINX annotations are converted to native Gateway API features:
 
 ### Envoy Gateway Policy Generation
 
-For policy generation, we only support Envoy Gateway as the target Gateway API implementation. The converter auto-creates **SecurityPolicy** and **BackendTrafficPolicy** resources. **ClientTrafficPolicy** is not auto-created because it targets Gateway, this results in it being applied to all listeners on the Gateway and that can cause issues for other HTTPRoutes on the same Gateway. Annotations requiring ClientTrafficPolicy generate warnings instead.
+Policy generation supports only Envoy Gateway as the target Gateway API implementation. The converter auto-creates **SecurityPolicy** and **BackendTrafficPolicy** resources. **ClientTrafficPolicy** is not auto-created because it targets the Gateway; it would apply to all listeners and could affect other HTTPRoutes on the same Gateway. Annotations requiring ClientTrafficPolicy generate warnings instead.
 
 Policy generation is enabled by default in both standalone and integrated modes, and can be disabled by configuring the values.yaml with:
 
@@ -345,7 +346,7 @@ These annotations automatically create Envoy Gateway policies:
 
 ### Annotations That Need Manual Follow-up
 
-These annotations generate warnings only—manual configuration is required:
+These annotations generate warnings only; manual configuration is required:
 
 | NGINX Annotation | Reason / Suggested Policy |
 |------------------|---------------------------|
@@ -358,8 +359,7 @@ These annotations generate warnings only—manual configuration is required:
 | `nginx.ingress.kubernetes.io/ssl-passthrough` | Create TLSRoute instead of HTTPRoute |
 | `nginx.ingress.kubernetes.io/preserve-host: "false"` | Add URLRewrite filter with hostname at backend level |
 
-**Note:** After manual follow-up, update the annotation `kubelb.k8c.io/conversion-status` to `converted`. This helps track which Ingresses have been fully migrated. This is required so that the converter knows
- that the conversion is complete and it can stop watching the Ingress resource.
+**Note:** After manual follow-up, update the annotation `kubelb.k8c.io/conversion-status` to `converted`. This tells the converter that the conversion is complete so it stops watching the Ingress resource, and tracks which Ingresses have been fully migrated.
 
 ### Annotations That Don't Work
 
@@ -396,8 +396,8 @@ spec:
 ## Limitations
 
 - **RegularExpression paths** depend on your Gateway implementation's support
-- **Envoy Gateway policies** are created locally in the tenant cluster—ensure Envoy Gateway CRDs are installed
-- **cert-manager annotations** aren't propagated automatically—use `gatewayAnnotations` instead
+- **Envoy Gateway policies** are created locally in the tenant cluster; ensure Envoy Gateway CRDs are installed
+- **cert-manager annotations** aren't propagated automatically; use `gatewayAnnotations` instead
 - **GRPCRoute** doesn't support HTTPRoute filters (redirects, rewrites, headers)
 - **Gateway listeners** are shared across all converted Ingresses
 - **TLS secrets** are copied to Gateway namespace by default; with domain transformation, you may need cert-manager to issue new certificates

@@ -1,11 +1,12 @@
 +++
-title = "External DNS Migration"
-linkTitle = "External DNS"
+title = "external-dns Migration"
+linkTitle = "external-dns"
 date = 2026-01-30T00:00:00+01:00
+description = "Configure external-dns to manage records for Gateway API resources during an Ingress migration."
 weight = 4
 +++
 
-External DNS automates DNS record management by watching Kubernetes resources and creating corresponding DNS entries. It's widely used alongside Ingress controllers.
+external-dns automates DNS record management by watching Kubernetes resources and creating corresponding DNS entries. It is widely used alongside Ingress controllers.
 
 When migrating from Ingress to Gateway API, external-dns requires source configuration changes to watch Gateway API resources.
 
@@ -99,7 +100,7 @@ Add only the sources you need based on your route types.
 
 ## Annotation Handling
 
-External-dns annotations work similarly on both Ingress and Gateway API resources.
+external-dns annotations work the same on both Ingress and Gateway API resources.
 
 | Ingress Annotation | Gateway/Route Annotation | Notes |
 |--------------------|--------------------------|-------|
@@ -188,11 +189,9 @@ spec:
 Be aware of these limitations when migrating external-dns to Gateway API.
 {{% /notice %}}
 
-We didn't find any significant limitations during our migrations and testing. Everything worked as expected and seamlessly. Although, some things to be aware of:
-
 ### IP Address Resolution
 
-External-dns needs the Gateway's IP address to create DNS records. Ensure your Gateway has a LoadBalancer service with an assigned external IP before routes can get DNS records.
+external-dns needs the Gateway's IP address to create DNS records. Ensure your Gateway has a LoadBalancer service with an assigned external IP before routes can get DNS records.
 
 ### Multiple Routes Same Hostname
 
@@ -200,7 +199,7 @@ If multiple HTTPRoutes specify the same hostname, external-dns creates a single 
 
 ### TXT Record Ownership
 
-External-dns uses TXT records for ownership tracking. When migrating, the `txtOwnerId` should remain the same to avoid orphaned records. If you change the owner ID, old records won't be cleaned up automatically.
+external-dns uses TXT records for ownership tracking. When migrating, the `txtOwnerId` should remain the same to avoid orphaned records. If you change the owner ID, old records won't be cleaned up automatically.
 
 ### Gateway vs Route Annotations
 

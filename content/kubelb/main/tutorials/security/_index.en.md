@@ -1,13 +1,14 @@
 +++
 title = "Security"
-linkTitle = "Security"
+linkTitle = "Certificates, DNS & Policies"
 date = 2023-10-27T10:07:15+02:00
-weight = 10
+description = "Manage DNS, TLS certificates, secrets, and network policies for KubeLB load balancers."
+weight = 20
 +++
 
-This is a guide towards managing DNS, TLS, and other security-related configurations in KubeLB.
+This section covers DNS, TLS, and other security-related configuration in KubeLB.
 
-## Table of Content
+## Table of Contents
 
 {{% children depth=5 %}}
 {{% /children %}}
