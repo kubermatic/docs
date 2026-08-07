@@ -379,20 +379,10 @@ With KubeOne installed and the environment configured, we're ready to create
 the infrastructure for our cluster. We'll use the example Terraform configs for
 this step.
 
-First, move to the directory with the example Terraform configs that has been
-created while installing KubeOne in the Step 1. For example (the directory
-name depends on the latest KubeOne version):
+KubeOne provides you with provider-specific Terraform configs via the following command:
 
 ```shell
-cd ./kubeone_1.11.0_linux_amd64/examples/terraform
-```
-
-In this directory, you can find a subdirectory for each supported provider.
-Move to the directory for a provider that you want to use. For example, if you
-want to run your cluster on GCP:
-
-```shell
-cd ./gce
+kubeone init --provider <PROVIDER> --cluster-name <CLUSTER-NAME> --path <TF_INFRA_DIR>
 ```
 
 Before we can use Terraform, we need to initialize the directory structure and
