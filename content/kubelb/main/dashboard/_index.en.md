@@ -16,9 +16,10 @@ and upstream documentation are at
 The dashboard browses tenants, LoadBalancers, Routes, and Gateway API
 resources, and renders a [live traffic graph](#traffic-view-hubble),
 [per-proxy metrics](#metrics-prometheus), and [Kubernetes events](#events) on
-detail pages. Enterprise Edition adds
-[WAF policy management](#waf-policies-enterprise-edition) and a read-only
-[AI &amp; MCP gateway](#ai--mcp-gateways-enterprise-edition) view.
+detail pages, plus a read-only
+[AI &amp; MCP gateway](#ai--mcp-gateways) view on clusters running the
+agentgateway addon. Enterprise Edition adds
+[WAF policy management](#waf-policies-enterprise-edition).
 
 ## Prerequisites
 
@@ -141,7 +142,7 @@ hidden; on Enterprise Edition they appear automatically.
 | Tenants, LoadBalancers, Routes, Gateway API   |     ✓     |     ✓      |
 | Traffic view, Metrics, Events, Watch          |     ✓     |     ✓      |
 | WAF policy management                         |           |     ✓      |
-| AI &amp; MCP gateways                         |           |     ✓ *    |
+| AI &amp; MCP gateways                         |    ✓ *    |     ✓ *    |
 | Tenant tunnel / circuit-breaker / limit fields|           |     ✓      |
 
 <small>* AI &amp; MCP gateways additionally require the agentgateway addon; see below.</small>
@@ -260,7 +261,7 @@ hides every create, edit, and delete control. When `rbac.create` is `true`, the
 generated ClusterRole is additionally narrowed to read-only verbs
 (`get`, `list`, `watch`) as defense-in-depth.
 
-## AI &amp; MCP Gateways (Enterprise Edition)
+## AI &amp; MCP Gateways
 
 On clusters running the agentgateway addon, an **AI Gateway** view lists
 `AgentgatewayBackend` resources read-only. It surfaces the configured LLM
@@ -269,10 +270,8 @@ federated MCP tool servers. Provider and auth credentials are shown by name
 only; secret values are never displayed.
 
 This view is gated on discovery of the `agentgatewaybackends.agentgateway.dev`
-CRD. Because the addon is Enterprise-only, its presence already implies
-Enterprise Edition; it is intentionally independent of the WAF-based edition
-signal, so an Enterprise cluster can run the agentgateway addon without the WAF
-addon.
+CRD, independently of the WAF-based edition signal, so any cluster running the
+agentgateway addon gets the view whether or not the WAF addon is installed.
 
 ## WAF Policies (Enterprise Edition)
 

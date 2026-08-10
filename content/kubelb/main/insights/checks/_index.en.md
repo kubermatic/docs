@@ -6,15 +6,13 @@ description = "Reference for KubeLB Insights checks, prerequisites, findings, an
 weight = 10
 +++
 
-This catalog lists every check the insights engine runs. Check IDs are permanent: findings, the `kubelb.k8c.io/insight-check` label, `Config.spec.insights.disabledChecks` and these links all use them.
+This catalog lists every check the insights engine runs. Check IDs are permanent: findings, the `kubelb.k8c.io/insight-check` label, `Config.spec.insights.disabledChecks` and these links all use them. Retired IDs are never reissued, so the numbering has gaps.
 
 Some checks need a feature to be meaningful. A WAF check on an installation without the WAF would report every route as unprotected, so instead it is skipped and counted in `kubelb_manager_insights_checks_skipped_total`.
 
 | Capability | Comes from |
 |------------|------------|
 | WAF | The `--enable-waf` manager flag |
-| AI | `Config.spec.ai.enabled` |
-| SpendData | `Config.spec.prometheus`, without which no key reports its spend |
 | EnvoyCache | The manager's own xDS snapshot cache |
 | MTLS | `Config.spec.backendTransport.mode: MTLS`, or a tenant still running that dataplane |
 
@@ -41,48 +39,6 @@ Unset the field and fix whichever policy then fails validation.
 A workload resolves to more upstream addresses than `spec.envoyProxy.maxEndpointsPerCluster` allows. The surplus never reaches Envoy and those backends receive no traffic. Nothing else reports this.
 
 Raise the limit above the largest endpoint count, or reduce the number of endpoints behind the service.
-
-## KLB004
-
-`ai-budget-unenforceable` · cost · medium · needs AI
-
-A tenant has a Day-window budget, but no rate-limit service is configured, so nothing caps traffic inside the day. Set `spec.ai.rateLimitService` on the `Config`.
-
-## KLB005
-
-`ai-spend-metering-disabled` · cost · low · needs AI
-
-The tenant uses the AI gateway and no Prometheus is configured, so no key reports its spend and Week and Month budgets are not enforced. Set `spec.prometheus` on the `Config`.
-
-## KLB006
-
-`ai-throttle-unenforced` · cost · low · needs AI
-
-A budget asks for `onExceed: Throttle`, which this release does not enforce inline. Matching traffic is not throttled once the budget is exhausted, though usage is still metered. Use `onExceed: Block` if the cap has to hold.
-
-## KLB007
-
-`ai-unbudgeted-tenant` · cost · high · needs AI
-
-A tenant can use the AI gateway with no budget at all. Its token and dollar spend is unlimited and surfaces only on the provider bill.
-
-Set budgets on the `Tenant`, or `spec.ai.defaultBudgets` on the `Config` to cover every tenant that does not set its own.
-
-## KLB008
-
-`ai-key-never-expires` · security · medium · needs AI
-
-A provisioned key has no expiry, because neither the key nor the tenant policy sets one. It stays valid on the gateway until somebody deletes it.
-
-Set `spec.ai.virtualKeys.maxTTL` on the `Tenant` or `Config` so keys expire by default.
-
-## KLB009
-
-`ai-key-rejected` · hygiene · low · needs AI
-
-A tenant's key has been stuck in `Rejected` for more than a day, usually because the tenant key quota is full or the key's budgets exceed the tenant's. The key will not provision without intervention.
-
-Read the key's `Accepted` condition, then raise the tenant's `virtualKeys.limit`, fix the budgets, or delete the key.
 
 ## KLB010
 
@@ -149,14 +105,6 @@ Set `spec.waf.enforceFailureMode` on the `Tenant`, or on the `Config` for the fl
 A tenant is at 80% of a limit, or 95% for the higher severity. Past the limit, new resources are refused with only a controller log to explain the refusal, and the tenant sees no error in its own cluster.
 
 Raise the limit on the `Tenant` or `Config`, or have the tenant remove what it no longer uses.
-
-## KLB019
-
-`ai-budget-threshold-crossed` · cost · high · needs AI and SpendData
-
-A key has spent past the `alertThresholdPercent` its budget defines. Depending on `onExceed`, the exhausted budget can hard-stop the key mid-window.
-
-Raise the budget, or notify the tenant before the cap trips.
 
 ## KLB020
 

@@ -68,8 +68,6 @@ You will find:
 | `images.txt` | Every container image (manager + CCM + all addons) |
 | `images-core.txt` | Images rendered from the manager and CCM charts (manager, CCM, connection-manager, kube-rbac-proxy) plus the runtime images referenced in code (Envoy Proxy, Envoy Gateway shutdown manager); no addons |
 | `images-<addon>.txt` | Per-addon images: `agentgateway`, `cert-manager`, `envoy-gateway`, `external-dns`, `ingress-nginx`, `metallb` |
-| `images-valkey.txt` | Valkey images, required for the AI budget rate-limit path |
-| `images-ratelimit.txt` | Envoy rate-limit service images, required for the AI budget rate-limit path |
 | `charts.txt` | The three OCI Helm charts as `oci://` references |
 | `mirror-images.sh` | Copies every artifact in `artifacts.txt` to a target registry using `crane` |
 

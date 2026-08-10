@@ -6,7 +6,7 @@ description = "Deterministic configuration checks that surface problems across t
 weight = 37
 +++
 
-The management cluster holds every tenant's effective configuration, routes, policies and budgets. Insights evaluates all of it and reports configuration problems across the fleet.
+The management cluster holds every tenant's effective configuration, routes and policies. Insights evaluates all of it and reports configuration problems across the fleet.
 
 Each finding is one `Insight` object in the namespace of the tenant it concerns, readable with `kubectl` and manageable through GitOps like any other cluster resource.
 
@@ -49,7 +49,7 @@ kubelb:
   enableInsights: false
 ```
 
-Checks declare the features they need, so an installation without the WAF or the AI gateway skips those checks instead of reporting everything they cover as broken. Several checks compare tenants against each other and stay silent unless one differs from its peers; others only fire after an age or usage threshold. A healthy installation reports nothing.
+Checks declare the features they need, so an installation without the WAF skips those checks instead of reporting everything they cover as broken. Several checks compare tenants against each other and stay silent unless one differs from its peers; others only fire after an age or usage threshold. A healthy installation reports nothing.
 
 ## Reading a finding
 
