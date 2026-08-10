@@ -33,7 +33,7 @@ KubeLB is available in two editions:
 | Multiple Gateways per tenant | ❌ | ✔️ |
 | Multiple Gateway classes per tenant (class mappings) | ❌ | ✔️ |
 | Traffic Policies (Client/Backend) | ❌ | ✔️ |
-| AI & MCP Gateway (virtual keys, budgets) | ❌ | ✔️ |
+| AI & MCP Gateway (agentgateway addon) | ✔️ | ✔️ |
 | **Security** |||
 | Web Application Firewall (Beta) | ❌ | ✔️ |
 | Tenant self-service WAF policies (TenantWAFPolicy) | ❌ | ✔️ |
