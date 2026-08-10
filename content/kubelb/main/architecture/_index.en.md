@@ -23,7 +23,7 @@ KubeLB follows a **hub-and-spoke** model: the management cluster is the hub and 
 3. The KubeLB manager reconciles that state into load balancer infrastructure and Envoy configuration.
 4. Envoy routes external traffic to NodePort endpoints in the tenant cluster.
 
-For security and isolation, tenants have no access to native Kubernetes resources in the management cluster. They interact with it only through the KubeLB CRDs, which limits them to controlled operations within their access level.
+For security and isolation, tenants have no access to native Kubernetes resources in the management cluster. Each tenant gets its own namespace there, reached with a namespaced credential that grants KubeLB CRDs and nothing else. See [Tenant Isolation]({{< relref "tenant-isolation/" >}}) for what that credential can and cannot do, how hostname claims are bounded, and the network policies available in Enterprise Edition.
 
 ![A management cluster runs KubeLB Manager and Envoy for multiple tenant clusters, while a KubeLB CCM in each tenant cluster synchronizes desired state and status.](/img/kubelb/v1.1/kubelb-high-level-architecture.png?classes=shadow,border "KubeLB management and tenant cluster architecture")
 
