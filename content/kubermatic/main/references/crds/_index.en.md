@@ -755,6 +755,25 @@ _Appears in:_
 
 
 
+### AcceleratorQuota
+
+
+
+AcceleratorQuota holds accelerator limits for one KKP infrastructure provider.
+
+_Appears in:_
+- [ResourceDetails](#resourcedetails)
+
+| Field | Description |
+| --- | --- |
+| `provider` _string_ | {{< unsafe >}}Provider is the KKP infrastructure provider identifier, not the accelerator vendor.<br />The alpha API supports only kubevirt.{{< /unsafe >}} |
+| `resources` _[ResourceList](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcelist-v1-core)_ | {{< unsafe >}}Resources contains provider-native accelerator resource names and their limits.<br />KubeVirt resource names are exact deviceName values. A missing resource name is<br />unconstrained, zero denies that resource, and a positive whole number sets its limit.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### Addon
 
 
@@ -3271,7 +3290,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `quota` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}Quota specifies the default CPU, Memory and Storage quantities for all the projects.{{< /unsafe >}} |
+| `quota` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}Quota specifies the default CPU, memory, and storage quantities for all projects.<br />Accelerator quotas must be configured explicitly on project ResourceQuota objects.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -7111,13 +7130,20 @@ _Appears in:_
 
 
 
-ResourceDetails holds the CPU, Memory and Storage quantities.
+ResourceDetails holds compute, storage, and accelerator resource quantities.
 
 _Appears in:_
 - [ClusterStatus](#clusterstatus)
 - [DefaultProjectResourceQuota](#defaultprojectresourcequota)
 - [ResourceQuotaSpec](#resourcequotaspec)
 - [ResourceQuotaStatus](#resourcequotastatus)
+
+| Field | Description |
+| --- | --- |
+| `accelerators` _[AcceleratorQuota](#acceleratorquota) array_ | {{< unsafe >}}Accelerators holds provider-specific accelerator limits. An absent or empty list means<br />that no accelerator limits are configured. A missing provider or provider/resource pair<br />is unconstrained; this field is not an allowlist. The list is atomic so a future provider<br />scope can participate in entry identity without redefining provider as the sole map key.{{< /unsafe >}} |
+
+
+[Back to top](#top)
 
 
 
