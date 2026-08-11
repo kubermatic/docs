@@ -175,14 +175,21 @@ the override is still passed through the same runtime rewrite, so the image
 must exist in your mirror at the rewritten path.
 
 If you need to install CRDs separately (for example, to manage them with a
-GitOps tool), pull and untar the chart first and apply `crds/` before
-`helm install`:
+GitOps tool), pull and untar the chart first and apply every CRD directory it
+ships before `helm install`:
 
 ```bash
 helm pull oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee \
   --version v1.4.3 --untar
-kubectl apply -f kubelb-manager-ee/crds/
+kubectl apply --server-side --force-conflicts -R \
+  -f kubelb-manager-ee/crds/ \
+  -f kubelb-manager-ee/charts/kubelb-addons/charts/external-dns/crds/ \
+  -f kubelb-manager-ee/charts/kubelb-addons/charts/gateway-helm/charts/crds/crds/
 ```
+
+The addon subcharts ship their own CRDs, and Helm applies `crds/` directories
+only on install, never on upgrade. Repeat this step on every upgrade — see
+[Upgrading KubeLB]({{< relref "../upgrade" >}}).
 
 ## Step 5: Install the KubeLB CCM
 

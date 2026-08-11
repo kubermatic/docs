@@ -35,11 +35,20 @@ imagePullSecrets:
 
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.4.3 --untardir "." --untar
-## Apply CRDs
-kubectl apply -f kubelb-manager-ee/crds/
+
+## Apply CRDs. This covers KubeLB's own CRDs plus the CRDs bundled in the addon subcharts.
+kubectl apply --server-side --force-conflicts -R \
+  -f kubelb-manager-ee/crds/ \
+  -f kubelb-manager-ee/charts/kubelb-addons/charts/external-dns/crds/ \
+  -f kubelb-manager-ee/charts/kubelb-addons/charts/gateway-helm/charts/crds/crds/
+
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f kubelb-manager-ee/values.yaml --create-namespace
 ```
+
+{{% notice warning %}}
+**Run the `kubectl apply` step on every upgrade, not just on the first install.** Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`. This applies to the addon subcharts too, so the Gateway API and Envoy Gateway CRDs under `gateway-helm` and the External DNS CRD are never updated by Helm. Skipping the step leaves addons running against CRDs older than the version they require. See [Upgrading KubeLB]({{< relref "../upgrade" >}}) for the failure symptoms and the full upgrade order.
+{{% /notice %}}
 
 ### KubeLB Manager EE Values
 
@@ -145,11 +154,20 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.4.3 --untardir "." --untar
-## Apply CRDs
-kubectl apply -f kubelb-manager/crds/
+
+## Apply CRDs. This covers KubeLB's own CRDs plus the CRDs bundled in the addon subcharts.
+kubectl apply --server-side --force-conflicts -R \
+  -f kubelb-manager/crds/ \
+  -f kubelb-manager/charts/kubelb-addons/charts/external-dns/crds/ \
+  -f kubelb-manager/charts/kubelb-addons/charts/gateway-helm/charts/crds/crds/
+
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubelb-manager/values.yaml --create-namespace
 ```
+
+{{% notice warning %}}
+**Run the `kubectl apply` step on every upgrade, not just on the first install.** Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`. This applies to the addon subcharts too, so the Gateway API and Envoy Gateway CRDs under `gateway-helm` and the External DNS CRD are never updated by Helm. Skipping the step leaves addons running against CRDs older than the version they require. See [Upgrading KubeLB]({{< relref "../upgrade" >}}) for the failure symptoms and the full upgrade order.
+{{% /notice %}}
 
 ### KubeLB Manager CE Values
 
