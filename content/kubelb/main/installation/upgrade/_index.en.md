@@ -77,7 +77,7 @@ Three directories, because the chart keeps CRDs in three places:
 Apply all three even for addons you have not enabled. The chart ships the CRDs regardless of the `enabled` flags, and applying a CRD for an addon you do not run is inert.
 
 {{% notice note %}}
-The manager chart also vendors MetalLB, which contains subcharts *named* `crds`. Those keep their CRDs in `templates/`, so Helm does upgrade them normally and they must stay out of the command above. They are Helm templates rather than plain manifests, so `kubectl apply` cannot parse them. A blanket `find . -type d -name crds` picks them up and fails; use the three explicit paths.
+The chart also vendors subcharts that are themselves *named* `crds`, under MetalLB and under `gateway-helm`. Those keep their manifests in `templates/`, so Helm upgrades them normally and they must stay out of the command above. Some of them are Helm templates rather than plain manifests, which `kubectl apply` cannot parse. A blanket `find . -type d -name crds` picks them up and fails; use the three explicit paths.
 {{% /notice %}}
 
 ## Tenant clusters
