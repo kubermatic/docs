@@ -14,7 +14,7 @@ See [Requirements]({{< relref "../requirements" >}}) for the full port and resou
 
 ## Install KubeLB Manager
 
-{{% notice warning %}} If you enable Gateway API support, install its CRDs first and set `kubelb.enableGatewayAPI` to `true` in `values.yaml`. Without the CRDs, KubeLB Manager cannot start. {{% /notice %}}
+{{% notice warning %}} To enable Gateway API support, set `kubelb.enableGatewayAPI` to `true` in `values.yaml`. KubeLB Manager cannot start with Gateway API enabled unless the Gateway API CRDs are present; the `kubectl apply` step below installs them. {{% /notice %}}
 
 {{< tabs name="KubeLB Manager" >}}
 {{% tab name="Enterprise Edition" %}}
