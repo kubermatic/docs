@@ -5461,7 +5461,8 @@ _Appears in:_
 | `datacenter` _string_ | {{< unsafe >}}If datacenter is set, this preset is only applicable to the<br />configured datacenter.{{< /unsafe >}} |
 | `kubeconfig` _string_ | {{< unsafe >}}Kubeconfig is the cluster's kubeconfig file, encoded with base64.{{< /unsafe >}} |
 | `vpcName` _string_ | {{< unsafe >}}VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt{{< /unsafe >}} |
-| `subnetName` _string_ | {{< unsafe >}}SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).{{< /unsafe >}} |
+| `subnetName` _string_ | {{< unsafe >}}SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).<br />Deprecated: use Subnets instead.{{< /unsafe >}} |
+| `subnets` _string array_ | {{< unsafe >}}Subnets is a list of subnet names, smaller segmented portions of a larger network, like a Virtual Private Cloud (VPC).{{< /unsafe >}} |
 
 
 [Back to top](#top)
