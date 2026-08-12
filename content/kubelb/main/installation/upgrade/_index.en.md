@@ -141,7 +141,20 @@ kubectl get crd listenersets.gateway.networking.k8s.io
 
 Recovery is the CRD apply itself. Run the management cluster command above; the pod recovers on its own once the CRD exists. No rollback or reinstall is needed.
 
+### Expected disruption
+
+Plan for a one-time Layer 7 disruption of roughly **1.5–2.5 minutes** during the manager upgrade. It is caused by the Envoy resource-naming migration and the Envoy Gateway roll, and it happens once per management cluster. Layer 4 traffic is unaffected.
+
+A `helm upgrade` that fails on a transient apiserver error is safe to re-run with the identical command; it picks up where it left off.
+
 ### Rolling back
+
+Do **not** downgrade the Gateway API CRDs when rolling back. The newer CRDs work with the older Envoy Gateway, so a rollback of the workloads needs no CRD change at all.
+
+Two version-skew traps to avoid:
+
+* When rolling a tenant's CCM back to v1.4.x, set `kubelb.installGatewayAPICRDs=false` on the CCM chart. The old CCM's CRD installer crashloops trying to downgrade the newer CRDs already on the cluster.
+* A fresh `helm install` of an older chart on a cluster that already has the newer CRDs needs `--skip-crds`. Unlike `helm upgrade`, `helm install` applies the chart's `crds/` directory, and that apply is a CRD downgrade.
 
 v1.5.0 installs a `safe-upgrades.gateway.networking.k8s.io` ValidatingAdmissionPolicy that rejects any Gateway API CRD older than v1.5.0. If you downgrade to a v1.4.x bundle while it is in place, the apply is denied with:
 
