@@ -97,7 +97,13 @@ Switching between `Direct` and `MTLS` changes the backend traffic path. Plan it 
 
 ### Confirm the mode change on an existing installation
 
-Switching the mode re-plumbs the tenant dataplane and briefly disrupts tenant traffic. On an installation with existing tenants, KubeLB holds the mode change until the `Config` carries a confirmation annotation with the target mode:
+Switching the mode re-plumbs the tenant dataplane and briefly disrupts tenant traffic.
+
+{{% notice warning %}}
+The flip is fleet-wide: there is no per-tenant canary in v1.5, so every tenant switches at once. Measured on a real cluster, the switch costs roughly 20–30 seconds of hard failure on active routes and destroys every client keepalive connection pool — each in-flight request gets a 503 **and** a closed connection. Until pools rebuild, expect around a 5x throughput collapse and a 20x connection-rate spike under load. Schedule a maintenance window and make sure clients have retry policies.
+{{% /notice %}}
+
+On an installation with existing tenants, KubeLB holds the mode change until the `Config` carries a confirmation annotation with the target mode:
 
 ```bash
 kubectl --context <management> -n kubelb annotate config default \
