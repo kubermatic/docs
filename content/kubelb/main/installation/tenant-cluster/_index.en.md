@@ -113,16 +113,14 @@ kubelb:
 
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.4.3 --untardir "." --untar
-
-## Apply CRDs. The CCM chart bundles no addon subcharts, so its own crds/ directory is the whole set.
-kubectl apply --server-side --force-conflicts -f kubelb-ccm-ee/crds/
-
+## Apply CRDs
+kubectl apply -f kubelb-ccm-ee/crds/
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm-ee/values.yaml --create-namespace
 ```
 
 {{% notice warning %}}
-**Run the `kubectl apply` step on every upgrade, not just on the first install.** Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`, so a CCM upgraded with Helm alone runs against the CRDs of whatever version first installed it. See [Upgrading KubeLB]({{< relref "../upgrade" >}}) for the full upgrade order.
+Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`. Re-apply the CRDs on every upgrade — see [Upgrading KubeLB]({{< relref "../upgrade" >}}).
 {{% /notice %}}
 
 ### KubeLB CCM EE Values
@@ -219,16 +217,14 @@ helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm
 
 ```sh
 helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.4.3 --untardir "." --untar
-
-## Apply CRDs. The CCM chart bundles no addon subcharts, so its own crds/ directory is the whole set.
-kubectl apply --server-side --force-conflicts -f kubelb-ccm/crds/
-
+## Apply CRDs
+kubectl apply -f kubelb-ccm/crds/
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/values.yaml --create-namespace
 ```
 
 {{% notice warning %}}
-**Run the `kubectl apply` step on every upgrade, not just on the first install.** Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`, so a CCM upgraded with Helm alone runs against the CRDs of whatever version first installed it. See [Upgrading KubeLB]({{< relref "../upgrade" >}}) for the full upgrade order.
+Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`. Re-apply the CRDs on every upgrade — see [Upgrading KubeLB]({{< relref "../upgrade" >}}).
 {{% /notice %}}
 
 ### KubeLB CCM CE Values
