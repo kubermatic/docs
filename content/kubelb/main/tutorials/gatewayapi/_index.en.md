@@ -111,6 +111,20 @@ It is recommended to create the Gateway in tenant cluster directly since the Gat
 In Community Edition, only one Gateway is allowed per tenant and it must be named `kubelb`.
 {{% /notice %}}
 
+#### Gateways on cloud load balancer providers
+
+Each Gateway gets its own `LoadBalancer` Service, provisioned by Envoy Gateway in the management cluster. Cloud providers that require Service annotations (location, scheme, and similar) need them on the Gateway's `spec.infrastructure.annotations`; the `defaultAnnotations` configured on the `Config` resource do **not** reach the Service that Envoy Gateway provisions.
+
+```yaml
+spec:
+  gatewayClassName: kubelb
+  infrastructure:
+    annotations:
+      load-balancer.hetzner.cloud/location: fsn1
+```
+
+Missing provider annotations surface as `PROGRAMMED=False` with reason `AddressNotAssigned` on the Gateway; the real cause is only visible in the events of the load balancer Service on the management cluster.
+
 #### Gateways with an unserved GatewayClass
 
 A Gateway whose `gatewayClassName` is not served by KubeLB is ignored: no load balancer is provisioned and the Gateway status stays at the Gateway API default of `Accepted: Unknown` with the message "Waiting for controller", which looks the same as a controller outage. To make the cause visible, the CCM emits a Warning event with reason `GatewayClassNotAccepted` on the Gateway, listing the GatewayClasses it does serve. The event shows up in `kubectl describe gateway <name>`.

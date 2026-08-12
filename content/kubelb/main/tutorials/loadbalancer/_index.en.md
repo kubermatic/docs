@@ -116,6 +116,11 @@ spec:
 Persistence is based on the source IP as observed by the KubeLB Envoy Proxy. Behind a NAT gateway or another proxy, multiple clients can share one observed IP and will be pinned to the same endpoint.
 {{% /notice %}}
 
+Two caveats to be aware of:
+
+* `sessionAffinityConfig.clientIP.timeoutSeconds` on the Service is silently ignored. The Maglev hash that implements persistence has no stickiness window; a client stays pinned until the endpoint set changes.
+* Inside the tenant cluster, `sessionAffinity` keys on the client IP as seen at the NodePort hop — which is the KubeLB Envoy pod IP, not the original client. Pod-level fan-out therefore collapses to roughly one pod per node.
+
 ## Hostname Endpoints
 
 Endpoint addresses can reference a DNS hostname instead of an IP. This is useful when the backend has no stable IP. Envoy resolves the hostname continuously (strict DNS), so the endpoint follows DNS changes. If both `ip` and `hostname` are set, `ip` wins.
