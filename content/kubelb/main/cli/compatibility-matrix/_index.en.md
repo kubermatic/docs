@@ -10,6 +10,8 @@ KubeLB CLI uses the Kubernetes management cluster that has KubeLB installed as i
 
 Introduced alongside KubeLB v1.2, the CLI requires the KubeLB management cluster to be at least v1.2.
 
+Starting with KubeLB v1.5.0, the CLI is released together with KubeLB and shares its version number; standalone versioning ended with v0.2.0. Use the CLI version that matches your management cluster release.
+
 {{% notice note %}}
 **Feature stage: Beta / Technical Preview.** Use KubeLB CLI for non-business-critical workflows and validate compatibility before upgrading.
 {{% /notice %}}
@@ -17,6 +19,8 @@ Introduced alongside KubeLB v1.2, the CLI requires the KubeLB management cluster
 | KubeLB CLI | KubeLB management cluster |
 |------------|---------------------------|
 | v0.1.0     | v1.2+                     |
+| v0.2.0     | v1.2+                     |
+| v1.5.0+    | same version as the CLI   |
 
 ## Support Policy
 

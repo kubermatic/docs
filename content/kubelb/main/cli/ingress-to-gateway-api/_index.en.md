@@ -21,11 +21,7 @@ For background on why to migrate and the overall strategy, see the [Ingress to G
 
 **1. Install the CLI**
 
-Download from the [releases page](https://github.com/kubermatic/kubelb-cli/releases) or build from source:
-
-```bash
-go install github.com/kubermatic/kubelb-cli@latest
-```
+Download the `kubelb-cli` archive from the [kubermatic/kubelb releases page](https://github.com/kubermatic/kubelb/releases); the binary inside is named `kubelb`. See [Installation]({{< relref "../#installation" >}}) for details and source builds.
 
 **2. Set your kubeconfig**
 
