@@ -41,6 +41,10 @@ kubectl apply -f kubelb-manager-ee/crds/
 helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f kubelb-manager-ee/values.yaml --create-namespace
 ```
 
+{{% notice warning %}}
+Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`. This applies to the addon subcharts too, so the Gateway API, Envoy Gateway and External DNS CRDs are never updated by Helm. Re-apply the CRDs on every upgrade — see [Upgrading KubeLB]({{< relref "../upgrade" >}}).
+{{% /notice %}}
+
 ### KubeLB Manager EE Values
 
 <!-- helm-values-kubelb-manager-ee start -->
@@ -150,6 +154,10 @@ kubectl apply -f kubelb-manager/crds/
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubelb-manager/values.yaml --create-namespace
 ```
+
+{{% notice warning %}}
+Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`. This applies to the addon subcharts too, so the Gateway API, Envoy Gateway and External DNS CRDs are never updated by Helm. Re-apply the CRDs on every upgrade — see [Upgrading KubeLB]({{< relref "../upgrade" >}}).
+{{% /notice %}}
 
 ### KubeLB Manager CE Values
 

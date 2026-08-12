@@ -119,6 +119,10 @@ kubectl apply -f kubelb-ccm-ee/crds/
 helm upgrade --install kubelb-ccm kubelb-ccm-ee --namespace kubelb -f kubelb-ccm-ee/values.yaml --create-namespace
 ```
 
+{{% notice warning %}}
+Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`. Re-apply the CRDs on every upgrade — see [Upgrading KubeLB]({{< relref "../upgrade" >}}).
+{{% /notice %}}
+
 ### KubeLB CCM EE Values
 
 <!-- helm-values-kubelb-ccm-ee start -->
@@ -218,6 +222,10 @@ kubectl apply -f kubelb-ccm/crds/
 ## Create and update values.yaml with the required values.
 helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f kubelb-ccm/values.yaml --create-namespace
 ```
+
+{{% notice warning %}}
+Helm applies a chart's `crds/` directory only on `helm install` and silently skips it on `helm upgrade`. Re-apply the CRDs on every upgrade — see [Upgrading KubeLB]({{< relref "../upgrade" >}}).
+{{% /notice %}}
 
 ### KubeLB CCM CE Values
 

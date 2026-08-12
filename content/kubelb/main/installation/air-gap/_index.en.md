@@ -184,6 +184,10 @@ helm pull oci://mirror.internal/kubermatic/helm-charts/kubelb-manager-ee \
 kubectl apply -f kubelb-manager-ee/crds/
 ```
 
+Helm applies `crds/` directories only on install, never on upgrade. Re-apply
+the CRDs on every upgrade — see
+[Upgrading KubeLB]({{< relref "../upgrade" >}}).
+
 ## Step 5: Install the KubeLB CCM
 
 Run the CCM install on every tenant cluster. The `kubelb` namespace must
