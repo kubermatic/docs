@@ -187,7 +187,10 @@ metrics:
 ```
 
 Metrics are **capability-gated**: if Prometheus is unreachable or does not expose
-the Envoy series, the metrics panels are hidden. The API templates all PromQL
+the Envoy series, the Metrics tab is absent entirely rather than showing an
+error. [Auto-discovery](#observability-auto-discovery) only finds a Prometheus
+listening on the standard port `9090`; for any other port, set
+`metrics.prometheusUrl` explicitly. The API templates all PromQL
 server-side from a fixed set of named queries. The browser never sends raw
 PromQL, so the dashboard cannot be used as an open Prometheus proxy.
 
@@ -247,6 +250,24 @@ watch:
 
 Enable watch streaming per deployment once validated against your cluster. If
 a watch stream fails, the dashboard falls back to polling.
+
+{{% notice warning %}}
+Watch streams are long-lived HTTP connections, so whatever fronts the dashboard
+must allow them. On the default Envoy Gateway path the dashboard HTTPRoute sets
+no timeout, and Envoy's 15-second default request timeout kills every stream:
+the dashboard silently falls back to polling and logs reconnect noise. Set
+explicit timeouts on the dashboard HTTPRoute rule (the same values the
+connection-manager route uses):
+
+```yaml
+spec:
+  rules:
+    - timeouts:
+        request: 3600s
+        backendRequest: 3600s
+```
+
+{{% /notice %}}
 
 ## Read-Only Mode
 
