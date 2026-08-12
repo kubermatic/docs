@@ -158,3 +158,29 @@ Workaround in detail:
   ```
 
 2. Re-run the mla installation process in accordance with the [official documentation](../../tutorials-howtos//monitoring-logging-alerting//user-cluster/admin-guide/#installing-mla-stack-in-a-seed-cluster) with a kubermatic installer matching your current KKP version.
+
+## Flatcar worker nodes fail to bootstrap on KubeVirt infrastructure (Ignition not applied)
+
+_**Affected Components**_: Machine Controller, KubeVirt provider (Kubermatic Virtualization)
+
+_**Affected OS Image**_: Flatcar Linux worker nodes provisioned on KubeVirt v1.6.4 and newer (shipped with Kubermatic Virtualization v1.2.0). Ubuntu and other cloud-init based operating systems are **not** affected.
+
+Issue: [kubevirt/kubevirt#16901](https://github.com/kubevirt/kubevirt/issues/16901)
+
+### Problem
+
+Flatcar-based user-cluster worker VMs start and receive an IP address, but they never receive their Ignition configuration. As a result the node never joins the user cluster. Ubuntu worker pools on the same infrastructure provision normally.
+
+### Root Cause
+
+Flatcar receives its provisioning config through a QEMU firmware-config argument (`-fw_cfg name=opt/com.coreos/config`) in the `qemu:commandline` section of the VM's libvirt domain. Starting with KubeVirt v1.6.4, the PCIe-hotplug port reservation rewrites the libvirt domain a second time; that XML round-trip drops the `qemu:commandline` block, and with it the `-fw_cfg` argument that carries Flatcar's Ignition payload. This is an upstream KubeVirt defect, not a Kubermatic or machine-controller bug — the Ignition data itself is generated correctly.
+
+### Workaround
+
+Set the KubeVirt annotation `kubevirt.io/placePCIDevicesOnRootComplex: "true"` on the Flatcar worker pool. machine-controller sets it automatically for Flatcar machines as of [kubermatic/machine-controller#2057](https://github.com/kubermatic/machine-controller/pull/2057), released in machine-controller v1.66.1 and backported to v1.65.5. Neither release is part of the machine-controller v1.62.x line that KKP v2.28.x bundles, and pinning `spec.userCluster.machineController.imageTag` to a different machine-controller minor than your KKP release ships is not tested. On v2.28.x, set the annotation manually on the Flatcar worker pool's `MachineDeployment` under `spec.template.metadata.annotations` (namespace `kube-system`) and recreate the nodes. The annotation only takes effect on newly created machines. See the [Kubermatic Virtualization known issues](https://docs.kubermatic.com/kubermatic-virtualization/main/known-issues/) page for the full steps, the patch command, and trade-offs.
+
+To have machine-controller set the annotation for you, upgrade to KKP v2.30.6 or newer, which bundles machine-controller v1.65.5.
+
+### Planned resolution
+
+Tracked upstream in [kubevirt/kubevirt#18460](https://github.com/kubevirt/kubevirt/pull/18460). The workaround can be removed once the fix ships in the KubeVirt version bundled with Kubermatic Virtualization.
