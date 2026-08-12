@@ -111,6 +111,12 @@ It is recommended to create the Gateway in tenant cluster directly since the Gat
 In Community Edition, only one Gateway is allowed per tenant and it must be named `kubelb`.
 {{% /notice %}}
 
+#### Gateways with an unserved GatewayClass
+
+A Gateway whose `gatewayClassName` is not served by KubeLB is ignored: no load balancer is provisioned and the Gateway status stays at the Gateway API default of `Accepted: Unknown` with the message "Waiting for controller", which looks the same as a controller outage. To make the cause visible, the CCM emits a Warning event with reason `GatewayClassNotAccepted` on the Gateway, listing the GatewayClasses it does serve. The event shows up in `kubectl describe gateway <name>`.
+
+The event is emitted when the named class is not served and either no GatewayClass object of that name exists in the tenant cluster (for example, a typo in the class name) or KubeLB had already adopted the Gateway and its class stopped being served (for example, a class mapping was removed). If a GatewayClass object of that name exists and KubeLB never adopted the Gateway, the Gateway belongs to the controller that class designates and KubeLB stays silent. KubeLB never writes status conditions on such a Gateway: the Gateway API reserves Gateway status for the controller named by its class.
+
 ### HTTPRoute resource
 
 ```yaml
