@@ -9,3 +9,4 @@ This page describes how you can configure specific settings for the OpenStack pr
 - [Load Balancer Classes]({{<relref "./openstack-loadbalancer-classes/">}})
 - [Skip Router Reconciliation ]({{<relref "./skip-router-reconciliation-openstack/">}})
 - [Config Drive]({{<relref "./config-drive/">}})
+- [Image Discovery]({{<relref "./image-discovery/">}})

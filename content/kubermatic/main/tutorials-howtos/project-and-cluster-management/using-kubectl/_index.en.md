@@ -46,6 +46,7 @@ To achieve this, add the following lines to your issuer configuration (most like
         name: KubermaticIssuer
         secret: xxx
         RedirectURIs:
+          - https://kkp.example.com/api/v2/auth/callback
           - https://kkp.example.com/api/v1/kubeconfig
           - https://kkp.example.com/api/v2/dashboard/login
           - https://kkp.example.com/api/v2/kubeconfig/secret

@@ -1,11 +1,13 @@
 +++
 title = "Release Notes"
 date = 2024-03-15T00:00:00+01:00
+description = "Release history for KubeLB with notable changes in each version."
 weight = 60
+aliases = ["/kubelb/main/cli/release-notes/"]
 +++
 
 {{% notice warning %}}
-This document is work in progress and might not be in correct or up to date state
+This document is a work in progress and may be incomplete or out of date.
 {{% /notice %}}
 
 ## Kubermatic KubeLB v1.x.x
@@ -62,7 +64,7 @@ _content_
 
 ### Enterprise Edition
 
-**Enterprise Edition includes everything from Community Edition and more. The release notes below are for changes specific to just the Enterprise Edition.**
+**Enterprise Edition includes everything in Community Edition. The notes below cover changes specific to the Enterprise Edition.**
 
 #### EE Features
 

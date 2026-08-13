@@ -23,7 +23,7 @@ kkpintegration.rbac: true
 3. Use the following command to generate a Kubeconfig for the service account `kubelb-manager` in the `kubelb` namespace:
 
 ```bash
-kubectl view-serviceaccount-kubeconfig kubelb-kkp -n kubelb --admin
+kubectl view-serviceaccount-kubeconfig kubelb-kkp -n kubelb
 ```
 
 4. Use the output of the previous command to create a file `kubelb-secret.yaml` with the required secret:
@@ -31,7 +31,7 @@ kubectl view-serviceaccount-kubeconfig kubelb-kkp -n kubelb --admin
 ```bash
 kubectl create secret generic kubelb-management-cluster \
   --namespace=kubermatic \
-  --from-literal=kubeconfig="$(kubectl view-serviceaccount-kubeconfig kubelb-kkp -n kubelb --admin)" \
+  --from-literal=kubeconfig="$(kubectl view-serviceaccount-kubeconfig kubelb-kkp -n kubelb)" \
   --dry-run=client -o yaml > kubelb-secret.yaml
 ```
 

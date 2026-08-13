@@ -57,6 +57,7 @@ kubeone mirror-images \
   - `control-plane`: Only Kubernetes core components (kube-apiserver, etcd, etc.).
 - `--kubernetes-versions`: Specify versions (comma-separated). If omitted, **all KubeOne-supported versions are mirrored**.
 - `--insecure`: Skip TLS verification for registries using HTTP (useful for local/insecure setups).
+- `--parallel-image-copy-limit`: Maximum number of images to copy in parallel (default 10)`
 
 ### Examples
 

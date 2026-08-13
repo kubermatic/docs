@@ -115,3 +115,6 @@ class = "fab fa-facebook-f"
   appId = "Q03DAQELCN"
   searchKey = "f8b7a0497068023efe046671dd40ec62"
   indexName = "docs"
+
+[security]
+  allowContent = ['.*']

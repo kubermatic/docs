@@ -16,6 +16,7 @@ can influence cluster creation, management and cleanup after deletion.
 - [Static Labels](#static-labels)
 - [Annotation Settings](#annotation-settings)
 - [EventRateLimit Configuration](#eventratelimit-configuration)
+- [Provider Defaults](#provider-defaults)
 
 ### Cleanup on Cluster Deletion
 
@@ -77,6 +78,14 @@ For each limit type, admins can specify:
 - **QPS**: Queries per second limit (default: `50`)
 - **Burst**: Maximum events per second (default: `100`)
 - **Cache Size**: Number of cached buckets (default: `4096`)
+
+### Provider Defaults
+
+Provider Defaults section groups settings that apply to a single cloud provider only.
+
+- **OpenStack - Image Discovery**: Lets the dashboard list the images of the OpenStack project in the image
+dropdown instead of only offering the default image configured in the datacenter. See
+[Image Discovery]({{< relref "../../../openstack-configuration-options/image-discovery/" >}}) for details.
 
 
 ## Limits

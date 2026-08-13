@@ -30,13 +30,13 @@ kubelb serve [flags]
 ### Examples
 
 ```
-kubelb serve --addr :8080
+kubelb serve --addr 127.0.0.1:8080
 ```
 
 ### Options
 
 ```
-      --addr string                      Address to listen on (default ":8080")
+      --addr string                      Address to listen on (default "127.0.0.1:8080")
       --copy-tls-secrets                 Copy TLS secrets to Gateway namespace [$KUBELB_COPY_TLS_SECRETS] (default true)
       --disable-envoy-gateway-features   Disable Envoy Gateway policies [$KUBELB_DISABLE_ENVOY_GATEWAY_FEATURES]
       --domain-replace string            Source domain to strip [$KUBELB_DOMAIN_REPLACE]

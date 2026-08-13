@@ -2,11 +2,12 @@
 title = "Backend Traffic Policy"
 linkTitle = "Backend Traffic Policy"
 date = 2025-01-16T10:00:00+02:00
+description = "Synchronize Envoy Gateway BackendTrafficPolicy resources to configure retries, timeouts, and upstream behavior."
 weight = 5
 enterprise = true
 +++
 
-BackendTrafficPolicy is an Envoy Gateway extension that configures connection behavior, resilience, and performance optimizations between Envoy Proxy and upstream backends—the services that Envoy routes traffic to.
+BackendTrafficPolicy is an Envoy Gateway extension that configures connection behavior, resilience, and performance optimizations between Envoy Proxy and upstream backends: the services that Envoy routes traffic to.
 
 ## Use Cases
 

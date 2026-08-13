@@ -1,0 +1,36 @@
+# dex.values.yaml
+config:
+  issuer: https://login.<DOMAIN>
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+  staticClients:
+    - id: kdp-kubelogin
+      name: kdp-kubelogin
+      secret: <OIDC_CLIENT_SECRET>
+      RedirectURIs:
+        - http://localhost:8000
+        - http://localhost:18000
+        - https://dashboard.<DOMAIN>/api/auth/callback/oidc
+  enablePasswordDB: true
+  staticPasswords:
+    - email: admin
+      hash: "<ADMIN_PASSWORD_HASH>"
+      username: admin
+      userID: 08a8684b-db88-4b73-90a9-3cd1661f5466
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  className: nginx
+  hosts:
+    - host: login.<DOMAIN>
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: dex-tls
+      hosts:
+        - login.<DOMAIN>

@@ -755,6 +755,25 @@ _Appears in:_
 
 
 
+### AcceleratorQuota
+
+
+
+AcceleratorQuota holds accelerator limits for one KKP infrastructure provider.
+
+_Appears in:_
+- [ResourceDetails](#resourcedetails)
+
+| Field | Description |
+| --- | --- |
+| `provider` _string_ | {{< unsafe >}}Provider is the KKP infrastructure provider identifier, not the accelerator vendor.<br />The alpha API supports only kubevirt.{{< /unsafe >}} |
+| `resources` _[ResourceList](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#resourcelist-v1-core)_ | {{< unsafe >}}Resources contains provider-native accelerator resource names and their limits.<br />KubeVirt resource names are exact deviceName values. A missing resource name is<br />unconstrained, zero denies that resource, and a positive whole number sets its limit.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### Addon
 
 
@@ -3110,6 +3129,7 @@ _Appears in:_
 | `matchSubnetAndStorageLocation` _boolean_ | {{< unsafe >}}Optional: MatchSubnetAndStorageLocation if set to true, the region and zone of the subnet and storage class must match. For<br />example, if the storage class has the region `eu` and zone was `central`, the subnet must be in the same region and zone.<br />otherwise KKP will reject the creation of the machine deployment and eventually the cluster.{{< /unsafe >}} |
 | `disableDefaultInstanceTypes` _boolean_ | {{< unsafe >}}DisableDefaultInstanceTypes prevents KKP from automatically creating default instance types.<br />(standard-2, standard-4, standard-8) in KubeVirt environments.{{< /unsafe >}} |
 | `disableDefaultPreferences` _boolean_ | {{< unsafe >}}DisableKubermaticPreferences prevents KKP from setting default KubeVirt preferences.{{< /unsafe >}} |
+| `nodeDefaults` _[KubeVirtNodeDefaults](#kubevirtnodedefaults)_ | {{< unsafe >}}Optional: NodeDefaults sets the default CPU, memory and primary disk size for KubeVirt worker<br />nodes in this datacenter. These defaults are used to pre-fill the "Custom Configuration" node<br />form in the dashboard when an instance type is not selected, and are applied server-side to<br />machine deployments that do not already specify a value. They have no effect once an instance<br />type is chosen, as instance types already determine CPU and memory.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -3270,7 +3290,7 @@ _Appears in:_
 
 | Field | Description |
 | --- | --- |
-| `quota` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}Quota specifies the default CPU, Memory and Storage quantities for all the projects.{{< /unsafe >}} |
+| `quota` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}Quota specifies the default CPU, memory, and storage quantities for all projects.<br />Accelerator quotas must be configured explicitly on project ResourceQuota objects.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4793,6 +4813,17 @@ _Appears in:_
 
 
 
+### KubeVirtNodeDefaults
+
+_Underlying type:_ `[struct{CPUs string "json:\"cpus,omitempty\""; Memory string "json:\"memory,omitempty\""; PrimaryDiskSize string "json:\"primaryDiskSize,omitempty\""}](#struct{cpus-string-"json:\"cpus,omitempty\"";-memory-string-"json:\"memory,omitempty\"";-primarydisksize-string-"json:\"primarydisksize,omitempty\""})`
+
+KubeVirtNodeDefaults describes the default CPU, memory and primary disk size for KubeVirt worker nodes.
+
+_Appears in:_
+- [DatacenterSpecKubevirt](#datacenterspeckubevirt)
+
+
+
 ### KubeVirtVolumeProvisioner
 
 _Underlying type:_ `string`
@@ -5430,7 +5461,8 @@ _Appears in:_
 | `datacenter` _string_ | {{< unsafe >}}If datacenter is set, this preset is only applicable to the<br />configured datacenter.{{< /unsafe >}} |
 | `kubeconfig` _string_ | {{< unsafe >}}Kubeconfig is the cluster's kubeconfig file, encoded with base64.{{< /unsafe >}} |
 | `vpcName` _string_ | {{< unsafe >}}VPCName  is a virtual network name dedicated to a single tenant within a KubeVirt{{< /unsafe >}} |
-| `subnetName` _string_ | {{< unsafe >}}SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).{{< /unsafe >}} |
+| `subnetName` _string_ | {{< unsafe >}}SubnetName is the name of a subnet that is smaller, segmented portion of a larger network, like a Virtual Private Cloud (VPC).<br />Deprecated: use Subnets instead.{{< /unsafe >}} |
+| `subnets` _string array_ | {{< unsafe >}}Subnets is a list of subnet names, smaller segmented portions of a larger network, like a Virtual Private Cloud (VPC).{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -6378,6 +6410,7 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `enforceCustomDisk` _boolean_ | {{< unsafe >}}EnforceCustomDisk will enforce the custom disk option for machines for the dashboard.{{< /unsafe >}} |
+| `enableImageDiscovery` _boolean_ | {{< unsafe >}}EnableImageDiscovery enables listing the OpenStack project's images (matched by their<br />os_distro metadata) in the dashboard's image dropdown.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -7098,13 +7131,20 @@ _Appears in:_
 
 
 
-ResourceDetails holds the CPU, Memory and Storage quantities.
+ResourceDetails holds compute, storage, and accelerator resource quantities.
 
 _Appears in:_
 - [ClusterStatus](#clusterstatus)
 - [DefaultProjectResourceQuota](#defaultprojectresourcequota)
 - [ResourceQuotaSpec](#resourcequotaspec)
 - [ResourceQuotaStatus](#resourcequotastatus)
+
+| Field | Description |
+| --- | --- |
+| `accelerators` _[AcceleratorQuota](#acceleratorquota) array_ | {{< unsafe >}}Accelerators holds provider-specific accelerator limits. An absent or empty list means<br />that no accelerator limits are configured. A missing provider or provider/resource pair<br />is unconstrained; this field is not an allowlist. The list is atomic so a future provider<br />scope can participate in entry identity without redefining provider as the sole map key.{{< /unsafe >}} |
+
+
+[Back to top](#top)
 
 
 
@@ -7551,6 +7591,8 @@ _Appears in:_
 | `enableClusterBackup` _boolean_ | {{< unsafe >}}EnableClusterBackup enables the Cluster Backup feature in the dashboard.{{< /unsafe >}} |
 | `enableEtcdBackup` _boolean_ | {{< unsafe >}}EnableEtcdBackup enables the etcd Backup feature in the dashboard.{{< /unsafe >}} |
 | `disableAdminKubeconfig` _boolean_ | {{< unsafe >}}DisableAdminKubeconfig disables the admin kubeconfig functionality on the dashboard.{{< /unsafe >}} |
+| `disabledAuditWebhookBackendDCs` _string array_ | {{< unsafe >}}DisabledAuditWebhookBackendDCs is the list of datacenters for which the Audit Webhook Backend<br />option is disabled in the dashboard.{{< /unsafe >}} |
+| `adminGroups` _string array_ | {{< unsafe >}}AdminGroups is the list of OIDC group names whose members are automatically<br />granted KKP administrator privileges. Matching against the user's groups<br />(populated at login) is exact and case-sensitive. Removing a group demotes<br />only users whose admin status was granted via these groups. EE-version only.{{< /unsafe >}} |
 | `userProjectsLimit` _integer_ | {{< unsafe >}}UserProjectsLimit is the maximum number of projects a user can create.{{< /unsafe >}} |
 | `restrictProjectCreation` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |
 | `restrictProjectDeletion` _boolean_ | {{< unsafe >}}{{< /unsafe >}} |

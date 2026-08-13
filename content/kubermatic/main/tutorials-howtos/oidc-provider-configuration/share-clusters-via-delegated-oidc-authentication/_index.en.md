@@ -42,6 +42,7 @@ To achieve this, add the following lines to your issuer configuration (most like
         name: KubermaticIssuer
         secret: xxx
         RedirectURIs:
+          - https://kkp.example.com/api/v2/auth/callback
           - https://kkp.example.com/api/v1/kubeconfig
           - https://kkp.example.com/api/v2/dashboard/login
           - https://kkp.example.com/api/v2/kubeconfig/secret
@@ -105,9 +106,9 @@ spec:
     OpenIDAuthPlugin: true
 
   auth:
-    # This is the OIDC issuer client ID and defaults to
-    # "<spec.auth.clientID>Issuer". As the default issuer used
-    # for the dashboard is "kubermatic", this defaults to:
+    # This is the OIDC issuer client ID. The same client is used
+    # for logging into the dashboard, so this must match
+    # spec.auth.clientID. Both default to "kubermaticIssuer".
     issuerClientID: kubermaticIssuer
 
     # The shared secret between Dex and KKP. This needs to be

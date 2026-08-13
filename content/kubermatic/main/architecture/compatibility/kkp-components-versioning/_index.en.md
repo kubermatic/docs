@@ -13,14 +13,15 @@ of provided software and therefore releases updates regularly that also include 
 | KKP Components                 | Version                        |
 | ------------------------------ | ------------------------------ |
 | backup/velero                  | 1.17.1                         |
-| cert-manager                   | 1.19.4                         |
+| cert-manager                   | 1.20.3                         |
 | dex                            | 2.44.0                         |
-| envoy-gateway-controller       | 1.6.1                          |
+| envoy-gateway-controller       | 1.8.3                          |
 | gitops/kkp-argocd-apps         | 1.16.1                         |
 | iap                            | 7.14.2                         |
 | kubermatic-operator            | 9.9.9-dev                      |
+| local-kube-ovn                 | 1.15.9                         |
 | local-kubevirt                 | 1.1.1                          |
-| logging/alloy                  | 1.9.2                          |
+| logging/alloy                  | 1.17.0                         |
 | logging/loki                   | 3.6.7                          |
 | minio                          | RELEASE.2023-05-04T21-44-30Z   |
 | mla/alertmanager-proxy         | 0.3.3                          |
@@ -29,7 +30,7 @@ of provided software and therefore releases updates regularly that also include 
 | mla/grafana                    | 13.0.1                         |
 | mla/loki-distributed           | 2.9.2                          |
 | mla/minio-lifecycle-mgr        | 0.1.0                          |
-| mla/minio                      | RELEASE.2023-04-28T18-11-17Z   |
+| mla/minio                      | RELEASE.2024-12-18T13-15-44Z   |
 | mla/mla-secrets                | 0.1.0                          |
 | monitoring/alertmanager        | 0.28.0                         |
 | monitoring/blackbox-exporter   | 0.25.0                         |

@@ -119,3 +119,56 @@ spec:
         noProxy: ".internal.corp,192.168.0.0/16,localhost"
   # ... other cluster specifications
 ```
+
+## Configuring the Per-Cluster Proxy from the Dashboard
+
+The same per-cluster proxy can be configured from the KKP dashboard, so that cluster owners do not need direct access to the `Cluster` object. In the UI the two fields are grouped in a **Node Egress Proxy** section:
+
+| UI field | Cluster spec field | Description |
+| --- | --- | --- |
+| **HTTP(S) Proxy** | `spec.componentsOverride.operatingSystemManager.proxy.httpProxy` | Proxy endpoint used for both HTTP and HTTPS egress from the cluster nodes, for example `http://proxy.corp.example.com:3128`. |
+| **No Proxy** | `spec.componentsOverride.operatingSystemManager.proxy.noProxy` | List of destinations that bypass the proxy, for example `.internal.corp`, `192.168.0.0/16` or `localhost`. The entries are stored as a single comma-separated string in the `Cluster` object. |
+
+These values set the `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` environment variables on the worker nodes. They are used for node egress such as container image pulls and package downloads, and they do not affect control plane traffic to the cloud provider.
+
+### Cluster Wizard
+
+In the cluster creation wizard, open the **Cluster** step and expand the **ADVANCED NETWORK CONFIGURATION** panel. The **Node Egress Proxy** section is located at the bottom of that panel.
+
+![Node Egress Proxy in the cluster wizard](images/wizard-proxy-settings.png?classes=shadow,border "Node Egress Proxy in the cluster wizard")
+
+
+The configured values are shown in the **NETWORK CONFIGURATION** part of the wizard summary step before the cluster is created.
+
+![Proxy settings in the cluster summary](images/cluster-summary-proxy.png?classes=shadow,border "Proxy settings in the cluster summary")
+
+
+
+{{% notice info %}}
+**Accepted values.** Both fields are validated in the dashboard and again by the KKP API.
+
+- **HTTP(S) Proxy** must be an `http://` or `https://` URL with a host, for example `http://proxy.corp.example.com:3128`.
+- **No Proxy** takes hostnames, leading-dot domain suffixes, IP addresses or CIDR ranges, for example `.cluster.local`.
+{{% /notice %}}
+
+![Validation of the proxy settings](images/proxy-validation.png?classes=shadow,border "Validation of the proxy settings")
+
+### Existing Clusters
+
+The proxy settings can also be changed after the cluster has been created. Open the cluster details page, choose **Edit Cluster** and update the **Node Egress Proxy** fields.
+
+![Node Egress Proxy in the edit cluster dialog](images/edit-cluster-proxy.png?classes=shadow,border "Node Egress Proxy in the edit cluster dialog")
+
+
+
+### Cluster Templates
+
+The **Node Egress Proxy** fields are part of the cluster wizard, so they are also stored in cluster templates created from it. Clusters created from such a template inherit the proxy configuration from the template's `spec.componentsOverride.operatingSystemManager.proxy`.
+
+![Proxy settings persisted in a cluster template](images/cluster-template-proxy.png?classes=shadow,border "Proxy settings persisted in a cluster template")
+
+
+
+{{% notice note %}}
+Leaving both fields empty means the cluster inherits the proxy settings of its datacenter/seed. Setting them overrides those defaults for this cluster only. Clearing both fields again on an existing cluster removes the override, and the cluster re-inherits the datacenter/seed proxy settings.
+{{% /notice %}}
