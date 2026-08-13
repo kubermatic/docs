@@ -16,6 +16,7 @@ can influence cluster creation, management and cleanup after deletion.
 - [Static Labels](#static-labels)
 - [Annotation Settings](#annotation-settings)
 - [EventRateLimit Configuration](#eventratelimit-configuration)
+- [Disable Audit Webhook Backend](#disable-audit-webhook-backend)
 - [Provider Defaults](#provider-defaults)
 
 ### Cleanup on Cluster Deletion
@@ -78,6 +79,35 @@ For each limit type, admins can specify:
 - **QPS**: Queries per second limit (default: `50`)
 - **Burst**: Maximum events per second (default: `100`)
 - **Cache Size**: Number of cached buckets (default: `4096`)
+
+### Disable Audit Webhook Backend
+
+In some environments users are not able to configure an audit webhook backend themselves, so offering the
+option only creates confusion. The **Disable Audit Webhook Backend** setting lets administrators turn the
+option off for selected datacenters.
+
+![Disable Audit Webhook Backend](images/disable-audit-webhook-backend.png?classes=shadow,border)
+
+Select one or more datacenters in the **Datacenters** field. The setting applies to all users and can be
+changed at any time.
+
+For clusters in a selected datacenter, the **Audit Webhook Backend** option is no longer shown when creating
+or editing a cluster. Users only see the **Audit Logging** option:
+
+Without any restriction, both options are available:
+
+![Audit Webhook Backend available](images/audit-webhook-backend-available.png?classes=shadow,border)
+
+In a restricted datacenter, only Audit Logging remains:
+
+![Audit Webhook Backend hidden](images/audit-webhook-backend-hidden.png?classes=shadow,border)
+
+{{% notice info %}}
+The restriction only affects datacenters that are explicitly selected; all other datacenters keep the
+option. Clusters that already use an audit webhook backend are not changed, but the backend can no longer be
+enabled for new or existing clusters in a restricted datacenter. Webhook backends enforced on the datacenter
+level are not affected by this setting.
+{{% /notice %}}
 
 ### Provider Defaults
 
