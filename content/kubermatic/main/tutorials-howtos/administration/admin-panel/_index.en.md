@@ -97,7 +97,8 @@ Use number of filtering options to find and control existing dynamic datacenters
 ### Manage Administrators
 
 Manage all Kubermatic Dashboard Administrator in a single place. Decide who should be granted or revoked an administrator
-privileges. Check out the [Administrators]({{< ref "./administrators" >}}) section for more details.
+privileges. Administrator privileges can also be granted automatically to the members of selected identity provider groups.
+Check out the [Administrators]({{< ref "./administrators" >}}) section for more details.
 
 ### Manage Presets
 
