@@ -246,6 +246,14 @@ enforcedAuditWebhookSettings:
 
 Existing user clusters in the datacenter aren't updated to enable the audit webhook backend, only the ones created after the webhook backend settings are applied on the datacenter come up with audit webhook backend enabled.
 
+### Disabling The Audit Webhook Backend Option
+
+If users of a datacenter should not be able to configure a webhook backend themselves, administrators can turn
+the option off for that datacenter in the Admin Panel. The **Audit Webhook Backend** option is then hidden when
+creating or editing a cluster in the selected datacenters. See
+[Disable Audit Webhook Backend]({{< ref "../administration/admin-panel/cluster-settings/#disable-audit-webhook-backend" >}})
+for details.
+
 ### Network Policy For Accessing Audit Webhook Backend Server
 
 The egress for the user cluster's Kubernetes api-server is restricted with the help of network policies; therefore, once the audit webhook backend is enabled, a network policy also needs to be created to allow the api-server egress to the webhook backend server. For example, for a webhook backend server running on `172.31.43.54` on port `30001` the network policy may look like the one below.
