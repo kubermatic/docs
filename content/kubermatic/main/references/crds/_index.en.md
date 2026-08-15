@@ -755,6 +755,68 @@ _Appears in:_
 
 
 
+### AcceleratorAccountingBlocker
+
+
+
+AcceleratorAccountingBlocker describes an actionable reason why accelerator accounting
+is not ready. SeedName and ClusterName identify the affected scope when applicable.
+
+_Appears in:_
+- [ClusterAcceleratorAccountingStatus](#clusteracceleratoraccountingstatus)
+- [ResourceQuotaGlobalAcceleratorAccountingStatus](#resourcequotaglobalacceleratoraccountingstatus)
+- [ResourceQuotaLocalAcceleratorAccountingStatus](#resourcequotalocalacceleratoraccountingstatus)
+
+| Field | Description |
+| --- | --- |
+| `type` _[AcceleratorAccountingBlockerType](#acceleratoraccountingblockertype)_ | {{< unsafe >}}Type identifies the class of blocker.{{< /unsafe >}} |
+| `message` _string_ | {{< unsafe >}}Message contains human-readable details about the blocker.{{< /unsafe >}} |
+| `seedName` _string_ | {{< unsafe >}}SeedName identifies the affected Seed when the blocker is Seed-specific.{{< /unsafe >}} |
+| `clusterName` _string_ | {{< unsafe >}}ClusterName identifies the affected user cluster when the blocker is cluster-specific.{{< /unsafe >}} |
+| `count` _integer_ | {{< unsafe >}}Count is the number of affected objects when the blocker represents an aggregate.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### AcceleratorAccountingBlockerType
+
+_Underlying type:_ `string`
+
+AcceleratorAccountingBlockerType identifies why accelerator accounting is not ready.
+
+_Appears in:_
+- [AcceleratorAccountingBlocker](#acceleratoraccountingblocker)
+
+
+
+### AcceleratorAccountingPhase
+
+_Underlying type:_ `string`
+
+AcceleratorAccountingPhase describes the observed project-wide activation state.
+
+_Appears in:_
+- [ResourceQuotaGlobalAcceleratorAccountingStatus](#resourcequotaglobalacceleratoraccountingstatus)
+
+
+
+### AcceleratorAccountingRevision
+
+_Underlying type:_ `string`
+
+AcceleratorAccountingRevision is an opaque master-issued identity for an accelerator
+accounting transition. A new revision is required even when a quota changes back to a
+previously used value, so an old attestation cannot satisfy a later transition.
+
+_Appears in:_
+- [ClusterAcceleratorAccountingStatus](#clusteracceleratoraccountingstatus)
+- [ResourceQuotaGlobalAcceleratorAccountingStatus](#resourcequotaglobalacceleratoraccountingstatus)
+- [ResourceQuotaLocalAcceleratorAccountingStatus](#resourcequotalocalacceleratoraccountingstatus)
+
+
+
 ### AcceleratorQuota
 
 
@@ -771,6 +833,19 @@ _Appears in:_
 
 
 [Back to top](#top)
+
+
+
+### AcceleratorQuotaDigest
+
+_Underlying type:_ `string`
+
+AcceleratorQuotaDigest is the SHA-256 digest of a canonical accelerator quota.
+
+_Appears in:_
+- [ClusterAcceleratorAccountingStatus](#clusteracceleratoraccountingstatus)
+- [ResourceQuotaGlobalAcceleratorAccountingStatus](#resourcequotaglobalacceleratoraccountingstatus)
+- [ResourceQuotaLocalAcceleratorAccountingStatus](#resourcequotalocalacceleratoraccountingstatus)
 
 
 
@@ -2040,6 +2115,33 @@ _Appears in:_
 
 
 
+### ClusterAcceleratorAccountingStatus
+
+
+
+ClusterAcceleratorAccountingStatus contains one KubeVirt cluster's accelerator
+footprint capability, liveness, and readiness attestation.
+
+_Appears in:_
+- [ClusterStatus](#clusterstatus)
+
+| Field | Description |
+| --- | --- |
+| `observedAccountingRevision` _[AcceleratorAccountingRevision](#acceleratoraccountingrevision)_ | {{< unsafe >}}ObservedAccountingRevision is the master-issued accounting revision this cluster observed.{{< /unsafe >}} |
+| `observedQuotaDigest` _[AcceleratorQuotaDigest](#acceleratorquotadigest)_ | {{< unsafe >}}ObservedQuotaDigest is the canonical accelerator quota digest this cluster observed.{{< /unsafe >}} |
+| `footprintSchemaVersion` _string_ | {{< unsafe >}}FootprintSchemaVersion is the Machine footprint schema this controller can account.{{< /unsafe >}} |
+| `controllerVersion` _string_ | {{< unsafe >}}ControllerVersion identifies the reporting controller implementation.{{< /unsafe >}} |
+| `observedAt` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#time-v1-meta)_ | {{< unsafe >}}ObservedAt is the heartbeat time at which this cluster report was produced.{{< /unsafe >}} |
+| `machinesWithoutFootprint` _integer_ | {{< unsafe >}}MachinesWithoutFootprint is the number of legacy Machines that predate trusted<br />footprint capture.{{< /unsafe >}} |
+| `machinesWithInvalidFootprint` _integer_ | {{< unsafe >}}MachinesWithInvalidFootprint is the number of Machines whose footprint cannot be accounted.{{< /unsafe >}} |
+| `ready` _boolean_ | {{< unsafe >}}Ready is true when all Machines have a valid supported footprint and this report<br />observes the current accounting revision and quota digest.{{< /unsafe >}} |
+| `blockers` _[AcceleratorAccountingBlocker](#acceleratoraccountingblocker) array_ | {{< unsafe >}}Blockers contains actionable reasons why this cluster report is not ready.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### ClusterAddress
 
 
@@ -2335,6 +2437,7 @@ _Appears in:_
 | `inheritedLabels` _object (keys:string, values:string)_ | {{< unsafe >}}InheritedLabels are labels the cluster inherited from the project. They are read-only for users.{{< /unsafe >}} |
 | `encryption` _[ClusterEncryptionStatus](#clusterencryptionstatus)_ | {{< unsafe >}}Encryption describes the status of the encryption-at-rest feature for encrypted data in etcd.{{< /unsafe >}} |
 | `resourceUsage` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}ResourceUsage shows the current usage of resources for the cluster.{{< /unsafe >}} |
+| `acceleratorAccounting` _[ClusterAcceleratorAccountingStatus](#clusteracceleratoraccountingstatus)_ | {{< unsafe >}}AcceleratorAccounting contains this cluster's accelerator footprint usage and<br />readiness attestation. It is set only for relevant KubeVirt clusters in projects<br />with accelerator accounting activated.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -7170,6 +7273,32 @@ _Appears in:_
 
 
 
+### ResourceQuotaGlobalAcceleratorAccountingStatus
+
+
+
+ResourceQuotaGlobalAcceleratorAccountingStatus is the master-owned accelerator accounting
+state aggregated from every configured Seed for one project.
+
+_Appears in:_
+- [ResourceQuotaStatus](#resourcequotastatus)
+
+| Field | Description |
+| --- | --- |
+| `activationPhase` _[AcceleratorAccountingPhase](#acceleratoraccountingphase)_ | {{< unsafe >}}ActivationPhase describes the current project-wide accelerator accounting state.{{< /unsafe >}} |
+| `observedAccountingRevision` _[AcceleratorAccountingRevision](#acceleratoraccountingrevision)_ | {{< unsafe >}}ObservedAccountingRevision is the authoritative master-issued current accounting<br />revision. Despite the Observed prefix, child reporters must attest to this exact value.{{< /unsafe >}} |
+| `observedQuotaDigest` _[AcceleratorQuotaDigest](#acceleratorquotadigest)_ | {{< unsafe >}}ObservedQuotaDigest is the authoritative canonical digest of the current accelerator<br />quota. Despite the Observed prefix, child reporters must attest to this exact value.{{< /unsafe >}} |
+| `observedAt` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#time-v1-meta)_ | {{< unsafe >}}ObservedAt is the oldest heartbeat among the Seed attestations included in this state.{{< /unsafe >}} |
+| `legacyMachinesWithoutFootprint` _integer_ | {{< unsafe >}}LegacyMachinesWithoutFootprint is the project-wide number of Machines that predate<br />trusted footprint capture.{{< /unsafe >}} |
+| `machinesWithInvalidFootprint` _integer_ | {{< unsafe >}}MachinesWithInvalidFootprint is the project-wide number of Machines whose footprint<br />cannot be accounted.{{< /unsafe >}} |
+| `ready` _boolean_ | {{< unsafe >}}Ready is true when every configured Seed has provided a compatible, fresh attestation<br />for ObservedAccountingRevision and ObservedQuotaDigest and no blocker remains.{{< /unsafe >}} |
+| `blockers` _[AcceleratorAccountingBlocker](#acceleratoraccountingblocker) array_ | {{< unsafe >}}Blockers contains actionable reasons why project-wide accounting is not ready.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
 ### ResourceQuotaList
 
 
@@ -7184,6 +7313,31 @@ ResourceQuotaList is a collection of resource quotas.
 | `kind` _string_ | `ResourceQuotaList`
 | `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `items` _[ResourceQuota](#resourcequota) array_ | {{< unsafe >}}Items is the list of the resource quotas.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### ResourceQuotaLocalAcceleratorAccountingStatus
+
+
+
+ResourceQuotaLocalAcceleratorAccountingStatus is the Seed-owned accelerator accounting
+attestation aggregated from all relevant KubeVirt clusters for one project on that Seed.
+
+_Appears in:_
+- [ResourceQuotaStatus](#resourcequotastatus)
+
+| Field | Description |
+| --- | --- |
+| `observedAccountingRevision` _[AcceleratorAccountingRevision](#acceleratoraccountingrevision)_ | {{< unsafe >}}ObservedAccountingRevision is the master-issued accounting revision this Seed observed.{{< /unsafe >}} |
+| `observedQuotaDigest` _[AcceleratorQuotaDigest](#acceleratorquotadigest)_ | {{< unsafe >}}ObservedQuotaDigest is the canonical accelerator quota digest this Seed observed.{{< /unsafe >}} |
+| `observedAt` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.36/#time-v1-meta)_ | {{< unsafe >}}ObservedAt is the oldest heartbeat among the cluster attestations included in this report.{{< /unsafe >}} |
+| `legacyMachinesWithoutFootprint` _integer_ | {{< unsafe >}}LegacyMachinesWithoutFootprint is the number of Machines that predate trusted footprint capture.{{< /unsafe >}} |
+| `machinesWithInvalidFootprint` _integer_ | {{< unsafe >}}MachinesWithInvalidFootprint is the number of Machines whose footprint cannot be accounted.{{< /unsafe >}} |
+| `ready` _boolean_ | {{< unsafe >}}Ready is true when every relevant cluster has provided a compatible, fresh attestation<br />for ObservedAccountingRevision and ObservedQuotaDigest and no blocker remains.{{< /unsafe >}} |
+| `blockers` _[AcceleratorAccountingBlocker](#acceleratoraccountingblocker) array_ | {{< unsafe >}}Blockers contains actionable reasons why this Seed-local attestation is not ready.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -7222,6 +7376,8 @@ _Appears in:_
 | --- | --- |
 | `globalUsage` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}GlobalUsage is holds the current usage of resources for all seeds.{{< /unsafe >}} |
 | `localUsage` _[ResourceDetails](#resourcedetails)_ | {{< unsafe >}}LocalUsage is holds the current usage of resources for the local seed.{{< /unsafe >}} |
+| `localAcceleratorAccounting` _[ResourceQuotaLocalAcceleratorAccountingStatus](#resourcequotalocalacceleratoraccountingstatus)_ | {{< unsafe >}}LocalAcceleratorAccounting contains the Seed-owned accelerator accounting<br />attestation for this ResourceQuota. It is not synchronized from the master.{{< /unsafe >}} |
+| `globalAcceleratorAccounting` _[ResourceQuotaGlobalAcceleratorAccountingStatus](#resourcequotaglobalacceleratoraccountingstatus)_ | {{< unsafe >}}GlobalAcceleratorAccounting contains the master-owned project-wide accelerator<br />accounting state. It is synchronized from the master to every Seed copy.{{< /unsafe >}} |
 
 
 [Back to top](#top)
