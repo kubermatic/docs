@@ -1,0 +1,34 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: shared-gateway
+  namespace: <GATEWAY_NAMESPACE>
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: <GATEWAY_CLASS>
+  listeners:
+    - name: https-login
+      protocol: HTTPS
+      port: 443
+      hostname: login.<DOMAIN>
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: dex-tls-gw
+            kind: Secret
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-dashboard
+      protocol: HTTPS
+      port: 443
+      hostname: dashboard.<DOMAIN>
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: dashboard-tls-gw
+            kind: Secret
+      allowedRoutes:
+        namespaces:
+          from: All

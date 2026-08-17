@@ -136,6 +136,11 @@ developer-platform:
   versions:
     - release: v0.9.0
       name: v0.9.0
+    # v1.2 is not released yet. The content tree exists under
+    # content/developer-platform/v1.2/ and is reachable by direct link only.
+    # Uncomment to publish it as the latest version.
+    # - release: v1.2
+    #   name: v1.2
     - release: v1.1
       name: v1.1
     - release: v1.0
