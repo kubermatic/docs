@@ -1,0 +1,94 @@
++++
+title = "Community vs Enterprise Edition"
+date = 2024-03-15T00:00:00+01:00
+description = "Feature comparison between the free Community Edition and the subscription-based Enterprise Edition."
+weight = 8
++++
+
+KubeLB is available in two editions:
+
+- **Community Edition (CE):** Free, open source, and production-ready. Source code is available at <https://github.com/kubermatic/kubelb>.
+- **Enterprise Edition (EE):** Available with an active subscription. EE adds commercially supported features and product SLAs.
+
+{{% notice note %}}
+[Get in touch with Kubermatic](mailto:sales@kubermatic.com) to find out more about the KubeLB Enterprise offering.
+{{% /notice %}}
+
+## Feature Matrix
+
+| Feature | Community Edition | Enterprise Edition |
+|---------|:--:|:--:|
+| **Load Balancing** |||
+| TCP/UDP Load Balancing | ✔️ | ✔️ |
+| Ingress | ✔️ | ✔️ |
+| Envoy timeout configuration | ❌ | ✔️ |
+| Active health checks | ❌ | ✔️ |
+| Circuit breakers | ❌ | ✔️ |
+| Backend TLS re-encryption (upstream TLS) | ❌ | ✔️ |
+| Per-tenant Envoy resource sizing | ❌ | ✔️ |
+| Node address capping (`maxNodeAddressCount` / `nodeAddressLabelSelector`) | ❌ | ✔️ |
+| **Gateway API** |||
+| HTTPRoute, GRPCRoute | ✔️ | ✔️ |
+| TCPRoute, UDPRoute, TLSRoute | ❌ | ✔️ |
+| Multiple Gateways per tenant | ❌ | ✔️ |
+| Multiple Gateway classes per tenant (class mappings) | ❌ | ✔️ |
+| Traffic Policies (Client/Backend) | ❌ | ✔️ |
+| AI & MCP Gateway (agentgateway addon) | ✔️ | ✔️ |
+| **Security** |||
+| Web Application Firewall (Beta) | ❌ | ✔️ |
+| Tenant self-service WAF policies (TenantWAFPolicy) | ❌ | ✔️ |
+| mTLS backend transport (Beta) | ❌ | ✔️ |
+| Automated network policies | ❌ | ✔️ |
+| Air-gapped and offline support | ❌ | ✔️ |
+| **Management** |||
+| Ingress to Gateway API Migration (Beta) | ✔️ | ✔️ |
+| Bring your own certificates | ✔️ | ✔️ |
+| DNS automation | ✔️ ¹ | ✔️ |
+| Certificate management | ✔️ ¹ | ✔️ |
+| Gateway/LoadBalancer limits | ❌ | ✔️ |
+| Load Balancing Policies | ❌ | ✔️ |
+| Gateway API backend pools | ❌ | ✔️ |
+| CLI tunneling (Beta) | ❌ | ✔️ |
+| **Observability** |||
+| Prometheus metrics | ✔️ | ✔️ |
+| Grafana dashboards | ✔️ | ✔️ |
+| Insights | ❌ | ✔️ |
+| Prometheus alert rules | ❌ | ✔️ |
+| **Supply Chain Security** |||
+| Artifact signing (Cosign) | ✔️ | ✔️ |
+| SBOMs | ✔️ | ✔️ |
+| Vulnerability scanning | ✔️ | ✔️ |
+
+¹ In Community Edition, DNS records and certificates for load balancer hostnames are managed by annotating the generated resources for [external-dns](https://github.com/kubernetes-sigs/external-dns) and [cert-manager](https://cert-manager.io) (`useDNSAnnotations` / `useCertificateAnnotations`). Enterprise Edition adds managed DNS and certificates with per-tenant allowed domains, wildcard domains, and tunnel hostnames.
+
+{{% notice note %}}
+**Supported implementations:**
+
+- **Ingress**: [ingress-nginx](https://kubernetes.github.io/ingress-nginx/)
+- **Gateway API**: [Envoy Gateway](https://gateway.envoyproxy.io/)
+
+While other products might work for Ingress and Gateway API resources, we are not testing them and can't guarantee the compatibility.
+{{% /notice %}}
+
+## Supported Gateway API Features
+
+### Community Edition
+
+- Gateway (Single Instance per tenant)
+- HTTPRoute
+- GRPCRoute
+
+### Enterprise Edition
+
+- Gateway (Multiple Instances per tenant with limit support)
+- HTTPRoute
+- GRPCRoute
+- TCPRoute
+- UDPRoute
+- TLSRoute
+- ClientTrafficPolicy (Envoy Gateway)
+- BackendTrafficPolicy (Envoy Gateway)
+
+## Support Policy
+
+See [KubeLB Support Policy]({{< relref "../support-policy" >}}).

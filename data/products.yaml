@@ -116,6 +116,8 @@ kubelb:
   versions:
     - release: main
       name: main
+    - release: v1.5
+      name: v1.5
     - release: v1.4
       name: v1.4
     - release: v1.3
