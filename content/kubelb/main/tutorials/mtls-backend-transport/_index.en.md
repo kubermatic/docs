@@ -100,16 +100,15 @@ Switching between `Direct` and `MTLS` changes the backend traffic path. Plan it 
 Switching the mode re-plumbs the tenant dataplane and briefly disrupts tenant traffic.
 
 {{% notice warning %}}
-The flip is fleet-wide: there is no per-tenant canary in v1.5, so every tenant switches at once. Measured on real clusters, switching to `MTLS` costs from ~15 seconds up to a few minutes of hard failure per tenant — the duration is not deterministic (Layer 4 routes recover last, and a slow tenant apiserver extends the window). The switch also destroys every client keepalive connection pool: each in-flight request gets a 503 **and** a closed connection, so expect a connection-rate spike until pools rebuild. Switching back to `Direct` is close to hitless. Schedule a maintenance window and make sure clients have retry policies.
+The flip is fleet-wide: there is no per-tenant canary in v1.5, so every tenant switches at once. The switch also destroys every client keepalive connection pool: each in-flight request gets a 503 **and** a closed connection, so expect a connection-rate spike until pools rebuild. Schedule a maintenance window and make sure clients have retry policies.
 {{% /notice %}}
 
 {{% notice warning %}}
 **Do not treat the `TenantState` conditions as a "switch complete" signal.** `TenantProxyReady` and the
-other conditions report control-plane state and go `True` several seconds to a few minutes *before* traffic
-actually flows through the new path (Layer 4 recovers last). An automation that runs `kubectl wait` on these
-conditions and then proceeds will act during the outage. The only trustworthy "done" signal is a real
-request succeeding end to end on a route in the affected tenant. There is no dataplane-convergence condition
-in v1.5.
+other conditions report control-plane state and go `True` *before* traffic actually flows through the new
+path. An automation that runs `kubectl wait` on these conditions and then proceeds will act during the
+outage. The only trustworthy "done" signal is a real request succeeding end to end on a route in the
+affected tenant. There is no dataplane-convergence condition in v1.5.
 {{% /notice %}}
 
 On an installation with existing tenants, KubeLB holds the mode change until the `Config` carries a confirmation annotation with the target mode:
