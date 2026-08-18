@@ -60,7 +60,7 @@ We will install ArgoCD on both the clusters and we will install following compon
 
 1. Core KKP components
    1. Dex (in master)
-   1. ngix-ingress-controller
+   1. nginx-ingress-controller
    1. cert-manager
 1. Backup components
    1. Velero

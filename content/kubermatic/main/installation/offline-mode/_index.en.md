@@ -24,7 +24,7 @@ without Docker.
 There are a number of sources for container images used in a KKP setup:
 
 - The container images used by KKP itself (e.g. `quay.io/kubermatic/kubermatic`)
-- The images used by the various Helm charts used to deploy KKP (nginx, cert-manager,
+- The images used by the various Helm charts used to deploy KKP (Envoy Gateway, cert-manager,
   Grafana, ...)
 - The images used for creating a user cluster control plane (the Kubernetes apiserver,
   scheduler, metrics-server, ...).
@@ -124,7 +124,6 @@ metadata:
   name: kubermatic
 spec:
   mirrorImages:
-    - nginx:1.21.6
     - quay.io/kubermatic/kubelb-manager-ee:v1.1.0
 ```
 

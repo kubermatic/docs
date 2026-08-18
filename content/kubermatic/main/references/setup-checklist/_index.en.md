@@ -64,7 +64,7 @@ A helpful shortcut, we recommend our KubeOne tooling container, which contains a
 
 ## Load Balancer
 
-Kubermatic exposes an NGINX server and user clusters API servers via Load Balancers. Therefore, KKP is using the native Kubernetes Service Type `LoadBalancer` implementation. More details about the different expose points you find at the next chapter “DHCP/Networking”
+Kubermatic exposes an Envoy Gateway and user clusters API servers via Load Balancers. Therefore, KKP is using the native Kubernetes Service Type `LoadBalancer` implementation. More details about the different expose points you find at the next chapter “DHCP/Networking”
 
 ### On-Premise/Bring-your-own Load Balancer
 
@@ -112,9 +112,9 @@ For other Load Balancer scenarios we strongly recommend to use cloud environment
 
 ## DNS
 
-Kubermatic requires DNS entries for NGINX and user clusters API servers. These have to be created after the Load Balancers, see [EE Installation - DNS Records](https://docs.kubermatic.com/kubermatic/main/installation/install-kkp-ce/#dns-records) and [EE Seed Cluster - DNS Records](https://docs.kubermatic.com/kubermatic/main/installation/install-kkp-ce/add-seed-cluster-ce/#dns-record).
+Kubermatic requires DNS entries for the Envoy Gateway and user clusters API servers. These have to be created after the Load Balancers, see [EE Installation - DNS Records](https://docs.kubermatic.com/kubermatic/main/installation/install-kkp-ce/#dns-records) and [EE Seed Cluster - DNS Records](https://docs.kubermatic.com/kubermatic/main/installation/install-kkp-ce/add-seed-cluster-ce/#dns-record).
 
-The NGINX server provides access to the Kubermatic UI and the logging and monitoring services (Prometheus, Kibana, etc.). It requires a DNS name like `kubermatic.example.com` and `*.kubermatic.example.com` (e.g.for `prometheus.kubermatic.example.com`). Optional: if no wildcard DNS can be provided, dedicated DNS entries per exposed Service need to get entered (\~5 services).
+The Envoy Gateway provides access to the Kubermatic UI and the logging and monitoring services (Prometheus, Grafana, etc.). It requires a DNS name like `kubermatic.example.com` and `*.kubermatic.example.com` (e.g.for `prometheus.kubermatic.example.com`). Optional: if no wildcard DNS can be provided, dedicated DNS entries per exposed Service need to get entered (\~5 services).
 
 To access a user cluster via API, a wildcard DNS entry per seed cluster (in your case, the master cluster is the only seed) has to be provided. E.g., `*.seed.kubermatic.example.com`. User clusters would be accessible via `cluster-id.seed.kubermatic.example.com`.
 
@@ -126,13 +126,13 @@ Root DNS-Zone: `*.kubermatic.example.com`
 
 | **Service**                                    | **DNS**                                                                                                                                                                                                                                                                               | **IP**                                                                                         |
 |------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| KKP UI                                         | `kubermatic.example.com`                                                                                                                                                                                                                                                              | Ingress IP: dynamic or static (virtual IP)                                                     |
-| Management Monitoring / Logging UI - Grafana   | `grafana.kubermatic.example.com`                                                                                                                                                                                                                                                      | Ingress IP: dynamic or static (virtual IP)                                                     |
-| Management Monitoring - Prometheus             | `prometheus.kubermatic.example.com`                                                                                                                                                                                                                                                   | Ingress IP: dynamic or static (virtual IP)                                                     |
-| Management Monitoring - Alertmanager           | `alertmanager.kubermatic.example.com`                                                                                                                                                                                                                                                 | Ingress IP: dynamic or static (virtual IP)                                                     |
+| KKP UI                                         | `kubermatic.example.com`                                                                                                                                                                                                                                                              | Gateway IP: dynamic or static (virtual IP)                                                     |
+| Management Monitoring / Logging UI - Grafana   | `grafana.kubermatic.example.com`                                                                                                                                                                                                                                                      | Gateway IP: dynamic or static (virtual IP)                                                     |
+| Management Monitoring - Prometheus             | `prometheus.kubermatic.example.com`                                                                                                                                                                                                                                                   | Gateway IP: dynamic or static (virtual IP)                                                     |
+| Management Monitoring - Alertmanager           | `alertmanager.kubermatic.example.com`                                                                                                                                                                                                                                                 | Gateway IP: dynamic or static (virtual IP)                                                     |
 | Seed cluster - Kubernetes API Expose Service   | Expose Strategy: **NodePort/Tunneling**: `*.seed.kubermatic.example.com`; **LoadBalancer**: `NONE` (will be exposed by independent LB/IPs per cluster see - [expose strategy LoadBalancer](https://docs.kubermatic.com/kubermatic/master/concepts/expose-strategy/expose_strategy/)). | NodePort Proxy: dynamic or static (virtual IP)**Or** one virtual IP per user cluster in a CIDR |
-| User Cluster Monitoring - Alertmanager         | `alertmanager.seed.kubermatic.example.com`                                                                                                                                                                                                                                            | Ingress IP: dynamic or static (virtual IP)                                                     |
-| User Cluster Monitoring / Logging UI - Grafana | `grafana.seed.kubermatic.example.com`                                                                                                                                                                                                                                                 | Ingress IP: dynamic or static (virtual IP)                                                     |
+| User Cluster Monitoring - Alertmanager         | `alertmanager.seed.kubermatic.example.com`                                                                                                                                                                                                                                            | Gateway IP: dynamic or static (virtual IP)                                                     |
+| User Cluster Monitoring / Logging UI - Grafana | `grafana.seed.kubermatic.example.com`                                                                                                                                                                                                                                                 | Gateway IP: dynamic or static (virtual IP)                                                     |
 
 It is also possible to use [external-dns](https://github.com/kubernetes-sigs/external-dns) as an automatic way to manage DNS Entries for you. Therefore, checkout if your DNS provider is supported: [external-dns provider](https://github.com/kubernetes-sigs/external-dns?tab=readme-ov-file#externaldns)
 
@@ -310,7 +310,7 @@ To set up Kubermatic behind [MetalLB](https://metallb.universe.tf/), we need a f
 
 CIDR for
 
-- Ingress: 1 IP
+- Gateway (Envoy): 1 IP
 
 - Node-Port-Proxy: 1 IP (if expose strategy NodePort or Tunneling), multiple IPs at expose strategy LoadBalancer (for each cluster one IP)
 

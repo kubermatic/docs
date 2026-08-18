@@ -17,7 +17,6 @@ Dashboards list consists of categories as shown below, each containing Dashboard
 - **Kubernetes** - dashboards used for monitoring Kubernetes resources of the seed cluster (described [below](#monitoring-kubernetes)).
 - **Minio** - dashboards used for monitoring local MinIO installation.
 - **Monitoring** - dashboards used for checking the health of the monitoring stack itself.
-- **NGINX Ingress Controller** - dashboards used for visualising NGINX Ingress status.
 
 ![Categories of Grafana dashboards](images/all-dashboards.png?classes=shadow,border)
 

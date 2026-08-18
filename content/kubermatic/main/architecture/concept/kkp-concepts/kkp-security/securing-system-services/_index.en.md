@@ -31,14 +31,12 @@ for example by doing `cat /dev/urandom | tr -dc A-Za-z0-9 | head -c32`.
 A sample configuration for Prometheus and Alertmanager could look like this:
 
 ```yaml
+httpRoute:
+  domain: kkp.example.com
+  path: /dex
+  pathType: PathPrefix
+
 dex:
-  ingress:
-    hosts:
-      - host: kkp.example.com
-        paths:
-          - path: /dex
-            pathType: ImplementationSpecific
-            
   config:
     staticClients:
     # keep the KKP client for the login to the KKP dashboard
@@ -126,26 +124,40 @@ iap:
         github_team: mygroup
 ```
 
-With all this configured, it's now time to install/upgrade the `iap` Helm chart:
+The KKP installer deploys the `iap` chart together with the monitoring stack: release `iap` in
+namespace `monitoring` on the master or seed, and for User Cluster MLA release `iap` in namespace `mla`.
+The installer labels these namespaces for Gateway access automatically. If you prefer to manage the chart
+yourself, install it manually. Using namespace `monitoring` and release name `iap` matches what the
+installer would create:
 
 **Helm 3**
 
 ```bash
-helm --namespace iap upgrade --install --wait --values /path/to/your/helm-values.yaml iap charts/iap/
+helm --namespace monitoring upgrade --install --wait --values /path/to/your/helm-values.yaml iap charts/iap/
 ```
 
-This will create one Ingress per deployment you configured. If all your Ingress hosts are subdomains of your
-primary domain, the wildcard DNS record we already set up earlier will be enough. Otherwise you will need to
-update your DNS accordingly.
+This will create one HTTPRoute per deployment you configured, attached to the KKP Gateway (`kubermatic` in the
+`kubermatic` namespace by default; configure the top-level `httpRoute.gatewayName` and `httpRoute.gatewayNamespace`
+values to point elsewhere, for example at a seed Gateway). Each deployment's `ingress.host` value is reused as the
+HTTPRoute hostname. If all your hosts are subdomains of your primary domain, the wildcard DNS record we already set
+up earlier will be enough. Otherwise you will need to update your DNS accordingly.
 
-In addition, this will also create a TLS certificate for each IAP deployment. Once you setup the required DNS
-records (see next steps) you can check their progress like so:
+The Gateway accepts HTTPRoutes only from namespaces labeled `kubermatic.io/gateway-access=true`. The KKP installer
+labels the required namespaces automatically; when you install the `iap` chart manually with Helm as shown above,
+make sure the namespace carries the label:
 
 ```bash
-watch kubectl -n iap get certificates
-#NAME           READY   SECRET             AGE
-#prometheus     True    prometheus-tls     1h
-#alertmanager   True    alertmanager-tls   1h
+kubectl label namespace monitoring kubermatic.io/gateway-access=true --overwrite
+```
+
+TLS for each IAP hostname is provided by the shared Gateway listener: the HTTPRoute-Gateway sync controller
+adds a listener per hostname and cert-manager issues the certificates based on the Gateway's issuer
+annotation. Once you setup the required DNS records (see next steps) you can check the issued certificates
+like so:
+
+```bash
+watch kubectl -n monitoring get httproute
+kubectl -n kubermatic get gateway kubermatic -o jsonpath='{.spec.listeners[*].hostname}'
 ```
 
 ### DNS Records

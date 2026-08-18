@@ -117,7 +117,7 @@ tar -xzvf "kubermatic-ce-v${VERSION}-darwin-${ARCH}.tar.gz"
 
 The installation and configuration for a KKP system consists of two important files:
 
-* A `values.yaml` used to configure the various Helm charts KKP ships with. This is where nginx, Prometheus,
+* A `values.yaml` used to configure the various Helm charts KKP ships with. This is where the Envoy Gateway, Prometheus,
   Dex, etc. can be adjusted to the target environment. A single `values.yaml` is used to configure all Helm charts
   combined.
 * A `kubermatic.yaml` that configures KKP itself and is an instance of the
@@ -131,11 +131,24 @@ Both files will include secret data, so make sure to securely store them (e.g. i
 The release archive hosted on GitHub contains examples for both of the configuration files (`values.example.yaml` and
 `kubermatic.example.yaml`). It's a good idea to take them as a starting point and add more options as necessary.
 
+KKP uses the Gateway API with Envoy Gateway to route external traffic to the dashboard, API and Dex. The installer deploys the `envoy-gateway-controller` chart and the Kubermatic Operator creates a Gateway named `kubermatic` and the matching HTTPRoutes. Make sure the `httpRoute` block in your `values.yaml` references your domain:
+
+```yaml
+# this is a snippet, not a full values.yaml!
+httpRoute:
+  gatewayName: kubermatic
+  gatewayNamespace: kubermatic
+  domain: "kkp.example.com"  # replace with your domain
+  timeout: 3600s
+```
+
+`httpRoute.domain` must be set explicitly. Nothing defaults it, and with an empty value the Dex chart fails at API-server validation during the installation.
+
 The key items to consider while preparing your configuration files are described in the table below.
 
 | Description                                                                                                                                                                                                                                                                                                  | YAML Paths and File                                                                                                                                                                                                                                                                                          |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| The base domain under which KKP shall be accessible (e.g. `kkp.example.com`).                                                                                                                                                                                                                                | `.spec.ingress.domain` (`kubermatic.yaml`), `.dex.ingress.hosts[0].host` and `dex.ingress.tls[0].hosts[0]` (`values.yaml`); also adjust `.dex.config.staticClients[*].RedirectURIs` (`values.yaml`) according to your domain.                                                                                |
+| The base domain under which KKP shall be accessible (e.g. `kkp.example.com`).                                                                                                                                                                                                                                | `.spec.ingress.domain` (`kubermatic.yaml`) and `.httpRoute.domain` (`values.yaml`); also adjust `.dex.config.staticClients[*].RedirectURIs` (`values.yaml`) according to your domain.                                                                                                                         |
 | The certificate issuer for KKP (KKP requires it since the dashboard and Dex are accessible only via HTTPS); by default cert-manager is used, but you have to reference an issuer that you need to create later on.                                                                                           | `.spec.ingress.certificateIssuer.name` (`kubermatic.yaml`)                                                                                                                                                                                                                                                   |
 | For proper authentication, shared secrets must be configured between Dex and KKP. `.spec.auth.issuerClientSecret` and `.spec.auth.issuerCookieKey` are required for logging into the KKP dashboard and have to be set.                                                                                        | `.dex.config.staticClients[*].secret` (`values.yaml`), `.spec.auth.issuerClientSecret` (`kubermatic.yaml`); this needs to be equal to `.dex.config.staticClients[name=="kubermaticIssuer"].secret` (`values.yaml`), `.spec.auth.issuerCookieKey` and `.spec.auth.serviceAccountKey` (both `kubermatic.yaml`) |
 | To authenticate via an external identity provider, you need to set up connectors in Dex. Check out [the Dex documentation](https://dexidp.io/docs/connectors/) for a list of available providers. This is not required, but highly recommended for multi-user installations.                                 | `.dex.config.connectors` (`values.yaml`; commented in example file)                                                                                                                                                                                                                                          |
@@ -191,23 +204,40 @@ KubermaticConfiguration and let the installer set it in `values.yaml` as well.
 If the Master Cluster's cloud provider does not support `Services` of type `LoadBalancer` (e.g. in an on-premise environment)
 you can configure KKP to not create such `Services`. Later parts of the documentation will cover this case while setting up DNS as well.
 
-To prepare your configuration correctly for this case, ensure that `nginx-ingress-controller` will be set up with a `Service`
-of type `NodePort` instead of `LoadBalancer`. This can be done by providing the appropriate configuration in your `values.yaml`
-file (this will bind access to `Ingress` resources exposed via plain HTTP to port **32080** and encrypted HTTPS to port **32443** on all nodes):
+To prepare your configuration correctly for this case, configure the Envoy Gateway data plane `Service`
+to be of type `NodePort` instead of `LoadBalancer`. This can be done by providing the appropriate configuration in your `values.yaml`
+file (this will bind access via plain HTTP to port **30080** and encrypted HTTPS to port **30443** on all nodes):
 
 ```yaml
 # this is a snippet, not a full values.yaml!
-nginx:
-  controller:
-    service:
-      type: NodePort
-      nodePorts:
-        http: 32080
-        https: 32443
+envoyProxy:
+  service:
+    type: NodePort
+    # Cluster makes every cluster node serve the NodePorts. The default, Local,
+    # preserves the client source IP but drops traffic that reaches a node
+    # without a local Envoy pod.
+    externalTrafficPolicy: Cluster
+    patch:
+      type: JSONMerge
+      value:
+        spec:
+          type: NodePort
+          # the patch replaces the port list, so every entry must be complete.
+          # targetPort must point at the ports the Envoy proxy container
+          # listens on: 10080 for HTTP and 10443 for HTTPS.
+          ports:
+            - name: http
+              port: 80
+              nodePort: 30080
+              targetPort: 10080
+            - name: https
+              port: 443
+              nodePort: 30443
+              targetPort: 10443
 ```
 
-Make sure to include **32443** as port in all URLs both in `kubermatic.yaml` and `values.yaml`, e.g. the token issuer URL from `kubermatic.yaml`
-should now be `https://kkp.example.com:32443/dex`.
+Make sure to include **30443** as port in all URLs both in `kubermatic.yaml` and `values.yaml`, e.g. the token issuer URL from `kubermatic.yaml`
+should now be `https://kkp.example.com:30443/dex`.
 
 ### Create a StorageClass
 
@@ -346,8 +376,11 @@ spec:
       name: letsencrypt-prod-acme-account-key
     solvers:
     - http01:
-       ingress:
-         class: nginx
+       gatewayHTTPRoute:
+         parentRefs:
+         - kind: Gateway
+           name: kubermatic
+           namespace: kubermatic
 ```
 
 Save this (or the adjusted `ClusterIssuer` you are going to use) to a file (e.g. `clusterissuer.yaml`) and apply it
@@ -360,8 +393,8 @@ kubectl apply -f ./clusterissuer.yaml
 ### Create DNS Records
 
 In order to acquire a valid certificate, a DNS name needs to point to your cluster. Depending on your environment
-this can mean a `LoadBalancer` service or a `NodePort` service. The `nginx-ingress-controller` Helm chart will by default
-create a load balancer, unless you [reconfigured it because your environment does not support load balancers](#without-loadbalancers).
+this can mean a `LoadBalancer` service or a `NodePort` service. The Envoy Gateway data plane is by default
+exposed via a load balancer, unless you [reconfigured it because your environment does not support load balancers](#without-loadbalancers).
 
 The installer will do its best to inform you about the required DNS records to set up. You will receive an output
 similar to this:
@@ -370,10 +403,10 @@ similar to this:
 INFO[13:03:33]    📝 Applying Kubermatic Configuration…
 INFO[13:03:33]    ✅ Success.
 INFO[13:03:33]    📡 Determining DNS settings…
-INFO[13:03:33]       The main LoadBalancer is ready.
+INFO[13:03:33]       The main Gateway is ready.
 INFO[13:03:33]
-INFO[13:03:33]         Service             : nginx-ingress-controller / nginx-ingress-controller
-INFO[13:03:33]         Ingress via hostname: EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com
+INFO[13:03:33]         Gateway             : kubermatic / kubermatic
+INFO[13:03:33]         Address via hostname: EXAMPLEEXAMPLEEXAMPLEEXAMPLE-EXAMPLE.eu-central-1.elb.amazonaws.com
 INFO[13:03:33]
 INFO[13:03:33]       Please ensure your DNS settings for "kkp.example.com" include the following records:
 INFO[13:03:33]
@@ -390,17 +423,19 @@ cluster. See the following sections for more information regarding the required 
 #### With LoadBalancers
 
 If your cloud provider supports load balancers, you can find the target IP / hostname by looking at the
-`nginx-ingress-controller` Service:
+Envoy Gateway data plane Service in the `envoy-gateway-controller` namespace (the name follows the pattern
+`envoy-kubermatic-kubermatic-<suffix>`), or by reading the address from the Gateway status:
 
 ```bash
-kubectl -n nginx-ingress-controller get services
+kubectl -n envoy-gateway-controller get services
+kubectl -n kubermatic get gateway kubermatic -o jsonpath='{.status.addresses}'
 ```
 
 Output will be similar to this:
 
 ```bash
-#NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
-#nginx-ingress-controller   LoadBalancer   10.47.248.232   1.2.3.4        80:32014/TCP,443:30772/TCP   449d
+#NAME                              TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+#envoy-kubermatic-kubermatic-ab12cd34   LoadBalancer   10.47.248.232   1.2.3.4       80:32014/TCP,443:30772/TCP   5m
 ```
 
 `EXTERNAL-IP` is what you need to put into the DNS record. Note that this can be a hostname (for example on AWS,
@@ -452,7 +487,7 @@ stacks. This involves setting up either individual DNS records per IAP deploymen
 or simply creating a single **wildcard** record: `*.kkp.example.com`.
 
 Whatever you choose, the DNS record needs to point to the same endpoint (IP or hostname, meaning A or CNAME
-records respectively) as the previous record, i.e. `1.2.3.4`. This is because the one nginx-ingress-controller is routing
+records respectively) as the previous record, i.e. `1.2.3.4`. This is because the shared Envoy Gateway is routing
 traffic both for KKP and all other services.
 
 ```plain
