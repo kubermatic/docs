@@ -381,6 +381,8 @@ spec:
 
 All three fields default to Envoy's maximum, so out of the box KubeLB's managed Envoy never rejects headers the edge already accepted. Lower them if you want the managed Envoy to enforce a smaller cap.
 
+On the Gateway API path the effective ceiling is therefore Envoy Gateway's stock limits of **100 request headers / 60 KiB**, not KubeLB's: oversized requests are rejected with `431` at the Envoy Gateway hop before KubeLB's configured limits apply, unless a [ClientTrafficPolicy]({{< relref "../../tutorials/gatewayapi/client-traffic-policy" >}}) raising them is attached to the Gateway.
+
 The Envoy Gateway edge is not managed by KubeLB. Raise its limit yourself on the `EnvoyProxy` resource that your `GatewayClass` references, for example with a bootstrap runtime layer:
 
 ```yaml

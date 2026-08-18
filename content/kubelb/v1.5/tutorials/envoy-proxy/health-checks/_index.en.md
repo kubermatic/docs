@@ -9,6 +9,10 @@ enterprise = true
 
 KubeLB configures Envoy active health checking on the upstream clusters that back your services. By default every TCP cluster gets a connect-only TCP check. This page shows how to replace that with tuned TCP, HTTP, or gRPC checks on the `Config`, `Tenant`, `LoadBalancer`, and `Route` resources, or through tenant-side annotations.
 
+{{% notice warning %}}
+Active health checks cannot be disabled and have no fail-open: the panic threshold is 0 by design, so a wrong `http.path` or `http.expectedStatuses` takes the route to 0% healthy and all traffic fails. gRPC checks require HTTP/2-capable backends. Pod-level failure detection requires `externalTrafficPolicy: Local` on the tenant Service, because checks target the node port, not individual pods. And in `Direct` (non-mTLS) backend transport, a backend that accepts TCP connections but serves errors is never ejected by the default connect-only check — set `kubelb.k8c.io/health-check-type: HTTP` on the Service to get HTTP-level checking.
+{{% /notice %}}
+
 ## Why Configurable Health Checks?
 
 The built-in connect-only TCP check confirms that a backend accepts TCP connections. It does not confirm that the application behind it is serving traffic. A pod that has crashed at the application layer but still holds an open socket keeps receiving requests.

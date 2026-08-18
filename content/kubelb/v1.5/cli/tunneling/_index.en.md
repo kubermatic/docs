@@ -115,4 +115,8 @@ kubelb tunnel connect my-app --port 1313
 
 This will connect to the tunnel and forward traffic to the port `1313` on the local machine.
 
+### Tunnel Hostnames
+
+When the tenant has `dns.allowExplicitHostnames: false` (see [DNS](../../tutorials/security/dns/#enable-dns-automation)), a `Tunnel` with `spec.hostname` set is rejected with `no hostname configurable`. Request a generated hostname under the tenant's wildcard domain instead by annotating the `Tunnel` with `kubelb.k8c.io/request-wildcard-domain: "true"` — the same annotation used on [LoadBalancer resources](../../tutorials/loadbalancer/#load-balancer-hostname-support).
+
 For deleting, inspecting, and listing tunnels, see the [Tunnel API](../../references/api/tunnel/) documentation.
