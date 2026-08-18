@@ -25,7 +25,7 @@ To follow this guide, you need:
 
 ## Installation
 
-The installation is divided into six main steps, each deploying a core component of KDP.
+The installation is divided into five main steps, each deploying a core component of KDP.
 You will perform the following tasks:
 
 - **Set up certificates**: First, you will configure a cert-manager issuer to automatically obtain and renew TLS certificates from Let's Encrypt.
@@ -36,9 +36,7 @@ You will perform the following tasks:
 
 - **Deploy KDP**: Afterwards, you will install the main KDP controllers that connect to kcp and manage the platform's resources.
 
-- **Launch the KDP dashboard**: You will deploy the KDP dashboard, the primary graphical interface for developers to interact with the platform and manage their service objects.
-
-- **Deploy the KDP AI Agent**: Finally, you will deploy the AI Agent, which provides AI-powered features within the dashboard — generating Kubernetes resource specs and customizing resource creation forms from natural language prompts.
+- **Launch the KDP dashboard**: Finally, you will deploy the KDP dashboard, the primary graphical interface for developers to interact with the platform and manage their service objects.
 
 Throughout this guide, you will need to replace several placeholder variables in the Helm values files.
 Below is a description of each value you need to provide.
@@ -49,7 +47,7 @@ Below is a description of each value you need to provide.
 - `<ADMIN_PASSWORD_HASH>`: A generated bcrypt hash of the password you choose for the initial admin user.
 - `<OIDC_CLIENT_SECRET>`: A randomly generated, secure string that acts as a password for the KDP dashboard to authenticate with the Dex identity provider.
 - `<SESSION_ENCRYPTION_KEY>`: A second, unique random string used by the KDP dashboard itself to encrypt user session cookies, adding another layer of security.
-- `<OPENAI_API_KEY>`: An API key from OpenAI, required by the KDP AI Agent for its AI-powered features (spec generation and UI schema generation).
+- `<OPENAI_API_KEY>`: An API key for an OpenAI-compatible service. This is optional: it enables the dashboard's AI features (UI Builder form generation and AI-assisted Blueprint authoring). Leave it empty to install without them.
 
 ### Create ClusterIssuer
 
@@ -333,6 +331,7 @@ Before deploying the KDP dashboard, you need to replace the following placeholde
 - `<DOMAIN>`
 - `<OIDC_CLIENT_SECRET>`
 - `<SESSION_ENCRYPTION_KEY>`
+- `<OPENAI_API_KEY>` (optional)
 
 The `<OIDC_CLIENT_SECRET>` placeholder **must** be replaced with the value generated in step "Deploy Dex" and configured in the `dex.values.yaml` file.
 
@@ -344,6 +343,11 @@ cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32
 ```
 
 Copy and paste the output as the value for `<SESSION_ENCRYPTION_KEY>`.
+
+The `<OPENAI_API_KEY>` placeholder is optional and enables the dashboard's AI features: generating
+resource forms in the [UI Builder]({{< relref "../../service-providers/ui-builder" >}}) and
+[AI-assisted Blueprint authoring]({{< relref "../../service-providers/blueprints#building-blueprints-with-ai" >}}).
+Without it the dashboard runs normally and both fall back to manual authoring.
 
 Now that all placeholders are replaced, deploy the KDP dashboard Helm chart.
 To log into the Helm registry, again use your email address as the username and the license key you received as the password.
@@ -357,69 +361,6 @@ helm upgrade --install kdp-dashboard \
     --namespace=kdp-system \
     --values=kdp-dashboard.values.yaml
 ```
-
-### Deploy KDP AI Agent
-
-The KDP AI Agent is a backend service that powers AI-driven features in the KDP dashboard.
-It uses OpenAI to provide two capabilities: **spec generation**, which converts natural language prompts into properly structured Kubernetes resource YAML, and **UI schema generation**, which produces custom [RJSF](https://rjsf-team.github.io/react-jsonschema-form/) UI schemas that tailor the dashboard's resource creation forms based on a prompt.
-
-Before proceeding, ensure you have an OpenAI API key.
-
-Save the following content to a file named `ai-agent.values.yaml`:
-
-```yaml
-{{< readfile "developer-platform/v1.2/setup/quickstart/data/ai-agent.values.yaml" >}}
-```
-
-Replace the following placeholder variables:
-
-- `<PULL_CREDENTIALS>`
-- `<DOMAIN>`
-- `<OIDC_CLIENT_SECRET>` (same value as in the Dex and Dashboard configuration)
-- `<OPENAI_API_KEY>`
-
-Deploy the AI Agent Helm chart:
-
-```bash
-helm registry login quay.io
-helm upgrade --install kdp-ai-agent \
-    oci://quay.io/kubermatic/helm-charts/developer-platform-ai-agent \
-    --version=1.1.0 \
-    --create-namespace \
-    --namespace=kdp-system \
-    --values=ai-agent.values.yaml
-```
-
-The AI Agent is served under the same domain as the dashboard (`dashboard.<DOMAIN>/ai-agent/`) to avoid CORS issues.
-The NGINX Ingress uses a regex path and rewrite rule to forward requests to the AI Agent service.
-
-{{% notice tip %}}
-**Gateway API alternative:** If you use a Gateway API controller, disable the AI Agent's built-in Ingress and create an `HTTPRoute` with a URL rewrite instead:
-
-```yaml
-# ai-agent.values.yaml
-aiAgent:
-  ingress:
-    create: false
-```
-
-Then add the following `HTTPRoute` alongside your existing Dex and Dashboard routes.
-Save the following content to a file named `ai-agent.http-route.yaml`:
-
-```yaml
-{{< readfile "developer-platform/v1.2/setup/quickstart/data/ai-agent.http-route.yaml" >}}
-```
-
-Replace `<GATEWAY_NAMESPACE>` and `<DOMAIN>`, then apply:
-
-```bash
-kubectl apply -f ./ai-agent.http-route.yaml
-```
-
-This rewrites `/ai-agent/...` to `/...` before forwarding to the AI Agent service, matching the behavior of the NGINX rewrite rule.
-{{% /notice %}}
-
-For more details, see the [AI Agent documentation]({{< relref "../ai-agent" >}}).
 
 ### Configure DNS records
 
@@ -465,7 +406,7 @@ Before accessing the dashboard, verify that all components are running:
 kubectl --namespace=kdp-system get pods
 ```
 
-You should see pods for `dex`, `kcp`, `kdp-controller-manager`, `kdp-virtual-workspaces`, `kdp-dashboard`, and `kdp-ai-agent` in a **Running** state.
+You should see pods for `dex`, `kcp`, `kdp-controller-manager`, `kdp-virtual-workspaces`, and `kdp-dashboard` in a **Running** state.
 The `kdp-bootstrap` job should show as **Completed**.
 If any pod is stuck in `CrashLoopBackOff` or `Pending`, inspect its logs with `kubectl --namespace=kdp-system logs <pod-name>` for troubleshooting.
 
