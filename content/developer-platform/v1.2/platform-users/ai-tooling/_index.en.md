@@ -18,9 +18,8 @@ environment from an AI coding assistant such as
 status, and authoring Blueprints, in plain language.
 
 {{% notice note %}}
-This is separate from the dashboard's [AI Agent]({{< relref "../../setup/ai-agent" >}}), which
-generates resource UI/forms inside the dashboard. The tooling here runs in your local AI
-assistant against your KDP workspace.
+This is separate from the dashboard's own AI assistance, which generates resource specs and forms
+inside the dashboard. The tooling here runs in your local AI assistant against your KDP workspace.
 {{% /notice %}}
 
 ## What an agent can do

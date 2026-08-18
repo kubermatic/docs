@@ -19,13 +19,12 @@ upgrade in a non-production environment first.
 
 ## Version matrix
 
-The three KDP components are released together. For KDP 1.1.0, use:
+The KDP components are released together. For KDP 1.1.0, use:
 
 | Component | Chart / image version |
 | --------- | --------------------- |
 | KDP backend (`developer-platform`) | `1.1.0` |
 | KDP dashboard (`developer-platform-dashboard`) | `1.1.0` |
-| KDP AI Agent (`developer-platform-ai-agent`) | `1.1.0` |
 | kcp Helm chart | `0.16.6` (was `0.16.0`; kcp appVersion 0.32.3) |
 | Dex Helm chart | `0.23.0` (unchanged) |
 | api-syncagent (service clusters) | `v0.7.0` (unchanged) |
@@ -61,7 +60,6 @@ platform-user side.
 1. Upgrade **kcp** to `0.16.6` (see above) and confirm the control plane is healthy.
 2. Upgrade the **KDP backend** chart to `1.1.0`.
 3. Upgrade the **KDP dashboard** chart to `1.1.0`.
-4. Upgrade the **KDP AI Agent** chart to `1.1.0`.
 
 Each step uses the same `helm upgrade --install …` commands as the
 [quickstart]({{< relref "../quickstart" >}}), with `--version=1.1.0` for the KDP charts.

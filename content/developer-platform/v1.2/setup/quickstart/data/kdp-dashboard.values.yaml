@@ -22,9 +22,6 @@ dashboard:
     backend:
       frontProxyURL: https://api.<DOMAIN>
     features:
-      aiAgent:
-        enabled: true
-        generatorURL: https://dashboard.<DOMAIN>/ai-agent/
       kubeconfigDownload:
         enabled: true
         serverCA: /app/_config/user-kubeconfig/ca.crt
@@ -44,3 +41,12 @@ dashboard:
       items:
         - key: tls.crt
           path: ca.crt
+
+# The dashboard API powers the optional AI features: UI Builder form generation
+# and AI-assisted Blueprint authoring. Leave openaiKey empty to run without
+# them; the dashboard itself works either way. openaiModel is optional and
+# defaults to a current OpenAI chat model.
+api:
+  config:
+    openaiKey: <OPENAI_API_KEY>
+    # openaiModel: ''
