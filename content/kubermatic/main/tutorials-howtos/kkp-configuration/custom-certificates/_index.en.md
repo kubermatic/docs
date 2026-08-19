@@ -56,25 +56,11 @@ spec:
       name: my-own-ca-issuer
 ```
 
-Re-apply the changed configuration and the KKP Operator will reconcile the Certificate resource,
-after which cert-manager will provision a new certificate Secret.
+Re-apply the changed configuration and the KKP Operator will annotate the Gateway with the new
+issuer, after which cert-manager will provision the certificate for the Gateway listener.
 
-Similarly, update your Helm `values.yaml` that is used for the Dex/IAP deployment and configure
-the new issuer:
-
-```yaml
-dex:
-  certIssuer:
-    kind: ClusterIssuer # or Issuer, depending on your scenario.
-    name: my-own-ca-issuer
-
-iap:
-  certIssuer:
-    kind: ClusterIssuer # or Issuer, depending on your scenario.
-    name: my-own-ca-issuer
-```
-
-Re-deploy the `iap` Helm chart to perform the changes and update the `Certificate` resources.
+Dex and the IAP deployments are served through the same Gateway as the KKP API, so the issuer
+configured for KKP covers them as well. No separate certificate configuration is needed for Dex or IAP.
 
 ### External
 
@@ -188,9 +174,10 @@ spec:
 
 ### KKP
 
-The KKP Operator manages a single `Ingress` for the KKP API/dashboard. This by default includes setting up
-the required annotations and spec settings for usage with cert-manager. However, if cert-manager
-integration is disabled, the cluster admin is free to manage these settings themselves.
+The KKP Operator manages a `Gateway` and `HTTPRoute` for the KKP API/dashboard. By default the Gateway HTTPS
+listener obtains its certificate via cert-manager, driven by `spec.ingress.certificateIssuer` in the
+`KubermaticConfiguration`. If cert-manager integration is disabled, the cluster admin provides a static
+certificate Secret instead.
 
 To disable cert-manager integration, set `spec.ingress.certificateIssuer` as empty
 in the `KubermaticConfiguration` or omit setting the field entirely:
@@ -201,18 +188,24 @@ spec:
     certificateIssuer: null
 ```
 
-It is now possible to set `spec.tls` on the `kubermatic` `Ingress` to a custom certificate by manually changing
-it with `kubectl edit`:
+Then reference your existing certificate Secret on the Gateway listener via `spec.ingress.gateway.tls.secretRef`:
 
 ```yaml
 spec:
-  tls:
-  - secretName: my-custom-kubermatic-cert
-    hosts:
-    - kkp.example.com
+  ingress:
+    gateway:
+      tls:
+        secretRef:
+          name: my-custom-kubermatic-cert
+          # namespace is optional; defaults to the Gateway namespace.
+          # Cross-namespace references require a Gateway API ReferenceGrant
+          # in the target namespace.
 ```
 
-Refer to the [Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
+The referenced Secret must be of type `kubernetes.io/tls`. When hostname-specific HTTPS listeners are synced
+for HTTPRoutes, the certificate must cover all served hostnames, for example via a wildcard or SAN certificate.
+
+Refer to the [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/secret/#secret-types)
 for details on the format for certificate `Secrets`.
 
 {{% notice warning %}}
@@ -228,33 +221,20 @@ to not put actual secrets into the CA bundle.
 
 ### Dex
 
-The same technique used for KKP is applicable to Dex as well: Set the name of the certificate issuer to an empty
-string to be able to configure your own certificates. Update the Helm `values.yaml` used to deploy the
-chart like so:
-
-```yaml
-dex:
-  certIssuer:
-    name: ""
-```
-
-Re-deploy the chart and the `Certificate` resource will not be created anymore. You have to manually create
-a `dex-tls` Secret in the `oauth` namespace. This `Secret` follows the
-[same format](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) as the one for KKP's API.
+Dex is served through the same Gateway as the KKP API, on the domain configured in the top-level `httpRoute.domain` value.
+Its TLS certificate comes from the Gateway listener, so the issuer configured for KKP covers Dex as well.
+No separate certificate configuration is needed. To use a static certificate for the whole Gateway instead,
+see [KKP](#kkp) above and use `spec.ingress.gateway.tls.secretRef` with a certificate that includes the Dex
+hostname.
 
 ### Identity-Aware Proxy
 
-The configuration is identical to Dex: Disable the cert issuer's name and then manually create the TLS
-certificates.
+The IAP chart no longer creates per-deployment `Certificate` resources. Each IAP deployment is exposed via an
+HTTPRoute on the shared Gateway. In cert-manager mode, the sync controller adds a listener and a certificate
+per hostname, all issued from the issuer configured for KKP. With a static certificate, the Secret referenced
+via `spec.ingress.gateway.tls.secretRef` must cover every hostname.
 
-```yaml
-iap:
-  certIssuer:
-    name: ""
-```
-
-For each configured Deployment (`iap.deployments`) a matching Secret needs to be created. For a Deployment
-named `grafana`, the Secret needs to be called `grafana-tls`.
+The `iap.certIssuer` value still exists in the chart values but no longer has an effect.
 
 ### Token Validation
 
@@ -301,19 +281,24 @@ Re-deploy the `iap` Helm chart to apply the changes.
 
 ## Wildcard Certificates
 
-Generally the KKP stack is built to use dedicated certificates for each Ingress / application, but it's
-possible to instead configure a single (usually wildcard) certificate in nginx that will be used as the
-default certificate for all domains.
+Generally the KKP stack is built to use dedicated certificates for each hostname, but it's
+possible to instead configure a single (usually wildcard) certificate that will be used
+as the certificate for all domains served by the KKP Gateway.
 
 As with all other custom certificates, create a new Secret with the certificate and private key in it,
-and then adjust your Helm `values.yaml` to configure nginx like so:
+and then reference it in the `KubermaticConfiguration`:
 
 ```yaml
-nginx:
-  controller:
-    extraArgs:
-      # The value of this flag is in the form "namespace/name".
-      default-ssl-certificate: "mynamespace/mysecret'
+spec:
+  ingress:
+    certificateIssuer: null
+    domain: kkp.example.com
+    gateway:
+      tls:
+        secretRef:
+          name: my-wildcard-cert
 ```
 
-Redeploy the `nginx-ingress-controller` Helm chart to enable the changes.
+The certificate must cover the main domain and all served hostnames (for example `kkp.example.com` and
+`*.kkp.example.com` for the dashboard, Dex, Grafana, Alertmanager and the other exposed services).
+Re-run the `kubermatic-installer` to apply the changes.

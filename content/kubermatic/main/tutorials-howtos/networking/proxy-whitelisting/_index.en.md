@@ -68,9 +68,6 @@ registry.k8s.io/provider-os/openstack-cloud-controller-manager
 registry.k8s.io/provider-os/cinder-csi-plugin
 registry.k8s.io/cloud-provider-gcp/cloud-controller-manager
 
-# Ingress
-registry.k8s.io/ingress-nginx/controller
-registry.k8s.io/ingress-nginx/kube-webhook-certgen
 ```
 
 **`gcr.io`:**
@@ -95,8 +92,11 @@ docker.io/digitalocean/digitalocean-cloud-controller-manager
 
 #Helper
 docker.io/d3fk/s3cmd
+
+# Gateway API (Envoy Gateway controller)
 docker.io/envoyproxy/envoy
 docker.io/envoyproxy/envoy-distroless
+docker.io/envoyproxy/gateway
 docker.io/fluent/fluent-bit
 docker.io/library/alpine
 docker.io/library/busybox

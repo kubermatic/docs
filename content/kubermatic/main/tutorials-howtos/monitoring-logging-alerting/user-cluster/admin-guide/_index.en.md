@@ -115,7 +115,7 @@ Let's start with preparing the values.yaml for the IAP Helm Chart. A starting po
 
 It is also necessary to set up your infrastructure accordingly:
 
-- Configure your DNS with the DNS entry for the domain name that you used in `iap.deployments.grafana.ingress.host` and `iap.deployments.alertmanager.ingress.host` so that it points to the ingress-controller service of KKP.
+- Configure your DNS with the DNS entry for the domain name that you used in `iap.deployments.grafana.ingress.host` and `iap.deployments.alertmanager.ingress.host` so that it points to the KKP Gateway. The IAP chart creates one HTTPRoute per deployment and reuses the `ingress.host` value as the HTTPRoute hostname.
 - Configure the Dex in KKP with the proper configuration for Grafana and Alertmanager IAP, e.g. using the following snippet that can be placed into the KKP values.yaml. Make sure to modify the `RedirectURIs` with your domain name used in `iap.deployments.grafana.ingress.host` and `iap.deployments.alertmanager.ingress.host` and secret with your `iap.deployments.grafana.client_secret` and `iap.deployments.alertmanager.client_secret`:
 
 ```yaml

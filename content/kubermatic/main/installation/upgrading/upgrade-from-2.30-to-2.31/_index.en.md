@@ -35,6 +35,33 @@ See [OIDC Provider Configuration]({{< ref "../../../tutorials-howtos/oidc-provid
 Because the dashboard now uses the same OIDC client as the kubeconfig and web terminal flows, it is affected by the existing Dex limitation of one refresh token per user/client pair. Downloading a kubeconfig or opening a web terminal ends the running dashboard session once its ID token expires. See [OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times]({{< ref "../../../architecture/known-issues/#oidc-refresh-tokens-are-invalidated-when-the-same-userclient-id-pair-is-authenticated-multiple-times" >}}).
 {{% /notice %}}
 
+### Gateway API Replaces nginx-ingress-controller
+
+KKP 2.31 enforces the Gateway API with Envoy Gateway as the only way to route external traffic to the dashboard, API, Dex and the monitoring UIs. The nginx-ingress-controller path has been removed. The `migrateGatewayAPI` Helm value and the `--migrate-gateway-api` installer and `--enable-gateway-api` operator flags are accepted but ignored.
+
+If you already migrated to Gateway API on KKP 2.30, there is nothing to do. Otherwise, prepare your `values.yaml` **before** upgrading:
+
+1. Add the top-level `httpRoute` block and set `httpRoute.domain` to your `spec.ingress.domain`. Nothing defaults it, and with an empty value the Dex chart fails Gateway API validation at the API server, which aborts the dex Helm upgrade in the middle of the installer run.
+
+```yaml
+httpRoute:
+  gatewayName: kubermatic
+  gatewayNamespace: kubermatic
+  domain: "kkp.example.com"  # replace with your domain
+  timeout: 3600s
+```
+
+2. If you use cert-manager with the HTTP01 challenge, migrate your ClusterIssuer solver from `ingress.class: nginx` to `gatewayHTTPRoute` with `parentRefs` pointing at the Gateway `kubermatic` in the namespace `kubermatic`.
+3. If you use external-dns, switch its sources from `ingress` to `gateway-httproute` before the legacy Ingress resources are deleted. With the default `sync` policy, external-dns removes records it created from Ingresses that no longer exist.
+
+During the upgrade, the installer deploys the `envoy-gateway-controller` chart, waits up to 10 minutes for the Gateway and the Kubermatic and Dex HTTPRoutes to become ready, and then deletes the legacy Ingress resources. DNS must be flipped from the nginx LoadBalancer to the Envoy Gateway address; until then, requests still reaching nginx get a 404 because its Ingress resources are gone. The installer uninstalls the nginx-ingress-controller Helm release only when run with `--clean-nginx-lb`. For a staged DNS cutover, `--skip-ingress-cleanup` keeps the legacy Ingresses alive during a first pass; the two flags cannot be combined.
+
+{{% notice note %}}
+Separate seed clusters are not cleaned up automatically. If nginx-ingress-controller was deployed on separate seeds, remove it there manually.
+{{% /notice %}}
+
+See the [Gateway API Migration Guide]({{< ref "../../../tutorials-howtos/networking/gateway-api-migration/" >}}) for the complete procedure, including the staged cutover and the user-managed (BYO) Gateway option.
+
 ## Upgrade Procedure
 
 Before starting the upgrade, make sure your KKP Master and Seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.

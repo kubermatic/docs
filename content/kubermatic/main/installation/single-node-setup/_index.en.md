@@ -98,12 +98,12 @@ export KUBECONFIG=$PWD/aws/<cluster_name>-kubeconfig
 - Get the LoadBalancer External IP by following command.
 
   ```bash
-  kubectl get svc -n ingress-nginx
+  kubectl -n envoy-gateway-controller get svc
   ```
 
-- Update DNS mapping with External IP of the nginx ingress controller service. In case of AWS, the CNAME record mapping for $TODO_DNS with External IP should be created.
+- Update DNS mapping with the address of the Envoy Gateway data plane service. In case of AWS, the CNAME record mapping for $TODO_DNS with the load balancer hostname should be created.
 
-- Nginx Ingress Controller Load Balancer configuration - Add the node to backend pool manually.
+- Envoy Gateway Load Balancer configuration - Add the node to backend pool manually.
   > **Known Issue**: Should be supported in the future as part of Feature request[#1822](https://github.com/kubermatic/kubeone/issues/1822)
 
 - Verify the Kubermatic resources and certificates

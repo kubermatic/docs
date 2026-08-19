@@ -13,6 +13,8 @@ The [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-st
 
 This section explains how the connection between user clusters and the control plane is established, as well as the general networking concept in KKP.
 
+Traffic to the management plane itself (the KKP dashboard, API, Dex and the monitoring and logging UIs) enters the master cluster through the Kubernetes Gateway API. KKP deploys Envoy Gateway as the implementation and the Kubermatic Operator manages a Gateway named `kubermatic` together with the HTTPRoutes for the exposed services. See the [Gateway API Migration Guide]({{< ref "../../../../tutorials-howtos/networking/gateway-api-migration/" >}}) for details. The expose strategies described below are unaffected by this and govern only how user cluster control planes are reached.
+
 ![KKP Network](images/network.png?classes=shadow,border "This diagram illustrates the necessary connections for KKP.")
 
 The following diagrams illustrate all available [expose strategy]({{< ref "../../../../tutorials-howtos/networking/expose-strategies" >}}) available in KKP.
