@@ -230,8 +230,9 @@ hostname.
 ### Identity-Aware Proxy
 
 The IAP chart no longer creates per-deployment `Certificate` resources. Each IAP deployment is exposed via an
-HTTPRoute on the shared Gateway and its hostname is covered by the Gateway listener certificate, issued by
-the same cert-manager issuer or by the static Secret referenced via `spec.ingress.gateway.tls.secretRef`.
+HTTPRoute on the shared Gateway. In cert-manager mode, the sync controller adds a listener and a certificate
+per hostname, all issued from the issuer configured for KKP. With a static certificate, the Secret referenced
+via `spec.ingress.gateway.tls.secretRef` must cover every hostname.
 
 The `iap.certIssuer` value still exists in the chart values but no longer has an effect.
 
