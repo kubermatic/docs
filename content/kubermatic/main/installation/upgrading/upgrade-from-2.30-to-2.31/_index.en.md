@@ -56,7 +56,9 @@ httpRoute:
 
 During the upgrade, the installer deploys the `envoy-gateway-controller` chart, waits up to 10 minutes for the Gateway and the Kubermatic and Dex HTTPRoutes to become ready, and then deletes the legacy Ingress resources. DNS must be flipped from the nginx LoadBalancer to the Envoy Gateway address; until then, requests still reaching nginx get a 404 because its Ingress resources are gone. The installer uninstalls the nginx-ingress-controller Helm release only when run with `--clean-nginx-lb`. For a staged DNS cutover, `--skip-ingress-cleanup` keeps the legacy Ingresses alive during a first pass; the two flags cannot be combined.
 
+{{% notice note %}}
 Separate seed clusters are not cleaned up automatically. If nginx-ingress-controller was deployed on separate seeds, remove it there manually.
+{{% /notice %}}
 
 See the [Gateway API Migration Guide]({{< ref "../../../tutorials-howtos/networking/gateway-api-migration/" >}}) for the complete procedure, including the staged cutover and the user-managed (BYO) Gateway option.
 

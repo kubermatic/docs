@@ -152,12 +152,14 @@ kubectl label namespace monitoring kubermatic.io/gateway-access=true --overwrite
 
 TLS for each IAP hostname is provided by the shared Gateway listener: the HTTPRoute-Gateway sync controller
 adds a listener per hostname and cert-manager issues the certificates based on the Gateway's issuer
-annotation. Once you setup the required DNS records (see next steps) you can check the issued certificates
-like so:
+annotation. Once you setup the required DNS records (see next steps) you can check that the HTTPRoutes are
+accepted, that the sync controller added listeners for the IAP hostnames, and that the certificates were
+issued:
 
 ```bash
 watch kubectl -n monitoring get httproute
 kubectl -n kubermatic get gateway kubermatic -o jsonpath='{.spec.listeners[*].hostname}'
+kubectl get certificates -A
 ```
 
 ### DNS Records
