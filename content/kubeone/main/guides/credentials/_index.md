@@ -320,6 +320,45 @@ stringData:
   token: "{{ .CustomCredentials.MY_APP_TOKEN }}"
 ```
 
+### addonParams
+
+Some [addons]({{< ref "../addons/" >}}) -- including built-in ones such as
+`backups-restic` -- already accept secret-like values through their regular
+`.Params`, which are normally set via `kubeone.yaml`'s `Addon.Params`. Since
+that manifest is typically committed to version control, it's not a good fit
+for secrets, but those addon templates don't reference `.CustomCredentials`
+and can't be changed to without a local addon override.
+
+The `addonParams` key solves this without requiring any addon template
+changes: it lets you provide secret parameters per addon, keyed by addon
+name, and KubeOne merges them into that addon's regular `.Params` at render
+time -- the same map populated from `Addon.Params`.
+
+Example:
+```yaml
+addonParams: |
+  backups-restic:
+    resticPassword: "<<RESTIC_PASSWORD>>"
+```
+
+```yaml
+# kubeone.yaml
+addons:
+  enable: true
+  addons:
+    - name: backups-restic
+      params:
+        s3Bucket: "s3:my-backup-bucket.example.com/etcd-backup"
+        awsDefaultRegion: "s3"
+        # resticPassword is provided via credentials.yaml's addonParams instead
+```
+
+{{% notice note %}}
+If the same param key is set both under `addonParams` in the credentials file
+and under `Addon.Params` in the KubeOneCluster manifest for the same addon,
+KubeOne fails with an error rather than silently picking one of the two.
+{{% /notice %}}
+
 ## Environment Variables in the Configuration Manifest
 
 KubeOne can source values for supported fields in the configuration manifest
