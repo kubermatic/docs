@@ -450,7 +450,7 @@ For example, if your LoadBalancer IP changes between nginx and Envoy Gateway, or
 5. Re-run the installer without `--skip-ingress-cleanup` to delete the legacy Ingress resources
 6. Run the installer with `--clean-nginx-lb` to uninstall nginx-ingress-controller and release its LoadBalancer
 
-If you use external-dns, switch its sources from `ingress` to `gateway-httproute` before the cutover, so records are created from the Gateway and its HTTPRoutes automatically.
+If you use external-dns, switch its sources from `ingress` to `gateway-httproute` before the cutover, so records are created from the Gateway and its HTTPRoutes automatically. Do this before the legacy Ingress resources are deleted: with the default `sync` policy, external-dns removes records it created from Ingresses that no longer exist.
 
 ### Preserving Your LoadBalancer IP
 

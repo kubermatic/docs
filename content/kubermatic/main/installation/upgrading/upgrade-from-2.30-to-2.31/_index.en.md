@@ -52,7 +52,7 @@ httpRoute:
 ```
 
 2. If you use cert-manager with the HTTP01 challenge, migrate your ClusterIssuer solver from `ingress.class: nginx` to `gatewayHTTPRoute` with `parentRefs` pointing at the Gateway `kubermatic` in the namespace `kubermatic`.
-3. If you use external-dns, switch its sources from `ingress` to `gateway-httproute`.
+3. If you use external-dns, switch its sources from `ingress` to `gateway-httproute` before the legacy Ingress resources are deleted. With the default `sync` policy, external-dns removes records it created from Ingresses that no longer exist.
 
 During the upgrade, the installer deploys the `envoy-gateway-controller` chart, waits up to 10 minutes for the Gateway and the Kubermatic and Dex HTTPRoutes to become ready, and then deletes the legacy Ingress resources. DNS must be flipped from the nginx LoadBalancer to the Envoy Gateway address; until then, requests still reaching nginx get a 404 because its Ingress resources are gone. The installer uninstalls the nginx-ingress-controller Helm release only when run with `--clean-nginx-lb`. For a staged DNS cutover, `--skip-ingress-cleanup` keeps the legacy Ingresses alive during a first pass; the two flags cannot be combined.
 
