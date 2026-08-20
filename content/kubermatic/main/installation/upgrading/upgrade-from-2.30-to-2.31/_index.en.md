@@ -74,7 +74,27 @@ Download the latest 2.31.x release archive for the correct edition (`ce` for Com
 $ ./kubermatic-installer deploy kubermatic-master --helm-values path/to/values.yaml
 ```
 
-Upgrading seed clusters is not necessary, unless you are running the `minio` Helm chart or User Cluster MLA as distributed by KKP on them. They will be automatically upgraded by KKP components.
+Existing Seed resources managed by KKP controllers are reconciled automatically after the Master upgrade. Installer-managed Helm releases are not. If you use any of the following charts distributed with KKP, upgrade them explicitly with the 2.31 installer and the same Helm values and options used for the 2.30 deployment, adjusted for any 2.31 configuration changes.
+
+- Upgrade the KKP-distributed Seed MinIO and S3 exporter with the `kubermatic-seed` stack:
+
+  ```sh
+  $ ./kubermatic-installer deploy kubermatic-seed --helm-values path/to/seed-values.yaml [other options]
+  ```
+
+- Upgrade Seed MLA with the `seed-mla` stack:
+
+  ```sh
+  $ ./kubermatic-installer deploy seed-mla --helm-values path/to/seed-mla-values.yaml [other options]
+  ```
+
+- Upgrade User Cluster MLA with the `usercluster-mla` stack:
+
+  ```sh
+  $ ./kubermatic-installer deploy usercluster-mla --helm-values path/to/usercluster-mla-values.yaml [other options]
+  ```
+
+When IAP is installed with an MLA stack, include `--mla-include-iap`, as in the 2.30 deployment. For a separate Seed cluster, run the applicable commands against that Seed's kubeconfig and include `--separate-seed`. Repeat the commands for every Seed where these installer-managed charts are installed. Complete these upgrades and verify their Pods, Helm releases, and HTTPRoutes before removing the legacy nginx LoadBalancer with `--clean-nginx-lb`.
 
 You can follow the upgrade process by either supervising the Pods on master and seed clusters (by simply checking `kubectl get pods -n kubermatic` frequently) or checking status information for the `Seed` objects. A possible command to extract the current status by seed would be:
 
