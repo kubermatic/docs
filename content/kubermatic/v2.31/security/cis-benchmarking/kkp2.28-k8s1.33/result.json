@@ -1,0 +1,295 @@
+{
+  "ID": "k8s-cis-1.23",
+  "Title": "CIS Kubernetes Benchmarks v1.23",
+  "SummaryControls": [
+    {
+      "ID": "4.1.1",
+      "Name": "Ensure that the kubelet service file permissions are set to 600 or more restrictive",
+      "Severity": "HIGH",
+      "TotalFail": 3
+    },
+    {
+      "ID": "4.1.2",
+      "Name": "Ensure that the kubelet service file ownership is set to root:root",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.1.3",
+      "Name": "If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.1.4",
+      "Name": "If proxy kubeconfig file exists ensure ownership is set to root:root",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.1.5",
+      "Name": "Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive",
+      "Severity": "HIGH",
+      "TotalFail": 3
+    },
+    {
+      "ID": "4.1.6",
+      "Name": "Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.1.7",
+      "Name": "Ensure that the certificate authorities file permissions are set to 600 or more restrictive",
+      "Severity": "CRITICAL",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.1.8",
+      "Name": "Ensure that the client certificate authorities file ownership is set to root:root",
+      "Severity": "CRITICAL",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.1.9",
+      "Name": "If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.1.10",
+      "Name": "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.1",
+      "Name": "Ensure that the --anonymous-auth argument is set to false",
+      "Severity": "CRITICAL",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.2",
+      "Name": "Ensure that the --authorization-mode argument is not set to AlwaysAllow",
+      "Severity": "CRITICAL",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.3",
+      "Name": "Ensure that the --client-ca-file argument is set as appropriate",
+      "Severity": "CRITICAL",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.4",
+      "Name": "Verify that the --read-only-port argument is set to 0",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.5",
+      "Name": "Ensure that the --streaming-connection-idle-timeout argument is not set to 0",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.6",
+      "Name": "Ensure that the --protect-kernel-defaults argument is set to true",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.7",
+      "Name": "Ensure that the --make-iptables-util-chains argument is set to true",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.8",
+      "Name": "Ensure that the --hostname-override argument is not set",
+      "Severity": "HIGH",
+      "TotalFail": 3
+    },
+    {
+      "ID": "4.2.9",
+      "Name": "Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.10",
+      "Name": "Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate",
+      "Severity": "CRITICAL",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.11",
+      "Name": "Ensure that the --rotate-certificates argument is not set to false",
+      "Severity": "CRITICAL",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.12",
+      "Name": "Verify that the RotateKubeletServerCertificate argument is set to true",
+      "Severity": "CRITICAL",
+      "TotalFail": 0
+    },
+    {
+      "ID": "4.2.13",
+      "Name": "Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers",
+      "Severity": "CRITICAL",
+      "TotalFail": 0
+    },
+    {
+      "ID": "5.1.1",
+      "Name": "Ensure that the cluster-admin role is only used where required",
+      "Severity": "HIGH",
+      "TotalFail": 7
+    },
+    {
+      "ID": "5.1.2",
+      "Name": "Minimize access to secrets",
+      "Severity": "HIGH",
+      "TotalFail": 15
+    },
+    {
+      "ID": "5.1.3",
+      "Name": "Minimize wildcard use in Roles and ClusterRoles",
+      "Severity": "HIGH",
+      "TotalFail": 20
+    },
+    {
+      "ID": "5.1.6",
+      "Name": "Ensure that Service Account Tokens are only mounted where necessary",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "5.1.8",
+      "Name": "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "5.2.2",
+      "Name": "Minimize the admission of privileged containers",
+      "Severity": "HIGH",
+      "TotalFail": 3
+    },
+    {
+      "ID": "5.2.3",
+      "Name": "Minimize the admission of containers wishing to share the host process ID namespace",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "5.2.4",
+      "Name": "Minimize the admission of containers wishing to share the host IPC namespace",
+      "Severity": "HIGH",
+      "TotalFail": 0
+    },
+    {
+      "ID": "5.2.5",
+      "Name": "Minimize the admission of containers wishing to share the host network namespace",
+      "Severity": "HIGH",
+      "TotalFail": 5
+    },
+    {
+      "ID": "5.2.6",
+      "Name": "Minimize the admission of containers with allowPrivilegeEscalation",
+      "Severity": "HIGH",
+      "TotalFail": 18
+    },
+    {
+      "ID": "5.2.7",
+      "Name": "Minimize the admission of root containers",
+      "Severity": "MEDIUM",
+      "TotalFail": 23
+    },
+    {
+      "ID": "5.2.8",
+      "Name": "Minimize the admission of containers with the NET_RAW capability",
+      "Severity": "MEDIUM",
+      "TotalFail": 8
+    },
+    {
+      "ID": "5.2.9",
+      "Name": "Minimize the admission of containers with added capabilities",
+      "Severity": "LOW",
+      "TotalFail": 18
+    },
+    {
+      "ID": "5.2.10",
+      "Name": "Minimize the admission of containers with capabilities assigned",
+      "Severity": "LOW",
+      "TotalFail": 18
+    },
+    {
+      "ID": "5.2.11",
+      "Name": "Minimize the admission of containers with capabilities assigned",
+      "Severity": "MEDIUM",
+      "TotalFail": 0
+    },
+    {
+      "ID": "5.2.12",
+      "Name": "Minimize the admission of HostPath volumes",
+      "Severity": "MEDIUM",
+      "TotalFail": 5
+    },
+    {
+      "ID": "5.2.13",
+      "Name": "Minimize the admission of containers which use HostPorts",
+      "Severity": "MEDIUM",
+      "TotalFail": 2
+    },
+    {
+      "ID": "5.3.1",
+      "Name": "Ensure that the CNI in use supports Network Policies (Manual)",
+      "Severity": "MEDIUM"
+    },
+    {
+      "ID": "5.3.2",
+      "Name": "Ensure that all Namespaces have Network Policies defined",
+      "Severity": "MEDIUM",
+      "TotalFail": 0
+    },
+    {
+      "ID": "5.4.1",
+      "Name": "Prefer using secrets as files over secrets as environment variables (Manual)",
+      "Severity": "MEDIUM"
+    },
+    {
+      "ID": "5.4.2",
+      "Name": "Consider external secret storage (Manual)",
+      "Severity": "MEDIUM"
+    },
+    {
+      "ID": "5.5.1",
+      "Name": "Configure Image Provenance using ImagePolicyWebhook admission controller (Manual)",
+      "Severity": "MEDIUM"
+    },
+    {
+      "ID": "5.7.1",
+      "Name": "Create administrative boundaries between resources using namespaces (Manual)",
+      "Severity": "MEDIUM"
+    },
+    {
+      "ID": "5.7.2",
+      "Name": "Ensure that the seccomp profile is set to docker/default in your pod definitions",
+      "Severity": "MEDIUM",
+      "TotalFail": 0
+    },
+    {
+      "ID": "5.7.3",
+      "Name": "Apply Security Context to Your Pods and Containers",
+      "Severity": "HIGH",
+      "TotalFail": 65
+    },
+    {
+      "ID": "5.7.4",
+      "Name": "The default namespace should not be used",
+      "Severity": "MEDIUM",
+      "TotalFail": 0
+    }
+  ]
+}
