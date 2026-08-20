@@ -1,0 +1,785 @@
++++
+linkTitle = "Gateway API Migration"
+title = "Gateway API Migration Guide"
+date = 2026-01-15T16:30:00+01:00
+weight = 155
++++
+
+# Gateway API Migration Guide
+
+## Overview
+
+As of KKP 2.31, Gateway API with Envoy Gateway is the only supported way to route external traffic to the Kubermatic dashboard, API, Dex and the related services. The nginx-ingress-controller path has been removed from the source code. If you are upgrading from KKP 2.30 and still use nginx-ingress-controller, the move to Gateway API happens as part of the upgrade to 2.31. This guide explains what the installer does, which knobs control the cleanup of the legacy nginx resources, and how to prepare your configuration before upgrading.
+
+This change affects how traffic reaches the Kubermatic dashboard and API. The external behavior remains the same, but the underlying implementation uses the Gateway API standard from the Kubernetes community.
+
+## What is Changing
+
+The previous implementation used `nginx-ingress-controller`, which has been the standard way to expose HTTP services in Kubernetes for several years.
+The Kubernetes project has announced the retirement of the community-maintained Ingress NGINX controller, with end of maintenance scheduled for March 2026. KKP therefore removed the nginx path entirely.
+
+Instead of creating Ingress resources, Kubermatic creates Gateway API resources.
+These are part of the official Gateway API specification from the Kubernetes community.
+By default, KKP deploys Envoy Gateway as the implementation that processes these resources and handles the traffic. If you configure `spec.ingress.gateway.externalGateway`, KKP attaches its HTTPRoutes to the configured user-managed Gateway instead, and the Gateway implementation and data plane are operated outside of KKP.
+
+From your perspective as a user, nothing changes in how you access Kubermatic.
+The same domain names continue to work and traffic flows to the same services. The difference is entirely in the cluster infrastructure.
+
+## What Actually Changes in Your Cluster
+
+BEFORE migration:
+- `nginx-ingress-controller` Helm release installed
+- Kubermatic Ingress resource
+- Traffic flows: `nginx-ingress-controller` → Kubermatic services
+
+AFTER migration with the KKP-managed Gateway (before uninstalling nginx):
+- `envoy-gateway-controller` Helm release installed
+- `nginx-ingress-controller` Helm release STILL INSTALLED
+- Kubermatic Gateway and HTTPRoute resources
+- Traffic flows: `envoy-gateway-controller` → Kubermatic services
+
+AFTER migration with the KKP-managed Gateway (after uninstalling nginx):
+- `envoy-gateway-controller` Helm release installed
+- Kubermatic Gateway and HTTPRoute resources
+- Traffic flows: `envoy-gateway-controller` → Kubermatic services
+
+AFTER migration with a user-managed external Gateway:
+- KKP does not install the bundled `envoy-gateway-controller` Helm release
+- The externally managed Gateway controller and data plane serve the KKP HTTPRoutes
+- `nginx-ingress-controller` remains installed until you uninstall it manually
+
+The `nginx-ingress-controller` pods remain running after migration but have no effect because the Ingress resource is deleted.
+Kubermatic is not going to delete Ingress LoadBalancer service from the cluster, instead it will only delete Ingress resources during migration.
+
+## How the Migration Works
+
+On KKP 2.31 Gateway API is always enabled. There is no flag that turns it off and no mode in which `kubermatic-operator` creates Ingress resources.
+
+The `migrateGatewayAPI` Helm value, the `--migrate-gateway-api` installer flag and the `--enable-gateway-api` operator flag are deprecated no-ops. They are still accepted so that scripts and values files written for KKP 2.30 keep working, but they no longer change any behavior. Remove them from your configuration when convenient.
+
+For upgrades from KKP 2.30, the migration happens when you run the 2.31 installer, as described in [Migration Steps](#migration-steps).
+
+### What Happens During the Upgrade
+
+When you deploy or upgrade KKP 2.31, the following sequence occurs:
+
+1. `kubermatic-installer` deploys the Envoy Gateway controller via its Helm chart and installs the Gateway API Custom Resource Definitions.
+   If `spec.ingress.gateway.externalGateway` is configured, the installer only ensures the Gateway API Custom Resource Definitions exist and skips deploying the bundled Envoy Gateway controller. In this mode, the Gateway controller and Gateway data plane are operated externally.
+
+2. `kubermatic-operator` manages Gateway and HTTPRoute resources. It never creates Ingress resources.
+
+3. `kubermatic-operator` creates the KKP HTTPRoute. In the default mode it also creates the `kubermatic/kubermatic` Gateway. In `externalGateway` mode it does not create a Gateway and instead points the KKP HTTPRoute at the configured external Gateway.
+
+4. `kubermatic-installer` verifies that the Gateway is fully operational:
+   - Gateway has valid addresses assigned for the operator-managed Gateway
+   - Gateway is in `Programmed=True` status
+   - Kubermatic and Dex HTTPRoutes are accepted by the active Gateway
+   In `externalGateway` mode, Gateway addresses are not required. The installer waits for the external Gateway to be `Programmed=True`, for the `kubermatic/kubermatic` HTTPRoute to be accepted, and for the `dex/dex` HTTPRoute to be accepted unless the Dex chart is skipped.
+   This verification ensures the new Gateway is ready to serve traffic before proceeding.
+
+5. Once the Gateway is ready, the `kubermatic-installer` removes Ingress resources to prevent conflicts between the old Ingress and the new Gateway resources (unless `--skip-ingress-cleanup` flag is specified in `kubermatic-installer`):
+   - Deletes the Kubermatic Ingress resource (`kubermatic/kubermatic`)
+   - Deletes the Dex Ingress resource (`dex/dex`) if it exists
+
+{{% notice note %}}
+
+The installer deletes the legacy Ingress resources (`kubermatic/kubermatic` and `dex/dex`), but it uninstalls the `nginx-ingress-controller` Helm release only when you run it with `--clean-nginx-lb`. Until that final run, both controllers exist in the cluster. After its Ingress resources are deleted, nginx serves no rules and answers with a 404 for any request that still reaches its LoadBalancer.
+
+With `spec.ingress.gateway.externalGateway`, KKP does not install the bundled `envoy-gateway-controller`; the external Gateway controller remains managed outside of KKP, and the legacy nginx release must be removed manually.
+
+{{% /notice %}}
+
+### The Operator Behavior
+
+The kubermatic-operator always creates and manages Gateway and HTTPRoute resources. There is no Ingress mode and no flag that switches behavior. The operator does not delete legacy Ingress resources at runtime; their cleanup is handled by `kubermatic-installer` at deployment time.
+
+When kubermatic-operator starts, it checks that the Gateway API Custom Resource Definitions exist in the cluster.
+If they do not exist, the operator starts without the Gateway and HTTPRoute watches and logs a warning, so no Gateway resources are reconciled until the CRDs are installed.
+
+## Using a User-Managed Gateway
+
+KKP can attach its HTTPRoute resources to a Gateway that is created and managed outside of `kubermatic-operator`. This is configured with `spec.ingress.gateway.externalGateway` in the `KubermaticConfiguration`.
+
+Use this mode when a platform team already operates a shared Gateway, when Gateway lifecycle is managed by GitOps outside of KKP, or when the data plane must use organization-specific policies that should not be managed by the Kubermatic Operator.
+
+When an external Gateway is configured:
+
+- `kubermatic-operator` does not create or update the default `kubermatic/kubermatic` Gateway.
+- `kubermatic-installer` ensures Gateway API CRDs exist, but skips deploying the bundled `envoy-gateway-controller` Helm release.
+- KKP HTTPRoutes are pointed at the configured external Gateway.
+- The external Gateway implementation, GatewayClass, data plane Service, TLS policy, traffic policy, and load balancer settings are the responsibility of the platform team that owns the Gateway.
+
+### External Gateway Requirements
+
+Before enabling `spec.ingress.gateway.externalGateway`, make sure the external Gateway meets the following requirements:
+
+1. The Gateway API CRDs are installed in the master cluster and serve `gateway.networking.k8s.io/v1` for `GatewayClass`, `Gateway`, and `HTTPRoute`.
+2. A compatible Gateway controller is installed and reconciles the referenced GatewayClass.
+3. The referenced Gateway exists and reaches `Programmed=True` before the installer can complete Gateway API cleanup. If you run with `--skip-ingress-cleanup`, it can be created before traffic is cut over.
+4. The Gateway has a listener for the protocols and ports used by KKP, usually HTTP on port 80 and optionally HTTPS on port 443.
+5. The listener `allowedRoutes` policy allows routes from all namespaces that need to attach.
+6. DNS for the KKP domain points to the external Gateway address.
+7. TLS and certificate handling are configured on the external Gateway or its Gateway controller.
+
+At minimum, the external Gateway must allow HTTPRoutes from the `kubermatic` namespace for the KKP dashboard and API, and from the `dex` namespace for Dex. If you use IAP, MLA, or other charts that create HTTPRoutes, the Gateway must also allow those namespaces.
+
+For example, a permissive listener can allow routes from all namespaces:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: platform-gateway
+  namespace: networking
+spec:
+  gatewayClassName: platform-gateway-class
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+```
+
+A stricter listener can use namespace selectors instead. In that case, make sure every namespace that contains KKP HTTPRoutes has the required label:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: platform-gateway
+  namespace: networking
+spec:
+  gatewayClassName: platform-gateway-class
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubermatic.io/gateway-access: "true"
+```
+
+Label the namespaces that need to attach routes:
+
+```bash
+kubectl label namespace kubermatic kubermatic.io/gateway-access=true --overwrite
+kubectl label namespace dex kubermatic.io/gateway-access=true --overwrite
+kubectl label namespace iap kubermatic.io/gateway-access=true --overwrite
+kubectl label namespace mla kubermatic.io/gateway-access=true --overwrite
+kubectl label namespace monitoring kubermatic.io/gateway-access=true --overwrite
+```
+
+Only label namespaces that exist and are used in your installation.
+
+### KubermaticConfiguration
+
+Configure the external Gateway reference in the `KubermaticConfiguration`:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  ingress:
+    domain: kkp.example.com
+    gateway:
+      externalGateway:
+        name: platform-gateway
+        namespace: networking
+```
+
+When `externalGateway` is set, the following operator-managed Gateway settings must not be configured:
+
+- `spec.ingress.gateway.className`
+- `spec.ingress.gateway.infrastructureAnnotations`
+- `spec.ingress.gateway.tls`
+- `spec.ingress.certificateIssuer`
+
+These fields only apply to the operator-managed default Gateway. In BYO Gateway mode, the external Gateway owner is responsible for the equivalent GatewayClass, infrastructure, TLS, and certificate configuration.
+
+The referenced Gateway must not be an operator-managed Gateway. A Gateway with a `KubermaticConfiguration` controller owner reference is rejected, including stale owner references from a previously managed Gateway. To reuse a former operator-managed Gateway as an external Gateway, first make sure it is no longer managed by `kubermatic-operator`, then remove the `KubermaticConfiguration` controller owner reference. Creating a new Gateway is usually the safer option.
+
+### Helm Values and Installer Command
+
+Point the Helm values at the external Gateway:
+
+```yaml
+httpRoute:
+  gatewayName: platform-gateway
+  gatewayNamespace: networking
+  domain: "kkp.example.com"
+  timeout: 3600s
+```
+
+If the top-level `httpRoute.gatewayName` and `httpRoute.gatewayNamespace` are omitted, the installer defaults them to `spec.ingress.gateway.externalGateway` for master-scoped charts such as Dex. Seed-scoped IAP and MLA charts in separate seed setups are not defaulted from the master `externalGateway`; configure their `httpRoute.gatewayName` and `httpRoute.gatewayNamespace` explicitly for the seed Gateway.
+
+Run the installer:
+
+```bash
+kubermatic-installer deploy kubermatic-master [other options]
+```
+
+### Migration Behavior and Fallback
+
+The KKP HTTPRoute managed by `kubermatic-operator` has a built-in migration fallback. If a managed `kubermatic/kubermatic` Gateway still exists, the operator keeps it as an additional parent while the external Gateway is missing, not yet programmed, or has not accepted the KKP HTTPRoute.
+
+After the external Gateway accepts the KKP HTTPRoute, the operator removes the fallback parent from that route. It deletes the old managed Gateway only after both of the following are true:
+
+- no HTTPRoute still references the managed Gateway; this check is intentionally not label-filtered, so third-party routes can also keep the managed Gateway alive while they are moved
+- every KKP-managed HTTPRoute labeled `kubermatic.io/gateway-route=true` that references the external Gateway is accepted by that Gateway for its current generation
+
+The `kubermatic.io/gateway-route=true` label is added to KKP-managed HTTPRoutes produced by `kubermatic-operator` and KKP-shipped charts such as Dex and IAP. This label is the cleanup contract for BYO Gateway migration readiness.
+
+This fallback protects the KKP dashboard and API during migration, but it does not apply to every Helm-managed route.
+
+Dex and IAP HTTPRoutes are rendered by Helm charts. These chart templates render a single `parentRef` based on the Helm values. If an existing installation is already using Gateway API and there is no Ingress fallback, changing `httpRoute.gatewayName` and `httpRoute.gatewayNamespace` from the managed Gateway to an external Gateway immediately moves those Helm-managed routes to the external Gateway. The old managed Gateway is kept while labeled KKP routes are rejected, but Helm-managed routes that already have only the external Gateway as parent can still be unavailable until the external Gateway accepts them.
+
+Before switching Helm-managed HTTPRoutes to an external Gateway, verify that the external Gateway accepts routes from all required namespaces. For cautious migrations, run the installer with `--skip-ingress-cleanup`, verify the HTTPRoutes are accepted by the external Gateway, and only then remove the old Ingress resources or managed Gateway fallback.
+
+### Verification
+
+Check that the external Gateway is programmed:
+
+```bash
+kubectl get gateway -n networking platform-gateway -o wide
+kubectl get gateway -n networking platform-gateway -o jsonpath='{.status.conditions[?(@.type=="Programmed")].status}'
+```
+
+Check the HTTPRoute parent references:
+
+```bash
+kubectl get httproute -A \
+  -o 'custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,PARENT_NAMESPACES:.spec.parentRefs[*].namespace,PARENT_NAMES:.spec.parentRefs[*].name'
+```
+
+Check that the external Gateway accepted the routes:
+
+```bash
+kubectl get httproute -n kubermatic kubermatic -o yaml
+kubectl get httproute -n dex dex -o yaml
+```
+
+The status must include `Accepted=True` for the external Gateway parent. `ResolvedRefs=True` is also useful to check, but installer and operator readiness rely on `Accepted=True` for the current HTTPRoute generation.
+
+Finally, test the externally served endpoints:
+
+```bash
+curl -I https://kkp.example.com/
+curl -I https://kkp.example.com/api/v1/healthz
+curl -I https://kkp.example.com/dex/healthz
+```
+
+Use `http://` instead of `https://` if TLS is not configured yet.
+
+## What You Need to Know
+
+### Two Controllers Run Temporarily During the Upgrade
+
+When you upgrade from KKP 2.30 with nginx-ingress-controller still installed, the 2.31 installer deploys Envoy Gateway but does not uninstall `nginx-ingress-controller` unless you pass `--clean-nginx-lb`. Both controllers remain in the cluster until that final run. The installer deletes the Kubermatic and Dex Ingress resources, so nginx has nothing left to serve and answers with a 404 for any request that still reaches its LoadBalancer.
+
+After you verify the migration and the DNS cutover, remove nginx with a final installer run:
+
+```bash
+kubermatic-installer deploy kubermatic-master --clean-nginx-lb [other options]
+```
+
+`--skip-ingress-cleanup` and `--clean-nginx-lb` cannot be combined; the installer rejects the combination. The staging flag keeps the legacy Ingresses alive, while the cleanup flag removes the controller that would serve them.
+
+If `spec.ingress.gateway.externalGateway` is configured, the installer does not deploy the bundled Envoy Gateway controller. In that mode, any Gateway controller used by the external Gateway must already be installed and maintained outside of KKP, and the legacy nginx release must be removed manually with `helm uninstall nginx-ingress-controller -n nginx-ingress-controller`.
+
+Separate seed clusters: the `kubermatic-seed` stack does not clean up a legacy nginx-ingress-controller installation. If nginx was deployed on separate seeds, remove it there manually.
+
+### Cleanup of Old Resources
+
+
+The `kubermatic-installer` handles cleanup during the migration process.
+
+> Please note that `kubermatic-operator` does not automatically delete resources from the other mode at runtime.
+The deletion of old resources are being handled by `kubermatic-installer` at deployment time.
+If the installer is not used to manage Kubermatic operations, old resources need to be deleted manually.
+
+By default, the installer performs the following cleanup steps:
+
+1. **Verifies Gateway readiness**: The installer waits up to 10 minutes for the Gateway and relevant HTTPRoutes to become ready before removing old resources. This verification includes:
+   - Gateway has valid addresses assigned for the operator-managed Gateway
+   - Gateway is in `Programmed=True` status
+   - Kubermatic and Dex HTTPRoutes are accepted by the active Gateway before their legacy Ingress resources are deleted
+   - for `externalGateway`, the external Gateway is `Programmed=True`, the `kubermatic/kubermatic` HTTPRoute is accepted, and the `dex/dex` HTTPRoute is accepted unless the Dex chart is skipped; external Gateway addresses are not required
+
+2. **Deletes Ingress resources**: The installer deletes the following Ingress resources:
+   - Kubermatic Ingress (`kubermatic/kubermatic`)
+   - Dex Ingress (`dex/dex`)
+
+3. **Uninstalls the legacy nginx release**: only when run with `--clean-nginx-lb`. Without the flag the installer logs a warning that the legacy release is still installed and that nginx answers with a 404, and it asks you to check whether DNS still points at the nginx LoadBalancer.
+
+This cleanup prevents routing conflicts between old and new resources.
+
+You can control this behavior with the `--skip-ingress-cleanup` flag.
+When set, the installer will not try to delete old resources, allowing you to manually verify the migration before cleanup.
+
+{{% notice note %}}
+
+If `--skip-ingress-cleanup` is set to true, both Kubermatic and Dex Ingress resources will remain along with HTTPRoutes.
+Those Ingress resources need to be deleted afterwards.
+
+```bash
+kubectl delete ingress -n kubermatic kubermatic
+kubectl delete ingress -n dex dex
+```
+
+{{% /notice %}}
+
+## Migration Steps
+
+These steps upgrade a KKP 2.30 installation that still uses nginx-ingress-controller to KKP 2.31. If you already migrated to Gateway API on 2.30, only the verification steps and the final nginx cleanup apply to you.
+
+### Update the Helm values file
+
+```yaml
+httpRoute:
+  gatewayName: kubermatic
+  gatewayNamespace: kubermatic
+  domain: "kkp.example.com"  # replace with your domain
+  timeout: 3600s
+```
+
+`httpRoute.domain` must be set to your `spec.ingress.domain`. Nothing defaults it, and with an empty value the Dex chart renders an HTTPRoute with an empty hostname, which fails Gateway API validation at the API server and aborts the dex Helm upgrade in the middle of the installer run.
+
+The `HTTPRouteGatewaySync` feature gate and the cert-manager `enableGatewayAPI` option are enabled by default and no longer need to be set.
+
+If you run external-dns, switch its sources from `ingress` to `gateway-httproute` so DNS records follow the Gateway instead of Ingress resources.
+
+### Run the kubermatic-installer
+```bash
+kubermatic-installer deploy kubermatic-master [other options]
+```
+
+The installer deploys envoy-gateway-controller, waits up to 10 minutes for the Gateway and the Kubermatic and Dex HTTPRoutes to become ready, and then deletes the legacy Ingress resources.
+
+For a staged DNS cutover, keep the legacy Ingresses alive during the first pass so nginx keeps serving while Envoy stands up:
+
+```bash
+kubermatic-installer deploy kubermatic-master --skip-ingress-cleanup [other options]
+```
+
+When cleanup is skipped, both Ingress and Gateway resources will coexist.
+This is useful for zero-downtime migration with automatic fallback during DNS propagation.
+
+#### Verify the migration
+
+```bash
+kubectl get gateway -n kubermatic -o yaml
+kubectl get httproute -n kubermatic -o yaml
+```
+
+The Gateway resource should show the following status indicators:
+
+- **Programmed**: `true` in status.conditions (Gateway is fully configured by Envoy)
+- **Listeners**: Each listener shows `Programmed: true` in its conditions
+- **Attached Routes**: Each listener reports at least one attached route
+
+The HTTPRoute should display:
+
+- **Accepted**: `true` in status.parents[].conditions (route is accepted by the Gateway)
+- **Parent Reference**: Correctly references the Gateway name and namespace
+
+These confirm that the Gateway is operational and actively routing traffic through the defined HTTPRoutes.
+
+**Next: update DNS records**
+
+After verifying the Gateway is operational, update your DNS records so your KKP domain points to the Envoy Gateway address.
+
+**Next: test access to the Kubermatic dashboard and API**
+
+Verify that everything works as before with the new DNS resolution.
+
+**Next: remove `nginx-ingress-controller`**
+
+Run the installer once more with the cleanup flag. It deletes the nginx Helm release and frees its LoadBalancer:
+
+```bash
+kubermatic-installer deploy kubermatic-master --clean-nginx-lb [other options]
+```
+
+## DNS and IP Considerations
+
+During the upgrade from KKP 2.30, your cluster has two LoadBalancer Services:
+
+- **nginx-ingress-controller**: Service in the `nginx-ingress-controller` namespace with an IP like `203.0.113.50`
+- **Envoy Gateway**: Service in the `envoy-gateway-controller` namespace with a **different IP** like `203.0.113.51`. The service belongs to the Envoy data plane and its name follows the pattern `envoy-kubermatic-kubermatic-<suffix>`. The Gateway status also carries the address:
+
+```bash
+kubectl -n envoy-gateway-controller get svc
+kubectl -n kubermatic get gateway kubermatic -o jsonpath='{.status.addresses}'
+```
+
+The Envoy Gateway creates a new LoadBalancer with a different IP address. This means:
+
+1. **DNS must be updated** to point to the new Envoy Gateway IP
+2. **There is a downtime window** during DNS propagation if not planned carefully
+3. **The old nginx IP remains active** until you uninstall nginx-ingress-controller
+
+To minimize or eliminate downtime, we suggest following DNS cutover strategies:
+
+**Option A - Blue-Green:**
+
+- Deploy Gateway alongside existing Ingress
+- Test thoroughly with direct IP access
+- Switch DNS to Gateway IP
+- Keep Ingress running for rollback
+
+**Option B - Gradual Migration:**
+
+- Lower DNS TTL (e.g., 60s) before migration
+- Switch one hostname at a time
+- Monitor traffic and errors
+- Increase TTL after stabilization
+
+For example, if your LoadBalancer IP changes between nginx and Envoy Gateway, or you want a gradual cutover with automatic fallback, the following explains a sample migration approach:
+1. Run the installer with `--skip-ingress-cleanup`
+2. Verify Gateway is programmed and HTTPRoutes are accepted ( see [Verify the migration](#verify-the-migration))
+3. If LoadBalancer IP changed: Update DNS records to point to the new IP
+4. Wait for DNS propagation and verify end-to-end traffic through Gateway
+5. Re-run the installer without `--skip-ingress-cleanup` to delete the legacy Ingress resources
+6. Run the installer with `--clean-nginx-lb` to uninstall nginx-ingress-controller and release its LoadBalancer
+
+If you use external-dns, switch its sources from `ingress` to `gateway-httproute` before the cutover, so records are created from the Gateway and its HTTPRoutes automatically. Do this before the legacy Ingress resources are deleted: with the default `sync` policy, external-dns removes records it created from Ingresses that no longer exist.
+
+### Preserving Your LoadBalancer IP
+
+If you need to maintain the same IP address during migration (for example, if your IP is whitelisted in firewalls or you want to avoid DNS changes), you can configure Envoy Gateway to use a static LoadBalancer IP.
+
+```yaml
+envoyProxy:
+  service:
+    patch:
+      type: StrategicMerge
+      value:
+        spec:
+          loadBalancerIP: "203.0.113.50"  # Your reserved static IP
+```
+
+{{% notice warning %}}
+
+*Note* that if the IP is already in use, the Service creation will fail.
+
+{{% /notice %}}
+
+
+{{% notice note %}}
+
+Not all cloud providers support `loadBalancerIP`.
+The example here is just for demonstration.
+
+Check full Envoy Gateway documentation for details.
+
+{{% /notice %}}
+
+
+## Automatic Certificate Provisioning
+
+When using Gateway API with cert-manager, you can enable automatic certificate provisioning for KKP components such as Grafana, Dex, and Prometheus.
+This is handled by the HTTPRoute-Gateway sync controller, which watches HTTPRoutes and dynamically configures HTTPS listeners on the Gateway with explicit hostnames.
+
+### ClusterIssuer Migration for HTTP01 Challenge
+
+If you use cert-manager with HTTP01 challenge, your existing ClusterIssuers need updates to work with Gateway API.
+The HTTP01 solver configuration changes from referencing `ingress` to referencing `gatewayHTTPRoute`.
+
+**Before (Ingress):**
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx
+```
+
+**After (Gateway API):**
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - kind: Gateway
+                name: kubermatic
+                namespace: kubermatic
+```
+
+The key differences are:
+
+| Ingress | Gateway API |
+|---------|-------------|
+| `http01.ingress.ingressClassName: nginx` | `http01.gatewayHTTPRoute.parentRefs` with Gateway reference |
+| No namespace required | Gateway namespace required |
+
+{{% notice warning %}}
+Gateway API does **not** support wildcard certificates with HTTP01 challenge. For wildcard certificates (e.g., `*.example.com`), you must use DNS01 challenge instead.
+{{% /notice %}}
+
+**DNS01 Challenge (unchanged):**
+
+If you use DNS01 challenge, no ClusterIssuer changes are required. The configuration remains the same:
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production-dns
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-dns-account-key
+    solvers:
+      - dns01:
+          route53:
+            region: eu-central-1
+            accessKeyIDSecretRef:
+              name: route53-credentials
+              key: access-key-id
+            secretAccessKeySecretRef:
+              name: route53-credentials
+              key: secret-access-key
+```
+
+### Background
+
+This controller is a workaround for a current limitation in cert-manager. cert-manager requires Gateway listeners to have explicit hostnames to automatically create Certificate resources.
+However, KKP uses a shared Gateway model where multiple HTTPRoutes from different namespaces attach to a single Gateway without explicit listener hostnames.
+
+For more details on this constraint, see the upstream cert-manager issue: [cert-manager/cert-manager#7473](https://github.com/cert-manager/cert-manager/issues/7473).
+
+Once this issue is resolved by the cert-manager project, this controller will no longer be necessary; thus, this feature gate will be no-op once the upstream fix is released and stable.
+
+### How It Works
+
+cert-manager requires Gateway listeners to have explicit hostnames to automatically create Certificate resources.
+KKP uses a shared Gateway model where multiple HTTPRoutes from different namespaces attach to a single Gateway. The HTTPRoute-Gateway sync controller bridges this gap by:
+
+1. Watching HTTPRoutes in configured namespaces (default: `monitoring`, `mla`)
+2. Extracting unique hostnames from those HTTPRoutes
+3. Creating HTTPS listeners with explicit hostnames on the Gateway
+4. Referencing the expected certificate Secret for each listener
+
+This allows cert-manager to detect the listeners and automatically issue certificates for each hostname.
+
+
+### Certificate Naming Convention
+
+The controller uses a deterministic naming convention for certificates:
+
+- Certificate/Secret names follow the pattern: `<namespace>-<httproute-name>`
+- For example, an HTTPRoute named `grafana-iap` in the `mla` namespace creates a secret named `mla-grafana-iap`
+
+When multiple HTTPRoutes share the same hostname, the first HTTPRoute (sorted by namespace, then name) determines the certificate name.
+
+### Listener Naming Convention
+
+Dynamic HTTPS listeners are named based on the hostname:
+
+- Regular hostnames: sanitized version (e.g., `grafana-lab-kubermatic-io` for `grafana.lab.kubermatic.io`)
+- Wildcard hostnames: prefixed with `w-` (e.g., `w-example-com` for `*.example.com`)
+
+### Gateway Annotations
+
+The controller only processes the Gateway if it contains cert-manager annotations. 
+
+```yaml
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # or
+    cert-manager.io/issuer: my-issuer
+```
+
+### Limitations
+
+- Maximum 64 listeners per Gateway (including core `http` and `https` listeners)
+- The controller preserves the core `http` and `https` listeners and only adds dynamic HTTPS listeners
+- If you reach the listener limit, the controller logs an error and stops adding new listeners
+
+## Traffic Policy Configuration
+
+The Envoy Gateway Helm chart includes several traffic policy resources that control how traffic is handled. These policies replace the nginx annotation-based configuration.
+
+The `ClientTrafficPolicy` controls connection buffer limits. This is set to 256 kilobytes by default, which matches the previous nginx configuration and ensures large headers from LDAP or SAML authentication work properly.
+
+The `BackendTrafficPolicy` controls request size limits. This is set to 100 megabytes by default. While nginx was configured with unlimited request size, Envoy Gateway requires a specific limit. The 100 megabyte value should be sufficient for most use cases.
+
+If you need to adjust these values, you can modify them in the `envoy-gateway-controller` Helm chart values before installation.
+
+## Scope of the Migration
+
+The migration affects the following Ingress resources during migration:
+
+- Kubermatic Ingress (`kubermatic/kubermatic`): Migrated to Gateway and HTTPRoute resources
+- Dex Ingress (`dex/dex`): Deleted during migration to prevent conflicts
+
+Components that use HTTPRoute resources (such as MLA monitoring components and IAP components) can leverage the HTTPRoute-Gateway sync controller for automatic certificate provisioning when the `HTTPRouteGatewaySync` feature gate is enabled.
+These components create HTTPRoute resources that attach to the shared Gateway, and the sync controller ensures the Gateway has the necessary HTTPS listeners for cert-manager.
+
+**Note**: Dex authentication is migrated automatically.
+The Dex Helm chart creates an HTTPRoute resource instead of an Ingress resource.
+This HTTPRoute references the configured Gateway, allowing Dex to remain accessible through the same domain. By default this is the Kubermatic-managed Gateway, but when `spec.ingress.gateway.externalGateway` is configured the installer points Dex at that external Gateway unless you explicitly override the Helm values.
+
+Ensure your Dex deployment includes the following configuration:
+
+- `httpRoute.gatewayName` and `httpRoute.gatewayNamespace` correctly reference the active Gateway
+- `httpRoute.domain` is set to your domain
+
+## Rolling Back
+
+There is no rollback to nginx-ingress-controller on KKP 2.31. The path no longer exists in the source code.
+
+If the upgrade fails before it completes, you are still on KKP 2.30: restore the previous values file and re-run the 2.30 installer. Plan the upgrade so that a failed run leaves you on 2.30 rather than in a half-upgraded state, and keep the legacy nginx release until the Gateway serves traffic and DNS has been flipped.
+
+If you migrate to a user-managed Gateway and later want to return to the KKP-managed Gateway, remove `spec.ingress.gateway.externalGateway` from the `KubermaticConfiguration` and re-run the installer. See the troubleshooting section below for CRD and admission policy leftovers that can block this switch.
+
+## Troubleshooting
+
+If you encounter issues after migration with the KKP-managed Gateway, the first place to check is the Gateway resource itself. Use `kubectl get gateway -n kubermatic` to see the status.
+A healthy Gateway should show as programmed and accepted.
+If it shows as not accepted or has error conditions, check the Envoy Gateway logs for more details. For an external Gateway, check the Gateway resource and the logs of the external Gateway controller instead.
+
+The HTTPRoute resource should also be checked to ensure it is properly attached to the Gateway.
+Use `kubectl get httproute -n kubermatic` to verify its status.
+
+If the KKP-managed Gateway shows as not ready, verify that the GatewayClass resource exists and that the Envoy Gateway controller pods are running.
+The GatewayClass should be named `kubermatic-envoy-gateway`. It is a cluster-scoped resource, so check it with `kubectl get gatewayclass`.
+
+For an external Gateway, check the Gateway in the namespace configured by `spec.ingress.gateway.externalGateway` instead of `kubermatic/kubermatic`:
+
+```bash
+kubectl get gateway -n networking platform-gateway -o yaml
+```
+
+If the installer fails with `external Gateway is operator-managed`, the referenced Gateway still has a `KubermaticConfiguration` controller owner reference. Use a different Gateway, or remove that controller owner reference only after confirming the Gateway is no longer managed by `kubermatic-operator`.
+
+If the installer or operator reports that there are no matches for `GatewayClass`, `Gateway`, or `HTTPRoute` in `gateway.networking.k8s.io/v1`, check the installed Gateway API CRDs. This usually means the cluster has older CRDs that only serve `v1beta1`. Upgrade the Gateway API CRDs so they serve `v1`, then rerun the installer.
+
+If you switch from a user-managed Gateway controller back to the KKP-managed Gateway and the installer fails with `ValidatingAdmissionPolicy 'safe-upgrades.gateway.networking.k8s.io'`, the cluster likely still has newer Gateway API CRDs or admission policy from the external Gateway installation. Remove or manually reconcile the external Gateway CRDs and admission policy before rerunning the installer.
+
+If the KKP route works but Dex, IAP, MLA, or monitoring routes are not accepted, check the external Gateway listener `allowedRoutes` policy. Helm-managed HTTPRoutes render a single parent reference and can become unavailable if the external Gateway does not allow their namespaces.
+
+```bash
+kubectl get httproute -A -o yaml
+kubectl describe gateway -n networking platform-gateway
+```
+
+If the migration times out or the KKP-managed Gateway appears stuck, verify each of the four readiness conditions individually. For an external Gateway, use the namespace and name configured in `spec.ingress.gateway.externalGateway`; external Gateway addresses are not required, so focus on `Programmed=True` and HTTPRoute `Accepted=True` conditions.
+
+1. **Check Gateway addresses**:
+
+```bash
+kubectl get gateway -n kubermatic -o jsonpath='{.status.addresses}'
+```
+Should return at least one IP address or hostname. If empty, your LoadBalancer may not have been provisioned yet (check with your cloud provider).
+
+2. **Check Programmed status**:
+```bash
+kubectl get gateway -n kubermatic -o jsonpath='{.status.conditions[?(@.type=="Programmed")].status}'
+```
+Should return `True`. If `False`, review the Envoy Gateway controller logs for configuration errors.
+
+3. **Check listener status**:
+```bash
+kubectl get gateway -n kubermatic -o jsonpath='{.status.listeners[*].conditions[?(@.type=="Programmed")].status}'
+```
+All listeners should return `True`. Listeners may fail to program if there are port conflicts or TLS certificate issues.
+
+4. **Check attached routes**:
+```bash
+kubectl get gateway -n kubermatic -o jsonpath='{.status.listeners[*].attachedRoutes}'
+```
+Each listener should show at least `1` attached route. If zero, verify that HTTPRoute resources exist and have correct parent references to the Gateway.
+
+If you experience issues with large headers, such as those from LDAP or SAML authentication, verify that the ClientTrafficPolicy exists and has the correct buffer limit set.
+This policy should be in the envoy-gateway-controller namespace and should have a buffer limit of 256 kilobytes.
+
+For routes that are not working as expected, verify that the Kubermatic namespace has the required label. The namespace should be labeled with `kubermatic.io/gateway-access: true`.
+This label allows HTTPRoutes in that namespace to attach to the Gateway.
+
+You should also verify that the backend services exist and are healthy. The kubermatic-api and kubermatic-dashboard services should both be present in the Kubermatic namespace.
+
+### HTTPRoute-Gateway Sync Controller Issues
+
+If automatic certificate provisioning is not working, check the following:
+
+1. **Verify the feature gate is enabled** (it is enabled by default in KKP 2.31):
+```bash
+kubectl get deployment -n kubermatic kubermatic-master-controller-manager -o jsonpath='{.spec.template.spec.containers[0].args}' | grep HTTPRouteGatewaySync
+```
+Should show `-feature-gates=HTTPRouteGatewaySync=true`.
+
+2. **Check watched namespaces**:
+```bash
+kubectl get deployment -n kubermatic kubermatic-master-controller-manager -o jsonpath='{.spec.template.spec.containers[0].args}' | grep httproute-watch-namespaces
+```
+Verify that the namespaces containing your HTTPRoutes are in the list.
+
+3. **Verify Gateway has cert-manager annotations**:
+```bash
+kubectl get gateway -n kubermatic kubermatic -o jsonpath='{.metadata.annotations}'
+```
+Should show either `cert-manager.io/cluster-issuer` or `cert-manager.io/issuer`.
+
+4. **Check HTTPRoute parent references**:
+```bash
+kubectl get httproute -n <namespace> <name> -o yaml
+```
+Verify that `spec.parentRefs` correctly references the active Gateway.
+
+5. **Check controller logs**:
+```bash
+kubectl logs -n kubermatic -l app.kubernetes.io/name=kubermatic-master-controller-manager | grep -i kkp-httproute-gateway-sync
+```
+
+6. **Verify listener limit**: If you have many HTTPRoutes with unique hostnames, you may reach the 64 listener limit. Check the controller logs for "listener limit reached" errors.
+
+## Quick Verification Commands
+
+After migration, you can use these commands to verify your installation. To check Gateway API resources for the operator-managed Gateway, run `kubectl get gateway,httproute -n kubermatic`. This should show one Gateway and one HTTPRoute; the cluster-scoped GatewayClass is listed by `kubectl get gatewayclass`.
+
+For an external Gateway, check both the Gateway namespace and the namespaces that contain HTTPRoutes:
+
+```bash
+kubectl get gateway -n networking
+kubectl get httproute -A
+kubectl get gatewayclass
+```
+
+For the KKP-managed Gateway, check the Envoy Gateway control plane with `kubectl get pods -n envoy-gateway-controller`. This should show the Envoy Gateway controller pods running.
+
+For the KKP-managed Gateway, check the Envoy data plane pods with `kubectl get pods -n envoy-gateway-controller -l app.kubernetes.io/name=envoy`. These are the pods that actually handle the traffic.
+
+For the KKP-managed Gateway, check the traffic policies with `kubectl get clienttrafficpolicy,backendtrafficpolicy -n envoy-gateway-controller`. This should show the policies that control connection and request behavior.

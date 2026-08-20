@@ -1,0 +1,260 @@
++++
+title = "Known Issues"
+date = 2025-10-22T12:00:00+02:00
+weight = 25
+
++++
+
+## Overview
+
+This page documents the list of known issues and possible workarounds/solutions.
+
+## Flatcar Stable 4593.2.0 nodes fail to join cluster
+
+_**Affected Components**_: Operating System Manager, Machine Controller
+
+_**Affected OS Image**_: Flatcar Stable 4593.2.0 (BUILD_ID 2026-04-14-0823) and newer
+
+Issue: [kubermatic/operating-system-manager#589](https://github.com/kubermatic/operating-system-manager/issues/589)
+
+### Problem
+
+When provisioning Flatcar nodes on Stable 4593.2.0 or newer, nodes may fail to join the cluster. The bootstrap script fails due to a change in Flatcar's filesystem layout that makes `/etc/environment` read-only. See the issue linked above for details.
+
+### Possible Workarounds
+
+1. Pin the Flatcar image to a pre-4593.2.0 version in the MachineDeployment by setting the image ID field for your provider (e.g. `cloudProviderSpec.ami` for AWS). Also set `operatingSystemSpec.disableAutoUpdate: true` to prevent auto-upgrade:
+
+   ```yaml
+   apiVersion: cluster.k8s.io/v1alpha1
+   kind: MachineDeployment
+   spec:
+     template:
+       spec:
+         providerSpec:
+           value:
+             cloudProvider: aws
+             cloudProviderSpec:
+               ami: ami-xxxxxxxxxxxxxxxxx
+             operatingSystem: flatcar
+             operatingSystemSpec:
+               disableAutoUpdate: true
+   ```
+
+### Resolution
+
+Fixed in Operating System Manager v1.9.1, v1.10.5 and newer (including all v1.11.x releases); see [kubermatic/operating-system-manager#589](https://github.com/kubermatic/operating-system-manager/issues/589). KKP 2.31 ships Operating System Manager v1.11.3 and is not affected.
+
+## Cilium 1.18 fails installation on older Ubuntu 22.04 kernels
+
+_**Affected Components**_: Cilium 1.18.x deployed as a system application on User Clusters
+
+_**Affected OS Image**_: `Ubuntu 22.04.1 LTS (GNU/Linux 5.15.0-47-generic x86_64)`
+
+### Problem
+
+Clusters running on Ubuntu 22.04 nodes with the kernel version `5.15.0-47-generic` experience Cilium pod failures. During initialization, the Cilium agent is unable to load certain eBPF programs (`tail_nodeport_nat_egress_ipv4`) into the kernel due to a verifier bug in older kernel versions.
+The kernel verifier will report:
+
+```bash
+error="attaching cilium_host: loading eBPF collection into the kernel: 
+program tail_nodeport_nat_egress_ipv4: load program: 
+permission denied: 1074: (71) r1 = *(u8 *)(r2 +23): R2 invalid mem access 'inv' (665 line(s) omitted)"
+```
+
+Because of this issue we have `cilium-agent` failing, and `hubble-generate-certs` jobs timing out when attempting to create the CA secrets in the specified namespace.
+
+### Root Cause
+
+`Ubuntu’s 5.15.0-47 kernel` (and older builds) lacks critical eBPF verifier precision propagation fixes. Cilium 1.18 has datapath programs that depend on these verifier improvements.
+
+### Workarounds
+
+1. On cluster creation in KKP, enable the option to `Upgrade system on first boot`. For existing clusters we can edit the machine deployment and enable the `Upgrade system on first boot` option.
+2. Upgrade the kernel on Ubuntu 22.04 nodes:
+
+  ```bash
+  sudo apt update && sudo apt upgrade -y && sudo reboot
+  ```
+
+  The node will boot into **5.15.0-160-generic**, and Cilium starts successfully.
+
+3. For OpenStack, switch worker image (in your data center provider options) from kubermatic-ubuntu (22.04) to Ubuntu 24.04 LTS (6.8.x kernel).
+
+### Planned resolution
+
+Future Kubermatic images will default to Ubuntu 24.04 to ensure compatibility with newer Cilium releases.
+
+## OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times
+
+### Problem
+
+For oidc authentication to user cluster there is always the same issuer used. This leads to invalidation of refresh tokens when a new authentication happens with the same user because existing refresh tokens for the same user/client pair are invalidated when a new one is requested.
+
+Up to KKP 2.30 this affected kubeconfig downloads, the web terminal and the Kubernetes Dashboard. Since KKP 2.31 the KKP dashboard login uses the same OIDC client (`kubermaticIssuer`) and also obtains a refresh token, so dashboard sessions are affected as well.
+
+### Root Cause
+
+By default it is only possible to have one refresh token per user/client pair in dex for security reasons. There is an open issue regarding this in the [upstream repository](https://github.com/dexidp/dex/issues/981). The refresh token has by default also no expiration set. This is useful to stay logged in over a longer time because the id_token can be refreshed unless the refresh token is invalidated.
+
+One example would be to download a kubeconfig of one cluster and then of another with the same user. You should only be able to use the first kubeconfig until the id_token expires because the refresh token was already invalidated by the download of the second one.
+
+The same applies between the KKP dashboard and the other flows: logging into the dashboard and then downloading a kubeconfig leaves the dashboard with an invalidated refresh token, and logging into the dashboard again invalidates the refresh token stored in a previously downloaded kubeconfig.
+
+### Solution
+
+You can either change this in dex configuration by setting `userIDKey` to `jti` in the connector section or you could configure an other oidc provider which supports multiple refresh tokens per user-client pair like keycloak does by default.
+
+#### Dex
+
+The following yaml snippet is an example how to configure an oidc connector to keep the refresh tokens.
+
+```yaml
+    connectors:
+      - id: oidc
+        name: OIDC
+        type: Google
+        config:
+          clientID: <client_id>
+          clientSecret: <client_secret>
+          redirectURI: https://kkp.example.com/dex/callback
+          scopes:
+            - openid
+            - profile
+            - email
+            - offline_access
+          # Workaround to support multiple user_id/client_id pairs concurrently
+          # Configurable key for user ID look up
+          # Default: id
+          userIDKey: <<userIDValue>>
+          # Optional: Configurable key for user name look up
+          # Default: user_name
+          userNameKey: <<userNameValue>>
+```
+
+#### External provider
+
+For an explanation how to configure an other oidc provider than dex take a look at [oidc-provider-configuration]({{< ref "../../tutorials-howtos/oidc-provider-configuration" >}}).
+
+### Security implications regarding dex solution
+
+For dex this has some implications. With this configuration a token is generated for each user session. The number of objects stored in kubernetes regarding refresh tokens has no limit anymore. The principle that one refresh belongs to one user/client pair is a security consideration which would be ignored in that case. The only way to revoke a refresh token is then to do it via grpc api which is not exposed by default or by manually deleting the related refreshtoken resource in the kubernetes cluster.
+
+## API server Overload Leading to Instability in Seed due to Konnectivity
+
+Issue: <https://github.com/kubermatic/kubermatic/issues/13321>
+
+Status: Fixed
+
+An issue has been identified where the overloaded API server of a user cluster managed by a Seed can impact the stability of API servers in all other user clusters managed by the same Seed.
+This resulted in various control plane components and applications failing to communicate with the apiserver due to timeouts and context cancellation errors.
+Moreover, Konnectivity Server container in API server pod emits "Receive channel from agent is full" logs.
+
+> Upstream issue can be found [here](https://github.com/kubernetes-sigs/apiserver-network-proxy/issues/586).
+
+### Solution
+
+The newly introduced `args` field in KKP v2.28.0 for configuring Konnectivity deployments (both Agent and Server) allows users to set any flags, including `--xfr-channel-size`.
+
+**Important Note:** The `--xfr-channel-size` flag in Konnectivity is available starting from Kubernetes v1.31.0. Ensure that the Kubernetes cluster version is compatible to use this new flag.
+
+#### Updating Konnectivity Server
+
+To update the Konnectivity Server configuration, the Seed's `defaultComponentSettings` must be updated.
+The new `args` field is available under `spec.defaultComponentSettings.konnectivityProxy`. 
+An example configuration is shown below:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: Seed
+metadata:
+  name: <<exampleseed>>
+  namespace: kubermatic
+spec:
+  defaultComponentSettings:
+    konnectivityProxy:
+      # Args configures arguments (flags) for the Konnectivity deployments.
+      args: ["--xfr-channel-size=20"]
+```
+
+This sets `--xfr-channel-size=20` flag for Konnectivity Server, which runs as a sidecar to the Kubernetes API server.
+
+#### Updating Konnectivity Agent
+
+To update the Konnectivity Agent configuration, the Cluster's `componentsOverride` must be updated.
+The new `args` field is available under `spec.componentsOverride.konnectivityProxy`. 
+An example configuration is shown below:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: Cluster
+metadata:
+  name: <<examplecluster>>
+  namespace: kubermatic
+spec:
+  componentsOverride:
+    konnectivityProxy:
+      # Args configures arguments (flags) for the Konnectivity deployments.
+      args: ["--xfr-channel-size=300"]
+```
+
+This sets `--xfr-channel-size=300` flag for Konnectivity Agent, which runs on the user cluster.
+
+## Deadlock on user cluster deletion when PersistentVolume/LoadBalancer Service exists but no MachineDeployments
+
+Issue: <https://github.com/kubermatic/kubermatic/issues/15500>
+
+### Problem
+
+When deleting a user cluster that doesn't have any MachineDeployments while there is still a PersistentVolume or Service of type LoadBalancer, the cluster remains in terminating state infinitely.
+
+### Root Cause
+
+Resources that require custom clean up logic by a Kubernetes controller have a finalizer attached, preventing them from being deleted immediately without proper clean up.
+To clean up those resources, a corresponding Kubernetes controller must run within the cluster and for that it needs a Machine to run on.
+For example a PersistentVolume needs to be finalized by the CSI controller in order to be deleted.
+If that doesn't happen, the resource remains in terminating state infinitely due to the Kubernetes finalizer not being removed from the resource.
+As long as there are PersistentVolumes and Services of type LoadBalancer within a user cluster, its deletion does not complete.
+
+### Workarounds
+
+1. Make sure the user cluster has a MachineDeployment, Machines and corresponding healthy nodes before deleting it.
+2. Download the user cluster's kubeconfig before deleting the user cluster and add a new MachineDeployment (e.g. by copying it from another cluster that was created using the same settings). Please be aware that you can neither download the kubeconfig nor create a new MachineDeployment via the KKP Dashboard anymore once user cluster deletion was started!
+3. Ask your platform administrator to remove the `kubermatic.k8c.io/cleanup-in-cluster-pv` and `kubermatic.k8c.io/cleanup-in-cluster-lb` finalizers from your `Cluster` resource within the seed cluster and clean up the corresponding cloud provider resources (e.g. AWS EBS volume) manually.
+
+## Flatcar worker nodes fail to bootstrap on KubeVirt infrastructure (Ignition not applied)
+
+_**Affected Components**_: Machine Controller, KubeVirt provider (Kubermatic Virtualization)
+
+_**Affected OS Image**_: Flatcar Linux worker nodes provisioned on KubeVirt v1.6.4 and newer (shipped with Kubermatic Virtualization v1.2.0). Ubuntu and other cloud-init based operating systems are **not** affected.
+
+Issue: [kubevirt/kubevirt#16901](https://github.com/kubevirt/kubevirt/issues/16901)
+
+### Problem
+
+Flatcar-based user-cluster worker VMs start and receive an IP address, but they never receive their Ignition configuration. As a result the node never joins the user cluster. Ubuntu worker pools on the same infrastructure provision normally.
+
+### Root Cause
+
+Flatcar receives its provisioning config through a QEMU firmware-config argument (`-fw_cfg name=opt/com.coreos/config`) in the `qemu:commandline` section of the VM's libvirt domain. Starting with KubeVirt v1.6.4, the PCIe-hotplug port reservation rewrites the libvirt domain a second time; that XML round-trip drops the `qemu:commandline` block, and with it the `-fw_cfg` argument that carries Flatcar's Ignition payload. This is an upstream KubeVirt defect, not a Kubermatic or machine-controller bug — the Ignition data itself is generated correctly.
+
+### Workaround
+
+Set the KubeVirt annotation `kubevirt.io/placePCIDevicesOnRootComplex: "true"` on the Flatcar worker pool. machine-controller sets it automatically for Flatcar machines as of [kubermatic/machine-controller#2057](https://github.com/kubermatic/machine-controller/pull/2057), released in machine-controller v1.66.1 and backported to v1.65.5. machine-controller v1.66.1 is the version bundled with this KKP release, so no extra configuration is required — recreate the affected Flatcar nodes so they are created with the annotation.
+
+If your installation still runs a machine-controller version that predates the fix, pin it in your `KubermaticConfiguration`, staying within the machine-controller minor your KKP release bundles (v1.65.5 for KKP v2.30.x):
+
+```yaml
+spec:
+  userCluster:
+    machineController:
+      imageTag: v1.65.5
+```
+
+Remove the override once you run a KKP release that already bundles the fix.
+
+Alternatively, set the annotation manually on the Flatcar worker pool's `MachineDeployment` under `spec.template.metadata.annotations` (namespace `kube-system`) and recreate the nodes. The annotation only takes effect on newly created machines. See the [Kubermatic Virtualization known issues](https://docs.kubermatic.com/kubermatic-virtualization/main/known-issues/) page for the full steps, the patch command, and trade-offs.
+
+### Planned resolution
+
+Tracked upstream in [kubevirt/kubevirt#18460](https://github.com/kubevirt/kubevirt/pull/18460). The workaround can be removed once the fix ships in the KubeVirt version bundled with Kubermatic Virtualization.
