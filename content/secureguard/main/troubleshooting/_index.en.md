@@ -9,6 +9,12 @@ Managing a distributed secret synchronization engine involves dealing with netwo
 
 ## General Issues
 
+### Pods Stuck in `ImagePullBackOff`
+- **Cause**: SecureGuard's images are served from a private Quay repository. The pull secret is missing, wrong, or not referenced by the chart — `kubectl describe pod` shows `401 Unauthorized`.
+- **Resolution**:
+  1. Confirm the Secret exists in the release namespace: `kubectl get secret secureguard-pull -n secureguard-system`
+  2. Confirm the chart references it — both `imagePullSecrets` and `global.imagePullSecrets` must be set. See [Installation]({{< ref "../installation/#prerequisites" >}}).
+
 ### The Dashboard is Inaccessible or Returns 502 Bad Gateway
 - **Cause**: The Backend Proxy is not running or cannot reach the upstream Dex/OpenBao instances, OR the ingress path is misconfigured.
 - **Resolution**:
