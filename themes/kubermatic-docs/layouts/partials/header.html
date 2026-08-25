@@ -8,7 +8,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{if and $versions (gt (len $versions) 1)}}
-      {{$isStableVersion := or (and (where $versions "release" "in" .RelPermalink) (in .RelPermalink (index $versions 1).release)) (strings.HasSuffix .RelPermalink (printf "/%s/" .Section))}}
+      {{$latestRelease := partial "latest-release.html" $versions}}
+      {{$isStableVersion := or (and (where $versions "release" "in" .RelPermalink) (in .RelPermalink $latestRelease)) (strings.HasSuffix .RelPermalink (printf "/%s/" .Section))}}
       {{if not $isStableVersion}}
       <meta name="robots" content="noindex, nofollow" />
       {{end}}
@@ -18,7 +19,7 @@
       {{$product := index $products $sectionName}}
       {{with $product}}
         {{if .versions}}
-          {{$release := (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+          {{$release := partial "latest-release.html" .versions}}
           {{with $.Site.GetPage (printf "/%s/%s" $sectionName $release)}}
           <meta http-equiv="refresh" content="0; url={{.Permalink}}" />
           {{end}}
@@ -59,7 +60,7 @@
         <section id="body">
         {{if and $versions (len (intersect (split .RelPermalink "/") (slice "master" "main")))}}
           {{if gt (len $versions) 1}}
-            {{with $.Site.GetPage (printf "/%s/%s" .Section (index $versions 1).release)}}
+            {{with $.Site.GetPage (printf "/%s/%s" .Section (partial "latest-release.html" $versions))}}
             <div class="noticebar">This version is under construction, please use <a href="{{.RelPermalink}}" class="noticebar-link">an official release</a> version</div>
             {{end}}
           {{end}}
@@ -70,7 +71,7 @@
           {{range $i, $v := $versions}}
             {{$autoEol := and (gt $supported 0) (gt $i $supported)}}
             {{if and (or $v.eol $autoEol) (in (split $.RelPermalink "/") $v.release)}}
-              {{with $.Site.GetPage (printf "/%s/%s" $.Section (index $versions 1).release)}}
+              {{with $.Site.GetPage (printf "/%s/%s" $.Section (partial "latest-release.html" $versions))}}
               <div class="noticebar">You're viewing documentation for an older version of {{$product.title}} that has reached End of Life (EOL). Please use <a href="{{.RelPermalink}}" class="noticebar-link">an official release</a> version</div>
               {{end}}
             {{end}}

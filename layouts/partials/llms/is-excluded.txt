@@ -3,12 +3,12 @@
        - .Draft is true, OR
        - .Params.sitemapexclude is true, OR
        - The page does not belong to the most recent product version
-         (2nd in the versions list from products.yaml, or 1st if only one). */ -}}
+         (the first non-branch entry in the versions list from products.yaml). */ -}}
 {{- $excluded := or .Draft .Params.sitemapexclude -}}
 {{- if not $excluded -}}
   {{- with index hugo.Data.products .Section -}}
     {{- if .versions -}}
-      {{- $latestVersion := cond (gt (len .versions) 1) (index .versions 1).release (index .versions 0).release -}}
+      {{- $latestVersion := partial "latest-release.html" .versions -}}
       {{- $pathParts := split $.RelPermalink "/" -}}
       {{- if gt (len $pathParts) 2 -}}
         {{- $pageVersion := index $pathParts 2 -}}
