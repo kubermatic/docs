@@ -1,5 +1,6 @@
 +++
 title = "Kubermatic Developer Platform"
+sidebarHomeTitle = "Getting Started"
 +++
 
 KDP (Kubermatic Developer Platform) is a new Kubermatic product in development that targets the IDP
