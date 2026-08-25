@@ -29,14 +29,15 @@ Take note of the following examples:
 export KUBECONFIG=/path/to/a/kubeconfig/that/points/to/kcp
 
 # go into the root workspace, no matter where you are
-kubectl ws root
+# (a leading colon marks an absolute path)
+kubectl ws :root
 
 # descend into the child namespace "foo" (if you are in root currently,
 # you would end up in "root:foo")
 kubectl ws foo
 
 # ...is the same as
-kubectl ws root:foo
+kubectl ws :root:foo
 
 # go one workspace up
 kubectl ws ..
