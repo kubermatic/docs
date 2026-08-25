@@ -136,6 +136,7 @@ developer-platform:
   name: developer-platform
   logo: "/img/developer-platform/common/logo.svg"
   title: Kubermatic Developer Platform
+  textName: Developer Platform
   description: Provision and manage all services from a single centralized catalog - powered by Kubernetes-style APIs.
   weight: 5
   shareImage: img/share-developer-platform.png
