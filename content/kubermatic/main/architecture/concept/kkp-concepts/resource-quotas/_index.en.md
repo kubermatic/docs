@@ -173,19 +173,39 @@ for each project.
 
 ### Use the Dashboard
 
-1. From the project list page Create the **Data Science** project.
-![Create data science project](images/create-data-science-project.png?classes=shadow,border "Create data science project")
-2. Navigate to **Admin Panel** > **Manage Resources** > **Project Quotas** and create a quota for **Data Science**.
-![Add data science project quota](images/add-data-science-project-quota.png?classes=shadow,border "Add data science project quota")
- you can't enable accelerators for default project quota, If a **Default** quota already exists, change a CPU, memory, or disk value and save it,that will remove the default data label from the quota.
- 
-4. Select the quota's edit (pencil) action, enable **Enable Accelerator Quota**, and select **Save Changes**.
-5. Wait until the **Accelerator** status becomes `Ready` before adding limits.
+Accelerator quota can only be enabled on an existing project quota, it cannot be enabled while the quota is being created.
+So the project needs a quota first, which is then edited to enable the accelerator quota.
 
-Repeat quota creation and activation separately for every project that should use accelerator quotas.
+1. Create a project quota for the project, as described in
+   [Setting up Resource Quotas with UI](#setting-up-resource-quotas-with-ui).
 
-When accounting becomes `Ready`, edit the quota again to add accelerator names and limits. The **Accelerator** column's status
-icon and tooltip show the phase, and the project quota widget shows accelerator usage and limits.
+    If the project already has a **Default** quota, accelerators cannot be enabled on it as long as it is a default one.
+    Select its edit (pencil) action, change a CPU, Memory or Disk value and save it. This removes the default label from the
+    quota and makes it an explicitly managed one.
+
+2. Select the quota's edit (pencil) action, enable **Enable Accelerator Quota**, and select **Save Changes**.
+
+   ![Enable Accelerator Quota](images/enable-accelerator-quota.png?classes=shadow,border "Enable Accelerator Quota")
+
+   {{% notice warning %}}
+   Enabling the accelerator quota cannot be undone, and the project quota can no longer be deleted afterwards.
+   {{% /notice %}}
+
+3. Wait until the **Accelerator** column shows the `Ready` status before adding limits. The column's status icon and its
+   tooltip show the current phase.
+
+    ![Accelerator status in the project quotas list](images/quota-menu-accelerators.png?classes=shadow,border "Accelerator status in the project quotas list")
+
+4. Once the status is `Ready`, select the quota's edit (pencil) action again and add the accelerator name and its limit in the
+   **Accelerators** section. The only supported provider is `kubevirt`, and the accelerator name must exactly match the
+   qualified, case-sensitive KubeVirt device name.
+
+    ![Add accelerator quotas](images/add-accelerator.png?classes=shadow,border "Add accelerator quotas")
+
+Repeat the quota creation and activation separately for every project that should use accelerator quotas. The project quota
+widget then shows the accelerator usage and limits alongside CPU, Memory and Disk.
+
+   ![Accelerator quota](images/accelerator-quota.png?classes=shado,border "Accelerator quota")
 
 ### Use kubectl
 
