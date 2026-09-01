@@ -47,7 +47,27 @@ spec:
 The quota fields use the [ResourceQuantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity) to
 represent the values. One note is that CPU is denoted in single integer numbers.
 
-![Manage Quotas](images/quota-menu.png?classes=shadow,border "Manage Quotas")
+## Setting up Resource Quotas with UI
+
+Administrators can create a resource quota for a project from the admin panel.
+
+1. Navigate to **Admin Panel** > **Manage Resources** > **Project Quotas**. The list of the existing project quotas is
+   shown on this page.
+
+2. Select **Add Project Quota** to open the quota dialog.
+
+    ![Manage Quotas](images/quota-menu.png?classes=shadow,border "Manage Quotas")
+
+3. Choose the project the quota applies to, then set the CPU, Memory and Disk quota.
+
+    ![Set Project Quota Values](images/add-project-quota-dialog.png?classes=shadow,border "Set Project Quota Values")
+
+4. Select **Add Project Quota**. The new quota is then shown in the project quotas list.
+
+    ![Project Quota Created](images/project-quota-created.png?classes=shadow,border "Project Quota Created")
+
+5. To change an existing quota, select the edit (pencil) action in its row, update the CPU, Memory or Disk values and
+   save the changes.
 
 To simplify matters the UI uses GB as representation for Memory and Storage. The conversion from any value
 set in the ResourceQuota is done automatically by the API.
@@ -153,10 +173,12 @@ for each project.
 
 ### Use the Dashboard
 
-1. Create the **Data Science** project.
-2. In the **Admin Panel**, open **Manage Resources** > **Project Quotas**.
-3. Create a quota for **Data Science**. If a **Default** quota already exists, change a CPU, memory, or disk value and save it,
-   then reopen the quota before activation.
+1. From the project list page Create the **Data Science** project.
+![Create data science project](images/create-data-science-project.png?classes=shadow,border "Create data science project")
+2. Navigate to **Admin Panel** > **Manage Resources** > **Project Quotas** and create a quota for **Data Science**.
+![Add data science project quota](images/add-data-science-project-quota.png?classes=shadow,border "Add data science project quota")
+ you can't enable accelerators for default project quota, If a **Default** quota already exists, change a CPU, memory, or disk value and save it,that will remove the default data label from the quota.
+ 
 4. Select the quota's edit (pencil) action, enable **Enable Accelerator Quota**, and select **Save Changes**.
 5. Wait until the **Accelerator** status becomes `Ready` before adding limits.
 
