@@ -122,6 +122,21 @@ networkConfiguration:
 
 KubeV uses [Kube-OVN](https://kube-ovn.io/) as its CNI network plugin. Kube-OVN is a Kubernetes networking solution built on top of [Open Virtual Network (OVN)](https://www.ovn.org/), which is the control plane layer of [Open vSwitch (OVS)](https://www.openvswitch.org/).
 
+Rather than relying on host-level routing rules or simple VXLAN point-to-point tunnels, Kube-OVN builds a full software-defined network with logical switches, logical routers, and load balancers managed centrally by OVN. Traffic between pods on different nodes travels through Geneve tunnels (or VXLAN, depending on configuration) between OVS bridges on each node.
+
+This architecture provides:
+- **Stable pod IPs** — pods keep their IP across restarts within a subnet.
+- **Network policies** enforced in the OVS datapath, not in iptables.
+- **Per-namespace or per-pod subnet isolation** without extra configuration.
+- **VPC-style multi-tenancy** for VM workloads sharing the same cluster.
+
+{{% notice note %}}
+Inter-node tunnel traffic is **not encrypted** in a KubeV deployment. Kube-OVN can encrypt
+Geneve/VXLAN tunnels using OVN's built-in IPsec support, but that capability is disabled and is
+not exposed through the KubeV cluster configuration. Use link-layer or physical network controls
+if you need inter-node traffic to be encrypted.
+{{% /notice %}}
+
 All CIDR ranges are validated at load time and must not overlap with one another or with your physical network.
 
 ### Fields
@@ -368,10 +383,16 @@ When `enabled: true`, KubeV will not reach out to the public internet during ins
 Before running `kubev apply` in offline mode, the following must be in place:
 
 1. **Mirror container images** — use `kubev mirror-images` to copy all required images to your internal registry. This includes images for Kube-OVN, CertManager, KubeVirt, CDI, Longhorn, MetalLB, Kyverno, Multus, and others.
-2. **Prepare the package repository** — sync the OS package repository used by your node OS so that kubeadm, kubelet, and kubectl packages are available.
-3. **Test connectivity** — verify that all nodes can reach every internal mirror URL before applying.
+2. **Mirror the Helm charts** — the installer pulls its charts from `oci://quay.io/kubermatic-mirror/helm-charts`, which is unreachable in an air-gapped environment. Copy every chart into the registry configured under `helmRegistry`, keeping the chart names unchanged. For each component listed in
+   [Kubermatic Virtualization Components]({{< ref "../architecture/compatibility/kubev-components-versioning" >}}), pull the chart and push it to your registry:
 
-> **Note on dashboard images:** The `containerRegistry` field covers infrastructure component images. The API server and dashboard images require separate credentials provided via `dashboard.imagePullSecret` or `KUBEV_USERNAME`/`KUBEV_PASSWORD` environment variables — see [Registry Credentials](#registry-credentials).
+   ```bash
+   helm pull oci://quay.io/kubermatic-mirror/helm-charts/<chart-name> --version <chart-version>
+   helm push <chart-name>-<chart-version>.tgz oci://charts.internal.example.com:5000
+   ```
+
+3. **Prepare the package repository** — sync the OS package repository used by your node OS so that kubeadm, kubelet, and kubectl packages are available.
+4. **Test connectivity** — verify that all nodes can reach every internal mirror URL before applying.
 
 ---
 

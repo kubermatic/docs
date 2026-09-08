@@ -61,6 +61,22 @@ INFO[2026-04-23T14:24:06+01:00] Download complete                             pa
 
 Once complete, the `kubermatic-virtualization` binary is ready to use in your current directory.
 
+### Making the CLI Available as `kubev`
+
+The downloader installs the binary under its full name, `kubermatic-virtualization`. Throughout this
+documentation the CLI is invoked as `kubev`, which is also the name the binary reports in its own
+`--help` output. Copy it into a directory on your `PATH` under that name before continuing:
+
+```bash
+cp kubermatic-virtualization /usr/local/bin/kubev
+```
+
+Verify that it resolves:
+
+```bash
+kubev version
+```
+
 ### Downloading a Specific Version
 
 By default, the downloader fetches the latest available release. If you need a specific version, use the `--version` (or `-V`) flag:

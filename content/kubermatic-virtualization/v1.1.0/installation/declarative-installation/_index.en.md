@@ -395,8 +395,8 @@ kubectl get nodes
 
 # Expected output:
 # NAME    STATUS   ROLES           AGE   VERSION
-# node1   Ready    control-plane   5m    v1.33.0
-# node2   Ready    <none>          4m    v1.33.0
+# node1   Ready    control-plane   5m    v1.34.7
+# node2   Ready    <none>          4m    v1.34.7
 
 # Check system pods
 kubectl get pods --all-namespaces

@@ -132,6 +132,21 @@ networkConfiguration:
 
 KubeV uses [Kube-OVN](https://kube-ovn.io/) as its CNI network plugin. Kube-OVN is a Kubernetes networking solution built on top of [Open Virtual Network (OVN)](https://www.ovn.org/), which is the control plane layer of [Open vSwitch (OVS)](https://www.openvswitch.org/).
 
+Rather than relying on host-level routing rules or simple VXLAN point-to-point tunnels, Kube-OVN builds a full software-defined network with logical switches, logical routers, and load balancers managed centrally by OVN. Traffic between pods on different nodes travels through Geneve tunnels (or VXLAN, depending on configuration) between OVS bridges on each node.
+
+This architecture provides:
+- **Stable pod IPs** — pods keep their IP across restarts within a subnet.
+- **Network policies** enforced in the OVS datapath, not in iptables.
+- **Per-namespace or per-pod subnet isolation** without extra configuration.
+- **VPC-style multi-tenancy** for VM workloads sharing the same cluster.
+
+{{% notice note %}}
+Inter-node tunnel traffic is **not encrypted** in a KubeV deployment. Kube-OVN can encrypt
+Geneve/VXLAN tunnels using OVN's built-in IPsec support, but that capability is disabled and is
+not exposed through the KubeV cluster configuration. Use link-layer or physical network controls
+if you need inter-node traffic to be encrypted.
+{{% /notice %}}
+
 All CIDR ranges are validated at load time and must not overlap with one another or with your physical network.
 
 ### Fields
