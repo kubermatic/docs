@@ -22,13 +22,14 @@ A Kubernetes cluster (KubeVirt infrastructure cluster), which consists of nodes 
 
 Software requirement:
 
-- KubeOne = 1.7 or higher
-- KubeOVN = 1.12 or higher or Canal = 3.26 or higher
-- KubeVirt = 1.2.2
-- Containerized Data Importer (CDI) = v1.60
+- KubeOne = 1.11 or higher
+- KubeOVN = 1.15 or higher or Canal = 3.26 or higher
+- KubeVirt = 1.6.4 or higher
+- Containerized Data Importer (CDI) = v1.63 or higher
 
 The cluster version must be in the scope of [supported KKP Kubernetes clusters]({{< ref "../../../tutorials-howtos/operating-system-manager/compatibility/#kubernetes-versions" >}})
-and it must be in the [KubeVirt Support Matrix](https://github.com/kubevirt/sig-release/blob/main/releases/k8s-support-matrix.md).
+and the KubeVirt and Kubernetes pair must be a supported combination in the
+[KubeVirt Support Matrix](https://github.com/kubevirt/sig-release/blob/main/releases/k8s-support-matrix.md).
 
 ### Kubernetes And KubeVirt Installation
 
@@ -137,7 +138,7 @@ The `enableDedicatedCPUs` feature takes only effect for new created machines. If
 The `usePodResourcesCPU` feature will replace `enableDedicatedCPUs` flag. In the time of deprecation both are taking effect but the new value will have more priority. When `enableDedicatedCPUs` is set to `false` which is also the default value, you need to set `usePodResourcesCPU` to `true` to keep the same behaviour as before for new created machines. If `enableDedicatedCPUs` was set to `true` nothing needs to be changed.
 {{% /notice %}}
 
-Refer to this [document](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/zz_generated.seed.ce.yaml#L115)
+Refer to this [document](https://github.com/kubermatic/kubermatic/blob/release/v2.31/docs/zz_generated.seed.ce.yaml)
 for more details and configuration example.
 
 {{% notice warning %}}
@@ -402,7 +403,7 @@ We implemented a mechanism that will allow you to safely drain a bare-metal node
 After running a drain command the VMs running on the node along with their workload will be evicted to different nodes.
 
 {{% notice note %}}
-More details on the eviction implementation can be found [here](https://github.com/kubermatic/kubermatic/blob/release/v2.26/docs/proposals/kubevirt-workload-eviction.md).
+More details on the eviction implementation can be found [here](https://github.com/kubermatic/kubermatic/blob/release/v2.31/docs/proposals/kubevirt-workload-eviction.md).
 {{% /notice %}}
 
 {{% notice warning %}}
@@ -497,7 +498,7 @@ Updating of Kubernetes, KubeVirt and Containerized Data Imported should be done 
 
 The k8s cluster and KubeVirt components must be in [scope of our supported versions](#requirements).
 You can update k8s version by following [the official guide](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/).
-Or if you provisioned the cluster over KubeOne please follow [the update procedure](/kubeone/v1.5/tutorials/upgrading-clusters/).
+Or if you provisioned the cluster over KubeOne please follow [the update procedure](/kubeone/latest/tutorials/upgrading-clusters/).
 
 Next you can update KubeVirt control plane and Containerized Data Importer by executing:
 
