@@ -62,6 +62,14 @@ Separate seed clusters are not cleaned up automatically. If nginx-ingress-contro
 
 See the [Gateway API Migration Guide]({{< ref "../../../tutorials-howtos/networking/gateway-api-migration/" >}}) for the complete procedure, including the staged cutover and the user-managed (BYO) Gateway option.
 
+### KKP Now Applies KubeLB Tenant Defaults to Existing Tenants
+
+KKP now reconciles `Project.spec.defaultTenantSpec` against new and existing KubeLB Tenants using Server-Side Apply. Changing the defaults updates the Tenants of all KubeLB-enabled clusters in the project. Removing a field from the defaults also removes it from the Tenants, but only if KKP set the field. KKP preserves fields set by other components and reports conflicts as errors without interrupting KubeLB CCM maintenance.
+
+KKP adopts fields set by the previous KKP version only while they are present in the project defaults. Other fields keep their current value; KKP does not prune them later.
+
+Custom management-cluster credentials must now allow the `patch` verb on `tenants.kubelb.k8c.io`. Check the kubeconfig you use for the KubeLB management cluster and add the permission before upgrading. For details, see [KubeLB]({{< ref "../../../tutorials-howtos/kubelb/" >}}).
+
 ## Upgrade Procedure
 
 Before starting the upgrade, make sure your KKP Master and Seed clusters are healthy with no failing or pending Pods. If any Pod is showing problems, investigate and fix the individual problems before applying the upgrade. This includes the control plane components for user clusters, unhealthy user clusters should not be submitted to an upgrade.
