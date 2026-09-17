@@ -27,7 +27,7 @@ dashboard is disabled — and it reads its pull secret **only** from the top-lev
 **Action required.** If your v1.1.x configuration sets the pull secret only under
 `dashboard.imagePullSecret`, move that value to the top-level `imagePullSecret` before upgrading.
 If you do not, `kubev-controller-manager` fails to pull its image and enters `ImagePullBackOff`
-(`401 UNAUTHORIZED`). In v1.2.0 the `kubev apply` pre-flight check detects the missing top-level
+(`401 UNAUTHORIZED`). In v1.2.0 the `kubermatic-virtualization apply` pre-flight check detects the missing top-level
 field and stops with a descriptive error before making any cluster changes.
 {{% /notice %}}
 
@@ -62,19 +62,18 @@ dashboard:
   enabled: true
 ```
 
-Alternatively, export the credentials as environment variables before running `kubev apply`, so
-nothing is stored in the file:
+Alternatively, export the credentials as environment variables before running `kubermatic-virtualization apply`, so nothing is stored in the file:
 
 ```bash
 export KUBEV_USERNAME=myuser
 export KUBEV_PASSWORD=mypassword
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 Not sure where the field belongs? Generate an annotated example and search for `imagePullSecret`:
 
 ```bash
-kubev config print --full
+kubermatic-virtualization config print --full
 ```
 
 {{% notice note %}}
@@ -91,7 +90,7 @@ do not need a top-level `imagePullSecret`; in that case the pre-flight check doe
 4. Re-run apply:
 
 ```bash
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 The pre-flight check runs first. If the top-level `imagePullSecret` (or `KUBEV_USERNAME`/

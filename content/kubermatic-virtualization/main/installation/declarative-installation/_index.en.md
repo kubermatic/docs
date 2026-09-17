@@ -41,12 +41,12 @@ imagePullSecret: |
   {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
 ```
 
-**Option 2 — environment variables** before running `kubev apply`, so nothing is stored in the file:
+**Option 2 — environment variables** before running `kubermatic-virtualization apply`, so nothing is stored in the file:
 
 ```bash
 export KUBEV_USERNAME=myuser
 export KUBEV_PASSWORD=mypassword
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 ### Minimal Configuration Example
@@ -218,7 +218,7 @@ EOF
 Run the apply command to see what will be installed:
 
 ```bash
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 The command will display:
@@ -277,7 +277,7 @@ staticWorkers:
 ```
 
 ```bash
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 ### Repairing Unhealthy Clusters
@@ -285,7 +285,7 @@ kubev apply -f cluster.yaml
 If a node becomes unhealthy or is removed from the cluster, simply run apply again:
 
 ```bash
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 The command will:
@@ -299,7 +299,7 @@ The command will:
 To check current cluster state without making changes:
 
 ```bash
-kubev apply -f cluster.yaml --verbose
+kubermatic-virtualization apply -f cluster.yaml --verbose
 ```
 
 This shows detailed information about:
@@ -371,11 +371,11 @@ loadBalancer:
 **Solution:** This occurs when trying to upgrade while nodes are unhealthy. First repair the cluster:
 ```bash
 # Step 1: Repair cluster with current version
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 
 # Step 2: After repair completes, upgrade
 # (update version in cluster.yaml)
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 ### Log Analysis
