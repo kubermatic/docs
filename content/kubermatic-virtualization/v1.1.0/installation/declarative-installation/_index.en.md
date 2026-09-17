@@ -129,13 +129,13 @@ kubevirt:
 
 The KubeV web dashboard is optional and disabled by default. Enable it by adding a `dashboard` section to your configuration file.
 
-The dashboard images are hosted on a private registry — credentials are required before `kubev apply` will proceed. Provide them either inline in the config file or via environment variables before running the command:
+The dashboard images are hosted on a private registry — credentials are required before `kubermatic-virtualization apply` will proceed. Provide them either inline in the config file or via environment variables before running the command:
 
 ```bash
 # Option A — environment variables
 export KUBEV_USERNAME=myuser
 export KUBEV_PASSWORD=mypassword
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 
 # Option B — inline in cluster.yaml
 dashboard:
@@ -144,7 +144,7 @@ dashboard:
     {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
 ```
 
-If neither is provided and the dashboard is enabled, `kubev apply` fails the pre-flight check before making any cluster changes.
+If neither is provided and the dashboard is enabled, `kubermatic-virtualization apply` fails the pre-flight check before making any cluster changes.
 
 The dashboard supports three authentication modes: `none`, `basic`, and `oidc`. The simplest way to get started is `none` — the dashboard is accessible without a login, suitable for private networks during initial setup:
 
@@ -206,7 +206,7 @@ EOF
 Run the apply command to see what will be installed:
 
 ```bash
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 The command will display:
@@ -265,7 +265,7 @@ staticWorkers:
 ```
 
 ```bash
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 ### Repairing Unhealthy Clusters
@@ -273,7 +273,7 @@ kubev apply -f cluster.yaml
 If a node becomes unhealthy or is removed from the cluster, simply run apply again:
 
 ```bash
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 The command will:
@@ -287,7 +287,7 @@ The command will:
 To check current cluster state without making changes:
 
 ```bash
-kubev apply -f cluster.yaml --verbose
+kubermatic-virtualization apply -f cluster.yaml --verbose
 ```
 
 This shows detailed information about:
@@ -359,11 +359,11 @@ loadBalancer:
 **Solution:** This occurs when trying to upgrade while nodes are unhealthy. First repair the cluster:
 ```bash
 # Step 1: Repair cluster with current version
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 
 # Step 2: After repair completes, upgrade
 # (update version in cluster.yaml)
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 ### Log Analysis

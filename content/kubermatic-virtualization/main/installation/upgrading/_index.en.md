@@ -19,7 +19,7 @@ The following steps apply to every KubeV upgrade.
 
 ### How Upgrades Work
 
-KubeV installations are declarative, and `kubev apply` is idempotent: the same command that
+KubeV installations are declarative, and `kubermatic-virtualization apply` is idempotent: the same command that
 installs a cluster also upgrades it. The KubeV version is the version of the binary you run, not
 a field of the configuration file. To upgrade, download the binary of the new release, make the
 configuration changes its upgrade guide asks for, and run its `apply` against your configuration
@@ -27,7 +27,7 @@ file — the installer reconciles the live system to the desired state, handling
 upgrades, and repairs.
 
 ```bash
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
 Keep your `cluster.yaml` under version control and treat it as the single source of truth. See
@@ -62,9 +62,7 @@ done <<< "$(kubectl get crd -o name)"
 
 ### Repair Before You Upgrade
 
-`kubev apply` does not perform a repair and an upgrade in the same run. If nodes are unhealthy,
-first run `kubev apply` with the **current** version to repair the cluster, and only then change
-the version and re-run to upgrade.
+`kubermatic-virtualization apply` does not perform a repair and an upgrade in the same run. If nodes are unhealthy, first run `kubermatic-virtualization apply` with the **current** version to repair the cluster, and only then change the version and re-run to upgrade.
 
 ### Offline / Air-Gapped Installations
 
@@ -74,14 +72,14 @@ pre-loaded into your internal mirrors before you upgrade.
 
 ### Run the Pre-Flight Check
 
-`kubev apply` runs pre-flight checks and fails fast with a descriptive message if the
+`kubermatic-virtualization apply` runs pre-flight checks and fails fast with a descriptive message if the
 configuration is incomplete (for example, missing image-registry credentials) **before** making
 any cluster changes. A failed pre-flight leaves the existing installation untouched — resolve the
 reported issue and re-run.
 
 ### Verify the Upgrade
 
-After `kubev apply` completes, confirm the platform is healthy:
+After `kubermatic-virtualization apply` completes, confirm the platform is healthy:
 
 ```bash
 export KUBECONFIG=kubev-cluster-kubeconfig

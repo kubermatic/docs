@@ -38,7 +38,7 @@ export KUBEV_PASSWORD=<your-password>
 You can check what tools and versions provided by the downloader
 
 ```bash
-kubermatic-ee-downloader list
+./kubermatic-ee-downloader list
 TOOL                        VERSIONS                         OS                       ARCH           DESCRIPTION
 conformance-tester          latest-cli, v2.30.0-beta.1-cli   linux, darwin, windows   amd64, arm64   Kubermatic conformance cli
 kubermatic-virtualization   latest, v1.2.0                   linux                    amd64          Kubermatic Virtualization installer
@@ -47,7 +47,7 @@ kubermatic-virtualization   latest, v1.2.0                   linux              
 Once your credentials are set, run the downloader to retrieve and install the latest release of Kubermatic Virtualization:
 
 ```bash
-kubermatic-ee-downloader get kubermatic-virtualization --username $KUBEV_USERNAME --password $KUBEV_PASSWORD
+./kubermatic-ee-downloader get kubermatic-virtualization --username $KUBEV_USERNAME --password $KUBEV_PASSWORD
 ```
 
 The downloader will authenticate, pull the latest binary artifact from the OCI registry, and install it in the current working directory. A successful run produces output similar to the following:
@@ -61,20 +61,18 @@ INFO[2026-04-23T14:24:06+01:00] Download complete                             pa
 
 Once complete, the `kubermatic-virtualization` binary is ready to use in your current directory.
 
-### Making the CLI Available as `kubev`
+### Making the CLI Available in Your PATH (Optional)
 
-The downloader installs the binary under its full name, `kubermatic-virtualization`. Throughout this
-documentation the CLI is invoked as `kubev`, which is also the name the binary reports in its own
-`--help` output. Copy it into a directory on your `PATH` under that name before continuing:
+The downloader installs the binary into the current working directory, to call it from any directory, move it into a location on your `PATH`:
 
 ```bash
-cp kubermatic-virtualization /usr/local/bin/kubev
+sudo mv kubermatic-virtualization /usr/local/bin/
 ```
 
 Verify that it resolves:
 
 ```bash
-kubev version
+kubermatic-virtualization version
 ```
 
 ### Downloading a Specific Version
@@ -82,5 +80,5 @@ kubev version
 By default, the downloader fetches the latest available release. If you need a specific version, use the `--version` (or `-V`) flag:
 
 ```bash
-kubermatic-ee-downloader --username $KUBEV_USERNAME --password $KUBEV_PASSWORD --version v1.2.0
+./kubermatic-ee-downloader --username $KUBEV_USERNAME --password $KUBEV_PASSWORD --version v1.2.0
 ```
