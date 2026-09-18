@@ -9,68 +9,62 @@ machines in Kubermatic Virtualization, and how to manage them from the dashboard
 
 ## Overview
 
-A firewall rule controls which traffic is allowed to reach a virtual machine, and
-which traffic that machine is allowed to send. Each rule names:
+A firewall rule controls which traffic may reach a virtual machine, and which traffic that
+machine may send. Every rule sets four things:
 
-* a **direction**, inbound or outbound,
-* a **target**, the VM or VM pool the rule applies to,
-* a **source** (inbound) or **destination** (outbound),
-* the **ports and protocols** the rule permits.
+| Part | What it sets |
+| --- | --- |
+| **Direction** | Inbound or outbound. |
+| **Target** | The VM or VM pool the rule applies to. |
+| **Source** / **Destination** | Where the traffic comes from, or goes to. |
+| **Ports and protocols** | What the rule permits. |
 
-Rules are managed from **Firewalls** in the dashboard. Each VM also shows the rules
-that apply to it on its own **Networking** tab.
+Manage rules from the **Firewalls** page. Each VM also lists the rules that apply to it on
+its own **Networking** tab.
 
-Under the hood a firewall rule is a Kubernetes `NetworkPolicy` in the same namespace
-as the VM. Kubermatic Virtualization labels the policies it manages with
-`kubevirt-manager.io/managed=true`, and the Firewalls list shows only those. Write a
-policy by hand and the cluster still enforces it, but it stays out of the list until it
-carries that label. Complex policies that do carry the label are listed, and
-[Rules the form cannot express](#rules-the-form-cannot-express) covers what happens then.
+Behind each rule is a Kubernetes `NetworkPolicy` in the VM's namespace, labelled
+`kubevirt-manager.io/managed=true`. The Firewalls list shows the policies carrying that
+label, including ones too detailed for the form — see
+[Rules that open as YAML](#rules-that-open-as-yaml).
 
 ## How rules combine
 
-Two properties of firewall rules matter more than any individual setting:
+Two things matter more than any individual setting:
 
-**Rules only ever allow traffic.** There is no "deny" rule. You cannot write a rule
-that blocks one particular address while leaving everything else open.
+**Rules allow traffic.** There is no deny rule. You open what you need, and everything else
+stays closed.
 
-**Rules are additive.** When several rules target the same VM, traffic is permitted
-if *any* of them allows it. Adding a rule can only ever open more traffic, never less.
+**Rules are additive.** When several rules target the same VM, traffic is permitted if
+*any* of them allows it. Adding a rule opens more traffic, never less.
 
-To block traffic, turn the firewall on. That closes the VM to **inbound** traffic by
-default, and you then add rules for whatever you want to permit. Nothing about the switch
-restricts what the VM sends; for that, see
+So to restrict a VM, turn its firewall on and then add rules for what you want to permit.
+The switch covers inbound traffic; for the other direction see
 [Outbound rules and DNS](#outbound-rules-and-dns).
 
 ## Turning a VM's firewall on and off
 
 Open the VM, go to the **Networking** tab, and use the **Firewall** switch.
 
-* **Off**: the VM accepts all inbound traffic. This is the default for a new VM.
-* **On**: inbound traffic is blocked unless one of the VM's rules allows it.
-* **Unavailable**: the switch is greyed out. The VM was not created through this
-  dashboard, so it does not carry the label firewall rules select on, and no rule can be
-  enforced against it. See [Which VMs can be targeted](#which-vms-can-be-targeted).
+| Switch | What it means |
+| --- | --- |
+| **Off** | The VM accepts all inbound traffic. This is the default for a new VM. |
+| **On** | Inbound traffic is blocked unless one of the VM's rules allows it. |
+| **Unavailable** | The VM was created outside this dashboard, so it does not carry the label firewall rules select on. See [Which VMs can be targeted](#which-vms-can-be-targeted). |
 
-Turning the firewall on creates a policy named `<vm-name>-vm-default-deny`. The `vm` part
-is in the name because a VM and a VM pool can share a name in one namespace, and each type
-needs its own system policy. For a pool the name is `<pool-name>-pool-default-deny`.
+Switching it on creates a policy named `<vm-name>-vm-default-deny`, listed under
+**Firewalls** as **Default deny**. Switching it off deletes that policy again, and so does
+deleting the row from the Firewalls list. The delete dialog tells you what to expect first:
+either the VM opens to all inbound traffic, or it stays closed because other inbound rules
+still apply.
 
-The policy appears in the Firewalls list marked **Default deny**, and it is managed for
-you, so the actions menu offers **View YAML** but not **Edit** or **Edit YAML**. Turning
-the switch back off removes it. So does deleting it from the Firewalls list, and the
-delete dialog says which outcome to expect. Either the VM accepts all inbound traffic
-again, or it stays closed because other inbound rules still apply.
-
-The switch affects **inbound** traffic only. The VM's own outbound traffic stays
-unrestricted until you add an outbound rule.
+The switch covers **inbound** traffic only. What the VM sends stays unrestricted until you
+add an outbound rule.
 
 {{% notice note %}}
-Adding an inbound rule also closes the VM, even with the switch off. That is how
-Kubernetes network policies work. The switch is there to make the VM's posture explicit
-and visible, instead of leaving it to depend on whether some rule happens to exist. When
-a VM is closed only by its rules, the Networking tab says so, and deleting the last rule
-reopens it.
+A VM also closes as soon as you add its first inbound rule, even with the switch off — that
+is how Kubernetes network policies work. The **Networking** tab tells you when a VM is closed
+this way, and deleting that last rule opens it again. Use the switch when you want the VM
+closed deliberately and kept that way, whatever happens to its rules.
 {{% /notice %}}
 
 ## Creating a rule
@@ -79,130 +73,154 @@ Go to **Firewalls** and choose **New Firewall Rule**.
 
 | Field | What it does |
 | --- | --- |
-| **Name** | Identifies the rule. Lowercase letters, numbers and hyphens. Cannot be changed later. |
+| **Name** | Identifies the rule. Lowercase letters, numbers and hyphens, fixed once created. Names ending in `-default-deny` or `-allow-dns` are reserved for the policies the platform manages. |
 | **Direction** | **Inbound** controls traffic arriving at the target. **Outbound** controls traffic the target sends. |
-| **Target Type** / **Target** | The virtual machine or VM pool the rule applies to: the receiver for an inbound rule, the sender for an outbound one. |
-| **Source** / **Destination** | Where the traffic comes from or goes to. See below. |
+| **Target Type** / **Target** | The VM or VM pool the rule applies to: the receiver for an inbound rule, the sender for an outbound one. |
+| **Source** / **Destination** | Where the traffic comes from or goes to. See the table below. |
 | **All ports** | Allow every port for the chosen peer, instead of listing them. |
-| **From port** / **To port** / **Protocol** | The ports to permit. Leave **To port** empty for a single port, or set it to allow a range. |
+| **From port** / **To port** / **Protocol** | The ports to permit. Leave **To port** empty for a single port, or set it for a range. |
 | **Strict enforcement** | See [Ping and DHCP](#ping-and-dhcp). Leave this off unless you need full isolation. |
-| **Labels** | Optional labels for your own grouping. |
+| **Labels** | Optional labels for your own grouping. The `fw.kubevirt-manager.io/` prefix is reserved for the platform. |
 
 The source or destination can be:
 
-* **IP range**: a CIDR such as `10.0.0.0/8` or `2001:db8::/32`.
-* **Virtual Machine** or **VM Pool**: another VM or pool in the same namespace.
-* **Namespace**: every workload in the named namespace.
-* **Anywhere**: any address. Use this to open a port to the world.
+| Type | Matches |
+| --- | --- |
+| **IP range** | A CIDR, such as `10.0.0.0/8` or `2001:db8::/32`. |
+| **Virtual Machine** / **VM Pool** | Another VM or pool in the same namespace. |
+| **Namespace** | Every workload in the named namespace. |
+| **Anywhere** | Any address. Use this to open a port to the world. |
 
-The first rule of a given direction for a target gets a warning. The form says the
-target *"allows all inbound traffic today"* (or outbound), and that after saving,
-anything not listed below is blocked. That warning shows up only while the target is
-still open in that direction, so it marks the moment its posture flips from open to
-closed.
+When a rule is the one that closes its target, the form says so before you save: the target
+*"allows all inbound traffic today"* (or outbound), and afterwards anything not listed below
+is blocked. A target already closed in that direction — by the Firewall switch, or by an
+earlier rule — needs no such warning, so you do not see it again.
 
 ### Port ranges
 
-Set **From port** and **To port** to allow a contiguous range, for example `30000` to
-`32767` for Kubernetes NodePorts. Leave **To port** empty to allow a single port.
+Set **From port** and **To port** for a contiguous range, for example `30000` to `32767`
+for Kubernetes NodePorts. Leave **To port** empty for a single port.
 
-For ports that are not contiguous, or that use a different protocol, add more rows. Eight
-is the limit. Once you reach it the button to add another disappears, so put any further
-ports in a second rule against the same target, which works because rules are additive.
+Add a row for each further port or protocol, up to eight rows per rule. Need more? Put them
+in a second rule against the same target — rules are additive, so the two add up.
 
 ## Ping and DHCP
 
-By default, rules are created in a relaxed enforcement mode that keeps **ICMP (ping)
-and DHCP working** on a firewalled VM, no matter what the rules say. This is almost
-always what you want:
+New rules use a relaxed enforcement mode, which filters `TCP`, `UDP` and `SCTP` and lets
+other IP traffic through. That keeps **ping and DHCP working** on a firewalled VM whatever
+the rules say, which is almost always what you want:
 
-* Kubernetes network policies cannot express ICMP at all. `TCP`, `UDP` and `SCTP` are
-  the only protocols allowed. Under full enforcement a firewalled VM loses ping
-  permanently, and no rule can bring it back.
+* Kubernetes network policies name only `TCP`, `UDP` and `SCTP`, so no port row can describe
+  ping.
 * A VM whose DHCP traffic is blocked cannot renew its address lease.
 
-Ticking **Strict enforcement** removes that allowance and blocks every IP protocol
-except what the rules permit. Use it only when you need complete isolation and have
-accounted for losing ping and DHCP on that VM.
+Tick **Strict enforcement** when you need complete isolation. It blocks every IP protocol
+except what the rules permit, ping and DHCP included.
+
+| Mode | Enforces | Stored as |
+| --- | --- | --- |
+| Relaxed (default) | The rules, on `TCP`, `UDP` and `SCTP`. Other IP traffic — ping included — is allowed. | Annotation `ovn.kubernetes.io/network_policy_enforcement: "lax"` on the policy |
+| Strict | The rules alone, on every IP protocol | No such annotation |
+
+{{% notice note %}}
+Relaxed and strict are a Kube-OVN feature. What a policy without the annotation means is set
+cluster-wide by the Kube-OVN controller's `--np-enforcement` flag, which defaults to
+`standard` — the setting that makes such a rule strict. Confirm it before relying on a strict
+rule for isolation:
+
+```bash
+kubectl -n kube-system get deploy kube-ovn-controller \
+  -o jsonpath='{.spec.template.spec.containers[0].args}' | tr ',' '\n' | grep np-enforcement
+```
+{{% /notice %}}
 
 ## Outbound rules and DNS
 
-The first outbound rule you create for a target automatically creates a second policy
-named `<vm-name>-vm-allow-dns`, or `<pool-name>-pool-allow-dns` when the target is a
-VM pool. It is listed as **System DNS**.
+An outbound rule permits what it lists and closes everything else the target sends — DNS
+queries included, which would leave the VM unable to resolve names. So the first outbound
+rule you create for a target comes with a companion policy that keeps DNS working, named
+`<vm-name>-vm-allow-dns` (or `<pool-name>-pool-allow-dns` for a pool) and listed as
+**System DNS**.
 
-Without it the VM could not resolve names. An outbound rule blocks all other outbound
-traffic, and that includes DNS queries to the cluster's DNS service. A VM in that state
-usually looks broken with no obvious cause.
-
-Like the baseline, this one is managed for you, so the actions menu drops **Edit** and
-**Edit YAML** and leaves **View YAML**. Deleting the last outbound rule for the target
-removes it automatically. You can also delete it yourself from the Firewalls list, where
-the dialog tells you what the removal will do before you confirm.
+The platform maintains it for you, and **View YAML** shows what it allows. Deleting the
+target's last outbound rule removes it automatically. You can also delete it from the
+Firewalls list yourself, where the dialog tells you what the removal will do.
 
 ## Editing and deleting rules
 
-Use the actions menu on any rule to edit it in the form, view its YAML, edit its YAML, or
-delete it. System rows, meaning **Default deny** and **System DNS**, offer only **View YAML** and
-**Delete**.
+Use the actions menu on any rule to edit it in the form, view or edit its YAML, or delete
+it. System rows — **Default deny** and **System DNS** — offer **View YAML** and **Delete**,
+since the platform keeps their contents in step with your rules.
 
-A rule's **name, direction and target cannot be changed** after creation. Opening a rule for
-editing shows the **Name**, **Direction**, **Target Type** and **Target** fields greyed out,
-and the form explains why: *"Name, direction and target identify a rule and cannot be
-changed. Delete this rule and create a new one to move it."*
+A rule's **name, direction and target are fixed** once created. Opening a rule for editing
+shows those fields greyed out, and the form says why: *"Name, direction and target identify a
+rule and cannot be changed. Delete this rule and create a new one to move it."* To rename or
+retarget a rule, create a replacement and delete the original.
 
-To rename or retarget a rule, create a replacement and delete the original.
+Deleting tells you what will change before you confirm — that a VM will accept all inbound
+traffic again because this was its last inbound rule, for example, or that a system DNS
+allowance goes with the outbound rule that needed it.
 
-Deleting tells you what the change will do before you confirm. For example, that a VM
-will accept all inbound traffic again because you are removing its last inbound rule, or
-that a system DNS allowance is being removed alongside the outbound rule that needed it.
+{{% notice note %}}
+Saving the form rebuilds the policy from the fields on screen, and what you see is the whole
+rule: the port rows and the one source or destination are all of it. Labels and annotations
+already on the policy are carried over.
 
-{{% notice warning %}}
-Editing a rule replaces the whole policy. Changes made outside the dashboard to the same
-rule, such as extra ports or additional sources, are lost when you save the form. If a rule is
-too complex for the form to represent, the dashboard says so and opens the YAML editor
-instead of showing you a simplified version it would then destroy.
-
-The YAML editor behaves differently. It submits the exact version you opened, so if the
-rule changed underneath you the save is refused with *"This rule changed since you opened
-it — reload and reapply your edit"* instead of overwriting. The form carries no such
-check, which is why concurrent edits are lost there but rejected here.
+Both editors work from the version they fetched when you opened the rule, so a rule someone
+changed in the meantime is never silently overwritten. The form reports *"This rule changed
+since you opened it — reload and reapply your edit"*. The YAML editor offers a **Load latest
+version** button, which re-fetches the rule so you can redo your change on top of it.
 {{% /notice %}}
 
-## Rules the form cannot express
+## Rules that open as YAML
 
-By design the form covers one direction, one target, one peer and a list of ports, which
-is what the Firewalls table can display accurately. Anything beyond that opens in the YAML
-editor instead, whether that is several sources in one rule, several rule blocks,
-`ipBlock` exceptions, or named ports. The cluster still enforces those policies and the
-list still shows them. You just cannot edit them through the form.
+The form covers one direction, one target, one peer and a list of ports — what the Firewalls
+table can display accurately. A rule beyond that opens in the YAML editor instead: several
+sources in one rule, several rule blocks, `ipBlock` exceptions, or named ports. The cluster
+enforces those policies as usual, the list keeps showing them, and the YAML editor is where
+you change them.
 
-Because rules are additive, anything expressible as several simple rules is best written
+Because rules are additive, anything you can express as several simple rules is best written
 that way.
 
 ## Verifying a rule
 
-To confirm a rule is being enforced, send traffic from a source that should be allowed
-and from one that should not, and check the underlying policy:
+To confirm a rule is enforced, send traffic from a source that should be allowed and from
+one that should not, then check the policy behind it:
 
 ```bash
 kubectl -n <namespace> get networkpolicy <rule-name> -o yaml
 ```
 
-Nothing rejects a policy that matches no VM. It is created cleanly and then does nothing,
-so the form tells you while you are still filling it in, underneath the **Target** field:
+A rule that matches no VM is still created, and then has nothing to act on. The form tells
+you which case you are in while you are still filling it in, underneath the **Target** field:
 
-* *"Applies to 1 virtual machine."* means the rule will be enforced. The number is a real
-  count, so a pool rule reports how many machines it selects, for example *"Applies to 4
-  virtual machines."*
-* *"Matches no virtual machine — this rule will have no effect until one exists."* means no VM of
-  that name exists in the namespace yet. Check the name for a typo.
-* *"This virtual machine cannot be targeted by a firewall rule: it was not created here, so it
-  does not carry the label rules select on."* See below.
+| Message | Meaning |
+| --- | --- |
+| *"Applies to 1 virtual machine."* | The rule will be enforced. |
+| *"Matches no virtual machine — this rule will have no effect until one exists."* | No VM of that name exists in the namespace yet. Check the name for a typo. |
+| *"This virtual machine cannot be targeted by a firewall rule: it was not created here, so it does not carry the label rules select on."* | See [Which VMs can be targeted](#which-vms-can-be-targeted). |
+
+This line covers **Virtual Machine** targets. For a VM pool, check the pool name as you type
+it and confirm the policy afterwards with the `kubectl` command above.
 
 ### Which VMs can be targeted
 
-A firewall rule selects VMs by a label that this dashboard applies when it creates a VM.
-Nothing back-fills that label, so a VM created another way, whether by `kubectl`, a YAML
-manifest, or an import, cannot be targeted by a rule. The API server accepts such a rule and it then
-programs nothing. On those VMs the **Firewall** switch reads **Unavailable**.
+A firewall rule selects VMs by the label `fw.kubevirt-manager.io/vm-name`, whose value is the
+VM's own name. The dashboard sets it on `spec.template.metadata.labels`, so the VM's pod
+carries it and a policy's `podSelector` matches. A VM created another way — by `kubectl`, a
+manifest, or an import — has no such label yet, and its **Firewall** switch reads
+**Unavailable**.
+
+Add the label to bring such a VM into scope:
+
+```bash
+kubectl -n <namespace> patch virtualmachine <vm-name> --type=merge \
+  -p '{"spec":{"template":{"metadata":{"labels":{"fw.kubevirt-manager.io/vm-name":"<vm-name>"}}}}}'
+```
+
+The value has to equal the VM's name, since that is what a rule's selector is built from. The
+label lands on the pod template, so restart the VM for its running pod to pick it up.
+
+VM pools work the same way, with `fw.kubevirt-manager.io/pool-name` carrying the pool's name.
+For a pool the label belongs on `spec.virtualMachineTemplate.spec.template.metadata.labels`.
