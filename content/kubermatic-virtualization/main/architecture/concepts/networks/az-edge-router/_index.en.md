@@ -39,15 +39,56 @@ staying flat:
   pull, another scheduling decision, another process's worth of baseline memory, another set of
   objects for the operator (and whoever operates the cluster) to reconcile and watch. A VRF
   is a route table and a couple of interfaces — cheap to add to a pod that is already running.
-- **External session count multiplies with tenant count.** One `AZEdgeRouter` replica holds one
-  set of BGP/EVPN sessions per region to the external fabric, no matter how many VPCs it serves.
-  One pod per VPC would need that many *times* the sessions to the *same* fabric peers — more
-  RIB/FIB state for the fabric side to hold too, and BGP peer/session limits become a real
-  constraint well before VRF limits would.
+- **External session count multiplies with tenant count — in `evpn` mode.** One
+  `AZEdgeRouter` replica holds one set of EVPN sessions per region to the external fabric,
+  no matter how many VPCs it serves. One pod per VPC would need that many *times* the
+  sessions to the *same* fabric peers — more RIB/FIB state for the fabric side to hold too,
+  and BGP peer/session limits become a real constraint well before VRF limits would. This
+  advantage is specific to `evpn`: in `bgp-per-vrf` mode, each VPC still gets its own
+  per-VRF BGP session over its own VLAN (see [below](#bgp-per-vrf)), so the external
+  session count scales with tenant count much like the one-pod-per-VPC alternative would —
+  the per-pod overhead and onboarding costs below are what `bgp-per-vrf` still saves on,
+  not this one.
 - **Onboarding a VPC is cheaper.** Attaching an existing VPC to a running router is a VRF
   creation, a transit NIC attach, and an FRR config reload. Standing up a whole new pod means
   scheduling, image pull, and a full BGP/EVPN session establishment from cold before that VPC
   has any connectivity at all.
+
+## Where `AZEdgeRouter` sits in a network topology
+
+![AZEdgeRouter's PE role between the external fabric and per-VPC VRFs](az-edge-router-topology.png)
+
+### Switching vs. routing
+
+`AZEdgeRouter` pushes the whole design toward **switching** — one device multiplexing many
+tenants' isolated domains over shared infrastructure — rather than toward **routing** — one
+dedicated router per tenant:
+
+- **`evpn` mode goes furthest in that direction.** A single shared external NIC and a
+  VNI-based identity replace a physical port per tenant, much like a switch trunking many
+  VLANs/VNIs over one uplink.
+- **`bgp-per-vrf` is a hybrid**, as the [session-count point](#why-one-router-per-region-not-one-per-vpc)
+  above already shows: the isolation primitive inside the pod is still switch-like (VRFs
+  sharing one FRR process), but each VPC keeps its own dedicated external VLAN and BGP
+  session on the wire — closer to a chassis switch with one dedicated tenant port than to
+  *N* independent routers, but not as flat as `evpn`'s shared-uplink model.
+
+### PE, not leaf/spine
+
+In fabric terms it is tempting to call `AZEdgeRouter` a leaf sitting below an external
+spine — but that's not quite right, and this document deliberately avoids that language:
+
+- A conventional **leaf switch** connects hosts, uplinks to every spine, and is a physical
+  fabric element. `AZEdgeRouter` is none of those.
+- `AZEdgeRouter` is a **logical router terminating one VRF per VPC**, importing/exporting
+  that VPC's routes to the outside over BGP/EVPN — textbook **PE (provider-edge)**
+  function, regardless of transit mode.
+- The external side is called "the fabric" or "the upstream router(s)" throughout this
+  document, never "the spine" — nothing here assumes the external network is a spine-leaf
+  fabric at all; it could just as well be a traditional routed network or a WAN edge.
+- **`EVPNRouteReflector` is not a spine either.** It relays EVPN Type-5 routes between
+  regions' `AZEdgeRouter`s on the control plane only, with no data-plane traffic through
+  it — it sits alongside the fabric rather than in the forwarding path.
 
 ## Regional topology
 
@@ -75,6 +116,17 @@ Each `AZEdgeRouter` produces a `StatefulSet` of FRR pods. Every replica is multi
   Kube-OVN logical router, enslaved to a matching FRR VRF. Every VRF lives inside the *same*
   pod network namespace and is served by the *same* FRR process (see [above](#why-one-router-per-region-not-one-per-vpc)
   for why that, rather than one namespace per VPC, is the design).
+
+By default the pod reaches the Kubernetes API server the same way any other in-cluster
+workload would — through the node/apiserver IP, overridden onto `eth0`'s management-VPC
+path. That assumes `eth0`'s management VPC actually has an L2 route to the node network,
+which a custom management VPC (the common shape for an AZ router) does not. Setting
+`spec.apiServerViaInternalProxy: true` switches the pod to the default in-cluster
+`KUBERNETES_SERVICE_HOST`/ClusterIP path instead, reaching the API server through an
+in-VPC apiserver proxy (a dual-homed nginx + `SwitchLBRule`, deployed separately from the
+router itself) rather than the node-IP override. Leave it unset when the management VPC
+does have that L2 path; set it whenever the router's management VPC is otherwise isolated
+from the node network.
 
 Because a VRF has no path to another VRF by default, two tenant VPCs served by the same
 `AZEdgeRouter` replica stay isolated from each other even though they share a pod — including
@@ -163,6 +215,169 @@ this way:
   been used by host with MAC ...` until the conflict is cleared. The field is on the CRD, but the
   dashboard's `UnderlaySubnet` form doesn't expose it — set it via `kubectl`/YAML.
 
+#### Attaching a VPC's external VLAN: spec vs. VPC annotations
+
+[VPC discovery](#vpc-discovery-auto-discovery-vs-an-explicit-list) decides **whether** a
+VPC is resolved by this router at all. It says nothing about **how** that VPC plugs into
+the external plane once it is — for `bgp-per-vrf`, that means its NAD/VLAN, its local and
+peer BGP addresses, and its accept-lists. That wiring — the equivalent of one
+`spec.perVRFTransit.vpcVLANs[]` entry — has two independent sources, and a VPC can use
+either:
+
+- **`spec.perVRFTransit.vpcVLANs[]` on the `AZEdgeRouter` itself**, one entry per VPC,
+  keyed by `vpc` (name).
+- **Annotations on the `VPC` object itself**, prefixed `az-edge-router.virtualization.k8c.io/`.
+
+A `vpcVLANs[]` entry for the same VPC and NAD as the annotation example further down looks
+like this:
+
+```yaml
+apiVersion: routing.virtualization.k8c.io/v1alpha1
+kind: AZEdgeRouter
+metadata:
+  name: az-edge-router-region-a
+  namespace: edge-frr
+spec:
+  replicaCount: 2
+  ovnTransitMode: bgp-per-vrf
+  perVRFTransit:
+    vpcVLANs:
+      - vpc: tenant-b
+        nadName: tenant-b-ext-nad        # or underlaySubnet — mutually exclusive with nadName
+        localIPs:
+          - "10.100.1.10"                # one per replica, replicaCount: 2 above
+          - "10.100.1.11"
+        peers:
+          - ip: "10.100.1.1"
+            advertiseOVNSubnets: true
+            defaultRoute: true            # this peer carries tenant-b's egress default route
+```
+
+`peers[]` is where the per-neighbor axes from [Whether a VPC gets egress at
+all](#whether-a-vpc-gets-egress-at-all-bgp-per-vrf) live — `advertiseOVNSubnets`,
+`advertiseAnycast`, and `defaultRoute` are set per entry here exactly as described there,
+letting one VPC mix a transit peer, a service peer, a receive-only peer, and a SNAT-only
+peer on the same VLAN. The annotation surface has no equivalent of `peers[]` as a list:
+`peer-ip` (plus `peer-asn`) covers the common single-peer case, and `service-peer-ip`
+(plus `service-peer-asn`) adds a second, anycast-only one — two peers is the ceiling
+annotations can express; anything with more roles on one VLAN needs `vpcVLANs[]`.
+
+Auto-discovery's whole premise is that onboarding a tenant is "label the VPC, done" — but
+the external-VLAN wiring has to live *somewhere*, and none of it can be inferred from a
+label alone. Without annotations, `autoDiscovery: true` would only get a VPC as far as
+being *counted*; a human would still have to go edit the `AZEdgeRouter`'s
+`perVRFTransit.vpcVLANs[]` by hand to actually give it a working session — onboarding
+would never really be one step. VPC annotations close that gap: with both a matching
+label and the right annotations on it, a VPC onboards itself for `bgp-per-vrf` completely,
+with no `AZEdgeRouter` edit at all. `spec.perVRFTransit.vpcVLANs[]` remains the better fit
+when that wiring should instead be a deliberate, router-owned, reviewed change — the same
+tradeoff as [auto-discovery vs. an explicit
+list](#vpc-discovery-auto-discovery-vs-an-explicit-list), one level down.
+
+{{% notice warning %}}
+These annotations are a **platform automation surface, not a tenant-facing one**. `nad-name`
+picks the underlay VLAN a VPC attaches to — the actual `bgp-per-vrf` isolation boundary —
+and `accept-prefixes` bounds what the router learns from that VPC's own speakers and
+re-advertises to the fabric. A tenant who can freely annotate their own `VPC` object could
+attach it to another tenant's VLAN, or widen what it advertises to hijack another tenant's
+anycast block. Don't expose write access to the `VPC` object to tenants without capping
+these against a platform-defined ceiling first.
+{{% /notice %}}
+
+**Precedence is per field, not per entry.** When a VPC is named in both places, only the
+fields actually *set* on its `vpcVLANs[]` entry override what the annotations say — a
+field the spec entry leaves unset still falls through to the VPC's own annotation. This is
+also what makes a **policy-only** `vpcVLANs[]` entry valid: one that names the VPC but sets
+neither `underlaySubnet` nor `nadName` — e.g. only `advertiseOVNSubnets` or
+`acceptPrefixes` — while the VLAN attachment itself still comes entirely from the VPC's
+annotations.
+
+The annotation keys, all under the `az-edge-router.virtualization.k8c.io/` prefix:
+
+| Key (after the prefix) | Populates | Required? |
+|---|---|---|
+| `nad-name` | the external NAD | Part of a required triple |
+| `peer-ip` | the fabric peer's IP (workload/transit plane) | Part of a required triple |
+| `local-ips` | this replica's IP(s) on the VLAN, comma-separated — **one per `replicaCount`** | Part of a required triple |
+| `vlan-id` | the physical VLAN tag, for grouping VPCs that share a wire across separate NADs | Optional |
+| `accept-prefixes` | what this router accepts *from* the VPC's own in-VPC speakers | Optional |
+| `fabric-accept-prefixes` | the inverse — what the *external fabric peer* may inject into this VPC's VRF | Optional |
+| `service-peer-ip` | a second, anycast-only peer on the same VLAN | Optional |
+| `default-peer-ip` | which `peer-ip` entry carries the VRF default route, when there's more than one | Optional |
+| `peer-asn` / `service-peer-asn` | remote ASN for the `peer-ip` / `service-peer-ip` peers | Optional |
+| `local-asn` | this VPC's own local BGP ASN, overriding `spec.asn` for its VRF (mutually exclusive with EVPN VNI on the same VPC) | Optional |
+| `apiserver-proxy` | set to `"true"` to allow-list this VPC for `spec.apiServerViaInternalProxy` | Optional |
+| `apiserver-proxy-subnets` | restrict the proxy allow-list to specific subnets, comma-separated; empty = every subnet | Optional |
+
+`nad-name`, `peer-ip`, and `local-ips` are a triple: set all three or none of them. A VPC
+with only one or two of the three is a configuration error, not a partial attachment.
+
+```bash
+kubectl -n edge-frr annotate vpc tenant-b --overwrite \
+  az-edge-router.virtualization.k8c.io/nad-name=tenant-b-ext-nad \
+  az-edge-router.virtualization.k8c.io/peer-ip=10.100.1.1 \
+  az-edge-router.virtualization.k8c.io/local-ips=10.100.1.10,10.100.1.11
+```
+
+With `replicaCount: 2` and a matching `labelSelector` already in place, that one command is
+the entire onboarding: no `AZEdgeRouter` edit, no `perVRFTransit.vpcVLANs[]` entry.
+
+##### Zone-scoped annotations, for a VPC shared across regions
+
+The plain keys above describe **one** attachment. That's a problem the moment more than one
+regional `AZEdgeRouter` — each with its own `spec.zone` — attaches the *same* VPC: they may
+share the underlay VLAN and fabric peer, but each needs its own address per replica on it,
+and a second router reading the same plain `local-ips` would claim addresses the first
+already holds. Prefixing a key with the router's own zone name resolves that:
+
+```
+az-edge-router.virtualization.k8c.io/<zone>.nad-name
+az-edge-router.virtualization.k8c.io/<zone>.local-ips
+az-edge-router.virtualization.k8c.io/<zone>.peer-ip
+az-edge-router.virtualization.k8c.io/<zone>.accept-prefixes
+```
+
+```bash
+kubectl -n edge-frr annotate vpc tenant-b --overwrite \
+  az-edge-router.virtualization.k8c.io/region-a.nad-name=tenant-b-region-a-nad \
+  az-edge-router.virtualization.k8c.io/region-a.peer-ip=10.101.0.254 \
+  az-edge-router.virtualization.k8c.io/region-a.local-ips=10.101.0.10,10.101.0.11
+
+kubectl -n edge-frr annotate vpc tenant-b --overwrite \
+  az-edge-router.virtualization.k8c.io/region-b.nad-name=tenant-b-region-b-nad \
+  az-edge-router.virtualization.k8c.io/region-b.peer-ip=10.102.0.254 \
+  az-edge-router.virtualization.k8c.io/region-b.local-ips=10.102.0.10,10.102.0.11
+```
+
+Each region's `AZEdgeRouter` (with `spec.zone: region-a` / `region-b` set to match) then
+resolves only its own zone's keys, completely independent of the other's.
+
+Not every key needs zone-scoping the same way:
+
+- **`nad-name`, `vlan-id`, `local-ips`, `peer-ip`, `service-peer-ip`** are exclusive-attachment
+  fields and **never fall back** to the plain key once a VPC carries *any* zone-scoped key
+  for one of them — the VPC is "zone-aware" from that point on. A router with `spec.zone`
+  unset reading a zone-aware VPC is a hard error: it has no way to tell which zone's values
+  are its own, and guessing would attach it to another zone's VLAN and claim that zone's
+  addresses. A zoned router simply skips (not errors on) a VPC that carries no keys for its
+  own zone — that VPC just isn't onboarded to it.
+- **`default-peer-ip`, `peer-asn`, `service-peer-asn`, `local-asn`, `fabric-accept-prefixes`,
+  and `accept-prefixes`** are policy, not attachment, and keep falling back to the plain key
+  even on a zone-aware VPC — there's rarely a reason for these to differ per zone, and
+  forcing a per-zone copy would only be two places to keep in sync instead of one.
+
+Leaving `spec.zone` unset entirely — the single-region case — means the plain,
+unprefixed keys are the whole answer; zone-scoping only exists for the multi-region case
+above.
+
+{{% notice note %}}
+None of this applies to `evpn` mode. There, a VPC's identity on the external plane is
+carried by its `virtualization.k8c.io/vni` label (and optionally an `EVPNPolicy` binding
+for RD/RT overrides) rather than by any of the annotations here — `bgp-per-vrf`'s per-VPC
+VLAN attachment has no `evpn`-mode equivalent because `evpn` has no per-VPC external NIC to
+attach in the first place.
+{{% /notice %}}
+
 ### Choosing between them
 
 `evpn` is the right default when a router manages many VPCs, or when avoiding per-tenant
@@ -181,6 +396,31 @@ a **separate** external peer than the one carrying OVN subnets — so a VIP adve
 region is never confused with the same VIP's advertisement in another. This plane, and how it
 is filtered so a region only ever advertises its own VIPs, works identically in both transit
 modes.
+
+### Splitting the anycast plane onto its own VLAN (`evpn` mode only)
+
+The "separate external peer" above just means `spec.bgpPeers` names different peer IPs
+than the EVPN relay — nothing stops those peers from sitting on the *same* `net1` NAD as
+the EVPN underlay, and that is the default shape: one NIC, two peer sets, each to its own
+peer IPs. `spec.serviceVlan` is for going a step further and putting the anycast session
+on a **second, physically separate** NAD as well, not merely a different peer IP: when it
+names a NAD that differs from `spec.vlan`, the operator attaches it as its own Multus NIC
+(`net2`, pushing per-VPC transit NICs to `net3+`) and pins `spec.bgpPeers` to it, so
+region-transit (EVPN) and service-advertisement (anycast) traffic ride physically
+different VLANs end to end. Leaving `serviceVlan` empty, or set to the same NAD as `vlan`,
+keeps both planes sharing `net1` as before — no extra NIC.
+
+`spec.serviceVlanGateway` only matters once the two planes are split this way, and only
+when the anycast peers are **off-subnet** on the service VLAN: it installs a `/32` static
+route to each anycast peer via that gateway. It is not a default route — the pod's default
+route stays on the region-transit VLAN regardless. When the anycast peers sit directly on
+the service VLAN's own subnet, the connected route is enough and `serviceVlanGateway` can
+stay unset.
+
+Reach for this split when the anycast/BGP session needs to live on hardware, a VRF, or an
+ACL boundary separate from the EVPN underlay — for example a dedicated "services" fabric
+peer that should never see region-transit traffic. It has no effect in `bgp-per-vrf` mode,
+where the anycast and OVN-subnet peers already share each VPC's own dedicated VLAN instead.
 
 ## Per-VPC egress control
 
@@ -217,6 +457,40 @@ egress exists at all, above; these only matter once it does:
   replica: because a flow's request and its reply are not guaranteed to land on the same
   replica, a single shared address cannot always be un-NATed correctly on return — a per-replica
   address can.
+
+## Sharing a VPC between two AZEdgeRouters (`peerAZEdgeRouters`)
+
+`spec.peerAZEdgeRouters` lists other `AZEdgeRouter` CRs **in the same namespace** whose
+resolved VPCs this router should also learn about. This is for a VPC that is deliberately
+served by **two** `AZEdgeRouter`s at once **in the same region** — for example splitting
+region-transit duty from service-advertisement duty across two router objects. It is not
+how cross-region sharing works: a VPC is not split per region at the VPC level at all — the
+same `VPC` object stretches across every region of the cluster, and each region's router
+resolves it the same way (same namespace, same object). What differs per region is only
+*which subnets* of that VPC get advertised, via `subnetLabelSelector` (see
+[Regional topology](#regional-topology) above) — `peerAZEdgeRouters` has nothing to do
+with that split.
+
+Each reconcile, the operator reads every listed peer's `status.resolvedAZVPCs` and copies
+it into this router's own `status.peerResolvedAZVPCs`. For any VPC that shows up in both
+this router's own `status.resolvedAZVPCs` **and** a peer's, the operator:
+
+- gives this router a transit NIC/VRF for that VPC exactly as it would for one it
+  discovered itself, and
+- installs OVN policy routes between the two routers' transit logical router ports for
+  that VPC's subnets, so traffic between the two routers' transit ports takes the
+  intended path instead of looping.
+
+A VPC that only one of the two routers actually serves (not present in that router's own
+`resolvedAZVPCs`) is skipped for that router — listing a peer does not, by itself, pull in
+every VPC the peer serves, only the ones this router also serves.
+
+```yaml
+# az-router-a.yaml — also learns about az-router-b's resolved VPCs, in the same namespace
+spec:
+  peerAZEdgeRouters:
+    - az-router-b
+```
 
 ## Regional topology, visualized
 
