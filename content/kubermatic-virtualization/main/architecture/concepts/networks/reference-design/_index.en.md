@@ -38,31 +38,12 @@ by the VPC's role, and the two shapes are not the same.
 
 **The KKP master VPC** holds the master **and one seed shared by every tenant**:
 
-```
-KKP master VPC
- └── KubeVirt VMs
-      ├── the KKP master cluster
-      │    ├── control-plane nodes
-      │    ├── worker nodes  (also the BGP speakers)
-      │    └── the platform's own workloads — dashboard, API, dex, KubeLB
-      └── one seed cluster, shared by ALL tenants
-           └── the CONTROL PLANES of every tenant's user cluster(s), as pods —
-               one namespace per user cluster, isolated by KKP's own RBAC/tenancy model
-```
+![KKP master VPC: KubeVirt VMs host the KKP master cluster and one seed cluster shared by every tenant](kkp-master-vpc-internals.png)
 
 **A tenant VPC** holds two separate nested clusters, neither with control-plane pods or a seed
 of its own:
 
-```
-tenant VPC
- └── KubeVirt VMs
-      ├── the tenant's USER cluster
-      │    └── worker nodes  (also the BGP speakers)
-      │         └── the tenant's actual workloads
-      └── the tenant's SERVICE cluster
-           └── worker nodes  (also the BGP speakers)
-                └── general/infra services for this tenant — notably KubeLB
-```
+![Tenant VPC: KubeVirt VMs host the tenant's user cluster and service cluster, both worker-nodes-only](kkp-tenant-vpc-internals.png)
 
 Both clusters therefore span two VPCs by design: their control planes are pods in the one shared
 seed **in the master VPC**, their worker nodes are VMs **in the tenant VPC**. That is not an
@@ -179,10 +160,16 @@ cluster-wide, with one Subnet per region it's present in:
 A VM's region is decided by the subnet it is attached to, so a tenant present in two regions has
 two subnets in the same VPC, and an edge router in each region serving the local one.
 
-Traffic between those two subnets is traffic **inside one VPC**, carried between the regions by
-the edge routers over the inter-region peer, in that VPC's VRF. That is the only thing the
-inter-region peer does — it does not join VPCs, and that single global VPC stays reachable
-from no other VPC, in either region.
+Traffic between those two subnets is traffic **inside one VPC**, carried between the regions
+by the edge routers' own cross-region advertisement, in that VPC's VRF — but *how* it's
+carried depends on the transit mode: in `evpn` mode it rides a private EVPN Type-5 relay
+between the routers (the "inter-region peer"), never touching the external fabric; in
+`bgp-per-vrf` mode there is no such peer — each region's router advertises the VPC's subnets
+to its own external fabric peer instead, and that peer is what carries the traffic between
+regions, so it genuinely transits the external fabric rather than a private router-to-router
+path (see [Two transit modes](../az-edge-router/#two-transit-modes-for-the-external-plane) and
+[Choosing between them](../az-edge-router/#choosing-between-them)). Either way, it does not
+join VPCs, and that single global VPC stays reachable from no other VPC, in either region.
 
 ## Summary of the moving parts
 
