@@ -132,3 +132,9 @@ spec:
 ```
 
 The options for configuring default values for a kubelb tenant can be viewed in [kubelb tenant api specification](https://docs.kubermatic.com/kubelb/latest/references/ee/#tenantspec).
+
+KKP applies `defaultTenantSpec` at Tenant creation and whenever the defaults change, using Server-Side Apply. KKP updates existing Tenants in place; you do not need to recreate them.
+
+* Removing a field from `defaultTenantSpec` also removes it from the Tenants, but only if KKP set the field.
+* KKP does not change fields that other components or users set, for example with `kubectl`. If a default conflicts with such a field, KKP reports an error and leaves the field unchanged.
+* A conflict on a Tenant does not stop KKP from maintaining the KubeLB CCM in the affected cluster.
