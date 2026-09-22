@@ -1436,6 +1436,7 @@ _Appears in:_
 - [DeploymentSettings](#deploymentsettings)
 - [EtcdStatefulSetSettings](#etcdstatefulsetsettings)
 - [KonnectivityProxySettings](#konnectivityproxysettings)
+- [MachineControllerSettings](#machinecontrollersettings)
 - [NodePortProxyComponentEnvoy](#nodeportproxycomponentenvoy)
 - [NodeportProxyComponent](#nodeportproxycomponent)
 - [OSMControllerSettings](#osmcontrollersettings)
@@ -2627,7 +2628,7 @@ _Appears in:_
 | `operatingSystemManager` _[OSMControllerSettings](#osmcontrollersettings)_ | {{< unsafe >}}OperatingSystemManager configures operating-system-manager (the component generating node bootstrap scripts for machine-controller).{{< /unsafe >}} |
 | `coreDNS` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}CoreDNS configures CoreDNS deployed as part of the cluster control plane.{{< /unsafe >}} |
 | `kubeStateMetrics` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}KubeStateMetrics configures kube-state-metrics settings deployed by the monitoring controller.{{< /unsafe >}} |
-| `machineController` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}MachineController configures the Kubermatic machine-controller deployment.{{< /unsafe >}} |
+| `machineController` _[MachineControllerSettings](#machinecontrollersettings)_ | {{< unsafe >}}MachineController configures the Kubermatic machine-controller deployment.{{< /unsafe >}} |
 | `envoyAgent` _[DaemonSetSettings](#daemonsetsettings)_ | {{< unsafe >}}EnvoyAgent configures the envoy-agent deployed in the usercluster.{{< /unsafe >}} |
 
 
@@ -3410,6 +3411,7 @@ _Appears in:_
 - [APIServerSettings](#apiserversettings)
 - [ComponentSettings](#componentsettings)
 - [ControllerSettings](#controllersettings)
+- [MachineControllerSettings](#machinecontrollersettings)
 - [OSMControllerSettings](#osmcontrollersettings)
 
 | Field | Description |
@@ -5879,6 +5881,29 @@ _Appears in:_
 | --- | --- |
 | `imageRepository` _string_ | {{< unsafe >}}ImageRepository is used to override the Machine Controller image repository.<br />It is only for development, tests and PoC purposes. This field must not be set in production environments.{{< /unsafe >}} |
 | `imageTag` _string_ | {{< unsafe >}}ImageTag is used to override the Machine Controller image.<br />It is only for development, tests and PoC purposes. This field must not be set in production environments.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### MachineControllerSettings
+
+
+
+
+
+_Appears in:_
+- [ComponentSettings](#componentsettings)
+
+| Field | Description |
+| --- | --- |
+| `replicas` _integer_ | {{< unsafe >}}Replicas allows to override the number of desired Pods for the Deployment.{{< /unsafe >}} |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.37/#resourcerequirements-v1-core)_ | {{< unsafe >}}Resources allows to override the resource requirements.{{< /unsafe >}} |
+| `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.37/#toleration-v1-core) array_ | {{< unsafe >}}Tolerations allows to override the scheduling tolerations for Pods.{{< /unsafe >}} |
+| `hostAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}HostAntiAffinity allows to enforce a certain type of host anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `zoneAntiAffinity` _[AntiAffinityType](#antiaffinitytype)_ | {{< unsafe >}}ZoneAntiAffinity allows to enforce a certain type of availability zone anti-affinity on Pods.<br />Options are "preferred" (default) and "required". Please note that<br />enforcing anti-affinity via "required" can mean that Pods are never scheduled.{{< /unsafe >}} |
+| `skipEvictionAfter` _[Duration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.37/#duration-v1-meta)_ | {{< unsafe >}}SkipEvictionAfter overrides the machine-controller's eviction timeout: when a machine<br />deletion is stuck longer than this duration, eviction is skipped and the node is<br />force-deleted. Defaults to the machine-controller binary's built-in 2h when unset.{{< /unsafe >}} |
 
 
 [Back to top](#top)
