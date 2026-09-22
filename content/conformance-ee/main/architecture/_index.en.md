@@ -8,42 +8,7 @@ Conformance EE is a Ginkgo v2-based test framework that follows a three-phase pa
 
 ## High-Level Architecture
 
-<div style="text-align: center">
-<pre>
-┌───────────────────────────────────┐
-│         Ginkgo Test Suite         │
-└─────────────────┬─────────────────┘
-      │ calls
-▼
-┌───────────────────────────────────┐
-│       Scenario Generator          │
-│  Combinatorially generates all    │
-│  test scenarios & deduplicates    │
-│  using SHA-256                    │
-└──────┬──────────┬──────────┬──────┘
-│          │          │
-▼          ▼          ▼
- ┌──────────┐ ┌────────┐ ┌──────────┐
- │ Settings │ │ Config │ │ Provider │
- │& Modifi- │ │        │ │Discovery │
- │  ers     │ │        │ │          │
- └────┬─────┘ └───┬────┘ └────┬─────┘
-│           │           │
-└───────────┼───────────┘
-▼
-┌───────────────────────────────────┐
-│      Parallel Ginkgo Nodes        │
-│  Node 1    Node 2    ...  Node N  │
-└─────────────────┬─────────────────┘
-│
-▼
-┌───────────────────────────────────┐
-│           Reporting               │
-│  JUnit XML  │  ConfigMap Live     │
-│  Reports    │  Reports            │
-└───────────────────────────────────┘
-</pre>
-</div>
+![Conformance-ee Architecture Diagram](architecture.svg)
 
 ## Three-Phase Pattern
 
@@ -78,44 +43,7 @@ Test scenarios are executed in parallel across Ginkgo nodes:
 
 The scenario generator is the core engine that produces the test matrix. It uses concurrent workers to parallelize cluster and machine spec generation:
 
-<div style="text-align: center">
-<pre>
-┌─────────────────────────────────────┐
-│     Discover Infrastructure         │
-│  (VPCs, subnets, storage classes)   │
-└──────────────────┬──────────────────┘
-│
-▼
-┌─────────────────────────────────────┐
-│     Generate Cluster Specs          │
-│  (28 modifiers across 17 groups)    │
-└──────────────────┬──────────────────┘
-│
-▼
-┌─────────────────────────────────────┐
-│     Deduplicate Cluster Specs       │
-│  (SHA-256 hash)                     │
-└──────────────────┬──────────────────┘
-│
-▼
-For Each Unique Cluster
-│
-┌────────────┴────────────┐
-│                         │
-▼                         ▼
-┌───────────────────┐  ┌────────────────────┐
-│  Generate Machine │  │ Deduplicate Machine│
-│  Specs            │─▶│ Specs              │
-│  (CPU, memory,    │  │ (SHA-256 hash)     │
-│   disk, OS, DNS)  │  │                    │
-└───────────────────┘  └──────────┬─────────┘
-                        │
-                        ▼
-                        ┌─────────────────────┐
-                        │ Return Scenario Map │
-                        └─────────────────────┘
-</pre>
-</div>
+![Scenario Generator Diagram](scenario-generator.svg)
 
 ### Cluster Lifecycle Manager
 
