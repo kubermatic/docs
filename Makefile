@@ -8,6 +8,7 @@ preview:
 		--name kubermatic-docs \
 		-p 1313:1313 \
 		-w /docs \
+		--user $(shell id -u):$(shell id -g) \
 		-v `pwd`:/docs quay.io/kubermatic/hugo:0.159.1-0 \
 		hugo server -D -F --bind 0.0.0.0
 
@@ -21,7 +22,7 @@ ifndef CODESPELL_BIN
 	$(error "codespell not available in your environment, use spellcheck-in-docker if you have Docker installed.")
 endif
 	$(CODESPELL_BIN) \
-		-S ./themes,./static,*.min.js,*.css,swagger*.js,swagger.json,*.scss,*.png,*.po,.git,*.jpg,*.woff,*.woff2,*.xml,package-lock.json \
+		-S ./themes,./static,*.min.js,*.css,swagger*.js,swagger.json,*.scss,*.png,*.po,.git,*.jpg,*.woff,*.woff2,*.xml,*.svg,package-lock.json \
 		-I ./.codespell.exclude -f
 
 .PHONY: spellcheck-in-docker
