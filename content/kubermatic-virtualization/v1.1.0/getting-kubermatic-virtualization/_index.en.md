@@ -61,6 +61,20 @@ INFO[2026-04-23T14:24:06+01:00] Download complete                             pa
 
 Once complete, the `kubermatic-virtualization` binary is ready to use in your current directory.
 
+### Making the CLI Available in Your PATH (Optional)
+
+The downloader installs the binary into the current working directory, to call it from any directory, move it into a location on your `PATH`:
+
+```bash
+sudo mv kubermatic-virtualization /usr/local/bin/
+```
+
+Verify that it resolves:
+
+```bash
+kubermatic-virtualization version
+```
+
 ### Downloading a Specific Version
 
 By default, the downloader fetches the latest available release. If you need a specific version, use the `--version` (or `-V`) flag:
