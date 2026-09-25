@@ -33,9 +33,15 @@ Each part accepts the same options:
 
 Leaving a part unconfigured keeps the previous behaviour of RSA 2048 for that part.
 
+Both parts share the same structure. The full specification is available in the CRD documentation as
+[KeyConfiguration]({{< ref "../../../references/crds/#keyconfiguration" >}}) and
+[KeySpec]({{< ref "../../../references/crds/#keyspec" >}}).
+
 ## Configuring a Global Default
 
-The default for all newly created user clusters is set in the `KubermaticConfiguration`:
+The default for all newly created user clusters is set in the `KubermaticConfiguration` under
+`spec.userCluster.keyConfiguration` (see
+[KubermaticUserClusterConfiguration]({{< ref "../../../references/crds/#kubermaticuserclusterconfiguration" >}})):
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
@@ -60,8 +66,8 @@ key material they were created with.
 
 ## Configuring a Single Cluster
 
-A cluster can deviate from the global default by setting the key configuration in its own `Cluster`
-object when it is created:
+A cluster can deviate from the global default by setting `spec.keyConfiguration` in its own `Cluster`
+object (see [ClusterSpec]({{< ref "../../../references/crds/#clusterspec" >}})) when it is created:
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1
