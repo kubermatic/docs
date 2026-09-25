@@ -1,0 +1,26 @@
+staticClients:
+  # Your existing client, the one kcp is configured to trust. Adding
+  # trustedPeers lets kdp-mcp request tokens that also carry this client's ID
+  # in the "aud" claim, which is what makes kcp accept them.
+  - id: kdp-kubelogin
+    name: kdp-kubelogin
+    secret: <OIDC_CLIENT_SECRET>
+    RedirectURIs:
+      - https://<DOMAIN>/oauth/callback
+      # … your existing redirect URIs …
+    trustedPeers:
+      - kdp-mcp
+
+  # The client AI assistants authenticate as. It is a public (PKCE) client and
+  # MUST NOT have a secret: in Dex, setting one makes the client confidential,
+  # and Dex then rejects the PKCE token request with "missing client_secret".
+  - id: kdp-mcp
+    name: KDP MCP Gateway
+    public: true
+    # Dex matches redirect URIs exactly, so every callback an assistant may use
+    # has to be listed. These cover Claude Code and OpenCode defaults.
+    RedirectURIs:
+      - http://127.0.0.1:19876/mcp/oauth/callback
+      - http://localhost:19876/mcp/oauth/callback
+      - http://127.0.0.1:19876/callback
+      - http://localhost:19876/callback

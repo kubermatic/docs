@@ -1,4 +1,6 @@
 # Please note: the "main" branch should be placed as first element for every product in the "versions" list.
+# The latest release (used for /<product>/ redirects, sitemap and search indexing) is the first
+# entry that is not a branch, so releases must be listed newest first.
 # The "weight" field is used for order the products on homepage
 kubermatic:
   name: Kubermatic
@@ -11,6 +13,8 @@ kubermatic:
   versions:
     - release: main
       name: main
+    - release: v2.31
+      name: v2.31
     - release: v2.30
       name: v2.30
     - release: v2.29
@@ -116,6 +120,8 @@ kubelb:
   versions:
     - release: main
       name: main
+    - release: v1.5
+      name: v1.5
     - release: v1.4
       name: v1.4
     - release: v1.3
@@ -130,16 +136,19 @@ developer-platform:
   name: developer-platform
   logo: "/img/developer-platform/common/logo.svg"
   title: Kubermatic Developer Platform
+  textName: Developer Platform
   description: Provision and manage all services from a single centralized catalog - powered by Kubernetes-style APIs.
   weight: 5
   shareImage: img/share-developer-platform.png
   versions:
-    - release: v0.9.0
-      name: v0.9.0
+    - release: v1.2
+      name: v1.2
     - release: v1.1
       name: v1.1
     - release: v1.0
       name: v1.0
+    - release: v0.9.0
+      name: v0.9.0
 operatingsystemmanager:
   name: operatingsystemmanager
   logo: "/img/operatingsystemmanager/common/operating-system-manager-logo.png"

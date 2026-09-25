@@ -64,6 +64,17 @@ cosign verify quay.io/kubermatic/kubelb-manager:v1.4.3 \
 {{% /tab %}}
 {{< /tabs >}}
 
+The [KubeLB Dashboard]({{< relref "../dashboard" >}}) images
+(`kubelb-dashboard`, `kubelb-dashboard-api`) are built and signed from a
+different repository and workflow, so the commands above fail against them.
+Verify them with the dashboard identity instead:
+
+```bash
+cosign verify quay.io/kubermatic/kubelb-dashboard:v1.0.1 \
+  --certificate-identity-regexp="^https://github.com/kubermatic/kubelb-dashboard/.github/workflows/publish.yml@refs/tags/v.*" \
+  --certificate-oidc-issuer=https://token.actions.githubusercontent.com
+```
+
 ## Verify Helm Chart Signatures
 
 {{< tabs name="verify-helm" >}}

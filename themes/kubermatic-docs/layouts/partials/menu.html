@@ -20,7 +20,7 @@
             {{$url := ""}}
             {{$title := .title}}
             {{if .versions}}
-              {{$url = (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release}}
+              {{$url = partial "latest-release.html" .versions}}
               {{$title = .name}}
             {{end}}
             <option value="{{printf `/%s/%s/` $key $url | relURL}}"{{if in (split $.RelPermalink `/`) $key}} selected{{end}}>{{.textName | default $title}}</option>
@@ -56,6 +56,7 @@
             {{if in (split $.RelPermalink "/") .release}}
               {{$path := print "/" $topSection "/" .release}}
               {{$docVersion := $.Site.GetPage $path}}
+              {{template "section-home-nav" dict "home" $docVersion "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
               {{if eq .Site.Params.ordersectionsby "title"}}
                 {{range $docVersion.Sections.ByTitle}}
                   {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
@@ -70,6 +71,7 @@
         {{else}}
           {{$path := print "/" $topSection "/"}}
           {{$docVersion := $.Site.GetPage $path}}
+          {{template "section-home-nav" dict "home" $docVersion "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
           {{if eq .Site.Params.ordersectionsby "title"}}
             {{range $docVersion.Sections.ByTitle}}
               {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
@@ -83,6 +85,7 @@
       {{else}}
         {{$path := print "/" $topSection "/"}}
         {{$docVersion := $.Site.GetPage $path}}
+        {{template "section-home-nav" dict "home" $docVersion "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
         {{if eq .Site.Params.ordersectionsby "title"}}
           {{range $docVersion.Sections.ByTitle}}
             {{template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks}}
@@ -114,6 +117,21 @@
 </nav>
 
 <!-- templates -->
+{{/* Links the section root itself (e.g. a product version's overview page) as the
+     first sidebar entry. Only rendered when that page sets sidebarHomeTitle. */}}
+{{ define "section-home-nav" }}
+  {{ with .home }}
+    {{ with .Params.sidebarHomeTitle }}
+      <li data-nav-id="{{ $.home.RelPermalink }}" title="{{ . }}" class="dd-item{{ if eq $.currentnode.RelPermalink $.home.RelPermalink }} active{{ end }}">
+        <a href="{{ $.home.RelPermalink }}">
+          {{ . }}
+          {{ if $.showvisitedlinks }}<i class="fas fa-check read-icon"></i>{{ end }}
+        </a>
+      </li>
+    {{ end }}
+  {{ end }}
+{{ end }}
+
 {{ define "section-tree-nav" }}
   {{ $showvisitedlinks := .showvisitedlinks }}
   {{ $currentNode := .currentnode }}

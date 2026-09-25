@@ -6,7 +6,7 @@
 {{- $versions := (index $products .Section).versions -}}
 {{- if $versions -}}
   {{- if gt (len $versions) 1 -}}
-    {{- $isStableVersion = or (and (where $versions "release" "in" .RelPermalink) (in .RelPermalink (index $versions 1).release)) (strings.HasSuffix .RelPermalink (printf "/%s/" .Section)) -}}
+    {{- $isStableVersion = or (and (where $versions "release" "in" .RelPermalink) (in .RelPermalink (partial "latest-release.html" $versions))) (strings.HasSuffix .RelPermalink (printf "/%s/" .Section)) -}}
   {{- end -}}
 {{- end -}}
 {{- if not $isStableVersion -}}

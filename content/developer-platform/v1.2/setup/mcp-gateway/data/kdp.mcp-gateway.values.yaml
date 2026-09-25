@@ -1,0 +1,19 @@
+kdp:
+  # The gateway sits in front of the MCP server, so both must be enabled.
+  mcpServer:
+    enabled: true
+    # Defaults to kdp.frontProxy.url when empty.
+    kcpHost: https://kcp-front-proxy.<NAMESPACE>.svc:8443
+
+  mcpGateway:
+    enabled: true
+    oidc:
+      # Your Dex issuer and its JWKS endpoint.
+      issuer: https://auth.<DOMAIN>/dex
+      jwksURL: https://auth.<DOMAIN>/dex/keys
+      # The canonical MCP URL advertised to agents. Must match the URL users
+      # connect to, including the /mcp path.
+      resource: https://public.api.<DOMAIN>/mcp
+      # Makes agents request a token that kcp also accepts. Set this to the
+      # client ID kcp is configured with (--oidc-client-id).
+      crossClientAudience: kdp-kubelogin

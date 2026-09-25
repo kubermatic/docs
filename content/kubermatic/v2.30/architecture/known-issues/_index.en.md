@@ -41,9 +41,9 @@ When provisioning Flatcar nodes on Stable 4593.2.0 or newer, nodes may fail to j
                disableAutoUpdate: true
    ```
 
-### Planned resolution
+### Resolution
 
-A fix in Operating System Manager ([kubermatic/operating-system-manager#589](https://github.com/kubermatic/operating-system-manager/issues/589)) is in progress.
+Fixed in Operating System Manager v1.9.1, v1.10.5 and newer (including all v1.11.x releases); see [kubermatic/operating-system-manager#589](https://github.com/kubermatic/operating-system-manager/issues/589). KKP 2.30.x patch releases from v2.30.4 pin Operating System Manager v1.10.6 or newer and are not affected; older 2.30.x patch releases pin unfixed versions, so upgrade to the latest 2.30.x patch release.
 
 ## Cilium 1.18 fails installation on older Ubuntu 22.04 kernels
 

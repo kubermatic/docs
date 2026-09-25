@@ -1,0 +1,15 @@
+{{- /* Returns the release of a product's latest published version.
+       Takes the "versions" list of a product from products.yaml.
+       Products that document their development branch keep "main" as the first
+       entry, so the latest release is the first entry that is not a branch.
+       Products that only document a branch fall back to that first entry. */ -}}
+{{- $release := "" -}}
+{{- range . -}}
+  {{- if and (not $release) (not (in (slice "main" "master") .release)) -}}
+    {{- $release = .release -}}
+  {{- end -}}
+{{- end -}}
+{{- if and (not $release) . -}}
+  {{- $release = (index . 0).release -}}
+{{- end -}}
+{{- return $release -}}

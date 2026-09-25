@@ -71,7 +71,7 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 * Stateless user cluster workloads can be easily restored from etcd backups.
 * However, once a user cluster runs stateful applications, additional measures are required.
 * The Kubermatic Kubernetes Platform (KKP) provides a fully automated and integrated mechanism with Velero on user clusters to manage these backups, storing them on dedicated cloud storage.
-* You can learn more about our Integrated User Cluster Backup feature here: [documentation of Integrated User Cluster Backup in KKP](cluster-backup/)
+* You can learn more about our Integrated User Cluster Backup feature here: [documentation of Integrated User Cluster Backup in KKP](../cluster-backup/)
 
 #### Data Replication
 * Furthermore, we recommend designing any stateful application with built-in replication mechanisms. Storage should be replicated across multiple nodes, and ideally, across different datacenters or availability zones.

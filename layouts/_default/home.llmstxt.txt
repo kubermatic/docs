@@ -12,7 +12,7 @@
 {{- $values := . -}}
 {{- $url := "" -}}
 {{- if .versions -}}
-  {{- $url = (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release -}}
+  {{- $url = partial "latest-release.html" .versions -}}
 {{- end -}}
 {{- $pagePath := cond (ne $url "") (printf "/%s/%s" $key $url) (printf "/%s" $key) -}}
 {{- with $.Site.GetPage $pagePath -}}
@@ -35,7 +35,7 @@
 {{- $values := . -}}
 {{- $url := "" -}}
 {{- if .versions -}}
-  {{- $url = (cond (gt (len .versions) 1) (index .versions 1) (index .versions 0)).release -}}
+  {{- $url = partial "latest-release.html" .versions -}}
 {{- end -}}
 {{- $pagePath := cond (ne $url "") (printf "/%s/%s" $key $url) (printf "/%s" $key) -}}
 {{- with $.Site.GetPage $pagePath -}}

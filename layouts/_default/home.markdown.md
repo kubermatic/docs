@@ -14,8 +14,7 @@ url: {{ .Permalink }}
 {{- $key := .name | urlize -}}
 {{- $version := "" -}}
 {{- if .versions -}}
-  {{- $latest := cond (gt (len .versions) 1) (index .versions 1) (index .versions 0) -}}
-  {{- $version = $latest.release -}}
+  {{- $version = partial "latest-release.html" .versions -}}
 {{- end -}}
 ### {{ .title }}
 

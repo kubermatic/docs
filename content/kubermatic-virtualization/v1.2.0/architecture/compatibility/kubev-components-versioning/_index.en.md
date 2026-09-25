@@ -8,15 +8,15 @@ The following list is only applicable for the Kubermatic-Virtualization version 
 on security and reliability of provided software and therefore releases updates regularly that also include component updates.
 
 
-|Kubermatic-Virtualization Component| Version |
-|:---------------------------------:|:-------:|
-|            Kubernetes             | v1.33.0 |
-|             KubeVirt              | v1.5.2  |
-| Containerized Data Importer (CDI) | v1.62.0 |
-|              KubeOVN              | v1.13.2 |
-|              KubeOne              | v1.11.1 |
-|              Kyverno              | v1.14.4 |
-|           Cert Manager            | v1.18.2 |
-|              MetalLB              | v0.15.2 |
-|             Multus CNI            | v4.2.2  |
-|             Longhorn              | v1.9.1  |
+| Kubermatic-Virtualization Component | Version  |
+|:-----------------------------------:|:--------:|
+|             Kubernetes              | v1.34.7  |
+|              KubeVirt               |  v1.6.5  |
+|  Containerized Data Importer (CDI)  | v1.64.0  |
+|               KubeOVN               | v1.15.16 |
+|              KubeOne                | v1.13.4  |
+|               Kyverno               | v1.15.3  |
+|            Cert Manager             | v1.18.5  |
+|               MetalLB               | v0.15.3  |
+|              Multus CNI             | v4.2.3   |
+|              Longhorn               | v1.9.1   |

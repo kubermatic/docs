@@ -46,7 +46,27 @@ spec:
 The quota fields use the [ResourceQuantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity) to
 represent the values. One note is that CPU is denoted in single integer numbers.
 
-![Manage Quotas](images/quota-menu.png?classes=shadow,border "Manage Quotas")
+## Setting up Resource Quotas with UI
+
+Administrators can create a resource quota for a project from the admin panel.
+
+1. Navigate to **Admin Panel** > **Manage Resources** > **Project Quotas**. The list of the existing project quotas is
+   shown on this page.
+
+2. Select **Add Project Quota** to open the quota dialog.
+
+    ![Manage Quotas](images/quota-menu.png?classes=shadow,border "Manage Quotas")
+
+3. Choose the project the quota applies to, then set the CPU, Memory and Disk quota.
+
+    ![Set Project Quota Values](images/add-project-quota-dialog.png?classes=shadow,border "Set Project Quota Values")
+
+4. Select **Add Project Quota**. The new quota is then shown in the project quotas list.
+
+    ![Project Quota Created](images/project-quota-created.png?classes=shadow,border "Project Quota Created")
+
+5. To change an existing quota, select the edit (pencil) action in its row, update the CPU, Memory or Disk values and
+   save the changes.
 
 To simplify matters the UI uses GB as representation for Memory and Storage. The conversion from any value
 set in the ResourceQuota is done automatically by the API.
