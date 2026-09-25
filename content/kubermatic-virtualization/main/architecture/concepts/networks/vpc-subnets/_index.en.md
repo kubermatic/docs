@@ -46,6 +46,22 @@ spec:
 | `defaultGateway` | IP address used as the default gateway for this VPC. Usually left blank for automatic.  |
 | `staticRoutes`   | List of manually defined routes for the VPC.                                            |
 
+## VPCs are global, Subnets are regional
+
+In a multi-region Kubermatic Virtualization deployment this distinction matters and is easy to
+miss: a **VPC is global** — one `Vpc` object for the whole stretched cluster, not replicated per
+region and not aware of regions at all — while a **Subnet is the region-scoped unit** underneath
+it. A tenant's VPC exists exactly **once**, cluster-wide; what varies by region is which Subnets
+exist under it — one per region the tenant has workloads in, each with its own CIDR and gateway,
+each labelled for its region (e.g. `topology.kubernetes.io/zone: region-a`). Every regional
+Subnet still belongs to that same single VPC and its one logical router — a region is a
+Subnet-level fact, not something the VPC itself has copies of.
+
+A VM's region is decided by whichever regional Subnet it's attached to, not by the VPC. See
+[AZ Edge Router](../az-edge-router/) for how per-region traffic then reaches the outside world,
+and how a region's `AZEdgeRouter` uses `subnetLabelSelector` to advertise only the Subnets that
+belong to its own region even though it resolves the one, global VPC.
+
 ## Subnet
 
 Subnets are the fundamental building blocks for network and IP management. They serve as the primary organizational unit
