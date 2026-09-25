@@ -27,6 +27,7 @@
         {{$urlPanelMap := dict}}
         {{range $menuItems}}
         {{$parentItemClass := .class}}
+        {{$bottomPane := .bottomPane}}
         <li class="menu-item">
           {{if .title}}
           <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="menu-item_link">{{.title}}</a>
@@ -42,14 +43,18 @@
               {{end}}
               {{range $index, $val := .items}}
               {{$class := "item-link flex-wrapper"}}
+              {{if eq .hide true}}
+              {{else}}
               <div class="item">
                 {{if .title}}
                   {{if .panel}}
                   <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="{{$class}}{{if $activePanelItem}} menu-panel-item--active{{end}} panel-link" data-panel-item-id="{{$paneltId}}">
                     {{with .title}}
-                    <span class="item-link_title">{{.}}</span>
+                    <span class="item-link_title">{{.}}{{with $val.label}} <span class="menu-item-label">{{.}}</span>{{end}}</span>
                     {{end}}
-                    <span class="item-link_description">{{.text}}</span>
+                    {{with .text}}
+                    <span class="item-link_description">{{.}}</span>
+                    {{end}}
                     {{if not .noArrowIcon}}<span class="main-menu-arrow"></span>{{end}}
                     {{$urlPanelMap = merge $urlPanelMap (dict .url $paneltId)}}
                     {{$paneltId = add $paneltId 1}}
@@ -58,17 +63,34 @@
                   {{else}}
                   <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="{{$class}}">
                     {{with .title}}
-                    <span class="item-link_title">{{.}}</span>
+                    <span class="item-link_title">{{. | markdownify}}{{with $val.label}} <span class="menu-item-label">{{.}}</span>{{end}}</span>
                     {{end}}
-                    <span class="item-link_description">{{.text}}</span>
+                    {{with .text}}
+                    <span class="item-link_description">{{.}}</span>
+                    {{end}}
                   </a>
                   {{end}}
                 {{end}}
               </div>
               {{end}}
+              {{end}}
               </div>
               {{end}}
             </div>
+            {{with $bottomPane}}
+            <div class="menu-footer-pane">
+              {{range .items}}
+              <a href="{{(print $baseWebsiteUrl .url) | relURL}}" class="item-link flex-wrapper">
+                {{with .title}}
+                <span class="item-link_title">{{. | markdownify}}</span>
+                {{end}}
+                {{with .text}}
+                <span class="item-link_description">{{.}}</span>
+                {{end}}
+              </a>
+              {{end}}
+            </div>
+            {{end}}
             {{$showFirstPanel := true}}
             {{range .}}
               {{with .items}}
@@ -177,7 +199,7 @@
     <div class="mobile-menu-caption">{{.}}</div>
     {{end}}
     {{if .url}}
-    <a href="{{(print $baseWebsiteUrl .url) | relURL}}"{{if in .url "/#"}} class="menu-item-anchor"{{end}}>{{.title}}</a>
+    <a href="{{(print $baseWebsiteUrl .url) | relURL}}"{{if in .url "/#"}} class="menu-item-anchor"{{end}}>{{.title}}{{with .label}} <span class="menu-item-label">{{.}}</span>{{end}}</a>
     {{else if .title}}
     <button class="menu-group-btn" data-panel-id="{{$panelId}}"{{if eq $id 1}} data-parent-id="menu-root"{{end}}>{{.title}}</button>
     {{end}}
@@ -188,7 +210,7 @@
       {{end}}
     </ul>
     {{end}}
-    {{with .children}}
+    {{with .childs}}
     <ul class="mobile-menu-children">
       {{range .}}
         <li>

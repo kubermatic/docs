@@ -4,61 +4,80 @@ items:
     - title: Kubermatic Kubernetes Platform
       url: /products/kubermatic-kubernetes-platform/
       caption: Products
-      children:
+      childs:
       - title: Features
         url: /products/kubermatic-kubernetes-platform/features/
       - title: Why Kubermatic
         url: /products/kubermatic-kubernetes-platform/why-kubermatic/
       - title: Technology Integrations
         url: /products/kubermatic-kubernetes-platform/why-kubermatic/#integrations
-    - title: Kubermatic KubeOne
-      url: /products/kubermatic-kubeone/
-    - title: Kubermatic Load Balancer
+    - title: Kubermatic AI
+      url: /products/kubermatic-ai/
+      label: New Product
+    - title: Kubermatic KubeLB
       url: /products/kubelb/
     - title: Kubermatic Virtualization
       url: /products/kubermatic-virtualization/
     - title: Kubermatic Developer Platform
       url: /products/kubermatic-developer-platform/
-    - title: Conformance EE
-      url: /conformance-ee/main/
+    - title: Kubermatic SecureGuard
+      url: /products/kubermatic-secureguard/
+    - title: Kubermatic KubeOne
+      url: /products/kubermatic-kubeone/
     - title: Kubermatic Kubernetes Subscription
       url: /products/kubermatic-kubernetes-subscription/
-    - title: Managed Kubermatic Kubernetes Platform
-      url: /products/managed-kubermatic-kubernetes-platform/
-      caption: Managed
-  - title: Services
-    url: /services/
+    - title: Professional Services
+      url: /services/
+      caption: Services
+  - title: Solutions
+    items:
+    - title: Defence
+      url: /solutions/defence/
+      caption: By Industry
+    - title: Public Sector
+      url: /solutions/public-sector-and-government/
+    - title: Manufacturing
+      url: /solutions/automotive-and-manufacturing/
+    - title: Telecom
+      url: /solutions/telecom/
+    - title: Automate with AI
+      url: /solutions/automate-with-ai/
+      caption: By Use Case
+    - title: Implement Platform Engineering
+      url: /solutions/implement-platform-engineering/
+    - title: Control Your Data Sovereignty
+      url: /solutions/control-your-data-sovereignty/
+    - title: Move Beyond VMware
+      url: /solutions/move-beyond-vmware/
+    - title: Explore All Solutions
+      url: /solutions/
   - title: Customers
     url: /customers/
   - title: Resources
     items:
-    - title: Resource Library
-      url: /resources/
-    - title: Cloud Native Topics
-      url: /topics/
-  - title: Community
-    items:
-    - title: Our Community
-      url: /company/community/
-    - title: Open Source Projects
-      url: /company/community/#projects
-    - title: Contribution
-      url: /company/community/#ossprojects
-    - title: Meetups
-      url: /company/community/#locations
-    - title: Events
-      url: /company/community/#events
-  - title: Company
-    items:
-    - title: About Us
-      url: /company/about-us/
     - title: Blog
       url: /blog/
+      caption: Knowledge base
+    - title: Cloud Native FAQ
+      url: /topics/
+    - title: Learn
+      url: /learn/
+    - title: Contribution
+      url: /company/community/
+      caption: Community
+    - title: Events
+      url: /company/community/#events
+    - title: Full resource library
+      url: /resources/
+  - title: Company
+    items:
+    - title: About Kubermatic
+      url: /company/about-kubermatic/
     - title: Partners
       url: /partners/
-    - title: Careers
-      url: /company/careers/
     - title: Press
       url: /company/press/
+    - title: Careers
+      url: /company/careers/
     - title: Contact Us
       url: /contact-us/
