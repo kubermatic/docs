@@ -81,8 +81,12 @@ spec:
 ```
 
 {{% notice note %}}
-Only the parts that are set on the cluster override the global default. In the example above, the
-service account key is not mentioned, so it still uses whatever the global default specifies for it.
+A `certificates` or `serviceAccountKey` block set on the cluster replaces the global one entirely.
+Fields omitted from that block use the built-in defaults, not the values from the global default.
+
+For example, if the global default sets `ecdsaCurve: P384` and a cluster sets only
+`certificates.algorithm: ECDSA`, the cluster's `certificates` block replaces the global one, and the
+cluster is created with `P256` keys instead of `P384`.
 {{% /notice %}}
 
 The same field is available in cluster templates and in the defaulting template of a Seed, which makes
