@@ -63,6 +63,52 @@ items:
                       url: /products/kubermatic-kubernetes-platform/cloud/#equinix-metal
                     - title: KubeVirt
                       url: /products/kubermatic-kubernetes-platform/cloud/#kubevirt
+          - title: Kubermatic AI
+            url: /products/kubermatic-ai/
+            text: End idle GPUs. Securely share AI models across every team
+            noArrowIcon: true
+            label: New Product
+            panel:
+              summary: A unified AI platform for enterprises, neoclouds, and sovereign AI providers. Turn fragmented GPU infrastructure into shared AI services and maximize GPU utilization across on-prem, cloud, and sovereign environments.
+              image: /img/menu/kubermatic-ai.png
+              columns:
+                - column:
+          - title: Kubermatic KubeLB
+            url: /products/kubelb/
+            text: Cloud Native Multi-Tenant Load Balancing
+            noArrowIcon: true
+            panel:
+              summary: Welcome to Kubermatic KubeLB, the next-generation application delivery platform designed for cloud-native architectures. As cloud-native have evolved, Kubermatic KubeLB offers a multi-tenancy approach to load balancing, providing seamless scalability, security, and management for distributed applications and teams.
+              image: /img/menu/kubelb.jpg
+              columns:
+                - column:
+          - title: Kubermatic Virtualization
+            url: /products/kubermatic-virtualization/
+            text: Seamlessly build your private cloud entirely with Kubernetes
+            noArrowIcon: true
+            panel:
+              summary: Simplify your operations and streamline your infrastructure with a platform that integrates Kubernetes and virtualized workloads. Enjoy enhanced networking and storage capabilities to fully support your organization's cloud needs.
+              image: /img/menu/kubermatic-virtualization.jpg
+              columns:
+                - column:
+          - title: Kubermatic Developer Platform
+            url: /products/kubermatic-developer-platform/
+            text: Empower Developers and Accelerate Innovation
+            noArrowIcon: true
+            panel:
+              summary: Maximize developer productivity and accelerate innovation with Kubermatic Developer Platform (KDP). Powered by Kubernetes API and based on <a href="https://www.cncf.io/projects/kcp/">CNCF Sandbox project kcp</a>, our cutting-edge internal developer platform enables the seamless creation and management of services backed by a centralized catalog.
+              image: /img/menu/kubermatic-developer-platform.jpg
+              columns:
+                - column:
+          - title: Kubermatic SecureGuard
+            url: /products/kubermatic-secureguard/
+            text: Protect and manage secrets with open-source transparency
+            noArrowIcon: true
+            panel:
+              summary: KubeSG is the open-source, unified secrets management solution that simplifies security across all environments. By combining the power of OpenBao with the integration of the External Secrets Operator, it enables automated, breakage-free secret rotation and provides a developer-friendly workflow.
+              image: /img/menu/kubermatic-secureguard.png
+              columns:
+                - column:
           - title: Kubermatic KubeOne
             url: /products/kubermatic-kubeone/
             text: Installation and support for your single Kubernetes cluster
@@ -109,41 +155,6 @@ items:
                       url: /products/kubermatic-kubeone/cloud/#digitalocean
                     - title: Equinix Metal
                       url: /products/kubermatic-kubeone/cloud/#equinix-metal
-          - title: Kubermatic Load Balancer
-            url: /products/kubelb/
-            text: Cloud Native Multi-Tenant Load Balancing
-            noArrowIcon: true
-            panel:
-              summary: Welcome to Kubermatic Load Balancer, the next-generation application delivery platform designed for cloud-native architectures. As cloud-native have evolved, Kubermatic Load Balancer offers a multi-tenancy approach to load balancing, providing seamless scalability, security, and management for distributed applications and teams.
-              image: /img/menu/kubelb.jpg
-              columns:
-                - column:
-          - title: Kubermatic Virtualization
-            url: /products/kubermatic-virtualization/
-            text: Seamlessly build your private cloud entirely with Kubernetes
-            noArrowIcon: true
-            panel:
-              summary: Simplify your operations and streamline your infrastructure with a platform that integrates Kubernetes and virtualized workloads. Enjoy enhanced networking and storage capabilities to fully support your organization's cloud needs.
-              image: /img/menu/kubermatic-virtualization.jpg
-              columns:
-                - column:
-          - title: Kubermatic Developer Platform
-            url: /products/kubermatic-developer-platform/
-            text: Empower Developers and Accelerate Innovation
-            noArrowIcon: true
-            panel:
-              summary: Maximize developer productivity and accelerate innovation with Kubermatic Developer Platform (KDP). Powered by Kubernetes API and based on [CNCF Sandbox project kcp](https://www.cncf.io/projects/kcp/), our cutting-edge internal developer platform enables the seamless creation and management of services backed by a centralized catalog.
-              image: /img/menu/kubermatic-developer-platform.jpg
-              columns:
-                - column:
-          - title: Conformance EE
-            url: /conformance-ee/main/
-            text: Automated end-to-end conformance testing for KKP
-            noArrowIcon: true
-            panel:
-              summary: Conformance EE is an automated end-to-end conformance test framework for Kubermatic Kubernetes Platform. It combinatorially generates, runs, and reports thousands of test scenarios across cloud providers, Kubernetes versions, and OS distributions.
-              columns:
-                - column:
           - title: Kubermatic Kubernetes Subscription
             url: /products/kubermatic-kubernetes-subscription/
             text: Upstream Kubernetes support
@@ -182,127 +193,102 @@ items:
                       url: /products/kubermatic-kubernetes-subscription/cloud/#open-telekom-cloud
                     - title: Alibaba Cloud
                       url: /products/kubermatic-kubernetes-subscription/cloud/#alibaba-cloud
-      - title: Managed
+      - title: Services
         items:
-          - title: Managed Kubermatic Kubernetes Platform
-            url: /products/managed-kubermatic-kubernetes-platform/
-            text: Deploy and operate your Kubernetes clusters anywhere with ease and
-              confidence
+          - title: Professional Services
+            url: /services/
+            text: How we accelerate your growth
+            noArrowIcon: true
             panel:
-              image: /img/menu/managed-kubermatic-kubernetes-platform.jpeg
+              summary: Our Kubernetes experts architect, migrate, and build inhouse competency to bring your cloud native stack into production. Kubermatic is a CNCF Certified Service Provider and Training Partner.
               columns:
                 - column:
-                    - title: Edge
-                      url: /products/managed-kubermatic-kubernetes-platform/edge/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: VMware vSphere
-                      url: /products/managed-kubermatic-kubernetes-platform/edge/#vmware-vsphere
-                    - title: Static BareMetal
-                      url: /products/managed-kubermatic-kubernetes-platform/edge/#static-baremetal
-                    - title: Dynamic BareMetal
-                      url: /products/managed-kubermatic-kubernetes-platform/edge/#dynamic-baremetal
-                    - title: ARM
-                      url: /products/managed-kubermatic-kubernetes-platform/edge/#arm
-                - column:
-                    - title: On-Prem
-                      url: /products/managed-kubermatic-kubernetes-platform/onprem/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: VMware vSphere
-                      url: /products/managed-kubermatic-kubernetes-platform/onprem/#vmware-vsphere
-                    - title: Nutanix
-                      url: /products/managed-kubermatic-kubernetes-platform/onprem/#nutanix
-                    - title: OpenStack
-                      url: /products/managed-kubermatic-kubernetes-platform/onprem/#openstack
-                    - title: Static BareMetal
-                      url: /products/managed-kubermatic-kubernetes-platform/onprem/#static-baremetal
-                    - title: Dynamic BareMetal
-                      url: /products/managed-kubermatic-kubernetes-platform/onprem/#dynamic-baremetal
-                - column:
-                    - title: Cloud
-                      url: /products/managed-kubermatic-kubernetes-platform/cloud/
-                      class: menu-item--bold menu-column-link--tall
-                    - title: AWS
-                      url: /products/managed-kubermatic-kubernetes-platform/cloud/#aws
-                    - title: Azure
-                      url: /products/managed-kubermatic-kubernetes-platform/cloud/#azure
-                    - title: Google Cloud
-                      url: /products/managed-kubermatic-kubernetes-platform/cloud/#google-cloud
-                    - title: Open Telekom Cloud
-                      url: /products/managed-kubermatic-kubernetes-platform/cloud/#open-telekom-cloud
-                    - title: Alibaba Cloud
-                      url: /products/managed-kubermatic-kubernetes-platform/cloud/#alibaba-cloud
-                    - title: Hetzner Cloud
-                      url: /products/managed-kubermatic-kubernetes-platform/cloud/#hetzner-cloud
-                    - title: DigitalOcean
-                      url: /products/managed-kubermatic-kubernetes-platform/cloud/#digitalocean
-                    - title: Equinix Metal
-                      url: /products/managed-kubermatic-kubernetes-platform/cloud/#equinix-metal
   - title: Solutions
-    url: /solutions/hybrid-multi-cloud/
-    hide: true
+    url: /solutions/
+    class: menu-groups--halves menu-groups--solutions
+    bottomPane:
+      items:
+      - title: <strong>Explore All Solutions</strong>
+        url: /solutions/
     sections:
-      - items:
-          - title: IT Landscape Modernization
-            url: /solutions/it-landscape/
-            text: Build the digital backbone for your central and production IT
-          - title: Hybrid and Multi-cloud Kubernetes
-            url: /solutions/hybrid-multi-cloud/
-            text: Operate all your environments with centralized control
-          - title: DevOps Automation on Kubernetes
+      - title: By Industry
+        items:
+          - title: Defence
+            url: /solutions/defence/
+            footer: false
+          - title: Public Sector
+            url: /solutions/public-sector-and-government/
+            footer: false
+          - title: Manufacturing
+            url: /solutions/automotive-and-manufacturing/
+            footer: false
+          - title: Telecom
+            url: /solutions/telecom/
+            footer: false
+      - title: By Use Case
+        items:
+          - title: Automate with AI
+            url: /solutions/automate-with-ai/
+          - title: Implement Platform Engineering
+            url: /solutions/implement-platform-engineering/
+          - title: Control Your Data Sovereignty
+            url: /solutions/control-your-data-sovereignty/
+          - title: Move Beyond VMware
+            url: /solutions/move-beyond-vmware/
+          - title: Modernize Your IT Infrastructure
+            url: /solutions/modernize-your-infrastructure/
+            hide: true
+          - title: Automate DevOps with Kubernetes
             url: /solutions/devops/
-            text: Automate every step of your software development life cycle
-          - title: Edge Computing
+            hide: true
+          - title: Deploy Hybrid and Multi-cloud Kubernetes
+            url: /solutions/hybrid-multi-cloud/
+            hide: true
+          - title: Automated Kubernetes Backups with KKP
+            url: /solutions/kubernetes-backups/
+            hide: true
+          - title: Leverage Edge Computing
             url: /solutions/edge-computing/
-            text: Run and automate Kubernetes on the edge
-          - title: Cloud Native AI & ML
-            url: /solutions/machine-learning/
-            text: Accelerate ML research, testing, and production applications
-          - title: Kubernetes for 5G
-            url: /solutions/5g/
-            text: Run 5G from the data center to the cloud to the edge
-          - title: AI infrastructure platform
-            url: /products/kubermatic-kubernetes-platform/ai-native-infrastructure-platform-by-kkp/
-          - title: Application backups
-            url: /products/kubermatic-kubernetes-platform/backups/
-  - title: Services
-    url: /services/
-    footer: false
+            hide: true
+          - title: Build Cloud Native AI & ML
+            url: /solutions/build-cloud-native-ai-and-ml/
+            hide: true
   - title: Customers
     url: /customers/
     footer: false
   - title: Resources
     url: /resources/
+    class: menu-groups--halves
+    bottomPane:
+      items:
+      - title: <strong>Explore All Resources</strong>
+        url: /resources/
     sections:
-      - items:
-        - title: Resource Library
-          url: /resources/
-        - title: Cloud Native Topics
+      - title: Knowledge base
+        items:
+        - title: Blog
+          url: /blog/
+        - title: Cloud Native FAQ
           url: /topics/
-  - title: Community
-    url: /company/community/
-    sections:
-      - items:
-          - title: Open Source Projects
-            url: /company/community/#projects
-          - title: Contribution
-            url: /company/community/#ossprojects
-          - title: Meetups
-            url: /company/community/#locations
+        - title: Kubermatic Learn
+          url: /learn/
+      - title: Community
+        items:
+          - title: Kubermatic Community
+            url: /company/community/
           - title: Events
             url: /company/community/#events
   - title: Company
-    url: /company/about-us/
+    url: /company/about-kubermatic/
     sections:
       - items:
-          - title: About Us
-            url: /company/about-us/
-          - title: Blog
-            url: /blog/
+          - title: About Kubermatic
+            url: /company/about-kubermatic/
           - title: Partners
             url: /partners/
-          - title: Careers
-            url: /company/careers/
           - title: Press
             url: /company/press/
+          - title: Careers
+            url: /company/careers/
           - title: Contact Us
             url: /contact-us/

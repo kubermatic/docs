@@ -96,6 +96,20 @@
     color: #262626;
     background-color: #eceff0;
   }
+  &-label {
+    position: absolute;
+    right: 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: linear-gradient(138deg, #ff7399 .91%, #ffad05 93.65%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0.75rem;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
 }
 
 .menu-item:first-child {
@@ -479,6 +493,21 @@
     .menu-group {
       width: 48%;
     }
+    &--halves {
+      min-width: 360px;
+      .menu-group {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        & > div {
+          width: 47%;
+          margin: 0;
+        }
+      }
+    }
+  }
+  .menu-footer-pane {
+    margin-top: 24px;
   }
   .menu-section {
     margin-top: 40px;
@@ -553,6 +582,19 @@
     left: -310px;
     &:before {
       left: 333px;
+    }
+  }
+  .menu-groups--solutions {
+    min-width: 400px;
+    .menu-group {
+      & > div {
+        &:first-of-type {
+          width: 35%;
+        }
+        &:last-of-type {
+          width: 58%;
+        }
+      }
     }
   }
   .menu-panel {
@@ -639,19 +681,9 @@
 @media only screen and (min-width: 1200px) {
   .menu-groups--products {
     width: 1150px;
-    left: -440px;
+    left: -520px;
     &:before {
-      left: 465px;
-    }
-  }
-}
-
-@media only screen and (min-width: 1440px) {
-  .menu-groups--products {
-    width: 1200px;
-    left: -480px;
-    &:before {
-      left: 505px;
+      left: 545px;
     }
   }
 }
