@@ -5172,6 +5172,7 @@ _Appears in:_
 | `seedController` _[KubermaticSeedControllerConfiguration](#kubermaticseedcontrollerconfiguration)_ | {{< unsafe >}}SeedController configures the seed-controller-manager.{{< /unsafe >}} |
 | `masterController` _[KubermaticMasterControllerConfiguration](#kubermaticmastercontrollerconfiguration)_ | {{< unsafe >}}MasterController configures the master-controller-manager.{{< /unsafe >}} |
 | `webhook` _[KubermaticWebhookConfiguration](#kubermaticwebhookconfiguration)_ | {{< unsafe >}}Webhook configures the webhook.{{< /unsafe >}} |
+| `util` _[KubermaticUtilConfiguration](#kubermaticutilconfiguration)_ | {{< unsafe >}}Util configures the shared util toolbox image.{{< /unsafe >}} |
 | `userCluster` _[KubermaticUserClusterConfiguration](#kubermaticuserclusterconfiguration)_ | {{< unsafe >}}UserCluster configures various aspects of the user-created clusters.{{< /unsafe >}} |
 | `exposeStrategy` _[ExposeStrategy](#exposestrategy)_ | {{< unsafe >}}ExposeStrategy is the strategy to expose the cluster with.<br />Note: The `seed_dns_overwrite` setting of a Seed's datacenter doesn't have any effect<br />if this is set to LoadBalancerStrategy.{{< /unsafe >}} |
 | `ingress` _[KubermaticIngressConfiguration](#kubermaticingressconfiguration)_ | {{< unsafe >}}Ingress contains settings for making the API and UI accessible remotely.{{< /unsafe >}} |
@@ -5532,6 +5533,24 @@ _Appears in:_
 | `customRules` _string_ | {{< unsafe >}}CustomRules can be used to inject custom recording and alerting rules. This field<br />must be a YAML-formatted string with a `group` element at its root, as documented<br />on https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/.<br />This value is treated as a Go template, which allows to inject dynamic values like<br />the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus<br />and the documentation for more information on the available fields.{{< /unsafe >}} |
 | `customScrapingConfigs` _string_ | {{< unsafe >}}CustomScrapingConfigs can be used to inject custom scraping rules. This must be a<br />YAML-formatted string containing an array of scrape configurations as documented<br />on https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config.<br />This value is treated as a Go template, which allows to inject dynamic values like<br />the internal cluster address or the cluster ID. Refer to pkg/resources/prometheus<br />and the documentation for more information on the available fields.{{< /unsafe >}} |
 | `scrapeAnnotationPrefix` _string_ | {{< unsafe >}}ScrapeAnnotationPrefix (if set) is used to make the in-cluster Prometheus scrape pods<br />inside the user clusters.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### KubermaticUtilConfiguration
+
+
+
+KubermaticUtilConfiguration configures the shared util toolbox image.
+
+_Appears in:_
+- [KubermaticConfigurationSpec](#kubermaticconfigurationspec)
+
+| Field | Description |
+| --- | --- |
+| `dockerRepository` _string_ | {{< unsafe >}}DockerRepository is the repository containing the Kubermatic util image.{{< /unsafe >}} |
 
 
 [Back to top](#top)
