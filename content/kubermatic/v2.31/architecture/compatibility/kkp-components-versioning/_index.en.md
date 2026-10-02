@@ -13,9 +13,9 @@ of provided software and therefore releases updates regularly that also include 
 | KKP Components                 | Version                        |
 | ------------------------------ | ------------------------------ |
 | backup/velero                  | 1.17.1                         |
-| cert-manager                   | 1.20.3                         |
+| cert-manager                   | 1.21.2                         |
 | dex                            | 2.44.0                         |
-| envoy-gateway-controller       | 1.8.3                          |
+| envoy-gateway-controller       | 1.8.5                          |
 | gitops/kkp-argocd-apps         | 1.16.1                         |
 | iap                            | 7.14.2                         |
 | kubermatic-operator            | 9.9.9-dev                      |
@@ -25,7 +25,7 @@ of provided software and therefore releases updates regularly that also include 
 | logging/loki                   | 3.6.7                          |
 | minio                          | RELEASE.2023-05-04T21-44-30Z   |
 | mla/alertmanager-proxy         | 0.3.3                          |
-| mla/consul                     | 1.22.2                         |
+| mla/consul                     | 1.22.7                         |
 | mla/cortex                     | 1.20.0                         |
 | mla/grafana                    | 13.0.1                         |
 | mla/loki-distributed           | 2.9.2                          |
@@ -35,7 +35,7 @@ of provided software and therefore releases updates regularly that also include 
 | monitoring/alertmanager        | 0.28.0                         |
 | monitoring/blackbox-exporter   | 0.25.0                         |
 | monitoring/grafana             | 10.4.1                         |
-| monitoring/helm-exporter       | 1.2.16                         |
+| monitoring/helm-exporter       | 1.3.0                         |
 | monitoring/karma               | 0.120                          |
 | monitoring/kube-state-metrics  | 2.15.0                         |
 | monitoring/node-exporter       | 1.9.0                          |
