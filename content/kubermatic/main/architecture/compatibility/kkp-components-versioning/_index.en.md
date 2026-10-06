@@ -32,7 +32,7 @@ of provided software and therefore releases updates regularly that also include 
 | mla/minio-lifecycle-mgr        | 0.1.0                          |
 | mla/minio                      | RELEASE.2024-12-18T13-15-44Z   |
 | mla/mla-secrets                | 0.1.0                          |
-| monitoring/alertmanager        | 0.28.0                         |
+| monitoring/alertmanager        | 0.34.1                         |
 | monitoring/blackbox-exporter   | 0.25.0                         |
 | monitoring/grafana             | 10.4.1                         |
 | monitoring/helm-exporter       | 1.2.16                         |
