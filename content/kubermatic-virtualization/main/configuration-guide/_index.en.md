@@ -367,6 +367,8 @@ When `enabled: true`, KubeV will not reach out to the public internet during ins
 
 ### Preparing an Air-Gapped Environment
 
+`kubermatic-virtualization offline serve` prepares all of the following from the release's offline bundle, checks the nodes, and writes `offlineSettings` for you — see [Offline Installation]({{< ref "../installation/offline-installation" >}}). To use your own registry and repository instead:
+
 Before running `kubev apply` in offline mode, the following must be in place:
 
 1. **Mirror container images** — use `kubev mirror-images` to copy all required images to your internal registry. This includes images for Kube-OVN, CertManager, KubeVirt, CDI, Longhorn, MetalLB, Kyverno, Multus, and others.
