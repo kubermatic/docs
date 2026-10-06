@@ -28,7 +28,7 @@ of provided software and therefore releases updates regularly that also include 
 | mla/consul                     | 1.22.2                         |
 | mla/cortex                     | 1.20.0                         |
 | mla/grafana                    | 13.0.1                         |
-| mla/loki-distributed           | 2.9.2                          |
+| mla/loki-distributed           | 2.9.13                         |
 | mla/minio-lifecycle-mgr        | 0.1.0                          |
 | mla/minio                      | RELEASE.2024-12-18T13-15-44Z   |
 | mla/mla-secrets                | 0.1.0                          |
