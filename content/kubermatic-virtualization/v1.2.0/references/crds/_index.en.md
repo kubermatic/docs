@@ -69,7 +69,7 @@ KubeVRole defines what operations a subject may perform.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [KubeVRoleSpec](#kubevrolespec) | true |
 
 [Back to Group](#v1alpha1)
@@ -80,7 +80,7 @@ KubeVRoleBinding grants a KubeVRole to a user.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [KubeVRoleBindingSpec](#kubevrolebindingspec) | true |
 
 [Back to Group](#v1alpha1)
@@ -91,7 +91,7 @@ KubeVRoleBindingList is the list type for KubeVRoleBinding.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][KubeVRoleBinding](#kubevrolebinding) | true |
 
 [Back to Group](#v1alpha1)
@@ -113,7 +113,7 @@ KubeVRoleList is the list type for KubeVRole.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][KubeVRole](#kubevrole) | true |
 
 [Back to Group](#v1alpha1)
@@ -161,7 +161,7 @@ resource names instead of raw OIDC subjects.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [UserSpec](#userspec) | false |
 | status |  | [UserStatus](#userstatus) | false |
 
@@ -173,7 +173,7 @@ UserList is the list type for User.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][User](#user) | true |
 
 [Back to Group](#v1alpha1)
@@ -208,7 +208,7 @@ DataVolume source when creating VirtualMachines or VMPools.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [ImageSpec](#imagespec) | false |
 
 [Back to Group](#v1alpha1)
@@ -219,7 +219,7 @@ ImageList is the list type for Image.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][Image](#image) | true |
 
 [Back to Group](#v1alpha1)
@@ -301,7 +301,7 @@ the key into virtual machines at creation time.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [SSHKeySpec](#sshkeyspec) | false |
 | status |  | [SSHKeyStatus](#sshkeystatus) | false |
 
@@ -313,7 +313,7 @@ SSHKeyList is the list type for SSHKey.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][SSHKey](#sshkey) | true |
 
 [Back to Group](#v1alpha1)
@@ -361,7 +361,7 @@ It represents a public IP address that can be associated with a NAT gateway.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [ElasticIPSpec](#elasticipspec) | false |
 | status |  | [ElasticIPStatus](#elasticipstatus) | false |
 
@@ -373,7 +373,7 @@ ElasticIPList is the list type for ElasticIP.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][ElasticIP](#elasticip) | true |
 
 [Back to Group](#v1alpha1)
@@ -410,7 +410,7 @@ Kube-OVN objects (IptablesSnatRule / IptablesDnatRule).
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [NATGatewaySpec](#natgatewayspec) | false |
 | status |  | [NATGatewayStatus](#natgatewaystatus) | false |
 
@@ -422,7 +422,7 @@ NATGatewayList is the list type for NATGateway.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][NATGateway](#natgateway) | true |
 
 [Back to Group](#v1alpha1)
@@ -470,7 +470,7 @@ It defines ACL-based firewall rules that can be applied to VMs.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [SecurityGroupSpec](#securitygroupspec) | false |
 | status |  | [SecurityGroupStatus](#securitygroupstatus) | false |
 
@@ -482,7 +482,7 @@ SecurityGroupList is the list type for SecurityGroup.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][SecurityGroup](#securitygroup) | true |
 
 [Back to Group](#v1alpha1)
@@ -535,7 +535,7 @@ It is always associated with a VPC wrapper in the same namespace.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [SubnetSpec](#subnetspec) | false |
 | status |  | [SubnetStatus](#subnetstatus) | false |
 
@@ -547,7 +547,7 @@ SubnetList is the list type for Subnet.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][Subnet](#subnet) | true |
 
 [Back to Group](#v1alpha1)
@@ -606,7 +606,7 @@ are created and torn down in dependency order.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [UnderlaySubnetSpec](#underlaysubnetspec) | false |
 | status |  | [UnderlaySubnetStatus](#underlaysubnetstatus) | false |
 
@@ -618,7 +618,7 @@ UnderlaySubnetList is the list type for UnderlaySubnet.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][UnderlaySubnet](#underlaysubnet) | true |
 
 [Back to Group](#v1alpha1)
@@ -630,7 +630,7 @@ UnderlaySubnetSpec defines the desired state of an UnderlaySubnet wrapper.
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
 | defaultInterface | DefaultInterface is the physical NIC name (e.g. \"eth1\") that the ProviderNetwork attaches to on every selected node. It must be a valid Linux network interface name, which the kernel caps at 15 bytes. | string | true |
-| nodeSelector | NodeSelector restricts the ProviderNetwork to a subset of nodes via label selection. When empty, the ProviderNetwork applies to all nodes. | *[metav1.LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#labelselector-v1-meta) | false |
+| nodeSelector | NodeSelector restricts the ProviderNetwork to a subset of nodes via label selection. When empty, the ProviderNetwork applies to all nodes. | *[metav1.LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#labelselector-v1-meta) | false |
 | customInterfaces | CustomInterfaces overrides DefaultInterface on specific nodes. | [][UnderlayCustomInterface](#underlaycustominterface) | false |
 | vlanID | VlanID is the 802.1Q tag applied to traffic on this underlay. | int | true |
 | cidrBlock | CIDRBlock is the IP address range allocated from this underlay subnet. | string | true |
@@ -665,7 +665,7 @@ workspace namespace to prevent cross-tenant collisions.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta) | false |
+| metadata |  | [metav1.ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#objectmeta-v1-meta) | false |
 | spec |  | [VPCSpec](#vpcspec) | false |
 | status |  | [VPCStatus](#vpcstatus) | false |
 
@@ -679,7 +679,7 @@ VPCBFDPort holds optional BFD logical router port configuration.
 | ----- | ----------- | ------ | -------- |
 | enabled | Enabled activates the BFD port. | bool | true |
 | ip | IP is the IP address assigned to the BFD port. | string | false |
-| nodeSelector | NodeSelector restricts which nodes the BFD LRP is hosted on. If not set, Kube-OVN selects up to 3 nodes automatically. | *[metav1.LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#labelselector-v1-meta) | false |
+| nodeSelector | NodeSelector restricts which nodes the BFD LRP is hosted on. If not set, Kube-OVN selects up to 3 nodes automatically. | *[metav1.LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#labelselector-v1-meta) | false |
 
 [Back to Group](#v1alpha1)
 
@@ -701,7 +701,7 @@ VPCList is the list type for VPC.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
-| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#listmeta-v1-meta) | false |
+| metadata |  | [metav1.ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#listmeta-v1-meta) | false |
 | items |  | [][VPC](#vpc) | true |
 
 [Back to Group](#v1alpha1)
