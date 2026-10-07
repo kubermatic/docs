@@ -2273,6 +2273,7 @@ _Appears in:_
 | `lastProviderReconciliation` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.37/#time-v1-meta)_ | {{< unsafe >}}LastProviderReconciliation is the time when the cloud provider resources<br />were last fully reconciled (during normal cluster reconciliation, KKP does<br />not re-check things like security groups, networks etc.).{{< /unsafe >}} |
 | `namespaceName` _string_ | {{< unsafe >}}NamespaceName defines the namespace the control plane of this cluster is deployed in.{{< /unsafe >}} |
 | `versions` _[ClusterVersionsStatus](#clusterversionsstatus)_ | {{< unsafe >}}Versions contains information regarding the current and desired versions<br />of the cluster control plane and worker nodes.{{< /unsafe >}} |
+| `kubelb` _[KubeLBStatus](#kubelbstatus)_ | {{< unsafe >}}KubeLB contains the observed state of the kubeLB integration.{{< /unsafe >}} |
 | `userName` _string_ | {{< unsafe >}}Deprecated: UserName contains the name of the owner of this cluster.<br />This field is not actively used and will be removed in the future.{{< /unsafe >}} |
 | `userEmail` _string_ | {{< unsafe >}}UserEmail contains the email of the owner of this cluster.<br />During cluster creation only, this field will be used to bind the `cluster-admin` `ClusterRole` to a cluster owner.{{< /unsafe >}} |
 | `errorReason` _[ClusterStatusError](#clusterstatuserror)_ | {{< unsafe >}}ErrorReason contains a error reason in case the controller encountered an error. Will be reset if the error was resolved.{{< /unsafe >}} |
@@ -4575,6 +4576,7 @@ _Appears in:_
 | `enabled` _boolean_ | {{< unsafe >}}Controls whether kubeLB is deployed or not.{{< /unsafe >}} |
 | `useLoadBalancerClass` _boolean_ | {{< unsafe >}}UseLoadBalancerClass is used to configure the use of load balancer class `kubelb` for kubeLB. If false, kubeLB will manage all load balancers in the<br />user cluster irrespective of the load balancer class.{{< /unsafe >}} |
 | `enableGatewayAPI` _boolean_ | {{< unsafe >}}EnableGatewayAPI is used to enable Gateway API for KubeLB. Once enabled, KubeLB installs the Gateway API CRDs in the user cluster.{{< /unsafe >}} |
+| `disableGatewayAPIProtection` _boolean_ | {{< unsafe >}}DisableGatewayAPIProtection disables the policy that reserves the Gateway API CRDs for the kubeLB CCM,<br />and stops KKP from removing the upstream Gateway API safe-upgrades policy. Protection is also off when<br />the KubermaticConfiguration or the datacenter disables it.{{< /unsafe >}} |
 | `extraArgs` _object (keys:string, values:string)_ | {{< unsafe >}}ExtraArgs are additional arbitrary flags to pass to the kubeLB CCM for the user cluster.{{< /unsafe >}} |
 
 
@@ -4595,6 +4597,7 @@ _Appears in:_
 | --- | --- |
 | `imageRepository` _string_ | {{< unsafe >}}ImageRepository is used to override the KubeLB image repository.<br />It is only for development, tests and PoC purposes. This field must not be set in production environments.{{< /unsafe >}} |
 | `imageTag` _string_ | {{< unsafe >}}ImageTag is used to override the KubeLB image.<br />It is only for development, tests and PoC purposes. This field must not be set in production environments.<br />KKP is responsible for deploying KubeLB along with it's CRDs, RBAC, etc. The tag here is only for the KubeLB CCM container image.<br />Thus if you are using official KubeLB image, upgrades to newer minor or major version of KubeLB is not supported and only patch versions should be adjusted.{{< /unsafe >}} |
+| `disableGatewayAPIProtection` _boolean_ | {{< unsafe >}}DisableGatewayAPIProtection disables, for all user clusters, the policy that reserves the Gateway API<br />CRDs for the kubeLB CCM, and stops KKP from removing the upstream Gateway API safe-upgrades policy.<br />Datacenters and clusters cannot re-enable it.{{< /unsafe >}} |
 
 
 [Back to top](#top)
@@ -4620,6 +4623,7 @@ _Appears in:_
 | `enableGatewayAPI` _boolean_ | {{< unsafe >}}EnableGatewayAPI is used to configure the use of gateway API for kubeLB. Once enabled, Gateway API CRDs are installed for the user cluster.{{< /unsafe >}} |
 | `enableSecretSynchronizer` _boolean_ | {{< unsafe >}}EnableSecretSynchronizer is used to configure the use of secret synchronizer for kubeLB.{{< /unsafe >}} |
 | `disableIngressClass` _boolean_ | {{< unsafe >}}DisableIngressClass is used to disable the ingress class `kubelb` filter for kubeLB.{{< /unsafe >}} |
+| `disableGatewayAPIProtection` _boolean_ | {{< unsafe >}}DisableGatewayAPIProtection disables, for the user clusters of this datacenter, the policy that reserves<br />the Gateway API CRDs for the kubeLB CCM, and stops KKP from removing the upstream Gateway API<br />safe-upgrades policy. Clusters cannot re-enable it.{{< /unsafe >}} |
 | `extraArgs` _object (keys:string, values:string)_ | {{< unsafe >}}ExtraArgs are additional arbitrary flags to pass to the kubeLB CCM for the user cluster. These args are propagated to all the user clusters unless overridden at a cluster level.{{< /unsafe >}} |
 
 
@@ -4659,6 +4663,24 @@ _Appears in:_
 | Field | Description |
 | --- | --- |
 | `kubeconfig` _[ObjectReference](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.37/#objectreference-v1-core)_ | {{< unsafe >}}Kubeconfig is reference to the Kubeconfig for the kubeLB management cluster.{{< /unsafe >}} |
+
+
+[Back to top](#top)
+
+
+
+### KubeLBStatus
+
+
+
+KubeLBStatus is the observed state of the kubeLB integration.
+
+_Appears in:_
+- [ClusterStatus](#clusterstatus)
+
+| Field | Description |
+| --- | --- |
+| `gatewayAPIProtected` _boolean_ | {{< unsafe >}}GatewayAPIProtected reports whether the policy that reserves the Gateway API CRDs for the kubeLB CCM<br />is installed. No omitempty, so false stays visible.{{< /unsafe >}} |
 
 
 [Back to top](#top)
