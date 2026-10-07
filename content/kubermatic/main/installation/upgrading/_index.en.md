@@ -57,3 +57,22 @@ accordingly.
 
 It is generally good practice to lower the limit prior to performing an upgrade,
 observing the seed cluster load afterwards and then resetting it again.
+
+### Helm Release Handling
+
+Helm 4 records an apply method, client-side or server-side, on every release
+revision it writes. Releases installed with Helm 3 recorded none, so Helm 4
+applies them client-side.
+
+Before upgrading a release, the kubermatic-installer runs `helm get metadata`.
+It passes `--server-side=true --force-conflicts` only when Helm will apply the
+release server-side: the release does not exist yet, its newest revision has
+the status `uninstalled`, or its newest revision records the apply method
+`ssa`. Every other release is upgraded without apply flags. This covers all
+releases originally installed with Helm 3.
+
+No action is required. Upgrades of these releases previously failed with:
+
+```bash
+Error: UPGRADE FAILED: invalid client update option(s): forceConflicts enabled when serverSideApply disabled
+```
