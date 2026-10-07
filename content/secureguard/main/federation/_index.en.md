@@ -11,7 +11,7 @@ backend credentials (Vault, AWS, …) live in exactly one place — the federati
 cluster — instead of being copied into every consuming cluster.
 
 {{% notice note %}}
-**Status:** opt-in and disabled by default. The federation **broker** and CRDs, the first-class **`fedclient`** consumer, and **both resolvers** — the lean Kubernetes-Secret resolver and the live ESO-library resolver (all providers) — are available. See *Resolution modes* below.
+**Edition:** running the federation broker requires **Enterprise Advanced** and is opt-in, disabled by default. Community provides a read-only federation list. The Enterprise dashboard and proxy, shared by both commercial tiers, provide resource management; creating a resource does not install a broker. The first-class **`fedclient`** consumer and **both resolvers** — the lean Kubernetes-Secret resolver and the live ESO-library resolver (all providers) — are available. See *Resolution modes* below.
 {{% /notice %}}
 
 ## Architecture
@@ -90,6 +90,95 @@ spec:
 
 The CR examples above are complete — apply them with `kubectl apply` on the hub cluster.
 
+## Managing resources in the dashboard
+
+Open **Federation**, then choose **Servers** or **Authorizations**. The lists
+show the cluster and reconciliation status. In the Enterprise dashboard, use
+the create action or open a resource to inspect its YAML and status conditions,
+edit it, or delete it. Community retains read-only lists.
+
+Select an explicit target cluster when creating a resource from **All Clusters**.
+Name and cluster cannot change during editing; changing the global selector
+does not move an open edit to another cluster. These resources are
+cluster-scoped, so the namespace filter does not limit them. Your Kubernetes
+RBAC must permit `get`/`list` and the requested `create`, `patch`, or `delete`
+verb on the relevant resource in `federation.secureguard.io`. Unavailable or
+denied permission checks disable the corresponding action.
+
+### Server fields
+
+The guided form exposes:
+
+- **Trusted issuers:** a unique name, issuer URL, optional audiences, and an
+  optional base64-encoded public PEM CA bundle for discovery over private-CA TLS.
+  Omitted or empty audiences inherit the broker's default audiences.
+- **Exposed stores:** an alias, store kind (`SecretStore` or
+  `ClusterSecretStore`), reference name, and namespace. Keep the namespace even
+  for a ClusterSecretStore when using the interim resolver: it identifies the
+  namespace containing the materialized Kubernetes Secrets.
+
+Empty issuer or exposed-store lists are valid and can be used to revoke trust
+or store access. The CA field accepts a public certificate bundle, not a private
+key, token, or backend credential. Certificate validity and trust are checked
+by the backend; base64 validation alone does not establish trust.
+
+### Authorization fields
+
+The guided form exposes Kubernetes identity selectors for issuer
+and ServiceAccount (`namespace/name`), plus allow rules containing a store
+alias and key patterns. Enter one audience or key pattern per line. Exact
+array values containing embedded carriage returns or newlines are shown as
+escaped entries and can only be edited in YAML, avoiding accidental splitting.
+
+{{% notice warning %}}
+Authorization policies apply globally to all brokers in the selected cluster.
+Omitting identity selectors broadens matching. Other matching policies can
+continue to grant access after you restrict or delete one policy.
+{{% /notice %}}
+
+### YAML, conflicts, and status
+
+Resource details open in a read-only **Form** view. Use the **Form / YAML**
+switch to inspect the same resource as labeled configuration fields or its full
+YAML document. Choose **Edit** to change configuration.
+
+Switch between the guided form and YAML to work with additional supported
+fields. Unknown spec fields and user metadata are preserved during unrelated
+edits. Server-managed metadata and status are excluded from submitted changes.
+
+An edit includes the original resource version. If another writer changes the
+resource, a conflict preserves your draft; return to the latest detail, review
+the new version, and reapply the intended change. A duplicate create reports
+that the name already exists. Delete confirmation identifies the resource and
+cluster and uses a UID precondition, protecting a same-name replacement.
+
+The pending-style **Reconciling** badge means the controller has not acknowledged
+the current generation. An unserved FederationServer can remain Reconciling because no broker is configured
+to serve it. **Terminating** means deletion is accepted but Kubernetes still
+retains the object, for example because of a finalizer. The detail view includes
+controller reasons, messages, observed generations, and Degraded warnings.
+Missing CRDs, forbidden reads, and unreachable clusters have distinct errors;
+successful results from other clusters remain visible.
+
+### Resource management and broker deployment
+
+The dashboard manages the two custom resources only. Listener addresses,
+ports, TLS Secret mounts, client CA configuration, Deployments, Services,
+and ingress remain controlled through the deployment manifests or Helm chart.
+Existing `spec.listen` values are preserved, but cannot be edited in the UI,
+including its YAML editor. Configure the broker to serve the intended
+FederationServer through `federation.serverName`.
+
+Deleting a FederationServer does not uninstall the broker or delete its
+authorization policies. Once the running broker reconciles removal of its
+served resource, it clears issuers and exposed stores. Restoring that resource
+allows reconciliation to restore service. Revocations apply after reconciliation;
+requests already authorized and resolving are not cancelled. A broker starting
+without its configured server fails startup.
+
+The dashboard never fetches secret values from the broker and has no reveal or
+copy-value action. Test secret delivery with the consumer tooling below.
+
 ## Deploying the broker
 
 The broker ships as the `federation/` module and is deployed via the Helm
@@ -97,6 +186,7 @@ chart, **disabled by default**:
 
 ```yaml
 # values.yaml
+edition: enterprise-advanced
 federation:
   enabled: true
   serverName: default
