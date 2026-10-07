@@ -44,12 +44,19 @@ from `--username` and `--password-stdin`). It writes one folder: the three bundl
 a checksum for every file, and the installer itself. An interrupted download resumes when you run the same command
 again. A complete folder is verified, not downloaded again.
 
-At the end it prints two values. Keep them apart from the folder — for example in your change ticket:
+At the end it prints two values and the commands to run on the jump host. Keep the two values apart from the folder
+— for example in your change ticket:
 
 ```text
 Carry these two values SEPARATELY from the folder (change ticket, e-mail):
   marker digest:    sha256:…
   installer sha256: …
+
+On the air-gapped jump host, before running anything from the folder:
+  sha256sum ./kubev-offline-v1.3.0/bin/kubermatic-virtualization      # must print the installer sha256 above
+Then, as root, with the marker digest you carried:
+  ./kubev-offline-v1.3.0/bin/kubermatic-virtualization offline serve --from ./kubev-offline-v1.3.0 --marker-digest sha256:… --address <jump-host-ip> --config kubev.yaml
+  (add --dns <site-dns-ip> when kubev.yaml names no networkConfiguration.dnsServerIP)
 ```
 
 ## Step 2 — Carry the folder into the site
@@ -79,12 +86,14 @@ Then, as root, with the installer from the folder:
 ```bash
 sudo ./kubev-offline-v1.3.0/bin/kubermatic-virtualization offline serve \
   --from ./kubev-offline-v1.3.0 \
+  --marker-digest sha256:… \
   --address 10.0.0.10 \
   --config kubev.yaml
 ```
 
-`--address` is the jump host's IP address that the nodes use. Add `--marker-digest <value>` to pin the folder to the
-marker digest you carried separately. Add `--dns <ip>` when `kubev.yaml` does not name a DNS server yet.
+`--marker-digest` is the marker digest you carried separately: `offline serve` checks the folder against it before it
+uses anything from the folder. `--address` is the jump host's IP address that the nodes use. Add `--dns <ip>` when
+`kubev.yaml` does not name a DNS server yet.
 
 What `offline serve` does, in order:
 
@@ -107,10 +116,11 @@ What `offline serve` does, in order:
 A successful run ends with:
 
 ```text
-READY TO INSTALL
+READY TO INSTALL: release v1.3.0, marker sha256:…
   registry  https://10.0.0.10:5000   83 artifacts, … every byte fetched back and hashed
   packages  http://10.0.0.10   signed by key …; the installer's apt calls get 175 packages
   trust     this host trusts the registry's certificate (…)
+  pushes    anyone may pull; pushing needs the login kept root-only in /var/lib/kubermatic-virtualization/offline/push/config.json
   nodes     3 nodes reach the mirror and can install from it (…)
   config    kubev.yaml written (the previous file is kubev.yaml.bak-…)
 
@@ -165,13 +175,18 @@ credential prompt; the mirror does not need credentials.
 
 ## Virtual machine images
 
-The bundle carries the platform. Add your own VM images to the jump host's registry, for example with
-[ORAS](https://oras.land/):
+The bundle carries the platform. Add your own VM images to the jump host's registry from an OCI layout (a folder
+holding one image, carried into the site like the bundle). Every `offline serve` run ends with the command for this
+host: it runs the [ORAS](https://oras.land/) client that comes with the bundle, with the mirror's certificate authority
+and the push login `offline serve` keeps for root. Anyone on the site network can pull from the registry; pushes need
+that login.
 
 ```bash
-oras cp --from-oci-layout ./ubuntu-layout:24.04 \
-  --to-ca-file /var/lib/kubermatic-virtualization/offline/pub/ca.crt \
-  10.0.0.10:5000/containerdisks/ubuntu:24.04
+sudo docker run --rm --network host \
+  -v /var/lib/kubermatic-virtualization/offline/pub:/ca:ro \
+  -v /var/lib/kubermatic-virtualization/offline/push/config.json:/push/config.json:ro -e DOCKER_CONFIG=/push \
+  -v "$PWD/ubuntu-layout:/layout:ro" --entrypoint oras sha256:<as printed> \
+  cp --from-oci-layout --to-ca-file /ca/ca.crt /layout:24.04 10.0.0.10:5000/containerdisks/ubuntu:24.04
 ```
 
 Reference them in your VMs and data volumes as `docker://10.0.0.10:5000/containerdisks/ubuntu:24.04`.
@@ -189,8 +204,9 @@ release, before you run `apply`.
 - **Status** — `offline serve --status` shows the release served, the last result, the certificate's expiry and the
   configurations that point at the mirror. It changes nothing.
 - **Stop** — `offline serve --stop` removes the two containers and the trust-store entry; the loaded images stay for a
-  later run. `--stop --purge` also removes the images and the mirror's certificate authority. Keep the mirror running
-  as long as the cluster uses it: new nodes, rescheduled pods and upgrades pull from it.
+  later run. `--stop --purge` also removes the images `offline serve` loaded and what it created on the jump host:
+  the certificate authority, the registry certificate and the push login. Keep the mirror running as long as the
+  cluster uses it: new nodes, rescheduled pods and upgrades pull from it.
 - **Next release** — download its bundle with that release's installer and serve it with that installer, push your
   VM images again, then run the `apply` command it prints. During the upgrade the nodes switch to the new release's
   package signing key.
