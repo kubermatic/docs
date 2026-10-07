@@ -229,6 +229,9 @@ spec:
     dockerRepository: 172.20.0.2:5000/kubermatic/kubermatic
   ui:
     dockerRepository: 172.20.0.2:5000/kubermatic/dashboard
+  # The util toolbox image used by KKP Jobs and init containers
+  util:
+    dockerRepository: 172.20.0.2:5000/kubermatic/util
   # etc.
   # Overwrite the OCI Helm repository that should be used to install applications
   applications:
