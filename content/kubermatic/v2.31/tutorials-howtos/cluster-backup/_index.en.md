@@ -77,7 +77,13 @@ To configure a new one-time backup, go to the Backups list, select the cluster y
 
 You can select the Namespaces that you want to include in this backup configuration from the dropdown list. Note that this list of Namespaces is directly fetched from your cluster, so you need to create the Namespaces before configuring the backup.
 
-You can define the backup expiration period, which defaults to **30 days** and you can also choose if you want to backup Persistent Volumes or not. KKP integration uses Velero's [File System Backup](https://velero.io/docs/v1.12/file-system-backup/) to cover the widest range of use cases. Persistent Volumes backup is enabled by default.
+You can define the backup expiration period in hours, minutes and seconds, for example `168h` or `24h10m10s`. The period defaults to **30 days**. You can also choose if you want to backup Persistent Volumes or not. KKP integration uses Velero's [File System Backup](https://velero.io/docs/v1.12/file-system-backup/) to cover the widest range of use cases. Persistent Volumes backup is enabled by default.
+
+{{% notice warning %}}
+**Days are not a supported unit.** Use hours instead, for example `168h` for 7 days.
+{{% /notice %}}
+
+![Expires In rejects a day unit](images/expires-in-day-unit-error.png?classes=shadow,border "Expires In rejects a day unit")
 
 {{% notice note %}}
 Backing up Persistent Volume data to S3 backend can be resource intensive, especially if your cluster has a large volume of working data that is not critical or if you have limited storage resources in the backend. You can defined opt-in/out configuration for your user cluster workloads as detailed in the Velero [documentation](https://velero.io/docs/v1.12/file-system-backup/#to-back-up)
@@ -127,7 +133,7 @@ After Backup Storage Location is selected, an explorer UI is shown which display
 By default, KKP uses the sub-directory convention of `/<project-id>/<cluster-id>` for each user cluster. The backup folder created by Velero contains **backups** and **kopia** directories.
 Please note that if the selected path is incorrect, Velero won’t be able to sync the backups.
 
-Additionally you can also customize the Backup Sync Period which will be used to sync backups from S3. By default this value is same as the Backup Sync Period configured in selected Backup Storage Location.
+Additionally you can also customize the Backup Sync Period which will be used to sync backups from S3. By default this value is same as the Backup Sync Period configured in selected Backup Storage Location. It is given in hours, minutes and seconds, for example `1h` or `2m10s`.
 
 When "Import Backup" button is clicked, a new Backup Storage Location is created in the target user cluster where `prefix` value is set to the selected directory path. Backups in the selected directory should appear automatically after the Backup Sync Period and then those backups can be downloaded or restored as required.
 
