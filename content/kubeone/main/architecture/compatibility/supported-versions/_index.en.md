@@ -14,13 +14,13 @@ support policy in the [Version Skew Policy document][upstream-supported-versions
 In the following table you can find the supported Kubernetes versions for the
 current KubeOne version.
 
-| KubeOne \ Kubernetes | 1.36 | 1.35 | 1.34 | 1.33 | 1.32 |
+| KubeOne \ Kubernetes | 1.37 | 1.36 | 1.35 | 1.34 | 1.33 |
 | -------------------- | ---- | ---- | ---- | ---- | ---- |
-| v1.14                | ✓   | ✓   | ✓   | -    | -    |
-| v1.13                | -    | ✓   | ✓   | ✓   | -    |
-| v1.12                | -    | -    | ✓   | ✓   | ✓   |
+| v1.15                | ✓   | ✓   | ✓   | -    | -    |
+| v1.14                | -    | ✓   | ✓   | ✓   | -    |
+| v1.13                | -    | -    | ✓   | ✓   | ✓   |
 
 We recommend using a Kubernetes release that's not older than one minor release than the latest Kubernetes release. For
-example, with 1.35 being the latest supported release, we recommend running at least Kubernetes 1.34.
+example, with 1.37 being the latest supported release, we recommend running at least Kubernetes 1.35.
 
 [upstream-supported-versions]: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
