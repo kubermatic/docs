@@ -344,6 +344,7 @@ offlineSettings:
     password: "helm-password"
     insecure: false
   packageRepository: "https://packages.internal.example.com"
+  packageRepositoryKeyFingerprint: "A1B2C3D4E5F60718293A4B5C6D7E8F9012345678"
 ```
 
 When `enabled: true`, KubeV will not reach out to the public internet during installation or upgrades. Every container image, Helm chart, and OS package must be pre-loaded into the internal mirrors you configure here.
@@ -362,8 +363,11 @@ When `enabled: true`, KubeV will not reach out to the public internet during ins
 | `helmRegistry.password` | No | Basic-auth password for the Helm registry. |
 | `helmRegistry.insecure` | No | Disable TLS verification for the Helm registry. |
 | `packageRepository` | No | URL of an internal OS package repository (RPMs, DEBs, or binaries) used during node provisioning and upgrades. |
+| `packageRepositoryKeyFingerprint` | No | Fingerprint of the key that signs `packageRepository`, as `gpg --show-keys` prints it for the repository's `key.asc`. Ubuntu nodes then accept only this key, at installation and before every upgrade. |
 
 ### Preparing an Air-Gapped Environment
+
+`kubermatic-virtualization offline serve` prepares all of the following from the release's offline bundle, checks the nodes, and writes `offlineSettings` for you — see [Offline Installation]({{< ref "../installation/offline-installation" >}}). To use your own registry and repository instead:
 
 Before running `kubev apply` in offline mode, the following must be in place:
 
