@@ -15,19 +15,26 @@ SecureGuard ships with **OpenBao** (Vault-compatible secret engine), **Dex** (OI
 
 ## Prerequisites
 
+{{% notice note %}}
+SecureGuard's images are served from a **private** Quay repository, and access is
+by invitation. Please [contact sales](mailto:sales@kubermatic.com) to receive your
+registry credentials before you start.
+{{% /notice %}}
+
 A local `kubectl` + `helm` v3 CLI and a Kubernetes cluster (v1.27 or newer
 recommended) are the minimum. For any non-local install you also need the
 platform pieces below — a bare cluster is **not** enough to reach a working,
 TLS-terminated login.
 
 ### Cluster & tooling
-- A Kubernetes cluster (v1.27 or newer recommended).
+- A Kubernetes cluster (v1.27 or newer recommended) with **at least 3 worker nodes of 2 vCPU / 4 GiB each**. The default 3-node Raft OpenBao uses pod anti-affinity and the ACME HTTP solver needs headroom. For a single-node evaluation use the dev mode below.
 - `kubectl` and `helm` v3 CLIs installed and pointed at the cluster.
-- **Registry pull credentials** — SecureGuard's images are served from a
-  **private** Quay repository. Without a pull secret the pods stay in
-  `ImagePullBackOff` and `kubectl describe pod` shows `401 Unauthorized`. Create
-  a docker-registry Secret and reference it:
+- **A registry pull secret** — create a docker-registry Secret from the
+  credentials above, then reference it in your values. The chart wires no pull
+  secret by default, so both steps are needed; miss either one and the pods stay
+  in `ImagePullBackOff` with `401 Unauthorized` in `kubectl describe pod`.
   ```bash
+  kubectl create namespace secureguard-system
   kubectl create secret docker-registry secureguard-pull \
     --namespace secureguard-system \
     --docker-server=quay.io \
@@ -73,6 +80,35 @@ TLS-terminated login.
   headroom-generous `openbao.server.dataStorage.size` at install time, or use a
   StorageClass with `allowVolumeExpansion: true`.
 
+## What the Chart Deploys (and Wires Up)
+
+Beyond installing the components, the chart performs several pieces of automation worth knowing about:
+
+| Component / behaviour | Value | Default |
+|---|---|---|
+| Dashboard UI + backend proxy | (always deployed) | — |
+| Dex OIDC provider | `dex.enabled` | `true` |
+| OpenBao | `openbao.enabled` | `true` |
+| External Secrets Operator | `eso.enabled` | `true` |
+| Reloader (event-driven rotation) | `reloader.enabled` | `false` |
+| **SG Agent Controller** (multi-cluster ESO lifecycle, heartbeats) | `sgAgent.enabled` | **`false`** |
+| **Federation broker** (cross-cluster secret serving) | `federation.enabled` | **`false`** |
+
+{{% notice note %}}
+The **SG Agent** and **Federation** are opt-in. Without `sgAgent.enabled=true` there are no ESODeployment reconciliation, heartbeats, or ESO auto-discovery — the related dashboard pages stay empty. See [Multi-Cluster Deployments]({{< ref "../advanced-configuration/#multi-cluster-deployments" >}}) and the [Federation guide]({{< ref "../federation/" >}}).
+{{% /notice %}}
+
+**Automatic wiring** (each can be disabled):
+
+- **Session secret** — `auth.sessionSecret` is auto-generated on first install and kept stable across upgrades if left empty. Set it explicitly when running multiple releases that must share sessions.
+- **OpenBao self-initialization** (`openbao.init.enabled`, default `true`) — an ordered post-install/upgrade hook Job (weight 0) runs `operator init`, unseals every Raft node, enables the Kubernetes auth method, and creates a chart admin role — then **revokes the root token** (it is never persisted). The Shamir unseal key shares are stored in the `<release>-openbao-keys` Secret. See [Self-Initialization](#openbao-self-initialization--unsealing).
+- **Kubernetes auth for ESO** (`openbao.kubernetesAuth.enabled`, default `true`) — a post-install Job (weight 5) configures the KV v2 engine, the ESO read policy, and the `eso-role` bound to the ESO ServiceAccount. Under self-init it authenticates via the chart admin role (no root token exists).
+- **Dex → OpenBao login** (`openbao.oidc.enabled`, default `true`) — a post-install Job (weight 10) configures OpenBao's OIDC auth method so users can log in to the OpenBao UI with the same Dex identity, also via the chart admin role.
+- **Default ClusterSecretStore** (`eso.vaultSecretStore.enabled`, default `true`) — when both ESO and OpenBao are enabled, the chart creates a ready-to-use `ClusterSecretStore` named `openbao-backend` pointing at the bundled OpenBao (KV v2).
+- **Projected SA tokens** — `serviceAccount.tokenExpirationSeconds` (default `3600`) controls the lifetime of the proxy/agent tokens; the kubelet rotates them automatically.
+
+---
+
 ## Deployment Modes
 
 SecureGuard's Helm chart bundles all necessary Custom Resource Definitions (CRDs) and sub-chart dependencies (OpenBao, Dex, ESO, Reloader).
@@ -85,6 +121,10 @@ helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
   --namespace secureguard-system \
   --create-namespace
 ```
+
+Omitting `--version` installs the latest published chart. Pin it explicitly for
+production and repeatable installs — add `--version <chart-version>` and see the
+[Upgrade Guides]({{< ref "../upgrade-guides/" >}}) before moving between versions.
 
 - **Dex** provides OIDC authentication.
 - **OpenBao** provides a Vault-compatible secret backend. By default it deploys as a **3-node integrated-Raft HA cluster that is automatically initialized and unsealed** — no manual `operator init`/unseal step is required (see [Self-Initialization](#openbao-self-initialization--unsealing)).
@@ -136,35 +176,6 @@ helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
 
 ---
 
-## What the Chart Deploys (and Wires Up)
-
-Beyond installing the components, the chart performs several pieces of automation worth knowing about:
-
-| Component / behaviour | Value | Default |
-|---|---|---|
-| Dashboard UI + backend proxy | (always deployed) | — |
-| Dex OIDC provider | `dex.enabled` | `true` |
-| OpenBao | `openbao.enabled` | `true` |
-| External Secrets Operator | `eso.enabled` | `true` |
-| Reloader (event-driven rotation) | `reloader.enabled` | `false` |
-| **SG Agent Controller** (multi-cluster ESO lifecycle, heartbeats) | `sgAgent.enabled` | **`false`** |
-| **Federation broker** (cross-cluster secret serving) | `federation.enabled` | **`false`** |
-
-{{% notice note %}}
-The **SG Agent** and **Federation** are opt-in. Without `sgAgent.enabled=true` there are no ESODeployment reconciliation, heartbeats, or ESO auto-discovery — the related dashboard pages stay empty. See [Multi-Cluster Deployments]({{< ref "../advanced-configuration/#multi-cluster-deployments" >}}) and the [Federation guide]({{< ref "../federation/" >}}).
-{{% /notice %}}
-
-**Automatic wiring** (each can be disabled):
-
-- **Session secret** — `auth.sessionSecret` is auto-generated on first install and kept stable across upgrades if left empty. Set it explicitly when running multiple releases that must share sessions.
-- **OpenBao self-initialization** (`openbao.init.enabled`, default `true`) — an ordered post-install/upgrade hook Job (weight 0) runs `operator init`, unseals every Raft node, enables the Kubernetes auth method, and creates a chart admin role — then **revokes the root token** (it is never persisted). The Shamir unseal key shares are stored in the `<release>-openbao-keys` Secret. See [Self-Initialization](#openbao-self-initialization--unsealing).
-- **Kubernetes auth for ESO** (`openbao.kubernetesAuth.enabled`, default `true`) — a post-install Job (weight 5) configures the KV v2 engine, the ESO read policy, and the `eso-role` bound to the ESO ServiceAccount. Under self-init it authenticates via the chart admin role (no root token exists).
-- **Dex → OpenBao login** (`openbao.oidc.enabled`, default `true`) — a post-install Job (weight 10) configures OpenBao's OIDC auth method so users can log in to the OpenBao UI with the same Dex identity, also via the chart admin role.
-- **Default ClusterSecretStore** (`eso.vaultSecretStore.enabled`, default `true`) — when both ESO and OpenBao are enabled, the chart creates a ready-to-use `ClusterSecretStore` named `openbao-backend` pointing at the bundled OpenBao (KV v2).
-- **Projected SA tokens** — `serviceAccount.tokenExpirationSeconds` (default `3600`) controls the lifetime of the proxy/agent tokens; the kubelet rotates them automatically.
-
----
-
 ## Install Order (DNS & TLS)
 
 On a cloud cluster the ingress load-balancer address only exists **after** the
@@ -188,7 +199,17 @@ TLS enabled:
    ```bash
    kubectl get certificate -n secureguard-system
    ```
-5. **Log in** at `https://secureguard.example.com`.
+5. **Grant RBAC bindings.** The chart ships none, so a user who authenticates
+   with no bindings logs in and gets `403 Forbidden` for every resource. Bind
+   your users or OIDC groups before first login — see
+   [User Authorization]({{< ref "../advanced-configuration/#user-authorization-rbac-via-impersonation" >}}).
+6. **Verify the install.** The chart ships an end-to-end check covering the
+   CRDs, OpenBao unsealing, Dex discovery, and the `openbao-backend`
+   ClusterSecretStore:
+   ```bash
+   helm test secureguard --namespace secureguard-system
+   ```
+7. **Log in** at `https://secureguard.example.com`.
 
 {{% notice info %}}
 No component restart is required between these steps. The proxy performs OIDC
@@ -236,6 +257,25 @@ persistent OpenBao replicas.
 
 ---
 
+## Uninstalling
+
+```bash
+helm uninstall secureguard --namespace secureguard-system
+```
+
+Four things outlive the release and must be removed by hand if you are decommissioning rather than reinstalling:
+
+- **OpenBao data PVCs** — one per Raft replica. StatefulSet volume claims are never garbage-collected by Helm. Removing them destroys your secrets.
+- **`<release>-openbao-keys`** — written by the init Job, so it is not part of the release. Keep it if you intend to reinstall against the same PVCs.
+- **`<release>-dex-admin`** — carries `helm.sh/resource-policy: keep`.
+- **SecureGuard CRDs** — installed by a pre-install hook Job rather than from `crds/`, so Helm does not track them: `esodeployments.deploy.secureguard.io`, `esoversions.deploy.secureguard.io`, `sgagents.agent.secureguard.io`, `federationservers.federation.secureguard.io`, `federationauthorizations.federation.secureguard.io`. Removing a CRD also removes every custom resource of that kind.
+
+{{% notice warning %}}
+Removing the PVCs or `<release>-openbao-keys` makes the stored secrets unrecoverable. Confirm your escrowed copy of the unseal keys first.
+{{% /notice %}}
+
+---
+
 ## Production Hardening
 
 When moving to production, several configurations MUST be applied to ensure a secure, resilient platform. This section covers the availability-oriented settings; for the full security checklist (authentication, RBAC, container security, CSP), work through the [Security Hardening guide]({{< ref "../security-hardening/" >}}).
@@ -270,6 +310,8 @@ A freshly deployed OpenBao is **sealed** and must be initialized and unsealed be
 ```bash
 kubectl get secret <release>-openbao-keys -n secureguard-system -o yaml > openbao-keys.backup.yaml
 ```
+
+The written file holds the key shares in plain text; delete it once it is in escrow.
 
 For break-glass admin access (the root token is revoked after init and never persisted), run `bao operator generate-root` using the stored key shares.
 {{% /notice %}}
