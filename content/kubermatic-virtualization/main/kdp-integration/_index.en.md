@@ -6,81 +6,84 @@ weight = 7
 
 Kubermatic Virtualization (KubeV) can run as a service of the
 [Kubermatic Developer Platform](/developer-platform/v1.2/) (KDP). Teams then get virtual
-machines, networks, disks and backups in their own KDP projects, from the same catalog as
-every other service on the platform, while KubeV keeps running them on its own cluster.
+machines, networks, disks and backups in their own KDP projects, from the same catalog as every
+other service on the platform, while KubeV runs them on its own cluster.
 
-This section is for two audiences:
+```mermaid
+flowchart TB
+  user(["User"])
+  kdpui["KDP dashboard<br/>catalog, members, roles"]
+  provider["kcp workspace<br/>root:kubev<br/>the KubeV service"]
+  project["kcp workspace<br/>root:acme:dev<br/>VMs, networks,<br/>disks, backups"]
+  kubevui["KubeV dashboard<br/>and API server"]
+  agent["api-syncagent"]
+  ns["Namespace<br/>acme--dev--default<br/>run by KubeVirt, CDI,<br/>Kube-OVN and KubeV"]
 
-- **Platform administrators**, who install KubeV with KDP and run the platform. Start with
-  [How it works](#how-it-works), then [Installing KubeV with KDP]({{< ref "./installation" >}}).
-- **Project users**, who create virtual machines in a KDP project. Start with
-  [Using KubeV in a KDP Project]({{< ref "./using-kubev" >}}).
+  user -->|"1. opens a project"| kdpui
+  kdpui -->|"2. Open KubeV"| kubevui
+  kubevui -->|"3. requests with<br/>the user's own token"| project
+  provider -.->|"enabled in"| project
+  project <-->|"4. objects down,<br/>status up"| agent
+  agent --> ns
 
-## Pages
+  classDef kdp fill:#e8f1fb,stroke:#1f5fa8,color:#0d3c73
+  classDef kv fill:#e3f4e8,stroke:#2e7d32,color:#1b5e20
+  classDef ext fill:#fff4e0,stroke:#b26a00,color:#6d4100
+  class kdpui,provider,project kdp
+  class kubevui,agent,ns kv
+  class user ext
+```
 
-{{% children depth=1 %}}
-{{% /children %}}
+In the diagrams of this section, blue is KDP, green is the KubeV cluster, and orange is outside both.
+
+KDP stores each project's objects and decides who may do what. The api-syncagent copies the
+objects to the KubeV cluster, where KubeVirt, Kube-OVN and the KubeV controllers run them, and
+copies their status back. [How It Works]({{< ref "./how-it-works" >}}) explains every step.
+
+## Read this first
+
+{{% notice warning %}}
+**The KDP dashboard is the entry point.** Organizations, projects, members, roles and services are
+managed in KDP, never in KubeV. Users sign in to KDP, open a project, and choose
+**Open KubeV Virtualization** there. KubeV then works in that one project, and has no
+administration pages of its own.
+{{% /notice %}}
+
+{{% notice warning %}}
+**KubeV works in projects only.** Never create VMs or other KubeV resources in an organization, or
+in a workspace nested below a project. KDP and kcp accept them there, but they never reach the KubeV
+cluster and never run. See [Where KubeV works]({{< ref "./how-it-works#where-kubev-works" >}}).
+{{% /notice %}}
+
+{{% notice warning %}}
+**Organization and project names are limited.** At most 16 characters each, and no `--`. KDP accepts
+longer names, but KubeV can't use such a project, and workspaces can't be renamed. Agree on naming
+before teams create their projects: see
+[Names KubeV can use]({{< ref "./how-it-works#names-kubev-can-use" >}}).
+{{% /notice %}}
+
+## Installation modes
+
+The installer offers three ways to run KubeV with KDP:
+
+| Mode | KDP runs | The installer | Status |
+| --- | --- | --- | --- |
+| [**Bring your own KDP**]({{< ref "./installation/external-kdp" >}}) | Wherever you already run it, KDP 1.2.1 or newer. | Connects the KubeV dashboard to your KDP. You register the KubeV service in KDP yourself. | Supported |
+| [**Same layer**]({{< ref "./installation/same-layer" >}}) | On the KubeV cluster, next to KubeV. | Installs kcp and KDP, registers the KubeV service and enables it in every project. | Supported |
+| [**Nested cluster**]({{< ref "./installation/nested" >}}) | In its own Kubernetes cluster, on KubeVirt VMs on the KubeV cluster. | Creates the VMs and the cluster, installs KDP in it, registers the KubeV service, and runs the api-syncagent on the KubeV cluster. | Experimental, not for production. No KubeV dashboard. |
+
+[Installation]({{< ref "./installation" >}}) compares them and lists what every mode needs.
 
 ## What changes in KDP mode
-
-In a standalone installation, KubeV manages its own users, roles and namespaces. With KDP,
-KDP takes those over:
 
 | | Standalone | With KDP |
 | --- | --- | --- |
 | **Tenancy** | Namespaces on the KubeV cluster. | KDP organizations and projects. Each project is isolated from the others. |
-| **Users and roles** | KubeV `User`, `KubeVRole` and `KubeVRoleBinding` objects, managed in the KubeV dashboard. | KDP members and roles, managed in the KDP dashboard. KubeV has no IAM pages. |
+| **Users and roles** | KubeV `User`, `KubeVRole` and `KubeVRoleBinding` objects, managed in the KubeV dashboard. | KDP members and roles, managed in the KDP dashboard. |
 | **Who decides what a user may do** | The KubeV API server. | kcp, the control plane behind KDP. KubeV forwards each request with the user's own token. |
-| **Where users start** | The KubeV dashboard. | The KDP dashboard. Its **Open KubeV Virtualization** button opens KubeV in the project. |
+| **Where users start** | The KubeV dashboard. | The KDP dashboard. |
 | **Sign-in** | Basic, OIDC or none. | OIDC only, through the identity provider that KDP and KubeV share. |
-
-The virtual machines themselves, their networks and their storage run on the KubeV cluster
-in both modes. KDP never hosts workloads.
-
-## How it works
-
-KDP is built on [kcp](https://kcp.io), which gives every organization and project its own
-Kubernetes-like API, called a workspace. KubeV plugs into it as a KDP **service provider**:
-
-```text
- KDP project (kcp workspace)                       KubeV cluster
- ---------------------------                       -------------
- VirtualMachine, VPC, Subnet, ...   <-- sync -->    api-syncagent
-   created by users in KubeV or kubectl              |
-                                                     v
-                                        namespace <org>--<project>--<namespace>
-                                          KubeVirt, Kube-OVN and the KubeV
-                                          controllers run the objects, and
-                                          their status flows back to the project
-```
-
-1. KubeV registers a KDP service, `virtualization.k8c.io`, in its own provider workspace
-   (`root:kubev` by default). The service publishes KubeV's resource types to KDP.
-2. A project enables the service. KubeV's resource types then appear in the project, as if
-   they were built into it.
-3. Users create virtual machines, networks and other resources in the project, through the
-   KubeV dashboard or with `kubectl`.
-4. The [api-syncagent](/developer-platform/v1.2/service-providers/api-syncagent/) on the
-   KubeV cluster copies each object to the KubeV cluster, in a namespace of its own for each
-   project namespace, and copies its status back.
-
-Because every project lands in its own namespaces on the KubeV cluster, objects in different
-projects can have the same names without touching each other. Admission policies on the KubeV
-cluster and in kcp keep each project's VMs on its own networks, and away from the platform's
-nodes and internal services. See
-[What the platform enforces]({{< ref "./operations#what-the-platform-enforces" >}}).
-
-## Deployment modes
-
-The installer supports two ways to run KubeV with KDP:
-
-| Mode | What the installer does | Use when |
-| --- | --- | --- |
-| **Same-layer** (default) | Installs kcp and KDP on the KubeV cluster, registers the KubeV service, deploys the api-syncagent and enables KubeV in every project. | You want one platform that runs both KDP and KubeV. |
-| **External** | Connects the KubeV dashboard to a KDP you already run. Installs nothing on the KDP side. | You already operate KDP and want to add KubeV to it. |
-
-A third mode, which runs KDP in its own cluster on KubeVirt VMs on the KubeV cluster, is
-experimental. It doesn't support the KubeV dashboard, and this section doesn't cover it.
+| **Where VMs run** | The KubeV cluster. | The KubeV cluster, in a namespace for each project namespace. |
 
 ## What a project gets
 
@@ -104,13 +107,14 @@ Only the platform administrator manages these:
 - cluster instance types and preferences, storage classes, priority classes and nodes, which
   projects can read but not change.
 
-KubeV's own IAM objects (`User`, `KubeVRole`, `KubeVRoleBinding`) are not used in KDP mode.
+## Where to start
 
-## Requirements
+- **Platform administrators**: read [How It Works]({{< ref "./how-it-works" >}}), pick a mode in
+  [Installation]({{< ref "./installation" >}}), then [Access Control]({{< ref "./access-control" >}})
+  and [Operating the Platform]({{< ref "./operations" >}}).
+- **Project users**: start with [Using KubeV in a KDP Project]({{< ref "./using-kubev" >}}).
 
-- KubeV 1.3 or newer.
-- For external mode, KDP 1.2.1 or newer. Older releases don't show the button that opens
-  KubeV.
-- An OIDC provider that KDP and KubeV share. The installer can deploy Dex for you.
-- If you deploy the KubeV dashboard, OIDC sign-in. KDP mode doesn't support basic or no
-  authentication.
+## Pages
+
+{{% children depth=2 %}}
+{{% /children %}}

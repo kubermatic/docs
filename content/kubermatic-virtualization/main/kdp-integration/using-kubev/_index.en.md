@@ -21,6 +21,14 @@ You need:
 
 Ask your KDP administrator if you have neither.
 
+{{% notice warning %}}
+**Start from KDP, and work in projects only.** Organizations, projects, members and roles are
+managed in the KDP dashboard, and you open KubeV from a project there. Never create VMs or other
+KubeV resources in an organization, or in a workspace below a project, for example with `kubectl`:
+kcp accepts them, but they never run. See
+[Where KubeV works]({{< ref "../how-it-works#where-kubev-works" >}}).
+{{% /notice %}}
+
 ## Opening KubeV
 
 1. In the KDP dashboard, open your project.
@@ -43,7 +51,7 @@ from KDP.
 | **Select a project** | The address names no project, or only an organization. Open a project from KDP. |
 | **Project not available** | The project doesn't exist, you have no role in it, or KubeV isn't enabled in it. Ask one of its owners. |
 | **Organization not available** | The address names an organization you have no access to. |
-| **KubeV can't use this project** | The organization or project name breaks a rule KubeV needs, such as its length. See [Names KubeV can use]({{< ref "../operations#names-kubev-can-use" >}}). Organizations and projects can't be renamed, so the one that breaks the rule has to be recreated with an allowed name. Ask your KDP administrator. |
+| **KubeV can't use this project** | The organization or project name breaks a rule KubeV needs, such as its length. See [Names KubeV can use]({{< ref "../how-it-works#names-kubev-can-use" >}}). Organizations and projects can't be renamed, so the one that breaks the rule has to be recreated with an allowed name. Ask your KDP administrator. |
 | **You don't have access to any organization yet** | You signed in, but have no role anywhere in KDP. Ask an administrator to add you to a project. |
 
 ## Namespaces
@@ -87,68 +95,10 @@ A few checks can only run on the KubeV cluster, for example whether a VM's netwo
 the project. An object refused there is saved in your project but never runs, and KubeV shows no
 status for it. If an object gets no status, check its network settings and the namespaces it
 refers to, or ask your platform administrator, who can see the reason in the api-syncagent's
-log.
+log. See [What keeps projects apart]({{< ref "../how-it-works#what-keeps-projects-apart" >}}).
 
-## Backups
+## Backups and migration
 
-Backup targets, backups and restores work as in standalone mode, with two differences.
-
-**The backup target must have an address outside the platform.** The platform's backup and
-restore jobs run in your project's namespace and connect to the target's endpoint. Use a fully
-qualified host name, or an IP address. An endpoint such as `minio.minio.svc`, a name ending in
-`.svc` or `.cluster.local`, or a name without a dot is refused, and an existing target with such
-an endpoint is marked **Failed** with *this endpoint is inside the platform; KDP projects must use
-an external address*. For storage that runs inside the cluster, such as MinIO, use its external
-address.
-
-**Restored VMs are created by the dashboard.** Once a restore has prepared its VM, KubeV creates
-the VM in the project the next time someone who may create VMs opens **VM Restores** or the
-restore's page. The restore then imports the disks. Open one of these pages after starting a
-restore: a restore whose VM isn't created within a day fails.
-
-A backup target that names a CA bundle waits up to two minutes for the bundle's ConfigMap, then
-turns **Failed** with `CA bundle configmap <name> not found`. Check that the ConfigMap exists in
-the target's namespace. If it does, the project hasn't granted KubeV access to its ConfigMaps: a
-project owner or service manager chooses **Update Permissions** in the menu of the KubeV
-service's card in KDP and grants `configmaps`.
-
-## Migrating VMs from vSphere
-
-The **Migration** section works in KDP projects, with these differences:
-
-- **Your role.** The section shows when you may view migration providers. Adding a provider
-  also needs permission to create Secrets in the project: see
-  [What Developer and Member don't cover]({{< ref "../access-control#what-developer-and-member-dont-cover" >}}).
-- **One namespace.** Providers, plans and the migrated VMs all live in the project's `default`
-  namespace.
-- **The vCenter address** must use `https`, with a fully qualified host name such as
-  `vcenter.example.com` or an IP address. Short names such as `https://vcenter` are refused.
-- **Cold migration only.** VDDK, warm migration, copy offload and a transfer network are not
-  available. Disks are copied over the vCenter's HTTPS datastore path, and VMs on vSAN storage
-  can't be migrated.
-- **The vCenter login** is stored as a Secret, `<provider>-vsphere-creds`, in the project. Anyone
-  who may read Secrets there can read it, so use a vCenter account with only the rights a
-  migration needs.
-
-### Getting migrated VMs into the project
-
-Forklift creates each migrated VM on the platform first. The KubeV dashboard then adds it to your
-project:
-
-- The plan's page adds each VM as soon as its migration succeeds, and the **Migration Plans** list
-  does the same for every plan.
-- This happens only while someone who may create VMs has one of these pages open. Keep the plan
-  open until the run is done, or open the list later.
-- **Don't delete a plan before its VMs are in the project.** They would stay on the platform,
-  outside your project.
-
-The plan's page names each VM it could not add, and why:
-
-| The plan says | What to do |
-| --- | --- |
-| *could not be added to the project: another virtual machine there already has that name* | The migrated VM wasn't added. Ask your platform administrator before you delete either VM. |
-| *cannot be added to the project*, followed by a reason | The VM has settings the platform refuses in a project, such as the pod network or a node selector. Ask your platform administrator. |
-| *migrated, but no virtual machine of it was found in this namespace* | Forklift reports the VM migrated, but it isn't on the platform. Ask your platform administrator. |
-| *could not be added to the project. Reload the page to try again.* | KDP didn't accept the VM, for example because of a quota. Reload the page: adding it again is safe. |
-
-Once added, a migrated VM is a normal VM of the project. Deleting it also deletes its disks.
+Backups and VM migration work in KDP projects, with a few differences that matter: see
+[VM Backups and Restores]({{< ref "../backups" >}}) and
+[Migrating VMs from vSphere]({{< ref "../migration" >}}).

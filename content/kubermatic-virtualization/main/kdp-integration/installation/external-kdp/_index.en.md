@@ -1,16 +1,82 @@
 +++
-title = "Connecting to an Existing KDP"
+title = "Bring Your Own KDP"
 date = 2026-10-12T00:00:00+00:00
-weight = 2
+weight = 1
 +++
 
-In **external** mode, KubeV joins a KDP you already run. The installer sets up the KubeV
-dashboard and API server to work with your KDP, but it changes nothing on the KDP side. You
-register the KubeV service in KDP, and run the api-syncagent that connects it to the KubeV
-cluster, yourself.
+In this mode, KubeV joins a KDP you already run, configured with `kdp.external`. The installer
+sets up the KubeV dashboard and API server to work with your KDP, but changes nothing on the KDP
+side: you register the KubeV service in KDP, and run the api-syncagent that connects it to the
+KubeV cluster, yourself.
 
-To install KDP together with KubeV instead, see
-[Installing KubeV with KDP]({{< ref "../installation" >}}).
+```mermaid
+---
+config:
+  flowchart:
+    nodeSpacing: 25
+    rankSpacing: 45
+---
+flowchart TB
+  users(["Users"])
+  kdpui["KDP dashboard"]
+  kubev["KubeV dashboard<br/>and API server"]
+  idp["Identity provider"]
+  kcp["Your kcp<br/>front-proxy"]
+  agent["api-syncagent<br/>deployed by you"]
+  tenants["Project<br/>namespaces"]
+
+  users --> kdpui
+  users --> kubev
+  kdpui -.-> idp
+  kubev -.->|"kcp's client"| idp
+  kubev -->|"kcpBaseURL"| kcp
+  agent -->|"kubeconfig<br/>from KDP"| kcp
+  agent --> tenants
+
+  classDef kdp fill:#e8f1fb,stroke:#1f5fa8,color:#0d3c73
+  classDef kv fill:#e3f4e8,stroke:#2e7d32,color:#1b5e20
+  classDef ext fill:#fff4e0,stroke:#b26a00,color:#6d4100
+  class kdpui,kcp kdp
+  class kubev,agent,tenants kv
+  class users,idp ext
+```
+
+## The flow
+
+These are the steps of this guide, and where each one happens:
+
+```mermaid
+---
+config:
+  sequence:
+    wrap: true
+    width: 105
+    actorMargin: 20
+    messageMargin: 30
+    noteMargin: 8
+---
+sequenceDiagram
+  autonumber
+  actor Op as You
+  participant H as KubeV<br/>cluster
+  participant IdP as Identity<br/>provider
+  participant K as Your kcp
+
+  Op->>H: apply -f cluster.yaml, with kdp.external
+  Op->>H: kcp CA Secret
+  Op->>IdP: KubeV's callback on kcp's OIDC client
+  Op->>K: Provider workspace and kcp admission policies
+  Op->>K: The KubeV service
+  K-->>Op: The api-syncagent's kubeconfig
+  Op->>H: api-syncagent
+  Op->>H: Host admission policies, then KubeV's resource types
+  Op->>K: Let users see KubeV
+  Note over IdP,K: Projects then enable KubeV in the KDP catalog
+```
+
+The order matters in two places. The kcp admission policies go in before the KubeV service is
+used, and the host admission policies before the resource types are published: otherwise a
+project could create an object that nothing has checked yet.
 
 ## Before you start
 
@@ -54,7 +120,7 @@ kdp:
 | `external.kcpBaseURL` | Yes, unless `domains.kcp` or `domains.base` is set | — | The address of kcp's front-proxy, as the KubeV API server reaches it from the KubeV cluster. Must be `https`, without a trailing slash or a `/clusters/...` path. |
 | `external.caSecretName` | Yes | — | Secret in the `kubermatic-virtualization` namespace with the CA that signs kcp's certificate, under the key `ca.crt`. |
 | `providerWorkspace` | No | `root:kubev` | The workspace where you register the KubeV service in [Step 3](#step-3-register-the-kubev-service). |
-| `tenantUnderlayInterfaces` | No | empty | Host network interfaces that projects may use for underlay subnets. See [Underlay networks for projects]({{< ref "../operations#underlay-networks-for-projects" >}}). |
+| `tenantUnderlayInterfaces` | No | empty | Host network interfaces that projects may use for underlay subnets. See [Underlay networks for projects]({{< ref "../../operations#underlay-networks-for-projects" >}}). |
 
 `admin` and `adminGroup` are ignored in external mode: platform administrators are whoever
 administers your KDP.
@@ -65,12 +131,14 @@ restart. Create it also when kcp has a publicly trusted certificate: put the pub
 signs it in `ca.crt`.
 
 ```bash
-kubev apply -f cluster.yaml
+export KUBEV_USERNAME=<your-username>
+export KUBEV_PASSWORD=<your-password>
+kubermatic-virtualization apply -f cluster.yaml
 kubectl -n kubermatic-virtualization create secret generic kubev-kcp-ca --from-file=ca.crt=kcp-ca.pem
 ```
 
-At the end, the installer lists the remaining steps and prints the exact values for your
-installation. They are the steps below.
+At the end, the installer lists the remaining steps, and prints the exact link for the KubeV
+service and the OIDC client entry for your installation. They are the steps below.
 
 ## Step 2: Add KubeV to the OIDC client
 
@@ -264,12 +332,53 @@ subjects:
 ```
 
 This only makes KubeV visible and lets users enable it. What they can do in a project still
-depends on their roles there; see [Access Control]({{< ref "../access-control" >}}). To offer
+depends on their roles there; see [Access Control]({{< ref "../../access-control" >}}). To offer
 KubeV to fewer people, bind the role to an OIDC group instead, written `oidc:<group>`.
+
+### If new organizations and projects take minutes to become ready
+
+kcp makes a new organization or project ready only once it has checked that its creator may bind
+KDP's own core API, and retries for several minutes when nobody may. If your KDP shows that delay,
+let every signed-in user bind it. Apply this in `root`:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubev:kdp-core-binder
+  annotations:
+    internal.kcp.io/replicate: apis.kcp.io
+rules:
+  - apiGroups: ["apis.kcp.io"]
+    resources: ["apiexports"]
+    resourceNames: ["core.kdp.k8c.io"]
+    verbs: ["bind"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubev:kdp-core-binder
+  annotations:
+    internal.kcp.io/replicate: apis.kcp.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubev:kdp-core-binder
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:authenticated
+```
 
 ## Step 7: Enable KubeV in projects
 
-In external mode, KubeV is enabled per project in KDP, the same way as any other service. See
+{{% notice warning %}}
+**Enable KubeV in projects only.** KDP also lets you add a service to an organization, or to a
+workspace below a project. Don't do that for KubeV: objects created there are accepted by kcp but
+never run. See [Where KubeV works]({{< ref "../../how-it-works#where-kubev-works" >}}).
+{{% /notice %}}
+
+In this mode, KubeV is enabled per project in KDP, the same way as any other service. See
 [Enabling a service](/developer-platform/v1.2/platform-users/consuming-services/#enabling-a-service)
 in the KDP documentation. In the wizard:
 
@@ -278,8 +387,8 @@ in the KDP documentation. In the wizard:
 - grant **every resource** listed under **Resources**. KubeV needs each of them to copy
   Secrets, ConfigMaps, events and namespaces between the project and the KubeV cluster.
 
-KubeV works in projects only, not in organizations, and only in projects whose names it can
-use: see [Names KubeV can use]({{< ref "../operations#names-kubev-can-use" >}}).
+KubeV only works in projects whose names it can use: see
+[Names KubeV can use]({{< ref "../../how-it-works#names-kubev-can-use" >}}).
 
 ## Upgrading KubeV
 

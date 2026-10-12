@@ -48,7 +48,7 @@ KDP lists a service in its catalog, and shows its **Open KubeV Virtualization** 
 who may bind the service's API, and in projects where the service is already enabled. In
 same-layer mode the installer lets every signed-in user bind KubeV's API, so every user sees
 KubeV. In external mode you decide who may; see
-[Let users see KubeV]({{< ref "../external-kdp#step-6-let-users-see-kubev" >}}).
+[Let users see KubeV]({{< ref "../installation/external-kdp#step-6-let-users-see-kubev" >}}).
 
 Seeing KubeV in the catalog doesn't let a user do anything in a project. Inside a project, the
 user's roles there decide everything.
