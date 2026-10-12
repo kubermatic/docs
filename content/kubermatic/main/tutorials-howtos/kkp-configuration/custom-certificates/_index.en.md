@@ -89,8 +89,8 @@ KKP ships the CA bundle mentioned above by default in the `kubermatic-operator` 
 This means that after installing KKP, a usable default CA bundle is available right from the
 start.
 
-To override the CA bundle, either overwrite the `static/ca-bundle.pem` file in the
-`kubermatic-operator` Helm chart with your own and then `helm upgrade` the operator, or create
+To customize the CA bundle, either configure custom CA certificates in the `kubermatic-operator`
+Helm chart as described in [Adding Custom CA Certificates](#adding-custom-ca-certificates), or create
 a custom CA bundle in a `ConfigMap` with a distinct name (e.g. `ca-bundle-customized`) in the
 `kubermatic` namespace.
 
@@ -171,6 +171,91 @@ spec:
     # must be in the same namespace as KKP.
     name: ca-bundle
 ```
+
+#### Adding Custom CA Certificates
+
+The `kubermatic-operator` Helm chart renders the `ca-bundle` `ConfigMap` from the following
+sources, in this order:
+
+1. The CA bundle shipped with the chart (`static/ca-bundle.pem`), or the certificates in
+   `caBundle.certificates` if set.
+1. Every PEM file in the chart's `static/extra-ca/` directory.
+1. The certificates in `caBundle.additionalCertificates`.
+
+If none of these are configured, the chart renders the shipped CA bundle unchanged.
+
+{{% notice warning %}}
+`caBundle.certificates` replaces the shipped CA bundle entirely. KKP then trusts only the
+certificates you provide, which breaks TLS connections to endpoints signed by public CAs, such as
+public container registries or OIDC providers. To trust your own CA in addition to the public
+CAs, use `caBundle.additionalCertificates` instead.
+{{% /notice %}}
+
+Do not edit `static/ca-bundle.pem` directly. It is replaced whenever the bundle is updated in a
+new KKP release.
+
+The certificates must be PEM-encoded. Installation fails if a configured value or a file in
+`static/extra-ca/` does not contain a `-----BEGIN CERTIFICATE-----` block.
+
+There are three ways to provide the certificates.
+
+##### Helm Values
+
+Add the certificates to the `caBundle` block in your `values.yaml`:
+
+```yaml
+caBundle:
+  # Replaces the CA bundle shipped with the chart. Leave empty to keep it.
+  certificates: ""
+
+  # Appended to the CA bundle in use.
+  additionalCertificates: |
+    -----BEGIN CERTIFICATE-----
+    MIIDdTCCAl2gAwIBAgILBAAAAAABFUtaw5QwDQYJKoZIhvcNAQEFBQAwVzELMAkGA1UEBhMCQkUx
+    ...
+    -----END CERTIFICATE-----
+```
+
+Then install or upgrade KKP with these values. This is the method to use when you install the
+chart from a Helm repository or with a GitOps tool such as Argo CD.
+
+##### Installer Flags
+
+`kubermatic-installer deploy` accepts PEM files and sets the `caBundle` Helm values for you:
+
+* `--ca-bundle`: PEM file that replaces the shipped CA bundle. Sets `caBundle.certificates`.
+* `--additional-ca-bundle`: PEM file that is appended to the CA bundle. Sets
+  `caBundle.additionalCertificates`. Can be specified multiple times.
+
+```bash
+./kubermatic-installer deploy kubermatic-master \
+  --config kubermatic.yaml \
+  --helm-values values.yaml \
+  --additional-ca-bundle /path/to/corporate-ca.pem
+```
+
+The installer checks that each file contains at least one valid certificate. If the same value is
+also set in your Helm values file, the flag takes precedence.
+
+The installer also writes the resulting values to `ca-bundle.values.yaml` in the current
+directory. Keep this file and pass it via `--helm-values` in later runs, or commit it to your
+GitOps repository, so that the certificates are not lost on the next upgrade.
+
+##### Drop-in Directory
+
+When installing from the unpacked release archive, copy your PEM files into the chart's
+`static/extra-ca/` directory. Every `*.pem` file in this directory is appended to the CA bundle:
+
+```bash
+cp /path/to/corporate-ca.pem charts/kubermatic-operator/static/extra-ca/
+./kubermatic-installer deploy kubermatic-master --config kubermatic.yaml --helm-values values.yaml
+```
+
+{{% notice note %}}
+Files in `static/extra-ca/` are not carried over to a new release archive. Copy them again
+after extracting the next release. The directory is also not available when the chart is pulled
+from a Helm repository or rendered by a GitOps tool. Use Helm values in these cases.
+{{% /notice %}}
 
 ### KKP
 
