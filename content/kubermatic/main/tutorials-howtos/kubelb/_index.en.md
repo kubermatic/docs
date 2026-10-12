@@ -79,6 +79,9 @@ spec:
           useLoadBalancerClass: false
           # EnableGatewayAPI is used to configure the use of gateway API for kubeLB.
           enableGatewayAPI: false
+          # DisableGatewayAPIProtection disables the protection of the Gateway API CRDs for the user clusters of this datacenter.
+          # See "Gateway API CRD Protection" below.
+          disableGatewayAPIProtection: false
           # EnableSecretSynchronizer is used to configure the use of secret synchronizer for kubeLB.
           enableSecretSynchronizer: false
           # DisableIngressClass is used to disable the ingress class `kubelb` filter for kubeLB.
@@ -103,6 +106,93 @@ spec:
 This can be enabled using the KKP dashboard as well.
 
 ![Enable KubeLB during cluster creation](kubelb-dashboard.png?classes=shadow,border "Enable KubeLB during cluster creation")
+
+### Gateway API CRD Protection
+
+When Gateway API support is enabled for a user cluster (`spec.kubelb.enableGatewayAPI: true`), the KubeLB CCM installs and manages the Gateway API CRDs in that cluster. If another component replaces these CRDs, for example by applying an upstream Gateway API release bundle, the KubeLB CCM can stop working and crashloop.
+
+To prevent this, KKP protects the Gateway API CRDs in every user cluster where both KubeLB and Gateway API support are enabled. Protection is enabled by default and does the following:
+
+* KKP creates a `ValidatingAdmissionPolicy` and a `ValidatingAdmissionPolicyBinding`, both named `kubermatic-kubelb-gateway-api-crds`, in the user cluster. They reject creating, updating and deleting CRDs in the `gateway.networking.k8s.io` and `gateway.networking.x-k8s.io` API groups for every identity except the KubeLB CCM. Other CRDs are not affected.
+* KKP removes the upstream `safe-upgrades.gateway.networking.k8s.io` policy and its binding from the user cluster. Every upstream Gateway API release bundle ships this policy. It rejects Gateway API CRDs older than the bundle it came with, which blocks the KubeLB CCM from installing its own CRDs.
+* KKP restores the policy and binding if they are deleted or modified.
+
+A rejected request fails with the following message:
+
+```text
+Gateway API CRDs in this cluster are installed and managed by KubeLB, because Gateway API support is enabled for this cluster (spec.kubelb.enableGatewayAPI). Installing or modifying them breaks the KubeLB CCM. Set spec.kubelb.disableGatewayAPIProtection to true to manage the Gateway API CRDs yourself, or disable spec.kubelb.enableGatewayAPI to stop KubeLB from using them.
+```
+
+When KubeLB or Gateway API support is disabled for a cluster, KKP removes the policy and binding and no longer touches the Gateway API CRDs.
+
+#### Disabling the protection
+
+If you want to manage the Gateway API CRDs yourself, you can disable the protection. When the protection is disabled, KKP removes its policy and binding from the user cluster and leaves the upstream `safe-upgrades` policy in place.
+
+{{% notice warning %}}
+With the protection disabled, the KubeLB CCM can fail if the installed Gateway API CRDs or the `safe-upgrades` policy are incompatible with the CRD version it installs. Make sure that the Gateway API CRDs you install are compatible with the KubeLB CCM.
+{{% /notice %}}
+
+Protection can be disabled at three levels. If any level disables it, protection is off. A lower level cannot re-enable protection that a higher level disabled.
+
+| Level | Field | Scope |
+| ----- | ----- | ----- |
+| `KubermaticConfiguration` | `spec.userCluster.kubelb.disableGatewayAPIProtection` | All user clusters |
+| `Seed` | `spec.datacenters.<datacenter>.spec.kubelb.disableGatewayAPIProtection` | User clusters in this datacenter |
+| `Cluster` | `spec.kubelb.disableGatewayAPIProtection` | This user cluster |
+
+##### Admin level
+
+To disable the protection for all user clusters, set the field in the `KubermaticConfiguration`:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  userCluster:
+    kubelb:
+      disableGatewayAPIProtection: true
+```
+
+To disable the protection for the user clusters of a single datacenter, set the field in the datacenter's KubeLB settings in the `Seed`:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: Seed
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  datacenters:
+    vsphere-de:
+      spec:
+        kubelb:
+          enabled: true
+          disableGatewayAPIProtection: true
+```
+
+Changing an admin-level setting restarts the user cluster controller manager of each affected user cluster.
+
+##### Cluster level
+
+To disable the protection for a single user cluster, set the field in the `Cluster`:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: Cluster
+metadata:
+  name: crh4xbxz5f
+spec:
+...
+  kubelb:
+    enabled: true
+    enableGatewayAPI: true
+    disableGatewayAPIProtection: true
+...
+```
 
 ### Tenant defaulting at Project level
 
