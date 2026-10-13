@@ -39,16 +39,16 @@ The tasks that affect the whole platform, such as edge routers, quotas and netwo
 are done with `kubectl` on the KubeV cluster. See
 [Operating the Platform]({{< ref "../operations" >}}).
 
-In external mode, KubeV adds no platform administrators: whoever administers your KDP manages
-KubeV's service there.
+With your own KDP, the KubeV service is managed by the administrators of the provider workspace:
+whoever ran `kdp connect` first, and anyone granted `cluster-admin` there. If you set `kdp.admin` or
+`kdp.adminGroup`, `kdp connect` grants them the same rights as above.
 
 ## Who sees KubeV in KDP
 
 KDP lists a service in its catalog, and shows its **Open KubeV Virtualization** button, to users
-who may bind the service's API, and in projects where the service is already enabled. In
-same-layer mode the installer lets every signed-in user bind KubeV's API, so every user sees
-KubeV. In external mode you decide who may; see
-[Let users see KubeV]({{< ref "../installation/external-kdp#step-6-let-users-see-kubev" >}}).
+who may bind the service's API, and in projects where the service is already enabled. KubeV lets
+every signed-in user bind its API: the installer sets this up, or `kdp connect` with your own KDP.
+So every user sees KubeV.
 
 Seeing KubeV in the catalog doesn't let a user do anything in a project. Inside a project, the
 user's roles there decide everything.
@@ -146,19 +146,30 @@ They are read-only. Platform administrators can read them too.
 
 ## Signing in
 
-Users sign in to KubeV through the same OIDC provider as KDP. When they open KubeV from KDP, the
-KubeV dashboard signs them in automatically. With Dex, whether they see a prompt depends on how
-they log in, because Dex doesn't remember a sign-in from one application to the next:
+Users sign in to KubeV through the same OIDC provider as KDP. Every click on
+**Open KubeV Virtualization** in KDP signs KubeV in again, as the user who clicked: a KubeV session
+left over from another account never carries over. Whether that asks for anything depends on how
+the user logs in to Dex:
 
-| Login | Opening KubeV from KDP |
+| Login | Each click from KDP |
 | --- | --- |
-| Google, or another upstream provider that keeps its own session | No password prompt. |
-| GitHub | Authorize the application once, then no prompt. |
-| Dex local users, LDAP | A password prompt in each new KubeV session. |
+| Google, GitHub or another identity provider behind Dex | A redirect, without a prompt: that provider still has the KDP sign-in. |
+| Dex's own password logins: email (`local`) and LDAP | The password, again: Dex keeps no session for them. |
 
-If Dex offers more than one login method, users first pick theirs on Dex's page. Dex also asks
-them to approve KubeV each time, unless its client has `skipApprovalScreen` set: the installer
-sets it on the Dex it deploys, and you set it on a Dex you run yourself.
+If Dex offers more than one login method, users also pick theirs on Dex's page, unless KDP's link
+names the one they used in KDP:
+
+- **Same layer:** list Dex's login methods, its connector IDs, in `dashboard.auth.oidc.connectors`.
+  The installer then has KDP put the user's login method in the link.
+- **Your own KDP:** see [Skip Dex's chooser]({{< ref "../installation/external-kdp#skip-dexs-chooser" >}}).
+
+Set `connectors` only when the issuer is a Dex: other providers, such as Keycloak, Okta and Entra
+ID, refuse the scope this needs. Dex also asks users to approve KubeV on each sign-in, unless
+Dex's `oauth2.skipApprovalScreen` is set: the installer sets it on the Dex it deploys, and you set it
+on a Dex you run yourself.
+
+When the signed-in account can't open the project, KubeV says which account it checked, and offers
+to sign in with a different one.
 
 The button's link carries no credential. Without completing the sign-in, a user gets nothing
 from KubeV.

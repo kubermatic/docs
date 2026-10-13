@@ -819,11 +819,11 @@ kdp:
 | Field | Required | Default | Description |
 |---|---|---|---|
 | `enabled` | Yes | `false` | Turns on KDP mode. |
-| `admin` / `adminGroup` | One of them, except in external mode | — | The first platform administrator, by email, or an OIDC group of platform administrators. |
+| `admin` / `adminGroup` | One of them, except with an external KDP | — | The first platform administrator, by email, or an OIDC group of platform administrators. Optional with an external KDP, where `kdp connect` grants it. |
 | `providerWorkspace` | No | `root:kubev` | The KDP workspace that holds the KubeV service. |
 | `domains` | No | local port-forwards | Public addresses of the KDP dashboard (`dashboard`) and kcp (`kcp`), or a `base` domain to derive them from. |
 | `tenantUnderlayInterfaces` | No | empty | Host network interfaces that KDP projects may use for underlay subnets. Empty means projects can't create underlay subnets. |
-| `external` | No | — | Connects KubeV to a KDP you already run, instead of installing one: `kcpBaseURL` and `caSecretName`. |
+| `external` | No | — | Connects KubeV to a KDP you already run, instead of installing one: `kcpBaseURL` and `caSecretName`. `kubermatic-virtualization kdp connect` then registers KubeV in it. |
 | `dexCASecretName`, `kcpCASecretName`, `dashboardEncryptionKey` | No | — | Certificate authorities and the KDP dashboard's session key. See the [field reference]({{< ref "../kdp-integration/installation#the-kdp-section" >}}). |
 
 > **Important:** KDP mode requires `dashboard.auth.oidc` and `dashboard.dashboardURL` when the dashboard is enabled. KDP, kcp and the KubeV dashboard share one OIDC client: the installer sets up KDP and kcp with the one in `dashboard.auth.oidc`, and with an external KDP, `dashboard.auth.oidc` must name the client your kcp accepts.

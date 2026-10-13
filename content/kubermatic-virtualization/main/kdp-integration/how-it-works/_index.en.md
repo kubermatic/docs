@@ -86,11 +86,12 @@ works in that one project.
 {{% /notice %}}
 
 {{% notice warning %}}
-**Never create KubeV resources in an organization or in a workspace below a project.** KDP lets
-you add the KubeV service to an organization, or to a workspace nested in a project, and kcp then
-accepts KubeV objects there. But the api-syncagent only copies objects from projects to the KubeV
-cluster: anything created elsewhere is stored in kcp and never runs, and the reason is only in the
-api-syncagent's log. Create VMs, networks and every other KubeV resource in a project.
+**Never create KubeV resources in an organization or in a workspace below a project.** The
+api-syncagent only copies objects from projects to the KubeV cluster. In an organization, KDP
+refuses new KubeV resources, with *The service is not allowed to be used in an organization*. With
+your own KDP, that needs KDP's admission webhook, which KDP's chart turns on. In a
+workspace nested below a project, kcp accepts them, but they never run, and the reason is only in
+the api-syncagent's log. Create VMs, networks and every other KubeV resource in a project.
 {{% /notice %}}
 
 ## What happens when a user creates a VM
@@ -214,8 +215,9 @@ sequenceDiagram
 ```
 
 KDP and KubeV use the same OIDC client, so kcp accepts the token KubeV gets for the user. The link
-behind KDP's **Open KubeV Virtualization** button carries no credential: it only names the project.
-Every user signs in for themselves, and every request reaches kcp with their own identity.
+behind KDP's **Open KubeV Virtualization** button carries no credential: it names the project, and
+marks the page as opened from KDP, so KubeV signs in again on every click and always runs as the
+user who clicked. Every request then reaches kcp with that user's own identity.
 
 ## What keeps projects apart
 

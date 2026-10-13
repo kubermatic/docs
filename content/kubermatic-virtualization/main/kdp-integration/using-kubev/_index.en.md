@@ -23,9 +23,9 @@ Ask your KDP administrator if you have neither.
 
 {{% notice warning %}}
 **Start from KDP, and work in projects only.** Organizations, projects, members and roles are
-managed in the KDP dashboard, and you open KubeV from a project there. Never create VMs or other
-KubeV resources in an organization, or in a workspace below a project, for example with `kubectl`:
-kcp accepts them, but they never run. See
+managed in the KDP dashboard, and you open KubeV from a project there. Create VMs and every other
+KubeV resource in a project: KDP refuses them in an organization, and in a workspace below a
+project, kcp accepts them, but they never run. See
 [Where KubeV works]({{< ref "../how-it-works#where-kubev-works" >}}).
 {{% /notice %}}
 

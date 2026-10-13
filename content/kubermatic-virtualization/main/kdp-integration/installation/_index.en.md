@@ -14,7 +14,7 @@ configuration file and run the installer. The section decides which of three mod
 | **Configuration** | `kdp.external` | neither `external` nor `cluster` | `kdp.cluster` |
 | **Where KDP runs** | Wherever you already run it. | On the KubeV cluster, in namespace `kdp-system`. | In its own Kubernetes cluster, on three KubeVirt VMs on the KubeV cluster. |
 | **KDP version** | 1.2.1 or newer, yours. | 1.2.1, installed for you. | 1.2.1, installed for you. |
-| **Who registers the KubeV service in KDP** | You, by hand. | The installer. | The installer. |
+| **Who registers the KubeV service in KDP** | `kubermatic-virtualization kdp connect`, with a kcp administrator's kubeconfig. | The installer. | The installer. |
 | **KubeV dashboard** | Yes. | Yes. | No. |
 | **Enabling KubeV in projects** | In the KDP catalog, per project. | Automatic, in every project. | In the KDP catalog, per project. |
 | **Status** | Supported. | Supported. | Experimental. Not for production. |
@@ -51,8 +51,8 @@ example in a pipeline. It logs every step to the terminal, and the details to
 | Field | Modes | Default | Description |
 | --- | --- | --- | --- |
 | `enabled` | all | `false` | Turns on KDP mode. |
-| `admin` | same layer, nested | — | Email address of the first platform administrator. One of `admin` and `adminGroup` is required. |
-| `adminGroup` | same layer, nested | — | OIDC group whose members are platform administrators. Wins when both are set. Only works when your login method puts groups in the token. `system:authenticated`, `system:unauthenticated` and `system:masters` are refused, at the end of the installation. |
+| `admin` | all | — | Email address of the first platform administrator. One of `admin` and `adminGroup` is required in the same layer and nested modes. With your own KDP, both are optional, and `kdp connect` grants the one you set. |
+| `adminGroup` | all | — | OIDC group whose members are platform administrators. Wins when both are set. Only works when your login method puts groups in the token. `system:authenticated`, `system:unauthenticated` and `system:masters` are refused: at the end of the installation, or by `kdp connect` before it writes anything. |
 | `providerWorkspace` | all | `root:kubev` | The KDP workspace that holds the KubeV service. Must be below `root`, not `root` itself. With your own KDP, the workspace where you register it. |
 | `tenantUnderlayInterfaces` | all | empty | Host network interfaces that projects may use for underlay subnets, as names or globs such as `ens[0-9]*`. While the list is empty, projects can't create underlay subnets. See [Underlay networks for projects]({{< ref "../operations#underlay-networks-for-projects" >}}). |
 | `domains.base` | all | — | A base domain. The installer derives `dashboard.<base>`, `kcp.<base>` and, in nested mode, `dex.<base>` from it. |
@@ -63,7 +63,7 @@ example in a pipeline. It logs every step to the terminal, and the details to
 | `dexCASecretName` | same layer | — | Secret in `kdp-system` with the CA (key `ca.crt`) that signs your Dex's certificate. It makes kcp trust a private CA, but the KDP dashboard and KubeV don't use it: give Dex a publicly trusted certificate. |
 | `kcpCASecretName` | same layer | created for you | Secret in `kubermatic-virtualization` with the CA (key `ca.crt`) the KubeV API server uses to verify kcp. Leave it empty: the installer creates `kubev-kcp-front-proxy-ca`. With your own KDP, use `external.caSecretName` instead. |
 | `external.kcpBaseURL` | bring your own | `https://<domains.kcp>` | Address of your kcp's front-proxy, as the KubeV API server reaches it. |
-| `external.caSecretName` | bring your own | — | Secret in `kubermatic-virtualization` with the CA (key `ca.crt`) that signs your kcp's certificate. Required in practice. |
+| `external.caSecretName` | bring your own | — | A Secret you keep in `kubermatic-virtualization`, with the CA (key `ca.crt`) that signs your kcp's certificate. Leave it out, and `kdp connect` fills `kubev-kcp-front-proxy-ca` from the kcp kubeconfig. |
 | `ca.certificate`, `ca.privateKey` | nested | self-signed | A CA of your own, in PEM, to sign the nested KDP's certificates. |
 | `cluster` | nested | — | Selects nested mode: see [Nested Cluster]({{< ref "./nested" >}}). |
 

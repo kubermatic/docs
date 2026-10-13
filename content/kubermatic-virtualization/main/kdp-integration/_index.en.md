@@ -50,9 +50,10 @@ administration pages of its own.
 {{% /notice %}}
 
 {{% notice warning %}}
-**KubeV works in projects only.** Never create VMs or other KubeV resources in an organization, or
-in a workspace nested below a project. KDP and kcp accept them there, but they never reach the KubeV
-cluster and never run. See [Where KubeV works]({{< ref "./how-it-works#where-kubev-works" >}}).
+**KubeV works in projects only.** Create VMs and every other KubeV resource in a project. KDP
+refuses new ones in an organization. In a workspace nested below a project, kcp accepts them, but they
+never reach the KubeV cluster and never run. See
+[Where KubeV works]({{< ref "./how-it-works#where-kubev-works" >}}).
 {{% /notice %}}
 
 {{% notice warning %}}
@@ -68,7 +69,7 @@ The installer offers three ways to run KubeV with KDP:
 
 | Mode | KDP runs | The installer | Status |
 | --- | --- | --- | --- |
-| [**Bring your own KDP**]({{< ref "./installation/external-kdp" >}}) | Wherever you already run it, KDP 1.2.1 or newer. | Connects the KubeV dashboard to your KDP. You register the KubeV service in KDP yourself. | Supported |
+| [**Bring your own KDP**]({{< ref "./installation/external-kdp" >}}) | Wherever you already run it, KDP 1.2.1 or newer. | Sets KubeV up for your KDP. Its `kdp connect` command then registers KubeV in KDP, with a kcp administrator's kubeconfig. | Supported |
 | [**Same layer**]({{< ref "./installation/same-layer" >}}) | On the KubeV cluster, next to KubeV. | Installs kcp and KDP, registers the KubeV service and enables it in every project. | Supported |
 | [**Nested cluster**]({{< ref "./installation/nested" >}}) | In its own Kubernetes cluster, on KubeVirt VMs on the KubeV cluster. | Creates the VMs and the cluster, installs KDP in it, registers the KubeV service, and runs the api-syncagent on the KubeV cluster. | Experimental, not for production. No KubeV dashboard. |
 

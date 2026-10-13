@@ -142,6 +142,9 @@ Notes on the example:
 - **`admin` or `adminGroup`.** A group is easier to maintain, but Google through Dex's `oidc`
   connector puts no groups in the token. Use `adminGroup` with a login method that does, such as
   LDAP, or GitHub limited to your organizations.
+- **`dashboard.auth.oidc.connectors`**, with your Dex's login methods, lets users skip Dex's chooser
+  when they open KubeV from KDP; see [Signing in]({{< ref "../../access-control#signing-in" >}}).
+  Set it only when the issuer is a Dex.
 - **`domains`** must match the addresses you publish in Step 5 exactly. A host name without a port
   means HTTPS on port 443. Without `domains`, KDP is set up for a local test through port-forwards
   on `http://localhost:30880` and `https://localhost:30843`.
