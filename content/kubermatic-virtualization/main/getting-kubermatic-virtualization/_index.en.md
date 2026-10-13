@@ -41,7 +41,7 @@ You can check what tools and versions provided by the downloader
 ./kubermatic-ee-downloader list
 TOOL                        VERSIONS                         OS                       ARCH           DESCRIPTION
 conformance-tester          latest-cli, v2.30.0-beta.1-cli   linux, darwin, windows   amd64, arm64   Kubermatic conformance cli
-kubermatic-virtualization   latest, v1.1.0                   linux                    amd64          Kubermatic Virtualization installer
+kubermatic-virtualization   latest, v1.2.0                   linux                    amd64          Kubermatic Virtualization installer
 ```
 
 Once your credentials are set, run the downloader to retrieve and install the latest release of Kubermatic Virtualization:
@@ -53,7 +53,7 @@ Once your credentials are set, run the downloader to retrieve and install the la
 The downloader will authenticate, pull the latest binary artifact from the OCI registry, and install it in the current working directory. A successful run produces output similar to the following:
 
 ```
-INFO[2026-04-23T14:23:55+01:00] Downloading tool                              arch=amd64 os=linux output=. registry=quay.io/kubermatic/kubermatic-virtualization tool=kubermatic-virtualization version=v1.1.0
+INFO[2026-04-23T14:23:55+01:00] Downloading tool                              arch=amd64 os=linux output=. registry=quay.io/kubermatic/kubermatic-virtualization tool=kubermatic-virtualization version=v1.2.0
 DEBU[2026-04-23T14:24:06+01:00] Manifest retrieved                            layers=1
 INFO[2026-04-23T14:24:06+01:00] Downloading binary layer                      media_type=application/octet-stream size="79.15 MB"
 INFO[2026-04-23T14:24:06+01:00] Download complete                             path=./kubermatic-virtualization
@@ -61,10 +61,24 @@ INFO[2026-04-23T14:24:06+01:00] Download complete                             pa
 
 Once complete, the `kubermatic-virtualization` binary is ready to use in your current directory.
 
+### Making the CLI Available in Your PATH (Optional)
+
+The downloader installs the binary into the current working directory, to call it from any directory, move it into a location on your `PATH`:
+
+```bash
+sudo mv kubermatic-virtualization /usr/local/bin/
+```
+
+Verify that it resolves:
+
+```bash
+kubermatic-virtualization version
+```
+
 ### Downloading a Specific Version
 
 By default, the downloader fetches the latest available release. If you need a specific version, use the `--version` (or `-V`) flag:
 
 ```bash
-./kubermatic-ee-downloader --username $KUBEV_USERNAME --password $KUBEV_PASSWORD --version v1.1.0
+./kubermatic-ee-downloader --username $KUBEV_USERNAME --password $KUBEV_PASSWORD --version v1.2.0
 ```
