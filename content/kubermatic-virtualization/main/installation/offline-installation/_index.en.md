@@ -28,7 +28,7 @@ the folder carries the installer of that release for step 5.
 | Machine | Requirements |
 |---|---|
 | Download machine | Linux, access to `quay.io`, the registry credentials of your Kubermatic Virtualization license, free disk of the bundle's size plus 10 % (about 30 GB for v1.3). Docker is not needed. |
-| Jump host | Ubuntu 24.04 LTS (amd64) with root access, Docker Engine, `openssl`, `jq` and the `ca-certificates` package. An IPv4 address that the nodes reach; ports 80 and 5000 free. SSH access to the nodes. About 100 GB of free disk. |
+| Jump host | Ubuntu 24.04 LTS (amd64) with root access, Docker Engine using the containerd image store (the default of a fresh Docker 29 installation, such as Ubuntu 24.04's `docker.io` package), `openssl`, `jq` and the `ca-certificates` package. An IPv4 address that the nodes reach; ports 80 and 5000 free. SSH access to the nodes. About 100 GB of free disk. |
 | Nodes | Ubuntu 24.04 LTS (amd64) with `curl`, `gpg`, `sudo` and `systemd-resolved` installed — the standard Ubuntu 24.04 cloud image has all four. |
 | Site | A DNS server the nodes can reach. It does not need to know any internet names. Node clocks set to the correct time. |
 
@@ -74,7 +74,7 @@ that the copy is complete and that the installer you are about to run as root is
 
 ## Step 4 — Start the mirror
 
-As root on the jump host, from the folder. Set the jump host's IP address that the nodes use:
+As root on the jump host (for example after `sudo -i`), in the folder. Set the jump host's IP address that the nodes use:
 
 ```bash
 IP=10.0.0.10
