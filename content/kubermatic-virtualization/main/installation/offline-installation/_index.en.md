@@ -118,12 +118,12 @@ Check both:
 
 ```bash
 curl -fsS "https://$IP:5000/v2/_catalog" | jq '.repositories | length'
-curl -fsS "http://$IP/key.asc" | gpg --show-keys --with-colons | awk -F: '$1 == "fpr" {print $10; exit}'
+curl -fsS "http://$IP/key.asc" | gpg --show-keys
 jq -r .aptKeyFingerprint bundle.json
 ```
 
-Expect the number of repositories the registry holds, then the same key fingerprint twice: the repository is signed
-with the key the bundle names. Anyone on the site network can pull from and push to the registry.
+Expect the number of repositories the registry holds, then the repository's signing key, whose fingerprint (the line
+under `pub`) is the one `jq` prints last: the repository is signed with the key the bundle names. Anyone on the site network can pull from and push to the registry.
 
 ## Step 5 — Configure and install
 
