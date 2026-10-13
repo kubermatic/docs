@@ -412,9 +412,9 @@ Invalid `PodDisruptionBudget` configuration may block the eviction.
 {{% /notice %}}
 
 {{% notice warning %}}
-Additionally consider [skipEvictionAfter](https://github.com/kubermatic/machine-controller/blob/main/cmd/machine-controller/main.go#L125-L126)
-parameter of Machine Controller that sets the timeout for workload eviction.
+Also consider the machine-controller eviction timeout. It defaults to two hours.
 **Once exceeded, the VMs will simply be deleted.**
+To change or disable it, see [Node Eviction Timeout]({{< relref "../../../tutorials-howtos/manage-workers-node/node-eviction-timeout/" >}}).
 {{% /notice %}}
 
 ### I discovered a DNS collision on my cluster. Why does it happen?
