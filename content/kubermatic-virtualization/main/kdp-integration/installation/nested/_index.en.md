@@ -133,6 +133,24 @@ kubectl --kubeconfig kdp-cluster-kubeconfig -n kdp-system get secret kdp-root-ca
   -o jsonpath='{.data.tls\.crt}' | base64 -d > kdp-ca.crt
 ```
 
+It is a single root CA. On Windows, in PowerShell run as administrator:
+
+```powershell
+Import-Certificate -FilePath .\kdp-ca.crt -CertStoreLocation Cert:\LocalMachine\Root
+```
+
+On Linux, for command-line tools and for Chrome and Chromium (Debian and Ubuntu shown):
+
+```bash
+sudo cp kdp-ca.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n "KDP root CA" -i kdp-ca.crt
+```
+
+[Trust kcp's certificate]({{< ref "../same-layer#step-6-trust-kcps-certificate" >}}) in the same layer
+guide explains these commands, the variants for other systems, and Firefox. Restart the browser after
+the import.
+
 ## Step 4: Sign in
 
 Sign in to the KDP dashboard, at `http://dashboard.<base>:30880`, as `admin`. The password is random,

@@ -26,9 +26,9 @@ flowchart TB
   tenants["Project<br/>namespaces"]
 
   users --> edge
-  edge -->|"ends TLS"| kdpui
-  edge -->|"passes TLS<br/>through"| fp
-  edge -->|"ends TLS"| kubev
+  edge --> kdpui
+  edge --> fp
+  edge --> kubev
   fp --> kcp
   kubev --> fp
   agent --> kcp
@@ -43,26 +43,29 @@ flowchart TB
 ```
 
 The installer creates no Ingress, Gateway or load balancer for KDP, and none for the KubeV dashboard
-or Dex either. You publish them, in [Step 5](#step-5-publish-the-kdp-dashboard-and-kcp).
+or Dex either. You publish them, in [Step 5](#step-5-publish-the-services).
 
 ## Step 1: Plan the addresses
 
 Users reach four services, each at its own host name:
 
-| Service | Example address | Runs as | Publish it with |
-| --- | --- | --- | --- |
-| **KubeV dashboard** | `https://kubev.example.com` | Service `kubermatic-virtualization/kubev-dashboard`, port 8080 | TLS terminated in front of it, as in any KubeV installation. |
-| **KDP dashboard** | `https://kdp.example.com` | Service `kdp-system/kdp-dashboard`, port 3000, plain HTTP | TLS terminated in front of it. |
-| **kcp** | `https://kcp.example.com:8443` | Service `kdp-system/kcp-front-proxy`, port 8443 | **TLS passed through.** kcp terminates TLS itself, with its own certificate. |
-| **Dex** | `https://dex.example.com` | Service in namespace `dex`, when the installer deploys Dex | TLS terminated in front of it, with a publicly trusted certificate. |
+| Service | Example address | Runs as |
+| --- | --- | --- |
+| **KubeV dashboard** | `https://kubev.example.com` | Service `kubermatic-virtualization/kubev-dashboard`, port 8080, plain HTTP |
+| **KDP dashboard** | `https://kdp.example.com` | Service `kdp-system/kdp-dashboard`, port 3000, plain HTTP |
+| **kcp** | `https://kcp.example.com:8443` | Service `kdp-system/kcp-front-proxy`, port 8443, HTTPS with kcp's own certificate |
+| **Dex** | `https://dex.example.com` | Service in namespace `dex`, when the installer deploys Dex |
 
-Create the DNS records now. The KDP dashboard and kcp addresses are built into KDP's configuration
-and kcp's certificate, and kcp only accepts browser requests from the exact KDP dashboard address.
+Create the DNS records now. These addresses go into the configuration, as `dashboard.dashboardURL`,
+`kdp.domains` and the Dex issuer, and users must reach each service at exactly that address:
+KDP's configuration and kcp's certificate name them, and kcp only accepts browser requests from the
+exact KDP dashboard address. [Step 5](#step-5-publish-the-services) explains the two ways to publish
+them.
 
 {{% notice note %}}
 **Browsers talk to kcp directly.** The KDP dashboard runs in the browser and calls kcp at its public
 address. So kcp must be reachable from your users' machines, not only from the cluster, and their
-browsers must trust its certificate: see [Step 6](#step-6-trust-kcps-certificate).
+browsers must trust the certificate it presents there.
 {{% /notice %}}
 
 ## Step 2: Prepare sign-in
@@ -217,93 +220,120 @@ The KDP part takes several minutes on a first installation, most of it while KDP
 provider workspace. The installer retries a failed step, and stops with an error that names the step
 and the reason if it keeps failing.
 
-## Step 5: Publish the KDP dashboard and kcp
+The last two lines say where each service must be reachable. Their advice on TLS fits publishing the
+services as they are; [Step 5](#step-5-publish-the-services) also covers certificates from a trusted
+issuer.
 
-Publish both Services at the addresses in `kdp.domains`, with an ingress controller, a Gateway or
-load balancers. What matters is that TLS **ends in front of** the KDP dashboard, and **passes
-through** to kcp.
+## Step 5: Publish the services
 
-For example, with a Gateway API implementation that supports TLS passthrough, and cert-manager
-issuing the KDP dashboard's certificate:
+The installer runs all four services behind cluster-internal Services and publishes none of them.
+Publish each one at the address you put in the configuration, the same as in
+`dashboard.dashboardURL`, `kdp.domains` and the Dex issuer, in one of two ways.
 
-```yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: kdp
-  namespace: kdp-system
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt      # your ClusterIssuer
-spec:
-  gatewayClassName: <your-gateway-class>
-  listeners:
-    - name: dashboard
-      hostname: kdp.example.com
-      port: 443
-      protocol: HTTPS
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: kdp-dashboard-tls
-    - name: kcp
-      hostname: kcp.example.com
-      port: 8443
-      protocol: TLS
-      tls:
-        mode: Passthrough
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: kdp-dashboard
-  namespace: kdp-system
-spec:
-  parentRefs:
-    - name: kdp
-      sectionName: dashboard
-  hostnames: ["kdp.example.com"]
-  rules:
-    - backendRefs:
-        - name: kdp-dashboard
-          port: 3000
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: TLSRoute
-metadata:
-  name: kcp
-  namespace: kdp-system
-spec:
-  parentRefs:
-    - name: kdp
-      sectionName: kcp
-  hostnames: ["kcp.example.com"]
-  rules:
-    - backendRefs:
-        - name: kcp-front-proxy
-          port: 8443
-```
+### With certificates from a trusted issuer
 
-`TLSRoute` is in the Gateway API standard channel since v1.5. Older releases serve it as
-`v1alpha2`, from the experimental channel. For cert-manager to issue certificates for a Gateway,
-install the Gateway API CRDs and set `certManager.gatewayAPI: true` in the KubeV configuration.
+Put each address behind your ingress controller, Gateway or load balancer, with a certificate from an
+issuer that browsers already trust, such as Let's Encrypt. KubeV installs cert-manager, which can
+request and renew those certificates for you.
 
-Publish the KubeV dashboard and Dex the same way, with TLS terminated in front of them.
+This is the recommended way: every browser and every `kubectl` trusts the addresses out of the box, and
+nothing has to be installed on your users' machines. kcp's Service only speaks HTTPS, so your proxy
+connects to it over HTTPS.
+
+### As they are, with kcp's own certificate
+
+You can also publish the Services as they are, without certificates of your own: for example, kcp's
+port 8443 straight through a load balancer. kcp then presents the certificate it got from its own
+private CA, which no browser trusts. KDP pages fail to load until your users' machines trust that CA:
+see [Step 6](#step-6-trust-kcps-certificate).
+
+Dex needs a publicly trusted certificate either way: see
+[Step 2](#step-2-prepare-sign-in).
 
 ## Step 6: Trust kcp's certificate
 
-{{% notice warning %}}
-**kcp serves a certificate from its own private CA.** Browsers and `kubectl` on your users' machines
-must trust that CA, or KDP pages fail to load. The installer keeps the CA in a Secret on the KubeV
-cluster. Export it:
+Only needed when kcp presents its own certificate, as in
+[As they are, with kcp's own certificate](#as-they-are-with-kcps-own-certificate).
+
+kcp's certificate comes from an intermediate CA, which comes from kcp's root CA, and kcp doesn't send
+the intermediate CA along. Your users' machines need both. The installer keeps them in a Secret on the
+KubeV cluster.
+
+### Export the CA
+
+On Linux, with the KubeV cluster's kubeconfig:
 
 ```bash
 kubectl -n kubermatic-virtualization get secret kubev-kcp-front-proxy-ca \
   -o jsonpath='{.data.ca\.crt}' | base64 -d > kcp-ca.pem
+# Split it into the intermediate CA, kcp-ca-1.crt, and the root CA, kcp-ca-2.crt.
+awk '/BEGIN CERTIFICATE/ { n++ } { print > ("kcp-ca-" n ".crt") }' kcp-ca.pem
 ```
 
-The file holds two certificates, kcp's intermediate CA and its root CA. Install both as trusted
-authorities on your users' machines: kcp doesn't send the intermediate. If your tool imports one
-certificate per file, split the file first.
+On Windows, in PowerShell:
+
+```powershell
+$b64 = kubectl -n kubermatic-virtualization get secret kubev-kcp-front-proxy-ca -o jsonpath='{.data.ca\.crt}'
+$pem = [Text.Encoding]::ASCII.GetString([Convert]::FromBase64String($b64))
+# Split it into the intermediate CA, kcp-ca-1.crt, and the root CA, kcp-ca-2.crt.
+$certs = [regex]::Matches($pem, '-----BEGIN CERTIFICATE-----[\s\S]+?-----END CERTIFICATE-----')
+Set-Content -Path .\kcp-ca-1.crt -Value $certs[0].Value
+Set-Content -Path .\kcp-ca-2.crt -Value $certs[1].Value
+```
+
+Hand `kcp-ca-1.crt` and `kcp-ca-2.crt` to your users. They contain no secrets.
+
+### Trust it on Windows
+
+In PowerShell, run as administrator to trust the CA for every user of the machine:
+
+```powershell
+Import-Certificate -FilePath .\kcp-ca-2.crt -CertStoreLocation Cert:\LocalMachine\Root
+Import-Certificate -FilePath .\kcp-ca-1.crt -CertStoreLocation Cert:\LocalMachine\CA
+```
+
+Without administrator rights, trust it for your own user instead. Windows asks you to confirm the root
+CA:
+
+```powershell
+Import-Certificate -FilePath .\kcp-ca-2.crt -CertStoreLocation Cert:\CurrentUser\Root
+Import-Certificate -FilePath .\kcp-ca-1.crt -CertStoreLocation Cert:\CurrentUser\CA
+```
+
+Edge and Chrome use the Windows certificate store. Restart them after the import.
+
+### Trust it on Linux
+
+Add both CAs to the system's trusted CAs, which command-line tools use. On Debian and Ubuntu:
+
+```bash
+sudo cp kcp-ca-1.crt kcp-ca-2.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+```
+
+On Fedora, RHEL and their relatives:
+
+```bash
+sudo cp kcp-ca-1.crt kcp-ca-2.crt /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust
+```
+
+Chrome and Chromium on Linux keep their own list of trusted CAs, per user. Add both CAs with
+`certutil`, from the package `libnss3-tools` on Debian and Ubuntu, or `nss-tools` on Fedora and RHEL:
+
+```bash
+certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n "kcp root CA" -i kcp-ca-2.crt
+certutil -d sql:$HOME/.pki/nssdb -A -t ",," -n "kcp intermediate CA" -i kcp-ca-1.crt
+```
+
+Restart the browser after the import.
+
+{{% notice note %}}
+**If Firefox still doesn't trust kcp,** import the CAs in Firefox itself, which can keep its own
+list of trusted CAs. Open **Settings** >
+**Privacy & Security** > **Certificates** > **View Certificates** > **Authorities**, choose
+**Import**, pick `kcp-ca-2.crt` and tick **Trust this CA to identify websites**. Then import
+`kcp-ca-1.crt` the same way.
 {{% /notice %}}
 
 ## Step 7: Sign in and create the first project
