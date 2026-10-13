@@ -386,6 +386,36 @@ providerNetwork:
 Since all traffic except between worker nodes and traffic between them and the control plane is denied by default when using `deny` mode please take care to configure required nameservers and sources for images and packages for the virtual machines properly by using `customNetworkPolicies` and `nameservers` in the kubevirt datacenter spec.
 {{% /notice %}}
 
+## Subnets from Presets
+
+A KubeVirt preset can define the subnets offered for Machine Deployments. This way, each preset can use different subnets without changing the Seed.
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: Preset
+metadata:
+  name: my-preset
+spec:
+  kubevirt:
+    kubeconfig: <base64-encoded-kubeconfig>
+    vpcName: ovn-cluster
+    subnets:
+      - subnet-a
+      - subnet-b
+```
+
+You can also add them in the Admin Panel, in the **Subnets** field of the preset's KubeVirt settings.
+
+KKP picks subnets in this order:
+
+1. The preset's `subnets`.
+2. The subnets of the VPC in the Seed's `providerNetwork`.
+3. The subnets read from the infra cluster.
+
+If the datacenter sets `matchSubnetAndStorageLocation: true`, only preset subnets that exist in the Seed's VPC and match the storage class location are shown.
+
+`subnets` replaces the deprecated `subnetName` field.
+
 ## Frequently Asked Questions
 
 ### How can I add a new Virtual Machine template?
