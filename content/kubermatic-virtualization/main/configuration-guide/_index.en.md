@@ -367,7 +367,7 @@ When `enabled: true`, KubeV will not reach out to the public internet during ins
 
 ### Preparing an Air-Gapped Environment
 
-`kubermatic-virtualization offline serve` prepares all of the following from the release's offline bundle, checks the nodes, and writes `offlineSettings` for you — see [Offline Installation]({{< ref "../installation/offline-installation" >}}). To use your own registry and repository instead:
+The release's offline bundle provides all of the following on one jump host — see [Offline Installation]({{< ref "../installation/offline-installation" >}}). To use your own registry and repository instead:
 
 Before running `kubev apply` in offline mode, the following must be in place:
 
