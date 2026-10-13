@@ -53,7 +53,7 @@ example in a pipeline. It logs every step to the terminal, and the details to
 | `enabled` | all | `false` | Turns on KDP mode. |
 | `admin` | all | — | Email address of the first platform administrator. One of `admin` and `adminGroup` is required in the same layer and nested modes. With your own KDP, both are optional, and `kdp connect` grants the one you set. |
 | `adminGroup` | all | — | OIDC group whose members are platform administrators. Wins when both are set. Only works when your login method puts groups in the token. `system:authenticated`, `system:unauthenticated` and `system:masters` are refused: at the end of the installation, or by `kdp connect` before it writes anything. |
-| `providerWorkspace` | all | `root:kubev` | The KDP workspace that holds the KubeV service. Must be below `root`, not `root` itself. With your own KDP, the workspace where you register it. |
+| `providerWorkspace` | all | `root:kubev` | The KDP workspace that holds the KubeV service. Must be below `root`, not `root` itself. With your own KDP, the workspace `kdp connect` registers KubeV in, written `root:<name>`, directly below `root`. |
 | `tenantUnderlayInterfaces` | all | empty | Host network interfaces that projects may use for underlay subnets, as names or globs such as `ens[0-9]*`. While the list is empty, projects can't create underlay subnets. See [Underlay networks for projects]({{< ref "../operations#underlay-networks-for-projects" >}}). |
 | `domains.base` | all | — | A base domain. The installer derives `dashboard.<base>`, `kcp.<base>` and, in nested mode, `dex.<base>` from it. |
 | `domains.dashboard` | same layer, nested | `dashboard.<base>` | Public address of the KDP dashboard. |

@@ -97,6 +97,7 @@ sequenceDiagram
   I->>K: Does KDP run? May this kubeconfig do every write?
   I-->>Op: What it will write, asks to go on
   I->>H: kcp's CA for the KubeV API server
+  I->>K: RBAC letting users bind KDP's core API
   I->>K: Provider workspace, KubeV service
   K-->>I: The api-syncagent's kubeconfig
   I->>K: kcp admission policies
@@ -112,10 +113,22 @@ sequenceDiagram
 | What | Why |
 | --- | --- |
 | **KDP 1.2.1 or newer** | Both the `developer-platform` and the `developer-platform-dashboard` charts. Older releases don't show the button that opens KubeV. |
-| **The kubeconfig of a kcp administrator** | `kdp connect` writes in kcp's `root` workspace and in the provider workspace. [Rights `kdp connect` checks](#rights-kdp-connect-checks) lists what it needs. A KDP platform administrator who signs in through OIDC, or a client-certificate user bound to `cluster-admin` in `root`, has them for the first run, and for later runs while they administer the provider workspace. Exec plugins such as `kubectl oidc-login`, tokens and client certificates all work, as in `kubectl`. |
+| **The kubeconfig of a kcp administrator** | `kdp connect` writes in kcp's `root` workspace and in the provider workspace. [Rights `kdp connect` checks](#rights-kdp-connect-checks) lists what it needs, and [Get a kcp administrator's kubeconfig](#get-a-kcp-administrators-kubeconfig) how to get one. Exec plugins such as `kubectl oidc-login`, tokens and client certificates all work, as in `kubectl`. |
 | **One identity provider for kcp, KDP and KubeV** | kcp accepts tokens issued to its own OIDC client only, so KubeV must sign users in with that same client. You need its ID and secret, and you must be able to add KubeV's callback to it. |
 | **Network paths from the KubeV cluster** | The KubeV API server must reach kcp's front-proxy at `kdp.external.kcpBaseURL`, and your identity provider. The api-syncagent must reach your KDP's front-proxy URL, which the kubeconfig KDP issues names, and kcp's virtual workspace address, kcp's `--shard-virtual-workspace-url`, which must accept the client certificate KDP issues. |
 | **Network paths from where you run `kdp connect`** | To kcp, at the address in the kcp kubeconfig, and to the KubeV cluster's API server. When `kdp.external.kcpBaseURL` is another address, `kdp connect` also tries to reach it, to check kcp's certificate there; see [kcp's CA](#kcps-ca). |
+
+To see the virtual workspace address your kcp advertises, list the endpoints of KDP's own APIExports
+in `root`:
+
+```bash
+kubectl --kubeconfig kcp-admin.kubeconfig get apiexportendpointslices \
+  -o jsonpath='{.items[*].status.endpoints[*].url}'
+```
+
+Each address must be one the KubeV cluster reaches, such as
+`https://kcp.example.com:8443/services/apiexport/...` on the front-proxy, not a name inside the KDP
+cluster such as `https://kcp:6443/...`.
 
 {{% notice warning %}}
 **Don't use a `system:masters` identity for the first run.** kcp records no creator for a workspace
@@ -131,6 +144,60 @@ workspace, type `kdp-organization`, first. Later runs may use a `system:masters`
 `insecure-skip-tls-verify`, because it installs the kubeconfig KDP hands back on the KubeV cluster,
 and stores kcp's CA for the KubeV API server. Add kcp's CA to the kubeconfig instead.
 {{% /notice %}}
+
+### Get a kcp administrator's kubeconfig
+
+Any administrator of `root` can run the first `kdp connect`, through OIDC or a client certificate:
+your own OIDC user, if your KDP binds it to `cluster-admin` in `root`, or a client certificate in
+the group `system:kcp:admin`, which kcp lets administer every workspace. kcp records such a user as
+the creator of the provider workspace: it skips only `system:masters`.
+
+On a KDP installed with the kcp Helm chart, cert-manager issues such a certificate from the
+front-proxy's client issuer, in the namespace kcp runs in:
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kubev-connect
+  namespace: <kcp namespace>
+spec:
+  secretName: kubev-connect
+  commonName: kubev-connect
+  subject:
+    organizations: ["system:kcp:admin"]
+  usages: ["client auth"]
+  duration: 24h
+  issuerRef:
+    name: kcp-front-proxy-client-issuer
+    kind: Issuer
+```
+
+Build the kubeconfig from its Secret, with the front-proxy's address and the CA that signs the
+front-proxy's certificate, which the chart keeps in the Secret `kcp-ca`, as `tls.crt` and `ca.crt`:
+
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+  - name: kcp
+    cluster:
+      server: https://kcp.example.com:8443/clusters/root
+      certificate-authority-data: <base64 of kcp-ca's tls.crt followed by its ca.crt>
+users:
+  - name: kcp-admin
+    user:
+      client-certificate-data: <base64 of kubev-connect's tls.crt>
+      client-key-data: <base64 of kubev-connect's tls.key>
+contexts:
+  - name: kcp-admin
+    context: {cluster: kcp, user: kcp-admin}
+current-context: kcp-admin
+```
+
+Delete the Certificate and its Secret once `kdp connect` is done, and issue a new one for the next
+run. The kubeconfig in the chart's Secret `kcp-external-admin-kubeconfig` doesn't do: its user can
+only read `root`, and `kdp connect` lists the rights it lacks.
 
 ## Step 1: Configure KubeV for your KDP
 
@@ -161,7 +228,7 @@ kdp:
 | Field | Required | Default | Description |
 | --- | --- | --- | --- |
 | `external.kcpBaseURL` | Yes, unless `domains.kcp` or `domains.base` is set | — | The address of kcp's front-proxy, as the KubeV API server reaches it from the KubeV cluster. Must be `https`, without a trailing slash or a `/clusters/...` path. |
-| `providerWorkspace` | No | `root:kubev` | The workspace that holds the KubeV service, directly below `root`. `kdp connect` creates it if it is missing. |
+| `providerWorkspace` | No | `root:kubev` | The workspace that holds the KubeV service, written `root:<name>`, directly below `root`. `kdp connect` creates it if it is missing. Pick a name no one uses yet: an existing organization of that name becomes the provider workspace. |
 | `admin` / `adminGroup` | No | — | Makes `kdp connect` grant this user or OIDC group what the installer grants the platform administrators of a KDP it installs: creating organizations and projects in `root`, and ownership of the provider workspace. When both are set, only the group is granted. `kdp connect` grants them as `oidc:<value>`, so your kcp must use the `oidc:` prefix for OIDC users and groups. Your KDP has administrators of its own, so you can leave both out. |
 | `external.caSecretName` | No | — | A Secret you create and keep up to date in the `kubermatic-virtualization` namespace, with the CA that signs kcp's certificate under the key `ca.crt`, or an empty `ca.crt` for a publicly trusted certificate. Leave it out, and `kdp connect` fills one for you; see [kcp's CA](#kcps-ca). |
 | `tenantUnderlayInterfaces` | No | empty | Host network interfaces that projects may use for underlay subnets. See [Underlay networks for projects]({{< ref "../../operations#underlay-networks-for-projects" >}}). |
@@ -175,6 +242,15 @@ kubermatic-virtualization apply -f cluster.yaml
 In this mode, `apply` installs KubeV and sets its dashboard and API server up for your kcp, and changes
 nothing on your KDP. At the end, it prints the `kdp connect` command to run next. It writes the KubeV
 cluster's kubeconfig, `kubev-cluster-kubeconfig`, to the directory it runs in: `kdp connect` uses it.
+
+Until you run `kdp connect`, the KubeV dashboard opens but answers 502 for every project: its API
+server has no kcp CA yet. Without `external.caSecretName`, `apply` warns about it too.
+
+`kdp connect` reaches the KubeV cluster at the address in `kubev-cluster-kubeconfig`,
+`apiEndpoint.host`. To run it from another machine, or through a tunnel or a port-forward, that
+address must work from there and be in the API server's certificate: list it in
+`apiEndpoint.alternativeNames` before you run `apply`, for example `127.0.0.1` and `localhost` for a
+port-forward, and point the kubeconfig's `server` at it.
 
 ## Step 3: Connect KubeV to KDP
 
@@ -217,10 +293,12 @@ kubermatic-virtualization kdp connect -f cluster.yaml --kcp-kubeconfig kcp-admin
    ```
 
 3. **It writes** everything in [What `kdp connect` writes](#what-kdp-connect-writes), in this order:
-   kcp's CA for the KubeV API server; the provider workspace and the KubeV service in kcp; then, once
-   KDP has issued the api-syncagent's kubeconfig, the kcp admission policies and everything on the
-   KubeV cluster; and last, the RBAC in kcp. Waiting for KDP can take several minutes on the first
-   run, while kcp sets up the provider workspace.
+   kcp's CA for the KubeV API server; the RBAC in `root` that lets every signed-in user bind KDP's
+   core API, before the provider workspace exists, so that kcp can finish setting it up; the provider
+   workspace and the KubeV service; then, once KDP has issued the api-syncagent's kubeconfig, the kcp
+   admission policies and everything on the KubeV cluster; and last, the RBAC that lets users bind
+   KubeV. Waiting for KDP can take several minutes on the first run, while kcp sets up the provider
+   workspace.
 4. **It waits** until the api-syncagent runs and has published every KubeV resource type in kcp, for
    up to five minutes. You stop it with Ctrl-C at any point: running it again finishes the job.
 
@@ -286,15 +364,15 @@ row. Later, the provider workspace's administrators are whoever created it, `kdp
 ## Step 4: Register KubeV on your Dex
 
 Your Dex knows nothing of KubeV yet. Add KubeV's callback to the client kcp trusts, next to the KDP
-dashboard's own. `kdp connect` prints the lines to add, for example:
+dashboard's own. Edit that client: a second client with the same ID doesn't work. `kdp connect`
+prints the whole entry; the change is:
 
 ```yaml
 staticClients:
-  - id: kdp-kubelogin                     # dashboard.auth.oidc.clientID, kcp's client
-    name: KubeV Dashboard
-    secret: <dashboard.auth.oidc.clientSecret>
-    redirectURIs:                         # keep the KDP dashboard's own callback in the list
-      - https://kubev.example.com/auth/callback
+  - id: kdp-kubelogin                     # the client kcp trusts, dashboard.auth.oidc.clientID
+    redirectURIs:
+      - https://kdp.example.com/api/auth/callback/oidc   # already there: the KDP dashboard's
+      - https://kubev.example.com/auth/callback          # add: KubeV's
 oauth2:
   skipApprovalScreen: true
 ```
@@ -414,11 +492,12 @@ In kcp, with the administrator's kubeconfig:
 
 ```bash
 KCP=https://kcp.example.com:8443
+k() { kubectl --kubeconfig kcp-admin.kubeconfig --server "$KCP/clusters/root" "$@"; }
 # The provider workspace, with the KubeV service and the admission policies in it.
-kubectl --server "$KCP/clusters/root" delete workspace kubev
+k delete workspace kubev
 # Only with kdp.admin or kdp.adminGroup: the platform administrators' grants in root.
-kubectl --server "$KCP/clusters/root" delete clusterrolebinding kubev:tenancy:workspaces-manager
-kubectl --server "$KCP/clusters/root" delete clusterrole kubev:tenancy:workspaces-manager kubev:tenancy:project-type-user
+k delete clusterrolebinding kubev:tenancy:workspaces-manager
+k delete clusterrole kubev:tenancy:workspaces-manager kubev:tenancy:project-type-user
 ```
 
 The copies of the projects' objects stay on the KubeV cluster, in their
