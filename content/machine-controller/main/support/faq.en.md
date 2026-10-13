@@ -338,6 +338,29 @@ spec:
           "machine.k8s.io/exclude-node-draining": "false"  # Enable draining (default)
 ```
 
+### How long does machine-controller wait for eviction?
+
+Two hours by default. Eviction respects PodDisruptionBudgets. If it does not finish in time, the instance is deleted with its pods still running.
+
+Change the timeout with the `--skip-eviction-after` flag, or per Machine or MachineDeployment with an annotation:
+
+```yaml
+metadata:
+  annotations:
+    machine-controller.kubermatic.io/skip-eviction-after: "30m"
+```
+
+- A MachineDeployment annotation applies only to Machines created afterwards.
+- `0` disables the timeout. The Machine then waits for eviction as long as its node is `Ready` and a schedulable target node exists.
+- A negative or invalid annotation value is logged and ignored. The flag value applies instead.
+- The flag does not validate its value. Do not set it to a negative duration.
+
+{{% notice warning %}}
+In older versions, `0` skipped eviction and deleted the Machine at once. If you used `0` before upgrading, check that the new behavior is what you want.
+{{% /notice %}}
+
+To skip eviction for a node entirely, use the `kubermatic.io/skip-eviction` annotation on the Node.
+
 ## Performance and Limits
 
 ### How many machines can machine-controller manage?

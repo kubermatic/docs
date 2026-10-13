@@ -141,17 +141,23 @@ Check for machines stuck in provisioning or with error states.
 
 **Solutions:**
 
-1. **Check for finalizers**
+1. **Check for blocked eviction**
+   A PodDisruptionBudget may block pod eviction. This lasts until the [eviction timeout]({{< ref "./faq.en.md#how-long-does-machine-controller-wait-for-eviction" >}}) expires. With a timeout of `0`, it lasts as long as the node is `Ready`.
+   ```bash
+   kubectl get pdb -A
+   ```
+
+2. **Check for finalizers**
    ```bash
    kubectl get machine <machine-name> -n kube-system -o yaml | grep finalizers
    ```
 
-2. **Force delete if necessary** (use with caution)
+3. **Force delete if necessary** (use with caution)
    ```bash
    kubectl patch machine <machine-name> -n kube-system -p '{"metadata":{"finalizers":[]}}' --type=merge
    ```
 
-3. **Manually delete cloud resources**
+4. **Manually delete cloud resources**
    If cloud instance still exists, delete it via cloud provider console/CLI
 
 ### MachineDeployment Not Creating Machines
