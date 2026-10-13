@@ -39,8 +39,6 @@ configuration file and run the installer. The section decides which of three mod
 - **An OIDC identity provider that KDP and KubeV share**, except in nested mode, which brings its
   own. KDP, kcp and the KubeV dashboard all sign users in with one OIDC client. kcp identifies
   users by their `email` claim, so every user needs an email address in their token.
-- **Agreed organization and project names.** At most 16 characters, without `--`: see
-  [Names KubeV can use]({{< ref "../how-it-works#names-kubev-can-use" >}}).
 
 The installer asks for confirmation before it changes anything. Add `-y` to skip the question, for
 example in a pipeline. It logs every step to the terminal, and the details to

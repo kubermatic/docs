@@ -340,8 +340,7 @@ list of trusted CAs. Open **Settings** >
 
 1. Open the KDP dashboard and sign in as the platform administrator, `alice@example.com` in the
    example.
-2. Create an organization, and a project in it. Keep both names to 16 characters or less, without
-   `--`. Both are ready within seconds.
+2. Create an organization, and a project in it. Both are ready within seconds.
 3. Open the project's **Services** page. Within about 30 seconds, **KubeV Virtualization** is listed
    as enabled.
 4. Add the project's members on its **Members** page, with the roles in

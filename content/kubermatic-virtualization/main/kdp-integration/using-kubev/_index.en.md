@@ -48,10 +48,9 @@ from KDP.
 
 | KubeV shows | What it means |
 | --- | --- |
-| **Select a project** | The address names no project, or only an organization. Open a project from KDP. |
+| **Select a project** | The address names no project: only an organization, or a workspace below a project. Open a project from KDP. |
 | **Project not available** | The project doesn't exist, you have no role in it, or KubeV isn't enabled in it. Ask one of its owners. |
 | **Organization not available** | The address names an organization you have no access to. |
-| **KubeV can't use this project** | The organization or project name breaks a rule KubeV needs, such as its length. See [Names KubeV can use]({{< ref "../how-it-works#names-kubev-can-use" >}}). Organizations and projects can't be renamed, so the one that breaks the rule has to be recreated with an allowed name. Ask your KDP administrator. |
 | **You don't have access to any organization yet** | You signed in, but have no role anywhere in KDP. Ask an administrator to add you to a project. |
 
 ## Namespaces
@@ -62,10 +61,7 @@ in the form.
 
 To use more namespaces, create them in the project, on the **Namespaces** page in KDP or with
 `kubectl`; see [kcp on the Command Line](/developer-platform/v1.2/tutorials/kcp-command-line/)
-in the KDP documentation. A namespace name may have up to 27 characters and must not contain
-`--`.
-KubeV lists namespaces that break this rule, but you can't pick them, since nothing created
-in them would reach the platform.
+in the KDP documentation. KubeV can use every namespace name KDP accepts.
 
 ## What works differently
 

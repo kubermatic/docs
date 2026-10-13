@@ -22,13 +22,13 @@ and restore jobs run there:
 
 ```mermaid
 flowchart TB
-  subgraph kcp["kcp project, namespace default"]
+  subgraph kcp["kcp project root:acme:dev, namespace default"]
     bsl["Backup target"]
     sec["Credentials Secret"]
     ca["CA bundle ConfigMap,<br/>optional"]
     bk["VMBackup"]
   end
-  subgraph host["KubeV cluster, namespace acme--dev--default"]
+  subgraph host["KubeV cluster, namespace kv-52dff561bfed63db-edc3609295f0"]
     copies["Copies of all four"]
     job["Snapshot, export<br/>and upload job"]
   end

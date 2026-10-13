@@ -410,17 +410,20 @@ again.
    page. In the wizard, keep **Create default roles for resources managed by this service** selected,
    and grant every resource listed under **Resources**: KubeV needs each of them.
 2. On the project, choose **Open KubeV Virtualization**. KubeV opens in the project, signed in as you.
-3. Create an SSH key in KubeV. It appears on the KubeV cluster in the project's namespace there:
+3. Create an SSH key in KubeV. It appears on the KubeV cluster in the host namespace of its project
+   namespace, `kv-<project hash>-<namespace hash>`, which carries the labels
+   `kdp.kubev.k8c.io/organization`, `kdp.kubev.k8c.io/project` and `kdp.kubev.k8c.io/namespace`:
 
    ```bash
    kubectl --kubeconfig kubev-cluster-kubeconfig get sshkeys.virtualization.k8c.io -A
+   kubectl --kubeconfig kubev-cluster-kubeconfig get namespaces -l kdp.kubev.k8c.io/project-hash \
+     -L kdp.kubev.k8c.io/organization,kdp.kubev.k8c.io/project,kdp.kubev.k8c.io/namespace
    ```
 
 {{% notice warning %}}
 **Enable KubeV in projects only.** The KubeV service asks KDP to refuse KubeV resources in
 organizations, and KubeV can't run anything created in a workspace below a project. See
-[Where KubeV works]({{< ref "../../how-it-works#where-kubev-works" >}}), and the
-[names KubeV can use]({{< ref "../../how-it-works#names-kubev-can-use" >}}).
+[Where KubeV works]({{< ref "../../how-it-works#where-kubev-works" >}}).
 {{% /notice %}}
 
 ## Upgrading KubeV
@@ -500,7 +503,7 @@ k delete clusterrolebinding kubev:tenancy:workspaces-manager
 k delete clusterrole kubev:tenancy:workspaces-manager kubev:tenancy:project-type-user
 ```
 
-The copies of the projects' objects stay on the KubeV cluster, in their
-`<organization>--<project>--<namespace>` namespaces, until you delete them. Keep
+The copies of the projects' objects stay on the KubeV cluster, in their host namespaces, until you
+delete them. `kubectl get namespaces -l kdp.kubev.k8c.io/project-hash` lists those namespaces. Keep
 `kubev:kdp-core-binder` in `root`: it helps every new organization and project in your KDP, not only
 the ones that use KubeV.

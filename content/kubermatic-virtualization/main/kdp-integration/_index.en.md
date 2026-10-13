@@ -17,7 +17,7 @@ flowchart TB
   project["kcp workspace<br/>root:acme:dev<br/>VMs, networks,<br/>disks, backups"]
   kubevui["KubeV dashboard<br/>and API server"]
   agent["api-syncagent"]
-  ns["Namespace<br/>acme--dev--default<br/>run by KubeVirt, CDI,<br/>Kube-OVN and KubeV"]
+  ns["Namespace<br/>kv-52dff561bfed63db-edc3609295f0<br/>run by KubeVirt, CDI,<br/>Kube-OVN and KubeV"]
 
   user -->|"1. opens a project"| kdpui
   kdpui -->|"2. Open KubeV"| kubevui
@@ -54,13 +54,6 @@ administration pages of its own.
 refuses new ones in an organization. In a workspace nested below a project, kcp accepts them, but they
 never reach the KubeV cluster and never run. See
 [Where KubeV works]({{< ref "./how-it-works#where-kubev-works" >}}).
-{{% /notice %}}
-
-{{% notice warning %}}
-**Organization and project names are limited.** At most 16 characters each, and no `--`. KDP accepts
-longer names, but KubeV can't use such a project, and workspaces can't be renamed. Agree on naming
-before teams create their projects: see
-[Names KubeV can use]({{< ref "./how-it-works#names-kubev-can-use" >}}).
 {{% /notice %}}
 
 ## Installation modes

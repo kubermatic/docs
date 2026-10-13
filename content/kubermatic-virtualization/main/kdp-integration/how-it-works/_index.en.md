@@ -19,7 +19,7 @@ flowchart TB
   project["kcp workspace<br/>root:acme:dev<br/>VMs, networks,<br/>disks, backups"]
   kubevui["KubeV dashboard<br/>and API server"]
   agent["api-syncagent"]
-  ns["Namespace<br/>acme--dev--default<br/>run by KubeVirt, CDI,<br/>Kube-OVN and KubeV"]
+  ns["Namespace<br/>kv-52dff561bfed63db-edc3609295f0<br/>run by KubeVirt, CDI,<br/>Kube-OVN and KubeV"]
 
   user -->|"1. opens a project"| kdpui
   kdpui -->|"2. Open KubeV"| kubevui
@@ -144,14 +144,17 @@ of truth, and the api-syncagent applies it to the copy.
 
 ## Where the objects run
 
-Each namespace of a project gets its own namespace on the KubeV cluster, named after the
-organization, the project and the namespace:
+Each namespace of a project gets its own namespace on the KubeV cluster, its host namespace. The
+name is made of two hashes, `kv-<project hash>-<namespace hash>`: the first 16 hex characters of the
+SHA3-256 of the project's workspace path, `root:<organization>:<project>`, then the first 12 of the
+SHA3-256 of that path followed by `/<namespace>`. Labels on the host namespace name its
+organization, project and namespace:
 
 ```mermaid
 flowchart LR
-  a["root:acme:dev<br/>namespace default"] -->|"VM web-1"| ha["acme--dev--default"]
-  b["root:acme:dev<br/>namespace team-a"] -->|"VM web-1"| hb["acme--dev--team-a"]
-  c["root:globex:prod<br/>namespace default"] -->|"VM web-1"| hc["globex--prod--default"]
+  a["root:acme:dev<br/>namespace default"] -->|"VM web-1"| ha["kv-52dff561bfed63db-edc3609295f0"]
+  b["root:acme:dev<br/>namespace team-a"] -->|"VM web-1"| hb["kv-52dff561bfed63db-49eb27ffd35b"]
+  c["root:globex:prod<br/>namespace default"] -->|"VM web-1"| hc["kv-8c9cf064480f7e7b-21c27d7ba1cf"]
 
   classDef kdp fill:#e8f1fb,stroke:#1f5fa8,color:#0d3c73
   classDef kv fill:#e3f4e8,stroke:#2e7d32,color:#1b5e20
@@ -161,28 +164,18 @@ flowchart LR
 ```
 
 Objects keep their names, so references between them, such as a subnet's VPC or a VM's SSH key,
-still work. Two projects can use the same names without touching each other.
+still work. Two projects can use the same names without touching each other, even projects with the
+same name in different organizations. The host namespaces of one project all start with the same
+`kv-<project hash>-`, which is how the platform keeps a VM's networks inside its project. To find
+the host namespaces of a project, see
+[Finding a project's objects]({{< ref "../operations#finding-a-projects-objects" >}}).
 
-### Names KubeV can use
+### Projects KubeV can use
 
-A namespace name on the KubeV cluster has at most 63 characters, and no two projects may map to the
-same one. So KubeV can only use a project whose names follow these rules:
-
-| Name | Rule |
-| --- | --- |
-| **Organization** | At most 16 characters: lowercase letters, digits and `-`. Doesn't start or end with `-`, contains no `--`, doesn't start with `usn-`. |
-| **Project** | The same rules as the organization. |
-| **Namespace in the project** | At most 27 characters. Doesn't start or end with `-`, contains no `--`. |
-| **Workspace** | Exactly `root:<organization>:<project>`. |
-
-{{% notice warning %}}
-**KDP doesn't check these rules, and workspaces can't be renamed.** A project that breaks one can
-be created in KDP, but KubeV can't use it: the KubeV dashboard shows **KubeV can't use this
-project**, and none of its objects run. The only fix is a new organization or project with allowed
-names. Agree on naming before teams create their projects. A namespace that breaks its rule is
-listed in KubeV's namespace pickers but can't be picked, and objects created in it with `kubectl`
-never run.
-{{% /notice %}}
+The length of a host namespace's name doesn't depend on the names in KDP, so KubeV can use every
+project, whatever its organization, project and namespaces are called. It only needs the workspace
+to be a project, exactly `root:<organization>:<project>`: see
+[Where KubeV works](#where-kubev-works).
 
 ## How users sign in
 

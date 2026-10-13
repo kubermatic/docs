@@ -20,7 +20,7 @@ flowchart TB
   users(["Users"])
   vms["Nested KDP<br/>3 VMs in namespace kubev-kdp,<br/>running Kubernetes with<br/>Dex, kcp and the KDP dashboard"]
   agent["api-syncagent"]
-  tenants["Project namespaces<br/>org--project--namespace"]
+  tenants["Host namespaces kv-...<br/>one per project namespace"]
 
   installer -->|"SSH through the first<br/>control plane host"| vms
   users -->|"dashboard :30880<br/>Dex :30556"| vms
@@ -174,8 +174,8 @@ cluster:
 - `kubev-kdp`, which holds the VMs and their disks. Every organization, project and object in that
   KDP is lost with it;
 - `kubev-syncagent`, which holds the api-syncagent;
-- the project namespaces, `<organization>--<project>--<namespace>`, which still hold the copies of
-  the projects' VMs, disks and networks.
+- the projects' host namespaces, which still hold the copies of the projects' VMs, disks and
+  networks. `kubectl get namespaces -l kdp.kubev.k8c.io/project-hash` lists them.
 
 The api-syncagent also left cluster-wide objects behind: the PublishedResources and their CRD
 `publishedresources.syncagent.kcp.io`, the ClusterRole and ClusterRoleBinding

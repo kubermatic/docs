@@ -11,15 +11,32 @@ For how projects map to the KubeV cluster and what the platform enforces, see
 
 ## Finding a project's objects
 
-Each project namespace has a namespace on the KubeV cluster named
-`<organization>--<project>--<namespace>`; see
-[Where the objects run]({{< ref "../how-it-works#where-the-objects-run" >}}). Every object the
-api-syncagent manages there carries the label `syncagent.kcp.io/agent-name`. To find a project's
-namespaces, and what runs in one of them:
+Each project namespace has a host namespace on the KubeV cluster, named
+`kv-<project hash>-<namespace hash>`; see
+[Where the objects run]({{< ref "../how-it-works#where-the-objects-run" >}}). The name says nothing
+about the project, so find host namespaces by their labels and annotations:
+
+| Key | Kind | Value |
+| --- | --- | --- |
+| `kdp.kubev.k8c.io/organization` | label | The organization's name. |
+| `kdp.kubev.k8c.io/project` | label | The project's name. |
+| `kdp.kubev.k8c.io/namespace` | label | The namespace in the project. |
+| `kdp.kubev.k8c.io/project-hash` | label | The project hash, the 16 characters after `kv-`. Every host namespace has it. |
+| `kdp.kubev.k8c.io/project-path` | annotation | `<organization>/<project>` |
+| `kdp.kubev.k8c.io/namespace-path` | annotation | `<organization>/<project>/<namespace>` |
+
+The api-syncagent creates a host namespace when the first object of a project namespace arrives, and
+KubeV labels it moments later. Every object the api-syncagent manages there carries the label
+`syncagent.kcp.io/agent-name`. To find a project's host namespaces, and what runs in one of them:
 
 ```bash
-kubectl get namespaces | grep -- '^acme--prod--'
-kubectl -n acme--prod--default get virtualmachines,datavolumes,vpcs.virtualization.k8c.io
+# Every host namespace, with the project namespace it holds:
+kubectl get namespaces -l kdp.kubev.k8c.io/project-hash \
+  -L kdp.kubev.k8c.io/organization,kdp.kubev.k8c.io/project,kdp.kubev.k8c.io/namespace
+# The host namespaces of project prod in organization acme:
+kubectl get namespaces -l kdp.kubev.k8c.io/organization=acme,kdp.kubev.k8c.io/project=prod
+# What runs in the host namespace of its namespace default:
+kubectl -n kv-c21432a31b80a04f-7b59e6651cd6 get virtualmachines,datavolumes,vpcs.virtualization.k8c.io
 ```
 
 Look, but change things in the project instead: the api-syncagent applies the project's objects to
@@ -64,7 +81,7 @@ apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: kubev-network
-  namespace: acme--prod--default
+  namespace: kv-c21432a31b80a04f-7b59e6651cd6   # acme:prod, namespace default
 spec:
   hard:
     count/elasticips.virtualization.k8c.io: "4"
@@ -79,8 +96,8 @@ namespace, so add the quota for new ones too.
 
 Projects can't create edge routers: an edge router runs privileged routing pods on the hosts. To
 route a project's VPCs, create an `AZEdgeRouter` with `kubectl` on the KubeV cluster, in the
-project's host namespace, for example `acme--prod--default`. It serves the VPCs of that namespace
-that it selects, by name or by label, and no VPCs of other namespaces.
+project's host namespace, for example `kv-c21432a31b80a04f-7b59e6651cd6`. It serves the VPCs of
+that namespace that it selects, by name or by label.
 
 ## Network hardening
 
@@ -116,7 +133,7 @@ kubectl -n kubev-syncagent logs deployment/kubev-api-syncagent
 | Symptom | Cause and fix |
 | --- | --- |
 | An object stays **Pending** in a project, with only a warning event *a provider-side issue has occurred*. | The KubeV cluster refused the copy, or a quota was exceeded. The agent's log has the reason. |
-| No object of a project reaches the KubeV cluster; the agent logs *longer than 16 characters*, *may not contain --* or *is not a project*. | The project's names break a rule KubeV needs, or the objects were created in an organization or a workspace below a project. See [Where KubeV works]({{< ref "../how-it-works#where-kubev-works" >}}). |
+| No object of a project reaches the KubeV cluster; the agent logs *is not a project*. | The objects were created in an organization or in a workspace below a project, where KubeV doesn't work. See [Where KubeV works]({{< ref "../how-it-works#where-kubev-works" >}}). |
 | A resource type is missing in projects. | Its PublishedResource has no schema. List them with `kubectl get publishedresources.syncagent.kcp.io`, and check that the resource's CRD is installed. |
 | KDP pages don't load in the browser, or `kubectl` reports an unknown certificate authority for kcp. | The user's machine doesn't trust kcp's CA. See [Publish the KDP dashboard and kcp]({{< ref "../installation/same-layer#step-6-trust-kcps-certificate" >}}). |
 | Every KubeV page of a project fails, and the API server logs *kcp is unreachable until its CA can be read*. | The kcp CA Secret is missing from the `kubermatic-virtualization` namespace: the one named in `external.caSecretName` or `kdp.kcpCASecretName`, or else `kubev-kcp-front-proxy-ca`. |
