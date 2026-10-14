@@ -998,7 +998,7 @@ featureGates:
 
 ## KDP Integration
 
-The `kdp` section runs KubeV as a service of the Kubermatic Developer Platform (KDP): users get virtual machines in their KDP projects, and KDP manages organizations, projects, members and roles. The [KDP Integration]({{< ref "kdp-integration" >}}) guide explains how it works and walks through each installation mode, and [The `kdp` section]({{< ref "kdp-integration/installation#the-kdp-section" >}}) lists every field.
+The `kdp` section runs KubeV as a service of the Kubermatic Developer Platform (KDP): users get virtual machines in their KDP projects, and KDP manages organizations, projects, members and roles. The [KDP Integration]({{< ref "./kdp-integration" >}}) guide explains how it works and walks through each installation mode, and [The `kdp` section]({{< ref "kdp-integration/installation#the-kdp-section" >}}) lists every field.
 
 ```yaml
 kdp:
