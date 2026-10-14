@@ -12,25 +12,20 @@ other service on the platform, while KubeV runs them on its own cluster.
 ```mermaid
 flowchart TB
   user(["User"])
-  kdpui["KDP dashboard<br/>catalog, members, roles"]
-  provider["kcp workspace<br/>root:kubev<br/>the KubeV service"]
-  project["kcp workspace<br/>root:acme:dev<br/>VMs, networks,<br/>disks, backups"]
-  kubevui["KubeV dashboard<br/>and API server"]
-  agent["api-syncagent"]
-  ns["Namespace<br/>kv-52dff561bfed63db-edc3609295f0<br/>run by KubeVirt, CDI,<br/>Kube-OVN and KubeV"]
+  kdp["KDP<br/>stores each project's<br/>VMs, networks, disks"]
+  kubev["KubeV<br/>dashboard"]
+  cluster["KubeV cluster<br/>runs them"]
 
-  user -->|"1. opens a project"| kdpui
-  kdpui -->|"2. Open KubeV"| kubevui
-  kubevui -->|"3. requests with<br/>the user's own token"| project
-  provider -.->|"enabled in"| project
-  project <-->|"4. objects down,<br/>status up"| agent
-  agent --> ns
+  user -->|"opens a project"| kdp
+  user -->|"Open KubeV"| kubev
+  kubev -->|"changes the project"| kdp
+  kdp <-->|"api-syncagent"| cluster
 
   classDef kdp fill:#e8f1fb,stroke:#1f5fa8,color:#0d3c73
   classDef kv fill:#e3f4e8,stroke:#2e7d32,color:#1b5e20
   classDef ext fill:#fff4e0,stroke:#b26a00,color:#6d4100
-  class kdpui,provider,project kdp
-  class kubevui,agent,ns kv
+  class kdp kdp
+  class kubev,cluster kv
   class user ext
 ```
 

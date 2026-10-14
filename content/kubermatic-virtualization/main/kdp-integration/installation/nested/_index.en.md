@@ -5,8 +5,10 @@ weight = 3
 +++
 
 {{% notice warning %}}
-**Experimental. Don't use it in production.** The nested mode is meant for trying KDP out, for
-example in a lab. For a platform people depend on, use
+**Experimental. Don't use it in production.** In this release, the nested mode is meant for trying
+KDP out, for example in a lab, and needs a lot of work by hand to be usable: see
+[What you set up by hand](#what-you-set-up-by-hand). The next release improves it and makes it ready
+for production. Until then, for a platform people depend on, use
 [Same Layer]({{< ref "../same-layer" >}}) or [Bring Your Own KDP]({{< ref "../external-kdp" >}}).
 {{% /notice %}}
 
@@ -50,6 +52,26 @@ Before you start, know what this mode doesn't do:
   exist keep the key of their first boot, so a second run can't reach them. Change the nested KDP's
   settings by recreating it; see [Removing it](#removing-it).
 - **No uninstall.** Remove the nested KDP by hand; see [Removing it](#removing-it).
+
+## What you set up by hand
+
+The installer creates the nested KDP and connects KubeV to it, but it stops at the edge of the KubeV
+cluster: making KDP usable for anyone outside it is your job.
+
+- **Exposing KDP.** The KDP dashboard, kcp's API and Dex listen as NodePorts on the VMs, on ports
+  30880, 30843 and 30556, at the VMs' addresses on the KubeV cluster's pod network. Only the cluster
+  reaches those. The installer publishes none of them: set up the load balancer, proxy or tunnel that
+  brings your users to them.
+- **Load balancing.** Nothing spreads your users' traffic over the three VMs. The NodePorts are open
+  on all of them, so a load balancer in front of the three can. KDP itself is still configured for
+  the first VM, `kdp-cp-0`: if that VM is down, KDP is down.
+- **DNS.** `dashboard.<base>`, `kcp.<base>` and `dex.<base>` must resolve, for your users, to whatever
+  you put in front of the VMs.
+- **Certificates.** kcp and Dex use certificates from the nested KDP's own CA, unless you give it one
+  with `kdp.ca`, and the KDP dashboard is plain HTTP. Every user's browser must trust that CA: see
+  [Step 3](#step-3-reach-kdp).
+
+The next release takes over most of this work.
 
 ## Requirements
 
@@ -121,9 +143,10 @@ It writes two files in the current directory:
 
 ## Step 3: Reach KDP
 
-The three services listen on the first VM's pod-network address. Make that address reachable for your
-users, for example through an SSH tunnel through one of the cluster's nodes, and point the names
-`dex.<base>`, `kcp.<base>` and `dashboard.<base>` at it.
+The three services listen on the VMs' pod-network addresses, which only the KubeV cluster reaches.
+Bring your users to them as [What you set up by hand](#what-you-set-up-by-hand) describes: with a load
+balancer in front of the three VMs, or, for a quick test, an SSH tunnel through one of the cluster's
+nodes to the first VM. Then point the names `dex.<base>`, `kcp.<base>` and `dashboard.<base>` at it.
 
 Unless you set `kdp.ca`, browsers must trust the self-signed CA. Export it with the nested cluster's
 kubeconfig, and install it as trusted on your users' machines:
