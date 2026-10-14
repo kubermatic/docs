@@ -26,6 +26,12 @@ If any of the terms below (ESO, OpenBao, SecretStore, OIDC, Dex) are new, keep
 the [Glossary]({{< ref "../glossary/" >}}) handy — each is defined in one line.
 
 ## Prerequisites
+
+{{% notice note %}}
+At the moment, you need to be invited to get access to Kubermatic's Docker repository before you can install SecureGuard.
+Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
+{{% /notice %}}
+
 Before you begin, ensure you have the following installed:
 *   [Docker Engine](https://docs.docker.com/engine/install/) 24+
 *   [Helm](https://helm.sh/docs/intro/install/)
@@ -33,12 +39,22 @@ Before you begin, ensure you have the following installed:
 
 ## Quickstart Deployment
 
-1. **Install the Helm Chart**
+1. **Create the Pull Secret**
+   SecureGuard's images are served from a private Quay repository, so the chart needs registry credentials before it can pull.
+   ```bash
+   kubectl create namespace secureguard-system
+   kubectl create secret docker-registry secureguard-pull \
+     --namespace secureguard-system \
+     --docker-server=quay.io \
+     --docker-username='<robot-user>' \
+     --docker-password='<robot-token>'
+   ```
+
+2. **Install the Helm Chart**
    Deploy the chart directly from the Kubermatic Quay.io registry into your cluster under the `secureguard` release name. The chart will automatically install all required Custom Resource Definitions (CRDs) for the External Secrets Operator.
    ```bash
    helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
      --namespace secureguard-system \
-     --create-namespace \
      --set openbao.server.dev.enabled=true
    ```
 
@@ -46,7 +62,7 @@ Before you begin, ensure you have the following installed:
    release, add `--version <chart-version>` — see the
    [Upgrade Guides]({{< ref "../upgrade-guides/" >}}) before moving between versions.
 
-2. **Verify the Deployment**
+3. **Verify the Deployment**
    Ensure all pods have started and are reporting `Running` status:
    ```bash
    kubectl get pods -n secureguard-system
