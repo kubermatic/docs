@@ -21,7 +21,8 @@ OCI-based Helm charts do not require `helm repo add` or `helm repo update`. Simp
    ```bash
    helm upgrade secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
      -f values-production.yaml \
-     --namespace secureguard-system
+      --namespace secureguard-system \
+      --version <chart-version>
    ```
 4. **Verify**: all pods `Running`, dashboard reachable, OpenBao unsealed, a spot-check ExternalSecret still `Synced`.
 
@@ -30,6 +31,33 @@ If the upgrade fails, roll back the release and — only if data was affected �
 ```bash
 helm rollback secureguard --namespace secureguard-system
 ```
+
+## Edition-Aware Upgrades
+
+The chart now defaults to `edition: community`. When upgrading an existing
+fleet deployment, explicitly set `edition: enterprise` in your values file;
+use `edition: enterprise-advanced` if you run the federation broker. Otherwise
+you may select the single-cluster dashboard and proxy images, and Helm rejects
+enabled agent or broker components that do not match the selected edition.
+
+Before upgrading:
+
+1. Check [edition capabilities and image names]({{< ref "../editions/" >}}), registry
+   credentials, and any repository overrides. Both commercial editions use the
+   `-ee` dashboard and proxy repositories.
+2. Preserve `sgAgent.enabled` and `federation.enabled` as needed; selecting a
+   commercial edition does not enable those components automatically.
+3. Choose one management-cluster registration method in Enterprise. Enable
+   `proxy.registerLocalCluster` only if the cluster is not already registered
+   through a kubeconfig Secret.
+4. Pin the chart and verify its `appVersion`. If it is `latest`, also set
+   explicit released image tags for the dashboard, proxy, and enabled optional
+   components; a chart-version pin alone does not pin mutable images.
+
+After the rollout, run `helm test secureguard --namespace secureguard-system
+--logs`, verify access to the expected clusters, and check that managed
+ESODeployments reconcile. For federation, confirm that the configured server
+and authorization policies permit the intended consumer.
 
 ## Pre-Upgrade Requirement: OpenBao Backups (Snapshots)
 
@@ -95,19 +123,34 @@ When Helm updates the OpenBao StatefulSet image version, Kubernetes will perform
 
 ### Upgrading the External Secrets Operator (ESO) CRDs
 
-Helm does not automatically upgrade Custom Resource Definitions (CRDs) during a `helm upgrade` command to prevent accidental deletion of stored data.
+Distinguish the two CRD lifecycles:
 
-If a new version of SecureGuard bumps the ESO version and introduces new CRD fields, you must manually apply the updated CRDs before upgrading the Helm chart.
+- **SecureGuard CRDs:** with `crds.install: true`, a pre-install/pre-upgrade
+  hook Job server-side applies the chart's definitions on every upgrade. This
+  includes ESODeployment, ESOVersion, SGAgent, FederationServer, and
+  FederationAuthorization. With `crds.install: false`, manage their upgrades
+  through your own deployment pipeline.
+- **Upstream ESO CRDs:** these are controlled separately by the ESO sub-chart's
+  `eso.installCRDs` setting. Review the CRD upgrade behavior of the bundled ESO
+  chart for your target release. If you manage ESO CRDs externally, update them
+  before deploying an operator that needs new fields.
+
+For externally managed ESO CRDs:
 
 1. Download the new CRD manifests corresponding to the ESO version packaged in the new chart.
 2. Apply them directly:
    ```bash
-   kubectl apply -f https://raw.githubusercontent.com/external-secrets/external-secrets/v<NEW_VERSION>/deploy/crds/bundle.yaml
+    kubectl apply --server-side -f https://raw.githubusercontent.com/external-secrets/external-secrets/v<NEW_VERSION>/deploy/crds/bundle.yaml
    ```
 3. Make the new release selectable in the dashboard by adding it to the **ESO
    Version Catalog**: apply a new `ESOVersion` CR (and move the `latest: true`
    flag onto it). See [Advanced Configuration → ESO Version Catalog]({{< ref "../advanced-configuration/#eso-version-catalog-esoversion-crd" >}}).
-   Only ESO `v2.0.0` and newer are supported.
+    Only ESO `v2.0.0` and newer are supported.
+
+For agent-managed target clusters, the SG Agent copies ESO ecosystem CRDs from
+the management cluster using server-side apply. Updating only the ESODeployment
+version does not download a matching CRD bundle; keep management-cluster CRDs
+compatible with the target operator versions.
 
 ### Upgrading the SecureGuard UI and Proxy
 

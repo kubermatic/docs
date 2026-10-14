@@ -7,6 +7,9 @@ description = "Quickly deploy Kubermatic SecureGuard in a local or development e
 
 This guide will walk you through quickly deploying Kubermatic SecureGuard in a local or development environment. This deployment bundles OpenBao (in dev mode), the Dex OIDC provider, External Secrets Operator (ESO), and the SecureGuard dashboard UI.
 
+It uses the single-cluster **Community** edition. For fleet management or
+federation, select the appropriate [commercial edition]({{< ref "../editions/" >}}).
+
 {{% notice warning %}}
 This guide is intended for development and local testing. Do not use `dev` mode secrets for production workloads. For production deployments, refer to the [Installation]({{< ref "../installation/" >}}) guide.
 {{% /notice %}}
@@ -35,6 +38,7 @@ Please [contact sales](mailto:sales@kubermatic.com) to receive your credentials.
 Before you begin, ensure you have the following installed:
 *   [Docker Engine](https://docs.docker.com/engine/install/) 24+
 *   [Helm](https://helm.sh/docs/intro/install/)
+*   `kubectl` configured for that cluster
 *   A running Kubernetes cluster (e.g., [kind](https://kind.sigs.k8s.io/), [minikube](https://minikube.sigs.k8s.io/), or Docker Desktop Kubernetes)
 
 ## Quickstart Deployment
@@ -52,10 +56,41 @@ Before you begin, ensure you have the following installed:
 
 2. **Install the Helm Chart**
    Deploy the chart directly from the Kubermatic Quay.io registry into your cluster under the `secureguard` release name. The chart will automatically install all required Custom Resource Definitions (CRDs) for the External Secrets Operator.
+
+   Save this as `values-local.yaml`. The issuer is reachable by the proxy inside
+   Kubernetes; `dexPublicUrl` directs the browser to the Dex port-forward.
+   The callback must match the dashboard port-forward exactly.
+
+   ```yaml
+   edition: community
+   imagePullSecrets:
+     - name: secureguard-pull
+   openbao:
+     server:
+       dev:
+         enabled: true
+       ha:
+         enabled: false
+     init:
+       enabled: false
+   dex:
+     config:
+       issuer: http://secureguard-dex.secureguard-system.svc.cluster.local:5556/dex
+   auth:
+     oidc:
+       clientSecret: secureguard-local-demo  # local testing only
+       redirectUri: http://localhost:8080/api/auth/callback
+       dexPublicUrl: http://localhost:5556/dex
+   ```
+
+   The `imagePullSecrets` entry references the Secret created in step 1. See
+   [registry configuration]({{< ref "../installation/#cluster--tooling" >}}) for
+   mirrored sub-chart images.
+
    ```bash
    helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
      --namespace secureguard-system \
-     --set openbao.server.dev.enabled=true
+     -f values-local.yaml
    ```
 
    Omitting `--version` installs the latest published chart. To pin a specific
@@ -67,7 +102,12 @@ Before you begin, ensure you have the following installed:
    ```bash
    kubectl get pods -n secureguard-system
    ```
-   You should see pods for the backend proxy, the UI, OpenBao, Dex, and the ESO controllers.
+   The dashboard and proxy share one pod; OpenBao, Dex, and the ESO controllers
+   run in their own pods. After they are ready, run the chart's smoke test:
+
+   ```bash
+   helm test secureguard --namespace secureguard-system --logs
+   ```
 
 ## Navigating the Dashboard
 
@@ -76,7 +116,14 @@ Once the deployment is up, you need to access the SecureGuard dashboard.
 1. **Port-Forward the Dashboard Service**
    *Note: In production, you would configure an Ingress. For local testing, port-forwarding is sufficient.*
    ```bash
-   kubectl port-forward svc/secureguard-ui 8080:80 -n secureguard-system
+   kubectl port-forward svc/secureguard 8080:80 -n secureguard-system
+   ```
+
+   Keep that command running. In a second terminal, forward Dex for the browser
+   login flow and leave it running too:
+
+   ```bash
+   kubectl port-forward svc/secureguard-dex 5556:5556 -n secureguard-system
    ```
 
 2. **Access the UI**

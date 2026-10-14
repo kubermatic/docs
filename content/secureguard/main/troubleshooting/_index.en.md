@@ -13,14 +13,25 @@ Managing a distributed secret synchronization engine involves dealing with netwo
 - **Cause**: SecureGuard's images are served from a private Quay repository. The pull secret is missing, wrong, or not referenced by the chart — `kubectl describe pod` shows `401 Unauthorized`.
 - **Resolution**:
   1. Confirm the Secret exists in the release namespace: `kubectl get secret secureguard-pull -n secureguard-system`
-  2. Confirm the chart references it — both `imagePullSecrets` and `global.imagePullSecrets` must be set. See [Installation]({{< ref "../installation/#prerequisites" >}}).
+  2. Confirm the chart references it through `imagePullSecrets` for first-party
+     images. For mirrored OpenBao and ESO images, also set
+     `global.imagePullSecrets`; Dex and Reloader use their own pull-secret
+     settings. See [Installation]({{< ref "../installation/#cluster--tooling" >}}).
 
 ### The Dashboard is Inaccessible or Returns 502 Bad Gateway
 - **Cause**: The Backend Proxy is not running or cannot reach the upstream Dex/OpenBao instances, OR the ingress path is misconfigured.
 - **Resolution**:
-  1. Check the proxy logs: `kubectl logs -l app.kubernetes.io/name=secureguard-proxy -n secureguard-system`
+  1. Check the proxy logs: `kubectl logs deployment/secureguard -c cluster-proxy -n secureguard-system` (adjust the Deployment name for your release).
   2. Verify Dex is running and reachable by the proxy.
-  3. Ensure your Ingress controller is correctly routing traffic to the `secureguard-ui` service.
+  3. Ensure your Ingress or HTTPRoute targets the `secureguard` Service (for a release named `secureguard`). The dashboard and proxy share a pod.
+
+### Gateway API Routes Are Not Reachable
+- **Cause**: Missing Gateway API CRDs/controller, a listener that rejects the route namespace, mismatched hostnames, or unresolved backend/TLS references.
+- **Resolution**: Inspect `kubectl describe httproute -n secureguard-system`
+  and the parent Gateway's status. Confirm `Accepted` and `ResolvedRefs`, the
+  listener's `allowedRoutes.namespaces`, DNS, and the certificate hostnames.
+  Set the public Dex issuer and proxy callback explicitly; route hostnames do
+  not configure OIDC automatically. See [Gateway API setup]({{< ref "../installation/#gateway-api" >}}).
 
 ### Cannot Log In (Authentication Failed)
 - **Cause**: Usually a misconfiguration in the OIDC issuer URL or client secrets.
@@ -28,6 +39,9 @@ Managing a distributed secret synchronization engine involves dealing with netwo
   1. Check Dex logs: `kubectl logs -l app.kubernetes.io/name=dex -n secureguard-system`
   2. Ensure the `redirect_uri` configured in your IDP (GitHub, Google, etc.) exactly matches the Dex callback URL.
   3. Verify that clock drift hasn't caused token validation failures (ensure NTP is synced across nodes).
+  4. For the local quickstart, keep both dashboard and Dex port-forwards running.
+     `auth.oidc.redirectUri` must match `http://localhost:8080/api/auth/callback`
+     and `auth.oidc.dexPublicUrl` must match `http://localhost:5556/dex`.
 
 ### Lost or Unknown Static Admin Password
 - **Cause**: The Helm chart auto-generates the static admin password — it is never `admin`.
@@ -110,11 +124,18 @@ When an `ExternalSecret` fails to sync, ESO will update the `status` block of th
 ### Proxy Cannot Connect to Kubernetes API
 - **Cause**: Invalid or expired kubeconfig, or the cluster is unreachable.
 - **Resolution**:
-  1. Check proxy logs: `kubectl logs -l app.kubernetes.io/name=secureguard-proxy -n secureguard-system`
+  1. Check proxy logs: `kubectl logs deployment/secureguard -c cluster-proxy -n secureguard-system` (adjust for your release name).
   2. Verify the `KUBECONFIG` environment variable points to a valid kubeconfig file.
   3. For in-cluster deployments, ensure the ServiceAccount has the correct RBAC permissions (provisioned by the Helm chart's RBAC templates).
 
 ## Multi-Cluster Issues
+
+### Cluster Selector or Onboarding Is Missing
+- **Cause**: Community serves one cluster and does not include fleet management.
+  Its proxy returns `404` for commercial per-cluster endpoints.
+- **Resolution**: For a licensed fleet deployment, select `edition: enterprise`
+  or `edition: enterprise-advanced` and ensure both dashboard and proxy use
+  their matching `-ee` images. See [Editions]({{< ref "../editions/" >}}).
 
 ### Cluster Shows as "Unhealthy" in the Dashboard
 - **Cause**: The proxy cannot reach the target cluster's API server.
@@ -138,7 +159,10 @@ When an `ExternalSecret` fails to sync, ESO will update the `status` block of th
 
 ### ESODeployment Pages Are Empty / Nothing Reconciles
 - **Cause**: The SG Agent Controller is **disabled by default** (`sgAgent.enabled: false`).
-- **Resolution**: Enable it: `helm upgrade ... --set sgAgent.enabled=true`, then confirm the agent pod is running.
+- **Resolution**: In Enterprise or Enterprise Advanced, set `sgAgent.enabled: true`
+  in your upgrade values and confirm the agent pod is running. Community does
+  not include the ESO lifecycle pages; enabling the agent with
+  `edition: community` is rejected by Helm.
 
 ### ESODeployment Stuck in `Error` with a `Conflict` Condition
 - **Cause**: Two deployments claim the same effective cluster/namespaces (`NamespaceOverlap` or `MultipleClusterScope` are blocking).
