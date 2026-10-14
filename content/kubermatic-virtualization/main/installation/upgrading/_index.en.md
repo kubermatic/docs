@@ -20,9 +20,11 @@ The following steps apply to every KubeV upgrade.
 ### How Upgrades Work
 
 KubeV installations are declarative, and `kubev apply` is idempotent: the same command that
-installs a cluster also upgrades it. To upgrade, update the KubeV version (and any changed
-settings) in your configuration file and re-run `kubev apply` against it — the installer
-reconciles the live system to the desired state, handling installation, upgrades, and repairs.
+installs a cluster also upgrades it. The KubeV version is the version of the binary you run, not
+a field of the configuration file. To upgrade, download the binary of the new release, make the
+configuration changes its upgrade guide asks for, and run its `apply` against your configuration
+file — the installer reconciles the live system to the desired state, handling installation,
+upgrades, and repairs.
 
 ```bash
 kubev apply -f cluster.yaml
