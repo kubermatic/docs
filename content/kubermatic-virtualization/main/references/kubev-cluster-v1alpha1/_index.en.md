@@ -355,6 +355,7 @@ When used, all external dependencies must be served from internal mirrors.
 | containerRegistry | ContainerRegistry specifies the internal OCI registry that hosts all container images required by the platform and workloads. This registry must be pre-populated before deployment. | [OCIConfiguration](#ociconfiguration) | true |
 | helmRegistry | HelmRegistry specifies the internal OCI registry or HTTP server that hosts Helm charts used by the platform. Charts must be available at this location in offline mode. | [OCIConfiguration](#ociconfiguration) | true |
 | packageRepository | PackageRepository is the URL or local path to the internal repository serving platform-related OS or software packages (e.g., RPMs, DEBs, or binaries). This is used during node provisioning and upgrades in offline environments. | string | true |
+| packageRepositoryKeyFingerprint | PackageRepositoryKeyFingerprint is the fingerprint of the key that signs the package repository, as `gpg --fingerprint` prints it. When set, nodes accept the repository's key only if it is this key; this is checked each time the repository is configured on a node, including before an upgrade. Supported on Ubuntu nodes. When empty, nodes use the key the repository serves. | string | false |
 
 [Back to Group](#v1alpha1)
 

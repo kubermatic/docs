@@ -59,7 +59,7 @@ To prepare for an offline installation, you’ll need to perform a few additiona
 * Providing access to internal or mirrored package repositories
 * Configuring the installation to disable or replace any external dependencies (e.g., public APIs, update servers, or cloud integrations)
 
-Detailed, step-by-step guidance for preparing and executing an offline installation—including image bundles, registry setup, and configuration adjustments—is available in the dedicated Offline Mode section of this documentation.
+Detailed, step-by-step guidance for preparing and executing an offline installation—including image bundles, registry setup, and configuration adjustments—is available in [Offline Installation]({{< ref "./offline-installation" >}}).
 
 ---
 
