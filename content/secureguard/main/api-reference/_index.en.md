@@ -12,8 +12,13 @@ The SecureGuard backend proxy exposes a REST API that mediates **all** Kubernete
 | Environment | URL |
 |---|---|
 | Local development | `http://localhost:3001` |
-| In-cluster (via Service) | `http://secureguard-proxy:3001` |
-| Production (via Ingress) | `https://secureguard.yourdomain.com/api` |
+| In-cluster (chart Service, release `secureguard`) | `http://secureguard` |
+| Production (via Ingress or Gateway API) | `https://secureguard.yourdomain.com` |
+
+Append the full endpoint paths below, including `/api` where shown. In the
+chart deployment, nginx serves the dashboard and forwards `/api/*` to the
+proxy sidecar. Health and metrics are also exposed directly on the proxy port
+for in-cluster probes and scraping.
 
 ## Health & Metrics
 
@@ -65,9 +70,15 @@ The `groups` claim drives impersonation and therefore Kubernetes RBAC.
 
 All cluster management endpoints require an authenticated session. Mutating endpoints additionally require the `X-CSRF-Token` header.
 
+Community exposes `GET /api/clusters` for its single local cluster and
+`/api/kube/*` for Kubernetes access. The per-cluster health, onboarding,
+deletion, and `/api/clusters/{id}/kube/*` endpoints below require Enterprise or
+Enterprise Advanced; they are not registered in the Community proxy.
+
 ### `GET /api/clusters`
 
-Lists all registered clusters. `status` is one of `connected`, `disconnected`, or `unknown`; `region` and `environment` are optional.
+Lists the local cluster in Community, or all registered clusters in Enterprise.
+`status` is one of `connected`, `disconnected`, or `unknown`; `region` and `environment` are optional.
 
 ```json
 [
@@ -116,7 +127,7 @@ The allowlist is **query-aware**: streaming requests (`?watch=true`, `?follow=�
 | Endpoint | Target |
 |---|---|
 | `* /api/kube/{path}` | The **default (management) cluster's** API server — the path is forwarded as-is |
-| `* /api/clusters/{id}/kube/{path}` | A **specific cluster's** API server, by the ID from `GET /api/clusters` |
+| `* /api/clusters/{id}/kube/{path}` | Enterprise: a **specific cluster's** API server, by the ID from `GET /api/clusters` |
 
 **Example:**
 
@@ -143,12 +154,16 @@ The allowlist is **method-aware**: each path pattern permits only specific HTTP 
 | `deploy.secureguard.io/v1alpha1` | ESODeployment | `GET` (cluster list); `GET`/`POST` (namespaced list/create); `GET`/`DELETE`/`PATCH` (single) |
 | `deploy.secureguard.io/v1alpha1` | ESOVersion | `GET` (read-only catalog) |
 | `agent.secureguard.io/v1alpha1` | SGAgent | `GET` (list) |
-| `federation.secureguard.io/v1alpha1` | FederationServer | `GET` (list & single) |
-| `federation.secureguard.io/v1alpha1` | FederationAuthorization | `GET` (list & single) |
+| `federation.secureguard.io/v1alpha1` | FederationServer | `GET` (list & single); Enterprise adds `POST` (collection) and `PATCH`/`DELETE` (single) |
+| `federation.secureguard.io/v1alpha1` | FederationAuthorization | `GET` (list & single); Enterprise adds `POST` (collection) and `PATCH`/`DELETE` (single) |
 | `authorization.k8s.io/v1` | SelfSubjectAccessReview | `POST` |
 
 {{% notice note %}}
-**Federation CRs are read-only here.** `FederationServer` and `FederationAuthorization` carry references and policy only — never secret values. Secret serving happens in the separate [federation broker]({{< ref "../federation/" >}}), not through this proxy.
+**Federation writes are commercial proxy extensions.** Community keeps these
+CRs read-only. Enterprise permits creation, patching, and deletion, subject to
+the same CSRF and user-impersonated RBAC checks. These resources carry references
+and policy only — never secret values. Secret serving happens in the separate
+[federation broker]({{< ref "../federation/" >}}), which requires Enterprise Advanced.
 {{% /notice %}}
 
 ### Secret Value Redaction
@@ -161,9 +176,18 @@ See the canonical table in [Advanced Configuration → Proxy Configuration]({{< 
 
 ## Cluster Discovery
 
-The per-cluster kubeconfig Secrets (labeled `secureguard.io/cluster-kubeconfig=true`) are the runtime source of truth for cluster membership. Each registered cluster — including the management cluster — is one Secret named `cluster-kc-<cluster-id>` whose `config` data key holds a single-context kubeconfig.
+Community connects directly to its local cluster using the pod ServiceAccount,
+or the default kubeconfig context in local development. In Enterprise, per-cluster
+kubeconfig Secrets (labeled `secureguard.io/cluster-kubeconfig=true`) store
+registered cluster connections. Each is named `cluster-kc-<cluster-id>` with a
+single-context kubeconfig under `config`. An auto-registered local cluster
+(`proxy.registerLocalCluster: true`) uses in-cluster credentials instead of a
+kubeconfig Secret.
 
-When running in-cluster, the proxy and the agent discover clusters by **watching these Secrets via an informer** scoped to `POD_NAMESPACE`: new registrations and deletions propagate to every replica at runtime, with no pod restart. When `KUBECONFIG` is set (local development), a kubeconfig file is used instead.
+When running in-cluster, the Enterprise proxy and the agent discover registered
+clusters by **watching these Secrets via an informer** scoped to
+`POD_NAMESPACE`: changes propagate to every replica with no pod restart.
+When `KUBECONFIG` is set (local development), a kubeconfig file is used instead.
 
 ## Error Responses
 
