@@ -5,7 +5,7 @@ weight = 3
 +++
 
 This guide moves virtual machines from a VMware vCenter into KubeV with a migration plan. KubeV uses
-[Forklift](https://github.com/kubev2v/forklift) for the transfer. Every step shows the dashboard
+<a href="https://github.com/kubev2v/forklift" target="_blank" rel="noopener noreferrer">Forklift</a> for the transfer. Every step shows the dashboard
 first, then the equivalent YAML for `kubectl`.
 
 Running KubeV inside a KDP project? Read [Migrating VMs from vSphere]({{< ref "../../kdp-integration/migration" >}})
