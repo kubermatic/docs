@@ -65,7 +65,7 @@ Go to **Migration** > **Source Providers** and choose **Add Provider**.
 
 Choose **Test Connection** to check the URL and login from the API server, then **Add Provider**.
 
-![Add Source Provider dialog](provider-form.png "The Add Source Provider dialog: URL and login (1), TLS settings (2), VDDK image (3)")
+![Add Source Provider dialog](provider-form.png "The Add Source Provider dialog with the login, TLS and VDDK image fields")
 
 Forklift checks the login from inside the cluster before the provider is saved. The provider then
 shows **Connecting**, then **Inventorying** while Forklift reads the vCenter, then **Ready**, or
@@ -74,7 +74,7 @@ hosts, clusters and datacenters, the plans that use it, and its events. **Edit**
 image, the SDK endpoint and the clone method; turn on **Replace Credentials** in the dialog to
 enter a new URL, login and TLS settings, because the stored ones cannot be read back.
 
-![Source provider page](provider-detail.png "A provider's page: status (1), inventory tabs (2)")
+![Source provider page](provider-detail.png "A provider's page with its status and inventory tabs")
 
 **The same with YAML**
 
@@ -142,7 +142,7 @@ link.
 2. **Migration Type**: **Cold** copies the disks while the machines are powered off. **Warm** copies
    them while the machines keep running, then cuts over; it needs a VDDK image on the provider.
 
-![Source and Migration Type sections](plan-form-source.png "The top of the plan form: source provider (1), plan name (2), migration type (3), Create Plan (4)")
+![Source and Migration Type sections](plan-form-source.png "The top of the plan form: source provider, plan name, migration type and Create Plan")
 
 3. **Virtual Machines**: tick the machines to move. The list comes from vCenter one page at a time:
    search by name, folder or guest OS, switch between **All**, **Powered On** and **Powered Off**,
@@ -150,7 +150,7 @@ link.
    checkbox disabled and the reason on hover: it is running in a cold plan, has Changed Block
    Tracking off in a warm plan, or has a critical concern.
 
-![Virtual Machines section](plan-form-machines.png "The machine picker: filter tabs (1), search (2), selection (3), pager (4)")
+![Virtual Machines section](plan-form-machines.png "The machine picker with its filter tabs, search, a selected machine and the pager")
 
    KubeV checks the picks against the cluster. A machine whose name is already taken gets a
    **Target name** field. A machine whose MAC address belongs to an existing VM shows
@@ -163,7 +163,7 @@ link.
 5. **Storage**: every datastore gets a **Storage Class**. The plan's **Access Mode** and **Volume Mode**
    apply to each datastore unless its **Override** switch sets its own.
 
-![Networks and Storage sections](plan-form-mappings.png "Mappings: a network's destination (1), a datastore's storage class (2)")
+![Networks and Storage sections](plan-form-mappings.png "The Networks and Storage sections with a network's destination and a datastore's storage class")
 
 6. **Migration Options**: **Power State After Migrating** and **Preserve Static IP Addresses**.
    **Advanced Options** holds the disk bus, guest conversion, shared disks, legacy Windows drivers
@@ -261,13 +261,13 @@ To use an overlay or underlay subnet instead of the pod network, set the destina
 
 Open the plan and choose **Start Migration**. The button is enabled once the plan is **Ready to run**.
 
-![Migration plan page](plan-detail.png "A plan's page: Start Migration (1), the summary and tabs (2)")
+![Migration plan page](plan-detail.png "A plan's page with Start Migration and the tabs")
 
 The **Overview** tab shows the current run with every machine's phase, progress and pipeline steps.
 A finished machine links to the new VM. The **Runs** tab keeps the history, and the **Machines**
 tab lists each source machine with its target name and the VM it became.
 
-![A succeeded run](plan-run-progress.png "The Overview tab after a run: run status (1), each machine's pipeline (2)")
+![A succeeded run](plan-run-progress.png "The Overview tab after a run: the run's status and each machine's pipeline")
 
 - **Cold**: the disks are copied, converted for KVM and the VM is created. Nothing in vCenter is
   changed.
@@ -321,7 +321,7 @@ run did not succeed. After a successful run, create a new plan for the next batc
 **Archive**, under the plan's **...** menu, keeps the plan, its maps and its run history but moves it
 to the **Archived** tab, where it can neither run nor be edited. **Restore** brings it back.
 
-![Migration Plans list](plans-list.png "The Migration Plans list: Active and Archived tabs (1), the status of each plan (2), row actions (3)")
+![Migration Plans list](plans-list.png "The Migration Plans list with the Active and Archived tabs, each plan's status and the row actions")
 
 ![Archive Plan dialog](plan-archive-dialog.png "The Archive Plan dialog")
 
