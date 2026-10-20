@@ -96,6 +96,7 @@ Every node entry (control plane and worker alike) supports the following fields:
 | `annotations` | No | `{}` | Kubernetes node annotations to apply or remove. |
 | `tunnelInterface` | No | — | Per-node override for the Kube-OVN overlay NIC. See [Tunnel Interface](#tunnel-interface). |
 | `kubelet` | No | — | Per-node kubelet settings that override the cluster-wide `kubeletConfig`. See [Kubelet Configuration](#kubelet-configuration). |
+| `cephDevices` | No | — | The disks, partitions or LVM logical volumes of this node that Ceph takes, in place of `storage.ceph.deviceFilter`: kernel names such as `sdc`, or paths such as `/dev/disk/by-id/wwn-0x5000c500a1b2c3d4` or `/dev/ubuntu-vg/ceph`. Needs `storage.ceph`. See [Ceph](#ceph). |
 
 **SSH key requirements:**
 - The key file must exist on the machine running `kubermatic-virtualization apply` and be readable by the invoking user.
@@ -264,7 +265,7 @@ No additional fields are required. Longhorn keeps its data in `/var/lib/longhorn
 
 ### Ceph
 
-[Ceph](https://ceph.io/), run by [Rook](https://rook.io/), provides distributed block storage on empty disks of the nodes. KubeV installs it with the `ceph-block` StorageClass, which is the cluster default, and a `VolumeSnapshotClass` for VM backups and snapshots.
+[Ceph](https://ceph.io/), run by [Rook](https://rook.io/), provides distributed block storage on empty disks, partitions or logical volumes of the nodes. KubeV installs it with the `ceph-block` StorageClass, which is the cluster default, and a `VolumeSnapshotClass` for VM backups and snapshots.
 
 ```yaml
 storage:
@@ -275,8 +276,22 @@ storage:
 
 | Field | Required | Default | Description |
 |---|---|---|---|
-| `deviceFilter` | Yes | — | A regular expression matched against the names of each node's disks and partitions, as `lsblk` shows them, such as `^nvme[1-9]n1$` or `^(nvme1n1p3\|sda2)$`. Each node matches it against its own devices. Ceph takes every matching disk that has no partitions and no file system, and every matching partition that has no file system, and formats it. With Longhorn installed too, it must not match `sd` names: Longhorn's volumes appear as `sd` disks on the node they are attached to, and the installer warns about such a filter. |
-| `replicas` | No | `3` | How many copies of the data Ceph keeps, each on a different node with a matching disk: 1 to 3, and at most the number of nodes. A cluster of fewer than 3 nodes must set it. Fewer than 3 copies suit test clusters only: a failed node can then take data with it. |
+| `deviceFilter` | Yes, unless hosts list `cephDevices` | — | A regular expression matched against the names of each node's disks and partitions, as `lsblk` shows them, such as `^nvme[1-9]n1$` or `^(nvme1n1p3\|sda2)$`. Each node matches it against its own devices. Ceph takes every matching disk that has no partitions and no file system, and every matching partition that has no file system, and formats it. With Longhorn installed too, it must not match `sd` names: Longhorn's volumes appear as `sd` disks on the node they are attached to, and the installer warns about such a filter. A node whose host lists `cephDevices` takes those instead. |
+| `replicas` | No | `3` | How many copies of the data Ceph keeps, each on a different node with a matching device: 1 to 3, and at most the number of nodes that can store data: every node with `deviceFilter` set, else the hosts that list `cephDevices`. A cluster with fewer such nodes must set it. Fewer than 3 copies suit test clusters only: a failed node can then take data with it. |
+
+To take different devices on different nodes, or a logical volume, list them on each host instead, in [`cephDevices`](#hostconfig-fields). Hosts that list none take what `deviceFilter` matches, or nothing without it:
+
+```yaml
+staticWorkers:
+  hosts:
+    - address: 10.0.0.11
+      cephDevices: ["sdc"]
+    - address: 10.0.0.12
+      cephDevices: ["/dev/disk/by-id/wwn-0x5000c500a1b2c3d4"]
+storage:
+  ceph:
+    replicas: 2
+```
 
 Ceph runs on every node, the control plane included, and uses the nodes' own network rather than the Kube-OVN overlay. `apply` refuses to remove `ceph` from a cluster that runs it, and to remove `longhorn` while volumes are still on Longhorn. The [Ceph Storage]({{< ref "../tutorials-howtos/ceph-storage" >}}) guide covers the disks and nodes Ceph needs, running it next to Longhorn, and its day-2 operations.
 

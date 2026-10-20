@@ -23,17 +23,19 @@ at once, whatever its size.
 
 ### Disks and Partitions
 
-Ceph stores data only on block devices that hold nothing else: an empty disk, or an empty
-partition. Unlike Longhorn, it cannot keep its data in a directory of the system disk, so every
-node that is to store Ceph data needs one of these. A node without one still runs Ceph, but stores
-no data.
+Ceph stores data only on block devices that hold nothing else: an empty disk, an empty partition,
+or an LVM logical volume without a file system. Unlike Longhorn, it cannot keep its data in a
+directory of the system disk, so every node that is to store Ceph data needs one of these. A node
+without one still runs Ceph, but stores no data.
 
 * A disk must be empty: no partitions and no file system. A partition must have no file system.
   Ceph never takes a device that has a file system, and it formats the devices it takes.
 * Each disk or partition must be at least 5 GiB. Use SSD or NVMe: Ceph on hard disks is slow for
   VMs.
-* Disks and partitions must have names a regular expression can tell apart from the others, such
-  as `nvme1n1` and `nvme2n1` for the data disks next to the system disk `nvme0n1`.
+* For `deviceFilter`, disks and partitions must have names a regular expression can tell apart
+  from the others, such as `nvme1n1` and `nvme2n1` for the data disks next to the system disk
+  `nvme0n1`. Otherwise, list each node's devices on its host, see
+  [Choosing Devices per Node](#choosing-devices-per-node).
 
 List a node's disks and partitions with `lsblk -f`. A disk Ceph can take shows no `FSTYPE` and no
 partitions below it, and a partition Ceph can take shows no `FSTYPE`. To clear a disk that was used
@@ -61,9 +63,28 @@ sudo parted /dev/sda mkpart primary 200GiB 100%
 lsblk -f /dev/sda
 ```
 
-Do not create a file system on it. A system disk whose space is all in use, by its partitions or by
-an LVM volume group, cannot give Ceph a partition: shrinking the root file system is risky, and XFS
-cannot be shrunk at all. Add a disk to such nodes instead.
+Do not create a file system on it.
+
+A system disk installed with LVM, as Ubuntu Server does by default, often keeps its free space in
+the volume group rather than on the disk. Give Ceph a logical volume from it, without a file
+system, and list the volume in the host's `cephDevices`: no filter matches a logical volume.
+
+```bash
+# Show the free space in the volume groups
+sudo vgs
+
+# Create a logical volume of 200 GiB for Ceph in the volume group ubuntu-vg
+sudo lvcreate --name ceph --size 200G ubuntu-vg
+```
+
+```yaml
+    - address: 10.0.0.11
+      cephDevices: ["/dev/ubuntu-vg/ceph"]
+```
+
+A system disk whose space is all in use, with no free space in a volume group either, cannot give
+Ceph anything: shrinking the root file system is risky, and XFS cannot be shrunk at all. Add a disk
+to such nodes instead.
 
 Ceph on the system disk shares the disk with the operating system, and with Longhorn when it runs
 too. That suits test clusters and the move from Longhorn to Ceph. While a VM disk moves from
@@ -118,7 +139,8 @@ so one filter can name different devices on different nodes. Some examples:
 
 Ceph takes every empty disk and partition that matches, on every node. Keep the filter as narrow
 as the names allow, so that it does not also match an empty device on another node that you meant
-to keep for something else.
+to keep for something else. When no filter can tell the devices apart, list them per host, see
+[Choosing Devices per Node](#choosing-devices-per-node).
 
 Then apply the configuration:
 
@@ -132,6 +154,54 @@ enough disks, `apply` stops after 20 minutes and says how many nodes Ceph found 
 
 See [Storage]({{< ref "../../configuration-guide#storage" >}}) in the Configuration Guide for all
 the fields.
+
+### Choosing Devices per Node
+
+A host can list the devices Ceph takes on its node, in `cephDevices` next to its address, instead
+of the filter. That is how to take different devices on different nodes, such as `sdc` on one node
+and `sdb` on another while the first node's own `sdb` stays out of Ceph, and the only way to give
+Ceph an LVM logical volume.
+
+```yaml
+controlPlane:
+  hosts:
+    - address: 10.0.0.10
+staticWorkers:
+  hosts:
+    - address: 10.0.0.11
+      cephDevices: ["sdc"]
+    - address: 10.0.0.12
+      cephDevices: ["/dev/disk/by-id/wwn-0x5000c500a1b2c3d4"]
+    - address: 10.0.0.13
+storage:
+  ceph:
+    deviceFilter: "^nvme1n1$"   # for the hosts that list no devices; can be left out
+```
+
+| Host | Ceph takes |
+|---|---|
+| lists `cephDevices` | exactly those devices: the filter does not apply to it |
+| lists none, with `deviceFilter` set | the devices the filter matches |
+| lists none, without `deviceFilter` | nothing: the node stores no data |
+
+* Name a device by its kernel name, such as `sdc` or `nvme1n1p3`, or by a path: a path under
+  `/dev/disk/by-id/` or `/dev/disk/by-path/` for a disk or partition, or
+  `/dev/<volume group>/<logical volume>` for a logical volume. Kernel names such as `sdb` can change
+  between reboots, while a `/dev/disk/by-id/` path always names the same disk. `ls -l
+  /dev/disk/by-id/` shows a node's paths and the kernel names they point to.
+* Ceph takes a listed device only when it is empty, as it does a matched one.
+* Without `deviceFilter`, only the hosts that list devices store data, so `replicas` can be at most
+  their number.
+* You never name the nodes. The installer finds the node of each host and gives Rook the name Rook
+  knows it by. A node that has not joined the cluster stops `apply` with an error naming its host.
+* Once a host lists devices, Ceph takes devices only on the nodes the table gives some to, and on
+  no node outside the configuration. `apply` refuses a configuration that would leave out a node
+  Ceph already keeps data on, such as a cluster that ran on a filter alone, gets its first
+  `cephDevices` and drops `deviceFilter`. Keep the filter, list the node's devices, or take its
+  disks out of Ceph first.
+* A device added to a list joins Ceph on the next `apply`. A device removed from a list does not
+  leave Ceph: take it out first, as described in
+  [Removing Nodes and Replacing Disks](#removing-nodes-and-replacing-disks).
 
 ## Running Ceph Next to Longhorn
 
@@ -191,9 +261,10 @@ disks or nodes before it fills up.
 
 ### Adding Disks and Nodes
 
-Add a node to the configuration and apply it. Rook finds the node's matching disks on its own. A
-disk added to a node that is already in the cluster is found when Rook next looks at the cluster.
-To make it look now, restart its operator:
+Add a node to the configuration and apply it: Rook takes the devices its host lists, or those the
+filter matches. A device added to a host's list joins Ceph on the next `apply`. A disk the filter
+matches, added to a node that is already in the cluster, is found when Rook next looks at the
+cluster. To make it look now, restart its operator:
 
 ```bash
 kubectl -n rook-ceph rollout restart deploy/rook-ceph-operator
@@ -207,7 +278,8 @@ Before you remove a node from the configuration, or replace a failed disk, take 
 Ceph as Rook's
 <a href="https://rook.io/docs/rook/latest/Storage-Configuration/Advanced/ceph-osd-mgmt/" target="_blank" rel="noopener noreferrer">OSD management guide</a>
 describes, and let Ceph copy their data elsewhere first. Removing a node with data on it can leave
-Ceph without enough copies, or without some data.
+Ceph without enough copies, or without some data. When hosts list `cephDevices`, `apply` refuses to
+remove a node Ceph still keeps data on.
 
 A cluster that goes below 3 nodes must also lower `replicas`: `apply` refuses a configuration that
 keeps more copies than there are nodes.
@@ -230,5 +302,3 @@ and has Rook wipe `/var/lib/rook` and Ceph's disks on every node.
 * Ceph runs on the cluster's own nodes. Connecting KubeV to an existing Ceph cluster outside it
   is not supported yet.
 * Ceph uses the nodes' main addresses. A separate storage network cannot be configured yet.
-* One filter chooses the devices of every node. Choosing different devices for each node, and
-  LVM logical volumes, which no filter matches, is not supported yet.
