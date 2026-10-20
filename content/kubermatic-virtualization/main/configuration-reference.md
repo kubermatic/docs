@@ -245,18 +245,36 @@ Disables external load balancing. `LoadBalancer`-type services will remain in `<
 
 ## Storage
 
-Exactly one option must be set. If the section is omitted, `none` is applied as the default.
+Set `none`, or `longhorn`, `ceph` or both. If the section is omitted, `none` is applied as the default. With both, Ceph's `ceph-block` StorageClass is the cluster default, so VM disks that do not name a StorageClass go to Ceph.
 
 ### Longhorn
 
-[Longhorn](https://longhorn.io/) provides distributed block storage backed by node-local disks. It is the default storage backend for VM persistent disks in KubeV.
+[Longhorn](https://longhorn.io/) provides distributed block storage, replicated across the nodes. KubeV installs it with the `longhorn` StorageClass, set up for VM disks that live-migrate.
 
 ```yaml
 storage:
   longhorn: {}
 ```
 
-No additional fields are required. Longhorn discovers and uses available block devices on each node automatically. Each `PersistentVolumeClaim` is backed by replicated block volumes, with the replica count configurable via Longhorn's own settings after deployment.
+No additional fields are required. Longhorn keeps its data in `/var/lib/longhorn` on each node, and the number of copies of each volume can be changed in Longhorn's own settings after deployment. Without Ceph, `longhorn` is the cluster's default StorageClass.
+
+### Ceph
+
+[Ceph](https://ceph.io/), run by [Rook](https://rook.io/), provides distributed block storage on empty disks of the nodes. KubeV installs it with the `ceph-block` StorageClass, which is the cluster default, and a `VolumeSnapshotClass` for VM backups and snapshots.
+
+```yaml
+storage:
+  ceph:
+    deviceFilter: "^nvme[1-9]n1$"
+    replicas: 3
+```
+
+| Field | Required | Default | Description |
+|---|---|---|---|
+| `deviceFilter` | Yes | — | A regular expression matched against the names of each node's disks, as `lsblk` shows them, such as `^nvme[1-9]n1$` or `^sd[b-z]$`. Ceph takes every matching disk that has no partitions and no file system, and formats it. With Longhorn installed too, it must not match `sd` names: Longhorn's volumes appear as `sd` disks on the node they are attached to, and the installer warns about such a filter. |
+| `replicas` | No | `3` | How many copies of the data Ceph keeps, each on a different node with a matching disk: 1 to 3, and at most the number of nodes. A cluster of fewer than 3 nodes must set it. Fewer than 3 copies suit test clusters only: a failed node can then take data with it. |
+
+Ceph runs on every node, the control plane included, and uses the nodes' own network rather than the Kube-OVN overlay. `apply` refuses to remove `ceph` from a cluster that runs it, and to remove `longhorn` while volumes are still on Longhorn. The [Ceph Storage]({{< ref "tutorials-howtos/ceph-storage" >}}) guide covers the disks and nodes Ceph needs, running it next to Longhorn, and its day-2 operations.
 
 ### None
 
@@ -320,7 +338,7 @@ Feature gates enable functionality in KubeVirt that is either experimental, requ
 | Gate | What it enables |
 |---|---|
 | `LiveMigration` | Live-migrate running VMs from one node to another without downtime. Requires shared or replicated storage so the VM disk is accessible from the destination node. |
-| `Snapshot` | Create point-in-time snapshots of a `VirtualMachine` and its associated disk volumes. Snapshots can be used to restore the VM to a previous state or clone it. Requires a CSI driver that supports volume snapshots (e.g., Longhorn). |
+| `Snapshot` | Create point-in-time snapshots of a `VirtualMachine` and its associated disk volumes. Snapshots can be used to restore the VM to a previous state or clone it. Requires a CSI driver that supports volume snapshots (e.g., Longhorn or Ceph). |
 | `HotplugVolumes` | Attach and detach `DataVolume` or `PersistentVolumeClaim` objects to a running VM without stopping it. Useful for dynamically expanding storage or swapping data disks. |
 | `VMExport` | Export a VM's disk image to an external destination such as an OCI registry or HTTP endpoint. Useful for backups or migrating VMs out of the cluster. |
 | `ExpandDisks` | Resize a VM's root or data disk while the VM is running by expanding the underlying `PersistentVolumeClaim`. The guest OS must also support online resize (e.g., via `virtio-scsi`). |
@@ -491,7 +509,7 @@ When `enabled: true`, KubeV will not reach out to the public internet during ins
 
 The release's offline bundle provides all of the following on one jump host — see [Offline Installation]({{< ref "installation/offline-installation" >}}). To use your own registry and repository instead, the following must be in place before running `kubermatic-virtualization apply` in offline mode:
 
-1. **Mirror container images** — use `kubermatic-virtualization mirror-images` to copy all required images to your internal registry. This includes KubeV's own images and those of Kube-OVN, cert-manager, KubeVirt, CDI, Forklift, Longhorn, MetalLB, Kyverno, Multus, and others.
+1. **Mirror container images** — use `kubermatic-virtualization mirror-images` to copy all required images to your internal registry. This includes KubeV's own images and those of Kube-OVN, cert-manager, KubeVirt, CDI, Forklift, Longhorn, Rook, Ceph, MetalLB, Kyverno, Multus, and others.
 2. **Prepare the package repository** — sync the OS package repository used by your node OS so that kubeadm, kubelet, and kubectl packages are available.
 3. **Test connectivity** — verify that all nodes can reach every internal mirror URL before applying.
 
