@@ -271,9 +271,12 @@ with a comma-separated list:
 kubeone addons apply --manifest kubeone.yaml -t . --name my-addon --name my-release
 ```
 
-KubeOne fails right away if a name doesn't match any user addon or helm release
-from the manifest. Addons located directly in the root of the addons directory
-are applied only if `--name` is not used.
+Before anything is changed, KubeOne checks that every name matches a user addon,
+a helm release from the manifest, or a helm release installed by KubeOne. The
+latter allows you to uninstall a single helm release that you removed from the
+manifest. If a name doesn't match, the command fails without changing anything.
+Addons located directly in the root of the addons directory are applied only if
+`--name` is not used.
 
 ## Example Addons
 
