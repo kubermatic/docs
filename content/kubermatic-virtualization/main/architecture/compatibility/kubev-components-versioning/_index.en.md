@@ -20,6 +20,8 @@ on security and reliability of provided software and therefore releases updates 
 |               MetalLB               | v0.16.1  |
 |              Multus CNI             | v4.2.4   |
 |              Longhorn               | v1.10.2  |
+|                Rook                 | v1.20.9  |
+|                Ceph                 | v20.2.4  |
 |              Forklift               | v2.12.1  |
 
 In [KDP mode]({{< ref "../../../kdp-integration" >}}), the same layer and nested installations also install KDP v1.2.1
