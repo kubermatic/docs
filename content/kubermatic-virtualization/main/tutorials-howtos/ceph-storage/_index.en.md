@@ -194,6 +194,11 @@ storage:
   their number.
 * You never name the nodes. The installer finds the node of each host and gives Rook the name Rook
   knows it by. A node that has not joined the cluster stops `apply` with an error naming its host.
+* Once a host lists devices, Ceph takes devices only on the nodes the table gives some to, and on
+  no node outside the configuration. `apply` refuses a configuration that would leave out a node
+  Ceph already keeps data on, such as a cluster that ran on a filter alone, gets its first
+  `cephDevices` and drops `deviceFilter`. Keep the filter, list the node's devices, or take its
+  disks out of Ceph first.
 * A device added to a list joins Ceph on the next `apply`. A device removed from a list does not
   leave Ceph: take it out first, as described in
   [Removing Nodes and Replacing Disks](#removing-nodes-and-replacing-disks).
@@ -273,7 +278,8 @@ Before you remove a node from the configuration, or replace a failed disk, take 
 Ceph as Rook's
 <a href="https://rook.io/docs/rook/latest/Storage-Configuration/Advanced/ceph-osd-mgmt/" target="_blank" rel="noopener noreferrer">OSD management guide</a>
 describes, and let Ceph copy their data elsewhere first. Removing a node with data on it can leave
-Ceph without enough copies, or without some data.
+Ceph without enough copies, or without some data. When hosts list `cephDevices`, `apply` refuses to
+remove a node Ceph still keeps data on.
 
 A cluster that goes below 3 nodes must also lower `replicas`: `apply` refuses a configuration that
 keeps more copies than there are nodes.
