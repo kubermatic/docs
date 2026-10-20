@@ -21,23 +21,53 @@ at once, whatever its size.
 
 ## Before You Start
 
-### Disks
+### Disks and Partitions
 
-Ceph takes whole disks: give it disks that hold nothing else.
+Ceph stores data only on block devices that hold nothing else: an empty disk, or an empty
+partition. Unlike Longhorn, it cannot keep its data in a directory of the system disk, so every
+node that is to store Ceph data needs one of these. A node without one still runs Ceph, but stores
+no data.
 
-* Each disk must be empty: no partitions and no file system. Ceph never takes a disk that has
-  either, and it formats the disks it takes.
-* Each disk must be at least 5 GiB. Use SSD or NVMe disks: Ceph on hard disks is slow for VMs.
-* Disks must have names a regular expression can tell apart from the others, such as `nvme1n1`
-  and `nvme2n1` for the data disks next to the system disk `nvme0n1`.
+* A disk must be empty: no partitions and no file system. A partition must have no file system.
+  Ceph never takes a device that has a file system, and it formats the devices it takes.
+* Each disk or partition must be at least 5 GiB. Use SSD or NVMe: Ceph on hard disks is slow for
+  VMs.
+* Disks and partitions must have names a regular expression can tell apart from the others, such
+  as `nvme1n1` and `nvme2n1` for the data disks next to the system disk `nvme0n1`.
 
-List a node's disks with `lsblk -f`. A disk Ceph can take shows no `FSTYPE` and no partitions below
-it. To clear a disk that was used before, and whose data you no longer need:
+List a node's disks and partitions with `lsblk -f`. A disk Ceph can take shows no `FSTYPE` and no
+partitions below it, and a partition Ceph can take shows no `FSTYPE`. To clear a disk that was used
+before, and whose data you no longer need:
 
 ```bash
 sudo wipefs --all /dev/nvme1n1
 sudo sgdisk --zap-all /dev/nvme1n1
 ```
+
+#### Nodes with a Single Disk
+
+A node whose only disk holds the operating system can give Ceph a partition of it, if the disk has
+unallocated space. Leave space free when you install the operating system, then create a partition
+in that space, without a file system:
+
+```bash
+# Show the free space on the disk
+sudo parted /dev/sda unit GiB print free
+
+# Create a partition from the start of the free space (here 200 GiB) to the end of the disk
+sudo parted /dev/sda mkpart primary 200GiB 100%
+
+# The new partition, for example sda2, shows no FSTYPE
+lsblk -f /dev/sda
+```
+
+Do not create a file system on it. A system disk whose space is all in use, by its partitions or by
+an LVM volume group, cannot give Ceph a partition: shrinking the root file system is risky, and XFS
+cannot be shrunk at all. Add a disk to such nodes instead.
+
+Ceph on the system disk shares the disk with the operating system, and with Longhorn when it runs
+too. That suits test clusters and the move from Longhorn to Ceph. While a VM disk moves from
+Longhorn to Ceph, it needs room on both.
 
 ### Nodes
 
@@ -75,13 +105,20 @@ storage:
     deviceFilter: "^nvme[1-9]n1$"
 ```
 
-`deviceFilter` is matched against the disk names `lsblk` shows, without `/dev/`. Some examples:
+`deviceFilter` is matched against the disk and partition names `lsblk` shows, without `/dev/`. The
+filter is the same for every node, and each node matches it against its own disks and partitions,
+so one filter can name different devices on different nodes. Some examples:
 
 | Filter | Matches |
 |---|---|
 | `^nvme[1-9]n1$` | `nvme1n1` to `nvme9n1`, but not the system disk `nvme0n1` |
 | `^sd[b-z]$` | `sdb` to `sdz`, but not the system disk `sda` |
 | `^(sdb\|sdc)$` | `sdb` and `sdc` |
+| `^(nvme1n1p3\|sda2)$` | the partition `nvme1n1p3` on the nodes that have it, and `sda2` on the others |
+
+Ceph takes every empty disk and partition that matches, on every node. Keep the filter as narrow
+as the names allow, so that it does not also match an empty device on another node that you meant
+to keep for something else.
 
 Then apply the configuration:
 
@@ -193,3 +230,5 @@ and has Rook wipe `/var/lib/rook` and Ceph's disks on every node.
 * Ceph runs on the cluster's own nodes. Connecting KubeV to an existing Ceph cluster outside it
   is not supported yet.
 * Ceph uses the nodes' main addresses. A separate storage network cannot be configured yet.
+* One filter chooses the devices of every node. Choosing different devices for each node, and
+  LVM logical volumes, which no filter matches, is not supported yet.

@@ -271,7 +271,7 @@ storage:
 
 | Field | Required | Default | Description |
 |---|---|---|---|
-| `deviceFilter` | Yes | — | A regular expression matched against the names of each node's disks, as `lsblk` shows them, such as `^nvme[1-9]n1$` or `^sd[b-z]$`. Ceph takes every matching disk that has no partitions and no file system, and formats it. With Longhorn installed too, it must not match `sd` names: Longhorn's volumes appear as `sd` disks on the node they are attached to, and the installer warns about such a filter. |
+| `deviceFilter` | Yes | — | A regular expression matched against the names of each node's disks and partitions, as `lsblk` shows them, such as `^nvme[1-9]n1$` or `^(nvme1n1p3\|sda2)$`. Each node matches it against its own devices. Ceph takes every matching disk that has no partitions and no file system, and every matching partition that has no file system, and formats it. With Longhorn installed too, it must not match `sd` names: Longhorn's volumes appear as `sd` disks on the node they are attached to, and the installer warns about such a filter. |
 | `replicas` | No | `3` | How many copies of the data Ceph keeps, each on a different node with a matching disk: 1 to 3, and at most the number of nodes. A cluster of fewer than 3 nodes must set it. Fewer than 3 copies suit test clusters only: a failed node can then take data with it. |
 
 Ceph runs on every node, the control plane included, and uses the nodes' own network rather than the Kube-OVN overlay. `apply` refuses to remove `ceph` from a cluster that runs it, and to remove `longhorn` while volumes are still on Longhorn. The [Ceph Storage]({{< ref "tutorials-howtos/ceph-storage" >}}) guide covers the disks and nodes Ceph needs, running it next to Longhorn, and its day-2 operations.
