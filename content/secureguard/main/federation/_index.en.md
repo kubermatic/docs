@@ -11,7 +11,7 @@ backend credentials (Vault, AWS, …) live in exactly one place — the federati
 cluster — instead of being copied into every consuming cluster.
 
 {{% notice note %}}
-**Status:** opt-in and disabled by default. The federation **broker** and CRDs, the first-class **`fedclient`** consumer, and **both resolvers** — the lean Kubernetes-Secret resolver and the live ESO-library resolver (all providers) — are available. See *Resolution modes* below.
+**Edition:** running the federation broker requires **Enterprise Advanced** and is opt-in, disabled by default. Community provides read-only resource lists. Enterprise and Enterprise Advanced share the dashboard and proxy that support resource management. Creating a resource does not install a broker. The first-class **`fedclient`** consumer and **both resolvers** — the lean Kubernetes-Secret resolver and the live ESO-library resolver — are available. See [Editions]({{< ref "../editions/" >}}) and *Resolution modes* below.
 {{% /notice %}}
 
 ## Architecture
@@ -90,6 +90,75 @@ spec:
 
 The CR examples above are complete — apply them with `kubectl apply` on the hub cluster.
 
+## Managing Resources in the Dashboard
+
+In the Enterprise dashboard, open **Federation**, choose **Servers** or
+**Authorizations**, and use **Create FederationServer** or
+**Create FederationAuthorization**. From **All Clusters**, select an explicit
+target cluster. Both resources are cluster-scoped; the namespace filter does
+not limit them.
+
+- **Servers:** configure unique trusted issuer names and URLs, optional audiences and
+  public CA bundles (base64 PEM), and exposed store aliases with SecretStore or
+  ClusterSecretStore references. Empty issuer or exposed-store lists revoke
+  trust or exposure. Empty audiences inherit the broker defaults.
+- **Authorizations:** configure issuer and ServiceAccount (`namespace/name`)
+  selectors, store aliases, and allowed key patterns. The form requires at least
+  one identity selector. Omitting one broadens matching for that selector.
+
+Keep the resolver namespace for a ClusterSecretStore when using the interim
+resolver: it selects the namespace containing the materialized Kubernetes
+Secrets. CA bundles contain public certificates, not private keys or provider
+credentials.
+
+Certificate validity and trust are checked by the backend; base64 validation
+alone does not establish trust. Enter one audience or key pattern per line.
+Existing array elements containing embedded carriage returns or newlines are
+shown as escaped entries and can only be edited in YAML, so their boundaries
+are preserved.
+
+Open a row to inspect status conditions and read-only **Form / YAML** views.
+Choose **Edit** to change configuration. The editor preserves additional spec
+fields and user metadata; name and cluster cannot change. `spec.listen` is
+deployment-managed and cannot be changed in either editor. Configure listener
+addresses and ports, TLS mounts, client CA configuration, Deployments, Services,
+ingress, and the served resource (`federation.serverName`) through Helm or
+deployment manifests. Changing the global cluster selector does not retarget an
+open edit. Submitted changes exclude status and server-managed metadata other
+than the original resource version used for conflict detection.
+
+Actions require Kubernetes RBAC for `get`/`list` and the requested `create`,
+`patch`, or `delete` operation on the selected cluster. Unavailable or denied
+permission checks disable the corresponding action. Edits use a resource
+version: a concurrent change produces a conflict and keeps your draft so you
+can review the latest resource before retrying. Delete confirmation identifies
+the cluster and resource and uses a UID precondition to protect same-name
+replacements. Creating a resource with an existing name reports that it already
+exists; choose another name or open the existing resource.
+
+**Reconciling** means the controller has not acknowledged the current
+generation. A server without a broker configured to serve it can remain in this
+state. **Terminating** means Kubernetes accepted deletion but still retains the
+object, for example because of a finalizer. Details include controller reasons,
+messages, observed generations, and Degraded warnings. Missing CRDs, forbidden
+reads, and unreachable clusters produce distinct errors; successful results
+from other clusters remain visible.
+
+{{% notice warning %}}
+Authorization policies apply across all brokers in the selected cluster.
+Another matching policy can continue to grant access after you restrict or
+delete one policy. Revocations take effect after broker reconciliation and do
+not cancel requests already authorized and resolving. Deleting a server does
+not uninstall the broker or delete its policies; the running broker clears
+issuers and exposed stores when it reconciles the removal.
+{{% /notice %}}
+
+Restoring the served FederationServer allows reconciliation to restore service.
+A broker starting without its configured server fails startup.
+
+The dashboard handles references and policy only. Test delivery using a
+consumer below; secret values never pass through the dashboard proxy.
+
 ## Deploying the broker
 
 The broker ships as the `federation/` module and is deployed via the Helm
@@ -97,6 +166,7 @@ chart, **disabled by default**:
 
 ```yaml
 # values.yaml
+edition: enterprise-advanced
 federation:
   enabled: true
   serverName: default
@@ -400,6 +470,7 @@ interface — the wire contract and auth are identical.
   provider client, and fetches the secret per request. Enable with:
 
   ```yaml
+  edition: enterprise-advanced
   federation:
     enabled: true
     eso:

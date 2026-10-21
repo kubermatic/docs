@@ -167,6 +167,15 @@ If these return `no`, the user will see `403` errors in the dashboard until the 
 
 ## Multi-Cluster Deployments
 
+Fleet management and the SG Agent require **Enterprise** or **Enterprise
+Advanced**. Enable the controller explicitly:
+
+```yaml
+edition: enterprise
+sgAgent:
+  enabled: true
+```
+
 A central principle of SecureGuard is centralized governance. You deploy the core SecureGuard stack (OpenBao, Dex, Dashboard, Proxy) in a central "Management" cluster, and use the **SG Agent Controller** to manage ESO lifecycle on "Target" clusters.
 
 ### Architecture Overview
@@ -202,8 +211,14 @@ spec:
 
 The controller will:
 1. Connect to the target cluster using the per-cluster kubeconfig Secret
-2. Deploy ESO with the specified version and configuration
-3. Monitor the deployment status and report back via the `ESODeployment` status field
+2. Server-side apply ESO ecosystem CRDs from the management cluster to the target
+3. Deploy ESO with the specified version and configuration
+4. Monitor the deployment status and report back via the `ESODeployment` status field
+
+The CRDs are copied from the management cluster, not downloaded for the selected
+`esoVersion`. Keep them compatible with the ESO versions you deploy. If the
+management cluster has no ESO CRDs, the agent instead checks for established
+ESO CRDs on the target; supply these yourself in a bring-your-own-ESO setup.
 
 {{% notice note %}}
 **Only ESO 2.x is supported.** `esoVersion` must be `v2.0.0` or newer; the end-of-life 0.x line is no longer offered. The set of versions the dashboard presents is driven by the **ESO Version Catalog** (see below), not a hardcoded list.
@@ -256,7 +271,14 @@ Behaviour in the dashboard:
   are rejected by the route allowlist. Curate the catalog with `kubectl apply`
   or via the SG Agent, which holds manage permissions on `esoversions`.
 
-A starter catalog covering `v2.0.0`–`v2.6.0` ships with the SecureGuard release manifests — apply one `ESOVersion` CR per release you want to offer, following the example above. If the catalog is empty or unreachable, the form falls back to the version already set on the resource (so editing existing deployments still works).
+The release's starter catalog is generated from the upstream ESO Helm feed and
+ships at `k8s/samples/eso-deployments/esoversions.yaml`. The generator retains
+the newest patch of up to eight minor releases and marks releases outside the
+newest four minors as deprecated. Apply the catalog from your chosen release
+or maintain your own CRs. Repository catalog updates do not automatically
+update a running cluster. If the catalog is empty or unreachable, the form
+falls back to the version already set on the resource so existing deployments
+can still be edited.
 
 ### Manual Multi-Cluster Setup
 
@@ -298,11 +320,12 @@ kubectl get secrets -n secureguard-system -l secureguard.io/cluster-kubeconfig=t
 ```
 
 {{% notice note %}}
-**Register the management/local cluster too.** The cluster SecureGuard runs in is
-not special-cased — for it to appear in the cluster selector and be targetable
-like any other, register it as well (upload its in-cluster kubeconfig / context).
-If you only register remote targets, the dashboard's local-cluster views can
-come up empty.
+**Include the management cluster once.** In Enterprise, set
+`proxy.registerLocalCluster: true` to register the local cluster using the
+proxy's ServiceAccount; `proxy.localClusterID` defaults to `management`.
+Alternatively, register it through a kubeconfig Secret. Do not use both
+methods for the same cluster, or fleet views will double-count its resources.
+Community automatically serves its local cluster and needs no registration.
 {{% /notice %}}
 
 {{% notice warning %}}
@@ -339,6 +362,8 @@ The backend proxy is configured via environment variables. The Helm chart sets t
 | `PORT` | `3001` | Proxy listen port |
 | `DEFAULT_CONTEXT` | current-context | Default kubeconfig context for `/api/kube/*` |
 | `POD_NAMESPACE` | `default` | Namespace watched for per-cluster kubeconfig Secrets |
+| `REGISTER_LOCAL_CLUSTER` | `false` | Enterprise: include the local cluster using in-cluster credentials; Helm value `proxy.registerLocalCluster` |
+| `LOCAL_CLUSTER_ID` | `management` | Enterprise: ID for the auto-registered local cluster; Helm value `proxy.localClusterID` |
 | `KUBECONFIG` | — | Path to a kubeconfig file (local development only; in-cluster the proxy discovers clusters from labeled Secrets instead) |
 | `REMOTE_TOKEN_DIR` | `$TMPDIR/secureguard-tokens` | Writable directory for the rotating per-cluster token files (see below) |
 | `ALLOWED_ORIGIN` | unset | Exact origin allowed for cross-origin (CORS) API access. Unset: no CORS headers are sent and browsers enforce the same-origin policy |
