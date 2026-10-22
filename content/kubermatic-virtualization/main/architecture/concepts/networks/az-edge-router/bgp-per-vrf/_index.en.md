@@ -45,8 +45,8 @@ spec:
   dynamicTransitNICs: true
   image:
     frr: quay.io/frrouting/frr:10.6.0
-    netshoot: nicolaka/netshoot:latest
-    configWatcher: quay.io/kubermatic/frr-config-watcher:latest   # pin to a released tag
+    netshoot: nicolaka/netshoot:v0.13
+    configWatcher: quay.io/kubermatic/frr-config-watcher:v1.3.0
   # imagePullSecrets: [{name: registry-credentials}]              # private registries only
   nodeSelector:
     topology.kubernetes.io/region: region-a
@@ -128,20 +128,10 @@ flowchart LR
   nic --> router["AZEdgeRouter"]
 ```
 
+With the `tenant-a-ext` `UnderlaySubnet` from the [`UnderlaySubnet`](../../vpc-subnets/underlay-subnet/) page
+created in the router's namespace, the router names it like this:
+
 ```yaml
-apiVersion: virtualization.k8c.io/v1alpha1
-kind: UnderlaySubnet
-metadata:
-  name: tenant-a-ext
-  namespace: edge-frr
-spec:
-  cidrBlock: 10.200.0.0/24
-  gateway: 10.200.0.254
-  defaultInterface: eth1
-  vlanID: 200
-  excludeIPs:
-    - 10.200.0.254
----
 apiVersion: routing.virtualization.k8c.io/v1alpha1
 kind: AZEdgeRouter
 metadata:
@@ -157,11 +147,9 @@ spec:
         peerIP: 10.200.0.254
 ```
 
-**This resolves in the `AZEdgeRouter`'s own namespace** — the same rule as for
-`spec.vpcs.list`/`labelSelector` (see [Attaching VPCs](../vpc-attachment/#one-namespace-for-everything)),
-extended to every other object the router reads. The `UnderlaySubnet`s named in `vpcVLANs`,
-`spec.managementSubnet`, and every `VPC` the router discovers or lists must all live in that one
-namespace. Nothing here is namespace-qualifiable today.
+**This resolves in the `AZEdgeRouter`'s own namespace.** The `UnderlaySubnet`s named in `vpcVLANs`,
+`spec.managementSubnet` and `nadName` NADs must live there. VPCs can come from other namespaces, see
+[Namespaces](../vpc-attachment/#namespaces); name such a VPC `<namespace>/<name>` in `vpcVLANs[].vpc`.
 
 Router-specific notes on the pitfalls listed on the
 [`UnderlaySubnet`](../../vpc-subnets/underlay-subnet/#things-that-are-easy-to-get-wrong) page:

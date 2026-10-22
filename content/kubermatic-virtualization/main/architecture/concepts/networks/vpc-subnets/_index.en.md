@@ -59,11 +59,11 @@ behind it, `<namespace>-<name>`.
 ## VPCs are global, Subnets are regional
 
 In a multi-region Kubermatic Virtualization deployment this distinction matters and is easy to
-miss: a **VPC is global** — one `Vpc` object for the whole stretched cluster, not replicated per
+miss: a **VPC is global** — one VPC for the whole stretched cluster (one `Vpc` object, wrapped by the namespaced `virtualization.k8c.io` `VPC`), not replicated per
 region and not aware of regions at all — while a **Subnet is the region-scoped unit** underneath
 it. A tenant's VPC exists exactly **once**, cluster-wide; what varies by region is which Subnets
 exist under it — one per region the tenant has workloads in, each with its own CIDR and gateway,
-each labelled for its region (e.g. `topology.kubernetes.io/zone: region-a`). Every regional
+each labelled for its region (`topology.kubernetes.io/region: region-a`, plus `topology.kubernetes.io/zone: region-a` if an `AZEdgeRouter` selects subnets by zone). Every regional
 Subnet still belongs to that same single VPC and its one logical router — a region is a
 Subnet-level fact, not something the VPC itself has copies of.
 

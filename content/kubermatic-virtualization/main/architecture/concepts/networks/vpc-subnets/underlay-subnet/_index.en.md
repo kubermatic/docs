@@ -5,24 +5,16 @@ weight = 10
 +++
 
 An `UnderlaySubnet` provisions a VLAN-backed network on the physical (underlay) network in one
-step. It bundles a kube-ovn `ProviderNetwork` + `Vlan` + `Subnet` and the Multus
-NetworkAttachmentDefinition (NAD) attached to them into a single CR, keyed by `spec.vlanID` and
-`spec.cidrBlock`, so workloads can attach directly to an existing VLAN without creating those
-four objects by hand.
-
-```mermaid
-flowchart LR
-  us["UnderlaySubnet<br/>vlanID 200, 10.200.0.0/24"] --> pn["ProviderNetwork"]
-  us --> vlan["Vlan"]
-  us --> sn["Subnet"]
-  us --> nad["Multus NAD"]
-```
+step, keyed by `spec.vlanID` and `spec.cidrBlock`. It creates the kube-ovn `ProviderNetwork`, `Vlan` and
+`Subnet`, plus the Multus NetworkAttachmentDefinition (NAD) `usn-<namespace>-<name>` that workloads
+reference to attach directly to the VLAN.
 
 ```yaml
 apiVersion: virtualization.k8c.io/v1alpha1
 kind: UnderlaySubnet
 metadata:
   name: tenant-a-ext
+  namespace: tenant-a
 spec:
   cidrBlock: 10.200.0.0/24
   gateway: 10.200.0.254
@@ -49,7 +41,7 @@ For the full field list, see the [CRD reference](../../../../../references/crds/
   `UnderlaySubnet`'s own IPAM should go in `spec.excludeIPs` — otherwise kube-ovn can hand that
   same address to a pod it manages, and that pod's CNI ADD fails with `IP address ... has already
   been used by host with MAC ...` until the conflict is cleared. The field is on the CRD, but the
-  dashboard's `UnderlaySubnet` form doesn't expose it — set it via `kubectl`/YAML.
+  dashboard's `UnderlaySubnet` form may not expose it — set it via `kubectl`/YAML.
 
 ## Used by the AZ Edge Router
 

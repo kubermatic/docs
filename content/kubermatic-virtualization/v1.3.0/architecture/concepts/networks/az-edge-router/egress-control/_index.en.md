@@ -81,6 +81,6 @@ spec:
 
 {{% notice warning %}}
 Every address used here must also be excluded from the relevant Subnet's own IPAM pool
-(`spec.excludeIps`) so it can never be handed to an unrelated NIC. The operator does not do this
+(`spec.excludeIps` on the Kube-OVN `Subnet`) so it can never be handed to an unrelated NIC. The operator does not do this
 for you.
 {{% /notice %}}

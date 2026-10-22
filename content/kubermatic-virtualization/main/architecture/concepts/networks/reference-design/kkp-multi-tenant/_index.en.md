@@ -49,7 +49,7 @@ flowchart TB
 
 | Role | Detail |
 |---|---|
-| **Seed-to-worker path** | a tenant's control plane runs in the master VPC, its workers in the tenant VPC. That traffic is carried **by the edge router between the two VRFs** and never goes out over the external fabric. The seed gets one VRF-scoped transit NIC per tenant, and never reaches a tenant over another tenant's NIC. |
+| **Seed-to-worker path** | a tenant's control plane runs in the master VPC, its workers in the tenant VPC. The router does not route between the master VRF and a tenant VRF. That traffic goes through the external fabric, like any other published service, and is subject to the external firewall. |
 | **Egress** | each VPC reaches the outside through its own VRF; see [Egress control](../../az-edge-router/egress-control/) |
 | **Service advertisement** | in-VPC speakers advertise a published address into the VPC's VRF; the router re-advertises it to the fabric. A published service terminates in the VPC that owns it and **never transits the master VPC**. The router's accept-list for that VPC bounds what can be published. See [Virtual-IP plane](../../az-edge-router/virtual-ip-plane/) |
 | **Platform API access** | components in the master VPC reach the platform's Kubernetes API through an in-VPC API server proxy that the router carries and masquerades. This is the single, deliberate exception to VPC isolation: one address, enabled for the master VPC only (`spec.apiServerViaInternalProxy`). |

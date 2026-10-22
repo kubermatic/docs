@@ -20,7 +20,7 @@ kubevirt:
 
 This deploys one Kyverno `ClusterPolicy` (`enforce-vm-regional-scheduling`) plus the RBAC it needs
 (`kyverno:subnet-reader`, bound to both the Kyverno admission and background controller service accounts — Kyverno
-3.x splits these into separate controllers with separate SAs, and the `apiCall` context lookup below needs both).
+≥ 1.10 (chart 3.x) splits these into separate controllers with separate SAs, and the `apiCall` context lookup below needs both).
 
 ### How it decides where a VM belongs
 

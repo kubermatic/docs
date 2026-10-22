@@ -203,8 +203,7 @@ shows a complete configuration.
 | control egress and source addresses | [Egress control](egress-control/) |
 | send cross-region traffic over the fabric instead of OVN | [Routing over the fabric](fabric-routing/) |
 
-For complete platform layouts that show how the router fits in, see the
-[Reference Design](../reference-design/). The full field-by-field specification lives in the
+The full field-by-field specification lives in the
 [CRD reference](../../../../references/crds/#azedgerouter).
 
 ## Quick start
@@ -224,8 +223,8 @@ spec:
   replicaCount: 2
   image:
     frr: quay.io/frrouting/frr:10.6.0
-    netshoot: nicolaka/netshoot:latest
-    configWatcher: quay.io/kubermatic/frr-config-watcher:latest   # pin to a released tag
+    netshoot: nicolaka/netshoot:v0.13
+    configWatcher: quay.io/kubermatic/frr-config-watcher:v1.3.0
   nodeSelector:
     topology.kubernetes.io/region: region-a
   managementSubnet: az-mgmt-a
@@ -269,7 +268,8 @@ metadata:
 spec: {}
 ```
 
-Onboarding another tenant is creating its `VPC` with the label (plus its external VLAN wiring —
-see [`bgp-per-vrf` mode](bgp-per-vrf/#attaching-a-vpcs-external-vlan)); the router is not edited.
+Onboarding another tenant is creating its `VPC` with the label plus its external VLAN wiring, see
+[`bgp-per-vrf` mode](bgp-per-vrf/#attaching-a-vpcs-external-vlan). The router itself is only edited if
+you list the VLAN in `vpcVLANs[]`, as this quick start does; with the VPC annotations it is not.
 
 For VMs on a subnet of that VPC, see [VM Network Assignment](../vms-networks-assignment/).

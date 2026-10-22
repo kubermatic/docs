@@ -136,7 +136,7 @@ spec:
   multihopTTL: 3
   image:
     frr: quay.io/frrouting/frr:10.6.0
-    configWatcher: quay.io/kubermatic/frr-config-watcher:latest   # pin to a released tag
+    configWatcher: quay.io/kubermatic/frr-config-watcher:v1.3.0
   azEdgeRouterSelector:       # reflect for routers carrying this label
     matchLabels:
       evpn-rr-client: "true"
@@ -156,8 +156,8 @@ spec:
   dynamicTransitNICs: true    # needs thick Multus + multus-dynamic-networks-controller
   image:
     frr: quay.io/frrouting/frr:10.6.0
-    netshoot: nicolaka/netshoot:latest
-    configWatcher: quay.io/kubermatic/frr-config-watcher:latest
+    netshoot: nicolaka/netshoot:v0.13
+    configWatcher: quay.io/kubermatic/frr-config-watcher:v1.3.0
   nodeSelector:
     topology.kubernetes.io/region: region-a
   zone: region-a
