@@ -12,7 +12,7 @@ on security and reliability of provided software and therefore releases updates 
 |:-----------------------------------:|:--------:|
 |             Kubernetes              | v1.34.11 |
 |              KubeVirt               |  v1.7.4  |
-|  Containerized Data Importer (CDI)  | v1.65.0  |
+|  Containerized Data Importer (CDI)  | v1.66.1  |
 |               KubeOVN               | v1.15.16 |
 |              KubeOne                | v1.13.4  |
 |               Kyverno               | v1.16.4  |
