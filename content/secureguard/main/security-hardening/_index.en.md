@@ -165,14 +165,23 @@ The Helm chart includes a NetworkPolicy template that can be enabled via `networ
 
 ### Non-Root Execution
 
-All SecureGuard containers run as non-root:
-- **Dashboard (nginx)**: Runs as the nginx user
-- **Proxy**: Uses `gcr.io/distroless/static-debian12:nonroot` (UID 65534)
-- **Agent**: Uses `gcr.io/distroless/static-debian12:nonroot` (UID 65534)
+The Go proxy and SG Agent use a distroless non-root runtime (UID 65534).
+The stock dashboard nginx container has a separate `dashboard.securityContext`:
+its master process runs as root to bind port 80, while workers drop privileges.
+It uses a read-only root filesystem, disables privilege escalation, and retains
+only the capabilities needed to bind, manage file ownership, and switch users.
+The nginx container receives no Kubernetes ServiceAccount token.
+
+Do not force `dashboard.securityContext.runAsNonRoot: true` on the stock image;
+nginx will not start. A fully non-root dashboard requires a compatible
+unprivileged image and matching port configuration.
 
 ### Read-Only Filesystem
 
-Configure containers with read-only root filesystems where possible:
+The chart enables read-only root filesystems for the dashboard and Go
+containers. nginx's cache, PID, and temporary paths use `emptyDir` volumes;
+the proxy and agent have separate writable token directories. The shared
+Go-container settings are:
 
 ```yaml
 securityContext:
@@ -190,10 +199,13 @@ Always set resource requests and limits to prevent resource exhaustion — see [
 
 ### Image Pinning
 
-Pin all base image versions in Dockerfiles. The project uses:
-- `node:22-alpine` (not `:latest`)
-- `golang:1.25-alpine` (not `:latest`)
-- `gcr.io/distroless/static-debian12:nonroot` (specific tag)
+Pin the deployed dashboard, proxy, agent, and broker images to released tags
+available for your edition. `dashboard.image.tag`, `proxy.image.tag`,
+`sgAgent.image.tag`, and `federation.image.tag` override the chart's `appVersion`.
+Check that value in the chosen chart: pinning a chart alone does not make an
+`appVersion: latest` image immutable. Keep dashboard and proxy editions aligned.
+Review sub-chart versions and image overrides when upgrading; see
+[Upgrade Guides]({{< ref "../upgrade-guides/" >}}).
 
 ## Content Security Policy
 

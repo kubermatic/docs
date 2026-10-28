@@ -7,7 +7,7 @@ description = "Protect and manage secrets with open-source transparency — a Ku
 
 **Protect and manage secrets with open-source transparency.**
 
-Kubermatic SecureGuard is a self-hosted, open-source secrets management platform designed for modern, Kubernetes-native environments. It acts as a secure transport layer for secrets, bridging the gap between high-security cryptographic storage and dynamic application needs.
+Kubermatic SecureGuard is a self-hosted secrets management platform with an Apache-2.0 Community edition and commercial Enterprise editions, designed for Kubernetes-native environments. It acts as a secure transport layer for secrets, bridging the gap between high-security cryptographic storage and dynamic application needs. See [Editions]({{< ref "./editions/" >}}) for the capability and deployment differences.
 
 By merging the cryptographic hardening of **OpenBao** with the native orchestration of the **External Secrets Operator (ESO)**, SecureGuard provides a unified, production-grade secrets management solution. It eliminates fragmented secrets management, reduces vendor lock-in, and gives developers native access to credentials directly within Kubernetes.
 
@@ -52,8 +52,8 @@ You manage steps 1–2 from the SecureGuard dashboard. New to the terms above? S
 - **ESO Integration:** Dispatches secrets directly into Kubernetes clusters or between multiple external secret stores.
 - **Native Kubernetes Secrets Support:** Developers use standard `Secret` objects—no app rewrites or SDKs required.
 - **Centralized Management:** Provides a single source of truth across all environments and clusters.
-- **Multi-Cluster Support:** Manage ESO deployments across clusters via the SG Agent Controller and ESODeployment CRDs.
-- **Federation (optional):** Serve secrets to remote clusters over mTLS without exposing the backend stores — via a standalone broker and the `fedclient` consumer.
+- **Multi-Cluster Support (Enterprise):** Manage ESO deployments across clusters via the SG Agent Controller and ESODeployment CRDs.
+- **Federation (Enterprise Advanced, optional):** Serve secrets to remote clusters over TLS, with optional mTLS, without exposing the backend stores — via a standalone broker and the `fedclient` consumer.
 - **ReloaderConfig (optional):** Event-driven rotation — roll out a Deployment or trigger ESO to reconcile in response to a Secret/ConfigMap change, cloud event, or webhook, instead of waiting for the next poll.
 - **Developer First:** Built-in React dashboard for visualizing and managing the secret sync lifecycle.
 - **Zero-Knowledge Security:** Secret values are redacted at the proxy layer — they never reach the browser.
