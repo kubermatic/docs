@@ -240,6 +240,44 @@ The addons are applied in the alphabetical order. This means that you can
 control in which order addons will be applied by setting the
 appropriate file name.
 
+### Applying Addons Without a Full Reconciliation
+
+Running `kubeone apply` reconciles the whole cluster. If you only want to
+install, update, or remove your own addons, use `kubeone addons apply`
+instead. It applies the user addons and the [helm releases][helm-integration]
+defined in the KubeOne manifest and doesn't touch the rest of the cluster:
+
+```bash
+kubeone addons apply --manifest kubeone.yaml -t .
+```
+
+The command:
+
+* installs addons and helm releases that were newly added,
+* updates addons and helm releases whose manifests, charts, or values have
+  changed,
+* removes addons marked with `delete: true` and helm releases that are not
+  declared anymore.
+
+The [embedded addons](#embedded-addons) (such as CNI, CCM, and CSI) are tied
+to the KubeOne version and are managed by `kubeone apply`, therefore they are
+not affected by this command. The cluster must already be provisioned.
+
+To apply only specific addons or helm releases, use the `--name` flag. For helm
+releases, the name is the release name. The flag can be used multiple times or
+with a comma-separated list:
+
+```bash
+kubeone addons apply --manifest kubeone.yaml -t . --name my-addon --name my-release
+```
+
+Before anything is changed, KubeOne checks that every name matches a user addon,
+a helm release from the manifest, or a helm release installed by KubeOne. The
+latter allows you to uninstall a single helm release that you removed from the
+manifest. If a name doesn't match, the command fails without changing anything.
+Addons located directly in the root of the addons directory are applied only if
+`--name` is not used.
+
 ## Example Addons
 
 We provide the example addons that you can use as a template or to handle
@@ -258,3 +296,5 @@ the [`addons`][addons] directory.
 [cluster_autoscaler]: https://github.com/kubermatic/kubeone/tree/main/addons/cluster-autoscaler
 [default_storage_class]: https://github.com/kubermatic/kubeone/tree/main/addons/default-storage-class
 [unattended_upgrades]: https://github.com/kubermatic/kubeone/tree/main/addons/unattended-upgrades
+
+[helm-integration]: {{< ref "../helm-integration" >}}
