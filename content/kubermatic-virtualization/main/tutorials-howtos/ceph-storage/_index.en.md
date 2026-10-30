@@ -13,6 +13,7 @@ KubeV sets Ceph up for block storage. It installs:
 
 * the `ceph-block` StorageClass, which becomes the cluster's default StorageClass;
 * a `ceph-block` VolumeSnapshotClass, so VM backups and snapshots work on Ceph;
+* Ceph's CSI driver, which creates, attaches and snapshots the volumes on `ceph-block`;
 * the Ceph toolbox, for the `ceph` commands below.
 
 Ceph spreads every VM disk over all the disks of the cluster and keeps copies of it on several
@@ -249,6 +250,13 @@ disks Rook skipped, and why:
 
 ```bash
 kubectl -n rook-ceph logs -l app=rook-ceph-osd-prepare --tail=-1
+```
+
+When volumes on `ceph-block` stay `Pending`, or a VM's disk cannot be attached, check Ceph's CSI
+driver. Its controller pods create and attach the volumes, and a node pod on every node mounts them:
+
+```bash
+kubectl -n rook-ceph get drivers.csi.ceph.io,deployments,daemonsets,pods
 ```
 
 ## Day-2 Operations
