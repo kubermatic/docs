@@ -219,10 +219,9 @@ Docs:
 
 Dual-stack feature is available automatically for all new user clusters in Hetzner.
 
-Please note that all services of type `LoadBalancer` in Hetzner need to have a
-[network zone / location](https://docs.hetzner.com/cloud/general/locations/) specified via an annotation,
-for example `load-balancer.hetzner.cloud/network-zone: "eu-central"` or `load-balancer.hetzner.cloud/location: "fsn1"`.
-Without one of these annotations, the load-balancer will be stuck in the Pending state.
+Services of type `LoadBalancer` in Hetzner are created in the datacenter location by default.
+To pick another [location or network zone](https://docs.hetzner.com/cloud/general/locations/), use the annotations described in
+[Hetzner Load Balancers]({{< relref "../../../architecture/supported-providers/hetzner/#load-balancers" >}}).
 
 Limitations:
 
