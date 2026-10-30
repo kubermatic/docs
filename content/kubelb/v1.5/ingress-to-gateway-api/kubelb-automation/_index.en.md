@@ -132,7 +132,7 @@ Review the [Configuration Options](#all-configuration-options) before installing
 {{% tab name="Community Edition" %}}
 
 ```sh
-helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.5.0 --namespace kubelb -f values.yaml --create-namespace
+helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.5.1 --namespace kubelb -f values.yaml --create-namespace
 ```
 
 {{% notice info %}}
@@ -143,7 +143,7 @@ helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-cc
 {{% tab name="Enterprise Edition" %}}
 
 ```sh
-helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.5.0 --namespace kubelb -f values.yaml --create-namespace
+helm upgrade --install kubelb-ccm oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.5.1 --namespace kubelb -f values.yaml --create-namespace
 ```
 
 {{% notice info %}}

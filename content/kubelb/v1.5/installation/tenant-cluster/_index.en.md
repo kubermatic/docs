@@ -112,7 +112,7 @@ kubelb:
 ### Install the Helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.5.0 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm-ee --version=v1.5.1 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-ccm-ee/crds/
 ## Create and update values.yaml with the required values.
@@ -144,7 +144,7 @@ Helm applies a chart's `crds/` directory only on `helm install` and silently ski
 | grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm-ee"` |  |
-| image.tag | string | `"v1.5.0"` |  |
+| image.tag | string | `"v1.5.1"` |  |
 | imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
 | kubeRbacProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
 | kubeRbacProxy.image.repository | string | `"quay.io/brancz/kube-rbac-proxy"` |  |
@@ -183,7 +183,7 @@ Helm applies a chart's `crds/` directory only on `helm install` and silently ski
 | kubelb.nodeAddressType | string | `"ExternalIP"` | Address type to use for routing traffic to node ports. Values are ExternalIP, InternalIP. |
 | kubelb.tenantName | string | `nil` | Name of the tenant, must be unique against a load balancer cluster. |
 | kubelb.tenantProxy.envoy.image.repository | string | `"docker.io/envoyproxy/envoy"` | Envoy image repository for the mTLS tenant proxy DaemonSet. |
-| kubelb.tenantProxy.envoy.image.tag | string | `"distroless-v1.36.4"` | Envoy image tag for the mTLS tenant proxy DaemonSet. |
+| kubelb.tenantProxy.envoy.image.tag | string | `"distroless-v1.37.11"` | Envoy image tag for the mTLS tenant proxy DaemonSet. |
 | kubelb.tenantProxy.serviceAccount.annotations | object | `{}` | Annotations to add to the mTLS tenant proxy ServiceAccount. |
 | kubelb.tenantProxy.serviceAccount.create | bool | `true` | Create a dedicated ServiceAccount for the mTLS tenant proxy xDS writer sidecar. |
 | kubelb.tenantProxy.serviceAccount.name | string | `""` | Name of the mTLS tenant proxy ServiceAccount. If not set and create is true, a name is generated. |
@@ -232,7 +232,7 @@ Helm applies a chart's `crds/` directory only on `helm install` and silently ski
 ### Install the Helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.5.0 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-ccm --version=v1.5.1 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-ccm/crds/
 ## Create and update values.yaml with the required values.
@@ -262,7 +262,7 @@ Helm applies a chart's `crds/` directory only on `helm install` and silently ski
 | grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-ccm"` |  |
-| image.tag | string | `"v1.5.0"` |  |
+| image.tag | string | `"v1.5.1"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kubeRbacProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
 | kubeRbacProxy.image.repository | string | `"quay.io/brancz/kube-rbac-proxy"` |  |
