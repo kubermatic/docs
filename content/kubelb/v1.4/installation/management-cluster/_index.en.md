@@ -32,7 +32,7 @@ imagePullSecrets:
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.4.3 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager-ee --version=v1.4.4 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-manager-ee/crds/
 ## Create and update values.yaml with the required values.
@@ -60,7 +60,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 | grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager-ee"` |  |
-| image.tag | string | `"v1.4.3"` |  |
+| image.tag | string | `"v1.4.4"` |  |
 | imagePullSecrets[0].name | string | `"kubermatic-quay.io"` |  |
 | kkpintegration.rbac | bool | `false` | Create RBAC for KKP integration. |
 | kubeRbacProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -74,7 +74,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 | kubelb.envoyProxy.affinity | object | `{}` |  |
 | kubelb.envoyProxy.gracefulShutdown.disabled | bool | `false` | Disable graceful shutdown (default: false) |
 | kubelb.envoyProxy.gracefulShutdown.shutdownManagerImage | string | `""` | Shutdown manager sidecar image. If empty, defaults to docker.io/envoyproxy/gateway:v1.3.0 |
-| kubelb.envoyProxy.image | string | `""` | Envoy Proxy container image. If empty, defaults to envoyproxy/envoy:distroless-v1.36.4 |
+| kubelb.envoyProxy.image | string | `""` | Envoy Proxy container image. If empty, defaults to envoyproxy/envoy:distroless-v1.37.11 |
 | kubelb.envoyProxy.imagePullSecrets | list | `[]` | imagePullSecrets for Envoy Proxy pods. If not set, auto-detected from manager pod. |
 | kubelb.envoyProxy.nodeSelector | object | `{}` |  |
 | kubelb.envoyProxy.podMonitor.enabled | bool | `false` | Create PodMonitor resources for Envoy Proxy pods to enable Prometheus Operator scraping. |
@@ -152,7 +152,7 @@ helm upgrade --install kubelb-manager kubelb-manager-ee --namespace kubelb -f ku
 ### Install the helm chart
 
 ```sh
-helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.4.3 --untardir "." --untar
+helm pull oci://quay.io/kubermatic/helm-charts/kubelb-manager --version=v1.4.4 --untardir "." --untar
 ## Apply CRDs
 kubectl apply -f kubelb-manager/crds/
 ## Create and update values.yaml with the required values.
@@ -176,7 +176,7 @@ helm upgrade --install kubelb-manager kubelb-manager --namespace kubelb -f kubel
 | grafana.dashboards.enabled | bool | `false` | Requires grafana to be deployed with `sidecar.dashboards.enabled=true`. For more info: https://github.com/grafana/helm-charts/tree/grafana-10.5.13/charts/grafana#:~:text=%5B%5D-,sidecar.dashboards.enabled,-Enables%20the%20cluster |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/kubermatic/kubelb-manager"` |  |
-| image.tag | string | `"v1.4.3"` |  |
+| image.tag | string | `"v1.4.4"` |  |
 | imagePullSecrets | list | `[]` |  |
 | kkpintegration.rbac | bool | `false` | Create RBAC for KKP integration. |
 | kubeRbacProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
