@@ -102,6 +102,9 @@ A few fields deserve attention:
   dashboard no longer works. Both fields default to `kubermaticIssuer`.
 - `issuerClientSecret` and `issuerCookieKey` are **required for logging into the dashboard**.
   Previously they were only needed when the OIDC kubeconfig feature was enabled.
+- `additionalIssuerRedirectURLs` lists extra hostnames the dashboard can be opened on, for
+  example through a reverse proxy (available since v2.31.X). It is empty by default. See
+  [Accessing KKP Through Additional Hostnames](#accessing-kkp-through-additional-hostnames-reverse-proxies).
 
 ### UI Configuration
 
@@ -162,6 +165,89 @@ dex:
 
 No Dex-specific PKCE setting is required; Dex supports the `S256` code challenge method for
 confidential clients out of the box.
+
+### Accessing KKP Through Additional Hostnames (Reverse Proxies)
+
+By default, the KKP API builds the dashboard login `redirect_uri` from the host in
+`spec.auth.issuerRedirectURL`. If users open the dashboard on a different hostname, for example
+through an internal reverse proxy `https://kkp-proxy.example.com` in front of
+`https://kkp.example.com`, the login fails at the callback with a missing state cookie: the
+state cookie is set on the configured host, not on the host the user is on.
+
+To support such hostnames, the dashboard sends its own origin to the KKP API when the user signs
+in or out. The API uses that origin only if it is the `issuerRedirectURL` host or one of the
+entries in `spec.auth.additionalIssuerRedirectURLs`. Any other origin is ignored and the API
+falls back to `issuerRedirectURL`.
+
+#### Step 1: Add the Hostnames to the KubermaticConfiguration
+
+```yaml
+spec:
+  auth:
+    issuerRedirectURL: https://kkp.example.com/api/v1/kubeconfig
+    additionalIssuerRedirectURLs:
+      - https://kkp-proxy.example.com
+      - https://kkp-internal.example.com:8443
+```
+
+- Add one entry per extra hostname the dashboard is opened on. The `issuerRedirectURL` host is
+  always allowed and doesn't need to be repeated.
+- Only the scheme, host and port are used; any path is ignored. `https://kkp-proxy.example.com`
+  and `https://kkp-proxy.example.com/api/v2/auth/callback` are equivalent.
+- The scheme and a non-default port must match what the browser shows in the address bar.
+  `https://kkp-proxy.example.com:8443` is a different origin from `https://kkp-proxy.example.com`.
+- Entries must use `http` or `https` and contain a host. Entries with user info
+  (`https://admin@kkp-proxy.example.com`), a query or a fragment are rejected.
+
+#### Step 2: Register the Callback URLs in the OIDC Provider
+
+For every entry, register `https://<additional-host>/api/v2/auth/callback` as a redirect URI of
+the `spec.auth.issuerClientID` client (defaults to `kubermaticIssuer`). Otherwise the OIDC
+provider rejects the login with `Unregistered redirect_uri` (Dex) or
+`Invalid parameter: redirect_uri` (Keycloak).
+
+For Dex, extend the `values.yaml` of the `dex` Helm chart:
+
+```yaml
+dex:
+  config:
+    staticClients:
+      - id: kubermaticIssuer
+        RedirectURIs:
+          - https://kkp.example.com/api/v2/auth/callback
+          - https://kkp-proxy.example.com/api/v2/auth/callback   # additional hostname
+          - https://kkp-internal.example.com:8443/api/v2/auth/callback
+          # ... existing kubeconfig, web terminal and Kubernetes Dashboard entries
+```
+
+For Keycloak, add `https://kkp-proxy.example.com/api/v2/auth/callback` to the
+**Valid Redirect URIs** of the client.
+
+#### Step 3: Allow the Post-Logout Redirect
+
+This step is only needed if `oidc_logout_url` is set in `spec.ui.config`. Logging out on an
+additional hostname then sends the user to the OIDC provider with a post-logout redirect to
+`https://<additional-host>/`, which the provider has to accept.
+
+For Keycloak, add `https://kkp-proxy.example.com/*` to **Valid post logout redirect URIs**. If
+that list is empty or set to `+`, Keycloak falls back to **Valid Redirect URIs**, which usually
+contains only callback URLs. Add the entry to either list.
+
+Without `oidc_logout_url`, logging out returns the user to the dashboard root on the current
+hostname and nothing has to be configured.
+
+#### Step 4: Make the OIDC Provider Reachable
+
+KKP only moves the dashboard callback to the additional hostname, not the OIDC provider. The
+browser is still sent to the provider at its own URL (`spec.auth.tokenIssuer`, for example
+`https://kkp.example.com/dex`). Users who access KKP through the reverse proxy must be able to
+reach that URL, or the proxy has to handle the provider path, for example by rewriting the
+`Location` header for `/dex`.
+
+{{% notice note %}}
+Only the dashboard login and logout support additional hostnames. The OIDC kubeconfig download,
+the Kubernetes Dashboard login and the web terminal still use `issuerRedirectURL`.
+{{% /notice %}}
 
 ### Session Length
 
