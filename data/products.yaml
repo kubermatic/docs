@@ -151,20 +151,31 @@ developer-platform:
       name: v1.0
     - release: v0.9.0
       name: v0.9.0
+secureguard:
+  name: secureguard
+  logo: "img/logo-kubermatic.svg"
+  title: Kubermatic SecureGuard
+  textName: SecureGuard
+  description: Protect and manage secrets with open-source transparency — a Kubernetes-native secrets management platform built on OpenBao and the External Secrets Operator.
+  weight: 6
+  shareImage: img/share-kubermatic.png
+  versions:
+    - release: main
+      name: main
 operatingsystemmanager:
   name: operatingsystemmanager
   logo: "/img/operatingsystemmanager/common/operating-system-manager-logo.png"
   title: Operating System Manager
   textName: Operating System Manager
   description: Operating System Manager is responsible for creating and managing the required configurations for worker nodes in a Kubernetes cluster.
-  weight: 6
+  weight: 7
   shareImage: img/share-operatingsystemmanager.png
 machine-controller:
   name: machine-controller
   title: Machine Controller
   textName: Machine Controller
   description: Manage machines at cloud providers using a declarative Kubernetes API, compatible with the Kubernetes cluster-autoscaler.
-  weight: 7
+  weight: 8
   shareImage: img/share-machine-controller.png
   versions:
     - release: main
@@ -175,7 +186,7 @@ conformance-ee:
   title: Conformance EE
   textName: Conformance EE
   description: Automated end-to-end conformance test framework for Kubermatic Kubernetes Platform, generating and running thousands of test scenarios across cloud providers.
-  weight: 8
+  weight: 9
   shareImage: img/share-kubermatic.png
   versions:
     - release: main
@@ -188,15 +199,3 @@ conformance-ee:
 #   description: <TODO>
 #   weight: 9
 #   shareImage: img/share-developer-platform.png
-# SecureGuard is still in development - do not yet reveal to the public.
-# The content tree exists under content/secureguard/ and is reachable via direct
-# link only (excluded from sitemap and search). Uncomment this block to publish.
-# secureguard:
-#   name: secureguard
-#   title: SecureGuard
-#   textName: SecureGuard
-#   description: <TODO>
-#   weight: 10
-#   versions:
-#     - release: main
-#       name: main
