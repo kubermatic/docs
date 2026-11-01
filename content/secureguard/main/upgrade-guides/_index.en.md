@@ -121,6 +121,22 @@ The SG Agent Controller (`agent/`) is a Go controller-runtime binary deployed as
 
 Always check the release notes of the exact chart version you are moving to.
 
+### 0.9.0 — Federation becomes Enterprise-only, agent identity changes
+
+- **Federation is Enterprise-only.** The federation UI and the federation API are
+  served only by the Enterprise proxy. Community installs that previously used
+  federation resources lose access to those views/endpoints — set
+  `edition=enterprise` (or higher) before upgrading if you rely on them.
+- **SG Agent identity on remote clusters.** The agent now authenticates against
+  remote clusters with its own dedicated identity instead of reusing the proxy's.
+  After the upgrade, verify registered clusters stay `connected`; re-register any
+  cluster whose remote ServiceAccount was provisioned by very old versions.
+- **Secrets can be sourced from existing Secrets.** Every chart-managed secret
+  (OIDC client secret, session secret, Dex admin hash, …) can now reference
+  pre-created Secrets (`auth.existingSecret`, `dex.staticAdmin.existingSecret`,
+  and related keys) instead of being set in values. No action required; opt in to
+  move secret material out of your values files.
+
 ### 0.3.0 — OpenBao Raft HA + self-initialization (breaking)
 
 The bundled OpenBao default changed from a single-node `file` backend to a **3-node integrated-Raft HA cluster** that is **automatically initialized and unsealed** by a post-install/upgrade hook Job.

@@ -109,6 +109,37 @@ The **SG Agent** and **Federation** are opt-in. Without `sgAgent.enabled=true` t
 
 ---
 
+## Editions
+
+The chart's central switch is the `edition` value — it gates features and selects
+the images:
+
+| Edition | Value | Images |
+|---|---|---|
+| Community (default) | `community` | `secureguard`, `secureguard-proxy` |
+| Enterprise | `enterprise` | `secureguard-ee`, `secureguard-proxy-ee` (the chart appends `-ee` automatically) |
+| Enterprise Advanced | `enterprise-advanced` | as Enterprise, plus advanced capabilities |
+
+```bash
+helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
+  --namespace secureguard-system --create-namespace \
+  --set edition=enterprise
+```
+
+Enterprise-only functionality includes multi-cluster management with SG Agents
+(`sgAgent.enabled`), the SGAgent list/federation APIs on the proxy, and
+[Federation]({{< ref "../federation/" >}}). Installing without `edition` yields a
+Community deployment even with Enterprise registry credentials.
+
+Related: `proxy.managementClusterID` pins which registered cluster is treated as
+the management cluster. Leave it unset and the proxy derives it from the
+cluster-kubeconfig Secrets in name order — set it explicitly as soon as you
+register more than one cluster:
+
+```bash
+--set proxy.managementClusterID=<management-cluster-id>
+```
+
 ## Deployment Modes
 
 SecureGuard's Helm chart bundles all necessary Custom Resource Definitions (CRDs) and sub-chart dependencies (OpenBao, Dex, ESO, Reloader).
@@ -169,8 +200,18 @@ If your target clusters already have the External Secrets Operator installed and
 helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
   --namespace secureguard-system \
   --create-namespace \
-  --set eso.enabled=false
+  --set eso.enabled=false \
+  --set 'openbao.kubernetesAuth.serviceAccounts[0]=external-secrets' \
+  --set 'openbao.kubernetesAuth.namespaces[0]=external-secrets'
 ```
+
+With `eso.enabled=false` the chart can no longer derive the ESO ServiceAccount for
+OpenBao's Kubernetes auth, so `openbao.kubernetesAuth.serviceAccounts` (and
+`namespaces`) **must** be set to your external ESO's ServiceAccount — the install
+fails with a template error otherwise. Adjust the values above to where your ESO
+runs (a Helm-installed ESO defaults to ServiceAccount `external-secrets` in
+namespace `external-secrets`). If you don't want OpenBao auth wiring at all, set
+`openbao.kubernetesAuth.enabled=false` instead.
 
 *Note: This only disables the ESO sub-chart. Dex and OpenBao still deploy according to their own toggles (`dex.enabled`, `openbao.enabled`) — combine flags as needed for your environment. The [SG Agent]({{< ref "../architecture/" >}}) also auto-discovers externally installed ESO instances on managed clusters and surfaces them read-only in the dashboard.*
 
@@ -234,6 +275,41 @@ helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
 {{% notice warning %}}
 Dev mode is intended only for local testing. Secrets are stored in-memory and will be lost when the pod restarts. Do not use dev mode in production.
 {{% /notice %}}
+
+### Local kind / NodePort access (no Ingress)
+
+Without an Ingress, expose the dashboard and Dex via NodePorts and map them in
+your kind config (`extraPortMappings` for 30080 and 30556). The OIDC issuer must
+be reachable **both from the browser and from inside the proxy pod** — `localhost`
+only works for the browser. Use the kind node's container IP (reachable from both)
+as the issuer:
+
+```bash
+NODE_IP=$(docker inspect <cluster>-control-plane \
+  --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}')
+
+helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
+  --namespace secureguard-system --create-namespace \
+  --set service.type=NodePort --set service.nodePort=30080 \
+  --set dex.service.type=NodePort --set dex.service.ports.http.nodePort=30556 \
+  --set dex.config.issuer=http://${NODE_IP}:30556/dex \
+  --set auth.oidc.redirectUri=http://localhost:30080/api/auth/callback \
+  --set auth.oidc.clientSecret=$(openssl rand -hex 16) \
+  --set openbao.server.dev.enabled=true \
+  --set openbao.server.ha.enabled=false \
+  --set openbao.server.standalone.enabled=true \
+  --set openbao.server.dataStorage.enabled=false \
+  --set openbao.server.auditStorage.enabled=false
+```
+
+The dashboard is then served at `http://localhost:30080`. If you change
+`dex.config.issuer` on an existing release, restart both Dex and the dashboard
+afterwards — Dex does not reload its config Secret and the proxy caches OIDC
+discovery:
+
+```bash
+kubectl -n secureguard-system rollout restart deploy secureguard-dex secureguard
+```
 
 If you want persistent storage but only a single node (e.g. a small staging cluster), run the standalone `file` backend instead of Raft HA:
 

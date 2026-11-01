@@ -280,9 +280,20 @@ Clusters can be added to the SecureGuard dashboard by uploading a kubeconfig fil
 
 ```bash
 curl -X POST http://localhost:3001/api/clusters/kubeconfig \
+  -b cookies.txt \
+  -H "X-CSRF-Token: ${CSRF}" \
   -F "kubeconfig=@/path/to/target-kubeconfig" \
   -F "registerAgent=true" \
   -F "clusterName=prod-us-east"
+```
+
+All mutating API requests require an authenticated session cookie **and** the
+session's CSRF token in the `X-CSRF-Token` header; without it the proxy answers
+`403 CSRF token missing or invalid`. After completing the OIDC login with a
+cookie jar, fetch the token from the session endpoint:
+
+```bash
+CSRF=$(curl -s -b cookies.txt http://localhost:3001/api/auth/user | jq -r .csrfToken)
 ```
 
 This creates per-cluster Secrets and optionally registers an SGAgent CR. See the [API Reference]({{< ref "../api-reference/" >}}) for details.

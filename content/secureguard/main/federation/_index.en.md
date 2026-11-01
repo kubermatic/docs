@@ -14,6 +14,12 @@ cluster — instead of being copied into every consuming cluster.
 **Status:** opt-in and disabled by default. The federation **broker** and CRDs, the first-class **`fedclient`** consumer, and **both resolvers** — the lean Kubernetes-Secret resolver and the live ESO-library resolver (all providers) — are available. See *Resolution modes* below.
 {{% /notice %}}
 
+{{% notice warning %}}
+**Enterprise-only since 0.9.0.** The federation UI and the federation API are
+served only by the Enterprise proxy (`edition=enterprise` or
+`enterprise-advanced`). Community installs cannot manage or serve federation.
+{{% /notice %}}
+
 ## Architecture
 
 ```text
