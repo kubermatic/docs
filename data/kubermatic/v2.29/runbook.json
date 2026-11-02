@@ -300,7 +300,7 @@
             "message": "Kubelet {{ $labels.instance }} is running {{ $value }} pods, close to the limit of 110.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/latest/cheat-sheets/alerting-runbook/#alert-kubelettoomanypods"
           },
-          "expr": "kubelet_running_pod_count{job=\"kubelet\"} > 110 * 0.9",
+          "expr": "kubelet_running_pods{job=\"kubelet\"} > 110 * 0.9",
           "for": "15m",
           "labels": {
             "severity": "warning",
@@ -858,7 +858,7 @@
             "message": "Prometheus failed to reload config.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/latest/cheat-sheets/alerting-runbook/#alert-prombadconfig"
           },
-          "expr": "prometheus_config_last_reload_successful{job=\"prometheus\"} == 0",
+          "expr": "prometheus_config_last_reload_successful{job=\"pods\",app_kubernetes_io_name=\"prometheus\"} == 0",
           "for": "15m",
           "labels": {
             "severity": "critical",
@@ -878,7 +878,7 @@
             "message": "Alertmanager failed to reload config.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/latest/cheat-sheets/alerting-runbook/#alert-promalertmanagerbadconfig"
           },
-          "expr": "alertmanager_config_last_reload_successful{job=\"alertmanager\"} == 0",
+          "expr": "alertmanager_config_last_reload_successful{job=\"pods\",app_kubernetes_io_name=\"alertmanager\"} == 0",
           "for": "10m",
           "labels": {
             "severity": "critical",
@@ -898,7 +898,7 @@
             "message": "Alertmanager failed to send an alert.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/latest/cheat-sheets/alerting-runbook/#alert-promalertsfailed"
           },
-          "expr": "sum(increase(alertmanager_notifications_failed_total{job=\"alertmanager\"}[5m])) by (namespace) > 0",
+          "expr": "sum(increase(alertmanager_notifications_failed_total{job=\"pods\",app_kubernetes_io_name=\"alertmanager\"}[5m])) by (namespace) > 0",
           "for": "5m",
           "labels": {
             "severity": "critical",
@@ -918,7 +918,7 @@
             "message": "Prometheus failed to send {{ printf \"%.1f\" $value }}% samples.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/latest/cheat-sheets/alerting-runbook/#alert-promremotestoragefailures"
           },
-          "expr": "(rate(prometheus_remote_storage_failed_samples_total{job=\"prometheus\"}[1m]) * 100)\n  /\n(rate(prometheus_remote_storage_failed_samples_total{job=\"prometheus\"}[1m]) + rate(prometheus_remote_storage_succeeded_samples_total{job=\"prometheus\"}[1m]))\n  > 1\n",
+          "expr": "(rate(prometheus_remote_storage_samples_failed_total{job=\"pods\",app_kubernetes_io_name=\"prometheus\"}[1m]) * 100)\n  /\n(rate(prometheus_remote_storage_samples_failed_total{job=\"pods\",app_kubernetes_io_name=\"prometheus\"}[1m]) + rate(prometheus_remote_storage_samples_total{job=\"pods\",app_kubernetes_io_name=\"prometheus\"}[1m]))\n  > 1\n",
           "for": "15m",
           "labels": {
             "severity": "critical",
@@ -938,7 +938,7 @@
             "message": "Prometheus failed to evaluate {{ printf \"%.1f\" $value }} rules/sec.",
             "runbook_url": "https://docs.kubermatic.com/kubermatic/latest/cheat-sheets/alerting-runbook/#alert-promrulefailures"
           },
-          "expr": "rate(prometheus_rule_evaluation_failures_total{job=\"prometheus\"}[1m]) > 0",
+          "expr": "rate(prometheus_rule_evaluation_failures_total{job=\"pods\",app_kubernetes_io_name=\"prometheus\"}[1m]) > 0",
           "for": "15m",
           "labels": {
             "severity": "critical",
