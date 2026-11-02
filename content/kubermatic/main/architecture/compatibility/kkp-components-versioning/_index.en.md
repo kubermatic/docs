@@ -26,7 +26,7 @@ of provided software and therefore releases updates regularly that also include 
 | minio                          | RELEASE.2023-05-04T21-44-30Z   |
 | mla/alertmanager-proxy         | 0.3.3                          |
 | mla/consul                     | 1.22.2                         |
-| mla/cortex                     | 1.20.0                         |
+| mla/cortex                     | 1.21.1                         |
 | mla/grafana                    | 13.0.1                         |
 | mla/loki-distributed           | 2.9.13                         |
 | mla/minio-lifecycle-mgr        | 0.1.0                          |
