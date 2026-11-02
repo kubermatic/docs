@@ -39,6 +39,11 @@ home = ["HTML", "Search", "Redirects", "LLMsTxt", "Markdown"]
 section = ["HTML", "LLMsTxt", "LLMsFullTxt", "Markdown"]
 page = ["HTML", "Markdown"]
 
+# refetch remote files (render_external_markdown) on every build; the default
+# never expires and the cache persists across Netlify builds.
+[caches.getresource]
+  maxAge = 0
+
 [markup.goldmark.renderer]
   unsafe = true
 
