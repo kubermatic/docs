@@ -263,6 +263,15 @@ The [embedded addons](#embedded-addons) (such as CNI, CCM, and CSI) are tied
 to the KubeOne version and are managed by `kubeone apply`, therefore they are
 not affected by this command. The cluster must already be provisioned.
 
+Because the command can remove addons and helm releases, it lists the planned
+changes and asks for confirmation before it changes the cluster. To skip the
+confirmation, for example in a CI/CD pipeline, use the `--auto-approve` (`-y`)
+flag:
+
+```bash
+kubeone addons apply --manifest kubeone.yaml -t . --auto-approve
+```
+
 To apply only specific addons or helm releases, use the `--name` flag. For helm
 releases, the name is the release name. The flag can be used multiple times or
 with a comma-separated list:
