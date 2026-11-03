@@ -51,6 +51,17 @@ helmReleases:
           replicas: 3
 ```
 
+## Applying Helm Releases Without a Full Reconciliation
+
+Helm releases are reconciled by `kubeone apply`. To reconcile only your helm
+releases and user [addons][kubeone-addons], without touching the rest of the
+cluster, use `kubeone addons apply`. Use the `--name` flag to limit it to
+specific releases (by release name).
+
+```bash
+kubeone addons apply --manifest kubeone.yaml -t . --name myredis
+```
+
 ## Uninstalling Helm Release
 
 In order to uninstall a helm release just delete it from the `helmReleases` list
