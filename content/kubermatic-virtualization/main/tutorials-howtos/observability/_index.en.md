@@ -73,8 +73,8 @@ for the block in context.
 
 | Field | Meaning |
 |---|---|
-| `export.otlp.endpoint` | Required. `host:port`, or a full `http(s)://` URL when the receiver sits behind a path. |
-| `export.otlp.protocol` | `grpc` (default) or `http`. A `host:port` with `http` gets `https://`, or `http://` when `insecure` is set. |
+| `export.otlp.endpoint` | Required. `host:port` for gRPC, or an `http(s)://` URL whose scheme agrees with `insecure`. The URL must not carry credentials, a query or a fragment: put tokens in `headers`. |
+| `export.otlp.protocol` | `grpc` (default) or `http`. A gRPC endpoint takes no path, not even `/`. A receiver behind a path such as `/otlp` needs `http` and a URL. |
 | `export.otlp.insecure` | Sends in plain text, without TLS. Cannot be combined with `tls`. |
 | `export.otlp.headers` | Headers sent with every push, for example `Authorization`. |
 | `export.otlp.tls.caBundle` | PEM CA certificates of the receiver, in addition to the system roots. |
@@ -131,10 +131,11 @@ observability:
     kubevirt: false
 ```
 
-With `nodes` and `logs` off, the node agent is not installed. With every source off, or without the
-`observability` block, the Collector is not installed either, and `apply` uninstalls an existing
-one. The empty `kubev-observability` namespace stays behind; delete it by hand if you do not plan to
-enable observability again.
+With `nodes` and `logs` off, the node agent is not installed. At least one source must stay on:
+`apply` rejects a block that turns every source off, since it would export nothing. To uninstall
+the Collector, remove the `observability` block; the next `apply` removes the release. The empty
+`kubev-observability` namespace stays behind; delete it by hand if you do not plan to enable
+observability again.
 
 ### Node Metrics
 
@@ -220,9 +221,9 @@ observability:
 
 The installer owns these keys, and `apply` rejects a `helmValues` that sets any of them:
 
-* `mode`, `alternateConfig`, `image`, `command` and `clusterRole`;
+* `mode`, `configMap`, `alternateConfig`, `image`, `command` and `clusterRole`;
 * `extraEnvs`, `extraVolumes` and `extraVolumeMounts`;
-* `resources`, `fullnameOverride` and `presets`;
+* `resources`, `nameOverride`, `fullnameOverride` and `presets`;
 * `config.receivers`, `config.service` and any `otlp*` exporter under `config.exporters`.
 
 Size the containers with `resources` and `agentResources` instead.
