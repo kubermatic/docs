@@ -115,6 +115,6 @@ KKP ships default OSPs for different operating systems and it is not recommended
 
 ## Migrating existing clusters
 
-For migrating existing clusters, user can enable OSM using either the CLI or UI. That would enable OSM on the user cluster level. Although the machines will not be rotated automatically. To perform this rotation for existing MachineDeployments please follow the guide at [Rolling Restart MachineDeploments][rolling-restart].
+For migrating existing clusters, user can enable OSM using either the CLI or UI. That would enable OSM on the user cluster level. Although the machines will not be rotated automatically. To perform this rotation for existing MachineDeployments please follow the guide at [Rolling Restart MachineDeployments][rolling-restart].
 
 [rolling-restart]: {{< ref "../../../cheat-sheets/rollout-machinedeployment" >}}

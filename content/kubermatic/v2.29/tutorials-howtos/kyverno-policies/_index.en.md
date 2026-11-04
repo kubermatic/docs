@@ -37,7 +37,7 @@ From this page, Admins can create new policy templates.
 
 From the same dialog, you can select specific clusters or projects using label selectors.
 
-![labe selector](images/label-selector-policy-spec.png?classes=shadow,border "Label Selector")
+![label selector](images/label-selector-policy-spec.png?classes=shadow,border "Label Selector")
 
 Inside the `PolicySpec` is the policy specification of the Kyverno policy we want to apply to the cluster. The structure of this spec should follow the rules defined in the Kyverno  [Writing Policies Docs](https://release-1-13-0.kyverno.io/docs/writing-policies/).
 

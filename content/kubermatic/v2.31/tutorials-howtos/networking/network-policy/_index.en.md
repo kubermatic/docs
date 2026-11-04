@@ -12,7 +12,7 @@ This document outlines the use of the standard Kubernetes `NetworkPolicy` resour
 By default, Kubernetes networking is flat and fully permissive. This means any pod can, by default, initiate network connections to any other pod within the same cluster. This "default-allow" posture presents a significant security challenge. Network Policies are Kubernetes' built-in firewall rules that control which pods can talk to each other. 
 They provide a declaration-based virtual firewall at the pod level.
 
-Kubermatic Kubernetes Platform (KKP) already supports NetworkPolic resources to ensure network isolation in the clusters. The enforcement of these policies is handled by the underlying CNI plugin, such as Cilium or Canal, which are supported by default in KKP.
+Kubermatic Kubernetes Platform (KKP) already supports NetworkPolicy resources to ensure network isolation in the clusters. The enforcement of these policies is handled by the underlying CNI plugin, such as Cilium or Canal, which are supported by default in KKP.
 
 ## Example: Deploy AI Workloads in KKP User Cluster 
 

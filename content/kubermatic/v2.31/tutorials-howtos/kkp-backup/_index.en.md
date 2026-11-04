@@ -30,7 +30,7 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 * Backups must be exact clones of the VMs, including copies of all attached volumes.
 * These backups must reside on a separate datastore.
 * In the event of a node failure, the underlying VM must be fully restorable from its backup.
-* Tools such as Veem, or native cloud provider VM backup solutions, can be utilized to automate these regular backups.
+* Tools such as Veeam, or native cloud provider VM backup solutions, can be utilized to automate these regular backups.
 
 ### Kubermatic Master / Seed Level
 

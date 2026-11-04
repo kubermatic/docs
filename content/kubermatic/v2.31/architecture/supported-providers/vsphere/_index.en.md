@@ -76,7 +76,7 @@ If such a split is not desired, one set of credentials used for both use cases c
 
 ### Permissions
 
-The vsphere users has to have to following permissions on the correct resources. Note that if a shared set of credentials is used, roles for both use cases need to be assigned to the technical user which will be used for credentials.
+The vSphere users has to have to following permissions on the correct resources. Note that if a shared set of credentials is used, roles for both use cases need to be assigned to the technical user which will be used for credentials.
 
 #### Cloud Controller Manager (CCM) / CSI
 

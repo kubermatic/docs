@@ -24,7 +24,7 @@ The user for the *Google Service Account* that has to be created has to have thr
 - *Service Account User*: `roles/iam.serviceAccountUser`
 - *Viewer*: `roles/viewer`
 
-To create a new service account, you can use the [Google IAM Console](https://console.cloud.google.com/iam-admin/serviceaccounts). Alterntively, if the [`gcloud`](https://cloud.google.com/sdk/install)
+To create a new service account, you can use the [Google IAM Console](https://console.cloud.google.com/iam-admin/serviceaccounts). Alternatively, if the [`gcloud`](https://cloud.google.com/sdk/install)
 CLI is installed, a service account can be created as follows:
 
 ```bash

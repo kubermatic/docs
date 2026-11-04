@@ -11,7 +11,7 @@ This is an Alpha version of Kubermatic management via GitOps which can become th
 
 ## Need of GitOps solution
 
-Kubermatic Kubernetes Platform is a versatile solution to create and manage Kubernetes clusters (user-clusters) a plethora of cloud providers and on-prem virtualizaton platforms. But this flexibility also means that there is a good amount of moving parts. KKP provides various tools to manage user-clusters across various regions and clouds.
+Kubermatic Kubernetes Platform is a versatile solution to create and manage Kubernetes clusters (user-clusters) a plethora of cloud providers and on-prem virtualization platforms. But this flexibility also means that there is a good amount of moving parts. KKP provides various tools to manage user-clusters across various regions and clouds.
 
 This is why, if we utilize a GitOps solution to manage KKP and its upgrades, KKP administrators would have better peace of mind. We have now provided [an alpha release of ArgoCD based management of KKP master and seeds](https://github.com/kubermatic/kubermatic/tree/main/charts/gitops/kkp-argocd-apps).
 
@@ -190,7 +190,7 @@ These names would come handy to understand the references below to them and cust
 
 ### Installation of dedicated KKP seed
 
-> **Note:** You can follow these steps only if you have a KKP EE license. With KKP CE licence, you can only work with one seed (which is master-seed combo above)
+> **Note:** You can follow these steps only if you have a KKP EE license. With KKP CE license, you can only work with one seed (which is master-seed combo above)
 
 We follow similar procedure as the master-seed combo but with slightly different commands.
 We execute most of the commands below, unless noted otherwise, in a 2nd shell where we have exported kubeconfig of dev-seed cluster above.
