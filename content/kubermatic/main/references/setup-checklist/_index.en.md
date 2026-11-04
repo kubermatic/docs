@@ -212,9 +212,9 @@ Anyhow, a performant backend storage is required to handle MLA and etcd workload
 
 For each cloud provider, the requirements may change. Within <https://docs.kubermatic.com> the latest requirements are updated for each release (e.g. [Add Seed Cluster]({{< ref "../../installation/install-kkp-ce/add-seed-cluster" >}})). The requirements mentioned in the documentation apply for the Managed Service as well.
 
-For each Cloud Provider, there will be some requirements and Todo’s (e.g. creating an Account with correct permissions) what you find at ({{< ref "../../architecture/supported-providers/" >}})
+For each Cloud Provider, there will be some requirements and Todo’s (e.g. creating an Account with correct permissions) which can be found [here]({{< ref "../../architecture/supported-providers/" >}})
 
-In the following section, you find SOME examples of setups, that don’t need to match 100% to your use case. Please reach out to your technical contact person at Kubermatic, who could provide you with a tailored technical solution for your use case.
+In the following section, you find some examples of setups, that don’t need to match 100% to your use case. Please reach out to your technical contact person at Kubermatic, who could provide you with a tailored technical solution for your use case.
 {{< tabs name="Cloud Provider Specifics" >}}
 
 {{% tab name="Azure" %}}
