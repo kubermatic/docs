@@ -10,7 +10,7 @@ This section explains how Kubernetes Vertical Pod Autoscaler helps in a scaling 
 
 [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) (VPA) frees users from the necessity of setting up-to-date resource limits and requests for the containers in their pods. When configured, it will set the requests automatically based on usage and thus allow proper scheduling onto nodes so that appropriate resource amount is available for each pod. It will also maintain ratios between limits and requests that were specified in initial containers configuration.
 
-Unlike HPA, VPA does not bundled with Kubernetes itself. It must get installed in the cluster separately.
+Unlike HPA, VPA is not bundled with Kubernetes itself. It must get installed in the cluster separately.
 
 ## KKP Components controllable via VPA
 
@@ -41,7 +41,7 @@ spec:
     VerticalPodAutoscaler: true
 ```
 
-This installs necessary VPA components in `kube-system` namespace of each seed. It also create VPA custom resources for each of the control-plane components as noted above.
+This installs necessary VPA components in `kube-system` namespace of each seed. It also creates VPA custom resources for each of the control-plane components as noted above.
 
 ## Customizing VPA installation
 

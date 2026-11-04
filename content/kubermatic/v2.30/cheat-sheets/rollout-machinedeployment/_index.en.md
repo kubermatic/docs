@@ -1,5 +1,5 @@
 +++
-title = "Rolling Restart MachineDeploments"
+title = "Rolling Restart MachineDeployments"
 date = 2021-06-07T15:00:00+02:00
 description = "Rolling restart machine deployments: Learn about the concept and keep it handy"
 weight = 25

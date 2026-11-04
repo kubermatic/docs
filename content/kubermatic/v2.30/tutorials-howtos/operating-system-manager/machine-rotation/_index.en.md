@@ -14,7 +14,7 @@ Machine Controller will rotate machines automatically when there is a new `revis
 
 OSM in that case will re-generate the OSC and secrets and annotate them with the `revision` number using `machinedeployment.clusters.k8s.io/revision` annotation. Machine Controller waits for the updated secrets and then provisions the machines.
 
-In any other case where a new `revision` is not rolled out against a change in MachineDeployment. Users will have to manually rotate the machines. To perform this rotation for existing MachineDeployments please follow the guide at [Rolling Restart MachineDeploments][rolling-restart].
+In any other case where a new `revision` is not rolled out against a change in MachineDeployment. Users will have to manually rotate the machines. To perform this rotation for existing MachineDeployments please follow the guide at [Rolling Restart MachineDeployments][rolling-restart].
 
 For example, manual rotation is required if user wants to change the OSP for a MachineDeployment.
 
@@ -28,6 +28,6 @@ metadata:
 
 ### Update in OperatingSystemProfile
 
-An update to `OperatingSystemProfile` will not result in an automatic rotation of the machines. This is an intentional design decision since an `OperatingSystemProfile` can be associated with multiple MachineDeployments. It is the user's responsibility to rotate the machines when the `OperatingSystemProfile` is updated. To perform this rotation for existing MachineDeployments please follow the guide at [Rolling Restart MachineDeploments][rolling-restart].
+An update to `OperatingSystemProfile` will not result in an automatic rotation of the machines. This is an intentional design decision since an `OperatingSystemProfile` can be associated with multiple MachineDeployments. It is the user's responsibility to rotate the machines when the `OperatingSystemProfile` is updated. To perform this rotation for existing MachineDeployments please follow the guide at [Rolling Restart MachineDeployments][rolling-restart].
 
 [rolling-restart]: {{< ref "../../../cheat-sheets/rollout-machinedeployment" >}}

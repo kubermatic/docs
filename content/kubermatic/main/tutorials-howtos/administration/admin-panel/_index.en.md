@@ -91,7 +91,7 @@ for more details.
 
 ### Manage Dynamic Datacenters
 
-Use number of filtering options to find and control existing dynamic datacenters or simply create a new one.Check out the
+Use number of filtering options to find and control existing dynamic datacenters or simply create a new one. Check out the
 [Dynamic Datacenters]({{< ref "./dynamic-datacenters-management" >}}) section for more details.
 
 ### Manage Administrators

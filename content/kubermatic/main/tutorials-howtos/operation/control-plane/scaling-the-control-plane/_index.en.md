@@ -54,7 +54,7 @@ etcd:
 
 ### Setting Custom Overrides
 
-Custom settings can be applid by modifying the clusters `cluster.spec.componentsOverride` property:
+Custom settings can be applied by modifying the clusters `cluster.spec.componentsOverride` property:
 
 ```yaml
 apiVersion: kubermatic.k8c.io/v1

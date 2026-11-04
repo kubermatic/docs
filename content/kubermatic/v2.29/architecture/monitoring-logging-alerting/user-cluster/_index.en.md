@@ -18,7 +18,7 @@ Unlike the [Master / Seed Cluster MLA stack]({{< ref "../master-seed/">}}), it i
 
 **Monitoring of user cluster worker nodes**: Thanks to the [Node Exporter](https://github.com/prometheus/node_exporter) plugin for Prometheus, the user cluster MLA stack can be also used for monitoring of hardware and OS metrics of user cluster worker nodes.
 
-**Monitoring of system resources in user clusters**: The KKP [Master / Seed Cluster MLA Stack]({{< ref "../master-seed/">}}) can be used for monitoring of pods running in the Master and Seed clusters, which also includes the control plane of User Clusters that runs in Seed (apiserver, etcd, machine-controller, KKP usercluster-controller, etc.). However, in user clusters, there are also some system components that are worth monitoring - typically all pods running in the `kube-system` namespace, such as coredns, CNI pods, and user cluster KKP components. These can be monitored using the User CLuster MLA stack.
+**Monitoring of system resources in user clusters**: The KKP [Master / Seed Cluster MLA Stack]({{< ref "../master-seed/">}}) can be used for monitoring of pods running in the Master and Seed clusters, which also includes the control plane of User Clusters that runs in Seed (apiserver, etcd, machine-controller, KKP usercluster-controller, etc.). However, in user clusters, there are also some system components that are worth monitoring - typically all pods running in the `kube-system` namespace, such as coredns, CNI pods, and user cluster KKP components. These can be monitored using the User Cluster MLA stack.
 
 ## Architecture
 
@@ -43,10 +43,10 @@ The entrypoint for the data on the write path (coming from the user clusters) is
 - potentially rate-limiting of requests, or temporarily disabling the request flow from a user cluster.
 
 **Cortex**:
-The backend for processing, storing and retrieving metrics data from user Cluster Clusters is based on the [Cortex](https://cortexmetrics.io/) project with Blocks Storage. It is a horizontally scalable, highly available, multi-tenant backend for Prometheus metrics. As part of its components, it also provides a multi-tenant Alertmanager that is used in KKP for managing alerts on a per user cluster basis. For more information about Cortex architecture, please refer to the [Cortex Block Storage Architecture](https://cortexmetrics.io/docs/blocks-storage/#architecture) documentation.
+The backend for processing, storing and retrieving metrics data from user clusters is based on the [Cortex](https://cortexmetrics.io/) project with Blocks Storage. It is a horizontally scalable, highly available, multi-tenant backend for Prometheus metrics. As part of its components, it also provides a multi-tenant Alertmanager that is used in KKP for managing alerts on a per user cluster basis. For more information about Cortex architecture, please refer to the [Cortex Block Storage Architecture](https://cortexmetrics.io/docs/blocks-storage/#architecture) documentation.
 
 **Loki-Distributed**:
-The backend for processing, storing and retrieving logs data from user Cluster Clusters is based on the [Loki](https://grafana.com/docs/loki/latest/) - distributed deployment. It allows horizontal scalability of individual Loki components that can be fine-tuned to fit any use-case. For more details about Loki architecture, please refer to the [Loki Architecture](https://grafana.com/docs/loki/latest/architecture/) documentation.
+The backend for processing, storing and retrieving logs data from user clusters is based on the [Loki](https://grafana.com/docs/loki/latest/) - distributed deployment. It allows horizontal scalability of individual Loki components that can be fine-tuned to fit any use-case. For more details about Loki architecture, please refer to the [Loki Architecture](https://grafana.com/docs/loki/latest/architecture/) documentation.
 
 ## Installation
 

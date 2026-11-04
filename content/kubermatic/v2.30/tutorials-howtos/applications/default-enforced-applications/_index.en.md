@@ -110,4 +110,4 @@ If `defaultVersion` is specified in the `ApplicationDefinition`, it will be used
 
 ### Configuring default and enforced applications
 
-Applications can be be marked as default and enforced from the admin panel in KKP UI as well as from the APIs directly. For more details refer to the [Applications]({{< ref "../../administration/admin-panel/applications/" >}}) section.
+Applications can be marked as default and enforced from the admin panel in KKP UI as well as from the APIs directly. For more details refer to the [Applications]({{< ref "../../administration/admin-panel/applications/" >}}) section.

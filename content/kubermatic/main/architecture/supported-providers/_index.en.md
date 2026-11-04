@@ -7,7 +7,7 @@ weight = 5
 
 ## Infrastructure Support
 
-Kubermatic Kubernetes Platform supports a multitude of different cloud providers. In order to ensure the best integration possible Kubermatic has a tiered approach towards the providers.Currently supported are the following infrastructures and cloud providers:
+Kubermatic Kubernetes Platform supports a multitude of different cloud providers. In order to ensure the best integration possible Kubermatic has a tiered approach towards the providers. Currently supported are the following infrastructures and cloud providers:
 
 **Tier 1**
 
@@ -40,7 +40,7 @@ See detail pages for specific requirements of the cloud providers.
 
 Some cloud providers supported by the Kubermatic Kubernetes Platform support periodic reconciliation of cloud infrastructure resources created by KKP (for example, subnets or firewall/security group rules). KKP uses a timestamp in `LastProviderReconciliation` on the cluster status to trigger a reconciliation after the cluster was set up initially. This defaults to six hours and can be changed on a datacenter level by setting `ProviderReconciliationInterval`.
 
-Currently, KKP periodicially reconciles the following providers:
+Currently, KKP periodically reconciles the following providers:
 
 * AWS
 * Azure

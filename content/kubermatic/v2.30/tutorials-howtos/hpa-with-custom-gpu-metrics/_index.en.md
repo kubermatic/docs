@@ -184,7 +184,7 @@ We need Prometheus for the Prometheus Adapter because the Adapter relies on Prom
 The Adapter itself does not collect metrics; its sole purpose is to translate and expose the metrics that Prometheus has already collected
 
 The adapter should be installed where the prometheus server is running as the adapter will be configured to query the prometheus server. This 
-can be achieved by installing the adapter in the seed cluster where the user cluster prmetheus server is running.
+can be achieved by installing the adapter in the seed cluster where the user cluster Prometheus server is running.
 
 Another approach can be to run a prometheus server in the user cluster directly via Kubermatic custom app definition or 
 manually running it on the cluster via helm:
@@ -207,7 +207,7 @@ helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack \
 The Prometheus Adapter is a crucial component in Kubernetes that allows the Horizontal Pod Autoscaler (HPA) to scale 
 workloads using custom metrics collected by Prometheus.
 
-Users can install the Prometheus Adapter in the user cluster by via helm by executing these commands:
+Users can install the Prometheus Adapter in the user cluster via helm by executing these commands:
 
 For Helm2
 ```console
