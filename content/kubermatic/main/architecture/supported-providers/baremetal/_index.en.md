@@ -108,7 +108,7 @@ Once the server boots, a `tink-worker` container is deployed. This container is 
 ### Creating The Baremetal Cluster in KKP Dashboard
 
 Once your Tinkerbell environment is set up, and your bare-metal servers are ready, you can proceed to create the Baremetal cluster in the KKP dashboard. The critical part of this process is defining the *Baremetal Node settings* correctly, including the *Operating System Image* and **Hardware Settings**.
-![Baremetal Machine Deployment](./baremetal-machine-initial-node.png.png?classes=shadow,border "Baremetal Machine Deployment")
+![Baremetal Machine Deployment](./baremetal-machine-initial-node.png?classes=shadow,border "Baremetal Machine Deployment")
 
 {{% notice note %}}
 Unlike traditional MachineDeployments, the `replicas` field in KKP's MachineDeployments doesn't directly control the number of worker nodes created.
