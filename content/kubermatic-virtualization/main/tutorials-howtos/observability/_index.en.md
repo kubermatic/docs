@@ -41,8 +41,10 @@ dashboard: the data lands in your backend.
 
 Every series carries `k8s.cluster.name` (the cluster's `apiEndpoint.host`) and the scraped pod's
 `k8s.namespace.name`, `k8s.pod.name` and `k8s.node.name`. KubeVirt VMI series name the virtual
-machine's own namespace in their `namespace` label. With KDP, records from a KDP host namespace also
-carry the tenant's organization and project, see [Grouping by Organization and Project](#grouping-by-organization-and-project).
+machine's own namespace in their `namespace` label. With KDP, pod-level records from a KDP host
+namespace (object state, node metrics and logs) also carry the tenant's organization and project; the
+KubeV and KubeVirt components' own series do not, since those pods belong to no tenant. See
+[Grouping by Organization and Project](#grouping-by-organization-and-project).
 
 ## Enabling Observability
 
@@ -79,7 +81,7 @@ for the block in context.
 | `export.otlp.headers` | Headers sent with every push, for example `Authorization`. |
 | `export.otlp.tls.caBundle` | PEM CA certificates of the receiver, in addition to the system roots. |
 | `export.otlp.tls.insecureSkipVerify` | Skips certificate verification. For testing only. Cannot be combined with `caBundle`. |
-| `scrapeInterval` | How often metrics are scraped, at least `10s`. Defaults to `30s`. |
+| `scrapeInterval` | How often each source is scraped and Kubernetes object state is collected, in whole seconds, at least `10s`. Defaults to `30s`. |
 | `sources` | Per-source toggles, see [Choosing What to Collect](#choosing-what-to-collect). |
 | `resources` | Requests and limits of the Collector container. |
 | `agentResources` | Requests and limits of each node agent container. |
@@ -87,8 +89,9 @@ for the block in context.
 
 ### Headers and TLS
 
-Headers are stored in the Collector's configuration Secret, so use an access token with the
-narrowest scope your backend offers rather than a personal credential.
+Headers are kept in a dedicated Secret that the Collector reads as environment variables, never in
+its ConfigMap; the Helm release Secret holds them too, as it does every chart value. Use an access
+token with the narrowest scope your backend offers rather than a personal credential.
 
 A receiver whose certificate a private CA signs needs that CA in `tls.caBundle`. This example uses a
 self-hosted Collector or Alloy over gRPC:
@@ -186,8 +189,9 @@ ignored, so every request starts a trace of its own.
 With [KDP]({{< ref "../../kdp-integration" >}}) enabled, one export covers every tenant:
 
 * request spans carry `kubev.workspace`, `kubev.organization` and `kubev.project`;
-* metrics from KDP host namespaces carry `kubev.organization`, `kubev.project` and
-  `kubev.namespace`.
+* object state, node metrics and logs of pods in KDP host namespaces carry `kubev.organization`,
+  `kubev.project` and `kubev.namespace`; the KubeV and KubeVirt components' own metrics carry none,
+  since those pods belong to no tenant.
 
 The api-server also exports `kubev_host_namespace_info{namespace, organization, project,
 tenant_namespace}`, with the value 1, for every KDP host namespace. KubeVirt's `kubevirt_vmi_*`
@@ -221,10 +225,13 @@ observability:
 
 The installer owns these keys, and `apply` rejects a `helmValues` that sets any of them:
 
-* `mode`, `configMap`, `alternateConfig`, `image`, `command` and `clusterRole`;
+* `mode`, `replicaCount`, `autoscaling`, `ports`, `configMap`, `alternateConfig`, `image`, `command`
+  and `clusterRole`;
 * `extraEnvs`, `extraVolumes` and `extraVolumeMounts`;
 * `resources`, `nameOverride`, `fullnameOverride` and `presets`;
-* `config.receivers`, `config.service` and any `otlp*` exporter under `config.exporters`.
+* `config.receivers`, `config.processors.k8s_attributes`, `config.processors.resource`,
+  `config.service` and any `otlp*` exporter under `config.exporters`;
+* the `checksum/kubev-otlp` pod annotation, which rolls the Collector when the headers or CA change.
 
 Size the containers with `resources` and `agentResources` instead.
 
