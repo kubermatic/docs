@@ -127,6 +127,64 @@ spec:
     - quay.io/kubermatic/kubelb-manager-ee:v1.1.0
 ```
 
+## Listing Required Images
+
+The `kubermatic-installer list-images` command prints every container image that `kubermatic-installer mirror-images` collects, without copying, re-tagging or pushing any image. It needs no target registry and no registry credentials. Use it to feed the image list into a registry pipeline, an image scanner or a software bill of materials.
+
+It accepts the same flags as `kubermatic-installer mirror-images`, except for the registry argument. The `--dry-run`, `--load-from` and `--insecure` flags are omitted because they only affect the mirroring itself. Every remaining flag behaves the same way. For example, `--registry-prefix` filters the images collected from KKP versions, Helm charts and Applications; images from `spec.mirrorImages` and the static `web-terminal` image are always listed. The `--addons-path` and `--addons-image` flags behave as described in the Addons section above. The command ignores repository overrides in the referenced `KubermaticConfiguration`, so an offline configuration with overrides can be reused. The `CONFIG_YAML` and `HELM_VALUES` environment variables serve as fallbacks for `--config` and `--helm-values`.
+
+Listing images requires:
+
+- a `helm` binary, found on the `PATH` or set with `--helm-binary`
+- a charts directory, passed with `--charts-directory`, the same flag the other installer subcommands use
+- a `KubermaticConfiguration`, passed with `--config` or via the `CONFIG_YAML` environment variable
+- an addons source: by default the command pulls the addons container image for the running KKP version from its registry; pass `--addons-path` with a local addons checkout to skip that pull
+
+The command needs network access for the addons image pull and for the system Applications Helm chart downloads. The KKP Helm chart rendering from `--charts-directory` runs locally.
+
+Run it with the same inputs as `kubermatic-installer mirror-images`:
+
+```bash
+./kubermatic-installer list-images \
+  --charts-directory /path/to/the/extracted/charts \
+  --config mykubermatic.yaml \
+  --helm-values myhelmvalues.yaml
+```
+
+The command writes the sorted, deduplicated image references to stdout, one per line. Progress messages and errors go to stderr. Redirect stdout to a file to capture a plain image list:
+
+```bash
+./kubermatic-installer list-images \
+  --charts-directory /path/to/the/extracted/charts \
+  --config mykubermatic.yaml \
+  --helm-values myhelmvalues.yaml \
+  > images.txt
+```
+
+The resulting file holds only image references:
+
+```bash
+docker.io/bats/bats:v1.4.1
+docker.io/bitnami/memcached-exporter:0.10.0-debian-11-r51
+docker.io/bitnami/memcached:1.6.17-debian-11-r25
+docker.io/calico/cni:v3.19.1
+[...]
+```
+
+{{% notice info %}}
+`kubermatic-installer list-images` still renders the Helm charts with the configured Helm binary. It also still pulls the addons image to scan the addon manifests inside it for container images, unless `--addons-path` points to a local addons directory.
+{{% /notice %}}
+
+### Differences from mirror-images --dry-run
+
+Before `kubermatic-installer list-images` existed, `kubermatic-installer mirror-images --dry-run` was the workaround for listing images. The two commands differ in three ways:
+
+- `mirror-images --dry-run` still requires a positional argument, the target registry or a `local://` archive path, even though it pushes nothing. `kubermatic-installer list-images` requires no registry argument at all.
+- `kubermatic-installer list-images` has no `--dry-run` flag; listing is always effectively a dry run.
+- `mirror-images --dry-run -o json` logs the images as JSON log lines on stderr, so capturing the list needs `2>&1` and jq. `kubermatic-installer list-images` prints the images themselves on stdout, one per line.
+
+Both commands run the same image collection, including the Helm chart rendering and the addons image pull described above.
+
 ## Mirroring Binaries 
 
 The `kubermatic-installer mirror-binaries` command is designed to **mirror and host essential binaries** required by the Operating System Profiles for provisioning user clusters in **offline/airgapped environments**. This includes critical components like:
