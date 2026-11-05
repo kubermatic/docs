@@ -9,6 +9,7 @@ approvers:
   - toschneck
   - scheeles
   - csengerszabo
+  - dev-secureguard
 
 reviewers:
   - sig-api
@@ -18,3 +19,4 @@ reviewers:
   - team-kdp
   - pso
   - scheeles
+  - dev-secureguard
