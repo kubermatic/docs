@@ -7,6 +7,11 @@ description = "Deploy Kubermatic SecureGuard across managed, bring-your-own-prov
 
 Kubermatic SecureGuard is designed to be highly flexible, offering several deployment modes depending on your existing infrastructure and production requirements.
 
+The chart defaults to **Community** for a single cluster. Set `edition:
+enterprise` for fleet management and the SG Agent, or `edition:
+enterprise-advanced` to run the federation broker. See [Editions]({{< ref "../editions/" >}})
+for capabilities, image selection, and registry access.
+
 SecureGuard ships with **OpenBao** (Vault-compatible secret engine), **Dex** (OIDC provider), **ESO**, and **Reloader** (event-driven rotation — trigger Deployment rollouts or ESO reconciles from Secret/ConfigMap changes, cloud events, or webhooks) as optional Helm sub-charts. Each component can be toggled independently via the Helm values file (`openbao.enabled`, `dex.enabled`, `eso.enabled`, `reloader.enabled`).
 
 {{% notice note %}}
@@ -42,13 +47,16 @@ TLS-terminated login.
     --docker-password='<robot-token>'
   ```
   ```yaml
-  # values.yaml — reaches the first-party pods (and, via global, OpenBao + ESO)
+  # values.yaml — first-party pods, including chart hook Jobs
   imagePullSecrets:
     - name: secureguard-pull
-  global:
-    imagePullSecrets:
-      - name: secureguard-pull
   ```
+  Alternatively, `imagePullSecret.create: true` creates a pull Secret from the
+  `imagePullSecret.registry`, `username`, and `password` values and attaches it
+  to first-party pods. For fully mirrored installs, pre-create the Secret and
+  also reference it from `global.imagePullSecrets` (OpenBao and ESO),
+  `dex.imagePullSecrets`, and `reloader.imagePullSecrets`. All these lists use
+  `{name: secureguard-pull}` entries in the release namespace.
   See the pull-secret keys in
   [`values.yaml`](https://github.com/kubermatic/secureguard/blob/main/charts/secureguard/values.yaml)
   (`imagePullSecrets`, `global.imagePullSecrets`, and per–sub-chart
@@ -56,6 +64,9 @@ TLS-terminated login.
   registries.
 
 ### Ingress, DNS & TLS (non-local installs)
+Choose either Ingress or [Gateway API](#gateway-api) for external access. The
+chart does not install an edge controller or Gateway API CRDs. For Ingress:
+
 - **An ingress controller and an `IngressClass`** (e.g. ingress-nginx). Set
   `ingress.className` to a class that exists in the cluster — the chart does not
   install a controller for you.
@@ -95,17 +106,39 @@ Beyond installing the components, the chart performs several pieces of automatio
 | **Federation broker** (cross-cluster secret serving) | `federation.enabled` | **`false`** |
 
 {{% notice note %}}
-The **SG Agent** and **Federation** are opt-in. Without `sgAgent.enabled=true` there are no ESODeployment reconciliation, heartbeats, or ESO auto-discovery — the related dashboard pages stay empty. See [Multi-Cluster Deployments]({{< ref "../advanced-configuration/#multi-cluster-deployments" >}}) and the [Federation guide]({{< ref "../federation/" >}}).
+The **SG Agent** requires Enterprise or Enterprise Advanced and is opt-in.
+Without `sgAgent.enabled=true`, ESODeployment reconciliation, heartbeats, and
+ESO auto-discovery do not run. The **federation broker** requires Enterprise
+Advanced and is also opt-in. See [Multi-Cluster Deployments]({{< ref "../advanced-configuration/#multi-cluster-deployments" >}})
+and the [Federation guide]({{< ref "../federation/" >}}).
 {{% /notice %}}
 
 **Automatic wiring** (each can be disabled):
 
 - **Session secret** — `auth.sessionSecret` is auto-generated on first install and kept stable across upgrades if left empty. Set it explicitly when running multiple releases that must share sessions.
 - **OpenBao self-initialization** (`openbao.init.enabled`, default `true`) — an ordered post-install/upgrade hook Job (weight 0) runs `operator init`, unseals every Raft node, enables the Kubernetes auth method, and creates a chart admin role — then **revokes the root token** (it is never persisted). The Shamir unseal key shares are stored in the `<release>-openbao-keys` Secret. See [Self-Initialization](#openbao-self-initialization--unsealing).
-- **Kubernetes auth for ESO** (`openbao.kubernetesAuth.enabled`, default `true`) — a post-install Job (weight 5) configures the KV v2 engine, the ESO read policy, and the `eso-role` bound to the ESO ServiceAccount. Under self-init it authenticates via the chart admin role (no root token exists).
-- **Dex → OpenBao login** (`openbao.oidc.enabled`, default `true`) — a post-install Job (weight 10) configures OpenBao's OIDC auth method so users can log in to the OpenBao UI with the same Dex identity, also via the chart admin role.
+- **Kubernetes auth for ESO** (`openbao.kubernetesAuth.enabled`, default `true`) — a post-install/upgrade configuration Job (weight 5) configures the KV v2 engine, the ESO read policy, and the `eso-role` bound to the ESO ServiceAccount. Under self-init it authenticates via the chart admin role (no root token exists).
+- **Dex → OpenBao login** (`openbao.oidc.enabled`, default `true`) — the same configuration Job sets up OpenBao's OIDC auth method. If Dex discovery is not reachable within `openbao.oidc.discoveryTimeoutSeconds` (default `60`), it skips OIDC for that run while preserving the Kubernetes auth setup.
+- **Configuration reconciliation** — `openbao.config.reconcile.enabled` defaults to `true`. A CronJob reapplies the configuration every five minutes (`openbao.config.reconcile.schedule`), completing OIDC setup once DNS/TLS is ready. This does not unseal a sealed OpenBao node; automatic Shamir unsealing is controlled separately by `openbao.init.unsealCronJob`.
+- **SecureGuard CRDs** — `crds.install` defaults to `true`. A pre-install/pre-upgrade Job server-side applies the SecureGuard CRDs on every install and upgrade. Set it to `false` if you manage these CRDs through GitOps. `eso.installCRDs` separately controls the bundled upstream ESO CRDs.
 - **Default ClusterSecretStore** (`eso.vaultSecretStore.enabled`, default `true`) — when both ESO and OpenBao are enabled, the chart creates a ready-to-use `ClusterSecretStore` named `openbao-backend` pointing at the bundled OpenBao (KV v2).
 - **Projected SA tokens** — `serviceAccount.tokenExpirationSeconds` (default `3600`) controls the lifetime of the proxy/agent tokens; the kubelet rotates them automatically.
+
+### Externally Managed Authentication Secret
+
+For GitOps-managed authentication material, set `auth.existingSecret` to a
+Secret in the release namespace with keys `session-secret` and
+`oidc-client-secret`. The chart then skips creation of its own auth Secret:
+
+```yaml
+auth:
+  existingSecret: secureguard-auth-managed
+```
+
+The OIDC client secret must also match the client registered with your identity
+provider. With bundled Dex, its generated client configuration still uses
+`auth.oidc.clientSecret` or `dex.config.staticClients[].secret`; setting
+`auth.existingSecret` alone does not populate Dex's client configuration.
 
 ---
 
@@ -129,7 +162,12 @@ production and repeatable installs — add `--version <chart-version>` and see t
 - **Dex** provides OIDC authentication.
 - **OpenBao** provides a Vault-compatible secret backend. By default it deploys as a **3-node integrated-Raft HA cluster that is automatically initialized and unsealed** — no manual `operator init`/unseal step is required (see [Self-Initialization](#openbao-self-initialization--unsealing)).
 - **ESO** manages external secrets, connected to OpenBao via Kubernetes auth.
-- **OpenBao UI** will be available by default at `:30820/ui` (NodePort) or via Ingress.
+- **OpenBao UI** is enabled, but its Service defaults to `ClusterIP`. Expose it
+  through `openbaoIngress`, a Gateway API route, or a local port-forward.
+
+For a non-local installation, pass a values file that configures your edge,
+`dex.config.issuer`, and `auth.oidc.redirectUri`; use the HTTPS examples below.
+For a local walkthrough with browser-accessible OIDC, use [Getting Started]({{< ref "../getting-started/" >}}).
 
 ### 2. Bring Your Own Provider (External Vault, AWS, GCP, Azure, …)
 
@@ -169,8 +207,15 @@ If your target clusters already have the External Secrets Operator installed and
 helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
   --namespace secureguard-system \
   --create-namespace \
-  --set eso.enabled=false
+  --set eso.enabled=false \
+  --set 'openbao.kubernetesAuth.serviceAccounts[0]=external-secrets' \
+  --set 'openbao.kubernetesAuth.namespaces[0]=external-secrets'
 ```
+
+Replace the ServiceAccount and namespace above with those of your existing ESO
+installation. When bundled OpenBao configures Kubernetes auth, these values are
+required with `eso.enabled=false`; when ESO is bundled, they are derived
+automatically. You must also supply the required ESO CRDs out of band.
 
 *Note: This only disables the ESO sub-chart. Dex and OpenBao still deploy according to their own toggles (`dex.enabled`, `openbao.enabled`) — combine flags as needed for your environment. The [SG Agent]({{< ref "../architecture/" >}}) also auto-discovers externally installed ESO instances on managed clusters and surfaces them read-only in the dashboard.*
 
@@ -228,8 +273,14 @@ By default OpenBao runs as a 3-node Raft HA cluster that the chart initializes a
 helm install secureguard oci://quay.io/kubermatic/helm-charts/secureguard \
   --namespace secureguard-system \
   --create-namespace \
-  --set openbao.server.dev.enabled=true
+  --set openbao.server.dev.enabled=true \
+  --set openbao.server.ha.enabled=false \
+  --set openbao.init.enabled=false
 ```
+
+Dev mode initializes and unseals itself, so disable the separate self-init Job.
+Use the [local quickstart values]({{< ref "../getting-started/" >}}) to also
+configure the dashboard callback and Dex port-forward URL.
 
 {{% notice warning %}}
 Dev mode is intended only for local testing. Secrets are stored in-memory and will be lost when the pod restarts. Do not use dev mode in production.
@@ -384,11 +435,114 @@ ingress:
     - secretName: secureguard-tls
       hosts:
         - secureguard.yourdomain.com
+dexIngress:
+  enabled: true
+  className: nginx
+  host: secureguard.yourdomain.com
+  tls:
+    - secretName: secureguard-tls
+      hosts:
+        - secureguard.yourdomain.com
+dex:
+  config:
+    issuer: https://secureguard.yourdomain.com/dex
+auth:
+  oidc:
+    redirectUri: https://secureguard.yourdomain.com/api/auth/callback
 ```
 
 {{% notice tip %}}
 The chart ships a `values-production.yaml` with a production-oriented starting point: 2 replicas, ingress + TLS enabled, NetworkPolicies and PodDisruptionBudgets on, OpenBao with persistent data/audit storage, and required-secret placeholders (`auth.sessionSecret`, `auth.oidc.clientSecret`). Use it as the base for your own values file.
 {{% /notice %}}
+
+### Gateway API
+
+The chart supports `gateway.networking.k8s.io/v1` Gateway and HTTPRoute
+resources as an alternative to Ingress. Install the Gateway API CRDs and a
+compatible controller first. `ingress.enabled` and `gateway.enabled` are
+mutually exclusive; Helm rejects a values file that enables both.
+
+To attach routes to a platform-managed Gateway with HTTPS listeners and
+certificates already configured:
+
+```yaml
+ingress:
+  enabled: false
+dexIngress:
+  enabled: false
+openbaoIngress:
+  enabled: false
+gateway:
+  enabled: true
+  create: false
+  gatewayRef:
+    name: shared-gateway
+    namespace: gateway-system
+  hostnames:
+    dashboard: secureguard.example.com
+    dex: secureguard.example.com
+    openbao: openbao.secureguard.example.com
+routes:
+  dashboard:
+    enabled: true
+  dex:
+    enabled: true
+  openbao:
+    enabled: true
+dex:
+  config:
+    issuer: https://secureguard.example.com/dex
+auth:
+  oidc:
+    redirectUri: https://secureguard.example.com/api/auth/callback
+openbao:
+  oidc:
+    allowedRedirectURIs:
+      - https://openbao.secureguard.example.com/ui/vault/auth/oidc/oidc/callback
+```
+
+The existing Gateway's listeners must permit routes from `secureguard-system`
+through `allowedRoutes.namespaces`, and their hostnames must intersect the
+route hostnames. Backend Services remain in the release namespace, so these
+routes do not need a ReferenceGrant. Point both DNS names at the Gateway's
+address and ensure the certificates cover them.
+
+The dashboard route sends `/` to the dashboard Service; the Dex route sends
+`/dex` to Dex on the same hostname by default. Dex and OpenBao routes are
+disabled by default and also require their respective sub-charts to be enabled.
+Route hostnames do not automatically configure the OIDC issuer or callbacks;
+set the explicit values shown above.
+
+To have the chart create a Gateway instead, replace the `gateway` block with:
+
+```yaml
+gateway:
+  enabled: true
+  create: true
+  gatewayClassName: envoy-gateway  # use an installed GatewayClass
+  hostnames:
+    dashboard: secureguard.example.com
+    openbao: openbao.secureguard.example.com
+  listeners:
+    https:
+      enabled: true
+      certificateRefs:
+        - name: secureguard-edge-tls
+```
+
+Create `secureguard-edge-tls` in the release namespace with a certificate
+covering both hostnames before use. HTTPS requires at least one certificate
+reference. The created Gateway also has an HTTP listener; the chart does not
+install an HTTP-to-HTTPS redirect. Configure your controller's redirect policy
+if you require it.
+
+Verify that the Gateway is programmed and the routes are accepted with resolved
+backend references:
+
+```bash
+kubectl get gateway,httproute -n secureguard-system
+kubectl describe httproute -n secureguard-system
+```
 
 ### Tenant Isolation
 For multi-tenant environments, the recommendation is deploying distinct secrets management vaults to limit the blast radius. You can deploy multiple, namespace-scoped instances of OpenBao behind the SecureGuard dashboard, isolating teams at the infrastructure level. For lighter-weight, policy-level isolation within a single instance, OpenBao's namespace feature is an alternative — see [OpenBao Basics]({{< ref "../openbao-basics/" >}}).
@@ -433,24 +587,17 @@ For the full policy details and a custom-policy example, see [Security Hardening
 
 ### Resource Limits
 
-Always set resource requests and limits for all SecureGuard components in production. The chart exposes these under each component's `resources` key:
+Set resource requests and limits for all SecureGuard components in production.
+The top-level `resources` block applies to **each** dashboard and proxy
+container. Use `sgAgent.resources` and `federation.resources` for those optional
+components; `proxy.resources` and `ui.resources` are not chart settings.
 
 ```yaml
-proxy:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 500m
-      memory: 256Mi
-
-ui:
-  resources:
-    requests:
-      cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 200m
-      memory: 128Mi
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
 ```

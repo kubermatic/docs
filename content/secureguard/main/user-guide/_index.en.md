@@ -7,6 +7,11 @@ description = "A feature-by-feature tour of the SecureGuard dashboard — managi
 
 This guide walks you through the key features of the SecureGuard dashboard. It assumes you have a running deployment (see [Getting Started]({{< ref "../getting-started/" >}})) and are logged in.
 
+Community provides the single-cluster dashboard. Fleet management, ESO lifecycle
+management, and advanced troubleshooting require Enterprise or Enterprise
+Advanced. Federation broker deployment requires Enterprise Advanced; both
+commercial editions provide federation resource editing. See [Editions]({{< ref "../editions/" >}}).
+
 ## What the Dashboard Can (and Can't) Do
 
 SecureGuard is, by design, **mostly a read-only "control room."** It is built to
@@ -26,9 +31,9 @@ dashboard then lets you watch, troubleshoot, and run targeted actions on them.
 | **PushSecret** | ✅ | — | — | ✅ | — |
 | **Kubernetes Secret** | ✅ (masked) | — | — | — | — |
 | **ReloaderConfig** | ✅ | — | — | ✅ | — |
-| **ESODeployment** | ✅ | ✅ | ✅ | ✅ | Guided create/edit form |
-| **Cluster** | ✅ | ✅ (upload kubeconfig) | — | ✅ | Health check |
-| **Federation (Server / Authorization)** | ✅ | — | — | — | — |
+| **ESODeployment (Enterprise)** | ✅ | ✅ | ✅ | ✅ | Guided form and YAML editor |
+| **Cluster (Enterprise)** | ✅ | ✅ (upload kubeconfig) | — | ✅ | Health check |
+| **Federation (Server / Authorization)** | ✅ | Enterprise | Enterprise | Enterprise | Guided form and YAML editor; Community lists are read-only |
 
 {{% notice note %}}
 **Why so read-only?** Each thing the browser can do must be explicitly allowed by the proxy's [route allowlist]({{< ref "../api-reference/#route-allowlist" >}}). Keeping the surface small is a deliberate security choice — see [Architecture → Security Model]({{< ref "../architecture/#the-security-model" >}}). To create the resources marked "—" above, use `kubectl apply` or GitOps.
@@ -44,6 +49,11 @@ The Dashboard page provides an at-a-glance view of your secrets management postu
 - **Recent Sync Errors** — The latest failures with direct links to affected resources
 - **External Store Links** — Deep links to the admin consoles of the providers in use (OpenBao UI, AWS/GCP/Azure consoles)
 - **Cluster & Namespace Breakdown** — Resource distribution across clusters and namespaces
+
+Stale detection, sync history, and remediation hints are Enterprise features.
+Community still displays resource status, errors, and Kubernetes events. Rows
+that open a detail page underline the resource name on hover; read-only
+federation rows in Community do not act as navigation links.
 
 ## Managing ExternalSecrets
 
@@ -176,7 +186,8 @@ Common patterns: restart a Deployment when its Secret rotates, or trigger ESO to
 
 ## ESODeployments
 
-ESODeployments manage the ESO operator lifecycle across clusters — the one resource with a full **create/edit form** in the dashboard:
+In Enterprise, ESODeployments manage the ESO operator lifecycle across clusters
+with a guided **create/edit form** and YAML editor:
 
 1. Navigate to **ESO Deployments**
 2. View the status of ESO installations across your connected clusters
@@ -212,9 +223,9 @@ The SG Agent periodically scans connected clusters for ESO installations **it di
 
 ## Federation
 
-The **Federation** page provides read-only visibility into cross-cluster secret
-distribution — letting a central SecureGuard instance serve secret data to many
-clusters without exposing the backend stores. It has two tabs:
+The **Federation** page displays the configuration for cross-cluster secret
+distribution. Community provides read-only lists; Enterprise adds create, edit,
+and delete actions with guided forms and YAML editing. It has two tabs:
 
 - **Servers** — `FederationServer` resources, which declare what the broker
   exposes (backend stores) and which token issuers it trusts, with Ready status.
@@ -223,7 +234,8 @@ clusters without exposing the backend stores. It has two tabs:
 
 These resources carry **references and policy only — never secret values**.
 Secret serving happens in the separate federation broker, not in the dashboard
-proxy. Federation is opt-in and disabled by default. For setup, the broker, the
+proxy. Running the broker requires Enterprise Advanced and is opt-in, disabled
+by default. Creating a FederationServer does not deploy a broker. For setup, the broker, the
 `fedclient` consumer, and resolution modes, see the [Federation guide]({{< ref "../federation/" >}}).
 
 ## Event Stream

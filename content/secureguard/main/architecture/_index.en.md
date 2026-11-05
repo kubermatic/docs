@@ -7,6 +7,11 @@ description = "Component architecture, authentication flow, multi-cluster routin
 
 Kubermatic SecureGuard is engineered with security and multi-layered protection as its core design principles. This document describes the component architecture, authentication flow, multi-cluster routing, and the zero-knowledge security model.
 
+Community serves a single cluster. Fleet management and the SG Agent require
+Enterprise or Enterprise Advanced; the federation broker requires Enterprise
+Advanced. OIDC, user impersonation, CSRF protection, route allowlisting, and
+secret redaction apply in every [edition]({{< ref "../editions/" >}}).
+
 ## Component Architecture
 
 SecureGuard is not a single monolithic application. It is a composition of specialized open-source services coordinated via Kubernetes.
@@ -68,7 +73,7 @@ The primary security directive of SecureGuard is ensuring that **secret values n
 The proxy only forwards requests matching explicitly listed Kubernetes API paths:
 
 - Core APIs: namespaces, events, secrets (read-only, with redaction)
-- CRD APIs: ExternalSecret, SecretStore, ClusterSecretStore (`external-secrets.io/v1`), PushSecret (`external-secrets.io/v1alpha1`), ReloaderConfig, ESODeployment, ESOVersion (read-only version catalog), SGAgent, and the read-only Federation CRs (FederationServer, FederationAuthorization)
+- CRD APIs: ExternalSecret, SecretStore, ClusterSecretStore (`external-secrets.io/v1`), PushSecret (`external-secrets.io/v1alpha1`), ReloaderConfig, ESODeployment, ESOVersion (read-only version catalog), SGAgent, and FederationServer / FederationAuthorization (read-only in Community; commercial proxies add policy writes)
 
 All other paths — including direct access to pods, nodes, RBAC resources, or arbitrary CRDs — are rejected. This limits the blast radius independently of the impersonated user's RBAC: even a cluster-admin user can only reach the allowlisted paths through the dashboard.
 
@@ -139,10 +144,10 @@ Both are provisioned by the Helm chart's RBAC templates; the proxy rule set is s
 
 ## Multi-Cluster Routing
 
-SecureGuard supports managing ESO resources across multiple Kubernetes clusters from a single dashboard.
+Enterprise supports managing ESO resources across multiple Kubernetes clusters from a single dashboard.
 
-- **Cluster Discovery** — The proxy reads all contexts from the `KUBECONFIG` file and exposes them via `GET /api/clusters` with health status.
-- **Kubeconfig Hot-Reload** — `fsnotify` watches the kubeconfig file. When it changes, the proxy automatically reloads cluster configurations without requiring a restart.
+- **Cluster Discovery** — In-cluster, the proxy watches labeled per-cluster kubeconfig Secrets with an informer. `proxy.registerLocalCluster` can add the management cluster using in-cluster credentials. `GET /api/clusters` exposes the resulting fleet with health status.
+- **Kubeconfig Hot-Reload** — File-based `KUBECONFIG` discovery is used for local development; `fsnotify` reloads it when changed. Secret-based registration updates propagate without a restart.
 - **Routing Convention** — API requests target a specific cluster via `/api/clusters/{id}/kube/*` or the default cluster via `/api/kube/*`.
 - **Frontend Integration** — A Zustand store (`src/store/cluster.ts`) holds the selected cluster. The TopBar provides a cluster dropdown. When a specific cluster is selected, all API hooks route requests through the cluster-specific path. "All Clusters" is the default, aggregating data across clusters.
 
@@ -159,9 +164,9 @@ The SG Agent Controller (`agent/`) is a Go binary built with controller-runtime 
 The dashboard is intentionally **read-mostly**. What it can mutate is limited by
 the proxy's route allowlist, and the editing experience reflects that:
 
-- **ESODeployment** is the one resource with a full **guided create/edit form**
-  (React Hook Form + Zod schemas in `src/pages/ESODeployments/`). Form state is
-  validated against the Zod schema and serialized to the CR on submit.
+- **ESODeployment**, **FederationServer**, and **FederationAuthorization** have
+  guided create/edit forms and YAML editors in Enterprise. Form state is
+  validated before submission; additional supported fields survive unrelated edits.
 - **Other ESO resources** (ExternalSecret, SecretStore, PushSecret,
   ReloaderConfig) are **viewed as read-only YAML** in their detail pages
   (CodeMirror in read-only mode). You can copy the YAML but not edit it here —
@@ -203,4 +208,4 @@ The graph is built with `@xyflow/react` for rendering and `@dagrejs/dagre` for a
 | CSRF Protection        | State parameter in OIDC flow; SameSite cookie attribute             |
 | Content Security Policy | CSP headers to prevent XSS and data exfiltration                   |
 | RBAC                   | Per-user: proxy impersonates the logged-in user, so K8s RBAC governs access. Proxy/agent run as separate least-privilege service accounts |
-| Container Security     | Distroless base image, non-root user, pinned image versions         |
+| Container Security     | Distroless non-root Go services; hardened nginx with a root master and unprivileged workers; read-only filesystems |
