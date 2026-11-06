@@ -136,3 +136,53 @@ MD's top-level metadata. This is what reaches the VM.
 - KubeVirt root-cause issue: [kubevirt/kubevirt#16901](https://github.com/kubevirt/kubevirt/issues/16901)
 - KubeVirt fix (open): [kubevirt/kubevirt#18460](https://github.com/kubevirt/kubevirt/pull/18460)
 - machine-controller workaround: [kubermatic/machine-controller#2057](https://github.com/kubermatic/machine-controller/pull/2057)
+
+## VMs started before the upgrade to v1.3.0 cannot live-migrate to the new virt-launcher
+
+**Applies to:** upgrades from Kubermatic Virtualization v1.2.x (KubeVirt v1.6.5)
+to v1.3.0 (KubeVirt v1.7.4).
+**Scope:** VMs that were started on the v1.6 virt-launcher of a node with Linux
+6.2 or newer and run a guest kernel from Linux 6.2 on, such as Ubuntu 24.04 or
+Ubuntu 22.04 with the HWE kernel. Guests with an older kernel, and VMs started
+after the upgrade, are **not** affected.
+**Status:** Upstream KubeVirt issue open, no fix released. Restarting the VMs
+is the workaround (see below).
+
+### Problem
+
+A live migration of an affected VM to the KubeVirt v1.7 virt-launcher fails,
+even though KubeVirt reports the VM as live-migratable. The virt-launcher log
+shows:
+
+```text
+qemu-kvm: Features 0x1c0010130afffaf unsupported. Allowed features: 0x10179bfffef
+qemu-kvm: Failed to load virtio-net:virtio
+```
+
+The VM keeps running on its previous virt-launcher. A node drain waits on it,
+and every attempt leaves a failed `VirtualMachineInstanceMigration` behind.
+
+### Root Cause
+
+The QEMU build of the KubeVirt v1.7 virt-launcher (`qemu-kvm-9.1.0-20.el9`)
+switches UDP segmentation offload (USO) off on the machine type KubeVirt uses.
+The build of the v1.6 virt-launcher (`qemu-kvm-9.1.0-19.el9`) does not, and on a
+node with Linux 6.2 or newer it offers USO to every VM it starts. A guest kernel
+from Linux 6.2 on negotiates it, so the VM state carries USO, and the new QEMU
+refuses to load it. This is an upstream KubeVirt defect.
+
+### Workaround
+
+Restart each affected VM once. It comes back on the v1.7 virt-launcher and
+migrates normally from then on. The upgrade guide shows how to find the VMs and
+how to restart them node by node without waiting on a drain, see
+[Guests That Need a Restart](../installation/upgrading/upgrade-from-1.2-to-1.3/#guests-that-need-a-restart).
+
+### Limitations and trade-offs
+
+- **Restart means downtime.** The VM is off for the time of the restart.
+- **A drain does not restart the VM.** It waits on the VM until you restart it.
+
+### References
+
+- KubeVirt issue: [kubevirt/kubevirt#16386](https://github.com/kubevirt/kubevirt/issues/16386)

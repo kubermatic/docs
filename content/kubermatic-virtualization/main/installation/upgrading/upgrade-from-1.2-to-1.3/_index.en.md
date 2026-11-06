@@ -9,6 +9,13 @@ Upgrading to KubeV v1.3.0 is supported from v1.2.x. If you are on an older relea
 step by step over minor versions first.
 {{% /notice %}}
 
+{{% notice warning %}}
+VMs that were started before the upgrade on a node with Linux 6.2 or newer, and that run a guest
+kernel from Linux 6.2 on (such as Ubuntu 24.04), cannot live-migrate to the new KubeVirt. They
+need one restart each after the upgrade. See
+[Guests That Need a Restart](#guests-that-need-a-restart).
+{{% /notice %}}
+
 This guide walks you through upgrading a Kubermatic Virtualization (KubeV) installation from
 v1.2.x to v1.3.0. Read the full document before starting, then follow the
 [general guidelines]({{< ref "../" >}}) (backups, minor-by-minor, repair-before-upgrade).
@@ -79,7 +86,9 @@ example:
 
 * a disk is a ReadWriteOnce volume (the `longhorn` StorageClass of v1.2.0 created ReadWriteOnce
   volumes);
-* it is connected to the pod network with a `bridge` interface;
+* it is connected to the pod network with a `bridge` interface and its template does not carry the
+  annotation `kubevirt.io/allow-pod-bridge-network-live-migration` (the machine-controller of KKP
+  sets it on the VMs it creates);
 * its eviction strategy is `None`, which tells KubeVirt to shut the VM down on a drain instead of
   migrating it.
 
@@ -294,16 +303,27 @@ both are expected; they do not affect the volumes.
 
 ### Move the VMs to the New KubeVirt
 
+{{% notice warning %}}
+KubeVirt cannot live-migrate some VMs to its new virt-launcher even though it reports them as
+live-migratable: the VMs that need a restart, described under
+[Guests That Need a Restart](#guests-that-need-a-restart). Plan their restarts before you drain
+nodes for other maintenance.
+{{% /notice %}}
+
 A running VM keeps the virt-launcher, and so the QEMU, it was started with. Once KubeVirt v1.7
 is deployed, it moves running VMs to its own virt-launcher by itself:
 
-* a VM that can live-migrate is live-migrated, without downtime;
+* a VM that can live-migrate is live-migrated, without downtime, except a VM that was started on
+  the KubeVirt v1.6 virt-launcher of a node with Linux 6.2 or newer and runs a guest kernel from
+  Linux 6.2 on (see
+  [Guests That Need a Restart](#guests-that-need-a-restart));
 * a VM that cannot, but whose eviction strategy allows it (`None`, `LiveMigrateIfPossible`, or
   none set), is **restarted** within a minute or two of KubeVirt's update, up to ten VMs a
   minute. It comes back with the same IP address.
 
 A VM that can do neither, typically one with eviction strategy `LiveMigrate` on a ReadWriteOnce
-disk, keeps its previous virt-launcher until you restart it. KubeVirt records a `FailedEvict`
+disk, or one of the guests under [Guests That Need a Restart](#guests-that-need-a-restart), keeps
+its previous virt-launcher until you restart it. KubeVirt records a `FailedEvict`
 warning event on it every minute until then; the VM itself is not affected. At the end of the
 upgrade the installer lists the VMs it kept running and says which of them KubeVirt restarts by
 itself. Once KubeVirt has rolled out, list the VMs still on a previous virt-launcher:
@@ -338,6 +358,82 @@ move the next time their volume detaches.
 A VM on a previous virt-launcher keeps working, but does not get the fixes of the new KubeVirt
 until it restarts.
 
+#### Guests That Need a Restart
+
+The QEMU of the KubeVirt v1.7 virt-launcher (`qemu-kvm-9.1.0-20.el9`) switches UDP segmentation
+offload (USO) off on the machine type KubeVirt uses; the QEMU of the v1.6 virt-launcher
+(`qemu-kvm-9.1.0-19.el9`) does not. On a node with Linux 6.2 or newer, the v1.6 QEMU offers USO on
+the virtio-net NIC of every VM it starts, and a guest kernel from Linux 6.2 on negotiates it, so
+the state of such a VM carries USO. The QEMU of the v1.7 virt-launcher refuses to load that state:
+
+```text
+qemu-kvm: Features 0x1c0010130afffaf unsupported. Allowed features: 0x10179bfffef
+qemu-kvm: Failed to load virtio-net:virtio
+```
+
+The migration fails even though KubeVirt reports the VM as live-migratable, and the VM stays on
+its v1.6 virt-launcher. A guest with an older kernel never negotiates USO and migrates normally,
+and so does a VM that started on a node with an older kernel. KubeVirt tracks the problem as
+[kubevirt/kubevirt#16386](https://github.com/kubevirt/kubevirt/issues/16386). Measured on VMs
+started on the v1.6.5 virt-launcher of a node with kernel 6.8 and migrated to the v1.7.4 one:
+
+| Guest | Guest kernel | Migration |
+|---|---|---|
+| Ubuntu 24.04 | 6.8 | fails |
+| Ubuntu 22.04 with the HWE kernel | 6.8 | fails |
+| Ubuntu 22.04 | 5.15 | works |
+
+A VM that was started or restarted on the v1.7 virt-launcher is not affected. The VMs that need a
+restart are the ones that still run on a v1.6 virt-launcher, were started on a node with kernel 6.2
+or newer, and have a guest kernel of 6.2 or newer. Read the kernel of the nodes:
+
+```bash
+kubectl get nodes -o custom-columns='NAME:.metadata.name,KERNEL:.status.nodeInfo.kernelVersion'
+```
+
+List the VMs on a previous virt-launcher with their guest kernel:
+
+```bash
+kubectl get vmi -A -l kubevirt.io/outdatedLauncherImage \
+  -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,NODE:.status.nodeName,KERNEL:.status.guestOSInfo.kernelRelease'
+```
+
+KubeVirt reports the kernel only when the QEMU guest agent runs in the guest. Treat a VM without a
+kernel (`<none>`) as one that needs the restart.
+
+Restart each of these VMs once with `virtctl restart`, when it suits the workload. The restart
+needs no cordon or drain: the VM comes back on the new virt-launcher on whichever node it is
+scheduled, and can live-migrate from then on. Restart them before you drain nodes for other
+maintenance.
+
+A drain does not restart these VMs for you. What it does depends on the eviction strategy the VM
+started with:
+
+| Eviction strategy of the VM | Drain of its node |
+|---|---|
+| `None`, or none set while the KubeVirt default was `None` | The VM is shut down and starts again on another node, on the new virt-launcher. |
+| `LiveMigrate` | Waits: the migration fails and is retried, and a failed `VirtualMachineInstanceMigration` stays behind for every attempt. |
+| `LiveMigrateIfPossible` | Waits in the same way, because KubeVirt still reports the VM as live-migratable. |
+| `External` | Waits until something outside KubeVirt restarts or migrates the VM; KubeVirt only records the node in `status.evacuationNodeName`. See the note below for KKP user clusters. |
+
+A VM takes its eviction strategy from its definition, or from the KubeVirt default when it sets
+none, at the time it starts. Changing either one does not affect a running VM; it applies at the
+next start. A VM that runs with `LiveMigrate` therefore has to be restarted by hand.
+
+{{% notice note %}}
+**KKP user clusters on KubeV:** the worker nodes of a Kubermatic Kubernetes Platform (KKP) user
+cluster are VMs with eviction strategy `External` or `LiveMigrate`, and both work as described
+above.
+
+* With `External`, KKP does the external step. When a drain of the infrastructure node makes
+  KubeVirt set `status.evacuationNodeName` on such a VM, KKP deletes the node's `Machine`, the
+  machine-controller drains the node in the user cluster and deletes the VM, and the
+  `MachineDeployment` creates a replacement on the new virt-launcher. The user-cluster node is
+  replaced, not rebooted, so its pods are evicted first. These VMs need no manual restart.
+* With `LiveMigrate`, the VMs live-migrate on a drain as usual. Only the guests under
+  [Guests That Need a Restart](#guests-that-need-a-restart) have to be restarted first.
+{{% /notice %}}
+
 ## Troubleshooting
 
 ### The upgrade stopped after the control plane
@@ -359,6 +455,10 @@ drain waits on it. Look at the migrations and the VM's events:
 kubectl get virtualmachineinstancemigrations -A
 kubectl describe vmi <vm-name> -n <namespace>
 ```
+
+A migration that fails at once, with `Failed to load virtio-net:virtio` in the virt-launcher log,
+belongs to a VM that needs a restart, see
+[Guests That Need a Restart](#guests-that-need-a-restart).
 
 A VM that writes to its memory faster than the network can copy it may never finish migrating.
 The installer allows KubeVirt to slow such a VM down (auto-converge) before the first drain. If a
