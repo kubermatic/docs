@@ -12,7 +12,8 @@ You configure it in the `observability` block of the cluster configuration file.
 `observability.export.otlp.endpoint` is set, `kubermatic-virtualization apply` installs:
 
 * the OpenTelemetry Collector `kubev-otel-collector`, which scrapes the platform and pushes
-  everything to your endpoint;
+  everything to your endpoint, when one of the sources it gathers (`apiServer`, `controllers`,
+  `kubevirt`, `kubernetes` or `traces`) is on;
 * a node agent, the DaemonSet `kubev-otel-agent-agent` with one pod per node, when node metrics or
   logs are turned on.
 
@@ -41,9 +42,10 @@ dashboard: the data lands in your backend.
 
 Every series carries `k8s.cluster.name` (the cluster's `apiEndpoint.host`) and the scraped pod's
 `k8s.namespace.name`, `k8s.pod.name` and `k8s.node.name`. KubeVirt VMI series name the virtual
-machine's own namespace in their `namespace` label. With KDP, pod-level records from a KDP host
-namespace (object state, node metrics and logs) also carry the tenant's organization and project; the
-KubeV and KubeVirt components' own series do not, since those pods belong to no tenant. See
+machine's own namespace in their `namespace` label. With KDP, the Collector and the node agent are
+configured to add the tenant's organization and project to pod-level records from a KDP host
+namespace (object state, node metrics and logs); the KubeV and KubeVirt components' own series get
+none, since those pods belong to no tenant. See
 [Grouping by Organization and Project](#grouping-by-organization-and-project).
 
 ## Enabling Observability
@@ -134,7 +136,8 @@ observability:
     kubevirt: false
 ```
 
-With `nodes` and `logs` off, the node agent is not installed. At least one source must stay on:
+With `nodes` and `logs` off, the node agent is not installed; with only `nodes` or `logs` on, the
+Collector is not. At least one source must stay on:
 `apply` rejects a block that turns every source off, since it would export nothing. To uninstall
 the Collector, remove the `observability` block; the next `apply` removes the release. The empty
 `kubev-observability` namespace stays behind; delete it by hand if you do not plan to enable
@@ -150,8 +153,8 @@ included. Each pod reports its own node:
 * the host's CPU, memory, disk, file system, load and paging.
 
 Both are collected every `scrapeInterval`. Every series carries `k8s.cluster.name` and
-`k8s.node.name`, and pod and container series carry the same `k8s.*` and KDP attributes as the
-Collector's metrics.
+`k8s.node.name`, and pod and container series carry the same `k8s.*` attributes as the Collector's
+metrics. With KDP, the agent is configured to add the same tenant attributes.
 
 To report the host, the agent reads the node's root file system read-only. It talks to the kubelet
 with its own service account.
@@ -163,9 +166,9 @@ with its own service account.
 tenant workloads, and the agent and Collector themselves, are never collected. Virtual machines
 whose `virt-launcher` pods run in those two namespaces are collected.
 
-Each record carries the pod's namespace, name, UID and container, `k8s.node.name`,
-`k8s.cluster.name` and, with KDP, the tenant attributes. The agent starts at the end of each log
-file, so lines written while it is down are not sent.
+Each record carries the pod's namespace, name, UID and container, `k8s.node.name` and
+`k8s.cluster.name`. With KDP, the agent is configured to add the tenant attributes too. The agent
+starts at the end of each log file, so lines written while it is down are not sent.
 
 To read the log files, the agent mounts `/var/log/pods` read-only and runs as root, because the
 container runtime makes them readable by root only. With logs off, the agent keeps the image's
@@ -189,9 +192,10 @@ ignored, so every request starts a trace of its own.
 With [KDP]({{< ref "../../kdp-integration" >}}) enabled, one export covers every tenant:
 
 * request spans carry `kubev.workspace`, `kubev.organization` and `kubev.project`;
-* object state, node metrics and logs of pods in KDP host namespaces carry `kubev.organization`,
-  `kubev.project` and `kubev.namespace`; the KubeV and KubeVirt components' own metrics carry none,
-  since those pods belong to no tenant.
+* the Collector and the node agent are configured to add `kubev.organization`, `kubev.project` and
+  `kubev.namespace` to the object state, node metrics and logs of pods in KDP host namespaces, read
+  from the namespace's labels; the KubeV and KubeVirt components' own metrics get none, since those
+  pods belong to no tenant.
 
 The api-server also exports `kubev_host_namespace_info{namespace, organization, project,
 tenant_namespace}`, with the value 1, for every KDP host namespace. KubeVirt's `kubevirt_vmi_*`
@@ -210,8 +214,8 @@ The `max by` folds the series of several api-server replicas, or of a rollout in
 
 `helmValues` passes extra values to the `opentelemetry-collector` chart behind both the Collector
 and the node agent, merged last. Use it for processors and scheduling, such as `nodeSelector` and
-`tolerations`. The values apply to the Collector and the agent alike, and a list you set replaces
-the installer's list.
+`tolerations`. The values apply to the Collector and the agent alike. A list you set replaces the
+installer's list, except the lists described below.
 
 ```yaml
 observability:
@@ -227,13 +231,29 @@ The installer owns these keys, and `apply` rejects a `helmValues` that sets any 
 
 * `mode`, `replicaCount`, `autoscaling`, `ports`, `configMap`, `alternateConfig`, `image`, `command`
   and `clusterRole`;
-* `extraEnvs`, `extraVolumes` and `extraVolumeMounts`;
 * `resources`, `nameOverride`, `fullnameOverride` and `presets`;
 * `config.receivers`, `config.processors.k8s_attributes`, `config.processors.resource`,
   `config.service` and any `otlp*` exporter under `config.exporters`;
 * the `checksum/kubev-otlp` pod annotation, which rolls the Collector when the headers or CA change.
 
 Size the containers with `resources` and `agentResources` instead.
+
+`extraManifests`, `extraEnvs`, `extraEnvsFrom`, `extraVolumes` and `extraVolumeMounts` must stay
+lists; `apply` rejects a map, `null` or a single value under them. Their entries are added after the
+installer's in both the Collector and the agent, except `extraManifests`: those objects are rendered
+once, with the Collector, or with the node agent when no Collector is deployed. The installer's
+entries carry the export headers and CA certificates and, in the agent, the node variables and host
+mounts. `apply` rejects an `extraEnvs` entry without a string `name`, or named `K8S_NODE_NAME`,
+`K8S_NODE_IP` or `KUBEV_OTLP_HEADER_*`, since it would override the installer's variable. Your
+entries must not reuse these names either:
+
+* the Secrets `kubev-otel-collector-otlp-headers`, `kubev-otel-collector-otlp-ca`,
+  `kubev-otel-agent-otlp-headers` and `kubev-otel-agent-otlp-ca`;
+* the volumes `otlp-ca`, `hostfs` and `varlogpods`, and the mount path `/etc/kubev-otlp-ca`.
+
+A sidecar added through `extraContainers` runs with the release's service account, so in the
+Collector it can read pods, nodes, services and the other objects the Collector watches across the
+cluster.
 
 ## Checking Observability
 
