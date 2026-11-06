@@ -17,8 +17,9 @@ You configure it in the `observability` block of the cluster configuration file.
 * a node agent, the DaemonSet `kubev-otel-agent-agent` with one pod per node, when node metrics or
   logs are turned on.
 
-Both run in the `kubev-observability` namespace. Nothing is stored in the cluster, and nothing
-outside the cluster can send telemetry in. KubeV installs no Prometheus and adds no charts to the
+Both run in the `kubev-observability` namespace. Nothing is stored in the cluster. The Collector's
+only listener is the OTLP receiver that takes the api-server's traces, open while traces are
+collected and reachable only from the `kubermatic-virtualization` namespace. KubeV installs no Prometheus and adds no charts to the
 dashboard: the data lands in your backend.
 
 ## Before You Start
@@ -138,7 +139,8 @@ observability:
 
 With `nodes` and `logs` off, the node agent is not installed; with only `nodes` or `logs` on, the
 Collector is not. At least one source must stay on:
-`apply` rejects a block that turns every source off, since it would export nothing. To uninstall
+`apply` rejects a block that turns every source off, since it would export nothing. `apiServer` and
+`traces` count only with `dashboard.enabled`, which deploys the api-server. To uninstall
 the Collector, remove the `observability` block; the next `apply` removes the release. The empty
 `kubev-observability` namespace stays behind; delete it by hand if you do not plan to enable
 observability again.
@@ -181,26 +183,43 @@ With `sources.traces` on and the dashboard enabled, the api-server sends a span 
 request, plus a child span for each call it makes to the Kubernetes API, to the Collector. The
 Collector forwards them to your endpoint with the same `k8s.*` and `k8s.cluster.name` attributes as
 the metrics. Span names use the route pattern, for example
-`GET /api/kdp/clusters/{workspace}/permissions`, never the request path.
+`GET /api/kdp/clusters/{workspace}/permissions`, never the request path. Span attributes still carry
+the request: server spans hold `url.path`, `user_agent.original` and `client.address`, and spans for
+calls to the host cluster and to kcp hold `url.full`, each capped at 256 bytes.
 
 The Collector accepts traces from inside the cluster only: a NetworkPolicy admits only pods in the
-`kubermatic-virtualization` namespace to its OTLP port. A `traceparent` header sent by a client is
-ignored, so every request starts a trace of its own.
+`kubermatic-virtualization` namespace to its OTLP port. The api-server sends spans to the Collector
+over plaintext gRPC without authentication, so that NetworkPolicy is the only thing confining the hop
+to the KubeV namespace. A `traceparent` header sent by a client is ignored, so every request starts a
+trace of its own; calls to the Kubernetes API and to kcp carry it on.
+
+`traces` is on by default, so an existing cluster with an `observability` block starts exporting
+traces on its next `apply`: the Collector opens its OTLP port behind a Service and the NetworkPolicy
+and pushes spans to the backend. A backend token without permission to write traces then shows up as
+export errors in the Collector's log. Set `sources.traces: false` before upgrading to keep exporting
+metrics only.
 
 ## Grouping by Organization and Project
 
 With [KDP]({{< ref "../../kdp-integration" >}}) enabled, one export covers every tenant:
 
-* request spans carry `kubev.workspace`, `kubev.organization` and `kubev.project`;
+* a request span carries `kubev.workspace`, `kubev.organization` and `kubev.project` only when the
+  request answered with a status below 400 and its workspace is a project path, taken from the
+  `{workspace}` route value or verified by the host-read gate on `/api/cluster`; other spans carry
+  none of them;
 * the Collector and the node agent are configured to add `kubev.organization`, `kubev.project` and
   `kubev.namespace` to the object state, node metrics and logs of pods in KDP host namespaces, read
   from the namespace's labels; the KubeV and KubeVirt components' own metrics get none, since those
   pods belong to no tenant.
 
+### Tenant Labels for KubeVirt Series
+
 The api-server also exports `kubev_host_namespace_info{namespace, organization, project,
-tenant_namespace}`, with the value 1, for every KDP host namespace. KubeVirt's `kubevirt_vmi_*`
-series carry only the host namespace, so join them to this series to group virtual machine usage by
-organization or project:
+tenant_namespace}`, with the value 1, for every KDP host namespace. The series follows the
+`apiServer` source and KDP mode, not `traces`: it reaches the backend only through the `apiServer`
+scrape, so with `sources.apiServer: false` it is not exported even when traces are on. KubeVirt's
+`kubevirt_vmi_*` series carry only the host namespace, so join them to this series to group virtual
+machine usage by organization or project:
 
 ```promql
 kubevirt_vmi_memory_used_bytes
@@ -209,6 +228,10 @@ kubevirt_vmi_memory_used_bytes
 ```
 
 The `max by` folds the series of several api-server replicas, or of a rollout in progress, into one.
+
+The api-server's `/metrics` listener has no authentication, and this series lists every tenant's
+organization, project and namespaces. Keep the api-server's metrics Service reachable only from the
+`kubev-observability` namespace.
 
 ## Tuning the Collector
 
@@ -229,8 +252,8 @@ observability:
 
 The installer owns these keys, and `apply` rejects a `helmValues` that sets any of them:
 
-* `mode`, `replicaCount`, `autoscaling`, `ports`, `configMap`, `alternateConfig`, `image`, `command`
-  and `clusterRole`;
+* `mode`, `replicaCount`, `autoscaling`, `ports`, `service`, `networkPolicy`, `configMap`,
+  `alternateConfig`, `image`, `command` and `clusterRole`;
 * `resources`, `nameOverride`, `fullnameOverride` and `presets`;
 * `config.receivers`, `config.processors.k8s_attributes`, `config.processors.resource`,
   `config.service` and any `otlp*` exporter under `config.exporters`;
