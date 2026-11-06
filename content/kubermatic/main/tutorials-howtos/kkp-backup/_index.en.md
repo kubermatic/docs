@@ -40,7 +40,7 @@ Furthermore, at the application layer, Kubernetes tools — most notably Velero 
 * Aggregating all backup data in a cluster-internal datastore before external synchronization provides significant benefits regarding redundancy, performance, and ease of use.
 
 #### etcd / PKI
-* Check the documentation of KKP's [etcd backup feature.](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/etcd-backups/)
+* Check the documentation of KKP's [etcd backup feature.]({{< ref "../etcd-backups/" >}})
 * The etcd database contains the complete state of a Kubernetes cluster. 
 * An etcd "ring" can tolerate the loss of up to (N-1)/2 nodes and remain healthy. However, if more nodes are lost, the database must be restored from a backup. A snapshot from a single member of the etcd ring is sufficient to restore the entire cluster.
 * The Public Key Infrastructure (PKI) encompasses the Certificate Authority (CA), certificates, and keys required for Kubernetes authentication. Backing up the PKI is equally critical for a swift recovery.
@@ -106,8 +106,8 @@ Below is the suggested schedule configuration, categorized by backup job, freque
 
 If KKP master and seed cluster lifecycle management is being done by KubeOne, you may find further information regarding backup strategies for KubeOne on the following links:
 
-* [Backups Addon in KubeOne](../kubeone/main/examples/addons-backup/)
-* [KubeOne Manual Cluster Recovery](../kubeone/main/guides/manual-cluster-recovery/)
-* [KubeOne Manual Cluster Repair](../kubeone/main/guides/manual-cluster-repair/)
+* [Backups Addon in KubeOne]({{< ref "/kubeone/main/examples/addons-backup" >}})
+* [KubeOne Manual Cluster Recovery]({{< ref "/kubeone/main/guides/manual-cluster-recovery/" >}})
+* [KubeOne Manual Cluster Repair]({{< ref "/kubeone/main/guides/manual-cluster-repair/" >}})
 
 

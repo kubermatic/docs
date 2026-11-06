@@ -8,13 +8,13 @@ weight = 1
 
 To respect the latest requirements and instructions, follow the installation as described at:
 
-<https://docs.kubermatic.com/kubermatic/main/installation>
+[KKP Installation]({{< ref "../../installation/" >}})
 
 Any further environment-specific details, will get described later in this document.
 
 ## Infrastructure Requirements
 
-To ensure the quality of service, Kubermatic Kubernetes Platform (KKP) relies on the basic availability and setup of the dependent infrastructure as defined at [KKP Documentation > Requirements](https://docs.kubermatic.com/kubermatic/main/architecture/requirements/cluster-requirements/).
+To ensure the quality of service, Kubermatic Kubernetes Platform (KKP) relies on the basic availability and setup of the dependent infrastructure as defined at [KKP Documentation > Requirements]({{< ref "../../architecture/requirements/cluster-requirements/" >}}).
 
 For the installation of KPP ensure that the mentioned requirements are fulfilled. Besides of the mentioned minimal requirements, it’s recommended that the provided infrastructure ensures the following criteria for the managing master/seed cluster as well as for the user clusters:
 
@@ -56,7 +56,7 @@ To install KKP in customer environment, we need access from external to (direct 
 
 - Access to potentially used DNS servers and firewall settings
 
-- Install helper tools: `kubeone`, `git`, `kubectl`, `helm`, `terraform` - optional: `yq`, `jq, [fubectl](https://github.com/kubermatic/fubectl)
+- Install helper tools: `kubeone`, `git`, `kubectl`, `helm`, `terraform` - optional: `yq`, `jq`, [fubectl](https://github.com/kubermatic/fubectl)
 
 A helpful shortcut, we recommend our KubeOne tooling container, which contains all the needed tooling:
   
@@ -106,19 +106,19 @@ For other Load Balancer scenarios we strongly recommend to use cloud environment
 
 - Check the more detailed requirements of the network at:
 
-  - [****KKP Documentation > Concepts > Networking****](https://docs.kubermatic.com/kubermatic/main/architecture/concept/kkp-concepts/networking)
+  - [**KKP Documentation > Concepts > Networking**]({{< ref "../../architecture/concept/kkp-concepts/networking/" >}})
 
-  - [****KKP Documentation > Networking > Control Plane Expose Strategy****](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/)
+  - [**KKP Documentation > Networking > Control Plane Expose Strategy**]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
 
 ## DNS
 
-Kubermatic requires DNS entries for the Envoy Gateway and user clusters API servers. These have to be created after the Load Balancers, see [EE Installation - DNS Records](https://docs.kubermatic.com/kubermatic/main/installation/install-kkp-ce/#dns-records) and [EE Seed Cluster - DNS Records](https://docs.kubermatic.com/kubermatic/main/installation/install-kkp-ce/add-seed-cluster-ce/#dns-record).
+Kubermatic requires DNS entries for the Envoy Gateway and user clusters API servers. These have to be created after the Load Balancers, see [EE Installation - DNS Records]({{< ref "../../installation/install-kkp-ce#dns-records" >}}) and [EE Seed Cluster - DNS Records]({{< ref "../../installation/install-kkp-ce/add-seed-cluster#dns-record" >}}).
 
 The Envoy Gateway provides access to the Kubermatic UI and the logging and monitoring services (Prometheus, Grafana, etc.). It requires a DNS name like `kubermatic.example.com` and `*.kubermatic.example.com` (e.g.for `prometheus.kubermatic.example.com`). Optional: if no wildcard DNS can be provided, dedicated DNS entries per exposed Service need to get entered (\~5 services).
 
 To access a user cluster via API, a wildcard DNS entry per seed cluster (in your case, the master cluster is the only seed) has to be provided. E.g., `*.seed.kubermatic.example.com`. User clusters would be accessible via `cluster-id.seed.kubermatic.example.com`.
 
-Optional: An alternative expose strategy Load Balancer can be chosen. Therefore, every control plane gets its own Load Balancer with an external IP, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/).
+Optional: An alternative expose strategy Load Balancer can be chosen. Therefore, every control plane gets its own Load Balancer with an external IP, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}}).
 
 ### Example of DNS Entries for KKP Services
 
@@ -130,7 +130,7 @@ Root DNS-Zone: `*.kubermatic.example.com`
 | Management Monitoring / Logging UI - Grafana   | `grafana.kubermatic.example.com`                                                                                                                                                                                                                                                      | Gateway IP: dynamic or static (virtual IP)                                                     |
 | Management Monitoring - Prometheus             | `prometheus.kubermatic.example.com`                                                                                                                                                                                                                                                   | Gateway IP: dynamic or static (virtual IP)                                                     |
 | Management Monitoring - Alertmanager           | `alertmanager.kubermatic.example.com`                                                                                                                                                                                                                                                 | Gateway IP: dynamic or static (virtual IP)                                                     |
-| Seed cluster - Kubernetes API Expose Service   | Expose Strategy: **NodePort/Tunneling**: `*.seed.kubermatic.example.com`; **LoadBalancer**: `NONE` (will be exposed by independent LB/IPs per cluster see - [expose strategy LoadBalancer](https://docs.kubermatic.com/kubermatic/master/concepts/expose-strategy/expose_strategy/)). | NodePort Proxy: dynamic or static (virtual IP)**Or** one virtual IP per user cluster in a CIDR |
+| Seed cluster - Kubernetes API Expose Service   | Expose Strategy: **NodePort/Tunneling**: `*.seed.kubermatic.example.com`; **LoadBalancer**: `NONE` (will be exposed by independent LB/IPs per cluster see - [expose strategy LoadBalancer]({{< ref "../../tutorials-howtos/networking/expose-strategies" >}})). | NodePort Proxy: dynamic or static (virtual IP)**Or** one virtual IP per user cluster in a CIDR |
 | User Cluster Monitoring - Alertmanager         | `alertmanager.seed.kubermatic.example.com`                                                                                                                                                                                                                                            | Gateway IP: dynamic or static (virtual IP)                                                     |
 | User Cluster Monitoring / Logging UI - Grafana | `grafana.seed.kubermatic.example.com`                                                                                                                                                                                                                                                 | Gateway IP: dynamic or static (virtual IP)                                                     |
 
@@ -140,25 +140,25 @@ It is also possible to use [external-dns](https://github.com/kubernetes-sigs/ext
 
 Certificates are required for the Kubermatic UI, as well as logging and monitoring services. As automatic creation via cert-manager is not an option, please create in advance. According to the DNS example, this has to be valid for `kubermatic.example.com`, `prometheus.kubermatic.example.com`, `grafana.kubermatic.example.com`, `alertmanager.kubermatic.example.com`, and `kibana.kubermatic.example.com`. Our Helm charts require a single certificate file to be valid for these names (wildcard is fine). Any supported cert-manager automation (like e.g. let’s encrypt) could get configured out of the box, so please check [Issuer Configuration - cert-manager Documentation](https://cert-manager.io/docs/configuration)
 
-If you provide your own CA bundle with all intermediate certificates, cert-manager and KKP is also supporting this use case, please check for this: [KKP Documentation > Configuration > Custom Certificate](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/kkp-configuration/custom-certificates). Using a let's encrypt certificate would be preferable over your own CA, as this would not require trusting your CA in ALL pods that talk to DEX. For private networks, you can request let’s encrypt certs via DNS-based validation, see [cert-manager - Configuring DNS01 Challenge Provider](https://cert-manager.io/docs/configuration/acme/dns01/).
+If you provide your own CA bundle with all intermediate certificates, cert-manager and KKP is also supporting this use case, please check for this: [KKP Documentation > Configuration > Custom Certificate]({{< ref "../../tutorials-howtos/kkp-configuration/custom-certificates/" >}}). Using a let's encrypt certificate would be preferable over your own CA, as this would not require trusting your CA in ALL pods that talk to DEX. For private networks, you can request let’s encrypt certs via DNS-based validation, see [cert-manager - Configuring DNS01 Challenge Provider](https://cert-manager.io/docs/configuration/acme/dns01/).
 
-Alternatively, you could also create self-signed certificates and add the CA to our own CA-Distribution mechanism, but ensure that all clients need to have the CA included. For KKP follow as well [KKP Documentation > Configuration > Custom Certificate](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/kkp-configuration/custom-certificates).
+Alternatively, you could also create self-signed certificates and add the CA to our own CA-Distribution mechanism, but ensure that all clients need to have the CA included. For KKP follow as well [KKP Documentation > Configuration > Custom Certificate]({{< ref "../../tutorials-howtos/kkp-configuration/custom-certificates/" >}}).
 
 ## Authentication
 
 We use DEX for authentication. Pick a supported connector from [Dex Connectors](https://github.com/dexidp/dex#connectors) and make the necessary preparations. Static users or your Github Org / Gitlab instance might be an option as well.
 
-Alternatively, KKP supports “bring-your-own ID provider” like e.g. [Keycloak](https://www.keycloak.org/) as well, see [OIDC Provider Configuration](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/oidc-provider-configuration/).
+Alternatively, KKP supports “bring-your-own ID provider” like e.g. [Keycloak](https://www.keycloak.org/) as well, see [OIDC Provider Configuration]({{< ref "../../tutorials-howtos/oidc-provider-configuration/" >}}).
 
 ## Proxy / Internet-Access
 
-For provisioning the master/seed/user clusters with their components, KKP needs access to a few resources, see [Proxy Whitelisting](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/proxy-whitelisting/). Please ensure that you have internet access at your provided platform or any proxy, which allows the download of the mentioned artifacts.
+For provisioning the master/seed/user clusters with their components, KKP needs access to a few resources, see [Proxy Whitelisting]({{< ref "../../tutorials-howtos/networking/proxy-whitelisting/" >}}). Please ensure that you have internet access at your provided platform or any proxy, which allows the download of the mentioned artifacts.
 
-An alternative approach that requires a few more configurations, therefore take a look at the [Offline Mode](https://docs.kubermatic.com/kubermatic/main/installation/offline-mode/). As an EE Version customer, your technical consultant or our service Desk could also give you access to our [Offline & Air Gapped Setup Guide](https://docs.google.com/document/d/16wznO5yhQpldzyqYr2T32yN8T9BiOUJ61z5IZjv5wzA/edit#heading=h.gjdgxs) with [Reference Setup](https://github.com/kubermatic/offline-reference-setup).
+An alternative approach that requires a few more configurations, therefore take a look at the [Offline Mode]({{< ref "../../installation/offline-mode/" >}}). As an EE Version customer, your technical consultant or our service Desk could also give you access to our [Offline & Air Gapped Setup Guide](https://docs.google.com/document/d/16wznO5yhQpldzyqYr2T32yN8T9BiOUJ61z5IZjv5wzA/edit#heading=h.gjdgxs) with [Reference Setup](https://github.com/kubermatic/offline-reference-setup).
 
 ## Provisioning of seed cluster
 
-We recommend setting up your seed cluster based on KubeOne. Please check the prerequisites therefore as well [KubeOne Prerequisites](https://docs.kubermatic.com/kubeone/main/architecture/).
+We recommend setting up your seed cluster based on KubeOne. Please check the prerequisites therefore as well [KubeOne Prerequisites]({{< ref "/kubeone/main/architecture/" >}}).
 
 ## Storage Classes
 
@@ -198,23 +198,23 @@ The performance of the underlying storage is highly important to host Kubernetes
 - Seed Cluster storage class kubermatic-fast:\
   [Hardware recommendations | etcd - Large Cluster](https://etcd.io/docs/v3.5/op-guide/hardware/#large-cluster)
 
-Note: If user clusters get very very big or has a lot of operators, it could be required to tune individual control planes of user cluster during operation. You will see Alerts in the MLA Stack, this could get tuned via [KKP - Scaling the control plane.](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/operation/control-plane/scaling-the-control-plane/)
+Note: If user clusters get very very big or has a lot of operators, it could be required to tune individual control planes of user cluster during operation. You will see Alerts in the MLA Stack, this could get tuned via [KKP - Scaling the control plane.]({{< ref "../../tutorials-howtos/operation/control-plane/scaling-the-control-plane/" >}})
 
 ### MLA Performance Requirements
 
-In addition to the storage performance, there is a requirement for MLA to tune based on the workload as it is described at [KKP - User Cluster MLA - Admin Guide](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/) with a link to [cortex planning](https://cortexmetrics.io/docs/guides/capacity-planning/).
+In addition to the storage performance, there is a requirement for MLA to tune based on the workload as it is described at [KKP - User Cluster MLA - Admin Guide]({{< ref "../../tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/" >}}) with a link to [cortex planning](https://cortexmetrics.io/docs/guides/capacity-planning/).
 
 For a production environment, it's recommended to do some performance and capacity estimation for the production workload. As this individual on amount of logs and metrics of your users, it requires some optimization based on the expected workload, as also described in the documentation.
 
-Anyhow, a performant backend storage is required to handle MLA and etcd workloads. If storage can't handle all workloads, we recommend splitting up the storage backend of etcds and MLA workload. To ensure the stability of the MLA stack, we recommend using dedicated MLA Nodes if possible (delegation via node affinity) and regularly optimizing the MLA options as they may change over time. This task is considered to be part of a continuous operation, see [KKP - User Cluster MLA - Operation](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide/#operation).
+Anyhow, a performant backend storage is required to handle MLA and etcd workloads. If storage can't handle all workloads, we recommend splitting up the storage backend of etcds and MLA workload. To ensure the stability of the MLA stack, we recommend using dedicated MLA Nodes if possible (delegation via node affinity) and regularly optimizing the MLA options as they may change over time. This task is considered to be part of a continuous operation, see [KKP - User Cluster MLA - Operation]({{< ref "../../tutorials-howtos/monitoring-logging-alerting/user-cluster/admin-guide#operation" >}}).
 
 ## Additional Requirements per Cloud Provider
 
-For each cloud provider, the requirements may change. Within <https://docs.kubermatic.com> the latest requirements are updated for each release (p.e. <https://docs.kubermatic.com/kubermatic/main/installation/install-kkp-ce/add-seed-cluster-ce>). The requirements mentioned in the documentation apply for the Managed Service as well.
+For each cloud provider, the requirements may change. Within <https://docs.kubermatic.com> the latest requirements are updated for each release (e.g. [Add Seed Cluster]({{< ref "../../installation/install-kkp-ce/add-seed-cluster" >}})). The requirements mentioned in the documentation apply for the Managed Service as well.
 
-For each Cloud Provider, there will be some requirements and Todo’s (e.g. creating an Account with correct permissions) what you find at <https://docs.kubermatic.com/kubermatic/main/architecture/supported-providers/>
+For each Cloud Provider, there will be some requirements and Todo’s (e.g. creating an Account with correct permissions) which can be found [here]({{< ref "../../architecture/supported-providers/" >}})
 
-In the following section, you find SOME examples of setups, that don’t need to match 100% to your use case. Please reach out to your technical contact person at Kubermatic, who could provide you with a tailored technical solution for your use case.
+In the following section, you find some examples of setups, that don’t need to match 100% to your use case. Please reach out to your technical contact person at Kubermatic, who could provide you with a tailored technical solution for your use case.
 {{< tabs name="Cloud Provider Specifics" >}}
 
 {{% tab name="Azure" %}}
@@ -223,7 +223,7 @@ In the following section, you find SOME examples of setups, that don’t need to
 
 #### General Requirements
 
-Azure Account described at [Kubermatic Docs > Supported Provider > Azure](https://docs.kubermatic.com/kubermatic/main/architecture/supported-providers/azure/)
+Azure Account described at [Kubermatic Docs > Supported Provider > Azure]({{< ref "../../architecture/supported-providers/azure/" >}})
 
 - Azure Network
 
@@ -255,9 +255,9 @@ Azure Account described at [Kubermatic Docs > Supported Provider > Azure](https:
 
 ![KKP single seed integration on-premise and Azure](integration-single-seed-azure-worker.png)
 
-- Worker Node IP Range needs to reach seed cluster user control plan endpoints, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/)
+- Worker Node IP Range needs to reach seed cluster user control plan endpoints, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
 
-- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy](https://docs.kubermatic.com/kubermatic/main/architecture/concept/kkp-concepts/networking/#kubernetes-konnectivity-proxy) between worker and control plan, so no way back connection needs to be opened
+- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy]({{< ref "../../architecture/concept/kkp-concepts/networking#kubernetes-konnectivity-proxy" >}}) between worker and control plan, so no way back connection needs to be opened
 
 - Existing seed cluster(s) need to reach [Azure API endpoints](https://docs.microsoft.com/en-us/rest/api/azure/) for the machine provisioning
 
@@ -294,7 +294,7 @@ Azure Account described at [Kubermatic Docs > Supported Provider > Azure](https:
 
 For dynamic provisioning of nodes, Kubermatic needs access to the vSphere API endpoint and depending on the chosen permission concept at least the following permissions:
 
-- [Doc Permissions](https://docs.kubermatic.com/kubermatic/main/architecture/supported-providers/vsphere/)
+- [Doc Permissions]({{< ref "../../architecture/supported-providers/vsphere/" >}})
 
 - Alternative for managing via terraform [kubermatic-vsphere-permissions-terraform](https://github.com/kubermatic-labs/kubermatic-vsphere-permissions-terraform) (outdated)
 
@@ -316,7 +316,7 @@ CIDR for
 
 #### User Cluster
 
-Depending on the concept of how the application workload gets exposed, IPs need to be reserved for exposing the workload at the user cluster side. As a recommendation, at least one virtual IP need is needed e.g. the [MetalLB user cluster addon](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/ipam/#metallb-addon-integration) + NGINX ingress. Note: during the provisioning of the user cluster, the IP must be entered for the MetalLB addon or you need to configure a [Multi-Cluster IPAM Pool](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/ipam/). On manual IP configuration, the user must ensure that there will be no IP conflict.
+Depending on the concept of how the application workload gets exposed, IPs need to be reserved for exposing the workload at the user cluster side. As a recommendation, at least one virtual IP need is needed e.g. the [MetalLB user cluster addon]({{< ref "../../tutorials-howtos/networking/ipam#metallb-addon-integration" >}}) + NGINX ingress. Note: during the provisioning of the user cluster, the IP must be entered for the MetalLB addon or you need to configure a [Multi-Cluster IPAM Pool]({{< ref "../../tutorials-howtos/networking/ipam/" >}}). On manual IP configuration, the user must ensure that there will be no IP conflict.
 
 #### (if no DHCP) Machine CIDRs
 
@@ -334,11 +334,11 @@ To provide a “cloud native” experience to the end user of KKP, we recommend 
 
 ##### Option I - Workers only in vSphere Datacenter(s)
 
-- Worker Node IP Range needs to reach seed cluster user control plan endpoints, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/)
+- Worker Node IP Range needs to reach seed cluster user control plan endpoints, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
 
-- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy](https://docs.kubermatic.com/kubermatic/main/architecture/concept/kkp-concepts/networking/#kubernetes-konnectivity-proxy) between the worker and control plan, so no way back connection needs to be opened
+- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy]({{< ref "../../architecture/concept/kkp-concepts/networking#kubernetes-konnectivity-proxy" >}}) between the worker and control plan, so no way back connection needs to be opened
 
-- Existing seed cluster(s) need to reach their attached vSphere API endpoints for the machine provisioning, see [Seed - Datacenter vSphere Spec](https://docs.kubermatic.com/kubermatic/main/references/crds/#datacenterspecvsphere)
+- Existing seed cluster(s) need to reach their attached vSphere API endpoints for the machine provisioning, see [Seed - Datacenter vSphere Spec]({{< ref "../crds#datacenterspecvsphere" >}})
 
 - Application traffic get exposed at vSphere workers by the chosen ingress/load balancing solution
 
@@ -348,7 +348,7 @@ To provide a “cloud native” experience to the end user of KKP, we recommend 
 
   - Kubernetes API Load Balancer https endpoint
 
-- Worker Node IP Range needs to talk to additional node-port load balancer endpoint at the seed cluster, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/)
+- Worker Node IP Range needs to talk to additional node-port load balancer endpoint at the seed cluster, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
 
   - Additional DNS entry for dedicated vSphere datacenter seed(s) is needed, e.g. `*.vsphere-dc-seed.kubermatic.example.com`
 
@@ -408,14 +408,14 @@ Additional information about the usage of Open Stack within in Kubernetes you co
 - Kubermatic
 
   - Seed Datacenter Options for OpenStack:\
-    <https://docs.kubermatic.com/kubermatic/main/references/crds/#datacenterspecopenstack>
+    [Seed - Datacenter OpenStack Spec]({{< ref "../crds#datacenterspecopenstack" >}})
 
   - Preset Configuration:\
-    <https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/administration/admin-panel/presets-management/>
+    [Presets Management]({{< ref "../../tutorials-howtos/administration/admin-panel/presets-management" >}})
 
 - KubeOne
 
-  - <https://docs.kubermatic.com/kubeone/main/tutorials/creating-clusters/>
+  - [Create Cluster]({{< ref "/kubeone/main/tutorials/creating-clusters/" >}})
 
   - OpenStack Terraform variables: <https://github.com/kubermatic/kubeone/blob/main/examples/terraform/openstack/variables.tf>
 
@@ -427,21 +427,21 @@ Additional information about the usage of Open Stack within in Kubernetes you co
 
 ##### Option I - Workers only in OpenStack Datacenter(s)
 
-- Worker Node IP Range needs to reach seed cluster user control plan endpoints, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/)
+- Worker Node IP Range needs to reach seed cluster user control plan endpoints, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
 
-- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy](https://docs.kubermatic.com/kubermatic/main/architecture/concept/kkp-concepts/networking/#kubernetes-konnectivity-proxy) between the worker and control plan, so no way back connection needs to be opened
+- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy]({{< ref "../../architecture/concept/kkp-concepts/networking#kubernetes-konnectivity-proxy" >}}) between the worker and control plan, so no way back connection needs to be opened
 
-- Existing seed cluster(s) need to reach their attached OpenStack API endpoints for the machine provisioning, see [Seed - Datacenter OpenStack Spec](https://docs.kubermatic.com/kubermatic/main/references/crds/#datacenterspecopenstack)
+- Existing seed cluster(s) need to reach their attached OpenStack API endpoints for the machine provisioning, see [Seed - Datacenter OpenStack Spec]({{< ref "../crds#datacenterspecopenstack" >}})
 
 - Application traffic get exposed at OpenStack workers by the chosen ingress/load balancing solution
 
 ##### Option II - Additional Seed at vSphere Datacenter(s)
 
-- Seed Cluster Kubernetes API endpoint at the dedicated OpenStack seed cluster (provisioned by e.g.[KubeOne](https://docs.kubermatic.com/kubeone/main/tutorials/creating-clusters/)) needs to be reachable
+- Seed Cluster Kubernetes API endpoint at the dedicated OpenStack seed cluster (provisioned by e.g.[KubeOne]({{< ref "/kubeone/main/tutorials/creating-clusters/" >}})) needs to be reachable
 
   - Kubernetes API Load Balancer https endpoint
 
-- Worker Node IP Range needs to talk to additional node-port load balancer endpoint at the seed cluster, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/)
+- Worker Node IP Range needs to talk to additional node-port load balancer endpoint at the seed cluster, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
 
   - Additional DNS entry for dedicated OpenStack datacenter seed(s) is needed, e.g. `*.opestack-dc-seed.kubermatic.example.com`
 
