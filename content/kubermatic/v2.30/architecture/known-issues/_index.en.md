@@ -99,7 +99,7 @@ One example would be to download a kubeconfig of one cluster and then of another
 
 ### Solution
 
-You can either change this in dex configuration by setting `userIDKey` to `jti` in the connector section or you could configure an other oidc provider which supports multiple refresh tokens per user-client pair like keycloak does by default.
+You can either change this in dex configuration by setting `userIDKey` to `jti` in the connector section or you could configure another oidc provider which supports multiple refresh tokens per user-client pair like keycloak does by default.
 
 #### Dex
 
@@ -130,7 +130,7 @@ The following yaml snippet is an example how to configure an oidc connector to k
 
 #### External provider
 
-For an explanation how to configure an other oidc provider than dex take a look at [oidc-provider-configuration]({{< ref "../../tutorials-howtos/oidc-provider-configuration" >}}).
+For an explanation how to configure another oidc provider than dex take a look at [oidc-provider-configuration]({{< ref "../../tutorials-howtos/oidc-provider-configuration" >}}).
 
 ### Security implications regarding dex solution
 

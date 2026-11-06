@@ -5,7 +5,7 @@ date = 2022-01-12T14:30:00+02:00
 weight = 150
 +++
 
-As described on the [**CNI & Cluster Network Configuration**]({{< relref "../cni-cluster-network/" >}}) page, the CNI type (e.g. Canal or CIlium) cannot be changed after cluster creation.
+As described on the [**CNI & Cluster Network Configuration**]({{< relref "../cni-cluster-network/" >}}) page, the CNI type (e.g. Canal or Cilium ) cannot be changed after cluster creation.
 
 However, it is still possible to migrate an user cluster from one CNI to another using some manual steps. This guide will describe the process of migrating a KKP user cluster with Canal CNI to the Cilium CNI.
 
