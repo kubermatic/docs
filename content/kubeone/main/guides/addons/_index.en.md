@@ -136,6 +136,41 @@ addons like described above and in the addons directory place your
 `machinecontroller` manifests in the same directory name, e.g.
 `./addons/machinecontroller/yourmanifest.yaml`.
 
+### Listing Addons
+
+To see which addons are known to KubeOne for your cluster configuration, use
+`kubeone addons list`:
+
+```bash
+kubeone addons list --manifest kubeone.yaml -t .
+```
+
+```
+Name                  Status     Source
+ccm-aws               inactive   embedded
+coredns-pdb           install    embedded
+metrics-server        install    overridden
+my-addon              install    custom
+unattended-upgrades   install    embedded
+```
+
+The `Status` column shows whether the addon is going to be installed
+(`install`), deleted (`delete`, see [Cleanup Addons](#cleanup-addons)), or is
+not used for this cluster (`inactive`).
+
+The `Source` column shows where the addon is applied from:
+
+* `embedded` -- the addon is embedded in the KubeOne binary,
+* `overridden` -- the addon is embedded in the KubeOne binary, but it's
+  overridden by the addon of the same name in the addons directory (see
+  [Overriding Embedded Addons](#overriding-embedded-addons)),
+* `custom` -- the addon exists only in the addons directory.
+
+The `Source` is empty for an addon that is declared in the KubeOne manifest, but
+is neither embedded nor present in the addons directory.
+
+Use `--output json` (`-o json`) to get the same information in the JSON format.
+
 ## Cleanup Addons
 
 To delete embedded addon from the cluster, use the new `delete` field from the
