@@ -89,7 +89,8 @@ for the block in context.
 | `sources` | Per-source toggles, see [Choosing What to Collect](#choosing-what-to-collect). |
 | `resources` | Requests and limits of the Collector container. |
 | `agentResources` | Requests and limits of each node agent container. |
-| `helmValues` | Extra chart values, see [Tuning the Collector](#tuning-the-collector). |
+| `helmValues` | Extra chart values for the Collector, see [Tuning the Collector](#tuning-the-collector). |
+| `agentHelmValues` | Extra chart values for the node agent, see [Tuning the Collector](#tuning-the-collector). |
 
 ### Headers and TLS
 
@@ -153,14 +154,16 @@ included. Each pod reports its own node:
 
 * node, pod, container and volume CPU, memory, file system and network usage, read from the
   kubelet;
-* the host's CPU, memory, disk, file system, load and paging.
+* the host's CPU, memory, disk, load and paging. The node's file system usage comes from the
+  kubelet.
 
 Both are collected every `scrapeInterval`. Every series carries `k8s.cluster.name` and
 `k8s.node.name`, and pod and container series carry the same `k8s.*` attributes as the Collector's
 metrics. With KDP, the agent is configured to add the same tenant attributes.
 
-To report the host, the agent reads the node's root file system read-only. It talks to the kubelet
-with its own service account.
+To report the host, the agent mounts the node's `/proc` and `/sys` read-only under `/hostfs`. It
+talks to the kubelet with its own service account. It takes its scheduling from `agentHelmValues`,
+not `helmValues`, and tolerates every taint by default.
 
 ### Logs
 
@@ -174,9 +177,12 @@ Each record carries the pod's namespace, name, UID and container, `k8s.node.name
 starts at the end of each log file, so lines written while it is down are not sent.
 
 To read the log files, the agent mounts `/var/log/pods` read-only and runs as root, because the
-container runtime makes them readable by root only. With logs off, the agent keeps the image's
-non-root user. In both cases it drops every Linux capability, cannot escalate privileges and has a
-read-only root file system.
+container runtime makes them readable by root only. With only `nodes` on, the agent keeps the
+image's non-root user. With `nodes` and `logs` both on, the container runs as root without
+capabilities and sees the host's `/proc`, `/sys` and `/var/log/pods` read-only. Through `/proc` it
+can read every process's command line and, for other root processes that hold no capabilities,
+their environment and root file system. In every case it drops every Linux capability, cannot
+escalate privileges and has a read-only root file system.
 
 ### Traces
 
@@ -236,10 +242,11 @@ organization, project and namespaces. Keep the api-server's metrics Service reac
 
 ## Tuning the Collector
 
-`helmValues` passes extra values to the `opentelemetry-collector` chart behind both the Collector
-and the node agent, merged last. Use it for processors and scheduling, such as `nodeSelector` and
-`tolerations`. The values apply to the Collector and the agent alike. A list you set replaces the
-installer's list, except the lists described below.
+`helmValues` passes extra values to the `opentelemetry-collector` chart behind the Collector,
+merged last. Use it for processors and scheduling, such as `nodeSelector` and `tolerations`.
+`agentHelmValues` does the same for the node agent's release, `kubev-otel-agent`, under the same
+rules. A list you set replaces the installer's list, except the lists described below. Each map has
+no effect while its release is not deployed, and is still validated.
 
 ```yaml
 observability:
@@ -251,7 +258,21 @@ observability:
       node-role.kubernetes.io/infra: ""
 ```
 
-The installer owns these keys, and `apply` rejects a `helmValues` that sets any of them:
+This example adds an environment variable to the node agent:
+
+```yaml
+observability:
+  export:
+    otlp:
+      endpoint: otlp.example.com:4317
+  agentHelmValues:
+    extraEnvs:
+      - name: GOMEMLIMIT
+        value: 200MiB
+```
+
+The installer owns these keys, and `apply` rejects a `helmValues` or `agentHelmValues` that sets any
+of them:
 
 * `mode`, `replicaCount`, `autoscaling`, `ports`, `service`, `networkPolicy`, `configMap`,
   `alternateConfig`, `image`, `command` and `clusterRole`;
@@ -260,24 +281,33 @@ The installer owns these keys, and `apply` rejects a `helmValues` that sets any 
   `config.service` and any `otlp*` exporter under `config.exporters`;
 * the `checksum/kubev-otlp` pod annotation, which rolls the Collector and the agent when the headers or CA change.
 
+`agentHelmValues` also rejects `securityContext`, so the installer's container security context
+cannot be overwritten. Other keys such as `podSecurityContext`, `extraVolumes`, `extraContainers`
+and `hostNetwork` remain your responsibility.
+
 Size the containers with `resources` and `agentResources` instead.
 
 `extraManifests`, `extraEnvs`, `extraEnvsFrom`, `extraVolumes` and `extraVolumeMounts` must stay
-lists; `apply` rejects a map, `null` or a single value under them. Their entries are added after the
-installer's in both the Collector and the agent, except `extraManifests`: those objects are rendered
-once, with the Collector, or with the node agent when no Collector is deployed. The installer's
-entries carry the export headers and CA certificates and, in the agent, the node variables and host
-mounts. `apply` rejects an `extraEnvs` entry without a string `name`, or named `K8S_NODE_NAME`,
+lists in both maps; `apply` rejects a map, `null` or a single value under them. Their entries are
+added after the installer's in the map's own release, and the objects in `extraManifests` belong to
+that release, so turning the other release on or off never moves them. The installer's entries carry
+the export headers and CA certificates and, in the agent, the node variables and host mounts.
+`apply` rejects an `extraEnvs` entry without a string `name`, or named `K8S_NODE_NAME`,
 `K8S_NODE_IP` or `KUBEV_OTLP_HEADER_*`, since it would override the installer's variable. Your
 entries must not reuse these names either:
 
-* the Secrets `kubev-otel-collector-otlp-headers`, `kubev-otel-collector-otlp-ca`,
-  `kubev-otel-agent-otlp-headers` and `kubev-otel-agent-otlp-ca`;
-* the volumes `otlp-ca`, `hostfs` and `varlogpods`, and the mount path `/etc/kubev-otlp-ca`.
+* in `helmValues`: the Secrets `kubev-otel-collector-otlp-headers` and
+  `kubev-otel-collector-otlp-ca`, the volume `otlp-ca` and the mount path `/etc/kubev-otlp-ca`;
+* in `agentHelmValues`: the Secrets `kubev-otel-agent-otlp-headers` and `kubev-otel-agent-otlp-ca`,
+  the volumes `hostproc`, `hostsys`, `varlogpods` and `otlp-ca`, and the mount path
+  `/etc/kubev-otlp-ca`.
 
 A sidecar added through `extraContainers` runs with the release's service account, so in the
 Collector it can read pods, nodes, services and the other objects the Collector watches across the
 cluster.
+
+A list that `agentHelmValues` sets, such as `tolerations`, replaces the installer's, which drops
+the agent's toleration of every taint.
 
 ## Checking Observability
 
