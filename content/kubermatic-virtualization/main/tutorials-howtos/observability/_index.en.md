@@ -19,7 +19,8 @@ You configure it in the `observability` block of the cluster configuration file.
 
 Both run in the `kubev-observability` namespace. Nothing is stored in the cluster. The Collector's
 only listener is the OTLP receiver that takes the api-server's traces, open while traces are
-collected and reachable only from the `kubermatic-virtualization` namespace. KubeV installs no Prometheus and adds no charts to the
+collected and reachable only from the `kubermatic-virtualization` namespace. The node agent opens no
+receiver port, Service or host port. KubeV installs no Prometheus and adds no charts to the
 dashboard: the data lands in your backend.
 
 ## Before You Start
@@ -92,8 +93,8 @@ for the block in context.
 
 ### Headers and TLS
 
-Headers are kept in a dedicated Secret that the Collector reads as environment variables, never in
-its ConfigMap; the Helm release Secret holds them too, as it does every chart value. Use an access
+Headers are kept in a dedicated Secret per release that the Collector and the node agent read as
+environment variables, never in their ConfigMaps; the Helm release Secret holds them too, as it does every chart value. Use an access
 token with the narrowest scope your backend offers rather than a personal credential.
 
 A receiver whose certificate a private CA signs needs that CA in `tls.caBundle`. This example uses a
@@ -257,7 +258,7 @@ The installer owns these keys, and `apply` rejects a `helmValues` that sets any 
 * `resources`, `nameOverride`, `fullnameOverride` and `presets`;
 * `config.receivers`, `config.processors.k8s_attributes`, `config.processors.resource`,
   `config.service` and any `otlp*` exporter under `config.exporters`;
-* the `checksum/kubev-otlp` pod annotation, which rolls the Collector when the headers or CA change.
+* the `checksum/kubev-otlp` pod annotation, which rolls the Collector and the agent when the headers or CA change.
 
 Size the containers with `resources` and `agentResources` instead.
 
