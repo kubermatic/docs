@@ -22,7 +22,7 @@ The Metrics Server is a crucial component that collects resource usage data (CPU
 the HPA then uses to make scaling decisions.
 
 **Note:** You can install the Metrics Server and the whole MLA stack in KKP by enabling User Cluster Monitoring checkbox
-in the Cluster settings. More information can be found [here](https://docs.kubermatic.com/kubermatic/v2.29/tutorials-howtos/monitoring-logging-alerting/user-cluster/user-guide/).
+in the Cluster settings. More information can be found [here]({{< ref "../monitoring-logging-alerting/user-cluster/user-guide" >}}).
 
 
 Once running, you can test it by checking if you can retrieve node and pod metrics:
@@ -175,7 +175,7 @@ In this document, we will use a custom GPU metrics pipeline that leverages the N
 
 KKP offers the possibility to install the NVIDIA GPU Operator in the user cluster, by using our application catalog for enterprise customers, 
 or by installing it manually in the user cluster. to install the operator via our application catalog, follow the instructions 
-[here](https://docs.kubermatic.com/kubermatic/v2.29/architecture/concept/kkp-concepts/applications/default-applications-catalog/nvidia-gpu-operator/).
+[here]({{< ref "../../architecture/concept/kkp-concepts/applications/default-applications-catalog/nvidia-gpu-operator" >}}).
 
 To install the operator manually, follow the instructions [here](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/getting-started.html).
 

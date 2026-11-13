@@ -310,8 +310,8 @@ The data used to aggregate the reports can be accessed via the metering Promethe
 store this data for longer than 90 days, you need to extract the data from the metering Prometheus
 and replicate it to a long term storage of your choice.
 
-[adding-administrators]: https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/administration/admin-panel/administrators/#adding-administrators
-[admin-panel]: https://docs.kubermatic.com/kubermatic/v2.21/tutorials-howtos/administration/admin-panel/
+[adding-administrators]: {{< ref "../administration/admin-panel/administrators#adding-administrators" >}}
+[admin-panel]: {{< ref "../administration/admin-panel/" >}}
 [wiki-csv]: https://en.wikipedia.org/wiki/Comma-separated_values
 [k8s-docs-storage-classes]: https://kubernetes.io/docs/concepts/storage/storage-classes/
 [k8s-persistent-volumes]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
