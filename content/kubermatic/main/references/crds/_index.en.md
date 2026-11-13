@@ -5121,6 +5121,7 @@ _Appears in:_
 | `clientID` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 | `tokenIssuer` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 | `issuerRedirectURL` _string_ | {{< unsafe >}}{{< /unsafe >}} |
+| `additionalIssuerRedirectURLs` _string array_ | {{< unsafe >}}AdditionalIssuerRedirectURLs are extra origins, besides the one of IssuerRedirectURL, that the KKP<br />dashboard may use for OIDC redirects, e.g. when KKP is also reachable through reverse proxies on other<br />hostnames. The dashboard picks the entry that matches the browser's origin.<br />Each entry must be an origin: scheme, host and optional port, in lower case, without the scheme's<br />default port and without a path, e.g. "https://kkp-proxy.example.com" or "https://kkp.internal:8443".<br />For each entry, register "<entry>/api/v2/auth/callback", "<entry>/api/v1/kubeconfig",<br />"<entry>/api/v2/kubeconfig/secret" and "<entry>/api/v2/dashboard/login" as redirect URIs of the<br />IssuerClientID client in the OIDC provider. Register the last three also at the OIDC provider of<br />every Seed that sets its own oidcProviderConfiguration.{{< /unsafe >}} |
 | `issuerClientID` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 | `issuerClientSecret` _string_ | {{< unsafe >}}{{< /unsafe >}} |
 | `issuerCookieKey` _string_ | {{< unsafe >}}{{< /unsafe >}} |
