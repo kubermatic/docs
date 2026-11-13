@@ -52,9 +52,7 @@ spec:
       featureGates:
       - ExperimentalIgnitionSupport
       - DataVolumes
-      - LiveMigration
       - CPUManager
-      - CPUNodeDiscovery
       - Sidecar
       - Snapshot
       - HotplugVolumes
