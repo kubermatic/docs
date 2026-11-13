@@ -82,6 +82,8 @@ kubeone:
   versions:
     - release: main
       name: main
+    - release: v1.15
+      name: v1.15
     - release: v1.14
       name: v1.14
     - release: v1.13
