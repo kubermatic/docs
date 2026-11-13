@@ -1,15 +1,20 @@
 +++
 title = "v1beta2 API Reference"
-date = 2026-07-20T15:06:24+03:00
+date = 2026-11-10T18:20:53+02:00
 weight = 11
 +++
 ## v1beta2
 
 * [APIEndpoint](#apiendpoint)
+* [AWSControlPlane](#awscontrolplane)
+* [AWSLoadBalancer](#awsloadbalancer)
 * [AWSSpec](#awsspec)
 * [Addon](#addon)
 * [Addons](#addons)
 * [AlwaysPullImages](#alwayspullimages)
+* [AuthenticationConfiguration](#authenticationconfiguration)
+* [AzureControlPlane](#azurecontrolplane)
+* [AzureLoadBalancer](#azureloadbalancer)
 * [AzureSpec](#azurespec)
 * [CNI](#cni)
 * [CanalSpec](#canalspec)
@@ -28,6 +33,8 @@ weight = 11
 * [ControlPlaneConfig](#controlplaneconfig)
 * [CoreDNS](#coredns)
 * [DNSConfig](#dnsconfig)
+* [DigitalOceanControlPlane](#digitaloceancontrolplane)
+* [DigitalOceanLoadBalancer](#digitaloceanloadbalancer)
 * [DigitalOceanSpec](#digitaloceanspec)
 * [DynamicAuditLog](#dynamicauditlog)
 * [DynamicWorkerConfig](#dynamicworkerconfig)
@@ -38,6 +45,8 @@ weight = 11
 * [EventRateLimitConfig](#eventratelimitconfig)
 * [ExternalCNISpec](#externalcnispec)
 * [Features](#features)
+* [GCEControlPlane](#gcecontrolplane)
+* [GCELoadBalancer](#gceloadbalancer)
 * [GCESpec](#gcespec)
 * [HelmAuth](#helmauth)
 * [HelmRelease](#helmrelease)
@@ -48,12 +57,15 @@ weight = 11
 * [HostConfig](#hostconfig)
 * [IPTables](#iptables)
 * [IPVSConfig](#ipvsconfig)
+* [JournaldConfig](#journaldconfig)
 * [KubeOneCluster](#kubeonecluster)
 * [KubeProxyConfig](#kubeproxyconfig)
 * [KubeletConfig](#kubeletconfig)
 * [KubevirtControlPlane](#kubevirtcontrolplane)
 * [KubevirtLoadBalancer](#kubevirtloadbalancer)
 * [KubevirtSpec](#kubevirtspec)
+* [KubevirtStorageClass](#kubevirtstorageclass)
+* [KubevirtVolumeSnapshotClass](#kubevirtvolumesnapshotclass)
 * [LoggingConfig](#loggingconfig)
 * [MachineControllerConfig](#machinecontrollerconfig)
 * [MetricsServer](#metricsserver)
@@ -99,12 +111,37 @@ APIEndpoint is the endpoint used to communicate with the Kubernetes API
 
 [Back to Group](#v1beta2)
 
+### AWSControlPlane
+
+AWSControlPlane control plane config on AWS
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| loadBalancer | LoadBalancer config of a Network Load Balancer to create for the kube-apiserver endpoint | [AWSLoadBalancer](#awsloadbalancer) | true |
+
+[Back to Group](#v1beta2)
+
+### AWSLoadBalancer
+
+AWSLoadBalancer defines a Network Load Balancer to create for the kube-apiserver endpoint
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| name | Name of the load balancer to create. Default: \"<CLUSTER_NAME>-kubeapi\" | string | false |
+| internal | Internal indicates whether the load balancer should be internal (no public IP). Default: false | *bool | false |
+| securityGroupIDs | SecurityGroupIDs to attach to the load balancer | []string | false |
+| tags | Tags to apply to the load balancer and target group | map[string]string | false |
+
+[Back to Group](#v1beta2)
+
 ### AWSSpec
 
 AWSSpec defines the AWS cloud provider
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
+| region | Region for the AWS resources (VPC, load balancer, EC2 instances). Required when controlPlane is set. | string | false |
+| controlPlane | ControlPlane configures control plane provisioning on AWS | *[AWSControlPlane](#awscontrolplane) | false |
 
 [Back to Group](#v1beta2)
 
@@ -145,12 +182,48 @@ every new pod to have its image pull policy set to Always.
 
 [Back to Group](#v1beta2)
 
+### AuthenticationConfiguration
+
+AuthenticationConfiguration feature flag
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| enable | Enable | bool | false |
+| configFilePath | ConfigFilePath is a path on the local file system to the apiserver.config.k8s.io/v1 AuthenticationConfiguration manifest. The file is distributed to all control plane nodes and passed to the kube-apiserver via the `--authentication-config` flag. It can't be combined with the OpenIDConnect feature. ConfigFilePath is a required field. More info: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration | string | true |
+
+[Back to Group](#v1beta2)
+
+### AzureControlPlane
+
+AzureControlPlane defines control plane config on Azure
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| loadBalancer | LoadBalancer config of a loadbalancer to create for the kubeapi-server endpoint | [AzureLoadBalancer](#azureloadbalancer) | true |
+
+[Back to Group](#v1beta2)
+
+### AzureLoadBalancer
+
+AzureLoadBalancer loadbalancer definition to create for kubeapi-server endpoint
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| name | Name of the loadbalancer to create. Default: \"<CLUSTER_NAME>-kubeapi\" | string | false |
+| resourceGroup | ResourceGroup is the name of the Azure resource group where the loadbalancer is created. Default: the resourceGroup of the first control plane NodeSet. | string | false |
+| location | Location is the Azure region where the loadbalancer is created. Default: the location of the first control plane NodeSet. | string | false |
+| sku | Sku of the loadbalancer to create. Default: \"Standard\" | string | false |
+| publicIPName | PublicIPName is the name of the public IP address attached to the loadbalancer. Default: \"<NAME>-pubip\" | string | false |
+
+[Back to Group](#v1beta2)
+
 ### AzureSpec
 
 AzureSpec defines the Azure cloud provider
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
+| controlPlane | ControlPlane configures control plane provisioning on Azure | *[AzureControlPlane](#azurecontrolplane) | false |
 
 [Back to Group](#v1beta2)
 
@@ -248,6 +321,7 @@ ClusterNetworkConfig describes the cluster network
 | ipFamily | IPFamily allows specifying IP family of a cluster. Valid values are IPv4 \| IPv6 \| IPv4+IPv6 \| IPv6+IPv4. | IPFamily | false |
 | nodeCIDRMaskSizeIPv4 | NodeCIDRMaskSizeIPv4 is the mask size used to address the nodes within provided IPv4 Pods CIDR. It has to be larger than the provided IPv4 Pods CIDR. Defaults to 24. | *int | false |
 | nodeCIDRMaskSizeIPv6 | NodeCIDRMaskSizeIPv6 is the mask size used to address the nodes within provided IPv6 Pods CIDR. It has to be larger than the provided IPv6 Pods CIDR. Defaults to 64. | *int | false |
+| clusterDNS | ClusterDNS overrides the list of DNS server IP addresses that kubelets configure for pods, on both control plane/static worker nodes and nodes provisioned by machine-controller. Use it when DNS is provided by components not managed by KubeOne, e.g. a user-deployed Cilium with Local Redirect Policy and node-local DNS cache. Cannot be used together with features.nodeLocalDNS.deploy. By default, it's derived from features.nodeLocalDNS, clusterNetwork.cni.cilium.enableLocalRedirectPolicy and the CoreDNS service IP (the 10th IP of the primary service subnet). | []string | false |
 
 [Back to Group](#v1beta2)
 
@@ -377,12 +451,42 @@ DNSConfig contains a machine's DNS configuration
 
 [Back to Group](#v1beta2)
 
+### DigitalOceanControlPlane
+
+DigitalOceanControlPlane control plane config on DigitalOcean
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| loadBalancer | LoadBalancer config of the kube-apiserver load balancer | [DigitalOceanLoadBalancer](#digitaloceanloadbalancer) | true |
+
+[Back to Group](#v1beta2)
+
+### DigitalOceanLoadBalancer
+
+DigitalOceanLoadBalancer defines the load balancer used as the kube-apiserver endpoint.
+
+Two modes are supported:
+  - create (default): KubeOne creates and owns the load balancer, and deletes it on reset
+  - existing: ID references a pre-existing load balancer that KubeOne uses but never deletes
+
+Load balancer management is skipped when .apiEndpoint.host is set.
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| id | ID of a pre-existing load balancer to use. KubeOne never deletes a load balancer referenced by ID, nor changes its health check, which must check TCP or HTTPS /readyz on port 6443. | string | false |
+| name | Name of the load balancer to create. Default: \"<CLUSTER_NAME>-kubeapi\" | string | false |
+| region | Region of the load balancer, must match the control plane nodeSets region. Used to find the load balancer by name, and to check a load balancer referenced by ID. Default: region of the first control plane nodeSet | string | false |
+| sizeUnit | SizeUnit is the number of nodes of the load balancer to create (1-100), each node adds connection capacity. 1 is enough for most clusters. Only used when creating the load balancer, changes aren't applied to an existing one. Default: 1 | uint32 | false |
+
+[Back to Group](#v1beta2)
+
 ### DigitalOceanSpec
 
 DigitalOceanSpec defines the DigitalOcean cloud provider
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
+| controlPlane | ControlPlane configures the managed control plane on DigitalOcean. Used only when .controlPlane.nodeSets is set. | *[DigitalOceanControlPlane](#digitaloceancontrolplane) | false |
 
 [Back to Group](#v1beta2)
 
@@ -485,9 +589,34 @@ Features controls what features will be enabled on the cluster
 | staticAuditLog | StaticAuditLog | *[StaticAuditLog](#staticauditlog) | false |
 | dynamicAuditLog | DynamicAuditLog | *[DynamicAuditLog](#dynamicauditlog) | false |
 | metricsServer | MetricsServer | *[MetricsServer](#metricsserver) | false |
-| openidConnect | OpenIDConnect | *[OpenIDConnect](#openidconnect) | false |
+| openidConnect | OpenIDConnect configures a single OIDC issuer using the legacy kube-apiserver `--oidc-*` flags. For multiple JWT issuers, CEL claim validation and mappings, or anonymous authentication conditions, use AuthenticationConfiguration instead. The two features are mutually exclusive. | *[OpenIDConnect](#openidconnect) | false |
+| authenticationConfiguration | AuthenticationConfiguration configures the kube-apiserver using the structured authentication configuration file (`--authentication-config`). | *[AuthenticationConfiguration](#authenticationconfiguration) | false |
 | encryptionProviders | Encryption Providers | *[EncryptionProviders](#encryptionproviders) | false |
 | nodeLocalDNS | NodeLocalDNS config | *[NodeLocalDNS](#nodelocaldns) | false |
+
+[Back to Group](#v1beta2)
+
+### GCEControlPlane
+
+GCEControlPlane control plane config on GCE
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| loadBalancer | LoadBalancer config of a network load balancer to create for the kube-apiserver endpoint | [GCELoadBalancer](#gceloadbalancer) | true |
+
+[Back to Group](#v1beta2)
+
+### GCELoadBalancer
+
+GCELoadBalancer defines the kube-apiserver load balancer, a regional external passthrough Network Load Balancer with a backend service
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| projectID | ProjectID of the GCE project to create the load balancer resources in. Default: project of the service account in the credentials | string | false |
+| region | Region to create the load balancer resources in, must contain the zones of the control plane nodeSets. Default: region of the first control plane nodeSet zone | string | false |
+| network | Network to create the firewall rules in, must be the network of the control plane VMs. Default: the network of the control plane nodeSets (cloudProviderSpec.network, or the network of their subnetwork, else the \"default\" network), resolved when the load balancer is ensured. The firewall rules of a Shared VPC network are created in its host project. | string | false |
+| name | Name of the load balancer resources (address, health check, backend service, forwarding rule) and prefix of the network endpoint groups and firewall rules. Default: \"<CLUSTER_NAME>-kubeapi\" | string | false |
+| allowedSourceRanges | AllowedSourceRanges are the CIDRs allowed to reach the kube-apiserver through the load balancer. The load balancer preserves the client source IP, so this firewall rule is the only access control. The nodes reach kube-apiserver through the load balancer from their public (or Cloud NAT) IPs, so these must be included, otherwise control plane nodes can't join and workers can't register. IPv4 only, like the load balancer. Default: [\"0.0.0.0/0\"] | []string | false |
 
 [Back to Group](#v1beta2)
 
@@ -497,6 +626,7 @@ GCESpec defines the GCE cloud provider
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
+| controlPlane | ControlPlane configures control plane provisioning on GCE | *[GCEControlPlane](#gcecontrolplane) | false |
 
 [Back to Group](#v1beta2)
 
@@ -599,7 +729,7 @@ HostConfig describes a single control plane or worker node.
 | bastionPrivateKeyFile | BastionPrivateKeyFile is path to the file with PRIVATE AND CLEANTEXT ssh key. Default value is \"\". | string | false |
 | hostname | Hostname is the hostname(1) of the host. Default value is populated at the runtime via running `hostname -f` command over ssh. | string | false |
 | isLeader | IsLeader indicates this host as a session leader. Default value is populated at the runtime. | bool | false |
-| taints | Taints are taints applied to nodes. Those taints are only applied when the node is being provisioned. If not provided (i.e. nil) for control plane nodes, it defaults to TaintEffectNoSchedule with key\n    node-role.kubernetes.io/control-plane\nExplicitly empty (i.e. []corev1.Taint{}) means no taints will be applied (this is default for worker nodes). | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#taint-v1-core) | false |
+| taints | Taints are taints applied to nodes. Those taints are only applied when the node is being provisioned. If not provided (i.e. nil) for control plane nodes, it defaults to TaintEffectNoSchedule with key\n    node-role.kubernetes.io/control-plane\nExplicitly empty (i.e. []corev1.Taint{}) means no taints will be applied (this is default for worker nodes). | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.37/#taint-v1-core) | false |
 | labels | Labels to be used to apply (or remove, with minus symbol suffix, see more kubectl help label) labels to/from node | map[string]string | false |
 | annotations | Annotations to be used to apply (or remove, with minus symbol suffix, see more kubectl help annotate) annotations to/from node | map[string]string | false |
 | kubelet | Kubelet | [KubeletConfig](#kubeletconfig) | false |
@@ -631,6 +761,16 @@ IPVSConfig contains different options to configure IPVS kube-proxy mode
 
 [Back to Group](#v1beta2)
 
+### JournaldConfig
+
+JournaldConfig configures systemd-journald
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| systemMaxUse | SystemMaxUse configures the maximum disk space the persistent journal can use, e.g. 500M or 2G. Supported suffixes are K, M, G, T, P and E (base 1024). Default value is 5G. See more at: https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html#SystemMaxUse= | string | false |
+
+[Back to Group](#v1beta2)
+
 ### KubeOneCluster
 
 KubeOneCluster is KubeOne Cluster API Schema
@@ -658,6 +798,7 @@ KubeOneCluster is KubeOne Cluster API Schema
 | systemPackages | SystemPackages configure kubeone behaviour regarding OS packages. | *[SystemPackages](#systempackages) | false |
 | registryConfiguration | RegistryConfiguration configures how Docker images are pulled from an image registry | *[RegistryConfiguration](#registryconfiguration) | false |
 | loggingConfig | LoggingConfig configures the Kubelet's log rotation | [LoggingConfig](#loggingconfig) | false |
+| journald | Journald configures systemd-journald on all nodes | [JournaldConfig](#journaldconfig) | false |
 | tlsCipherSuites | TLSCipherSuites allows to configure TLS cipher suites for different components. See https://pkg.go.dev/crypto/tls#pkg-constants for possible values. | [TLSCipherSuites](#tlsciphersuites) | true |
 | controlPlaneComponents | ControlPlaneComponents configures the Kubernetes control plane components | *[ControlPlaneComponents](#controlplanecomponents) | false |
 
@@ -724,6 +865,39 @@ KubevirtSpec defines the Kubevirt provider
 | zoneAndRegionEnabled | ZoneAndRegionEnabled indicates if need to get Region and zone labels from the cloud provider | bool | false |
 | loadBalancerEnabled | LoadBalancerEnabled indicates if the ccm should create and manage the clusters load balancers. | bool | false |
 | controlPlane | ControlPlane configures control plane provisioning on KubeVirt | *[KubevirtControlPlane](#kubevirtcontrolplane) | false |
+| storageClasses | StorageClasses to create in the cluster. Each one is backed by a StorageClass of the infra cluster. They are created by the kubevirt-csi-driver-operator and named \"kubevirt-<infraStorageClassName>\". | [][KubevirtStorageClass](#kubevirtstorageclass) | false |
+| volumeSnapshotClasses | VolumeSnapshotClasses to create in the cluster. Each one is backed by a VolumeSnapshotClass of the infra cluster. They are created by the kubevirt-csi-driver-operator and named \"kubevirt-<infraVolumeSnapshotClass>\". | [][KubevirtVolumeSnapshotClass](#kubevirtvolumesnapshotclass) | false |
+
+[Back to Group](#v1beta2)
+
+### KubevirtStorageClass
+
+KubevirtStorageClass defines a StorageClass of the cluster backed by a StorageClass of the infra cluster
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| infraStorageClassName | InfraStorageClassName is the name of the StorageClass in the infra cluster | string | true |
+| isDefaultClass | IsDefaultClass marks the StorageClass as the default StorageClass of the cluster | bool | false |
+| volumeBindingMode | VolumeBindingMode of the StorageClass. Default: Immediate | storagev1.VolumeBindingMode | false |
+| allowVolumeExpansion | AllowVolumeExpansion allows PersistentVolumeClaims of the StorageClass to be expanded | bool | false |
+| reclaimPolicy | ReclaimPolicy of the PersistentVolumes provisioned by the StorageClass. Default: Delete | corev1.PersistentVolumeReclaimPolicy | false |
+| bus | Bus is the type of the disk bus used to attach the volumes to the VMs: virtio, scsi or sata. Default: scsi | string | false |
+| zones | Zones restrict the provisioned volumes to the given zones | []string | false |
+| regions | Regions restrict the provisioned volumes to the given regions | []string | false |
+| labels | Labels to be applied to the StorageClass | map[string]string | false |
+
+[Back to Group](#v1beta2)
+
+### KubevirtVolumeSnapshotClass
+
+KubevirtVolumeSnapshotClass defines a VolumeSnapshotClass of the cluster backed by a VolumeSnapshotClass of the
+infra cluster
+
+| Field | Description | Scheme | Required |
+| ----- | ----------- | ------ | -------- |
+| infraVolumeSnapshotClass | InfraVolumeSnapshotClass is the name of the VolumeSnapshotClass in the infra cluster | string | true |
+| isDefaultClass | IsDefaultClass marks the VolumeSnapshotClass as the default VolumeSnapshotClass of the cluster | bool | false |
+| deletionPolicy | DeletionPolicy of the VolumeSnapshotClass: Delete or Retain. Default: Delete | string | false |
 
 [Back to Group](#v1beta2)
 
@@ -793,7 +967,7 @@ MetricsServer feature flag
 | ----- | ----------- | ------ | -------- |
 | labels |  | map[string]string | false |
 | annotations |  | map[string]string | false |
-| taints |  | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#taint-v1-core) | false |
+| taints |  | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.37/#taint-v1-core) | false |
 
 [Back to Group](#v1beta2)
 
@@ -818,6 +992,9 @@ NutanixSpec defines the Nutanix provider
 ### OpenIDConnect
 
 OpenIDConnect feature flag
+
+Consider using AuthenticationConfiguration instead, which supports multiple JWT issuers,
+CEL claim validation and mappings, and anonymous authentication conditions.
 
 | Field | Description | Scheme | Required |
 | ----- | ----------- | ------ | -------- |
@@ -941,7 +1118,7 @@ ProviderSpec describes a worker node
 | nodeAnnotations | NodeAnnotations set MachineDeployment.Spec.Template.Spec.ObjectMeta.Annotations as a way to annotate resulting Nodes | map[string]string | false |
 | machineObjectAnnotations | MachineObjectAnnotations set MachineDeployment.Spec.Template.Metadata.Annotations as a way to annotate resulting Machine objects. Those annotations are not propagated to Node objects. If you want to annotate resulting Nodes as well, see NodeAnnotations | map[string]string | false |
 | labels | Labels | map[string]string | false |
-| taints | Taints | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#taint-v1-core) | false |
+| taints | Taints | [][corev1.Taint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.37/#taint-v1-core) | false |
 | sshPublicKeys | SSHPublicKeys | []string | false |
 | operatingSystem | OperatingSystem | string | true |
 | operatingSystemSpec | OperatingSystemSpec | [json.RawMessage](https://golang.org/pkg/encoding/json/#RawMessage) | false |
