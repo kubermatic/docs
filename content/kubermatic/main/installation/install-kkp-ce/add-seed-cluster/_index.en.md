@@ -325,7 +325,7 @@ to connect to your Seed Cluster's Kubernetes API endpoint.
 {{% /notice %}}
 
 The separate kubeconfig Secret needs to be provided even when a shared Master/Seed Cluster is being set up. Make sure that
-the kubeconfig you provide to the Seed resource has an Kubernetes API endpoint configured that is reachable from within the cluster.
+the kubeconfig you provide to the Seed resource has a Kubernetes API endpoint configured that is reachable from within the cluster.
 
 {{% notice warning %}}
 To make sure that the kubeconfig stays valid forever, it must not contain temporary login tokens. Depending on the

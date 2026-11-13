@@ -7,7 +7,7 @@ weight = 2
 
 ## Prepare Azure Environment
 
-For provisioning Kubernetes clusters with the [Azure cloud provider](https://github.com/kubermatic/machine-controller/tree/main/pkg/cloudprovider/provider/azure) Kubermatic Kubernetes Platform (KKP) needs a service account. Please follow the following steps steps to create a matching service account and the roles:
+For provisioning Kubernetes clusters with the [Azure cloud provider](https://github.com/kubermatic/machine-controller/tree/main/pkg/cloudprovider/provider/azure) Kubermatic Kubernetes Platform (KKP) needs a service account. Please follow the following steps to create a matching service account and the roles:
 
 ### Login to Azure and Get Basic Information
 

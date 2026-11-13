@@ -4,7 +4,7 @@ date = 2020-02-10T11:07:15+02:00
 weight = 151
 +++
 
-Get information on how to get the most ouf of the Kubermatic Dashboard, the official UI of the Kubermatic Kubernetes Platform.
+Get information on how to get the most out of the Kubermatic Dashboard, the official UI of the Kubermatic Kubernetes Platform.
 
 ![Admin Panel](dashboard.png?height=400px&classes=shadow,border "Kubermatic Dashboard")
 

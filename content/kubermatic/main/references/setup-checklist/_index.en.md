@@ -16,7 +16,7 @@ Any further environment-specific details, will get described later in this docum
 
 To ensure the quality of service, Kubermatic Kubernetes Platform (KKP) relies on the basic availability and setup of the dependent infrastructure as defined at [KKP Documentation > Requirements]({{< ref "../../architecture/requirements/cluster-requirements/" >}}).
 
-For the installation of KPP ensure that the mentioned requirements are fulfilled. Besides of the mentioned minimal requirements, it’s recommended that the provided infrastructure ensures the following criteria for the managing master/seed cluster as well as for the user clusters:
+For the installation of KKP ensure that the mentioned requirements are fulfilled. Besides of the mentioned minimal requirements, it’s recommended that the provided infrastructure ensures the following criteria for the managing master/seed cluster as well as for the user clusters:
 
 - High Availability setup of the public or/and private cloud infrastructure:
 
@@ -255,9 +255,9 @@ Azure Account described at [Kubermatic Docs > Supported Provider > Azure]({{< re
 
 ![KKP single seed integration on-premise and Azure](integration-single-seed-azure-worker.png)
 
-- Worker Node IP Range needs to reach seed cluster user control plan endpoints, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
+- Worker Node IP Range needs to reach seed cluster user control plane endpoints, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
 
-- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy]({{< ref "../../architecture/concept/kkp-concepts/networking#kubernetes-konnectivity-proxy" >}}) between worker and control plan, so no way back connection needs to be opened
+- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy]({{< ref "../../architecture/concept/kkp-concepts/networking#kubernetes-konnectivity-proxy" >}}) between worker and control plane, so no way back connection needs to be opened
 
 - Existing seed cluster(s) need to reach [Azure API endpoints](https://docs.microsoft.com/en-us/rest/api/azure/) for the machine provisioning
 
@@ -334,9 +334,15 @@ To provide a “cloud native” experience to the end user of KKP, we recommend 
 
 ##### Option I - Workers only in vSphere Datacenter(s)
 
+<<<<<<< HEAD
 - Worker Node IP Range needs to reach seed cluster user control plan endpoints, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
 
 - KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy]({{< ref "../../architecture/concept/kkp-concepts/networking#kubernetes-konnectivity-proxy" >}}) between the worker and control plan, so no way back connection needs to be opened
+=======
+- Worker Node IP Range needs to reach seed cluster user control plane endpoints, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/)
+
+- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy](https://docs.kubermatic.com/kubermatic/main/architecture/concept/kkp-concepts/networking/#kubernetes-konnectivity-proxy) between the worker and control plane, so no way back connection needs to be opened
+>>>>>>> ccab9eec (KKP docs: fix typos and wording in main, v2.31, v2.30 and v2.29)
 
 - Existing seed cluster(s) need to reach their attached vSphere API endpoints for the machine provisioning, see [Seed - Datacenter vSphere Spec]({{< ref "../crds#datacenterspecvsphere" >}})
 
@@ -427,9 +433,15 @@ Additional information about the usage of Open Stack within in Kubernetes you co
 
 ##### Option I - Workers only in OpenStack Datacenter(s)
 
+<<<<<<< HEAD
 - Worker Node IP Range needs to reach seed cluster user control plan endpoints, see [Expose Strategy]({{< ref "../../tutorials-howtos/networking/expose-strategies/" >}})
 
 - KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy]({{< ref "../../architecture/concept/kkp-concepts/networking#kubernetes-konnectivity-proxy" >}}) between the worker and control plan, so no way back connection needs to be opened
+=======
+- Worker Node IP Range needs to reach seed cluster user control plane endpoints, see [Expose Strategy](https://docs.kubermatic.com/kubermatic/main/tutorials-howtos/networking/expose-strategies/)
+
+- KKP will create then a secure GRPC tunnel via [Kubernetes Konnectivity proxy](https://docs.kubermatic.com/kubermatic/main/architecture/concept/kkp-concepts/networking/#kubernetes-konnectivity-proxy) between the worker and control plane, so no way back connection needs to be opened
+>>>>>>> ccab9eec (KKP docs: fix typos and wording in main, v2.31, v2.30 and v2.29)
 
 - Existing seed cluster(s) need to reach their attached OpenStack API endpoints for the machine provisioning, see [Seed - Datacenter OpenStack Spec]({{< ref "../crds#datacenterspecopenstack" >}})
 
