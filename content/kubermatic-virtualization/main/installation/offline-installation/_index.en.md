@@ -34,7 +34,9 @@ the folder carries the installer of that release for step 5.
 
 ## Step 1 — Download the bundle
 
-On the machine with internet access, run the installer of the release you want to install:
+On the machine with internet access, run the installer of the release you want to install. The disk that holds the
+output folder needs about 30 GB free for v1.3 (the bundle's size plus 10 %); `offline pull` checks this before it
+downloads anything:
 
 ```bash
 kubermatic-virtualization offline pull --output ./kubev-offline-v1.3.0
@@ -43,8 +45,9 @@ kubermatic-virtualization offline pull --output ./kubev-offline-v1.3.0
 `offline pull` asks for the registry credentials of your license (or reads them from your Docker configuration, or
 from `--username` and `--password-stdin`). It writes one folder: the two bundle images (the packages, and every
 container image and Helm chart of the release), the release's commit marker, a checksum for every file, and the
-installer itself. An interrupted download resumes when you run the same command again. A complete folder is
-verified, not downloaded again.
+installer of the release in `bin/`. The jump host runs that copy in step 5, so no other installer has to be carried
+into the site. An interrupted download resumes when you run the same command again. A complete folder is verified,
+not downloaded again.
 
 At the end it prints two values. Keep them apart from the folder — for example in your change ticket:
 
