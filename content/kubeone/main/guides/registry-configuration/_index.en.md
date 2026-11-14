@@ -46,6 +46,7 @@ The `kubeone mirror-images` command pulls, re-tags, and pushes images to your re
 kubeone mirror-images \
   [--filter base,optional,control-plane] \
   [--kubernetes-versions v1.34.1,v1.33.5] \
+  [--provider aws,openstack] \
   [--insecure]  # Allow pushing to insecure registries (HTTP) \
   --registry <your-registry>
 ```
@@ -56,6 +57,10 @@ kubeone mirror-images \
   - `optional`: Add-ons like CCMs and CSI Drivers.
   - `control-plane`: Only Kubernetes core components (kube-apiserver, etcd, etc.).
 - `--kubernetes-versions`: Specify versions (comma-separated). If omitted, **all KubeOne-supported versions are mirrored**.
+- `--provider`: Mirror cloud provider-specific images (CCM and CSI drivers) only for the given cloud provider(s) (comma-separated).
+  Provider-neutral images are always mirrored. Defaults to `none`, which disables filtering and mirrors images for all providers.
+  `none` can't be combined with other values. Supported values: `aws`, `azure`, `digitalocean`, `equinixmetal`, `gce`,
+  `hetzner`, `kubevirt`, `nutanix`, `openstack`, `vmwareCloudDirector`, `vsphere`.
 - `--insecure`: Skip TLS verification for registries using HTTP (useful for local/insecure setups).
 - `--parallel-image-copy-limit`: Maximum number of images to copy in parallel (default 10)`
 
@@ -74,6 +79,29 @@ kubeone mirror-images \
 kubeone mirror-images \
   --filter control-plane \
   registry.example.com:5000
+```
+
+#### 3. Mirror Images Only for Specific Cloud Providers
+By default, CCM and CSI images for all supported cloud providers are mirrored.
+To mirror only the CCM/CSI images for the cloud provider(s) you use, pass the `--provider` flag:
+```bash
+kubeone mirror-images \
+  --provider aws,azure \
+  --kubernetes-versions v1.34.1 \
+  registry.example.com:5000
+```
+
+### Listing Images with `kubeone config images list`
+
+To inspect which images are going to be used (e.g. when mirroring with your own tooling), use the
+`kubeone config images list` command. It supports the same `--filter` and `--provider` flags:
+
+```bash
+# List images for the given Kubernetes version, with CCM/CSI images only for AWS
+kubeone config images list --kubernetes-version 1.34.1 --provider aws
+
+# List optional images, with CCM/CSI images only for Hetzner and OpenStack
+kubeone config images list --filter optional --provider hetzner,openstack
 ```
 
 ### Benefits of `kubeone mirror-images`
