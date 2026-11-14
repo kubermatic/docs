@@ -38,7 +38,8 @@ The installer checks the whole file when it loads it, and stops before it change
 13. [VM Migration from vSphere](#vm-migration-from-vsphere)
 14. [Platform Feature Gates](#platform-feature-gates)
 15. [KDP Integration](#kdp-integration)
-16. [Complete Example](#complete-example)
+16. [Observability](#observability)
+17. [Complete Example](#complete-example)
 
 ---
 
@@ -1062,6 +1063,24 @@ In every mode, a configuration with the dashboard enabled also needs:
 The nested mode needs `dashboard.enabled: false`. In the same layer and nested modes, the installer pulls the KDP charts with `KUBEV_USERNAME` and `KUBEV_PASSWORD`, even when `imagePullSecret` is set.
 
 **Use when:** You run, or want to run, KDP as your internal developer platform, and want teams to get virtual machines from its catalog.
+
+---
+
+## Observability
+
+The optional `observability` section deploys a bundled OpenTelemetry Collector that pushes the platform's metrics, traces and logs to an OTLP endpoint you run or subscribe to, such as Grafana Cloud. Without the section, nothing is deployed. The [Observability]({{< ref "../tutorials-howtos/observability" >}}) guide lists what is exported and covers the per-source toggles, headers, TLS, node metrics, logs, traces and troubleshooting.
+
+```yaml
+observability:
+  export:
+    otlp:
+      endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
+      protocol: http
+      headers:
+        Authorization: 'Basic <base64 of instanceID:token>'
+```
+
+**Use when:** You want the cluster's telemetry in your own monitoring backend.
 
 ---
 
