@@ -81,4 +81,8 @@ Without `--version`, the downloader fetches the newest available release. To fet
 ./kubermatic-ee-downloader get kubermatic-virtualization --username $KUBEV_USERNAME --password $KUBEV_PASSWORD --version <version>
 ```
 
-The binary is saved in the current working directory. Move it onto your `PATH` as shown above to use it in place of the previous version.
+The binary is saved in the current working directory. Move it onto your `PATH` to use it in place of the previous version:
+
+```bash
+sudo mv kubermatic-virtualization /usr/local/bin/
+```
