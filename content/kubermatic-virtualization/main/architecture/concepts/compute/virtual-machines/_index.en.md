@@ -106,7 +106,7 @@ Here's a breakdown of the key aspects of KubeVirt VirtualMachinePools:
 
 
 ```yaml
-apiVersion: kubevirt.io/v1alpha1
+apiVersion: pool.kubevirt.io/v1alpha1
 kind: VirtualMachinePool
 metadata:
   name: my-vm-http-pool
@@ -119,33 +119,38 @@ spec:
     metadata:
       labels:
         app: my-vm-http-pool-member
-      annotations:
-        kubevirt.io/allow-pod-bridge-network-live-migration: "true"
     spec:
       runStrategy: RerunOnFailure # Or Always, Halted, Manual
-      domain:
-        cpu:
-          cores: 1
-        memory:
-          guest: 2Gi
-        devices:
-          disks:
+      template:
+        metadata:
+          labels:
+            app: my-vm-http-pool-member
+          annotations:
+            kubevirt.io/allow-pod-bridge-network-live-migration: "true"
+        spec:
+          domain:
+            cpu:
+              cores: 1
+            memory:
+              guest: 2Gi
+            devices:
+              disks:
+                - name: rootdisk
+                  disk:
+                    bus: virtio
+              interfaces:
+                - name: default
+                  masquerade: {}
+          volumes:
             - name: rootdisk
-              disk:
-                bus: virtio
-          interfaces:
+              dataVolume:
+                name: my-pool-vm-data-volume # The VM's index is appended to this name, e.g. my-pool-vm-data-volume-0
+          networks:
             - name: default
-              masquerade: {}
-      volumes:
-        - name: rootdisk
-          dataVolume:
-            name: my-pool-vm-data-volume # This name will have a unique suffix appended by KubeVirt
-      networks:
-        - name: default
-          pod: {}
+              pod: {}
       dataVolumeTemplates:
         - metadata:
-            name: my-pool-vm-data-volume # This name will be the base for the unique DataVolume names
+            name: my-pool-vm-data-volume # This name is the base for the DataVolume names
           spec:
             source:
               http:
@@ -158,11 +163,11 @@ spec:
                   storage: 10Gi # <--- IMPORTANT: Adjust to your desired disk size for each VM
               # storageClassName: my-storage-class # <--- OPTIONAL: Uncomment and replace with your StorageClass name if needed
 ```
-### VirtualMachinePool (apiVersion: `kubevirt.io/v1alpha1`)
+### VirtualMachinePool (apiVersion: `pool.kubevirt.io/v1alpha1`)
 
 1. **`API Version`**
-  - Use `apiVersion: kubevirt.io/v1alpha1` for `VirtualMachinePool`.
-  - This is a slightly different API version than `VirtualMachine`.
+  - Use `apiVersion: pool.kubevirt.io/v1alpha1` for `VirtualMachinePool`.
+  - This is a different API group and version than `VirtualMachine`.
 
 2. **`spec.replicas`**
   - Specifies how many `VirtualMachine` instances the pool should maintain.
@@ -172,11 +177,11 @@ spec:
   - `matchLabels` must correspond to the `metadata.labels` within `virtualMachineTemplate`.
 
 4. **spec.virtualMachineTemplate**
-  - This section contains the full `VirtualMachine` spec that serves as the template for each VM in the pool.
+  - This section contains the full `VirtualMachine` spec that serves as the template for each VM in the pool. The VM's own `domain`, `volumes` and `networks` sit under `spec.virtualMachineTemplate.spec.template.spec`, as in a standalone `VirtualMachine`.
 
 5. **`dataVolumeTemplates` Naming in a Pool**
   - `VirtualMachinePool` creates `DataVolumes` from `dataVolumeTemplates`.
-  - A unique suffix is appended to the `metadata.name` of each `DataVolume` (e.g., `my-pool-vm-data-volume-abcde`), ensuring each VM gets a distinct PVC.
+  - The index of the VM is appended to the `metadata.name` of each `DataVolume` (e.g., `my-pool-vm-data-volume-0`, `my-pool-vm-data-volume-1`), ensuring each VM gets a distinct PVC.
 
 ---
 
