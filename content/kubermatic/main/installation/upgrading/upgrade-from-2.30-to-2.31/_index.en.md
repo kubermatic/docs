@@ -35,6 +35,12 @@ See [OIDC Provider Configuration]({{< ref "../../../tutorials-howtos/oidc-provid
 Because the dashboard now uses the same OIDC client as the kubeconfig and web terminal flows, it is affected by the existing Dex limitation of one refresh token per user/client pair. Downloading a kubeconfig or opening a web terminal ends the running dashboard session once its ID token expires. See [OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times]({{< ref "../../../architecture/known-issues/#oidc-refresh-tokens-are-invalidated-when-the-same-userclient-id-pair-is-authenticated-multiple-times" >}}).
 {{% /notice %}}
 
+#### Accessing KKP Through Additional Hostnames
+
+If users reach the KKP dashboard through reverse proxies on other hostnames, add those hostnames to `.spec.auth.additionalIssuerRedirectURLs` (available since v2.31.X) and register their `/api/v2/auth/callback` URLs in your OIDC provider. Without this, logins through such hostnames fail with a missing state cookie. See [Accessing KKP Through Additional Hostnames]({{< ref "../../../tutorials-howtos/oidc-provider-configuration/#accessing-kkp-through-additional-hostnames-reverse-proxies" >}}).
+
+If your reverse proxy rewrites the `redirect_uri` parameter as a workaround, remove the rewrite when you configure this. Otherwise a login started from a dashboard tab that was opened before the change fails at the callback, because the rewritten `redirect_uri` no longer matches the one KKP stored at login.
+
 ### Gateway API Replaces nginx-ingress-controller
 
 KKP 2.31 enforces the Gateway API with Envoy Gateway as the only way to route external traffic to the dashboard, API, Dex and the monitoring UIs. The nginx-ingress-controller path has been removed. The `migrateGatewayAPI` Helm value and the `--migrate-gateway-api` installer and `--enable-gateway-api` operator flags are accepted but ignored.
