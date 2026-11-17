@@ -52,9 +52,11 @@ none, since those pods belong to no tenant. See
 
 Scraped series keep the `service.name` and `service.instance.id` of their scrape job and target, the
 `job` and `instance` labels of a Prometheus-style backend. The `kubernetes` source's series get
-`service.name` `kubev-otel-collector` and, where they describe a node or a pod on one, the node's
-name as `service.instance.id`, so node series stay apart by `instance` in a backend that does not
-promote `k8s.node.name` to a label.
+`service.name` `kubev-otel-collector` and, where they describe a node, the node's name as
+`service.instance.id`, so node series stay apart by `instance` in a backend that does not promote
+`k8s.node.name` to a label. Series of pods, containers and cluster-wide objects get no
+`service.instance.id`: they stay apart only in a backend that promotes their `k8s.*` attributes
+(`k8s.pod.name`, `k8s.namespace.name`, ...) to labels.
 
 ## Enabling Observability
 
@@ -167,10 +169,12 @@ Both are collected every `scrapeInterval`. Every series carries `k8s.cluster.nam
 `k8s.node.name`, and pod and container series carry the same `k8s.*` attributes as the Collector's
 metrics. With KDP, the agent is configured to add the same tenant attributes.
 
-The agent also sets `service.name` to `kubev-otel-agent` and `service.instance.id` to the node's
-name on its metrics, not on its logs. A Prometheus-style backend turns the two into the `job` and
-`instance` labels, so a backend that does not promote `k8s.node.name` to a label can still tell the
-nodes apart: group by `instance`. Pod and container series carry the `instance` of their node.
+The agent also sets `service.name` to `kubev-otel-agent` on its metrics, not on its logs, and
+`service.instance.id` to the node's name on its node and host metrics. A Prometheus-style backend
+turns the two into the `job` and `instance` labels, so a backend that does not promote
+`k8s.node.name` to a label can still tell the nodes apart: group by `instance`. Pod, container and
+volume series get no `instance`, which keeps one `target_info` series per node for joins on `job`
+and `instance`; they stay apart by their `k8s.*` attributes, where the backend promotes them.
 
 To report the host, the agent mounts the node's `/proc` and `/sys` read-only under `/hostfs`. It
 talks to the kubelet with its own service account. It takes its scheduling from `agentHelmValues`,
@@ -289,7 +293,7 @@ of them:
   `alternateConfig`, `image`, `command` and `clusterRole`;
 * `resources`, `nameOverride`, `fullnameOverride` and `presets`;
 * `config.receivers`, `config.processors.k8s_attributes`, `config.processors.resource`,
-  `config.processors.resource/service`, `config.service` and any `otlp*` exporter under `config.exporters`;
+  `config.processors.transform/service`, `config.service` and any `otlp*` exporter under `config.exporters`;
 * the `checksum/kubev-otlp` pod annotation, which rolls the Collector and the agent when the headers or CA change.
 
 `agentHelmValues` also rejects `securityContext`, so the installer's container security context
