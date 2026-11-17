@@ -988,29 +988,46 @@ KubeV migrates virtual machines from VMware vSphere with [Forklift](https://gith
 ```yaml
 migration:
   enabled: true
-  vddk:
-    image: "registry.example.com/vddk:8.0.3"
-    imagePullSecret: |
-      {"auths":{"registry.example.com":{"auth":"<base64 of username:password>"}}}
+  imagePullSecret: |
+    {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
 ```
 
 | Field | Required | Default | Description |
 |---|---|---|---|
 | `enabled` | No | `true` | Installs Forklift. With `false`, the installer installs no Forklift and, in KDP mode, offers no migration to KDP projects. |
-| `vddk.image` | No | — | A VDDK image for the whole platform. See [VDDK](#vddk). Requires `enabled`. |
-| `vddk.imagePullSecret` | No | — | Raw Docker config JSON for the registry that serves `vddk.image`, in the same format as the top-level [Image Pull Secret](#image-pull-secret). Leave it out when the nodes can pull the image without credentials. Requires `vddk.image`. |
+| `imagePullSecret` | No | the install's pull secret | Raw Docker config JSON, in the same format as the top-level [Image Pull Secret](#image-pull-secret), used to pull the Kubermatic Virtualization image in the namespaces that plans migrate into. See [Pull secret](#pull-secret). Requires `enabled`. |
 
 Not to be confused with `kubevirt.migrations`, which tunes [live migration](#live-migration) between nodes.
 
 **Turning migration off** on a cluster that has Forklift uninstalls the Forklift operator. Its CRDs and the `konveyor-forklift` namespace stay, with every provider, plan and migration and the `ForkliftController`. To also stop the components the operator started, delete the `ForkliftController` first, while the operator is still installed, and then set `enabled: false`.
 
-### VDDK
+**`migration.vddk` is removed**, with its `image` and `imagePullSecret`. A configuration that still has it loads, with a warning that names the field. Delete it from the file.
 
-VMware's Virtual Disk Development Kit (VDDK) lets Forklift copy disks faster than over the vCenter's HTTPS datastore path, and it is required for warm migrations. KubeV doesn't ship it: build an image from the VDDK archive you download from Broadcom, push it to a registry the cluster can reach, and name it in `vddk.image`.
+### Disk transfer
 
-Forklift then uses it for every vSphere provider that doesn't name its own image. In KDP mode, providers may not name their own, so `vddk.image` is the only way to give KDP projects VDDK.
+Migrations from vSphere always read the disks with the NFC plugin built into the Kubermatic Virtualization image. While migration is on, the installer sets that image, `quay.io/kubermatic/kubermatic-virtualization` at the release's tag, as the `vddk_image` of the `ForkliftController`, so Forklift and CDI use it for every vSphere provider. There is no VDDK image to build, push or configure.
 
-With `vddk.image` set, Forklift runs the pods of a migration plan as the ServiceAccount `kubev-migration`, unless the plan names its own. The KubeV controller-manager creates it in each plan's target namespace. With `vddk.imagePullSecret`, the credentials are kept as the Secret `kubev-vddk-pull` in the `kubermatic-virtualization` namespace and copied into each plan's target namespace for as long as a plan targets it. Anyone who can read Secrets there can read the copy, so use a token that can only pull.
+The `vddk_image` of the `ForkliftController` belongs to the installer: a value set by hand is overwritten on the next `apply`.
+
+The built-in reader has these limits:
+
+- ESXi 6.x hosts are refused.
+- RDM disks are not supported.
+- VM encryption is not supported.
+
+A standalone administrator can give a single provider its own VDDK image, for example a licensed VMware VDDK image, by setting `spec.settings.vddkInitImage` on the `Provider` with `kubectl`. It overrides the platform image for that provider. In KDP mode, projects can't set one: admission refuses it.
+
+### Pull secret
+
+The Kubermatic Virtualization image is pulled in the target namespace of each plan. `migration.imagePullSecret` gives the credentials for it. When it is unset, the install's own pull secret is used: the top-level [`imagePullSecret`](#image-pull-secret), or the `quay.io` credential the installer builds from `KUBEV_USERNAME` and `KUBEV_PASSWORD`.
+
+The pull secret in use is stored as the Secret `kubev-vddk-pull` in the `kubermatic-virtualization` namespace. The KubeV controller-manager copies it into the target namespace of every plan, for as long as a plan targets that namespace, and lists it on the ServiceAccount `kubev-migration` there. Forklift runs the plan's pods under that ServiceAccount.
+
+CDI's importer pods in every namespace list `kubev-vddk-pull` too. An import in a namespace without the copy logs a `FailedToRetrieveImagePullSecret` event, which is harmless.
+
+Anyone who can read Secrets in a target namespace can read the copy. Set `migration.imagePullSecret` to a dedicated token that can only pull, rather than letting the install's own credential be copied.
+
+Without any pull secret, the nodes must be able to pull the image on their own, for example from an offline mirror.
 
 ---
 
@@ -1063,7 +1080,7 @@ The nested mode needs `dashboard.enabled: false`. In the same layer and nested m
 
 ## Complete Example
 
-A production-grade configuration with 3-node HA control plane, 2 worker nodes, MetalLB, Longhorn, in-cluster Dex federated to Google and LDAP, the dashboard in OIDC mode, and VM migration from vSphere with a VDDK image:
+A production-grade configuration with 3-node HA control plane, 2 worker nodes, MetalLB, Longhorn, in-cluster Dex federated to Google and LDAP, the dashboard in OIDC mode, and VM migration from vSphere with a pull secret of its own:
 
 ```yaml
 apiVersion: virtualization.k8c.io/v1alpha1
@@ -1163,8 +1180,8 @@ dashboard:
 
 migration:
   enabled: true
-  vddk:
-    image: "registry.example.com/vddk:8.0.3"
+  imagePullSecret: |
+    {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
 
 imagePullSecret: |
   {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}

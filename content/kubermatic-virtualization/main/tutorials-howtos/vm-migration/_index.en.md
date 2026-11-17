@@ -9,7 +9,7 @@ This guide moves virtual machines from a VMware vCenter into KubeV with a migrat
 first, then the equivalent YAML for `kubectl`.
 
 Running KubeV inside a KDP project? Read [Migrating VMs from vSphere]({{< ref "../../kdp-integration/migration" >}})
-instead: the steps are the same, but plans are cold only and the migrated VMs are added to the project.
+instead: the steps are the same, but the migrated VMs are added to the project.
 
 ## Before you start
 
@@ -20,13 +20,13 @@ instead: the steps are the same, but plans are cold only and the migrated VMs ar
 - Network access from the cluster nodes to the vCenter on port 443 and to every ESXi host on ports
   443 and 902. Disk data is read from the ESXi hosts directly.
 - For a **cold** migration, power off the VMs in vSphere. For a **warm** migration, enable Changed
-  Block Tracking on each VM and its disks, and give the provider a VDDK image.
-- Optional: a **VDDK image**. VMware's disk library makes transfers faster, allows warm migration
-  and is required for VMs on vSAN storage. VMware does not permit redistributing it, so build the
-  image from the VDDK tarball and push it to a registry the cluster can pull from. Set it on each
-  provider. A cluster-wide image, set with `migration.vddk.image` and, for a private registry,
-  `migration.vddk.imagePullSecret` in the installer configuration, is used for transfers, but the
-  dashboard offers **Warm** only when the provider has its own image.
+  Block Tracking on each VM and its disks.
+- No VDDK image is needed. KubeV reads the disks with the NFC plugin built into the Kubermatic
+  Virtualization image, for every vSphere provider. The built-in reader refuses ESXi 6.x hosts and
+  doesn't support RDM disks or VM encryption. To give one provider its own VDDK image, such as a
+  licensed VMware VDDK image, set `spec.settings.vddkInitImage` on its `Provider` with `kubectl`;
+  it overrides the platform image for that provider. See
+  [Disk transfer]({{< ref "../../configuration-guide#disk-transfer" >}}).
 - Enough free capacity in the target storage class for the full provisioned size of every disk,
   not its used size.
 - Disable vMotion and Storage vMotion for the VMs while they migrate, and take no snapshots of
@@ -59,20 +59,22 @@ Go to **Migration** > **Source Providers** and choose **Add Provider**.
 | **Username** / **Password** | The migration account, for example `migration@vsphere.local`. |
 | **Skip TLS Verification** | Only for a lab: credentials and disk data then travel over an unverified connection. |
 | **CA Certificate** | The vCenter's CA certificate in PEM form. Leave it empty when the cluster already trusts the certificate. Hidden while verification is skipped. |
-| **VDDK Image** | Optional. The VDDK image, such as `registry.example.com/vddk:8.0.3`. Leave it empty to use the cluster-wide image, if one is set. |
 | **SDK Endpoint** | **vCenter**, or **ESXi host** when the URL points at a single host. |
 | **Storage copy-offload clone method** | Only matters with copy offload to NetApp ONTAP. Keep the default otherwise. |
 
 Choose **Test Connection** to check the URL and login from the API server, then **Add Provider**.
 
-![Add Source Provider dialog](provider-form.png "The Add Source Provider dialog with the login, TLS and VDDK image fields")
+![Add Source Provider dialog](provider-form.png "The Add Source Provider dialog with the login and TLS fields")
 
 Forklift checks the login from inside the cluster before the provider is saved. The provider then
 shows **Connecting**, then **Inventorying** while Forklift reads the vCenter, then **Ready**, or
 **Failed** with the reason on hover. Open it to browse its virtual machines, networks, datastores,
-hosts, clusters and datacenters, the plans that use it, and its events. **Edit** changes the VDDK
-image, the SDK endpoint and the clone method; turn on **Replace Credentials** in the dialog to
-enter a new URL, login and TLS settings, because the stored ones cannot be read back.
+hosts, clusters and datacenters, the plans that use it, and its events. **Edit** changes the SDK
+endpoint and the clone method; turn on **Replace Credentials** in the dialog to enter a new URL,
+login and TLS settings, because the stored ones cannot be read back.
+
+A provider that names its own VDDK image, set with `kubectl`, shows it on its page and in the edit
+dialog. Saving the provider in the dashboard removes it.
 
 ![Source provider page](provider-detail.png "A provider's page with its status and inventory tabs")
 
@@ -114,7 +116,8 @@ spec:
     namespace: konveyor-forklift
   settings:
     sdkEndpoint: vcenter
-    vddkInitImage: registry.example.com/vddk:8.0.3
+    # Optional. A VDDK image for this provider only, which overrides the platform image.
+    # vddkInitImage: registry.example.com/vddk:8.0.3
 ---
 # The destination. The dashboard creates it with the first source provider.
 apiVersion: forklift.konveyor.io/v1beta1
@@ -140,7 +143,8 @@ link.
 
 1. **Source**: pick the **Source Provider** and enter a **Plan Name**, such as `web-tier-1`.
 2. **Migration Type**: **Cold** copies the disks while the machines are powered off. **Warm** copies
-   them while the machines keep running, then cuts over; it needs a VDDK image on the provider.
+   them while the machines keep running, then cuts over; it needs Changed Block Tracking on every
+   machine and its disks.
 
 ![Source and Migration Type sections](plan-form-source.png "The top of the plan form: source provider, plan name, migration type and Create Plan")
 
@@ -349,13 +353,11 @@ are on its **Overview** tab. The same text is in `kubectl describe` of the objec
 | `Forklift could not reach that vCenter from inside the cluster` when adding a provider | The login passed from the API server, but the cluster nodes cannot reach the vCenter on port 443. |
 | The provider stays **Connecting** or turns **Failed** | Check the URL, the login and the certificate settings, and that the cluster nodes can reach the vCenter on port 443. The message is on the status badge and under **Events** > **View Conditions**. |
 | The provider is **Ready** but its Virtual Machines tab stays empty | The account cannot read the inventory. Grant its rights at the datacenter level and let them propagate. |
-| **Warm** is greyed out with `this provider has no VDDK image` | Set a VDDK image on the provider. |
 | A machine cannot be selected | Hover its checkbox: power it off for a cold plan, enable Changed Block Tracking for a warm plan, or resolve the critical concern in vCenter. |
 | `<name> already exists in the destination` | Enter a different **Target name** for that machine. |
 | `MAC address already in use` | Choose **Give ... a New MAC** to move the existing VM to a new address. |
 | The plan stays **Not ready** | Open **This plan cannot run yet** on the Overview tab. Forklift names the machine and the reason, such as an unsupported guest OS or a datastore without a storage class. |
-| A migration pod shows `ImagePullBackOff` | The VDDK image cannot be pulled. Check the image name and the registry's pull secret. |
+| A migration pod shows `ImagePullBackOff` | The Kubermatic Virtualization image cannot be pulled in the plan's target namespace. Check `migration.imagePullSecret`, or the install's pull secret when it is unset. See [Pull secret]({{< ref "../../configuration-guide#pull-secret" >}}). |
 | The transfer starts, then fails | The cluster nodes cannot reach the ESXi hosts on ports 443 and 902. |
-| The transfer is very slow | The provider has no VDDK image, so the disks go over the vCenter's HTTPS datastore path. |
 | `warm import retry limit reached` | The machine reached vSphere's snapshot limit during a long precopy. Delete its snapshots in vSphere and start the plan again. |
 | A new run fails on an existing disk | A cancelled run left partial disks behind. Delete the leftover `DataVolume` and `PersistentVolumeClaim` objects of that machine in the namespace, then run the plan again. |

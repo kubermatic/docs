@@ -58,11 +58,10 @@ it to your project. From that moment it is a normal VM of the project.
 - **The vCenter address** must use `https`, with a fully qualified host name such as
   `vcenter.example.com`, or an IP address. Short names such as `https://vcenter` are refused. The
   vCenter must be reachable from the KubeV cluster.
-- **VDDK comes from the platform.** A project can't bring its own VDDK image. When the platform
-  administrator sets one for the whole platform, providers use it, and warm migration is offered:
-  the provider form says VDDK is provided by the platform. Without it, migrations are cold only,
-  disks are copied over the vCenter's HTTPS datastore path, and VMs on vSAN storage can't be
-  migrated.
+- **The platform reads the disks.** KubeV reads them with the NFC plugin built into its image, for
+  cold and warm migrations alike, and VMs on vSAN storage can be migrated. A project can't set a
+  VDDK image of its own on a provider: it is refused. ESXi 6.x hosts are refused too, and RDM disks
+  and VM encryption are not supported.
 - **No copy offload and no transfer network** in a project.
 
 ## 1. Add the vCenter
@@ -82,9 +81,8 @@ only the rights a migration needs.
 
 ## 2. Create a plan
 
-1. For a cold migration, power off the VMs in vSphere: it copies disks at rest. A warm migration,
-   offered when the platform provides VDDK, copies the disks while the VMs run and needs Changed
-   Block Tracking on them.
+1. For a cold migration, power off the VMs in vSphere: it copies disks at rest. A warm migration
+   copies the disks while the VMs run and needs Changed Block Tracking on every VM and its disks.
 2. Open **Migration** > **Migration Plans** and choose **New Plan**.
 3. Pick the source provider and select the VMs.
 4. Map each source network to a subnet of the project, or leave it out. The platform's pod network is
@@ -123,19 +121,25 @@ Once added, a migrated VM is a normal VM of the project. Deleting it also delete
 
 ## For platform administrators
 
-To give projects VDDK and warm migration, set a VDDK image for the whole platform in the KubeV
-configuration, with the credentials of its registry if it needs them, and run the installer:
+Projects need no VDDK image, and there is none to configure. While migration is on, the installer
+sets the Kubermatic Virtualization image as Forklift's VDDK image, and Forklift and CDI read every
+provider's disks with the NFC plugin built into it.
+
+That image is pulled in the namespace each plan migrates into, the project's namespace on the KubeV
+cluster. KubeV copies its pull Secret, `kubev-vddk-pull`, there while a plan targets the namespace,
+and anyone who may read Secrets in that namespace can read it. Without `migration.imagePullSecret`,
+the copy holds the install's own pull secret. Give migration a dedicated token that can only pull,
+and run the installer:
 
 ```yaml
 migration:
-  vddk:
-    image: registry.example.com/vddk:8.0.3
-    imagePullSecret: |
-      {"auths":{"registry.example.com":{"auth":"<base64 of username:password>"}}}
+  imagePullSecret: |
+    {"auths":{"quay.io":{"auth":"<base64 of username:password>"}}}
 ```
 
-KubeV copies the pull Secret into the namespace of every plan while the plan exists, where anyone who
-may read Secrets in that namespace can read it. Use a token that can only pull.
+A configuration that still has `migration.vddk` loads with a warning: delete the field. See
+[VM Migration from vSphere]({{< ref "../../configuration-guide#vm-migration-from-vsphere" >}}) in the
+Configuration Guide.
 
 ## With kubectl
 
