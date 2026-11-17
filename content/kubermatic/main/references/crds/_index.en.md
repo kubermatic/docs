@@ -2632,6 +2632,7 @@ _Appears in:_
 | `kubeStateMetrics` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}KubeStateMetrics configures kube-state-metrics settings deployed by the monitoring controller.{{< /unsafe >}} |
 | `machineController` _[MachineControllerSettings](#machinecontrollersettings)_ | {{< unsafe >}}MachineController configures the Kubermatic machine-controller deployment.{{< /unsafe >}} |
 | `envoyAgent` _[DaemonSetSettings](#daemonsetsettings)_ | {{< unsafe >}}EnvoyAgent configures the envoy-agent deployed in the usercluster.{{< /unsafe >}} |
+| `kubelb` _[DeploymentSettings](#deploymentsettings)_ | {{< unsafe >}}KubeLB configures the KubeLB CCM deployed as part of the cluster control plane.<br />Only available in Enterprise Edition.{{< /unsafe >}} |
 
 
 [Back to top](#top)
