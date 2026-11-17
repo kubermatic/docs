@@ -18,15 +18,10 @@ instead: the steps are the same, but the migrated VMs are added to the project.
 - A vCenter account for the migration. Grant its rights at the **datacenter** level and let them
   propagate: rights on the VMs alone are not enough for Forklift to read the inventory.
 - Network access from the cluster nodes to the vCenter on port 443 and to every ESXi host on ports
-  443 and 902. Disk data is read from the ESXi hosts directly.
+  443 and 902. Disk data is read from the ESXi hosts directly, over NFC on port 902.
 - For a **cold** migration, power off the VMs in vSphere. For a **warm** migration, enable Changed
   Block Tracking on each VM and its disks.
-- No VDDK image is needed. KubeV reads the disks with the NFC plugin built into the Kubermatic
-  Virtualization image, for every vSphere provider. The built-in reader refuses ESXi 6.x hosts and
-  doesn't support RDM disks or VM encryption. To give one provider its own VDDK image, such as a
-  licensed VMware VDDK image, set `spec.settings.vddkInitImage` on its `Provider` with `kubectl`;
-  it overrides the platform image for that provider. See
-  [Disk transfer]({{< ref "../../configuration-guide#disk-transfer" >}}).
+- No VDDK image. KubeV reads the disks itself, see [How the disks are copied](#how-the-disks-are-copied).
 - Enough free capacity in the target storage class for the full provisioned size of every disk,
   not its used size.
 - Disable vMotion and Storage vMotion for the VMs while they migrate, and take no snapshots of
@@ -45,6 +40,34 @@ created there too. The credentials Secret lives in Forklift's namespace, `konvey
 The two pages sit under **Migration** in the sidebar.
 
 ![Migration group in the sidebar](sidebar-migration.png "The Migration pages in the sidebar")
+
+## How the disks are copied
+
+KubeV reads the source disks with the NFC plugin built into the Kubermatic Virtualization image.
+The installer sets that image as Forklift's VDDK image for every provider, so there is nothing to
+build or configure, and cold and warm plans both use it. The plugin reads each disk from its ESXi
+host over NFC, on port 902, vSAN datastores included.
+
+- A **cold** plan copies every disk once, while the machine is powered off.
+- A **warm** plan copies the disks while the machine runs. Later copies, and the last one at
+  cutover, take only the blocks that Changed Block Tracking reports as changed.
+
+The pods that copy the disks pull the Kubermatic Virtualization image in the plan's target
+namespace. The installer copies a pull secret there for them: `migration.imagePullSecret` from the
+installer configuration, or the install's own pull secret when that is unset. See
+[Pull secret]({{< ref "../../configuration-guide#pull-secret" >}}).
+
+The built-in plugin cannot read every machine:
+
+- **RDM disks** (raw device mappings) are not supported.
+- **Encrypted VMs** are not supported.
+- **ESXi 6.x and older** hosts are refused.
+
+For such machines, an administrator can give the provider its own VDDK image, such as a licensed
+VMware VDDK image pushed to a registry the cluster can pull from, by setting
+`spec.settings.vddkInitImage` on the `Provider` with `kubectl`. That image then copies the disks of
+every plan of the provider. The dashboard has no field for it, and saving the provider in the
+dashboard removes it. See [Disk transfer]({{< ref "../../configuration-guide#disk-transfer" >}}).
 
 ## Step 1: Add a source provider
 
@@ -74,7 +97,8 @@ endpoint and the clone method; turn on **Replace Credentials** in the dialog to 
 login and TLS settings, because the stored ones cannot be read back.
 
 A provider that names its own VDDK image, set with `kubectl`, shows it on its page and in the edit
-dialog. Saving the provider in the dashboard removes it.
+dialog, with a note that saving removes it. **Save Changes** is available for that alone, so you can
+remove the image without changing anything else, and the provider then uses the built-in plugin.
 
 ![Source provider page](provider-detail.png "A provider's page with its status and inventory tabs")
 
@@ -358,6 +382,10 @@ are on its **Overview** tab. The same text is in `kubectl describe` of the objec
 | `MAC address already in use` | Choose **Give ... a New MAC** to move the existing VM to a new address. |
 | The plan stays **Not ready** | Open **This plan cannot run yet** on the Overview tab. Forklift names the machine and the reason, such as an unsupported guest OS or a datastore without a storage class. |
 | A migration pod shows `ImagePullBackOff` | The Kubermatic Virtualization image cannot be pulled in the plan's target namespace. Check `migration.imagePullSecret`, or the install's pull secret when it is unset. See [Pull secret]({{< ref "../../configuration-guide#pull-secret" >}}). |
+| `disk ... is a raw device mapping, which no VDDK-free transport can read` | The machine has an RDM disk, which the built-in plugin cannot read. Give the provider its own VDDK image, see [How the disks are copied](#how-the-disks-are-copied). |
+| `the host does not offer ...; it is ESXi 6.x or older` | The built-in plugin does not read from ESXi 6.x hosts. Upgrade the host, or give the provider its own VDDK image. |
+| The disks of an encrypted VM cannot be read | The built-in plugin does not support VM encryption. Give the provider its own VDDK image. |
+| An import pod has a `FailedToRetrieveImagePullSecret` event for `kubev-vddk-pull` | Harmless. CDI names the migration pull secret on every import pod, also in namespaces without a copy of it, and the pod pulls without it. |
 | The transfer starts, then fails | The cluster nodes cannot reach the ESXi hosts on ports 443 and 902. |
 | `warm import retry limit reached` | The machine reached vSphere's snapshot limit during a long precopy. Delete its snapshots in vSphere and start the plan again. |
 | A new run fails on an existing disk | A cancelled run left partial disks behind. Delete the leftover `DataVolume` and `PersistentVolumeClaim` objects of that machine in the namespace, then run the plan again. |
