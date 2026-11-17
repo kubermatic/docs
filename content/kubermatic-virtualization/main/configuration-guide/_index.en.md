@@ -1025,7 +1025,7 @@ A standalone administrator can give a single provider its own VDDK image, for ex
 
 The Kubermatic Virtualization image is pulled in the target namespace of each plan. `migration.imagePullSecret` gives the credentials for it. When it is unset, the install's own pull secret is used: the top-level [`imagePullSecret`](#image-pull-secret), or the `quay.io` credential the installer builds from `KUBEV_USERNAME` and `KUBEV_PASSWORD`.
 
-The pull secret in use is stored as the Secret `kubev-vddk-pull` in the `kubermatic-virtualization` namespace. The KubeV controller-manager copies it into the target namespace of every plan, for as long as a plan targets that namespace, and lists it on the ServiceAccount `kubev-migration` there. Forklift runs the plan's pods under that ServiceAccount.
+The pull secret in use is stored as the Secret `kubev-vddk-pull` in the `kubermatic-virtualization` namespace. The KubeV controller-manager copies it into the target namespace of every plan, for as long as a plan targets that namespace, and lists it on the ServiceAccount `kubev-migration` there. Forklift runs the plan's pods under that ServiceAccount, unless the plan names its own.
 
 CDI's importer pods in every namespace list `kubev-vddk-pull` too. An import in a namespace without the copy logs a `FailedToRetrieveImagePullSecret` event, which is harmless.
 
