@@ -250,6 +250,22 @@ the provisioning process.
 kubeone apply --manifest kubeone.yaml -t .
 ```
 
+Before anything is changed, `kubeone apply` prints the planned actions and asks
+for confirmation (use `--auto-approve` to skip it). The addons that are going
+to be applied or deleted are part of that list, together with the
+[source](#listing-addons) the addon is applied from:
+
+```
+The following actions will be taken:
+	~ apply addon "backups-restic" (embedded)
+	~ apply addon "gateway-api-crd" (custom)
+	~ apply addon "metrics-server" (overridden)
+	~ delete addon "secrets-store-csi-driver" (embedded)
+```
+
+Addons that are not used for the cluster are not listed. Use
+`kubeone addons list` to see all addons, including the unused ones.
+
 The reconciliation is done using `kubectl` over SSH, using a
 command such as:
 
