@@ -39,7 +39,9 @@ httpRoute:
 dex:
   config:
     staticClients:
-    # keep the KKP client for the login to the KKP dashboard
+    # keep the KKP clients for the dashboard login and for User Clusters
+    - id: kubermatic
+      # ...
     - id: kubermaticIssuer
       # ...
 

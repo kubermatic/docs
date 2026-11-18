@@ -91,7 +91,7 @@ Future Kubermatic images will default to Ubuntu 24.04 to ensure compatibility wi
 
 For oidc authentication to user cluster there is always the same issuer used. This leads to invalidation of refresh tokens when a new authentication happens with the same user because existing refresh tokens for the same user/client pair are invalidated when a new one is requested.
 
-Up to KKP 2.30 this affected kubeconfig downloads, the web terminal and the Kubernetes Dashboard. Since KKP 2.31 the KKP dashboard login uses the same OIDC client (`kubermaticIssuer`) and also obtains a refresh token, so dashboard sessions are affected as well.
+This affects kubeconfig downloads, the web terminal and the Kubernetes Dashboard. In KKP 2.31.0 to 2.31.3 the KKP dashboard login used the same OIDC client (`kubermaticIssuer`), so dashboard sessions were affected as well. Since KKP 2.31.4 the dashboard login uses its own client (`kubermatic`) and is not affected, unless the installation uses the deprecated single-client setup.
 
 ### Root Cause
 
