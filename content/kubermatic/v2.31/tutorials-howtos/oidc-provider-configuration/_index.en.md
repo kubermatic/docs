@@ -45,7 +45,7 @@ KKP uses two OIDC clients at the OIDC provider:
 | Client | Field | Default | Used for | Redirect URIs |
 |---|---|---|---|---|
 | Login client | `spec.auth.clientID` | `kubermatic` | Logging into the KKP dashboard | `https://<domain>/api/v2/auth/callback` |
-| User Cluster client | `spec.auth.issuerClientID` | `kubermaticIssuer` | OIDC kubeconfig download, web terminal, Kubernetes Dashboard | `https://<domain>/api/v1/kubeconfig`, `https://<domain>/api/v2/kubeconfig/secret`, `https://<domain>/api/v2/dashboard/login` |
+| User Cluster client | `spec.auth.issuerClientID` | `kubermaticIssuer` | OIDC kubeconfig download, web terminal in OIDC mode, Kubernetes Dashboard | `https://<domain>/api/v1/kubeconfig`, `https://<domain>/api/v2/kubeconfig/secret`, `https://<domain>/api/v2/dashboard/login` |
 
 Use two separate clients. This is the supported setup. Tokens issued to the User Cluster client
 give access to User Clusters. With a separate login client, the KKP API rejects those tokens, so
@@ -126,7 +126,8 @@ A few fields deserve attention:
   `issuerClientID`. `kubermatic-installer deploy` stops when it is missing, and the KKP API does
   not start without it. In the deprecated single-client setup, `clientSecret` is ignored and
   `issuerClientSecret` is used.
-- `issuerClientSecret` and `issuerCookieKey` are **required for logging into the dashboard**.
+- `issuerClientSecret`, the secret of the User Cluster client, and `issuerCookieKey` must be set. The
+  dashboard login uses `issuerCookieKey`.
 - `additionalIssuerRedirectURLs` lists other hostnames users open the dashboard on, for example
   through a reverse proxy. It is empty by default. See [Additional Hostnames](#additional-hostnames).
 
@@ -185,8 +186,8 @@ spec:
 
 {{% notice note %}}
 The `oidc_provider_url`, `oidc_provider_scope`, `oidc_provider_client_id` and
-`oidc_connector_id` options are no longer used and are ignored if present. The authorization
-URL, including the scopes and the client ID, is now built by the KKP API from `spec.auth`.
+`oidc_connector_id` options are not used and are ignored if present. The KKP API builds the
+authorization URL, including the scopes and the client ID, from `spec.auth`.
 {{% /notice %}}
 
 {{% notice note %}}
@@ -245,7 +246,7 @@ Independently of the provider, the KKP `refresh_token` cookie has a lifetime of 
 session ends after at most 30 days even if the provider would allow a longer one.
 
 {{% notice note %}}
-In the deprecated single-client setup, a session can end earlier than these values suggest. The dashboard then shares an OIDC client with the kubeconfig and web terminal flows, and using one of those invalidates the refresh token of the running dashboard session. A separate login client avoids this. See [OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times]({{< ref "../../architecture/known-issues/#oidc-refresh-tokens-are-invalidated-when-the-same-userclient-id-pair-is-authenticated-multiple-times" >}}).
+In the deprecated single-client setup, a session can end earlier than these values suggest. The dashboard then shares an OIDC client with the kubeconfig and the OIDC-mode web terminal flows, and using one of those invalidates the refresh token of the running dashboard session. A separate login client avoids this. See [OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times]({{< ref "../../architecture/known-issues/#oidc-refresh-tokens-are-invalidated-when-the-same-userclient-id-pair-is-authenticated-multiple-times" >}}).
 {{% /notice %}}
 
 ### Seed Configuration
@@ -277,7 +278,7 @@ running.
 {{% notice note %}}
 If you are using *Keycloak* as a custom OIDC provider, create both clients. Configure the login client (`kubermatic`) as follows:
 
-- **Standard Flow**: enabled. Implicit Flow is no longer used and can be turned off.
+- **Standard Flow**: enabled. Implicit Flow is not used and can be turned off.
 - **Client authentication**: on, so that the client is a confidential client. Copy its secret to `spec.auth.clientSecret`.
 - **Valid Redirect URIs**: add `https://<domain>/api/v2/auth/callback`.
 - **PKCE Code Challenge Method**: `S256`.
