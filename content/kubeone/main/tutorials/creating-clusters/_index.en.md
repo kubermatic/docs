@@ -53,7 +53,7 @@ The infrastructure for the worker nodes can be managed in two ways:
 
 The first approach is recommended if your provider is
 [natively-supported][compatibility-providers] (AWS, Azure, DigitalOcean, GCP,
-Hetzner Cloud, Nutanix, OpenStack, VMware Cloud Director, and
+Hetzner Cloud, KubeVirt, Nutanix, OpenStack, VMware Cloud Director, and
 VMware vSphere), and we will use it in this tutorial. If your provider
 is not supported (e.g. bare-metal), you can check the
 [KubeOne Static Nodes][static-nodes] feature for more information about the
@@ -269,6 +269,22 @@ Manager.
 #
 
 {{% /tab %}}
+{{% tab name="KubeVirt" %}}
+You need a kubeconfig for the KubeVirt infrastructure cluster. KubeOne uses it
+to create the control plane VMs, machine-controller uses it to create the
+worker nodes, and the KubeVirt Cloud Controller Manager and CSI driver use it
+to manage resources in the infra cluster.
+
+| Environment Variable  | Description                                                                 |
+| --------------------- | --------------------------------------------------------------------------- |
+| `KUBEVIRT_KUBECONFIG` | The kubeconfig of the KubeVirt infra cluster (plain or base64-encoded YAML) |
+
+Instead of the environment variable, you can also put the `KUBEVIRT_KUBECONFIG`
+key in a credentials file and pass it to KubeOne with the `--credentials` flag.
+
+#
+
+{{% /tab %}}
 {{% tab name="Nutanix" %}}
 The following environment variables are needed by Terraform for creating the
 infrastructure and for machine-controller to create the worker nodes.
@@ -378,6 +394,14 @@ export <VARIABLE_NAME>=<VARIABLE_VALUE>
 With KubeOne installed and the environment configured, we're ready to create
 the infrastructure for our cluster. We'll use the example Terraform configs for
 this step.
+
+{{% notice note %}}
+There are no example Terraform configs for KubeVirt. On KubeVirt, KubeOne
+creates the control plane VMs and the kube-apiserver Service in the infra
+cluster itself, so you can skip this step and continue with Step 5. See the
+[KubeVirt Managed Control Plane tutorial][kubevirt-managed-control-plane] for
+the prerequisites, such as the SSH bastion.
+{{% /notice %}}
 
 KubeOne provides you with provider-specific Terraform configs via the following command:
 
@@ -693,6 +717,68 @@ cloudProvider:
   external: true
 ```
 
+{{% /tab %}}
+{{% tab name="KubeVirt" %}}
+`external: true` instructs KubeOne to deploy the
+[KubeVirt Cloud Controller Manager](https://github.com/kubevirt/cloud-provider-kubevirt).
+KubeOne also deploys the [KubeVirt CSI driver][kubevirt-csi].
+
+There's no Terraform state on KubeVirt, so the manifest describes the control
+plane VMs with `controlPlane.nodeSets`, and KubeOne creates them in the
+`infraNamespace` of the infra cluster. The pod and service subnets must not
+overlap with the networks of the infra cluster. **Make sure to replace the
+placeholder values with real values.**
+
+```yaml
+apiVersion: kubeone.k8c.io/v1beta2
+kind: KubeOneCluster
+name: <CLUSTER-NAME>
+versions:
+  kubernetes: '1.37.2'
+clusterNetwork:
+  podSubnet: 172.26.0.0/16
+  serviceSubnet: 10.241.0.0/16
+cloudProvider:
+  external: true
+  kubevirt:
+    infraNamespace: <INFRA-NAMESPACE>
+    controlPlane:
+      loadBalancer:
+        serviceType: LoadBalancer
+controlPlane:
+  nodeSets:
+    - name: cp
+      replicas: 3
+      operatingSystem: ubuntu
+      ssh:
+        username: ubuntu
+        publicKeys:
+          - <SSH-PUBLIC-KEY>
+        bastion: <BASTION-ADDRESS>
+        bastionPort: <BASTION-PORT>
+        bastionUser: <BASTION-USER>
+      cloudProviderSpec:
+        virtualMachine:
+          template:
+            vcpus:
+              cores: 2
+            memory: 4Gi
+            primaryDisk:
+              osImage: docker://quay.io/containerdisks/ubuntu:24.04
+              source: registry
+              size: 20Gi
+              storageClassName: <INFRA-STORAGE-CLASS>
+```
+
+Worker nodes are defined in the `dynamicWorkers` section of the manifest.
+Instead of `-t tf.json`, run `kubeone apply` without the Terraform state:
+
+```shell
+kubeone apply -m kubeone.yaml
+```
+
+See the [KubeVirt Managed Control Plane tutorial][kubevirt-managed-control-plane]
+for all options.
 {{% /tab %}}
 {{% tab name="Nutanix" %}}
 The `addons` section instruction KubeOne to deploy the CSI driver, the volume
@@ -1012,4 +1098,6 @@ and recommendations.
 [unprovisioning-clusters]: {{< ref "../unprovisioning-clusters" >}}
 [production-recommendations]: {{< ref "../../cheat-sheets/production-recommendations" >}}
 [create-cluster-oidc]: {{< ref "../creating-clusters-oidc" >}}
+[kubevirt-managed-control-plane]: {{< ref "../managed-control-plane/kubevirt" >}}
+[kubevirt-csi]: {{< ref "../../guides/kubevirt-csi" >}}
 [maintenance mode]: https://kubernetes.io/releases/patch-releases/#support-period
