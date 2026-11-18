@@ -27,6 +27,8 @@ Be aware that group names are not further validated as KKP does not have access 
 
 The role associated with a group can be updated later on to reflect changes in responsibilities. Group bindings can later be removed from the list of bindings by deleting it from the list.
 
+Only project owners and KKP admins can create group bindings. Project owners, project managers and KKP admins can update and delete them. A project member cannot create or change a group binding to a role higher than their own role in the project.
+
 {{% notice note %}}
 Be aware that as of KKP 2.21.0 (when this feature was introduced), there was no group support for MLA Grafana access yet. As of
 KKP 2.21.2 groups are supported in MLA Grafana.

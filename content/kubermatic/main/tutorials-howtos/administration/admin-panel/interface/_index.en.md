@@ -60,7 +60,7 @@ not be visible on the cluster details page and the corresponding API endpoints w
 ![Enable Web Terminal](images/enable-web-terminal.png?classes=shadow,border)
 
 This setting controls whether the `Web Terminal` feature should be enabled for the user clusters. When enabling it, a button will appear on the
-top right side of the user cluster page and the API will allow its usage. **Note** that `OIDC Kubeconfig` should be enabled to allow this option.
+top right side of the user cluster page and the API will allow its usage. **Note** that `OIDC Kubeconfig` and the `OIDCKubeCfgEndpoint` feature gate should be enabled to allow this option, also when the web terminal runs in [ServiceAccount mode]({{< ref "../../../project-and-cluster-management/web-terminal/#serviceaccount-mode" >}}).
 
 ![Web Terminal](images/web-terminal-button.png?classes=shadow,border)
 

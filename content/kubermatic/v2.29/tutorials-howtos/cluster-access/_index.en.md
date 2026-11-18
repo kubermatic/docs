@@ -62,9 +62,10 @@ Group are named collection of users. You can grant permission to a group by clic
 
 In this example, we grant the role `view` on the cluster to the OIDC group `security-audit`
 
-{{% notice warning %}}
-If you want to bind an OIDC group, you must prefix the group's name with `oidc:`
-The kubernetes API Server automatically adds this prefix to prevent conflicts with other authentication strategies
+{{% notice note %}}
+The Kubernetes API server of a user cluster adds a prefix, usually `oidc:`, to the names of OIDC groups. When you add a group
+binding, keep the **OIDC group** checkbox checked (the default) for groups from your OIDC provider, and enter the group name
+without the prefix. KKP adds the prefix configured for the cluster. Uncheck it for groups that do not come from the OIDC provider.
 {{% /notice %}}
 
 ## Manage Service Account Permissions
