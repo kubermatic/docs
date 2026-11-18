@@ -85,6 +85,21 @@ URL fields like `logo_url`, `favicon_url`, `background_url`, and `custom_css_url
 | `header_bg` | string | Header background color (hex) |
 | `header_text` | string | Header text color (hex) |
 
+## Links to User Cluster Grafana and Alertmanager
+
+The dashboard links to the User Cluster Grafana and Alertmanager as `https://<prefix>.<seed>.<domain>`. By default, `<domain>` is the hostname in the browser. Set the optional `mla_links_domain` key in `spec.ui.config` to a fixed domain, for example `spec.ingress.domain`, when users open the dashboard on hostnames that do not serve the Grafana and Alertmanager hosts:
+
+```yaml
+spec:
+  ui:
+    config: |
+      {
+        "mla_links_domain": "kkp.example.com"
+      }
+```
+
+The value is a bare domain, without scheme or path. A `seedDNSOverwrite` of the Seed still replaces `<seed>`. See [Access KKP Through Additional Hostnames]({{< ref "../oidc-provider-configuration/additional-hostnames/" >}}).
+
 ## Custom Themes
 
 The dashboard ships with light and dark themes. Users select a theme in **User Settings > Account**:

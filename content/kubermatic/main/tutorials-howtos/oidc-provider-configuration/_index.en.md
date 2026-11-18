@@ -127,6 +127,9 @@ A few fields deserve attention:
   not start without it. In the deprecated single-client setup, `clientSecret` is ignored and
   `issuerClientSecret` is used.
 - `issuerClientSecret` and `issuerCookieKey` are **required for logging into the dashboard**.
+- `additionalIssuerRedirectURLs` lists other hostnames users open the dashboard on, for example
+  through a reverse proxy. It is empty by default. See
+  [Access KKP Through Additional Hostnames]({{< ref "./additional-hostnames/" >}}).
 
 ### UI Configuration
 

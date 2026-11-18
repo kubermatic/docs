@@ -104,6 +104,8 @@ As a matter of rule, to integrate well with KKP UI, Grafana and Alertmanager sho
 
 The prefixes chosen for Grafana and Alertmanager then need to be configured in the KKP [Admin Panel Configuration](#admin-panel-configuration) to enable KKP UI integration.
 
+By default, the KKP UI builds these links with the hostname in the browser. If users open the KKP dashboard on additional hostnames that do not serve the Grafana and Alertmanager hosts, set `mla_links_domain` in `spec.ui.config` to `spec.ingress.domain`. See [Links to User Cluster Grafana and Alertmanager]({{< ref "../../../dashboard-customization/#links-to-user-cluster-grafana-and-alertmanager" >}}).
+
 Let's start with preparing the values.yaml for the IAP Helm Chart. A starting point can be found in the `example/values.example.mla.yaml` file of the installer package:
 
 - Modify the base domain under which your KKP installation is available (`kkp.example.com` in `iap.oidc_issuer_url`).
