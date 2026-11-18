@@ -40,7 +40,7 @@ Using a single client for both purposes, by setting `.spec.auth.clientID` to the
 
 #### Upgrading from KKP 2.31.0, 2.31.1, 2.31.2 or 2.31.3
 
-KKP 2.31.0 to 2.31.3 used a single client for the dashboard login, and the earlier version of this guide told you to set `.spec.auth.clientID` to `kubermaticIssuer` and remove the `kubermatic` client. Starting with KKP 2.31.4, `.spec.auth.clientID` defaults to `kubermatic` again. What happens on the upgrade depends on your configuration:
+Starting with KKP 2.31.4, `.spec.auth.clientID` defaults to `kubermatic`, a separate client for the dashboard login. What happens on the upgrade depends on your configuration:
 
 - If `.spec.auth.clientID` is not set, the dashboard login switches to the `kubermatic` client, and `.spec.auth.clientSecret` becomes required. Complete the steps below **before** upgrading.
 - If `.spec.auth.clientID` is set to `kubermaticIssuer`, the installation keeps using a single client. This setup is deprecated. Move to two clients with the steps below.
