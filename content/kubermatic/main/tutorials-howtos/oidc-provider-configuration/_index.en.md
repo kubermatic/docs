@@ -19,7 +19,7 @@ page, the browser is sent to `https://<domain>/api/v2/auth/login`, which redirec
 provider with the following parameters:
 
 - `&response_type` is set to `code`
-- `&client_id` is set to the value of `spec.auth.issuerClientID` (defaults to `kubermaticIssuer`)
+- `&client_id` is set to the value of `spec.auth.clientID` (defaults to `kubermatic`)
 - `&redirect_uri` is set to `https://<domain>/api/v2/auth/callback`
 - `&scope` is set to `openid email profile groups offline_access`
 - `&state` is a randomly generated string to protect against CSRF
@@ -32,11 +32,32 @@ JavaScript in the browser. A refresh token is used to renew the session silently
 token expires.
 
 {{% notice note %}}
-Your OIDC client must be a **confidential** client (client authentication enabled) and must have
+The login client must be a **confidential** client (client authentication enabled) and must have
 `https://<domain>/api/v2/auth/callback` registered as a valid redirect URI. Without the
 `offline_access` scope no refresh token is issued and users are logged out as soon as the ID
 token expires.
 {{% /notice %}}
+
+### OIDC Clients
+
+KKP uses two OIDC clients at the OIDC provider:
+
+| Client | Field | Default | Used for | Redirect URIs |
+|---|---|---|---|---|
+| Login client | `spec.auth.clientID` | `kubermatic` | Logging into the KKP dashboard | `https://<domain>/api/v2/auth/callback` |
+| User Cluster client | `spec.auth.issuerClientID` | `kubermaticIssuer` | OIDC kubeconfig download, web terminal, Kubernetes Dashboard | `https://<domain>/api/v1/kubeconfig`, `https://<domain>/api/v2/kubeconfig/secret`, `https://<domain>/api/v2/dashboard/login` |
+
+Use two separate clients. Tokens issued to the User Cluster client give access to User
+Clusters. With a separate login client, the KKP API rejects those tokens, so a downloaded
+kubeconfig cannot be used to call the KKP API.
+
+When a login token has several audiences, its `azp` claim must be set to the login client
+(Dex and Keycloak do this by default), and none of the audiences may be a User Cluster client. Do not configure the OIDC provider to add a User Cluster client to login tokens,
+for example with Dex trusted peers or a Keycloak audience mapper.
+
+You can also use a single client for both by setting `spec.auth.clientID` to the value of
+`spec.auth.issuerClientID`. In that case the KKP API also accepts tokens issued for User
+Clusters, and it logs a warning at startup.
 
 ## Custom Configuration
 
@@ -76,7 +97,8 @@ demonstrates the default values:
 ```yaml
 spec:
   auth:
-    clientID: kubermaticIssuer
+    clientID: kubermatic
+    clientSecret: ""
     issuerClientID: kubermaticIssuer
     issuerClientSecret: ""
     issuerCookieKey: ""
@@ -97,11 +119,11 @@ spec:
 
 A few fields deserve attention:
 
-- `clientID` and `issuerClientID` must be the **same** client. The KKP API validates the `aud`
-  claim of tokens that were issued to the issuer client, so a separate public client for the
-  dashboard no longer works. Both fields default to `kubermaticIssuer`.
+- `clientSecret` is the secret of the login client. It is required when `clientID` differs from
+  `issuerClientID`. `kubermatic-installer deploy` stops when it is missing, and the KKP API does
+  not start without it. With a single client, `clientSecret` is ignored and `issuerClientSecret`
+  is used.
 - `issuerClientSecret` and `issuerCookieKey` are **required for logging into the dashboard**.
-  Previously they were only needed when the OIDC kubeconfig feature was enabled.
 
 ### UI Configuration
 
@@ -140,8 +162,8 @@ URL, including the scopes and the client ID, is now built by the KKP API from `s
 
 ### Dex Configuration
 
-When using the bundled Dex, the client used for the dashboard login is configured in the
-`values.yaml` of the `dex` Helm chart:
+When using the bundled Dex, both clients are configured in the `values.yaml` of the `dex` Helm
+chart:
 
 ```yaml
 dex:
@@ -150,15 +172,24 @@ dex:
       responseTypes:
         - code            # required for the dashboard login
     staticClients:
-      - id: kubermaticIssuer
-        name: Kubermatic OIDC Issuer
-        secret: <same value as spec.auth.issuerClientSecret>
+      - id: kubermatic
+        name: Kubermatic Dashboard
+        # generate with: cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32
+        secret: <same value as spec.auth.clientSecret>
         RedirectURIs:
           - https://kkp.example.com/api/v2/auth/callback     # KKP dashboard login
+      - id: kubermaticIssuer
+        name: Kubermatic OIDC Issuer
+        # a different random value
+        secret: <same value as spec.auth.issuerClientSecret>
+        RedirectURIs:
           - https://kkp.example.com/api/v1/kubeconfig       # user cluster kubeconfig
           - https://kkp.example.com/api/v2/kubeconfig/secret # webterminal kubeconfig secret
           - https://kkp.example.com/api/v2/dashboard/login   # k8s dashboard login
 ```
+
+With a single client, keep `https://kkp.example.com/api/v2/auth/callback` in the
+`kubermaticIssuer` redirect URIs. Without it the login fails with "Unregistered redirect_uri".
 
 No Dex-specific PKCE setting is required; Dex supports the `S256` code challenge method for
 confidential clients out of the box.
@@ -178,7 +209,7 @@ Independently of the provider, the KKP `refresh_token` cookie has a lifetime of 
 session ends after at most 30 days even if the provider would allow a longer one.
 
 {{% notice note %}}
-A session can also end earlier than these values suggest. Because the dashboard shares an OIDC client with the kubeconfig and web terminal flows, using one of those invalidates the refresh token of the running dashboard session. See [OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times]({{< ref "../../architecture/known-issues/#oidc-refresh-tokens-are-invalidated-when-the-same-userclient-id-pair-is-authenticated-multiple-times" >}}).
+With a single client, a session can end earlier than these values suggest. The dashboard then shares an OIDC client with the kubeconfig and web terminal flows, and using one of those invalidates the refresh token of the running dashboard session. A separate login client avoids this. See [OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times]({{< ref "../../architecture/known-issues/#oidc-refresh-tokens-are-invalidated-when-the-same-userclient-id-pair-is-authenticated-multiple-times" >}}).
 {{% /notice %}}
 
 ### Seed Configuration
@@ -193,6 +224,9 @@ spec:
     issuerClientSecret: "SuperSecretIssuerClientSecret"
 ```
 
+The `issuerClientID` of a Seed must differ from the login client (`spec.auth.clientID`). The same
+applies to `spec.oidc.clientID` of a User Cluster that uses the KKP token issuer.
+
 {{% notice note %}}
 It is highly recommended to use the same domain in email scope both for Seed level and main OIDC providers. This is a prerequisite for web terminal feature and it saves some time on user cluster RBAC configuration.
 {{% /notice %}}
@@ -205,11 +239,13 @@ reconfigure the components accordingly. After a few seconds the new pods should 
 running.
 
 {{% notice note %}}
-If you are using *Keycloak* as a custom OIDC provider, configure the `kubermaticIssuer` client as follows:
+If you are using *Keycloak* as a custom OIDC provider, create both clients. Configure the login client (`kubermatic`) as follows:
 
 - **Standard Flow**: enabled. Implicit Flow is no longer used and can be turned off.
-- **Client authentication**: on, so that the client is a confidential client.
+- **Client authentication**: on, so that the client is a confidential client. Copy its secret to `spec.auth.clientSecret`.
 - **Valid Redirect URIs**: add `https://<domain>/api/v2/auth/callback`.
 - **PKCE Code Challenge Method**: `S256`.
 - **Scopes**: `offline_access` has to be part of the default or optional client scopes, otherwise no refresh token is issued.
+
+Register the three User Cluster redirect URIs from [OIDC Clients](#oidc-clients) on the `kubermaticIssuer` client. Do not add an audience mapper that puts `kubermaticIssuer` into the tokens of the login client.
 {{% /notice %}}
