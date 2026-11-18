@@ -47,17 +47,20 @@ KKP uses two OIDC clients at the OIDC provider:
 | Login client | `spec.auth.clientID` | `kubermatic` | Logging into the KKP dashboard | `https://<domain>/api/v2/auth/callback` |
 | User Cluster client | `spec.auth.issuerClientID` | `kubermaticIssuer` | OIDC kubeconfig download, web terminal, Kubernetes Dashboard | `https://<domain>/api/v1/kubeconfig`, `https://<domain>/api/v2/kubeconfig/secret`, `https://<domain>/api/v2/dashboard/login` |
 
-Use two separate clients. Tokens issued to the User Cluster client give access to User
-Clusters. With a separate login client, the KKP API rejects those tokens, so a downloaded
-kubeconfig cannot be used to call the KKP API.
+Use two separate clients. This is the supported setup. Tokens issued to the User Cluster client
+give access to User Clusters. With a separate login client, the KKP API rejects those tokens, so
+a downloaded kubeconfig cannot be used to call the KKP API.
 
 When a login token has several audiences, its `azp` claim must be set to the login client
 (Dex and Keycloak do this by default), and none of the audiences may be a User Cluster client. Do not configure the OIDC provider to add a User Cluster client to login tokens,
 for example with Dex trusted peers or a Keycloak audience mapper.
 
-You can also use a single client for both by setting `spec.auth.clientID` to the value of
-`spec.auth.issuerClientID`. In that case the KKP API also accepts tokens issued for User
-Clusters, and it logs a warning at startup.
+{{% notice warning %}}
+Using a single client for both purposes, by setting `spec.auth.clientID` to the value of
+`spec.auth.issuerClientID`, is deprecated and will not be supported in an upcoming KKP release.
+In this setup the KKP API also accepts tokens issued for User Clusters and logs a warning at
+startup. Installations that still use a single client should move to two separate clients.
+{{% /notice %}}
 
 ## Custom Configuration
 
@@ -121,8 +124,8 @@ A few fields deserve attention:
 
 - `clientSecret` is the secret of the login client. It is required when `clientID` differs from
   `issuerClientID`. `kubermatic-installer deploy` stops when it is missing, and the KKP API does
-  not start without it. With a single client, `clientSecret` is ignored and `issuerClientSecret`
-  is used.
+  not start without it. In the deprecated single-client setup, `clientSecret` is ignored and
+  `issuerClientSecret` is used.
 - `issuerClientSecret` and `issuerCookieKey` are **required for logging into the dashboard**.
 
 ### UI Configuration
@@ -188,8 +191,9 @@ dex:
           - https://kkp.example.com/api/v2/dashboard/login   # k8s dashboard login
 ```
 
-With a single client, keep `https://kkp.example.com/api/v2/auth/callback` in the
-`kubermaticIssuer` redirect URIs. Without it the login fails with "Unregistered redirect_uri".
+If you still use the deprecated single-client setup, keep
+`https://kkp.example.com/api/v2/auth/callback` in the `kubermaticIssuer` redirect URIs. Without
+it the login fails with "Unregistered redirect_uri".
 
 No Dex-specific PKCE setting is required; Dex supports the `S256` code challenge method for
 confidential clients out of the box.
@@ -209,7 +213,7 @@ Independently of the provider, the KKP `refresh_token` cookie has a lifetime of 
 session ends after at most 30 days even if the provider would allow a longer one.
 
 {{% notice note %}}
-With a single client, a session can end earlier than these values suggest. The dashboard then shares an OIDC client with the kubeconfig and web terminal flows, and using one of those invalidates the refresh token of the running dashboard session. A separate login client avoids this. See [OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times]({{< ref "../../architecture/known-issues/#oidc-refresh-tokens-are-invalidated-when-the-same-userclient-id-pair-is-authenticated-multiple-times" >}}).
+In the deprecated single-client setup, a session can end earlier than these values suggest. The dashboard then shares an OIDC client with the kubeconfig and web terminal flows, and using one of those invalidates the refresh token of the running dashboard session. A separate login client avoids this. See [OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times]({{< ref "../../architecture/known-issues/#oidc-refresh-tokens-are-invalidated-when-the-same-userclient-id-pair-is-authenticated-multiple-times" >}}).
 {{% /notice %}}
 
 ### Seed Configuration
