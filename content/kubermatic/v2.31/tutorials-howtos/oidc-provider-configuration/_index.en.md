@@ -128,8 +128,37 @@ A few fields deserve attention:
   `issuerClientSecret` is used.
 - `issuerClientSecret` and `issuerCookieKey` are **required for logging into the dashboard**.
 - `additionalIssuerRedirectURLs` lists other hostnames users open the dashboard on, for example
-  through a reverse proxy. It is empty by default. See
-  [Access KKP Through Additional Hostnames]({{< ref "./additional-hostnames/" >}}).
+  through a reverse proxy. It is empty by default. See [Additional Hostnames](#additional-hostnames).
+
+### Additional Hostnames
+
+If users open the KKP dashboard on hostnames other than `spec.ingress.domain`, for example through
+a reverse proxy, list them in `spec.auth.additionalIssuerRedirectURLs`. This requires KKP 2.31.4
+or later.
+
+```yaml
+spec:
+  auth:
+    additionalIssuerRedirectURLs:
+      - https://kkp-proxy.example.com
+```
+
+Each entry is an origin as the browser shows it in the address bar: scheme `http` or `https`, the
+host in lower case and an optional non-default port. Entries must not contain a path, query or
+fragment.
+
+For every listed hostname, register these redirect URIs at the OIDC provider:
+
+- On the login client (`spec.auth.clientID`): `<hostname>/api/v2/auth/callback`
+- On the User Cluster client (`spec.auth.issuerClientID`): `<hostname>/api/v1/kubeconfig`,
+  `<hostname>/api/v2/kubeconfig/secret` and `<hostname>/api/v2/dashboard/login`
+
+If a Seed has its own OIDC provider in `spec.oidcProviderConfiguration`, register the three User
+Cluster redirect URIs at that provider too.
+
+The reverse proxy must forward requests with the `Host` header and the TLS server name set to
+`spec.ingress.domain`. For requests under `/api/v1/ws/` whose `Origin` header is the additional
+hostname's own origin, it must set `Origin` to the origin of `spec.ingress.domain`.
 
 ### UI Configuration
 

@@ -98,7 +98,7 @@ spec:
       }
 ```
 
-The value is a bare domain, without scheme or path. A `seedDNSOverwrite` of the Seed still replaces `<seed>`. See [Access KKP Through Additional Hostnames]({{< ref "../oidc-provider-configuration/additional-hostnames/" >}}).
+The value is a bare domain, without scheme or path. A `seedDNSOverwrite` of the Seed still replaces `<seed>`. See [Additional Hostnames]({{< ref "../oidc-provider-configuration/#additional-hostnames" >}}).
 
 ## Custom Themes
 
