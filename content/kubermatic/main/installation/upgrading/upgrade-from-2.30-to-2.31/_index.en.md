@@ -66,7 +66,7 @@ To move to two clients:
 
 If you upgrade without the installer, for example with GitOps, the KubermaticConfiguration is usually not validated when you apply it. In that case the new KKP API Pods do not start and log `-oidc-authenticator-client-secret is required when -oidc-authenticator-client-id differs from -oidc-issuer-client-id` until `.spec.auth.clientSecret` is set.
 
-If users reach KKP through reverse proxies on other hostnames and the proxies rewrite the `redirect_uri` query parameter, remove that rewrite before upgrading to KKP 2.31.4. Logins through such a proxy fail on KKP 2.31.4. List the hostnames in `.spec.auth.additionalIssuerRedirectURLs` instead, as described in [Access KKP Through Additional Hostnames]({{< ref "../../../tutorials-howtos/oidc-provider-configuration/additional-hostnames/" >}}).
+If users reach KKP through reverse proxies on other hostnames, configure them as described in [Access KKP Through Additional Hostnames]({{< ref "../../../tutorials-howtos/oidc-provider-configuration/additional-hostnames/" >}}) in the same maintenance window as the upgrade.
 
 ### Gateway API Replaces nginx-ingress-controller
 
