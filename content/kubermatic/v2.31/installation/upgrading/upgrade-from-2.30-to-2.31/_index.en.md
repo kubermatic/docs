@@ -24,20 +24,33 @@ If you upgrade from KKP 2.31.0, 2.31.1, 2.31.2 or 2.31.3, follow [Upgrading from
 
 The dashboard login uses its own OIDC client, `kubermatic` (`.spec.auth.clientID`). The User Cluster flows (kubeconfig download, web terminal in OIDC mode, Kubernetes Dashboard) keep using `kubermaticIssuer` (`.spec.auth.issuerClientID`). This requires changes to your OIDC provider and `KubermaticConfiguration` **before** upgrading. If you use the bundled Dex and the example configuration files shipped with the release, the necessary changes are already included. Adjust your configuration if you maintain it yourself or use a custom OIDC provider:
 
-1. Keep the `kubermatic` client and register `https://<domain>/api/v2/auth/callback` as a valid redirect URI on it. For Dex, add it to `.dex.config.staticClients[id=="kubermatic"].RedirectURIs` in `values.yaml`. Do not add this URI to the `kubermaticIssuer` client.
+1. Keep the `kubermatic` client and register `https://<domain>/api/v2/auth/callback` as a valid redirect URI on it. For Dex, add it to `.dex.config.staticClients[id=="kubermatic"].RedirectURIs` in `values.yaml`. Do not add this URI to the `kubermaticIssuer` client. Remove `https://<domain>/projects` and `https://<domain>` from the redirect URIs of the `kubermatic` client. The Implicit flow of KKP 2.30 used them, and KKP 2.31 does not.
 2. Set `.spec.auth.clientSecret` to the secret of the `kubermatic` client. If the client has no secret yet, generate one, for example with `cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32`, and set the same value in the OIDC provider. `kubermatic-installer deploy` stops when `.spec.auth.clientSecret` is missing, and the KKP API does not start without it.
 3. Make sure `.spec.auth.issuerClientSecret` and `.spec.auth.issuerCookieKey` are set. The dashboard login uses `.spec.auth.issuerCookieKey`, and the User Cluster flows use `.spec.auth.issuerClientSecret`.
 4. Make sure the `kubermatic` client is a confidential client and can issue refresh tokens. KKP requests the `offline_access` scope on every login; Dex only returns a refresh token when that scope is granted, and without a refresh token users are signed back to the login page as soon as the ID token expires.
 5. For Keycloak, enable Standard Flow on the `kubermatic` client, turn on client authentication and set the PKCE code challenge method to `S256`. `Implicit Flow Enabled` is no longer required.
 6. Make sure the OIDC provider does not add `kubermaticIssuer` to the audience of tokens issued for `kubermatic`, for example through Dex trusted peers or a Keycloak audience mapper. When a login token has several audiences, its `azp` claim must be `kubermatic`. Dex and Keycloak set it by default.
 7. Remove `oidc_provider_url`, `oidc_provider_scope`, `oidc_provider_client_id` and `oidc_connector_id` from `.spec.ui.config`. They are ignored now. `oidc_provider` and `oidc_logout_url` are still used to build the logout URL.
+8. If `.spec.ui.config` sets `oidc_logout_url`, the OIDC provider sends users back to `https://<domain>/` after they log out. Register this exact URI, with the trailing slash, as a post-logout redirect URI on the `kubermatic` client, and `<hostname>/` for every additional hostname. For Keycloak, add them to Valid post logout redirect URIs. They replace `https://<domain>/projects`, which KKP 2.30 used after logout.
+
+KKP 2.31 uses these redirect URIs. For every additional hostname, register the same URIs with `<hostname>` in place of `https://<domain>`.
+
+| Client | Redirect URI | Used for | Required |
+|---|---|---|---|
+| `kubermatic` | `https://<domain>/api/v2/auth/callback` | Dashboard login | Yes |
+| `kubermatic` | `https://<domain>/` | Return to the dashboard after logout at the OIDC provider | Only when `oidc_logout_url` is set |
+| `kubermaticIssuer` | `https://<domain>/api/v1/kubeconfig` | OIDC kubeconfig download | Yes |
+| `kubermaticIssuer` | `https://<domain>/api/v2/kubeconfig/secret` | Web terminal in OIDC mode | Yes |
+| `kubermaticIssuer` | `https://<domain>/api/v2/dashboard/login` | Kubernetes Dashboard | Yes |
+
+`https://<domain>/projects` and `https://<domain>` are not used anymore. Remove them from the `kubermatic` client.
 
 See [OIDC Provider Configuration]({{< ref "../../../tutorials-howtos/oidc-provider-configuration/" >}}) for the full configuration reference.
 
 After the upgrade, users see the login page once. OIDC kubeconfigs downloaded before the upgrade, the web terminal and the Kubernetes Dashboard keep working, because the `kubermaticIssuer` client does not change.
 
 {{% notice warning %}}
-Using a single client for both purposes, by setting `.spec.auth.clientID` to the value of `.spec.auth.issuerClientID`, is deprecated and will not be supported in an upcoming KKP release. Use two separate clients.
+We recommend two separate clients: `kubermatic` for the dashboard login and `kubermaticIssuer` for User Cluster access. Using a single client for both purposes, by setting `.spec.auth.clientID` to the value of `.spec.auth.issuerClientID`, is deprecated and will not be supported in an upcoming KKP release.
 {{% /notice %}}
 
 #### Upgrading from KKP 2.31.0, 2.31.1, 2.31.2 or 2.31.3
@@ -64,13 +77,40 @@ To move to two clients:
 
    If users also sign in on additional hostnames (`.spec.auth.additionalIssuerRedirectURLs`), add `<hostname>/api/v2/auth/callback` for each of them.
 
+   If `.spec.ui.config` sets `oidc_logout_url`, also register `https://<domain>/` as a post-logout redirect URI on the `kubermatic` client, and `<hostname>/` for every additional hostname. For Keycloak, add them to Valid post logout redirect URIs.
+
+   If the `kubermatic` client still exists from KKP 2.30, remove `https://<domain>/projects` and `https://<domain>` from its redirect URIs. KKP 2.31 does not use them.
+
 2. Set `.spec.auth.clientSecret` to the secret of the `kubermatic` client. If you set `.spec.auth.clientID` to `kubermaticIssuer` before, remove it or set it to `kubermatic`.
 3. Upgrade with `kubermatic-installer deploy` as described in [KKP Master Upgrade](#kkp-master-upgrade). The installer stops before it changes the cluster if `.spec.auth.clientSecret` is missing.
-4. After the dashboard login works with the `kubermatic` client, remove the `/api/v2/auth/callback` URIs of the main hostname and of every additional hostname from the `kubermaticIssuer` client.
+4. After the dashboard login works with the `kubermatic` client, remove the `/api/v2/auth/callback` URIs of the main hostname and of every additional hostname from the `kubermaticIssuer` client. If you registered post-logout redirect URIs on the `kubermaticIssuer` client, remove them too.
 
 If you upgrade without the installer, for example with GitOps, the KubermaticConfiguration is usually not validated when you apply it. In that case the new KKP API Pods do not start and log `-oidc-authenticator-client-secret is required when -oidc-authenticator-client-id differs from -oidc-issuer-client-id` until `.spec.auth.clientSecret` is set.
 
 If users reach KKP through reverse proxies on other hostnames, configure them as described in [Additional Hostnames]({{< ref "../../../tutorials-howtos/oidc-provider-configuration/#additional-hostnames" >}}) in the same maintenance window as the upgrade.
+
+### Web Terminal ServiceAccount Mode
+
+Starting with KKP 2.31.4, the web terminal can run in ServiceAccount mode. For every user who opens a terminal, KKP creates a ServiceAccount in the user cluster that acts as that user. The terminal then does not use the user's OIDC login, and users do not have to log in a second time. We recommend enabling ServiceAccount mode after the upgrade.
+
+To enable it, set the `WebTerminalServiceAccount` and `OpenIDAuthPlugin` feature gates to `true`, in addition to the `OIDCKubeCfgEndpoint` feature gate that the web terminal already needs:
+
+```yaml
+apiVersion: kubermatic.k8c.io/v1
+kind: KubermaticConfiguration
+metadata:
+  name: kubermatic
+  namespace: kubermatic
+spec:
+  featureGates:
+    OIDCKubeCfgEndpoint: true
+    OpenIDAuthPlugin: true
+    WebTerminalServiceAccount: true
+```
+
+ServiceAccount mode works only for user clusters that use the default KKP authentication. It is not available when the user cluster, its Seed or its datacenter has its own authentication configuration, when the user cluster sets its own OIDC issuer, or when the Seed uses its own OIDC provider. Users need a verified email address. Changing the `WebTerminalServiceAccount` feature gate restarts the KKP API, the KKP controller managers, the KKP webhook and the user cluster controller manager of every user cluster once.
+
+See [ServiceAccount Mode]({{< ref "../../../tutorials-howtos/project-and-cluster-management/web-terminal/#serviceaccount-mode" >}}) for details.
 
 ### Gateway API Replaces nginx-ingress-controller
 

@@ -150,7 +150,8 @@ fragment.
 
 For every listed hostname, register these redirect URIs at the OIDC provider:
 
-- On the login client (`spec.auth.clientID`): `<hostname>/api/v2/auth/callback`
+- On the login client (`spec.auth.clientID`): `<hostname>/api/v2/auth/callback`, and `<hostname>/`
+  as a post-logout redirect URI if `oidc_logout_url` is set (see [UI Configuration](#ui-configuration))
 - On the User Cluster client (`spec.auth.issuerClientID`): `<hostname>/api/v1/kubeconfig`,
   `<hostname>/api/v2/kubeconfig/secret` and `<hostname>/api/v2/dashboard/login`
 
@@ -170,7 +171,10 @@ Since the login URL is built by the KKP API, the only OIDC-related options left 
   Currently, only `dex` and `keycloak` are supported.
 - `oidc_logout_url` is the end-session endpoint of the OIDC provider. If it is not set, logging
   out only clears the KKP session cookies and returns the user to the dashboard root; the
-  session at the provider stays open.
+  session at the provider stays open. If it is set, KKP asks the provider to send the user back
+  to `https://<domain>/` after the logout. Register this exact URI, with the trailing slash, as a
+  post-logout redirect URI on the login client (`spec.auth.clientID`), and `<hostname>/` for every
+  [additional hostname](#additional-hostnames).
 
 A configuration of a custom OIDC provider may look like this:
 
@@ -281,6 +285,7 @@ If you are using *Keycloak* as a custom OIDC provider, create both clients. Conf
 - **Standard Flow**: enabled. Implicit Flow is not used and can be turned off.
 - **Client authentication**: on, so that the client is a confidential client. Copy its secret to `spec.auth.clientSecret`.
 - **Valid Redirect URIs**: add `https://<domain>/api/v2/auth/callback`.
+- **Valid post logout redirect URIs**: add `https://<domain>/` (only when `oidc_logout_url` is set).
 - **PKCE Code Challenge Method**: `S256`.
 - **Scopes**: `offline_access` has to be part of the default or optional client scopes, otherwise no refresh token is issued.
 
