@@ -20,20 +20,57 @@ Please review [known issues]({{< ref "../../../architecture/known-issues/" >}}) 
 
 The KKP dashboard now signs users in using the OAuth Authorization Code flow with PKCE instead of the Implicit flow. Tokens are exchanged by the KKP API and stored in `HttpOnly` cookies, and sessions are refreshed silently using a refresh token.
 
-This requires changes to your OIDC provider and `KubermaticConfiguration` **before** upgrading. If you use the bundled Dex and the example configuration files shipped with the release, the necessary changes are already included. Adjust your configuration if you maintain it yourself or use a custom OIDC provider:
+If you upgrade from KKP 2.31.0, 2.31.1, 2.31.2 or 2.31.3, follow [Upgrading from KKP 2.31.0, 2.31.1, 2.31.2 or 2.31.3](#upgrading-from-kkp-2310-2311-2312-or-2313) and skip the list below.
 
-1. Register `https://<domain>/api/v2/auth/callback` as a valid redirect URI on your OIDC client. For Dex, add it to `.dex.config.staticClients[name=="kubermaticIssuer"].RedirectURIs` in `values.yaml`.
-2. Set `.spec.auth.clientID` to the same value as `.spec.auth.issuerClientID` (both default to `kubermaticIssuer`). The dashboard no longer uses a separate public `kubermatic` client, which can be removed from your Dex configuration.
-3. Make sure `.spec.auth.issuerClientSecret` and `.spec.auth.issuerCookieKey` are set. They were previously only needed for the OIDC kubeconfig feature and are now required for the dashboard login.
-4. Make sure the client is a confidential client and can issue refresh tokens. KKP requests the `offline_access` scope on every login; Dex only returns a refresh token when that scope is granted, and without a refresh token users are signed back to the login page as soon as the ID token expires.
-5. For Keycloak, enable Standard Flow, turn on client authentication and set the PKCE code challenge method to `S256`. `Implicit Flow Enabled` is no longer required.
-6. Remove `oidc_provider_url`, `oidc_provider_scope`, `oidc_provider_client_id` and `oidc_connector_id` from `.spec.ui.config`. They are ignored now. `oidc_provider` and `oidc_logout_url` are still used to build the logout URL.
+The dashboard login uses its own OIDC client, `kubermatic` (`.spec.auth.clientID`). The User Cluster flows (kubeconfig download, web terminal in OIDC mode, Kubernetes Dashboard) keep using `kubermaticIssuer` (`.spec.auth.issuerClientID`). This requires changes to your OIDC provider and `KubermaticConfiguration` **before** upgrading. If you use the bundled Dex and the example configuration files shipped with the release, the necessary changes are already included. Adjust your configuration if you maintain it yourself or use a custom OIDC provider:
+
+1. Keep the `kubermatic` client and register `https://<domain>/api/v2/auth/callback` as a valid redirect URI on it. For Dex, add it to `.dex.config.staticClients[id=="kubermatic"].RedirectURIs` in `values.yaml`. Do not add this URI to the `kubermaticIssuer` client.
+2. Set `.spec.auth.clientSecret` to the secret of the `kubermatic` client. If the client has no secret yet, generate one, for example with `cat /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c32`, and set the same value in the OIDC provider. `kubermatic-installer deploy` stops when `.spec.auth.clientSecret` is missing, and the KKP API does not start without it.
+3. Make sure `.spec.auth.issuerClientSecret` and `.spec.auth.issuerCookieKey` are set. The dashboard login uses `.spec.auth.issuerCookieKey`, and the User Cluster flows use `.spec.auth.issuerClientSecret`.
+4. Make sure the `kubermatic` client is a confidential client and can issue refresh tokens. KKP requests the `offline_access` scope on every login; Dex only returns a refresh token when that scope is granted, and without a refresh token users are signed back to the login page as soon as the ID token expires.
+5. For Keycloak, enable Standard Flow on the `kubermatic` client, turn on client authentication and set the PKCE code challenge method to `S256`. `Implicit Flow Enabled` is no longer required.
+6. Make sure the OIDC provider does not add `kubermaticIssuer` to the audience of tokens issued for `kubermatic`, for example through Dex trusted peers or a Keycloak audience mapper. When a login token has several audiences, its `azp` claim must be `kubermatic`. Dex and Keycloak set it by default.
+7. Remove `oidc_provider_url`, `oidc_provider_scope`, `oidc_provider_client_id` and `oidc_connector_id` from `.spec.ui.config`. They are ignored now. `oidc_provider` and `oidc_logout_url` are still used to build the logout URL.
 
 See [OIDC Provider Configuration]({{< ref "../../../tutorials-howtos/oidc-provider-configuration/" >}}) for the full configuration reference.
 
+After the upgrade, users see the login page once. OIDC kubeconfigs downloaded before the upgrade, the web terminal and the Kubernetes Dashboard keep working, because the `kubermaticIssuer` client does not change.
+
 {{% notice warning %}}
-Because the dashboard now uses the same OIDC client as the kubeconfig and web terminal flows, it is affected by the existing Dex limitation of one refresh token per user/client pair. Downloading a kubeconfig or opening a web terminal ends the running dashboard session once its ID token expires. See [OIDC refresh tokens are invalidated when the same user/client ID pair is authenticated multiple times]({{< ref "../../../architecture/known-issues/#oidc-refresh-tokens-are-invalidated-when-the-same-userclient-id-pair-is-authenticated-multiple-times" >}}).
+Using a single client for both purposes, by setting `.spec.auth.clientID` to the value of `.spec.auth.issuerClientID`, is deprecated and will not be supported in an upcoming KKP release. Use two separate clients.
 {{% /notice %}}
+
+#### Upgrading from KKP 2.31.0, 2.31.1, 2.31.2 or 2.31.3
+
+Starting with KKP 2.31.4, `.spec.auth.clientID` defaults to `kubermatic`, a separate client for the dashboard login. What happens on the upgrade depends on your configuration:
+
+- If `.spec.auth.clientID` is not set, the dashboard login switches to the `kubermatic` client, and `.spec.auth.clientSecret` becomes required. Complete the steps below **before** upgrading.
+- If `.spec.auth.clientID` is set to `kubermaticIssuer`, the installation keeps using a single client. This setup is deprecated. Move to two clients with the steps below.
+
+To move to two clients:
+
+1. Create the `kubermatic` client in your OIDC provider if it does not exist, as a confidential client with a secret. For the bundled Dex, add it to `.dex.config.staticClients` in `values.yaml`:
+
+   ```yaml
+   dex:
+     config:
+       staticClients:
+         - id: kubermatic
+           name: Kubermatic Dashboard
+           secret: <a-random-key>
+           RedirectURIs:
+             - https://<domain>/api/v2/auth/callback
+   ```
+
+   If users also sign in on additional hostnames (`.spec.auth.additionalIssuerRedirectURLs`), add `<hostname>/api/v2/auth/callback` for each of them.
+
+2. Set `.spec.auth.clientSecret` to the secret of the `kubermatic` client. If you set `.spec.auth.clientID` to `kubermaticIssuer` before, remove it or set it to `kubermatic`.
+3. Upgrade with `kubermatic-installer deploy` as described in [KKP Master Upgrade](#kkp-master-upgrade). The installer stops before it changes the cluster if `.spec.auth.clientSecret` is missing.
+4. After the dashboard login works with the `kubermatic` client, remove the `/api/v2/auth/callback` URIs of the main hostname and of every additional hostname from the `kubermaticIssuer` client.
+
+If you upgrade without the installer, for example with GitOps, the KubermaticConfiguration is usually not validated when you apply it. In that case the new KKP API Pods do not start and log `-oidc-authenticator-client-secret is required when -oidc-authenticator-client-id differs from -oidc-issuer-client-id` until `.spec.auth.clientSecret` is set.
+
+If users reach KKP through reverse proxies on other hostnames, configure them as described in [Additional Hostnames]({{< ref "../../../tutorials-howtos/oidc-provider-configuration/#additional-hostnames" >}}) in the same maintenance window as the upgrade.
 
 ### Gateway API Replaces nginx-ingress-controller
 
