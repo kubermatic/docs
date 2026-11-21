@@ -48,10 +48,11 @@ spec:
     - metadata:
         name: my-http-data-volume
       spec:
-        sourceRef:
-          kind: DataSource
-          name: my-http-datasource
-          apiGroup: cdi.kubevirt.io
+        source:
+          http:
+            url: "http://example.com/path/to/your/image.qcow2" # <--- IMPORTANT: Replace with the actual URL of your disk image
+            # certConfigMap: my-http-ca # <--- OPTIONAL: Uncomment and set to a ConfigMap holding the CA certificate if your HTTP server uses a custom CA
+            # secretRef: my-http-credentials # <--- OPTIONAL: Uncomment and set to a Secret with accessKeyId and secretKey if your HTTP server needs basic authentication
         pvc:
           accessModes:
             - ReadWriteOnce
@@ -59,25 +60,6 @@ spec:
             requests:
               storage: 10Gi # <--- IMPORTANT: Adjust to your desired disk size
           # storageClassName: my-storage-class # <--- OPTIONAL: Uncomment and replace with your StorageClass name if needed
----
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataSource
-metadata:
-  name: my-http-datasource
-spec:
-  source:
-    http:
-      url: "http://example.com/path/to/your/image.qcow2" # <--- IMPORTANT: Replace with the actual URL of your disk image
-      # certConfig: # <--- OPTIONAL: Uncomment and configure if your HTTP server uses a custom CA
-      #   caBundle: "base64encodedCABundle"
-      #   secretRef:
-      #     name: "my-http-cert-secret"
-      #   cert:
-      #     secretRef:
-      #       name: "my-http-cert-secret"
-      #   key:
-      #     secretRef:
-      #       name: "my-http-key-secret"
 ```
 ### 1. `VirtualMachine` (apiVersion: `kubevirt.io/v1`)
 
@@ -90,7 +72,7 @@ This is the main KubeVirt resource that defines your virtual machine.
   Links the `rootdisk` to a `dataVolume` named `my-http-data-volume`.
 
 - **`spec.dataVolumeTemplates`**:  
-  This is the crucial part. It defines a template for a DataVolume that will be created automatically when the VM is started.
+  This is the crucial part. It defines a template for a DataVolume that is created automatically with the VirtualMachine.
 
 ---
 
@@ -99,8 +81,11 @@ This is the main KubeVirt resource that defines your virtual machine.
 - **`metadata.name`**:  
   The name of the DataVolume that will be created (referenced in `spec.template.spec.volumes`).
 
-- **`spec.sourceRef`**:  
-  Points to a `DataSource` resource that defines the actual source of the disk image. A `DataSource` is used here to encapsulate HTTP details.
+- **`spec.source.http.url`**:  
+  🔗 The direct URL to your disk image (e.g., a `.qcow2` or `.raw` file). CDI (Containerized Data Importer) downloads it into the volume.
+
+- **`spec.source.http.certConfigMap`** and **`spec.source.http.secretRef`**: *(Optional)*  
+  Name a ConfigMap with the CA certificate if your HTTP server uses a custom CA, and a Secret with `accessKeyId` and `secretKey` if it needs basic authentication.
 
 - **`spec.pvc`**:  
   Defines the characteristics of the PersistentVolumeClaim (PVC) that will be created for this DataVolume:
@@ -109,21 +94,6 @@ This is the main KubeVirt resource that defines your virtual machine.
     - **`resources.requests.storage`**:  
       ⚠️ **Crucially, set this to the desired size of your VM's disk.** It should be at least as large as your source image.
     - **`storageClassName`**: *(Optional)* Specify a StorageClass if needed; otherwise, the default will be used.
-
----
-
-### 3. `DataSource` (apiVersion: `cdi.kubevirt.io/v1beta1`)
-
-This is a CDI (Containerized Data Importer) resource that encapsulates the details of where your disk image comes from.
-
-- **`metadata.name`**:  
-  The name of the `DataSource` (referenced in `dataVolumeTemplate.spec.sourceRef`).
-
-- **`spec.source.http.url`**:  
-  🔗 This is where you put the direct URL to your disk image (e.g., a `.qcow2`, `.raw`, etc. file).
-
-- **`spec.source.http.certConfig`**: *(Optional)*  
-  If your HTTP server uses a custom CA or requires client certificates, configure them here.
 
 ---
 
@@ -136,7 +106,7 @@ Here's a breakdown of the key aspects of KubeVirt VirtualMachinePools:
 
 
 ```yaml
-apiVersion: kubevirt.io/v1alpha1
+apiVersion: pool.kubevirt.io/v1alpha1
 kind: VirtualMachinePool
 metadata:
   name: my-vm-http-pool
@@ -149,38 +119,42 @@ spec:
     metadata:
       labels:
         app: my-vm-http-pool-member
-      annotations:
-        kubevirt.io/allow-pod-bridge-network-live-migration: "true"
     spec:
       runStrategy: RerunOnFailure # Or Always, Halted, Manual
-      domain:
-        cpu:
-          cores: 1
-        memory:
-          guest: 2Gi
-        devices:
-          disks:
+      template:
+        metadata:
+          labels:
+            app: my-vm-http-pool-member
+          annotations:
+            kubevirt.io/allow-pod-bridge-network-live-migration: "true"
+        spec:
+          domain:
+            cpu:
+              cores: 1
+            memory:
+              guest: 2Gi
+            devices:
+              disks:
+                - name: rootdisk
+                  disk:
+                    bus: virtio
+              interfaces:
+                - name: default
+                  masquerade: {}
+          volumes:
             - name: rootdisk
-              disk:
-                bus: virtio
-          interfaces:
+              dataVolume:
+                name: my-pool-vm-data-volume # The VM's index is appended to this name, e.g. my-pool-vm-data-volume-0
+          networks:
             - name: default
-              masquerade: {}
-      volumes:
-        - name: rootdisk
-          dataVolume:
-            name: my-pool-vm-data-volume # This name will have a unique suffix appended by KubeVirt
-      networks:
-        - name: default
-          pod: {}
+              pod: {}
       dataVolumeTemplates:
         - metadata:
-            name: my-pool-vm-data-volume # This name will be the base for the unique DataVolume names
+            name: my-pool-vm-data-volume # This name is the base for the DataVolume names
           spec:
-            sourceRef:
-              kind: DataSource
-              name: my-http-datasource
-              apiGroup: cdi.kubevirt.io
+            source:
+              http:
+                url: "http://example.com/path/to/your/image.qcow2" # <--- IMPORTANT: Replace with the actual URL of your disk image
             pvc:
               accessModes:
                 - ReadWriteOnce
@@ -188,32 +162,12 @@ spec:
                 requests:
                   storage: 10Gi # <--- IMPORTANT: Adjust to your desired disk size for each VM
               # storageClassName: my-storage-class # <--- OPTIONAL: Uncomment and replace with your StorageClass name if needed
----
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataSource
-metadata:
-  name: my-http-datasource
-spec:
-  source:
-    http:
-      url: "http://example.com/path/to/your/image.qcow2" # <--- IMPORTANT: Replace with the actual URL of your disk image
-      # certConfig: # <--- OPTIONAL: Uncomment and configure if your HTTP server uses a custom CA
-      #   caBundle: "base64encodedCABundle"
-      #   secretRef:
-      #     name: "my-http-cert-secret"
-      #   cert:
-      #     secretRef:
-      #       name: "my-http-cert-secret"
-      #   key:
-      #     secretRef:
-      #       name: "my-http-key-secret"
-
 ```
-### VirtualMachinePool (apiVersion: `kubevirt.io/v1alpha1`)
+### VirtualMachinePool (apiVersion: `pool.kubevirt.io/v1alpha1`)
 
 1. **`API Version`**
-  - Use `apiVersion: kubevirt.io/v1alpha1` for `VirtualMachinePool`.
-  - This is a slightly different API version than `VirtualMachine`.
+  - Use `apiVersion: pool.kubevirt.io/v1alpha1` for `VirtualMachinePool`.
+  - This is a different API group and version than `VirtualMachine`.
 
 2. **`spec.replicas`**
   - Specifies how many `VirtualMachine` instances the pool should maintain.
@@ -223,19 +177,19 @@ spec:
   - `matchLabels` must correspond to the `metadata.labels` within `virtualMachineTemplate`.
 
 4. **spec.virtualMachineTemplate**
-  - This section contains the full `VirtualMachine` spec that serves as the template for each VM in the pool.
+  - This section contains the full `VirtualMachine` spec that serves as the template for each VM in the pool. The VM's own `domain`, `volumes` and `networks` sit under `spec.virtualMachineTemplate.spec.template.spec`, as in a standalone `VirtualMachine`.
 
 5. **`dataVolumeTemplates` Naming in a Pool**
   - `VirtualMachinePool` creates `DataVolumes` from `dataVolumeTemplates`.
-  - A unique suffix is appended to the `metadata.name` of each `DataVolume` (e.g., `my-pool-vm-data-volume-abcde`), ensuring each VM gets a distinct PVC.
+  - The index of the VM is appended to the `metadata.name` of each `DataVolume` (e.g., `my-pool-vm-data-volume-0`, `my-pool-vm-data-volume-1`), ensuring each VM gets a distinct PVC.
 
 ---
 
 ### How It Works (Similar to Deployment for Pods)
 
-1. Apply the `VirtualMachinePool` manifest. KubeVirt ensures the `my-http-datasource` `DataSource` exists.
+1. Apply the `VirtualMachinePool` manifest.
 2. The `VirtualMachinePool` controller creates the defined number of `VirtualMachine` replicas.
-3. Each `VirtualMachine` triggers the creation of a `DataVolume` using the specified `dataVolumeTemplate` and `my-http-datasource`.
+3. Each `VirtualMachine` triggers the creation of a `DataVolume` using the specified `dataVolumeTemplate`.
 4. CDI (Containerized Data Importer) downloads the image into a new unique `PersistentVolumeClaim` (PVC) for each VM.
 5. Each `VirtualMachine` then starts using its dedicated PVC.
 
