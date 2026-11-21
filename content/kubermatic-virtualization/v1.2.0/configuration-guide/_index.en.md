@@ -4,7 +4,7 @@ date = 2026-04-23T00:00:00+00:00
 weight = 6
 +++
 
-This document provides a deep-dive reference for the KubeV cluster configuration file. The configuration file drives `kubev apply` and controls every aspect of your Kubermatic Virtualization Platform deployment.
+This document provides a deep-dive reference for the KubeV cluster configuration file. The configuration file drives `kubermatic-virtualization apply` and controls every aspect of your Kubermatic Virtualization Platform deployment.
 
 ## File Format
 
@@ -15,7 +15,7 @@ apiVersion: virtualization.k8c.io/v1alpha1
 kind: KubeVCluster
 ```
 
-Both fields are required and must match exactly. Use `kubev config print` to generate a starter file, or `kubev config print --verbose` for an annotated version with inline guidance.
+Both fields are required and must match exactly. Use `kubermatic-virtualization config print` to generate a starter file, or `kubermatic-virtualization config print --verbose` for an annotated version with inline guidance.
 
 ---
 
@@ -81,7 +81,7 @@ Every node entry (control plane and worker alike) supports the following fields:
 
 | Field | Required | Default | Description |
 |---|---|---|---|
-| `address` | Yes | — | Internal RFC-1918 IP address of the node. Must be reachable from the machine running `kubev apply`. |
+| `address` | Yes | — | Internal RFC-1918 IP address of the node. Must be reachable from the machine running `kubermatic-virtualization apply`. |
 | `sshUsername` | No | `root` | SSH login username. |
 | `sshPrivateKeyFile` | No | `""` | Path to a plaintext (unencrypted) private key file. |
 | `labels` | No | `{}` | Kubernetes node labels to apply or remove. |
@@ -89,7 +89,7 @@ Every node entry (control plane and worker alike) supports the following fields:
 | `tunnelInterface` | No | — | Per-node override for the Kube-OVN overlay NIC. See [Tunnel Interface](#tunnel-interface). |
 
 **SSH key requirements:**
-- The key file must exist on the machine running `kubev apply` and be readable by the invoking user.
+- The key file must exist on the machine running `kubermatic-virtualization apply` and be readable by the invoking user.
 - The corresponding public key must be present in `~/.ssh/authorized_keys` on each target node.
 - Recommended permissions: `chmod 600 /path/to/key`.
 - Passphrase-protected keys are not supported. Use `ssh-keygen -p` to strip a passphrase or generate a dedicated deployment key.
@@ -121,6 +121,21 @@ networkConfiguration:
 ### About Kube-OVN
 
 KubeV uses [Kube-OVN](https://kube-ovn.io/) as its CNI network plugin. Kube-OVN is a Kubernetes networking solution built on top of [Open Virtual Network (OVN)](https://www.ovn.org/), which is the control plane layer of [Open vSwitch (OVS)](https://www.openvswitch.org/).
+
+Rather than relying on host-level routing rules or simple VXLAN point-to-point tunnels, Kube-OVN builds a full software-defined network with logical switches, logical routers, and load balancers managed centrally by OVN. Traffic between pods on different nodes travels through Geneve tunnels (or VXLAN, depending on configuration) between OVS bridges on each node.
+
+This architecture provides:
+- **Stable IPs** — StatefulSet pods keep their IP across restarts, and Deployments, DaemonSets and Jobs can be given fixed IPs from an IP pool.
+- **Network policies** enforced in the OVS datapath, not in iptables.
+- **Per-namespace or per-pod subnet isolation** without extra configuration.
+- **VPC-style multi-tenancy** for VM workloads sharing the same cluster.
+
+{{% notice note %}}
+Inter-node tunnel traffic is **not encrypted** in a KubeV deployment. Kube-OVN can encrypt
+Geneve/VXLAN tunnels using OVN's built-in IPsec support, but that capability is disabled and is
+not exposed through the KubeV cluster configuration. Use link-layer or physical network controls
+if you need inter-node traffic to be encrypted.
+{{% /notice %}}
 
 All CIDR ranges are validated at load time and must not overlap with one another or with your physical network.
 
@@ -244,7 +259,7 @@ Exactly one option must be set. If the section is omitted, `none` is applied as 
 
 ### Longhorn
 
-[Longhorn](https://longhorn.io/)  provides distributed block storage backed by node-local disks. It is the recommended storage backend for VM persistent disks in KubeV.
+[Longhorn](https://longhorn.io/) provides distributed block storage backed by node-local disks. It is the default storage backend for VM persistent disks in KubeV.
 
 ```yaml
 storage:
@@ -339,9 +354,9 @@ offlineSettings:
     password: "registry-password"
     insecure: false
   helmRegistry:
-    address: "https://charts.internal.example.com:5000"
-    username: "helm-user"
-    password: "helm-password"
+    address: "oci://registry.internal.example.com:5000"
+    username: "registry-user"
+    password: "registry-password"
     insecure: false
   packageRepository: "https://packages.internal.example.com"
 ```
@@ -357,7 +372,7 @@ When `enabled: true`, KubeV will not reach out to the public internet during ins
 | `containerRegistry.username` | No | Basic-auth username for the container registry. |
 | `containerRegistry.password` | No | Basic-auth password for the container registry. |
 | `containerRegistry.insecure` | No | Disable TLS verification. Use only for internal, trusted registries. Not recommended for production. |
-| `helmRegistry.address` | Yes | URL of the internal OCI registry or HTTP server hosting Helm charts. |
+| `helmRegistry.address` | Yes | Address of the internal OCI registry hosting the Helm charts, written with the `oci://` scheme (e.g., `oci://registry.internal.local:5000`). `mirror-images` copies the charts together with the images, so this is usually the same registry as `containerRegistry.address`. |
 | `helmRegistry.username` | No | Basic-auth username for the Helm registry. |
 | `helmRegistry.password` | No | Basic-auth password for the Helm registry. |
 | `helmRegistry.insecure` | No | Disable TLS verification for the Helm registry. |
@@ -365,13 +380,17 @@ When `enabled: true`, KubeV will not reach out to the public internet during ins
 
 ### Preparing an Air-Gapped Environment
 
-Before running `kubev apply` in offline mode, the following must be in place:
+Before running `kubermatic-virtualization apply` in offline mode, the following must be in place:
 
-1. **Mirror container images** — use `kubev mirror-images` to copy all required images to your internal registry. This includes images for Kube-OVN, CertManager, KubeVirt, CDI, Longhorn, MetalLB, Kyverno, Multus, and others.
+1. **Mirror container images and Helm charts** — run `kubermatic-virtualization mirror-images` against your internal registry. It copies every required image (Kube-OVN, CertManager, KubeVirt, CDI, Longhorn, MetalLB, Kyverno, Multus, and others) and the Helm charts of these components, keeping their repository paths, which is where the installer looks for them:
+
+   ```bash
+   kubermatic-virtualization mirror-images registry.internal.example.com:5000
+   ```
+
+   Point both `containerRegistry.address` and `helmRegistry.address` at this registry (`helmRegistry.address` with the `oci://` scheme).
 2. **Prepare the package repository** — sync the OS package repository used by your node OS so that kubeadm, kubelet, and kubectl packages are available.
 3. **Test connectivity** — verify that all nodes can reach every internal mirror URL before applying.
-
-> **Note on dashboard images:** The `containerRegistry` field covers infrastructure component images. The API server and dashboard images require separate credentials provided via `dashboard.imagePullSecret` or `KUBEV_USERNAME`/`KUBEV_PASSWORD` environment variables — see [Registry Credentials](#registry-credentials).
 
 ---
 
@@ -663,15 +682,15 @@ Generate the base64-encoded auth value:
 echo -n "myuser:mypassword" | base64
 ```
 
-**Option 2 — Environment variables before running `kubev apply`:**
+**Option 2 — Environment variables before running `kubermatic-virtualization apply`:**
 
 ```bash
 export KUBEV_USERNAME=myuser
 export KUBEV_PASSWORD=mypassword
-kubev apply -f cluster.yaml
+kubermatic-virtualization apply -f cluster.yaml
 ```
 
-If `imagePullSecret` is set in the config file, environment variables are ignored. If neither is provided when the dashboard is enabled, `kubev apply` fails the pre-flight check with a descriptive error before any cluster changes are made.
+If `imagePullSecret` is set in the config file, environment variables are ignored. If neither is provided when the dashboard is enabled, `kubermatic-virtualization apply` fails the pre-flight check with a descriptive error before any cluster changes are made.
 
 ---
 
@@ -710,7 +729,7 @@ dashboard:
 That is all that is required. The installer generates a random credential pair, stores it in the default Secret, and prints the path to a credentials file in the post-apply output. Retrieve the credentials with:
 
 ```bash
-cat <path printed by kubev apply>
+cat <path printed by kubermatic-virtualization apply>
 ```
 
 **Advanced options** — all fields are optional and have sensible defaults:

@@ -132,6 +132,21 @@ networkConfiguration:
 
 KubeV uses [Kube-OVN](https://kube-ovn.io/) as its CNI network plugin. Kube-OVN is a Kubernetes networking solution built on top of [Open Virtual Network (OVN)](https://www.ovn.org/), which is the control plane layer of [Open vSwitch (OVS)](https://www.openvswitch.org/).
 
+Rather than relying on host-level routing rules or simple VXLAN point-to-point tunnels, Kube-OVN builds a full software-defined network with logical switches, logical routers, and load balancers managed centrally by OVN. Traffic between pods on different nodes travels through Geneve tunnels (or VXLAN, depending on configuration) between OVS bridges on each node.
+
+This architecture provides:
+- **Stable IPs** — StatefulSet pods keep their IP across restarts, and Deployments, DaemonSets and Jobs can be given fixed IPs from an IP pool.
+- **Network policies** enforced in the OVS datapath, not in iptables.
+- **Per-namespace or per-pod subnet isolation** without extra configuration.
+- **VPC-style multi-tenancy** for VM workloads sharing the same cluster.
+
+{{% notice note %}}
+Inter-node tunnel traffic is **not encrypted** in a KubeV deployment. Kube-OVN can encrypt
+Geneve/VXLAN tunnels using OVN's built-in IPsec support, but that capability is disabled and is
+not exposed through the KubeV cluster configuration. Use link-layer or physical network controls
+if you need inter-node traffic to be encrypted.
+{{% /notice %}}
+
 All CIDR ranges are validated at load time and must not overlap with one another or with your physical network.
 
 ### Fields
@@ -498,9 +513,9 @@ offlineSettings:
     password: "registry-password"
     insecure: false
   helmRegistry:
-    address: "https://charts.internal.example.com:5000"
-    username: "helm-user"
-    password: "helm-password"
+    address: "https://registry.internal.example.com:5000"
+    username: "registry-user"
+    password: "registry-password"
     insecure: false
   packageRepository: "https://packages.internal.example.com"
   packageRepositoryKeyFingerprint: "A1B2C3D4E5F60718293A4B5C6D7E8F9012345678"
@@ -517,7 +532,7 @@ When `enabled: true`, KubeV will not reach out to the public internet during ins
 | `containerRegistry.username` | No | Basic-auth username for the container registry. |
 | `containerRegistry.password` | No | Basic-auth password for the container registry. |
 | `containerRegistry.insecure` | No | Disable TLS verification. Use only for internal, trusted registries. Not recommended for production. |
-| `helmRegistry.address` | Yes | URL of the internal OCI registry or HTTP server hosting Helm charts. |
+| `helmRegistry.address` | Yes | URL of the internal OCI registry hosting the Helm charts. `mirror-images` copies the charts together with the images, so this is usually the same registry as `containerRegistry.address`. |
 | `helmRegistry.username` | No | Basic-auth username for the Helm registry. |
 | `helmRegistry.password` | No | Basic-auth password for the Helm registry. |
 | `helmRegistry.insecure` | No | Disable TLS verification for the Helm registry. |
@@ -528,7 +543,13 @@ When `enabled: true`, KubeV will not reach out to the public internet during ins
 
 The release's offline bundle provides all of the following on one jump host — see [Offline Installation]({{< ref "../installation/offline-installation" >}}). To use your own registry and repository instead, the following must be in place before running `kubermatic-virtualization apply` in offline mode:
 
-1. **Mirror container images** — use `kubermatic-virtualization mirror-images` to copy all required images to your internal registry. This includes KubeV's own images and those of Kube-OVN, cert-manager, KubeVirt, CDI, Forklift, Longhorn, Rook, Ceph, MetalLB, Kyverno, Multus, and others.
+1. **Mirror container images and Helm charts** — run `kubermatic-virtualization mirror-images` against your internal registry. It copies every required image (KubeV's own images and those of Kube-OVN, cert-manager, KubeVirt, CDI, Forklift, Longhorn, Rook, Ceph, MetalLB, Kyverno, Multus, and others) and the Helm charts of these components, keeping their repository paths, which is where the installer looks for them:
+
+   ```bash
+   kubermatic-virtualization mirror-images registry.internal.example.com:5000
+   ```
+
+   Point both `containerRegistry.address` and `helmRegistry.address` at this registry.
 2. **Prepare the package repository** — sync the OS package repository used by your node OS so that kubeadm, kubelet, and kubectl packages are available.
 3. **Test connectivity** — verify that all nodes can reach every internal mirror URL before applying.
 
