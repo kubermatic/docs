@@ -18,11 +18,9 @@ kind: Vpc
 metadata:
   name: my-vpc # Name of your VPC
 spec:
-  # Optional: You can specify which namespaces are allowed to use this VPC.
-  # If left empty, all namespaces can use it.
-  # namespaces:
-  #   - my-namespace
-  #   - my-namespace-1
+  # A subnet of this VPC can only list namespaces from here.
+  namespaces:
+    - vm-namespace
 ```
 ---
 
@@ -62,21 +60,35 @@ metadata:
 While Kube-OVN can work directly by binding a Namespace to a Subnet, using a NetworkAttachmentDefinition (NAD) with 
 Multus provides more explicit control, especially if your VM needs multiple network interfaces or a specific CNI configuration.
 
+The NAD and the Subnet that serves it are linked by a provider name, `<NAD name>.<namespace>.ovn`. Set it as `provider`
+in the NAD's CNI config and as `spec.provider` of the Subnet. The Subnet needs a CIDR range of its own that does not
+overlap other subnets of the VPC.
+
 ```yaml
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
   name: vm-network # Name of the NAD
-  namespace: vm-namespace # Must be in the same namespace as the VMs using it
+  namespace: vm-namespace # Namespace containing the NAD
 spec:
   config: |
     {
       "cniVersion": "0.3.1",
       "name": "vm-network",
       "type": "kube-ovn",
-      "server_socker": "/run/openvswitch/kube-ovn-daemon.sock",
-      "netAttachDefName": "vm-namespace/vm-network"
+      "server_socket": "/run/openvswitch/kube-ovn-daemon.sock",
+      "provider": "vm-network.vm-namespace.ovn"
     }
+---
+apiVersion: kubeovn.io/v1
+kind: Subnet
+metadata:
+  name: my-vm-nad-subnet
+spec:
+  vpc: my-vpc
+  provider: vm-network.vm-namespace.ovn # <NAD name>.<namespace>.ovn
+  cidrBlock: 10.20.0.0/24
+  gateway: 10.20.0.1
 ```
 {{% notice note %}}
 Note: For a VM to automatically pick up the correct Subnet via the Namespace binding, you often don't strictly
@@ -96,10 +108,11 @@ bound to your `my-vm-subnet`.
 If your `vm-namespace` is explicitly listed in the `spec.namespaces` of `my-vm-subnet`, any `VM` (or `Pod`) created in 
 `vm-namespace` will automatically get an IP from `my-vm-subnet`.
 
-#### Option 2: Explicitly Specifying the Subnet/NAD via Annotations (For Multiple NICs or Specificity)
+#### Option 2: Explicitly Specifying the Subnet/NAD (For Multiple NICs or Specificity)
 
 If you're using a `NetworkAttachmentDefinition` (`NAD`) or need to explicitly control which subnet is used, especially 
-for secondary interfaces, you'd use Multus annotations on your `VM` definition.
+for secondary interfaces, add the NAD as a Multus network of the `VM`. The VM keeps the pod network as its primary
+network and gets a second interface on `my-vm-nad-subnet`.
 
 ```yaml
 apiVersion: kubevirt.io/v1
@@ -107,15 +120,15 @@ kind: VirtualMachine
 metadata:
   name: my-kubeovn-vm-multus
   namespace: vm-namespace
-  annotations:
-    # Reference the NetworkAttachmentDefinition for the primary interface
-    # The format is <namespace>/<nad-name>
-    k8s.v1.cni.cncf.io/networks: vm-network
-    # Optional: For static IP assignment from the subnet
-    # ovn.kubernetes.io/ip_address: 10.10.0.10
 spec:
   runStrategy: Always
   template:
+    metadata:
+      annotations:
+        # Optional: the subnet for the secondary interface, by name
+        vm-network.vm-namespace.ovn.kubernetes.io/logical_switch: my-vm-nad-subnet
+        # Optional: For static IP assignment from the subnet
+        # vm-network.vm-namespace.ovn.kubernetes.io/ip_address: 10.20.0.10
     spec:
       domain:
         devices:
@@ -127,15 +140,19 @@ spec:
               disk:
                 bus: virtio
           interfaces:
-            - name: primary-nic
-              # This interface will use the network defined by the NAD
-              bridge: {} # Or masquerade: {}
-            # Example for a secondary NIC on a different Kube-OVN Subnet/NAD
-            # - name: secondary-nic
-            #   bridge: {}
+            - name: default
+              masquerade: {}
+            - name: secondary-nic
+              bridge: {}
         resources:
           requests:
             memory: 2Gi
+      networks:
+        - name: default
+          pod: {}
+        - name: secondary-nic
+          multus:
+            networkName: vm-namespace/vm-network # <namespace>/<NAD name>
       volumes:
         - name: containerdisk
           containerDisk:
@@ -146,7 +163,7 @@ spec:
               #cloud-config
 
 ```
-Important Kube-OVN Annotations for VMs/Pods:
+Important Kube-OVN Annotations for VMs/Pods (on a VM, set them under `spec.template.metadata.annotations`):
 
 - `ovn.kubernetes.io/logical_switch`: Explicitly assigns the workload to a specific Kube-OVN logical switch (which 
 corresponds to a Subnet). This overrides the Namespace's default subnet.
@@ -154,6 +171,6 @@ corresponds to a Subnet). This overrides the Namespace's default subnet.
 - `ovn.kubernetes.io/ip_address`: Assigns a specific static IP address from the subnet. Make sure this IP is excluded from 
 the subnet's dynamic IP range (excludeIps in the Subnet definition) to avoid conflicts.
 
-- `ovn.kubernetes.io/network_attachment`: When using Multus, this annotation on the `NetworkAttachmentDefinition`'s config 
-can specify the Kube-OVN provider or other details if you have multiple Kube-OVN deployments or specific requirements.
+- `<provider>.kubernetes.io/logical_switch` and `<provider>.kubernetes.io/ip_address`: The same two settings for an interface
+attached through a NAD, where `<provider>` is the NAD's provider name (`vm-network.vm-namespace.ovn` above).
 
