@@ -4,11 +4,11 @@ weight = 2
 aliases = ["/developer-platform/v1.2/service-providers/"]
 +++
 
-A service provider offers and manages services in the KDP catalog: a platform engineer, a
+A service provider offers and manages services in the KDP catalogue: a platform engineer, a
 DevOps engineer, or a team that runs internal services such as databases or AI capabilities.
 
-In KDP every team can offer services, not only consume them. One catalog holds all of them.
-Teams self-organize and move faster, while you keep your focus on the critical workflows. You
+In KDP every team can offer services, not only consume them. One catalogue holds all of them.
+Teams self-organise and move faster, while you keep your focus on the critical workflows. You
 act as a gardener, not a gatekeeper.
 
 These pages cover publishing a resource from your own Kubernetes cluster, composing several

@@ -4,18 +4,18 @@ weight = 7
 aliases = ["/developer-platform/v1.2/platform-users/ai-tooling/"]
 +++
 
-Most AI assistants can *describe* your infrastructure but can't *operate* it — it's
+Most AI assistants can *describe* your infrastructure but can't *operate* it: it's
 scattered across Terraform repos, tickets, consoles and half-deprecated CLIs, with no single
 interface an agent can act on. KDP is different: it exposes **one Kubernetes-native API
-surface**, and — as Kubermatic's
+surface**, and, as Kubermatic's
 [Giving AI Hands](https://www.kubermatic.com/blog/giving-ai-hands-how-kdp-makes-infrastructure-agent-ready/)
-article puts it — "anything you do in the UI, you can do through the API." That single API
+article puts it, "anything you do in the UI, you can do through the API." That single API
 surface is what makes KDP **agent-ready**: an AI assistant can discover it and act on it.
 
 KDP ships a set of **agent skills** and a hosted **MCP server** that let you drive a KDP
 environment from an AI coding assistant such as
 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) or
-[OpenCode](https://opencode.ai) — browsing the service catalog, creating resources, checking
+[OpenCode](https://opencode.ai): browsing the service catalogue, creating resources, checking
 status, and authoring Blueprints, in plain language.
 
 {{% notice note %}}
@@ -28,25 +28,25 @@ inside the dashboard. The tooling here runs in your local AI assistant against y
 Because every KDP service is a real Kubernetes API, an assistant can drive the same workflows
 a human would:
 
-- **Discover** — browse the service catalog (databases, certificate management, app engines, …).
-- **Provision** — create resources by declaring desired state (e.g. a PostgreSQL instance).
-- **Check status & get credentials** — read a resource's status and its connection secrets.
-- **Bind into apps** — mount credentials and other [related resources]({{< ref "/developer-platform/v1.2/guides/platform-users/managing-resources#related-resources" >}}) into workloads.
-- **Compose** — author and publish [Blueprints]({{< ref "/developer-platform/v1.2/guides/service-providers/blueprints" >}}) that bundle several services into one kind.
-- **Operate at scale** — manage whole workspaces with multiple services and their dependencies.
+- **Discover**: browse the service catalogue (databases, certificate management, app engines, ...).
+- **Provision**: create resources by declaring desired state (e.g. a PostgreSQL instance).
+- **Check status & get credentials**: read a resource's status and its connection secrets.
+- **Bind into apps**: mount credentials and other [related resources]({{< ref "/developer-platform/v1.2/guides/platform-users/managing-resources#related-resources" >}}) into workloads.
+- **Compose**: author and publish [Blueprints]({{< ref "/developer-platform/v1.2/guides/service-providers/blueprints" >}}) that bundle several services into one kind.
+- **Operate at scale**: manage whole workspaces with multiple services and their dependencies.
 
 ## Skills
 
 The following KDP skills are available for AI assistants:
 
-- **kdp** — for platform users who just want to get things done. Uses `kubectl` under the
+- **kdp**: for platform users who just want to get things done. Uses `kubectl` under the
   hood but hides the internal terminology and talks to you in plain language.
-- **kdp-kubectl** — the same workflows for service providers and platform engineers who want
-  to see the internals, using real kcp terminology (APIBindings, APIExports, …).
-- **kdp-blueprints** — for [Blueprint]({{< ref "/developer-platform/v1.2/guides/service-providers/blueprints" >}})
+- **kdp-kubectl**: the same workflows for service providers and platform engineers who want
+  to see the internals, using real kcp terminology (APIBindings, APIExports, ...).
+- **kdp-blueprints**: for [Blueprint]({{< ref "/developer-platform/v1.2/guides/service-providers/blueprints" >}})
   authors: walks through composing services into a `BlueprintDefinition`, validating,
   publishing, and smoke-testing an instance.
-- **kdp-mcp** — drives KDP through the MCP tools below instead of shell commands. This is the
+- **kdp-mcp**: drives KDP through the MCP tools below instead of shell commands. This is the
   only skill that needs no kubeconfig; it requires the MCP endpoint instead.
 
 The `kdp`, `kdp-kubectl` and `kdp-blueprints` skills each require `kubectl` pointing at a KDP
@@ -105,11 +105,11 @@ The dashboard generates these snippets pre-filled with your environment's URL un
 **Connect an AI agent** in the user menu, which is the easiest way to get the endpoint right.
 
 {{% notice warning %}}
-Two settings must be left as generated. **Do not change the callback port** — the matching
+Two settings must be left as generated. **Do not change the callback port**: the matching
 redirect URI is pre-registered with the identity provider, which matches it exactly, so any
-other port is rejected at login. **Do not pin OAuth scopes** — the gateway advertises the
+other port is rejected at login. **Do not pin OAuth scopes**: the gateway advertises the
 scopes it needs, including a dynamic scope that makes kcp accept the token. Setting
-`oauth.scopes` in Claude Code overrides that and breaks authorization (in OpenCode,
+`oauth.scopes` in Claude Code overrides that and breaks authorisation (in OpenCode,
 `oauth.scope` is ignored in favour of the gateway's).
 {{% /notice %}}
 
@@ -126,7 +126,7 @@ second Kubernetes MCP server is needed:
 | `getWorkspaceInfo` | A workspace's path and cluster host URL. |
 | `getServiceKubeconfig` | A kubeconfig blob for a workspace's service endpoint. |
 | `listAvailableApis` | Resource kinds usable in a workspace (internal platform APIs excluded). |
-| `getApiSchema` | The OpenAPI schema for a kind — worth reading before creating anything. |
+| `getApiSchema` | The OpenAPI schema for a kind. Worth reading before creating anything. |
 | `listResources` / `getResource` | Read resources, optionally filtered by namespace or labels. |
 | `createResource` / `updateResource` | Apply a YAML or JSON manifest. |
 | `deleteResource` | Remove a resource by kind and name. |
@@ -141,24 +141,24 @@ with `listWorkspaces`.
 ### What the MCP tools cannot do
 
 - **Enable or disable a service.** That creates an APIBinding, which these tools deliberately
-  do not manage — use the dashboard or the `kdp-kubectl` skill. An agent can browse the
-  catalog and work with services that are already enabled.
+  do not manage. Use the dashboard or the `kdp-kubectl` skill. An agent can browse the
+  catalogue and work with services that are already enabled.
 - **Author or publish Blueprints.** Use the `kdp-blueprints` skill.
 - **Fetch logs, exec into containers, or describe.** `getResource` returns the full object
   including `status` and conditions, which covers most troubleshooting; beyond that you need
   `kubectl`.
 
-## Skills or MCP — which to use
+## Skills or MCP: which to use
 
 Both give an assistant the ability to act on KDP; they differ in what you have to set up and
 how wide the surface is:
 
 - **Skills** are Markdown instructions the assistant picks up from a folder. They need a
   kubeconfig pointing at your workspace, but through `kubectl` they can reach anything your
-  user can — including enabling services and authoring Blueprints.
+  user can, including enabling services and authoring Blueprints.
 - **The MCP server** needs no local setup at all beyond one config entry and a browser login,
   and gives the assistant a fixed, schema-validated set of tools. That surface is narrower by
-  design: reading the catalog, and managing resources.
+  design: reading the catalogue, and managing resources.
 
 Use the MCP server for day-to-day work with resources, and a `kubectl`-based skill when you
 need the operations the tools deliberately leave out. The `kdp-mcp` skill combines the two by
@@ -166,24 +166,24 @@ teaching the assistant how to use the MCP tools well.
 
 ## Permissions and safety
 
-An agent is not a new security surface. It uses the **same API and RBAC as a human user** —
+An agent is not a new security surface. It uses the **same API and RBAC as a human user**:
 there is no separate, more-privileged path:
 
-- **Platform level** — [kcp workspace isolation and RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac" >}}) apply
+- **Platform level**: [kcp workspace isolation and RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac" >}}) apply
   exactly as they do for people. If a developer can't delete production databases from their
   workspace, neither can their agent.
-- **Identity** — the gateway validates your token and forwards it unchanged, so kcp sees
+- **Identity**: the gateway validates your token and forwards it unchanged, so kcp sees
   *you*, and the audit trail names you. Nothing runs under a shared service identity.
-- **Tool level** — the MCP server validates tool arguments against a JSON Schema, and skills
+- **Tool level**: the MCP server validates tool arguments against a JSON Schema, and skills
   are restricted to an allowed-tools list.
 
 An agent handed a kubeconfig scoped to a workspace likewise inherits that workspace's
-boundaries — nothing extra to configure.
+boundaries, with nothing extra to configure.
 
 ## See also
 
-- [MCP Gateway]({{< ref "/developer-platform/v1.2/guides/platform-administration/mcp-gateway" >}}) — how an operator enables the hosted
+- [MCP Gateway]({{< ref "/developer-platform/v1.2/guides/platform-administration/mcp-gateway" >}}): how an operator enables the hosted
   endpoint.
-- [Consuming Services]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services" >}}) — enabling a service so an agent
+- [Consuming Services]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services" >}}): enabling a service so an agent
   can use it.
-- [RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac" >}}) — the permission model an agent inherits.
+- [RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac" >}}): the permission model an agent inherits.

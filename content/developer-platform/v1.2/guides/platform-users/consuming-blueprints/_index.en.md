@@ -6,7 +6,7 @@ aliases = ["/developer-platform/v1.2/platform-users/consuming-blueprints/"]
 
 A **Blueprint** is a ready-made composition of several KDP services, published as a single
 kind. From a **platform user's point of view it behaves like any other service**: you enable it
-in your organization, then create one object — and KDP provisions all the underlying
+in your organisation, then create one object, and KDP provisions all the underlying
 resources the Blueprint composes.
 
 If you want to *author* Blueprints rather than consume them, see
@@ -15,24 +15,24 @@ guide.
 
 ## Finding a Blueprint
 
-Blueprints appear in the [service catalog]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services#browsing-services" >}})
+Blueprints appear in the [service catalogue]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services#browsing-services" >}})
 alongside regular services, marked with a **Blueprint** badge. Each entry shows its title,
-category and description — for example an "OrderApp Databases" Blueprint that provisions two
+category and description, for example an "OrderApp Databases" Blueprint that provisions two
 PostgreSQL databases at once.
 
-<img src="blueprint-service-catalog.png" alt="Blueprint in the Service Catalog" title="Service catalog search results showing the OrderApp Databases entry marked with a Blueprint badge" width="728" height="334">
+<img src="blueprint-service-catalog.png" alt="Blueprint in the Service Catalogue" title="Service catalogue search results showing the OrderApp Databases entry marked with a Blueprint badge" width="728" height="334">
 
 ## Enabling a Blueprint
 
 Enabling a Blueprint is the same flow as
 [enabling a service]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services#enabling-a-service" >}}): click
-**Add to Organization** in the catalog (or create the `APIBinding` manually). This binds the
-Blueprint's synthesized kind — served under `<kind>.blueprints.kdp.k8c.io` — into your
+**Add to Organization** in the catalogue (or create the `APIBinding` manually). This binds the
+Blueprint's synthesised kind (served under `<kind>.blueprints.kdp.k8c.io`) into your
 workspace.
 
 ## Creating an instance
 
-Once bound, create a single object of the synthesized kind. You only fill in the Blueprint's
+Once bound, create a single object of the synthesised kind. You only fill in the Blueprint's
 own fields (its `schema`); KDP expands them into the composed children behind the scenes. You
 can do this through the dashboard UI, exactly as for an ordinary service.
 
@@ -48,13 +48,13 @@ spec:
 ```
 
 Applying this one object causes KDP to create the two `PostgresInstance` children (a primary
-and a replica) defined by the Blueprint — you do not create them yourself.
+and a replica) defined by the Blueprint. You do not create them yourself.
 
 Here is our new instance:
 
 <img src="blueprint-new-instance.png" alt="New Blueprint instance" title="The OrderApp Databases resource objects list in the dashboard, showing the myorder-app-dev DatabaseOrderapp instance as ready" width="802" height="241">
 
-The composed children appear under the service that provides them — here the two
+The composed children appear under the service that provides them. Here, the two
 `PostgresInstance` objects, a primary and a replica, both ready:
 
 <img src="blueprint-children.png" alt="Children created by the Blueprint" title="The Database Management Systems resource objects list, showing the myorder-app-dev-primary and myorder-app-dev-replica PostgresInstance children created by the Blueprint" width="802" height="244">
@@ -63,7 +63,7 @@ The composed children appear under the service that provides them — here the t
 
 The instance reports aggregate progress in its `status`:
 
-- `status.ready` becomes `true` only once **all** composed children are ready — it is never
+- `status.ready` becomes `true` only once **all** composed children are ready: it is never
   vacuously `true` while the graph is still settling.
 - `status.waitingOn` lists the child IDs that are still blocking, and is cleared once
   everything has settled.
@@ -73,10 +73,10 @@ kubectl get databaseorderapp orders -n my-app -o yaml
 ```
 
 Deleting the instance removes the composed children automatically (they are owned by the
-instance) — you do not need to clean them up individually.
+instance), so you do not need to clean them up individually.
 
 ## Related topics
 
-- [Consuming Services]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services" >}}) — enabling and using regular services.
-- [Managing Resources]({{< ref "/developer-platform/v1.2/guides/platform-users/managing-resources" >}}) — creating and inspecting service objects.
-- [Blueprints (authoring)]({{< ref "/developer-platform/v1.2/guides/service-providers/blueprints" >}}) — how Blueprints are composed and published.
+- [Consuming Services]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services" >}}): enabling and using regular services.
+- [Managing Resources]({{< ref "/developer-platform/v1.2/guides/platform-users/managing-resources" >}}): creating and inspecting service objects.
+- [Blueprints (authoring)]({{< ref "/developer-platform/v1.2/guides/service-providers/blueprints" >}}): how Blueprints are composed and published.

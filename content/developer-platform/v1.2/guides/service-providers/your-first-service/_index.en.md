@@ -23,13 +23,13 @@ for more information from the standpoint of Service Consumers (i.e. endusers).
 
 ## Creating Services
 
-Login to the KDP Dashboard and navigate to the organization where the Service should be available
+Login to the KDP Dashboard and navigate to the organisation where the Service should be available
 (generally, Services can be consumed from any other workspace). Choose the "Create Service" option.
 
 ![Service Creation Wizard](service-creation-wizard.png?classes=shadow,border&height=200 "Service Creation Wizard")
 
 First, choose a **title**. This is a "human readable" name for your Service and will be shown to potential
-consumers in the service catalog. Next, choose a unique **API group**. API groups are DNS-style names,
+consumers in the service catalogue. Next, choose a unique **API group**. API groups are DNS-style names,
 so it is recommended to choose a sub-domain of a DNS name you actually control
 (e.g. `databases.services.kubermatic.com`).
 
@@ -39,7 +39,7 @@ This secret is required to set up the api-syncagent later.
 The service creation wizard also offers several optional metadata fields that will help service consumers
 understand what kind of services are offered. You can (optionally) provide a **documentation link** which
 will be shown to consumers as a way to discover more information about the service, a **logo** which will
-be displayed alongside the service in the service catalog and a markdown-capable **description** to convey
+be displayed alongside the service in the service catalogue and a markdown-capable **description** to convey
 what the service is about.
 
 ### Via API
@@ -63,7 +63,7 @@ spec:
     namespace: default
 ```
 
-This can be applied with `kubectl` in your organization workspace.
+This can be applied with `kubectl` in your organisation workspace.
 
 ```bash
 kubectl ws :root:my-org       # switch to your workspace

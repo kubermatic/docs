@@ -4,12 +4,12 @@ weight = 2
 aliases = ["/developer-platform/v1.2/platform-users/members-and-roles/"]
 +++
 
-This page explains how to give users and groups access to an organization or project in the KDP
+This page explains how to give users and groups access to an organisation or project in the KDP
 dashboard, and which roles you can assign to them. For the RBAC concepts behind this, see
 [RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac" >}}).
 
-Membership applies to the current workspace. Each organization and each project has its own
-members. See [Organizations, Projects and Namespaces]({{< ref "/developer-platform/v1.2/guides/platform-users/organizations-and-projects" >}}).
+Membership applies to the current workspace. Each organisation and each project has its own
+members. See [Organisations, Projects and Namespaces]({{< ref "/developer-platform/v1.2/guides/platform-users/organizations-and-projects" >}}).
 
 A member is a user (identified by email address) or a group from your identity provider, together
 with one or more roles. To manage members with `kubectl` instead, see
@@ -17,8 +17,8 @@ with one or more roles. To manage members with `kubectl` instead, see
 
 ## Roles
 
-Open **Members → Roles** in the sidebar to see the roles you can assign, with their display name
-and description. Choose **View Rules** in a role's row menu (**…**) to see what the role allows.
+Open **Members -> Roles** in the sidebar to see the roles you can assign, with their display name
+and description. Choose **View Rules** in a role's row menu (**...**) to see what the role allows.
 Each rule shows its API group, resources and allowed verbs.
 
 You can't create or edit roles in the dashboard. To add your own roles, create `ClusterRole`
@@ -58,7 +58,7 @@ spelling: a binding for a misspelled email address grants nothing.
 
 ## Changing a member's roles
 
-Open the member's row menu (**…**) and choose **Update Role**. Select the new set of roles and
+Open the member's row menu (**...**) and choose **Update Role**. Select the new set of roles and
 click **Save Changes**. The dashboard creates bindings for added roles and removes the member from
 bindings of removed roles.
 
@@ -67,7 +67,7 @@ changed in this dialog.
 
 ## Removing members
 
-Open the member's row menu (**…**) and choose **Delete**, then confirm. The dashboard removes the
+Open the member's row menu (**...**) and choose **Delete**, then confirm. The dashboard removes the
 member from all their role bindings. A binding that has no subjects left is deleted.
 
 - You can't delete yourself.

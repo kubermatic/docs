@@ -5,7 +5,7 @@ aliases = ["/developer-platform/v1.2/service-providers/api-syncagent/"]
 +++
 
 The api-syncagent is the component in KDP responsible for integrating external Kubernetes clusters.
-It runs on a cluster, is configured with KDP credentials and will then synchronize data out
+It runs on a cluster, is configured with KDP credentials and will then synchronise data out
 of KDP (i.e. out of kcp workspaces) onto the local cluster, and vice versa.
 
 {{% notice note %}}
@@ -18,9 +18,9 @@ this version on your service clusters.
 
 The intended usecase follows roughly these steps:
 
-1. A user in KDP with sufficient permissions creates a `Service` inside their organization
+1. A user in KDP with sufficient permissions creates a `Service` inside their organisation
    workspace. This service (not to be confused with Kubernetes services) reserves an API group
-   in the organization for itself, like `databases.example.corp` (two `Services` must not register
+   in the organisation for itself, like `databases.example.corp` (two `Services` must not register
    the same API group).
 1. After the `Service` is created, KDP will reconcile it, create an `APIExport` object and provide
    appropriate credentials for the api-syncagent (e.g. by creating a Kubernetes Secret with a
@@ -43,7 +43,7 @@ The intended usecase follows roughly these steps:
    the same name as the KDP `Service` the agent is working with.
 1. kcp automatically provides a virtual workspace for the `APIExport` and this is what the agent
    then uses to watch all objects for the relevant resources in the platform (i.e. in all workspaces).
-1. The api-syncagent will now begin to synchronize objects back and forth between the service cluster
+1. The api-syncagent will now begin to synchronise objects back and forth between the service cluster
    and KDP.
 
 ## Details
@@ -159,7 +159,7 @@ syncmanager will make sure that the correct set of `sync` controller is running.
 ### sync
 
 This is where the meat and potatoes happen. The sync controller is started for a single
-`PublishedResource` and is responsible for synchronizing all objects for that resource between the
+`PublishedResource` and is responsible for synchronising all objects for that resource between the
 local service cluster and KDP.
 
 The `sync` controller was written to handle a single `PublishedResource` so that it does not have to

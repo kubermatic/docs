@@ -8,8 +8,8 @@ Service accounts are identities for machines rather than people, such as CI pipe
 controllers or scripts that work with your KDP workspace. You give a service account roles, then
 create long-lived tokens that an external application uses to authenticate.
 
-Service accounts belong to the current organization or project. See
-[Organizations, Projects and Namespaces]({{< ref "/developer-platform/v1.2/guides/platform-users/organizations-and-projects" >}}).
+Service accounts belong to the current organisation or project. See
+[Organisations, Projects and Namespaces]({{< ref "/developer-platform/v1.2/guides/platform-users/organizations-and-projects" >}}).
 
 Keep two things in mind:
 
@@ -39,7 +39,7 @@ To open this page you need permission to list `serviceaccounts` in the workspace
    [Members and Roles]({{< ref "/developer-platform/v1.2/guides/platform-users/members-and-roles#roles" >}}).
 5. Click **Create Service Account**.
 
-To change the roles later, open the service account's menu (**…**) and choose **Update Roles**.
+To change the roles later, open the service account's menu (**...**) and choose **Update Roles**.
 This needs permission to create and delete `rolebindings`.
 
 ## Creating a token
@@ -73,13 +73,13 @@ The dashboard does not create a kubeconfig for service accounts.
 
 ## Revoking a token
 
-On the service account's details page, open the token's menu (**…**) and choose **Revoke token**.
+On the service account's details page, open the token's menu (**...**) and choose **Revoke token**.
 This deletes the token Secret, and the token stops working. You need permission to delete `secrets`
 in the namespace.
 
 ## Deleting a service account
 
-Open the service account's menu (**…**), choose **Delete** and type the service account name to
+Open the service account's menu (**...**), choose **Delete** and type the service account name to
 confirm. This deletes the service account together with its role bindings and all its tokens.
 
 ## Related topics

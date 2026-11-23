@@ -7,8 +7,8 @@ aliases = ["/developer-platform/v1.2/service-providers/blueprints/"]
 A **Blueprint** composes several already-published KDP services into a single new service,
 publishable kind. Instead of asking platform users to create a `PostgresInstance`, a
 `Repository` and an `App` separately and wire them together, a platform engineer authors one
-Blueprint — for example a `WebappStack` or a pair of databases — publishes it to the service
-catalog, and users then create a single object that fans out into all the composed children.
+Blueprint (for example a `WebappStack` or a pair of databases), publishes it to the service
+catalogue, and users then create a single object that fans out into all the composed children.
 
 {{% notice note %}}
 Blueprints are currently in beta. The API and user experience may change before general
@@ -25,13 +25,13 @@ A Blueprint is authored as a `BlueprintDefinition` (`blueprints.kdp.k8c.io/v1alp
 namespaced). Its core is a [kro](https://kro.run) `ResourceGraphDefinition` (RGD) stored in
 `spec.resourceGraph`, which describes:
 
-- a **schema** — the synthesized kind's own `spec`/`status` (what consumers fill in), and
-- a list of **resources** — the child service objects to create, templated with CEL
+- a **schema**: the synthesised kind's own `spec`/`status` (what consumers fill in), and
+- a list of **resources**: the child service objects to create, templated with CEL
   references such as `${schema.spec.size}` and cross-references between children.
 
 The child kinds must be **services that are already published and bound** in the workspace
 where the Blueprint is authored (each child follows its own
-[api-syncagent]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}}) path to its service cluster — the
+[api-syncagent]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}}) path to its service cluster; the
 Blueprint layer is invisible to the underlying services).
 
 ### Lifecycle
@@ -39,7 +39,7 @@ Blueprint layer is invisible to the underlying services).
 A `BlueprintDefinition` moves through:
 
 ```
-Draft → Validating → Valid | Invalid → Published → Deprecated
+Draft -> Validating -> Valid | Invalid -> Published -> Deprecated
 ```
 
 - **Validation** checks that every `(apiVersion, kind)` in the graph resolves to a service
@@ -47,15 +47,15 @@ Draft → Validating → Valid | Invalid → Published → Deprecated
   is not **bound**), and that the RGD's CEL expressions, field references and acyclicity are
   correct.
 - **Publishing** (`spec.published: true`, while `Valid`) emits three artifacts into the same
-  workspace: an `APIResourceSchema`, an `APIExport`, and a `Service` (the catalog entry). The
-  synthesized consumer kind is served under `<kind>.blueprints.kdp.k8c.io`.
+  workspace: an `APIResourceSchema`, an `APIExport`, and a `Service` (the catalogue entry). The
+  synthesised consumer kind is served under `<kind>.blueprints.kdp.k8c.io`.
 - **`spec.deprecated: true`** marks the Blueprint as deprecated. This is a hint surfaced by
-  the KDP dashboard (which discourages creating new instances) — it is **not enforced by the
+  the KDP dashboard (which discourages creating new instances). It is **not enforced by the
   backend**, so instances can still be created via the API. Existing instances keep working.
 
 ## Authoring a `BlueprintDefinition`
 
-The example below defines **OrderApp Databases** — a Blueprint that provisions two
+The example below defines **OrderApp Databases**, a Blueprint that provisions two
 `PostgresInstance` databases (a `primary` and a `replica`) that share a common storage size.
 
 ```yaml
@@ -114,14 +114,14 @@ spec:
 ```
 
 Apply it with `kubectl apply -f` in the workspace where the composed services are bound.
-Once the object is `Valid` and `published`, the Blueprint **appears in the service catalog as
-just another service** — the same entry, the same **Add to Organization** flow, the same
+Once the object is `Valid` and `published`, the Blueprint **appears in the service catalogue as
+just another service**: the same entry, the same **Add to Organization** flow, the same
 `APIBinding`. Consumers never have to know it is a composition: they enable it and create one
 object, exactly as they would for a single service.
 
 {{% notice note %}}
 `spec.version` participates in the published schema's identity. Bumping it publishes a new
-version of the synthesized kind; toggling `spec.published` back to `false` stops instance
+version of the synthesised kind; toggling `spec.published` back to `false` stops instance
 reconciliation but does **not** remove already-published artifacts.
 {{% /notice %}}
 
@@ -134,12 +134,12 @@ shown as a **read-only** graph; you cannot build the graph by dragging nodes. Pu
 Blueprints get a detail page with an **Overview**, the **Description**, and a **Resource Graph**
 you can inspect either as that read-only diagram or as the underlying RGD YAML.
 
-![Blueprint detail — resource graph](blueprint-detail-graph.png?classes=shadow,border "Blueprint detail page: overview and the resource graph diagram")
+![Blueprint detail: resource graph](blueprint-detail-graph.png?classes=shadow,border "Blueprint detail page: overview and the resource graph diagram")
 
 Switching the Resource Graph panel to **YAML** shows the kro `ResourceGraphDefinition`
 backing the Blueprint:
 
-![Blueprint detail — RGD YAML](blueprint-detail-yaml.png?classes=shadow,border "Blueprint detail page: the ResourceGraphDefinition YAML")
+![Blueprint detail: RGD YAML](blueprint-detail-yaml.png?classes=shadow,border "Blueprint detail page: the ResourceGraphDefinition YAML")
 
 ### Building Blueprints with AI
 
@@ -148,15 +148,15 @@ fields and CEL wiring of every service you compose, plus kro's `SimpleSchema` gr
 knobs you expose. The **AI assistant** in the dashboard's Blueprint editor lets you describe the
 outcome in plain language and drafts that YAML for you.
 
-<!-- TODO: screenshot — AI assistant panel open beside the graph editor, with a prompt typed in -->
-![Blueprint editor — AI assistant](blueprint-ai-assistant.png?classes=shadow,border "The AI assistant panel in the dashboard's Blueprint editor")
+<!-- TODO: screenshot: AI assistant panel open beside the graph editor, with a prompt typed in -->
+![Blueprint editor: AI assistant](blueprint-ai-assistant.png?classes=shadow,border "The AI assistant panel in the dashboard's Blueprint editor")
 
 **What it's grounded in.** The assistant is given the services currently **bound in your
 workspace** as its only building blocks, each with its real schema. It composes *only* those
 kinds, and this is enforced: if a draft references a kind that isn't one of your bound services,
-it is rejected rather than shown. This is the same constraint you would hit authoring by hand —
+it is rejected rather than shown. This is the same constraint you would hit authoring by hand:
 a Blueprint can only compose services that resolve in the workspace. Alongside the graph the
-assistant also proposes catalog metadata (title, description, category) that pre-fills the
+assistant also proposes catalogue metadata (title, description, category) that pre-fills the
 Blueprint's `catalogMetadata`.
 
 The assistant works in three modes:
@@ -168,19 +168,19 @@ The assistant works in three modes:
 | **Fix with AI** | Validation failed | Takes the current graph plus the controller's validation errors and proposes a minimal repair, without redesigning the graph. |
 
 **Example.** The prompt *"Two PostgreSQL databases, a primary and a replica, that share one
-storage-size setting"* — against a workspace where a `PostgresInstance` service is bound —
+storage-size setting"*, run against a workspace where a `PostgresInstance` service is bound,
 drafts a graph with a `size` knob on the Blueprint's own schema wired into both child
 databases, much like the [OrderApp Databases](#authoring-a-blueprintdefinition) example above.
 
 **Review before publishing.** The output is a **draft** loaded into the editor; nothing is
 published automatically. It goes through exactly the same lifecycle as a hand-written graph
-(`Draft → Validating → Valid`) before you set `spec.published: true`, and it is checked to be
+(`Draft -> Validating -> Valid`) before you set `spec.published: true`, and it is checked to be
 structurally well-formed (valid kro spec, single-pipe `SimpleSchema` markers, resources limited
 to your bound services) before it ever reaches the editor.
 
 {{% notice warning %}}
 The assistant can make mistakes. The structural checks and Blueprint validation catch malformed
-or unresolvable graphs, but they do not know your *intent* — read the draft and confirm it
+or unresolvable graphs, but they do not know your *intent*. Read the draft and confirm it
 composes the services you meant, with the field wiring and defaults you want, before publishing.
 {{% /notice %}}
 
@@ -193,28 +193,28 @@ the [UI Builder]({{< ref "/developer-platform/v1.2/guides/service-providers/ui-b
 
 ## Blueprint logos
 
-A Blueprint can carry a logo for the catalog; the dashboard stores Blueprint logos in
+A Blueprint can carry a logo for the catalogue; the dashboard stores Blueprint logos in
 ConfigMaps. Set it through the dashboard's Blueprint editor.
 
-## Service Catalog
+## Service Catalogue
 
-Publishing a Blueprint places it **in the service catalog as a service**. The generated
-`Service` object *is* the catalog entry, and it sits next to the regular services: the same
+Publishing a Blueprint places it **in the service catalogue as a service**. The generated
+`Service` object *is* the catalogue entry, and it sits next to the regular services: the same
 card, the same search and category filters, the same **Add to Organization** button. The only
-visible difference is a **Blueprint** badge marking the entry as a composition — everything
+visible difference is a **Blueprint** badge marking the entry as a composition. Everything
 else a consumer does with it is ordinary service consumption.
 
 The entry's title, category and description come from the `spec.catalogMetadata` you set on the
 `BlueprintDefinition`; the badge and the logo are added by the dashboard.
 
-<img src="blueprint-service-catalog.png" alt="OrderApp Databases in the service catalog" title="The OrderApp Databases Blueprint in the service catalog, listed as a service and marked with a Blueprint badge" width="600" height="275">
+<img src="blueprint-service-catalog.png" alt="OrderApp Databases in the service catalogue" title="The OrderApp Databases Blueprint in the service catalogue, listed as a service and marked with a Blueprint badge" width="600" height="275">
 
-For the consumer's side of this — enabling the entry and creating an instance — see
+For the consumer's side of this (enabling the entry and creating an instance), see
 [Consuming Blueprints]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-blueprints" >}}).
 
 ## Related topics
 
-- [Consuming Blueprints]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-blueprints" >}}) — the platform-user side.
-- [Publishing Resources]({{< ref "/developer-platform/v1.2/guides/service-providers/publish-resources" >}}) — how the composed services are published in the first place.
-- [Consuming Services]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services" >}}) — binding services (a prerequisite for composing them).
-- [UI Builder]({{< ref "/developer-platform/v1.2/guides/service-providers/ui-builder" >}}) — the other AI-assisted authoring feature.
+- [Consuming Blueprints]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-blueprints" >}}): the platform-user side.
+- [Publishing Resources]({{< ref "/developer-platform/v1.2/guides/service-providers/publish-resources" >}}): how the composed services are published in the first place.
+- [Consuming Services]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services" >}}): binding services (a prerequisite for composing them).
+- [UI Builder]({{< ref "/developer-platform/v1.2/guides/service-providers/ui-builder" >}}): the other AI-assisted authoring feature.

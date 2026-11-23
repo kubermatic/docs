@@ -51,7 +51,7 @@ kubectl ws tree
 
 # create a sub workspace (note: this is a special case for the `ws` command,
 # not to be confused with the not-working variant `kubectl create ws`)
-kubectl ws create --type=… my-subworkspace
+kubectl ws create --type=... my-subworkspace
 
 # once this workspace is ready (a few seconds later), you could
 kubectl ws my-subworkspace

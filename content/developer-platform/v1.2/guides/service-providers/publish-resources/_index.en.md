@@ -134,13 +134,13 @@ The renaming is configured in `spec.naming`. Since api-syncagent v0.3.0, naming 
 **Go templates** (the older `$variable` syntax is deprecated but still functional). The following
 template variables and functions are available:
 
-- `{{ .ClusterName }}` – the KDP workspace's internal cluster identifier (e.g. "1084s8ceexsehjm2")
-- `{{ .ClusterPath }}` – the KDP workspace path (e.g. "root:customer:projectx"); requires
+- `{{ .ClusterName }}`: the KDP workspace's internal cluster identifier (e.g. "1084s8ceexsehjm2")
+- `{{ .ClusterPath }}`: the KDP workspace path (e.g. "root:customer:projectx"); requires
   `spec.enableWorkspacePaths: true` on the `PublishedResource`
-- `{{ .Object.metadata.namespace }}` – the original namespace used by the consumer inside the KDP workspace
-- `{{ .Object.metadata.name }}` – the original name of the object inside the KDP workspace
-- `{{ ... | sha3short }}` – first 20 hex characters of the SHA-3 hash (replaces the old SHA-1 based `$...Hash` variables)
-- `{{ ... | shortHash }}` – SHA-1 hash (only for backwards compatibility with pre-v0.3.0 naming)
+- `{{ .Object.metadata.namespace }}`: the original namespace used by the consumer inside the KDP workspace
+- `{{ .Object.metadata.name }}`: the original name of the object inside the KDP workspace
+- `{{ ... | sha3short }}`: first 20 hex characters of the SHA-3 hash (replaces the old SHA-1 based `$...Hash` variables)
+- `{{ ... | shortHash }}`: SHA-1 hash (only for backwards compatibility with pre-v0.3.0 naming)
 
 Refer to the [api-syncagent templating documentation](https://docs.kcp.io/api-syncagent/latest/publish-resources/templating/)
 for the full list of available template objects and functions.
@@ -179,7 +179,7 @@ Configuration happens `spec.mutation` and there are two fields:
   be other top-level fields) from the remote side to the local side. Use this to apply defaulting,
   normalising, and enforcing rules.
 - `status` contains the mutation rules when syncing the `status` subresource back from the local
-  cluster up into the platform. Use this to normalize names and values (e.g. if you rewrote
+  cluster up into the platform. Use this to normalise names and values (e.g. if you rewrote
   `.spec.secretName` from `"foo"` to `"dfkbssbfh"`, make sure the status does not "leak" this name
   by accident).
 
@@ -248,9 +248,9 @@ source object. The api-syncagent first reads the current value at `path`, applie
 to it, and writes the result back into the document. The following variables are available inside the
 expression:
 
-- `value` – the value selected by `path`
-- `self` – the object being modified
-- `other` – the copy of this object on the other side of the sync
+- `value`: the value selected by `path`
+- `self`: the object being modified
+- `other`: the copy of this object on the other side of the sync
 
 CEL mutations are available since api-syncagent v0.5.0.
 
@@ -264,7 +264,7 @@ Likewise it's possible for auxiliary resources having to be created by the user,
 the user has to provide credentials.
 
 To handle these cases, a `PublishedResource` can define multiple "related resources". Each related
-resource usually represents one, but can represent multiple objects to synchronize between user
+resource usually represents one, but can represent multiple objects to synchronise between user
 workspace and service cluster. While the main published resource sync is always
 workspace->service cluster, related resources can originate on either side and so either can
 work as the source of truth.
@@ -343,7 +343,7 @@ spec:
 ### Provide Certificates
 
 This combination of `Service` and `PublishedResource` make cert-manager certificates available in
-kcp. The `Service` needs to be created in a workspace, most likely in an organization workspace.
+kcp. The `Service` needs to be created in a workspace, most likely in an organisation workspace.
 The `PublishedResource` is created wherever the api-syncagent and cert-manager are running.
 
 ```yaml
@@ -398,7 +398,7 @@ spec:
 
 ## API Lifecycle
 
-CRDs rarely stay unchanged — they evolve, and Kubernetes has strong (if sometimes awkward) support
+CRDs rarely stay unchanged: they evolve, and Kubernetes has strong (if sometimes awkward) support
 for versioning them. It helps to be familiar with the
 [upstream CRD versioning behaviour](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)
 before publishing evolving resources.
@@ -411,16 +411,16 @@ owned ARS into the `APIExport`.
 
 {{% notice warning %}}
 Every change to a CRD on the service cluster is applied **practically immediately** in every
-workspace that consumes the `APIExport`. Act carefully when changing CRDs in production — it can
+workspace that consumes the `APIExport`. Act carefully when changing CRDs in production. It can
 make sense to turn the agent off while testing new CRDs, even though that temporarily suspends
-synchronization.
+synchronisation.
 {{% /notice %}}
 
 ### Single-version CRDs
 
 The common and recommended approach: keep a single, perpetually backwards-compatible version.
 Consumers must accept that older objects may not have every field set yet, but otherwise the agent
-handles updates automatically — each CRD change is reflected into a new ARS and the `APIExport` is
+handles updates automatically: each CRD change is reflected into a new ARS and the `APIExport` is
 updated, making the change immediately available to all consumers.
 
 ### Multi-version CRDs
@@ -441,10 +441,10 @@ When publishing multiple versions:
 
 The following sections go into more details of the behind the scenes magic.
 
-### Synchronization
+### Synchronisation
 
 Even though the whole configuration is written from the standpoint of the service owner, the actual
-synchronization logic considers the kcp side as the canonical source of truth. The Sync Agent
+synchronisation logic considers the kcp side as the canonical source of truth. The Sync Agent
 continuously tries to make the local objects look like the ones in kcp, while pushing status updates
 back into kcp (if the given `PublishedResource` (i.e. CRD) has a `status` subresource enabled).
 
@@ -478,7 +478,7 @@ The sync loop can be divided into 5 parts:
 1. handle deletion
 1. ensure the destination object exists
 1. ensure the destination object's content matches the source object
-1. synchronize related resources the same way (repeat 1-4 for each related resource)
+1. synchronise related resources the same way (repeat 1-4 for each related resource)
 
 #### Phase 1: Find the Local Object
 
@@ -507,7 +507,7 @@ graph TB
     B --> C([ensure finalizer on source object]):::step
     C --> D{exists local object?}
 
-    D -- yes --> I("continue with next phase…"):::state
+    D -- yes --> I("continue with next phase..."):::state
     D -- no --> E([apply projection]):::step
 
     subgraph "ensure dest object exists"
@@ -531,9 +531,9 @@ Resource adoption happens when creation of the initial local object fails. This 
 get mangled. If such a conflict happens, the Sync Agent will "adopt" the existing local object by
 adding / fixing the labels on it, so that for the next reconciliation it will be found and updated.
 
-#### Phase 4: Content Synchronization
+#### Phase 4: Content Synchronisation
 
-Content synchronization is rather simple, really.
+Content synchronisation is rather simple, really.
 
 First the source "spec" is used to patch the local object. Note that this step is called "spec", but
 should actually be called "all top-level elements besides `apiVersion`, `kind`, `status` and
@@ -550,7 +550,7 @@ back up to the remote (source) object.
 
 #### Phase 5: Sync Related Resources
 
-The same logic for synchronizing the main published resource applies to their related resources as
+The same logic for synchronising the main published resource applies to their related resources as
 well. The only difference is that the source side can be either remote (workspace) or local
 (service cluster).
 

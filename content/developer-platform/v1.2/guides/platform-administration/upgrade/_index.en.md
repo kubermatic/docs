@@ -34,4 +34,4 @@ Each step uses the same `helm upgrade --install ...` commands as in
 
 - The kcp front-proxy and KDP controller-manager pods are `Ready` in `kdp-system`.
 - Existing workspaces, `APIBindings`, and service objects are still present and reconciling.
-- You can log in to the dashboard and browse your organization's services.
+- You can log in to the dashboard and browse your organisation's services.

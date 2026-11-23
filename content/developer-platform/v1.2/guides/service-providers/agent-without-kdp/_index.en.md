@@ -48,8 +48,8 @@ apiexport/test.example.com created
 ## Sync Agent Installation
 
 The Sync Agent can be installed into any namespace, but in our example we are going with `kcp-system`.
-It doesn't necessarily have to live in the same Kubernetes cluster where it is synchronizing data
-to, but that is the common setup. Ultimately the Sync Agent synchronizes data between two kube
+It doesn't necessarily have to live in the same Kubernetes cluster where it is synchronising data
+to, but that is the common setup. Ultimately the Sync Agent synchronises data between two kube
 endpoints.
 
 Now that the `APIExport` is created, switch to the Kubernetes cluster from which you wish to
@@ -235,7 +235,7 @@ without, and you will need to create objects from the command line directly.
 
 Once resources have been published through the api-syncagent, they can be consumed on the kcp side
 (i.e. objects on kcp will be synced back and forth with the service cluster). Follow the
-[manual steps to consume services]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services#manual" >}}).
+[manual steps to consume services]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services#manually" >}}).
 
 [kind]: https://github.com/kubernetes-sigs/kind
 [kcp]: https://kcp.io

@@ -6,7 +6,7 @@ aliases = ["/developer-platform/v1.2/platform-users/rbac/"]
 
 # RBAC in KDP
 
-Authorization (authZ) in KDP closely resembles
+Authorisation (authZ) in KDP closely resembles
 [Kubernetes RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) since KDP uses kcp
 as its API control plane. Besides the "standard" RBAC of Kubernetes, kcp implements concepts specific
 to its multi-workspace nature. See

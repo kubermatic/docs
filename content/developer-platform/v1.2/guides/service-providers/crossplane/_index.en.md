@@ -13,9 +13,9 @@ including all required Crossplane [providers][crossplane/docs/providers] and
 
 ## Overview
 
-The [api-syncagent]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}}) is responsible for synchronizing objects from
+The [api-syncagent]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}}) is responsible for synchronising objects from
 KDP to the local service cluster where the service provider is in charge of processing these
-synchronized objects to provide the actual functionality of a service. One possibility is to leverage
+synchronised objects to provide the actual functionality of a service. One possibility is to leverage
 Crossplane to create new abstractions and custom APIs, which can be published to KDP and consumed by
 platform users.
 

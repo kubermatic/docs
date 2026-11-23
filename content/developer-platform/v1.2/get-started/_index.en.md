@@ -136,7 +136,7 @@ Replace `<GATEWAY_NAMESPACE>` and `<DOMAIN>`, then apply:
 kubectl apply -f ./http-routes.yaml
 ```
 
-Note that the kcp API (`internal.<DOMAIN>`) is **not** routed through the Gateway — it uses its own dedicated `LoadBalancer` service and does not need an HTTPRoute.
+Note that the kcp API (`internal.<DOMAIN>`) is **not** routed through the Gateway. It uses its own dedicated `LoadBalancer` service and does not need an HTTPRoute.
 
 The public API endpoint (`api.<DOMAIN>`) is handled separately: the KDP chart creates an NGINX Ingress for it by default. If you are fully replacing NGINX Ingress with a Gateway API controller, you should disable the KDP chart's built-in Ingress (set `kdp.frontProxy.publicDomain` to empty) and create an additional Gateway HTTPS listener and HTTPRoute for `api.<DOMAIN>` pointing to `kcp-front-proxy:8443`, along with a `BackendTLSPolicy` for the TLS backend connection.
 
@@ -303,7 +303,7 @@ Before deploying KDP, you need to replace the following placeholder variables in
 - `<DOMAIN>`
 
 With all placeholders replaced, deploy the KDP Helm chart.
-Use your email address as the username and the license key you received as the password to log into the Helm registry.
+Use your email address as the username and the licence key you received as the password to log into the Helm registry.
 
 ```bash
 helm registry login quay.io
@@ -351,7 +351,7 @@ resource forms in the [UI Builder]({{< ref "/developer-platform/v1.2/guides/serv
 Without it the dashboard runs normally and both fall back to manual authoring.
 
 Now that all placeholders are replaced, deploy the KDP dashboard Helm chart.
-To log into the Helm registry, again use your email address as the username and the license key you received as the password.
+To log into the Helm registry, again use your email address as the username and the licence key you received as the password.
 
 ```bash
 helm registry login quay.io
@@ -365,10 +365,10 @@ helm upgrade --install kdp-dashboard \
 
 ### Configure DNS records
 
-In order to finalize the installation and make your KDP instance accessible, you must create four DNS records in your DNS provider.
+In order to finalise the installation and make your KDP instance accessible, you must create four DNS records in your DNS provider.
 Each record points one of the hostnames you configured to the correct load balancer in your Kubernetes cluster.
 
-The following table summarizes the records:
+The following table summarises the records:
 
 | Hostname             | Points to                       | Purpose                                                           |
 | -------------------- | ------------------------------- | ----------------------------------------------------------------- |

@@ -21,17 +21,17 @@ ultimately translated into a kcp `APIExport` with a number of `APIResourceSchema
 
 ## Browsing Services
 
-Log in to the KDP Dashboard and choose your organization. Then on the "Services" page, select the "Subscriptions" tab to see
-a list of all services already added into this organization. Click the "Add Services" button to see a list of all services
-that you have access to. For each service that is active and hasn't been added to the organization yet, a button is
-offered to add it to the organization.
+Log in to the KDP Dashboard and choose your organisation. Then on the "Services" page, select the "Subscriptions" tab to see
+a list of all services already added into this organisation. Click the "Add Services" button to see a list of all services
+that you have access to. For each service that is active and hasn't been added to the organisation yet, a button is
+offered to add it to the organisation.
 
 {{% notice note %}}
 The tab previously labelled "External Services" is now called **"Subscriptions"**.
 {{% /notice %}}
 
-<!-- TODO(screenshot): re-capture the service catalog page — the catalog is now a dedicated page and the tab is renamed "Subscriptions". -->
-![Service Catalog Dialog](service-catalog.jpg?classes=shadow,border&height=200 "Service Catalog dialog showing all available services")
+<!-- TODO(screenshot): re-capture the service catalogue page; the catalogue is now a dedicated page and the tab is renamed "Subscriptions". -->
+![Service Catalogue Dialog](service-catalog.jpg?classes=shadow,border&height=200 "Service Catalogue dialog showing all available services")
 
 Note that every Service shows:
 
@@ -44,7 +44,7 @@ Check out [Your First Service]({{< ref "/developer-platform/v1.2/guides/service-
 
 ## Enabling a Service
 
-After clicking on "Add to Organization" in the service catalog, the following wizard will open to confirm adding a service:
+After clicking on "Add to Organization" in the service catalogue, the following wizard will open to confirm adding a service:
 
 <!-- TODO(screenshot): verify the add-service wizard still matches the current dashboard UI. -->
 ![Add Service Wizard](add-service-wizard.png?classes=shadow,border&height=200 "Wizard for adding a service to the workspace, showing options for creating default rules and resource claims")
@@ -109,5 +109,5 @@ spec:
 Rejecting a claim will severely impact a Service, if not even break it. Consult with the Service's
 documentation or the service owner if rejecting a claim is supported.
 
-When you *change into* (`kubctl ws …`) a different workspace, kubectl will inform you if there are
+When you *change into* (`kubctl ws ...`) a different workspace, kubectl will inform you if there are
 outstanding permission claims that you need to accept or reject.

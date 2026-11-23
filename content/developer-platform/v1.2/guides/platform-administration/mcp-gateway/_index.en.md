@@ -55,7 +55,7 @@ the chart fails to render rather than deploying an unauthenticated gateway.
 {{% notice note %}}
 `oidc.provider` is set to `authentik` for Dex on purpose. Dex does not implement OAuth Dynamic
 Client Registration and publishes its metadata via OIDC Discovery rather than the RFC 8414
-path. The `authentik` adapter fits that same shape: the gateway serves the authorization-server
+path. The `authentik` adapter fits that same shape: the gateway serves the authorisation-server
 metadata from Dex's discovery document and answers registration requests with the
 pre-registered client ID, which is what lets standard MCP clients complete the login.
 {{% /notice %}}
@@ -83,7 +83,7 @@ reject them.
 
 `trustedPeers` enables Dex's cross-client trust: because `kdp-kubelogin` names `kdp-mcp` as a
 trusted peer, an assistant can request the dynamic scope
-`audience:server:client_id:kdp-kubelogin` — which `oidc.crossClientAudience` makes the gateway
+`audience:server:client_id:kdp-kubelogin`, which `oidc.crossClientAudience` makes the gateway
 advertise automatically. Dex then issues a token whose `aud` claim contains **both** client
 IDs. The gateway accepts it because `kdp-mcp` is present, and kcp accepts it because
 `kdp-kubelogin` is present, with no change to your kcp configuration.
@@ -91,7 +91,7 @@ IDs. The gateway accepts it because `kdp-mcp` is present, and kcp accepts it bec
 The trade-off is worth stating plainly: a token issued this way is equivalent to a normal user
 token, so it grants the same access a user's own kubeconfig would. Isolating MCP access more
 tightly requires moving kcp to a structured `AuthenticationConfiguration`, which can trust
-several audiences and constrain the authorized party.
+several audiences and constrain the authorised party.
 
 ## Verify
 
@@ -134,12 +134,12 @@ completes and the tools are listed.
 
 **Every request returns 401, and the gateway log says `no bearer token found`.**
 Expected without a token. If it also happens after a successful login, the token's audience
-does not match `oidc.audience` — check that the client ID in the assistant's configuration is
+does not match `oidc.audience`. Check that the client ID in the assistant's configuration is
 the one the gateway expects.
 
 **Login fails with `redirect_uri did not match` in the Dex log.**
 The assistant used a callback URL that is not registered. Dex matches redirect URIs exactly,
-and a wildcard applies only to a public client with no `RedirectURIs` listed at all — and even
+and a wildcard applies only to a public client with no `RedirectURIs` listed at all, and even
 then only for the host `localhost`, not `127.0.0.1`. Read the URI Dex logged and add it
 verbatim.
 
@@ -157,6 +157,6 @@ The rate limit is per gateway instance; raise `kdp.mcpGateway.rateLimit`.
 
 ## See also
 
-- [AI Tooling]({{< ref "/developer-platform/v1.2/guides/platform-users/ai-tooling" >}}) — connecting an assistant and
+- [AI Tooling]({{< ref "/developer-platform/v1.2/guides/platform-users/ai-tooling" >}}): connecting an assistant and
   what the tools can do.
-- [RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac" >}}) — the permissions an agent inherits.
+- [RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac" >}}): the permissions an agent inherits.

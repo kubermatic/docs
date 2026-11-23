@@ -7,7 +7,7 @@ staticClients:
     secret: <OIDC_CLIENT_SECRET>
     RedirectURIs:
       - https://<DOMAIN>/oauth/callback
-      # … your existing redirect URIs …
+      # ... your existing redirect URIs ...
     trustedPeers:
       - kdp-mcp
 

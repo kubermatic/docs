@@ -24,7 +24,7 @@ inspecting the Kubernetes API types.
 
 ### Dashboard
 
-Navigate to your organization or project and choose the service in the **Services** section of the
+Navigate to your organisation or project and choose the service in the **Services** section of the
 sidebar. The dashboard lists the existing objects of this service. Use the **Namespace** selector to
 show only one namespace.
 
@@ -39,22 +39,22 @@ Click an object's name to open its details. The page has these sections:
 - **Related Resources**: the [related resources](#related-resources) of the object. Click a row to
   view a related Secret, ConfigMap or other object without leaving the page.
 
-If the service provider or your organization has built a custom view with the
+If the service provider or your organisation has built a custom view with the
 [UI Builder]({{< ref "/developer-platform/v1.2/guides/service-providers/ui-builder" >}}), the dashboard shows that view
 instead.
 
-The **…** menu on the details page and in the object list has these actions, depending on your
+The **...** menu on the details page and in the object list has these actions, depending on your
 permissions:
 
 - **Edit**: change the object (see below). Not available for objects that are being deleted or for
   deprecated services.
 - **Status**: show the raw `status` of the object as JSON.
-- **Secret: \<name\>**, **ConfigMap: \<name\>**, …: open a related resource.
+- **Secret: \<name\>**, **ConfigMap: \<name\>**, ...: open a related resource.
 - **Delete**: delete the object.
 
 #### Creating and editing objects
 
-Click **Create** on the object list to create an object, or choose **Edit** in an object's **…**
+Click **Create** on the object list to create an object, or choose **Edit** in an object's **...**
 menu. You can enter the object's `spec` in three ways:
 
 - **Form**: a form generated from the service's schema.
@@ -94,7 +94,7 @@ Keep in mind:
 
 If your platform offers a service for large language models with the `LLMAccess` kind (API group
 `ai.kdp.k8c.io`), the dashboard can open a chat with the model an `LLMAccess` object gives you
-access to. Choose **Chat** in the object's **…** menu.
+access to. Choose **Chat** in the object's **...** menu.
 
 The chat uses the endpoint, API key and model stored in the object's related Secret (keys
 `endpoint`, `key` and `model`). **Chat** is disabled until that Secret exists, and you need
@@ -193,7 +193,7 @@ status:
 ```
 
 Platform users should not (need to) attempt to change the `status` of a resource, as the continuous
-synchronization process behind the scenes will revert such changes usually shortly thereafter. In
+synchronisation process behind the scenes will revert such changes usually shortly thereafter. In
 general, the `spec` flows from the user to the service provider, the `status` flows back up to the
 user.
 
