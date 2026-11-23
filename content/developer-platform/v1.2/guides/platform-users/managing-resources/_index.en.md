@@ -24,22 +24,101 @@ inspecting the Kubernetes API types.
 
 ### Dashboard
 
-Navigate to your organization and then choose the desired service in the sidebar. The dashboard will
-present a list of existing resources that are part of this service, plus it offers a simple editor
-to create and update them.
+Navigate to your organization or project and choose the service in the **Services** section of the
+sidebar. The dashboard lists the existing objects of this service. Use the **Namespace** selector to
+show only one namespace.
 
-The dashboard also lets you manage the supporting resources around your services directly from the UI:
+#### Viewing an object
 
-- **ConfigMaps and Secrets** — dedicated pages to create, view, edit and delete ConfigMaps and
-  Secrets in your workspace. Secret values are hidden by default, with buttons to reveal or copy
-  them.
-- **Related resources** — from a service object's detail view you can browse its related resources
-  (see [Related Resources](#related-resources) below) without leaving the dashboard.
-- **Service accounts** — manage service accounts for programmatic access to your workspace.
-- **Projects** — organize resources into projects (including nested projects) and filter services
-  by labels and annotations.
+Click an object's name to open its details. The page has these sections:
 
-<!-- TODO(screenshot): add screenshots for the ConfigMap/Secret management, related-resources viewer, and service-account pages. -->
+- **Overview**: name, namespace, kind and API version.
+- **Labels** and **Annotations** (collapsed by default).
+- **Spec**: the object's settings, labelled using the service's schema.
+- **Status**: the object's conditions, followed by the other status fields.
+- **Related Resources**: the [related resources](#related-resources) of the object. Click a row to
+  view a related Secret, ConfigMap or other object without leaving the page.
+
+If the service provider or your organization has built a custom view with the
+[UI Builder]({{< ref "/developer-platform/v1.2/guides/service-providers/ui-builder" >}}), the dashboard shows that view
+instead.
+
+The **…** menu on the details page and in the object list has these actions, depending on your
+permissions:
+
+- **Edit**: change the object (see below). Not available for objects that are being deleted or for
+  deprecated services.
+- **Status**: show the raw `status` of the object as JSON.
+- **Secret: \<name\>**, **ConfigMap: \<name\>**, …: open a related resource.
+- **Delete**: delete the object.
+
+#### Creating and editing objects
+
+Click **Create** on the object list to create an object, or choose **Edit** in an object's **…**
+menu. You can enter the object's `spec` in three ways:
+
+- **Form**: a form generated from the service's schema.
+- **YAML Editor**: the `spec` as YAML.
+- **Custom Form**: a form built with the [UI Builder]({{< ref "/developer-platform/v1.2/guides/service-providers/ui-builder" >}}).
+  Only available if one exists for this service. When it exists, the dashboard opens it first.
+
+When editing, you can also change the object's labels and annotations. Annotations used by KDP
+itself (such as `kcp.io/` and `syncagent.kcp.io/` annotations) are hidden and kept as they are.
+The dashboard saves your changes as a merge patch.
+
+#### ConfigMaps and Secrets
+
+Open **Config Maps** or **Secrets** in the sidebar to manage ConfigMaps and Secrets in your
+workspace, for example to provide configuration or credentials that a service object refers to.
+Without a namespace selected, the list shows all namespaces of the workspace.
+
+- **Create Config Map** / **Create Secret**: enter a name, the namespace, optional labels and
+  annotations, and the data as a YAML or JSON map of keys to values. For Secrets you can also set
+  the **Type** (default `Opaque`). Enter Secret values as plain text. The dashboard base64-encodes
+  them for you.
+- **View Details**: shows the keys and values, labels and annotations. Secret values are hidden
+  until you reveal them. Every value can be copied or downloaded as a file.
+- **Edit**: change labels, annotations and data. The name, namespace and Secret type can't be
+  changed.
+- **Delete**: delete the ConfigMap or Secret after confirming.
+
+Keep in mind:
+
+- All values are saved as strings. Nested objects in the data map are not supported.
+- The dashboard can't create or edit binary ConfigMap data (`binaryData`). Existing binary data is
+  shown (without values) and kept when you edit the ConfigMap.
+- ConfigMaps labelled `internal.kdp.k8c.io/visibility: hidden` are not shown. KDP uses this for
+  internal ConfigMaps, such as UI Builder configurations.
+
+#### Chatting with an LLM
+
+If your platform offers a service for large language models with the `LLMAccess` kind (API group
+`ai.kdp.k8c.io`), the dashboard can open a chat with the model an `LLMAccess` object gives you
+access to. Choose **Chat** in the object's **…** menu.
+
+The chat uses the endpoint, API key and model stored in the object's related Secret (keys
+`endpoint`, `key` and `model`). **Chat** is disabled until that Secret exists, and you need
+permission to read Secrets in its namespace. The endpoint must offer an OpenAI-compatible
+chat completions API.
+
+The chat only sends your messages to the model. It does not send the object or any other data from
+your workspace, and the model can't change anything in KDP. Conversations are not saved: they are
+gone when you leave or reload the page.
+
+On the `LLMAccess` object list, **Model Catalog** shows the models available through this service.
+
+This feature is off by default. Your platform administrator can enable it in the dashboard's Helm
+values:
+
+```yaml
+dashboard:
+  config:
+    features:
+      featureFlags:
+        kubermatic-ai-chat-enabled: true
+```
+
+<!-- TODO(screenshot): add screenshots for the service object detail page, the ConfigMap/Secret pages and the LLM chat. -->
 
 ### kubectl
 

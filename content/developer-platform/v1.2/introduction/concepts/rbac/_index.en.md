@@ -12,6 +12,46 @@ as its API control plane. Besides the "standard" RBAC of Kubernetes, kcp impleme
 to its multi-workspace nature. See
 [upstream documentation](https://docs.kcp.io/kcp/v0.30/concepts/authorization/) for them.
 
+## Members and service accounts
+
+The KDP dashboard manages access with plain Kubernetes RBAC objects, so you can create the same
+objects with `kubectl`.
+
+**Members.** For each member and role, the dashboard creates a `ClusterRoleBinding` in the
+workspace. The binding refers to the role's `ClusterRole` and has the user or group as its subject.
+Users are identified by email address, groups by group name. Subject names get the prefix `oidc:`,
+which the dashboard hides. For example, the user `jane@example.com` becomes the subject
+`oidc:jane@example.com`:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: acme-jane-user-developer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: developer   # the ClusterRole you assigned
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: oidc:jane@example.com
+```
+
+If you create bindings with `kubectl`, use the `oidc:` prefix, or the dashboard won't list the
+subject as a member.
+
+**Service accounts.** A KDP service account is a Kubernetes `ServiceAccount` in one namespace of
+the workspace. For each of its roles, the dashboard creates a `RoleBinding` in that namespace, so
+the service account's permissions only apply there. Each token is a Secret of type
+`kubernetes.io/service-account-token` in the same namespace, filled in by Kubernetes. The role
+bindings and token Secrets have an owner reference to the service account, so deleting the service
+account deletes them too.
+
+For the dashboard steps, see
+[Members and Roles]({{< ref "/developer-platform/v1.2/guides/platform-users/members-and-roles" >}}) and
+[Service Accounts]({{< ref "/developer-platform/v1.2/guides/platform-users/service-accounts" >}}).
+
 ## Cross-workspace RBAC propagation
 
 KDP implements controllers that allow propagation of `ClusterRoles` and `ClusterRoleBindings` to
