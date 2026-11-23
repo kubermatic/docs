@@ -3,87 +3,97 @@ title = "Kubermatic Developer Platform"
 sidebarHomeTitle = "Overview"
 +++
 
-KDP (Kubermatic Developer Platform) is a new Kubermatic product in development that targets the IDP
-(Internal Developer Platform) segment. This segment is part of a larger shift in the ecosystem to
-"Platform Engineering", which champions the idea that DevOps in its effective form didn't quite work
-out and that IT infrastructure needs new paradigms. The core idea of Platform Engineering is that
-internal platforms provide higher-level services so that development teams no longer need to spend
-time on operating components not core to their applications. These internal services are designed in
-alignment with company policies and provide a customised framework for running applications and/or
-their dependencies.
+Kubermatic Developer Platform (KDP) is the control plane for an internal developer platform. Service
+providers publish services, such as databases, certificates or whole application stacks, as
+Kubernetes APIs. Platform users enable the services they need in their own workspace and create
+objects to provision them, using the dashboard, `kubectl`, GitOps or an AI assistant.
 
-KDP offers a central control plane for IDPs by providing an API backbone that allows to register (as
-service provider) and consume (as platform user) **services**. KDP itself does **not** host the
-actual workloads providing such services (e.g. if a database service is offered, the underlying
-PostgreSQL pods are not hosted in KDP) and instead delegates this to so-called **service clusters**.
-A component called [**api-syncagent**]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}}) is installed
-onto service clusters which allows service providers (who own the service clusters) to publish APIs
-from their service cluster onto KDP's central platform.
+KDP itself does not run the workloads behind a service. If a database service is offered, the
+PostgreSQL pods run on the provider's own **service cluster**, not in KDP.
 
-KDP is based on [kcp](https://kcp.io), a CNCF Sandbox project to run many lightweight "logical"
-clusters. Each of them acts as an independent Kubernetes API server to platform users and is called
-a "Workspace". Workspaces are organised in a tree hierarchy, so there is a `root` workspace that has
-child workspaces, and those can have child workspaces, and so on. In KDP, **organisations** own a
-top-level workspace, and within an organisation, users can create **projects** (nested workspaces)
-to structure their resources. Projects can themselves contain sub-projects, enabling flexible
-multi-tenancy. This includes assigning permissions to delegate certain tasks and subscribing to
-service APIs. Platform users can therefore "mix and match" what APIs they want to have available in
-their workspaces to only consume the right services.
+## How it fits together
 
-KDP is an automation/DevOps/GitOps-friendly product and is "API-driven". Since it exposes
-Kubernetes-style APIs it can be used with a lot of existing tooling (e.g. `kubectl` works to manage
-resources). We have decided against an intermediate API (like we have in KKP) and the KDP Dashboard
-directly interacts with the Kubernetes APIs exposed by kcp. As such everything available from the
-Dashboard will be available from the API. A way for service providers to plug in custom dashboard
-logic is planned, but not realised yet.
+```mermaid
+flowchart LR
+    users(["Platform users"])
+    agents(["AI assistants"])
+    providers(["Service providers"])
 
-Service APIs are not pre-defined by KDP, and as such are subject to API design in the actual
-installation. Crossplane on the service cluster can be used to provide abstraction APIs that are then
-reconciled to more complex resource bundles. The level of abstraction in an API is up to service
-providers and will vary from setup to setup.
+    subgraph cp["KDP control plane"]
+        dash["KDP dashboard"]
+        mcp["MCP gateway (optional)"]
+        dex["Identity provider (Dex)"]
+        kcp["kcp API"]
+        ctrl["KDP controllers"]
+        subgraph ws["Workspaces"]
+            org["Organisation"] --> proj["Project"] --> sub["Sub-project"]
+        end
+    end
 
-## Why KDP: a platform, not a portal
+    subgraph sc["Service cluster (one or more)"]
+        agent["api-syncagent"]
+        ops["Operators, e.g. Crossplane"]
+    end
 
-Many "internal developer platforms" are really *portals*: a catalogue UI that answers
-*"what do we have?"*. They help developers discover services, but the moment someone
-actually wants one, they fall back to a ticket, a Slack message or a hand-written GitOps
-pull request. The catalogue looks polished, but, as Kubermatic's
-[Portal vs Platform](https://www.kubermatic.com/blog/portal-vs-platform/) article puts it,
-"the developer experience ends at the catalogue."
+    users -->|browser| dash
+    users -->|kubectl, GitOps| kcp
+    agents -->|MCP| mcp
+    dash --> kcp
+    mcp --> kcp
+    dash -.->|login| dex
+    ctrl --> kcp
+    kcp --- ws
+    agent <-->|sync| kcp
+    agent --> ops
+    providers -->|Helm, kubectl| sc
+```
 
-KDP is a *platform*: it answers *"what can I get right now?"*. Requesting a service creates a
-real Kubernetes resource that is provisioned automatically. There is no manual last mile.
-Concretely, this is what sets KDP apart:
+- **kcp** is the API server at the centre. It runs many lightweight logical clusters called
+  **workspaces**, each with its own Kubernetes API. In KDP, each **organisation** is a top-level
+  workspace, and organisations contain **projects**, which can be nested. Each workspace has its
+  own members, permissions and enabled services.
+- **Services** are APIs published into kcp. Enabling a service in a workspace makes its resource
+  types available there, like CRDs in a normal cluster.
+- The **[api-syncagent]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}})**
+  runs on each service cluster. It publishes the provider's APIs into kcp and copies objects that
+  users create down to the service cluster, where operators such as Crossplane do the actual work.
+  Status flows back up to the user.
+- The **dashboard** and the optional **MCP gateway** talk to the same kcp API as `kubectl`. There is
+  no separate backend API, so anything you can do in the dashboard you can do through the API.
 
-- **Kubernetes-native APIs, not a proprietary framework.** Every service is a real API you
-  drive with `kubectl`, CI, GitOps and your existing automation. There is no bespoke SDK,
-  specification language or plugin system to learn or to keep running.
-- **Provisioning, not just discovery.** Enabling a service and creating an object actually
-  provisions it, in seconds, through the very same API the Dashboard uses.
-- **True multi-tenancy.** kcp workspaces give each organisation and project its own isolated,
-  independent Kubernetes API, which is stronger and simpler than fragile namespace-plus-RBAC schemes.
-- **Service-owner self-service.** Service providers publish their own offerings onto the
-  platform, so the platform team is not a bottleneck for every new service. Higher-level
-  offerings can be composed from existing services with
+For more detail, see [Concepts]({{< ref "/developer-platform/v1.2/introduction/concepts" >}}).
+
+## Who it is for
+
+- **Platform administrators** install and run KDP and grant top-level access. Start with
+  [Platform Administration]({{< ref "/developer-platform/v1.2/guides/platform-administration" >}}).
+- **Service providers** run service clusters and publish services onto the platform. Start with
+  [Service Providers]({{< ref "/developer-platform/v1.2/guides/service-providers" >}}).
+- **Platform users**, usually application developers, consume services in their own organisations
+  and projects. Start with [Platform Users]({{< ref "/developer-platform/v1.2/guides/platform-users" >}}).
+
+## Why KDP
+
+Many internal developer platforms are portals: a catalogue that shows what exists, after which
+developers still file a ticket to get anything. KDP is a platform. Creating an object provisions
+the service, with no manual last mile.
+
+- **Kubernetes-native APIs.** Every service is a real Kubernetes API you drive with `kubectl`, CI,
+  GitOps and your existing automation. There is no bespoke SDK or plugin system to learn.
+- **True multi-tenancy.** Each organisation and project gets its own isolated Kubernetes API,
+  which is stronger and simpler than namespaces plus RBAC.
+- **Service-owner self-service.** Service providers publish their own offerings, so the platform
+  team is not a bottleneck. Higher-level offerings can be composed from existing services with
   [Blueprints]({{< ref "/developer-platform/v1.2/guides/service-providers/blueprints" >}}).
-- **AI- and agent-ready.** Because everything is a machine-readable Kubernetes API, AI
-  assistants and agents can discover and provision resources too. See
+- **Ready for AI agents.** Because everything is a machine-readable API, AI assistants can discover
+  and provision services too. See
   [AI Tooling]({{< ref "/developer-platform/v1.2/guides/platform-users/ai-tooling" >}}).
 
-## Architecture
+For the longer argument, see Kubermatic's
+[Portal vs Platform](https://www.kubermatic.com/blog/portal-vs-platform/) article.
 
-![KDP Architecture](kdp-architecture.png?classes=shadow,border "KDP reference architecture showing the control plane, workspace hierarchy, and service clusters")
+## Where to start
 
-## Personas
-
-KDP has several types of people that we identified as stakeholders in an Internal Developer Platform
-based on KDP. Here is a brief overview:
-
-- **Platform Users** are the end users (often application developers or "DevOps engineers") in an
-  IDP. They consume services (e.g. they want a database or they have a container image that they want
-  to be started), own workspaces and self-organise within those workspaces.
-- **Service Providers** offer services to developers. They register APIs that they want to provide on
-  the service "marketplace" and they operate service clusters and controllers/operators on those
-  service clusters that actually provide the services in question.
-- **Platform Owners** are responsible for keeping KDP itself available and assign top-level
-  permissions so that developers and service providers can then utilise self-service capabilities.
+- New installation: [Get Started]({{< ref "/developer-platform/v1.2/get-started" >}}).
+- Upgrading from 1.1: [What's New]({{< ref "/developer-platform/v1.2/whats-new" >}}) and
+  [Upgrading to 1.2]({{< ref "/developer-platform/v1.2/guides/platform-administration/upgrade" >}}).
