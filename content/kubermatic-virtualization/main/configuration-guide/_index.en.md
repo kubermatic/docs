@@ -331,6 +331,7 @@ kubevirt:
       - pciVendorSelector: "10DE:233B"
         resourceName: "nvidia.com/gpu"
   enforceRegionalScheduling: false
+  evictionStrategy: LiveMigrate
 ```
 
 Every `apply` writes this section to the KubeVirt CR, so a change takes effect on the next run.
@@ -342,6 +343,7 @@ Every `apply` writes this section to the KubeVirt CR, so a change takes effect o
 | `commonInstancetypesDeployment.enabled` | No | `true` | Deploys KubeVirt's bundle of common instance types and preferences, the sizes and OS presets VMs can be created from. |
 | `permittedHostDevices` | No | — | PCI devices, such as GPUs, that VMs may use. See [PCI Passthrough](#pci-passthrough). |
 | `enforceRegionalScheduling` | No | `false` | Deploys a Kyverno policy that keeps VMs in their subnet's region. See [Regional Scheduling](#regional-scheduling). |
+| `evictionStrategy` | No | `LiveMigrate` with more than one node | What KubeVirt does with a running VM when its node is drained: `LiveMigrate`, `LiveMigrateIfPossible`, `None` or `External`. See [Node Drains](#node-drains). |
 
 ### Developer Configuration
 
@@ -401,6 +403,44 @@ Only turn it on for nodes without hardware virtualization. While it is on, every
 | `completionTimeoutPerGiB` | `150` | Seconds per GiB of VM memory a migration may take before it is cancelled. Must be greater than 0. |
 | `progressTimeout` | `150` | Seconds a migration may make no progress before it is cancelled. Must be greater than 0. |
 | `allowAutoConverge` | `true` | Slows down a migrating VM's vCPUs when its memory changes faster than it can be copied, so the migration of a busy VM finishes instead of timing out. Without it, a node drain can wait on such a VM indefinitely. When unset, a value set directly on the KubeVirt CR is kept. |
+
+### Node Drains
+
+A node drain, by `kubectl drain` or by an upgrade, evicts every pod on the node. For a VM's pod,
+KubeVirt decides what happens from the VM's eviction strategy: the VM's own
+`spec.template.spec.evictionStrategy`, or `kubevirt.evictionStrategy` when the VM sets none.
+
+| Strategy | VM can live-migrate | VM cannot live-migrate |
+|---|---|---|
+| `LiveMigrate` | Moves to another node | Keeps running; the drain waits until the VM is stopped |
+| `LiveMigrateIfPossible` | Moves to another node | Shut down |
+| `None` | Shut down | Shut down |
+| `External` | Left to another controller: the machine-controller of KKP replaces the machine | Same |
+
+A VM cannot live-migrate when, for example, one of its disks is a ReadWriteOnce volume, or when it
+may only run on its current node. The VM's `LiveMigratable` condition says whether its disks,
+devices and network allow a migration, and why not:
+
+```bash
+kubectl get vmi -A -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,NODE:.status.nodeName,STRATEGY:.spec.evictionStrategy,MIGRATABLE:.status.conditions[?(@.type=="LiveMigratable")].status'
+```
+
+`evictionStrategy` defaults to `LiveMigrate` on a cluster with more than one node, so VMs move
+instead of stopping. A single-node cluster keeps KubeVirt's own default, `None`, as there is no
+other node to move to, and picks up `LiveMigrate` once a node is added. When the field is unset, a
+strategy set directly on the KubeVirt CR is kept.
+
+KubeVirt copies the strategy into a VM when the VM starts. A change, including the default that an
+upgrade introduces, reaches a running VM at its next restart. `apply` restarts no VM.
+
+With `LiveMigrate`, a manual `kubectl drain` waits on a VM that cannot live-migrate and reports
+`VMI ... is configured with an eviction strategy but is not live-migratable`. Stop the VM, or give
+it `evictionStrategy: None` if a drain should shut it down. An upgrade does not wait on such a VM:
+it upgrades the VM's worker in place, without a drain.
+
+A VM that the dashboard's VM form places on a specific node gets `evictionStrategy: None`, so a
+drain stops it instead of waiting on it. Switching the VM back to automatic placement sets
+`LiveMigrate`. The form leaves any other strategy as it is.
 
 ### PCI Passthrough
 
