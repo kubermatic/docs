@@ -1,6 +1,6 @@
 +++
 title = "Kubermatic Developer Platform"
-sidebarHomeTitle = "Getting Started"
+sidebarHomeTitle = "Overview"
 +++
 
 KDP (Kubermatic Developer Platform) is a new Kubermatic product in development that targets the IDP
@@ -16,7 +16,7 @@ KDP offers a central control plane for IDPs by providing an API backbone that al
 service provider) and consume (as platform user) **services**. KDP itself does **not** host the
 actual workloads providing such services (e.g. if a database service is offered, the underlying
 PostgreSQL pods are not hosted in KDP) and instead delegates this to so-called **service clusters**.
-A component called [**api-syncagent**]({{< relref "service-providers/api-syncagent" >}}) is installed
+A component called [**api-syncagent**]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}}) is installed
 onto service clusters which allows service providers (who own the service clusters) to publish APIs
 from their service cluster onto KDP's central platform.
 
@@ -65,10 +65,10 @@ Concretely, this is what sets KDP apart:
 - **Service-owner self-service.** Service providers publish their own offerings onto the
   platform, so the platform team is not a bottleneck for every new service. Higher-level
   offerings can be composed from existing services with
-  [Blueprints]({{< relref "service-providers/blueprints" >}}).
+  [Blueprints]({{< ref "/developer-platform/v1.2/guides/service-providers/blueprints" >}}).
 - **AI- and agent-ready.** Because everything is a machine-readable Kubernetes API, AI
   assistants and agents can discover and provision resources too — see
-  [AI Tooling]({{< relref "platform-users/ai-tooling" >}}).
+  [AI Tooling]({{< ref "/developer-platform/v1.2/guides/platform-users/ai-tooling" >}}).
 
 ## Architecture
 
