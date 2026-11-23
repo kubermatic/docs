@@ -111,16 +111,16 @@ from, filled from objects in the workspace, add a `kdp:options` block to the fie
 the CRD. With kubebuilder, put it in the Go doc comment of the field:
 
 ```go
-// The system prompt to use.
+// The ConfigMap with the application's settings.
 // <!-- kdp:options
 // ---
 // apiVersion: options.kdp.k8c.io/v1
 // kind: FieldSource
 // source: local
-// path: /apis/ai.kdp.k8c.io/v1alpha1/namespaces/${LOCAL_NAMESPACE}/llmsystemprompts
+// path: /api/v1/namespaces/${LOCAL_NAMESPACE}/configmaps
 // value: "{.metadata.name}"
 // -->
-SystemPrompt string `json:"systemPrompt,omitempty"`
+ConfigMapName string `json:"configMapName,omitempty"`
 ```
 
 The dashboard hides the block from the field's help text. Its fields:

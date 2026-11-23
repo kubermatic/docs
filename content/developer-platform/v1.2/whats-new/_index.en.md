@@ -37,9 +37,6 @@ KDP 1.2 is released as **1.2.1**. The 1.2.0 dashboard is identical to 1.1.0, so 
   **Open** button for your service in the dashboard.
 - **Dynamic form fields.** Forms can fill a field's options from other resources.
 - **Blueprints** support kro collections (`forEach`).
-- **LLM models (alpha).** Providers can publish OpenAI-compatible models with backends and system
-  prompts, and consumers get an endpoint and API key. See
-  [Offering LLM Models]({{< ref "/developer-platform/v1.2/guides/service-providers/llm-models" >}}).
 - **More service settings.** See
   [Configuring Services]({{< ref "/developer-platform/v1.2/guides/service-providers/configuring-services" >}}).
 
