@@ -6,15 +6,9 @@ aliases = ["/developer-platform/v1.2/platform-users/managing-resources/"]
 
 This document describes how to manage resources offered by Services.
 
-## Background
-
-A "service" in KDP defines a unique Kubernetes API Group and offers a number of resources (types) to
-use. A service could offer certificate management, databases, cloud infrastructure or any other set
-of Kubernetes resources.
-
 Once a service is [enabled in a workspace]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services#enabling-a-service" >}}),
 new Kubernetes resource types (APIs) become available, similar to how CustomResourceDefinitions would
-introduce new APIs.
+introduce new APIs. For how this works, see [Services]({{< ref "/developer-platform/v1.2/introduction/concepts/services" >}}).
 
 ## Creating Resources
 

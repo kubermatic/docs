@@ -51,9 +51,11 @@ flowchart LR
 - **kcp** is the API server at the centre. It runs many lightweight logical clusters called
   **workspaces**, each with its own Kubernetes API. In KDP, each **organisation** is a top-level
   workspace, and organisations contain **projects**, which can be nested. Each workspace has its
-  own members, permissions and enabled services.
+  own members, permissions and enabled services. See
+  [Workspaces]({{< ref "/developer-platform/v1.2/introduction/concepts/workspaces" >}}).
 - **Services** are APIs published into kcp. Enabling a service in a workspace makes its resource
-  types available there, like CRDs in a normal cluster.
+  types available there, like CRDs in a normal cluster. See
+  [Services]({{< ref "/developer-platform/v1.2/introduction/concepts/services" >}}).
 - The **[api-syncagent]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}})**
   runs on each service cluster. It publishes the provider's APIs into kcp and copies objects that
   users create down to the service cluster, where operators such as Crossplane do the actual work.

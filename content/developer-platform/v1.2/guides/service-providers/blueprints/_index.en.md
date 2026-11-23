@@ -19,40 +19,8 @@ This guide is written for the **Blueprint author** (a platform engineer or servi
 For consuming a published Blueprint, see
 [Consuming Blueprints]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-blueprints" >}}).
 
-## Concepts
-
-A Blueprint is authored as a `BlueprintDefinition` (`blueprints.kdp.k8c.io/v1alpha1`,
-namespaced). Its core is a [kro](https://kro.run) `ResourceGraphDefinition` (RGD) stored in
-`spec.resourceGraph`, which describes:
-
-- a **schema**: the synthesised kind's own `spec`/`status` (what consumers fill in), and
-- a list of **resources**: the child service objects to create, templated with CEL
-  references such as `${schema.spec.size}` and cross-references between children.
-
-The child kinds must be **services that are already published and bound** in the workspace
-where the Blueprint is authored (each child follows its own
-[api-syncagent]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}}) path to its service cluster; the
-Blueprint layer is invisible to the underlying services).
-
-### Lifecycle
-
-A `BlueprintDefinition` moves through:
-
-```
-Draft -> Validating -> Valid | Invalid -> Published -> Deprecated
-```
-
-- **Validation** checks that every `(apiVersion, kind)` in the graph resolves to a service
-  available in the workspace (a kind that does not resolve almost always means the service
-  is not **bound**), and that the RGD's CEL expressions, field references and acyclicity are
-  correct.
-- **Publishing** (`spec.published: true`, while `Valid`) emits three artifacts into the same
-  workspace: an `APIResourceSchema`, an `APIExport`, and a `Service` (the catalogue entry). The
-  synthesised consumer kind is served under `<kind>.blueprints.kdp.k8c.io`.
-- **`spec.deprecated: true`** marks the Blueprint as deprecated. KDP copies the flag onto
-  the generated `Service`, so the dashboard hides the Blueprint from the service catalogue and
-  blocks creating or editing instances there. It is **not enforced by the API**, so instances can
-  still be created with `kubectl`. Existing instances keep working.
+For how Blueprints work, including their lifecycle from draft to published, see
+[Blueprints]({{< ref "/developer-platform/v1.2/introduction/concepts/blueprints" >}}) under Concepts.
 
 ## Authoring a `BlueprintDefinition`
 

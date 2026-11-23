@@ -6,18 +6,8 @@ aliases = ["/developer-platform/v1.2/platform-users/consuming-services/"]
 
 This document describes how to use (consume) Services offered in KDP.
 
-## Background
-
-A "service" in KDP defines a unique Kubernetes API Group and offers a number of resources (types) to
-use. A service could offer certificate management, databases, cloud infrastructure or any other set
-of Kubernetes resources.
-
-Services are provided by service owners, who run their own Kubernetes clusters and take care of the
-maintenance and scaling tasks for the workload provisioned by all users of the service(s) they
-offer.
-
-A KDP Service should not be confused with a Kubernetes Service. Internally, a KDP Service is
-ultimately translated into a kcp `APIExport` with a number of `APIResourceSchemas` (~ CRDs).
+A service offers a set of Kubernetes resource types, such as databases or certificates, run by its
+provider on their own cluster. For how services work, see [Services]({{< ref "/developer-platform/v1.2/introduction/concepts/services" >}}).
 
 ## Browsing Services
 

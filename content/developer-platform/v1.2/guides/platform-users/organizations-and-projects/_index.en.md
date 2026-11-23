@@ -9,7 +9,7 @@ organisations, projects and namespaces.
 
 Organisations and projects are kcp workspaces, and projects can be nested as deep as you need. Each
 one has its own services, members, service accounts and namespaces. For how workspaces fit
-together, see the [Overview]({{< ref "/developer-platform/v1.2" >}}). Everything in the rest of the
+together, see [Workspaces]({{< ref "/developer-platform/v1.2/introduction/concepts/workspaces" >}}). Everything in the rest of the
 platform user docs works the same in an organisation and in a project.
 
 ## Navigating the dashboard

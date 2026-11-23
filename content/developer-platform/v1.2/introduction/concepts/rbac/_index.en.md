@@ -1,6 +1,6 @@
 +++
 title = "RBAC"
-weight = 3
+weight = 5
 aliases = ["/developer-platform/v1.2/platform-users/rbac/"]
 +++
 

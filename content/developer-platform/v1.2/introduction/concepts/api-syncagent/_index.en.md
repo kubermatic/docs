@@ -1,6 +1,6 @@
 +++
 title = "The API Sync Agent"
-weight = 2
+weight = 3
 aliases = ["/developer-platform/v1.2/service-providers/api-syncagent/"]
 +++
 
@@ -9,9 +9,9 @@ It runs on a cluster, is configured with KDP credentials and will then synchroni
 of KDP (i.e. out of kcp workspaces) onto the local cluster, and vice versa.
 
 {{% notice note %}}
-KDP 1.0 uses the upstream [kcp api-syncagent](https://github.com/kcp-dev/api-syncagent)
-**v0.7.0**, which is built against kcp 0.32 (matching the KDP 1.0 control plane). Install
-this version on your service clusters.
+KDP 1.2 uses the upstream [kcp api-syncagent](https://github.com/kcp-dev/api-syncagent)
+**v0.7.0** (Helm chart 0.6.2), which is built against kcp 0.32, matching the KDP 1.2 control
+plane. Install this version on your service clusters.
 {{% /notice %}}
 
 ## High-level Overview
