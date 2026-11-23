@@ -37,13 +37,19 @@ KDP 1.2 is released as **1.2.1**. The 1.2.0 dashboard is identical to 1.1.0, so 
   **Open** button for your service in the dashboard.
 - **Dynamic form fields.** Forms can fill a field's options from other resources.
 - **Blueprints** support kro collections (`forEach`).
+- **LLM models (alpha).** Providers can publish OpenAI-compatible models with backends and system
+  prompts, and consumers get an endpoint and API key. See
+  [Offering LLM Models]({{< ref "/developer-platform/v1.2/guides/service-providers/llm-models" >}}).
+- **More service settings.** See
+  [Configuring Services]({{< ref "/developer-platform/v1.2/guides/service-providers/configuring-services" >}}).
 
 ## For platform administrators
 
 - **New components:** the storage server (on by default), an admission webhook in the KDP
   controller manager, and the MCP server and gateway (off by default).
-- **RBAC sync depth.** `--rbac-sync-max-depth` limits how deep ClusterRoles and
-  ClusterRoleBindings are synced into child workspaces. The default is 10 levels.
+- **Targeted RBAC sync.** `kdp.k8c.io/sync-to-workspaces` now accepts a list of workspaces, not
+  just `*`, and syncing stops 10 levels below `root`. See
+  [RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac#cross-workspace-rbac-propagation" >}}).
 - **Configurable ingress** class and annotations for the front-proxy.
 - **Removed:** the AI Agent chart and the dashboard's `features.aiAgent` and
   `features.kubeconfigDownload.enabled` settings.

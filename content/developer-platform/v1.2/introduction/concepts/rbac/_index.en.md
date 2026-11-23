@@ -56,15 +56,33 @@ For the dashboard steps, see
 
 ## Cross-workspace RBAC propagation
 
-KDP implements controllers that allow propagation of `ClusterRoles` and `ClusterRoleBindings` to
-children workspaces of the workspace that they are in. Be aware that existing resources with the same
-names in the children workspaces will be overwritten.
+KDP copies `ClusterRoles` and `ClusterRoleBindings` from its base workspace (`root`) into the
+workspaces below it, so organisations and projects get the same roles without anyone creating
+them by hand. Existing objects with the same name in the target workspaces are overwritten.
 
-To sync a `ClusterRole` or `ClusterRoleBinding`, annotate it with `kdp.k8c.io/sync-to-workspaces="*"`.
-In the future, the feature might allow to only sync to specific child workspaces, but for now it only
-supports syncing to all "downstream" workspace.
+To sync an object, annotate it in the base workspace with `kdp.k8c.io/sync-to-workspaces`. The value
+says where it goes:
 
-The default roles shipped with KDP are annotated like this to be provided in all workspaces.
+| Value | Synced to |
+| ----- | --------- |
+| `*` | Every workspace below the base, down to the depth limit. |
+| `acme` | A bare name: only the direct child `root:acme`, such as one organisation. |
+| `root:acme:team-a` | A full path: exactly that workspace, at any depth. |
+| `acme,root:acme:team-a` | A comma-separated list of the above. |
+
+The default roles shipped with KDP use `*`, so they exist in every workspace.
+
+Keep in mind:
+
+- **Depth limit.** Objects are synced at most 10 levels below the base. This is the controller
+  manager's `--rbac-sync-max-depth` flag (`0` syncs nothing, `-1` syncs the whole tree), which the
+  KDP Helm chart doesn't expose. Lowering it doesn't remove copies that were already made.
+- **Workspaces must be ready.** A new workspace gets its copies once kcp has scheduled it.
+- **Unexpected copies are deleted.** If a `ClusterRole` in a target workspace carries the
+  `kdp.k8c.io/sync-to-workspaces` annotation but isn't a copy KDP expects there, KDP deletes it.
+  Don't put this annotation on roles you create in organisations or projects.
+- Synced objects are read-only on the dashboard's
+  [RBAC page]({{< ref "/developer-platform/v1.2/guides/platform-users/members-and-roles#managing-roles-and-bindings-directly" >}}).
 
 ## Auto-generate Service ClusterRoles
 

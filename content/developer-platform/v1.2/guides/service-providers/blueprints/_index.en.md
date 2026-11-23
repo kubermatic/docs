@@ -126,6 +126,39 @@ version of the synthesised kind; toggling `spec.published` back to `false` stops
 reconciliation but does **not** remove already-published artifacts.
 {{% /notice %}}
 
+### Creating a variable number of children
+
+To let consumers choose how many children an instance creates, use a kro collection: add
+`forEach` to a resource and iterate over a list in the instance's spec. This version of the
+example creates one database per name in `spec.databases`:
+
+```yaml
+      schema:
+        apiVersion: v1alpha1
+        kind: DatabaseSet
+        spec:
+          name: string
+          databases: "[]string"
+          size: string
+      resources:
+        - id: databases
+          forEach:
+            - db: ${schema.spec.databases}
+          template:
+            apiVersion: dbms.example.corp/v1alpha1
+            kind: PostgresInstance
+            metadata:
+              name: ${schema.spec.name}-${db}
+            spec:
+              parameters:
+                storageSize: ${schema.spec.size}
+```
+
+Each `forEach` entry is one dimension; with several, kro creates one child for every
+combination. Every dimension's variable must appear in the child's `metadata.name`, so that each
+child gets a unique name. KDP allows at most 64 children per collection resource and instance,
+because the consumer, not the Blueprint author, decides the size of the list.
+
 ## Authoring in the dashboard
 
 Open **Blueprints** in the sidebar. The entry is hidden unless your platform administrator has

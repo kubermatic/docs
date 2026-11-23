@@ -116,7 +116,9 @@ Keep in mind:
 
 If your platform offers a service for large language models with the `LLMAccess` kind (API group
 `ai.kdp.k8c.io`), the dashboard can open a chat with the model an `LLMAccess` object gives you
-access to. Choose **Chat** in the object's **...** menu.
+access to. Choose **Chat** in the object's **...** menu. For how `LLMAccess` works and how to call
+the models from your own code, see
+[Offering LLM Models]({{< ref "/developer-platform/v1.2/guides/service-providers/llm-models" >}}).
 
 The chat uses the endpoint, API key and models stored in the object's related Secret (keys
 `endpoint`, `key`, and `models` or `model`). If the Secret lists several models, the chat has a
