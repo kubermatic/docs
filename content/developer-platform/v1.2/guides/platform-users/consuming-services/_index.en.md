@@ -65,7 +65,7 @@ First you need to get the kubeconfig for accessing your kcp workspaces. Once you
 kubeconfig up, make sure you're in the correct namespace by using
 `kubectl ws <path to your workspace>`. Use `kubectl ws .` if you're unsure where you're at.
 
-To enable a Service, use `kcp bind apiexport` and specify the path to and name of the `APIExport`.
+To enable a Service, use `kubectl kcp bind apiexport` and specify the path to and name of the `APIExport`.
 
 ```bash
 # kubectl kcp bind apiexport <path to KDP Service>:<API Group of the Service>
@@ -111,5 +111,5 @@ spec:
 Rejecting a claim will severely impact a Service, if not even break it. Consult with the Service's
 documentation or the service owner if rejecting a claim is supported.
 
-When you *change into* (`kubctl ws ...`) a different workspace, kubectl will inform you if there are
+When you *change into* (`kubectl ws ...`) a different workspace, kubectl will inform you if there are
 outstanding permission claims that you need to accept or reject.

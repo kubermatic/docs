@@ -84,7 +84,7 @@ spec:
 
 Apply it with `kubectl apply -f` in the workspace where the composed services are bound.
 Once the object is `Valid` and `published`, the Blueprint **appears in the service catalogue as
-just another service**: the same entry, the same **Add to Organization** flow, the same
+just another service**: the same entry, the same **Add to organization** flow, the same
 `APIBinding`. Consumers never have to know it is a composition: they enable it and create one
 object, exactly as they would for a single service.
 
@@ -220,7 +220,7 @@ else a consumer does with it is ordinary service consumption.
 The entry's title, category and description come from the `spec.catalogMetadata` you set on the
 `BlueprintDefinition`; the badge and the logo are added by the dashboard.
 
-<img src="blueprint-service-catalogue.png" alt="OrderApp Databases in the service catalogue" title="The OrderApp Databases Blueprint in the service catalogue, listed as a service and marked with a Blueprint badge" width="600" height="275">
+<img src="blueprint-service-catalog.png" alt="OrderApp Databases in the service catalogue" title="The OrderApp Databases Blueprint in the service catalogue, listed as a service and marked with a Blueprint badge" width="600" height="275">
 
 For the consumer's side of this (enabling the entry and creating an instance), see
 [Consuming Blueprints]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-blueprints" >}}).

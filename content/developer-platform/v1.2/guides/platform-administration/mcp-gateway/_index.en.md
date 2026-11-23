@@ -41,6 +41,7 @@ Values worth knowing about:
 
 | Value | Default | Meaning |
 |---|---|---|
+| `kdp.mcpServer.enabled` | `false` | Deploys the MCP server. Off by default, so the gateway is off too. |
 | `kdp.mcpGateway.enabled` | `true` | Only takes effect when `kdp.mcpServer.enabled` is also true. |
 | `oidc.audience` | `kdp-mcp` | The `aud` claim tokens must carry. This is the OIDC client ID registered for MCP. |
 | `oidc.crossClientAudience` | *(empty)* | Client ID that agents additionally request a token for, so kcp accepts it. |
@@ -73,7 +74,10 @@ Add a public `kdp-mcp` client, and allow it to act for the client kcp already tr
 {{< readfile "developer-platform/v1.2/guides/platform-administration/mcp-gateway/data/dex.mcp-client.values.yaml" >}}
 ```
 
-Dex reads its configuration at startup and does not watch the file, so restart it afterwards.
+Merge these entries into the `config.staticClients` list of the `dex.values.yaml` from
+[Get Started]({{< ref "/developer-platform/v1.2/get-started" >}}), keeping your existing redirect URIs,
+and upgrade the Dex release. Dex reads its configuration at startup and does not watch the file,
+so restart it afterwards.
 
 ### Why `trustedPeers` is needed
 

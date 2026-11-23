@@ -93,7 +93,7 @@ also use standard Kubernetes resources in the project, which those roles don't i
 
 Give users who need these pages the **Owner** role, or create a role that adds them. KDP offers
 any ClusterRole labelled for its dashboard on the **Members** page; see
-[RBAC](/developer-platform/v1.2/platform-users/rbac/) in the KDP documentation. For example,
+[RBAC](/developer-platform/v1.2/introduction/concepts/rbac/) in the KDP documentation. For example,
 created in the project with `kubectl` by one of its owners:
 
 ```yaml

@@ -3,7 +3,7 @@ title = "Introduction"
 weight = 3
 +++
 
-Background to read before you install or use KDP:
+Background on how KDP works:
 
 - **Concepts** explains how the parts of KDP work: workspaces, services, the API sync agent that
   connects service clusters, Blueprints and RBAC.

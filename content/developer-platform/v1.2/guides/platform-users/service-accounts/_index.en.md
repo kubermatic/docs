@@ -1,7 +1,6 @@
 +++
 title = "Service Accounts"
 weight = 3
-aliases = ["/developer-platform/v1.2/platform-users/service-accounts/"]
 +++
 
 Service accounts are identities for machines rather than people, such as CI pipelines, GitOps

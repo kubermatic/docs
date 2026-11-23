@@ -19,8 +19,8 @@ environment from an AI coding assistant such as
 status, and authoring Blueprints, in plain language.
 
 {{% notice note %}}
-This is separate from the dashboard's own AI features: the UI Builder, the Blueprint AI
-assistant and the LLM chat. The tooling here runs in your local AI assistant against your KDP workspace.
+This is separate from the dashboard's own AI features: the UI Builder and the Blueprint AI
+assistant. The tooling here runs in your local AI assistant against your KDP workspace.
 {{% /notice %}}
 
 ## What an agent can do

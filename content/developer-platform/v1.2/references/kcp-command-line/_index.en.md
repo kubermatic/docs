@@ -10,7 +10,7 @@ creating workspaces, etc. are just manipulating kcp directly behind the scenes.
 Even though many day-to-day operations will happen within a single workspaces (like deploying or
 managing an application), there will also be instances where you might need to interact with kcp
 and switch between workspaces. This can be done manually by editing your kubeconfig accordingly,
-but is much simpler with the [kcp kubectl plugin](https://docs.kcp.io/kcp/v0.30/setup/kubectl-plugin/).
+but is much simpler with the [kcp kubectl plugin](https://docs.kcp.io/kcp/v0.32/setup/kubectl-plugin/).
 It provides additional commands for common operations in kcp.
 
 Make sure you have the kcp kubectl plugin installed.

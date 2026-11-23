@@ -1,7 +1,6 @@
 +++
 title = "Organisations, Projects and Namespaces"
 weight = 1
-aliases = ["/developer-platform/v1.2/platform-users/organizations-and-projects/"]
 +++
 
 This page shows how to find your way around the KDP dashboard, and how to create and delete

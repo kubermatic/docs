@@ -56,7 +56,6 @@ Feature flags turn dashboard features on and off. Set them under
 | `ui-builder-enabled` | `true` | The [UI Builder]({{< ref "/developer-platform/v1.2/guides/service-providers/ui-builder" >}}). |
 | `service-composition-enabled` | `false` | The **Blueprints** entry in the sidebar. See [Blueprints]({{< ref "/developer-platform/v1.2/guides/service-providers/blueprints" >}}). |
 | `ai-blueprints-enabled` | `true` | The AI assistant and **Fix with AI** in the Blueprint editor. |
-| `kubermatic-ai-chat-enabled` | `false` | The **Chat** action on `LLMAccess` objects. See [Managing Resources]({{< ref "/developer-platform/v1.2/guides/platform-users/managing-resources#chatting-with-an-llm" >}}). |
 
 {{% notice note %}}
 `service-composition-enabled` only hides the sidebar entry. The Blueprints pages still open when

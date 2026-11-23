@@ -426,9 +426,9 @@ After logging in, you will be taken to the KDP dashboard, where you can begin ex
 
 Now that your platform is running, here are a few things to try:
 
-- **Use kubectl with kcp**: Download a kubeconfig from the dashboard (available in the workspace context menu) or set one up manually using the [kcp kubectl plugin](https://docs.kcp.io/kcp/v0.30/setup/kubectl-plugin/). See [kcp on the Command Line]({{< ref "/developer-platform/v1.2/references/kcp-command-line" >}}) for a walkthrough.
+- **Use kubectl with kcp**: Download a kubeconfig from the dashboard (**Download Kubeconfig** in the user menu) or set one up manually using the [kcp kubectl plugin](https://docs.kcp.io/kcp/v0.32/setup/kubectl-plugin/). See [kcp on the Command Line]({{< ref "/developer-platform/v1.2/references/kcp-command-line" >}}) for a walkthrough.
 - **Create your first service**: Follow the [Your First Service]({{< ref "/developer-platform/v1.2/guides/service-providers/your-first-service" >}}) tutorial to register a KDP Service and make custom APIs available to your users.
-- **Add users and configure RBAC**: Invite team members via the dashboard and set up roles. See [RBAC in KDP]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac" >}}) for details on the role propagation model.
+- **Add users and configure RBAC**: Invite team members via the dashboard and set up roles. See [Members and Roles]({{< ref "/developer-platform/v1.2/guides/platform-users/members-and-roles" >}}).
 - **Set up the api-syncagent**: If you have external Kubernetes clusters with CRDs you want to expose in KDP, install the [api-syncagent]({{< ref "/developer-platform/v1.2/introduction/concepts/api-syncagent" >}}) and define `PublishedResource` objects to start syncing.
 - **Monitor KDP**: The KDP exporter exposes Prometheus metrics on port 8385 and supports `ServiceMonitor` for Prometheus Operator. Enable it via `kdp.exporter.serviceMonitor.enabled: true` in the KDP Helm values.
 

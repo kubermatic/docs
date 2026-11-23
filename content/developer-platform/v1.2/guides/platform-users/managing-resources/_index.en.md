@@ -106,35 +106,7 @@ Keep in mind:
 - ConfigMaps labelled `internal.kdp.k8c.io/visibility: hidden` are not shown. KDP uses this for
   internal ConfigMaps, such as UI Builder configurations.
 
-#### Chatting with an LLM
-
-If your platform offers a service for large language models with the `LLMAccess` kind (API group
-`ai.kdp.k8c.io`), the dashboard can open a chat with the model an `LLMAccess` object gives you
-access to. Choose **Chat** in the object's **...** menu.
-
-The chat uses the endpoint, API key and models stored in the object's related Secret (keys
-`endpoint`, `key`, and `models` or `model`). If the Secret lists several models, the chat has a
-model selector. **Chat** is disabled until that Secret exists, and you need permission to read
-Secrets in its namespace. If the credentials can't be loaded, the chat shows **Credentials
-Unavailable**. The endpoint must offer an OpenAI-compatible chat completions API.
-
-The chat goes through the dashboard's API and sends your messages, with a short fixed system
-prompt, to the model. It does not send the object or any other data from your workspace, and the
-model can't change anything in KDP. Conversations are not saved: they are gone when you leave or
-reload the page.
-
-This feature is off by default. Your platform administrator can enable it in the dashboard's Helm
-values:
-
-```yaml
-dashboard:
-  config:
-    features:
-      featureFlags:
-        kubermatic-ai-chat-enabled: true
-```
-
-<!-- TODO(screenshot): add screenshots for the service object detail page, the ConfigMap/Secret pages and the LLM chat with its model selector. -->
+<!-- TODO(screenshot): add screenshots for the service object detail page, and the ConfigMap/Secret pages. -->
 
 ### kubectl
 
@@ -149,7 +121,7 @@ databases           db           example.corp/v1   true         Database
 ...
 ```
 
-In the example above, we can see that the fictional RBDMS service enabled in this workspace provides
+In the example above, we can see that the fictional RDBMS service enabled in this workspace provides
 a new resource, `databases`, in the API group/version `example.corp/v1`.
 
 You could now create a new database by first creating a YAML file like `prod1.yaml` as described in
@@ -254,7 +226,7 @@ metadata:
   name: prod1
   namespace: example-app
   annotations:
-    related-resources.kdp.k8c.io/connection-details: '{"name":"prod1-credentials","namespace":example-app","apiVersion":"v1","kind":"Secret"}'
+    related-resources.kdp.k8c.io/connection-details: '{"name":"prod1-credentials","namespace":"example-app","apiVersion":"v1","kind":"Secret"}'
   uid: 1234-5678
   resourceVersion: 1
 spec:

@@ -9,11 +9,11 @@ kdp:
     enabled: true
     oidc:
       # Your Dex issuer and its JWKS endpoint.
-      issuer: https://auth.<DOMAIN>/dex
-      jwksURL: https://auth.<DOMAIN>/dex/keys
+      issuer: https://login.<DOMAIN>
+      jwksURL: https://login.<DOMAIN>/keys
       # The canonical MCP URL advertised to agents. Must match the URL users
       # connect to, including the /mcp path.
-      resource: https://public.api.<DOMAIN>/mcp
+      resource: https://api.<DOMAIN>/mcp
       # Makes agents request a token that kcp also accepts. Set this to the
       # client ID kcp is configured with (--oidc-client-id).
       crossClientAudience: kdp-kubelogin

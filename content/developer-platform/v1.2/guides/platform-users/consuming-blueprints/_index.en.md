@@ -26,7 +26,7 @@ PostgreSQL databases at once.
 
 Enabling a Blueprint is the same flow as
 [enabling a service]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-services#enabling-a-service" >}}): click
-**Add to Organization** in the catalogue (or create the `APIBinding` manually). This binds the
+**Add to organization** in the catalogue (or create the `APIBinding` manually). This binds the
 Blueprint's synthesised kind (served under `<kind>.blueprints.kdp.k8c.io`) into your
 workspace.
 

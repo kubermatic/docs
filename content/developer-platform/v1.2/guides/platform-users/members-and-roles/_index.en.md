@@ -1,7 +1,6 @@
 +++
 title = "Members and Roles"
 weight = 2
-aliases = ["/developer-platform/v1.2/platform-users/members-and-roles/"]
 +++
 
 This page explains how to give users and groups access to an organisation or project in the KDP

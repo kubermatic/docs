@@ -68,8 +68,8 @@ auxiliary resources, on the service cluster.
 
 Each agent must have a name, like "tom" or "mary". The FQ name for an agent is
 `<agentname>.<service apigroup>`, so if the user in KDP had created a new `Service` named
-`databases.examplecorp`, the name of the agent that serves this Service (sic) could be
-`tom.databases.examplecorp`.
+`databases.example.corp`, the name of the agent that serves this Service (sic) could be
+`tom.databases.example.corp`.
 
 ### Uniqueness
 

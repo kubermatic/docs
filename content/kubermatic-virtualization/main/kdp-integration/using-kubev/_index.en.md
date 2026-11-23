@@ -60,7 +60,7 @@ namespace in the project. New objects go to the `default` namespace, unless you 
 in the form.
 
 To use more namespaces, create them in the project, on the **Namespaces** page in KDP or with
-`kubectl`; see [kcp on the Command Line](/developer-platform/v1.2/tutorials/kcp-command-line/)
+`kubectl`; see [kcp on the Command Line](/developer-platform/v1.2/references/kcp-command-line/)
 in the KDP documentation. KubeV can use every namespace name KDP accepts.
 
 ## What works differently
