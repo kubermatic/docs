@@ -3038,7 +3038,7 @@ _Appears in:_
 | --- | --- |
 | `datacenter` _string_ | {{< unsafe >}}Datacenter location, e.g. "nbg1-dc3". A list of existing datacenters can be found<br />at https://docs.hetzner.com/general/others/data-centers-and-connection/{{< /unsafe >}} |
 | `network` _string_ | {{< unsafe >}}Network is the pre-existing Hetzner network in which the machines are running.<br />While machines can be in multiple networks, a single one must be chosen for the<br />HCloud CCM to work.{{< /unsafe >}} |
-| `location` _string_ | {{< unsafe >}}Optional: Detailed location of the datacenter, like "Hamburg" or "Datacenter 7".<br />For informational purposes only.{{< /unsafe >}} |
+| `location` _string_ | {{< unsafe >}}Optional: Hetzner location code, e.g. "fsn1". It is used for worker nodes and as the<br />default location of load balancers created by the Hetzner CCM. If empty, the location<br />is derived from the datacenter name.{{< /unsafe >}} |
 
 
 [Back to top](#top)
