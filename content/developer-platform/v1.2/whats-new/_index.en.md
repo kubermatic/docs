@@ -22,8 +22,8 @@ KDP 1.2 is released as **1.2.1**. The 1.2.0 dashboard is identical to 1.1.0, so 
   opens there after login.
 - **Easier navigation.** The project list shows each project's status, the sidebar can be
   resized and services hidden from it, and the dashboard version is shown in the footer.
-- **Pre-selected permission claims.** When you add a service, the permissions it asks for come
-  from the service catalogue and are pre-selected.
+- **Preselected permission claims.** When you add a service, the permissions it asks for come
+  from the service catalogue and are preselected.
 - **Dark mode** and many accessibility fixes.
 
 ## For service providers
