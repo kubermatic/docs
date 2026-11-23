@@ -95,8 +95,7 @@ helm repo add kcp https://kcp-dev.github.io/helm-charts
 helm repo update
 
 helm install kcp-api-syncagent kcp/api-syncagent \
-  --version 0.3.0 \
-  --set image.tag=v0.3.0 \
+  --version 0.6.2 \
   --values values.yaml \
   --namespace kcp-system
 ```

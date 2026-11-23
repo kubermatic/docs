@@ -21,38 +21,50 @@ ultimately translated into a kcp `APIExport` with a number of `APIResourceSchema
 
 ## Browsing Services
 
-Log in to the KDP Dashboard and choose your organisation. Then on the "Services" page, select the "Subscriptions" tab to see
-a list of all services already added into this organisation. Click the "Add Services" button to see a list of all services
-that you have access to. For each service that is active and hasn't been added to the organisation yet, a button is
-offered to add it to the organisation.
+Log in to the KDP dashboard and open an organisation or project. Click **Service Catalog** in the
+header to see the services you can add. Each tile shows:
 
-{{% notice note %}}
-The tab previously labelled "External Services" is now called **"Subscriptions"**.
-{{% /notice %}}
+- the service's title (the human-readable name, like "Certificate Management"),
+- a short description,
+- its category,
+- the workspace that provides it.
 
-<!-- TODO(screenshot): re-capture the service catalogue page; the catalogue is now a dedicated page and the tab is renamed "Subscriptions". -->
-![Service Catalogue Dialog](service-catalog.jpg?classes=shadow,border&height=200 "Service Catalogue dialog showing all available services")
+Search matches the name, title, description and category, and **Sort by:** orders the tiles. Turn
+on **Hide added services** to show only services you haven't added yet. You can switch between a
+grid and a table. Click a tile to see its details, including its internal name: the name of the
+`Service` object, which you need to enable the service with `kubectl`.
 
-Note that every Service shows:
+Deprecated services, and services that aren't allowed in the current kind of workspace, are not
+shown.
 
-- its main title (the human-readable name of a Service, like "Certificate Management")
-- its internal name (ultimately the name of the Kubernetes `Service` object you would need to
-  manually enable the service using `kubectl`)
-- a short description
+<!-- TODO(screenshot): capture the Service Catalogue page with search, "Hide added services" and the grid/table switch. -->
+![Service Catalogue](service-catalog.jpg?classes=shadow,border&height=200 "Service Catalogue page showing the available services")
+
+To see the services already added here, open **Services** in the sidebar and select the
+**Subscriptions** tab. The tab previously labelled "External Services" is now called
+**Subscriptions**. Its **Add Services** button lists the services you can still add, without
+leaving the page.
 
 Check out [Your First Service]({{< ref "/developer-platform/v1.2/guides/service-providers/your-first-service" >}}) if you want to publish services by yourself.
 
 ## Enabling a Service
 
-After clicking on "Add to Organization" in the service catalogue, the following wizard will open to confirm adding a service:
+Click **Add to organization** (or **Add to project**) on a service in the catalogue. A dialog with
+the same title opens to confirm adding the service:
 
-<!-- TODO(screenshot): verify the add-service wizard still matches the current dashboard UI. -->
-![Add Service Wizard](add-service-wizard.png?classes=shadow,border&height=200 "Wizard for adding a service to the workspace, showing options for creating default rules and resource claims")
+<!-- TODO(screenshot): re-capture the add-service dialog; its title is now "Add to organization" / "Add to project". -->
+![Add Service Wizard](add-service-wizard.png?classes=shadow,border&height=200 "Dialog for adding a service to the workspace, showing options for creating default roles and resource claims")
 
 Several options are offered when adding a service:
 
-- "Create default roles for resources managed by this service" will optionally create a standard set of RBAC roles within the workspace that allow giving different levels of access to this specific service. This is not mandatory, but otherwise roles may need to be created separately.
-- The "Resources" section informs you about resources that the service is requesting access to (claiming) to function properly, e.g. to be able to read or write secret data associated with objects of that service. Service owners are encouraged to gracefully handle situations in which resource access is not granted, but service quality and functionality will likely suffer. You can grant/revoke access to resources for a service at any time.
+- **Create default roles for resources managed by this service** creates a "Developer" and a
+  "Viewer" role for this service in the workspace, so you can give people different levels of
+  access to it. This is optional, but without it you have to create roles yourself.
+- The **Resources** section lists the resources the service asks access to (its permission
+  claims), for example to read or write Secrets that belong to its objects. They come from the
+  service catalogue and are all selected by default. Service owners should handle a refused claim
+  gracefully, but the service will probably work less well. To change your choice later, choose
+  **Update Permissions** in the service's menu on the **Services** page.
 
 ### Manually
 

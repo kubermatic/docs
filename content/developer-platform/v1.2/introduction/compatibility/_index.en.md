@@ -3,15 +3,18 @@ title = "Compatibility"
 weight = 2
 +++
 
-The KDP components are released together. For KDP 1.2.0, use these versions:
+The KDP components are released together. For KDP 1.2, use these versions:
 
-| Component | Chart / image version |
-| --------- | --------------------- |
-| KDP backend (`developer-platform`) | `1.2.0` |
-| KDP dashboard (`developer-platform-dashboard`) | `1.2.0` |
-| kcp Helm chart | `0.16.6` |
-| Dex Helm chart | `0.23.0` |
-| api-syncagent (service clusters) | `v0.7.0` |
+| Component | Chart version | App version |
+| --------- | ------------- | ----------- |
+| KDP backend (`developer-platform`) | `1.2.1` | `v1.2.1` |
+| KDP dashboard (`developer-platform-dashboard`) | `1.2.1` | `v1.2.1` |
+| kcp | `0.16.6` | `0.32.3` |
+| Dex | `0.23.0` | |
+| api-syncagent (on service clusters) | `0.6.2` | `v0.7.0` |
+
+Use 1.2.1 rather than 1.2.0. The 1.2.0 dashboard is identical to 1.1.0, and most 1.2 features,
+including the MCP gateway, first shipped in 1.2.1.
 
 To move an existing installation to these versions, see
 [Upgrading to 1.2]({{< ref "/developer-platform/v1.2/guides/platform-administration/upgrade" >}}).

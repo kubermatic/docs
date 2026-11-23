@@ -19,11 +19,30 @@ with one or more roles. To manage members with `kubectl` instead, see
 
 Open **Members -> Roles** in the sidebar to see the roles you can assign, with their display name
 and description. Choose **View Rules** in a role's row menu (**...**) to see what the role allows.
-Each rule shows its API group, resources and allowed verbs.
+The **Cluster Role Rules** dialog lists each rule's API group, resources and allowed methods.
 
-You can't create or edit roles in the dashboard. To add your own roles, create `ClusterRole`
-objects with `kubectl` and add the labels and annotations listed in
-[RBAC Metadata]({{< ref "/developer-platform/v1.2/references/rbac-metadata" >}}).
+To add your own role, create a `ClusterRole` on the **RBAC** page (see below) or with `kubectl`.
+It only shows up here, and can only be assigned to members, if it has the labels and annotations
+listed in [RBAC Metadata]({{< ref "/developer-platform/v1.2/references/rbac-metadata" >}}).
+
+## Managing roles and bindings directly
+
+The **RBAC** page in the sidebar shows the plain Kubernetes RBAC objects of the current
+organisation or project, on four tabs: **Roles**, **Role Bindings**, **Cluster Roles** and
+**Cluster Role Bindings**. The Roles and Role Bindings tabs have a namespace selector.
+
+- To create an object, click **Create** on its tab and enter it as YAML or JSON.
+- To view, edit or delete one, use its row menu (**...**).
+
+The **Source** column shows whether an object is **Local** or **Synchronized**. Synchronised
+objects are copied in from a parent workspace (see
+[RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac#cross-workspace-rbac-propagation" >}}))
+and are read-only here. Change them in the workspace they come from.
+
+If someone else changes an object while you edit it, saving fails with a conflict. Reopen the
+object and make your change again.
+
+You need permission to list at least one of the four kinds to open this page.
 
 When you enable a service with **Create default roles for resources managed by this service**,
 KDP creates a developer and a viewer role for that service. They are aggregated into the general

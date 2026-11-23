@@ -18,40 +18,53 @@ The dashboard shows the workspace path in the URL, with path segments joined by 
 `/organizations/acme:team-a:backend/...` is the project `backend`, inside project `team-a`, inside
 organisation `acme`.
 
-After you log in, the dashboard shows the list of organisations you can access. Selecting one opens
-its **Service Catalog**.
+After you log in, the dashboard opens the **Service Catalog** of your default workspace. If you
+haven't set one, it shows the list of organisations you can access. The list is a tree: expand an
+organisation to see its projects, and click a name to open it.
 
 Once you are inside an organisation or project, the dashboard has three navigation areas:
 
 - **Header**: the **Service Catalog** button, the organisation/project selector, and the user menu.
-  The user menu has **Download Kubeconfig** and **Log out**. The kubeconfig logs you in through
-  your identity provider (it needs the `kubectl` `oidc-login` plugin), and its current context is
-  the organisation or project you are in. See
-  [kcp on the Command Line]({{< ref "/developer-platform/v1.2/references/kcp-command-line" >}}).
+  The user menu has:
+  - **Download Kubeconfig**. The kubeconfig logs you in through your identity provider (it needs
+    the `kubectl` `oidc-login` plugin), and its current context is the organisation or project you
+    are in. If the dashboard can't add the server's CA certificate, it asks you to paste it. See
+    [kcp on the Command Line]({{< ref "/developer-platform/v1.2/references/kcp-command-line" >}}).
+  - **Connect AI agent**, if your administrator has enabled the MCP server. See
+    [AI Tooling]({{< ref "/developer-platform/v1.2/guides/platform-users/ai-tooling" >}}).
+  - **Default workspace**, to make the current organisation or project your default.
+  - **Log out**.
 - **Sidebar, Services section**: one entry for each service enabled in the current workspace. An entry
   opens the list of that service's objects (see [Managing Resources]({{< ref "/developer-platform/v1.2/guides/platform-users/managing-resources" >}})).
+  Click **Customize services** in the section header to hide services from the sidebar, or
+  **Reset to default** to show them all again. This setting is stored per workspace.
 - **Sidebar, Manage section**: **Services**, **Blueprints**, **Projects**, **Members** (with
-  **Roles** below it), **Service Accounts**, **Namespaces**, **Config Maps** and **Secrets**.
-  **Blueprints** only appears when the Blueprints feature is enabled.
+  **Roles** below it), **Service Accounts**, **RBAC**, **Namespaces**, **Config Maps** and
+  **Secrets**. **Blueprints** only appears when the Blueprints feature is enabled.
 
-You can collapse the sidebar to icons with the toggle button at its top.
+You can collapse the sidebar to icons with the toggle button at its top, and drag its edge to make
+it wider or narrower.
 
 Sidebar entries are not filtered by your permissions. When a page needs a permission you don't
-have, its create or delete actions are hidden.
+have, it shows **Access Denied**, or its create and delete actions are hidden.
 
 ### Switching organisations and projects
 
 The selector in the header shows the current organisation or project. A spinning icon next to it
-means the workspace is not ready yet. Open the selector to see:
+means the workspace is not ready yet. Open the selector to see the current workspace and its
+child organisations or projects. Click a child to switch to it, or click its arrow to browse
+inside it. The back button at the top takes you up a level.
 
-- **Current Organization** / **Current Project**.
-- **Other Organizations** / **Other Projects**, the siblings of the current workspace.
-- **Navigate Up**, the parent workspaces of a nested project.
-- **View Full Organization Tree**, a dialog with the whole tree. Expand rows to load their children
-  and click **Select** to switch.
+Switching always takes you to the **Service Catalog** of the new organisation or project.
 
-Switching keeps you on the same page type. For example, if you are on **Secrets** in one project and
-select another project, you land on **Secrets** in the new project.
+### Setting a default workspace
+
+Your default workspace is where the dashboard opens after you log in. To set it, click the star
+next to an organisation or project in the organisations list or the selector, or tick **Default
+workspace** in the user menu. You can have one default; setting a new one replaces the old one.
+
+The default is stored in your browser, so it doesn't follow you to another browser or computer. If
+the workspace is deleted or you lose access to it, the dashboard tells you and clears the default.
 
 ## Organisations
 
@@ -91,9 +104,12 @@ objects, Secrets, members' access and enabled services.
 Use projects to split an organisation into separate workspaces, for example per team, application
 or environment. Each project has its own enabled services, members, service accounts and namespaces.
 
-Open **Projects** in the sidebar to see the projects of the current organisation or project. Click a
-project row to expand it and show its sub-projects. Hover a row and click **Select** to switch into
-that project.
+Open **Projects** in the sidebar to see the projects of the current organisation or project. Click
+the arrow next to a project to show its sub-projects, and click a project's name to open its
+projects page.
+
+A project that isn't ready yet shows a spinner and its status instead of a link. Wait until it is
+ready before you open it.
 
 Inside a nested project, the page shows the path from the organisation to the current project.
 Click a parent to go back up.

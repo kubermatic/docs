@@ -49,9 +49,10 @@ Draft -> Validating -> Valid | Invalid -> Published -> Deprecated
 - **Publishing** (`spec.published: true`, while `Valid`) emits three artifacts into the same
   workspace: an `APIResourceSchema`, an `APIExport`, and a `Service` (the catalogue entry). The
   synthesised consumer kind is served under `<kind>.blueprints.kdp.k8c.io`.
-- **`spec.deprecated: true`** marks the Blueprint as deprecated. This is a hint surfaced by
-  the KDP dashboard (which discourages creating new instances). It is **not enforced by the
-  backend**, so instances can still be created via the API. Existing instances keep working.
+- **`spec.deprecated: true`** marks the Blueprint as deprecated. KDP copies the flag onto
+  the generated `Service`, so the dashboard hides the Blueprint from the service catalogue and
+  blocks creating or editing instances there. It is **not enforced by the API**, so instances can
+  still be created with `kubectl`. Existing instances keep working.
 
 ## Authoring a `BlueprintDefinition`
 
@@ -127,12 +128,20 @@ reconciliation but does **not** remove already-published artifacts.
 
 ## Authoring in the dashboard
 
-In the dashboard you author a Blueprint by editing its resource graph as **YAML**, helped by an
-**AI assistant** panel (see [Building Blueprints with AI](#building-blueprints-with-ai) below)
-that drafts and edits that YAML for you. The dependencies between the composed services are
-shown as a **read-only** graph; you cannot build the graph by dragging nodes. Published
-Blueprints get a detail page with an **Overview**, the **Description**, and a **Resource Graph**
-you can inspect either as that read-only diagram or as the underlying RGD YAML.
+Open **Blueprints** in the sidebar. The entry is hidden unless your platform administrator has
+turned on the `service-composition-enabled` feature flag in the dashboard's Helm values. If the
+workspace doesn't use Blueprints yet, click **Enable Blueprints** first.
+
+Click **Create Blueprint** and fill in the name, display name, version, description, category and
+logo. You write the resource graph as **YAML**; the **Service** and **Resource Type** pickers insert
+a snippet for one of your bound services. The **AI Assistant** button opens a drawer that drafts
+and edits that YAML for you (see [Building Blueprints with AI](#building-blueprints-with-ai)
+below). The editor has no graph view, and you can't build the graph by dragging nodes.
+
+From the Blueprints list you can **Edit**, **Publish**, **Deprecate** and **Delete** a Blueprint.
+Each Blueprint gets a detail page with an **Overview**, the **Description**, and a **Resource Graph**
+you can inspect either as a read-only diagram or as the underlying RGD YAML. If validation
+failed, the detail page lists the **Validation Errors** with a **Fix with AI** link.
 
 ![Blueprint detail: resource graph](blueprint-detail-graph.png?classes=shadow,border "Blueprint detail page: overview and the resource graph diagram")
 
@@ -148,7 +157,7 @@ fields and CEL wiring of every service you compose, plus kro's `SimpleSchema` gr
 knobs you expose. The **AI assistant** in the dashboard's Blueprint editor lets you describe the
 outcome in plain language and drafts that YAML for you.
 
-<!-- TODO: screenshot: AI assistant panel open beside the graph editor, with a prompt typed in -->
+<!-- TODO: screenshot: the AI Assistant drawer open next to the YAML resource graph field, with a prompt typed in -->
 ![Blueprint editor: AI assistant](blueprint-ai-assistant.png?classes=shadow,border "The AI assistant panel in the dashboard's Blueprint editor")
 
 **What it's grounded in.** The assistant is given the services currently **bound in your
@@ -156,8 +165,8 @@ workspace** as its only building blocks, each with its real schema. It composes 
 kinds, and this is enforced: if a draft references a kind that isn't one of your bound services,
 it is rejected rather than shown. This is the same constraint you would hit authoring by hand:
 a Blueprint can only compose services that resolve in the workspace. Alongside the graph the
-assistant also proposes catalogue metadata (title, description, category) that pre-fills the
-Blueprint's `catalogMetadata`.
+assistant also suggests a display name, description and category, which fill those form fields
+if they are still empty.
 
 The assistant works in three modes:
 
@@ -186,28 +195,31 @@ composes the services you meant, with the field wiring and defaults you want, be
 
 {{% notice note %}}
 The AI assistant requires an OpenAI-compatible model configured by the operator on the dashboard
-deployment (`api.config.openaiKey` and `api.config.openaiModel`). When it is not configured the
-panel is unavailable and you author resource graphs manually. The same backend powers
+deployment. Setting `api.config.openaiKey` is enough; `api.config.openaiModel` is optional. The
+panel and the **Fix with AI** button are unavailable when no key is set, or when the
+`ai-blueprints-enabled` feature flag is off (it is on by default). You then author resource
+graphs manually. The same backend powers
 the [UI Builder]({{< ref "/developer-platform/v1.2/guides/service-providers/ui-builder" >}}).
 {{% /notice %}}
 
 ## Blueprint logos
 
-A Blueprint can carry a logo for the catalogue; the dashboard stores Blueprint logos in
-ConfigMaps. Set it through the dashboard's Blueprint editor.
+A Blueprint can carry a logo for the catalogue. In the dashboard's Blueprint editor, either
+upload a file or enter a URL. Uploaded logos are stored on the KDP storage server, and the
+logo's URL is copied to the generated `Service`.
 
 ## Service Catalogue
 
 Publishing a Blueprint places it **in the service catalogue as a service**. The generated
 `Service` object *is* the catalogue entry, and it sits next to the regular services: the same
-card, the same search and category filters, the same **Add to Organization** button. The only
+card, the same search and sorting, the same **Add to organization** button. The only
 visible difference is a **Blueprint** badge marking the entry as a composition. Everything
 else a consumer does with it is ordinary service consumption.
 
 The entry's title, category and description come from the `spec.catalogMetadata` you set on the
 `BlueprintDefinition`; the badge and the logo are added by the dashboard.
 
-<img src="blueprint-service-catalog.png" alt="OrderApp Databases in the service catalogue" title="The OrderApp Databases Blueprint in the service catalogue, listed as a service and marked with a Blueprint badge" width="600" height="275">
+<img src="blueprint-service-catalogue.png" alt="OrderApp Databases in the service catalogue" title="The OrderApp Databases Blueprint in the service catalogue, listed as a service and marked with a Blueprint badge" width="600" height="275">
 
 For the consumer's side of this (enabling the entry and creating an instance), see
 [Consuming Blueprints]({{< ref "/developer-platform/v1.2/guides/platform-users/consuming-blueprints" >}}).

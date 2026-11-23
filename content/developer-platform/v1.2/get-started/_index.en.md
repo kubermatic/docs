@@ -309,7 +309,7 @@ Use your email address as the username and the licence key you received as the p
 helm registry login quay.io
 helm upgrade --install kdp \
     oci://quay.io/kubermatic/helm-charts/developer-platform \
-    --version=1.1.0 \
+    --version=1.2.1 \
     --create-namespace \
     --namespace=kdp-system \
     --values=kdp.values.yaml
@@ -357,7 +357,7 @@ To log into the Helm registry, again use your email address as the username and 
 helm registry login quay.io
 helm upgrade --install kdp-dashboard \
     oci://quay.io/kubermatic/helm-charts/developer-platform-dashboard \
-    --version=1.1.0 \
+    --version=1.2.1 \
     --create-namespace \
     --namespace=kdp-system \
     --values=kdp-dashboard.values.yaml

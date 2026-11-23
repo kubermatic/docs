@@ -13,8 +13,8 @@ see [RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac" >}}).
 | Label                                    | Value      | Description                |
 | ---------------------------------------- | ---------- | -------------------------- |
 | `rbac.kdp.k8c.io/display`                | `"true"`   | Make the `ClusterRole` available for assignment to users in the KDP dashboard. |
-| `rbac.kdp.k8c.io/aggregate-to-member`    | `"true"`   | Aggregate this `ClusterRole` into the "Member" role, which is used for basic membership in a workspace (i.e. mostly read-only permissions). |
-| `rbac.kdp.k8c.io/aggregate-to-developer` | `"true"`   | Aggregate this `ClusterRole` into the "Developer" role, which is assigned to active contributors (creating and deleting objects). |
+| `rbac.kdp.k8c.io/aggregate-to-member`    | `"true"`   | Aggregate this `ClusterRole` into the "Member" role (`kdp:member`), which is used for basic membership in a workspace (i.e. mostly read-only permissions). |
+| `rbac.kdp.k8c.io/aggregate-to-developer` | `"true"`   | Aggregate this `ClusterRole` into the "Developer" role (`kdp:developer`), which is assigned to active contributors (creating and deleting objects). |
 
 {{% notice note %}}
 In the KDP dashboard you can assign **multiple roles to a user at once** via a multi-select

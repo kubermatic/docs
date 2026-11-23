@@ -14,7 +14,7 @@ The **UI Builder** lets you design custom views for a service's resources instea
   from a plain-language description.
 - The **List** view is configured by choosing which properties to show. No AI is involved.
 
-<!-- TODO: screenshot: the UI Builder page: chat panel on the left, live preview on the right -->
+<!-- TODO: screenshot: the UI Builder page with its Form, List and Detail tabs (check the layout in 1.2.1) -->
 ![The UI Builder](ui-builder.png?classes=shadow,border "The UI Builder: describe the UI in the chat panel, preview it live, then save")
 
 {{% notice note %}}
@@ -84,8 +84,8 @@ The UI Builder is enabled by the operator on the dashboard deployment:
 
 - The `ui-builder-enabled` feature flag (under `dashboard.config.features.featureFlags`) turns it
   on. It is on by default.
-- An OpenAI-compatible model must be configured for generation to work
-  (`api.config.openaiKey` and `api.config.openaiModel`).
+- An OpenAI-compatible API key must be configured for generation to work
+  (`api.config.openaiKey`). `api.config.openaiModel` is optional.
 
 If the model is not configured, `generateUI` has no effect and services use the default
 schema-rendered form. The same backend powers

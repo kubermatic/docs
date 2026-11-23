@@ -13,7 +13,8 @@ Service accounts belong to the current organisation or project. See
 
 Keep two things in mind:
 
-- A service account's roles only apply inside its own namespace.
+- A service account lives in one namespace. Its **namespace roles** apply only in that namespace,
+  while its **cluster-wide roles** apply across the whole organisation or project.
 - Tokens don't expire. They stay valid until you revoke them or delete the service account.
 
 For the Kubernetes objects behind service accounts, see
@@ -22,8 +23,8 @@ For the Kubernetes objects behind service accounts, see
 ## Viewing service accounts
 
 Open **Service Accounts** in the sidebar. The table shows each service account's namespace, roles,
-number of tokens and creation date. You can search by name or namespace, and filter by role or by
-whether a service account has tokens.
+number of tokens and creation date. Each role is tagged **Namespace** or **Cluster-wide**. You can
+search by name or namespace, and filter by role or by whether a service account has tokens.
 
 Service accounts named `default` are not listed.
 
@@ -34,13 +35,18 @@ To open this page you need permission to list `serviceaccounts` in the workspace
 1. Click **Create Service Account**.
 2. Enter a **Name**. It can have at most 63 characters, contain only lowercase letters, digits and
    hyphens, and must start and end with a letter or digit.
-3. Select the **Namespace**. The service account's roles apply only in this namespace.
-4. Select one or more **Roles**. These are the same roles you assign to members; see
+3. Select the **Namespace** the service account lives in.
+4. Select roles. You need at least one, from either list:
+   - **Namespace roles** apply only within the selected namespace.
+   - **Cluster-wide roles** apply across the entire organisation or project.
+
+   These are the same roles you assign to members; see
    [Members and Roles]({{< ref "/developer-platform/v1.2/guides/platform-users/members-and-roles#roles" >}}).
 5. Click **Create Service Account**.
 
 To change the roles later, open the service account's menu (**...**) and choose **Update Roles**.
-This needs permission to create and delete `rolebindings`.
+This needs permission to create and delete `rolebindings`, or `clusterrolebindings` for
+cluster-wide roles. Without the latter, the **Cluster-wide roles** list is disabled.
 
 ## Creating a token
 
@@ -80,7 +86,9 @@ in the namespace.
 ## Deleting a service account
 
 Open the service account's menu (**...**), choose **Delete** and type the service account name to
-confirm. This deletes the service account together with its role bindings and all its tokens.
+confirm. This deletes the service account together with its role bindings and all its tokens. If
+the service account has cluster-wide roles, you also need permission to delete
+`clusterrolebindings`.
 
 ## Related topics
 

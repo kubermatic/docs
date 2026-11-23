@@ -21,9 +21,10 @@ dashboard:
         issuerURL: https://login.<DOMAIN>
     backend:
       frontProxyURL: https://api.<DOMAIN>
+    storage:
+      serverURL: https://api.<DOMAIN>/services/storage
     features:
       kubeconfigDownload:
-        enabled: true
         serverCA: /app/_config/user-kubeconfig/ca.crt
         serverURL: https://internal.<DOMAIN>:8443
 

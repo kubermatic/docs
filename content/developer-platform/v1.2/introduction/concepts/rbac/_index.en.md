@@ -42,11 +42,13 @@ If you create bindings with `kubectl`, use the `oidc:` prefix, or the dashboard 
 subject as a member.
 
 **Service accounts.** A KDP service account is a Kubernetes `ServiceAccount` in one namespace of
-the workspace. For each of its roles, the dashboard creates a `RoleBinding` in that namespace, so
-the service account's permissions only apply there. Each token is a Secret of type
-`kubernetes.io/service-account-token` in the same namespace, filled in by Kubernetes. The role
-bindings and token Secrets have an owner reference to the service account, so deleting the service
-account deletes them too.
+the workspace. For each namespace role, the dashboard creates a `RoleBinding` in that namespace,
+so those permissions only apply there. For each cluster-wide role, it creates a
+`ClusterRoleBinding`, which applies across the whole workspace. Each token is a Secret of type
+`kubernetes.io/service-account-token` in the service account's namespace, filled in by Kubernetes.
+The `RoleBindings` and token Secrets have an owner reference to the service account, so Kubernetes
+deletes them with it. The dashboard deletes the `ClusterRoleBindings` itself when you delete the
+service account there.
 
 For the dashboard steps, see
 [Members and Roles]({{< ref "/developer-platform/v1.2/guides/platform-users/members-and-roles" >}}) and
@@ -68,10 +70,10 @@ The default roles shipped with KDP are annotated like this to be provided in all
 
 KDP comes with the `apibinding-clusterroles-controller`, which picks up `APIBindings` with the label
 `rbac.kdp.k8c.io/create-default-clusterroles=true`. It generates two `ClusterRoles` called
-`services:<API>:developer` and `services:<API>:viewer`, which give write and read permissions
+`services:<APIBinding>:developer` and `services:<APIBinding>:viewer`, named after the `APIBinding`, which give write and read permissions
 respectively to all resources bound by the `APIBinding`.
 
-Both `ClusterRoles` are aggregated to the "Developer" and "Member" roles (if present).
+Both `ClusterRoles` are aggregated to the "Developer" (`kdp:developer`) and "Member" (`kdp:member`) roles, if present.
 
 If the auto-generated rules are not desired because workspace owners want to assign more granular
 permissions, the recommendation is to create `APIBindings` without the mentioned labels and instead

@@ -26,6 +26,21 @@ kcpFrontProxy:
       backend_server_ca: /etc/kcp/tls/ca/tls.crt
       proxy_client_cert: /etc/kcp-front-proxy/requestheader-client/tls.crt
       proxy_client_key: /etc/kcp-front-proxy/requestheader-client/tls.key
+    - path: /services/servicecatalog/
+      backend: https://kdp-virtual-workspaces:6444
+      backend_server_ca: /etc/kcp/tls/ca/tls.crt
+      proxy_client_cert: /etc/kcp-front-proxy/requestheader-client/tls.crt
+      proxy_client_key: /etc/kcp-front-proxy/requestheader-client/tls.key
+    - path: /services/uiconfiguration/
+      backend: https://kdp-virtual-workspaces:6444
+      backend_server_ca: /etc/kcp/tls/ca/tls.crt
+      proxy_client_cert: /etc/kcp-front-proxy/requestheader-client/tls.crt
+      proxy_client_key: /etc/kcp-front-proxy/requestheader-client/tls.key
+    - path: /services/storage/
+      backend: https://kdp-storage-server:8443
+      backend_server_ca: /etc/kcp/tls/ca/tls.crt
+      proxy_client_cert: /etc/kcp-front-proxy/requestheader-client/tls.crt
+      proxy_client_key: /etc/kcp-front-proxy/requestheader-client/tls.key
   extraFlags:
     - '--cors-allowed-origins=localhost,dashboard.<DOMAIN>$'
     - '--authentication-drop-groups=system:kcp:logical-cluster-admin'

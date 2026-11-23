@@ -19,8 +19,8 @@ environment from an AI coding assistant such as
 status, and authoring Blueprints, in plain language.
 
 {{% notice note %}}
-This is separate from the dashboard's own AI assistance, which generates resource specs and forms
-inside the dashboard. The tooling here runs in your local AI assistant against your KDP workspace.
+This is separate from the dashboard's own AI features: the UI Builder, the Blueprint AI
+assistant and the LLM chat. The tooling here runs in your local AI assistant against your KDP workspace.
 {{% /notice %}}
 
 ## What an agent can do
@@ -101,8 +101,11 @@ For OpenCode, use `opencode.json`:
 
 Then start the assistant and complete the browser login when prompted.
 
-The dashboard generates these snippets pre-filled with your environment's URL under
-**Connect an AI agent** in the user menu, which is the easiest way to get the endpoint right.
+The dashboard generates these snippets pre-filled with your environment's URL. Choose **Connect
+AI agent** in the user menu, pick **OpenCode** or **Claude Code**, and copy or download the file.
+This is the easiest way to get the endpoint right. The menu item only appears if your platform
+administrator has set `dashboard.config.features.mcp.enabled: true` in the dashboard's Helm
+values.
 
 {{% notice warning %}}
 Two settings must be left as generated. **Do not change the callback port**: the matching
