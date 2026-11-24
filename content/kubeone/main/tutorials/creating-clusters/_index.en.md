@@ -123,6 +123,11 @@ installation methods.
 
 ## Step 2 — Downloading Terraform
 
+{{% notice note %}}
+On KubeVirt, you need need terraform at all as all the VMs are just kubernetes objects and KubeOne
+will manage them for you, so you can skip to the Step 3.
+{{% /notice %}}
+
 As described in the How KubeOne Works section, we'll use Terraform to manage
 the infrastructure for the control plane, therefore we need to install it.
 Terraform has several installation methods: manually, using a package manager
@@ -396,11 +401,10 @@ the infrastructure for our cluster. We'll use the example Terraform configs for
 this step.
 
 {{% notice note %}}
-There are no example Terraform configs for KubeVirt. On KubeVirt, KubeOne
-creates the control plane VMs and the kube-apiserver Service in the infra
-cluster itself, so you can skip this step and continue with Step 5. See the
-[KubeVirt Managed Control Plane tutorial][kubevirt-managed-control-plane] for
-the prerequisites, such as the SSH bastion.
+There are no example Terraform configs for KubeVirt. On KubeVirt, KubeOne creates the control plane VMs and the
+kube-apiserver Service in the infra cluster itself, so you can skip directly to Step 5. See the
+[KubeVirt Managed Control Plane tutorial]({{< ref "../managed-control-plane/kubevirt" >}}) for the prerequisites, such
+as the SSH bastion.
 {{% /notice %}}
 
 KubeOne provides you with provider-specific Terraform configs via the following command:
@@ -742,8 +746,13 @@ cloudProvider:
   external: true
   kubevirt:
     infraNamespace: <INFRA-NAMESPACE>
+    storageClasses:
+      - infraStorageClassName: <INFRA-STORAGE-CLASS>
+        isDefaultClass: true
+        bus: scsi
     controlPlane:
       loadBalancer:
+        name: my-kube-apiserver
         serviceType: LoadBalancer
 controlPlane:
   nodeSets:
@@ -768,16 +777,37 @@ controlPlane:
               source: registry
               size: 20Gi
               storageClassName: <INFRA-STORAGE-CLASS>
+
+dynamicWorkers:
+  - name: worker
+    replicas: 3
+    providerSpec:
+      operatingSystem: ubuntu
+      operatingSystemSpec:
+        distUpgradeOnBoot: false
+      sshPublicKeys:
+        - <SSH-PUBLIC-KEY>
+      cloudProviderSpec:
+        clusterName: <CLUSTER-NAME>
+        virtualMachine:
+          template:
+            vcpus:
+              cores: 2
+            memory: 8000M
+            primaryDisk:
+              osImage: docker://quay.io/containerdisks/ubuntu:24.04
+              source: registry
+              size: 20G
+              storageClassName: <INFRA-STORAGE-CLASS>
 ```
 
-Worker nodes are defined in the `dynamicWorkers` section of the manifest.
 Instead of `-t tf.json`, run `kubeone apply` without the Terraform state:
 
 ```shell
 kubeone apply -m kubeone.yaml
 ```
 
-See the [KubeVirt Managed Control Plane tutorial][kubevirt-managed-control-plane]
+See the [KubeVirt Managed Control Plane tutorial]{{< ref "../managed-control-plane/kubevirt" >}}
 for all options.
 {{% /tab %}}
 {{% tab name="Nutanix" %}}
@@ -1098,6 +1128,5 @@ and recommendations.
 [unprovisioning-clusters]: {{< ref "../unprovisioning-clusters" >}}
 [production-recommendations]: {{< ref "../../cheat-sheets/production-recommendations" >}}
 [create-cluster-oidc]: {{< ref "../creating-clusters-oidc" >}}
-[kubevirt-managed-control-plane]: {{< ref "../managed-control-plane/kubevirt" >}}
 [kubevirt-csi]: {{< ref "../../guides/kubevirt-csi" >}}
 [maintenance mode]: https://kubernetes.io/releases/patch-releases/#support-period

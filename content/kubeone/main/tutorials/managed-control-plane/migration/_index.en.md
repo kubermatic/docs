@@ -82,7 +82,7 @@ kind: KubeOneCluster
 name: my-cluster
 
 versions:
-  kubernetes: 1.36.2
+  kubernetes: 1.37.2
 
 apiEndpoint:
   host: 203.0.113.10   # the current kubeone_api endpoint
