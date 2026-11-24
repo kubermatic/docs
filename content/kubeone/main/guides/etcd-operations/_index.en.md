@@ -140,7 +140,7 @@ The optional `controlPlaneComponents.etcd` field exposes common etcd tuning para
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: "1.34.1"
+  kubernetes: "1.37.2"
 controlPlaneComponents:
   etcd:
     # Translated into the etcd --quota-backend-bytes flag.

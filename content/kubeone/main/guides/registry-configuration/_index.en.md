@@ -45,7 +45,7 @@ The `kubeone mirror-images` command pulls, re-tags, and pushes images to your re
 ```bash
 kubeone mirror-images \
   [--filter base,optional,control-plane] \
-  [--kubernetes-versions v1.34.1,v1.33.5] \
+  [--kubernetes-versions v1.37.2,v1.33.5] \
   [--provider aws,openstack] \
   [--insecure]  # Allow pushing to insecure registries (HTTP) \
   --registry <your-registry>
@@ -70,7 +70,7 @@ kubeone mirror-images \
 ```bash
 kubeone mirror-images \
   --filter base \
-  --kubernetes-versions v1.34.1,v1.33.5 \
+  --kubernetes-versions v1.37.2,v1.33.5 \
   registry.example.com:5000
 ```
 
@@ -87,7 +87,7 @@ To mirror only the CCM/CSI images for the cloud provider(s) you use, pass the `-
 ```bash
 kubeone mirror-images \
   --provider aws,azure \
-  --kubernetes-versions v1.34.1 \
+  --kubernetes-versions v1.37.2 \
   registry.example.com:5000
 ```
 
@@ -98,7 +98,7 @@ To inspect which images are going to be used (e.g. when mirroring with your own 
 
 ```bash
 # List images for the given Kubernetes version, with CCM/CSI images only for AWS
-kubeone config images list --kubernetes-version 1.34.1 --provider aws
+kubeone config images list --kubernetes-version 1.37.2 --provider aws
 
 # List optional images, with CCM/CSI images only for Hetzner and OpenStack
 kubeone config images list --filter optional --provider hetzner,openstack
@@ -119,7 +119,7 @@ stanza to your KubeOne configuration file, such as:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.34.1
+  kubernetes: 1.37.2
 cloudProvider:
   aws: {}
 registryConfiguration:
