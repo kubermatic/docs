@@ -88,7 +88,7 @@ kind: KubeOneCluster
 name: example
 
 versions:
-  kubernetes: "1.34.1"
+  kubernetes: "1.37.2"
 
 features:
   authenticationConfiguration:

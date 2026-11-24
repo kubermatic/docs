@@ -147,7 +147,7 @@ kind: KubeOneCluster
 name: my-cluster
 
 versions:
-  kubernetes: 1.36.2
+  kubernetes: 1.37.2
 
 clusterNetwork:
   # Must not overlap with the networks of the infra cluster

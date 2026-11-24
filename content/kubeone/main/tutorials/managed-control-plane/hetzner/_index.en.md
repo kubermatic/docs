@@ -54,7 +54,7 @@ kind: KubeOneCluster
 name: my-cluster
 
 versions:
-  kubernetes: 1.36.2
+  kubernetes: 1.37.2
 
 cloudProvider:
   external: true

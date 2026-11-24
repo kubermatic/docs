@@ -34,7 +34,7 @@ stanza to your KubeOne configuration file, such as:
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: 1.34.1
+  kubernetes: 1.37.2
 cloudProvider:
   aws: {}
 containerRuntime:
@@ -103,7 +103,7 @@ apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 
 versions:
-  kubernetes: 1.34.1
+  kubernetes: 1.37.2
 
 containerRuntime:
   containerd:
