@@ -174,6 +174,19 @@ ReloaderConfigs make secret delivery **event-driven**: they wire notification **
 
 Common patterns: restart a Deployment when its Secret rotates, or trigger ESO to re-fetch on a cloud event/webhook rather than waiting for `refreshInterval`. See the [External Secrets Reloader docs](https://external-secrets.github.io/reloader/) for the full source/destination catalog.
 
+The detail view also shows whether a ReloaderConfig can work:
+
+- **Health** (Overview tab): four checks, each `OK`, `Failed` or `Unknown`.
+  - **Destination Deployments exist**: every Deployment the ReloaderConfig names or selects is found.
+  - **Source label selector matches a Secret**: for a Kubernetes `Secret` source in the Reloader's own cluster, at least one Secret carries the selected labels. A source without a label selector reacts to every Secret change and shows `Unknown`, as do sources on another cluster and `ConfigMap` sources.
+  - **Reloader controller is ready**: a Deployment labelled `app.kubernetes.io/name=reloader` has a ready pod. A Reloader installed without that label shows `Unknown`.
+  - **Source serverURL is reachable**: always `Unknown`, because SecureGuard cannot test that connection.
+- **Last Reloaded** (Destinations tab): for each Deployment, when the Reloader last restarted it and which source caused it, `Never reloaded`, or `Not found`.
+
+{{% notice note %}}
+These checks run with **your** Kubernetes permissions. You need `list` on `namespaces`, `list` on `deployments` (API group `apps`) cluster-wide (or, for a ReloaderConfig with `namespaceSelectors`, in the selected namespaces plus cluster-wide for the controller check), and `list` on `secrets` cluster-wide for the source check. A check you lack the permissions for shows `Unknown`. The proxy passes on only Deployment names, namespaces, labels, the Reloader's `reloader.external-secrets.io/` annotations and replica counts; container environment variables and the rest of the pod spec never reach the browser.
+{{% /notice %}}
+
 ## ESODeployments
 
 ESODeployments manage the ESO operator lifecycle across clusters — the one resource with a full **create/edit form** in the dashboard:
