@@ -140,6 +140,7 @@ The allowlist is **method-aware**: each path pattern permits only specific HTTP 
 | `external-secrets.io/v1` | ClusterSecretStore | `GET` (list & single) |
 | `external-secrets.io/v1alpha1` | PushSecret | `GET` (list); `GET`/`DELETE` (single) |
 | `reloader.external-secrets.io/v1alpha1` | ReloaderConfig (`configs`) | `GET` (list); `GET`/`DELETE` (single) |
+| `apps/v1` | Deployment (cluster-wide & namespaced lists) | `GET` (list only); the answer is cut down to name, namespace, labels, `reloader.external-secrets.io/` pod-template annotations and replica counts |
 | `deploy.secureguard.io/v1alpha1` | ESODeployment | `GET` (cluster list); `GET`/`POST` (namespaced list/create); `GET`/`DELETE`/`PATCH` (single) |
 | `deploy.secureguard.io/v1alpha1` | ESOVersion | `GET` (read-only catalog) |
 | `agent.secureguard.io/v1alpha1` | SGAgent | `GET` (list) |
@@ -178,5 +179,5 @@ All errors use a consistent JSON format:
 | `400` | Bad request (invalid input, malformed kubeconfig) |
 | `403` | Forbidden (path not in allowlist, watch/streaming request, missing or invalid CSRF token, insufficient user RBAC, or management cluster deletion) |
 | `404` | Cluster not found |
-| `502` | Upstream failure (cluster onboarding or per-cluster Secret persistence failed, invalid cluster TLS configuration) |
+| `502` | Upstream failure (cluster onboarding or per-cluster Secret persistence failed, invalid cluster TLS configuration, a Deployment list that is not JSON or is larger than 32 MiB) |
 | `503` | No clusters available |
