@@ -123,9 +123,9 @@ All other ports keep their value. The new ports are written to status and do not
 {{% notice warning %}}
 Upgrade the manager with one replica (`replicaCount: 1`, `autoscaling.enabled: false`). With more than one replica, each replica picks its own new port, and a moved port stays unreachable on Envoy Proxy pods that are connected to a replica that is not the leader. If you already upgraded with more than one replica, restart the manager once more after all replicas are ready:
 
-    kubectl -n kubelb rollout restart deployment kubelb-manager
+    kubectl -n kubelb rollout restart deployment <manager-deployment>
 
-Use the name of your manager Deployment. After this restart every replica reads the same ports from status.
+Replace `<manager-deployment>` with the name of your manager Deployment. With the install commands from this guide it is `kubelb-manager-kubelb-manager-ee` for the Enterprise Edition and `kubelb-manager` for the Community Edition. After this restart every replica reads the same ports from status.
 {{% /notice %}}
 
 ## Upgrading to v1.5.0
