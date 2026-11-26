@@ -119,7 +119,10 @@ project can change them, and test them before you enforce them.
   `Strict-Transport-Security` header, for example `max-age=31536000`.
 - **A pull-only registry token.** KubeV copies its registry pull Secret into each project namespace
   that runs a backup, where the project's VMs could read it. Use registry credentials that can
-  only pull.
+  only pull. For migrations, KubeV also copies the pull Secret `kubev-vddk-pull` into the
+  namespace of every plan: set `migration.imagePullSecret` to a dedicated pull-only token, so that
+  the install's own credential isn't copied there. See
+  [Pull secret]({{< ref "../../configuration-guide#pull-secret" >}}).
 
 ## Troubleshooting
 
