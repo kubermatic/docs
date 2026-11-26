@@ -109,6 +109,25 @@ helm upgrade --install kubelb-ccm kubelb-ccm --namespace kubelb -f values.yaml
 {{% /tab %}}
 {{< /tabs >}}
 
+## Upgrading to v1.5.2
+
+### Some listener ports move on the first start
+
+On its first start, the new manager checks the stored listener port of every LoadBalancer and Route port, and gives a new port to each one that is:
+
+* TCP 19001, 19002, 19003 or 19004. The Envoy Proxy pod binds these ports itself, so Envoy rejects a listener on them and the port does not work before the upgrade. After the upgrade it works.
+* Outside 10000-65534. This happens when `targetPort` was removed from the LoadBalancer status by hand to work around a broken port; the port then ends up on the Service port, such as 8080 or 9090. Such a port may work before the upgrade. It moves once, and traffic to it drops for a few seconds while Envoy and the Service switch to the new port.
+
+All other ports keep their value. The new ports are written to status and do not move on later restarts. The `kubelb_manager_port_allocator_collisions_healed_total` counter goes up by one for each port that was given a new port, on every manager replica, so expect a non-zero value after this upgrade.
+
+{{% notice warning %}}
+Upgrade the manager with one replica (`replicaCount: 1`, `autoscaling.enabled: false`). With more than one replica, each replica picks its own new port, and a moved port stays unreachable on Envoy Proxy pods that are connected to a replica that is not the leader. If you already upgraded with more than one replica, restart the manager once more after all replicas are ready:
+
+    kubectl -n kubelb rollout restart deployment <manager-deployment>
+
+Replace `<manager-deployment>` with the name of your manager Deployment. With the install commands from this guide it is `kubelb-manager-kubelb-manager-ee` for the Enterprise Edition and `kubelb-manager` for the Community Edition. After this restart every replica reads the same ports from status.
+{{% /notice %}}
+
 ## Upgrading to v1.5.0
 
 ### Gateway API CRDs are required before the upgrade
