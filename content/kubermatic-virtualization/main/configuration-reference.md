@@ -339,7 +339,7 @@ Every `apply` writes this section to the KubeVirt CR, so a change takes effect o
 | `commonInstancetypesDeployment.enabled` | No | `true` | Deploys KubeVirt's bundle of common instance types and preferences, the sizes and OS presets VMs can be created from. |
 | `permittedHostDevices` | No | — | PCI devices, such as GPUs, that VMs may use. See [PCI Passthrough](#pci-passthrough). |
 | `enforceRegionalScheduling` | No | `false` | Deploys a Kyverno policy that keeps VMs in their subnet's region. See [Regional Scheduling](#regional-scheduling). |
-| `evictionStrategy` | No | `LiveMigrate` with more than one node | What KubeVirt does with a running VM when its node is drained: `LiveMigrate`, `LiveMigrateIfPossible`, `None` or `External`. See [Node Drains](#node-drains). |
+| `evictionStrategy` | No | `LiveMigrate` when VMs can run on more than one node | What KubeVirt does with a running VM when its node is drained: `LiveMigrate`, `LiveMigrateIfPossible`, `None` or `External`. See [Node Drains](#node-drains). |
 
 ### Developer Configuration
 
@@ -421,10 +421,17 @@ devices and network allow a migration, and why not:
 kubectl get vmi -A -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,NODE:.status.nodeName,STRATEGY:.spec.evictionStrategy,MIGRATABLE:.status.conditions[?(@.type=="LiveMigratable")].status'
 ```
 
-`evictionStrategy` defaults to `LiveMigrate` on a cluster with more than one node, so VMs move
-instead of stopping. A single-node cluster keeps KubeVirt's own default, `None`, as there is no
-other node to move to, and picks up `LiveMigrate` once a node is added. When the field is unset, a
-strategy set directly on the KubeVirt CR is kept.
+`evictionStrategy` defaults to `LiveMigrate` when VMs can run on more than one node, so VMs move
+instead of stopping. VMs run on the static workers, or on the control plane nodes of a cluster
+without static workers: with static workers, the control plane nodes keep their `NoSchedule` taint.
+With a single such node, such as one control plane node and one worker, the cluster keeps
+KubeVirt's own default, `None`, as there is no other node to move to. It picks up `LiveMigrate`
+once a node is added, and goes back to `None` if it shrinks to one node again.
+
+KubeV records the strategy it writes in the `virtualization.k8c.io/eviction-strategy` annotation of
+the KubeVirt CR. When `evictionStrategy` is unset, a strategy set on the KubeVirt CR by hand, one
+that differs from the annotation, is kept. Removing `evictionStrategy` from the configuration
+brings the default back.
 
 KubeVirt copies the strategy into a VM when the VM starts. A change, including the default that an
 upgrade introduces, reaches a running VM at its next restart. `apply` restarts no VM.
@@ -436,7 +443,9 @@ it upgrades the VM's worker in place, without a drain.
 
 A VM that the dashboard's VM form places on a specific node gets `evictionStrategy: None`, so a
 drain stops it instead of waiting on it. Switching the VM back to automatic placement sets
-`LiveMigrate`. The form leaves any other strategy as it is.
+`LiveMigrate`. The form leaves any other strategy as it is. A VM the form placed on a node before
+KubeV v1.4.0 has no strategy of its own: it gets `None` when a change that needs a restart, such
+as a new size, is saved in the form.
 
 ### PCI Passthrough
 
