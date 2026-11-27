@@ -158,7 +158,6 @@ fields and CEL wiring of every service you compose, plus kro's `SimpleSchema` gr
 knobs you expose. The **AI assistant** in the dashboard's Blueprint editor lets you describe the
 outcome in plain language and drafts that YAML for you.
 
-<!-- TODO: screenshot: the AI Assistant drawer open next to the YAML resource graph field, with a prompt typed in -->
 ![Blueprint editor: AI assistant](blueprint-ai-assistant.png?classes=shadow,border "The AI assistant panel in the dashboard's Blueprint editor")
 
 **What it's grounded in.** The assistant is given the services currently **bound in your

@@ -41,6 +41,8 @@ flowchart LR
     dash --> kcp
     mcp --> kcp
     dash -.->|login| dex
+    users -.->|kubectl login| dex
+    mcp -.->|login| dex
     ctrl --> kcp
     kcp --- ws
     agent <-->|sync| kcp

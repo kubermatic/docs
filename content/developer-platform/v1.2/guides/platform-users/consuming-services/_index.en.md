@@ -27,7 +27,6 @@ grid and a table. Click a tile to see its details, including its internal name: 
 Deprecated services, and services that aren't allowed in the current kind of workspace, are not
 shown.
 
-<!-- TODO(screenshot): capture the Service Catalogue page with search, "Hide added services" and the grid/table switch. -->
 ![Service Catalogue](service-catalog.jpg?classes=shadow,border&height=200 "Service Catalogue page showing the available services")
 
 To see the services already added here, open **Services** in the sidebar and select the
@@ -42,7 +41,6 @@ Check out [Your First Service]({{< ref "/developer-platform/v1.2/guides/service-
 Click **Add to organization** (or **Add to project**) on a service in the catalogue. A dialog with
 the same title opens to confirm adding the service:
 
-<!-- TODO(screenshot): re-capture the add-service dialog; its title is now "Add to organization" / "Add to project". -->
 ![Add Service Wizard](add-service-wizard.png?classes=shadow,border&height=200 "Dialog for adding a service to the workspace, showing options for creating default roles and resource claims")
 
 Several options are offered when adding a service:

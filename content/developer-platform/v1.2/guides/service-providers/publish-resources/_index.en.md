@@ -7,7 +7,9 @@ aliases = ["/developer-platform/v1.2/service-providers/publish-resources/"]
 The guide describes the process of making a resource (usually defined by a CustomResourceDefinition)
 of one Kubernetes cluster (the "service cluster" or "local cluster") available for use in the KDP
 platform (the "platform cluster" or "KDP workspaces"). This involves setting up a KDP Service and
-then installing the api-syncagent and defining `PublishedResources` in the local cluster.
+then installing the api-syncagent and defining `PublishedResources` in the local cluster. To install
+the api-syncagent, see
+[Your First Service]({{< ref "/developer-platform/v1.2/guides/service-providers/your-first-service#setting-up-the-api-syncagent" >}}).
 
 All of the documentation and API types are worded and named from the perspective of a service owner,
 the person(s) who own a service and want to make it available to consumers in the KDP platform.

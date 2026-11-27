@@ -106,8 +106,6 @@ Keep in mind:
 - ConfigMaps labelled `internal.kdp.k8c.io/visibility: hidden` are not shown. KDP uses this for
   internal ConfigMaps, such as UI Builder configurations.
 
-<!-- TODO(screenshot): add screenshots for the service object detail page, and the ConfigMap/Secret pages. -->
-
 ### kubectl
 
 To see which API resources are available in your workspace, use the `api-resources` subcommand:

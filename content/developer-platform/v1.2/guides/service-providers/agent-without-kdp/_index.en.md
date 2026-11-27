@@ -1,10 +1,10 @@
 +++
-title = "Using the Agent without KDP"
+title = "Using the Syncagent without KDP"
 weight = 9
 aliases = ["/developer-platform/v1.2/tutorials/agent-without-kdp/"]
 +++
 
-It is possible to run the api-syncagent component without running a fully fleged KDP installation.
+It is possible to run the api-syncagent component without running a fully fledged KDP installation.
 All that is necessary is a running [kcp](https://kcp.io) installation.
 
 ## Prerequisites

@@ -3,9 +3,8 @@ title = "What's New"
 weight = 2
 +++
 
-<!-- TODO(release owner): confirm this list against the official KDP 1.2 release notes. -->
-
-KDP 1.2 is released as **1.2.1**. The 1.2.0 dashboard is identical to 1.1.0, so use 1.2.1. See
+This page lists what changed between KDP 1.1 and 1.2. Use the latest 1.2 patch release, currently
+1.2.1. See
 [Compatibility]({{< ref "/developer-platform/v1.2/introduction/compatibility" >}}).
 
 ## For platform users
@@ -36,7 +35,8 @@ KDP 1.2 is released as **1.2.1**. The 1.2.0 dashboard is identical to 1.1.0, so 
 - **Link to your own UI.** The `catalog.kdp.k8c.io/external-link-url` annotation adds an
   **Open** button for your service in the dashboard.
 - **Dynamic form fields.** Forms can fill a field's options from other resources.
-- **Blueprints** support kro collections (`forEach`).
+- **Blueprints** support kro collections (`forEach`), and the Blueprint editor's AI assistant is
+  on by default.
 - **More service settings.** See
   [Configuring Services]({{< ref "/developer-platform/v1.2/guides/service-providers/configuring-services" >}}).
 
@@ -44,11 +44,11 @@ KDP 1.2 is released as **1.2.1**. The 1.2.0 dashboard is identical to 1.1.0, so 
 
 - **New components:** the storage server (on by default), an admission webhook in the KDP
   controller manager, and the MCP server and gateway (off by default).
-- **Targeted RBAC sync.** `kdp.k8c.io/sync-to-workspaces` now accepts a list of workspaces, not
-  just `*`, and syncing stops 10 levels below `root`. See
+- **Targeted RBAC sync.** `kdp.k8c.io/sync-to-workspaces` now accepts full workspace paths such as
+  `root:acme:team-a`, which match at any depth, and syncing stops 10 levels below `root`. See
   [RBAC]({{< ref "/developer-platform/v1.2/introduction/concepts/rbac#cross-workspace-rbac-propagation" >}}).
 - **Configurable ingress** class and annotations for the front-proxy.
-- **Removed:** the AI Agent chart and the dashboard's `features.aiAgent` and
+- **Removed:** the dashboard's `features.aiAgent` and
   `features.kubeconfigDownload.enabled` settings.
 
 To upgrade from 1.1, see

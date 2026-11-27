@@ -13,8 +13,7 @@ The KDP components are released together. For KDP 1.2, use these versions:
 | Dex | `0.23.0` | |
 | api-syncagent (on service clusters) | `0.6.2` | `v0.7.0` |
 
-Use 1.2.1 rather than 1.2.0. The 1.2.0 dashboard is identical to 1.1.0, and most 1.2 features,
-including the MCP gateway, first shipped in 1.2.1.
+Always use the latest 1.2 patch release, currently 1.2.1.
 
 To move an existing installation to these versions, see
 [Upgrading to 1.2]({{< ref "/developer-platform/v1.2/guides/platform-administration/upgrade" >}}).

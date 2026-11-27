@@ -14,7 +14,6 @@ The **UI Builder** lets you design custom views for a service's resources instea
   from a plain-language description.
 - The **List** view is configured by choosing which properties to show. No AI is involved.
 
-<!-- TODO: screenshot: the UI Builder page with its Form, List and Detail tabs (check the layout in 1.2.1) -->
 ![The UI Builder](ui-builder.png?classes=shadow,border "The UI Builder: describe the UI in the chat panel, preview it live, then save")
 
 {{% notice note %}}
