@@ -12,8 +12,8 @@ surface**, and, as Kubermatic's
 article puts it, "anything you do in the UI, you can do through the API." That single API
 surface is what makes KDP **agent-ready**: an AI assistant can discover it and act on it.
 
-KDP ships a set of **agent skills** and a hosted **MCP server** that let you drive a KDP
-environment from an AI coding assistant such as
+Kubermatic provides a set of **agent skills**, and KDP can host an **MCP server**. Both let
+you drive a KDP environment from an AI coding assistant such as
 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) or
 [OpenCode](https://opencode.ai): browsing the service catalogue, creating resources, checking
 status, and authoring Blueprints, in plain language.
@@ -36,6 +36,8 @@ a human would:
 - **Operate at scale**: manage whole workspaces with multiple services and their dependencies.
 
 ## Skills
+
+The skills are not part of a KDP installation. Ask Kubermatic for access to them.
 
 The following KDP skills are available for AI assistants:
 
